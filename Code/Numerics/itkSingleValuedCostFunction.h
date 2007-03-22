@@ -71,10 +71,10 @@ public:
   virtual void GetValueAndDerivative( const ParametersType & parameters,
                                       MeasureType & value,
                                       DerivativeType & derivative ) const 
-  {
+    {
     value = this->GetValue( parameters );
     this->GetDerivative( parameters, derivative );
-  };
+    }
   
 protected:
   SingleValuedCostFunction() {};
@@ -86,15 +86,6 @@ private:
 
 };
 
-
-
-
-
-
 } // end namespace itk
 
-
 #endif
-
-
-

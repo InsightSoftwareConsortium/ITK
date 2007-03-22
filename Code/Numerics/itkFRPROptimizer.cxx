@@ -88,7 +88,7 @@ FRPROptimizer
 
   if( m_CostFunction.IsNull() )
     {
-    return ;
+    return;
     }
 
   this->InvokeEvent( StartEvent() );
@@ -110,7 +110,7 @@ FRPROptimizer
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
 
-  for( i = 0; i < SpaceDimension ; i++ )
+  for( i = 0; i < SpaceDimension; i++ )
     {
     g[i] = -xi[i];
     xi[i] = g[i];
@@ -156,15 +156,15 @@ FRPROptimizer
     
     if( m_OptimizationType == PolakRibiere )
       {
-      for( i=0; i< SpaceDimension ; i++ )
+      for( i=0; i< SpaceDimension; i++ )
         {
         gg += g[i] * g[i];
-        dgg += (xi[i] + g[i]) * xi[i];    
+        dgg += (xi[i] + g[i]) * xi[i];
         }
       } 
     if( m_OptimizationType == FletchReeves )
       {
-      for( i=0; i< SpaceDimension ; i++ )
+      for( i=0; i< SpaceDimension; i++ )
         {
         gg += g[i] * g[i];
         dgg += xi[i] * xi[i];  
@@ -179,7 +179,7 @@ FRPROptimizer
       }
 
     gam = dgg/gg;
-    for( i = 0; i < SpaceDimension ; i++)
+    for( i = 0; i < SpaceDimension; i++)
       {
       g[i] = -xi[i];
       xi[i] = g[i] + gam * h[i];

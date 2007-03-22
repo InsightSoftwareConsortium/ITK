@@ -30,7 +30,7 @@ MultipleValuedVnlCostFunctionAdaptor
 { 
   m_ScalesInitialized =false;
   m_Reporter = Object::New();
-}    
+}
 
     
 /** Set current parameters scaling. */
@@ -170,8 +170,6 @@ MultipleValuedVnlCostFunctionAdaptor
     }
 }
 
-
-
 /**  Convert external Measures into internal type  */
 void 
 MultipleValuedVnlCostFunctionAdaptor
@@ -258,8 +256,3 @@ MultipleValuedVnlCostFunctionAdaptor
 
 
 } // end namespace itk
-
-
-
-
-

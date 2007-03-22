@@ -245,8 +245,8 @@ unsigned int MultivariateLegendrePolynomial
   unsigned int denominator = 1;
   for (unsigned int i = 1; i <= dimension; i++)
     {
-    numerator   *=  (degree + i);
-    denominator *=  i;
+    numerator *= (degree + i);
+    denominator *= i;
     }
   return numerator / denominator;
 }

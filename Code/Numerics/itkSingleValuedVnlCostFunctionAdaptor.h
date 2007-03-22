@@ -65,12 +65,11 @@ public:
 
   /** Set the CostFunction deriving from SingleValuedCostFunction */
   void SetCostFunction( SingleValuedCostFunction * costFunction )
-  { m_CostFunction = costFunction; }
+    { m_CostFunction = costFunction; }
 
   /** Get the CostFunction deriving from SingleValuedCostFunction */
   const SingleValuedCostFunction * GetCostFunction( void ) const
-  { return m_CostFunction; }
-
+    { return m_CostFunction; }
 
   /**  Delegate computation of the value to the CostFunction. */
   virtual InternalMeasureType f( const InternalParametersType & inparameters );
@@ -100,10 +99,10 @@ public:
    * operations will be done for the gradf() and compute() methods. When the
    * boolean flag is set to false, then the values returned by the ITK cost
    * function will be passed unchanged to the VNL optimizers. */
-   void SetNegateCostFunction( bool value );
-   bool GetNegateCostFunction() const;
-   void NegateCostFunctionOn() { m_NegateCostFunction = true; }
-   void NegateCostFunctionOff() { m_NegateCostFunction = false; }
+  void SetNegateCostFunction( bool value );
+  bool GetNegateCostFunction() const;
+  void NegateCostFunctionOn() { m_NegateCostFunction = true; }
+  void NegateCostFunctionOff() { m_NegateCostFunction = false; }
  
   /** This AddObserver method allows to simulate that this class derives from
    * an itkObject for the purpose of reporting iteration events. The goal of
@@ -144,6 +143,3 @@ private:
 
 
 #endif
-
-
-

@@ -83,10 +83,10 @@ class ITK_EXPORT ExhaustiveOptimizer :
 {
 public:
   /** Standard "Self" typedef. */
-  typedef ExhaustiveOptimizer      Self;
-  typedef SingleValuedNonLinearOptimizer               Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef ExhaustiveOptimizer            Self;
+  typedef SingleValuedNonLinearOptimizer Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
   
   typedef Array< unsigned long > StepsType;
   /** Method for creation through the object factory. */
@@ -149,8 +149,4 @@ protected:
 
 } // end namespace itk
 
-
-
 #endif
-    
- 

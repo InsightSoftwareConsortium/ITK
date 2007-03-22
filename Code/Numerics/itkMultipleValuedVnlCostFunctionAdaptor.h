@@ -98,8 +98,8 @@ public:
        Gradient computation or the gradient can be computed internally
        using a default approach  */
   void SetUseGradient(bool);
-  void UseGradientOn()  { this->SetUseGradient( true  ); };
-  void UseGradientOff() { this->SetUseGradient( false ); };
+  void UseGradientOn()  { this->SetUseGradient( true  ); }
+  void UseGradientOff() { this->SetUseGradient( false ); }
   bool GetUseGradient() const;
 
   /** Set current parameters scaling. */
@@ -145,6 +145,3 @@ private:
 
 
 #endif
-
-
-

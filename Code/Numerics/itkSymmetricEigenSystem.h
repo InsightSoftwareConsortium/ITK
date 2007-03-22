@@ -47,9 +47,9 @@ class ITK_EXPORT SymmetricEigenSystem : public Object
 {
 public:
   /** Standard "Self" typedef. */
-  typedef SymmetricEigenSystem Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef SymmetricEigenSystem     Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods). */
@@ -62,24 +62,24 @@ public:
   typedef FixedArray< TMatrixElement, VNumberOfRows > ArrayType;
 
   /** 2D array typedef */
-  typedef FixedArray< ArrayType, VNumberOfRows > Array2DType ;
+  typedef FixedArray< ArrayType, VNumberOfRows > Array2DType;
 
   /** Array for eigen vectors */
-  typedef Array2DType EigenVectorArrayType ;
+  typedef Array2DType EigenVectorArrayType;
 
   /** Array type for eigen values */
-  typedef ArrayType EigenValueArrayType ;
+  typedef ArrayType EigenValueArrayType;
 
   /** Matrix Type */
-  typedef Matrix< TMatrixElement, VNumberOfRows, VNumberOfRows > MatrixType ;
+  typedef Matrix< TMatrixElement, VNumberOfRows, VNumberOfRows > MatrixType;
 
   /** Internal eigen sytem type. */
   typedef vnl_symmetric_eigensystem< TMatrixElement > InternalEigenSystemType;
 
   /** Set/Get the target matrix for the eigen analysis */
-  itkSetObjectMacro(Matrix, MatrixType) ;
+  itkSetObjectMacro(Matrix, MatrixType);
   MatrixType* GetMatrix()
-  { return m_Matrix ; }
+    { return m_Matrix; }
 
   /** Set/Get the absolute order flag.
    * By setting this flag true, after the calculation of eigen vectors 
@@ -87,21 +87,21 @@ public:
    * greater that of eigen vector[i], reorder the eigen vectors so that
    * every absolute eigen values of eigen vector[j < i] is always greater than or
    * equal to that of the eigen vectors[i] */
-  itkSetMacro(UseAbsoluteOrder, bool) ;
-  itkGetMacro(UseAbsoluteOrder, bool) ;
+  itkSetMacro(UseAbsoluteOrder, bool);
+  itkGetMacro(UseAbsoluteOrder, bool);
 
   /** returns the eigen vectors in a 2D array */
   EigenVectorArrayType* GetEigenVectors()
-  { return &m_EigenVectors ; } 
+  { return &m_EigenVectors; } 
 
   /** returns the eigen values in an 1D array */
   EigenValueArrayType* GetEigenValues()
-  { return &m_EigenValues ; }
+  { return &m_EigenValues; }
 
   /** dummy method that calls the GenerateData method to 
    * produce the eigen vectors and values. */
   void Update()
-  { this->GenerateData() ; }
+  { this->GenerateData(); }
 
 protected:
   SymmetricEigenSystem();
@@ -109,24 +109,24 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Produces the eigen vectors and values. */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
   SymmetricEigenSystem(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** the target matrix */
-  MatrixType* m_Matrix ;
+  MatrixType* m_Matrix;
 
   /** eigen vectors output */
-  EigenVectorArrayType m_EigenVectors ;
+  EigenVectorArrayType m_EigenVectors;
   
   /** eigen values output */
-  EigenValueArrayType m_EigenValues ;
+  EigenValueArrayType m_EigenValues;
 
   /** flag for absolute ordering of eigen vectors and
    * eigen values */
-  bool m_UseAbsoluteOrder ;
+  bool m_UseAbsoluteOrder;
 };
 
 } // end namespace itk
@@ -136,6 +136,3 @@ private:
 #endif
 
 #endif
-
-
-

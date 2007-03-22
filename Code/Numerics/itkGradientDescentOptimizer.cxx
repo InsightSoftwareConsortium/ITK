@@ -41,8 +41,6 @@ GradientDescentOptimizer
   m_StopCondition = MaximumNumberOfIterations;
 }
 
-
-
 void
 GradientDescentOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -89,8 +87,6 @@ GradientDescentOptimizer
   this->ResumeOptimization();
 
 }
-
-
 
 /**
  * Resume the optimization
@@ -161,10 +157,6 @@ GradientDescentOptimizer
   InvokeEvent( EndEvent() );
 }
 
-
-
-
-
 /**
  * Advance one Step following the gradient direction
  */
@@ -221,8 +213,6 @@ GradientDescentOptimizer
   this->InvokeEvent( IterationEvent() );
 
 }
-
-
 
 } // end namespace itk
 

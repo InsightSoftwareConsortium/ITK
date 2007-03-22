@@ -32,9 +32,9 @@ namespace itk
  * This optimizer needs to be able to compute partial derivatives of the 
  *    cost function with respect to each parameter.
  *
- * The SetStepLength determines the initial distance to step in a line direction
- * when bounding the minimum (using bracketing triple spaced using a 
- * derivative-based search strategy).
+ * The SetStepLength determines the initial distance to step in a line
+ * direction when bounding the minimum (using bracketing triple spaced
+ * using a derivative-based search strategy).
  *
  * The StepTolerance terminates optimization when the parameter values are
  * known to be within this (scaled) distance of the local extreme.
@@ -52,13 +52,12 @@ class ITK_EXPORT FRPROptimizer:
 {
 public:
   /** Standard "Self" typedef. */
-  typedef FRPROptimizer                       Self ;
-  typedef PowellOptimizer                     Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef FRPROptimizer            Self;
+  typedef PowellOptimizer          Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-  typedef SingleValuedNonLinearOptimizer::ParametersType
-                                              ParametersType;
+  typedef SingleValuedNonLinearOptimizer::ParametersType ParametersType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,7 +79,7 @@ public:
   void SetToPolakRibiere();
   
 protected:
-  FRPROptimizer() ;
+  FRPROptimizer();
   virtual ~FRPROptimizer(); 
 
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -96,7 +95,7 @@ protected:
 
 
 private:
-  FRPROptimizer(const FRPROptimizer&) ; // not implemented
+  FRPROptimizer(const FRPROptimizer&); // not implemented
 
   typedef enum 
     {
@@ -106,7 +105,7 @@ private:
 
   OptimizationType  m_OptimizationType;
 
-} ; // end of class
+}; // end of class
 
 } // end of namespace itk
 

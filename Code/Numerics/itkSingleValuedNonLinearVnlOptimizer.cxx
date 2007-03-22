@@ -47,9 +47,6 @@ SingleValuedNonLinearVnlOptimizer
     }
 }
 
-
-
-
 void 
 SingleValuedNonLinearVnlOptimizer
 ::SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor )
@@ -69,8 +66,6 @@ SingleValuedNonLinearVnlOptimizer
 
   m_CostFunctionAdaptor->AddObserver( IterationEvent(), m_Command );
 }
-
-
 
 const SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
 SingleValuedNonLinearVnlOptimizer
@@ -114,8 +109,6 @@ SingleValuedNonLinearVnlOptimizer
   m_CachedCurrentPosition = adaptor->GetCachedCurrentParameters();
   this->InvokeEvent( event );
 }
-
-
 
 /**
  * PrintSelf

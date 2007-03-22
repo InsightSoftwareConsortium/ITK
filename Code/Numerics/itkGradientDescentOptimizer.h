@@ -63,23 +63,24 @@ public:
 
 
   /** Codes of stopping conditions */
-  typedef enum {
+  typedef enum
+    {
     MaximumNumberOfIterations,
     MetricError
-  } StopConditionType;
+    } StopConditionType;
 
   /** Methods to configure the cost function. */
   itkGetConstReferenceMacro( Maximize, bool );
   itkSetMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
-  { return !m_Maximize; }
+    { return !m_Maximize; }
   void SetMinimize(bool v)
-  { this->SetMaximize(!v); }
+    { this->SetMaximize(!v); }
   void MinimizeOn()
-  { this->MaximizeOff(); }
+    { this->MaximizeOff(); }
   void MinimizeOff()
-  { this->MaximizeOn(); }
+    { this->MaximizeOn(); }
   
   /** Advance one step following the gradient direction. */
   virtual void AdvanceOneStep( void );
@@ -141,14 +142,9 @@ private:
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
 
-
-
 };
 
 } // end namespace itk
 
 
 #endif
-
-
-

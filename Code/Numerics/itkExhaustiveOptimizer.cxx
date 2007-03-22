@@ -86,10 +86,6 @@ ExhaustiveOptimizer
 
 }
 
-
-
-
-
 /**
  * Resume the optimization
  */
@@ -149,8 +145,6 @@ ExhaustiveOptimizer
   m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }
-
-
 
 void
 ExhaustiveOptimizer
@@ -228,8 +222,6 @@ ExhaustiveOptimizer
     }
 }
 
-
-
 void
 ExhaustiveOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -250,7 +242,4 @@ ExhaustiveOptimizer
   os << indent << "MaximumMetricValuePosition = " << m_MaximumMetricValuePosition << std::endl;
 }
 
- 
 } // end namespace itk
-
-

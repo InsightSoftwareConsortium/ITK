@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkCumulativeGaussianOptimizer_h
-#define _itkCumulativeGaussianOptimizer_h
+#ifndef __itkCumulativeGaussianOptimizer_h
+#define __itkCumulativeGaussianOptimizer_h
 
 #include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkCumulativeGaussianCostFunction.h"
@@ -159,6 +159,3 @@ private:
 } // end namespace itk
 
 #endif
-
-
-

@@ -64,7 +64,7 @@ CumulativeGaussianOptimizer
   // Then insert the originalArray over the middle section of extendedArray.
   for(int i=0; i<(int)(originalArray->GetNumberOfElements()); i++)
     {
-    extendedArray->put(i+startingPointForInsertion, originalArray->get(i));    
+    extendedArray->put(i+startingPointForInsertion, originalArray->get(i));
     }
   return extendedArray;
 }
@@ -122,8 +122,9 @@ CumulativeGaussianOptimizer
     
     MeasureGaussianParameters(extendedArray);
     if(m_Verbose) 
+      {
       PrintComputedParameters();
-    
+      }
     double temp = averageSumOfSquaredDifferences;
     averageSumOfSquaredDifferences = FindAverageSumOfSquaredDifferences(extendedArray, extendedArrayCopy);
 
@@ -153,7 +154,7 @@ void CumulativeGaussianOptimizer
   for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
     {
     m_ComputedMean += i * array->get(i);
-    sum  +=  array->get(i);
+    sum += array->get(i);
     }
   // Assertion fails if number of samples <=2 or UpperAsymptote==LowerAsymptote
   // improper behavior if number of samples == 3.
@@ -205,7 +206,7 @@ CumulativeGaussianOptimizer
   for(int i = 0; i < (int)(extendedArray->GetNumberOfElements()); i++)
     {
     // Leave the original inserted array unchanged.
-    if( i < startingPointForInsertion ||            
+    if( i < startingPointForInsertion ||
         i >= startingPointForInsertion + (int)(originalArray->GetNumberOfElements()) )
       {
       extendedArray->put(i, amplitude * vcl_exp(-(pow((i - mean),2) / (2 * vcl_pow(sd,2))))); 
@@ -228,7 +229,7 @@ CumulativeGaussianOptimizer
   // Declare arrays.
   int cumGaussianArraySize = m_CumulativeGaussianArray->GetNumberOfElements();
   int sampledGaussianArraySize = cumGaussianArraySize;
-//  int cumGaussianArrayCopySize = cumGaussianArraySize;
+  //  int cumGaussianArrayCopySize = cumGaussianArraySize;
   
   MeasureType * sampledGaussianArray = new MeasureType();
   sampledGaussianArray->SetSize(sampledGaussianArraySize);

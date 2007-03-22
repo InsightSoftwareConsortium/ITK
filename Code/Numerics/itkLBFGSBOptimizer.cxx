@@ -6,16 +6,16 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLBFGSBOptimizer_txx
-#define _itkLBFGSBOptimizer_txx
+#ifndef __itkLBFGSBOptimizer_txx
+#define __itkLBFGSBOptimizer_txx
 
 #include "itkLBFGSBOptimizer.h"
 
@@ -25,26 +25,26 @@
 namespace itk
 {
 
-typedef long integer;
-typedef double doublereal;
-typedef long logical; // not bool
-typedef long int ftnlen;
+typedef long     Integer;
+typedef double   Doublereal;
+typedef long     Logical; // not bool
+typedef long int Ftnlen;
 
 extern "C" int
 setulb_(
-integer *n, integer *m,
-const doublereal *x, doublereal *l, doublereal *u,
-integer *nbd,
-doublereal *f, doublereal *g, doublereal *factr, doublereal *pgtol, doublereal *wa,
-integer *iwa,
+Integer *n, Integer *m,
+const Doublereal *x, Doublereal *l, Doublereal *u,
+Integer *nbd,
+Doublereal *f, Doublereal *g, Doublereal *factr, Doublereal *pgtol, Doublereal *wa,
+Integer *iwa,
 char *task,
-integer *iprint,
+Integer *iprint,
 char *csave,
-logical *lsave,
-integer *isave,
-doublereal *dsave,
-ftnlen task_len,
-ftnlen csave_len );
+Logical *lsave,
+Integer *isave,
+Doublereal *dsave,
+Ftnlen task_len,
+Ftnlen csave_len );
 
 /**
  * Constructor
@@ -227,29 +227,29 @@ LBFGSBOptimizer
   /**
    * Allocate memory for gradient and workspaces
    */
-  integer n = numberOfParameters;
-  integer m = m_MaximumNumberOfCorrections;
+  Integer n = numberOfParameters;
+  Integer m = m_MaximumNumberOfCorrections;
 
   Array<double>  gradient( n );                           // gradient
   Array<double>  wa( (2*m+4)*n + 12*m*m + 12*m );  // double array workspace
 
-  Array<integer> iwa( 3* n );                     // integer array workspace
+  Array<Integer> iwa( 3* n );                     // Integer array workspace
 
   /** String indicating current job */
   char task[60];
-  s_copy( task, "START", (ftnlen)60, (ftnlen)5);
+  s_copy( task, "START", (Ftnlen)60, (Ftnlen)5);
  
   /**  Control frequency and type of output */
-  integer iprint = -1;  // no output
+  Integer iprint = -1;  // no output
 
   /** Working string of characters */
   char csave[60];
 
   /** Logical working array */
-  Array<logical> lsave(4);
+  Array<Logical> lsave(4);
 
   /** Integer working array */
-  Array<integer> isave(44);
+  Array<Integer> isave(44);
 
   /** Double working array */
   Array<double> dsave(29);
@@ -261,7 +261,7 @@ LBFGSBOptimizer
   this->InvokeEvent( StartEvent() );
 
   // Iteration looop
-  for ( ;; )
+  for (;;)
     {
 
     /** Call the L-BFGS-B code */
@@ -272,23 +272,22 @@ LBFGSBOptimizer
            &m_CostFunctionConvergenceFactor, &m_ProjectedGradientTolerance, 
            wa.data_block(), iwa.data_block(),
            task, &iprint, csave, lsave.data_block(), isave.data_block(), 
-           dsave.data_block(), (ftnlen)60, (ftnlen)60 ) ;
+           dsave.data_block(), (Ftnlen)60, (Ftnlen)60 );
 
-     /** Check return code.
-      * 'FG_*'  = request to evaluate f & g for the current x and continue
-      * 'NEW_X' = return with new iterate - continue the iteration w/out evaluation
-      * 'ERROR' = error in input arguments
-      * 'CONVERGENCE' = convergence has been reached
-      */
+    /** Check return code.
+     * 'FG_*'  = request to evaluate f & g for the current x and continue
+     * 'NEW_X' = return with new iterate - continue the iteration w/out evaluation
+     * 'ERROR' = error in input arguments
+     * 'CONVERGENCE' = convergence has been reached
+     */
 
-    if ( s_cmp(task, "FG", (ftnlen)2, (ftnlen)2) == 0 )
+    if ( s_cmp(task, "FG", (Ftnlen)2, (Ftnlen)2) == 0 )
       {
-
       m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), m_Value, gradient );
       numberOfEvaluations++;
 
       }
-    else if ( s_cmp( task, "NEW_X", (ftnlen)5, (ftnlen)5) == 0 )
+    else if ( s_cmp( task, "NEW_X", (Ftnlen)5, (Ftnlen)5) == 0 )
       {
 
       m_InfinityNormOfProjectedGradient = dsave[12];
@@ -298,23 +297,23 @@ LBFGSBOptimizer
       }
     else
       {
-        // terminate
+      // terminate
 
       if( s_cmp( task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", 
-        (ftnlen)48, (ftnlen)48) == 0 )
+        (Ftnlen)48, (Ftnlen)48) == 0 )
         {
         itkDebugMacro( << "Convergence: gradient tolerance reached." );
         break;
         }
 
       if( s_cmp( task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", 
-        (ftnlen)47, (ftnlen)47) == 0 )
+        (Ftnlen)47, (Ftnlen)47) == 0 )
         {
         itkDebugMacro( << "Convergence: function tolerance reached." );
         break;
         }
 
-      if ( s_cmp( task, "ERROR", (ftnlen)5, (ftnlen)5) == 0 )
+      if ( s_cmp( task, "ERROR", (Ftnlen)5, (Ftnlen)5) == 0 )
         {
         itkDebugMacro( << "Error: dodgy input." );
         break;

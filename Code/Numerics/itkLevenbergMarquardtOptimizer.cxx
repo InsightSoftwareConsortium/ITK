@@ -46,8 +46,6 @@ LevenbergMarquardtOptimizer
   delete m_VnlOptimizer;
 }
 
-
-
 /**
  * Connect a Cost Function
  */
@@ -190,7 +188,7 @@ void
 LevenbergMarquardtOptimizer
 ::SetGradientTolerance(double tol)
 {
- if(m_VnlOptimizer)
+  if(m_VnlOptimizer)
     { 
     m_VnlOptimizer->set_g_tolerance(tol);
     }
@@ -222,9 +220,6 @@ LevenbergMarquardtOptimizer
 {
   return m_VnlOptimizer;
 }
-
-
-
 
 } // end namespace itk
 

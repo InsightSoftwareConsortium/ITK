@@ -196,8 +196,6 @@ PowellOptimizer
       }
     }
 
-
-
   const double POWELL_TINY = 1.0e-20;
 
   double intervalWidth;

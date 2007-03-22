@@ -116,8 +116,14 @@ CumulativeGaussianCostFunction
   // Out of bounds of the table, but it's close to 1 or -1.
   if(argument < -3 || argument > 3)
     {
-    if(argument > 0) erfValue = 1;
-    else erfValue = -1;
+    if(argument > 0)
+      {
+      erfValue = 1;
+      }
+    else
+      {
+      erfValue = -1;
+      }
     }
 
   // Interpolation between table lookup entries.
@@ -126,19 +132,22 @@ CumulativeGaussianCostFunction
     if(argument > 0)
       {
       int temp = (int)(argument * 100);
-      if(argument == (int)temp) erfValue = .999976474;
+      if(argument == (int)temp)
+        {
+        erfValue = .999976474;
+        }
       else
         {
         double slope = (y[temp + 1] - y[temp])/(((float)temp + 1)/100 - ((float)temp/100));
         erfValue = slope * (argument - ((float)temp + 1)/100) + y[temp+1];
         }
       }
-      else
-        {
-        int temp = -(int)(argument * 100);
-        double slope = (-y[temp + 1] + y[temp])/(-((float)temp + 1)/100 + ((float)temp/100));
-        erfValue = (slope * (argument + ((float)temp + 1)/100) - y[temp+1]);
-        }
+    else
+      {
+      int temp = -(int)(argument * 100);
+      double slope = (-y[temp + 1] + y[temp])/(-((float)temp + 1)/100 + ((float)temp/100));
+      erfValue = (slope * (argument + ((float)temp + 1)/100) - y[temp+1]);
+      }
     }
   return erfValue;
 }

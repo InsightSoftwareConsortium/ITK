@@ -52,9 +52,6 @@ MultipleValuedNonLinearVnlOptimizer
     }
 }
 
-
-
-
 void 
 MultipleValuedNonLinearVnlOptimizer
 ::SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor )
@@ -76,8 +73,6 @@ MultipleValuedNonLinearVnlOptimizer
 
   m_CostFunctionAdaptor->AddObserver( IterationEvent(), m_Command );
 }
-
-
 
 const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * 
 MultipleValuedNonLinearVnlOptimizer
@@ -118,10 +113,6 @@ MultipleValuedNonLinearVnlOptimizer
     }
 }
 
-
-
-
-
 bool
 MultipleValuedNonLinearVnlOptimizer
 ::GetUseCostFunctionGradient() const
@@ -135,8 +126,6 @@ MultipleValuedNonLinearVnlOptimizer
     return m_UseGradient;
     }
 }
-
-
 
 /** The purpose of this method is to get around the lack of iteration reporting
  * in VNL optimizers. By interfacing directly with the ITK cost function
@@ -171,10 +160,6 @@ MultipleValuedNonLinearVnlOptimizer
   os << "Command observer " << m_Command.GetPointer() << std::endl;
   os << "Cost Function adaptor" << m_CostFunctionAdaptor << std::endl;
 }
-
-
-
-
 
 } // end namespace itk
 

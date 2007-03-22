@@ -30,8 +30,7 @@ SingleValuedVnlCostFunctionAdaptor
   m_ScalesInitialized = false;
   m_NegateCostFunction = false;
   m_Reporter = Object::New();
-}    
-
+}
     
 /** Set current parameters scaling. */
 void
@@ -257,11 +256,4 @@ SingleValuedVnlCostFunctionAdaptor
   return m_CachedCurrentParameters;
 }
 
-
-
 } // end namespace itk
-
-
-
-
-

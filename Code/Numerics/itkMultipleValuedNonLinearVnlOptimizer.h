@@ -64,15 +64,22 @@ public:
        Gradient computation or the gradient can be computed internally
        using a default approach  */
   void SetUseCostFunctionGradient(bool);
-  void UseCostFunctionGradientOn()  { this->SetUseCostFunctionGradient( true  ); }
-  void UseCostFunctionGradientOff() { this->SetUseCostFunctionGradient( false ); };
+  void UseCostFunctionGradientOn()
+    {
+    this->SetUseCostFunctionGradient( true  );
+    }
+  void UseCostFunctionGradientOff()
+    {
+    this->SetUseCostFunctionGradient( false );
+    }
   bool GetUseCostFunctionGradient() const;
 
   /** Return Cached Values. These method have the advantage of not triggering a
-   * recomputation of the metric value, but it has the disadvantage of returning
-   * a value that may not be the one corresponding to the current parameters. For
-   * GUI update purposes, this method is a good option, for mathematical
-   * validation you should rather call GetValue(). */
+   * recomputation of the metric value, but it has the disadvantage of
+   * returning a value that may not be the one corresponding to the
+   * current parameters. For GUI update purposes, this method is a
+   * good option, for mathematical validation you should rather call
+   * GetValue(). */
   itkGetConstReferenceMacro(CachedValue, MeasureType);
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
@@ -119,10 +126,4 @@ private:
 
 } // end namespace itk
 
-
-  
-
 #endif
-
-
-

@@ -219,8 +219,6 @@ LBFGSOptimizer
 
 }
 
-
-
 /**
  * Start the optimization
  */
@@ -275,14 +273,11 @@ LBFGSOptimizer
       }
     }
 
-  this->SetCurrentPosition( parameters );       
+  this->SetCurrentPosition( parameters );
   
   this->InvokeEvent( EndEvent() );
 
 }
-
-
-
 
 /**
  * Get the Optimizer
@@ -293,9 +288,6 @@ LBFGSOptimizer
 {
   return m_VnlOptimizer;
 }
-
-
-
 
 } // end namespace itk
 
