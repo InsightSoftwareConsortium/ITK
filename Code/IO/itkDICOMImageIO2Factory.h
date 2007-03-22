@@ -33,10 +33,10 @@ class ITK_EXPORT DICOMImageIO2Factory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef DICOMImageIO2Factory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DICOMImageIO2Factory     Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -50,10 +50,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     DICOMImageIO2Factory::Pointer DicomFactory = DICOMImageIO2Factory::New();
     ObjectFactoryBase::RegisterFactory(DicomFactory);
-  }
+    }
 
 protected:
   DICOMImageIO2Factory();

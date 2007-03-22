@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageSeriesWriter_txx
-#define _itkImageSeriesWriter_txx
+#ifndef __itkImageSeriesWriter_txx
+#define __itkImageSeriesWriter_txx
 
 #include "itkImageSeriesWriter.h"
 #include "itkDataObject.h"
@@ -83,8 +83,7 @@ const typename ImageSeriesWriter<TInputImage,TOutputImage>::InputImageType *
 ImageSeriesWriter<TInputImage,TOutputImage>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<TInputImage*>
-    (this->ProcessObject::GetInput(idx));
+  return static_cast<TInputImage*> (this->ProcessObject::GetInput(idx));
 }
 
 //---------------------------------------------------------
@@ -165,9 +164,9 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   outputImage->SetSpacing(spacing);
   outputImage->SetDirection(direction);
 
-   // Allocate an image for output and create an iterator for it
-    outputImage->SetRegions(outRegion);
-    outputImage->Allocate();
+  // Allocate an image for output and create an iterator for it
+  outputImage->SetRegions(outRegion);
+  outputImage->Allocate();
   ImageRegionIterator<OutputImageType> ot (outputImage, outRegion );
 
   unsigned long fileNumber = m_StartIndex;
@@ -267,8 +266,8 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
   // Allocate an image for output and create an iterator for it
   typename OutputImageType::Pointer outputImage = OutputImageType::New();
-    outputImage->SetRegions( outRegion );
-    outputImage->Allocate();
+  outputImage->SetRegions( outRegion );
+  outputImage->Allocate();
   ImageRegionIterator<OutputImageType> ot( outputImage, outRegion );
 
   // Set the origin and spacing of the output
@@ -315,10 +314,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
      return;
      }
 
-
-
   itkDebugMacro( <<"Number of files to write = " << m_FileNames.size() );
-
 
   ProgressReporter progress( this, 0, 
                              expectedNumberOfFiles,

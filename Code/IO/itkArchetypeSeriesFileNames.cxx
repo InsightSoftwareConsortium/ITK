@@ -169,9 +169,6 @@ ArchetypeSeriesFileNames
       }
     }
 
-
-
-
   // Create a set of regular expressions, one for each group of
   // numbers in m_FileName. We walk the regular expression groups
   // from right to left since numbers at the end of filenames are more
@@ -182,7 +179,7 @@ ArchetypeSeriesFileNames
   IntVectorType::reverse_iterator numGroupLengthItr = numGroupLength.rbegin();
   IntVectorType::reverse_iterator numGroupStartItr  = numGroupStart.rbegin();
   while( numGroupLengthItr != numGroupLength.rend() &&
-         numGroupStartItr  != numGroupStart.rend()    )
+         numGroupStartItr != numGroupStart.rend() )
     {
     std::string regExpFileName = fileName;
     

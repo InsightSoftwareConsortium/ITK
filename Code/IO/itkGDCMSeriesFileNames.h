@@ -79,7 +79,7 @@ public:
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header. 
    * No sorting is done based on UID */
-  const FilenamesContainer &GetInputFileNames () ;
+  const FilenamesContainer &GetInputFileNames ();
 
   /** Set the directory where the output DICOM serie should be written. */
   void SetOutputDirectory (std::string const &name)
@@ -93,7 +93,7 @@ public:
    * This could be dangerous if the writting has change 3d position
    * or some other DICOM tag in the header
    */
-  const FilenamesContainer &GetOutputFileNames () ;
+  const FilenamesContainer &GetOutputFileNames ();
 
   /** Returns a vector containing the series' file names. The file
    * names are ordered by the strategy define in header. 
@@ -199,8 +199,8 @@ private:
   /** Internal structure to keep the list of series UIDs */
   SerieUIDContainer m_SeriesUIDs;
 
-  bool              m_UseSeriesDetails;
-  bool              m_Recursive;
+  bool m_UseSeriesDetails;
+  bool m_Recursive;
   bool m_LoadSequences;
   bool m_LoadPrivateTags;
 

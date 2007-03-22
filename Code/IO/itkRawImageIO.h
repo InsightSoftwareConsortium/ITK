@@ -50,9 +50,9 @@ class ITK_EXPORT RawImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef RawImageIO Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef RawImageIO         Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,13 +95,11 @@ public:
   /** Determine the file type. Returns true if this ImageIOBase can read the
    * file specified. Always returns false because we don't want to use
    * this reader unless absolutely sure (i.e., manual ImageIO creation). */
-  virtual bool CanReadFile(const char*) 
-  {return false;}
+  virtual bool CanReadFile(const char*) {return false;}
 
   /** Binary files have no image information to read. This must be set by the
    * user of the class. */
-  virtual void ReadImageInformation() 
-  {return;}
+  virtual void ReadImageInformation() {return;}
 
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
@@ -109,11 +107,11 @@ public:
   /** Set/Get the Data mask. */
   itkGetConstReferenceMacro(ImageMask,unsigned short);
   void SetImageMask(unsigned long val) 
-  {
+    {
     if (val == m_ImageMask) { return; }
     m_ImageMask = ((unsigned short)(val)); 
     this->Modified();
-  }
+    }
     
   /** Read a file's header to determine image dimensions, etc. */
   virtual void ReadHeader (const std::string = std::string()) {}
@@ -126,8 +124,7 @@ public:
   virtual bool CanWriteFile(const char*);
 
   /** Binary files have no image information to read.  */
-  virtual void WriteImageInformation(void) 
-  {return;}
+  virtual void WriteImageInformation(void) {return;}
 
 
   /** Writes the data to disk from the memory buffer provided. */
@@ -154,30 +151,26 @@ private:
   unsigned short m_ImageMask;
 };
 
-
-
-
-
 template <class TPixel, unsigned int VImageDimension>
 class ITK_EXPORT RawImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef RawImageIOFactory<TPixel,VImageDimension>   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef RawImageIOFactory<TPixel,VImageDimension> Self;
+  typedef ObjectFactoryBase                         Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion(void) const
-  {
+    {
     return ITK_SOURCE_VERSION;
-  }
+    }
 
   const char* GetDescription(void) const
-  {
+    {
     return "Raw ImageIO Factory, allows the loading of Raw images into insight";
-  }
+    }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -187,10 +180,9 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     ObjectFactoryBase::RegisterFactory( Self::New() );
-  }
-
+    }
 
 protected:
   RawImageIOFactory() {};

@@ -41,9 +41,9 @@ class ITK_EXPORT DicomImageIO : public GDCMImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef DicomImageIO Self;
-  typedef GDCMImageIO Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef DicomImageIO       Self;
+  typedef GDCMImageIO        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

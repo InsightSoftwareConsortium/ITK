@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __tkPolygonGroupSpatialObjectXMLFile_h
+#ifndef __itkPolygonGroupSpatialObjectXMLFile_h
 #define __itkPolygonGroupSpatialObjectXMLFile_h
 
 #ifdef _MSC_VER
@@ -35,18 +35,18 @@ typedef PolygonGroupSpatialObject<3> PGroupSpatialObjectType;
  * creates a corresponding PolygonGroupSpatialObject
  */
 class PolygonGroupSpatialObjectXMLFileReader :
-public XMLReader<PGroupSpatialObjectType>
+    public XMLReader<PGroupSpatialObjectType>
 {
- public:
+public:
   /** Standard typedefs */ 
   typedef PolygonGroupSpatialObjectXMLFileReader Self;
-  typedef XMLReader<PGroupSpatialObjectType> Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef XMLReader<PGroupSpatialObjectType>     Superclass;
+  typedef SmartPointer<Self>                     Pointer;
 
   typedef PGroupSpatialObjectType PolygonGroupType;
   typedef PolygonSpatialObject<3> PolygonSpatialObjectType;
-  typedef SpatialObjectPoint<3> PointType;
-  typedef std::vector<PointType> PointListType;
+  typedef SpatialObjectPoint<3>   PointType;
+  typedef std::vector<PointType>  PointListType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileReader, XMLReader);
@@ -61,10 +61,10 @@ protected:
   virtual void EndElement(const char *name);
   virtual void CharacterDataHandler(const char *inData, int inLength);
 private:
-  PGroupSpatialObjectType::Pointer m_PGroup;
+  PGroupSpatialObjectType::Pointer  m_PGroup;
   PolygonSpatialObjectType::Pointer m_CurPoly;
-  PointListType m_CurPointList;
-  std::string m_CurCharacterData;
+  PointListType                     m_CurPointList;
+  std::string                       m_CurCharacterData;
 };
 
 /** \class PolygonGroupSpatialObjectXMLFileWriter
@@ -79,10 +79,12 @@ public:
   /** standard typedefs */
   typedef XMLWriterBase<PGroupSpatialObjectType> Superclass;
   typedef PolygonGroupSpatialObjectXMLFileWriter Self;
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>                     Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-    /** Run-time type information (and related methods). */
+
+  /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter,
                XMLWriterBase<PGroupSpatialObjectType>);
   typedef PGroupSpatialObjectType PolygonGroupType;

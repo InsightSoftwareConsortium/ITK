@@ -48,4 +48,3 @@ JPEGImageIOFactory::GetDescription(void) const
 }
 
 } // end namespace itk
-

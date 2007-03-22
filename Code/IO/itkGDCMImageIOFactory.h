@@ -29,10 +29,10 @@ class ITK_EXPORT GDCMImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef GDCMImageIOFactory  Self;
-  typedef ObjectFactoryBase   Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef GDCMImageIOFactory       Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion() const;
@@ -46,10 +46,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory()
-  {
+    {
     GDCMImageIOFactory::Pointer gdcmFactory = GDCMImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(gdcmFactory);
-  }
+    }
 
 protected:
   GDCMImageIOFactory();

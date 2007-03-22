@@ -51,4 +51,3 @@ VTKImageIOFactory::GetDescription(void) const
 }
 
 } // end namespace itk
-

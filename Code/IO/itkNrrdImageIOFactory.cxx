@@ -48,4 +48,3 @@ NrrdImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

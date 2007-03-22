@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -278,8 +277,6 @@ DICOMImageIO2
   m_AppHelper->GetPatientID(id);
 }
 
-
-
 void 
 DICOMImageIO2
 ::GetPatientSex(char* sex)
@@ -352,16 +349,12 @@ DICOMImageIO2
   m_AppHelper->GetModality(modality);
 }
 
-
-
 void 
 DICOMImageIO2
 ::GetManufacturer(char* manu)
 {
   m_AppHelper->GetManufacturer(manu);
 }
-
-
 
 void 
 DICOMImageIO2
@@ -370,15 +363,11 @@ DICOMImageIO2
   m_AppHelper->GetInstitution(ins);
 }
 
-
-
 void 
 DICOMImageIO2
 ::GetModel(char* model)
 {
   m_AppHelper->GetModel(model);
 }
-
-
 
 } // end namespace itk

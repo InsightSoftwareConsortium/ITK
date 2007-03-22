@@ -1,4 +1,5 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkBrains2MaskImageIO.cxx
   Language:  C++
@@ -36,7 +37,7 @@ namespace itk
 template <class TPixel>
 class Brains2MaskMappingFunction {
 public:
-  unsigned int Evaluate(const TPixel *pixel) ;
+  unsigned int Evaluate(const TPixel *pixel);
 };
 template <class TPixel>
 unsigned int
@@ -56,7 +57,7 @@ Brains2MaskImageIO::Brains2MaskImageIO()
   m_ComponentType     = UCHAR;
   //The file byte order
   m_MachineByteOrder  = ( ByteSwapper<int>::SystemIsBigEndian() == true ) ?
-    LittleEndian : BigEndian ;
+    LittleEndian : BigEndian;
 }
 
 Brains2MaskImageIO::~Brains2MaskImageIO()
@@ -125,8 +126,7 @@ readOctree (std::ifstream & octreestream,
         //NOTE recursive call on all children to set them.
         curnode->SetBranch(
           readOctree(octreestream,machineByteOrder,
-                     fileByteOrder)
-          );
+                     fileByteOrder));
         break;
       }
     }
@@ -199,9 +199,13 @@ void Brains2MaskImageIO
         //unsigned int val =  octree->GetValue(i,this->m_Dimensions[1]-1-j,k);
         unsigned int val =  octree->GetValue(i,j,k);
         if(val != 0)
-          p[sliceandrowoffset+i]= DEF_WHITE_MASK;
+          {
+          p[sliceandrowoffset+i] = DEF_WHITE_MASK;
+          }
         else
-          p[sliceandrowoffset+i]= 0;
+          {
+          p[sliceandrowoffset+i] = 0;
+          }
         }
       }
     }
@@ -212,9 +216,9 @@ void Brains2MaskImageIO
 // a StateMachine could provide a better implementation
 bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
 {
-// The following assignment doesn't seem neccessary and was causing
-// a problem in MSVC60 which resulted in m_FileName becoming a NULL string.
-//  m_FileName=FileNameToRead;
+  // The following assignment doesn't seem neccessary and was causing 
+  // a problem in MSVC60 which resulted in m_FileName becoming a NULL string.
+  //  m_FileName=FileNameToRead;
   std::ifstream   local_InputStream;
   local_InputStream.open( FileNameToRead, std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
@@ -256,30 +260,30 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     }
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
     (thisDic,ITK_CoordinateOrientation, coord_orient);
-    //An error was encountered in code that depends upon the valid coord_orientation.
-    typedef SpatialOrientationAdapter OrientAdapterType;
-    SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
-    unsigned dims = this->GetNumberOfDimensions();
-    std::vector<double> dirx(dims,0), diry(dims,0), dirz(dims,0);
-    dirx[0] = dir[0][0];
-    dirx[1] = dir[1][0];
-    dirx[2] = dir[2][0];
-    diry[0] = dir[0][1];
-    diry[1] = dir[1][1];
-    diry[2] = dir[2][1];
-    dirz[0] = dir[0][2];
-    dirz[1] = dir[1][2];
-    dirz[2] = dir[2][2];
-    for(unsigned i = 3; i < dims; i++)
-      {
-      dirx[i] = diry[i] = dirz[i] = 0;
-      }
-    this->SetDirection(0,dirx);
-    this->SetDirection(1,diry);
-    this->SetDirection(2,dirz);
+  //An error was encountered in code that depends upon the valid coord_orientation.
+  typedef SpatialOrientationAdapter OrientAdapterType;
+  SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+  unsigned dims = this->GetNumberOfDimensions();
+  std::vector<double> dirx(dims,0), diry(dims,0), dirz(dims,0);
+  dirx[0] = dir[0][0];
+  dirx[1] = dir[1][0];
+  dirx[2] = dir[2][0];
+  diry[0] = dir[0][1];
+  diry[1] = dir[1][1];
+  diry[2] = dir[2][1];
+  dirz[0] = dir[0][2];
+  dirz[1] = dir[1][2];
+  dirz[2] = dir[2][2];
+  for(unsigned i = 3; i < dims; i++)
+    {
+    dirx[i] = diry[i] = dirz[i] = 0;
+    }
+  this->SetDirection(0,dirx);
+  this->SetDirection(1,diry);
+  this->SetDirection(2,dirz);
 
   local_InputStream.close();
-  if(this->m_IPLHeaderInfo.DoesKeyExist("MASK_HEADER_BEGIN")==false)
+  if(this->m_IPLHeaderInfo.DoesKeyExist("MASK_HEADER_BEGIN") == false)
     {
     return false;
     }
@@ -287,7 +291,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
                      =="LITTLE_ENDIAN") ? LittleEndian : BigEndian;
   this->m_MachineByteOrder =
     (ByteSwapper<int>::SystemIsBigEndian() == true ) ?
-    BigEndian : LittleEndian ;
+    BigEndian : LittleEndian;
 
   //this->m_IPLHeaderInfo.PrintSelf(std::cout);
   const int TempNumDims=this->m_IPLHeaderInfo.getInt("MASK_NUM_DIMS:");
@@ -307,40 +311,37 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
 
 void Brains2MaskImageIO::ReadImageInformation()
 {
-   this->CanReadFile( this->m_FileName.c_str() );
+  this->CanReadFile( this->m_FileName.c_str() );
 }
 
 // cut the gordian knot, just do the header in one
 // long printf
 static const char mask_header_format[] =
-"IPL_HEADER_BEGIN\n"
-"PATIENT_ID: %s\n"
-"SCAN_ID: %s\n"
-"FILENAME: %s\n"
-"DATE: %s\n"
-"CREATOR: %s\n"
-"PROGRAM: %s\n"
-"MODULE: %s\n"
-"VERSION: %s\n"
-"NAME: %s\n"
-"BYTE_ORDER: BIG_ENDIAN\n"
-"MASK_HEADER_BEGIN\n"
-"MASK_NUM_DIMS: %d\n"
-"MASK_X_SIZE: %d\n"
-"MASK_X_RESOLUTION: %f\n"
-"MASK_Y_SIZE: %d\n"
-"MASK_Y_RESOLUTION: %f\n"
-"MASK_Z_SIZE: %d\n"
-"MASK_Z_RESOLUTION: %f\n"
-"MASK_THRESHOLD: %f\n"
-"MASK_NAME: %d\n"
-"MASK_ACQ_PLANE: %s\n"
-"MASK_HEADER_END\n"
-"IPL_HEADER_END\n";
+  "IPL_HEADER_BEGIN\n"
+  "PATIENT_ID: %s\n"
+  "SCAN_ID: %s\n"
+  "FILENAME: %s\n"
+  "DATE: %s\n"
+  "CREATOR: %s\n"
+  "PROGRAM: %s\n"
+  "MODULE: %s\n"
+  "VERSION: %s\n"
+  "NAME: %s\n"
+  "BYTE_ORDER: BIG_ENDIAN\n"
+  "MASK_HEADER_BEGIN\n"
+  "MASK_NUM_DIMS: %d\n"
+  "MASK_X_SIZE: %d\n"
+  "MASK_X_RESOLUTION: %f\n"
+  "MASK_Y_SIZE: %d\n"
+  "MASK_Y_RESOLUTION: %f\n"
+  "MASK_Z_SIZE: %d\n"
+  "MASK_Z_RESOLUTION: %f\n"
+  "MASK_THRESHOLD: %f\n"
+  "MASK_NAME: %d\n"
+  "MASK_ACQ_PLANE: %s\n"
+  "MASK_HEADER_END\n"
+  "IPL_HEADER_END\n";
 
-/**
-   *
-   */
 void
 Brains2MaskImageIO
 ::WriteImageInformation(void)
@@ -398,9 +399,7 @@ static  void replace_blanks(std::string &s)
       }
     }
 }
-/**
-   *
-   */
+
 void
 Brains2MaskImageIO
 ::Write( const void* buffer)
@@ -450,46 +449,46 @@ Brains2MaskImageIO
   std::string fname = this->m_FileName;
   replace_blanks(fname);
   std::string orientation = "UNKNOWN";
-    itk::SpatialOrientationAdapter::DirectionType dir;
-    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
-    std::vector<double> dirx = this->GetDirection(0);
-    std::vector<double> diry = this->GetDirection(1);
-    std::vector<double> dirz = this->GetDirection(2);
-    for(unsigned int i = 0; i < 3; i++)
-      {
-      dir[i][1] = dirx[i];
-      dir[i][1] = diry[i];
-      dir[i][2] = dirz[i];
-      }
-    coord_orient = SpatialOrientationAdapter().FromDirectionCosines(dir);
+  itk::SpatialOrientationAdapter::DirectionType dir;
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+  std::vector<double> dirx = this->GetDirection(0);
+  std::vector<double> diry = this->GetDirection(1);
+  std::vector<double> dirz = this->GetDirection(2);
+  for(unsigned int i = 0; i < 3; i++)
+    {
+    dir[i][1] = dirx[i];
+    dir[i][1] = diry[i];
+    dir[i][2] = dirz[i];
+    }
+  coord_orient = SpatialOrientationAdapter().FromDirectionCosines(dir);
 
-    switch (coord_orient)
-      {
-      case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-        // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
-        orientation = "AXIAL";
-        break;
-      case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-        // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
-        orientation = "SAGITTAL";
-        break;
-      case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-        // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
-        orientation = "CORONAL";
-        break;
-      default:
-        itk::SpatialOrientationAdapter::DirectionType AXIdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
-        itk::SpatialOrientationAdapter::DirectionType SAGdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
-        itk::SpatialOrientationAdapter::DirectionType CORdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
-        itkExceptionMacro(<< "Error: Invalid orientation specified for writing mask. \n"
-            << "\nGIVEN    " << coord_orient << "\n" << dir
-            << "\n Only Axial, Sagital, and Coronal orietations are supported in this file format."
-            << "\nAXIAL    " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI << "\n" << AXIdir
-            << "\nSAGITTAL " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR << "\n" << SAGdir
-            << "\nCORONAL  " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP << "\n" << CORdir
-            );
-        break;
-      }
+  switch (coord_orient)
+    {
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+      // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
+      orientation = "AXIAL";
+      break;
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+      // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
+      orientation = "SAGITTAL";
+      break;
+    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+      // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+      orientation = "CORONAL";
+      break;
+    default:
+      itk::SpatialOrientationAdapter::DirectionType AXIdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
+      itk::SpatialOrientationAdapter::DirectionType SAGdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
+      itk::SpatialOrientationAdapter::DirectionType CORdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+      itkExceptionMacro(<< "Error: Invalid orientation specified for writing mask. \n"
+                        << "\nGIVEN    " << coord_orient << "\n" << dir
+                        << "\n Only Axial, Sagital, and Coronal orietations are supported in this file format."
+                        << "\nAXIAL    " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI << "\n" << AXIdir
+                        << "\nSAGITTAL " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR << "\n" << SAGdir
+                        << "\nCORONAL  " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP << "\n" << CORdir
+        );
+      break;
+    }
   sprintf(buf,mask_header_format,
           patient_id.c_str(),
           "00000",                 // scan_id

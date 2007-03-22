@@ -32,10 +32,10 @@ class ITK_EXPORT VTKImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef VTKImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VTKImageIOFactory        Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class Methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -49,10 +49,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     VTKImageIOFactory::Pointer vtkFactory = VTKImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(vtkFactory);
-  }
+    }
   
 protected:
   VTKImageIOFactory();

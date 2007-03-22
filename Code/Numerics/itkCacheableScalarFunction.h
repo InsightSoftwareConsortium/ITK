@@ -56,37 +56,37 @@ class CacheableScalarFunction
 {
 public:
   /** Constructor. */
-  CacheableScalarFunction() ;
+  CacheableScalarFunction();
 
   /** Destructor. */
   virtual ~CacheableScalarFunction() {}
 
   /** Function's input and output value type. */
-  typedef double MeasureType ;
-  typedef Array<MeasureType>    MeasureArrayType;
+  typedef double             MeasureType;
+  typedef Array<MeasureType> MeasureArrayType;
 
   /** Get the number of samples between the lower-bound and upper-bound
    * of the cache table. */
-  long GetNumberOfSamples() { return m_NumberOfSamples ; } 
+  long GetNumberOfSamples() { return m_NumberOfSamples; } 
 
   /** Check if the internal cache table and its values are valid. */
-  bool IsCacheAvailable() { return m_CacheAvailable ; } 
+  bool IsCacheAvailable() { return m_CacheAvailable; } 
   
   /** Get the upper-bound of domain that is used for filling the cache table. */
-  double GetCacheUpperBound() { return m_CacheUpperBound ; } 
+  double GetCacheUpperBound() { return m_CacheUpperBound; } 
 
   /** Get the lower-bound of domain that is used for filling the cache table. */
-  double GetCacheLowerBound() { return m_CacheLowerBound ; } 
+  double GetCacheLowerBound() { return m_CacheLowerBound; } 
 
   /** y = f(x)
    * Subclasses of this class should override this member function
    * to provide their own functional operation . */
   virtual MeasureType Evaluate(MeasureType x) 
-  { return x ; }
+  { return x; }
 
   /** Gets the interval of each cell between the upper and lower bound */
   double GetInterval() 
-  { return m_TableInc ; }
+    { return m_TableInc; }
 
   /** y = f(x) = (approximately) cache_table(index(x))
    * Get the function return using the internal cache table
@@ -94,25 +94,25 @@ public:
    * to int, truncation happens. As a result, the return values from
    * Evaluate(x) and GetCachedValue(x) may not be same for the same x. */
   inline MeasureType GetCachedValue(MeasureType x)
-  {
+    {
     if (x > m_CacheUpperBound || x < m_CacheLowerBound)
       {
       throw ExceptionObject(__FILE__,__LINE__);
       }
     // access table
-    int index = (int) ((x - m_CacheLowerBound) / m_TableInc) ;
-    return m_CacheTable[index] ;
-  }
+    int index = (int) ((x - m_CacheLowerBound) / m_TableInc);
+    return m_CacheTable[index];
+    }
 
 protected:
   /** Create the internal cache table and fill it with 
    * pre-evaluated values. */
-  void CreateCache(double lowerBound, double upperBound, long sampleSize) ;
+  void CreateCache(double lowerBound, double upperBound, long sampleSize);
 
 private:
   /** The number of samples will be precalcualted and saved in the
    * cache table. */
-  long m_NumberOfSamples ;
+  long m_NumberOfSamples;
 
   /** Storage for the precalcualted function values. */
   MeasureArrayType  m_CacheTable;
@@ -121,14 +121,14 @@ private:
   double m_CacheUpperBound;
 
   /** The lower-bound of domain that is used for filling the cache table. */
-  double m_CacheLowerBound ;
+  double m_CacheLowerBound;
 
   /** Sampling interval for function evaluation. */
-  double m_TableInc ;
+  double m_TableInc;
 
   /** Is the cache available?   */
-  bool m_CacheAvailable ;
+  bool m_CacheAvailable;
   
-} ; // end of class
+}; // end of class
 } // end of namespace itk
 #endif

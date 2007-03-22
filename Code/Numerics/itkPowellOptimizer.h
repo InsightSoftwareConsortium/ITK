@@ -60,10 +60,10 @@ class ITK_EXPORT PowellOptimizer:
 {
 public:
   /** Standard "Self" typedef. */
-  typedef PowellOptimizer             Self ;
-  typedef SingleValuedNonLinearOptimizer      Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef PowellOptimizer                Self;
+  typedef SingleValuedNonLinearOptimizer Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   typedef SingleValuedNonLinearOptimizer::ParametersType
                                               ParametersType;
@@ -92,18 +92,18 @@ public:
 
   /** Set/Get StepLength for the (scaled) spacing of the sampling of
    * parameter space while bracketing the extremum */
-  itkSetMacro( StepLength, double ) ;
+  itkSetMacro( StepLength, double );
   itkGetConstReferenceMacro( StepLength, double );
 
   /** Set/Get StepTolerance.  Once the local extreme is known to be within this
    * distance of the current parameter values, optimization terminates */
-  itkSetMacro( StepTolerance, double ) ;
+  itkSetMacro( StepTolerance, double );
   itkGetConstReferenceMacro( StepTolerance, double );
 
   /** Set/Get ValueTolerance.  Once this current cost function value is known
    * to be within this tolerance of the cost function value at the local
    * extreme, optimization terminates */
-  itkSetMacro( ValueTolerance, double ) ;
+  itkSetMacro( ValueTolerance, double );
   itkGetConstReferenceMacro( ValueTolerance, double );
 
   /** Return Current Value */
@@ -117,18 +117,18 @@ public:
   itkGetConstReferenceMacro( CurrentLineIteration, unsigned int);
 
   /** Start optimization. */
-  void StartOptimization() ;
+  void StartOptimization();
 
   /** When users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and 
    * optimization will stop at the next iteration. */
   void StopOptimization() 
-    { m_Stop = true ; }
+    { m_Stop = true; }
 
 protected:
-  PowellOptimizer() ;
-  PowellOptimizer(const PowellOptimizer&) ;
-  virtual ~PowellOptimizer() ;
+  PowellOptimizer();
+  PowellOptimizer(const PowellOptimizer&);
+  virtual ~PowellOptimizer();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   itkSetMacro(CurrentCost, double);
@@ -185,24 +185,23 @@ protected:
   itkGetMacro(Stop, bool);
   itkSetMacro(Stop, bool);
 
- private:
-
+private:
   unsigned int       m_SpaceDimension;
 
   /** Current iteration */
-  unsigned int       m_CurrentIteration ;
-  unsigned int       m_CurrentLineIteration ;
+  unsigned int       m_CurrentIteration;
+  unsigned int       m_CurrentLineIteration;
 
   /** Maximum iteration limit. */
-  unsigned int       m_MaximumIteration ;
-  unsigned int       m_MaximumLineIteration ;
+  unsigned int       m_MaximumIteration;
+  unsigned int       m_MaximumLineIteration;
 
   /** Set if the Metric should be maximized: Default = False */
   bool               m_Maximize;
 
   /** The minimal size of search */
-  double             m_StepLength ;
-  double             m_StepTolerance ;
+  double             m_StepLength;
+  double             m_StepTolerance;
 
   ParametersType     m_LineOrigin;
   vnl_vector<double> m_LineDirection;
@@ -216,9 +215,9 @@ protected:
    * when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and 
    * optimization will stop at the next iteration. */
-  bool               m_Stop ;
+  bool               m_Stop;
 
-} ; // end of class
+}; // end of class
 
 } // end of namespace itk
 

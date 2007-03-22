@@ -32,10 +32,10 @@ class ITK_EXPORT StimulateImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef StimulateImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef StimulateImageIOFactory  Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class Methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -49,10 +49,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     StimulateImageIOFactory::Pointer stimulateFactory = StimulateImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(stimulateFactory);
-  }
+    }
   
 protected:
   StimulateImageIOFactory();

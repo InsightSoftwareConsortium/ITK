@@ -51,4 +51,3 @@ StimulateImageIOFactory::GetDescription(void) const
 }
 
 } // end namespace itk
-

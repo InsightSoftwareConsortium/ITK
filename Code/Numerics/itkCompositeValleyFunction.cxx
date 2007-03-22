@@ -21,7 +21,7 @@ CompositeValleyFunction
 ::CompositeValleyFunction( const MeasureArrayType & classMeans, 
                            const MeasureArrayType & classSigmas )
 {
-  unsigned int length = classMeans.size() ;
+  unsigned int length = classMeans.size();
 
   if (length != classSigmas.size())
     {
@@ -39,12 +39,12 @@ CompositeValleyFunction
     throw ex;
     }
   
-  for (unsigned int i = 0 ; i < length ; i++) 
+  for (unsigned int i = 0; i < length; i++) 
     {
-    this->AddNewClass(classMeans[i], classSigmas[i]) ;
+    this->AddNewClass(classMeans[i], classSigmas[i]);
     }
 
-  this->Initialize() ;
+  this->Initialize();
 }
 
 void CompositeValleyFunction
@@ -60,20 +60,24 @@ void CompositeValleyFunction
   
   int noOfClasses = static_cast<int>( m_Targets.size() );
 
-  for (i = 0 ; i < noOfClasses ; i++) 
+  for (i = 0; i < noOfClasses; i++) 
     {
     if (m_Targets[i].GetMean() > m_Targets[high].GetMean()) 
+      {
       high = i;
+      }
     if (m_Targets[i].GetMean() < m_Targets[low].GetMean()) 
+      {
       low =i;
+      }
     }
   
   m_LowerBound = m_Targets[low].GetMean() - 
-    9.0 * m_Targets[low].GetSigma() ;
+    9.0 * m_Targets[low].GetSigma();
   m_UpperBound = m_Targets[high].GetMean() + 
-    9.0 * m_Targets[high].GetSigma() ;
+    9.0 * m_Targets[high].GetSigma();
 
-  CreateCache(m_LowerBound, m_UpperBound, 1000000) ;
+  CreateCache(m_LowerBound, m_UpperBound, 1000000);
 }
 
 } // end of namespace itk

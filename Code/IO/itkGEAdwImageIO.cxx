@@ -1,4 +1,5 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkGEAdwImageIO.cxx
   Language:  C++

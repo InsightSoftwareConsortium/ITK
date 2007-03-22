@@ -455,7 +455,6 @@ void TIFFImageIO::ReadGenericImage( void *out,
 
   switch ( this->GetFormat() )
     {
-    default:
     case TIFFImageIO::GRAYSCALE:
     case TIFFImageIO::PALETTE_GRAYSCALE:
       inc = 1;
@@ -465,6 +464,9 @@ void TIFFImageIO::ReadGenericImage( void *out,
       break;
     case TIFFImageIO::PALETTE_RGB:
       inc = 3;
+      break;
+    default:
+      inc = 1;
       break;
     }
 

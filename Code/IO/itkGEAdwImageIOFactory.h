@@ -33,10 +33,10 @@ class ITK_EXPORT GEAdwImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GEAdwImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef GEAdwImageIOFactory      Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -50,10 +50,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     GEAdwImageIOFactory::Pointer metaFactory = GEAdwImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(metaFactory);
-  }
+    }
 
 protected:
   GEAdwImageIOFactory();
@@ -65,7 +65,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
 };
-
 
 } // end namespace itk
 

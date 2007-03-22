@@ -38,7 +38,7 @@ public:
 
   /** SmartPointer typedef support */
   typedef SpatialObjectWriter Self;
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>  Pointer;
 
   typedef SpatialObject<NDimensions> SpatialObjectType; 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer; 

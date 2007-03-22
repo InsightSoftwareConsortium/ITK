@@ -73,9 +73,9 @@ class ITK_EXPORT RegularExpressionSeriesFileNames : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef RegularExpressionSeriesFileNames    Self;
-  typedef Object                  Superclass;
-  typedef SmartPointer<Self>      Pointer;
+  typedef RegularExpressionSeriesFileNames Self;
+  typedef Object                           Superclass;
+  typedef SmartPointer<Self>               Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -122,10 +122,10 @@ private:
   RegularExpressionSeriesFileNames(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  std::string m_Directory;
+  std::string  m_Directory;
   unsigned int m_SubMatch;
-  bool m_NumericSort;
-  std::string m_RegularExpression;
+  bool         m_NumericSort;
+  std::string  m_RegularExpression;
 
   std::vector<std::string>  m_FileNames;
 };

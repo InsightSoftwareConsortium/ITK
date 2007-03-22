@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSpatialObjectReader_txx
-#define _itkSpatialObjectReader_txx
+#ifndef __itkSpatialObjectReader_txx
+#define __itkSpatialObjectReader_txx
 
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"

@@ -94,9 +94,9 @@ class ITK_EXPORT AnalyzeImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef AnalyzeImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef AnalyzeImageIO     Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -112,7 +112,7 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -144,21 +144,22 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
   /**
-       * \enum ValidAnalyzeOrientationFlags
-       * Valid Orientation values for objects
-       * - Key  Description           Origin   dims[1]  dims[2]  dims[3]
-       * - =================================================================
-       * - 0    transverse-unflipped   IRP       R->L     P->A    I->S
-       * - 1    coronal-unflipped      IRP       R->L     I->S    P->A
-       * - 2    sagittal-unflipped     IRP       P->A     I->S    R->L
-       * - 3    transverse-flipped     IRA       R->L     A->P    I->S
-       * - 4    coronal-flipped        SRP       R->L     S->I    P->A
-       * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
-       * - Where the Origin disignators are with respect to the patient
-       * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
-       * \note Key's 0-5 correspond to the Analyze v7.5 orientations, and should not be changed.
-       */
-  typedef enum {
+    * \enum ValidAnalyzeOrientationFlags
+    * Valid Orientation values for objects
+    * - Key  Description           Origin   dims[1]  dims[2]  dims[3]
+    * - =================================================================
+    * - 0    transverse-unflipped   IRP       R->L     P->A    I->S
+    * - 1    coronal-unflipped      IRP       R->L     I->S    P->A
+    * - 2    sagittal-unflipped     IRP       P->A     I->S    R->L
+    * - 3    transverse-flipped     IRA       R->L     A->P    I->S
+    * - 4    coronal-flipped        SRP       R->L     S->I    P->A
+    * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
+    * - Where the Origin disignators are with respect to the patient
+    * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
+    * \note Key's 0-5 correspond to the Analyze v7.5 orientations, and should not be changed.
+    */
+  typedef enum 
+  {
     ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
     ITK_ANALYZE_ORIENTATION_RIP_CORONAL   =1,        /**< Denotes a coronal data orientation */
     ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
@@ -168,56 +169,58 @@ private:
   } ValidAnalyzeOrientationFlags;
 
 
-  AnalyzeImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
-  /**
-       * \author Hans J. Johnson
-       * Performs byte swapping of the Analyze Image header if necessary.
-       * \param imageheader An Analyze 7.5 compliant image header.
-       * \return void
-       */
-  void SwapHeaderBytesIfNecessary( struct dsr * const imageheader );
+AnalyzeImageIO(const Self&); //purposely not implemented
+void operator=(const Self&); //purposely not implemented
+void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
+/**
+ * \author Hans J. Johnson
+ * Performs byte swapping of the Analyze Image header if necessary.
+ * \param imageheader An Analyze 7.5 compliant image header.
+ * \return void
+ */
+void SwapHeaderBytesIfNecessary( struct dsr * const imageheader );
 
-  /**
-       * \author Hans J. Johnson
-       * Defines the header object data type feilds according to Analyze v7.5 specifications
-       * \return nothing
-       */
-  void  DefineHeaderObjectDataType(void);
+/**
+ * \author Hans J. Johnson
+ * Defines the header object data type feilds according to Analyze v7.5 specifications
+ * \return nothing
+ */
+void  DefineHeaderObjectDataType(void);
 #if defined(REORIENT_IMAGES)
-  void ReorientIfNecessary(char *p);
-  struct ipl_dimensions {
-    unsigned int slicestride;
-    unsigned int rowstride;
-    unsigned int componentstride;
-    unsigned int pixelsize;
-    //
-    // xsize,ysize,zsize == size in each direction in pixesls
-    unsigned int xsize;
-    unsigned int ysize;
-    unsigned int zsize;
+void ReorientIfNecessary(char *p);
+struct ipl_dimensions
+  {
+  unsigned int slicestride;
+  unsigned int rowstride;
+  unsigned int componentstride;x
+  unsigned int pixelsize;
+  //
+  // xsize,ysize,zsize == size in each direction in pixesls
+  unsigned int xsize;
+  unsigned int ysize;
+  unsigned int zsize;
   };
-  /**
-       * \author Kent Williams
-       * Get values needed to re-orient image data to
-       * Coronal scan order
-       * \param dim - structure to fill in
-       * \return nothing
-       */
-  void GetAllDimensions(ipl_dimensions &dim);
-  ipl_dimensions m_old_dim,m_new_dim;
+/**
+ * \author Kent Williams
+ * Get values needed to re-orient image data to
+ * Coronal scan order
+ * \param dim - structure to fill in
+ * \return nothing
+ */
+void GetAllDimensions(ipl_dimensions &dim);
+ipl_dimensions m_OldDim,m_NewDim;
 #endif
-  /**
-       * \author Hans J. Johnson
-       * Check the endedness of the header file.
-       * \param temphdr - a reference to the header structure
-       * \return The endedness of the file
-       */
-  ImageIOBase::ByteOrder CheckAnalyzeEndian(const struct dsr &temphdr);
-  /**  All of the information read in from the header file */
-  struct dsr m_hdr;
-  ImageIOBase::ByteOrder m_MachineByteOrder;
+/**
+ * \author Hans J. Johnson
+ * Check the endedness of the header file.
+ * \param temphdr - a reference to the header structure
+ * \return The endedness of the file
+ */
+ImageIOBase::ByteOrder CheckAnalyzeEndian(const struct dsr &temphdr);
+
+/**  All of the information read in from the header file */
+struct dsr             m_Hdr;
+ImageIOBase::ByteOrder m_MachineByteOrder;
 };
 extern const char *const ANALYZE_ScanNumber;
 extern const char *const ANALYZE_O_MAX;

@@ -59,9 +59,9 @@ class ITK_EXPORT Brains2MaskImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef Brains2MaskImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Brains2MaskImageIO Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,7 +77,7 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified. 
    */
-  virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -117,7 +117,7 @@ private:
   ImageIOBase::ByteOrder m_MachineByteOrder;
 
   itk::Brains2IPLHeaderInfo m_IPLHeaderInfo;
-  OctreeBase *m_Octree;
+  OctreeBase               *m_Octree;
   itk::Brains2IPLHeaderInfo m_B2MaskHeader;
 };
 

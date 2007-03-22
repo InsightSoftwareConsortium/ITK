@@ -54,4 +54,3 @@ NiftiImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

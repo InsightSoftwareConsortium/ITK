@@ -29,10 +29,10 @@ class ITK_EXPORT NrrdImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef NrrdImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef NrrdImageIOFactory       Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -46,10 +46,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     NrrdImageIOFactory::Pointer nrrdFactory = NrrdImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(nrrdFactory);
-  }
+    }
 
 protected:
   NrrdImageIOFactory();

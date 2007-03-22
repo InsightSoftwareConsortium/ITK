@@ -76,32 +76,32 @@ public:
     }
 
   /** Set the input itk FixedArray to write */
-  template <typename TValueType, unsigned int vLength>
+  template <typename TValueType, unsigned int VLength>
   void SetInput(MET_ValueEnumType _metaElementType,
-                const FixedArray<TValueType, vLength> * _array)
+                const FixedArray<TValueType, VLength> * _array)
     {
     m_Buffer = (const void *)(_array->GetDataPointer());
-    m_MetaArray.InitializeEssential(vLength,
+    m_MetaArray.InitializeEssential(VLength,
                                     _metaElementType);
     }
 
   /** Set the input itk Vector to write */
-  template <typename TValueType, unsigned int vLength>
+  template <typename TValueType, unsigned int VLength>
   void SetInput(MET_ValueEnumType _metaElementType,
-                const Vector<TValueType, vLength> * _vector)
+                const Vector<TValueType, VLength> * _vector)
     {
     m_Buffer = (const void *)(_vector->GetDataPointer());
-    m_MetaArray.InitializeEssential(vLength,
+    m_MetaArray.InitializeEssential(VLength,
                                     _metaElementType);
     }
 
   /** Set the input itk CovariantVector to write */
-  template <typename TValueType, unsigned int vLength>
+  template <typename TValueType, unsigned int VLength>
   void SetInput(MET_ValueEnumType _metaElementType,
-                const CovariantVector<TValueType, vLength> * _vector)
+                const CovariantVector<TValueType, VLength> * _vector)
     {
     m_Buffer = (const void *)(_vector->GetDataPointer());
-    m_MetaArray.InitializeEssential(vLength,
+    m_MetaArray.InitializeEssential(VLength,
                                     _metaElementType);
     }
 

@@ -184,8 +184,6 @@ AmoebaOptimizer
 
 }
 
-
-
 /**
  * Start the optimization
  */
@@ -235,7 +233,7 @@ AmoebaOptimizer
     m_VnlOptimizer->minimize( parameters, delta );
     }
   
-   // we scale the parameters down if scales are defined
+  // we scale the parameters down if scales are defined
   if(m_ScalesInitialized)
     {
     ScalesType scales = this->GetScales();
@@ -250,9 +248,6 @@ AmoebaOptimizer
   this->InvokeEvent( EndEvent() );
 }
 
-
-
-
 /**
  * Get the Optimizer
  */
@@ -262,9 +257,6 @@ AmoebaOptimizer
 {
   return m_VnlOptimizer;
 }
-
-
-
 
 } // end namespace itk
 

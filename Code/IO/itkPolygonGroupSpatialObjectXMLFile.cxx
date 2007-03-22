@@ -46,7 +46,7 @@ PolygonGroupSpatialObjectXMLFileReader::
 StartElement(const char * name,const char ** itkNotUsed(atts))
 {
 #if 0
-  std::cout << "<" << name << " " ;
+  std::cout << "<" << name << " ";
   if(atts != 0)
     {
     for(int i = 0; atts[i] != 0; i++)
@@ -130,32 +130,32 @@ EndElement(const char *name)
     itk::EncapsulateMetaData<int>(thisDic,ROI_NUM_SEGMENTS,size);
     }
   else if(itksys::SystemTools::Strucmp(name,"PLANE") == 0)
+    {
+    //itk::IOCommon::ValidAnalyzeOrientationFlags temporient;
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
+      itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
+    if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"AXIAL"))
       {
-      //itk::IOCommon::ValidAnalyzeOrientationFlags temporient;
-      itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
-        itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
-      if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"AXIAL"))
-          {
-          //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
-          } 
-      else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"CORONAL"))
-          {
-          //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-          } 
-      else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"SAGITTAL"))
-          {
-          //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
-          } 
-      //itk::EncapsulateMetaData<itk::SpatialOrientation::ValidAnalyzeOrientationFlags>(thisDic, ITK_AnalyzeOrientation, temporient);
+      //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
+      } 
+    else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"CORONAL"))
+      {
+      //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+      } 
+    else if(itksys::SystemTools::Strucmp(m_CurCharacterData.c_str(),"SAGITTAL"))
+      {
+      //temporient = IOCommon::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
+      } 
+    //itk::EncapsulateMetaData<itk::SpatialOrientation::ValidAnalyzeOrientationFlags>(thisDic, ITK_AnalyzeOrientation, temporient);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
-      itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic, ITK_CoordinateOrientation, coord_orient);
+    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic, ITK_CoordinateOrientation, coord_orient);
 #endif
-      //
-      // set direction cosines
-      }
+    //
+    // set direction cosines
+    }
   else if(itksys::SystemTools::Strucmp(name,"POINT") == 0)
     {
     double pval[3];
@@ -288,31 +288,31 @@ WriteFile()
   if(ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,
                                                           ITK_CoordinateOrientation,
                                                           orientation))
-  {
-  std::string SOrient;
-  bool known_orientation = true;
-  switch(orientation)
     {
-    case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-      SOrient = "AXIAL";
-      break;
-    case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-      SOrient = "CORONAL";
-      break;
-    case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-      SOrient = "SAGITTAL";
-      break;
-    default:
-      known_orientation = false;
+    std::string SOrient;
+    bool known_orientation = true;
+    switch(orientation)
+      {
+      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
+        SOrient = "AXIAL";
+        break;
+      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+        SOrient = "CORONAL";
+        break;
+      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
+        SOrient = "SAGITTAL";
+        break;
+      default:
+        known_orientation = false;
+      }
+    if(known_orientation)
+      {
+      WriteStartElement("PLANE",output);
+      output << SOrient;
+      WriteEndElement("PLANE",output);
+      output << std::endl;
+      }
     }
-  if(known_orientation)
-    {
-    WriteStartElement("PLANE",output);
-    output << SOrient;
-    WriteEndElement("PLANE",output);
-    output << std::endl;
-    }
-  }
 #endif
   //
   // Write out polygondata

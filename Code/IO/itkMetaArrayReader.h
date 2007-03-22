@@ -33,9 +33,8 @@ class MetaArrayReader : public LightProcessObject
 public:
 
   /** SmartPointer typedef support */
-  typedef MetaArrayReader         Self;
+  typedef MetaArrayReader          Self;
   typedef LightProcessObject       Superclass;
-
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -131,16 +130,16 @@ public:
       m_MetaArray.AutoFreeElementData(false);
       }
     }
-
+  
   /** Get itk FixedArray */
-  template <typename TValueType, unsigned int vLength>
+  template <typename TValueType, unsigned int VLength>
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 FixedArray<TValueType, vLength> * _array)
+                 FixedArray<TValueType, VLength> * _array)
     {
-    if(static_cast<int>(vLength) <= m_MetaArray.Length())
+    if(static_cast<int>(VLength) <= m_MetaArray.Length())
       {
       unsigned int i;
-      for(i = 0; i<vLength; i++)
+      for(i = 0; i<VLength; i++)
         {
         this->GetElement( (*_array)[i], i );
         }
@@ -152,14 +151,14 @@ public:
   /** Get itk Vector 
    *    Specify the MetaType of the elements of the itkVector and provide
    *    a pointer to the itkVector into which the data should be copied */
-  template <typename TValueType, unsigned int vLength>
+  template <typename TValueType, unsigned int VLength>
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 Vector<TValueType, vLength> * _vector)
+                 Vector<TValueType, VLength> * _vector)
     {
-    if(static_cast<int>(vLength) <= m_MetaArray.Length())
+    if(static_cast<int>(VLength) <= m_MetaArray.Length())
       {
       unsigned int i;
-      for(i = 0; i<vLength; i++)
+      for(i = 0; i<VLength; i++)
         {
         this->GetElement( (*_vector)[i], i );
         }
@@ -173,14 +172,14 @@ public:
    *    Specify the MetaType of the elements of the itkCovariantVector and
    *    provide a pointer to the itkCovariantVector into which the data
    *    should be copied */
-  template <typename TValueType, unsigned int vLength>
+  template <typename TValueType, unsigned int VLength>
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 CovariantVector<TValueType, vLength> * _vector)
+                 CovariantVector<TValueType, VLength> * _vector)
     {
-    if(static_cast<int>(vLength) <= m_MetaArray.Length())
+    if(static_cast<int>(VLength) <= m_MetaArray.Length())
       {
       unsigned int i;
-      for(i = 0; i<vLength; i++)
+      for(i = 0; i<VLength; i++)
         {
         this->GetElement( (*_vector)[i], i );
         }

@@ -32,7 +32,7 @@ MultivariateLegendrePolynomial
   m_Dimension = dimension;
   m_Degree    = degree;
   m_DomainSize = domainSize;
-  m_NumberOfCoefficients = this->GetNumberOfCoefficients(dimension, degree) ;
+  m_NumberOfCoefficients = this->GetNumberOfCoefficients(dimension, degree);
   
   // used as intermediate store to hold legendre polynomials
   // y_coef[i,j] = Sum (0 <= k <= m-i-j) p(i,j,k) * P(z)
@@ -46,11 +46,11 @@ MultivariateLegendrePolynomial
   
   m_CoefficientArray.resize( m_NumberOfCoefficients, 0.0 );
 
-  m_PrevY = -1 ;
-  m_PrevZ = -1 ;
+  m_PrevY = -1;
+  m_PrevZ = -1;
 
   m_NormFactor = DoubleArrayType(m_Dimension);
-  for (unsigned int j = 0 ; j < m_Dimension ; j++)
+  for (unsigned int j = 0; j < m_Dimension; j++)
     {
     m_NormFactor[j] = 2.0f / 
       (static_cast<double>(m_DomainSize[j]) - 1.0f);
@@ -65,59 +65,59 @@ MultivariateLegendrePolynomial
 void MultivariateLegendrePolynomial
 ::Print(std::ostream& os) 
 {
-  itk::Indent indent(4) ;
-  this->PrintSelf(os, indent) ;
+  itk::Indent indent(4);
+  this->PrintSelf(os, indent);
 }
 
 void MultivariateLegendrePolynomial
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  os << indent << "Dimension: " << m_Dimension << std::endl ;
-  os << indent << "Degree: " << m_Degree << std::endl ;
-  os << indent << "DomainSize: " ;
-  for (unsigned int i = 0 ; i < m_DomainSize.size() ; ++i )
+  os << indent << "Dimension: " << m_Dimension << std::endl;
+  os << indent << "Degree: " << m_Degree << std::endl;
+  os << indent << "DomainSize: ";
+  for (unsigned int i = 0; i < m_DomainSize.size(); ++i )
     {
-    os << m_DomainSize[i] << " " ;
+    os << m_DomainSize[i] << " ";
     }
-  os << std::endl ;
+  os << std::endl;
 
-  os << indent << "Cached X coefficients: " ;
-  for (unsigned int i = 0 ; i < m_CachedXCoef.size() ; ++i )
+  os << indent << "Cached X coefficients: ";
+  for (unsigned int i = 0; i < m_CachedXCoef.size(); ++i )
     {
-    os << m_CachedXCoef[i] << " " ;
+    os << m_CachedXCoef[i] << " ";
     }
-  os << std::endl ;
+  os << std::endl;
 
-  os << indent << "Cached Y coefficients: " ;
-  for (unsigned int i = 0 ; i < m_CachedYCoef.size() ; ++i )
+  os << indent << "Cached Y coefficients: ";
+  for (unsigned int i = 0; i < m_CachedYCoef.size(); ++i )
     {
-    os << m_CachedYCoef[i] << " " ;
+    os << m_CachedYCoef[i] << " ";
     }
-  os << std::endl ;
+  os << std::endl;
 
-  os << indent << "Cached Z coefficients: " ;
-  for (unsigned int i = 0 ; i < m_CachedZCoef.size() ; ++i )
+  os << indent << "Cached Z coefficients: ";
+  for (unsigned int i = 0; i < m_CachedZCoef.size(); ++i )
     {
-    os << m_CachedZCoef[i] << " " ;
+    os << m_CachedZCoef[i] << " ";
     }
-  os << std::endl ;
+  os << std::endl;
 
-  os << indent << "Coefficients: " ; 
-  for (unsigned int i = 0 ; i < m_CoefficientArray.size() ; ++i )
+  os << indent << "Coefficients: "; 
+  for (unsigned int i = 0; i < m_CoefficientArray.size(); ++i )
     {
-    os << m_CoefficientArray[i] << " " ;
+    os << m_CoefficientArray[i] << " ";
     }
-  os << std::endl ;
+  os << std::endl;
 
-  os << indent << "Normalization factors: " ;
-  for (unsigned int i = 0 ; i < m_NormFactor.size() ; ++i )
+  os << indent << "Normalization factors: ";
+  for (unsigned int i = 0; i < m_NormFactor.size(); ++i )
     {
-    os << m_NormFactor[i] << " " ;
+    os << m_NormFactor[i] << " ";
     }
-  os << std::endl ;
+  os << std::endl;
 
-  os << indent << "Previous Y index: " << m_PrevY << std::endl ;
-  os << indent << "Previous Z index: " << m_PrevZ << std::endl ;
+  os << indent << "Previous Y index: " << m_PrevY << std::endl;
+  os << indent << "Previous Z index: " << m_PrevZ << std::endl;
 }
 
 void MultivariateLegendrePolynomial
@@ -127,21 +127,21 @@ void MultivariateLegendrePolynomial
   if (coefficients.size() != m_NumberOfCoefficients)
     {
     throw CoefficientVectorSizeMismatch(coefficients.size(),
-                                        m_NumberOfCoefficients) ;
+                                        m_NumberOfCoefficients);
     }
 
 
   // copy coefficients to array of double 
-  m_CoefficientArray.resize( m_NumberOfCoefficients ) ;
- for(unsigned int i = 0 ; i < m_NumberOfCoefficients; i++ )
+  m_CoefficientArray.resize( m_NumberOfCoefficients );
+ for(unsigned int i = 0; i < m_NumberOfCoefficients; i++ )
     {
-    m_CoefficientArray[i] = coefficients[i] ; 
+    m_CoefficientArray[i] = coefficients[i]; 
     }
 
-  //   m_CoefficientVector = coefficients ;
+  //   m_CoefficientVector = coefficients;
 
-  m_PrevY = -1 ;
-  m_PrevZ = -1 ;
+  m_PrevY = -1;
+  m_PrevZ = -1;
 }
 
 void MultivariateLegendrePolynomial
@@ -151,34 +151,34 @@ void MultivariateLegendrePolynomial
   if (coefficients.size() != m_NumberOfCoefficients)
     {
     throw CoefficientVectorSizeMismatch(coefficients.size(),
-                                        m_NumberOfCoefficients) ;
+                                        m_NumberOfCoefficients);
     }
 
   // copy coefficients to array of double
-  m_CoefficientArray.resize( m_NumberOfCoefficients ) ;
-  for(unsigned int i = 0 ; i < m_NumberOfCoefficients; i++ )
+  m_CoefficientArray.resize( m_NumberOfCoefficients );
+  for(unsigned int i = 0; i < m_NumberOfCoefficients; i++ )
     {
-    m_CoefficientArray[i] = coefficients[i] ; 
+    m_CoefficientArray[i] = coefficients[i]; 
     }
 
-  //   m_CoefficientVector = coefficients ;
+  //   m_CoefficientVector = coefficients;
 
-  m_PrevY = -1 ;
-  m_PrevZ = -1 ;
+  m_PrevY = -1;
+  m_PrevZ = -1;
 }
 
 const MultivariateLegendrePolynomial::CoefficientArrayType&
 MultivariateLegendrePolynomial
 ::GetCoefficients( void ) const
 {
-  return m_CoefficientArray ;
+  return m_CoefficientArray;
 }
 
 void MultivariateLegendrePolynomial
 ::CalculateXCoef(double norm_y, const CoefficientArrayType& coef)
 {
   // compute x_coef[i] = sum (0 <= j <= m-i) pij * P(y)]
-  int offset = 0 ;
+  int offset = 0;
 
   for (unsigned int lx = 0; lx <= m_Degree; lx++) 
     {
@@ -188,9 +188,6 @@ void MultivariateLegendrePolynomial
     offset += ( m_Degree + 1 - lx ); 
     }
 }
-
-
-
 
 void MultivariateLegendrePolynomial
 ::CalculateYCoef(double norm_z, const CoefficientArrayType& coef)
@@ -204,7 +201,7 @@ void MultivariateLegendrePolynomial
     const unsigned int lymax = m_Degree - lx;
     for (unsigned int ly = 0; ly <= lymax; ly++, c_index++) 
       {
-      unsigned int z_index = c_index ;
+      unsigned int z_index = c_index;
       unsigned int lzmax  = m_Degree - lx - ly;
       for ( unsigned int lz = 0; lz <= lzmax; lz++ )
         { 
@@ -246,18 +243,18 @@ unsigned int MultivariateLegendrePolynomial
   // calculate the number of parameters
   unsigned int numerator   = 1;
   unsigned int denominator = 1;
-  for (unsigned int i = 1 ; i <= dimension ; i++)
+  for (unsigned int i = 1; i <= dimension; i++)
     {
     numerator   *=  (degree + i);
     denominator *=  i;
     }
-  return numerator / denominator ;
+  return numerator / denominator;
 }
 
 unsigned int MultivariateLegendrePolynomial
 ::GetNumberOfCoefficients()
 { 
-  return m_NumberOfCoefficients ;
+  return m_NumberOfCoefficients;
 }
 
 std::ostream& operator<< (std::ostream& os, 

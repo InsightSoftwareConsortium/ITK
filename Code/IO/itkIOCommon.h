@@ -41,23 +41,23 @@ class ITK_EXPORT IOCommon
 {
 public:
   typedef enum
-  {
+    {
     ITK_MAXPATHLEN =2048, /**< Maximum length of a filename */
     MAX_FILENAMELIST_SIZE = 512
-  } SysConstants;
+    } SysConstants;
   typedef enum
-  {
+    {
     ITK_UCHAR,         // aka uint8_t
-    ITK_CHAR,         
+    ITK_CHAR,
     ITK_USHORT,        // aka uint16_t
-    ITK_SHORT,        
+    ITK_SHORT,
     ITK_UINT,          // aka uint32_t
-    ITK_INT,          
+    ITK_INT,
     ITK_ULONG,         // aka uint64_t
-    ITK_LONG,         
-    ITK_FLOAT,        
-    ITK_DOUBLE        
-  } AtomicPixelType;   // enumerated constants for the different data types
+    ITK_LONG,
+    ITK_FLOAT,
+    ITK_DOUBLE
+    } AtomicPixelType;   // enumerated constants for the different data types
 
   /** Convert the enumerated type to a string representation. */
   static std::string AtomicPixelTypeToString(const AtomicPixelType pixelType);
@@ -81,8 +81,8 @@ public:
 };
   
 
-extern const char *const ITK_OnDiskStorageTypeName ;
-extern const char *const ITK_ImageFileBaseName ;
+extern const char *const ITK_OnDiskStorageTypeName;
+extern const char *const ITK_ImageFileBaseName;
 extern const char *const ITK_VoxelUnits;
 extern const char *const ITK_OnDiskBitPerPixel;
 extern const char *const SPM_ROI_SCALE;

@@ -48,4 +48,3 @@ MetaImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

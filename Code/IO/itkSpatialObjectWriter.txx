@@ -74,6 +74,7 @@ SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
     m_Scene = 0;
     }
   else
+    {
     if(m_SpatialObject.IsNotNull())
       {
       typename SceneType::Pointer tScene = SceneType::New();
@@ -86,8 +87,8 @@ SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
                                          m_FileName.c_str());
       m_SpatialObject = 0;
       }
+    }
 }
-
 
 } // namespace itk
 

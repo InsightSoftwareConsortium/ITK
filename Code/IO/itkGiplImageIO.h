@@ -42,9 +42,9 @@ class ITK_EXPORT GiplImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GiplImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef GiplImageIO        Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,7 +56,7 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*) ;
+  virtual bool CanReadFile(const char*);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -92,6 +92,7 @@ private:
   std::ifstream   m_Ifstream;
   std::ofstream   m_Ofstream;
   bool            m_IsCompressed;
+
   GiplImageIOInternals * m_Internal;
 };
 

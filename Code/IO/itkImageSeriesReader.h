@@ -78,34 +78,34 @@ public:
   /** Set the vector of strings that contains the file names. Files
    * are processed in sequential order. */
   void SetFileNames (const FileNamesContainer &name)
-  {
+    {
     if ( m_FileNames != name)
       {
       m_FileNames = name;
-      this->Modified();        
+      this->Modified();
       }
-  };
+    }
   const FileNamesContainer & GetFileNames() const
-  {
+    {
     return m_FileNames;
-  }
+    }
 
   /** Set the first file name to be processed. This deletes previous
    * filenames. */
   void SetFileName (std::string const &name)
-  {
+    {
     m_FileNames.clear();
     m_FileNames.push_back(name);
     this->Modified();
-  }
+    }
 
   /** Add a single filename to the list of files. To add a vector of
    * filenames, use the AddFileNames method. */
   void AddFileName (std::string const &name)
-  {
+    {
     m_FileNames.push_back(name);
     this->Modified();
-  }
+    }
 
   /** ReverseOrderOn changes the order of travesal of the file names
    * from last to first */
@@ -171,4 +171,3 @@ private:
 #endif
 
 #endif // __itkImageSeriesReader_h
-

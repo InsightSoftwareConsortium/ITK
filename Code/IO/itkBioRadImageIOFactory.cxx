@@ -51,4 +51,3 @@ BioRadImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

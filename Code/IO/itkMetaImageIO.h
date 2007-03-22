@@ -39,9 +39,9 @@ class ITK_EXPORT MetaImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef MetaImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MetaImageIO        Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,13 +55,15 @@ public:
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool SupportsDimension(unsigned long )
-  {return true;}
+    {
+    return true;
+    }
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*) ;
+  virtual bool CanReadFile(const char*);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -92,9 +94,9 @@ public:
   /** set the precision in the MetaImage member
    */
   virtual void SetDoublePrecision(unsigned int precision)
-  {
+    {
     m_MetaImage.SetDoublePrecision(precision);
-  }
+    }
 protected:
   MetaImageIO();
   ~MetaImageIO();

@@ -27,15 +27,15 @@ OnePlusOneEvolutionaryOptimizer
 ::OnePlusOneEvolutionaryOptimizer()
 {
   m_Maximize = false;
-  m_Epsilon = (double) 1.5e-4  ; 
-  m_RandomGenerator = 0 ;
+  m_Epsilon = (double) 1.5e-4; 
+  m_RandomGenerator = 0;
 
-  m_Initialized = false ;
-  m_GrowthFactor = 1.05 ;
-  m_ShrinkFactor = vcl_pow(m_GrowthFactor, -0.25) ;
-  m_InitialRadius = 1.01 ;
-  m_MaximumIteration = 100 ;
-  m_Stop = false ;
+  m_Initialized = false;
+  m_GrowthFactor = 1.05;
+  m_ShrinkFactor = vcl_pow(m_GrowthFactor, -0.25);
+  m_InitialRadius = 1.01;
+  m_MaximumIteration = 100;
+  m_Stop = false;
   m_CurrentCost = 0;
   m_CurrentIteration = 0;
   m_FrobeniusNorm = 0.0;
@@ -52,8 +52,8 @@ OnePlusOneEvolutionaryOptimizer
 {
   if ( m_RandomGenerator != generator )
     {
-    m_RandomGenerator = generator ;
-    this->Modified() ;
+    m_RandomGenerator = generator;
+    this->Modified();
     }
 }
 
@@ -61,17 +61,24 @@ void
 OnePlusOneEvolutionaryOptimizer
 ::Initialize(double initialRadius, double grow, double shrink) 
 {
-  m_InitialRadius = initialRadius ;
+  m_InitialRadius = initialRadius;
 
   if (grow == -1)
-    m_GrowthFactor = 1.05 ;
+    {
+    m_GrowthFactor = 1.05;
+    }
   else
-    m_GrowthFactor = grow ;
-
+    {
+    m_GrowthFactor = grow;
+    }
   if (shrink == -1)
-    m_ShrinkFactor = vcl_pow(m_GrowthFactor, -0.25) ;
+    {
+    m_ShrinkFactor = vcl_pow(m_GrowthFactor, -0.25);
+    }
   else
-    m_ShrinkFactor = shrink ;
+    {
+    m_ShrinkFactor = shrink;
+    }
 }
 
 void
@@ -81,31 +88,31 @@ OnePlusOneEvolutionaryOptimizer
   
   if( m_CostFunction.IsNull() )
     {
-    return ;
+    return;
     }
 
   this->InvokeEvent( StartEvent() );
-  m_Stop = false ;
+  m_Stop = false;
 
   unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
-  vnl_matrix<double> A(spaceDimension, spaceDimension) ;
+  vnl_matrix<double> A(spaceDimension, spaceDimension);
   vnl_vector<double> parent(this->GetInitialPosition()); 
   vnl_vector<double> f_norm(spaceDimension);
   vnl_vector<double> child(spaceDimension);
   vnl_vector<double> delta(spaceDimension);
 
   ParametersType parentPosition( spaceDimension );
-  ParametersType childPosition(spaceDimension) ;
+  ParametersType childPosition(spaceDimension);
 
   for( unsigned int i=0; i<spaceDimension; i++)
     {
     parentPosition[i] = parent[i];
     }
 
-  itkDebugMacro(<< ": initial position: " << parentPosition) ; 
+  itkDebugMacro(<< ": initial position: " << parentPosition); 
   double pvalue = m_CostFunction->GetValue(parentPosition);
-  this->SetCurrentPosition(parentPosition) ;
-  const Optimizer::ScalesType& scales = this->GetScales() ;
+  this->SetCurrentPosition(parentPosition);
+  const Optimizer::ScalesType& scales = this->GetScales();
 
   // Make sure the scales have been set properly
   if (scales.size() != spaceDimension)
@@ -117,33 +124,33 @@ OnePlusOneEvolutionaryOptimizer
                       << ".");
     }
 
-  A.set_identity() ;
-  for(unsigned int i = 0  ; i < spaceDimension ; i++) 
+  A.set_identity();
+  for(unsigned int i = 0; i < spaceDimension; i++) 
     {
-    A(i,i) = m_InitialRadius / scales[i] ;
+    A(i,i) = m_InitialRadius / scales[i];
     }
-  m_CurrentIteration = 0 ;
+  m_CurrentIteration = 0;
 
-  for (unsigned int iter = 0 ; iter < m_MaximumIteration ; iter++) 
+  for (unsigned int iter = 0; iter < m_MaximumIteration; iter++) 
     {
     if ( m_Stop )
       {
-      break ;
+      break;
       }
 
-    ++m_CurrentIteration ;
+    ++m_CurrentIteration;
 
-    for (unsigned int i=0 ; i < spaceDimension ; i++) 
+    for (unsigned int i=0; i < spaceDimension; i++) 
       {
       if(!m_RandomGenerator)
         {
         itkExceptionMacro(<< "Random Generator is not set!");
         }
-      f_norm[i] = m_RandomGenerator->GetVariate() ;
+      f_norm[i] = m_RandomGenerator->GetVariate();
       }
 
-    delta  = A * f_norm ;
-    child  = parent + delta ;
+    delta  = A * f_norm;
+    child  = parent + delta;
 
     for( unsigned int i=0; i<spaceDimension; i++)
       {
@@ -155,51 +162,51 @@ OnePlusOneEvolutionaryOptimizer
     itkDebugMacro(<< iter << ": parent: " << pvalue 
                   << " child: "<< cvalue );
 
-    double adjust = m_ShrinkFactor ;
+    double adjust = m_ShrinkFactor;
     if( m_Maximize )
       {
       if (cvalue > pvalue) 
         {
-        pvalue = cvalue ;
-        parent.swap(child) ;                  
-        adjust = m_GrowthFactor ; 
+        pvalue = cvalue;
+        parent.swap(child);
+        adjust = m_GrowthFactor; 
         for( unsigned int i=0; i<spaceDimension; i++)
           {
           parentPosition[i] = parent[i];
           }
-        this->SetCurrentPosition(parentPosition) ;
+        this->SetCurrentPosition(parentPosition);
         } 
       }
     else
       {
       if (cvalue < pvalue) 
         {
-        pvalue = cvalue ;
-        parent.swap(child) ;                  
-        adjust = m_GrowthFactor ; 
+        pvalue = cvalue;
+        parent.swap(child);
+        adjust = m_GrowthFactor; 
         for( unsigned int i=0; i<spaceDimension; i++)
           {
           parentPosition[i] = parent[i];
           }
-        this->SetCurrentPosition(parentPosition) ;
+        this->SetCurrentPosition(parentPosition);
         } 
       }
 
-    m_CurrentCost = pvalue ;
+    m_CurrentCost = pvalue;
     // convergence criterion: f-norm of A < epsilon_A
     // Compute double precision sum of absolute values of 
     // a single precision vector
-    m_FrobeniusNorm = A.fro_norm() ;
+    m_FrobeniusNorm = A.fro_norm();
     itkDebugMacro(<< "A f-norm:" << m_FrobeniusNorm);
     if (m_FrobeniusNorm <= m_Epsilon) 
       {
-      itkDebugMacro(<< "converges at iteration = " << iter) ;
-      break ;
+      itkDebugMacro(<< "converges at iteration = " << iter);
+      break;
       }
       
-    // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm ;
+    // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm;
     // Blas_R1_Update(A, A * f_norm, f_norm, 
-    //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));    
+    //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));
     // = DGER(Fortran)
     //   performs the rank 1 operation
     // A := alpha*x*y' + A,
@@ -209,18 +216,18 @@ OnePlusOneEvolutionaryOptimizer
     // x = A * f_norm , y = f_norm, alpha = (adjust - 1) / Blas_Dot_Prod(
     // f_norm, f_norm)
 
-    //A = A + (adjust - 1.0) * A ;
-    double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm)) ;
-    for ( unsigned int c = 0 ; c < spaceDimension ; c++ )
-      {        
-      for (unsigned int r = 0 ; r < spaceDimension ; r++)
+    //A = A + (adjust - 1.0) * A;
+    double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm));
+    for ( unsigned int c = 0; c < spaceDimension; c++ )
+      {
+      for (unsigned int r = 0; r < spaceDimension; r++)
         {
         A(r, c) += alpha * delta[r] * f_norm[c];
         }
       }
 
     this->InvokeEvent( IterationEvent() );   
-    itkDebugMacro(<< "Current position: " << this->GetCurrentPosition()) ;
+    itkDebugMacro(<< "Current position: " << this->GetCurrentPosition());
     }
   this->InvokeEvent( EndEvent() );
 }

@@ -33,10 +33,10 @@ class ITK_EXPORT PNGImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef PNGImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef PNGImageIOFactory        Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -50,10 +50,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(pngFactory);
-  }
+    }
   
 protected:
   PNGImageIOFactory();

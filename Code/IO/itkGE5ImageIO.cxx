@@ -491,11 +491,11 @@ GE5ImageIO::ModifyImageInformation()
     IPLFileNameList::IteratorType it = m_FilenameList->begin();
 
     // The first file
-    std::string file1 = (*it)->GetimageFileName();
+    std::string file1 = (*it)->GetImageFileName();
 
     // The second file
     it++;
-    std::string file2 = (*it)->GetimageFileName();
+    std::string file2 = (*it)->GetImageFileName();
 
     struct GEImageHeader *hdr1 = this->ReadHeader(file1.c_str());
     struct GEImageHeader *hdr2 = this->ReadHeader(file2.c_str());

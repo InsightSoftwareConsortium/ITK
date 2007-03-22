@@ -30,11 +30,12 @@ public:
 
   /** SmartPointer typedef support */
   typedef TransformFileReader Self;
-  typedef SmartPointer<Self> Pointer;
-  typedef TransformBase TransformType;
+  typedef SmartPointer<Self>  Pointer;
+  typedef TransformBase       TransformType;
+
   typedef TransformType::ParametersType ParametersType;
-  typedef TransformType::Pointer TransformPointer;
-  typedef std::list<TransformPointer> TransformListType;
+  typedef TransformType::Pointer        TransformPointer;
+  typedef std::list<TransformPointer>   TransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

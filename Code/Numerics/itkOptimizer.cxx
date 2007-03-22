@@ -95,8 +95,6 @@ Optimizer
     }
 }
 
-
-
 } // end namespace itk
 
 #endif

@@ -33,22 +33,22 @@ namespace itk
 {
 
 struct bioradheader {
-    unsigned short nx, ny;      // 0   2*2  image width and height in pixels
-    unsigned short npic;        // 4   2    number of images in file
-    unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
-    char notes[4];              // 10  4    no notes=0; has notes=non zero
-    short byte_format;          // 14  2    bytes=TRUE(1); words=FALSE(0)
-    short image_number;         // 16  2    image number within file
-    char filename[32];          // 18  32   file name
-    short merged;               // 50  2    merged format
-    unsigned short color1;      // 52  2    LUT1 color status
-    unsigned short file_id;     // 54  2    valid .PIC file=12345
-    unsigned short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
-    unsigned short color2;      // 60  2    LUT2 color status
-    short edited;               // 62  2    image has been edited=TRUE(1)
-    short lens;                 // 64  2    Integer part of lens magnification
-    char mag_factor[4];         // 66  4    4 byte real mag. factor (old ver.)
-    unsigned char reserved[6];  // 70  6    NOT USED (old ver.=real lens mag.)
+  unsigned short nx, ny;      // 0   2*2  image width and height in pixels
+  unsigned short npic;        // 4   2    number of images in file
+  unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
+  char notes[4];              // 10  4    no notes=0; has notes=non zero
+  short byte_format;          // 14  2    bytes=TRUE(1); words=FALSE(0)
+  short image_number;         // 16  2    image number within file
+  char filename[32];          // 18  32   file name
+  short merged;               // 50  2    merged format
+  unsigned short color1;      // 52  2    LUT1 color status
+  unsigned short file_id;     // 54  2    valid .PIC file=12345
+  unsigned short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
+  unsigned short color2;      // 60  2    LUT2 color status
+  short edited;               // 62  2    image has been edited=TRUE(1)
+  short lens;                 // 64  2    Integer part of lens magnification
+  char mag_factor[4];         // 66  4    4 byte real mag. factor (old ver.)
+  unsigned char reserved[6];  // 70  6    NOT USED (old ver.=real lens mag.)
 };
 
 BioRadImageIO::BioRadImageIO()
@@ -119,7 +119,7 @@ bool BioRadImageIO::OpenBioRadFileForWriting(std::ofstream& os,
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
   std::ofstream tFile(filename,std::ios::out);
-  tFile.close();                    
+  tFile.close();
 #endif
 
   // Actually open the file
@@ -203,8 +203,8 @@ void BioRadImageIO::Read(void* buffer)
   if(this->GetComponentType() == USHORT)
     {
     ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-        reinterpret_cast<unsigned short *>(buffer),
-        this->GetImageSizeInComponents() );
+      reinterpret_cast<unsigned short *>(buffer),
+      this->GetImageSizeInComponents() );
     }
 
   //closing file:
@@ -270,7 +270,7 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
     if( gcount == h.nx*h.ny*h.npic )
       {
       itkWarningMacro( << 
-        "File is declared as two bytes but really is only one byte");
+                       "File is declared as two bytes but really is only one byte");
       SetComponentType(UCHAR);
       }
     else if( gcount == h.nx*h.ny*h.npic*2 )
@@ -413,7 +413,7 @@ void BioRadImageIO::Write(const void* buffer)
   if(this->GetComponentType() == USHORT)
     {
     ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
-        reinterpret_cast<unsigned short*>(tempmemory), numberOfComponents );
+      reinterpret_cast<unsigned short*>(tempmemory), numberOfComponents );
     }
   
   // Write the actual pixel data
@@ -426,6 +426,5 @@ void BioRadImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-
 
 } // end namespace itk

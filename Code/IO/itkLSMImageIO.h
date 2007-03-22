@@ -39,9 +39,9 @@ class ITK_EXPORT LSMImageIO : public TIFFImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef LSMImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef LSMImageIO         Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

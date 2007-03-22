@@ -21,7 +21,9 @@
 
 namespace itk
 {
-/** \brief Class to convert blocks of data from one type to another.
+/**
+ * \class ConvertPixelBuffer
+ *  \brief Class to convert blocks of data from one type to another.
  *
  * ConvertPixelBuffer has a static method Convert().  It is used by
  * itkImageFileReader to convert from an unknown type at run-time to the

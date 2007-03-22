@@ -53,9 +53,9 @@ class ITK_EXPORT SiemensVisionImageIO : public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef SiemensVisionImageIO            Self;
-  typedef IPLCommonImageIO  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SiemensVisionImageIO Self;
+  typedef IPLCommonImageIO     Superclass;
+  typedef SmartPointer<Self>   Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,7 +71,7 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
@@ -123,7 +123,7 @@ private:
     HDR_STUDY_MONTH= 4,     // Study date month, u_int
     HDR_STUDY_MONTH_LEN= 4,
     HDR_STUDY_DAY= 8,       // Study date day, u_int
-    HDR_STUDY_DAY_LEN= 4,           
+    HDR_STUDY_DAY_LEN= 4,
     HDR_ACQ_YEAR= 12,       // Acquisition date year, u_int
     HDR_ACQ_YEAR_LEN= 4,
     HDR_ACQ_MONTH= 16,      // Acquisition date month, u_int

@@ -71,8 +71,6 @@ void TransformFileWriter::AddTransform(const TransformType* transform)
   m_TransformList.push_back(transform);
 }
 
-
-
 /** Update the writer */
 void TransformFileWriter
 ::Update()
@@ -92,7 +90,7 @@ void TransformFileWriter
     tFile.close(); 
     }
 #endif
-  std::ofstream out;;
+  std::ofstream out;
   if (this->m_AppendMode)
     {
     out.open(m_FileName.c_str(), std::ios::out | std::ios::app); 

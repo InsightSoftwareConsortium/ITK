@@ -1,19 +1,19 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkIPLFileNameList.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
-  =========================================================================*/
-
+=========================================================================*/
 #include <stdlib.h>
 #include "itkIPLFileNameList.h"
 #include <assert.h>
@@ -30,8 +30,8 @@ struct IPLFileSortInfo_ascend_compare
 {
 private:
   int qsort_IPLFileSortInfo_ascend_compar (IPLFileSortInfo *item1,IPLFileSortInfo *item2)
-  {
-    const int ImageNoDiff= item1->GetimageNumber() -  item2->GetimageNumber();
+    {
+    const int ImageNoDiff= item1->GetImageNumber() -  item2->GetImageNumber();
     if( ImageNoDiff < 0)
       {
       return true;
@@ -40,7 +40,7 @@ private:
       {
       return false;
       }
-    const int echoNumDiff=item1->GetechoNumber() - item2->GetechoNumber();
+    const int echoNumDiff=item1->GetEchoNumber() - item2->GetEchoNumber();
     if (echoNumDiff < 0)
       {
       return true;
@@ -58,22 +58,22 @@ private:
       {
       return false;
       }
-    return (item1->GetimageFileName() < item2->GetimageFileName());
-  }
+    return (item1->GetImageFileName() < item2->GetImageFileName());
+    }
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
-  {
+    {
     return qsort_IPLFileSortInfo_ascend_compar(item1,item2);
-  }
- };
+    }
+};
 
 struct IPLFileSortInfo_descend_compare  
 : public std::greater<IPLFileSortInfo *>
 {
 private:
   int qsort_IPLFileSortInfo_descend_compar (IPLFileSortInfo *item1,  IPLFileSortInfo *item2)
-  {
-    const int ImageNoDiff= item1->GetimageNumber() -  item2->GetimageNumber();
+    {
+    const int ImageNoDiff= item1->GetImageNumber() -  item2->GetImageNumber();
     if( ImageNoDiff < 0)
       {
       return false;
@@ -82,7 +82,7 @@ private:
       {
       return true;
       }
-    const int echoNumDiff=item1->GetechoNumber() - item2->GetechoNumber();
+    const int echoNumDiff=item1->GetEchoNumber() - item2->GetEchoNumber();
     if ( echoNumDiff < 0)
       {
       return false;
@@ -100,35 +100,34 @@ private:
       {
       return true;
       }
-    return (item1->GetimageFileName()  >= item2->GetimageFileName());
-    
-  }
+    return (item1->GetImageFileName()  >= item2->GetImageFileName());
+    }
   
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
-  {
+    {
     return qsort_IPLFileSortInfo_descend_compar(item1,item2);
-  }
- };
+    }
+};
  
 struct IPLFileSortInfo_ascendbyname_compare  
 : public std::greater<IPLFileSortInfo *>
 {
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
-  {
-    return (item1->GetimageFileName() < item2->GetimageFileName());
-  }
- };
+    {
+    return (item1->GetImageFileName() < item2->GetImageFileName());
+    }
+};
 
 struct IPLFileSortInfo_descendbyname_compare 
 : public std::greater<IPLFileSortInfo *>
 {
 public:
   bool operator()(IPLFileSortInfo *item1,IPLFileSortInfo *item2)
-  {
-    return (item1->GetimageFileName()  >= item2->GetimageFileName());
-  }
+    {
+    return (item1->GetImageFileName()  >= item2->GetImageFileName());
+    }
 };
  
 

@@ -37,19 +37,18 @@ class SpatialObjectReader : public Object
 public:
 
   /** SmartPointer typedef support */
-  typedef SpatialObjectReader Self;
-  typedef SmartPointer<Self> Pointer;
-
-  typedef SpatialObject<NDimensions> SpatialObjectType;
+  typedef SpatialObjectReader                 Self;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SpatialObject<NDimensions>          SpatialObjectType;
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
 
   typedef GroupSpatialObject<NDimensions> GroupType;
-  typedef typename GroupType::Pointer GroupPointer;
+  typedef typename GroupType::Pointer     GroupPointer;
   
   typedef SceneSpatialObject<NDimensions> SceneType;
-  typedef typename SceneType::Pointer ScenePointer;
+  typedef typename SceneType::Pointer     ScenePointer;
 
-   /** Method for creation through the object factory */
+  /** Method for creation through the object factory */
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
@@ -86,6 +85,7 @@ private:
 
   ScenePointer m_Scene;
   GroupPointer m_Group;
+
   MetaSceneConverter<NDimensions,PixelType,TMeshTraits> m_MetaToSpatialConverter;
 };
 

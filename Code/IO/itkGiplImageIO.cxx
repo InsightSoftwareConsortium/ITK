@@ -26,13 +26,11 @@
 namespace itk
 {
 
-  class GiplImageIOInternals 
-    {
-    public:
-     gzFile          m_GzFile;
-    };
-
-
+class GiplImageIOInternals 
+{
+public:
+  gzFile          m_GzFile;
+};
 
 /*  IMAGE TYPE DEFINITIONS  */
 
@@ -161,7 +159,7 @@ bool GiplImageIO::CanReadFile( const char* filename )
     
     ::gzseek( m_Internal->m_GzFile, 252, SEEK_SET );
     unsigned int magic_number;
-    ::gzread( m_Internal->m_GzFile, (char*)&magic_number,sizeof(unsigned int));    
+    ::gzread( m_Internal->m_GzFile, (char*)&magic_number,sizeof(unsigned int));
 
     if(m_ByteOrder == BigEndian)
       {
@@ -176,7 +174,7 @@ bool GiplImageIO::CanReadFile( const char* filename )
       {
       gzclose( m_Internal->m_GzFile );
       m_Internal->m_GzFile = NULL;
-       return true;
+      return true;
       }
     gzclose( m_Internal->m_GzFile );
     m_Internal->m_GzFile = NULL;
@@ -278,11 +276,11 @@ void GiplImageIO::ReadImageInformation()
   if (m_IsCompressed)
     {
     m_Internal->m_GzFile = ::gzopen( m_FileName.c_str(), "rb" );
-     if( m_Internal->m_GzFile == NULL )
-       {
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("File cannot be read");
-        throw exception;
+    if( m_Internal->m_GzFile == NULL )
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File cannot be read");
+      throw exception;
       }
     }
   else
@@ -385,7 +383,7 @@ void GiplImageIO::ReadImageInformation()
       }
     else
       {
-     m_Ifstream.read((char*)&pixdim[i],sizeof(float));
+      m_Ifstream.read((char*)&pixdim[i],sizeof(float));
       }
     if(m_ByteOrder == BigEndian)
       {
@@ -399,7 +397,7 @@ void GiplImageIO::ReadImageInformation()
     if(i<numberofdimension)
       {
       m_Spacing[i]=pixdim[i];
-      }    
+      }
     }
       
   char    line1[80];         /*   26   80  Patient / Text field        */
@@ -440,14 +438,14 @@ void GiplImageIO::ReadImageInformation()
 
   char    flag1;             /*  186    1  Orientation flag (below)    */
   if (m_IsCompressed)
-      {
-      ::gzread( m_Internal->m_GzFile,(char*)&flag1,sizeof(char));   
-      }
-    else
-      {
-      m_Ifstream.read((char*)&flag1,sizeof(char));
-      }
-
+    {
+    ::gzread( m_Internal->m_GzFile,(char*)&flag1,sizeof(char));   
+    }
+  else
+    {
+    m_Ifstream.read((char*)&flag1,sizeof(char));
+    }
+  
   if(m_ByteOrder == BigEndian)
     {
     ByteSwapper<char>::SwapFromSystemToBigEndian(&flag1);
@@ -466,7 +464,6 @@ void GiplImageIO::ReadImageInformation()
     {
     m_Ifstream.read((char*)&flag2,sizeof(char));
     }
-
   
   if(m_ByteOrder == BigEndian)
     {
@@ -502,26 +499,26 @@ void GiplImageIO::ReadImageInformation()
     {
     if (m_IsCompressed)
       {
-        ::gzread( m_Internal->m_GzFile,(char*)&origin[i],sizeof(double));   
+      ::gzread( m_Internal->m_GzFile,(char*)&origin[i],sizeof(double));   
       }
     else
       {
-        m_Ifstream.read((char*)&origin[i],sizeof(double));
+      m_Ifstream.read((char*)&origin[i],sizeof(double));
       }
     
     if(m_ByteOrder == BigEndian)
       {
-       ByteSwapper<double>::SwapFromSystemToBigEndian(&origin[i]);
+      ByteSwapper<double>::SwapFromSystemToBigEndian(&origin[i]);
       }
     else if (m_ByteOrder == LittleEndian)
       {
-       ByteSwapper<double>::SwapFromSystemToLittleEndian(&origin[i]);
+      ByteSwapper<double>::SwapFromSystemToLittleEndian(&origin[i]);
       }
       
     if(i<numberofdimension)
       {
-       m_Origin[i]=origin[i];
-      }    
+      m_Origin[i]=origin[i];
+      }
     }
 
   float   pixval_offset;     /*  236    4                              */
@@ -629,61 +626,61 @@ GiplImageIO
   switch(m_ComponentType)
     {
     case CHAR:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
-        (char*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
+          (char*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
+          (char *)buffer, numberOfPixels );
+        }
+      break;
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
-        (char *)buffer, numberOfPixels );
-      }
-    break;
-    }
     case UCHAR:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
-        (unsigned char*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
+          (unsigned char*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
+          (unsigned char *)buffer, numberOfPixels );
+        }
+      break;
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
-        (unsigned char *)buffer, numberOfPixels );
-      }
-    break;
-    }
     case SHORT:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
-        (short*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
+          (short*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
+          (short *)buffer, numberOfPixels );
+        }
+      break;
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
-        (short *)buffer, numberOfPixels );
-      }
-    break;
-    }
     case USHORT:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-        (unsigned short*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
+          (unsigned short*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
+          (unsigned short *)buffer, numberOfPixels );
+        }
+      break; 
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
-        (unsigned short *)buffer, numberOfPixels );
-      }
-    break; 
-    }
     default:
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Pixel Type Unknown");
@@ -691,15 +688,12 @@ GiplImageIO
     }
 }
 
-
 void 
 GiplImageIO
 ::WriteImageInformation(void)
 {
   //not possible to write a Gipl file  
 }
-
-
 
 /** The write function is not implemented */
 void 
@@ -713,17 +707,17 @@ GiplImageIO
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
   std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-  tFile.close();                    
+  tFile.close();
 #endif
 
   if (m_IsCompressed)
     {
     m_Internal->m_GzFile = ::gzopen( m_FileName.c_str(), "wb" );
     if( m_Internal->m_GzFile == NULL )
-       {
-       ExceptionObject exception(__FILE__, __LINE__);
-       exception.SetDescription("File cannot be write");
-       throw exception;
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File cannot be write");
+      throw exception;
       }
     }
   else
@@ -736,7 +730,6 @@ GiplImageIO
       throw exception;
       }
     }
- 
 
   unsigned int i;
   for(i=0;i<4;i++)
@@ -774,17 +767,16 @@ GiplImageIO
         {
         ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&value);
         }
-       if (m_IsCompressed)
+      if (m_IsCompressed)
         {
         ::gzwrite( m_Internal->m_GzFile,(char*)&(value),sizeof(unsigned short));
         }
       else
         {
-        m_Ofstream.write((char*)&value,sizeof(unsigned short));;
+        m_Ofstream.write((char*)&value,sizeof(unsigned short));
         }
       }
     }
-
 
   unsigned short   image_type;
   switch(m_ComponentType)
@@ -1084,7 +1076,7 @@ GiplImageIO
         }
       else
         {
-         m_Ofstream.write(static_cast<const char*>(buffer), numberOfBytes );
+        m_Ofstream.write(static_cast<const char*>(buffer), numberOfBytes );
         }
       }
     }
@@ -1112,10 +1104,10 @@ bool GiplImageIO::CheckExtension(const char* filename)
 {
   std::string fname = filename;
   if ( fname == "" )
-  {
+    {
     itkDebugMacro(<< "No filename specified.");
     return false;
-  }
+    }
 
   bool extensionFound = false;
   m_IsCompressed = false;
@@ -1137,7 +1129,5 @@ bool GiplImageIO::CheckExtension(const char* filename)
 
   return extensionFound;
 }
-
-
 
 } // end namespace itk

@@ -49,4 +49,3 @@ GiplImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

@@ -29,10 +29,10 @@ class ITK_EXPORT ImageIOFactory : public Object
 {
 public:  
   /** Standard class typedefs. */
-  typedef ImageIOFactory   Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageIOFactory           Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class Methods used to interface with the registered factories */
   

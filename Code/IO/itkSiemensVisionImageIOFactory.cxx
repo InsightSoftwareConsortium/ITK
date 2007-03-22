@@ -54,4 +54,3 @@ SiemensVisionImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

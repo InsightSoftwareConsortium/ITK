@@ -48,9 +48,9 @@ class ITK_EXPORT NiftiImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef NiftiImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef NiftiImageIO       Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,7 +66,7 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -121,9 +121,10 @@ private:
     ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED=4,   /**<  */
     ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED=5   /**<  */
   } ValidNiftiOrientationFlags;
+
   nifti_image * m_NiftiImage;
-  double m_RescaleSlope;
-  double m_RescaleIntercept;
+  double        m_RescaleSlope;
+  double        m_RescaleIntercept;
 
   NiftiImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

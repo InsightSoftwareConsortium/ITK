@@ -55,7 +55,7 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*) ;
+  virtual bool CanReadFile(const char*);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
@@ -87,15 +87,15 @@ private:
 
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
  
-  std::ifstream   m_Ifstream;
-  std::ofstream   m_Ofstream;
-  long            m_BitMapOffset;
-  bool            m_FileLowerLeft;
-  short           m_Depth;
-  bool            m_Allow8BitBMP;
-  unsigned short  m_NumberOfColors;
-  long            m_BMPCompression;
-  unsigned long   m_BMPDataSize;
+  std::ifstream             m_Ifstream;
+  std::ofstream             m_Ofstream;
+  long                      m_BitMapOffset;
+  bool                      m_FileLowerLeft;
+  short                     m_Depth;
+  bool                      m_Allow8BitBMP;
+  unsigned short            m_NumberOfColors;
+  long                      m_BMPCompression;
+  unsigned long             m_BMPDataSize;
   std::vector<RGBPixelType> m_ColorPalette;
  
 };

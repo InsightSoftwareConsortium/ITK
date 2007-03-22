@@ -48,4 +48,3 @@ Brains2MaskImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

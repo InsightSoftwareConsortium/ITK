@@ -60,7 +60,6 @@ NrrdToITKComponentType( const int nrrdComponentType ) const
 #endif // defined(__BORLANDC__) 
   switch( nrrdComponentType )
     {
-    default:
     case nrrdTypeUnknown:
     case nrrdTypeBlock:
       return UNKNOWNCOMPONENTTYPE;
@@ -98,6 +97,9 @@ NrrdToITKComponentType( const int nrrdComponentType ) const
     case nrrdTypeDouble:
       return DOUBLE;
       break;
+    default:
+      return UNKNOWNCOMPONENTTYPE;
+      break;
     }
 
   // Strictly to avoid compiler warning regarding "control may reach end of
@@ -116,7 +118,6 @@ ITKToNrrdComponentType( const ImageIOBase::IOComponentType itkComponentType ) co
 #endif // defined(__BORLANDC__) 
   switch( itkComponentType )
     {
-    default:
     case UNKNOWNCOMPONENTTYPE:
       return nrrdTypeUnknown;
       break;
@@ -152,6 +153,9 @@ ITKToNrrdComponentType( const ImageIOBase::IOComponentType itkComponentType ) co
       break;
     case DOUBLE:
       return nrrdTypeDouble;
+      break;
+    default:
+      return nrrdTypeUnknown;
       break;
     }
 
@@ -218,7 +222,7 @@ bool NrrdImageIO::CanReadFile( const char* filename )
     return false;
     }
 
-  if( strcmp(magic,"NRRD")==0 ) 
+  if( strcmp(magic,"NRRD") == 0 ) 
     {
     inputStream.close();
     return true;
@@ -326,80 +330,81 @@ void NrrdImageIO::ReadImageInformation()
     // NOTE: it is the NRRD readers responsibility to make sure that
     // the size (# of components) associated with a specific kind is
     // matches the actual size of the axis.
-    switch(kind) {
-    case nrrdKindDomain:
-    case nrrdKindSpace:
-    case nrrdKindTime:
-      itkExceptionMacro("ReadImageInformation: range axis kind ("
-                        << airEnumStr(nrrdKind, kind) << ") seems more "
-                        "like a domain axis than a range axis");
-      break;
-    case nrrdKindStub:
-    case nrrdKindScalar:
-      this->SetPixelType( ImageIOBase::SCALAR );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKind3Color:
-    case nrrdKindRGBColor:
-      this->SetPixelType( ImageIOBase::RGB );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKind4Color:
-    case nrrdKindRGBAColor:
-      this->SetPixelType( ImageIOBase::RGBA );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKindVector:
-    case nrrdKind2Vector:
-    case nrrdKind3Vector:
-    case nrrdKind4Vector:
-    case nrrdKindList:
-      this->SetPixelType( ImageIOBase::VECTOR );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKindPoint:
-      this->SetPixelType( ImageIOBase::POINT );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKindCovariantVector:
-    case nrrdKind3Gradient:
-    case nrrdKindNormal:
-    case nrrdKind3Normal:
-      this->SetPixelType( ImageIOBase::COVARIANTVECTOR );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKind3DSymMatrix:
-      // ImageIOBase::DIFFUSIONTENSOR3D is a subclass
-      this->SetPixelType( ImageIOBase::SYMMETRICSECONDRANKTENSOR );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKind3DMaskedSymMatrix:
-      this->SetPixelType( ImageIOBase::SYMMETRICSECONDRANKTENSOR );
-      // NOTE: we will crop out the mask in Read() below; this is the
-      // one case where NumberOfComponents != size
-      this->SetNumberOfComponents(size-1);
-      break;
-    case nrrdKindComplex:
-      this->SetPixelType( ImageIOBase::COMPLEX );
-      this->SetNumberOfComponents(size);
-      break;
-    case nrrdKindHSVColor:
-    case nrrdKindXYZColor:
-    case nrrdKindQuaternion:
-    case nrrdKind2DSymMatrix:
-    case nrrdKind2DMaskedSymMatrix:
-    case nrrdKind2DMatrix:
-    case nrrdKind2DMaskedMatrix:
-    case nrrdKind3DMatrix:
-      // for all other Nrrd kinds, we punt and call it a vector
-      this->SetPixelType( ImageIOBase::VECTOR );
-      this->SetNumberOfComponents(size);
-      break;
-    default:
-      itkExceptionMacro("ReadImageInformation: nrrdKind " << kind 
-                        << " not known!");
-      break;
-    }
+    switch(kind)
+      {
+      case nrrdKindDomain:
+      case nrrdKindSpace:
+      case nrrdKindTime:
+        itkExceptionMacro("ReadImageInformation: range axis kind ("
+                          << airEnumStr(nrrdKind, kind) << ") seems more "
+                          "like a domain axis than a range axis");
+        break;
+      case nrrdKindStub:
+      case nrrdKindScalar:
+        this->SetPixelType( ImageIOBase::SCALAR );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKind3Color:
+      case nrrdKindRGBColor:
+        this->SetPixelType( ImageIOBase::RGB );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKind4Color:
+      case nrrdKindRGBAColor:
+        this->SetPixelType( ImageIOBase::RGBA );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKindVector:
+      case nrrdKind2Vector:
+      case nrrdKind3Vector:
+      case nrrdKind4Vector:
+      case nrrdKindList:
+        this->SetPixelType( ImageIOBase::VECTOR );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKindPoint:
+        this->SetPixelType( ImageIOBase::POINT );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKindCovariantVector:
+      case nrrdKind3Gradient:
+      case nrrdKindNormal:
+      case nrrdKind3Normal:
+        this->SetPixelType( ImageIOBase::COVARIANTVECTOR );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKind3DSymMatrix:
+        // ImageIOBase::DIFFUSIONTENSOR3D is a subclass
+        this->SetPixelType( ImageIOBase::SYMMETRICSECONDRANKTENSOR );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKind3DMaskedSymMatrix:
+        this->SetPixelType( ImageIOBase::SYMMETRICSECONDRANKTENSOR );
+        // NOTE: we will crop out the mask in Read() below; this is the
+        // one case where NumberOfComponents != size
+        this->SetNumberOfComponents(size-1);
+        break;
+      case nrrdKindComplex:
+        this->SetPixelType( ImageIOBase::COMPLEX );
+        this->SetNumberOfComponents(size);
+        break;
+      case nrrdKindHSVColor:
+      case nrrdKindXYZColor:
+      case nrrdKindQuaternion:
+      case nrrdKind2DSymMatrix:
+      case nrrdKind2DMaskedSymMatrix:
+      case nrrdKind2DMatrix:
+      case nrrdKind2DMaskedMatrix:
+      case nrrdKind3DMatrix:
+        // for all other Nrrd kinds, we punt and call it a vector
+        this->SetPixelType( ImageIOBase::VECTOR );
+        this->SetNumberOfComponents(size);
+        break;
+      default:
+        itkExceptionMacro("ReadImageInformation: nrrdKind " << kind 
+                          << " not known!");
+        break;
+      }
     }
   else 
     {
@@ -820,7 +825,7 @@ void NrrdImageIO::Read(void* buffer)
 
 
 bool NrrdImageIO::CanWriteFile( const char * name )
- {
+{
 #if defined(__BORLANDC__) 
 // Disable floating point exceptions in Borland 
   _control87(MCW_EM, MCW_EM); 
@@ -848,7 +853,6 @@ bool NrrdImageIO::CanWriteFile( const char * name )
 
   return false;
 }
-
   
 void NrrdImageIO::WriteImageInformation(void)
 {
@@ -936,12 +940,12 @@ void NrrdImageIO::Write( const void* buffer)
     }
   if (nrrdWrap_nva(nrrd, const_cast<void *>(buffer),
                    this->ITKToNrrdComponentType( m_ComponentType ),
-                   nrrdDim, size)
-      || (3 == spaceDim
-          // special case: ITK is LPS in 3-D
-          ? nrrdSpaceSet(nrrd, nrrdSpaceLeftPosteriorSuperior)
-          : nrrdSpaceDimensionSet(nrrd, spaceDim))
-      || nrrdSpaceOriginSet(nrrd, origin))
+                   nrrdDim, size) ||
+      (3 == spaceDim
+       // special case: ITK is LPS in 3-D
+       ? nrrdSpaceSet(nrrd, nrrdSpaceLeftPosteriorSuperior)
+       : nrrdSpaceDimensionSet(nrrd, spaceDim)) ||
+      nrrdSpaceOriginSet(nrrd, origin))
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Write: Error wrapping nrrd for " 
@@ -1050,22 +1054,22 @@ void NrrdImageIO::Write( const void* buffer)
           {
           for (unsigned int saxj=0; saxj < nrrd->spaceDim; saxj++)
             {
-              if (saxi < msrFrame.size() &&
-                  saxj < msrFrame[saxi].size())
-                {
-                nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
-                }
-              else
-                {
-                // there is a difference between the dimension of the 
-                // recorded measurement frame, and the actual dimension of
-                // the ITK image, which (for now) determines nrrd->spaceDim.
-                // We can't set this to AIR_NAN, because the coefficients of
-                // the measurement frame have to all be equally existent.
-                // If we used 0, it might not a flag that something is wrong.
-                // So, we have to get creative.
-                nrrd->measurementFrame[saxi][saxj] = 666666;
-                }
+            if (saxi < msrFrame.size() &&
+                saxj < msrFrame[saxi].size())
+              {
+              nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
+              }
+            else
+              {
+              // there is a difference between the dimension of the 
+              // recorded measurement frame, and the actual dimension of
+              // the ITK image, which (for now) determines nrrd->spaceDim.
+              // We can't set this to AIR_NAN, because the coefficients of
+              // the measurement frame have to all be equally existent.
+              // If we used 0, it might not a flag that something is wrong.
+              // So, we have to get creative.
+              nrrd->measurementFrame[saxi][saxj] = 666666;
+              }
             }
           }
         }

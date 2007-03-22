@@ -35,53 +35,53 @@ extern "C"
 {
   static void TagExtender(TIFF *tiff)
   {
-    static const TIFFFieldInfo xtiffFieldInfo[] = {
-        { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
-        FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
-    };
+  static const TIFFFieldInfo xtiffFieldInfo[] = {
+    { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
+      FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
+  };
   
     TIFFMergeFieldInfo( tiff, xtiffFieldInfo,
-      sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]) );
-  }
+                        sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]) );
+    }
 }
 
-typedef itksysFundamentalType_Int32 int32_t;
-typedef itksysFundamentalType_UInt32 uint32_t;
+typedef itksysFundamentalType_Int32  Int32_t;
+typedef itksysFundamentalType_UInt32 UInt32_t;
 
-typedef float       float32_t;
-typedef double      float64_t;
-typedef long double float96_t;
+typedef float       Float32_t;
+typedef double      Float64_t;
+typedef long double Float96_t;
 
 typedef struct {
-  uint32_t    u32MagicNumber;
-  int32_t     s32StructureSize;
-  int32_t     s32DimensionX;
-  int32_t     s32DimensionY;
-  int32_t     s32DimensionZ;
-  int32_t     s32DimensionChannels;
-  int32_t     s32DimensionTime;
-  int32_t     s32DataType;
-  int32_t     s32ThumbnailX;
-  int32_t     s32ThumbnailY;
-  float64_t   f64VoxelSizeX;
-  float64_t   f64VoxelSizeY;
-  float64_t   f64VoxelSizeZ;
-  uint32_t    u32ScanType;
-  uint32_t    u32DataType;
-  uint32_t    u32OffsetVectorOverlay;
-  uint32_t    u32OffsetInputLut;
-  uint32_t    u32OffsetOutputLut;
-  uint32_t    u32OffsetChannelColors;
-  float64_t   f64TimeIntervall;
-  uint32_t    u32OffsetChannelDataTypes;
-  uint32_t    u32OffsetScanInformation;
-  uint32_t    u32OffsetKsData;
-  uint32_t    u32OffsetTimeStamps;
-  uint32_t    u32OffsetEventList;
-  uint32_t    u32OffsetRoi;
-  uint32_t    u32OffsetBleachRoi;
-  uint32_t    u32OffsetNextRecording;
-  uint32_t    u32Reserved [ TIF_CZ_LSMINFO_SIZE_RESERVED ];
+  UInt32_t    U32MagicNumber;
+  Int32_t     S32StructureSize;
+  Int32_t     S32DimensionX;
+  Int32_t     S32DimensionY;
+  Int32_t     S32DimensionZ;
+  Int32_t     S32DimensionChannels;
+  Int32_t     S32DimensionTime;
+  Int32_t     S32DataType;
+  Int32_t     S32ThumbnailX;
+  Int32_t     S32ThumbnailY;
+  Float64_t   F64VoxelSizeX;
+  Float64_t   F64VoxelSizeY;
+  Float64_t   F64VoxelSizeZ;
+  UInt32_t    u32ScanType;
+  UInt32_t    u32DataType;
+  UInt32_t    u32OffsetVectorOverlay;
+  UInt32_t    u32OffsetInputLut;
+  UInt32_t    u32OffsetOutputLut;
+  UInt32_t    u32OffsetChannelColors;
+  Float64_t   F64TimeIntervall;
+  UInt32_t    u32OffsetChannelDataTypes;
+  UInt32_t    u32OffsetScanInformation;
+  UInt32_t    u32OffsetKsData;
+  UInt32_t    u32OffsetTimeStamps;
+  UInt32_t    u32OffsetEventList;
+  UInt32_t    u32OffsetRoi;
+  UInt32_t    u32OffsetBleachRoi;
+  UInt32_t    u32OffsetNextRecording;
+  UInt32_t    u32Reserved [ TIF_CZ_LSMINFO_SIZE_RESERVED ];
 } zeiss_info;
 
 LSMImageIO::LSMImageIO()
@@ -161,19 +161,19 @@ void LSMImageIO::ReadImageInformation()
   void *praw = this->TIFFImageIO::ReadRawByteFromTag( TIF_CZ_LSMINFO, tif_cz_lsminfo_size );
   // FIXME byte swap
   ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-    reinterpret_cast<unsigned short*>(praw), tif_cz_lsminfo_size/2) ;
+    reinterpret_cast<unsigned short*>(praw), tif_cz_lsminfo_size/2);
   const zeiss_info *zi = reinterpret_cast<zeiss_info*>(praw);
   if( sizeof(*zi) != TIF_CZ_LSMINFO_SIZE)
     {
     itkExceptionMacro( << "Problem of alignement on your plateform" );
     return;
     }
-  m_Spacing[0] = zi->f64VoxelSizeX;
-  m_Spacing[1] = zi->f64VoxelSizeY;
+  m_Spacing[0] = zi->F64VoxelSizeX;
+  m_Spacing[1] = zi->F64VoxelSizeY;
   // TIFF only support 2 or 3 dimension:
   if ( m_NumberOfDimensions == 3 )
     {
-    m_Spacing[2] = zi->f64VoxelSizeZ;
+    m_Spacing[2] = zi->F64VoxelSizeZ;
     }
 }
 
@@ -208,24 +208,24 @@ void LSMImageIO::FillZeissStruct(char *cz)
 {
   memset(cz, 0, TIF_CZ_LSMINFO_SIZE); // fill with 0
   zeiss_info *z = reinterpret_cast<zeiss_info*>(cz);
-  z->u32MagicNumber = 0x0400494c;
-  z->s32StructureSize = TIF_CZ_LSMINFO_SIZE;
-  z->s32DimensionX = m_Dimensions[0];
-  z->s32DimensionY = m_Dimensions[1];
+  z->U32MagicNumber = 0x0400494c;
+  z->S32StructureSize = TIF_CZ_LSMINFO_SIZE;
+  z->S32DimensionX = m_Dimensions[0];
+  z->S32DimensionY = m_Dimensions[1];
   if( m_NumberOfDimensions == 3 )
     {
-    z->s32DimensionZ = m_Dimensions[2];
+    z->S32DimensionZ = m_Dimensions[2];
     }
-  z->s32DimensionChannels = m_NumberOfComponents;
-  z->s32DimensionTime = 1;
-  z->s32DataType = 0;
-  z->s32ThumbnailX = 128*m_Dimensions[0]/m_Dimensions[1];
-  z->s32ThumbnailY = 128;
-  z->f64VoxelSizeX = m_Spacing[0];
-  z->f64VoxelSizeY = m_Spacing[1];
+  z->S32DimensionChannels = m_NumberOfComponents;
+  z->S32DimensionTime = 1;
+  z->S32DataType = 0;
+  z->S32ThumbnailX = 128*m_Dimensions[0]/m_Dimensions[1];
+  z->S32ThumbnailY = 128;
+  z->F64VoxelSizeX = m_Spacing[0];
+  z->F64VoxelSizeY = m_Spacing[1];
   if( m_NumberOfDimensions == 3 )
     {
-    z->f64VoxelSizeZ = m_Spacing[2];
+    z->F64VoxelSizeZ = m_Spacing[2];
     }
 }
 
@@ -247,16 +247,16 @@ void LSMImageIO::Write(const void* buffer)
 
   switch (this->GetComponentType())
     {
-  case UCHAR:
-    bps = 8;
-    break;
+    case UCHAR:
+      bps = 8;
+      break;
 
-  case USHORT:
-    bps = 16;
-    break;
+    case USHORT:
+      bps = 16;
+      break;
 
-  default:
-    itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
+    default:
+      itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
     }
 
   int predictor;
@@ -317,11 +317,11 @@ void LSMImageIO::Write(const void* buffer)
       {
       switch ( m_Compression )
         {
-      case TIFFImageIO::PackBits: compression = COMPRESSION_PACKBITS; break;
-      case TIFFImageIO::JPEG:     compression = COMPRESSION_JPEG; break;
-      case TIFFImageIO::Deflate:  compression = COMPRESSION_DEFLATE; break;
-      case TIFFImageIO::LZW:      compression = COMPRESSION_LZW; break;
-      default: compression = COMPRESSION_NONE;
+        case TIFFImageIO::PackBits: compression = COMPRESSION_PACKBITS; break;
+        case TIFFImageIO::JPEG:     compression = COMPRESSION_JPEG; break;
+        case TIFFImageIO::Deflate:  compression = COMPRESSION_DEFLATE; break;
+        case TIFFImageIO::LZW:      compression = COMPRESSION_LZW; break;
+        default: compression = COMPRESSION_NONE;
         }
       }
     else
@@ -369,14 +369,14 @@ void LSMImageIO::Write(const void* buffer)
 
     switch (this->GetComponentType())
       {
-    case UCHAR:
-      rowLength = sizeof(unsigned char); 
-      break;
-    case USHORT:
-      rowLength = sizeof(unsigned short);
-      break;
-    default:
-      itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
+      case UCHAR:
+        rowLength = sizeof(unsigned char); 
+        break;
+      case USHORT:
+        rowLength = sizeof(unsigned short);
+        break;
+      default:
+        itkExceptionMacro(<<"TIFF supports unsigned char and unsigned short");
       }
 
     rowLength *= this->GetNumberOfComponents();

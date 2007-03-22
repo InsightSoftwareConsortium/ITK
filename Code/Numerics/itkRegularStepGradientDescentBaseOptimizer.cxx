@@ -50,8 +50,6 @@ RegularStepGradientDescentBaseOptimizer
 
 }
 
-
-
 /**
  * Start the optimization
  */
@@ -77,10 +75,6 @@ RegularStepGradientDescentBaseOptimizer
   this->ResumeOptimization();
 
 }
-
-
-
-
 
 /**
  * Resume the optimization
@@ -139,10 +133,6 @@ RegularStepGradientDescentBaseOptimizer
 
 }
 
-
-
-
-
 /**
  * Stop optimization
  */
@@ -156,9 +146,6 @@ RegularStepGradientDescentBaseOptimizer
   m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }
-
-
-
 
 /**
  * Advance one Step following the gradient direction
@@ -202,9 +189,9 @@ RegularStepGradientDescentBaseOptimizer
 
   for(unsigned int i = 0;  i < spaceDimension; i++)
     {
-    transformedGradient[i]  = m_Gradient[i] / scales[i];    
+    transformedGradient[i]  = m_Gradient[i] / scales[i];
     previousTransformedGradient[i] = 
-      m_PreviousGradient[i] / scales[i];    
+      m_PreviousGradient[i] / scales[i];
     }
 
   double magnitudeSquare = 0;
@@ -261,8 +248,6 @@ RegularStepGradientDescentBaseOptimizer
   // This method StepAlongGradient() will 
   // be overloaded in non-vector spaces
   this->StepAlongGradient( factor, transformedGradient );
-
-
 
   this->InvokeEvent( IterationEvent() );
 

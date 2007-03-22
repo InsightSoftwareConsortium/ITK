@@ -57,9 +57,9 @@ class ITK_EXPORT StimulateImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef StimulateImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef StimulateImageIO   Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

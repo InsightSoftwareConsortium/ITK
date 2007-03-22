@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRawImageIO_txx
-#define _itkRawImageIO_txx
+#ifndef __itkRawImageIO_txx
+#define __itkRawImageIO_txx
 #include "itkRawImageIO.h"
 #include "itkByteSwapper.h"
 
@@ -125,7 +125,7 @@ void RawImageIO<TPixel,VImageDimension>::OpenFileForWriting(std::ofstream& os)
     }
 
   std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-  tFile.close();                    
+  tFile.close();
 
   // Close file from any previous image
   if ( os.is_open() )
@@ -201,7 +201,7 @@ void RawImageIO<TPixel,VImageDimension>
   itkDebugMacro(<< "Reading Done");
   
 #define itkReadRawBytesAfterSwappingMacro(StrongType, WeakType) \
-    ( this->GetComponentType() ==  WeakType ) \
+    ( this->GetComponentType() == WeakType ) \
     { \
     typedef ByteSwapper< StrongType > InternalByteSwapperType; \
     if ( m_ByteOrder == LittleEndian ) \
@@ -269,7 +269,7 @@ void RawImageIO<TPixel,VImageDimension>
     const unsigned long numberOfComponents = this->GetImageSizeInComponents();
     
 #define itkWriteRawBytesAfterSwappingMacro(StrongType, WeakType) \
-      ( this->GetComponentType() ==  WeakType ) \
+      ( this->GetComponentType() == WeakType ) \
       { \
       typedef ByteSwapper< StrongType > InternalByteSwapperType; \
       if ( m_ByteOrder == LittleEndian ) \

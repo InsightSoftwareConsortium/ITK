@@ -29,9 +29,9 @@ class ITK_EXPORT Brains2MaskImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef Brains2MaskImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Brains2MaskImageIOFactory Self;
+  typedef ObjectFactoryBase         Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
@@ -46,10 +46,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     Brains2MaskImageIOFactory::Pointer metaFactory = Brains2MaskImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(metaFactory);
-  }
+    }
 
 protected:
   Brains2MaskImageIOFactory();

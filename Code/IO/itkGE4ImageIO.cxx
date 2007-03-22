@@ -1,4 +1,5 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkGE4ImageIO.cxx
   Language:  C++
@@ -49,12 +50,16 @@ bool GE4ImageIO::CanReadFile( const char* FileNameToRead )
   //this->SetFileName(FileNameToRead);
   std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
   if(!f.is_open())
+    {
     return false;
+    }
   // This is a weak heuristic but should only be true for GE4 files
   // 
   // Get the Plane from the IMAGE Header.
   if(this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_PLANENAME * 2,tmpStr,16,false) == -1)
+    {
     return false;
+    }
   tmpStr[16] = '\0';
   // if none of these strings show up, most likely not GE4
   if (strstr (tmpStr, "CORONAL") == NULL &&
@@ -81,17 +86,22 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
 #define RGEDEBUG(x)
 #endif
   if(FileNameToRead == 0 || strlen(FileNameToRead) == 0)
+    {
     return 0;
+    }
   //
   // need to check if this is a valid file before going further
   if(!this->CanReadFile(FileNameToRead))
+    {
     RAISE_EXCEPTION();
+    }
   struct GEImageHeader *hdr = new struct GEImageHeader;
   if(hdr == 0)
+    {
     RAISE_EXCEPTION();
-
-  RGEDEBUG(char debugbuf[16384];)
-    char tmpStr[IOCommon::ITK_MAXPATHLEN+1];
+    }
+  //  RGEDEBUG(char debugbuf[16384];)
+  char tmpStr[IOCommon::ITK_MAXPATHLEN+1];
   int intTmp;
   short int tmpShort;
   float tmpFloat;
@@ -108,8 +118,9 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   // I guess since ReadImageInformation returns no error code, the
   // only way out is to raise an exception
   if(!f.is_open())
+    {
     RAISE_EXCEPTION();
-
+    }
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2,tmpStr,10);
   tmpStr[10] = '\0';
   strcpy(hdr->date, tmpStr);
@@ -240,16 +251,12 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
     this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TE * 2,
                       (char *)&intTmp,sizeof(int));
 
-
-
   hdr->TE = MvtSunf (intTmp);
-  RGEDEBUG(std::sprintf (debugbuf, "TE = %f\n", hdr->TE); cerr << debugbuf;)
+  //  RGEDEBUG(std::sprintf (debugbuf, "TE = %f\n", hdr->TE); cerr << debugbuf;)
 
-    /* Get TI from the IMAGE Header */
-    this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TI * 2,
-                      (char *)&intTmp,sizeof(int));
-
-
+  /* Get TI from the IMAGE Header */
+  this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TI * 2,
+                    (char *)&intTmp,sizeof(int));
 
   hdr->TI = MvtSunf (intTmp);
   RGEDEBUG(std::sprintf (debugbuf, "TI = %f\n", hdr->TI); cerr << debugbuf;)
@@ -279,8 +286,6 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
     this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PIXELSIZE * 2,
                       (char *)&intTmp,sizeof(int));
 
-
-
   hdr->imageXres = MvtSunf (intTmp);
   hdr->imageYres = hdr->imageXres;
   RGEDEBUG(std::sprintf (debugbuf, "Pixel Size = %fx%f\n", hdr->imageXres, hdr->imageYres); cerr << debugbuf;)
@@ -288,8 +293,6 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
     /* Get NEX from the IMAGE Header */
     this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NEX * 2,
                       (char *)&intTmp,sizeof(int));
-
-
 
   hdr->NEX = (short)MvtSunf (intTmp);
   RGEDEBUG(std::sprintf (debugbuf, "NEX = %d\n", hdr->NEX); cerr << debugbuf;)
@@ -317,18 +320,18 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
   
   /* Get the Number of Images from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NUMSLICES * 2,&(hdr->numberOfSlices));
-  RGEDEBUG(std::sprintf (debugbuf, "Number of SLices = %d\n", hdr->numberOfSlices); cerr << debugbuf;)
-
-    //    status = stat (imageFile, &statBuf);
-    //    if (status == -1)
-    //      {
-    //  return (NULL);
-    //      }
-    //
-    //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);
-    //
-    // find file length in line ...
-    unsigned long file_length = itksys::SystemTools::FileLength(FileNameToRead);
+  //  RGEDEBUG(std::sprintf (debugbuf, "Number of SLices = %d\n", hdr->numberOfSlices); cerr << debugbuf;)
+  
+  //    status = stat (imageFile, &statBuf);
+  //    if (status == -1)
+  //      {
+  //  return (NULL);
+  //      }
+  //
+  //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);
+  //
+  // find file length in line ...
+  unsigned long file_length = itksys::SystemTools::FileLength(FileNameToRead);
 
   hdr->offset = file_length -
     (hdr->imageXsize * hdr->imageYsize * 2);

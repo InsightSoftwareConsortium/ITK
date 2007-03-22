@@ -20,21 +20,21 @@ namespace itk {
 CacheableScalarFunction
 ::CacheableScalarFunction()
 {
-  m_CacheAvailable = false ;
+  m_CacheAvailable = false;
 }
 
 void 
 CacheableScalarFunction
 ::CreateCache(double lowerBound, double upperBound, long sampleSize) 
 {
-  m_NumberOfSamples = sampleSize ;
-  m_CacheLowerBound = lowerBound ;
-  m_CacheUpperBound = upperBound ;
+  m_NumberOfSamples = sampleSize;
+  m_CacheLowerBound = lowerBound;
+  m_CacheUpperBound = upperBound;
 
-  long i ;
-  MeasureType d ;
+  long i;
+  MeasureType d;
   
-  m_CacheTable = MeasureArrayType(m_NumberOfSamples) ;
+  m_CacheTable = MeasureArrayType(m_NumberOfSamples);
   
   m_TableInc = 
     static_cast<MeasureType>( (m_CacheUpperBound - m_CacheLowerBound) / 
@@ -47,8 +47,7 @@ CacheableScalarFunction
     d += m_TableInc;
     }
 
-  m_CacheAvailable = true ;
+  m_CacheAvailable = true;
 }
 
 } // end of namespace itk
- 

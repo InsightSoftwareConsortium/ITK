@@ -59,9 +59,9 @@ class ITK_EXPORT ImageIOBase : public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageIOBase            Self;
-  typedef LightProcessObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ImageIOBase        Self;
+  typedef LightProcessObject Superclass;
+  typedef SmartPointer<Self> Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOBase, Superclass);
@@ -70,7 +70,10 @@ public:
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
-  /** Used to return information when types are unknown. */
+  /**
+   * \class UnknownType
+   * Used to return information when types are unknown.
+   */
   class UnknownType {};
 
   /** Enums used to manipulate the pixel type. The pixel type provides
@@ -104,20 +107,26 @@ public:
    * is required when writing the image. */
   virtual void SetOrigin(unsigned int i, double origin);
   virtual double GetOrigin(unsigned int i) const
-  { return m_Origin[i]; }
+    {
+    return m_Origin[i];
+    }
 
   /** Set/Get the image spacing on an axis-by-axis basis. The
    * SetSpacing() method is required when writing the image. */
   virtual void SetSpacing(unsigned int i, double spacing);
   virtual double GetSpacing(unsigned int i) const
-  { return m_Spacing[i]; }
+    {
+    return m_Spacing[i];
+    }
 
   /** Set/Get the image direction on an axis-by-axis basis. The
    * SetDirection() method is required when writing the image. */
   virtual void SetDirection(unsigned int i, std::vector<double> &direction);
   virtual void SetDirection(unsigned int i, vnl_vector<double> &direction);
   virtual std::vector<double> GetDirection(unsigned int i) const
-  { return m_Direction[i]; }
+    {
+    return m_Direction[i];
+    }
 
   /** Specify the region of the image data to either read or
    * write. The IORegion specifies the part of the image to read or
@@ -182,9 +191,13 @@ public:
   itkSetEnumMacro(FileType,FileType);
   itkGetEnumMacro(FileType,FileType);
   void SetFileTypeToASCII()
-  { this->SetFileType(ASCII); }
+    {
+    this->SetFileType(ASCII);
+    }
   void SetFileTypeToBinary()
-  { this->SetFileType(Binary); }
+    {
+    this->SetFileType(Binary);
+    }
 
   /** These methods indicate the byte ordering of the file you are
    * trying to read in. These methods will then either swap or not
@@ -200,9 +213,13 @@ public:
   itkSetEnumMacro(ByteOrder,ByteOrder);
   itkGetEnumMacro(ByteOrder,ByteOrder);
   void SetByteOrderToBigEndian()
-  { this->SetByteOrder(BigEndian); }
+    {
+    this->SetByteOrder(BigEndian);
+    }
   void SetByteOrderToLittleEndian()
-  { this->SetByteOrder(LittleEndian); }
+    {
+    this->SetByteOrder(LittleEndian);
+    }
 
   /** Convenience method returns the FileType as a string. This can be
    * used for writing output files. */
@@ -234,7 +251,10 @@ public:
 
   /** Determine if the ImageIO can stream reading from this
       file. Default is false. */
-  virtual bool CanStreamRead() { return false; };
+  virtual bool CanStreamRead()
+    {
+    return false;
+    }
 
   /** Read the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
@@ -252,7 +272,10 @@ public:
 
   /** Determine if the ImageIO can stream writing to this
       file. Default is false. */
-  virtual bool CanStreamWrite() { return false; };
+  virtual bool CanStreamWrite()
+    {
+    return false;
+    }
 
   /** Writes the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
@@ -271,7 +294,9 @@ public:
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool SupportsDimension(unsigned long dim)
-  {return (dim == 2);}
+    {
+    return (dim == 2);
+    }
 
 protected:
   ImageIOBase();

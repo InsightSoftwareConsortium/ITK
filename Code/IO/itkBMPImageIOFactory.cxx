@@ -49,4 +49,3 @@ BMPImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

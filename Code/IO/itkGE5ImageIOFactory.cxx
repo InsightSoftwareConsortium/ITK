@@ -50,8 +50,7 @@ GE5ImageIOFactory::GetITKSourceVersion(void) const
 const char*
 GE5ImageIOFactory::GetDescription() const
 {
-  return "GE5 ImageIO Factory, allows the loading of GE5 images into insight";
+  return "GE5 ImageIO Factory, allows the loading of GE5 images into ITK";
 }
 
 } // end namespace itk
-

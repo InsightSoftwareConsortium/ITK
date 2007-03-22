@@ -24,9 +24,6 @@
 namespace itk
 {
 
-
-
-
 /**
  * Advance one Step following the gradient direction
  * This method will be overrided in non-vector spaces
@@ -95,9 +92,6 @@ VersorRigid3DTransformOptimizer
   this->SetCurrentPosition( newParameters );
 
 }
-
-
-
 
 } // end namespace itk
 

@@ -54,8 +54,8 @@ class ITK_EXPORT GEAdwImageIO : public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef GEAdwImageIO            Self;
-  typedef IPLCommonImageIO  Superclass;
+  typedef GEAdwImageIO        Self;
+  typedef IPLCommonImageIO    Superclass;
   typedef SmartPointer<Self>  Pointer;
 
   /** Method for creation through the object factory. */
@@ -72,7 +72,7 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead) ;
+  virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   // Implemented in superclass

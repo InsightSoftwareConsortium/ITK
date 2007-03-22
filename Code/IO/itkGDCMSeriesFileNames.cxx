@@ -47,12 +47,12 @@ GDCMSeriesFileNames::~GDCMSeriesFileNames()
 
 void GDCMSeriesFileNames::SetInputDirectory (const char * name)
 {
-   if ( !name )
-     {
-     itkExceptionMacro(<<"SetInputDirectory() received a NULL string");
-     }
-   std::string fname = name;
-   this->SetInputDirectory( fname );
+  if ( !name )
+    {
+    itkExceptionMacro(<<"SetInputDirectory() received a NULL string");
+    }
+  std::string fname = name;
+  this->SetInputDirectory( fname );
 }
 
 void GDCMSeriesFileNames::SetInputDirectory (std::string const &name)
@@ -146,27 +146,27 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
     for(it = flist->begin(); 
         it != flist->end(); ++it )
       {
-        gdcm::File * header = *it;
-        if( !header )
-          {
-          itkWarningMacro( << "GDCMSeriesFileNames got NULL header, "
-            "this is a serious bug" );
-          continue;
-          }
-        if( !header->IsReadable() )
-          {
-          itkWarningMacro( << "GDCMSeriesFileNames got a non DICOM file:" 
-            << header->GetFileName() );
-          continue;
-          }
-        m_InputFileNames.push_back( header->GetFileName() );
+      gdcm::File * header = *it;
+      if( !header )
+        {
+        itkWarningMacro( << "GDCMSeriesFileNames got NULL header, "
+                         "this is a serious bug" );
+        continue;
+        }
+      if( !header->IsReadable() )
+        {
+        itkWarningMacro( << "GDCMSeriesFileNames got a non DICOM file:" 
+                         << header->GetFileName() );
+        continue;
+        }
+      m_InputFileNames.push_back( header->GetFileName() );
       }
     }
   else
     {
     itkDebugMacro(<<"No files were found");
     }
-
+  
   return m_InputFileNames;
 }
 

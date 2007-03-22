@@ -50,4 +50,3 @@ LSMImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

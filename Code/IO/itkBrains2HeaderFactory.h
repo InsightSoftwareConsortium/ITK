@@ -30,9 +30,9 @@ class Brains2HeaderFactory
 {
 public:
   /** Standard class typedefs. */
-  typedef Brains2HeaderFactory   Self;
-  typedef Self *  Pointer;
-  typedef const Self *  ConstPointer;
+  typedef Brains2HeaderFactory Self;
+  typedef Self *               Pointer;
+  typedef const Self *         ConstPointer;
 
   Brains2HeaderFactory();
   virtual ~Brains2HeaderFactory();

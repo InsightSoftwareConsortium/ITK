@@ -59,13 +59,13 @@ public:
   itkGetConstReferenceMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
   bool GetMinimize( ) const
-  { return !m_Maximize; }
+    { return !m_Maximize; }
   void SetMinimize(bool v)
-  { this->SetMaximize(!v); }
+    { this->SetMaximize(!v); }
   void    MinimizeOn(void) 
-  { SetMaximize( false ); }
+    { SetMaximize( false ); }
   void    MinimizeOff(void) 
-  { SetMaximize( true ); }
+    { SetMaximize( true ); }
 
   /** Start optimization. */
   void    StartOptimization( void );
@@ -114,13 +114,12 @@ protected:
   virtual void StepAlongGradient( 
     double,
     const DerivativeType&)
-  {
+    {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);
     ex.SetDescription("This method MUST be overloaded in derived classes");
     throw ex;
-  }
-
+    }
 
 private:  
   RegularStepGradientDescentBaseOptimizer(const Self&); //purposely not implemented
@@ -147,9 +146,4 @@ protected:
 
 } // end namespace itk
 
-
-
 #endif
-
-
-

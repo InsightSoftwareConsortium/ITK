@@ -42,9 +42,9 @@ class ITK_EXPORT BioRadImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef BioRadImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef BioRadImageIO      Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

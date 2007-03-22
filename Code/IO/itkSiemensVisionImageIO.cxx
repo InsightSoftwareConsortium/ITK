@@ -1,4 +1,5 @@
 /*=========================================================================
+
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkSiemensVisionImageIO.cxx
   Language:  C++
@@ -53,7 +54,9 @@ bool SiemensVisionImageIO::CanReadFile( const char* FileNameToRead )
   // Can you open it?
   std::ifstream f(FileNameToRead,std::ios::binary | std::ios::in);
   if(!f.is_open())
+    {
     return false;
+    }
   int matrixX;
   //
   // another lame heuristic, check the actual file size against
@@ -71,8 +74,9 @@ bool SiemensVisionImageIO::CanReadFile( const char* FileNameToRead )
 struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 {
   if(!this->CanReadFile(FileNameToRead))
+    {
     RAISE_EXCEPTION();
-
+    }
   int tmpInt;
   double tmpDble;
 

@@ -46,4 +46,3 @@ const char* GDCMImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

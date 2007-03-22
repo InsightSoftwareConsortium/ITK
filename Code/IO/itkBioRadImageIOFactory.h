@@ -32,10 +32,10 @@ class ITK_EXPORT BioRadImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef BioRadImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BioRadImageIOFactory     Self;
+  typedef ObjectFactoryBase        Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Class Methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion() const;
@@ -49,10 +49,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory()
-  {
+    {
     BioRadImageIOFactory::Pointer bioradFactory = BioRadImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(bioradFactory);
-  }
+    }
 
 protected:
   BioRadImageIOFactory();

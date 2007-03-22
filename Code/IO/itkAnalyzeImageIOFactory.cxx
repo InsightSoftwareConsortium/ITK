@@ -54,4 +54,3 @@ AnalyzeImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

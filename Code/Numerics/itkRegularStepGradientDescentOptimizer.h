@@ -71,9 +71,4 @@ private:
 
 } // end namespace itk
 
-
-
 #endif
-
-
-

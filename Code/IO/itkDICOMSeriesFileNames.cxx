@@ -82,46 +82,46 @@ DICOMSeriesFileNames
     switch (m_FileNameSortingOrder)
       {
       case SortByImageNumber:
-      {
-      std::vector<std::pair<int, std::string> > iSortedFileNames;
-      m_AppHelper.GetSliceNumberFilenamePairs(seriesUID,
-                                              iSortedFileNames,
-                                              m_Ascending);
-      for (std::vector<std::pair<int, std::string> >::iterator it =
-             iSortedFileNames.begin(); it != iSortedFileNames.end(); ++it)
         {
-        m_FileNames.push_back( (*it).second );
+        std::vector<std::pair<int, std::string> > iSortedFileNames;
+        m_AppHelper.GetSliceNumberFilenamePairs(seriesUID,
+                                                iSortedFileNames,
+                                                m_Ascending);
+        for (std::vector<std::pair<int, std::string> >::iterator it =
+               iSortedFileNames.begin(); it != iSortedFileNames.end(); ++it)
+          {
+          m_FileNames.push_back( (*it).second );
+          }
         }
-      }
-      break;
+        break;
       
       case SortBySliceLocation:
-      {
-      std::vector<std::pair<float, std::string> > fSortedFileNames;
-      m_AppHelper.GetSliceLocationFilenamePairs(seriesUID,
-                                                fSortedFileNames,
-                                                m_Ascending);
-      for (std::vector<std::pair<float, std::string> >::iterator it =
-             fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
         {
-        m_FileNames.push_back( (*it).second );
+        std::vector<std::pair<float, std::string> > fSortedFileNames;
+        m_AppHelper.GetSliceLocationFilenamePairs(seriesUID,
+                                                  fSortedFileNames,
+                                                  m_Ascending);
+        for (std::vector<std::pair<float, std::string> >::iterator it =
+               fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
+          {
+          m_FileNames.push_back( (*it).second );
+          }
         }
-      }
-      break;
+        break;
       
       case SortByImagePositionPatient:
-      {
-      std::vector<std::pair<float, std::string> > fSortedFileNames;
-      m_AppHelper.GetImagePositionPatientFilenamePairs(seriesUID,
-                                                       fSortedFileNames,
-                                                       m_Ascending);
-      for (std::vector<std::pair<float, std::string> >::iterator it =
-             fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
         {
-        m_FileNames.push_back( (*it).second );
+        std::vector<std::pair<float, std::string> > fSortedFileNames;
+        m_AppHelper.GetImagePositionPatientFilenamePairs(seriesUID,
+                                                         fSortedFileNames,
+                                                         m_Ascending);
+        for (std::vector<std::pair<float, std::string> >::iterator it =
+               fSortedFileNames.begin(); it != fSortedFileNames.end(); ++it)
+          {
+          m_FileNames.push_back( (*it).second );
+          }
         }
-      }
-      break;
+        break;
       }
     }
   return m_FileNames;
@@ -142,7 +142,8 @@ DICOMSeriesFileNames
     // Only read files
     if (itksys::SystemTools::FileIsDirectory( (directory + "/" + dicomDir.GetFile(i)).c_str() ))
       {
-      if (strcmp(dicomDir.GetFile(i), ".")!=0 && strcmp(dicomDir.GetFile(i), "..")!=0)
+      if (strcmp(dicomDir.GetFile(i), ".") != 0 &&
+          strcmp(dicomDir.GetFile(i), "..") != 0 )
         {
         this->RecurseDirectory((directory + "/" + dicomDir.GetFile(i)).c_str(), filenames);
         }
@@ -195,8 +196,8 @@ DICOMSeriesFileNames
     // Only read files
     if (itksys::SystemTools::FileIsDirectory( (m_Directory + "/" + dicomDir.GetFile(i)).c_str() ) && recursive)
       {
-      if (strcmp(dicomDir.GetFile(i), ".")!=0
-          && strcmp(dicomDir.GetFile(i), "..")!=0)
+      if (strcmp(dicomDir.GetFile(i), ".") != 0
+          && strcmp(dicomDir.GetFile(i), "..") != 0)
         {
         this->RecurseDirectory((m_Directory + "/" + dicomDir.GetFile(i)).c_str(), filenames);
         }

@@ -48,4 +48,3 @@ PNGImageIOFactory::GetDescription(void) const
 }
 
 } // end namespace itk
-

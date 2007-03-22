@@ -72,23 +72,23 @@ public:
    * the directory was scanned. */
   void SetDirectory(const std::string& dir)
     {
-      if (m_Directory != dir)
-        {
-        m_Directory = dir;
-        this->Modified();
+    if (m_Directory != dir)
+      {
+      m_Directory = dir;
+      this->Modified();
 
-        // Clear the SeriesUIDs and FileNames
-        m_SeriesUIDs.clear();
-        m_FileNames.clear();
-        m_AppHelper.Clear();
-        }
+      // Clear the SeriesUIDs and FileNames
+      m_SeriesUIDs.clear();
+      m_FileNames.clear();
+      m_AppHelper.Clear();
+      }
 
-      // Keep track of when the directory name was set so we can
-      // compare it when the directory was last scanned. We set this
-      // modified time each time SetDirectory() is called. This allows
-      // a call to SetDirectory() to force a directory to be rescanned
-      // the next time GetFileNames() or GetSeriesUIDs() is called.
-      m_DirectorySetTime.Modified();
+    // Keep track of when the directory name was set so we can
+    // compare it when the directory was last scanned. We set this
+    // modified time each time SetDirectory() is called. This allows
+    // a call to SetDirectory() to force a directory to be rescanned
+    // the next time GetFileNames() or GetSeriesUIDs() is called.
+    m_DirectorySetTime.Modified();
     }
 
   /** Get the directory containing the DICOM files. */
@@ -155,16 +155,16 @@ private:
   int CanReadFile(const char* fname);
   void RecurseDirectory( std::string directory, std::vector<std::string> &filenames);
 
-  itkdicomparser::DICOMParser m_Parser;
+  itkdicomparser::DICOMParser    m_Parser;
   itkdicomparser::DICOMAppHelper m_AppHelper;
 
-  bool m_Ascending;
-  std::string m_Directory;
-  std::vector<std::string>  m_FileNames;
-  std::vector<std::string>  m_SeriesUIDs;
-  std::vector<std::string>  m_SeriesDescriptions;
-  std::vector<std::string>  m_BodyParts;
-  std::vector<std::string>  m_ScanOptions;
+  bool                     m_Ascending;
+  std::string              m_Directory;
+  std::vector<std::string> m_FileNames;
+  std::vector<std::string> m_SeriesUIDs;
+  std::vector<std::string> m_SeriesDescriptions;
+  std::vector<std::string> m_BodyParts;
+  std::vector<std::string> m_ScanOptions;
 
   FileNameSortingOrderType m_FileNameSortingOrder;
 

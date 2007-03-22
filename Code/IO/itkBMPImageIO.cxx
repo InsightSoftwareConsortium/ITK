@@ -134,7 +134,7 @@ bool BMPImageIO::CanReadFile( const char* filename )
   if (sizeLong == 4)   // if we are on a 32 bit machine
     {
     inputStream.read((char*)&infoSize,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&infoSize);                      
+    ByteSwapper<long>::SwapFromSystemToLittleEndian(&infoSize);
     // error checking
     if ((infoSize != 40)&&(infoSize != 12))
       {
@@ -214,7 +214,7 @@ void BMPImageIO::Read(void* buffer)
   if (m_FileLowerLeft)
     {
     // If the file is RLE compressed
-    if(m_BMPCompression == 1 && this->GetNumberOfComponents()==3)
+    if(m_BMPCompression == 1 && this->GetNumberOfComponents() == 3)
       {
       delete [] value;
       value = new char[m_BMPDataSize+1];
@@ -255,42 +255,44 @@ void BMPImageIO::Read(void* buffer)
         }
       }
     else
-    for(unsigned int id=0;id<m_Dimensions[1];id++)
       {
-      m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
-      m_Ifstream.read((char *)value, paddedStreamRead);
-      for(long i=0;i<streamRead;i++)
+      for(unsigned int id=0;id<m_Dimensions[1];id++)
         {
-        if(this->GetNumberOfComponents() == 1)
+        m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
+        m_Ifstream.read((char *)value, paddedStreamRead);
+        for(long i=0;i<streamRead;i++)
           {
-          p[l++]=value[i];
-          }
-        else
-          {
-          if(m_NumberOfColors == 0)
+          if(this->GetNumberOfComponents() == 1)
             {
-            p[l++]=value[i+2];
-            p[l++]=value[i+1];
             p[l++]=value[i];
-            i += step-1;
             }
           else
             {
-            unsigned char val = value[i];       
-            RGBPixelType rbg;
-            if(val<m_ColorPalette.size())
+            if(m_NumberOfColors == 0)
               {
-              rbg = m_ColorPalette[val];
+              p[l++]=value[i+2];
+              p[l++]=value[i+1];
+              p[l++]=value[i];
+              i += step-1;
               }
             else
               {
-              rbg.SetRed(0);
-              rbg.SetGreen(0);
-              rbg.SetBlue(0);
+              unsigned char val = value[i];
+              RGBPixelType rbg;
+              if(val<m_ColorPalette.size())
+                {
+                rbg = m_ColorPalette[val];
+                }
+              else
+                {
+                rbg.SetRed(0);
+                rbg.SetGreen(0);
+                rbg.SetBlue(0);
+                }
+              p[l++]=rbg.GetBlue();
+              p[l++]=rbg.GetGreen();
+              p[l++]=rbg.GetRed();
               }
-            p[l++]=rbg.GetBlue();
-            p[l++]=rbg.GetGreen();
-            p[l++]=rbg.GetRed();
             }
           }
         }
@@ -390,7 +392,7 @@ void BMPImageIO::ReadImageInformation()
     if ((infoSize != 40)&&(infoSize != 12))
       {
       itkExceptionMacro(<<"Unknown file type! " << m_FileName.c_str() 
-                    <<" is not a Windows BMP file!");
+                        <<" is not a Windows BMP file!");
       m_Ifstream.close();
       return;
       }
@@ -425,7 +427,7 @@ void BMPImageIO::ReadImageInformation()
     if ((infoSize != 40)&&(infoSize != 12))
       {
       itkExceptionMacro(<<"Unknown file type! " << m_FileName.c_str() 
-                    <<" is not a Windows BMP file!");
+                        <<" is not a Windows BMP file!");
       m_Ifstream.close();
       return;
       }
@@ -558,61 +560,61 @@ BMPImageIO
   switch(m_ComponentType)
     {
     case CHAR:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
-        (char*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(
+          (char*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
+          (char *)buffer, numberOfPixels );
+        }
+      break;
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<char>::SwapRangeFromSystemToBigEndian(
-        (char *)buffer, numberOfPixels );
-      }
-    break;
-    }
     case UCHAR:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
-        (unsigned char*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(
+          (unsigned char*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
+          (unsigned char *)buffer, numberOfPixels );
+        }
+      break;
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
-        (unsigned char *)buffer, numberOfPixels );
-      }
-    break;
-    }
     case SHORT:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
-        (short*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<short>::SwapRangeFromSystemToLittleEndian(
+          (short*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
+          (short *)buffer, numberOfPixels );
+        }
+      break;
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
-        (short *)buffer, numberOfPixels );
-      }
-    break;
-    }
     case USHORT:
-    {
-    if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-        (unsigned short*)buffer, numberOfPixels );
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
+          (unsigned short*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
+          (unsigned short *)buffer, numberOfPixels );
+        }
+      break; 
       }
-    else if ( m_ByteOrder == BigEndian )
-      {
-      ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
-        (unsigned short *)buffer, numberOfPixels );
-      }
-    break; 
-    }
     default:
       itkExceptionMacro(<< "Pixel Type Unknown");
     }
@@ -653,7 +655,7 @@ BMPImageIO
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
   std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-  tFile.close();                    
+  tFile.close();
 #endif
 
   m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
@@ -770,7 +772,7 @@ BMPImageIO
     }
   else
     {
-    itkExceptionMacro(<< "Number of components not supported.") ;
+    itkExceptionMacro(<< "Number of components not supported.");
     }
   m_Ofstream.write(&tmp,sizeof(char));
   tmp =0;
@@ -795,56 +797,56 @@ BMPImageIO
   unsigned int i;
   for (unsigned int h = 0; h < m_Dimensions[1]; h++)
     {  
-      const char paddingValue = 0;
-      const char * ptr = static_cast<const char*>(buffer);
-      ptr += (m_Dimensions[1]-(h+1))*m_Dimensions[0]*bpp;
-      if (bpp == 1)
+    const char paddingValue = 0;
+    const char * ptr = static_cast<const char*>(buffer);
+    ptr += (m_Dimensions[1]-(h+1))*m_Dimensions[0]*bpp;
+    if (bpp == 1)
+      {
+      for (i = 0; i < m_Dimensions[0]; i++)
         {
-        for (i = 0; i < m_Dimensions[0]; i++)
-          {
-          m_Ofstream.write(ptr,sizeof(char));
-          ptr++;
-          }
-        for (i = 0; i < paddedBytes; i++)
-          {
-          m_Ofstream.write(&paddingValue,sizeof(char));
-          }
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr++;
         }
-      if (bpp == 3)
+      for (i = 0; i < paddedBytes; i++)
         {
-        for (i = 0; i < m_Dimensions[0]; i++)
-          {
-           ptr+=2;
-           m_Ofstream.write(ptr,sizeof(char));
-           ptr--;
-           m_Ofstream.write(ptr,sizeof(char));
-           ptr--;
-           m_Ofstream.write(ptr,sizeof(char));
-           ptr+=3;
-          }
-        for (i = 0; i < paddedBytes; i++)
-          {
-          m_Ofstream.write(&paddingValue,sizeof(char));
-          }
-        }
-      if (bpp == 4)
-        {
-        for (i = 0; i < m_Dimensions[0]; i++)
-          {
-           ptr+=2;
-           m_Ofstream.write(ptr,sizeof(char));
-           ptr--;
-           m_Ofstream.write(ptr,sizeof(char));
-           ptr--;
-           m_Ofstream.write(ptr,sizeof(char));
-           ptr+=4;
-          }
-        for (i = 0; i < paddedBytes; i++)
-          {
-          m_Ofstream.write(&paddingValue,sizeof(char));
-          }
+        m_Ofstream.write(&paddingValue,sizeof(char));
         }
       }
+    if (bpp == 3)
+      {
+      for (i = 0; i < m_Dimensions[0]; i++)
+        {
+        ptr += 2;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr--;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr--;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr += 3;
+        }
+      for (i = 0; i < paddedBytes; i++)
+        {
+        m_Ofstream.write(&paddingValue,sizeof(char));
+        }
+      }
+    if (bpp == 4)
+      {
+      for (i = 0; i < m_Dimensions[0]; i++)
+        {
+        ptr += 2;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr--;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr--;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr += 4;
+        }
+      for (i = 0; i < paddedBytes; i++)
+        {
+        m_Ofstream.write(&paddingValue,sizeof(char));
+        }
+      }
+    }
 }
 
 /** Print Self Method */
@@ -865,7 +867,5 @@ void BMPImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "BMPCompression = " << m_BMPCompression << "\n";
   os << indent << "DataSize = " << m_BMPDataSize << "\n";
 }
-
-
 
 } // end namespace itk

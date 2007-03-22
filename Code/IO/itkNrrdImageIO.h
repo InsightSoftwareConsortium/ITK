@@ -40,9 +40,9 @@ class ITK_EXPORT NrrdImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef NrrdImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef NrrdImageIO        Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

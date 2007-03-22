@@ -44,9 +44,9 @@ struct lt_pair_alphabetic_string_string
 {
   bool operator()(const std::pair<std::string, std::string> s1, 
                   const std::pair<std::string, std::string> s2) const
-  {
+    {
     return s1.second < s2.second;
-  }
+    }
 };
 
 namespace itk

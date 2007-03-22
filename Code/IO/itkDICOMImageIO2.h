@@ -26,14 +26,17 @@
 namespace itk
 {
 
-/** \brief Read DICOMImage file format. */
+/**
+ * \class DICOMImageIO2
+ *  \brief Read DICOMImage file format.
+ */
 class ITK_EXPORT DICOMImageIO2 : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef DICOMImageIO2            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef DICOMImageIO2      Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -45,8 +48,7 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*) ;
-  
+  virtual bool CanReadFile(const char*);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();

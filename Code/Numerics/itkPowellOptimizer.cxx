@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,24 +28,24 @@ PowellOptimizer
 {
   m_Maximize = false;
 
-  m_StepLength = 1.0; 
-  m_StepTolerance = 0.00001; 
+  m_StepLength = 1.0;
+  m_StepTolerance = 0.00001;
   m_ValueTolerance = 0.00001;
 
-  m_Stop = false ;
+  m_Stop = false;
 
   m_CurrentCost = 0;
   m_CurrentIteration = 0;
   m_CurrentLineIteration = 0;
 
-  m_MaximumIteration = 100 ;
+  m_MaximumIteration = 100;
 
-  m_MaximumLineIteration = 100 ;
+  m_MaximumLineIteration = 100;
   m_SpaceDimension = 0;
 }
 
 PowellOptimizer
-::~PowellOptimizer() 
+::~PowellOptimizer()
 {
 }
 
@@ -83,7 +83,7 @@ PowellOptimizer
 
 void
 PowellOptimizer
-::SetCurrentLinePoint(double x, double fx) 
+::SetCurrentLinePoint(double x, double fx)
 {
   PowellOptimizer::ParametersType xCoord( m_SpaceDimension );
   for(unsigned int i=0; i<m_SpaceDimension; i++)
@@ -120,31 +120,31 @@ PowellOptimizer
   *c = d;
 }
 
-// 
+//
 // This code was implemented from the description of
 // the Golden section search available in the Wikipedia
 //
 // http://en.wikipedia.org/wiki/Golden_section_search
-// 
-// 
+//
+//
 // The inputs to this function are
 //
 // x1 and its function value f1
-// x2 
+// x2
 //
 // (f2 is not yet evaluated, it will be computed inside)
 // (x2 and its function value f3 are also computed inside)
-// 
-// The outputs are the values of x2 and f2 at 
+//
+// The outputs are the values of x2 and f2 at
 // the end of the iterations.
-// 
+//
 void
 PowellOptimizer
 ::LineBracket(double * x1, double * x2, double * x3,
-              double * f1, double * f2, double * f3) 
+              double * f1, double * f2, double * f3)
 {
   //
-  // Compute the golden ratio as a constant to be 
+  // Compute the golden ratio as a constant to be
   // used when extrapolating the bracket
   //
   const double goldenRatio = ( 1.0 + vcl_sqrt( 5.0 ) ) / 2.0;
@@ -156,15 +156,15 @@ PowellOptimizer
 
   //
   // Compute extrapolated point using the golden ratio
-  // 
-  if( *f2 < *f1 ) 
+  //
+  if( *f2 < *f1 )
     {
     // compute x3 on the side of x2
     *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
     *f3 = this->GetLineValue( *x3 );
 
     // If the new point is a minimum
-    // then continue extrapolating in 
+    // then continue extrapolating in
     // that direction until we find a
     // value of f3 that makes f2 to be
     // a minimum.
@@ -183,7 +183,7 @@ PowellOptimizer
     *f3 = this->GetLineValue( *x3 );
 
     // If the new point is a minimum
-    // then continue extrapolating in 
+    // then continue extrapolating in
     // that direction until we find a
     // value of f3 that makes f2 to be
     // a minimum.
@@ -214,7 +214,7 @@ PowellOptimizer
   //
   //      f1 >  f2  < f3
   //
-  // then start searching for the minimum 
+  // then start searching for the minimum
   // inside of the bracket by using a golden
   // section search
   //
@@ -225,17 +225,17 @@ PowellOptimizer
     // At this point this can be done by simply using
     // the additive property of the golden ratio, there
     // is no need for using it as a factor.
-    // 
+    //
     *x4 = *x1 - *x2 + *x3;
     *f4 = this->GetLineValue( *x4 );
 
-    // 
+    //
     // If the new value f4 at x4 is larger than f2
     // then the minimum should be between x1 and x4,
     //
     if( *f2 < *f4 )
       {
-      // Therefore the new triplet should be 
+      // Therefore the new triplet should be
       // composed of x1,x2,x4. We make x3,f3
       // take the values of x4,f4 and we are
       // back to having a bracket x1,x2,x3.
@@ -247,7 +247,7 @@ PowellOptimizer
       {
       //
       // Otherwise the minimum should be between x2 and x3
-      // Therefore the new triplet should be 
+      // Therefore the new triplet should be
       // composed of x2,x4,x3. We make x1,f1
       // take the values of x2,f2, and we make
       // x2,f2 take the values of x4,f4. At that
@@ -266,7 +266,7 @@ PowellOptimizer
     //
     intervalWidth = vcl_abs( *x3 - *x1 );
 
-    floatingPointPrecision = 
+    floatingPointPrecision =
      POWELL_TINY * vcl_abs( *x2 ) + vcl_abs( *x4 );
 
     }
@@ -274,7 +274,7 @@ PowellOptimizer
 
   //
   // Report the central point as the minimum
-  // 
+  //
   this->SetCurrentLinePoint( *x2, *f2 );
 }
 
@@ -282,7 +282,7 @@ void
 PowellOptimizer
 ::BracketedLineOptimize(double ax, double bx, double cx,
                         double itkNotUsed(fa), double functionValueOfb, double itkNotUsed(fc),
-                        double * extX, double * extVal) 
+                        double * extX, double * extVal)
 {
   double x;
   double v;
@@ -311,7 +311,7 @@ PowellOptimizer
        m_CurrentLineIteration < m_MaximumLineIteration;
        m_CurrentLineIteration++)
     {
-  
+
     double middle_range = (a+b)/2;
 
     double new_step;          /* Step at this iteration       */
@@ -325,10 +325,10 @@ PowellOptimizer
     if (vcl_fabs(x-middle_range) <= (tolerance2 - 0.5*(b-a))
         || 0.5*(b-a) < m_StepTolerance)
       {
-      *extX = x; 
+      *extX = x;
       *extVal = functionValueOfX;
       this->SetCurrentLinePoint(x, functionValueOfX);
-      return ;        /* Acceptable approx. is found  */
+      return;        /* Acceptable approx. is found  */
       }
 
     /* Obtain the gold section step  */
@@ -337,7 +337,7 @@ PowellOptimizer
 
     /* Decide if the interpolation can be tried  */
     if( fabs(x-w) >= tolerance1  )    /* If x and w are distinct      */
-      {    
+      {
       double t;
       t = (x-w) * (functionValueOfX-functionValueOfV);
 
@@ -360,21 +360,21 @@ PowellOptimizer
 
       /* Chec if x+p/q falls in [a,b] and  not too close to a and b
            and isn't too large */
-      if( fabs(p) < fabs(new_step*q) &&  
-          p > q*(a-x+2*tolerance1) &&    
-          p < q*(b-x-2*tolerance1)  )            
+      if( fabs(p) < fabs(new_step*q) &&
+          p > q*(a-x+2*tolerance1) &&
+          p < q*(b-x-2*tolerance1)  )
           {
           new_step = p/q;      /* it is accepted         */
           }
 
-      /* If p/q is too large then the  gold section procedure can   
+      /* If p/q is too large then the  gold section procedure can
          reduce [a,b] range to more  extent      */
       }
 
      /* Adjust the step to be not less than tolerance*/
-    if( fabs(new_step) < tolerance1 ) 
+    if( fabs(new_step) < tolerance1 )
       {
-      if ( new_step > 0.0 )  
+      if ( new_step > 0.0 )
         {
         new_step = tolerance1;
         }
@@ -393,7 +393,7 @@ PowellOptimizer
     functionValueOft = this->GetLineValue(t);
 
     if( functionValueOft <= functionValueOfX )
-    {                     
+    {
       if( t < x )      /* Reduce the range so that  */
         {
         b = x;        /* t would fall within it  */
@@ -402,27 +402,27 @@ PowellOptimizer
         {
         a = x;
         }
-   
-     /* assing the best approximation to x */ 
+
+     /* assing the best approximation to x */
     v = w;
     w = x;
-    x = t;    
+    x = t;
 
     functionValueOfV = functionValueOfW;
     functionValueOfW = functionValueOfX;
     functionValueOfX = functionValueOft;
     }
     else                              /* x remains the better approx  */
-    {                         
+    {
     if( t < x )      /* Reduce the range enclosing x  */
       {
-      a = t;                   
+      a = t;
       }
     else
       {
       b = t;
       }
-    
+
       if( functionValueOft <= functionValueOfW || w==x )
         {
         v = w;
@@ -435,10 +435,10 @@ PowellOptimizer
         v = t;
         functionValueOfV=functionValueOft;
         }
-     }       
-  }    
+     }
+  }
 
-  *extX = x; 
+  *extX = x;
   *extVal = functionValueOfX;
 
   this->SetCurrentLinePoint(x, functionValueOfX);
@@ -451,11 +451,11 @@ PowellOptimizer
 {
   if( m_CostFunction.IsNull() )
     {
-    return ;
+    return;
     }
 
   this->InvokeEvent( StartEvent() );
-  m_Stop = false ;
+  m_Stop = false;
 
   m_SpaceDimension = m_CostFunction->GetNumberOfParameters();
   m_LineOrigin.set_size(m_SpaceDimension);
@@ -508,14 +508,14 @@ PowellOptimizer
       this->SetCurrentLinePoint(xx, fx);
       p = this->GetCurrentPosition();
 
-      if (vcl_fabs(fptt-fx) > del) 
+      if (vcl_fabs(fptt-fx) > del)
         {
         del = vcl_fabs(fptt-fx);
         ibig = i;
         }
       }
 
-    if (2.0*vcl_fabs(fp-fx) 
+    if (2.0*vcl_fabs(fp-fx)
         <= m_ValueTolerance*(vcl_fabs(fp)+vcl_fabs(fx)))
       {
       this->InvokeEvent( EndEvent() );
@@ -548,7 +548,7 @@ PowellOptimizer
         this->SetCurrentLinePoint(xx, fx);
         p = this->GetCurrentPosition();
 
-        for (unsigned int j = 0; j < m_SpaceDimension; j++) 
+        for (unsigned int j = 0; j < m_SpaceDimension; j++)
           {
           xi[j][ibig] = xx * xit[j];
           }

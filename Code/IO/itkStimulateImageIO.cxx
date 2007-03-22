@@ -94,7 +94,7 @@ bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream& os,
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
   std::ofstream tFile(filename,std::ios::out);
-  tFile.close();                    
+  tFile.close();
 #endif
 
   // Actually open the file
@@ -229,7 +229,7 @@ void StimulateImageIO::Read(void* buffer)
       ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
       break;
     default:
-      ;
+      break;
     }
 
   //closing files:
@@ -439,7 +439,8 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
       sscanf(line, "%*s %s", datafilename);
       //if the data filename has a directory specified, use it as is,
       //otherwise prepend the path of the .spr file.
-      std::string datafilenamePath = ::itksys::SystemTools::GetFilenamePath (datafilename);      
+      std::string datafilenamePath =
+        ::itksys::SystemTools::GetFilenamePath (datafilename);
       if (datafilenamePath == "")
         {
         std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath (m_FileName.c_str());
@@ -514,8 +515,6 @@ bool StimulateImageIO::CanWriteFile( const char* name )
   return true;
 }
 
-
-
 void StimulateImageIO::Write(const void* buffer)
 {
   unsigned int i;
@@ -547,7 +546,7 @@ void StimulateImageIO::Write(const void* buffer)
   file << "\norigin:";
   for(i=0; i < m_NumberOfDimensions; i++)
     {
-    file << " " << m_Origin[i] ;
+    file << " " << m_Origin[i];
     }
 
   file << "\nfov:";
@@ -568,56 +567,56 @@ void StimulateImageIO::Write(const void* buffer)
 
   file << "\ndataType: ";
   {
-  char * tempmemory=new char[numberOfBytes];
-  memcpy(tempmemory,buffer,numberOfBytes);
-  switch(this->GetComponentType())
-    {
-    case CHAR:
-      file << "BYTE";
-      ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory), numberOfComponents );
-      break;
-    case SHORT:
-      file << "WORD";
-      ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int *>(tempmemory), numberOfComponents );
-      break;
-    case INT:
-      file << "LWORD";
-      ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory), numberOfComponents );
-      break;
-    case FLOAT:
-      file << "REAL";
-      ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), numberOfComponents );
-      break;
-    case DOUBLE:
-      file << "COMPLEX";
-      ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), numberOfComponents );
-      break;
-    default:
-      ;
-    }
+    char * tempmemory=new char[numberOfBytes];
+    memcpy(tempmemory,buffer,numberOfBytes);
+    switch(this->GetComponentType())
+      {
+      case CHAR:
+        file << "BYTE";
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory), numberOfComponents );
+        break;
+      case SHORT:
+        file << "WORD";
+        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int *>(tempmemory), numberOfComponents );
+        break;
+      case INT:
+        file << "LWORD";
+        ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory), numberOfComponents );
+        break;
+      case FLOAT:
+        file << "REAL";
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), numberOfComponents );
+        break;
+      case DOUBLE:
+        file << "COMPLEX";
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), numberOfComponents );
+        break;
+      default:
+        break;
+      }
   
-  //add the data filename to the header
-  //determine datafile given the spr filename
-  m_DataFileName = m_FileName;
-  m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt" );
-  file << "\nstimFileName: " << m_DataFileName.c_str();
+    //add the data filename to the header
+    //determine datafile given the spr filename
+    m_DataFileName = m_FileName;
+    m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt" );
+    file << "\nstimFileName: " << m_DataFileName.c_str();
 
-  //Last carrier return:
-  file << "\n";
+    //Last carrier return:
+    file << "\n";
 
-  //actually read data file
-  std::ofstream file_data;
+    //actually read data file
+    std::ofstream file_data;
 
-  if ( ! this->OpenStimulateFileForWriting(file_data, m_DataFileName.c_str()) )
-    {
-    return;
+    if ( ! this->OpenStimulateFileForWriting(file_data, m_DataFileName.c_str()) )
+      {
+      return;
+      }
+
+    // Write the actual pixel data
+    file_data.write( static_cast<const char *>(tempmemory) , numberOfBytes );
+    delete [] tempmemory;
+    file_data.close();
     }
-
-  // Write the actual pixel data
-  file_data.write( static_cast<const char *>(tempmemory) , numberOfBytes );
-  delete [] tempmemory;
-  file_data.close();
-  }
   file.close();
 }
 
@@ -626,6 +625,5 @@ void StimulateImageIO::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "\nDisplayRange: " << m_DisplayRange[0] << " " << m_DisplayRange[1];
 }
-
 
 } // end namespace itk

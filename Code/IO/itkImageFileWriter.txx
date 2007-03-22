@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageFileWriter_txx
-#define _itkImageFileWriter_txx
+#ifndef __itkImageFileWriter_txx
+#define __itkImageFileWriter_txx
 
 #include "itkImageFileWriter.h"
 #include "itkDataObject.h"
@@ -82,8 +82,7 @@ const typename ImageFileWriter<TInputImage>::InputImageType *
 ImageFileWriter<TInputImage>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<TInputImage*>
-    (this->ProcessObject::GetInput(idx));
+  return static_cast<TInputImage*> (this->ProcessObject::GetInput(idx));
 }
 
 //---------------------------------------------------------
@@ -211,8 +210,8 @@ ImageFileWriter<TInputImage>
     m_ImageIO->SetSpacing(i,spacing[i]);
     m_ImageIO->SetOrigin(i,origin[i]);
     vnl_vector< double > axisDirection(TInputImage::ImageDimension);
-// Please note: direction cosines are stored as columns of the
-// direction matrix
+    // Please note: direction cosines are stored as columns of the
+    // direction matrix
     for(unsigned int j=0; j<TInputImage::ImageDimension; j++)
       {
       axisDirection[j] = direction[j][i];

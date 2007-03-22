@@ -54,4 +54,3 @@ GE4ImageIOFactory::GetDescription() const
 }
 
 } // end namespace itk
-

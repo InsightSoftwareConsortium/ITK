@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageSeriesReader_txx
-#define _itkImageSeriesReader_txx
+#ifndef __itkImageSeriesReader_txx
+#define __itkImageSeriesReader_txx
 #include "itkImageSeriesReader.h"
 
 #include "itkImageFileReader.h"
@@ -302,10 +302,6 @@ ImageSeriesReader<TOutputImage>
 {
   return & m_MetaDataDictionaryArray;
 }
-
-
-
-
 
 } //namespace ITK
 

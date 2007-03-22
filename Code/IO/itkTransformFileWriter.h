@@ -29,9 +29,9 @@ class TransformFileWriter : public LightProcessObject
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileWriter Self;
-  typedef SmartPointer<Self> Pointer;
-  typedef TransformBase TransformType;
+  typedef TransformFileWriter    Self;
+  typedef SmartPointer<Self>     Pointer;
+  typedef TransformBase          TransformType;
   typedef TransformType::Pointer TransformPointer;
 
   /** Method for creation through the object factory */
@@ -79,7 +79,7 @@ protected:
 private:
 
   std::list<const TransformType*>  m_TransformList;
-  unsigned int               m_Precision;
+  unsigned int                     m_Precision;
   bool                             m_AppendMode;
 };
 

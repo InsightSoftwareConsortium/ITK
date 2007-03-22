@@ -198,7 +198,7 @@ void IPLCommonImageIO::Read(void* buffer)
 
   for(;it != itend; it++)
     {
-    std::string curfilename = (*it)->GetimageFileName();
+    std::string curfilename = (*it)->GetImageFileName();
     std::ifstream f(curfilename.c_str(),std::ios::binary | std::ios::in);
 
     if(!f.is_open())

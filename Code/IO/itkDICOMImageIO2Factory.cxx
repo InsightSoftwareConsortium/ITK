@@ -48,4 +48,3 @@ DICOMImageIO2Factory::GetDescription() const
 }
 
 } // end namespace itk
-

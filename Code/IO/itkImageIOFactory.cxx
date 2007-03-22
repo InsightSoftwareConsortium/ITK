@@ -93,31 +93,30 @@ ImageIOFactory::RegisterBuiltInFactories()
   static bool firstTime = true;
 
   static SimpleMutexLock mutex;
-  {
-  // This helper class makes sure the Mutex is unlocked
-  // in the event an exception is thrown.
-  MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
-  if( firstTime )
     {
-    ObjectFactoryBase::RegisterFactory( GDCMImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
-    ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
-    ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
-    ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
-    ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
-    ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
-    ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() );
-    ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
-    firstTime = false;
+    // This helper class makes sure the Mutex is unlocked
+    // in the event an exception is thrown.
+    MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
+    if( firstTime )
+      {
+      ObjectFactoryBase::RegisterFactory( GDCMImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
+      ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
+      firstTime = false;
+      }
     }
-  }
-
 }
 
 } // end namespace itk

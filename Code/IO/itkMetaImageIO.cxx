@@ -33,18 +33,18 @@ MetaImageIO::MetaImageIO()
 {
   m_FileType = Binary;
   if(MET_SystemByteOrderMSB())
+    {
     m_ByteOrder = BigEndian;
+    }
   else
+    {
     m_ByteOrder = LittleEndian;
+    }
 } 
-
-
 
 MetaImageIO::~MetaImageIO()
 {
 }
-
-
 
 void MetaImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
@@ -114,47 +114,47 @@ bool MetaImageIO::CanReadFile( const char* filename )
     return false;
     }
 
-  if( strcmp(key,"NDims")==0 ) 
+  if( strcmp(key,"NDims") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"ObjectType")==0 ) 
+  if( strcmp(key,"ObjectType") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"TransformType")==0 ) 
+  if( strcmp(key,"TransformType") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"ID")==0 ) 
+  if( strcmp(key,"ID") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"ParentID")==0 ) 
+  if( strcmp(key,"ParentID") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"BinaryData")==0 ) 
+  if( strcmp(key,"BinaryData") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"Comment")==0 ) 
+  if( strcmp(key,"Comment") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"AcquisitionDate")==0 ) 
+  if( strcmp(key,"AcquisitionDate") == 0 ) 
     {
     inputStream.close();
     return true;
     }
-  if( strcmp(key,"Modality")==0 ) 
+  if( strcmp(key,"Modality") == 0 ) 
     {
     inputStream.close();
     return true;
@@ -1331,7 +1331,7 @@ MetaImageIO
                                            this->GetDirection(i)[j];
         }
       }
-    m_MetaImage.TransformMatrix( transformMatrix );      
+    m_MetaImage.TransformMatrix( transformMatrix );
     free(transformMatrix);
     }
 
@@ -1343,9 +1343,5 @@ MetaImageIO
   delete []eSpacing;
   delete []eOrigin;
 }
-
-
-
-
 
 } // end namespace itk

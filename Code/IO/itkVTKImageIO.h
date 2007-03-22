@@ -42,9 +42,9 @@ class ITK_EXPORT VTKImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef VTKImageIO         Self;
+  typedef ImageIOBase        Superclass;
+  typedef SmartPointer<Self> Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

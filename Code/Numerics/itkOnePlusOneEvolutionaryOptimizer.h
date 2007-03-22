@@ -70,7 +70,7 @@ class ITK_EXPORT OnePlusOneEvolutionaryOptimizer:
 {
 public:
   /** Standard "Self" typedef. */
-  typedef OnePlusOneEvolutionaryOptimizer     Self ;
+  typedef OnePlusOneEvolutionaryOptimizer     Self;
   typedef SingleValuedNonLinearOptimizer      Superclass;
   typedef SmartPointer<Self>                  Pointer;
   typedef SmartPointer<const Self>            ConstPointer;
@@ -86,7 +86,7 @@ public:
   typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
   /** Normal random variate generator type. */
-  typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType ;
+  typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType;
   
   /** Set if the Optimizer should Maximize the metric */
   itkSetMacro( Maximize, bool );
@@ -105,7 +105,7 @@ public:
   itkGetConstReferenceMacro( ShrinkFactor, double );
 
   /** Set/Get initial search radius in parameter space */
-  itkSetMacro( InitialRadius, double ) ;
+  itkSetMacro( InitialRadius, double );
   itkGetConstReferenceMacro( InitialRadius, double );
 
 
@@ -117,7 +117,7 @@ public:
   /** Get the current Frobenius norm of covariance matrix */
   itkGetConstReferenceMacro( FrobeniusNorm, double );   
 
-  void SetNormalVariateGenerator(NormalVariateGeneratorType* generator) ;
+  void SetNormalVariateGenerator(NormalVariateGeneratorType* generator);
 
   /** Initializes the optimizer.
    * Before running this optimizer, this function should have been called.
@@ -125,61 +125,61 @@ public:
    * initialRadius: search radius in parameter space
    * grow: search radius grow factor
    * shrink: searhc radius shrink factor */
-  void Initialize(double initialRadius, double grow = -1, double shrink = -1) ;
+  void Initialize(double initialRadius, double grow = -1, double shrink = -1);
 
   /** Return Current Value */
   itkGetConstReferenceMacro( CurrentCost, MeasureType );
   MeasureType GetValue() const { return this->GetCurrentCost(); }
 
   /** Return Current Iteration */
-  itkGetConstReferenceMacro( CurrentIteration, unsigned int) ;
+  itkGetConstReferenceMacro( CurrentIteration, unsigned int);
 
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
-  void StartOptimization() ;
+  void StartOptimization();
 
   /** when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and 
    * optimization will stop at the next iteration. */
   void StopOptimization() 
-  { m_Stop = true ; }
+    { m_Stop = true; }
 
 protected:
-  OnePlusOneEvolutionaryOptimizer() ;
-  OnePlusOneEvolutionaryOptimizer(const OnePlusOneEvolutionaryOptimizer&) ;
-  virtual ~OnePlusOneEvolutionaryOptimizer() ;
+  OnePlusOneEvolutionaryOptimizer();
+  OnePlusOneEvolutionaryOptimizer(const OnePlusOneEvolutionaryOptimizer&);
+  virtual ~OnePlusOneEvolutionaryOptimizer();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   
   /** Smart pointer to the normal random variate generator. */
-  NormalVariateGeneratorType::Pointer m_RandomGenerator ;
+  NormalVariateGeneratorType::Pointer m_RandomGenerator;
 
   /** Maximum iteration limit. */
-  unsigned int m_MaximumIteration ;
+  unsigned int m_MaximumIteration;
 
   /** Current iteration */
-  unsigned int m_CurrentIteration ;
+  unsigned int m_CurrentIteration;
 
   /** Set if the Metric should be maximized: Default = False */
   bool m_Maximize;
 
   /** The minimal size of search radius 
    * (frobenius_norm of covariance matrix). */ 
-  double m_Epsilon ;
+  double m_Epsilon;
 
   /** Initial search radius in paramter space. */
-  double m_InitialRadius ;
+  double m_InitialRadius;
 
   /** Search radius growth factor in parameter space. */
-  double m_GrowthFactor ;
+  double m_GrowthFactor;
 
   /** Search radius shrink factor in parameter space, */
-  double m_ShrinkFactor ;
+  double m_ShrinkFactor;
 
   /** Flag tells if the optimizer was initialized using Initialize function. */
-  bool m_Initialized ;
+  bool m_Initialized;
 
   /** Internal storage for the value type / used as a cache  */
   MeasureType       m_CurrentCost;
@@ -188,13 +188,13 @@ private:
    * when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and 
    * optimization will stop at the next iteration. */
-  bool m_Stop ;
+  bool m_Stop;
 
   /** Cache variable for reporting the Frobenius Norm
    */
   double m_FrobeniusNorm;
   
-} ; // end of class
+}; // end of class
 
 } // end of namespace itk
 

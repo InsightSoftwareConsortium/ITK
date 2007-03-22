@@ -47,12 +47,12 @@ void Brains2HeaderBase::ReadBrains2Header(std::string filename)
 void Brains2HeaderBase::ClearHeader(void)
 {
   //Clear out all children, While children exist do
-  while(m_child.size() != 0)
+  while(m_Child.size() != 0)
     {
     //Get value of front of list
-    Brains2HeaderBase * pi=m_child.front();
+    Brains2HeaderBase * pi=m_Child.front();
     //remove value from list
-    m_child.pop_front();
+    m_Child.pop_front();
     //delte value
     delete pi;
     }
@@ -109,13 +109,13 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
       //Rewind to befor the key.
       inputstream.seekg(PreKeyReadPosition);
       //Need Factory Here to produce proper factory based on Key.
-      this->m_child.push_back(MyBrains2HdrFac.CreateBrains2HeaderReader(Key));
-      if(this->m_child.back() == NULL)
+      this->m_Child.push_back(MyBrains2HdrFac.CreateBrains2HeaderReader(Key));
+      if(this->m_Child.back() == NULL)
         {
         //DEBUG: Throw error
         return inputstream;
         }
-      this->m_child.back()->ReadBrains2Header(inputstream);
+      this->m_Child.back()->ReadBrains2Header(inputstream);
       PreKeyReadPosition=inputstream.tellg();
       inputstream >> Key;
       continue;
@@ -137,14 +137,14 @@ std::ofstream & Brains2HeaderBase::WriteBrains2Header(std::ofstream & outputstre
 }
 void Brains2HeaderBase::PrintSelf(std::ostream &os) const
 {
-  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
+  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_Child.begin();
   //For each element in internal list
   for(std::list< std::pair<std::string,std::string> >::const_iterator pi=this->begin();
       pi != this->end(); pi++)
     {
     if(pi->first == "--BEGIN_CHILD--")
       {
-      //std::cout <<"Size of m_child " << m_child.size() << std::endl;
+      //std::cout <<"Size of m_Child " << m_Child.size() << std::endl;
       (*childiterator)->PrintSelf(os);
       childiterator++;
       continue;
@@ -156,7 +156,7 @@ void Brains2HeaderBase::PrintSelf(std::ostream &os) const
 
 bool Brains2HeaderBase::DoesKeyExist(const std::string &KeyID) const
 {
-  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
+  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_Child.begin();
   //For each element in internal list
   for(std::list< std::pair<std::string,std::string> >::const_iterator pi=this->begin();
       pi != this->end(); pi++)
@@ -167,8 +167,7 @@ bool Brains2HeaderBase::DoesKeyExist(const std::string &KeyID) const
       }
     else if(pi->first == "--BEGIN_CHILD--")
       {
-      //std::cout <<"Size of m_child " << m_child.size() << std::endl;
-      if((*childiterator)->DoesKeyExist(KeyID)==true)
+      if((*childiterator)->DoesKeyExist(KeyID) == true)
         {
         return true;
         }
@@ -184,7 +183,7 @@ bool Brains2HeaderBase::DoesKeyExist(const std::string &KeyID) const
 std::string Brains2HeaderBase::getString(const std::string &KeyID) const
 {
   //this->PrintSelf(std::cout);
-  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_child.begin();
+  std::list<Brains2HeaderBase *>::const_iterator childiterator=this->m_Child.begin();
   //For each element in internal list
   for(std::list< std::pair<std::string,std::string> >::const_iterator pi=this->begin();
       pi != this->end(); pi++)
@@ -195,7 +194,7 @@ std::string Brains2HeaderBase::getString(const std::string &KeyID) const
       }
     else if(pi->first == "--BEGIN_CHILD--")
       {
-      //std::cout <<"Size of m_child " << m_child.size() << std::endl;
+      //std::cout <<"Size of m_Child " << m_Child.size() << std::endl;
       std::string TempStringValue=(*childiterator)->getString(KeyID);
       if(TempStringValue.length() != 0)
         {

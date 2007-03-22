@@ -53,8 +53,6 @@ ConjugateGradientOptimizer
   return m_VnlOptimizer;
 }
 
-
-
 /**
  * Connect a Cost Function
  */
@@ -138,7 +136,7 @@ ConjugateGradientOptimizer
   // in the variable provided as initial position
   m_VnlOptimizer->minimize( parameters );
   
-   // we scale the parameters down if scales are defined
+  // we scale the parameters down if scales are defined
   if(m_ScalesInitialized)
     {
     ScalesType scales = this->GetScales();
@@ -177,10 +175,6 @@ ConjugateGradientOptimizer
 {
   return m_VnlOptimizer->get_num_iterations();
 }
-
-
-
-
 
 } // end namespace itk
 

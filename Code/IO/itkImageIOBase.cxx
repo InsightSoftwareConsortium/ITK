@@ -153,9 +153,9 @@ const std::type_info& ImageIOBase::GetComponentTypeInfo() const
 template <typename T>
 bool
 itkSetPixelType(ImageIOBase *This,
-              const std::type_info &ptype,
-              ImageIOBase::IOComponentType ntype, 
-              T itkNotUsed( dummy ) )
+                const std::type_info &ptype,
+                ImageIOBase::IOComponentType ntype, 
+                T itkNotUsed( dummy ) )
 {
   if( ptype == typeid(T) )
     {
@@ -357,7 +357,7 @@ bool ImageIOBase::SetPixelTypeInfo(const std::type_info& ptype)
 
     }
 
-  if( this->GetPixelType()     == ImageIOBase::UNKNOWNPIXELTYPE )
+  if( this->GetPixelType() == ImageIOBase::UNKNOWNPIXELTYPE )
     {
     itkExceptionMacro("Pixel type currently not supported. typeid.name = " << ptype.name() );
     return false;
@@ -460,8 +460,6 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
     }
 }
 
-
-
 bool 
 ImageIOBase ::ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int num)
 {
@@ -476,11 +474,11 @@ ImageIOBase ::ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int nu
   // fail() is broken in the Mac. It returns true when reaches eof().
   if ( numberOfBytesRead != numberOfBytesToBeRead )
 #else
-    if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || is.fail() )
+  if ( ( numberOfBytesRead != numberOfBytesToBeRead )  || is.fail() )
 #endif
-      {
-      return false; // read failed
-      }
+    {
+    return false; // read failed
+    }
 
   return true;
 
@@ -650,86 +648,86 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer,
   switch (ctype)
     {
     case UCHAR:
-    {
-    typedef const unsigned char * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const unsigned char * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
     case CHAR:
-    {
-    typedef const char * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const char * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case USHORT:
-    {
-    typedef const unsigned short * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
-
+      {
+      typedef const unsigned short * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
+      
     case SHORT:
-    {
-    typedef const short * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const short * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case UINT:
-    {
-    typedef const unsigned int * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const unsigned int * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case INT:
-    {
-    typedef const int * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const int * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case ULONG:
-    {
-    typedef const unsigned long * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const unsigned long * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case LONG:
-    {
-    typedef const long * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const long * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case FLOAT:
-    {
-    typedef const float * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const float * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     case DOUBLE:
-    {
-    typedef const double * Type;
-    Type buf = reinterpret_cast<Type>(buffer);
-    WriteBuffer(os, buf, numComp);
-    }
-    break;
+      {
+      typedef const double * Type;
+      Type buf = reinterpret_cast<Type>(buffer);
+      WriteBuffer(os, buf, numComp);
+      }
+      break;
 
     default:
-      ;
+      break;
     }
 
 }
@@ -752,76 +750,76 @@ void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer,
   switch (ctype)
     {
     case UCHAR:
-    {
-    unsigned char *buf = reinterpret_cast<unsigned char*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      unsigned char *buf = reinterpret_cast<unsigned char*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
     case CHAR:
-    {
-    char *buf = reinterpret_cast<char*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      char *buf = reinterpret_cast<char*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     case USHORT:
-    {
-    unsigned short *buf = reinterpret_cast<unsigned short*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      unsigned short *buf = reinterpret_cast<unsigned short*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     case SHORT:
-    {
-    short *buf = reinterpret_cast<short*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
-
+      {
+      short *buf = reinterpret_cast<short*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+    
     case UINT:
-    {
-    unsigned int *buf = reinterpret_cast<unsigned int*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      unsigned int *buf = reinterpret_cast<unsigned int*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     case INT:
-    {
-    int *buf = reinterpret_cast<int*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      int *buf = reinterpret_cast<int*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     case ULONG:
-    {
-    unsigned long *buf = reinterpret_cast<unsigned long*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      unsigned long *buf = reinterpret_cast<unsigned long*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     case LONG:
-    {
-    long *buf = reinterpret_cast<long*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      long *buf = reinterpret_cast<long*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     case FLOAT:
-    {
-    float *buf = reinterpret_cast<float*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
-
+      {
+      float *buf = reinterpret_cast<float*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
+    
     case DOUBLE:
-    {
-    double *buf = reinterpret_cast<double*>(buffer);
-    ReadBuffer(is, buf, numComp);
-    }
-    break;
+      {
+      double *buf = reinterpret_cast<double*>(buffer);
+      ReadBuffer(is, buf, numComp);
+      }
+      break;
 
     default:
-      ;
+      break;
     }
 
 }

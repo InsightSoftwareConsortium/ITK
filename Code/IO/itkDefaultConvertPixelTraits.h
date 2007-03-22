@@ -26,7 +26,8 @@
 namespace itk
 {
   
-/** \brief Traits class used to by ConvertPixels to convert blocks of pixels.
+/** \class DefaultConvertPixelTraits
+ *  \brief Traits class used to by ConvertPixels to convert blocks of pixels.
  *
  *  TOutputPixelType is the destination type. The input type is infered
  *  by the templated static function Convert.
@@ -80,24 +81,20 @@ public:                                                                  \
     }                                                                    \
 };
 
-
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(float)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(double)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(int)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(char)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(short)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned int)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(signed char)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned char)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned short)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(long)  
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned long)
-  ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(bool)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(float)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(double)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(int)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(char)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(short)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned int)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(signed char)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned char)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned short)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(long)  
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(unsigned long)
+ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(bool)
 
 #undef ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL
-
-
-
 
 //
 //  Default traits for the Offset<> pixel type
@@ -132,9 +129,6 @@ public:                                                                  \
   ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(4)
   ITK_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
 
-
-
-
 //
 //  Default traits for the pixel types deriving from FixedArray<>
 //
@@ -159,10 +153,6 @@ public:                                                                  \
       return pixel[0];                                                   \
     }                                                                    \
 };                                                                       \
-
-
-
-
 
 //
 //
@@ -200,9 +190,6 @@ public:                                                                  \
 //  End of Traits for the classes deriving from FixedArray.
 //
 //
-
-
-
 
 //
 //  Default traits for the pixel types deriving from std::complex<>
@@ -249,12 +236,6 @@ ITK_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned long);
 //  End of Traits for the classes deriving from std::complex.
 //
 //
-
-
-
-
   
-  } // end namespace itk
-
-
+} // end namespace itk
 #endif

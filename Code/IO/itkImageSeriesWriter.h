@@ -29,7 +29,8 @@
 namespace itk
 {
 
-/** \brief Base exception class for IO problems during writing. */
+/** \class ImageSeriesWriterException
+ *  \brief Base exception class for IO problems during writing. */
 class ImageSeriesWriterException : public ExceptionObject 
 {
 public:
@@ -92,12 +93,12 @@ public:
   itkTypeMacro(ImageSeriesWriter,ProcessObject);
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::RegionType  InputImageRegionType; 
+  typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef ImageFileWriter<TOutputImage> WriterType;
-  typedef std::vector< std::string >   FileNamesContainer;
+  typedef ImageFileWriter<TOutputImage>        WriterType;
+  typedef std::vector< std::string >           FileNamesContainer;
 
   /** The pixel type of the output image. */
   typedef MetaDataDictionary                   DictionaryType;
@@ -150,37 +151,36 @@ public:
   itkGetStringMacro(SeriesFormat);
   
   /** Set/Get the vector of strings that contains the file names. Files
-   * are processed in sequential order. */
+   *  are processed in sequential order. */
   void SetFileNames (const FileNamesContainer &name)
-  {
+    {
     if ( m_FileNames != name)
       {
       m_FileNames = name;
-      this->Modified();        
+      this->Modified();
       }
-  };
+    }
   const FileNamesContainer  & GetFileNames() const
-  {
+    {
     return m_FileNames;
-  }
+    }
 
   /** Set the first file name to be processed. This deletes previous
    * filenames. */
   void SetFileName (std::string const &name)
-  {
+    {
     m_FileNames.clear();
     m_FileNames.push_back(name);
     this->Modified();
-  }
+    }
 
   /** Add a single filename to the list of files. To add a vector of
    * filenames, use the AddFileNames method. */
   void AddFileName (std::string const &name)
-  {
+    {
     m_FileNames.push_back(name);
     this->Modified();
-  }
-
+    }
 
   /** Set the array of MetaDataDictionaries this is an optinal entry,
    *  mostly intended to be used when writing DICOM slices.  */
@@ -199,7 +199,8 @@ protected:
   void GenerateNumericFileNamesAndWrite(void);
   
   ImageIOBase::Pointer m_ImageIO;
-  bool m_UserSpecifiedImageIO; //track whether the ImageIO is user specified
+  bool                 m_UserSpecifiedImageIO; //track whether the ImageIO is
+                                               // user specified
   
 private:
   ImageSeriesWriter(const Self&); //purposely not implemented
@@ -229,4 +230,3 @@ private:
 #endif
 
 #endif // __itkImageSeriesWriter_h
-  

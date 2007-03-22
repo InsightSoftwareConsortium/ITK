@@ -34,9 +34,13 @@ std::string trim(std::string const& source, char const* delims = " \t\r\n") {
 
   index = result.find_first_not_of(delims);
   if(index != std::string::npos)
+    {
     result.erase(0, index);
+    }
   else
+    {
     result.erase();
+    }
   return result;
 }
 
@@ -183,7 +187,7 @@ void TransformFileReader
           TmpParameterArray.clear();
           TmpFixedParameterArray.clear(); 
           haveFixedParameters = false;
-          haveParameters = false;      
+          haveParameters = false;
           }
         else
           {
@@ -207,17 +211,16 @@ void TransformFileReader
           TmpParameterArray.clear();
           TmpFixedParameterArray.clear(); 
           haveFixedParameters = false;
-          haveParameters = false;      
+          haveParameters = false;
           }
         else
           {
           haveFixedParameters = true;
-          }        
+          }
         }
       }
     }
 }
-
 
 } // namespace itk
 
