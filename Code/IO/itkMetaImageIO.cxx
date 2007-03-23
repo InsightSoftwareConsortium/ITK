@@ -781,7 +781,7 @@ void MetaImageIO::ReadImageInformation()
               }
             break;
             }
-           case MET_ORIENTATION_PA:
+          case MET_ORIENTATION_PA:
             {
             if(m_MetaImage.AnatomicalOrientation(2) == MET_ORIENTATION_RL)
               {
