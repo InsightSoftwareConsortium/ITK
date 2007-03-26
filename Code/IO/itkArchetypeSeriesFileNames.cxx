@@ -165,6 +165,11 @@ ArchetypeSeriesFileNames
         ++sit;
         }
       
+      if( sit == fileName.end() )
+        {
+        break;
+        }
+        
       numGroupLength.push_back( (sit - fileName.begin()) - sIndex );
       }
     }
