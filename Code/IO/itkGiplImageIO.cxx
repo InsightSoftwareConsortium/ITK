@@ -681,6 +681,34 @@ GiplImageIO
         }
       break; 
       }
+    case FLOAT:
+      {
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<float>::SwapRangeFromSystemToLittleEndian(
+          (float*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(
+          (float *)buffer, numberOfPixels );
+        }
+      break; 
+      }
+    case DOUBLE:
+      {
+      if ( m_ByteOrder == LittleEndian )
+        {
+        ByteSwapper<double>::SwapRangeFromSystemToLittleEndian(
+          (double*)buffer, numberOfPixels );
+        }
+      else if ( m_ByteOrder == BigEndian )
+        {
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(
+          (double *)buffer, numberOfPixels );
+        }
+      break; 
+      }
     default:
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("Pixel Type Unknown");
