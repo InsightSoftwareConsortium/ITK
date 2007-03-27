@@ -24,12 +24,39 @@ namespace itk {
 /** \class MorphologicalWatershedFromMarkersImageFilter
  * \brief Morphological watershed transform from markers
  *
- * TODO
+ * The watershed transform is a tool for image segmentation that is fast
+ * and flexible and potentially fairly parameter free. It was originally
+ * derived from a geophysical model of rain falling on a terrain and a variety
+ * of more formal definitions have been devised to allow development of
+ * practical algorithms. If an image is considered as a terrain and divided
+ * into catchment basins then the hope is that each catchment basin would
+ * contain an object of interest.
  * 
- * Watershed pixel are labeled 0.
- * The marker image must contain labeled component (each component
- * have a different value).
- * Labels of output image are the label of the marker image.
+ * The output is a label image. A label image, sometimes referred to as a
+ * categorical image, has unique values for each region. For example, if a
+ * watershed produces 2 regions, all pixels belonging to one region would have
+ * value A, and all belonging to the other might have value B. Unassigned
+ * pixels, such as watershed lines, might have the background value (0 by
+ * convention).
+ *
+ * The simplest way of using the watershed is to preprocess the image we
+ * want to segment so that the boundaries of our objects are bright (e.g
+ * apply an edge detector) and compute the watershed transform of the
+ * edge image. Watershed lines will correspond to the boundaries and our
+ * problem will be solved. This is rarely useful in practice because
+ * there are always more regional minima than there are objects, either
+ * due to noise or natural variations in the object surfaces. Therefore,
+ * while many watershed lines do lie on significant boundaries, there are
+ * many that don't.
+ * Various methods can be used to reduce the number of minima in the image,
+ * like thresholding the smallest values, filtering the minima and/or
+ * smoothing the image.
+ *
+ * This filter use another approach to avoid the problem of over segmentation:
+ * it let the user provide a marker image which mark the minima in the input
+ * image and give them a label. The minima are imposed in the input image by
+ * the markers. The labels of the output image are the label of the marker
+ * image.
  *
  * The morphological watershed transform algorithm is described in
  * Chapter 9.2 of Pierre Soille's book "Morphological Image Analysis:
@@ -128,26 +155,17 @@ protected:
   ~MorphologicalWatershedFromMarkersImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** MorphologicalWatershedFromMarkersImageFilter needs to request enough of
-   * the marker image to account for the elementary structuring element.
-   * The mask image does not need to be padded. Depending on whether
-   * the filter is configured to run a single iteration or until
-   * convergence, this method may request all of the marker and mask
-   * image be provided. */
+  /** MorphologicalWatershedFromMarkersImageFilter needs to request the
+   * entire input images.
+   */
   void GenerateInputRequestedRegion();
 
   /** This filter will enlarge the output requested region to produce
-   * all of the output if the filter is configured to run to
-   * convergence.
+   * all of the output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
-  /** Single-threaded version of GenerateData.  This version is used
-   * when the filter is configured to run to convergence. This method
-   * may delegate to the multithreaded version if the filter is
-   * configured to run a single iteration.  Otherwise, it will
-   * delegate to a separate instance to run each iteration until the
-   * filter converges. */
+  /** The filter is single threaded. */
   void GenerateData();
   
 private:
