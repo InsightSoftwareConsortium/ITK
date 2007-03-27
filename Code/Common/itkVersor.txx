@@ -386,7 +386,7 @@ void
 Versor<T>
 ::Set( const MatrixType & mat )
 {
-  vnl_matrix<double> m( mat.GetVnlMatrix() );
+  vnl_matrix<T> m( mat.GetVnlMatrix() );
 
   const double epsilon = 1e-30;
 

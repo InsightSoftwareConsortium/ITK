@@ -85,6 +85,31 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<TranslationTransform<double> >::RegisterTransform ();
     TransformFactory<VersorRigid3DTransform<double> >::RegisterTransform ();
     TransformFactory<VersorTransform<double> >::RegisterTransform ();
+
+    TransformFactory<AffineTransform<float,2> >::RegisterTransform ();
+    TransformFactory<AffineTransform<float,3> >::RegisterTransform ();
+    TransformFactory<CenteredAffineTransform<float,2> >::RegisterTransform ();
+    TransformFactory<CenteredAffineTransform<float,3> >::RegisterTransform ();
+    TransformFactory<CenteredEuler3DTransform<float> >::RegisterTransform ();
+    TransformFactory<CenteredSimilarity2DTransform<float> >::RegisterTransform ();
+    TransformFactory<Euler2DTransform<float> >::RegisterTransform ();
+    TransformFactory<Euler3DTransform<float> >::RegisterTransform ();
+    TransformFactory<FixedCenterOfRotationAffineTransform<float> >::RegisterTransform ();
+    TransformFactory<IdentityTransform<float,2> >::RegisterTransform ();
+    TransformFactory<IdentityTransform<float,3> >::RegisterTransform ();
+    TransformFactory<QuaternionRigidTransform<float> >::RegisterTransform ();
+    TransformFactory<Rigid2DTransform<float> >::RegisterTransform ();
+    TransformFactory<Rigid3DPerspectiveTransform<float> >::RegisterTransform ();
+    TransformFactory<Rigid3DTransform<float> >::RegisterTransform ();
+    TransformFactory<ScalableAffineTransform<float> >::RegisterTransform ();
+    TransformFactory<ScaleLogarithmicTransform<float> >::RegisterTransform ();
+    TransformFactory<ScaleSkewVersor3DTransform<float> >::RegisterTransform ();
+    TransformFactory<ScaleTransform<float,2> >::RegisterTransform ();
+    TransformFactory<ScaleTransform<float,2> >::RegisterTransform ();
+    TransformFactory<ScaleTransform<float,3> >::RegisterTransform ();
+    TransformFactory<TranslationTransform<float> >::RegisterTransform ();
+    TransformFactory<VersorRigid3DTransform<float> >::RegisterTransform ();
+    TransformFactory<VersorTransform<float> >::RegisterTransform ();
     }
 }
 
