@@ -55,9 +55,6 @@ TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO)
 ADD_EXECUTABLE(CannyEdgeDetectionImageFilter CannyEdgeDetectionImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CannyEdgeDetectionImageFilter ITKCommon ITKIO)
 
-ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
-TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
-
 ADD_EXECUTABLE(SigmoidImageFilter SigmoidImageFilter.cxx )
 TARGET_LINK_LIBRARIES(SigmoidImageFilter ITKCommon ITKIO)
 
@@ -128,6 +125,9 @@ ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
+TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
+
 ADD_EXECUTABLE(DanielssonDistanceMapImageFilter DanielssonDistanceMapImageFilter.cxx )
 TARGET_LINK_LIBRARIES(DanielssonDistanceMapImageFilter ITKCommon ITKBasicFilters ITKIO)
 
