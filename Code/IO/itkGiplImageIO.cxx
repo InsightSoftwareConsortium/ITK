@@ -786,7 +786,7 @@ GiplImageIO
       }
     else
       {
-      value = 1.0;
+      value = 1;
       if(m_ByteOrder == BigEndian)
         {
         ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&value);
