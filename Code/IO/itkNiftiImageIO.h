@@ -98,6 +98,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
   void  DefineHeaderObjectDataType();
+
   /**
    * \enum ValidAnalyzeOrientationFlags
    * Valid Orientation values for objects
@@ -110,7 +111,7 @@ private:
    * - 4    coronal-flipped        SRP       R->L     S->I    P->A
    * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
    * - Where the Origin disignators are with respect to the patient
-   * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
+   * - [(I)nferior|(S)uperior] [(L)eft|(R)ight] [(A)nterior|(P)osterior]
    * \note Key's 0-5 correspond to the Nifti v7.5 orientations, and should not be changed.
    */
   typedef enum {
@@ -129,6 +130,7 @@ private:
   NiftiImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
+
 } // end namespace itk
 
 #endif // __itkNiftiImageIO_h
