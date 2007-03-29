@@ -28,21 +28,22 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLinearInterpolateImageFunction.h"
 
-enum {NDimensions = 2};
-
-typedef float                  PixelType;
-typedef itk::Image<PixelType, NDimensions>     ImageType;
-typedef ImageType::IndexType                ImageIndexType;
-typedef ImageType::Pointer                  ImagePointerType;
-typedef ImageType::RegionType               ImageRegionType;
-typedef ImageType::SizeType                 ImageSizeType;
-typedef double                  CoordRepType;
-typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
-typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
-
-
 int itkResampleImageTest(int, char* [] )
 {
+
+  const unsigned int NDimensions = 2;
+
+  typedef float                  PixelType;
+  typedef itk::Image<PixelType, NDimensions>     ImageType;
+  typedef ImageType::IndexType                ImageIndexType;
+  typedef ImageType::Pointer                  ImagePointerType;
+  typedef ImageType::RegionType               ImageRegionType;
+  typedef ImageType::SizeType                 ImageSizeType;
+  typedef double                  CoordRepType;
+  typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
+  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
+
+
   // Create and configure an image
   ImagePointerType image = ImageType::New();
   ImageIndexType  index = {{0,  0}};

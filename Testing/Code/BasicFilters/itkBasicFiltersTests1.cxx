@@ -56,6 +56,7 @@ void RegisterTests()
   REGISTER_TEST(itkRemoveBoundaryObjectsTest );
   REGISTER_TEST(itkRemoveBoundaryObjectsTest2 );
   REGISTER_TEST(itkResampleImageTest );
+  REGISTER_TEST(itkResampleImageTest2 );
   REGISTER_TEST(itkResamplePhasedArray3DSpecialCoordinatesImageTest );
   REGISTER_TEST(itkRescaleIntensityImageFilterTest );
 }

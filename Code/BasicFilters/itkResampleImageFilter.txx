@@ -76,15 +76,6 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
   os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
-  if (m_ReferenceImage)
-    {
-    os << indent << "ReferenceImage: " << m_ReferenceImage.GetPointer() << std::endl;
-    }
-  else
-    {
-    os << indent << "ReferenceImage: 0" << std::endl;
-    }
-
   return;
 }
 
@@ -524,6 +515,39 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
 
 /** 
+ * Set the smart pointer to the reference image that will provide
+ * the grid parameters for the output image.
+ */
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+const typename ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>::OutputImageType *
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::GetReferenceImage() const
+{
+  Self * surrogate = const_cast< Self * >( this );
+  const OutputImageType * referenceImage = 
+    static_cast<const OutputImageType *>(surrogate->ProcessObject::GetInput(1));
+  return referenceImage;
+}
+
+
+/** 
+ * Set the smart pointer to the reference image that will provide
+ * the grid parameters for the output image.
+ */
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+void 
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::SetReferenceImage( const TOutputImage *image )
+{
+  itkDebugMacro("setting input ReferenceImage to " << image);
+  if( image != static_cast<const TOutputImage *>(this->GetInput( 1 )) )
+    {
+    this->ProcessObject::SetNthInput(1, const_cast< TOutputImage *>( image ) );
+    this->Modified();
+    }
+}
+
+/** 
  * Inform pipeline of required output region
  */
 template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
@@ -541,10 +565,12 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     return;
     }
 
+  const OutputImageType * referenceImage = this->GetReferenceImage();
+
   // Set the size of the output region
-  if (m_UseReferenceImage && m_ReferenceImage)
+  if( m_UseReferenceImage && referenceImage )
     {
-    outputPtr->SetLargestPossibleRegion( m_ReferenceImage->GetLargestPossibleRegion() );
+    outputPtr->SetLargestPossibleRegion( referenceImage->GetLargestPossibleRegion() );
     }
   else
     {
@@ -555,11 +581,11 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     }
 
   // Set spacing and origin
-  if (m_UseReferenceImage && m_ReferenceImage)
+  if (m_UseReferenceImage && referenceImage)
     {
-    outputPtr->SetSpacing( m_ReferenceImage->GetSpacing() );
-    outputPtr->SetOrigin( m_ReferenceImage->GetOrigin() );
-    outputPtr->SetDirection( m_ReferenceImage->GetDirection() );
+    outputPtr->SetSpacing( referenceImage->GetSpacing() );
+    outputPtr->SetOrigin( referenceImage->GetOrigin() );
+    outputPtr->SetDirection( referenceImage->GetDirection() );
     }
   else
     {

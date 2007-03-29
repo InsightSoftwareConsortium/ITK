@@ -81,7 +81,6 @@ public:
   typedef typename InputImageType::Pointer        InputImagePointer;
   typedef typename InputImageType::ConstPointer   InputImageConstPointer;
   typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer  OutputImageConstPointer;
   typedef typename InputImageType::RegionType     InputImageRegionType;
 
   /** Method for creation through the object factory. */
@@ -205,16 +204,8 @@ public:
    *  the information is specified with the SetOutputSpacing, Origin,
    *  and Direction methods. UseReferenceImage must be On and a
    *  Reference image must be present to override the defaul behavior.*/
-  void SetReferenceImage ( const TOutputImage *image)
-  {
-  if (image != m_ReferenceImage)
-    {
-    m_ReferenceImage = image;
-    this->ProcessObject::SetNthInput(1, const_cast<TOutputImage*>(image) );
-    this->Modified();
-    }
-  }
-  itkGetConstObjectMacro(ReferenceImage, TOutputImage);
+  void SetReferenceImage ( const TOutputImage *image );
+  const TOutputImage * GetReferenceImage() const;
 
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);
@@ -284,8 +275,6 @@ protected:
 private:
   ResampleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  OutputImageConstPointer m_ReferenceImage;
 
   SizeType                m_Size;              // Size of the output image
   TransformPointerType    m_Transform;         // Coordinate transform to use
