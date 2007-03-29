@@ -76,12 +76,13 @@ public:
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
-  typedef TInputImage                           InputImageType;
-  typedef TOutputImage                          OutputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef TInputImage                             InputImageType;
+  typedef TOutputImage                            OutputImageType;
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef typename OutputImageType::Pointer       OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer  OutputImageConstPointer;
+  typedef typename InputImageType::RegionType     InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -204,16 +205,16 @@ public:
    *  the information is specified with the SetOutputSpacing, Origin,
    *  and Direction methods. UseReferenceImage must be On and a
    *  Reference image must be present to override the defaul behavior.*/
-  void SetReferenceImage (TOutputImage *image)
+  void SetReferenceImage ( const TOutputImage *image)
   {
   if (image != m_ReferenceImage)
     {
     m_ReferenceImage = image;
-    this->ProcessObject::SetNthInput(1, image);
+    this->ProcessObject::SetNthInput(1, const_cast<TOutputImage*>(image) );
     this->Modified();
     }
   }
-  itkGetObjectMacro(ReferenceImage, TOutputImage);
+  itkGetConstObjectMacro(ReferenceImage, TOutputImage);
 
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);
@@ -284,7 +285,7 @@ private:
   ResampleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  OutputImagePointer      m_ReferenceImage;
+  OutputImageConstPointer m_ReferenceImage;
 
   SizeType                m_Size;              // Size of the output image
   TransformPointerType    m_Transform;         // Coordinate transform to use
