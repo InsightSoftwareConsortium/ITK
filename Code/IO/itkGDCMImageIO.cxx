@@ -928,13 +928,13 @@ void GDCMImageIO::Write(const void* buffer)
     header->InsertValEntry(str.str(),0x0018,0x0088); // Spacing Between Slices 
     }
 
-// This code still needs work. Spacing, origin and direction are all 3D, yet
-// the image is 2D. If the user set these, all is well, because the user will
-// pass in the proper number (3) of elements. However, ImageSeriesWriter will
-// call its ImageIO with 2D images and only pass in spacing, origin and
-// direction with 2 elements. For now, we expect that the MetaDataDictionary
-// will have the proper settings for pixel spacing, spacing between slices,
-// image position patient and the row/column direction cosines.
+  // This code still needs work. Spacing, origin and direction are all 3D, yet
+  // the image is 2D. If the user set these, all is well, because the user will
+  // pass in the proper number (3) of elements. However, ImageSeriesWriter will
+  // call its ImageIO with 2D images and only pass in spacing, origin and
+  // direction with 2 elements. For now, we expect that the MetaDataDictionary
+  // will have the proper settings for pixel spacing, spacing between slices,
+  // image position patient and the row/column direction cosines.
 
   if( ( m_Dimensions.size() > 2 && m_Dimensions[2]>1 ) || 
       m_GlobalNumberOfDimensions == 3 )
@@ -1018,7 +1018,7 @@ void GDCMImageIO::Write(const void* buffer)
         highBit       = "7"; // High Bit
         pixelRep      = "0"; // Pixel Representation
         break;
-     default:
+      default:
         itkExceptionMacro(<<"DICOM does not support this component type");
       }
     }
@@ -1275,6 +1275,6 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Institution Name:" << m_Institution << std::endl;
   os << indent << "Model:" << m_Model << std::endl;
   os << indent << "Scan Options:" << m_ScanOptions << std::endl;
-  }
+}
 
 } // end namespace itk
