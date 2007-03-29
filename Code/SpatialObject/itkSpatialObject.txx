@@ -716,8 +716,7 @@ SpatialObject< TDimension >
 
 /** Update the Output information */
 template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
+void SpatialObject< TDimension >
 ::UpdateOutputInformation()
 {
   if (this->GetSource())
@@ -897,6 +896,9 @@ void
 SpatialObject< TDimension >
 ::Update(void)
 {
+  Superclass::Update();
+
+  /** This is probably not correct and should be removed */
   this->Modified();
 }
 
