@@ -28,11 +28,11 @@
 
 namespace itk {
 /**
-  * \class Brains2HeaderBase
-  * An abstract class to define b2 header information.  This just adds
-  * file reading and writing routines to the standard STL std::list<
-  * std::pair<std::string, std::string> >
-  */
+ * \class Brains2HeaderBase
+ * An abstract class to define b2 header information.  This just adds
+ * file reading and writing routines to the standard STL std::list<
+ * std::pair<std::string, std::string> >
+ */
 class Brains2HeaderBase: public std::list< std::pair<std::string, std::string> >
 {
 public:

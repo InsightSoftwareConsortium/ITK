@@ -47,7 +47,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(JPEGImageIO, ImageIOBase);
 
-  /** Set/Get the level of quality for the output images.*/
+  /** Set/Get the level of quality for the output images. */
   itkSetMacro(Quality, int);
   itkGetMacro(Quality, int);
 

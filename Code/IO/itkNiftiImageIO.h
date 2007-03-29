@@ -36,14 +36,14 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
- /** \class NiftiImageIO
-  *
-  * \author Hans J. Johnson
-  * \brief Class that defines how to read Nifti file format.
-  * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
-  *
-  * \ingroup IOFilters
-  */
+/** \class NiftiImageIO
+ *
+ * \author Hans J. Johnson
+ * \brief Class that defines how to read Nifti file format.
+ * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
+ *
+ * \ingroup IOFilters
+ */
 class ITK_EXPORT NiftiImageIO : public ImageIOBase
 {
 public:
@@ -61,11 +61,11 @@ public:
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine if the file can be read with this ImageIO implementation.
-       * \author Hans J Johnson
-       * \param FileNameToRead The name of the file to test for reading.
-       * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
-       * \return Returns true if this ImageIO can read the file specified.
-       */
+   * \author Hans J Johnson
+   * \param FileNameToRead The name of the file to test for reading.
+   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this ImageIO can read the file specified.
+   */
   virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
@@ -77,18 +77,18 @@ public:
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine if the file can be written with this ImageIO implementation.
-       * \param FileNameToWrite The name of the file to test for writing.
-       * \author Hans J. Johnson
-       * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
-       * \return Returns true if this ImageIO can write the file specified.
-       */
+   * \param FileNameToWrite The name of the file to test for writing.
+   * \author Hans J. Johnson
+   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this ImageIO can write the file specified.
+   */
   virtual bool CanWriteFile(const char * FileNameToWrite);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
-       * that the IORegions has been set properly. */
+   * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
 
 
@@ -99,20 +99,20 @@ protected:
 private:
   void  DefineHeaderObjectDataType();
   /**
-       * \enum ValidAnalyzeOrientationFlags
-       * Valid Orientation values for objects
-       * - Key  Description           Origin   dims[1]  dims[2]  dims[3]
-       * - =================================================================
-       * - 0    transverse-unflipped   IRP       R->L     P->A    I->S
-       * - 1    coronal-unflipped      IRP       R->L     I->S    P->A
-       * - 2    sagittal-unflipped     IRP       P->A     I->S    R->L
-       * - 3    transverse-flipped     IRA       R->L     A->P    I->S
-       * - 4    coronal-flipped        SRP       R->L     S->I    P->A
-       * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
-       * - Where the Origin disignators are with respect to the patient
-       * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
-       * \note Key's 0-5 correspond to the Nifti v7.5 orientations, and should not be changed.
-       */
+   * \enum ValidAnalyzeOrientationFlags
+   * Valid Orientation values for objects
+   * - Key  Description           Origin   dims[1]  dims[2]  dims[3]
+   * - =================================================================
+   * - 0    transverse-unflipped   IRP       R->L     P->A    I->S
+   * - 1    coronal-unflipped      IRP       R->L     I->S    P->A
+   * - 2    sagittal-unflipped     IRP       P->A     I->S    R->L
+   * - 3    transverse-flipped     IRA       R->L     A->P    I->S
+   * - 4    coronal-flipped        SRP       R->L     S->I    P->A
+   * - 5    sagittal-flipped       ILP       P->A     I->S    L->R
+   * - Where the Origin disignators are with respect to the patient
+   * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
+   * \note Key's 0-5 correspond to the Nifti v7.5 orientations, and should not be changed.
+   */
   typedef enum {
     ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
     ITK_ANALYZE_ORIENTATION_RIP_CORONAL   =1,        /**< Denotes a coronal data orientation */

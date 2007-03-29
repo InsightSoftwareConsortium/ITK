@@ -995,44 +995,72 @@ MetaImageIO
       break;
     case LONG:
       if(sizeof(long) == MET_ValueTypeSize[MET_LONG])
+        {
         eType = MET_LONG;
+        }
       else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        {
         eType = MET_INT;
+        }
       else if(sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
+        {
         eType = MET_LONG_LONG;
+        }
       break;
     case ULONG:
       if(sizeof(long) == MET_ValueTypeSize[MET_LONG])
+        {
         eType = MET_ULONG;
+        }
       else if(sizeof(long) == MET_ValueTypeSize[MET_INT])
+        {
         eType = MET_UINT;
+        }
       else if(sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
+        {
         eType = MET_ULONG_LONG;
+        }
       break;
     case INT:
       eType = MET_INT;
       if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        {
         eType = MET_INT;
+        }
       else if(sizeof(int) == MET_ValueTypeSize[MET_LONG])
+        {
         eType = MET_LONG;
+        }
       break;
     case UINT:
       if(sizeof(int) == MET_ValueTypeSize[MET_INT])
+        {
         eType = MET_UINT;
+        }
       else if(sizeof(int) == MET_ValueTypeSize[MET_LONG])
+        {
         eType = MET_ULONG;
+        }
       break;
     case FLOAT:
       if(sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
+        {
         eType = MET_FLOAT;
+        }
       else if(sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
+        {
         eType = MET_DOUBLE;
+        }
       break;
     case DOUBLE:
       if(sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
+        {
         eType = MET_DOUBLE;
+        }
       else if(sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
+        {
         eType = MET_FLOAT;
+        }
       break;
     }
   

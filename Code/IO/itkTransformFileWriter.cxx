@@ -40,7 +40,8 @@ void TransformFileWriter::SetAppendOn( )
   this->m_AppendMode = true;
 }
 
-/** Set the writer to overwrite the specified file - This is the default mode*/
+/** Set the writer to overwrite the specified file - This is the
+ * default mode. */
 void TransformFileWriter::SetAppendOff( )
 {
   this->m_AppendMode = false;
@@ -52,7 +53,7 @@ void TransformFileWriter::SetAppendMode( bool mode)
   this->m_AppendMode = mode;
 }
 
-/** Get the writer mode*/
+/** Get the writer mode. */
 bool TransformFileWriter::GetAppendMode( )
 {
   return ( this->m_AppendMode );

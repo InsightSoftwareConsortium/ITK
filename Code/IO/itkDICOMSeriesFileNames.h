@@ -111,9 +111,9 @@ public:
   const std::vector<std::string> &GetSeriesBodyParts(){return m_BodyParts;}
   const std::vector<std::string> &GetSeriesScanOptions(){return m_ScanOptions;}
 
-  /** Returns a vector containing the series' file names. The file
+  /** Returns a vector containing the series file names. The file
    * names are sorted based on the current sorting mode. If parameter
-   * "recursive" is true, subdirectories will be scanned.*/
+   * "recursive" is true, subdirectories will be scanned. */
   const std::vector<std::string> &GetFileNames (bool recursive = false);
 
   /** Returns a vector containing the file names for a specified

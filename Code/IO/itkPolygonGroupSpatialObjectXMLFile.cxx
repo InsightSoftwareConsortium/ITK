@@ -318,21 +318,17 @@ WriteFile()
   // Write out polygondata
   PolygonGroupType::ChildrenListType *children =
     m_InputObject->GetChildren(0,NULL);
-  PolygonGroupType::ChildrenListType::iterator it =
-    children->begin();
-  PolygonGroupType::ChildrenListType::iterator end =
-    children->end();
+  PolygonGroupType::ChildrenListType::iterator it = children->begin();
+  PolygonGroupType::ChildrenListType::iterator end = children->end();
   while(it != end)
     {
     WriteStartElement("POLYGON",output);
     output << std::endl;
     PolygonSpatialObjectType *curstrand =
       dynamic_cast<PolygonSpatialObjectType*>((*it).GetPointer());
-    PolygonSpatialObjectType::PointListType &points =
-      curstrand->GetPoints();
+    PolygonSpatialObjectType::PointListType &points = curstrand->GetPoints();
     PolygonSpatialObjectType::PointListType::iterator pointIt = points.begin();
-    PolygonSpatialObjectType::PointListType::iterator pointItEnd 
-      = points.end();
+    PolygonSpatialObjectType::PointListType::iterator pointItEnd = points.end();
     while(pointIt != pointItEnd) 
       {
       PolygonSpatialObjectType::PointType curpoint = (*pointIt).GetPosition();

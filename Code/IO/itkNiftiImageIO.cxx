@@ -30,7 +30,7 @@ PURPOSE.  See the above copyright notices for mwore information.
 
 namespace itk
 {
-  //#define __USE_VERY_VERBOSE_NIFTI_DEBUGGING__
+//#define __USE_VERY_VERBOSE_NIFTI_DEBUGGING__
 #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 namespace
 {
@@ -478,13 +478,13 @@ Nifti2SO_Coord(int i, int j, int k)
 {
   SO_CoordTermsType NiftiOrient2SO_CoordinateTerms[] =
     {
-      itk::SpatialOrientation::ITK_COORDINATE_UNKNOWN,
-      itk::SpatialOrientation::ITK_COORDINATE_Left,
-      itk::SpatialOrientation::ITK_COORDINATE_Right,
-      itk::SpatialOrientation::ITK_COORDINATE_Posterior,
-      itk::SpatialOrientation::ITK_COORDINATE_Anterior,
-      itk::SpatialOrientation::ITK_COORDINATE_Inferior,
-      itk::SpatialOrientation::ITK_COORDINATE_Superior,
+    itk::SpatialOrientation::ITK_COORDINATE_UNKNOWN,
+    itk::SpatialOrientation::ITK_COORDINATE_Left,
+    itk::SpatialOrientation::ITK_COORDINATE_Right,
+    itk::SpatialOrientation::ITK_COORDINATE_Posterior,
+    itk::SpatialOrientation::ITK_COORDINATE_Anterior,
+    itk::SpatialOrientation::ITK_COORDINATE_Inferior,
+    itk::SpatialOrientation::ITK_COORDINATE_Superior,
     };
   return static_cast<SO_OrientationType>
     ((NiftiOrient2SO_CoordinateTerms[i] << itk::SpatialOrientation::ITK_COORDINATE_PrimaryMinor) |
@@ -898,9 +898,7 @@ NiftiImageIO
       this->m_NiftiImage->nz =
       this->m_NiftiImage->dim[3] = 1;
       }
-    dims =                      // has to be 5 
-      this->m_NiftiImage->ndim =
-      this->m_NiftiImage->dim[0] = 5;
+    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = 5; // has to be 5 
     this->m_NiftiImage->nu =
     this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
     }

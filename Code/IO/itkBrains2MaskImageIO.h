@@ -47,8 +47,8 @@ namespace itk
  */
 
 /**
-  * \todo
-  *  \par Everything still needs to be done.
+ * \todo
+ *  \par Everything still needs to be done.
  */
 
 /** \class Brains2MaskImageIO

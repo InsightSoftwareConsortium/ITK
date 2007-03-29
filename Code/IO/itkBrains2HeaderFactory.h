@@ -22,10 +22,9 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 /** 
-     * \class Brains2HeaderFactory
-     * \brief Create instances of Brains2Header objects using an object factory.
-     */
-//class ITK_EXPORT Brains2HeaderFactory : itk::Object
+ * \class Brains2HeaderFactory
+ * \brief Create instances of Brains2Header objects using an object factory.
+ */
 class Brains2HeaderFactory
 {
 public:

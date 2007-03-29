@@ -32,8 +32,7 @@ namespace itk
 {
 
 ArchetypeSeriesFileNames
-::ArchetypeSeriesFileNames() :
-  m_Archetype("")
+::ArchetypeSeriesFileNames() : m_Archetype("")
 {
 }
 

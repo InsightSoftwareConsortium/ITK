@@ -64,7 +64,7 @@ public:
   /** Reads 3D data from multi-pages tiff. */
   virtual void ReadVolume(void* buffer);
 
-  /** Reads 3D data from tiled tiff*/
+  /** Reads 3D data from tiled tiff. */
   virtual void ReadTiles(void* buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */

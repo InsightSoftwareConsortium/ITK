@@ -66,7 +66,9 @@ bool SiemensVisionImageIO::CanReadFile( const char* FileNameToRead )
 
   if((HDR_TOTAL_LENGTH + (matrixX * matrixX * 2)) !=
      (int)itksys::SystemTools::FileLength(FileNameToRead))
+    {
     return false;
+    }
 
   return true;
 }

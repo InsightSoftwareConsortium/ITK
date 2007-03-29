@@ -25,10 +25,11 @@
 #include "itkRGBAPixel.h"
 #include <stdio.h>
 
-extern "C" {
-// The regular jpeg lossy lib is the 8bits one:
-#include <itkjpeg/8/jpeglib.h>
-#include <setjmp.h>
+extern "C"
+{
+  // The regular jpeg lossy lib is the 8bits one:
+  #include <itkjpeg/8/jpeglib.h>
+  #include <setjmp.h>
 }
 
 

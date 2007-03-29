@@ -111,10 +111,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size;
   while(inputData != endInput)
     {
-    OutputConvertTraits
-      ::SetNthComponent(0, *outputData++,
-                        static_cast<OutputComponentType>
-                        (*inputData));
+    OutputConvertTraits::SetNthComponent(0, *outputData++,
+                                         static_cast<OutputComponentType>
+                                         (*inputData));
     inputData++;
     }
 }
@@ -165,12 +164,11 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size*4;
   while(inputData != endInput)
     {
-    double tempval = 
-      (
-        (2125.0 * static_cast<double>(*inputData) +
-         7154.0 * static_cast<double>(*(inputData+1)) +
-         0721.0 * static_cast<double>(*(inputData+2))) / 10000.0
-        ) * static_cast<double>(*(inputData+3));
+    double tempval = (
+      (2125.0 * static_cast<double>(*inputData) +
+       7154.0 * static_cast<double>(*(inputData+1)) +
+       0721.0 * static_cast<double>(*(inputData+2))) / 10000.0
+      ) * static_cast<double>(*(inputData+3));
     inputData += 4;
     OutputComponentType val = static_cast<OutputComponentType>( tempval );
     OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -194,8 +192,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     InputPixelType* endInput = inputData + size * 2;
     while(inputData != endInput)
       {
-      OutputComponentType val = 
-        static_cast<OutputComponentType>(*inputData) *
+      OutputComponentType val =  static_cast<OutputComponentType>(*inputData) *
         static_cast<OutputComponentType>(*(inputData+1));
       inputData += 2;
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -492,10 +489,8 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     InputPixelType* endInput = inputData + size * 2;
     while(inputData != endInput)
       { 
-      OutputComponentType val = 
-        static_cast<OutputComponentType>(*inputData);
-      OutputComponentType alpha = 
-        static_cast<OutputComponentType>(*(inputData+1));
+      OutputComponentType val = static_cast<OutputComponentType>(*inputData);
+      OutputComponentType alpha = static_cast<OutputComponentType>(*(inputData+1));
       inputData += 2;
       OutputConvertTraits::SetNthComponent(
         0, *outputData, val);

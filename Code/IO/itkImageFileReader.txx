@@ -376,8 +376,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     // note: char is used here because the buffer is read in bytes
     // regardles of the actual type of the pixels.
     ImageRegionType region = output->GetBufferedRegion();
-    char * loadBuffer = 
-      new char[m_ImageIO->GetImageSizeInBytes()];
+    char * loadBuffer =  new char[m_ImageIO->GetImageSizeInBytes()];
 
     m_ImageIO->Read(loadBuffer);
     

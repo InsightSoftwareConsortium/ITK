@@ -59,7 +59,9 @@ IPLCommonImageIO::IPLCommonImageIO()
 IPLCommonImageIO::~IPLCommonImageIO()
 {
   if(m_ImageHeader != 0)
+    {
     delete m_ImageHeader;
+    }
   delete m_FilenameList;
 }
 
@@ -305,7 +307,9 @@ void IPLCommonImageIO::ReadImageInformation()
     }
   itk::Directory::Pointer Dir = itk::Directory::New();
   if(Dir->Load(imagePath) == 0)
+    {
     RAISE_EXCEPTION();
+    }
   std::vector<std::string>::size_type i;
   std::vector<std::string>::size_type numfiles; 
     
@@ -615,7 +619,9 @@ int IPLCommonImageIO
   for (i = 0; i < 26; i++)
     {
     if (timeString[i] == '\n')
+      {
       timeString[i] = '\0';
+      }
     }
 
   return 1;

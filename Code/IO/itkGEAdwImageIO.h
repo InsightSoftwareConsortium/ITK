@@ -43,13 +43,13 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
- /** \class GEAdwImageIO
-  *
-  * \author Hans J. Johnson
-  * \brief Class that defines how to read GEAdw file format.
-  *
-  * \ingroup IOFilters
-  */
+/** \class GEAdwImageIO
+ *
+ * \author Hans J. Johnson
+ * \brief Class that defines how to read GEAdw file format.
+ *
+ * \ingroup IOFilters
+ */
 class ITK_EXPORT GEAdwImageIO : public IPLCommonImageIO
 {
 public:

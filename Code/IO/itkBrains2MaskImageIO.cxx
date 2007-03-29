@@ -156,13 +156,11 @@ void Brains2MaskImageIO
     {
     if ( m_MachineByteOrder == LittleEndian )
       {
-      ByteSwapper<unsigned int>::
-        SwapRangeFromSystemToBigEndian( octreeHdr,6 );
+      ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian( octreeHdr,6 );
       }
     else
       {
-      ByteSwapper<unsigned int>::
-        SwapRangeFromSystemToLittleEndian( octreeHdr,6 );
+      ByteSwapper<unsigned int>::SwapRangeFromSystemToLittleEndian( octreeHdr,6 );
       }
     }
   Octree<unsigned char,2,Brains2MaskMappingFunction<unsigned char> >::Pointer octree =
@@ -289,8 +287,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     }
   this->m_ByteOrder=(this->m_IPLHeaderInfo.getString("BYTE_ORDER:")
                      =="LITTLE_ENDIAN") ? LittleEndian : BigEndian;
-  this->m_MachineByteOrder =
-    (ByteSwapper<int>::SystemIsBigEndian() == true ) ?
+  this->m_MachineByteOrder=(ByteSwapper<int>::SystemIsBigEndian() == true ) ?
     BigEndian : LittleEndian;
 
   //this->m_IPLHeaderInfo.PrintSelf(std::cout);

@@ -42,13 +42,13 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
- /** \class SiemensVisionImageIO
-  *
-  * \author Hans J. Johnson
-  * \brief Class that defines how to read SiemensVision file format.
-  *
-  * \ingroup IOFilters
-  */
+/** \class SiemensVisionImageIO
+ *
+ * \author Hans J. Johnson
+ * \brief Class that defines how to read SiemensVision file format.
+ *
+ * \ingroup IOFilters
+ */
 class ITK_EXPORT SiemensVisionImageIO : public IPLCommonImageIO
 {
 public:
@@ -66,11 +66,11 @@ public:
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine if the file can be read with this ImageIO implementation.
-       * \author Hans J Johnson
-       * \param FileNameToRead The name of the file to test for reading.
-       * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
-       * \return Returns true if this ImageIO can read the file specified.
-       */
+   * \author Hans J Johnson
+   * \param FileNameToRead The name of the file to test for reading.
+   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this ImageIO can read the file specified.
+   */
   virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
@@ -86,19 +86,19 @@ public:
   //      virtual void Read(void* buffer);
 
   /** Compute the size (in bytes) of the components of a pixel. For
-       * example, and RGB pixel of unsigned char would have a
-       * component size of 1 byte. */
+   * example, and RGB pixel of unsigned char would have a
+   * component size of 1 byte. */
   // Implemented in superclass
   //      virtual unsigned int GetComponentSize() const;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine if the file can be written with this ImageIO implementation.
-       * \param FileNameToWrite The name of the file to test for writing.
-       * \author Hans J. Johnson
-       * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
-       * \return Returns true if this ImageIO can write the file specified.
-       */
+   * \param FileNameToWrite The name of the file to test for writing.
+   * \author Hans J. Johnson
+   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this ImageIO can write the file specified.
+   */
   // Implemented in superclass
   //      virtual bool CanWriteFile(const char * FileNameToWrite);
 
@@ -107,7 +107,7 @@ public:
   //      virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
-       * that the IORegions has been set properly. */
+   * that the IORegions has been set properly. */
   // Implemented in superclass
   //      virtual void Write(const void* buffer);
 protected:

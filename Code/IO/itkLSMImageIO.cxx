@@ -34,11 +34,11 @@ namespace itk
 extern "C"
 {
   static void TagExtender(TIFF *tiff)
-  {
-  static const TIFFFieldInfo xtiffFieldInfo[] = {
-    { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
-      FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
-  };
+    {
+    static const TIFFFieldInfo xtiffFieldInfo[] = {
+      { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
+        FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
+    };
   
     TIFFMergeFieldInfo( tiff, xtiffFieldInfo,
                         sizeof(xtiffFieldInfo) / sizeof(xtiffFieldInfo[0]) );

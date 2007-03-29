@@ -1144,7 +1144,7 @@ bool GiplImageIO::CheckExtension(const char* filename)
   if ((giplPos != std::string::npos)
       && (giplPos == fname.length() - 5))
     {
-      extensionFound = true;
+    extensionFound = true;
     }
 
   giplPos = fname.rfind(".gipl.gz");
