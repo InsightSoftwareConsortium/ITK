@@ -177,8 +177,7 @@ GradientDescentOptimizer
     direction = -1.0;
     }
 
-  const unsigned int spaceDimension = 
-    m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension =  m_CostFunction->GetNumberOfParameters();
 
   const ParametersType & currentPosition = this->GetCurrentPosition();
 

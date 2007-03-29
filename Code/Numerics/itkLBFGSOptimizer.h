@@ -34,9 +34,9 @@ class ITK_EXPORT LBFGSOptimizer :
 public:
   /** Standard "Self" typedef. */
   typedef LBFGSOptimizer                     Self;
-  typedef SingleValuedNonLinearVnlOptimizer   Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef SingleValuedNonLinearVnlOptimizer  Superclass;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -121,9 +121,4 @@ private:
 
 } // end namespace itk
 
-
-
 #endif
-
-
-

@@ -24,21 +24,21 @@
 namespace itk
 {
   
-  /**
-   * \class SPSAOptimizer
-   * \brief An optimizer based on simultaneous perturbation...
-   *
-   * This optimizer is an implementation of the Simultaneous
-   * Perturbation Stochastic Approximation method, described in:
-   * 
-   * - http://www.jhuapl.edu/SPSA/
-   *
-   * - Spall, J.C. (1998), "An Overview of the Simultaneous
-   * Perturbation Method for Efficient Optimization," Johns
-   * Hopkins APL Technical Digest, vol. 19, pp. 482-492
-   *
-   * \ingroup Optimizers
-   */
+/**
+ * \class SPSAOptimizer
+ * \brief An optimizer based on simultaneous perturbation...
+ *
+ * This optimizer is an implementation of the Simultaneous
+ * Perturbation Stochastic Approximation method, described in:
+ * 
+ * - http://www.jhuapl.edu/SPSA/
+ *
+ * - Spall, J.C. (1998), "An Overview of the Simultaneous
+ * Perturbation Method for Efficient Optimization," Johns
+ * Hopkins APL Technical Digest, vol. 19, pp. 482-492
+ *
+ * \ingroup Optimizers
+ */
   
 class SPSAOptimizer
   : public SingleValuedNonLinearOptimizer
@@ -192,7 +192,7 @@ protected:
   SPSAOptimizer();
   virtual ~SPSAOptimizer() {};
 
-  /** PrintSelf method.*/
+  /** PrintSelf method. */
   void PrintSelf( std::ostream& os, Indent indent ) const;
     
   /** Variables updated during optimization */
@@ -207,7 +207,7 @@ protected:
   /** Random number generator */
   Statistics::MersenneTwisterRandomVariateGenerator::Pointer m_Generator;
     
-  /** Method to compute the learning rate at iteration k (a_k).*/
+  /** Method to compute the learning rate at iteration k (a_k). */
   virtual double Compute_a( unsigned long k ) const;
 
   /**

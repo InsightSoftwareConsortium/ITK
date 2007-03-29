@@ -131,7 +131,7 @@ FRPROptimizer
 
     if ( 2.0 * vcl_abs(fret - fp) <= 
       this->GetValueTolerance() * (vcl_abs(fret)+ vcl_abs(fp) + FRPR_TINY) )
-    {
+      {
       if( limitCount <  SpaceDimension )
         {
         this->GetValueAndDerivative(p, &fp, &xi);

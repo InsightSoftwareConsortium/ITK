@@ -45,8 +45,7 @@ QuaternionRigidTransformGradientDescentOptimizer
 
   ScalesType scales = this->GetScales();
 
-  const unsigned int spaceDimension = 
-    m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension =  m_CostFunction->GetNumberOfParameters();
 
   // Make sure the scales have been set
   if (scales.size() != spaceDimension)

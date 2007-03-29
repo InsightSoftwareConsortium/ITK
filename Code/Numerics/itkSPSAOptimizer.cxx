@@ -29,8 +29,8 @@ namespace itk
 {
 
 /**
-   * ************************* Constructor ************************
-   */
+ * ************************* Constructor ************************
+ */
 SPSAOptimizer
 ::SPSAOptimizer()
 {
@@ -106,10 +106,10 @@ SPSAOptimizer
 ::GetValue( const ParametersType & parameters ) const
 {
   /**
-     * This method just calls the Superclass' implementation,
-     * but is necessary because GetValue(void) is also declared
-     * in this class.
-     */
+   * This method just calls the Superclass' implementation,
+   * but is necessary because GetValue(void) is also declared
+   * in this class.
+   */
   return this->Superclass::GetValue( parameters );
 }
 

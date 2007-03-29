@@ -25,24 +25,24 @@ namespace itk
 {
 
 /** \class CumulativeGaussianOptimizer
-* \brief This is an optimizer specific to estimating
-* the parameters of Cumulative Gaussian sampled data.
-*
-* This optimizer will only work if the data array is 
-* sampled from a Cumulative Gaussian curve. It's more
-* of a curve fitter than an optimizer, with the
-* advantage of being fast and specific. It works by
-* taking the derivative of the Cumulative Gaussian sample
-* then repeatedly extending the tails of the Gaussian
-* and recalculating the Gaussian parameters until
-* the change in iterations is within tolerance or very small.
-* The Gaussian is then integrated to reproduce the 
-* Cumulative Gaussian and the asymptotes are estimated
-* by using least squares fit to estimate the constant
-* from integration.
-* 
-* \ingroup Numerics Optimizers
-*/
+ * \brief This is an optimizer specific to estimating
+ * the parameters of Cumulative Gaussian sampled data.
+ *
+ * This optimizer will only work if the data array is 
+ * sampled from a Cumulative Gaussian curve. It's more
+ * of a curve fitter than an optimizer, with the
+ * advantage of being fast and specific. It works by
+ * taking the derivative of the Cumulative Gaussian sample
+ * then repeatedly extending the tails of the Gaussian
+ * and recalculating the Gaussian parameters until
+ * the change in iterations is within tolerance or very small.
+ * The Gaussian is then integrated to reproduce the 
+ * Cumulative Gaussian and the asymptotes are estimated
+ * by using least squares fit to estimate the constant
+ * from integration.
+ * 
+ * \ingroup Numerics Optimizers
+ */
 
 class ITK_EXPORT CumulativeGaussianOptimizer : 
     public MultipleValuedNonLinearOptimizer
@@ -50,7 +50,7 @@ class ITK_EXPORT CumulativeGaussianOptimizer :
 
 public:
 
-   /** Standard typedefs. */
+  /** Standard typedefs. */
   typedef CumulativeGaussianOptimizer           Self;
   typedef MultipleValuedNonLinearOptimizer      Superclass;
   typedef SmartPointer<Self>                    Pointer;
@@ -105,7 +105,8 @@ private:
   /** The final amplitude of the Gaussian. */
   double  m_ComputedAmplitude;  
   
-  /** The transition height (distance between upper and lower asymptotes) of the Cumulative Gaussian. */
+  /** The transition height (distance between upper and lower
+   * asymptotes) of the Cumulative Gaussian. */
   double  m_ComputedTransitionHeight;
   
   /** The final upper asymptote of the Cumulative Gaussian. */
@@ -123,7 +124,8 @@ private:
   /** Least squares fit error as a measure of goodness. */
   double m_FitError;
 
-  /** Array of values computed from the final parameters of the Cumulative Gaussian. */
+  /** Array of values computed from the final parameters of the
+   * Cumulative Gaussian. */
   MeasureType * m_FinalSampledArray;
 
   /** Original data array. */
@@ -137,7 +139,8 @@ private:
                                                                MeasureType * extendedArray,
                                                                int startingPointForInsertion);
 
-  /** Calculates the squared difference error between each Gaussian iteration loop. */
+  /** Calculates the squared difference error between each Gaussian
+   * iteration loop. */
   double FindAverageSumOfSquaredDifferences(MeasureType * array1, MeasureType * array2);
 
   /** Given an array sampled from a Gaussin, compute the final parameters. */

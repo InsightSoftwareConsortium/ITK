@@ -42,7 +42,7 @@ ExhaustiveOptimizer
 
 /**
  * Start walking
- **/
+ */
 
 void ExhaustiveOptimizer::StartOptimization( void )
 {
@@ -78,12 +78,10 @@ ExhaustiveOptimizer
   m_CurrentIndex.Fill(0);
   
   this->SetCurrentPosition( this->GetInitialPosition() );
-
   
   itkDebugMacro("Calling ResumeWalking");
   
   this->ResumeWalking();
-
 }
 
 /**
