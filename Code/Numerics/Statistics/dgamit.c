@@ -55,7 +55,7 @@ doublereal dgamit_(doublereal *a, doublereal *x)
     doublereal sgngam;
     /* static */ doublereal alneps;
 //    extern /* Subroutine */ int xerclr_(void);
-    extern /* Subroutine */ xermsg_(char *, char *, char *,
+    extern /* Subroutine */ int xermsg_(char *, char *, char *,
              integer *, integer *, ftnlen, ftnlen, ftnlen);
 
 /* ***BEGIN PROLOGUE  DGAMIT */
