@@ -72,7 +72,7 @@ public:
     return ((RealType) m_Sum) / m_Size;
     }
 
-  TAccumulate m_Sum;
+  TAccumulate   m_Sum;
   unsigned long m_Size;
 };
 } // end namespace Function

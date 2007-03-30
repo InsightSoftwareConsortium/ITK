@@ -24,8 +24,8 @@ namespace itk
 {
 
 /**
-* Constructor method
-*/
+ * Constructor method
+ */
 template <class TInputImage, class TLabelImage, class TOutputImage>
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 ::LabelOverlayImageFilter()

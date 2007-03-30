@@ -31,9 +31,9 @@ template<class TOutputMesh>
 VTKPolyDataReader<TOutputMesh>
 ::VTKPolyDataReader()
 {
-  /*
-   * Create the output
-   */
+  //
+  // Create the output
+  //
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());

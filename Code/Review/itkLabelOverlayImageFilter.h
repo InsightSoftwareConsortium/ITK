@@ -27,7 +27,7 @@ namespace itk
 namespace Functor {  
  
 /**  
- \class LabelOverlay
+ * \class LabelOverlay
  * \brief A functor class used internally by LabelOverlayImageFilter 
  */
 template< class TInputPixel, class TLabel, class TRGBPixel >
