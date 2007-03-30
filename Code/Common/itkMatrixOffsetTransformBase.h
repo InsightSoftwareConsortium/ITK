@@ -362,7 +362,7 @@ protected:
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream &s, Indent indent) const;
 
-  InverseMatrixType GetVarInverseMatrix( void ) const
+  const InverseMatrixType & GetVarInverseMatrix( void ) const
     { return m_InverseMatrix; };
   void SetVarInverseMatrix(const InverseMatrixType & matrix) const
     { m_InverseMatrix = matrix; m_InverseMatrixMTime.Modified(); };
