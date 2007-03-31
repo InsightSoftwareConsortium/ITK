@@ -150,9 +150,9 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
 }
 
 template <class TFixedImage, class TMovingImage>
-typename HistogramImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+void
 HistogramImageToImageMetric<TFixedImage,TMovingImage>
-::SetTransform( TransformPType * transform ) 
+::SetTransform( TransformType * transform ) 
 {
   if(m_DerivativeStepLengthScales.GetSize()
      != transform->GetNumberOfParameters())
