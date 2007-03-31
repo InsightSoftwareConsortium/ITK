@@ -83,7 +83,8 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
     // Calculate min and max image values in fixed image.
     FixedImageConstPointerType pFixedImage = this->m_FixedImage;
     ImageRegionConstIterator<FixedImageType> fiIt(pFixedImage,
-                                                  pFixedImage->GetBufferedRegion());
+                                                  pFixedImage->
+                                                      GetBufferedRegion());
     fiIt.GoToBegin();
     FixedImagePixelType minFixed = fiIt.Value();
     FixedImagePixelType maxFixed = fiIt.Value();
@@ -107,7 +108,8 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
     // Calculate min and max image values in moving image.
     MovingImageConstPointerType pMovingImage = this->m_MovingImage;
     ImageRegionConstIterator<MovingImageType> miIt(pMovingImage,
-                                                   pMovingImage->GetBufferedRegion());
+                                                   pMovingImage->
+                                                       GetBufferedRegion());
     miIt.GoToBegin();
     MovingImagePixelType minMoving = miIt.Value();
     MovingImagePixelType maxMoving = miIt.Value();
@@ -145,6 +147,20 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
 
     }
 
+}
+
+template <class TFixedImage, class TMovingImage>
+typename HistogramImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
+HistogramImageToImageMetric<TFixedImage,TMovingImage>
+::SetTransform( TransformPType * transform ) 
+{
+  if(m_DerivativeStepLengthScales.GetSize()
+     != transform->GetNumberOfParameters())
+    {
+    m_DerivativeStepLengthScales.SetSize(transform->GetNumberOfParameters());
+    m_DerivativeStepLengthScales.Fill(1.0);
+    }
+  Superclass::SetTransform(transform);
 }
 
 template <class TFixedImage, class TMovingImage>
@@ -264,7 +280,8 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
       typename Superclass::InputPointType inputPoint;
       fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
           
-      if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
+      if( this->m_FixedImageMask && 
+         !this->m_FixedImageMask->IsInside( inputPoint ) )
         {
         ++ti;
         continue;
@@ -273,7 +290,8 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
       typename Superclass::OutputPointType transformedPoint =
         this->m_Transform->TransformPoint(inputPoint);
 
-      if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
+      if( this->m_MovingImageMask && 
+         !this->m_MovingImageMask->IsInside( transformedPoint ) )
         {
         ++ti;
         continue;
@@ -299,8 +317,8 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   itkDebugMacro("NumberOfPixelsCounted = " << this->m_NumberOfPixelsCounted );
   if (this->m_NumberOfPixelsCounted == 0)
     {
-    itkExceptionMacro(<< "All the points mapped to outside of the moving \
-image");
+    itkExceptionMacro(
+      << "All the points mapped to outside of the moving image");
     }
 }
 
@@ -352,7 +370,8 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Padding value: "
-     << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_PaddingValue)
+     << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(
+                                                             m_PaddingValue)
      << std::endl;
   os << indent << "Use padding value?: " << m_UsePaddingValue << std::endl;
   os << indent << "Derivative step length: " << m_DerivativeStepLength
@@ -366,6 +385,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Histogram computed by GetValue(): ";
   os << m_Histogram.GetPointer() << std::endl;
 }
+
 } // end namespace itk
 
 #endif // itkHistogramImageToImageMetric_txx

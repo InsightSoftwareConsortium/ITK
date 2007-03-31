@@ -79,6 +79,10 @@ public:
   /** Initializes the metric. */
   void Initialize() throw (ExceptionObject);
 
+  /** Define the transform and thereby the parameter space of the metric
+   *   and the space of its derivatives */
+  void SetTransform( TransformType * transform );
+
   /** Sets the histogram size. Note this function must be called before
       \c Initialize(). */
   itkSetMacro( HistogramSize, HistogramSizeType );
