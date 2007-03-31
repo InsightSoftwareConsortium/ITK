@@ -147,7 +147,7 @@ public:
 
   /** Index and Point typedef support. */
   typedef typename FixedImageType::IndexType            FixedImageIndexType;
-  typedef typename FixedImageIndexType::IndexValueType  FixedImageIndexValueType;
+  typedef typename FixedImageIndexType::IndexValueType FixedImageIndexValueType;
   typedef typename MovingImageType::IndexType           MovingImageIndexType;
   typedef typename TransformType::InputPointType        FixedImagePointType;
   typedef typename TransformType::OutputPointType       MovingImagePointType;
@@ -166,16 +166,16 @@ public:
   virtual void Initialize(void) throw ( ExceptionObject );
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative( 
-    const ParametersType& parameters,
-    DerivativeType & Derivative ) const;
+  void GetDerivative( const ParametersType& parameters,
+                      DerivativeType & Derivative ) const;
 
   /**  Get the value. */
   MeasureType GetValue( const ParametersType& parameters ) const;
 
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative( const ParametersType& parameters, 
-                              MeasureType& Value, DerivativeType& Derivative ) const;
+                              MeasureType& Value,
+                              DerivativeType& Derivative ) const;
 
   /** Number of spatial samples to used to compute metric */
   itkSetClampMacro( NumberOfSpatialSamples, unsigned long,
@@ -217,16 +217,16 @@ protected:
    * and the fixed image value at that point. */
   /// @cond 
   class FixedImageSpatialSample
-  {
-  public:
-    FixedImageSpatialSample():FixedImageValue(0.0)
-    { FixedImagePointValue.Fill(0.0); }
-    ~FixedImageSpatialSample() {};
-
-    FixedImagePointType           FixedImagePointValue;
-    double                        FixedImageValue;
-    unsigned int                  FixedImageParzenWindowIndex;
-  };
+    {
+    public:
+      FixedImageSpatialSample():FixedImageValue(0.0)
+      { FixedImagePointValue.Fill(0.0); }
+      ~FixedImageSpatialSample() {};
+  
+      FixedImagePointType           FixedImagePointValue;
+      double                        FixedImageValue;
+      unsigned int                  FixedImageParzenWindowIndex;
+    };
   /// @endcond 
 
   /** FixedImageSpatialSample typedef support. */
@@ -248,13 +248,16 @@ protected:
    * This function also checks if mapped point is within support region. */
   virtual void TransformPoint( unsigned int sampleNumber,
                                const ParametersType& parameters,
-                               MovingImagePointType& mappedPoint, bool& sampleWithinSupportRegion,
+                               MovingImagePointType& mappedPoint,
+                               bool& sampleWithinSupportRegion,
                                double& movingImageValue ) const;
 
 private:
 
-  MattesMutualInformationImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  //purposely not implemented
+  MattesMutualInformationImageToImageMetric(const Self&); 
+  //purposely not implemented
+  void operator=(const Self&); 
 
 
   /** The marginal PDFs are stored as std::vector. */
@@ -306,7 +309,8 @@ private:
   m_CubicBSplineDerivativeKernel;
 
   /** Precompute fixed image parzen window indices. */
-  virtual void ComputeFixedImageParzenWindowIndices( FixedImageSpatialSampleContainer& samples );
+  virtual void ComputeFixedImageParzenWindowIndices( 
+                   FixedImageSpatialSampleContainer& samples );
 
   /**
    * Types and variables related to image derivative calculations.
@@ -315,7 +319,8 @@ private:
    * image derivatives are computed using central differencing.
    */
   typedef CovariantVector< double,
-                           itkGetStaticConstMacro(MovingImageDimension) > ImageDerivativesType;
+                           itkGetStaticConstMacro(MovingImageDimension) >
+                                                         ImageDerivativesType;
 
   /** Compute image derivatives at a point. */
   virtual void ComputeImageDerivatives( const MovingImagePointType& mappedPoint,
@@ -327,14 +332,16 @@ private:
   /** Typedefs for using BSpline interpolator. */
   typedef
   BSplineInterpolateImageFunction<MovingImageType,
-                                  CoordinateRepresentationType> BSplineInterpolatorType;
+                                  CoordinateRepresentationType> 
+                                                      BSplineInterpolatorType;
 
   /** Pointer to BSplineInterpolator. */
   typename BSplineInterpolatorType::Pointer m_BSplineInterpolator;
 
   /** Typedefs for using central difference calculator. */
   typedef CentralDifferenceImageFunction<MovingImageType,
-                                         CoordinateRepresentationType> DerivativeFunctionType;
+                                         CoordinateRepresentationType> 
+                                                       DerivativeFunctionType;
 
   /** Pointer to central difference calculator. */
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
@@ -343,8 +350,10 @@ private:
   /** Compute PDF derivative contribution for each parameter. */
   virtual void ComputePDFDerivatives( unsigned int sampleNumber,
                                       int movingImageParzenWindowIndex,
-                                      const ImageDerivativesType& movingImageGradientValue,
-                                      double cubicBSplineDerivativeValue ) const;
+                                      const ImageDerivativesType&
+                                                movingImageGradientValue,
+                                      double cubicBSplineDerivativeValue 
+                                      ) const;
 
   /**
    * Types and variables related to BSpline deformable transforms.
@@ -408,7 +417,8 @@ private:
   BooleanArrayType                      m_WithinSupportRegionArray;
   
   typedef FixedArray<unsigned long, 
-    ::itk::GetImageDimension<FixedImageType>::ImageDimension> ParametersOffsetType;
+                     ::itk::GetImageDimension<FixedImageType>::ImageDimension>
+                                                          ParametersOffsetType;
   ParametersOffsetType                  m_ParametersOffset;
 
   bool             m_UseAllPixels;
