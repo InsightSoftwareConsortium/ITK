@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGEImageHeader_h
-#define _itkGEImageHeader_h
+#ifndef __itkGEImageHeader_h
+#define __itkGEImageHeader_h
 
 #include "itkIOCommon.h"
 
@@ -46,6 +46,22 @@ struct GEImageHeader
   int NEX;
   float xFOV;
   float yFOV;
+  float centerR;
+  float centerA;
+  float centerS;
+  float normR;
+  float normA;
+  float normS;
+  float tlhcR;
+  float tlhcA;
+  float tlhcS;
+  float trhcR;
+  float trhcA;
+  float trhcS;
+  float brhcR;
+  float brhcA;
+  float brhcS;
+
   short int acqXsize;
   short int acqYsize;
   short int frequencyDir;

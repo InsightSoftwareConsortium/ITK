@@ -36,11 +36,10 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIOCommon.h"
 #include "itkGEImageHeader.h"
 #include "itkIPLFileNameList.h"
-//#include "idbm_hdr_def.h"
 
 namespace itk
 {
- /** \class IPLCommonImageIO
+/** \class IPLCommonImageIO
   *
   * \author Hans J. Johnson
   * \brief Class that defines how to read GE4 file format.
@@ -51,19 +50,20 @@ class ITK_EXPORT IPLCommonImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef IPLCommonImageIO            Self;
-  typedef ImageIOBase  Superclass;
+  typedef IPLCommonImageIO    Self;
+  typedef ImageIOBase         Superclass;
   typedef SmartPointer<Self>  Pointer;
-  typedef unsigned char U8;
-  typedef signed char S8;
+
+  typedef unsigned char  U8;
+  typedef signed char    S8;
   typedef unsigned short U16;
-  typedef signed short S16;
-  typedef unsigned int U32;
-  typedef signed int S32;
-  typedef unsigned long U64;
-  typedef signed long S64;
-  typedef float F32;
-  typedef double F64;
+  typedef signed short   S16;
+  typedef unsigned int   U32;
+  typedef signed int     S32;
+  typedef unsigned long  U64;
+  typedef signed long    S64;
+  typedef float          F32;
+  typedef double         F64;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,17 +72,20 @@ public:
   itkTypeMacro(IPLCommonImageIO, Superclass);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
-
+  
   /** Determine if the file can be read with this ImageIO implementation.
-       * \author Hans J Johnson
-       * \param FileNameToRead The name of the file to test for reading.
-       * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
-       * \return Returns true if this ImageIO can read the file specified.
-       */
-  virtual bool CanReadFile(const char* FileNameToRead) ;
+    * \author Hans J Johnson
+    * \param FileNameToRead The name of the file to test for reading.
+    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+    * \return Returns true if this ImageIO can read the file specified.
+    */
+  virtual bool CanReadFile(const char* FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
+
+  /** Optionally, modify spacing, origin and direction */
+  virtual void ModifyImageInformation() {};
 
   /** Get the type of the pixel.  */
   virtual const std::type_info& GetPixelTypeInfo() const;
@@ -122,21 +125,27 @@ public:
   virtual void SortImageListByNameDescend();
 
 
-  protected:
+protected:
   IPLCommonImageIO();
   ~IPLCommonImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  int AddElementToList(char const * const filename, const float sliceLocation, const int offset, const int XDim, const int YDim, const int Key1, const int Key2 );
+  int AddElementToList(char const * const filename,
+                       const float sliceLocation,
+                       const int offset,
+                       const int XDim,
+                       const int YDim,
+                       const int Key1,
+                       const int Key2 );
   void sortImageListAscend ();
   void sortImageListDescend ();
   int statTimeToAscii (void *clock, char *timeString);
   virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
   //
   // data members
-  struct GEImageHeader *m_ImageHeader;
-  ImageIOBase::ByteOrder m_system_byteOrder;
-  IPLFileNameList *m_fnlist;
+  struct GEImageHeader  *m_ImageHeader;
+  ImageIOBase::ByteOrder m_SystemByteOrder;
+  IPLFileNameList       *m_FilenameList;
   //
   // return 0 on success, -1 on failure
   int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,
