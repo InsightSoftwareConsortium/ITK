@@ -494,6 +494,11 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
     ${IO_TESTS} itkArchetypeSeriesFileNamesTest
     ${ITK_DATA_ROOT}/Input/Archetype/a5b7.PNG
     ${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG)
+  ADD_TEST(itkArchetypeSeriesFileNamesTest2
+    ${IO_TESTS} itkArchetypeSeriesFileNamesTest
+    ${ITK_DATA_ROOT}/Input/Archetype/image.001
+    ${ITK_DATA_ROOT}/Input/Archetype/image.010)
+
 
 
 ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
