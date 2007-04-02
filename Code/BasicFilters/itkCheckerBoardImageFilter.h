@@ -73,7 +73,7 @@ public:
   void SetInput2( const TImage * image2);
 
 
-  /** Set Checker pattern */
+  /** Set array with number of checks to make per image dimension */
   itkSetMacro( CheckerPattern, PatternArrayType );
   itkGetConstReferenceMacro( CheckerPattern, PatternArrayType );
 
