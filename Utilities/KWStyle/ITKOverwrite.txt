@@ -19,4 +19,5 @@ itkWeakPointer.h Template Disable
 itkBSplineInterpolationWeightFunction.txx Namespace Disable
 itkWindowedSincInterpolateImageFunction.h DeclarationOrder Disable
 itkCommand.h Typedefs Disable
+itkQuadEdgeMeshMacro.h Indent Disable
 itk.*\Test.*\.cxx Namespace Disable
