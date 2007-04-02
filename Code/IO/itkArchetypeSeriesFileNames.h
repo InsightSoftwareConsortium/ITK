@@ -26,8 +26,6 @@
 #include <vector>
 #include <string>
 
-
-
 namespace itk
 {
 /** \class ArchetypeSeriesFileNames
@@ -72,9 +70,9 @@ class ITK_EXPORT ArchetypeSeriesFileNames : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ArchetypeSeriesFileNames    Self;
-  typedef Object                  Superclass;
-  typedef SmartPointer<Self>      Pointer;
+  typedef ArchetypeSeriesFileNames Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -120,7 +118,7 @@ private:
   std::string m_Archetype;
 
   std::vector< StringVectorType > m_Groupings;
-  StringVectorType m_FileNames;   // ivar for returning by reference
+  StringVectorType                m_FileNames; // ivar for returning by reference
 
   TimeStamp  m_ArchetypeMTime;
   TimeStamp  m_ScanTime;

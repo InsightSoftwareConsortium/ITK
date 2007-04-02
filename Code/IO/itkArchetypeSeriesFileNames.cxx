@@ -32,8 +32,7 @@ namespace itk
 {
 
 ArchetypeSeriesFileNames
-::ArchetypeSeriesFileNames() :
-  m_Archetype("")
+::ArchetypeSeriesFileNames() : m_Archetype("")
 {
 }
 
@@ -166,11 +165,13 @@ ArchetypeSeriesFileNames
         }
       
       numGroupLength.push_back( (sit - fileName.begin()) - sIndex );
+        
+      if( sit == fileName.end() )
+        {
+        break;
+        }
       }
     }
-
-
-
 
   // Create a set of regular expressions, one for each group of
   // numbers in m_FileName. We walk the regular expression groups
@@ -182,7 +183,7 @@ ArchetypeSeriesFileNames
   IntVectorType::reverse_iterator numGroupLengthItr = numGroupLength.rbegin();
   IntVectorType::reverse_iterator numGroupStartItr  = numGroupStart.rbegin();
   while( numGroupLengthItr != numGroupLength.rend() &&
-         numGroupStartItr  != numGroupStart.rend()    )
+         numGroupStartItr != numGroupStart.rend() )
     {
     std::string regExpFileName = fileName;
     
