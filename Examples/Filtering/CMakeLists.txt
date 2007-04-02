@@ -33,12 +33,6 @@ TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO)
 ADD_EXECUTABLE(BinaryMedianImageFilter BinaryMedianImageFilter.cxx )
 TARGET_LINK_LIBRARIES(BinaryMedianImageFilter ITKCommon ITKIO)
 
-ADD_EXECUTABLE(VotingBinaryHoleFillingImageFilter VotingBinaryHoleFillingImageFilter.cxx )
-TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter ITKCommon ITKIO)
-
-ADD_EXECUTABLE(VotingBinaryIterativeHoleFillingImageFilter VotingBinaryIterativeHoleFillingImageFilter.cxx )
-TARGET_LINK_LIBRARIES(VotingBinaryIterativeHoleFillingImageFilter ITKCommon ITKIO)
-
 ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
 
@@ -163,6 +157,13 @@ TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO)
 
 ADD_EXECUTABLE(ResampleImageFilter4 ResampleImageFilter4.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter4 ITKCommon ITKBasicFilters ITKIO)
+
+ADD_EXECUTABLE(VotingBinaryHoleFillingImageFilter VotingBinaryHoleFillingImageFilter.cxx )
+TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter ITKCommon ITKIO)
+
+ADD_EXECUTABLE(VotingBinaryIterativeHoleFillingImageFilter VotingBinaryIterativeHoleFillingImageFilter.cxx )
+TARGET_LINK_LIBRARIES(VotingBinaryIterativeHoleFillingImageFilter ITKCommon ITKIO)
+
 ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(ResampleImageFilter5 ResampleImageFilter5.cxx )
