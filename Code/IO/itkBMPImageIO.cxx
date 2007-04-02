@@ -53,7 +53,6 @@ BMPImageIO::BMPImageIO()
 /** Destructor */
 BMPImageIO::~BMPImageIO()
 {
-  m_Ifstream.close();
 }
 
 
@@ -203,6 +202,8 @@ void BMPImageIO::Read(void* buffer)
   unsigned long l=0;
   unsigned long step = this->GetNumberOfComponents();
   long streamRead = m_Dimensions[0]*m_Depth/8;
+
+  m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
 
   long paddedStreamRead = streamRead;
   if( streamRead % 4 )
@@ -550,6 +551,8 @@ void BMPImageIO::ReadImageInformation()
     {
     this->SetNumberOfComponents(3);
     }
+
+  m_Ifstream.close();
 }
 
 
