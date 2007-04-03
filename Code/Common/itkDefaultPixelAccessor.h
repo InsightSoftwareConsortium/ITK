@@ -54,6 +54,9 @@ class ITK_EXPORT DefaultPixelAccessor
 {
 public:
 
+  DefaultPixelAccessor() {}
+  virtual ~DefaultPixelAccessor() {}
+
  /** External typedef. It defines the external aspect
    * that this class will exhibit. */
   typedef TType ExternalType ;
