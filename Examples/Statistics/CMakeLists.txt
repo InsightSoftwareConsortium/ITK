@@ -78,9 +78,6 @@ TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
 ADD_EXECUTABLE(ImageHistogram3 ImageHistogram3.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram3 ITKIO ITKCommon ITKStatistics )
 
-ADD_EXECUTABLE(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
-TARGET_LINK_LIBRARIES(ScalarImageMarkovRandomField1 ITKIO ITKCommon )
-
 # Add some tests now, based on the examples.
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
@@ -93,6 +90,9 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
+TARGET_LINK_LIBRARIES(ScalarImageMarkovRandomField1 ITKIO ITKCommon )
+
 ADD_EXECUTABLE(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO ITKCommon )
 
