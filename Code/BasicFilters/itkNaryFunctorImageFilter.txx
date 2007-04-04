@@ -70,7 +70,6 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
   
   // support progress methods/callbacks.
   // count the number of inputs that are non-null
-  unsigned int numberOfValidInputImages = 0;
   unsigned int lastValidImage = 0;
   for (unsigned int i=0; i < numberOfInputImages; ++i)
     {
@@ -90,9 +89,8 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
       }
     }
   ProgressReporter progress(this, threadId,
-                            numberOfValidInputImages
-                            *outputRegionForThread.GetNumberOfPixels());
-     
+                            outputRegionForThread.GetNumberOfPixels());
+
   if( !inputItrVector[lastValidImage] )
     { 
     //No valid regions in the thread
@@ -129,5 +127,3 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
 } // end namespace itk
 
 #endif
-
-
