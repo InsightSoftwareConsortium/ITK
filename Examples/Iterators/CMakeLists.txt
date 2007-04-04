@@ -4,9 +4,6 @@
 PROJECT(IteratorExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
-ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
-TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
-
 ADD_EXECUTABLE(NeighborhoodIterators4 NeighborhoodIterators4.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKIO   )
 
@@ -14,6 +11,9 @@ ADD_EXECUTABLE(NeighborhoodIterators5 NeighborhoodIterators5.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKIO   )
 
 IF(NOT BORLAND)
+ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
+TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
+
 ADD_EXECUTABLE(NeighborhoodIterators1 NeighborhoodIterators1.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators1 ITKIO   )
 
