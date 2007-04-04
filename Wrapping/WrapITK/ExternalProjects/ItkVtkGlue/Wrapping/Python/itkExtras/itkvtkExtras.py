@@ -198,12 +198,14 @@ class lsm( itkExtras.pipeline ):
     self[0].SetFileName( fileName )
     self[0].Update()
     self.UpdateSpacing()
+    self[-1].UpdateLargestPossibleRegion()
 
   def SetChannel( self, channel ):
     self[0].SetUpdateChannel( channel )
     self[0].Update()
     self.UpdateSpacing()
     self.__channel__ = channel
+    self[-1].UpdateLargestPossibleRegion()
     return self.GetChannelName( channel )
 
   def UpdateSpacing(self):
