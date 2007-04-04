@@ -25,7 +25,8 @@
 #include "itkBinaryDilateImageFilter.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkSubtractImageFilter.h"
-
+#include "itkProgressReporter.h"
+#include "itkProgressAccumulator.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_math.h"
 
@@ -118,6 +119,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
                      InputPixelType,
                      InputImageDimension  > StructuringElementType;
 
+  ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
+  progressAcc->SetMiniPipelineFilter(this);
+  
   typedef BinaryDilateImageFilter<
                          InputImageType,
                          InputImageType,
@@ -131,6 +135,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   dilator->SetKernel( structuringElement );
   dilator->SetDilateValue( 1 );
   dilator->SetInput( inverter1->GetOutput() );
+  progressAcc->RegisterInternalFilter( dilator, 0.33f );
   inverter2->SetInput( dilator->GetOutput() );
 
   typedef SubtractImageFilter<InputImageType,
@@ -177,18 +182,31 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   typename InputImageType::RegionType::IndexType startIndex;
   startIndex = this->GetInput()->GetRequestedRegion().GetIndex();
 
+  // compute the number of rows first, so we can setup a progress reporter
+  typename std::vector< unsigned int > NumberOfRows;
+  unsigned long totalNumberOfRows = 0;
+
   for (unsigned int i = 0; i < InputImageDimension; i++)
     {
-    OutputIndexType idx;
-    unsigned int NumberOfRows = 1;
+    NumberOfRows.push_back( 1 );
     for (unsigned int d = 0; d < InputImageDimension; d++)
       {
-      idx[d] = 0;
       if( d != i )
         {
-        NumberOfRows *= size[ d ];
+        NumberOfRows[i] *= size[ d ];
         }
       }
+    totalNumberOfRows += NumberOfRows[i];
+    }
+
+  // set the progress reporter
+  ProgressReporter progress(this, 0, totalNumberOfRows, 100, 0.33f, 0.66f);
+
+  for (unsigned int i = 0; i < InputImageDimension; i++)
+    {
+
+    OutputIndexType idx;
+    idx.Fill( 0 );
 
     k[0] = 1;
     unsigned int count = 1;
@@ -202,7 +220,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     k.flip();
 
     unsigned int index;
-    for (unsigned int n = 0; n < NumberOfRows;n++)
+    for (unsigned int n = 0; n < NumberOfRows[i];n++)
       {
       index = n;
       count = 0;
@@ -218,6 +236,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         count++;
         }
       this->Voronoi(i, idx);
+      progress.CompletedPixel();
       }
     }
 
