@@ -192,9 +192,15 @@ LightObject
    * to this method (~LightObject): since the ref count is still 1, an 
    * exception would be thrown again, causing the system to abort()!
    */
-  if (!std::uncaught_exception() && m_ReferenceCount > 0)
+  if(m_ReferenceCount > 0 && !std::uncaught_exception())
     {
-    itkExceptionMacro(<< "Trying to delete object with non-zero reference count.");
+    // A general exception safety rule is that destructors should
+    // never throw.  Something is wrong with a program that reaches
+    // this point anyway.  Also this is the least-derived class so the
+    // whole object has been destroyed by this point anyway.  Just
+    // issue a warning.
+    // itkExceptionMacro(<< "Trying to delete object with non-zero reference count.");
+    itkWarningMacro("Trying to delete object with non-zero reference count.");
     }
 }
 
