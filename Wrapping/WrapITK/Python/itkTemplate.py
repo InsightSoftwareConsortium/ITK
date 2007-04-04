@@ -387,6 +387,10 @@ def New(self, *args, **kargs) :
       # if an object  don't have progress reporter, so adding reporter can silently fail
       pass
 
+  if itkConfig.NotInPlace :
+      if "SetInPlace" in dir(newItkObject) :
+	  newItkObject.SetInPlace( False )
+  
   return newItkObject
 
 

@@ -2,6 +2,12 @@
 # each new feature use a name in lower case
 clrLine = "\033[2K\033E\033[1A"
 
+def auto_not_in_place( v=True ) :
+  """Force it to not run in place
+  """
+  import itkConfig
+  itkConfig.NotInPlace = v
+
 def auto_progress( progressType = 1 ):
   """Set up auto progress report
   
