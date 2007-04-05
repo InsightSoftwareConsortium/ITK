@@ -346,7 +346,8 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     plusIndex = mit.GetIndex();
     for ( unsigned int i=0; i<dim; i++ )
       {
-      if ((currIndex[i] == 0)||(currIndex[i]==(movingSize[i]-1)))
+      if ((currIndex[i] == 0)||
+          (static_cast<typename MovingImageType::SizeType::SizeValueType>(currIndex[i])==(movingSize[i]-1)))
         {
         tempGradPixel[i] = 0;
         }
@@ -355,7 +356,6 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
         minusIndex[i] = currIndex[i]-1;
         plusIndex[i] = currIndex[i]+1;
         double minusVal = double(this->m_MovingImage->GetPixel(minusIndex));
-        double val      = double(this->m_MovingImage->GetPixel(currIndex));
         double plusVal  = double(this->m_MovingImage->GetPixel(plusIndex));
         if ((minusVal != m_ForegroundValue)&&(plusVal == m_ForegroundValue))
           {
