@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \brief Rigid2DTransform of a vector space (e.g. space coordinates)
+/** \class Rigig2DTransform 
+ * \brief Rigid2DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rigid transformation in 2D space.
  * The transform is specified as a rotation around a arbitrary center
@@ -59,10 +60,10 @@ class ITK_EXPORT Rigid2DTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid2DTransform Self;
+  typedef Rigid2DTransform                               Self;
   typedef MatrixOffsetTransformBase< TScalarType, 2, 2 > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( Rigid2DTransform, MatrixOffsetTransformBase );
@@ -91,7 +92,7 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
 
   /// Standard vector type for this class
-  typedef typename Superclass::InputVectorType InputVectorType;
+  typedef typename Superclass::InputVectorType  InputVectorType;
   typedef typename Superclass::OutputVectorType OutputVectorType;
 
   /// Standard covariant vector type for this class
@@ -99,12 +100,12 @@ public:
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
   /// Standard vnl_vector type for this class
-  typedef typename Superclass::InputVnlVectorType InputVnlVectorType;
+  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /// Standard coordinate point type for this class
-  typedef typename Superclass::InputPointType    InputPointType;
-  typedef typename Superclass::OutputPointType    OutputPointType;
+  typedef typename Superclass::InputPointType  InputPointType;
+  typedef typename Superclass::OutputPointType OutputPointType;
 
   /**
    * Set the rotation Matrix of a Rigid2D Transform
@@ -117,17 +118,17 @@ public:
    * provided as argument is not orthogonal.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix()
-   **/
+   */
   virtual void SetMatrix( const MatrixType & matrix );
 
   /**
    * Set/Get the rotation matrix. These methods are old and are
    * retained for backward compatibility. Instead, use SetMatrix()
    * GetMatrix().
-   **/
+   */
   virtual void SetRotationMatrix(const MatrixType &matrix)
     { this->SetMatrix( matrix ); }
-   const MatrixType & GetRotationMatrix() const
+  const MatrixType & GetRotationMatrix() const
     { return this->GetMatrix(); }
 
 
@@ -137,7 +138,7 @@ public:
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise.
-   **/
+   */
   void Translate(const OffsetType &offset, bool pre=false);
 
   /**
@@ -147,7 +148,7 @@ public:
    * Instead, please use GetInverse() or CloneInverseTo() to generate 
    * an inverse transform and  then perform the transform using that 
    * inverted transform.
-   **/
+   */
   inline InputPointType      BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType     BackTransform(const OutputVectorType &vector) const;
   inline InputVnlVectorType  BackTransform(const OutputVnlVectorType &vector) const;
@@ -199,13 +200,13 @@ public:
   /**
    * This method creates and returns a new Rigid2DTransform object
    * which is the inverse of self.
-   **/
+   */
   void CloneInverseTo( Pointer & newinverse ) const;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
    * which has the same parameters.
-   **/
+   */
   void CloneTo( Pointer & clone ) const;
 
   /** Reset the parameters to create and identity transform. */
@@ -220,7 +221,7 @@ protected:
  
  /**
    * Print contents of an Rigid2DTransform
-   **/
+   */
   void PrintSelf(std::ostream &os, Indent indent) const;
 
   /** Compute the matrix from angle. This is used in Set methods
@@ -249,12 +250,14 @@ private:
 
 // Back transform a point
 template<class TScalarType>
-typename Rigid2DTransform<TScalarType>::InputPointType
 inline
+typename Rigid2DTransform<TScalarType>::InputPointType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(
+    <<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform."
+    );
   return this->GetInverseMatrix() * (point - this->GetOffset());
 }
 
@@ -265,7 +268,9 @@ typename Rigid2DTransform<TScalarType>::InputVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(
+    <<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform."
+    );
   return this->GetInverseMatrix() * vect;
 }
 
@@ -276,7 +281,9 @@ typename Rigid2DTransform<TScalarType>::InputVnlVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(
+    <<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform."
+    );
   return this->GetInverseMatrix() * vect;
 }
 
@@ -288,7 +295,9 @@ typename Rigid2DTransform<TScalarType>::InputCovariantVectorType
 Rigid2DTransform<TScalarType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(
+    <<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform."
+    );
   return this->GetMatrix() * vect;
 }
 

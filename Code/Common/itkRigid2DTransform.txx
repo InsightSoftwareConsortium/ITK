@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRigid2DTransform_txx
-#define _itkRigid2DTransform_txx
+#ifndef __itkRigid2DTransform_txx
+#define __itkRigid2DTransform_txx
 
 #include "itkRigid2DTransform.h"
 #include "vnl/algo/vnl_svd.h"
