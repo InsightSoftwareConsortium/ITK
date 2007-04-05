@@ -334,8 +334,8 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   (void)cId;
 
-  EdgeCellType* qe = (EdgeCellType*) NULL;
-  PolygonCellType* pe = (PolygonCellType*) NULL;
+  EdgeCellType* qe;
+  PolygonCellType* pe;
 
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
