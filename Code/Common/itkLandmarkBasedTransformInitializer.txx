@@ -175,7 +175,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         fixedCentered.Fill( 0.0 );
         movingCentered.Fill( 0.0 );
 
+#if !defined(ITK_LEAN_AND_MEAN) && !defined(__BORLANDC__)
         int ii=0;
+#endif
         // Computations are relative to the Center of Rotation.
         while( movingItr != m_MovingLandmarks.end() )
           {
@@ -194,10 +196,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
               }
             }
           
+#if !defined(ITK_LEAN_AND_MEAN) && !defined(__BORLANDC__)
           ++ii;
           itkDebugMacro(<< "f_" << ii << " = " << fixedCentered );
           itkDebugMacro(<< "m_" << ii << " = " << movingCentered );
-          
+#endif          
           ++movingItr;
           ++fixedItr;
           }
@@ -345,8 +348,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
         fixedCentered.Fill( 0.0 );
         movingCentered.Fill( 0.0 );
 
+#if !defined(ITK_LEAN_AND_MEAN) && !defined(__BORLANDC__)
         int ii=0;
-
+#endif
         double s_dot   = 0;
         double s_cross = 0;
         // Computations are relative to the Center of Rotation.
@@ -362,10 +366,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
           s_cross += (movingCentered[1] * fixedCentered[0]) - 
                      (movingCentered[0] * fixedCentered[1]);
           
+#if !defined(ITK_LEAN_AND_MEAN) && !defined(__BORLANDC__)
           ++ii;
           itkDebugMacro(<< "f_" << ii << " = " << fixedCentered );
           itkDebugMacro(<< "m_" << ii << " = " << movingCentered );
-
+#endif
           ++movingItr;
           ++fixedItr;
           }
