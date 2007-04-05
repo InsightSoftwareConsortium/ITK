@@ -22,9 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
-#include "itkBinaryDilateImageFilter.h"
-#include "itkUnaryFunctorImageFilter.h"
-#include "itkSubtractImageFilter.h"
+#include "itkBinaryErodeImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkProgressAccumulator.h"
 #include "vnl/vnl_vector.h"
@@ -88,10 +86,20 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   this->GetOutput()->Allocate();
   this->m_Spacing = this->GetOutput()->GetSpacing();
 
+  // store the binary image in an image with a pixel type as small as possible
+  // instead of keeping the native input pixel type to avoid using too much
+  // memory.
+  typedef Image< unsigned char, InputImageDimension > BinaryImageType;
   typedef BinaryThresholdImageFilter<InputImageType, 
-                                     InputImageType
+                                     BinaryImageType
                                         > BinaryFilterType;
   
+  ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
+  progressAcc->SetMiniPipelineFilter(this);
+  
+  // compute the boundary of the binary object.
+  // To do that, we erode the binary object. The eroded pixels are the ones
+  // on the boundary. We mark them with the value 2
   typename BinaryFilterType::Pointer binaryFilter = BinaryFilterType::New();
 
   binaryFilter->SetLowerThreshold( this->m_BackgroundValue );
@@ -99,59 +107,37 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   binaryFilter->SetInsideValue( 0 );
   binaryFilter->SetOutsideValue( 1 );
   binaryFilter->SetInput( this->GetInput() );
+//   progressAcc->RegisterInternalFilter( binaryFilter, 0.1f );
   binaryFilter->Update();
-
-  typedef Functor::InvertBinaryIntensityFunctor<InputPixelType>  FunctorType;
-
-  typedef UnaryFunctorImageFilter< InputImageType,
-                                   InputImageType,
-                                   FunctorType >    InverterType;
-
-  typename InverterType::Pointer inverter1 = InverterType::New();
-  typename InverterType::Pointer inverter2 = InverterType::New();
-
-  inverter1->SetInput( binaryFilter->GetOutput() );
 
   // Dilate the inverted image by 1 pixel to give it the same boundary
   // as the univerted this->GetInput().
 
   typedef BinaryBallStructuringElement<
-                     InputPixelType,
+                     unsigned char,
                      InputImageDimension  > StructuringElementType;
 
-  ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
-  progressAcc->SetMiniPipelineFilter(this);
-  
-  typedef BinaryDilateImageFilter<
-                         InputImageType,
-                         InputImageType,
-                         StructuringElementType >     DilatorType;
+  typedef BinaryErodeImageFilter<
+                         BinaryImageType,
+                         BinaryImageType,
+                         StructuringElementType >     ErodeType;
 
-  typename DilatorType::Pointer dilator = DilatorType::New();
+  typename ErodeType::Pointer erode = ErodeType::New();
 
   StructuringElementType structuringElement;
   structuringElement.SetRadius( 1 );
   structuringElement.CreateStructuringElement();
-  dilator->SetKernel( structuringElement );
-  dilator->SetDilateValue( 1 );
-  dilator->SetInput( inverter1->GetOutput() );
-  progressAcc->RegisterInternalFilter( dilator, 0.33f );
-  inverter2->SetInput( dilator->GetOutput() );
+  erode->SetKernel( structuringElement );
+  erode->SetForegroundValue( 1 );
+  erode->SetBackgroundValue( 2 );
+  erode->SetInput( binaryFilter->GetOutput() );
+  progressAcc->RegisterInternalFilter( erode, 0.33f );
+  erode->Update();
 
-  typedef SubtractImageFilter<InputImageType,
-                              InputImageType,
-                              InputImageType > SubtracterType;
+  typedef ImageRegionConstIterator<BinaryImageType> InputIterator;
 
-  typename SubtracterType::Pointer subtracter = SubtracterType::New();
-
-  subtracter->SetInput1( binaryFilter->GetOutput() );
-  subtracter->SetInput2( inverter2->GetOutput() );
-  subtracter->Update();
-
-  typedef ImageRegionConstIterator<InputImageType> InputIterator;
-
-  InputIterator inIterator( subtracter->GetOutput(),
-                            subtracter->GetOutput()->GetRequestedRegion() );
+  InputIterator inIterator( erode->GetOutput(),
+                            erode->GetOutput()->GetRequestedRegion() );
 
   typedef ImageRegionIterator<OutputImageType>  OutputIterator;
 
@@ -162,7 +148,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         !inIterator.IsAtEnd();
         ++inIterator, ++outIterator )
     {
-    if( inIterator.Get() )
+    if( inIterator.Get() == 2 )
       {
       outIterator.Set( NumericTraits< OutputPixelType >::Zero );
       }
@@ -200,7 +186,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     }
 
   // set the progress reporter
-  ProgressReporter progress(this, 0, totalNumberOfRows, 100, 0.33f, 0.66f);
+  ProgressReporter progress(this, 0, totalNumberOfRows, 67, 0.33f, 0.67f);
 
   for (unsigned int i = 0; i < InputImageDimension; i++)
     {
