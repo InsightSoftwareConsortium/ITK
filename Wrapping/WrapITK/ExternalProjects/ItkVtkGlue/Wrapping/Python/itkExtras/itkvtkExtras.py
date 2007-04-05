@@ -29,7 +29,7 @@ class show3D :
       self.AdaptColorAndOpacity()
       
   def Render(self):
-    self.__ren__.Render()
+    self.__widget__.GetRenderWindow().Render()
     
   def GetWidget(self) :
     return self.__widget__
@@ -99,6 +99,10 @@ class show3D :
 	  self.__outline__.SetInput(self.__itkvtkConverter__.GetOutput())
 
     self.Render()
+    
+  def __call__(self, input) :
+    """ a short cut for SetInput()"""
+    self.SetInput( input )
     
   def GetInput(self):
     return self.__input__
