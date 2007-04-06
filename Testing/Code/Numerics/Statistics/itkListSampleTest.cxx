@@ -32,7 +32,8 @@ int itkListSampleTest(int argc, char *argv[] )
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
 
   SampleType::MeasurementVectorSizeType measurementVectorSize = atoi(argv[1]);
-  std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
+  std::cerr << "Measurement vector size: " << measurementVectorSize 
+            << std::endl;
 
   unsigned int sampleSize = 25;
 
@@ -62,12 +63,43 @@ int itkListSampleTest(int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  if (sample->GetMeasurementVectorSize() != measurementVectorSize)
+    {
+    std::cerr << "GetMeasurementVectorSize() failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // get and set measurements
   mv = sample->GetMeasurementVector(4) ;
   if ( mv != sample->GetMeasurementVector(4) )
     {
     std::cerr << "GetMeasurementVector failed" << std::endl;
     return EXIT_FAILURE;
     }
+
+  float tmp = mv[0];
+  mv[0] += 1.0;
+  sample->SetMeasurementVector(4,mv);
+  if (mv != sample->GetMeasurementVector(4))
+    {
+    std::cerr << "SetMeasurementVector failed" << std::endl;
+    return EXIT_FAILURE;
+    }  
+
+  mv[0] = tmp;
+  sample->SetMeasurement(4,0,tmp);
+  if (mv != sample->GetMeasurementVector(4))
+    {
+    std::cerr << "SetMeasurement failed" << std::endl;
+    return EXIT_FAILURE;
+    }  
+  
+  // frequency
+  if (sample->GetTotalFrequency() != sampleSize)
+  {
+    std::cerr << "GetTotalFrequency failed" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   //
   // iterator tests
@@ -91,17 +123,24 @@ int itkListSampleTest(int argc, char *argv[] )
       if (sample->GetMeasurementVector(id) != 
           s_iter.GetMeasurementVector())
         {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }
       if (id != s_iter.GetInstanceIdentifier())
         {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }
       if (s_iter.GetFrequency() != 1)
         {
         std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        return EXIT_FAILURE;
+        }
+      if (sample->GetFrequency(id) != 1)
+        {
+        std::cerr << "GetFrequency (forward) failed" << std::endl;
         return EXIT_FAILURE;
         }
       ++id ;
@@ -122,12 +161,14 @@ int itkListSampleTest(int argc, char *argv[] )
       if (sample->GetMeasurementVector(id) != 
           s_iter.GetMeasurementVector())
         {
-        std::cerr << "Iterator::GetMeasurementVector (backward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (backward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }
       if (id != s_iter.GetInstanceIdentifier())
         {
-        std::cerr << "Iterator::GetInstanceIdentifier (backward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (backward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }      
       } while (!(s_iter == sample->Begin())); // explicitly test ==
@@ -149,7 +190,8 @@ int itkListSampleTest(int argc, char *argv[] )
     SampleType::ConstIterator bs_iter(s_iter);
     if (bs_iter != s_iter)
       {
-      std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor (from const) failed" 
+                << std::endl;
       return EXIT_FAILURE;    
       }
 
@@ -158,7 +200,8 @@ int itkListSampleTest(int argc, char *argv[] )
     SampleType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
       {
-      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor (from non-const) failed" 
+                << std::endl;
       return EXIT_FAILURE;    
       }
     // assignment from non-const iterator
@@ -175,12 +218,14 @@ int itkListSampleTest(int argc, char *argv[] )
       if (sample->GetMeasurementVector(id) != 
           s_iter.GetMeasurementVector())
         {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }
       if (id != s_iter.GetInstanceIdentifier())
         {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }
       if (s_iter.GetFrequency() != 1)
@@ -206,12 +251,14 @@ int itkListSampleTest(int argc, char *argv[] )
       if (sample->GetMeasurementVector(id) != 
           s_iter.GetMeasurementVector())
         {
-        std::cerr << "Iterator::GetMeasurementVector (backward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (backward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }
       if (id != s_iter.GetInstanceIdentifier())
         {
-        std::cerr << "Iterator::GetInstanceIdentifier (backward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (backward) failed" 
+                  << std::endl;
         return EXIT_FAILURE;
         }      
       } while (!(s_iter == sample->Begin())); // explicitly test ==
@@ -225,8 +272,54 @@ int itkListSampleTest(int argc, char *argv[] )
 
     std::cerr << "Search..." << std::endl;    
     SampleType::SearchResultVectorType searchResult ;
-    sample->Search(sample->GetMeasurementVector(sampleSize/2), 0.01, searchResult) ;
+    sample->Search(sample->GetMeasurementVector(sampleSize/2), 0.01, 
+                   searchResult) ;
 
+
+    //
+    // resizing
+    //
+    sample->Clear();
+    if (sample->Size() != 0)
+      {
+      std::cerr << "Clear() failed" << std::endl;
+      return EXIT_FAILURE;          
+      }
+
+    sample->Resize(sampleSize);
+    if (sample->Size() != sampleSize)
+      {
+      std::cerr << "Resize() failed" << std::endl;
+      return EXIT_FAILURE;          
+      }
+    
+
+    //
+    // test a list sample of scalars
+    //
+    typedef float ScalarMeasurementVectorType;
+    typedef itk::Statistics::ListSample<ScalarMeasurementVectorType> 
+      ScalarSampleType;
+    ScalarSampleType::Pointer scalarSample = ScalarSampleType::New();
+
+    ScalarMeasurementVectorType correctSum = 0;
+    for (unsigned int i = 0; i < sampleSize; ++i)
+      {
+      scalarSample->PushBack(i);
+      correctSum += i;
+      }
+    
+    ScalarSampleType::ConstIterator scalarSampleIter = scalarSample->Begin();
+    ScalarMeasurementVectorType sum = 0;
+    for (; scalarSampleIter != scalarSample->End(); ++scalarSampleIter)
+      {
+      sum += scalarSampleIter.GetMeasurementVector();
+      }
+    if (sum != correctSum)
+      {
+      std::cerr << "Scalar sample failed" << std::endl;
+      return EXIT_FAILURE;          
+      }
 
     std::cout << "Test passed." << std::endl;
     return EXIT_SUCCESS;
