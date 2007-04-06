@@ -292,6 +292,9 @@ int itkListSampleTest(int argc, char *argv[] )
       std::cerr << "Resize() failed" << std::endl;
       return EXIT_FAILURE;          
       }
+
+    std::cout << "Test passed." << std::endl;
+    return EXIT_SUCCESS;
 }
 
 
