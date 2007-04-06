@@ -171,8 +171,8 @@ public:
    *
    * \ingroup MeshAccess */
   class MultiVisitor : public LightObject
-  { 
-  public:
+    {
+    public:
     /**  Visitor type, because VisualC++ 6.0 does not like
      *  Visitor being a nested type of CellInterfaceVisitor   */
     typedef CellInterfaceVisitor<TPixelType, TCellTraits> VisitorType;

@@ -91,7 +91,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    *     Grid Size
    *     Grid Origin
    *     Grid Spacing
-   *  The size of these is equal to the  NInputDimensions */
+   *  The size of these is equal to the  NInputDimensions
+   */
   this->m_FixedParameters.SetSize ( NDimensions * 3 );
   this->m_FixedParameters.Fill ( 0.0 );
   
@@ -297,15 +298,15 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
                       << NDimensions*3 );
     }
 
-  /********************************************************** 
+  /********************************************************* 
     Fixed Parameters store the following information:
         Grid Size
         Grid Origin
         Grid Spacing
      The size of these is equal to the  NInputDimensions
-  **********************************************************/
+  *********************************************************/
   
-  /*** Set the Grid Parameters ***/
+  /** Set the Grid Parameters */
   SizeType   gridSize;
   for (unsigned int i=0;i<NDimensions;i++)
     {
@@ -314,14 +315,14 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   RegionType bsplineRegion;
   bsplineRegion.SetSize( gridSize );
   
-  /*** Set the Origin Parameters ***/
+  /** Set the Origin Parameters */
   OriginType origin;
   for (unsigned int i=0;i<NDimensions;i++)
     {
     origin[i] = parameters[NDimensions+i];
     }
   
-  /*** Set the Spacing Parameters ***/
+  /** Set the Spacing Parameters */
   SpacingType spacing;
   for (unsigned int i=0;i<NDimensions;i++)
     {

@@ -9,15 +9,15 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkCylinderSpatialObject.h" 
+#include "itkCylinderSpatialObject.h"
 
-namespace itk 
-{ 
+namespace itk
+{
 
 /** Constructor */
 CylinderSpatialObject::CylinderSpatialObject()
@@ -26,27 +26,27 @@ CylinderSpatialObject::CylinderSpatialObject()
   this->SetDimension(3);
   m_Radius = 1.0;
   m_Height = 1.0;
-} 
-
-/** Destructor */
-CylinderSpatialObject ::~CylinderSpatialObject()  
-{
-  
 }
 
-/** Test whether a point is inside or outside the object 
+/** Destructor */
+CylinderSpatialObject ::~CylinderSpatialObject()
+{
+
+}
+
+/** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */ 
+ *  check the name of the class and the current depth */
 bool CylinderSpatialObject
 ::IsInside( const PointType & point) const
-{  
+{
   if(!this->GetIndexToWorldTransform()->GetInverse(const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
 
   PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
-       
+
   this->ComputeLocalBoundingBox();
 
   if( this->GetBounds()->IsInside(point) )
@@ -56,11 +56,11 @@ bool CylinderSpatialObject
     a[0] = 0;
     a[1] = -m_Height/2;
     a[2] = 0;
-      
+
     b[0] = 0;
     b[1] = m_Height/2;
-    b[2] = 0; 
-   
+    b[2] = 0;
+
     double A = 0;
     double B = 0;
 
@@ -75,7 +75,7 @@ bool CylinderSpatialObject
     if( (
          (lambda>-(m_Radius/(2*vcl_sqrt(B))))
           && (lambda<0))
-          || ((lambda <= 1.0) && (lambda >= 0.0))       
+          || ((lambda <= 1.0) && (lambda >= 0.0))
         )
       {
       PointType p;
@@ -98,14 +98,12 @@ bool CylinderSpatialObject
   return false;
 }
 
-
-
 /** Test if the given point is inside the Cylinder */
-bool CylinderSpatialObject 
-::IsInside( const PointType & point, unsigned int depth, char * name ) const 
+bool CylinderSpatialObject
+::IsInside( const PointType & point, unsigned int depth, char * name ) const
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the Cylinder" );
-    
+
   if(name == NULL)
     {
     if(IsInside(point))
@@ -122,42 +120,42 @@ bool CylinderSpatialObject
     }
 
   return Superclass::IsInside(point, depth, name);
-} 
+}
 
 /** Compute the bounds of the Cylinder */
 bool CylinderSpatialObject
 ::ComputeLocalBoundingBox() const
-{ 
+{
   itkDebugMacro( "Computing tube bounding box" );
 
-  if( this->GetBoundingBoxChildrenName().empty() 
+  if( this->GetBoundingBoxChildrenName().empty()
     || strstr(typeid(Self).name(), this->GetBoundingBoxChildrenName().c_str()) )
     {
-      // First point
-      PointType ptMin,ptMax;
-      ptMin[0] = -m_Radius;
-      ptMin[1] = -m_Height/2;
-      ptMin[2] = -m_Radius;
-      ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);     
-      ptMax[0] = +m_Radius;
-      ptMax[1] = -m_Height/2;
-      ptMax[2] = +m_Radius;     
-      ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(ptMin);
-      const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(ptMax);    
-      ptMin[0] = -m_Radius;
-      ptMin[1] = +m_Height/2;
-      ptMin[2] = -m_Radius;
-      ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);     
-      ptMax[0] = +m_Radius;
-      ptMax[1] = +m_Height/2;
-      ptMax[2] = +m_Radius;           
-      ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMin);
-      const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMax);
+    // First point
+    PointType ptMin,ptMax;
+    ptMin[0] = -m_Radius;
+    ptMin[1] = -m_Height/2;
+    ptMin[2] = -m_Radius;
+    ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
+    ptMax[0] = +m_Radius;
+    ptMax[1] = -m_Height/2;
+    ptMax[2] = +m_Radius;
+    ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(ptMin);
+    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(ptMax);
+    ptMin[0] = -m_Radius;
+    ptMin[1] = +m_Height/2;
+    ptMin[2] = -m_Radius;
+    ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
+    ptMax[0] = +m_Radius;
+    ptMax[1] = +m_Height/2;
+    ptMax[2] = +m_Radius;
+    ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
+    const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMin);
+    const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(ptMax);
     }
   return true;
-} 
+}
 
 
 /** Returns if the Cylinder os evaluable at one point */
@@ -205,4 +203,3 @@ void CylinderSpatialObject
 }
 
 } // end namespace itk
-

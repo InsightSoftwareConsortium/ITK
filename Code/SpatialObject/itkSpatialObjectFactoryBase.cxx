@@ -24,7 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  SpatialObjectFactoryBase* SpatialObjectFactoryBase::m_Factory = 0;
+SpatialObjectFactoryBase* SpatialObjectFactoryBase::m_Factory = 0;
 
 SpatialObjectFactoryBase::SpatialObjectFactoryBase()
 {
@@ -40,7 +40,7 @@ void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
     {
     // 3D Objects
     typedef EllipseSpatialObject<3> EllipseType3D;
-    typedef GroupSpatialObject<3> GroupType3D;
+    typedef GroupSpatialObject<3>   GroupType3D;
     typedef DTITubeSpatialObject<3> DTITubeType3D;
     SpatialObjectFactory<EllipseType3D>::RegisterSpatialObject();
     SpatialObjectFactory<GroupType3D>::RegisterSpatialObject();

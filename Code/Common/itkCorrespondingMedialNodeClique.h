@@ -47,11 +47,11 @@ public:
   typedef BloxCoreAtomPixel<VImageDimension> ItemType;
 
   /** A vector of pointers to medial nodes. */
-  std::vector<ItemType*> ItemPointer;
+  std::vector<ItemType*> m_ItemPointer;
 
   /** Set the pointer to medial nodes. */
   void SetNodePointer(ItemType* itemPointer, unsigned int index) 
-    {ItemPointer[index] = itemPointer;}
+    {m_ItemPointer[index] = itemPointer;}
 
   /** Coordinate of node in clique in physical space. */
   typedef FixedArray<vnl_vector_fixed<double, VImageDimension>, VCliqueSize> 

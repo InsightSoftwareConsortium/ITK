@@ -90,7 +90,7 @@ public:
   /** Hold on to the dimensions specified by the template parameters. */
   itkStaticConstMacro(PointDimension, unsigned int,  VPointDimension);
 
-  /** Convenient typedefs.*/
+  /** Convenient typedefs. */
   typedef typename
           PointsContainer::ConstIterator        PointsContainerConstIterator;
   typedef typename

@@ -22,7 +22,7 @@
 namespace itk
 {
 
-/** Default constructor s*/
+/** Default constructor */
 template < typename TValueType >
 Array<TValueType >
 ::Array():vnl_vector<TValueType>()

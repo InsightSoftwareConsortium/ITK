@@ -440,6 +440,4 @@ DataObject
   return m_UpdateMTime.GetMTime();
 }
 
-
-
 } // end namespace itk

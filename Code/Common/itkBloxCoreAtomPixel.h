@@ -71,7 +71,7 @@ public:
   /** Matrix type used to store eigenvectors. */
   typedef vnl_matrix_fixed<double, NDimensions, NDimensions> EigenvectorType;
 
-  /** Generalized matrix type used for several different tasks*/
+  /** Generalized matrix type used for several different tasks. */
   typedef vnl_matrix_fixed<double, NDimensions, NDimensions> MatrixType;
 
   /** Calculate and store the mean of core atom diameters. */
@@ -103,13 +103,15 @@ public:
   /** Re-normalizes the voted CMatrix after all votes are cast */
   void NormalizeVotedCMatrix();
 
-  /** Calculate location of the pixel based on core atoms voting for it*/
+  /** Calculate location of the pixel based on core atoms voting for
+   * it.
+   */
   void CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel);
 
-  /** Calculate mean intensity os the pixel based on its core atoms*/
+  /** Calculate mean intensity os the pixel based on its core atoms. */
   void CalcMeanCoreAtomIntensity();
 
-  /** Returns the calculated voted location*/
+  /** Returns the calculated voted location */
   PositionType GetVotedLocation();
 
   BloxCoreAtomPixel();
