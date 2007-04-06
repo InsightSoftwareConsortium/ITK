@@ -940,8 +940,7 @@ void NrrdImageIO::Write( const void* buffer)
     }
   if (nrrdWrap_nva(nrrd, const_cast<void *>(buffer),
                    this->ITKToNrrdComponentType( m_ComponentType ),
-                   nrrdDim, size) ||
-      (3 == spaceDim
+                   nrrdDim, size) || (3 == spaceDim
        // special case: ITK is LPS in 3-D
        ? nrrdSpaceSet(nrrd, nrrdSpaceLeftPosteriorSuperior)
        : nrrdSpaceDimensionSet(nrrd, spaceDim)) ||
