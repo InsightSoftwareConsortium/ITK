@@ -292,37 +292,6 @@ int itkListSampleTest(int argc, char *argv[] )
       std::cerr << "Resize() failed" << std::endl;
       return EXIT_FAILURE;          
       }
-    
-
-    //
-    // test a list sample of scalars
-    //
-    typedef float ScalarMeasurementVectorType;
-    typedef itk::Statistics::ListSample<ScalarMeasurementVectorType> 
-      ScalarSampleType;
-    ScalarSampleType::Pointer scalarSample = ScalarSampleType::New();
-
-    ScalarMeasurementVectorType correctSum = 0;
-    for (unsigned int i = 0; i < sampleSize; ++i)
-      {
-      scalarSample->PushBack(i);
-      correctSum += i;
-      }
-    
-    ScalarSampleType::ConstIterator scalarSampleIter = scalarSample->Begin();
-    ScalarMeasurementVectorType sum = 0;
-    for (; scalarSampleIter != scalarSample->End(); ++scalarSampleIter)
-      {
-      sum += scalarSampleIter.GetMeasurementVector();
-      }
-    if (sum != correctSum)
-      {
-      std::cerr << "Scalar sample failed" << std::endl;
-      return EXIT_FAILURE;          
-      }
-
-    std::cout << "Test passed." << std::endl;
-    return EXIT_SUCCESS;
 }
 
 
