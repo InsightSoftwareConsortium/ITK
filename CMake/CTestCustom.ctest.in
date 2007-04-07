@@ -3,7 +3,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "warning LNK4221.*no public symbols found"
   "(ranlib|libtool):.*file: .+ has no symbols"
   "vxl.core.vnl.algo"
-  "warning #1268:.*"
+  "vxl.core.vnl"
   )
 
 IF(APPLE)
