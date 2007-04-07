@@ -90,7 +90,7 @@ SimpleVelocity( const TPoint & p )
       {
       value = vnl_math::pi_over_2;
       }
-    else if ( y < 0.0 )
+    else // if ( y < 0.0 )
       {
       value = vnl_math::pi + vnl_math::pi_over_2;
       }

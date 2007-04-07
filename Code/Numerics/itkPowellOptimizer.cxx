@@ -283,7 +283,7 @@ PowellOptimizer
                         double * extX, double * extVal)
 {
   double x;
-  double v;
+  double v = 0.0;
   double w;        /* Abscissae, descr. see above  */
   double a;
   double b;
