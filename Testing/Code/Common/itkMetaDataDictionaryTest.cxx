@@ -141,7 +141,7 @@ int itkMetaDataDictionaryTest(int , char * [])
   //-------Floats
   itk::EncapsulateMetaData<float>(MyDictionary,"ASimpleFloatInitalized",static_cast<float>(1.234560F));
   {
-    float tempfloat;
+    float tempfloat = 0.0;
     const bool IsValidReturn=itk::ExposeMetaData<float>(MyDictionary,"ASimpleFloatInitalized",tempfloat);
     if(IsValidReturn == true)
     {
@@ -168,13 +168,13 @@ int itkMetaDataDictionaryTest(int , char * [])
   //NOTE: Only the pointer is copied, not the data withing the pointer!
   itk::EncapsulateMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",StrandedMemory);
   {
-    char * temp;
+    char * temp = NULL;
     itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
     std::cout << "Memory Before Change: "<<temp <<std::endl;
   }
   strcpy(StrandedMemory,"------------This this was changed outside the class, and may cause all types of errors.");
   {
-    char * temp;
+    char * temp = NULL;
     itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
     std::cout << "Memory After Change: "<<temp <<std::endl;
   }

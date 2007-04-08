@@ -236,13 +236,14 @@ void SimplexMeshVolumeCalculator<TInputMesh>
     bool b2 = m_Centers->GetElementIfIndexExists(newId2, &p2 );
     bool b3 = m_Centers->GetElementIfIndexExists(newId3, &p3 );
 
-    CalculateTriangleVolume(p1,p2,p3);
-
     if( !(b1 && b2 && b3) )
       {
       itkExceptionMacro(<<"Assertion failed for test of GetElementIfIndexExists()");
       }
-
+    else
+      {
+      CalculateTriangleVolume(p1,p2,p3);
+      }
     pointsIt++;
     }
   this->Finalize();

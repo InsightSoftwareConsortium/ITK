@@ -64,6 +64,10 @@ PolygonSpatialObject<TDimension>
     {
     plane = Coronal;
     }
+  else
+    {
+    plane = Unknown;
+    }
   return plane;
 }
 

@@ -359,7 +359,7 @@ int test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
 
-  bool sameResults;
+  bool sameResults = false;
   if( splineOrder == 5 ) 
     {
     sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
@@ -426,7 +426,7 @@ int test2D_Centered_l2_NthOrderSpline_filter(unsigned int splineOrder)
     upSampler->Update();
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
-  bool sameResults;
+  bool sameResults = false;
   if( splineOrder == 4 ) 
     {
     sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);
@@ -557,7 +557,7 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
   ImageTypePtr2D outImage2 = upSampler->GetOutput();
   PrintImageData(outImage2);
 
-  bool sameResults;
+  bool sameResults = false;
   if( splineOrder == 4 ) 
     {
     sameResults = VerifyResultsHigherOrderSpline(outImage2, ExpectedResults);

@@ -84,7 +84,7 @@ void ComputeOffset(TImage *image, unsigned int count, unsigned int repeat)
 template <class TImage>
 void ComputeFastOffset(TImage *image, unsigned int count, unsigned int repeat)
 {
-  typename TImage::OffsetValueType offset;
+  typename TImage::OffsetValueType offset = 0;
   typename TImage::OffsetValueType accum = 0;
   typename TImage::IndexType index;
   typename TImage::OffsetType indexIncr;
