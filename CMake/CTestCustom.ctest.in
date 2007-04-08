@@ -4,6 +4,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "(ranlib|libtool):.*file: .+ has no symbols"
   "vxl.core.vnl.algo"
   "vxl.core.vnl"
+  "SWIG"
   )
 
 IF(APPLE)
