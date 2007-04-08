@@ -288,8 +288,7 @@ void
 RegularSphereMeshSource<TOutputMesh>
 ::AddCell( OutputMeshType * mesh, const unsigned long * pointIds, unsigned long idx)
   {
-    CellAutoPointer testCell;
-    testCell.TakeOwnership( new TriCellType );
+    CellAutoPointer testCell(new TriCellType, true);
     testCell->SetPointIds(pointIds);
     mesh->SetCell(idx, testCell );
   }
