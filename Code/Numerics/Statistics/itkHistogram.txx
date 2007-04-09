@@ -206,7 +206,8 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
         } 
       else if (tempMeasurement > median)
         {
-        if (tempMeasurement < m_Max[dim][mid])
+        if( tempMeasurement <  m_Max[dim][mid] &&
+            tempMeasurement >= m_Min[dim][mid] ) 
           {
           index[dim] = mid ;
           break ;
