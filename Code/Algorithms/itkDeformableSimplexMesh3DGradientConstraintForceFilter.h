@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _DeformableSimplexMesh3DGradientConstraintForceFilter_h
-#define _DeformableSimplexMesh3DGradientConstraintForceFilter_h
+#ifndef __itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
+#define __itkDeformableSimplexMesh3DGradientConstraintForceFilter_h
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkMesh.h"
@@ -33,44 +33,44 @@ class ImageVoxel
   
 public:
   // voxel coordinates
-  unsigned int vpos[3];
+  unsigned int m_Vpos[3];
   // subvoxel coordinates (in cartesian space)
-  double  spos[3];
+  double  m_Spos[3];
   // voxel value converted to a double
-  double value;
+  double m_Value;
   // distance from line origin
-  double distance;
+  double m_Distance;
   // index
-  unsigned int index;
+  unsigned int m_Index;
 
   ImageVoxel() {};
   ImageVoxel(int *pos, double *subpos, double val, double dist, unsigned int ind)
-  {
-    this->vpos[0] = pos[0];
-    this->vpos[1] = pos[1];
-    this->vpos[2] = pos[2];
-    this->spos[0] = subpos[0];
-    this->spos[1] = subpos[1];
-    this->spos[2] = subpos[2];
-    this->value = val;
-    this->distance = dist;
-    this->index = ind;
-  };
+    {
+    this->m_Vpos[0] = pos[0];
+    this->m_Vpos[1] = pos[1];
+    this->m_Vpos[2] = pos[2];
+    this->m_Spos[0] = subpos[0];
+    this->m_Spos[1] = subpos[1];
+    this->m_Spos[2] = subpos[2];
+    this->m_Value = val;
+    this->m_Distance = dist;
+    this->m_Index = ind;
+    }
 
   /// returns voxel X coordinate (voxel column)
-  unsigned int getX(void) const { return vpos[0]; }
+  unsigned int GetX(void) const { return m_Vpos[0]; }
   /// returns voxel Y coordinate (voxel row)
-  unsigned int getY(void) const { return vpos[1]; }
+  unsigned int GetY(void) const { return m_Vpos[1]; }
   /// returns voxel Z coordinate (voxel plane)
-  unsigned int getZ(void) const { return vpos[2]; }
+  unsigned int GetZ(void) const { return m_Vpos[2]; }
   /// returns voxel distance to origin
-  double getDistance(void) const { return distance; }
+  double GetDistance(void) const { return m_Distance; }
   /// returns voxel value
-  double getValue(void) const { return value; }
+  double GetValue(void) const { return m_Value; }
   /// returns voxel position
   
   /// set the value of the voxel
-  void setValue(const double val) { value = val; }
+  void SetValue(const double val) { m_Value = val; }
   
 };
   
@@ -95,7 +95,7 @@ public:
   typedef  DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh> Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -105,24 +105,25 @@ public:
   itkTypeMacro(DeformableSimplexMesh3DGradientConstraintForceFilter, DeformableSimplexMesh3DFilter); 
 
   /** Some typedefs. */
-  typedef TInputMesh InputMeshType;
+  typedef TInputMesh  InputMeshType;
   typedef TOutputMesh OutputMeshType;
-  typedef typename Superclass::PointType                  PointType;
-  typedef typename Superclass::GradientIndexType          GradientIndexType;
-  typedef typename Superclass::GradientIndexValueType     GradientIndexValueType;
+
+  typedef typename Superclass::PointType              PointType;
+  typedef typename Superclass::GradientIndexType      GradientIndexType;
+  typedef typename Superclass::GradientIndexValueType GradientIndexValueType;
 
   /* Mesh pointer definition. */
-  typedef typename InputMeshType::Pointer     InputMeshPointer;
-  typedef typename OutputMeshType::Pointer    OutputMeshPointer;
+  typedef typename InputMeshType::Pointer  InputMeshPointer;
+  typedef typename OutputMeshType::Pointer OutputMeshPointer;
 
-  typedef typename InputMeshType::PixelType         PixelType;
+  typedef typename InputMeshType::PixelType PixelType;
 
-  typedef Image<PixelType, 3>                                   GradientIntensityImageType;
-  typedef typename GradientIntensityImageType::Pointer          GradientIntensityImagePointer;
+  typedef Image<PixelType, 3>                          GradientIntensityImageType;
+  typedef typename GradientIntensityImageType::Pointer GradientIntensityImagePointer;
 
-  typedef Image<float, 3>                        OriginalImageType;
+  typedef Image<float, 3>                                 OriginalImageType;
   typedef typename OriginalImageType::IndexType           OriginalImageIndexType;
-  typedef typename OriginalImageIndexType::IndexValueType      ImageIndexValueType;
+  typedef typename OriginalImageIndexType::IndexValueType ImageIndexValueType;
   typedef typename OriginalImageType::Pointer             OriginalImagePointer;
   /** control the range of search for Bresenham at normal line */
   itkSetMacro(Range, int);
@@ -147,15 +148,13 @@ public:
 protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
   ~DeformableSimplexMesh3DGradientConstraintForceFilter();
-  DeformableSimplexMesh3DGradientConstraintForceFilter(const Self&) 
-  {
-  }
+  DeformableSimplexMesh3DGradientConstraintForceFilter(const Self&) {}
   void operator=(const Self&){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
    * Compute the external force component
-      */
+   */
   virtual void ComputeExternalForce(SimplexMeshGeometry* data);  
 
   /** 

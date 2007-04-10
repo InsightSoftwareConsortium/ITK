@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -43,10 +43,10 @@ namespace itk
 template <typename TMesh>
 struct GetMeshDimension
 {
-itkStaticConstMacro(MaxTopologicalDimension, unsigned int, TMesh::MaxTopologicalDimension); 
+itkStaticConstMacro(MaxTopologicalDimension, unsigned int, TMesh::MaxTopologicalDimension);
 itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
-}; 
-  
+};
+
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -62,7 +62,7 @@ itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
  * mesh itself.
  *
  * Mesh is an adaptive, evolving structure. Typically points and cells
- * are created, with the cells referring to their defining points. If 
+ * are created, with the cells referring to their defining points. If
  * additional topological information is required, then BuildCellLinks() is
  * called and links from the points back to the cells that use them are
  * created. This allows implicit topological information about the faces
@@ -82,9 +82,9 @@ itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
  * The second is the geometric dimension of the points defining the mesh. This
  * also limits the maximum topological dimension of the cells that can be
  * inserted. The third template parameter is the "MeshTraits" structure
- * controlling type information for the mesh.  Most users will be happy 
+ * controlling type information for the mesh.  Most users will be happy
  * with the defaults, and will not have to worry about this third argument.
- *  
+ *
  * One of the most important parts of using this mesh is how to create
  * cells to insert into it.  The cells for the mesh take two template
  * parameters.  The first is the pixel type, and should correspond
@@ -93,12 +93,12 @@ itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
  * definitions, and is also a member of them.  Any cell which is to be
  * inserted to a mesh should have MeshTraits::CellTraits as its second
  * template parameter.
- *  
+ *
  * Template parameters for Mesh:
- *  
+ *
  * TPixelType =
  *     The type stored as data for an entity (cell, point, or boundary).
- *  
+ *
  * TMeshTraits =
  *     Type information structure for the mesh.
  *
@@ -116,10 +116,10 @@ class ITK_EXPORT Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
 public:
   /** Standard typedefs. */
-  typedef Mesh                Self;
-  typedef PointSet<TPixelType, VDimension, TMeshTraits>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Mesh                                          Self;
+  typedef PointSet<TPixelType, VDimension, TMeshTraits> Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   typedef typename Superclass::RegionType RegionType;
 
@@ -130,9 +130,9 @@ public:
   itkTypeMacro(Mesh, PointSet);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TMeshTraits   MeshTraits;
-  typedef typename MeshTraits::PixelType                PixelType;  
-  typedef typename MeshTraits::CellPixelType            CellPixelType;  
+  typedef TMeshTraits                        MeshTraits;
+  typedef typename MeshTraits::PixelType     PixelType;
+  typedef typename MeshTraits::CellPixelType CellPixelType;
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
   itkStaticConstMacro(PointDimension, unsigned int,
@@ -143,13 +143,13 @@ public:
   /** Enum defining the possible methods used to allocate memory for
    * the Cells */
   typedef  enum {     CellsAllocationMethodUndefined,
-                      CellsAllocatedAsStaticArray, 
+                      CellsAllocatedAsStaticArray,
                       CellsAllocatedAsADynamicArray,
                       CellsAllocatedDynamicallyCellByCell
                                                 } CellsAllocationMethodType;
 
   /** Convenient typedefs obtained from TMeshTraits template parameter. */
-  typedef typename MeshTraits::CoordRepType            CoordRepType;  
+  typedef typename MeshTraits::CoordRepType            CoordRepType;
   typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
   typedef typename MeshTraits::PointIdentifier         PointIdentifier;
   typedef typename MeshTraits::CellIdentifier          CellIdentifier;
@@ -161,7 +161,7 @@ public:
   typedef typename MeshTraits::PointCellLinksContainer PointCellLinksContainer;
   typedef typename MeshTraits::CellLinksContainer      CellLinksContainer;
   typedef typename MeshTraits::PointDataContainer      PointDataContainer;
-  typedef typename MeshTraits::CellDataContainer       CellDataContainer;  
+  typedef typename MeshTraits::CellDataContainer       CellDataContainer;
 
   /** Used to support geometric operations on the toolkit. */
   typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
@@ -206,9 +206,8 @@ public:
   /** Visiting cells. */
   typedef typename CellType::MultiVisitor CellMultiVisitorType;
 
-
-
-  /** An explicit cell boundary assignment can be accessed through the cell
+  /** \class BoundaryAssignmentIdentifier
+   *  An explicit cell boundary assignment can be accessed through the cell
    *  identifier to which the assignment is made, and the feature Id of the
    *  boundary feature within the cell that is being assigned.
    *
@@ -216,7 +215,7 @@ public:
    *  comparison operators available for use of the Ids in sorted container
    *  classes.  */
   class BoundaryAssignmentIdentifier
-  {
+    {
   public:
     /** Create an alias to BoundaryAssignmentIdentifier. */
     typedef BoundaryAssignmentIdentifier Self;
@@ -226,7 +225,7 @@ public:
     BoundaryAssignmentIdentifier() {}
     BoundaryAssignmentIdentifier(CellIdentifier cellId,
                                  CellFeatureIdentifier featureId):
-      m_CellId(cellId), m_FeatureId(featureId) {}    
+      m_CellId(cellId), m_FeatureId(featureId) {}
 
     /** The Cell's identification. */
     CellIdentifier m_CellId;
@@ -303,7 +302,7 @@ public:
   /** Methods for managing Mesh filters that have internal mini-pipelines */
   virtual void CopyInformation(const DataObject *data);
   virtual void Graft(const DataObject *data);
-  
+
   /** Access m_CellsLinksContainer, which contains parent cell links
    * for each point.  Since a point can be used by multiple cells,
    * each point identifier accesses another container which holds the
@@ -328,7 +327,7 @@ public:
   CellDataContainerPointer GetCellData();
   const CellDataContainerPointer GetCellData() const;
 
-  /** 
+  /**
    * Set/get the BoundaryAssignmentsContainer for a given dimension.
    * The BoundaryAssignmentsContainer is a MapContainer indexed by a
    * BoundaryAssignmentIdentifier, which encapsulates a cell
@@ -359,7 +358,7 @@ public:
   void SetCellData(CellIdentifier, CellPixelType);
   bool GetCellData(CellIdentifier, CellPixelType*) const;
 
-  /** 
+  /**
    * Explicitly assign \a boundaryId as a part of the boundary of \a
    * cellId.  The identifiers \a boundaryId and \a cellId must
    * identify cell objects already in the mesh.  The dimension of \a
@@ -433,11 +432,11 @@ public:
   /** Get the bounding box of a cell in the mesh. The user
    *  must supply the bounding box. The methods return a pointer to
    *  the user-supplied bounding box as a convenience. */
-  BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId, 
+  BoundingBoxPointer GetCellBoundingBox(CellIdentifier cellId,
                                         BoundingBoxPointer bbox);
 
   /** This method iterates over all the cells in the mesh and has
-   *  each cell Accept the MultiVisitor. See MultiVisitor for more 
+   *  each cell Accept the MultiVisitor. See MultiVisitor for more
    *  information.  (Note, this follows the Visitor Design Pattern.) */
   virtual void Accept(CellMultiVisitorType* mv);
 #endif
@@ -445,8 +444,8 @@ public:
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
       will be erased with an improper method.  */
-  itkSetMacro( CellsAllocationMethod, CellsAllocationMethodType );  
-  itkGetConstReferenceMacro( CellsAllocationMethod, CellsAllocationMethodType );  
+  itkSetMacro( CellsAllocationMethod, CellsAllocationMethodType );
+  itkGetConstReferenceMacro( CellsAllocationMethod, CellsAllocationMethodType );
 
 protected:
   /** Constructor for use by New() method. */
@@ -476,6 +475,3 @@ private:
 #endif
 
 #endif
-
-
-
