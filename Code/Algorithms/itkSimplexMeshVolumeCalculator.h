@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __SimplexMeshVolumeCalculator_h
-#define __SimplexMeshVolumeCalculator_h
+#ifndef __itkSimplexMeshVolumeCalculator_h
+#define __itkSimplexMeshVolumeCalculator_h
 
 #include <itkMesh.h>
 #include <itkLineCell.h>
@@ -62,8 +62,8 @@ public:
   typedef Object Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -98,12 +98,13 @@ public:
     typename VectorType::ValueType, 3 >   CovariantVectorType;
 
   /** 
+   * \class SimplexCellVisitor
    * This class provides methods for visiting 
    * each simplex cell of a simplex mesh
    * It computes the center of each visited cell.
    */
   class SimplexCellVisitor
-  {
+    {
   public:
     /** 
      * default constructor
@@ -149,8 +150,8 @@ public:
        
   protected:
     InputMeshPointer m_Mesh;
-    PointMapPointer m_CenterMap; 
-  };
+    PointMapPointer  m_CenterMap; 
+    };
 
   typedef itk::CellInterfaceVisitorImplementation<InputPixelType,
                                                   InputCellTraitsType,
@@ -199,11 +200,22 @@ private:
   PointMapPointer m_Centers;
 
   InputMeshPointer  m_SimplexMesh;
-  double m_Volume, m_VolumeX, m_VolumeY, m_VolumeZ;
+
+  double m_Volume;
+  double m_VolumeX;
+  double m_VolumeY;
+  double m_VolumeZ;
   double m_Area;
-  double m_Kx, m_Ky, m_Kz;
-  double m_Wxyz, m_Wxy, m_Wxz, m_Wyz;
-  long m_Muncx, m_Muncy, m_Muncz;
+  double m_Kx;
+  double m_Ky;
+  double m_Kz;
+  double m_Wxyz;
+  double m_Wxy;
+  double m_Wxz;
+  double m_Wyz;
+  long   m_Muncx;
+  long   m_Muncy;
+  long   m_Muncz;
 
   long m_NumberOfTriangles;
 };

@@ -14,14 +14,14 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __SimplexMeshVolumeCalculator_txx
-#define __SimplexMeshVolumeCalculator_txx
+#ifndef __itkSimplexMeshVolumeCalculator_txx
+#define __itkSimplexMeshVolumeCalculator_txx
 
 #include "itkSimplexMeshVolumeCalculator.h"
 
 namespace itk
 {
-/*
+/**
  * Constructor
  */
 template<typename TInputMesh>
@@ -107,7 +107,9 @@ unsigned long SimplexMeshVolumeCalculator<TInputMesh>
 }
 
 
-/* calculate volume of triangle */
+/**
+ * Calculate volume of triangle
+ */
 template <typename TInputMesh>
 void
 SimplexMeshVolumeCalculator<TInputMesh>
@@ -219,7 +221,10 @@ void SimplexMeshVolumeCalculator<TInputMesh>
   this->Initialize();
  
   InputPointType p1,p2,p3;
- 
+  p1.Fill(0.0);
+  p2.Fill(0.0);
+  p3.Fill(0.0);
+
   InputPointsContainerPointer   Points    = m_SimplexMesh->GetPoints();
   InputPointsContainerIterator  pointsIt  = Points->Begin();
   InputPointsContainerIterator  pointsEnd = Points->End();
@@ -249,7 +254,9 @@ void SimplexMeshVolumeCalculator<TInputMesh>
   this->Finalize();
 }
 
-/* PrintSelf. */
+/**
+ * PrintSelf
+ */
 template <typename TInputMesh>
 void
 SimplexMeshVolumeCalculator<TInputMesh>
@@ -270,7 +277,4 @@ SimplexMeshVolumeCalculator<TInputMesh>
 
 } // end of namspace itk
 
-
-
-
-#endif //__SimplexMeshVolumeCalculator_txx
+#endif
