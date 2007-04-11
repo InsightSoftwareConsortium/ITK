@@ -145,6 +145,49 @@ namespace itk
     return static_cast<const type *>(this->ProcessObject::GetInput( number )); \
   } 
 
+/** Set a decorated input. This defines the Set"name"() method.
+ * It invokes SetInputMacro() and GetInputMacro() for the decorated object */
+#define itkSetDecoratedInputMacro(name, type, number) \
+  itkSetInputMacro(name, SimpleDataObjectDecorator<type>, number); \
+  itkGetInputMacro(name, SimpleDataObjectDecorator<type>, number); \
+  virtual void Set##name(const type &_arg) \
+  { \
+    typedef SimpleDataObjectDecorator< type > DecoratorType; \
+    itkDebugMacro("setting input " #name " to " << _arg); \
+    const DecoratorType * oldInput = \
+      static_cast< const DecoratorType * >( \
+        this->ProcessObject::GetInput(number) ); \
+    if( oldInput && oldInput->Get() == _arg ) \
+      { \
+      return; \
+      } \
+    typename DecoratorType::Pointer newInput = DecoratorType::New(); \
+    newInput->Set( _arg ); \
+    this->Set##name##Input( newInput ); \
+  }
+
+/** Set a decorated input that derives from itk::Object, but not from
+ * itk::DataObject. This defines the Set"name"() method.  It invokes
+ * SetInputMacro() and GetInputMacro() for the decorated object */
+#define itkSetDecoratedObjectInputMacro(name, type, number) \
+  itkSetInputMacro(name, DataObjectDecorator<type>, number); \
+  itkGetInputMacro(name, DataObjectDecorator<type>, number); \
+  virtual void Set##name(const type *_arg) \
+  { \
+    typedef DataObjectDecorator< type > DecoratorType; \
+    itkDebugMacro("setting input " #name " to " << _arg); \
+    const DecoratorType * oldInput = \
+      static_cast< const DecoratorType * >( \
+        this->ProcessObject::GetInput(number) ); \
+    if( oldInput && oldInput->Get() == _arg ) \
+      { \
+      return; \
+      } \
+    typename DecoratorType::Pointer newInput = DecoratorType::New(); \
+    newInput->Set( _arg ); \
+    this->Set##name##Input( newInput ); \
+  }
+
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 #define itkSetMacro(name,type) \
