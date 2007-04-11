@@ -80,8 +80,6 @@ public:
   typedef typename TransformType::Pointer   TransformPointer;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 
-                      TransformType::SpaceDimension);
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 
                       TransformType::InputSpaceDimension);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 

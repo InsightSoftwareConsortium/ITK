@@ -65,7 +65,6 @@ public:
   typedef typename Superclass::TransformPointer     TransformPointer;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 
                                                Superclass::InputSpaceDimension);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 
