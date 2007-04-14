@@ -313,10 +313,10 @@ public:
 
 
   class IdentifierArrayHashFunction
-  {
+    {
   public:
     unsigned long operator()( Array< unsigned long > identifierArray) const
-    {
+      {
       typedef unsigned long Ulong;
 
       Ulong size = identifierArray.Size();
@@ -333,17 +333,17 @@ public:
         }
 
       return hash;
-    }
-  };
+      }
+    };
 
   class IdentifierArrayEqualsFunction
-  {
+    {
   public:
     bool operator()(
       Array< unsigned long > identifierArray1,
       Array< unsigned long > identifierArray2
       ) const
-    {
+      {
       typedef unsigned long Ulong;
 
       
@@ -359,12 +359,9 @@ public:
       std::sort( identifierArray2.begin(), identifierArray2.end() );
 
       return ( identifierArray1 == identifierArray2 );
+      }
 
-    }
-
-  };
-
-
+    };
 
 protected:
   AutomaticTopologyMeshSource();

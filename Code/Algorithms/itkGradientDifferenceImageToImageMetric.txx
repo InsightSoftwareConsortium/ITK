@@ -14,11 +14,12 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGradientDifferenceImageToImageMetric_txx
-#define _itkGradientDifferenceImageToImageMetric_txx
+#ifndef __itkGradientDifferenceImageToImageMetric_txx
+#define __itkGradientDifferenceImageToImageMetric_txx
 
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkNumericTraits.h"
 
 #include <iostream>
 #include <iomanip>
@@ -28,7 +29,7 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -55,7 +56,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Initialize
  */
 template <class TFixedImage, class TMovingImage> 
@@ -141,7 +142,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 
@@ -152,9 +153,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   Superclass::PrintSelf( os, indent );
 }
 
-
-
-/*
+/**
  * Compute the range of the moved image gradients
  */
 template <class TFixedImage, class TMovingImage> 
@@ -202,7 +201,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Compute the gradient variances in each dimension.
  */
 template <class TFixedImage, class TMovingImage> 
@@ -258,7 +257,10 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
       ++iterate;
       }
 
-    if (nPixels > 0) mean[iDimension] /= nPixels;
+    if (nPixels > 0)
+      {
+      mean[iDimension] /= nPixels;
+      }
 
     // Calculate the variance
 
@@ -282,7 +284,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Get the value of the similarity measure
  */
 template <class TFixedImage, class TMovingImage> 
@@ -352,7 +354,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Get the value of the similarity measure
  */
 template <class TFixedImage, class TMovingImage> 
@@ -405,7 +407,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   MovedGradientPixelType subtractionFactor[FixedImageDimension];
   MeasureType currentMeasure;
-  MeasureType maxMeasure;
+  MeasureType maxMeasure = NumericTraits<MeasureType>::Zero;
 
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
     {
@@ -453,9 +455,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   return maxMeasure;
 }
 
-
-
-/*
+/**
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
@@ -484,7 +484,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Get both the match Measure and theDerivative Measure 
  */
 template <class TFixedImage, class TMovingImage> 

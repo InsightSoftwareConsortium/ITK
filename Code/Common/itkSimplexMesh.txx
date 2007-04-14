@@ -218,10 +218,9 @@ unsigned long
 SimplexMesh<TPixelType, VDimension, TMeshTraits>
 ::AddEdge(unsigned long startPointId, unsigned long endPointId)
 { 
-  CellAutoPointer NewCellPointer;
+  CellAutoPointer NewCellPointer(new LineType, true);
   unsigned long edgeId = m_LastCellId;
 
-  NewCellPointer.TakeOwnership( new LineType );
   NewCellPointer->SetPointId( 0, startPointId );
   NewCellPointer->SetPointId( 1, endPointId );
 

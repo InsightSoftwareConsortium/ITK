@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkOrthogonalSwath2DPathFilter_txx
-#define _itkOrthogonalSwath2DPathFilter_txx
+#ifndef __itkOrthogonalSwath2DPathFilter_txx
+#define __itkOrthogonalSwath2DPathFilter_txx
 
 #include "itkOrthogonalSwath2DPathFilter.h"
 #include "vnl/vnl_math.h"
@@ -135,20 +135,24 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
   
   // CalcRestPath
   for(x=1;x<m_SwathSize[0]-1;x++)
-  for(F=0;F<m_SwathSize[1];  F++)
-  for(L=0;L<m_SwathSize[1];  L++)
     {
-    int bestL = FindAndStoreBestErrorStep(x,F,L);
-    index[0]=x+1;
-    index[1]=L;
-    MeritValue(F,L,x+1) = MeritValue(F,bestL,x) +
-                          double( swathMeritImage->GetPixel(index) );
+    for(F=0;F<m_SwathSize[1];  F++)
+      {
+      for(L=0;L<m_SwathSize[1];  L++)
+        {
+        int bestL = FindAndStoreBestErrorStep(x,F,L);
+        index[0]=x+1;
+        index[1]=L;
+        MeritValue(F,L,x+1) = MeritValue(F,bestL,x) +
+          double( swathMeritImage->GetPixel(index) );
+        }
+      }
     }
   // end of tripple for-loop covering x & F & L
   
   
   // Find the best starting and ending points (F & L) for the path
-  int bestF, bestL;
+  int bestF = 0, bestL = 0;
   double meritTemp, meritMax=NumericTraits<double>::NonpositiveMin();
   for(F=0;F<m_SwathSize[1];F++) for(L=0;L<m_SwathSize[1];L++)
     {
@@ -167,10 +171,10 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
   
   // Fill in the optimum path error-step (orthogonal correction) values
   m_OptimumStepsValues[ m_SwathSize[0]-1 ] = bestL;
-  for(x=m_SwathSize[0]-2; ; x--)
+  for(x = m_SwathSize[0]-2;; x--)
     {
     m_OptimumStepsValues[x] = StepValue(bestF, m_OptimumStepsValues[x+1], x);
-    if( 0==x ) break;
+    if( 0 == x ) break;
     }
   
   // Convert from absolute indicies to +/- orthogonal offset values
@@ -210,20 +214,28 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>
   if(L==0)
     {
     if( MeritValue(F,L+1,x) > MeritValue(F,L,x) )
+      {
       bestL = L+1;
+      }
     else
+      {
       bestL = L;
+      }
     }
   else if(L==m_SwathSize[1]-1)
     {
     if( MeritValue(F,L-1,x) > MeritValue(F,L,x) )
+      {
       bestL = L-1;
+      }
     else
+      {
       bestL = L;
+      }
     }
   else
-    // We are now free to consider all 3 cases for bestL
     {
+    // We are now free to consider all 3 cases for bestL
     if(      MeritValue(F,L+1,x) > MeritValue(F,L,x)
           && MeritValue(F,L+1,x) > MeritValue(F,L-1,x) )
       {

@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -37,9 +37,9 @@ namespace itk
  * the derivatives of the moving and fixed images after passing the squared
  * difference through a function of type \f$ \frac{1}{1+x} \f$.
 
- * Spatial correspondance between both images is established through a 
- * Transform. Pixel values are taken from the Moving image. Their positions 
- * are mapped to the Fixed image and result in general in non-grid position 
+ * Spatial correspondance between both images is established through a
+ * Transform. Pixel values are taken from the Moving image. Their positions
+ * are mapped to the Fixed image and result in general in non-grid position
  * on it. Values at these non-grid position of the Fixed image are
  * interpolated using a user-selected Interpolator.
  *
@@ -47,29 +47,29 @@ namespace itk
  * Hipwell, J. H., et. al. (2003), "Intensity-Based 2-D-3D Registration of
  * Cerebral Angiograms,", IEEE Transactions on Medical Imaging,
  * 22(11):1417-1426.
- * 
+ *
  * \ingroup RegistrationMetrics
  */
-template < class TFixedImage, class TMovingImage > 
-class ITK_EXPORT GradientDifferenceImageToImageMetric : 
+template < class TFixedImage, class TMovingImage >
+class ITK_EXPORT GradientDifferenceImageToImageMetric :
 public ImageToImageMetric< TFixedImage, TMovingImage>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef GradientDifferenceImageToImageMetric    Self;
-  typedef ImageToImageMetric<TFixedImage, TMovingImage >  Superclass;
+  typedef GradientDifferenceImageToImageMetric           Self;
+  typedef ImageToImageMetric<TFixedImage, TMovingImage > Superclass;
 
   typedef SmartPointer<Self>         Pointer;
   typedef SmartPointer<const Self>   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
- 
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDifferenceImageToImageMetric, ImageToImageMetric);
 
- 
+
   /** Types transferred from the base class */
 // Work around a Visual Studio .NET bug
 #if defined(_MSC_VER) && (_MSC_VER == 1300)
@@ -94,20 +94,20 @@ public:
 
   itkStaticConstMacro(FixedImageDimension, unsigned int, TFixedImage::ImageDimension);
   /** Types for transforming the moving image */
-  typedef itk::Image< FixedImagePixelType, 
-                      itkGetStaticConstMacro( FixedImageDimension ) >      
+  typedef itk::Image< FixedImagePixelType,
+                      itkGetStaticConstMacro( FixedImageDimension ) >
                     TransformedMovingImageType;
 
-  typedef itk::ResampleImageFilter< MovingImageType, TransformedMovingImageType >  
+  typedef itk::ResampleImageFilter< MovingImageType, TransformedMovingImageType >
                                                         TransformMovingImageFilterType;
 
   /** Sobel filters to compute the gradients of the Fixed Image */
 
-  typedef itk::Image< RealType, 
+  typedef itk::Image< RealType,
                       itkGetStaticConstMacro( FixedImageDimension ) >
                     FixedGradientImageType;
 
-  typedef itk::CastImageFilter< FixedImageType, FixedGradientImageType > 
+  typedef itk::CastImageFilter< FixedImageType, FixedGradientImageType >
                                                       CastFixedImageFilterType;
   typedef typename CastFixedImageFilterType::Pointer CastFixedImageFilterPointer;
 
@@ -123,7 +123,7 @@ public:
                       itkGetStaticConstMacro( MovedImageDimension ) >
                     MovedGradientImageType;
 
-  typedef itk::CastImageFilter< TransformedMovingImageType, MovedGradientImageType > 
+  typedef itk::CastImageFilter< TransformedMovingImageType, MovedGradientImageType >
                                                      CastMovedImageFilterType;
   typedef typename CastMovedImageFilterType::Pointer CastMovedImageFilterPointer;
 
@@ -156,7 +156,7 @@ protected:
   /** Compute the range of the moved image gradients. */
   void ComputeMovedGradientRange( void ) const;
 
-   /** Compute the variance and range of the moving image gradients. */
+  /** Compute the variance and range of the moving image gradients. */
   void ComputeVariance( void ) const;
 
   /** Compute the similarity measure using a specified subtraction factor. */
@@ -189,7 +189,7 @@ private:
   /** The Sobel gradients of the fixed image */
   CastFixedImageFilterPointer m_CastFixedImageFilter;
 
-  SobelOperator< FixedGradientPixelType, 
+  SobelOperator< FixedGradientPixelType,
                  itkGetStaticConstMacro(FixedImageDimension) >
                m_FixedSobelOperators[FixedImageDimension];
 
@@ -201,7 +201,7 @@ private:
   /** The Sobel gradients of the moving image */
   CastMovedImageFilterPointer m_CastMovedImageFilter;
 
-  SobelOperator< MovedGradientPixelType, 
+  SobelOperator< MovedGradientPixelType,
                  itkGetStaticConstMacro(MovedImageDimension) >
                m_MovedSobelOperators[MovedImageDimension];
 
@@ -216,6 +216,3 @@ private:
 #endif
 
 #endif
-
-
-

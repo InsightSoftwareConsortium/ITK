@@ -179,7 +179,7 @@ Vector<T, TVectorDimension>
   const RealValueType norm = this->GetNorm();
   for( unsigned int i=0; i<TVectorDimension; i++) 
     {
-    (*this)[i] /= norm;
+    (*this)[i] = static_cast<T> (static_cast<RealValueType>((*this)[i]) / norm);
     }
 }
 

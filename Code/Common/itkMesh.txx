@@ -932,7 +932,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
     if( m_BoundaryAssignmentsContainers[dimension]->
         GetElementIfIndexExists( assignId, &boundaryId ) )
       {
-      CellType* boundaryptr;
+      CellType* boundaryptr = 0;
       const bool found = m_CellsContainer->
         GetElementIfIndexExists( boundaryId, &boundaryptr );
       if (found)

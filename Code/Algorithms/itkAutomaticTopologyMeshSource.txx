@@ -9,13 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAutomaticTopologyMeshSource_txx
-#define _itkAutomaticTopologyMeshSource_txx
+#ifndef __itkAutomaticTopologyMeshSource_txx
+#define __itkAutomaticTopologyMeshSource_txx
 
 // For debugging.
 #include <iostream>
@@ -95,7 +95,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     {
     newPoint[ i ] = p0[ i ];
     }
-  for( ; i < PointDimension; i++ )
+  for(; i < PointDimension; i++ )
     {
     newPoint[ i ] = 0;
     }
@@ -110,10 +110,10 @@ AutomaticTopologyMeshSource<TOutputMesh>
   // pointIDs is an array with one element; this is for consistency.
 
   // m_PointsHashTable[ foo ] is set to 0 if foo is not found, but I
-  // want the initial identifier to be 0.  
+  // want the initial identifier to be 0.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
   IdentifierType cellID;
-  
+
   if( *cellIDPlusOne != 0 )
     {
     cellID = *cellIDPlusOne - 1;
@@ -126,12 +126,11 @@ AutomaticTopologyMeshSource<TOutputMesh>
     *cellIDPlusOne = cellID + 1;
 
     // Construct the cell.
-    CellAutoPointer newCell;
-    newCell.TakeOwnership( new VertexCell );
+    CellAutoPointer newCell(new VertexCell, true);
     newCell->SetPointId( 0, pointIDs[0] );
 
     // Add the cell to the mesh.
-    m_OutputMesh->SetCell( cellID, newCell ); 
+    m_OutputMesh->SetCell( cellID, newCell );
 
     m_OutputMesh->SetBoundaryAssignment( 0, cellID, 0, cellID );
 
@@ -143,7 +142,7 @@ template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource<TOutputMesh>
 ::AddLine( const IdentifierArrayType& pointIDs )
-{       
+{
 
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType* cellIDPlusOne = &m_CellsHashTable[ pointIDs ];
@@ -158,8 +157,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     const IdentifierType pointIdsEnd = 2;
 
     // Construct the cell.
-    CellAutoPointer newCell;
-    newCell.TakeOwnership( new LineCell );
+    CellAutoPointer newCell(new LineCell, true);
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray( pointIdsEnd );
@@ -176,7 +174,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
-    m_OutputMesh->SetCell( cellID, newCell ); 
+    m_OutputMesh->SetCell( cellID, newCell );
 
     // Set the boundaries for the new cell.
 
@@ -215,8 +213,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     IdentifierType i;
 
     // Construct the cell.
-    CellAutoPointer newCell;
-    newCell.TakeOwnership( new TriangleCell );
+    CellAutoPointer newCell(new TriangleCell, true);
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray( pointIdsEnd );
@@ -239,7 +236,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
-    m_OutputMesh->SetCell( cellID, newCell ); 
+    m_OutputMesh->SetCell( cellID, newCell );
 
     // Set the boundaries for the new cell.
 
@@ -282,8 +279,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     IdentifierType i;
 
     // Construct the cell.
-    CellAutoPointer newCell;
-    newCell.TakeOwnership( new QuadrilateralCell );
+    CellAutoPointer newCell(new QuadrilateralCell, true);
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray( pointIdsEnd );
@@ -306,7 +302,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
-    m_OutputMesh->SetCell( cellID, newCell ); 
+    m_OutputMesh->SetCell( cellID, newCell );
 
     // Set the boundaries for the new cell.
 
@@ -349,8 +345,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     IdentifierType i;
 
     // Construct the cell.
-    CellAutoPointer newCell;
-    newCell.TakeOwnership( new TetrahedronCell );
+    CellAutoPointer newCell(new TetrahedronCell, true);
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray( pointIdsEnd );
@@ -382,7 +377,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
-    m_OutputMesh->SetCell( cellID, newCell ); 
+    m_OutputMesh->SetCell( cellID, newCell );
 
     // Set the boundaries for the new cell.
 
@@ -431,8 +426,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     IdentifierType i;
 
     // Construct the cell.
-    CellAutoPointer newCell;
-    newCell.TakeOwnership( new HexahedronCell );
+    CellAutoPointer newCell(new HexahedronCell, true);
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray( pointIdsEnd );
@@ -472,7 +466,7 @@ AutomaticTopologyMeshSource<TOutputMesh>
     *cellIDPlusOne = cellID + 1;
 
     // Add the cell to the mesh.
-    m_OutputMesh->SetCell( cellID, newCell ); 
+    m_OutputMesh->SetCell( cellID, newCell );
 
     // Set the boundaries for the new cell.
 
@@ -698,7 +692,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
 template<class TOutputMesh>
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
-::AddQuadrilateral( const CoordinateType* p0, 
+::AddQuadrilateral( const CoordinateType* p0,
                     const CoordinateType* p1,
                     const CoordinateType* p2,
                     const CoordinateType* p3 )
@@ -754,4 +748,3 @@ AutomaticTopologyMeshSource< TOutputMesh >
 } /** end namespace itk. */
 
 #endif
-
