@@ -25,6 +25,10 @@ SET(OpenJPEG_SRCS
 CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/.NoDartCoverage
                ${ITKOpenJPEG_BINARY_DIR}/.NoDartCoverage)
 
+IF (BORLAND)
+  SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004")
+ENDIF (BORLAND)
+
 # Pass proper definition to preprocessor to generate shared lib
 IF (WIN32)
   IF (BUILD_SHARED_LIBS)

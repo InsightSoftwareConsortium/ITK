@@ -7,9 +7,6 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "CableSwig"
   "vxl.v3p.netlib"
   "usr.include.stdint.h"
-  "Utilities.itktiff"
-  "Utilities.itkzlib"
-  "Utilities.openjpeg"
   )
 
 IF(APPLE)
