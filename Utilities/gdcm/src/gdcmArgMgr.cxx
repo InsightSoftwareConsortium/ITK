@@ -752,7 +752,7 @@ char *ArgMgr::Majuscule (const char *chaine )
   char *ptr, *ptr2, *ptr3;
   ptr2 = (char *)malloc(strlen(chaine)*sizeof(char)+1);
   ptr3=ptr2;
-  for ( ptr = (char *)chaine ; *ptr!='\0' ; ptr ++ ) 
+  for ( ptr = const_cast<char *>(chaine) ; *ptr!='\0' ; ptr ++ ) 
    {  
        *ptr3 = toupper ( * ptr ); ptr3++; 
    }
@@ -788,7 +788,7 @@ int ArgMgr::FiltreLong ( const char *arg  )
 const char *ArgMgr::LoadedParam ( const char *param, FILE *fd )
 {
   int    carlu;
-  char  *car = (char *)param;
+  char  *car = const_cast<char *>(param);
   int    quote = false;
   int    nbcar = 0;
 
@@ -869,9 +869,9 @@ void ArgMgr::ArgStdArgs()
   char *logfile;
   FILE *fd;
 
-  if ( (ArgParamOut=ArgMgrValue((char*)ARG_LABEL_PARAMOUT))==0 )
+  if ( (ArgParamOut=ArgMgrValue(const_cast<char*>(ARG_LABEL_PARAMOUT)))==0 )
     ArgParamOut = ARG_DEFAULT_PARAMOUT;
-  if ( (logfile = ArgMgrValue((char*)ARG_LABEL_LOGFILE))!=0) 
+       if ( (logfile = ArgMgrValue(const_cast<char*>(ARG_LABEL_LOGFILE)))!=0) 
   {
     if ( *logfile == '\0' )
        logfile = (char *)ARG_DEFAULT_LOGFILE;

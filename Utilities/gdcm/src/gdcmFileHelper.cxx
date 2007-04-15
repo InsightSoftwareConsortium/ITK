@@ -1434,7 +1434,7 @@ void FileHelper::CheckMandatoryElements()
       CopyMandatoryEntry(0x0002,0x0000,"0");
 
       BinEntry *e_0002_0001 = CopyBinEntry(0x0002,0x0001, "OB");
-      e_0002_0001->SetBinArea((uint8_t*)Util::GetFileMetaInformationVersion(),
+      e_0002_0001->SetBinArea(const_cast<uint8_t*>(Util::GetFileMetaInformationVersion()),
                                false);
       e_0002_0001->SetLength(2);
       Archive->Push(e_0002_0001);

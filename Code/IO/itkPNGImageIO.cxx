@@ -553,7 +553,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
   int rowInc = width*numComp*bitDepth/8;
   for (unsigned int ui = 0; ui < height; ui++)
     {
-    row_pointers[ui] = (png_byte *)outPtr;
+    row_pointers[ui] = const_cast<png_byte *>(outPtr);
     outPtr = const_cast<unsigned char *>(outPtr) + rowInc;
     }
   png_write_image(png_ptr, row_pointers);

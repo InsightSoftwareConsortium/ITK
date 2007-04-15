@@ -37,7 +37,7 @@ extern "C"
     {
     static const TIFFFieldInfo xtiffFieldInfo[] = {
       { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
-        FIELD_CUSTOM, 0, 1, (char*)"LSM Private Tag" }
+        FIELD_CUSTOM, 0, 1, const_cast<char*>("LSM Private Tag") }
     };
   
     TIFFMergeFieldInfo( tiff, xtiffFieldInfo,
