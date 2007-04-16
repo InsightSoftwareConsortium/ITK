@@ -65,13 +65,14 @@ public:
     OptimizerPointer optimizer = 
                          dynamic_cast< OptimizerPointer >( object );
 
-
-    if( ! itk::FunctionEvaluationIterationEvent().CheckEvent( &event ) )
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
       }
 
-    std::cout << "CurrentPosition = "  << std::endl << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << "Value = " << optimizer->GetCachedValue() << std::endl; 
+    std::cout << "Position = "  << optimizer->GetCachedCurrentPosition();
+    std::cout << std::endl << std::endl;
 
   }
    
@@ -230,7 +231,7 @@ int main(int argc, char * argv[] )
 
   // Connect an observer
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  optimizer->AddObserver( itk::AnyEvent(), observer );
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
   try 
     {
