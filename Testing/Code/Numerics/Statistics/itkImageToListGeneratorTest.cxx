@@ -35,8 +35,8 @@ typedef itk::Image< unsigned char, 2 > MaskImageType;
 static ImageType::Pointer CreateImage()
 {
   ImageType::Pointer image = ImageType::New();
-  ImageType::IndexType start = {0,0};
-  ImageType::SizeType  size = {10,10};
+  ImageType::IndexType start = {{0,0}};
+  ImageType::SizeType  size = {{10,10}};
   ImageType::RegionType region( start, size );
   image->SetRegions( region );
   image->Allocate();
@@ -57,14 +57,14 @@ static ImageType::Pointer CreateImage()
 static MaskImageType::Pointer CreateMaskImage()
 {
   MaskImageType::Pointer image = MaskImageType::New();
-  MaskImageType::IndexType start = {0,0};
-  MaskImageType::SizeType  size = {10, 10};
+  MaskImageType::IndexType start = {{0,0}};
+  MaskImageType::SizeType  size = {{10, 10}};
   MaskImageType::RegionType region( start, size );
   image->SetRegions( region );
   image->Allocate();
   image->FillBuffer(0);
-  MaskImageType::IndexType startMask = {2,3};
-  MaskImageType::SizeType sizeMask = {7, 3};
+  MaskImageType::IndexType startMask = {{2,3}};
+  MaskImageType::SizeType sizeMask = {{7, 3}};
   MaskImageType::RegionType regionMask( startMask, sizeMask);
   typedef itk::ImageRegionIteratorWithIndex< MaskImageType > IteratorType;
   IteratorType it( image, regionMask );
