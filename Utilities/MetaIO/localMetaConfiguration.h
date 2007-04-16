@@ -18,7 +18,9 @@
 
 #define METAIO_STL    std
 
+#ifndef METAIO_STREAM
 #define METAIO_STREAM std
+#endif
 
 #include <iostream>
 #include <fstream>

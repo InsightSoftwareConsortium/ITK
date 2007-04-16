@@ -219,7 +219,7 @@ opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
   int numcomps;
   OPJ_COLOR_SPACE color_space;
   opj_image_cmptparm_t cmptparm[3]; /* maximum of 3 components */
-  opj_image_t * image = NULL;
+  opj_image_t * image;
 
   assert( sample_pixel == 1 || sample_pixel == 3 );
   if( sample_pixel == 1 )
@@ -366,7 +366,7 @@ bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputle
   /* ---------------------------- */
    parameters.cod_format = J2K_CFMT; /* J2K format output */
     int codestream_length;
-    opj_cio_t *cio = NULL;
+    opj_cio_t *cio;
     //FILE *f = NULL;
 
     /* get a J2K compressor handle */

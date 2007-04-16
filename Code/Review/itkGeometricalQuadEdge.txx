@@ -283,20 +283,20 @@ template< typename TVRef, typename TFRef,
   //          of the following diagram, which depicts some Onext()
   //          ring around point P:
   //
-  //                       \         /
-  //                        \   *   /
-  //                        i3     b2              counter-clockwise
-  //                  *       \   /   NO FACE      Onext() order.
-  //                           \ /
-  //                 ----b4-----P----b1------
-  //                           /|\ 
-  //               NO FACE    / | \ 
-  //                         /  |  \    *  <------ a * indicates the
-  //                        /   |   \              the presence of a face
-  //                       /    |    \ 
-  //                     b5    i6     i7
-  //                     /   *  |  *   \ 
-  //                    /       |       \ 
+  //                       \         /                               //
+  //                        \   *   /                                //
+  //                        i3     b2              counter-clockwise //
+  //                  *       \   /   NO FACE      Onext() order.    //
+  //                           \ /                                   //
+  //                 ----b4-----P----b1------                        //
+  //                           /|\                                   // 
+  //               NO FACE    / | \                                  //
+  //                         /  |  \    *  <------ a * indicates the //
+  //                        /   |   \         the presence of a face //
+  //                       /    |    \                               //
+  //                     b5    i6     i7                             // 
+  //                     /   *  |  *   \                             //
+  //                    /       |       \                            //
   //
   //          On this example, and if we assume the Onext() oder is
   //          represented counter-clockwise, the edges are ordered as
@@ -436,22 +436,22 @@ template< typename TVRef, typename TFRef,
   //          b1, b2, b3, b4, b5, b6, b1...
   //
   //                    p       N       p
-  //                   / \      O      / \ 
-  //                  /   \           /   \ 
-  //                 /     \    F    /     \         counter-clockwise
-  //                /      b3   A   b2      \        Onext() ring order
-  //               /         \  C  /         \ 
-  //              /     *     \ E /     *     \ 
-  //             /             \ /             \ 
-  //             A------b4------P------b1-------B
-  //                           / \ 
-  //                          /   \ 
-  //             NO FACE     /     \      NO FACE
-  //                        /       \ 
-  //                      b5         b6
-  //                      /     *     \ 
-  //                     /             \ 
-  //                    p---------------p
+  //                   / \      O      / \                            //
+  //                  /   \           /   \                           //
+  //                 /     \    F    /     \       counter-clockwise  //
+  //                /      b3   A   b2      \      Onext() ring order //
+  //               /         \  C  /         \                        //
+  //              /     *     \ E /     *     \                       //
+  //             /             \ /             \                      //
+  //             A------b4------P------b1-------B                     //
+  //                           / \                                    //
+  //                          /   \                                   //
+  //             NO FACE     /     \      NO FACE                     //
+  //                        /       \                                 //
+  //                      b5         b6                               //
+  //                      /     *     \                               //
+  //                     /             \                              //
+  //                    p---------------p                             //
   //
   // At P this Mesh doesn't represent a 2-manifold (since we are thrice
   // on the boundary). Nevertheless such a situation could arise in
@@ -495,70 +495,70 @@ template< typename TVRef, typename TFRef,
   // second=[PB]) where the Onext() ring order is:
   //     first, b2, b3, second, b5, bsplice, b7, first...
   //
-  //                    p       N       A
-  //                   / \      O      / \ 
-  //                  /   \           /   \ 
-  //                 /     \    F    /     \       counter-clockwise
-  //                /      b2   A  first    \      Onext() ring order
-  //               /         \  C  /         \ 
-  //              /     *     \ E /     *     \ 
-  //             /             \ /             \ 
-  //            p-------b3------P------b7-------p
-  //                           /|\ 
-  //                          / | \ 
-  //          NO FACE        /  |  \      NO FACE
-  //                        /   |   \ 
-  //                  second   b5   bsplice
-  //                      /  *  |  *  \ 
-  //                     /      |      \ 
-  //                    B-------p-------p
+  //                    p       N       A                            //
+  //                   / \      O      / \                           //
+  //                  /   \           /   \                          //
+  //                 /     \    F    /     \     counter-clockwise   //
+  //                /      b2   A  first    \    Onext() ring order  //
+  //               /         \  C  /         \                       //
+  //              /     *     \ E /     *     \                      //
+  //             /             \ /             \                     //
+  //            p-------b3------P------b7-------p                    //
+  //                           /|\                                   //
+  //                          / | \                                  //
+  //          NO FACE        /  |  \      NO FACE                    //
+  //                        /   |   \                                //
+  //                  second   b5   bsplice                          //
+  //                      /  *  |  *  \                              //
+  //                     /      |      \                             //
+  //                    B-------p-------p                            //
   //
   // The first stage, implemented as
   //     second->Oprev()->Splice( bsplice ),
   // yields the following diagram:
   //
-  //                    p       N       A
-  //                   / \      O      / \ 
-  //                  /   \     F     /   \ 
-  //                 /     \    A    /     \        counter-clockwise
-  //                /      b2   C  first    \       Onext() ring order
-  //               /         \  E  /         \ 
-  //              /     *     \   /     *     \ 
-  //             /             \ /             \ 
-  //            p-------b3------P------b7-------p
-  // 
-  //                         NO FACE
-  //
-  //                           /|\ 
-  //                          / | \ 
-  //                         /  |  \ 
-  //                        /   |   \ 
-  //                  second   b5   bsplice
-  //                      /  *  |  *  \ 
-  //                     /      |      \ 
-  //                    B-------p-------p
+  //                    p       N       A                            //
+  //                   / \      O      / \                           //
+  //                  /   \     F     /   \                          //
+  //                 /     \    A    /     \      counter-clockwise  //
+  //                /      b2   C  first    \     Onext() ring order //
+  //               /         \  E  /         \                       //
+  //              /     *     \   /     *     \                      //
+  //             /             \ /             \                     //
+  //            p-------b3------P------b7-------p                    //
+  //                                                                 //
+  //                         NO FACE                                 //
+  //                                                                 //
+  //                           /|\                                   //
+  //                          / | \                                  //
+  //                         /  |  \                                 //
+  //                        /   |   \                                //
+  //                  second   b5   bsplice                          //
+  //                      /  *  |  *  \                              //
+  //                     /      |      \                             //
+  //                    B-------p-------p                            //
   //
   // and the second stage, implemented as
   //      first->Splice( bsplice ),
   // yields the following diagram:
   //
-  //                                    A
-  //         B__        NO FACE        / \ 
-  //         |  \__                   /   \ 
-  //         |     \__               /     \       counter-
-  //         |      second         first    \      clockwise for all
-  //         |           \__       /         \ 
-  //         |     *        \__   /     *     \ 
-  //         |                 \ /             \ 
-  //         p-------b5---------P------b7-------p
-  //         |               __/|\ 
-  //         |     *      __/   | \ 
-  //         |           /      |  \      NO FACE
-  //         |     bsplice      |   \ 
-  //         |   __/           b2    b3
-  //         p__/               |  *  \ 
-  //                NO FACE     |      \ 
-  //                            p-------p
+  //                                    A                            //
+  //         B__        NO FACE        / \                           //
+  //         |  \__                   /   \                          //
+  //         |     \__               /     \       counter-          //
+  //         |      second         first    \      clockwise for all //
+  //         |           \__       /         \                       //
+  //         |     *        \__   /     *     \                      //
+  //         |                 \ /             \                     //
+  //         p-------b5---------P------b7-------p                    //
+  //         |               __/|\                                   //
+  //         |     *      __/   | \                                  //
+  //         |           /      |  \      NO FACE                    //
+  //         |     bsplice      |   \                                //
+  //         |   __/           b2    b3                              //
+  //         p__/               |  *  \                              //
+  //                NO FACE     |      \                             //
+  //                            p-------p                            //
   //
   Self* first = this;
   Self* bsplice;
