@@ -82,19 +82,34 @@ LevenbergMarquardtOptimizer
 /** Return Current Value */
 LevenbergMarquardtOptimizer::MeasureType
 LevenbergMarquardtOptimizer
-::GetValue()
+::GetValue() const
 {
+
   MeasureType  measures;
-  ParametersType parameters = this->GetCurrentPosition();
-  if(m_ScalesInitialized)
+
+  const CostFunctionAdaptorType * adaptor = 
+    this->GetCostFunctionAdaptor();
+  if( adaptor )
     {
-    const ScalesType scales = this->GetScales();
-    for(unsigned int i=0;i<parameters.size();i++)
+    const MultipleValuedCostFunction * costFunction = 
+      adaptor->GetCostFunction();
+    if( costFunction )
       {
-      parameters[i] *= scales[i]; 
+      const unsigned int numberOfValues = 
+        costFunction->GetNumberOfValues();
+      measures.SetSize( numberOfValues );
+      ParametersType parameters = this->GetCurrentPosition();
+      if(m_ScalesInitialized)
+        {
+        const ScalesType scales = this->GetScales();
+        for(unsigned int i=0;i<parameters.size();i++)
+          {
+          parameters[i] *= scales[i]; 
+          }
+        }
+      this->GetNonConstCostFunctionAdaptor()->f(parameters,measures);
       }
     }
-  this->GetNonConstCostFunctionAdaptor()->f(parameters,measures);
   return measures;
 }
 

@@ -65,7 +65,7 @@ public:
   void SetEpsilonFunction(double epsilon);
 
   /** Get the current value */
-  MeasureType GetValue();
+  MeasureType GetValue() const;
 
 protected:
   LevenbergMarquardtOptimizer();
