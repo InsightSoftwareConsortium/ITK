@@ -226,7 +226,7 @@ def range(imageOrFilter) :
   return (comp.GetMinimum(), comp.GetMaximum())
 
 
-def write(imageOrFilter, fileName):
+def write(imageOrFilter, fileName, compression=False):
   """Write a image or the output image of a filter to filename
   
   The writer is instantiated with the image type of the image in
@@ -235,7 +235,7 @@ def write(imageOrFilter, fileName):
   import itk
   img = image(imageOrFilter)
   img.UpdateOutputInformation()
-  writer = itk.ImageFileWriter[img].New(Input=img, FileName=fileName)
+  writer = itk.ImageFileWriter[img].New(Input=img, FileName=fileName, UseCompression=compression)
   writer.Update()
   
 
