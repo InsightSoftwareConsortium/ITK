@@ -34,8 +34,48 @@
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
+// Software Guide : EndCodeSnippet
+
 #include <iostream>
 #include <fstream>
+
+class CommandIterationUpdate : public itk::Command 
+{
+public:
+  typedef  CommandIterationUpdate   Self;
+  typedef  itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+
+protected:
+  CommandIterationUpdate() {};
+
+public:
+
+  typedef itk::LevenbergMarquardtOptimizer     OptimizerType;
+  typedef const OptimizerType                 *OptimizerPointer;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+  {
+    Execute( (const itk::Object *)caller, event);
+  }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+  {
+    OptimizerPointer optimizer = 
+                         dynamic_cast< OptimizerPointer >( object );
+
+
+    if( ! itk::FunctionEvaluationIterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+
+    std::cout << "CurrentPosition = "  << std::endl << optimizer->GetCurrentPosition() << std::endl;
+
+  }
+   
+};
 
 
 int main(int argc, char * argv[] )
@@ -50,6 +90,7 @@ int main(int argc, char * argv[] )
     return 1;
     }
 
+// Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
   typedef itk::PointSet< float, Dimension >   PointSetType;
@@ -187,6 +228,9 @@ int main(int argc, char * argv[] )
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
 
+  // Connect an observer
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  optimizer->AddObserver( itk::AnyEvent(), observer );
 
   try 
     {
