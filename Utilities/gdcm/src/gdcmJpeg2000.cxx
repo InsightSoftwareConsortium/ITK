@@ -321,7 +321,7 @@ bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputle
   //bool delete_comment = true;
   opj_cparameters_t parameters;  /* compression parameters */
   opj_event_mgr_t event_mgr;    /* event manager */
-  opj_image_t *image = NULL;
+  opj_image_t *image;
   //quality = 100;
 
   /*
