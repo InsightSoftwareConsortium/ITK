@@ -306,6 +306,7 @@ ENDIF(BUILD_EXAMPLES)
 
 #-----------------------------------------------------------------------------
 # ITK requires special compiler flags on some platforms.
+SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -w")
 IF(CMAKE_COMPILER_IS_GNUCXX)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50")
   IF(APPLE)
