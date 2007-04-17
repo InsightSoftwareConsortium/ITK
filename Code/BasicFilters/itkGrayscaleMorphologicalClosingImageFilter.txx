@@ -51,8 +51,8 @@ void
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion( 
+                              this->GetOutput()->GetLargestPossibleRegion() );
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
@@ -67,8 +67,8 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
   typename GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
     dilate = GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::New();
 
-  typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
-    erode = GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
+  typename GrayscaleErodeImageFilter<TOutputImage, TOutputImage, TKernel>::Pointer
+    erode = GrayscaleErodeImageFilter<TOutputImage, TOutputImage, TKernel>::New();
 
   dilate->SetKernel( this->GetKernel() );
   dilate->ReleaseDataFlagOn();
@@ -98,7 +98,6 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
   os << indent << "Kernel: " << m_Kernel << std::endl;
 }
 

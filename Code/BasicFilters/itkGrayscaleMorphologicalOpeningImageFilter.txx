@@ -51,8 +51,8 @@ void
 GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion(
+                              this->GetOutput()->GetLargestPossibleRegion());
 }
 
 template<class TInputImage, class TOutputImage, class TKernel>
@@ -64,8 +64,8 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
   this->AllocateOutputs();
   
   /** set up erosion and dilation methods */
-  typename GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
-    dilate = GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::New();
+  typename GrayscaleDilateImageFilter<TOutputImage, TOutputImage, TKernel>::Pointer
+    dilate = GrayscaleDilateImageFilter<TOutputImage, TOutputImage, TKernel>::New();
 
   typename GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
     erode = GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
