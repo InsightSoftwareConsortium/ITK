@@ -106,6 +106,7 @@ nm libitktiff.a |grep " R "
 #define TIFFNumberOfStrips itk_TIFFNumberOfStrips
 #define TIFFNumberOfTiles itk_TIFFNumberOfTiles
 #define TIFFOpen itk_TIFFOpen
+#define TIFFOpenW itk_TIFFOpenW
 #define TIFFPredictorInit itk_TIFFPredictorInit
 #define TIFFPrintDirectory itk_TIFFPrintDirectory
 #define TIFFRGBAImageBegin itk_TIFFRGBAImageBegin
