@@ -48,7 +48,7 @@ template <class TInputPixel, class TOuputPixel>
 class SumAccumulator
 {
 public:
-  SumAccumulator( unsigned long size ) {}
+  SumAccumulator( unsigned long ) {}
   ~SumAccumulator(){}
 
   inline void Initialize()

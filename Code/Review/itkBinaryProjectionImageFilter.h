@@ -50,7 +50,7 @@ template <class TInputPixel, class TOutputPixel>
 class BinaryAccumulator
 {
 public:
-  BinaryAccumulator( unsigned long size ) {}
+  BinaryAccumulator( unsigned long ) {}
   ~BinaryAccumulator(){}
 
   inline void Initialize()

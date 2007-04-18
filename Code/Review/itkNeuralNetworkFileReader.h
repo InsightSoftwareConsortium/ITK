@@ -133,7 +133,7 @@ private:
 
 
   NetworkPointer         m_Network;
-  int                    m_ReadWeightValuesType;
+  unsigned int           m_ReadWeightValuesType;
   LayersContainer        m_Layers;
   WeightsContainer       m_Weights;
   LinesContainer         m_NameValue;  

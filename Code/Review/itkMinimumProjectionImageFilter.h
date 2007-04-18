@@ -48,7 +48,7 @@ template <class TInputPixel>
 class MinimumAccumulator
 {
 public:
-  MinimumAccumulator( unsigned long size ) {}
+  MinimumAccumulator( unsigned long ) {}
   ~MinimumAccumulator(){}
 
   inline void Initialize()

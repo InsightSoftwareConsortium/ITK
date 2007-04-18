@@ -110,7 +110,7 @@ VTKPolyDataReader<TOutputMesh>
 
   PointType point;
 
-  for( unsigned int i=0; i < numberOfPoints; i++ )
+  for( int i=0; i < numberOfPoints; i++ )
     {
     inputFile >> point;
     outputMesh->SetPoint( i, point );
@@ -167,7 +167,7 @@ VTKPolyDataReader<TOutputMesh>
   unsigned long numberOfCellPoints;
   unsigned long ids[3];
 
-  for(unsigned long i=0; i<numberOfPolygons; i++)
+  for(long i=0; i<numberOfPolygons; i++)
     {
     if( inputFile.eof() )
       {
@@ -199,17 +199,17 @@ VTKPolyDataReader<TOutputMesh>
       }
 
     if( static_cast<long>(ids[0]) < 0 ||
-      static_cast<long>(ids[1]) < 0 ||
-      static_cast<long>(ids[2]) < 0 )
+        static_cast<long>(ids[1]) < 0 ||
+        static_cast<long>(ids[2]) < 0 )
       {
       itkExceptionMacro("ERROR: Incorrect point ids\n"
           "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);
       return;
       }
 
-    if( ids[0] >= numberOfPoints ||
-        ids[1] >= numberOfPoints ||
-        ids[2] >= numberOfPoints )
+    if( static_cast<long>(ids[0]) >= numberOfPoints ||
+        static_cast<long>(ids[1]) >= numberOfPoints ||
+        static_cast<long>(ids[2]) >= numberOfPoints )
       {
       itkExceptionMacro("ERROR: Incorrect point ids\n"
           << "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);

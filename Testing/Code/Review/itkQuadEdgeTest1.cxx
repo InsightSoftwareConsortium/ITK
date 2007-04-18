@@ -1064,25 +1064,25 @@ int itkQuadEdgeTest1( int , char* [] )
 
     // Tests for the IsLnextGivenSizeCyclic() method
     { // create a local scope for these tests
-    //
-    //
-    // Create quad-edges on the three physical 
-    // edges (A,B,C) of a triangular face
-    //
-    //
-    //                   /\
-    //                  /  \
-    //                 /    \
-    //                /      \
-    //           B   /        \  A 
-    //              /          \
-    //             /            \
-    //            /              \
-    //           /                \
-    //           ------------------ 
-    //                   C   quadEdgeC1-->
-    //
-    //
+    //                                           //
+    //                                           //
+    // Create quad-edges on the three physical   //
+    // edges (A,B,C) of a triangular face        //
+    //                                           //
+    //                                           //
+    //                   /\                      //
+    //                  /  \                     //
+    //                 /    \                    //  
+    //                /      \                   // 
+    //           B   /        \  A               //
+    //              /          \                 //  
+    //             /            \                //
+    //            /              \               //
+    //           /                \              //
+    //           ------------------              //
+    //                   C   quadEdgeC1-->       //
+    //                                           //
+    //                                           //
     QuadEdgeType * quadEdgeA1 = new QuadEdgeType;
     QuadEdgeType * quadEdgeA2 = new QuadEdgeType;
     QuadEdgeType * quadEdgeA3 = new QuadEdgeType;

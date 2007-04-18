@@ -51,7 +51,7 @@ template <class TInputPixel, class TOutputPixel>
 class BinaryThresholdAccumulator
 {
 public:
-  BinaryThresholdAccumulator( unsigned long size ) {}
+  BinaryThresholdAccumulator( unsigned long ) {}
   ~BinaryThresholdAccumulator(){}
 
   inline void Initialize()
