@@ -237,7 +237,7 @@ LBFGSBOptimizer
 
   /** String indicating current job */
   char task[60];
-  s_copy( task, "START", (Ftnlen)60, (Ftnlen)5);
+  s_copy( task, const_cast<char *>("START"), (Ftnlen)60, (Ftnlen)5);
  
   /**  Control frequency and type of output */
   Integer iprint = -1;  // no output
@@ -281,13 +281,13 @@ LBFGSBOptimizer
      * 'CONVERGENCE' = convergence has been reached
      */
 
-    if ( s_cmp(task, "FG", (Ftnlen)2, (Ftnlen)2) == 0 )
+    if ( s_cmp(task, const_cast<char *>("FG"), (Ftnlen)2, (Ftnlen)2) == 0 )
       {
       m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), m_Value, gradient );
       numberOfEvaluations++;
 
       }
-    else if ( s_cmp( task, "NEW_X", (Ftnlen)5, (Ftnlen)5) == 0 )
+    else if ( s_cmp( task, const_cast<char *>("NEW_X"), (Ftnlen)5, (Ftnlen)5) == 0 )
       {
 
       m_InfinityNormOfProjectedGradient = dsave[12];
@@ -299,21 +299,21 @@ LBFGSBOptimizer
       {
       // terminate
 
-      if( s_cmp( task, "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL", 
+      if( s_cmp( task,const_cast<char *>("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"), 
         (Ftnlen)48, (Ftnlen)48) == 0 )
         {
         itkDebugMacro( << "Convergence: gradient tolerance reached." );
         break;
         }
 
-      if( s_cmp( task, "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", 
+      if( s_cmp( task, const_cast<char *>("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH"), 
         (Ftnlen)47, (Ftnlen)47) == 0 )
         {
         itkDebugMacro( << "Convergence: function tolerance reached." );
         break;
         }
 
-      if ( s_cmp( task, "ERROR", (Ftnlen)5, (Ftnlen)5) == 0 )
+      if ( s_cmp( task, const_cast<char *>("ERROR"), (Ftnlen)5, (Ftnlen)5) == 0 )
         {
         itkDebugMacro( << "Error: dodgy input." );
         break;
