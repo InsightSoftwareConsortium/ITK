@@ -90,6 +90,9 @@ public:
   typedef typename Superclass::OutputSpacingType  OutputSpacingType;
   typedef typename Superclass::LevelSetIndexType  LevelSetIndexType;
 
+  typedef typename Superclass::OutputPointType   PointType;
+
+
   /** The dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int,Superclass::SetDimension); 
 
@@ -154,6 +157,9 @@ public:
       m_NumberOfTargets = numberOfTargets; }
   void SetTargetReachedModeToAllTargets() 
     { this->SetTargetReachedMode(AllTargets); }
+
+  /** Get the number of targets. */
+  itkGetConstReferenceMacro( NumberOfTargets, long );
 
   /** Get the arrival time corresponding to the last reached target. */
   itkGetConstReferenceMacro( TargetValue, double );
