@@ -186,6 +186,11 @@ public:
    *  mostly intended to be used when writing DICOM slices.  */
   itkSetMacro( MetaDataDictionaryArray, DictionaryArrayRawPointer);
       
+  /** Set the compression On or Off */
+  itkSetMacro(UseCompression,bool);
+  itkGetConstReferenceMacro(UseCompression,bool);
+  itkBooleanMacro(UseCompression);
+
 protected:
   ImageSeriesWriter();
   ~ImageSeriesWriter();
@@ -217,6 +222,8 @@ private:
   std::string     m_SeriesFormat;
   unsigned long   m_StartIndex;
   unsigned long   m_IncrementIndex;
+
+  bool m_UseCompression;
 
   /** Array of MetaDataDictionary used for passing information to each slice */
   DictionaryArrayRawPointer  m_MetaDataDictionaryArray;

@@ -129,6 +129,16 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileNames(  fit->GetFileNames() );
 
+  // experiment the UseCompression methods and values
+  if( writer->GetUseCompression() )
+    {
+    std::cerr << "Wrong default use compression value" << std::endl;
+    return EXIT_FAILURE;
+    }
+  writer->SetUseCompression( true );
+  writer->UseCompressionOn();
+  writer->UseCompressionOff();
+
   try
     {
     writer->Update();

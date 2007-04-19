@@ -40,6 +40,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   m_SeriesFormat("%d"),
   m_StartIndex(1), m_IncrementIndex(1),m_MetaDataDictionaryArray(NULL)
 {
+  m_UseCompression = false;
 }
 
 
@@ -221,6 +222,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       }
     sprintf (fileName, m_SeriesFormat.c_str(), fileNumber);
 
+    writer->SetUseCompression(m_UseCompression);
     writer->SetFileName(fileName);
     writer->Update();
 
@@ -406,6 +408,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       }
     
     writer->SetFileName( m_FileNames[slice].c_str() );
+    writer->SetUseCompression( m_UseCompression );
     writer->Update();
 
     progress.CompletedPixel();
@@ -436,6 +439,15 @@ ImageSeriesWriter<TInputImage,TOutputImage>
   os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
   os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
   os << indent << "MetaDataDictionaryArray: " << m_MetaDataDictionaryArray << std::endl;
+
+  if (m_UseCompression)
+    {
+    os << indent << "Compression: On\n";
+    }
+  else
+    {
+    os << indent << "Compression: Off\n";
+    }
 
 }
 
