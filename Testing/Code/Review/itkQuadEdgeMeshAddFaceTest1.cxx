@@ -90,16 +90,16 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   /////////////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with three new edges" << std::endl;
-  //
-  //                                    p2
-  //                                    / \
-  //                                   /   \
-  //                                  /     \
-  //                                 /       \
-  //                                /         \
-  //                               /   NEW     \
-  //                              /             \
-  //                            p0---------------p1
+  //                                                                 //
+  //                                    p2                           //
+  //                                    / \                          //
+  //                                   /   \                         //
+  //                                  /     \                        // 
+  //                                 /       \                       //
+  //                                /         \                      //
+  //                               /   NEW     \                     //
+  //                              /             \                    //
+  //                            p0---------------p1                  y
   //
   if( mesh->AddFaceTriangle( pid[0], pid[1], pid[2] ) &&
       mesh->FindEdge( pid[0], pid[1] )                &&
@@ -119,17 +119,17 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   /////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with two new edges" << std::endl;
-  //
-  //                    p3--------------p2
-  //                      \             / \
-  //                       \           /   \
-  //                        \   NEW   /     \
-  //                         \       /       \
-  //                          \     /         \
-  //                           \   /           \
-  //                            \ /             \
-  //                             p0--------------p1
-  //
+  //                                                        //
+  //                    p3--------------p2                  //
+  //                      \             / \                 //
+  //                       \           /   \                //
+  //                        \   NEW   /     \               //
+  //                         \       /       \              //
+  //                          \     /         \             //
+  //                           \   /           \            //
+  //                            \ /             \           //
+  //                             p0--------------p1         //
+  //                                                        //
 
   if( mesh->AddFaceTriangle( pid[ 0 ], pid[ 2 ], pid[ 3 ] ) )
     {
@@ -143,25 +143,25 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   /////////////////////////////////////////////////////////////
   std::cout << "Adding a flipped triangle" << std::endl;
-  //
-  //                    p3--------------p2
-  //                      \             / \
-  //                       \           /   \
-  //                        \         /     \
-  //                         \       /       \
-  //                          \     /         \
-  //                           \   /           \
-  //                            \ /             \
-  //            p4---------------p0--------------p1
-  //              \             /
-  //               \           /
-  //                \   NEW   /
-  //                 \       /
-  //                  \     /
-  //                   \   /
-  //                    \ /
-  //                    p5
-  //
+  //                                                         // 
+  //                    p3--------------p2                   //
+  //                      \             / \                  //
+  //                       \           /   \                 //
+  //                        \         /     \                //
+  //                         \       /       \               //
+  //                          \     /         \              //
+  //                           \   /           \             //
+  //                            \ /             \            //
+  //            p4---------------p0--------------p1          //
+  //              \             /                            //
+  //               \           /                             //
+  //                \   NEW   /                              //
+  //                 \       /                               // 
+  //                  \     /                                //
+  //                   \   /                                 //
+  //                    \ /                                  //
+  //                    p5                                   //
+  //                                                         //
   if( mesh->AddFaceTriangle( pid[0], pid[5], pid[4] ) &&
       mesh->FindEdge( pid[0], pid[5] )                 &&
       mesh->FindEdge( pid[5], pid[0] )                 &&
@@ -181,25 +181,25 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   /////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with an inconsistent orientation should "
     "return false" << std::endl;
-  //
-  //                    p3--------------p2
-  //                    / \             / \
-  //                   /   \           /   \
-  //                  /     \         /     \
-  //                 /       \       /       \
-  //                /         \     /         \
-  //               /    NEW    \   /           \
-  //              /             \ /             \
-  //            p4---------------p0--------------p1
-  //              \             /
-  //               \           /
-  //                \         /
-  //                 \       /
-  //                  \     /
-  //                   \   /
-  //                    \ /
-  //                    p5
-  //
+  //                                                        //
+  //                    p3--------------p2                  // 
+  //                    / \             / \                 //
+  //                   /   \           /   \                //
+  //                  /     \         /     \               // 
+  //                 /       \       /       \              // 
+  //                /         \     /         \             //
+  //               /    NEW    \   /           \            //
+  //              /             \ /             \           //
+  //            p4---------------p0--------------p1         //
+  //              \             /                           //
+  //               \           /                            //
+  //                \         /                             //
+  //                 \       /                              //
+  //                  \     /                               //
+  //                   \   /                                //
+  //                    \ /                                 //
+  //                    p5                                  //
+  //                                                        //
   if( !mesh->AddFaceTriangle( pid[0], pid[3], pid[4] ) )
     {
     std::cout << "Passed" << std::endl;
@@ -235,27 +235,27 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     return EXIT_FAILURE;
     }
 
-  ///////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with one new edge" << std::endl;
-  //
-  //                    p3--------------p2
-  //                    / \             / \
-  //                   /   \           /   \
-  //                  /     \         /     \
-  //                 /       \       /       \
-  //                /         \     /         \
-  //               /    NEW    \   /           \
-  //              /             \ /             \
-  //            p4---------------p0--------------p1
-  //              \             /
-  //               \           /
-  //                \         /
-  //                 \       /
-  //                  \     /
-  //                   \   /
-  //                    \ /
-  //                    p5
-  //
+  //                                                               //  
+  //                    p3--------------p2                         //
+  //                    / \             / \                        // 
+  //                   /   \           /   \                       //
+  //                  /     \         /     \                      //
+  //                 /       \       /       \                     //
+  //                /         \     /         \                    //
+  //               /    NEW    \   /           \                   //
+  //              /             \ /             \                  //
+  //            p4---------------p0--------------p1                //
+  //              \             /                                  //
+  //               \           /                                   //
+  //                \         /                                    //
+  //                 \       /                                     //
+  //                  \     /                                      //
+  //                   \   /                                       //
+  //                    \ /                                        //
+  //                    p5                                         //
+  //                                                               // 
   if( mesh->AddFaceTriangle( pid[0], pid[3], pid[4] ) )
     {
     std::cout << "Passed" << std::endl;
@@ -266,27 +266,28 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     return EXIT_FAILURE;
     }
 
-  ///////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with two new edges" << std::endl;
-  //
-  //                    p3--------------p2
-  //                    / \             / \
-  //                   /   \           /   \
-  //                  /     \         /     \
-  //                 /       \       /       \
-  //                /         \     /         \
-  //               /           \   /           \
-  //              /             \ /             \
-  //            p4---------------p0--------------p1
-  //              \             / \             /
-  //               \           /   \           /
-  //                \         /     \   NEW   /
-  //                 \       /       \       /
-  //                  \     /         \     /
-  //                   \   /           \   /
-  //                    \ /             \ /
-  //                    p5               p6
-  //
+  //                                                                 //
+  //                                                                 //
+  //                    p3--------------p2                           //
+  //                    / \             / \                          //
+  //                   /   \           /   \                         //
+  //                  /     \         /     \                        // 
+  //                 /       \       /       \                       //
+  //                /         \     /         \                      //
+  //               /           \   /           \                     //
+  //              /             \ /             \                    //
+  //            p4---------------p0--------------p1                  //
+  //              \             / \             /                    // 
+  //               \           /   \           /                     //
+  //                \         /     \   NEW   /                      //
+  //                 \       /       \       /                       //
+  //                  \     /         \     /                        //
+  //                   \   /           \   /                         //
+  //                    \ /             \ /                          //
+  //                    p5               p6                          //
+  //                                                                 //
   if( mesh->AddFaceTriangle( pid[0], pid[6], pid[1] ) )
     {
     std::cout << "Passed" << std::endl;
@@ -299,25 +300,25 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   /////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle to close the 1-ring" << std::endl;
-  //
-  //                    p3--------------p2
-  //                    / \             / \
-  //                   /   \           /   \
-  //                  /     \         /     \
-  //                 /       \       /       \
-  //                /         \     /         \
-  //               /           \   /           \
-  //              /             \ /             \
-  //            p4---------------p0--------------p1
-  //              \             / \             /
-  //               \           /   \           /
-  //                \         /     \         /
-  //                 \       /       \       /
-  //                  \     /         \     /
-  //                   \   /   NEW     \   /
-  //                    \ /             \ /
-  //                    p5---------------p6
-  //
+  //                                                                 //
+  //                    p3--------------p2                           //
+  //                    / \             / \                          //
+  //                   /   \           /   \                         //
+  //                  /     \         /     \                        //
+  //                 /       \       /       \                       //
+  //                /         \     /         \                      //
+  //               /           \   /           \                     //
+  //              /             \ /             \                    //
+  //            p4---------------p0--------------p1                  //
+  //              \             / \             /                    //
+  //               \           /   \           /                     //
+  //                \         /     \         /                      //
+  //                 \       /       \       /                       //
+  //                  \     /         \     /                        //
+  //                   \   /   NEW     \   /                         //
+  //                    \ /             \ /                          //
+  //                    p5---------------p6                          //
+  //                                                                 //
   if( mesh->AddFaceTriangle( pid[5], pid[6], pid[0] ) )
     {
     std::cout << "Passed" << std::endl;
@@ -329,51 +330,51 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     }
 
   /////////////////////////////////////////////////////////////////////
-  // Try to merge two triangulations with opposite orientations.
+  // Try to merge two triangulations with opposite orientations.     
   // We build a first surface patch made of two triangles [p0, p1, p2]
   // and [p0, p6, p1] built with counter-clockwise orientation.
   // We build a second surface patch also made of two triangles
   // [p0, p5, p4] and [p0, p4, p3] which are build with clockwise
   // orientation. Hence those two patches have opposite orientations:
-  //
-  //                    p3              p2
-  //                    / \             / \
-  //   Build           /   \           /   \
-  //   clockwise ===> /     \         /     \
-  //                 /       \       /       \
-  //                /    *    \     /    *    \   <=== Build counter-
-  //               /           \   /           \             clockwise
-  //              /             \ /             \
-  //            p4---------------p0--------------p1
-  //              \             / \             /
-  //               \           /   \           /
-  //                \    *    /     \    *    /
-  //                 \       /       \       /
-  //                  \     /         \     /
-  //                   \   /           \   /
-  //                    \ /             \ /
-  //                    p5               p6
-  //
+  //                                                                  //
+  //                    p3              p2                            //
+  //                    / \             / \                           //
+  //   Build           /   \           /   \                          //
+  //   clockwise ===> /     \         /     \                         //
+  //                 /       \       /       \                        //
+  //                /    *    \     /    *    \   <=== Build counter- //
+  //               /           \   /           \             clockwise//
+  //              /             \ /             \                     //
+  //            p4---------------p0--------------p1                   //
+  //              \             / \             /                     //
+  //               \           /   \           /                      //
+  //                \    *    /     \    *    /                       //
+  //                 \       /       \       /                        //
+  //                  \     /         \     /                         //
+  //                   \   /           \   /                          //
+  //                    \ /             \ /                           //
+  //                    p5               p6                           //
+  //                                                                  //
   // Then we merge those two patches by building the triangle [p0, p2, p3]:
-  //
-  //                    p3--------------p2
-  //                    / \             / \
-  //   Build           /   \           /   \
-  //   clockwise ===> /     \   NEW   /     \
-  //                 /       \       /       \
-  //                /    *    \     /    *    \   <=== Build counter-
-  //               /           \   /           \             clockwise
-  //              /             \ /             \
-  //            p4---------------p0--------------p1
-  //              \             / \             /
-  //               \           /   \           /
-  //                \    *    /     \    *    /
-  //                 \       /       \       /
-  //                  \     /         \     /
-  //                   \   /           \   /
-  //                    \ /             \ /
-  //                    p5               p6
-  //
+  //                                                                  //
+  //                    p3--------------p2                            //
+  //                    / \             / \                           //
+  //   Build           /   \           /   \                          //
+  //   clockwise ===> /     \   NEW   /     \                         //
+  //                 /       \       /       \                        //
+  //                /    *    \     /    *    \   <=== Build counter- //
+  //               /           \   /           \             clockwise//
+  //              /             \ /             \                     //
+  //            p4---------------p0--------------p1                   //
+  //              \             / \             /                     //
+  //               \           /   \           /                      //
+  //                \    *    /     \    *    /                       //
+  //                 \       /       \       /                        //
+  //                  \     /         \     /                         //
+  //                   \   /           \   /                          //
+  //                    \ /             \ /                           //
+  //                    p5               p6                           //
+  //                                                                  //
   // Currently itkQE::Mesh::AddFace() is unable to correct the orientation
   // after merging two patches with opposite orientations.
   //
@@ -506,18 +507,18 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     return EXIT_FAILURE;
     }
 
-  // Adding a face with five edges.
-  //
-  //                    p3--------------p2
-  //                    /                 \
-  //                   /                   \
-  //                  /                     \
-  //                 /                       \
-  //                /                         \
-  //               /                           \
-  //              /                             \
-  //            p4---------------p0--------------p1
-  //
+  // Adding a face with five edges.                         //
+  //                                                        //  
+  //                    p3--------------p2                  //
+  //                    /                 \                 //
+  //                   /                   \                // 
+  //                  /                     \               //
+  //                 /                       \              //
+  //                /                         \             //
+  //               /                           \            //
+  //              /                             \           //
+  //            p4---------------p0--------------p1         //
+  //                                                        //
   std::cout << "Adding a face with five edges" << std::endl;
 
   for(int i=0; i < NumPoints; i++)
