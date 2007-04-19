@@ -121,7 +121,7 @@ void ImageSeriesReader<TOutputImage>
       ExposeMetaData<Array<float> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1);
 
       // Compute the inter slice spacing by computing the distance
-      // between two consecutive slices
+      // between two consective slices
       interSliceSpacing = 0.0;
       for (i = 0; i < position1.size(); i++)
         {
@@ -170,7 +170,7 @@ void ImageSeriesReader<TOutputImage>
         }
       else
         {
-        origin[i] = reader1->GetOutput()->GetOrigin()[i];
+         origin[i] = reader1->GetOutput()->GetOrigin()[i];
         }
       }
     spacing[m_NumberOfDimensionsInImage] = interSliceSpacing;
@@ -191,9 +191,28 @@ void ImageSeriesReader<TOutputImage>
  
     output->SetLargestPossibleRegion(region);
     }
+  else if (m_FileNames.size() == 1)
+    {
+    typename ReaderType::Pointer reader1 = ReaderType::New();
+
+    // Read the image
+    reader1->SetFileName (m_FileNames[0].c_str());
+    if (m_ImageIO)
+      {
+      reader1->SetImageIO(m_ImageIO);
+      }
+    reader1->UpdateOutputInformation();
+
+    output->SetSpacing( reader1->GetOutput()->GetSpacing() );   // Set the image spacing
+    output->SetOrigin( reader1->GetOutput()->GetOrigin() );     // Set the image origin
+    output->SetDirection( reader1->GetOutput()->GetDirection() );  // Set the image direction
+    output->SetLargestPossibleRegion( reader1->GetOutput()->GetLargestPossibleRegion() );
+ 
+    m_NumberOfDimensionsInImage = reader1->GetImageIO()->GetNumberOfDimensions();
+    }
   else
     {
-    itkExceptionMacro(<< "At least two filenames are required." );
+    itkExceptionMacro(<< "At least one filename is required." );
     }
 }
 
@@ -221,7 +240,15 @@ void ImageSeriesReader<TOutputImage>
 
   // Each file must have the same size.
   SizeType validSize = requestedRegion.GetSize();
-  validSize[m_NumberOfDimensionsInImage] = 1;
+
+  // If more than one file is being read, then the input dimension
+  // will be one less than the output dimension.  In this case, set
+  // the validSize of the last dimension to be 1.  However, if the
+  // input and output have the same number of dimensions, this is not necessary.
+  if (TOutputImage::ImageDimension-1 == m_NumberOfDimensionsInImage)
+    {
+    validSize[m_NumberOfDimensionsInImage] = 1;
+    }
 
   // Allocate the output buffer
   output->SetBufferedRegion( requestedRegion );
