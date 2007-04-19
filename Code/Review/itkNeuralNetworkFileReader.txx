@@ -249,7 +249,7 @@ NeuralNetworkFileReader<TVector,TOutput>
   m_Fields.push_back(mF);
 
   // define the weightsets
-  for(int i=0; i<num_weights; i++)
+  for(unsigned int i=0; i<num_weights; i++)
     {  
     if(!MET_Read(m_InputFile, & m_Fields,'='))
       {
@@ -289,7 +289,7 @@ NeuralNetworkFileReader<TVector,TOutput>
   if(m_ReadWeightValuesType>0)
     {
     m_Network->Initialize();
-    for(unsigned int j=0; j<m_Network->GetNumOfWeightSets(); j++)
+    for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
       {
       this->ClearFields();
       weightset = m_Network->GetWeightSet(j);
