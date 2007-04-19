@@ -242,10 +242,11 @@ void ImageSeriesReader<TOutputImage>
   SizeType validSize = requestedRegion.GetSize();
 
   // If more than one file is being read, then the input dimension
-  // will be one less than the output dimension.  In this case, set
-  // the validSize of the last dimension to be 1.  However, if the
-  // input and output have the same number of dimensions, this is not necessary.
-  if (TOutputImage::ImageDimension-1 == m_NumberOfDimensionsInImage)
+  // will be less than the output dimension.  In this case, set
+  // the last dimension that is other than 1 of validSize to 1.  However, if the
+  // input and output have the same number of dimensions, this should
+  // not be done because it will lower the dimension of the image.
+  if (TOutputImage::ImageDimension != m_NumberOfDimensionsInImage)
     {
     validSize[m_NumberOfDimensionsInImage] = 1;
     }
