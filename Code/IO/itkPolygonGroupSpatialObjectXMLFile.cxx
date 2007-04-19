@@ -210,7 +210,7 @@ WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter *This,
                        const char *const attName,
                        std::ofstream &output)
 {
-  T value;
+  T value = 0;
   if(ExposeMetaData<T>(thisDic,MetaName,value))
     {
     This->WriteStartElement(attName,output);
