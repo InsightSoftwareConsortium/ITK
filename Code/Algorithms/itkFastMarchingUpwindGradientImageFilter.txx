@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkFastMarchingUpwindGradientImageFilter_txx
-#define _itkFastMarchingUpwindGradientImageFilter_txx
+#ifndef __itkFastMarchingUpwindGradientImageFilter_txx
+#define __itkFastMarchingUpwindGradientImageFilter_txx
 
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -28,7 +28,7 @@
 namespace itk
 {
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -45,7 +45,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 }
 
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -58,12 +58,13 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   os << indent << "Reached points: " << m_ReachedTargetPoints.GetPointer() << std::endl;
   os << indent << "Gradient image: " << m_GradientImage.GetPointer() << std::endl;
   os << indent << "Generate gradient image: " << m_GenerateGradientImage << std::endl;
+  os << indent << "Number of targets: " << m_NumberOfTargets << std::endl;
   os << indent << "Target offset: " << m_TargetOffset << std::endl;
   os << indent << "Target reach mode: " << m_TargetReachedMode << std::endl;
   os << indent << "Target value: " << m_TargetValue << std::endl;
 }
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -76,7 +77,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   // allocate memory for the GradientImage if requested
   if (m_GenerateGradientImage)
     {
-    m_GradientImage->CopyInformation( this->GetInput() );    
+    m_GradientImage->CopyInformation( this->GetInput() );
     m_GradientImage->SetBufferedRegion( output->GetBufferedRegion() );
     m_GradientImage->Allocate();
     }
@@ -168,7 +169,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
       {
       typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
-      for ( ; pointsIter != pointsEnd; ++pointsIter )
+      for (; pointsIter != pointsEnd; ++pointsIter )
         {
         node = pointsIter.Value();
         if (node.GetIndex() == index)
@@ -182,7 +183,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
       {
       typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
-      for ( ; pointsIter != pointsEnd; ++pointsIter )
+      for (; pointsIter != pointsEnd; ++pointsIter )
         {
         node = pointsIter.Value();
 
@@ -202,7 +203,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
       {
       typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
-      for ( ; pointsIter != pointsEnd; ++pointsIter )
+      for (; pointsIter != pointsEnd; ++pointsIter )
         {
         node = pointsIter.Value();
 
@@ -232,10 +233,10 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
         this->SetStoppingValue(newStoppingValue);
         }
       }
-    }      
+    }
 }
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TSpeedImage>
@@ -318,9 +319,6 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   gradientImage->SetPixel( index, gradientPixel );
 }
 
-
-
 } // namespace itk
-
 
 #endif

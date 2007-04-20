@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkFastMarchingUpwindGradientImageFilter_h
-#define _itkFastMarchingUpwindGradientImageFilter_h
+#ifndef __itkFastMarchingUpwindGradientImageFilter_h
+#define __itkFastMarchingUpwindGradientImageFilter_h
 
 #include "itkFastMarchingImageFilter.h"
 #include "itkImage.h"
@@ -63,10 +63,10 @@ class ITK_EXPORT FastMarchingUpwindGradientImageFilter :
 
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingUpwindGradientImageFilter Self;
+  typedef FastMarchingUpwindGradientImageFilter          Self;
   typedef FastMarchingImageFilter<TLevelSet,TSpeedImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,18 +75,19 @@ public:
   itkTypeMacro(FastMarchingUpwindGradientImageFilter, FastMarchingImageFilter);
 
   /** Inherited typedefs. */
-  typedef typename Superclass::LevelSetType  LevelSetType;
-  typedef typename Superclass::SpeedImageType SpeedImageType;
-  typedef typename Superclass::LevelSetImageType  LevelSetImageType;
-  typedef typename Superclass::LevelSetPointer  LevelSetPointer;
+  typedef typename Superclass::LevelSetType            LevelSetType;
+  typedef typename Superclass::SpeedImageType          SpeedImageType;
+  typedef typename Superclass::LevelSetImageType       LevelSetImageType;
+  typedef typename Superclass::LevelSetPointer         LevelSetPointer;
   typedef typename Superclass::SpeedImageConstPointer  SpeedImageConstPointer;
-  typedef typename Superclass::LabelImageType  LabelImageType;
-  typedef typename Superclass::PixelType  PixelType;
-  typedef typename Superclass::AxisNodeType  AxisNodeType;
-  typedef typename Superclass::NodeType  NodeType;
-  typedef typename Superclass::NodeContainer  NodeContainer;
-  typedef typename Superclass::NodeContainerPointer  NodeContainerPointer;
-  typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::LabelImageType          LabelImageType;
+  typedef typename Superclass::PixelType               PixelType;
+  typedef typename Superclass::AxisNodeType            AxisNodeType;
+  typedef typename Superclass::NodeType                NodeType;
+  typedef typename Superclass::NodeContainer           NodeContainer;
+  typedef typename Superclass::NodeContainerPointer    NodeContainerPointer;
+
+  typedef typename Superclass::IndexType          IndexType;
   typedef typename Superclass::OutputSpacingType  OutputSpacingType;
   typedef typename Superclass::LevelSetIndexType  LevelSetIndexType;
 
@@ -100,18 +101,18 @@ public:
    * If a target point is reached, the propagation stops.
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
   void SetTargetPoints( NodeContainer * points )
-  { 
+    { 
     m_TargetPoints = points;
     this->Modified();
-  };
+    };
 
   /** Get the container of Target Points. */
   NodeContainerPointer GetTargetPoints( )
-  { return m_TargetPoints; };
+    { return m_TargetPoints; }
 
   /** Get the container of Reached Target Points. */
   NodeContainerPointer GetReachedTargetPoints( )
-  { return m_ReachedTargetPoints; };
+    { return m_ReachedTargetPoints; }
 
   /** GradientPixel typedef support. */
   typedef CovariantVector<PixelType, 
@@ -126,7 +127,7 @@ public:
 
   /** Get the gradient image. */
   GradientImagePointer GetGradientImage() const
-  { return m_GradientImage; };
+    { return m_GradientImage; }
 
   /** Set the GenerateGradientImage flag. Instrument the algorithm to generate
    * the gradient of the Eikonal equation solution while fast marching. */
@@ -153,8 +154,10 @@ public:
   void SetTargetReachedModeToOneTarget() 
     { this->SetTargetReachedMode(OneTarget); }
   void SetTargetReachedModeToSomeTargets( long numberOfTargets )
-    { this->SetTargetReachedMode(SomeTargets);
-      m_NumberOfTargets = numberOfTargets; }
+    {
+    this->SetTargetReachedMode(SomeTargets);
+    m_NumberOfTargets = numberOfTargets;
+    }
   void SetTargetReachedModeToAllTargets() 
     { this->SetTargetReachedMode(AllTargets); }
 
