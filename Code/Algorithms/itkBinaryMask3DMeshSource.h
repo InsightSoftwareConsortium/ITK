@@ -79,10 +79,10 @@ class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter< TInputImage,
 {
 public:
   /** Standard "Self" typedef. */
-  typedef BinaryMask3DMeshSource         Self;
-  typedef ImageToMeshFilter< TInputImage, TOutputMesh >  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BinaryMask3DMeshSource                        Self;
+  typedef ImageToMeshFilter< TInputImage, TOutputMesh > Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -91,29 +91,29 @@ public:
   itkTypeMacro(BinaryMask3DMeshSource, ImageToMeshFilter);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh OutputMeshType;
+  typedef TOutputMesh                           OutputMeshType;
   typedef typename OutputMeshType::MeshTraits   OMeshTraits;
   typedef typename OutputMeshType::PointType    OPointType;
   typedef typename OMeshTraits::PixelType       OPixelType;  
 
   /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits CellTraits;
+  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
+  typedef typename OutputMeshType::CellTraits             CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer   PointsContainer;
-  typedef typename OutputMeshType::CellsContainerPointer CellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainer   CellsContainer;
-  typedef CovariantVector<double, 2>     doubleVector;
-  typedef CovariantVector<int, 2>        intVector;
+  typedef typename OutputMeshType::PointsContainer        PointsContainer;
+  typedef typename OutputMeshType::CellsContainerPointer  CellsContainerPointer;
+  typedef typename OutputMeshType::CellsContainer         CellsContainer;
+  typedef CovariantVector<double, 2>                      doubleVector;
+  typedef CovariantVector<int, 2>                         intVector;
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>  TCellInterface;
-  typedef TriangleCell<TCellInterface> TriCell;
-  typedef typename TriCell::SelfAutoPointer TriCellAutoPointer;
+  typedef TriangleCell<TCellInterface>           TriCell;
+  typedef typename TriCell::SelfAutoPointer      TriCellAutoPointer;
 
   /** Input Image Type Definition. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
   typedef typename InputImageType::PixelType       InputPixelType;
@@ -185,6 +185,7 @@ private:
 
   unsigned long m_NumberOfNodes;
   unsigned long m_NumberOfCells;
+
   int m_NodeLimit;
   int m_CellLimit;
   int m_ImageWidth;
@@ -196,7 +197,8 @@ private:
   int m_LastRowIndex;
   int m_LastVoxelIndex;
   int m_LastFrameIndex;
-  unsigned char m_PointFound;
+
+  unsigned char  m_PointFound;
   InputPixelType m_ObjectValue;
 };
 

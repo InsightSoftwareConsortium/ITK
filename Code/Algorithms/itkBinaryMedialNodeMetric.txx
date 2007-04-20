@@ -190,7 +190,7 @@ BinaryMedialNodeMetric<VDimensions>
   m_NodeB2 = NodeB2;
 } 
 
-/*
+/**
  * PrintSelf
  */
 template <int VDimensions>
@@ -198,7 +198,7 @@ void
 BinaryMedialNodeMetric<VDimensions>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os,indent);
 }
 
 

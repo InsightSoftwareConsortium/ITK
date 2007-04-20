@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAntiAliasBinaryImageFilter_txx_
-#define __itkAntiAliasBinaryImageFilter_txx_
+#ifndef __itkAntiAliasBinaryImageFilter_txx
+#define __itkAntiAliasBinaryImageFilter_txx
 
 #include "itkAntiAliasBinaryImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
@@ -51,7 +51,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>
     }
   else
     {
-   return ( vnl_math_min(new_value, this->GetValueZero()) ); 
+    return ( vnl_math_min(new_value, this->GetValueZero()) ); 
     }
   
 }

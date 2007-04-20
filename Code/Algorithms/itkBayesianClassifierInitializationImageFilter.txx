@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBayesianClassifierInitializationImageFilter_txx
-#define _itkBayesianClassifierInitializationImageFilter_txx
+#ifndef __itkBayesianClassifierInitializationImageFilter_txx
+#define __itkBayesianClassifierInitializationImageFilter_txx
 
 #include "itkBayesianClassifierInitializationImageFilter.h"
 #include "itkScalarImageKmeansImageFilter.h"
@@ -79,17 +79,17 @@ BayesianClassifierInitializationImageFilter<TInputImage,
 {
   // Typedefs for the KMeans filter, Covariance calculator...
   typedef ScalarImageKmeansImageFilter< InputImageType > KMeansFilterType;
-  typedef typename KMeansFilterType::OutputImageType  KMeansOutputImageType;
+  typedef typename KMeansFilterType::OutputImageType     KMeansOutputImageType;
   typedef ImageRegionConstIterator< 
-                  KMeansOutputImageType >             ConstKMeansIteratorType;
-  typedef Array< double >                             CovarianceArrayType;
-  typedef Array< double >                             ClassCountArrayType;
+                  KMeansOutputImageType >                ConstKMeansIteratorType;
+  typedef Array< double >                                CovarianceArrayType;
+  typedef Array< double >                                ClassCountArrayType;
   typedef Statistics::GaussianDensityFunction< 
-          MeasurementVectorType >                     GaussianMembershipFunctionType;
+          MeasurementVectorType >                        GaussianMembershipFunctionType;
   typedef VectorContainer< unsigned short, ITK_TYPENAME 
-    GaussianMembershipFunctionType::MeanType* >       MeanEstimatorsContainerType;
+    GaussianMembershipFunctionType::MeanType* >          MeanEstimatorsContainerType;
   typedef VectorContainer< unsigned short, ITK_TYPENAME 
-    GaussianMembershipFunctionType::CovarianceType* > CovarianceEstimatorsContainerType;
+    GaussianMembershipFunctionType::CovarianceType* >    CovarianceEstimatorsContainerType;
 
   
   // Run k means to get the means from the input image
@@ -286,12 +286,18 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   Superclass::PrintSelf(os,indent);
   os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
   if( m_MembershipFunctionContainer )
-     os << indent << "Membership function container:" 
-        << m_MembershipFunctionContainer << std::endl; 
+    {
+    os << indent << "Membership function container:" 
+       << m_MembershipFunctionContainer << std::endl; 
+    }
   if( m_UserSuppliesMembershipFunctions )
-     os << indent << "Membership functions provided" << std::endl; 
+    {
+    os << indent << "Membership functions provided" << std::endl; 
+    }
   else
-     os << indent << "Membership functions not provided" << std::endl; 
+    {
+    os << indent << "Membership functions not provided" << std::endl; 
+    }
 }
 
 } // end namespace itk

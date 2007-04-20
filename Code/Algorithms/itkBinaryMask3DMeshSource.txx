@@ -9,13 +9,13 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryMask3DMeshSource_txx
-#define _itkBinaryMask3DMeshSource_txx
+#ifndef __itkBinaryMask3DMeshSource_txx
+#define __itkBinaryMask3DMeshSource_txx
 
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkNumericTraits.h"
@@ -94,13 +94,13 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
     }
 }
 
-  
+
 template<class TInputImage, class TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::SetInput(const InputImageType* image)
-{ 
-  this->ProcessObject::SetNthInput(0, 
+{
+  this->ProcessObject::SetNthInput(0,
                                    const_cast< InputImageType * >( image ) );
 }
 
@@ -120,8 +120,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::XFlip(unsigned char *x)
 {
   unsigned char nodeindex;
-  
-  int i=0; 
+
+  int i=0;
 
   while ( i < 3 )
     {
@@ -132,7 +132,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         break;
       case 2:
         x[i] = 4;
-        break;        
+        break;
       case 3:
         break;
       case 4:
@@ -173,8 +173,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::YFlip(unsigned char *x)
 {
   unsigned char nodeindex;
-  
-  int i=0; 
+
+  int i=0;
 
   while ( i < 3 )
     {
@@ -185,7 +185,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         x[i] = 3;
         break;
       case 2:
-        break;        
+        break;
       case 3:
         x[i] = 1;
         break;
@@ -226,8 +226,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::ZFlip(unsigned char *x)
 {
   unsigned char nodeindex;
-  
-  int i=0; 
+
+  int i=0;
 
   while ( i < 3 )
     {
@@ -239,7 +239,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         break;
       case 2:
         x[i] = 6;
-        break;        
+        break;
       case 3:
         x[i] = 7;
         break;
@@ -279,8 +279,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::XRotation(unsigned char *x)
 {
   unsigned char nodeindex;
-  
-  int i=0; 
+
+  int i=0;
 
   while ( i<3 )
     {
@@ -292,7 +292,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         break;
       case 2:
         x[i] = 1;
-        break;        
+        break;
       case 3:
         x[i] = 2;
         break;
@@ -336,8 +336,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::YRotation(unsigned char *x)
 {
   unsigned char nodeindex;
-  
-  int i=0; 
+
+  int i=0;
 
   while ( i<3 )
     {
@@ -349,7 +349,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         break;
       case 2:
         x[i] = 4;
-        break;        
+        break;
       case 3:
         x[i] = 12;
         break;
@@ -393,8 +393,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::ZRotation(unsigned char *x)
 {
   unsigned char nodeindex;
-  
-  int i=0; 
+
+  int i=0;
 
   while ( i<3 )
     {
@@ -406,7 +406,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         break;
       case 2:
         x[i] = 11;
-        break;        
+        break;
       case 3:
         x[i] = 7;
         break;
@@ -972,7 +972,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   m_LUT[253][1] = 68;
   m_LUT[254][1] = 64;
   m_LUT[255][1] = 0;
-  
+
   m_LocationOffset[1][0] = 0.5;
   m_LocationOffset[2][0] = 1;
   m_LocationOffset[3][0] = 0.5;
@@ -985,7 +985,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   m_LocationOffset[10][0] = 1;
   m_LocationOffset[11][0] = 1;
   m_LocationOffset[12][0] = 0;
-  m_LocationOffset[13][0] = 0.5;   
+  m_LocationOffset[13][0] = 0.5;
   m_LocationOffset[1][1] = 0;
   m_LocationOffset[2][1] = 0.5;
   m_LocationOffset[3][1] = 1;
@@ -998,7 +998,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   m_LocationOffset[10][1] = 0;
   m_LocationOffset[11][1] = 1;
   m_LocationOffset[12][1] = 1;
-  m_LocationOffset[13][1] = 0.5;  
+  m_LocationOffset[13][1] = 0.5;
   m_LocationOffset[1][2] = 0;
   m_LocationOffset[2][2] = 0;
   m_LocationOffset[3][2] = 0;
@@ -1011,7 +1011,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   m_LocationOffset[10][2] = 0.5;
   m_LocationOffset[11][2] = 0.5;
   m_LocationOffset[12][2] = 0.5;
-  m_LocationOffset[13][2] = 0.5;  
+  m_LocationOffset[13][2] = 0.5;
 
 }
 
@@ -1045,7 +1045,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
 
-  InputImageConstPointer m_InputImage = 
+  InputImageConstPointer m_InputImage =
     static_cast<const InputImageType * >(this->ProcessObject::GetInput(0) );
 
   InputImageIterator it1( m_InputImage, m_InputImage->GetBufferedRegion() );
@@ -1094,7 +1094,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       }
     free (m_CurrentRow);
     }
-  m_CurrentRow = ( unsigned long ** ) malloc( 200*sizeof(unsigned long *) );  
+  m_CurrentRow = ( unsigned long ** ) malloc( 200*sizeof(unsigned long *) );
   for ( i=0; i<200; i++ )
     {
     m_CurrentRow[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
@@ -1108,23 +1108,23 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       }
     free (m_CurrentFrame);
     }
-    
-  m_CurrentFrame = ( unsigned long ** ) malloc( 2000*sizeof(unsigned short *) );  
-  
+
+  m_CurrentFrame = ( unsigned long ** ) malloc( 2000*sizeof(unsigned short *) );
+
   for ( i=0; i<2000; i++ )
     {
     m_CurrentFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
     }
-    
+
   i = 0;
 
   while ( !it4.IsAtEnd() )
     {
     vertexindex = 0;
-    
-    if ( it1.Value() == m_ObjectValue ) vertexindex += 1;  
-    if ( it2.Value() == m_ObjectValue ) vertexindex += 8;  
-    if ( it3.Value() == m_ObjectValue ) vertexindex += 16;  
+
+    if ( it1.Value() == m_ObjectValue ) vertexindex += 1;
+    if ( it2.Value() == m_ObjectValue ) vertexindex += 8;
+    if ( it3.Value() == m_ObjectValue ) vertexindex += 16;
     if ( it4.Value() == m_ObjectValue ) vertexindex += 128;
     ++it1;
     ++it2;
@@ -1134,9 +1134,9 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 
     if (( i % m_ImageWidth < m_ImageWidth - 1 ) && ((i % (m_ImageWidth*m_ImageHeight)) / m_ImageWidth < m_ImageHeight - 1) )
       {
-      if ( it1.Value() == m_ObjectValue ) vertexindex += 2;  
-      if ( it2.Value() == m_ObjectValue ) vertexindex += 4;  
-      if ( it3.Value() == m_ObjectValue ) vertexindex += 32;  
+      if ( it1.Value() == m_ObjectValue ) vertexindex += 2;
+      if ( it2.Value() == m_ObjectValue ) vertexindex += 4;
+      if ( it3.Value() == m_ObjectValue ) vertexindex += 32;
       if ( it4.Value() == m_ObjectValue ) vertexindex += 64;
       }
     else
@@ -1145,13 +1145,13 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         {
         if ( vertexindex > 50 ) vertexindex -= 128;
         if ( ((vertexindex > 7) && (vertexindex < 10)) || (vertexindex > 17) ) vertexindex -= 8;
-        if ( it1.Value() == m_ObjectValue ) vertexindex += 2; 
-        if ( it3.Value() == m_ObjectValue ) vertexindex += 32;  
+        if ( it1.Value() == m_ObjectValue ) vertexindex += 2;
+        if ( it3.Value() == m_ObjectValue ) vertexindex += 32;
         }
       }
 
     for ( j=0; j<14; j++ ) m_CurrentVoxel[j] = 0;
-   
+
     if ( ( vertexindex == 0 ) || (vertexindex == 255 ) )
       {
 //      for ( j=0; j<13; j++ ) m_LastVoxel[j] = 0;
@@ -1160,15 +1160,15 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       {
       this->AddCells( m_LUT[vertexindex][0], m_LUT[vertexindex][1], i );
       }
-    i++;    
+    i++;
     }
 
-  // This indicates that the current BufferedRegion is equal to the 
+  // This indicates that the current BufferedRegion is equal to the
   // requested region. This action prevents useless rexecutions of
   // the pipeline.
   this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
 
-  
+
 }
 
 template<class TInputImage, class TOutputMesh>
@@ -1176,27 +1176,27 @@ void
 BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::AddCells( unsigned char celltype, unsigned char celltran, int index )
 {
-  int i;  
+  int i;
   unsigned long **currentrowtmp;
   unsigned long **currentframetmp;
-  currentrowtmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );  
+  currentrowtmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );
   for ( i=0; i<4; i++ )
     {
     currentrowtmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
     currentrowtmp[i][0] = 0;
     currentrowtmp[i][1] = 0;
-    } 
-  currentframetmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );  
+    }
+  currentframetmp = ( unsigned long ** ) malloc( 4*sizeof(unsigned long *) );
   for ( i=0; i<4; i++ )
     {
     currentframetmp[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
     currentframetmp[i][0] = 0;
     currentframetmp[i][1] = 0;
-    } 
+    }
 
   if ( (index % m_ImageWidth == 0) || (index > m_LastVoxelIndex + 1) )
     {
-    m_ColFlag = 0; 
+    m_ColFlag = 0;
     for (i=0; i<14; i++)
       {
       m_LastVoxel[i] = 0;
@@ -1206,23 +1206,23 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
     {
     m_ColFlag = 1;
     }
-   
-  if ( ((index % (m_ImageWidth*m_ImageHeight)) < m_ImageWidth) || 
+
+  if ( ((index % (m_ImageWidth*m_ImageHeight)) < m_ImageWidth) ||
        ((index /  m_ImageWidth) > m_LastRowIndex + 1) )
     {
-    m_RowFlag = 0; 
+    m_RowFlag = 0;
     }
-  else 
+  else
     {
     m_RowFlag = 1;
     }
 
-  if ( ( index <  m_ImageWidth*m_ImageHeight) || 
+  if ( ( index <  m_ImageWidth*m_ImageHeight) ||
        ((index / (m_ImageWidth*m_ImageHeight)) > m_LastFrameIndex + 1) )
     {
-    m_FrameFlag = 0; 
+    m_FrameFlag = 0;
     }
-  else 
+  else
     {
     m_FrameFlag = 1;
     }
@@ -1248,7 +1248,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
           }
         m_LastRow[i][0] = m_CurrentRow[i][0];
         m_LastRow[i][1] = m_CurrentRow[i][1];
-        } 
+        }
       m_LastRowNum = m_CurrentRowIndex;
       m_CurrentRowIndex = 0;
       }
@@ -1268,8 +1268,8 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         }
       m_LastRowNum = 0;
       }
-    } 
-  
+    }
+
   if ( m_FrameFlag == 1 )
     {
     if ( (index / (m_ImageWidth * m_ImageHeight)) != m_LastFrameIndex )
@@ -1289,7 +1289,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
           m_LastFrame[i] = ( unsigned long * ) malloc( 2*sizeof( unsigned long ) );
           }
         m_LastFrame[i][0] = m_CurrentFrame[i][0];
-        m_LastFrame[i][1] = m_CurrentFrame[i][1];  
+        m_LastFrame[i][1] = m_CurrentFrame[i][1];
         }
       m_LastFrameNum = m_CurrentFrameIndex;
       m_CurrentFrameIndex = 0;
@@ -1299,19 +1299,19 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
     {
     if ( index % (m_ImageWidth * m_ImageHeight) == 0 )
       {
-      for ( i=0; i<m_LastFrameNum; i++ ) 
+      for ( i=0; i<m_LastFrameNum; i++ )
         {
         free (m_LastFrame[i]);
         }
       free (m_LastFrame);
       m_LastFrame = 0;
       }
-    } 
+    }
 
   m_LastVoxelIndex = index;
-  m_LastRowIndex = index / m_ImageWidth;  
+  m_LastRowIndex = index / m_ImageWidth;
   m_LastFrameIndex = index / (m_ImageWidth*m_ImageHeight);
-    
+
   m_AvailableNodes[1] = 0;
   m_AvailableNodes[2] = 0;
   m_AvailableNodes[3] = 0;
@@ -1325,31 +1325,31 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   m_AvailableNodes[11] = 1;
   m_AvailableNodes[12] = 0;
   m_AvailableNodes[13] = 1;
-  
+
   if ( m_ColFlag == 0 )
     {
     m_AvailableNodes[4] = 1;
     m_AvailableNodes[8] = 1;
     m_AvailableNodes[9] = 1;
     m_AvailableNodes[12] = 1;
-    } 
-  
+    }
+
   if ( m_RowFlag == 0 )
     {
     m_AvailableNodes[1] = 1;
     m_AvailableNodes[5] = 1;
     m_AvailableNodes[9] = 1;
     m_AvailableNodes[10] = 1;
-    } 
+    }
 
-  
+
   if ( m_FrameFlag == 0 )
     {
     m_AvailableNodes[1] = 1;
     m_AvailableNodes[2] = 1;
     m_AvailableNodes[3] = 1;
     m_AvailableNodes[4] = 1;
-    } 
+    }
 
   typename TriCell::CellAutoPointer insertCell;
   unsigned long tripoints[3];
@@ -1365,7 +1365,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 9;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1380,7 +1380,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 4;
       tp[1] = 2;
       tp[2] = 9;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1393,7 +1393,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 10;
       tp[1] = 9;
       tp[2] = 2;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1408,7 +1408,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 9;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1421,7 +1421,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 2;
       tp[1] = 3;
       tp[2] = 11;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1436,7 +1436,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 9;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1449,7 +1449,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 6;
       tp[1] = 11;
       tp[2] = 7;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1464,7 +1464,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 2;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1477,7 +1477,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 9;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1490,7 +1490,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 9;
       tp[1] = 13;
       tp[2] = 8;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1503,7 +1503,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 2;
       tp[2] = 6;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1516,7 +1516,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 6;
       tp[2] = 8;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1531,7 +1531,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 10;
       tp[1] = 9;
       tp[2] = 2;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1544,7 +1544,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 4;
       tp[1] = 2;
       tp[2] = 9;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1557,7 +1557,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 6;
       tp[1] = 11;
       tp[2] = 7;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1572,7 +1572,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 2;
       tp[2] = 10;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1585,7 +1585,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 6;
       tp[1] = 11;
       tp[2] = 7;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1598,7 +1598,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 3;
       tp[1] = 4;
       tp[2] = 12;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1613,7 +1613,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 2;
       tp[2] = 6;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1626,7 +1626,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 6;
       tp[2] = 8;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1639,7 +1639,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 8;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1652,7 +1652,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 4;
       tp[2] = 2;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1667,7 +1667,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 10;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1680,7 +1680,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 10;
       tp[1] = 6;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1693,7 +1693,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 6;
       tp[1] = 7;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1706,7 +1706,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 7;
       tp[1] = 12;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1719,7 +1719,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 12;
       tp[1] = 4;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1732,7 +1732,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1747,7 +1747,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 9;
       tp[2] = 3;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1760,7 +1760,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 9;
       tp[1] = 12;
       tp[2] = 3;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1773,7 +1773,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 5;
       tp[1] = 10;
       tp[2] = 7;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1786,7 +1786,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 10;
       tp[1] = 11;
       tp[2] = 7;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1801,7 +1801,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 10;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1814,7 +1814,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 10;
       tp[2] = 11;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1827,7 +1827,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 7;
       tp[1] = 13;
       tp[2] = 11;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1840,7 +1840,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 7;
       tp[1] = 8;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1853,7 +1853,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 8;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1866,7 +1866,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1881,7 +1881,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 2;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1894,7 +1894,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 9;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1907,7 +1907,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 9;
       tp[1] = 13;
       tp[2] = 8;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1920,7 +1920,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 2;
       tp[2] = 6;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1933,7 +1933,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 6;
       tp[2] = 8;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1946,7 +1946,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 3;
       tp[1] = 4;
       tp[2] = 12;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1961,7 +1961,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 9;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1974,7 +1974,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 5;
       tp[1] = 10;
       tp[2] = 6;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -1987,7 +1987,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 2;
       tp[1] = 3;
       tp[2] = 11;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2000,7 +2000,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 8;
       tp[1] = 7;
       tp[2] = 12;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2015,7 +2015,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 10;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2028,7 +2028,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 10;
       tp[1] = 6;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2041,7 +2041,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 6;
       tp[1] = 7;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2054,7 +2054,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 7;
       tp[1] = 12;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2067,7 +2067,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 12;
       tp[1] = 4;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2080,7 +2080,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2093,7 +2093,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 2;
       tp[1] = 3;
       tp[2] = 11;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2108,7 +2108,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 10;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2121,7 +2121,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 2;
       tp[1] = 13;
       tp[2] = 10;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2134,7 +2134,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 2;
       tp[1] = 3;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2147,7 +2147,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 3;
       tp[1] = 12;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2160,7 +2160,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 4;
       tp[1] = 13;
       tp[2] = 12;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2173,7 +2173,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2188,7 +2188,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 1;
       tp[2] = 5;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2201,7 +2201,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 5;
       tp[1] = 6;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2214,7 +2214,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 13;
       tp[1] = 6;
       tp[2] = 2;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2227,7 +2227,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 2;
       tp[1] = 3;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2240,7 +2240,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 3;
       tp[1] = 12;
       tp[2] = 13;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2253,7 +2253,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 4;
       tp[1] = 13;
       tp[2] = 12;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2266,7 +2266,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       tp[0] = 1;
       tp[1] = 13;
       tp[2] = 4;
-      CellTransfer( tp, celltran ); 
+      CellTransfer( tp, celltran );
       AddNodes(index, tp, tpl, currentrowtmp, currentframetmp);
       tripoints[0] = tpl[0];
       tripoints[1] = tpl[2];
@@ -2276,7 +2276,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
       this->GetOutput()->SetCell(m_NumberOfCells, insertCell);
       this->GetOutput()->SetCellData(m_NumberOfCells, 0.0);
       m_NumberOfCells++;
-      break; 
+      break;
     }
 
   i = 0;
@@ -2286,7 +2286,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
     if ( currentrowtmp[i][0] != 0 )
       {
       m_CurrentRow[m_CurrentRowIndex][1] = currentrowtmp[i][1];
-      m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0]; 
+      m_CurrentRow[m_CurrentRowIndex++][0] = currentrowtmp[i][0];
       if ( m_CurrentRowIndex == m_CurrentRowNum )
         {
         m_CurrentRowNum += 100;
@@ -2298,7 +2298,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
     if ( currentframetmp[i][0] != 0 )
       {
       m_CurrentFrame[m_CurrentFrameIndex][1] = currentframetmp[i][1];
-      m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0]; 
+      m_CurrentFrame[m_CurrentFrameIndex++][0] = currentframetmp[i][0];
       if ( m_CurrentFrameIndex == m_CurrentFrameNum )
         {
         m_CurrentFrameNum += 1000;
@@ -2309,14 +2309,14 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 
     i++;
     }
- 
-  for ( i=0; i<4; i++ ) 
+
+  for ( i=0; i<4; i++ )
     {
-    free (currentrowtmp[i]); 
+    free (currentrowtmp[i]);
     }
   free (currentrowtmp);
-  
-  for ( i=0; i<4; i++ ) 
+
+  for ( i=0; i<4; i++ )
     {
     free (currentframetmp[i]);
     }
@@ -2326,7 +2326,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   free (tp);
   free (tpl);
 
-  m_LastVoxel[4] = m_CurrentVoxel[2]; 
+  m_LastVoxel[4] = m_CurrentVoxel[2];
   m_LastVoxel[9] = m_CurrentVoxel[10];
   m_LastVoxel[8] = m_CurrentVoxel[6];
   m_LastVoxel[12] = m_CurrentVoxel[11];
@@ -2362,7 +2362,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 
       SpacingType spacing = this->GetInput(0)->GetSpacing();
       OriginType  origin  = this->GetInput(0)->GetOrigin();
-      
+
       new_p[0] = indTemp[0]*spacing[0]+origin[0];
       new_p[1] = indTemp[1]*spacing[1]+origin[1];
       new_p[2] = indTemp[2]*spacing[2]+origin[2];
@@ -2513,39 +2513,39 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 {
   int mid;
   unsigned long lindex = static_cast<unsigned long>( index );
-  if ( (end - start) > 1 ) 
+  if ( (end - start) > 1 )
     {
     mid = static_cast<int>( vcl_floor(static_cast<float>((start + end)/2)) );
-    if ( lindex == m_LastRow[mid][0] ) 
+    if ( lindex == m_LastRow[mid][0] )
       {
       m_PointFound = 1;
       return m_LastRow[mid][1];
       }
-    else 
+    else
       {
       if( lindex > m_LastRow[mid][0] )
         {
         return this->SearchThroughLastRow(index, mid+1, end);
         }
-      else 
+      else
         {
         return this->SearchThroughLastRow(index, start, mid);
         }
       }
     }
-  else 
+  else
     {
-    if ( lindex == m_LastRow[start][0] ) 
+    if ( lindex == m_LastRow[start][0] )
       {
       m_PointFound = 1;
       return m_LastRow[start][1];
       }
     if ( lindex == m_LastRow[end][0] )
       {
-      m_PointFound = 1;  
+      m_PointFound = 1;
       return m_LastRow[end][1];
       }
-    } 
+    }
   return 0;
 }
 
@@ -2557,39 +2557,39 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   int mid;
   unsigned long lindex = static_cast<unsigned long>( index );
   unsigned long result = 0;
-  if ( (end - start) > 1 ) 
+  if ( (end - start) > 1 )
     {
     mid = static_cast<int>( vcl_floor(static_cast<float>((start + end)/2)) );
-    if ( lindex == m_LastFrame[mid][0] ) 
+    if ( lindex == m_LastFrame[mid][0] )
       {
       m_PointFound = 1;
       result = m_LastFrame[mid][1];
       }
-    else 
+    else
       {
-      if ( lindex > m_LastFrame[mid][0] ) 
+      if ( lindex > m_LastFrame[mid][0] )
         {
         result = this->SearchThroughLastFrame(index, mid+1, end);
         }
-      else 
+      else
         {
         result = this->SearchThroughLastFrame(index, start, mid);
         }
       }
-    } 
-  else 
+    }
+  else
     {
-    if ( lindex == m_LastFrame[start][0] ) 
+    if ( lindex == m_LastFrame[start][0] )
       {
       m_PointFound = 1;
       result = m_LastFrame[start][1];
       }
-    if ( lindex == m_LastFrame[end][0] ) 
+    if ( lindex == m_LastFrame[end][0] )
       {
-      m_PointFound = 1;      
+      m_PointFound = 1;
       result = m_LastFrame[end][1];
       }
-    } 
+    }
   return result;
 }
 
@@ -2602,7 +2602,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   Superclass::PrintSelf(os, indent);
 
   os << indent
-     << "ObjectValue: " 
+     << "ObjectValue: "
      << static_cast<NumericTraits<unsigned char>::PrintType>(m_ObjectValue)
      << std::endl;
 

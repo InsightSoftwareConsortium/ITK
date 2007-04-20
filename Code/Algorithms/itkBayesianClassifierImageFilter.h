@@ -85,14 +85,14 @@ class ITK_EXPORT BayesianClassifierImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef BayesianClassifierImageFilter                    Self;
+  typedef BayesianClassifierImageFilter     Self;
   typedef ImageToImageFilter< 
-              TInputVectorImage,
-              Image< TLabelsType, 
-                           ::itk::GetImageDimension< 
-                                 TInputVectorImage >::ImageDimension > > Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+    TInputVectorImage,
+    Image< TLabelsType, 
+           ::itk::GetImageDimension< 
+    TInputVectorImage >::ImageDimension > > Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -198,10 +198,10 @@ protected:
   virtual ~BayesianClassifierImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Here is where the classification is computed.*/
+  /** Here is where the classification is computed. */
   virtual void GenerateData();
 
-  /** Allocate Memory for the Output.*/
+  /** Allocate Memory for the Output. */
   virtual void AllocateOutputs();
 
 

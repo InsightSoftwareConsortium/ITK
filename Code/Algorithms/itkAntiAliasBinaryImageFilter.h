@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAntiAliasBinaryImageFilter_h_
-#define __itkAntiAliasBinaryImageFilter_h_
+#ifndef __itkAntiAliasBinaryImageFilter_h
+#define __itkAntiAliasBinaryImageFilter_h
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
 
@@ -59,7 +59,7 @@ namespace itk {
  * Volumes"  IEEE Volume Visualization and Graphics Symposium, October 2000,
  * pp.23-32.
  * 
-  * \par PARAMETERS
+ * \par PARAMETERS
  *  The MaximumRMSChange parameter is used to determine when the solution has
  *  converged.  A lower value will result in a tighter-fitting solution, but
  *  will require more computations.  Too low a value could put the solver into
@@ -102,15 +102,15 @@ class ITK_EXPORT AntiAliasBinaryImageFilter
 {
 public:
   /** Standard class typedefs */
-  typedef AntiAliasBinaryImageFilter Self;
+  typedef AntiAliasBinaryImageFilter                                Self;
   typedef SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::ValueType       ValueType;
+  typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::TimeStepType    TimeStepType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImageType  InputImageType;
 
@@ -127,22 +127,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(AntiAliasBinaryImageFilter, SparseFieldLevelSetImageFilter);
 
-  /** Get the upper and lower binary values in the input image.*/
+  /** Get the upper and lower binary values in the input image. */
   itkGetMacro(UpperBinaryValue, BinaryValueType);
   itkGetMacro(LowerBinaryValue, BinaryValueType);
 
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
   void SetMaximumIterations (unsigned int i)
-  {
+    {
     itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
     this->SetNumberOfIterations(i);
-  }
+    }
   unsigned int GetMaximumIterations()
-  {
+    {
     itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
     return this->GetNumberOfIterations();
-  } 
+    } 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -173,10 +173,10 @@ private:
   AntiAliasBinaryImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&);             //purposely not implemented
   
-  BinaryValueType m_UpperBinaryValue;
-  BinaryValueType m_LowerBinaryValue;
+  BinaryValueType                         m_UpperBinaryValue;
+  BinaryValueType                         m_LowerBinaryValue;
   typename CurvatureFunctionType::Pointer m_CurvatureFunction;
-  const TInputImage *  m_InputImage;
+  const TInputImage *                     m_InputImage;
   
 };
 

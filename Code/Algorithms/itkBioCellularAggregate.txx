@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,21 +18,16 @@
 #ifndef __itkBioCellularAggregate_txx
 #define __itkBioCellularAggregate_txx
 
-
 #include "itkBioCellularAggregate.h"
-
 
 namespace itk {
 
-
 namespace bio {
-
 
 template<unsigned int NSpaceDimension>
 CellularAggregate<NSpaceDimension>
 ::CellularAggregate()
 {
-
   typename BioCellType::ColorType color;
   color.SetRed(1.0);
   color.SetGreen(1.0);
@@ -53,9 +48,6 @@ CellularAggregate<NSpaceDimension>
 
 }
 
-
-
-
 template<unsigned int NSpaceDimension>
 CellularAggregate<NSpaceDimension>
 ::~CellularAggregate()
@@ -63,8 +55,6 @@ CellularAggregate<NSpaceDimension>
   m_Mesh->DebugOn();
   this->KillAll();
 }
-
-
 
 template<unsigned int NSpaceDimension>
 unsigned int
@@ -74,8 +64,6 @@ CellularAggregate<NSpaceDimension>
   return m_Mesh->GetPointData()->Size();
 }
 
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
@@ -84,9 +72,6 @@ CellularAggregate<NSpaceDimension>
   BioCellType::SetGrowthRadiusLimit( value );
 }
 
-
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
@@ -94,9 +79,6 @@ CellularAggregate<NSpaceDimension>
 {
   BioCellType::SetGrowthRadiusIncrement( value );
 }
-
-
-
 
 template<unsigned int NSpaceDimension>
 void
@@ -108,8 +90,6 @@ CellularAggregate<NSpaceDimension>
   os << "Cellular aggregate " << m_Mesh << std::endl;
 
 }
-
-
 
 template<unsigned int NSpaceDimension>
 void
@@ -169,14 +149,9 @@ CellularAggregate<NSpaceDimension>
   m_Mesh->GetCells()->DeleteIndex( id );
   m_Mesh->GetPoints()->DeleteIndex( id );
   m_Mesh->GetPointData()->DeleteIndex( id );
-
  
   delete cell;
-
 }
-
-
-
 
 template<unsigned int NSpaceDimension>
 void
@@ -207,8 +182,6 @@ CellularAggregate<NSpaceDimension>
 
 }
 
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
@@ -217,9 +190,6 @@ CellularAggregate<NSpaceDimension>
   VectorType perturbation = position.GetVectorFromOrigin();
   this->Add( cell, perturbation );
 }
-
-
-
 
 template<unsigned int NSpaceDimension>
 void
@@ -230,10 +200,6 @@ CellularAggregate<NSpaceDimension>
   perturbation.Fill( 0.0 );
   this->Add( cell, perturbation );
 }
-
-
-
-
 
 template<unsigned int NSpaceDimension>
 void
@@ -273,10 +239,6 @@ CellularAggregate<NSpaceDimension>
   cellAptr->AddPointId( cellBId );
   cellBptr->AddPointId( cellAId );
 }
- 
-
-
-
 
 template<unsigned int NSpaceDimension>
 void
@@ -302,10 +264,10 @@ CellularAggregate<NSpaceDimension>
     bool parentPositionExist = m_Mesh->GetPoint( newcellparentId, &position );
     if( !parentPositionExist ) 
       {
-        itk::ExceptionObject exception;
-        exception.SetDescription( "Parent cell does not exist in the container" );
-        exception.SetLocation( "CellularAggregate::Add( cell * )" );
-        throw exception;
+      itk::ExceptionObject exception;
+      exception.SetDescription( "Parent cell does not exist in the container" );
+      exception.SetLocation( "CellularAggregate::Add( cell * )" );
+      throw exception;
       }
 
     VoronoiRegionAutoPointer parentVoronoi;
@@ -350,8 +312,6 @@ CellularAggregate<NSpaceDimension>
 
 }
 
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
@@ -377,7 +337,7 @@ CellularAggregate<NSpaceDimension>
     ++cell;
     if( theCell->MarkedForRemoval() )
       {
-      this->Remove( theCell );      
+      this->Remove( theCell );
       }
     }
   
@@ -387,17 +347,11 @@ CellularAggregate<NSpaceDimension>
 
 }
 
-
-
-
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
 ::KillAll(void)
 {
-    
   if( !m_Mesh  )
     {
     return;
@@ -415,8 +369,6 @@ CellularAggregate<NSpaceDimension>
   BioCellType::ResetCounter();
 }
 
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
@@ -433,16 +385,11 @@ CellularAggregate<NSpaceDimension>
     }
 }
 
-
-
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
 ::UpdatePositions(void)
 {
- 
   CellsConstIterator cellIt = m_Mesh->GetPointData()->Begin();
   CellsConstIterator end    = m_Mesh->GetPointData()->End();
 
@@ -463,19 +410,14 @@ CellularAggregate<NSpaceDimension>
     }
 
 }
-  
-
 
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
 ::ComputeForces(void)
 {
-
-  
   // Clear all the force accumulators
   this->ClearForces();
- 
 
   CellsConstIterator   cell1It     = m_Mesh->GetPointData()->Begin();
   CellsConstIterator   end         = m_Mesh->GetPointData()->End();
@@ -523,7 +465,7 @@ CellularAggregate<NSpaceDimension>
       if( distance < (rA + rB) / 2.0 )
         {
         const double factor = 2.0 * BioCellType::GetGrowthRadiusLimit() / distance;
-        typename BioCellType::VectorType force = relativePosition * factor ;
+        typename BioCellType::VectorType force = relativePosition * factor;
         cell1->AddForce(  force );
         cell2->AddForce( -force );
         }
@@ -540,10 +482,7 @@ CellularAggregate<NSpaceDimension>
     cell1It++;
     }
 
- }
-
-
-
+}
 
 template<unsigned int NSpaceDimension>
 void
@@ -599,11 +538,7 @@ CellularAggregate<NSpaceDimension>
     point1It++;
     }
 
- }
-
-
-
-
+}
 
 template<unsigned int NSpaceDimension>
 void
@@ -634,7 +569,6 @@ CellularAggregate<NSpaceDimension>
     pointIt++;
     }
 
-
   os << std::endl << "Neighborhoods " << std::endl;
   cell1It = beginCell;
   while( cell1It != endCell )
@@ -656,8 +590,6 @@ CellularAggregate<NSpaceDimension>
       
 }
 
-
-
 template<unsigned int NSpaceDimension>
 void
 CellularAggregate<NSpaceDimension>
@@ -667,9 +599,6 @@ CellularAggregate<NSpaceDimension>
   m_Substrates.push_back( smartPointer );
 }
 
-
-
-
 template<unsigned int NSpaceDimension>
 typename CellularAggregate<NSpaceDimension>::SubstratesVector &
 CellularAggregate<NSpaceDimension>
@@ -678,14 +607,11 @@ CellularAggregate<NSpaceDimension>
   return m_Substrates;
 }
 
-
-
 template<unsigned int NSpaceDimension>
 typename CellularAggregate<NSpaceDimension>::SubstrateValueType 
 CellularAggregate<NSpaceDimension>
 ::GetSubstrateValue( unsigned long int cellId, unsigned int substrateId ) const
 {
-
   PointType cellPosition;
   bool cellPositionExists = m_Mesh->GetPoint( cellId, &cellPosition );
   if( !cellPositionExists ) 
@@ -711,12 +637,8 @@ CellularAggregate<NSpaceDimension>
   return value;
 }
 
-
-
-
 } // end namespace bio
 
 } // end namespace itk
 
 #endif
-

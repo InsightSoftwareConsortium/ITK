@@ -87,10 +87,10 @@ public:
                      ::itk::GetImageDimension< InputImageType >::ImageDimension );
 
   typedef VectorImage< ProbabilityPrecisionType, 
-          itkGetStaticConstMacro(Dimension) >      OutputImageType;
-  typedef ImageToImageFilter< InputImageType, OutputImageType >  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+          itkGetStaticConstMacro(Dimension) >                   OutputImageType;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -125,7 +125,7 @@ public:
   /** Membership function container */
   typedef VectorContainer< unsigned int, 
        MembershipFunctionPointer >  MembershipFunctionContainerType;
-  typedef typename MembershipFunctionContainerType::Pointer         
+  typedef typename MembershipFunctionContainerType::Pointer
                                     MembershipFunctionContainerPointer;
   
   /** Method to set/get the density functions. Here you can set a vector 
@@ -179,6 +179,7 @@ private:
 
   bool                      m_UserSuppliesMembershipFunctions;
   unsigned int              m_NumberOfClasses;
+
   typename MembershipFunctionContainerType::Pointer m_MembershipFunctionContainer;
 };
 

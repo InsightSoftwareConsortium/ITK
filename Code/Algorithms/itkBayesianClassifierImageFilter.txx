@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBayesianClassifierImageFilter_txx
-#define _itkBayesianClassifierImageFilter_txx
+#ifndef __itkBayesianClassifierImageFilter_txx
+#define __itkBayesianClassifierImageFilter_txx
 
 #include "itkBayesianClassifierImageFilter.h"
 #include "itkImageRegionConstIterator.h"
@@ -43,9 +43,6 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
   PosteriorsImagePointer p = PosteriorsImageType::New();
   this->SetNthOutput( 1 , p.GetPointer() );
 }
-
-
-
 
 /**
  *  Print Self Method
@@ -106,7 +103,7 @@ template < class TInputVectorImage, class TLabelsType,
            class TPosteriorsPrecisionType, class TPriorsPrecisionType >
 typename BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
                                        TPosteriorsPrecisionType, TPriorsPrecisionType >
-::PosteriorsImageType *                              
+::PosteriorsImageType *
 BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
                               TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::GetPosteriorImage()
@@ -145,9 +142,6 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
   this->GetPosteriorImage()->Allocate();
 
 }
-
-
-
 
 /**
  * Compute the posteriors using the Bayes rule. If no priors are available,
@@ -374,8 +368,6 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
     ++itrPosteriorsImage;
     }
 }
-
-
 
 } // end namespace itk
 
