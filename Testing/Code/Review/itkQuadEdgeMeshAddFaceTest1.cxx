@@ -330,7 +330,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     }
 
   /////////////////////////////////////////////////////////////////////
-  // Try to merge two triangulations with opposite orientations.     
+  // Try to merge two triangulations with opposite orientations.
   // We build a first surface patch made of two triangles [p0, p1, p2]
   // and [p0, p6, p1] built with counter-clockwise orientation.
   // We build a second surface patch also made of two triangles
