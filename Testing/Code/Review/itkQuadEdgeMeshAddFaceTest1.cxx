@@ -27,14 +27,14 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   typedef std::vector< PointIdentifier > PointIdList;
 
   MeshType::Pointer mesh = MeshType::New();
-  
+
   //                                                  //
   //                    p3--------------p2            //
   //                    / \             / \           //
   //                   /   \           /   \          //
   //                  /     \         /     \         //
   //                 /       \       /       \        //
-  //                /         \     /         \       // 
+  //                /         \     /         \       //
   //               /           \   /           \      //
   //              /             \ /             \     //
   //            p4---------------p0--------------p1   //
@@ -54,7 +54,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   typedef PointType::ValueArrayType ValueArrayType;
 
-  ValueArrayType pointCoordinates[NumPoints]= 
+  ValueArrayType pointCoordinates[NumPoints]=
   { {  0.0, 0.0, 0.0 },
     {  1.0, 0.0, 0.0 },
     {  0.5,   a, 0.0 },
@@ -94,7 +94,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   //                                    p2                           //
   //                                    / \                          //
   //                                   /   \                         //
-  //                                  /     \                        // 
+  //                                  /     \                        //
   //                                 /       \                       //
   //                                /         \                      //
   //                               /   NEW     \                     //
@@ -143,7 +143,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   /////////////////////////////////////////////////////////////
   std::cout << "Adding a flipped triangle" << std::endl;
-  //                                                         // 
+  //                                                         //
   //                    p3--------------p2                   //
   //                      \             / \                  //
   //                       \           /   \                 //
@@ -156,7 +156,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   //              \             /                            //
   //               \           /                             //
   //                \   NEW   /                              //
-  //                 \       /                               // 
+  //                 \       /                               //
   //                  \     /                                //
   //                   \   /                                 //
   //                    \ /                                  //
@@ -182,11 +182,11 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   std::cout << "Adding a triangle with an inconsistent orientation should "
     "return false" << std::endl;
   //                                                        //
-  //                    p3--------------p2                  // 
+  //                    p3--------------p2                  //
   //                    / \             / \                 //
   //                   /   \           /   \                //
-  //                  /     \         /     \               // 
-  //                 /       \       /       \              // 
+  //                  /     \         /     \               //
+  //                 /       \       /       \              //
   //                /         \     /         \             //
   //               /    NEW    \   /           \            //
   //              /             \ /             \           //
@@ -237,9 +237,9 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   ///////////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with one new edge" << std::endl;
-  //                                                               //  
+  //                                                               //
   //                    p3--------------p2                         //
-  //                    / \             / \                        // 
+  //                    / \             / \                        //
   //                   /   \           /   \                       //
   //                  /     \         /     \                      //
   //                 /       \       /       \                     //
@@ -255,7 +255,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   //                   \   /                                       //
   //                    \ /                                        //
   //                    p5                                         //
-  //                                                               // 
+  //                                                               //
   if( mesh->AddFaceTriangle( pid[0], pid[3], pid[4] ) )
     {
     std::cout << "Passed" << std::endl;
@@ -273,13 +273,13 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   //                    p3--------------p2                           //
   //                    / \             / \                          //
   //                   /   \           /   \                         //
-  //                  /     \         /     \                        // 
+  //                  /     \         /     \                        //
   //                 /       \       /       \                       //
   //                /         \     /         \                      //
   //               /           \   /           \                     //
   //              /             \ /             \                    //
   //            p4---------------p0--------------p1                  //
-  //              \             / \             /                    // 
+  //              \             / \             /                    //
   //               \           /   \           /                     //
   //                \         /     \   NEW   /                      //
   //                 \       /       \       /                       //
@@ -508,10 +508,10 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     }
 
   // Adding a face with five edges.                         //
-  //                                                        //  
+  //                                                        //
   //                    p3--------------p2                  //
   //                    /                 \                 //
-  //                   /                   \                // 
+  //                   /                   \                //
   //                  /                     \               //
   //                 /                       \              //
   //                /                         \             //
