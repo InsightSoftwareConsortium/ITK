@@ -171,7 +171,7 @@ ENDIF(CMAKE_BUILD_TOOL MATCHES ".*dev")
 INCLUDE(${CMAKE_ROOT}/Modules/TestCXXAcceptsFlag.cmake)
 CHECK_CXX_ACCEPTS_FLAG("-features=no%anachronisms" SUN_COMPILER)
 IF(SUN_COMPILER)
-  ADD_DEFINITIONS("-features=no%anachronisms")
+  ADD_DEFINITIONS("-w")
 ENDIF(SUN_COMPILER)
 
 # Define source groups that look nice in DSP files
