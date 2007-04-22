@@ -68,6 +68,8 @@ ENABLE_TESTING()
 IF(BUILD_TESTING)
   CONFIGURE_FILE(${ITK_SOURCE_DIR}/CMake/CTestCustom.ctest.in
     ${ITK_BINARY_DIR}/CMake/CTestCustom.ctest @ONLY)
+  CONFIGURE_FILE(${ITK_SOURCE_DIR}/CMake/CTestCustom.ctest.in
+    ${ITK_BINARY_DIR}/Testing/Code/Common/CTestCustom.ctest @ONLY)
   FILE(WRITE ${ITK_BINARY_DIR}/CTestCustom.cmake
     "INCLUDE(\"${ITK_BINARY_DIR}/CMake/CTestCustom.ctest\")\n")
 
