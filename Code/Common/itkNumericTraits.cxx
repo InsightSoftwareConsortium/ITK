@@ -58,6 +58,12 @@ const double NumericTraits<double>::One = 1.0;
 const long double NumericTraits<long double>::Zero = 0.0;
 const long double NumericTraits<long double>::One = 1.0;
   
+#ifdef _WIN64
+typedef std::string::size_type size_type;
+const size_type NumericTraits<size_type>::Zero = 0.0;
+const size_type NumericTraits<size_type>::One = 1.0;
+#endif
+
 const std::complex<float>  NumericTraits< std::complex<float> >::Zero = std::complex<float>(0.0,0.0);
 const std::complex<float>  NumericTraits< std::complex<float> >::One  = std::complex<float>(1.0,0.0);
 
