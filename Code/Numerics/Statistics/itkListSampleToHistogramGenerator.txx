@@ -58,7 +58,10 @@ ListSampleToHistogramGenerator< TListSample,
   typename HistogramType::MeasurementVectorType h_upper  = m_HistogramMax;
   typename HistogramType::MeasurementVectorType h_lower = m_HistogramMin;
 
-  if(m_AutoMinMax)
+  // must test for the list size to avoid making FindSampleBound() segfault.
+  // Also, the min and max can't be found automatically in that case. We can
+  // only return an empty histogram
+  if( m_AutoMinMax && m_List->Size() != 0 )
     {
     FindSampleBound(m_List, m_List->Begin(),
                     m_List->End(), lower, upper) ;
