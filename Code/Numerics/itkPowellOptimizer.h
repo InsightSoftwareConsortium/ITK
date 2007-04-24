@@ -25,8 +25,14 @@ namespace itk
 {
 
 /** \class PowellOptimizer
- * \brief Implements Powell optimization using Brent line search - adapted from
- * Numerical Recipes in C (first edition).
+ * \brief Implements Powell optimization using Brent line search.
+ *
+ * The code in this class was adapted from the Wikipedia and the 
+ * netlib.org zeroin function.
+ *
+ * http://www.netlib.org/go/zeroin.f
+ * http://en.wikipedia.org/wiki/Brent_method
+ * http://en.wikipedia.org/wiki/Golden_section_search
  *
  * This optimizer needs a cost function.
  * Partial derivatives of that function are not required.
@@ -46,10 +52,6 @@ namespace itk
  * The ValueTolerance terminates optimization when the cost function values at
  * the current parameters and at the local extreme are likely (within a second
  * order approximation) to be within this is tolerance.
- *
- * \warning This class contains code that is covered by the Numerical
- * Recipies copyright. The code is scheduled to be replaced/removed as
- * soon as possible.
  *
  * \ingroup Numerics Optimizers
  *
@@ -156,8 +158,7 @@ protected:
   void   Shift(double *a, double *b, double *c, double d) const;
 
   /** The LineBracket routine from NRC. Later reimplemented from the description
-   * of the method available in the Wikipedia, this was done to replace code
-   * that was copyrighted by Numerical Recipes.
+   * of the method available in the Wikipedia.
    *
    * Uses current origin and line direction (from SetLine) to find a triple of
    * points (ax, bx, cx) that bracket the extreme "near" the origin.  Search
