@@ -235,6 +235,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel>
       kernelImageItIndex.Set( false );
  
       // add it to queue
+      propagQueue.push( kernelImageItIndex.GetIndex() );
 
       // We know also that we start a new CC, so we store the position of this
       // element relatively to center of kernel ( i.e a vector ).
