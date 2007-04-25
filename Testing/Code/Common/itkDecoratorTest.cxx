@@ -63,14 +63,17 @@ int itkDecoratorTest(int, char* [] )
   typedef itk::AffineTransform<double, 3> TransformType;
   typedef itk::DataObjectDecorator<TransformType> TransformObjectType;
 
-  TransformObjectType::Pointer transform = TransformObjectType::New();
-  transform->Set( TransformType::New() );
-  
-  transform->Get()->Scale(5.0);
+  TransformObjectType::Pointer decoratedTransform = TransformObjectType::New();
+  TransformType * transformObject = TransformType::New();
+  const TransformType * constTransformObject = transformObject;
 
-  std::cout << "Value of transform: ";
-  transform->Get()->Print(std::cout);
-  std::cout << "TransformDataObject: " << transform;
+  transformObject->Scale( 5.0 );
+
+  decoratedTransform->Set( constTransformObject );
+  
+  std::cout << "Value of decoratedTransform: ";
+  decoratedTransform->Get()->Print(std::cout);
+  std::cout << "TransformDataObject: " << decoratedTransform;
 
   std::cout << "----------------------------------------------------"
             << std::endl;

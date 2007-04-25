@@ -66,7 +66,7 @@ public:
 
   /** Typedef for the component type (object being decorated) */
   typedef T ComponentType;
-  typedef typename T::Pointer ComponentPointer;
+  typedef typename T::ConstPointer ComponentConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,11 +75,10 @@ public:
   itkTypeMacro(DataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set(T* val);
+  virtual void Set(const T * val);
   
   /** Get the contained object */
-  virtual T* Get() { return m_Component; }
-  virtual const T* Get() const { return m_Component; }
+  virtual const T* Get() const;
   
 protected:
   DataObjectDecorator();
@@ -92,7 +91,7 @@ private:
   DataObjectDecorator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  ComponentPointer m_Component;
+  ComponentConstPointer m_Component;
 };
 
 } // end namespace itk

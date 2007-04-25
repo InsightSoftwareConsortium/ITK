@@ -113,8 +113,11 @@ ImageToListGenerator< TImage, TMaskImage >
   ListSampleOutputType * decoratedOutput =
     static_cast< ListSampleOutputType * >(
       this->ProcessObject::GetOutput(0));
-  ListSampleType *output = decoratedOutput->Get();
-  ImageType *input = const_cast< ImageType * >(this->GetInput());
+
+  ListSampleType *output =
+    const_cast< ListSampleType * >( decoratedOutput->Get() );
+
+  const ImageType *input = this->GetInput();
   MaskImageType *maskImage = NULL;
   
   output->Clear();
@@ -167,7 +170,8 @@ ImageToListGenerator< TImage, TMaskImage >
   ListSampleOutputType * decoratedOutput =
     static_cast< ListSampleOutputType * >(
       this->ProcessObject::GetOutput(0));
-  ListSampleType *output = decoratedOutput->Get();
+  ListSampleType *output = 
+   const_cast< ListSampleType *>( decoratedOutput->Get() );
   output->SetMeasurementVectorSize( 
     itkGetStaticConstMacro( MeasurementVectorSize ));
 }
@@ -202,12 +206,12 @@ ImageToListGenerator< TImage, TMaskImage >
 }
 
 template < class TImage, class TMaskImage >
-typename ImageToListGenerator< TImage, TMaskImage >::ListSampleType *
+const typename ImageToListGenerator< TImage, TMaskImage >::ListSampleType *
 ImageToListGenerator< TImage, TMaskImage >
-::GetListSample()
+::GetListSample() const
 {
-  ListSampleOutputType * decoratedOutput =
-    static_cast< ListSampleOutputType * >(
+  const ListSampleOutputType * decoratedOutput =
+    static_cast< const ListSampleOutputType * >(
       this->ProcessObject::GetOutput(0));
   return decoratedOutput->Get();
 }

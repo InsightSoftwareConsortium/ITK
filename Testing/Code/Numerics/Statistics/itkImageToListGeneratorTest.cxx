@@ -93,11 +93,11 @@ int itkImageToListGeneratorTest(int, char* [] )
   listGenerator->Update();
 
   typedef ImageToListGeneratorType::ListSampleType ListSampleType;
-  ListSampleType * list = listGenerator->GetListSample();
+  const ListSampleType * list = listGenerator->GetListSample();
 
   // Check the sum of the pixels in the list sample. This should
   // be 945
-  ListSampleType::Iterator lit = list->Begin();
+  ListSampleType::ConstIterator lit = list->Begin();
   unsigned int sum = 0;
   while (lit != list->End())
     {

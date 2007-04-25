@@ -51,7 +51,7 @@ DataObjectDecorator<T>
 template<class T>
 void
 DataObjectDecorator<T>
-::Set(T* val)
+::Set( const T * val )
 {
   if (m_Component != val)
     {
@@ -60,6 +60,16 @@ DataObjectDecorator<T>
     }
 }
 
+/**
+ *
+ */
+template<class T>
+const T *
+DataObjectDecorator<T>
+::Get() const
+{ 
+  return m_Component; 
+}
 
 /**
  *

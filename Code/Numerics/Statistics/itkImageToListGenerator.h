@@ -133,7 +133,7 @@ public:
   /** Method to get the list sample, the generated output. Note that this does
    * not invoke Update(). You should have called update on this class to get
    * any meaningful output. */
-  ListSampleType * GetListSample();
+  const ListSampleType * GetListSample() const;
   
   /** Set the pixel value treated as on in the mask. If a mask has been 
    * specified, only pixels with this value will be added to the list sample, if
