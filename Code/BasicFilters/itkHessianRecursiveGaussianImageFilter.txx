@@ -209,26 +209,72 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     {
     for( unsigned int dimb=dima; dimb < ImageDimension; dimb++ )
       {
-      unsigned int i=0; 
-      unsigned int j=0;
-      while( i < NumberOfSmoothingFilters )
+      // Manage the diagonal in a different way in order to avoid 
+      // applying a double smoothing to this direction, and missing
+      // to smooth one of the other directions.
+      if( dimb == dima )
         {
-        while( j < ImageDimension )
+        m_DerivativeFilterA->SetOrder( DerivativeFilterBType::SecondOrder );
+        m_DerivativeFilterB->SetOrder( DerivativeFilterBType::ZeroOrder );
+
+        unsigned int i=0; 
+        unsigned int j=0;
+        // find the direction for the first filter.
+        while( j < ImageDimension ) 
           {
-          if( j != dima && j != dimb ) 
+          if( j != dima ) 
             {
-            m_SmoothingFilters[ i ]->SetDirection( j );
+            m_DerivativeFilterB->SetDirection( j );
             j++;
             break;
             }
           j++;
           }
+        // find the direction for all the other filters
+        while( i < NumberOfSmoothingFilters )
+          {
+          while( j < ImageDimension )
+            {
+            if( j != dima ) 
+              {
+              m_SmoothingFilters[ i ]->SetDirection( j );
+              j++;
+              break;
+              }
+            j++;
+            }
           i++;
-        }
+          }
 
-      m_DerivativeFilterA->SetDirection( dima );
-      m_DerivativeFilterB->SetDirection( dimb );
-      
+        m_DerivativeFilterA->SetDirection( dima );
+        }
+      else
+        {
+        m_DerivativeFilterA->SetOrder( DerivativeFilterBType::FirstOrder );
+        m_DerivativeFilterB->SetOrder( DerivativeFilterBType::FirstOrder );
+
+        unsigned int i=0; 
+        unsigned int j=0;
+        while( i < NumberOfSmoothingFilters )
+          {
+          while( j < ImageDimension )
+            {
+            if( j != dima && j != dimb ) 
+              {
+              m_SmoothingFilters[ i ]->SetDirection( j );
+              j++;
+              break;
+              }
+            j++;
+            }
+            i++;
+          }
+
+        m_DerivativeFilterA->SetDirection( dima );
+        m_DerivativeFilterB->SetDirection( dimb );
+ 
+        }
+     
       typename RealImageType::Pointer derivativeImage; 
 
       // Deal with the 2D case.
