@@ -20,6 +20,9 @@ IF(SUNOS_STDCXX_FIX)
   ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ENDIF(SUNOS_STDCXX_FIX)
 
+IF(CMAKE_COMPILER_IS_GNUCXX)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ###############################################################################
 # Config ITKWrap
