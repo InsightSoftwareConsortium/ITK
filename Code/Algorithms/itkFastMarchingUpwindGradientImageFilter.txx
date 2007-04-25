@@ -42,6 +42,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   m_TargetOffset = 1.0;
   m_TargetReachedMode = NoTargets;
   m_TargetValue = 0.0;
+  m_NumberOfTargets = 0.0;
 }
 
 
