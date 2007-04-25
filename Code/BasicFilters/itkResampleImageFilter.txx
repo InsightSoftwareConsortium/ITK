@@ -507,7 +507,6 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Request the entire input image
   InputImageRegionType inputRegion;
   inputRegion = inputPtr->GetLargestPossibleRegion();
-  inputPtr->SetLargestPossibleRegion(inputRegion);
   inputPtr->SetRequestedRegion(inputRegion);
 
   return;
