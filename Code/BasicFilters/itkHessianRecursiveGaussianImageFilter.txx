@@ -214,7 +214,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       // to smooth one of the other directions.
       if( dimb == dima )
         {
-        m_DerivativeFilterA->SetOrder( DerivativeFilterBType::SecondOrder );
+        m_DerivativeFilterA->SetOrder( DerivativeFilterAType::SecondOrder );
         m_DerivativeFilterB->SetOrder( DerivativeFilterBType::ZeroOrder );
 
         unsigned int i=0; 
@@ -250,7 +250,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
         }
       else
         {
-        m_DerivativeFilterA->SetOrder( DerivativeFilterBType::FirstOrder );
+        m_DerivativeFilterA->SetOrder( DerivativeFilterAType::FirstOrder );
         m_DerivativeFilterB->SetOrder( DerivativeFilterBType::FirstOrder );
 
         unsigned int i=0; 
