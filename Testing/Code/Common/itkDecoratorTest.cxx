@@ -64,7 +64,7 @@ int itkDecoratorTest(int, char* [] )
   typedef itk::DataObjectDecorator<TransformType> TransformObjectType;
 
   TransformObjectType::Pointer decoratedTransform = TransformObjectType::New();
-  TransformType * transformObject = TransformType::New();
+  TransformType::Pointer transformObject = TransformType::New();
   const TransformType * constTransformObject = transformObject;
 
   transformObject->Scale( 5.0 );
