@@ -1,33 +1,53 @@
-/*=========================================================================
+/*
+ *
+ * Copyright (c) 1986-2006
+ * Biomedical Imaging Resource
+ * Mayo Clinic
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * 1) Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ *
+ * 2) Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * Neither the name of the Mayo Clinic nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkAnalyzeDbh.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
 /**
- * \file dbh.h
- * This file contains notes about the Analyze 7.5 file format gathered from several sources.
- * A special note of thanks to Dennis P. Hanson (dph@mayo.edu) for his generous contributions
- * in getting this information correct.
- * - NOTE: The comments were addded as part of the Insight Segmentation And Registration Toolkit.
- * - NOTE: The C-structure definitions for are under copyright by the Mayo Foundataion.
- * - (c) Copyright, 1986-1995
- * - Biomedical Imaging Resource
- * - Mayo Foundation
- * e-mail:        hans-johnson@uiowa.edu
- * Organization:  The University of Iowa
+ * \file itkAnalyzeDbh.h
+ * This file contains notes about the Analyze 7.5 file format gathered from 
+ * several sources. A special note of thanks to Dennis P. Hanson for his 
+ * generous contributions in getting this information correct.
+ * - NOTE: The comments were addded as part of the Insight Segmentation 
+ *         And Registration Toolkit.
+ *
  * Function:      This file contains the structure definition for Analyze files
- **************************************************************************/
+ */
+ 
+ 
 #ifndef __dbh_h__
 #define __dbh_h__
 
