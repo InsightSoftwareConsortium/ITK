@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRayCastInterpolateImageFunction_h
-#define _itkRayCastInterpolateImageFunction_h
+#ifndef __itkRayCastInterpolateImageFunction_h
+#define __itkRayCastInterpolateImageFunction_h
 
 #include "itkInterpolateImageFunction.h"
 #include "itkTransform.h"
@@ -41,10 +41,10 @@ class ITK_EXPORT RayCastInterpolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef RayCastInterpolateImageFunction Self;
+  typedef RayCastInterpolateImageFunction                 Self;
   typedef InterpolateImageFunction<TInputImage,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Constants for the image dimensions */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -101,8 +101,6 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-
-
   /** \brief
    * Interpolate the image at a point position.
    *
@@ -155,15 +153,15 @@ public:
    * the input image pointer is done. */
   inline bool IsInsideBuffer( const PointType & ) const
     { 
-      return true;
+    return true;
     }
   bool IsInsideBuffer( const ContinuousIndexType &  ) const
     {
-      return true;
+    return true;
     }
   bool IsInsideBuffer( const IndexType &  ) const
     { 
-      return true;
+    return true;
     }
 
 protected:
