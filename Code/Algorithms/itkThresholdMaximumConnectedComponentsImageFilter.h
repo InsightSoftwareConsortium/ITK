@@ -78,7 +78,7 @@ class ITK_EXPORT ThresholdMaximumConnectedComponentsImageFilter :
 public:
   /** Standard class typedefs. */
   typedef ThresholdMaximumConnectedComponentsImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>    Superclass;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
   typedef SmartPointer<Self>                             Pointer;
   typedef SmartPointer<const Self>                       ConstPointer;
 
@@ -143,7 +143,7 @@ public:
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
   /** Some additional typedefs.  */
-  typedef TOutputImage                          OutputImageType;
+  typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
