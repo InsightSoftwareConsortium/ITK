@@ -16,6 +16,10 @@
                                                                                 
 =========================================================================*/
 
+#if defined(__BORLANDC__)
+#pragma warn -8004 /* assigned a value that is never used */
+#endif
+
 //
 // --------------  Remember ! ----------------------------------
 //
@@ -584,8 +588,9 @@ float File::GetXSpacing()
 
       if ( xspacing == 0.0 )
          xspacing = 1.0;
+
+      return xspacing;
    }
-   return xspacing;
 
    // to avoid troubles with David Clunie's-like images (at least one)
    if ( xspacing == 0.0 && yspacing == 0.0)

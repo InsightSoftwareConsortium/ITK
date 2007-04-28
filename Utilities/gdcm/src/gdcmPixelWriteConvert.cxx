@@ -15,6 +15,9 @@
      PURPOSE.  See the above copyright notices for more information.
                                                                                 
 =========================================================================*/
+#if defined(__BORLANDC__)
+#pragma warn -8057 /* parameter is never used */
+#endif
 
 #include "gdcmDebug.h"
 #include "gdcmPixelWriteConvert.h"
@@ -144,10 +147,14 @@ void WriteDICOMItems(std::ostream *fp, JpegVector &v)
 }
 
 // PS 3.5, page 66
+#ifdef NDEBUG
+void EncodeWithoutBasicOffsetTable(std::ostream *fp, int)// JpegVector& v) //, uint32_t length)
+{
+#else
 void EncodeWithoutBasicOffsetTable(std::ostream *fp, int numFrag)// JpegVector& v) //, uint32_t length)
 {
   assert( numFrag == 1);
-
+#endif
   // Item tag:
   uint16_t group = 0xfffe;
   uint16_t elem  = 0xe000;
