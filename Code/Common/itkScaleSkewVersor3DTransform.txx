@@ -111,9 +111,6 @@ ScaleSkewVersor3DTransform<TScalarType>
   m_Skew[0] = parameters[9];
   m_Skew[1] = parameters[10];
   m_Skew[2] = parameters[11];
-  m_Skew[3] = parameters[12];
-  m_Skew[4] = parameters[13];
-  m_Skew[5] = parameters[14];
 
   // Transfer the translation part
   TranslationType newTranslation;
@@ -141,7 +138,7 @@ ScaleSkewVersor3DTransform<TScalarType>
 // p[0:2] = right part of the versor (axis times vcl_sin(t/2))
 // p[3:5] = translation components
 // p[6:8] = Scale
-// p[9:14] = Skew {xy, xz, yx, yz, zx, zy}
+// p[9:12] = Skew {xy, xz, yx, yz, zx, zy}
 //
 
 template <class TScalarType>
@@ -166,9 +163,6 @@ ScaleSkewVersor3DTransform<TScalarType>
   this->m_Parameters[9] = this->GetSkew()[0];  
   this->m_Parameters[10] = this->GetSkew()[1];  
   this->m_Parameters[11] = this->GetSkew()[2];  
-  this->m_Parameters[12] = this->GetSkew()[3];  
-  this->m_Parameters[13] = this->GetSkew()[4];  
-  this->m_Parameters[14] = this->GetSkew()[5];  
 
   itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
@@ -234,10 +228,10 @@ ScaleSkewVersor3DTransform<TScalarType>
   newMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
   newMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
   newMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
-  newMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
+  newMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[0] );
   newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
-  newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
-  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
+  newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[1] );
+  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[3] );
   this->SetVarMatrix ( newMatrix );
 }
 
@@ -328,12 +322,15 @@ GetJacobian( const InputPointType & p ) const
   this->m_Jacobian[1][7] = py;
   this->m_Jacobian[2][8] = pz;
 
-  this->m_Jacobian[0][9]  = py;
-  this->m_Jacobian[0][10] = pz;
-  this->m_Jacobian[1][11] = px;
-  this->m_Jacobian[1][12] = pz;
-  this->m_Jacobian[2][13] = px;
-  this->m_Jacobian[2][14] = py;
+  this->m_Jacobian[0][9] = px;
+  this->m_Jacobian[1][9] = py;
+  this->m_Jacobian[2][9] = 0;
+  this->m_Jacobian[0][10] = px;
+  this->m_Jacobian[1][10] = 0;
+  this->m_Jacobian[2][10] = pz;
+  this->m_Jacobian[0][11] = 0;
+  this->m_Jacobian[1][11] = py;
+  this->m_Jacobian[2][11] = pz;
 
   return this->m_Jacobian;
 

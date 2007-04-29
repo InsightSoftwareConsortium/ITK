@@ -64,7 +64,7 @@ public:
   /** Dimension of parameters. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 15);
+  itkStaticConstMacro(ParametersDimension, unsigned int, 12);
 
   /** Parameters Type   */
   typedef typename Superclass::ParametersType         ParametersType;
@@ -95,18 +95,13 @@ public:
                                                       ScaleVectorType;
   typedef Vector<TScalarType, 6 >                     SkewVectorType;
 
- /** Directly set the matrix of the transform.
-  *
-  * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType &matrix);
-
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 15 parameters:
    *   0-2   versor
    *   3-5   translation
    *   6-8   Scale
-   *   9-14  Skew
+   *   9-11  Skew
    **  */
   virtual void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
@@ -141,8 +136,15 @@ protected:
   void SetVarSkew(const SkewVectorType & skew)
     { m_Skew = skew; };
 
+ /** Directly set the matrix of the transform.
+  *
+  * \sa MatrixOffsetTransformBase::SetMatrix() */
+  virtual void SetMatrix(const MatrixType &matrix);
+
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrix(void);
+
+  /** Not currently defined for this class.  Throws an exception. */
   void ComputeMatrixParameters(void);
 
 private:
