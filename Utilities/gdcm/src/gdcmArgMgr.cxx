@@ -874,7 +874,7 @@ void ArgMgr::ArgStdArgs()
        if ( (logfile = ArgMgrValue(const_cast<char*>(ARG_LABEL_LOGFILE)))!=0) 
   {
     if ( *logfile == '\0' )
-       logfile = (char *)ARG_DEFAULT_LOGFILE;
+      logfile = const_cast<char *>(ARG_DEFAULT_LOGFILE);
     fd = fopen ( logfile, "a+" );
     if ( fd ) 
     {
