@@ -229,9 +229,9 @@ ScaleSkewVersor3DTransform<TScalarType>
   newMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
   newMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
   newMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[0] );
-  newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
+  newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[2] );
   newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[1] );
-  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[3] );
+  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[2] );
   this->SetVarMatrix ( newMatrix );
 }
 
