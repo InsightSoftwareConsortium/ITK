@@ -420,7 +420,7 @@ int itkScaleSkewVersor3DTransformTest(int, char* [] )
 
      for(unsigned int ii=0; ii < 3; ii++)
        {
-       for(unsigned int jj=0; jj < 15; jj++)
+       for(unsigned int jj=0; jj < 12; jj++)
          {
          if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
            {
@@ -474,9 +474,6 @@ int itkScaleSkewVersor3DTransformTest(int, char* [] )
   parameters[9]  = 0.0;             // Skew     
   parameters[10] = 0.0;             
   parameters[11] = 0.0;             
-  parameters[12] = 0.0;             
-  parameters[13] = 0.0;             
-  parameters[14] = 0.0;             
 
   ParametersType parameters2 = transform->GetParameters();
 
