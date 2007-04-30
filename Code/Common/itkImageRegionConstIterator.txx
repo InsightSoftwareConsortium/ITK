@@ -19,6 +19,11 @@
 
 #include "itkImageRegionConstIterator.h"
 
+#ifdef __INTEL_COMPILER
+/* pointless comparision of unsigned integer with zero */
+#pragma warning(disable: 186)
+#endif
+
 namespace itk
 {
 
