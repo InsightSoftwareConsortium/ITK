@@ -17,6 +17,11 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkBinaryMask3DMeshSource_txx
 #define __itkBinaryMask3DMeshSource_txx
 
+
+#ifdef __INTEL_COMPILER
+#pragma warning(disable: 592)
+#endif
+
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkNumericTraits.h"
 
