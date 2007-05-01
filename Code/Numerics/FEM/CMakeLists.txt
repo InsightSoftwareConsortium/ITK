@@ -170,9 +170,9 @@ ENDIF(CMAKE_BUILD_TOOL MATCHES ".*dev")
 # Avoid anachronism warnings by Sun compilers
 INCLUDE(${CMAKE_ROOT}/Modules/TestCXXAcceptsFlag.cmake)
 CHECK_CXX_ACCEPTS_FLAG("-features=no%anachronisms" SUN_COMPILER)
-IF(SUN_COMPILER)
+IF(NOT WIN32 AND SUN_COMPILER)
   ADD_DEFINITIONS("-w")
-ENDIF(SUN_COMPILER)
+ENDIF(NOT WIN32 AND SUN_COMPILER)
 
 # Define source groups that look nice in DSP files
 SOURCE_GROUP("Elements" REGULAR_EXPRESSION itkFEMElement*)
