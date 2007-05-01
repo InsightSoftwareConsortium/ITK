@@ -39,7 +39,11 @@ IF(WIN32)
   IF(NOT UNIX)
     IF(NOT BORLAND)
       IF(NOT MINGW)
-        SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd8004 /wd8057")
+        SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244")
+        # Revert: /wd8004 /wd8057 produces warnings on .Net2003:
+        #         invalid value '8004' for '/wd'; assuming '4999
+        # you probably do not want to disable 4999, do you?
+        # Which compiler were 8004 and 8057 referring to?
       ENDIF(NOT MINGW)
     ENDIF(NOT BORLAND)
   ENDIF(NOT UNIX)
