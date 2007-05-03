@@ -242,12 +242,13 @@ ImageSpatialObject< TDimension,  PixelType >
       pointHigh[i] = size[i];
       }
 
-    BoundingBoxType::Pointer bb = BoundingBoxType::New();
+    typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
     bb->SetMinimum(pointLow);
     bb->SetMaximum(pointHigh);
-    const BoundingBoxType::PointsContainer* corners = bb->GetCorners();
+    typedef typename BoundingBoxType::PointsContainer PointsContainerType;
+    const PointsContainerType* corners = bb->GetCorners();
     
-    BoundingBoxType::PointsContainer::const_iterator itC = corners->begin();
+    typename PointsContainerType::const_iterator itC = corners->begin();
     unsigned int i=0;
     while(itC != corners->end())
       {
