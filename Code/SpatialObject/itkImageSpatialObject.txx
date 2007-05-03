@@ -242,11 +242,31 @@ ImageSpatialObject< TDimension,  PixelType >
       pointHigh[i] = size[i];
       }
 
-    pointLow = this->GetIndexToWorldTransform()->TransformPoint(pointLow);
-    pointHigh = this->GetIndexToWorldTransform()->TransformPoint(pointHigh);
-
-    const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(pointLow);
-    const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(pointHigh);
+    BoundingBoxType::Pointer bb = BoundingBoxType::New();
+    bb->SetMinimum(pointLow);
+    bb->SetMaximum(pointHigh);
+    const BoundingBoxType::PointsContainer* corners = bb->GetCorners();
+    
+    BoundingBoxType::PointsContainer::const_iterator itC = corners->begin();
+    unsigned int i=0;
+    while(itC != corners->end())
+      {
+      PointType transformedPoint = this->GetIndexToWorldTransform()->TransformPoint(*itC);
+      if(i == 0)
+        {
+        const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(transformedPoint);
+        }
+      else if(i==1)
+        {
+        const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(transformedPoint);
+        }
+      else
+        {
+        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(transformedPoint);
+        }
+      itC++;
+      i++;
+      }
 
     return true;
     }
