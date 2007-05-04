@@ -236,7 +236,8 @@ ImageSpatialObject< TDimension,  PixelType >
     itk::Size<TDimension> size = region.GetSize();
     PointType pointLow,pointHigh;
   
-    for( unsigned int i=0; i<TDimension; i++ )
+    unsigned int i=0;
+    for(i=0; i<TDimension; i++ )
       {
       pointLow[i] = 0;
       pointHigh[i] = size[i];
@@ -249,7 +250,7 @@ ImageSpatialObject< TDimension,  PixelType >
     const PointsContainerType* corners = bb->GetCorners();
     
     typename PointsContainerType::const_iterator itC = corners->begin();
-    unsigned int i=0;
+    i=0;
     while(itC != corners->end())
       {
       PointType transformedPoint = this->GetIndexToWorldTransform()->TransformPoint(*itC);
