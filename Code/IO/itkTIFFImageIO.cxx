@@ -1023,6 +1023,11 @@ void TIFFImageIO::ReadVolume(void* buffer)
         }
       }
 
+    // It is necessary to re-initialize the colors for each page so
+    // that the colormap is reset in the GetColor method.  This is
+    // also true in the case that each slice has a different colormap.
+    this->InitializeColors();
+
     // if we have a Zeiss image meaning that the SamplesPerPixel is 2
     if(m_InternalImage->m_SamplesPerPixel == 2)
       {
@@ -1176,7 +1181,6 @@ void TIFFImageIO::ReadVolume(void* buffer)
         {
         case TIFFImageIO::GRAYSCALE:
         case TIFFImageIO::RGB_:
-        case TIFFImageIO::PALETTE_RGB:
         case TIFFImageIO::PALETTE_GRAYSCALE:
           if(m_ComponentType == USHORT)
             {
@@ -1200,6 +1204,35 @@ void TIFFImageIO::ReadVolume(void* buffer)
             {
             unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
             volume += width*height*m_InternalImage->m_SamplesPerPixel*page;
+            this->ReadGenericImage( volume, width, height );
+            }
+          break;
+        case TIFFImageIO::PALETTE_RGB:
+          // This differs from PALLETTE_GRAYSCALE only in that the
+          // volume is incremented by 3 times more since the colormap
+          // consists of RGB.
+          if(m_ComponentType == USHORT)
+            {
+            unsigned short* volume = reinterpret_cast<unsigned short*>(buffer);
+            volume += width*height*m_InternalImage->m_SamplesPerPixel*page*3;
+            this->ReadGenericImage( volume, width, height );
+            }
+          else if(m_ComponentType == SHORT)
+            {
+            short* volume = reinterpret_cast<short*>(buffer);
+            volume += width*height*m_InternalImage->m_SamplesPerPixel*page*3;
+            this->ReadGenericImage( volume, width, height );
+            }
+          else if(m_ComponentType == CHAR)
+            {
+            char* volume = reinterpret_cast<char*>(buffer);
+            volume += width*height*m_InternalImage->m_SamplesPerPixel*page*3;
+            this->ReadGenericImage( volume, width, height );
+            }
+          else
+            {
+            unsigned char* volume = reinterpret_cast<unsigned char*>(buffer);
+            volume += width*height*m_InternalImage->m_SamplesPerPixel*page*3;
             this->ReadGenericImage( volume, width, height );
             }
           break;
