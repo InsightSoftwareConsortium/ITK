@@ -236,7 +236,7 @@ ImageSpatialObject< TDimension,  PixelType >
     itk::Size<TDimension> size = region.GetSize();
     PointType pointLow,pointHigh;
   
-    unsigned int i=0;
+    unsigned int i;
     for(i=0; i<TDimension; i++ )
       {
       pointLow[i] = 0;
