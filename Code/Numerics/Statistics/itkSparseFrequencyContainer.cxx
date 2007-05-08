@@ -39,7 +39,7 @@ SparseFrequencyContainer
   typedef FrequencyContainerType::iterator IteratorType;
   IteratorType iter = m_FrequencyContainer.begin();
   IteratorType end  = m_FrequencyContainer.end();
-  if ( iter != end )
+  while ( iter != end )
     {
     iter->second = NumericTraits< FrequencyType >::Zero;
     ++iter;
