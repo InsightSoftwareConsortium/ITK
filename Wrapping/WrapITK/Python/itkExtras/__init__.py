@@ -139,6 +139,17 @@ def spacing(imageOrFilter) :
   return img.GetSpacing()
   
 
+def origin(imageOrFilter) :
+  """Return the origin of an image, or of the output image of a filter
+  
+  This method take care of updating the needed informations
+  """
+  # we don't need the entire output, only its size
+  imageOrFilter.UpdateOutputInformation()
+  img = image(imageOrFilter)
+  return img.GetOrigin()
+  
+
 def index(imageOrFilter) :
   """Return the index of an image, or of the output image of a filter
   
@@ -237,6 +248,78 @@ def write(imageOrFilter, fileName, compression=False):
   img.UpdateOutputInformation()
   writer = itk.ImageFileWriter[img].New(Input=img, FileName=fileName, UseCompression=compression)
   writer.Update()
+  
+
+def index_to_physical_point( imageOrFilter, idx ):
+  """Get the pysical point in an image from an index
+  
+  imageOrFilter is the image where the physical point must be computed
+  idx is the index used to compute the physical point. It can be a continuous index.
+  """
+  from __builtin__ import range # required because range is overladed in this module
+  # get the image if needed
+  img = image( imageOrFilter )
+  dim = img.GetImageDimension()
+  o = origin( img )
+  s = spacing( img )
+  
+  # use the typemaps to really get a continuous index
+  import itk
+  idx = itk.ContinuousIndex[ itk.D, dim ]( idx )
+  
+  # create the output object
+  p = itk.Point[ itk.D, dim ]()
+  for i in range( 0, dim ):
+    p.SetElement( i, s.GetElement(i) * idx.GetElement(i) + o.GetElement(i) )
+  return p
+  
+
+def physical_point_to_continuous_index( imageOrFilter, p ):
+  """Get the continuous index in an image from the physical point
+  
+  imageOrFilter is the image where the physical point must be computed
+  p is the point used to compute the index
+  """
+  from __builtin__ import range # required because range is overladed in this module
+  # get the image if needed
+  img = image( imageOrFilter )
+  dim = img.GetImageDimension()
+  o = origin( img )
+  s = spacing( img )
+  
+  # use the typemaps to really get a point
+  import itk
+  p = itk.Point[ itk.D, dim ]( p )
+  
+  # create the output object
+  idx = itk.ContinuousIndex[ itk.D, dim ]()
+  for i in range( 0, dim ):
+    idx.SetElement( i, ( p.GetElement(i) - o.GetElement(i) ) / s.GetElement(i) )
+  return idx
+  
+
+def physical_point_to_index( imageOrFilter, p ):
+  """Get the index in an image from the physical point
+  
+  image is the image where the physical point must be computed
+  p is the point used to compute the index
+  """
+  from __builtin__ import range # required because range is overladed in this module
+  # get the image if needed
+  img = image( imageOrFilter )
+  dim = img.GetImageDimension()
+  o = origin( img )
+  s = spacing( img )
+  
+  # use the typemaps to really get a point
+  import itk
+  p = itk.Point[ itk.D, dim ]( p )
+  
+  # create the output object
+  idx = itk.ContinuousIndex[ itk.D, dim ]()
+  for i in range( 0, dim ):
+    idx.SetElement( i, int( round( ( p.GetElement(i) - o.GetElement(i) ) / s.GetElement(i) ) ) )
+  return idx
   
 
 def show(input, **kargs) :
