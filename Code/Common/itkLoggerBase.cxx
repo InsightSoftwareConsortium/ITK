@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include "itkLoggerBase.h"
+#include "itksys/SystemTools.hxx"
 
 namespace itk
 {
@@ -26,6 +27,7 @@ LoggerBase::LoggerBase()
   this->m_LevelForFlushing = LoggerBase::MUSTFLUSH;
   this->m_Clock = RealTimeClock::New();
   this->m_Output = MultipleLogOutput::New();
+  this->m_TimeStampFormat = REALVALUE;
 }
 
 LoggerBase::~LoggerBase()
@@ -62,8 +64,20 @@ std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string
     static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
     OStringStream s;
-    s.precision(30);
-    s << m_Clock->GetTimeStamp() << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
+    switch( this->m_TimeStampFormat )
+      {
+      case REALVALUE:
+        {
+        s.precision(30);
+        s << m_Clock->GetTimeStamp();
+        }
+      case HUMANREADABLE:
+        {
+        s << itksys::SystemTools::GetCurrentDateTime("%Y %b %d %R %S");
+        }
+      }
+    s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
+
     return s.str();
 }
 

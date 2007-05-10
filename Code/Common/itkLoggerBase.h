@@ -66,6 +66,16 @@ class ITKCommon_EXPORT LoggerBase : public Object
     itkSetStringMacro(Name);
     itkGetStringMacro(Name);
   
+    /** Select the type of format for reporting time stamps */
+    typedef enum
+      {
+      REALVALUE=0,
+      HUMANREADABLE
+      } TimeStampFormatType;
+
+    itkSetMacro( TimeStampFormat, TimeStampFormatType );
+    itkGetMacro( TimeStampFormat, TimeStampFormatType );
+
     /** Provides a default formatted log entry */
     virtual std::string BuildFormattedEntry(PriorityLevelType level,
                                             std::string const & content);
@@ -150,6 +160,8 @@ class ITKCommon_EXPORT LoggerBase : public Object
   
     RealTimeClock::Pointer  m_Clock;
   
+    TimeStampFormatType     m_TimeStampFormat;
+
   private:
   
     std::string m_Name;
