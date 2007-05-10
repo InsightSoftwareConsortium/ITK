@@ -59,7 +59,7 @@ void LoggerBase::Flush()
 
 std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string const & content)
 {
-    static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(ERROR) ",
+    static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
     OStringStream s;
     s.precision(30);
