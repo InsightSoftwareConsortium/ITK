@@ -109,6 +109,18 @@ int itkLoggerTest( int argc, char *argv [] )
     logger->Write(itk::LoggerBase::FATAL, "This is the FATAL message.\n");
     logger->Write(itk::LoggerBase::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
+
+    logger->SetTimeStampFormat( itk::LoggerBase::HUMANREADABLE );
+
+    // Writing by the logger
+    std::cout << "  Writing by itk::Logger in Human Readable format" << std::endl;
+    logger->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message.\n");
+    logger->Write(itk::LoggerBase::INFO, "This is the INFO message.\n");
+    logger->Write(itk::LoggerBase::WARNING, "This is the WARNING message.\n");
+    logger->Write(itk::LoggerBase::CRITICAL, "This is the CRITICAL message.\n");
+    logger->Write(itk::LoggerBase::FATAL, "This is the FATAL message.\n");
+    logger->Write(itk::LoggerBase::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    logger->Flush();
     }
   catch(...)
     {
