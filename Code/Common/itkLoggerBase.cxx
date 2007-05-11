@@ -70,10 +70,12 @@ std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string
         {
         s.precision(30);
         s << m_Clock->GetTimeStamp();
+        break;
         }
       case HUMANREADABLE:
         {
         s << itksys::SystemTools::GetCurrentDateTime("%Y %b %d %R %S");
+        break;
         }
       }
     s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
