@@ -73,8 +73,28 @@ class ITKCommon_EXPORT LoggerBase : public Object
       HUMANREADABLE
       } TimeStampFormatType;
 
+    /** Set/Get the type of format used for reporting the time stamp of a given
+     * log message. The main options are REALVALUE and HUMANREADABLE.
+     * REALVALUE will report the time in seconds as a double number.
+     * HUMANREADABLE will report the time in formatted text such as '2007 May 7
+     * 09:23:14'
+     *
+     * \sa SetHumanReadableFormat()
+     *
+     * */
     itkSetMacro( TimeStampFormat, TimeStampFormatType );
     itkGetMacro( TimeStampFormat, TimeStampFormatType );
+
+    /** Set/Get the specific text format to use when the time stamp format type
+     * is set to HUMANREADABLE. For a description of the acceptable formats
+     * please look at the man page of the strftime() method. The default is set
+     * to  "%Y %b %d %H:%M:%S"
+     * 
+     * \sa SetTimeStampFormat
+     *
+     **/
+    itkSetStringMacro( HumanReadableFormat );
+    itkGetStringMacro( HumanReadableFormat );
 
     /** Provides a default formatted log entry */
     virtual std::string BuildFormattedEntry(PriorityLevelType level,
@@ -161,6 +181,8 @@ class ITKCommon_EXPORT LoggerBase : public Object
     RealTimeClock::Pointer  m_Clock;
   
     TimeStampFormatType     m_TimeStampFormat;
+
+    std::string             m_HumanReadableFormat;
 
   private:
   

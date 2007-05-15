@@ -28,6 +28,7 @@ LoggerBase::LoggerBase()
   this->m_Clock = RealTimeClock::New();
   this->m_Output = MultipleLogOutput::New();
   this->m_TimeStampFormat = REALVALUE;
+  this->m_HumanReadableFormat = "%Y %b %d %H:%M:%S";
 }
 
 LoggerBase::~LoggerBase()
@@ -59,7 +60,9 @@ void LoggerBase::Flush()
   this->m_Output->Flush();
 }
 
-std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string const & content)
+std::string 
+LoggerBase
+::BuildFormattedEntry(PriorityLevelType level, std::string const & content)
 {
     static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
@@ -74,7 +77,7 @@ std::string LoggerBase::BuildFormattedEntry(PriorityLevelType level, std::string
         }
       case HUMANREADABLE:
         {
-        s << itksys::SystemTools::GetCurrentDateTime("%Y %b %d %R %S");
+        s << itksys::SystemTools::GetCurrentDateTime( this->m_HumanReadableFormat.c_str() );
         break;
         }
       }
