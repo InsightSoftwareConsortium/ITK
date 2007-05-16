@@ -97,8 +97,17 @@ public:
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  TElement *GetBufferPointer()
-    { return &(this->ValarrayType::operator[](0)); };
+  TElement *GetBufferPointer() 
+    {
+    if (this->Size() > 0)
+      {
+      return &(this->ValarrayType::operator[](0));
+      }
+    else
+      {
+      return NULL;
+      }
+    };
   
   /** Get the number of elements currently stored in the container. */
   unsigned long Size(void) const
