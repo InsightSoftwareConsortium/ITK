@@ -437,12 +437,9 @@ void NrrdImageIO::ReadImageInformation()
         // this->SetSpacing(axii, 1.0);
         break;
       case nrrdSpacingStatusScalarNoSpace:
-        {
         this->SetSpacing(axii, spacing);
         break;
-        }
       case nrrdSpacingStatusDirection:
-        {
         if (AIR_EXISTS(spacing))
           {
           // only set info if we have something to set
@@ -476,20 +473,15 @@ void NrrdImageIO::ReadImageInformation()
           this->SetDirection(axii, spaceDirStd);
           }
         break;
-        }
       default:
       case nrrdSpacingStatusUnknown:
-        {
         itkExceptionMacro("ReadImageInformation: Error interpreting "
                           "nrrd spacing (nrrdSpacingStatusUnknown)");
         break;
-        }
       case nrrdSpacingStatusScalarWithSpace:
-        {
         itkExceptionMacro("ReadImageInformation: Error interpreting "
                           "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
         break;
-        }
       }
     }
   
@@ -946,33 +938,18 @@ void NrrdImageIO::Write( const void* buffer)
       spaceDir[axi+baseDim][saxi] = spacing*spaceDirStd[saxi];
       }
     }
-
-  const bool nrrdWrapTrue = nrrdWrap_nva(nrrd, 
-    const_cast<void *>(buffer),
-    this->ITKToNrrdComponentType( m_ComponentType ), nrrdDim, size);
-
-  const bool nrrdSpaceSetTrue = nrrdSpaceSet(nrrd, nrrdSpaceLeftPosteriorSuperior);
-  const bool nrrdSpaceDimensionTrue = nrrdSpaceDimensionSet(nrrd, spaceDim);
-  const bool nrrdSpaceOriginSetTrue = nrrdSpaceOriginSet(nrrd, origin);
-
-  // special case: ITK is LPS in 3-D
-  bool nrrdSpaceConfigurationTrue;
-  if( spaceDim == 3 )
-    {
-    nrrdSpaceConfigurationTrue = nrrdSpaceSetTrue;
-    }
-  else
-    {
-    nrrdSpaceConfigurationTrue = nrrdSpaceDimensionTrue;
-    }
-
-  if ( nrrdWrapTrue || nrrdSpaceConfigurationTrue || nrrdSpaceOriginSetTrue )
+  if (nrrdWrap_nva(nrrd, const_cast<void *>(buffer),
+                   this->ITKToNrrdComponentType( m_ComponentType ),
+                   nrrdDim, size) || (3 == spaceDim
+       // special case: ITK is LPS in 3-D
+       ? nrrdSpaceSet(nrrd, nrrdSpaceLeftPosteriorSuperior)
+       : nrrdSpaceDimensionSet(nrrd, spaceDim)) ||
+      nrrdSpaceOriginSet(nrrd, origin))
     {
     char *err = biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Write: Error wrapping nrrd for " 
                       << this->GetFileName() << ":\n" << err);
     }
-
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoKind, kind);
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoSpaceDirection, spaceDir);
 
