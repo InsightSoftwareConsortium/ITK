@@ -343,13 +343,14 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::RemoveSegment(PointType &startpoint, PointType &endPoint)
+::RemoveSegment(PointType &startPoint, PointType &endPoint)
 {
   PointListType &points = this->GetPoints();
   typename PointListType::iterator it = points.begin();
   typename PointListType::iterator itend = points.end();
   typename PointListType::iterator first;
   typename PointListType::iterator last;
+
   if(it == itend)
     { 
     return false;
@@ -360,7 +361,7 @@ PolygonSpatialObject<TDimension>
     BlobPointType &curPoint = (*it);
     typename SpatialObjectPoint<TDimension>::PointType curpos 
       = curPoint.GetPosition();
-    if(curpos == startpoint) 
+    if(curpos == startPoint) 
       {
       first = it;
       foundcount++;
@@ -383,8 +384,7 @@ PolygonSpatialObject<TDimension>
     return false;
     }
 
-  points.erase(last);         // stl_vector doesn't erase end of range
-  points.erase(first,last);
+  points.erase(first,points.erase(last));
   return true;
 }
 
@@ -426,7 +426,7 @@ PolygonSpatialObject<TDimension>
 
   PointListType &points = const_cast<Self *>(this)->GetPoints();
   typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  typename PointListType::iterator itend = points.end(); itend--;
   PointType start = (*it).GetPosition();
   PointType last = (*itend).GetPosition();
   //
