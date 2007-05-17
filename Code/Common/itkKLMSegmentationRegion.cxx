@@ -122,16 +122,19 @@ KLMSegmentationRegion
     regionBorderVectorItEnd = m_RegionBorderVector.end();
 
   // Erase the region border that matches the pBorderCandidate
+  bool foundBorderCandidate = false;
   while( regionBorderVectorIt != regionBorderVectorItEnd )
     {
-    if ( *regionBorderVectorIt == pBorderCandidate ) {
+    if ( *regionBorderVectorIt == pBorderCandidate )
+      {
       m_RegionBorderVector.erase( regionBorderVectorIt );
+      foundBorderCandidate = true;
       break;
-    }
+      }
     ++regionBorderVectorIt;
     }
 
-  if ( regionBorderVectorIt == regionBorderVectorItEnd )
+  if ( !foundBorderCandidate )
     {
     itkExceptionMacro(<< "Border candidate not in region borders list" );
     }
@@ -144,8 +147,9 @@ KLMSegmentationRegion
 ::PushBackRegionBorder( KLMSegmentationBorder *pBorderCandidate )
 {
   if( pBorderCandidate == NULL )
+    {
     itkExceptionMacro( << "Null pointer to segmentation region border" );
-
+    }
   m_RegionBorderVector.push_back( pBorderCandidate );
 }
 
@@ -155,8 +159,9 @@ KLMSegmentationRegion
 ::PushFrontRegionBorder( KLMSegmentationBorder *pBorderCandidate )
 {
   if( pBorderCandidate == NULL )
+    {
     itkExceptionMacro( << "Null pointer to segmentation region border" );
-
+    }
   m_RegionBorderVector.insert( m_RegionBorderVector.begin(), pBorderCandidate );
 }
 
@@ -167,7 +172,9 @@ KLMSegmentationRegion
 {
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
+    {
     itkExceptionMacro( << "Null pointer to segmentation region border" );
+    }
 
   // The m_RegionBorderVec is a ordered vector of pointers to the borders.
   // Ordering is based on regions labels.
@@ -188,6 +195,7 @@ KLMSegmentationRegion
     RegionBorderVectorIterator
       regionBorderVectorItEnd = m_RegionBorderVector.end();
 
+    bool insertAtEnd = true;
     while( regionBorderVectorIt != regionBorderVectorItEnd )
       {
 
@@ -201,6 +209,7 @@ KLMSegmentationRegion
         {
 
         m_RegionBorderVector.insert(regionBorderVectorIt,pBorderCandidate);
+        insertAtEnd = false;
         break;
 
         } // end of if
@@ -209,8 +218,10 @@ KLMSegmentationRegion
       } // end of while
 
     // It should be inserted at the end
-    if( regionBorderVectorIt == regionBorderVectorItEnd )
+    if( insertAtEnd )
+      {
       m_RegionBorderVector.push_back( pBorderCandidate );
+      }
 
     } // end of else for the case with many region borders
 
@@ -224,7 +235,9 @@ KLMSegmentationRegion
 {
   // Ensure that the border candidate is not a null pointer
   if( pBorderCandidate == NULL )
+    {
     itkExceptionMacro( << "Null pointer to segmentation region border" );
+    }
 
   // The m_RegionBorderVec is a ordered vector of pointers to the
   // borders. Insert a valid region border into the region border vector
@@ -412,7 +425,7 @@ KLMSegmentationRegion
       thisRegionBordersIt++;
       thatRegionBordersIt++;
 
-    } // end if loop for case when two borders point to same region
+      } // end if loop for case when two borders point to same region
 
     // This neighbor region label is less then that neighbor region label
     else if ( (   (*thisRegionBordersIt)->GetRegion1()->GetRegionLabel() <
@@ -592,4 +605,3 @@ KLMSegmentationRegion
 } //end PrintRegionInfo
 
 } // namespace itk
-
