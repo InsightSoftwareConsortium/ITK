@@ -204,7 +204,7 @@ typename QuadraticEdgeCell< TCellInterface >::PointIdIterator
 QuadraticEdgeCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 
@@ -218,7 +218,7 @@ typename QuadraticEdgeCell< TCellInterface >::PointIdConstIterator
 QuadraticEdgeCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 

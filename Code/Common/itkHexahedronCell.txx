@@ -230,7 +230,7 @@ typename HexahedronCell< TCellInterface >::PointIdIterator
 HexahedronCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 /**
@@ -243,7 +243,7 @@ typename HexahedronCell< TCellInterface >::PointIdConstIterator
 HexahedronCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 /**

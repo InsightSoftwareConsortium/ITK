@@ -222,7 +222,7 @@ typename QuadrilateralCell< TCellInterface >::PointIdIterator
 QuadrilateralCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 /**
@@ -235,7 +235,7 @@ typename QuadrilateralCell< TCellInterface >::PointIdConstIterator
 QuadrilateralCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 /**

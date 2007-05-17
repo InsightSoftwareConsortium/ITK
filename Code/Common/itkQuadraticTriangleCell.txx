@@ -223,7 +223,7 @@ typename QuadraticTriangleCell< TCellInterface >::PointIdIterator
 QuadraticTriangleCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 
@@ -237,7 +237,7 @@ typename QuadraticTriangleCell< TCellInterface >::PointIdConstIterator
 QuadraticTriangleCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 

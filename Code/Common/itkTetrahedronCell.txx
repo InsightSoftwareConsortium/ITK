@@ -385,7 +385,7 @@ typename TetrahedronCell< TCellInterface >::PointIdIterator
 TetrahedronCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 
@@ -399,7 +399,7 @@ typename TetrahedronCell< TCellInterface >::PointIdConstIterator
 TetrahedronCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 

@@ -224,7 +224,7 @@ typename TriangleCell< TCellInterface >::PointIdIterator
 TriangleCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 
@@ -238,7 +238,7 @@ typename TriangleCell< TCellInterface >::PointIdConstIterator
 TriangleCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 

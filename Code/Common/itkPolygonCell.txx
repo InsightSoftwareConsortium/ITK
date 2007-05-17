@@ -316,7 +316,7 @@ typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &*(m_PointIds.end());
+  return &m_PointIds[m_PointIds.size()-1] + 1;
 }
 
 
@@ -330,7 +330,7 @@ typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &*(m_PointIds.end());
+  return &m_PointIds[m_PointIds.size()-1] + 1;
 }
 
 

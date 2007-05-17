@@ -204,7 +204,7 @@ typename LineCell< TCellInterface >::PointIdIterator
 LineCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 
@@ -218,7 +218,7 @@ typename LineCell< TCellInterface >::PointIdConstIterator
 LineCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[Self::NumberOfPoints];
+  return &m_PointIds[Self::NumberOfPoints-1] + 1;
 }
 
 
