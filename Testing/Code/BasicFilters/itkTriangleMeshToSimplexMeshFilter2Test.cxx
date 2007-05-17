@@ -69,7 +69,7 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
   NeighborsListType* neighbors = 0;
   
-  for (int i=0; i < 9; i++)
+  for (int i=0; i < 7; i++)
   {  
     itk::TimeProbe * timeProbe = new itk::TimeProbe(); 
     
