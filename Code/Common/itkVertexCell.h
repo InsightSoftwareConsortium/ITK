@@ -18,6 +18,7 @@
 #define __itkVertexCell_h
 
 #include "itkCellInterface.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
