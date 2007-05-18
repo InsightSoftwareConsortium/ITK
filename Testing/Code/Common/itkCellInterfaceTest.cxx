@@ -66,8 +66,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
     }
 
   std::cout << "    Iterator test: PointIds for empty cell: ";
-  TCell::PointIdIterator pointId = cell->PointIdsBegin();
-  TCell::PointIdIterator endId = cell->PointIdsEnd();
+  typename TCell::PointIdIterator pointId = cell->PointIdsBegin();
+  typename TCell::PointIdIterator endId = cell->PointIdsEnd();
   while (pointId != endId)
     {
     std::cout << *pointId << ", ";
@@ -76,8 +76,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   std::cout << std::endl;
 
   std::cout << "    ConstIterator test: PointIds for empty cell: ";
-  TCell::PointIdConstIterator cpointId = cell->PointIdsBegin();
-  TCell::PointIdConstIterator cendId = cell->PointIdsEnd();
+  typename TCell::PointIdConstIterator cpointId = cell->PointIdsBegin();
+  typename TCell::PointIdConstIterator cendId = cell->PointIdsEnd();
   while (cpointId != cendId)
     {
     std::cout << *cpointId << ", ";
@@ -96,8 +96,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   cell->SetPointIds(pointIds);
   cell->SetPointId(0, 100);
   std::cout << "    ConstIterator test: PointIds for populated cell: ";
-  TCell::PointIdConstIterator ppointId = cell->PointIdsBegin();
-  TCell::PointIdConstIterator pendId = cell->PointIdsEnd();
+  typename TCell::PointIdConstIterator ppointId = cell->PointIdsBegin();
+  typename TCell::PointIdConstIterator pendId = cell->PointIdsEnd();
   while (ppointId != pendId)
     {
     std::cout << *ppointId << ", ";
@@ -108,8 +108,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()],
                     &pointIds[cell->GetNumberOfPoints() * 2]);
   std::cout << "    Iterator test: PointIds for populated cell: ";
-  TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
-  TCell::PointIdIterator pxendId = cell->PointIdsEnd();
+  typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
+  typename TCell::PointIdIterator pxendId = cell->PointIdsEnd();
   while (pxpointId != pxendId)
     {
     std::cout << *pxpointId << ", ";
@@ -121,8 +121,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   CellAutoPointer copyOfCell;
   cell->MakeCopy(copyOfCell);
   std::cout << "    PointIds for copied cell: ";
-  TCell::PointIdConstIterator xpointId = copyOfCell->PointIdsBegin();
-  TCell::PointIdConstIterator xendId = copyOfCell->PointIdsEnd();
+  typename TCell::PointIdConstIterator xpointId = copyOfCell->PointIdsBegin();
+  typename TCell::PointIdConstIterator xendId = copyOfCell->PointIdsEnd();
   while (xpointId != xendId)
     {
     std::cout << *xpointId << ", ";
