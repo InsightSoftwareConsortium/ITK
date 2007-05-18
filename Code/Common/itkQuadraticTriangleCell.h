@@ -101,7 +101,13 @@ public:
 
 
  public:
-  QuadraticTriangleCell() {}
+  QuadraticTriangleCell()
+    {
+    for (unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++)
+      {
+      m_PointIds[i] = NumericTraits<unsigned long>::max();
+      }
+    }
   ~QuadraticTriangleCell() {}
 
  protected:

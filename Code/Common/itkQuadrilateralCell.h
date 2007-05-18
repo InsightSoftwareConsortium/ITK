@@ -91,8 +91,14 @@ public:
   itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
 
   /** Constructor and destructor */
-  QuadrilateralCell() {};
-  ~QuadrilateralCell() {};
+  QuadrilateralCell()
+    {
+    for (unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++)
+      {
+      m_PointIds[i] = NumericTraits<unsigned long>::max();
+      }
+    }
+  ~QuadrilateralCell() {}
 
 protected:
   /** Store the number of points needed for a quadrilateral. */

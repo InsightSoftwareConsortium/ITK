@@ -98,7 +98,13 @@ public:
   itkCellVisitMacro(Superclass::TRIANGLE_CELL);
 
  public:
-  TriangleCell() {}
+  TriangleCell()
+    {
+    for (unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++)
+      {
+      m_PointIds[i] = NumericTraits<unsigned long>::max();
+      }
+    }
   ~TriangleCell() {}
 
  protected:
