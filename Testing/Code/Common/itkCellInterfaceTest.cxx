@@ -29,6 +29,7 @@
 #include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include "itkQuadrilateralCell.h"
+#include "itkPolygonCell.h"
 
 /**
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
@@ -189,6 +190,13 @@ int itkCellInterfaceTest(int, char* [] )
 
   typedef itk::QuadrilateralCell<CellInterfaceType> QuadrilateralCellType;
   status = TestCellInterface("QuadrilateralCell", new QuadrilateralCellType);
+  if (status != 0)
+    {
+    return EXIT_FAILURE;
+    }
+
+  typedef itk::PolygonCell<CellInterfaceType> PolygonCellType;
+  status = TestCellInterface("PolygonCell", new PolygonCellType(5));
   if (status != 0)
     {
     return EXIT_FAILURE;
