@@ -204,8 +204,13 @@ PolygonCell< TCellInterface >
 template <typename TCellInterface>
 void
 PolygonCell< TCellInterface >
-::SetPointIds(PointIdConstIterator)
+::SetPointIds(PointIdConstIterator first)
 {
+  PointIdConstIterator ii(first);
+  for(unsigned int i=0; i < m_PointIds.size() ; ++i)
+    {
+    m_PointIds[i] = *ii++;
+    }
 }
 
 /** 
@@ -289,7 +294,14 @@ typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsBegin(void)
 {
-  return &*(m_PointIds.begin());
+  if (m_PointIds.size() >0)
+    {
+    return &*(m_PointIds.begin());
+    }
+  else
+    {
+    return NULL;
+    }
 }
 
 
@@ -303,7 +315,14 @@ typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsBegin(void) const
 {
-  return &*(m_PointIds.begin());
+  if (m_PointIds.size() >0)
+    {
+    return &*(m_PointIds.begin());
+    }
+  else
+    {
+    return NULL;
+    }
 }
 
 
@@ -316,7 +335,14 @@ typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd(void)
 {
-  return &m_PointIds[m_PointIds.size()-1] + 1;
+  if (m_PointIds.size() >0)
+    {
+    return &m_PointIds[m_PointIds.size()-1] + 1;
+    }
+  else
+    {
+    return NULL;
+    }
 }
 
 
@@ -330,7 +356,14 @@ typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd(void) const
 {
-  return &m_PointIds[m_PointIds.size()-1] + 1;
+  if (m_PointIds.size() >0)
+    {
+    return &m_PointIds[m_PointIds.size()-1] + 1;
+    }
+  else
+    {
+    return NULL;
+    }
 }
 
 
