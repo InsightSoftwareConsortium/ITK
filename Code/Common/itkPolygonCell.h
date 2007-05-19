@@ -111,6 +111,7 @@ public:
       {
       m_PointIds.push_back(NumericTraits<unsigned long>::max());
       }
+    this->BuildEdges();
     }
   ~PolygonCell() {}
 
