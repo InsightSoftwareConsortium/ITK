@@ -52,7 +52,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 {
   CellAutoPointer cell(aCell,true);
 
-  std::cout << name << std::endl;
+  std::cout << "-------- " << name << " (" << aCell->GetNameOfClass() << ")" << std::endl;
+  std::cout << "    Type: " << cell->GetType() << std::endl;
   std::cout << "    Dimension: " << cell->GetDimension() << std::endl;
   std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
   std::cout << "    NumberOfBoundaryFeatures:" << std::endl;
@@ -196,7 +197,14 @@ int itkCellInterfaceTest(int, char* [] )
     }
 
   typedef itk::PolygonCell<CellInterfaceType> PolygonCellType;
-  status = TestCellInterface("PolygonCell", new PolygonCellType(5));
+  status = TestCellInterface("PolygonCell with 0 vertices", new PolygonCellType());
+  if (status != 0)
+    {
+    return EXIT_FAILURE;
+    }
+
+  typedef itk::PolygonCell<CellInterfaceType> PolygonCellType;
+  status = TestCellInterface("PolygonCell with 5 vertices", new PolygonCellType(5));
   if (status != 0)
     {
     return EXIT_FAILURE;
