@@ -64,8 +64,8 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputDistanceMapImageFile ";
-    std::cerr << " outputVoronoiMapImageFilter ";
-    std::cerr << " outputVectorMapImageFilter ";
+    std::cerr << " outputVoronoiMapImageFile ";
+    std::cerr << " outputVectorMapImageFile ";
     std::cerr << std::endl;  
     return EXIT_FAILURE;
     }
