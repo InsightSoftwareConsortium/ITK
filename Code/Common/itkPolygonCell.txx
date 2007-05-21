@@ -264,8 +264,15 @@ void
 PolygonCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  m_PointIds.erase(m_PointIds.begin(), m_PointIds.end());
-  m_PointIds.insert(m_PointIds.begin(), first, last);
+  int localId=0;
+  PointIdConstIterator ii(first);
+  
+  m_PointIds.clear();
+  while(ii != last)
+    {
+    m_PointIds.push_back(*ii++);
+    }
+
   this->BuildEdges();
 }
 
