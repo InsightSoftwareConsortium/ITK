@@ -46,13 +46,13 @@ void LoggerBase::AddLogOutput( OutputType* output )
 void LoggerBase::Write(PriorityLevelType level, std::string const & content)
 {
   if( this->m_PriorityLevel >= level )
-  {
+    {
     this->m_Output->Write(this->BuildFormattedEntry(level,content));
     if( this->m_LevelForFlushing >= level )
-    {
+      {
       this->m_Output->Flush();
+      }
     }
-  }
 }
 
 void LoggerBase::Flush()
@@ -64,26 +64,26 @@ std::string
 LoggerBase
 ::BuildFormattedEntry(PriorityLevelType level, std::string const & content)
 {
-    static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
-        "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
-    OStringStream s;
-    switch( this->m_TimeStampFormat )
+  static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
+                                         "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
+  OStringStream s;
+  switch( this->m_TimeStampFormat )
+    {
+    case REALVALUE:
       {
-      case REALVALUE:
-        {
-        s.precision(30);
-        s << m_Clock->GetTimeStamp();
-        break;
-        }
-      case HUMANREADABLE:
-        {
-        s << itksys::SystemTools::GetCurrentDateTime( this->m_HumanReadableFormat.c_str() );
-        break;
-        }
+      s.precision(30);
+      s << m_Clock->GetTimeStamp();
+      break;
       }
-    s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
-
-    return s.str();
+    case HUMANREADABLE:
+      {
+      s << itksys::SystemTools::GetCurrentDateTime( this->m_HumanReadableFormat.c_str() );
+      break;
+      }
+    }
+  s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
+  
+  return s.str();
 }
 
 /** Print contents of a LoggerBase */
@@ -94,7 +94,8 @@ void LoggerBase::PrintSelf(std::ostream &os, Indent indent) const
   os << indent << "Name: " << this->GetName() << std::endl;
   os << indent << "PriorityLevel: " << this->GetPriorityLevel()   << std::endl;
   os << indent << "LevelForFlushing: " << this->GetLevelForFlushing() << std::endl;
+  os << indent << "TimeStampFormat: " << this->GetTimeStampFormat() << std::endl;
+  os << indent << "HumanReadableFormat: " << this->GetHumanReadableFormat() << std::endl;
 }
 
 } //namespace
-
