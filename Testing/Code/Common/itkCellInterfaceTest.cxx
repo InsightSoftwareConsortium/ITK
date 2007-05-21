@@ -96,7 +96,11 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
     }
 
   cell->SetPointIds(pointIds);
-  cell->SetPointId(0, 100);
+  if (cell->GetNumberOfPoints() > 0)
+    {
+    cell->SetPointId(0, 100);
+    }
+
   std::cout << "    ConstIterator test: PointIds for populated cell: ";
   typename TCell::PointIdConstIterator ppointId = cell->PointIdsBegin();
   typename TCell::PointIdConstIterator pendId = cell->PointIdsEnd();
