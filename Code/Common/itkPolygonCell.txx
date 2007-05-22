@@ -264,7 +264,6 @@ void
 PolygonCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int localId=0;
   PointIdConstIterator ii(first);
   
   m_PointIds.clear();
