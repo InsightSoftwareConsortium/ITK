@@ -192,7 +192,7 @@ int itkChiSquareDistributionTest(int, char* [] )
   std::cout << std::endl;
   
   std::cout << "Inverse Chi-Square CDF" << std::endl;
-  tol = 1e-13;
+  tol = 1e-12;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
