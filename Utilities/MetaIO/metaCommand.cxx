@@ -39,7 +39,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-02-15 15:31:39 $ cvs command */
+/** Extract the date from the $Date: 2007-05-25 19:58:55 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +57,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.29 $ cvs command */
+/** Extract the version from the $Revision: 1.30 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -977,7 +977,7 @@ ListOptionsSimplified()
               if((*itField).value.size() > 0)
                 {
                 METAIO_STREAM::cout << " (Default = " 
-                                    << (*itField).value << ")";
+                                    << (*itField).value.c_str() << ")";
                 }
               METAIO_STREAM::cout << METAIO_STREAM::endl;
               }
@@ -1092,8 +1092,12 @@ ExportGAD(bool dynamic)
   filename += ".gad.xml";
 
   METAIO_STREAM::ofstream file;
-  file.open(filename.c_str(),
-            METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out);
+#ifdef __sgi
+  file.open(filename.c_str(), METAIO_STREAM::ios::out);
+#else
+  file.open(filename.c_str(), METAIO_STREAM::ios::binary 
+                              | METAIO_STREAM::ios::out);
+#endif
   if(!file.is_open())
     {
     METAIO_STREAM::cout << "Cannot open file for writing: " 
@@ -1127,18 +1131,20 @@ ExportGAD(bool dynamic)
         {
         file << " <componentAction type=\"DataRelocation\" order=\"" << order 
              << "\">" << METAIO_STREAM::endl;
-        file << "  <parameter name=\"Name\" value=\"" << (*itFields).name 
+        file << "  <parameter name=\"Name\" value=\"" 
+             << (*itFields).name.c_str()
              <<"\"/>" << METAIO_STREAM::endl;
         file << "  <parameter name=\"Host\" value=\"hostname\"/>" 
              << METAIO_STREAM::endl;
         file << "  <parameter name=\"Description\" value=\"" 
-             << (*itFields).description << "\"/>" << METAIO_STREAM::endl;
+             << (*itFields).description.c_str() << "\"/>" 
+             << METAIO_STREAM::endl;
         file << "  <parameter name=\"Direction\" value=\"In\"/>" 
              << METAIO_STREAM::endl;
         file << "  <parameter name=\"Protocol\" value=\"gsiftp\"/>" 
              << METAIO_STREAM::endl;
         file << "  <parameter name=\"SourceDataPath\" value=\"" 
-             << (*itFields).value << "\"/>" << METAIO_STREAM::endl;
+             << (*itFields).value.c_str() << "\"/>" << METAIO_STREAM::endl;
 
         METAIO_STL::string datapath = (*itFields).value;
         long int slash = datapath.find_last_of("/");
@@ -1217,7 +1223,7 @@ ExportGAD(bool dynamic)
         {
         file << " ";
         }
-      file << "{" << (*it).name << (*itFields).name << "}";
+      file << "{" << (*it).name.c_str() << (*itFields).name.c_str() << "}";
       itFields++;
       }  
     file << "\"";
@@ -1243,19 +1249,20 @@ ExportGAD(bool dynamic)
     itFields = (*it).fields.begin();
     while(itFields != (*it).fields.end())
       {
-      file << "    <argument name=\"" << (*it).name << (*itFields).name;
-      file << "\" value=\"" << (*itFields).value;
+      file << "    <argument name=\"" << (*it).name.c_str() 
+           << (*itFields).name.c_str();
+      file << "\" value=\"" << (*itFields).value.c_str();
       file << "\" type=\"" << this->TypeToString((*itFields).type).c_str();
       file << "\"";
       
       if((*itFields).rangeMin != "")
         {
-        file << " rangeMin=\"" << (*itFields).rangeMin << "\"";
+        file << " rangeMin=\"" << (*itFields).rangeMin.c_str() << "\"";
         }
 
       if((*itFields).rangeMax != "")
         {
-        file << " rangeMax=\"" << (*itFields).rangeMax << "\"";
+        file << " rangeMax=\"" << (*itFields).rangeMax.c_str() << "\"";
         } 
       file << "/>" << METAIO_STREAM::endl;
       itFields++;
@@ -1277,12 +1284,14 @@ ExportGAD(bool dynamic)
         {
         file << " <componentAction type=\"DataRelocation\" order=\"" << order 
              << "\">" << METAIO_STREAM::endl;
-        file << "  <parameter name=\"Name\" Value=\"" << (*itFields).name 
+        file << "  <parameter name=\"Name\" Value=\"" 
+             << (*itFields).name.c_str()
              <<"\"/>" << METAIO_STREAM::endl;
         file << "  <parameter name=\"Host\" Value=\"hostname\"/>" 
              << METAIO_STREAM::endl;
         file << "  <parameter name=\"Description\" value=\"" 
-             << (*itFields).description << "\"/>" << METAIO_STREAM::endl;
+             << (*itFields).description.c_str() << "\"/>" 
+             << METAIO_STREAM::endl;
         file << "  <parameter name=\"Direction\" value=\"Out\"/>" 
              << METAIO_STREAM::endl;
         file << "  <parameter name=\"Protocol\" value=\"gsiftp\"/>" 
@@ -1301,7 +1310,7 @@ ExportGAD(bool dynamic)
         file << "  <parameter name=\"SourceDataPath\" value=\"" 
              << datapath.c_str() << "\"/>" << METAIO_STREAM::endl;
         file << "  <parameter name=\"DestDataPath\" value=\"" 
-             << (*itFields).value << "\"/>" << METAIO_STREAM::endl;
+             << (*itFields).value.c_str() << "\"/>" << METAIO_STREAM::endl;
         file << " </componentAction>" << METAIO_STREAM::endl;
         file << METAIO_STREAM::endl;
         order++;
@@ -1440,7 +1449,8 @@ Parse(int argc, char* argv[])
         
         // We check the number of mandatory and optional values for
         // this tag
-        METAIO_STL::vector<Field>::const_iterator fIt = this->GetOptionByMinusTag(tag)->fields.begin();
+        METAIO_STL::vector<Field>::const_iterator fIt =
+                                 this->GetOptionByMinusTag(tag)->fields.begin();
         while(fIt != this->GetOptionByMinusTag(tag)->fields.end())
           {
           if(!(*fIt).required)
@@ -1567,7 +1577,7 @@ Parse(int argc, char* argv[])
         // We change the value only if this is not a tag
         if(this->OptionExistsByMinusTag(argv[i]))
           {
-          std::cout << "Option " << m_OptionVector[currentOption].name 
+          std::cout << "Option " << m_OptionVector[currentOption].name.c_str()
                     << " expect a value and got tag: " << argv[i] 
                     << std::endl;
           this->ListOptionsSimplified();
@@ -1591,8 +1601,9 @@ Parse(int argc, char* argv[])
         valuesRemaining--;
         }
       }
-    else if(valuesRemaining==optionalValuesRemaining  // if this is the last argument and all the remaining values are optionals
+    else if(valuesRemaining==optionalValuesRemaining  
             && i==(unsigned int)argc && (optionalValuesRemaining>0)) 
+    // if this is the last argument and all the remaining values are optionals
       {
       if(this->OptionExistsByMinusTag(argv[i-1]) )
         {
@@ -1629,7 +1640,7 @@ Parse(int argc, char* argv[])
   if(valuesRemaining>0)
     {
     METAIO_STREAM::cout << "Not enough parameters for " 
-                        << m_OptionVector[currentOption].name 
+                        << m_OptionVector[currentOption].name.c_str()
                         << METAIO_STREAM::endl;
     METAIO_STREAM::cout << "Usage: " << argv[0] << METAIO_STREAM::endl;
     this->ListOptionsSimplified();
@@ -1647,7 +1658,7 @@ Parse(int argc, char* argv[])
       // First check if the option is actually defined
       if(!(*it).userDefined)
         {
-        METAIO_STREAM::cout << "Option " << (*it).name 
+        METAIO_STREAM::cout << "Option " << (*it).name.c_str()
                             << " is required but not defined" 
                             << METAIO_STREAM::endl;
         requiredAndNotDefined = true;
@@ -1699,8 +1710,8 @@ Parse(int argc, char* argv[])
   bool valueInRange = true;
   while(itParsed != m_ParsedOptionVector.end())
     {
-    METAIO_STL::vector<Field>::const_iterator itFields = 
-                                              (*itParsed).fields.begin();
+    METAIO_STL::vector<Field>::const_iterator itFields = (*itParsed).fields
+                                                                    .begin();
     while(itFields != (*itParsed).fields.end())
       {
       // Check only if this is a number
@@ -1721,10 +1732,12 @@ Parse(int argc, char* argv[])
               < atof((*itFields).value.c_str())))
           )
           {
-          METAIO_STREAM::cout << (*itParsed).name << "." << (*itFields).name
-                    << " : Value (" << (*itFields).value << ") "
-                    << "is not in the range [" << (*itFields).rangeMin
-                    << "," << (*itFields).rangeMax << "]" << METAIO_STREAM::endl;
+          METAIO_STREAM::cout << (*itParsed).name.c_str() 
+                    << "." << (*itFields).name.c_str()
+                    << " : Value (" << (*itFields).value.c_str() << ") "
+                    << "is not in the range [" << (*itFields).rangeMin.c_str()
+                    << "," << (*itFields).rangeMax.c_str()
+                    << "]" << METAIO_STREAM::endl;
           valueInRange = false;
           }
         } 
