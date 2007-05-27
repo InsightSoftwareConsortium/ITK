@@ -14,8 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
+#pragma warning(disable:4702)
 #endif
 
 #include "metaDTITube.h"
@@ -27,6 +28,67 @@
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
+
+DTITubePnt::
+DTITubePnt(int dim)
+{
+  m_Dim = dim;
+  m_X = new float[m_Dim];
+  m_TensorMatrix = new float[6];
+ 
+  unsigned int i=0;
+  for(i=0;i<m_Dim;i++)
+    {
+    m_X[i] = 0;
+    }
+  
+  // Initialize the tensor matrix to identity
+  for(i=0;i<6;i++)
+    {
+    m_TensorMatrix[i] = 0;
+    }
+  m_TensorMatrix[0] = 1;
+  m_TensorMatrix[3] = 1;
+  m_TensorMatrix[5] = 1;
+}
+
+DTITubePnt::
+~DTITubePnt()
+{
+  delete []m_X;
+  delete []m_TensorMatrix;
+  m_ExtraFields.clear();
+}
+
+const DTITubePnt::FieldListType & 
+DTITubePnt::
+GetExtraFields() const 
+{
+  return m_ExtraFields;
+}
+
+void DTITubePnt::
+AddField(const char* name, float value)
+{
+  FieldType field(name,value);
+  m_ExtraFields.push_back(field);
+}
+
+float DTITubePnt::
+GetField(const char* name) const
+{
+  FieldListType::const_iterator it = m_ExtraFields.begin();
+  while(it != m_ExtraFields.end())
+    {
+    if(!strcmp((*it).first.c_str(),name))
+      {
+      return (*it).second;
+      }
+    ++it;
+    }
+  return -1;
+}
+
 
 /** MetaDTITube Constructors */
 MetaDTITube::
@@ -96,7 +158,8 @@ PrintInfo() const
     {
     METAIO_STREAM::cout << "Root = " << "True" << METAIO_STREAM::endl;
     }
-  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "PointDim = " << m_PointDim.c_str() 
+                      << METAIO_STREAM::endl;
   METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);

@@ -16,10 +16,18 @@
 =========================================================================*/
 #include "metaEllipse.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#endif
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string>
 #include <string.h> // for memset
+
+#if defined (__BORLANDC__) && (__BORLANDC__ >= 0x0580)
+#include <mem.h>
+#endif
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {

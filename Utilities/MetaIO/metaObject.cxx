@@ -21,6 +21,10 @@
 #include <string.h>
 #include <math.h>
 
+#if defined (__BORLANDC__) && (__BORLANDC__ >= 0x0580)
+#include <mem.h>
+#endif
+
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
@@ -252,10 +256,14 @@ Read(const char *_fileName)
 
   METAIO_STREAM::ifstream * tmpReadStream = new METAIO_STREAM::ifstream;
 
+#ifdef __sgi
+  tmpReadStream->open(m_FileName, METAIO_STREAM::ios::in);
+#else
   tmpReadStream->open(m_FileName, METAIO_STREAM::ios::binary |
                                   METAIO_STREAM::ios::in);
+#endif
 
-  if(!tmpReadStream->is_open())
+  if(!tmpReadStream->rdbuf()->is_open())
     {
     delete tmpReadStream;
     return false;
@@ -331,13 +339,15 @@ Write(const char *_fileName)
  
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
-  METAIO_STREAM::ofstream tFile(m_FileName,METAIO_STREAM::ios::out);
+  METAIO_STREAM::ofstream tFile(m_FileName, METAIO_STREAM::ios::out);
   tFile.close();                    
-#endif
-
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::out);
+#else
   m_WriteStream->open(m_FileName, METAIO_STREAM::ios::binary |
                                   METAIO_STREAM::ios::out);
-  if(!m_WriteStream->is_open())
+#endif
+
+  if(!m_WriteStream->rdbuf()->is_open())
     {
     return false;
     }
@@ -1737,25 +1747,26 @@ bool MetaObject
     m_WriteStream = new METAIO_STREAM::ofstream;
     }
 
-#ifndef __sgi
-  m_WriteStream->open(m_FileName,
-                      METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out | METAIO_STREAM::ios::app);
-  if(!m_WriteStream->is_open())
-    {
-    delete m_WriteStream;
-    m_WriteStream = 0;
-    return false;
-    }
-#else
-  m_WriteStream->open(m_FileName,
-                      METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out | METAIO_STREAM::ios::in);
-  if(!m_WriteStream->is_open())
+#ifdef __sgi
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::out 
+                                  | METAIO_STREAM::ios::in);
+  if(!m_WriteStream->rdbuf()->is_open())
     {
     delete m_WriteStream;
     m_WriteStream = 0;
     return false;
     }
   m_WriteStream->seekp(0,METAIO_STREAM::ios::end);
+#else
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::binary 
+                                  | METAIO_STREAM::ios::out 
+                                  | METAIO_STREAM::ios::app);
+  if(!m_WriteStream->rdbuf()->is_open())
+    {
+    delete m_WriteStream;
+    m_WriteStream = 0;
+    return false;
+    }
 #endif
 
   M_Write();
@@ -1830,7 +1841,7 @@ void MetaObject::M_PrepareNewReadStream()
 {
   if(m_ReadStream)
     {
-    if(m_ReadStream->is_open())
+    if(m_ReadStream->rdbuf()->is_open())
       {
       m_ReadStream->close();
       }

@@ -16,6 +16,10 @@
 =========================================================================*/
 #include "metaArray.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#endif
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string>
@@ -623,10 +627,14 @@ CanRead(const char *_headerName) const
   // Now check the file content
   METAIO_STREAM::ifstream inputStream;
 
+#ifdef __sgi
+  inputStream.open( _headerName, METAIO_STREAM::ios::in );
+#else
   inputStream.open( _headerName, METAIO_STREAM::ios::in |
                                  METAIO_STREAM::ios::binary );
+#endif
 
-  if( !inputStream.is_open() )
+  if( !inputStream.rdbuf()->is_open() )
     {
     return false;
     }
@@ -650,10 +658,14 @@ Read(const char *_headerName, bool _readElements,
 
   METAIO_STREAM::ifstream * tmpStream = new METAIO_STREAM::ifstream;
 
+#ifdef __sgi
+  tmpStream->open(m_FileName, METAIO_STREAM::ios::in );
+#else
   tmpStream->open(m_FileName, METAIO_STREAM::ios::in |
                               METAIO_STREAM::ios::binary);
+#endif
 
-  if(!tmpStream->is_open())
+  if(!tmpStream->rdbuf()->is_open())
     {
     METAIO_STREAM::cout << "MetaArray: Read: Cannot open file _" 
                         << m_FileName << "_" << METAIO_STREAM::endl;
@@ -750,9 +762,14 @@ ReadStream(METAIO_STREAM::ifstream * _stream, bool _readElements,
         strcpy(fName, m_ElementDataFileName);
         }
       METAIO_STREAM::ifstream* readStreamTemp = new METAIO_STREAM::ifstream;
+
+#ifdef __sgi
+      readStreamTemp->open(fName, METAIO_STREAM::ios::in);
+#else
       readStreamTemp->open(fName, METAIO_STREAM::ios::binary |
                                   METAIO_STREAM::ios::in);
-      if(!readStreamTemp->is_open())
+#endif
+      if(!readStreamTemp->rdbuf()->is_open())
         {
         METAIO_STREAM::cout << "MetaArray: Read: Cannot open data file" 
                             << METAIO_STREAM::endl;
@@ -846,15 +863,16 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
 // that requires a file to exist for output
 #ifdef __sgi
   {
-  METAIO_STREAM::ofstream tFile(m_FileName, METAIO_STREAM::ios::binary |
-                                            METAIO_STREAM::ios::out);
+  METAIO_STREAM::ofstream tFile(m_FileName, METAIO_STREAM::ios::out);
   tFile.close();                    
   }
-#endif
-
+  tmpWriteStream->open(m_FileName, METAIO_STREAM::ios::out);
+#else
   tmpWriteStream->open(m_FileName, METAIO_STREAM::ios::binary |
                                    METAIO_STREAM::ios::out);
-  if(!tmpWriteStream->is_open())
+#endif
+
+  if(!tmpWriteStream->rdbuf()->is_open())
     {
     if(tmpDataFileName)
       {
@@ -1150,7 +1168,6 @@ M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data,
       for(int i=0; i<_dataQuantity*m_ElementNumberOfChannels; i++)
         {
         *_fstream >> tf;
-        std::cout << "tf = " << tf << std::endl;
         MET_DoubleToValue(tf, m_ElementType, _data, i);
         _fstream->get();
         }
@@ -1210,14 +1227,14 @@ M_WriteElements(METAIO_STREAM::ofstream * _fstream, const void * _data,
 // that requires a file to exist for output
 #ifdef __sgi
     {
-    METAIO_STREAM::ofstream tFile(dataFileName, METAIO_STREAM::ios::binary |
-                                                METAIO_STREAM::ios::out);
+    METAIO_STREAM::ofstream tFile(dataFileName, METAIO_STREAM::ios::out);
     tFile.close();                    
     }
-#endif
-
+    tmpWriteStream->open(dataFileName, METAIO_STREAM::ios::out);
+#else
     tmpWriteStream->open(dataFileName, METAIO_STREAM::ios::binary |
                                        METAIO_STREAM::ios::out);
+#endif
     }
 
   if(!m_BinaryData)

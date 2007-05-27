@@ -16,6 +16,10 @@
 =========================================================================*/
 #include "metaArrow.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#endif
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string>
@@ -88,7 +92,7 @@ CopyInfo(const MetaObject * _object)
     const MetaArrow * arrow;
     try
       {
-      arrow = dynamic_cast<const MetaArrow *>(_object);
+      arrow = (const MetaArrow *)(_object);
       }
     catch( ... )
       {

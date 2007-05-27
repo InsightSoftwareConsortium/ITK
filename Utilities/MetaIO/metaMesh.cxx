@@ -16,6 +16,10 @@
 =========================================================================*/
 #include "metaMesh.h"
 
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#endif
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string>
@@ -23,6 +27,43 @@
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
+
+
+MeshPoint::
+MeshPoint(int dim)
+{ 
+  m_Dim = dim;
+  m_X = new float[m_Dim];
+  for(unsigned int i=0;i<m_Dim;i++)
+    {
+    m_X[i] = 0;
+    }
+}
+
+MeshPoint::
+~MeshPoint()
+{ 
+  delete []m_X;
+}
+
+MeshCell::
+MeshCell(int dim)
+{ 
+  m_Dim = dim;
+  m_Id = -1;
+  m_PointsId = new int[m_Dim];
+  for(unsigned int i=0;i<m_Dim;i++)
+    {
+    m_PointsId[i] = -1;
+    }
+}
+
+MeshCell::
+~MeshCell()
+{ 
+  delete []m_PointsId;
+}
+  
 
 //
 // MetaMesh Constructors
@@ -429,7 +470,7 @@ M_Read(void)
       
       for(d=0; d<m_NDims; d++)
         {
-        char* num = new char[elementSize];
+        num = new char[elementSize];
         for(k=0;k<static_cast<unsigned int>(elementSize);k++)
           {
           num[k] = _data[i+k];
@@ -548,7 +589,8 @@ M_Read(void)
   
    if(!MET_Read(*m_ReadStream, & m_Fields))
       {
-      METAIO_STREAM::cout << "MetaObject: Read: MET_Read Failed" << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "MetaObject: Read: MET_Read Failed" 
+                          << METAIO_STREAM::endl;
       return false;
       }
 
@@ -584,8 +626,9 @@ M_Read(void)
       if(gc != readSize)
         {
         METAIO_STREAM::cout << "MetaMesh: m_Read: Cells not read completely" 
-                  << METAIO_STREAM::endl;
-        METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
+                            << METAIO_STREAM::endl;
+        METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc
+                            << METAIO_STREAM::endl;
         return false;
         }
 
@@ -597,6 +640,7 @@ M_Read(void)
         int n = MET_CellSize[celltype];
         MeshCell* cell = new MeshCell(n);
         unsigned int k;
+
         char* num = new char[sizeof(int)];
         for(k=0;k<sizeof(int);k++)
           {
@@ -607,9 +651,10 @@ M_Read(void)
         cell->m_Id = td;
         i+= sizeof(int);
         delete [] num;
+
         for(d=0; d<n; d++)
           {
-          char* num = new char[sizeof(int)];
+          num = new char[sizeof(int)];
           for(k=0;k<static_cast<unsigned int>(sizeof(int));k++)
              {
              num[k] = _data[i+k];
@@ -738,7 +783,6 @@ M_Read(void)
       
       for(d=0; d<n; d++)
         {
-        unsigned int k;
         for(k=0;k<sizeof(int);k++)
           {
           num[k] = _data[i+k];

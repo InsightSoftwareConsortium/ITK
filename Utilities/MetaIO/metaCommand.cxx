@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#endif
+
 #include "metaCommand.h"
 
 #include <stdio.h>
@@ -39,7 +43,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-05-25 19:58:55 $ cvs command */
+/** Extract the date from the $Date: 2007-05-27 21:53:40 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -57,7 +61,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.30 $ cvs command */
+/** Extract the version from the $Revision: 1.31 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -197,6 +201,22 @@ AddField(METAIO_STL::string name,
   return true;
 }
 
+/** For backward compatibility */
+bool MetaCommand:: 
+AddField(METAIO_STL::string name,
+         METAIO_STL::string description,
+         TypeEnumType type,
+         bool externalData)
+{
+  if(externalData)
+    {
+    return this->AddField(name,description,type,DATA_IN);
+    }
+  else
+    {
+    return this->AddField(name,description,type,DATA_NONE);
+    }
+}
 
 /** Collect all the information until the next tag 
   * \warning this function works only if the field is of type String */ 
@@ -1098,7 +1118,7 @@ ExportGAD(bool dynamic)
   file.open(filename.c_str(), METAIO_STREAM::ios::binary 
                               | METAIO_STREAM::ios::out);
 #endif
-  if(!file.is_open())
+  if(!file.rdbuf()->is_open())
     {
     METAIO_STREAM::cout << "Cannot open file for writing: " 
                         << filename.c_str() <<  METAIO_STREAM::endl;
@@ -1577,9 +1597,10 @@ Parse(int argc, char* argv[])
         // We change the value only if this is not a tag
         if(this->OptionExistsByMinusTag(argv[i]))
           {
-          std::cout << "Option " << m_OptionVector[currentOption].name.c_str()
-                    << " expect a value and got tag: " << argv[i] 
-                    << std::endl;
+          METAIO_STREAM::cout << "Option " 
+                              << m_OptionVector[currentOption].name.c_str()
+                              << " expect a value and got tag: " << argv[i] 
+                              << METAIO_STREAM::endl;
           this->ListOptionsSimplified();
           return false;
           }

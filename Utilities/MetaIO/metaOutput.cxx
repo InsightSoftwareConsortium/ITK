@@ -14,6 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#endif
+
+#include "metaOutput.h"
+
 #if defined(_WIN32) || defined(__CYGWIN__)
 #include <winsock2.h>
 #else
@@ -25,9 +31,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
-
-#include "metaOutput.h"
-#include <itksys/SystemTools.hxx>
 
 #include <typeinfo>
 
@@ -129,7 +132,7 @@ METAIO_STL::string MetaOutput::GetUsername()
     struct passwd *pw = getpwuid(getuid());
     if ( pw == NULL )
       {
-        METAIO_STL::cout << "getpwuid() failed " << METAIO_STL::endl;
+        METAIO_STREAM::cout << "getpwuid() failed " << METAIO_STREAM::endl;
       }
     return pw->pw_name;
 #endif // not _WIN32
@@ -203,8 +206,6 @@ METAIO_STL::string MetaOutput::TypeToString(TypeEnumType type)
     default:
       return "not defined";
     }
-  return "not defined";
-
 }
 /** Private function to fill in the buffer */
 METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
@@ -219,8 +220,10 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
     }
   buffer += " version=\""+m_CurrentVersion+"\">\n";
 
-  buffer += "<Creation date=\"" + itksys::SystemTools::GetCurrentDateTime("%Y%m%d") + "\"";
-  buffer += " time=\"" + itksys::SystemTools::GetCurrentDateTime("%H%M%S") + "\"";
+  buffer += "<Creation date=\"" 
+             + METAIO_KWSYS::SystemTools::GetCurrentDateTime("%Y%m%d") + "\"";
+  buffer += " time=\"" 
+             + METAIO_KWSYS::SystemTools::GetCurrentDateTime("%H%M%S") + "\"";
   buffer += " hostname=\""+this->GetHostname() +"\"";
   buffer += " hostIP=\""+this->GetHostip() +"\"";
   buffer += " user=\"" + this->GetUsername() + "\"/>\n";
@@ -241,8 +244,8 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
       continue;
       }
 
-    typedef METAIO_STL::vector<MetaCommand::Field> FieldVector;
-    FieldVector::const_iterator itField = (*itInput).fields.begin();
+    typedef METAIO_STL::vector<MetaCommand::Field> CmdFieldVector;
+    CmdFieldVector::const_iterator itField = (*itInput).fields.begin();
     while(itField != (*itInput).fields.end())
       {
       if((*itInput).fields.size() == 1)
@@ -251,7 +254,8 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
         }
       else
         {
-        buffer += "  <Input name=\"" + (*itInput).name + "." + (*itField).name +"\"";
+        buffer += "  <Input name=\"" + (*itInput).name + "." 
+                                     + (*itField).name +"\"";
         }
 
       buffer += " description=\"" + (*itInput).description + "\"";
@@ -318,15 +322,23 @@ void MetaOutput::Write()
 {
   if(m_MetaCommand && m_MetaCommand->GetOptionWasSet("GenerateXMLMetaOutput"))
     {
-    METAIO_STL::cout << this->GenerateXML().c_str() << METAIO_STL::endl;
+    METAIO_STREAM::cout << this->GenerateXML().c_str() << METAIO_STREAM::endl;
     }
   if(m_MetaCommand && m_MetaCommand->GetOptionWasSet("GenerateXMLFile"))
     {
     //this->GenerateXML();
-    METAIO_STL::string filename = m_MetaCommand->GetValueAsString("GenerateXMLFile");
+    METAIO_STL::string filename = m_MetaCommand
+                                  ->GetValueAsString("GenerateXMLFile");
     METAIO_STL::ofstream fileStream;
-    fileStream.open(filename.c_str(), METAIO_STL::ios::binary | METAIO_STL::ios::out);
-    if(fileStream.is_open())
+
+#ifdef __sgi
+    fileStream.open(filename.c_str(), METAIO_STL::ios::out);
+#else
+    fileStream.open(filename.c_str(), METAIO_STL::ios::binary 
+                                      | METAIO_STL::ios::out);
+#endif
+
+    if(fileStream.rdbuf()->is_open())
       {
       fileStream << this->GenerateXML(filename.c_str()).c_str();
       fileStream.close();
@@ -351,16 +363,19 @@ void MetaOutput::Write()
 
     if(!(*itStream)->Open())
       {
-      METAIO_STL::cout << "MetaOutput ERROR: cannot open stream" << METAIO_STL::endl;
+      METAIO_STREAM::cout << "MetaOutput ERROR: cannot open stream" 
+                       << METAIO_STREAM::endl;
       return;
       }
 
     FieldVector::const_iterator it = m_FieldVector.begin();
-    while(it != m_FieldVector.end())
+    FieldVector::const_iterator itEnd = m_FieldVector.end();
+    while(it != itEnd)
       {
       if(typeid(*(*itStream)) == typeid(MetaFileOutputStream))
         {
-        METAIO_STL::string filename = dynamic_cast<MetaFileOutputStream*>(*itStream)->GetFileName().c_str();
+        METAIO_STL::string filename = ((MetaFileOutputStream*)(*itStream))
+                                      ->GetFileName().c_str();
         (*itStream)->Write(this->GenerateXML(filename.c_str()).c_str());
         }
       else
@@ -372,7 +387,8 @@ void MetaOutput::Write()
      
     if(!(*itStream)->Close())
       {
-      METAIO_STL::cout << "MetaOutput ERROR: cannot close stream" << METAIO_STL::endl;
+      METAIO_STREAM::cout << "MetaOutput ERROR: cannot close stream" 
+                          << METAIO_STREAM::endl;
       return;
       }
     itStream++;

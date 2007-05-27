@@ -16,6 +16,7 @@
 =========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
+#pragma warning ( disable : 4702 )
 #endif
 
 #include <stdio.h>
@@ -148,9 +149,14 @@ Read(const char *_headerName)
  
   M_PrepareNewReadStream();
   
-  m_ReadStream->open(m_FileName, METAIO_STREAM::ios::binary | METAIO_STREAM::ios::in);
+#ifdef __sgi
+  m_ReadStream->open(m_FileName, METAIO_STREAM::ios::in);
+#else
+  m_ReadStream->open(m_FileName, METAIO_STREAM::ios::binary 
+                                 | METAIO_STREAM::ios::in);
+#endif
   
-  if(!m_ReadStream->is_open())
+  if(!m_ReadStream->rdbuf()->is_open())
   {
     METAIO_STREAM::cout << "MetaScene: Read: Cannot open file" << METAIO_STREAM::endl;
     return false;
@@ -176,7 +182,11 @@ Read(const char *_headerName)
   /** Objects should be added here */
   for(i=0;i<m_NObjects;i++)
   {
-    if(META_DEBUG) METAIO_STREAM::cout << MET_ReadType(*m_ReadStream) << METAIO_STREAM::endl;
+    if(META_DEBUG) 
+      {
+      METAIO_STREAM::cout << MET_ReadType(*m_ReadStream).c_str() 
+                          << METAIO_STREAM::endl;
+      }
 
     if(m_Event)
       {
@@ -373,16 +383,21 @@ Write(const char *_headName)
 
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
-  METAIO_STREAM::ofstream tFile(m_FileName,METAIO_STREAM::ios::out);
+  {
+  METAIO_STREAM::ofstream tFile(m_FileName, METAIO_STREAM::ios::out);
   tFile.close();                    
+  }
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::out);
+#else
+  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::binary 
+                                  | METAIO_STREAM::ios::out);
 #endif
 
-  m_WriteStream->open(m_FileName, METAIO_STREAM::ios::binary | METAIO_STREAM::ios::out);
-  if(!m_WriteStream->is_open())
+  if(!m_WriteStream->rdbuf()->is_open())
     {
-    return false;
     delete m_WriteStream;
     m_WriteStream = 0;
+    return false;
     }
 
   M_Write();
