@@ -14,6 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifdef _MSC_VER
+#pragma warning(disable:4702)
+#pragma warning(disable:4284)
+#endif
+
 #include "metaVesselTube.h"
 
 #include <stdio.h>
@@ -71,7 +76,10 @@ MetaVesselTube::
 MetaVesselTube()
 :MetaObject()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+    }
   Clear();
 }
 
@@ -80,7 +88,10 @@ MetaVesselTube::
 MetaVesselTube(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+    }
   Clear();
   Read(_headerName);
 }
@@ -90,7 +101,10 @@ MetaVesselTube::
 MetaVesselTube(const MetaVesselTube *_VesselTube)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+    }
   Clear();
   CopyInfo(_VesselTube);
 }
@@ -100,7 +114,10 @@ MetaVesselTube::
 MetaVesselTube(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube()" << METAIO_STREAM::endl;
+    }
   Clear();
 }
 
@@ -111,11 +128,11 @@ MetaVesselTube::
   // Delete the list of pointers to VesselTubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+    {
     VesselTubePnt* pnt = *it;
     it++;
     delete pnt;
-  }  
+    }  
   m_PointList.clear();
   M_Destroy();
 }
@@ -125,7 +142,8 @@ void MetaVesselTube::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  METAIO_STREAM::cout << "ParentPoint = " << m_ParentPoint << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "ParentPoint = " << m_ParentPoint 
+                      << METAIO_STREAM::endl;
   if(m_Root)
     {
     METAIO_STREAM::cout << "Root = " << "True" << METAIO_STREAM::endl;
@@ -216,7 +234,10 @@ ParentPoint(void) const
 void MetaVesselTube::
 Clear(void)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaVesselTube: Clear" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube: Clear" << METAIO_STREAM::endl;
+    }
   MetaObject::Clear();
   // Delete the list of pointers to VesselTubes.
   PointListType::iterator it = m_PointList.begin();
@@ -247,7 +268,11 @@ M_Destroy(void)
 void MetaVesselTube::
 M_SetupReadFields(void)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaVesselTube: M_SetupReadFields" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube: M_SetupReadFields" 
+                        << METAIO_STREAM::endl;
+    }
 
   MetaObject::M_SetupReadFields();
 
@@ -348,15 +373,24 @@ M_SetupWriteFields(void)
 bool MetaVesselTube::
 M_Read(void)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaVesselTube: M_Read: Loading Header" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube: M_Read: Loading Header" 
+                        << METAIO_STREAM::endl;
+    }
 
   if(!MetaObject::M_Read())
-  {
-    METAIO_STREAM::cout << "MetaVesselTube: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    {
+    METAIO_STREAM::cout << "MetaVesselTube: M_Read: Error parsing file" 
+                        << METAIO_STREAM::endl;
     return false;
-  }
+    }
 
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaVesselTube: M_Read: Parsing Header" << METAIO_STREAM::endl;
+  if(META_DEBUG)
+    {
+    METAIO_STREAM::cout << "MetaVesselTube: M_Read: Parsing Header" 
+                        << METAIO_STREAM::endl;
+    }
  
   MET_FieldRecordType * mF;
  
@@ -444,7 +478,8 @@ M_Read(void)
  
   if(META_DEBUG)
     {
-    METAIO_STREAM::cout << "MetaVesselTube: Parsing point dim" << METAIO_STREAM::endl; 
+    METAIO_STREAM::cout << "MetaVesselTube: Parsing point dim" 
+                        << METAIO_STREAM::endl; 
     }
 
   int j;
@@ -944,7 +979,8 @@ M_Write(void)
 
   if(!MetaObject::M_Write())
     {
-    METAIO_STREAM::cout << "MetaVesselTube: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "MetaVesselTube: M_Read: Error parsing file" 
+                        << METAIO_STREAM::endl;
     return false;
     }
 
@@ -952,13 +988,14 @@ M_Write(void)
   if(m_BinaryData)
     {
     PointListType::const_iterator it = m_PointList.begin();
+    PointListType::const_iterator itEnd = m_PointList.end();
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
     char* data = new char[(m_NDims*(2+m_NDims)+10)*m_NPoints*elementSize];
     int i=0;
     int d;
-    while(it != m_PointList.end())
+    while(it != itEnd)
       {
       for(d = 0; d < m_NDims; d++)
         {
@@ -1044,9 +1081,10 @@ M_Write(void)
   else
     {
     PointListType::const_iterator it = m_PointList.begin();
+    PointListType::const_iterator itEnd = m_PointList.end();
   
     int d;
-    while(it != m_PointList.end())
+    while(it != itEnd)
       {
       for(d = 0; d < m_NDims; d++)
         {

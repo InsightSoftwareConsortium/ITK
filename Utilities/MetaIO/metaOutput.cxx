@@ -20,7 +20,7 @@
 
 #include "metaOutput.h"
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32)
 #include <winsock2.h>
 #else
 #include <unistd.h>
@@ -38,15 +38,160 @@
 namespace METAIO_NAMESPACE {
 #endif
 
+/****/
+MetaOutputStream::
+MetaOutputStream()
+{
+  m_Enable = true;
+  m_IsStdStream = false;
+  m_Name = "";
+  m_MetaOutput = NULL;
+}
+
+void MetaOutputStream::
+SetName(const char* name)
+{
+  m_Name = name;
+}
+
+void MetaOutputStream::
+Enable() 
+{
+  m_Enable = true;
+}
+
+void MetaOutputStream::
+Disable()
+{
+  m_Enable = false;
+}
+
+void MetaOutputStream::
+SetStdStream(METAIO_STREAM::ostream * stream)
+{
+  m_StdStream = stream;
+  m_IsStdStream = true;
+}
+
+bool MetaOutputStream::
+IsStdStream()
+{
+  return m_IsStdStream;
+}
+
+METAIO_STREAM::ostream *
+MetaOutputStream::
+GetStdStream()
+{
+  return m_StdStream;
+}
+
+METAIO_STL::string
+MetaOutputStream::
+GetName() const
+{
+  return m_Name;
+}
+
+bool
+MetaOutputStream::
+IsEnable() const 
+{
+  return m_Enable;
+}
+
+bool 
+MetaOutputStream::
+Write(const char* buffer) 
+{
+  if(m_IsStdStream)
+    {
+    *m_StdStream << buffer;
+    }
+  return true;
+}
+
+bool
+MetaOutputStream::
+Open() 
+{
+  m_IsOpen = true;
+  return true;
+}
+  
+bool
+MetaOutputStream::
+Close() 
+{
+  m_IsOpen = false;
+  return true;
+}
+
+void
+MetaOutputStream::
+SetMetaOutput(void* metaOutput)
+{
+  m_MetaOutput = metaOutput;
+}
+
+/****/
+MetaFileOutputStream::
+MetaFileOutputStream(const char* name)
+: MetaOutputStream()
+{
+  m_FileName = name;
+  this->SetStdStream(&m_FileStream);
+}
+
+bool
+MetaFileOutputStream::
+Open()
+{
+  MetaOutputStream::Open();
+#ifdef __sgi
+  m_FileStream.open(m_FileName.c_str(), METAIO_STREAM::ios::out);
+#else
+  m_FileStream.open(m_FileName.c_str(), METAIO_STREAM::ios::binary 
+                                        | METAIO_STREAM::ios::out);
+#endif
+  if( m_FileStream.rdbuf()->is_open() )
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
+}
+
+bool
+MetaFileOutputStream::
+Close()
+{
+  MetaOutputStream::Close();
+  m_FileStream.close();
+  return true;
+}
+
+METAIO_STL::string
+MetaFileOutputStream::
+GetFileName()
+{
+  return m_FileName;
+}
+
+
 /** Constructor */
-MetaOutput::MetaOutput()
+MetaOutput::
+MetaOutput()
 {
   m_MetaCommand = 0;
   m_CurrentVersion = "0.1";
-}
+  }
 
 /** Destructor */
-MetaOutput::~MetaOutput()
+MetaOutput::
+~MetaOutput()
 {
   StreamVector::iterator itStream = m_StreamVector.begin();
   while(itStream != m_StreamVector.end())
@@ -56,13 +201,14 @@ MetaOutput::~MetaOutput()
 }
 
  /** Add a field */
-bool MetaOutput::AddField(METAIO_STL::string name,
-                METAIO_STL::string description,
-                TypeEnumType type,
-                METAIO_STL::string value,
-                METAIO_STL::string rangeMin,
-                METAIO_STL::string rangeMax
-                )
+bool MetaOutput::
+AddField(METAIO_STL::string name,
+         METAIO_STL::string description,
+         TypeEnumType type,
+         METAIO_STL::string value,
+         METAIO_STL::string rangeMin,
+         METAIO_STL::string rangeMax
+         )
 {
   Field field;
   field.name = name;
@@ -76,12 +222,13 @@ bool MetaOutput::AddField(METAIO_STL::string name,
 }
 
  /** Add a float field */
-bool MetaOutput::AddFloatField(METAIO_STL::string name,
-                               METAIO_STL::string description,
-                               float value,
-                               METAIO_STL::string rangeMin,
-                               METAIO_STL::string rangeMax
-                               )
+bool MetaOutput::
+AddFloatField(METAIO_STL::string name,
+              METAIO_STL::string description,
+              float value,
+              METAIO_STL::string rangeMin,
+              METAIO_STL::string rangeMax
+              )
 {
   char* val = new char[20];
   sprintf(val,"%f",value);
@@ -91,12 +238,13 @@ bool MetaOutput::AddFloatField(METAIO_STL::string name,
 }
 
 /** Add a int field */
-bool MetaOutput::AddIntField(METAIO_STL::string name,
-                               METAIO_STL::string description,
-                               int value,
-                               METAIO_STL::string rangeMin,
-                               METAIO_STL::string rangeMax
-                               )
+bool MetaOutput::
+AddIntField(METAIO_STL::string name,
+            METAIO_STL::string description,
+            int value,
+            METAIO_STL::string rangeMin,
+            METAIO_STL::string rangeMax
+            )
 {
   char* val = new char[10];
   sprintf(val,"%d",value);
@@ -107,7 +255,8 @@ bool MetaOutput::AddIntField(METAIO_STL::string name,
 
 
 /** Add meta command */
-void MetaOutput::SetMetaCommand(MetaCommand* metaCommand)
+void MetaOutput::
+SetMetaCommand(MetaCommand* metaCommand)
 {
   m_MetaCommand = metaCommand;
   m_MetaCommand->SetOption("GenerateMetaOutput","generateMetaOutput",
@@ -120,7 +269,8 @@ void MetaOutput::SetMetaCommand(MetaCommand* metaCommand)
 }
 
 /** Get the username */
-METAIO_STL::string MetaOutput::GetUsername()
+METAIO_STL::string MetaOutput::
+GetUsername()
 {
 #if defined (_WIN32) || defined(__CYGWIN__)
     static char buf[1024];
@@ -138,7 +288,8 @@ METAIO_STL::string MetaOutput::GetUsername()
 #endif // not _WIN32
 }
 
-METAIO_STL::string MetaOutput::GetHostname()
+METAIO_STL::string MetaOutput::
+GetHostname()
 {
 #if defined (_WIN32) || defined(__CYGWIN__)
   WSADATA    WsaData;
@@ -236,7 +387,8 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
   buffer += "<Inputs>\n";
   const MetaCommand::OptionVector options = m_MetaCommand->GetParsedOptions();
   MetaCommand::OptionVector::const_iterator itInput = options.begin();
-  while(itInput != options.end())
+  MetaCommand::OptionVector::const_iterator itInputEnd = options.end();
+  while(itInput != itInputEnd)
     {
     if((*itInput).name == "GenerateMetaOutput")
       {
@@ -246,7 +398,8 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
 
     typedef METAIO_STL::vector<MetaCommand::Field> CmdFieldVector;
     CmdFieldVector::const_iterator itField = (*itInput).fields.begin();
-    while(itField != (*itInput).fields.end())
+    CmdFieldVector::const_iterator itFieldEnd = (*itInput).fields.end();
+    while(itField != itFieldEnd)
       {
       if((*itInput).fields.size() == 1)
         {
@@ -293,7 +446,8 @@ METAIO_STL::string MetaOutput::GenerateXML(const char* filename)
   buffer += "<Outputs>\n";
 
   FieldVector::const_iterator itOutput =  m_FieldVector.begin();
-  while(itOutput != m_FieldVector.end())
+  FieldVector::const_iterator itOutputEnd =  m_FieldVector.end();
+  while(itOutput != itOutputEnd)
     {
     buffer += "  <Output name=\""+ (*itOutput).name + "\"";
     buffer += " description=\""+ (*itOutput).description + "\"";
@@ -329,13 +483,13 @@ void MetaOutput::Write()
     //this->GenerateXML();
     METAIO_STL::string filename = m_MetaCommand
                                   ->GetValueAsString("GenerateXMLFile");
-    METAIO_STL::ofstream fileStream;
+    METAIO_STREAM::ofstream fileStream;
 
 #ifdef __sgi
-    fileStream.open(filename.c_str(), METAIO_STL::ios::out);
+    fileStream.open(filename.c_str(), METAIO_STREAM::ios::out);
 #else
-    fileStream.open(filename.c_str(), METAIO_STL::ios::binary 
-                                      | METAIO_STL::ios::out);
+    fileStream.open(filename.c_str(), METAIO_STREAM::ios::binary 
+                                      | METAIO_STREAM::ios::out);
 #endif
 
     if(fileStream.rdbuf()->is_open())
@@ -396,7 +550,7 @@ void MetaOutput::Write()
 }
 
 /** Add a stream */
-void MetaOutput::AddStream(const char* name,METAIO_STL::ostream & stdstream)
+void MetaOutput::AddStream(const char* name,METAIO_STREAM::ostream & stdstream)
 {
   MetaOutputStream* stream = new MetaOutputStream;
   stream->SetName(name);

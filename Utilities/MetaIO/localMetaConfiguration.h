@@ -14,6 +14,7 @@
   #undef METAIO_EXPORT
 #endif 
 
+#define METAIO_FOR_ITK 1
 
 #if defined(METAIO_FOR_ITK) || !defined(METAIO_FOR_VTK)
   // ITK

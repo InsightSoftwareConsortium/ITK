@@ -14,11 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "metaSurface.h"
-
 #ifdef _MSC_VER
 #pragma warning(disable:4702)
+#pragma warning(disable:4284)
 #endif
+
+#include "metaSurface.h"
 
 #include <stdio.h>
 #include <ctype.h>
@@ -431,6 +432,7 @@ M_Write(void)
   if(m_BinaryData)
   {
     PointListType::const_iterator it = m_PointList.begin();
+    PointListType::const_iterator itEnd = m_PointList.end();
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
@@ -470,6 +472,7 @@ M_Write(void)
   else
   {
     PointListType::const_iterator it = m_PointList.begin();
+    PointListType::const_iterator itEnd = m_PointList.end();
   
     int d;
     while(it != m_PointList.end())
