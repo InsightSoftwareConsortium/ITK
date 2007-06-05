@@ -125,7 +125,7 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
      classname(const Self&s) :super(s){}; \
    private: \
      void operator=(const Self&); \
- }
+ };
 
 
 
