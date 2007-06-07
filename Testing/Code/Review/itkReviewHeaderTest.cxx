@@ -66,6 +66,9 @@
 #include "itkMorphologicalWatershedImageFilter.h"
 #include "itkMorphologicalWatershedFromMarkersImageFilter.h"
 
+#include "itkBinaryMorphologicalClosingImageFilter.h"
+#include "itkBinaryMorphologicalOpeningImageFilter.h"
+
 int main ( int , char*  )
 {
   return EXIT_SUCCESS;

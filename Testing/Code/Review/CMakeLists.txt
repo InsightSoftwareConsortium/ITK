@@ -66,6 +66,9 @@ SET(ReviewTest_SRCS
 
   itkMorphologicalWatershedImageFilterTest.cxx
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
+
+  itkBinaryMorphologicalClosingImageFilterTest.cxx
+  itkBinaryMorphologicalOpeningImageFilterTest.cxx
 )
 
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
@@ -391,6 +394,33 @@ FOREACH(level 00 10 20 30 40 50)
                     1 0 ${level}
                     )
 ENDFOREACH(level)
+
+ADD_TEST(itkBinaryMorphologicalClosingImageFilterTest$ ${REVIEW_TESTS}
+        --compare ${BASELINE}/itkBinaryMorphologicalClosingImageFilterTest.png
+                  ${TEMP}/itkBinaryMorphologicalClosingImageFilterTest.png
+                  itkBinaryMorphologicalClosingImageFilterTest
+                  ${INPUTDATA}/2th_cthead1.png
+                  ${TEMP}/itkBinaryMorphologicalClosingImageFilterTest.png
+                  40 1 200
+                  )
+
+ADD_TEST(itkBinaryMorphologicalClosingImageFilterTestUnsafe$ ${REVIEW_TESTS}
+        --compare ${BASELINE}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+                  ${TEMP}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+                  itkBinaryMorphologicalClosingImageFilterTest
+                  ${INPUTDATA}/2th_cthead1.png
+                  ${TEMP}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+                  40 0 200
+                  )
+
+ADD_TEST(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
+        --compare ${BASELINE}/itkBinaryMorphologicalOpeningImageFilterTest.png
+                  ${TEMP}/itkBinaryMorphologicalOpeningImageFilterTest.png
+                  itkBinaryMorphologicalOpeningImageFilterTest
+                  ${INPUTDATA}/2th_cthead1.png
+                  ${TEMP}/itkBinaryMorphologicalOpeningImageFilterTest.png
+                  8 150 200
+                  )
 
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)

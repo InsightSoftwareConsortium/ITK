@@ -69,4 +69,7 @@ void RegisterTests()
   REGISTER_TEST(itkMorphologicalWatershedImageFilterTest);
   REGISTER_TEST(itkMorphologicalWatershedFromMarkersImageFilterTest);
 
+  REGISTER_TEST(itkBinaryMorphologicalClosingImageFilterTest);
+  REGISTER_TEST(itkBinaryMorphologicalOpeningImageFilterTest);
+
 }
