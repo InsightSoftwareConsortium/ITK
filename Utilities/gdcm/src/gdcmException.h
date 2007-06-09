@@ -50,7 +50,7 @@ public:
    virtual ~Exception() throw() {}
 
    /// exception caught within exception class: print error message and die
-   static void fatal(const char *from) throw();
+   static void fatal(const char *from) throw() GDCM_NO_RETURN;
 
    /// returns error message
    const std::string &getError() const throw() { return Error;}

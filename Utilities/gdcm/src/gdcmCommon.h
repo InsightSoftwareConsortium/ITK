@@ -99,6 +99,21 @@ typedef  unsigned int        uint32_t;
 #endif
 
 
+//----------------------------------------------------------------------------
+// Macro to declare that a function does not return. __attribute__((noreturn))
+//    On some compiler, functions that do not return (ex: exit(0)) must
+//    have the noreturn attribute. Otherwise, a warning is raised. Use
+//    that macro to avoid those warnings. GCC defines the attribute
+//    noreturn for versions 2.5 and higher.
+#if defined(__GNUC__)
+#  if (((__GNUC__ == 2) && (__GNUC_MINOR__ >= 5)) || (__GNUC__ >= 3))
+#    define GDCM_NO_RETURN \
+       __attribute__ ((noreturn))
+#  endif
+#else
+#  define GDCM_NO_RETURN
+#endif
+
 //-----------------------------------------------------------------------------
 /// \brief namespace for Grass root DiCoM
 namespace gdcm
