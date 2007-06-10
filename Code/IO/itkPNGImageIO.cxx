@@ -28,8 +28,6 @@ extern "C"
   /* The PNG library does not expect the error function to return.
      Therefore we must use this ugly longjmp call.  */
   void itkPNGWriteErrorFunction(png_structp png_ptr,
-                                png_const_charp itkNotUsed(error_msg)) ITK_NO_RETURN;
-  void itkPNGWriteErrorFunction(png_structp png_ptr,
                                 png_const_charp itkNotUsed(error_msg))
     {
     longjmp(png_ptr->jmpbuf, 1);

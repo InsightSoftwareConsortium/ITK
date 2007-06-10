@@ -112,11 +112,11 @@ public:
   virtual bool CanWriteFile(const char * FileNameToWrite);
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() ITK_NO_RETURN;
+  virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer) ITK_NO_RETURN;
+  virtual void Write(const void* buffer);
 
   /** Set sorting method by name ascending. */
   virtual void SortImageListByNameAscend();

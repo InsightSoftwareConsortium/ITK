@@ -137,7 +137,7 @@ public:
    * SetParametersByValue.
    * \sa SetParametersByValue
    */
-  virtual void SetParameters( const ParametersType & ) ITK_NO_RETURN
+  virtual void SetParameters( const ParametersType & ) 
     { itkExceptionMacro( << "Subclasses should override this method" ) };
 
   /** Set the transformation parameters and update internal transformation. 
@@ -151,16 +151,18 @@ public:
     { this->SetParameters ( p ); };
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType& GetParameters(void) const ITK_NO_RETURN
-  { itkExceptionMacro( << "Subclasses should override this method" ) };
+  virtual const ParametersType& GetParameters(void) const
+    { itkExceptionMacro( << "Subclasses should override this method" );
+      return m_Parameters; };
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters( const ParametersType & ) ITK_NO_RETURN
+  virtual void SetFixedParameters( const ParametersType & ) 
     { itkExceptionMacro( << "Subclasses should override this method" ) };
 
   /** Get the Fixed Parameters. */
-  virtual const ParametersType& GetFixedParameters(void) const ITK_NO_RETURN
-  { itkExceptionMacro( << "Subclasses should override this method" ) };
+  virtual const ParametersType& GetFixedParameters(void) const
+    { itkExceptionMacro( << "Subclasses should override this method" );
+      return m_Parameters; };
 
   /** Compute the Jacobian of the transformation
    *
@@ -189,8 +191,9 @@ public:
    *
    * \f]
    * **/
-  virtual const JacobianType & GetJacobian(const InputPointType  &) const  ITK_NO_RETURN
-  { itkExceptionMacro( << "Subclass should override this method" ) };
+  virtual const JacobianType & GetJacobian(const InputPointType  &) const
+    { itkExceptionMacro( << "Subclass should override this method" );
+      return m_Jacobian; }; 
 
 
   /** Return the number of parameters that completely define the Transfom  */

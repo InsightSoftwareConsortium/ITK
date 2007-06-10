@@ -113,7 +113,7 @@ protected:
    * \sa AdvanceOneStep */
   virtual void StepAlongGradient( 
     double,
-    const DerivativeType&) ITK_NO_RETURN
+    const DerivativeType&)
     {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);

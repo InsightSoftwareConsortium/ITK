@@ -143,7 +143,7 @@ protected:
 
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrix(void);
-  void ComputeMatrixParameters(void) ITK_NO_RETURN;
+  void ComputeMatrixParameters(void);
 
 private:
   ScaleSkewVersor3DTransform(const Self&); //purposely not implemented
