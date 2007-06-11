@@ -53,14 +53,14 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>
 
   if (m_Normalized)
     {
-    prefixDenom = m_Sigma[0]*m_Sigma[0]*m_Sigma[0];
+    prefixDenom = m_Sigma[m_Direction]*m_Sigma[m_Direction];
 
     for(unsigned int i = 1; i < VImageDimension; i++)
       {
       prefixDenom *= m_Sigma[i]*m_Sigma[i]*m_Sigma[i];
       }
 
-    prefixDenom *= 2 * 3.1415927;
+    prefixDenom *= 2*vcl_pow( 2 * 3.1415927, VImageDimension / 2.0); 
     }
   else
     {
