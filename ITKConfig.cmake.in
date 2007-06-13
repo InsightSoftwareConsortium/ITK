@@ -5,9 +5,6 @@
 # This file is configured by ITK and used by the UseITK.cmake module
 # to load ITK's settings for an external project.
 
-# The ITK source tree.
-SET(ITK_SOURCE_DIR "@ITK_SOURCE_DIR@")
-
 # The ITK include file directories.
 SET(ITK_INCLUDE_DIRS "@ITK_INCLUDE_DIRS_CONFIG@")
 
