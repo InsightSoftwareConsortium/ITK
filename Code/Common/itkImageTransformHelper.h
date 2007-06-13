@@ -59,7 +59,6 @@ public:
     const IndexType & index, DoublePoint & point,
     const UniqueTypeBoolFalse& )
     {
-      // std::cout << "point[" << R << "] = origin[" << R << "];" << std::endl;
       point[R] = origin[R];
 
       // Start column
@@ -89,7 +88,6 @@ public:
     const IndexType & index, DoublePoint & point,
     const UniqueTypeBoolFalse& )
     {
-      // std::cout << "point[" << R << "] = point[" << R << "] + matrix[" << R << "][" << C << "]*rindex[" << C << "];" << std::endl;
       point[R] = point[R] + matrix[R][C]*index[C];
 
       // Do next dimension
@@ -127,7 +125,6 @@ public:
     const DoublePoint & point, DoublePoint & rindex, IndexType & index,
     const UniqueTypeBoolFalse& )
     {
-//      std::cout << "rindex[" << R << "] = 0.0;" << std::endl;
       rindex[R] = 0.0;
       // Start column
       ImageTransformHelper<NImageDimension,R,C>
@@ -156,7 +153,6 @@ public:
     const DoublePoint & point, DoublePoint & rindex, IndexType & index,
     const UniqueTypeBoolFalse& )
     {
-//      std::cout << "rindex[" << R << "] = rindex[" << R << "] + matrix[" << R << "][" << C << "]*(point[" << C << "] - origin[" << C << "]);" << std::endl;
       rindex[R] = rindex[R] + matrix[R][C]*(point[C] - origin[C]);
 
       // Do next dimension
@@ -172,7 +168,6 @@ public:
     const DoublePoint &, DoublePoint &rindex, IndexType &index,
     const UniqueTypeBoolTrue& )
     {
-//      std::cout << "index[" << R << "] = rindex[" << R << "]);" << std::endl;
      index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
     }
 };
