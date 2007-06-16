@@ -91,5 +91,6 @@ int main( int argc , char *argv[] )
      strcat(nim->iname,".gz");
    }
    nifti_image_write( nim ) ;
+   nifti_image_free( nim ) ;
    exit(0) ;
 }

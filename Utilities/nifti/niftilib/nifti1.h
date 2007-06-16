@@ -286,7 +286,7 @@ typedef struct nifti1_extender nifti1_extender ;
 struct nifti1_extension {
    int    esize ; /*!< size of extension, in bytes (must be multiple of 16) */
    int    ecode ; /*!< extension code, one of the NIFTI_ECODE_ values       */
-   char * edata ; /*!< raw data, with no byte swapping                      */
+   char * edata ; /*!< raw data, with no byte swapping (length is esize-8)  */
 } ;
 typedef struct nifti1_extension nifti1_extension ;
 

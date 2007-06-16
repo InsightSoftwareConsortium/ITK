@@ -24,7 +24,10 @@ typedef struct{
    int      strip;               /* strip extras from dataset(s)  */
    int      cbl, cci;            /* -copy_XXX option flags        */
    int      dts, dci, dci_lines; /* display collapsed img flags   */
+   int      make_im;             /* create a new image on the fly */
    int      ci_dims[8];          /* user dims list (last 7 valid) */
+   int      new_dim[8];          /* user dim list for new image   */
+   int      new_datatype;        /* datatype for new image        */
    int      debug, keep_hist;    /* debug level and history flag  */
    int      overwrite;           /* overwrite flag                */
    char *   prefix;              /* for output file               */
@@ -87,6 +90,8 @@ typedef struct {
            rv=fill_field(fldp,type,NT_OFF(nstr,name),num,#name);   \
            fldp++; } while (0)
 
+#define NT_MAKE_IM_NAME "MAKE_IM"
+
 /*----------------------------------------------------------------------*/
 /*-----  prototypes  ---------------------------------------------------*/
 /*----------------------------------------------------------------------*/
@@ -139,6 +144,12 @@ int use_full         (char * prog);
 int verify_opts      (nt_opts * opts, char * prog);
 int write_hdr_to_file(nifti_1_header * nhdr, char * fname);
 
+/* wrappers for nifti reading functions (allow MAKE_IM) */
+nifti_image    * nt_image_read (nt_opts * opts, char * fname, int doread);
+nifti_image    * nt_read_bricks(nt_opts * opts, char * fname, int len,
+                                int * list, nifti_brick_list * NBL);
+nifti_1_header * nt_read_header(nt_opts * opts, char * fname, int * swapped,
+                                int check);
 
 
 #endif  /* _NIFTI_TOOL_H_ */

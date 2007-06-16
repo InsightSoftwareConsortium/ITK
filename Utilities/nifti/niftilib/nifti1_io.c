@@ -280,9 +280,27 @@ static char * gni_history[] =
   "   - added 2 size_t casts\n"
   "1.17 22 November 2005 [rickr]\n",
   "   - in hdr->nim, for i > dim[0], pass 0 or 1, else set to 1\n"
+  "1.18 02 March 2006 [rickr]\n",
+  "   - in nifti_alloc_NBL_mem(), fixed nt=0 case from 1.17 change\n"
+  "1.19 23 May 2006 [HJohnson,rickr]\n",
+  "   - nifti_write_ascii_image(): free(hstr)\n"
+  "   - nifti_copy_extensions(): clear num_ext and ext_list\n"
+  "1.20 27 Jun 2006 [rickr]\n",
+  "   - nifti_findhdrname(): fixed assign of efirst to match stated logic\n"
+  "     (problem found by Atle Bjørnerud)\n"
+  "1.21 05 Sep 2006 [rickr] update for nifticlib-0.4 release\n",
+  "   - was reminded to actually add nifti_set_skip_blank_ext()\n"
+  "   - init g_opts.skip_blank_ext to 0\n"
+  "1.22 01 Jun 2007 nifticlib-0.5 release\n",
+  "1.23 05 Jun 2007 nifti_add_exten_to_list: revert on failure, free old list\n"
+  "1.24 07 Jun 2007 nifti_copy_extensions: use esize-8 for data size\n"
+  "1.25 12 Jun 2007 [rickr] EMPTY_IMAGE creation\n",
+  "   - added nifti_make_new_header() - to create from dims/dtype\n"
+  "   - added nifti_make_new_nim() - to create from dims/dtype/fill\n"
+  "   - added nifti_is_valid_datatype(), and more debug info\n"
   "----------------------------------------------------------------------\n"
 };
-static char gni_version[] = "nifti library version 1.17 (Nov 22, 2005)";
+static char gni_version[] = "nifti library version 1.25, 12 Jun, 2007)";
 
 /*! global nifti options structure */
 static nifti_global_options g_opts = { 1, 0 };
@@ -761,7 +779,11 @@ static int nifti_alloc_NBL_mem(nifti_image * nim, int nbricks,
 
    /* if nbricks is not specified, use the default */
    if( nbricks > 0 ) nbl->nbricks = nbricks;
-   else              nbl->nbricks = nim->nt * nim->nu * nim->nv * nim->nw;
+   else {  /* I missed this one with the 1.17 change    02 Mar 2006 [rickr] */
+      nbl->nbricks = 1;
+      for( c = 4; c <= nim->ndim; c++ )
+          nbl->nbricks *= nim->dim[c];
+   }
 
    nbl->bsize   = nim->nx * nim->ny * nim->nz * nim->nbyper;  /* bytes */
    nbl->bricks  = (void **)malloc(nbl->nbricks * sizeof(void *));
@@ -2330,6 +2352,15 @@ void nifti_set_debug_level( int level )
     g_opts.debug = level;
 }
 
+/*----------------------------------------------------------------------*/
+/*! set nifti's global skip_blank_ext flag            5 Sep 2006 [rickr]
+
+    explicitly set to 0 or 1
+*//*--------------------------------------------------------------------*/
+void nifti_set_skip_blank_ext( int skip )
+{
+    g_opts.skip_blank_ext = skip ? 1 : 0;
+}
 
 /*----------------------------------------------------------------------*/
 /*! check current directory for existing header file
@@ -2752,6 +2783,36 @@ int is_valid_nifti_type( int nifti_type )
    if( nifti_type >= NIFTI_FTYPE_ANALYZE &&   /* smallest type, 0 */
        nifti_type <= NIFTI_MAX_FTYPE )
       return 1;
+   return 0;
+}
+
+
+/*--------------------------------------------------------------------------*/
+/*! check whether the given type is on the "approved" list
+
+    The type is explicitly checked against the NIFTI_TYPE_* list
+    in nifti1.h.
+
+    \return 1 if dtype is valid, 0 otherwise
+    \sa NIFTI_TYPE_* codes in nifti1.h
+*//*------------------------------------------------------------------------*/
+int nifti_is_valid_datatype( int dtype )
+{
+   if( dtype == NIFTI_TYPE_UINT8        ||
+       dtype == NIFTI_TYPE_INT16        ||
+       dtype == NIFTI_TYPE_INT32        ||
+       dtype == NIFTI_TYPE_FLOAT32      ||
+       dtype == NIFTI_TYPE_COMPLEX64    ||
+       dtype == NIFTI_TYPE_FLOAT64      ||
+       dtype == NIFTI_TYPE_RGB24        ||
+       dtype == NIFTI_TYPE_INT8         ||
+       dtype == NIFTI_TYPE_UINT16       ||
+       dtype == NIFTI_TYPE_UINT32       ||
+       dtype == NIFTI_TYPE_INT64        ||
+       dtype == NIFTI_TYPE_UINT64       ||
+       dtype == NIFTI_TYPE_FLOAT128     ||
+       dtype == NIFTI_TYPE_COMPLEX128   ||
+       dtype == NIFTI_TYPE_COMPLEX256 ) return 1;
    return 0;
 }
 
@@ -3778,7 +3839,7 @@ static int nifti_read_extensions( nifti_image *nim, znzFile fp, int remain )
             fprintf(stderr,"-d no extender in '%s' is okay, as "
                            "skip_blank_ext is set\n",nim->fname);
          else
-            fprintf(stderr,"-d no space for extensions\n");
+            fprintf(stderr,"-d remain=%d, no space for extensions\n",remain);
       }
       return 0;
    }
@@ -3819,11 +3880,11 @@ static int nifti_read_extensions( nifti_image *nim, znzFile fp, int remain )
       if( g_opts.debug > 1 ){
          fprintf(stderr,"+d found extension #%d, code = 0x%x, size = %d\n",
                  count, extn.ecode, extn.esize);
-         if( extn.ecode == NIFTI_ECODE_AFNI )          /* ~XML */
+         if( extn.ecode == NIFTI_ECODE_AFNI && g_opts.debug > 2 ) /* ~XML */
             fprintf(stderr,"   AFNI extension: %.*s\n",
                     extn.esize-8,extn.edata);
-         else if( extn.ecode == NIFTI_ECODE_COMMENT )  /* TEXT */
-            fprintf(stderr,"   COMMENT extension: %.*s\n",
+         else if( extn.ecode == NIFTI_ECODE_COMMENT && g_opts.debug > 2 )
+            fprintf(stderr,"   COMMENT extension: %.*s\n",        /* TEXT */
                     extn.esize-8,extn.edata);
       }
       remain -= extn.esize;
@@ -3874,7 +3935,7 @@ int nifti_add_extension(nifti_image *nim, const char * data, int len, int ecode)
 /* nifti_add_exten_to_list     - add a new nifti1_extension to the list
 
    We will append via "malloc, copy and free", because on an error,
-   the old data pointers must all be released (sorry realloc(), only
+   the list will revert to the previous one (sorry realloc(), only
    quality dolphins get to become part of St@rk!st brand tunafish).
 
    return 0 on success, -1 on error (and free the entire list)
@@ -3883,7 +3944,6 @@ static int nifti_add_exten_to_list( nifti1_extension *  new_ext,
                                     nifti1_extension ** list, int new_length )
 {
    nifti1_extension * tmplist;
-   int                count;
   
    tmplist = *list;
    *list = (nifti1_extension *)malloc(new_length * sizeof(nifti1_extension));
@@ -3894,14 +3954,15 @@ static int nifti_add_exten_to_list( nifti1_extension *  new_ext,
               new_length, new_length*(int)sizeof(nifti1_extension));
       if( !tmplist ) return -1;  /* no old list to lose */
 
-      for ( count = 0; count < new_length-1; count++ )
-         if( tmplist[count].edata ) free(tmplist[count].edata);
-      free(tmplist);
+      *list = tmplist;  /* reset list to old one */
       return -1;
    }
 
-   /* we have memory, so copy the old and insert the new */
-   memcpy(*list, tmplist, (new_length-1)*sizeof(nifti1_extension));
+   /* if an old list exists, copy the pointers and free the list */
+   if( tmplist ){
+      memcpy(*list, tmplist, (new_length-1)*sizeof(nifti1_extension));
+      free(tmplist);
+   }
 
    /* for some reason, I just don't like struct copy... */
    (*list)[new_length-1].esize = new_ext->esize;
@@ -4037,7 +4098,7 @@ static int nifti_read_next_extension( nifti1_extension * nex, nifti_image *nim,
    }
 
    /* success! */
-   if( g_opts.debug > 1 )
+   if( g_opts.debug > 2 )
       fprintf(stderr,"+d successfully read extension, code %d, size %d\n",
               nex->ecode, nex->esize);
 
@@ -4329,6 +4390,9 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
     /* memset( (char *)(dataptr)+ii , 0 , ntot-ii ) ;  now failure [rickr] */
     return -1 ;
   }
+
+  if( g_opts.debug > 2 )
+    fprintf(stderr,"+d nifti_read_buffer: read %d bytes\n",(unsigned int)ii);
   
   /* byte swap array if needed */
   
@@ -4632,9 +4696,135 @@ nifti_image* nifti_simple_init_nim(void)
    nifti_datatype_sizes( nhdr.datatype , &nbyper, &swapsize );
    nhdr.bitpix   = 8 * nbyper ;
 
+   strcpy(nhdr.magic, "n+1");  /* init to single file */
+
    nim = nifti_convert_nhdr2nim(nhdr,NULL);
    nim->fname = NULL;
    nim->iname = NULL;
+   return nim;
+}
+
+
+/*----------------------------------------------------------------------*/
+/*! basic initialization of a nifti_1_header struct (with given dimensions)
+
+   Return an allocated nifti_1_header struct, based on the given
+   dimensions and datatype.
+ 
+   \param arg_dims  : optional dim[8] array (default {3,1,1,1,0,0,0,0})
+   \param arg_dtype : optional datatype (default DT_FLOAT32)
+
+   \return pointer to allocated nifti_1_header struct
+*//*--------------------------------------------------------------------*/
+nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype)
+{
+   nifti_1_header * nhdr;
+   const int        default_dims[8] = { 3, 1, 1, 1, 0, 0, 0, 0 };
+   const int      * dim;  /* either passed or default dims  */
+   int              dtype; /* either passed or default dtype */
+   int              c, nbyper, swapsize;
+  
+   /* if arg_dims is passed, apply it */
+   if( arg_dims ) dim = arg_dims;
+   else           dim = default_dims;
+
+   /* validate dim: if there is any problem, apply default_dims */
+   if( dim[0] < 1 || dim[0] > 7 ) {
+      fprintf(stderr,"** nifti_simple_hdr_with_dims: bad dim[0]=%d\n",dim[0]);
+      dim = default_dims;
+   } else {
+      for( c = 1; c <= dim[0]; c++ )
+         if( dim[c] < 1 )
+         {
+            fprintf(stderr,
+                "** nifti_simple_hdr_with_dims: bad dim[%d]=%d\n",c,dim[c]);
+            dim = default_dims;
+            break;
+         }
+   }
+
+   /* validate dtype, too */
+   dtype = arg_dtype;
+   if( ! nifti_is_valid_datatype(dtype) ) {
+      fprintf(stderr,"** nifti_simple_hdr_with_dims: bad dtype %d\n",dtype);
+      dtype = DT_FLOAT32;
+   }
+
+   /* now populate the header struct */
+
+   if( g_opts.debug > 1 )
+      fprintf(stderr,"+d nifti_make_new_header, dim[0] = %d, datatype = %d\n",
+              dim[0], dtype);
+
+   nhdr = (nifti_1_header *)calloc(1,sizeof(nifti_1_header));
+   if( !nhdr ){
+      fprintf(stderr,"** nifti_make_new_header: failed to alloc hdr\n");
+      return NULL;
+   }
+  
+   nhdr->sizeof_hdr = sizeof(nifti_1_header) ;
+   nhdr->regular    = 'r' ;           /* for some stupid reason */
+
+   /* init dim and pixdim */
+   nhdr->dim[0] = dim[0] ;
+   nhdr->pixdim[0] = 0.0;
+   for( c = 1; c <= dim[0]; c++ ) {
+      nhdr->dim[c] = dim[c];
+      nhdr->pixdim[c] = 1.0;
+   }
+
+   nhdr->datatype = dtype ;
+   nifti_datatype_sizes( nhdr->datatype , &nbyper, &swapsize );
+   nhdr->bitpix   = 8 * nbyper ;
+
+   strcpy(nhdr->magic, "n+1");  /* init to single file */
+
+   return nhdr;
+}
+
+
+/*----------------------------------------------------------------------*/
+/*! basic creation of a nifti_image struct
+
+   Create a nifti_image from the given dimensions and data type.
+   Optinally, allocate zero-filled data.
+  
+   \param dims      : optional dim[8]   (default {3,1,1,1,0,0,0,0})
+   \param datatype  : optional datatype (default DT_FLOAT32)
+   \param data_fill : if flag is set, allocate zero-filled data for image
+
+   \return pointer to allocated nifti_image struct
+*//*--------------------------------------------------------------------*/
+nifti_image * nifti_make_new_nim(const int dims[], int datatype, int data_fill)
+{
+   nifti_image    * nim;
+   nifti_1_header * nhdr;
+
+   nhdr = nifti_make_new_header(dims, datatype);
+   if( !nhdr ) return NULL;  /* error already printed */
+
+   nim = nifti_convert_nhdr2nim(*nhdr,NULL);
+   free(nhdr);               /* in any case, we are done with this */
+   if( !nim ){
+      fprintf(stderr,"** NMNN: nifti_convert_nhdr2nim failure\n");
+      return NULL;
+   }
+
+   if( g_opts.debug > 1 )
+      fprintf(stderr,"+d nifti_make_new_nim, data_fill = %d\n",data_fill);
+
+   if( data_fill ) {
+      nim->data = calloc(nim->nvox, nim->nbyper);
+
+      /* if we cannot allocate data, take ball and go home */
+      if( !nim->data ) {
+         fprintf(stderr,"** NMNN: failed to alloc %d bytes for data\n",
+                 nim->nvox);
+         nifti_image_free(nim);
+         nim = NULL;
+      }
+   }
+
    return nim;
 }
 
@@ -4798,7 +4988,8 @@ int nifti_copy_extensions(nifti_image * nim_dest, const nifti_image * nim_src)
       if( g_opts.debug > 2 )
          fprintf(stderr,"+d dup'ing ext #%d of size %d (from size %d)\n",
                  c, size, old_size);
-      data = (char *)calloc(size,sizeof(char));  /* calloc, maybe size > old */
+      /* data length is size-8, as esize includes space for esize and ecode */
+      data = (char *)calloc(size-8,sizeof(char));      /* maybe size > old */
       if( !data ){
          fprintf(stderr,"** failed to alloc %d bytes for extention\n", size);
          if( c == 0 ) { free(nim_dest->ext_list); nim_dest->ext_list = NULL; }
@@ -4809,7 +5000,7 @@ int nifti_copy_extensions(nifti_image * nim_dest, const nifti_image * nim_src)
       nim_dest->ext_list[c].esize = size;
       nim_dest->ext_list[c].ecode = nim_src->ext_list[c].ecode;
       nim_dest->ext_list[c].edata = data;
-      memcpy(data, nim_src->ext_list[c].edata, old_size);
+      memcpy(data, nim_src->ext_list[c].edata, old_size-8);
 
       nim_dest->num_ext++;
    }
@@ -4984,7 +5175,7 @@ znzFile nifti_image_write_hdr_img2(nifti_image *nim, int write_opts,
    }
    else {
       if( g_opts.debug > 2 )
-         fprintf(stderr,"+d opening output file '%s'\n",nim->fname);
+         fprintf(stderr,"+d opening output file %s [%s]\n",nim->fname,opts);
       fp = znzopen( nim->fname , opts , nifti_is_gzfile(nim->fname) ) ;
       if( znz_isnull(fp) ){
          LNI_FERR(func,"cannot open output file",nim->fname);
@@ -5057,7 +5248,7 @@ znzFile nifti_write_ascii_image(nifti_image *nim, const nifti_brick_list * NBL,
                                                                                 
    if ( write_data   ) { nifti_write_all_data(fp,nim,NBL); }         /* data */
    if ( ! leave_open ) { znzclose(fp); }
-                                                                                
+   free(hstr);
    return fp;  /* returned but may be closed */
 }
 
@@ -5131,10 +5322,11 @@ nifti_image * nifti_copy_nim_info(const nifti_image * src)
   memcpy(dest, src, sizeof(nifti_image));
   if( src->fname ) dest->fname = nifti_strdup(src->fname);
   if( src->iname ) dest->iname = nifti_strdup(src->iname);
-
+  dest->num_ext = 0;
+  dest->ext_list = NULL;
   /* errors will be printed in NCE(), continue in either case */
   (void)nifti_copy_extensions(dest, src);
-  
+
   dest->data = NULL;
 
   return dest;

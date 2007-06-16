@@ -8,7 +8,7 @@
  * example is for you.
  *
  * This code does not deal with wrong-endian data, compressed data,
- * the new qform/sform orientation codes, parsing filesnames, volume-
+ * the new qform/sform orientation codes, parsing filenames, volume-
  * wise or timecourse-wise data access or any of a million other very useful
  * things that are in the niftilib i/o reference libraries.
  * We encourage people to use the niftilib reference library and send
@@ -50,12 +50,13 @@
  *      things like DT_UINT16.
  *
  * 5. other stuff
- *      nifti1 really does like the dim[0] field set to the number of
- *      dimensions of the dataset.  Other Analyze flavors might not
- *      have been so scrupulous about that.
- *      nifti1 has a bunch of other new fields such as intent codes,
- *      qform/sform, etc.  but, if you just want to get your hands on
- *      the data blob you can ignore these.
+ *     nifti1 really does like the dim[0] field set to the number of
+ *     dimensions of the dataset.  Other Analyze flavors might not
+ *     have been so scrupulous about that.
+ *     nifti1 has a bunch of other new fields such as intent codes,
+ *     qform/sform, etc. but, if you just want to get your hands on
+ *     the data blob you can ignore these.  Example use of these fields
+ *     is in the niftilib reference libraries.
  *
  *
  *

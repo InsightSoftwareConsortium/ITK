@@ -49,7 +49,7 @@ extern "C" {
 
 #include "config.h"
 
-#ifdef HAVE_ZLIB 
+#ifdef HAVE_ZLIB
 #if defined(ITKZLIB)
 #include "itk_zlib.h"
 #else
