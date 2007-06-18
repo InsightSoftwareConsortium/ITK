@@ -414,7 +414,6 @@ XCoherentFileSetmap SerieHelper::SplitOnOrientation(FileList *fileSet)
    itksys_ios::ostringstream ossOrient;
 
    FileList::const_iterator it = fileSet->begin();
-   it ++;
    for ( ;
          it != fileSet->end();
        ++it)
@@ -464,7 +463,6 @@ XCoherentFileSetmap SerieHelper::SplitOnPosition(FileList *fileSet)
    itksys_ios::ostringstream ossPosition;
    std::string strPosition; // re computed
    FileList::const_iterator it = fileSet->begin();
-   it ++;
    for ( ;
          it != fileSet->end();
        ++it)
@@ -540,7 +538,6 @@ XCoherentFileSetmap SerieHelper::SplitOnTagValue(FileList *fileSet,
    std::string strTagValue;  // read on disc
 
    FileList::const_iterator it = fileSet->begin();
-   it ++;
    for ( ;
          it != fileSet->end();
        ++it)
