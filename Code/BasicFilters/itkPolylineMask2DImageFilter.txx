@@ -136,10 +136,9 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   while ( piter != container->End() )
     {
     tmpVertex      = piter.Value();
-    outputImagePtr->TransformPhysicalPointToIndex(tmpVertex,tmpIndex);    
-    if ( !outputImagePtr->GetBufferedRegion().IsInside(tmpIndex))
+    if ( !outputImagePtr->GetBufferedRegion().IsInside(tmpVertex))
       {
-      itkExceptionMacro(<<"Polyline vertex is out of bound(Vertex,Index)"<<tmpVertex<<","<<tmpIndex);
+      itkExceptionMacro(<<"Polyline vertex is out of bound"<<tmpVertex);
       }
     ++piter;
     }
