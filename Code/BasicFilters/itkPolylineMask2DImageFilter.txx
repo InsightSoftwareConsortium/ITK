@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPolylineMask2DImageFilter_txx
-#define _itkPolylineMask2DImageFilter_txx
+#ifndef __itkPolylineMask2DImageFilter_txx
+#define __itkPolylineMask2DImageFilter_txx
 
 #include "itkPolylineMask2DImageFilter.h"
 #include "itkLineIterator.h"
@@ -66,14 +66,6 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
                                    const_cast< TPolyline * >( input ) );
 }
 
-template <class TInputImage, class TPolyline,
-          class TOutputImage>
-void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
-
 /**
  *
  */
@@ -82,20 +74,19 @@ template <class TInputImage, class TPolyline,
 void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
 ::GenerateData(void)
 {
-  typedef  LineIterator<TOutputImage>                    LineIteratorType;
-  typedef  ImageLinearIteratorWithIndex< TOutputImage >  ImageLineIteratorType;
+  typedef  LineIterator<TOutputImage>                   LineIteratorType;
+  typedef  ImageLinearIteratorWithIndex< TOutputImage > ImageLineIteratorType;
 
-  typedef typename TInputImage::Pointer                               InputImagePointer;
+  typedef typename TInputImage::Pointer                 InputImagePointer;
   typedef ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
 
-  typedef typename TOutputImage::IndexType                            ImageIndexType;
-  typedef typename TOutputImage::PixelType                            PixelType;
+  typedef typename TOutputImage::IndexType              ImageIndexType;
+  typedef typename TOutputImage::PixelType              PixelType;
   typedef ImageRegionIterator<TOutputImage>             OutputImageIteratorType;
 
-
-  typedef typename TPolyline::Pointer                                 PolylinePointer;
-  typedef typename TPolyline::VertexType                              VertexType;
-  typedef typename TPolyline::VertexListType                          VertexListType;
+  typedef typename TPolyline::Pointer                   PolylinePointer;
+  typedef typename TPolyline::VertexType                VertexType;
+  typedef typename TPolyline::VertexListType            VertexListType;
     
 
   typename TInputImage::ConstPointer inputImagePtr(
@@ -116,29 +107,32 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   outputImagePtr->SetLargestPossibleRegion( inputImagePtr->GetLargestPossibleRegion() );
   outputImagePtr->Allocate();   
 
-
   typedef typename VertexListType::Pointer      VertexListPointer;
    
   const VertexListType * container      = polylinePtr->GetVertexList();
 
   typename VertexListType::ConstIterator piter = container->Begin();
     
-  /* Rasterize each polyline segment using breshnan line iterator  */
+  /* Rasterize each polyline segment using bresenham line iterator  */
     
-  VertexType startVertex;
-  VertexType endVertex;
-  VertexType tmpVertex;
-  VertexType pstartVertex;
-
+  VertexType     startVertex;
+  VertexType     endVertex;
+  VertexType     pstartVertex;
+  VertexType     tmpVertex;
   ImageIndexType tmpIndex;
+
 
 /* Check if the polyline coordinates are within the input image */
   while ( piter != container->End() )
     {
-    tmpVertex      = piter.Value();
-    if ( !outputImagePtr->GetBufferedRegion().IsInside(tmpVertex))
+    tmpVertex     = piter.Value();
+    outputImagePtr->TransformPhysicalPointToIndex(tmpVertex, tmpIndex);
+    if ( !outputImagePtr->GetBufferedRegion().IsInside(tmpIndex))
       {
-      itkExceptionMacro(<<"Polyline vertex is out of bound"<<tmpVertex);
+      itkExceptionMacro(<< "Polyline vertex is out of bounds (Vertex,Index): "
+                        << tmpVertex
+                        << ", "
+                        << tmpIndex);
       }
     ++piter;
     }
@@ -149,7 +143,7 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   /* define flag to indicate the line segment slope */
   bool pflag;
 
-  /* define background, foreground pixel values and unlabed pixel value */
+  /* define background, foreground pixel values and unlabeled pixel value */
   PixelType zero_val = NumericTraits< PixelType >::ZeroValue();
   PixelType u_val = static_cast<PixelType> (0);
   PixelType b_val = static_cast<PixelType> (2);
@@ -208,8 +202,9 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
             }
           }
         else 
+          {
           imit.Set(b_val);
-
+          }
         ++imit;
         }
       ++it;
@@ -251,7 +246,9 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
           }
         }
       else 
+        {
         imit.Set(b_val);
+        }
       ++imit;
       }
     ++it;

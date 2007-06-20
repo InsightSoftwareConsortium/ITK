@@ -52,11 +52,9 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
   size[0] = 512;
   size[1] = 512;
 
-
   inputIndexType start;
   start[0] = 0;
   start[1] = 0;
-
 
   inputRegionType region;
   region.SetIndex( start );
@@ -69,6 +67,9 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
   inputImage->Allocate();
   inputImage->FillBuffer(0);
 
+  inputImageType::SpacingType spacing; spacing.Fill(.1);
+  inputImage->SetSpacing(spacing);
+
   // Declare Iterator types apropriated for each image 
   typedef itk::ImageRegionIteratorWithIndex<inputImageType>  inputIteratorType;
 
@@ -78,11 +79,11 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
   while( !it.IsAtEnd() ) 
     {
     /* fill in only the upper part of the image */
-      if(it.GetIndex()[1] > 256)
-        {
-        it.Set( 255 );
-        }
-      ++it;
+    if(it.GetIndex()[1] > 256)
+      {
+      it.Set( 255 );
+      }
+    ++it;
     }
 
   // Initialize the polyline 
@@ -90,20 +91,20 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
     
   // Add vertices to the polyline
   VertexType v;
-  v[0] = 128;
-  v[1] = 256;
+  v[0] = 12.8;
+  v[1] = 25.6;
   inputPolyline->AddVertex(v);
   
-  v[0] = 256;
-  v[1] = 394;
+  v[0] = 25.6;
+  v[1] = 39.4;
   inputPolyline->AddVertex(v);
   
-  v[0] = 394;
-  v[1] = 256;
+  v[0] = 39.4;
+  v[1] = 25.6;
   inputPolyline->AddVertex(v);
 
-  v[0] = 256;
-  v[1] = 128;
+  v[0] = 25.6;
+  v[1] = 12.8;
   inputPolyline->AddVertex(v);
   
   // Declare the type for the Mask image filter
@@ -120,9 +121,33 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
  
   // Connect the Polyline 
   filter->SetInput2    ( inputPolyline ); 
-  filter->Update();
-
-  return 0;
+  try
+    {
+    filter->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an unexpected exception. " << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  // Now cause and exception
+  v[0] = 256.0;
+  v[1] = 12.8;
+  inputPolyline->AddVertex(v);
+  
+  try
+    {
+    filter->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an expected exception. " << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_SUCCESS;
+    }
+  return EXIT_FAILURE;
 
 }
 
