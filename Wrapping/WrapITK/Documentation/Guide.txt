@@ -3,8 +3,6 @@ WrapITK README
 
 WrapITK is a project designed to allow classes from ITK (and custom, classes that interact with ITK) to be "wrapped" for use with scripting languages like Python, Tcl, and Java.
 
-Currently, WrapITK only supports Python properly; Java and Tcl libraries build correctly but the Java and Tcl support classes for loading these libraries needs some updating.
-
 Note that ITK already has a wrapping infrastructure. This project aims to be address the following deficits of the existing wrappers (and others):
 - The ITK wrapping system is difficult to understand and maintain. WrapITK was written -- and thoroughly documented -- to be as easy as possible to understand, maintain, and extend.
 - It is non-trivial to add wrappers for different ITK classes to the system. In WrapITK, adding a wrapper can be as simple as adding a single file containing a few well-documented cmake macros.
