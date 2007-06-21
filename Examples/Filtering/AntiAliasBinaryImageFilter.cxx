@@ -60,23 +60,26 @@ int main(int argc, char* argv[])
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage outputImage [RMS] [numberOfIterations]" << std::endl;
+    std::cerr << argv[0] << " inputImage outputImageDoublePixelType ";
+    std::cerr << " outputImage8BitsPixelType [RMS] [numberOfIterations]" << std::endl;
     return EXIT_FAILURE;
     }
    
-  const char * inputFilename  = argv[1];
-  const char * outputFilename = argv[2];
+  const char * inputFilename   = argv[1];
+  const char * outputFilename1 = argv[2];
+  const char * outputFilename2 = argv[3];
+
   double maximumRMSError = 0.01;
   unsigned int numberOfIterations = 50;
 
-  if( argc > 3 )
-    {
-    maximumRMSError = atof( argv[3] );
-    }
-
   if( argc > 4 )
     {
-    numberOfIterations = atoi( argv[4] );
+    maximumRMSError = atof( argv[4] );
+    }
+
+  if( argc > 5 )
+    {
+    numberOfIterations = atoi( argv[5] );
     }
 
 
@@ -89,6 +92,8 @@ int main(int argc, char* argv[])
 
   typedef itk::ImageFileReader< CharImageType >  ReaderType;
   typedef itk::ImageFileWriter< CharImageType >  WriterType;
+
+  typedef itk::ImageFileWriter< RealImageType >  RealWriterType;
 
 
 
@@ -126,7 +131,6 @@ int main(int argc, char* argv[])
   //Setting the IO
 
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
 
   CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
   RescaleFilter::Pointer rescale = RescaleFilter::New();
@@ -137,7 +141,6 @@ int main(int argc, char* argv[])
   AntiAliasFilterType::Pointer antiAliasFilter = AntiAliasFilterType::New();
 
   reader->SetFileName( inputFilename  );
-  writer->SetFileName( outputFilename );
 
   //The output of an edge filter is 0 or 1
   rescale->SetOutputMinimum(   0 );
@@ -146,17 +149,17 @@ int main(int argc, char* argv[])
   toReal->SetInput( reader->GetOutput() );
 
   antiAliasFilter->SetInput( toReal->GetOutput() );
-  
   antiAliasFilter->SetMaximumRMSError( maximumRMSError );
   antiAliasFilter->SetNumberOfIterations( numberOfIterations );
   antiAliasFilter->SetNumberOfLayers( 2 );
   
-  rescale->SetInput( antiAliasFilter->GetOutput() );
-  writer->SetInput( rescale->GetOutput() );
+  RealWriterType::Pointer realWriter = RealWriterType::New();
+  realWriter->SetInput( antiAliasFilter->GetOutput() );
+  realWriter->SetFileName( outputFilename1 );
+
   try 
     {
-    writer->Update();
-    std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations() << std::endl;
+    realWriter->Update();
     }
   catch( itk::ExceptionObject & err ) 
     { 
@@ -164,6 +167,24 @@ int main(int argc, char* argv[])
     std::cout << err << std::endl; 
     return EXIT_FAILURE;
     } 
+
+ 
+  WriterType::Pointer rescaledWriter = WriterType::New();
+  rescale->SetInput( antiAliasFilter->GetOutput() );
+  rescaledWriter->SetInput( rescale->GetOutput() );
+  rescaledWriter->SetFileName( outputFilename2 );
+  try 
+    {
+    rescaledWriter->Update();
+    }
+  catch( itk::ExceptionObject & err ) 
+    { 
+    std::cout << "ExceptionObject caught !" << std::endl; 
+    std::cout << err << std::endl; 
+    return EXIT_FAILURE;
+    } 
+
+  std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations() << std::endl;
 
   // Software Guide : EndCodeSnippet
 

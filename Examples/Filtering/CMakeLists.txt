@@ -701,6 +701,7 @@ ADD_TEST( AntiAliasBinaryImageFilterTest ${FILTERING_EXAMPLES3}
             ${TEMP}/AntiAliasBinaryImageFilter.png
   AntiAliasBinaryImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/VentricleModel.png
+        ${TEMP}/AntiAliasBinaryImageFilterDoublePixelType.mha
         ${TEMP}/AntiAliasBinaryImageFilter.png
         .001 50
 )
