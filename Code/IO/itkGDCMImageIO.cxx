@@ -830,7 +830,10 @@ void GDCMImageIO::Write(const void* buffer)
       {
       if (dictEntry->GetVR() != "OB" && dictEntry->GetVR() != "OW")
         {
-        if(dictEntry->GetGroup() != 0 && dictEntry->GetElement() != 0)
+        if(dictEntry->GetGroup() != 0 && dictEntry->GetElement() != 0
+        // Remove also any Rescale Slope or Intercept if present at read time.
+        && dictEntry->GetGroup() != 0x0028 && dictEntry->GetElement() != 0x1052
+        && dictEntry->GetGroup() != 0x0028 && dictEntry->GetElement() != 0x1053)
           {
           header->InsertValEntry( value,
                                   dictEntry->GetGroup(),
