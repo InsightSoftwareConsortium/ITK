@@ -42,6 +42,9 @@ TARGET_LINK_LIBRARIES(RGBImageSeriesReadWrite ITKCommon ITKIO)
 ADD_EXECUTABLE(ImageSeriesReadWrite ImageSeriesReadWrite.cxx )
 TARGET_LINK_LIBRARIES(ImageSeriesReadWrite ITKCommon ITKIO)
 
+ADD_EXECUTABLE(ImageSeriesReadWrite2 ImageSeriesReadWrite2.cxx )
+TARGET_LINK_LIBRARIES(ImageSeriesReadWrite2 ITKCommon ITKIO)
+
 ADD_EXECUTABLE(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
 TARGET_LINK_LIBRARIES(ImageReadImageSeriesWrite ITKCommon ITKIO)
 
