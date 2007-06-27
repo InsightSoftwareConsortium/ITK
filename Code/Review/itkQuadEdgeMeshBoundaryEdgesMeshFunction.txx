@@ -51,8 +51,9 @@ Evaluate( const InputType& mesh )
   CellsContainerConstIterator cellEnd      = mesh.GetCells()->End();
   while( cellIterator != cellEnd )
     {
-    if( QEPrimal* edge = dynamic_cast< QEPrimal* >( cellIterator.Value()) )
+       if( EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
       {
+           QEPrimal* edge = cell->GetQEGeom( );
       if( !edge->IsInternal( ) )
         {
         boundaryList.push_front( edge );

@@ -53,7 +53,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 
   // Clear the points potentialy left behind by LightWeightDeleteEdge():
-  this->GetPoints()->clear();
+  if( this->GetPoints( ) )
+      this->GetPoints( )->clear( );
+  this->ClearFreePointAndCellIndexesLists( ); // otherwise do not start at index 0
+
 }
 
 /**
@@ -191,13 +194,14 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     if( oldOriginId == orgId )
       {
       itkWarningMacro( "Trying to fuse the same point!" );
-      return m_NoPoint;
+      return( m_NoPoint );
       }
   
     /** \todo Compare the geometry of the two points and accept
     * splicing when their geometry matches. We could fix
     * an epsilon threshold distance above which the two points
-    * are considered distinct. */
+    * are considered distinct.
+    */
     PointType oldOrigin = this->GetPoint( oldOriginId );
     PointType org = this->GetPoint( orgId );
   
@@ -239,12 +243,13 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         || ( aLeftFace != m_NoFace && bLeftFace == m_NoFace ) )
       {
       itkWarningMacro("Face on one side but not the other. Cancel.");
-      return m_NoPoint;
+      return( m_NoPoint );
       }
   
     if( aLeftFace != m_NoFace && bLeftFace != m_NoFace )
       {
-      if( ( aLeftFace == bLeftFace ) && ( a->GetLnext() != b )
+           if(   ( aLeftFace == bLeftFace )
+              && ( a->GetLnext( )              != b ) 
           && ( a->GetLnext()->GetLnext() != b )
           && ( b->GetLnext() != a )
           && ( b->GetLnext()->GetLnext() != a )
@@ -301,7 +306,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   return resultingOriginId;
 }
 
-/**      */
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 bool QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindClosestPoint( 
@@ -324,22 +330,23 @@ bool QuadEdgeMesh< TPixel, VDimension, TTraits >
     pit++;
     }
 
-  return true;
+  return( true );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::SetCell( CellIdentifier cId, CellAutoPointer& cell )
 {
   (void)cId;
 
-  EdgeCellType* qe;
-  PolygonCellType* pe;
+    EdgeCellType* qe = (EdgeCellType*)0;
+    PolygonCellType* pe = (PolygonCellType*)0;
 
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
-    this->AddEdge( qe->GetOrigin(), qe->GetDestination() );
+        this->AddEdge( qe->GetQEGeom( )->GetOrigin( ), qe->GetQEGeom( )->GetDestination( ) );
     }
   else if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer() ) ) )
     {
@@ -357,7 +364,8 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -368,7 +376,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   if( m_FreePointIndexes.size() == 0 )
     {
     pid = this->GetNumberOfPoints();
-
     if( pid != 0 )
       {
       PointsContainerIterator last = this->GetPoints()->End();
@@ -381,11 +388,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     pid = m_FreePointIndexes.front();
     m_FreePointIndexes.pop();
     }
-
-  return pid;
+  return( pid );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -393,10 +400,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   PointIdentifier pid = this->FindFirstUnusedPointIndex();
   this->SetPoint( pid, p );
-  return pid;
+  return( pid );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::DeletePoint( const PointIdentifier& pid )
@@ -411,25 +419,28 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
   m_FreePointIndexes.push( pid );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointType
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetPoint( const PointIdentifier& pid ) const
 {
-  return this->GetPoints()->GetElement( pid );
+  return( this->GetPoints()->GetElement( pid ) );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::VectorType
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetVector( const PointIdentifier& pid ) const
 {
-  return this->GetPoint( pid ).GetVectorFromOrigin();
+  return( this->GetPoint( pid ).GetVectorFromOrigin( ) );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -439,6 +450,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   if( m_FreeCellIndexes.size() == 0 )
     {
+
     cid = this->GetNumberOfCells();
 
     if( cid != 0 )
@@ -454,7 +466,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     m_FreeCellIndexes.pop();
     }
 
-  return cid;
+  return( cid );
 }
 
 /**
@@ -473,7 +485,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   if( orgPid == destPid )
     {
     itkDebugMacro( "Creating an edge between the same point." );
-    return (QEPrimal*)NULL;
+    return( (QEPrimal*)0 );
     }
 
   // Make sure the points are allready in the QuadEdgeMesh container:
@@ -481,65 +493,66 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       !( this->GetPoints()->IndexExists( destPid ) ) )
     {
     itkDebugMacro( "One of the points not in the PointSet." );
-    return (QEPrimal*)NULL;
+    return( (QEPrimal*)0 );
     }
 
   // Make sure the edge is not allready in the container
   QEPrimal* e = this->FindEdge( orgPid, destPid );
-  if( e != (QEPrimal*)NULL )
+  if( e != (QEPrimal*)0 )
     {
     itkDebugMacro("Edge already in QuadEdgeMesh.");
     return e;
     }
 
   // Check if the points have room to receive a new edge
-  QEPrimal*  eOrigin = this->FindEdge(  orgPid );
+  QEPrimal*  eOrigin     = this->FindEdge(  orgPid );
   QEPrimal* eDestination = this->FindEdge( destPid );
 
   if( eOrigin && eOrigin->IsOriginInternal() )
     {
     itkDebugMacro("No room for a new edge in the Origin() ring.");
-    return (QEPrimal*)NULL;
+    return( (QEPrimal*)0 );
     }
 
   if( eDestination && eDestination->IsOriginInternal() )
     {
     itkDebugMacro("No room for a new edge in the Destination() ring.");
-    return (QEPrimal*)NULL;
+    return( (QEPrimal*)0 );
     }
 
   // Ok, there's room and the points exist
-  EdgeCellType* newEdge = new EdgeCellType( true );
+  EdgeCellType* newEdge = new EdgeCellType( );
+  QEPrimal* newEdgeGeom = newEdge->GetQEGeom( );
 
-  newEdge->SetOrigin (  orgPid );
-  newEdge->SetDestination( destPid );
+  newEdgeGeom->SetOrigin (  orgPid );
+  newEdgeGeom->SetDestination( destPid );
 
   if( !eOrigin )
     {
     PointType pOrigin = this->GetPoint( orgPid );
-    pOrigin.SetEdge( newEdge );
+    pOrigin.SetEdge( newEdgeGeom );
     this->SetPoint( orgPid, pOrigin );
     }
   else
     {
-    eOrigin->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge );
+       eOrigin->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom );
     }
 
   if( !eDestination )
     {
     PointType pDestination = this->GetPoint( destPid );
-    pDestination.SetEdge( newEdge->GetSym() );
+    pDestination.SetEdge( newEdgeGeom->GetSym() );
     this->SetPoint( destPid, pDestination );
     }
   else
     {
-    eDestination->InsertAfterNextBorderEdgeWithUnsetLeft( newEdge->GetSym() );
+    eDestination->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom->GetSym() );
     }
 
   // Add it to the container
   this->PushOnContainer( newEdge );
 
-  return newEdge;
+  return( newEdgeGeom );
 }
 
 /**
@@ -552,7 +565,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   // Add it to the container
   CellIdentifier eid = this->FindFirstUnusedCellIndex();
   newEdge->SetIdent( eid );
-  newEdge->GetSym()->SetIdent( eid );
   CellAutoPointer edge;
   edge.TakeOwnership( newEdge );
   this->Superclass::SetCell( eid, edge );
@@ -568,7 +580,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   // Check if the edge exists
   QEPrimal* e = this->FindEdge( orgPid, destPid );
 
-  if( e == (QEPrimal*)NULL )
+  if( e == (QEPrimal*)0 )
     {
     itkDebugMacro("Edge missing in mesh.");
     return;
@@ -597,7 +609,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
     else
       {
-      pOrigin.SetEdge( (QEPrimal*)NULL );
+      pOrigin.SetEdge( (QEPrimal*)0 );
       }
 
     this->SetPoint( orgPid, pOrigin );
@@ -636,10 +648,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cit.Value() );
     PolygonCellType* pcell = dynamic_cast< PolygonCellType* >(cit.Value());
     bool toDelete = false;
-
-    if( cell != (EdgeCellType*)NULL )
+    if( cell != (EdgeCellType*)0 )
       {
-      QEPrimal* edge = dynamic_cast< QEPrimal* >( cell );
+      QEPrimal* edge = cell->GetQEGeom( );
       toDelete = ( edge == e || edge->GetSym() == e );
       }
     else if( pcell != (PolygonCellType*)0 )
@@ -671,6 +682,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       cellsToDelete.push_back( cit.Index() );
       m_FreeCellIndexes.push( cit.Index() );
       }
+
     cit++;
     }
 
@@ -707,8 +719,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
-::LightWeightDeleteEdge( QEPrimal* e )
+::LightWeightDeleteEdge( EdgeCellType* edgeCell )
 {
+ 
+  QEPrimal* e = edgeCell->GetQEGeom( );
+ 
   /////////////////////////////////////////////////////////////////
   // First make sure the points are not pointing to the edge we are
   // trying to delete.
@@ -728,7 +743,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
     else
       {
-      pOrigin.SetEdge( (QEPrimal*)NULL );
+      pOrigin.SetEdge( (QEPrimal*)0 );
       }
 
     this->SetPoint( orgPid, pOrigin );
@@ -745,7 +760,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
     else
       {
-      pDestination.SetEdge( (QEPrimal*)NULL );
+      pDestination.SetEdge( (QEPrimal*)0 );
       }
 
     this->SetPoint( destPid, pDestination );
@@ -768,27 +783,36 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   /////////////////////////////////////////////////////////////////
   // Third we need to remove from the container the EdgeCell
   // representing the edge we are trying to destroy at the itk
-  // level. For this we first get our hands back on the EdgeCell
-  // by upcasting to EdgeCellType*:
-  EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* > ( e );
-
-  if( !edgeCell )
-    {
-    edgeCell = dynamic_cast< EdgeCellType* > ( e->GetSym() );
-    }
-
-  if( !edgeCell )
-    {
-    itkWarningMacro("Neither e nor e->Sym() are upcastable");
-    return;
-    }
-
+  // level.
   this->GetCells()->DeleteIndex( edgeCell->GetIdent() );
+    edgeCell->SetIdent( 0 );
 
   // Eventually, we disconnect (at the QuadEdge level) the edge we
   // are trying to delete and let the garbage collector do the rest:
   e->Disconnect();
   this->Modified();
+}
+
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+void 
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::LightWeightDeleteEdge( QEPrimal* e )
+{
+    if( e == (QEPrimal*)0 )
+    {
+        itkWarningMacro( "No Incoming edge." );
+        return;
+    }
+    
+    EdgeCellType* edgeCell = FindEdgeCell( e->GetOrigin( ), e->GetDestination( ) );
+    if( edgeCell == (EdgeCellType*)0 )
+    {
+        itkWarningMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
+        return;
+    }
+    
+    LightWeightDeleteEdge( edgeCell );
+    
 }
 
 /**
@@ -840,25 +864,23 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge() const
 {
-  QEPrimal* e = (QEPrimal*)NULL;
+    EdgeCellType* e = (EdgeCellType*)0;
   CellsContainerIterator cit = this->GetCells()->Begin();
-
-  while( cit != this->GetCells()->End() && e == (QEPrimal*)0 )
+    while(cit != this->GetCells( )->End( ) )
     {
-    e = dynamic_cast< QEPrimal* >( cit.Value() );
-
-    // Check if we can get an edge from a potential polygon
-    if( e == (QEPrimal*)NULL )
+        e = dynamic_cast< EdgeCellType* >( cit.Value( ) );
+        if( e == (EdgeCellType*)0)
+    {
+           PolygonCellType* pol = dynamic_cast< PolygonCellType* >( cit.Value( ) );
+           return( pol->GetEdgeRingEntry( ) );
+        }
+        else
       {
-      PolygonCellType* pol =
-        dynamic_cast< PolygonCellType* >( cit.Value() );
-      e = ( pol )?
-        dynamic_cast< QEPrimal* >( pol->GetEdgeRingEntry() ): e;
+           return( e->GetQEGeom( ) );
       }
-    cit++;
+        cit++; 
     }
-
-  return e;
+    return( (QEPrimal*)0 );
 }
 
 /**
@@ -868,10 +890,12 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge( const CellIdentifier& eid ) const
 {
-  QEPrimal* cell = ( dynamic_cast< QEPrimal* >
-      ( this->GetCells()->GetElement( eid ) ) );
+    EdgeCellType* e = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( eid ) );
+    QEPrimal* result = (QEPrimal*)0;
+    if ( e != (EdgeCellType*)0 )
+       result = e->GetQEGeom( );               
 
-  return cell;
+  return( result );
 }
 
 /**
@@ -895,7 +919,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdge( const PointIdentifier& pid0, const PointIdentifier& pid1 ) const
 {
   QEPrimal * initialEdge = this->FindEdge( pid0 );
-
   QEPrimal * edgeFound = static_cast< QEPrimal * >(NULL);
 
   if( initialEdge )
@@ -914,10 +937,31 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     
     }
 
-  return edgeFound;
+  return( edgeFound );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::EdgeCellType*
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::FindEdgeCell( const PointIdentifier& pid0,const PointIdentifier& pid1 ) const
+{
+    EdgeCellType* result = (EdgeCellType*)0;
+    QEPrimal* EdgeGeom = FindEdge( pid0, pid1);
+    if( EdgeGeom != (QEPrimal*)0 )
+    {
+       CellIdentifier LineIdent = EdgeGeom->GetIdent( );
+       if( LineIdent != m_NoPoint )
+       {
+          result = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
+       }
+    }
+    return( result );
+}
+
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -941,7 +985,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     if( count != 1 )
       {
       itkDebugMacro("Point "<<i<<" is duplicated");
-      return (QEPrimal*) NULL;
+      return( (QEPrimal*)NULL );
       }
     }
 
@@ -964,14 +1008,15 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     QEPrimal* edge = this->FindEdge( pid0, pid1 );
 
     if( edge )
-      {
-      if( edge->IsLeftSet() )
         {
-        itkDebugMacro("Edge [" << i << " " << ((i+1) % points.size())
-          <<" has a left face.");
-        return (QEPrimal*) NULL;
-        }
-      }
+            if( edge->IsLeftSet() )
+           {
+              itkDebugMacro("Edge [" << i << " " << ((i+1) % points.size())
+              <<" has a left face.");
+              return (QEPrimal*) NULL;
+          }
+         }
+     
     }
 
   // Now create edges as needed.
@@ -1011,7 +1056,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   this->AddFace(entry);
 
-  return entry;
+  return( entry );
 }
 
 /**
@@ -1065,14 +1110,16 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   return this->AddFace( points );
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::QuadEdgeMesh()
 {
 }
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CoordRepType
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -1083,7 +1130,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   const CoordRepType length = org.EuclideanDistanceTo( dest );
   
-  return length;
+  return( length );
 }
 
 /**
@@ -1115,7 +1162,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   if( ! points )
     {
     itkWarningMacro("No point container");
-    return 0;
+    return( 0 );
     }
 
   unsigned long numberOfPoints = 0;
@@ -1130,7 +1177,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     pointIterator++;
     }
 
-  return numberOfPoints;
+  return( numberOfPoints );
 }
 
 /**
@@ -1157,7 +1204,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     ++cellIterator;
     }
 
-  return numberOfFaces;
+  return( numberOfFaces );
 }
 
 /**
@@ -1178,16 +1225,18 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   while( cellIterator != cellEnd )
     {
-    QEPrimal* edge = dynamic_cast< QEPrimal* >( cellIterator.Value());
-    if( edge )
+
+       EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) );
+       if( cell != (EdgeCellType*)0 )
       {
-      numberOfEdges++;
+          (void)cell;
+          numberOfEdges++;
       }
 
     ++cellIterator;
     }
 
-  return numberOfEdges;
+  return( numberOfEdges );
 }
 
 } // namespace itk

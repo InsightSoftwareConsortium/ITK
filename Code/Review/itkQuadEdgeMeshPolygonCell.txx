@@ -30,16 +30,18 @@ QuadEdgeMeshPolygonCell< TCellInterface >
   this->m_Ident = 0;
 
   // Create entry point
-  this->m_EdgeRingEntry = this->MakeQuadEdges();
+  EdgeCellType* edge = new EdgeCellType;
+    m_EdgeRingEntry = edge->GetQEGeom( );
 
   // Create the rest
   QuadEdgeType* last = m_EdgeRingEntry;
   for( unsigned int i = 1; i < nPoints; i++ )
     {
-    QuadEdgeType * edge = this->MakeQuadEdges();
+        edge = new EdgeCellType( );
+        QuadEdgeType* edgeGeom = edge->GetQEGeom( );
 
-    edge->Splice( last->GetSym() );
-    last = edge;
+    edgeGeom->Splice( last->GetSym() );
+    last = edgeGeom;
     }
 
   // Last topological connection, i.e., close the face
@@ -68,31 +70,6 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshPolygonCell< TCellInterface >::QuadEdgeType *
-QuadEdgeMeshPolygonCell< TCellInterface >
-::MakeQuadEdges()
-{
-  QuadEdgeType * e1 = new QuadEdgeType();
-  QEDual * e2 = new QEDual();
-  QuadEdgeType * e3 = new QuadEdgeType();
-  QEDual * e4 = new QEDual();
-  
-  e1->SetRot( e2 );
-  e2->SetRot( e3 );
-  e3->SetRot( e4 );
-  e4->SetRot( e1 );
-  
-  e1->SetOnext( e1 );
-  e2->SetOnext( e4 );
-  e3->SetOnext( e3 );
-  e4->SetOnext( e4 );
-
-  return e1;
-}
-
-
-// ---------------------------------------------------------------------
-template< class TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::Accept( unsigned long cellId, MultiVisitor* mv )
 {
@@ -111,7 +88,7 @@ unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
 {
   unsigned int n = 0;
   PointIdConstIterator it = this->PointIdsBegin();
-  while( it != this->PointIdsEnd() );
+  while( it != this->PointIdsEnd() )
     {
     it++;
     n++;

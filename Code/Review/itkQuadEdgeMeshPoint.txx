@@ -91,7 +91,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 {
   this->Superclass::operator=( r );
   m_Edge = r.m_Edge;
-  return  *this;
+    return( *this );
 }
 
 // ---------------------------------------------------------------------
@@ -102,7 +102,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 {
   this->Superclass::operator=( r );
   this->Initialize();
-  return *this;
+    return( *this );
 }
 
 // ---------------------------------------------------------------------
@@ -112,8 +112,8 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::operator=( const ValueArrayType & r )
 {
   this->Superclass::operator=( r );
-  this->Initialize();
-  return *this;
+    this->Initialize( );
+    return( *this );
 }
 
 #if 0
@@ -124,8 +124,8 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::operator=( const VectorType& vec )
 {
   this->BaseArray::operator=( vec );
-  this->Initialize();
-  return *this;
+    this->Initialize( );
+    return( *this );
 }
 #endif
 

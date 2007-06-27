@@ -47,33 +47,6 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 
 
 /**
- *   Destructor
- */
-template< typename TVRef, typename TFRef,
-          typename TPrimalData, typename TDualData, bool PrimalDual >
-GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
-::~GeometricalQuadEdge()
-{
-  DualType * e1 = this->GetRot();
-  if( e1 )
-    {
-    Self * e2 = e1->GetRot();
-    if( e2 )
-      {
-      DualType * e3 = e2->GetRot();
-      if( e3 )
-        {
-        delete e3;
-        }
-      delete e2;
-      }
-    delete e1;
-    }
-  std::cout << "GeometricalQuadEdge::Destructor" << std::endl;
-}
-
-
-/**
  */
 template< typename TVRef, typename TFRef,
           typename TPrimalData, typename TDualData, bool PrimalDual >
@@ -130,7 +103,7 @@ template< typename TVRef, typename TFRef,
                       it++ )
     {
     if( b == it.Value() )
-      {
+       {
       return true;
       }
     }
@@ -216,6 +189,29 @@ template< typename TVRef, typename TFRef,
     bool facesAreSet = this->IsLeftSet() && it.Value()->IsLeftSet();
     //
     // FIXME: This boolean expression can be simplified.
+    // ALEX : what about the version below ?
+    //
+    // if ( this->IsLeftSet() )         // one left set
+    // {
+    //     if (it.Value()->IsLeftSet()) // two left set
+    //     {
+    //         if( !(this->GetLeft() == it.Value()->GetLeft()) )
+    //          {
+    //              return( false );    // not same face
+    //           }
+    //      }
+    //      else                        // only one set
+    //      {
+    //          return( false );
+    //       }
+    // }
+    // else // one not set
+    // {
+    //     if(it.Value()->IsLeftSet()) // only one set
+    //     {
+    //         return( false );
+    //     }
+    // }
     // 
     if( !( facesAreNotSet || ( facesAreSet && facesAreTheSame ) ) )
       {
@@ -561,7 +557,7 @@ template< typename TVRef, typename TFRef,
   //                            p-------p                            //
   //
   Self* first = this;
-  Self* bsplice;
+  Self* bsplice = 0;
 
   // Making sure point adjacency is correct:
   if( first->GetOrigin() != second->GetOrigin() )
@@ -700,19 +696,13 @@ bool
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::IsRightSet() const
 {
-  const Superclass * p1 = this->GetRot();
+  const DualType * p1 = this->GetRot();
   if( p1 == NULL )
     {
     return false;  // FIXME: Is this the right answer ?
     }
 
-  const Self * p2 = dynamic_cast< const Self * >( p1 );
-  if( p2 == NULL )
-    {
-    return false;  // FIXME: Is this the right answer ?
-    }
-
-  return p2->IsOriginSet();
+  return p1->IsOriginSet();
 }
 
 
@@ -723,21 +713,14 @@ bool
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::IsLeftSet() const
 {
-  const Superclass * p1 = this->GetInvRot();
+  const DualType * p1 = this->GetInvRot();
   if( p1 == NULL )
     {
     return false;  // FIXME: Is this the right answer ?
     }
 
-  const Self * p2 = dynamic_cast< const Self * >( p1 );
-  if( p2 == NULL )
-    {
-    return false;  // FIXME: Is this the right answer ?
-    }
-
-  return p2->IsOriginSet();
+  return p1->IsOriginSet();
 }
-
 
 } // end of namespace itk 
 

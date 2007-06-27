@@ -81,6 +81,9 @@ public:
   typedef TFRef               DualOriginRefType;
   typedef TPrimalData         PrimalDataType;
   typedef TDualData           DualDataType;
+  // Line Cell Id in Mesh Cell Container
+  // used to go up to LineCell level
+  typedef TFRef  LineCellIdentifier;
 
 public:
 
@@ -110,7 +113,7 @@ public:
 public:
   /** Memory creation methods. */
   GeometricalQuadEdge();
-  virtual ~GeometricalQuadEdge();
+  virtual ~GeometricalQuadEdge() {};
 
   /** Set methods. */
   void SetOrigin( const OriginRefType v )
@@ -224,6 +227,9 @@ public:
               this->IsDestinationDisconnected() ); }
   void Disconnect();
 
+  void SetIdent( const LineCellIdentifier& User_Value ) { this->m_LineCellIdent = User_Value; };
+  LineCellIdentifier GetIdent( ) { return( this->m_LineCellIdent ); };
+
 public:
   // Reserved OriginRefType designated to represent the absence of Origin
   static const OriginRefType m_NoPoint;
@@ -232,6 +238,8 @@ protected:
   OriginRefType     m_Origin;    // Geometrical information
   PrimalDataType    m_Data;      // User data associated to this edge.
   bool              m_DataSet;   // Indicates if the data is set.
+  LineCellIdentifier m_LineCellIdent;
+
 };
 
 } 

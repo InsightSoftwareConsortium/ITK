@@ -71,8 +71,10 @@ public:
   /** Multivisitor type. */
   typedef typename CellType::MultiVisitor MultiVisitor;
   
+   typedef QuadEdgeMeshLineCell< CellType >                  EdgeCellType;
+
   /** QE types. */
-  typedef typename Superclass::CellTraits::QuadEdgeType  QuadEdgeType;
+  typedef typename CellTraits::QuadEdgeType              QuadEdgeType;
   typedef typename QuadEdgeType::OriginRefType           VertexRefType;
   typedef typename QuadEdgeType::DualOriginRefType       FaceRefType;
   typedef typename QuadEdgeType::PrimalDataType          PrimalDataType;
@@ -142,8 +144,6 @@ public:
 private:
   QuadEdgeMeshPolygonCell( const Self& );    // Not impl.
   void operator=( const Self& ); // Not impl.
-
-  QuadEdgeType * MakeQuadEdges();
 
 private:
   /** In order to have constant time access at the itk level instead of

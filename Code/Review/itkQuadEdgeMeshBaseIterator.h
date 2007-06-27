@@ -91,7 +91,8 @@ namespace itk
  *
  * \brief Base iterator class for QuadEdgeMesh
  */
-template< typename TQuadEdge > class QuadEdgeMeshBaseIterator
+template< typename TQuadEdge >
+class QuadEdgeMeshBaseIterator
 {
 public:
   // Hierarchy typedefs & values.
@@ -132,39 +133,39 @@ public:
     m_Iterator = r.m_Iterator;
     m_OpType = r.m_OpType;
     m_Start = r.m_Start;
-    return *this;
+    return( *this );
     }
 
-  QuadEdgeType* GetStartEdge() const { return m_StartEdge; }
-  QuadEdgeType* GetIterator() const  { return m_Iterator; }
-  int           GetOpType() const    { return m_OpType; }
-  bool          GetStart() const     { return m_Start; }
+  QuadEdgeType* GetStartEdge() const { return( m_StartEdge ); }
+  QuadEdgeType* GetIterator() const  { return( m_Iterator ); }
+  int           GetOpType() const    { return( m_OpType ); }
+  bool          GetStart() const     { return( m_Start ); }
 
   /** Iteration methods. */
   bool operator==( Self & r )
     {
-    return ( m_StartEdge == r.m_StartEdge ) &&
+    return( ( m_StartEdge == r.m_StartEdge ) &&
       ( m_Iterator  == r.m_Iterator )  &&
       ( m_OpType    == r.m_OpType )  &&
-      ( m_Start     == r.m_Start );
+      ( m_Start     == r.m_Start ) );
     }
     
   bool operator==( const Self & r ) const
     {
-    return ( m_StartEdge == r.m_StartEdge ) &&
+    return( ( m_StartEdge == r.m_StartEdge ) &&
       ( m_Iterator  == r.m_Iterator )  &&
       ( m_OpType    == r.m_OpType )  &&
-      ( m_Start     == r.m_Start );
+      ( m_Start     == r.m_Start ) );
     }
 
   bool operator!=( Self & r )
     { 
-    return !( this->operator==( r ) );
+    return( !( this->operator==( r ) ) );
     }
   
   bool operator!=( const Self & r ) const
     {
-    return !( this->operator==( r ) );
+    return( !( this->operator==( r ) ) );
     }
   
   Self & operator++()
@@ -175,7 +176,7 @@ public:
       m_Start = !( m_Iterator == m_StartEdge );
       }
 
-    return *this;
+    return( *this );
     }
   
   Self & operator++( int )
@@ -184,9 +185,8 @@ public:
       {
       this->GoToNext();
       m_Start = !( m_Iterator == m_StartEdge );
-      }
-    
-    return *this;
+      }  
+    return( *this );
     }
   
 protected:
@@ -238,7 +238,8 @@ protected:
  * \brief Non const iterator for QuadMesh
  */
 template< typename TQuadEdge >
-class QuadEdgeMeshIterator : public QuadEdgeMeshBaseIterator< TQuadEdge >
+class QuadEdgeMeshIterator
+: public QuadEdgeMeshBaseIterator< TQuadEdge >
 {
 public:
   /** Hierarchy typedefs and values. */
@@ -255,8 +256,8 @@ public:
 
   virtual ~QuadEdgeMeshIterator() {}
 
-  QuadEdgeType * Value() { return this->m_Iterator; }
-  const QuadEdgeType * Value() const { return this->m_Iterator; }
+  QuadEdgeType * Value() { return( this->m_Iterator ); }
+  const QuadEdgeType * Value() const { return( this->m_Iterator ); }
 };
 
 /**
@@ -281,7 +282,7 @@ public:
                             int op = Superclass::OperatorOnext,
                             bool start = true )
     : Superclass( e, op, start ) {}
-  OriginRefType operator*() { return this->m_Iterator->GetOrigin(); }
+  OriginRefType operator*() { return( this->m_Iterator->GetOrigin( ) ); }
 };
 
 /**
@@ -315,10 +316,10 @@ public:
     this->m_Iterator = r.GetIterator();
     this->m_OpType = r.GetOpType();
     this->m_Start = r.GetStart();
-    return *this;
+    return( *this );
     }
 
-  const QuadEdgeType* Value() const { return this->m_Iterator; }
+  const QuadEdgeType* Value() const { return( this->m_Iterator ); }
 };
 
 /**
@@ -354,12 +355,12 @@ public:
     this->m_Iterator = r.GetIterator();
     this->m_OpType = r.GetOpType();
     this->m_Start = r.GetStart();
-    return *this;
+    return( *this );
     }
   
   const OriginRefType operator*() const
     {
-    return this->m_Iterator->GetOrigin();
+    return( this->m_Iterator->GetOrigin() );
     }
 };
 

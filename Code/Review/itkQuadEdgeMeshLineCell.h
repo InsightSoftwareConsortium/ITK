@@ -77,7 +77,7 @@ public:
   typedef typename CellType::MultiVisitor MultiVisitor;
 
   /** QE types. */
-  typedef typename Superclass::CellTraits::QuadEdgeType  QEType;
+  typedef typename CellTraits::QuadEdgeType              QEType;
   typedef typename QEType::OriginRefType                 VertexRefType;
   typedef typename QEType::DualOriginRefType             FaceRefType;
   typedef typename QEType::PrimalDataType                PrimalDataType;
@@ -92,18 +92,17 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro( QuadEdgeMeshLineCell, TCellInterface );
 
-  /** Methods for a QECell. */
-  virtual void MakeEdge();
- 
-  itkQEAccessorsMacro( QEType, Self, QEDual );
+    // accessor to the new QEGeom link that replaces now inheritance.
+    QEType* GetQEGeom( ) { return( m_QuadEdgeGeom ); };
 
 public:
   /** Object memory management methods. */
-  QuadEdgeMeshLineCell( bool makeEdge = true );
+  QuadEdgeMeshLineCell( );
   virtual ~QuadEdgeMeshLineCell();
 
   /** Accessors for m_Identifier. */
   void SetIdent( CellIdentifier cid );
+  
   CellIdentifier GetIdent();
 
   /** Implement the standard CellInterface. */
@@ -114,7 +113,7 @@ public:
   virtual CellGeometry GetType() const;
 
   /** Topology related methods. */
-  static int GetTopologyId();
+  static int GetTopologyId( );
   virtual unsigned int GetDimension() const;
   virtual unsigned int GetNumberOfPoints() const;
   
@@ -147,7 +146,8 @@ private:
    * In order to have constant time access at the itk level instead of 
    * of doing a search in the Mesh::Cell container.
    */
-  CellIdentifier m_Identifier;
+    CellIdentifier m_Identifier;
+    QEType* m_QuadEdgeGeom;
 };
 
 } // end namespace itk

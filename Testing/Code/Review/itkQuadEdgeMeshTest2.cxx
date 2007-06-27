@@ -26,6 +26,7 @@ int itkQuadEdgeMeshTest2( int , char* [] )
   typedef itk::QuadEdgeMesh< PixelType, 3 >        MeshType;
   typedef MeshType::CellType                       CellType;
   typedef itk::QuadEdgeMeshLineCell< CellType >    LineType;
+  typedef LineType::QEType                         QuadEdgeType;
   typedef CellType::CellAutoPointer                CellAutoPointer;
 
   MeshType::Pointer  mesh = MeshType::New();
@@ -80,9 +81,10 @@ int itkQuadEdgeMeshTest2( int , char* [] )
   while( cellIterator != mesh->GetCells()->End() )
     {
     MeshType::CellType* cellptr = cellIterator.Value();
-    LineType* line = dynamic_cast< LineType* >( cellptr );
-    LineType::IteratorGeom git = line->BeginGeomLnext();
-    while( git != line->EndGeomLnext() )
+    LineType* lineCell = dynamic_cast< LineType* >( cellptr );
+    QuadEdgeType* QEGeom = lineCell->GetQEGeom( );
+    QuadEdgeType::IteratorGeom git = QEGeom->BeginGeomLnext();
+    while( git != QEGeom->EndGeomLnext() )
       {
       if( ids[ itIds ] != *git )
         {

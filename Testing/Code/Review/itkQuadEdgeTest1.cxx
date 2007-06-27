@@ -982,7 +982,7 @@ int itkQuadEdgeTest1( int , char* [] )
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
-    if( quadEdge1c->IsIsolated() != false )
+    if( quadEdge1c->IsIsolated() != true )
       {
       std::cerr << "Error in IsIsolated() A" << std::endl;
       return EXIT_FAILURE;
@@ -1130,15 +1130,29 @@ int itkQuadEdgeTest1( int , char* [] )
     quadEdgeC3->SetRot( quadEdgeC4 );
     quadEdgeC4->SetRot( quadEdgeC1 );
 
-    // Connect the Oring of quad-edges inside the face
+    // PRIMAL ORING
+    // connect Orings of Top point
+    quadEdgeA3->SetOnext( quadEdgeB1 );
+    quadEdgeB1->SetOnext( quadEdgeA3 );
+
+    // connect Oring of bottom left point
+    quadEdgeB3->SetOnext( quadEdgeC1 );
+    quadEdgeC1->SetOnext( quadEdgeB3 );
+
+    // connect Oring of bottom right point
+    quadEdgeC3->SetOnext( quadEdgeA1 );
+    quadEdgeA1->SetOnext( quadEdgeC3 );
+
+    // DUAL ORING (FACE)
+    // triangle
     quadEdgeA4->SetOnext( quadEdgeB4 );
     quadEdgeB4->SetOnext( quadEdgeC4 );
     quadEdgeC4->SetOnext( quadEdgeA4 );
 
-    // Connect the Oring of the three vertices
-    quadEdgeA1->SetOnext( quadEdgeC3 );
-    quadEdgeB1->SetOnext( quadEdgeA3 );
-    quadEdgeC1->SetOnext( quadEdgeB3 );
+    // outside
+    quadEdgeA2->SetOnext( quadEdgeC2 );
+    quadEdgeC2->SetOnext( quadEdgeB2 );
+    quadEdgeB2->SetOnext( quadEdgeA2 );
 
     const unsigned int quadEdgeA1Order = quadEdgeA1c->GetOrder();
     const unsigned int quadEdgeA1ExpectedOrder = 2;

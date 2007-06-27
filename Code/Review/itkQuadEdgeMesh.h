@@ -248,7 +248,7 @@ public:
 
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion()
     {
-    return false;
+    return( false );
     }
 
   virtual void Clear();
@@ -279,7 +279,7 @@ public:
   virtual QEPrimal* AddEdge( const PointIdentifier& orgPid,
                              const PointIdentifier& destPid );
 
-  /** Add a polygonal face to the Mesh */
+  /** Add a polygonal face to the Mesh, suppose QE layer ready */
   virtual void      AddFace( QEPrimal* e );
 
   /** Add a polygonal face to the Mesh. The list of points 
@@ -298,6 +298,7 @@ public:
   virtual void DeleteEdge( const PointIdentifier& orgPid,
                            const PointIdentifier& destPid );
   virtual void DeleteEdge( QEPrimal* e );
+  virtual void LightWeightDeleteEdge( EdgeCellType* e );
   virtual void LightWeightDeleteEdge( QEPrimal* e );
   virtual void DeleteFace( FaceRefType faceToDelete );
 
@@ -309,6 +310,9 @@ public:
   virtual QEPrimal*  FindEdge( const PointIdentifier& pid0 ) const;
   virtual QEPrimal*  FindEdge( const PointIdentifier& pid0,
                                const PointIdentifier& pid1 ) const;
+
+    virtual EdgeCellType*  FindEdgeCell( const PointIdentifier& pid0,
+                                 const PointIdentifier& pid1 ) const;
 
   ///  Compute the euclidian length of argument edge
   CoordRepType ComputeEdgeLength( QEPrimal* e );
@@ -325,6 +329,16 @@ public:
     (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
   /** End concept checking */
 #endif
+
+// for reusability of a mesh in the MeshToMesh filter
+    void ClearFreePointAndCellIndexesLists( )
+    {
+       while( !this->m_FreePointIndexes.empty( ) )
+          this->m_FreePointIndexes.pop( );
+       while( !this->m_FreeCellIndexes.empty( ) )
+          this->m_FreeCellIndexes.pop( );
+
+    };
 
 protected:
   /** Constructor and Destructor. */

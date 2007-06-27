@@ -24,7 +24,7 @@ namespace itk
 QuadEdge
 ::QuadEdge()
 {
-  this->m_Onext = NULL;
+  this->m_Onext = this;
   this->m_Rot   = NULL;
 }
 
@@ -625,7 +625,7 @@ bool
 QuadEdge
 ::IsHalfEdge() const
 {
-  const bool isHalfEdge = ( m_Onext == NULL ) || ( m_Rot == NULL );
+  const bool isHalfEdge = ( m_Onext == this ) || ( m_Rot == NULL );
   return isHalfEdge; 
 }
 
@@ -693,6 +693,10 @@ QuadEdge
   while( it && it != this )
     {
     order++;
+    if (it == it->GetOnext() )
+      {
+      // throw exception to avoid infinite loop
+      }
     it = it->GetOnext();
     }
   return order;

@@ -68,6 +68,7 @@ public:
   // Local aliases
   typedef InputType                       MeshType;
   typedef typename MeshType::QEPrimal     QEPrimal;
+   typedef typename MeshType::EdgeCellType EdgeCellType;
   typedef typename MeshType::EdgeListType EdgeListType;
 
   itkNewMacro( Self );

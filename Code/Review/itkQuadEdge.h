@@ -28,19 +28,19 @@
 //
 #define itkQEDebugMacro( x )                                        \
 {                                                                   \
-    OStringStream itkmsg;                                    \
+    OStringStream itkmsg;                                           \
     itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n"   \
            << " (" << this << "): " x                               \
            << "\n\n";                                               \
-    OutputWindowDisplayDebugText( itkmsg.str( ).c_str( ) );  \
+    OutputWindowDisplayDebugText( itkmsg.str( ).c_str( ) );         \
 }
 #define itkQEWarningMacro( x )                                      \
 {                                                                   \
-    OStringStream itkmsg;                                    \
+    OStringStream itkmsg;                                           \
     itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
            << " (" << this << "): " x                               \
            << "\n\n";                                               \
-    OutputWindowDisplayWarningText( itkmsg.str( ).c_str( ) );\
+    OutputWindowDisplayWarningText( itkmsg.str( ).c_str( ) );       \
 }
 
 
@@ -244,7 +244,6 @@ public:
   itkQEDefineIteratorMethodsMacro( InvRnext );
   itkQEDefineIteratorMethodsMacro( InvDnext );
 
-
   /** Object creation methods. */
   QuadEdge();
   virtual ~QuadEdge();
@@ -260,7 +259,6 @@ public:
   Self* GetRot();
   const Self* GetOnext() const;
   const Self* GetRot() const;
-
 
   /**
    * \brief Basic quad-edge topological method.
@@ -349,10 +347,8 @@ public:
   unsigned int GetOrder() const;
 
 private: 
-
   Self* m_Onext; /// Onext ring
   Self* m_Rot;   /// Rot ring
-
 };
 
 } 
