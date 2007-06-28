@@ -123,7 +123,12 @@ public:
     m_Variance.Fill(v);
   }
   
-  /** Set the MaximumError parameter needed by the embedded gaussian filter */
+  /** Set the MaximumError parameter needed by the embedded gaussian filter
+ * This value is used to set the desired maximum error of the gaussian
+ * approximation.  Maximum error is the difference between the area under the
+ * discrete Gaussian curve and the area under the continuous Gaussian.  Maximum
+ * error affects the Gaussian operator size. The value must be between 0.0 and
+ * 1.0. */
   void SetMaximumError(const typename ArrayType::ValueType v)
   {
     m_MaximumError.Fill(v);
