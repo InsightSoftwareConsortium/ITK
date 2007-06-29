@@ -144,6 +144,8 @@ public:
     (Concept::SameType<InputImagePixelType, OutputImagePixelType>));
   itkConceptMacro(OutputOStreamWritableCheck,
     (Concept::OStreamWritable<OutputImagePixelType>));
+  itkConceptMacro(PixelTypeIsFloatingPointCheck,
+    (Concept::IsFloatingPoint<InputImagePixelType>));
   /** End concept checking */
 #endif
 
