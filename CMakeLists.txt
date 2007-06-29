@@ -173,7 +173,7 @@ ENDIF(ITK_USE_KWSTYLE)
 #-----------------------------------------------------------------------------
 # ITK turn on concept checking
 IF( NOT BORLAND )
-  OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." OFF)
+  OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
   MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
 ELSE( NOT BORLAND )
   SET(ITK_USE_CONCEPT_CHECKING OFF)
