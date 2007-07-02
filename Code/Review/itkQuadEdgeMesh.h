@@ -311,7 +311,7 @@ public:
   virtual QEPrimal*  FindEdge( const PointIdentifier& pid0,
                                const PointIdentifier& pid1 ) const;
 
-    virtual EdgeCellType*  FindEdgeCell( const PointIdentifier& pid0,
+  virtual EdgeCellType*  FindEdgeCell( const PointIdentifier& pid0,
                                  const PointIdentifier& pid1 ) const;
 
   ///  Compute the euclidian length of argument edge
@@ -330,15 +330,14 @@ public:
   /** End concept checking */
 #endif
 
-// for reusability of a mesh in the MeshToMesh filter
-    void ClearFreePointAndCellIndexesLists( )
+  // for reusability of a mesh in the MeshToMesh filter
+  void ClearFreePointAndCellIndexesLists( )
     {
-       while( !this->m_FreePointIndexes.empty( ) )
-          this->m_FreePointIndexes.pop( );
-       while( !this->m_FreeCellIndexes.empty( ) )
-          this->m_FreeCellIndexes.pop( );
-
-    };
+    while( !this->m_FreePointIndexes.empty( ) )
+      this->m_FreePointIndexes.pop( );
+    while( !this->m_FreeCellIndexes.empty( ) )
+      this->m_FreeCellIndexes.pop( );
+    }
 
 protected:
   /** Constructor and Destructor. */

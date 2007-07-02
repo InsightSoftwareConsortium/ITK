@@ -31,14 +31,14 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 
   // Create entry point
   EdgeCellType* edge = new EdgeCellType;
-    m_EdgeRingEntry = edge->GetQEGeom( );
+  m_EdgeRingEntry = edge->GetQEGeom( );
 
   // Create the rest
   QuadEdgeType* last = m_EdgeRingEntry;
   for( unsigned int i = 1; i < nPoints; i++ )
     {
-        edge = new EdgeCellType( );
-        QuadEdgeType* edgeGeom = edge->GetQEGeom( );
+    edge = new EdgeCellType( );
+    QuadEdgeType* edgeGeom = edge->GetQEGeom( );
 
     edgeGeom->Splice( last->GetSym() );
     last = edgeGeom;

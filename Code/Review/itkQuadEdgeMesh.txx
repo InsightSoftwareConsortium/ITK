@@ -46,19 +46,19 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     {
       CellsContainerIterator cellIterator = this->GetCells( )->Begin( );
       while( cellIterator != this->GetCells( )->End( ) )
-      {
+        {
         if( EdgeCellType* edgeToDelete = 
                         dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
-        {
+          {
           this->LightWeightDeleteEdge( edgeToDelete );
           cellIterator = this->GetCells( )->Begin( );
-        }
+          }
         else
-        {
+          {
           cellIterator++;
+          }
         }
-      }
-   }
+     }
 
   // Clear the points potentialy left behind by LightWeightDeleteEdge():
   if( this->GetPoints( ) )
@@ -201,8 +201,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   
     if( oldOriginId == orgId )
       {
-      itkWarningMacro( "Trying to fuse the same point!" );
-      return( m_NoPoint );
+       itkWarningMacro( "Trying to fuse the same point!" );
+       return( m_NoPoint );
       }
   
     /** \todo Compare the geometry of the two points and accept
@@ -256,8 +256,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   
     if( aLeftFace != m_NoFace && bLeftFace != m_NoFace )
       {
-           if(   ( aLeftFace == bLeftFace )
-              && ( a->GetLnext( )              != b ) 
+        if(  ( aLeftFace == bLeftFace )
+          && ( a->GetLnext( ) != b ) 
           && ( a->GetLnext()->GetLnext() != b )
           && ( b->GetLnext() != a )
           && ( b->GetLnext()->GetLnext() != a )
@@ -543,7 +543,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
   else
     {
-       eOrigin->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom );
+    eOrigin->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom );
     }
 
   if( !eDestination )
@@ -793,7 +793,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   // representing the edge we are trying to destroy at the itk
   // level.
   this->GetCells()->DeleteIndex( edgeCell->GetIdent() );
-    edgeCell->SetIdent( 0 );
+  edgeCell->SetIdent( 0 );
 
   // Eventually, we disconnect (at the QuadEdge level) the edge we
   // are trying to delete and let the garbage collector do the rest:
@@ -806,20 +806,20 @@ void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::LightWeightDeleteEdge( QEPrimal* e )
 {
-    if( e == (QEPrimal*)0 )
+  if( e == (QEPrimal*)0 )
     {
-        itkWarningMacro( "No Incoming edge." );
-        return;
+    itkWarningMacro( "No Incoming edge." );
+    return;
     }
     
-    EdgeCellType* edgeCell = FindEdgeCell( e->GetOrigin( ), e->GetDestination( ) );
-    if( edgeCell == (EdgeCellType*)0 )
+  EdgeCellType* edgeCell = FindEdgeCell( e->GetOrigin( ), e->GetDestination( ) );
+  if( edgeCell == (EdgeCellType*)0 )
     {
-        itkWarningMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
-        return;
+    itkWarningMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
+    return;
     }
     
-    LightWeightDeleteEdge( edgeCell );
+  LightWeightDeleteEdge( edgeCell );
     
 }
 
@@ -872,23 +872,23 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge() const
 {
-    EdgeCellType* e; // No need to be initialized says Borland compiler
+  EdgeCellType* e; // No need to be initialized says Borland compiler
   CellsContainerIterator cit = this->GetCells()->Begin();
-    while(cit != this->GetCells( )->End( ) )
+  while(cit != this->GetCells( )->End( ) )
     {
-        e = dynamic_cast< EdgeCellType* >( cit.Value( ) );
-        if( e == (EdgeCellType*)0)
-    {
-           PolygonCellType* pol = dynamic_cast< PolygonCellType* >( cit.Value( ) );
-           return( pol->GetEdgeRingEntry( ) );
-        }
-        else
+    e = dynamic_cast< EdgeCellType* >( cit.Value( ) );
+    if( e == (EdgeCellType*)0)
       {
-           return( e->GetQEGeom( ) );
+      PolygonCellType* pol = dynamic_cast< PolygonCellType* >( cit.Value( ) );
+      return( pol->GetEdgeRingEntry( ) );
+      }
+    else
+      {
+      return( e->GetQEGeom( ) );
       }
         cit++; 
     }
-    return( (QEPrimal*)0 );
+  return( (QEPrimal*)0 );
 }
 
 /**

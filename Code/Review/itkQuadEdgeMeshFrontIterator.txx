@@ -145,12 +145,12 @@ typename QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QEType*
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
 FindDefaultSeed( )
 {
-    if( QEType* edge = dynamic_cast< QEType* >( m_Mesh->GetEdge( ) ) )
+  if( QEType* edge = dynamic_cast< QEType* >( m_Mesh->GetEdge( ) ) )
     {
     return edge;
     }
-        typedef typename QEType::DualType QEDual;
-        if( QEDual* edge = dynamic_cast< QEDual* >( m_Mesh->GetEdge( ) ) )
+  typedef typename QEType::DualType QEDual;
+  if( QEDual* edge = dynamic_cast< QEDual* >( m_Mesh->GetEdge( ) ) )
     {
     return edge->GetRot( );
     }
