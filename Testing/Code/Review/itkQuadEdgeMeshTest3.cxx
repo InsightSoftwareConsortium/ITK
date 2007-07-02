@@ -81,6 +81,8 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   poly->GetEdgeRingEntry( )->GetRight( );
   poly->GetEdgeRingEntry( )->GetLeft( );
   poly->GetEdgeRingEntry( )->GetIdent( );
+  poly->GetType( );
+  poly->GetDimension( );
 
   edge = new LineType;
   cellpointer.TakeOwnership( edge );

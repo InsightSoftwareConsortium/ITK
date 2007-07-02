@@ -101,7 +101,11 @@ int itkQuadEdgeMeshAddFaceTest2(int , char *[])
   checker->SetExpectedNumberOfFaces( 3 );
   checker->SetExpectedNumberOfBoundaries( 3 );
   checker->SetExpectedGenus( 0 ); // FIXME find the correct genus value
-  
+  checker->GetNameOfClass( );
+  std::cout << "Testing PrintSelf: " << std::endl;
+  std::cout << checker << std::endl;
+  std::cout << "[SUCESS]" << std::endl;
+ 
   if( checker->ValidateEulerCharacteristic() )
     {
     std::cout << "Passed" << std::endl;
