@@ -77,6 +77,11 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   cellpointer->SetPointId( 2, 1 );
   mesh->SetCell( 3, cellpointer );
 
+  poly->GetNameOfClass( );
+  poly->GetEdgeRingEntry( )->GetRight( );
+  poly->GetEdgeRingEntry( )->GetLeft( );
+  poly->GetEdgeRingEntry( )->GetIdent( );
+
   edge = new LineType;
   cellpointer.TakeOwnership( edge );
   cellpointer->SetPointId( 0, 0 );
@@ -112,6 +117,7 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   cellpointer->SetPointId( 0, 3 );
   cellpointer->SetPointId( 1, 0 );
   mesh->SetCell( 9, cellpointer );
+  edge->GetNameOfClass( );
 
   std::cout << "numPoints = " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "numCells  = " << mesh->GetNumberOfCells() << std::endl;
@@ -169,6 +175,9 @@ int itkQuadEdgeMeshTest3( int , char* [] )
     ++cellIterator;
     }
 
+  //try to clear the populated mesh
+  mesh->Clear( );
+ 
   std::cout << "Mesh3Test passed" << std::endl;
   return EXIT_SUCCESS;
 }

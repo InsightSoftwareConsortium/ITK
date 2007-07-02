@@ -82,6 +82,7 @@ int itkQuadEdgeMeshTest2( int , char* [] )
     {
     MeshType::CellType* cellptr = cellIterator.Value();
     LineType* lineCell = dynamic_cast< LineType* >( cellptr );
+    lineCell->GetNameOfClass();
     QuadEdgeType* QEGeom = lineCell->GetQEGeom( );
     QuadEdgeType::IteratorGeom git = QEGeom->BeginGeomLnext();
     while( git != QEGeom->EndGeomLnext() )

@@ -44,13 +44,21 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   if( this->GetCells() )
     {
-    // First delete all the edges (since it also clears adjacent faces).
-    itkQEMeshForAllPrimalEdgesMacro( Self, this, edgeToDelete )
+      CellsContainerIterator cellIterator = this->GetCells( )->Begin( );
+      while( cellIterator != this->GetCells( )->End( ) )
       {
-      this->LightWeightDeleteEdge( edgeToDelete );
+        if( EdgeCellType* edgeToDelete = 
+                        dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
+        {
+          this->LightWeightDeleteEdge( edgeToDelete );
+          cellIterator = this->GetCells( )->Begin( );
+        }
+        else
+        {
+          cellIterator++;
+        }
       }
-    itkQEMeshForAllPrimalEdgesEndMacro
-    }
+   }
 
   // Clear the points potentialy left behind by LightWeightDeleteEdge():
   if( this->GetPoints( ) )
@@ -341,8 +349,8 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   (void)cId;
 
-    EdgeCellType* qe = (EdgeCellType*)0;
-    PolygonCellType* pe = (PolygonCellType*)0;
+    EdgeCellType* qe;
+    PolygonCellType* pe;
 
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
@@ -864,7 +872,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge() const
 {
-    EdgeCellType* e = (EdgeCellType*)0;
+    EdgeCellType* e; // No need to be initialized says Borland compiler
   CellsContainerIterator cit = this->GetCells()->Begin();
     while(cit != this->GetCells( )->End( ) )
     {
@@ -1146,16 +1154,6 @@ unsigned long
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfPoints() const
 {
-  // FIXME The following code couldn't be used because the Macro
-  // has not Const correct version. Preserve it and move it to
-  // the documentation of an example.
-  // itkQEMeshForAllPointsMacro( Self, this, point, dummyIndex )
-  // {
-  //  if( point.GetEdge() )
-  //   numberOfPoints++;
-  // }
-  // itkQEMeshForAllPointsEndMacro;
-  // 
   typedef typename PointsContainer::ConstIterator PointsContainerIterator;
   const PointsContainer* points = this->GetPoints();
 

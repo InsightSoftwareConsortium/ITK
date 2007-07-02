@@ -359,7 +359,6 @@ protected:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQuadEdgeMeshMacro.h"
 #include "itkQuadEdgeMesh.txx"
 #endif
 

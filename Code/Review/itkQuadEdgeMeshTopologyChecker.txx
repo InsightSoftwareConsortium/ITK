@@ -28,6 +28,11 @@ template< class TMesh >
 QuadEdgeMeshTopologyChecker< TMesh >
 ::QuadEdgeMeshTopologyChecker()
 {
+  m_ExpectedNumberOfPoints = 0;
+  m_ExpectedNumberOfEdges = 0;
+  m_ExpectedNumberOfFaces = 0;
+  m_ExpectedNumberOfBoundaries = 0;
+  m_ExpectedGenus = 0;
 }
 
 
