@@ -334,9 +334,13 @@ public:
   void ClearFreePointAndCellIndexesLists( )
     {
     while( !this->m_FreePointIndexes.empty( ) )
+      {
       this->m_FreePointIndexes.pop( );
+      }
     while( !this->m_FreeCellIndexes.empty( ) )
+      {
       this->m_FreeCellIndexes.pop( );
+      }
     }
 
 protected:

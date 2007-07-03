@@ -44,26 +44,28 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   if( this->GetCells() )
     {
-      CellsContainerIterator cellIterator = this->GetCells( )->Begin( );
-      while( cellIterator != this->GetCells( )->End( ) )
+    CellsContainerIterator cellIterator = this->GetCells( )->Begin( );
+    while( cellIterator != this->GetCells( )->End( ) )
+      {
+      if( EdgeCellType* edgeToDelete = 
+                      dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
         {
-        if( EdgeCellType* edgeToDelete = 
-                        dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
-          {
-          this->LightWeightDeleteEdge( edgeToDelete );
-          cellIterator = this->GetCells( )->Begin( );
-          }
-        else
-          {
-          cellIterator++;
-          }
+        this->LightWeightDeleteEdge( edgeToDelete );
+        cellIterator = this->GetCells( )->Begin( );
         }
-     }
+      else
+        {
+        cellIterator++;
+        }
+      }
+    }
 
   // Clear the points potentialy left behind by LightWeightDeleteEdge():
   if( this->GetPoints( ) )
-      this->GetPoints( )->clear( );
-  this->ClearFreePointAndCellIndexesLists( ); // otherwise do not start at index 0
+    {
+    this->GetPoints( )->clear( );
+    }
+  this->ClearFreePointAndCellIndexesLists( ); // to start at index 0
 
 }
 
@@ -201,8 +203,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   
     if( oldOriginId == orgId )
       {
-       itkWarningMacro( "Trying to fuse the same point!" );
-       return( m_NoPoint );
+      itkWarningMacro( "Trying to fuse the same point!" );
+      return( m_NoPoint );
       }
   
     /** \todo Compare the geometry of the two points and accept
@@ -886,7 +888,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       return( e->GetQEGeom( ) );
       }
-        cit++; 
+    cit++; 
     }
   return( (QEPrimal*)0 );
 }
@@ -898,11 +900,12 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge( const CellIdentifier& eid ) const
 {
-    EdgeCellType* e = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( eid ) );
-    QEPrimal* result = (QEPrimal*)0;
-    if ( e != (EdgeCellType*)0 )
-       result = e->GetQEGeom( );               
-
+  EdgeCellType* e = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( eid ) );
+  QEPrimal* result = (QEPrimal*)0;
+  if ( e != (EdgeCellType*)0 )
+    {
+    result = e->GetQEGeom( );
+    }
   return( result );
 }
 
@@ -955,17 +958,17 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::EdgeCellType*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdgeCell( const PointIdentifier& pid0,const PointIdentifier& pid1 ) const
 {
-    EdgeCellType* result = (EdgeCellType*)0;
-    QEPrimal* EdgeGeom = FindEdge( pid0, pid1);
-    if( EdgeGeom != (QEPrimal*)0 )
+  EdgeCellType* result = (EdgeCellType*)0;
+  QEPrimal* EdgeGeom = FindEdge( pid0, pid1);
+  if( EdgeGeom != (QEPrimal*)0 )
     {
-       CellIdentifier LineIdent = EdgeGeom->GetIdent( );
-       if( LineIdent != m_NoPoint )
-       {
-          result = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
-       }
+    CellIdentifier LineIdent = EdgeGeom->GetIdent( );
+    if( LineIdent != m_NoPoint )
+      {
+      result = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
+      }
     }
-    return( result );
+  return( result );
 }
 
 /**
@@ -1224,11 +1227,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   while( cellIterator != cellEnd )
     {
 
-       EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) );
-       if( cell != (EdgeCellType*)0 )
+    EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) );
+    if( cell != (EdgeCellType*)0 )
       {
-          (void)cell;
-          numberOfEdges++;
+      (void)cell;
+      numberOfEdges++;
       }
 
     ++cellIterator;
