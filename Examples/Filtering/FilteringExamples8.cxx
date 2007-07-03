@@ -25,7 +25,7 @@ REGISTER_TEST(MedianImageFilterTest);
 REGISTER_TEST(MinMaxCurvatureFlowImageFilterTest);
 REGISTER_TEST(RGBCurvatureAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
-REGISTER_TEST(ZeroCrossingBasedEdgeDetectionImageFilter);
+REGISTER_TEST(ZeroCrossingBasedEdgeDetectionImageFilterTest);
 }
 
 #undef main
