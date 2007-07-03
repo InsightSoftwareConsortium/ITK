@@ -25,6 +25,7 @@ REGISTER_TEST(MedianImageFilterTest);
 REGISTER_TEST(MinMaxCurvatureFlowImageFilterTest);
 REGISTER_TEST(RGBCurvatureAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
+REGISTER_TEST(ZeroCrossingBasedEdgeDetectionImageFilter);
 }
 
 #undef main
@@ -70,5 +71,10 @@ REGISTER_TEST(RGBGradientAnisotropicDiffusionImageFilterTest);
 #undef main
 #define main RGBGradientAnisotropicDiffusionImageFilterTest
 #include "RGBGradientAnisotropicDiffusionImageFilter.cxx"
+
+#undef main
+#define main ZeroCrossingBasedEdgeDetectionImageFilterTest
+#include "ZeroCrossingBasedEdgeDetectionImageFilter.cxx"
+
 
 

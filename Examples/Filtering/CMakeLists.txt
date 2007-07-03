@@ -647,7 +647,7 @@ ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
         1
 )
 
-ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilter ${FILTERING_EXAMPLES2}
+ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilter ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/ZeroCrossingBasedEdgeDetectionImageFilter.png
             ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter.png
   ZeroCrossingBasedEdgeDetectionImageFilter
