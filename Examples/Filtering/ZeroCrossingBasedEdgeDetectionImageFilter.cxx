@@ -52,7 +52,11 @@
 //
 //  Software Guide : EndLatex 
 
+// Software Guide : BeginCodeSnippet
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
+// Software Guide : EndCodeSnippet
+
+#include "itkRescaleIntensityImageFilter.h"
 
 
 int main( int argc, char * argv[] )
@@ -67,18 +71,25 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef   double  InputPixelType;
   typedef   double  OutputPixelType;
+  typedef unsigned char    CharPixelType; 
 
   const unsigned int Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  typedef itk::Image< CharPixelType, Dimension >     CharImageType;
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::ImageFileWriter< CharImageType >    WriterType;
+
+  typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType> 
+                                                            RescaleFilterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
+
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
@@ -111,16 +122,23 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  As with most filters, we connect the input and output of this filter in
-  //  order to create a pipeline. In this particular case the input is taken
-  //  from a reader and the output is sent to a writer.
+  //  As with most filters, we connect the input and output of this
+  //  filter in order to create a pipeline. In this particular case the
+  //  input is taken from a reader and the output is sent to a writer.
+  //  Given that the zero crossing filter is producing a float image as
+  //  output, we use a \doxygen{RescaleIntensityImageFilter} to convert
+  //  this image to an eight bits image before sending it to the writer.
   //
   //  Software Guide : EndLatex 
  
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );
-  writer->SetInput( filter->GetOutput() );
+  rescaler->SetInput( filter->GetOutput() );
+  writer->SetInput( rescaler->GetOutput() );
   // Software Guide : EndCodeSnippet
+
+  rescaler->SetOutputMinimum(   0 );
+  rescaler->SetOutputMaximum( 255 );
 
   try
   {

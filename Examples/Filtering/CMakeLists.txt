@@ -647,14 +647,14 @@ ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
         1
 )
 
-ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilter ${FILTERING_EXAMPLES8}
+ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/ZeroCrossingBasedEdgeDetectionImageFilter.png
             ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter.png
-  ZeroCrossingBasedEdgeDetectionImageFilter
+  ZeroCrossingBasedEdgeDetectionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter.png
-        1
-        0.1
+        5.0
+        0.03
 )
 
 
