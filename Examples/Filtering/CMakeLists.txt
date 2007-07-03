@@ -193,6 +193,9 @@ TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter ITKCommon ITKBasicFilters I
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
 TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
 
+ADD_EXECUTABLE(ZeroCrossingBasedEdgeDetectionImageFilter ZeroCrossingBasedEdgeDetectionImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ZeroCrossingBasedEdgeDetectionImageFilter ITKCommon ITKBasicFilters ITKIO)
+
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
@@ -643,6 +646,17 @@ ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
         ${TEMP}/VectorIndexSelection.png
         1
 )
+
+ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilter ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/ZeroCrossingBasedEdgeDetectionImageFilter.png
+            ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter.png
+  ZeroCrossingBasedEdgeDetectionImageFilter
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter.png
+        1
+        0.1
+)
+
 
 ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/RGBGradientAnisotropicDiffusionImageFilter.png
