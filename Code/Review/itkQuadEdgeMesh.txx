@@ -208,10 +208,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
   
     /** \todo Compare the geometry of the two points and accept
-    * splicing when their geometry matches. We could fix
-    * an epsilon threshold distance above which the two points
-    * are considered distinct.
-    */
+     * splicing when their geometry matches. We could fix
+     * an epsilon threshold distance above which the two points
+     * are considered distinct.
+     */
     PointType oldOrigin = this->GetPoint( oldOriginId );
     PointType org = this->GetPoint( orgId );
   
@@ -1071,11 +1071,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-* We here make the strong assumption that the caller was wise enough
-* to build/handle the connectivity at the QE level. This method
-* simply creates a new PolygonCell and assigns it as the left face
-* of all edges in the Lnext ring of the incoming argument.
-*/
+ * We here make the strong assumption that the caller was wise enough
+ * to build/handle the connectivity at the QE level. This method
+ * simply creates a new PolygonCell and assigns it as the left face
+ * of all edges in the Lnext ring of the incoming argument.
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -1101,11 +1101,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-* Add a triangle face to this QuadEdgeMesh.
-* @param aPid \ref PointIdentifier of first point
-* @param bPid \ref PointIdentifier of second point
-* @param cPid \ref PointIdentifier of third point
-*/
+ * Add a triangle face to this QuadEdgeMesh.
+ * @param aPid \ref PointIdentifier of first point
+ * @param bPid \ref PointIdentifier of second point
+ * @param cPid \ref PointIdentifier of third point
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -1182,11 +1182,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-* \brief Compute the total number of faces.
-*
-* \note This method is an optional utility of the class: its
-* understanding is not usefull at first contact with the class.
-*/
+ * \brief Compute the total number of faces.
+ *
+ * \note This method is an optional utility of the class: its
+ * understanding is not usefull at first contact with the class.
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 unsigned long 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
@@ -1209,11 +1209,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 }
 
 /**
-* \brief Compute the total number of edges.
-*
-* \note This method is an optional utility of the class: it's
-*       understanding is not usefull at first contact with the class.
-*/
+ * \brief Compute the total number of edges.
+ *
+ * \note This method is an optional utility of the class: it's
+ *       understanding is not usefull at first contact with the class.
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 unsigned long 
 QuadEdgeMesh< TPixel, VDimension, TTraits >
