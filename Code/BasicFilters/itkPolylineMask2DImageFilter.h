@@ -33,6 +33,7 @@ namespace itk
  * masked region will keep their original intensity values. Whereas, intensity 
  * value of pixels outside the masked region will be set to zero.
  * 
+ * \warning The Polygon represented by the input Polyline must be a convex polygon.
  * 
  * \ingroup ImageToImageFilter
  * \sa  PolylineMaskImageFilter
