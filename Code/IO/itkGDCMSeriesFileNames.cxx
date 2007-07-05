@@ -67,6 +67,11 @@ void GDCMSeriesFileNames::SetInputDirectory (std::string const &name)
     {
     return;
     }
+  if( !itksys::SystemTools::FileIsDirectory(name.c_str()) )
+    {
+    itkWarningMacro( << name << " is not a directory" );
+    return;
+    }
   m_InputDirectory = name;
   m_SerieHelper->Clear();
   m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
