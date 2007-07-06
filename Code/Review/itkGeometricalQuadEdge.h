@@ -146,10 +146,10 @@ public:
   /** Get methods. */
   //ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitely assumes that the Onext order is counter-clockwise !
-  OriginRefType     GetOrigin()   { return( m_Origin ); }
-  OriginRefType     GetDestination()  { return( this->GetSym()->GetOrigin() ); }
-  DualOriginRefType GetRight() { return( this->GetRot()->GetOrigin() ); }
-  DualOriginRefType GetLeft()  { return( this->GetInvRot()->GetOrigin() ); }
+  const OriginRefType GetOrigin() const  { return( m_Origin ); }
+  const OriginRefType GetDestination()  const { return( GetSym()->GetOrigin() ); }
+  const DualOriginRefType GetRight() const { return( GetRot()->GetOrigin() ); }
+  const DualOriginRefType GetLeft() const  { return( GetInvRot()->GetOrigin() ); }
 
   /** Boolean accessors. */
   bool IsOriginSet() const;
