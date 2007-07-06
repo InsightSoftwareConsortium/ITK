@@ -125,9 +125,9 @@ namespace itk
  * \warning Should only be used with the corresponding
  *          itkQE::itkQEMeshForAllCellsMacro
  */
-#define itkQEMeshForAllCellsEndMacro                                         \
+#define itkQEMeshForAllCellsEndMacro(cellIterator)                           \
        cellIterator++;                                                       \
-       } /* while */                                                           \
+       } /* while */                                                         \
      } /* if */                                                              \
 }
 
