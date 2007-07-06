@@ -22,8 +22,8 @@ namespace itk
 {
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-MeshCopy< TInputMesh, TOutputMesh >
-::MeshCopy()
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::QuadEdgeMeshToQuadEdgeMeshFilter()
 {
   this->Superclass::SetNumberOfRequiredInputs( 1 );
   this->Superclass::SetNumberOfRequiredOutputs( 1 );
@@ -35,7 +35,7 @@ MeshCopy< TInputMesh, TOutputMesh >
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
 void 
-MeshCopy< TInputMesh, TOutputMesh >
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData()
 {
   InputMeshConstPointer in = this->GetInput();
@@ -53,13 +53,13 @@ MeshCopy< TInputMesh, TOutputMesh >
 
   // Copy cells
   InputCellsContainerConstIterator cIt = in->GetCells()->Begin();
-  for( cIt != in->GetCells()->End(); cIt++ )
+  while( cIt != in->GetCells()->End() )
     {
     InputEdgeCellType* qe = (InputEdgeCellType*)0;
     InputPolygonCellType* pe = (InputPolygonCellType*)0;
     if( ( qe = dynamic_cast< InputEdgeCellType* >( cIt.Value() ) ) )
       {
-      out->AddEdge( qe->GetOrg(), qe->GetDest() );
+      out->AddEdge( qe->GetOrigin(), qe->GetDestination() );
       }
     else
       {
@@ -69,7 +69,7 @@ MeshCopy< TInputMesh, TOutputMesh >
         InputPointIdList points;
         typename InputPolygonCellType::PointIdIterator pit =
           pe->PointIdsBegin();
-        while( pit != pe->PointIdsEnd();)
+        while( pit != pe->PointIdsEnd())
           {
           points.push_back( ( *pit ) );
           pit++;

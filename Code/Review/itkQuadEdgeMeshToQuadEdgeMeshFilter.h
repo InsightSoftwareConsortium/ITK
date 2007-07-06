@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** \class MeshCopy
+/** \class QuadEdgeMeshToQuadEdgeMeshFilter
  *  \brief Duplicates the content of a Mesh.
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
@@ -32,12 +32,12 @@ namespace itk
  *
  */
 template< typename TInputMesh, typename TOutputMesh >
-class MeshCopy
+class QuadEdgeMeshToQuadEdgeMeshFilter
   : public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Basic types. */
-  typedef MeshCopy                                    Self;
+  typedef QuadEdgeMeshToQuadEdgeMeshFilter                                    Self;
   typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
   typedef SmartPointer< Self >                        Pointer;
   typedef SmartPointer< const Self >                  ConstPointer;
@@ -78,23 +78,23 @@ public:
 
 public:
   itkNewMacro( Self );
-  itkTypeMacro( MeshCopy, MeshToMeshFilter );
+  itkTypeMacro( QuadEdgeMeshToQuadEdgeMeshFilter, MeshToMeshFilter );
 
 protected:
-  MeshCopy( );
-  virtual ~MeshCopy( ) { }
+  QuadEdgeMeshToQuadEdgeMeshFilter( );
+  virtual ~QuadEdgeMeshToQuadEdgeMeshFilter( ) { }
 
   virtual void GenerateData( );
 
 private:
-  MeshCopy( const Self& ); // Not impl.
+  QuadEdgeMeshToQuadEdgeMeshFilter( const Self& ); // Not impl.
   void operator=( const Self& );  // Not impl.
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkQEMeshCopy.txx"
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.txx"
 #endif
 
 #endif
