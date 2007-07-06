@@ -76,11 +76,9 @@ public:
   QuadEdgeMeshPoint();
   QuadEdgeMeshPoint( const Self & r );
   QuadEdgeMeshPoint( const ValueArrayType & r );
-  // FIXME: It shouldn't be here:    QuadEdgeMeshPoint( const VectorType & vec );
   Self & operator=( const Self & r );
   Self & operator=( const Superclass & r );
   Self & operator=( const ValueArrayType & r );
-  // FIXME: It shouldn't be here:    Self & operator=( const VectorType & vec );
 
   /** Accessor on \ref m_Edge */
   void SetEdge( const TQuadEdge * inputEdge );

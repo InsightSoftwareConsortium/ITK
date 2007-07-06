@@ -72,17 +72,6 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   this->Initialize();
 }
 
-#if 0
-// ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
-QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
-::QuadEdgeMeshPoint( const VectorType& vec ) : Superclass()
-{
-  this->operator=( vec );
-  this->Initialize();
-}
-#endif
-
 // ---------------------------------------------------------------------
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
@@ -116,19 +105,6 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
     return( *this );
 }
 
-#if 0
-// ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
-QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
-QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
-::operator=( const VectorType& vec )
-{
-  this->BaseArray::operator=( vec );
-    this->Initialize( );
-    return( *this );
-}
-#endif
-
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 bool 
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
@@ -136,7 +112,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 {
   if( this->GetEdge() )
     {
-    return this->GetEdge()->IsOrgInternal();
+    return this->GetEdge()->IsOriginInternal();
     }
   return false;
 }
