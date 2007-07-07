@@ -568,7 +568,6 @@ template< typename TVRef, typename TFRef,
 
   if( first->GetOnext() == second )
     {
-    itkQEDebugMacro( "Nothing to be done." );
     return( true );
     } 
 
@@ -578,9 +577,9 @@ template< typename TVRef, typename TFRef,
     return( false );
     } 
 
+  // Second is an internal edge.
   if( second->IsInternal() )
     {
-    itkQEDebugMacro( "Second is an internal edge." );
     return( false );
     } 
 
@@ -593,9 +592,6 @@ template< typename TVRef, typename TFRef,
   else
     {
     // Orientation is localy clockwise:
-    itkQEDebugMacro( "Clockwise orientation case." );
-    itkQEWarningMacro( "This code was never tested (it requires "
-                       "heterogenously oriented triangles)." );
     bsplice = second;
     second->GetOprev()->Splice( bsplice );
     }
