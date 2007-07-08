@@ -49,6 +49,7 @@ void RegisterTests()
   REGISTER_TEST(itkNrrdRGBAImageReadWriteTest);
   REGISTER_TEST(itkNrrdDiffusionTensor3DImageReadTest);
   REGISTER_TEST(itkNrrdDiffusionTensor3DImageReadWriteTest);
+  REGISTER_TEST(itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest);
   REGISTER_TEST(itkNrrdComplexImageReadTest);
   REGISTER_TEST(itkNrrdComplexImageReadWriteTest);
   REGISTER_TEST(itkNrrdVectorImageReadTest);

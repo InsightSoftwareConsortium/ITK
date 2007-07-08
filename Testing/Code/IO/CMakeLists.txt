@@ -66,6 +66,7 @@ itkNrrdRGBImageReadWriteTest.cxx
 itkNrrdRGBAImageReadWriteTest.cxx
 itkNrrdDiffusionTensor3DImageReadTest.cxx
 itkNrrdDiffusionTensor3DImageReadWriteTest.cxx
+itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest.cxx
 itkNrrdComplexImageReadTest.cxx
 itkNrrdComplexImageReadWriteTest.cxx
 itkNrrdVectorImageReadTest.cxx
@@ -644,6 +645,18 @@ ADD_TEST(itkNrrdDiffusionTensor3DImageReadWriteTest ${IO_TESTS}
   itkNrrdDiffusionTensor3DImageReadWriteTest
             ${ITK_DATA_ROOT}/Input/mini-ten-nomask-fast.nrrd
             ${ITK_TEST_OUTPUT_DIR}/mini-ten.nrrd)
+ADD_TEST(itkNrrdDiffusionTensor3DImageReadWriteTest4 ${IO_TESTS}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/small-tensors.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/small-tensors.nhdr
+  itkNrrdDiffusionTensor3DImageReadWriteTest
+            ${ITK_DATA_ROOT}/Input/small-tensors.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/small-tensors.nhdr)
+ADD_TEST(itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDouble ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/small-tensors-double.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd
+  itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest
+            ${ITK_DATA_ROOT}/Input/small-tensors.nhdr
+            ${ITK_TEST_OUTPUT_DIR}/small-tensors-double.nrrd)
 # Complex values
 ADD_TEST(itkNrrdComplexImageReadTest ${IO_TESTS}
          itkNrrdComplexImageReadTest
