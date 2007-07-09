@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -185,14 +184,14 @@ int main(int ac, char* av[] )
           ++baseline;
           }
         // if the best we can do still has errors, generate the error images
-        if (bestBaselineStatus)
+         if (bestBaselineStatus)
           {
-          baseline->second = RegressionTestImage(testFilename,
-                                                 bestBaseline.c_str(),
-                                                 1, 
-                                                 intensityTolerance,
-                                                 numberOfPixelsTolerance, 
-                                                 radiusTolerance );
+          RegressionTestImage(testFilename,
+                              bestBaseline.c_str(),
+                              1, 
+                              intensityTolerance,
+                              numberOfPixelsTolerance, 
+                              radiusTolerance );
           }
 
         // output the matching baseline
