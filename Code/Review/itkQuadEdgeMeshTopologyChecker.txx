@@ -41,8 +41,80 @@ bool
 QuadEdgeMeshTopologyChecker< TMesh >
 ::ValidateEulerCharacteristic() const
 {
-  // FIXME move implementation here
-  return true;
+  typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New( );
+
+  // Number of USED points
+  unsigned long numPoints = m_Mesh->ComputeNumberOfPoints( );
+  // Number of USED edges
+  unsigned long numEdges  = m_Mesh->ComputeNumberOfEdges( );
+  // Number of USED faces
+  unsigned long numFaces  = m_Mesh->ComputeNumberOfFaces( );
+  // Number of Boundaries
+  unsigned long numBounds = boundaryEdges->Evaluate( (*m_Mesh) )->size( );
+
+  /**
+   * Number of points
+   *
+   * There are two methods to get the number of points.
+   * 1. itkQE::Mesh::ComputeNumberOfPoints()
+   * 2. itk::Mesh::GetNumberOfPoints()
+   *
+   * As an itkQE::Mesh is an itk::Mesh by inheritance, the user
+   * can use both. 1. will returned the number of points actually 
+   * used by at least one edge, while 2. will give you the number
+   * of points in the container. Number of unused points can be found
+   * by making the difference between the two values. 
+   */
+  if( m_Mesh->GetNumberOfPoints() != numPoints )
+    {
+    // They are isolated vertices:
+    return( false );
+    }
+
+  // The euler formula states:
+  //     numFaces - numEdges + numPoints == 2 - 2 * genus - numBounds
+  // hence ( 2 - numBounds - numFaces + numEdges - numPoints ) must
+  // be an odd number. Let's check it out:
+  // Note that genus can take a negative value...
+  long twiceGenus = 2 - numBounds - numFaces + numEdges - numPoints;
+
+  if( twiceGenus % 2 )
+    {
+    return( false );
+    }
+
+  // Look is they are isolated edges
+  CellsContainerConstIterator cellIterator = m_Mesh->GetCells()->Begin();
+  CellsContainerConstIterator cellEnd      = m_Mesh->GetCells()->End();
+  while( cellIterator != cellEnd )
+    {
+    // Is the cell an Edge ?
+    if( EdgeCellType* cell =
+          dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
+      {
+      if( QEPrimal* edge = cell->GetQEGeom( ) )
+        {
+        // Is the edge without associated faces ?.
+        if( edge->IsWire( ) ) 
+          {
+          // Is it an isolated edge ?
+          if( edge->IsIsolated( ) && edge->GetSym( )->IsIsolated( ) )
+            {
+            return( false );
+            }
+          }
+        }
+      else // cell->GetQEGEom( ) == NULL
+        {
+        // supposely impossible, throw exception
+        }
+      }
+    
+    ++cellIterator;
+      
+  } // endof while
+   
+  return( true );
 }
 
 template< class TMesh >

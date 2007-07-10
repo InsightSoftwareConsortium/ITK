@@ -18,6 +18,7 @@
 #ifndef __itkQuadEdgeMeshTopologyChecker_h
 #define __itkQuadEdgeMeshTopologyChecker_h
 
+#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 
 namespace itk
 {
@@ -47,6 +48,12 @@ public:
   typedef SmartPointer< const Self >           ConstPointer;
 
   typedef TMesh                                MeshType;
+  typedef typename MeshType::QEPrimal          QEPrimal;  
+  typedef typename MeshType::EdgeCellType      EdgeCellType;
+  typedef typename MeshType::CellsContainerConstIterator
+                                               CellsContainerConstIterator; 
+  typedef typename itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType >
+                                               BoundaryEdges;
 
 public:
   itkNewMacro( Self );
@@ -75,7 +82,7 @@ private:
 
   typedef typename MeshType::ConstPointer   MeshPointer;
 
-  MeshPointer   m_Mesh;
+  MeshPointer     m_Mesh;
  
   IdentifierType  m_ExpectedNumberOfPoints;
   IdentifierType  m_ExpectedNumberOfEdges;

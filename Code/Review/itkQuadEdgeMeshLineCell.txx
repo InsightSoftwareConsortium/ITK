@@ -32,9 +32,9 @@ QuadEdgeMeshLineCell< TCellInterface >
   m_Identifier = 0;
   m_QuadEdgeGeom = new QEType;
 
-  QEType* e2 = new QEType( );
-  QEDual* e1 = new QEDual( );
-  QEDual* e3 = new QEDual( );
+  QEType* e2 = new QEType;
+  QEDual* e1 = new QEDual;
+  QEDual* e3 = new QEDual;
   this->m_QuadEdgeGeom->SetRot( e1 );
   e1->SetRot( e2 );
   e2->SetRot( e3 );
@@ -51,11 +51,44 @@ QuadEdgeMeshLineCell< TCellInterface >
 ::~QuadEdgeMeshLineCell()
 {
   // here suppose that the edge is isolated
-  delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( ); //e3
-  delete m_QuadEdgeGeom->GetRot( )->GetRot( );            //e2
-  delete m_QuadEdgeGeom->GetRot( );                       //e1
-  delete m_QuadEdgeGeom;
+  bool FoundNullPointer = false;
+  if( m_QuadEdgeGeom )
+    {
+    if( m_QuadEdgeGeom->GetRot( ) )
+      {
+      if( m_QuadEdgeGeom->GetRot( )->GetRot( ) )
+        {
+        if( m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( ) )
+          {
+          delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( ); //e3
+          delete m_QuadEdgeGeom->GetRot( )->GetRot( );            //e2
+          delete m_QuadEdgeGeom->GetRot( );                       //e1
+          delete m_QuadEdgeGeom;
+          }
+        else
+          {
+            FoundNullPointer = true;
+          }
+        }
+      else
+        {
+          FoundNullPointer = true;
+        }
+      }
+    else
+      {
+        FoundNullPointer = true;
+      }
+    }
+  else
+    {
+      FoundNullPointer = true;
+    }
 
+  if( FoundNullPointer )
+    {
+    //Throw exception here
+    }
 }
 
 // ---------------------------------------------------------------------
