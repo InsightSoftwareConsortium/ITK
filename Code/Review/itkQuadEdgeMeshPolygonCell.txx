@@ -31,6 +31,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 
   // Create entry point
   EdgeCellType* edge = new EdgeCellType;
+  m_EdgeCellList.push_back( edge );
   m_EdgeRingEntry = edge->GetQEGeom( );
 
   // Create the rest
@@ -38,6 +39,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
   for( unsigned int i = 1; i < nPoints; i++ )
     {
     edge = new EdgeCellType( );
+    m_EdgeCellList.push_back( edge );
     QuadEdgeType* edgeGeom = edge->GetQEGeom( );
 
     edgeGeom->Splice( last->GetSym() );
@@ -56,6 +58,39 @@ QuadEdgeMeshPolygonCell< TCellInterface >
   this->m_Ident = 0;
   this->m_EdgeRingEntry = e;
 }
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+QuadEdgeMeshPolygonCell< TCellInterface >
+::~QuadEdgeMeshPolygonCell( )
+{
+  // this disconnect this cell from the 
+  // QuadEdgeMesh container if there was any.
+  // poping this cell from the container is supposed to
+  // have been done beforehand.
+  this->m_Ident = 0;
+  
+  // first case, the polygon was created directly
+  // just delete the edges in the edge list
+  // the edgecell destructor should  take care of the QuadEdges
+  while( !m_EdgeCellList.empty( ) )
+    {
+    EdgeCellType* edge = m_EdgeCellList.back( );
+    m_EdgeCellList.pop_back( );
+    delete edge;
+    }  
+
+  // second case, the polygon cell was created by
+  // QuadEdgeMesh::AddFace( ) and the QuadEdgeMesh
+  // should take care of everything.
+  // We could iterate around the face to check if all
+  // QuadEdges have now IsLeftSet( ) = false.
+  //
+  // TO BE DONE.
+
+}
+
+
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >

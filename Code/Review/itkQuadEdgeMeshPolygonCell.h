@@ -71,7 +71,8 @@ public:
   /** Multivisitor type. */
   typedef typename CellType::MultiVisitor MultiVisitor;
   
-   typedef QuadEdgeMeshLineCell< CellType >                  EdgeCellType;
+  typedef QuadEdgeMeshLineCell< CellType >               EdgeCellType;
+  typedef std::vector< EdgeCellType* >                   EdgeCellListType; 
 
   /** QE types. */
   typedef typename CellTraits::QuadEdgeType              QuadEdgeType;
@@ -92,7 +93,7 @@ public:
   /** Object memory management methods. */
   QuadEdgeMeshPolygonCell( unsigned int nPoints );
   QuadEdgeMeshPolygonCell( QuadEdgeType* e );
-  virtual ~QuadEdgeMeshPolygonCell() { }
+  virtual ~QuadEdgeMeshPolygonCell();
   
   /** Accessors for m_Ident. */
   void SetIdent( CellIdentifier cid ) { m_Ident = cid; }
@@ -155,6 +156,12 @@ private:
    * Entry point into the edge ring.
    */
   QuadEdgeType * m_EdgeRingEntry;
+
+  /**
+   * List of EdgeCells created by the constructor for proper deletion
+   */
+  EdgeCellListType m_EdgeCellList;
+
 };
 
 } // end namespace itk
