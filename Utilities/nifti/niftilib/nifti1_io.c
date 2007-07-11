@@ -1,5 +1,5 @@
 #define _NIFTI1_IO_C_
-
+#define HAVE_ZLIB
 #include "nifti1_io.h"   /* typedefs, prototypes, macros, etc. */
 
 /*****===================================================================*****/
@@ -6224,6 +6224,177 @@ int nifti_read_collapsed_image( nifti_image * nim, const int dims [8],
    return bytes;
 }
 
+int nifti_read_subregion_image( nifti_image * nim,
+                                int *start_index,
+                                int *region_size,
+                                void ** data )
+{
+  znzFile fp;
+  int i,j,k,l,m,n,p,q;
+  int index[7];
+  int rsize[7];
+  int image_size[7];
+  long int offsets[7];
+  long int bytes = 0;
+  int total_alloc_size = 1;
+  int dims [8];
+  int read_subset = 1;
+
+  char *readptr;
+
+  dims[0] = 0;
+  /* init dims */
+  for(i = 1; i < 8; i++)
+    {
+    dims[i] = -2;              /* sentinel value */
+    }
+
+  /*
+  ** build a dims array for collapsed image read
+  */
+  for(i = 0; i < nim->ndim; i++)
+    {
+    /* if you take the whole extent in this dimension */
+    if(start_index[i] == 0 &&
+       region_size[i] == nim->dim[i+1])
+      {
+      dims[i+1] = -1;
+      }
+    /* if you specify a single element in this dimension */
+    else if(region_size[i] == 1)
+      {
+      dims[i+1] = start_index[i];
+      }
+    }
+  /* fill out end of dims */
+  for( ; i < 7; i++)
+    {
+    dims[i+1] = -1;
+    }
+  /*
+  ** check to see whether collapsed read is
+  ** possible
+  */
+  for(i = 1; i <= nim->ndim; i++)
+    {
+    if(dims[i] == -2)
+      {
+      break;
+      }
+    }
+
+  /*
+  ** if you get through all the dimensions
+  ** without hitting a subrange of size > 1,
+  ** a collapsed read is possible
+  */
+  if(i > nim->ndim)
+    {
+    return nifti_read_collapsed_image(nim, dims, data);
+    }
+  /*
+  ** check region sizes for sanity
+  */
+  for(i = 0; i < nim->ndim; i++)
+    {
+    if(start_index[i]  + region_size[i] > nim->dim[i+1])
+      {
+      if(g_opts.debug > 1)
+        {
+        fprintf(stderr,"region doesn't fit within image size");
+        }
+      return -1;
+      }
+    }
+  /*
+  ** get the file open
+  */
+  fp = nifti_image_load_prep( nim );
+  /*
+  ** set up local index and size
+  */
+  for(i = 0; i < nim->ndim; i++)
+    {
+    index[i] = start_index[i];
+    image_size[i] = nim->dim[i+1];
+    rsize[i] = region_size[i];
+    total_alloc_size *= region_size[i];
+    }
+  for( ; i < 7; i++)
+    {
+    index[i] = 0;
+    image_size[i] = rsize[i] = 1;
+    }
+  total_alloc_size *= nim->nbyper;
+  /*
+  ** fill out unused dimensions
+  */
+  for( ; i < 7; i++)
+    {
+    index[i] = 0;
+    rsize[i] = 1;
+    image_size[i] = 1;
+    }
+
+  if(*data == 0)
+    {
+    *data = (void *)malloc(total_alloc_size);
+    }
+  readptr = *((char **)data);
+  /*
+  ** loop through subregion and read a row at a time
+  */
+  for(i = index[6]; i < (index[6] + rsize[6]); i++)
+    {
+    offsets[6] = i;
+    for(j = index[5]; j < (index[5] + rsize[5]); j++)
+      {
+      offsets[6] *= image_size[5];
+      offsets[5] = j;
+      for(k = index[4]; k < (index[4] + rsize[4]); k++)
+        {
+        offsets[6] *= image_size[4];
+        offsets[5] *= image_size[4];
+        offsets[4] = k;
+        for(l = index[3]; l < (index[3] + rsize[3]); l++)
+          {
+          offsets[6] *= image_size[3];
+          offsets[5] *= image_size[3];
+          offsets[4] *= image_size[3];
+          offsets[3] = l;
+          for(m = index[2]; m < (index[2] + rsize[2]); m++)
+            {
+            offsets[6] *= image_size[2];
+            offsets[5] *= image_size[2];
+            offsets[4] *= image_size[2];
+            offsets[3] *= image_size[2];
+            offsets[2] = m;
+            for(n = index[1]; n < (index[1] + rsize[1]); n++)
+              {
+              int nread;
+              long int offset;
+              offsets[6] *= image_size[0];
+              offsets[5] *= image_size[0];
+              offsets[4] *= image_size[0];
+              offsets[3] *= image_size[0];
+              offsets[2] *= image_size[0];
+              offsets[1] *= image_size[0];
+              offset = offsets[6] + offsets[5] +
+                offsets[4] + offsets[3] + 
+                offsets[2] + offsets[1] + n;
+              offset *= nim->nbyper;
+              znzseek(fp, offset, SEEK_SET);
+              nread = nifti_read_buffer(fp, readptr, rsize[0] * nim->nbyper, nim);
+              bytes += nread;
+              readptr += rsize[0] * nim->nbyper;
+              }
+            }
+          }
+        }
+      }
+    }
+  return bytes;
+}
 
 /* read the data from the file pointed to by fp
 
