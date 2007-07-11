@@ -482,7 +482,6 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
     SET_TARGET_PROPERTIES(${library_name} PROPERTIES SUFFIX .jnilib)
     SET(SWIG_RUNTIME_LANGUAGE "")
   ENDIF("${language}" STREQUAL "Java" AND APPLE)
-  MESSAGE("+++ ${SWIG_RUNTIME_LANGUAGE} +++")
 
   IF(CMAKE_CXX_COMPILER MATCHES "icpc")
     # disable warning #191: type qualifier is meaningless on cast type
