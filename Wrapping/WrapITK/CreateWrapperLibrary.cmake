@@ -477,6 +477,13 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
     SET_TARGET_PROPERTIES(${library_name} PROPERTIES PREFIX "")
   ENDIF(custom_library_prefix)
   
+  SET(SWIG_RUNTIME_LANGUAGE SwigRuntime${language} )
+  IF("${language}" STREQUAL "Java" AND APPLE)
+    SET_TARGET_PROPERTIES(${library_name} PROPERTIES SUFFIX .jnilib)
+    SET(SWIG_RUNTIME_LANGUAGE "")
+  ENDIF("${language}" STREQUAL "Java" AND APPLE)
+  MESSAGE("+++ ${SWIG_RUNTIME_LANGUAGE} +++")
+
   IF(CMAKE_CXX_COMPILER MATCHES "icpc")
     # disable warning #191: type qualifier is meaningless on cast type
     SET_TARGET_PROPERTIES(${library_name} PROPERTIES COMPILE_FLAGS -wd191 )
@@ -485,7 +492,7 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
   SET_TARGET_PROPERTIES(${library_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
   TARGET_LINK_LIBRARIES(${library_name} 
     ${WRAPPER_LIBRARY_LINK_LIBRARIES} 
-    SwigRuntime${language} 
+    ${SWIG_RUNTIME_LANGUAGE}
     ${LINK_LIBRARIES_${language}} )
   
   GET_TARGET_PROPERTY(library_location ${library_name} LOCATION)
@@ -514,12 +521,7 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
     SET(clean_library_location "${library_location}")
   ENDIF(CMAKE_CONFIGURATION_TYPES)
 
-  IF("${language}" STREQUAL "Java" AND APPLE)
-    # we don't want to install this file in that case, but the file called
-    # *.jnilib.
-  ELSE("${language}" STREQUAL "Java" AND APPLE)
-    WRAP_ITK_INSTALL("/lib" ${clean_library_location})
-  ENDIF("${language}" STREQUAL "Java" AND APPLE)
+  WRAP_ITK_INSTALL("/lib" ${clean_library_location})
   
 ENDMACRO(CREATE_WRAPPER_LIBRARY)
 
