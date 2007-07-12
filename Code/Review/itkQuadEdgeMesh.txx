@@ -351,12 +351,15 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   (void)cId;
 
-    EdgeCellType* qe;
-    PolygonCellType* pe;
+  EdgeCellType* qe;
+  PolygonCellType* pe;
 
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
-        this->AddEdge( qe->GetQEGeom( )->GetOrigin( ), qe->GetQEGeom( )->GetDestination( ) );
+    this->AddEdge( qe->GetQEGeom( )->GetOrigin( ),
+                   qe->GetQEGeom( )->GetDestination( ) );
+    cell.ReleaseOwnership( );
+    delete qe; 
     }
   else if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer() ) ) )
     {
@@ -371,6 +374,8 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
 
     this->AddFace( points );
+    cell.ReleaseOwnership( );
+    delete pe; 
     }
 }
 
@@ -572,7 +577,6 @@ void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::PushOnContainer( EdgeCellType* newEdge )
 {
-  // Add it to the container
   CellIdentifier eid = this->FindFirstUnusedCellIndex();
   newEdge->SetIdent( eid );
   CellAutoPointer edge;
@@ -662,6 +666,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       QEPrimal* edge = cell->GetQEGeom( );
       toDelete = ( edge == e || edge->GetSym() == e );
+      if(toDelete)
+        {
+        e->Disconnect();
+        }
       }
     else if( pcell != (PolygonCellType*)0 )
       {
@@ -701,12 +709,13 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   while( dit != cellsToDelete.end() )
     {
+    const CellType * cellToBeDeleted = this->GetCells()->GetElement( *dit );
+    delete cellToBeDeleted;
     this->GetCells()->DeleteIndex( *dit );
     dit++;
     }
 
   // Now, disconnect it and let the garbage collector do the rest
-  e->Disconnect();
   this->Modified();
 }
 
@@ -800,6 +809,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   // Eventually, we disconnect (at the QuadEdge level) the edge we
   // are trying to delete and let the garbage collector do the rest:
   e->Disconnect();
+  delete edgeCell;  
   this->Modified();
 }
 
@@ -864,6 +874,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 
   this->GetCells()->DeleteIndex( faceToDelete );
+  delete cellToDelete;
+
   this->Modified();
 }
 

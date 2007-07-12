@@ -50,7 +50,11 @@ template< class TCellInterface >
 QuadEdgeMeshLineCell< TCellInterface >
 ::~QuadEdgeMeshLineCell()
 {
-  // here suppose that the edge is isolated
+  if( !m_QuadEdgeGeom->IsDisconnected( ) )
+    {
+    m_QuadEdgeGeom->Disconnect( );
+    }
+
   bool FoundNullPointer = false;
   if( m_QuadEdgeGeom )
     {
@@ -67,22 +71,22 @@ QuadEdgeMeshLineCell< TCellInterface >
           }
         else
           {
-            FoundNullPointer = true;
+          FoundNullPointer = true;
           }
         }
       else
         {
-          FoundNullPointer = true;
+        FoundNullPointer = true;
         }
       }
     else
       {
-        FoundNullPointer = true;
+      FoundNullPointer = true;
       }
     }
   else
     {
-      FoundNullPointer = true;
+    FoundNullPointer = true;
     }
 
   if( FoundNullPointer )

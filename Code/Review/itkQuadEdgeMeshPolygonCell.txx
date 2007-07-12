@@ -91,7 +91,6 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 
-
 // ---------------------------------------------------------------------
 template< class TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::SelfAutoPointer

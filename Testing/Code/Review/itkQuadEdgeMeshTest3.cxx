@@ -71,18 +71,18 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   mesh->SetCell( 2, cellpointer );
 
   poly = new QEPolygonCellType( 3 );
-  cellpointer.TakeOwnership( poly );
-  cellpointer->SetPointId( 0, 3 );
-  cellpointer->SetPointId( 1, 2 );
-  cellpointer->SetPointId( 2, 1 );
-  mesh->SetCell( 3, cellpointer );
-
   poly->GetNameOfClass( );
   poly->GetEdgeRingEntry( )->GetRight( );
   poly->GetEdgeRingEntry( )->GetLeft( );
   poly->GetEdgeRingEntry( )->GetIdent( );
   poly->GetType( );
   poly->GetDimension( );
+  cellpointer.TakeOwnership( poly );
+  cellpointer->SetPointId( 0, 3 );
+  cellpointer->SetPointId( 1, 2 );
+  cellpointer->SetPointId( 2, 1 );
+  mesh->SetCell( 3, cellpointer );
+
 
   edge = new LineType;
   cellpointer.TakeOwnership( edge );
@@ -115,11 +115,13 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   mesh->SetCell( 8, cellpointer );
 
   edge = new LineType;
+  edge->GetNameOfClass( );
+  edge->GetType( );
+  edge->GetDimension( );
   cellpointer.TakeOwnership( edge );
   cellpointer->SetPointId( 0, 3 );
   cellpointer->SetPointId( 1, 0 );
   mesh->SetCell( 9, cellpointer );
-  edge->GetNameOfClass( );
 
   std::cout << "numPoints = " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "numCells  = " << mesh->GetNumberOfCells() << std::endl;

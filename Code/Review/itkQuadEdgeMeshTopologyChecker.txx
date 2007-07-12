@@ -112,7 +112,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
     
     ++cellIterator;
       
-  } // endof while
+    }// endof while
    
   return( true );
 }
