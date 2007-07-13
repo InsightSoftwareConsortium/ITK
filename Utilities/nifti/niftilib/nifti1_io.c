@@ -1,5 +1,4 @@
 #define _NIFTI1_IO_C_
-#define HAVE_ZLIB
 #include "nifti1_io.h"   /* typedefs, prototypes, macros, etc. */
 
 /*****===================================================================*****/
@@ -298,6 +297,9 @@ static char * gni_history[] =
   "   - added nifti_make_new_header() - to create from dims/dtype\n"
   "   - added nifti_make_new_nim() - to create from dims/dtype/fill\n"
   "   - added nifti_is_valid_datatype(), and more debug info\n"
+  "1.26 12 Jul 2007 [hjohnson] Read arbitrary subregions from nifti file.\n"
+  "   - added nifti_read_subregion_image() - to read arbirary subregions\n"
+  "                     of an image into memory."
   "----------------------------------------------------------------------\n"
 };
 static char gni_version[] = "nifti library version 1.25, 12 Jun, 2007)";
@@ -6224,6 +6226,36 @@ int nifti_read_collapsed_image( nifti_image * nim, const int dims [8],
    return bytes;
 }
 
+
+/*---------------------------------------------------------------------------*/
+/*! read an arbitrary subregion from a nifti image
+
+    This function may be used to read a single arbitary subregion of any
+    rectangular size from a nifti dataset, such as a small 5x5x5 subregion
+    around the center of a 3D image.
+
+    \param nim  given nifti_image struct, corresponding to the data file
+    \param start_index the index location of the first voxel that will be returned
+    \param region_size the size of the subregion to be returned
+    \param data pointer to data pointer (if *data is NULL, data will be
+                allocated, otherwise not)
+
+    Example: given  nim->dim[8] = {3, 64, 64, 64, 1, 1, 1, 1 } (3-D dataset)
+
+      if start_index[7] = { 29,  29, 29, 0, 0, 0, 0 } and
+         region_size[7] = {  5,   5,  5, 1, 1, 1, 1 }
+         -> read 5x5x5 region starting with the first voxel location at (29,29,29)
+
+    NOTE: If *data is not NULL, then it will be assumed that it points to
+          valid memory, sufficient to hold the results.  This is done for
+          speed and possibly repeated calls to this function.
+    \return
+        -  the total number of bytes read, or < 0 on failure
+        -  the read and byte-swapped data, in 'data'            </pre>
+
+    \sa nifti_image_read, nifti_image_free, nifti_image_read_bricks
+        nifti_image_load, nifti_read_collapsed_image
+*//*-------------------------------------------------------------------------*/
 int nifti_read_subregion_image( nifti_image * nim,
                                 int *start_index,
                                 int *region_size,
@@ -6267,7 +6299,7 @@ int nifti_read_subregion_image( nifti_image * nim,
       }
     }
   /* fill out end of dims */
-  for( ; i < 7; i++)
+  for(i=nim->ndim ; i < 7; i++)
     {
     dims[i+1] = -1;
     }
@@ -6320,21 +6352,16 @@ int nifti_read_subregion_image( nifti_image * nim,
     rsize[i] = region_size[i];
     total_alloc_size *= region_size[i];
     }
-  for( ; i < 7; i++)
-    {
-    index[i] = 0;
-    image_size[i] = rsize[i] = 1;
-    }
-  total_alloc_size *= nim->nbyper;
   /*
   ** fill out unused dimensions
   */
-  for( ; i < 7; i++)
+  for(i=nim->ndim ; i < 7; i++)
     {
     index[i] = 0;
     rsize[i] = 1;
     image_size[i] = 1;
     }
+  total_alloc_size *= nim->nbyper;
 
   if(*data == 0)
     {
