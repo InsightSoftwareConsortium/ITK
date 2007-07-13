@@ -59,7 +59,8 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     InputPolygonCellType* pe = (InputPolygonCellType*)0;
     if( ( qe = dynamic_cast< InputEdgeCellType* >( cIt.Value() ) ) )
       {
-      out->AddEdge( qe->GetOrigin(), qe->GetDestination() );
+      InputQEPrimal* QEGeom = qe->GetQEGeom( );
+      out->AddEdge( QEGeom->GetOrigin(), QEGeom->GetDestination() );
       }
     else
       {

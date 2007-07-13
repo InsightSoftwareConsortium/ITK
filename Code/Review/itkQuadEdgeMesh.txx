@@ -359,7 +359,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     this->AddEdge( qe->GetQEGeom( )->GetOrigin( ),
                    qe->GetQEGeom( )->GetDestination( ) );
     cell.ReleaseOwnership( );
-    delete qe; 
+    delete qe;
     }
   else if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer() ) ) )
     {
@@ -375,8 +375,9 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
 
     this->AddFace( points );
     cell.ReleaseOwnership( );
-    delete pe; 
+    delete pe;
     }
+
 }
 
 /**
@@ -536,7 +537,12 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 
   // Ok, there's room and the points exist
+  // create an AutoPointer just to be sure
+  // that memory will be safe, as PushOnContainer
+  // should do just that anyway.
   EdgeCellType* newEdge = new EdgeCellType( );
+  CellAutoPointer pEdge;
+  pEdge.TakeOwnership( newEdge ); // Here we should be safe from mem leak
   QEPrimal* newEdgeGeom = newEdge->GetQEGeom( );
 
   newEdgeGeom->SetOrigin (  orgPid );
@@ -565,7 +571,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 
   // Add it to the container
-  this->PushOnContainer( newEdge );
+  CellIdentifier eid = this->FindFirstUnusedCellIndex();
+  newEdge->SetIdent( eid );
+  this->Superclass::SetCell( eid, pEdge );
 
   return( newEdgeGeom );
 }
@@ -659,6 +667,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   while( cit != this->GetCells()->End() )
     {
+
+    // reminder: there is only two types of cells in a QEMesh
+    // either one of this cast will succeed
     EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cit.Value() );
     PolygonCellType* pcell = dynamic_cast< PolygonCellType* >(cit.Value());
     bool toDelete = false;
@@ -666,8 +677,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       QEPrimal* edge = cell->GetQEGeom( );
       toDelete = ( edge == e || edge->GetSym() == e );
-      if(toDelete)
+      if( toDelete )
         {
+        // Nicely handle the QE level
         e->Disconnect();
         }
       }
@@ -686,6 +698,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       // Unset left faces
       if( toDelete )
         {
+        // handle QE level, i.e. for the polygon, just unset the faces
         it = edge->BeginGeomLnext();
         while( it != edge->EndGeomLnext() )
           {
@@ -695,6 +708,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         }
       }
 
+    // if the current face is to be deleted, 
+    // put her in the second container
+    // and keep the Id for next cell insertion
     if( toDelete )
       {
       cellsToDelete.push_back( cit.Index() );
@@ -704,7 +720,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     cit++;
     }
 
-  // Delete the elements in the map
+  // we checked all the cells i nthe container
+  // now delete the elements in the map
   typename DeleteCellsCont::iterator dit = cellsToDelete.begin();
 
   while( dit != cellsToDelete.end() )
@@ -807,9 +824,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   edgeCell->SetIdent( 0 );
 
   // Eventually, we disconnect (at the QuadEdge level) the edge we
-  // are trying to delete and let the garbage collector do the rest:
+  // are trying to delete and we delete it.
   e->Disconnect();
-  delete edgeCell;  
+  delete edgeCell;
+
   this->Modified();
 }
 
@@ -1022,7 +1040,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
     }
 
-  // Check if edges have no face on the left.
+  // Check if existing edges have no face on the left.
   for(unsigned int i=0; i < points.size(); i++)
     {
     PointIdentifier pid0 = points[i];
