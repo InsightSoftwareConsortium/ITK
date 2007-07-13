@@ -273,6 +273,8 @@ public:
   virtual PointIdentifier FindFirstUnusedPointIndex();
   virtual CellIdentifier  FindFirstUnusedCellIndex();
 
+  virtual void PushOnContainer( EdgeCellType* newEdge );
+
   // ////////////////// Adding Point/Edge/Face methods
   virtual PointIdentifier AddPoint( const PointType& p );
   virtual QEPrimal* AddEdge( const PointIdentifier& orgPid,
