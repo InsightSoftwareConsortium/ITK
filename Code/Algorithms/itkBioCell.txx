@@ -118,7 +118,6 @@ Cell<NSpaceDimension> *
 Cell<NSpaceDimension>
 ::CreateEgg(void) 
 {
-  Superclass::Initialize();
   Cell * cell = new Cell;
   cell->m_ParentIdentifier = 0;
   cell->m_SelfIdentifier = 1;

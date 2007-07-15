@@ -57,7 +57,6 @@ public:
     Apop
   };
 
-
 protected:
   CellBase();
   virtual ~CellBase();
@@ -79,7 +78,6 @@ protected:
   void MarkForRemoval(void);
 
   // Static Members
-  static     double      DefaultRadius;
   static     ColorType   DefaultColor;
 
   static     GeneIdType  BlueGene;   // Pigment genes
@@ -89,8 +87,6 @@ protected:
   static     GeneIdType  Caspase;    // cleavage enzyme: apoptosis effector
   static     GeneIdType  Pressurin;  // signal from micro-tubules subject to stress
 
-  static     double      GrowthRadiusLimit;
-  static     double      GrowthRadiusIncrement;
 
   static unsigned long   MaximumGenerationLimit;
   static unsigned long   GrowthMaximumLatencyTime;
@@ -111,13 +107,19 @@ protected:
   static double          ChemoAttractantLowThreshold;
   static double          ChemoAttractantHighThreshold;
 
-   GenomeType         * m_Genome;
-   GenomeType         * m_GenomeCopy;
+  GenomeType         * m_Genome;
+  GenomeType         * m_GenomeCopy;
+
+  static     double      DefaultRadius;
+  static     double      GrowthRadiusLimit;
+  static     double      GrowthRadiusIncrement;
 
 public:
 
   virtual bool MarkedForRemoval(void) const;
 
+
+  static void SetDefaultRadius( double );
   static void SetGrowthRadiusLimit( double );
   static void SetGrowthRadiusIncrement( double );
   static void SetEnergySelfRepairLevel( double );

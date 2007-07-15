@@ -32,9 +32,9 @@ CellBase::ColorType    CellBase::DefaultColor;
 
 double             CellBase::DefaultRadius         =        1.00; // microns
 
-
 double             CellBase::GrowthRadiusIncrement =        0.01; // microns
 double             CellBase::GrowthRadiusLimit     =        2.00; // microns
+
 unsigned long      CellBase::MaximumGenerationLimit =        30L; // 30th generation 
 
 unsigned long      CellBase::GrowthMaximumLatencyTime    =   50; 
@@ -298,8 +298,9 @@ CellBase
   CellBase::SetGrowthMaximumLatencyTime( 100 );
   CellBase::SetDivisionMaximumLatencyTime( 100 );
 
-  CellBase::GrowthRadiusIncrement = 0.01;
-  CellBase::GrowthRadiusLimit     = 2.00;
+  CellBase::SetDefaultRadius( 1.0 );
+  CellBase::SetGrowthRadiusIncrement( 0.01 );
+  CellBase::SetGrowthRadiusLimit( 2.00 );
  
   SetMaximumGenerationLimit( 40 ); // it should use Teleomeres for implementing this
 
@@ -447,6 +448,17 @@ CellBase
   return m_Color;
 }
 
+
+
+/**
+ *    Set the value of the initial cell radius.
+ */ 
+void
+CellBase
+::SetDefaultRadius( double value ) 
+{
+  DefaultRadius = value;
+}
 
 
 
