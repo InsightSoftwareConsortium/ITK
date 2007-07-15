@@ -150,13 +150,11 @@ void TransformFileReader
       TransformType* ptr = dynamic_cast<TransformBase*> ( i.GetPointer() );
       if ( ptr == NULL )
         {
-        // itkExceptionMacro ( "Failed to create instance of" << Value );
         OStringStream msg;
         msg << "Could not create an instance of " << Value << std::endl
             << "The usual cause of this error is not registering the "
             << "transform with TransformFactory" << std::endl;
         msg << "Currently registered Transforms: " << std::endl;
-        itkExceptionMacro ( << msg.str() );
         std::list<std::string> names = TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
         std::list<std::string>::iterator it;
         for ( it = names.begin(); it != names.end(); it++ )
