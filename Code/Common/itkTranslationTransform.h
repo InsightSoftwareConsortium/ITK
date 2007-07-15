@@ -164,8 +164,8 @@ public:
     * parameters array of size zero. */
   virtual const ParametersType& GetFixedParameters(void) const
     {
-    m_FixedParameters.SetSize(0); 
-    return m_FixedParameters; 
+    this->m_FixedParameters.SetSize(0); 
+    return this->m_FixedParameters; 
     };
 
 protected:
