@@ -153,6 +153,21 @@ public:
    */
   virtual bool IsLinear() const { return true; }
 
+ /** Set the fixed parameters and update internal transformation.
+   * The Translation Transform does not require fixed parameters,
+   * therefore the implementation of this method is a null operation. */
+  virtual void SetFixedParameters( const ParametersType & ) 
+    { /* purposely blank */ };
+
+  /** Get the Fixed Parameters. The TranslationTransform does not
+    * require Fixed parameters, therefore this method returns an
+    * parameters array of size zero. */
+  virtual const ParametersType& GetFixedParameters(void) const
+    {
+    m_FixedParameters.SetSize(0); 
+    return m_FixedParameters; 
+    };
+
 protected:
   TranslationTransform();
   ~TranslationTransform();
