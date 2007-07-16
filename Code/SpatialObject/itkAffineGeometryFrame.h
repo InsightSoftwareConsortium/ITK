@@ -17,10 +17,10 @@
 #ifndef __itkAffineGeometryFrame_h
 #define __itkAffineGeometryFrame_h
 
-#include <itkObject.h>
-#include <itkMacro.h>
-#include <itkScalableAffineTransform.h>
-#include <itkBoundingBox.h>
+#include "itkObject.h"
+#include "itkMacro.h"
+#include "itkScalableAffineTransform.h"
+#include "itkBoundingBox.h"
 
 namespace itk 
 {
