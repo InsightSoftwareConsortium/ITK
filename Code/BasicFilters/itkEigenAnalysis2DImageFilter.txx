@@ -245,9 +245,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     eigenVector[0] = static_cast<VectorComponentType>(( -dxy - S ) / 2.0 );
     eigenVector[1] = static_cast<VectorComponentType>( -xy );
 
-
-    outputIt3.Set( eigenVector );
-
     const VectorComponentType norm = eigenVector.GetNorm();
     if( norm > 1e-30 ) 
       {
