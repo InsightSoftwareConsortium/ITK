@@ -22,7 +22,7 @@
 #endif
 
 #include "itkContourSpatialObject.h" 
-#include <itkNumericTraits.h>
+#include "itkNumericTraits.h"
 
 namespace itk  
 {

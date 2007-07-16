@@ -20,7 +20,7 @@
 
 #include "itkImageSpatialObject.h"
 #include "itkSize.h"
-#include <itkDefaultConvertPixelTraits.h>
+#include "itkDefaultConvertPixelTraits.h"
 
 namespace itk
 {

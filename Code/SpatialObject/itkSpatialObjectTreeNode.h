@@ -17,9 +17,9 @@
 #ifndef __itkSpatialObjectTreeNode_h
 #define __itkSpatialObjectTreeNode_h
 
-#include <itkTreeNode.h>
-#include <itkSpatialObject.h>
-#include <itkScalableAffineTransform.h>
+#include "itkTreeNode.h"
+#include "itkSpatialObject.h"
+#include "itkScalableAffineTransform.h"
 
 namespace itk
 {

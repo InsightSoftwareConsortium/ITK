@@ -18,7 +18,7 @@
 #define __itkDTITubeSpatialObjectPoint_txx
 
 #include "itkDTITubeSpatialObjectPoint.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 namespace itk 
 {

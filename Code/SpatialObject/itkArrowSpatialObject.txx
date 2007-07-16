@@ -18,7 +18,7 @@
 #define __itkArrowSpatialObject_txx
 
 #include "itkArrowSpatialObject.h" 
-#include <itkEuler3DTransform.h>
+#include "itkEuler3DTransform.h"
 
 namespace itk  
 { 

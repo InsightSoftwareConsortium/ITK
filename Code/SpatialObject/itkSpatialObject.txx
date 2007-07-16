@@ -19,7 +19,7 @@
 #define __itkSpatialObject_txx
 
 #include "itkSpatialObject.h"
-#include <itkNumericTraits.h>
+#include "itkNumericTraits.h"
 #include <algorithm>
 #include <string>
 
