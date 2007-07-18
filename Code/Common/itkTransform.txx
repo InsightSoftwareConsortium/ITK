@@ -14,9 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef _itkTransform_txx
 #define _itkTransform_txx
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptTransform.txx"
+#else
 
 #include "itkTransform.h"
 
@@ -90,3 +93,4 @@ std::string Transform< TScalarType,NInputDimensions,NOutputDimensions>
 
 #endif
 
+#endif
