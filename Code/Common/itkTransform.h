@@ -17,6 +17,10 @@
 #ifndef __itkTransform_h
 #define __itkTransform_h
 
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptTransform.h"
+#else
+
 #include "itkTransformBase.h"
 #include "itkPoint.h"
 #include "itkVector.h"
@@ -257,5 +261,6 @@ private:
 
 #endif
 
+#endif
 
 
