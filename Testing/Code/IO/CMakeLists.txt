@@ -182,7 +182,6 @@ ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
 TARGET_LINK_LIBRARIES(itkIOTests ITKIO ITKEXPAT ITKSpatialObject ITKAlgorithms)
-ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 
 ##Add tests that depend on finding data
 FIND_PATH(VW_RAW_DATA_PATH avfCROP.1023c.raw 
