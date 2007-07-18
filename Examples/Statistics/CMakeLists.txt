@@ -59,8 +59,6 @@ TARGET_LINK_LIBRARIES(NormalVariateGenerator ITKCommon ITKStatistics)
 ADD_EXECUTABLE(PointSetToListAdaptor PointSetToListAdaptor.cxx )
 TARGET_LINK_LIBRARIES(PointSetToListAdaptor ITKCommon)
 
-ADD_EXECUTABLE(NormalVariateGenerator NormalVariateGenerator.cxx )
-TARGET_LINK_LIBRARIES(NormalVariateGenerator ITKCommon)
 
 ADD_EXECUTABLE(SampleStatistics SampleStatistics.cxx )
 TARGET_LINK_LIBRARIES(SampleStatistics ITKCommon)
