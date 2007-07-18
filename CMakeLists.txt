@@ -181,6 +181,17 @@ ELSE( NOT BORLAND )
 ENDIF( NOT BORLAND )
 
 #-----------------------------------------------------------------------------
+# ITK turn on experimental version of accelerated image registration
+OPTION(ITK_USE_OPTIMIZED_REGISTRATION_METHODS "Turn on the experimental version of accelerated registration methods." OFF)
+MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
+IF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
+  IF(NOT ITK_USE_REVIEW)
+    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental optimized registration methods.")
+  ENDIF(NOT ITK_USE_REVIEW)
+ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
+
+
+#-----------------------------------------------------------------------------
 # Installation vars.
 # ITK_INSTALL_BIN_DIR          - binary dir (executables)
 # ITK_INSTALL_LIB_DIR          - library dir (libs)
