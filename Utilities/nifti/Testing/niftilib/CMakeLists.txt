@@ -5,11 +5,21 @@ PROJECT(NIFTILIB_TESTS)
 INCLUDE_DIRECTORIES(${NIFTILIB_SOURCE_DIR} ${ZNZLIB_SOURCE_DIR} ${NIFTILIB_SOURCE_DIR}/../utils)
 
 ADD_EXECUTABLE(first_test nifti_test.c)
-TARGET_LINK_LIBRARIES(first_test niftiio )
+TARGET_LINK_LIBRARIES(first_test ${PACKAGE_PREFIX}niftiio )
 
 ADD_EXECUTABLE(second_test nifti_test2.c)
-TARGET_LINK_LIBRARIES(second_test niftiio )
+TARGET_LINK_LIBRARIES(second_test ${PACKAGE_PREFIX}niftiio )
 
+ADD_EXECUTABLE(subregion_test nifti_test_subimage.c)
+TARGET_LINK_LIBRARIES(subregion_test ${PACKAGE_PREFIX}niftiio )
 
-ADD_TEST(first_test first_test )
+IF(ITK_BINARY_DIR)
+SET(TESTBIN ${ITK_BINARY_DIR}/bin)
+ELSE(ITK_BINARY_DIR)
+SET(TESTBIN ${NIFTILIB_TESTS_BINARY_DIR})
+ENDIF(ITK_BINARY_DIR)
+
+ADD_TEST(first_test ${TESTBIN}/first_test )
+ADD_TEST(second_test ${TESTBIN}/second_test )
+ADD_TEST(subregion_test ${TESTBIN}/subregion_test )
 
