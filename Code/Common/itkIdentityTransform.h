@@ -163,8 +163,6 @@ public:
    * **/
   virtual const JacobianType & GetJacobian(const InputPointType  & ) const
     { 
-    this->m_Jacobian = JacobianType(NDimensions,1); 
-    this->m_Jacobian.Fill(0.0); 
     return this->m_Jacobian;
     }
 
@@ -176,7 +174,12 @@ public:
   virtual bool IsLinear() const { return true; }
 
 protected:
-  IdentityTransform():Transform<TScalarType,NDimensions,NDimensions>(NDimensions,1) {}; 
+  IdentityTransform():Transform<TScalarType,NDimensions,NDimensions>(NDimensions,1) 
+   {
+   // The Jacobian is constant, therefore it can be initialized in the constructor.
+   this->m_Jacobian = JacobianType(NDimensions,1); 
+   this->m_Jacobian.Fill(0.0); 
+   }; 
   virtual ~IdentityTransform() {};
 
 
