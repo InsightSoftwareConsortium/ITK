@@ -67,10 +67,10 @@ class ITK_EXPORT  Transform  : public TransformBase
 {
 public:
   /** Standard class typedefs. */
-  typedef Transform  Self;
-  typedef TransformBase Superclass;
-  typedef SmartPointer< Self >   Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef Transform                     Self;
+  typedef TransformBase                 Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
   
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -110,8 +110,8 @@ public:
   typedef vnl_vector_fixed<TScalarType, NOutputDimensions> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class */
-  typedef Point<TScalarType, NInputDimensions> InputPointType;
-  typedef Point<TScalarType, NOutputDimensions> OutputPointType;
+  typedef Point<TScalarType, NInputDimensions>   InputPointType;
+  typedef Point<TScalarType, NOutputDimensions>  OutputPointType;
   
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint( const InputPointType  &, unsigned int threadId=0 ) const
@@ -138,7 +138,7 @@ public:
    * \sa SetParametersByValue
    */
   virtual void SetParameters( const ParametersType & ) 
-    { itkExceptionMacro( << "Subclasses should override this method" ) };
+    { itkExceptionMacro( << "Subclasses should override this method" ) }
 
   /** Set the transformation parameters and update internal transformation. 
    * This method forces the transform to copy the parameters.  The
@@ -153,7 +153,7 @@ public:
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const
     { itkExceptionMacro( << "Subclasses should override this method" );
-      return m_Parameters; };
+      return m_Parameters; }
 
   /** Set the fixed parameters and update internal transformation. */
   virtual void SetFixedParameters( const ParametersType & ) 
@@ -269,6 +269,3 @@ private:
 #endif
 
 #endif
-
-
-

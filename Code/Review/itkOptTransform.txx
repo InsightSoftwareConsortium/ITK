@@ -50,7 +50,6 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
 }
 
 
-
 /**
  * Constructor
  */
@@ -163,4 +162,3 @@ PrintSelf(std::ostream& os, Indent indent) const
 
 
 #endif
-
