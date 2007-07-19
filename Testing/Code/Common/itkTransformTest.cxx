@@ -67,7 +67,7 @@ public:
   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & inputVector ) const
     { return inputVector; }
 
-  virtual const JacobianType & GetJacobian(const InputPointType  & inputPoint ) const
+  virtual const JacobianType & GetJacobian(const InputPointType  & ) const
     { return this->m_Jacobian; }
 };
 
