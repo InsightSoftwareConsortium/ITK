@@ -41,6 +41,34 @@ struct itk_jpeg_error_mgr
   jmp_buf setjmp_buffer;        /* for return to caller */
 };
 
+extern "C" {
+METHODDEF(void) itk_jpeg_error_exit (j_common_ptr cinfo) {
+  /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer */
+  itk_jpeg_error_mgr *myerr = (itk_jpeg_error_mgr*) cinfo->err;
+
+  /* Always display the message. */
+  /* We could postpone this until after returning, if we chose. */
+  (*cinfo->err->output_message) (cinfo);
+
+  jpeg_abort(cinfo);      /* clean up libjpeg state */
+  /* Return control to the setjmp point */
+  longjmp(myerr->setjmp_buffer, 1);
+}
+
+METHODDEF(void) itk_jpeg_output_message (j_common_ptr cinfo)
+{
+#if 0
+   char buffer[JMSG_LENGTH_MAX];
+ 
+   /* Create the message */
+   (*cinfo->err->format_message) (cinfo, buffer);
+
+   // Custom display message, we could be more fancy and throw an exception:
+   std::cerr << "output:" << buffer << std::endl;
+#endif
+}
+
+}
 
 namespace itk
 {
@@ -137,6 +165,10 @@ bool JPEGImageIO::CanReadFile(const char* file)
   struct itk_jpeg_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
+  // for any jpeg error call itk_jpeg_error_exit
+  jerr.pub.error_exit = itk_jpeg_error_exit;
+  // for any output message call itk_jpeg_output_message
+  jerr.pub.output_message = itk_jpeg_output_message;
   // set the jump point, if there is a jpeg error or warning
   // this will evaluate to true
   if (setjmp(jerr.setjmp_buffer))
@@ -166,6 +198,8 @@ void JPEGImageIO::ReadVolume(void*)
   
 }
 
+//-----------------------------------------------------------------------------
+
   
 void JPEGImageIO::Read(void* buffer)
 {
@@ -186,6 +220,10 @@ void JPEGImageIO::Read(void* buffer)
   struct itk_jpeg_error_mgr jerr;
 
   cinfo.err = jpeg_std_error(&jerr.pub);
+  // for any jpeg error call itk_jpeg_error_exit
+  jerr.pub.error_exit = itk_jpeg_error_exit;
+  // for any output message call itk_jpeg_output_message
+  jerr.pub.output_message = itk_jpeg_output_message;
   if (setjmp(jerr.setjmp_buffer))
     {
     // clean up
@@ -293,6 +331,7 @@ void JPEGImageIO::ReadImageInformation()
   struct itk_jpeg_error_mgr jerr;
 
   cinfo.err = jpeg_std_error(&jerr.pub); 
+  jerr.pub.error_exit = itk_jpeg_error_exit;
   if (setjmp(jerr.setjmp_buffer))
     {
     // clean up
