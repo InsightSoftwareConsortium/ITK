@@ -23,12 +23,38 @@
 #include "itkTransform.h"
 #include "itkMatrix.h"
 
+namespace itk
+{
+namespace itkTransformTestHelpers
+{
    
+template <
+    class TScalarType,
+    unsigned int NInputDimensions,
+    unsigned int NOutputDimensions>
+class TransformTestHelper : 
+          public Transform< TScalarType, NInputDimensions, NOutputDimensions >
+{
+public:
+  typedef TransformTestHelper Self;
+  typedef Transform< TScalarType, NInputDimensions, NOutputDimensions > Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+      
+  itkNewMacro( Self );
+  itkTypeMacro( TransformTestHelper, Transform );
+
+  typedef typename Superclass::ParametersType ParametersType;
+};
+
+
+}
+}
 
 int itkTransformTest(int, char* [] )
 {
 
-  typedef  itk::Transform<double,3,3>      TransformType;
+  typedef  itk::itkTransformTestHelpers::TransformTestHelper<double,3,3>      TransformType;
   TransformType::Pointer transform = TransformType::New();
 
   TransformType::InputPointType pnt;
@@ -70,6 +96,10 @@ int itkTransformTest(int, char* [] )
     {
     std::cerr << e << std::endl;
     }
+
+  // Exercise some methods
+  transform->Print( std::cout );
+  std::cout <<  transform->GetNameOfClass() << std::endl;
 
   std::cout << "[ PASSED ]" << std::endl;
   return EXIT_SUCCESS;

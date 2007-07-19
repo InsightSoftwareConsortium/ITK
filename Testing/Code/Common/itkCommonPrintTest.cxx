@@ -553,9 +553,11 @@ int itkCommonPrintTest(int , char* [])
     itk::TorusInteriorExteriorSpatialFunction<>::New();
   std::cout << "------------TorusInteriorExteriorSpatialFunction" << TorusInteriorExteriorSpatialFunctionObj;
   
-  itk::Transform<double,3,3>::Pointer TransformObj =
+#ifndef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+  itk::Transform<double,3,3>::Pointer TransformObj =  // In the thread-safe version, this class is now abstract
     itk::Transform<double,3,3>::New();
   std::cout << "------------Transform" << TransformObj;
+#endif
   
   itk::TranslationTransform<double,3>::Pointer TranslationTransformObj =
     itk::TranslationTransform<double,3>::New();
