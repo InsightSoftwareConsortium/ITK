@@ -239,6 +239,8 @@ protected:
   mutable JacobianType       m_Jacobian;
   mutable JacobianType     * m_ThreaderJacobian;
 
+  virtual JacobianType * GetJacobianVariableForThread( unsigned int threadId=0 ) const;
+
 private:
   Transform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -34,17 +34,16 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform():
   m_Parameters(1),
   m_FixedParameters(1),
+  m_JacobianDimensions(NOutputDimensions),
+  m_JacobianNumberOfParameters(1),
   m_Jacobian(NOutputDimensions,1),
   m_NumberOfThreads(1)
 {
   itkWarningMacro(<< "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
 
-  this->m_JacobianDimensions = NOutputDimensions;
-  this->m_JacobianNumberOfParameters = 1;
-
   // threadId=0 is stored directly in m_Jacobian so we only need (num trhreads - 1) variables here.
   this->m_ThreaderJacobian = new JacobianType[ this->m_NumberOfThreads-1 ]; 
-  for( unsigned int i=0; i < this->m_NumberOfThreads; i++ )
+  for( unsigned int i=0; i < this->m_NumberOfThreads-1; i++ )
     {
     this->m_ThreaderJacobian[i].SetSize( this->m_JacobianDimensions, this->m_JacobianNumberOfParameters );
     }
@@ -62,17 +61,17 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
 ::Transform(unsigned int dimension,unsigned int numberOfParameters):
   m_Parameters(numberOfParameters),
   m_FixedParameters(numberOfParameters),
+  m_JacobianDimensions(dimension),
+  m_JacobianNumberOfParameters(numberOfParameters),
+  m_Jacobian(dimension,numberOfParameters),
   m_NumberOfThreads(1)
 {
-  this->m_JacobianDimensions = dimension;
-  this->m_JacobianNumberOfParameters = numberOfParameters;
-
-  this->m_ThreaderJacobian = new JacobianType[ this->m_NumberOfThreads ]; 
-  for( unsigned int i=0; i < this->m_NumberOfThreads; i++ )
+  // threadId=0 is stored directly in m_Jacobian so we only need (num trhreads - 1) variables here.
+  this->m_ThreaderJacobian = new JacobianType[ this->m_NumberOfThreads-1 ]; 
+  for( unsigned int i=0; i < this->m_NumberOfThreads-1; i++ )
     {
     this->m_ThreaderJacobian[i].SetSize( this->m_JacobianDimensions, this->m_JacobianNumberOfParameters );
     }
-
 }
 
 
@@ -96,8 +95,8 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
       {
       delete [] this->m_ThreaderJacobian;
       } 
-    this->m_ThreaderJacobian = new JacobianType[ this->m_NumberOfThreads ]; 
-    for( unsigned int i=0; i < this->m_NumberOfThreads; i++ )
+    this->m_ThreaderJacobian = new JacobianType[ this->m_NumberOfThreads-1 ]; 
+    for( unsigned int i=0; i < this->m_NumberOfThreads-1; i++ )
       {
       this->m_ThreaderJacobian[i].SetSize( this->m_JacobianDimensions, this->m_JacobianNumberOfParameters );
       }
@@ -106,6 +105,20 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
     }
 }
  
+// Get the storage space for the Jacobian corresponding to a particular thread.
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+typename Transform<TScalarType, NDimensions,VSplineOrder>::JacobianType * 
+Transform<TScalarType, NDimensions,VSplineOrder>
+::GetJacobianVariableForThread( unsigned int threadId ) const
+{
+   JacobianType * jacobian = &(this->m_Jacobian);
+   if( threadId > 0 )
+     {
+     jacobian = &(this->m_ThreaderJacobian[threadId-1]);
+     }
+   return jacobian;
+}
+
 /**
  * GenerateName
  */
