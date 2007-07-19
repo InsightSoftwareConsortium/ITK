@@ -1,4 +1,20 @@
-#include <iostream>
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkVectorImageReadWriteTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #include "itkVector.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -6,6 +22,7 @@
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
 
+#include <iostream>
 
 int itkVectorImageReadWriteTest(int argc, char * argv [])
 {

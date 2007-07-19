@@ -1,12 +1,27 @@
+/*=========================================================================
 
-#include "itkWin32Header.h"
-#include <iostream>
-#include <fstream>
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    ImageCopy.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #include "itkNumericTraits.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+#include <iostream>
+#include <fstream>
 
 int main(int argc, char **argv)
 {
