@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOptTransform.txx
+  Module:    itkThreadSafeTransform.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,10 +15,10 @@
 
 =========================================================================*/
 
-#ifndef _itkOptTransform_txx
-#define _itkOptTransform_txx
+#ifndef _itkThreadSafeTransform_txx
+#define _itkThreadSafeTransform_txx
 
-#include "itkOptTransform.h"
+#include "itkThreadSafeTransform.h"
 
 namespace itk
 {

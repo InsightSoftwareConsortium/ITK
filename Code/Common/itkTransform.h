@@ -23,7 +23,7 @@
 #include "itkConfigure.h"
 
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptTransform.h"
+#include "itkThreadSafeTransform.h"
 #else
 
 #include "itkTransformBase.h"

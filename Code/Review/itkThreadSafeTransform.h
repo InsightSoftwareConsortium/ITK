@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOptTransform.h
+  Module:    itkThreadSafeTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOptTransform_h
-#define __itkOptTransform_h
+#ifndef __itkThreadSafeTransform_h
+#define __itkThreadSafeTransform_h
 
 #include "itkTransformBase.h"
 #include "itkPoint.h"
@@ -72,8 +72,15 @@ public:
   typedef SmartPointer< Self >          Pointer;
   typedef SmartPointer< const Self >    ConstPointer;
   
-  /** New method for creating an object using a factory. */
-  itkNewMacro(Self);
+  /* Since this is an abstract class the itkNewMacro() has been removed.
+   * Making this an abstract class will prevent in practice the inifinite 
+   * recursion that may happen if the default implementation of the GetJacobian,
+   * TransformPoint, TransformVector methods are invoked. The forward/backward
+   * compatibility wraps in the default implementation would result in an
+   * infinite recursion. The recurssion is avoided in derived classes by 
+   * providing an overloaded implementation of the non-thread-safe or the 
+   * thread-safe version of the methods listed above.
+   * */
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( Transform, TransformBase );
@@ -280,7 +287,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkOptTransform.txx"
+# include "itkThreadSafeTransform.txx"
 #endif
 
 #endif
