@@ -115,7 +115,8 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
   gdcm::FileList *flist = m_SerieHelper->GetFirstSingleSerieUIDFileSet();
   if( !flist )
     {
-    itkWarningMacro(<<"No Series can be found, make sure you restiction are not too strong");
+    itkWarningMacro(
+      << "No Series can be found, make sure your restrictions are not too strong");
     return m_InputFileNames;
     }
   if( serie != "" ) // user did not specify any sub selection based on UID
