@@ -44,7 +44,31 @@ public:
   itkNewMacro( Self );
   itkTypeMacro( TransformTestHelper, Transform );
 
-  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename Superclass::JacobianType       JacobianType;
+  typedef typename Superclass::ParametersType     ParametersType;
+  typedef typename Superclass::InputPointType     InputPointType;
+  typedef typename Superclass::OutputPointType    OutputPointType;
+  typedef typename Superclass::InputVectorType    InputVectorType;
+  typedef typename Superclass::OutputVectorType   OutputVectorType;
+  typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType   OutputVnlVectorType;
+  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType   OutputCovariantVectorType;
+
+  virtual OutputPointType TransformPoint(const InputPointType  & inputPoint ) const
+    { return inputPoint; }
+
+  virtual OutputVectorType TransformVector(const InputVectorType  & inputVector ) const
+    { return inputVector; }
+
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType  & inputVector ) const
+    { return inputVector; }
+
+  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType  & inputVector ) const
+    { return inputVector; }
+
+  virtual const JacobianType & GetJacobian(const InputPointType  & inputPoint ) const
+    { return this->m_Jacobian; }
 };
 
 
