@@ -114,21 +114,34 @@ public:
   typedef Point<TScalarType, NOutputDimensions>  OutputPointType;
   
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint( const InputPointType  &, unsigned int threadId=0 ) const
-    { return OutputPointType(); } 
+  virtual OutputPointType TransformPoint( const InputPointType  & inputPoint, 
+                                          unsigned int itkNotUsed( threadId ) ) const
+    { return this->TransformPoint( inputPoint ); } // Backward compatibility for non-thread-safe transforms.
+  virtual OutputPointType TransformPoint(const InputPointType  & inputPoint ) const
+    { return this->TransformPoint( inputPoint, 0 ); } // Forward compatibility for non-thread-safe transforms.
 
   /**  Method to transform a vector. */
-  virtual OutputVectorType    TransformVector( const InputVectorType &, unsigned int threadId=0 ) const
-    { return OutputVectorType(); }
+  virtual OutputVectorType    TransformVector( const InputVectorType & inputVector, 
+                                               unsigned int itkNotUsed( threadId ) ) const
+    { return this->TransformVector( inputVector ); } // Backward compatibility for non-thread-safe transforms.
+  virtual OutputVectorType    TransformVector(const InputVectorType & inputVector ) const
+    { return this->TransformVector( inputVector, 0 ); } // Forward compatibility for non-thread-safe transforms.
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector( const InputVnlVectorType &, unsigned int threadId=0 ) const
-    { return OutputVnlVectorType(); }
+  virtual OutputVnlVectorType TransformVector( const InputVnlVectorType & inputVnlVector,
+                                               unsigned int itkNotUsed( threadId ) ) const
+    { return  this->TransformVector( inputVnlVector ); } // Backward compatibility for non-thread-safe transforms.
+  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & inputVnlVector ) const
+    { return TransformVector( inputVnlVector, 0 ); } // Forward compatibility for non-thread-safe transforms.
 
   /**  Method to transform a CovariantVector. */
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &, unsigned int threadId=0 ) const
-    { return OutputCovariantVectorType(); } 
+    const InputCovariantVectorType &inputCovariantVector, 
+    unsigned int itkNotUsed( threadId ) ) const
+    { return this->TransformCovariantVector( inputCovariantVector ); } // Backward compatibility for non-thread-safe transforms.
+  virtual OutputCovariantVectorType TransformCovariantVector(
+    const InputCovariantVectorType & inputCovariantVector ) const
+    { return TransformCovariantVector( inputCovariantVector, 0 ); }  // Forward compatibility for non-thread-safe transforms.
 
   /** Set the transformation parameters and update internal transformation.
    * SetParameters gives the transform the option to set it's
@@ -191,9 +204,11 @@ public:
    *
    * \f]
    * **/
-  virtual const JacobianType & GetJacobian(const InputPointType  &, unsigned int threadId=0 ) const
-    { itkExceptionMacro( << "Subclass should override this method" );
-      return m_ThreaderJacobian[threadId]; }; 
+  virtual const JacobianType & GetJacobian( const InputPointType  & inputPoint, 
+                                            unsigned int itkNotUsed( threadId ) ) const
+    { return this->GetJacobian( inputPoint ); } // Backward compatibility for non-thread-safe.
+  virtual const JacobianType & GetJacobian(const InputPointType  & inputPoint ) const
+    { return this->GetJacobian( inputPoint, 0 ); }; // Forward compatibility for non-thread-safe.
 
 
   /** Return the number of parameters that completely define the Transfom  */
