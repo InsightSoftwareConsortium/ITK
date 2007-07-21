@@ -110,12 +110,12 @@ typename Transform<TScalarType, NDimensions,VSplineOrder>::JacobianType *
 Transform<TScalarType, NDimensions,VSplineOrder>
 ::GetJacobianVariableForThread( unsigned int threadId ) const
 {
-   JacobianType * jacobian = &(this->m_Jacobian);
-   if( threadId > 0 )
-     {
-     jacobian = &(this->m_ThreaderJacobian[threadId-1]);
-     }
-   return jacobian;
+  JacobianType * jacobian = &(this->m_Jacobian);
+  if( threadId > 0 )
+    {
+    jacobian = &(this->m_ThreaderJacobian[threadId-1]);
+    }
+  return jacobian;
 }
 
 /**

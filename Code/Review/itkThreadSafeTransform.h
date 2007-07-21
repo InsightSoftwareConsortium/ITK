@@ -215,7 +215,7 @@ public:
                                             unsigned int itkNotUsed( threadId ) ) const
     { return this->GetJacobian( inputPoint ); } // Backward compatibility for non-thread-safe.
   virtual const JacobianType & GetJacobian(const InputPointType  & inputPoint ) const
-    { return this->GetJacobian( inputPoint, 0 ); }; // Forward compatibility for non-thread-safe.
+    { return this->GetJacobian( inputPoint, 0 ); } // Forward compatibility for non-thread-safe.
 
 
   /** Return the number of parameters that completely define the Transfom  */
