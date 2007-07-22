@@ -101,31 +101,30 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
-void 
+void
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
              MeasurementVectorType& upperBound)
 {
   this->Initialize(size) ;
-
-  float interval ;
   for ( unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
     {
-    interval = (float) (upperBound[i] - lowerBound[i]) 
-                       / static_cast< MeasurementType >(size[i]) ;
+    const double interval = static_cast<double>(upperBound[i] - lowerBound[i])
+      / static_cast< MeasurementType >(size[i]) ;
 
     // Set the min vector and max vector
     for (unsigned int j = 0; j < (size[i] - 1) ; j++)
       {
-      this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +  
-                                              ((float)j * interval))) ;
-      this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +  
-                                              (((float)j + 1) * interval)));
+      this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +
+                                              (static_cast<double>(j) * interval))) ;
+      this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +
+                                              ((static_cast<double>(j + 1)) * interval)));
       }
-    this->SetBinMin(i, size[i] - 1, 
-                    (MeasurementType)(lowerBound[i] + 
-                                      (((float) size[i] - 1) * interval))) ;
-    this->SetBinMax(i, size[i] - 1, 
+    // Set min vector and max vector for the final bin clipped at upperbound
+    this->SetBinMin(i, size[i] - 1,
+                    (MeasurementType)(lowerBound[i] +
+                                      ((static_cast<double>( size[i] - 1)) * interval))) ;
+    this->SetBinMax(i, size[i] - 1,
                     (MeasurementType)(upperBound[i])) ;
     }
 }
@@ -152,16 +151,10 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 {
   // now using something similar to binary search to find
   // index.
-  unsigned int dim ;
-  
-  int begin, mid, end ;
-  MeasurementType median ;
-  MeasurementType tempMeasurement ;
-
-  for (dim = 0 ; dim < MeasurementVectorSize ; dim++)
+  for (unsigned int dim = 0 ; dim < MeasurementVectorSize ; dim++)
     {
-    tempMeasurement = measurement[dim] ;
-    begin = 0 ;
+    const MeasurementType tempMeasurement = measurement[dim] ;
+    int begin = 0 ;
     if (tempMeasurement < m_Min[dim][begin])
       {
       // one of measurement is below the minimum
@@ -173,51 +166,51 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
         }
       else
         { // set an illegal value and return 0
-        index[dim] = (long) m_Size[dim]; 
+        index[dim] = (long) m_Size[dim];
         return false;
         }
       }
 
-    end = m_Min[dim].size() - 1 ;
+    int end = m_Min[dim].size() - 1 ;
     if (tempMeasurement >= m_Max[dim][end])
       {
       // one of measurement is below the minimum
       // its ok if we extend the bins to infinity.. not ok if we don't
-      if(!m_ClipBinsAtEnds)
+      //Need to include the last endpoint in the last bin.
+      if(!m_ClipBinsAtEnds || tempMeasurement ==  m_Max[dim][end])
         {
         index[dim] = (long) m_Size[dim]-1;
         continue;
         }
       else
         { // set an illegal value and return 0
-        index[dim] = (long) m_Size[dim]; 
+        index[dim] = (long) m_Size[dim];
         return false;
         }
       }
 
-    mid = (end + 1) / 2 ;
-    median = m_Min[dim][mid];
+    int mid = (end + 1) / 2 ;
+    MeasurementType median = m_Min[dim][mid];
 
     while(true)
       {
       if (tempMeasurement < median )
         {
         end = mid - 1 ;
-        } 
+        }
       else if (tempMeasurement > median)
         {
         if( tempMeasurement <  m_Max[dim][mid] &&
-            tempMeasurement >= m_Min[dim][mid] ) 
+            tempMeasurement >= m_Min[dim][mid] )
           {
           index[dim] = mid ;
           break ;
           }
-              
         begin = mid + 1 ;
         }
       else
         {
-        // measurement[dim] = m_Min[dim][med] 
+        // measurement[dim] = m_Min[dim][med]
         index[dim] = mid ;
         break ;
         }

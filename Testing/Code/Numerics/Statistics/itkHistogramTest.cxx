@@ -33,41 +33,51 @@ int itkHistogramTest(int, char* [] )
   typedef itk::Statistics::Histogram< MeasurementType, 3, itk::Statistics::DenseFrequencyContainer > HistogramType ;
   HistogramType::Pointer histogram = HistogramType::New() ;
 
+  const int NUM_BINS=64;
+  const int LOWERBOUND=0;
+  const int UPPERBOUND=1024;
   // initializes a 64 x 64 x 64 histogram with equal size interval
   HistogramType::SizeType size ;
-  size.Fill(64) ;
+  size.Fill(NUM_BINS) ;
   unsigned long totalSize = size[0] * size[1] * size[2] ;
   HistogramType::MeasurementVectorType lowerBound ;
   HistogramType::MeasurementVectorType upperBound ;
-  lowerBound.Fill(0) ;
-  upperBound.Fill(1024) ;
+  lowerBound.Fill(LOWERBOUND) ;
+  upperBound.Fill(UPPERBOUND) ;
   histogram->Initialize(size, lowerBound, upperBound ) ;
   histogram->SetToZero();
   double interval = 
-    (upperBound[0] - lowerBound[0]) / 
+    (upperBound[0] - lowerBound[0]) /
     static_cast< HistogramType::MeasurementType >(size[0]) ;
 
   // tests begin
   HistogramType::MeasurementVectorType measurements ;
-  measurements.Fill(512) ;
   HistogramType::IndexType index ;
   HistogramType::IndexType ind;
-  index.Fill(32) ;
-  if(histogram->GetIndex(measurements,ind))
+  {
+  const int fillValues[3]={LOWERBOUND,512,UPPERBOUND};
+  const int knownFillLocation[3]={0,32,63};
+  for ( unsigned int testiter=0; testiter<3; testiter++)
     {
-    if(index != ind)
+    measurements.Fill(fillValues[testiter]) ;
+    index.Fill(knownFillLocation[testiter]) ;
+    if(histogram->GetIndex(measurements,ind))
+      {
+      if(index != ind)
+        {
+        pass = false ;
+        whereFail = "GetIndex(MeasurementVectorType&)";
+        }
+      }
+    else
       {
       pass = false ;
       whereFail = "GetIndex(MeasurementVectorType&)";
       }
     }
-  else
-    {
-    pass = false ;
-    whereFail = "GetIndex(MeasurementVectorType&)";
-    }
-  
-  HistogramType::InstanceIdentifier id = 
+  }
+
+  HistogramType::InstanceIdentifier id =
     histogram->GetInstanceIdentifier(index);
   if (index != histogram->GetIndex(id))
     {
@@ -76,7 +86,7 @@ int itkHistogramTest(int, char* [] )
     }
 
   index.Fill(100) ;
-  
+
   if (!histogram->IsIndexOutOfBounds(index))
     {
     pass = false ;
