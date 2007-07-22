@@ -56,7 +56,8 @@ namespace itk
  * \ingroup IntensityImageFilters Multithreaded
  *
  */
-template <class TInputImage, class TOutputImage>
+  /* THistogramMeasurement -- The precision level for which to do HistogramMeasurmenets */
+template <class TInputImage, class TOutputImage, class THistogramMeasurement=ITK_TYPENAME TInputImage::PixelType>
 class ITK_EXPORT HistogramMatchingImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
@@ -94,7 +95,7 @@ public:
   typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** Histogram related typedefs. */
-  typedef Statistics::Histogram<InputPixelType, 1> HistogramType;
+  typedef Statistics::Histogram<THistogramMeasurement, 1> HistogramType;
   typedef typename HistogramType::Pointer HistogramPointer;
 
   /** Set/Get the source image. */
@@ -169,8 +170,8 @@ protected:
 
   /** Construct a histogram from an image. */
   void ConstructHistogram( const InputImageType * image,
-                           HistogramType * histogram, double minValue,
-                           double maxValue );
+                           HistogramType * histogram, const double minValue,
+                           const double maxValue );
 
 private:
   HistogramMatchingImageFilter(const Self&); //purposely not implemented
@@ -197,10 +198,10 @@ private:
   HistogramPointer      m_SourceHistogram;
   HistogramPointer      m_ReferenceHistogram;
   HistogramPointer      m_OutputHistogram;
-  
+
   typedef vnl_matrix<double>  TableType;
   TableType             m_QuantileTable;
-  
+
   typedef vnl_vector<double>  GradientArrayType;
   GradientArrayType     m_Gradients;
   double                m_LowerGradient;
