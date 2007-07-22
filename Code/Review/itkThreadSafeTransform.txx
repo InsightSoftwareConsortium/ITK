@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkThreadSafeTransform_txx
-#define _itkThreadSafeTransform_txx
+#ifndef __itkThreadSafeTransform_txx
+#define __itkThreadSafeTransform_txx
 
 #include "itkThreadSafeTransform.h"
 
