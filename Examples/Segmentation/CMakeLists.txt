@@ -294,7 +294,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples2
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 
@@ -303,7 +302,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples3
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 
@@ -376,7 +374,7 @@ TARGET_LINK_LIBRARIES(SegmentationExamples
 ITKAlgorithms
 ITKIO
 ITKBasicFilters
-ITKCommon)
+)
 
 
 
@@ -385,7 +383,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples5
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 
@@ -420,7 +417,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples8
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 
@@ -429,12 +425,11 @@ TARGET_LINK_LIBRARIES(SegmentationExamples9
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 
 ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKCommon ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
 TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
@@ -450,7 +445,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples4
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
@@ -467,7 +461,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples6
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 
@@ -495,7 +488,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples7
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKCommon
 ITKStatistics
 )
 ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
