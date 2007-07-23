@@ -832,18 +832,36 @@ void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer,
 ImageIORegion 
 ImageIOBase
 ::GenerateStreamableReadRegionFromRequestedRegion( 
-    const ImageIORegion & itkNotUsed( requested ) ) const
+    const ImageIORegion & requested ) const
 {
   //
   // The default implementations determines that the streamable region is
   // equal to the largest possible region of the image.
   //
-  ImageIORegion streamableRegion(this->m_NumberOfDimensions);
+  
+  // Since the image in the file may have a dimension lower
+  // than the image type over which the ImageFileReader/Writer is
+  // being instantiated, we must fill in the co-dimensions in a
+  // consistent way.
+
+  // First: allocate with the image IO number of dimensions
+  ImageIORegion streamableRegion( requested.GetImageDimension() );
+
+  // Second: copy only the number of dimension that the image has.
   for( unsigned int i=0; i < this->m_NumberOfDimensions ; i++ )
     {
     streamableRegion.SetSize( i, this->m_Dimensions[i] );
     streamableRegion.SetIndex( i, 0 );
     }
+
+  // Third: set the rest to the default : start = 0, size = 1
+  for( unsigned int j=this->m_NumberOfDimensions; j<requested.GetImageDimension(); j++ )
+    {
+    streamableRegion.SetSize( j, 1 );
+    streamableRegion.SetIndex( j, 0 );
+    }
+
+  // Finally: return the streamable region
   return streamableRegion;
 }
 
