@@ -228,6 +228,14 @@ static void dumpdata(const void *x)
 #define dumpdata(x)
 #endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 
+ImageIORegion NiftiImageIO
+::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion ) const
+{
+  std::cout << "NiftiImageIO::GenerateStreamableReadRegionFromRequestedRegion() " << std::endl;
+  std::cout << "RequestedRegion = " << requestedRegion << std::endl;
+  return requestedRegion;
+}
+
 NiftiImageIO::NiftiImageIO():
   m_NiftiImage(0)
 {

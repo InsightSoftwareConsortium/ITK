@@ -824,6 +824,30 @@ void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer,
 
 }
 
+
+/** Given a requested region, determine what could be the region that we can
+ * read from the file. This is called the streamable region, which will be
+ * smaller than the LargestPossibleRegion and greater or equal to the
+ * RequestedRegion */
+ImageIORegion 
+ImageIOBase
+::GenerateStreamableReadRegionFromRequestedRegion( 
+    const ImageIORegion & itkNotUsed( requested ) ) const
+{
+  //
+  // The default implementations determines that the streamable region is
+  // equal to the largest possible region of the image.
+  //
+  ImageIORegion streamableRegion(this->m_NumberOfDimensions);
+  for( unsigned int i=0; i < this->m_NumberOfDimensions ; i++ )
+    {
+    streamableRegion.SetSize( i, this->m_Dimensions[i] );
+    streamableRegion.SetIndex( i, 0 );
+    }
+  return streamableRegion;
+}
+
+
 void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

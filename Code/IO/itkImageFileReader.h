@@ -107,6 +107,9 @@ public:
   /** The size of the output image. */
   typedef typename TOutputImage::SizeType  SizeType;
 
+  /** The size of the output image. */
+  typedef typename TOutputImage::IndexType  IndexType;
+
   /** The region of the output image. */
   typedef typename TOutputImage::RegionType  ImageRegionType;
 
@@ -165,6 +168,10 @@ private:
   ImageFileReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   std::string m_ExceptionMessage;  
+
+  // The region that the ImageIO class will return when we ask it to produce a
+  // requested region.
+  ImageRegionType m_StreamableRegion; 
 };
 
 
