@@ -74,6 +74,12 @@ public:
   typedef QuadEdgeMeshLineCell< CellType >               EdgeCellType;
   typedef std::vector< EdgeCellType* >                   EdgeCellListType; 
 
+  //** */
+  typedef typename CellTraits::PointIdIterator              PointIdIterator;
+  typedef typename CellTraits::PointIdConstIterator         PointIdConstIterator;
+  typedef typename CellTraits::PointIdInternalIterator      PointIdInternalIterator;
+  typedef typename CellTraits::PointIdInternalConstIterator PointIdInternalConstIterator;
+
   /** QE types. */
   typedef typename CellTraits::QuadEdgeType              QuadEdgeType;
   typedef typename QuadEdgeType::OriginRefType           VertexRefType;
@@ -81,11 +87,7 @@ public:
   typedef typename QuadEdgeType::PrimalDataType          PrimalDataType;
   typedef typename QuadEdgeType::DualDataType            DualDataType;
   typedef typename QuadEdgeType::DualType                QEDual;
-  
-  /** Iterator types. */
-  typedef typename QuadEdgeType::IteratorGeom      PointIdIterator;
-  typedef typename QuadEdgeType::ConstIteratorGeom PointIdConstIterator;
-  
+   
 public:
   /** Standard part of every itk Object. */
   itkTypeMacro( QuadEdgeMeshPolygonCell, TCellInterface );
@@ -129,18 +131,33 @@ public:
   virtual void MakeCopy( CellAutoPointer& cell ) const 
     { (void)cell; }
   
-  /** Iterator-related methods. */
+  /** ITK Cell API - Iterator-related methods.
+   *  The Set methods will work, not the Get.
+   *  Hopefully never used ...
+   */
   virtual void SetPointIds( PointIdConstIterator first );
   virtual void SetPointIds( PointIdConstIterator first,
                             PointIdConstIterator last );
   virtual void SetPointId( int localId, PointIdentifier pId );
-  
-  virtual PointIdIterator PointIdsBegin();
-  virtual PointIdIterator PointIdsEnd();
-  
-  virtual PointIdConstIterator GetPointIds() const;
-  virtual PointIdConstIterator PointIdsBegin() const;
-  virtual PointIdConstIterator PointIdsEnd() const;
+
+  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; };
+  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; };
+
+  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; };
+  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; };
+  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; };
+
+  /** QuadEdge internal flavor of cell API **/
+  virtual void InternalSetPointIds( PointIdInternalConstIterator first );
+  virtual void InternalSetPointIds( PointIdInternalConstIterator first,
+                            PointIdInternalConstIterator last );
+
+  virtual PointIdInternalIterator InternalPointIdsBegin();
+  virtual PointIdInternalIterator InternalPointIdsEnd();
+
+  virtual PointIdInternalConstIterator InternalGetPointIds() const;
+  virtual PointIdInternalConstIterator InternalPointIdsBegin() const;
+  virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
   
 private:
   QuadEdgeMeshPolygonCell( const Self& );    // Not impl.

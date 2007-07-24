@@ -75,6 +75,12 @@ public:
 
   /** Multivisitor type. */
   typedef typename CellType::MultiVisitor MultiVisitor;
+  
+  //** */
+  typedef typename CellTraits::PointIdIterator              PointIdIterator;
+  typedef typename CellTraits::PointIdConstIterator         PointIdConstIterator;
+  typedef typename CellTraits::PointIdInternalIterator      PointIdInternalIterator;
+  typedef typename CellTraits::PointIdInternalConstIterator PointIdInternalConstIterator;
 
   /** QE types. */
   typedef typename CellTraits::QuadEdgeType              QEType;
@@ -83,10 +89,6 @@ public:
   typedef typename QEType::PrimalDataType                PrimalDataType;
   typedef typename QEType::DualDataType                  DualDataType;
   typedef typename QEType::DualType                      QEDual;
-
-  /** Iterator types. */
-  typedef typename QEType::IteratorGeom      PointIdIterator;
-  typedef typename QEType::ConstIteratorGeom PointIdConstIterator;
 
 public:
   /** Standard part of every itk Object. */
@@ -125,18 +127,33 @@ public:
   /** Useless methods. */
   virtual void MakeCopy( CellAutoPointer& cell ) const { (void)cell; }
 
-  /** Iterator-related methods. */
+  /** ITK Cell API - Iterator-related methods.
+   *  The Set methods will work, not the Get.
+   *  Hopefully never used ...
+   */
   virtual void SetPointIds( PointIdConstIterator first );
   virtual void SetPointIds( PointIdConstIterator first,
                             PointIdConstIterator last );
   virtual void SetPointId( int localId, PointIdentifier pId );
 
-  virtual PointIdIterator PointIdsBegin();
-  virtual PointIdIterator PointIdsEnd();
+  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; };
+  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; };
 
-  virtual PointIdConstIterator GetPointIds() const;
-  virtual PointIdConstIterator PointIdsBegin() const;
-  virtual PointIdConstIterator PointIdsEnd() const;
+  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; };
+  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; };
+  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; };
+
+  /** QuadEdge internal flavor of cell API **/
+  virtual void InternalSetPointIds( PointIdInternalConstIterator first );
+  virtual void InternalSetPointIds( PointIdInternalConstIterator first,
+                            PointIdInternalConstIterator last );
+
+  virtual PointIdInternalIterator InternalPointIdsBegin();
+  virtual PointIdInternalIterator InternalPointIdsEnd();
+
+  virtual PointIdInternalConstIterator InternalGetPointIds() const;
+  virtual PointIdInternalConstIterator InternalPointIdsBegin() const;
+  virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
 
 private:
   QuadEdgeMeshLineCell( const Self& );  //purposely not implemented

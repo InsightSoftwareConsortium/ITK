@@ -319,33 +319,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 /**
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-bool QuadEdgeMesh< TPixel, VDimension, TTraits >
-::FindClosestPoint( 
-  const CoordRepArrayType coords, PointIdentifier & pointId ) const
-{
-  VectorType vP;
-  vP.Get_vnl_vector().copy_in( coords );
-  PointsContainerConstIterator pit = this->GetPoints()->Begin();
-  pointId = pit.Index();
-
-  while( pit != this->GetPoints()->End() )
-    {
-    VectorType v0 = pit.Value().GetVectorFromOrigin();
-    VectorType v1 = this->GetVector( pointId );
-
-    if( ( v0 - vP ).GetNorm() < ( v1 - vP ).GetNorm() )
-      {
-      pointId = pit.Index();
-      }
-    pit++;
-    }
-
-  return( true );
-}
-
-/**
- */
-template< typename TPixel, unsigned int VDimension, typename TTraits >
 void QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::SetCell( CellIdentifier cId, CellAutoPointer& cell )
 {
@@ -365,9 +338,9 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     {
     PointIdList points;
 
-    typename PolygonCellType::PointIdIterator pit = pe->PointIdsBegin();
+    typename PolygonCellType::PointIdInternalIterator pit = pe->InternalPointIdsBegin();
 
-    while( pit != pe->PointIdsEnd() )
+    while( pit != pe->InternalPointIdsEnd() )
       {
       points.push_back( *pit );
       pit++;
@@ -376,6 +349,12 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     this->AddFace( points );
     cell.ReleaseOwnership( );
     delete pe;
+    }
+  else // non-QE cell, i.e. original itk cell for example
+    {
+    //Get the number of points
+    // get the points
+    // pass it to AddFace, in order
     }
 
 }
@@ -1226,9 +1205,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
   CellsContainerConstIterator cellEnd      = this->GetCells()->End();
 
+  PointIdentifier NumOfPoints = 0;
   while( cellIterator != cellEnd )
     {
-    if( cellIterator.Value()->GetNumberOfPoints() > 2 )
+    NumOfPoints = cellIterator.Value()->GetNumberOfPoints();
+    if( NumOfPoints > 2 )
       {
       numberOfFaces++;
       }

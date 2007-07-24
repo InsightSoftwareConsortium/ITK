@@ -164,10 +164,10 @@ VTKPolyDataReader<TOutputMesh>
   // Load the polygons into the itk::Mesh
   //
 
-  unsigned long numberOfCellPoints;
-  unsigned long ids[3];
+  PointIdentifier numberOfCellPoints;
+  long ids[3];
 
-  for(long i=0; i<numberOfPolygons; i++)
+  for(CellIdentifier i=0; i<numberOfPolygons; i++)
     {
     if( inputFile.eof() )
       {
@@ -218,7 +218,10 @@ VTKPolyDataReader<TOutputMesh>
 
     CellAutoPointer cell;
     TriangleCellType * triangleCell = new TriangleCellType;
-    triangleCell->SetPointIds( (unsigned long*)ids );
+    for( PointIdentifier k = 0; k < numberOfCellPoints; k++ )
+      {
+      triangleCell->SetPointId( k, ids[k] );
+      }
 
     cell.TakeOwnership( triangleCell );
     outputMesh->SetCell( i, cell );

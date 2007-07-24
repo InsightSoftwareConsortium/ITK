@@ -57,7 +57,9 @@ public:
   /** Some convenient typedefs. */
   typedef typename OutputMeshType::Pointer     OutputMeshPointer;
   typedef typename OutputMeshType::CellTraits  CellTraits;
-
+  typedef typename CellTraits::CellIdentifier  CellIdentifier;
+  typedef typename CellTraits::PointIdentifier PointIdentifier;
+  typedef typename CellTraits::PointIdIterator PointIdIterator;
   typedef typename OutputMeshType::PointsContainerPointer
     PointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer

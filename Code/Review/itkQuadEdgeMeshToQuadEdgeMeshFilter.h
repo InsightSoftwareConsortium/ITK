@@ -60,6 +60,9 @@ public:
   typedef typename InputMeshType::EdgeCellType    InputEdgeCellType;
   typedef typename InputMeshType::PolygonCellType InputPolygonCellType;
   typedef typename InputMeshType::PointIdList     InputPointIdList;
+  typedef typename InputMeshType::CellTraits      InputCellTraits;
+  typedef typename InputCellTraits::PointIdInternalIterator
+                                                  InputPointsIdInternalIterator;
 
   typedef typename InputQEPrimal::IteratorGeom    InputQEIterator;
 

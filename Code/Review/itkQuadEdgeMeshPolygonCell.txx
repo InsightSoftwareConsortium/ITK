@@ -121,8 +121,8 @@ unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetNumberOfPoints() const
 {
   unsigned int n = 0;
-  PointIdConstIterator it = this->PointIdsBegin();
-  while( it != this->PointIdsEnd() )
+  PointIdInternalConstIterator it = this->InternalPointIdsBegin();
+  while( it != this->InternalPointIdsEnd() )
     {
     it++;
     n++;
@@ -161,8 +161,24 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointIds( PointIdConstIterator first )
 {
   PointIdConstIterator i2 = first;
-  PointIdIterator i1 = this->PointIdsBegin();
-  while( i1 != this->PointIdsEnd() )
+  PointIdInternalIterator i1 = this->InternalPointIdsBegin();
+  while( i1 != this->InternalPointIdsEnd() )
+    {
+    i1.Value()->SetOrigin( *i2 );
+    i1++;
+    i2++;
+    }
+}
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+void 
+QuadEdgeMeshPolygonCell< TCellInterface >
+::InternalSetPointIds( PointIdInternalConstIterator first )
+{
+  PointIdInternalConstIterator i2 = first;
+  PointIdInternalIterator i1 = this->InternalPointIdsBegin();
+  while( i1 != this->InternalPointIdsEnd() )
     {
     i1.Value()->SetOrigin( *i2 );
     i1++;
@@ -176,9 +192,25 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointIds( PointIdConstIterator first,
                PointIdConstIterator last )
 {
-  PointIdIterator i1 = this->PointIdsBegin();
+  PointIdInternalIterator i1 = this->InternalPointIdsBegin();
   PointIdConstIterator i2 = first;
-  while( i1 != this->PointIdsEnd() && i2 != last )
+  while( i1 != this->InternalPointIdsEnd() && i2 != last )
+    {
+    i1.Value()->SetOrigin( *i2 );
+    i1++;
+    i2++;
+    }
+}
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+void QuadEdgeMeshPolygonCell< TCellInterface >
+::InternalSetPointIds( PointIdInternalConstIterator first,
+               PointIdInternalConstIterator last )
+{
+  PointIdInternalIterator i1 = this->InternalPointIdsBegin();
+  PointIdInternalConstIterator i2 = first;
+  while( i1 != this->InternalPointIdsEnd() && i2 != last )
     {
     i1.Value()->SetOrigin( *i2 );
     i1++;
@@ -192,8 +224,8 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointId( int localId, PointIdentifier pId )
 {
   int n = 0;
-  PointIdIterator it = this->PointIdsBegin();
-  while( it != this->PointIdsEnd() && n <= localId )
+  PointIdInternalIterator it = this->InternalPointIdsBegin();
+  while( it != this->InternalPointIdsEnd() && n <= localId )
     {
     if( n == localId )
       {
@@ -207,54 +239,52 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdIterator
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
-::PointIdsBegin()
+::InternalPointIdsBegin()
 {
   return  m_EdgeRingEntry->BeginGeomLnext();
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdIterator
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
-::PointIdsEnd()
+::InternalPointIdsEnd()
 {
   return m_EdgeRingEntry->EndGeomLnext();
 }
 
 // ---------------------------------------------------------------------
-// FIXME: This method has a suspicious API and an implementation that
-// is the duplicate of PointIdsBegin();
 template< class TCellInterface >
-typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdConstIterator
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
-::GetPointIds() const
+::InternalGetPointIds() const
 {
-  const QuadEdgeType * edge = const_cast< QuadEdgeType* >( m_EdgeRingEntry );
-  PointIdConstIterator iterator( edge->BeginGeomLnext() );
+  const QuadEdgeType* edge = const_cast< QuadEdgeType* >( m_EdgeRingEntry );
+  PointIdInternalConstIterator iterator( edge->BeginGeomLnext() );
   return iterator;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdConstIterator
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
-::PointIdsBegin() const
+::InternalPointIdsBegin() const
 {
-  const QuadEdgeType * edge = const_cast< QuadEdgeType* >( m_EdgeRingEntry );
-  PointIdConstIterator iterator( edge->BeginGeomLnext() );
+  const QuadEdgeType* edge = const_cast< QuadEdgeType* >( m_EdgeRingEntry );
+  PointIdInternalConstIterator iterator( edge->BeginGeomLnext() );
   return iterator;
 }
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdConstIterator
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
-::PointIdsEnd() const
+::InternalPointIdsEnd() const
 {
   const QuadEdgeType * edge = const_cast< const QuadEdgeType* >( m_EdgeRingEntry );
-  PointIdConstIterator iterator = edge->EndGeomLnext();
+  PointIdInternalConstIterator iterator = edge->EndGeomLnext();
   return iterator;
 }
 

@@ -263,8 +263,8 @@ public:
   /// One of the reasons of itkQE is precisely to avoid updating connexions.
   void BuildCellLinks() { }
 
-  virtual bool FindClosestPoint( const CoordRepArrayType coords,
-                                 PointIdentifier & pointId ) const;
+  //virtual bool FindClosestPoint( const CoordRepArrayType coords,
+  //                               PointIdentifier & pointId ) const;
 
   /** Overloaded methods for itk-syntax compatilibity. */
   void SetCell( CellIdentifier cId, CellAutoPointer& cell );

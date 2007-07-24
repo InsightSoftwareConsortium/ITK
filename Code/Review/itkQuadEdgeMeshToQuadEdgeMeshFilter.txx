@@ -68,9 +68,8 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
       if( pe )
         {
         InputPointIdList points;
-        typename InputPolygonCellType::PointIdIterator pit =
-          pe->PointIdsBegin();
-        while( pit != pe->PointIdsEnd())
+        InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
+        while( pit != pe->InternalPointIdsEnd( ) )
           {
           points.push_back( ( *pit ) );
           pit++;

@@ -54,9 +54,11 @@ public:
   typedef TUsingCellsContainer    UsingCellsContainer;
 
   /** Iterator types. */
+  typedef PointIdentifier*                PointIdIterator;
+  typedef const PointIdentifier*          PointIdConstIterator;  
   typedef TQE                             QuadEdgeType;
-  typedef typename TQE::IteratorGeom      PointIdIterator;
-  typedef typename TQE::ConstIteratorGeom PointIdConstIterator;
+  typedef typename TQE::IteratorGeom      PointIdInternalIterator;
+  typedef typename TQE::ConstIteratorGeom PointIdInternalConstIterator;
 };
 
 /** \class QuadEdgeMeshTraits
