@@ -424,8 +424,8 @@ ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
 ADD_EXECUTABLE(itkCommonTests itkCommonTests.cxx ${BasicTests_SRCS})
 ADD_EXECUTABLE(itkCommonTests2 itkCommonTests2.cxx ${BasicTests2_SRCS})
 TARGET_LINK_LIBRARIES(itkCommonHeaderTest ITKCommon)
-TARGET_LINK_LIBRARIES(itkCommonTests ITKIO ITKCommon)
-TARGET_LINK_LIBRARIES(itkCommonTests2 ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(itkCommonTests ITKIO)
+TARGET_LINK_LIBRARIES(itkCommonTests2 ITKIO)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

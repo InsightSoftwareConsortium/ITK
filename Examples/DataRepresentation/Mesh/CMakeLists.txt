@@ -47,15 +47,15 @@ ADD_EXECUTABLE(MeshCellVisitor2 MeshCellVisitor2.cxx )
 TARGET_LINK_LIBRARIES(MeshCellVisitor2 ITKCommon)
 
 ADD_EXECUTABLE(AutomaticMesh AutomaticMesh.cxx )
-TARGET_LINK_LIBRARIES(AutomaticMesh ITKCommon ITKAlgorithms)
+TARGET_LINK_LIBRARIES(AutomaticMesh ITKAlgorithms)
 
 ADD_EXECUTABLE(ImageToPointSet ImageToPointSet.cxx )
-TARGET_LINK_LIBRARIES(ImageToPointSet ITKCommon ITKAlgorithms ITKIO)
+TARGET_LINK_LIBRARIES(ImageToPointSet ITKAlgorithms ITKIO)
 
 SET(MESH_EXAMPLES ${CXX_TEST_PATH}/MeshExamples)
 
 ADD_EXECUTABLE(MeshExamples MeshExamples.cxx )
-TARGET_LINK_LIBRARIES(MeshExamples ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(MeshExamples ITKIO)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
