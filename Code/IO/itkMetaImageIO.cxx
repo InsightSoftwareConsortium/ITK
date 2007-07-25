@@ -1378,8 +1378,6 @@ ImageIORegion
 MetaImageIO
 ::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const
 {
-  std::cout << "MetaImageIO::GenerateStreamableReadRegionFromRequestedRegion()" << std::endl;
-  std::cout << "Requested region = " << requested << std::endl;
   //
   // The default implementations determines that the streamable region is
   // equal to the largest possible region of the image.
@@ -1390,8 +1388,6 @@ MetaImageIO
     streamableRegion.SetSize( i, this->m_Dimensions[i] );
     streamableRegion.SetIndex( i, 0 );
     }
-
-  std::cout << "StreamableRegion = " << streamableRegion << std::endl;
 
   return streamableRegion;
 }

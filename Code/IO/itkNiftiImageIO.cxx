@@ -231,8 +231,6 @@ static void dumpdata(const void *x)
 ImageIORegion NiftiImageIO
 ::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion ) const
 {
-  std::cout << "NiftiImageIO::GenerateStreamableReadRegionFromRequestedRegion() " << std::endl;
-  std::cout << "RequestedRegion = " << requestedRegion << std::endl;
   return requestedRegion;
 }
 
