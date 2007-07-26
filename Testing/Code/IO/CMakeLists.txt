@@ -502,7 +502,7 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
 
 
 ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
-TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO)
 ADD_TEST(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
         ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
@@ -524,12 +524,12 @@ ADD_TEST(itkGDCMImageIOTest4 ${CXX_TEST_PATH}/itkGDCMImageIOTest
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
 ADD_EXECUTABLE(itkGDCMImageIOTest2 itkGDCMImageIOTest2.cxx)
-TARGET_LINK_LIBRARIES(itkGDCMImageIOTest2 ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(itkGDCMImageIOTest2 ITKIO)
 ADD_TEST(itkGDCMImageIOTest5 ${CXX_TEST_PATH}/itkGDCMImageIOTest2
         ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5)
 ADD_EXECUTABLE(itkGDCMSeriesReadImageWrite itkGDCMSeriesReadImageWrite.cxx)
-TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(itkGDCMSeriesReadImageWrite ITKIO)
 ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrite
         ${ITK_DATA_ROOT}/Input/DicomSeries
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk

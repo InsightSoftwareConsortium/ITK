@@ -78,19 +78,19 @@ TARGET_LINK_LIBRARIES(ImageRegistration9 ITKNumerics ITKIO)
 
 IF( USE_FFTWD )
   ADD_EXECUTABLE(DeformableRegistration9 DeformableRegistration9.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration9 ITKCommon
+  TARGET_LINK_LIBRARIES(DeformableRegistration9
       ITKNumerics ITKIO ITKAlgorithms ITKStatistics )
 
   ADD_EXECUTABLE(DeformableRegistration10 DeformableRegistration10.cxx )
   TARGET_LINK_LIBRARIES(DeformableRegistration10
-                        ITKCommon ITKNumerics ITKIO ITKAlgorithms ITKStatistics)
+                        ITKNumerics ITKIO ITKAlgorithms ITKStatistics)
 ENDIF( USE_FFTWD )
 
 ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
 ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKNumerics ITKIO)
@@ -305,10 +305,10 @@ IF(NOT BORLAND)
 
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
-                        ITKNumerics ITKIO ITKCommon ITKStatistics)
+                        ITKNumerics ITKIO ITKStatistics)
 
   ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters)
 
 ENDIF(NOT BORLAND)
 
@@ -463,34 +463,34 @@ ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES9}
 
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamplesO RegistrationExamplesO.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamplesO2 RegistrationExamplesO2.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamplesO2 ITKAlgorithms ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamplesO2 ITKAlgorithms ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples2 RegistrationExamples2.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples3 RegistrationExamples3.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples4 RegistrationExamples4.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples5 RegistrationExamples5.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples5 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples5 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples6 RegistrationExamples6.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples8 RegistrationExamples8.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 ADD_EXECUTABLE(RegistrationExamples9 RegistrationExamples9.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples9 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters ITKCommon)
+TARGET_LINK_LIBRARIES(RegistrationExamples9 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters )
 
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

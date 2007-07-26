@@ -81,19 +81,19 @@ SET(SpatialObject_SRCS3
 )
 
 ADD_EXECUTABLE(itkSpatialObjectTests itkSpatialObjectTests.cxx ${SpatialObject_SRCS})
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKCommon ITKSpatialObject)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests ITKIO ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectTests2 itkSpatialObjectTests2.cxx ${SpatialObject_SRCS2})
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests2 ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests2 ITKIO)
 
 ADD_EXECUTABLE(itkSpatialObjectTests3 itkSpatialObjectTests3.cxx ${SpatialObject_SRCS3})
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests3 ITKIO ITKCommon ITKSpatialObject)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests3 ITKIO ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectTests4 itkSpatialObjectTests4.cxx ${SpatialObject_SRCS4})
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests4 ITKIO ITKCommon ITKSpatialObject)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests4 ITKIO ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectTests5 itkSpatialObjectTests5.cxx ${SpatialObject_SRCS5})
-TARGET_LINK_LIBRARIES(itkSpatialObjectTests5 ITKIO ITKCommon ITKSpatialObject)
+TARGET_LINK_LIBRARIES(itkSpatialObjectTests5 ITKIO ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)

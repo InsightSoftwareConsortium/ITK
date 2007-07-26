@@ -65,20 +65,20 @@ ADD_TEST(itkFEMElement2DQuadraticTriangularTest ${FEM_TESTS} itkFEMElement2DQuad
 
 # To run the FEM input menu-based test locally, uncomment the line below
 #ADD_EXECUTABLE(itkFEMElementTestMenu itkFEMElementTest.cxx)
-#TARGET_LINK_LIBRARIES(itkFEMElementTestMenu ITKCommon ITKNumerics ITKFEM)
+#TARGET_LINK_LIBRARIES(itkFEMElementTestMenu ITKNumerics ITKFEM)
 #ADD_EXECUTABLE(itkFEMExceptionTest itkFEMExceptionTest.cxx)
-#TARGET_LINK_LIBRARIES(itkFEMExceptionTest ITKCommon ITKFEM)
+#TARGET_LINK_LIBRARIES(itkFEMExceptionTest ITKFEM)
 #ADD_EXECUTABLE(itkFEMGenerateMeshTest itkFEMGenerateMeshTest.cxx)
-#TARGET_LINK_LIBRARIES(itkFEMGenerateMeshTest ITKCommon ITKNumerics ITKFEM)
+#TARGET_LINK_LIBRARIES(itkFEMGenerateMeshTest ITKNumerics ITKFEM)
 #ADD_EXECUTABLE(itkFEMElement2DQuadraticTriangularTest itkFEMElement2DQuadraticTriangularTest.cxx)
-#TARGET_LINK_LIBRARIES(itkFEMElement2DQuadraticTriangularTest ITKCommon ITKNumerics ITKFEM)
+#TARGET_LINK_LIBRARIES(itkFEMElement2DQuadraticTriangularTest ITKNumerics ITKFEM)
 
 # To create the standard ITK test program, uncomment the line below
 ADD_EXECUTABLE(itkFEMTests itkFEMTests.cxx ${FEM_SRCS})
 IF(UNIX)
   TARGET_LINK_LIBRARIES (itkFEMTests -lm )
 ENDIF(UNIX)
-TARGET_LINK_LIBRARIES(itkFEMTests ITKCommon ITKNumerics ITKFEM)
+TARGET_LINK_LIBRARIES(itkFEMTests ITKNumerics ITKFEM)
 
 
 
