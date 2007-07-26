@@ -38,7 +38,7 @@ bool AssertTopologicalInvariants( TMesh *mesh,
 template< class TMesh >
 void PopulateMesh( typename TMesh::Pointer mesh )
 {
-  typedef typename TMesh                MeshType;
+  typedef TMesh                         MeshType;
   typedef typename MeshType::CellType   CellType;
 
   typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
@@ -86,7 +86,7 @@ void PopulateMesh( typename TMesh::Pointer mesh )
     18, 19, 24,
     18, 24, 23 };
 
-  MeshType::PointType pts[25];
+  typename MeshType::PointType pts[25];
 
   pts[ 0][0] = 0.0;  pts[ 0][1] = 0.0;  pts[ 0][2] = 0.0;
   pts[ 1][0] = 1.0;  pts[ 1][1] = 0.0;  pts[ 1][2] = 0.0;
@@ -119,7 +119,7 @@ void PopulateMesh( typename TMesh::Pointer mesh )
     mesh->SetPoint( i, pts[i] );
     }
  
-  CellType::CellAutoPointer cellpointer;
+  typename CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *poly;
 
   for(int i=0; i<expectedNumCells; i++)
