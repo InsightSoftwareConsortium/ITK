@@ -1,201 +1,136 @@
 PROJECT(FilteringExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
-
 ADD_EXECUTABLE(CompositeFilterExample CompositeFilterExample.cxx )
-TARGET_LINK_LIBRARIES(CompositeFilterExample ITKCommon ITKIO ITKBasicFilters)
-
+TARGET_LINK_LIBRARIES(CompositeFilterExample  ITKIO ITKBasicFilters)
 ADD_EXECUTABLE(FlipImageFilter FlipImageFilter.cxx )
-TARGET_LINK_LIBRARIES(FlipImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(FlipImageFilter  ITKIO)
 ADD_EXECUTABLE(FFTImageFilter FFTImageFilter.cxx )
-TARGET_LINK_LIBRARIES(FFTImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(FFTImageFilter  ITKIO)
 IF( USE_FFTWF )
   ADD_EXECUTABLE(FFTDirectInverse2 FFTDirectInverse2.cxx )
-  TARGET_LINK_LIBRARIES(FFTDirectInverse2 ITKCommon ITKIO ITKAlgorithms )
+  TARGET_LINK_LIBRARIES(FFTDirectInverse2  ITKIO ITKAlgorithms )
 ENDIF( USE_FFTWF )
-
 ADD_EXECUTABLE(GradientMagnitudeImageFilter GradientMagnitudeImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(GradientMagnitudeImageFilter  ITKIO)
 ADD_EXECUTABLE(GradientMagnitudeRecursiveGaussianImageFilter GradientMagnitudeRecursiveGaussianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GradientMagnitudeRecursiveGaussianImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(GradientMagnitudeRecursiveGaussianImageFilter  ITKIO)
 ADD_EXECUTABLE(GradientRecursiveGaussianImageFilter GradientRecursiveGaussianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GradientRecursiveGaussianImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(GradientRecursiveGaussianImageFilter  ITKIO)
 ADD_EXECUTABLE(SecondDerivativeRecursiveGaussianImageFilter SecondDerivativeRecursiveGaussianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(SecondDerivativeRecursiveGaussianImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(SecondDerivativeRecursiveGaussianImageFilter  ITKIO)
 ADD_EXECUTABLE(BinaryThresholdImageFilter BinaryThresholdImageFilter.cxx )
-TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(BinaryThresholdImageFilter  ITKIO)
 ADD_EXECUTABLE(BinaryMedianImageFilter BinaryMedianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(BinaryMedianImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(BinaryMedianImageFilter  ITKIO)
 ADD_EXECUTABLE(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx )
-TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(OtsuThresholdImageFilter  ITKIO)
 ADD_EXECUTABLE(OtsuMultipleThresholdImageFilter OtsuMultipleThresholdImageFilter.cxx )
 TARGET_LINK_LIBRARIES(OtsuMultipleThresholdImageFilter
-                      ITKCommon ITKIO ITKStatistics)
-
+                       ITKIO ITKStatistics)
 ADD_EXECUTABLE(ThresholdImageFilter ThresholdImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ThresholdImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(ThresholdImageFilter  ITKIO)
 ADD_EXECUTABLE(CastingImageFilters CastingImageFilters.cxx )
-TARGET_LINK_LIBRARIES(CastingImageFilters ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(CastingImageFilters  ITKIO)
 ADD_EXECUTABLE(CannyEdgeDetectionImageFilter CannyEdgeDetectionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CannyEdgeDetectionImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(CannyEdgeDetectionImageFilter  ITKIO)
 ADD_EXECUTABLE(SigmoidImageFilter SigmoidImageFilter.cxx )
-TARGET_LINK_LIBRARIES(SigmoidImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(SigmoidImageFilter  ITKIO)
 ADD_EXECUTABLE(MedianImageFilter MedianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(MedianImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(MedianImageFilter  ITKIO)
 ADD_EXECUTABLE(MeanImageFilter MeanImageFilter.cxx )
-TARGET_LINK_LIBRARIES(MeanImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(MeanImageFilter  ITKIO)
 ADD_EXECUTABLE(MathematicalMorphologyBinaryFilters MathematicalMorphologyBinaryFilters.cxx )
-TARGET_LINK_LIBRARIES(MathematicalMorphologyBinaryFilters ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(MathematicalMorphologyBinaryFilters  ITKIO)
 ADD_EXECUTABLE(MathematicalMorphologyGrayscaleFilters MathematicalMorphologyGrayscaleFilters.cxx )
-TARGET_LINK_LIBRARIES(MathematicalMorphologyGrayscaleFilters ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(MathematicalMorphologyGrayscaleFilters  ITKIO)
 ADD_EXECUTABLE(CurvatureFlowImageFilter CurvatureFlowImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CurvatureFlowImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(CurvatureFlowImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(BinaryMinMaxCurvatureFlowImageFilter BinaryMinMaxCurvatureFlowImageFilter.cxx )
-TARGET_LINK_LIBRARIES(BinaryMinMaxCurvatureFlowImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(BinaryMinMaxCurvatureFlowImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(DiscreteGaussianImageFilter DiscreteGaussianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(DiscreteGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(DiscreteGaussianImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(GaussianBlurImageFunction GaussianBlurImageFunction.cxx )
-TARGET_LINK_LIBRARIES(GaussianBlurImageFunction ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(GaussianBlurImageFunction  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianRecursiveGaussianImageFilter1 LaplacianRecursiveGaussianImageFilter1.cxx )
-TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter1 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter1  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ScaleSpaceGenerator2D ScaleSpaceGenerator2D.cxx )
-TARGET_LINK_LIBRARIES(ScaleSpaceGenerator2D ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ScaleSpaceGenerator2D  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(BinomialBlurImageFilter BinomialBlurImageFilter.cxx )
-TARGET_LINK_LIBRARIES(BinomialBlurImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(BinomialBlurImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(CurvatureAnisotropicDiffusionImageFilter CurvatureAnisotropicDiffusionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CurvatureAnisotropicDiffusionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(CurvatureAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(GradientAnisotropicDiffusionImageFilter GradientAnisotropicDiffusionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GradientAnisotropicDiffusionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(GradientAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorGradientAnisotropicDiffusionImageFilter VectorGradientAnisotropicDiffusionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(VectorGradientAnisotropicDiffusionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(VectorGradientAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorCurvatureAnisotropicDiffusionImageFilter VectorCurvatureAnisotropicDiffusionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(VectorCurvatureAnisotropicDiffusionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(VectorCurvatureAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(RGBCurvatureAnisotropicDiffusionImageFilter RGBCurvatureAnisotropicDiffusionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(RGBCurvatureAnisotropicDiffusionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(RGBCurvatureAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(RGBGradientAnisotropicDiffusionImageFilter RGBGradientAnisotropicDiffusionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(RGBGradientAnisotropicDiffusionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(RGBGradientAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(RGBToGrayscale RGBToGrayscale.cxx )
-TARGET_LINK_LIBRARIES(RGBToGrayscale ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(RGBToGrayscale  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SignedDanielssonDistanceMapImageFilter SignedDanielssonDistanceMapImageFilter.cxx )
-TARGET_LINK_LIBRARIES(SignedDanielssonDistanceMapImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(SignedDanielssonDistanceMapImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(BilateralImageFilter BilateralImageFilter.cxx )
-TARGET_LINK_LIBRARIES(BilateralImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(BilateralImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleOrientedImageFilter ResampleOrientedImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ResampleOrientedImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleOrientedImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter2 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter2  ITKBasicFilters ITKIO)
 IF(NOT BORLAND)
 ADD_EXECUTABLE(DerivativeImageFilter DerivativeImageFilter.cxx )
-TARGET_LINK_LIBRARIES(DerivativeImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(DerivativeImageFilter  ITKIO)
 ADD_EXECUTABLE(DanielssonDistanceMapImageFilter DanielssonDistanceMapImageFilter.cxx )
-TARGET_LINK_LIBRARIES(DanielssonDistanceMapImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(DanielssonDistanceMapImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(AntiAliasBinaryImageFilter AntiAliasBinaryImageFilter.cxx )
-TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(AntiAliasBinaryImageFilter  ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter ResampleImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter SmoothingRecursiveGaussianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SmoothingRecursiveGaussianImageFilter2 SmoothingRecursiveGaussianImageFilter2.cxx )
-TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(SmoothingRecursiveGaussianImageFilter2  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianRecursiveGaussianImageFilter2 LaplacianRecursiveGaussianImageFilter2.cxx )
-TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter2 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(LaplacianRecursiveGaussianImageFilter2  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(MorphologicalImageEnhancement MorphologicalImageEnhancement.cxx )
-TARGET_LINK_LIBRARIES(MorphologicalImageEnhancement ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(MorphologicalImageEnhancement  ITKIO)
 ADD_EXECUTABLE(MinMaxCurvatureFlowImageFilter MinMaxCurvatureFlowImageFilter.cxx )
-TARGET_LINK_LIBRARIES(MinMaxCurvatureFlowImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(MinMaxCurvatureFlowImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(FFTImageFilterFourierDomainFiltering FFTImageFilterFourierDomainFiltering.cxx )
-TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(FFTImageFilterFourierDomainFiltering  ITKIO)
 ADD_EXECUTABLE(LaplacianImageFilter LaplacianImageFilter.cxx )
-TARGET_LINK_LIBRARIES(LaplacianImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(LaplacianImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter3 ResampleImageFilter3.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter3 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter3  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter4 ResampleImageFilter4.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter4 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter4  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VotingBinaryHoleFillingImageFilter VotingBinaryHoleFillingImageFilter.cxx )
-TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter  ITKIO)
 ADD_EXECUTABLE(VotingBinaryIterativeHoleFillingImageFilter VotingBinaryIterativeHoleFillingImageFilter.cxx )
-TARGET_LINK_LIBRARIES(VotingBinaryIterativeHoleFillingImageFilter ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(VotingBinaryIterativeHoleFillingImageFilter  ITKIO)
 ENDIF(NOT BORLAND)
-
 ADD_EXECUTABLE(ResampleImageFilter5 ResampleImageFilter5.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter5 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter5  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter6 ResampleImageFilter6.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter6 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter6  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter8 ResampleImageFilter8.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter8 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter8  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter9 ResampleImageFilter9.cxx )
-TARGET_LINK_LIBRARIES(ResampleImageFilter9 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleImageFilter9  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleVolumesToBeIsotropic ResampleVolumesToBeIsotropic.cxx )
-TARGET_LINK_LIBRARIES(ResampleVolumesToBeIsotropic ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ResampleVolumesToBeIsotropic  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(WarpImageFilter1 WarpImageFilter1.cxx )
-TARGET_LINK_LIBRARIES(WarpImageFilter1 ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(WarpImageFilter1  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SubsampleVolume SubsampleVolume.cxx )
-TARGET_LINK_LIBRARIES(SubsampleVolume ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(SubsampleVolume  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
-TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
-TARGET_LINK_LIBRARIES(VectorIndexSelection ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(VectorIndexSelection  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ZeroCrossingBasedEdgeDetectionImageFilter ZeroCrossingBasedEdgeDetectionImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ZeroCrossingBasedEdgeDetectionImageFilter ITKCommon ITKBasicFilters ITKIO)
-
+TARGET_LINK_LIBRARIES(ZeroCrossingBasedEdgeDetectionImageFilter  ITKBasicFilters ITKIO)
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
@@ -204,12 +139,9 @@ SET(FILTERING_EXAMPLES5 ${CXX_TEST_PATH}/FilteringExamples5)
 SET(FILTERING_EXAMPLES6 ${CXX_TEST_PATH}/FilteringExamples6)
 SET(FILTERING_EXAMPLES7 ${CXX_TEST_PATH}/FilteringExamples7)
 SET(FILTERING_EXAMPLES8 ${CXX_TEST_PATH}/FilteringExamples8)
-
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
-
 IF( NOT ITK_DISABLE_CXX_TESTING )
-
 ADD_TEST(BilateralImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/BilateralImageFilter.png
             ${TEMP}/BilateralImageFilter.png
@@ -425,7 +357,6 @@ ADD_TEST( MedianImageFilterTest ${FILTERING_EXAMPLES8}
         ${TEMP}/MedianImageFilter.png
         1
 )
-
 ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest1.png
             ${TEMP}/ResampleImageFilterTest1.png
@@ -434,7 +365,6 @@ ADD_TEST( ResampleImageFilterTest1 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilterTest1.png
         0
 )
-
 ADD_TEST( ResampleOrientedImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleOrientedImageFilterTest.png
             ${TEMP}/ResampleOrientedImageFilterTest.png
@@ -443,7 +373,6 @@ ADD_TEST( ResampleOrientedImageFilterTest ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleOrientedImageFilterTest.png
         0 1 1 0
 )
-
 ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest2.png
             ${TEMP}/ResampleImageFilterTest2.png
@@ -452,7 +381,6 @@ ADD_TEST( ResampleImageFilterTest2 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilterTest2.png
         1
 )
-
 ADD_TEST( ResampleImageFilterTest3 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest3.png
             ${TEMP}/ResampleImageFilterTest3.png
@@ -461,7 +389,6 @@ ADD_TEST( ResampleImageFilterTest3 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilterTest3.png
         2
 )
-
 ADD_TEST( ResampleImageFilterTest4 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilterTest4.png
             ${TEMP}/ResampleImageFilterTest4.png
@@ -470,7 +397,6 @@ ADD_TEST( ResampleImageFilterTest4 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilterTest4.png
         3
 )
-
 ADD_TEST( ResampleImageFilter2Test1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test1.png
             ${TEMP}/ResampleImageFilter2Test1.png
@@ -479,7 +405,6 @@ ADD_TEST( ResampleImageFilter2Test1 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test1.png
         0
 )
-
 ADD_TEST( ResampleImageFilter2Test2 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test2.png
             ${TEMP}/ResampleImageFilter2Test2.png
@@ -488,7 +413,6 @@ ADD_TEST( ResampleImageFilter2Test2 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test2.png
         1
 )
-
 ADD_TEST( ResampleImageFilter2Test3 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test3.png
             ${TEMP}/ResampleImageFilter2Test3.png
@@ -497,7 +421,6 @@ ADD_TEST( ResampleImageFilter2Test3 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test3.png
         2
 )
-
 ADD_TEST( ResampleImageFilter2Test4 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test4.png
             ${TEMP}/ResampleImageFilter2Test4.png
@@ -506,7 +429,6 @@ ADD_TEST( ResampleImageFilter2Test4 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test4.png
         3
 )
-
 ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter2Test5.png
             ${TEMP}/ResampleImageFilter2Test5.png
@@ -515,7 +437,6 @@ ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test5.png
         3
 )
-
 ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter3Test1.png
             ${TEMP}/ResampleImageFilter3Test1.png
@@ -524,7 +445,6 @@ ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter3Test1.png
         0
 )
-
 ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter4Test.png
             ${TEMP}/ResampleImageFilter4Test.png
@@ -533,7 +453,6 @@ ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter4Test.png
         20
 )
-
 ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter5Test.png
             ${TEMP}/ResampleImageFilter5Test.png
@@ -542,7 +461,6 @@ ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter5Test.png
         10 1.2
 )
-
 ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter8Test.png
             ${TEMP}/ResampleImageFilter8Test.png
@@ -551,7 +469,6 @@ ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter8Test.png
         45
 )
-
 ADD_TEST( ResampleImageFilter9Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter9Test.png
             ${TEMP}/ResampleImageFilter9TestNearest.png
@@ -560,7 +477,6 @@ ADD_TEST( ResampleImageFilter9Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter9TestNearest.png
         ${TEMP}/ResampleImageFilter9TestLinear.png
 )
-
 ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
@@ -569,7 +485,6 @@ ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
         ${TEMP}/SigmoidImageFilter.png
         10 240 10 170
 )
-
 ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
@@ -578,7 +493,6 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES2}
         ${TEMP}/SmoothingRecursiveGaussianImageFilter.png
         3
 )
-
 ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SmoothingRecursiveGaussianImageFilter2.png
             ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
@@ -587,7 +501,6 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES2}
         ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
         3
 )
-
 ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdAboveImageFilter.png
             ${TEMP}/ThresholdAboveImageFilter.png
@@ -597,7 +510,6 @@ ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES2}
         ${TEMP}/ThresholdAboveImageFilter.png
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
-
 ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdBelowImageFilter.png
             ${TEMP}/ThresholdBelowImageFilter.png
@@ -607,7 +519,6 @@ ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES2}
         ${TEMP}/ThresholdAboveImageFilter.png
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
-
 ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdOutsideImageFilter.png
             ${TEMP}/ThresholdOutsideImageFilter.png
@@ -617,7 +528,6 @@ ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES2}
         ${TEMP}/ThresholdAboveImageFilter.png
         ${TEMP}/ThresholdOutsideImageFilter.png
 )
-
 ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/VectorGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
@@ -627,7 +537,6 @@ ADD_TEST( VectorGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES
         ${TEMP}/VectorGradientAnisotropicDiffusionImageFilter.png
         .25 5
 )
-
 ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/VectorCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
@@ -637,7 +546,6 @@ ADD_TEST( VectorCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLE
         ${TEMP}/VectorCurvatureAnisotropicDiffusionImageFilter.png
         0.125 5
 )
-
 ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/VectorIndexSelection.png
             ${TEMP}/VectorIndexSelection.png
@@ -646,7 +554,6 @@ ADD_TEST( VectorIndexSelectionTest ${FILTERING_EXAMPLES2}
         ${TEMP}/VectorIndexSelection.png
         1
 )
-
 ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
             ${TEMP}/ZeroCrossingBasedEdgeDetectionImageFilter1.png
@@ -656,8 +563,6 @@ ADD_TEST( ZeroCrossingBasedEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES8}
         5.0
         0.03
 )
-
-
 ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/RGBGradientAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
@@ -666,7 +571,6 @@ ADD_TEST( RGBGradientAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
         ${TEMP}/RGBGradientAnisotropicDiffusionImageFilter.png
         0.125 20
 )
-
 ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
   --compare ${BASELINE}/RGBCurvatureAnisotropicDiffusionImageFilter.png
             ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
@@ -675,7 +579,6 @@ ADD_TEST( RGBCurvatureAnisotropicDiffusionImageFilterTest ${FILTERING_EXAMPLES8}
         ${TEMP}/RGBCurvatureAnisotropicDiffusionImageFilter.png
         0.125 20
 )
-
 ADD_TEST( MorphologicalImageEnhancementTest ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/MorphologicalImageEnhancement.png
             ${TEMP}/MorphologicalImageEnhancement.png
@@ -684,7 +587,6 @@ ADD_TEST( MorphologicalImageEnhancementTest ${FILTERING_EXAMPLES3}
         ${TEMP}/MorphologicalImageEnhancement.png
         3
 )
-
 ADD_TEST( OtsuThresholdImageFilterTest ${FILTERING_EXAMPLES5}
   --compare ${BASELINE}/OtsuThresholdImageFilter.png
             ${TEMP}/OtsuThresholdImageFilter.png
@@ -693,7 +595,6 @@ ADD_TEST( OtsuThresholdImageFilterTest ${FILTERING_EXAMPLES5}
         ${TEMP}/OtsuThresholdImageFilter.png
         255 0
 )
-
 ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES5}
   --compare ${BASELINE}/OtsuMultipleThresholdOutput002.png
             ${TEMP}/OtsuMultipleThresholdOutput002.png
@@ -702,14 +603,12 @@ ADD_TEST( OtsuMultipleThresholdImageFilterTest ${FILTERING_EXAMPLES5}
         ${TEMP}/OtsuMultipleThresholdOutput
         png 3
 )
-
 ADD_TEST( DigitallyReconstructedRadiograph1Test ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/DigitallyReconstructedRadiograph1.png
             ${TEMP}/DigitallyReconstructedRadiograph1.png
   DigitallyReconstructedRadiograph1Test
         -o ${TEMP}/DigitallyReconstructedRadiograph1.png
 )
-
 ADD_TEST( AntiAliasBinaryImageFilterTest ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/AntiAliasBinaryImageFilter.png
             ${TEMP}/AntiAliasBinaryImageFilter.png
@@ -719,7 +618,6 @@ ADD_TEST( AntiAliasBinaryImageFilterTest ${FILTERING_EXAMPLES3}
         ${TEMP}/AntiAliasBinaryImageFilter.png
         .001 50
 )
-
 ADD_TEST( CannyEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/CannyEdgeDetectionImageFilter.png
             ${TEMP}/CannyEdgeDetectionImageFilter.png
@@ -728,7 +626,6 @@ ADD_TEST( CannyEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES3}
         ${TEMP}/CannyEdgeDetectionImageFilter.png
         9
 )
-
 ADD_TEST( FlipImageFilterTest1 ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/FlipImageFilterX.png
             ${TEMP}/FlipImageFilterX.png
@@ -737,7 +634,6 @@ ADD_TEST( FlipImageFilterTest1 ${FILTERING_EXAMPLES3}
         ${TEMP}/FlipImageFilterX.png
         1 0
 )
-
 ADD_TEST( FlipImageFilterTest2 ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/FlipImageFilterY.png
             ${TEMP}/FlipImageFilterY.png
@@ -746,7 +642,6 @@ ADD_TEST( FlipImageFilterTest2 ${FILTERING_EXAMPLES3}
         ${TEMP}/FlipImageFilterY.png
         0 1
 )
-
 ADD_TEST( FlipImageFilterTest3 ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/FlipImageFilterXY.png
             ${TEMP}/FlipImageFilterXY.png
@@ -755,7 +650,6 @@ ADD_TEST( FlipImageFilterTest3 ${FILTERING_EXAMPLES3}
         ${TEMP}/FlipImageFilterXY.png
         1 1
 )
-
 ADD_TEST( GaussianBlurImageFunctionTest ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/GaussianBlurImageFunction.mha
             ${TEMP}/GaussianBlurImageFunction.mha
@@ -764,7 +658,6 @@ ADD_TEST( GaussianBlurImageFunctionTest ${FILTERING_EXAMPLES3}
         ${TEMP}/GaussianBlurImageFunction.mha
         2 3
 )
-
 ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/FFTImageFilterReal.png
             ${TEMP}/FFTImageFilterReal.png
@@ -773,7 +666,6 @@ ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES7}
         ${TEMP}/FFTImageFilterReal.png
         ${TEMP}/FFTImageFilterImaginary.png
 )
-
 # IF( LUIS_WILL_FIX )
 # ADD_TEST( FFTDirectInverseTest ${FILTERING_EXAMPLES6}
 #   --compare ${BASELINE}/FFTDirectInversePoint.png
@@ -783,8 +675,6 @@ ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES7}
 #         ${TEMP}/FFTDirectInversePoint.png
 # )
 # ENDIF( LUIS_WILL_FIX )
-
-
 IF( USE_FFTWF )
 #${BASELINE}/FFTDirectInverse2Point.png
   ADD_TEST( FFTDirectInverse2Test ${FILTERING_EXAMPLES6}
@@ -795,21 +685,18 @@ IF( USE_FFTWF )
           ${TEMP}/FFTDirectInverse2Point.png
   )
 ENDIF( USE_FFTWF )
-
 ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES7}
   FFTImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
         ${TEMP}/FFTImageFilterCenteredDCReal.png
         ${TEMP}/FFTImageFilterCenteredDCImaginary.png
 )
-
 ADD_TEST( FFTImageFilterTest3 ${FILTERING_EXAMPLES7}
   FFTImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcorneredDC.png
         ${TEMP}/FFTImageFilterCorneredDCReal.png
         ${TEMP}/FFTImageFilterCorneredDCImaginary.png
 )
-
 ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/RGBToGrayscale.png
             ${TEMP}/RGBToGrayscale.png
@@ -817,7 +704,6 @@ ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES7}
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/RGBToGrayscale.png
 )
-
 ADD_TEST( LaplacianRecursiveGaussianImageFilter1Test ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter1.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
@@ -826,7 +712,6 @@ ADD_TEST( LaplacianRecursiveGaussianImageFilter1Test ${FILTERING_EXAMPLES7}
         ${TEMP}/LaplacianRecursiveGaussianImageFilter1.mha
         3
 )
-
 ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/LaplacianRecursiveGaussianImageFilter2.mha
             ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
@@ -835,7 +720,6 @@ ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES7}
         ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
         3
 )
-
 ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter6.png
             ${TEMP}/ResampleImageFilter6.png
@@ -844,7 +728,6 @@ ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES4}
         ${TEMP}/ResampleImageFilter6.png
         3
 )
-
 ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter7.png
             ${TEMP}/ResampleImageFilter7.png
@@ -853,7 +736,6 @@ ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
         ${TEMP}/ResampleImageFilter7.png
         33
 )
-
 ADD_TEST( ResampleVolumesToBeIsotropicTest ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleVolumesToBeIsotropic.mha
             ${TEMP}/ResampleVolumesToBeIsotropic.mha
@@ -862,7 +744,6 @@ ADD_TEST( ResampleVolumesToBeIsotropicTest ${FILTERING_EXAMPLES4}
         ${TEMP}/ResampleVolumesToBeIsotropic.mha
         0 255
 )
-
 ADD_TEST( ScaleSpaceGenerator2DTest ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ScaleSpaceGenerator2D005.mhd
             ${TEMP}/ScaleSpaceGenerator2D005.mhd
@@ -871,7 +752,6 @@ ADD_TEST( ScaleSpaceGenerator2DTest ${FILTERING_EXAMPLES4}
         ${TEMP}/ScaleSpaceGenerator2D
         10
 )
-
 ADD_TEST( SubsampleVolumeTest ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/SubsampleVolume.mha
             ${TEMP}/SubsampleVolume.mha
@@ -880,7 +760,6 @@ ADD_TEST( SubsampleVolumeTest ${FILTERING_EXAMPLES4}
         ${TEMP}/SubsampleVolume.mha
         2 2 2
 )
-
 # The test tests 3 filters. 
 #   DiffusionTensor3DReconstructionImageFilter
 #   TensorFractionalAnisotropyImageFilter
@@ -902,53 +781,37 @@ ADD_TEST( DiffusionTensor3DReconstructionImageFilterTest2 ${FILTERING_EXAMPLES5}
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
 )
-
 ADD_EXECUTABLE(FilteringExamples FilteringExamples.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters ITKCommon)
-
+TARGET_LINK_LIBRARIES(FilteringExamples ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples2 FilteringExamples2.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples2 ITKIO ITKBasicFilters ITKCommon)
-
+TARGET_LINK_LIBRARIES(FilteringExamples2 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples3 FilteringExamples3.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples3 ITKIO ITKBasicFilters ITKCommon)
-
+TARGET_LINK_LIBRARIES(FilteringExamples3 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples4 FilteringExamples4.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters ITKCommon)
-
+TARGET_LINK_LIBRARIES(FilteringExamples4 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples5 FilteringExamples5.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters ITKCommon
+TARGET_LINK_LIBRARIES(FilteringExamples5 ITKIO ITKBasicFilters 
                       ITKStatistics)
-
 ADD_EXECUTABLE(FilteringExamples7 FilteringExamples7.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters ITKCommon)
-
+TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples8 FilteringExamples8.cxx)
-TARGET_LINK_LIBRARIES(FilteringExamples8 ITKIO ITKBasicFilters ITKCommon)
-
+TARGET_LINK_LIBRARIES(FilteringExamples8 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
 IF( USE_FFTWF )
-  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon ITKAlgorithms)
+  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters  ITKAlgorithms)
 ELSE( USE_FFTWF )
-  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters ITKCommon)
+  TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters )
 ENDIF( USE_FFTWF )
-
 ADD_EXECUTABLE(DiffusionTensor3DReconstructionImageFilter DiffusionTensor3DReconstructionImageFilter.cxx)
-TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicFilters ITKCommon)
-
-
-  ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
-  TARGET_LINK_LIBRARIES(FFTDirectInverse ITKCommon ITKIO)
-
+TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicFilters )
+ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
+TARGET_LINK_LIBRARIES(FFTDirectInverse  ITKIO)
 IF(NOT BORLAND)
   ADD_EXECUTABLE(SurfaceExtraction SurfaceExtraction.cxx )
-  TARGET_LINK_LIBRARIES(SurfaceExtraction ITKCommon ITKBasicFilters ITKIO)
-
+  TARGET_LINK_LIBRARIES(SurfaceExtraction  ITKBasicFilters ITKIO)
   ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
-  TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1 ITKCommon ITKIO)
-
+  TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1  ITKIO)
   ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
-  TARGET_LINK_LIBRARIES(ResampleImageFilter7 ITKCommon ITKBasicFilters ITKIO)
+  TARGET_LINK_LIBRARIES(ResampleImageFilter7  ITKBasicFilters ITKIO)
 ENDIF(NOT BORLAND)
-
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
-
