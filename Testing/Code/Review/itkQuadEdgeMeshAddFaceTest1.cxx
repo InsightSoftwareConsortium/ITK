@@ -375,7 +375,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   //                    \ /             \ /                           //
   //                    p5               p6                           //
   //                                                                  //
-  // Currently itkQE::Mesh::AddFace() is unable to correct the orientation
+  // Currently itk::QuadEdgeMesh::AddFace() is unable to correct the orientation
   // after merging two patches with opposite orientations.
   //
 
@@ -546,7 +546,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     }
 
   /////////////////////////////////////////////////////////////////////
-  // The Moebius strip should be rejected by itkQE::Mesh::AddFace() of a
+  // The Moebius strip should be rejected by itk::QuadEdgeMesh::AddFace() of a
   // non-orientable surface. Only six points are defined. The geometry of
   // this Moebius strip is flat (in the z = 0 plane) but geometry is not
   // relevant for this test. Gluing happens along the edge [p0, p1].

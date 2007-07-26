@@ -327,6 +327,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
   EdgeCellType* qe;
   PolygonCellType* pe;
 
+  // The QuadEdgeMeshCellTypes first
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
     this->AddEdge( qe->GetQEGeom( )->GetOrigin( ),
@@ -337,26 +338,40 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
   else if( ( pe = dynamic_cast< PolygonCellType* >( cell.GetPointer() ) ) )
     {
     PointIdList points;
-
-    typename PolygonCellType::PointIdInternalIterator pit = pe->InternalPointIdsBegin();
-
+    PointIdInternalIterator pit = pe->InternalPointIdsBegin();
     while( pit != pe->InternalPointIdsEnd() )
       {
       points.push_back( *pit );
       pit++;
       }
-
     this->AddFace( points );
     cell.ReleaseOwnership( );
     delete pe;
     }
-  else // non-QE cell, i.e. original itk cell for example
+  else // non-QE cell, i.e. original itk cells for example
     {
-    //Get the number of points
-    // get the points
-    // pass it to AddFace, in order
+    PointIdentifier numPoint = cell->GetNumberOfPoints( );
+    PointIdIterator pointId = cell->PointIdsBegin();
+    PointIdIterator endId = cell->PointIdsEnd();
+    // Edge
+    if( numPoint == 2 )
+      {
+      this->AddEdge( *pointId, *(++pointId) );
+      }
+    // polygons
+    else if( cell->GetDimension( ) == 2 )
+      {
+      PointIdList points;
+      while( pointId != endId )
+        {
+        points.push_back( *pointId );
+        pointId++;
+        }
+      this->AddFace( points );
+      }
+    cell.ReleaseOwnership( );
+    delete ( cell.GetPointer( ) );
     }
-
 }
 
 /**
@@ -1205,7 +1220,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
   CellsContainerConstIterator cellEnd      = this->GetCells()->End();
 
-  PointIdentifier NumOfPoints = 0;
+  PointIdentifier NumOfPoints;
   while( cellIterator != cellEnd )
     {
     NumOfPoints = cellIterator.Value()->GetNumberOfPoints();

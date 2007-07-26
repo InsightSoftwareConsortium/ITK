@@ -94,8 +94,8 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro( QuadEdgeMeshLineCell, TCellInterface );
 
-    // accessor to the new QEGeom link that replaces now inheritance.
-    QEType* GetQEGeom( ) { return( m_QuadEdgeGeom ); };
+  // accessor to the new QEGeom link that replaces now inheritance.
+  QEType* GetQEGeom( ) const { return( m_QuadEdgeGeom ); };
 
 public:
   /** Object memory management methods. */
@@ -125,7 +125,12 @@ public:
                                    CellAutoPointer& cell );
 
   /** Useless methods. */
-  virtual void MakeCopy( CellAutoPointer& cell ) const { (void)cell; }
+  virtual void MakeCopy( CellAutoPointer& cell ) const
+    {
+    cell.TakeOwnership( new Self );
+    cell->SetPointId( 0, this->GetQEGeom( )->GetOrigin( ) );
+    cell->SetPointId( 1, this->GetQEGeom( )->GetDestination( ) );
+    }
 
   /** ITK Cell API - Iterator-related methods.
    *  The Set methods will work, not the Get.
@@ -136,12 +141,12 @@ public:
                             PointIdConstIterator last );
   virtual void SetPointId( int localId, PointIdentifier pId );
 
-  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; };
-  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; };
+  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; }
+  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; }
 
-  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; };
-  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; };
-  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; };
+  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; }
+  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; }
+  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; }
 
   /** QuadEdge internal flavor of cell API **/
   virtual void InternalSetPointIds( PointIdInternalConstIterator first );

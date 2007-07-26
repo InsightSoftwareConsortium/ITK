@@ -25,6 +25,7 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 SET(ReviewTest_SRCS
   itkFlatStructuringElementTest.cxx
   itkLabelOverlayImageFilterTest.cxx
+
   itkQuadEdgeTest1.cxx
   itkGeometricalQuadEdgeTest1.cxx
   itkQuadEdgeMeshAddFaceTest1.cxx
@@ -32,11 +33,16 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshBasicLayerTest.cxx
   itkQuadEdgeMeshDeleteEdgeTest.cxx
   itkQuadEdgeMeshFrontIteratorTest.cxx
-  #  OppositeOrientationTest.cxx
   itkQuadEdgeMeshPointTest1.cxx
   itkQuadEdgeMeshTest1.cxx
   itkQuadEdgeMeshTest2.cxx
   itkQuadEdgeMeshTest3.cxx
+  itkQuadEdgeMeshEulerOperatorsTest.cxx
+  itkQuadEdgeMeshCellInterfaceTest.cxx
+  itkQuadEdgeMeshIteratorTest.cxx
+  itkQuadEdgeMeshPolygonCellTest.cxx
+  itkDynamicQuadEdgeMeshTest.cxx
+
   itkContourExtractor2DImageFilterTest.cxx
   itkSumProjectionImageFilterTest.cxx
   itkMaximumProjectionImageFilterTest.cxx
@@ -75,18 +81,31 @@ ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
   )
 ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS} itkQuadEdgeTest1)
-ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS} itkGeometricalQuadEdgeTest1)
-ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS} itkQuadEdgeMeshPointTest1)
-ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS} itkQuadEdgeMeshAddFaceTest1)
-ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS} itkQuadEdgeMeshAddFaceTest2)
-# ALEX: should be definitly removed ADD_TEST(itkQuadEdgeMeshBasicLayerTest ${REVIEW_TESTS} itkQuadEdgeMeshBasicLayerTest)
-ADD_TEST(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS} itkQuadEdgeMeshDeleteEdgeTest)
-ADD_TEST(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS} itkQuadEdgeMeshFrontIteratorTest)
+ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS}
+  itkGeometricalQuadEdgeTest1)
+ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS}
+  itkQuadEdgeMeshPointTest1)
+ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS}
+  itkQuadEdgeMeshAddFaceTest1)
+ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS}
+  itkQuadEdgeMeshAddFaceTest2)
+ADD_TEST(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshDeleteEdgeTest)
+ADD_TEST(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshFrontIteratorTest)
 ADD_TEST(itkQuadEdgeMeshTest1 ${REVIEW_TESTS} itkQuadEdgeMeshTest1)
 ADD_TEST(itkQuadEdgeMeshTest2 ${REVIEW_TESTS} itkQuadEdgeMeshTest2)
 ADD_TEST(itkQuadEdgeMeshTest3 ${REVIEW_TESTS} itkQuadEdgeMeshTest3)
-
-#ADD_TEST(OppositeOrientationTest ${REVIEW_TESTS} OppositeOrientationTest)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorsTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshEulerOperatorsTest)
+ADD_TEST(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshCellInterfaceTest)
+ADD_TEST(itkQuadEdgeMeshIteratorTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshIteratorTest)
+ADD_TEST(itkQuadEdgeMeshPolygonCellTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshPolygonCellTest)
+ADD_TEST(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS}
+  itkDynamicQuadEdgeMeshTest)
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})

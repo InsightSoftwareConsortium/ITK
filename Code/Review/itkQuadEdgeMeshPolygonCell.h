@@ -93,7 +93,7 @@ public:
   itkTypeMacro( QuadEdgeMeshPolygonCell, TCellInterface );
   
   /** Object memory management methods. */
-  QuadEdgeMeshPolygonCell( unsigned int nPoints );
+  QuadEdgeMeshPolygonCell( PointIdentifier nPoints = 0 );
   QuadEdgeMeshPolygonCell( QuadEdgeType* e );
   virtual ~QuadEdgeMeshPolygonCell();
   
@@ -129,7 +129,19 @@ public:
   
   /** Useless methods. */
   virtual void MakeCopy( CellAutoPointer& cell ) const 
-    { (void)cell; }
+    { 
+    const unsigned long numberOfPoints = this->GetNumberOfPoints();
+    Self * newPolygonCell = new Self( numberOfPoints );
+    cell.TakeOwnership( newPolygonCell );
+    if ( numberOfPoints ) 
+      {
+      for( unsigned long i = 0; i < numberOfPoints; i++ )
+        { 
+        newPolygonCell->SetPointId( i, this->GetPointId( i ) );
+        }
+      }
+    }
+
   
   /** ITK Cell API - Iterator-related methods.
    *  The Set methods will work, not the Get.
@@ -139,13 +151,15 @@ public:
   virtual void SetPointIds( PointIdConstIterator first,
                             PointIdConstIterator last );
   virtual void SetPointId( int localId, PointIdentifier pId );
+  
+  virtual PointIdentifier GetPointId( int localId ) const;
 
-  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; };
-  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; };
+  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; }
+  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; }
 
-  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; };
-  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; };
-  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; };
+  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; }
+  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; }
+  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; }
 
   /** QuadEdge internal flavor of cell API **/
   virtual void InternalSetPointIds( PointIdInternalConstIterator first );
@@ -162,6 +176,10 @@ public:
 private:
   QuadEdgeMeshPolygonCell( const Self& );    // Not impl.
   void operator=( const Self& ); // Not impl.
+
+protected:
+  //std::vector<EdgeInfo> m_Edges;
+  std::vector<PointIdentifier> m_PointIds;
 
 private:
   /** In order to have constant time access at the itk level instead of

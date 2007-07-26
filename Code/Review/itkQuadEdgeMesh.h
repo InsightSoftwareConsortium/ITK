@@ -135,6 +135,9 @@ public:
   typedef typename Superclass::PointType        PointType;
   typedef typename Superclass::CellTraits       CellTraits;
 
+  typedef typename CellTraits::PointIdInternalIterator PointIdInternalIterator;
+  typedef typename CellTraits::PointIdIterator         PointIdIterator;
+
   // Point section:
   typedef typename Superclass::PointsContainer        PointsContainer;
   typedef typename Superclass::PointsContainerPointer PointsContainerPointer;

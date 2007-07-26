@@ -37,6 +37,11 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshTest1);
   REGISTER_TEST(itkQuadEdgeMeshTest2);
   REGISTER_TEST(itkQuadEdgeMeshTest3);
+  REGISTER_TEST(itkQuadEdgeMeshIteratorTest);
+  REGISTER_TEST(itkDynamicQuadEdgeMeshTest);
+  REGISTER_TEST(itkQuadEdgeMeshPolygonCellTest);
+  REGISTER_TEST(itkQuadEdgeMeshCellInterfaceTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorsTest);
 
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
  

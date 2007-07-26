@@ -62,6 +62,7 @@ public:
   typedef typename CellTraits::PointIdIterator PointIdIterator;
   typedef typename OutputMeshType::PointsContainerPointer
     PointsContainerPointer;
+  
   typedef typename OutputMeshType::PointsContainer
     PointsContainer;
 

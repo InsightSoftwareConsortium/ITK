@@ -25,7 +25,7 @@ namespace itk
 // ---------------------------------------------------------------------
 template< class TCellInterface >
 QuadEdgeMeshPolygonCell< TCellInterface >
-::QuadEdgeMeshPolygonCell( unsigned int nPoints )
+::QuadEdgeMeshPolygonCell( PointIdentifier nPoints )
 {
   this->m_Ident = 0;
 
@@ -36,7 +36,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 
   // Create the rest
   QuadEdgeType* last = m_EdgeRingEntry;
-  for( unsigned int i = 1; i < nPoints; i++ )
+  for( PointIdentifier i = 1; i < nPoints; i++ )
     {
     edge = new EdgeCellType( );
     m_EdgeCellList.push_back( edge );
@@ -120,6 +120,7 @@ template< class TCellInterface >
 unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetNumberOfPoints() const
 {
+  // The constructor creates one edge by default
   unsigned int n = 0;
   PointIdInternalConstIterator it = this->InternalPointIdsBegin();
   while( it != this->InternalPointIdsEnd() )
@@ -127,7 +128,15 @@ unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
     it++;
     n++;
     }
-  return n;
+  // it's impossible to get n < 3 except the empty case
+  if( n > 2 )
+    {
+    return n;
+    }
+  else
+    {
+    return 0;
+    }
 }
 
 // ---------------------------------------------------------------------
@@ -136,9 +145,12 @@ typename QuadEdgeMeshPolygonCell< TCellInterface >::CellFeatureCount
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures( int dimension ) const
 {
-  /// \todo
-  (void)dimension;
-  return 0;
+  switch (dimension)
+    {
+    case 0: return( this->GetNumberOfPoints() );
+    case 1: return( this->GetNumberOfPoints() );
+    default: return( 0 );
+    }
 }
 
 // ---------------------------------------------------------------------
@@ -235,6 +247,26 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
     it++; 
     n++;
     }
+}
+
+// ---------------------------------------------------------------------
+template< class TCellInterface >
+typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdentifier
+QuadEdgeMeshPolygonCell< TCellInterface >
+::GetPointId( int localId ) const
+{
+  int n = 0;
+  PointIdInternalConstIterator it = this->InternalPointIdsBegin();
+  while( it != this->InternalPointIdsEnd() && n <= localId )
+    {
+    if( n == localId )
+      {
+      return( it.Value()->GetOrigin( ) );
+      }
+    it++; 
+    n++;
+    }
+  return( PointIdentifier( -1 ) );
 }
 
 // ---------------------------------------------------------------------

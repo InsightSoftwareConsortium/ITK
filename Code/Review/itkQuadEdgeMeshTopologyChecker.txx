@@ -41,6 +41,12 @@ bool
 QuadEdgeMeshTopologyChecker< TMesh >
 ::ValidateEulerCharacteristic() const
 {
+
+  if( ! this->m_Mesh )
+    {
+    return( false );
+    }
+
   typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New( );
 
   // Number of USED points
@@ -56,10 +62,10 @@ QuadEdgeMeshTopologyChecker< TMesh >
    * Number of points
    *
    * There are two methods to get the number of points.
-   * 1. itkQE::Mesh::ComputeNumberOfPoints()
+   * 1. itk::QuadEdgeMesh::ComputeNumberOfPoints()
    * 2. itk::Mesh::GetNumberOfPoints()
    *
-   * As an itkQE::Mesh is an itk::Mesh by inheritance, the user
+   * As an itk::QuadEdgeMesh is an itk::Mesh by inheritance, the user
    * can use both. 1. will returned the number of points actually 
    * used by at least one edge, while 2. will give you the number
    * of points in the container. Number of unused points can be found
@@ -72,7 +78,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
     }
 
   // The euler formula states:
-  //     numFaces - numEdges + numPoints == 2 - 2 * genus - numBounds
+  // numFaces - numEdges + numPoints == 2 - 2 * genus - numBounds
   // hence ( 2 - numBounds - numFaces + numEdges - numPoints ) must
   // be an odd number. Let's check it out:
   // Note that genus can take a negative value...

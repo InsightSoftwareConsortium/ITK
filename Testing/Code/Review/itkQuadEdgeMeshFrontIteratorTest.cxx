@@ -15,14 +15,14 @@
 
 =========================================================================*/
 /**
- * This test verifies that a \ref itkQE::Mesh::FrontIterator walkthrough on
+ * This test verifies that a \ref itk::QuadEdgeMesh::FrontIterator walkthrough on
  * a Mesh correctly visits all the points. Therefore, we count the points
  * and assert that the result is identical to the one obtained with
- * \ref itkQE::Mesh::ComputeNumberOfPoints .
+ * \ref itk::QuadEdgeMesh::ComputeNumberOfPoints .
  * This can only work when the instance of the Mesh we are considering has
  * a single component (possibly multiply connected). In order to verify
  * this assumption we use \ref MeshExtractComponentFilter which is based
- * on a \ref itkQE::Mesh::FrontDualIterator. Hence we shall have tested
+ * on a \ref itk::QuadEdgeMesh::FrontDualIterator. Hence we shall have tested
  * both primal and dual version of the front iterator.
  */
 #include <set>
