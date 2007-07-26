@@ -304,11 +304,11 @@ void NiftiImageIO::Read(void* buffer)
   ImageIORegion regionToRead = this->GetIORegion();
   ImageIORegion::SizeType size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
-  const int dims = this->GetNumberOfDimensions();
+
   int numElts = 1;
   int _origin[8];
   int _size[8];
-  int i;
+  unsigned int i;
   for(i = 0; i < this->GetNumberOfDimensions(); i++)
     {
     _origin[i] = start[i];
@@ -343,7 +343,6 @@ void NiftiImageIO::Read(void* buffer)
     {
     unsigned nbyper = this->m_NiftiImage->nbyper;
     //TODO:  Need to coerse these dims based on the collapsed areas.
-    int *dim = this->m_NiftiImage->dim;
     const char *frombuf = (const char *)data;
     char *tobuf = (char *)buffer;
 
