@@ -1372,11 +1372,13 @@ MetaImageIO
   delete []eOrigin;
 }
 
-/** Given a requested region, determine what could be the region that we can read from the file. This is called the streamable region, which will be smaller than the LargestPossibleRegion and greater or equal to the 
+/** Given a requested region, determine what could be the region that we can
+ * read from the file. This is called the streamable region, which will be
+ * smaller than the LargestPossibleRegion and greater or equal to the 
 RequestedRegion */
 ImageIORegion 
 MetaImageIO
-::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const
+::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & itkNotUsed( requestedRegion ) ) const
 {
   //
   // The default implementations determines that the streamable region is
