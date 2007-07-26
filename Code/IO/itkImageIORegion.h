@@ -282,8 +282,8 @@ public:
     {
     ImageSizeType  size;
     ImageIndexType index;
-    
-    size.Fill(0);  // initialize with default values
+
+    size.Fill(1);  // initialize with default values
     index.Fill(0);
 
     //
@@ -303,7 +303,7 @@ public:
       size[i]  = inIORegion.GetSize(i);
       index[i] = inIORegion.GetIndex(i);
       }
-    
+
     outImageRegion.SetSize( size );
     outImageRegion.SetIndex( index );
     }
