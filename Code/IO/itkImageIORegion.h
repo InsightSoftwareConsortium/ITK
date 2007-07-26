@@ -20,6 +20,7 @@
 #include <algorithm>
 #include "itkRegion.h"
 #include "itkObjectFactory.h"
+#include "itkImageRegion.h"
 
 namespace itk
 {
@@ -229,6 +230,84 @@ private:
 
 // Declare operator<<
 extern std::ostream & operator<<(std::ostream &os, const ImageIORegion &region); 
+
+/** \class ImageIORegionAdaptor
+ * \brief Helper class for converting ImageRegions into ImageIORegions and back.
+ *
+ **/
+template< unsigned int VDimension >
+class ImageIORegionAdaptor
+{
+public:
+  typedef ImageRegion<VDimension>  ImageRegionType;
+  typedef ImageIORegion            ImageIORegionType;
+
+  typedef typename ImageRegionType::SizeType  ImageSizeType;
+  typedef typename ImageRegionType::IndexType ImageIndexType;
+
+  static void Convert( const ImageRegionType & inImageRegion, ImageIORegionType & outIORegion )
+    {
+    //
+    // The ImageRegion and ImageIORegion objects may have different dimensions.
+    // Here we only copy the common dimensions between the two. If the ImageRegion
+    // has more dimensions than the ImageIORegion, then the defaults of the ImageRegion
+    // will take care of the remaining codimension. If the ImageRegion has less dimensions
+    // than the ImageIORegion, then the remaining IO dimensions are simply ignored.
+    //
+    const unsigned int ioDimension = outIORegion.GetImageDimension();
+    const unsigned int imageDimension = VDimension;
+
+    unsigned int minDimension = ( ioDimension > imageDimension ) ? imageDimension : ioDimension;
+
+    ImageSizeType  size  = inImageRegion.GetSize();
+    ImageIndexType index = inImageRegion.GetIndex();
+    
+    for( unsigned int i = 0; i < minDimension; i++ )
+      {
+      outIORegion.SetSize(  i, size[i] );
+      outIORegion.SetIndex( i, index[i] );
+      }
+
+    //
+    // Fill in the remaining codimension (if any) with default values
+    //
+    for( unsigned int k = minDimension; k < ioDimension; k++ )
+      {
+      outIORegion.SetSize(  k, 1 ); // Note that default size in IO is 1 not 0
+      outIORegion.SetIndex( k, 0 );
+      }
+    }
+
+  static void Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion )
+    {
+    ImageSizeType  size;
+    ImageIndexType index;
+    
+    size.Fill(0);  // initialize with default values
+    index.Fill(0);
+
+    //
+    // The ImageRegion and ImageIORegion objects may have different dimensions.
+    // Here we only copy the common dimensions between the two. If the ImageRegion
+    // has more dimensions than the ImageIORegion, then the defaults of the ImageRegion
+    // will take care of the remaining codimension. If the ImageRegion has less dimensions
+    // than the ImageIORegion, then the remaining IO dimensions are simply ignored.
+    //
+    const unsigned int ioDimension = inIORegion.GetImageDimension();
+    const unsigned int imageDimension = VDimension;
+
+    unsigned int minDimension = ( ioDimension > imageDimension ) ? imageDimension : ioDimension;
+
+    for(unsigned int i=0; i<minDimension; i++)
+      {
+      size[i]  = inIORegion.GetSize(i);
+      index[i] = inIORegion.GetIndex(i);
+      }
+    
+    outImageRegion.SetSize( size );
+    outImageRegion.SetIndex( index );
+    }
+};
 
 } // end namespace itk
 

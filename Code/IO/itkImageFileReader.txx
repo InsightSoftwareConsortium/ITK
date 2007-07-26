@@ -281,41 +281,30 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   // The following code converts the ImageRegion (templated over dimension)
   // into an ImageIORegion (not templated over dimension).
   //
-  // TODO: Create an adaptor for converting ImageRegions into ImageIORegions.
-  //
-  ImageRegionType requestedRegion = out->GetRequestedRegion();
-  SizeType  requestedRegionSize  = requestedRegion.GetSize();
-  IndexType requestedRegionIndex = requestedRegion.GetIndex();
+  ImageRegionType imageRequestedRegion = out->GetRequestedRegion();
 
   ImageIORegion ioRequestedRegion( TOutputImage::ImageDimension );
 
-  for( unsigned int i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    ioRequestedRegion.SetSize(i,requestedRegionSize[i] );
-    ioRequestedRegion.SetIndex(i,requestedRegionIndex[i] );
-    }
+  typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
   
+  ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion );
+
   ImageIORegion ioStreamableRegion  = 
     m_ImageIO->GenerateStreamableReadRegionFromRequestedRegion( ioRequestedRegion );
 
-  ImageRegionType streamableRegion;
-  SizeType  streamableRegionSize;
-  IndexType streamableRegionIndex;
 
-  for( unsigned int i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    streamableRegionSize[i] =  ioStreamableRegion.GetSize(i);
-    streamableRegionIndex[i] = ioStreamableRegion.GetIndex(i);
-    }
-
-  this->m_StreamableRegion.SetSize( streamableRegionSize );
-  this->m_StreamableRegion.SetIndex( streamableRegionIndex );
+  ImageIOAdaptor::Convert( ioStreamableRegion, this->m_StreamableRegion );
 
   //
-  // Check whether the requestedRegion is fully contained inside the
+  // Check whether the imageRequestedRegion is fully contained inside the
   // streamable region or not.
-  if( !this->m_StreamableRegion.IsInside( requestedRegion ) )
+  if( !this->m_StreamableRegion.IsInside( imageRequestedRegion ) )
     {
+    std::cerr << "ImageIO returns IO region that does not fully contains the requested region" << std::endl;
+    std::cerr << "Requested region        = " << std::endl;
+    std::cerr << imageRequestedRegion << std::endl;
+    std::cerr << "StreamableRegion region = " << std::endl;
+    std::cerr << this->m_StreamableRegion << std::endl;
     itkExceptionMacro("ImageIO returns IO region that does not fully contains the requested region");
     }
     
@@ -354,46 +343,16 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   // Tell the ImageIO to read the file
   //
-  OutputImagePixelType *buffer = 
-    output->GetPixelContainer()->GetBufferPointer();
+  OutputImagePixelType *buffer = output->GetPixelContainer()->GetBufferPointer();
+
   m_ImageIO->SetFileName(m_FileName.c_str());
 
   ImageIORegion ioRegion(TOutputImage::ImageDimension);
 
-  ImageIORegion::SizeType ioSize = ioRegion.GetSize();
-  ImageIORegion::IndexType ioStart = ioRegion.GetIndex();
-
-  SizeType dimSize;
-  for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
-    {
-    if (i < m_ImageIO->GetNumberOfDimensions())
-      {
-      dimSize[i] = this->m_StreamableRegion.GetSize()[i];
-      }
-    else
-      {
-      // Number of dimensions in the output is more than number of dimensions
-      // in the ImageIO object (the file).  Use default values for the size,
-      // spacing, and origin for the final (degenerate) dimensions.
-      dimSize[i] = 1;
-      }
-    }
-
-  for(unsigned int i = 0; i < dimSize.GetSizeDimension(); ++i)
-    {
-    ioSize[i] = dimSize[i];
-    }
-
-  typedef typename TOutputImage::IndexType   IndexType;
-  IndexType start = this->m_StreamableRegion.GetIndex();
-
-  for(unsigned int i = 0; i < start.GetIndexDimension(); ++i)
-    {
-    ioStart[i] = start[i];
-    }
-
-  ioRegion.SetSize(ioSize);
-  ioRegion.SetIndex(ioStart);
+  typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
+  
+  // Convert the m_StreamableRegion from ImageRegion type to ImageIORegion type
+  ImageIOAdaptor::Convert( this->m_StreamableRegion, ioRegion );
 
   itkDebugMacro (<< "ioRegion: " << ioRegion);
  
