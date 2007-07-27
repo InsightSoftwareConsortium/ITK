@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshEulerOperatorJoinVertexFunction.txx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: hanfei $
 // $Name:  $
-// $Date: 2007-07-26 06:30:26 $
+// $Date: 2007-07-27 06:34:01 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -71,7 +71,7 @@ Evaluate( QEType* e )
     //
     // We are not yet sure of the orientation of e and which endpoint 
     // of e is attached in a. Find it out:
-    QEType* rebuildEdge = (QEType*)0;
+    QEType* rebuildEdge;
     if( e->IsIsolated( ) )
       {
       rebuildEdge = e->GetSym( )->GetOprev( );

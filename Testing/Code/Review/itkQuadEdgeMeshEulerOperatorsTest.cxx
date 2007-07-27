@@ -136,6 +136,9 @@ void PopulateMesh( typename TMesh::Pointer mesh )
 
 int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 {
+  (void)argc;
+  (void)argv;
+
   typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
   typedef MeshType::Pointer                                   MeshPointer;
   typedef MeshType::QEType                                    QEType;

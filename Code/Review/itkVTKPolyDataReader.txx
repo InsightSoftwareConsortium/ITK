@@ -131,8 +131,8 @@ VTKPolyDataReader<TOutputMesh>
   // Read the number of polygons
   //
 
-  int numberOfPolygons = -1;
-  int numberOfIndices = -1;
+  CellIdentifier numberOfPolygons = 0;
+  CellIdentifier numberOfIndices = 0;
 
   if( sscanf( polygonLine.c_str(), "%d %d", &numberOfPolygons,
         &numberOfIndices ) != 2 )

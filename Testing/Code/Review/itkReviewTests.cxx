@@ -33,6 +33,7 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshBasicLayerTest);
   REGISTER_TEST(itkQuadEdgeMeshDeleteEdgeTest);
   REGISTER_TEST(itkQuadEdgeMeshFrontIteratorTest);
+  REGISTER_TEST(itkQuadEdgeMeshIteratorTest);
   REGISTER_TEST(itkQuadEdgeMeshPointTest1);
   REGISTER_TEST(itkQuadEdgeMeshTest1);
   REGISTER_TEST(itkQuadEdgeMeshTest2);

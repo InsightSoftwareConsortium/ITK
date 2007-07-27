@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.txx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: hanfei $
 // $Name:  $
-// $Date: 2007-07-26 06:30:26 $
+// $Date: 2007-07-27 06:34:01 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -100,7 +100,7 @@ Evaluate( QEType* g )
    
   // let's do the job now.
   QEType* h = g->GetLprev( );
-  QEType* temp = ( QEType* )( 0 );
+  QEType* temp;
   this->m_OldPointID = g->GetDestination( );
   this->m_Mesh->LightWeightDeleteEdge( g );
   g = h->GetLnext( );
