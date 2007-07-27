@@ -322,12 +322,21 @@ void NiftiImageIO::Read(void* buffer)
     _origin[i] = 0;
     _size[i] = 1;
     }
+  unsigned numComponents = this->GetNumberOfComponents();
+  //
+  // special case for images of vector pixels
+  if(numComponents > 1 && this->GetPixelType() != COMPLEX)
+    {
+    // sizes = x y z t vecsize
+    _size[4] = numComponents;
+    }
+
   //
   // allocate nifti image...
   this->m_NiftiImage = nifti_image_read(m_FileName.c_str(),false);
   if (this->m_NiftiImage == NULL)
     {
-    itkExceptionMacro(<< "nifti_read_subregion_image failed for file: "
+    itkExceptionMacro(<< "nifti_image_read (just header) failed for file: "
                       << this->GetFileName());
     }
 
@@ -363,7 +372,6 @@ void NiftiImageIO::Read(void* buffer)
       throw exception;
       }
     }
-  unsigned numComponents = this->GetNumberOfComponents();
   if(numComponents == 1 || this->GetPixelType() == COMPLEX)
     {
     const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
@@ -1140,24 +1148,17 @@ NiftiImageIO
   // copy q matrix to s matrix
   this->m_NiftiImage->qto_xyz =  matrix;
   this->m_NiftiImage->sto_xyz =  matrix;
-  for(unsigned int i = 0; i < dims; i++)
+  //
+  // 
+  int sto_limit = dims > 3 ? 3 : dims;
+  for(unsigned int i = 0; i < sto_limit; i++)
     {
-    for(unsigned int j = 0; j < dims; j++)
+    for(unsigned int j = 0; j < sto_limit; j++)
       {
       this->m_NiftiImage->sto_xyz.m[i][j] = this->GetSpacing(j) *
         this->m_NiftiImage->sto_xyz.m[i][j];
       this->m_NiftiImage->sto_ijk.m[i][j] =
         this->m_NiftiImage->sto_xyz.m[i][j] / this->GetSpacing(j);
-      }
-    }
-  for(unsigned int i = dims; i < 3; i++)
-    {
-    for(unsigned int j = dims; j < 3; j++)
-      {
-      this->m_NiftiImage->sto_xyz.m[i][j] = 1.0 *
-        this->m_NiftiImage->sto_xyz.m[i][j];
-      this->m_NiftiImage->sto_ijk.m[i][j] =
-        this->m_NiftiImage->sto_xyz.m[i][j] / 1.0;
       }
     }
   this->m_NiftiImage->sto_ijk =
@@ -1197,6 +1198,7 @@ NiftiImageIO
     if(this->GetPixelType() != COMPLEX)
       {
       nbyper /= numComponents;
+      this->m_NiftiImage->nbyper /= numComponents;
       }
     int *dim = this->m_NiftiImage->dim;
     for(unsigned int i = 1; i < 6; i++)
