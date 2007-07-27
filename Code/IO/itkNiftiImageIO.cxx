@@ -46,7 +46,7 @@ int print_hex_vals( char const * const data, const int nbytes, FILE * const fp )
   fputs("0x", fp);
   for ( c = 0; c < nbytes; c++ )
     fprintf(fp, " %x", data[c]);
-  
+
   return 0;
 }
 static char *str_intent(unsigned int intent)
@@ -139,7 +139,7 @@ int DumpNiftiHeader( const std::string &fname )
   hp = nifti_read_header(fname.c_str(),&swap,true);
   fputs( "-------------------------------------------------------\n", stderr );
   if ( !hp  ){ fputs(" ** no nifti_1_header to display!\n",stderr); return 1; }
-  
+
   fprintf(stderr," nifti_1_header :\n"
           "    sizeof_hdr     = %d\n"
           "    data_type[10]  = ", hp->sizeof_hdr);
@@ -211,17 +211,19 @@ int DumpNiftiHeader( const std::string &fname )
           hp->intent_name, hp->magic);
   fputs( "-------------------------------------------------------\n", stderr );
   fflush(stderr);
-  
+
   return 0;
 }
 static void dumpdata(const void *x)
 {
   std::cerr << "----------------------" << std::endl;
-  
+
   //    typedef const float (*itkarray)[1][2][2][2][3];
   const float *a = (const float *)x;
-  for(unsigned i = 0; i < 24; i++)         // t
+  for(unsigned int i = 0; i < 24; i++)         // t
+    {
     std::cerr << a[i] << std::endl;
+    }
 }
 }
 #else
@@ -323,20 +325,56 @@ void NiftiImageIO::Read(void* buffer)
   //
   // allocate nifti image...
   this->m_NiftiImage = nifti_image_read(m_FileName.c_str(),false);
-
-  if(nifti_read_subregion_image(this->m_NiftiImage,
-                                _origin,
-                                _size,
-                                &data) == -1 || this->m_NiftiImage == NULL)
+  if (this->m_NiftiImage == NULL)
     {
     itkExceptionMacro(<< "nifti_read_subregion_image failed for file: "
                       << this->GetFileName());
+    }
+
+  //
+  // decide whether to read whole region or subregion
+  for(i = 0; i < this->GetNumberOfDimensions(); i++)
+    {
+    if(this->m_NiftiImage->dim[i+1] != _size[i])
+      {
+      break;
+      }
+    }
+  if(i == this->GetNumberOfDimensions())
+    {
+    if(nifti_image_load(this->m_NiftiImage) == -1)
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Read failed");
+      throw exception;
+
+      }
+    data = this->m_NiftiImage->data;
+    }
+  else
+    {
+    if(nifti_read_subregion_image(this->m_NiftiImage,
+                                  _origin,
+                                  _size,
+                                  &data) == -1 || this->m_NiftiImage == NULL)
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Read failed");
+      throw exception;
+      }
     }
   unsigned numComponents = this->GetNumberOfComponents();
   if(numComponents == 1 || this->GetPixelType() == COMPLEX)
     {
     const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
     memcpy(buffer, data, NumBytes);
+    //
+    // if read_subregion was called it allocates a buffer that needs to be
+    // freed.
+    if(data != this->m_NiftiImage->data)
+      {
+      free(data);
+      }
     }
   else
     {
@@ -374,8 +412,14 @@ void NiftiImageIO::Read(void* buffer)
           }
         }
       }
+    // if read_subregion was called it allocates a buffer that needs to be
+    // freed.
+    if(data != this->m_NiftiImage->data)
+      {
+      free(data);
+      }
     }
-  dumpdata(data);
+  // dumpdata(data);
   dumpdata(buffer);
 
   // If the scl_slope field is nonzero, then rescale each voxel value in the dataset
@@ -457,27 +501,12 @@ bool NiftiImageIO::CanReadFile( const char* FileNameToRead )
 }
 
 
-namespace
-{
-inline double determinant(const std::vector<double> &dirx,
-                          const std::vector<double> &diry,
-                          const std::vector<double> &dirz)
-{
-  return
-    dirx[0]*diry[1]*dirz[2]-
-    dirx[0]*dirz[1]*diry[2]-
-    diry[0]*dirx[1]*dirz[2]+
-    diry[0]*dirz[1]*dirx[2]+
-    dirz[0]*dirx[1]*diry[2]-
-    dirz[0]*diry[1]*dirx[2];
-}
-}
 
 //
 // shorthand for SpatialOrientation types
-typedef itk::SpatialOrientation::CoordinateTerms 
+typedef itk::SpatialOrientation::CoordinateTerms
 SO_CoordTermsType;
-typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags 
+typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags
 SO_OrientationType;
 
 /** Convert from NIFTI orientation codes to ITK orientation codes.
@@ -505,8 +534,8 @@ Nifti2SO_Coord(int i, int j, int k)
      (NiftiOrient2SO_CoordinateTerms[k] << itk::SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
 
 }
-                              
-    
+
+
 void NiftiImageIO::ReadImageInformation()
 {
   this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),false);
@@ -607,7 +636,7 @@ void NiftiImageIO::ReadImageInformation()
       break;
     }
   int dims=this->GetNumberOfDimensions();
-  // vector images? 
+  // vector images?
   if((this->m_NiftiImage->dim[0] == 5 && this->m_NiftiImage->dim[5] > 1))
     {
     dims = 4;                   // as far as ITK is concerned, the dimension
@@ -647,7 +676,7 @@ void NiftiImageIO::ReadImageInformation()
   MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
   EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
-  
+
   switch( this->m_NiftiImage->datatype)
     {
     case NIFTI_TYPE_INT8:
@@ -687,7 +716,6 @@ void NiftiImageIO::ReadImageInformation()
   typedef SpatialOrientationAdapter OrientAdapterType;
 
   SpatialOrientationAdapter::DirectionType dir;
-
   //
   // in the case of an Analyze75 file, use old analyze orient method.
   if(this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
@@ -702,7 +730,7 @@ void NiftiImageIO::ReadImageInformation()
         orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
         break;
         // according to analyze documents, you don't see flipped
-        // orientation in the wild 
+        // orientation in the wild
       case a75_transverse_flipped:
       case a75_coronal_flipped:
       case a75_sagittal_flipped:
@@ -753,23 +781,33 @@ void NiftiImageIO::ReadImageInformation()
       m_Origin[2] = theMat.m[2][3];
       }
     }
-  
-  std::vector<double> dirx(dims,0), diry(dims,0), dirz(dims,0);
-  dirx[0] = dir[0][0]; dirx[1] = dir[1][0]; dirx[2] = dir[2][0];
-  diry[0] = dir[0][1]; diry[1] = dir[1][1]; diry[2] = dir[2][1];
-  dirz[0] = dir[0][2]; dirz[1] = dir[1][2]; dirz[2] = dir[2][2];
 
-//   std::cerr << "read: dirx " << dirx[0] << " " << dirx[1] << " " << dirx[2] << std::endl;
-//   std::cerr << "read: diry " << diry[0] << " " << diry[1] << " " << diry[2] << std::endl;
-//   std::cerr << "read: dirz " << dirz[0] << " " << dirz[1] << " " << dirz[2] << std::endl;
-  this->SetDirection(0,dirx);
-  this->SetDirection(1,diry);
-  if(dims > 2)
     {
-    this->SetDirection(2,dirz);
+    std::vector<double> xDirection(dims,0);
+    for (unsigned int i =0; i < dims ; i++)
+      {
+      xDirection[i] = dir[i][0];
+      }
+    this->SetDirection(0,xDirection);
     }
-                                             
-  
+  if(dims > 1 )
+    {
+    std::vector<double> yDirection(dims,0);
+    for (unsigned int i =0; i < dims ; i++)
+      {
+      yDirection[i] = dir[i][1];
+      }
+    this->SetDirection(1,yDirection);
+    }
+  if(dims > 2 )
+    {
+    std::vector<double> zDirection(dims,0);
+    for (unsigned int i =0; i < dims ; i++)
+      {
+      zDirection[i] = dir[i][2];
+      }
+    this->SetDirection(2,zDirection);
+    }
 
   //Important hist fields
   std::string description(this->m_NiftiImage->descrip);
@@ -785,9 +823,9 @@ namespace {
 inline mat44 mat44_transpose(mat44 in)
 {
   mat44 out;
-  for(unsigned i = 0; i < 4; i++)
+  for(unsigned int i = 0; i < 4; i++)
     {
-    for(unsigned j = 0; j < 4; j++)
+    for(unsigned int j = 0; j < 4; j++)
       {
       out.m[i][j] = in.m[j][i];
       }
@@ -898,7 +936,7 @@ NiftiImageIO
       this->m_NiftiImage->nz =
       this->m_NiftiImage->dim[3] = 1;
       }
-    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = 5; // has to be 5 
+    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = 5; // has to be 5
     this->m_NiftiImage->nu =
     this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
     }
@@ -1029,39 +1067,63 @@ NiftiImageIO
   // use NIFTI method 2
   this->m_NiftiImage->sform_code = NIFTI_XFORM_SCANNER_ANAT;
   this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
-
+  {
   //
   // set the quarternions, from the direction vectors
-  std::vector<double> dirx = this->GetDirection(0);
-  //  negateifXorY(dirx);
-  std::vector<double> diry  = this->GetDirection(1);
-
-  std::vector<double> dirz;
+  std::vector<double> dirx(3,0); //Initialize to size 3 with values of 0
+  for(unsigned int i=0; i < this->GetDirection(0).size(); i++)
+    {
+    dirx[i] = -this->GetDirection(0)[i];
+    }
+  std::vector<double> diry(3,0);
+  if(dims > 1)
+    {
+    for(unsigned int i=0; i < this->GetDirection(1).size(); i++)
+      {
+      diry[i] = -this->GetDirection(1)[i];
+      }
+    }
+  std::vector<double> dirz(3,0);
   if(dims > 2)
     {
-    dirz = this->GetDirection(2);
+    for(unsigned int i=0; i < this->GetDirection(2).size(); i++)
+      {
+      dirz[i] = -this->GetDirection(2)[i];
+      }
+/*  Extracted from nifti1.h line 1152
+   The DICOM attribute (0020,0037) "Image Orientation (Patient)" gives the
+   orientation of the x- and y-axes of the image data in terms of 2 3-vectors.
+   The first vector is a unit vector along the x-axis, and the second is
+   along the y-axis.  If the (0020,0037) attribute is extracted into the
+   value (xa,xb,xc,ya,yb,yc), then the first two columns of the R matrix
+   would be
+              [ -xa  -ya ]
+              [ -xb  -yb ]
+              [  xc   yc ]
+   The negations are because DICOM's x- and y-axes are reversed relative
+   to NIFTI's.  The third column of the R matrix gives the direction of
+   displacement (relative to the subject) along the slice-wise direction.
+   This orientation is not encoded in the DICOM standard in a simple way;
+   DICOM is mostly concerned with 2D images.  The third column of R will be
+   either the cross-product of the first 2 columns or its negative.  It is
+   possible to infer the sign of the 3rd column by examining the coordinates
+   in DICOM attribute (0020,0032) "Image Position (Patient)" for successive
+   slices.  However, this method occasionally fails for reasons that I
+   (RW Cox) do not understand.
+*/
+    dirx[2] = - dirx[2];
+    diry[2] = - diry[2];
+    dirz[2] = - dirz[2];
     }
-  else
-    {
-    dirz.push_back(0);  dirz.push_back(0); dirz.push_back(0);
-    }
-
-  for(unsigned i=0; i < 2; i++)
-    {
-    dirx[i] = -dirx[i];
-    diry[i] = -diry[i];
-    dirz[i] = -dirz[i];
-    }
-  mat44 matrix = 
+  mat44 matrix =
     nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
                             diry[0],diry[1],diry[2],
                             dirz[0],dirz[1],dirz[2]);
   matrix = mat44_transpose(matrix);
   // Fill in origin.
-  for(unsigned i = 0; i < 2; i++)
-    {
-    matrix.m[i][3] = -this->GetOrigin(i);
-    }
+  matrix.m[0][3]=               -this->GetOrigin(0);
+  matrix.m[1][3] = (dims > 1) ? -this->GetOrigin(1) : 0.0;
+  //NOTE:  The final dimension is not negated!
   matrix.m[2][3] = (dims > 2) ? this->GetOrigin(2) : 0.0;
 
   nifti_mat44_to_quatern(matrix,
@@ -1078,24 +1140,35 @@ NiftiImageIO
   // copy q matrix to s matrix
   this->m_NiftiImage->qto_xyz =  matrix;
   this->m_NiftiImage->sto_xyz =  matrix;
-  for(unsigned i = 0; i < 3; i++)
+  for(unsigned int i = 0; i < dims; i++)
     {
-    for(unsigned j = 0; j < 3; j++)
+    for(unsigned int j = 0; j < dims; j++)
       {
       this->m_NiftiImage->sto_xyz.m[i][j] = this->GetSpacing(j) *
         this->m_NiftiImage->sto_xyz.m[i][j];
-      this->m_NiftiImage->sto_ijk.m[i][j] = 
+      this->m_NiftiImage->sto_ijk.m[i][j] =
         this->m_NiftiImage->sto_xyz.m[i][j] / this->GetSpacing(j);
       }
     }
-  this->m_NiftiImage->sto_ijk =  
+  for(unsigned int i = dims; i < 3; i++)
+    {
+    for(unsigned int j = dims; j < 3; j++)
+      {
+      this->m_NiftiImage->sto_xyz.m[i][j] = 1.0 *
+        this->m_NiftiImage->sto_xyz.m[i][j];
+      this->m_NiftiImage->sto_ijk.m[i][j] =
+        this->m_NiftiImage->sto_xyz.m[i][j] / 1.0;
+      }
+    }
+  this->m_NiftiImage->sto_ijk =
     nifti_mat44_inverse(this->m_NiftiImage->sto_xyz);
-  this->m_NiftiImage->qto_ijk =  
+  this->m_NiftiImage->qto_ijk =
     nifti_mat44_inverse(this->m_NiftiImage->qto_xyz);
-  
+
   this->m_NiftiImage->pixdim[0] = this->m_NiftiImage->qfac;
   this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
   //  this->m_NiftiImage->sform_code = 0;
+  }
   return;
 }
 
@@ -1126,18 +1199,18 @@ NiftiImageIO
       nbyper /= numComponents;
       }
     int *dim = this->m_NiftiImage->dim;
-    for(unsigned i = 1; i < 6; i++)
+    for(unsigned int i = 1; i < 6; i++)
       {
       if(dim[i] == 0)
         {
         dim[i] = 1;
         }
       }
-    unsigned buffer_size = dim[1] * 
-      dim[2] * 
-      dim[3] * 
-      dim[4] * 
-      dim[5] * 
+    unsigned buffer_size = dim[1] *
+      dim[2] *
+      dim[3] *
+      dim[4] *
+      dim[5] *
       nbyper;
     char *tobuffer = new char[buffer_size];
     for(unsigned t = 0; t < (unsigned)dim[4]; t++)

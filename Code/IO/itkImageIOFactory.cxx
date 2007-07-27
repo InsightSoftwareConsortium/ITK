@@ -107,7 +107,7 @@ ImageIOFactory::RegisterBuiltInFactories()
       ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
       ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
-      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
+//      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
       ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
       ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
       ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
