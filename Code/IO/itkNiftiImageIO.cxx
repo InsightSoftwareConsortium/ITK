@@ -309,7 +309,7 @@ void NiftiImageIO::Read(void* buffer)
   int _origin[8];
   int _size[8];
   unsigned int i;
-  for(i = 0; i < this->GetNumberOfDimensions(); i++)
+  for(i = 0; i < start.size(); i++)
     {
     _origin[i] = start[i];
     _size[i] = size[i];
@@ -329,9 +329,8 @@ void NiftiImageIO::Read(void* buffer)
                                 _size,
                                 &data) == -1 || this->m_NiftiImage == NULL)
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Read failed");
-    throw exception;
+    itkExceptionMacro(<< "nifti_read_subregion_image failed for file: "
+                      << this->GetFileName());
     }
   unsigned numComponents = this->GetNumberOfComponents();
   if(numComponents == 1 || this->GetPixelType() == COMPLEX)
@@ -440,9 +439,9 @@ void NiftiImageIO::Read(void* buffer)
       default:
         if(this->GetPixelType() == SCALAR)
           {
-          ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Datatype not supported");
-          throw exception;
+          itkExceptionMacro(<< "Datatype: "
+                            << this->GetComponentTypeAsString(m_ComponentType)
+                            << " not supported");
           }
       }
     }
@@ -521,12 +520,7 @@ void NiftiImageIO::ReadImageInformation()
     }
   if(this->m_NiftiImage == 0)
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string ErrorMessage(m_FileName);
-    ErrorMessage += " is not recognized as a NIFTI file";
-    exception.SetDescription(ErrorMessage.c_str());
-    throw exception;
-
+    itkExceptionMacro(<< m_FileName << " is not recognized as a NIFTI file");
     }
   this->SetNumberOfDimensions(this->m_NiftiImage->ndim);
   switch( this->m_NiftiImage->datatype )
@@ -825,12 +819,8 @@ NiftiImageIO
   std::string::size_type ext = FName.rfind('.');
   if(ext == std::string::npos)
     {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage("Bad Nifti file name ");
-      ErrorMessage += FName;
-      exception.SetDescription(ErrorMessage.c_str());
-      throw exception;
-
+    itkExceptionMacro(<< "Bad Nifti file name. No extension found for file: "
+                      << FName);
     }
   std::string Ext = FName.substr(ext);
   //
@@ -870,11 +860,7 @@ NiftiImageIO
     }
   else
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string ErrorMessage("Bad Nifti file name ");
-    ErrorMessage += FName;
-    exception.SetDescription(ErrorMessage.c_str());
-    throw exception;
+    itkExceptionMacro(<< "Bad Nifti file name: " << FName);
     }
   unsigned short dims =
     this->m_NiftiImage->ndim =
@@ -1000,11 +986,7 @@ NiftiImageIO
     case UNKNOWNCOMPONENTTYPE:
     default:
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage=
-        "More than one component per pixel not supported";
-      exception.SetDescription(ErrorMessage.c_str());
-      throw exception;
+      itkExceptionMacro(<< "More than one component per pixel not supported");
       }
     }
   switch(this->GetPixelType())
@@ -1027,11 +1009,7 @@ NiftiImageIO
           break;
         default:
           {
-          ExceptionObject exception(__FILE__, __LINE__);
-          std::string ErrorMessage=
-            "Only float or double precision complex type supported";
-          exception.SetDescription(ErrorMessage.c_str());
-          throw exception;
+          itkExceptionMacro(<< "Only float or double precision complex type supported");
           }
         }
       break;
