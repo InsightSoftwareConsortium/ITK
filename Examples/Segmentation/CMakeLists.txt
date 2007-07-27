@@ -26,10 +26,10 @@ TARGET_LINK_LIBRARIES(GeodesicActiveContourShapePriorLevelSetImageFilter
 ITKNumerics ITKIO ITKStatistics)
 
 ADD_EXECUTABLE(DeformableModel2 DeformableModel2.cxx )
-TARGET_LINK_LIBRARIES(DeformableModel2 ITKAlgorithms ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(DeformableModel2 ITKAlgorithms ITKIO)
 
 ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
-TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKIO)
 
 ADD_EXECUTABLE(HoughTransform2DCirclesImageFilter HoughTransform2DCirclesImageFilter.cxx )
 TARGET_LINK_LIBRARIES(HoughTransform2DCirclesImageFilter ITKBasicFilters ITKIO)
@@ -294,7 +294,6 @@ TARGET_LINK_LIBRARIES(SegmentationExamples2
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKStatistics
 )
 
 ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
@@ -302,14 +301,13 @@ TARGET_LINK_LIBRARIES(SegmentationExamples3
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
-ITKStatistics
 )
 
 ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
 
 ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKIO)
 
 
 ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
