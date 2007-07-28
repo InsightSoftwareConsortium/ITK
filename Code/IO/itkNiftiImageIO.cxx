@@ -1146,9 +1146,9 @@ NiftiImageIO
     //
     // 
     int sto_limit = dims > 3 ? 3 : dims;
-    for(unsigned int i = 0; i < sto_limit; i++)
+    for(int i = 0; i < sto_limit; i++)
       {
-      for(unsigned int j = 0; j < sto_limit; j++)
+      for(int j = 0; j < sto_limit; j++)
         {
         this->m_NiftiImage->sto_xyz.m[i][j] = this->GetSpacing(j) *
           this->m_NiftiImage->sto_xyz.m[i][j];
