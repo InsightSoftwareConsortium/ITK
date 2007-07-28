@@ -1385,7 +1385,7 @@ MetaImageIO
   // equal to the largest possible region of the image.
   //
   ImageIORegion streamableRegion(this->m_NumberOfDimensions);
-  for( unsigned int i=0; i < this->m_NumberOfDimensions ; i++ )
+  for( unsigned int i=0; i < this->m_NumberOfDimensions; i++ )
     {
     streamableRegion.SetSize( i, this->m_Dimensions[i] );
     streamableRegion.SetIndex( i, 0 );

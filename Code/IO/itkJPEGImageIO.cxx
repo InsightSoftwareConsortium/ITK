@@ -42,31 +42,32 @@ struct itk_jpeg_error_mgr
 };
 
 extern "C" {
-METHODDEF(void) itk_jpeg_error_exit (j_common_ptr cinfo) {
-  /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer */
-  itk_jpeg_error_mgr *myerr = (itk_jpeg_error_mgr*) cinfo->err;
+  METHODDEF(void) itk_jpeg_error_exit (j_common_ptr cinfo)
+    {
+    /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer */
+    itk_jpeg_error_mgr *myerr = (itk_jpeg_error_mgr*) cinfo->err;
 
-  /* Always display the message. */
-  /* We could postpone this until after returning, if we chose. */
-  (*cinfo->err->output_message) (cinfo);
+    /* Always display the message. */
+    /* We could postpone this until after returning, if we chose. */
+    (*cinfo->err->output_message) (cinfo);
 
-  jpeg_abort(cinfo);      /* clean up libjpeg state */
-  /* Return control to the setjmp point */
-  longjmp(myerr->setjmp_buffer, 1);
-}
+    jpeg_abort(cinfo);      /* clean up libjpeg state */
+    /* Return control to the setjmp point */
+    longjmp(myerr->setjmp_buffer, 1);
+    }
 
-METHODDEF(void) itk_jpeg_output_message (j_common_ptr cinfo)
-{
+  METHODDEF(void) itk_jpeg_output_message (j_common_ptr)
+    {
 #if 0
-   char buffer[JMSG_LENGTH_MAX];
+    char buffer[JMSG_LENGTH_MAX];
  
-   /* Create the message */
-   (*cinfo->err->format_message) (cinfo, buffer);
+    /* Create the message */
+    (*cinfo->err->format_message) (cinfo, buffer);
 
-   // Custom display message, we could be more fancy and throw an exception:
-   std::cerr << "output:" << buffer << std::endl;
+    // Custom display message, we could be more fancy and throw an exception:
+    std::cerr << "output:" << buffer << std::endl;
 #endif
-}
+    }
 
 }
 

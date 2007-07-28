@@ -848,7 +848,7 @@ ImageIOBase
   ImageIORegion streamableRegion( requested.GetImageDimension() );
 
   // Second: copy only the number of dimension that the image has.
-  for( unsigned int i=0; i < this->m_NumberOfDimensions ; i++ )
+  for( unsigned int i=0; i < this->m_NumberOfDimensions; i++ )
     {
     streamableRegion.SetSize( i, this->m_Dimensions[i] );
     streamableRegion.SetIndex( i, 0 );
