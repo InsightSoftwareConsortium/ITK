@@ -4,6 +4,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning LNK4221.*no public symbols found"
   "(ranlib|libtool):.*file: .+ has no symbols"
+  "ranlib:.*file:.*has no symbols"
   "vxl.core.vnl.algo"
   "vxl.core.vnl"
   "CableSwig"
