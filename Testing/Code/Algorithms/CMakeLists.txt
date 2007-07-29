@@ -334,40 +334,34 @@ itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKFEM)
 ADD_EXECUTABLE(itkAlgorithmsPrintTest2 itkAlgorithmsPrintTest2.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKAlgorithms ITKFEM)
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKFEM)
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKFEM
                                               ITKStatistics)
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKIO 
-                                              ITKBasicFilters ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKFEM)
 ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx 
                                   ${AlgorithmsTest_SRCS})
 TARGET_LINK_LIBRARIES(itkAlgorithmsTests 
-                      ITKAlgorithms ITKIO 
-                      ITKBasicFilters ITKFEM ITKStatistics)
+                      ITKAlgorithms ITKFEM ITKStatistics)
 
 ADD_EXECUTABLE(itkAlgorithmsTests2 itkAlgorithmsTests2.cxx ${AlgorithmsTest2_SRCS})
-TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests2 ITKAlgorithms ITKFEM ITKStatistics)
 
 ADD_EXECUTABLE(itkAlgorithmsTests3 itkAlgorithmsTests3.cxx ${AlgorithmsTest3_SRCS})
-TARGET_LINK_LIBRARIES(itkAlgorithmsTests3 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests3 ITKAlgorithms ITKFEM ITKStatistics)
 
 ADD_EXECUTABLE(itkAlgorithmsTests4 itkAlgorithmsTests4.cxx ${AlgorithmsTest4_SRCS})
-TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 ITKAlgorithms ITKIO ITKBasicFilters ITKFEM ITKStatistics)
+TARGET_LINK_LIBRARIES(itkAlgorithmsTests4 ITKAlgorithms ITKFEM ITKStatistics)
 
 IF(ITK_DATA_ROOT)
 
