@@ -388,29 +388,29 @@ void NiftiImageIO::Read(void* buffer)
     const char *frombuf = (const char *)data;
     char *tobuf = (char *)buffer;
 
-    for(unsigned vec = 0; vec < (unsigned)_size[5]; vec++)
+    for(unsigned t = 0; t < (unsigned)_size[3]; t++)
       {
-      for(unsigned t = 0; t < (unsigned)_size[4]; t++)
+      for(unsigned vec = 0; vec < (unsigned)_size[4]; vec++)
         {
-        for(unsigned z = 0; z < (unsigned)_size[3]; z++)
+        for(unsigned z = 0; z < (unsigned)_size[2]; z++)
           {
-          for(unsigned y = 0; y < (unsigned)_size[2]; y++)
+          for(unsigned y = 0; y < (unsigned)_size[1]; y++)
             {
-            for(unsigned x = 0; x < (unsigned)_size[1]; x++)
+            for(unsigned x = 0; x < (unsigned)_size[0]; x++)
               {
               // to[t][z][y][x][vec] = from[vec][t][z][y][x]
               const char *from = frombuf +
-                (x * nbyper) +
-                (y * _size[1] * nbyper) +
-                (z * _size[1] * _size[2] * nbyper) +
-                (t * _size[1] * _size[2] * _size[3] * nbyper) +
-                (vec * _size[1] * _size[2] * _size[3] * _size[4] * nbyper);
+                 (x * nbyper) +
+                 (y * _size[0] * nbyper) +
+                 (z * _size[0] * _size[1] * nbyper) +
+                 (t * _size[0] * _size[1] * _size[2] * nbyper) +
+               (vec * _size[0] * _size[1] * _size[2] * _size[3] * nbyper);
               char *to = tobuf +
                 (vec * nbyper) +
-                (x * _size[5] * nbyper) +
-                (y * _size[5] * _size[1] * nbyper) +
-                (z * _size[5] * _size[1] * _size[2] * nbyper) +
-                (t * _size[5] * _size[1] * _size[2] * _size[3] * nbyper);
+                (x * _size[4] * nbyper) +
+                (y * _size[4] * _size[0] * nbyper) +
+                (z * _size[4] * _size[0] * _size[1] * nbyper) +
+                (t * _size[4] * _size[0] * _size[1] * _size[2] * nbyper);
               memcpy(to,from,nbyper);
               }
             }
@@ -1179,7 +1179,8 @@ NiftiImageIO
 {
   this->WriteImageInformation(); //Write the image Information before writing data
   unsigned numComponents = this->GetNumberOfComponents();
-  if(numComponents == 1)
+  if(numComponents == 1 || 
+     (numComponents == 2 && this->GetPixelType() == COMPLEX))
     {
     this->m_NiftiImage->data=const_cast<void *>(buffer);//Need a const cast here so that we don't have to copy the memory for writing.
     nifti_image_write(this->m_NiftiImage);
@@ -1190,11 +1191,9 @@ NiftiImageIO
     {
     // have to rearrange data; output[vec][t][z][y][x] = input[t][z][y][z][vec]
     unsigned       nbyper = this->m_NiftiImage->nbyper;
-    if(this->GetPixelType() != COMPLEX)
-      {
-      nbyper /= numComponents;
-      this->m_NiftiImage->nbyper /= numComponents;
-      }
+    this->m_NiftiImage->nbyper =
+    nbyper /= numComponents;
+    this->m_NiftiImage->nvox *= numComponents;
     int *dim = this->m_NiftiImage->dim;
     for(unsigned int i = 1; i < 6; i++)
       {
