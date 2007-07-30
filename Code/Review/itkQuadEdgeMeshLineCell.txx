@@ -197,6 +197,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 ::InternalSetPointIds( PointIdInternalConstIterator first,
                PointIdInternalConstIterator last )
 {
+  (void)last;
   this->GetQEGeom( )->SetOrigin( *first );
   first++;
   this->GetQEGeom( )->SetDestination( *first );
