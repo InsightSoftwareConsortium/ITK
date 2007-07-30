@@ -490,9 +490,9 @@ int itkNiftiImageIOTest3(int ac, char* av[])
   VectorImageType::RegionType imageRegion;
   VectorImageType::SizeType size = {{2,2,2}};
   VectorImageType::IndexType index = {{0,0,0}};
-  double _spacing[] = { 1.0, 1.0, 1.0 };
+  double _spacing[] = { 1.0, 1.0, 1.0};
   VectorImageType::SpacingType spacing(_spacing);
-  double _origin[] = { 0, 0, 0 };
+  double _origin[] = { 0, 0, 0};
   VectorImageType::PointType origin(_origin);
   imageRegion.SetSize(size); 
   imageRegion.SetIndex(index);
@@ -513,7 +513,7 @@ int itkNiftiImageIOTest3(int ac, char* av[])
       {
       for(unsigned k = 0; k < 2; k++)
         {
-        FieldPixelType p(3);
+        FieldPixelType p;
         p[0] = randgen.drand32(100.0,200.0);
         p[1] = randgen.drand32(300.0,500.0);
         p[2] = randgen.drand32(600.0,800.0);

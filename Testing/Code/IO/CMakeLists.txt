@@ -423,7 +423,7 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
  ADD_TEST(itkNiftiIOShouldSucceed ${IO_TESTS} itkNiftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                  true ${ITK_TEST_OUTPUT_DIR}/NiftiLittleEndian.hdr)
 
-ADD_TEST(itkNiftiVectorImageTest ${IO_TESTS} itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIRECTORY} )
+ADD_TEST(itkNiftiVectorImageTest ${IO_TESTS} itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR} )
 
 ADD_TEST(itkGE4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha
