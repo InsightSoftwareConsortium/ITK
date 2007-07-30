@@ -308,8 +308,8 @@ void NiftiImageIO::Read(void* buffer)
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
   int numElts = 1;
-  int _origin[8];
-  int _size[8];
+  int _origin[7];
+  int _size[7];
   unsigned int i;
   for(i = 0; i < start.size(); i++)
     {
@@ -317,7 +317,7 @@ void NiftiImageIO::Read(void* buffer)
     _size[i] = size[i];
     numElts *= _size[i];
     }
-  for(; i < 8; i++)
+  for(; i < 7; i++)
     {
     _origin[i] = 0;
     _size[i] = 1;
@@ -327,6 +327,10 @@ void NiftiImageIO::Read(void* buffer)
   // special case for images of vector pixels
   if(numComponents > 1 && this->GetPixelType() != COMPLEX)
     {
+    // nifti always sticks vec size in dim 4, so have to shove
+    // other dims out of the way
+    _size[6] = _size[5];
+    _size[5] = _size[4];
     // sizes = x y z t vecsize
     _size[4] = numComponents;
     }
@@ -341,7 +345,8 @@ void NiftiImageIO::Read(void* buffer)
     }
 
   //
-  // decide whether to read whole region or subregion
+  // decide whether to read whole region or subregion, by stepping
+  // thru dims and comparing them to requested sizes
   for(i = 0; i < this->GetNumberOfDimensions(); i++)
     {
     if(this->m_NiftiImage->dim[i+1] != _size[i])
@@ -349,6 +354,8 @@ void NiftiImageIO::Read(void* buffer)
       break;
       }
     }
+  // if all dimensions match requested size, just read in
+  // all data as a block
   if(i == this->GetNumberOfDimensions())
     {
     if(nifti_image_load(this->m_NiftiImage) == -1)
@@ -360,6 +367,7 @@ void NiftiImageIO::Read(void* buffer)
     }
   else
     {
+    // read in a subregion
     if(nifti_read_subregion_image(this->m_NiftiImage,
                                   _origin,
                                   _size,
@@ -369,6 +377,8 @@ void NiftiImageIO::Read(void* buffer)
                         << this->GetFileName());
       }
     }
+  //
+  // if single or complex, nifti layout == itk layout
   if(numComponents == 1 || this->GetPixelType() == COMPLEX)
     {
     const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
@@ -382,41 +392,55 @@ void NiftiImageIO::Read(void* buffer)
       }
     }
   else
+    // otherwise nifti is x y z t vec l m 0, itk is
+    // vec x y z t l m o
     {
     unsigned nbyper = this->m_NiftiImage->nbyper;
-    //TODO:  Need to coerse these dims based on the collapsed areas.
     const char *frombuf = (const char *)data;
     char *tobuf = (char *)buffer;
+    //
+    // we're reassembling images with vector pixes from
+    // vector of scalar image.
+    // scalarPtr are pointers to each of the scalar images
+    const char **scalarPtr = new const char *[numComponents];
+    //
+    // have to accommodate last two slowest looking dims if
+    // > 1
+    unsigned lStride = 
+      _size[4] * _size[3] * 
+      _size[2] * _size[1] * 
+      _size[0] * nbyper;
+    unsigned mStride = _size[5] * lStride;
 
-    for(unsigned t = 0; t < (unsigned)_size[3]; t++)
+    for(int m = 0; m < _size[6]; m++)
       {
-      for(unsigned vec = 0; vec < (unsigned)_size[4]; vec++)
+      for(int l = 0; l < _size[5]; l++)
         {
-        for(unsigned z = 0; z < (unsigned)_size[2]; z++)
+        // distance between start of scalar images
+        // scalarPtr[0] = start of first scalar image
+        // scalarPtr[1] = start of second scalar image etc
+        unsigned vecStride = _size[0] * _size[1] *
+          _size[2] * _size[3];
+        for(unsigned i = 0; i < numComponents; i++)
           {
-          for(unsigned y = 0; y < (unsigned)_size[1]; y++)
-            {
-            for(unsigned x = 0; x < (unsigned)_size[0]; x++)
-              {
-              // to[t][z][y][x][vec] = from[vec][t][z][y][x]
-              const char *from = frombuf +
-                 (x * nbyper) +
-                 (y * _size[0] * nbyper) +
-                 (z * _size[0] * _size[1] * nbyper) +
-                 (t * _size[0] * _size[1] * _size[2] * nbyper) +
-               (vec * _size[0] * _size[1] * _size[2] * _size[3] * nbyper);
-              char *to = tobuf +
-                (vec * nbyper) +
-                (x * _size[4] * nbyper) +
-                (y * _size[4] * _size[0] * nbyper) +
-                (z * _size[4] * _size[0] * _size[1] * nbyper) +
-                (t * _size[4] * _size[0] * _size[1] * _size[2] * nbyper);
-              memcpy(to,from,nbyper);
-              }
-            }
+          scalarPtr[i] = 
+            frombuf + 
+            (l * lStride) +
+            (m * mStride) +
+            (vecStride * nbyper * i);
+          }
+        char *to = tobuf + (l * lStride) +
+          (m * mStride);
+        for(unsigned i = 0; i < (vecStride * numComponents); i++)
+          {
+          memcpy(to,
+                 scalarPtr[i % numComponents],nbyper);
+          to += nbyper;
+          scalarPtr[i % numComponents] += nbyper;
           }
         }
       }
+    delete [] scalarPtr;
     // if read_subregion was called it allocates a buffer that needs to be
     // freed.
     if(data != this->m_NiftiImage->data)
@@ -939,7 +963,11 @@ NiftiImageIO
       this->m_NiftiImage->nz =
       this->m_NiftiImage->dim[3] = 1;
       }
-    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = 5; // has to be 5
+    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = dims > 5 ? dims+1 : 5; // has to be >= 5
+    for(unsigned i = dims; i > 5; i++)
+      {
+      this->m_NiftiImage->dim[i] = this->m_NiftiImage->dim[i-1];
+      }
     this->m_NiftiImage->nu =
     this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
     }
@@ -1073,12 +1101,12 @@ NiftiImageIO
     {
     //
     // set the quarternions, from the direction vectors
-    std::vector<double> dirx(3,0); //Initialize to size 3 with values of 0
+    std::vector<double> dirx(dims,0); //Initialize to size 3 with values of 0
     for(unsigned int i=0; i < this->GetDirection(0).size(); i++)
       {
       dirx[i] = -this->GetDirection(0)[i];
       }
-    std::vector<double> diry(3,0);
+    std::vector<double> diry(dims,0);
     if(dims > 1)
       {
       for(unsigned int i=0; i < this->GetDirection(1).size(); i++)
@@ -1086,7 +1114,7 @@ NiftiImageIO
         diry[i] = -this->GetDirection(1)[i];
         }
       }
-    std::vector<double> dirz(3,0);
+    std::vector<double> dirz(dims,0);
     if(dims > 2)
       {
       for(unsigned int i=0; i < this->GetDirection(2).size(); i++)
@@ -1190,12 +1218,15 @@ NiftiImageIO
   else
     {
     // have to rearrange data; output[vec][t][z][y][x] = input[t][z][y][z][vec]
-    unsigned       nbyper = this->m_NiftiImage->nbyper;
-    this->m_NiftiImage->nbyper =
-    nbyper /= numComponents;
+    unsigned nbyper = this->m_NiftiImage->nbyper;
+    const char *frombuf = (const char *)buffer;
+
+    // correct these values filled in in WriteImageInformation
+    this->m_NiftiImage->nbyper =  nbyper /= numComponents;
     this->m_NiftiImage->nvox *= numComponents;
+
     int *dim = this->m_NiftiImage->dim;
-    for(unsigned int i = 1; i < 6; i++)
+    for(unsigned int i = 1; i < 8; i++)
       {
       if(dim[i] == 0)
         {
@@ -1207,8 +1238,52 @@ NiftiImageIO
       dim[3] *
       dim[4] *
       dim[5] *
+      dim[6] *
+      dim[7] *
       nbyper;
     char *tobuffer = new char[buffer_size];
+    char **scalarPtr = new char *[numComponents];
+    int *_size = & dim[1];
+    //
+    // have to accommodate last two slowest looking dims if
+    // > 1
+    unsigned lStride = 
+      _size[4] * _size[3] * 
+      _size[2] * _size[1] * 
+      _size[0] * nbyper;
+    unsigned mStride = _size[5] * lStride;
+
+    for(int m = 0; m < _size[6]; m++)
+      {
+      for(int l = 0; l < _size[5]; l++)
+        {
+        // distance between start of scalar images
+        // scalarPtr[0] = start of first scalar image
+        // scalarPtr[1] = start of second scalar image etc
+        unsigned vecStride = _size[0] * _size[1] *
+          _size[2] * _size[3];
+        for(unsigned i = 0; i < numComponents; i++)
+          {
+          scalarPtr[i] = 
+            tobuffer + 
+            (l * lStride) +
+            (m * mStride) +
+            (vecStride * nbyper * i);
+          }
+        const char *from = frombuf + (l * lStride) +
+          (m * mStride);
+        for(unsigned i = 0; i < (vecStride * numComponents); i++)
+          {
+          memcpy(scalarPtr[i % numComponents],
+                 from,nbyper);
+          from += nbyper;
+          scalarPtr[i % numComponents] += nbyper;
+          }
+        }
+      }
+    delete [] scalarPtr;
+
+#if 0
     for(unsigned t = 0; t < (unsigned)dim[4]; t++)
       {
       for(unsigned z = 0; z < (unsigned)dim[3]; z++)
@@ -1237,10 +1312,11 @@ NiftiImageIO
           }
         }
       }
+#endif
     dumpdata(buffer);
     dumpdata(tobuffer);
     //Need a const cast here so that we don't have to copy the memory for writing.
-    this->m_NiftiImage->data=static_cast<void *>(tobuffer);
+    this->m_NiftiImage->data=(void *)tobuffer;
     nifti_image_write(this->m_NiftiImage);
     this->m_NiftiImage->data = 0; // if left pointing to data buffer
     delete [] tobuffer;
