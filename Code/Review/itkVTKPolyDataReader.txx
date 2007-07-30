@@ -134,7 +134,7 @@ VTKPolyDataReader<TOutputMesh>
   CellIdentifier numberOfPolygons = 0;
   CellIdentifier numberOfIndices = 0;
 
-  if( sscanf( polygonLine.c_str(), "%d %d", &numberOfPolygons,
+  if( sscanf( polygonLine.c_str(), "%ld %ld", &numberOfPolygons,
         &numberOfIndices ) != 2 )
     {
     itkExceptionMacro("ERROR: Failed to read numberOfPolygons from subline2"
