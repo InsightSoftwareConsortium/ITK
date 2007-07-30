@@ -504,6 +504,7 @@ int itkNiftiImageIOTest3(int ac, char* av[])
   typedef itk::ImageRegionIterator<VectorImageType> IteratorType;
   typedef itk::ImageRegionConstIterator<VectorImageType> ConstIteratorType;
   vnl_random randgen;
+  std::cout << "Original vector Image" << std::endl;
 
   //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
   for(unsigned i = 0; i < 2; i++)
@@ -516,8 +517,9 @@ int itkNiftiImageIOTest3(int ac, char* av[])
         p[0] = randgen.drand32(100.0,200.0);
         p[1] = randgen.drand32(300.0,500.0);
         p[2] = randgen.drand32(600.0,800.0);
-        index[0] = i; index[1] = j; index[2] = k;
+        index[2] = i; index[1] = j; index[0] = k;
         vi->SetPixel(index,p);
+        std::cout << p << std::endl;
         }
       }
     }
@@ -535,7 +537,7 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     message = "Problem found while writing image ";
     message += fname; message += "\n";
     message += ex.GetLocation(); message += "\n";
-    message += ex.GetDescription(); std::cerr << message << std::endl;
+    message += ex.GetDescription(); std::cout << message << std::endl;
     Remove(fname.c_str());
     return EXIT_FAILURE;
     }
@@ -555,18 +557,31 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     message = "Problem found while reading image ";
     message += fname; message += "\n";
     message += ex.GetLocation(); message += "\n";
-    message += ex.GetDescription(); std::cerr << message << std::endl;
+    message += ex.GetDescription(); std::cout << message << std::endl;
     Remove(fname.c_str());
     return EXIT_FAILURE;
     }
   bool same = true;
+  std::cout << "vector Image read from disk" << std::endl;
   for(unsigned i = 0; i < 2; i++)
     {
     for(unsigned j = 0; j < 2; j++)
       {
       for(unsigned k = 0; k < 2; k++)
         {
-        index[0] = i; index[1] = j; index[2] = k;
+        index[2] = i; index[1] = j; index[0] = k;
+        FieldPixelType p2 = readback->GetPixel(index);
+        std::cout << p2 << std::endl;
+        }
+      }
+    }
+  for(unsigned i = 0; i < 2; i++)
+    {
+    for(unsigned j = 0; j < 2; j++)
+      {
+      for(unsigned k = 0; k < 2; k++)
+        {
+        index[2] = i; index[1] = j; index[0] = k;
         FieldPixelType p1 = vi->GetPixel(index);
         FieldPixelType p2 = readback->GetPixel(index);
         if(p1 != p2)
