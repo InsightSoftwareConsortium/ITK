@@ -74,6 +74,7 @@ int itkDynamicQuadEdgeMeshTest(int, char* [] )
 
   displacement[0] = 2;
   displacement[1] = 5;
+  displacement[2] = 0;
 
   pointA.Fill( 0.0 );
   pointB = pointA + displacement;
