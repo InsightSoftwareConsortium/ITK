@@ -663,26 +663,20 @@ void NiftiImageIO::ReadImageInformation()
       break;
     }
   int dims=this->GetNumberOfDimensions();
-  // vector images?
-  if((this->m_NiftiImage->dim[0] == 5 && this->m_NiftiImage->dim[5] > 1))
-    {
-    dims = 4;                   // as far as ITK is concerned, the dimension
-    // should now be 4
-    //
-    // each pixel is a vector
-    this->SetNumberOfComponents(this->m_NiftiImage->nu);
-    }
+  //
+  // dims > 4 have sto skip dim[5] because it's the #
+  // of vector elements
   switch(dims)
     {
     case 7:
-      this->SetDimensions(6,this->m_NiftiImage->nw);
-      this->SetSpacing(6,this->m_NiftiImage->dw);//NOTE: Scaling is not defined in this dimension
+      this->SetDimensions(5,this->m_NiftiImage->nw);
+      this->SetSpacing(5,this->m_NiftiImage->dw);//NOTE: Scaling is not defined in this dimension
     case 6:
-      this->SetDimensions(5,this->m_NiftiImage->nv);
-      this->SetSpacing(5,this->m_NiftiImage->dv);//NOTE: Scaling is not defined in this dimension
+      this->SetDimensions(4,this->m_NiftiImage->nv);
+      this->SetSpacing(4,this->m_NiftiImage->dv);//NOTE: Scaling is not defined in this dimension
     case 5:
-      this->SetDimensions(4,this->m_NiftiImage->nu);
-      this->SetSpacing(4,this->m_NiftiImage->du);//NOTE: Scaling is not defined in this dimension
+      //      this->SetDimensions(4,this->m_NiftiImage->nu);
+      //      this->SetSpacing(4,this->m_NiftiImage->du);//NOTE: Scaling is not defined in this dimension
     case 4:
       this->SetDimensions(3,this->m_NiftiImage->nt);
       this->SetSpacing(3,this->m_NiftiImage->dt*timingscale);
@@ -695,6 +689,15 @@ void NiftiImageIO::ReadImageInformation()
     case 1:
       this->SetDimensions(0,this->m_NiftiImage->nx);
       this->SetSpacing(0,this->m_NiftiImage->dx*spacingscale);
+    }
+  // vector images?
+  if(this->m_NiftiImage->dim[0] > 4)
+    {
+    dims = dims - 1;                   // as far as ITK is concerned, the dimension
+    // should now be 4
+    //
+    // each pixel is a vector
+    this->SetNumberOfComponents(this->m_NiftiImage->nu);
     }
   this->ComputeStrides();
   //Get Dictionary Information
@@ -950,30 +953,6 @@ NiftiImageIO
   //      Having the time specified for a purly spatial image has no consequence, so go ahead and set it
   //      to seconds.
   this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM | NIFTI_UNITS_SEC;
-  if(this->GetNumberOfComponents() > 1 && !(this->GetPixelType() == COMPLEX &&
-                                            this->GetNumberOfComponents() == 2))
-    {
-    this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
-    //
-    // we're bumping dim to 5, so make sure dim 4 is 1 if we're coming from dim < 4
-    if(dims < 4)
-      {
-      this->m_NiftiImage->nt =
-      this->m_NiftiImage->dim[4] = 1;
-      }
-    if(dims < 3)
-      {
-      this->m_NiftiImage->nz =
-      this->m_NiftiImage->dim[3] = 1;
-      }
-    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = dims > 5 ? dims+1 : 5; // has to be >= 5
-    for(unsigned i = dims; i > 5; i++)
-      {
-      this->m_NiftiImage->dim[i] = this->m_NiftiImage->dim[i-1];
-      }
-    this->m_NiftiImage->nu =
-    this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
-    }
   switch(origdims)
     {
     case 7:
@@ -1012,6 +991,40 @@ NiftiImageIO
         this->m_NiftiImage->nx = this->GetDimensions(0);
       this->m_NiftiImage->pixdim[1] =
         this->m_NiftiImage->dx = this->GetSpacing(0);
+    }
+  if(this->GetNumberOfComponents() > 1 && !(this->GetPixelType() == COMPLEX &&
+                                            this->GetNumberOfComponents() == 2))
+    {
+    this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
+    //
+    // we're bumping dim to 5, so make sure dim 4 is 1 if we're coming from dim < 4
+    if(dims < 4)
+      {
+      this->m_NiftiImage->nt =
+      this->m_NiftiImage->dim[4] = 1;
+      }
+    if(dims < 3)
+      {
+      this->m_NiftiImage->nz =
+      this->m_NiftiImage->dim[3] = 1;
+      }
+    dims = this->m_NiftiImage->ndim = this->m_NiftiImage->dim[0] = (dims > 4 ? dims+1 : 5); // has to be >= 5
+    for(unsigned i = dims; i > 5; i--)
+      {
+      switch(i)
+        {
+        case 7:
+          this->m_NiftiImage->dim[7] =
+            this->m_NiftiImage->nw = this->m_NiftiImage->dim[6];
+          break;
+        case 6:
+          this->m_NiftiImage->dim[6] =
+            this->m_NiftiImage->nv = this->m_NiftiImage->dim[5];
+
+        }
+      }
+    this->m_NiftiImage->nu =
+    this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
     }
 
   //     -----------------------------------------------------
@@ -1110,7 +1123,7 @@ NiftiImageIO
       dirx[i] = -this->GetDirection(0)[i];
       }
     std::vector<double> diry(dims,0);
-    if(dims > 1)
+    if(origdims > 1)
       {
       for(unsigned int i=0; i < this->GetDirection(1).size(); i++)
         {
@@ -1118,7 +1131,7 @@ NiftiImageIO
         }
       }
     std::vector<double> dirz(dims,0);
-    if(dims > 2)
+    if(origdims > 2)
       {
       for(unsigned int i=0; i < this->GetDirection(2).size(); i++)
         {
@@ -1156,9 +1169,9 @@ NiftiImageIO
     matrix = mat44_transpose(matrix);
     // Fill in origin.
     matrix.m[0][3]=               -this->GetOrigin(0);
-    matrix.m[1][3] = (dims > 1) ? -this->GetOrigin(1) : 0.0;
+    matrix.m[1][3] = (origdims > 1) ? -this->GetOrigin(1) : 0.0;
     //NOTE:  The final dimension is not negated!
-    matrix.m[2][3] = (dims > 2) ? this->GetOrigin(2) : 0.0;
+    matrix.m[2][3] = (origdims > 2) ? this->GetOrigin(2) : 0.0;
 
     nifti_mat44_to_quatern(matrix,
                            &(this->m_NiftiImage->quatern_b),
@@ -1176,7 +1189,7 @@ NiftiImageIO
     this->m_NiftiImage->sto_xyz =  matrix;
     //
     // 
-    int sto_limit = dims > 3 ? 3 : dims;
+    int sto_limit = origdims > 3 ? 3 : origdims;
     for(int i = 0; i < sto_limit; i++)
       {
       for(int j = 0; j < sto_limit; j++)

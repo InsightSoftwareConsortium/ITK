@@ -616,10 +616,10 @@ TestVectorImage()
           for(int i = 0; i < dims[2]; i++)
             {
             _index[2] = i;
-            for(int j = 0; j < dims[2]; j++)
+            for(int j = 0; j < dims[1]; j++)
               {
               _index[1] = j;
-              for(int k = 0; k < dims[2]; k++)
+              for(int k = 0; k < dims[0]; k++)
                 {
                 _index[0] = k;
                 FieldPixelType p;
@@ -694,11 +694,14 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     {
     return EXIT_FAILURE;
     }
-  int success = TestVectorImage<float,3,3>();
+  int success(0);
+  success |= TestVectorImage<float,3,1>();
+  success |= TestVectorImage<float,3,2>();
+  success |= TestVectorImage<float,3,3>();
   success |= TestVectorImage<double,3,3>();
   success |= TestVectorImage<float,4,3>();
   success |= TestVectorImage<double,4,3>();
   success |= TestVectorImage<float,4,4>();
-  //  success |= TestVectorImage<float,4,5>();
+  success |= TestVectorImage<float,4,5>();
   return success;
 }
