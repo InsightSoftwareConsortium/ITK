@@ -149,10 +149,10 @@ public:
   const MovingImageType * GetMovingImage(void) const;
 
   /** Set initial deformation field. */
-  virtual void SetInitialDeformationField( DeformationFieldType * itkNotUsed(ptr) )
+  virtual void SetInitialDeformationField( DeformationFieldType * ptr )
   {
-    itkExceptionMacro( << "This feature not implemented yet"  );
-    // this->SetInput( ptr ); 
+    this->m_InitialDeformationField=ptr;
+    // itkExceptionMacro( << "This feature not implemented yet"  );
   }
 
   /** Get output deformation field. */
@@ -243,6 +243,7 @@ private:
   FixedImagePyramidPointer   m_FixedImagePyramid;
   MovingImagePyramidPointer  m_MovingImagePyramid;
   FieldExpanderPointer       m_FieldExpander;
+  DeformationFieldPointer    m_InitialDeformationField;
 
   unsigned int               m_NumberOfLevels;
   unsigned int               m_CurrentLevel;

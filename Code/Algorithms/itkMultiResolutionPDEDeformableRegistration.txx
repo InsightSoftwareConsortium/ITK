@@ -42,6 +42,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   m_MovingImagePyramid  = MovingImagePyramidType::New();
   m_FixedImagePyramid     = FixedImagePyramidType::New();
   m_FieldExpander     = FieldExpanderType::New();
+  m_InitialDeformationField = NULL;
 
   m_NumberOfLevels = 3;
   m_NumberOfIterations.resize( m_NumberOfLevels );
@@ -215,7 +216,8 @@ void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField>
 ::GenerateData()
 {
-
+  //DeformationFieldPointer NullDeformationFieldPointer = DeformationFieldType::New();
+  
   // Check for NULL images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
@@ -252,16 +254,14 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   unsigned int fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
     (int) m_FixedImagePyramid->GetNumberOfLevels() );
 
-  DeformationFieldPointer tempField = NULL;
+  DeformationFieldPointer tempField = this->m_InitialDeformationField;
   bool lastShrinkFactorsAllOnes = false;
 
   while ( !this->Halt() )
     {
    
-    if( m_CurrentLevel == 0 )
+    if( tempField.IsNull() )
       {
-       // TODO: What to do if there is an input deformation field?
-       // Will need a VectorMultiResolutionPyramidImageFilter to downsample it.
       m_RegistrationFilter->SetInitialDeformationField( NULL );
       }
     else
