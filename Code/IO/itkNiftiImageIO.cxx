@@ -810,30 +810,33 @@ void NiftiImageIO::ReadImageInformation()
     }
 
     {
-    std::vector<double> xDirection(dims,0);
-    for (int i = 0; i < dims; i++)
+    const int max_defined_orientation_dims=(dims > 3)?3:dims;
       {
-      xDirection[i] = dir[i][0];
+      std::vector<double> xDirection(dims,0);
+      for (int i = 0; i < max_defined_orientation_dims; i++)
+        {
+        xDirection[i] = dir[i][0];
+        }
+      this->SetDirection(0,xDirection);
       }
-    this->SetDirection(0,xDirection);
-    }
-  if(dims > 1 )
-    {
-    std::vector<double> yDirection(dims,0);
-    for (int i = 0; i < dims; i++)
+    if(max_defined_orientation_dims > 1 )
       {
-      yDirection[i] = dir[i][1];
+      std::vector<double> yDirection(dims,0);
+      for (int i = 0; i < max_defined_orientation_dims; i++)
+        {
+        yDirection[i] = dir[i][1];
+        }
+      this->SetDirection(1,yDirection);
       }
-    this->SetDirection(1,yDirection);
-    }
-  if(dims > 2 )
-    {
-    std::vector<double> zDirection(dims,0);
-    for (int i = 0; i < dims; i++)
+    if(max_defined_orientation_dims > 2 )
       {
-      zDirection[i] = dir[i][2];
+      std::vector<double> zDirection(dims,0);
+      for (int i = 0; i < max_defined_orientation_dims; i++)
+        {
+        zDirection[i] = dir[i][2];
+        }
+      this->SetDirection(2,zDirection);
       }
-    this->SetDirection(2,zDirection);
     }
 
   //Important hist fields
