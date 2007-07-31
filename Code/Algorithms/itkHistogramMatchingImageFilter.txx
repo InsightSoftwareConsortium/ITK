@@ -382,9 +382,9 @@ void
 HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 ::ComputeMinMaxMean(
   const InputImageType * image,
-  double& minValue,
-  double& maxValue,
-  double& meanValue )
+  THistogramMeasurement& minValue,
+  THistogramMeasurement& maxValue,
+  THistogramMeasurement& meanValue )
 {
   typedef ImageRegionConstIterator<InputImageType> ConstIterator;
   ConstIterator iter( image, image->GetBufferedRegion() );
@@ -392,14 +392,13 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
   double sum = 0.0;
   long int count = 0;
  
-  minValue = static_cast<double>( iter.Get() );
+  minValue = static_cast<THistogramMeasurement>( iter.Get() );
   maxValue = minValue;
 
-  double value;
   while ( !iter.IsAtEnd() )
     {
-    value = static_cast<double>( iter.Get() );
-    sum += value;
+    const THistogramMeasurement value = static_cast<THistogramMeasurement>( iter.Get() );
+    sum += static_cast<double>(value);
 
     if ( value < minValue ) { minValue = value; }
     if ( value > maxValue ) { maxValue = value; }
@@ -409,7 +408,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
     }
 
-  meanValue = ( sum / count );
+  meanValue = static_cast<THistogramMeasurement>( sum / static_cast<double>(count) );
 
 }
 
@@ -422,8 +421,8 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 ::ConstructHistogram(
   const InputImageType * image,
   HistogramType  * histogram,
-  const double minValue,
-  const double maxValue )
+  const THistogramMeasurement minValue,
+  const THistogramMeasurement maxValue )
 {
   {
   // allocate memory for the histogram

@@ -166,12 +166,12 @@ protected:
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean( const InputImageType * image,
-                          double& minValue, double& maxValue, double& meanValue ); 
+                          THistogramMeasurement& minValue, THistogramMeasurement& maxValue, THistogramMeasurement& meanValue );
 
   /** Construct a histogram from an image. */
   void ConstructHistogram( const InputImageType * image,
-                           HistogramType * histogram, const double minValue,
-                           const double maxValue );
+                           HistogramType * histogram, const THistogramMeasurement minValue,
+                           const THistogramMeasurement maxValue );
 
 private:
   HistogramMatchingImageFilter(const Self&); //purposely not implemented
@@ -185,15 +185,15 @@ private:
   InputPixelType        m_ReferenceIntensityThreshold;
   OutputPixelType       m_OutputIntensityThreshold;
 
-  double                m_SourceMinValue;
-  double                m_SourceMaxValue;
-  double                m_SourceMeanValue;
-  double                m_ReferenceMinValue;
-  double                m_ReferenceMaxValue;
-  double                m_ReferenceMeanValue;
-  double                m_OutputMinValue;
-  double                m_OutputMaxValue;
-  double                m_OutputMeanValue;
+  THistogramMeasurement m_SourceMinValue;
+  THistogramMeasurement m_SourceMaxValue;
+  THistogramMeasurement m_SourceMeanValue;
+  THistogramMeasurement m_ReferenceMinValue;
+  THistogramMeasurement m_ReferenceMaxValue;
+  THistogramMeasurement m_ReferenceMeanValue;
+  THistogramMeasurement m_OutputMinValue;
+  THistogramMeasurement m_OutputMaxValue;
+  THistogramMeasurement m_OutputMeanValue;
 
   HistogramPointer      m_SourceHistogram;
   HistogramPointer      m_ReferenceHistogram;
