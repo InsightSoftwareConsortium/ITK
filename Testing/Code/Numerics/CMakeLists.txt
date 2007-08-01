@@ -63,7 +63,7 @@ itkVersorTransformOptimizerTest.cxx
 ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
 
 ADD_EXECUTABLE(itkNumericsTests itkNumericsTests.cxx ${Numerics_SRCS})
-TARGET_LINK_LIBRARIES(itkNumericsTests ITKNumerics ITKIO)
+TARGET_LINK_LIBRARIES(itkNumericsTests ITKNumerics ITKIO ITKStatistics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
