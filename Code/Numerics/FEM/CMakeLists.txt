@@ -187,8 +187,6 @@ INCLUDE_DIRECTORIES(${VXL_NETLIB_INCLUDE_DIR}) # Some .cxx files need f2c.h.
 # Build the library
 ADD_LIBRARY(ITKFEM ${FEM_SRCS})
 TARGET_LINK_LIBRARIES(ITKFEM 
-                      ITKNumerics
-                      ITKCommon
                       ITKBasicFilters
                       ITKIO)
 IF(UNIX)

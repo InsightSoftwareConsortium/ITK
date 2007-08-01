@@ -35,10 +35,10 @@ ADD_EXECUTABLE(LineSpatialObject LineSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(LineSpatialObject  ITKIO )
 
 ADD_EXECUTABLE(MeshSpatialObject MeshSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(MeshSpatialObject  ITKIO ITKMetaIO ITKAlgorithms ITKNumerics ITKSpatialObject)
+TARGET_LINK_LIBRARIES(MeshSpatialObject  ITKIO ITKMetaIO ITKAlgorithms ITKSpatialObject)
 
 ADD_EXECUTABLE(ReadWriteSpatialObject ReadWriteSpatialObject.cxx)
-TARGET_LINK_LIBRARIES(ReadWriteSpatialObject  ITKIO ITKMetaIO ITKAlgorithms ITKNumerics ITKSpatialObject)
+TARGET_LINK_LIBRARIES(ReadWriteSpatialObject  ITKIO ITKMetaIO ITKAlgorithms ITKSpatialObject)
 
 ADD_EXECUTABLE(SceneSpatialObject SceneSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(SceneSpatialObject  ITKIO )

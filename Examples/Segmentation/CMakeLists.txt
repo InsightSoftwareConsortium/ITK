@@ -301,6 +301,7 @@ TARGET_LINK_LIBRARIES(SegmentationExamples3
 ITKAlgorithms 
 ITKIO 
 ITKBasicFilters 
+ITKNumerics
 )
 
 ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )

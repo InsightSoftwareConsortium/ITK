@@ -2,13 +2,13 @@ PROJECT(PatentedExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
 ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(FuzzyConnectednessImageFilter FuzzyConnectednessImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FuzzyConnectednessImageFilter ITKNumerics ITKIO)
@@ -23,7 +23,7 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 ADD_EXECUTABLE(PatentedExamples PatentedExamples.cxx )
-TARGET_LINK_LIBRARIES(PatentedExamples ITKAlgorithms ITKIO ITKBasicFilters )
+TARGET_LINK_LIBRARIES(PatentedExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_TEST(FuzzyConnectednessImageFilter ${PATENTED_EXAMPLES}
   --compare ${BASELINE}/FuzzyConnectednessVWEyeTest.png
