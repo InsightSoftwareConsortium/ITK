@@ -401,7 +401,7 @@ ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/DeformableRegistration4Test.png
             ${TEMP}/DeformableRegistration4Test.png
   DeformableRegistration4Test
-        ${ITK_SOURCE_DIR}/Examplses/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration4Test.png
 )
