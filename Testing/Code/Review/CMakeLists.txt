@@ -444,8 +444,6 @@ ADD_TEST(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKAlgorithms
-  ITKIO
-  ITKBasicFilters
   ITKFEM
   ITKQuadEdgeMesh
   )
@@ -453,8 +451,6 @@ TARGET_LINK_LIBRARIES(itkReviewPrintTest
 ADD_EXECUTABLE(itkReviewHeaderTest itkReviewHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewHeaderTest
   ITKAlgorithms
-  ITKIO
-  ITKBasicFilters
   ITKFEM
   ITKQuadEdgeMesh
   )
@@ -465,8 +461,6 @@ ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
 
 TARGET_LINK_LIBRARIES(itkReviewTests
   ITKAlgorithms
-  ITKIO
-  ITKBasicFilters
   ITKFEM
   ITKStatistics
   ITKQuadEdgeMesh
