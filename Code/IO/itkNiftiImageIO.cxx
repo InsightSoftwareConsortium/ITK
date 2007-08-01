@@ -392,8 +392,8 @@ void NiftiImageIO::Read(void* buffer)
       }
     }
   else
-    // otherwise nifti is x y z t vec l m 0, itk is
-    // vec x y z t l m o
+  // otherwise nifti is x y z t vec l m 0, itk is
+  // vec x y z t l m o
     {
     unsigned nbyper = this->m_NiftiImage->nbyper;
     const char *frombuf = (const char *)data;
