@@ -27,25 +27,25 @@ int itkQuadEdgeMeshIteratorTest( int , char* [] )
 
   MeshType::Pointer mesh = MeshType::New( );
 
-  /*
-   *                    p2--------------p1
-   *                    /                 \
-   *                   /                   \
-   *                  /                     \
-   *                 /                       \
-   *                /                         \
-   *               /                           \
-   *              /                             \
-   *            p3             FACE              p0
-   *              \                             /
-   *               \                           /
-   *                \                         /
-   *                 \                       /
-   *                  \                     /
-   *                   \                   /
-   *                    \                 /
-   *                    p4---------------p5
-   */
+  //
+  //                    p2--------------p1
+  //                    /                 \
+  //                   /                   \
+  //                  /                     \
+  //                 /                       \
+  //                /                         \
+  //               /                           \
+  //              /                             \
+  //            p3             FACE              p0
+  //              \                             /
+  //               \                           /
+  //                \                         /
+  //                 \                       /
+  //                  \                     /
+  //                   \                   /
+  //                    \                 /
+  //                    p4---------------p5
+  //
   #define NumPoints 6
   #define NumEdges 6
   MeshType::PixelType a = sqrt( 3.0 ) / 2.0;

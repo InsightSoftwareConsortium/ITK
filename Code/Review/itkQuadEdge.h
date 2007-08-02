@@ -231,18 +231,18 @@ public:
 
   /** Basic iterators methods. */
   itkQEDefineIteratorMethodsMacro( Onext );
-  itkQEDefineIteratorMethodsMacro( Sym );
-  itkQEDefineIteratorMethodsMacro( Lnext );
-  itkQEDefineIteratorMethodsMacro( Rnext );
-  itkQEDefineIteratorMethodsMacro( Dnext );
-  itkQEDefineIteratorMethodsMacro( Oprev );
-  itkQEDefineIteratorMethodsMacro( Lprev );
-  itkQEDefineIteratorMethodsMacro( Rprev );
-  itkQEDefineIteratorMethodsMacro( Dprev );
-  itkQEDefineIteratorMethodsMacro( InvOnext );
-  itkQEDefineIteratorMethodsMacro( InvLnext );
-  itkQEDefineIteratorMethodsMacro( InvRnext );
-  itkQEDefineIteratorMethodsMacro( InvDnext );
+  // itkQEDefineIteratorMethodsMacro( Sym );
+  // itkQEDefineIteratorMethodsMacro( Lnext );
+  // itkQEDefineIteratorMethodsMacro( Rnext );
+  // itkQEDefineIteratorMethodsMacro( Dnext );
+  // itkQEDefineIteratorMethodsMacro( Oprev );
+  // itkQEDefineIteratorMethodsMacro( Lprev );
+  // itkQEDefineIteratorMethodsMacro( Rprev );
+  // itkQEDefineIteratorMethodsMacro( Dprev );
+  // itkQEDefineIteratorMethodsMacro( InvOnext );
+  // itkQEDefineIteratorMethodsMacro( InvLnext );
+  // itkQEDefineIteratorMethodsMacro( InvRnext );
+  // itkQEDefineIteratorMethodsMacro( InvDnext );
 
   /** Object creation methods. */
   QuadEdge();

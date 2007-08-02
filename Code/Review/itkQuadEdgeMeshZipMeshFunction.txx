@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshZipMeshFunction.txx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: hanfei $
 // $Name:  $
-// $Date: 2007-07-26 06:30:29 $
+// $Date: 2007-08-02 23:38:12 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -41,42 +41,42 @@ Evaluate( QEType* e )
     itkDebugMacro( "Incoming edge must be adjacent to NOFACE." );
     return( QEType::m_NoPoint );
     }
-  //     Initial state                          Final state
-  // 
-  //   |               |                         \       /
-  //   |               |                          \     /
-  //   |               |                           \   /
-  //   |               |                            \ /
-  //   VTrashed      Vkept                           V
-  //    \             /                              |
-  //     \           /                               |
-  //      \         ^                                |
-  //       \       /                                 |
-  //        \     e                                  |
-  //         \   /                                   |
-  //          \ /                                    |
-  //  ------- Org --------                --------- Org ---------
-  //         / | \                                 / | \
-  //        /  |  \                               /  |  \
-  //       /   |   \                             /   |   \
+  //     Initial state                          Final state        //
+  //                                                               // 
+  //   |               |                         \       /         //
+  //   |               |                          \     /          //
+  //   |               |                           \   /           //
+  //   |               |                            \ /            //
+  //   VTrashed      Vkept                           V             //
+  //    \             /                              |             //
+  //     \           /                               |             //
+  //      \         ^                                |             //
+  //       \       /                                 |             //
+  //        \     e                                  |             //
+  //         \   /                                   |             //
+  //          \ /                                    |             //
+  //  ------- Org --------                --------- Org ---------  //
+  //         / | \                                 / | \           //
+  //        /  |  \                               /  |  \          //
+  //       /   |   \                             /   |   \         //
   //
   // This is the original situation:
   //
-  //         \                        /
-  //          \                      ^
-  //           \                    a
-  //            \                  /
-  //    ------ VRite            VLeft --------
-  //            / \             / \
-  //           /   \           /   \
-  //          /     b         ^     \
-  //         /       \       /       \
-  //        /         v     e   Rite  \
-  //       /           \   /    Face   \
-  //      /             \ /             \
-  //     V ------------ Org ------------ VOpposite
-  //                   / | \
-  //                  /  |  \
+  //         \                        /                            //
+  //          \                      ^                             //
+  //           \                    a                              //
+  //            \                  /                               //
+  //    ------ VRite            VLeft --------                     //
+  //            / \             / \                                //
+  //           /   \           /   \                               //
+  //          /     b         ^     \                              //
+  //         /       \       /       \                             //
+  //        /         v     e   Rite  \                            //
+  //       /           \   /    Face   \                           //
+  //      /             \ /             \                          //
+  //     V ------------ Org ------------ VOpposite                 //
+  //                   / | \                                       //
+  //                  /  |  \                                      //
   //
   // Store for latter usage (since e and e->GetRight() will be deleted):
   QEType* a = e->GetLnext( );
@@ -94,41 +94,41 @@ Evaluate( QEType* e )
 
   // We should be cautious and consider the case when the very
   // initial situation was the following:
-  //               \       /
-  //                \     /
-  //                 \   /
-  //                  \ /
-  //             VRite = VLeft ------- VOpposite
-  //                  / \            _/
-  //                 /   \         _/
-  //                /     \   *  _/
-  //                |     |    _/
-  //                \     /  _/
-  //                 \   / _/
-  //                  \ /_/
-  //        --------- Org ---------
-  //                 / | \
-  //                /  |  \
-  //               /   |   \
+  //               \       /                               //
+  //                \     /                                //
+  //                 \   /                                 //
+  //                  \ /                                  //
+  //             VRite = VLeft ------- VOpposite           //
+  //                  / \            _/                    //
+  //                 /   \         _/                      //
+  //                /     \   *  _/                        //
+  //                |     |    _/                          //
+  //                \     /  _/                            //
+  //                 \   / _/                              //
+  //                  \ /_/                                //
+  //        --------- Org ---------                        //
+  //                 / | \                                 //
+  //                /  |  \                                //
+  //               /   |   \                               //
   //
   // in which case the current situation is the following:
   //
-  //               \       /
-  //                \     /
-  //                 \   /
-  //                  \ /
-  //             VRite = VLeft ------- VOpposite
-  //                  /              _/
-  //                 /             _/
-  //                /            _/
-  //                |          _/
-  //                \        _/
-  //                 \     _/
-  //                  \  _/
-  //        --------- Org ---------
-  //                 / | \
-  //                /  |  \
-  //               /   |   \
+  //               \       /                               //
+  //                \     /                                //
+  //                 \   /                                 //
+  //                  \ /                                  //
+  //             VRite = VLeft ------- VOpposite           //
+  //                  /              _/                    //
+  //                 /             _/                      //
+  //                /            _/                        //
+  //                |          _/                          //
+  //                \        _/                            //
+  //                 \     _/                              //
+  //                  \  _/                                //
+  //        --------- Org ---------                        //
+  //                 / | \                                 //
+  //                /  |  \                                //
+  //               /   |   \                               //
   //
   // and hence the connectivity part of "Zip" job is allready done.
   // Check for that case:
@@ -138,38 +138,38 @@ Evaluate( QEType* e )
     {
     // We are now left with the following situation
     //
-    //         \                        /
-    //          \                      ^
-    //           \                    a
-    //            \                  /
-    //    ----- VRite              VLeft --------
-    //            / \               \
-    //           /   \               \
-    //          /     b               \
-    //         /       \               \
-    //        /         v               \
-    //       /           \               \
-    //      /             \               \
-    //     V ------------ Org ------------ VOpposite
-    //                   / | \
-    //                  /  |  \
+    //         \                        /                  //
+    //          \                      ^                   //
+    //           \                    a                    //
+    //            \                  /                     //
+    //    ----- VRite              VLeft --------          //
+    //            / \               \                      //
+    //           /   \               \                     //
+    //          /     b               \                    //
+    //         /       \               \                   //
+    //        /         v               \                  //
+    //       /           \               \                 //
+    //      /             \               \                //
+    //     V ------------ Org ------------ VOpposite       //
+    //                   / | \                             //
+    //                  /  |  \                            //
     //
     // where we just miss a simple Mesh::Splice() to obtain::
     //
-    //          \     /
-    //           \   /
-    //            \ /
-    //  ---- VRite = VLeft ------ VOpposite
-    //            / \             /
-    //           /   \           /
-    //          /     b         /
-    //         /       \       /
-    //        /         v     /
-    //       /           \   /
-    //      /             \ /
-    //     V ------------ Org ------------
-    //                   / | \
-    //                  /  |  \
+    //          \     /                                    //
+    //           \   /                                     //
+    //            \ /                                      //
+    //  ---- VRite = VLeft ------ VOpposite                //
+    //            / \             /                        //
+    //           /   \           /                         //
+    //          /     b         /                          //
+    //         /       \       /                           //
+    //        /         v     /                            //
+    //       /           \   /                             //
+    //      /             \ /                              //
+    //     V ------------ Org ------------                 //
+    //                   / | \                             //
+    //                  /  |  \                            //
     //
     resultingPointId = this->m_Mesh->Splice( a, b );
     }

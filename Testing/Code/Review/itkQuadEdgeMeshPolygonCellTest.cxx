@@ -34,7 +34,7 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * the other template parameters.
    */
   typedef itk::QuadEdgeMesh<int, 3>  MeshType;
-  typedef MeshType::CellTraits  CellTraits;
+  typedef MeshType::CellTraits       CellTraits;
 
   /**
    * Define a few cell types which uses a PixelType of "int".  Again,
@@ -79,7 +79,7 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8 ; ++i)
+  for(int i=0; i < 8; ++i)
     {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
@@ -87,7 +87,8 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
   /** 
    * Specify the method used for allocating cells
    */
-   mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  mesh->SetCellsAllocationMethod(
+     MeshType::CellsAllocatedDynamicallyCellByCell );
 
   /**
    * Create the test cell. Note that testCell is a generic auto
@@ -108,7 +109,6 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    */
   testCell->SetPointIds(polygon1Points);
 
-  {
   std::cout << "Test MakeCopy" << std::endl;
 
   CellAutoPointer anotherCell;
@@ -120,20 +120,20 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
     std::cerr << "Make Copy failed !" << std::endl;
     return EXIT_FAILURE;
     }
-  }
 
   /**
    * Add the test cell to the mesh.
    * mesh->SetCell(cellId, cell)
    *
    * Difference itk::Mesh and itk::QEMesh
-   * the first take over the cell. The cell address is still valid after a SetCell()
+   * the first take over the cell.
+   * The cell address is still valid after a SetCell()
    * the second one create a new cell. The cell is deleted within SetCell()
    */
   mesh->SetCell(0, testCell ); // Transfer ownership to the mesh
-  std::cout << "PolygonCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
+  std::cout << "PolygonCell pointer = ";
+  std::cout << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
   
   return 0;  
 }
-

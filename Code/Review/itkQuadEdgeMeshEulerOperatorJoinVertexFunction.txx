@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshEulerOperatorJoinVertexFunction.txx
-// $Revision: 1.2 $
-// $Author: hanfei $
-// $Name:  $
-// $Date: 2007-07-27 06:34:01 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshEulerOperatorJoinVertexFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkQuadEdgeMeshEulerOperatorJoinVertexFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorJoinVertexFunction_txx
 
@@ -110,37 +105,37 @@ Evaluate( QEType* e )
   QEType* riteZip = e->GetOprev( );
 
   //
-  //                   \   |   /
-  //                     \  |  / 
-  //                      \ | /
-  //     ------------------ b ------------- Y
-  //                   ___/ |               |  
-  //      _<_leftZip__/     |               |
-  //     /                  ^               |
-  //    X      left         e     rite      |
-  //     \____________      |               |
-  //                  \___  |               |
-  //                      \ |               |
-  //     ------------------ a --riteZip->-- Y
-  //                      / | \
-  //                     /  |  \
-  //                    /   |   \
+  //                    \   |   /                //
+  //                     \  |  /                 //
+  //                      \ | /                  //
+  //     ------------------ b ------------- Y    //
+  //                   ___/ |               |    //
+  //      _<_leftZip__/     |               |    //
+  //     /                  ^               |    //
+  //    X      left         e     rite      |    //
+  //     \____________      |               |    //
+  //                  \___  |               |    //
+  //                      \ |               |    //
+  //     ------------------ a --riteZip->-- Y    //
+  //                      / | \                  //
+  //                     /  |  \                 //
+  //                    /   |   \                //
   //
   this->m_Mesh->LightWeightDeleteEdge( e );
   this->m_OldPointID = this->m_Mesh->Splice( leftZip, riteZip );
 
   //
-  //                            |      /       __Y 
-  //                            |     /     __/  |  
-  //       __<_leftZip___       |    /   __/     |
-  //      /              \      |   / __/        |
-  //     /                \__   |  / /           |
-  //    X      NOFACE      __ [a = b]    NOFACE  |
-  //     \                /  / / | \ \__         |
-  //      \______________/ _/ /  |  \   \__      |
-  //                    __/  /   |   \  riteZip  |
-  //                 __/    /    |    \       \__|
-  //                /      /     |     \         Y
+  //                            |      /       __Y  //
+  //                            |     /     __/  |  //
+  //       __<_leftZip___       |    /   __/     |  //
+  //      /              \      |   / __/        |  //
+  //     /                \__   |  / /           |  //
+  //    X      NOFACE      __ [a = b]    NOFACE  |  //
+  //     \                /  / / | \ \__         |  //
+  //      \______________/ _/ /  |  \   \__      |  //
+  //                    __/  /   |   \  riteZip  |  //
+  //                 __/    /    |    \       \__|  //
+  //                /      /     |     \         Y  //
   // 
   // When the Lnext and/or the Rnext ring of the argument edge was originaly
   // the one[s] of a triangle, the above edge deletion created the odd

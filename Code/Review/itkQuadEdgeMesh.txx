@@ -356,7 +356,11 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     // Edge
     if( numPoint == 2 )
       {
-      this->AddEdge( *pointId, *(++pointId) );
+      if( ( pointId ) && ( endId ) && ( pointId != endId ) )
+        {
+        PointIdIterator temp = pointId++;
+        this->AddEdge( *pointId, *temp );
+        }
       }
     // polygons
     else if( cell->GetDimension( ) == 2 )

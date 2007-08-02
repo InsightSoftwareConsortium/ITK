@@ -172,16 +172,15 @@ public:
   virtual PointIdInternalConstIterator InternalGetPointIds() const;
   virtual PointIdInternalConstIterator InternalPointIdsBegin() const;
   virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
-  
+
+protected:
+  std::vector<PointIdentifier>  m_PointIds;
+  //std::vector<EdgeInfo> m_Edges;
+
 private:
   QuadEdgeMeshPolygonCell( const Self& );    // Not impl.
   void operator=( const Self& ); // Not impl.
 
-protected:
-  //std::vector<EdgeInfo> m_Edges;
-  std::vector<PointIdentifier> m_PointIds;
-
-private:
   /** In order to have constant time access at the itk level instead of
    * doing a search in the Mesh::Cell container.
    */

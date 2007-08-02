@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx
-// $Revision: 1.1 $
+// $Revision: 1.2 $
 // $Author: hanfei $
 // $Name:  $
-// $Date: 2007-07-26 06:30:26 $
+// $Date: 2007-08-02 23:38:12 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -42,27 +42,27 @@ template < class TMesh, class TQEType >
     return( (QEType*) 0 );
     }
 
-  //     Initial state                           Final state
+  //     Initial state                           Final state        //
   //
-  //          Dest                                 Dest
-  //          /|\                                  /  \
-  //         / | \                                /    \
-  //        /  |  \                              /      \
-  //       /   |   \                            /        \
-  //      /    |    \                          /          \
-  //     /     |     \                        /            \
-  //    /      |      \                      /              \
-  //   /       ^       \                    /                \
-  //  o  F1    |  F2    o                  o    new Face      o
-  //   \       e       /                    \                /
-  //    \      |      /                      \              /
-  //     ^     |     /                     returned e      /
-  //      \    |    /                          \          /
-  //     oNext |   /                            v        /
-  //        \  |  /                              \      /
-  //         \ | /                                \    /
-  //          \|/                                  \  /
-  //          Org                                  Org
+  //          Dest                                 Dest             //
+  //          /|\                                  /  \             //
+  //         / | \                                /    \            //
+  //        /  |  \                              /      \           //
+  //       /   |   \                            /        \          //
+  //      /    |    \                          /          \         //
+  //     /     |     \                        /            \        //
+  //    /      |      \                      /              \       //
+  //   /       ^       \                    /                \      //
+  //  o  F1    |  F2    o                  o    new Face      o     //
+  //   \       e       /                    \                /      //
+  //    \      |      /                      \              /       //
+  //     ^     |     /                     returned e      /        //
+  //      \    |    /                          \          /         //
+  //     oNext |   /                            v        /          //
+  //        \  |  /                              \      /           //
+  //         \ | /                                \    /            //
+  //          \|/                                  \  /             //
+  //          Org                                  Org              //
   //
   QEType* return_e = e->GetOnext( )->GetSym( );
 
