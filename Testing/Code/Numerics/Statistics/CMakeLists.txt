@@ -126,7 +126,7 @@ ADD_EXECUTABLE(itkStatisticsTests itkStatisticsTests.cxx ${Statistics_SRCS})
 TARGET_LINK_LIBRARIES(itkStatisticsTests ITKIO ITKStatistics ITKNumerics)
 
 ADD_EXECUTABLE(itkStatisticsHeaderTest itkStatisticsHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkStatisticsHeaderTest ITKIO ITKStatistics)
+TARGET_LINK_LIBRARIES(itkStatisticsHeaderTest ITKIO ITKStatistics ITKNumerics)
 
 ADD_TEST(itkStatisticsHeaderTest ${STATISTICS_HEADER_TESTS})
 

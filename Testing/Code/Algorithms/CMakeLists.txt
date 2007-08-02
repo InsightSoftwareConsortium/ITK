@@ -334,19 +334,19 @@ itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest ITKAlgorithms ITKFEM ITKNumerics)
 ADD_EXECUTABLE(itkAlgorithmsPrintTest2 itkAlgorithmsPrintTest2.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKAlgorithms ITKFEM ITKNumerics)
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKFEM ITKNumerics)
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKFEM
                                               ITKStatistics ITKNumerics)
 
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKFEM)
+TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKFEM ITKNumerics)
 ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkAlgorithmsTests itkAlgorithmsTests.cxx 

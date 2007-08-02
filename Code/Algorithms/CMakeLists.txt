@@ -6,7 +6,7 @@ ADD_LIBRARY(ITKAlgorithms
   itkBioGene.cxx
   itkBioGeneNetwork.cxx
 )
-TARGET_LINK_LIBRARIES(ITKAlgorithms ITKStatistics)
+TARGET_LINK_LIBRARIES(ITKAlgorithms ITKStatistics ITKNumerics)
 IF(USE_FFTWD)
         #If FFTW is desired, then fftw3 and fftw3f will be required by any
         #application using the ITKAlgorithms lib

@@ -97,7 +97,7 @@ TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKIO ITKNumerics)
 
 ADD_EXECUTABLE(DeformableRegistration1 DeformableRegistration1.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKFEM ITKIO
-                                              ITKStatistics)
+                                              ITKStatistics ITKNumerics)
 
 ADD_EXECUTABLE(DeformableRegistration2 DeformableRegistration2.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKIO ITKStatistics)
