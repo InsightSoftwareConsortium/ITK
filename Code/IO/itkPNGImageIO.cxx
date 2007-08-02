@@ -469,7 +469,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
       //            Studio 7.1 in release mode. That compiler will corrupt the RTTI type
       //            of the Exception and prevent the catch() from recognizing it.
       //            For details, see Bug # 1872 in the bugtracker.
-      ::itk::ExceptionObject excp(__FILE__, __LINE__, "PNG supports unsigned char and unsigned short");
+      ::itk::ExceptionObject excp(__FILE__, __LINE__, "PNG supports unsigned char and unsigned short", ITK_LOCATION);
       throw excp; 
       }
     }

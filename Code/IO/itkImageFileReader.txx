@@ -300,12 +300,10 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   // streamable region or not.
   if( !this->m_StreamableRegion.IsInside( imageRequestedRegion ) )
     {
-    std::cerr << "ImageIO returns IO region that does not fully contains the requested region" << std::endl;
-    std::cerr << "Requested region        = " << std::endl;
-    std::cerr << imageRequestedRegion << std::endl;
-    std::cerr << "StreamableRegion region = " << std::endl;
-    std::cerr << this->m_StreamableRegion << std::endl;
-    itkExceptionMacro("ImageIO returns IO region that does not fully contains the requested region");
+    itkExceptionMacro(
+      << "ImageIO returns IO region that does not fully contain the requested region" << std::ends
+      << "Requested region: " << imageRequestedRegion << std::ends
+      << "StreamableRegion region: " << this->m_StreamableRegion);
     }
     
   itkDebugMacro (<< "StreamableRegion set to =" << this->m_StreamableRegion );
