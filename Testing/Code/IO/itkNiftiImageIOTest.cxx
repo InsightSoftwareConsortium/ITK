@@ -687,7 +687,6 @@ int itkNiftiImageIOTest3(int ac, char* av[])
   if(ac > 1) 
     {
     char *testdir = *++av;
-    --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
     }
   else
