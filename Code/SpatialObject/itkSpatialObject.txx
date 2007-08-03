@@ -556,8 +556,17 @@ SpatialObject< TDimension >
       (*it)->Get()->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
       (*it)->Get()->ComputeBoundingBox();
 
-      m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMinimum());
-      m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
+      // If the bounding box is not defined we set the minimum and maximum
+      if(m_Bounds->GetDiagonalLength2() == 0)
+        {
+        m_Bounds->SetMinimum((*it)->Get()->GetBoundingBox()->GetMinimum());
+        m_Bounds->SetMaximum((*it)->Get()->GetBoundingBox()->GetMaximum());
+        }
+      else
+        {
+        m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMinimum());
+        m_Bounds->ConsiderPoint((*it)->Get()->GetBoundingBox()->GetMaximum());
+        }
       it++;
       }
     delete children;
