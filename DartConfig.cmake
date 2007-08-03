@@ -33,7 +33,7 @@ SET (USE_DOXYGEN "On")
 SET (DOXYGEN_URL "http://${DROP_SITE}/Insight/Doxygen/html/" )
 
 SET (USE_GNATS "On")
-SET (GNATS_WEB_URL "http://${DROP_SITE}/Bug/query.php?projects=6&status%5B%5D=1&status%5B%5D=2&status%5B%5D=3&status%5B%5D=4&status%5B%5D=6&op=doquery")
+SET (GNATS_WEB_URL "http://${DROP_SITE}/Bug")
 
 # Continuous email delivery variables
 SET (CONTINUOUS_FROM "lorensen@nycap.rr.com")
