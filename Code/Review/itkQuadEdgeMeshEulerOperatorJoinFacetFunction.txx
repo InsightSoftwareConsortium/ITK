@@ -1,9 +1,9 @@
 // -------------------------------------------------------------------------
 // itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx
-// $Revision: 1.2 $
+// $Revision: 1.3 $
 // $Author: hanfei $
 // $Name:  $
-// $Date: 2007-08-02 23:38:12 $
+// $Date: 2007-08-04 00:23:50 $
 // -------------------------------------------------------------------------
 // This code is an implementation of the well known quad edge (QE) data
 // structure in the ITK library. Although the original QE can handle non
@@ -30,6 +30,12 @@ template < class TMesh, class TQEType >
   QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::
   Evaluate( QEType* e )
 {
+  if( !e )
+    {
+    itkDebugMacro( "Input is not an edge." );
+    return( (QEType*) 0 );
+    }
+
   if( !this->m_Mesh )
     {
     itkDebugMacro( "No mesh present." );

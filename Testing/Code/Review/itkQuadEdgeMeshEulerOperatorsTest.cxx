@@ -196,9 +196,27 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   //
   /////////////////////////////////////////
 
-  std::cout << "Checking JointFacet." << std::endl;
+  std::cout << "Checking JointFacet." << std::endl;  
+
   JoinFacet::Pointer joinFacet = JoinFacet::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( joinFacet->Evaluate( (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)joinFacet->GetNameOfClass(); 
+
   joinFacet->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( joinFacet->Evaluate( (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
 
   //
   //   20 --------- 21 --------- 22 --------- 23 --------- 24
@@ -261,8 +279,27 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 
   // Split the facet again in order to restore the original situation:
   std::cout << "Checking SplitFacet." << std::endl;
+  
   SplitFacet::Pointer splitFacet = SplitFacet::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( splitFacet->Evaluate( (QEType*)1, (QEType*)2 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)splitFacet->GetNameOfClass(); 
+
   splitFacet->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( splitFacet->Evaluate( (QEType*)0, (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
   if( !splitFacet->Evaluate( H, G ) )
     {
     std::cout << "FAILED." << std::endl;
@@ -346,10 +383,28 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   //
   PopulateMesh<MeshType>( mesh );
   std::cout << "Checking FlipEdge." << std::endl;
-  std::cout << "     " << "Flip an edge (possible)";
   
   FlipEdge::Pointer flipEdge = FlipEdge::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( flipEdge->Evaluate( (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)flipEdge->GetNameOfClass(); 
+
   flipEdge->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( flipEdge->Evaluate( (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
+  std::cout << "     " << "Flip an edge (possible)";
   QEType* tempFlippedEdge = flipEdge->Evaluate( mesh->FindEdge( 12 , 6 ) ); 
   if( !tempFlippedEdge )
     {
@@ -445,9 +500,26 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   std::cout << "Checking JoinVertex." << std::endl;
 
   PopulateMesh<MeshType>( mesh );
-   
+ 
   JoinVertex::Pointer joinVertex = JoinVertex::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( joinVertex->Evaluate( (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)joinVertex->GetNameOfClass(); 
+
   joinVertex->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( joinVertex->Evaluate( (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
 
   // First test the case were the argument is an internal edge (here
   // we consider [12, 11]) whose adjacent faces are both internal (i.e.
@@ -874,11 +946,28 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   std::cout << "Checking SplitVertex." << std::endl;
   PopulateMesh<MeshType>( mesh );
  
-  std::cout << "     ";
-  std::cout << "Split Vertex (Possible).";
-
   SplitVertex::Pointer splitVertex = SplitVertex::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( splitVertex->Evaluate( (QEType*)1, (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)splitVertex->GetNameOfClass(); 
+
   splitVertex->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( splitVertex->Evaluate( (QEType*)0, (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;  
+
+  std::cout << "     ";
+  std::cout << "Split Vertex (Possible).";  
   if( !splitVertex->Evaluate( mesh->FindEdge(  5, 11 ), 
                               mesh->FindEdge( 17, 11 ) ) )
     {
@@ -980,10 +1069,28 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   std::cout << "Checking SplitEdge." << std::endl;
   PopulateMesh<MeshType>( mesh );
   
+  SplitEdge::Pointer splitEdge = SplitEdge::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( splitEdge->Evaluate( (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)splitEdge->GetNameOfClass(); 
+
+  splitEdge->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( splitEdge->Evaluate( (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;  
+
   std::cout << "     ";
   std::cout << "Split an internal edge (possible).";
-  SplitEdge::Pointer splitEdge = SplitEdge::New( );
-  splitEdge->SetInput( mesh );
   if( !splitEdge->Evaluate( mesh->FindEdge(  6, 12 ) ) )
     {
     std::cout << "FAILED." << std::endl;
@@ -1030,12 +1137,29 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   std::cout << "Checking CreateCenterVertex." << std::endl;
   
   PopulateMesh<MeshType>( mesh );
+
+  CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New( );
+  std::cout << "     " << "Test No Mesh Input";
+  if( createCenterVertex->Evaluate( (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
   
+  (void)createCenterVertex->GetNameOfClass(); 
+
+  createCenterVertex->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( createCenterVertex->Evaluate( (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
   std::cout << "     ";
   std::cout << "Create a center vertex of a triangle (possible).";
-     
-  CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New( );
-  createCenterVertex->SetInput( mesh );
   if( !createCenterVertex->Evaluate( mesh->FindEdge( 8, 2 ) ) )
     {
     std::cout << "FAILED." << std::endl;
@@ -1152,11 +1276,14 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   std::cout << "Checking DeleteCenterVertex." << std::endl;
   PopulateMesh<MeshType>( mesh );
-  std::cout << "     ";
-  std::cout << "Delete center vertex with internal 1-ring (possible).";
+
 
   DeleteCenterVertex::Pointer deleteCenterVertex = DeleteCenterVertex::New( );
   deleteCenterVertex->SetInput( mesh );
+
+
+  std::cout << "     ";
+  std::cout << "Delete center vertex with internal 1-ring (possible).";
   if( !deleteCenterVertex->Evaluate( mesh->FindEdge( 6, 12 ) ) )
     {
     std::cout << "FAILED." << std::endl;

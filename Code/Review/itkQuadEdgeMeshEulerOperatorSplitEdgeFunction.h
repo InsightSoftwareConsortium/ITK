@@ -56,6 +56,19 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( QEType* e )
     {
+
+    if( !e )
+      {
+      itkDebugMacro( "Input is not an edge." );
+      return( (QEType*) 0 );
+      }
+
+    if( !this->m_Mesh )
+      {
+      itkDebugMacro( "No mesh present." );
+      return( (QEType*) 0 );
+      }
+
     m_SplitVertex->SetInput( this->m_Mesh );
     return( m_SplitVertex->Evaluate( e->GetLprev( ), e->GetSym( ) ) );
     }

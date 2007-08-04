@@ -25,6 +25,13 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< TMesh, TQEType >::
 Evaluate( QEType* e )
 {
   // Is there any input ?
+  
+  if( !e )
+    {
+    itkDebugMacro( "Input is not an edge." );
+    return( (QEType*) 0 );
+    }
+  
   if( !this->m_Mesh )
     {
     itkDebugMacro( "No mesh present." );

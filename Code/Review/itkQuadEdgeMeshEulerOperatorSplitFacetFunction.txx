@@ -41,6 +41,12 @@ Evaluate( QEType* h, QEType* g )
   //          X ----->--- h->Dest()                   X --------- orgPid   //
   //
 
+  if( !h || !g )
+    {
+    itkDebugMacro( "At least one of the Input is not an edge." );
+    return( (QEType*) 0 );
+    }
+
   if( !this->m_Mesh )
     {
     itkDebugMacro( "No mesh present." );
