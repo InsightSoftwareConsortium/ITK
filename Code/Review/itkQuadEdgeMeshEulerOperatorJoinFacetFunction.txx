@@ -1,24 +1,19 @@
-// -------------------------------------------------------------------------
-// itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx
-// $Revision: 1.3 $
-// $Author: hanfei $
-// $Name:  $
-// $Date: 2007-08-04 00:23:50 $
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_txx
 

@@ -178,7 +178,8 @@ protected:
   //std::vector<EdgeInfo> m_Edges;
 
 private:
-  QuadEdgeMeshPolygonCell( const Self& );    // Not impl.
+
+  QuadEdgeMeshPolygonCell( const Self& ); // Not impl.
   void operator=( const Self& ); // Not impl.
 
   /** In order to have constant time access at the itk level instead of
