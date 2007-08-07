@@ -25,7 +25,7 @@
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineDeformableTransform.h"
 
-int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
+static int oneTest(char *goodname,char *badname)
 {
   unsigned int i;
   // Create an odd type of transform, and register it
@@ -54,26 +54,26 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
   writer = itk::TransformFileWriter::New();
   writer->AddTransform(affine);
 
-  writer->SetFileName( "Transforms.txt" );
-  reader->SetFileName( "Transforms.txt" );
+  writer->SetFileName( goodname );
+  reader->SetFileName( goodname );
  
   // Testing writing
   std::cout << "Testing write : ";
   affine->Print ( std::cout );
   try
-   {
-   writer->Update();
-   std::cout << std::endl;
-   std::cout << "Testing read : " << std::endl;
-   reader->Update();
-   }
+    {
+    writer->Update();
+    std::cout << std::endl;
+    std::cout << "Testing read : " << std::endl;
+    reader->Update();
+    }
   catch( itk::ExceptionObject & excp )
-   {
-   std::cerr << "Error while saving the transforms" << std::endl;
-   std::cerr << excp << std::endl;
-   std::cout << "[FAILED]" << std::endl;
-   return EXIT_FAILURE;
-   }
+    {
+    std::cerr << "Error while saving the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
 
 
   try
@@ -120,23 +120,23 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
   badreader = itk::TransformFileReader::New();
   badwriter = itk::TransformFileWriter::New();
   badwriter->AddTransform(Bogus);
-  badwriter->SetFileName( "TransformsBad.txt" );
-  badreader->SetFileName( "TransformsBad.txt" );
+  badwriter->SetFileName(badname);
+  badreader->SetFileName(badname);
  
   // Testing writing
   std::cout << "Testing write of non register transform : " << std::endl;
   std::cout << std::flush;
   try
-   {
-   badwriter->Update();
-   }
+    {
+    badwriter->Update();
+    }
   catch( itk::ExceptionObject & excp )
-   {
-   std::cerr << "Error while saving the transforms" << std::endl;
-   std::cerr << excp << std::endl;
-   std::cout << "[FAILED]" << std::endl;
-   return EXIT_FAILURE;
-   }
+    {
+    std::cerr << "Error while saving the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
   
   // Testing writing
   
@@ -148,11 +148,11 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
     badreader->Update();
     }
   catch( itk::ExceptionObject & excp )
-   {
-   caught = 1;
-   std::cout << "Caught exception as expected" << std::endl;
-   std::cout << excp << std::endl;
-   }
+    {
+    caught = 1;
+    std::cout << "Caught exception as expected" << std::endl;
+    std::cout << excp << std::endl;
+    }
   if ( !caught )
     {
     std::cerr << "Did not catch non registered transform" << std::endl;
@@ -162,4 +162,11 @@ int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
   std::cout << "[PASSED]" << std::endl;
 
   return EXIT_SUCCESS;
+}
+
+int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
+{
+  int result1 =  oneTest("Transforms.txt", "TransformsBad.txt" );
+  int result2 =  oneTest("Transforms.mat", "TransformsBad.mat" );
+  return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS);
 }

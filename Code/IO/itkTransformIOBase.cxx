@@ -25,6 +25,7 @@ namespace itk
 TransformIOBase::
 TransformIOBase()
 {
+  this->m_AppendMode = false;
 }
 TransformIOBase::
 ~TransformIOBase()

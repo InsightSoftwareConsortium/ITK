@@ -216,19 +216,24 @@ void
 TxtTransformIO::
 Write()
 {
-  ConstTransformListType::iterator it = 
-    m_WriteTransformList.begin();
+  ConstTransformListType::iterator it = m_WriteTransformList.begin();
   vnl_vector<double> TempArray;
   std::ofstream out;
-  this->OpenStream(out,true);
+  this->OpenStream(out,false);
+
+  out << "#Insight Transform File V1.0" << std::endl;
+  int count = 0;
   while(it != m_WriteTransformList.end())
     {
-    std::string xfrmType((*it)->GetTransformTypeAsString());
+    out << "# Transform " << count << std::endl;
+    out << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;
+
     TempArray = (*it)->GetParameters();
-    vnl_matlab_write(out,TempArray.begin(),TempArray.size(),xfrmType.c_str());
+    out << "Parameters: " << TempArray << std::endl;
     TempArray = (*it)->GetFixedParameters();
-    vnl_matlab_write(out,TempArray.begin(),TempArray.size(),"fixed");
+    out << "FixedParameters: " << TempArray << std::endl;
     it++;
+    count++;
     }
   out.close();
 }
