@@ -267,7 +267,8 @@ AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr &temphdr)
   // dimensions.  If the Image dimensions is greater
   // than 16000 then the image is almost certainly byte-swapped-- Hans
 
-  const ImageIOBase::ByteOrder systemOrder= (ByteSwapper<int>::SystemIsBigEndian()) ? BigEndian : LittleEndian;
+  const ImageIOBase::ByteOrder systemOrder = 
+    (ByteSwapper<int>::SystemIsBigEndian()) ? BigEndian : LittleEndian;
 
   if((temphdr.hk.extents == 16384) || (temphdr.hk.sizeof_hdr == 348))
     {
@@ -712,7 +713,9 @@ void AnalyzeImageIO::Read(void* buffer)
     if( file_p == NULL )
       {
       ExceptionObject exception(__FILE__, __LINE__);
-      std::string message="Analyze Data File can not be read: The following files were attempted:\n ";
+      std::string message = 
+        "Analyze Data File can not be read:"
+        " The following files were attempted:\n ";
       message += GetImageFileName( m_FileName );
       message += '\n';
       message += ImageFileName;
@@ -788,7 +791,9 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   // perform the byte swapping on it
   this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_Hdr);
   this->SwapHeaderBytesIfNecessary( &(this->m_Hdr) );
-#ifdef OMIT_THIS_CODE //It is OK for this flag to be set because the zlib will support the Unix compress files
+#ifdef OMIT_THIS_CODE 
+//It is OK for this flag to be set because the zlib will 
+//support the Unix compress files
   if(this->m_Hdr.dime.compressed==1)
     {
     return false;
@@ -797,8 +802,10 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
     //    throw exception;
     }
 #endif
-  //The final check is to make sure that it is not a nifti version of the analyze file.
-  //Eventually the entire itkAnalyzeImageIO class will be subsumed by the nifti reader.
+  //The final check is to make sure that it is not a nifti 
+  // version of the analyze file.
+  //Eventually the entire itkAnalyzeImageIO class will be
+  //subsumed by the nifti reader.
   return is_nifti_file(FileNameToRead) == 0;
 }
 
@@ -918,15 +925,23 @@ void AnalyzeImageIO::ReadImageInformation()
     std::string classname(this->GetNameOfClass());
     itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
 
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_ImageFileBaseName,std::string(this->m_Hdr.hk.db_name,18));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_ImageFileBaseName,std::string(this->m_Hdr.hk.db_name,18));
     
     //Important dime fields
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_VoxelUnits,std::string(this->m_Hdr.dime.vox_units,4));
-    itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_CALIBRATIONUNITS,std::string(this->m_Hdr.dime.cal_units,8));
-    itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,this->m_Hdr.dime.bitpix);
-    itk::EncapsulateMetaData<float>(thisDic,SPM_ROI_SCALE,this->m_Hdr.dime.roi_scale);
-    itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MAX,this->m_Hdr.dime.cal_max);
-    itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MIN,this->m_Hdr.dime.cal_min);
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_VoxelUnits,std::string(this->m_Hdr.dime.vox_units,4));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ANALYZE_CALIBRATIONUNITS,
+       std::string(this->m_Hdr.dime.cal_units,8));
+    itk::EncapsulateMetaData<short int>
+      (thisDic,ITK_OnDiskBitPerPixel,this->m_Hdr.dime.bitpix);
+    itk::EncapsulateMetaData<float>
+      (thisDic,SPM_ROI_SCALE,this->m_Hdr.dime.roi_scale);
+    itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MAX,
+                                    this->m_Hdr.dime.cal_max);
+    itk::EncapsulateMetaData<float>(thisDic,ANALYZE_CAL_MIN,
+                                    this->m_Hdr.dime.cal_min);
     itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_Hdr.dime.glmax);
     itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_Hdr.dime.glmin);
   
@@ -942,28 +957,43 @@ void AnalyzeImageIO::ReadImageInformation()
     switch( this->m_Hdr.dime.datatype)
       {
       case ANALYZE_DT_BINARY:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
         break;
       case ANALYZE_DT_UNSIGNED_CHAR:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned char).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(unsigned char).name()));
         break;
       case ANALYZE_DT_SIGNED_SHORT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(short).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(short).name()));
         break;
       case SPMANALYZE_DT_UNSIGNED_SHORT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned short).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(unsigned short).name()));
         break;
       case ANALYZE_DT_SIGNED_INT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(long).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(long).name()));
         break;
       case SPMANALYZE_DT_UNSIGNED_INT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned long).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(unsigned long).name()));
         break;
       case ANALYZE_DT_FLOAT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(float).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(float).name()));
         break;
       case ANALYZE_DT_DOUBLE:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(double).name()));
         break;
       case ANALYZE_DT_RGB:
         // DEBUG -- Assuming this is a triple, not quad
@@ -974,12 +1004,17 @@ void AnalyzeImageIO::ReadImageInformation()
       }
 
     //Important hist fields
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(this->m_Hdr.hist.descrip,80));
-    itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,std::string(this->m_Hdr.hist.aux_file,24));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_FileNotes,
+       std::string(this->m_Hdr.hist.descrip,80));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ANALYZE_AUX_FILE_NAME,
+       std::string(this->m_Hdr.hist.aux_file,24));
 
       {
-      itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags temporient= static_cast<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>(this->m_Hdr.hist.orient);
-      //itk::EncapsulateMetaData<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>(thisDic,ITK_AnalyzeOrientation, temporient);
+      itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags temporient 
+        = static_cast<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>
+        (this->m_Hdr.hist.orient);
       itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
       switch (temporient)
         {
@@ -996,9 +1031,11 @@ void AnalyzeImageIO::ReadImageInformation()
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
           itkWarningMacro( "Unknown orientation in file " << m_FileName );
         }
-      //An error was encountered in code that depends upon the valid coord_orientation.
+      // An error was encountered in code that depends upon the 
+      // valid coord_orientation.
       typedef SpatialOrientationAdapter OrientAdapterType;
-      SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+      SpatialOrientationAdapter::DirectionType dir =  
+        OrientAdapterType().ToDirectionCosines(coord_orient);
       unsigned dims = this->GetNumberOfDimensions();
       std::vector<double> dirx(dims,0),
         diry(dims,0),
@@ -1023,20 +1060,42 @@ void AnalyzeImageIO::ReadImageInformation()
         this->SetDirection(2,dirz);
         }
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
-      itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
+      itk::EncapsulateMetaData
+        <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+        (thisDic,ITK_CoordinateOrientation, coord_orient);
 #endif  
       }
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileOriginator,std::string(this->m_Hdr.hist.originator,10));
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_OriginationDate,std::string(this->m_Hdr.hist.generated,10));
-    itk::EncapsulateMetaData<std::string>(thisDic,ANALYZE_ScanNumber,std::string(this->m_Hdr.hist.scannum,10));
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(this->m_Hdr.hist.patient_id,10));
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(this->m_Hdr.hist.exp_date,10));
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentTime,std::string(this->m_Hdr.hist.exp_date,10));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_FileOriginator,
+       std::string(this->m_Hdr.hist.originator,10));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_OriginationDate,
+       std::string(this->m_Hdr.hist.generated,10));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ANALYZE_ScanNumber,
+       std::string(this->m_Hdr.hist.scannum,10));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_PatientID,
+       std::string(this->m_Hdr.hist.patient_id,10));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_ExperimentDate,
+       std::string(this->m_Hdr.hist.exp_date,10));
+    itk::EncapsulateMetaData<std::string>
+      (thisDic,ITK_ExperimentTime,
+       std::string(this->m_Hdr.hist.exp_date,10));
     
-    itk::EncapsulateMetaData<int>(thisDic,ANALYZE_O_MAX,this->m_Hdr.hist.omax);
-    itk::EncapsulateMetaData<int>(thisDic,ANALYZE_O_MIN,this->m_Hdr.hist.omin);
-    itk::EncapsulateMetaData<int>(thisDic,ANALYZE_S_MAX,this->m_Hdr.hist.smax);
-    itk::EncapsulateMetaData<int>(thisDic,ANALYZE_S_MIN,this->m_Hdr.hist.smin);
+    itk::EncapsulateMetaData<int>
+      (thisDic,ANALYZE_O_MAX,
+       this->m_Hdr.hist.omax);
+    itk::EncapsulateMetaData<int>
+      (thisDic,ANALYZE_O_MIN,
+       this->m_Hdr.hist.omin);
+    itk::EncapsulateMetaData<int>
+      (thisDic,ANALYZE_S_MAX,
+       this->m_Hdr.hist.smax);
+    itk::EncapsulateMetaData<int>
+      (thisDic,ANALYZE_S_MIN,
+       this->m_Hdr.hist.smin);
     }
   return;
 }
@@ -1069,28 +1128,44 @@ AnalyzeImageIO
     switch( this->m_Hdr.dime.datatype)
       {
       case ANALYZE_DT_BINARY:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(char).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(char).name()));
         break;
       case ANALYZE_DT_UNSIGNED_CHAR:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned char).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(unsigned char).name()));
         break;
       case ANALYZE_DT_SIGNED_SHORT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(short).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(short).name()));
         break;
       case SPMANALYZE_DT_UNSIGNED_SHORT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned short).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(unsigned short).name()));
         break;
       case ANALYZE_DT_SIGNED_INT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(long).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(long).name()));
         break;
       case SPMANALYZE_DT_UNSIGNED_INT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(unsigned long).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(unsigned long).name()));
         break;
       case ANALYZE_DT_FLOAT:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(float).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(float).name()));
         break;
       case ANALYZE_DT_DOUBLE:
-        itk::EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,std::string(typeid(double).name()));
+        itk::EncapsulateMetaData<std::string>
+          (thisDic,ITK_OnDiskStorageTypeName,
+           std::string(typeid(double).name()));
         break;
       case ANALYZE_DT_RGB:
         // DEBUG -- Assuming this is a triple, not quad
@@ -1140,45 +1215,59 @@ AnalyzeImageIO
 
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,temp))
       {
-      strncpy(this->m_Hdr.hk.data_type,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hk.data_type,temp.c_str(),10);
       }
 
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_ImageFileBaseName,temp))
       {
-      strncpy(this->m_Hdr.hk.db_name,temp.c_str(),18);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hk.db_name,temp.c_str(),18);
       }
     //Important dime fields
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_VoxelUnits,temp))
       {
-      strncpy(this->m_Hdr.dime.vox_units,temp.c_str(),4);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.dime.vox_units,temp.c_str(),4);
       }
     
     if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_CALIBRATIONUNITS,temp))
       {
-      strncpy(this->m_Hdr.dime.cal_units,temp.c_str(),8);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.dime.cal_units,temp.c_str(),8);
       }
 
-    itk::ExposeMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,this->m_Hdr.dime.bitpix);
-    itk::ExposeMetaData<float>(thisDic,SPM_ROI_SCALE,this->m_Hdr.dime.roi_scale);
-    itk::ExposeMetaData<float>(thisDic,ANALYZE_CAL_MAX,this->m_Hdr.dime.cal_max);
-    itk::ExposeMetaData<float>(thisDic,ANALYZE_CAL_MIN,this->m_Hdr.dime.cal_min);
-    itk::ExposeMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_Hdr.dime.glmax);
-    itk::ExposeMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_Hdr.dime.glmin);
+    itk::ExposeMetaData<short int>
+      (thisDic,ITK_OnDiskBitPerPixel,
+       this->m_Hdr.dime.bitpix);
+    itk::ExposeMetaData<float>
+      (thisDic,SPM_ROI_SCALE,
+       this->m_Hdr.dime.roi_scale);
+    itk::ExposeMetaData<float>
+      (thisDic,ANALYZE_CAL_MAX,
+       this->m_Hdr.dime.cal_max);
+    itk::ExposeMetaData<float>
+      (thisDic,ANALYZE_CAL_MIN,
+       this->m_Hdr.dime.cal_min);
+    itk::ExposeMetaData<int>
+      (thisDic,ANALYZE_GLMAX,
+       this->m_Hdr.dime.glmax);
+    itk::ExposeMetaData<int>
+      (thisDic,ANALYZE_GLMIN,
+       this->m_Hdr.dime.glmin);
     //Important hist fields
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileNotes,temp))
       {
-      strncpy(this->m_Hdr.hist.descrip,temp.c_str(),80);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.descrip,temp.c_str(),80);
       }
     
     if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,temp))
       {
-      strncpy(this->m_Hdr.hist.aux_file,temp.c_str(),24);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.aux_file,temp.c_str(),24);
       }
     
     itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
       itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
-    if ( !itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient) )
+    if ( !itk::ExposeMetaData
+         <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+         (thisDic,ITK_CoordinateOrientation, coord_orient) )
       {
 #endif
       std::vector<double> dirx = this->GetDirection(0),
@@ -1200,47 +1289,52 @@ AnalyzeImageIO
     switch (coord_orient)
       {
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-        this->m_Hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
+        this->m_Hdr.hist.orient = 
+          itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
         break;
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-        this->m_Hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
+        this->m_Hdr.hist.orient = 
+          itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
         break;
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-        this->m_Hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+        this->m_Hdr.hist.orient = 
+          itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
         break;
       default:
-        this->m_Hdr.hist.orient=itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
-        itkWarningMacro( "ERROR: Analyze 7.5 File Format Only Allows RPI, PIR, and RIP Orientation " );
+        this->m_Hdr.hist.orient =
+          itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+        itkWarningMacro( "ERROR: Analyze 7.5 File Format"
+                         " Only Allows RPI, PIR, and RIP Orientation " );
       }
     
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
       {
-      strncpy(this->m_Hdr.hist.originator,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.originator,temp.c_str(),10);
       }
     
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_OriginationDate,temp))
       {
-      strncpy(this->m_Hdr.hist.generated,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.generated,temp.c_str(),10);
       }
 
     if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_ScanNumber,temp))
       {
-      strncpy(this->m_Hdr.hist.scannum,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.scannum,temp.c_str(),10);
       }
 
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_PatientID,temp))
       {
-      strncpy(this->m_Hdr.hist.patient_id,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.patient_id,temp.c_str(),10);
       }
 
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentDate,temp))
       {
-      strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);
       }
     
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentTime,temp))
       {
-      strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);//Note this is necessary because the array is not necessarily null terminated.
+      strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);
       }
 
     itk::ExposeMetaData<int>(thisDic,ANALYZE_O_MAX,this->m_Hdr.hist.omax);
@@ -1251,7 +1345,8 @@ AnalyzeImageIO
 
   for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
     {
-    //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
+    //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are 
+    // the actual dims.
     this->m_Hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
     }
 
@@ -1260,7 +1355,8 @@ AnalyzeImageIO
   for( dim=this->GetNumberOfDimensions();(int)dim < this->m_Hdr.dime.dim[0];
        dim++ )
     {
-    //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are the actual dims.
+    //NOTE: Analyze dim[0] are the number of dims, 
+    //and dim[1..7] are the actual dims.
     this->m_Hdr.dime.dim[dim+1]  = 1; //Hardcoded to be 1;
     }
   for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
@@ -1317,11 +1413,12 @@ AnalyzeImageIO
 #ifdef __OMIT_UNTIL_RGB_IS_NEEEDED
     if ( image.getDataType() == uiig::DATA_RGBTRIPLE )
       {
-      // Analyze RGB images are stored in channels, where all the red components are stored
-      // first, followed by the green and blue components for each plane of the volume.
-      // This is stored in an image of RGBTRIPLE data structures, which are in memory
-      // stored as (red,green,blue).  The triples need to be converted to channels for
-      // each plane when writing out the image.
+      // Analyze RGB images are stored in channels, where all the red
+      // components are stored first, followed by the green and blue components
+      // for each plane of the volume. This is stored in an image of RGBTRIPLE
+      // data structures, which are in memory stored as (red,green,blue).  The
+      // triples need to be converted to channels for each plane when writing
+      // out the image.
 
       // NOTE: Do NOT change this.  The math here is necessary for CImageStrided to
       // read files correctly
@@ -1339,9 +1436,8 @@ AnalyzeImageIO
               unsigned int rowOffset =    j*m_uiRowOffset;
               for ( register unsigned int i=0; i<tempX; i++ )
                 {
-                //NOTE: unsigned char * is used to do byte wise offsets The offsets are computed
-                //in bytes
-                ::gzwrite( file_p, &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3), sizeof(unsigned char) );
+                ::gzwrite( file_p, 
+                           &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3), sizeof(unsigned char) );
                 }
               }
             }

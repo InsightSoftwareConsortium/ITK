@@ -18,6 +18,9 @@
 #define __itkTransformFileWriter_cxx
 
 #include "itkTransformFileWriter.h"
+#include "itkTransformIOBase.h"
+#include "itkTransformFactoryBase.h"
+#include "itkTransformIOFactory.h"
 
 namespace itk
 {
@@ -27,6 +30,7 @@ TransformFileWriter
 {
   m_FileName = "";
   this->m_AppendMode = false;
+  TransformFactoryBase::RegisterDefaultTransforms();
 }
 
 TransformFileWriter
@@ -63,60 +67,34 @@ bool TransformFileWriter::GetAppendMode( )
 void TransformFileWriter::SetInput(const TransformType* transform)
 {
   m_TransformList.clear();
-  m_TransformList.push_back(transform);
+  m_TransformList.push_back(ConstTransformPointer(transform));
 }
 
 /** Add a transform to be written */
 void TransformFileWriter::AddTransform(const TransformType* transform)
 {
-  m_TransformList.push_back(transform);
+  m_TransformList.push_back(ConstTransformPointer(transform));
 }
 
-/** Update the writer */
 void TransformFileWriter
 ::Update()
 {  
-  std::list<const TransformType *>::iterator it = m_TransformList.begin();
-  vnl_vector<double> TempArray;
-#ifdef __sgi
-  // Create the file. This is required on some older sgi's
-  if (this->m_AppendMode)
+  if(m_FileName == "")
     {
-    std::ofstream tFile(m_FileName.c_str(),std::ios::out | std::ios::app);
-    tFile.close();   
+    itkExceptionMacro ( "No file name given" );
     }
-  else
+  TransformIOBase::Pointer transformIO = 
+    TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
+                                      TransformIOFactory::ReadMode );
+  if(transformIO.IsNull())
     {
-    std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-    tFile.close(); 
+    itkExceptionMacro( "Can't Create IO object for file " <<
+                       m_FileName);
     }
-#endif
-  std::ofstream out;
-  if (this->m_AppendMode)
-    {
-    out.open(m_FileName.c_str(), std::ios::out | std::ios::app); 
-    }
-  else
-    {
-    out.open(m_FileName.c_str(), std::ios::out);
-    }
-  out << "#Insight Transform File V1.0" << std::endl;
-  int count = 0;
-  while(it != m_TransformList.end())
-    {
-    out << "# Transform " << count << std::endl;
-    out << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;
-
-    TempArray = (*it)->GetParameters();
-    out << "Parameters: " << TempArray << std::endl;
-    TempArray = (*it)->GetFixedParameters();
-    out << "FixedParameters: " << TempArray << std::endl;
-    it++;
-    count++;
-    }
-  out.close();
+  transformIO->SetFileName(m_FileName);
+  transformIO->SetTransformList(this->m_TransformList);
+  transformIO->Write();
 }
-
 
 } // namespace itk
 

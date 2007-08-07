@@ -54,13 +54,20 @@ SET(ITKIO_SRCS
   itkStimulateImageIOFactory.cxx
   itkTIFFImageIO.cxx
   itkTIFFImageIOFactory.cxx
-  itkTransformFileReader.cxx
-  itkTransformFileWriter.cxx
   itkVTKImageIO.cxx
   itkVTKImageIOFactory.cxx
   itkXMLFile.cxx
   itkMetaArrayReader.cxx
   itkMetaArrayWriter.cxx
+
+  itkTransformFileReader.cxx
+  itkTransformFileWriter.cxx
+  itkMatlabTransformIO.cxx
+  itkMatlabTransformIOFactory.cxx
+  itkTransformIOBase.cxx
+  itkTransformIOFactory.cxx
+  itkTxtTransformIO.cxx
+  itkTxtTransformIOFactory.cxx
 )
 
 # Add ITKIO library
@@ -84,7 +91,8 @@ ITKniftiio)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(itkTestDriver.cxx PROPERTIES COMPILE_FLAGS -w)
-  SET_SOURCE_FILES_PROPERTIES(itkPolygonGroupSpatialObjectXMLFile.cxx PROPERTIES COMPILE_FLAGS -w)
+  SET_SOURCE_FILES_PROPERTIES(itkPolygonGroupSpatialObjectXMLFile.cxx 
+                              PROPERTIES COMPILE_FLAGS -w)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ADD_EXECUTABLE(itkTestDriver itkTestDriver.cxx) 
