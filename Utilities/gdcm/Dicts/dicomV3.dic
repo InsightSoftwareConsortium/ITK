@@ -588,8 +588,8 @@
 0018 7062 LT 1 Exposure Control Mode Description
 0018 7064 CS 1 Exposure Status
 0018 7065 DS 1 Phototimer Setting
-0018 8150 DS 1 Exposure Time in µS
-0018 8151 DS 1 X-Ray Tube Current in µA
+0018 8150 DS 1 Exposure Time in uS
+0018 8151 DS 1 X-Ray Tube Current in uA
 0018 9004 CS 1 Content Qualification
 0018 9005 SH 1 Pulse Sequence Name
 0018 9006 SQ 1 MR Imaging Modifier Sequence
