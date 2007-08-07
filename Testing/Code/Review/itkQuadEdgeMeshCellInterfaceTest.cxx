@@ -83,8 +83,9 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   std::cout << std::endl;
 
   std::cout << "    ConstIterator test: PointIds for empty cell: ";
-  typename TCell::PointIdConstIterator cpointId = cell->PointIdsBegin();
-  typename TCell::PointIdConstIterator cendId = cell->PointIdsEnd();
+  const TCell * cell2 = aCell;
+  typename TCell::PointIdConstIterator cpointId = cell2->PointIdsBegin();
+  typename TCell::PointIdConstIterator cendId = cell2->PointIdsEnd();
   while (cpointId != cendId)
     {
     std::cout << *cpointId << ", ";
@@ -107,8 +108,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
     }
 
   std::cout << "    ConstIterator test: PointIds for populated cell: ";
-  typename TCell::PointIdConstIterator ppointId = cell->PointIdsBegin();
-  typename TCell::PointIdConstIterator pendId = cell->PointIdsEnd();
+  typename TCell::PointIdConstIterator ppointId = cell2->PointIdsBegin();
+  typename TCell::PointIdConstIterator pendId = cell2->PointIdsEnd();
   while (ppointId != pendId)
     {
     std::cout << *ppointId << ", ";
