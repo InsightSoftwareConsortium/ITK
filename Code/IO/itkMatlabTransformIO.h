@@ -24,7 +24,7 @@ class ITK_EXPORT MatlabTransformIO : public TransformIOBase
 {
  public:
   typedef MatlabTransformIO              Self;
-  typedef MatlabTransformIO              Superclass;
+  typedef TransformIOBase                Superclass;
   typedef SmartPointer<Self>             Pointer;
   typedef TransformBase                  TransformType;
   typedef Superclass::TransformPointer   TransformPointer;

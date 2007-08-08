@@ -22,12 +22,12 @@ namespace itk
 {
 class ITK_EXPORT TxtTransformIO : public TransformIOBase
 {
- public:
-  typedef TxtTransformIO Self;
-  typedef TxtTransformIO Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef TransformBase TransformType;
-  typedef Superclass::TransformPointer TransformPointer;
+public:
+  typedef TxtTransformIO                Self;
+  typedef TransformIOBase               Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef TransformBase                 TransformType;
+  typedef Superclass::TransformPointer  TransformPointer;
   typedef Superclass::TransformListType TransformListType;
   /** Run-time type information (and related methods). */
   itkTypeMacro(TxtTransformIO,TransformIOBase);
@@ -46,10 +46,10 @@ class ITK_EXPORT TxtTransformIO : public TransformIOBase
    * pointer to the beginning of the image data. */
   virtual void Write();
 
- protected:
+protected:
   TxtTransformIO();
   virtual ~TxtTransformIO();
- private:
+private:
   /** trim spaces and newlines from start and end of a string */
   std::string trim(std::string const& source, char const* delims = " \t\r\n");
 };
