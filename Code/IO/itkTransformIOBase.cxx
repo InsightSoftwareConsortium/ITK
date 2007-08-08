@@ -89,4 +89,31 @@ TransformIOBase
   out.open(m_FileName.c_str(), mode);
 }
 
+void TransformIOBase::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "AppendMode: " << 
+    (m_AppendMode ? "true" : "false") << std::endl;
+  if(m_ReadTransformList.size() > 0)
+    {
+    os << indent << "ReadTransformList: " << std::endl;
+    for(TransformListType::Iterator it = m_ReadTransformList.begin();
+        it != m_ReadTransformList.end(); it++)
+      {
+      os << (*it)->PrintSelf(os,indent.GetNextIndent());
+      }
+    }
+  if(m_WriteTransformList.size() > 0)
+    {
+    os << indent << "WriteTransformList: " << std::endl;
+    for(ConstTransformListType::Iterator it = m_WriteTransformList.begin();
+        it != m_WriteTransformList.end(); it++)
+      {
+      os << (*it)->PrintSelf(os,indent.GetNextIndent());
+      }
+    }
+}
+
 } // itk

@@ -94,10 +94,13 @@ namespace itk
    bool GetAppendMode( ) { return ( this->m_AppendMode ); }
 
 protected:
-   void OpenStream(std::ofstream &out, bool binary);
-   void CreateTransform(TransformPointer &ptr, const std::string &ClassName);
    TransformIOBase();
    virtual ~TransformIOBase();
+   void PrintSelf(std::ostream& os, Indent indent) const;
+
+   void OpenStream(std::ofstream &out, bool binary);
+   void CreateTransform(TransformPointer &ptr, const std::string &ClassName);
+
    std::string            m_FileName;
    TransformListType      m_ReadTransformList;
    ConstTransformListType m_WriteTransformList;
