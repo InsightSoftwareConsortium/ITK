@@ -161,7 +161,7 @@ public:
   virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; }
   virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; }
 
-  /** QuadEdge internal flavor of cell API **/
+  /** QuadEdge internal flavor of cell API */
   virtual void InternalSetPointIds( PointIdInternalConstIterator first );
   virtual void InternalSetPointIds( PointIdInternalConstIterator first,
                             PointIdInternalConstIterator last );
