@@ -99,19 +99,19 @@ void TransformIOBase::PrintSelf(std::ostream& os, Indent indent) const
   if(m_ReadTransformList.size() > 0)
     {
     os << indent << "ReadTransformList: " << std::endl;
-    for(TransformListType::iterator it = m_ReadTransformList.begin();
+    for(TransformListType::const_iterator it = m_ReadTransformList.begin();
         it != m_ReadTransformList.end(); it++)
       {
-      os << (*it)->PrintSelf(os,indent.GetNextIndent());
+      os << (*it) << std::endl;
       }
     }
   if(m_WriteTransformList.size() > 0)
     {
     os << indent << "WriteTransformList: " << std::endl;
-    for(ConstTransformListType::iterator it = m_WriteTransformList.begin();
+    for(ConstTransformListType::const_iterator it = m_WriteTransformList.begin();
         it != m_WriteTransformList.end(); it++)
       {
-      os << (*it)->PrintSelf(os,indent.GetNextIndent());
+      os << (*it) << std::endl;
       }
     }
 }
