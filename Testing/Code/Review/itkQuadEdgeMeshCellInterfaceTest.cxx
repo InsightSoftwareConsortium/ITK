@@ -146,6 +146,87 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   delete []pointIds;
   return EXIT_SUCCESS;
 }
+
+// Test the QEcell interface
+
+template<class TCell> int TestQECellInterface(std::string name, TCell *aCell)
+{
+  TCell *  cell = aCell;
+  const TCell * cell2 = aCell;
+
+  std::cout << "    QE Iterator test: PointIds for empty cell: ";
+  typename TCell::PointIdInternalIterator pointId
+    = cell->InternalPointIdsBegin();
+  typename TCell::PointIdInternalIterator endId
+    = cell->InternalPointIdsEnd();
+  while (pointId != endId)
+    {
+    std::cout << *pointId << ", ";
+    pointId++;
+    }
+  std::cout << std::endl;
+
+  std::cout << "    ConstIterator test: PointIds for empty cell: ";
+  typename TCell::PointIdInternalConstIterator cpointId
+    = cell2->InternalPointIdsBegin();
+  typename TCell::PointIdInternalConstIterator cendId
+    = cell2->InternalPointIdsEnd();
+  
+  while (cpointId != cendId)
+    {
+    std::cout << *cpointId << ", ";
+    cpointId++;
+    }
+  std::cout << std::endl;
+
+  // Add point ids
+  std::cout << "    SetPointIds" << std::endl;
+  unsigned long *pointIds = new unsigned long[cell->GetNumberOfPoints() * 2];
+  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
+    {
+    pointIds[i] = i;
+    }
+
+  cell->SetPointIds(pointIds);
+  cell->InternalSetPointIds( cell->InternalGetPointIds( ) );
+  cell->InternalSetPointIds( cell2->InternalGetPointIds( ));
+
+  if (cell->GetNumberOfPoints() > 0)
+    {
+    cell->SetPointId(0, 100);
+    }
+
+  std::cout << "    ConstIterator test: PointIds for populated cell: ";
+  typename TCell::PointIdInternalConstIterator ppointId
+    = cell2->InternalPointIdsBegin();
+  typename TCell::PointIdInternalConstIterator pendId
+    = cell2->InternalPointIdsEnd();
+  while (ppointId != pendId)
+    {
+    std::cout << *ppointId << ", ";
+    ppointId++;
+    }
+  std::cout << std::endl;
+
+  cell->InternalSetPointIds( cell2->InternalPointIdsBegin(),
+                             cell2->InternalPointIdsEnd());
+  std::cout << "    Iterator test: PointIds for populated cell: ";
+  typename TCell::PointIdInternalIterator pxpointId
+    = cell->InternalPointIdsBegin();
+  typename TCell::PointIdInternalIterator pxendId
+    = cell->InternalPointIdsEnd();
+  while (pxpointId != pxendId)
+    {
+    std::cout << *pxpointId << ", ";
+    pxpointId++;
+    }
+  std::cout << std::endl;
+
+  delete []pointIds;
+  return EXIT_SUCCESS;
+}
+
+
 int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
 {
   int status;
@@ -229,8 +310,8 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     }
 
   /*
-   * ITK QuadEdgeMesh CELLS
-  **/
+   * ITK QuadEdgeMesh CELLS - Standard cell API test
+   */
   typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
   status = TestCellInterface("QuadEdgePolygonCell with 0 vertices",
                              new QEPolygonCellType());
@@ -249,6 +330,32 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
 
   typedef itk::QuadEdgeMeshLineCell<CellInterfaceType> QELineCellType;
   status = TestCellInterface("QuadEdgeLineCell", new QELineCellType());
+  if (status != 0)
+    {
+    return EXIT_FAILURE;
+    }
+
+  /*
+   * ITK QuadEdgeMesh CELLS - Specific QEcell API test
+   */
+  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
+  status = TestQECellInterface("QuadEdgePolygonCell with 0 vertices",
+                             new QEPolygonCellType());
+  if (status != 0)
+    {
+    return EXIT_FAILURE;
+    }
+
+  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
+  status = TestQECellInterface("QuadEdgePolygonCell with 5 vertices",
+                             new QEPolygonCellType(5));
+  if (status != 0)
+    {
+    return EXIT_FAILURE;
+    }
+
+  typedef itk::QuadEdgeMeshLineCell<CellInterfaceType> QELineCellType;
+  status = TestQECellInterface("QuadEdgeLineCell", new QELineCellType());
   if (status != 0)
     {
     return EXIT_FAILURE;
