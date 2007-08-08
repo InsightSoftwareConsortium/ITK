@@ -25,6 +25,12 @@ template < class TMesh, class TQEType >
   QuadEdgeMeshEulerOperatorSplitVertexFunction< TMesh, TQEType >::
   Evaluate( QEType* h, QEType* g )
 {
+  if( !this->m_Mesh )
+    {
+    itkDebugMacro( "No mesh present." );
+    return( (QEType*) 0 );
+    }
+
   if ( ( h == (QEType*)(0) ) || ( g == (QEType*)(0) ) )
     {
     itkDebugMacro( "One or more argument(s) is(are) null." );
@@ -40,12 +46,6 @@ template < class TMesh, class TQEType >
   if( h->GetDestination( ) != g->GetDestination( ) )
     {
     itkDebugMacro( "The two half-edges must be incident to the same vertex." );
-    return( (QEType*) 0 );
-    }
-
-  if( !this->m_Mesh )
-    {
-    itkDebugMacro( "No mesh present." );
     return( (QEType*) 0 );
     }
 

@@ -1293,10 +1293,25 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   std::cout << "Checking DeleteCenterVertex." << std::endl;
   PopulateMesh<MeshType>( mesh );
 
-
   DeleteCenterVertex::Pointer deleteCenterVertex = DeleteCenterVertex::New( );
-  deleteCenterVertex->SetInput( mesh );
+  std::cout << "     " << "Test No Mesh Input";
+  if( deleteCenterVertex->Evaluate( (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
+  (void)deleteCenterVertex->GetNameOfClass(); 
 
+  deleteCenterVertex->SetInput( mesh );
+  std::cout << "     " << "Test No QE Input";
+  if( deleteCenterVertex->Evaluate( (QEType*)0 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
 
   std::cout << "     ";
   std::cout << "Delete center vertex with internal 1-ring (possible).";
