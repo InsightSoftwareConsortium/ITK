@@ -23,6 +23,7 @@
 //
 #include "metaImage.h"
 #include "itkImageSpatialObject.h"
+#include "itkImageMaskSpatialObject.h"
 
 namespace itk 
 {
@@ -36,16 +37,20 @@ public:
   MetaImageConverter();
   ~MetaImageConverter() {};
 
-  typedef itk::ImageSpatialObject<NDimensions,PixelType > SpatialObjectType;
-  typedef typename SpatialObjectType::TransformType       TransformType;
+  typedef itk::ImageSpatialObject<NDimensions,PixelType >  SpatialObjectType;
+  typedef typename SpatialObjectType::TransformType        TransformType;
+  typedef itk::ImageMaskSpatialObject<NDimensions>          MaskSpatialObjectType;
 
   typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef typename MaskSpatialObjectType::Pointer MaskSpatialObjectPointer;
 
   SpatialObjectPointer ReadMeta(const char* name);
 
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
   SpatialObjectPointer MetaImageToImageSpatialObject(MetaImage * image);
+  MaskSpatialObjectPointer MetaImageToImageMaskSpatialObject(MetaImage * image);
+
   MetaImage* ImageSpatialObjectToMetaImage(SpatialObjectType * spatialObject);
 
 };

@@ -46,6 +46,7 @@
 #include "itkMeshSpatialObject.h"
 #include "itkArrowSpatialObject.h"
 #include "itkContourSpatialObject.h"
+#include "itkImageMaskSpatialObject.h"
 
 #include <algorithm>
 
@@ -215,11 +216,23 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
 
     if(!strncmp((*it)->ObjectTypeName(),"Image",5))
       {
-      MetaImageConverter<NDimensions,PixelType> imageConverter;
-      typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
-          imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
-      this->SetTransform(so, *it);
-      soScene->AddSpatialObject(so);
+      // If there is the subtype is a mask
+      if(!strncmp((*it)->ObjectSubTypeName(),"Mask",6))
+        {
+        MetaImageConverter<NDimensions,unsigned char> imageConverter;
+        typename itk::ImageMaskSpatialObject<NDimensions>::Pointer so =
+          imageConverter.MetaImageToImageMaskSpatialObject((MetaImage*)*it);
+        this->SetTransform(so, *it);
+        soScene->AddSpatialObject(so);
+        }
+      else
+        {
+        MetaImageConverter<NDimensions,PixelType> imageConverter;
+        typename itk::ImageSpatialObject<NDimensions,PixelType>::Pointer so =
+            imageConverter.MetaImageToImageSpatialObject((MetaImage*)*it);
+        this->SetTransform(so, *it);
+        soScene->AddSpatialObject(so);
+        }
       }
 
     if(!strncmp((*it)->ObjectTypeName(),"Blob",4))
@@ -423,12 +436,27 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       metaScene->AddObject(arrow);
       }
     
-    if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",17))
+    if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",17)
+      || !strncmp((*it)->GetTypeName(),"ImageMaskSpatialObject",21)
+      )
       {
-      MetaImageConverter<NDimensions,PixelType> converter;
-      MetaImage* image = converter.ImageSpatialObjectToMetaImage(
-          dynamic_cast<itk::ImageSpatialObject<NDimensions, PixelType>*>(
-            (*it).GetPointer()));
+      MetaImage* image;
+      if(!strncmp((*it)->GetTypeName(),"ImageMaskSpatialObject",21))
+        {
+        MetaImageConverter<NDimensions,unsigned char> converter;
+        image = converter.ImageSpatialObjectToMetaImage(
+            dynamic_cast<itk::ImageSpatialObject<NDimensions,unsigned char>*>(
+              (*it).GetPointer()));
+        image->ObjectSubTypeName("Mask");
+        }
+      else
+        {
+        MetaImageConverter<NDimensions,PixelType> converter;
+        image = converter.ImageSpatialObjectToMetaImage(
+            dynamic_cast<itk::ImageSpatialObject<NDimensions, PixelType>*>(
+              (*it).GetPointer()));
+        }
+      
       if((*it)->GetParent())
         {
         image->ParentID((*it)->GetParent()->GetId());
@@ -441,6 +469,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
           std::cout << "Error: you should set the image name when using" 
                     << " WriteImagesInSeparateFile." << std::endl;
           std::cout << "The image will be written locally." << std::endl;
+          image->ElementDataFileName("LOCAL");
           }
         else
           {
@@ -449,7 +478,12 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
           image->ElementDataFileName(filename.c_str());
           }
         }
+      else
+        {
+        image->ElementDataFileName("LOCAL");
+        }
 
+      image->BinaryData(true);
       image->Name((*it)->GetProperty()->GetName().c_str());
       this->SetTransform(image, (*it)->GetObjectToParentTransform());
       metaScene->AddObject(image);

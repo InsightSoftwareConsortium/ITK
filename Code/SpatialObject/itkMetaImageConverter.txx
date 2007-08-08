@@ -32,6 +32,57 @@ MetaImageConverter<NDimensions,PixelType>
   
 }
 
+/** Convert a metaImage into an ImageMaskSpatialObject  */
+template <unsigned int NDimensions, class PixelType>
+typename MetaImageConverter<NDimensions,PixelType>::MaskSpatialObjectPointer
+MetaImageConverter<NDimensions,PixelType>
+::MetaImageToImageMaskSpatialObject(MetaImage * image)
+{ 
+  MaskSpatialObjectPointer spatialObject = MaskSpatialObjectType::New();
+  typedef itk::Image<unsigned char,NDimensions>  ImageType;
+
+  typedef typename ImageType::Pointer     ImagePointer;
+  typedef typename ImageType::SizeType    SizeType;
+  typedef typename ImageType::RegionType  RegionType;
+
+  ImagePointer myImage = ImageType::New();
+
+  SizeType size;
+
+  double spacing[NDimensions];
+
+  for(unsigned int i=0;i<NDimensions;i++)
+    {
+    size[i] = image->DimSize()[i];
+    spacing[i] = image->ElementSpacing()[i];
+    if(spacing[i] == 0) {spacing[i] = 1;}
+    }
+
+  RegionType region;
+  region.SetSize(size);
+  itk::Index<NDimensions> zeroIndex;
+  zeroIndex.Fill(0);
+  region.SetIndex( zeroIndex );
+  myImage->SetLargestPossibleRegion(region);
+  myImage->SetBufferedRegion(region);
+  myImage->SetRequestedRegion(region);
+  myImage->SetSpacing(spacing);
+  myImage->Allocate();
+
+  itk::ImageRegionIteratorWithIndex< ImageType > it(myImage, region);
+  for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+    { 
+    it.Set( 
+      static_cast< typename ImageType::PixelType >( image->ElementData(i) ));
+    }
+
+  spatialObject->SetImage(myImage);
+  spatialObject->SetId(image->ID());
+  spatialObject->SetParentId(image->ParentID());
+  spatialObject->GetProperty()->SetName(image->Name());
+
+  return spatialObject;
+}
 
 /** Convert a metaImage into an Image SpatialObject  */
 template <unsigned int NDimensions, class PixelType>
