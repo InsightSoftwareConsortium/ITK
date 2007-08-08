@@ -25,6 +25,7 @@
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
+#include "itkImageMaskSpatialObject.h"
 
 int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 {
@@ -49,6 +50,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
 
   typedef itk::ImageSpatialObject<3,unsigned short>  ImageType;
+  typedef itk::ImageMaskSpatialObject<3>             ImageMaskType;
 
   typedef itk::SpatialObjectWriter<3,unsigned short> WriterType;
   typedef itk::SpatialObjectReader<3,unsigned short> ReaderType;
@@ -283,13 +285,35 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     it.Set(i);
     }
 
-
   ImageType::Pointer image = ImageType::New();
   image->GetProperty()->SetName("Image 1");
   image->SetImage(itkImage);
 
   tubeN2->AddSpatialObject( image );
 
+  // Create Mask Image
+  typedef ImageMaskType::ImageType   itkImageMaskType;
+  typedef itkImageMaskType::Pointer  ImageMaskPointer;
+
+  ImageMaskPointer itkImageMask = itkImageMaskType::New();
+
+  itkImageMask->SetLargestPossibleRegion(region);
+  itkImageMask->SetBufferedRegion(region);
+  itkImageMask->SetRequestedRegion(region);
+  itkImageMask->SetSpacing(spacing);
+  itkImageMask->Allocate();
+
+  itk::ImageRegionIteratorWithIndex< itkImageMaskType > itM(itkImageMask, region);
+  for(unsigned int i = 0; !itM.IsAtEnd(); i++, ++itM)
+    {
+    itM.Set(i);
+    }
+
+  ImageMaskType::Pointer maskImage = ImageMaskType::New();
+  maskImage->GetProperty()->SetName("Mask Image 1");
+  maskImage->SetImage(itkImageMask);
+
+  tubeN2->AddSpatialObject( maskImage );
 
   // Define a contour
   ContourType::Pointer contour = ContourType::New();
@@ -700,6 +724,37 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           }
         }
       }
+    }
+
+  std::cout<<" [PASSED]"<<std::endl; 
+
+  std::cout<<"Testing Image Mask validity:";
+
+  bool maskFound = false;
+  for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+    {
+    if(!strcmp((*obj)->GetTypeName(),"ImageMaskSpatialObject"))
+      {
+      maskFound = true;
+      itkImageMaskType::ConstPointer image = dynamic_cast<const ImageMaskType*>((*obj).GetPointer())->GetImage();
+      itk::ImageRegionConstIteratorWithIndex< itkImageMaskType > it(image, image->GetLargestPossibleRegion());
+      for(unsigned char i = 0; !it.IsAtEnd(); i++, ++it)
+        {
+        if(it.Get() != i)
+          {
+          std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
+          std::cout<<" [FAILED]"<<std::endl; 
+          return EXIT_FAILURE;
+          }
+        }
+      }
+    }
+
+  if(!maskFound)
+    {
+    std::cout << "No Mask!" << std::endl;
+    std::cout<<" [FAILED]"<<std::endl; 
+    return EXIT_FAILURE;
     }
 
   std::cout<<" [PASSED]"<<std::endl; 
