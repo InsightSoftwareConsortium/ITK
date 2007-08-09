@@ -1,3 +1,4 @@
+IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 # Sources of non-templated classes.
 SET(ITKReview_SRCS
   itkTransformFileReaderWithFactory.cxx
@@ -29,6 +30,7 @@ ENDIF(ITK_LIBRARY_PROPERTIES)
 #
 #   End of optional ITKReview library setup
 #
+ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 
 # Build ITKQuadEdgeMesh library
