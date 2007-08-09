@@ -53,18 +53,18 @@ Evaluate( QEType* h, QEType* g )
     return( (QEType*) 0 );
     }
 
-  if( h->GetLeft( ) != g->GetLeft( ) )
-    {
-    itkDebugMacro( "The edges are not around the same face." );
-    return( (QEType*) 0 );
-    }
-
   if( h == g )
     {
     itkDebugMacro( "Provided edges should be different." );
     return( (QEType*) 0 );
     }
     
+  if( h->GetLeft( ) != g->GetLeft( ) )
+    {
+    itkDebugMacro( "The edges are not around the same face." );
+    return( (QEType*) 0 );
+    }
+
   if (  ( h->GetLnext( ) == g )
      || ( g->GetLnext( ) == h ) )
     {

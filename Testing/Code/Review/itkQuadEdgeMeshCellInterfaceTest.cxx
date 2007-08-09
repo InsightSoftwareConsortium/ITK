@@ -54,6 +54,7 @@ typedef CellType::CellAutoPointer       CellAutoPointer;
 template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 {
   CellAutoPointer cell(aCell,true);
+  const TCell * cell2 = aCell;
 
   std::cout << "-------- " << name << "("
             << aCell->GetNameOfClass() << ")" << std::endl;
@@ -61,7 +62,8 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   std::cout << "    Dimension: " << cell->GetDimension() << std::endl;
   std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
   std::cout << "    NumberOfBoundaryFeatures:" << std::endl;
-  for (unsigned int i = 0; i < cell->GetDimension(); i++)
+  // Note the <= is here to test the default case
+  for (unsigned int i = 0; i <= cell->GetDimension(); i++)
     {
     std::cout << "      " << i << ": " << cell->GetNumberOfBoundaryFeatures(i)
               << std::endl;
@@ -83,7 +85,6 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
   std::cout << std::endl;
 
   std::cout << "    ConstIterator test: PointIds for empty cell: ";
-  const TCell * cell2 = aCell;
   typename TCell::PointIdConstIterator cpointId = cell2->PointIdsBegin();
   typename TCell::PointIdConstIterator cendId = cell2->PointIdsEnd();
   while (cpointId != cendId)
@@ -102,6 +103,12 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
     }
 
   cell->SetPointIds(pointIds);
+  // exercing the const GetPointIds() method
+  // null for QE Cells
+  if(cell2->GetPointIds())
+    {
+    cell->SetPointIds(cell2->GetPointIds());
+    }
   if (cell->GetNumberOfPoints() > 0)
     {
     cell->SetPointId(0, 100);
@@ -187,14 +194,13 @@ template<class TCell> int TestQECellInterface(std::string name, TCell *aCell)
     pointIds[i] = i;
     }
 
+  // actually populate
   cell->SetPointIds(pointIds);
+  // exercing the non const internal equivalent.
   cell->InternalSetPointIds( cell->InternalGetPointIds( ) );
+  // exercing the const internal equivalent
   cell->InternalSetPointIds( cell2->InternalGetPointIds( ));
 
-  if (cell->GetNumberOfPoints() > 0)
-    {
-    cell->SetPointId(0, 100);
-    }
 
   std::cout << "    ConstIterator test: PointIds for populated cell: ";
   typename TCell::PointIdInternalConstIterator ppointId
@@ -309,9 +315,8 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  /*
-   * ITK QuadEdgeMesh CELLS - Standard cell API test
-   */
+  // ITK QuadEdgeMesh CELLS - Standard cell API test
+  
   typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
   status = TestCellInterface("QuadEdgePolygonCell with 0 vertices",
                              new QEPolygonCellType());
@@ -335,9 +340,8 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  /*
-   * ITK QuadEdgeMesh CELLS - Specific QEcell API test
-   */
+  // ITK QuadEdgeMesh CELLS - Specific QEcell API test
+  
   typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
   status = TestQECellInterface("QuadEdgePolygonCell with 0 vertices",
                              new QEPolygonCellType());
@@ -360,7 +364,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     {
     return EXIT_FAILURE;
     }
-
 
   return status;
 }

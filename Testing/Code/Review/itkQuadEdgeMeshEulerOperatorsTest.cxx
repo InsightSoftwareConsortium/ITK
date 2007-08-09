@@ -17,6 +17,7 @@
 #include <string>
 
 #include "itkQuadEdgeMesh.h"
+#include "itkQuadEdgeMeshLineCell.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
 
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
@@ -226,6 +227,15 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   (void)joinFacet->GetNameOfClass(); 
 
   joinFacet->SetInput( mesh );
+  
+  std::cout << "     " << "Test QE Input not internal";
+  if( joinFacet->Evaluate( new QEType ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
   std::cout << "     " << "Test No QE Input";
   if( joinFacet->Evaluate( (QEType*)0 ) )
     {
@@ -308,6 +318,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   (void)splitFacet->GetNameOfClass(); 
 
   splitFacet->SetInput( mesh );
+
   std::cout << "     " << "Test No QE Input";
   if( splitFacet->Evaluate( (QEType*)0, (QEType*)0 ) )
     {
@@ -316,6 +327,32 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     }
   std::cout << "OK" << std::endl;
 
+  std::cout << "     " << "Test two QE Input not sharing the same left";
+  if( splitFacet->Evaluate( mesh->FindEdge( 10, 16 ),
+                            mesh->FindEdge( 13, 19 ) ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
+  std::cout << "     " << "Test twice same non-null QE Input";
+  if( splitFacet->Evaluate( (QEType*)1, (QEType*)1 ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
+  std::cout << "     " << "Test two consecutive QE Input";
+  if( splitFacet->Evaluate( mesh->FindEdge( 10, 16 ),
+                            mesh->FindEdge( 10, 16 )->GetLnext( ) ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  
   if( !splitFacet->Evaluate( H, G ) )
     {
     std::cout << "FAILED." << std::endl;
@@ -412,6 +449,15 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   (void)flipEdge->GetNameOfClass(); 
 
   flipEdge->SetInput( mesh );
+  
+  std::cout << "     " << "Test QE Input not internal";
+  if( flipEdge->Evaluate( new QEType ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
   std::cout << "     " << "Test No QE Input";
   if( flipEdge->Evaluate( (QEType*)0 ) )
     {
@@ -529,6 +575,16 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   (void)joinVertex->GetNameOfClass(); 
 
   joinVertex->SetInput( mesh );
+  
+  std::cout << "     " << "Test QE Input and Sym isolated";
+  // SHould use a LineCell here to have Sym defined
+  // if( joinVertex->Evaluate( new QEType ) )
+  //   {
+  //   std::cout << "FAILED." << std::endl;
+  //   return 1;
+  //   }
+  // std::cout << "OK" << std::endl;
+
   std::cout << "     " << "Test No QE Input";
   if( joinVertex->Evaluate( (QEType*)0 ) )
     {
@@ -931,7 +987,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   PopulateMesh<MeshType>( mesh );
   
   std::cout << "     "; 
-  std::cout << "Join v of antenna (possible).";
+  std::cout << "Join v of antenna - version 1 (possible).";
   joinVertex->SetInput( mesh );
   mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 12 ) );
   mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
@@ -949,10 +1005,37 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 49, 26, 1, 0 ) )
     {
-    std::cout << "FAILED (for antenna )." << std::endl;
+    std::cout << "FAILED (for antenna - version 1)." << std::endl;
     return 1;
     }
   std::cout << "OK" << std::endl;
+
+  PopulateMesh<MeshType>( mesh );
+  
+  std::cout << "     "; 
+  std::cout << "Join v of antenna - version 2 (possible).";
+  joinVertex->SetInput( mesh );
+  mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 12 ) );
+  mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
+  mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 12 ) );
+  mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 13 ) );
+  mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 13 ) );
+  mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
+  mesh->AddFace( mesh->FindEdge( 7, 8 ) );
+  if( !joinVertex->Evaluate( mesh->FindEdge( 12, 17 )->GetSym( ) ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  mesh->DeletePoint( joinVertex->GetOldPointID( ) );
+  if( ! AssertTopologicalInvariants< MeshType >
+          ( mesh, 24, 49, 26, 1, 0 ) )
+    {
+    std::cout << "FAILED (for antenna - version 2)." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
   std::cout << "Checking JoinVertex." << "OK" << std::endl << std::endl;
   /////////////////////////////////////////
   //
@@ -1166,6 +1249,14 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   (void)createCenterVertex->GetNameOfClass(); 
 
   createCenterVertex->SetInput( mesh );
+  std::cout << "     " << "Test QE Input with no left face";
+  if( createCenterVertex->Evaluate( new QEType) ) 
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
   std::cout << "     " << "Test No QE Input";
   if( createCenterVertex->Evaluate( (QEType*)0 ) )
     {
