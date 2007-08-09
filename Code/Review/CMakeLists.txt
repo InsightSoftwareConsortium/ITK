@@ -1,15 +1,35 @@
 # Sources of non-templated classes.
 SET(ITKReview_SRCS
-)
+  itkTransformFileReaderWithFactory.cxx
+  itkTransformFileWriterWithFactory.cxx
+  itkMatlabTransformIO.cxx
+  itkMatlabTransformIOFactory.cxx
+  itkTransformIOBase.cxx
+  itkTransformIOFactory.cxx
+  itkTxtTransformIO.cxx
+  itkTxtTransformIOFactory.cxx
+  )
 
-
+#
+#   Begin of optional ITKReview library setup
 #
 # So far we do not have non-templated classes in this directory.
 # Whenever we add non-templated classes, then the following lines
 # should be moved out of the comments.
 #
-# ADD_LIBRARY(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
-# TARGET_LINK_LIBRARIES (ITKReview ITKCommon)
+# and ... when the non-templated classes are moved out of this
+# directory, these lines must be commented out again if the library
+# becomes empty.
+#
+ADD_LIBRARY(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
+TARGET_LINK_LIBRARIES (ITKReview ITKCommon)
+IF(ITK_LIBRARY_PROPERTIES)
+  SET_TARGET_PROPERTIES(ITKReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+ENDIF(ITK_LIBRARY_PROPERTIES)
+#
+#   End of optional ITKReview library setup
+#
+
 
 # Build ITKQuadEdgeMesh library
 
