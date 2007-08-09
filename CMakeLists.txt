@@ -190,6 +190,16 @@ IF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
   ENDIF(NOT ITK_USE_REVIEW)
 ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
 
+#-----------------------------------------------------------------------------
+# ITK turn on the use of experimental IO factories for the TransformFileReader and TransformFileWriter
+OPTION(ITK_USE_TRANSFORM_IO_FACTORIES "Turn on the experimental IO factories for reading and writing transforms." OFF)
+MARK_AS_ADVANCED(ITK_USE_TRANSFORM_IO_FACTORIES)
+IF(ITK_USE_TRANSFORM_IO_FACTORIES)
+  IF(NOT ITK_USE_REVIEW)
+    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental transform IO factories.")
+  ENDIF(NOT ITK_USE_REVIEW)
+ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
+
 
 #-----------------------------------------------------------------------------
 # Installation vars.
