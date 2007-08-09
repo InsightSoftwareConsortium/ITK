@@ -80,7 +80,7 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( )
     {
-      return( (OutputType) 0 );
+    return( (OutputType) 0 );
     }
 
 protected:
