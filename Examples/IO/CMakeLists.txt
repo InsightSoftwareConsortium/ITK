@@ -6,9 +6,6 @@ TARGET_LINK_LIBRARIES(ImageReadWrite  ITKIO)
 ADD_EXECUTABLE(ImageReadCastWrite ImageReadCastWrite.cxx )
 TARGET_LINK_LIBRARIES(ImageReadCastWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadExtractWrite  ITKIO)
-
 ADD_EXECUTABLE(ImageReadExtractFilterInsertWrite ImageReadExtractFilterInsertWrite.cxx )
 TARGET_LINK_LIBRARIES(ImageReadExtractFilterInsertWrite  ITKIO)
 
@@ -77,4 +74,9 @@ TARGET_LINK_LIBRARIES(DicomPrintPatientInformation  ITKIO)
 
 ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
 TARGET_LINK_LIBRARIES(TransformReadWrite  ITKIO)
+
+IF(NOT BORLAND)
+  ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
+  TARGET_LINK_LIBRARIES(ImageReadExtractWrite  ITKIO)
+ENDIF(NOT BORLAND)
 
