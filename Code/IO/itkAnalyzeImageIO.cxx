@@ -792,8 +792,8 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_Hdr);
   this->SwapHeaderBytesIfNecessary( &(this->m_Hdr) );
 #ifdef OMIT_THIS_CODE 
-//It is OK for this flag to be set because the zlib will 
-//support the Unix compress files
+  //It is OK for this flag to be set because the zlib will 
+  //support the Unix compress files
   if(this->m_Hdr.dime.compressed==1)
     {
     return false;
