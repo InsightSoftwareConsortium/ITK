@@ -150,12 +150,12 @@ LightObject
 ::UnRegister() const
 {
   m_ReferenceCountLock.Lock();
-  m_ReferenceCount--;
+  int tmpReferenceCount = --m_ReferenceCount;
   m_ReferenceCountLock.Unlock();
   
   // ReferenceCount in now unlocked.  We may have a race condition
   // to delete the object.
-  if ( m_ReferenceCount <= 0)
+  if ( tmpReferenceCount <= 0)
     {
     delete this;
     }

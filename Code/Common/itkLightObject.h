@@ -114,7 +114,7 @@ protected:
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
   
   /** Number of uses of this object by other objects. */
-  mutable int m_ReferenceCount;
+  volatile mutable int m_ReferenceCount;
 
   /** Mutex lock to protect modification to the reference count */
   mutable SimpleFastMutexLock m_ReferenceCountLock;
