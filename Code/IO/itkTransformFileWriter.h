@@ -23,7 +23,7 @@
 #include "itkConfigure.h"
 
 #ifdef ITK_USE_TRANSFORM_IO_FACTORIES
-#include "itkTransformFileReaderWithFactory.h"
+#include "itkTransformFileWriterWithFactory.h"
 #else
 
 
