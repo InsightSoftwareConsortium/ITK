@@ -40,7 +40,7 @@ int itkJoinSeriesImageFilterPrintTest(int, char* [])
     itk::JoinSeriesImageFilter<InputType,OutputType>::New();
   std::cout << "-------------JoinSeriesImageFilter" << JoinSeriesImageFilterObj;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

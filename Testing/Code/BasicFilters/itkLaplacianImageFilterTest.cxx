@@ -57,7 +57,7 @@ int itkLaplacianImageFilterTest(int , char * [] )
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
-      return 1;
+      return EXIT_FAILURE;
     } 
-  return 0;   
+  return EXIT_SUCCESS;   
 }

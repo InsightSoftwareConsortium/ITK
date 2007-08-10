@@ -105,5 +105,5 @@ int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
       std::cerr << e << std::endl;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 }

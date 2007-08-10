@@ -168,5 +168,5 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
     }
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }

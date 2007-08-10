@@ -111,7 +111,7 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
         return flag; }
     else {
         std::cout << "All tests successfully passed" << std::endl;
-        return 0; }
+        return EXIT_SUCCESS; }
 
 }
 

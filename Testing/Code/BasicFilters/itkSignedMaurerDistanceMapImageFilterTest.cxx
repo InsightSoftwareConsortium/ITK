@@ -59,5 +59,5 @@ int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 };

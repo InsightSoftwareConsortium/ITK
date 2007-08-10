@@ -114,5 +114,5 @@ int itkPasteImageFilterTest(int ac, char* av[] )
     writer->SetFileName( av[3] );
     writer->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }

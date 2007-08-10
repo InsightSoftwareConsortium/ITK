@@ -73,5 +73,5 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
     writer->SetFileName( av[2] );
     writer->Update();
 
-    return 0;
+    return EXIT_SUCCESS;
 }

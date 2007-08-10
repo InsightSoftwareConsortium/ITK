@@ -37,7 +37,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " outputImage" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const     unsigned int   Dimension = 2;

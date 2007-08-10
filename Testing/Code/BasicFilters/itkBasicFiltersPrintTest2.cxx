@@ -462,5 +462,5 @@ int itkBasicFiltersPrintTest2(int , char* [])
   std::cout << "-------------ZeroCrossingImageFilter" << ZeroCrossingImageFilterObj;
 #endif
 
-  return 0;
+  return EXIT_SUCCESS;
 }

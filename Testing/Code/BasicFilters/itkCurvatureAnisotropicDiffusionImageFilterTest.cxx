@@ -55,7 +55,7 @@ int itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *
   catch(itk::ExceptionObject &err)
     {
       (&err)->Print(std::cerr);
-      return 1;
+      return EXIT_FAILURE;
     } 
   return EXIT_SUCCESS;   
 }

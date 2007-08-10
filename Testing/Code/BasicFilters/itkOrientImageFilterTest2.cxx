@@ -467,5 +467,5 @@ int itkOrientImageFilterTest2(int,char *[])
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }

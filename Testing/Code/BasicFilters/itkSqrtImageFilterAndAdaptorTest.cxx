@@ -136,7 +136,7 @@ int itkSqrtImageFilterAndAdaptorTest(int, char* [] )
       std::cerr << " sqrt( " << input << ") = " << sqroot << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
     ++ot;
     ++it;
@@ -189,14 +189,14 @@ int itkSqrtImageFilterAndAdaptorTest(int, char* [] )
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
     ++dt;
   }
 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

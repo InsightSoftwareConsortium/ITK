@@ -336,7 +336,7 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   std::cout << "    Time = " << elapsedTime << std::endl;
 
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

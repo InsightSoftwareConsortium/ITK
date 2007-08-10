@@ -131,13 +131,13 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
       std::cerr << " potential( " << input << ") = " << pot << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
     ++ot;
     ++it;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

@@ -109,7 +109,7 @@ int itkImageToMeshFilterTest(int , char *[] )
     {
     std::cerr << "Exception thrown during the excecution of the generator " << std::endl;
     std::cerr << exp << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   

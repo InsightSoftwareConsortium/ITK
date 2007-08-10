@@ -323,7 +323,7 @@ int itkImageAdaptorNthElementTest(int, char* [] )
 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

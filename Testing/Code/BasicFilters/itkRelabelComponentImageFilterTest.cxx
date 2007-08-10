@@ -38,7 +38,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage threshold_low threshold_hi" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef   unsigned short  InternalPixelType;
@@ -225,5 +225,5 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Exception caught while printing statistics" << std::endl;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 }

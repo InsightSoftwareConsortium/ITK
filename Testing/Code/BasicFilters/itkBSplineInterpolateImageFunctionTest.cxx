@@ -600,10 +600,10 @@ itkBSplineInterpolateImageFunctionTest(
   if (flag != 0) {
     std::cout << "*** " << flag << " tests failed" << std::endl;
   
-    return 1; }
+    return EXIT_FAILURE; }
   else {
     std::cout << "All tests successfully passed" << std::endl;
-    return 0; }
+    return EXIT_SUCCESS; }
 
 }
 

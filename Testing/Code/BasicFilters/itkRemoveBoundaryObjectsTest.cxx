@@ -36,7 +36,7 @@ int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile  " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -110,7 +110,7 @@ int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
   std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << fillhole->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
   
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

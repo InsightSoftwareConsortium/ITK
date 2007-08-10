@@ -257,7 +257,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     ++ito;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

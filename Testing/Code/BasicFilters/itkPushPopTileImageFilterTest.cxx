@@ -39,7 +39,7 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  input1 input2 input3 input4 output" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   itk::FixedArray<unsigned int,2> layout;

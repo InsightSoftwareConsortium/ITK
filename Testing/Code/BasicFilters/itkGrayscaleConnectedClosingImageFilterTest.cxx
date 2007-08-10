@@ -36,7 +36,7 @@ int itkGrayscaleConnectedClosingImageFilterTest( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile seedX seedY " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -94,7 +94,7 @@ int itkGrayscaleConnectedClosingImageFilterTest( int argc, char * argv[] )
   std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << connectedClosing->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
   
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

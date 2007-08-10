@@ -35,7 +35,7 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected] [minimum_object_size]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef   unsigned short  InternalPixelType;
@@ -208,5 +208,5 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << excep << std::endl;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

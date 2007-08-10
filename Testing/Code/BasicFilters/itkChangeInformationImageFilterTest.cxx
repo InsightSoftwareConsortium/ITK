@@ -286,6 +286,6 @@ int itkChangeInformationImageFilterTest(int, char* [] )
     std::cerr << "Exception detected: "  << e;
     return -1;
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
 

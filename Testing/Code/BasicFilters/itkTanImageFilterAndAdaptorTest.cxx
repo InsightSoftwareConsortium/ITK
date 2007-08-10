@@ -136,7 +136,7 @@ int itkTanImageFilterAndAdaptorTest(int, char* [] )
       std::cerr << " tan( " << input << ") = " << tangent << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
     ++ot;
     ++it;
@@ -187,7 +187,7 @@ int itkTanImageFilterAndAdaptorTest(int, char* [] )
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
     ++dt;
   }
@@ -195,7 +195,7 @@ int itkTanImageFilterAndAdaptorTest(int, char* [] )
 
 
   
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

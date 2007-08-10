@@ -300,5 +300,5 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
   
   std::cout << "Passed !" << std::endl << std::flush;
   
-  return 0;
+  return EXIT_SUCCESS;
 }

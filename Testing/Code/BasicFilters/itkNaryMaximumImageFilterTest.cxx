@@ -194,7 +194,7 @@ int itkNaryMaximumImageFilterTest(int, char* [] )
   
   std::cerr << "Test Passed!" << std::endl;
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

@@ -117,5 +117,5 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->AddSeed( seed );
 
 
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -35,7 +35,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage  outputImage distance_threshold [fully_connected] [minimum_object_size]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef   unsigned short  InternalPixelType;
@@ -197,5 +197,5 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << excep << std::endl;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

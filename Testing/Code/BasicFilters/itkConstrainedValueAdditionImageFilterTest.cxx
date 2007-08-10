@@ -146,7 +146,7 @@ int itkConstrainedValueAdditionImageFilterTest(int, char* [] )
 
 
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

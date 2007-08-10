@@ -405,5 +405,5 @@ int itkBasicFiltersPrintTest(int , char* [])
   std::cout << "-------------HausdorffDistanceImageFilter" << HausdorffDistanceImageFilterObj;
 
 #endif
-  return 0;
+  return EXIT_SUCCESS;
 }

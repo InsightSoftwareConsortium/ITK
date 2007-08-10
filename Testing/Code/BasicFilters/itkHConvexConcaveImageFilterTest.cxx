@@ -37,7 +37,7 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile  height" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -117,7 +117,7 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   std::cout << "<DartMeasurement name=\"HConcaveNumberOfIterations\" type=\"numeric/integer\">" << hconcave->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
   
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

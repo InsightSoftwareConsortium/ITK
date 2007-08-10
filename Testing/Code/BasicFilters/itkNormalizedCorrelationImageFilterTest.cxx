@@ -111,5 +111,5 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
     return -2;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -76,5 +76,5 @@ int itkNormalizeImageFilterTest(int, char* [] )
   std::cout << "Mean is: " << statistics->GetMean() << " Sigma is: " << statistics->GetSigma() << std::endl;
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }

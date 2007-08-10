@@ -100,5 +100,5 @@ int itkShiftScaleImageFilterTest(int, char* [] )
     return -1;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 }

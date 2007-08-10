@@ -186,7 +186,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
     writer->Update();
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

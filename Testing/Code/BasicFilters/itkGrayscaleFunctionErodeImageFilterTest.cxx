@@ -186,7 +186,7 @@ int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] )
 
   // All objects should be automatically destroyed at this point
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

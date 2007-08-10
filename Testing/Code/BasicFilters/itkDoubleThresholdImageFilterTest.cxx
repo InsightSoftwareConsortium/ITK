@@ -36,7 +36,7 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
     std::cerr << " outputImageFile threshold1 threshold2 threshold3 threshold4 " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
 
@@ -101,7 +101,7 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
   std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << threshold->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
   
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

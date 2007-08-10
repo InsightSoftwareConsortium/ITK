@@ -128,5 +128,5 @@ int itkHardConnectedComponentImageFilterTest(int, char* [] )
 
   std::cout<<std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
