@@ -61,7 +61,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_CastingFilter = CastingFilterType::New();
   m_CastingFilter->SetInput(m_SmoothingFilters[ImageDimension-2]->GetOutput());
   
-  this->m_Sigma = 1.0;
+  this->m_Sigma = 0.0;
   this->SetSigma( 1.0 );
 }
 
