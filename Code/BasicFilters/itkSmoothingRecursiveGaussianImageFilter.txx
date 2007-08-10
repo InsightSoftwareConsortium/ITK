@@ -74,14 +74,17 @@ void
 SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetSigma( ScalarRealType sigma )
 {
-
-  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+  if (sigma != this->m_Sigma)
     {
-    m_SmoothingFilters[ i ]->SetSigma( sigma );
+    this->m_Sigma = sigma;
+    for( unsigned int i = 0; i<ImageDimension-1; i++ )
+      {
+      m_SmoothingFilters[ i ]->SetSigma( sigma );
+      }
+    m_FirstSmoothingFilter->SetSigma( sigma );
+    
+    this->Modified();
     }
-  m_FirstSmoothingFilter->SetSigma( sigma );
-
-  this->Modified();
 
 }
 

@@ -108,6 +108,7 @@ public:
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma( ScalarRealType sigma );
+  itkGetMacro(Sigma, ScalarRealType);
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
@@ -149,6 +150,8 @@ private:
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
 
+  /** Keep a local copy of sigma so that users can GetSigma */
+  ScalarRealType                        m_Sigma;
 };
 
 } // end namespace itk
