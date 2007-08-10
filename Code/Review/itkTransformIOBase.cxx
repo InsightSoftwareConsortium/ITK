@@ -89,6 +89,11 @@ TransformIOBase
   out.open(m_FileName.c_str(), mode);
 }
 
+void TransformIOBase::SetTransformList(ConstTransformListType &transformList)
+{ 
+  this->m_WriteTransformList = transformList;
+}
+
 void TransformIOBase::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

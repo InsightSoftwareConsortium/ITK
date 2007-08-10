@@ -36,75 +36,66 @@ namespace itk
  * the Reader/Writer to pick a concrete derived class to do the actual
  * reading/writing of transforms.
  */
- class ITK_EXPORT TransformIOBase : public LightProcessObject
- {
- public:
-   /** Standard class typedefs */
-   typedef TransformIOBase    Self;
-   typedef LightProcessObject Superclass;
-   typedef SmartPointer<Self> Pointer;
-   /** Run-time type information (and related methods). */
-   itkTypeMacro(TransformIOBase, Superclass);
+class ITK_EXPORT TransformIOBase : public LightProcessObject
+{
+public:
+  /** Standard class typedefs */
+  typedef TransformIOBase    Self;
+  typedef LightProcessObject Superclass;
+  typedef SmartPointer<Self> Pointer;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(TransformIOBase, Superclass);
 
-   /** Transform types */
-   typedef TransformBase      TransformType;
-   /** For writing, a const transform list gets passed in, for
-    * reading, a non-const transform list is created from the file.
-    */
-   typedef TransformType::Pointer           TransformPointer;
-   typedef std::list<TransformPointer>      TransformListType;
-   typedef TransformType::ConstPointer      ConstTransformPointer;
-   typedef std::list<ConstTransformPointer> ConstTransformListType;
+  /** Transform types */
+  typedef TransformBase      TransformType;
+  /** For writing, a const transform list gets passed in, for
+   * reading, a non-const transform list is created from the file.
+   */
+  typedef TransformType::Pointer           TransformPointer;
+  typedef std::list<TransformPointer>      TransformListType;
+  typedef TransformType::ConstPointer      ConstTransformPointer;
+  typedef std::list<ConstTransformPointer> ConstTransformListType;
 
-   /** Set/Get the name of the file to be read. */
-   itkSetStringMacro(FileName);
-   itkGetStringMacro(FileName);
+  /** Set/Get the name of the file to be read. */
+  itkSetStringMacro(FileName);
+  itkGetStringMacro(FileName);
 
-   /** Reads the data from disk into the memory buffer provided. */
-   virtual void Read() = 0;
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read() = 0;
 
-   /** Writes the transform list to disk. */
-   virtual void Write() = 0;
+  /** Writes the transform list to disk. */
+  virtual void Write() = 0;
 
-   /** Determine the file type. Returns true if this TransformIO can read the
-    * file specified. */
-   virtual bool CanReadFile(const char*) = 0;
-   /** Determine the file type. Returns true if this TransformIO can read the
-    * file specified. */
-   virtual bool CanWriteFile(const char*)  = 0;
+  /** Determine the file type. Returns true if this TransformIO can read the
+   * file specified. */
+  virtual bool CanReadFile(const char*) = 0;
+  /** Determine the file type. Returns true if this TransformIO can read the
+   * file specified. */
+  virtual bool CanWriteFile(const char*)  = 0;
 
-   /** Get the list of transforms resulting from a file read */
-   TransformListType &GetTransformList() { return m_ReadTransformList; }
-   /** Set the list of transforms before writing */
-   void SetTransformList(ConstTransformListType &transformList) 
-   { 
-     this->m_WriteTransformList = transformList;
-   }
-   /** Set the writer to append to the specified file */
-   void SetAppendOn() { this->m_AppendMode = true; }
+  /** Get the list of transforms resulting from a file read */
+  TransformListType &GetTransformList() { return m_ReadTransformList; }
 
-   /** Set the writer to overwrite the specified file - This is the
-    * default mode. */
-   void SetAppendOff( ) { this->m_AppendMode = false; }
+  /** Set the list of transforms before writing */
+  void SetTransformList(ConstTransformListType &transformList);
 
-   /** Set the writer mode (append/overwrite). */
-   void SetAppendMode( bool mode) { this->m_AppendMode = mode; }
-
-   /** Get the writer mode. */
-   bool GetAppendMode( ) { return ( this->m_AppendMode ); }
+  /** Set the writer to append to the specified file */
+  itkSetMacro( AppendMode, bool );
+  itkGetMacro( AppendMode, bool );
+  itkBooleanMacro( AppendMode );
 
 protected:
-   TransformIOBase();
-   virtual ~TransformIOBase();
-   void PrintSelf(std::ostream& os, Indent indent) const;
+  TransformIOBase();
+  virtual ~TransformIOBase();
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
-   void OpenStream(std::ofstream &out, bool binary);
-   void CreateTransform(TransformPointer &ptr, const std::string &ClassName);
+  void OpenStream(std::ofstream &out, bool binary);
+  void CreateTransform(TransformPointer &ptr, const std::string &ClassName);
 
-   std::string            m_FileName;
-   TransformListType      m_ReadTransformList;
-   ConstTransformListType m_WriteTransformList;
-   bool m_AppendMode;
+  std::string             m_FileName;
+  TransformListType       m_ReadTransformList;
+  ConstTransformListType  m_WriteTransformList;
+  bool                    m_AppendMode;
 };
 } // end namespace itk
 #endif // __itkTransformIOBase
