@@ -22,7 +22,7 @@ namespace itk
 {
 class ITK_EXPORT MatlabTransformIO : public TransformIOBase
 {
- public:
+public:
   typedef MatlabTransformIO              Self;
   typedef TransformIOBase                Superclass;
   typedef SmartPointer<Self>             Pointer;
@@ -46,7 +46,7 @@ class ITK_EXPORT MatlabTransformIO : public TransformIOBase
    * pointer to the beginning of the image data. */
   virtual void Write();
 
- protected:
+protected:
   MatlabTransformIO();
   virtual ~MatlabTransformIO();
 };
