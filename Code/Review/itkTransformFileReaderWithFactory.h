@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTransformFileReader_h
-#define __itkTransformFileReader_h
+#ifndef __itkTransformFileReaderWithFactory_h
+#define __itkTransformFileReaderWithFactory_h
 
 #include "itkLightProcessObject.h"
 #include "metaTransform.h"

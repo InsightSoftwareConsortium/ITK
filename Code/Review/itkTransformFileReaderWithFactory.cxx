@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkTransformFileReader.h"
+#include "itkTransformFileReaderWithFactory.h"
 #include "itkTransformIOBase.h"
 #include "itkTransformFactoryBase.h"
 #include "itkTransformIOFactory.h"

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTransformFileWriter_h
-#define __itkTransformFileWriter_h
+#ifndef __itkTransformFileWriterWithFactory_h
+#define __itkTransformFileWriterWithFactory_h
 
 #include "itkLightProcessObject.h"
 #include "metaTransform.h"
@@ -76,16 +76,16 @@ protected:
   TransformFileWriter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
    
-  std::string m_FileName;
-
   TransformFileWriter();
   virtual ~TransformFileWriter();
 
 private:
   void OpenStream(std::ofstream &out, bool binary);
-  ConstTransformListType m_TransformList;
-  unsigned int                     m_Precision;
-  bool                             m_AppendMode;
+
+  std::string                m_FileName;
+  ConstTransformListType     m_TransformList;
+  unsigned int               m_Precision;
+  bool                       m_AppendMode;
 };
 
 } // namespace itk
