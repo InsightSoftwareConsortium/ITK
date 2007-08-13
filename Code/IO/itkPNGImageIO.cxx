@@ -422,15 +422,6 @@ void PNGImageIO::WriteImageInformation(void)
 
 void PNGImageIO::Write(const void* buffer)
 {
-  ImageIORegion ioRegion = this->GetIORegion();
-
-  // Make sure the region to be written is 2D
-  const unsigned int ImageDimension = ioRegion.GetRegionDimension();
-  if ( ImageDimension != 2 )
-    {
-    itkExceptionMacro(<<"PNG Writer can only write 2-dimensional images. You are requesting to write an image of dimension = " << ImageDimension << " with filename " << m_FileName);
-    }
-  
   this->WriteSlice(m_FileName, buffer);
 }
 
@@ -518,9 +509,21 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     }
   
   png_uint_32 width, height;
+  double rowSpacing, colSpacing;
   width = this->GetDimensions(0);
-  height = this->GetDimensions(1);
+  colSpacing = m_Spacing[0];
 
+  if( m_NumberOfDimensions > 1 )
+    {
+    height = this->GetDimensions(1);
+    rowSpacing = m_Spacing[1];
+    }
+  else
+    {
+    height = 1;
+    rowSpacing = 1;
+    }
+  
   png_set_IHDR(png_ptr, info_ptr, width, height,
                bitDepth, colorType, PNG_INTERLACE_NONE,
                PNG_COMPRESSION_TYPE_DEFAULT, 
@@ -538,8 +541,10 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
   //      set the unit_type to unknown.  if we add units to ITK, we should
   //          convert pixel size to meters and store units as meters (png
   //          has three set of units: meters, radians, and unknown).
-  png_set_sCAL(png_ptr, info_ptr, PNG_SCALE_UNKNOWN, m_Spacing[0],
-               m_Spacing[1]);
+  png_set_sCAL(png_ptr, info_ptr, PNG_SCALE_UNKNOWN, colSpacing,
+               rowSpacing);
+
+  //std::cout << "PNG_INFO_sBIT: " << PNG_INFO_sBIT << std::endl;
 
   png_write_info(png_ptr, info_ptr);
   // default is big endian
