@@ -58,7 +58,7 @@ public:
    * file specified. */
   virtual bool CanReadFile(const char*);
   
-  /** Set the spacing and diemention information for the set filename. */
+  /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
   
   /** Reads the data from disk into the memory buffer provided. */
@@ -69,7 +69,7 @@ public:
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
-  /** Determine the file type. Returns true if this ImageIO can read the
+  /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
   virtual bool CanWriteFile(const char*);
 
