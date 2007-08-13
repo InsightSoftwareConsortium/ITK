@@ -150,7 +150,7 @@ private:
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
 
-  /** Keep a local copy of sigma so that users can GetSigma */
+  /** Standard deviation of the gaussian used for smoothing */
   ScalarRealType                        m_Sigma;
 };
 

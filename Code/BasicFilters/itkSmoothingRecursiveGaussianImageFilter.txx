@@ -60,7 +60,12 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   
   m_CastingFilter = CastingFilterType::New();
   m_CastingFilter->SetInput(m_SmoothingFilters[ImageDimension-2]->GetOutput());
-  
+
+  //
+  // NB: We must call SetSigma in order to initialize the smoothing
+  // filters with the default scale.  However, m_Sigma must first be
+  // initialized (it is used inside SetSigma) and it must be different
+  // from 1.0 or the call will be ignored.
   this->m_Sigma = 0.0;
   this->SetSigma( 1.0 );
 }
