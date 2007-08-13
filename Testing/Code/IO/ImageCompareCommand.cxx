@@ -29,7 +29,11 @@
 #include <fstream>
 
 
+#ifdef __BORLANDC__
+#define ITK_TEST_DIMENSION_MAX 5
+#else
 #define ITK_TEST_DIMENSION_MAX 6
+#endif
 
 int RegressionTestImage (const char *, const char *, int, bool,double,int,int);
 
