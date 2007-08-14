@@ -43,7 +43,7 @@ RegularStepGradientDescentBaseOptimizer
   m_Maximize = false;
   m_CostFunction = 0;
   m_CurrentStepLength   =   0;
-  m_StopCondition = MaximumNumberOfIterations;
+  m_StopCondition = Unknown;
   m_Gradient.Fill( 0.0f );
   m_PreviousGradient.Fill( 0.0f );
   m_RelaxationFactor = 0.5;
@@ -62,6 +62,8 @@ RegularStepGradientDescentBaseOptimizer
 
   m_CurrentStepLength         = m_MaximumStepLength;
   m_CurrentIteration          = 0;
+
+  m_StopCondition = Unknown;
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
@@ -92,12 +94,14 @@ RegularStepGradientDescentBaseOptimizer
   while( !m_Stop ) 
     {
 
-    m_PreviousGradient = m_Gradient;
-
-    if( m_Stop )
+    if( m_CurrentIteration >= m_NumberOfIterations )
       {
+      m_StopCondition = MaximumNumberOfIterations;
+      this->StopOptimization();
       break;
       }
+
+    m_PreviousGradient = m_Gradient;
 
     try
       {
@@ -120,15 +124,7 @@ RegularStepGradientDescentBaseOptimizer
 
     m_CurrentIteration++;
 
-    if( m_CurrentIteration == m_NumberOfIterations )
-      {
-      m_StopCondition = MaximumNumberOfIterations;
-      this->StopOptimization();
-      break;
-      }
-    
     }
-    
 
 }
 

@@ -51,7 +51,8 @@ public:
     StepTooSmall = 2,
     ImageNotAvailable = 3,
     CostFunctionError = 4,
-    MaximumNumberOfIterations = 5
+    MaximumNumberOfIterations = 5,
+    Unknown = 6
   } StopConditionType;
 
   /** Specify whether to minimize or maximize the cost function. */
