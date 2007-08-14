@@ -207,6 +207,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf(os,indent);
 
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
+  os << "Sigma: " << m_Sigma << std::endl;
 }
 
 
