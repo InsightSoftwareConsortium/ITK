@@ -235,6 +235,32 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
 
   }
 
+  //
+  // Verify that the optimizer doesn't run if the 
+  // number of iterations is set to zero.
+  //
+  {
+  itkOptimizer->SetNumberOfIterations( 0 );
+  itkOptimizer->SetInitialPosition( initialPosition );
+
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( itkOptimizer->GetCurrentIteration() > 0 )
+    {
+    std::cerr << "The optimizer is running iterations despite of ";
+    std::cerr << "having a maximum number of iterations set to zero" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
