@@ -5,11 +5,8 @@ INCLUDE_DIRECTORIES(BEFORE ${ITKZLIB_SOURCE_DIR})
 
 # source files for zlib
 SET(ZLIB_SRCS
-  adler32.c   gzio.c      inftrees.c  uncompr.c
-  compress.c  infblock.c  infutil.c   zutil.c
-  crc32.c     infcodes.c
-  deflate.c   inffast.c
-  inflate.c   trees.c
+  adler32.c  compress.c  crc32.c  deflate.c  gzio.c   inffast.c
+  inflate.c  inftrees.c  trees.c  uncompr.c  zutil.c
   )
 
 # for windows add the .def and .rc files to the source list
@@ -26,10 +23,6 @@ IF(WIN32)
     ENDIF(NOT UNIX)
   ENDIF(BUILD_SHARED_LIBS)
 ENDIF(WIN32)
-
-IF (BORLAND)
-  SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8057")
-ENDIF (BORLAND)
 
 CONFIGURE_FILE(${ITKZLIB_SOURCE_DIR}/.NoDartCoverage
                ${ITKZLIB_BINARY_DIR}/.NoDartCoverage)
