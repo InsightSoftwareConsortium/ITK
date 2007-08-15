@@ -79,4 +79,6 @@ nm libitkzlib.so |grep " [TRD] " | grep -v " [TRD] _" | awk '{ print "#define "$
 #define zcfree itk_zlib_zcfree
 #define zlibCompileFlags itk_zlib_zlibCompileFlags
 #define zlibVersion itk_zlib_zlibVersion
+#define _dist_code  itk_zlib__dist_code
+#define _length_code  itk_zlib__length_code
 #endif
