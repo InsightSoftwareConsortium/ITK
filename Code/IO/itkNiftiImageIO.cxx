@@ -1048,16 +1048,16 @@ namespace
   void Normalize(std::vector<double> &x)
   {
     double sum = 0;
-    for(int i = 0; i < x.size(); i++)
+    for(unsigned int i = 0; i < x.size(); i++)
       {
       sum += (x[i] * x[i]);
       }
-    if(sum == 0)
+    if(sum == 0.0)
       {
       return;
       }
     sum = sqrt(sum);
-    for(int i = 0; i < x.size(); i++)
+    for(unsigned int i = 0; i < x.size(); i++)
       {
       x[i] = x[i] / sum;
       }
