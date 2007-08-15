@@ -28,6 +28,7 @@ nm libitkzlib.so |grep " [TRD] " | awk '{ print "#define "$3" itk_zlib_"$3 }'
 #define crc32_combine itk_zlib_crc32_combine
 #define get_crc_table itk_zlib_get_crc_table
 #define deflate itk_zlib_deflate
+#define deflate_copyright itk_zlib_deflate_copyright
 #define deflateBound itk_zlib_deflateBound
 #define deflateCopy itk_zlib_deflateCopy
 #define deflateEnd itk_zlib_deflateEnd
@@ -59,6 +60,7 @@ nm libitkzlib.so |grep " [TRD] " | awk '{ print "#define "$3" itk_zlib_"$3 }'
 #define gztell itk_zlib_gztell
 #define gzungetc itk_zlib_gzungetc
 #define gzwrite itk_zlib_gzwrite
+#define inflate_copyright itk_zlib_inflate_copyright
 #define inflate_fast itk_zlib_inflate_fast
 #define inflate itk_zlib_inflate
 #define inflateCopy itk_zlib_inflateCopy
@@ -83,5 +85,6 @@ nm libitkzlib.so |grep " [TRD] " | awk '{ print "#define "$3" itk_zlib_"$3 }'
 #define zcfree itk_zlib_zcfree
 #define zlibCompileFlags itk_zlib_zlibCompileFlags
 #define zlibVersion itk_zlib_zlibVersion
+#define z_errmsg itk_zlib_z_errmsg
 
 #endif
