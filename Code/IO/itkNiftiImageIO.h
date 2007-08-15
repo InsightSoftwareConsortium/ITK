@@ -102,7 +102,8 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
   void  DefineHeaderObjectDataType();
-
+  void  SetNIfTIOrientationFromImageIO(int origdims, int dims);
+  void  SetImageIOOrientationFromNIfTI(int dims);
   /**
    * \enum ValidAnalyzeOrientationFlags
    * Valid Orientation values for objects
