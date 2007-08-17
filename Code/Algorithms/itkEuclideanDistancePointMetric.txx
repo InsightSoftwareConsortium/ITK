@@ -82,7 +82,7 @@ EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
 
   this->SetTransformParameters( parameters );
 
-  unsigned int id = 0;
+  unsigned int identifier = 0;
   while( pointItr != pointEnd )
     {
     typename Superclass::InputPointType  inputPoint;
@@ -135,10 +135,10 @@ EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>
         }
       }
 
-    measure.put(id,minimumDistance);
+    measure.put(identifier,minimumDistance);
 
     ++pointItr;
-    id++;
+    identifier++;
     }
 
   return measure;

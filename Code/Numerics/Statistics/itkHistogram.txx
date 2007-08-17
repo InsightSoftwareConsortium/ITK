@@ -265,15 +265,15 @@ inline typename Histogram<TMeasurement, VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetInstanceIdentifier(const IndexType &index) const
 {
-  InstanceIdentifier id = 0 ;
+  InstanceIdentifier identifier = 0 ;
   for (int i= MeasurementVectorSize - 1 ; i > 0 ; i-- )
     {
-    id += index[i] * m_OffsetTable[i];
+    identifier += index[i] * m_OffsetTable[i];
     }
   
-  id += index[0] ;
+  identifier += index[0] ;
   
-  return id ;
+  return identifier ;
 }
 
 
@@ -416,9 +416,9 @@ template< class TMeasurement, unsigned int VMeasurementVectorSize,
 inline const typename Histogram< TMeasurement, VMeasurementVectorSize, 
                            TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetMeasurementVector(const InstanceIdentifier &id) const
+::GetMeasurementVector(const InstanceIdentifier &identifier) const
 {
-  return this->GetMeasurementVector( this->GetIndex(id) ) ;
+  return this->GetMeasurementVector( this->GetIndex(identifier) ) ;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 

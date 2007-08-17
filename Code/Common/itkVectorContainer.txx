@@ -131,10 +131,10 @@ VectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 VectorContainer< TElementIdentifier , TElement >
-::IndexExists(ElementIdentifier id) const
+::IndexExists(ElementIdentifier identifier) const
 {
-  return (NumericTraits<ElementIdentifier>::IsNonnegative(id)
-          && (id < this->VectorType::size()));
+  return (NumericTraits<ElementIdentifier>::IsNonnegative(identifier)
+          && (identifier < this->VectorType::size()));
 }
 
 
@@ -147,14 +147,14 @@ VectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 bool
 VectorContainer< TElementIdentifier , TElement >
-::GetElementIfIndexExists(ElementIdentifier id, Element* element) const
+::GetElementIfIndexExists(ElementIdentifier identifier, Element* element) const
 {
-  if (NumericTraits<ElementIdentifier>::IsNonnegative(id)
-      && (id < this->VectorType::size()))
+  if (NumericTraits<ElementIdentifier>::IsNonnegative(identifier)
+      && (identifier < this->VectorType::size()))
     {
     if(element)
       {
-      *element = this->VectorType::operator[](id);
+      *element = this->VectorType::operator[](identifier);
       }
     return true;
     }
