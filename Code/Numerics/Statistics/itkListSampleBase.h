@@ -86,10 +86,10 @@ public:
     squaredRadius = radius * radius ;
     
     result.clear() ;
-    for ( InstanceIdentifier id = 0 ; id < this->Size() ; ++id )
+    for ( InstanceIdentifier identifier = 0 ; identifier < this->Size() ; ++identifier )
       {
       distance = 0.0 ;
-      tempVector = this->GetMeasurementVector( id ) ;
+      tempVector = this->GetMeasurementVector( identifier ) ;
       for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
         {
         coordinateDistance = (double)tempVector[j] - center[j] ;
@@ -107,7 +107,7 @@ public:
       
       if (distance < squaredRadius)
         {
-        result.push_back( id ) ;
+        result.push_back( identifier ) ;
         }
       }
   }

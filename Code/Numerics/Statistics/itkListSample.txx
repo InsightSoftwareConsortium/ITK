@@ -32,11 +32,11 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 const typename ListSample< TMeasurementVector >::MeasurementVectorType &
 ListSample< TMeasurementVector >
-::GetMeasurementVector(const InstanceIdentifier &id) const 
+::GetMeasurementVector(const InstanceIdentifier &identifier) const 
 {
-  if ( id < m_InternalContainer.size() )
+  if ( identifier < m_InternalContainer.size() )
     {
-    return m_InternalContainer[id] ;
+    return m_InternalContainer[identifier] ;
     }
   throw ExceptionObject(__FILE__,__LINE__);  
 }
@@ -44,34 +44,34 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 void 
 ListSample< TMeasurementVector >
-::SetMeasurement(const InstanceIdentifier &id, 
+::SetMeasurement(const InstanceIdentifier &identifier, 
                  const unsigned int &dim,
                  const MeasurementType &value)
 {
-  if ( id < m_InternalContainer.size() )
+  if ( identifier < m_InternalContainer.size() )
     {
-    m_InternalContainer[id][dim] = value ;
+    m_InternalContainer[identifier][dim] = value ;
     }
 }
 
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::SetMeasurementVector(const InstanceIdentifier &id, 
+::SetMeasurementVector(const InstanceIdentifier &identifier, 
                        const MeasurementVectorType &mv)
 {
-  if ( id < m_InternalContainer.size() )
+  if ( identifier < m_InternalContainer.size() )
     {
-    m_InternalContainer[id] = mv ;
+    m_InternalContainer[identifier] = mv ;
     }
 }
 
 template< class TMeasurementVector >
 typename ListSample< TMeasurementVector >::FrequencyType 
 ListSample< TMeasurementVector >
-::GetFrequency(const InstanceIdentifier &id) const
+::GetFrequency(const InstanceIdentifier &identifier) const
 {
-  if ( id < m_InternalContainer.size() )
+  if ( identifier < m_InternalContainer.size() )
     {
     return 1.0 ;
     }
