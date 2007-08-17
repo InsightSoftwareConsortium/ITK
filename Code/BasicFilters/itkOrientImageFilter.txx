@@ -508,9 +508,9 @@ OrientImageFilter<TInputImage, TOutputImage>
   typename FlipFilterType::Pointer flip = FlipFilterType::New();
   typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
 
-  progress->RegisterInternalFilter(permute,.3333333);
-  progress->RegisterInternalFilter(flip,.3333333);
-  progress->RegisterInternalFilter(cast,.3333333);
+  progress->RegisterInternalFilter(permute,.3333333f);
+  progress->RegisterInternalFilter(flip,.3333333f);
+  progress->RegisterInternalFilter(cast,.3333333f);
 
   InputImagePointer permuteInput = const_cast< TInputImage *> (this->GetInput());
   InputImagePointer flipInput = permuteInput;

@@ -97,7 +97,7 @@ public:
   /** Set the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution. */
-  itkSetClampMacro(Progress,float,0.0,1.0);
+  itkSetClampMacro(Progress,float,0.0f,1.0f);
 
   /** Get the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning

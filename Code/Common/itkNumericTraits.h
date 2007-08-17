@@ -446,7 +446,7 @@ public:
   static const TheType ITKCommon_EXPORT One;
 
   static TheType NonpositiveMin() { 
-    return TheType(-NumericTraits<float>::NonpositiveMin(),0.0); }
+    return TheType(-NumericTraits<float>::NonpositiveMin(),0.0f); }
   static bool IsPositive(TheType val) { return val.real() > 0.0; }
   static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
   static bool IsNegative(TheType val) { return val.real() < 0.0; }

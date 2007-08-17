@@ -74,8 +74,8 @@ void ImageSeriesReader<TOutputImage>
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typedef ImageFileReader<TOutputImage> ReaderType;
-  Array<float> position1(TOutputImage::ImageDimension); position1.Fill(0.0);
-  Array<float> position2(TOutputImage::ImageDimension); position2.Fill(0.0);
+  Array<float> position1(TOutputImage::ImageDimension); position1.Fill(0.0f);
+  Array<float> position2(TOutputImage::ImageDimension); position2.Fill(0.0f);
 
   float interSliceSpacing;
   unsigned int i;
@@ -99,7 +99,7 @@ void ImageSeriesReader<TOutputImage>
       // Initialize the position to the origin returned by the reader
       for (i = 0; i < TOutputImage::ImageDimension; i++)
         {
-        position2[i] = reader2->GetOutput()->GetOrigin()[i];
+        position2[i] = static_cast<float>(reader2->GetOutput()->GetOrigin()[i]);
         }
       // Override the position if there is an ITK_ImageOrigin 
       ExposeMetaData<Array<float> > ( reader2->GetImageIO()->GetMetaDataDictionary(), key, position2);
@@ -115,23 +115,23 @@ void ImageSeriesReader<TOutputImage>
       // Initialize the position to the origin returned by the reader
       for (i = 0; i < TOutputImage::ImageDimension; i++)
         {
-        position1[i] = reader1->GetOutput()->GetOrigin()[i];
+        position1[i] = static_cast<float>(reader1->GetOutput()->GetOrigin()[i]);
         }
       // Override the position if there is an ITK_ImageOrigin 
       ExposeMetaData<Array<float> > ( reader1->GetImageIO()->GetMetaDataDictionary(), key, position1);
 
       // Compute the inter slice spacing by computing the distance
       // between two consective slices
-      interSliceSpacing = 0.0;
+      interSliceSpacing = 0.0f;
       for (i = 0; i < position1.size(); i++)
         {
         interSliceSpacing += vnl_math_sqr(position2[i] - position1[i]);
         }
-      interSliceSpacing = ::sqrt(interSliceSpacing);
+      interSliceSpacing = static_cast<float>(::sqrt(interSliceSpacing));
 
-      if (interSliceSpacing == 0.0)
+      if (interSliceSpacing == 0.0f)
         {
-        interSliceSpacing = 1.0;
+        interSliceSpacing = 1.0f;
         }
       }
     catch (ExceptionObject &e)
@@ -163,14 +163,14 @@ void ImageSeriesReader<TOutputImage>
 
     for (i = 0; i < TOutputImage::ImageDimension; i++)
       {
-      spacing[i] = reader1->GetOutput()->GetSpacing()[i];
+      spacing[i] = static_cast<float>(reader1->GetOutput()->GetSpacing()[i]);
       if (i < position1.size())
         {
         origin[i] = position1[i];
         }
       else
         {
-         origin[i] = reader1->GetOutput()->GetOrigin()[i];
+         origin[i] = static_cast<float>(reader1->GetOutput()->GetOrigin()[i]);
         }
       }
     spacing[m_NumberOfDimensionsInImage] = interSliceSpacing;

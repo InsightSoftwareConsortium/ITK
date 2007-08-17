@@ -150,7 +150,7 @@ public:
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
    * the filter has completed execution.  The ProgressEvent is NOT
    * invoked. */
-  itkSetClampMacro(Progress,float,0.0,1.0);
+  itkSetClampMacro(Progress,float,0.0f,1.0f);
 
   /** Get the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
