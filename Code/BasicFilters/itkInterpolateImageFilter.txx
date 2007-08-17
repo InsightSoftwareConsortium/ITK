@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef _itkInterpolateImageFilter_txx
 #define _itkInterpolateImageFilter_txx
+
 #include "itkInterpolateImageFilter.h"
 
 #include "itkLinearInterpolateImageFunction.h"
@@ -186,7 +187,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 ::AfterThreadedGenerateData()
 {
 
-  // Clean up intermediat memory usage
+  // Clean up intermediate memory usage
   m_IntermediateImage = NULL;
 
 }

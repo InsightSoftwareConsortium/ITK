@@ -47,7 +47,7 @@ namespace itk
  *
  * ImageToImageFilter provides an implementation of
  * GenerateInputRequestedRegion().  The base assumption to this point in the
- * heirarchy is that a process object would ask for the largest possible
+ * hierarchy is that a process object would ask for the largest possible
  * region on input in order to produce any output.  Imaging filters,
  * however, can usually answer this question more precisely.  The default
  * implementation of GenerateInputRequestedRegion() in this class is to
