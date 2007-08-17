@@ -104,6 +104,9 @@ namespace itk
 
       TNetwork * GetOutput() const;
 
+#ifdef IGNORE
+#undef IGNORE
+#endif
       typedef enum { IGNORE=0, ASCII=1, BINARY=2 } NetworkWriteWeightsType;
       itkSetEnumMacro(ReadWeightValuesType, NetworkWriteWeightsType);
       itkGetEnumMacro(ReadWeightValuesType, NetworkWriteWeightsType);

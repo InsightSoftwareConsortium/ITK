@@ -112,6 +112,9 @@ namespace itk
       /** Read NeuralNetwork */
       void Update(void);
 
+#ifdef IGNORE
+#undef IGNORE
+#endif
       typedef enum { IGNORE=0, ASCII=1, BINARY=2 } NetworkWriteWeightsType;
       itkSetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
       itkGetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
