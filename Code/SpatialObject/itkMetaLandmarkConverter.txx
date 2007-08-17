@@ -67,7 +67,7 @@ MetaLandmarkConverter<NDimensions>
     
   vnl_vector<double> v(ndims);
   
-  for(unsigned int id=0;id< Landmark->GetPoints().size();id++)
+  for(unsigned int identifier=0;identifier< Landmark->GetPoints().size();identifier++)
     {
     LandmarkPointType pnt;
     

@@ -65,7 +65,7 @@ MetaContourConverter<NDimensions>
   typedef MetaContour::ControlPointListType ControlListType;
   ControlListType::iterator itCP = Contour->GetControlPoints().begin();
       
-  for(unsigned int id=0;id< Contour->GetControlPoints().size();id++)
+  for(unsigned int identifier=0;identifier< Contour->GetControlPoints().size();identifier++)
     {
     ControlPointType pnt;
     
@@ -112,7 +112,7 @@ MetaContourConverter<NDimensions>
 
   InterpolatedListType::iterator itI = Contour->GetInterpolatedPoints().begin();
       
-  for(unsigned int id=0;id< Contour->GetInterpolatedPoints().size();id++)
+  for(unsigned int identifier=0;identifier< Contour->GetInterpolatedPoints().size();identifier++)
     {
     InterpolatedPointType pnt;
     

@@ -68,7 +68,7 @@ MetaBlobConverter<NDimensions>
     
   vnl_vector<double> v(ndims);
   
-  for(unsigned int id=0;id< Blob->GetPoints().size();id++)
+  for(unsigned int identifier=0;identifier< Blob->GetPoints().size();identifier++)
     {
     BlobPointType pnt;
     

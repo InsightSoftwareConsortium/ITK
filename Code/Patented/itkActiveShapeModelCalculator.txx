@@ -199,9 +199,9 @@ ActiveShapeModelCalculator<TImage>
         ++ot;
     }
 
-   for (unsigned int id = 0; id<2; id++)
+   for (unsigned int identifier = 0; identifier<2; identifier++)
     {
-      p[id] = position[id];
+      p[identifier] = position[identifier];
     }
 
   int pointId = 0;
@@ -229,8 +229,8 @@ ActiveShapeModelCalculator<TImage>
     {
       position = otNeighbor.GetIndex(offset1);
       otNeighbor.SetPixel ( offset1, value0 );
-      for (unsigned int id = 0; id<2; id++)
-        p[id] = position[id];
+      for (unsigned int identifier = 0; identifier<2; identifier++)
+        p[identifier] = position[identifier];
     points->InsertElement( pointId, p );
     pointData->InsertElement( pointId, value1 );
     pointId++;
@@ -243,8 +243,8 @@ ActiveShapeModelCalculator<TImage>
       {
         position = otNeighbor.GetIndex(offset2);
         otNeighbor.SetPixel ( offset2, value0 );
-        for (unsigned int id = 0; id<2; id++)
-          p[id] = position[id];
+        for (unsigned int identifier = 0; identifier<2; identifier++)
+          p[identifier] = position[identifier];
         points->InsertElement( pointId, p );
         pointData->InsertElement( pointId, value1 );
         pointId++;
@@ -257,8 +257,8 @@ ActiveShapeModelCalculator<TImage>
       { 
         position = otNeighbor.GetIndex(offset3);
         otNeighbor.SetPixel ( offset3, value0 );
-        for (unsigned int id = 0; id<2; id++)
-           p[id] = position[id];
+        for (unsigned int identifier = 0; identifier<2; identifier++)
+           p[identifier] = position[identifier];
         points->InsertElement( pointId, p );
         pointData->InsertElement( pointId, value1 );
         pointId++;
@@ -271,8 +271,8 @@ ActiveShapeModelCalculator<TImage>
         {
         position = otNeighbor.GetIndex(offset4);
         otNeighbor.SetPixel ( offset4, value0 );
-        for (unsigned int id = 0; id<2; id++)
-        p[id] = position[id];
+        for (unsigned int identifier = 0; identifier<2; identifier++)
+        p[identifier] = position[identifier];
         points->InsertElement( pointId, p );
         pointData->InsertElement( pointId, value1 );
         pointId++;
@@ -285,8 +285,8 @@ ActiveShapeModelCalculator<TImage>
         {
          position = otNeighbor.GetIndex(offset5);
          otNeighbor.SetPixel ( offset5, value0 );
-         for (unsigned int id = 0; id<2; id++)
-           p[id] = position[id];
+         for (unsigned int identifier = 0; identifier<2; identifier++)
+           p[identifier] = position[identifier];
          points->InsertElement( pointId, p );
          pointData->InsertElement( pointId,value1 );
          pointId++;
@@ -299,8 +299,8 @@ ActiveShapeModelCalculator<TImage>
          {
           position = otNeighbor.GetIndex(offset6);
           otNeighbor.SetPixel ( offset6,value0 );
-          for (unsigned int id = 0; id<2; id++)
-            p[id] = position[id];
+          for (unsigned int identifier = 0; identifier<2; identifier++)
+            p[identifier] = position[identifier];
           points->InsertElement( pointId, p );
           pointData->InsertElement( pointId, value1 );
           pointId++;
@@ -313,8 +313,8 @@ ActiveShapeModelCalculator<TImage>
            {
             position = otNeighbor.GetIndex(offset7);
             otNeighbor.SetPixel ( offset7, value0 );
-            for (unsigned int id = 0; id<2; id++)
-              p[id] = position[id];
+            for (unsigned int identifier = 0; identifier<2; identifier++)
+              p[identifier] = position[identifier];
             points->InsertElement( pointId, p );
             pointData->InsertElement( pointId, value1 );
             pointId++;
@@ -327,8 +327,8 @@ ActiveShapeModelCalculator<TImage>
              { 
               position = otNeighbor.GetIndex(offset8);
               otNeighbor.SetPixel ( offset8, value0 );
-              for (unsigned int id = 0; id<2; id++)
-              p[id] = position[id];
+              for (unsigned int identifier = 0; identifier<2; identifier++)
+              p[identifier] = position[identifier];
               points->InsertElement( pointId, p );
               pointData->InsertElement( pointId, value1 );
               pointId++;
@@ -366,18 +366,18 @@ ActiveShapeModelCalculator<TImage>
      double m_distance = 0;
      pointSet->GetPoint( current[ 0 ], & p1 );
      pointSet->GetPoint( current[ 1 ], & p2 );
-     for (unsigned int id = 0; id<2; id++)
-       v1[ id ]= p2[ id ] - p1[ id ];
+     for (unsigned int identifier = 0; identifier<2; identifier++)
+       v1[ identifier ]= p2[ identifier ] - p1[ identifier ];
      v1[ 2 ] = 0;
      squareNorm1 = v1.GetSquaredNorm();
      for( pointId = (current[ 0 ] + 1); pointId < (current[ 1 ] - 1); pointId++)
       {
        pointSet->GetPoint( pointId, & p2 );
-       for (unsigned int id = 0; id < 2; id++)
-          v2[ id ]= p2[ id ] - p1[ id ];
+       for (unsigned int identifier = 0; identifier < 2; identifier++)
+          v2[ identifier ]= p2[ identifier ] - p1[ identifier ];
        v2[ 2 ] = 0;
-       for (unsigned int id = 0; id < 2; id++)
-          v3 [id] = 0;
+       for (unsigned int identifier = 0; identifier < 2; identifier++)
+          v3 [identifier] = 0;
        v3[ 2 ] = (v1[0] * v2[ 1 ]) - (v1[ 1 ] * v2[ 0 ]);
        squareNorm2 = v3.GetSquaredNorm();
        double m_temp = squareNorm2 / squareNorm1;
@@ -462,10 +462,10 @@ ActiveShapeModelCalculator<TImage>
            }
           else
            {
-            for (unsigned int id = 0; id<2; id++)
+            for (unsigned int identifier = 0; identifier<2; identifier++)
               {
-                  posRight[ id ] = mv [ id ];
-                  posLeft[ id ] = mv [ id ];
+                  posRight[ identifier ] = mv [ identifier ];
+                  posLeft[ identifier ] = mv [ identifier ];
                }
              if (j == 0)
               {

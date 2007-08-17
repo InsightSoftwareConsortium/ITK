@@ -124,10 +124,10 @@ ActiveShapeModelGradientSearchMethod<TImage>
           maximumGrad = constIterator.Get();
           newPosition2D = position2D;
 
-          for (unsigned int id = 0; id<2; id++)
+          for (unsigned int identifier = 0; identifier<2; identifier++)
            {
-               posRight[ id ] = position2D [ id ];
-               posLeft[ id ] = position2D [ id ];
+               posRight[ identifier ] = position2D [ identifier ];
+               posLeft[ identifier ] = position2D [ identifier ];
            }
          if (j == 0)
            {
