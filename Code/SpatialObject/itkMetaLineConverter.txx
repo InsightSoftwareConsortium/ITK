@@ -66,7 +66,7 @@ MetaLineConverter<NDimensions>
     
   vnl_vector<double> v(ndims);
   
-  for(unsigned int id=0;id< Line->GetPoints().size();id++)
+  for(unsigned int identifier=0;identifier< Line->GetPoints().size();identifier++)
     {
     LinePointType pnt;
     

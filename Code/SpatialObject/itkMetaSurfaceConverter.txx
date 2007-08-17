@@ -67,7 +67,7 @@ MetaSurfaceConverter<NDimensions>
     
   vnl_vector<double> v(ndims);
   
-  for(unsigned int id=0;id< Surface->GetPoints().size();id++)
+  for(unsigned int identifier=0;identifier< Surface->GetPoints().size();identifier++)
     {
     SurfacePointType pnt;
     

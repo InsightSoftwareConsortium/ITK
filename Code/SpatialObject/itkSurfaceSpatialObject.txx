@@ -260,13 +260,13 @@ SurfaceSpatialObject< TDimension >
 
  
     std::list<int> badId;
-    unsigned int id[3];
+    unsigned int identifier[3];
     double absvec = 0;
     do
       {
-      id[0] = 0;
-      id[1] = 0;  
-      id[2] = 0;
+      identifier[0] = 0;
+      identifier[1] = 0;  
+      identifier[2] = 0;
 
       float max[3];
       max[0] = 99999999;
@@ -313,7 +313,7 @@ SurfaceSpatialObject< TDimension >
         bool valid = true;
         for(unsigned int j=0;j<3;j++)
           {
-          PointType p = m_Points[id[j]].GetPosition();
+          PointType p = m_Points[identifier[j]].GetPosition();
           float d= (pos2[0]-p[0])*(pos2[0]-p[0])+(pos2[1]-p[1])
                    *(pos2[1]-p[1])+(pos2[2]-p[2])*(pos2[2]-p[2]);
           if(d == 0)
@@ -336,37 +336,37 @@ SurfaceSpatialObject< TDimension >
           max[2] = max[1];
           max[1] = max[0];
           max[0] = distance;
-          id[0] = i;
+          identifier[0] = i;
           }
         else if(distance<max[1])
           {
           max[2] = max[1];
           max[1] = distance;
-          id[1] = i;
+          identifier[1] = i;
           }
         else if(distance<max[2])
           {
           max[2] = distance;
-          id[2] = i;
+          identifier[2] = i;
           }
         i++;
         it2++;
         }
 
-      if( (id[0] == id[1])
-        || (id[1] == id[2])
-        || (id[0] == id[2])
+      if( (identifier[0] == identifier[1])
+        || (identifier[1] == identifier[2])
+        || (identifier[0] == identifier[2])
         )
         {
         std::cout << "Cannot find 3 distinct points!" << std::endl;
-        std::cout << id[0] << " : " << id[1] << " : " << id[2] << std::endl;
+        std::cout << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl;
         std::cout << max[0] << " : " << max[1] << " : " << max[2] << std::endl;
         return false;
         }
       
-      PointType v1 = m_Points[id[0]].GetPosition();
-      PointType v2 = m_Points[id[1]].GetPosition();
-      PointType v3 = m_Points[id[2]].GetPosition();
+      PointType v1 = m_Points[identifier[0]].GetPosition();
+      PointType v2 = m_Points[identifier[1]].GetPosition();
+      PointType v3 = m_Points[identifier[2]].GetPosition();
 
       double coa = -(v1[1]*(v2[2]-v3[2]) + 
             v2[1]*(v3[2]-v1[2]) +
@@ -383,7 +383,7 @@ SurfaceSpatialObject< TDimension >
 
       if( absvec == 0)
         {
-        badId.push_back(id[2]);
+        badId.push_back(identifier[2]);
         }
       else
         {
@@ -399,7 +399,7 @@ SurfaceSpatialObject< TDimension >
     if(absvec == 0)
       {
       std::cout << "Approximate3DNormals Failed!" << std::endl;
-      std::cout << id[0] << " : " << id[1] << " : " << id[2] << std::endl;
+      std::cout << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl;
       std::cout << badId.size() << " : " << m_Points.size()-1 << std::endl;
       return false;
       }

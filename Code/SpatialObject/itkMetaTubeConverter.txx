@@ -67,7 +67,7 @@ MetaTubeConverter<NDimensions>
   itk::CovariantVector<double,NDimensions> v; 
   itk::Vector<double,NDimensions> t;
   
-  for(unsigned int id=0;id< tube->GetPoints().size();id++)
+  for(unsigned int identifier=0;identifier< tube->GetPoints().size();identifier++)
     {
     TubePointType pnt;
     
