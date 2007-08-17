@@ -14,6 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+//#define USE_REVIEW_NETIO
+#ifdef USE_REVIEW_NETIO
+#include "itkNeuralNetworkFileReader.h"
+#include "itkNeuralNetworkFileWriter.h"
+#endif
 
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
@@ -25,6 +30,64 @@
 #include <fstream>
 
 #define ROUND(x) (floor(x+0.5))
+
+typedef itk::Array<double> MeasurementVectorType;
+typedef itk::Array<double> TargetVectorType;
+typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
+typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
+typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> OneHiddenLayerBackPropagationNeuralNetworkType;
+
+
+static int TestNetwork(SampleType::Pointer TestSample, TargetType::Pointer TestTargets,
+  OneHiddenLayerBackPropagationNeuralNetworkType::Pointer OneHiddenLayerNetwork)
+{
+  //Network Simulation
+  std::cout << TestSample->Size() << std::endl;
+  std::cout << "Network Simulation" << std::endl;
+  SampleType::ConstIterator iter1 = TestSample->Begin();
+  TargetType::ConstIterator iter2 = TestTargets->Begin();
+  unsigned int error1 = 0 ;
+  unsigned int error2 = 0 ;
+  int flag;
+  std::ofstream outfile;
+  outfile.open("out1.txt",std::ios::out);
+  while (iter1 != TestSample->End())
+    {
+    MeasurementVectorType mv = iter1.GetMeasurementVector();
+    TargetVectorType tv = iter2.GetMeasurementVector();
+    TargetVectorType ov = OneHiddenLayerNetwork->GenerateOutput(mv);
+    flag = 0;
+    if (fabs(tv[0]-ov[0])>0.2)
+      {
+      outfile<<fabs(tv[0]-ov[0])<<std::endl;
+      flag = 1;
+      }
+    if (flag == 1 && ROUND(tv[0]) == 1)
+      {
+      ++error1;
+      }
+    else if (flag == 1 && ROUND(tv[0]) == -1)
+      {
+      ++error2;
+      }
+    std::cout << "Network Input = " << mv << std::endl;
+    std::cout << "Network Output = " << ov << std::endl;
+    std::cout << "Target = " << tv << std::endl;
+    ++iter1;
+    ++iter2;
+    }
+
+  std::cout << "Among "<<TestSample->Size()<<" measurement vectors, " << error1 + error2
+    << " vectors are misclassified." << std::endl ;
+  std::cout<<"Network Weights and Biases after Training= "<<std::endl;
+  std::cout << OneHiddenLayerNetwork << std::endl;
+  if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
+}
 
 int
 NNetClassifierTest1(int argc, char* argv[])
@@ -45,10 +108,6 @@ NNetClassifierTest1(int argc, char* argv[])
   int num_hidden_nodes = 5;
   int num_output_nodes = 1;
 
-  typedef itk::Array<double> MeasurementVectorType;
-  typedef itk::Array<double> TargetVectorType;
-  typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-  typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
   typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
 
   MeasurementVectorType mv;
@@ -69,7 +128,7 @@ NNetClassifierTest1(int argc, char* argv[])
 
   std::ifstream infile1;
   infile1.open(trainFileName, std::ios::in);
- 
+
   for (int a = 0; a < num_train; a++)
     {
     for (int i = 0; i < num_input_nodes; i++)
@@ -100,67 +159,49 @@ NNetClassifierTest1(int argc, char* argv[])
     }
   infile2.close();
 
-  typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> OneHiddenLayerBackPropagationNeuralNetworkType;
-  OneHiddenLayerBackPropagationNeuralNetworkType::Pointer net1 = OneHiddenLayerBackPropagationNeuralNetworkType::New();
-  net1->SetNumOfInputNodes(num_input_nodes);
-  net1->SetNumOfHiddenNodes(num_hidden_nodes);
-  net1->SetNumOfOutputNodes(num_output_nodes);
+  OneHiddenLayerBackPropagationNeuralNetworkType::Pointer OneHiddenLayerNet = OneHiddenLayerBackPropagationNeuralNetworkType::New();
+  OneHiddenLayerNet->SetNumOfInputNodes(num_input_nodes);
+  OneHiddenLayerNet->SetNumOfFirstHiddenNodes(num_hidden_nodes);
+  OneHiddenLayerNet->SetNumOfOutputNodes(num_output_nodes);
 
-  net1->Initialize();
-  net1->InitializeWeights();
-  net1->SetLearningRate(0.001);
+  OneHiddenLayerNet->Initialize();
+  OneHiddenLayerNet->InitializeWeights();
+  OneHiddenLayerNet->SetLearningRate(0.001);
 
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(200);
-  trainingfcn->Train(net1, trainsample, traintargets);
+  trainingfcn->Train(OneHiddenLayerNet, trainsample, traintargets);
+  int return_value1=TestNetwork(testsample,testtargets,OneHiddenLayerNet);
+  int return_value2;
 
-  //Network Simulation
-  std::cout << testsample->Size() << std::endl;
-  std::cout << "Network Simulation" << std::endl;
-  SampleType::ConstIterator iter1 = testsample->Begin();
-  TargetType::ConstIterator iter2 = testtargets->Begin();
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
-  int flag;
-  std::ofstream outfile;
-  outfile.open("out1.txt",std::ios::out);
-  while (iter1 != testsample->End())
+#ifdef USE_REVIEW_NETIO
+    {//Test Reading and writing.
+    typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> OneHiddenLayerBackPropagationNeuralNetworkType;
+    std::string TestOneHiddenLayerNetFileName("/tmp/OneLayer.net");
     {
-    mv = iter1.GetMeasurementVector();
-    tv = iter2.GetMeasurementVector();
-    ov = net1->GenerateOutput(mv);
-    flag = 0;
-    if (fabs(tv[0]-ov[0])>0.2)
-      {
-      outfile<<fabs(tv[0]-ov[0])<<std::endl;
-      flag = 1;
-      }
-    if (flag == 1 && ROUND(tv[0]) == 1)
-      {
-      ++error1;
-      }
-    else if (flag == 1 && ROUND(tv[0]) == -1)
-      {
-      ++error2;
-      }
-    std::cout << "Network Input = " << mv << std::endl;
-    std::cout << "Network Output = " << ov << std::endl;
-    std::cout << "Target = " << tv << std::endl;
-    ++iter1;
-    ++iter2;
+    typedef itk::NeuralNetworkFileWriter<OneHiddenLayerBackPropagationNeuralNetworkType> OHLWriterType;
+    OHLWriterType::Pointer writerOneHiddenLayerBackPropagation=OHLWriterType::New();
+    writerOneHiddenLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);
+    writerOneHiddenLayerBackPropagation->SetFileName(TestOneHiddenLayerNetFileName);
+    writerOneHiddenLayerBackPropagation->SetInput(OneHiddenLayerNet);
+    writerOneHiddenLayerBackPropagation->Update();
     }
-  
-  std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
-  std::cout<<"Network Weights and Biases after Training= "<<std::endl;
-  std::cout << net1 << std::endl;
-
-  if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
     {
-    std::cout << "Test failed." << std::endl;
+    typedef itk::NeuralNetworkFileReader<OneHiddenLayerBackPropagationNeuralNetworkType> OHLReaderType;
+    OHLReaderType::Pointer readerOneHiddenLayerBackPropagation=OHLReaderType::New();
+    readerOneHiddenLayerBackPropagation->SetFileName(TestOneHiddenLayerNetFileName);
+    readerOneHiddenLayerBackPropagation->SetReadWeightValuesType( OHLReaderType::ASCII );
+    readerOneHiddenLayerBackPropagation->Update();
+    //The following line gives a compiler error
+    OneHiddenLayerBackPropagationNeuralNetworkType::Pointer OneHiddenLayerNet_ReadIn = readerOneHiddenLayerBackPropagation->GetOutput();
+    return_value2=TestNetwork(testsample,testtargets,OneHiddenLayerNet_ReadIn);
+    }
+    }
+#endif
+  if(return_value1 == EXIT_FAILURE || return_value2 == EXIT_FAILURE)
+    {
     return EXIT_FAILURE;
     }
-
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

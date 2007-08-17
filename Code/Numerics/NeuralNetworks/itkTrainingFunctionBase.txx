@@ -25,8 +25,8 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TOutput, class ScalarType>
-TrainingFunctionBase<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
+TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 ::TrainingFunctionBase()
 {
   m_PerformanceFunction = DefaultPerformanceType::New();
@@ -36,8 +36,8 @@ TrainingFunctionBase<TSample,TOutput,ScalarType>
   m_LearningRate = 1.0;
 }
 
-template<class TSample, class TOutput, class ScalarType>
-void TrainingFunctionBase<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
+void TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 ::SetTrainingSamples(TSample* samples)
 {
   m_TrainingSamples = samples;
@@ -52,11 +52,11 @@ void TrainingFunctionBase<TSample,TOutput,ScalarType>
     }
 }
 
-template<class TSample, class TOutput, class ScalarType>
-void TrainingFunctionBase<TSample,TOutput,ScalarType>
-::SetTargetValues(TOutput* targets)
+template<class TSample, class TTargetVector, class ScalarType>
+void TrainingFunctionBase<TSample,TTargetVector,ScalarType>
+::SetTargetValues(TTargetVector* targets)
 {
-  typename TOutput::ConstIterator iter = targets->Begin();
+  typename TTargetVector::ConstIterator iter = targets->Begin();
   while (iter != targets->End())
     {
     //m_Targets.push_back(targetconverter(iter.GetMeasurementVector()));
@@ -67,25 +67,25 @@ void TrainingFunctionBase<TSample,TOutput,ScalarType>
             << std::endl;
   this->Modified();
 }
-template<class TSample, class TOutput, class ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
 void
-TrainingFunctionBase<TSample,TOutput,ScalarType>
+TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 ::SetLearningRate(ValueType lr)
 {
   m_LearningRate = lr;
   this->Modified();
 }
 
-template<class TSample, class TOutput, class ScalarType>
-typename TrainingFunctionBase<TSample,TOutput,ScalarType>::ValueType
-TrainingFunctionBase<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
+typename TrainingFunctionBase<TSample,TTargetVector,ScalarType>::ValueType
+TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 ::GetLearningRate()
 {
   return m_LearningRate;
 }
 
-template<class TSample, class TOutput, class ScalarType>
-void TrainingFunctionBase<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
+void TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 ::SetPerformanceFunction(PerformanceFunctionType* f)
 {
   m_PerformanceFunction=f;
@@ -94,9 +94,9 @@ void TrainingFunctionBase<TSample,TOutput,ScalarType>
 
 
 /** Print the object */
-template<class TSample, class TOutput, class ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
 void  
-TrainingFunctionBase<TSample,TOutput,ScalarType>
+TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "TrainingFunctionBase(" << this << ")" << std::endl;

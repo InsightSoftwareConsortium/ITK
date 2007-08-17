@@ -24,8 +24,8 @@ namespace itk
 {
 namespace Statistics
 {
-template<class LayerType, class TOutput>
-QuickPropLearningRule <LayerType,TOutput>
+template<class LayerType, class TTargetVector>
+QuickPropLearningRule <LayerType,TTargetVector>
 ::QuickPropLearningRule()
 {
   m_Momentum = 0.9; //Default
@@ -38,9 +38,9 @@ QuickPropLearningRule <LayerType,TOutput>
   m_SplitEpsilon = 0;
 }
 
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void
-QuickPropLearningRule<LayerType,TOutput>
+QuickPropLearningRule<LayerType,TTargetVector>
 ::Learn(LayerType* layer, ValueType itkNotUsed(lr))
 {
   typename LayerType::WeightSetType::Pointer inputweightset;
@@ -152,17 +152,17 @@ QuickPropLearningRule<LayerType,TOutput>
   inputweightset->SetDWValues(temp.data_block());
 }
 
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void
-QuickPropLearningRule<LayerType,TOutput>
-::Learn(LayerType* itkNotUsed(layer), TOutput itkNotUsed(errors),ValueType itkNotUsed(lr))
+QuickPropLearningRule<LayerType,TTargetVector>
+::Learn(LayerType* itkNotUsed(layer), TTargetVector itkNotUsed(errors),ValueType itkNotUsed(lr))
 {
 }
 
 /** Print the object */
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void  
-QuickPropLearningRule<LayerType,TOutput>
+QuickPropLearningRule<LayerType,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "QuickPropLearningRule(" << this << ")" << std::endl; 

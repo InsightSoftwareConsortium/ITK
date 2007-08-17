@@ -28,7 +28,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TOutput, class ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
 class TrainingFunctionBase : public LightProcessObject
 {
 public:
@@ -45,7 +45,7 @@ public:
 
   typedef ScalarType ValueType;
   typedef typename TSample::MeasurementVectorType VectorType;
-  typedef typename TOutput::MeasurementVectorType OutputVectorType;
+  typedef typename TTargetVector::MeasurementVectorType OutputVectorType;
   typedef Array<ValueType> InternalVectorType;
 
   typedef std::vector<VectorType> InputSampleVectorType;
@@ -56,7 +56,7 @@ public:
   //typedef MeanSquaredErrorFunction<InternalVectorType, ScalarType> DefaultPerformanceType;
 
   void SetTrainingSamples(TSample* samples);
-  void SetTargetValues(TOutput* targets);
+  void SetTargetValues(TTargetVector* targets);
   void SetLearningRate(ValueType);
 
   ValueType GetLearningRate();
@@ -66,8 +66,7 @@ public:
 
   void SetPerformanceFunction(PerformanceFunctionType* f);
 
-  virtual void
-  Train(NetworkType* itkNotUsed(net), TSample* itkNotUsed(samples), TOutput* itkNotUsed(targets))
+  virtual void Train(NetworkType* itkNotUsed(net), TSample* itkNotUsed(samples), TTargetVector* itkNotUsed(targets))
     {
     // not implemented
     };
@@ -84,7 +83,7 @@ public:
     }
 
   inline OutputVectorType
-  targetconverter(typename TOutput::MeasurementVectorType v)
+  targetconverter(typename TTargetVector::MeasurementVectorType v)
     {
     OutputVectorType temp;
     
@@ -104,7 +103,7 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
   TSample*                m_TrainingSamples;// original samples
-  TOutput*                m_SampleTargets;  // original samples
+  TTargetVector*                m_SampleTargets;  // original samples
   InputSampleVectorType   m_InputSamples;   // itk::vectors
   OutputSampleVectorType  m_Targets;        // itk::vectors
   long                    m_Iterations;    

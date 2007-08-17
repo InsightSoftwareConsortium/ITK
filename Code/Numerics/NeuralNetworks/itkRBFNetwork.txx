@@ -9,9 +9,9 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+    This software is distributed WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+    PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkRBFNetwork_txx
@@ -24,214 +24,229 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class TOutput>
-RBFNetwork<TVector,TOutput>
+/** Constructor */
+template<class TMeasurementVector, class TTargetVector>
+RBFNetwork<TMeasurementVector,TTargetVector>
 ::RBFNetwork()
 {
   typedef IdentityTransferFunction<ValueType> tfType1;
-  InputTransferFunction=tfType1::New();
+  m_InputTransferFunction=tfType1::New();
 
   typedef GaussianRadialBasisFunction<ValueType> tfType2;
-  HiddenTransferFunction = tfType2::New();
- 
+  m_FirstHiddenTransferFunction = tfType2::New();
+
   typedef IdentityTransferFunction<ValueType> tfType3;
-  OutputTransferFunction= tfType3::New();
+  m_OutputTransferFunction= tfType3::New();
 
   typedef SumInputFunction<ValueType*, ValueType> InputFcnType;
-  InputFunction=InputFcnType::New();
-  
-  m_HiddenLayerBias = 1.0;
+  m_InputFunction=InputFcnType::New();
+
+  m_FirstHiddenLayerBias = 1.0;
   m_OutputLayerBias = 1.0;
   m_NumOfInputNodes = 0;
-  m_NumOfHiddenNodes = 0;
+  m_NumOfFirstHiddenNodes = 0;
+
   m_NumOfOutputNodes = 0;
   m_Classes = 0;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
+RBFNetwork<TMeasurementVector,TTargetVector>
 ::InitializeWeights()
 {
-   Superclass::InitializeWeights();
-   vnl_matrix<ValueType> rbf_weights(m_NumOfHiddenNodes,m_NumOfInputNodes+1);
-   rbf_weights.fill(0.0);
-   this->m_Weights[0]->SetWeightValues(rbf_weights.data_block());
+  Superclass::InitializeWeights();
+  vnl_matrix<ValueType> rbf_weights(m_NumOfFirstHiddenNodes,m_NumOfInputNodes+1);
+  rbf_weights.fill(0.0);
+  this->m_Weights[0]->SetWeightValues(rbf_weights.data_block());
 
-   std::cout << "Setting rbf weights to zero" << std::endl;
+  std::cout << "Setting rbf weights to zero" << std::endl;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
+RBFNetwork<TMeasurementVector,TTargetVector>
 ::Initialize()
 {
-  Superclass::SetNumOfLayers(3);
-  
-  typedef typename Superclass::LayerType layertype;
-  typedef BackPropagationLayer<TVector, TOutput> bplayertype;
-  typedef RBFLayer<TVector, TOutput> rbflayertype;
+  if(m_NumOfInputNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Input Nodes must be greater than 0!");
+    }
+  if(m_NumOfFirstHiddenNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Hidden Layer 1 Nodes must be greater than 0!");
+    }
+  if(m_NumOfOutputNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Output Nodes must be greater than 0!");
+    }
 
-  typedef CompletelyConnectedWeightSet<TVector, TOutput> 
-                                                weighttype;
+  //Define weights of Nodes
+  typename LearningLayerType::WeightSetType::Pointer InputLayerOutputWeights = LearningLayerType::WeightSetType::New();
+  InputLayerOutputWeights->SetNumberOfInputNodes(m_NumOfInputNodes);
+  InputLayerOutputWeights->SetNumberOfOutputNodes(m_NumOfFirstHiddenNodes);
+  InputLayerOutputWeights->SetCompleteConnectivity();
+  InputLayerOutputWeights->SetBias(m_FirstHiddenLayerBias);
+  InputLayerOutputWeights->SetRange(1.0);  //0.5
+  InputLayerOutputWeights->Initialize();
 
-  typename bplayertype::Pointer inputlayer = bplayertype::New();
-  inputlayer->SetLayerType(1);
+  typename HiddenLayerType::WeightSetType::Pointer HiddenLayer1OutputWeights =  HiddenLayerType::WeightSetType::New();
+  HiddenLayer1OutputWeights->SetNumberOfInputNodes(m_NumOfFirstHiddenNodes);
+  HiddenLayer1OutputWeights->SetNumberOfOutputNodes(m_NumOfOutputNodes);
+  HiddenLayer1OutputWeights->SetCompleteConnectivity();
+  HiddenLayer1OutputWeights->SetBias(m_OutputLayerBias);
+  HiddenLayer1OutputWeights->SetRange(1.0); //0.5
+  HiddenLayer1OutputWeights->Initialize();
+
+  //Define layers
+  typename LearningLayerType::Pointer inputlayer = LearningLayerType::New();
+  inputlayer->SetLayerTypeCode(LearningLayerType::INPUTLAYER);
   inputlayer->SetNumberOfNodes(m_NumOfInputNodes);
+  inputlayer->SetTransferFunction(m_InputTransferFunction);
+  inputlayer->SetNodeInputFunction(m_InputFunction);
 
+  typename HiddenLayerType::Pointer hiddenlayer1 = HiddenLayerType::New();
+  hiddenlayer1->SetLayerTypeCode(HiddenLayerType::HIDDENLAYER);
+  hiddenlayer1->SetNumberOfNodes(m_NumOfFirstHiddenNodes);
+  hiddenlayer1->SetRBF(m_FirstHiddenTransferFunction);
+  hiddenlayer1->SetNodeInputFunction(m_InputFunction);
+  hiddenlayer1->SetRBF_Dim(m_NumOfInputNodes);
+  hiddenlayer1->SetNumClasses(m_Classes);
 
-  typename rbflayertype::Pointer hiddenlayer = rbflayertype::New();
-  hiddenlayer->SetRBF_Dim(m_NumOfInputNodes);
-  hiddenlayer->SetLayerType(2);
-  hiddenlayer->SetNumClasses(m_Classes); 
-  hiddenlayer->SetNumberOfNodes(m_NumOfHiddenNodes);
-  
-  
-  typename bplayertype::Pointer outputlayer = bplayertype::New();
-  hiddenlayer->SetNumClasses(m_Classes); 
-  outputlayer->SetLayerType(3);
+  typename LearningLayerType::Pointer outputlayer = LearningLayerType::New();
+  outputlayer->SetLayerTypeCode(LearningLayerType::OUTPUTLAYER);
   outputlayer->SetNumberOfNodes(m_NumOfOutputNodes);
-
-  typename weighttype::Pointer IW =  weighttype::New();
-  IW->SetNumberOfInputNodes(m_NumOfInputNodes);
-  IW->SetNumberOfOutputNodes(m_NumOfHiddenNodes);
-  IW->SetCompleteConnectivity();
-  IW->SetBias(m_HiddenLayerBias);
-  IW->SetRange(1.0);  //0.5
-  IW->Initialize(); 
-  
-  typename weighttype::Pointer HW =  weighttype::New();
-  HW->SetNumberOfInputNodes(m_NumOfHiddenNodes);
-  HW->SetNumberOfOutputNodes(m_NumOfOutputNodes);
-  HW->SetCompleteConnectivity();
-  HW->SetBias(m_OutputLayerBias);
-  HW->SetRange(1.0); //0.5
-  HW->Initialize(); 
-  
-  inputlayer->SetOutputWeightSet(IW);
-  hiddenlayer->SetInputWeightSet(IW);
-  hiddenlayer->SetOutputWeightSet(HW);
-  outputlayer->SetInputWeightSet(HW);
-
-  inputlayer->SetTransferFunction(InputTransferFunction);
-  hiddenlayer->SetRBF(HiddenTransferFunction);
-  outputlayer->SetTransferFunction(OutputTransferFunction);
-
-  hiddenlayer->SetNodeInputFunction(InputFunction); 
-  outputlayer->SetNodeInputFunction(InputFunction); 
+  outputlayer->SetTransferFunction(m_OutputTransferFunction);
+  outputlayer->SetNodeInputFunction(m_InputFunction);
 
   Superclass::AddLayer(inputlayer);
-  Superclass::AddLayer(hiddenlayer);
+  Superclass::AddLayer(hiddenlayer1);
   Superclass::AddLayer(outputlayer);
 
-  Superclass::AddWeightSet(IW);
-  Superclass::AddWeightSet(HW);
+  Superclass::AddWeightSet(InputLayerOutputWeights);
+  Superclass::AddWeightSet(HiddenLayer1OutputWeights);
+
+  //HACK:  NOTE:  You can not set the WeightSets until after the layers are added to the network because
+  //       the LayerId's must have been set prior to the Weights being added to the layers.
+  //       The ordering of putting together the networks is crucial.  Layers must be added to network
+  //       prior to weights being added to layers.
+  inputlayer->SetOutputWeightSet(InputLayerOutputWeights);
+  hiddenlayer1->SetInputWeightSet(InputLayerOutputWeights);
+  hiddenlayer1->SetOutputWeightSet(HiddenLayer1OutputWeights);
+  outputlayer->SetInputWeightSet(HiddenLayer1OutputWeights);
+
   /*
-  TVector temp1;
-  TVector temp2;
+  TMeasurementVector temp1;
+  TMeasurementVector temp2;
   temp1[0]=110;
   temp1[1]=250;
   temp1[2]=50;
-  hiddenlayer->SetCenter(temp1,0);
+  hiddenlayer1->SetCenter(temp1,0);
 
   temp2[0]=99;
   temp2[1]=199;
   temp2[2]=300;
-  
-  hiddenlayer->SetCenter(temp2,1);
-  DistanceMetric=DistanceMetricType::New(); 
+
+  hiddenlayer1->SetCenter(temp2,1);
+  DistanceMetric=DistanceMetricType::New();
   double width = DistanceMetric->Evaluate(temp1,temp2);
-  
-  hiddenlayer->SetRadii(2*width,0);  
-  hiddenlayer->SetRadii(2*width,1);  
-  */
+
+  hiddenlayer1->SetRadii(2*width,0);
+  hiddenlayer1->SetRadii(2*width,1);
+   */
+  /*  A better test should be written to ensure that bounds checking is done at initializaiton.
+  if (m_Centers.size() != m_Radii.size()
+    ||  m_Centers.size() != m_NumOfInputNodes)
+    {
+    itkExceptionMacro("ERROR:  Centers and Radii size must equal number of input nodes");
+    }
+    */
   for(unsigned int j=0; j<m_Centers.size(); j++)
-  {
-    hiddenlayer->SetCenter(m_Centers[j],j);
-    hiddenlayer->SetRadii(m_Radii[j],j);
-  }
-    
+    {
+    hiddenlayer1->SetCenter(m_Centers[j],j);
+    hiddenlayer1->SetRadii(m_Radii[j],j);
+    }
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
-::SetInputTransferFunction(TransferFunctionType* f)
+RBFNetwork<TMeasurementVector,TTargetVector>
+::SetInputTransferFunction(TransferFunctionInterfaceType* f)
 {
-  InputTransferFunction=f;
+  m_InputTransferFunction=f;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
+RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetDistanceMetric(DistanceMetricType* f)
 {
-  DistanceMetric=f;
+  m_DistanceMetric=f;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
-::SetHiddenTransferFunction(TransferFunctionType* f)
+RBFNetwork<TMeasurementVector,TTargetVector>
+::SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f)
 {
-  HiddenTransferFunction=f;
+  m_FirstHiddenTransferFunction=f;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
-::SetOutputTransferFunction(TransferFunctionType* f)
+RBFNetwork<TMeasurementVector,TTargetVector>
+::SetOutputTransferFunction(TransferFunctionInterfaceType* f)
 {
-  OutputTransferFunction=f;
+  m_OutputTransferFunction=f;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-RBFNetwork<TVector,TOutput>
-::SetInputFunction(InputFunctionType* f)
+RBFNetwork<TMeasurementVector,TTargetVector>
+::SetInputFunction(InputFunctionInterfaceType* f)
 {
-  InputFunction=f;
+  m_InputFunction=f;
 }
 
-template<class TVector, class TOutput>
-typename RBFNetwork<TVector, TOutput>::NetworkOutputType
-RBFNetwork<TVector,TOutput>
-::GenerateOutput(TVector samplevector)
+template<class TMeasurementVector, class TTargetVector>
+typename RBFNetwork<TMeasurementVector, TTargetVector>::NetworkOutputType
+RBFNetwork<TMeasurementVector,TTargetVector>
+::GenerateOutput(TMeasurementVector samplevector)
 {
   return Superclass::GenerateOutput(samplevector);
 }
 
-template<class TVector, class TOutput>
-void 
-RBFNetwork<TVector,TOutput>
-::SetCenter(TVector c)
+template<class TMeasurementVector, class TTargetVector>
+void
+RBFNetwork<TMeasurementVector,TTargetVector>
+::SetCenter(TMeasurementVector c)
 {
-   m_Centers.push_back(c);
-} 
+  m_Centers.push_back(c);
+}
 
-template<class TVector, class TOutput>
-void 
-RBFNetwork<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+void
+  RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetRadius(ValueType r)
 {
-   m_Radii.push_back(r);
-} 
+  m_Radii.push_back(r);
+}
 
 /** Print the object */
-template<class TVector, class TOutput>
-void  
-RBFNetwork<TVector,TOutput>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  os << indent << "IdentityTransferFunction(" << this << ")" << std::endl; 
+template<class TMeasurementVector, class TTargetVector>
+void
+RBFNetwork<TMeasurementVector,TTargetVector>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  os << indent << "IdentityTransferFunction(" << this << ")" << std::endl;
   os << indent << "m_NumOfInputNodes = " << m_NumOfInputNodes << std::endl;
-  os << indent << "m_NumOfHiddenNodes = " << m_NumOfHiddenNodes << std::endl;
+  os << indent << "m_NumOfFirstHiddenNodes = " << m_NumOfFirstHiddenNodes << std::endl;
   os << indent << "m_NumOfOutputNodes = " << m_NumOfOutputNodes << std::endl;
   os << indent << "m_Classes = " << m_Classes << std::endl;
-  os << indent << "m_HiddenLayerBias = " << m_HiddenLayerBias << std::endl;
-  os << indent << "m_OutputLayerBias = " << m_OutputLayerBias << std::endl; 
-  Superclass::PrintSelf( os, indent ); 
-} 
+  os << indent << "m_FirstHiddenLayerBias = " << m_FirstHiddenLayerBias << std::endl;
+  os << indent << "m_OutputLayerBias = " << m_OutputLayerBias << std::endl;
+  Superclass::PrintSelf( os, indent );
+}
 
 } // end namespace Statistics
 } // end namespace itk

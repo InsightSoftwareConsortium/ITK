@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNeuralNetworkIOTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkNeuralNetworkIOTest.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -21,6 +21,9 @@
 
 #include "itkNeuralNetworkFileReader.h"
 #include "itkNeuralNetworkFileWriter.h"
+#include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
+#include "itkTwoHiddenLayerBackPropagationNeuralNetwork.h"
+#include "itkRBFNetwork.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkListSample.h"
 #include "itkVector.h"
@@ -29,67 +32,69 @@
 
 int itkNeuralNetworkIOTest(int argc,char* argv[])
 {
-  if( argc < 2 )
-  {
-    std::cerr << "Usage: " << argv[0] << 
-      " NetworkConfigurationFile  TrainingData" << std::endl;
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << argv[0] <<
+      " NetworkConfigurationFile  TrainingData TemporaryFileLocation" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
+  const std::string XORNetFileName(argv[1]);
+  const std::string dataFileName(argv[2]);
+  const std::string tempDataDirectory(argv[3]);
 
   const unsigned int num_input_nodes=2;
   const unsigned int num_output_nodes=1;
   typedef itk::Vector<double, num_input_nodes>   MeasurementVectorType;
   typedef itk::Vector<double, num_output_nodes>  TargetVectorType;
 
+#if 1
   typedef itk::Statistics::MultilayerNeuralNetworkBase<
-                          MeasurementVectorType, TargetVectorType> NetworkType;
+    MeasurementVectorType, TargetVectorType> NetworkType;
 
   typedef itk::Statistics::ListSample<MeasurementVectorType>    SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType>         TargetType;
 
   typedef itk::Statistics::IterativeSupervisedTrainingFunction<
-                          SampleType, TargetType, double> TrainingFcnType;
+    SampleType, TargetType, double> TrainingFcnType;
 
-  char* dataFileName = argv[2];
+  typedef itk::NeuralNetworkFileReader<NetworkType> ReaderType;
 
-  typedef itk::NeuralNetworkFileReader<
-                       MeasurementVectorType,TargetVectorType> ReaderType;
+  typedef itk::NeuralNetworkFileWriter<NetworkType> WriterType;
 
-  typedef itk::NeuralNetworkFileWriter<
-                       MeasurementVectorType,TargetVectorType> WriterType;
+  ReaderType::Pointer reader=ReaderType::New();
 
-  ReaderType::Pointer reader=ReaderType::New(); 
-  
   //exercise Set/GetFilename method for code coverage
-  std::string testName = "Input.txt";
+  std::string testName = tempDataDirectory+std::string("/Input.txt");
   reader->SetFileName( testName );
 
-  if ( reader->GetFileName() != testName ) 
+
+  if ( reader->GetFileName() != testName )
     {
     std::cerr << "Error in Set/Get Filename:" << std::endl;
-    return EXIT_FAILURE; 
-    } 
+    return EXIT_FAILURE;
+    }
 
   //exercise Set/GetFilename method for code coverage
-  reader->SetReadWeightValuesType( 1 ); 
+  reader->SetReadWeightValuesType( ReaderType::ASCII );
 
-  if ( reader->GetReadWeightValuesType() != 1 ) 
+  if ( reader->GetReadWeightValuesType() != ReaderType::ASCII )
     {
     std::cerr << "Error in Set/Get ReadWeightValuesType:" << std::endl;
-    return EXIT_FAILURE; 
-    } 
+    return EXIT_FAILURE;
+    }
 
-  reader->SetReadWeightValuesType( 0 );
+  reader->SetReadWeightValuesType( ReaderType::IGNORE );
 
   // Read the Network topology from the configuration file
-  reader->SetFileName(argv[1]);
+  reader->SetFileName(XORNetFileName);
 
   reader->Update();
-
   NetworkType::Pointer network = reader->GetOutput();
 
   // Initialize network
   network->Initialize();
+  std::cout << "========Network after read from ==========" << XORNetFileName << std::endl;
+  std::cout << network << std::endl;
 
   // Read in training data
   MeasurementVectorType mv;
@@ -99,7 +104,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   sample->SetMeasurementVectorSize( num_input_nodes);
   targets->SetMeasurementVectorSize( num_output_nodes);
   std::ifstream infile1;
-  infile1.open(dataFileName, std::ios::in);
+  infile1.open(dataFileName.c_str(), std::ios::in);
 
   infile1 >> mv[0] >> mv[1] >> tv[0];
 
@@ -154,7 +159,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
     }
 
   std::cout << "Among 4 measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl;
+    << " vectors are misclassified." << std::endl;
   std::cout << "Network Weights and Biases after Training= " << std::endl;
   std::cout << network << std::endl;
 
@@ -163,26 +168,26 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   WriterType::Pointer writer=WriterType::New();
 
   //exercise Set/GetFilename method for code coverage
-  std::string testNameOutput = "Output.txt";
+  const std::string testNameOutput = tempDataDirectory+std::string("/Output.txt");
   writer->SetFileName( testNameOutput );
 
-  if ( writer->GetFileName() != testNameOutput ) 
+  if ( writer->GetFileName() != testNameOutput )
     {
     std::cerr << "Error in Set/Get Filename:" << std::endl;
-    return EXIT_FAILURE; 
-    } 
+    return EXIT_FAILURE;
+    }
 
   //exercise Set/Get WriteWeightValuesType
-  writer->SetWriteWeightValuesType( 0 ); 
+  writer->SetWriteWeightValuesType( WriterType::ASCII );
 
-  if ( writer->GetWriteWeightValuesType() != 0 ) 
+  if ( writer->GetWriteWeightValuesType() != WriterType::ASCII )
     {
     std::cerr << "Error in Set/Get WriteWeightValuesType:" << std::endl;
-    return EXIT_FAILURE; 
-    } 
+    return EXIT_FAILURE;
+    }
 
-  writer->SetWriteWeightValuesType(1);
-  writer->SetFileName("xornetASCII.txt");
+  writer->SetWriteWeightValuesType(WriterType::ASCII);
+  writer->SetFileName(tempDataDirectory+std::string("/xornetASCII.txt"));
   writer->SetInput(network);
 
   if( writer->GetInput() != network )
@@ -206,21 +211,135 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
   network->InitializeWeights();
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(2000);
-  trainingfcn->SetThreshold(0.001); 
+  trainingfcn->SetThreshold(0.001);
   trainingfcn->Train(network, sample, targets);
 
-  WriterType::Pointer writer2=WriterType::New();
-  writer2->SetWriteWeightValuesType(2);
-  writer2->SetFileName("xornetBinary.txt");
-  writer2->SetInput(network);
-  writer2->Update();
-
-  if( (error1 + error2) > 2 )
     {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
+    WriterType::Pointer writer2=WriterType::New();
+    writer2->SetWriteWeightValuesType(WriterType::BINARY);
+    writer2->SetFileName(tempDataDirectory+std::string("/xornetBinary.txt"));
+    writer2->SetInput(network);
+    writer2->Update();
 
+    if( (error1 + error2) > 2 )
+      {
+      std::cout << "Test failed." << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+#endif
+  //Now test reading and writing of OneHiddenLayerBackPropagationNeuralNetwork
+    {
+    const std::string TestOneHiddenLayerNetFileName=tempDataDirectory+std::string("/OneHiddenLayerNet.txt");
+    typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> OneHiddenLayerBackPropagationNeuralNetworkType;
+    OneHiddenLayerBackPropagationNeuralNetworkType::Pointer OneHiddenLayerNet = OneHiddenLayerBackPropagationNeuralNetworkType::New();
+    OneHiddenLayerNet->SetNumOfInputNodes(2);
+    OneHiddenLayerNet->SetNumOfFirstHiddenNodes(2);
+    OneHiddenLayerNet->SetNumOfOutputNodes(1);
+
+
+    OneHiddenLayerNet->InitializeWeights();
+    OneHiddenLayerNet->SetLearningRate(0.001);
+    OneHiddenLayerNet->Initialize();
+    std::cout << "===================================OneHiddenLayerNet: " << TestOneHiddenLayerNetFileName << std::endl;
+    std::cout << OneHiddenLayerNet << std::endl;
+    std::cout << "===================================OneHiddenLayerNet: " << TestOneHiddenLayerNetFileName << std::endl;
+      {
+      typedef itk::NeuralNetworkFileWriter<OneHiddenLayerBackPropagationNeuralNetworkType> OHLWriterType;
+      OHLWriterType::Pointer writerOneHiddenLayerBackPropagation=OHLWriterType::New();
+      writerOneHiddenLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);
+      writerOneHiddenLayerBackPropagation->SetFileName(TestOneHiddenLayerNetFileName);
+      writerOneHiddenLayerBackPropagation->SetInput(OneHiddenLayerNet);
+      writerOneHiddenLayerBackPropagation->Update();
+      }
+      {
+      typedef itk::NeuralNetworkFileReader<OneHiddenLayerBackPropagationNeuralNetworkType> OHLReaderType;
+      OHLReaderType::Pointer readerOneHiddenLayerBackPropagation=OHLReaderType::New();
+      readerOneHiddenLayerBackPropagation->SetFileName(TestOneHiddenLayerNetFileName);
+      readerOneHiddenLayerBackPropagation->SetReadWeightValuesType( OHLReaderType::ASCII );
+      readerOneHiddenLayerBackPropagation->Update();
+      //The following line gives a compiler error
+      OneHiddenLayerBackPropagationNeuralNetworkType::Pointer OneHiddenLayerNet_ReadIn = readerOneHiddenLayerBackPropagation->GetOutput();
+      }
+    }
+  //Now test reading and writing of TwoHiddenLayerBackPropagationNeuralNetwork
+    {
+    const std::string TestTwoHiddenLayerNetFileName=tempDataDirectory+std::string("/TwoHiddenLayerNet.txt");
+    typedef itk::Statistics::TwoHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> TwoHiddenLayerBackPropagationNeuralNetworkType;
+    TwoHiddenLayerBackPropagationNeuralNetworkType::Pointer TwoHiddenLayerNet = TwoHiddenLayerBackPropagationNeuralNetworkType::New();
+    TwoHiddenLayerNet->SetNumOfInputNodes(7);
+    TwoHiddenLayerNet->SetNumOfFirstHiddenNodes(5);
+    TwoHiddenLayerNet->SetNumOfSecondHiddenNodes(3);
+    TwoHiddenLayerNet->SetNumOfOutputNodes(1);
+
+    typedef itk::NeuralNetworkFileWriter<TwoHiddenLayerBackPropagationNeuralNetworkType> OHLWriterType;
+
+    TwoHiddenLayerNet->InitializeWeights();
+    TwoHiddenLayerNet->SetLearningRate(0.001);
+    TwoHiddenLayerNet->Initialize();
+    std::cout << "===================================TwoHiddenLayerNet: " << TestTwoHiddenLayerNetFileName << std::endl;
+    std::cout << TwoHiddenLayerNet << std::endl;
+    std::cout << "===================================TwoHiddenLayerNet: " << TestTwoHiddenLayerNetFileName << std::endl;
+      {
+      OHLWriterType::Pointer writerTwoHiddenLayerBackPropagation=OHLWriterType::New();
+      writerTwoHiddenLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);
+      writerTwoHiddenLayerBackPropagation->SetFileName(TestTwoHiddenLayerNetFileName);
+      writerTwoHiddenLayerBackPropagation->SetInput(TwoHiddenLayerNet);
+      writerTwoHiddenLayerBackPropagation->Update();
+      }
+      {
+      typedef itk::NeuralNetworkFileReader<TwoHiddenLayerBackPropagationNeuralNetworkType> OHLReaderType;
+      OHLReaderType::Pointer readerTwoHiddenLayerBackPropagation=OHLReaderType::New();
+      readerTwoHiddenLayerBackPropagation->SetFileName(TestTwoHiddenLayerNetFileName);
+      readerTwoHiddenLayerBackPropagation->SetReadWeightValuesType( OHLReaderType::ASCII );
+      readerTwoHiddenLayerBackPropagation->Update();
+      //The following line gives a compiler error
+      TwoHiddenLayerBackPropagationNeuralNetworkType::Pointer TwoHiddenLayerNet_ReadIn = readerTwoHiddenLayerBackPropagation->GetOutput();
+      }
+    }
+#if 0 //This type of network does not seem to fit the file IO mechanism requirements.
+  //Now test reading and writing of RBFNetwork
+    {
+    const std::string TestRBFLayerNetFileName=tempDataDirectory+std::string("/RBFLayerNet.txt");
+    typedef itk::Statistics::RBFNetwork<MeasurementVectorType, TargetVectorType> RBFNetworkType;
+    RBFNetworkType::Pointer RBFLayerNet = RBFNetworkType::New();
+    RBFLayerNet->SetNumOfInputNodes(3);
+    RBFLayerNet->SetNumOfFirstHiddenNodes(2);
+    RBFLayerNet->SetNumOfOutputNodes(1);
+
+    typedef itk::NeuralNetworkFileWriter<RBFNetworkType> OHLWriterType;
+
+    RBFLayerNet->InitializeWeights();
+    RBFLayerNet->SetLearningRate(0.001);
+    MeasurementVectorType initialcenter2(3);
+    initialcenter2[0]=99; //99;
+    initialcenter2[1]=199; //199;
+    initialcenter2[2]=300; //300;
+    RBFLayerNet->SetCenter(initialcenter2);
+    RBFLayerNet->SetRadius(50);
+
+    RBFLayerNet->Initialize();
+    std::cout << "===================================RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
+    std::cout << RBFLayerNet << std::endl;
+    std::cout << "===================================RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
+      {
+      OHLWriterType::Pointer writerRBFLayerBackPropagation=OHLWriterType::New();
+      writerRBFLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);
+      writerRBFLayerBackPropagation->SetFileName(TestRBFLayerNetFileName);
+      writerRBFLayerBackPropagation->SetInput(RBFLayerNet);
+      writerRBFLayerBackPropagation->Update();
+      }
+      {
+      typedef itk::NeuralNetworkFileReader<RBFNetworkType> OHLReaderType;
+      OHLReaderType::Pointer readerRBFLayerBackPropagation=OHLReaderType::New();
+      readerRBFLayerBackPropagation->SetFileName(TestRBFLayerNetFileName);
+      readerRBFLayerBackPropagation->SetReadWeightValuesType( OHLReaderType::ASCII );
+      readerRBFLayerBackPropagation->Update();
+      //The following line gives a compiler error
+      RBFNetworkType::Pointer RBFLayerNet_ReadIn = readerRBFLayerBackPropagation->GetOutput();
+      }
+    }
+#endif
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

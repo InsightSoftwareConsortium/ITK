@@ -81,10 +81,10 @@ XORTest1(int argc, char* argv[])
   typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> OneHiddenLayerBackPropagationNeuralNetworkType;
   OneHiddenLayerBackPropagationNeuralNetworkType::Pointer net1 = OneHiddenLayerBackPropagationNeuralNetworkType::New();
   net1->SetNumOfInputNodes(num_input_nodes);
-  net1->SetNumOfHiddenNodes(num_hidden_nodes);
+  net1->SetNumOfFirstHiddenNodes(num_hidden_nodes);
   net1->SetNumOfOutputNodes(num_output_nodes);
  
-  net1->SetHiddenLayerBias(1.0);
+  net1->SetFirstHiddenLayerBias(1.0);
   net1->SetOutputLayerBias(1.0);
 
   net1->Initialize();

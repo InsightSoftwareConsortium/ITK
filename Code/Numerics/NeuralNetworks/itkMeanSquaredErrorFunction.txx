@@ -26,24 +26,24 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TVector, class ScalarType>
-MeanSquaredErrorFunction<TVector,ScalarType>
+template<class TMeasurementVector, class ScalarType>
+MeanSquaredErrorFunction<TMeasurementVector,ScalarType>
 ::MeanSquaredErrorFunction()
 {
 }
 
 /** Destructor*/
-template<class TVector, class ScalarType>
-MeanSquaredErrorFunction <TVector,ScalarType>
+template<class TMeasurementVector, class ScalarType>
+MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
 ::~MeanSquaredErrorFunction()
 {
 }
 
 /** Evaluate */
-template<class TVector, class ScalarType>
+template<class TMeasurementVector, class ScalarType>
 ScalarType
-MeanSquaredErrorFunction <TVector,ScalarType>
-::Evaluate(const TVector& errors)  const
+MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
+::Evaluate(const TMeasurementVector& errors)  const
 {
   vnl_vector <ScalarType> temp(errors.Size());
  for(unsigned int i=0; i<errors.Size(); i++)
@@ -54,11 +54,11 @@ MeanSquaredErrorFunction <TVector,ScalarType>
 }
 
 /** Evaluate derivatives */
-template<class TVector, class ScalarType>
-typename MeanSquaredErrorFunction <TVector,ScalarType>
+template<class TMeasurementVector, class ScalarType>
+typename MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
 ::InternalVectorType
-MeanSquaredErrorFunction <TVector,ScalarType>
-::EvaluateDerivative(const TVector& errors)  const
+MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
+::EvaluateDerivative(const TMeasurementVector& errors)  const
 {
   ScalarType m = static_cast<ScalarType>(2) / errors.Size();
   InternalVectorType temp(errors.Size());
@@ -70,9 +70,9 @@ MeanSquaredErrorFunction <TVector,ScalarType>
 }
 
 /** Print the object */
-template<class TVector, class ScalarType>
+template<class TMeasurementVector, class ScalarType>
 void  
-MeanSquaredErrorFunction <TVector,ScalarType>
+MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "MeanSquaredErrorFunction(" << this << ")" << std::endl; 

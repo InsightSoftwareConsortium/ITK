@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,14 +26,14 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class ScalarType>
-class SquaredDifferenceErrorFunction : public ErrorFunctionBase<TVector, ScalarType>
+template<class TMeasurementVector, class ScalarType>
+class SquaredDifferenceErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
 {
 public:
 
   /** Standard class typedefs. */
   typedef SquaredDifferenceErrorFunction Self;
-  typedef ErrorFunctionBase<TVector, ScalarType> Superclass;
+  typedef ErrorFunctionBase<TMeasurementVector, ScalarType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   typedef typename Superclass::ErrorVectorType ErrorVectorType;
@@ -46,15 +46,15 @@ public:
   itkNewMacro(Self) ;
 
   /** Evaluate at the specified Error position */
-  ScalarType Evaluate(const TVector& Errors) const;
+  virtual ScalarType Evaluate(const TMeasurementVector& Errors) const;
 
-  InternalVectorType EvaluateDerivative(const TVector& Errors) const;
+  virtual InternalVectorType EvaluateDerivative(const TMeasurementVector& Errors) const;
 
 protected:
 
   SquaredDifferenceErrorFunction();
-  ~SquaredDifferenceErrorFunction();
-  
+  virtual ~SquaredDifferenceErrorFunction();
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 };

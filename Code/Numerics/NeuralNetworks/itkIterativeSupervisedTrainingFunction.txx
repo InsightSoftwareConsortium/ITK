@@ -26,8 +26,8 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TOutput, class ScalarType> 
-IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType> 
+IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::IterativeSupervisedTrainingFunction()
 {
   this->m_LearningRate = 0.5; 
@@ -35,18 +35,18 @@ IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
   m_Stop = false;
 }
 
-template<class TSample, class TOutput, class ScalarType>
-void IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
+void IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::SetNumOfIterations(long i)
 {
   this->SetIterations(i);
   this->Modified();
 }
 
-template<class TSample, class TOutput, class ScalarType>
-void IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
-::Train(typename IterativeSupervisedTrainingFunction<TSample, TOutput, ScalarType>::NetworkType* Net,
-        TSample* samples, TOutput* targets)
+template<class TSample, class TTargetVector, class ScalarType>
+void IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
+::Train(typename IterativeSupervisedTrainingFunction<TSample, TTargetVector, ScalarType>::NetworkType* Net,
+        TSample* samples, TTargetVector* targets)
 {
   this->SetTrainingSamples(samples); 
   this->SetTargetValues(targets);
@@ -96,9 +96,9 @@ void IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
 }
 
 /** Print the object */
-template<class TSample, class TOutput, class ScalarType> 
+template<class TSample, class TTargetVector, class ScalarType> 
 void  
-IterativeSupervisedTrainingFunction<TSample,TOutput,ScalarType>
+IterativeSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "IterativeSupervisedTrainingFunction(" << this << ")" << std::endl; 

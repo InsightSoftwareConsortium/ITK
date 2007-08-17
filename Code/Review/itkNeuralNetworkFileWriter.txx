@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNeuralNetworkFileWriter.txx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkNeuralNetworkFileWriter.txx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkNeuralNetworkFileWriter_txx
@@ -22,212 +22,225 @@
 
 namespace itk
 {
-/** Constructor */
-template<class TVector, class TOutput>
-NeuralNetworkFileWriter<TVector,TOutput>
-::NeuralNetworkFileWriter()
-{
-  m_FileName = "";
-  m_WriteWeightValuesType =2; //Default: binary output
-}
-
-
-template<class TVector, class TOutput>
-void
-NeuralNetworkFileWriter<TVector,TOutput>
-::SetInput( const NetworkType* network ) 
-{
-  m_Network = network; 
-}
-
-
-/** Destructor */
-template<class TVector, class TOutput>
-NeuralNetworkFileWriter<TVector,TOutput>
-::~NeuralNetworkFileWriter()
-{
-  this->ClearFields();
-}
-
-
-template<class TVector, class TOutput>
-void
-NeuralNetworkFileWriter<TVector,TOutput>
-::ClearFields()
-{
-  for (FieldsContainerType::size_type i = 0; i < m_Fields.size(); i++)
-    {
-    delete m_Fields[i];
-    }
-  m_Fields.clear();
-}
-
-template<class TVector, class TOutput>
-void
-NeuralNetworkFileWriter<TVector,TOutput>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  Superclass::PrintSelf( os, indent ); 
-} 
-
-
-template<class TVector, class TOutput>
-const typename NeuralNetworkFileWriter<TVector,TOutput>::NetworkType * 
-NeuralNetworkFileWriter<TVector,TOutput>
-::GetInput() const
-{
-  return m_Network.GetPointer();
-}
-
-/** Update the Writer */
-template<class TVector, class TOutput>
-void
-NeuralNetworkFileWriter<TVector,TOutput>
-::Update()
-{  
-  this->m_OutputFile.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
-  
-  if(!this->m_OutputFile.is_open())
-    {
-    // FIXME : use itkExceptionMacro here
-    std::cout << "NeuralNetworkFileReader Write: Cannot open file" << std::endl;
-    return;
-    }
- 
-  MET_FieldRecordType * mF;
-  
-  
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ObjectType", MET_STRING,
-           strlen(m_Network->GetNameOfClass()),m_Network->GetNameOfClass()); 
-
-  m_Fields.push_back(mF);
-  
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "NLayers", MET_UINT,m_Network->GetNumOfLayers());
-  m_Fields.push_back(mF);
-
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "NWeightSets", 
-          MET_UINT,m_Network->GetNumOfWeightSets());
-  m_Fields.push_back(mF);
- 
-  std::cout<<"Num of Weights = "<<m_Network->GetNumOfWeightSets()<<std::endl;
-  mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "WeightValuesType", MET_UINT,m_WriteWeightValuesType);
-  mF->terminateRead=true; 
-  m_Fields.push_back(mF);
-
-  if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
-    {
-    // FIXME : use itkExceptionMacro here
-    std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
-    //return false;
-    }
-  
-  this->ClearFields();
-
-  LayerConstPointer layer;
-  //Get Layer Information for each layer
-  for(int i=0; i<m_Network->GetNumOfLayers(); i++)
-    {
-    layer=m_Network->GetLayer(i);
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "Layer_Id", MET_INT, i);
-    m_Fields.push_back(mF);
-
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "NumNodes", MET_INT, layer->GetNumberOfNodes());
-    m_Fields.push_back(mF);
-
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "LayerType", MET_STRING,
-               strlen(layer->GetNameOfClass ()), layer->GetNameOfClass ()); 
-    m_Fields.push_back(mF);
-
-    TransferFunctionConstPointer tf = layer->GetActivationFunction();
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "TransferFunction", MET_STRING, 
-                     strlen(tf->GetNameOfClass()), tf->GetNameOfClass());
-    m_Fields.push_back(mF);
-
-    InputFunctionConstPointer inputf = layer->GetNodeInputFunction();
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "InputFunction", MET_STRING, 
-             strlen(inputf->GetNameOfClass()), inputf->GetNameOfClass());
-    mF->terminateRead=true; 
-    m_Fields.push_back(mF);
-
-    }
-
-  if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
-    {
-    // FIXME : use itkExceptionMacro here
-    std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
-    //return false;
-    }
-  
-  this->ClearFields();
-  WeightSetConstPointer weightset;
-  for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
-    {
-    weightset = m_Network->GetWeightSet(j);
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "WeightSet_Id", MET_INT,weightset->GetWeightSetId());
-    m_Fields.push_back(mF);
-
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "WeightSetType", MET_STRING,
-          strlen(weightset->GetNameOfClass ()),weightset->GetNameOfClass ()); 
-    m_Fields.push_back(mF);
-
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "SRC_Layer", MET_INT,weightset->GetInputLayerId());
-    m_Fields.push_back(mF);
-
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "DEST_Layer", MET_INT,weightset->GetOutputLayerId());
-    m_Fields.push_back(mF);
-    }   
-  
-  if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
-    {
-    // FIXME : use itkExceptionMacro here
-    std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
-    //return false;
-    }
-  
-  //Writeout the weight values
-  this->ClearFields();
-  for(int j=0; j<m_Network->GetNumOfWeightSets(); j++)
-    {
-    weightset = m_Network->GetWeightSet(j);
-    unsigned int rows = weightset->GetNumberOfOutputNodes();
-    unsigned int cols = weightset->GetNumberOfInputNodes();
-   
-    mF = new MET_FieldRecordType;
-    MET_InitWriteField(mF, "WeightValues", MET_FLOAT_ARRAY,
-        weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes(),
-                      weightset->GetWeightValues());
-    m_Fields.push_back(mF);
-
-    if(m_WriteWeightValuesType==2)
+  /** Constructor */
+  template<class TNetwork>
+    NeuralNetworkFileWriter<TNetwork>
+    ::NeuralNetworkFileWriter()
       {
-      this->m_OutputFile.write( (char *)weightset->GetWeightValues(),
-                             rows * cols * sizeof(double)); 
+       this->m_FileName = "";
+       this->m_WriteWeightValuesType = Self::BINARY; //Default: binary output
       }
-    } 
 
-  if(m_WriteWeightValuesType==1)
-    {
-    if(!MET_Write(this->m_OutputFile, & m_Fields,'='))
+
+  template<class TNetwork>
+    void
+    NeuralNetworkFileWriter<TNetwork>
+    ::SetInput( const TNetwork* network )
       {
-      // FIXME : use itkExceptionMacro here
-      std::cout << "MetaObject: Write: MET_Write Failed" << std::endl;
-      return;
-      } 
-    }
-}
+       this->m_Network = network;
+      }
+
+
+  /** Destructor */
+  template<class TNetwork>
+    NeuralNetworkFileWriter<TNetwork>
+    ::~NeuralNetworkFileWriter()
+      {
+      this->ClearFields();
+      }
+
+
+  template<class TNetwork>
+    void
+    NeuralNetworkFileWriter<TNetwork>
+    ::ClearFields()
+      {
+      for (FieldsContainerType::size_type i = 0; i <  this->m_Fields.size(); i++)
+        {
+        delete  this->m_Fields[i];
+        }
+       this->m_Fields.clear();
+      }
+
+  template<class TNetwork>
+    void
+    NeuralNetworkFileWriter<TNetwork>
+    ::PrintSelf( std::ostream& os, Indent indent ) const
+      {
+      Superclass::PrintSelf( os, indent );
+      }
+
+
+  template<class TNetwork>
+    const TNetwork *
+    NeuralNetworkFileWriter<TNetwork>
+    ::GetInput() const
+      {
+      return  this->m_Network.GetPointer();
+      }
+
+  /** Update the Writer */
+  template<class TNetwork>
+    void
+    NeuralNetworkFileWriter<TNetwork>
+    ::Update()
+      {
+      this->m_OutputFile.open( this->m_FileName.c_str(), std::ios::binary | std::ios::out);
+
+      if(!this->m_OutputFile.is_open())
+        {
+        itkExceptionMacro("NeuralNetworkFileReader Write: Cannot open file");
+        return;
+        }
+
+      MET_FieldRecordType * mF;
+
+
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "ObjectType", MET_STRING,
+        strlen( this->m_Network->GetNameOfClass()), this->m_Network->GetNameOfClass());
+
+       this->m_Fields.push_back(mF);
+
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "NLayers", MET_UINT, this->m_Network->GetNumOfLayers());
+       this->m_Fields.push_back(mF);
+
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "NWeightSets",
+        MET_UINT, this->m_Network->GetNumOfWeightSets());
+       this->m_Fields.push_back(mF);
+
+      std::cout<<"Num of Weights = "<< this->m_Network->GetNumOfWeightSets()<<std::endl;
+      mF = new MET_FieldRecordType;
+      MET_InitWriteField(mF, "WeightValuesType", MET_UINT, this->m_WriteWeightValuesType);
+      mF->terminateRead=true;
+       this->m_Fields.push_back(mF);
+
+      if(!MET_Write(this->m_OutputFile, &  this->m_Fields,'='))
+        {
+        itkExceptionMacro("MetaObject: Write: MET_Write Failed");
+        }
+
+      this->ClearFields();
+
+      //Get Layer Information for each layer
+      for(int i=0; i< this->m_Network->GetNumOfLayers(); i++)
+        {
+          typename Statistics::LayerBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+            layerPtr = this->m_Network->GetLayer(i);
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "Layer_Id", MET_INT, i);
+        this->m_Fields.push_back(mF);
+
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "NumNodes", MET_INT, layerPtr->GetNumberOfNodes());
+        this->m_Fields.push_back(mF);
+
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "LayerType", MET_STRING,
+          strlen(layerPtr->GetNameOfClass ()), layerPtr->GetNameOfClass ());
+        this->m_Fields.push_back(mF);
+
+        typename TNetwork::TransferFunctionInterfaceType::ConstPointer tf = layerPtr->GetActivationFunction();
+          {
+          mF = new MET_FieldRecordType;
+        if (tf.IsNotNull())
+          {
+          MET_InitWriteField(mF, "TransferFunction", MET_STRING,
+            strlen(tf->GetNameOfClass()), tf->GetNameOfClass());
+          }
+        else
+          {
+          MET_InitWriteField(mF, "TransferFunction", MET_STRING,
+            strlen("NULL"), "NULL");
+          }
+          this->m_Fields.push_back(mF);
+        }
+
+        //NOTE:  One and Two HiddenLayerBackpropogation networks don't have InputFunction Nodes.
+        typename TNetwork::InputFunctionInterfaceType::ConstPointer inputf = layerPtr->GetNodeInputFunction();
+          {
+          mF = new MET_FieldRecordType;
+        if ( inputf.IsNotNull() )
+          {
+          MET_InitWriteField(mF, "InputFunction", MET_STRING,
+            strlen(inputf->GetNameOfClass()), inputf->GetNameOfClass());
+          }
+        else
+          {
+          MET_InitWriteField(mF, "InputFunction", MET_STRING,
+            strlen("NULL"), "NULL");
+          }
+          mF->terminateRead=true;
+          this->m_Fields.push_back(mF);
+          }
+        }
+
+      if(!MET_Write(this->m_OutputFile, &  this->m_Fields,'='))
+        {
+        itkExceptionMacro("MetaObject: Write: MET_Write Failed");
+        }
+
+      this->ClearFields();
+      for(int j=0; j< this->m_Network->GetNumOfWeightSets(); j++)
+        {
+        typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+          weightset =  this->m_Network->GetWeightSet(j);
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "WeightSet_Id", MET_INT,weightset->GetWeightSetId());
+        this->m_Fields.push_back(mF);
+
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "WeightSetType", MET_STRING,
+          strlen(weightset->GetNameOfClass ()),weightset->GetNameOfClass ());
+        this->m_Fields.push_back(mF);
+
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "SRC_Layer", MET_INT,weightset->GetInputLayerId());
+        this->m_Fields.push_back(mF);
+
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "DEST_Layer", MET_INT,weightset->GetOutputLayerId());
+        this->m_Fields.push_back(mF);
+        }
+
+      if(!MET_Write(this->m_OutputFile, &  this->m_Fields,'='))
+        {
+        itkExceptionMacro("MetaObject: Write: MET_Write Failed");
+        }
+
+      //Writeout the weight values
+      this->ClearFields();
+      for(int j=0; j< this->m_Network->GetNumOfWeightSets(); j++)
+        {
+        typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+          weightset =  this->m_Network->GetWeightSet(j);
+        unsigned int rows = weightset->GetNumberOfOutputNodes();
+        unsigned int cols = weightset->GetNumberOfInputNodes();
+
+        mF = new MET_FieldRecordType;
+        MET_InitWriteField(mF, "WeightValues", MET_FLOAT_ARRAY,
+          weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes(),
+          weightset->GetWeightValues());
+         this->m_Fields.push_back(mF);
+
+        if( this->m_WriteWeightValuesType==BINARY)
+          {
+          this->m_OutputFile.write( (char *)weightset->GetWeightValues(),
+            rows * cols * sizeof(double));
+          }
+        }
+
+      if( this->m_WriteWeightValuesType==ASCII)
+        {
+        if(!MET_Write(this->m_OutputFile, &  this->m_Fields,'='))
+          {
+          itkExceptionMacro("MetaObject: Write: MET_Write Failed");
+          return;
+          }
+        }
+      }
 
 
 } // namespace itk

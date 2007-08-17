@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNeuralNetworkFileWriter.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkNeuralNetworkFileWriter.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -23,9 +23,10 @@
 #include <typeinfo>
 
 #include "itkMultilayerNeuralNetworkBase.h"
+#include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
+#include "itkTwoHiddenLayerBackPropagationNeuralNetwork.h"
 
 #include "itkBackPropagationLayer.h"
-
 #include "itkCompletelyConnectedWeightSet.h"
 
 #include "itkSumInputFunction.h"
@@ -40,105 +41,98 @@
 
 namespace itk
 {
-/** \class NeuralNetworkFileWriter
- * \brief Writer for Neural Network
- *
- * This class will enable a user to save a trained neural network to a text
- * file. The user can also change the network topology by editing the network
- * configuration file. 
- * 
- * This class was contributed to the Insight Journal by  Raghu Venkatram  
- * The original paper can be found at
- *   http://hdl.handle.net/1926/203
- *
- *
- * \author Raghu Venkatram
- *
- * \sa NeuralNetworkFileReader
- * \sa MultilayerNeuralNetworkBase
- *  
- *
- * \group IOFilter
- *
- */
-template<class TVector, class TOutput>
-class NeuralNetworkFileWriter : public Object
-{
-public:
-  
-  /** SmartPointer typedef support */
-  typedef NeuralNetworkFileWriter           Self;
-  typedef Object                            Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(NeuralNetworkFileWriter,Object);
-  
-  /** Method for creation through the object factory */
-  itkNewMacro(Self);
+  /** \class NeuralNetworkFileWriter
+   * \brief Writer for Neural Network
+   *
+   * This class will enable a user to save a trained neural network to a text
+   * file. The user can also change the network topology by editing the network
+   * configuration file.
+   *
+   * This class was contributed to the Insight Journal by  Raghu Venkatram
+   * The original paper can be found at
+   *   http://hdl.handle.net/1926/203
+   *
+   *
+   * \author Raghu Venkatram
+   *
+   * \sa NeuralNetworkFileReader
+   * \sa MultilayerNeuralNetworkBase
+   *
+   *
+   * \group IOFilter
+   *
+   */
+  template<class TNetwork>
+    class NeuralNetworkFileWriter : public Object
+      {
+    public:
 
-  typedef Statistics::MultilayerNeuralNetworkBase<TVector,TOutput> NetworkType;
+      /** SmartPointer typedef support */
+      typedef NeuralNetworkFileWriter           Self;
+      typedef Object                            Superclass;
+      typedef SmartPointer<Self>                Pointer;
+      typedef SmartPointer<const Self>          ConstPointer;
 
-  typedef typename NetworkType::Pointer        NetworkPointer;
-  typedef typename NetworkType::ConstPointer   NetworkConstPointer;
-  
-  typedef Statistics::LayerBase<TVector,TOutput>                  LayerType;
+      /** Run-time type information (and related methods). */
+      itkTypeMacro(NeuralNetworkFileWriter,Object);
 
-  typedef typename LayerType::Pointer                      LayerPointer;
-  typedef typename LayerType::ConstPointer                 LayerConstPointer;
+      /** Method for creation through the object factory */
+      itkNewMacro(Self);
 
-  typedef typename LayerType::TransferFunctionPointer TransferFunctionPointer;
+      typedef typename TNetwork::MeasurementVectorType MeasurementVectorType;
+      typedef typename TNetwork::TargetVectorType TargetVectorType;
 
-  typedef typename LayerType::TransferFunctionConstPointer 
-                                              TransferFunctionConstPointer;
+   //   typedef typename TNetwork::Pointer                       NetworkPointer;
+   //   typedef typename TNetwork::ConstPointer                  NetworkConstPointer;
 
-  typedef typename LayerType::InputFunctionPointer InputFunctionPointer;
+   // typedef typename TNetwork::LayerType                     LayerType;
+   // typedef typename LayerType::Pointer                      LayerPointer;
+   // typedef typename LayerType::ConstPointer                 LayerConstPointer;
+   // typedef typename LayerType::TransferFunctionType::Pointer      TransferFunctionPointer;
+   // typedef typename LayerType::TransferFunctionType::ConstPointer TransferFunctionConstPointer;
 
-  typedef typename LayerType::InputFunctionConstPointer
-                                                      InputFunctionConstPointer;
+   // typedef typename LayerType::InputFunctionType::Pointer         InputFunctionPointer;
+   // typedef typename LayerType::InputFunctionType::ConstPointer    InputFunctionConstPointer;
 
-  typedef typename LayerType::WeightSetPointer        WeightSetPointer;
-  typedef typename LayerType::WeightSetConstPointer   WeightSetConstPointer;
-  typedef typename LayerType::ValueType               ValueType;
+   // typedef typename LayerType::WeightSetType                WeightSetType;
+    // typedef typename LayerType::WeightSetPointer             WeightSetPointer;
+    // typedef typename LayerType::WeightSetConstPointer        WeightSetConstPointer;
+    //  typedef typename LayerType::ValueType                    ValueType;
 
-  typedef typename NetworkType::WeightSetType               WeightSetType;
-  typedef Statistics::BackPropagationLayer<TVector,TOutput> BackPropLayerType;
-  typedef typename BackPropLayerType::Pointer               BPLayerPointerType;
-  
-  /** Set the filename  */
-  itkSetStringMacro(FileName);
+      /** Set the filename  */
+      itkSetStringMacro(FileName);
 
-  /** Get the filename */
-  itkGetStringMacro(FileName);
+      /** Get the filename */
+      itkGetStringMacro(FileName);
 
-  /** Set/Get the input transform to write */
-  void SetInput( const NetworkType* network );
-  const NetworkType * GetInput() const;
+      /** Set/Get the input transform to write */
+      void SetInput( const TNetwork* network );
+      const TNetwork * GetInput() const;
 
-  /** Read NeuralNetwork */
-  void Update(void);
+      /** Read NeuralNetwork */
+      void Update(void);
 
-  itkSetMacro(WriteWeightValuesType, unsigned int);
-  itkGetConstMacro(WriteWeightValuesType, unsigned int);
-  
-protected:
-  NeuralNetworkFileWriter();
-  virtual ~NeuralNetworkFileWriter();
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+      typedef enum { IGNORE=0, ASCII=1, BINARY=2 } NetworkWriteWeightsType;
+      itkSetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
+      itkGetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
 
-private:
-  void ClearFields();
-  typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
+    protected:
+      NeuralNetworkFileWriter();
+      ~NeuralNetworkFileWriter();
+      virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  NetworkConstPointer    m_Network;
-  unsigned int           m_WriteWeightValuesType;
-  
-  std::string            m_FileName;
-  FieldsContainerType    m_Fields;
+    private:
+      void ClearFields();
+      typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
-  std::ofstream          m_OutputFile;
-};
+      typename TNetwork::ConstPointer     m_Network;
+      NetworkWriteWeightsType m_WriteWeightValuesType;
+
+      std::string             m_FileName;
+      FieldsContainerType     m_Fields;
+
+      std::ofstream           m_OutputFile;
+      };
 
 } // namespace itk
 
@@ -146,4 +140,4 @@ private:
 #include "itkNeuralNetworkFileWriter.txx"
 #endif
 
-#endif 
+#endif

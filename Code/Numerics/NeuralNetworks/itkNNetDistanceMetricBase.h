@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,14 +25,14 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector>
-class NNetDistanceMetricBase : public FunctionBase<TVector, double>
+template<class TMeasurementVector>
+class NNetDistanceMetricBase : public FunctionBase<TMeasurementVector, double>
 {
 public:
 
   /** Standard class typedefs. */
   typedef NNetDistanceMetricBase Self;
-  typedef FunctionBase<TVector,double> Superclass;
+  typedef FunctionBase<TMeasurementVector,double> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -40,8 +40,8 @@ public:
   itkTypeMacro(NNetDistanceMetricBase, FunctionBase);
 
   /** Input type */
-  typedef TVector InputVectorType;
- 
+  typedef TMeasurementVector InputVectorType;
+
   /** Evaluate at the specified input position */
   virtual double Evaluate(const InputVectorType& x1, const InputVectorType& x2) const = 0;
 
@@ -50,20 +50,20 @@ public:
 
 protected:
   NNetDistanceMetricBase() {};
-  virtual ~NNetDistanceMetricBase() {};
- 
+  ~NNetDistanceMetricBase() {};
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const
     {
-    os << indent << "NNetDistanceMetricBase(" << this << ")" << std::endl; 
-    Superclass::PrintSelf( os, indent ); 
-    } 
+    os << indent << "NNetDistanceMetricBase(" << this << ")" << std::endl;
+    Superclass::PrintSelf( os, indent );
+    }
 
 private:
 
   NNetDistanceMetricBase (const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
- 
+
 };
 
 } // end namespace Statistics

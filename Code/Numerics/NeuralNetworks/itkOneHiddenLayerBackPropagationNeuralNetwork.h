@@ -1,121 +1,134 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOneHiddenLayerBackPropagationNeuralNetwork.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkOneHiddenLayerBackPropagationNeuralNetwork.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkOneHiddenLayerBackPropNeuralNetworkBase_h
 #define __itkOneHiddenLayerBackPropNeuralNetworkBase_h
 
-
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkBackPropagationLayer.h"
-#include "itkCompletelyConnectedWeightSet.h"
 #include "itkSigmoidTransferFunction.h"
 #include "itkLogSigmoidTransferFunction.h"
-#include "itkSymmetricSigmoidTransferFunction.h"
 #include "itkTanSigmoidTransferFunction.h"
 #include "itkHardLimitTransferFunction.h"
 #include "itkSignedHardLimitTransferFunction.h"
 #include "itkGaussianTransferFunction.h"
-#include "itkTanHTransferFunction.h"
 #include "itkIdentityTransferFunction.h"
 #include "itkSumInputFunction.h"
-#include "itkProductInputFunction.h"
+
+//#include "itkProductInputFunction.h"
 
 namespace itk
 {
-namespace Statistics
-{
+  namespace Statistics
+    {
 
-template<class TVector, class TOutput>
-class OneHiddenLayerBackPropagationNeuralNetwork : 
-  public MultilayerNeuralNetworkBase<TVector, TOutput>
-{
+    template<class TMeasurementVector, class TTargetVector>
+      class OneHiddenLayerBackPropagationNeuralNetwork :
+      public MultilayerNeuralNetworkBase<TMeasurementVector, TTargetVector, BackPropagationLayer<TMeasurementVector, TTargetVector> >
+        {
+      public:
+        typedef OneHiddenLayerBackPropagationNeuralNetwork Self;
+        typedef MultilayerNeuralNetworkBase<TMeasurementVector, TTargetVector, BackPropagationLayer<TMeasurementVector, TTargetVector> > Superclass;
+        typedef SmartPointer<Self> Pointer;
+        typedef SmartPointer<const Self> ConstPointer;
 
-public:
-  
-  typedef OneHiddenLayerBackPropagationNeuralNetwork Self;
-  typedef MultilayerNeuralNetworkBase<TVector, TOutput> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::NetworkOutputType NetworkOutputType;
-  
-  typedef TransferFunctionBase<ValueType> TransferFunctionType;
-  typedef InputFunctionBase<ValueType*, ValueType> InputFunctionType;
-  
-  /* Method for creation through the object factory. */
-  itkTypeMacro(OneHiddenLayerBackPropagationNeuralNetwork,
-               MultilayerNeuralNetworkBase);  
-  itkNewMacro(Self) ;
+        typedef typename Superclass::ValueType ValueType;
+        typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+        typedef typename Superclass::TargetVectorType TargetVectorType;
+        typedef typename Superclass::NetworkOutputType NetworkOutputType;
 
-  //Add the layers to the network.
-  // 1 input, 1 hidden, 1 output 
-  void Initialize();
+        typedef typename Superclass::LayerInterfaceType LayerInterfaceType;
+        typedef typename Superclass::LearningLayerType LearningLayerType;
 
-  itkSetMacro(NumOfInputNodes, unsigned int);
-  itkGetConstReferenceMacro(NumOfInputNodes, unsigned int);
+        typedef typename Superclass::WeightVectorType WeightVectorType;
+        typedef typename Superclass::LayerVectorType LayerVectorType;
 
-  itkSetMacro(NumOfHiddenNodes, unsigned int);
-  itkGetConstReferenceMacro(NumOfHiddenNodes, unsigned int);
+        typedef typename Superclass::TransferFunctionInterfaceType TransferFunctionInterfaceType;
+        typedef typename Superclass::InputFunctionInterfaceType InputFunctionInterfaceType;
 
-  itkSetMacro(NumOfOutputNodes, unsigned int);
-  itkGetConstReferenceMacro(NumOfOutputNodes, unsigned int);
+        /* Method for creation through the object factory. */
+        itkTypeMacro(OneHiddenLayerBackPropagationNeuralNetwork,
+          MultilayerNeuralNetworkBase);
+        itkNewMacro(Self) ;
 
-  itkSetMacro(HiddenLayerBias, ValueType);
-  itkGetConstReferenceMacro(HiddenLayerBias, ValueType);
+        //Add the layers to the network.
+        // 1 input, 1 hidden, 1 output
+        void Initialize();
 
-  itkSetMacro(OutputLayerBias, ValueType);
-  itkGetConstReferenceMacro(OutputLayerBias, ValueType);
+        itkSetMacro(NumOfInputNodes, unsigned int);
+        itkGetConstReferenceMacro(NumOfInputNodes, unsigned int);
 
-  //ValueType* GenerateOutput(TVector samplevector);
-  NetworkOutputType GenerateOutput(TVector samplevector);
+        itkSetMacro(NumOfFirstHiddenNodes, unsigned int);
+        itkGetConstReferenceMacro(NumOfFirstHiddenNodes, unsigned int);
 
-  void SetInputTransferFunction(TransferFunctionType* f);
-  void SetHiddenTransferFunction(TransferFunctionType* f);
-  void SetOutputTransferFunction(TransferFunctionType* f);
+        itkSetMacro(NumOfOutputNodes, unsigned int);
+        itkGetConstReferenceMacro(NumOfOutputNodes, unsigned int);
 
-  void SetInputFunction(InputFunctionType* f);
+        itkSetMacro(FirstHiddenLayerBias, ValueType);
+        itkGetConstReferenceMacro(FirstHiddenLayerBias, ValueType);
 
-protected:
+//#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
+#ifdef __USE_OLD_INTERFACE
+        //Original Function name before consistency naming changes
+        inline void SetNumOfHiddenNodes(const unsigned int & x) { SetNumOfFirstHiddenNodes(x); }
+        inline unsigned int GetNumOfHiddenNodes(void) const { return GetNumOfFirstHiddenNodes(); }
+        inline void SetHiddenLayerBias(const ValueType & bias) { SetFirstHiddenLayerBias(bias); }
+        ValueType GetHiddenLayerBias(void) const { return GetFirstHiddenLayerBias();};
+#endif
+        itkSetMacro(OutputLayerBias, ValueType);
+        itkGetConstReferenceMacro(OutputLayerBias, ValueType);
 
-  OneHiddenLayerBackPropagationNeuralNetwork();
-  ~OneHiddenLayerBackPropagationNeuralNetwork(){};
+        virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector);
 
-  /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+        void SetInputFunction(InputFunctionInterfaceType* f);
+        void SetInputTransferFunction(TransferFunctionInterfaceType* f);
+#ifdef __USE_OLD_INTERFACE
+        //Original Function name before consistency naming changes
+        inline void SetHiddenTransferFunction(TransferFunctionInterfaceType* f) { SetFirstHiddenTransferFunction (f); };
+#endif
+        void SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f);
+        void SetOutputTransferFunction(TransferFunctionInterfaceType* f);
+      protected:
 
-private:
+        OneHiddenLayerBackPropagationNeuralNetwork();
+        virtual ~OneHiddenLayerBackPropagationNeuralNetwork(){};
 
-  unsigned int       m_NumOfInputNodes;
-  unsigned int       m_NumOfHiddenNodes;
-  unsigned int       m_NumOfOutputNodes;
-  ValueType m_HiddenLayerBias;
-  ValueType m_OutputLayerBias;
+        /** Method to print the object. */
+        virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  typename InputFunctionType::Pointer    m_InputFunction;
-  typename TransferFunctionType::Pointer m_InputTransferFunction;
-  typename TransferFunctionType::Pointer m_HiddenTransferFunction;
-  typename TransferFunctionType::Pointer m_OutputTransferFunction;
-};
+      private:
 
-} // end namespace Statistics
+        unsigned int m_NumOfInputNodes;
+        unsigned int m_NumOfFirstHiddenNodes;
+        unsigned int m_NumOfOutputNodes;
+
+        ValueType m_FirstHiddenLayerBias;
+        ValueType m_OutputLayerBias;
+
+        typename InputFunctionInterfaceType::Pointer    m_InputFunction;
+        typename TransferFunctionInterfaceType::Pointer m_InputTransferFunction;
+        typename TransferFunctionInterfaceType::Pointer m_FirstHiddenTransferFunction;
+        typename TransferFunctionInterfaceType::Pointer m_OutputTransferFunction;
+        };
+
+    } // end namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkOneHiddenLayerBackPropagationNeuralNetwork.txx"
+#include "itkOneHiddenLayerBackPropagationNeuralNetwork.txx"
 #endif
 
 #endif

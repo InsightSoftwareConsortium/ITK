@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,13 +25,13 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class TOutput>
-class ErrorFunctionBase : public FunctionBase<TVector, TOutput>
+template<class TMeasurementVector, class TTargetVector>
+class ErrorFunctionBase : public FunctionBase<TMeasurementVector, TTargetVector>
 {
 public:
   /** Standard class typedefs. */
   typedef ErrorFunctionBase Self;
-  typedef FunctionBase<TVector, TOutput> Superclass;
+  typedef FunctionBase<TMeasurementVector, TTargetVector> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -39,22 +39,21 @@ public:
   itkTypeMacro(ErrorFunctionBase, FunctionBase);
 
   /** Error type */
-  typedef TVector ErrorVectorType;
+  typedef TMeasurementVector ErrorVectorType;
 
   /** Output type */
-  typedef TOutput OutputType;
+  typedef TTargetVector OutputType;
 
   typedef Array<double> InternalVectorType;
 
   virtual OutputType Evaluate(const ErrorVectorType&) const = 0;
 
-  //virtual ErrorVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
   virtual InternalVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
-  
+
 protected:
 
   ErrorFunctionBase(){};
-  virtual ~ErrorFunctionBase(){}; 
+  ~ErrorFunctionBase(){};
 
 private:
 

@@ -24,8 +24,8 @@ namespace itk
 namespace Statistics
 {
 
-template<class LayerType, class TOutput>
-RBFBackPropagationLearningFunction<LayerType,TOutput>
+template<class LayerType, class TTargetVector>
+RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::RBFBackPropagationLearningFunction()
 {
   m_LearningRate1 = 0.05;
@@ -33,9 +33,9 @@ RBFBackPropagationLearningFunction<LayerType,TOutput>
   m_LearningRate3 = 0.75;
 }
 
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void
-RBFBackPropagationLearningFunction<LayerType,TOutput>
+RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::Learn(LayerType* layer,ValueType lr)
 {
   typename LayerType::WeightSetType::Pointer outputweightset;
@@ -58,7 +58,7 @@ RBFBackPropagationLearningFunction<LayerType,TOutput>
   DB.fill(0);
   DB.copy_in(DBValues);
 
-  if(layer->GetLayerType()==3) //If output layer do back propagation
+  if(layer->GetLayerTypeCode()==LayerInterfaceType::OUTPUTLAYER) //If output layer do back propagation
     {
     DW_temp*=lr;
     inputweightset->SetDWValues(DW_temp.data_block());
@@ -75,17 +75,17 @@ RBFBackPropagationLearningFunction<LayerType,TOutput>
     }
 }
 
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void
-RBFBackPropagationLearningFunction<LayerType,TOutput>
-::Learn(LayerType* itkNotUsed(layer), TOutput itkNotUsed(errors), ValueType itkNotUsed(lr))
+RBFBackPropagationLearningFunction<LayerType,TTargetVector>
+::Learn(LayerType* itkNotUsed(layer), TTargetVector itkNotUsed(errors), ValueType itkNotUsed(lr))
 {
 }
 
 /** Print the object */
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void  
-RBFBackPropagationLearningFunction<LayerType,TOutput>
+RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "RBFBackPropagationLearningFunction(" << this << ")" << std::endl; 

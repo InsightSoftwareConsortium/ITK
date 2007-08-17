@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -36,24 +36,24 @@ public:
   typedef typename Superclass::ArrayType ArrayType;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
- 
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianRadialBasisFunction,RadialBasisFunctionBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Evaluate at the specified input position */
-  ScalarType Evaluate(const ScalarType& input) const;
- 
-  ScalarType EvaluateDerivative(const ScalarType& dist,const ArrayType& input,
+  virtual ScalarType Evaluate(const ScalarType& input) const;
+
+  virtual ScalarType EvaluateDerivative(const ScalarType& dist,const ArrayType& input,
                                       char mode,int element_id=0) const;
 
 protected:
- 
+
   GaussianRadialBasisFunction();
-  ~GaussianRadialBasisFunction();
-  
+  virtual ~GaussianRadialBasisFunction();
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 

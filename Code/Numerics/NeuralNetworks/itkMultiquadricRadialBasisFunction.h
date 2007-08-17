@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -42,10 +42,10 @@ public:
   itkNewMacro(Self) ;
 
   /** Evaluate at the specified input position */
-  ScalarType Evaluate(const ScalarType& input) const; //{return 0;};
+  virtual ScalarType Evaluate(const ScalarType& input) const; //{return 0;};
 
   /** Evaluate the derivative at the specified input position */
-  ScalarType EvaluateDerivative(const ScalarType& input) const{return 0;};
+  virtual ScalarType EvaluateDerivative(const ScalarType& input) const{return 0;};
 
   itkSetMacro(Radius,ScalarType);
   itkGetConstReferenceMacro(Radius,ScalarType);
@@ -55,16 +55,16 @@ public:
 protected:
 
   MultiquadricRadialBasisFunction();
-  ~MultiquadricRadialBasisFunction();
- 
+  virtual ~MultiquadricRadialBasisFunction();
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 private:
-   
+
   ScalarType m_Radius;
   ScalarType m_Center;
-  
+
 };
 
 } // end namespace Statistics

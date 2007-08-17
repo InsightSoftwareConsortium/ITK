@@ -1,131 +1,151 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkRBFNetwork.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkRBFNetwork.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkRBFNetwork_h
 #define __itkRBFNetwork_h
 
-
 #include "itkMultilayerNeuralNetworkBase.h"
 #include "itkBackPropagationLayer.h"
-#include "itkRBFLayer.h"
-#include "itkCompletelyConnectedWeightSet.h"
 #include "itkSigmoidTransferFunction.h"
 #include "itkLogSigmoidTransferFunction.h"
-#include "itkSymmetricSigmoidTransferFunction.h"
 #include "itkTanSigmoidTransferFunction.h"
 #include "itkHardLimitTransferFunction.h"
 #include "itkSignedHardLimitTransferFunction.h"
 #include "itkGaussianTransferFunction.h"
-#include "itkTanHTransferFunction.h"
 #include "itkIdentityTransferFunction.h"
 #include "itkSumInputFunction.h"
+
+#include "itkSymmetricSigmoidTransferFunction.h"
+#include "itkTanHTransferFunction.h"
 #include "itkEuclideanDistance.h"
+#include "itkRBFLayer.h"
 
 namespace itk
 {
-namespace Statistics
-{
-template<class TVector, class TOutput>
-class RBFNetwork : public MultilayerNeuralNetworkBase<TVector, TOutput>
-{
-public:
+  namespace Statistics
+    {
 
-  typedef RBFNetwork Self;
-  typedef MultilayerNeuralNetworkBase<TVector, TOutput> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef typename Superclass::ValueType ValueType;
-  typedef Array<ValueType> ArrayType;
-  typedef TransferFunctionBase<ValueType> TransferFunctionType;
-  typedef RadialBasisFunctionBase<ValueType> RBFType;
-  typedef InputFunctionBase<ValueType*, ValueType> InputFunctionType;
-  typedef EuclideanDistance<ArrayType> DistanceMetricType; 
+    template<class TMeasurementVector, class TTargetVector>
+      class RBFNetwork :
+      public MultilayerNeuralNetworkBase<TMeasurementVector, TTargetVector, BackPropagationLayer<TMeasurementVector, TTargetVector> >
+        {
+      public:
+        typedef RBFNetwork Self;
+        typedef MultilayerNeuralNetworkBase<TMeasurementVector, TTargetVector , BackPropagationLayer<TMeasurementVector, TTargetVector> > Superclass;
+        typedef SmartPointer<Self> Pointer;
+        typedef SmartPointer<const Self> ConstPointer;
 
-  typename InputFunctionType::Pointer InputFunction;
-  typename DistanceMetricType::Pointer DistanceMetric;
-  
-  typename TransferFunctionType::Pointer InputTransferFunction;
-  typename RBFType::Pointer HiddenTransferFunction;
-  typename TransferFunctionType::Pointer OutputTransferFunction;
-  
-  typedef typename Superclass::NetworkOutputType NetworkOutputType;
+        typedef typename Superclass::ValueType ValueType;
+        typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+        typedef typename Superclass::TargetVectorType TargetVectorType;
+        typedef typename Superclass::NetworkOutputType NetworkOutputType;
 
-  /* Method for creation through the object factory. */
-  itkTypeMacro(RBFNetwork,
-               MultilayerNeuralNetworkBase);  
-  itkNewMacro(Self) ;
+        typedef typename Superclass::LayerInterfaceType LayerInterfaceType;
+        typedef typename Superclass::LearningLayerType LearningLayerType;
 
-  //Add the layers to the network.
-  // 1 input, 1 hidden, 1 output 
-  void Initialize();
+        typedef typename Superclass::WeightVectorType WeightVectorType;
+        typedef typename Superclass::LayerVectorType LayerVectorType;
 
-  itkSetMacro(NumOfInputNodes,unsigned int);
-  itkGetConstReferenceMacro(NumOfInputNodes,unsigned int);
+        typedef typename Superclass::TransferFunctionInterfaceType TransferFunctionInterfaceType;
+        typedef typename Superclass::InputFunctionInterfaceType InputFunctionInterfaceType;
 
-  itkSetMacro(NumOfHiddenNodes,unsigned int);
-  itkGetConstReferenceMacro(NumOfHiddenNodes, unsigned int);
+        // Specializations for RBF Networks
+        typedef Array<ValueType> ArrayType;
+        typedef EuclideanDistance<ArrayType> DistanceMetricType;
+        typedef RadialBasisFunctionBase<ValueType> RBFTransferFunctionType;
+        typedef RBFLayer<TMeasurementVector, TTargetVector> HiddenLayerType;
 
-  itkSetMacro(NumOfOutputNodes,unsigned int);
-  itkGetConstReferenceMacro(NumOfOutputNodes, unsigned int);
+        itkSetMacro(Classes, unsigned int);
+        itkGetConstReferenceMacro(Classes, unsigned int);
+        void SetCenter(TMeasurementVector c);
+        void SetRadius(ValueType r);
+        void SetDistanceMetric(DistanceMetricType* f);
+        void InitializeWeights();
 
-  itkSetMacro(HiddenLayerBias, ValueType);
-  itkGetConstReferenceMacro(HiddenLayerBias, ValueType);
+        /* Method for creation through the object factory. */
+        itkTypeMacro(RBFNetwork,
+          MultilayerNeuralNetworkBase);
+        itkNewMacro(Self) ;
 
-  itkSetMacro(OutputLayerBias, ValueType);
-  itkGetConstReferenceMacro(OutputLayerBias, ValueType);
+        //Add the layers to the network.
+        // 1 input, 1 hidden, 1 output
+        void Initialize();
 
-  itkSetMacro(Classes,unsigned int);
-  itkGetConstReferenceMacro(Classes,unsigned int);
+        itkSetMacro(NumOfInputNodes, unsigned int);
+        itkGetConstReferenceMacro(NumOfInputNodes, unsigned int);
 
- // ValueType* GenerateOutput(TVector samplevector);
-  virtual NetworkOutputType GenerateOutput(TVector samplevector);
+        itkSetMacro(NumOfFirstHiddenNodes, unsigned int);
+        itkGetConstReferenceMacro(NumOfFirstHiddenNodes, unsigned int);
 
-  void SetInputTransferFunction(TransferFunctionType* f);
-  void SetDistanceMetric(DistanceMetricType* f);
-  void SetHiddenTransferFunction(TransferFunctionType* f);
-  void SetOutputTransferFunction(TransferFunctionType* f);
+        itkSetMacro(NumOfOutputNodes, unsigned int);
+        itkGetConstReferenceMacro(NumOfOutputNodes, unsigned int);
 
-  void SetInputFunction(InputFunctionType* f);
-  void InitializeWeights();
+        itkSetMacro(FirstHiddenLayerBias, ValueType);
+        itkGetConstReferenceMacro(FirstHiddenLayerBias, ValueType);
 
-  void SetCenter(TVector c);
-  void SetRadius(ValueType r);
+//#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
+#ifdef __USE_OLD_INTERFACE
+        //Original Function name before consistency naming changes
+        inline void SetNumOfHiddenNodes(const unsigned int & x) { SetNumOfFirstHiddenNodes(x); }
+        inline unsigned int GetNumOfHiddenNodes(void) const { return GetNumOfFirstHiddenNodes(); }
+        inline void SetHiddenLayerBias(const ValueType & bias) { SetFirstHiddenLayerBias(bias); }
+        ValueType GetHiddenLayerBias(void) const { return GetFirstHiddenLayerBias();};
+#endif
+        itkSetMacro(OutputLayerBias, ValueType);
+        itkGetConstReferenceMacro(OutputLayerBias, ValueType);
 
-protected:
+        virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector);
 
-  RBFNetwork();
-  ~RBFNetwork(){};
-  
-  /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+        void SetInputFunction(InputFunctionInterfaceType* f);
+        void SetInputTransferFunction(TransferFunctionInterfaceType* f);
+#ifdef __USE_OLD_INTERFACE
+        //Original Function name before consistency naming changes
+        inline void SetHiddenTransferFunction(TransferFunctionInterfaceType* f) { SetFirstHiddenTransferFunction (f); };
+#endif
+        void SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f);
+        void SetOutputTransferFunction(TransferFunctionInterfaceType* f);
+      protected:
 
-private:
+        RBFNetwork();
+        virtual ~RBFNetwork(){};
 
-  unsigned int       m_NumOfInputNodes;
-  unsigned int       m_NumOfHiddenNodes;
-  unsigned int       m_NumOfOutputNodes;
-  unsigned int       m_Classes;
-  ValueType m_HiddenLayerBias;
-  ValueType m_OutputLayerBias;
-  std::vector<TVector> m_Centers;  // ui....uc
-  std::vector<double> m_Radii;
-};
+        /** Method to print the object. */
+        virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-} // end namespace Statistics
+      private:
+
+        typename DistanceMetricType::Pointer            m_DistanceMetric;
+        std::vector<TMeasurementVector>                 m_Centers;  // ui....uc
+        std::vector<double>                             m_Radii;
+        unsigned int m_Classes;
+
+        unsigned int m_NumOfInputNodes;
+        unsigned int m_NumOfFirstHiddenNodes;
+        unsigned int m_NumOfOutputNodes;
+
+        ValueType m_FirstHiddenLayerBias;
+        ValueType m_OutputLayerBias;
+
+        typename InputFunctionInterfaceType::Pointer    m_InputFunction;
+        typename TransferFunctionInterfaceType::Pointer m_InputTransferFunction;
+        typename RBFTransferFunctionType::Pointer       m_FirstHiddenTransferFunction;
+        typename TransferFunctionInterfaceType::Pointer m_OutputTransferFunction;
+        };
+
+    } // end namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

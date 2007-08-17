@@ -1,107 +1,122 @@
-/*=========================================================================
+/*
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkMultilayerNeuralNetworkBase.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMultilayerNeuralNetworkBase.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __MultiLayerNeuralNetworkBase_h
 #define __MultiLayerNeuralNetworkBase_h
 
 #include "itkNeuralNetworkObject.h"
-#include "itkErrorBackPropagationLearningFunctionBase.h"
-#include "itkErrorBackPropagationLearningWithMomentum.h"
-#include "itkQuickPropLearningRule.h"
+#include "itkLayerBase.h"
 
 namespace itk
 {
-namespace Statistics
-{
+  namespace Statistics
+    {
 
-template<class TVector, class TOutput>
-class MultilayerNeuralNetworkBase : public NeuralNetworkObject<TVector, TOutput>
-{
-public:
+    template<class TMeasurementVector, class TTargetVector,class TLearningLayer=LayerBase<TMeasurementVector, TTargetVector> >
+      class MultilayerNeuralNetworkBase : public NeuralNetworkObject<TMeasurementVector, TTargetVector>
+        {
+      public:
 
-  typedef MultilayerNeuralNetworkBase Self;
-  typedef NeuralNetworkObject<TVector, TOutput> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  itkTypeMacro(MultilayerNeuralNetworkBase, NeuralNetworkObject);
+        typedef MultilayerNeuralNetworkBase Self;
+        typedef NeuralNetworkObject<TMeasurementVector, TTargetVector> Superclass;
+        typedef SmartPointer<Self> Pointer;
+        typedef SmartPointer<const Self> ConstPointer;
+        itkTypeMacro(MultilayerNeuralNetworkBase, NeuralNetworkObject);
 
-  /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro( Self ); 
+        /** New macro for creation of through a Smart Pointer. */
+        itkNewMacro( Self );
 
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::NetworkOutputType NetworkOutputType;
-  typedef typename Superclass::LayerType LayerType;
-  typedef typename Superclass::WeightSetType WeightSetType;
-  typedef typename Superclass::WeightSetPointer WeightSetPointer;
-  typedef typename Superclass::LayerPointer LayerPointer;
-  typedef typename Superclass::LearningFunctionType LearningFunctionType;
-  typedef typename Superclass::LearningFunctionPointer LearningFunctionPointer;
+        typedef typename Superclass::ValueType ValueType;
+        typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+        typedef typename Superclass::TargetVectorType TargetVectorType;
+        typedef typename Superclass::NetworkOutputType NetworkOutputType;
 
-  typedef std::vector<WeightSetPointer> WeightVectorType;
-  typedef std::vector<LayerPointer> LayerVectorType;
+        typedef typename Superclass::LayerInterfaceType LayerInterfaceType;
+        typedef TLearningLayer LearningLayerType;
+        typedef LearningFunctionBase<typename TLearningLayer::LayerInterfaceType, TTargetVector> LearningFunctionInterfaceType;
 
-  itkSetMacro(NumOfLayers, int);
-  itkGetConstReferenceMacro(NumOfLayers, int);
-  
-  itkSetMacro(NumOfWeightSets, int);
-  itkGetConstReferenceMacro(NumOfWeightSets, int);
+        typedef std::vector<typename LayerInterfaceType::WeightSetInterfaceType::Pointer> WeightVectorType;
+        typedef std::vector<typename LayerInterfaceType::Pointer> LayerVectorType;
 
-  void AddLayer(LayerType*);
-  LayerType* GetLayer(int layer_id);
-  const LayerType* GetLayer(int layer_id) const;
+        typedef TransferFunctionBase<ValueType> TransferFunctionInterfaceType;
+        typedef InputFunctionBase<ValueType*, ValueType> InputFunctionInterfaceType;
 
-  void AddWeightSet(WeightSetType*);
-  WeightSetType* GetWeightSet(unsigned int id);
-  const WeightSetType* GetWeightSet(unsigned int id) const;
+//#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
+#ifdef __USE_OLD_INTERFACE
+        itkSetMacro(NumOfLayers, int);
+        itkGetConstReferenceMacro(NumOfLayers, int);
 
-  void SetLearningFunction(LearningFunctionType* f);
+        itkSetMacro(NumOfWeightSets, int);
+        itkGetConstReferenceMacro(NumOfWeightSets, int);
+#else
+        int GetNumOfLayers(void) const
+          {
+          return m_Layers.size();
+          }
+        int GetNumOfWeightSets(void) const
+          {
+          return m_Weights.size();
+          }
 
- // virtual ValueType* GenerateOutput(TVector samplevector);
-  virtual NetworkOutputType GenerateOutput(TVector samplevector);
+#endif
 
-//  virtual void BackwardPropagate(TOutput errors);
-  virtual void BackwardPropagate(NetworkOutputType errors);
- 
-  virtual void UpdateWeights(ValueType);
+        void AddLayer(LayerInterfaceType *);
+        LayerInterfaceType * GetLayer(int layer_id);
+        const LayerInterfaceType * GetLayer(int layer_id) const;
 
-  void SetLearningRule(LearningFunctionType*);
+        void AddWeightSet(typename LayerInterfaceType::WeightSetInterfaceType*);
+        typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id);
+        const typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id) const;
 
-  void SetLearningRate(ValueType learningrate);
+        void SetLearningFunction(LearningFunctionInterfaceType* f);
 
-  void InitializeWeights();
+        virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector);
 
-protected:
-  MultilayerNeuralNetworkBase();
-  ~MultilayerNeuralNetworkBase(); 
+        virtual void BackwardPropagate(NetworkOutputType errors);
+        virtual void UpdateWeights(ValueType);
 
-  LayerVectorType           m_Layers;
-  WeightVectorType          m_Weights;
-  LearningFunctionPointer   m_LearningFunction;
-  ValueType                 m_LearningRate;
-  int                       m_NumOfLayers;
-  int                       m_NumOfWeightSets;
-  /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
-};
+        void SetLearningRule(LearningFunctionInterfaceType*);
 
-} // end namespace Statistics
+        void SetLearningRate(ValueType learningrate);
+
+        void InitializeWeights();
+
+      protected:
+        MultilayerNeuralNetworkBase();
+        ~MultilayerNeuralNetworkBase();
+
+        LayerVectorType                 m_Layers;
+        WeightVectorType                m_Weights;
+        typename LearningFunctionInterfaceType::Pointer   m_LearningFunction;
+        ValueType                       m_LearningRate;
+//#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
+#ifdef __USE_OLD_INTERFACE
+        //These are completely redundant variables that can be more reliably queried from
+        // m_Layers->size() and m_Weights->size();
+        int                             m_NumOfLayers;
+        int                             m_NumOfWeightSets;
+#endif
+        /** Method to print the object. */
+        virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+        };
+
+    } // end namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-  #include "itkMultilayerNeuralNetworkBase.txx"
+#include "itkMultilayerNeuralNetworkBase.txx"
 #endif
 
 #endif

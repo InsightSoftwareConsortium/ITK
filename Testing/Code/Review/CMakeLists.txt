@@ -240,6 +240,7 @@ ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
                   itkNeuralNetworkIOTest
                   ${INPUTDATA}/xornet.txt
                   ${INPUTDATA}/xortest.txt
+                  ${TEMP}
                   )
 
 ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}

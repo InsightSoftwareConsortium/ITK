@@ -96,8 +96,8 @@ NNetClassifierTest4(int argc, char* argv[])
   typedef itk::Statistics::TwoHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> TwoHiddenLayerBackPropagationNeuralNetworkType;
   TwoHiddenLayerBackPropagationNeuralNetworkType::Pointer net1 = TwoHiddenLayerBackPropagationNeuralNetworkType::New();
   net1->SetNumOfInputNodes(num_input_nodes);
-  net1->SetNumOfHiddenNodes1(num_hidden1_nodes);
-  net1->SetNumOfHiddenNodes2(num_hidden2_nodes);
+  net1->SetNumOfFirstHiddenNodes(num_hidden1_nodes);
+  net1->SetNumOfSecondHiddenNodes(num_hidden2_nodes);
   net1->SetNumOfOutputNodes(num_output_nodes);
 
   net1->Initialize();

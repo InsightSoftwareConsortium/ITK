@@ -34,12 +34,12 @@ namespace itk
 {
 namespace Statistics
 {
-template<class LayerType, class TOutput>
-class ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<LayerType, TOutput>
+template<class LayerType, class TTargetVector>
+class ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
 {
 public:
   typedef ErrorBackPropagationLearningFunctionBase Self;
-  typedef LearningFunctionBase<LayerType, TOutput> Superclass;
+  typedef LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -51,14 +51,14 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  void Learn(LayerType* layer,ValueType learningrate);
-  void Learn(LayerType* layer, TOutput error, ValueType learningrate);
+  virtual void Learn(typename LayerType::LayerInterfaceType* layer,ValueType learningrate);
+  virtual void Learn(typename LayerType::LayerInterfaceType* layer, TTargetVector error, ValueType learningrate);
 
 protected:
 
   ErrorBackPropagationLearningFunctionBase() {};
   ~ErrorBackPropagationLearningFunctionBase() {};
-  
+
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 };

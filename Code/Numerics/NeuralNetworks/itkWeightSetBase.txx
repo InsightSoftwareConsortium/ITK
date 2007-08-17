@@ -25,8 +25,8 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class TOutput>
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::WeightSetBase()
 {
   m_FirstPass = true;
@@ -44,84 +44,85 @@ WeightSetBase<TVector,TOutput>
   m_WeightSetId = 0;
 }
 
-template<class TVector, class TOutput>
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::~WeightSetBase()
 {
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetRange(ValueType r)
 {
   m_Range = r;
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetNumberOfInputNodes(unsigned int n)
 {
   m_NumberOfInputNodes = n + 1;  //including bias
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 unsigned int
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetNumberOfInputNodes() const
 {
   return m_NumberOfInputNodes;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetNumberOfOutputNodes(unsigned int n)
 {
   m_NumberOfOutputNodes = n;
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 unsigned int
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetNumberOfOutputNodes() const
 {
   return m_NumberOfOutputNodes;
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::Initialize()
 {
   m_OutputValues.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
+  m_OutputValues.fill(0);
   m_WeightMatrix.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   m_WeightMatrix.fill(0);
- 
+
   m_DW.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   m_DW.fill(0);
   m_DW_new.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   m_DW_new.fill(0);
 
   m_DW_m_1.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
-  m_DW_m_2.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   m_DW_m_1.fill(0);
+  m_DW_m_2.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   m_DW_m_2.fill(0);
-  
+
   m_DB_new.set_size(m_NumberOfOutputNodes);
   m_DB_new.fill(0.0);
   m_DB.set_size(m_NumberOfOutputNodes);
   m_DB.fill(0.0);
- 
+
   m_DB_m_1.set_size(m_NumberOfOutputNodes);
   m_DB_m_1.fill(0);
   m_DB_m_2.set_size(m_NumberOfOutputNodes);
   m_DB_m_2.fill(0);
-  
+
   m_Del.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
   m_Del.fill(0);
   m_Del_new.set_size(m_NumberOfOutputNodes, m_NumberOfInputNodes);
@@ -144,9 +145,9 @@ WeightSetBase<TVector,TOutput>
   m_InputLayerOutput.fill(0);
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::InitializeWeights()
 {
   unsigned int num_rows = m_WeightMatrix.rows();
@@ -160,44 +161,47 @@ WeightSetBase<TVector,TOutput>
     for (unsigned int j = 0; j < num_cols; j++)
       {
       if(m_ConnectivityMatrix[i][j]==1)
+        {
         m_WeightMatrix(i, j) = RandomWeightValue(-1*m_Range,m_Range);
+        }
       else
+        {
         m_WeightMatrix(i, j) = 0;
+        }
       }
     }
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValueType
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValueType
+WeightSetBase<TMeasurementVector,TTargetVector>
 :: RandomWeightValue(ValueType low, ValueType high)
 {
   return static_cast<ValueType>(m_RandomGenerator->GetUniformVariate(low,high));
-
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::ForwardPropagate(ValueType* inputlayeroutputvalues)
 {
   vnl_vector<ValueType> layeroutput;
- 
+
   layeroutput.set_size(m_NumberOfInputNodes - 1);
   layeroutput.copy_in(inputlayeroutputvalues);
   m_InputLayerOutput.set_row(0, layeroutput);
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::BackwardPropagate(ValueType* inputerrorvalues)
 {
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetDeltaBValues(ValuePointer d)
 {
   m_Delb.copy_in(d);
@@ -205,9 +209,9 @@ WeightSetBase<TVector,TOutput>
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetDeltaValues(ValuePointer d)
 {
   m_Del.copy_in(d);
@@ -218,9 +222,9 @@ WeightSetBase<TVector,TOutput>
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetWeightValues(ValuePointer w)
 {
   vnl_matrix<ValueType> W_temp;   
@@ -234,9 +238,9 @@ WeightSetBase<TVector,TOutput>
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetDWValues(ValuePointer dw)
 {
   vnl_matrix<ValueType> DW_temp;   
@@ -250,9 +254,9 @@ WeightSetBase<TVector,TOutput>
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetDBValues(ValuePointer db)
 {
   vnl_vector<ValueType> db_temp;
@@ -264,138 +268,138 @@ WeightSetBase<TVector,TOutput>
   this->Modified();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetTotalDeltaValues()
 {
   return m_Del_new.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetTotalDeltaBValues()
 {
   return m_Delb_new.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetDeltaValues()
 {
   return m_Del.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetPrevDeltaValues()
 {
   return m_Del_m_1.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetPrev_m_2DeltaValues()
 {
   return m_Del_m_2.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetPrevDeltaBValues()
 {
   return m_Delb_m_1.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetDWValues()
 {
   return m_DW.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetPrevDBValues()
 {
   return m_DB_m_1.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetPrevDWValues()
 {
   return m_DW_m_1.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetPrev_m_2DWValues()
 {
   return m_DW_m_2.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetInputValues()
 {
   return m_InputLayerOutput.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetOutputValues()
 {
   return m_OutputValues.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetDeltaBValues()
 {
   return m_Delb.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValuePointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValuePointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetWeightValues()
 {
   return m_WeightMatrix.data_block();
 }
 
-template<class TVector, class TOutput>
-typename WeightSetBase<TVector,TOutput>::ValueConstPointer
-WeightSetBase<TVector,TOutput>
+template<class TMeasurementVector, class TTargetVector>
+typename WeightSetBase<TMeasurementVector,TTargetVector>::ValueConstPointer
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::GetWeightValues() const
 {
   return m_WeightMatrix.data_block();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::SetConnectivityMatrix(vnl_matrix<int> c)
 {
   m_ConnectivityMatrix = c;
   this->Modified();
 }
 
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::UpdateWeights(ValueType itkNotUsed(LearningRate))
 {
   m_Del_m_2 = m_Del_m_1;    // save last weight update;
@@ -429,9 +433,9 @@ WeightSetBase<TVector,TOutput>
 
 
 /** Print the object */
-template<class TVector, class TOutput>
+template<class TMeasurementVector, class TTargetVector>
 void  
-WeightSetBase<TVector,TOutput>
+WeightSetBase<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   Superclass::PrintSelf( os, indent ); 

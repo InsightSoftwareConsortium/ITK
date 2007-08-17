@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,12 +19,12 @@
 
 #include <iostream>
 #include "itkLightProcessObject.h"
-#include "itkWeightSetBase.h"
 #include "itkArray.h"
 #include "itkVector.h"
 #include "itkTransferFunctionBase.h"
 #include "itkInputFunctionBase.h"
 
+#include "itkWeightSetBase.h"
 #include "itkMacro.h"
 
 namespace itk
@@ -32,7 +32,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class TOutput>
+  template<class TMeasurementVector, class TTargetVector>
 class LayerBase : public LightProcessObject
 {
 
@@ -41,33 +41,27 @@ public:
   typedef LightProcessObject Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-  
+
   /** Method for creation through the object factory. */
   itkTypeMacro(LayerBase, LightProcessObject);
 
-  typedef TVector InputVectorType;
-  typedef TOutput OutputVectorType;
+  typedef TMeasurementVector InputVectorType;
+  typedef TTargetVector OutputVectorType;
 
-  typedef typename TVector::ValueType ValueType;
+  typedef typename TMeasurementVector::ValueType ValueType;
   typedef ValueType* ValuePointer;
   typedef const ValueType* ValueConstPointer;
   typedef vnl_vector<ValueType> NodeVectorType;
   typedef Array<ValueType> InternalVectorType;
 
-  typedef WeightSetBase<TVector,TOutput> WeightSetType;
+  typedef LayerBase  LayerInterfaceType;
+  typedef WeightSetBase<TMeasurementVector,TTargetVector> WeightSetType;
+  typedef WeightSetBase<TMeasurementVector,TTargetVector> WeightSetInterfaceType;
+  typedef InputFunctionBase<ValueType*, ValueType> InputFunctionInterfaceType;
+  typedef TransferFunctionBase<ValueType>  TransferFunctionInterfaceType;
 
-  typedef TransferFunctionBase<ValueType> TransferFunctionType;
-
-  typedef InputFunctionBase<ValueType*, ValueType> InputFunctionType;
-
-  typedef typename InputFunctionType::Pointer InputFunctionPointer;
-  typedef typename InputFunctionType::ConstPointer InputFunctionConstPointer;
-
-  typedef typename TransferFunctionType::Pointer TransferFunctionPointer;
-  typedef typename TransferFunctionType::ConstPointer TransferFunctionConstPointer;
-
-  typedef typename WeightSetType::Pointer WeightSetPointer;
-  typedef typename WeightSetType::ConstPointer WeightSetConstPointer;
+  //The only valid layer types
+  typedef enum {  INVALIDLAYER=0, INPUTLAYER=1, HIDDENLAYER=2, OUTPUTLAYER=3 } LayerTypeCode;
 
   virtual void SetNumberOfNodes(unsigned int);
   unsigned int GetNumberOfNodes() const;
@@ -77,69 +71,91 @@ public:
   virtual ValuePointer GetOutputVector() = 0;
 
   virtual void ForwardPropagate(){};
-
-  virtual void ForwardPropagate(TVector){};
-
-  virtual void BackwardPropagate(InternalVectorType){};
+  virtual void ForwardPropagate(TMeasurementVector){};
 
   virtual void BackwardPropagate(){};
+  virtual void BackwardPropagate(InternalVectorType){};
+
   virtual ValueType GetOutputErrorValue(unsigned int) const = 0;
-  virtual void SetOutputErrorValues(TOutput) {};
+  virtual void SetOutputErrorValues(TTargetVector) {};
 
   virtual ValueType GetInputErrorValue(unsigned int) const = 0;
   virtual ValuePointer GetInputErrorVector() = 0;
   virtual void SetInputErrorValue(ValueType, unsigned int) {};
 
-  //itkSetObjectMacro(InputWeightSet, WeightSetType);
-  void SetInputWeightSet(WeightSetType*);
-  itkGetObjectMacro(InputWeightSet, WeightSetType);
-  itkGetConstObjectMacro(InputWeightSet, WeightSetType);
+  //itkSetObjectMacro(InputWeightSet, WeightSetInterfaceType);
+  void SetInputWeightSet(WeightSetInterfaceType*);
+  itkGetObjectMacro(InputWeightSet, WeightSetInterfaceType);
+  itkGetConstObjectMacro(InputWeightSet, WeightSetInterfaceType);
 
-  //itkSetObjectMacro(OutputWeightSet, WeightSetType);
-  void SetOutputWeightSet(WeightSetType*);
-  itkGetObjectMacro(OutputWeightSet, WeightSetType);
-  itkGetConstObjectMacro(OutputWeightSet, WeightSetType);
+  //itkSetObjectMacro(OutputWeightSet, WeightSetInterfaceType);
+  void SetOutputWeightSet(WeightSetInterfaceType*);
+  itkGetObjectMacro(OutputWeightSet, WeightSetInterfaceType);
+  itkGetConstObjectMacro(OutputWeightSet, WeightSetInterfaceType);
 
-  void SetNodeInputFunction(InputFunctionType* f);
-  itkGetObjectMacro(NodeInputFunction, InputFunctionType);
-  itkGetConstObjectMacro(NodeInputFunction, InputFunctionType);
+  void SetNodeInputFunction(InputFunctionInterfaceType* f);
+  itkGetObjectMacro(NodeInputFunction, InputFunctionInterfaceType);
+  itkGetConstObjectMacro(NodeInputFunction, InputFunctionInterfaceType);
 
-  void SetTransferFunction(TransferFunctionType* f);
-  itkGetObjectMacro(ActivationFunction, TransferFunctionType);
-  itkGetConstObjectMacro(ActivationFunction, TransferFunctionType);
+  void SetTransferFunction(TransferFunctionInterfaceType* f);
+  itkGetObjectMacro(ActivationFunction, TransferFunctionInterfaceType);
+  itkGetConstObjectMacro(ActivationFunction, TransferFunctionInterfaceType);
 
   virtual ValueType Activation(ValueType) = 0;
   virtual ValueType DActivation(ValueType) = 0;
 
-  itkSetMacro(LayerType, unsigned int);
-  itkGetConstReferenceMacro(LayerType, unsigned int);
+  itkSetEnumMacro(LayerTypeCode, LayerTypeCode);
+  itkGetEnumMacro(LayerTypeCode, LayerTypeCode);
 
+//#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
+#ifdef __USE_OLD_INTERFACE
+  void SetLayerType(const LayerTypeCode value) { SetLayerTypeCode(value); }
+  LayerTypeCode GetLayerType(void) { return GetLayerTypeCode(); }
+  //For backwards compatibility
+  void SetLayerType(const unsigned int value)
+    {
+    switch(value)
+      {
+    case 0:
+      SetLayerType(INVALIDLAYER);
+      break;
+    case 1:
+      SetLayerType(INPUTLAYER);
+      break;
+    case 2:
+      SetLayerType(HIDDENLAYER);
+      break;
+    case 3:
+      SetLayerType(OUTPUTLAYER);
+      break;
+    default:
+      //Throw Exception Here
+      break;
+      }
+    }
+#endif
   itkSetMacro(LayerId,unsigned int);
   itkGetConstReferenceMacro(LayerId,unsigned int);
 
-  virtual void SetBias(const ValueType) = 0;
-  virtual const ValueType & GetBias() const = 0;
+  //virtual void SetBias(const ValueType) = 0;
+  //virtual const ValueType & GetBias() const = 0;
 
-  
 protected:
-
-  LayerBase(); 
+  LayerBase();
   ~LayerBase();
-  
+
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-  unsigned int m_LayerType; //input, hidden, output
-  unsigned int m_LayerId; //input, hidden, output
-  unsigned int m_NumberOfNodes; 
+  LayerTypeCode m_LayerTypeCode; //input, hidden, output
+  unsigned int m_LayerId;
+  unsigned int m_NumberOfNodes;
 
-  typename WeightSetType::Pointer m_InputWeightSet;
-  typename WeightSetType::Pointer m_OutputWeightSet;
+  typename WeightSetInterfaceType::Pointer m_InputWeightSet;
+  typename WeightSetInterfaceType::Pointer m_OutputWeightSet;
 
-  TransferFunctionPointer m_ActivationFunction;
-  InputFunctionPointer    m_NodeInputFunction;
-  
- 
+  typename TransferFunctionInterfaceType::Pointer m_ActivationFunction;
+  typename InputFunctionInterfaceType::Pointer    m_NodeInputFunction;
 
 }; //class layer base
 

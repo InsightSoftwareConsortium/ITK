@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,14 +26,14 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class ScalarType>
-class ProductInputFunction : public InputFunctionBase<TVector, ScalarType>
+template<class TMeasurementVector, class ScalarType>
+class ProductInputFunction : public InputFunctionBase<TMeasurementVector, ScalarType>
 {
 public:
 
   /** Standard class typedefs. */
   typedef ProductInputFunction Self;
-  typedef InputFunctionBase<TVector, ScalarType> Superclass;
+  typedef InputFunctionBase<TMeasurementVector, ScalarType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -44,12 +44,12 @@ public:
   itkNewMacro(Self) ;
 
   /** Evaluate at the specified input position */
-  ScalarType Evaluate(const TVector& input) const;
+  virtual ScalarType Evaluate(const TMeasurementVector& input) const;
 
 protected:
 
   ProductInputFunction();
-  ~ProductInputFunction();
+  virtual ~ProductInputFunction();
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;

@@ -27,8 +27,8 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TOutput, class ScalarType> 
-BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>//,f>
+template<class TSample, class TTargetVector, class ScalarType> 
+BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>//,f>
 ::BatchSupervisedTrainingFunction()
 {
   this->m_LearningRate = 0.1;  //0.5 multilayer test 0.1 perceptron
@@ -36,17 +36,17 @@ BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>//,f>
   m_Stop = false; //stop condition
 }
 
-template<class TSample, class TOutput, class ScalarType> 
-void BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>
+template<class TSample, class TTargetVector, class ScalarType> 
+void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::SetNumOfIterations(long i)
 {
   this->SetIterations(i);
 }
 
-template<class TSample, class TOutput, class ScalarType>
-void BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>
-::Train(typename BatchSupervisedTrainingFunction<TSample, TOutput, ScalarType>::NetworkType* net,
-        TSample* samples, TOutput* targets)
+template<class TSample, class TTargetVector, class ScalarType>
+void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
+::Train(typename BatchSupervisedTrainingFunction<TSample, TTargetVector, ScalarType>::NetworkType* net,
+        TSample* samples, TTargetVector* targets)
 {
   this->SetTrainingSamples(samples); 
   this->SetTargetValues(targets);
@@ -104,9 +104,9 @@ void BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>
 }
 
 /** Print the object */
-template<class TSample, class TOutput, class ScalarType> 
+template<class TSample, class TTargetVector, class ScalarType> 
 void  
-BatchSupervisedTrainingFunction<TSample,TOutput,ScalarType>
+BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "BatchSupervisedTrainingFunction(" << this << ")" << std::endl; 

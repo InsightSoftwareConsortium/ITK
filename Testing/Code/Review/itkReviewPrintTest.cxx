@@ -155,15 +155,15 @@ int main(int , char* [])
   std:: cout << "-------------RegionalMinimaImageFilterObj "
              << RegionalMinimaImageFilterObj;
 
-  itk::NeuralNetworkFileReader<MeasurementVectorType,TargetVectorType>::Pointer
+  itk::NeuralNetworkFileReader<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::Pointer
     NeuralNetworkFileReaderObj =
-              itk::NeuralNetworkFileReader<MeasurementVectorType,TargetVectorType>::New();
+              itk::NeuralNetworkFileReader<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::New();
   std:: cout << "-------------NeuralNetworkFileReaderObj "
              << NeuralNetworkFileReaderObj;
 
-  itk::NeuralNetworkFileWriter<MeasurementVectorType,TargetVectorType>::Pointer
+  itk::NeuralNetworkFileWriter<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::Pointer
     NeuralNetworkFileWriterObj =
-              itk::NeuralNetworkFileWriter<MeasurementVectorType,TargetVectorType>::New();
+              itk::NeuralNetworkFileWriter<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::New();
   std:: cout << "-------------NeuralNetworkFileWriterObj "
              << NeuralNetworkFileWriterObj;
 

@@ -27,28 +27,28 @@ namespace itk
 namespace Statistics
 {
 
-template<class LayerType, class TOutput>
-ErrorBackPropagationLearningWithMomentum <LayerType,TOutput>
+template<class LayerType, class TTargetVector>
+ErrorBackPropagationLearningWithMomentum <LayerType,TTargetVector>
 ::ErrorBackPropagationLearningWithMomentum()
 {
   m_Momentum = 0.9; //Default
 }
 
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void
-ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
-::Learn(LayerType* layer, ValueType lr)
+ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
+::Learn(typename LayerType::LayerInterfaceType* layer, ValueType lr)
 {
-  typename LayerType::WeightSetType::Pointer outputweightset;
-  typename LayerType::WeightSetType::Pointer inputweightset;
+  typename LayerType::LayerInterfaceType::WeightSetType::Pointer outputweightset;
+  typename LayerType::LayerInterfaceType::WeightSetType::Pointer inputweightset;
   outputweightset = layer->GetOutputWeightSet();
   inputweightset = layer->GetInputWeightSet();
 
-  typename LayerType::ValuePointer DWvalues_m_1 = inputweightset->GetPrevDWValues();
-  typename LayerType::ValuePointer DWvalues_m_2 = inputweightset->GetPrev_m_2DWValues();
-  typename LayerType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
-  typename LayerType::ValuePointer DBValues = inputweightset->GetTotalDeltaBValues();
-  typename LayerType::ValuePointer PrevDBValues = inputweightset->GetPrevDBValues();
+  typename LayerType::LayerInterfaceType::ValuePointer DWvalues_m_1 = inputweightset->GetPrevDWValues();
+  typename LayerType::LayerInterfaceType::ValuePointer DWvalues_m_2 = inputweightset->GetPrev_m_2DWValues();
+  typename LayerType::LayerInterfaceType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
+  typename LayerType::LayerInterfaceType::ValuePointer DBValues = inputweightset->GetTotalDeltaBValues();
+  typename LayerType::LayerInterfaceType::ValuePointer PrevDBValues = inputweightset->GetPrevDBValues();
 
   int input_cols = inputweightset->GetNumberOfInputNodes();
   int input_rows = inputweightset->GetNumberOfOutputNodes();
@@ -100,17 +100,19 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
   inputweightset->SetDBValues(DB_temp.data_block());
 }
 
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void
-ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
-::Learn(LayerType* itkNotUsed(layer), TOutput itkNotUsed(errors),ValueType itkNotUsed(lr))
+ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
+::Learn(typename LayerType::LayerInterfaceType* itkNotUsed(layer), TTargetVector itkNotUsed(errors),ValueType itkNotUsed(lr))
 {
+  //It appears that this interface should not be called.
+  //itkExceptionMacrto(<< "This should never be called");
 }
 
 /** Print the object */
-template<class LayerType, class TOutput>
+template<class LayerType, class TTargetVector>
 void  
-ErrorBackPropagationLearningWithMomentum<LayerType,TOutput>
+ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "ErrorBackPropagationLearningWithMomentum(" << this << ")" << std::endl; 

@@ -1,21 +1,24 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    QPropXORTest1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    QPropXORTest1.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
+#include "itkLayerBase.h"
+#include "itkSigmoidTransferFunction.h"
+#include "itkSymmetricSigmoidTransferFunction.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
 #include "itkVector.h"
@@ -27,7 +30,7 @@
 
 #define ROUND(x) (floor(x+0.5))
 
-int
+  int
 QPropXORTest1(int argc, char* argv[])
 {
   if (argc < 1)
@@ -37,13 +40,13 @@ QPropXORTest1(int argc, char* argv[])
     }
 
   char* dataFileName =argv[1]; //"qpropxortest.txt";
-  
+
   int num_input_nodes = 2;
   int num_hidden_nodes = 2;
   int num_output_nodes = 1;
 
-  srand(time(0)); 
-  
+  srand(time(0));
+
   typedef itk::Array<double> MeasurementVectorType;
   typedef itk::Array<double> TargetVectorType;
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
@@ -57,7 +60,7 @@ QPropXORTest1(int argc, char* argv[])
   TargetType::Pointer targets = TargetType::New();
   sample->SetMeasurementVectorSize( num_input_nodes);
   targets->SetMeasurementVectorSize( num_output_nodes);
- 
+
   std::ifstream infile1;
   infile1.open(dataFileName, std::ios::in);
 
@@ -76,36 +79,33 @@ QPropXORTest1(int argc, char* argv[])
   std::cout << sample->Size() << std::endl;
 
   typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork
-                                                   <MeasurementVectorType,
-                                                   TargetVectorType> NetworkType;
-  typedef NetworkType::LayerType LayerType;
+    <MeasurementVectorType, TargetVectorType> NetworkType;
 
   NetworkType::Pointer net1 = NetworkType::New();
   net1->SetNumOfInputNodes(num_input_nodes);
-  net1->SetNumOfHiddenNodes(num_hidden_nodes);
+  net1->SetNumOfFirstHiddenNodes(num_hidden_nodes);
   net1->SetNumOfOutputNodes(num_output_nodes);
-  
+
   typedef itk::Statistics::SymmetricSigmoidTransferFunction<double> tfType;
   tfType::Pointer transferfunction1=tfType::New();
-  net1->SetHiddenTransferFunction(transferfunction1);
+  net1->SetFirstHiddenTransferFunction(transferfunction1);
   net1->SetOutputTransferFunction(transferfunction1);
-  
-  typedef itk::Statistics::QuickPropLearningRule<LayerType,
-                                         TargetVectorType> LearningFunctionType;
-  LearningFunctionType::Pointer learningfunction=LearningFunctionType::New();
+
+  typedef itk::Statistics::QuickPropLearningRule<NetworkType::LayerInterfaceType, TargetVectorType> QuickPropLearningRuleType;
+  QuickPropLearningRuleType::Pointer learningfunction=QuickPropLearningRuleType::New();
 
   net1->SetLearningFunction(learningfunction);
 
-  net1->SetHiddenLayerBias(1.0);
+  net1->SetFirstHiddenLayerBias(1.0);
   net1->SetOutputLayerBias(1.0);
-  
+
   net1->Initialize();
 
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(50);
-  
-  trainingfcn->SetThreshold(0.001); 
-  
+
+  trainingfcn->SetThreshold(0.001);
+
   //Network Simulation
   std::cout << sample->Size() << std::endl;
   std::cout << "Network Simulation" << std::endl;
@@ -123,13 +123,13 @@ QPropXORTest1(int argc, char* argv[])
 
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
-  
+
   while (train_flag==1)
     {
     //train the network
     net1->InitializeWeights();
     trainingfcn->Train(net1, sample, targets);
-    num_iterations+=50;   
+    num_iterations+=50;
     iter1 = sample->Begin();
     iter2 = targets->Begin();
     error1=0;
@@ -170,11 +170,11 @@ QPropXORTest1(int argc, char* argv[])
 
   std::cout<<"Number of Epochs = "<<num_iterations<<std::endl;
   std::cout << "Among 4 measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
+    << " vectors are misclassified." << std::endl ;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
-   
+
   std::cout << net1 << std::endl;
-  
+
   if ((error1 + error2) > 2)
     {
     std::cout << "Test failed." << std::endl;

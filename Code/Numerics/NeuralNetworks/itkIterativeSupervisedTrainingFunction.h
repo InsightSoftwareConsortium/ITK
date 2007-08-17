@@ -26,13 +26,13 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TOutput, class ScalarType>
-class IterativeSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TOutput, ScalarType>
+template<class TSample, class TTargetVector, class ScalarType>
+class IterativeSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTargetVector, ScalarType>
 {
 public:
 
   typedef IterativeSupervisedTrainingFunction Self;
-  typedef TrainingFunctionBase<TSample, TOutput, ScalarType> Superclass;
+  typedef TrainingFunctionBase<TSample, TTargetVector, ScalarType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
@@ -47,14 +47,14 @@ public:
 
   void SetNumOfIterations(long i);
 
-  void Train(NetworkType* net, TSample* samples, TOutput* targets);
+  virtual void Train(NetworkType* net, TSample* samples, TTargetVector* targets);
 
   itkSetMacro(Threshold, ScalarType);
 
 protected:
 
   IterativeSupervisedTrainingFunction();
-  ~IterativeSupervisedTrainingFunction(){};
+  virtual ~IterativeSupervisedTrainingFunction(){};
   
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;

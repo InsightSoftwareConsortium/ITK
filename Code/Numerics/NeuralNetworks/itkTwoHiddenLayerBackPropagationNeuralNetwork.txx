@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,125 +24,187 @@ namespace itk
 namespace Statistics
 {
 
-template<class TVector, class TOutput>
-TwoHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
+/** Constructor */
+template<class TMeasurementVector, class TTargetVector>
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::TwoHiddenLayerBackPropagationNeuralNetwork()
 {
+  typedef IdentityTransferFunction<ValueType> tfType1;
+  m_InputTransferFunction = tfType1::New();
+
+  typedef TanSigmoidTransferFunction<ValueType> tfType2;
+  m_FirstHiddenTransferFunction = tfType2::New();
+  m_SecondHiddenTransferFunction = tfType2::New();
+  typedef TanSigmoidTransferFunction<ValueType> tfType3;
+  m_OutputTransferFunction= tfType3::New();
+
+  typedef SumInputFunction<ValueType*, ValueType> InputFcnType;
+  m_InputFunction=InputFcnType::New();
+
   m_NumOfInputNodes = 0;
-  m_NumOfHiddenNodes1 = 0;
-  m_NumOfHiddenNodes2 = 0;
+  m_NumOfFirstHiddenNodes = 0;
+  m_NumOfSecondHiddenNodes = 0;
   m_NumOfOutputNodes = 0;
+  m_FirstHiddenLayerBias  = 1.0;
+  m_SecondHiddenLayerBias  = 1.0;
+  m_OutputLayerBias  = 1.0;
 }
 
-template<class TVector, class TOutput>
+/** Intialize */
+template<class TMeasurementVector, class TTargetVector>
 void
-TwoHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::Initialize()
 {
-  Superclass::SetNumOfLayers(4);
+  if(m_NumOfInputNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Input Nodes must be greater than 0!");
+    }
+  if(m_NumOfFirstHiddenNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Hidden Layer 1 Nodes must be greater than 0!");
+    }
+  if(m_NumOfSecondHiddenNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Hidden Layer 2 Nodes must be greater than 0!");
+    }
+  if(m_NumOfOutputNodes == 0 )
+    {
+    itkExceptionMacro("ERROR:  Number of Output Nodes must be greater than 0!");
+    }
 
-  typename LayerType::Pointer inputlayer = LayerType::New();
-  inputlayer->SetLayerType(1);
+  //Define weights of Nodes
+  typename LearningLayerType::WeightSetType::Pointer InputLayerOutputWeights = LearningLayerType::WeightSetType::New();
+  InputLayerOutputWeights->SetNumberOfInputNodes(m_NumOfInputNodes);
+  InputLayerOutputWeights->SetNumberOfOutputNodes(m_NumOfFirstHiddenNodes);
+  InputLayerOutputWeights->SetCompleteConnectivity();
+  InputLayerOutputWeights->SetBias(m_FirstHiddenLayerBias);
+  InputLayerOutputWeights->SetRange(1.0);  //0.5
+  InputLayerOutputWeights->Initialize();
+
+  typename LearningLayerType::WeightSetType::Pointer HiddenLayer1OutputWeights = LearningLayerType::WeightSetType::New();
+  HiddenLayer1OutputWeights->SetNumberOfInputNodes(m_NumOfFirstHiddenNodes);
+  HiddenLayer1OutputWeights->SetNumberOfOutputNodes(m_NumOfSecondHiddenNodes);
+  HiddenLayer1OutputWeights->SetCompleteConnectivity();
+  HiddenLayer1OutputWeights->SetBias(m_SecondHiddenLayerBias);
+  HiddenLayer1OutputWeights->SetRange(1.0); //0.5
+  HiddenLayer1OutputWeights->Initialize();
+
+  typename LearningLayerType::WeightSetType::Pointer HiddenLayer2OutputWeights = LearningLayerType::WeightSetType::New();
+  HiddenLayer2OutputWeights->SetNumberOfInputNodes(m_NumOfSecondHiddenNodes);
+  HiddenLayer2OutputWeights->SetNumberOfOutputNodes(m_NumOfOutputNodes);
+  HiddenLayer2OutputWeights->SetCompleteConnectivity();
+  HiddenLayer2OutputWeights->SetBias(m_OutputLayerBias);
+  HiddenLayer2OutputWeights->SetRange(1.0); //0.5
+  HiddenLayer2OutputWeights->Initialize();
+
+  //Define layers
+  typename LearningLayerType::Pointer inputlayer = LearningLayerType::New();
+  inputlayer->SetLayerTypeCode(LearningLayerType::INPUTLAYER);
   inputlayer->SetNumberOfNodes(m_NumOfInputNodes);
+  inputlayer->SetTransferFunction(m_InputTransferFunction);
+  inputlayer->SetNodeInputFunction(m_InputFunction);
 
-  typename LayerType::Pointer hiddenlayer1 = LayerType::New();
-  hiddenlayer1->SetLayerType(2);
-  hiddenlayer1->SetNumberOfNodes(m_NumOfHiddenNodes1);
+  typename LearningLayerType::Pointer hiddenlayer1 = LearningLayerType::New();
+  hiddenlayer1->SetLayerTypeCode(LearningLayerType::HIDDENLAYER);
+  hiddenlayer1->SetNumberOfNodes(m_NumOfFirstHiddenNodes);
+  hiddenlayer1->SetTransferFunction(m_FirstHiddenTransferFunction);
+  hiddenlayer1->SetNodeInputFunction(m_InputFunction);
 
-  typename LayerType::Pointer hiddenlayer2 = LayerType::New();
-  hiddenlayer2->SetLayerType(2);
-  hiddenlayer2->SetNumberOfNodes(m_NumOfHiddenNodes2);
+  typename LearningLayerType::Pointer hiddenlayer2 = LearningLayerType::New();
+  hiddenlayer2->SetLayerTypeCode(LearningLayerType::HIDDENLAYER);
+  hiddenlayer2->SetNumberOfNodes(m_NumOfSecondHiddenNodes);
+  hiddenlayer2->SetTransferFunction(m_SecondHiddenTransferFunction);
+  hiddenlayer2->SetNodeInputFunction(m_InputFunction);
 
-  typename LayerType::Pointer outputlayer = LayerType::New();
-  outputlayer->SetLayerType(3);
+  typename LearningLayerType::Pointer outputlayer = LearningLayerType::New();
+  outputlayer->SetLayerTypeCode(LearningLayerType::OUTPUTLAYER);
   outputlayer->SetNumberOfNodes(m_NumOfOutputNodes);
-
-  typename WeightType::Pointer IW = WeightType::New();
-  IW->SetNumberOfInputNodes(m_NumOfInputNodes);
-  IW->SetNumberOfOutputNodes(m_NumOfHiddenNodes1);
-  IW->SetCompleteConnectivity();
-  IW->SetBias(1.0);
-  IW->Initialize(); 
-
-  typename WeightType::Pointer HW1 = WeightType::New();
-  HW1->SetNumberOfInputNodes(m_NumOfHiddenNodes1);
-  HW1->SetNumberOfOutputNodes(m_NumOfHiddenNodes2);
-  HW1->SetCompleteConnectivity();
-  HW1->SetBias(1.0);
-  HW1->Initialize(); 
-
-  typename WeightType::Pointer HW2 = WeightType::New();
-  HW2->SetNumberOfInputNodes(m_NumOfHiddenNodes2);
-  HW2->SetNumberOfOutputNodes(m_NumOfOutputNodes);
-  HW2->SetCompleteConnectivity();
-  HW2->SetBias(1.0);
-  HW2->Initialize(); 
-
-  inputlayer->SetOutputWeightSet(IW);
-
-  hiddenlayer1->SetInputWeightSet(IW);
-  hiddenlayer1->SetOutputWeightSet(HW1);
-
-  hiddenlayer2->SetInputWeightSet(HW1);
-  hiddenlayer2->SetOutputWeightSet(HW2);
-
-  outputlayer->SetInputWeightSet(HW2);
-
-  typedef IdentityTransferFunction<ValueType> tfType1;
-  typename tfType1::Pointer f1 = tfType1::New();
-  
-  typedef TanSigmoidTransferFunction<ValueType> tfType2;
-  typename tfType2::Pointer f2 = tfType2::New();
-
-  typedef LogSigmoidTransferFunction<ValueType> tfType3;
-  typename tfType3::Pointer f3 = tfType3::New();
-
-  typedef TanSigmoidTransferFunction<ValueType> tfType4;
-  typename tfType4::Pointer f4 = tfType4::New();
-
-  inputlayer->SetTransferFunction(f1);
-  hiddenlayer1->SetTransferFunction(f2);
-  hiddenlayer2->SetTransferFunction(f3);
-  outputlayer->SetTransferFunction(f4);
-
-  typedef Vector<ValueType> tempvectype; 
-  typedef SumInputFunction<ValueType*, ValueType> InputFcnType;
-  typename InputFcnType::Pointer inputFcn = InputFcnType::New();
-  hiddenlayer1->SetNodeInputFunction(inputFcn); 
-  hiddenlayer2->SetNodeInputFunction(inputFcn); 
-  outputlayer->SetNodeInputFunction(inputFcn); 
+  outputlayer->SetTransferFunction(m_OutputTransferFunction);
+  outputlayer->SetNodeInputFunction(m_InputFunction);
 
   Superclass::AddLayer(inputlayer);
   Superclass::AddLayer(hiddenlayer1);
   Superclass::AddLayer(hiddenlayer2);
   Superclass::AddLayer(outputlayer);
 
-  Superclass::AddWeightSet(IW);
-  Superclass::AddWeightSet(HW1);
-  Superclass::AddWeightSet(HW2);
+  Superclass::AddWeightSet(InputLayerOutputWeights);
+  Superclass::AddWeightSet(HiddenLayer1OutputWeights);
+  Superclass::AddWeightSet(HiddenLayer2OutputWeights);
+
+  //HACK:  NOTE:  You can not set the WeightSets until after the layers are added to the network because
+  //       the LayerId's must have been set prior to the Weights being added to the layers.
+  //       The ordering of putting together the networks is crucial.  Layers must be added to network
+  //       prior to weights being added to layers.
+  inputlayer->SetOutputWeightSet(InputLayerOutputWeights);
+  hiddenlayer1->SetInputWeightSet(InputLayerOutputWeights);
+  hiddenlayer1->SetOutputWeightSet(HiddenLayer1OutputWeights);
+  hiddenlayer2->SetInputWeightSet(HiddenLayer1OutputWeights);
+  hiddenlayer2->SetOutputWeightSet(HiddenLayer2OutputWeights);
+  outputlayer->SetInputWeightSet(HiddenLayer2OutputWeights);
 }
 
-template<class TVector, class TOutput>
-typename TwoHiddenLayerBackPropagationNeuralNetwork<TVector, TOutput>::NetworkOutputType
-TwoHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
-::GenerateOutput(TVector samplevector)
+
+template<class TMeasurementVector, class TTargetVector>
+void
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
+::SetInputTransferFunction(TransferFunctionInterfaceType* f)
+{
+  m_InputTransferFunction=f;
+}
+
+template<class TMeasurementVector, class TTargetVector>
+void
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
+::SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f)
+{
+  m_FirstHiddenTransferFunction=f;
+}
+
+template<class TMeasurementVector, class TTargetVector>
+void
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
+::SetOutputTransferFunction(TransferFunctionInterfaceType* f)
+{
+  m_OutputTransferFunction=f;
+}
+
+template<class TMeasurementVector, class TTargetVector>
+void
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
+::SetInputFunction(InputFunctionInterfaceType* f)
+{
+  m_InputFunction=f;
+}
+
+/** Generate output */
+template<class TMeasurementVector, class TTargetVector>
+typename TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector, TTargetVector>::NetworkOutputType
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
+::GenerateOutput(TMeasurementVector samplevector)
 {
   return Superclass::GenerateOutput(samplevector);
 }
 
 /** Print the object */
-template<class TVector, class TOutput>
-void  
-TwoHiddenLayerBackPropagationNeuralNetwork<TVector,TOutput>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  os << indent << "TwoHiddenLayerBackPropagationNeuralNetwork(" << this << ")" << std::endl; 
+template<class TMeasurementVector, class TTargetVector>
+void
+TwoHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  os << indent << "TwoHiddenLayerBackPropagationNeuralNetwork(" << this << ")" << std::endl;
   os << indent << "m_NumOfInputNodes = " << m_NumOfInputNodes << std::endl;
-  os << indent << "m_NumOfHiddenNodes1 = " << m_NumOfHiddenNodes1 << std::endl;
-  os << indent << "m_NumOfHiddenNodes2 = " << m_NumOfHiddenNodes2 << std::endl;
+  os << indent << "m_NumOfFirstHiddenNodes = " << m_NumOfFirstHiddenNodes << std::endl;
+  os << indent << "m_NumOfSecondHiddenNodes = " << m_NumOfSecondHiddenNodes << std::endl;
   os << indent << "m_NumOfOutputNodes = " << m_NumOfOutputNodes << std::endl;
-  Superclass::PrintSelf( os, indent ); 
-} 
+  os << indent << "m_FirstHiddenLayerBias = " << m_FirstHiddenLayerBias << std::endl;
+  os << indent << "m_OutputLayerBias = " << m_OutputLayerBias << std::endl;
+  os << indent << "m_InputFunction = " << m_InputFunction << std::endl;
+  os << indent << "m_InputTransferFunction = " << m_InputTransferFunction << std::endl;
+  os << indent << "m_FirstHiddenTransferFunction = " << m_FirstHiddenTransferFunction << std::endl;
+  os << indent << "m_OutputTransferFunction = " << m_OutputTransferFunction << std::endl;
+  Superclass::PrintSelf( os, indent );
+}
 
 } // end namespace Statistics
 } // end namespace itk

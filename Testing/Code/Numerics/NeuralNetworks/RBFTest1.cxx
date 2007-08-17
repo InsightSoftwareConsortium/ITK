@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    RBFTest1.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    RBFTest1.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -41,26 +41,26 @@
 
 #define ROUND(x) (floor(x+0.5))
 
-int
+  int
 RBFTest1(int argc, char* argv[])
 {
- if (argc < 2)
-  {
+  if (argc < 2)
+    {
     std::cout << "ERROR: data file name argument missing." << std::endl ;
     return EXIT_FAILURE;
-  }
+    }
   int num_input_nodes = 3;
   int num_hidden_nodes = 2;  // 2 2 radial basis functions
   int num_output_nodes = 2;
 
   typedef itk::Array<double> MeasurementVectorType;
   typedef itk::Array<double> TargetVectorType;
- 
+
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
- 
+
   typedef itk::Statistics::EuclideanDistance<MeasurementVectorType> DistanceMetricType; 
- 
+
   int num_train=1000;
   int num_test=200;
 
@@ -81,7 +81,7 @@ RBFTest1(int argc, char* argv[])
 
   std::ifstream infile1;
   infile1.open(trainFileName, std::ios::in);
- 
+
   for (int a = 0; a < num_train; a++)
     {
     for (int i = 0; i < num_input_nodes; i++)
@@ -114,33 +114,32 @@ RBFTest1(int argc, char* argv[])
   infile2.close();
 
   typedef itk::Statistics::RBFNetwork<MeasurementVectorType, TargetVectorType>
-            RBFNetworkType;
-  typedef RBFNetworkType::LayerType LayerType;
+    RBFNetworkType;
   std::cout<<trainsample->Size()<<std::endl;
   RBFNetworkType::Pointer net1 = RBFNetworkType::New();
   net1->SetNumOfInputNodes(num_input_nodes);
-  net1->SetNumOfHiddenNodes(num_hidden_nodes);
-  net1->SetNumOfOutputNodes(num_output_nodes);    
-  net1->SetHiddenLayerBias(1.0);
+  net1->SetNumOfFirstHiddenNodes(num_hidden_nodes);
+  net1->SetNumOfOutputNodes(num_output_nodes);
+  net1->SetFirstHiddenLayerBias(1.0);
   net1->SetOutputLayerBias(1.0);
   net1->SetClasses(2);
-  
-  typedef itk::Statistics::RBFBackPropagationLearningFunction<LayerType,
-                                         TargetVectorType> LearningFunctionType;
-  LearningFunctionType::Pointer learningfunction=LearningFunctionType::New();
 
-  net1->SetLearningFunction(learningfunction);
+  typedef itk::Statistics::RBFBackPropagationLearningFunction<
+    RBFNetworkType::LayerInterfaceType, TargetVectorType> RBFLearningFunctionType;
+  RBFLearningFunctionType::Pointer learningfunction=RBFLearningFunctionType::New();
 
- 
+  net1->SetLearningFunction(learningfunction.GetPointer());
+
+
   //Kmeans Initialization of RBF Centers
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > 
-                                                               TreeGeneratorType;
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >
+    TreeGeneratorType;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
-  
+
   treeGenerator->SetSample( trainsample );
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update(); 
- 
+
   typedef TreeGeneratorType::KdTreeType TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
@@ -165,7 +164,7 @@ RBFTest1(int argc, char* argv[])
   estimator->SetKdTree( treeGenerator->GetOutput() );
   estimator->SetMaximumIteration( 200 );
   estimator->SetCentroidPositionChangesThreshold(0.0);
-  
+
   estimator->StartOptimization();
 
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
@@ -173,32 +172,29 @@ RBFTest1(int argc, char* argv[])
   std::cout << estimatedMeans << std::endl;
 
   MeasurementVectorType initialcenter1(num_input_nodes);
-  MeasurementVectorType initialcenter2(num_input_nodes);
   initialcenter1[0]=estimatedMeans[0]; //110;
   initialcenter1[1]=estimatedMeans[1]; //250;
   initialcenter1[2]=estimatedMeans[2]; //50;
-  
+  net1->SetCenter(initialcenter1);
+
+  MeasurementVectorType initialcenter2(num_input_nodes);
   initialcenter2[0]=estimatedMeans[3]; //99;
   initialcenter2[1]=estimatedMeans[4]; //199;
   initialcenter2[2]=estimatedMeans[5]; //300;
-  
-  DistanceMetricType::Pointer DistanceMetric = DistanceMetricType::New();
-  
-  net1->SetCenter(initialcenter1);
   net1->SetCenter(initialcenter2);
-  
-  DistanceMetric=DistanceMetricType::New(); 
+
+  DistanceMetricType::Pointer DistanceMetric = DistanceMetricType::New();
   double width = DistanceMetric->Evaluate(initialcenter1,initialcenter2);
-  
-  net1->SetRadius(2*width);  
-  net1->SetRadius(2*width);  
-  
+
+  net1->SetRadius(2*width);
+  net1->SetRadius(2*width);
+
   net1->Initialize();
   net1->InitializeWeights();
   net1->SetLearningRate(0.5);
-  
+
   typedef itk::Statistics::IterativeSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
-  
+
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(500);
   trainingfcn->SetThreshold(0.001); 
@@ -258,7 +254,7 @@ RBFTest1(int argc, char* argv[])
     count++;
     }
   std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
+    << " vectors are misclassified." << std::endl ;
   std::cout << "Network Weights = " << std::endl;
   std::cout << net1 << std::endl;
   std::cout << error1 << " " << error2 <<std::endl;
@@ -270,12 +266,12 @@ RBFTest1(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  
- if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
-   {
-   std::cout << "Test failed." << std::endl;
-   return EXIT_FAILURE;
-   }
+
+  if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
+    {
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }

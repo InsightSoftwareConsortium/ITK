@@ -26,24 +26,24 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TVector, class ScalarType>
-ProductInputFunction<TVector,ScalarType>
+template<class TMeasurementVector, class ScalarType>
+ProductInputFunction<TMeasurementVector,ScalarType>
 ::ProductInputFunction()
 {
 }
 
 /** Destructor */
-template<class TVector, class ScalarType>
-ProductInputFunction <TVector,ScalarType>
+template<class TMeasurementVector, class ScalarType>
+ProductInputFunction <TMeasurementVector,ScalarType>
 ::~ProductInputFunction()
 {
 }
 
 /** Evaluate */
-template<class TVector, class ScalarType>
+template<class TMeasurementVector, class ScalarType>
 ScalarType
-ProductInputFunction <TVector,ScalarType>
-::Evaluate(const TVector& input)  const
+ProductInputFunction <TMeasurementVector,ScalarType>
+::Evaluate(const TMeasurementVector& input)  const
 {
   vnl_vector<ScalarType> temp(input);
   ScalarType product = temp[0];
@@ -55,9 +55,9 @@ ProductInputFunction <TVector,ScalarType>
 }
 
 /** Print the object */
-template<class TVector, class ScalarType>
+template<class TMeasurementVector, class ScalarType>
 void  
-ProductInputFunction <TVector,ScalarType>
+ProductInputFunction <TMeasurementVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const 
 { 
   os << indent << "ProductInputFunction(" << this << ")" << std::endl; 

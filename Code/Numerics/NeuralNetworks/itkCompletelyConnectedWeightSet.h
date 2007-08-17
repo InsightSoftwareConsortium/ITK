@@ -24,29 +24,27 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TVector, class TOutput>
-class CompletelyConnectedWeightSet : public WeightSetBase<TVector, TOutput>
+template<class TMeasurementVector, class TTargetVector>
+class CompletelyConnectedWeightSet : public WeightSetBase<TMeasurementVector, TTargetVector>
 {
 public:
- 
   #define MAX_SIZE 1000
 
   typedef CompletelyConnectedWeightSet Self;
-  typedef WeightSetBase<TVector, TOutput> Superclass;
+  typedef WeightSetBase<TMeasurementVector, TTargetVector> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  itkTypeMacro(CompletelyConnectedWeightSet, WeightSetBase);      
+  itkTypeMacro(CompletelyConnectedWeightSet, WeightSetBase);
   itkNewMacro(Self);
 
   void SetCompleteConnectivity();
-
   void SetRandomConnectivity(int[][MAX_SIZE]);
 
 protected:
 
   CompletelyConnectedWeightSet();
-  ~CompletelyConnectedWeightSet(){};
+  virtual ~CompletelyConnectedWeightSet(){};
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
