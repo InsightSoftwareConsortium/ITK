@@ -172,7 +172,7 @@ NNetClassifierTest1(int argc, char* argv[])
   trainingfcn->SetIterations(200);
   trainingfcn->Train(OneHiddenLayerNet, trainsample, traintargets);
   int return_value1=TestNetwork(testsample,testtargets,OneHiddenLayerNet);
-  int return_value2;
+  int return_value2=EXIT_SUCCESS;
 
 #ifdef USE_REVIEW_NETIO
     {//Test Reading and writing.
