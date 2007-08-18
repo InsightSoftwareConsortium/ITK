@@ -15,9 +15,6 @@ TARGET_LINK_LIBRARIES(ImageReadRegionOfInterestWrite  ITKIO)
 ADD_EXECUTABLE(RGBImageReadWrite RGBImageReadWrite.cxx )
 TARGET_LINK_LIBRARIES(RGBImageReadWrite  ITKIO)
 
-ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)
-
 ADD_EXECUTABLE(CovariantVectorImageRead CovariantVectorImageRead.cxx )
 TARGET_LINK_LIBRARIES(CovariantVectorImageRead  ITKIO)
 
@@ -76,6 +73,9 @@ ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
 TARGET_LINK_LIBRARIES(TransformReadWrite  ITKIO)
 
 IF(NOT BORLAND)
+  ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
+  TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)
+
   ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
   TARGET_LINK_LIBRARIES(ImageReadExtractWrite  ITKIO)
 ENDIF(NOT BORLAND)
