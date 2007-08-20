@@ -54,7 +54,7 @@
    // Old system only have this
    #include <inttypes.h>   // For uint8_t uint16_t and uint32_t
 #else
-// Broken plateforms do not respect C99 and do not provide those typedef
+// Broken platforms do not respect C99 and do not provide those typedef
 // Special case for recent Borland compiler, comes with stdint.h
 #if defined(_MSC_VER) || defined(__BORLANDC__) && (__BORLANDC__ < 0x0560)  \
                       || defined(__MINGW32__)
@@ -65,7 +65,7 @@ typedef  unsigned char       uint8_t;
 typedef  unsigned short      uint16_t;
 typedef  unsigned int        uint32_t;
 #else
-#error "Sorry your plateform is not supported"
+#error "Sorry your platform is not supported"
 #endif // defined(_MSC_VER) || defined(__BORLANDC__) && (__BORLANDC__ < 0x0560)  || defined(__MINGW32__)
 #endif // CMAKE_HAVE_INTTYPES_H
 #endif // CMAKE_HAVE_STDINT_H

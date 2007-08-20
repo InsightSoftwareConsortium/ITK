@@ -41,7 +41,7 @@
 #define GDCM_EXECUTABLE_OUTPUT_PATH "@EXECUTABLE_OUTPUT_PATH@"
 #define GDCM_LIBRARY_OUTPUT_PATH    "@LIBRARY_OUTPUT_PATH@"
 
-/* For older gcc / broken plateform */
+/* For older gcc / broken platform */
 #cmakedefine GDCM_NO_ANSI_STRING_STREAM
 
 /* I guess something important */

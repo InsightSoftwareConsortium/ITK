@@ -243,7 +243,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     while( !Ot.IsAtEnd() )
       {
       
-      // cast to a real type is required on some plateforms 
+      // cast to a real type is required on some platforms 
       // TODO: use "typename NumericTraits<OutputPixelType>::RealType" instead
       // double. cableswig currently fail to build it with msvc 7.1
       const OutputPixelType outputValue =

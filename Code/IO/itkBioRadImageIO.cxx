@@ -224,7 +224,7 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
   p = &h;
   if( sizeof(h) != BIORAD_HEADER_LENGTH )
     {
-    itkExceptionMacro(<< "Problem of alignement on your plateform");
+    itkExceptionMacro(<< "Problem of alignement on your platform");
     }
   file.seekg(0, std::ios::beg);
   file.read((char*)p, BIORAD_HEADER_LENGTH);
@@ -342,7 +342,7 @@ void BioRadImageIO::Write(const void* buffer)
   p = &header;
   if( sizeof(header) != BIORAD_HEADER_LENGTH )
     {
-    itkExceptionMacro(<< "Problem of alignement on your plateform");
+    itkExceptionMacro(<< "Problem of alignement on your platform");
     }
   memset(p,0,BIORAD_HEADER_LENGTH); // Set everything to zero
   // In particular `notes' needs to be set to zero to indicate there is no notes

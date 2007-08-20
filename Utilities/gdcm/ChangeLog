@@ -918,7 +918,7 @@ Thu Feb 3 18:12:46 2005 by jpr
 
 2005-01-22 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
    * Finish the CreateUniqueUID stuff. Seems to compiled/runs on every
-     plateforms ITK support. Had some troubles with uint64_t on Win32, go to
+     platforms ITK support. Had some troubles with uint64_t on Win32, go to
      http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vclang/html/_langref_data_type_ranges.asp
      for more info. Basically you can not used 'unsigned' __int8 in an ostream.
      So can't you use __int64 in ostream at all.
@@ -1205,7 +1205,7 @@ Thu Feb 3 18:12:46 2005 by jpr
      and easier to use...hopefully
 
 2005-01-06 Mathieu Malaterre  <Mathieu.Malaterre@creatis.insa-lyon.fr>
-   * Adding GetMACAddres very alpha for now. This is tricky to be cross plateform.
+   * Adding GetMACAddres very alpha for now. This is tricky to be cross platform.
 
 2005-01-06 Benoit Regrain <Benoit.Regrain@creatis.insa-lyon.fr>
    * src/gdcmDocument.[h|cxx] : remove all copy of DocEntry when parsing a file
@@ -1793,7 +1793,7 @@ Thu Feb 3 18:12:46 2005 by jpr
   like this:
     gdcmHeader  ->   gdcm::Header
   It would be nice if people keep in mind to no open the namespace, since it
-  allows compilation on broken plateform which were defining common symbol in
+  allows compilation on broken platform which were defining common symbol in
   the standard namespace (like LP, Unknown ...)
 
 2004-10-10 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
@@ -1812,7 +1812,7 @@ Thu Feb 3 18:12:46 2005 by jpr
       gdcmPixelConvert::
 
 2004-10-08 Eric Boix <Eric.Boix@creatis.insa-lyon.fr>
-  * src/gdcmCommon.h now declares int8_t for non stdint.h plateforms.
+  * src/gdcmCommon.h now declares int8_t for non stdint.h platforms.
   * CLEANUP_ROUND (7) for gdcmPixelConvert (lost at sea)
     - src/gdcmFile.h gdcmPixelConvert.cxx gdcmPixelConvert.h gdcmRLE.cxx:
       clean up of RLE related code. 
@@ -3241,7 +3241,7 @@ Thu Feb 3 18:12:46 2005 by jpr
      * ENH: Generate both user and dev documentation
      * ENH: Should work on windows too
      * ENH: Only one doxygen config.in file is needed 
-     * FIX: make install should be ok now on Unix plateform
+     * FIX: make install should be ok now on Unix platform
      * FIX: PATH to dictionary was wrong (missing /)
      * ENH: OpenFile, return true if the file looks like an ACR or DICOM file 
                      

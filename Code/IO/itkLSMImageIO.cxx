@@ -165,7 +165,7 @@ void LSMImageIO::ReadImageInformation()
   const zeiss_info *zi = reinterpret_cast<zeiss_info*>(praw);
   if( sizeof(*zi) != TIF_CZ_LSMINFO_SIZE)
     {
-    itkExceptionMacro( << "Problem of alignement on your plateform" );
+    itkExceptionMacro( << "Problem of alignement on your platform" );
     return;
     }
   m_Spacing[0] = zi->F64VoxelSizeX;
