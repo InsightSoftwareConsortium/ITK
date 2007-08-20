@@ -78,7 +78,9 @@ namespace itk
 
         void AddWeightSet(typename LayerInterfaceType::WeightSetInterfaceType*);
         typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id);
+#ifdef __USE_OLD_INTERFACE
         const typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id) const;
+#endif
 
         void SetLearningFunction(LearningFunctionInterfaceType* f);
 

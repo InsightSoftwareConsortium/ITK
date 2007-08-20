@@ -106,7 +106,8 @@ namespace itk
       itkGetStringMacro(FileName);
 
       /** Set/Get the input transform to write */
-      void SetInput( const TNetwork* network );
+      //Avoiding VS6 compiler error void SetInput( const TNetwork* network );
+      void SetInput( TNetwork* network );
       const TNetwork * GetInput() const;
 
       /** Read NeuralNetwork */
@@ -128,7 +129,8 @@ namespace itk
       void ClearFields();
       typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
-      typename TNetwork::ConstPointer     m_Network;
+      //Attempting to avoid VS 6 compiler error typename TNetwork::ConstPointer     m_Network;
+      typename TNetwork::Pointer     m_Network;
       NetworkWriteWeightsType m_WriteWeightValuesType;
 
       std::string             m_FileName;

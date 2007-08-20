@@ -184,7 +184,7 @@ namespace itk
         return m_Weights[id].GetPointer();
         }
 
-
+#ifdef __USE_OLD_INTERFACE
     template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
       const typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::LayerInterfaceType::WeightSetInterfaceType*
       MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
@@ -192,6 +192,7 @@ namespace itk
         {
         return m_Weights[id].GetPointer();
         }
+#endif
 
 
     template<class TMeasurementVector, class TTargetVector,class TLearningLayer>

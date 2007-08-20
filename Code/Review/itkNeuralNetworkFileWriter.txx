@@ -35,7 +35,8 @@ namespace itk
   template<class TNetwork>
     void
     NeuralNetworkFileWriter<TNetwork>
-    ::SetInput( const TNetwork* network )
+    //Avoiding VS6 error::SetInput( const TNetwork* network )
+    ::SetInput(  TNetwork* network )
       {
        this->m_Network = network;
       }
@@ -185,7 +186,8 @@ namespace itk
       this->ClearFields();
       for(int j=0; j< this->m_Network->GetNumOfWeightSets(); j++)
         {
-        typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+        //typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+        const typename TNetwork::LayerInterfaceType::WeightSetInterfaceType * const
           weightset =  this->m_Network->GetWeightSet(j);
         mF = new MET_FieldRecordType;
         MET_InitWriteField(mF, "WeightSet_Id", MET_INT,weightset->GetWeightSetId());
@@ -214,7 +216,8 @@ namespace itk
       this->ClearFields();
       for(int j=0; j< this->m_Network->GetNumOfWeightSets(); j++)
         {
-        typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+        //typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
+        const typename TNetwork::LayerInterfaceType::WeightSetInterfaceType * const
           weightset =  this->m_Network->GetWeightSet(j);
         unsigned int rows = weightset->GetNumberOfOutputNodes();
         unsigned int cols = weightset->GetNumberOfInputNodes();
