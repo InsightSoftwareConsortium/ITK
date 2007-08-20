@@ -187,14 +187,14 @@ public:
   itkTypeMacro(OrientImageFilter, ImageToImageFilter);
 
   /** Set/Get the orientation codes to define the coordinate transform. */
-  itkGetMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
+  itkGetEnumMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
   void SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
   inline void SetGivenCoordinateDirection(const typename TInputImage::DirectionType &GivenDirection)
     {
     SetGivenCoordinateOrientation(
     itk::SpatialOrientationAdapter().FromDirectionCosines(GivenDirection));
     }
-  itkGetMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
+  itkGetEnumMacro(DesiredCoordinateOrientation, CoordinateOrientationCode);
   void SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode);
   inline void SetDesiredCoordinateDirection(const typename TOutputImage::DirectionType &DesiredDirection)
     {

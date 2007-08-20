@@ -89,7 +89,7 @@ std::string Transform< TScalarType,NInputDimensions,NOutputDimensions>
     {
       n << "other";
     }
-  n << "_" << InputSpaceDimension << "_" << OutputSpaceDimension;
+  n << "_" << this->GetInputSpaceDimension() << "_" << this->GetOutputSpaceDimension();
   return n.str();
 }
 

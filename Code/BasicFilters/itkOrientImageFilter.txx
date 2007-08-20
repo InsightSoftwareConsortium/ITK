@@ -691,12 +691,12 @@ OrientImageFilter<TInputImage, TOutputImage>
 
   axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
   os << indent << "Desired Coordinate Orientation: "
-     << m_DesiredCoordinateOrientation
+     << static_cast<long>(this->GetDesiredCoordinateOrientation())
      << " (" << (*axes).second << ")"
      << std::endl;
   axes = m_CodeToString.find(m_GivenCoordinateOrientation);
   os << indent << "Given Coordinate Orientation: "
-     << m_GivenCoordinateOrientation
+     << static_cast<long>(this->GetGivenCoordinateOrientation())
      << " (" << (*axes).second << ")"
      << std::endl;
   os << indent << "Use Image Direction: "
