@@ -157,6 +157,7 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
   threshold->SetOutsideValue(outsideValue);
   float outsideValue2 = threshold->GetOutsideValue();
   std::cout << "threshold->GetOutsideValue(): " << outsideValue2 << std::endl;
+  threshold->GetInverseOutput();
 
   return EXIT_SUCCESS;
 }
