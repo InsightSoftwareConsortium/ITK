@@ -145,7 +145,7 @@ int itkBarrierTest(int argc, char *argv[])
   catch (itk::ExceptionObject &e)
     {
     std::cerr << e << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   if (data.m_TestFailure == false)

@@ -80,11 +80,11 @@ int itkNeighborhoodIteratorTest(int, char* [] )
   unsigned x, y, i;
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
 
   println("Testing SetNext(0, 2, [0,0,0,0])");
@@ -94,44 +94,44 @@ int itkNeighborhoodIteratorTest(int, char* [] )
 
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
   
   println("Testing SetNext(1, 2, [0,0,0,0])");
   it3.SetNext(1,2,z);
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
   
   println("Testing SetNext(0, [0,0,0,0])");
   it3.SetNext(0, z);
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
 
   println("Testing SetNext(1, [0,0,0,0])");
   it3.SetNext(1, z);
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
 
 
@@ -140,44 +140,44 @@ int itkNeighborhoodIteratorTest(int, char* [] )
 
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
   
   println("Testing SetPrevious(1, 2, [0,0,0,0])");
   it3.SetPrevious(1,2,z);
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
   
   println("Testing SetPrevious(0, [0,0,0,0])");
   it3.SetPrevious(0, z);
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
 
   println("Testing SetPrevious(1, [0,0,0,0])");
   it3.SetPrevious(1, z);
   for (y = 0, i=0; y < 5; y++)
     {
-      for (x = 0; x < 5; x++, i++)
-        {
-          std::cout << it3.GetPixel(i) << " ";
-        }
-      std::cout << std::endl;
+    for (x = 0; x < 5; x++, i++)
+      {
+      std::cout << it3.GetPixel(i) << " ";
+      }
+    std::cout << std::endl;
     }
 
 
@@ -189,12 +189,13 @@ int itkNeighborhoodIteratorTest(int, char* [] )
     it3.SetPixel( 0, z); // out of bounds, should throw an exception
     }
   catch(itk::ExceptionObject &e)
-  {
-  std::cout << e << std::endl;
-  }
+    {
+    std::cout << e << std::endl;
+    return EXIT_FAILURE;
+    }
       
   
 
   
-  return 0;
+  return EXIT_SUCCESS;
 }

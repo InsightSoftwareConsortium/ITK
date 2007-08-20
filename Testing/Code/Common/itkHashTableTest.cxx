@@ -147,5 +147,5 @@ int itkHashTableTest(int, char* [] )
   IgnoreUnusedVariable(hsh_it);
   IgnoreUnusedVariable(map_it);
   
-  return 0;
+  return EXIT_SUCCESS;
 }

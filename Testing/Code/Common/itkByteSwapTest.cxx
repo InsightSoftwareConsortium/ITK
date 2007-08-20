@@ -40,11 +40,11 @@ int itkByteSwapTest ( int, char*[] )
 
   if ( itk::ByteSwapper<int>::SystemIsBigEndian() == itk::ByteSwapper<int>::SystemIsLE() )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
   if ( itk::ByteSwapper<int>::SystemIsBE() == itk::ByteSwapper<int>::SystemIsLittleEndian() )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
 
   if ( itk::ByteSwapper<int>::SystemIsBigEndian() )
@@ -59,7 +59,7 @@ int itkByteSwapTest ( int, char*[] )
     }
   if ( uc != uc1 )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "Passed unsigned char: " << uc << std::endl;
 
@@ -75,7 +75,7 @@ int itkByteSwapTest ( int, char*[] )
     }
   if ( us != us1 )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "Passed unsigned short: " << us << std::endl;
 
@@ -91,7 +91,7 @@ int itkByteSwapTest ( int, char*[] )
     }
   if ( ui != ui1 )
     {
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "Passed unsigned int: " << ui << std::endl;
 
@@ -110,7 +110,7 @@ int itkByteSwapTest ( int, char*[] )
       }
     if ( ul != ul1 )
       {
-      return 1;
+      return EXIT_FAILURE;
       }
     std::cout << "Passed unsigned long: " << ul << std::endl;
     }
@@ -134,7 +134,7 @@ int itkByteSwapTest ( int, char*[] )
       }
     if ( f != f1 )
       {
-      return 1;
+      return EXIT_FAILURE;
       }
     std::cout << "Passed float: " << f << std::endl;
     }
@@ -142,7 +142,7 @@ int itkByteSwapTest ( int, char*[] )
     {
     std::cout << "Caught float exception size is: " << sizeof ( float ) << std::endl;
     (&err)->Print(std::cerr);
-    return 1;
+    return EXIT_FAILURE;
     }
 
   try
@@ -159,7 +159,7 @@ int itkByteSwapTest ( int, char*[] )
       }
     if ( d != d1 )
       {
-      return 1;
+      return EXIT_FAILURE;
       }
     std::cout << "Passed unsigned d: " << d << std::endl;
     }
@@ -167,9 +167,9 @@ int itkByteSwapTest ( int, char*[] )
     {
     std::cout << "Good catch! Caught double exception size is: " << sizeof ( double ) << std::endl;
     (&err)->Print(std::cerr);
-    return 1;
+    return EXIT_FAILURE;
     }
   // we failed to throw an exception for the double swap (once it's implemented, this should return 0
-  return 0;
+  return EXIT_SUCCESS;
   
 }

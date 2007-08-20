@@ -612,5 +612,5 @@ int itkCommonPrintTest(int , char* [])
   std::cout << "------------XMLFileOutputWindow" << XMLFileOutputWindowObj;
 
   
-  return 0;
+  return EXIT_SUCCESS;
 }

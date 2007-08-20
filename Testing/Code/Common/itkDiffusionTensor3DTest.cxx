@@ -45,7 +45,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
   if (sizeof(pixel) != 6 * sizeof(Float3DTensorType::ComponentType))
     {
     std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is should be " << 6 * sizeof(Float3DTensorType::ComponentType) << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
   std::cout << "pixel.GetNthComponent()" << std::endl;

@@ -119,6 +119,7 @@ int itkExceptionObjectTest(int, char* [] )
   catch (itk::ExceptionObject &e) 
     { 
     std::cout << e << std::endl; 
+    return EXIT_FAILURE;
     }
 
   try
@@ -132,6 +133,7 @@ int itkExceptionObjectTest(int, char* [] )
   catch (itk::IncompatibleOperandsError &e) 
     { 
     std::cout << e << std::endl; 
+    return EXIT_FAILURE;
     }
 
   /*
@@ -157,6 +159,6 @@ int itkExceptionObjectTest(int, char* [] )
 
   delete Fp;
 
-  return 0;
+  return EXIT_SUCCESS;
   
 }

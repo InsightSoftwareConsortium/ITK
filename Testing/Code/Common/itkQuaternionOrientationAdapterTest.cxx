@@ -241,10 +241,10 @@ int itkQuaternionOrientationAdapterTest(int argc, char *argv[])
         if(dir[ii][jj] != dir2[ii][jj])
           {
           std::cerr << "Input and output matrices don't match" << std::endl;
-          return -1;
+          return EXIT_FAILURE;
           }
         }
       }
     }
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -68,7 +68,7 @@ int itkSemaphoreTest(int, char*[])
       if ( sem.m_Flag == true ) // flag should always be false
         {
         std::cerr << "[TEST FAILED]" << std::endl;
-        return 1;
+        return EXIT_FAILURE;
         }
       }
     

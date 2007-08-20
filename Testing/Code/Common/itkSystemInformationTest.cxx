@@ -176,10 +176,10 @@ int main(int,char *[])
   else
     {
     std::cerr << "Error writing this information to file " << ITK_SYSTEM_INFORMATION_NOTES << "\n";
-    return 1;
+    return EXIT_FAILURE;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 } 
 
 // This test has been derived from the equivalent test in VTK:

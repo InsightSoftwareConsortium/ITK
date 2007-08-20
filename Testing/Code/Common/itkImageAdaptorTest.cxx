@@ -93,22 +93,22 @@ int itkImageAdaptorTest(int, char* []) {
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
-  {
+    {
     it1.Set(color);
     ++it1;
-  }
+    }
 
   // Reading the values to verify the image content
   std::cout << "--- Before --- " << std::endl;
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
-  {
+    {
     const myImageType::PixelType c( it1.Get() );
     std::cout << c.GetRed()   << "  ";
     std::cout << c.GetGreen() << "  ";
     std::cout << c.GetBlue()  << std::endl;
     ++it1;
-  }
+    }
 
 
 
@@ -121,26 +121,26 @@ int itkImageAdaptorTest(int, char* []) {
   // Set the values of the Red component of myImage, using myAdaptor
   it2.GoToBegin();
   while( !it2.IsAtEnd() )
-  {
+    {
     it2.Set( 0.4 );
     ++it2;
-  }
+    }
 
 
   std::cout << "--- After --- " << std::endl;
 
   it1.GoToBegin();
   while( !it1.IsAtEnd() )
-  {
+    {
     const myImageType::PixelType c( it1.Get() );
     std::cout << c.GetRed()   << "  ";
     std::cout << c.GetGreen() << "  ";
     std::cout << c.GetBlue()  << std::endl;
     ++it1;
-  }
+    }
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

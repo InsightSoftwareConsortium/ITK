@@ -512,7 +512,7 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << std::endl << "Done." << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

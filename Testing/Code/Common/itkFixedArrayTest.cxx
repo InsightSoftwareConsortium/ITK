@@ -76,8 +76,8 @@ int itkFixedArrayTest(int, char* [] )
   Print_Array(array4, std::cout);
   
   // Test operator!= and operator==
-  if ( array4 != array4 ) return 1; //should be equal
-  if ( !(array4 == array4) ) return 1; //should be equal
+  if ( array4 != array4 ) return EXIT_FAILURE; //should be equal
+  if ( !(array4 == array4) ) return EXIT_FAILURE; //should be equal
 
   // Test Get/Set element
   const unsigned int n = 20;
@@ -134,5 +134,5 @@ int itkFixedArrayTest(int, char* [] )
       TRY_INDEX(unsigned int);
       TRY_INDEX(long);
       TRY_INDEX(unsigned long);
-  return 0;
+  return EXIT_SUCCESS;
 }

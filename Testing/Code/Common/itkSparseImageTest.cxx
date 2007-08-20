@@ -83,5 +83,5 @@ int itkSparseImageTest(int, char* [] )
   nodelist->Print(std::cout);
   im->Print(std::cout);
   
-  return 0;
+  return EXIT_SUCCESS;
 }

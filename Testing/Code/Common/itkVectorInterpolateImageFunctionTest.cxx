@@ -316,12 +316,16 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
 
 
   /* Return results of test */
-  if (flag != 0) {
-      std::cout << "*** Some test failed" << std::endl;
-      return flag; }
-  else {
-      std::cout << "All tests successfully passed" << std::endl;
-      return 0; }
+  if (flag != 0) 
+    {
+    std::cout << "*** Some test failed" << std::endl;
+    return flag; 
+    }
+  else 
+    {
+    std::cout << "All tests successfully passed" << std::endl;
+    }
 
+  return EXIT_SUCCESS; 
 }
 

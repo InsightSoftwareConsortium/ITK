@@ -39,7 +39,7 @@ int itkLineIteratorTest(int argc, char*argv[])
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  outputfilename" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Set up a test image

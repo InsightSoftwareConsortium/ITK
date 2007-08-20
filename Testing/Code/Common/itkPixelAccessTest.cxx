@@ -87,8 +87,6 @@ int itkPixelAccessTest(int, char* [] )
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
-
-
 

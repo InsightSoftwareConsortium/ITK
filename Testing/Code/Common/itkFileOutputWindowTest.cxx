@@ -59,6 +59,6 @@ int itkFileOutputWindowTest(int, char* [] )
 
   // Test 
 
-  return 0;  
+  return EXIT_SUCCESS;  
 }
 

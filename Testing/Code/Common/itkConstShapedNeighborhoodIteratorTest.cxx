@@ -324,5 +324,5 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
   oeIt.Print(std::cout);
       
   
-  return 0;
+  return EXIT_SUCCESS;
 };

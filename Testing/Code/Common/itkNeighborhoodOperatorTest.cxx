@@ -193,5 +193,5 @@ int itkNeighborhoodOperatorTest(int, char* [] )
     }
   std::cout << "]" << std::endl << std::endl;
   
-  return 0;
+  return EXIT_SUCCESS;
 }

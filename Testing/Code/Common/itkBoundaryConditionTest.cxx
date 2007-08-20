@@ -209,5 +209,5 @@ int itkBoundaryConditionTest(int, char* [] )
        it2d.OverrideBoundaryCondition(&neumann);
      }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -34,5 +34,5 @@ int itkMeshFstreamTest(int argc, char* argv[] )
   ofs << "Testing Mesh & fstream" << std::endl;
   ofs.close();
   
-  return 0; 
+  return EXIT_SUCCESS; 
 }

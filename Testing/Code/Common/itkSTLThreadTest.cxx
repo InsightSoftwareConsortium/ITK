@@ -34,7 +34,7 @@ int itkSTLThreadTest(int argc, char* argv[])
 {
 // On some old sgi compilers, this test gets into an infinite loop.
 #if defined(__sgi) && defined(_COMPILER_VERSION) && _COMPILER_VERSION <= 730
-  return 0;
+  return EXIT_SUCCESS;
 #else
   // Choose a number of threads.
   int numThreads = 10;
@@ -141,7 +141,7 @@ ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
     itkSTLThreadTestImpl::Thread(tnum);
     }
 #ifndef ITK_USE_SPROC
-  return 0;
+  return EXIT_SUCCESS;
 #endif
 }
 
@@ -190,12 +190,12 @@ int Thread(int tnum)
   if(numberOfIterations && (iteration >= numberOfIterations))
     {
     // Success.
-    return 1;
+    return EXIT_FAILURE;
     }
   else
     {
     // Failure.
-    return 0;
+    return EXIT_SUCCESS;
     }
 }
 

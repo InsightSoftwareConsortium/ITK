@@ -42,24 +42,24 @@ const unsigned int WIDTH  = (256);
 float circle(unsigned x, unsigned y)
 {
   float dis;
-    dis = (x - (float)WIDTH/2.0)*(x - (float)WIDTH/2.0)
-         + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0);
-    dis = RADIUS - sqrt(dis);
-    return(dis);
+  dis = (x - (float)WIDTH/2.0)*(x - (float)WIDTH/2.0)
+    + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0);
+  dis = RADIUS - sqrt(dis);
+  return dis;
 }
 
 // Distance transform function for square
 float square(unsigned x, unsigned y)
 {
-    float X, Y;
-    X = ::fabs(x - (float)WIDTH/2.0);
-    Y = ::fabs(y - (float)HEIGHT/2.0);
-    float dis;
-    if (!((X > RADIUS)&&(Y > RADIUS)))
-      dis = RADIUS - vnl_math_max(X, Y);
-    else
-      dis = -sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
-    return(dis);
+  float X, Y;
+  X = ::fabs(x - (float)WIDTH/2.0);
+  Y = ::fabs(y - (float)HEIGHT/2.0);
+  float dis;
+  if (!((X > RADIUS)&&(Y > RADIUS)))
+    dis = RADIUS - vnl_math_max(X, Y);
+  else
+    dis = -sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+  return dis;
 }
 
 // Evaluates a function at each pixel in the itk image
@@ -70,12 +70,12 @@ void evaluate_function(itk::Image<float, 2> *im,
   itk::Image<float, 2>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
     {
-      idx[0] = x;
-      for (unsigned int y = 0; y < HEIGHT; ++y)
-        {
-          idx[1] = y;
-          im->SetPixel(idx, f(x, y) );
-        }
+    idx[0] = x;
+    for (unsigned int y = 0; y < HEIGHT; ++y)
+      {
+      idx[1] = y;
+      im->SetPixel(idx, f(x, y) );
+      }
     }
 }
 
@@ -228,10 +228,10 @@ int itkLevelSetFunctionTest(int, char* [] )
 
   // Squash level sets everywhere but near the zero set.
   for (itr = itr.Begin(); ! itr.IsAtEnd(); ++itr)
-  {
+    {
     itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
-  
-  }
+
+    }
  
   itk::MorphFilter::Pointer mf = itk::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
@@ -240,5 +240,5 @@ int itkLevelSetFunctionTest(int, char* [] )
 
   mf->Update();
 
- return 0;
+  return EXIT_SUCCESS;
 }
