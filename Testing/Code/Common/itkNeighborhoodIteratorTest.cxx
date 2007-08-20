@@ -182,6 +182,7 @@ int itkNeighborhoodIteratorTest(int, char* [] )
 
 
   println("Testing SetPixel methods");
+  bool raised = false;
   try
     {
     it3.GoToBegin();
@@ -191,6 +192,10 @@ int itkNeighborhoodIteratorTest(int, char* [] )
   catch(itk::ExceptionObject &e)
     {
     std::cout << e << std::endl;
+    raised = true;
+    }
+  if( !raised )
+    {
     return EXIT_FAILURE;
     }
       
