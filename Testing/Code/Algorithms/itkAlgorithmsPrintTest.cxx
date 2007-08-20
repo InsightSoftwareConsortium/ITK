@@ -126,6 +126,6 @@ int main (int , char* [])
     itk::FastMarchingImageFilter<InputType>::New();
   std:: cout << "-------------FastMarchingImageFilter " << FastMarchingImageFilterObj;
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }

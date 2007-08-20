@@ -127,6 +127,6 @@ int main(int , char* [])
     itk::ReinitializeLevelSetImageFilter<InputType>::New();
   std:: cout << "-------------ReinitializeLevelSetImageFilter " << ReinitializeLevelSetImageFilterObj;
 
-  return 0;
+  return EXIT_SUCCESS;
 
 }

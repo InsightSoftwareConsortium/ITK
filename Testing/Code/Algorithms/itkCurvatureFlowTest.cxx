@@ -96,7 +96,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
     { 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  outputFile" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
    itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());

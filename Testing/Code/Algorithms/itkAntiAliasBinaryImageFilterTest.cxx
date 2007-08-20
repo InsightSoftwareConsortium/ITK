@@ -125,41 +125,38 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
   
   if (antialiaser->GetElapsedIterations() >= 100)
     {
-      std::cout << "ERROR: Filter did not converge.";
-      return 1;
+    std::cout << "ERROR: Filter did not converge.";
+    return EXIT_FAILURE;
     }
   else
     {
-      //
-      // Uncomment the following lines if you are writing the output image
-      //
-      
-      // itk::RawImageIO<float, 3>::Pointer output_io
-      //    = itk::RawImageIO<float, 3>::New();
-      //  
-      // itk::ImageFileWriter<RealImageType>::Pointer writer
-      //    = itk::ImageFileWriter<RealImageType>::New();
-      //      output_io->SetFileTypeToBinary();
-      //      output_io->SetFileDimensionality(3);
-      //      output_io->SetByteOrderToLittleEndian();     
-      //      writer->SetInput(antialiaser->GetOutput());
-      //      writer->SetFileName("spheretest.raw");
-      //      writer->SetImageIO(output_io);
-      //      writer->Write();
+    //
+    // Uncomment the following lines if you are writing the output image
+    //
 
-      // Repeat just to make sure we reinitialize properly.
-      antialiaser->SetNumberOfIterations(200);
-      antialiaser->Update();
-      
-      antialiaser->GetLowerBinaryValue();
-      antialiaser->GetUpperBinaryValue();
-      
-      std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
-      std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
-      return 0;
+    // itk::RawImageIO<float, 3>::Pointer output_io
+    //    = itk::RawImageIO<float, 3>::New();
+    //  
+    // itk::ImageFileWriter<RealImageType>::Pointer writer
+    //    = itk::ImageFileWriter<RealImageType>::New();
+    //      output_io->SetFileTypeToBinary();
+    //      output_io->SetFileDimensionality(3);
+    //      output_io->SetByteOrderToLittleEndian();     
+    //      writer->SetInput(antialiaser->GetOutput());
+    //      writer->SetFileName("spheretest.raw");
+    //      writer->SetImageIO(output_io);
+    //      writer->Write();
+
+    // Repeat just to make sure we reinitialize properly.
+    antialiaser->SetNumberOfIterations(200);
+    antialiaser->Update();
+
+    antialiaser->GetLowerBinaryValue();
+    antialiaser->GetUpperBinaryValue();
+
+    std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
+    std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
     }
- 
 
-
-  return 0;
+  return EXIT_SUCCESS;
 }

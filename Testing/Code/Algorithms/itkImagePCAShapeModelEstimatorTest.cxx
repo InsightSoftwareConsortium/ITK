@@ -232,10 +232,15 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //Test for the eigen values for the test case precomputed using Matlab/Splus
   std::cout << "" << std::endl;
   if( (eigenValues[2] < 6 || eigenValues[2] > 6.1) || (eigenValues[1] >0.1) )
+    {
     std::cout<< "Test Passed" << std::endl;
-  else 
+    }
+  else
+    {
     std::cout<< "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }

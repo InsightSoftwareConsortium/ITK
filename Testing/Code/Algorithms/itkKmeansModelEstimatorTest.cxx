@@ -281,9 +281,15 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //Check if the mean codebook is within error limits and the first pixel 
   //is labeled to belong to class 2
   if( (error < 0.1 * meanCDBKvalue) && (minidx == 2) )
+    {
     std::cout << "Kmeans algorithm passed (with initial input)"<<std::endl;
+    }
   else
+    {
     std::cout << "Kmeans algorithm failed (with initial input)"<<std::endl;
+    return EXIT_FAILURE;
+    }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
+

@@ -375,8 +375,8 @@ int itkGibbsTest(int, char*[] )
   else 
     {
     std::cout<< "Gibbs Prior Test failed" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

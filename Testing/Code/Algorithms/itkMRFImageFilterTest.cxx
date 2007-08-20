@@ -446,13 +446,15 @@ int itkMRFImageFilterTest(int, char* [] )
   //Loop through the data set
 
   if( sum == 22 )
+    {
     std::cout<< "MRF labeller Test Passed" << std::endl;
+    }
   else 
+    {
     std::cout<< "MRF labeller Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
-
-
-  

@@ -170,6 +170,6 @@ int main(int , char* [])
   itk::MRASlabIdentifier<InputType>::Pointer MRASlabIdentifierObj =
     itk::MRASlabIdentifier<InputType>::New();
   std:: cout << "-------------MRASlabIdentifier " << MRASlabIdentifierObj;
-  return 0;
+  return EXIT_SUCCESS;
 
 }

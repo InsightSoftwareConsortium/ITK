@@ -32,7 +32,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
     std::cerr << " inputImageFile outputImageFile";  
     std::cerr << " numberOfHistogramBins";  
     std::cerr << std::endl;  
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef  short  InputPixelType;
@@ -64,5 +64,5 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   writer->SetFileName( argv[2] );
   writer->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -19,8 +19,6 @@
 #endif
 
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
-//#include "itkImageFileWriter.h"
-//#include "itkRawImageIO.h"
 #include "itkCastImageFilter.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"
@@ -244,5 +242,5 @@ int itkLaplacianSegmentationLevelSetImageFilterTest(int, char * [] )
       std::cerr << e << std::endl;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 }

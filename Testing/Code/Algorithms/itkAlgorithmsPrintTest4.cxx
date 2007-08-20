@@ -142,6 +142,6 @@ int main(int , char* [])
     itk::MeanReciprocalSquareDifferencePointSetToImageMetric<PointSetType,InputType>::New();
   std:: cout << "-------------MeanReciprocalSquareDifferencePointSetToImageMetric " << MeanReciprocalSquareDifferencePointSetToImageMetricObj;
   
-  return 0;
+  return EXIT_SUCCESS;
 
 }

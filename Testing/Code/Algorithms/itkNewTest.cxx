@@ -127,6 +127,6 @@ int itkNewTest ( int , char* [] )
   typedef itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
   iFIB::Pointer FIB = iFIB::New();
   
-  return 0;
+  return EXIT_SUCCESS;
   
 }

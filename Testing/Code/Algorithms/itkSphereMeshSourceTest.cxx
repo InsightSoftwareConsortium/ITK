@@ -54,12 +54,13 @@ int itkSphereMeshSourceTest(int, char* [] ){
   pt_ptr = &pt;
 
   std::cout << "Testing itk::SphereMeshSource "<< std::endl;
-  for(int i=0; i<12; i++) {
-  mySphereMeshSource->GetOutput()->GetPoint(i, pt_ptr);
-  std::cout << "Point1: " << pt[0] << ", " << pt[1] << ", "<< pt[2] << std::endl;
-  }
+  for(int i=0; i<12; i++)
+    {
+    mySphereMeshSource->GetOutput()->GetPoint(i, pt_ptr);
+    std::cout << "Point1: " << pt[0] << ", " << pt[1] << ", "<< pt[2] << std::endl;
+    }
   std::cout << "Test End "<< std::endl;
-  return 0;
+  return EXIT_SUCCESS;
 
 }
 

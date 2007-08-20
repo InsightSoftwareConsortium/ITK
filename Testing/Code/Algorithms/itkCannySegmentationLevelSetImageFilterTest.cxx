@@ -240,8 +240,9 @@ int itkCannySegmentationLevelSetImageFilterTest(int, char * [] )
   }
   catch (itk::ExceptionObject &e)
     {
-      std::cerr << e << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
     }
   
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -398,7 +398,7 @@ int itkSCSLFFTTest(int, char *[])
       itk::SCSLRealToComplexConjugateImageFilter<double,3> ,
       itk::SCSLComplexConjugateToRealImageFilter<double,3> >(SizeOfDimensions2)) != 0)
     rval++;;
-  return rval == 0 ? 0 : -1;
+  return rval == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 #endif
 

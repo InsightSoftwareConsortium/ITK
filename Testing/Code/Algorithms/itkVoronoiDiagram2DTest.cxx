@@ -80,5 +80,5 @@ int itkVoronoiDiagram2DTest(int, char* [] ){
     std::cout<<": At ("<<(*allVerts)[0]<<","<<(*allVerts)[1]<<")"<<std::endl;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

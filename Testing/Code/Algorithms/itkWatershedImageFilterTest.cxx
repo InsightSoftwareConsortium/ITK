@@ -115,13 +115,15 @@ int itkWatershedImageFilterTest(int, char* [] )
   ws_filter->GetLevel();
 
   println("Executing the filter");
-  try {
-  ws_filter->Update();
-  }
-  catch (...) {
-  std::cerr << "WatershedImageFilter exception thrown" << std::endl;
-  return 1;
-  }
+  try
+    {
+    ws_filter->Update();
+    }
+  catch (...)
+    {
+    std::cerr << "WatershedImageFilter exception thrown" << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

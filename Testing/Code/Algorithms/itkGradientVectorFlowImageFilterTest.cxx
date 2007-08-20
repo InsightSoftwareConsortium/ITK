@@ -192,6 +192,6 @@ int itkGradientVectorFlowImageFilterTest(int , char *[])
 
   std::cout << "Completed" << std::endl;
   // All objects should be automatically destroyed at this point
-  return 0;
+  return EXIT_SUCCESS;
 
 }

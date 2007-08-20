@@ -160,7 +160,9 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
 
   if (argc < 5)
     {
-    std::cerr << "Use: " << argv[0] << " file_dimensionality output.mhd foreground_value confidence_weight file1 file2 ... fileN" << std::endl;
+    std::cerr << "Use: " << argv[0] << 
+      " file_dimensionality output.mhd foreground_value confidence_weight "
+      "file1 file2 ... fileN" << std::endl;
     return -1;
     }
 
@@ -211,7 +213,8 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
     {
     avg_q += stapler->GetSpecificity(j);
     avg_p += stapler->GetSensitivity(j);
-    std::cout << j << ": " << stapler->GetFileName(j) << "\t" << stapler->GetSensitivity(j) << "\t\t"
+    std::cout << j << ": " << stapler->GetFileName(j) << "\t"
+              << stapler->GetSensitivity(j) << "\t\t"
               << stapler->GetSpecificity(j) << std::endl;
     }
   avg_p /= static_cast<double>( stapler->GetNumberOfFiles() );
@@ -221,6 +224,6 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
   
   delete stapler;
   
-  return 0;
+  return EXIT_SUCCESS;
 }
 

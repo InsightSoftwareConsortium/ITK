@@ -129,153 +129,147 @@ double trueValue )
 }
 
 
-int 
-itkInterpolateTest(
-    int itkNotUsed(argc),
-    char * itkNotUsed(argv) [] )
+int itkInterpolateTest(int, char *[] )
 {
-    int flag = 0;           /* Did this test program work? */
+  int flag = 0;           /* Did this test program work? */
 
-    std::cout << "Testing image interpolation methods:\n";
+  std::cout << "Testing image interpolation methods:\n";
 
-    /* Allocate a simple test image */
-    ImageType::Pointer image = ImageType::New();
-    ImageType::RegionType region;
-    region.SetSize(size);
-    image->SetLargestPossibleRegion(region);
-    image->SetBufferedRegion(region);
-    image->Allocate();
+  /* Allocate a simple test image */
+  ImageType::Pointer image = ImageType::New();
+  ImageType::RegionType region;
+  region.SetSize(size);
+  image->SetLargestPossibleRegion(region);
+  image->SetBufferedRegion(region);
+  image->Allocate();
 
-    /* Set origin and spacing of physical coordinates */
-    image->SetOrigin(origin);
-    image->SetSpacing(spacing);
+  /* Set origin and spacing of physical coordinates */
+  image->SetOrigin(origin);
+  image->SetSpacing(spacing);
 
-    /* Initialize the image contents */
-    IndexType index;
-    for (int slice = 0; slice < 80; slice++) {
-        index[2] = slice;
-        for (int row = 0; row < 40; row++) {
-            index[1] = row;
-            for (int col = 0; col < 20; col++) {
-                index[0] = col;
-                image->SetPixel(index, slice+row+col);
-            }
+  /* Initialize the image contents */
+  IndexType index;
+  for (int slice = 0; slice < 80; slice++)
+    {
+    index[2] = slice;
+    for (int row = 0; row < 40; row++) 
+      {
+      index[1] = row;
+      for (int col = 0; col < 20; col++) 
+        {
+        index[0] = col;
+        image->SetPixel(index, slice+row+col);
         }
+      }
     }
 
-    /* Create and initialize the interpolator */
-    InterpolatorType::Pointer interp = InterpolatorType::New();
-    interp->SetInputImage(image);
-    interp->Print( std::cout );
+  /* Create and initialize the interpolator */
+  InterpolatorType::Pointer interp = InterpolatorType::New();
+  interp->SetInputImage(image);
+  interp->Print( std::cout );
 
-    /* Test evaluation at continuous indices and corresponding
-       gemetric points */
-    std::cout << "Evaluate at: " << std::endl;
-    ContinuousIndexType cindex;
-    PointType point;
-    bool passed;
+  /* Test evaluation at continuous indices and corresponding
+     gemetric points */
+  std::cout << "Evaluate at: " << std::endl;
+  ContinuousIndexType cindex;
+  PointType point;
+  bool passed;
 
-    // an integer position inside the image
-    double darray1[3] = { 10, 20, 40};
-    cindex = ContinuousIndexType(darray1);
-    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 70 );
+  // an integer position inside the image
+  double darray1[3] = { 10, 20, 40};
+  cindex = ContinuousIndexType(darray1);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 70 );
 
-    if( !passed ) flag = 1;
-    
-    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
-    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 70 );
+  if( !passed ) flag = 1;
 
-    if( !passed ) flag = 1;
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 70 );
 
-    index[0] = 10;
-    index[1] = 20;
-    index[2] = 40;
-    if ( interp->EvaluateAtIndex( index ) != 70 )
-      {
-      std::cout << "Index: " << index;
-      std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
-      std::cout << "Error: true value should be 70" << std::endl;
-      flag = 1;
-      }
-    
-    // position at the image border
-    double darray2[3] = {0, 20, 40};
-    cindex = ContinuousIndexType(darray2);
-    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 60 );
+  if( !passed ) flag = 1;
 
-    if( !passed ) flag = 1;
+  index[0] = 10;
+  index[1] = 20;
+  index[2] = 40;
+  if ( interp->EvaluateAtIndex( index ) != 70 )
+    {
+    std::cout << "Index: " << index;
+    std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
+    std::cout << "Error: true value should be 70" << std::endl;
+    flag = 1;
+    }
 
-    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
-    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 60 );
+  // position at the image border
+  double darray2[3] = {0, 20, 40};
+  cindex = ContinuousIndexType(darray2);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 60 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    // position near image border
-    double epsilon = 1.0e-10;
-    double darray3[3] = {19 - epsilon, 20, 40};
-    cindex = ContinuousIndexType(darray3);
-    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 79 );
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 60 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
-    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 79 );
+  // position near image border
+  double epsilon = 1.0e-10;
+  double darray3[3] = {19 - epsilon, 20, 40};
+  cindex = ContinuousIndexType(darray3);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 79 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    // position outside the image
-    double darray4[3] = {20, 20, 40};
-    cindex = ContinuousIndexType(darray4);
-    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, false, 0 );
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 79 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
-    passed = TestGeometricPoint<InterpolatorType>( interp, point, false, 0 );
+  // position outside the image
+  double darray4[3] = {20, 20, 40};
+  cindex = ContinuousIndexType(darray4);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, false, 0 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    // at non-integer position 
-    double darray5[3] = {5.25, 12.5, 42.0};
-    cindex = ContinuousIndexType(darray5);
-    passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.75 );
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, false, 0 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    image->TransformContinuousIndexToPhysicalPoint( cindex, point );
-    passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.75 );
+  // at non-integer position 
+  double darray5[3] = {5.25, 12.5, 42.0};
+  cindex = ContinuousIndexType(darray5);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.75 );
 
-    if( !passed ) flag = 1;
+  if( !passed ) flag = 1;
 
-    /* Create and initialize the nearest neigh. interpolator */
-    NNInterpolatorType::Pointer nninterp = NNInterpolatorType::New();
-    nninterp->SetInputImage(image);
-    nninterp->Print( std::cout );
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.75 );
 
-    passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true,
-      60 );
+  if( !passed ) flag = 1;
 
-    if( !passed ) flag = 1;
+  /* Create and initialize the nearest neigh. interpolator */
+  NNInterpolatorType::Pointer nninterp = NNInterpolatorType::New();
+  nninterp->SetInputImage(image);
+  nninterp->Print( std::cout );
+
+  passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true,
+    60 );
+
+  if( !passed ) flag = 1;
 
 
 
-    /* Return results of test */
-    if (flag != 0) {
-        std::cout << "*** Some test failed" << std::endl;
-        return flag; }
-    else {
-        std::cout << "All tests successfully passed" << std::endl;
-        return 0; }
+  /* Return results of test */
+  if (flag != 0)
+    {
+    std::cout << "*** Some test failed" << std::endl;
+    return flag;
+    }
+  else 
+    {
+    std::cout << "All tests successfully passed" << std::endl;
+    }
 
+  return EXIT_SUCCESS; 
 }
-
-
-
-
-
-
-
-
-
-
 

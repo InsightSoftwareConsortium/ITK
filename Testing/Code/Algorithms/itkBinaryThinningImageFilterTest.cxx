@@ -31,7 +31,7 @@ int itkBinaryThinningImageFilterTest(int argc, char* argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImageFile outputImageFile";  
     std::cerr << std::endl;  
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef  short InputPixelType;
@@ -72,7 +72,8 @@ int itkBinaryThinningImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

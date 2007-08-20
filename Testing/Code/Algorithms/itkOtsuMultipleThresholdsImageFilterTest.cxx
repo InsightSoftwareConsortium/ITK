@@ -34,7 +34,7 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     std::cerr << " numberOfThresholds";
     std::cerr << " labelOffset";
     std::cerr << std::endl;  
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef  short  InputPixelType;
@@ -73,6 +73,7 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Test GetMacros
@@ -114,7 +115,8 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    return EXIT_FAILURE;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

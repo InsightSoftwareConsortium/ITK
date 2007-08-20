@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkNarrowBandThresholdSegmentationLevelSetImageFilter.h"
-//#include "itkImageFileWriter.h"
-//#include "itkRawImageIO.h"
 #include "itkCastImageFilter.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"
@@ -215,8 +213,8 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
   catch (itk::ExceptionObject &e)
     {
     std::cerr << e << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
-  return 0;
+  return EXIT_SUCCESS;
 }
  

@@ -30,7 +30,7 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
   if(ac < 7)
     {
     std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed1_x seed1_y seed2_x seed2_y\n";
-    return -1;
+    return EXIT_FAILURE;
     }
 
   typedef unsigned char PixelType;
@@ -97,7 +97,7 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
   catch (itk::ExceptionObject& e)
     {
     std::cerr << "Exception detected: "  << e.GetDescription();
-    return -1;
+    return EXIT_FAILURE;
     }
 
   // Generate test image
@@ -107,5 +107,5 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
     writer->SetFileName( av[2] );
     writer->Update();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
