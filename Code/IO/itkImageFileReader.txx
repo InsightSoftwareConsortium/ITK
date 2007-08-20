@@ -210,8 +210,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   output->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
   this->SetMetaDataDictionary(m_ImageIO->GetMetaDataDictionary());
 
-  typedef typename TOutputImage::IndexType   IndexType;
-
   IndexType start;
   start.Fill(0);
 
@@ -316,9 +314,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();
-
-  // allocate the output buffer
-  typedef typename TOutputImage::RegionType ImageRegionType;
 
   itkDebugMacro ( << "ImageFileReader::GenerateData() \n" 
      << "Allocating the buffer with the StreamableRegion \n" 
