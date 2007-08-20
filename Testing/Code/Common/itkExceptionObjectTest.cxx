@@ -112,6 +112,7 @@ int itkExceptionObjectTest(int, char* [] )
   std::cout << *Fp << std::endl;
   
   // ** BE SURE TO CATCH BY REFERENCE TO AVOID SLICING **
+  bool raised = false;
   try {
     lookup(4);  // OK
     lookup(12); // ERROR
@@ -119,9 +120,14 @@ int itkExceptionObjectTest(int, char* [] )
   catch (itk::ExceptionObject &e) 
     { 
     std::cout << e << std::endl; 
+    raised = true;
+    }
+  if( !raised )
+    {
     return EXIT_FAILURE;
     }
 
+  raised = false;
   try
     {
     human john, jane;
@@ -133,6 +139,10 @@ int itkExceptionObjectTest(int, char* [] )
   catch (itk::IncompatibleOperandsError &e) 
     { 
     std::cout << e << std::endl; 
+    raised = true;
+    }
+  if( !raised )
+    {
     return EXIT_FAILURE;
     }
 
