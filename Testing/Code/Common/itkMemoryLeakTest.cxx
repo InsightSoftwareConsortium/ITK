@@ -30,5 +30,5 @@ int itkMemoryLeakTest(int, char* [] )
     *leaker = 0; // Prevent unused variable warning.
     }
   
-  return EXIT_SUCCESS;
+  return 0;
 }
