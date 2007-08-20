@@ -48,7 +48,7 @@ class Cast
 {
 public:
   Cast() {};
-  ~Cast() {};
+  virtual ~Cast() {};
   bool operator!=( const Cast & ) const
   {
     return false;
