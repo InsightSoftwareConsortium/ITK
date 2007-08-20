@@ -64,16 +64,16 @@ public:
     {
       // Default values to something "valid"
       SliceNumber = -1;
-      SliceLocation = 0.0;
-      ImagePositionPatient[0] = 0.0;
-      ImagePositionPatient[1] = 0.0;
-      ImagePositionPatient[2] = 0.0;
-      ImageOrientationPatient[0] = 1.0;
-      ImageOrientationPatient[1] = 0.0;
-      ImageOrientationPatient[2] = 0.0;
-      ImageOrientationPatient[3] = 0.0;
-      ImageOrientationPatient[4] = 1.0;
-      ImageOrientationPatient[5] = 0.0;
+      SliceLocation = 0.0f;
+      ImagePositionPatient[0] = 0.0f;
+      ImagePositionPatient[1] = 0.0f;
+      ImagePositionPatient[2] = 0.0f;
+      ImageOrientationPatient[0] = 1.0f;
+      ImageOrientationPatient[1] = 0.0f;
+      ImageOrientationPatient[2] = 0.0f;
+      ImageOrientationPatient[3] = 0.0f;
+      ImageOrientationPatient[4] = 1.0f;
+      ImageOrientationPatient[5] = 0.0f;
     }
       
   int SliceNumber;
