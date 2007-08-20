@@ -355,8 +355,8 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
       std::cout << numberOfPixelsWithDifferences;
       std::cout <<  "</DartMeasurement>" << std::endl;
 
-      ::itk::OStringStream diffName;
-        diffName << testImageFilename << ".diff.png";
+      itksys_ios::ostringstream diffName;
+      diffName << testImageFilename << ".diff.png";
       try
         {
         rescale->SetInput(diff->GetOutput());
@@ -380,7 +380,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
       std::cout << diffName.str();
       std::cout << "</DartMeasurementFile>" << std::endl;
       }
-    ::itk::OStringStream baseName;
+    itksys_ios::ostringstream baseName;
     baseName << testImageFilename << ".base.png";
     try
       {
@@ -405,7 +405,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     std::cout << baseName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
-    ::itk::OStringStream testName;
+    itksys_ios::ostringstream testName;
     testName << testImageFilename << ".test.png";
     try
       {

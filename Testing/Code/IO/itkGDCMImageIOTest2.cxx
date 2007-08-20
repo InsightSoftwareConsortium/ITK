@@ -30,7 +30,7 @@ int main(int argc, char *argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0] << " InputFile OutputDicomRoot\n";
-    return 1;
+    return EXIT_FAILURE;
     }
   const char *input = argv[1];
   const char *output = argv[2];
