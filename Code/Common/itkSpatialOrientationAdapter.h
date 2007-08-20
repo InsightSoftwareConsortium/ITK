@@ -86,6 +86,9 @@ public:
 
   /** typedef for direction cosines */
   typedef SuperClass::DirectionType DirectionType;
+  
+  /** Constructor */
+  SpatialOrientationAdapter() {};
 
   /** convert from direction cosines. */
   virtual OrientationType FromDirectionCosines(const DirectionType &Dir);
