@@ -32,8 +32,8 @@ Array2D<TValueType >
 /** Constructor with number of rows and columns as arguments */
 template < typename TValueType >
 Array2D<TValueType >
-::Array2D(unsigned int rows,unsigned int cols)
-                                            :vnl_matrix<TValueType>(rows,cols)
+::Array2D(unsigned int numberOfRows,unsigned int numberOfCols)
+                                            :vnl_matrix<TValueType>(numberOfRows,numberOfCols)
 {
 }
 
