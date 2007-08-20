@@ -547,8 +547,6 @@ NiftiImageIO
   return is_nifti_file(FileNameToRead) > 0;
 }
 
-
-
 void
 NiftiImageIO
 ::ReadImageInformation()
@@ -773,18 +771,18 @@ NiftiImageIO
 
 namespace
 {
-  inline mat44 mat44_transpose(mat44 in)
-  {
-    mat44 out;
-    for(unsigned int i = 0; i < 4; i++)
+inline mat44 mat44_transpose(mat44 in)
+{
+  mat44 out;
+  for(unsigned int i = 0; i < 4; i++)
+    {
+    for(unsigned int j = 0; j < 4; j++)
       {
-      for(unsigned int j = 0; j < 4; j++)
-        {
-        out.m[i][j] = in.m[j][i];
-        }
+      out.m[i][j] = in.m[j][i];
       }
-    return out;
-  }
+    }
+  return out;
+}
 }
 /**
  * For Nifti this does not write a file, it only fills in the
@@ -931,13 +929,13 @@ NiftiImageIO
       this->m_NiftiImage->nz =
         this->m_NiftiImage->dim[3] = 1;
       }
-    {
-    // has to be >= 5
-    const unsigned int ForceDimsGreaterThanFive=(dims > 4 ? dims+1 : 5);
-    dims = ForceDimsGreaterThanFive;
-    this->m_NiftiImage->ndim = ForceDimsGreaterThanFive;
-    this->m_NiftiImage->dim[0] = ForceDimsGreaterThanFive;
-    }
+      {
+      // has to be >= 5
+      const unsigned int ForceDimsGreaterThanFive=(dims > 4 ? dims+1 : 5);
+      dims = ForceDimsGreaterThanFive;
+      this->m_NiftiImage->ndim = ForceDimsGreaterThanFive;
+      this->m_NiftiImage->dim[0] = ForceDimsGreaterThanFive;
+      }
     for(unsigned i = dims; i > 5; i--)
       {
       switch(i)
@@ -1045,23 +1043,23 @@ NiftiImageIO
 
 namespace
 {
-  void Normalize(std::vector<double> &x)
-  {
-    double sum = 0;
-    for(unsigned int i = 0; i < x.size(); i++)
-      {
-      sum += (x[i] * x[i]);
-      }
-    if(sum == 0.0)
-      {
-      return;
-      }
-    sum = sqrt(sum);
-    for(unsigned int i = 0; i < x.size(); i++)
-      {
-      x[i] = x[i] / sum;
-      }
-  }
+void Normalize(std::vector<double> &x)
+{
+  double sum = 0;
+  for(unsigned int i = 0; i < x.size(); i++)
+    {
+    sum += (x[i] * x[i]);
+    }
+  if(sum == 0.0)
+    {
+    return;
+    }
+  sum = sqrt(sum);
+  for(unsigned int i = 0; i < x.size(); i++)
+    {
+    x[i] = x[i] / sum;
+    }
+}
 }
 
 void  
