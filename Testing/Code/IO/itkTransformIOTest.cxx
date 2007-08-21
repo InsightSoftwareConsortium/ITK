@@ -25,7 +25,7 @@
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineDeformableTransform.h"
 
-static int oneTest(char *goodname,char *badname)
+static int oneTest(const char *goodname,const char *badname)
 {
   unsigned int i;
   // Create an odd type of transform, and register it
