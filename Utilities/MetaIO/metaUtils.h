@@ -294,7 +294,8 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
                                    int _length, 
                                    T *_v)
   {
-  strcpy(_mf->name, _name);
+  strncpy(_mf->name, _name,254);
+  _mf->name[254] = '\0';
   _mf->type = _type;
   _mf->defined = true;
   _mf->length = _length;
@@ -304,7 +305,7 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
   if(_type == MET_FLOAT_MATRIX)
     {
     int i;
-    for(i=0; i<_length*_length; i++)
+    for(i=0; i < 255 && i < _length*_length; i++)
       {
       _mf->value[i] = (double)(_v[i]);
       }
@@ -312,14 +313,16 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
   else if(_type != MET_STRING)
     {
     int i;
-    for(i=0; i<_length; i++)
+    for(i=0; i < 255 && i < _length; i++)
       {
       _mf->value[i] = (double)(_v[i]);
       }
     }
   else
     {
-    strcpy((char *)(_mf->value), (const char *)_v);
+    strncpy((char *)(_mf->value), (const char *)_v,
+            (sizeof(_mf->value)-1));
+    ((char *)(_mf->value))[(sizeof(_mf->value)-1)] = '\0';
     }
   return true;
   }
