@@ -30,7 +30,7 @@ namespace itk
 class XMLFilterWatcher: public SimpleFilterWatcher
 {
 public:
-  XMLFilterWatcher(itk::ProcessObject* o, const char *comment="")
+  XMLFilterWatcher(ProcessObject* o, const char *comment="")
     : SimpleFilterWatcher(o, comment) {};
 
 protected:
