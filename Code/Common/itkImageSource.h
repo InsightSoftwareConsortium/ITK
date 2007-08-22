@@ -151,8 +151,8 @@ public:
   virtual void GraftOutput(DataObject *output);
 
   /** Graft the specified data object onto this ProcessObject's idx'th
-   * output. This is the similar to GraftOutput method except is
-   * allows you specify which output is affected. The specified index
+   * output. This is similar to the GraftOutput method except it
+   * allows you to specify which output is affected. The specified index
    * must be a valid output number (less than
    * ProcessObject::GetNumberOfOutputs()). See the GraftOutput for
    * general usage information. */
