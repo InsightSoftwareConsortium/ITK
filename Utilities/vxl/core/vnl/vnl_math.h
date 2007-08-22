@@ -144,8 +144,8 @@ template <class T> bool vnl_math_isfinite(T);
 #if VXL_C_MATH_HAS_LROUND
 // Use C99 functions, which GCC implements as an intrinsic
 // Or in simpler terms - is at least 3 times faster.
-inline int vnl_math_rnd(float  x) { return lroundf(x); }
-inline int vnl_math_rnd(double x) { return lround(x); }
+inline int vnl_math_rnd(float  x) { return static_cast<int>(lroundf(x)); }
+inline int vnl_math_rnd(double x) { return static_cast<int>(lround(x)); }
 #elif defined (VCL_VC) && !defined(__GCCXML__) && !defined(_WIN64)
 // Use assembly inline function from
 // http://mega-nerd.com/FPcast/

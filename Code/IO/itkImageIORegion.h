@@ -63,8 +63,8 @@ public:
    * the size of the image in each coordinate direction. */
   unsigned int GetRegionDimension() const
     {  
-    unsigned long dim=0;
-    for (unsigned long i=0; i<m_ImageDimension; i++)
+    unsigned int dim=0;
+    for (unsigned int i=0; i<m_ImageDimension; i++)
       {
       if ( m_Size[i] > 1 ) dim++;
       }
