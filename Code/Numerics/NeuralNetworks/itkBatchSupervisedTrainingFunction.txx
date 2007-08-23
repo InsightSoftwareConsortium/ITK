@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TTargetVector, class ScalarType> 
+template<class TSample, class TTargetVector, class ScalarType>
 BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>//,f>
 ::BatchSupervisedTrainingFunction()
 {
@@ -36,7 +36,7 @@ BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>//,f>
   m_Stop = false; //stop condition
 }
 
-template<class TSample, class TTargetVector, class ScalarType> 
+template<class TSample, class TTargetVector, class ScalarType>
 void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::SetNumOfIterations(long i)
 {
@@ -48,24 +48,22 @@ void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::Train(typename BatchSupervisedTrainingFunction<TSample, TTargetVector, ScalarType>::NetworkType* net,
         TSample* samples, TTargetVector* targets)
 {
-  this->SetTrainingSamples(samples); 
+  this->SetTrainingSamples(samples);
   this->SetTargetValues(targets);
- 
+
   InternalVectorType outputvector;
   InternalVectorType errorvector;
   outputvector.SetSize(targets->GetMeasurementVectorSize());
   errorvector.SetSize(targets->GetMeasurementVectorSize());
-  std::cout<<"Target dim ="<<targets->GetMeasurementVectorSize()<<std::endl;
+  //std::cout<<"Target dim ="<<targets->GetMeasurementVectorSize()<<std::endl;
   //typename Superclass::OutputVectorType outputvector;
   typename Superclass::VectorType inputvector;
   typename Superclass::OutputVectorType targetvector;
   //typename Superclass::OutputVectorType errorvector;
- 
+
   long num_iterations = this->GetIterations();
   m_Stop = false;
   long count = 0;
-  std::ofstream outf;
-  outf.open("output.txt");
 
   while (!m_Stop)
     {
@@ -73,16 +71,15 @@ void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
       {
       inputvector = this->m_InputSamples[i];
       targetvector = this->m_Targets[i];
-      
+
       outputvector=net->GenerateOutput(inputvector);
-      
       for(unsigned int k=0; k<targetvector.Size(); k++)
-        errorvector[k] = targetvector[k] - outputvector[k]; 
-        
-      outf << this->m_PerformanceFunction->Evaluate(errorvector) <<
-      " "<<errorvector[0]<<std::endl;
-      net->BackwardPropagate(this->m_PerformanceFunction->EvaluateDerivative
-                                                            (errorvector));     
+        {
+        errorvector[k] = targetvector[k] - outputvector[k];
+        }
+
+      net->BackwardPropagate(this->m_PerformanceFunction
+        ->EvaluateDerivative(errorvector));
       }
     net->UpdateWeights(this->m_LearningRate);
     count++;
@@ -91,6 +88,7 @@ void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
       m_Stop = true;
       }
     }
+#ifdef __OLD_CODE__
   if (this->m_PerformanceFunction->Evaluate(errorvector) < m_Threshold
    && count < num_iterations)
     {
@@ -101,19 +99,20 @@ void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
     std::cout << "Goal Not Met Max Iterations Reached " << std::endl;
     }
   std::cout << net << std::endl;
+#endif
 }
 
 /** Print the object */
-template<class TSample, class TTargetVector, class ScalarType> 
-void  
+template<class TSample, class TTargetVector, class ScalarType>
+void
 BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  os << indent << "BatchSupervisedTrainingFunction(" << this << ")" << std::endl; 
-  os << indent << "m_Threshold = " << m_Threshold << std::endl; 
-  os << indent << "m_Stop = " << m_Stop << std::endl; 
-  Superclass::PrintSelf( os, indent ); 
-} 
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  os << indent << "BatchSupervisedTrainingFunction(" << this << ")" << std::endl;
+  os << indent << "m_Threshold = " << m_Threshold << std::endl;
+  os << indent << "m_Stop = " << m_Stop << std::endl;
+  Superclass::PrintSelf( os, indent );
+}
 
 } // end namespace Statistics
 } // end namespace itk
