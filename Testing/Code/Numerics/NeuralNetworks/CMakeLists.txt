@@ -92,4 +92,11 @@ ENDIF(NOT BORLAND)
   ADD_EXECUTABLE(itkNeuralNetworksHeaderTest itkNeuralNetworksHeaderTest.cxx)
   TARGET_LINK_LIBRARIES(itkNeuralNetworksHeaderTest ITKIO ITKNumerics ITKStatistics)
 
+  IF(ITK_OBJCXX_COMPILER)
+    SET(NEURALNETWORKS_OBJCXX_TEST ${CXX_TEST_PATH}/itkNeuralNetworksHeaderObjCxxTest)
+    ADD_TEST(itkNeuralNetworksHeaderObjCxxTest ${NEURALNETWORKS_OBJCXX_TEST})
+    ADD_EXECUTABLE(itkNeuralNetworksHeaderObjCxxTest itkNeuralNetworksHeaderObjCxxTest.mm)
+    TARGET_LINK_LIBRARIES(itkNeuralNetworksHeaderObjCxxTest ITKIO ITKNumerics ITKStatistics)
+  ENDIF(ITK_OBJCXX_COMPILER)
+
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

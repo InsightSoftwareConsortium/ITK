@@ -392,6 +392,12 @@ IF(WIN32)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -DNOMINMAX")
 ENDIF(WIN32)
 
+#-----------------------------------------------------------------------------
+# Test for an Objective-C++ compiler.
+TRY_COMPILE(ITK_OBJCXX_COMPILER
+            ${ITK_BINARY_DIR}/CMakeTmp
+            ${ITK_SOURCE_DIR}/CMake/itkTestObjCxxCompiler.mm)
+
 # mingw thread support
 IF(MINGW)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mthreads")

@@ -60,6 +60,13 @@ itkVersorRigid3DTransformOptimizerTest.cxx
 itkVersorTransformOptimizerTest.cxx
 )
 
+IF(ITK_OBJCXX_COMPILER)
+  SET(NUMERICS_OBJCXX_TEST ${CXX_TEST_PATH}/itkNumericsHeaderObjCxxTest)
+  ADD_TEST(itkNumericsHeaderObjCxxTest ${NUMERICS_OBJCXX_TEST})
+  ADD_EXECUTABLE(itkNumericsHeaderObjCxxTest itkNumericsHeaderObjCxxTest.mm)
+  TARGET_LINK_LIBRARIES(itkNumericsHeaderObjCxxTest ITKNumerics ITKStatistics)
+ENDIF(ITK_OBJCXX_COMPILER)
+
 ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkNumericsHeaderTest ITKNumerics ITKStatistics)
 

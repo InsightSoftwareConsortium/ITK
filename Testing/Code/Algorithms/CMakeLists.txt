@@ -345,6 +345,13 @@ ADD_EXECUTABLE(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest4 ITKAlgorithms ITKFEM
                                               ITKStatistics ITKNumerics)
 
+IF(ITK_OBJCXX_COMPILER)
+  SET(ALGORITHMS_OBJCXX_TEST ${CXX_TEST_PATH}/itkAlgorithmsHeaderObjCxxTest)
+  ADD_TEST(itkAlgorithmsHeaderObjCxxTest ${ALGORITHMS_OBJCXX_TEST})
+  ADD_EXECUTABLE(itkAlgorithmsHeaderObjCxxTest itkAlgorithmsHeaderObjCxxTest.mm)
+  TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderObjCxxTest ITKAlgorithms ITKFEM ITKNumerics)
+ENDIF(ITK_OBJCXX_COMPILER)
+
 ADD_EXECUTABLE(itkAlgorithmsHeaderTest itkAlgorithmsHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsHeaderTest ITKAlgorithms ITKFEM ITKNumerics)
 ADD_TEST(itkAlgorithmsHeaderTest ${ALGORITHMS_HEADER_TESTS})
