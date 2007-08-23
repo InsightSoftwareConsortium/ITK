@@ -141,6 +141,7 @@ namespace itk
       std::string             m_FileName;
       FieldsContainerType     m_Fields;
       std::ifstream           m_InputFile;
+      bool                    m_BinaryDataByteOrderMSB;
       };
 
 } // namespace itk

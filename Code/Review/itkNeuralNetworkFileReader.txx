@@ -31,6 +31,7 @@ namespace itk
        this->m_FileName = "";
        this->m_ReadWeightValuesType = Self::IGNORE;
        this->m_Network = TNetwork::New();
+       this->m_BinaryDataByteOrderMSB = true;
       }
 
   template<class TNetwork>
@@ -96,6 +97,10 @@ namespace itk
       MET_FieldRecordType * mF;
 
       mF = new MET_FieldRecordType;
+      MET_InitReadField(mF, "BinaryDataByteOrderMSB", MET_STRING, false);
+      this->m_Fields.push_back(mF);
+
+      mF = new MET_FieldRecordType;
       MET_InitReadField(mF, "ObjectType", MET_STRING, true);
        this->m_Fields.push_back(mF);
 
@@ -115,6 +120,15 @@ namespace itk
       if(!MET_Read( this->m_InputFile, &  this->m_Fields,'='))
         {
         itkExceptionMacro("MetaObject: Read: MET_Read Failed");
+        }
+      mF = MET_GetFieldRecord("BinaryDataByteOrderMSB",& this->m_Fields);
+      if(strcmp((char *)(mF->value),"True") == 0)
+        {
+        this->m_BinaryDataByteOrderMSB = true;
+        }
+      else
+        {
+        this->m_BinaryDataByteOrderMSB = false;
         }
 
       mF = MET_GetFieldRecord("ObjectType", & this->m_Fields);
@@ -356,7 +370,18 @@ namespace itk
 
             this->m_InputFile.read(
               (char *)WeightMatrix.data_block(), rows*cols*sizeof(double));
-
+            //
+            // TODO: This is hardcoded to double in the writer
+            // Should that be the case, and will anyone use a single precision NN?
+            if(this->m_BinaryDataByteOrderMSB != MET_SystemByteOrderMSB())
+              {
+              char *data = (char *)WeightMatrix.data_block();
+              for(unsigned i = 0; i < rows * cols; i++)
+                {
+                MET_ByteOrderSwap8(data);
+                data += 8;
+                }
+              }
             std::cout<<"WeightValues = "<<WeightMatrix<<std::endl;
             weightset->SetWeightValues(WeightMatrix.data_block());
             }

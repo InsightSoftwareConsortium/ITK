@@ -95,7 +95,18 @@ namespace itk
         }
 
       MET_FieldRecordType * mF;
-
+      mF = new MET_FieldRecordType;
+      if(MET_SystemByteOrderMSB())
+        {
+        MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
+                           strlen("True"), "True");
+        }
+      else
+        {
+        MET_InitWriteField(mF, "BinaryDataByteOrderMSB", MET_STRING,
+                           strlen("False"), "False");
+        }
+      this->m_Fields.push_back(mF);
 
       mF = new MET_FieldRecordType;
       MET_InitWriteField(mF, "ObjectType", MET_STRING,
@@ -221,20 +232,23 @@ namespace itk
           weightset =  this->m_Network->GetWeightSet(j);
         unsigned int rows = weightset->GetNumberOfOutputNodes();
         unsigned int cols = weightset->GetNumberOfInputNodes();
-
-        mF = new MET_FieldRecordType;
-        MET_InitWriteField(mF, "WeightValues", MET_FLOAT_ARRAY,
-          weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes(),
-          weightset->GetWeightValues());
-         this->m_Fields.push_back(mF);
-
-        if( this->m_WriteWeightValuesType==BINARY)
+        if(this->m_WriteWeightValuesType == ASCII)
           {
+          mF = new MET_FieldRecordType;
+          MET_InitWriteField(mF, "WeightValues", MET_FLOAT_ARRAY,
+                             weightset->GetNumberOfOutputNodes()*weightset->GetNumberOfInputNodes(),
+                             weightset->GetWeightValues());
+          this->m_Fields.push_back(mF);
+          }
+        else if( this->m_WriteWeightValuesType==BINARY)
+          {
+          //
+          // TODO: This is hardcoded to double for the weight values.
+          // Do the ITK Neural Nets allow single precision NN?
           this->m_OutputFile.write( (char *)weightset->GetWeightValues(),
             rows * cols * sizeof(double));
           }
         }
-
       if( this->m_WriteWeightValuesType==ASCII)
         {
         if(!MET_Write(this->m_OutputFile, &  this->m_Fields,'='))
