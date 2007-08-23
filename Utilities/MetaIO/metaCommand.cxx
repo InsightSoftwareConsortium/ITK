@@ -37,13 +37,16 @@ MetaCommand()
   m_Name = "";
   m_Author = "Not defined";
   m_Description = "";
+  m_Acknowledgments = "";
+  m_Category = "";
   m_ParsedOptionVector.clear();
   m_Verbose = true;
   m_FailOnUnrecognizedOption = false;
+  m_GotXMLFlag = false;
 }
 
 
-/** Extract the date from the $Date: 2007-05-31 13:53:13 $ cvs command */
+/** Extract the date from the $Date: 2007-08-23 16:57:09 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -61,7 +64,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
   }
 
-/** Extract the version from the $Revision: 1.32 $ cvs command */
+/** Extract the version from the $Revision: 1.33 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -677,8 +680,7 @@ ListOptions()
 }
 
 /** List the current options in xml format */
-void MetaCommand::
-ListOptionsXML()
+void MetaCommand::ListOptionsXML()
 {
   OptionVector::const_iterator it = m_OptionVector.begin();
   int i=0;
@@ -751,6 +753,104 @@ ListOptionsXML()
     it++;
     }
 }
+
+/** List the current options in Slicer's xml format (www.slicer.org) */
+void MetaCommand::ListOptionsSlicerXML()
+{
+  METAIO_STREAM::cout << "<?xml version=\"1.0\" encoding=\"utf-8\"?>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "<executable>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <category>" << m_Category.c_str() << "</category>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <title>" << m_Name.c_str() << "</title>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <description>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  " << m_Description.c_str() <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  </description>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <version>" << m_Version.c_str() << "</version>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <contributor>" << m_Author.c_str() << "</contributor>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <documentation-url></documentation-url>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <license></license>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  <acknowledgements>" <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  " << m_Acknowledgments.c_str() <<  METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "  </acknowledgements>" <<  METAIO_STREAM::endl;
+
+  if(m_OptionVector.size()>0)
+    {
+    METAIO_STREAM::cout << " <parameters>" <<  METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "  <label>IO</label>" <<  METAIO_STREAM::endl;
+    METAIO_STREAM::cout << "  <description>Input/output parameters</description>" <<  METAIO_STREAM::endl;
+    
+    OptionVector::const_iterator it = m_OptionVector.begin();
+    unsigned int index=0;
+    while(it != m_OptionVector.end())
+      {
+
+      METAIO_STL::vector<Field>::const_iterator itField = (*it).fields.begin();
+
+      if((*itField).type == MetaCommand::STRING
+         && ( (*itField).externaldata == MetaCommand::DATA_IN
+              || (*itField).externaldata == MetaCommand::DATA_OUT))
+        {
+        METAIO_STREAM::cout << "<image>" << METAIO_STREAM::endl;
+        }
+      else
+        {
+        METAIO_STREAM::cout << "<" << this->TypeToString((*itField).type).c_str() << ">"
+                          << METAIO_STREAM::endl;
+        }
+      METAIO_STREAM::cout << "<name>" << (*it).name.c_str() << "</name>" 
+                          << METAIO_STREAM::endl;
+      // Label is the description for now
+      METAIO_STREAM::cout << "<label>" << (*it).description.c_str() << "</label>" 
+                          << METAIO_STREAM::endl;
+      METAIO_STREAM::cout << "<description>" << (*it).description.c_str() 
+                          << "</description>" << METAIO_STREAM::endl;
+      if((*it).tag.size()>0)
+        {
+        METAIO_STREAM::cout << "<flag>" << (*it).tag.c_str() << "</flag>" 
+                            << METAIO_STREAM::endl;
+        }
+      else
+        {
+        METAIO_STREAM::cout << "<index>" << index << "</index>" << METAIO_STREAM::endl;
+        index++;
+        }
+
+      if((*itField).value.size()>0)
+        {
+        METAIO_STREAM::cout << "<default>" << (*itField).value.c_str() << "</default>" 
+                            << METAIO_STREAM::endl;
+        }
+
+      if((*itField).externaldata == MetaCommand::DATA_IN)
+        {
+        METAIO_STREAM::cout << "<channel>input</channel>" << METAIO_STREAM::endl;
+        }
+      else if((*itField).externaldata == MetaCommand::DATA_OUT)
+        {
+        METAIO_STREAM::cout << "<channel>output</channel>" << METAIO_STREAM::endl;
+        } 
+      
+      
+      if((*itField).type == MetaCommand::STRING
+         && ( (*itField).externaldata == MetaCommand::DATA_IN
+              || (*itField).externaldata == MetaCommand::DATA_OUT))
+        {
+        METAIO_STREAM::cout << "</image>" << METAIO_STREAM::endl;
+        }
+      else
+        {
+        METAIO_STREAM::cout << "</" << this->TypeToString((*itField).type).c_str() << ">"
+                            << METAIO_STREAM::endl;
+        }
+
+      it++;
+      } // end loop option
+
+    METAIO_STREAM::cout << " </parameters>" <<  METAIO_STREAM::endl;
+    } // end m_OptionVector.size()>0
+
+METAIO_STREAM::cout << "</executable>" <<  METAIO_STREAM::endl;
+}
+
 
 /** Internal small XML parser */
 METAIO_STL::string MetaCommand::
@@ -867,6 +967,10 @@ ListOptionsSimplified()
             << "   [ -vxml ] or [ -hxml ] or [ -exportXML ]" 
             << METAIO_STREAM::endl
             << "      = List options in xml format for BatchMake" 
+            << METAIO_STREAM::endl
+            << "   [ --xml ]" 
+            << METAIO_STREAM::endl
+            << "      = List options in xml format for Slicer" 
             << METAIO_STREAM::endl
             << "   [ -vgad ] or [ -hgad ] or [ -exportGAD ]" 
             << METAIO_STREAM::endl
@@ -1354,6 +1458,7 @@ ExportGAD(bool dynamic)
 bool MetaCommand::
 Parse(int argc, char* argv[])
 {  
+  m_GotXMLFlag = false;
   m_ExecutableName = argv[0];
 
   long int slash = m_ExecutableName.find_last_of("/");
@@ -1405,6 +1510,12 @@ Parse(int argc, char* argv[])
       {
       this->ListOptionsXML();
       continue;
+      }
+    if(!strcmp(argv[i],"--xml") )
+      {
+      this->ListOptionsSlicerXML();
+      m_GotXMLFlag = true;
+      return false;
       }
     if(!strcmp(argv[i],"-version"))
       {

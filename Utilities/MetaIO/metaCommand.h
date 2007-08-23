@@ -151,6 +151,7 @@ public:
   /** List the options */
   void ListOptions();
   void ListOptionsXML();
+  void ListOptionsSlicerXML();
   void ListOptionsSimplified();
 
   Option * GetOptionByMinusTag(METAIO_STL::string minusTag);
@@ -196,15 +197,29 @@ public:
   void SetName(const char* name) 
     { m_Name=name; }
 
+  /** Set the description */
   void SetDescription(const char* description) 
     { m_Description=description; }
   METAIO_STL::string GetDescription() const
     {return m_Description;}
 
+  /** Set the author */
   void SetAuthor(const char* author) 
     { m_Author=author; }
   METAIO_STL::string GetAuthor() const
     {return m_Author;}
+
+  /** Set the acknowledgments */
+  void SetAcknowledgments(const char* acknowledgments) 
+    { m_Acknowledgments=acknowledgments; }
+  METAIO_STL::string GetAcknowledgments() const
+    {return m_Acknowledgments;} 
+  
+  /** Set the category */
+  void SetCategory(const char* category) 
+    { m_Category=category; }
+  METAIO_STL::string GetCategory() const
+    {return m_Category;}
 
   long GetOptionId(Option* option);
 
@@ -225,6 +240,12 @@ public:
   void SetVerbose(bool verbose) {m_Verbose = verbose;}
   void SetParseFailureOnUnrecognizedOption(bool fail) 
   { m_FailOnUnrecognizedOption = fail; }
+
+  bool GotXMLFlag()
+    {
+    return m_GotXMLFlag;
+    }
+
 protected:
 
   /** Small XML helper */
@@ -238,6 +259,8 @@ protected:
   METAIO_STL::string m_Description;
   METAIO_STL::string m_Author;
   METAIO_STL::string m_ExecutableName;
+  METAIO_STL::string m_Acknowledgments;
+  METAIO_STL::string m_Category;
 
 private:
 
@@ -249,6 +272,7 @@ private:
 
   bool         m_Verbose;
   bool         m_FailOnUnrecognizedOption;
+  bool         m_GotXMLFlag;
 }; // end of class
 
 #if (METAIO_USE_NAMESPACE)
