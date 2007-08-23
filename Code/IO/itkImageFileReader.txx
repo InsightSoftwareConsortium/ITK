@@ -422,7 +422,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         static_cast<type*>(inputData),                  \
         m_ImageIO->GetNumberOfComponents(),             \
         outputData,                                     \
-        numberOfPixels);                                \
+        static_cast<int>(numberOfPixels));              \
      } \
    else \
      { \
@@ -435,7 +435,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         static_cast<type*>(inputData),                  \
         m_ImageIO->GetNumberOfComponents(),             \
         outputData,                                     \
-        numberOfPixels);                                \
+        static_cast<int>(numberOfPixels));              \
       } \
     }
   if(0)

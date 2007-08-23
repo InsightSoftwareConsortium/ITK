@@ -76,8 +76,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
     transformType = Rigid2Dtransfrom;
     }
 
-  
-  unsigned int numberOfLandmarks = m_FixedLandmarks.size();
+  // The returning value of size() must be casted, as it might not be the same type in
+  // 32 and 64 bits builds.
+  unsigned int numberOfLandmarks = static_cast<unsigned int>(m_FixedLandmarks.size());
   
 
   // If images come from filters, then update those filters.
