@@ -116,6 +116,10 @@ namespace itk
 #ifdef IGNORE
 #undef IGNORE
 #endif
+     //ASCII only works for very small networks (i.e. less than 256 weights),
+     //and the MetaIO mechanism is not desigend for the way that this is used
+     //to write these files out.
+     // Comment this code out until it can be robustly written.
       typedef enum { IGNORE=0, ASCII=1, BINARY=2 } NetworkWriteWeightsType;
       itkSetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
       itkGetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
