@@ -24,7 +24,7 @@ namespace itk
 /** \class NormalizedCorrelationImageFilter
  * \brief Computes the normalized correlation of an image and a template. 
  *
- * This filter calculated the normalized correlation between an image
+ * This filter calculates the normalized correlation between an image
  * and the template.  Normalized correlation is frequently use in
  * feature detection because it is invariant to local changes in
  * constrast.

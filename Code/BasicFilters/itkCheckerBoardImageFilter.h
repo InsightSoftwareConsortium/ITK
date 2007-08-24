@@ -72,14 +72,13 @@ public:
   /** Connect one of the operands for checker board */
   void SetInput2( const TImage * image2);
 
-
   /** Set array with number of checks to make per image dimension */
   itkSetMacro( CheckerPattern, PatternArrayType );
   itkGetConstReferenceMacro( CheckerPattern, PatternArrayType );
 
 protected:
   CheckerBoardImageFilter();
-  ~CheckerBoardImageFilter() {};
+  ~CheckerBoardImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** CheckerBoardImageFilter can be implemented as a multithreaded filter.  Therefore,

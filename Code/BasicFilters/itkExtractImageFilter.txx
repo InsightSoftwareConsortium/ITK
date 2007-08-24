@@ -117,7 +117,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
   // do not call the superclass' implementation of this method since
-  // this filter allows the input the output to be of different dimensions
+  // this filter allows the input and the output to be of different dimensions
  
   // get pointers to the input and output
   typename Superclass::OutputImagePointer      outputPtr = this->GetOutput();

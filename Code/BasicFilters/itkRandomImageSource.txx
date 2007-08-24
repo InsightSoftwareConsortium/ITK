@@ -24,7 +24,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
-#include "vnl/vnl_sample.h"
 
  
 namespace itk

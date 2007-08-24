@@ -32,8 +32,7 @@ template <class TInputImage, class TOutputImage >
 AccumulateImageFilter<TInputImage,TOutputImage >
 ::AccumulateImageFilter()
 {
-  this->SetNumberOfRequiredInputs( 1 );
-  m_AccumulateDimension=InputImageDimension-1;
+  m_AccumulateDimension = InputImageDimension-1;
   m_Average = false;
 }
 

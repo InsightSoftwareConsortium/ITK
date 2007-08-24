@@ -14,8 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #ifndef _itkCheckerBoardImageFilter_txx
 #define _itkCheckerBoardImageFilter_txx
 
@@ -50,7 +48,6 @@ CheckerBoardImageFilter<TImage>
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Checker pattern: " << m_CheckerPattern << std::endl;
-  return;
 }
 
 

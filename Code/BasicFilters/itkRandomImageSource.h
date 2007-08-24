@@ -34,7 +34,7 @@ namespace itk
  * drand48, although thread-safe, is very slow in a threaded environment.
  * The output image may be of any dimension. 
  *
- * \ingroup DataSources
+ * \ingroup DataSources Multithreaded
  */
 template <typename TOutputImage>
 class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
