@@ -830,10 +830,11 @@ void GDCMImageIO::Write(const void* buffer)
       {
       if (dictEntry->GetVR() != "OB" && dictEntry->GetVR() != "OW")
         {
-        if(dictEntry->GetGroup() != 0 && dictEntry->GetElement() != 0
-        // Remove also any Rescale Slope or Intercept if present at read time.
-        && dictEntry->GetGroup() != 0x0028 && dictEntry->GetElement() != 0x1052
-        && dictEntry->GetGroup() != 0x0028 && dictEntry->GetElement() != 0x1053)
+        if(dictEntry->GetElement() != 0
+          // Remove also any Rescale Slope or Intercept if present at read time.
+          && !(dictEntry->GetGroup() == 0x0028 && dictEntry->GetElement() == 0x1052)
+          && !(dictEntry->GetGroup() == 0x0028 && dictEntry->GetElement() == 0x1053) 
+        )
           {
           header->InsertValEntry( value,
                                   dictEntry->GetGroup(),
@@ -922,7 +923,7 @@ void GDCMImageIO::Write(const void* buffer)
   str << m_Spacing[1] << "\\" << m_Spacing[0];
   header->InsertValEntry(str.str(),0x0028,0x0030); // Pixel Spacing
 
-  // Anyway we will still allow writting of the 3d component of the spacing
+  // Anyway we will still allow writing of the 3d component of the spacing
   // when we are writing 3d images:
   if(m_Dimensions.size() > 2 && m_Dimensions[2]>1)
     {
@@ -1025,8 +1026,8 @@ void GDCMImageIO::Write(const void* buffer)
         itkExceptionMacro(<<"DICOM does not support this component type");
       }
     }
-    else
-      {
+  else
+    {
     itkExceptionMacro(
       <<"DICOM does not support RGBPixels with components != 3");
     }
