@@ -37,7 +37,7 @@ namespace itk
  * the files, but the image data must have the same Size for all
  * dimensions. 
  *
- * \sa DICOMSeriesFileNames
+ * \sa GDCMSeriesFileNames
  * \sa NumericSeriesFileNames
  * \ingroup IOFilters
  *
