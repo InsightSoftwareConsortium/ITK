@@ -37,6 +37,7 @@ ImportImageFilter<TPixel, VImageDimension>
     m_Spacing[idx] = 1.0;
     m_Origin[idx] = 0.0;
     }
+  m_Direction.SetIdentity();
 
   m_ImportPointer = 0;
   m_FilterManageMemory = false;
@@ -94,6 +95,7 @@ ImportImageFilter<TPixel, VImageDimension>
     os << m_Origin[i] << ", ";
     }
   os << m_Origin[i] << "]" << std::endl;
+  os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
 }
 
 
@@ -169,6 +171,7 @@ ImportImageFilter<TPixel, VImageDimension>
   // output image size, and the output image start index
   outputPtr->SetSpacing( m_Spacing );
   outputPtr->SetOrigin( m_Origin );
+  outputPtr->SetDirection( m_Direction );
   outputPtr->SetLargestPossibleRegion( m_Region );
 }
 
@@ -233,6 +236,30 @@ ImportImageFilter<TPixel, VImageDimension>
     dorigin[i] = origin[i];
     }
   this->SetOrigin( dorigin );
+}
+
+//----------------------------------------------------------------------------
+template <class TPixel, unsigned int VImageDimension>
+void 
+ImportImageFilter<TPixel, VImageDimension>
+::SetDirection(const DirectionType direction )
+{
+  bool modified = false;
+  for (unsigned int r = 0; r < VImageDimension; r++)
+    {
+    for (unsigned int c = 0; c < VImageDimension; c++)
+      {
+      if (m_Direction[r][c] != direction[r][c])
+        {
+        m_Direction[r][c] = direction[r][c];
+        modified = true;
+        }
+      }
+    }
+  if (modified)
+    {
+    this->Modified();
+    }
 }
 
 

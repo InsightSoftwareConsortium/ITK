@@ -18,7 +18,6 @@
 #define __itkImportImageFilter_h
 
 #include "itkImageSource.h"
-#include "itkImage.h"
 
 namespace itk
 {
@@ -119,6 +118,15 @@ public:
    * \sa SetOrigin() */
   itkGetVectorMacro(Origin, const double, VImageDimension);
 
+  typedef Matrix<double, VImageDimension, VImageDimension> DirectionType;
+
+  /** Set the direction of the image
+   * \sa GetDirection() */
+  virtual void SetDirection( const DirectionType direction );
+  /**  Get the direction of the image
+   * \sa SetDirection */
+  itkGetConstReferenceMacro(Direction, DirectionType);
+
 protected:
   ImportImageFilter();
   ~ImportImageFilter();
@@ -149,6 +157,7 @@ private:
   RegionType  m_Region;
   double   m_Spacing[VImageDimension];
   double   m_Origin[VImageDimension];
+  DirectionType m_Direction;
 
   TPixel*  m_ImportPointer;
   bool     m_FilterManageMemory;
