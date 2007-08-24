@@ -55,7 +55,16 @@ int itkImportImageTest(int, char* [] )
   shrink = itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::New();
   shrink->SetInput( import->GetOutput() );
   shrink->SetShrinkFactors(2);
-  shrink->Update();
+  try
+    {
+    shrink->Update();
+    }
+  catch (itk::ExceptionObject& e)
+    {
+    std::cerr << "Exception detected: "  << e.GetDescription();
+    return EXIT_FAILURE;
+    }
+
 
 
   // Test the SetVectorMacros and GetVectorMacros
