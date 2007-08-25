@@ -50,10 +50,13 @@ template< class TCellInterface >
 QuadEdgeMeshLineCell< TCellInterface >
 ::~QuadEdgeMeshLineCell()
 {
-  if( !m_QuadEdgeGeom->IsDisconnected( ) )
-    {
-    m_QuadEdgeGeom->Disconnect( );
-    }
+  // ALEX: for performance issues,
+  // we will assume the user calls Disconnect beforehand
+  // or else it is the mesh destructor, and we can proceed.
+  // if( !m_QuadEdgeGeom->IsDisconnected( ) )
+  //  {
+  //  m_QuadEdgeGeom->Disconnect( );
+  //  }
 
   bool FoundNullPointer = false;
   if( m_QuadEdgeGeom )
