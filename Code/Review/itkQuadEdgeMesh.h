@@ -307,6 +307,10 @@ public:
   virtual void DeleteFace( FaceRefType faceToDelete );
 
   // //////////////////
+  bool GetPoint( PointIdentifier pid, PointType * pt) const
+    {
+    return( Superclass::GetPoint( pid, pt ) );
+    };
   virtual PointType  GetPoint ( const PointIdentifier& pid ) const;
   virtual VectorType GetVector( const PointIdentifier& pid ) const;
   virtual QEPrimal*  GetEdge() const;
