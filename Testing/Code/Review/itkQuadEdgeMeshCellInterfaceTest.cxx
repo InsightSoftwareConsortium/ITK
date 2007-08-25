@@ -158,6 +158,9 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 
 template<class TCell> int TestQECellInterface(std::string name, TCell *aCell)
 {
+  std::cout << "-------- " << name << "("
+            << aCell->GetNameOfClass() << ")" << std::endl;
+  
   TCell *  cell = aCell;
   const TCell * cell2 = aCell;
 
