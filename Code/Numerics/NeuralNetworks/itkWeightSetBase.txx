@@ -195,7 +195,7 @@ WeightSetBase<TMeasurementVector,TTargetVector>
 template<class TMeasurementVector, class TTargetVector>
 void
 WeightSetBase<TMeasurementVector,TTargetVector>
-::BackwardPropagate(ValueType* inputerrorvalues)
+::BackwardPropagate(ValueType* itkNotUsed(inputerrorvalues))
 {
 }
 
