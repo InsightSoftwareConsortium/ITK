@@ -110,6 +110,17 @@ IF( USE_SCSL )
     FIND_PACKAGE( SCSL )
 ENDIF( USE_SCSL )
 
+# Deal with MINC2 options
+MARK_AS_ADVANCED(ITK_USE_MINC2)
+OPTION(ITK_USE_MINC2 "Use MINC2 File Format" OFF)
+IF( ITK_USE_MINC2 )
+  FIND_PACKAGE( MINC2 )
+  IF( NOT MINC2_FOUND )
+    MESSAGE("You requested to use MINC2 but some components are missing")
+  ENDIF( NOT MINC2_FOUND )
+ENDIF( ITK_USE_MINC2 )
+
+
 # Put "." in the rpath of all ITK shared libraries.
 LINK_DIRECTORIES(.)
 

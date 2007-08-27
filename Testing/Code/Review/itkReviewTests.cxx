@@ -19,6 +19,7 @@
 
 #include "vnl/vnl_sample.h"
 #include "itkTestMain.h"
+#include "itkConfigure.h"
 
 void RegisterTests()
 {
@@ -78,4 +79,7 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMorphologicalClosingImageFilterTest);
   REGISTER_TEST(itkBinaryMorphologicalOpeningImageFilterTest);
 
+#ifdef ITK_USE_MINC2
+  REGISTER_TEST(itkMINC2ImageIOTest);
+#endif 
 }

@@ -77,6 +77,10 @@ SET(ReviewTest_SRCS
   itkBinaryMorphologicalOpeningImageFilterTest.cxx
 )
 
+IF(ITK_USE_MINC2 AND MINC2_FOUND)
+  SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkMINC2ImageIOTest.cxx)
+ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
+
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
   )

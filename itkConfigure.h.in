@@ -46,6 +46,7 @@
 #cmakedefine ITK_EXPLICIT_INSTANTIATION
 #cmakedefine USE_FFTWF
 #cmakedefine USE_FFTWD
+#cmakedefine ITK_USE_MINC2
 #cmakedefine ITK_USE_OPTIMIZED_REGISTRATION_METHODS
 #cmakedefine ITK_USE_TRANSFORM_IO_FACTORIES
 
