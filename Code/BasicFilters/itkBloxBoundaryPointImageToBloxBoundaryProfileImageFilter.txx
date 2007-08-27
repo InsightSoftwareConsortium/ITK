@@ -388,7 +388,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           this->AddSplatToAccumulatorAndNormalizer(binNumber+2,   binJitter, sourcePixelValue);
           }
         else
+          {
           itkDebugMacro(<< "BloxBoundaryProfileImage::FindBoundaryProfilesAtBoundaryPoint - Inappropriate splat method");
+          }
         }
 
         // Normalize the splat accumulator with the normalizer
