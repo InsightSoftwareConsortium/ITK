@@ -47,25 +47,33 @@ public:
     METAIO_STL::string  name;
     METAIO_STL::string  description;
     METAIO_STL::string  value;
-    TypeEnumType type;
-    DataEnumType externaldata;
+    TypeEnumType        type;
+    DataEnumType        externaldata;
     METAIO_STL::string  rangeMin;
     METAIO_STL::string  rangeMax;
-    bool         required;
-    bool         userDefined;
+    bool                required;
+    bool                userDefined;
     };
 
   struct Option{
     METAIO_STL::string        name;
     METAIO_STL::string        description;
     METAIO_STL::string        tag;
+    METAIO_STL::string        longtag;
     METAIO_STL::vector<Field> fields;
-    bool               required;
-    bool               userDefined;
-    bool               complete;
+    bool                      required;
+    bool                      userDefined;
+    bool                      complete;
   };
 
-  typedef METAIO_STL::vector<Option>                OptionVector; 
+  struct ParameterGroup{
+    METAIO_STL::string                     name;
+    METAIO_STL::string                     description;
+    METAIO_STL::vector<METAIO_STL::string> options;
+    };
+
+  typedef METAIO_STL::vector<Option>             OptionVector;
+  typedef METAIO_STL::vector<ParameterGroup>     ParameterGroupVector;
   
   MetaCommand();
   ~MetaCommand() {}
@@ -114,6 +122,15 @@ public:
                       METAIO_STL::string rangeMin,
                       METAIO_STL::string rangeMax);
 
+  /** Set the long tag for the option */
+  bool SetOptionLongTag(METAIO_STL::string optionName,
+                        METAIO_STL::string longTag);
+
+  /** Set the group for a field or an option
+   *  If the group doesn't exist it is automatically created. */
+  bool SetParameterGroup(METAIO_STL::string optionName,
+                         METAIO_STL::string groupName,
+                         METAIO_STL::string groupDescription="");
 
   /** Collect all the information until the next tag 
    * \warning this function works only if the field is of type String */
@@ -241,6 +258,7 @@ public:
   void SetParseFailureOnUnrecognizedOption(bool fail) 
   { m_FailOnUnrecognizedOption = fail; }
 
+  /** Return true if we got the --xml */
   bool GotXMLFlag()
     {
     return m_GotXMLFlag;
@@ -262,6 +280,8 @@ protected:
   METAIO_STL::string m_Acknowledgments;
   METAIO_STL::string m_Category;
 
+  ParameterGroupVector m_ParameterGroup;
+
 private:
 
   void         (* m_HelpCallBack)(void);
@@ -273,6 +293,10 @@ private:
   bool         m_Verbose;
   bool         m_FailOnUnrecognizedOption;
   bool         m_GotXMLFlag;
+
+  // Use when write --xml
+  void WriteXMLOptionToCout(METAIO_STL::string optionName,unsigned int& index);
+
 }; // end of class
 
 #if (METAIO_USE_NAMESPACE)
