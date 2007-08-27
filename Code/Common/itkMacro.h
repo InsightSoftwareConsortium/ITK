@@ -503,12 +503,12 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 #define itkWarningMacro(x)
 #else
 #define itkWarningMacro(x) \
-{ if (itk::Object::GetGlobalWarningDisplay()) \
+{ if (::itk::Object::GetGlobalWarningDisplay()) \
     { ::itk::OStringStream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n"; \
-      itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());} \
+      ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());} \
 }
 #endif
 
@@ -608,7 +608,7 @@ private:
     { ::itk::OStringStream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              x << "\n\n"; \
-      itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());} \
+      ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());} \
 }
 #endif
 
