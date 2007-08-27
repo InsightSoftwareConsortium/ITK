@@ -21,6 +21,7 @@
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
 #include "itkCommand.h"
+
 #include <functional>
 #include <algorithm>
 
@@ -197,7 +198,6 @@ ProcessObject
 
   this->Modified();
 }
-
 
 /**
  * Set an Input of this filter. This method 

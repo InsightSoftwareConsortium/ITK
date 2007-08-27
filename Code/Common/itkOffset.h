@@ -176,7 +176,7 @@ public:
     { for(unsigned int i=0;i < VOffsetDimension; ++i) m_Offset[i] = value; }
   
   /** Offset is an "aggregate" class.  Its data is public (m_Offset)
-   * allowing for fast and convienent instantiations/assignments.
+   * allowing for fast and convenient instantiations/assignments.
    *
    * The following syntax for assigning an index is allowed/suggested:
    *    Offset<3> index = {5, 2, 7}; */

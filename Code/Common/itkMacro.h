@@ -282,12 +282,12 @@ namespace itk
 
 /** Get character string.  Creates member Get"name"() 
  * (e.g., SetFilename(char *)). The macro assumes that
- * the class member (name) is declared a type std::string. */
+ * the class member (name) is declared as a type std::string. */
 #define itkGetStringMacro(name) \
   virtual const char* Get##name () const \
   { \
     return this->m_##name.c_str(); \
-  } 
+  }
 
 /** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). #defines are 

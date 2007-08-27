@@ -19,8 +19,8 @@
 =========================================================================*/
 #ifndef _itkInPlaceImageFilter_txx
 #define _itkInPlaceImageFilter_txx
-#include "itkInPlaceImageFilter.h"
 
+#include "itkInPlaceImageFilter.h"
 
 namespace itk
 {

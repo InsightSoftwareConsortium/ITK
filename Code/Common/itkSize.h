@@ -34,7 +34,7 @@ namespace itk
  * efficient bitwise copies.
  *
  * Size is an "aggregate" class.  Its data is public (m_Size)
- * allowing for fast and convienent instantiations/assignments.
+ * allowing for fast and convenient instantiations/assignments.
  *
  * The following syntax for assigning a size is allowed/suggested:
  *    Size<3> size = {256, 256, 20};

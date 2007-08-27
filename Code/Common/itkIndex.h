@@ -253,7 +253,7 @@ public:
     { for(unsigned int i=0;i < VIndexDimension; ++i) m_Index[i] = value; }
 
   /** Index is an "aggregate" class.  Its data is public (m_Index)
-   * allowing for fast and convienent instantiations/assignments.
+   * allowing for fast and convenient instantiations/assignments.
    *
    * The following syntax for assigning an index is allowed/suggested:
    *    Index<3> index = {5, 2, 7}; */
