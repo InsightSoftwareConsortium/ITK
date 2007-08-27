@@ -152,7 +152,7 @@ bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
                                          const char* filename)
 {
   // Make sure that we have a file to
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
@@ -183,7 +183,7 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
                                          const char* filename)
 {
   // Make sure that we have a file to
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
