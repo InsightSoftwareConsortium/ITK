@@ -165,25 +165,31 @@ void MINC2ImageIO::Read(void* buffer)
   // z,y,x, t, vector_dimension
   if (usefulDimensions == 5)
     {
-      start[i] = 0;
-      if (miget_dimension_size(apparent_order[3], &count[i]) < 0)
-  {
-    itkDebugMacro(" Can not get dimension size \n");
-  }
-      i++;
-      start[i] = 0;
-      if (miget_dimension_size(apparent_order[4], &count[i]) < 0)
-  {
-    itkDebugMacro(" Can not get dimension size \n");
-  }
+    start[i] = 0;
+    unsigned int icount = count[i];
+    if (miget_dimension_size(apparent_order[3], &icount) < 0)
+      {
+      itkDebugMacro(" Can not get dimension size \n");
+      }
+    count[i] = icount;
+    i++;
+    start[i] = 0;
+    icount = count[i];
+    if (miget_dimension_size(apparent_order[4], &icount) < 0)
+      {
+      itkDebugMacro(" Can not get dimension size \n");
+      }
+    count[i] = icount;
     }
   if (usefulDimensions == 4)
     {
-      start[i] = 0;
-      if (miget_dimension_size(apparent_order[3], &count[i]) < 0)
-  {
-    itkDebugMacro(" Can not get dimension size \n");
-  }
+    start[i] = 0;
+    unsigned int icount = count[i];
+    if (miget_dimension_size(apparent_order[3], &icount) < 0)
+      {
+      itkDebugMacro(" Can not get dimension size \n");
+      }
+    count[i] = icount;
     }
   
  // set the data class for the file
@@ -328,8 +334,8 @@ void MINC2ImageIO::ReadImageInformation()
   m_DimensionOrder = text;
 
   // fill the DimensionSize by calling the following MINC2.0 function
-  unsigned long  *sizes;
-  sizes = new unsigned long[m_NDims];
+  // FIXME: unsigned long  *sizes;
+  unsigned int *sizes = new unsigned int[m_NDims];
   if (miget_dimension_sizes(hdims, m_NDims, sizes) < 0 )
     {
     // Error getting dimension sizes
