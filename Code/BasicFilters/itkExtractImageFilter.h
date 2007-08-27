@@ -49,6 +49,7 @@ namespace itk
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
  * 
+ * \sa CropImageFilter
  * \ingroup GeometricTransforms
  */
 template <class TInputImage, class TOutputImage>
@@ -92,9 +93,9 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  typedef 
-  ImageToImageFilterDetail::ExtractImageFilterRegionCopier<itkGetStaticConstMacro(InputImageDimension), 
-                                                           itkGetStaticConstMacro(OutputImageDimension)> ExtractImageFilterRegionCopierType;
+  typedef ImageToImageFilterDetail::ExtractImageFilterRegionCopier<
+    itkGetStaticConstMacro(InputImageDimension), 
+    itkGetStaticConstMacro(OutputImageDimension)> ExtractImageFilterRegionCopierType;
 
   /** Set/Get the output image region. 
    *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,
