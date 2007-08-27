@@ -70,7 +70,7 @@ bool BioRadImageIO::OpenBioRadFileForReading(std::ifstream& os,
                                        
 {
   // Make sure that we have a file to 
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
@@ -101,7 +101,7 @@ bool BioRadImageIO::OpenBioRadFileForWriting(std::ofstream& os,
                                              const char* filename)
 {
   // Make sure that we have a file to 
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
@@ -297,7 +297,7 @@ bool BioRadImageIO::CanWriteFile( const char* name )
 {
   std::string filename = name;
 
-  if(  filename == "" )
+  if( filename == "" )
     {
     itkDebugMacro(<<"No filename specified.");
     return false;

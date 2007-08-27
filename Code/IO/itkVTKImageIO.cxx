@@ -44,7 +44,7 @@ bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os,
                                        
 {
   // Make sure that we have a file to 
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
@@ -83,7 +83,7 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
                                        
 {
   // Make sure that we have a file to 
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;

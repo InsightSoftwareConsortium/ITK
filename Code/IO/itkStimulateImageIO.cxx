@@ -44,7 +44,7 @@ bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream& os,
                                        
 {
   // Make sure that we have a file to 
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
@@ -76,7 +76,7 @@ bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream& os,
                                        
 {
   // Make sure that we have a file to 
-  if ( filename == "" )
+  if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
     return false;
@@ -117,7 +117,7 @@ bool StimulateImageIO::CanReadFile(const char* filename)
   char buffer[256];
   std::string fname(filename);
 
-  if(  fname == "" )
+  if( fname == "" )
     {
     itkDebugMacro(<<"No filename specified.");
     return false;
@@ -492,7 +492,7 @@ bool StimulateImageIO::CanWriteFile( const char* name )
 {
   std::string filename = name;
 
-  if(  filename == "" )
+  if( filename == "" )
     {
     itkDebugMacro(<<"No filename specified.");
     return false;
