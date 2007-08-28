@@ -324,12 +324,14 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   (void)cId;
 
+  // NOTE ALEX: should add some checking to be sure everything went fine
   EdgeCellType* qe;
   PolygonCellType* pe;
 
   // The QuadEdgeMeshCellTypes first
   if( ( qe = dynamic_cast< EdgeCellType* >( cell.GetPointer() ) ) )
     {
+    // NOTE ALEX: here
     this->AddEdge( qe->GetQEGeom( )->GetOrigin( ),
                    qe->GetQEGeom( )->GetDestination( ) );
     cell.ReleaseOwnership( );
@@ -344,6 +346,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
       points.push_back( *pit );
       pit++;
       }
+    // NOTE ALEX: here
     this->AddFace( points );
     cell.ReleaseOwnership( );
     delete pe;
@@ -359,6 +362,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
       if( ( pointId ) && ( endId ) && ( pointId != endId ) )
         {
         PointIdIterator temp = pointId++;
+        // NOTE ALEX: here
         this->AddEdge( *pointId, *temp );
         }
       }
@@ -371,6 +375,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
         points.push_back( *pointId );
         pointId++;
         }
+      // NOTE ALEX: here
       this->AddFace( points );
       }
     cell.ReleaseOwnership( );
@@ -1067,7 +1072,11 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
     if( !edge )
       {
-      this->AddEdge( pid0, pid1 );
+      QEPrimal* entry = this->AddEdge( pid0, pid1 );
+      if( entry == (QEPrimal*)0 )
+        {
+        return( entry );
+        }
       }
     }
 

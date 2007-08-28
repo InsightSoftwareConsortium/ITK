@@ -263,11 +263,62 @@ public:
    */
   virtual void CopyInformation( const DataObject* data ) { (void)data; }
 
-  /// One of the reasons of itkQE is precisely to avoid updating connexions.
+  // Unneeded methods that need to be overloaded
   void BuildCellLinks() { }
+  void SetBoundaryAssignments(int dimension,
+                              BoundaryAssignmentsContainer*) { }
+  BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension)
+    {
+    return( (BoundaryAssignmentsContainerPointer)0 );
+    }
+  const BoundaryAssignmentsContainerPointer GetBoundaryAssignments(
+    int dimension) const
+    {
+    return( (const BoundaryAssignmentsContainerPointer)0 );
+    }
+  void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
+                             CellFeatureIdentifier featureId,
+                             CellIdentifier boundaryId) { }
+  bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
+                             CellFeatureIdentifier featureId,
+                             CellIdentifier* boundaryId) const
+    {
+    boundaryId = (CellIdentifier*)0;
+    return( false ); // ALEX: is it the good way?
+    }
+  bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
+                                CellFeatureIdentifier featureId)
+    {
+    return( false ); // ALEX: is it the good way?
+    }
+  bool GetCellBoundaryFeature(int dimension, CellIdentifier,
+                              CellFeatureIdentifier, CellAutoPointer& ) const
+    {
+    return( false );
+    }
+  unsigned long GetCellBoundaryFeatureNeighbors(
+    int dimension, CellIdentifier, CellFeatureIdentifier,
+    std::set<CellIdentifier>* cellSet)
+    {
+    cellSet = (std::set<CellIdentifier>*)0;
+    return( (unsigned long)0 );
+    }
+  // NOTE ALEX: this method do not use CellFeature and thus could be recoded.
+  unsigned long GetCellNeighbors( CellIdentifier cellId,
+                                  std::set<CellIdentifier>* cellSet )
+    {
+    cellSet = (std::set<CellIdentifier>*)0;
+    return( (unsigned long)0 );
+    }
+  bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
+                                          CellFeatureIdentifier,
+                                          CellAutoPointer& ) const
+    {
+    return( false ); // ALEX: is it the good way?
+    }
 
-  //virtual bool FindClosestPoint( const CoordRepArrayType coords,
-  //                               PointIdentifier & pointId ) const;
+
+
 
   /** Overloaded methods for itk-syntax compatilibity. */
   void SetCell( CellIdentifier cId, CellAutoPointer& cell );

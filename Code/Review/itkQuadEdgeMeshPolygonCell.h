@@ -143,10 +143,7 @@ public:
     }
 
   
-  /** ITK Cell API - Iterator-related methods.
-   *  The Set methods will work, not the Get.
-   *  Hopefully never used ...
-   */
+  /** ITK Cell API - Iterator-related methods.*/
   virtual void SetPointIds( PointIdConstIterator first );
   virtual void SetPointIds( PointIdConstIterator first,
                             PointIdConstIterator last );
@@ -154,12 +151,54 @@ public:
   
   virtual PointIdentifier GetPointId( int localId ) const;
 
-  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; }
-  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; }
+  virtual PointIdIterator PointIdsBegin()
+    {
+    if (m_PointIds.size() >0)
+      {
+      return &*(m_PointIds.begin());
+      }
+    else
+      {
+      return NULL;
+      }
+    }
 
-  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; }
-  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; }
-  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; }
+  virtual PointIdIterator PointIdsEnd()
+    {
+    if (m_PointIds.size() >0)
+      {
+      return &m_PointIds[m_PointIds.size()-1] + 1;
+      }
+    else
+      {
+      return NULL;
+      }
+    }
+
+  virtual PointIdConstIterator PointIdsBegin() const
+    {
+    if (m_PointIds.size() >0)
+      {
+      return &*(m_PointIds.begin());
+      }
+    else
+      {
+      return NULL;
+      }
+
+    }
+
+  virtual PointIdConstIterator PointIdsEnd() const
+    {
+    if (m_PointIds.size() >0)
+      {
+      return &m_PointIds[m_PointIds.size()-1] + 1;
+      }
+    else
+      {
+      return NULL;
+      }
+    }
 
   /** QuadEdge internal flavor of cell API */
   virtual void InternalSetPointIds( PointIdInternalConstIterator first );
@@ -178,9 +217,22 @@ protected:
   //std::vector<EdgeInfo> m_Edges;
 
 private:
-
   QuadEdgeMeshPolygonCell( const Self& ); // Not impl.
   void operator=( const Self& ); // Not impl.
+
+  void MakePointIds()
+    {
+    if( !this->GetNumberOfPoints( ) )
+      {
+      return;
+      }
+
+    // NOTE ALEX: very inefficient way of doing it ...
+    for( PointIdentifier i = 0; i < this->GetNumberOfPoints( ); i++ )
+      {
+      m_PointIds.push_back( GetPointId( i ) );
+      }
+    }
 
   /** In order to have constant time access at the itk level instead of
    * doing a search in the Mesh::Cell container.
