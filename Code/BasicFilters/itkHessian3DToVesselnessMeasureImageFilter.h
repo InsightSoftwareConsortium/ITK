@@ -31,7 +31,26 @@ namespace itk
  * large negative values. (for bright tubular structures).
  * 
  * \f[ \lambda_1 < \lambda_2 < \lambda_3 \f]
+ *
+ * \par Notes:
+ * The filter takes into account that the eigen values play a crucial role in 
+ * discrimintaitng shape and orientation of structures. 
+ *
+ * \li Bright tubular structures will have low \f[\lambda_1\f] and large negative 
+ * values of \f[\lambda_2\f] and \f[\lambda_3\f].
+ * \li Conversely dark tubular structures will have a low value of 
+ * \f[\lambda_1\f] and large positive values of \f[\lambda_2\f] and 
+ * \f[\lambda_3\f]. 
+ * \li Bright plate like structures have low values of \f[\lambda_1\f] and 
+ * \f[\lambda_2\f] and large negative values of \f[\lambda_3\f]
+ * \li Dark plate like structures have low values of \f[\lambda_1\f] and 
+ * \f[\lambda_2\f] and large positive values of \f[\lambda_3\f]
+ * \li Bright spherical (blob) like structures have all three eigen values as
+ * large negative numbers
+ * \li Dark spherical (blob) like structures have all three eigen values as
+ * large positive numbers
  *  
+ * This filter is used to discriminate the Bright tubular structures.
  *
  * \par References: 
  * "3D Multi-scale line filter for segmentation and visualization of 
@@ -39,9 +58,9 @@ namespace itk
  * Yoshinobu Sato, Shin Nakajima, Hideki Atsumi, Thomas Koller,
  * Guido Gerig, Shigeyuki Yoshida, Ron Kikinis.
  *
- * http://splweb.bwh.harvard.edu:8000/pages/papers/yoshi/cr.html
- *
+ * http://www.spl.harvard.edu/pages/spl-pre2007/pages/papers/yoshi
  * 
+ *
  * \sa HessianRecursiveGaussianImageFilter 
  * \sa SymmetricEigenAnalysisImageFilter
  * \sa SymmetricSecondRankTensor
@@ -85,11 +104,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** Set/Get macros for alpha_1 */
+  /** Set/Get macros for alpha_1. Please refer to
+   * http://www.spl.harvard.edu/pages/spl-pre2007/pages/papers/yoshi */
   itkSetMacro(Alpha1, double);
   itkGetMacro(Alpha1, double);
   
-  /** Set/Get macros for alpha_1 */
+  /** Set/Get macros for alpha_2. Please refer to
+   * http://www.spl.harvard.edu/pages/spl-pre2007/pages/papers/yoshi */
   itkSetMacro(Alpha2, double);
   itkGetMacro(Alpha2, double);
 
