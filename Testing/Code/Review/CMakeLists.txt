@@ -464,11 +464,18 @@ ADD_TEST(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
 
-TARGET_LINK_LIBRARIES(itkReviewTests
+SET(ReviewTest_LIBS 
   ITKAlgorithms
   ITKFEM
   ITKStatistics
   ITKQuadEdgeMesh
   )
+
+IF(ITK_USE_MINC2 AND MINC2_FOUND)
+  SET(ReviewTest_LIBS ${ReviewTest_LIBS} ITKIOMINC2)
+ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
+
+
+TARGET_LINK_LIBRARIES(itkReviewTests ${ReviewTest_LIBS})
 
 ENDIF(NOT ITK_DISABLE_CXX_TESTING)
