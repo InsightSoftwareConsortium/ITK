@@ -32,12 +32,12 @@ TARGET_LINK_LIBRARIES(itkPatentedHeaderTest ITKAlgorithms ITKFEM)
 
 ADD_TEST(itkPatentedHeaderTest ${PATENTED_HEADER_TESTS})
 
-IF(ITK_OBJCXX_COMPILER)
+IF(ITK_OBJCXX_COMPILER_WORKS)
   SET(PATENTED_OBJCXX_TEST ${CXX_TEST_PATH}/itkPatentedHeaderObjCxxTest)
   ADD_TEST(itkPatentedHeaderObjCxxTest ${PATENTED_OBJCXX_TEST})
   ADD_EXECUTABLE(itkPatentedHeaderObjCxxTest itkPatentedHeaderObjCxxTest.mm)
   TARGET_LINK_LIBRARIES(itkPatentedHeaderObjCxxTest ITKAlgorithms ITKFEM)
-ENDIF(ITK_OBJCXX_COMPILER)
+ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
 ADD_EXECUTABLE(itkPatentedTests itkPatentedTests.cxx 
                                   ${PatentedTest_SRCS})

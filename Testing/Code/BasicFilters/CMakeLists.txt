@@ -1076,12 +1076,12 @@ itkVectorIndexSelectionCastImageFilterTest
 itkVectorConnectedComponentImageFilterTest
 )
 
-IF(ITK_OBJCXX_COMPILER)
+IF(ITK_OBJCXX_COMPILER_WORKS)
   SET(BASICFILTERS_OBJCXX_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderObjCxxTest)
   ADD_TEST(itkBasicFiltersHeaderObjCxxTest ${BASICFILTERS_OBJCXX_TEST})
   ADD_EXECUTABLE(itkBasicFiltersHeaderObjCxxTest itkBasicFiltersHeaderObjCxxTest.mm)
   TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderObjCxxTest ITKIO ITKNumerics ITKBasicFilters)
-ENDIF(ITK_OBJCXX_COMPILER)
+ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
 ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)

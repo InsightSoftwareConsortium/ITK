@@ -405,9 +405,22 @@ ENDIF(WIN32)
 
 #-----------------------------------------------------------------------------
 # Test for an Objective-C++ compiler.
-TRY_COMPILE(ITK_OBJCXX_COMPILER
-            ${ITK_BINARY_DIR}/CMakeTmp
-            ${ITK_SOURCE_DIR}/CMake/itkTestObjCxxCompiler.mm)
+SET(ITK_OBJCXX_COMPILER_WORKS 0)
+IF(WIN32)
+  TRY_COMPILE(ITK_OBJCXX_COMPILER_WORKS
+              ${ITK_BINARY_DIR}/CMakeTmp
+              ${ITK_SOURCE_DIR}/CMake/itkTestObjCxxCompiler.mm
+              OUTPUT_VARIABLE ITK_OBJCXX_TRY_COMPILE_OUTPUT)
+  IF( ITK_OBJCXX_COMPILER_WORKS )
+    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
+        "Determining if the Objective-C compiler works passed with "
+        "the following output:\n${ITK_OBJCXX_TRY_COMPILE_OUTPUT}\n\n")
+  ELSE( ITK_OBJCXX_COMPILER_WORKS )
+    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+      "Determining if the Objective-C compiler works failed with "
+      "the following output:\n${ITK_OBJCXX_TRY_COMPILE_OUTPUT}\n\n")
+  ENDIF( ITK_OBJCXX_COMPILER_WORKS )
+ENDIF(WIN32)
 
 # mingw thread support
 IF(MINGW)

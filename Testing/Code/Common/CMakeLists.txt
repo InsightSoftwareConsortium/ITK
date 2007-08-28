@@ -419,12 +419,12 @@ CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.i
                @ONLY IMMEDIATE)
 INCLUDE_DIRECTORIES("${ITKTesting_BINARY_DIR}")
 
-IF(ITK_OBJCXX_COMPILER)
+IF(ITK_OBJCXX_COMPILER_WORKS)
   SET(COMMON_OBJCXX_TEST ${CXX_TEST_PATH}/itkCommonHeaderObjCxxTest)
   ADD_TEST(itkCommonHeaderObjCxxTest ${COMMON_OBJCXX_TEST})
   ADD_EXECUTABLE(itkCommonHeaderObjCxxTest itkCommonHeaderObjCxxTest.mm)
   TARGET_LINK_LIBRARIES(itkCommonHeaderObjCxxTest ITKCommon)
-ENDIF(ITK_OBJCXX_COMPILER)
+ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
 ADD_EXECUTABLE(itkSystemInformationTest itkSystemInformationTest.cxx)
 ADD_EXECUTABLE(itkCommonHeaderTest itkCommonHeaderTest.cxx)
