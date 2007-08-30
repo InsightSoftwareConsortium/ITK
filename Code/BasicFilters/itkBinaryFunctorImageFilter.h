@@ -75,7 +75,7 @@ public:
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
-  FunctorType& GetFunctor() { return m_Functor; };
+  FunctorType& GetFunctor() { return m_Functor; }
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
@@ -84,7 +84,7 @@ public:
   const FunctorType& GetFunctor() const
     {
     return m_Functor;
-    };
+    }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -122,7 +122,7 @@ public:
 
 protected:
   BinaryFunctorImageFilter();
-  virtual ~BinaryFunctorImageFilter() {};
+  virtual ~BinaryFunctorImageFilter() {}
 
   /** BinaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine

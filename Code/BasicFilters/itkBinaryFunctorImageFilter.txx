@@ -48,7 +48,7 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput1( const TInputImage1 * image1 ) 
 {
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(0, const_cast<TInputImage1 *>( image1 ));
+  this->SetNthInput(0, const_cast<TInputImage1 *>( image1 ));
 }
 
 
@@ -62,7 +62,7 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,TFunction>
 ::SetInput2( const TInputImage2 * image2 ) 
 {
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(1, const_cast<TInputImage2 *>( image2 ));
+  this->SetNthInput(1, const_cast<TInputImage2 *>( image2 ));
 }
 
 

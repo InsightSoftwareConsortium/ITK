@@ -36,7 +36,7 @@ namespace itk
  */
 namespace Function {  
 
-template< class TInput1, class TInput2, class TOutput>
+template< class TInput1, class TInput2=TInput1, class TOutput=TInput1>
 class Minimum
 {
 public:
@@ -55,7 +55,7 @@ public:
 }; 
 }
 
-template <class TInputImage1, class TInputImage2, class TOutputImage>
+template <class TInputImage1, class TInputImage2=TInputImage1, class TOutputImage=TInputImage1>
 class ITK_EXPORT MinimumImageFilter :
     public
 BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 

@@ -52,7 +52,7 @@ namespace itk
  */
 namespace Functor {  
   
-template< class TInput, class TMask, class TOutput >
+template< class TInput, class TMask, class TOutput=TInput >
 class MaskInput
 {
 public:
@@ -98,7 +98,7 @@ private:
 }; 
 
 }
-template <class TInputImage, class TMaskImage, class TOutputImage>
+template <class TInputImage, class TMaskImage, class TOutputImage=TInputImage>
 class ITK_EXPORT MaskImageFilter :
     public
 BinaryFunctorImageFilter<TInputImage,TMaskImage,TOutputImage, 
