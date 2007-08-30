@@ -176,6 +176,8 @@ namespace itk
 #endif
         }
 
+#ifdef __USE_OLD_INTERFACE
+//Moved definition to header in attempt to fix compiler issues on MS Express 5.0 compiler.
     template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
       typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::LayerInterfaceType::WeightSetInterfaceType*
       MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
@@ -183,6 +185,7 @@ namespace itk
         {
         return m_Weights[id].GetPointer();
         }
+#endif
 
 #ifdef __USE_OLD_INTERFACE
     template<class TMeasurementVector, class TTargetVector,class TLearningLayer>

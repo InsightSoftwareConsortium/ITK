@@ -77,7 +77,10 @@ namespace itk
         const LayerInterfaceType * GetLayer(int layer_id) const;
 
         void AddWeightSet(typename LayerInterfaceType::WeightSetInterfaceType*);
-        typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id);
+        typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id)
+        {
+        return m_Weights[id].GetPointer();
+        }
 #ifdef __USE_OLD_INTERFACE
         const typename LayerInterfaceType::WeightSetInterfaceType* GetWeightSet(unsigned int id) const;
 #endif
