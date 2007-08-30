@@ -264,6 +264,9 @@ public:
     return m_GotXMLFlag;
     }
 
+  /** Disable the deprecated warnings */
+  void DisableDeprecatedWarnings();
+
 protected:
 
   /** Small XML helper */
@@ -293,6 +296,7 @@ private:
   bool         m_Verbose;
   bool         m_FailOnUnrecognizedOption;
   bool         m_GotXMLFlag;
+  bool         m_DisableDeprecatedWarnings;
 
   // Use when write --xml
   void WriteXMLOptionToCout(METAIO_STL::string optionName,unsigned int& index);

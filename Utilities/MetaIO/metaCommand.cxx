@@ -43,10 +43,11 @@ MetaCommand()
   m_Verbose = true;
   m_FailOnUnrecognizedOption = false;
   m_GotXMLFlag = false;
+  m_DisableDeprecatedWarnings = false;
 }
 
 
-/** Extract the date from the $Date: 2007-08-27 15:35:27 $ cvs command */
+/** Extract the date from the $Date: 2007-08-30 19:49:24 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -58,13 +59,18 @@ ExtractDateFromCVS(METAIO_STL::string date)
   return newdate.c_str();
 }
 
+void MetaCommand::DisableDeprecatedWarnings()
+{
+  m_DisableDeprecatedWarnings = true;
+}
+
 void MetaCommand::
 SetDateFromCVS(METAIO_STL::string cvsDate)
-  {
+{
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
-  }
+}
 
-/** Extract the version from the $Revision: 1.34 $ cvs command */
+/** Extract the version from the $Revision: 1.35 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -108,7 +114,7 @@ SetOption(METAIO_STL::string name,
                         << METAIO_STREAM::endl;
     return false;
     }*/
-  if(shortTag.size()>1)
+  if(!m_DisableDeprecatedWarnings && shortTag.size()>1)
     {
     std::cout << "Warning: as of August 23, 2007 MetaCommand::SetOption()"
               << " is expecting a shortTag of exactly one character."
@@ -153,7 +159,7 @@ SetOption(METAIO_STL::string name,
     return false;
     }*/
 
-  if(shortTag.size()>1)
+  if(!m_DisableDeprecatedWarnings && shortTag.size()>1)
     {
     std::cout << "Warning: as of August 23, 2007 MetaCommand::SetOption() "
               << " is expecting a shortTag of exactly one character."
