@@ -61,9 +61,9 @@ class ITK_EXPORT MINC2ImageIO : public ImageIOBase
 public:
   /** Standard class typedefs. */
   typedef MINC2ImageIO            Self;
-  typedef ImageIOBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef Matrix<float,3,3>  MatrixType;
+  typedef ImageIOBase             Superclass;
+  typedef SmartPointer<Self>      Pointer;
+  typedef Matrix<float,3,3>       MatrixType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -124,13 +124,13 @@ protected:
   double m_Scale;
 
   // dimension size and start and step
-  int *m_DimensionSize;
-  double *m_DimensionStart;
-  double *m_DimensionStep;
-  MatrixType m_DirectionCosines;
+  int *        m_DimensionSize;
+  double *     m_DimensionStart;
+  double *     m_DimensionStep;
+  MatrixType   m_DirectionCosines;
 
- // int m_DimensionIndices[5];
   int * m_DimensionIndices;
+
   // Description:
   // Check the DimensionOrder and adjust according to what
   // dimensions the user has actually specified via
@@ -156,4 +156,3 @@ private:
 } // end namespace itk
 
 #endif // __itkMINC2ImageIO_h
-
