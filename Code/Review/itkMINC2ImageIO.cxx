@@ -1,6 +1,5 @@
 /*=========================================================================
 
-
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMINC2ImageIO.cxx
   Language:  C++
@@ -10,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,8 +23,8 @@ namespace itk
 #define MINC2_MAXDIM 15
 #define MINC2_MAXUSE 5
 
-bool MINC2ImageIO::CanReadFile(const char* file) 
-{ 
+bool MINC2ImageIO::CanReadFile(const char* file)
+{
   mihandle_t volume;
 
   if(file == "")
@@ -45,17 +44,17 @@ bool MINC2ImageIO::CanReadFile(const char* file)
     }
   return true;
 }
-  
-  
+
+
 void MINC2ImageIO::ReadVolume(void*)
 {
   std::cerr << "Read Volume" << std::endl;
 }
 
-  
+
 void MINC2ImageIO::Read(void* buffer)
 {
- 
+
  mihandle_t volume;
  // call to minc2.0 function to open the file
  if (miopen_volume(m_FileName.c_str(),MI2_OPEN_READ,&volume)< 0)
@@ -65,13 +64,13 @@ void MINC2ImageIO::Read(void* buffer)
    return;
    }
  mitype_t volume_data_type;
- if(miget_data_type(volume,&volume_data_type) < 0) 
+ if(miget_data_type(volume,&volume_data_type) < 0)
    {
    itkDebugMacro(" Can not get volume data type!!\n");
    }
  int slice_scaling_flag;
  // find out whether the data has slice scaling
- if (miget_slice_scaling_flag(volume, &slice_scaling_flag) < 0) 
+ if (miget_slice_scaling_flag(volume, &slice_scaling_flag) < 0)
    {
    itkDebugMacro(" Can not get slice scaling flag!!\n");
    }
@@ -83,16 +82,16 @@ void MINC2ImageIO::Read(void* buffer)
    }
 
  miclass_t volume_data_class;
- if(miget_data_class(volume,&volume_data_class) < 0) 
+ if(miget_data_class(volume,&volume_data_class) < 0)
    {
    itkDebugMacro(" Can not get volume data class!!\n");
    }
- 
+
  unsigned long start[MINC2_MAXDIM+1];
  unsigned long count[MINC2_MAXDIM+1];
- 
- // figure out how many dimensions out of the total NDims 
- // are used by this class 
+
+ // figure out how many dimensions out of the total NDims
+ // are used by this class
  int usefulDimensions = 0,i;
  for (i=0; i < MINC2_MAXUSE; i++)
    {
@@ -102,7 +101,7 @@ void MINC2ImageIO::Read(void* buffer)
      }
    }
 
-  // fill out the array of dimension handles,"regularly sampled" 
+  // fill out the array of dimension handles,"regularly sampled"
   // the dimensions will be retrieved in file order
   midimhandle_t *hdims = new midimhandle_t[usefulDimensions];
   if(miget_volume_dimensions(volume,MI_DIMCLASS_ANY, MI_DIMATTR_REGULARLY_SAMPLED,MI_DIMORDER_FILE, m_NDims, hdims) < 0)
@@ -110,47 +109,44 @@ void MINC2ImageIO::Read(void* buffer)
     itkDebugMacro(" Can not get dimension handles!!\n");
     return;
     }
-  
+
   midimhandle_t *apparent_order = new  midimhandle_t[usefulDimensions];
   // order of dim_indices x,y,z,t,vector-dimension
   // apparent order vector-dimension,t,z,y,x
   int j=0;
-  for (i=0; i < 5 ; i++)
+  for( i = 0; i < 5; i++ )
     {
-      if (m_DimensionIndices[i] != -1 )
-  {
-    apparent_order[j] = hdims[m_DimensionIndices[i]];  
-    j++;
-     
-  }
+    if (m_DimensionIndices[i] != -1 )
+      {
+      apparent_order[j] = hdims[m_DimensionIndices[i]];
+      j++;
+      }
     }
 
   //check to see if app order same as file order
-  for(i=0; i < usefulDimensions; i++)
+  for( i = 0; i < usefulDimensions; i++ )
     {
-      if (m_DimensionIndices[i] != i )
-  {
-    
-  // set apparent order of dimensions so data can be accesed in that order
-  if (miset_apparent_dimension_order(volume,usefulDimensions ,apparent_order) < 0)
-    {
-      itkDebugMacro(" Can not get apparent dimension order!!\n");
-    }
-  break;
-  }
-      
+    if (m_DimensionIndices[i] != i )
+      {
+      // set apparent order of dimensions so data can be accesed in that order
+      if(miset_apparent_dimension_order(volume,usefulDimensions ,apparent_order) < 0)
+        {
+        itkDebugMacro(" Can not get apparent dimension order!!\n");
+        }
+      break;
+      }
     }
   // clean dynamic space allocated for dimension handles
   delete [] hdims;
   delete [] apparent_order;
   //set the unused dimension to start 0 and offset 1 if ANY
   i=0;
-  for (i=0; i < (m_NDims-usefulDimensions); i++)
+  for( i = 0; i < (m_NDims-usefulDimensions); i++ )
     {
     start[i] = 0;
     count[i] = 1;
     }
- 
+
   start[i] = 0;
   count[i] = this->GetDimensions(2);
   i++;
@@ -161,13 +157,13 @@ void MINC2ImageIO::Read(void* buffer)
   count[i] = this->GetDimensions(0);
   i++;
 
-   //now take care of vector or time dimension
+  //now take care of vector or time dimension
   // z,y,x, t, vector_dimension
-  if (usefulDimensions == 5)
+  if( usefulDimensions == 5 )
     {
     start[i] = 0;
     unsigned int icount = count[i];
-    if (miget_dimension_size(apparent_order[3], &icount) < 0)
+    if( miget_dimension_size(apparent_order[3], &icount) < 0 )
       {
       itkDebugMacro(" Can not get dimension size \n");
       }
@@ -191,45 +187,44 @@ void MINC2ImageIO::Read(void* buffer)
       }
     count[i] = icount;
     }
-  
- // set the data class for the file
- switch (volume_data_class)
-   {
-   case MI_CLASS_REAL:
-   case MI_CLASS_COMPLEX:
-   case MI_CLASS_INT:
-     if (slice_scaling_flag)
-       {
- 
-       if (miget_real_value_hyperslab(volume, volume_data_type, start, count,buffer) < 0)
-   {
-   itkDebugMacro(" Can not get real value hyperslab!!\n");
-   }
-       }
-     else
-       {
-       if (miget_voxel_value_hyperslab(volume, volume_data_type, start, count,buffer) < 0)
-   {
-   itkDebugMacro(" Can not get voxel value hyperslabs!!\n");
-   }
-       }
-     break;
-    case MI_CLASS_LABEL:
-      if (miget_voxel_value_hyperslab(volume, volume_data_type, start, count,buffer) < 0)
+
+  // set the data class for the file
+  switch (volume_data_class)
     {
-    itkDebugMacro(" Can not get voxel value hyperslabs!!\n");
-    }
+    case MI_CLASS_REAL:
+    case MI_CLASS_COMPLEX:
+    case MI_CLASS_INT:
+      if( slice_scaling_flag )
+        {
+
+        if( miget_real_value_hyperslab(volume, volume_data_type, start, count,buffer) < 0 )
+          {
+          itkDebugMacro(" Can not get real value hyperslab!!\n");
+          }
+        }
+      else
+        {
+        if( miget_voxel_value_hyperslab(volume, volume_data_type, start, count,buffer) < 0 )
+          {
+          itkDebugMacro(" Can not get voxel value hyperslabs!!\n");
+          }
+        }
+      break;
+    case MI_CLASS_LABEL:
+      if( miget_voxel_value_hyperslab(volume, volume_data_type, start, count,buffer) < 0 )
+        {
+        itkDebugMacro(" Can not get voxel value hyperslabs!!\n");
+        }
       break;
     case MI_CLASS_UNIFORM_RECORD:
-
       {
       itkDebugMacro(" Leave this until minc2.0 support it complete!!\n");
       }
     default:
-      return; 
+      return;
     }
- 
-  if (miclose_volume(volume)< 0)
+
+  if( miclose_volume(volume)< 0 )
     {
     itkDebugMacro(" Can not close volume!\n");
     }
@@ -245,7 +240,6 @@ MINC2ImageIO::MINC2ImageIO()
   m_DimensionStep  = new double[MINC2_MAXDIM+1];
   m_DimensionIndices = new int[MINC2_MAXDIM+1];
 
- // for (int i = 0; i <= MINC2_MAXUSE; i++)
   for (int i = 0; i <= MINC2_MAXDIM; i++)
     {
     m_DimensionName[i]  = 0;
@@ -255,7 +249,7 @@ MINC2ImageIO::MINC2ImageIO()
     m_DimensionIndices[i] = -1;
     }
   m_DimensionOrder = 0;
-  
+
   m_Shift = 0.0;
   m_Scale = 1.0;
   m_OriginalStart[0] = 0;
@@ -276,11 +270,11 @@ void MINC2ImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-  
+
 void MINC2ImageIO::ReadImageInformation()
 {
   mihandle_t volume;
- 
+
   // call to minc2.0 function to open the file
   if (miopen_volume(m_FileName.c_str(),MI2_OPEN_READ,&volume)< 0)
     {
@@ -316,9 +310,9 @@ void MINC2ImageIO::ReadImageInformation()
   char *name;
   char *text = new char[ m_NDims + 1];
   int i,j;
-   for (i=0; i < m_NDims ; i++) 
+  for (i=0; i < m_NDims; i++)
     {
-      
+
     if (miget_dimension_name(hdims[i],&name) < 0 )
       {
       // Error getting dimension name
@@ -327,8 +321,8 @@ void MINC2ImageIO::ReadImageInformation()
       }
 
     m_DimensionName[i] = name;
-    text[i]=name[0];  
-    
+    text[i]=name[0];
+
     }
   text[i]='\0';
   m_DimensionOrder = text;
@@ -341,7 +335,7 @@ void MINC2ImageIO::ReadImageInformation()
     // Error getting dimension sizes
     itkDebugMacro("Could not get dimension sizes!");
     return;
-    
+
     }
   // correct this part first
   for ( i=0; i < m_NDims; i++)
@@ -352,18 +346,18 @@ void MINC2ImageIO::ReadImageInformation()
   this->XYZFromDirectionCosines(hdims, m_DimensionIndices, &numberOfComponents);
 
   double separations[MINC2_MAXDIM+1];
-  if(miget_dimension_separations(hdims, MI_ORDER_FILE, m_NDims, separations) < 0) 
+  if(miget_dimension_separations(hdims, MI_ORDER_FILE, m_NDims, separations) < 0)
     {
     itkDebugMacro(" Could not dimension sizes");
     return;
     }
   double starts[MINC2_MAXDIM+1];
-  if(miget_dimension_starts(hdims, MI_ORDER_FILE, m_NDims, starts) < 0) 
+  if(miget_dimension_starts(hdims, MI_ORDER_FILE, m_NDims, starts) < 0)
     {
     itkDebugMacro(" Could not dimension sizes");
     return;
     }
-  //fill out dimension size, step and start 
+  //fill out dimension size, step and start
   // note : rotate origin as itk will *NOT* do it
   // ITK ADPOTED DICOM conversions which do *NOT* rotate origin
   double transformed_starts[3];
@@ -377,7 +371,7 @@ void MINC2ImageIO::ReadImageInformation()
     m_OriginalStart[i] = starts[m_DimensionIndices[j]];
     j--;
     }
- 
+
   transformed_starts[0] = m_DirectionCosines[0][0]*this->GetOrigin(0) +
                           m_DirectionCosines[0][1]*this->GetOrigin(1) +
                           m_DirectionCosines[0][2]*this->GetOrigin(2);
@@ -389,7 +383,7 @@ void MINC2ImageIO::ReadImageInformation()
   transformed_starts[2] = m_DirectionCosines[2][0]*this->GetOrigin(0) +
                           m_DirectionCosines[2][1]*this->GetOrigin(1) +
                           m_DirectionCosines[2][2]*this->GetOrigin(2);
-  
+
 
   this->SetOrigin(0, transformed_starts[0]);
   this->SetOrigin(1, transformed_starts[1]);
@@ -410,9 +404,9 @@ void MINC2ImageIO::ReadImageInformation()
   slice[1] = m_DirectionCosines[1][2];
   slice[2] = m_DirectionCosines[2][2];
   this->SetDirection(2,slice);
-  
+
   mitype_t volume_data_type;
-  if(miget_data_type(volume,&volume_data_type) < 0) 
+  if(miget_data_type(volume,&volume_data_type) < 0)
     {
     itkDebugMacro(" Can not get volume data type!!\n");
     }
@@ -450,8 +444,8 @@ void MINC2ImageIO::ReadImageInformation()
       this->SetComponentType(INT);
       break;
     case MI_TYPE_FCOMPLEX:
-      this->SetComponentType(FLOAT); 
-      break; 
+      this->SetComponentType(FLOAT);
+      break;
     case MI_TYPE_DCOMPLEX:
       this->SetComponentType(DOUBLE);
       break;
@@ -459,18 +453,18 @@ void MINC2ImageIO::ReadImageInformation()
       itkDebugMacro("Bad data type ");
       return;
     } //end of switch
-  
+
   this->ComputeStrides();
 
   // find out whether the data has slice scaling
   int slice_scaling_flag;
-  if (miget_slice_scaling_flag(volume, &slice_scaling_flag) < 0) 
+  if (miget_slice_scaling_flag(volume, &slice_scaling_flag) < 0)
    {
    itkDebugMacro(" Can not get slice scaling flag!!\n");
    }
   miclass_t volume_data_class;
-  
-  if(miget_data_class(volume,&volume_data_class) < 0) 
+
+  if(miget_data_class(volume,&volume_data_class) < 0)
     {
     itkDebugMacro(" Could not get data class");
     return;
@@ -479,28 +473,28 @@ void MINC2ImageIO::ReadImageInformation()
     {
     case MI_CLASS_REAL:
       this->SetPixelType(SCALAR);
-      if (!(volume_data_type == MI_TYPE_FLOAT || volume_data_type == MI_TYPE_DOUBLE))
-  {
-  if(slice_scaling_flag)
-    {
-    this->SetSliceScalingFromLocalScaling(volume);
-    }
-  else
-    {
-    this->SetSliceScalingFromGlobalScaling(volume);
-    }
-  } 
+      if( !(volume_data_type == MI_TYPE_FLOAT || volume_data_type == MI_TYPE_DOUBLE) )
+        {
+        if(slice_scaling_flag)
+          {
+          this->SetSliceScalingFromLocalScaling(volume);
+          }
+        else
+          {
+          this->SetSliceScalingFromGlobalScaling(volume);
+          }
+        }
       break;
     case MI_CLASS_INT:
       this->SetPixelType(SCALAR);
-      if (slice_scaling_flag)
-  {
-  this->SetSliceScalingFromLocalScaling(volume);
-  }
+      if( slice_scaling_flag )
+        {
+        this->SetSliceScalingFromLocalScaling(volume);
+        }
       else
-  {
-  this->SetSliceScalingFromGlobalScaling(volume);
-  }    
+        {
+        this->SetSliceScalingFromGlobalScaling(volume);
+        }
       break;
     case MI_CLASS_LABEL:
       // create an array of label names and values
@@ -509,14 +503,14 @@ void MINC2ImageIO::ReadImageInformation()
     case MI_CLASS_COMPLEX:
       m_Complex = 1;
       this->SetPixelType(COMPLEX);
-      numberOfComponents*=2;
+      numberOfComponents *= 2;
       break;
     default:
       itkDebugMacro("Bad data class ");
       return;
     } //end of switch
-  
-  
+
+
   this->SetNumberOfComponents(numberOfComponents);
 
   if (miclose_volume(volume)< 0)
@@ -525,7 +519,7 @@ void MINC2ImageIO::ReadImageInformation()
     itkDebugMacro("Could not close file \"" << m_FileName.c_str() << "\".");
     return;
     }
-  
+
   //clean dynamic allocation
   delete [] sizes;
   delete [] hdims;
@@ -566,13 +560,13 @@ bool MINC2ImageIO::CanWriteFile( const char * name )
     {
     return true;
     }
-  
+
   std::string::size_type mincPos = filename.rfind(".mnc2");
   if ( (mincPos != std::string::npos)
        && (mincPos == filename.length() - 5) )
     {
     return true;
-    } 
+    }
   mincPos = filename.rfind(".MNC2");
   if ( (mincPos != std::string::npos)
        && (mincPos == filename.length() - 5) )
@@ -588,7 +582,7 @@ bool MINC2ImageIO::CanWriteFile( const char * name )
 void MINC2ImageIO::WriteImageInformation(void)
 {
   std::cout << "WriteImageInformation" << std::endl;
-  
+
 }
 
 template <class TBuffer>
@@ -597,19 +591,19 @@ void MINCComputeScalarRange(int Strides[3], int Sizes[3], int nComponents, doubl
 // This differs with ITK Journal version in that
 // no longer skipping ahead by strides, but just plodding through
 // buffer one point at a time.
-    
+
 // FIXME: this difference is probably something that should be thought
 // through more clearly.
 // Rupert Brooks, August 23, 2007
   double tmpminval = 1000.0;
   double tmpmaxval = 0.0;
   int idX, idY, idZ;
-  
-  for (idZ = 0; idZ < Sizes[2]; idZ++)
+
+  for( idZ = 0; idZ < Sizes[2]; idZ++ )
     {
-    for (idY = 0; idY < Sizes[1] ; idY++)
+    for( idY = 0; idY < Sizes[1]; idY++ )
       {
-      for (idX = 0; idX < Sizes[0]*nComponents; idX++)
+      for( idX = 0; idX < Sizes[0]*nComponents; idX++ )
         {
         TBuffer val = *buffer++;//Strides[0];
         if (val > tmpmaxval)
@@ -624,11 +618,10 @@ void MINCComputeScalarRange(int Strides[3], int Sizes[3], int nComponents, doubl
       //buffer += Strides[1];
       }
     //buffer += Strides[2];
-  //std::cout<<"max "<<tmpmaxval<<" min "<<tmpminval<<std::endl;
     }
   maxval = tmpmaxval;
   minval = tmpminval;
-  
+
 }
 
 //void MINC2ImageIO::
@@ -637,7 +630,7 @@ void MINCWriteHyperSlab(mihandle_t volume,
       unsigned long ndims,
       mitype_t minctype,
       const unsigned long start[],
-      const unsigned long count[], 
+      const unsigned long count[],
       TBuffer *buffer)
 {
   unsigned long i, j;
@@ -646,30 +639,30 @@ void MINCWriteHyperSlab(mihandle_t volume,
   unsigned long tmpcount[MINC2_MAXDIM+1];
   // calculate the number of voxels per slice
   unsigned long size = 1;
-  
+
   for (i = 1; i < ndims; i++)
     {
     tmpstart[i] = start[i];
-   
+
     tmpcount[i] = count[i];
-    
+
     size = size*count[i];
     }
 
    // allocate memory for a slice
   TBuffer *tmpbuffer = new TBuffer[size];
-  for (i = 0; i < count[0]; i++)  
+  for (i = 0; i < count[0]; i++)
     {
     // set start to the current slice
-    tmpstart[0] = i;  
+    tmpstart[0] = i;
     tmpcount[0] = 1;
 
     // copy the slice
     for (j = 0; j < size; j++)
       {
       tmpbuffer[j] = buffer[j];
-      } 
-   
+      }
+
     // write the slice
     miset_voxel_value_hyperslab(volume, minctype,
                                 tmpstart, tmpcount, tmpbuffer);
@@ -677,7 +670,7 @@ void MINCWriteHyperSlab(mihandle_t volume,
     // move on to next slice
     buffer += size;
     }
-  
+
   delete [] tmpbuffer;
 }
 
@@ -690,32 +683,32 @@ void MINC2ImageIO::Write(const void* buffer)
   // have to recompute them
 
   // FIXME: i use a vnl_matrix here, because i know how to invert it, and the itk::Matrix
-  // used for the m_DirectionCosines I dont know how.  However, maybe this matrix 
+  // used for the m_DirectionCosines I dont know how.  However, maybe this matrix
   // should be a different type anyway, so its variable size.
   // This inelegant solution is Rupert being too lazy to RTFM, not for any good reason
   vnl_matrix<double> dircosmatrix(3,3);
-  for (i=0;i<3;i++) {
-     for (j=0;j<3;j++) {
-        m_DirectionCosines[i][j]=this->m_Direction[j][i];
+  for( i = 0; i < 3; i++ )
+    {
+    for( j = 0; j < 3; j++ )
+      {
+      m_DirectionCosines[i][j]=this->m_Direction[j][i];
       dircosmatrix[i][j]=m_DirectionCosines[i][j];
-   }
-  }
+      }
+    }
   vnl_matrix<double> inverseDirectionCosines=vnl_matrix_inverse<double>(dircosmatrix);
-  for (i=0;i<3;i++) {
+  for( i = 0; i < 3; i++ )
+    {
     m_OriginalStart[i]=0;
-     for (j=0;j<3;j++) {
-        m_OriginalStart[i]+=inverseDirectionCosines[i][j]*this->GetOrigin(j);
-   }
-  }
-
-  /*******************************************/
-
-
-
+    for( j = 0; j < 3; j++ )
+      {
+      m_OriginalStart[i] += inverseDirectionCosines[i][j] * this->GetOrigin(j);
+      }
+    }
 
   ncomp = this->GetNumberOfComponents();
+
   // ensure that the type is valid
-  if (m_Complex)
+  if( m_Complex )
     {
     if (this->GetComponentType() == CHAR || this->GetComponentType() == UCHAR)
       {
@@ -767,17 +760,17 @@ void MINC2ImageIO::Write(const void* buffer)
   // update the names of dimensions if the user has specified
   // e.g. xfrequency instead of xspace, and also get the sizes
   // for all non-spatial dimensions
-  for (i = 0; i <= MINC2_MAXDIM; i++)
+  for( i = 0; i <= MINC2_MAXDIM; i++ )
     {
-    if (m_DimensionName[i])
+    if( m_DimensionName[i] )
       {
       // the first char in the name
       int dimchar = m_DimensionName[i][0];
-      
+
       if (dimchar == 'v')
         { // add v dimension
         vsize = m_DimensionSize[i];
-  vname = m_DimensionName[i];
+        vname = m_DimensionName[i];
         if (vsize > 0)
           {
           ndims++;
@@ -786,39 +779,39 @@ void MINC2ImageIO::Write(const void* buffer)
       else if (dimchar == 't')
         { // add t dimension
         tsize = m_DimensionSize[i];
-  tname = m_DimensionName[i];
+        tname = m_DimensionName[i];
         if (tsize > 0)
           {
           ndims++;
           }
         }
       else if (dimchar == 'x')
-  {
-  // xsize is calculated from extent
-  xname = m_DimensionName[i];
-  }
+        {
+        // xsize is calculated from extent
+        xname = m_DimensionName[i];
+        }
       else if (dimchar == 'y')
-  {
-  // ysize is calculated from extent
-  yname = m_DimensionName[i];
-  }
+        {
+        // ysize is calculated from extent
+        yname = m_DimensionName[i];
+        }
       else if (dimchar == 'z')
-  {
-  // zsize is calculated from extent
-  zname = m_DimensionName[i];
-  }
+        {
+        // zsize is calculated from extent
+        zname = m_DimensionName[i];
+        }
       else
         { // add other dimensions as vector dimensions
-        if (m_DimensionSize[i] > 0)
+        if( m_DimensionSize[i] > 0 )
           {
-    if (usize == 0)
-      {
-      usize = m_DimensionSize[i];
-      }
-    else
-      {
-      usize *= m_DimensionSize[i];
-      }
+          if( usize == 0 )
+            {
+            usize = m_DimensionSize[i];
+            }
+          else
+            {
+            usize *= m_DimensionSize[i];
+            }
           ndims++;
           }
         }
@@ -924,44 +917,44 @@ void MINC2ImageIO::Write(const void* buffer)
     double dimseparation = 1.0;
     double dimstart = 0.0;
 
-    if (dimchar == xname[0] || dimchar == yname[0] || dimchar == zname[0])
+    if( dimchar == xname[0] || dimchar == yname[0] || dimchar == zname[0] )
       { // spatial or spatial frequency
-      if (dimchar == xname[0])
-  {
-  dimname = xname;
-  dimsize = xsize;
-  dimseparation = this->GetSpacing(0);
-  dimstart = m_OriginalStart[0];
-  }
+      if( dimchar == xname[0] )
+        {
+        dimname = xname;
+        dimsize = xsize;
+        dimseparation = this->GetSpacing(0);
+        dimstart = m_OriginalStart[0];
+        }
       else if (dimchar == yname[0])
-  {
-  dimname = yname;
-  dimsize = ysize;
-  dimseparation = this->GetSpacing(1);
-  dimstart = m_OriginalStart[1];
-  }
+        {
+        dimname = yname;
+        dimsize = ysize;
+        dimseparation = this->GetSpacing(1);
+        dimstart = m_OriginalStart[1];
+        }
       else /* if (dimchar == zname[0]) */
-  {
-  dimname = zname;
-  dimsize = zsize;
-  dimseparation = this->GetSpacing(2);
-  dimstart = m_OriginalStart[2];
-  }
+        {
+        dimname = zname;
+        dimsize = zsize;
+        dimseparation = this->GetSpacing(2);
+        dimstart = m_OriginalStart[2];
+        }
       dimclass = MI_DIMCLASS_SPATIAL;
-      if (strcmp(&dimname[1],"frequency") == 0)
-  {
-  dimclass = MI_DIMCLASS_SFREQUENCY;
-  }
+      if( strcmp(&dimname[1],"frequency") == 0 )
+        {
+        dimclass = MI_DIMCLASS_SFREQUENCY;
+        }
       }
     else if (dimchar == tname[0] && tsize != 0)
       { // time or tfrequency
       dimname = tname;
       dimsize = tsize;
       dimclass = MI_DIMCLASS_TIME;
-      if (strcmp(&dimname[1],"frequency") == 0)
-  {
-  dimclass = MI_DIMCLASS_TFREQUENCY;
-  }
+      if( strcmp(&dimname[1],"frequency") == 0 )
+        {
+        dimclass = MI_DIMCLASS_TFREQUENCY;
+        }
       }
     else if (dimchar == vname[0] && vsize != 0)
       { // vector dimension
@@ -972,65 +965,62 @@ void MINC2ImageIO::Write(const void* buffer)
     else
       { // other dimensions
       // search through user-defined dimensions
-      for (j = 0; j <= MINC2_MAXDIM; j++)
-  {
-  if (m_DimensionName[j] && m_DimensionName[j][0] == dimchar)
-    {
-    dimname = m_DimensionName[j];
-    dimsize = m_DimensionSize[j];
+      for( j = 0; j <= MINC2_MAXDIM; j++ )
+        {
+        if (m_DimensionName[j] && m_DimensionName[j][0] == dimchar)
+          {
+          dimname = m_DimensionName[j];
+          dimsize = m_DimensionSize[j];
           dimclass = MI_DIMCLASS_USER; // unknown
-    }
-  }
+          }
+        }
       }
 
-  //create MINC2.0 file
+    //create MINC2.0 file
     micreate_dimension(dimname, dimclass, MI_DIMATTR_REGULARLY_SAMPLED,dimsize, &dim[i]);
-    
-   // modify some parameters
-    if (dimclass == MI_DIMCLASS_SPATIAL ||
-  dimclass == MI_DIMCLASS_SFREQUENCY)
+
+    // modify some parameters
+    if (dimclass == MI_DIMCLASS_SPATIAL || dimclass == MI_DIMCLASS_SFREQUENCY)
       {
       miset_dimension_units(dim[i], "mm");
       miset_dimension_start(dim[i],/* MI_ORDER_APPARENT, */ dimstart);
       miset_dimension_separation(dim[i],/* MI_ORDER_APPARENT,*/ dimseparation);
-      
-     
+
+
       double dircos[3];
-      if (dimname[0] == 'x')
-  {
-  dircos[0] = m_DirectionCosines[0][0];
-  dircos[1] = m_DirectionCosines[1][0];
-  dircos[2] = m_DirectionCosines[2][0];
-  }
-      else if (dimname[0] == 'y')
-  {
-  dircos[0] = m_DirectionCosines[0][1];
-  dircos[1] = m_DirectionCosines[1][1];
-  dircos[2] = m_DirectionCosines[2][1];
-  }
-      else if (dimname[0] == 'z')
-  {
-  dircos[0] = m_DirectionCosines[0][2];
-  dircos[1] = m_DirectionCosines[1][2];
-  dircos[2] = m_DirectionCosines[2][2];
-  }
+      if( dimname[0] == 'x' )
+        {
+        dircos[0] = m_DirectionCosines[0][0];
+        dircos[1] = m_DirectionCosines[1][0];
+        dircos[2] = m_DirectionCosines[2][0];
+        }
+      else if ( dimname[0] == 'y' )
+        {
+        dircos[0] = m_DirectionCosines[0][1];
+        dircos[1] = m_DirectionCosines[1][1];
+        dircos[2] = m_DirectionCosines[2][1];
+        }
+      else if ( dimname[0] == 'z' )
+        {
+        dircos[0] = m_DirectionCosines[0][2];
+        dircos[1] = m_DirectionCosines[1][2];
+        dircos[2] = m_DirectionCosines[2][2];
+        }
 
       miset_dimension_cosines(dim[i], dircos);
       }
- 
-  else if (dimclass == MI_DIMCLASS_TIME ||
-     dimclass == MI_DIMCLASS_TFREQUENCY)
-    {
-    miset_dimension_units(dim[i], "s");
+    else if (dimclass == MI_DIMCLASS_TIME || dimclass == MI_DIMCLASS_TFREQUENCY)
+      {
+      miset_dimension_units(dim[i], "s");
+      }
     }
-}
-  
-// set the file data type
+
+  // set the file data type
   mitype_t minctype;
   switch (this->GetComponentType())
     {
     case CHAR:
-      minctype = MI_TYPE_BYTE; 
+      minctype = MI_TYPE_BYTE;
       break;
     case UCHAR:
       minctype = MI_TYPE_UBYTE;
@@ -1057,15 +1047,15 @@ void MINC2ImageIO::Write(const void* buffer)
       itkDebugMacro("Bad data type ");
       return;
     } //end of switch
-  
+
   // find the class
   miclass_t mincclass = MI_CLASS_REAL;
   if (m_Complex)
     {
     mincclass = MI_CLASS_COMPLEX;
     }
-  
-  result = micreate_volume(m_FileName.c_str(), ndims, dim, minctype , mincclass, NULL,&volume); 
+
+  result = micreate_volume(m_FileName.c_str(), ndims, dim, minctype , mincclass, NULL,&volume);
   if (result >= 0)
     {
     result = micreate_volume_image(volume);
@@ -1093,7 +1083,7 @@ void MINC2ImageIO::Write(const void* buffer)
   // add other dimensions
   for (j = 0; j <= MINC2_MAXDIM; j++)
     {
-    if (m_DimensionName[j] && 
+    if (m_DimensionName[j] &&
   strcmp(m_DimensionName[j],zname) != 0 &&
   strcmp(m_DimensionName[j],yname) != 0 &&
   strcmp(m_DimensionName[j],xname) != 0 &&
@@ -1119,17 +1109,17 @@ void MINC2ImageIO::Write(const void* buffer)
     dimorder[i] = dimnames[i][0];
     }
   dimorder[ndims] = '\0';
-  
+
   if (strcmp(dimorder, userdimorder) != 0)
     {
     miset_apparent_dimension_order_by_name(volume, ndims, (char **)dimnames);
     }
 
-  // writing data in slice by slice  
+  // writing data in slice by slice
   switch (this->GetComponentType())
     {
     case CHAR:
-      minctype = MI_TYPE_BYTE; 
+      minctype = MI_TYPE_BYTE;
       MINCWriteHyperSlab(volume, ndims, minctype, offsets, counts,(char *)buffer);
       break;
     case UCHAR:
@@ -1164,7 +1154,7 @@ void MINC2ImageIO::Write(const void* buffer)
       itkDebugMacro("Bad data type ");
       return;
     } //end of switch
-  
+
   // set the min/max
   if (mincclass == MI_CLASS_REAL &&
       minctype != MI_TYPE_FLOAT && minctype != MI_TYPE_DOUBLE)
@@ -1179,7 +1169,7 @@ void MINC2ImageIO::Write(const void* buffer)
     Sizes[0] = m_DimensionSize[0];
     Sizes[1] = m_DimensionSize[1];
     Sizes[2] = m_DimensionSize[2];
-    switch (minctype) 
+    switch (minctype)
       {
       case MI_TYPE_BYTE:
   MINCComputeScalarRange(Strides,Sizes,this->GetNumberOfComponents(),maxval, minval,(char *)buffer);
@@ -1202,7 +1192,7 @@ void MINC2ImageIO::Write(const void* buffer)
       default:
   itkDebugMacro("Bad data type ");
   return;
-      } //end of switch  
+      } //end of switch
     miset_volume_valid_range(volume, maxval, minval);
     miset_volume_range(volume, maxval*m_Scale+m_Shift,minval*m_Scale+m_Shift);
     }
@@ -1241,33 +1231,33 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
     {
     coords[i] = 0;
     }
-  // vector_dimension should not have slice scaling!!!  
+  // vector_dimension should not have slice scaling!!!
   // not sure how to deal with this yet
   // assume 4-dimensions without the vector now
   // go through slices in different dimensions
-  for(i = 0; i < this->GetDimensions(m_NDims - 1) ; i++)
+  for( i = 0; i < this->GetDimensions(m_NDims - 1); i++ )
     {
     coords[0] = i;
     if ( m_NDims > 3 )
       {
-      for (j=0; j <this->GetDimensions(m_NDims - 2) ; j++)
-  {
-  coords[1] = j;
-  if (miget_slice_range(volume, coords, m_NDims, &slice_max, &slice_min) < 0)
-    {
-    itkDebugMacro("Could not get slice range");
-    return;
-    }
-      
-  if (slice_min < min) 
-    {
-    min = slice_min;
-    }
-  if (slice_max > max)
-    {
-    max = slice_max;
-    }
-  }
+      for( j=0; j <this->GetDimensions(m_NDims - 2); j++ )
+        {
+        coords[1] = j;
+        if (miget_slice_range(volume, coords, m_NDims, &slice_max, &slice_min) < 0)
+          {
+          itkDebugMacro("Could not get slice range");
+          return;
+          }
+
+        if (slice_min < min)
+          {
+          min = slice_min;
+          }
+        if (slice_max > max)
+          {
+          max = slice_max;
+          }
+        }
       }
     else
       {
@@ -1276,7 +1266,7 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
         itkDebugMacro("Could not get slice range");
         return;
               }
-      if (slice_min < min) 
+      if (slice_min < min)
         {
         min = slice_min;
         }
@@ -1288,7 +1278,6 @@ void MINC2ImageIO::SetSliceScalingFromLocalScaling(mihandle_t volume)
     }
   m_Scale = (max-min)/(valid_max - valid_min);
   m_Shift = min - (valid_min *m_Scale);
-  //std::cout << "scale" << m_Scale << " " << m_Shift << std::endl;
 
 }
 
@@ -1307,42 +1296,42 @@ void MINC2ImageIO::SetSliceScalingFromGlobalScaling(mihandle_t volume)
     itkDebugMacro("Could not get volume range");
     return;
     }
-  
+
   m_Scale = (volume_max-volume_min)/(valid_max-valid_min);
   m_Shift = volume_min - (valid_min * m_Scale);
-  
+
 }
 
 void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indices, int *numberOfComponents)
 {
-  
+
   midimclass_t dim_class;
   double direction_cosines[3];
   double dircos[3][3] = { { 1, 0, 0},
         { 0, 1, 0},
         { 0, 0, 1}};
-      
+
   // figure out present dimension in the order of either
   // xspace,yspace,zspace, time or xfrequency,yfrequency,zfrequency, tfrequency
   // --> x,y,z,t and vector-dimension
   int i=0,counter=0, counter2=5;
 
-  for (i=0; i < m_NDims; i++)
+  for(i=0; i < m_NDims; i++)
     {
-    if(miget_dimension_class(hdims[i],&dim_class) < 0) 
+    if(miget_dimension_class(hdims[i],&dim_class) < 0)
       {
       // Error getting dimension class
       itkDebugMacro("Could not get dim class\"" << m_FileName.c_str() << "\".");
       return;
       }
-     
-    switch (dim_class) 
+
+    switch (dim_class)
       {
       case MI_DIMCLASS_SPATIAL:
       case MI_DIMCLASS_SFREQUENCY:
-  // if none of xspace,yspace or zspace 
+  // if none of xspace,yspace or zspace
   // use direction cosines to figure out which dimension is x,y,z
-  if (miget_dimension_cosines(hdims[i],direction_cosines) < 0) 
+  if (miget_dimension_cosines(hdims[i],direction_cosines) < 0)
     {
     // Error getting dimension direction cosine
     itkDebugMacro("Could not getdirection cosines!");
@@ -1354,13 +1343,13 @@ void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indice
   dircos[1][counter] = direction_cosines[1];
   dircos[2][counter] = direction_cosines[2];
   dim_indices[counter]=i;
-  counter++;    
+  counter++;
   break;
       case MI_DIMCLASS_TIME:
-      case MI_DIMCLASS_TFREQUENCY:  
+      case MI_DIMCLASS_TFREQUENCY:
   dim_indices[3] = i;
   *numberOfComponents *= m_DimensionSize[i];
-  break;   
+  break;
   // check for vector dimensions
       case MI_DIMCLASS_RECORD:
   dim_indices[4] = i;
@@ -1374,7 +1363,7 @@ void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indice
   //default:
   // any other dimension is ignored!!
   //return;
-  
+
       } // end of switch
     } //end of for
   // fill in the itk matrix for direction cosines
@@ -1385,102 +1374,100 @@ void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indice
   // largest z component (3 dimensions) --> zspace
   // then largest y component (2 dimension) --> yspace
   // last remaining dimension xspace.
- 
+
   int temp;
   if ( counter == 3 ) // three spatial dimensions
     {
-    if ((dircos[2][0] >= dircos[2][1]) && (dircos[2][0] >= dircos[2][2]))
-      { 
+    if((dircos[2][0] >= dircos[2][1]) && (dircos[2][0] >= dircos[2][2]))
+      {
       // index 0 is the z dimension
       m_DirectionCosines[0][2] = dircos[0][0];
       m_DirectionCosines[1][2] = dircos[1][0];
       m_DirectionCosines[2][2] = dircos[2][0];
-      
-      if (dircos[1][1] >= dircos[1][2])
-  {
-  m_DirectionCosines[0][1] = dircos[0][1];
-  m_DirectionCosines[1][1] = dircos[1][1];
-  m_DirectionCosines[2][1] = dircos[2][1];
-  m_DirectionCosines[0][0] = dircos[0][2];
-  m_DirectionCosines[1][0] = dircos[1][2];
-  m_DirectionCosines[2][0] = dircos[2][2];
-  }
-      else
-  {
-  temp = dim_indices[1];
-  dim_indices[1] = dim_indices[2];
-  dim_indices[2] = temp;
-  m_DirectionCosines[0][1] =  dircos[0][2];
-  m_DirectionCosines[1][1] =  dircos[1][2];
-  m_DirectionCosines[2][1] =  dircos[2][2];
-  m_DirectionCosines[0][0] =  dircos[0][1];
-  m_DirectionCosines[1][0] =  dircos[1][1];
-  m_DirectionCosines[2][0] =  dircos[2][1];
-  }
-      }
-      else if ((dircos[2][1] >= dircos[2][0]) && (dircos[2][1] >= dircos[2][2]))
+
+      if( dircos[1][1] >= dircos[1][2] )
         {
-  m_DirectionCosines[0][2] = dircos[0][1];
-  m_DirectionCosines[1][2] = dircos[1][1];
-  m_DirectionCosines[2][2] = dircos[2][1];
-  temp = dim_indices[0];
-  dim_indices[0] = dim_indices[1];
-  if (dircos[1][0] >= dircos[1][2])
-    {
-    dim_indices[1] = temp;
-    m_DirectionCosines[0][1] = dircos[0][0];
-    m_DirectionCosines[1][1] = dircos[1][0];
-    m_DirectionCosines[2][1] = dircos[2][0];
-    m_DirectionCosines[0][0] = dircos[0][2];
-    m_DirectionCosines[1][0] = dircos[1][2];
-    m_DirectionCosines[2][0] = dircos[2][2];
-    }
-  else
-    {
-      
-    dim_indices[1] =  dim_indices[2];
-    dim_indices[2] = temp;
-    m_DirectionCosines[0][1] = dircos[0][2];
-    m_DirectionCosines[1][1] = dircos[1][2];
-    m_DirectionCosines[2][1] = dircos[2][2];
-    m_DirectionCosines[0][0] = dircos[0][0];
-    m_DirectionCosines[1][0] = dircos[1][0];
-    m_DirectionCosines[2][0] = dircos[2][0];
-    }
-  }
+        m_DirectionCosines[0][1] = dircos[0][1];
+        m_DirectionCosines[1][1] = dircos[1][1];
+        m_DirectionCosines[2][1] = dircos[2][1];
+        m_DirectionCosines[0][0] = dircos[0][2];
+        m_DirectionCosines[1][0] = dircos[1][2];
+        m_DirectionCosines[2][0] = dircos[2][2];
+        }
+      else
+        {
+        temp = dim_indices[1];
+        dim_indices[1] = dim_indices[2];
+        dim_indices[2] = temp;
+        m_DirectionCosines[0][1] =  dircos[0][2];
+        m_DirectionCosines[1][1] =  dircos[1][2];
+        m_DirectionCosines[2][1] =  dircos[2][2];
+        m_DirectionCosines[0][0] =  dircos[0][1];
+        m_DirectionCosines[1][0] =  dircos[1][1];
+        m_DirectionCosines[2][0] =  dircos[2][1];
+        }
+      }
+    else if ((dircos[2][1] >= dircos[2][0]) && (dircos[2][1] >= dircos[2][2]))
+      {
+      m_DirectionCosines[0][2] = dircos[0][1];
+      m_DirectionCosines[1][2] = dircos[1][1];
+      m_DirectionCosines[2][2] = dircos[2][1];
+      temp = dim_indices[0];
+      dim_indices[0] = dim_indices[1];
+      if( dircos[1][0] >= dircos[1][2] )
+        {
+        dim_indices[1] = temp;
+        m_DirectionCosines[0][1] = dircos[0][0];
+        m_DirectionCosines[1][1] = dircos[1][0];
+        m_DirectionCosines[2][1] = dircos[2][0];
+        m_DirectionCosines[0][0] = dircos[0][2];
+        m_DirectionCosines[1][0] = dircos[1][2];
+        m_DirectionCosines[2][0] = dircos[2][2];
+        }
+      else
+        {
+        dim_indices[1] =  dim_indices[2];
+        dim_indices[2] = temp;
+        m_DirectionCosines[0][1] = dircos[0][2];
+        m_DirectionCosines[1][1] = dircos[1][2];
+        m_DirectionCosines[2][1] = dircos[2][2];
+        m_DirectionCosines[0][0] = dircos[0][0];
+        m_DirectionCosines[1][0] = dircos[1][0];
+        m_DirectionCosines[2][0] = dircos[2][0];
+        }
+      }
     else
       {
-      
       m_DirectionCosines[0][2] = dircos[0][2];
       m_DirectionCosines[1][2] = dircos[1][2];
       m_DirectionCosines[2][2] = dircos[2][2];
       temp = dim_indices[0];
       dim_indices[0] = dim_indices[2];
-      if (dircos[1][0] >= dircos[1][1])
-  {
-
-  dim_indices[2] = dim_indices[1];
-  dim_indices[1] = temp;
-  m_DirectionCosines[0][1] = dircos[0][0];
-  m_DirectionCosines[1][1] = dircos[1][0];
-  m_DirectionCosines[2][1] = dircos[2][0];
-  m_DirectionCosines[0][0] = dircos[0][1];
-  m_DirectionCosines[1][0] = dircos[1][1];
-  m_DirectionCosines[2][0] = dircos[2][1];
-  }
+      if( dircos[1][0] >= dircos[1][1] )
+        {
+        dim_indices[2] = dim_indices[1];
+        dim_indices[1] = temp;
+        m_DirectionCosines[0][1] = dircos[0][0];
+        m_DirectionCosines[1][1] = dircos[1][0];
+        m_DirectionCosines[2][1] = dircos[2][0];
+        m_DirectionCosines[0][0] = dircos[0][1];
+        m_DirectionCosines[1][0] = dircos[1][1];
+        m_DirectionCosines[2][0] = dircos[2][1];
+        }
       else
-  {
-  dim_indices[2] = temp;
-  m_DirectionCosines[0][0] = dircos[0][0];
-  m_DirectionCosines[1][0] = dircos[1][0];
-  m_DirectionCosines[2][0] = dircos[2][0];
-  m_DirectionCosines[0][1] = dircos[0][1];
-  m_DirectionCosines[1][1] = dircos[1][1];
-  m_DirectionCosines[2][1] = dircos[2][1];
-  }
+        {
+        dim_indices[2] = temp;
+        m_DirectionCosines[0][0] = dircos[0][0];
+        m_DirectionCosines[1][0] = dircos[1][0];
+        m_DirectionCosines[2][0] = dircos[2][0];
+        m_DirectionCosines[0][1] = dircos[0][1];
+        m_DirectionCosines[1][1] = dircos[1][1];
+        m_DirectionCosines[2][1] = dircos[2][1];
+        }
       }
     }
 }
+
 int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
 {
   // This method will adjust the passed "userdimorder" parameter as necessary
@@ -1488,7 +1475,7 @@ int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
   //
   // A return value of 0 means a failed check, the reason for failure
   // will be printed via vtkErrorMacro
-  // 
+  //
   // Note that if you pass a userdimorder that is incomplete, e.g. "zx",
   // then temporal & spatial dimensions will be prepended, and other
   // dimensions will be appended.  So "zx" becomes "yzx".
@@ -1496,9 +1483,9 @@ int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
   int i, j;
 
   // check for repeats
-  for (i = 0; userdimorder[i] && i <= MINC2_MAXDIM; i++)
+  for(i = 0; userdimorder[i] && i <= MINC2_MAXDIM; i++)
     {
-    for (j = 0; j < i; j++)
+    for(j = 0; j < i; j++)
       {
       if (userdimorder[i] == userdimorder[j])
         {
@@ -1513,7 +1500,7 @@ int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
   for (i = 0; userdimorder[i] && i <= MINC2_MAXDIM; i++)
     {
     int dimchar = userdimorder[i];
-   
+
     if (dimchar != 'x' && dimchar != 'y' && dimchar != 'z')
       {
       for (j = 0; j <= MINC2_MAXDIM; j++)
@@ -1542,12 +1529,12 @@ int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
     int found = 0;
     for (j = 0; userdimorder[j] && j <= MINC2_MAXDIM-1; j++)
       {
-      if (userdimorder[j] == dimchar)
-  {
+      if( userdimorder[j] == dimchar )
+        {
         found = 1;
-  }
+        }
       }
-      
+
     if (!found)
       {
       memmove(&userdimorder[1],&userdimorder[0],MINC2_MAXDIM-1);
@@ -1573,7 +1560,7 @@ int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
           found = 1;
           }
         }
-      
+
       if (!found)
         {
         if (dimchar == 't')
@@ -1592,11 +1579,4 @@ int MINC2ImageIO::CheckDimensionOrder(char userdimorder[MINC2_MAXDIM])
   return 1;
 }
 
-
-
- 
-
-
 } // end namespace itk
-
-
