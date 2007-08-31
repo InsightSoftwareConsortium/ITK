@@ -125,7 +125,7 @@ public:
 
 /** \class NumericTraits<char>
  * \brief Define traits for type char.
- * NOTE: char is not guarenteed to be signed. On SGI's, thge default is unsigned
+ * NOTE: char is not guaranteed to be signed. On SGI's, the default is unsigned
  */
 template <>
 class NumericTraits<char> : public vcl_numeric_limits<char> {
@@ -152,7 +152,7 @@ public:
 
 /** \class NumericTraits<char>
  * \brief Define traits for type char.
- * NOTE: char is not guarenteed to be signed. On SGI's, thge default is unsigned
+ * NOTE: char is not guaranteed to be signed. On SGI's, the default is unsigned
  */
 template <>
 class NumericTraits<signed char> : public vcl_numeric_limits<signed char> {
