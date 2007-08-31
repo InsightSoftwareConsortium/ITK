@@ -42,6 +42,8 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshIteratorTest.cxx
   itkQuadEdgeMeshPolygonCellTest.cxx
   itkDynamicQuadEdgeMeshTest.cxx
+  itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
+  itkRegularSphereQuadEdgeMeshSourceTest.cxx
 
   itkContourExtractor2DImageFilterTest.cxx
   itkSumProjectionImageFilterTest.cxx
@@ -67,6 +69,7 @@ SET(ReviewTest_SRCS
 
   itkConformalFlatteningMeshFilterTest.cxx
 
+  itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
   itkVTKPolyDataReaderTest.cxx
   itkVTKPolyDataWriterTest.cxx
 
@@ -110,6 +113,10 @@ ADD_TEST(itkQuadEdgeMeshPolygonCellTest ${REVIEW_TESTS}
   itkQuadEdgeMeshPolygonCellTest)
 ADD_TEST(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS}
   itkDynamicQuadEdgeMeshTest)
+ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx ${REVIEW_TESTS}
+  itkAutomaticTopologyQuadEdgeMeshSourceTest)
+ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest.cxx ${REVIEW_TESTS}
+  itkRegularSphereQuadEdgeMeshSourceTest)
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
@@ -346,6 +353,11 @@ ADD_TEST(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMaximal2_2.png
                   ${TEMP}/cthead1RegionalMaximal-ref2_2.png
                   )
+
+ADD_TEST(itkVTKPolyDataReaderQuadEdgeMeshTest ${REVIEW_TESTS}
+  itkVTKPolyDataReaderQuadEdgeMeshTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  )
 
 ADD_TEST(itkVTKPolyDataReaderTest ${REVIEW_TESTS}
   itkVTKPolyDataReaderTest

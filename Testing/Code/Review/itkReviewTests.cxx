@@ -44,6 +44,8 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshPolygonCellTest);
   REGISTER_TEST(itkQuadEdgeMeshCellInterfaceTest);
   REGISTER_TEST(itkQuadEdgeMeshEulerOperatorsTest);
+  REGISTER_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest);
+  REGISTER_TEST(itkRegularSphereQuadEdgeMeshSourceTest);
 
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
  
@@ -70,6 +72,7 @@ void RegisterTests()
  
   REGISTER_TEST(itkConformalFlatteningMeshFilterTest);
 
+  REGISTER_TEST(itkVTKPolyDataReaderQuadEdgeMeshTest);
   REGISTER_TEST(itkVTKPolyDataReaderTest);
   REGISTER_TEST(itkVTKPolyDataWriterTest);
 
