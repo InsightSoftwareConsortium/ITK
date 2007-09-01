@@ -20,6 +20,8 @@
 #include "itkQuadEdgeMeshLineCell.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
 
+#include "itkQuadEdgeMeshFunctionBase.h"
+
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
@@ -161,6 +163,8 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   typedef MeshType::QEType                                    QEType;
   typedef MeshType::PointIdentifier                           PointIdentifier;
   typedef MeshType::PointType                                 PointType;
+  typedef MeshType::CellType                                  CellType;
+  typedef itk::QuadEdgeMeshLineCell< CellType >               LineCellType;
   
   typedef itk::QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType>
     JoinFacet;
@@ -179,6 +183,33 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   typedef itk::QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< MeshType, QEType>
     DeleteCenterVertex;
 
+  // TEST TOPOLOGYCHECKER
+  {
+  typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
+  CheckerType *check = new CheckerType;
+  if( check->ValidateEulerCharacteristic( ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  MeshPointer testmesh = MeshType::New( );
+  testmesh->GetPoints( );
+  LineCellType * Line = new LineCellType;
+  CellType::CellAutoPointer cellpointer;
+  cellpointer.TakeOwnership( Line );
+  testmesh->SetCell( 0, cellpointer );
+  check->SetMesh( testmesh );
+  if( !check->ValidateEulerCharacteristic( ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  testmesh->Delete( );
+  }
+
+  // EULER OPERATOR TESTS
   MeshPointer  mesh = MeshType::New();
   PopulateMesh<MeshType>( mesh );
 
@@ -466,8 +497,18 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     }
   std::cout << "OK" << std::endl;
 
+  mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
+  std::cout << "     " << "Flip an edge with a polygonal face (impossible)";
+  QEType* tempFlippedEdge = flipEdge->Evaluate( mesh->FindEdge( 12 , 17 ) ); 
+  if( tempFlippedEdge )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  
+  PopulateMesh<MeshType>( mesh );
   std::cout << "     " << "Flip an edge (possible)";
-  QEType* tempFlippedEdge = flipEdge->Evaluate( mesh->FindEdge( 12 , 6 ) ); 
+  tempFlippedEdge = flipEdge->Evaluate( mesh->FindEdge( 12 , 6 ) ); 
   if( !tempFlippedEdge )
     {
     std::cout << "FAILED." << std::endl;
@@ -577,13 +618,13 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   joinVertex->SetInput( mesh );
   
   std::cout << "     " << "Test QE Input and Sym isolated";
-  // SHould use a LineCell here to have Sym defined
-  // if( joinVertex->Evaluate( new QEType ) )
-  //   {
-  //   std::cout << "FAILED." << std::endl;
-  //   return 1;
-  //   }
-  // std::cout << "OK" << std::endl;
+  LineCellType* IsolatedLineCell = new LineCellType;
+  if( joinVertex->Evaluate( IsolatedLineCell->GetQEGeom( ) ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
 
   std::cout << "     " << "Test No QE Input";
   if( joinVertex->Evaluate( (QEType*)0 ) )

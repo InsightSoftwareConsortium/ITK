@@ -249,12 +249,15 @@ public:
 
 public:
 
+  // Multithreading framework: not tested yet.
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion()
     {
     return( false );
     }
 
+  /** another way of deleting all the cells */
   virtual void Clear();
+
   /** Overloaded to avoid a bug in itk::Mesh that prevents proper inheritance
    * Refer to
    * http://public.kitware.com/pipermail/insight-users/2005-March/012459.html
@@ -263,64 +266,112 @@ public:
    */
   virtual void CopyInformation( const DataObject* data ) { (void)data; }
 
-  // Unneeded methods that need to be overloaded
+  /** overloaded method for backward compatibility */
   void BuildCellLinks() { }
+
+  /** overloaded method for backward compatibility */
   void SetBoundaryAssignments(int dimension,
-                              BoundaryAssignmentsContainer*) { }
+                              BoundaryAssignmentsContainer* container)
+    {
+    (void)dimension;
+    (void)container;
+    }
+  
+  /** overloaded method for backward compatibility */
   BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension)
     {
+    (void)dimension;
     return( (BoundaryAssignmentsContainerPointer)0 );
     }
+
+  /** overloaded method for backward compatibility */
   const BoundaryAssignmentsContainerPointer GetBoundaryAssignments(
     int dimension) const
     {
+    (void)dimension;
     return( (const BoundaryAssignmentsContainerPointer)0 );
     }
+
+  /** overloaded method for backward compatibility */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
-                             CellIdentifier boundaryId) { }
+                             CellIdentifier boundaryId)
+    {
+    (void)dimension;
+    (void)cellId;
+    (void)featureId;
+    (void)boundaryId;
+    }
+
+  /** overloaded method for backward compatibility */
   bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
                              CellIdentifier* boundaryId) const
     {
-    boundaryId = (CellIdentifier*)0;
+    (void)dimension;
+    (void)cellId;
+    (void)featureId;
+    (void)boundaryId;
     return( false ); // ALEX: is it the good way?
     }
+
+  /** overloaded method for backward compatibility */
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
                                 CellFeatureIdentifier featureId)
     {
+    (void)dimension;
+    (void)cellId;
+    (void)featureId;
     return( false ); // ALEX: is it the good way?
     }
-  bool GetCellBoundaryFeature(int dimension, CellIdentifier,
-                              CellFeatureIdentifier, CellAutoPointer& ) const
-    {
+
+  /** overloaded method for backward compatibility */
+  bool GetCellBoundaryFeature(int dimension, CellIdentifier cellId,
+                              CellFeatureIdentifier featureId,
+                              CellAutoPointer& cellAP) const
+    { 
+    (void)dimension;
+    (void)cellId;
+    (void)featureId;
+    (void)cellAP;
     return( false );
     }
-  unsigned long GetCellBoundaryFeatureNeighbors(
-    int dimension, CellIdentifier, CellFeatureIdentifier,
-    std::set<CellIdentifier>* cellSet)
+
+  /** overloaded method for backward compatibility */
+  unsigned long GetCellBoundaryFeatureNeighbors(int dimension,
+                                             CellIdentifier cellId,
+                                             CellFeatureIdentifier featureId,
+                                             std::set<CellIdentifier>* cellSet)
     {
+    (void)dimension;
+    (void)cellId;
+    (void)featureId;
     cellSet = (std::set<CellIdentifier>*)0;
     return( (unsigned long)0 );
     }
-  // NOTE ALEX: this method do not use CellFeature and thus could be recoded.
+  
+  /** NOTE ALEX: this method do not use CellFeature and thus could be recoded */
   unsigned long GetCellNeighbors( CellIdentifier cellId,
                                   std::set<CellIdentifier>* cellSet )
     {
+    (void)cellId;
     cellSet = (std::set<CellIdentifier>*)0;
     return( (unsigned long)0 );
     }
-  bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
-                                          CellFeatureIdentifier,
-                                          CellAutoPointer& ) const
+
+  /** overloaded method for backward compatibility */
+  bool GetAssignedCellBoundaryIfOneExists(int dimension,
+                                          CellIdentifier cellId,
+                                          CellFeatureIdentifier featureId,
+                                          CellAutoPointer& cellAP) const
     {
+    (void)dimension;
+    (void)featureId;
+    (void)cellAP;
     return( false ); // ALEX: is it the good way?
     }
 
-
-
-
-  /** Overloaded methods for itk-syntax compatilibity. */
+  /** overloaded method for backward compatibility */
   void SetCell( CellIdentifier cId, CellAutoPointer& cell );
 
   /** Methods to simplify point/edge insertion/search. */
@@ -329,8 +380,10 @@ public:
 
   virtual void PushOnContainer( EdgeCellType* newEdge );
 
-  // ////////////////// Adding Point/Edge/Face methods
+  // Adding Point/Edge/Face methods
   virtual PointIdentifier AddPoint( const PointType& p );
+  
+  /** */
   virtual QEPrimal* AddEdge( const PointIdentifier& orgPid,
                              const PointIdentifier& destPid );
 
@@ -357,11 +410,11 @@ public:
   virtual void LightWeightDeleteEdge( QEPrimal* e );
   virtual void DeleteFace( FaceRefType faceToDelete );
 
-  // //////////////////
+  // 
   bool GetPoint( PointIdentifier pid, PointType * pt) const
     {
     return( Superclass::GetPoint( pid, pt ) );
-    };
+    }
   virtual PointType  GetPoint ( const PointIdentifier& pid ) const;
   virtual VectorType GetVector( const PointIdentifier& pid ) const;
   virtual QEPrimal*  GetEdge() const;

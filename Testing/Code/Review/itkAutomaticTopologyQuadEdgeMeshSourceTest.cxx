@@ -79,12 +79,12 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
   // the Add[Cell] methods only use the first N entries of the array.
 
   IdentifierArrayType idArray( 8 );
-  {
-  for( IdentifierType i = 0; i < 8; i++ )
     {
-    idArray[ i ] = i;
+    for( IdentifierType i = 0; i < 8; i++ )
+      {
+      idArray[ i ] = i;
+      }
     }
-  }
   
   meshSource->AddVertex( idArray );
   meshSource->AddLine( idArray );
@@ -133,27 +133,27 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
   meshSource->AddLine(
     meshSource->AddPoint( 2, 1, 1 ),
     meshSource->AddPoint( 3, 1, 1 )
-    );
+  );
 
   meshSource->AddTriangle(
     meshSource->AddPoint( 3, 0, 1 ),
     meshSource->AddPoint( 2, 1, 1 ),
     meshSource->AddPoint( 3, 1, 1 )
-    );
+  );
 
   meshSource->AddQuadrilateral(
     meshSource->AddPoint( 2, 0, 1 ),
     meshSource->AddPoint( 3, 0, 1 ),
     meshSource->AddPoint( 2, 1, 1 ),
     meshSource->AddPoint( 3, 1, 1 )
-    );
+  );
 
   meshSource->AddTetrahedron(
     meshSource->AddPoint( 2, 0, 1 ),
     meshSource->AddPoint( 3, 0, 1 ),
     meshSource->AddPoint( 2, 1, 1 ),
     meshSource->AddPoint( 3, 1, 1 )
-    );
+  );
 
   meshSource->AddHexahedron(
     meshSource->AddPoint( 2, 0, 0 ),
@@ -164,7 +164,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
     meshSource->AddPoint( 3, 0, 1 ),
     meshSource->AddPoint( 2, 1, 1 ),
     meshSource->AddPoint( 3, 1, 1 )
-    );
+  );
 
   // Add cells using C arrays of point coordinates.
   MeshSourceType::CoordinateType points[8][3] =
@@ -273,9 +273,10 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
       typedef CellType::PointIdConstIterator PointIdIterator;
       PointIdIterator pointIter = cell->PointIdsBegin();
       PointIdIterator pointsEnd = cell->PointIdsEnd();
-      for( ; pointIter != pointsEnd; ++pointIter )
+      while( pointIter != pointsEnd  )
         {
         std::cout << *pointIter << " ";
+        ++pointIter;
         }
       std::cout << std::endl;
       }
@@ -293,7 +294,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
         std::cout << "Cell " << i << ":\n";
 
         typedef MeshSourceType::IdentifierType IdentifierType;
-        typedef std::set<IdentifierType> NeighborSet;
+        typedef std::set<IdentifierType>       NeighborSet;
         NeighborSet cellSet;
 
         mesh->GetCellBoundaryFeatureNeighbors( 0, i, 0, &cellSet );
@@ -363,4 +364,3 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
