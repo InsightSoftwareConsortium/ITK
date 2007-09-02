@@ -300,6 +300,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
   cellId = 0;
   CellsContainerConstIterator cell;
   CellDataContainerConstIterator cellData;
+  bool CellDataPresent = inCellData->size( ) != 0;
   InputMeshCellPointer cellCopy;  // need an autopointer to duplicate
                                   // a cell
   
@@ -308,17 +309,22 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
        m_ExtractionMode == ClosestPointRegion ||
        m_ExtractionMode == AllRegions)
     { // extract any cell that's been visited
+
     for (cell=inCells->Begin(), cellData=inCellData->Begin();
          cell != inCells->End();
-         ++cell, ++cellData, ++cellId)
+         ++cell, ++cellId)
       {
       if ( m_Visited[cellId] >= 0 )
         {
         cell->Value()->MakeCopy( cellCopy );
         outCells->InsertElement(cellId,cellCopy.GetPointer());
         cellCopy.ReleaseOwnership();  // Pass cell ownership to output mesh
-        outCellData->InsertElement(cellId,cellData->Value());
-        }
+        if( CellDataPresent )
+          {
+          outCellData->InsertElement(cellId,cellData->Value());
+          ++cellData;
+          }
+        }  
       }
     }
   // if specified regions, add regions
@@ -329,7 +335,7 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     bool inReg = false;
     for (cell=inCells->Begin(), cellData=inCellData->Begin();
          cell != inCells->End();
-         ++cell, ++cellData, ++cellId)
+         ++cell, ++cellId)
       {
       if ( m_Visited[cellId] >= 0 )
         {
@@ -349,7 +355,11 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
           cell->Value()->MakeCopy( cellCopy );
           outCells->InsertElement(cellId,cellCopy.GetPointer());
           cellCopy.ReleaseOwnership();  // Pass cell ownership to output mesh
-          outCellData->InsertElement(cellId,cellData->Value());
+          if( CellDataPresent )
+            {
+            outCellData->InsertElement(cellId,cellData->Value());
+            ++cellData;
+            }
           }
         }
       }
@@ -358,14 +368,18 @@ ConnectedRegionsMeshFilter<TInputMesh,TOutputMesh>
     {
     for (cell=inCells->Begin(), cellData=inCellData->Begin();
          cell != inCells->End();
-         ++cell, ++cellData, ++cellId)
+         ++cell, ++cellId)
       {
       if ( m_Visited[cellId] == static_cast<long>(largestRegionId) )
         {
         cell->Value()->MakeCopy( cellCopy );
         outCells->InsertElement(cellId,cellCopy.GetPointer());
         cellCopy.ReleaseOwnership(); // Pass cell ownership to output mesh
-        outCellData->InsertElement(cellId,cellData->Value());
+        if( CellDataPresent )
+          {
+          outCellData->InsertElement(cellId,cellData->Value());
+          ++cellData;
+          }
         }
       }
     }
