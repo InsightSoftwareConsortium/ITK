@@ -184,30 +184,38 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     DeleteCenterVertex;
 
   // TEST TOPOLOGYCHECKER
-  {
-  typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
-  CheckerType *check = new CheckerType;
-  if( check->ValidateEulerCharacteristic( ) )
     {
-    std::cout << "FAILED." << std::endl;
-    return 1;
+    typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
+    CheckerType *check = new CheckerType;
+    
+    // test no input
+    if( check->ValidateEulerCharacteristic( ) )
+      {
+      std::cout << "FAILED." << std::endl;
+      return 1;
+      }
+    std::cout << "OK" << std::endl;
+    
+    // test with an isolated edge
+    MeshPointer testmesh = MeshType::New( );
+    testmesh->GetPoints( );
+    LineCellType * Line = new LineCellType;
+    CellType::CellAutoPointer cellpointer;
+    cellpointer.TakeOwnership( Line );
+    testmesh->SetCell( 0, cellpointer );
+    check->SetMesh( testmesh );
+    // to check, must add two valid points
+    // a valid edge
+    // and then disconnect!
+    if( !check->ValidateEulerCharacteristic( ) )
+      {
+      std::cout << "FAILED." << std::endl;
+      return 1;
+      }
+    std::cout << "OK" << std::endl;
+
+    testmesh->Delete( );
     }
-  std::cout << "OK" << std::endl;
-  MeshPointer testmesh = MeshType::New( );
-  testmesh->GetPoints( );
-  LineCellType * Line = new LineCellType;
-  CellType::CellAutoPointer cellpointer;
-  cellpointer.TakeOwnership( Line );
-  testmesh->SetCell( 0, cellpointer );
-  check->SetMesh( testmesh );
-  if( !check->ValidateEulerCharacteristic( ) )
-    {
-    std::cout << "FAILED." << std::endl;
-    return 1;
-    }
-  std::cout << "OK" << std::endl;
-  testmesh->Delete( );
-  }
 
   // EULER OPERATOR TESTS
   MeshPointer  mesh = MeshType::New();
@@ -498,6 +506,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   std::cout << "OK" << std::endl;
 
   mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
+  mesh->AddFace( mesh->FindEdge( 17 ,12 ) );
   std::cout << "     " << "Flip an edge with a polygonal face (impossible)";
   QEType* tempFlippedEdge = flipEdge->Evaluate( mesh->FindEdge( 12 , 17 ) ); 
   if( tempFlippedEdge )
