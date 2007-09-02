@@ -126,21 +126,13 @@ bool gdcm_write_JPEG_file (std::ostream *fp, char *inputdata, size_t inputlength
    * since the defaults depend on the source color space.)
    */
   jpeg_set_defaults(&cinfo);
+
   /*
-   * http://www.koders.com/c/fid80DBBF1D49D004EF71CE7C493C34610C4F17D3D3.aspx
-   * http://studio.imagemagick.org/pipermail/magick-users/2002-September/004685.html
-   * You need to set -quality 101 or greater.  If quality is 100 or less you
-   * get regular JPEG output.  This is not explained in the documentation, only
-   * in the comments in coder/jpeg.c.  When you have configured libjpeg with
-   * lossless support, then
-   * 
-   *    quality=predictor*100 + point_transform
-   * 
-   * If you don't know what these values should be, just use 101.
-   * They only affect the compression ratio, not the image appearance,
-   * which is lossless.
+   * Set predictor to 1, and point transform to 0 to garantee lossless
+   * transformation
    */
-  jpeg_simple_lossless (&cinfo, 1, 1);
+  jpeg_simple_lossless (&cinfo, 1, 0);
+
   /* Now you can set any non-default parameters you wish to.
    * Here we just illustrate the use of quality (quantization table) scaling:
    */
