@@ -203,7 +203,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   
     if( oldOriginId == orgId )
       {
-      itkWarningMacro( "Trying to fuse the same point!" );
+      itkDebugMacro( "Trying to fuse the same point!" );
       return( m_NoPoint );
       }
   
@@ -252,7 +252,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     if( ( aLeftFace == m_NoFace && bLeftFace != m_NoFace )
         || ( aLeftFace != m_NoFace && bLeftFace == m_NoFace ) )
       {
-      itkWarningMacro("Face on one side but not the other. Cancel.");
+      itkDebugMacro("Face on one side but not the other. Cancel.");
       return( m_NoPoint );
       }
   
@@ -271,7 +271,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         }
       else
         {
-        itkWarningMacro( "Face is not at least and hexagon." );
+        itkDebugMacro( "Face is not at least and hexagon." );
         return( m_NoPoint );
         }
       }
@@ -841,14 +841,14 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   if( e == (QEPrimal*)0 )
     {
-    itkWarningMacro( "No Incoming edge." );
+    itkDebugMacro( "No Incoming edge." );
     return;
     }
     
   EdgeCellType* edgeCell = FindEdgeCell( e->GetOrigin( ), e->GetDestination( ) );
   if( edgeCell == (EdgeCellType*)0 )
     {
-    itkWarningMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
+    itkDebugMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
     return;
     }
     
@@ -883,7 +883,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   if( faceToDelete != e->GetLeft() )
     {
-    itkWarningMacro("Neither e nor e->Sym() are the correct face");
+    itkDebugMacro("Neither e nor e->Sym() are the correct face");
     return;
     }
 
@@ -1199,7 +1199,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   if( ! points )
     {
-    itkWarningMacro("No point container");
+    itkDebugMacro("No point container");
     return( 0 );
     }
 
