@@ -197,17 +197,24 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     std::cout << "OK" << std::endl;
     
     // test with an isolated edge
-    MeshPointer testmesh = MeshType::New( );
-    testmesh->GetPoints( );
-    LineCellType * Line = new LineCellType;
-    CellType::CellAutoPointer cellpointer;
+    MeshPointer testmesh = MeshType::New( );  // empty mesh
+    PointType dummyPoint1;
+    PointType dummyPoint2;
+    for( unsigned char i = 0; i < 3; i++ )
+      {
+      dummyPoint1[i] = 0.;
+      dummyPoint2[i] = 1.;
+      } 
+    testmesh->SetPoint( 0, dummyPoint1 );     // add points to mesh
+    testmesh->SetPoint( 1, dummyPoint2 );
+    LineCellType * Line = new LineCellType;   // create an Isolated Edge
+    CellType::CellAutoPointer cellpointer;    // create the corresponding AutoPointer
     cellpointer.TakeOwnership( Line );
-    testmesh->SetCell( 0, cellpointer );
+    cellpointer->SetPointId( 0, 0 );
+    cellpointer->SetPointId( 1, 1 );
+    testmesh->SetCell( 0, cellpointer );      // add the cell to the mesh
     check->SetMesh( testmesh );
-    // to check, must add two valid points
-    // a valid edge
-    // and then disconnect!
-    if( !check->ValidateEulerCharacteristic( ) )
+    if( check->ValidateEulerCharacteristic( ) )
       {
       std::cout << "FAILED." << std::endl;
       return 1;
