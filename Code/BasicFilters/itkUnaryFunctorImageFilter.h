@@ -35,6 +35,8 @@ namespace itk
  * UnaryFunctorImageFilter (like the CastImageFilter) can be used
  * to promote a 2D image to a 3D image, etc.
  * 
+ * \sa BinaryFunctorImageFilter TernaryFunctorImageFilter
+ *
  * \ingroup   IntensityImageFilters     Multithreaded
  */
 template <class TInputImage, class TOutputImage, class TFunction >

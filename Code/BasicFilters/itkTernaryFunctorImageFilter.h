@@ -30,7 +30,9 @@ namespace itk
  * and the type of the output image.  It is also parameterized by the
  * operation to be applied, using a Functor style.
  * 
- * \ingroup IntensityImageFilters
+ * \sa BinaryFunctorImageFilter UnaryFunctorImageFilter
+ *
+ * \ingroup IntensityImageFilters Multithreaded
  */
 template <class TInputImage1, class TInputImage2, 
           class TInputImage3, class TOutputImage, class TFunction    >
