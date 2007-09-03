@@ -18,7 +18,7 @@
 #ifndef __itkErrorBackPropagationLearningingWithMomentum_txx
 #define __itkErrorBackPropagationLearningingWithMomentum_txx
 
-#include "itkErrorBackPropagationLearningFunctionBase.h"
+#include "itkErrorBackPropagationLearningWithMomentum.h"
 #include <fstream>
 
 
@@ -37,18 +37,19 @@ ErrorBackPropagationLearningWithMomentum <LayerType,TTargetVector>
 template<class LayerType, class TTargetVector>
 void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
-::Learn(typename LayerType::LayerInterfaceType* layer, ValueType lr)
+::Learn(LayerInterfaceType * layer, ValueType lr)
 {
-  typename LayerType::LayerInterfaceType::WeightSetType::Pointer outputweightset;
-  typename LayerType::LayerInterfaceType::WeightSetType::Pointer inputweightset;
+  LayerInterfaceType::WeightSetType::Pointer outputweightset;
+  LayerInterfaceType::WeightSetType::Pointer inputweightset;
   outputweightset = layer->GetOutputWeightSet();
   inputweightset = layer->GetInputWeightSet();
 
-  typename LayerType::LayerInterfaceType::ValuePointer DWvalues_m_1 = inputweightset->GetPrevDWValues();
-  typename LayerType::LayerInterfaceType::ValuePointer DWvalues_m_2 = inputweightset->GetPrev_m_2DWValues();
-  typename LayerType::LayerInterfaceType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
-  typename LayerType::LayerInterfaceType::ValuePointer DBValues = inputweightset->GetTotalDeltaBValues();
-  typename LayerType::LayerInterfaceType::ValuePointer PrevDBValues = inputweightset->GetPrevDBValues();
+  typedef typename LayerInterfaceType::ValuePointer InterfaceValuePointer;
+  InterfaceValuePointer DWvalues_m_1 = inputweightset->GetPrevDWValues();
+  InterfaceValuePointer DWvalues_m_2 = inputweightset->GetPrev_m_2DWValues();
+  InterfaceValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
+  InterfaceValuePointer DBValues = inputweightset->GetTotalDeltaBValues();
+  InterfaceValuePointer PrevDBValues = inputweightset->GetPrevDBValues();
 
   int input_cols = inputweightset->GetNumberOfInputNodes();
   int input_rows = inputweightset->GetNumberOfOutputNodes();
@@ -103,7 +104,7 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 template<class LayerType, class TTargetVector>
 void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
-::Learn(typename LayerType::LayerInterfaceType* itkNotUsed(layer), TTargetVector itkNotUsed(errors),ValueType itkNotUsed(lr))
+::Learn( LayerInterfaceType * itkNotUsed(layer), TTargetVector itkNotUsed(errors),ValueType itkNotUsed(lr))
 {
   //It appears that this interface should not be called.
   //itkExceptionMacrto(<< "This should never be called");

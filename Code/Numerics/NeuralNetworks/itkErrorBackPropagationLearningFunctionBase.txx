@@ -28,16 +28,17 @@ namespace Statistics
 template<class LayerType, class TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
-::Learn(typename LayerType::LayerInterfaceType* layer,ValueType lr)
+::Learn( LayerInterfaceType * layer, ValueType lr )
 {
   int num_nodes = layer->GetNumberOfNodes();
 
-  typename LayerType::LayerInterfaceType::WeightSetType::Pointer outputweightset;
-  typename LayerType::LayerInterfaceType::WeightSetType::Pointer inputweightset;
+  typename LayerInterfaceType::WeightSetType::Pointer outputweightset;
+  typename LayerInterfaceType::WeightSetType::Pointer inputweightset;
+
   outputweightset = layer->GetOutputWeightSet();
   inputweightset = layer->GetInputWeightSet();
 
-  typename LayerType::LayerInterfaceType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
+  typename LayerInterfaceType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
 
   vnl_matrix<ValueType> DW_temp(currentdeltavalues,inputweightset->GetNumberOfOutputNodes(),
                                            inputweightset->GetNumberOfInputNodes());
@@ -57,7 +58,7 @@ ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 template<class LayerType, class TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
-::Learn(typename LayerType::LayerInterfaceType* layer, TTargetVector errors, ValueType lr)
+::Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType lr)
 {
 }
 

@@ -51,9 +51,11 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef typename Superclass::ValueType ValueType;
-  virtual void Learn(typename LayerType::LayerInterfaceType* layer, ValueType learningrate);
-  virtual void Learn(typename LayerType::LayerInterfaceType* layer, TTargetVector errors, ValueType learningrate);
+  typedef typename Superclass::ValueType           ValueType;
+  typedef typename LayerType::LayerInterfaceType   LayerInterfaceType;
+
+  virtual void Learn( LayerInterfaceType * layer, ValueType learningrate );
+  virtual void Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType learningrate );
 
 
 protected:

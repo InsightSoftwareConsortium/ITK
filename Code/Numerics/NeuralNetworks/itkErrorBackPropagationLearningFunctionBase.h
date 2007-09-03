@@ -44,6 +44,7 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   typedef typename Superclass::ValueType ValueType;
+  typedef typename LayerType::LayerInterfaceType LayerInterfaceType;
 
   /** Method for creation through the object factory. */
   itkTypeMacro(ErrorBackPropagationLearningFunctionBase, LearningFunctionBase);
@@ -51,8 +52,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  virtual void Learn(typename LayerType::LayerInterfaceType* layer,ValueType learningrate);
-  virtual void Learn(typename LayerType::LayerInterfaceType* layer, TTargetVector error, ValueType learningrate);
+  virtual void Learn( LayerInterfaceType * layer, ValueType learningrate);
+  virtual void Learn( LayerInterfaceType * layer, TTargetVector error, ValueType learningrate);
 
 protected:
 
