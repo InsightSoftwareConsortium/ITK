@@ -22,70 +22,71 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  /** Constructor */
-  template<class TNetwork>
-    NeuralNetworkFileWriter<TNetwork>
-    ::NeuralNetworkFileWriter()
-      {
-       this->m_FileName = "";
-       this->m_WriteWeightValuesType = Self::BINARY; //Default: binary output
-      }
+
+/** Constructor */
+template<class TNetwork>
+NeuralNetworkFileWriter<TNetwork>
+::NeuralNetworkFileWriter()
+{
+  this->m_FileName = "";
+  this->m_WriteWeightValuesType = Self::BINARY; //Default: binary output
+}
 
 
-  template<class TNetwork>
-    void
-    NeuralNetworkFileWriter<TNetwork>
-    //Avoiding VS6 error::SetInput( const TNetwork* network )
-    ::SetInput(  TNetwork* network )
-      {
-       this->m_Network = network;
-      }
+template<class TNetwork>
+void
+NeuralNetworkFileWriter<TNetwork>
+//Avoiding VS6 error::SetInput( const TNetwork* network )
+::SetInput(  TNetwork* network )
+{
+  this->m_Network = network;
+}
 
 
-  /** Destructor */
-  template<class TNetwork>
-    NeuralNetworkFileWriter<TNetwork>
-    ::~NeuralNetworkFileWriter()
-      {
-      this->ClearFields();
-      }
+/** Destructor */
+template<class TNetwork>
+NeuralNetworkFileWriter<TNetwork>
+::~NeuralNetworkFileWriter()
+{
+  this->ClearFields();
+}
 
 
-  template<class TNetwork>
-    void
-    NeuralNetworkFileWriter<TNetwork>
-    ::ClearFields()
-      {
-      for (FieldsContainerType::size_type i = 0; i <  this->m_Fields.size(); i++)
-        {
-        delete  this->m_Fields[i];
-        }
-       this->m_Fields.clear();
-      }
+template<class TNetwork>
+void
+NeuralNetworkFileWriter<TNetwork>
+::ClearFields()
+{
+  for (FieldsContainerType::size_type i = 0; i <  this->m_Fields.size(); i++)
+    {
+    delete  this->m_Fields[i];
+    }
+  this->m_Fields.clear();
+}
 
-  template<class TNetwork>
-    void
-    NeuralNetworkFileWriter<TNetwork>
-    ::PrintSelf( std::ostream& os, Indent indent ) const
-      {
-      Superclass::PrintSelf( os, indent );
-      }
+template<class TNetwork>
+void
+NeuralNetworkFileWriter<TNetwork>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
+}
 
 
-  template<class TNetwork>
-    const TNetwork *
-    NeuralNetworkFileWriter<TNetwork>
-    ::GetInput() const
-      {
-      return  this->m_Network.GetPointer();
-      }
+template<class TNetwork>
+const TNetwork *
+NeuralNetworkFileWriter<TNetwork>
+::GetInput() const
+{
+  return  this->m_Network.GetPointer();
+}
 
-  /** Update the Writer */
+/** Update the Writer */
 template<class TNetwork>
 void
 NeuralNetworkFileWriter<TNetwork>
 ::Update()
-  {
+{
   this->m_OutputFile.open( this->m_FileName.c_str(), std::ios::binary | std::ios::out);
 
   if(!this->m_OutputFile.is_open())
@@ -238,8 +239,9 @@ NeuralNetworkFileWriter<TNetwork>
       //and the MetaIO mechanism is not desigend for the way that this is used
       //to write these files out.
       // Comment this code out until it can be robustly written.
-    case ASCII:
+      case ASCII:
         {
+        // create local scope
           {
           std::cout << "UNSUPPORTED: ASCII only works for very small network types" << std::endl;
           mF = new MET_FieldRecordType;
@@ -248,6 +250,7 @@ NeuralNetworkFileWriter<TNetwork>
             weightset->GetWeightValues());
           this->m_Fields.push_back(mF);
           }
+        // create local scope
           {
           if(!MET_Write(this->m_OutputFile, &  this->m_Fields,'='))
             {
@@ -256,8 +259,8 @@ NeuralNetworkFileWriter<TNetwork>
             }
           }
         }
-      break;
-    case BINARY:
+        break;
+      case BINARY:
         {
         //
         // TODO: This is hardcoded to double for the weight values.
@@ -265,13 +268,13 @@ NeuralNetworkFileWriter<TNetwork>
         this->m_OutputFile.write( (char *)weightset->GetWeightValues(),
           rows * cols * sizeof(double));
         }
-      break;
-    default:
-      itkExceptionMacro("Unsupported type given");
-      break;
+        break;
+      default:
+        itkExceptionMacro("Unsupported type given");
+        break;
       }
     }
-  }
+}
 
 
 } // namespace itk
