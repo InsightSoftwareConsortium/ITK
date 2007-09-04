@@ -87,7 +87,12 @@ ENDIF(NOT ITK_EXPLICIT_INSTANTIATION)
 
 IF (WIN32)
    SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
+ELSE (WIN32)
+  IF(MINGW)
+    SET(ITKCommon_SRCS ${ITKCommon_SRCS} itkSmartPointerForwardReferenceProcessObject.cxx)
+  ENDIF(MINGW)
 ENDIF (WIN32)
+
 
 # Instantiations not provided by vnl but used by ITK.
 ADD_LIBRARY(itkvnl_inst
