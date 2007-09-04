@@ -76,13 +76,20 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  typedef typename TNetwork::MeasurementVectorType   MeasurementVectorType;
-  typedef typename TNetwork::TargetVectorType        TargetVectorType;
+  typedef typename TNetwork::MeasurementVectorType     MeasurementVectorType;
+  typedef typename TNetwork::TargetVectorType          TargetVectorType;
+  typedef typename Statistics::BackPropagationLayer<
+    MeasurementVectorType, TargetVectorType>           BackPropagationLayerType;
+  typedef typename BackPropagationLayerType::Pointer   BackPropagationLayerPointer;
+  typedef typename MeasurementVectorType::ValueType    MeasurementVectorValueType;
+
+  typedef typename TNetwork::LayerInterfaceType        LayerInterfaceType;
+  typedef typename LayerInterfaceType::WeightSetType   WeightSetType;
+  typedef typename WeightSetType::Pointer              WeightSetPointer;
 
 // typedef typename TNetwork::Pointer                       NetworkPointer;
 // typedef typename TNetwork::ConstPointer                  NetworkConstPointer;
 
-// typedef typename TNetwork::LayerInterfaceType                     LayerInterfaceType;
 
 //  typedef typename LayerInterfaceType::TransferFunctionType::Pointer      TransferFunctionPointer;
 //  typedef typename LayerInterfaceType::TransferFunctionType::ConstPointer TransferFunctionConstPointer;
@@ -90,7 +97,6 @@ public:
 //  typedef typename LayerInterfaceType::InputFunctionType::Pointer         InputFunctionPointer;
 //  typedef typename LayerInterfaceType::InputFunctionType::ConstPointer    InputFunctionConstPointer;
 
-//  typedef typename LayerInterfaceType::WeightSetType                WeightSetType;
 //  typedef typename LayerInterfaceType::ValueType                    ValueType;
 
   /** Set the filename  */

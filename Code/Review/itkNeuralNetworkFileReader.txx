@@ -198,8 +198,7 @@ NeuralNetworkFileReader<TNetwork>
     mF = MET_GetFieldRecord("LayerType", & this->m_Fields);
     if(!strcmp((char*)mF->value,"BackPropagationLayer"))
       {
-      typename Statistics::BackPropagationLayer<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::Pointer
-        layerptr = Statistics::BackPropagationLayer<typename TNetwork::MeasurementVectorType,typename TNetwork::TargetVectorType>::New();
+      BackPropagationLayerPointer layerptr = BackPropagationLayerType::New();
       layerptr->SetBias(1.0);
 
       mF = MET_GetFieldRecord("Layer_Id", & this->m_Fields);
@@ -214,33 +213,33 @@ NeuralNetworkFileReader<TNetwork>
       mF = MET_GetFieldRecord("TransferFunction", & this->m_Fields);
       if(!strcmp((char*)mF->value,"IdentityTransferFunction"))
         {
-        typedef Statistics::IdentityTransferFunction<typename TNetwork::MeasurementVectorType::ValueType> tfType;
+        typedef Statistics::IdentityTransferFunction< MeasurementVectorValueType > tfType;
         typename tfType::Pointer tf=tfType::New();
         layerptr->SetTransferFunction(tf);
         }
       else if(!strcmp((char*)mF->value,"LogSigmoidTransferFunction"))
         {
-        typedef Statistics::LogSigmoidTransferFunction<typename TNetwork::MeasurementVectorType::ValueType> tfType;
+        typedef Statistics::LogSigmoidTransferFunction<MeasurementVectorValueType> tfType;
         typename tfType::Pointer tf=tfType::New();
         layerptr->SetTransferFunction(tf);
         }
       else if(!strcmp((char*)mF->value,"SigmoidTransferFunction"))
         {
-        typedef Statistics::SigmoidTransferFunction<typename TNetwork::MeasurementVectorType::ValueType> tfType;
+        typedef Statistics::SigmoidTransferFunction<MeasurementVectorValueType> tfType;
         typename tfType::Pointer tf=tfType::New();
         layerptr->SetTransferFunction(tf);
         }
       else if(!strcmp((char*)mF->value,"TanSigmoidTransferFunction"))
         {
         std::cout<<"Tansigmoid"<<std::endl;
-        typedef Statistics::TanSigmoidTransferFunction<typename TNetwork::MeasurementVectorType::ValueType> tfType;
+        typedef Statistics::TanSigmoidTransferFunction<MeasurementVectorValueType> tfType;
         typename tfType::Pointer tf=tfType::New();
         layerptr->SetTransferFunction(tf);
         }
       else if(!strcmp((char*)mF->value,"SymmetricSigmoidTransferFunction"))
         {
         std::cout<<"SymmetricSigmoidTransferFunction"<<std::endl;
-        typedef Statistics::SymmetricSigmoidTransferFunction<typename TNetwork::MeasurementVectorType::ValueType> tfType;
+        typedef Statistics::SymmetricSigmoidTransferFunction<MeasurementVectorValueType> tfType;
         typename tfType::Pointer tf=tfType::New();
         layerptr->SetTransferFunction(tf);
         }
@@ -255,7 +254,7 @@ NeuralNetworkFileReader<TNetwork>
         {
         std::cout<<"SumInputFunction"<<std::endl;
         typedef Statistics::SumInputFunction
-          <typename TNetwork::MeasurementVectorType::ValueType*,typename TNetwork::MeasurementVectorType::ValueType>
+          <MeasurementVectorValueType*,MeasurementVectorValueType>
           ifType;
         typename  ifType::Pointer ifcn= ifType::New();
         layerptr->SetNodeInputFunction(ifcn);
@@ -263,7 +262,7 @@ NeuralNetworkFileReader<TNetwork>
       else if(!strcmp((char*)(mF->value),"NULL"))
         {
         std::cout<<"NULL"<<std::endl;
-        typedef Statistics::SumInputFunction <typename TNetwork::MeasurementVectorType::ValueType*,typename TNetwork::MeasurementVectorType::ValueType> ifType;
+        typedef Statistics::SumInputFunction <MeasurementVectorValueType*,MeasurementVectorValueType> ifType;
         layerptr->SetNodeInputFunction(0);
         }
        this->m_Network->AddLayer(layerptr);
@@ -307,12 +306,12 @@ NeuralNetworkFileReader<TNetwork>
       mF = MET_GetFieldRecord("DEST_Layer", & this->m_Fields);
       unsigned int dlayer=(unsigned int)mF->value[0];
 
-      typename TNetwork::LayerInterfaceType::WeightSetType::Pointer weightset;
+      WeightSetPointer weightset;
 
       // Create a local scope
         {
-        typename Statistics::CompletelyConnectedWeightSet<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::Pointer
-          w = Statistics::CompletelyConnectedWeightSet<typename TNetwork::MeasurementVectorType,typename TNetwork::TargetVectorType>::New();
+        typename Statistics::CompletelyConnectedWeightSet<MeasurementVectorType, TargetVectorType>::Pointer
+          w = Statistics::CompletelyConnectedWeightSet<MeasurementVectorType,TargetVectorType>::New();
         w->SetWeightSetId(weightsetid);
         w->SetNumberOfInputNodes( this->m_Layers[slayer]->GetNumberOfNodes());
         w->SetNumberOfOutputNodes( this->m_Layers[dlayer]->GetNumberOfNodes());
@@ -320,7 +319,7 @@ NeuralNetworkFileReader<TNetwork>
         w->SetRange(1.0);
         w->Initialize();
         weightset=
-          dynamic_cast<typename TNetwork::LayerInterfaceType::WeightSetType *>( w.GetPointer() );
+          dynamic_cast<WeightSetType *>( w.GetPointer() );
         }
 
       // Create a local scope
@@ -345,8 +344,8 @@ NeuralNetworkFileReader<TNetwork>
     for(int j=0; j< this->m_Network->GetNumOfWeightSets(); j++)
       {
       this->ClearFields();
-      typename Statistics::WeightSetBase<typename TNetwork::MeasurementVectorType,
-                                         typename TNetwork::TargetVectorType>::Pointer
+      typename Statistics::WeightSetBase<MeasurementVectorType,
+                                         TargetVectorType>::Pointer
       weightset =  this->m_Network->GetWeightSet(j);
       const unsigned int rows =weightset->GetNumberOfOutputNodes();
       const unsigned int cols =weightset->GetNumberOfInputNodes();
@@ -369,7 +368,7 @@ NeuralNetworkFileReader<TNetwork>
         }
       else if ( this->m_ReadWeightValuesType==BINARY) // Read Binary Weights
         {
-        vnl_matrix<typename TNetwork::MeasurementVectorType::ValueType>WeightMatrix;
+        vnl_matrix<MeasurementVectorValueType>WeightMatrix;
         WeightMatrix.set_size(rows, cols);
 
         this->m_InputFile.read(
