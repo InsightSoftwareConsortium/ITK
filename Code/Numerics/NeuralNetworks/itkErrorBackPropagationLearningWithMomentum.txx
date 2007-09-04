@@ -39,8 +39,9 @@ void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 ::Learn(LayerInterfaceType * layer, ValueType lr)
 {
-  LayerInterfaceType::WeightSetType::Pointer outputweightset;
-  LayerInterfaceType::WeightSetType::Pointer inputweightset;
+  typedef typename LayerInterfaceType::WeightSetType::Pointer WeightSetPointer;
+  WeightSetPointer outputweightset;
+  WeightSetPointer inputweightset;
   outputweightset = layer->GetOutputWeightSet();
   inputweightset = layer->GetInputWeightSet();
 
