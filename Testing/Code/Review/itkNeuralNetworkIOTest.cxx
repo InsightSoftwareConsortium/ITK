@@ -93,7 +93,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
 
   // Initialize network
   network->Initialize();
-  std::cout << "========Network after read from ==========" << XORNetFileName << std::endl;
+  std::cout << "________Network after read from __________" << XORNetFileName << std::endl;
   std::cout << network << std::endl;
 
   // Read in training data
@@ -241,9 +241,9 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
     OneHiddenLayerNet->InitializeWeights();
     OneHiddenLayerNet->SetLearningRate(0.001);
     OneHiddenLayerNet->Initialize();
-    std::cout << "===================================OneHiddenLayerNet: " << TestOneHiddenLayerNetFileName << std::endl;
+    std::cout << "___________________________________OneHiddenLayerNet: " << TestOneHiddenLayerNetFileName << std::endl;
     std::cout << OneHiddenLayerNet << std::endl;
-    std::cout << "===================================OneHiddenLayerNet: " << TestOneHiddenLayerNetFileName << std::endl;
+    std::cout << "___________________________________OneHiddenLayerNet: " << TestOneHiddenLayerNetFileName << std::endl;
       {
       typedef itk::NeuralNetworkFileWriter<OneHiddenLayerBackPropagationNeuralNetworkType> OHLWriterType;
       OHLWriterType::Pointer writerOneHiddenLayerBackPropagation=OHLWriterType::New();
@@ -277,9 +277,9 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
     TwoHiddenLayerNet->InitializeWeights();
     TwoHiddenLayerNet->SetLearningRate(0.001);
     TwoHiddenLayerNet->Initialize();
-    std::cout << "===================================TwoHiddenLayerNet: " << TestTwoHiddenLayerNetFileName << std::endl;
+    std::cout << "___________________________________TwoHiddenLayerNet: " << TestTwoHiddenLayerNetFileName << std::endl;
     std::cout << TwoHiddenLayerNet << std::endl;
-    std::cout << "===================================TwoHiddenLayerNet: " << TestTwoHiddenLayerNetFileName << std::endl;
+    std::cout << "___________________________________TwoHiddenLayerNet: " << TestTwoHiddenLayerNetFileName << std::endl;
       {
       OHLWriterType::Pointer writerTwoHiddenLayerBackPropagation=OHLWriterType::New();
       writerTwoHiddenLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);
@@ -319,9 +319,9 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
     RBFLayerNet->SetRadius(50);
 
     RBFLayerNet->Initialize();
-    std::cout << "===================================RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
+    std::cout << "___________________________________RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
     std::cout << RBFLayerNet << std::endl;
-    std::cout << "===================================RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
+    std::cout << "___________________________________RBFLayerNet: " << TestRBFLayerNetFileName << std::endl;
       {
       OHLWriterType::Pointer writerRBFLayerBackPropagation=OHLWriterType::New();
       writerRBFLayerBackPropagation->SetWriteWeightValuesType(OHLWriterType::ASCII);

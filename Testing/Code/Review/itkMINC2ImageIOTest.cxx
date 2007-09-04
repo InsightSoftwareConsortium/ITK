@@ -39,20 +39,23 @@
 #include "itkIdentityTransform.h"
 int itkMINC2ImageIOTest( int ac, char* av[] )
 {
-   if(ac < 2)
- {
+  if(ac < 2)
+    {
     std::cerr << "Usage: " << av[0] << " Input\n";
     return EXIT_FAILURE;
- }
+    }
  
   std::cerr << "This is a test for MINC2!!\n";
   
   typedef unsigned short PixelType;
 
   typedef itk::Image<PixelType, 3> myImage;
-  typedef itk::Image<float, 3> ImageType;
+  typedef itk::Image<float, 3>     ImageType;
+
   myImage::Pointer imagefixed;
+
   //myImage::Pointer imagemoving;
+
   itk::ImageFileReader<myImage>::Pointer readerfixed
                                   = itk::ImageFileReader<myImage>::New();
   // itk::ImageFileReader<myImage>::Pointer readermoving
@@ -151,4 +154,3 @@ int itkMINC2ImageIOTest( int ac, char* av[] )
   return EXIT_SUCCESS;
 
 }
-
