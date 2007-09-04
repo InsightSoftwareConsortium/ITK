@@ -48,4 +48,3 @@ MINC2ImageIOFactory::GetDescription(void) const
 }
 
 } // end namespace itk
-

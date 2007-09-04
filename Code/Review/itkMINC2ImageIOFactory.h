@@ -29,9 +29,9 @@ class ITK_EXPORT MINC2ImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef MINC2ImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MINC2ImageIOFactory       Self;
+  typedef ObjectFactoryBase         Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
@@ -46,10 +46,10 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
+    {
     MINC2ImageIOFactory::Pointer MINC2Factory = MINC2ImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(MINC2Factory);
-  }
+    }
   
 protected:
   MINC2ImageIOFactory();
