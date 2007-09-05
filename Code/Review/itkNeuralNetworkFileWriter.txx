@@ -140,8 +140,7 @@ NeuralNetworkFileWriter<TNetwork>
   //Get Layer Information for each layer
   for(int i=0; i< this->m_Network->GetNumOfLayers(); i++)
     {
-    typename Statistics::LayerBase<typename TNetwork::MeasurementVectorType, typename TNetwork::TargetVectorType>::ConstPointer
-      layerPtr = this->m_Network->GetLayer(i);
+    LayerBaseConstPointer layerPtr = this->m_Network->GetLayer(i);
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "Layer_Id", MET_INT, i);
     this->m_Fields.push_back(mF);

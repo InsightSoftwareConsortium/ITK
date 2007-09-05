@@ -82,6 +82,11 @@ public:
   typedef typename TNetwork::MeasurementVectorType   MeasurementVectorType;
   typedef typename TNetwork::TargetVectorType        TargetVectorType;
 
+  typedef Statistics::LayerBase< 
+    MeasurementVectorType, TargetVectorType >        LayerBaseType;
+  typedef typename LayerBaseType::Pointer            LayerBasePointer;
+  typedef typename LayerBaseType::ConstPointer       LayerBaseConstPointer;
+
 //   typedef typename TNetwork::Pointer                       NetworkPointer;
 //   typedef typename TNetwork::ConstPointer                  NetworkConstPointer;
 
