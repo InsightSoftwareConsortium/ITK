@@ -220,8 +220,6 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
       return 1;
       }
     std::cout << "OK" << std::endl;
-
-    testmesh->Delete( );
     }
 
   // EULER OPERATOR TESTS
@@ -1461,6 +1459,55 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     }
   std::cout << "OK" << std::endl;
 
+  deleteCenterVertex->SetInput( mesh );
+  std::cout << "     " << "Test one-ring not full (impossible)";
+  if( deleteCenterVertex->Evaluate( mesh->FindEdge( 15, 21 ) ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+
+    {
+    MeshPointer  specialmesh = MeshType::New();
+    PointType pts[4];
+    pts[ 0][0] = 0.0;  pts[ 0][1] = 0.0;  pts[ 0][2] = 0.0;
+    pts[ 1][0] = 1.0;  pts[ 1][1] = 0.0;  pts[ 1][2] = 0.0;
+    pts[ 2][0] = 0.0;  pts[ 2][1] = 1.0;  pts[ 2][2] = 0.0;
+    pts[ 3][0] = 0.0;  pts[ 3][1] = 0.0;  pts[ 3][2] = 1.0;
+    for(int i=0; i<4; i++)
+      {
+      specialmesh->SetPoint( i, pts[i] );
+      }
+    int specialCells[12] =
+    {  0,  1,  2,
+       0,  2,  3,
+       3,  1,  0,
+       1,  3,  2 };
+
+    CellType::CellAutoPointer cellpointer;
+    typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+    QEPolygonCellType *poly;
+    for(int i=0; i<4; i++)
+      {
+      poly = new QEPolygonCellType( 3 );
+      cellpointer.TakeOwnership( poly );
+      cellpointer->SetPointId( 0, specialCells[3*i] );
+      cellpointer->SetPointId( 1, specialCells[3*i+1] );
+      cellpointer->SetPointId( 2, specialCells[3*i+2] );
+      specialmesh->SetCell( i, cellpointer );
+      }
+    deleteCenterVertex->SetInput( specialmesh );
+    std::cout << "     ";
+    std::cout << "Delete a vertex of a non-collapsable mesh (impossible).";
+    if( deleteCenterVertex->Evaluate( specialmesh->FindEdge( 0, 1 ) ) )
+      {
+      std::cout << "FAILED." << std::endl;
+      return 1;
+      }
+    }
+
+  deleteCenterVertex->SetInput( mesh );
   std::cout << "     ";
   std::cout << "Delete center vertex with internal 1-ring (possible).";
   if( !deleteCenterVertex->Evaluate( mesh->FindEdge( 6, 12 ) ) )
@@ -1556,17 +1603,12 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     return 1;
     }
   std::cout << ".OK" << std::endl;
-  std::cout << "     ";
-  std::cout << "Check deleting a vertex in a tetrahedron (impossible).";
-  //do something
-  std::cout << "TODO.OK" << std::endl;
 
   std::cout << "Checking DeleteCenterVertex." << "OK" << std::endl << std::endl;
 
   std::cout << "Checking DeleteCenterVertex( CreateCenterVertex()) Invariance.";
    
-  PopulateMesh<MeshType>( mesh );
-   
+  PopulateMesh<MeshType>( mesh );   
   if( !deleteCenterVertex->Evaluate( createCenterVertex->Evaluate( mesh->FindEdge( 0, 1 ) ) ) )
     {
     std::cout << "FAILED." << std::endl;
