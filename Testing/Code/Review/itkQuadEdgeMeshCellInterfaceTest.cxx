@@ -40,11 +40,13 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef int                                   PixelType;
-typedef itk::QuadEdgeMesh<PixelType, 3>       MeshType;
-typedef MeshType::CellTraits                  CellTraits;
-typedef CellTraits::QuadEdgeType              QEType;
-typedef itk::CellInterface< int, CellTraits > CellInterfaceType;
+typedef int                                             PixelType;
+typedef itk::QuadEdgeMesh<PixelType, 3>                 MeshType;
+typedef MeshType::CellTraits                            CellTraits;
+typedef CellTraits::QuadEdgeType                        QEType;
+typedef itk::CellInterface< int, CellTraits >           CellInterfaceType;
+typedef itk::QuadEdgeMeshLineCell<CellInterfaceType>    QELineCellType;
+typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -53,8 +55,18 @@ typedef itk::CellInterface< int, CellTraits > CellInterfaceType;
 typedef MeshType::CellType              CellType;
 typedef CellType::CellAutoPointer       CellAutoPointer;
 
-// Test the cell interface
+class CustomQELineVisitor
+  {
+  public:
+  void Visit(unsigned long cellId, QELineCellType * t ) {}
+  };
+class CustomQEPolyVisitor
+  {
+  public:
+  void Visit(unsigned long cellId, QEPolygonCellType * t ) {}
+  };
 
+// Test the cell interface
 template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 {
   
@@ -358,7 +370,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
   status = TestQECellInterface("QuadEdgePolygonCell with 5 vertices",
                              new QEPolygonCellType(5));
   if (status != 0)
@@ -366,7 +377,7 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMeshLineCell<CellInterfaceType> QELineCellType;
+
   status = TestQECellInterface("QuadEdgeLineCell", new QELineCellType());
   if (status != 0)
     {
@@ -374,12 +385,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     }
 
   // test the visitor API
-
-  class CustomQELineVisitor
-    {
-    public:
-    void Visit(unsigned long cellId, QELineCellType * t ) {}
-    };
   typedef itk::CellInterfaceVisitorImplementation< 
                               PixelType, MeshType::CellTraits,
                               QELineCellType, CustomQELineVisitor
@@ -387,11 +392,6 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
   QELineVisitorInterfaceType::Pointer QELineVisitor =
                                    QELineVisitorInterfaceType::New();
 
-  class CustomQEPolyVisitor
-    {
-    public:
-    void Visit(unsigned long cellId, QEPolygonCellType * t ) {}
-    };
   typedef itk::CellInterfaceVisitorImplementation< 
                               PixelType, MeshType::CellTraits,
                               QEPolygonCellType, CustomQEPolyVisitor
