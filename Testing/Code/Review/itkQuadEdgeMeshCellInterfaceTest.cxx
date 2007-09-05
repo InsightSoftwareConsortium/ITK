@@ -43,6 +43,7 @@
 typedef int                                   PixelType;
 typedef itk::QuadEdgeMesh<PixelType, 3>       MeshType;
 typedef MeshType::CellTraits                  CellTraits;
+typedef CellTraits::QuadEdgeType              QEType;
 typedef itk::CellInterface< int, CellTraits > CellInterfaceType;
 
 /**
@@ -373,6 +374,7 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     }
 
   // test the visitor API
+
   class CustomQELineVisitor
     {
     public:
@@ -415,5 +417,30 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
 
   mesh->Accept(   multiVisitor );
 
+  // test 4 very specific QELineCell destructor cases
+  QELineCellType* test = new QELineCellType();
+  QEType* m_QuadEdgeGeom = test->GetQEGeom( );
+  delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
+  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( NULL );
+  delete test;
+
+  test = new QELineCellType();
+  m_QuadEdgeGeom = test->GetQEGeom( );
+  delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
+  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( NULL );
+  delete m_QuadEdgeGeom->GetRot( )->GetRot( );
+  m_QuadEdgeGeom->GetRot( )->SetRot( NULL );
+  delete test;
+
+  test = new QELineCellType();
+  m_QuadEdgeGeom = test->GetQEGeom( );
+  delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
+  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( NULL );
+  delete m_QuadEdgeGeom->GetRot( )->GetRot( );
+  m_QuadEdgeGeom->GetRot( )->SetRot( NULL );
+  delete m_QuadEdgeGeom->GetRot( );
+  m_QuadEdgeGeom->SetRot( NULL );
+  delete test;
+  
   return status;
 }

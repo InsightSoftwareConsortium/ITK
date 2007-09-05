@@ -609,7 +609,6 @@ template< typename TVRef, typename TFRef,
 {
   if( this->IsDisconnected() )
     {
-    itkQEDebugMacro( "Edge already disconnected." );
     return;
     } 
 
