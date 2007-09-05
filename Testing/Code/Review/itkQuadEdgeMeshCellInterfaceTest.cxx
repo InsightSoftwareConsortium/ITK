@@ -34,11 +34,14 @@
 #include "itkQuadrilateralCell.h"
 #include "itkPolygonCell.h"
 
+#include "itkCellInterfaceVisitor.h"
+
 /**
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::QuadEdgeMesh<int, 3>             MeshType;
+typedef int                                   PixelType;
+typedef itk::QuadEdgeMesh<PixelType, 3>       MeshType;
 typedef MeshType::CellTraits                  CellTraits;
 typedef itk::CellInterface< int, CellTraits > CellInterfaceType;
 
@@ -53,6 +56,7 @@ typedef CellType::CellAutoPointer       CellAutoPointer;
 
 template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 {
+  
   CellAutoPointer cell(aCell,true);
   const TCell * cell2 = aCell;
 
@@ -367,6 +371,49 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
     {
     return EXIT_FAILURE;
     }
+
+  // test the visitor API
+  class CustomQELineVisitor
+    {
+    public:
+    void Visit(unsigned long cellId, QELineCellType * t ) {}
+    };
+  typedef itk::CellInterfaceVisitorImplementation< 
+                              PixelType, MeshType::CellTraits,
+                              QELineCellType, CustomQELineVisitor
+                                                 > QELineVisitorInterfaceType;
+  QELineVisitorInterfaceType::Pointer QELineVisitor =
+                                   QELineVisitorInterfaceType::New();
+
+  class CustomQEPolyVisitor
+    {
+    public:
+    void Visit(unsigned long cellId, QEPolygonCellType * t ) {}
+    };
+  typedef itk::CellInterfaceVisitorImplementation< 
+                              PixelType, MeshType::CellTraits,
+                              QEPolygonCellType, CustomQEPolyVisitor
+                                                 > QEPolyVisitorInterfaceType;
+  QEPolyVisitorInterfaceType::Pointer QEPolyVisitor =
+                                   QEPolyVisitorInterfaceType::New();
+
+
+  typedef CellType::MultiVisitor CellMultiVisitorType;
+  CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New(); 
+  multiVisitor->AddVisitor( QELineVisitor );
+  multiVisitor->AddVisitor( QEPolyVisitor );
+
+  MeshType::Pointer mesh = MeshType::New( );
+  MeshType::PointType pts[3];
+  pts[0][0] = 0; pts[0][1] = 0; pts[0][2] = 0;
+  pts[1][0] = 0; pts[1][1] = 0; pts[1][2] = 1;
+  pts[2][0] = 0; pts[2][1] = 1; pts[2][2] = 0;
+  mesh->SetPoint( 0, pts[0] );
+  mesh->SetPoint( 1, pts[1] );
+  mesh->SetPoint( 2, pts[2] );
+  mesh->AddFaceTriangle( 0, 1, 2 );
+
+  mesh->Accept(   multiVisitor );
 
   return status;
 }
