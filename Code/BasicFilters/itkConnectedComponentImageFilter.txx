@@ -101,7 +101,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   long pixelcount = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
   long xsize = this->GetOutput()->GetRequestedRegion().GetSize()[0];
   long linecount = pixelcount/xsize;
-  ProgressReporter progress(this, 0, linecount/2);
+  ProgressReporter progress(this, 0, linecount * 2);
 
   SetupLineOffsets(LineOffsets);
 
@@ -145,7 +145,14 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       }
     if (ThisLine.size() != 0)
       {
-      // There are some runs on this line, so insert it into the map
+      //
+      // There are some runs on this line, so insert it into the map.
+      // This conditional insertion "breaks" the full progress report - because
+      // of it, the report will not be 1.0 at the end of the execution if some
+      // lines are empty - but with it, the computation time decrease from 
+      // 0.059922 s to 0.0452819 s on the test image
+      // http://voxel.jouy.inra.fr/darcs/contrib-itk/watershed/images/ESCells-markers.tif
+      //
       LineMap[LineIdx] = ThisLine;
       }
     progress.CompletedPixel();
