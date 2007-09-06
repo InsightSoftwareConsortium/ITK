@@ -54,6 +54,8 @@ void ImageIOBase::Reset(const bool)
     }
   m_NumberOfDimensions = 0;
   m_UseCompression = false;
+  m_UseStreamedReading = false;
+  m_UseStreamedWriting = false;
 }
 
 ImageIOBase::~ImageIOBase()

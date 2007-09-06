@@ -169,6 +169,17 @@ public:
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression,bool);
   itkGetConstReferenceMacro(UseCompression,bool);
+  itkBooleanMacro(UseCompression);
+
+  /** Set/Get a boolean to use streaming while reading or not. */
+  itkSetMacro(UseStreamedReading,bool);
+  itkGetConstReferenceMacro(UseStreamedReading,bool);
+  itkBooleanMacro(UseStreamedReading);
+
+  /** Set/Get a boolean to use use streaming while writing or not. */
+  itkSetMacro(UseStreamedWriting,bool);
+  itkGetConstReferenceMacro(UseStreamedWriting,bool);
+  itkBooleanMacro(UseStreamedWriting);
 
   /** Convenience method returns the IOComponentType as a string. This can be
    * used for writing output files. */
@@ -337,6 +348,12 @@ protected:
 
   /** Should we compress the data? */
   bool m_UseCompression;
+
+  /** Should we use streaming for reading */
+  bool m_UseStreamedReading;
+  
+  /** Should we use streaming for writing */
+  bool m_UseStreamedWriting;
 
   /** The region to read or write. The region contains information about the
    * data within the region to read or write. */
