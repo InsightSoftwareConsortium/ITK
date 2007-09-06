@@ -139,6 +139,11 @@ public:
    * cannot read a portion of an image), so the ImageFileReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  
+  /** Set the stream On or Off */
+  itkSetMacro(UseStreaming,bool);
+  itkGetConstReferenceMacro(UseStreaming,bool);
+  itkBooleanMacro(UseStreaming);
 
 protected:
   ImageFileReader();
@@ -163,6 +168,8 @@ protected:
                                                // ImageIO is user specified 
 
   std::string m_FileName; // The file to be read
+
+  bool m_UseStreaming;
   
 private:
   ImageFileReader(const Self&); //purposely not implemented

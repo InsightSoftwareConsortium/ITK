@@ -38,6 +38,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   m_ImageIO = 0;
   m_FileName = "";
   m_UserSpecifiedImageIO = false;
+  m_UseStreaming = false;
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
@@ -87,7 +88,6 @@ void
 ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::GenerateOutputInformation(void)
 {
-
   typename TOutputImage::Pointer output = this->GetOutput();
 
   itkDebugMacro(<<"Reading file for GenerateOutputInformation()" << m_FileName);
@@ -286,6 +286,9 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
   
   ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion );
+
+  // Tell the IO if we should use streaming while reading
+  m_ImageIO->SetUseStreamedReading(m_UseStreaming);
 
   ImageIORegion ioStreamableRegion  = 
     m_ImageIO->GenerateStreamableReadRegionFromRequestedRegion( ioRequestedRegion );
