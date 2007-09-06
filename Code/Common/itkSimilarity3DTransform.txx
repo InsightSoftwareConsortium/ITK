@@ -19,6 +19,7 @@
 
 #include "itkSimilarity3DTransform.h"
 #include "vnl/vnl_math.h"
+#include "vnl/vnl_det.h"
 
 
 namespace itk
@@ -71,23 +72,29 @@ void
 Similarity3DTransform<TScalarType>
 ::SetMatrix( const MatrixType & matrix )
 {
-  double s = vnl_math_sqr( matrix[0][0] ) + 
-             vnl_math_sqr( matrix[0][1] );
+  //
+  // Since the matrix should be an orthogonal matrix
+  // multiplied by the scale factor, then its determinant
+  // must be equal to the cube of the scale factor.
+  //
+  double s = vnl_math_cuberoot( vnl_det( matrix.GetVnlMatrix() ) );
 
+  //
+  // A negative scale is not acceptable
+  // It will imply a reflection of the coordinate system.
+  //
   if( s <= 0.0 )
     {
-    itkExceptionMacro( << "Attempting to set a bad matrix" );
+    itkExceptionMacro( << "Attempting to set a matrix with a negative trace" );
     }
 
-  s = vcl_sqrt( s );
-
-  MatrixType test = matrix;
-  test /= s;
+  MatrixType testForOrthogonal = matrix;
+  testForOrthogonal /= s;
 
   const double tolerance = 1e-10;
-  if( !this->MatrixIsOrthogonal( test, tolerance ) ) 
+  if( !this->MatrixIsOrthogonal( testForOrthogonal, tolerance ) ) 
     {    
-    itkExceptionMacro( << "Attempting to set a bad matrix" );
+    itkExceptionMacro( << "Attempting to set a non-orthogonal matrix (after removing scaling)" );
     }
 
   typedef MatrixOffsetTransformBase<TScalarType, 3> Baseclass;
@@ -279,15 +286,14 @@ void
 Similarity3DTransform<TScalarType>
 ::ComputeMatrixParameters( void )
 {
-  MatrixType test = this->GetMatrix();
+  MatrixType matrix = this->GetMatrix();
 
-  m_Scale = vnl_math_sqr( test[0][0] ) + 
-            vnl_math_sqr( test[0][1] );
-  m_Scale = vcl_sqrt( m_Scale );
-  test /= m_Scale;
+  m_Scale = vnl_math_cuberoot( vnl_det( matrix.GetVnlMatrix() )  ) ;
+  
+  matrix /= m_Scale;
 
   VersorType v;
-  v.Set( test );
+  v.Set( matrix );
   this->SetVarVersor( v );
 
 }
