@@ -214,6 +214,12 @@ ADD_TEST(itkMetaImageStreamingIOTest ${IO_TESTS}
   itkMetaImageIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd)
+ADD_TEST(itkMetaImageStreamingIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
+  itkMetaImageIOTest
+            ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha
+            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha)
 ADD_TEST(itkGiplImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
