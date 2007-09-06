@@ -55,7 +55,6 @@ public:
   /** Types & values defined in superclass. */
   itkStaticConstMacro( PointDimension, unsigned int,
                        VPointDimension );
-  itkTypeMacro( QuadEdgeMeshPoint, Point );
 
   typedef typename Superclass::ValueType     ValueType;
   typedef typename Superclass::CoordRepType  CoordRepType;
@@ -76,6 +75,7 @@ public:
 
 public:
   QuadEdgeMeshPoint();
+  virtual ~QuadEdgeMeshPoint() {};
   QuadEdgeMeshPoint( const Self & r );
   QuadEdgeMeshPoint( const ValueType r[VPointDimension] ):Superclass( r )
     {
