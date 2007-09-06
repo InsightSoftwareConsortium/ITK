@@ -908,7 +908,25 @@ void MetaImageIO::ReadImageInformation()
 
 void MetaImageIO::Read(void* buffer)
 { 
-  if(!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
+  // Pass the IO region to the MetaImage library
+  int nDims = this->GetNumberOfDimensions();
+
+  if(m_UseStreamedReading)
+    {
+    int* indexMin = new int[nDims];
+    int* indexMax = new int[nDims];
+    for(unsigned int i=0;i<nDims;i++)
+      {
+      indexMin[i] = m_IORegion.GetIndex()[i];
+      indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] -1;
+      }
+
+    m_MetaImage.ReadROI(indexMin, indexMax, m_FileName.c_str(), true, buffer);
+ 
+    delete [] indexMin;
+    delete [] indexMax;
+    }
+  else if(!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -1375,20 +1393,27 @@ MetaImageIO
 /** Given a requested region, determine what could be the region that we can
  * read from the file. This is called the streamable region, which will be
  * smaller than the LargestPossibleRegion and greater or equal to the 
-RequestedRegion */
+ * RequestedRegion */
 ImageIORegion 
 MetaImageIO
-::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & itkNotUsed( requestedRegion ) ) const
+::GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion  ) const
 {
   //
   // The default implementations determines that the streamable region is
   // equal to the largest possible region of the image.
   //
   ImageIORegion streamableRegion(this->m_NumberOfDimensions);
-  for( unsigned int i=0; i < this->m_NumberOfDimensions; i++ )
+  if(!m_UseStreamedReading)
+    { 
+    for( unsigned int i=0; i < this->m_NumberOfDimensions; i++ )
+      {
+      streamableRegion.SetSize( i, this->m_Dimensions[i] );
+      streamableRegion.SetIndex( i, 0 );
+      }
+    }
+  else
     {
-    streamableRegion.SetSize( i, this->m_Dimensions[i] );
-    streamableRegion.SetIndex( i, 0 );
+    streamableRegion = requestedRegion;
     }
 
   return streamableRegion;

@@ -105,6 +105,19 @@ public:
   virtual ImageIORegion 
   GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const;
 
+  /** Determine if the ImageIO can stream reading from this
+   *  file. Default is false. */
+  virtual bool CanStreamRead()
+    {
+    return true;
+    }
+
+  /** Determine if the ImageIO can stream writing to this
+      file. Default is false. */
+  virtual bool CanStreamWrite()
+    {
+    return false;
+    }
 
 protected:
   MetaImageIO();
