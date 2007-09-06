@@ -43,6 +43,7 @@ void RegisterTests()
   REGISTER_TEST(itkJPEGImageIOTest);
   REGISTER_TEST(itkMeshSpatialObjectIOTest);
   REGISTER_TEST(itkMetaImageIOTest);
+  REGISTER_TEST(itkMetaImageStreamingIOTest);
   REGISTER_TEST(itkNrrdImageIOTest);
   REGISTER_TEST(itkNrrdImageReadWriteTest);
   REGISTER_TEST(itkNrrdRGBImageReadWriteTest);
