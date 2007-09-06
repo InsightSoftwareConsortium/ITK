@@ -761,13 +761,29 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::LightWeightDeleteEdge( EdgeCellType* edgeCell )
 {
  
+  if( !edgeCell )
+    {
+    return;
+    }
+
   QEPrimal* e = edgeCell->GetQEGeom( );
  
   /////////////////////////////////////////////////////////////////
   // First make sure the points are not pointing to the edge we are
   // trying to delete.
   const PointIdentifier& orgPid  = e->GetOrigin();
+  if( orgPid == e->m_NoPoint )
+    {
+    // org not set
+    return;
+    }
   const PointIdentifier& destPid = e->GetDestination();
+  if( destPid == e->m_NoPoint )
+    {
+    // dest not set
+    return;
+    }
+
   // Check if the Origin point's edge ring entry is the edge we are
   // trying to delete. When this is the case shift the Origin edge entry
   // to another edge and when no other edge is available leave it
@@ -962,9 +978,15 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdge( const PointIdentifier& pid0, const PointIdentifier& pid1 ) const
 {
-  QEPrimal * initialEdge = this->FindEdge( pid0 );
+  
   QEPrimal * edgeFound = static_cast< QEPrimal * >(NULL);
+  
+  if( pid0 == edgeFound->m_NoPoint || pid1 == edgeFound->m_NoPoint )
+    {
+    return( edgeFound );
+    }
 
+  QEPrimal * initialEdge = this->FindEdge( pid0 );
   if( initialEdge )
     {
     typename QEPrimal::IteratorGeom it = initialEdge->BeginGeomOnext();
