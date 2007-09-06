@@ -540,7 +540,7 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     d_stream->avail_out = buffersize;
 
     // How many byte from compressed streamed should we read
-    unsigned long inputBufferSize = (int)buffersize/compressionRate;
+    unsigned long inputBufferSize = (unsigned long)buffersize/compressionRate;
     if(inputBufferSize == 0)
       {
       inputBufferSize = 1;
