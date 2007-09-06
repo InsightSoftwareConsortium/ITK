@@ -36,6 +36,14 @@ int itkQuadEdgeMeshTest1( int , char* [] )
   typedef itk::QuadEdgeMeshLineCell< CellType >     QELineCellType;
 
   MeshType::Pointer  mesh = MeshType::New();
+  
+  // test ComputeNumberOfPoints( ) failsafe
+    {
+    if( mesh->ComputeNumberOfPoints( ) )
+      {
+      return EXIT_FAILURE;
+      }
+    } 
 
   MeshType::PointType pts[ 5 ];
 
@@ -158,6 +166,41 @@ int itkQuadEdgeMeshTest1( int , char* [] )
     mesh->LightWeightDeleteEdge( (QEType *)NULL );
     mesh->LightWeightDeleteEdge( qeLineCell );
     mesh->LightWeightDeleteEdge( qeLineCell->GetQEGeom( ) );
+    }
+
+  // test delete face failsafe
+    {
+    mesh->DeleteFace( 0 ); // should fail, face 0 is by construction always an edge
+    mesh->DeleteFace( 1299877 ); // should fail, Id too high
+    }
+
+  // Test GetEdge failsafe
+    {
+    if( !mesh->GetEdge( 0 ) )
+      {
+      std::cout << "Should be able to get this edge"
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    if( mesh->GetEdge( 129987 ) )
+      {
+      std::cout << "Should not be able to get an edge"
+                << " with a non existing ID."
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  // test AddFace failsafe
+    {
+    if( mesh->AddFaceTriangle( 0, 1, 129987 ) )
+      {
+      std::cout << "Should not be able to add a face"
+                << " with a non existing ID."
+                << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   std::cout << "Test passed" << std::endl;
