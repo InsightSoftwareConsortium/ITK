@@ -2498,7 +2498,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         }
       
       readLine *= m_ElementNumberOfChannels*elementSize;
-      unsigned long gc = 0;
+      long gc = 0;
 
       bool done = false;
       while(!done)
@@ -2591,7 +2591,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         }
       
       readLine *= m_ElementNumberOfChannels*elementSize;
-      unsigned long gc = 0;
+      long gc = 0;
 
       bool done = false;
       while(!done)
