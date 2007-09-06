@@ -20,6 +20,7 @@
 
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
+#include "itkQuadEdgeMeshLineCell.h"
 
 int itkQuadEdgeMeshTest1( int , char* [] )
 {
@@ -28,7 +29,11 @@ int itkQuadEdgeMeshTest1( int , char* [] )
   typedef double PixelType;
   const unsigned int Dimension = 3;
   typedef itk::QuadEdgeMesh< PixelType, Dimension > MeshType;
+  typedef MeshType::CellTraits                      CellTraits;
+  typedef CellTraits::QuadEdgeType                  QEType;
   typedef MeshType::CellType                        CellType;
+  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
+  typedef itk::QuadEdgeMeshLineCell< CellType >     QELineCellType;
 
   MeshType::Pointer  mesh = MeshType::New();
 
@@ -77,7 +82,7 @@ int itkQuadEdgeMeshTest1( int , char* [] )
     return EXIT_FAILURE;
     }
 
-  // Test AddEdge
+  // Test AddEdge failsafe
     {
     if( mesh->AddEdge( 1, 1 ) )
       {
@@ -102,7 +107,6 @@ int itkQuadEdgeMeshTest1( int , char* [] )
        1,  3,  2 };
 
     CellType::CellAutoPointer cellpointer;
-    typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
     QEPolygonCellType *poly;
     for(int i=0; i<4; i++)
       {
@@ -131,6 +135,29 @@ int itkQuadEdgeMeshTest1( int , char* [] )
                 << std::endl;
       return EXIT_FAILURE;
       }
+    }
+
+  // test DeletePoint failsafes
+    {
+    mesh->DeletePoint( 1 ); // that will not delete the point
+    // check it.
+
+    }
+
+  // test DeleteEdge failsafe
+    {
+    // deleteEdge( pid, pid )
+    mesh->DeleteEdge( 1, 4 ); // that will not delete the edge
+    // check it.
+ 
+    // deleteEdge( QEPrimal * )
+    // check with a disconnected edge
+
+    // LightWeightDeleteEdge
+    QELineCellType * qeLineCell = new QELineCellType;
+    mesh->LightWeightDeleteEdge( (QEType *)NULL );
+    mesh->LightWeightDeleteEdge( qeLineCell );
+    mesh->LightWeightDeleteEdge( qeLineCell->GetQEGeom( ) );
     }
 
   std::cout << "Test passed" << std::endl;
