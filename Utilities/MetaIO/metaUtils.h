@@ -54,12 +54,26 @@
 #include <string>
 #include <typeinfo>
 
-
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
 
 extern int META_DEBUG;
+
+// Types used for storing the compression table
+typedef struct MET_CompressionOffset
+  {
+  unsigned long uncompressedOffset;
+  unsigned long compressedOffset;
+  } MET_CompressionOffsetType;
+
+typedef METAIO_STL::vector<MET_CompressionOffsetType> MET_CompressionOffsetListType;
+
+typedef struct MET_CompressionTable
+  {
+  MET_CompressionOffsetListType offsetList;
+  z_stream* compressedStream;
+  } MET_CompressionTableType;
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -266,6 +280,16 @@ bool MET_PerformUncompression(const unsigned char * sourceCompressed,
                               int sourceCompressedSize,
                               unsigned char * uncompressedData,
                               int uncompressedDataSize);
+
+// Uncompress a stream given an uncompressedSeekPosition
+METAIO_EXPORT 
+long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
+                          unsigned long uncompressedSeekPosition,
+                          unsigned char * uncompressedData,
+                          long uncompressedDataSize,
+                          long compressedDataSize,
+                          MET_CompressionTableType * compressionTable);
+
 
 /////////////////////////////////////////////////////////
 // FILES NAMES

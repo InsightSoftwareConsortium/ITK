@@ -463,6 +463,150 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
     }
   }
 
+// Uncompress a stream given an uncompressedSeekPosition
+METAIO_EXPORT 
+long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
+                          unsigned long uncompressedSeekPosition,
+                          unsigned char * uncompressedData,
+                          long uncompressedDataSize,
+                          long compressedDataSize,
+                          MET_CompressionTableType * compressionTable
+                          )
+{
+  // Keep the currentpos of the string
+  long int currentPos = stream->tellg();
+  if(currentPos == -1)
+    {
+    std::cout << "MET_UncompressStream: ERROR Stream is not valid!" << std::endl;
+    return -1;
+    }
+
+  long read = 0;
+
+  //std::cout << "Wanted Seek = " << uncompressedSeekPosition << std::endl;
+  //std::cout << "Wanted size = " << uncompressedDataSize << std::endl;
+
+  // Size of the output buffer
+  unsigned long buffersize = 1000;
+
+  // We try to guess the compression rate 
+  // Note that sometime the size of the input buffer
+  // has to be bigger than the output buffer (bad compression)
+  // We assume that they are equal
+  double compressionRate = 1;
+
+  long zseekpos = 0;
+  long seekpos = 0;
+  bool firstchunk = true;
+
+  // Allocate the stream if necessary
+  z_stream* d_stream = compressionTable->compressedStream;
+  if(compressionTable->compressedStream == NULL)
+    {
+    d_stream = new z_stream;
+    d_stream->zalloc = (alloc_func)0;
+    d_stream->zfree = (free_func)0;
+    d_stream->opaque = (voidpf)0;
+    inflateInit(d_stream);
+    compressionTable->compressedStream = d_stream;
+    }
+
+  // Try to find the current seek position in the compressed
+  // and uncompressed stream from the compressionTable
+  // The table is stored in order
+  MET_CompressionOffsetListType::const_iterator it = compressionTable->offsetList.begin();
+  while(it != compressionTable->offsetList.end())
+    {
+    if((*it).uncompressedOffset > uncompressedSeekPosition)
+      {
+      break;
+      }
+    zseekpos = (*it).compressedOffset;
+    seekpos = (*it).uncompressedOffset;
+    it++;
+    }
+
+  while(seekpos < (int)uncompressedSeekPosition+uncompressedDataSize)
+    {
+    // If we are reading the current buffer we read everything
+    if(seekpos >= (long)uncompressedSeekPosition)
+      {
+      buffersize = uncompressedSeekPosition+uncompressedDataSize-seekpos;
+      firstchunk = false;
+      }
+
+    unsigned char* outdata = new unsigned char[buffersize];
+
+    d_stream->avail_out = buffersize;
+
+    // How many byte from compressed streamed should we read
+    unsigned long inputBufferSize = (int)buffersize/compressionRate;
+    if(inputBufferSize == 0)
+      {
+      inputBufferSize = 1;
+      }
+    if((long)(currentPos+zseekpos+inputBufferSize) > compressedDataSize)
+      {
+      inputBufferSize = compressedDataSize-zseekpos;
+      }
+
+    unsigned char* inputBuffer = new unsigned char[inputBufferSize];
+    stream->seekg(currentPos+zseekpos,METAIO_STREAM::ios::beg);
+    stream->read((char *)inputBuffer, inputBufferSize);
+
+    d_stream->next_in  = inputBuffer;
+    d_stream->avail_in = stream->gcount();
+    d_stream->next_out = outdata; 
+
+    int err = inflate(d_stream, Z_NO_FLUSH);
+
+    unsigned long previousSeekpos = seekpos;
+
+    seekpos += buffersize-d_stream->avail_out;
+    zseekpos += stream->gcount()-d_stream->avail_in;
+
+    unsigned long outb1 = d_stream->avail_out;
+    unsigned long inb1 = d_stream->avail_in;
+
+    // If go further than the uncompressedSeekPosition we start writing the stream
+    if(seekpos >= (long)uncompressedSeekPosition)
+      {
+      if(firstchunk)
+        {
+        outdata += uncompressedSeekPosition-previousSeekpos;
+        unsigned int writeSize = seekpos-uncompressedSeekPosition;
+
+        memcpy(uncompressedData,outdata,writeSize);
+
+        uncompressedData += writeSize;
+        read += writeSize;
+
+        firstchunk = false;
+        }
+      else // read everything
+        {
+        unsigned int writeSize = seekpos-previousSeekpos;
+        memcpy(uncompressedData,outdata,writeSize);
+        uncompressedData += writeSize;
+        read += writeSize;
+        }
+      }
+    delete [] outdata;
+    delete [] inputBuffer;
+    }
+
+  // Save the state of the compression for later use
+  MET_CompressionOffsetType offset;
+  offset.compressedOffset = zseekpos; // compressed
+  offset.uncompressedOffset = seekpos; // uncompressed
+  compressionTable->offsetList.push_back(offset);
+
+  // Seek to the current position
+  stream->seekg(currentPos,METAIO_STREAM::ios::beg);
+  return read;
+}
+
+
 //
 //
 //
