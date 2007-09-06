@@ -70,7 +70,7 @@ int itkRegularSphereQuadEdgeMeshSourceTest(int, char* [] )
 
   for(unsigned int i=0; i<myMesh->GetNumberOfPoints(); i++) 
     {
-    bool dummy = myMesh->GetPoint(i, &pt);
+    myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;
     }
 
