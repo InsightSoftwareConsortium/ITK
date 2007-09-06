@@ -879,12 +879,17 @@ void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::DeleteFace( FaceRefType faceToDelete )
 {
-  PolygonCellType* cellToDelete = dynamic_cast< PolygonCellType* >
-                     ( this->GetCells()->GetElement( faceToDelete ) );
-
-  if( !cellToDelete )
+  if( !this->GetCells()->IndexExists( faceToDelete ) )
     {
     itkDebugMacro( "No such face in container" );
+    return;
+    }
+
+  PolygonCellType* cellToDelete = dynamic_cast< PolygonCellType* >
+                     ( this->GetCells()->GetElement( faceToDelete ) );
+  if( !cellToDelete )
+    {
+    itkDebugMacro( "This Id does not correspond to a face (should be an edge)" );
     return;
     }
 
@@ -949,12 +954,20 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge( const CellIdentifier& eid ) const
 {
-  EdgeCellType* e = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( eid ) );
   QEPrimal* result = (QEPrimal*)0;
+   
+  if( !this->GetCells()->IndexExists( eid ) )
+    {
+    itkDebugMacro( "No such edge in container" );
+    return( result );
+    }
+
+  EdgeCellType* e = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( eid ) );
   if ( e != (EdgeCellType*)0 )
     {
     result = e->GetQEGeom( );
     }
+
   return( result );
 }
 
@@ -978,7 +991,6 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdge( const PointIdentifier& pid0, const PointIdentifier& pid1 ) const
 {
-  
   QEPrimal * edgeFound = static_cast< QEPrimal * >(NULL);
   
   if( pid0 == edgeFound->m_NoPoint || pid1 == edgeFound->m_NoPoint )
