@@ -2234,12 +2234,12 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
 
     // Streaming related. We need to update some of the fields
     int m_Quantity = 1;
-    for(int i=0; i<m_NDims; i++)
+    int i, j;
+    for(i=0; i<m_NDims; i++)
       {
       m_Quantity *= (_indexMax[i] - _indexMin[i] + 1);
       }
 
-    int i, j;
     bool usePath;
     char pathName[255];
     char fName[255];
@@ -2464,6 +2464,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
     }
 
   unsigned long dataPos = _fstream->tellg();
+  int i;
 
   // If compressed we inflate
   if(m_BinaryData && m_CompressedData)
@@ -2480,7 +2481,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
       unsigned char* data = static_cast<unsigned char*>(_data);
       // Initialize the index
       int* currentIndex = new int[m_NDims];
-      for(int i=0;i<m_NDims;i++)
+      for(i=0;i<m_NDims;i++)
         {
         currentIndex[i] = _indexMin[i];
         }
@@ -2504,7 +2505,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         {
         // Seek to the right position
         unsigned long seekpos = 0;
-        for(int i=0;i<m_NDims;i++)
+        for(i=0;i<m_NDims;i++)
           {
           seekpos += m_SubQuantity[i]*currentIndex[i];
           }
@@ -2525,7 +2526,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         currentIndex[movingDirection]++;
 
         // Check if we are still in the region
-        for(int i=1;i<m_NDims;i++)
+        for(i=1;i<m_NDims;i++)
           {
           if(currentIndex[i]>_indexMax[i])
             {
@@ -2573,7 +2574,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
       char* data = static_cast<char*>(_data);
       // Initialize the index
       int* currentIndex = new int[m_NDims];
-      for(int i=0;i<m_NDims;i++)
+      for(i=0;i<m_NDims;i++)
         {
         currentIndex[i] = _indexMin[i];
         }
@@ -2597,7 +2598,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         {
         // Seek to the right position
         unsigned long seekpos = 0;
-        for(int i=0;i<m_NDims;i++)
+        for(i=0;i<m_NDims;i++)
           {
           seekpos += m_SubQuantity[i]*currentIndex[i];
           }
@@ -2617,7 +2618,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         currentIndex[movingDirection]++;
 
         // Check if we are still in the region
-        for(int i=1;i<m_NDims;i++)
+        for(i=1;i<m_NDims;i++)
           {
           if(currentIndex[i]>_indexMax[i])
             {
