@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -56,15 +57,16 @@ typedef MeshType::CellType              CellType;
 typedef CellType::CellAutoPointer       CellAutoPointer;
 
 class CustomQELineVisitor
-  {
-  public:
+{
+public:
   void Visit(unsigned long cellId, QELineCellType * t ) {}
-  };
+};
+
 class CustomQEPolyVisitor
-  {
-  public:
+{
+public:
   void Visit(unsigned long cellId, QEPolygonCellType * t ) {}
-  };
+};
 
 // Test the cell interface
 template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
