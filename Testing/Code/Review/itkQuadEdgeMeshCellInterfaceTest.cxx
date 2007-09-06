@@ -61,7 +61,6 @@ class CustomQELineVisitor
 public:
   void Visit(unsigned long cellId, QELineCellType * t ) {}
 };
-
 class CustomQEPolyVisitor
 {
 public:
