@@ -202,12 +202,11 @@ int main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Data associated with cells is inserted in the Mesh by using
-  //  the \code{SetCellData()} method.  It requires the user to provide an
+  //  Data associated with cells is inserted in the Mesh by using the
+  //  \code{SetCellData()} method.  It requires the user to provide an
   //  identifier and the value to be inserted. The identifier should match one
-  //  of the inserted cells. In this simple example, the square of the cell
-  //  identifier is used as cell data. Note the use of \code{static\_cast} to
-  //  \code{PixelType} in the assignment.
+  //  of the inserted cells. In this example, we simply store a CellDataType
+  //  dummy variable named \code{value}.
   //
   //  Software Guide : EndLatex 
 
