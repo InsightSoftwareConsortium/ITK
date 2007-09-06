@@ -241,12 +241,25 @@ class METAIO_EXPORT MetaImage : public MetaObject
                       bool _readElements=true,
                       void * _buffer=NULL);
 
+    virtual bool ReadROI(int * _indexMin, int * _indexMax,
+                         const char *_headerName=NULL,
+                         bool _readElements=true,
+                         void * _buffer=NULL);
+
+
     virtual bool CanReadStream(METAIO_STREAM::ifstream * _stream) const;
 
     virtual bool ReadStream(int _nDims,
                             METAIO_STREAM::ifstream * _stream, 
                             bool _readElements=true,
                             void * _buffer=NULL);
+ 
+    virtual bool ReadROIStream(int * _indexMin, int * _indexMax,
+                               int _nDims,
+                               METAIO_STREAM::ifstream * _stream, 
+                               bool _readElements=true,
+                               void * _buffer=NULL);
+
 
     virtual bool Write(const char *_headName=NULL,
                        const char *_dataName=NULL,
@@ -260,6 +273,9 @@ class METAIO_EXPORT MetaImage : public MetaObject
 
     virtual bool Append(const char *_headName=NULL);
 
+
+    typedef METAIO_STL::pair<long,long> CompressionOffsetType;
+
   ////
   //
   // PROTECTED
@@ -268,6 +284,9 @@ class METAIO_EXPORT MetaImage : public MetaObject
   protected:
 
     MET_ImageModalityEnumType m_Modality;
+
+                       
+    MET_CompressionTableType*  m_CompressionTable;
 
     int                m_DimSize[10];
     int                m_SubQuantity[10];
@@ -309,6 +328,12 @@ class METAIO_EXPORT MetaImage : public MetaObject
     bool  M_ReadElements(METAIO_STREAM::ifstream * _fstream, 
                          void * _data,
                          int _dataQuantity);
+
+    bool  M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, 
+                            void * _data,
+                            int _dataQuantity,
+                            int * _indexMin,
+                            int* _indexMax);
 
     bool  M_WriteElements(METAIO_STREAM::ofstream * _fstream,
                           const void * _data,
