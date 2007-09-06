@@ -19,6 +19,7 @@
 #endif
 
 #include "itkQuadEdgeMesh.h"
+#include "itkQuadEdgeMeshPolygonCell.h"
 
 int itkQuadEdgeMeshTest1( int , char* [] )
 {
@@ -27,22 +28,25 @@ int itkQuadEdgeMeshTest1( int , char* [] )
   typedef double PixelType;
   const unsigned int Dimension = 3;
   typedef itk::QuadEdgeMesh< PixelType, Dimension > MeshType;
+  typedef MeshType::CellType                        CellType;
 
   MeshType::Pointer  mesh = MeshType::New();
 
-  MeshType::PointType pts[ 4 ];
+  MeshType::PointType pts[ 5 ];
 
   pts[ 0 ][ 0 ] = -1.0; pts[ 0 ][ 1 ] = -1.0; pts[ 0 ][ 2 ] = 0.0;
   pts[ 1 ][ 0 ] =  1.0; pts[ 1 ][ 1 ] = -1.0; pts[ 1 ][ 2 ] = 0.0;
   pts[ 2 ][ 0 ] =  1.0; pts[ 2 ][ 1 ] =  1.0; pts[ 2 ][ 2 ] = 0.0;
   pts[ 3 ][ 0 ] = -1.0; pts[ 3 ][ 1 ] =  1.0; pts[ 3 ][ 2 ] = 0.0;
+  pts[ 4 ][ 0 ] =  0.0; pts[ 4 ][ 1 ] =  0.0; pts[ 4 ][ 2 ] = 1.0;
 
   mesh->SetPoint( 0, pts[ 0 ] );
   mesh->SetPoint( 1, pts[ 1 ] );
   mesh->SetPoint( 2, pts[ 2 ] );
   mesh->SetPoint( 3, pts[ 3 ] );
+  mesh->SetPoint( 4, pts[ 4 ] );
 
-  if( mesh->GetNumberOfPoints() != 4 )
+  if( mesh->GetNumberOfPoints() != 5 )
     {
     std::cout << "Not all points added." << std::endl;
     return EXIT_FAILURE;
@@ -67,10 +71,66 @@ int itkQuadEdgeMeshTest1( int , char* [] )
     nPoints++;
     }
 
-  if( nPoints != 4 )
+  if( nPoints != 5 )
     {
     std::cout << "Iteration didn't visit all points." << std::endl;
     return EXIT_FAILURE;
+    }
+
+  // Test AddEdge
+    {
+    if( mesh->AddEdge( 1, 1 ) )
+      {
+      std::cout << "Should not be able to define an edge"
+                << " with twice the same Point identifier."
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    if( mesh->AddEdge( 1, 6 ) )
+      {
+      std::cout << "Should not be able to define an edge"
+                << " with a non existing point Id."
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+    
+    // create a tetahedra and one isolated point: id = 4
+    int specialCells[12] =
+    {  0,  1,  2,
+       0,  2,  3,
+       3,  1,  0,
+       1,  3,  2 };
+
+    CellType::CellAutoPointer cellpointer;
+    typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+    QEPolygonCellType *poly;
+    for(int i=0; i<4; i++)
+      {
+      poly = new QEPolygonCellType( 3 );
+      cellpointer.TakeOwnership( poly );
+      cellpointer->SetPointId( 0, specialCells[3*i] );
+      cellpointer->SetPointId( 1, specialCells[3*i+1] );
+      cellpointer->SetPointId( 2, specialCells[3*i+2] );
+      mesh->SetCell( i, cellpointer );
+      }
+
+    // test origin internal
+    if( mesh->AddEdge( 4, 1 ) )
+      {
+      std::cout << "Should not be able to define an edge"
+                << " with an internal origin."
+                << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    // test destination internal
+    if( mesh->AddEdge( 1, 4 ) )
+      {
+      std::cout << "Should not be able to define an edge"
+                << " with an internal destination."
+                << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   std::cout << "Test passed" << std::endl;
