@@ -915,7 +915,7 @@ void MetaImageIO::Read(void* buffer)
     {
     int* indexMin = new int[nDims];
     int* indexMax = new int[nDims];
-    for(unsigned int i=0;i<nDims;i++)
+    for(int i=0;i<nDims;i++)
       {
       indexMin[i] = m_IORegion.GetIndex()[i];
       indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] -1;

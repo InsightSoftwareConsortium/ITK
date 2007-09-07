@@ -558,15 +558,12 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     d_stream->avail_in = stream->gcount();
     d_stream->next_out = outdata; 
 
-    int err = inflate(d_stream, Z_NO_FLUSH);
+    inflate(d_stream, Z_NO_FLUSH);
 
     unsigned long previousSeekpos = seekpos;
 
     seekpos += buffersize-d_stream->avail_out;
     zseekpos += stream->gcount()-d_stream->avail_in;
-
-    unsigned long outb1 = d_stream->avail_out;
-    unsigned long inb1 = d_stream->avail_in;
 
     // If go further than the uncompressedSeekPosition we start writing the stream
     if(seekpos >= (long)uncompressedSeekPosition)
