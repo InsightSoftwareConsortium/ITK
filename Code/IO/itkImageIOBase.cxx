@@ -899,7 +899,22 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
     {
     os << indent << "UseCompression: Off" << std::endl;
     }
-
+  if (m_UseStreamedReading)
+    {
+    os << indent << "UseStreamedReading: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "UseStreamedReading: Off" << std::endl;
+    }
+  if (m_UseStreamedWriting)
+    {
+    os << indent << "UseStreamedWriting: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "UseStreamedWriting: Off" << std::endl;
+    }
 }
 
 } //namespace itk
