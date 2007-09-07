@@ -139,7 +139,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile ";
     std::cerr << "[checkerBoardBefore] [checkerBoardAfter]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   
   // Software Guide : BeginLatex
@@ -445,7 +445,7 @@ int main( int argc, char *argv[] )
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
@@ -690,6 +690,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

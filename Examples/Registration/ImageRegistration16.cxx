@@ -97,7 +97,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile ";
     std::cerr << " [initialTx] [initialTy]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   
   const    unsigned int    Dimension = 2;
@@ -267,7 +267,7 @@ int main( int argc, char *argv[] )
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
 
 
@@ -322,6 +322,6 @@ int main( int argc, char *argv[] )
 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

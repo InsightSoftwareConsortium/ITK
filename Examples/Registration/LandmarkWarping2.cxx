@@ -57,7 +57,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " landmarksFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const     unsigned int   Dimension = 2;

@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
     {
     std::cout << "Parameter file name missing" << std::endl;
     std::cout << "Usage: " << argv[0] << " param.file" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     } 
   else 
     { 
@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
   if ( !registrationFilter->ReadConfigFile( 
            (registrationFilter->GetConfigFileName()).c_str() ) ) 
     { 
-    return -1; 
+    return EXIT_FAILURE; 
     }
  
   // Read the image files
@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
     {
     std::cerr << "Exception caught during reference file reading " << std::endl;
     std::cerr << e << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   try
     {
@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
     {
     std::cerr << "Exception caught during target file reading " << std::endl;
     std::cerr << e << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   
 
@@ -367,7 +367,7 @@ int main(int argc, char *argv[])
   //  ../Data/FiniteElementRegistrationParameters1.txt
   //
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

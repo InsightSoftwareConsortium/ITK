@@ -33,7 +33,7 @@ int main( int argc, char * argv[] )
     { 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // For now, this program runs on 3D deformation fields
@@ -74,6 +74,6 @@ int main( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

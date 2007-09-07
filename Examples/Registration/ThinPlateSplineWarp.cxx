@@ -52,7 +52,7 @@ int main( int argc, char * argv[] )
     std::cerr << " landmarksFile inputImage ";
     std::cerr << "DeformedImage " << std::endl;
     std::cerr << "deformationField" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const     unsigned int   ImageDimension = 3;

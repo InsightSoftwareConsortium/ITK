@@ -52,7 +52,7 @@ int main( int argc, char * argv[] )
     std::cerr << " coefficientsFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
     std::cerr << "[deformationField]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   const     unsigned int   ImageDimension = 2;

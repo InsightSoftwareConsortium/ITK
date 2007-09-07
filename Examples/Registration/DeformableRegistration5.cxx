@@ -97,7 +97,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;
     std::cerr << " [outputDeformationFieldFile] " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   // Software Guide : BeginLatex
@@ -514,7 +514,7 @@ int main( int argc, char *argv[] )
   catch( itk::ExceptionObject & excp )
     {
     std::cerr << excp << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
 
 
@@ -522,6 +522,6 @@ int main( int argc, char *argv[] )
 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

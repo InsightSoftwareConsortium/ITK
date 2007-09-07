@@ -403,7 +403,7 @@ int main( int argc, char * argv [] )
   std::cout << "Parameters = " << transformParameters << std::endl;
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 

@@ -150,7 +150,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [differenceAfterRegistration] ";
     std::cerr << " [sliceBeforeRegistration] ";
     std::cerr << " [sliceAfterRegistration] "<< std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   
   const    unsigned int    Dimension = 3;
@@ -381,7 +381,7 @@ int main( int argc, char *argv[] )
     { 
     std::cerr << "ExceptionObject caught !" << std::endl; 
     std::cerr << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
   
   OptimizerType::ParametersType finalParameters = 
@@ -730,6 +730,6 @@ int main( int argc, char *argv[] )
 
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

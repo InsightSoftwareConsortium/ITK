@@ -91,7 +91,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile " << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   typedef short PixelType;
@@ -209,6 +209,6 @@ int main( int argc, char *argv[] )
       }
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 

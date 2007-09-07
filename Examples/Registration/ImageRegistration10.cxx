@@ -96,7 +96,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile [differenceImage]" << std::endl;
     std::cerr << " [initialTx] [initialTy]" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
@@ -358,7 +358,7 @@ int main( int argc, char *argv[] )
     { 
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
-    return -1;
+    return EXIT_FAILURE;
     } 
 
   // In a real application, you may attempt to recover from the error in the
@@ -505,7 +505,7 @@ int main( int argc, char *argv[] )
     }
 
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 // SoftwareGuide : BeginLatex
