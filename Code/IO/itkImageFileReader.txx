@@ -65,6 +65,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   os << indent << "UserSpecifiedImageIO flag: " << m_UserSpecifiedImageIO << "\n";
   os << indent << "m_FileName: " << m_FileName << "\n";
+  os << indent << "m_UseStreaming: " << m_UseStreaming << "\n";
 }
 
 
