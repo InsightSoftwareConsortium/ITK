@@ -1127,9 +1127,9 @@ MetaImageIO
       dirz = this->GetDirection(2);
       for(unsigned i = 0; i < 3; i++)
         {
-        dir[i][0] = dirx[0];
-        dir[i][1] = diry[0];
-        dir[i][2] = dirz[0];
+        dir[i][0] = dirx[i];
+        dir[i][1] = diry[i];
+        dir[i][2] = dirz[i];
         }
       coordOrient = itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
