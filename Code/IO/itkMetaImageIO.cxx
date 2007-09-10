@@ -58,7 +58,6 @@ void MetaImageIO::SetDataFileName( const char* filename )
   m_MetaImage.ElementDataFileName( filename );
 }
 
- 
 // This method will only test if the header looks like a
 // MetaImage.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation
@@ -73,7 +72,9 @@ bool MetaImageIO::CanReadFile( const char* filename )
     return false;
     }
 
-  bool extensionFound = false;
+  return m_MetaImage.CanRead(filename);
+
+  /*bool extensionFound = false;
   std::string::size_type mhaPos = fname.rfind(".mha");
   if ((mhaPos != std::string::npos)
       && (mhaPos == fname.length() - 4))
@@ -161,7 +162,7 @@ bool MetaImageIO::CanReadFile( const char* filename )
     }
 
   inputStream.close();
-  return false;
+  return false;*/
 
 }
   
