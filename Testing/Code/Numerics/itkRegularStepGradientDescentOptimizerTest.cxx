@@ -261,11 +261,31 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  //
+  // Test the Exception if the GradientMagnitudeTolerance is set to a negative value
+  //
+  itkOptimizer->SetGradientMagnitudeTolerance( -1.0 );
+  bool expectedExceptionReceived = false;
+  try 
+    {
+    itkOptimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    expectedExceptionReceived = true;
+    std::cout << "Expected Exception " << std::endl;
+    std::cout << excp << std::endl;
+    }
+
+  if( !expectedExceptionReceived )
+    {
+    std::cerr << "Failure to produce an exception when";
+    std::cerr << "the GradientMagnitudeTolerance is negative " << std::endl;
+    std::cerr << "TEST FAILED !" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "TEST PASSED !" << std::endl;
   return EXIT_SUCCESS;
 
-
 }
-
-
-
