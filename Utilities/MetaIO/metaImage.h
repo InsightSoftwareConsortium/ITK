@@ -343,6 +343,10 @@ class METAIO_EXPORT MetaImage : public MetaObject
                              const void * _data,
                              int _dataQuantity);
 
+    bool M_FileExists(const char* filename) const;
+
+    std::string M_GetTagValue(const std::string & buffer, const char* tag) const;
+
   };
 
 #if (METAIO_USE_NAMESPACE)

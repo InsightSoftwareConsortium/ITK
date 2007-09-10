@@ -26,6 +26,10 @@
 #include <mem.h>
 #endif
 
+#if defined(_WIN32)
+# include <io.h>
+#endif
+
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
@@ -974,6 +978,74 @@ ConvertIntensityDataToElementData(MET_ValueEnumType _elementType)
   return ConvertElementDataTo(_elementType, toMin, toMax);
   }
 
+// return true if the file exists
+bool MetaImage::M_FileExists(const char* filename) const
+{
+#ifdef _MSC_VER
+# define access _access
+#endif
+#ifndef R_OK
+# define R_OK 04
+#endif
+  if ( access(filename, R_OK) != 0 )
+    {
+    return false;
+    }
+  else
+    {
+    return true;
+    }
+}
+
+// Return the value of a tag
+std::string MetaImage::M_GetTagValue(const std::string & buffer, const char* tag) const
+{
+  long int stringPos = buffer.find(tag);
+  if( stringPos == METAIO_STL::string::npos )
+    {
+    return "";
+    }
+
+  long int pos2 = buffer.find("=",stringPos);
+  if(pos2 == METAIO_STL::string::npos )
+    {
+    pos2 = buffer.find(":",stringPos);
+    }
+
+  if(pos2 == METAIO_STL::string::npos )
+    {
+    return "";
+    }
+
+  long int posend = buffer.find('\r',pos2);
+  if(posend == METAIO_STL::string::npos )
+    {
+    posend = buffer.find('\n',pos2);
+    }
+
+  // Get the element data filename
+  std::string value = "";
+  bool firstspace = true;
+  unsigned int index = pos2+1;
+  while(index<buffer.size() 
+        && buffer[index] != '\r'
+        && buffer[index] != '\n'
+        )
+    {
+    if(buffer[index] != ' ')
+      {
+      firstspace = false;
+      }
+    if(!firstspace)
+      {
+      value += buffer[index];
+      }
+    index++;
+    }
+
+  return value;
+}
+
 //
 //
 //
@@ -1008,6 +1080,9 @@ CanRead(const char *_headerName) const
     return false;
     }
 
+  int i=0;
+  int j=0;
+
   // Now check the file content
   METAIO_STREAM::ifstream inputStream;
 
@@ -1023,39 +1098,174 @@ CanRead(const char *_headerName) const
     return false;
     }
 
-  char key[8000];
+  bool usePath;
+  char pathName[255];
+  usePath = MET_GetFilePath(_headerName, pathName);
 
-  inputStream >> key;
+  char* buf = new char[8000];
+  inputStream.read(buf,8000);
+  unsigned long fileSize = inputStream.gcount();
+  buf[fileSize] = 0; 
+  std::string header(buf);
+  header.resize(fileSize);
+  delete [] buf;
+  inputStream.close();
 
-  if( inputStream.eof() )
+  stringPos = header.find("NDims");
+  if( stringPos == METAIO_STL::string::npos )
     {
-    inputStream.close();
     return false;
     }
 
-  stringPos = fname.find("NDims");
-  if( stringPos != METAIO_STL::string::npos )
-    {
-    inputStream.close();
-    return true;
-    }
+  std::string elementDataFileName = M_GetTagValue(header,"ElementDataFile");
 
-  stringPos = fname.find("ObjectType");
-  if( stringPos != METAIO_STL::string::npos )
-    {
-    inputStream.close();
-    return true;
-    }
+  char* fName = new char[255];
 
-  stringPos = fname.find("Comment");
-  if( stringPos != METAIO_STL::string::npos )
-    {
-    inputStream.close();
-    return true;
-    }
+  if(!strcmp("Local", elementDataFileName.c_str()) || 
+       !strcmp("LOCAL", elementDataFileName.c_str()) ||
+       !strcmp("local", elementDataFileName.c_str()))
+      {
+      }
+  else if(!strncmp("LIST", elementDataFileName.c_str(),4))
+      {
+      /*int fileImageDim = m_NDims - 1;
+      int nWrds;
+      char **wrds;
+      MET_StringToWordArray(elementDataFileName.c_str(), &nWrds, &wrds);
+      if(nWrds > 1)
+        {
+        fileImageDim = (int)atof(wrds[1]);
+        }
+      for(i=0; i<nWrds; i++)
+        {
+        delete [] wrds[i++];
+        }
+      if ( (fileImageDim == 0) || (fileImageDim > m_NDims) )
+        {
+        // if optional file dimension size is not give or is larger than
+        // overall dimension then default to a size of m_NDims - 1.
+        fileImageDim = m_NDims-1;
+        }
+      char s[1024];
+      METAIO_STREAM::ifstream* readStreamTemp = new METAIO_STREAM::ifstream;
+      int elementSize;
+      MET_SizeOfType(m_ElementType, &elementSize);
+      elementSize *= m_ElementNumberOfChannels;
+      int totalFiles = 1;
+      for (i = m_NDims; i > fileImageDim; i--)
+        {
+        totalFiles *= m_DimSize[i-1];
+        }
+      for(i=0; i< totalFiles && !_stream->eof(); i++)
+        {
+        _stream->getline(s, 1024);
+        if(!_stream->eof())
+          {
+          j = strlen(s)-1;
+          while(j>0 && (isspace(s[j]) || !isprint(s[j])))
+            {
+            s[j--] = '\0';
+            }
+          if(usePath)
+            {
+            sprintf(fName, "%s%s", pathName, s);
+            }
+          else
+            {
+            strcpy(fName, s);
+            }
+
+          if(!this->M_FileExists(fName))
+            {
+            std::cout << fName << " cannot be opened. Make sure the file exists.";
+            return false;
+            }
+          }
+        }*/
+      }
+    else if(strstr(elementDataFileName.c_str(), "%"))
+      {
+      // Need the dimsize and the element spacing
+      std::string nDimsString = M_GetTagValue(header,"NDims");
+      std::string dimSizeString = M_GetTagValue(header,"DimSize");
+
+      int nDims = atoi(nDimsString.c_str());
+
+      int* dimSize = new int[nDims];
+      char** pntVal = NULL;
+      MET_StringToWordArray(dimSizeString.c_str(), &nDims, &pntVal); 
+      
+      for(i=0;i<nDims;i++)
+        {
+        dimSize[i] = atoi(pntVal[i]);
+        }
+
+      int nWrds;
+      char **wrds;
+      int minV = 1;
+      int maxV = dimSize[nDims-1];
+      int stepV = 1;
+      char s[255];
+      MET_StringToWordArray(elementDataFileName.c_str(), &nWrds, &wrds);
+      if(nWrds >= 2)
+        {
+        minV = (int)atof(wrds[1]);
+        maxV = minV + dimSize[nDims-1] - 1;
+        }
+      if(nWrds >= 3)
+        {
+        maxV = (int)atof(wrds[2]);
+        stepV = (maxV-minV)/(dimSize[nDims-1]);
+        }
+      if(nWrds >= 4)
+        {
+        stepV = (int)atof(wrds[3]);
+        }
+      int cnt = 0;
+      for(i=minV; i<=maxV; i += stepV)
+        {
+        sprintf(s, wrds[0], i);
+        if(usePath)
+          {
+          sprintf(fName, "%s%s", pathName, s);
+          }
+        else
+          {
+          strcpy(fName, s);
+          }
+
+        if(!M_FileExists(fName))
+          {
+          std::cout << fName << " cannot be opened. Make sure the file exists.\n";
+          delete [] fName;
+          delete [] dimSize;
+          return false;
+          }
+        }
+      delete [] dimSize;
+      }
+    else
+      {
+      if(usePath)
+        {
+        sprintf(fName, "%s%s", pathName, elementDataFileName.c_str());
+        }
+      else
+        {
+        strcpy(fName, elementDataFileName.c_str());
+        }
+      if(!M_FileExists(fName))
+        {
+        std::cout << fName << " cannot be opened. Make sure the file exists.\n";
+        delete [] fName;
+        return false;
+        }
+      }
 
   inputStream.close();
-  return false;
+  delete [] fName;
+
+  return true;
   }
 
 bool MetaImage::
