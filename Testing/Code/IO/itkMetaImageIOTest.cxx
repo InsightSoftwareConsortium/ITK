@@ -27,7 +27,7 @@ int itkMetaImageIOTest(int ac, char* av[])
 {
   if(ac < 3)
     {
-    std::cerr << "Usage: " << av[0] << " Input Output\n";
+    std::cerr << "Usage: " << av[0] << " Input Output [ShouldFail]\n";
     return EXIT_FAILURE;
     }
   
@@ -49,6 +49,10 @@ int itkMetaImageIOTest(int ac, char* av[])
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
     std::cerr << e.GetLocation() << std::endl;
+    if(ac == 3) // should fail
+      {
+      return EXIT_SUCCESS;
+      }
     return EXIT_FAILURE;
     }
   
@@ -60,10 +64,10 @@ int itkMetaImageIOTest(int ac, char* av[])
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( reader->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput( reader->GetOutput() );
+  writer->SetFileName( av[2] );
+  writer->Update();
 
   return EXIT_SUCCESS;
 }

@@ -208,6 +208,10 @@ ADD_TEST(itkMetaImageIOTest ${IO_TESTS}
   itkMetaImageIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd)
+ADD_TEST(itkMetaImageIOShouldFailTest ${IO_TESTS} 
+         itkMetaImageIOTest
+         ${ITK_DATA_ROOT}/Input/MetaImageError.mhd
+         1)
 ADD_TEST(itkMetaImageStreamingIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
@@ -520,8 +524,6 @@ ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
     ${IO_TESTS} itkArchetypeSeriesFileNamesTest
     ${ITK_DATA_ROOT}/Input/Archetype/image.001
     ${ITK_DATA_ROOT}/Input/Archetype/image.010)
-
-
 
 ADD_EXECUTABLE(itkGDCMImageIOTest itkGDCMImageIOTest.cxx)
 TARGET_LINK_LIBRARIES(itkGDCMImageIOTest ITKIO)
