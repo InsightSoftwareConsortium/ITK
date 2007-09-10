@@ -140,13 +140,13 @@ public:
     {
       OptimizerPointer optimizer = 
         dynamic_cast< OptimizerPointer >( object );
-      if( typeid( event ) == typeid( itk::FunctionEvaluationIterationEvent() ) )
+      if( m_FunctionEvent.CheckEvent( &event ) )
         {
         std::cout << m_IterationNumber++ << "   ";
         std::cout << optimizer->GetCachedValue() << "   ";
         std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
         }
-      else if( typeid( event ) == typeid( itk::GradientEvaluationIterationEvent() ) )
+      else if( m_GradientEvent.CheckEvent( &event ) )
         {
         std::cout << "Gradient " << optimizer->GetCachedDerivative() << "   ";
         }
@@ -154,6 +154,9 @@ public:
     }
 private:
   unsigned long m_IterationNumber;
+
+  itk::FunctionEvaluationIterationEvent m_FunctionEvent;
+  itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
 
 int itkConjugateGradientOptimizerTest(int, char* [] ) 
