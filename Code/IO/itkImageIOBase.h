@@ -135,7 +135,7 @@ public:
    * region within the image. Make sure that the IORegion lies within
    * the image. */
   itkSetMacro(IORegion, ImageIORegion);
-  itkGetMacro(IORegion, ImageIORegion);
+  itkGetConstMacro(IORegion, ImageIORegion);
 
   /** Set/Get the type of the pixel. The PixelTypes provides context
    * to the IO mechanisms for data conversions.  PixelTypes can be
