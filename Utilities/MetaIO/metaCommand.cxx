@@ -47,7 +47,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-08-30 19:49:24 $ cvs command */
+/** Extract the date from the $Date: 2007-09-11 21:26:38 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -70,7 +70,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
 }
 
-/** Extract the version from the $Revision: 1.35 $ cvs command */
+/** Extract the version from the $Revision: 1.36 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -121,6 +121,7 @@ SetOption(METAIO_STL::string name,
               << " You should use the SetOptionLongTag(optionName,longTagName)"
               << " if you want to use a longer tag. The longtag will be"
               << " refered as --LongTag and the short tag as -ShortTag."
+              << " Replace -" << shortTag << " by --" << shortTag 
               << std::endl;
     }
 
@@ -166,6 +167,7 @@ SetOption(METAIO_STL::string name,
               << " You should use the SetOptionLongTag(optionName,longTagName)"
               << " if you want to use a longer tag. The longtag will be "
               << " refered as --LongTag and the short tag as -ShortTag "
+              << " Replace -" << shortTag << " by --" << shortTag 
               << std::endl;
     }
 
