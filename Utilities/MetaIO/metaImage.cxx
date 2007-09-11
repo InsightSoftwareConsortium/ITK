@@ -30,6 +30,18 @@
 # include <io.h>
 #endif
 
+// support for access
+#ifndef _WIN32
+#include <limits.h>
+#include <sys/param.h>
+#include <sys/wait.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <pwd.h>
+#include <termios.h>
+#include <signal.h>    /* sigprocmask */
+#endif
+
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
