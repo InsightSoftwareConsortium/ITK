@@ -244,7 +244,9 @@ class METAIO_EXPORT MetaImage : public MetaObject
     virtual bool ReadROI(int * _indexMin, int * _indexMax,
                          const char *_headerName=NULL,
                          bool _readElements=true,
-                         void * _buffer=NULL);
+                         void * _buffer=NULL,
+                         unsigned int subSamplingFactor=1
+                         );
 
 
     virtual bool CanReadStream(METAIO_STREAM::ifstream * _stream) const;
@@ -258,7 +260,8 @@ class METAIO_EXPORT MetaImage : public MetaObject
                                int _nDims,
                                METAIO_STREAM::ifstream * _stream, 
                                bool _readElements=true,
-                               void * _buffer=NULL);
+                               void * _buffer=NULL,
+                               unsigned int subSamplingFactor=1);
 
 
     virtual bool Write(const char *_headName=NULL,
@@ -333,7 +336,9 @@ class METAIO_EXPORT MetaImage : public MetaObject
                             void * _data,
                             int _dataQuantity,
                             int * _indexMin,
-                            int* _indexMax);
+                            int* _indexMax,
+                            unsigned int subSamplingFactor=1
+                            );
 
     bool  M_WriteElements(METAIO_STREAM::ofstream * _fstream,
                           const void * _data,

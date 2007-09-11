@@ -526,6 +526,8 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     it++;
     }
 
+  //std::cout << "Using = " << seekpos << " : " << zseekpos << std::endl;
+   
   while(seekpos < (int)uncompressedSeekPosition+uncompressedDataSize)
     {
     // If we are reading the current buffer we read everything
@@ -565,6 +567,8 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     seekpos += buffersize-d_stream->avail_out;
     zseekpos += stream->gcount()-d_stream->avail_in;
 
+    //std::cout << seekpos << " : " << zseekpos << std::endl;
+
     // If go further than the uncompressedSeekPosition we start writing the stream
     if(seekpos >= (long)uncompressedSeekPosition)
       {
@@ -572,8 +576,16 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
         {
         outdata += uncompressedSeekPosition-previousSeekpos;
         unsigned int writeSize = seekpos-uncompressedSeekPosition;
-
+ 
+        if((int)writeSize > uncompressedDataSize)
+          {
+          writeSize = uncompressedDataSize;
+          }
+        
         memcpy(uncompressedData,outdata,writeSize);
+
+        // Restore the position of the buffer
+        outdata -= uncompressedSeekPosition-previousSeekpos;
 
         uncompressedData += writeSize;
         read += writeSize;
@@ -584,6 +596,10 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
         {
         unsigned int writeSize = seekpos-previousSeekpos;
         memcpy(uncompressedData,outdata,writeSize);
+        if((int)writeSize > uncompressedDataSize)
+          {
+          writeSize = uncompressedDataSize;
+          }
         uncompressedData += writeSize;
         read += writeSize;
         }
@@ -591,6 +607,8 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     delete [] outdata;
     delete [] inputBuffer;
     }
+
+  //system("PAUSE");
 
   // Save the state of the compression for later use
   MET_CompressionOffsetType offset;
