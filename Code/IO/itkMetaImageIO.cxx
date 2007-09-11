@@ -32,6 +32,7 @@ namespace itk
 MetaImageIO::MetaImageIO()
 {
   m_FileType = Binary;
+  m_SubSamplingFactor = 1;
   if(MET_SystemByteOrderMSB())
     {
     m_ByteOrder = BigEndian;
@@ -63,7 +64,6 @@ void MetaImageIO::SetDataFileName( const char* filename )
 // a StateMachine could provide a better implementation
 bool MetaImageIO::CanReadFile( const char* filename ) 
 { 
-
   // First check the extension
   std::string fname = filename;
   if(  fname == "" )
@@ -441,8 +441,8 @@ void MetaImageIO::ReadImageInformation()
   int i;
   for(i=0; i<(int)m_NumberOfDimensions; i++)
     {
-    this->SetDimensions(i, m_MetaImage.DimSize(i));
-    this->SetSpacing(i, m_MetaImage.ElementSpacing(i));
+    this->SetDimensions(i,m_MetaImage.DimSize(i)/m_SubSamplingFactor);
+    this->SetSpacing(i, m_MetaImage.ElementSpacing(i)*m_SubSamplingFactor);
     this->SetOrigin(i, m_MetaImage.Position(i));
     } 
 
@@ -922,7 +922,9 @@ void MetaImageIO::Read(void* buffer)
       indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] -1;
       }
 
-    m_MetaImage.ReadROI(indexMin, indexMax, m_FileName.c_str(), true, buffer);
+    m_MetaImage.ReadROI(indexMin, indexMax, 
+                        m_FileName.c_str(), true, buffer,
+                        m_SubSamplingFactor);
  
     delete [] indexMin;
     delete [] indexMax;

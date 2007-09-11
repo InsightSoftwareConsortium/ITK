@@ -119,6 +119,12 @@ public:
     return false;
     }
 
+  /** Determing the subsampling factor in case
+   *  we want a coarse version of the image/
+   * \Warning this is only used when streaming is on. */
+  itkSetMacro(SubSamplingFactor,unsigned int);
+  itkGetMacro(SubSamplingFactor,unsigned int);
+
 protected:
   MetaImageIO();
   ~MetaImageIO();
@@ -130,6 +136,8 @@ private:
 
   MetaImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  unsigned int m_SubSamplingFactor;
   
 };
 
