@@ -73,6 +73,8 @@ typedef struct MET_CompressionTable
   {
   MET_CompressionOffsetListType offsetList;
   z_stream* compressedStream;
+  char*     buffer;
+  unsigned long bufferSize;
   } MET_CompressionTableType;
 
 /////////////////////////////////////////////////////////

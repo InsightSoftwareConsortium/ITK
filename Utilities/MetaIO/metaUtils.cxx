@@ -509,21 +509,54 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     d_stream->opaque = (voidpf)0;
     inflateInit(d_stream);
     compressionTable->compressedStream = d_stream;
+    compressionTable->buffer = new char[1001];
+    compressionTable->bufferSize = 0;
     }
+
 
   // Try to find the current seek position in the compressed
   // and uncompressed stream from the compressionTable
   // The table is stored in order
-  MET_CompressionOffsetListType::const_iterator it = compressionTable->offsetList.begin();
-  while(it != compressionTable->offsetList.end())
+  if(compressionTable->offsetList.size()>0)
     {
-    if((*it).uncompressedOffset > uncompressedSeekPosition)
+    MET_CompressionOffsetListType::const_iterator it = compressionTable->offsetList.end();
+    it--;
+   
+    if(uncompressedSeekPosition < (*it).uncompressedOffset)
       {
-      break;
+      if((*it).uncompressedOffset-uncompressedSeekPosition > compressionTable->bufferSize)
+        {
+        std::cout << "ERROR: Cannot go backward by more than the buffer size (1000)"
+                  << std::endl;
+        return 0;
+        }
+
+      char* buffer = compressionTable->buffer;
+      unsigned long start = uncompressedSeekPosition-((*it).uncompressedOffset-compressionTable->bufferSize);
+      buffer += start;
+
+      unsigned long readSize = uncompressedDataSize;
+      unsigned long sizeInBuffer = compressionTable->bufferSize-start;
+      if(readSize>sizeInBuffer)
+        {
+        memcpy(uncompressedData,buffer,sizeInBuffer);
+        uncompressedData += sizeInBuffer;
+        zseekpos = (*it).compressedOffset;
+        seekpos = (*it).uncompressedOffset;
+        uncompressedSeekPosition += sizeInBuffer;
+        uncompressedDataSize -= sizeInBuffer;
+        }
+      else // read from buffer and return
+        {
+        memcpy(uncompressedData,buffer,readSize);
+        return uncompressedDataSize;
+        }
       }
-    zseekpos = (*it).compressedOffset;
-    seekpos = (*it).uncompressedOffset;
-    it++;
+    else
+      {
+      zseekpos = (*it).compressedOffset;
+      seekpos = (*it).uncompressedOffset;
+      }
     }
 
   //std::cout << "Using = " << seekpos << " : " << zseekpos << std::endl;
@@ -567,7 +600,19 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     seekpos += buffersize-d_stream->avail_out;
     zseekpos += stream->gcount()-d_stream->avail_in;
 
-    //std::cout << seekpos << " : " << zseekpos << std::endl;
+    // Store the last buffer into memory in case we need it
+    // in the near future.
+    long previousBufferSize = seekpos-previousSeekpos;
+    if(previousBufferSize>1000)
+      {
+      // WARNING: We probably need to offset outdata at some point...
+      previousBufferSize = 1000;
+      }
+
+    memcpy(compressionTable->buffer,outdata,previousBufferSize);
+    compressionTable->bufferSize = previousBufferSize;
+
+    //std::cout << "Current pos = " << seekpos << " : " << zseekpos << std::endl;
 
     // If go further than the uncompressedSeekPosition we start writing the stream
     if(seekpos >= (long)uncompressedSeekPosition)
@@ -607,8 +652,6 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     delete [] outdata;
     delete [] inputBuffer;
     }
-
-  //system("PAUSE");
 
   // Save the state of the compression for later use
   MET_CompressionOffsetType offset;

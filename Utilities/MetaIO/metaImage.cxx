@@ -49,6 +49,7 @@ MetaImage()
 
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = NULL;
+  m_CompressionTable->buffer = NULL;
   Clear();
   }
 
@@ -64,6 +65,7 @@ MetaImage(const char *_headerName)
 
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = NULL;
+  m_CompressionTable->buffer = NULL;
   Clear();
 
   Read(_headerName);
@@ -81,6 +83,7 @@ MetaImage(MetaImage *_im)
 
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = NULL;
+  m_CompressionTable->buffer = NULL;
   Clear();
 
   InitializeEssential(_im->NDims(), 
@@ -109,6 +112,7 @@ MetaImage(int _nDims,
     }
 
   m_CompressionTable = new MET_CompressionTableType;
+  m_CompressionTable->buffer = NULL;
   m_CompressionTable->compressedStream = NULL;
   Clear();
 
@@ -148,6 +152,7 @@ MetaImage(int _x, int _y,
 
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = NULL;
+  m_CompressionTable->buffer = NULL;
   Clear();
 
   int ds[2];
@@ -198,6 +203,7 @@ MetaImage(int _x, int _y, int _z,
 
   m_CompressionTable = new MET_CompressionTableType;
   m_CompressionTable->compressedStream = NULL;
+  m_CompressionTable->buffer = NULL;
   Clear();
 
   int ds[3];
@@ -417,6 +423,8 @@ void MetaImage::Clear(void)
       {
       inflateEnd(m_CompressionTable->compressedStream);
       delete m_CompressionTable->compressedStream;
+      delete [] m_CompressionTable->buffer;
+      m_CompressionTable->buffer = NULL;
       }
     m_CompressionTable->compressedStream = NULL;
     m_CompressionTable->offsetList.clear();
@@ -449,6 +457,7 @@ InitializeEssential(int _nDims,
   if(!m_CompressionTable)
     {
     m_CompressionTable = new MET_CompressionTableType;
+    m_CompressionTable->buffer = NULL;
     m_CompressionTable->compressedStream = NULL;
     }
   m_SubQuantity[0] = 1;
@@ -1773,6 +1782,8 @@ M_Destroy(void)
     {
     inflateEnd(m_CompressionTable->compressedStream);
     delete m_CompressionTable->compressedStream;
+    delete [] m_CompressionTable->buffer;
+    m_CompressionTable->buffer = NULL;
     }
   delete m_CompressionTable;
   m_CompressionTable = NULL;
@@ -2727,7 +2738,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         unsigned long seekpos = 0;
         for(i=0;i<m_NDims;i++)
           {
-          seekpos += m_SubQuantity[i]*currentIndex[i];
+          seekpos += m_SubQuantity[i]*m_ElementNumberOfChannels*elementSize*currentIndex[i];
           }
 
         if(subSamplingFactor > 1)
@@ -2738,11 +2749,15 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
                                                readLine,m_CompressedDataSize,
                                                m_CompressionTable);
 
-          for(unsigned int p=0;p<readLine;p+=subSamplingFactor)
+          for(unsigned int p=0;p<readLine;
+              p+=(subSamplingFactor*m_ElementNumberOfChannels*elementSize))
             {
-            *data = subdata[p];
-            gc++;
-            data++; 
+            for(int s=0;s<m_ElementNumberOfChannels*elementSize;s++)
+              {
+              *data = subdata[p+s];
+              gc++;
+              data++;
+              }
             }
           delete [] subdata;
           }
@@ -2750,13 +2765,12 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
           {
           long int read = MET_UncompressStream(_fstream, seekpos, data, 
                                                readLine,m_CompressedDataSize,
-                                               m_CompressionTable);
-
+                                               m_CompressionTable);          
           data += readLine;
           gc += read;
           }
 
-        if(gc == _dataQuantity)
+        if(gc == _dataQuantity*m_ElementNumberOfChannels*elementSize)
           {
           break;
           }
@@ -2770,7 +2784,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
         currentIndex[movingDirection]+=subSamplingFactor;;
 
         // Check if we are still in the region
-        for(i=1;i<m_NDims;i++)
+        for(i=1;i<=m_NDims;i++)
           {
           if(currentIndex[i]>_indexMax[i])
             {
@@ -2834,7 +2848,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
       unsigned long seekpos = 0;
       for(i=0;i<m_NDims;i++)
         {
-        seekpos += m_SubQuantity[i]*currentIndex[i];
+        seekpos += m_SubQuantity[i]*m_ElementNumberOfChannels*elementSize*currentIndex[i];
         }
       _fstream->seekg(dataPos+seekpos, METAIO_STREAM::ios::beg);
 
@@ -2858,11 +2872,14 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
           {
           char* subdata = new char[readLine];
           _fstream->read(subdata, readLine);
-          for(unsigned int p=0;p<readLine;p+=subSamplingFactor)
+          for(unsigned int p=0;p<readLine;p+=(subSamplingFactor*m_ElementNumberOfChannels*elementSize))
             {
-            *data = subdata[p];
-            gc++;
-            data++; 
+            for(int s=0;s<m_ElementNumberOfChannels*elementSize;s++)
+              {
+              *data = subdata[p+s];
+              gc++;
+              data++;
+              }
             }
           delete [] subdata;
           }
@@ -2901,7 +2918,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
       currentIndex[movingDirection]+=subSamplingFactor;
 
       // Check if we are still in the region
-      for(i=1;i<m_NDims;i++)
+      for(i=1;i<=m_NDims;i++)
         {
         if(currentIndex[i]>_indexMax[i])
           {
