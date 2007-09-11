@@ -51,6 +51,7 @@ void MetaImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   m_MetaImage.PrintInfo();
+  os << indent << "SubSamplingFactor: " << m_SubSamplingFactor << "\n";
 }
 
 
