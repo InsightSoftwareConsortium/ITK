@@ -1102,7 +1102,7 @@ CanRead(const char *_headerName) const
   char pathName[255];
   usePath = MET_GetFilePath(_headerName, pathName);
 
-  char* buf = new char[8000];
+  char* buf = new char[8001];
   inputStream.read(buf,8000);
   unsigned long fileSize = inputStream.gcount();
   buf[fileSize] = 0; 
@@ -2815,7 +2815,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
 
     // Optimize the size of the buffer to read depending on the
     // region shape
-    unsigned int readLine = _indexMax[0] - _indexMin[0] + 1;
+    unsigned long readLine = _indexMax[0] - _indexMin[0] + 1;
     unsigned int movingDirection = 1;
     while(subSamplingFactor == 1 && _indexMin[movingDirection] == 0 
           && _indexMax[movingDirection]==m_DimSize[movingDirection]-1)
@@ -2823,7 +2823,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
       readLine *= _indexMax[movingDirection] - _indexMin[movingDirection] + 1;
       movingDirection++;
       }
-      
+    
     readLine *= m_ElementNumberOfChannels*elementSize;
     long gc = 0;
 
@@ -2887,7 +2887,7 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
           }
         }
 
-      if(gc == _dataQuantity)
+      if(gc == _dataQuantity*m_ElementNumberOfChannels*elementSize)
         {
         break;
         }
