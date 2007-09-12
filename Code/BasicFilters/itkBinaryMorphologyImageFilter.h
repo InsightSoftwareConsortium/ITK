@@ -97,12 +97,9 @@ namespace itk
  * Lehmann from INRA de Jouy-en-Josas then provided a fast erosion
  * implementaton based on Jerome's implementation.  The common
  * portions of these two implementations were then placed in this
- * superclass. 
+ * superclass.
  *
- * \todo Implement a threaded version ?
- *
- * \sa ImageToImageFilter
- * \sa BinaryErodeImageFilter
+ * \sa ImageToImageFilter BinaryErodeImageFilter BinaryDilateImageFilter
  */
 template <class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologyImageFilter :

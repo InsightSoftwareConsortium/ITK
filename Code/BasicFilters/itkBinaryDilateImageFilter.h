@@ -61,43 +61,7 @@ namespace itk
  * reasonable choice of structuring element is
  * itk::BinaryBallStructuringElement.
  *
- *
- * Description of the algorithm:
- * ----------------------------------------------
- * Let's consider the set of the ON elements of the input image as X.
- *
- * Let's consider the structuring element as B = {B0, B1, ..., Bn},
- * where Bi denotes a connected component of B.
- *
- * Let's consider bi, i in [0,n], an arbitrary point of Bi.
- *
- * We use hence the next property in order to compute minkoswki
- * addition ( which will be written (+) ):
- *
- * X (+) B = ( Xb0 UNION Xb1 UNION ... Xbn ) UNION ( BORDER(X) (+) B ),
- *
- * where Xbi is the set X translated with respect to vector bi :
- *
- * Xbi ={ x + bi, x belongs to X }
- *
- * where BORDER(X) is the extracted border of X ( 8 connectivity in
- * 2D, 26 in 3D ) 
- *
- * Our implementation for dilation is defined as:
- *
- *     X (+) SYM(B) = DILATION(X)_B
- *
- * Where DILATION(X)_B is the dilation of set with structuring element B.
- * Where SYM(B) is the symmetric of the structuring element relatively
- * to its center. 
- *
- * This class was contributed by Jerome Schmid from the University of
- * Strasbourg.
- *
- * \todo Implement a threaded version ?
- *
- * \sa ImageToImageFilter
- * \sa BinaryErodeImageFilter
+ * \sa ImageToImageFilter BinaryErodeImageFilter BinaryMorphologyImageFilter
  */
 template <class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryDilateImageFilter :
