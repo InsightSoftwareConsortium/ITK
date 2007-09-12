@@ -1022,24 +1022,24 @@ bool MetaImage::M_FileExists(const char* filename) const
 std::string MetaImage::M_GetTagValue(const std::string & buffer, const char* tag) const
 {
   long int stringPos = buffer.find(tag);
-  if( stringPos == METAIO_STL::string::npos )
+  if( stringPos == (long int)METAIO_STL::string::npos )
     {
     return "";
     }
 
   long int pos2 = buffer.find("=",stringPos);
-  if(pos2 == METAIO_STL::string::npos )
+  if(pos2 == (long int)METAIO_STL::string::npos )
     {
     pos2 = buffer.find(":",stringPos);
     }
 
-  if(pos2 == METAIO_STL::string::npos )
+  if(pos2 == (long int)METAIO_STL::string::npos )
     {
     return "";
     }
 
   long int posend = buffer.find('\r',pos2);
-  if(posend == METAIO_STL::string::npos )
+  if(posend == (long int)METAIO_STL::string::npos )
     {
     posend = buffer.find('\n',pos2);
     }
@@ -1102,7 +1102,6 @@ CanRead(const char *_headerName) const
     }
 
   int i=0;
-  int j=0;
 
   // Now check the file content
   METAIO_STREAM::ifstream inputStream;
@@ -1242,7 +1241,6 @@ CanRead(const char *_headerName) const
         {
         stepV = (int)atof(wrds[3]);
         }
-      int cnt = 0;
       for(i=minV; i<=maxV; i += stepV)
         {
         sprintf(s, wrds[0], i);
@@ -2757,9 +2755,9 @@ M_ReadElementsROI(METAIO_STREAM::ifstream * _fstream, void * _data,
           {
           unsigned char* subdata = new unsigned char[readLine];
 
-          long int read = MET_UncompressStream(_fstream, seekpos, subdata, 
-                                               readLine,m_CompressedDataSize,
-                                               m_CompressionTable);
+          MET_UncompressStream(_fstream, seekpos, subdata, 
+                               readLine,m_CompressedDataSize,
+                               m_CompressionTable);
 
           for(unsigned int p=0;p<readLine;
               p+=(subSamplingFactor*m_ElementNumberOfChannels*elementSize))
