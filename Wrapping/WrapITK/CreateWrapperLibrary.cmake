@@ -413,6 +413,7 @@ MACRO(CSWIG_CREATE_CXX_FILE library_name language input_idx input_xml output_cxx
         -I${CSWIG_DEFAULT_LIB}
         ${CSWIG_IGNORE_WARNINGS}
         -noruntime
+        -fcompact
         ${cindex}
         -depend ${input_xml}.depend
         -outdir ${outdir}
