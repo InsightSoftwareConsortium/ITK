@@ -388,10 +388,12 @@ void ImageIOBase::ComputeStrides()
 }
 
 // Calculates the image size in PIXELS
-unsigned int ImageIOBase::GetImageSizeInPixels() const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetImageSizeInPixels() const
 {
   unsigned int i;
-  unsigned int numPixels = 1;
+  SizeType numPixels = 1;
 
   for (i = 0; i < m_NumberOfDimensions; i++)
     {
@@ -401,32 +403,44 @@ unsigned int ImageIOBase::GetImageSizeInPixels() const
   return numPixels;
 }
 
-unsigned int ImageIOBase::GetImageSizeInComponents() const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetImageSizeInComponents() const
 {
   return (this->GetImageSizeInPixels() * m_NumberOfComponents);
 }
 
-unsigned int ImageIOBase::GetImageSizeInBytes () const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetImageSizeInBytes () const
 {
   return (this->GetImageSizeInComponents() * this->GetComponentSize());
 }
 
-unsigned int ImageIOBase::GetComponentStride() const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetComponentStride() const
 {
   return m_Strides[0];
 }
 
-unsigned int ImageIOBase::GetPixelStride () const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetPixelStride () const
 {
   return m_Strides[1];
 }
 
-unsigned int ImageIOBase::GetRowStride () const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetRowStride () const
 {
   return m_Strides[2];
 }
 
-unsigned int ImageIOBase::GetSliceStride () const
+ImageIOBase::SizeType 
+ImageIOBase
+::GetSliceStride () const
 {
   return m_Strides[3];
 }
@@ -463,14 +477,15 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
 }
 
 bool 
-ImageIOBase ::ReadBufferAsBinary(std::istream& is, void *buffer, unsigned int num)
+ImageIOBase
+::ReadBufferAsBinary(std::istream& is, void *buffer, ImageIOBase::SizeType num)
 {
 
-  const unsigned int numberOfBytesToBeRead = num;
+  const SizeType numberOfBytesToBeRead = num;
 
   is.read( static_cast<char *>( buffer ), numberOfBytesToBeRead );
 
-  const unsigned int numberOfBytesRead = is.gcount();
+  const SizeType numberOfBytesRead = is.gcount();
 
 #ifdef __APPLE_CC__
   // fail() is broken in the Mac. It returns true when reaches eof().
@@ -633,10 +648,10 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t) const
 
 namespace {
 template <class TComponent>
-void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int num)
+void WriteBuffer(std::ostream& os, const TComponent *buffer, ImageIOBase::SizeType num)
 {
   const TComponent *ptr = buffer;
-  for (unsigned int i=0; i < num; i++)
+  for (ImageIOBase::SizeType i=0; i < num; i++)
     {
     if ( !(i%6) && i ) os << "\n";
     os << *ptr++ << " ";
@@ -645,7 +660,7 @@ void WriteBuffer(std::ostream& os, const TComponent *buffer, unsigned int num)
 }
 void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer, 
                                      IOComponentType ctype,
-                                     unsigned int numComp)
+                                     ImageIOBase::SizeType numComp)
 {
   switch (ctype)
     {
@@ -736,10 +751,10 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer,
 
 
 template <class TComponent>
-void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
+void ReadBuffer(std::istream& is, TComponent *buffer, ImageIOBase::SizeType num)
 {
   TComponent *ptr = buffer;
-  for (unsigned int i=0; i < num; i++, ptr++)
+  for( ImageIOBase::SizeType i=0; i < num; i++, ptr++ )
     {
     is >> *ptr;
     }
@@ -747,7 +762,7 @@ void ReadBuffer(std::istream& is, TComponent *buffer, unsigned int num)
 
 void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer, 
                                     IOComponentType ctype,
-                                    unsigned int numComp)
+                                    ImageIOBase::SizeType numComp)
 {
   switch (ctype)
     {

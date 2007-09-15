@@ -240,19 +240,22 @@ public:
    * used for writing output files. */
   std::string GetByteOrderAsString(ByteOrder) const;
 
+  /** Type for representing size of bytes, and or positions along a file */
+  typedef std::streamoff SizeType;
+
   /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1]; */
-  virtual unsigned int GetPixelStride () const;
+  virtual SizeType GetPixelStride () const;
 
   /** Return the number of pixels in the image. */
-  unsigned int GetImageSizeInPixels() const;
+  SizeType GetImageSizeInPixels() const;
 
   /** Return the number of bytes in the image. */
-  unsigned int GetImageSizeInBytes() const;
+  SizeType GetImageSizeInBytes() const;
 
   /** Return the number of pixels times the number
    * of components in the image. */
-  unsigned int GetImageSizeInComponents() const;
+  SizeType GetImageSizeInComponents() const;
 
   /*-------- This part of the interfaces deals with reading data ----- */
 
@@ -374,7 +377,7 @@ protected:
 
   /** Stores the number of bytes it takes to get to the next 'thing'
    * e.g. component, pixel, row, slice, etc. */
-  std::vector<unsigned int> m_Strides;
+  std::vector< SizeType > m_Strides;
 
   /** Return the object to an initialized state, ready to be used */
   virtual void Reset(const bool freeDynamic = true);
@@ -403,28 +406,28 @@ protected:
 
   /** Convenient method for accessing number of bytes to get to the next pixel 
    * component. Returns m_Strides[0]. */
-  unsigned int GetComponentStride() const;
+  SizeType GetComponentStride() const;
 
   /** Convenient method for accessing the number of bytes to get to the 
    * next row. Returns m_Strides[2]. */
-  unsigned int GetRowStride () const;
+  SizeType GetRowStride () const;
 
   /** Convenient method for accessing the number of bytes to get to the 
    * next slice. Returns m_Strides[3]. */
-  unsigned int GetSliceStride () const;
+  SizeType GetSliceStride () const;
 
   /** Convenient method to write a buffer as ASCII text. */
   void WriteBufferAsASCII(std::ostream& os, const void *buffer,
                           IOComponentType ctype,
-                          unsigned int numComp);
+                          SizeType numberOfBytesToWrite);
 
   /** Convenient method to read a buffer as ASCII text. */
   void ReadBufferAsASCII(std::istream& os, void *buffer,
                          IOComponentType ctype,
-                         unsigned int numComp);
+                         SizeType numberOfBytesToBeRead);
 
   /** Convenient method to read a buffer as binary. Return true on success. */
-  bool ReadBufferAsBinary(std::istream& os, void *buffer,unsigned int numComp);
+  bool ReadBufferAsBinary(std::istream& os, void *buffer, SizeType numberOfBytesToBeRead);
 
   
 private:
