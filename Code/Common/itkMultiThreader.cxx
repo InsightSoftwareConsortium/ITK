@@ -285,6 +285,7 @@ void MultiThreader::SingleMethodExecute()
   // Thanks to Hannu Helminen for suggestions on how to catch
   // exceptions thrown by threads.
   bool exceptionOccurred = false;
+  std::string exceptionDetails;
   try
     {
     for (thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
@@ -296,6 +297,14 @@ void MultiThreader::SingleMethodExecute()
       process_id[thread_loop]
         = this->DispatchSingleMethodThread(&m_ThreadInfoArray[thread_loop]);
       }
+    }
+  catch( std::exception & e )
+    {
+    // get the details of the exception to rethrow them
+    exceptionDetails = e.what();
+    // If creation of any thread failed, we must make sure that all
+    // threads are correctly cleaned
+    exceptionOccurred = true;
     }
   catch (...)
     {
@@ -336,6 +345,14 @@ void MultiThreader::SingleMethodExecute()
     // rethrow
     throw excp;
     }
+  catch( std::exception & e )
+    {
+    // get the details of the exception to rethrow them
+    exceptionDetails = e.what();
+    // if this method fails, we must make sure all threads are
+    // correctly cleaned
+    exceptionOccurred = true;
+    }
   catch (...)
     {
     // if this method fails, we must make sure all threads are
@@ -356,6 +373,12 @@ void MultiThreader::SingleMethodExecute()
         exceptionOccurred = true;
         }
       }
+    catch( std::exception & e )
+      {
+      // get the details of the exception to rethrow them
+      exceptionDetails = e.what();
+      exceptionOccurred = true;
+      }
     catch (...)
       {
       exceptionOccurred = true; 
@@ -373,7 +396,14 @@ void MultiThreader::SingleMethodExecute()
   
   if (exceptionOccurred)
     {
-    itkExceptionMacro("Exception occurred during SingleMethodExecute");
+    if( exceptionDetails.empty() )
+      {
+      itkExceptionMacro("Exception occurred during SingleMethodExecute");
+      }
+    else
+      {
+      itkExceptionMacro( << "Exception occurred during SingleMethodExecute" << std::endl << exceptionDetails );
+      }
     }
 }
 
