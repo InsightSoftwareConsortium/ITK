@@ -33,6 +33,11 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 {
   m_NormalizeAcrossScale = false;
 
+  if( ImageDimension > 1)
+    {
+    m_SmoothingFilters.resize(ImageDimension-1);
+    }
+
   for( unsigned int i = 0; i<ImageDimension-1; i++ )
     {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
@@ -47,7 +52,10 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   
   m_DerivativeFilter->SetInput( this->GetInput() );
 
-  m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
+  if( ImageDimension > 1 )
+    {
+    m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
+    }
 
   for( unsigned int i = 1; i<ImageDimension-1; i++ )
     {
@@ -199,9 +207,17 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       }
     m_DerivativeFilter->SetDirection( dim );
     
-    GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-2];
+    GaussianFilterPointer lastFilter;
 
-    lastFilter->Update();
+    if( ImageDimension > 1 ) 
+      {
+      lastFilter = m_SmoothingFilters[ImageDimension-2];
+      lastFilter->Update();
+      }
+    else
+      {
+      m_DerivativeFilter->Update();
+      }
 
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
@@ -209,8 +225,15 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     // on the output image of vectors
     m_ImageAdaptor->SelectNthElement( dim );
 
-    typename RealImageType::Pointer derivativeImage = 
-      lastFilter->GetOutput(); 
+    typename RealImageType::Pointer derivativeImage;
+    if ( ImageDimension > 1)
+      {
+      derivativeImage = lastFilter->GetOutput(); 
+      }
+    else
+      {
+      derivativeImage = m_DerivativeFilter->GetOutput();
+      }
 
     ImageRegionIteratorWithIndex< RealImageType > it( 
       derivativeImage, 
