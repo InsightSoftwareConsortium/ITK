@@ -131,6 +131,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Macro that provides the GetNameOfClass() method */
+  itkTypeMacro( SigmoidImageFilter, UnaryFunctorImageFilter );
+
   void SetAlpha( double alpha )
   {
     if( alpha == this->GetFunctor().GetAlpha() ) 
