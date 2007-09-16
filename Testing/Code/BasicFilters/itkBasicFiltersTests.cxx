@@ -102,6 +102,7 @@ void RegisterTests()
   REGISTER_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest );
   REGISTER_TEST(itkGradientMagnitudeRecursiveGaussianFilterTest );
   REGISTER_TEST(itkGradientRecursiveGaussianFilterTest );
+  REGISTER_TEST(itkGradientRecursiveGaussianFilterTest2 );
   REGISTER_TEST(itkGradientToMagnitudeImageFilterTest );
   REGISTER_TEST(itkGradientToMagnitudeImageFilterTest );
   REGISTER_TEST(itkGrayscaleConnectedClosingImageFilterTest );
