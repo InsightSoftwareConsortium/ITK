@@ -134,6 +134,12 @@ int VTKImageExportBase::PipelineModifiedCallback()
 {
   DataObjectPointer input = this->GetInput(0);
   unsigned long pipelineMTime = input->GetPipelineMTime();
+
+  if( this->GetMTime() > pipelineMTime)
+    {
+    pipelineMTime = this->GetMTime();
+    }
+
   if(pipelineMTime > m_LastPipelineMTime)
     {
     m_LastPipelineMTime = pipelineMTime;
