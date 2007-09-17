@@ -31,9 +31,6 @@ TARGET_LINK_LIBRARIES(ImageRegistration8 ITKIO ITKNumerics)
 ADD_EXECUTABLE(ImageRegistration9 ImageRegistration9.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration9 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
-
   ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration5 ITKIO ITKNumerics)
 
@@ -114,9 +111,6 @@ TARGET_LINK_LIBRARIES(DeformableRegistration11 ITKFEM ITKIO
 
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKIO)
-
-ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
 
 ADD_EXECUTABLE(LandmarkWarping2 LandmarkWarping2.cxx )
 TARGET_LINK_LIBRARIES(LandmarkWarping2 ITKIO)
@@ -297,6 +291,10 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
 )
 
 IF(NOT BORLAND)
+
+  ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
+
   ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
 
@@ -309,6 +307,9 @@ IF(NOT BORLAND)
 
   ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
   TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+
+  ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+  TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
 
 ENDIF(NOT BORLAND)
 
