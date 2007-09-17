@@ -43,16 +43,16 @@ public:
   
 };
 /** \class NumericTraits<RGBPixel<unsigned short> >
- * \brief Define traits for type RGBPixel<unsigned char>.
+ * \brief Define traits for type RGBPixel<unsigned short>.
  * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<RGBPixel<unsigned short> > {
 public:
-  typedef RGBPixel<unsigned char> ValueType;
-  typedef RGBPixel<unsigned char> PrintType;
-  typedef RGBPixel<unsigned char> AbsType;
-  typedef RGBPixel<unsigned short> AccumulateType;
+  typedef RGBPixel<unsigned short> ValueType;
+  typedef RGBPixel<unsigned short> PrintType;
+  typedef RGBPixel<unsigned short> AbsType;
+  typedef RGBPixel<unsigned int>   AccumulateType;
   typedef RGBPixel<double> RealType;
   typedef double           ScalarRealType;
   typedef RGBPixel<float>  FloatType;
