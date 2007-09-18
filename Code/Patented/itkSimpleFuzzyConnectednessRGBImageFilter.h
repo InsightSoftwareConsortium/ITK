@@ -46,7 +46,7 @@ namespace itk{
  * applied to the fuzzy scene to extract the binary segmented object.
  * The fuzzy affinity here was defined as a gaussian function of the pixel difference
  * and the difference of the estimated object mean and the mean of the two input
- * pixels ( in a vectorial fashion).
+ * pixels (in a vectorial fashion).
  *
  * Usage:
  *
@@ -58,7 +58,7 @@ namespace itk{
  *    MakeSegmentObject() should be called to get the updated result.
  * 5. use GetOutput to obtain the resulted binary image Object.
  * 6. GetFuzzyScene gives the pointer of Image<unsigned short> for the 
- *    fuzzy scene.*
+ *    fuzzy scene.
  *
  * Input Parameters are:
  * (1) Input image in the form  itkImage<itkVector<Pixeltype,3>,Dimension>
@@ -158,7 +158,7 @@ private:
 };
 
 
-} /** end namespace itk. */
+} // end namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSimpleFuzzyConnectednessRGBImageFilter.txx"
