@@ -23,7 +23,25 @@
 namespace itk
 {
 
-/** This helper class create an image which is perfect copy of the input image
+/** \class ImageDuplicator
+ * \brief This helper class create an image which is perfect copy of the input image.
+ * 
+ * This class is NOT a filter. Although it has an API similar to a filter, this class
+ * is not intended to be used in a pipeline. Instead, the typical use will be like
+ * it is illustrated in the following code:
+ *
+ *     medianFilter->Update();
+ *     ImageType::Pointer image = medianFilter->GetOutput();
+ *     typedef ImageDuplicator< ImageType > DuplicatorType;
+ *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
+ *     duplicator->SetInput();
+ *     duplicator->Update();
+ *     ImageType::Pointer clonedImage = duplicator->GetOutput();
+ *
+ * Note that the Update() method must be called explicitly in the filter
+ * that provides the input to the ImageDuplicator object. This is needed
+ * because the ImageDuplicator is not a pipeline filter.
+ *
  */
 template <class TInputImage>            
 class ITK_EXPORT ImageDuplicator : public Object 
