@@ -36,7 +36,7 @@ namespace itk
 {
 template <> class NumericTraits<VariableLengthVector<unsigned char > > {
 public:
-  typedef VariableLengthVector<unsigned char> ValueType;
+  typedef unsigned char ValueType;
   typedef VariableLengthVector<unsigned char> PrintType;
   typedef VariableLengthVector<unsigned char> AbsType;
   typedef VariableLengthVector<unsigned short> AccumulateType;
@@ -50,7 +50,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<signed char> > {
 public:
-  typedef VariableLengthVector<signed char> ValueType;
+  typedef signed char ValueType;
   typedef VariableLengthVector<signed char> PrintType;
   typedef VariableLengthVector<unsigned char> AbsType;
   typedef VariableLengthVector<short> AccumulateType;
@@ -64,7 +64,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<char> > {
 public:
-  typedef VariableLengthVector<char> ValueType;
+  typedef char ValueType;
   typedef VariableLengthVector<char> PrintType;
   typedef VariableLengthVector<unsigned char> AbsType;
   typedef VariableLengthVector<short> AccumulateType;
@@ -78,7 +78,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<short> > {
 public:
-  typedef VariableLengthVector<short> ValueType;
+  typedef short ValueType;
   typedef VariableLengthVector<short> PrintType;
   typedef VariableLengthVector<unsigned short> AbsType;
   typedef VariableLengthVector<int> AccumulateType;
@@ -92,7 +92,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<unsigned short> > {
 public:
-  typedef VariableLengthVector<unsigned short> ValueType;
+  typedef unsigned short ValueType;
   typedef VariableLengthVector<unsigned short> PrintType;
   typedef VariableLengthVector<unsigned short> AbsType;
   typedef VariableLengthVector<unsigned int> AccumulateType;
@@ -106,7 +106,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<int> > {
 public:
-  typedef VariableLengthVector<int> ValueType;
+  typedef int ValueType;
   typedef VariableLengthVector<int> PrintType;
   typedef VariableLengthVector<unsigned int> AbsType;
   typedef VariableLengthVector<long> AccumulateType;
@@ -120,7 +120,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<unsigned int> > {
 public:
-  typedef VariableLengthVector<unsigned int> ValueType;
+  typedef unsigned int ValueType;
   typedef VariableLengthVector<unsigned int> PrintType;
   typedef VariableLengthVector<unsigned int> AbsType;
   typedef VariableLengthVector<unsigned long> AccumulateType;
@@ -134,7 +134,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<long> > {
 public:
-  typedef VariableLengthVector<long> ValueType;
+  typedef long ValueType;
   typedef VariableLengthVector<long> PrintType;
   typedef VariableLengthVector<unsigned long> AbsType;
   typedef VariableLengthVector<long> AccumulateType;
@@ -148,7 +148,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<unsigned long> > {
 public:
-  typedef VariableLengthVector<unsigned long> ValueType;
+  typedef unsigned long ValueType;
   typedef VariableLengthVector<unsigned long> PrlongType;
   typedef VariableLengthVector<unsigned long> AbsType;
   typedef VariableLengthVector<unsigned long> AccumulateType;
@@ -162,7 +162,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<float> > {
 public:
-  typedef VariableLengthVector<float> ValueType;
+  typedef float ValueType;
   typedef VariableLengthVector<float> PrintType;
   typedef VariableLengthVector<float> AbsType;
   typedef VariableLengthVector<double> AccumulateType;
@@ -176,7 +176,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<double> > {
 public:
-  typedef VariableLengthVector<double> ValueType;
+  typedef double ValueType;
   typedef VariableLengthVector<double> PrintType;
   typedef VariableLengthVector<double> AbsType;
   typedef VariableLengthVector<long double> AccumulateType;
@@ -190,7 +190,7 @@ public:
 };
 template <> class NumericTraits<VariableLengthVector<long double> > {
 public:
-  typedef VariableLengthVector<long double> ValueType;
+  typedef long double ValueType;
   typedef VariableLengthVector<long double> PrintType;
   typedef VariableLengthVector<long double> AbsType;
   typedef VariableLengthVector<long double> AccumulateType;

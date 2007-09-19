@@ -30,7 +30,7 @@ namespace itk
 template <>
 class NumericTraits<RGBPixel<unsigned char> > {
 public:
-  typedef RGBPixel<unsigned char> ValueType;
+  typedef unsigned char ValueType;
   typedef RGBPixel<unsigned char> PrintType;
   typedef RGBPixel<unsigned char> AbsType;
   typedef RGBPixel<unsigned short> AccumulateType;
@@ -39,7 +39,7 @@ public:
   typedef RGBPixel<float>  FloatType;
   static const RGBPixel<unsigned char> ITKCommon_EXPORT Zero;
   static const RGBPixel<unsigned char> ITKCommon_EXPORT One;
-  static ValueType ZeroValue() { return Zero; }
+  static RGBPixel<unsigned char> ZeroValue() { return Zero; }
   
 };
 /** \class NumericTraits<RGBPixel<unsigned short> >
@@ -49,7 +49,7 @@ public:
 template <>
 class NumericTraits<RGBPixel<unsigned short> > {
 public:
-  typedef RGBPixel<unsigned short> ValueType;
+  typedef unsigned short           ValueType;
   typedef RGBPixel<unsigned short> PrintType;
   typedef RGBPixel<unsigned short> AbsType;
   typedef RGBPixel<unsigned int>   AccumulateType;
@@ -58,7 +58,7 @@ public:
   typedef RGBPixel<float>  FloatType;
   static const RGBPixel<unsigned short> ITKCommon_EXPORT Zero;
   static const RGBPixel<unsigned short> ITKCommon_EXPORT One;
-  static ValueType ZeroValue() { return Zero; }
+  static RGBPixel<unsigned short> ZeroValue() { return Zero; }
   
 };
 
