@@ -40,7 +40,14 @@ namespace itk
  *
  * \par Inputs and Outputs
  * The input to this filter is a scalar-valued itk::Image of arbitrary
- * dimension. The output is a scalar-valued itk::Image.
+ * dimension. The output is a scalar-valued itk::Image. 
+ *
+ * \warning The pixel type of the input and output images must be of real type
+ * (float or double). ConceptChecking is used here to enforce the input pixel
+ * type. You will get a compilation error if the pixel type of the input and
+ * output images is not float or double.
+ * 
+ *
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
@@ -111,6 +118,10 @@ public:
   /** Begin concept checking */
   itkConceptMacro(SameDimensionCheck,
     (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro(InputPixelTypeIsFloatingPointCheck,
+    (Concept::IsFloatingPoint<InputPixelType>));
+  itkConceptMacro(OutputPixelTypeIsFloatingPointCheck,
+    (Concept::IsFloatingPoint<OutputPixelType>));
   /** End concept checking */
 #endif
 
