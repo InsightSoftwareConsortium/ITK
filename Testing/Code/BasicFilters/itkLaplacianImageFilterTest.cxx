@@ -53,6 +53,11 @@ int itkLaplacianImageFilterTest(int , char * [] )
       test1.SetImageSize(sz);
       test1.SetFilter(filter.GetPointer());
       test1.Execute();
+
+      // verify the fix for Bug: 788
+      // The following code should not crash.
+      filter->SetInput(NULL);
+      filter->Update();
     }
   catch(itk::ExceptionObject &err)
     {
