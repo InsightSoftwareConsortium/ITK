@@ -36,12 +36,12 @@ namespace _cable_
     //===========3D Wrapped Filters==============
     ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3 , image::F3 , itkDenseFiniteDifferenceImageFilterF3F3  );
     ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::D3 , image::D3 , itkDenseFiniteDifferenceImageFilterD3D3  );
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::UC3, itkDenseFiniteDifferenceImageFilterUC3F3);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::US3, itkDenseFiniteDifferenceImageFilterUS3F3);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::UI3, itkDenseFiniteDifferenceImageFilterUI3F3);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::SC3, itkDenseFiniteDifferenceImageFilterSC3F3);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::SS3, itkDenseFiniteDifferenceImageFilterSS3F3);
-    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3, image::SI3, itkDenseFiniteDifferenceImageFilterSI3F3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::UC3, image::F3, itkDenseFiniteDifferenceImageFilterUC3F3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::US3, image::F3, itkDenseFiniteDifferenceImageFilterUS3F3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::UI3, image::F3, itkDenseFiniteDifferenceImageFilterUI3F3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SC3, image::F3, itkDenseFiniteDifferenceImageFilterSC3F3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SS3, image::F3, itkDenseFiniteDifferenceImageFilterSS3F3);
+    ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::SI3, image::F3, itkDenseFiniteDifferenceImageFilterSI3F3);
     ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::F3 , image::VF3 ,itkDenseFiniteDifferenceImageFilterF3VF3);
     ITK_WRAP_OBJECT2(DenseFiniteDifferenceImageFilter, image::US3, image::VF3, itkDenseFiniteDifferenceImageFilterUS3VF3);
   }
