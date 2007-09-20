@@ -55,9 +55,23 @@ int itkLaplacianImageFilterTest(int , char * [] )
       test1.Execute();
 
       // verify the fix for Bug: 788
-      // The following code should not crash.
+      // The following code should throw an excption and not crash.
       filter->SetInput(NULL);
-      filter->Update();
+      bool exceptionSeen = false;
+      try
+        {
+        filter->Update();
+        }
+      catch(itk::ExceptionObject &err)
+        {
+        exceptionSeen = true;
+        std::cout << "Expected exception was received OK" << std::endl;
+        }
+      if( !exceptionSeen )
+        {
+        std::cerr << "Expected exception was not thrown" << std::endl;
+        return EXIT_FAILURE;
+        }
     }
   catch(itk::ExceptionObject &err)
     {
