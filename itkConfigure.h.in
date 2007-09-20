@@ -43,6 +43,7 @@
 #cmakedefine CMAKE_NO_ANSI_FOR_SCOPE
 #cmakedefine ITK_CPP_FUNCTION
 #cmakedefine ITK_USE_CONCEPT_CHECKING
+#cmakedefine ITK_USE_STRICT_CONCEPT_CHECKING
 #cmakedefine ITK_EXPLICIT_INSTANTIATION
 #cmakedefine USE_FFTWF
 #cmakedefine USE_FFTWD

@@ -186,9 +186,13 @@ ENDIF(ITK_USE_KWSTYLE)
 IF( NOT BORLAND )
   OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
   MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+  OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
+  MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
 ELSE( NOT BORLAND )
   SET(ITK_USE_CONCEPT_CHECKING OFF)
   MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+  SET(ITK_USE_STRICT_CONCEPT_CHECKING OFF)
+  MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
 ENDIF( NOT BORLAND )
 
 #-----------------------------------------------------------------------------
