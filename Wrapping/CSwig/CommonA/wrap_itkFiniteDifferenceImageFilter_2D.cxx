@@ -30,12 +30,12 @@ namespace _cable_
     //===========2D Wrapped Filters==============
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::F2 , image::F2 , itkFiniteDifferenceImageFilterF2F2  );
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::D2 , image::D2 , itkFiniteDifferenceImageFilterD2D2  );
-    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::UC2, image::UC2, itkFiniteDifferenceImageFilterUC2UC2);
-    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::US2, image::US2, itkFiniteDifferenceImageFilterUS2US2);
-    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::UI2, image::UI2, itkFiniteDifferenceImageFilterUI2UI2);
-    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SC2, image::SC2, itkFiniteDifferenceImageFilterSC2SC2);
-    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SS2, image::SS2, itkFiniteDifferenceImageFilterSS2SS2);
-    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SI2, image::SI2, itkFiniteDifferenceImageFilterSI2SI2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::UC2, image::F2, itkFiniteDifferenceImageFilterUC2F2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::US2, image::F2, itkFiniteDifferenceImageFilterUS2F2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::UI2, image::F2, itkFiniteDifferenceImageFilterUI2F2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SC2, image::F2, itkFiniteDifferenceImageFilterSC2F2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SS2, image::F2, itkFiniteDifferenceImageFilterSS2F2);
+    ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::SI2, image::F2, itkFiniteDifferenceImageFilterSI2F2);
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::F2 , image::VF2 ,itkFiniteDifferenceImageFilterF2VF2 );
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::VF2 , image::VF2 ,itkFiniteDifferenceImageFilterVF2VF2 );
     ITK_WRAP_OBJECT2(FiniteDifferenceImageFilter, image::US2, image::VF2, itkFiniteDifferenceImageFilterUS2VF2);
