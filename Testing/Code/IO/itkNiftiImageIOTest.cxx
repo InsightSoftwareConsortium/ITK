@@ -20,6 +20,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <fstream>
 #include <complex>
+#include <string.h>
 #include "itkImageFileReader.h"
 #include "itkImage.h"
 
@@ -27,28 +28,25 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageRegionIterator.h"
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
 
 #include "itkImageFileWriter.h"
 #include "itkImageIOFactory.h"
 #include "itkNiftiImageIOFactory.h"
 #include "itkNiftiImageIO.h"
-#include <stdio.h>
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkSpatialOrientationAdapter.h"
 
 #include "itkAffineTransform.h"
 #include "itkVector.h"
+#include <vnl/vnl_math.h>
 
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
-#include <stdlib.h>
-#define _unlink unlink
-#else
-#include <unistd.h>
-#endif
+#include <nifti1_io.h>
+
 static inline int Remove(const char *fname)
 {
-  return unlink(fname);
+  return itksys::SystemTools::RemoveFile(fname);
 }
 
 const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
@@ -884,4 +882,128 @@ int itkNiftiImageIOTest4(int ac, char* av[])
       }
     }
   return EXIT_SUCCESS;
+}
+
+template <typename PixelType,unsigned typeIndex>
+int
+SlopeInterceptTest()
+{
+  //
+  // fill out a nifti image and write it.
+  char *filename("SlopeIntercept.nii");
+  nifti_image *niftiImage(nifti_simple_init_nim());
+  niftiImage->fname = (char *)malloc(strlen(filename)+1);
+  strcpy(niftiImage->fname,filename);
+  niftiImage->nifti_type = 1;
+  niftiImage->iname = (char *)malloc(strlen(filename)+1);
+  strcpy(niftiImage->iname,filename);
+  niftiImage->dim[0] =
+  niftiImage->ndim = 3;
+  niftiImage->nx = niftiImage->dim[1] = 8;
+  niftiImage->ny = niftiImage->dim[2] = 8;
+  niftiImage->nz = niftiImage->dim[3] = 4;
+  niftiImage->nvox = 256;
+  niftiImage->dx = niftiImage->pixdim[1] = 
+  niftiImage->dy = niftiImage->pixdim[2] = 
+  niftiImage->dz = niftiImage->pixdim[3] = 1.0;
+  niftiImage->nu = 1;
+  niftiImage->datatype = typeIndex;
+  niftiImage->nbyper = sizeof(PixelType);
+  niftiImage->scl_slope = 1.0/256.0;
+  niftiImage->scl_inter = 0.0;
+  niftiImage->sform_code = NIFTI_XFORM_SCANNER_ANAT;
+  niftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
+  niftiImage->qfac = 1;
+  mat44 matrix;
+  for(unsigned i = 0; i < 4; i++)
+    {
+    for(unsigned j = 0; j < 4; j++)
+      {
+      matrix.m[i][j] = (i == j) ? 1.0 : 0.0;
+      }
+    }
+  niftiImage->qto_xyz = matrix;
+  niftiImage->sto_xyz = matrix;
+  niftiImage->sto_ijk = matrix;
+  niftiImage->qto_ijk = matrix;
+  nifti_mat44_to_quatern(matrix,
+                         &(niftiImage->quatern_b),
+                         &(niftiImage->quatern_c),
+                         &(niftiImage->quatern_d),
+                         &(niftiImage->qoffset_x),
+                         &(niftiImage->qoffset_y),
+                         &(niftiImage->qoffset_z),
+                         0,
+                         0,
+                         0,
+                         &(niftiImage->qfac));
+  niftiImage->data = malloc(sizeof(PixelType) * 256);
+  for(unsigned i = 0; i < 256; i++)
+    {
+    static_cast<PixelType *>(niftiImage->data)[i] = i;
+    }
+  nifti_image_write(niftiImage);
+  nifti_image_free(niftiImage);
+  //
+  // read the image back in
+  typedef typename itk::Image<float,3> ImageType;
+  typedef typename itk::ImageFileReader<ImageType> ReaderType;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(filename);
+  try
+    {
+    reader->Update();
+    }
+  catch(...)
+    {
+    Remove(filename);
+    return EXIT_FAILURE;
+    }
+  typename ImageType::Pointer image = reader->GetOutput();
+  typedef typename itk::ImageRegionIterator<ImageType> IteratorType;
+  IteratorType it(image,image->GetLargestPossibleRegion());
+  it.GoToBegin();
+  double maxerror = 0.0;
+  for(unsigned i = 0; i < 256; i++,++it)
+    {
+    if(it.IsAtEnd())
+      {
+      return EXIT_FAILURE;
+      }
+    if(!Equal(it.Value(),static_cast<float>(i)/256.0))
+      {
+      //      return EXIT_FAILURE;
+      double error = vcl_abs(it.Value() -
+                             (static_cast<double>(i)/256.0));
+      if(error > maxerror)
+        {
+        maxerror = error;
+        }
+      }
+    }
+  std::cerr << "Max error " << maxerror << std::endl;
+  Remove(filename);
+  return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
+}
+
+int itkNiftiImageIOTest5(int ac, char* av[])
+{
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1) 
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  int success(0);
+  success |= SlopeInterceptTest<unsigned char,NIFTI_TYPE_UINT8>();
+  success |= SlopeInterceptTest<short,NIFTI_TYPE_INT16>();
+  success |= SlopeInterceptTest<unsigned short,NIFTI_TYPE_UINT16>();
+  success |= SlopeInterceptTest<int,NIFTI_TYPE_INT32>();
+  success |= SlopeInterceptTest<unsigned int,NIFTI_TYPE_UINT32>();
+  return success;
 }

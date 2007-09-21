@@ -252,6 +252,7 @@ NiftiImageIO::NiftiImageIO():
   this->SetNumberOfDimensions(3);
   m_RescaleSlope = 1.0;
   m_RescaleIntercept = 0.0;
+  m_OnDiskComponentType = UNKNOWNCOMPONENTTYPE;
   nifti_set_debug_level(0); // suppress error messages
 }
 
@@ -297,6 +298,13 @@ NiftiImageIO
 #endif
 }
 
+bool
+NiftiImageIO::MustRescale()
+{
+  return vcl_abs(m_RescaleSlope) > vcl_numeric_limits<double>::epsilon() &&
+    (vcl_abs(m_RescaleSlope-1.0) > vcl_numeric_limits<double>::epsilon() ||
+     vcl_abs(m_RescaleIntercept) > vcl_numeric_limits<double>::epsilon());
+}
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
 template<class TBuffer>
@@ -310,6 +318,17 @@ void RescaleFunction(TBuffer* buffer,
     double tmp = static_cast<double>(buffer[i]) * slope;
     tmp += intercept;
     buffer[i] = static_cast<TBuffer>(tmp);
+    }
+}
+
+template <typename PixelType>
+void
+CastCopy(float *to,void *from,unsigned pixelcount)
+{
+  PixelType *_from = static_cast<PixelType *>(from);
+  for(unsigned i = 0; i < pixelcount; i++)
+    {
+    to[i] = static_cast<float>(_from[i]);
     }
 }
 
@@ -392,11 +411,72 @@ void NiftiImageIO::Read(void* buffer)
                         << this->GetFileName());
       }
     }
+  unsigned pixelSize = this->m_NiftiImage->nbyper;
+  //
+  // if we're going to have to rescale pixels, and the on-disk
+  // pixel type is different than the pixel type reported to
+  // ImageFileReader, we have to up-promote the data to float
+  // before doing the rescale.
+  //
+  if(this->MustRescale() &&
+     m_ComponentType != m_OnDiskComponentType)
+    {
+    pixelSize = this->GetNumberOfComponents() * sizeof(float);
+    //
+    // allocate new buffer for floats. Malloc instead of new to
+    // be consistent with allocation used in niftilib
+    float *_data = 
+      static_cast<float *>
+      (malloc(this->GetImageSizeInComponents() * sizeof(float)));
+    switch(m_OnDiskComponentType)
+      {
+      case CHAR:
+        CastCopy<char>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case UCHAR:
+        CastCopy<unsigned char>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case SHORT:
+        CastCopy<short>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case USHORT:
+        CastCopy<unsigned short>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case INT:
+        CastCopy<int>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case UINT:
+        CastCopy<unsigned int>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case LONG:
+        CastCopy<long>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case ULONG:
+        CastCopy<unsigned long>(_data,data,this->GetImageSizeInComponents());
+        break;
+      case FLOAT:
+        itkExceptionMacro(<< "FLOAT pixels do not need Casting to float");
+        break;
+      case DOUBLE:
+        itkExceptionMacro(<< "DOUBLE pixels do not need Casting to float");
+        break;
+      case UNKNOWNCOMPONENTTYPE:
+        itkExceptionMacro(<< "Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
+      }
+      //
+      // we're replacing the data pointer, so if it was allocated
+      // in nifti_read_subregion_image, free the old data here
+      if(data != this->m_NiftiImage->data)
+        {
+        free(data);
+        }
+      data = _data;
+    }
   //
   // if single or complex, nifti layout == itk layout
   if(numComponents == 1 || this->GetPixelType() == COMPLEX)
     {
-    const size_t NumBytes=numElts * this->m_NiftiImage->nbyper;
+    const size_t NumBytes= numElts * pixelSize;
     memcpy(buffer, data, NumBytes);
     //
     // if read_subregion was called it allocates a buffer that needs to be
@@ -410,7 +490,7 @@ void NiftiImageIO::Read(void* buffer)
     {
     // otherwise nifti is x y z t vec l m 0, itk is
     // vec x y z t l m o
-    unsigned nbyper = this->m_NiftiImage->nbyper;
+
     const char *frombuf = (const char *)data;
     char *tobuf = (char *)buffer;
     //
@@ -424,7 +504,7 @@ void NiftiImageIO::Read(void* buffer)
     unsigned lStride =
       _size[4] * _size[3] *
       _size[2] * _size[1] *
-      _size[0] * nbyper;
+      _size[0] * pixelSize;
     unsigned mStride = _size[5] * lStride;
 
     for(int m = 0; m < _size[6]; m++)
@@ -442,16 +522,16 @@ void NiftiImageIO::Read(void* buffer)
             frombuf +
             (l * lStride) +
             (m * mStride) +
-            (vecStride * nbyper * i);
+            (vecStride * pixelSize * i);
           }
         char *to = tobuf + (l * lStride) +
           (m * mStride);
         for(unsigned i = 0; i < (vecStride * numComponents); i++)
           {
           memcpy(to,
-                 scalarPtr[i % numComponents],nbyper);
-          to += nbyper;
-          scalarPtr[i % numComponents] += nbyper;
+                 scalarPtr[i % numComponents],pixelSize);
+          to += pixelSize;
+          scalarPtr[i % numComponents] += pixelSize;
           }
         }
       }
@@ -469,9 +549,7 @@ void NiftiImageIO::Read(void* buffer)
   // If the scl_slope field is nonzero, then rescale each voxel value in the
   // dataset.
   // Complete description of can be found in nifti1.h under "DATA SCALING"
-  if(vcl_abs(m_RescaleSlope) > vcl_numeric_limits<double>::epsilon() &&
-     (vcl_abs(m_RescaleSlope-1.0) > vcl_numeric_limits<double>::epsilon() ||
-      vcl_abs(m_RescaleIntercept) > vcl_numeric_limits<double>::epsilon()))
+  if(this->MustRescale())
     {
     switch(m_ComponentType)
       {
@@ -565,6 +643,7 @@ NiftiImageIO
     itkExceptionMacro(<< m_FileName << " is not recognized as a NIFTI file");
     }
   this->SetNumberOfDimensions(this->m_NiftiImage->ndim);
+
   switch( this->m_NiftiImage->datatype )
     {
     case NIFTI_TYPE_INT8:
@@ -619,6 +698,41 @@ NiftiImageIO
       //      break;
     default:
       break;
+    }
+
+  // set slope/intercept
+  if(this->m_NiftiImage->qform_code == 0
+     && this->m_NiftiImage->sform_code == 0)
+    {
+    m_RescaleSlope = 1;
+    m_RescaleIntercept = 0;
+    }
+  else
+    {
+    if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
+      {
+      m_RescaleSlope = 1;
+      }
+    m_RescaleIntercept = this->m_NiftiImage->scl_inter;
+    }
+
+  m_OnDiskComponentType = m_ComponentType;
+  //
+  // if rescale is necessary, promote type reported
+  // to ImageFileReader to float
+  if(this->MustRescale())
+    {
+    if(m_ComponentType == CHAR || 
+       m_ComponentType == UCHAR ||
+       m_ComponentType == SHORT ||
+       m_ComponentType == USHORT ||
+       m_ComponentType == INT ||
+       m_ComponentType == UINT ||
+       m_ComponentType == LONG ||
+       m_ComponentType == ULONG)
+      {
+      m_ComponentType = FLOAT;
+      }
     }
   //
   // set up the dimension stuff
@@ -696,65 +810,55 @@ NiftiImageIO
   std::string classname(this->GetNameOfClass());
   EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
 
-  switch( this->m_NiftiImage->datatype)
+  switch(this->m_ComponentType)
     {
-    case NIFTI_TYPE_INT8:
+    case CHAR:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(char).name()));
       break;
-    case NIFTI_TYPE_UINT8:
-      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
-                                       std::string(typeid(unsigned char).name()));
+    case UCHAR:
+      if(m_PixelType != RGB)
+        {
+        EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
+                                         std::string(typeid(unsigned char).name()));
+        }
+      else
+        {
+        EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
+                                         std::string("RGB"));
+        }
       break;
-    case NIFTI_TYPE_INT16:
+    case SHORT:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(short).name()));
       break;
-    case NIFTI_TYPE_UINT16:
+    case USHORT:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(unsigned short).name()));
       break;
-    case NIFTI_TYPE_INT32:
+    case INT:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(long).name()));
       break;
-    case NIFTI_TYPE_UINT32:
+    case UINT:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(unsigned long).name()));
       break;
-    case NIFTI_TYPE_FLOAT32:
+    case FLOAT:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(float).name()));
       break;
-    case NIFTI_TYPE_FLOAT64:
+    case DOUBLE:
       EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                        std::string(typeid(double).name()));
       break;
-    case NIFTI_TYPE_RGB24:
-      EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
-                                       std::string("RGB"));
-      break;
+      //    case NIFTI_TYPE_RGB24: handled above under UChar
       //    case DT_RGB:
       // DEBUG -- Assuming this is a triple, not quad
       //image.setDataType( uiig::DATA_RGBQUAD );
       //      break;
     default:
       break;
-    }
-  // set slope/intercept
-  if(this->m_NiftiImage->qform_code == 0
-     && this->m_NiftiImage->sform_code == 0)
-    {
-    m_RescaleSlope = 1;
-    m_RescaleIntercept = 0;
-    }
-  else
-    {
-    if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
-      {
-      m_RescaleSlope = 1;
-      }
-    m_RescaleIntercept = this->m_NiftiImage->scl_inter;
     }
   // set the image orientation
   this->SetImageIOOrientationFromNIfTI(dims);
@@ -1257,7 +1361,6 @@ SetNIfTIOrientationFromImageIO(int origdims, int dims)
     nifti_mat44_inverse(this->m_NiftiImage->qto_xyz);
 
   this->m_NiftiImage->pixdim[0] = this->m_NiftiImage->qfac;
-  this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
   //  this->m_NiftiImage->sform_code = 0;
 }
 

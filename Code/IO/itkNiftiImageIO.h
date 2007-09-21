@@ -101,6 +101,7 @@ protected:
   ~NiftiImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
+  bool  MustRescale();
   void  DefineHeaderObjectDataType();
   void  SetNIfTIOrientationFromImageIO(int origdims, int dims);
   void  SetImageIOOrientationFromNIfTI(int dims);
@@ -131,6 +132,7 @@ private:
   nifti_image * m_NiftiImage;
   double        m_RescaleSlope;
   double        m_RescaleIntercept;
+  IOComponentType m_OnDiskComponentType;
 
   NiftiImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
