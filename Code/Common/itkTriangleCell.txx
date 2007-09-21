@@ -313,11 +313,23 @@ TriangleCell< TCellInterface >
                               double &t, CoordRepType *closestPoint)
 {
   PointType temp;
+
+  // convert from CoordRepType * to PointType:
   for (unsigned int i = 0; i < PointDimension; i++)
     {
     temp[i] = closestPoint[i];
     } 
-  return this->DistanceToLine (x, p1, p2, t, temp);
+
+  // Compute the squared distance to the line:
+  const double distance2 = this->DistanceToLine (x, p1, p2, t, temp);
+
+  // convert from PointType to CoordRepType * :
+  for (unsigned int j = 0; j < PointDimension; j++)
+    {
+    closestPoint[j] = temp[j];
+    } 
+
+  return distance2;
 }
 
 template <typename TCellInterface>
@@ -374,10 +386,9 @@ TriangleCell< TCellInterface >
     }
   else
     {
-    closest = p21;
     for(i=0;i<PointDimension;i++)
       {
-      p21[i] = p1[i] + t*p21[i];
+      closest[i] = p1[i] + t*p21[i];
       }
     }
     
