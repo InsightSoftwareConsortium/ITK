@@ -115,6 +115,8 @@ public:
   TriangleCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Computes the SQUARED distance between a point and a line segment defined
+   * by two other points */
   double DistanceToLine(PointType x, PointType p1, PointType p2, 
                               double &t, CoordRepType *closestPoint);
   double DistanceToLine(PointType x, PointType p1, PointType p2, 
