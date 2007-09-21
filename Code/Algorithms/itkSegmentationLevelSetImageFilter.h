@@ -135,6 +135,10 @@ namespace itk {
  * equation. Setting this value will  override any value already set by
  * FeatureScaling.
  *
+ * \warning This is an abstract class. It is not intended to be instantiated
+ * by itself. Instead, you should use the derived classes. This is the reason
+ * why the New() operator (itkNewMacro) is missing from the class API.
+ * 
  * \par
  *  See LevelSetFunction for more information.*/
 template <class TInputImage,
