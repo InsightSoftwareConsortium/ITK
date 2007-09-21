@@ -30,6 +30,13 @@ void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
+  // Test whether the output pixel type (or its components) are not of type
+  // float or double:
+  if( NumericTraits< OutputPixelValueType >::is_integer )
+    {
+    itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors"); 
+    }
+
   if (this->GetState() == UNINITIALIZED)
     {
     // Set the coefficients for the deriviatives
