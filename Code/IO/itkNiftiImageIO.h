@@ -129,10 +129,10 @@ private:
     ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED=5   /**<  */
   } ValidNiftiOrientationFlags;
 
-  nifti_image * m_NiftiImage;
-  double        m_RescaleSlope;
-  double        m_RescaleIntercept;
-  IOComponentType m_OnDiskComponentType;
+  nifti_image *     m_NiftiImage;
+  double            m_RescaleSlope;
+  double            m_RescaleIntercept;
+  IOComponentType   m_OnDiskComponentType;
 
   NiftiImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
