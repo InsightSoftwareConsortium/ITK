@@ -891,7 +891,7 @@ SlopeInterceptTest()
   //
   // fill out a nifti image and write it.
   const char *filename = "SlopeIntercept.nii";
-  nifti_image *niftiImage(nifti_simple_init_nim());
+  nifti_image * niftiImage = nifti_simple_init_nim();
   niftiImage->fname = (char *)malloc(strlen(filename)+1);
   strcpy(niftiImage->fname,filename);
   niftiImage->nifti_type = 1;
