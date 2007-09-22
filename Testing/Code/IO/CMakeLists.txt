@@ -191,17 +191,12 @@ IF(ITK_OBJCXX_COMPILER_WORKS)
   TARGET_LINK_LIBRARIES(itkIOHeaderObjCxxTest ITKIO ITKEXPAT ITKSpatialObject ITKAlgorithms)
 ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
-##Add tests that depend on finding data
-FIND_PATH(VW_RAW_DATA_PATH avfCROP.1023c.raw 
-          ${ITKTesting_SOURCE_DIR}/../../InsightData/VisibleWomanHead/CROPraw)
-MARK_AS_ADVANCED(VW_RAW_DATA_PATH)
-
-IF(VW_RAW_DATA_PATH)
-  ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
-           ${VW_RAW_DATA_PATH}/avfCROP.1023c.raw)
-ENDIF(VW_RAW_DATA_PATH)
 
 IF(ITK_DATA_ROOT)
+
+ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
+         ${ITK_DATA_ROOT}/Input/VHFColor.raw)
+
 ADD_TEST(itkMetaImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd

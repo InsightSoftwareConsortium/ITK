@@ -46,8 +46,8 @@ int itkRawImageIOTest2(int argc, char * argv [])
   itk::RawImageIO<RGBPixelType>::Pointer io;
   io = itk::RawImageIO<RGBPixelType>::New();
   io->SetFileName(argv[1]);
-  unsigned int dim[3] = {570,670,1};
-  double spacing[3] = {0.8, 0.8, 1.5};
+  unsigned int dim[3] = {50,50,10};
+  double spacing[3] = {1.0, 1.0, 1.0};
   double origin[3] = {0.0,0.0,0.0};
   for(unsigned int i=0; i<3; i++)
     {
