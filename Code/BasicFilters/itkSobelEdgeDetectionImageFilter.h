@@ -104,6 +104,14 @@ public:
     (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(OutputHasNumericTraitsCheck,
     (Concept::HasNumericTraits<OutputPixelType>));
+#ifdef ITK_USE_STRICT_CONCEPT_CHECKING
+  itkConceptMacro(OutputPixelIsFloatingPointCheck,
+    (Concept::IsFloatingPoint<OutputPixelType>));
+#endif
+  /** End concept checking */
+#endif
+
+
   /** End concept checking */
 #endif
 
