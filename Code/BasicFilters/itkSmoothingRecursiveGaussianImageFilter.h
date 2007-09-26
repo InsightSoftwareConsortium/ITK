@@ -60,6 +60,10 @@ public:
   typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
 
 
+  /** Runtime information support. */
+  itkTypeMacro(SmoothingRecursiveGaussianImageFilter, 
+               ImageToImageFilter);
+
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
