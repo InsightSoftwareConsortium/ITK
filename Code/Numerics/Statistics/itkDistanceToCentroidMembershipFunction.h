@@ -31,11 +31,12 @@ namespace itk{
   namespace Statistics{
 
 /** \class DistanceToCentroidMembershipFunction
- * \brief DistanceToCentroidMembershipFunction class represents DistanceToCentroid Density Function.
+ * \brief class represents DistanceToCentroid Density Function.
  *
  * This class keeps parameter to define DistanceToCentroid Density Function  and has
  * method to return the probability density 
- * of an instance.  MeasurementVectorSize is the dimension of measurement space.
+ * of an instance.  MeasurementVectorSize is the dimension of measurement
+ * space.
  * double is type of measurement. 
  */
 template< class TVector >
@@ -50,14 +51,16 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Strandard macros */
-  itkTypeMacro(DistanceToCentroidMembershipFunction, MembershipFunctionBase);
+  itkTypeMacro(DistanceToCentroidMembershipFunction,
+               MembershipFunctionBase);
   itkNewMacro(Self);
   
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType ;
 
   /** Typedef to represent the length of measurement vectors */
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef typename Superclass::MeasurementVectorSizeType 
+                                                  MeasurementVectorSizeType;
 
   /**  Set the length of each measurement vector. */
   virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
