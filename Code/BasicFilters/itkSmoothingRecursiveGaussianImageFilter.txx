@@ -193,6 +193,9 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   progress->RegisterInternalFilter(m_FirstSmoothingFilter,1.0 / (ImageDimension));
   m_FirstSmoothingFilter->SetInput( inputImage );
+  // graft our output to the internal filter to force the proper regions
+  // to be generated
+  m_CastingFilter->GraftOutput( this->GetOutput() );
   m_CastingFilter->Update();
   this->GraftOutput(m_CastingFilter->GetOutput());
 
