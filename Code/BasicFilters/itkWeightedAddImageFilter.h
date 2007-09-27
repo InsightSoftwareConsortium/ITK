@@ -119,6 +119,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(WeightedAddImageFilter, 
+               BinaryFunctorImageFilter);
+
   /** Set the weigth for the first operand of the weighted addition */
   void SetAlpha( RealType alpha ) 
     {

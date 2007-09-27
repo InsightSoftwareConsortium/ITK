@@ -150,7 +150,7 @@ public:
   typedef typename CannyFunctionType::ScalarValueType ScalarValueType;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CannySegmenationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+  itkTypeMacro(CannySegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

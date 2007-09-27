@@ -100,6 +100,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(InvertIntensityImageFilter, 
+               UnaryFunctorImageFilter);
+
   itkSetMacro( Maximum, InputPixelType );
   itkGetConstReferenceMacro( Maximum, InputPixelType );
 

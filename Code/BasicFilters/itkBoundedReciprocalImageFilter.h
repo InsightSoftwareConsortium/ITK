@@ -78,6 +78,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(BoundedReciprocalImageFilter, 
+               UnaryFunctorImageFilter);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToDoubleCheck,

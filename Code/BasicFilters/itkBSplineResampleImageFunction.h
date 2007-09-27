@@ -58,7 +58,7 @@ public:
   typedef SmartPointer<const Self>              ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineReconstructionImageFunction, 
+  itkTypeMacro(BSplineResampleImageFunction, 
                BSplineInterpolateImageFunction);
 
   /** New macro for creation of through a Smart Pointer */

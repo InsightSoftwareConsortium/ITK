@@ -83,6 +83,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(TernaryMagnitudeImageFilter, 
+               TernaryFunctorImageFilter);
+
 protected:
   TernaryMagnitudeImageFilter() {}
   virtual ~TernaryMagnitudeImageFilter() {}

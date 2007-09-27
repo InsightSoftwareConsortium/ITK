@@ -94,6 +94,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(VectorIndexSelectionCastImageFilter, 
+               UnaryFunctorImageFilter);
+
   /** Get/Set methods for the index */
   void SetIndex(unsigned int i)
     {

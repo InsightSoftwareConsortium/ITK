@@ -124,6 +124,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
  
+  /** Runtime information support. */
+  itkTypeMacro(MaskImageFilter, 
+               BinaryFunctorImageFilter);
+
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */
   void SetOutsideValue( const typename TOutputImage::PixelType & outsideValue ) 
     {

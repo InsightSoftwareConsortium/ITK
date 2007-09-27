@@ -108,6 +108,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(MaskNegatedImageFilter, 
+               BinaryFunctorImageFilter);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(MaskEqualityComparableCheck,

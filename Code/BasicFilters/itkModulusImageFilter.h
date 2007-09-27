@@ -93,6 +93,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(ModulusImageFilter, 
+               UnaryFunctorImageFilter);
+
   /** Set/Get the dividend */
   itkSetMacro( Dividend, InputPixelType );
   itkGetConstReferenceMacro( Dividend, InputPixelType );

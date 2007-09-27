@@ -69,6 +69,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(ValuedRegionalMaximaImageFilter, 
+               ValuedRegionalExtremaImageFilter);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputPixelTypeComparable,

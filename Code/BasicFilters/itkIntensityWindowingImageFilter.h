@@ -129,6 +129,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(IntensityWindowingImageFilter, 
+               UnaryFunctorImageFilter);
+
   /** Set/Get the values of the maximum and minimum 
    *  intensities of the outputimage */
   itkSetMacro( OutputMinimum, OutputPixelType );

@@ -89,6 +89,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(ExpNegativeImageFilter, 
+               UnaryFunctorImageFilter);
+
   void SetFactor( double factor )
   {
     if( factor == this->GetFunctor().GetFactor() ) 

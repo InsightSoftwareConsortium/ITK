@@ -88,6 +88,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(ComposeRGBImageFilter, 
+               TernaryFunctorImageFilter);
+
 protected:
   ComposeRGBImageFilter() {}
   virtual ~ComposeRGBImageFilter() {}

@@ -87,6 +87,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(Atan2ImageFilter, 
+               BinaryFunctorImageFilter);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(Input1ConvertibleToDoubleCheck,

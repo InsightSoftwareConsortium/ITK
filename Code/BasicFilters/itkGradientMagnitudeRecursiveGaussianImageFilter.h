@@ -105,6 +105,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(GradientMagnitudeRecursiveGaussianImageFilter, 
+               InPlaceImageFilter);
+
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma( RealType sigma );
 

@@ -108,7 +108,7 @@ public:
   typedef typename DerivativeFilterType::Pointer  DerivativeFilterPointer;
 
   /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer          OutputImagePointer;                                  
+  typedef typename TOutputImage::Pointer          OutputImagePointer;
 
 
   /** Type of the output Image */
@@ -118,6 +118,10 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /** Runtime information support. */
+  itkTypeMacro(GradientRecursiveGaussianImageFilter, 
+               ImageToImageFilter);
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma( RealType sigma );

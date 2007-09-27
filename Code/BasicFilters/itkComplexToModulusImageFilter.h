@@ -70,6 +70,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(ComplexToModulusImageFilter, 
+               UnaryFunctorImageFilter);
+
   typedef typename TInputImage::PixelType   InputPixelType;
   typedef typename TOutputImage::PixelType  OutputPixelType;
   typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;

@@ -88,6 +88,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro(SignedMaurerDistanceMapImageFilter, 
+               ImageToImageFilter);
+
   /** Image typedef support. */
   typedef typename InputImageType::PixelType   InputPixelType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
