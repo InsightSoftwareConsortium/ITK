@@ -9,12 +9,15 @@ itk.auto_progress(2)
 itk.force_load()
 # itk.ImageToImageFilter
 
+# a list of classes to exclude
+exclude = ["FFTRealToComplexConjugateImageFilter", "FFTComplexConjugateToRealImageFilter"]
+
 wrongName = False
 
 for t in dir(itk):
   T = itk.__dict__[t]
   # first case - that's a templated class
-  if isinstance(T, itk.Vector.__class__) and len(T)>0:
+  if t not in exclude and isinstance(T, itk.Vector.__class__) and len(T)>0:
     # use only the first specialization - all of them return the same name
     i = T.values()[0]
     # GetNameOfClass() is a virtual method of the LightObject class, so we must
