@@ -27,9 +27,9 @@ namespace itk{
 /** \class ListSampleToHistogramFilter
  *  \brief Imports data from ListSample object to Histogram object
  *
- * Before beginning import process, users should prepare the Histogram object
- * by calling histogram object's Initialize(Size), SetBinMin(dimension, n), 
- * and SetBinMax(dimension, n) methods.
+ * Before beginning import process, users should prepare the Histogram
+ * object by calling histogram object's Initialize(Size),
+ * SetBinMin(dimension, n), and SetBinMax(dimension, n) methods.
  *
  * To do: selective importing for subset of feature vector dimensions
  */
