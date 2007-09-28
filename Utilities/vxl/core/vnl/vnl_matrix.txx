@@ -1582,7 +1582,9 @@ void vnl_matrix<T>::inplace_transpose()
 //------------------------------------------------------------------------------
 
 #define VNL_MATRIX_INSTANTIATE(T) \
+template vcl_ostream & operator<<(vcl_ostream &, vnl_matrix<T > const &); \
 template class vnl_matrix<T >; \
+template vcl_istream & operator>>(vcl_istream &, vnl_matrix<T >       &); \
 template vnl_matrix<T > operator-(T const &, vnl_matrix<T > const &); \
 VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+(T const &, vnl_matrix<T > const &)); \
 VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator*(T const &, vnl_matrix<T > const &)); \
@@ -1591,8 +1593,6 @@ template T inner_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template T cos_angle(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template vnl_matrix<T > element_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template vnl_matrix<T > element_quotient(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template int vnl_inplace_transpose(T*, unsigned, unsigned, char*, unsigned); \
-template vcl_ostream & operator<<(vcl_ostream &, vnl_matrix<T > const &); \
-template vcl_istream & operator>>(vcl_istream &, vnl_matrix<T >       &)
+template int vnl_inplace_transpose(T*, unsigned, unsigned, char*, unsigned)
 
 #endif // vnl_matrix_txx_
