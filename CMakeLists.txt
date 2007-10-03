@@ -215,6 +215,10 @@ IF(ITK_USE_TRANSFORM_IO_FACTORIES)
   ENDIF(NOT ITK_USE_REVIEW)
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
+#-----------------------------------------------------------------------------
+# ITK turn on the correct usage of oriented images in gradient computations and image registration.
+OPTION(ITK_USE_ORIENTED_IMAGE_DIRECTION "Turn on correct use of oriented images direction in gradient computation and image registration." OFF)
+MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
 #-----------------------------------------------------------------------------
 # Installation vars.
