@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkVTKImageExport_txx
 #define __itkVTKImageExport_txx
+
 #include "itkVTKImageExport.h"
 
 #include "itkPixelTraits.h"
@@ -72,6 +73,10 @@ VTKImageExport<TInputImage>::VTKImageExport()
   else if(typeid(ScalarType) == typeid(unsigned char))
     {
     m_ScalarTypeName = "unsigned char";
+    }
+  else if(typeid(ScalarType) == typeid(signed char))
+    {
+    m_ScalarTypeName = "signed char";
     }
   else
     {
