@@ -67,6 +67,10 @@ VTKImageImport<TOutputImage>
     {
     m_ScalarTypeName = "char";
     }
+  else if(typeid(ScalarType) == typeid(signed char))
+    {
+    m_ScalarTypeName = "signed char";
+    }
   else if(typeid(ScalarType) == typeid(unsigned char))
     {
     m_ScalarTypeName = "unsigned char";
