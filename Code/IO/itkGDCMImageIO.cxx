@@ -212,7 +212,7 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
     itkExceptionMacro(<< "Could not open file: "
                       << filename << " for writing."
                       << std::endl
-                      << "Reasion: "
+                      << "Reason: "
                       << itksys::SystemTools::GetLastSystemError());
     return false;
     }
