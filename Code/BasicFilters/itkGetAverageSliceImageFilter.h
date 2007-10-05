@@ -39,6 +39,8 @@ namespace itk
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  * 
+ * \sa AccumulateImageFilter
+ *
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage>
