@@ -37,10 +37,10 @@ namespace itk
  *
  * The pixels must support the operators >= and <=.
  * 
- * \ingroup IntensityImageFilters
+ * \ingroup IntensityImageFilters Multithreaded
  */
 template <class TImage>
-class ITK_EXPORT ThresholdImageFilter:public InPlaceImageFilter<TImage,TImage>
+class ITK_EXPORT ThresholdImageFilter : public InPlaceImageFilter<TImage,TImage>
 {
 public:
   /** Standard class typedefs. */

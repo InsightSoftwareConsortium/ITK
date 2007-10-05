@@ -32,7 +32,7 @@ namespace itk
  * objects in an image (as from the output of
  * ConnectedComponentImageFilter) such that the label numbers are
  * consecutive with no gaps between the label numbers used.  By
- * default, the relabling will also sort the labels based on the size
+ * default, the relabeling will also sort the labels based on the size
  * of the object: the largest object will have label #1, the second
  * largest will have label #2, etc.
  *
@@ -66,6 +66,8 @@ namespace itk
  * InPlaceImageFilter::InPlaceOn() and InPlaceImageFilter::InPlaceOff().
  *
  * \sa ConnectedComponentImageFilter, BinaryThresholdImageFilter, ThresholdImageFilter
+ *
+ * \ingroup Singlethreaded
  */
 
 template <class TInputImage, class TOutputImage>

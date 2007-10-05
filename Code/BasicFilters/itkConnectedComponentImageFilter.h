@@ -43,7 +43,9 @@ namespace itk
  * impose any particular ordering.
  *
  *
- * \sa ImageToImageFilter
+ * \sa ImageToImageFilter 
+ *
+ * \ingroup Singlethreaded
  */
 
 template <class TInputImage, class TOutputImage, class TMaskImage=TInputImage>

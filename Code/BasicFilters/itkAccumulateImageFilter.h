@@ -46,6 +46,8 @@ namespace itk
  *
  * This filter was contributed by Emiliano Beronich
  *
+ * \sa GetAverageSliceImageFilter
+ *
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
 template <class TInputImage, class TOutputImage>
