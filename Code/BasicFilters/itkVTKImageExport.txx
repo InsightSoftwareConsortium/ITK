@@ -124,6 +124,12 @@ template <class TInputImage>
 int* VTKImageExport<TInputImage>::WholeExtentCallback()
 {
   InputImagePointer input = this->GetInput();
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return 0;
+    }
+
   InputRegionType region = input->GetLargestPossibleRegion();
   InputSizeType size = region.GetSize();
   InputIndexType index = region.GetIndex();
@@ -153,6 +159,12 @@ template <class TInputImage>
 double* VTKImageExport<TInputImage>::SpacingCallback()
 {
   InputImagePointer input = this->GetInput();
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return 0;
+    }
+
   const typename TInputImage::SpacingType& spacing = input->GetSpacing();
 
   unsigned int i=0;
@@ -202,6 +214,12 @@ template <class TInputImage>
 double* VTKImageExport<TInputImage>::OriginCallback()
 {
   InputImagePointer input = this->GetInput();
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return 0;
+    }
+
   const typename TInputImage::PointType& origin = input->GetOrigin();
 
   unsigned int i=0;
@@ -294,6 +312,12 @@ void VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int* extent)
   region.SetIndex(index);
   
   InputImagePointer input = this->GetInput();
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return; 
+    }
+
   input->SetRequestedRegion(region);
 }
 
@@ -308,6 +332,12 @@ template <class TInputImage>
 int* VTKImageExport<TInputImage>::DataExtentCallback()
 {
   InputImagePointer input = this->GetInput();
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return 0;
+    }
+
   InputRegionType region = input->GetBufferedRegion();
   InputSizeType size = region.GetSize();
   InputIndexType index = region.GetIndex();
@@ -335,6 +365,12 @@ template <class TInputImage>
 void* VTKImageExport<TInputImage>::BufferPointerCallback()
 {
   InputImagePointer input = this->GetInput();
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return 0;
+    }
+
   return input->GetBufferPointer();
 }
 

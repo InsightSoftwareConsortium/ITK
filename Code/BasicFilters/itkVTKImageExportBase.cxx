@@ -133,6 +133,12 @@ void VTKImageExportBase::UpdateInformationCallback()
 int VTKImageExportBase::PipelineModifiedCallback()
 {
   DataObjectPointer input = this->GetInput(0);
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return -1;
+    }
+
   unsigned long pipelineMTime = input->GetPipelineMTime();
 
   if( this->GetMTime() > pipelineMTime)
@@ -160,7 +166,12 @@ void VTKImageExportBase::UpdateDataCallback()
 {
   // Get the input.
   DataObjectPointer input = this->GetInput(0);
-  
+  if( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    return;
+    }
+ 
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
 
