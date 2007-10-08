@@ -352,6 +352,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     m_InterpolatorIsBSpline = false;
 
     m_DerivativeCalculator = DerivativeFunctionType::New();
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+    m_DerivativeCalculator->UseImageDirectionOn();
+#endif
+
     m_DerivativeCalculator->SetInputImage( this->m_MovingImage );
 
     m_BSplineInterpolator = NULL;
@@ -360,6 +365,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
     m_BSplineInterpolator = testPtr;
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+    m_BSplineInterpolator->UseImageDirectionOn();
+#endif
+
     m_DerivativeCalculator = NULL;
     itkDebugMacro( "Interpolator is BSpline" );
     }
