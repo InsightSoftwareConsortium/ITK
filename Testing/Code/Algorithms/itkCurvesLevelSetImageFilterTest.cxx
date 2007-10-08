@@ -29,10 +29,10 @@
 #include "itkSimilarityIndexImageFilter.h"
 
 /* Uncomment to write out image files */
-/*
+#ifdef WRITING_OUT_IMAGES
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
-*/
+#endif
 
 int itkCurvesLevelSetImageFilterTest(int, char* [] )
 {
@@ -188,9 +188,9 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
   /** 
-   * Uncomment to write out image files.
+   * Define the symbol WRITING_OUT_IMAGES to write out image files.
    */
-/*
+#ifdef WRITING_OUT_IMAGES
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -221,7 +221,7 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( "initialLevelSet.png" );
   writer->Update();
-*/
+#endif
 
   // Check if overlap is above threshold
   if ( overlap->GetSimilarityIndex() > 0.90 )
