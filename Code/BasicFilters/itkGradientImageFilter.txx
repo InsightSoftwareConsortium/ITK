@@ -30,6 +30,28 @@
 namespace itk
 {
 
+//
+// Constructor
+//
+template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
+::GradientImageFilter()
+{
+  this->m_UseImageSpacing   = true;
+  this->m_UseImageDirection = false;
+}
+
+
+//
+// Destructor
+//
+template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
+::~GradientImageFilter()
+{
+}
+
+
 template <class TInputImage, class TOperatorValueType, class TOutputValueType>
 void 
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
@@ -94,7 +116,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
                        int threadId)
 {
   unsigned int i;
-  OutputPixelType a;
+  OutputPixelType gradient;
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> nit;
@@ -104,8 +126,8 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
     OutputValueType> SIP;
 
   // Get the input and output
-  typename OutputImageType::Pointer       output = this->GetOutput();
-  typename  InputImageType::ConstPointer  input  = this->GetInput();
+  OutputImageType *       outputImage = this->GetOutput();
+  const InputImageType *  inputImage  = this->GetInput();
   
   // Set up operators
   DerivativeOperator<OperatorValueType,InputImageDimension> op[InputImageDimension];
@@ -144,7 +166,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
-  faceList = bC(input, outputRegionForThread, radius);
+  faceList = bC(inputImage, outputRegionForThread, radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
   fit = faceList.begin();
@@ -153,7 +175,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   
   // Initialize the x_slice array
-  nit = ConstNeighborhoodIterator<InputImageType>(radius, input, *fit);
+  nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, *fit);
 
   std::slice x_slice[InputImageDimension];
   const unsigned long center = nit.Size() / 2;
@@ -169,8 +191,8 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
     nit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                    input, *fit);
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+                                                    inputImage, *fit);
+    it = ImageRegionIterator<OutputImageType>(outputImage, *fit);
     nit.OverrideBoundaryCondition(&nbc);
     nit.GoToBegin();
     
@@ -178,12 +200,26 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
       {
       for (i = 0; i < InputImageDimension; ++i)
         {
-        a[i] = SIP(x_slice[i], nit, op[i]);
+        gradient[i] = SIP(x_slice[i], nit, op[i]);
         }
-      it.Value() = a;          
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+      if( this->m_UseImageDirection )
+        {
+        inputImage->RotateArrayByDirectionCosines( gradient, it.Value() );
+        }
+      else
+        {
+        it.Value() = gradient;          
+        }
+#else
+      it.Value() = gradient;          
+#endif
+
       ++nit;
       ++it;
       progress.CompletedPixel();
+
       }
     }
 }
@@ -199,7 +235,9 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
   Superclass::PrintSelf( os, indent );
 
   os << indent << "UseImageSpacing: " 
-     << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+     << (this->m_UseImageSpacing ? "On" : "Off") << std::endl;
+  os << indent << "UseImageDirection = " 
+     << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
 }
 
 } // end namespace itk

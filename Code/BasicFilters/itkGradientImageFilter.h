@@ -115,12 +115,21 @@ public:
   /** End concept checking */
 #endif
 
+  /** The UseImageDirection flag determines whether image derivatives are
+   * computed with respect to the image grid or with respect to the physical
+   * space. When this flag is ON the derivatives are computed with respect to
+   * the coodinate system of physical space. The difference is whether we take
+   * into account the image Direction or not. The flag ON will take into
+   * account the image direction and will result in an extra matrix
+   * multiplication compared to the amount of computation performed when the
+   * flag is OFF.  This flag is OFF by default.*/
+  itkSetMacro( UseImageDirection, bool );
+  itkGetMacro( UseImageDirection, bool );
+  itkBooleanMacro( UseImageDirection );
+
 protected:
-  GradientImageFilter()
-    {
-      m_UseImageSpacing = true;
-    }
-  virtual ~GradientImageFilter() {}
+  GradientImageFilter();
+  virtual ~GradientImageFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
@@ -141,6 +150,11 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   bool m_UseImageSpacing;
+
+  // flag to take or not the image direction into account
+  // when computing the derivatives.
+  bool m_UseImageDirection;
+
 };
   
 } // end namespace itk

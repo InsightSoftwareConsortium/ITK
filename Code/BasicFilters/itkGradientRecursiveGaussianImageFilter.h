@@ -137,6 +137,18 @@ public:
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
+  /** The UseImageDirection flag determines whether the gradients are
+   * computed with respect to the image grid or with respect to the physical
+   * space. When this flag is ON the gradients are computed with respect to
+   * the coodinate system of physical space. The difference is whether we take
+   * into account the image Direction or not. The flag ON will take into
+   * account the image direction and will result in an extra matrix
+   * multiplication compared to the amount of computation performed when the
+   * flag is OFF.  This flag is OFF by default.*/
+  itkSetMacro( UseImageDirection, bool );
+  itkGetMacro( UseImageDirection, bool );
+  itkBooleanMacro( UseImageDirection );
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck,
@@ -168,6 +180,8 @@ private:
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
 
+  /** Take into account image orientation when computing the Gradient */
+  bool m_UseImageDirection;
 };
 
 } // end namespace itk

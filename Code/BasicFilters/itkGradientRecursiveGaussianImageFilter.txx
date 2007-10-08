@@ -19,6 +19,7 @@
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -32,6 +33,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::GradientRecursiveGaussianImageFilter()
 {
   m_NormalizeAcrossScale = false;
+  m_UseImageDirection = false;
 
   if( ImageDimension > 1)
     {
@@ -256,6 +258,28 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
     }
   
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  // If the flag for using the input image direction is ON,
+  // then we apply the direction correction to all the pixels
+  // of the output gradient image.
+  if( this->m_UseImageDirection )
+    {
+    OutputImageType * gradientImage = this->GetOutput();
+    const TInputImage * inputImage = this->GetInput();
+    typedef typename InputImageType::DirectionType DirectionType;
+    ImageRegionIterator< OutputImageType > itr( gradientImage,
+      gradientImage->GetRequestedRegion() );
+
+    OutputPixelType correctedGradient;
+    while( !itr.IsAtEnd() )
+      {
+      const OutputPixelType & gradient = itr.Get();
+      inputImage->RotateArrayByDirectionCosines( gradient, correctedGradient );
+      itr.Set( correctedGradient );
+      ++itr;
+      }
+    }
+#endif
 
 }
 

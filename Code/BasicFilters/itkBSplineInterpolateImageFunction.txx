@@ -44,6 +44,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   // ***TODO: Should we store coefficients in a variable or retrieve from filter?
   m_Coefficients = CoefficientImageType::New();
   this->SetSplineOrder(SplineOrder);
+  this->m_UseImageDirection = false;
 }
 
 /**
@@ -200,6 +201,9 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   // Modify EvaluateIndex at the boundaries using mirror boundary conditions
   this->ApplyMirrorBoundaryConditions(EvaluateIndex, m_SplineOrder);
   
+  const InputImageType * inputImage = this->GetInputImage();
+  const typename InputImageType::SpacingType & spacing = inputImage->GetSpacing();
+
   // Calculate derivative
   CovariantVectorType derivativeValue;
   double tempValue;
@@ -227,8 +231,17 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         }
       derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) * tempValue ;
       }
-     derivativeValue[n] /= this->GetInputImage()->GetSpacing()[n];   // take spacing into account
+     derivativeValue[n] /= spacing[n];   // take spacing into account
     }
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  if( this->m_UseImageDirection )
+    {
+    CovariantVectorType orientedDerivative;
+    inputImage->RotateArrayByDirectionCosines( derivativeValue, orientedDerivative );
+    return orientedDerivative;
+    }
+#endif
 
   return(derivativeValue);
     
