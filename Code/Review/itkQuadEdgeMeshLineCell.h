@@ -141,12 +141,39 @@ public:
                             PointIdConstIterator last );
   virtual void SetPointId( int localId, PointIdentifier pId );
 
-  virtual PointIdIterator PointIdsBegin(){return (PointIdIterator)0; }
-  virtual PointIdIterator PointIdsEnd(){return (PointIdIterator)0; }
+  virtual PointIdIterator PointIdsBegin()
+    {
+    SynchronizePointsAPI();
+    return &m_PointIds[0];
+    }
+  virtual PointIdIterator PointIdsEnd()
+    {
+    SynchronizePointsAPI();
+    return (&m_PointIds[1] + 1);
+    }
 
-  virtual PointIdConstIterator GetPointIds() const {return (PointIdIterator)0; }
-  virtual PointIdConstIterator PointIdsBegin() const {return (PointIdIterator)0; }
-  virtual PointIdConstIterator PointIdsEnd() const {return (PointIdIterator)0; }
+  virtual PointIdConstIterator GetPointIds() const
+    {
+    SynchronizePointsAPI();
+    return &m_PointIds[0];
+    }
+  virtual PointIdConstIterator PointIdsBegin() const
+    {
+    SynchronizePointsAPI();
+    return &m_PointIds[0];
+    }
+  virtual PointIdConstIterator PointIdsEnd() const
+    {
+    SynchronizePointsAPI();
+    return(&m_PointIds[1] + 1);
+    }
+
+  /** helper for backward compatibility */
+  void SynchronizePointsAPI() const
+    {
+      (PointIdentifier)m_PointIds[0] = GetQEGeom()->GetOrigin();
+      (PointIdentifier)m_PointIds[1] = GetQEGeom()->GetDestination();
+    }
 
   /** QuadEdge internal flavor of cell API **/
   virtual void InternalSetPointIds( PointIdInternalConstIterator first );
@@ -168,8 +195,9 @@ private:
    * In order to have constant time access at the itk level instead of 
    * of doing a search in the Mesh::Cell container.
    */
-  CellIdentifier m_Identifier;
-  QEType*        m_QuadEdgeGeom;
+  CellIdentifier  m_Identifier;
+  QEType*         m_QuadEdgeGeom;
+  PointIdentifier m_PointIds[2];
 };
 
 } // end namespace itk

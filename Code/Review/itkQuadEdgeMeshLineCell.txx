@@ -212,8 +212,14 @@ void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointId( int localId, PointIdentifier pId )
 {
-  if( localId == 0 )      this->GetQEGeom( )->SetOrigin( pId );
-  else if( localId == 1 ) this->GetQEGeom( )->SetDestination( pId );
+  if( localId == 0 )
+    {
+    this->GetQEGeom( )->SetOrigin( pId );
+    }
+  else if( localId == 1 )
+    {
+    this->GetQEGeom( )->SetDestination( pId );
+    }
 }
 
 // ---------------------------------------------------------------------
