@@ -111,6 +111,18 @@ public:
     return this->EvaluateAtIndex( index ); 
     }
   
+  /** The UseImageDirection flag determines whether image derivatives are
+   * computed with respect to the image grid or with respect to the physical
+   * space. When this flag is ON the derivatives are computed with respect to
+   * the coodinate system of physical space. The difference is whether we take
+   * into account the image Direction or not. The flag ON will take into
+   * account the image direction and will result in an extra matrix
+   * multiplication compared to the amount of computation performed when the
+   * flag is OFF.  This flag is OFF by default.*/
+  itkSetMacro( UseImageDirection, bool );
+  itkGetMacro( UseImageDirection, bool );
+  itkBooleanMacro( UseImageDirection );
+
 protected:
   CentralDifferenceImageFunction();
   ~CentralDifferenceImageFunction(){};
@@ -119,6 +131,10 @@ protected:
 private:
   CentralDifferenceImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
+
+  // flag to take or not the image direction into account
+  // when computing the derivatives.
+  bool m_UseImageDirection;
 
 };
 

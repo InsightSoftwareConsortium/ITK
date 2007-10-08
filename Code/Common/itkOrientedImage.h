@@ -247,6 +247,41 @@ public:
       }
     }
 #endif
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  /** Take a vector or covariant vector that has been computed in the
+   * coordinate system parallel to the image grid and rotate it by the
+   * direction cosines in order to get it in terms of the coordinate system of
+   * the image acquisition device.  This implementation in the OrientedImage
+   * multiply the array (vector or covariant vector) by the matrix of Direction
+   * Cosines. The arguments of the method are of type FixedArray to make
+   * possible to use this method with both Vector and CovariantVector.
+   * The Method is implemented differently in the itk::Image.
+   *
+   * \sa Image
+   */ 
+  template<class TCoordRep>
+  void RotateArrayByDirectionCosines(
+    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
+          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+    {
+    //
+    // This temporary implementation should be replaced with Template MetaProgramming.
+    // 
+    const DirectionType & direction = this->GetDirection();
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      typedef typename NumericTraits<TCoordRep>::AccumulateType CoordSumType;
+      CoordSumType sum = NumericTraits<CoordSumType>::Zero;
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        sum += direction[i][j] * inputGradient[j];
+        }
+      outputGradient[i] = static_cast<TCoordRep>( sum );
+      }
+    }
+#endif
+
 protected:
   OrientedImage();
   virtual ~OrientedImage() {};
@@ -275,4 +310,3 @@ private:
 #endif
 
 #endif
-

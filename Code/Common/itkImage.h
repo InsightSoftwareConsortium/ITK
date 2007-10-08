@@ -359,6 +359,31 @@ public:
       }
     }
 
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  /** Take a vector or covariant vector that has been computed in the
+   * coordinate system parallel to the image grid and rotate it by the
+   * direction cosines in order to get it in terms of the coordinate system of
+   * the image acquisition device.  This implementation in the Image only needs
+   * to copy the input vector or covariant vector given that the Image class
+   * implicitly has an Identity Matrix as direction cosines. The arguments of
+   * the method are of type FixedArray to make possible to use this method with
+   * both Vector and CovariantVector. The Method is implemented differently in
+   * the itk::OrientedImage. 
+   *
+   * \sa OrientedImage
+   */ 
+  template<class TCoordRep>
+  void RotateArrayByDirectionCosines(
+    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
+          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+    {
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      outputGradient[i] = inputGradient[i];
+      }
+    }
+#endif
+
 protected:
   Image();
   void PrintSelf(std::ostream& os, Indent indent) const;
