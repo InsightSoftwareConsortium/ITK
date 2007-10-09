@@ -132,7 +132,7 @@ public:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
@@ -250,7 +250,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   metric->SetFixedImageStandardDeviation(  0.4 );
   metric->SetMovingImageStandardDeviation( 0.4 );
-  metric->SetNumberOfSpatialSamples( 50 );
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
@@ -331,8 +330,9 @@ int main( int argc, char *argv[] )
 
 
   fixedNormalizer->Update();
-  registration->SetFixedImageRegion( 
-       fixedNormalizer->GetOutput()->GetBufferedRegion() );
+  FixedImageType::RegionType fixedImageRegion =
+       fixedNormalizer->GetOutput()->GetBufferedRegion();
+  registration->SetFixedImageRegion( fixedImageRegion );
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
@@ -341,6 +341,15 @@ int main( int argc, char *argv[] )
   initialParameters[1] = 0.0;  // Initial offset in mm along Y
   
   registration->SetInitialTransformParameters( initialParameters );
+
+  // Software Guide : BeginCodeSnippet
+  const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
+  
+  const unsigned int numberOfSamples = 
+                        static_cast< unsigned int >( numberOfPixels * 0.01 );
+
+  metric->SetNumberOfSpatialSamples( numberOfSamples );
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -360,7 +369,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  optimizer->SetLearningRate( 20.0 );
+  optimizer->SetLearningRate( 15.0 );
   optimizer->SetNumberOfIterations( 200 );
   optimizer->MaximizeOn();
   // Software Guide : EndCodeSnippet
