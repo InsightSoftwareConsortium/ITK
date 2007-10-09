@@ -901,13 +901,10 @@ void MetaImageIO::ReadImageInformation()
   vnl_vector< double > directionAxis( this->GetNumberOfDimensions() );
   for( unsigned int i=0; i < this->GetNumberOfDimensions(); i++)
     {
-    std::cout << "direction["<<i<<"]= ";
     for( unsigned int j=0; j < this->GetNumberOfDimensions(); j++)
       {
       directionAxis[j] = transformMatrix[i*this->GetNumberOfDimensions() + j];
-      std::cout << directionAxis[j] << "  ";
       }
-    std::cout << std::endl;
     this->SetDirection( i, directionAxis );
     }
 } 
