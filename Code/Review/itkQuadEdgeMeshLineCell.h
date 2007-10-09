@@ -171,8 +171,8 @@ public:
   /** helper for backward compatibility */
   void SynchronizePointsAPI() const
     {
-      (PointIdentifier)m_PointIds[0] = GetQEGeom()->GetOrigin();
-      (PointIdentifier)m_PointIds[1] = GetQEGeom()->GetDestination();
+    m_PointIds[0] = GetQEGeom()->GetOrigin();
+    m_PointIds[1] = GetQEGeom()->GetDestination();
     }
 
   /** QuadEdge internal flavor of cell API **/
@@ -197,7 +197,7 @@ private:
    */
   CellIdentifier  m_Identifier;
   QEType*         m_QuadEdgeGeom;
-  PointIdentifier m_PointIds[2];
+  mutable PointIdentifier m_PointIds[2];
 };
 
 } // end namespace itk
