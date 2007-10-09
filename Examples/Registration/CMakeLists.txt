@@ -137,12 +137,33 @@ ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration1DifferenceBeforeTest.png
 )
 
+ADD_TEST(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration1Test.png
+            ${TEMP}/ImageRegistration1od1Test.png
+  ImageRegistration1oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
+        ${TEMP}/ImageRegistration1od1Test.png
+        ${TEMP}/ImageRegistration1od1DifferenceAfterTest.png
+        ${TEMP}/ImageRegistration1od1DifferenceBeforeTest.png
+)
+
 ADD_TEST(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
+  --compare ${BASELINE}/ImageRegistration2Test.png
+            ${TEMP}/ImageRegistration2oTest.png
   ImageRegistration2oTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration2Test.png
+        ${TEMP}/ImageRegistration2oTest.png
 )
+
+ADD_TEST(ImageRegistration2od1Test ${REGISTRATION_EXAMPLESO}
+  ImageRegistration2oTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20DirectionPlus30.mhd
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
+        ${TEMP}/ImageRegistration2od1Test.mhd
+)
+
 
 ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration3Test.png
@@ -203,6 +224,8 @@ ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
 )
 
 ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
+  --compare ${BASELINE}/ImageRegistration2Test.png
+            ${TEMP}/ImageRegistration2Test.png
   ImageRegistration2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
