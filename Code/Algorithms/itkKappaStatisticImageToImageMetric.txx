@@ -272,10 +272,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex( transformedPoint, tempIndex );
 
       typename MovingImageType::IndexType mappedIndex; 
-      for( unsigned int j = 0; j < MovingImageType::ImageDimension; j++ )
-        {
-        mappedIndex[j] = static_cast<long>( vnl_math_rnd( tempIndex[j] ) );
-        }
+      mappedIndex.CopyWithRound( tempIndex );
       
       const GradientPixelType gradient = this->m_GradientImage->GetPixel( mappedIndex );
 
