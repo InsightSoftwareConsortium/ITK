@@ -20,6 +20,8 @@
 #ifndef __itkPixelTraits_h
 #define __itkPixelTraits_h
 
+#include "itkMacro.h"
+
 namespace itk
 {
 
