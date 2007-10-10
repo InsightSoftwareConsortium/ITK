@@ -898,4 +898,40 @@ private:
 #endif
 
 
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+//--------------------------------------------------------------------------------
+//  Helper macros for Template Meta-Programming techniques of for-loops unrolling
+//--------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------
+// Macro that generates an unrolled for loop for assigning elements of one array
+// to elements of another array The array are assumed to be of same length
+// (dimension), and this is also assumed to be the value of NumberOfIterations.
+// No verification of size is performed. Casting is perfomed as part of the
+// assignment, by using the DestinationElementType as the casting type. 
+// Source and destination array types must have defined opearator[] in their API.
+#define itkFoorLoopAssignmentMacro(DestinationType,SourceType,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
+    for(unsigned int i=0;i < NumberOfIterations; ++i) \
+      { \
+      DestinationArray[i] = static_cast< DestinationElementType >( SourceArray[i] ); \
+      }
+
+//--------------------------------------------------------------------------------
+// Macro that generates an unrolled for loop for rounding and assigning
+// elements of one array to elements of another array The array are assumed to
+// be of same length (dimension), and this is also assumed to be the value of
+// NumberOfIterations.  No verification of size is performed. Casting is
+// perfomed as part of the assignment, by using the DestinationElementType as
+// the casting type. 
+// Source and destination array types must have defined opearator[] in their API.
+#define itkFoorLoopRoundingAndAssignmentMacro(DestinationType,SourceType,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
+    for(unsigned int i=0;i < NumberOfIterations; ++i) \
+      { \
+      DestinationArray[i] = static_cast< DestinationElementType >( vnl_math_rnd( SourceArray[i] ) ); \
+      }
+
+#endif
+// end of Template Meta Programming helper macros
+
+
 #endif //end of itkMacro.h

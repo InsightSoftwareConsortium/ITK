@@ -276,10 +276,14 @@ public:
   template <class TCoordRep>
   inline void CopyWithRound( const FixedArray<TCoordRep,VIndexDimension> & point )
     {
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+    itkFoorLoopRoundingAndAssignmentMacro(IndexType,ContinuousIndexType,IndexValueType,m_Index,point,VIndexDimension);
+#else
     for(unsigned int i=0;i < VIndexDimension; ++i)
       {
       m_Index[i] = static_cast< IndexValueType>( vnl_math_rnd( point[i] ) );
       }
+#endif
     }
 #if defined (VCL_VC) && !defined(__GCCXML__)
 #undef vnl_math_rnd

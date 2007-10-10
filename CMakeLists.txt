@@ -221,6 +221,12 @@ OPTION(ITK_USE_ORIENTED_IMAGE_DIRECTION "Turn on correct use of oriented images 
 MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
 #-----------------------------------------------------------------------------
+# ITK turn on the use of Template Meta Programming techniques for unrolling loops of array-like operations
+OPTION(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." OFF)
+MARK_AS_ADVANCED(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING)
+
+
+#-----------------------------------------------------------------------------
 # Installation vars.
 # ITK_INSTALL_BIN_DIR          - binary dir (executables)
 # ITK_INSTALL_LIB_DIR          - library dir (libs)
