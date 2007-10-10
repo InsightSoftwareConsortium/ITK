@@ -20,6 +20,7 @@
 #include "itkMacro.h"
 #include "itkOffset.h"
 #include "itkSize.h"
+#include "itkFixedArray.h"
 
 #include <memory>
 
@@ -259,6 +260,26 @@ public:
    *    Index<3> index = {5, 2, 7}; */
   IndexValueType m_Index[VIndexDimension];
   
+  /** Copy values from a FixedArray by rounding each one of the components */
+  template <class TCoordRep>
+  inline void CopyWithRound( const FixedArray<TCoordRep,VIndexDimension> & point )
+    {
+    for(unsigned int i=0;i < VIndexDimension; ++i)
+      {
+      m_Index[i] = static_cast< IndexValueType>( vnl_math_rnd( point[i] ) );
+      }
+    }
+
+  /** Copy values from a FixedArray by casting each one of the components */
+  template <class TCoordRep>
+  inline void CopyWithCast( const FixedArray<TCoordRep,VIndexDimension> & point )
+    {
+    for(unsigned int i=0;i < VIndexDimension; ++i)
+      {
+      m_Index[i] = static_cast< IndexValueType>( point[i] );
+      }
+    }
+
 };
 
 namespace Functor
