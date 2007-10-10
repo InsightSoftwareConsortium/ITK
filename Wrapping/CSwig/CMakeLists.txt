@@ -502,9 +502,15 @@ IF(ITK_CSWIG_PYTHON)
 
   # Install the package python files.
   FOREACH(file ${ITK_PYTHON_FILES})
-    INSTALL(FILES "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py"
-      DESTINATION ${ITK_INSTALL_LIB_DIR_CM24}/python
-      COMPONENT RuntimeLibraries)
+    IF(ITK_CSWIG_CONFIGURATION_TYPES)
+      INSTALL(FILES "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/\${CMAKE_INSTALL_CONFIG_NAME}/${file}.py"
+        DESTINATION ${ITK_INSTALL_LIB_DIR_CM24}/python
+        COMPONENT RuntimeLibraries)
+    ELSE(ITK_CSWIG_CONFIGURATION_TYPES)
+      INSTALL(FILES "${ITK_BINARY_DIR}/Wrapping/CSwig/Python/${file}.py"
+        DESTINATION ${ITK_INSTALL_LIB_DIR_CM24}/python
+        COMPONENT RuntimeLibraries)
+    ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
   ENDFOREACH(file)
   
   SET(ITK_CSWIG_PACKAGE_DIR "os.path.dirname(selfpath)")
