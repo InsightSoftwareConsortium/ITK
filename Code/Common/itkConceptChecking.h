@@ -21,6 +21,8 @@
 #define __itkConceptChecking_h
 
 #include "itkPixelTraits.h"
+#include "itkNumericTraits.h"
+#include <iostream>
 
 /** Choose a concept checking implementation based on compiler abilities. */
 #ifndef ITK_CONCEPT_NO_CHECKING
