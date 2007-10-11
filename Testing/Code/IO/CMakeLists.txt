@@ -728,12 +728,32 @@ ENDIF(ITK_DATA_ROOT)
 
 
 # Test for reading direction cosines
+# Note: Directions are transposed here with respect to the MetaImage header
 SET(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 ADD_TEST(itkImageIODirection2DTest01 ${IO_TESTS} itkImageIODirection2DTest
-   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20.png  1.0 0.0 0.0 1.0)
+   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20.png  
+   1.0   0.0 
+   0.0   1.0)
 
-ADD_TEST(itkImageIODirection2DTest01 ${IO_TESTS} itkImageIODirection2DTest
-   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20.png  1.0 0.0 0.0 1.0)
+ADD_TEST(itkImageIODirection2DTest02 ${IO_TESTS} itkImageIODirection2DTest
+   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceShifted13x17y.png  
+   1.0   0.0 
+   0.0   1.0)
+
+ADD_TEST(itkImageIODirection2DTest03 ${IO_TESTS} itkImageIODirection2DTest
+   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254)
+
+ADD_TEST(itkImageIODirection2DTest04 ${IO_TESTS} itkImageIODirection2DTest
+   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254)
+
+ADD_TEST(itkImageIODirection2DTest05 ${IO_TESTS} itkImageIODirection2DTest
+   ${EXAMPLES_DATA_ROOT}/BrainT1SliceBorder20DirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254)
 
 
 IF(ITK_BINARY_DIR)
