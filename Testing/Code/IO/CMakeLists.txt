@@ -711,18 +711,47 @@ ADD_TEST(itkNrrdCovariantVectorImageReadWriteTest ${IO_TESTS}
             ${ITK_DATA_ROOT}/Input/mini-covector-slow.nrrd
             ${ITK_TEST_OUTPUT_DIR}/mini-covector.nrrd)
 
+# Note: Directions are transposed here with respect to the MetaImage header
 ADD_TEST(itkImageIODirection3DTest01 ${IO_TESTS} itkImageIODirection3DTest
    ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd
    1.0    0.0   0.0 
    0.0    1.0   0.0 
-   0.0    0.0   1.0)
+   0.0    0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.mhd)
 
-# Note: Directions are transposed here with respect to the MetaImage header
 ADD_TEST(itkImageIODirection3DTest02 ${IO_TESTS} itkImageIODirection3DTest
    ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd  
    0.8660254    0.5         0.0  
   -0.5          0.8660254   0.0 
+   0.0          0.0         1.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.mhd)
+
+ADD_TEST(itkImageIODirection3DTest03 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.mhd
+   1.0    0.0   0.0 
+   0.0    1.0   0.0 
+   0.0    0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr)
+
+ADD_TEST(itkImageIODirection3DTest04 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.mhd
+   0.8660254    0.5         0.0  
+  -0.5          0.8660254   0.0 
+   0.0          0.0         1.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr)
+
+ADD_TEST(itkImageIODirection3DTest05 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr
+   1.0    0.0   0.0 
+   0.0    1.0   0.0 
+   0.0    0.0   1.0)
+
+ADD_TEST(itkImageIODirection3DTest06 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr
+   0.8660254    0.5         0.0  
+  -0.5          0.8660254   0.0 
    0.0          0.0         1.0)
+
 
 ENDIF(ITK_DATA_ROOT)
 

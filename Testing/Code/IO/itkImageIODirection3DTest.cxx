@@ -19,6 +19,7 @@
 #endif
 
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkOrientedImage.h"
 
 int itkImageIODirection3DTest( int ac, char * av[] )
@@ -26,7 +27,10 @@ int itkImageIODirection3DTest( int ac, char * av[] )
 
   if( ac < 11 )
     {
-    std::cerr << "Usage: " << av[0] << " InputImage  (9 direction cosines terms) " << std::endl;
+    std::cerr << "Usage: " << av[0] 
+    << " InputImage  (9 direction cosines terms) " 
+    << "[outputImage]" 
+    << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -75,6 +79,26 @@ int itkImageIODirection3DTest( int ac, char * av[] )
         }
       }
     }
+
+
+  if( ac > 11 )
+    {
+    typedef itk::ImageFileWriter< ImageType >   WriterType;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetFileName( av[11] );
+    writer->SetInput( reader->GetOutput() );
+
+    try
+      {
+      writer->Update();
+      }
+    catch (itk::ExceptionObject & e)
+      {
+      std::cerr << e << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
 
   return EXIT_SUCCESS;
 }
