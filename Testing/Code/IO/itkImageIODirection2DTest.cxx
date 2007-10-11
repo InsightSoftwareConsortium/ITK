@@ -61,7 +61,7 @@ int itkImageIODirection2DTest( int ac, char * av[] )
   std::cout << directionCosines << std::endl;
 
   unsigned int element = 2;
-  const double tolerance = 1e-7;
+  const double tolerance = 1e-5;
 
   for( unsigned int row=0; row < Dimension; ++row )
     {
