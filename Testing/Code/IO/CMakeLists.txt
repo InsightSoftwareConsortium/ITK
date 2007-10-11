@@ -56,6 +56,8 @@ itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkIOPrintTest.cxx
 itkImageFileWriterTest.cxx
+itkImageIODirection2DTest.cxx
+itkImageIODirection3DTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
 itkMeshSpatialObjectIOTest.cxx
@@ -401,6 +403,7 @@ ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS}
            ${ITK_DATA_ROOT}/Input/cthead1.png)
   ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
            ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+
 ##Analyze Test Suite
   ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS}
     itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR})
@@ -708,8 +711,29 @@ ADD_TEST(itkNrrdCovariantVectorImageReadWriteTest ${IO_TESTS}
             ${ITK_DATA_ROOT}/Input/mini-covector-slow.nrrd
             ${ITK_TEST_OUTPUT_DIR}/mini-covector.nrrd)
 
+ADD_TEST(itkImageIODirection3DTest01 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd
+   1.0    0.0   0.0 
+   0.0    1.0   0.0 
+   0.0    0.0   1.0)
+
+# Note: Directions are transposed here with respect to the MetaImage header
+ADD_TEST(itkImageIODirection3DTest02 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd  
+   0.8660254    0.5         0.0  
+  -0.5          0.8660254   0.0 
+   0.0          0.0         1.0)
+
 ENDIF(ITK_DATA_ROOT)
 
+
+# Test for reading direction cosines
+SET(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
+ADD_TEST(itkImageIODirection2DTest01 ${IO_TESTS} itkImageIODirection2DTest
+   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20.png  1.0 0.0 0.0 1.0)
+
+ADD_TEST(itkImageIODirection2DTest01 ${IO_TESTS} itkImageIODirection2DTest
+   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20.png  1.0 0.0 0.0 1.0)
 
 
 IF(ITK_BINARY_DIR)
