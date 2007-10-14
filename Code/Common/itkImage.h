@@ -83,11 +83,11 @@ class ITK_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
   /** Standard class typedefs */
-  typedef Image               Self;
-  typedef ImageBase<VImageDimension>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef WeakPointer<const Self>  ConstWeakPointer;
+  typedef Image                        Self;
+  typedef ImageBase<VImageDimension>   Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
+  typedef WeakPointer<const Self>      ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -100,7 +100,7 @@ public:
   typedef TPixel PixelType;
 
   /** Typedef alias for PixelType */
-  typedef TPixel ValueType ;
+  typedef TPixel ValueType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -112,12 +112,12 @@ public:
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  typedef DefaultPixelAccessor< PixelType > AccessorType;
-  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+  typedef DefaultPixelAccessor< PixelType >    AccessorType;
+  typedef DefaultPixelAccessorFunctor< Self >  AccessorFunctorType;
 
-  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
-  typedef NeighborhoodAccessorFunctor< Self > 
-                                            NeighborhoodAccessorFunctorType;
+  /** Typedef for the functor used to access a neighborhood of pixel
+   * pointers. */
+  typedef NeighborhoodAccessorFunctor< Self >  NeighborhoodAccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -152,8 +152,8 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
-  typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
+  typedef typename PixelContainer::Pointer        PixelContainerPointer;
+  typedef typename PixelContainer::ConstPointer   PixelContainerConstPointer;
 
   /** Offset typedef (relative position between indices) */
   typedef typename Superclass::OffsetValueType OffsetValueType;
@@ -204,10 +204,10 @@ public:
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   const TPixel& GetPixel(const IndexType &index) const
-  {
+    {
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
-  }
+    }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
    *
@@ -224,7 +224,7 @@ public:
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   TPixel & operator[](const IndexType &index)
-     { return this->GetPixel(index); }
+    { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
@@ -291,7 +291,7 @@ public:
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
     // Update the output index
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for (unsigned int i = 0; i < VImageDimension; i++)
       {
       index[i] = static_cast<TCoordRep>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
       }
@@ -315,7 +315,7 @@ public:
     typedef typename IndexType::IndexValueType IndexValueType;
 
     // Update the output index
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for (unsigned int i = 0; i < VImageDimension; i++)
       {
       index[i] = static_cast<IndexValueType>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
       }
@@ -336,7 +336,7 @@ public:
             const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const
     {
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for (unsigned int i = 0; i < VImageDimension; i++)
       {
       point[i] = static_cast<TCoordRep>( this->m_Spacing[i] * index[i] + this->m_Origin[i] );
       }
@@ -352,7 +352,7 @@ public:
                       const IndexType & index,
                       Point<TCoordRep, VImageDimension>& point ) const
     {
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for (unsigned int i = 0; i < VImageDimension; i++)
       {
       point[i] = static_cast<TCoordRep>( this->m_Spacing[i] *
         static_cast<double>( index[i] ) + this->m_Origin[i] );
@@ -377,7 +377,7 @@ public:
     const FixedArray<TCoordRep, VImageDimension> & inputGradient,
           FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
     {
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for( unsigned int i = 0; i < VImageDimension; i++ )
       {
       outputGradient[i] = inputGradient[i];
       }

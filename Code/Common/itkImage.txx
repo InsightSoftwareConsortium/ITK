@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImage_txx
-#define _itkImage_txx
+#ifndef __itkImage_txx
+#define __itkImage_txx
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
@@ -151,7 +151,7 @@ Image<TPixel, VImageDimension>
   os << indent << "PixelContainer: " << std::endl;
   m_Buffer->Print(os, indent.GetNextIndent());
 
-// m_Origin and m_Spacing are printed in the Superclass
+  // m_Origin and m_Spacing are printed in the Superclass
 }
 } // end namespace itk
 
