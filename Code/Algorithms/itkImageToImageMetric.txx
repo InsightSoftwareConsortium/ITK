@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToImageMetric_txx
-#define _itkImageToImageMetric_txx
+#ifndef __itkImageToImageMetric_txx
+#define __itkImageToImageMetric_txx
 
 
 #include "itkImageToImageMetric.h"
@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -41,8 +41,18 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_GradientImage = NULL; // computed at initialization
 }
 
+/**
+ * Destructor
+ */
+template <class TFixedImage, class TMovingImage> 
+ImageToImageMetric<TFixedImage,TMovingImage>
+::~ImageToImageMetric()
+{
 
-/*
+}
+
+
+/**
  * Set the parameters that define a unique transform
  */
 template <class TFixedImage, class TMovingImage> 
@@ -58,8 +68,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-
-/*
+/**
  * Initialize
  */
 template <class TFixedImage, class TMovingImage> 
@@ -161,7 +170,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 
