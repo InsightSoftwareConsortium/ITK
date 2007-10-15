@@ -644,8 +644,11 @@ private:
 //   // @deprecated Replaced by MyOtherMethod() as of ITK 2.0.
 //   itkLegacy(void MyMethod());
 #if defined(ITK_LEGACY_REMOVE)
-  // Remove legacy methods completely.
-# define itkLegacy(method)
+// Remove legacy methods completely.  Put a bogus declaration in
+// place to avoid stray semicolons because this is an error for some
+// compilers.  Using a class forward declaration allows any number
+// of repeats in any context without generating unique names.
+# define itkLegacy(method) class itkLegacyMethodRemoved
 #elif defined(ITK_LEGACY_SILENT) || defined(ITK_WRAPPING_CXX)
   // Provide legacy methods with no warnings.
 # define itkLegacy(method) method
