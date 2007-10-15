@@ -649,7 +649,7 @@ private:
 // compilers.  Using a class forward declaration allows any number
 // of repeats in any context without generating unique names.
 # define itkLegacy(method) class itkLegacyMethodRemoved
-#elif defined(ITK_LEGACY_SILENT)
+#elif defined(ITK_LEGACY_SILENT) || defined(CSWIG)
   // Provide legacy methods with no warnings.
 # define itkLegacy(method) method
 #else
