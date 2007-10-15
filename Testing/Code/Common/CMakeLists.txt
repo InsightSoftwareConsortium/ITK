@@ -135,6 +135,7 @@ ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS2} itkMeshFstreamTest ${TEMP}/testMesh
 ADD_TEST(itkMeshSourceGraftOutputTest ${COMMON_TESTS2} itkMeshSourceGraftOutputTest)
 ADD_TEST(itkMetaDataDictionaryTest ${COMMON_TESTS2} itkMetaDataDictionaryTest)
 ADD_TEST(itkMinimumDecisionRuleTest ${COMMON_TESTS2} itkMinimumDecisionRuleTest)
+ADD_TEST(itkMultiThreaderTest ${COMMON_TESTS2} itkMultiThreaderTest)
 ADD_TEST(itkNearestNeighborExtrapolateImageFunctionTest ${COMMON_TESTS2} itkNearestNeighborExtrapolateImageFunctionTest)
 ADD_TEST(itkNeighborhoodTest ${COMMON_TESTS2} itkNeighborhoodTest)
 ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS2} itkNeighborhoodIteratorTest)
@@ -339,6 +340,7 @@ itkMeshFstreamTest.cxx
 itkMeshSourceGraftOutputTest.cxx
 itkMetaDataDictionaryTest.cxx
 itkMinimumDecisionRuleTest.cxx
+itkMultiThreaderTest.cxx
 itkNearestNeighborExtrapolateImageFunctionTest.cxx
 itkNeighborhoodTest.cxx
 itkNeighborhoodIteratorTest.cxx

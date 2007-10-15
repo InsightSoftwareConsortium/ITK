@@ -22,6 +22,7 @@ REGISTER_TEST(itkMeshFstreamTest );
 REGISTER_TEST(itkMeshSourceGraftOutputTest );
 REGISTER_TEST(itkMetaDataDictionaryTest );
 REGISTER_TEST(itkMinimumDecisionRuleTest );
+REGISTER_TEST(itkMultiThreaderTest );
 REGISTER_TEST(itkNearestNeighborExtrapolateImageFunctionTest );
 REGISTER_TEST(itkNeighborhoodTest );
 REGISTER_TEST(itkNeighborhoodIteratorTest );
