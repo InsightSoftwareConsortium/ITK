@@ -139,6 +139,12 @@ IF(NOT ITK_NO_LIBRARY_VERSION)
 ENDIF(NOT ITK_NO_LIBRARY_VERSION)
 
 #-----------------------------------------------------------------------------
+# Provide compatibility options.
+OPTION(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
+OPTION(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
+MARK_AS_ADVANCED(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT)
+
+#-----------------------------------------------------------------------------
 # ITK build patented algorithms
 OPTION(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is YOUR responsibility to obtain a license from the patent holder in order to use these methods." OFF)
 MARK_AS_ADVANCED(ITK_USE_PATENTED)
