@@ -39,7 +39,7 @@ int itkMultiThreaderTest(int argc, char* argv[])
 
   itk::MultiThreader::SetGlobalDefaultNumberOfThreads( numberOfThreads );
 
-
+  return EXIT_SUCCESS;
 }
 
 namespace itkMultiThreaderTestHelpers
