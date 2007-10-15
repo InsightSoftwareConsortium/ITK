@@ -762,25 +762,89 @@ SET(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 ADD_TEST(itkImageIODirection2DTest01 ${IO_TESTS} itkImageIODirection2DTest
    ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20.png  
    1.0   0.0 
-   0.0   1.0)
+   0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.mhd)
 
 ADD_TEST(itkImageIODirection2DTest02 ${IO_TESTS} itkImageIODirection2DTest
    ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceShifted13x17y.png  
    1.0   0.0 
-   0.0   1.0)
+   0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.mhd)  
 
 ADD_TEST(itkImageIODirection2DTest03 ${IO_TESTS} itkImageIODirection2DTest
    ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
    0.8660254   -0.5  
-   0.5   0.8660254)
+   0.5   0.8660254
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd)
 
 ADD_TEST(itkImageIODirection2DTest04 ${IO_TESTS} itkImageIODirection2DTest
    ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
    0.8660254   -0.5  
-   0.5   0.8660254)
+   0.5   0.8660254
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd)
 
 ADD_TEST(itkImageIODirection2DTest05 ${IO_TESTS} itkImageIODirection2DTest
    ${EXAMPLES_DATA_ROOT}/BrainT1SliceBorder20DirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254
+   ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.mhd)
+
+# Now verify that we can read those MetaImage files, and find the same Directions
+# then write them as Nifti files.
+ADD_TEST(itkImageIODirection2DTest06 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.mhd
+   1.0   0.0 
+   0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.nhdr)
+
+ADD_TEST(itkImageIODirection2DTest07 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.mhd
+   1.0   0.0 
+   0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.nhdr)  
+
+ADD_TEST(itkImageIODirection2DTest08 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.nhdr)
+
+ADD_TEST(itkImageIODirection2DTest09 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.nhdr)
+
+ADD_TEST(itkImageIODirection2DTest10 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.mhd
+   0.8660254   -0.5  
+   0.5   0.8660254
+   ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.nhdr)
+
+# Now verify that we can read those Nifti files, and find the same Directions
+# then write them as Nifti files.
+ADD_TEST(itkImageIODirection2DTest11 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.nhdr
+   1.0   0.0 
+   0.0   1.0)
+
+ADD_TEST(itkImageIODirection2DTest12 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.nhdr
+   1.0   0.0 
+   0.0   1.0)
+
+ADD_TEST(itkImageIODirection2DTest13 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.nhdr
+   0.8660254   -0.5  
+   0.5   0.8660254)
+
+ADD_TEST(itkImageIODirection2DTest14 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.nhdr
+   0.8660254   -0.5  
+   0.5   0.8660254)
+
+ADD_TEST(itkImageIODirection2DTest15 ${IO_TESTS} itkImageIODirection2DTest
+   ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.nhdr
    0.8660254   -0.5  
    0.5   0.8660254)
 
