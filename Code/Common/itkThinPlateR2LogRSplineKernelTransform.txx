@@ -21,20 +21,33 @@
 namespace itk
 {
 
+/**
+ * This method has been deprecated as of ITK 3.6.
+ * Please use the method: void ComputeG(vector,gmatrix) instead.
+ */
 template <class TScalarType, unsigned int NDimensions>
-const typename ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::
-ComputeG(const InputVectorType & x) const
+ComputeG( const InputVectorType & ) const
+{
+  itkLegacyReplaceBody(itkThinPlateR2LogRSplineKernelTransform::ComputeG_vector, 
+    3.6,itkThinPlateR2LogRSplineKernelTransform::ComputeG_vector_gmatrix);
+  return this->m_GMatrix;
+}
+
+
+template <class TScalarType, unsigned int NDimensions>
+void
+ThinPlateR2LogRSplineKernelTransform<TScalarType, NDimensions>::
+ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
 {
 
   const TScalarType r = x.GetNorm();
-  this->m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
+  gmatrix.fill( NumericTraits< TScalarType >::Zero );
   const TScalarType R2logR = 
     ( r > 1e-8 )? r * r * vcl_log(r ) : NumericTraits<TScalarType>::Zero;
 
-  this->m_GMatrix.fill_diagonal( R2logR );
- 
-  return this->m_GMatrix;
+  gmatrix.fill_diagonal( R2logR );
 }
 
 

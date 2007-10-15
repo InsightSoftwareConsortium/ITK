@@ -94,18 +94,28 @@ SetTargetLandmarks(PointSetType * landmarks)
 
 
 /**
- *
+ * This method has been deprecated as of ITK 3.6.
+ * Please use the method: void ComputeG(vector,gmatrix) instead.
  */
 template <class TScalarType, unsigned int NDimensions>
 const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & ) const
 {
-  //
-  // Should an Exception be thrown here  ?
-  //
-  itkWarningMacro(<< "ComputeG() should be reimplemented in the subclass !!");
+  itkLegacyReplaceBody(itkKernelTransform::ComputeG_vector, 3.6,itkKernelTransform::ComputeG_vector_gmatrix);
   return m_GMatrix;
+}
+
+
+/**
+ *
+ */
+template <class TScalarType, unsigned int NDimensions>
+void 
+KernelTransform<TScalarType, NDimensions>::
+ComputeG( const InputVectorType &, GMatrixType & itkNotUsed( gmatrix ) ) const
+{
+  itkExceptionMacro(<< "ComputeG(vector,gmatrix) must be reimplemented in subclasses of KernelTransform.");
 }
 
 /**
@@ -140,9 +150,11 @@ ComputeDeformationContribution( const InputPointType  & thisPoint,
 
   PointsIterator sp  = m_SourceLandmarks->GetPoints()->Begin();
 
+  GMatrixType Gmatrix; 
+
   for(unsigned int lnd=0; lnd < numberOfLandmarks; lnd++ )
     {
-    const GMatrixType & Gmatrix = ComputeG( thisPoint - sp->Value() );
+    this->ComputeG( thisPoint - sp->Value(), Gmatrix );
     for(unsigned int dim=0; dim < NDimensions; dim++ )
       {
       for(unsigned int odim=0; odim < NDimensions; odim++ )
@@ -255,7 +267,7 @@ ComputeK(void)
     unsigned int j = i;
 
     // Compute the block diagonal element, i.e. kernel for pi->pi
-    G = ComputeReflexiveG(p1);
+    G = this->ComputeReflexiveG(p1);
     m_KMatrix.update(G, i*NDimensions, i*NDimensions);
     p2++;
     j++;
@@ -264,7 +276,7 @@ ComputeK(void)
     while( p2 != end ) 
       {
       const InputVectorType s = p1.Value() - p2.Value();
-      G = ComputeG(s);
+      this->ComputeG(s,G);
       // write value in upper and lower triangle of matrix
       m_KMatrix.update(G, i*NDimensions, j*NDimensions);
       m_KMatrix.update(G, j*NDimensions, i*NDimensions);  

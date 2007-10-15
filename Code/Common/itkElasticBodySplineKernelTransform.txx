@@ -35,10 +35,24 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
 {
 }
 
+/**
+ * This method has been deprecated as of ITK 3.6.
+ * Please use the method: void ComputeG(vector,gmatrix) instead.
+ */
 template <class TScalarType, unsigned int NDimensions>
-const typename ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
+ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
+ComputeG( const InputVectorType & ) const
+{
+  itkLegacyReplaceBody(itkElasticBodySplineKernelTransform::ComputeG_vector, 
+    3.6,itkElasticBodySplineKernelTransform::ComputeG_vector_gmatrix);
+  return this->m_GMatrix;
+}
+
+template <class TScalarType, unsigned int NDimensions>
+void
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>
-::ComputeG(const InputVectorType & x) const
+::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
 {
   const TScalarType r       = x.GetNorm();
   const TScalarType factor  = -3.0 * r;
@@ -50,13 +64,11 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>
     for(unsigned int j=0; j<i; j++)
       {
       const TScalarType value = xi * x[j]; 
-      this->m_GMatrix[i][j] = value;
-      this->m_GMatrix[j][i] = value;
+      gmatrix[i][j] = value;
+      gmatrix[j][i] = value;
       }
-    this->m_GMatrix[i][i] =  radial + xi * x[i];
+    gmatrix[i][i] =  radial + xi * x[i];
     }
-  
-  return this->m_GMatrix;
 }
 
 template <class TScalarType, unsigned int NDimensions>

@@ -86,7 +86,11 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
-  const GMatrixType & ComputeG(const InputVectorType & x) const;
+  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
+  /**
+   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
+   */
+  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; ); 
 
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion

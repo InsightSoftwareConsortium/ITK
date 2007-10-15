@@ -21,21 +21,34 @@
 namespace itk
 {
 
+/**
+ * This method has been deprecated as of ITK 3.6.
+ * Please use the method: void ComputeG(vector,gmatrix) instead.
+ */
 template <class TScalarType, unsigned int NDimensions>
-const typename VolumeSplineKernelTransform<TScalarType, 
-                                           NDimensions>::GMatrixType &
+const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 VolumeSplineKernelTransform<TScalarType, NDimensions>::
-ComputeG(const InputVectorType & x) const
+ComputeG( const InputVectorType & ) const
+{
+  itkLegacyReplaceBody(itkVolumeSplineKernelTransform::ComputeG_vector, 
+    3.6,itkVolumeSplineKernelTransform::ComputeG_vector_gmatrix);
+  return this->m_GMatrix;
+}
+
+
+template <class TScalarType, unsigned int NDimensions>
+void
+VolumeSplineKernelTransform<TScalarType, NDimensions>::
+ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
 {
 
   const TScalarType r = x.GetNorm();
-  this->m_GMatrix.fill( NumericTraits< TScalarType >::Zero );
+  gmatrix.fill( NumericTraits< TScalarType >::Zero );
   const TScalarType r3 = r * r * r;
   for(unsigned int i=0; i<NDimensions; i++)
     {
-    this->m_GMatrix[i][i] = r3;
+    gmatrix[i][i] = r3;
     }
-  return this->m_GMatrix;
 }
 
 

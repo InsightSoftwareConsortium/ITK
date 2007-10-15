@@ -236,14 +236,22 @@ protected:
    *    Elastic body spline
    *    Thin plate spline
    *    Volume spline */
-  virtual const GMatrixType & ComputeG(const InputVectorType & landmarkVector) const;
+  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
+  /**
+   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
+   */
+  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; ); 
 
-  /** Compute a G(x) for a point to itself (i.e. for the block
-   * diagonal elements of the matrix K. Parameter indicates for which
-   * landmark the reflexive G is to be computed. The default
-   * implementation for the reflexive contribution is a diagonal
-   * matrix where the diagonal elements are the stiffness of the
-   * spline. */
+
+  /** Compute a G(x) for a point to itself (i.e. for the block diagonal
+   * elements of the matrix K. Parameter indicates for which landmark the
+   * reflexive G is to be computed. The default implementation for the
+   * reflexive contribution is a diagonal matrix where the diagonal elements
+   * are the stiffness of the spline.  
+   *
+   * \warning this method is not thread-safe. However this method is called
+   * only through ComputeWMatrix() that is itself normally called from a single
+   * thread during the initialization of the Transform. */
   virtual const GMatrixType & ComputeReflexiveG(PointsIterator) const;
 
   
