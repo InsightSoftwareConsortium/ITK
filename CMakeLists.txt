@@ -141,7 +141,7 @@ ENDIF(NOT ITK_NO_LIBRARY_VERSION)
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
 OPTION(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
-OPTION(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
+OPTION(ITK_LEGACY_SILENT "Silence all legacy code messages." ON)
 MARK_AS_ADVANCED(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT)
 
 #-----------------------------------------------------------------------------
