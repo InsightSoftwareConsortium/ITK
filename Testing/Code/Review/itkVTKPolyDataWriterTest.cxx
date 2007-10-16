@@ -19,6 +19,7 @@
 #endif
 
 #include "itkTriangleCell.h"
+#include "itkLineCell.h"
 #include "itkVTKPolyDataWriter.h"
 
 int itkVTKPolyDataWriterTest(int argc, char* argv[])
@@ -39,23 +40,32 @@ int itkVTKPolyDataWriterTest(int argc, char* argv[])
   typedef MeshType::CellTraits                        CellTraits;
   typedef itk::CellInterface< PointType, CellTraits > CellInterfaceType;
   typedef itk::TriangleCell< CellInterfaceType >      TriangleCellType;
+  typedef itk::LineCell< CellInterfaceType >          LineCellType;
 
   typedef itk::VTKPolyDataWriter<MeshType>   WriterType;
 
   MeshType::Pointer mesh = MeshType::New();
 
   const unsigned int numberOfPoints = 4;
-  const unsigned int numberOfCells = 4;
+  const unsigned int numberOfCells  = 9;
 
-  float rawPoints[12] = { 0.0, 0.0, 0.0,
+  float rawPoints[12] = {
+    0.0, 0.0, 0.0,
     1.0, 1.0, 0.0,
     0.0, 1.0, 1.0,
     1.0, 0.0, 1.0 };
 
-  unsigned long rawCells[12] = { 0, 2, 1,
+  unsigned long rawCells[24] = {
+    0, 2, 1,
     0, 1, 3,
     0, 3, 2,
-    1, 2, 3 };
+    1, 2, 3,
+    0, 1,
+    0, 2,
+    0, 3,
+    1, 2,
+    1, 3,
+    2, 3 };
 
   mesh->GetPoints()->Reserve( numberOfPoints );
   mesh->GetCells()->Reserve( numberOfCells );
@@ -67,10 +77,6 @@ int itkVTKPolyDataWriterTest(int argc, char* argv[])
     point[0] = rawPoints[3*i];
     point[1] = rawPoints[3*i+1];
     point[2] = rawPoints[3*i+2];
-
-    //std::cout << __LINE__ << " point " << i << " (" << point[0] << " "
-    //<< point[1] << " " << point[2] << ")" << std::endl;
-
     mesh->SetPoint( i, point );
     }
 
@@ -78,19 +84,27 @@ int itkVTKPolyDataWriterTest(int argc, char* argv[])
 
   MeshType::CellAutoPointer cell;
   TriangleCellType * triangle;
+  LineCellType *     line;
 
-  for(unsigned int i=0; i<numberOfCells; i++)
+  for(unsigned int i=0; i<4; i++)
     {
     pointIds[0] = rawCells[3*i];
     pointIds[1] = rawCells[3*i+1];
     pointIds[2] = rawCells[3*i+2];
 
-    //std::cout << __LINE__ << " triangle " << i << " [" << pointIds[0]
-    //<< " " << pointIds[1] << " " << pointIds[2] << "]" << std::endl;
-
     triangle = new TriangleCellType;
     triangle->SetPointIds( pointIds );
     cell.TakeOwnership( triangle );
+    mesh->SetCell( i, cell );
+    }
+  for(unsigned int i=4; i<10; i++)
+    {
+    pointIds[0] = rawCells[12+2*(i-4)];
+    pointIds[1] = rawCells[12+2*(i-4)+1];
+
+    line = new LineCellType;
+    line->SetPointIds( pointIds );
+    cell.TakeOwnership( line );
     mesh->SetCell( i, cell );
     }
 
