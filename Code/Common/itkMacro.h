@@ -638,29 +638,29 @@ private:
 //----------------------------------------------------------------------------
 // Setup legacy code policy.
 
-// Define itkLegacy macro to mark legacy methods where they are
+// Define itkLegacyMacro to mark legacy methods where they are
 // declared in their class.  Example usage:
 //
 //   // @deprecated Replaced by MyOtherMethod() as of ITK 2.0.
-//   itkLegacy(void MyMethod());
+//   itkLegacyMacro(void MyMethod());
 #if defined(ITK_LEGACY_REMOVE)
 // Remove legacy methods completely.  Put a bogus declaration in
 // place to avoid stray semicolons because this is an error for some
 // compilers.  Using a class forward declaration allows any number
 // of repeats in any context without generating unique names.
-# define itkLegacy(method) class itkLegacyMethodRemoved
+# define itkLegacyMacro(method) class itkLegacyMethodRemoved
 #elif defined(ITK_LEGACY_SILENT) || defined(CSWIG)
   // Provide legacy methods with no warnings.
-# define itkLegacy(method) method
+# define itkLegacyMacro(method) method
 #else
   // Setup compile-time warnings for uses of deprecated methods if
   // possible on this compiler.
 # if defined(__GNUC__) && !defined(__INTEL_COMPILER) && (__GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1))
-#  define itkLegacy(method) method __attribute__((deprecated))
+#  define itkLegacyMacro(method) method __attribute__((deprecated))
 # elif defined(_MSC_VER) && _MSC_VER >= 1300
-#  define itkLegacy(method) __declspec(deprecated) method
+#  define itkLegacyMacro(method) __declspec(deprecated) method
 # else
-#  define itkLegacy(method) method
+#  define itkLegacyMacro(method) method
 # endif
 #endif
 
@@ -668,22 +668,22 @@ private:
 // bodies.  Example usage:
 //
 //   void itkMyClass::MyOldMethod()
-//   {
-//     itkLegacyBody(itkMyClass::MyOldMethod, 2.0);
-//   }
+//     {
+//     itkLegacyBodyMacro(itkMyClass::MyOldMethod, 2.0);
+//     }
 //
 //   void itkMyClass::MyMethod()
-//   {
-//     itkLegacyReplaceBody(itkMyClass::MyMethod, 2.0,
-//                          itkMyClass::MyOtherMethod);
-//   }
+//     {
+//     itkLegacyReplaceBodyMacro(itkMyClass::MyMethod, 2.0,
+//                               itkMyClass::MyOtherMethod);
+//     }
 #if defined(ITK_LEGACY_REMOVE) || defined(ITK_LEGACY_SILENT)
-# define itkLegacyBody(method, version)
-# define itkLegacyReplaceBody(method, version, replace)
+# define itkLegacyBodyMacro(method, version)
+# define itkLegacyReplaceBodyMacro(method, version, replace)
 #else
-# define itkLegacyBody(method, version) \
+# define itkLegacyBodyMacro(method, version) \
   itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
-# define itkLegacyReplaceBody(method, version, replace) \
+# define itkLegacyReplaceBodyMacro(method, version, replace) \
   itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.  Use " #replace " instead.")
 #endif
 

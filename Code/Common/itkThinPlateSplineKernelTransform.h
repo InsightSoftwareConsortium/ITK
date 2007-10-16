@@ -90,7 +90,7 @@ protected:
   /**
    * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
    */
-  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; )
+  itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; )
 
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion

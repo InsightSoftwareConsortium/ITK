@@ -99,8 +99,10 @@ public:
    * output. This method id scheduled for removal since the
    * implementation now uses a noniterative solution. */
   unsigned long GetNumberOfIterationsUsed()
-    { itkLegacyBody(itk::GrayscaleGrindPeakImageFilter::GetNumberOfIterationsUsed, 2.2);
-      return m_NumberOfIterationsUsed; };
+    { 
+    itkLegacyBodyMacro(itk::GrayscaleGrindPeakImageFilter::GetNumberOfIterationsUsed, 2.2);
+    return m_NumberOfIterationsUsed;
+    };
 
   /**
    * Set/Get whether the connected components are defined strictly by

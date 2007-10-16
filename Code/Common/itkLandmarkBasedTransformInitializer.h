@@ -101,7 +101,7 @@ public:
   void SetFixedImage( const FixedImageType * image )
     {
     this->m_FixedImage = image;
-    itkLegacyBody( SetFixedImage, 2.2 );
+    itkLegacyBodyMacro( SetFixedImage, 2.2 );
     }
 
 
@@ -114,7 +114,7 @@ public:
   void SetMovingImage( const MovingImageType * image )
     {
     this->m_MovingImage = image;
-    itkLegacyBody( SetMovingImage, 2.2 );
+    itkLegacyBodyMacro( SetMovingImage, 2.2 );
     }
     
 

@@ -30,7 +30,7 @@ const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 ThinPlateSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & ) const
 {
-  itkLegacyReplaceBody(itkThinPlateSplineKernelTransform::ComputeG_vector, 
+  itkLegacyReplaceBodyMacro(itkThinPlateSplineKernelTransform::ComputeG_vector, 
     3.6,itkThinPlateSplineKernelTransform::ComputeG_vector_gmatrix);
   return this->m_GMatrix;
 }

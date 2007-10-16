@@ -44,7 +44,7 @@ const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 ElasticBodyReciprocalSplineKernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & ) const
 {
-  itkLegacyReplaceBody(itkElasticBodyReciprocalSplineKernelTransform::ComputeG_vector,
+  itkLegacyReplaceBodyMacro(itkElasticBodyReciprocalSplineKernelTransform::ComputeG_vector,
     3.6,itkElasticBodyReciprocalSplineKernelTransform::ComputeG_vector_gmatrix);
   return this->m_GMatrix;
 }

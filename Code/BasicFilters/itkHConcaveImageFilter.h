@@ -88,8 +88,10 @@ public:
    * output. This method is scheduled for removal since the
    * implementation now uses a noniterative solution. */
   unsigned long GetNumberOfIterationsUsed()
-    { itkLegacyBody(itk::HConcaveImageFilter::GetNumberOfIterationsUsed, 2.2);
-      return m_NumberOfIterationsUsed; };
+    { 
+    itkLegacyBodyMacro(itk::HConcaveImageFilter::GetNumberOfIterationsUsed, 2.2);
+    return m_NumberOfIterationsUsed; 
+    };
 
   /**
    * Set/Get whether the connected components are defined strictly by

@@ -183,12 +183,12 @@ public:
     this->m_Threshold = th;
     this->m_UpperThreshold = m_Threshold;
     this->m_LowerThreshold = m_Threshold/2.0;
-    itkLegacyReplaceBody(SetThreshold, 2.2, SetUpperThreshold);
+    itkLegacyReplaceBodyMacro(SetThreshold, 2.2, SetUpperThreshold);
   }
   
   OutputImagePixelType GetThreshold(OutputImagePixelType th) 
   {
-    itkLegacyReplaceBody(GetThreshold, 2.2, GetUpperThreshold);
+    itkLegacyReplaceBodyMacro(GetThreshold, 2.2, GetUpperThreshold);
     return this->m_Threshold; 
   }
 

@@ -102,7 +102,7 @@ const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & ) const
 {
-  itkLegacyReplaceBody(itkKernelTransform::ComputeG_vector, 3.6,itkKernelTransform::ComputeG_vector_gmatrix);
+  itkLegacyReplaceBodyMacro(itkKernelTransform::ComputeG_vector, 3.6,itkKernelTransform::ComputeG_vector_gmatrix);
   return m_GMatrix;
 }
 
