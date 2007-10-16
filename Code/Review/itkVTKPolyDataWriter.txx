@@ -102,19 +102,16 @@ VTKPolyDataWriter<TInputMesh>
     return;
     }
 
-  unsigned int numberOfPoints = this->m_Input->GetNumberOfPoints();
-  unsigned int numberOfCells = this->m_Input->GetNumberOfCells();
-
   outputFile << "# vtk DataFile Version 2.0" << std::endl;
   outputFile << "File written by itkVTKPolyDataWriter" << std::endl;
   outputFile << "ASCII" << std::endl;
   outputFile << "DATASET POLYDATA" << std::endl;
 
+  unsigned int numberOfPoints = this->m_Input->GetNumberOfPoints();
   outputFile << "POINTS " << numberOfPoints << " float" << std::endl;
 
   PointIterator pointIterator = this->m_Input->GetPoints()->Begin();
   PointIterator pointEnd = this->m_Input->GetPoints()->End();
-
   while( pointIterator != pointEnd )
     {
     PointType point = pointIterator.Value();
@@ -122,27 +119,45 @@ VTKPolyDataWriter<TInputMesh>
     pointIterator++;
     }
 
-  outputFile << "POLYGONS " << numberOfCells << " " << 4 * numberOfCells << std::endl;
 
+  // here we are taking the linecells out of the count
+  unsigned int numberOfCells = 0;
   CellIterator cellIterator = this->m_Input->GetCells()->Begin();
   CellIterator cellEnd = this->m_Input->GetCells()->End();
-
+  while( cellIterator != cellEnd )
+    {
+    if( !(cellIterator.Value()->GetType() == 1 ) ) // LINE_CELL
+      {
+      numberOfCells++;
+      }
+    cellIterator++;
+    }
+  outputFile << "POLYGONS " << numberOfCells << " " << 4 * numberOfCells << std::endl;
+  
+  // here we should do a multipass algorithms
+  // one pass per type in a vtkPolyData
+  // here i rule out the line cells,
+  // but triangle strips and others shoudl also be ruled out
+  //  or handled nicely
+  cellIterator = this->m_Input->GetCells()->Begin();
   while( cellIterator != cellEnd )
     {
     CellType * cellPointer = cellIterator.Value();
-
-    PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
-    PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
-
-    outputFile << cellPointer->GetNumberOfPoints();
-
-    while( pointIdIterator != pointIdEnd )
+    if( !(cellIterator.Value()->GetType() == 1) ) // LINE_CELL
       {
-      outputFile << " " << *pointIdIterator;
-      pointIdIterator++;
-      }
+      PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
+      PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
 
-    outputFile << std::endl;
+      outputFile << cellPointer->GetNumberOfPoints();
+
+      while( pointIdIterator != pointIdEnd )
+        {
+        outputFile << " " << *pointIdIterator;
+        pointIdIterator++;
+        }
+
+      outputFile << std::endl;
+      }
     cellIterator++;
     }
 
