@@ -227,6 +227,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     }
 
   // EULER OPERATOR TESTS
+  QEType * dummy;
   MeshPointer  mesh = MeshType::New();
   PopulateMesh<MeshType>( mesh );
 
@@ -277,11 +278,13 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   joinFacet->SetInput( mesh );
   
   std::cout << "     " << "Test QE Input not internal";
-  if( joinFacet->Evaluate( new QEType ) )
+  dummy = new QEType;
+  if( joinFacet->Evaluate( dummy ) )
     {
     std::cout << "FAILED." << std::endl;
     return 1;
     }
+  delete dummy;
   std::cout << "OK" << std::endl;
   
   std::cout << "     " << "Test No QE Input";
@@ -499,11 +502,13 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   flipEdge->SetInput( mesh );
   
   std::cout << "     " << "Test QE Input not internal";
-  if( flipEdge->Evaluate( new QEType ) )
+  dummy = new QEType;
+  if( flipEdge->Evaluate( dummy ) )
     {
     std::cout << "FAILED." << std::endl;
     return 1;
     }
+  delete dummy;
   std::cout << "OK" << std::endl;
 
   std::cout << "     " << "Test No QE Input";
@@ -1309,11 +1314,13 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 
   createCenterVertex->SetInput( mesh );
   std::cout << "     " << "Test QE Input with no left face";
-  if( createCenterVertex->Evaluate( new QEType) ) 
+  dummy = new QEType;
+  if( createCenterVertex->Evaluate( dummy ) ) 
     {
     std::cout << "FAILED." << std::endl;
     return 1;
     }
+  delete dummy;
   std::cout << "OK" << std::endl;
 
   std::cout << "     " << "Test No QE Input";
