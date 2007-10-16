@@ -72,6 +72,7 @@ void RegisterTests()
  
   REGISTER_TEST(itkConformalFlatteningMeshFilterTest);
 
+  REGISTER_TEST(itkVTKPolyDataIOQuadEdgeMeshTest);
   REGISTER_TEST(itkVTKPolyDataReaderQuadEdgeMeshTest);
   REGISTER_TEST(itkVTKPolyDataReaderTest);
   REGISTER_TEST(itkVTKPolyDataWriterTest);

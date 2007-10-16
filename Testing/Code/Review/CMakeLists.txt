@@ -69,6 +69,7 @@ SET(ReviewTest_SRCS
 
   itkConformalFlatteningMeshFilterTest.cxx
 
+  itkVTKPolyDataIOQuadEdgeMeshTest.cxx
   itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
   itkVTKPolyDataReaderTest.cxx
   itkVTKPolyDataWriterTest.cxx
@@ -353,6 +354,11 @@ ADD_TEST(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMaximal2_2.png
                   ${TEMP}/cthead1RegionalMaximal-ref2_2.png
                   )
+
+ADD_TEST(itkVTKPolyDataIOQuadEdgeMeshTest ${REVIEW_TESTS}
+  itkVTKPolyDataIOQuadEdgeMeshTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  ${TEMP}/VTKPolyDataIOTest.vtk)
 
 ADD_TEST(itkVTKPolyDataReaderQuadEdgeMeshTest ${REVIEW_TESTS}
   itkVTKPolyDataReaderQuadEdgeMeshTest
