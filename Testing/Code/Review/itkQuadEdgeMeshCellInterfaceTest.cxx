@@ -59,12 +59,21 @@ typedef CellType::CellAutoPointer       CellAutoPointer;
 class CustomQELineVisitor
 {
 public:
-  void Visit(unsigned long cellId, QELineCellType * t ) {}
+  void Visit(unsigned long cellId, QELineCellType * t )
+    {
+    (void)cellId;
+    (void)t;
+    }
 };
+
 class CustomQEPolyVisitor
 {
 public:
-  void Visit(unsigned long cellId, QEPolygonCellType * t ) {}
+  void Visit(unsigned long cellId, QEPolygonCellType * t )
+    {
+    (void)cellId;
+    (void)t;
+    }
 };
 
 // Test the cell interface
