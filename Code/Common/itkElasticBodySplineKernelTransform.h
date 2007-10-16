@@ -108,7 +108,7 @@ protected:
   /**
    * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
    */
-  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; ); 
+  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; )
 
   /** alpha,  Alpha is related to Poisson's Ratio ($\nu$) as
    * $\alpha = 12 ( 1 - \nu ) - 1$

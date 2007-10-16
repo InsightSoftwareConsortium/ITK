@@ -108,7 +108,7 @@ protected:
   /**
    * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
    */
-  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; ); 
+  itkLegacy( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const; )
 
   /** alpha, Poisson's ratio */
   TScalarType m_Alpha;
