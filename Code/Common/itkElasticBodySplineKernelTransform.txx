@@ -40,7 +40,7 @@ ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
  * Please use the method: void ComputeG(vector,gmatrix) instead.
  */
 template <class TScalarType, unsigned int NDimensions>
-const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
+const typename ElasticBodySplineKernelTransform<TScalarType, NDimensions>::GMatrixType &
 ElasticBodySplineKernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & ) const
 {
