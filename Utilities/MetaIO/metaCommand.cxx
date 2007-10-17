@@ -47,7 +47,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-09-11 21:26:38 $ cvs command */
+/** Extract the date from the $Date: 2007-10-17 15:15:06 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -70,7 +70,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
 }
 
-/** Extract the version from the $Revision: 1.36 $ cvs command */
+/** Extract the version from the $Revision: 1.37 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -758,7 +758,7 @@ void MetaCommand::ListOptionsXML()
                           << METAIO_STREAM::endl;
       METAIO_STREAM::cout << "<description>" << (*itField).description.c_str() 
                           << "</description>" << METAIO_STREAM::endl;
-      METAIO_STREAM::cout << "<type>" 
+      METAIO_STREAM::cout << "<type>"
                           << this->TypeToString((*itField).type).c_str() 
                           << "</type>" << METAIO_STREAM::endl;
       METAIO_STREAM::cout << "<value>" << (*itField).value.c_str() 
@@ -826,7 +826,13 @@ void MetaCommand::WriteXMLOptionToCout(METAIO_STL::string optionName,
   METAIO_STREAM::cout << "<name>" << (*it).name.c_str() << "</name>" 
                       << METAIO_STREAM::endl;
   // Label is the description for now
-  METAIO_STREAM::cout << "<label>" << (*it).description.c_str() << "</label>" 
+  std::string label = (*it).label;
+  if(label.size()>0)
+    {
+    label = (*it).name;
+    }
+
+  METAIO_STREAM::cout << "<label>" << label.c_str() << "</label>" 
                       << METAIO_STREAM::endl;
   METAIO_STREAM::cout << "<description>" << (*it).description.c_str() 
                       << "</description>" << METAIO_STREAM::endl;
@@ -2042,6 +2048,10 @@ METAIO_STL::string MetaCommand::TypeToString(TypeEnumType type)
       return "flag";
     case BOOL:
       return "boolean";
+    case IMAGE:
+      return "image";
+    case FILE:
+      return "file";
     default:
       return "not defined";
     }
@@ -2088,6 +2098,24 @@ bool MetaCommand::SetOptionLongTag(METAIO_STL::string optionName,
     if(!strcmp((*itOption).name.c_str(),optionName.c_str()))
       {
       (*itOption).longtag = longTag;
+      return true;
+      }
+    itOption++;
+    }
+
+  return false;
+}
+
+/** Set the label for the option */
+bool MetaCommand::SetOptionLabel(METAIO_STL::string optionName,
+                                 METAIO_STL::string label)
+{
+  OptionVector::iterator itOption = m_OptionVector.begin();
+  while(itOption != m_OptionVector.end())
+    {
+    if(!strcmp((*itOption).name.c_str(),optionName.c_str()))
+      {
+      (*itOption).label = label;
       return true;
       }
     itOption++;
