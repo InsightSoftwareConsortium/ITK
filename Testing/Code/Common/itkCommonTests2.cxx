@@ -32,6 +32,8 @@ REGISTER_TEST(itkNumericTraitsTest );
 REGISTER_TEST(itkObjectStoreTest );
 REGISTER_TEST(itkOctreeTest );
 REGISTER_TEST(itkOrthogonallyCorrected2DParametricPathTest );
+REGISTER_TEST(itkOrientedImage3DTest );
+REGISTER_TEST(itkOrientedImage2DTest );
 REGISTER_TEST(itkPathFunctionsTest );
 REGISTER_TEST(itkPathIteratorTest );
 REGISTER_TEST(itkPCAShapeSignedDistanceFunctionTest );

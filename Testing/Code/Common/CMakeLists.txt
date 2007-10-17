@@ -23,6 +23,7 @@ SET(SYSTEM_INFORMATION_TEST ${CXX_TEST_PATH}/itkSystemInformationTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
+SET(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
 ADD_TEST(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
@@ -125,6 +126,15 @@ IF(ITK_DATA_ROOT)
                  ${ITK_DATA_ROOT}/Input/cake_easy.png 
                  ${ITK_DATA_ROOT}/Input/cake_hard.png 
                  ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
+
+  ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
+     itkOrientedImage2DTest 
+                 ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd)
+
+  ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
+     itkOrientedImage3DTest 
+                 ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd)
+
 ENDIF(ITK_DATA_ROOT)
 
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
@@ -350,6 +360,8 @@ itkNumericTraitsTest.cxx
 itkObjectStoreTest.cxx
 itkOctreeTest.cxx
 itkOrthogonallyCorrected2DParametricPathTest.cxx
+itkOrientedImage2DTest.cxx
+itkOrientedImage3DTest.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx
