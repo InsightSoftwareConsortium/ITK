@@ -303,6 +303,23 @@ STRING(REGEX REPLACE "^/" "" ITK_INSTALL_JAVA_DIR_CM24 "${ITK_INSTALL_JAVA_DIR}"
 SET(ITK_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "ITK dir to be used by subprojects")
 
 #-----------------------------------------------------------------------------
+# Set up CPack support, to be able to distribute ITK binary packages. It will
+# be particulary useful to distributed prebuilt ITK witk extended languages
+# support enable
+#
+INCLUDE(InstallRequiredSystemLibraries)
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Insight Toolkit")
+SET(CPACK_PACKAGE_VENDOR "ISC")
+SET(CPACK_PACKAGE_VERSION_MAJOR "${ITK_VERSION_MAJOR}")
+SET(CPACK_PACKAGE_VERSION_MINOR "${ITK_VERSION_MINOR}")
+SET(CPACK_PACKAGE_VERSION_PATCH "${ITK_VERSION_PATCH}")
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY "InsightToolkit-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+# SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Copyright/ITKCopyright.txt")
+INCLUDE(CPack)
+
+
+#-----------------------------------------------------------------------------
 # Perform a setup of ITK Wrapping. This will provide CMake options for
 # individual wrapping as well as determine if CableSwig is required. If it is,
 # ITK_NEED_CableSwig will be set. This file also tries to locate CableSwig by
