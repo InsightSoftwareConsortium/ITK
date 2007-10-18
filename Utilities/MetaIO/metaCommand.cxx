@@ -47,7 +47,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-10-18 01:27:09 $ cvs command */
+/** Extract the date from the $Date: 2007-10-18 21:02:47 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -70,7 +70,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
 }
 
-/** Extract the version from the $Revision: 1.38 $ cvs command */
+/** Extract the version from the $Revision: 1.39 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -823,6 +823,10 @@ void MetaCommand::WriteXMLOptionToCout(METAIO_STL::string optionName,
   else if((*itField).type == MetaCommand::FLAG)
     {
     optionType = "boolean";
+    }
+  else if((*itField).type == MetaCommand::INT)
+    {
+    optionType = "integer";
     }
   else
     {
