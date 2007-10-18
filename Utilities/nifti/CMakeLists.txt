@@ -43,7 +43,7 @@ ELSE("${ITK_VERSION_MAJOR}" GREATER 0.0)
   SET(PACKAGE_PREFIX "")
   SET(NIFTI_INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib")
   SET(NIFTI_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
-  SET(NIFTI_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/Utilities")
+  SET(NIFTI_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/nifti")
   SET(NIFTI_ZLIB_LIBRARIES ${ZLIB_LIBRARIES})
   SET(NIFTI_INSTALL_NO_DEVELOPMENT 0)
   SET(NIFTI_INSTALL_NO_LIBRARIES 0)
@@ -64,6 +64,7 @@ ELSE("${ITK_VERSION_MAJOR}" GREATER 0.0)
   ENDIF(USE_FSL_CODE)
   ENABLE_TESTING()
 
+  ####################################
   ### Define information necessary for packaging with CPACK (http://www.cmake.org/Wiki/CMake:Packaging_With_CPack)
   INCLUDE(InstallRequiredSystemLibraries)
 
