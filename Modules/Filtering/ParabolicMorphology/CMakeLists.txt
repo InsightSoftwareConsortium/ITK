@@ -54,9 +54,11 @@ ENDIF(BUILD_WRAPPERS)
 
 IF(BUILD_TESTING)
 
-SET(CurrentExe "check")
+FOREACH(CurrentExe "check"
+                   "testOpen")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
+ENDFOREACH(CurrentExe)
 
 ENDIF(BUILD_TESTING)
 
