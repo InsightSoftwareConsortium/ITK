@@ -47,7 +47,7 @@ MetaCommand()
 }
 
 
-/** Extract the date from the $Date: 2007-10-17 15:15:06 $ cvs command */
+/** Extract the date from the $Date: 2007-10-18 01:27:09 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractDateFromCVS(METAIO_STL::string date)
 {
@@ -70,7 +70,7 @@ SetDateFromCVS(METAIO_STL::string cvsDate)
   this->SetDate( this->ExtractDateFromCVS( cvsDate ).c_str() );
 }
 
-/** Extract the version from the $Revision: 1.37 $ cvs command */
+/** Extract the version from the $Revision: 1.38 $ cvs command */
 METAIO_STL::string MetaCommand::
 ExtractVersionFromCVS(METAIO_STL::string version)
 {
@@ -812,22 +812,31 @@ void MetaCommand::WriteXMLOptionToCout(METAIO_STL::string optionName,
 
   METAIO_STL::vector<Field>::const_iterator itField = (*it).fields.begin();
 
+  std::string optionType = "";
+
   if((*itField).type == MetaCommand::STRING
      && ( (*itField).externaldata == MetaCommand::DATA_IN
      || (*itField).externaldata == MetaCommand::DATA_OUT))
     {
-    METAIO_STREAM::cout << "<image>" << METAIO_STREAM::endl;
+    optionType = "image";
+    }
+  else if((*itField).type == MetaCommand::FLAG)
+    {
+    optionType = "boolean";
     }
   else
     {
-    METAIO_STREAM::cout << "<" << this->TypeToString((*itField).type).c_str() << ">"
-                        << METAIO_STREAM::endl;
+    optionType = this->TypeToString((*itField).type).c_str();
     }
+
+  METAIO_STREAM::cout << "<" << optionType << ">" << METAIO_STREAM::endl;
+ 
+
   METAIO_STREAM::cout << "<name>" << (*it).name.c_str() << "</name>" 
                       << METAIO_STREAM::endl;
   // Label is the description for now
   std::string label = (*it).label;
-  if(label.size()>0)
+  if(label.size()==0)
     {
     label = (*it).name;
     }
@@ -867,18 +876,8 @@ void MetaCommand::WriteXMLOptionToCout(METAIO_STL::string optionName,
     METAIO_STREAM::cout << "<channel>output</channel>" << METAIO_STREAM::endl;
     } 
       
-      
-  if((*itField).type == MetaCommand::STRING
-     && ( (*itField).externaldata == MetaCommand::DATA_IN
-        || (*itField).externaldata == MetaCommand::DATA_OUT))
-    {
-    METAIO_STREAM::cout << "</image>" << METAIO_STREAM::endl;
-    }
-  else
-    {
-    METAIO_STREAM::cout << "</" << this->TypeToString((*itField).type).c_str() << ">"
-                        << METAIO_STREAM::endl;
-    }
+  // Write out the closing tag 
+  METAIO_STREAM::cout << "</" << optionType << ">" << METAIO_STREAM::endl;
 }
 
 /** List the current options in Slicer's xml format (www.slicer.org) */
