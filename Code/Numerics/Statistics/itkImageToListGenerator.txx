@@ -32,6 +32,7 @@ ImageToListGenerator< TImage, TMaskImage >
   typename ListSampleOutputType::Pointer listSampleDecorator = 
     static_cast< ListSampleOutputType * >( this->MakeOutput(0).GetPointer() );
   this->ProcessObject::SetNthOutput(0, listSampleDecorator.GetPointer());
+  m_MaskValue = NumericTraits<MaskPixelType>::max();
 }
 
 template < class TImage, class TMaskImage >
