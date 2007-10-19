@@ -5,6 +5,14 @@
 # This file is configured by ITK and used by the UseITK.cmake module
 # to load ITK's settings for an external project.
 
+# The ITK source tree.
+# For backward compatibily issues we still need to define this variable, although
+# it is highly probable that it will cause more harm than being useful. 
+# Use ITK_INCLUDE_DIRS instead, since ITK_SOURCE_DIR may point to non-existant directory
+IF(NOT ITK_LEGACY_REMOVE)
+  SET(ITK_SOURCE_DIR "@ITK_SOURCE_DIR@")
+ENDIF(NOT ITK_LEGACY_REMOVE)
+
 # The ITK include file directories.
 SET(ITK_INCLUDE_DIRS "@ITK_INCLUDE_DIRS_CONFIG@")
 
