@@ -73,3 +73,6 @@ ENDIF(BUILD_TESTING)
 
 ADD_TEST(Test ${ TEST_COMMAND } check ${ INPUT_IMAGE } out.png-- compare out.png ${ CMAKE_CURRENT_SOURCE_DIR } /
          images / test.png)
+
+ADD_TEST(Open ${ TEST_COMMAND } testOpen ${ INPUT_IMAGE } open.png-- compare open.png ${ CMAKE_CURRENT_SOURCE_DIR } /
+         images / open.png)
