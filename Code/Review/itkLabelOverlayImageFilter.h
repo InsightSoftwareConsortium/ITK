@@ -17,88 +17,12 @@
 #ifndef __itkLabelOverlayImageFilter_h
 #define __itkLabelOverlayImageFilter_h
 
-#include "itkLabelToRGBFunctor.h"
+#include "itkLabelOverlayFunctor.h"
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
 
 namespace itk
 {
-
-namespace Functor {  
- 
-/**  
- * \class LabelOverlay
- * \brief A functor class used internally by LabelOverlayImageFilter 
- */
-template< class TInputPixel, class TLabel, class TRGBPixel >
-class LabelOverlay
-{
-public:
-  LabelOverlay() 
-    {
-    // provide some default value for external use (outside 
-    // LabelOverlayImageFilter) Inside LabelOverlayImageFilter, 
-    // the values are always initialized
-    m_BackgroundValue = NumericTraits<TLabel>::Zero;
-    }
-
-  inline TRGBPixel operator()(  const TInputPixel & p1, const TLabel & p2)
-    {
-    TRGBPixel rgbPixel;
-    if( p2 == m_BackgroundValue )
-      {
-      // value is background
-      // return a gray pixel with the same intensity than the input pixel
-      typename TRGBPixel::ValueType p = 
-                        static_cast< typename TRGBPixel::ValueType >( p1 );
-      rgbPixel[0] = p;
-      rgbPixel[1] = p;
-      rgbPixel[2] = p;
-      return rgbPixel;
-      }
-
-    // taint the input pixel with the colored one returned by 
-    // the color functor.
-    TRGBPixel opaque = m_RGBFunctor(p2);
-    for( unsigned int i = 0; i<3; i++ )
-      {
-      rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >( 
-                          opaque[i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
-      }
-    return rgbPixel;
-    }
-
-  bool operator != (const LabelOverlay &l) const
-    {
-    bool value = l.m_Opacity != m_Opacity || 
-                 m_BackgroundValue != l.m_BackgroundValue; 
-
-    return value;
-    }
-
-  ~LabelOverlay() {}
-
-  void SetOpacity( double opacity ) 
-    { 
-    m_Opacity = opacity; 
-    }
-
-  void SetBackgroundValue( TLabel v ) 
-    { 
-    m_BackgroundValue = v; 
-    }
-
-protected:
-
-private: 
-  double          m_Opacity;
-  TLabel          m_BackgroundValue;
-
-  typename Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
-};
-}  // end namespace functor
-
-
 /** \class LabelOverlayImageFilter
  * \brief Apply a colormap to a label image and put it on top of the 
  *  input image
@@ -125,7 +49,7 @@ template <typename  TInputImage, class TLabelImage, typename  TOutputImage>
 class ITK_EXPORT LabelOverlayImageFilter :
     public
      BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage, 
-       Functor::LabelOverlay< 
+       Functor::LabelOverlayFunctor< 
           typename TInputImage::PixelType, 
           typename TLabelImage::PixelType, 
           typename TOutputImage::PixelType>   >
@@ -135,7 +59,7 @@ public:
   typedef LabelOverlayImageFilter  Self;
 
   typedef BinaryFunctorImageFilter<TInputImage, TLabelImage, TOutputImage, 
-                        Functor::LabelOverlay< 
+                        Functor::LabelOverlayFunctor< 
                             typename TInputImage::PixelType, 
                             typename TLabelImage::PixelType, 
                             typename TOutputImage::PixelType>   >  Superclass;

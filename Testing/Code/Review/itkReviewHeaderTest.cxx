@@ -26,6 +26,7 @@
 #include "itkContourExtractor2DImageFilter.h"
 #include "itkFlatStructuringElement.h"
 #include "itkImageToPathFilter.h"
+#include "itkLabelOverlayFunctor.h"
 #include "itkLabelOverlayImageFilter.h"
 #include "itkLabelToRGBFunctor.h"
 #include "itkLabelToRGBImageFilter.h"
