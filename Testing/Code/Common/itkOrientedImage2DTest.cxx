@@ -38,8 +38,8 @@ int itkOrientedImage2DTest( int ac, char * av[] )
   const unsigned int Dimension = 2;
   typedef unsigned char PixelType;
 
-  typedef itk::Image<PixelType, Dimension>    ImageType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  typedef itk::OrientedImage<PixelType, Dimension>    ImageType;
+  typedef itk::ImageFileReader< ImageType >           ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
   
@@ -62,7 +62,7 @@ int itkOrientedImage2DTest( int ac, char * av[] )
   std::cout << directionCosines << std::endl;
 
   unsigned int element = 2;
-  const double tolerance = 1e-5;
+  const double tolerance = 1e-3;
 
   ImageType::RegionType region = image->GetLargestPossibleRegion();
   ImageType::SizeType   size   = region.GetSize();
@@ -81,10 +81,16 @@ int itkOrientedImage2DTest( int ac, char * av[] )
   index[2][0] = 0;
   index[2][1] = size[1];
 
+  image->Print( std::cout );
+  std::cout << std::endl;
+  std::cout << std::endl;
+
   for( unsigned int pointId=0; pointId < numberOfPointsToTest; ++pointId )
     {
 
     image->TransformIndexToPhysicalPoint( index[pointId], physicalPoint );
+
+    std::cout << index[pointId] << " : " << physicalPoint << std::endl;
 
     for( unsigned int dim=0; dim < Dimension; ++dim )
       {
