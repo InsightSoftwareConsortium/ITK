@@ -25,6 +25,8 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itkFlatStructuringElementTest);
+
+  REGISTER_TEST(itkLabelToRGBImageFilterTest);
   REGISTER_TEST(itkLabelOverlayImageFilterTest);
 
   REGISTER_TEST(itkQuadEdgeTest1);

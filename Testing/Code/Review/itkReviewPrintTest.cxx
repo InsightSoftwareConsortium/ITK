@@ -19,6 +19,7 @@
 #endif
 
 #include "itkContourExtractor2DImageFilter.h"
+#include "itkLabelToRGBImageFilter.h"
 #include "itkLabelOverlayImageFilter.h"
 #include "itkRGBPixel.h"
 #include "itkQuadEdgeMesh.h"
@@ -72,6 +73,12 @@ int main(int , char* [])
     itk::ContourExtractor2DImageFilter<InputType>::New();
   std:: cout << "-------------ContourExtractor2DImageFilter "
              << ContourExtractor2DImageFilterObj;
+
+  itk::LabelToRGBImageFilter<CharType,RGBImageType>::Pointer
+    LabelToRGBImageFilterObj =
+    itk::LabelToRGBImageFilter<CharType,RGBImageType>::New();
+  std:: cout << "-------------LabelToRGBImageFilter "
+             << LabelToRGBImageFilterObj;
 
   itk::LabelOverlayImageFilter<InputType,CharType,RGBImageType>::Pointer
     LabelOverlayImageFilterObj =

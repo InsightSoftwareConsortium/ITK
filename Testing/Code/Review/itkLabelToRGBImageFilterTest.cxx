@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkLabelOverlayImageFilterTest.cxx
+  Module:    itkLabelToRGBImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -23,18 +23,18 @@
 #include "itkImageFileWriter.h"
 #include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkLabelOverlayImageFilter.h"
+#include "itkLabelToRGBImageFilter.h"
 
 
-int itkLabelOverlayImageFilterTest(int argc, char * argv[])
+int itkLabelToRGBImageFilterTest(int argc, char * argv[])
 {
   const int Dimension = 2;
 
-  if( argc < 5 )
+  if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage  LabelImage Opacity OutputImage" << std::endl;
+    std::cerr << " LabelImage OutputImage" << std::endl;
     return 1;
     }
  
@@ -48,13 +48,9 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  //Read in the label image
-  ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName( argv[2] );
-
   //Instantiate the filter
-  typedef itk::LabelOverlayImageFilter< 
-    ImageType, ImageType, ColorImageType> FilterType;
+  typedef itk::LabelToRGBImageFilter< 
+    ImageType, ColorImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   // Exercising Background Value methods
@@ -65,29 +61,11 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  // Exercise set/get opacity values
-  filter->SetOpacity( 2 );
-  if( filter->GetOpacity() != 2 )
-    {
-    std::cerr << "Opacity Set/Get Problem" << std::endl;
-    return EXIT_FAILURE;
-    }
-  filter->SetOpacity( 3 );
-  if( filter->GetOpacity() != 3 )
-    {
-    std::cerr << "Opacity Set/Get Problem" << std::endl;
-    return EXIT_FAILURE;
-    }
-
 
   //Set the filter input and label images
   filter->SetInput( reader->GetOutput() );
-  filter->SetLabelImage( reader2->GetOutput() );
-  filter->SetBackgroundValue( 13 );
+  filter->SetBackgroundValue( 0 );
   
-  //Set opacity 
-  filter->SetOpacity( atof(argv[3]) );
-
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   //Instantiate output image
@@ -95,7 +73,7 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[4] );
+  writer->SetFileName( argv[2] );
 
   try
     {

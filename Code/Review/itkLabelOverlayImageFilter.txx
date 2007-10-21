@@ -32,7 +32,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 {
   m_Opacity = 0.5;
   m_BackgroundValue = NumericTraits<LabelPixelType>::Zero;
-  m_UseBackground = false;
 }
 
 /**
@@ -45,7 +44,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 {
   this->GetFunctor().SetOpacity(m_Opacity);
   this->GetFunctor().SetBackgroundValue(m_BackgroundValue);
-  this->GetFunctor().SetUseBackground(m_UseBackground);
 }
 
 /**
@@ -89,9 +87,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
      << indent << "BackgroundValue: "
      << static_cast<
           typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl
-     << indent << "UseBackground: "
-     << static_cast<typename NumericTraits<bool>::PrintType>(m_UseBackground)
      << std::endl;
 }
 

@@ -39,14 +39,13 @@ public:
     // provide some default value for external use (outside 
     // LabelOverlayImageFilter) Inside LabelOverlayImageFilter, 
     // the values are always initialized
-    m_UseBackground = false;
     m_BackgroundValue = NumericTraits<TLabel>::Zero;
     }
 
   inline TRGBPixel operator()(  const TInputPixel & p1, const TLabel & p2)
     {
     TRGBPixel rgbPixel;
-    if( m_UseBackground && p2 == m_BackgroundValue )
+    if( p2 == m_BackgroundValue )
       {
       // value is background
       // return a gray pixel with the same intensity than the input pixel
@@ -72,7 +71,6 @@ public:
   bool operator != (const LabelOverlay &l) const
     {
     bool value = l.m_Opacity != m_Opacity || 
-                 m_UseBackground != l.m_UseBackground || 
                  m_BackgroundValue != l.m_BackgroundValue; 
 
     return value;
@@ -90,16 +88,10 @@ public:
     m_BackgroundValue = v; 
     }
 
-  void SetUseBackground( bool b ) 
-    {
-    m_UseBackground = b; 
-    }
-
 protected:
 
 private: 
   double          m_Opacity;
-  bool            m_UseBackground;
   TLabel          m_BackgroundValue;
 
   typename Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
@@ -181,11 +173,6 @@ public:
   itkSetMacro( BackgroundValue, LabelPixelType );
   itkGetConstReferenceMacro( BackgroundValue, LabelPixelType );
 
-  /** Set/Get if one of the labels must be considered as background */
-  itkSetMacro( UseBackground, bool );
-  itkGetConstReferenceMacro( UseBackground, bool );
-  itkBooleanMacro(UseBackground);
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(OutputHasPixelTraitsCheck,
@@ -215,7 +202,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   double                        m_Opacity;
-  bool                          m_UseBackground;
   LabelPixelType                m_BackgroundValue;
 
 };

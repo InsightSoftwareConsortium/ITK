@@ -75,10 +75,9 @@ public:
   itkSetMacro( BackgroundValue, LabelPixelType );
   itkGetConstReferenceMacro( BackgroundValue, LabelPixelType );
 
-  /** Set/Get if one of the labels must be considered as background */
-  itkSetMacro( UseBackground, bool );
-  itkGetConstReferenceMacro( UseBackground, bool );
-  itkBooleanMacro(UseBackground);
+  /** Set/Get the background color in the output image */
+  itkSetMacro( BackgroundColor, OutputPixelType );
+  itkGetConstReferenceMacro( BackgroundColor, OutputPixelType );
 
 protected:
   LabelToRGBImageFilter();
@@ -94,7 +93,7 @@ private:
   LabelToRGBImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  bool              m_UseBackground;
+  OutputPixelType   m_BackgroundColor;
   LabelPixelType    m_BackgroundValue;
 };
 

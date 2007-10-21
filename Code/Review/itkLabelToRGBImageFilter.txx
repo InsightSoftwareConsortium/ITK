@@ -31,7 +31,7 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
 ::LabelToRGBImageFilter()
 {
   m_BackgroundValue = NumericTraits<LabelPixelType>::Zero;
-  m_UseBackground = false;
+  m_BackgroundColor.Fill( NumericTraits<typename OutputPixelType::ValueType>::Zero );
 }
 
 template <class TLabelImage, class TOutputImage>
@@ -40,7 +40,7 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
   this->GetFunctor().SetBackgroundValue(m_BackgroundValue);
-  this->GetFunctor().SetUseBackground(m_UseBackground);
+  this->GetFunctor().SetBackgroundColor(m_BackgroundColor);
 }
 
 /**
@@ -56,8 +56,8 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
   os << indent << "BackgroundValue: "
      << static_cast<typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
      << std::endl
-     << indent << "UseBackground: "
-     << static_cast<typename NumericTraits<bool>::PrintType>(m_UseBackground)
+     << indent << "ColorBackground: "
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundColor)
      << std::endl;
 }
 

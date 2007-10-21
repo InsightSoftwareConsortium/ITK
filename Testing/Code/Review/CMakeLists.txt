@@ -24,6 +24,8 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 SET(ReviewTest_SRCS
   itkFlatStructuringElementTest.cxx
+
+  itkLabelToRGBImageFilterTest.cxx
   itkLabelOverlayImageFilterTest.cxx
 
   itkQuadEdgeTest1.cxx
@@ -130,6 +132,13 @@ FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
                   ${opacity}
                   ${TEMP}/cthead1-${op}Overlay.png)
 ENDFOREACH(opacity)
+
+ADD_TEST(itkLabelToRGBImageFilterTest ${REVIEW_TESTS}
+      --compare ${BASELINE}/cthead1Label-color.png
+                ${TEMP}/cthead1Label-color.png
+                itkLabelToRGBImageFilterTest
+                ${INPUTDATA}/cthead1Label.png
+                ${TEMP}/cthead1Label-color.png)
 
 ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
                                   itkContourExtractor2DImageFilterTest
