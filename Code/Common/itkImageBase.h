@@ -127,7 +127,8 @@ public:
   typedef Point<double, VImageDimension> PointType;
 
   /** Direction typedef support.  The Direction is a matix of
-   * direction cosines that specify the direction between samples. */
+   * direction cosines that specify the direction between samples.
+   * */
   typedef Matrix<double, VImageDimension, VImageDimension> DirectionType;
 
   /** Restore object to initialized state. */
@@ -147,6 +148,29 @@ public:
 
   /** Set the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
+   * 
+   * One row of the matrix indicates the direction cosines of the unit vector
+   * that is parallel to the lines of the image grid corresponding to that
+   * dimension. For example, and image with Direction matrix 
+   *
+   *    0.866   0.500
+   *   -0.500   0.866
+   *
+   * has an image grid were the fastest changing index (dimension[0]) walks
+   * over a line that in Physical space is oriented parallel to the vector
+   * (0.866,0.5). The second fastest changing index (dimension[1]) walks along
+   * a line that in Physical space is oriented parallel to the vector
+   * (-0.5,0.866)
+   *
+   * The vectors whose direction cosines are stored in the Direction matrix,
+   * are expected to be orthogonal to each other, and they are expected to form
+   * a right handed coordinate system, but this is not checked nor enforced in
+   * the itk::ImageBase.
+   *
+   * For details, please see:
+   *
+   * http://www.itk.org/Wiki/Proposals:Orientation#Some_notes_on_the_DICOM_convention_and_current_ITK_usage
+   *
    * \sa GetDirection() */
   virtual void SetDirection( const DirectionType direction );
 
