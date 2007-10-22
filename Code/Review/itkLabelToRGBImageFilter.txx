@@ -31,7 +31,7 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
 ::LabelToRGBImageFilter()
 {
   m_BackgroundValue = NumericTraits<LabelPixelType>::Zero;
-  m_BackgroundColor.Fill( NumericTraits<typename OutputPixelType::ValueType>::Zero );
+  m_BackgroundColor.Fill( NumericTraits<OutputPixelValueType>::Zero );
 }
 
 template <class TLabelImage, class TOutputImage>

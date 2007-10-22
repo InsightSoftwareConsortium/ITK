@@ -62,8 +62,9 @@ public:
   typedef TOutputImage OutputImageType;
   typedef TLabelImage  LabelImageType;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TLabelImage::PixelType  LabelPixelType;
+  typedef typename TOutputImage::PixelType                     OutputPixelType;
+  typedef typename TLabelImage::PixelType                      LabelPixelType;
+  typedef typename NumericTraits< OutputPixelType >::ValueType OutputPixelValueType;
 
   /** Runtime information support. */
   itkTypeMacro(LabelToRGBImageFilter, UnaryFunctorImageFilter);
