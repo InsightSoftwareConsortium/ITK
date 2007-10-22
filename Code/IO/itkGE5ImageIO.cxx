@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
-#include "itkSpatialOrientationAdapter.h"
+
 #include "itkGEImageHeader.h"
 #include "itkIOCommon.h"
 
@@ -366,6 +366,10 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
   //RECODE image plane to be brains2 compliant.!!
   switch (GE_Plane)
     {
+    case GE_CORONAL:
+      curImage->coordinateOrientation =
+        itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+      break;
     case GE_SAGITTAL:
       curImage->coordinateOrientation =
         itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
@@ -374,7 +378,6 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
       curImage->coordinateOrientation =
         itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
       break;
-    case GE_CORONAL:
     default:
       curImage->coordinateOrientation =
         itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
@@ -439,7 +442,7 @@ void
 GE5ImageIO::ModifyImageInformation()
 {
   std::vector<double> dirx(3,0), diry(3,0), dirz(3,0);
-#if 0
+
   double len;
   dirx[0] = -(m_ImageHeader->trhcR - m_ImageHeader->tlhcR);
   dirx[1] = -(m_ImageHeader->trhcA - m_ImageHeader->tlhcA);
@@ -459,28 +462,15 @@ GE5ImageIO::ModifyImageInformation()
     {
     diry[i] /= len;
     }
-  dirz[0] = -m_ImageHeader->normR;
-  dirz[1] = -m_ImageHeader->normA;
-  dirz[2] = -m_ImageHeader->normS;
+  dirz[0] = m_ImageHeader->normR;
+  dirz[1] = m_ImageHeader->normA;
+  dirz[2] = m_ImageHeader->normS;
   len = dirz[0]*dirz[0] + dirz[1]*dirz[1] + dirz[2]*dirz[2];
   len = vcl_sqrt(len);
   for (unsigned int i = 0; i < 3; i++)
     {
     dirz[i] /= len;
     }
-#else
-    //An error was encountered in code that depends upon the valid coord_orientation.
-  typedef itk::SpatialOrientationAdapter OrientAdapterType;
-  OrientAdapterType::DirectionType dir =  
-    OrientAdapterType().ToDirectionCosines
-    (m_ImageHeader->coordinateOrientation);
-    for(unsigned i = 0; i < 3; i++)
-      {
-      dirx[i] = dir[i][0];
-      diry[i] = dir[i][1];
-      dirz[i] = dir[i][2];
-      }
-#endif
   this->SetDirection(0,dirx);
   this->SetDirection(1,diry);
   this->SetDirection(2,dirz);  
@@ -488,6 +478,7 @@ GE5ImageIO::ModifyImageInformation()
   this->SetOrigin(0, -m_ImageHeader->tlhcR);
   this->SetOrigin(1, -m_ImageHeader->tlhcA);
   this->SetOrigin(2,  m_ImageHeader->tlhcS);
+
   // Compute the spacing between two slices  from the origins of the
   // first two files in the study
   if (m_FilenameList->NumFiles() > 1)
