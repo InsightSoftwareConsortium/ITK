@@ -477,14 +477,14 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
   long int currentPos = stream->tellg();
   if(currentPos == -1)
     {
-    std::cout << "MET_UncompressStream: ERROR Stream is not valid!" << std::endl;
+    METAIO_STREAM::cout << "MET_UncompressStream: ERROR Stream is not valid!" << METAIO_STREAM::endl;
     return -1;
     }
 
   long read = 0;
 
-  //std::cout << "Wanted Seek = " << uncompressedSeekPosition << std::endl;
-  //std::cout << "Wanted size = " << uncompressedDataSize << std::endl;
+  //METAIO_STREAM::cout << "Wanted Seek = " << uncompressedSeekPosition << METAIO_STREAM::endl;
+  //METAIO_STREAM::cout << "Wanted size = " << uncompressedDataSize << METAIO_STREAM::endl;
 
   // Size of the output buffer
   unsigned long buffersize = 1000;
@@ -526,8 +526,8 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
       {
       if((*it).uncompressedOffset-uncompressedSeekPosition > compressionTable->bufferSize)
         {
-        std::cout << "ERROR: Cannot go backward by more than the buffer size (1000)"
-                  << std::endl;
+        METAIO_STREAM::cout << "ERROR: Cannot go backward by more than the buffer size (1000)"
+                  << METAIO_STREAM::endl;
         return 0;
         }
 
@@ -559,7 +559,7 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
       }
     }
 
-  //std::cout << "Using = " << seekpos << " : " << zseekpos << std::endl;
+  //METAIO_STREAM::cout << "Using = " << seekpos << " : " << zseekpos << METAIO_STREAM::endl;
    
   while(seekpos < (int)uncompressedSeekPosition+uncompressedDataSize)
     {
@@ -612,7 +612,7 @@ long MET_UncompressStream(METAIO_STREAM::ifstream * stream,
     memcpy(compressionTable->buffer,outdata,previousBufferSize);
     compressionTable->bufferSize = previousBufferSize;
 
-    //std::cout << "Current pos = " << seekpos << " : " << zseekpos << std::endl;
+    //METAIO_STREAM::cout << "Current pos = " << seekpos << " : " << zseekpos << METAIO_STREAM::endl;
 
     // If go further than the uncompressedSeekPosition we start writing the stream
     if(seekpos >= (long)uncompressedSeekPosition)

@@ -350,7 +350,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
 
     bool M_FileExists(const char* filename) const;
 
-    std::string M_GetTagValue(const std::string & buffer, const char* tag) const;
+    METAIO_STL::string M_GetTagValue(const METAIO_STL::string & buffer, const char* tag) const;
 
   };
 

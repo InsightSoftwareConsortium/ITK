@@ -1019,7 +1019,7 @@ bool MetaImage::M_FileExists(const char* filename) const
 }
 
 // Return the value of a tag
-std::string MetaImage::M_GetTagValue(const std::string & buffer, const char* tag) const
+METAIO_STL::string MetaImage::M_GetTagValue(const METAIO_STL::string & buffer, const char* tag) const
 {
   long int stringPos = buffer.find(tag);
   if( stringPos == (long int)METAIO_STL::string::npos )
@@ -1045,7 +1045,7 @@ std::string MetaImage::M_GetTagValue(const std::string & buffer, const char* tag
     }
 
   // Get the element data filename
-  std::string value = "";
+  METAIO_STL::string value = "";
   bool firstspace = true;
   unsigned int index = pos2+1;
   while(index<buffer.size() 
@@ -1126,7 +1126,7 @@ CanRead(const char *_headerName) const
   inputStream.read(buf,8000);
   unsigned long fileSize = inputStream.gcount();
   buf[fileSize] = 0; 
-  std::string header(buf);
+  METAIO_STL::string header(buf);
   header.resize(fileSize);
   delete [] buf;
   inputStream.close();
@@ -1137,7 +1137,7 @@ CanRead(const char *_headerName) const
     return false;
     }
 
-  std::string elementDataFileName = M_GetTagValue(header,"ElementDataFile");
+  METAIO_STL::string elementDataFileName = M_GetTagValue(header,"ElementDataFile");
 
   char* fName = new char[512];
 
@@ -1197,7 +1197,7 @@ CanRead(const char *_headerName) const
 
           if(!this->M_FileExists(fName))
             {
-            std::cout << fName << " cannot be opened. Make sure the file exists.";
+            METAIO_STREAM::cout << fName << " cannot be opened. Make sure the file exists.";
             return false;
             }
           }
@@ -1206,8 +1206,8 @@ CanRead(const char *_headerName) const
     else if(strstr(elementDataFileName.c_str(), "%"))
       {
       // Need the dimsize and the element spacing
-      std::string nDimsString = M_GetTagValue(header,"NDims");
-      std::string dimSizeString = M_GetTagValue(header,"DimSize");
+      METAIO_STL::string nDimsString = M_GetTagValue(header,"NDims");
+      METAIO_STL::string dimSizeString = M_GetTagValue(header,"DimSize");
 
       int nDims = atoi(nDimsString.c_str());
 
@@ -1255,7 +1255,7 @@ CanRead(const char *_headerName) const
 
         if(!M_FileExists(fName))
           {
-          std::cout << fName << " cannot be opened. Make sure the file exists.\n";
+          METAIO_STREAM::cout << fName << " cannot be opened. Make sure the file exists.\n";
           delete [] fName;
           delete [] dimSize;
           return false;
@@ -1275,7 +1275,7 @@ CanRead(const char *_headerName) const
         }
       if(!M_FileExists(fName))
         {
-        std::cout << fName << " cannot be opened. Make sure the file exists.\n";
+        METAIO_STREAM::cout << fName << " cannot be opened. Make sure the file exists.\n";
         delete [] fName;
         return false;
         }
