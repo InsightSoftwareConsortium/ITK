@@ -484,6 +484,11 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
     SET(SWIG_RUNTIME_LANGUAGE "")
   ENDIF("${language}" STREQUAL "Java" AND APPLE)
 
+  IF("${language}" STREQUAL "Python" AND WIN32)
+    # MESSAGE("Setting file extension to .pyd for python modules ${library_name}")
+    SET_TARGET_PROPERTIES(${library_name} PROPERTIES SUFFIX .pyd)
+  ENDIF("${language}" STREQUAL "Python" AND WIN32)
+
   IF(CMAKE_CXX_COMPILER MATCHES "icpc")
     # disable warning #191: type qualifier is meaningless on cast type
     SET_TARGET_PROPERTIES(${library_name} PROPERTIES COMPILE_FLAGS -wd191 )
