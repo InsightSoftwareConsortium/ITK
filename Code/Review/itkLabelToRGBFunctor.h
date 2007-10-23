@@ -48,6 +48,8 @@ public:
     {
     
     TRGBPixel rgbPixel;
+    typedef typename TRGBPixel::ValueType ValueType;
+
     // the following colors are from "R", and named:
     // "red"             "green3"          "blue"            "cyan"
     //"magenta"         "darkorange1"     "darkgreen"       "blueviolet"
@@ -93,7 +95,7 @@ public:
 
     // provide some default value for external use (outside LabelToRGBImageFilter)
     // Inside LabelToRGBImageFilter, the values are always initialized
-    m_BackgroundColor.Fill( NumericTraits<typename TRGBPixel::ValueType>::Zero );
+    m_BackgroundColor.Fill( NumericTraits<ValueType>::Zero );
     m_BackgroundValue = NumericTraits<TLabel>::Zero;
     }
 
