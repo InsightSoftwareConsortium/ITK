@@ -59,8 +59,9 @@ def simple_import_callback(name, p):
   This function can be used with itkConfig.ImportCallback
   """
   import sys
-  print >> sys.stderr, "Loading %s..." % name,
-  if p == 1 :
+  if p == 0:
+    print >> sys.stderr, "Loading %s..." % name,
+  elif p == 1 :
     print >> sys.stderr, "done"
 
 def simple_progress_callback(name, p):
