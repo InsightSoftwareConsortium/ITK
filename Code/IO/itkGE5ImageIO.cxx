@@ -28,6 +28,10 @@
 #include <vector>
 #include <string>
 
+#include <vnl/vnl_vector.h>
+#include <vnl/vnl_matrix.h>
+#include <vnl/vnl_cross.h>
+
 #include "itkGEImageHeader.h"
 #include "itkIOCommon.h"
 
@@ -184,7 +188,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
     {
     itkExceptionMacro(
       "GE5ImageIO could not open file "
-      << this->GetFileName() << " for reading."
+      << FileNameToRead << " for reading."
       << std::endl
       << "Reason: "
       << reason
@@ -196,7 +200,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
     {
     itkExceptionMacro(
       "GE5ImageIO failed to create a GEImageHeader while reading "
-      << this->GetFileName() << " ."
+      << FileNameToRead << " ."
       << std::endl
       << "Reason: "
       << "new GEImageHeader failed."
@@ -212,7 +216,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
     {
     itkExceptionMacro(
       "GE5ImageIO failed to open "
-      << this->GetFileName() << " for input."
+      << FileNameToRead << " for input."
       << std::endl
       << "Reason: "
       << itksys::SystemTools::GetLastSystemError()
@@ -227,7 +231,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
       }
     itkExceptionMacro(
       "GE5ImageIO IO error while reading  "
-      << this->GetFileName() << " ."
+      << FileNameToRead << " ."
       << std::endl
       << "Reason: "
       << itksys::SystemTools::GetLastSystemError()
@@ -246,7 +250,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
         }
       itkExceptionMacro(
         "GE5ImageIO IO error while seeking  "
-        << this->GetFileName() << " ."
+        << FileNameToRead << " ."
         << std::endl
         << "Reason: "
         << itksys::SystemTools::GetLastSystemError()
@@ -267,7 +271,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
       }
     itkExceptionMacro(
       "GE5ImageIO IO error while reading  "
-      << this->GetFileName() << " ."
+      << FileNameToRead << " ."
       << std::endl
       << "Reason: "
       << itksys::SystemTools::GetLastSystemError()
@@ -283,6 +287,8 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
   strncpy (curImage->hospital, &hdr[GENESIS_EX_HDR_START + GENESIS_EX_HOSPNAME], 
            GENESIS_EX_DETECT - GENESIS_EX_HOSPNAME + 1);
 
+  // Get the coordinate information from the header. This will be used
+  // later on to compute the origin, spacing and directions.
   curImage->centerR = hdr2Float(&hdr[GENESIS_IM_HDR_START + GENESIS_CT_CTR_R]);
   curImage->centerA = hdr2Float(&hdr[GENESIS_IM_HDR_START + GENESIS_CT_CTR_A]);
   curImage->centerS = hdr2Float(&hdr[GENESIS_IM_HDR_START + GENESIS_CT_CTR_S]);
@@ -441,43 +447,47 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
 void
 GE5ImageIO::ModifyImageInformation()
 {
-  std::vector<double> dirx(3,0), diry(3,0), dirz(3,0);
+  vnl_vector<double> dirx(3), diry(3), dirz(3);
 
+  // NOTE: itk use LPS coordinates while the GE system uses RAS
+  // coordinates. Consequently, the R and A coordinates must be negated
+  // to convert them to L and P.
   double len;
   dirx[0] = -(m_ImageHeader->trhcR - m_ImageHeader->tlhcR);
   dirx[1] = -(m_ImageHeader->trhcA - m_ImageHeader->tlhcA);
-  dirx[2] = -(m_ImageHeader->trhcS - m_ImageHeader->tlhcS);
-  len = dirx[0]*dirx[0] + dirx[1]*dirx[1] + dirx[2]*dirx[2];
-  len = vcl_sqrt(len);
-  for (unsigned int i = 0; i < 3; i++)
-    {
-    dirx[i] /= len;
-    }
-  diry[0] = m_ImageHeader->trhcR - m_ImageHeader->brhcR;
-  diry[1] = m_ImageHeader->trhcA - m_ImageHeader->brhcA;
-  diry[2] = m_ImageHeader->brhcS - m_ImageHeader->trhcS;
-  len = diry[0]*diry[0] + diry[1]*diry[1] + diry[2]*diry[2];
-  len = vcl_sqrt(len);
-  for (unsigned int i = 0; i < 3; i++)
-    {
-    diry[i] /= len;
-    }
-  dirz[0] = m_ImageHeader->normR;
-  dirz[1] = m_ImageHeader->normA;
-  dirz[2] = m_ImageHeader->normS;
-  len = dirz[0]*dirz[0] + dirz[1]*dirz[1] + dirz[2]*dirz[2];
-  len = vcl_sqrt(len);
-  for (unsigned int i = 0; i < 3; i++)
-    {
-    dirz[i] /= len;
-    }
+  dirx[2] =  (m_ImageHeader->trhcS - m_ImageHeader->tlhcS);
+  dirx.normalize();
+
+  diry[0] = -(m_ImageHeader->brhcR - m_ImageHeader->trhcR);
+  diry[1] = -(m_ImageHeader->brhcA - m_ImageHeader->trhcA);
+  diry[2] =  (m_ImageHeader->brhcS - m_ImageHeader->trhcS);
+  diry.normalize();
+
+  dirz[0] = -m_ImageHeader->normR;
+  dirz[1] = -m_ImageHeader->normA;
+  dirz[2] =  m_ImageHeader->normS;
+  dirz.normalize();
+
+  // Set the directions
   this->SetDirection(0,dirx);
   this->SetDirection(1,diry);
   this->SetDirection(2,dirz);  
 
-  this->SetOrigin(0, -m_ImageHeader->tlhcR);
-  this->SetOrigin(1, -m_ImageHeader->tlhcA);
-  this->SetOrigin(2,  m_ImageHeader->tlhcS);
+  // See if slices need to be reversed. itk uses a right hand
+  // coordinate system. If the computed slice direction is opposite
+  // the direction in the header, the files have to be read in reverse
+  // order.
+  vnl_vector<double> sliceDirection = vnl_cross_3d(dirx, diry);
+  if (dot_product(sliceDirection,dirz) < 0)
+    {
+    // Use the computed direction
+    this->SetDirection(2,sliceDirection);  
+
+    // Sort image list in reverse order
+    m_FilenameList->SetSortOrder(IPLFileNameList::SortGlobalDescend);
+    m_FilenameList->sortImageList();
+
+    }
 
   // Compute the spacing between two slices  from the origins of the
   // first two files in the study
@@ -500,6 +510,11 @@ GE5ImageIO::ModifyImageInformation()
     origin1[1] = hdr1->tlhcA;
     origin1[2] = hdr1->tlhcS;
 
+    // Origin shopuld always come from the first slice
+    this->SetOrigin(0, -hdr1->tlhcR);
+    this->SetOrigin(1, -hdr1->tlhcA);
+    this->SetOrigin(2,  hdr1->tlhcS);
+
     origin2[0] = hdr2->tlhcR;
     origin2[1] = hdr2->tlhcA;
     origin2[2] = hdr2->tlhcS;
@@ -514,6 +529,13 @@ GE5ImageIO::ModifyImageInformation()
     // Cleanup
     delete hdr1;
     delete hdr2;
+    }
+  else
+    // If there is only one slice, the use it's origin
+    {
+    this->SetOrigin(0, -m_ImageHeader->tlhcR);
+    this->SetOrigin(1, -m_ImageHeader->tlhcA);
+    this->SetOrigin(2,  m_ImageHeader->tlhcS);
     }
 }
 } // end namespace itk
