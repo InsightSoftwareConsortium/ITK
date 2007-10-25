@@ -648,7 +648,7 @@ private:
 // place to avoid stray semicolons because this is an error for some
 // compilers.  Using a class forward declaration allows any number
 // of repeats in any context without generating unique names.
-# define itkLegacyMacro(method) class itkLegacyMethodRemoved
+# define itkLegacyMacro(method) class itkLegacyMethodRemoved;
 #elif defined(ITK_LEGACY_SILENT) || defined(CSWIG)
   // Provide legacy methods with no warnings.
 # define itkLegacyMacro(method) method

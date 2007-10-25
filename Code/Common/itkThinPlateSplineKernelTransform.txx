@@ -21,6 +21,7 @@
 namespace itk
 {
 
+#if !defined(ITK_LEGACY_REMOVE)
 /**
  * This method has been deprecated as of ITK 3.6.
  * Please use the method: void ComputeG(vector,gmatrix) instead.
@@ -34,7 +35,7 @@ ComputeG( const InputVectorType & ) const
     3.6,itkThinPlateSplineKernelTransform::ComputeG_vector_gmatrix);
   return this->m_GMatrix;
 }
-
+#endif
 
 template <class TScalarType, unsigned int NDimensions>
 void
