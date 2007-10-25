@@ -45,7 +45,7 @@ int main(int argc, char **argv)
   char* name = static_cast<char*>(tObj.GetUserField("MyName"));
   if(strcmp(name,"Julien"))
   {
-    std::cout << "MyName: FAIL" << std::endl;
+    METAIO_STREAM::cout << "MyName: FAIL" << METAIO_STREAM::endl;
     return 0;
   }
 
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
   {
     if(array[i] != i+1)
     {
-      std::cout << "MyArray: FAIL" << std::endl;
+      METAIO_STREAM::cout << "MyArray: FAIL" << METAIO_STREAM::endl;
       return 0;
     }
   }
@@ -65,11 +65,11 @@ int main(int argc, char **argv)
   {
     if(matrix[i] != i)
     {
-      std::cout << "MyMatrix: FAIL" << std::endl;
+      METAIO_STREAM::cout << "MyMatrix: FAIL" << METAIO_STREAM::endl;
     }
   } 
 
-  std::cout << "PASSED!" << std::endl;
+  METAIO_STREAM::cout << "PASSED!" << METAIO_STREAM::endl;
 
   tObj.Clear();
   tObj.ClearUserFields();

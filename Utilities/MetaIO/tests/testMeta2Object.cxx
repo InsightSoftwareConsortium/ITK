@@ -61,7 +61,7 @@ int main(int argc, char **argv)
   char* name = static_cast<char*>(tObj.GetUserField("MyName"));
   if(strcmp(name,"Julien"))
   {
-    std::cout << "MyName: FAIL" << std::endl;
+    METAIO_STREAM::cout << "MyName: FAIL" << METAIO_STREAM::endl;
     return 0;
   }
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
   {
     if(array[i] != i+1)
     {
-      std::cout << "MyArray: FAIL" << std::endl;
+      METAIO_STREAM::cout << "MyArray: FAIL" << METAIO_STREAM::endl;
       return 0;
     }
   }
@@ -81,11 +81,11 @@ int main(int argc, char **argv)
   {
     if(matrix[i] != i)
     {
-      std::cout << "MyMatrix: FAIL" << std::endl;
+      METAIO_STREAM::cout << "MyMatrix: FAIL" << METAIO_STREAM::endl;
     }
   } 
 
-  std::cout << "PASSED!" << std::endl;
+  METAIO_STREAM::cout << "PASSED!" << METAIO_STREAM::endl;
 
   tObj.Clear();
   tObj.ClearUserFields();
@@ -102,30 +102,30 @@ int main(int argc, char **argv)
   tObj.PrintInfo();
   if(tObj.NDims() != 2)
     {
-    std::cout << "NDims: FAIL" << std::endl;
+    METAIO_STREAM::cout << "NDims: FAIL" << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "NDims: PASS" << std::endl;
+    METAIO_STREAM::cout << "NDims: PASS" << METAIO_STREAM::endl;
     }
 
   int zero = 0;
   if(tObj.Position(zero) != 4)
     {
-    std::cout << "Position: FAIL :" << tObj.Position(zero) << std::endl;
+    METAIO_STREAM::cout << "Position: FAIL :" << tObj.Position(zero) << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "Position: PASS" << std::endl;
+    METAIO_STREAM::cout << "Position: PASS" << METAIO_STREAM::endl;
     }
   
   if(tObj.ElementSpacing(zero) != 2)
     {
-    std::cout << "ElementSpacing: FAIL: " << tObj.ElementSpacing(zero) << std::endl;
+    METAIO_STREAM::cout << "ElementSpacing: FAIL: " << tObj.ElementSpacing(zero) << METAIO_STREAM::endl;
     }
   else
     {
-    std::cout << "ElementSpacing: PASS" << std::endl;
+    METAIO_STREAM::cout << "ElementSpacing: PASS" << METAIO_STREAM::endl;
     }
 
   return 1;

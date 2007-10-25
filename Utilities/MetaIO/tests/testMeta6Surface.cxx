@@ -5,7 +5,7 @@
 int main(int argc, char **argv)
 {
 
-  std::cout << "Creating test file ...";
+  METAIO_STREAM::cout << "Creating test file ...";
   MetaSurface* surface = new MetaSurface(3);
   surface->ID(0);
   SurfacePnt* pnt;
@@ -24,12 +24,12 @@ int main(int argc, char **argv)
   }
   
 
-  std::cout << "Writing ASCII test file ...";
+  METAIO_STREAM::cout << "Writing ASCII test file ...";
 
   surface->Write("mySurface.meta");
 
-  std::cout << "done" << std::endl;
-  std::cout << "Reading ASCII test file ...";
+  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Reading ASCII test file ...";
 
   surface->Clear();
   surface->Read("mySurface.meta");
@@ -44,24 +44,24 @@ int main(int argc, char **argv)
     
     for(d = 0; d < 3; d++)
     {
-      std::cout << (*it)->m_X[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_X[d] << " ";
     }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     for(d = 0; d < 3; d++)
     {
-      std::cout << (*it)->m_V[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_V[d] << " ";
     }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     it++;
   }
 
-  std::cout << "Writing Binary test file ...";
+  METAIO_STREAM::cout << "Writing Binary test file ...";
   surface->BinaryData(true);
   surface->ElementType(MET_FLOAT);
   surface->Write("mySurface.meta");
 
-  std::cout << "done" << std::endl;
-  std::cout << "Reading Binary test file ...";
+  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Reading Binary test file ...";
 
   surface->Clear();
   surface->Read("mySurface.meta");
@@ -74,17 +74,17 @@ int main(int argc, char **argv)
   {
     for(d = 0; d < 3; d++)
     {
-      std::cout << (*it)->m_X[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_X[d] << " ";
     }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     for(d = 0; d < 3; d++)
     {
-      std::cout << (*it)->m_V[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_V[d] << " ";
     }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     it++;
   }
   
-  std::cout << "done" << std::endl;
+  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
   return 1;
 }

@@ -8,15 +8,15 @@
 int main(int argc, char **argv)
 {
 
-  std::cout << "Initializing scene ..." << std::endl;
+  METAIO_STREAM::cout << "Initializing scene ..." << METAIO_STREAM::endl;
   MetaScene myScene = MetaScene(3);
 
-  std::cout << "Creating test file ..." << std::endl;
+  METAIO_STREAM::cout << "Creating test file ..." << METAIO_STREAM::endl;
 
   //MetaTubeNet* tubenet = new MetaTubeNet();
   
   // add two tube to the list of tubenet
-  std::cout << "  Creating first tube ..." << std::endl;
+  METAIO_STREAM::cout << "  Creating first tube ..." << METAIO_STREAM::endl;
   MetaTube* tube1 = new MetaTube(3);
   tube1->ID(0);
   TubePnt* pnt;
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     tube1->GetPoints().push_back(pnt);
   }
   
-  std::cout << "  Creating second tube ..." << std::endl;
+  METAIO_STREAM::cout << "  Creating second tube ..." << METAIO_STREAM::endl;
   MetaTube* tube2 = new MetaTube(3);
   tube2->ID(1);
   for(i=0;i<5;i++)
@@ -42,11 +42,11 @@ int main(int argc, char **argv)
   }
 
   // Add an ellipse
-  std::cout << "  Creating ellipse ..." << std::endl;
+  METAIO_STREAM::cout << "  Creating ellipse ..." << METAIO_STREAM::endl;
   MetaEllipse* ellipse = new MetaEllipse();
-  std::cout << "    Initializing ellipse ..." << std::endl;
+  METAIO_STREAM::cout << "    Initializing ellipse ..." << METAIO_STREAM::endl;
   ellipse->InitializeEssential(3);
-  std::cout << "    Setting radius ..." << std::endl;
+  METAIO_STREAM::cout << "    Setting radius ..." << METAIO_STREAM::endl;
   ellipse->Radius(1,2,3);
 
   myScene.AddObject(tube1);
@@ -55,22 +55,22 @@ int main(int argc, char **argv)
 
   myScene.Write("test.scn");
 
-  std::cout << "done" << std::endl;
-  std::cout << "Reading test file ..." << std::endl;
+  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
+  METAIO_STREAM::cout << "Reading test file ..." << METAIO_STREAM::endl;
 
   // Read the result 
   MetaScene myScene2 = MetaScene();
   myScene2.InitializeEssential(3);
  
-  std::cout << "  ... reading scene " << std::endl;
+  METAIO_STREAM::cout << "  ... reading scene " << METAIO_STREAM::endl;
   myScene2.Read("test.scn");
-  std::cout << "  ... read scene " << std::endl;
+  METAIO_STREAM::cout << "  ... read scene " << METAIO_STREAM::endl;
   
   typedef  MetaScene::ObjectListType ListType;
   ListType * list = myScene2.GetObjectList();
   ListType::iterator it = list->begin();
 
-  std::cout << "  ... beginning loop " << std::endl;
+  METAIO_STREAM::cout << "  ... beginning loop " << METAIO_STREAM::endl;
   for(i=0;i< list->size();i++)
   {
     
@@ -78,13 +78,13 @@ int main(int argc, char **argv)
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
       typedef MetaTube::PointListType ListType;
-      MetaTube* tube = dynamic_cast<MetaTube*>(*it);
+      MetaTube* tube = static_cast<MetaTube*>(*it);
       ListType::iterator it2 = tube->GetPoints().begin();
 
       for(unsigned int j=0;j< tube->GetPoints().size();j++)
       {
-        std::cout << (*it2)->m_X[0] 
-        << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << std::endl;
+        METAIO_STREAM::cout << (*it2)->m_X[0] 
+        << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << METAIO_STREAM::endl;
         it2++;
       }
     }
@@ -92,6 +92,6 @@ int main(int argc, char **argv)
     it++;
   }
 
-  std::cout << "done" << std::endl;
+  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
   return 1;
 }

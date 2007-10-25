@@ -4,13 +4,13 @@
 
 int main(int , char * [])
 {
-  std::cout << "Creating test file ..." << std::endl;
+  METAIO_STREAM::cout << "Creating test file ..." << METAIO_STREAM::endl;
   MetaContour Contour(3);
   Contour.ID(0);
   Contour.Name("First Contour");
   ContourControlPnt* pnt;
 
-  std::cout << "Allocating points..." << std::endl;
+  METAIO_STREAM::cout << "Allocating points..." << METAIO_STREAM::endl;
   unsigned int i;
   for(i=0;i<10;i++)
   {
@@ -38,41 +38,41 @@ int main(int , char * [])
     Contour.GetInterpolatedPoints().push_back(pntI);
   }
 
-  std::cout << "Writing test file ..." << std::endl;
+  METAIO_STREAM::cout << "Writing test file ..." << METAIO_STREAM::endl;
   Contour.BinaryData(true);
   Contour.Write("C:/Julien/Contours.meta");
 
-  std::cout << "  done" << std::endl;
+  METAIO_STREAM::cout << "  done" << METAIO_STREAM::endl;
 
-  std::cout << "Reading test file ..." << std::endl;
+  METAIO_STREAM::cout << "Reading test file ..." << METAIO_STREAM::endl;
   Contour.Read("C:/Julien/Contours.meta"); 
 
-  std::cout << "  done" << std::endl;
+  METAIO_STREAM::cout << "  done" << METAIO_STREAM::endl;
 
   Contour.PrintInfo();
 
-  std::cout << "Accessing pointlist..." << std::endl;
+  METAIO_STREAM::cout << "Accessing pointlist..." << METAIO_STREAM::endl;
 
   MetaContour::ControlPointListType plist =  Contour.GetControlPoints();
   MetaContour::ControlPointListType::const_iterator it = plist.begin();
   
   while(it != plist.end())
   {
-    std::cout << (*it)->m_Id << " ";
+    METAIO_STREAM::cout << (*it)->m_Id << " ";
     unsigned int d;
     for(d = 0; d < 3; d++)
       {
-      std::cout << (*it)->m_X[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_X[d] << " ";
       }
     for(d = 0; d < 3; d++)
       {
-      std::cout << (*it)->m_XPicked[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_XPicked[d] << " ";
       }
     for(d = 0; d < 3; d++)
       {
-      std::cout << (*it)->m_V[d] << " ";
+      METAIO_STREAM::cout << (*it)->m_V[d] << " ";
       }
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     it++;
   }
 
@@ -82,16 +82,16 @@ int main(int , char * [])
   
   while(iti != ilist.end())
     {
-    std::cout << (*iti)->m_Id << " ";
+    METAIO_STREAM::cout << (*iti)->m_Id << " ";
     for(unsigned int d = 0; d < 3; d++)
       {
-      std::cout << (*iti)->m_X[d] << " ";
+      METAIO_STREAM::cout << (*iti)->m_X[d] << " ";
       }
 
-    std::cout << std::endl;
+    METAIO_STREAM::cout << METAIO_STREAM::endl;
     iti++;
     }
 
-  std::cout << "done" << std::endl;
+  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
   return 0;
 }
