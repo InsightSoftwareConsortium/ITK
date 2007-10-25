@@ -452,7 +452,7 @@ GE5ImageIO::ModifyImageInformation()
   // NOTE: itk use LPS coordinates while the GE system uses RAS
   // coordinates. Consequently, the R and A coordinates must be negated
   // to convert them to L and P.
-  double len;
+
   dirx[0] = -(m_ImageHeader->trhcR - m_ImageHeader->tlhcR);
   dirx[1] = -(m_ImageHeader->trhcA - m_ImageHeader->tlhcA);
   dirx[2] =  (m_ImageHeader->trhcS - m_ImageHeader->tlhcS);
