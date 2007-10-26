@@ -38,7 +38,11 @@ int itkBMPImageIOTest( int ac, char* av[] )
                                   = itk::ImageFileReader<myImage>::New();
   
   reader->SetFileName(av[1]);
+  reader->UpdateOutputInformation();
 
+  std::cout << "PixelType: " << reader->GetImageIO()->GetPixelTypeAsString(reader->GetImageIO()->GetPixelType()) << std::endl;
+  std::cout << "ComponentType: " << reader->GetImageIO()->GetComponentTypeAsString(reader->GetImageIO()->GetComponentType()) << std::endl;
+  std::cout << "NumberOfComponents: " << reader->GetImageIO()->GetNumberOfComponents() << std::endl;
   try
     {
     reader->Update();

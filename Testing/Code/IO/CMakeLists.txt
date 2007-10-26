@@ -257,6 +257,18 @@ ADD_TEST(itkBMPImageIOTest2 ${IO_TESTS}
   itkBMPImageIOTest 
             ${ITK_DATA_ROOT}/Input/cthead254x254.bmp
             ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp)
+ADD_TEST(itkBMPImageIOTest3 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/image_grayscale.bmp
+            ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
+  itkBMPImageIOTest 
+            ${ITK_DATA_ROOT}/Input/image_grayscale.bmp
+            ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp)
+ADD_TEST(itkBMPImageIOTest4 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/image_color.bmp
+            ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
+  itkBMPImageIOTest 
+            ${ITK_DATA_ROOT}/Input/image_color.bmp
+            ${ITK_TEST_OUTPUT_DIR}/image_color.bmp)
 ADD_TEST(itkJPEGImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/cthead1.png

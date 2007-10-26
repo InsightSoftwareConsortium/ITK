@@ -541,15 +541,12 @@ void BMPImageIO::ReadImageInformation()
   if ((m_Depth == 8) && m_Allow8BitBMP)
     {
     this->SetNumberOfComponents(1);
+    m_PixelType = SCALAR;
     }
   else
     {
     this->SetNumberOfComponents(3);
-    }
-
-  if(m_NumberOfColors>0)
-    {
-    this->SetNumberOfComponents(3);
+    m_PixelType = RGB;
     }
 
   m_Ifstream.close();
