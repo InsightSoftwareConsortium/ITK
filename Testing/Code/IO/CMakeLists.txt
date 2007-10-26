@@ -375,11 +375,20 @@ ADD_TEST(itkTIFFImageIOTest10 ${IO_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/RGBTestImageZIP.tif)
 
 ADD_TEST(itkTIFFImageIOTest11 ${IO_TESTS}   
-   --compare ${ITK_DATA_ROOT}/Baseline/IO/ShortTestImage.mha
+   --compare ${ITK_DATA_ROOT}/Baseline/IO/ShortTestImage.tiff
              ${ITK_TEST_OUTPUT_DIR}/ShortTestImage.tiff
   itkTIFFImageIOTest 
             ${ITK_DATA_ROOT}/Input/ShortTestImage.tiff
             ${ITK_TEST_OUTPUT_DIR}/ShortTestImage.tiff
+            1
+            2)
+
+ADD_TEST(itkTIFFImageIOTest12 ${IO_TESTS}   
+   --compare ${ITK_DATA_ROOT}/Baseline/IO/48BitTestImage.tif
+             ${ITK_TEST_OUTPUT_DIR}/48BitTestImage.tif
+  itkTIFFImageIOTest 
+            ${ITK_DATA_ROOT}/Input/48BitTestImage.tif
+            ${ITK_TEST_OUTPUT_DIR}/48BitTestImage.tif
             2
             2)
 

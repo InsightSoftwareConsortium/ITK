@@ -26,17 +26,18 @@ int itkTIFFImageIOTest( int ac, char* av[] )
     {
     std::cerr << "Usage: " << av[0] 
               << " Input Output [dimensionality:default 2]"
-              << "[pixeltype: 1:uchar(default) 2:short]\n";
+              << "[pixeltype: 1:uchar(default) 2:ushort]\n";
     return EXIT_FAILURE;
     }
   
-  typedef itk::RGBPixel<unsigned char> PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  typedef itk::RGBPixel<unsigned short> PixelTypeShort;
+  typedef itk::RGBPixel<unsigned char> PixelTypeChar;
+  typedef itk::Image<PixelTypeChar, 2> myImageChar;
   typedef itk::Image<unsigned char, 3> myImage3D;
-  typedef itk::Image<short, 2> myImageShort;
+  typedef itk::Image<PixelTypeShort, 2> myImageShort;
 
-  itk::ImageFileReader<myImage>::Pointer reader 
-                                  = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImageChar>::Pointer reader 
+                                  = itk::ImageFileReader<myImageChar>::New();
 
   itk::ImageFileReader<myImage3D>::Pointer reader3D 
                                   = itk::ImageFileReader<myImage3D>::New();
@@ -116,16 +117,16 @@ int itkTIFFImageIOTest( int ac, char* av[] )
     }
   else
     {
-    myImage::Pointer image = reader->GetOutput();
+    myImageChar::Pointer image = reader->GetOutput();
 
     image->Print(std::cout );
 
-    myImage::RegionType region = image->GetLargestPossibleRegion();
+    myImageChar::RegionType region = image->GetLargestPossibleRegion();
     std::cout << "region " << region;
 
     // Generate test image
-    itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
+    itk::ImageFileWriter<myImageChar>::Pointer writer;
+    writer = itk::ImageFileWriter<myImageChar>::New();
     writer->SetInput( reader->GetOutput() );
     writer->SetFileName(av[2]);
     writer->Update();

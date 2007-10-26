@@ -795,16 +795,36 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
       increment = 1;
       break;
     case TIFFImageIO::RGB_:
-      red   = *(source);
-      green = *(source+1);
-      blue  = *(source+2);
-      *(image)   = red;
-      *(image+1) = green;
-      *(image+2) = blue;
-      if ( m_InternalImage->m_SamplesPerPixel == 4 )
+      if(m_ComponentType == USHORT)
         {
-        alpha = *(source+3);
-        *(image+3) = 255-alpha;
+        unsigned short *image_us = (unsigned short*)out;
+        unsigned short *source_us = (unsigned short*)in;
+
+        red   = *(source_us);
+        green = *(source_us+1);
+        blue  = *(source_us+2);
+        *(image_us)   = red;
+        *(image_us+1) = green;
+        *(image_us+2) = blue;
+        if ( m_InternalImage->m_SamplesPerPixel == 4 )
+          {
+          alpha = *(source_us+3);
+          *(image_us+3) = 65535-alpha;      
+          }
+        }
+      else
+        {
+        red   = *(source);
+        green = *(source+1);
+        blue  = *(source+2);
+        *(image)   = red;
+        *(image+1) = green;
+        *(image+2) = blue;
+        if ( m_InternalImage->m_SamplesPerPixel == 4 )
+          {
+          alpha = *(source+3);
+          *(image+3) = 255-alpha;      
+          }
         }
       increment = m_InternalImage->m_SamplesPerPixel;
       break;
