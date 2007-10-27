@@ -157,6 +157,9 @@ public:
     this->GetFunctor().OrderEigenValuesBy( order );
     }
 
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( SymmetricEigenAnalysisImageFilter, UnaryFunctorImageFilter );
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   

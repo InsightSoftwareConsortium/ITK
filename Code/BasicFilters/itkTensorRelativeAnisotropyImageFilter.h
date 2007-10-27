@@ -86,6 +86,8 @@ public:
   typedef typename TInputImage::PixelType         InputPixelType;
   typedef typename InputPixelType::ValueType      InputValueType;
 
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( TensorRelativeAnisotropyImageFilter, UnaryFunctorImageFilter );
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

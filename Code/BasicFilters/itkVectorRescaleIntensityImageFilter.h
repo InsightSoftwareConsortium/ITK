@@ -106,6 +106,9 @@ public:
   typedef typename NumericTraits<InputValueType>::RealType InputRealType;
   typedef typename NumericTraits<OutputValueType>::RealType OutputRealType;
 
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter );
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   

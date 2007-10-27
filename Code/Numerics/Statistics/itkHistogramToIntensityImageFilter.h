@@ -78,11 +78,14 @@ class ITK_EXPORT HistogramToIntensityImageFilter :
 public:
   
   /** Standard class typedefs. */
-  typedef HistogramToIntensityImageFilter Self;
-  //typedef typename Function::HistogramIntensityFunction     FunctorType;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef HistogramToIntensityImageFilter                  Self;
+  //typedef typename Function::HistogramIntensityFunction  FunctorType;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
   
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( HistogramToIntensityImageFilter, HistogramToImageFilter );
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

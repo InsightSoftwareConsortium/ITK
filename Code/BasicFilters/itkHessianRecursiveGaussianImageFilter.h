@@ -125,6 +125,9 @@ public:
   typedef typename          OutputImageType::PixelType      OutputPixelType;
   typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
 
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( HessianRecursiveGaussianImageFilter, ImageToImageFilter );
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

@@ -30,7 +30,13 @@ public:
   typedef TextOutput                Self;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
+
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro( TextOutput, OutputWindow );
+
+  /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(TextOutput);
+
   virtual void DisplayText(const char* s)
     { std::cout << s << std::endl; }
 
