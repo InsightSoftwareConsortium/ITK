@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageAdaptor_txx
-#define _itkImageAdaptor_txx
+#ifndef __itkImageAdaptor_txx
+#define __itkImageAdaptor_txx
 #include "itkImageAdaptor.h"
 #include "itkProcessObject.h"
 
@@ -36,7 +36,6 @@ ImageAdaptor<TImage , TAccessor>
   // the adaptor.
   m_Image = TImage::New();
 }
-
 
 /**
  * Destructor
@@ -60,7 +59,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->Initialize();
 }
 
-
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
@@ -72,7 +70,6 @@ ImageAdaptor<TImage , TAccessor>
     this->Modified();
     }
 }
-
 
 //----------------------------------------------------------------------------
 template<class TImage, class TAccessor>
@@ -97,7 +94,6 @@ ImageAdaptor<TImage, TAccessor>
       return;
       }
 
-
     if( imgData )
       {
       // Now copy anything remaining that is needed
@@ -114,7 +110,6 @@ ImageAdaptor<TImage, TAccessor>
     }
 }
 
-
 /**
  *
  */
@@ -126,7 +121,6 @@ ImageAdaptor<TImage , TAccessor>
   Superclass::PrintSelf(os,indent);
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 const typename ImageAdaptor<TImage, TAccessor>::OffsetValueType * 
@@ -136,7 +130,6 @@ ImageAdaptor<TImage , TAccessor>
   return m_Image->GetOffsetTable();
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 typename ImageAdaptor<TImage, TAccessor>::IndexType
@@ -145,10 +138,6 @@ ImageAdaptor<TImage , TAccessor>
 {
   return m_Image->ComputeIndex( offset );
 }
-
-
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -160,8 +149,6 @@ ImageAdaptor<TImage , TAccessor>
 
   m_Image->Update();
 }
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -175,8 +162,6 @@ ImageAdaptor<TImage , TAccessor>
   // delegation to internal image
   m_Image->UpdateOutputInformation();
 }
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -192,9 +177,6 @@ ImageAdaptor<TImage , TAccessor>
   SetBufferedRegion( m_Image->GetBufferedRegion() ); 
 }
 
-
-
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 void 
@@ -207,11 +189,6 @@ ImageAdaptor<TImage , TAccessor>
   // delegation to internal image
   m_Image->PropagateRequestedRegion();
 }
-
-
-
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -226,9 +203,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetRequestedRegionToLargestPossibleRegion();
 }
 
-
-
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 void 
@@ -242,7 +216,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->CopyInformation( data );
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 const typename ImageAdaptor<TImage, TAccessor>::SpacingType&
@@ -251,7 +224,6 @@ ImageAdaptor<TImage , TAccessor>
 {
   return m_Image->GetSpacing();
 }
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -283,7 +255,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetSpacing( spacing );
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 void 
@@ -293,7 +264,6 @@ ImageAdaptor<TImage , TAccessor>
   // delegation to internal image
   m_Image->SetOrigin( origin );
 }
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -305,7 +275,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetOrigin( origin );
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 void 
@@ -316,7 +285,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetOrigin( origin );
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 const typename ImageAdaptor<TImage, TAccessor>::PointType& 
@@ -326,6 +294,24 @@ ImageAdaptor<TImage , TAccessor>
   return m_Image->GetOrigin();
 }
 
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+void 
+ImageAdaptor<TImage , TAccessor>
+::SetDirection(const DirectionType direction )
+{
+  // delegation to internal image
+  m_Image->SetDirection( direction );
+}
+
+//----------------------------------------------------------------------------
+template <class TImage, class TAccessor >
+const typename ImageAdaptor<TImage, TAccessor>::DirectionType& 
+ImageAdaptor<TImage , TAccessor>
+::GetDirection( void ) const
+{
+  return m_Image->GetDirection();
+}
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -339,9 +325,6 @@ ImageAdaptor<TImage , TAccessor>
   Superclass::SetRequestedRegion( m_Image->GetRequestedRegion() );
 }
 
-
-
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 const typename ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
@@ -351,9 +334,6 @@ ImageAdaptor<TImage , TAccessor>
   return m_Image->GetBufferPointer();
 }
 
-
-
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 typename ImageAdaptor<TImage , TAccessor>::InternalPixelType  * 
@@ -362,8 +342,6 @@ ImageAdaptor<TImage , TAccessor>
 {
   return m_Image->GetBufferPointer();
 }
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -375,8 +353,6 @@ ImageAdaptor<TImage , TAccessor>
   
   m_Image->Modified();
 }
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -392,9 +368,6 @@ ImageAdaptor<TImage , TAccessor>
   return (mtime1 >= mtime2 ? mtime1 : mtime2);
 }
 
-
-
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 void
@@ -408,7 +381,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetBufferedRegion( region );
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 const typename ImageAdaptor<TImage, TAccessor>::RegionType &
@@ -418,9 +390,6 @@ ImageAdaptor<TImage , TAccessor>
   // delegation to internal image
   return m_Image->GetBufferedRegion();
 }
-
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -435,7 +404,6 @@ ImageAdaptor<TImage , TAccessor>
   m_Image->SetLargestPossibleRegion( region );
 }
 
-
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
 const typename ImageAdaptor<TImage, TAccessor>::RegionType &
@@ -445,8 +413,6 @@ ImageAdaptor<TImage , TAccessor>
   // delegation to internal image
   return m_Image->GetLargestPossibleRegion();
 }
-
-
 
 //----------------------------------------------------------------------------
 template <class TImage, class TAccessor >
@@ -460,7 +426,6 @@ ImageAdaptor<TImage , TAccessor>
   // delegation to internal image
   m_Image->SetRequestedRegion( region );
 }
-
 
 //----------------------------------------------------------------------------
 template<class TImage, class TAccessor>
@@ -498,11 +463,6 @@ ImageAdaptor<TImage , TAccessor>
   return m_Image->GetRequestedRegion();
 }
 
-
-
-
 } // end namespace itk
-
-
 
 #endif

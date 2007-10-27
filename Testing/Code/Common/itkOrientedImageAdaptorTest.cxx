@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageAdaptorTest.cxx
+  Module:    itkOrientedImageAdaptorTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -36,11 +36,14 @@
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkRGBPixel.h>
 #include <itkRedPixelAccessor.h>
+#include <itkOrientedImage.h>
+
 
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-typedef itk::Image< itk::RGBPixel<float>,   2 > myImageType;
+typedef itk::OrientedImage< itk::RGBPixel<float>,   2 > myImageType;
+ 
 
 typedef itk::RedPixelAccessor<float> myRedAccessorType;
 
@@ -57,7 +60,7 @@ typedef itk::ImageRegionIteratorWithIndex< myRedAdaptorType >  myRedIteratorType
 //   Main code
 //
 //-------------------------
-int itkImageAdaptorTest(int, char* []) {
+int itkOrientedImageAdaptorTest(int, char* []) {
 
 
   myImageType::SizeType size;

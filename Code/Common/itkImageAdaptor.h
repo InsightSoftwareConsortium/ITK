@@ -55,11 +55,11 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Standard class typedefs. */
-  typedef ImageAdaptor  Self;
+  typedef ImageAdaptor                                      Self;
   typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef WeakPointer<const Self>  ConstWeakPointer;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef WeakPointer<const Self>                           ConstWeakPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageAdaptor, ImageBase);
@@ -89,16 +89,16 @@ public:
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType  IndexType;
-  typedef typename IndexType::IndexValueType    IndexValueType;
+  typedef typename Superclass::IndexType     IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
   
   /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType  SizeType;
-  typedef typename SizeType::SizeValueType      SizeValueType;
+  typedef typename Superclass::SizeType    SizeType;
+  typedef typename SizeType::SizeValueType SizeValueType;
     
   /** Offset typedef support. */
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename OffsetType::OffsetValueType  OffsetValueType;
+  typedef typename Superclass::OffsetType      OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
     
   /** Region typedef support. A region is used to specify a subset of
    *  an image. */
@@ -111,6 +111,11 @@ public:
   /** Origin typedef support.  The origin is the geometric coordinates
    * of the index (0,0). */
   typedef typename Superclass::PointType PointType;
+
+  /** Direction typedef support.  The Direction is a matix of
+   * direction cosines that specify the direction between samples.
+   * */
+  typedef typename Superclass::DirectionType DirectionType;
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -163,9 +168,9 @@ public:
 
   /** Allocate the image memory. Dimension and Size must be set a priori. */
   inline void Allocate()
-  {
+    {
     m_Image->Allocate();
-  }
+    }
 
 
   /** Restore the data object to its initial state. This means releasing
@@ -192,13 +197,16 @@ public:
 
   /** PixelContainer typedef support. Used to construct a container for
    * the pixel data. */
-  typedef typename TImage::PixelContainer        PixelContainer;
-  typedef typename TImage::PixelContainerPointer PixelContainerPointer;
+  typedef typename TImage::PixelContainer             PixelContainer;
+  typedef typename TImage::PixelContainerPointer      PixelContainerPointer;
   typedef typename TImage::PixelContainerConstPointer PixelContainerConstPointer;
   
   /** Return a pointer to the container. */
   PixelContainerPointer GetPixelContainer()
-    { return m_Image->GetPixelContainer(); };
+    { return m_Image->GetPixelContainer(); }
+
+  const PixelContainer* GetPixelContainer() const
+    { return m_Image->GetPixelContainer(); }
 
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
@@ -244,6 +252,14 @@ public:
   virtual void SetOrigin( const double* values /*[ImageDimension]*/ );
   virtual void SetOrigin( const float* values /*[ImageDimension]*/ );
   
+  /** Set the direction of the image. */
+  virtual void SetDirection( const DirectionType direction );
+
+  /** Get the direction cosines of the image. The direction cosines
+   * are vectors that point from one pixel to the next.
+   * For ImageBase and Image, the default direction is identity. */
+  virtual const DirectionType& GetDirection() const;
+
   /** Set Internal Image */
   virtual void SetImage( TImage * );
 
@@ -358,8 +374,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageAdaptor.txx"
 #endif
-  
-  
 
 #endif
-
