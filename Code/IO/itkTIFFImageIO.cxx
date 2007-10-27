@@ -809,7 +809,7 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
         if ( m_InternalImage->m_SamplesPerPixel == 4 )
           {
           alpha = *(source_us+3);
-          *(image_us+3) = 65535-alpha;      
+          *(image_us+3) = 65535-alpha;
           }
         }
       else
@@ -823,7 +823,7 @@ int TIFFImageIO::EvaluateImageAt( void* out, void* in )
         if ( m_InternalImage->m_SamplesPerPixel == 4 )
           {
           alpha = *(source+3);
-          *(image+3) = 255-alpha;      
+          *(image+3) = 255-alpha;
           }
         }
       increment = m_InternalImage->m_SamplesPerPixel;
