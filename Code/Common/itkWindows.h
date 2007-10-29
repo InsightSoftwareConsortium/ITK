@@ -21,6 +21,9 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+#ifdef WIN32_LEAN_AND_MEAN
+#undef WIN32_LEAN_AND_MEAN
+#endif
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <winbase.h>
