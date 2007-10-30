@@ -213,6 +213,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   this->m_NumDimensions = rhs.m_NumDimensions;
   this->m_X = rhs.m_X;
   this->m_T = rhs.m_T;
+  this->m_R = rhs.m_R;
   this->m_Normal1 = rhs.m_Normal1;
   this->m_Normal2 = rhs.m_Normal2;
   this->m_Color = rhs.m_Color;
