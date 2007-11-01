@@ -740,21 +740,21 @@ hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>
 hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::insert_equal_noresize(const __value_type__& obj)
 {
   const size_type n = bkt_num(obj);
-  node* first = buckets[n];
+  node* first = this->buckets[n];
 
   for (node* cur = first; cur; cur = cur->next) 
     if (equals(get_key(cur->val), get_key(obj))) {
       node* tmp = new_node(obj);
       tmp->next = cur->next;
       cur->next = tmp;
-      ++num_elements;
+      ++this->num_elements;
       return iterator(tmp, this);
     }
 
   node* tmp = new_node(obj);
   tmp->next = first;
-  buckets[n] = tmp;
-  ++num_elements;
+  this->buckets[n] = tmp;
+  ++this->num_elements;
   return iterator(tmp, this);
 }
 
@@ -786,15 +786,15 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::equal_range(const _
   typedef std::pair<iterator, iterator> pii;
   const size_type n = bkt_num_key(key);
 
-  for (node* first = buckets[n]; first; first = first->next) {
+  for (node* first = this->buckets[n]; first; first = first->next) {
     if (equals(get_key(first->val), key)) {
       for (node* cur = first->next; cur; cur = cur->next)
         if (!equals(get_key(cur->val), key))
           return pii(iterator(first, this), iterator(cur, this));
-      for (size_type m = n + 1; m < buckets.size(); ++m)
-        if (buckets[m])
+      for (size_type m = n + 1; m < this->buckets.size(); ++m)
+        if (this->buckets[m])
           return pii(iterator(first, this),
-                     iterator(buckets[m], this));
+                     iterator(this->buckets[m], this));
       return pii(iterator(first, this), end());
     }
   }
@@ -809,16 +809,16 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::equal_range(const _
   typedef std::pair<const_iterator, const_iterator> pii;
   const size_type n = bkt_num_key(key);
 
-  for (const node* first = buckets[n] ; first; first = first->next) {
+  for (const node* first = this->buckets[n] ; first; first = first->next) {
     if (equals(get_key(first->val), key)) {
       for (const node* cur = first->next; cur; cur = cur->next)
         if (!equals(get_key(cur->val), key))
           return pii(const_iterator(first, this),
                      const_iterator(cur, this));
-      for (size_type m = n + 1; m < buckets.size(); ++m)
-        if (buckets[m])
+      for (size_type m = n + 1; m < this->buckets.size(); ++m)
+        if (this->buckets[m])
           return pii(const_iterator(first, this),
-                     const_iterator(buckets[m], this));
+                     const_iterator(this->buckets[m], this));
       return pii(const_iterator(first, this), end());
     }
   }
@@ -895,8 +895,8 @@ void
 hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::erase(hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc> first, 
                                         hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc> last)
 {
-  size_type f_bucket = first.cur ? bkt_num(first.cur->val) : buckets.size();
-  size_type l_bucket = last.cur ? bkt_num(last.cur->val) : buckets.size();
+  size_type f_bucket = first.cur ? bkt_num(first.cur->val) : this->buckets.size();
+  size_type l_bucket = last.cur ? bkt_num(last.cur->val) : this->buckets.size();
   if (first.cur == last.cur)
     return;
   else if (f_bucket == l_bucket)
@@ -905,7 +905,7 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::erase(hashtable_ite
     erase_bucket(f_bucket, first.cur, 0);
     for (size_type n = f_bucket + 1; n < l_bucket; ++n)
       erase_bucket(n, 0);
-    if (l_bucket != buckets.size())
+    if (l_bucket != this->buckets.size())
       erase_bucket(l_bucket, last.cur);
   }
 }
@@ -961,7 +961,7 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::erase_bucket(const 
                                              hashtable_node<Value>* first, 
                                              hashtable_node<Value>* last)
 {
-  node* cur = buckets[n];
+  node* cur = this->buckets[n];
   if (cur == first)
     erase_bucket(n, last);
   else {
@@ -972,7 +972,7 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::erase_bucket(const 
       cur->next = next->next;
       delete_node(next);
       next = cur->next;
-      --num_elements;
+      --this->num_elements;
     }
   }
 }
@@ -982,13 +982,13 @@ void
 hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::erase_bucket(const size_t n,
                                                             hashtable_node<Value>* last)
 {
-  node* cur = buckets[n];
+  node* cur = this->buckets[n];
   while (cur != last) {
     node* next = cur->next;
     delete_node(cur);
     cur = next;
-    buckets[n] = cur;
-    --num_elements;
+    this->buckets[n] = cur;
+    --this->num_elements;
   }
 }
 
