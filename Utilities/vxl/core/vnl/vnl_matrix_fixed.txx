@@ -689,7 +689,7 @@ void vnl_matrix_fixed<T,nrows,ncols>::inplace_transpose()
 // the #endif. Unless, of course, you are masochist and actually want
 // to read the workaround.
 //
-#ifdef VCL_VC_6
+#if defined(VCL_VC_6) && !defined(__GCCXML__)
 
 template<class VecA, class VecB, class RM>
 RM
