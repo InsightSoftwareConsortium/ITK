@@ -109,7 +109,23 @@ template <class T> vcl_complex<T> vcl_log10(const vcl_complex<T>& x) { return st
 template <class T> vcl_complex<T> vcl_sin(const vcl_complex<T>& x) { return std::sin(x); }
 template <class T> vcl_complex<T> vcl_sinh(const vcl_complex<T>& x) { return std::sinh(x); }
 template <class T> vcl_complex<T> vcl_sqrt(const vcl_complex<T>& x) { return std::sqrt(x); }
-template <class T> vcl_complex<T> vcl_tan(const vcl_complex<T>& x) { return std::tan(x); }
-template <class T> vcl_complex<T> vcl_tanh(const vcl_complex<T>& x) { return std::tanh(x); }
+
+// Visual Studio 6 does not provide tan or tanh for complex.
+// These are adapted from the VS 7.0 implementation.
+template <class T> vcl_complex<T> vcl_tanh(const vcl_complex<T>& x)
+{
+  typedef std::_Ctr<T> Ctr;
+  const T one = 1;
+  T t = ::tan(vcl_imag(x));
+  T s = Ctr::_Sinh(vcl_real(x), one);
+  T b = s * (one + t * t);
+  T d = one + b * s;
+  return vcl_complex<T>(Ctr::sqrt(one + s * s) * b / d, t / d);
+}
+template <class T> vcl_complex<T> vcl_tan(const vcl_complex<T>& x)
+{
+  vcl_complex<T> z(vcl_tanh(vcl_complex<T>(-vcl_imag(x), vcl_real(x))));
+  return vcl_complex<T>(vcl_imag(z), -vcl_real(z));
+}
 
 #endif // vcl_win32_vc60_complex_h_
