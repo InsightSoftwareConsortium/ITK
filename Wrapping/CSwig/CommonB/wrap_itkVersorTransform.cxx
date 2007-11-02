@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "itkVersorTransform.h"
+#include "itkVersorRigid3DTransform.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -28,6 +29,7 @@ namespace _cable_
   namespace wrappers
   {
     ITK_WRAP_TRANSFORM_1(VersorTransform);
+    ITK_WRAP_TRANSFORM_1(VersorRigid3DTransform);
   }
 }
 #endif

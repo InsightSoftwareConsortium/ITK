@@ -20,7 +20,6 @@
 #include "itkRigid2DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkRigid3DTransform.h"
-#include "itkVersorRigid3DTransform.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"
@@ -39,7 +38,6 @@ namespace _cable_
     ITK_WRAP_TRANSFORM_1(Rigid2DTransform);
     ITK_WRAP_TRANSFORM_1(Rigid3DPerspectiveTransform);
     ITK_WRAP_TRANSFORM_1(Rigid3DTransform);
-    ITK_WRAP_TRANSFORM_1(VersorRigid3DTransform);
   }
 }
 #endif
