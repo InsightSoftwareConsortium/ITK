@@ -226,6 +226,7 @@ ADD_TEST(itkSymmetricSecondRankTensorTest ${COMMON_TESTS2} itkSymmetricSecondRan
 ADD_TEST(itkSymmetricEigenAnalysisTest ${COMMON_TESTS2} itkSymmetricEigenAnalysisTest)
 ADD_TEST(itkSTLThreadTest ${COMMON_TESTS2} itkSTLThreadTest)
 ADD_TEST(itkVariableLengthVectorTest ${COMMON_TESTS2} itkVariableLengthVectorTest)
+ADD_TEST(itkVariableSizeMatrixTest ${COMMON_TESTS2} itkVariableSizeMatrixTest)
 #ADD_TEST(itkQuaternionOrientationAdapterTest ${COMMON_TESTS2} itkQuaternionOrientationAdapterTest)
 ADD_TEST(itkZeroFluxBoundaryConditionTest ${COMMON_TESTS2} itkZeroFluxBoundaryConditionTest)
 ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
@@ -435,6 +436,7 @@ itkSymmetricSecondRankTensorTest.cxx
 itkSymmetricEigenAnalysisTest.cxx
 itkSTLThreadTest.cxx
 itkVariableLengthVectorTest.cxx
+itkVariableSizeMatrixTest.cxx
 itkZeroFluxBoundaryConditionTest.cxx
 )
 # itkQuaternionOrientationAdapterTest.cxx

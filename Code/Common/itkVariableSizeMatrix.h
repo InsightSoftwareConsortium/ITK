@@ -67,6 +67,9 @@ public:
   Self operator-(const Self & matrix) const;
   const Self & operator-=(const Self & matrix );
  
+  /** negation operator */
+  Self & operator- ();
+
   /** Matrix by vnl_matrix multiplication.  */
   vnl_matrix<T> operator*(const vnl_matrix<T> & matrix) const;
 
@@ -85,87 +88,109 @@ public:
 
   /** Matrix by scalar multiplication.  */
   Self operator*(const T & value)
-    { Self result( *this );
-      result *= value;
-      return result; }
+    {
+    Self result( *this );
+    result *= value;
+    return result;
+    }
 
   /** Matrix by scalar division.  */
   void operator/=(const T & value)
-    { m_Matrix /= value; }
+    {
+    m_Matrix /= value;
+    }
   
   /** Matrix by scalar division.  */
   Self operator/(const T & value)
-    { Self result( *this );
-      result /= value;
-      return result; }
+    {
+    Self result( *this );
+    result /= value;
+    return result;
+    }
 
    /** Return an element of the matrix. */
   inline T & operator()( unsigned int row, unsigned int col )
-    { return m_Matrix(row,col); }
+    {
+    return m_Matrix(row,col);
+    }
 
   /** Return an element of the matrix. */
   inline const T & operator()( unsigned int row, unsigned int col ) const
-    { return m_Matrix(row,col); }
+    {
+    return m_Matrix(row,col);
+    }
 
   /** Return a row of the matrix. */
   inline T * operator[]( unsigned int i )
-    { return m_Matrix[i]; }
+    {
+    return m_Matrix[i];
+    }
 
-  /** Return a row of the matrix.*/
+  /** Return a row of the matrix. */
   inline const T * operator[]( unsigned int i ) const
-    { return m_Matrix[i]; }
+    {
+    return m_Matrix[i];
+    }
 
   /** Return the matrix. */
   inline InternalMatrixType & GetVnlMatrix( void )
-    { return m_Matrix; }
+    {
+    return m_Matrix;
+    }
 
   /** Return the matrix. */
   inline const InternalMatrixType & GetVnlMatrix( void ) const
-    { return m_Matrix; }
+    {
+    return m_Matrix;
+    }
 
   /** Set the matrix to identity. */
   inline void SetIdentity( void ) 
-    { m_Matrix.set_identity(); }
+    {
+    m_Matrix.set_identity();
+    }
 
   /** Fill the matrix with a value. */
   inline void Fill( const T & value ) 
-    { m_Matrix.fill( value ); }
+    {
+    m_Matrix.fill( value );
+    }
 
   /** Assignment operator. */
   inline const Self & operator=( const vnl_matrix<T> & matrix)
-  {
+    {
     m_Matrix = matrix;
     return *this;
-  }
+    }
 
   /** Comparison operators. */
   inline bool operator==( const Self & matrix) const;
   inline bool operator!=( const Self & matrix) const
-  {
+    {
     return !this->operator==(matrix);
-  }
+    }
 
   /** Assignment operator. */
   inline const Self & operator=( const Self & matrix)
-  {
+    {
     m_Matrix = matrix.m_Matrix;
     return *this;
-  }
+    }
 
 
   /** Return the inverse matrix. */
   inline vnl_matrix<T> GetInverse( void ) const
-  {
+    {
     vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
     return temp;
-  }
+    }
 
  
   /** Return the transposed matrix. */
   inline vnl_matrix<T> GetTranspose( void ) const
-  {
+    {
     return m_Matrix.transpose();
-  }
+    }
 
   /** Default constructor. */
   VariableSizeMatrix() : m_Matrix() {};
@@ -184,8 +209,6 @@ public:
   /** Set the matrix size. Old data lost. Returns true if size changed. */
   inline bool SetSize( unsigned int r, unsigned int c)
     {  return m_Matrix.set_size( r, c );  }
-    
- 
  
 private:
   InternalMatrixType     m_Matrix;
@@ -194,7 +217,9 @@ private:
 template< class T >  
 ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
                                     const VariableSizeMatrix<T> & v) 
-                            { os << v.GetVnlMatrix(); return os; }
+{
+  os << v.GetVnlMatrix(); return os;
+}
 
 
   

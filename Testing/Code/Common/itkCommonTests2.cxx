@@ -98,6 +98,7 @@ REGISTER_TEST(itkZeroFluxBoundaryConditionTest );
 //This is a separate executable REGISTER_TEST(itkSystemInformationTest );
 REGISTER_TEST(itkSTLThreadTest );
 REGISTER_TEST(itkVariableLengthVectorTest);
+REGISTER_TEST(itkVariableSizeMatrixTest);
 // REGISTER_TEST(itkQuaternionOrientationAdapterTest);
 }
 
