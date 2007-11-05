@@ -207,7 +207,7 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
   case 4: // gtol
     return true;
   default:
-    diagnose_outcome();
+    if (verbose_) diagnose_outcome();
     return false;
   }
 }
@@ -342,7 +342,7 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
   case 4: // gtol
     return true;
   default:
-    diagnose_outcome();
+    if (verbose_) diagnose_outcome();
     return false;
   }
 }
