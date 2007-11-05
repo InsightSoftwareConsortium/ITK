@@ -217,9 +217,11 @@ ObjectFactoryBase
     }
   std::string::size_type EndSeparatorPosition = 0;
   std::string::size_type StartSeparatorPosition = 0;
+
   while ( StartSeparatorPosition != std::string::npos )
     {
     StartSeparatorPosition = EndSeparatorPosition;
+
     /**
      * find PathSeparator in LoadPath
      */
@@ -227,21 +229,25 @@ ObjectFactoryBase
                                          StartSeparatorPosition);
     if(EndSeparatorPosition == std::string::npos)
       {
-      EndSeparatorPosition = LoadPath.size();
+      EndSeparatorPosition = LoadPath.size() + 1; // Add 1 to simulate
+                                                  // having a separator
       }
     std::string CurrentPath = 
-      LoadPath.substr(StartSeparatorPosition, EndSeparatorPosition);
+      LoadPath.substr(StartSeparatorPosition,
+                      EndSeparatorPosition - StartSeparatorPosition);
+
     ObjectFactoryBase::LoadLibrariesInPath(CurrentPath.c_str());
+
     /**
-     * move past separator
+     * Move past separator
      */
-    if(EndSeparatorPosition == LoadPath.size())
+    if(EndSeparatorPosition > LoadPath.size())
       {
       StartSeparatorPosition = std::string::npos;
       }
     else
       {
-      EndSeparatorPosition++;
+      EndSeparatorPosition++; // Skip the separator
       }
     }
 }
