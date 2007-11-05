@@ -131,9 +131,13 @@ IF(ITK_DATA_ROOT)
   ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
      itkOrientedImage2DTest 
                  ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
+
                      0.000    0.000
                    191.392  110.500
                   -128.500  222.569
+
+                     4.000   -8.000
+                     7.4641  -4.9282
                   )
 
   ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
@@ -143,6 +147,9 @@ IF(ITK_DATA_ROOT)
                   166.277    -96.000     0.000
                   124.000    214.774     0.000
                     0.000      0.000   168.000
+
+                    0.000      0.000     0.000
+                    0.000      0.000     0.000
                  )
 
 ENDIF(ITK_DATA_ROOT)

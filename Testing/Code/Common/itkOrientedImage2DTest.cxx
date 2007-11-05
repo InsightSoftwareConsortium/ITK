@@ -20,11 +20,12 @@
 
 #include "itkImageFileReader.h"
 #include "itkOrientedImage.h"
+#include "itkCentralDifferenceImageFunction.h"
 
 int itkOrientedImage2DTest( int ac, char * av[] )
 {
 
-  if( ac < 8 )
+  if( ac < 12 )
     {
     std::cerr << "Usage: " << av[0] 
     << " InputImage  "
@@ -109,6 +110,71 @@ int itkOrientedImage2DTest( int ac, char * av[] )
         }
       }
     }
+
+  //
+  // Select a point in the middle of the image and compute its
+  // derivative using the image orientation.
+  //
+  ImageType::IndexType centralIndex;
+  centralIndex[0] = size[0] / 2.0;
+  centralIndex[1] = size[1] / 2.0;
+
+  typedef itk::CentralDifferenceImageFunction< ImageType, double >   CentralDifferenceImageFunctionType;
+
+  CentralDifferenceImageFunctionType::Pointer gradientHelper1 = CentralDifferenceImageFunctionType::New();
+  gradientHelper1->SetInputImage( image );
+
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << "Image Direction" << std::endl;
+  std::cout << image->GetDirection() << std::endl;
+
+  { // Compute gradient value without taking image direction into account
+  gradientHelper1->UseImageDirectionOff();
+  CentralDifferenceImageFunctionType::OutputType gradient1a = gradientHelper1->EvaluateAtIndex( centralIndex ); 
+
+  std::cout << "Gradient without Direction" << std::endl;
+  std::cout << gradient1a << std::endl;
+
+  for( unsigned int dim=0; dim < Dimension; ++dim )
+    {
+    const double expectedValue = atof( av[ element++ ] );
+    const double currentValue = gradient1a[dim];
+    const double difference = currentValue - expectedValue;
+    if( vnl_math_abs( difference ) > tolerance )
+      {
+      std::cerr << "Error: " << std::endl;
+
+      std::cerr << "Expected      = " << expectedValue << std::endl;
+      std::cerr << "Read          = " << currentValue << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  }
+
+
+  { // Compute gradient value taking image direction into account
+  gradientHelper1->UseImageDirectionOn();
+  CentralDifferenceImageFunctionType::OutputType gradient1b = gradientHelper1->EvaluateAtIndex( centralIndex ); 
+
+  std::cout << std::endl;
+  std::cout << "Gradient with Direction" << std::endl;
+  std::cout << gradient1b << std::endl;
+
+  for( unsigned int dim=0; dim < Dimension; ++dim )
+    {
+    const double expectedValue = atof( av[ element++ ] );
+    const double currentValue = gradient1b[dim];
+    const double difference = currentValue - expectedValue;
+    if( vnl_math_abs( difference ) > tolerance )
+      {
+      std::cerr << "Error: " << std::endl;
+      std::cerr << "Expected      = " << expectedValue << std::endl;
+      std::cerr << "Read          = " << currentValue << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  }
 
   return EXIT_SUCCESS;
 }
