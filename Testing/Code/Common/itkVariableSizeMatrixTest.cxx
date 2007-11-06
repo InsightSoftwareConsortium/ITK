@@ -48,7 +48,20 @@ int itkVariableSizeMatrixTest(int, char*[])
   std::cout << "***** h" << std::endl << h << std::endl;  // should be (1,2)(3,4)(5,6)]
   std::cout << "***** h transpose" << std::endl << h.GetTranspose() << std::endl;
   std::cout << "***** h inverse" << std::endl << h.GetInverse() << std::endl;
+
   std::cout << "***** h" << std::endl << h << std::endl;
+
+  FloatVariableSizeMatrixType hDouble = h * 2.0;
+  std::cout << "***** h * 2" << std::endl << hDouble << std::endl;
+
+  FloatVariableSizeMatrixType hHalf = h / 2.0;
+  std::cout << "***** h / 2" << std::endl << hHalf << std::endl;
+
+  if (hDouble == hHalf)
+    {
+    std::cout << "h*2 should not be equal to h/2" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   h = g.GetVnlMatrix();
   std::cout << "***** g" << std::endl << g << std::endl;
@@ -67,6 +80,18 @@ int itkVariableSizeMatrixTest(int, char*[])
   for ( unsigned int i = 0; i < h.Rows(); i++)
     {
     float *row = h[i];
+    std::cout << "h[" << i << "] = ";
+    for (unsigned int j = 0; j < h.Cols(); j++)
+      {
+      std::cout << *(row + j) << ", ";
+      }
+    std::cout << std::endl;
+    }
+
+  // Get each row separately, const version
+  for ( unsigned int i = 0; i < h.Rows(); i++)
+    {
+    const float *row = h[i];
     std::cout << "h[" << i << "] = ";
     for (unsigned int j = 0; j < h.Cols(); j++)
       {
@@ -106,6 +131,11 @@ int itkVariableSizeMatrixTest(int, char*[])
   
   std::cout << "***** dm(5,5)" << std::endl << dm(5,5) << std::endl;
 
+  if (d13 == dm)
+    {
+    std::cout << "d13 should not be equal to dw" << std::endl;
+    return EXIT_FAILURE;
+    }
   itk::Array<float> array(5);
   array.Fill(10.0);
 
@@ -115,6 +145,13 @@ int itkVariableSizeMatrixTest(int, char*[])
   std::cout << "***** array" << std::endl << array << std::endl;
   std::cout << "***** fm" << std::endl << fm << std::endl;
   std::cout << "***** fm * array" << std::endl << fm * array << std::endl;
+
+  vnl_vector<float> vnlvector(5);
+  vnlvector.fill(10.0);
+  std::cout << "***** vnlvector" << std::endl << vnlvector << std::endl;
+  std::cout << "***** fm" << std::endl << fm << std::endl;
+  std::cout << "***** fm * vnlvector" << std::endl << fm * vnlvector << std::endl;
+
 
   DoubleVariableSizeMatrixType d53(5,3);
   d53.Fill(1);
@@ -127,6 +164,10 @@ int itkVariableSizeMatrixTest(int, char*[])
   std::cout << "***** d34" << std::endl << d34 << std::endl;
   std::cout << "***** d53 * d34" << std::endl << d53 * d34 << std::endl;
 
+  DoubleVariableSizeMatrixType d55(5,5);
+  d55.SetIdentity();
+  d55 *= d55;
+  
   // Exercise the exceptions
   try
     {
