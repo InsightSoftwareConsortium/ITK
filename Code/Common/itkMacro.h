@@ -450,9 +450,9 @@ static Pointer New(void) \
   rawPtr->UnRegister(); \
   return smartPtr; \
 } \
-virtual LightObject::Pointer CreateAnother(void) const \
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const \
 { \
-  LightObject::Pointer smartPtr; \
+  ::itk::LightObject::Pointer smartPtr;         \
   smartPtr = x::New().GetPointer(); \
   return smartPtr; \
 }
