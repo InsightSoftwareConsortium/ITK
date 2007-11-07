@@ -136,7 +136,7 @@ int itkVariableSizeMatrixTest(int, char*[])
     std::cout << "d13 should not be equal to dw" << std::endl;
     return EXIT_FAILURE;
     }
-  itk::Array<float> array(5);
+  itk::Array<float> array(3);
   array.Fill(10.0);
 
   FloatVariableSizeMatrixType fm(5,3);
@@ -146,7 +146,7 @@ int itkVariableSizeMatrixTest(int, char*[])
   std::cout << "***** fm" << std::endl << fm << std::endl;
   std::cout << "***** fm * array" << std::endl << fm * array << std::endl;
 
-  vnl_vector<float> vnlvector(5);
+  vnl_vector<float> vnlvector(3);
   vnlvector.fill(10.0);
   std::cout << "***** vnlvector" << std::endl << vnlvector << std::endl;
   std::cout << "***** fm" << std::endl << fm << std::endl;
