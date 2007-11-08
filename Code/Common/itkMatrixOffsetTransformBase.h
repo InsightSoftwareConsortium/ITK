@@ -65,7 +65,7 @@ namespace itk
  * transform parameters can also be set as an Array<double> of size
  * (NInputDimension + 1) * NOutputDimension using method SetParameters(). 
  * The first (NOutputDimension x NInputDimension) parameters defines the
- * matrix in column-major order (where the column index varies the fastest). 
+ * matrix in row-major order (where the column index varies the fastest). 
  * The last NOutputDimension parameters defines the translation 
  * in each dimensions.
  *
