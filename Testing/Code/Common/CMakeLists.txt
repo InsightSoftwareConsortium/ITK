@@ -170,6 +170,7 @@ ADD_TEST(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS2} itkNeighborho
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS2} itkNeighborhoodOperatorTest)
 ADD_TEST(itkNumericTraitsTest ${COMMON_TESTS2} itkNumericTraitsTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS2} itkOctreeTest)
+ADD_TEST(itkObjectFactoryTest ${COMMON_TESTS2} itkObjectFactoryTest)
 ADD_TEST(itkOrthogonallyCorrected2DParametricPathTest ${COMMON_TESTS2} itkOrthogonallyCorrected2DParametricPathTest)
 ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS2} itkPathFunctionsTest)
 ADD_TEST(itkPathIteratorTest ${COMMON_TESTS2} itkPathIteratorTest)
@@ -376,6 +377,7 @@ itkNeighborhoodIteratorTest.cxx
 itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkNumericTraitsTest.cxx
+itkObjectFactoryTest.cxx
 itkObjectStoreTest.cxx
 itkOctreeTest.cxx
 itkOrthogonallyCorrected2DParametricPathTest.cxx
