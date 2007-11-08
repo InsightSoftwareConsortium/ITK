@@ -95,6 +95,32 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
         }
       break;
       }
+    // output number of components is 6 (SymmetricSecondRankTensor)
+    case 6:
+    {
+    switch(inputNumberOfComponents)
+      {
+      case 6:
+        ConvertTensor6ToTensor6(inputData, outputData, size);
+        break;
+      case 9:
+        ConvertTensor9ToTensor6(inputData, outputData, size);
+        break;
+      default:
+        itkGenericExceptionMacro( "No conversion available from "
+                  << inputNumberOfComponents
+                  << " components to: 6 components");
+        break;
+      }
+    break;
+    }
+    default:
+    itkGenericExceptionMacro( "No conversion available from "
+      << inputNumberOfComponents
+      << " components to: " 
+      <<  OutputConvertTraits::GetNumberOfComponents()
+      << " components");
+    break;
     }
 }
   
@@ -111,9 +137,10 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(0, *outputData++,
-                                         static_cast<OutputComponentType>
-                                         (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData++,
+                        static_cast<OutputComponentType>
+                        (*inputData));
     inputData++;
     }
 }
@@ -139,7 +166,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     OutputComponentType val = static_cast<OutputComponentType>( 
       (2125.0 * static_cast<OutputComponentType>(*inputData) +
        7154.0 * static_cast<OutputComponentType>(*(inputData+1)) +
-       0721.0 * static_cast<OutputComponentType>(*(inputData+2))) / 10000.0   );
+       0721.0 * static_cast<OutputComponentType>(*(inputData+2))) / 10000.0 );
     inputData += 3;
     OutputConvertTraits::SetNthComponent(0, *outputData++, val);
     }
@@ -164,7 +191,8 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size*4;
   while(inputData != endInput)
     {
-    double tempval = (
+    double tempval = 
+      (
       (2125.0 * static_cast<double>(*inputData) +
        7154.0 * static_cast<double>(*(inputData+1)) +
        0721.0 * static_cast<double>(*(inputData+2))) / 10000.0
@@ -192,7 +220,8 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     InputPixelType* endInput = inputData + size * 2;
     while(inputData != endInput)
       {
-      OutputComponentType val =  static_cast<OutputComponentType>(*inputData) *
+      OutputComponentType val = 
+        static_cast<OutputComponentType>(*inputData) *
         static_cast<OutputComponentType>(*(inputData+1));
       inputData += 2;
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
@@ -237,18 +266,18 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      1, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      2, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(1, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(2, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
     inputData++;
     outputData++;
     }
@@ -267,18 +296,18 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size * 3;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      1, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+1)));
-    OutputConvertTraits::SetNthComponent(
-      2, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+2)));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(1, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+1)));
+    OutputConvertTraits
+      ::SetNthComponent(2, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+2)));
     inputData += 3;
     outputData++;
     }
@@ -296,18 +325,18 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size* 4;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      1, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+1)));
-    OutputConvertTraits::SetNthComponent(
-      2, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+2)));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(1, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+1)));
+    OutputConvertTraits
+      ::SetNthComponent(2, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+2)));
     inputData += 3;
     inputData++; // skip alpha
     outputData++;
@@ -335,12 +364,12 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
         static_cast<OutputComponentType>(*inputData) * 
         static_cast<OutputComponentType>(*(inputData+1));
       inputData += 2;
-      OutputConvertTraits::SetNthComponent(
-        0, *outputData, val);
-      OutputConvertTraits::SetNthComponent(
-        1, *outputData, val);
-      OutputConvertTraits::SetNthComponent(
-        2, *outputData, val);
+      OutputConvertTraits
+        ::SetNthComponent(0, *outputData, val);
+      OutputConvertTraits
+        ::SetNthComponent(1, *outputData, val);
+      OutputConvertTraits
+        ::SetNthComponent(2, *outputData, val);
       outputData++;
       }
     }
@@ -351,18 +380,18 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     InputPixelType* endInput = inputData + size * inputNumberOfComponents;
     while(inputData != endInput)
       {
-      OutputConvertTraits::SetNthComponent(
-        0, *outputData, 
-        static_cast<OutputComponentType>
-        (*inputData));
-      OutputConvertTraits::SetNthComponent(
-        1, *outputData, 
-        static_cast<OutputComponentType>
-        (*(inputData+1)));
-      OutputConvertTraits::SetNthComponent(
-        2, *outputData, 
-        static_cast<OutputComponentType>
-        (*(inputData+2)));
+      OutputConvertTraits
+        ::SetNthComponent(0, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*inputData));
+      OutputConvertTraits
+        ::SetNthComponent(1, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*(inputData+1)));
+      OutputConvertTraits
+        ::SetNthComponent(2, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*(inputData+2)));
       inputData += 3;
       inputData += diff;
       outputData++;
@@ -384,22 +413,22 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      1, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      2, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      3, *outputData, 
-      static_cast<OutputComponentType>
-      (1));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(1, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(2, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(3, *outputData, 
+                        static_cast<OutputComponentType>
+                        (1));
     inputData++;
     outputData++;
     }
@@ -417,22 +446,22 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size * 3;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      1, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+1)));
-    OutputConvertTraits::SetNthComponent(
-      2, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+2)));
-    OutputConvertTraits::SetNthComponent(
-      3, *outputData, 
-      static_cast<OutputComponentType>
-      (1));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(1, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+1)));
+    OutputConvertTraits
+      ::SetNthComponent(2, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+2)));
+    OutputConvertTraits
+      ::SetNthComponent(3, *outputData, 
+                        static_cast<OutputComponentType>
+                        (1));
     inputData += 3;
     outputData++;
     }
@@ -451,22 +480,22 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   InputPixelType* endInput = inputData + size*4;
   while(inputData != endInput)
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
-      static_cast<OutputComponentType>
-      (*inputData));
-    OutputConvertTraits::SetNthComponent(
-      1, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+1)));
-    OutputConvertTraits::SetNthComponent(
-      2, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+2)));
-    OutputConvertTraits::SetNthComponent(
-      3, *outputData, 
-      static_cast<OutputComponentType>
-      (*(inputData+3)));
+    OutputConvertTraits
+      ::SetNthComponent(0, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*inputData));
+    OutputConvertTraits
+      ::SetNthComponent(1, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+1)));
+    OutputConvertTraits
+      ::SetNthComponent(2, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+2)));
+    OutputConvertTraits
+      ::SetNthComponent(3, *outputData, 
+                        static_cast<OutputComponentType>
+                        (*(inputData+3)));
     inputData += 4;
     outputData++;
     }
@@ -492,14 +521,14 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
       OutputComponentType val = static_cast<OutputComponentType>(*inputData);
       OutputComponentType alpha = static_cast<OutputComponentType>(*(inputData+1));
       inputData += 2;
-      OutputConvertTraits::SetNthComponent(
-        0, *outputData, val);
-      OutputConvertTraits::SetNthComponent(
-        1, *outputData, val);
-      OutputConvertTraits::SetNthComponent(
-        2, *outputData, val);
-      OutputConvertTraits::SetNthComponent(
-        3, *outputData, alpha);
+      OutputConvertTraits
+        ::SetNthComponent(0, *outputData, val);
+      OutputConvertTraits
+        ::SetNthComponent(1, *outputData, val);
+      OutputConvertTraits
+        ::SetNthComponent(2, *outputData, val);
+      OutputConvertTraits
+        ::SetNthComponent(3, *outputData, alpha);
       }
     }
   else
@@ -508,26 +537,72 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     InputPixelType* endInput = inputData + size * inputNumberOfComponents;
     while(inputData != endInput)
       {
-      OutputConvertTraits::SetNthComponent(
-        0, *outputData, 
-        static_cast<OutputComponentType>
-        (*inputData));
-      OutputConvertTraits::SetNthComponent(
-        1, *outputData, 
-        static_cast<OutputComponentType>
-        (*(inputData+1)));
-      OutputConvertTraits::SetNthComponent(
-        2, *outputData, 
-        static_cast<OutputComponentType>
-        (*(inputData+2)));
-      OutputConvertTraits::SetNthComponent(
-        3, *outputData, 
-        static_cast<OutputComponentType>
-        (*(inputData+3)));
+      OutputConvertTraits
+        ::SetNthComponent(0, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*inputData));
+      OutputConvertTraits
+        ::SetNthComponent(1, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*(inputData+1)));
+      OutputConvertTraits
+        ::SetNthComponent(2, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*(inputData+2)));
+      OutputConvertTraits
+        ::SetNthComponent(3, *outputData, 
+                          static_cast<OutputComponentType>
+                          (*(inputData+3)));
       inputData += 4;
       inputData += diff;
       outputData++;
       }
+    }
+}
+
+template < typename InputPixelType,
+           typename OutputPixelType,
+           class OutputConvertTraits >
+void
+ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
+::ConvertTensor6ToTensor6(InputPixelType* inputData, 
+          OutputPixelType* outputData , int size)
+{
+  unsigned long length = static_cast< unsigned long >(size * 6);
+  for( unsigned long i=0; i< length; i++ )
+    {
+    OutputConvertTraits::SetNthComponent( 0, *outputData, 
+                                static_cast<OutputComponentType>(*inputData));
+    ++outputData;
+    ++inputData;
+    }
+}
+
+template < typename InputPixelType,
+           typename OutputPixelType,
+           class OutputConvertTraits >
+void
+ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
+::ConvertTensor9ToTensor6(InputPixelType* inputData, 
+          OutputPixelType* outputData , int size)
+{
+  unsigned long length = static_cast< unsigned long >(size * 9);
+  for( unsigned long i=0; i< length; i+=9 )
+    {
+    OutputConvertTraits::SetNthComponent( 0, *outputData, 
+        static_cast <  OutputComponentType >( *inputData ));
+    OutputConvertTraits::SetNthComponent( 1, *outputData, 
+        static_cast <  OutputComponentType >( *(inputData+1) ));
+    OutputConvertTraits::SetNthComponent( 2, *outputData, 
+        static_cast <  OutputComponentType >( *(inputData+2) ));
+    OutputConvertTraits::SetNthComponent( 3, *outputData, 
+        static_cast <  OutputComponentType >( *(inputData+4) ));
+    OutputConvertTraits::SetNthComponent( 4, *outputData, 
+        static_cast <  OutputComponentType >( *(inputData+5) ));
+    OutputConvertTraits::SetNthComponent( 5, *outputData, 
+        static_cast <  OutputComponentType >( *(inputData+8) ));
+    ++outputData;
+    inputData+=9;
     }
 }
 
@@ -543,13 +618,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   unsigned long length = static_cast< unsigned long >(size* inputNumberOfComponents);
   for( unsigned long i=0; i< length; i++ )
     {
-    OutputConvertTraits::SetNthComponent(
-      0, *outputData, 
+    OutputConvertTraits::SetNthComponent( 0, *outputData, 
       static_cast <  OutputComponentType >( *inputData ));
     ++outputData;
     ++inputData;
     }
 }
+ 
 
 }// end namespace itk
 
