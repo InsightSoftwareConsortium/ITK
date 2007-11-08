@@ -173,7 +173,7 @@ LightObject
   m_ReferenceCount = ref;
   m_ReferenceCountLock.Unlock();
 
-  if ( m_ReferenceCount <= 0)
+  if ( ref <= 0)
     {
     delete this;
     }
