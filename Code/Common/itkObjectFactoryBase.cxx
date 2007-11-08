@@ -47,9 +47,6 @@ public:
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
 }
 
-
-
-
 namespace itk
 {
 
@@ -122,6 +119,7 @@ ObjectFactoryBase
     LightObject::Pointer newobject = (*i)->CreateObject(itkclassname);
     if(newobject)
       {
+      newobject->Register();
       return newobject;
       }
     }
@@ -521,10 +519,15 @@ LightObject::Pointer
 ObjectFactoryBase
 ::CreateObject(const char* itkclassname)
 {
-  OverRideMap::iterator pos = m_OverrideMap->find(itkclassname);
-  if ( pos != m_OverrideMap->end() )
+  OverRideMap::iterator start = m_OverrideMap->lower_bound(itkclassname);
+  OverRideMap::iterator end = m_OverrideMap->upper_bound(itkclassname);
+
+  for ( OverRideMap::iterator i = start; i != end; ++i )
     {
-    return (*pos).second.m_CreateObject->CreateObject();
+    if ( i != m_OverrideMap->end() && (*i).second.m_EnabledFlag)
+      {
+      return (*i).second.m_CreateObject->CreateObject();
+      }
     }
   return 0;
 }
