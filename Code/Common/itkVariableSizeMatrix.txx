@@ -39,7 +39,7 @@ VariableSizeMatrix<T>
 {
   unsigned int rows = this->Rows();
   unsigned int cols = this->Cols();
-  if( vect.Size() != rows )
+  if( vect.Size() != cols )
     {
     itkGenericExceptionMacro( << "Matrix with " << this->Cols() << " columns cannot be "
         << "multiplied with array of length: " << vect.Size() );
