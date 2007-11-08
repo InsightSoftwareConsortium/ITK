@@ -108,7 +108,7 @@ private:
   TestFactory(const Self&);    //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  TestFactory::TestFactory()
+  TestFactory()
     {
     this->RegisterOverride(typeid(itk::Image<short,2>).name(),
                            typeid(TestImage<short,2>).name(),
