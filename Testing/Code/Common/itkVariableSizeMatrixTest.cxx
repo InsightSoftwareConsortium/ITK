@@ -100,6 +100,14 @@ int itkVariableSizeMatrixTest(int, char*[])
     std::cout << std::endl;
     }
 
+  // Product by vnl_matrix
+  vnl_matrix<float> dVnl(3,2,10.0);
+  std::cout << "***** h" << std::endl << h << std::endl;
+  std::cout << "***** dVnl" << std::endl << dVnl << std::endl;
+  std::cout << "***** h * dVnl" << std::endl << h * dVnl << std::endl;
+  h *= dVnl;
+  std::cout << "***** h *= dVnl" << std::endl << h << std::endl;
+
   DoubleVariableSizeMatrixType d13(1,3);
     d13(0,0) = 2;
     d13(0,1) = 1;

@@ -250,62 +250,6 @@ VariableSizeMatrix<T>
   return m_Matrix * vc;
 }
 
-/**
- *  Assignment
- */
-// template<class T>
-// const VariableSizeMatrix<T> &
-// VariableSizeMatrix<T>
-// ::operator=( const Self  & matrix )
-// {
-//   m_Matrix = matrix.m_Matrix;
-//   return *this;
-// }
-
-// template<class T>
-// const VariableSizeMatrix<T> &
-// VariableSizeMatrix<T>
-// ::operator=( const vnl_matrix<T>  & matrix )
-// {
-//   m_Matrix = matrix;
-//   return *this;
-// }
-
-// template<class T>
-// bool
-// VariableSizeMatrix<T>
-// ::operator!=( const Self & matrix ) const
-// {
-//   return !this->operator==(matrix);
-// }
-
-
-/**
- *  Returns the inverse matrix
- */
-// template<class T>
-// vnl_matrix<T>
-// VariableSizeMatrix<T>
-// ::GetInverse( void ) const
-// {
-//   vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
-//   return temp;
-// }
-
-
-/**
- *  Returns the transposed matrix
- */
-// template<class T>
-// vnl_matrix<T>
-// VariableSizeMatrix<T>
-// ::GetTranspose( void ) const
-// {
-//   return m_Matrix.transpose();
-// }
-
- 
-
 } // end namespace itk
 
 

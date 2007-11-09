@@ -195,6 +195,14 @@ int itkObjectFactoryTest(int, char *[])
                          typeid(itk::Image<short,2>).name(),
                          typeid(TestImage2<short,2>).name());
 
+  std::cout << typeid(itk::Image<short,2>).name()
+            << " overridden by "
+            << typeid(TestImage2<short,2>).name() << std::endl
+            << "   EnableFlag is "
+            <<   factory->GetEnableFlag(
+              typeid(itk::Image<short,2>).name(),
+              typeid(TestImage2<short,2>).name()) << std::endl;
+
   v = itk::Image<short,2>::New();
   if (!TestNewImage(v, "TestImage2"))
     {
