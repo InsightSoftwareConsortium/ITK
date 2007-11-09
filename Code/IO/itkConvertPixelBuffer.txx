@@ -568,13 +568,22 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertTensor6ToTensor6(InputPixelType* inputData, 
           OutputPixelType* outputData , int size)
 {
-  unsigned long length = static_cast< unsigned long >(size * 6);
-  for( unsigned long i=0; i< length; i++ )
+  for( unsigned long i=0; i< size; i++ )
     {
-    OutputConvertTraits::SetNthComponent( 0, *outputData, 
-                                static_cast<OutputComponentType>(*inputData));
+    OutputConvertTraits::SetNthComponent( 0, *outputData,
+                         static_cast<OutputComponentType>(*inputData));
+    OutputConvertTraits::SetNthComponent( 1, *outputData,
+                         static_cast<OutputComponentType>(*(inputData+1)));
+    OutputConvertTraits::SetNthComponent( 2, *outputData,
+                         static_cast<OutputComponentType>(*(inputData+2)));
+    OutputConvertTraits::SetNthComponent( 3, *outputData,
+                         static_cast<OutputComponentType>(*(inputData+3)));
+    OutputConvertTraits::SetNthComponent( 4, *outputData,
+                         static_cast<OutputComponentType>(*(inputData+4)));
+    OutputConvertTraits::SetNthComponent( 5, *outputData,
+                         static_cast<OutputComponentType>(*(inputData+5)));
     ++outputData;
-    ++inputData;
+    inputData+=6;
     }
 }
 
@@ -586,8 +595,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertTensor9ToTensor6(InputPixelType* inputData, 
           OutputPixelType* outputData , int size)
 {
-  unsigned long length = static_cast< unsigned long >(size * 9);
-  for( unsigned long i=0; i< length; i+=9 )
+  for( unsigned long i=0; i< size; i++ )
     {
     OutputConvertTraits::SetNthComponent( 0, *outputData, 
         static_cast <  OutputComponentType >( *inputData ));
