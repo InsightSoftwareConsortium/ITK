@@ -653,8 +653,13 @@ TEEM_API void airMopDebug(airArray *arr);
 #  define _AIR_PTRDIFF_T_CNV "%d"
 #else
 #  if TEEM_32BIT == 0
-#    define _AIR_SIZE_T_CNV "%lu"
-#    define _AIR_PTRDIFF_T_CNV "%ld"
+#    ifdef _WIN64
+#      define _AIR_SIZE_T_CNV "%I64u"
+#      define _AIR_PTRDIFF_T_CNV "%I64d"
+#    else
+#      define _AIR_SIZE_T_CNV "%lu"
+#      define _AIR_PTRDIFF_T_CNV "%ld"
+#    endif
 #  elif TEEM_32BIT == 1
 #    define _AIR_SIZE_T_CNV "%u"
 #    define _AIR_PTRDIFF_T_CNV "%d"
