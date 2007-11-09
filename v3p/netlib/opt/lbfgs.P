@@ -1,0 +1,8 @@
+extern int lbfgs_(integer *n, integer *m, doublereal *x, doublereal *f, doublereal *g, logical *diagco, doublereal *diag, integer *iprint, doublereal *eps, doublereal *xtol, doublereal *w, integer *iflag);
+extern int lb1_(integer *iprint, integer *iter, integer *nfun, doublereal *gnorm, integer *n, integer *m, doublereal *x, doublereal *f, doublereal *g, doublereal *stp, logical *finish);
+extern int lb2_();
+extern int mcsrch_(integer *n, doublereal *x, doublereal *f, doublereal *g, doublereal *s, doublereal *stp, doublereal *ftol, doublereal *xtol, integer *maxfev, integer *info, integer *nfev, doublereal *wa);
+extern int mcstep_(doublereal *stx, doublereal *fx, doublereal *dx, doublereal *sty, doublereal *fy, doublereal *dy, doublereal *stp, doublereal *fp, doublereal *dp, logical *brackt, doublereal *stpmin, doublereal *stpmax, integer *info);
+/* comlen lb3_ 32 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */

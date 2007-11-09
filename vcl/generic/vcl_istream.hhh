@@ -1,0 +1,6 @@
+@basic_istream
+@istream
+@wistream
+@basic_iostream
+@iostream
+@wiostream

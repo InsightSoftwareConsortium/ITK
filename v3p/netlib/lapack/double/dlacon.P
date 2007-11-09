@@ -1,0 +1,4 @@
+extern int dlacon_(integer *n, doublereal *v, doublereal *x, integer *isgn, doublereal *est, integer *kase);
+/*:ref: dasum_ 7 3 4 7 4 */
+/*:ref: idamax_ 4 3 4 7 4 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */

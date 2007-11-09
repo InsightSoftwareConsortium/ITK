@@ -1,0 +1,5 @@
+// -*- c++ -*-
+
+#define VCL_UNARY_INSTANTIATE(T)
+#define VCL_LESS_INSTANTIATE(T)
+#define VCL_COMPARISONS_INSTANTIATE(T)

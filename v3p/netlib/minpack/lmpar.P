@@ -1,0 +1,4 @@
+extern int lmpar_(integer *n, doublereal *r__, integer *ldr, integer *ipvt, doublereal *diag, doublereal *qtb, doublereal *delta, doublereal *par, doublereal *x, doublereal *sdiag, doublereal *wa1, doublereal *wa2);
+/*:ref: dpmpar_ 7 1 4 */
+/*:ref: enorm_ 7 2 4 7 */
+/*:ref: qrsolv_ 14 9 4 7 4 4 7 7 7 7 7 */

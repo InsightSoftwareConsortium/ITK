@@ -1,0 +1,24 @@
+This directory is for compilers that are ISO. Thus
+if your compiler is compliant you can do
+
+(in vcl_blah.h)
+
+#ifdef VCL_MY_COMPILER
+# include "iso/vcl_blah.h"
+#elif ... other compilers
+...
+#endif
+
+If you try this and it doesn't work, then your 
+compiler is not ISO and you are not allowed to
+modify the files in this directory to make them
+work with your non-ISO compiler.
+
+If you find that vcl/iso/vcl_blah.h is *almost*
+right for your compiler, you may #include it and
+then fix a few things afterwards (or before).
+
+All of the .h files in this directory should look like this:
+  #include <blah>
+  #define vcl_generic_blah_STD std
+  #include "../generic/vcl_blah.h"

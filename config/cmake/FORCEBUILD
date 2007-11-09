@@ -1,0 +1,9 @@
+This FORCEBUILD file should be deleted by Dart scripts to force Dart
+to do a continuous build even if no other file in the repository has
+been changed.  The idea is to fool Dart into thinking a file has been
+changed so it will compile and submit.  This should be done when some
+dependency of the build changes.  It is also helpful for triggering a
+new continuous build when it is first started up.  Seeing that this
+file has changed on the dashboard will make it apparent that the build
+was started for reasons other than a file in the repository being
+changed.

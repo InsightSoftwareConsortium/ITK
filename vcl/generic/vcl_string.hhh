@@ -1,0 +1,6 @@
+@char_traits
+@basic_string
+@string
+@wstring
+@swap
+@getline

@@ -1,0 +1,2 @@
+extern int trapru_(E_fp f, doublereal *a, doublereal *b, integer *m, doublereal *trule);
+extern int xtrapru_(E_fp f, doublereal *a, doublereal *b, integer *m, doublereal *trule);

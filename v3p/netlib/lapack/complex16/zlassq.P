@@ -1,0 +1,1 @@
+extern int zlassq_(integer *n, doublecomplex *x, integer *incx, doublereal *scale, doublereal *sumsq);

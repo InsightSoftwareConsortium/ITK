@@ -1,0 +1,6 @@
+extern int dorgqr_(integer *m, integer *n, integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *work, integer *lwork, integer *info);
+/*:ref: ilaenv_ 4 9 4 13 13 4 4 4 4 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dorg2r_ 14 8 4 4 4 7 4 7 7 4 */
+/*:ref: dlarft_ 14 11 13 13 4 4 7 4 7 7 4 124 124 */
+/*:ref: dlarfb_ 14 19 13 13 13 13 4 4 4 7 4 7 4 7 4 7 4 124 124 124 124 */

@@ -1,0 +1,5 @@
+extern int slapll_(integer *n, real *x, integer *incx, real *y, integer *incy, real *ssmin);
+/*:ref: slarfg_ 14 5 4 6 6 4 6 */
+/*:ref: sdot_ 6 5 4 6 4 6 4 */
+/*:ref: saxpy_ 14 6 4 6 6 4 6 4 */
+/*:ref: slas2_ 14 5 6 6 6 6 6 */

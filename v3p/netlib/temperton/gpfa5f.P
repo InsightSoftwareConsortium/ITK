@@ -1,0 +1,1 @@
+extern int gpfa5f_(real *a, real *b, real *trigs, integer *inc, integer *jump, integer *n, integer *mm, integer *lot, integer *isign);

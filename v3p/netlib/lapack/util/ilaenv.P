@@ -1,0 +1,2 @@
+extern integer ilaenv_(integer *ispec, char *name__, char *opts, integer *n1, integer *n2, integer *n3, integer *n4, ftnlen name_len, ftnlen opts_len);
+/*:ref: ieeeck_ 4 3 4 6 6 */

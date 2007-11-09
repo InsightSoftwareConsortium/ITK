@@ -1,0 +1,4 @@
+extern int sorg2r_(integer *m, integer *n, integer *k, real *a, integer *lda, real *tau, real *work, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: slarf_ 14 10 13 4 4 6 4 6 6 4 6 124 */
+/*:ref: sscal_ 14 4 4 6 6 4 */

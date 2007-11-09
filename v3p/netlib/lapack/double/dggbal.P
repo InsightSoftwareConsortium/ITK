@@ -1,0 +1,9 @@
+extern int dggbal_(char *job, integer *n, doublereal *a, integer *lda, doublereal *b, integer *ldb, integer *ilo, integer *ihi, doublereal *lscale, doublereal *rscale, doublereal *work, integer *info, ftnlen job_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dswap_ 14 5 4 7 4 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: idamax_ 4 3 4 7 4 */

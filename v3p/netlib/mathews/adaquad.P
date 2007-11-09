@@ -1,0 +1,3 @@
+extern int adaptquad_(E_fp f, doublereal *a, doublereal *b, doublereal *tol, doublereal *srmat, doublereal *integral, doublereal *errbdd, integer *m, integer *state);
+extern int refine_(E_fp f, integer *p, doublereal *srmat, integer *m, integer *state);
+extern int srule_(E_fp f, doublereal *a, doublereal *b, doublereal *tol0, doublereal *srvec);

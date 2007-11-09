@@ -1,0 +1,2 @@
+extern int dlaeig_(integer *n, integer *nband, integer *nl, integer *nr, doublereal *a, doublereal *eigval, integer *lde, doublereal *eigvec, doublereal *bound, doublereal *atemp, doublereal *d__, doublereal *vtemp, doublereal *eps, doublereal *tmin, doublereal *tmax);
+/*:ref: dlabcm_ 14 14 4 4 4 4 7 7 4 7 7 7 7 7 7 7 */

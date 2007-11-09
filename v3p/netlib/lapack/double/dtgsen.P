@@ -1,0 +1,9 @@
+extern int dtgsen_(integer *ijob, logical *wantq, logical *wantz, logical *select, integer *n, doublereal *a, integer *lda, doublereal *b, integer *ldb, doublereal *alphar, doublereal *alphai, doublereal *beta, doublereal *q, integer *ldq, doublereal *z__, integer *ldz, integer *m, doublereal *pl, doublereal *pr, doublereal *dif, doublereal *work, integer *lwork, integer *iwork, integer *liwork, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlassq_ 14 5 4 7 4 7 7 */
+/*:ref: dtgexc_ 14 16 12 12 4 7 4 7 4 7 4 7 4 4 4 7 4 4 */
+/*:ref: dlacpy_ 14 8 13 4 4 7 4 7 4 124 */
+/*:ref: dtgsyl_ 14 23 13 4 4 4 7 4 7 4 7 4 7 4 7 4 7 4 7 7 7 4 4 4 124 */
+/*:ref: dlacon_ 14 6 4 7 7 4 7 4 */
+/*:ref: dlag2_ 14 10 7 4 7 4 7 7 7 7 7 7 */

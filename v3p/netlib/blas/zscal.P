@@ -1,0 +1,1 @@
+extern int zscal_(integer *n, doublecomplex *za, doublecomplex *zx, integer *incx);

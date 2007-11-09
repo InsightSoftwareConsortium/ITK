@@ -1,0 +1,2 @@
+extern int simpru_(E_fp f, doublereal *a, doublereal *b, integer *m, doublereal *srule);
+extern int xsimpru_(E_fp f, doublereal *a, doublereal *b, integer *m, doublereal *srule);

@@ -1,0 +1,13 @@
+@isalnum
+@isdigit
+@isprint
+@isupper
+@tolower
+@isalpha
+@isgraph
+@ispunct
+@isxdigit
+@toupper
+@iscntrl
+@islower
+@isspace

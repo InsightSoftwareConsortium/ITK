@@ -1,0 +1,27 @@
+// The following text is included in the main documentation page by doxygen
+/*! \mainpage vcl : Cross platform STL Library
+* A suite of STL classes that will work across many platforms.
+*
+* Basically, when you want std::string, use vcl_string.
+*
+* The job of vcl is to fix your compiler.
+* C++ is not just a language; the standard also includes an extensive library of classes
+* and functions, which make ISO C++ a powerful and useful tool for building computer
+* programs. Unfortunately, few C++ compilers available in 2001 have a bug-free
+* implementation of the standard, so we have to supply our own bug fixes.
+*
+* Usage:
+* - Instead of including standard header <foo>, use <vcl_foo.h> instead.
+* - Wherever you wish to use standard class or function foo, you should write vcl_foo instead.
+*
+* This may seem excessive, but one gets used to it very quickly, and it quickly indicates
+* to novice C++ programmers which functions are from the standard library. You might
+* think that the designers of vxl{} would have been clever enough to avoid the
+* vcl_ prefix by using fancy compiler flags, and many #defines. However, that way lies
+* madness--trying to confuse a C++ compiler always rebounds on one.
+*
+*
+* \section Lead Developer
+* Fred Schaffalitzky is responsible for co-ordinating significant changes to vil.
+* http://sourceforge.net/sendmessage.php?touser=294676
+*/

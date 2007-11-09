@@ -1,0 +1,6 @@
+extern int dgesc2_(integer *n, doublereal *a, integer *lda, doublereal *rhs, integer *ipiv, integer *jpiv, doublereal *scale);
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlabad_ 14 2 7 7 */
+/*:ref: dlaswp_ 14 7 4 7 4 4 4 4 4 */
+/*:ref: idamax_ 4 3 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */

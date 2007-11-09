@@ -1,0 +1,14 @@
+extern int dnlaso_(S_fp op, S_fp iovect, integer *n, integer *nval, integer *nfig, integer *nperm, integer *nmval, doublereal *val, integer *nmvec, doublereal *vec, integer *nblock, integer *maxop, integer *maxj, doublereal *work, integer *ind, integer *ierr);
+extern int dnwla_(S_fp op, S_fp iovect, integer *n, integer *nband, integer *nval, integer *nfig, integer *nperm, doublereal *val, integer *nmvec, doublereal *vec, integer *nblock, integer *maxop, integer *maxj, integer *nop, doublereal *p1, doublereal *p0, doublereal *res, doublereal *tau, doublereal *otau, doublereal *t, doublereal *alp, doublereal *bet, doublereal *s, doublereal *p2, doublereal *bound, doublereal *atemp, doublereal *vtemp, doublereal *d__, integer *ind, logical *small, logical *raritz, doublereal *delta, doublereal *eps, integer *ierr);
+/*:ref: dvsort_ 14 8 4 7 7 4 7 4 4 7 */
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dortqr_ 14 5 4 4 4 7 7 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dnppla_ 14 20 214 214 4 4 4 4 7 4 7 4 7 7 7 7 7 7 7 12 12 7 */
+/*:ref: dlaran_ 14 2 4 7 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dlager_ 14 6 4 4 4 7 7 7 */
+/*:ref: dlaeig_ 14 15 4 4 4 4 7 7 4 7 7 7 7 7 7 7 7 */
+/*:ref: dmvpc_ 14 9 4 7 4 4 7 4 7 7 7 */
+/*:ref: dscal_ 14 4 4 7 7 4 */

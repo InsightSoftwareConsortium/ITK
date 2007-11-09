@@ -1,0 +1,82 @@
+// The following text is included in the main documentation page by doxygen
+/*! \mainpage vnl : Numerics Library
+* The numerics library, vnl is intended to provide an environment for numerical
+* programming which combines the ease of use of packages like Mathematica and
+* Matlab with the speed of C and the elegance of C++.
+* It provides a C++ interface to the high-quality Fortran routines made available
+* in the public domain by numerical analysis researchers.
+*
+* Matrix and vector classes include
+* - vnl_vector<T>  : Standard vector class
+* - vnl_matrix<T>  : Standard matrix class
+* - vnl_vector_fixed<T,N> : Fixed size vector class (of length N)
+* - vnl_matrix_fixed<T,N,M> : Fixed size NxM matrix class
+* - vnl_vector_ref<T> : Wrap user-supplied memory chunk as a vector
+* - vnl_matrix_ref<T> : Wrap user-supplied memory chunk as a matrix
+*
+* Functions to generate special matrixes:
+* - vnl_identity
+* - vnl_rotation_matrix
+* - vnl_cross_product_matrix
+*
+* Matrix decompositions include
+* - vnl_svd and vnl_svd_economy : Singular value decomposition
+* - vnl_qr : QR decomposition
+* - vnl_cholesky : Cholesky decomposition (for symmetric matrices)
+* - vnl_ldl_cholesky : Variant on Cholesky, allowing fast updating
+* - vnl_symmetric_eigensystem : Eigen-decomposition
+* - vnl_real_eigensystem : Eigen-decomposition
+* - vnl_complex_eigensystem : Eigen-decomposition
+* - vnl_generalized_eigensystem : Eigen-decomposition
+* - vnl_sparse_symmetric_eigensystem
+* - vnl_generalized_schur
+*
+* Optimisation routines include
+* - vnl_amoeba : Downhill simplex algorithm
+* - vnl_lsqr
+* - vnl_brent_minimizer  (For 1D optimization)
+* - vnl_conjugate_gradient
+* - vnl_lbfgs
+* - vnl_levenberg_marquardt
+* - vnl_powell
+* - vnl_bracket_minimum (To bracket a minimum of a 1D function)
+*
+* Support for manipulating polynomials
+* - vnl_real_polynomial
+* - vnl_real_npolynomial
+* - vnl_rnpoly_solve
+* - vnl_rpoly_roots
+* - vnl_cpoly_roots
+*
+* Useful utility functions
+* - Common functions and constants (in vnl_math)
+* - vnl_fft_1d : 1D Fast Fourier Transform
+* - vnl_fft_2d : 2D Fast Fourier Transform
+* - vnl_convolve
+* - vnl_random : random number generation, with normal and box distributions.
+* - vnl_gamma, vnl_gamma_p, vnl_gamma_q : gamma functions
+* - vnl_erf
+* - vnl_chi_squared : CDF of chi-squared distribution
+*
+* Simple matrix operations
+* - vnl_transpose : transpose of a matrix for direct use in a multiplication
+* - vnl_adjugate : return the adjugate matrix
+* - vnl_rank, vnl_rank_row_reduce and vnl_rank_column_reduce
+* - vnl_trace
+* - vnl_unary_function
+* - vnl_cross
+* - vnl_det and vnl_determinant
+* - vnl_inverse, vnl_inverse_transpose and vnl_matrix_inverse
+* - vnl_orthogonal_complement
+*
+* Alternative number representations
+* - vnl_complex
+* - vnl_quaternion
+* - vnl_rational
+* - vnl_bignum
+* - vnl_finite
+*
+* \section Lead Developer
+* Amitha Perera is responsible for co-ordinating significant changes to vnl.
+* http://sourceforge.net/sendmessage.php?touser=237910
+*/

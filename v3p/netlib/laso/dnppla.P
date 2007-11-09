@@ -1,0 +1,7 @@
+extern int dnppla_(S_fp op, S_fp iovect, integer *n, integer *nperm, integer *nop, integer *nmval, doublereal *val, integer *nmvec, doublereal *vec, integer *nblock, doublereal *h__, doublereal *hv, doublereal *p, doublereal *q, doublereal *bound, doublereal *d__, doublereal *delta, logical *small, logical *raritz, doublereal *eps);
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: dlager_ 14 6 4 4 4 7 7 7 */
+/*:ref: dlaeig_ 14 15 4 4 4 4 7 7 4 7 7 7 7 7 7 7 7 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dnrm2_ 7 3 4 7 4 */

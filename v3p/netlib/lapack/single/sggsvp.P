@@ -1,0 +1,12 @@
+extern int sggsvp_(char *jobu, char *jobv, char *jobq, integer *m, integer *p, integer *n, real *a, integer *lda, real *b, integer *ldb, real *tola, real *tolb, integer *k, integer *l, real *u, integer *ldu, real *v, integer *ldv, real *q, integer *ldq, integer *iwork, real *tau, real *work, integer *info, ftnlen jobu_len, ftnlen jobv_len, ftnlen jobq_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: sgeqpf_ 14 8 4 4 6 4 4 6 6 4 */
+/*:ref: slapmt_ 14 6 12 4 4 6 4 4 */
+/*:ref: slaset_ 14 8 13 4 4 6 6 6 4 124 */
+/*:ref: slacpy_ 14 8 13 4 4 6 4 6 4 124 */
+/*:ref: sorg2r_ 14 8 4 4 4 6 4 6 6 4 */
+/*:ref: sgerq2_ 14 7 4 4 6 4 6 6 4 */
+/*:ref: sormr2_ 14 14 13 13 4 4 4 6 4 6 6 4 6 4 124 124 */
+/*:ref: sorm2r_ 14 14 13 13 4 4 4 6 4 6 6 4 6 4 124 124 */
+/*:ref: sgeqr2_ 14 7 4 4 6 4 6 6 4 */

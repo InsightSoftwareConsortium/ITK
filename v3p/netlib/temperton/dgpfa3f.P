@@ -1,0 +1,1 @@
+extern int dgpfa3f_(doublereal *a, doublereal *b, doublereal *trigs, integer *inc, integer *jump, integer *n, integer *mm, integer *lot, integer *isign);

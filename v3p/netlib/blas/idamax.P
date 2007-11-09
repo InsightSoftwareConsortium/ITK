@@ -1,0 +1,1 @@
+extern integer idamax_(integer *n, doublereal *dx, integer *incx);

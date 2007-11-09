@@ -1,0 +1,4 @@
+extern int dgpfa_(doublereal *a, doublereal *b, doublereal *trigs, integer *inc, integer *jump, integer *n, integer *lot, integer *isign, integer *npqr);
+/*:ref: dgpfa2f_ 14 9 7 7 7 4 4 4 4 4 4 */
+/*:ref: dgpfa3f_ 14 9 7 7 7 4 4 4 4 4 4 */
+/*:ref: dgpfa5f_ 14 9 7 7 7 4 4 4 4 4 4 */

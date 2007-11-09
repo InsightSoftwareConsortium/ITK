@@ -1,0 +1,9 @@
+extern int dlabcm_(integer *n, integer *nband, integer *nl, integer *nr, doublereal *a, doublereal *eigval, integer *lde, doublereal *eigvec, doublereal *atol, doublereal *artol, doublereal *bound, doublereal *atemp, doublereal *d__, doublereal *vtemp);
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: dlaran_ 14 2 4 7 */
+/*:ref: dlabax_ 14 5 4 4 7 7 7 */
+/*:ref: dnrm2_ 7 3 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dlabfc_ 14 12 4 4 7 7 4 4 7 4 4 7 7 7 */

@@ -1,0 +1,36 @@
+// the std::ios::(in|out|etc) flags should
+// live in this header file (27.4.2).
+@ios
+@streamoff
+@streamsize
+@fpos
+@basic_ios
+@ios_base
+@ios::basefield
+@ios::floatfield
+@ios::adjustfield
+@ios::boolalpha
+@ios::noboolalpha
+@ios::showbase
+@ios::noshowbase
+@ios::showpoint
+@ios::noshowpoint
+@ios::showpos
+@ios::noshowpos
+@ios::skipws
+@ios::noskipws
+@ios::uppercase
+@ios::nouppercase
+@ios::internal
+@ios::left
+@ios::right
+@ios::dec
+@ios::hex
+@ios::oct
+@ios::fixed
+@ios::scientific
+@ios::fmtflags
+@ios::seekdir
+@ios::beg
+@ios::cur
+@ios::end

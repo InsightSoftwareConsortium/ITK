@@ -1,0 +1,4 @@
+@accumulate
+@inner_product
+@partial_sum
+@adjacent_difference

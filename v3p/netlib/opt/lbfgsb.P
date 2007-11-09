@@ -1,0 +1,29 @@
+extern int setulb_(integer *n, integer *m, doublereal *x, doublereal *l, doublereal *u, integer *nbd, doublereal *f, doublereal *g, doublereal *factr, doublereal *pgtol, doublereal *wa, integer *iwa, char *task, integer *iprint, char *csave, logical *lsave, integer *isave, doublereal *dsave, ftnlen task_len, ftnlen csave_len);
+extern int mainlb_(integer *n, integer *m, doublereal *x, doublereal *l, doublereal *u, integer *nbd, doublereal *f, doublereal *g, doublereal *factr, doublereal *pgtol, doublereal *ws, doublereal *wy, doublereal *sy, doublereal *ss, doublereal *yy, doublereal *wt, doublereal *wn, doublereal *snd, doublereal *z__, doublereal *r__, doublereal *d__, doublereal *t, doublereal *wa, doublereal *sg, doublereal *sgo, doublereal *yg, doublereal *ygo, integer *index, integer *iwhere, integer *indx2, char *task, integer *iprint, char *csave, logical *lsave, integer *isave, doublereal *dsave, ftnlen task_len, ftnlen csave_len);
+extern int active_(integer *n, doublereal *l, doublereal *u, integer *nbd, doublereal *x, integer *iwhere, integer *iprint, logical *prjctd, logical *cnstnd, logical *boxed);
+extern int bmv_(integer *m, doublereal *sy, doublereal *wt, integer *col, doublereal *v, doublereal *p, integer *info);
+extern int cauchy_(integer *n, doublereal *x, doublereal *l, doublereal *u, integer *nbd, doublereal *g, integer *iorder, integer *iwhere, doublereal *t, doublereal *d__, doublereal *xcp, integer *m, doublereal *wy, doublereal *ws, doublereal *sy, doublereal *wt, doublereal *theta, integer *col, integer *head, doublereal *p, doublereal *c__, doublereal *wbp, doublereal *v, integer *nint, doublereal *sg, doublereal *yg, integer *iprint, doublereal *sbgnrm, integer *info, doublereal *epsmch);
+extern int cmprlb_(integer *n, integer *m, doublereal *x, doublereal *g, doublereal *ws, doublereal *wy, doublereal *sy, doublereal *wt, doublereal *z__, doublereal *r__, doublereal *wa, integer *index, doublereal *theta, integer *col, integer *head, integer *nfree, logical *cnstnd, integer *info);
+extern int errclb_(integer *n, integer *m, doublereal *factr, doublereal *l, doublereal *u, integer *nbd, char *task, integer *info, integer *k, ftnlen task_len);
+extern int formk_(integer *n, integer *nsub, integer *ind, integer *nenter, integer *ileave, integer *indx2, integer *iupdat, logical *updatd, doublereal *wn, doublereal *wn1, integer *m, doublereal *ws, doublereal *wy, doublereal *sy, doublereal *theta, integer *col, integer *head, integer *info);
+extern int formt_(integer *m, doublereal *wt, doublereal *sy, doublereal *ss, integer *col, doublereal *theta, integer *info);
+extern int freev_(integer *n, integer *nfree, integer *index, integer *nenter, integer *ileave, integer *indx2, integer *iwhere, logical *wrk, logical *updatd, logical *cnstnd, integer *iprint, integer *iter);
+extern int hpsolb_(integer *n, doublereal *t, integer *iorder, integer *iheap);
+extern int lnsrlb_(integer *n, doublereal *l, doublereal *u, integer *nbd, doublereal *x, doublereal *f, doublereal *fold, doublereal *gd, doublereal *gdold, doublereal *g, doublereal *d__, doublereal *r__, doublereal *t, doublereal *z__, doublereal *stp, doublereal *dnorm, doublereal *dtd, doublereal *xstep, doublereal *stpmx, integer *iter, integer *ifun, integer *iback, integer *nfgv, integer *info, char *task, logical *boxed, logical *cnstnd, char *csave, integer *isave, doublereal *dsave, ftnlen task_len, ftnlen csave_len);
+extern int matupd_(integer *n, integer *m, doublereal *ws, doublereal *wy, doublereal *sy, doublereal *ss, doublereal *d__, doublereal *r__, integer *itail, integer *iupdat, integer *col, integer *head, doublereal *theta, doublereal *rr, doublereal *dr, doublereal *stp, doublereal *dtd);
+extern int prn1lb_(integer *n, integer *m, doublereal *l, doublereal *u, doublereal *x, integer *iprint, integer *itfile, doublereal *epsmch);
+extern int prn2lb_(integer *n, doublereal *x, doublereal *f, doublereal *g, integer *iprint, integer *itfile, integer *iter, integer *nfgv, integer *nact, doublereal *sbgnrm, integer *nint, char *word, integer *iword, integer *iback, doublereal *stp, doublereal *xstep, ftnlen word_len);
+extern int prn3lb_(integer *n, doublereal *x, doublereal *f, char *task, integer *iprint, integer *info, integer *itfile, integer *iter, integer *nfgv, integer *nintol, integer *nskip, integer *nact, doublereal *sbgnrm, doublereal *time, integer *nint, char *word, integer *iback, doublereal *stp, doublereal *xstep, integer *k, doublereal *cachyt, doublereal *sbtime, doublereal *lnscht, ftnlen task_len, ftnlen word_len);
+extern int projgr_(integer *n, doublereal *l, doublereal *u, integer *nbd, doublereal *x, doublereal *g, doublereal *sbgnrm);
+extern int subsm_(integer *n, integer *m, integer *nsub, integer *ind, doublereal *l, doublereal *u, integer *nbd, doublereal *x, doublereal *d__, doublereal *ws, doublereal *wy, doublereal *theta, integer *col, integer *head, integer *iword, doublereal *wv, doublereal *wn, integer *iprint, integer *info);
+extern int dcsrch_(doublereal *f, doublereal *g, doublereal *stp, doublereal *ftol, doublereal *gtol, doublereal *xtol, doublereal *stpmin, doublereal *stpmax, char *task, integer *isave, doublereal *dsave, ftnlen task_len);
+extern int dcstep_(doublereal *stx, doublereal *fx, doublereal *dx, doublereal *sty, doublereal *fy, doublereal *dy, doublereal *stp, doublereal *fp, doublereal *dp, logical *brackt, doublereal *stpmin, doublereal *stpmax);
+extern int timer_(doublereal *ttime);
+extern doublereal dpmeps_();
+extern int dtrsl_(doublereal *t, integer *ldt, integer *n, doublereal *b, integer *job, integer *info);
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
+/*:ref: dpofa_ 14 4 7 4 4 4 */
+/*:ref: etime_ 6 1 6 */

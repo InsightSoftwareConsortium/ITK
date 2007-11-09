@@ -1,0 +1,4 @@
+extern int dqrsl_(doublereal *x, integer *ldx, integer *n, integer *k, doublereal *qraux, doublereal *y, doublereal *qy, doublereal *qty, doublereal *b, doublereal *rsd, doublereal *xb, integer *job, integer *info);
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: ddot_ 7 5 4 7 4 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */

@@ -1,0 +1,2 @@
+extern doublereal dzasum_(integer *n, doublecomplex *zx, integer *incx);
+/*:ref: dcabs1_ 7 1 9 */

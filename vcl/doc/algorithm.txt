@@ -1,0 +1,233 @@
+// -*- c++ -*-
+// From CD2, Dec 96
+
+#define VCL_SWAP_INSTANTIATE(T)
+#define VCL_OPERATOR_NE_INSTANTIATE(T)
+#define VCL_CONTAINABLE_INSTANTIATE(T)
+#define VCL_FIND_INSTANTIATE(I, T)
+#define VCL_FIND_IF_INSTANTIATE(I, T)
+#define VCL_SORT_INSTANTIATE(I)
+#define VCL_COPY_INSTANTIATE(Inp, Out)
+#define VCL_COPY_BACKWARD_INSTANTIATE(Inp, Out)
+
+Header <algorithm> synopsis
+
+// Fwd: forward iterator
+// Inp: input iterator
+
+// subclause _lib.alg.nonmodifying_, non-modifying sequence operations:
+template<class InputIterator, class Function, class T, class Predicate>
+
+Function for_each(Inp first, Inp last, Function f);
+Inp find(Inp first, Inp last, const T& value);
+Inp find_if(Inp first, Inp last, Predicate pred);
+Fwd1 find_end(Fwd1 first1, Fwd1 last1, Fwd2 first2, Fwd2 last2);
+Fwd1 find_end(Fwd1 first1, Fwd1 last1, Fwd2 first2, Fwd2 last2, BinaryPredicate pred);
+Fwd1 find_first_of(Fwd1 first1, Fwd1 last1, Fwd2 first2, Fwd2 last2);
+Fwd1 find_first_of(Fwd1 first1, Fwd1 last1, Fwd2 first2, Fwd2 last2, BinaryPredicate pred);
+Fwd adjacent_find(Fwd first, Fwd last);
+Fwd adjacent_find(Fwd first, Fwd last, BinaryPredicate pred);
+
+difference_type count(Inp first, Inp last, const T& value);
+difference_type count_if(Inp first, Inp last, Predicate pred);
+pair<Inp1, Inp2> mismatch(Inp1 first1, Inp1 last1, Inp2 first2);
+pair<Inp1, Inp2> mismatch(Inp1 first1, Inp1 last1, Inp2 first2, BinaryPredicate pred);
+bool equal(Inp1 first1, Inp1 last1, Inp2 first2);
+bool equal(Inp1 first1, Inp1 last1, Inp2 first2, BinaryPredicate pred);
+
+Fwd1 search(Fwd1 first1, Fwd1 last1, Fwd2 first2, Fwd2 last2);
+Fwd1 search(Fwd1 first1, Fwd1 last1, Fwd2 first2, Fwd2 last2, BinaryPredicate pred);
+Fwd  search_n(Fwd first, Fwd last, Size count, const T& value);
+Fwd1 search_n(Fwd first, Fwd last, Size count, const T& value, BinaryPredicate pred);
+
+// subclause _lib.alg.modifying.operations_, modifying sequence operations:
+// _lib.alg.copy_, copy:
+template<class Inp, class OutputIterator>
+OutputIterator copy(Inp first, Inp last, OutputIterator result);
+template<class BidirectionalIterator1, class BidirectionalIterator2>
+BidirectionalIterator2
+copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last, BidirectionalIterator2 result);
+// _lib.alg.swap_, swap:
+template<class T> void swap(T& a, T& b);
+template<class Fwd1, class Fwd2>
+Fwd2 swap_ranges(Fwd1 first1, Fwd1 last1, Fwd2 first2);
+template<class Fwd1, class Fwd2>
+void iter_swap(Fwd1 a, Fwd2 b);
+template<class Inp, class OutputIterator, class UnaryOperation>
+OutputIterator transform(Inp first, Inp last, OutputIterator result, UnaryOperation op);
+template<class Inp1, class Inp2, class OutputIterator, class BinaryOperation>
+OutputIterator transform(Inp1 first1, Inp1 last1, Inp2 first2, OutputIterator result, BinaryOperation binary_op);
+template<class Fwd, class T>
+void replace(Fwd first, Fwd last, const T& old_value, const T& new_value);
+template<class Fwd, class Predicate, class T>
+void replace_if(Fwd first, Fwd last, Predicate pred, const T& new_value);
+template<class Inp, class OutputIterator, class T>
+OutputIterator replace_copy(Inp first, Inp last, OutputIterator result, const T& old_value, const T& new_value);
+template<class Iterator, class OutputIterator, class Predicate, class T>
+OutputIterator replace_copy_if(Iterator first, Iterator last, OutputIterator result, Predicate pred, const T& new_value);
+
+template<class Fwd, class T>
+void fill(Fwd first, Fwd last, const T& value);
+template<class OutputIterator, class Size, class T>
+void fill_n(OutputIterator first, Size n, const T& value);
+template<class Fwd, class Generator>
+void generate(Fwd first, Fwd last, Generator gen);
+template<class OutputIterator, class Size, class Generator>
+void generate_n(OutputIterator first, Size n, Generator gen);
+template<class Fwd, class T>
+Fwd remove(Fwd first, Fwd last, const T& value);
+template<class Fwd, class Predicate>
+Fwd remove_if(Fwd first, Fwd last, Predicate pred);
+template<class Inp, class OutputIterator, class T>
+OutputIterator remove_copy(Inp first, Inp last, OutputIterator result, const T& value);
+template<class Inp, class OutputIterator, class Predicate>
+OutputIterator remove_copy_if(Inp first, Inp last, OutputIterator result, Predicate pred);
+template<class Fwd>
+Fwd unique(Fwd first, Fwd last);
+template<class Fwd, class BinaryPredicate>
+Fwd unique(Fwd first, Fwd last, BinaryPredicate pred);
+template<class Inp, class OutputIterator>
+OutputIterator unique_copy(Inp first, Inp last, OutputIterator result);
+template<class Inp, class OutputIterator, class BinaryPredicate>
+OutputIterator unique_copy(Inp first, Inp last, OutputIterator result, BinaryPredicate pred);
+template<class BidirectionalIterator>
+void reverse(BidirectionalIterator first, BidirectionalIterator last);
+template<class BidirectionalIterator, class OutputIterator>
+OutputIterator reverse_copy(BidirectionalIterator first, BidirectionalIterator last, OutputIterator result);
+template<class Fwd>
+void rotate(Fwd first, Fwd middle, Fwd last);
+template<class Fwd, class OutputIterator>
+OutputIterator rotate_copy(Fwd first, Fwd middle, Fwd last, OutputIterator result);
+template<class RandomAccessIterator>
+void random_shuffle(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class RandomNumberGenerator>
+void random_shuffle(RandomAccessIterator first, RandomAccessIterator last, RandomNumberGenerator& rand);
+
+// _lib.alg.partitions_, partitions:
+template<class BidirectionalIterator, class Predicate>
+BidirectionalIterator partition(BidirectionalIterator first, BidirectionalIterator last, Predicate pred);
+template<class BidirectionalIterator, class Predicate>
+BidirectionalIterator stable_partition(BidirectionalIterator first, BidirectionalIterator last, Predicate pred);
+// subclause _lib.alg.sorting_, sorting and related operations:
+// _lib.alg.sort_, sorting:
+template<class RandomAccessIterator>
+void sort(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+template<class RandomAccessIterator>
+void stable_sort(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void stable_sort(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+template<class RandomAccessIterator>
+void partial_sort(RandomAccessIterator first, RandomAccessIterator middle, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void partial_sort(RandomAccessIterator first, RandomAccessIterator middle, RandomAccessIterator last, Compare comp);
+template<class Inp, class RandomAccessIterator>
+RandomAccessIterator
+partial_sort_copy(Inp first, Inp last, RandomAccessIterator result_first, RandomAccessIterator result_last);
+template<class Inp, class RandomAccessIterator, class Compare>
+RandomAccessIterator
+partial_sort_copy(Inp first, Inp last, RandomAccessIterator result_first, RandomAccessIterator result_last, Compare comp);
+template<class RandomAccessIterator>
+void nth_element(RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void nth_element(RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last, Compare comp);
+// _lib.alg.binary.search_, binary search:
+template<class Fwd, class T>
+Fwd lower_bound(Fwd first, Fwd last, const T& value);
+template<class Fwd, class T, class Compare>
+Fwd lower_bound(Fwd first, Fwd last, const T& value, Compare comp);
+
+template<class Fwd, class T>
+Fwd upper_bound(Fwd first, Fwd last, const T& value);
+template<class Fwd, class T, class Compare>
+Fwd upper_bound(Fwd first, Fwd last, const T& value, Compare comp);
+template<class Fwd, class T>
+pair<Fwd, Fwd>
+equal_range(Fwd first, Fwd last, const T& value);
+template<class Fwd, class T, class Compare>
+pair<Fwd, Fwd>
+equal_range(Fwd first, Fwd last, const T& value, Compare comp);
+template<class Fwd, class T>
+bool binary_search(Fwd first, Fwd last, const T& value);
+template<class Fwd, class T, class Compare>
+bool binary_search(Fwd first, Fwd last, const T& value, Compare comp);
+// _lib.alg.merge_, merge:
+template<class Inp1, class Inp2, class OutputIterator>
+OutputIterator merge(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result);
+template<class Inp1, class Inp2, class OutputIterator, class Compare>
+OutputIterator merge(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result, Compare comp);
+template<class BidirectionalIterator>
+void inplace_merge(BidirectionalIterator first, BidirectionalIterator middle, BidirectionalIterator last);
+template<class BidirectionalIterator, class Compare>
+void inplace_merge(BidirectionalIterator first, BidirectionalIterator middle, BidirectionalIterator last, Compare comp);
+// _lib.alg.set.operations_, set operations:
+template<class Inp1, class Inp2>
+bool includes(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2);
+template<class Inp1, class Inp2, class Compare>
+bool includes(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, Compare comp);
+template<class Inp1, class Inp2, class OutputIterator>
+OutputIterator set_union(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result);
+template<class Inp1, class Inp2, class OutputIterator, class Compare>
+OutputIterator set_union(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result, Compare comp);
+
+template<class Inp1, class Inp2, class OutputIterator>
+OutputIterator set_intersection(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result);
+template<class Inp1, class Inp2, class OutputIterator, class Compare>
+OutputIterator set_intersection(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result, Compare comp);
+template<class Inp1, class Inp2, class OutputIterator>
+OutputIterator set_difference(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result);
+template<class Inp1, class Inp2, class OutputIterator, class Compare>
+OutputIterator set_difference(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result, Compare comp);
+template<class Inp1, class Inp2, class OutputIterator>
+OutputIterator
+set_symmetric_difference(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result);
+template<class Inp1, class Inp2, class OutputIterator, class Compare>
+OutputIterator
+set_symmetric_difference(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, OutputIterator result, Compare comp);
+// _lib.alg.heap.operations_, heap operations:
+template<class RandomAccessIterator>
+void push_heap(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void push_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+template<class RandomAccessIterator>
+void pop_heap(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void pop_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+template<class RandomAccessIterator>
+void make_heap(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void make_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+template<class RandomAccessIterator>
+void sort_heap(RandomAccessIterator first, RandomAccessIterator last);
+template<class RandomAccessIterator, class Compare>
+void sort_heap(RandomAccessIterator first, RandomAccessIterator last, Compare comp);
+
+// _lib.alg.min.max_, minimum and maximum:
+template<class T> const T& min(const T& a, const T& b);
+template<class T, class Compare>
+const T& min(const T& a, const T& b, Compare comp);
+template<class T> const T& max(const T& a, const T& b);
+template<class T, class Compare>
+const T& max(const T& a, const T& b, Compare comp);
+template<class Fwd>
+Fwd min_element(Fwd first, Fwd last);
+template<class Fwd, class Compare>
+Fwd min_element(Fwd first, Fwd last, Compare comp);
+template<class Fwd>
+Fwd max_element(Fwd first, Fwd last);
+template<class Fwd, class Compare>
+Fwd max_element(Fwd first, Fwd last, Compare comp);
+template<class Inp1, class Inp2>
+bool lexicographical_compare(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2);
+template<class Inp1, class Inp2, class Compare>
+bool lexicographical_compare(Inp1 first1, Inp1 last1, Inp2 first2, Inp2 last2, Compare comp);
+// _lib.alg.permutation.generators_, permutations
+template<class BidirectionalIterator>
+bool next_permutation(BidirectionalIterator first, BidirectionalIterator last);
+template<class BidirectionalIterator, class Compare>
+bool next_permutation(BidirectionalIterator first, BidirectionalIterator last, Compare comp);
+template<class BidirectionalIterator>
+bool prev_permutation(BidirectionalIterator first, BidirectionalIterator last);
+template<class BidirectionalIterator, class Compare>
+bool prev_permutation(BidirectionalIterator first, BidirectionalIterator last, Compare comp);

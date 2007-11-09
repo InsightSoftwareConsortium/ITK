@@ -1,0 +1,1 @@
+extern int scopy_(integer *n, real *sx, integer *incx, real *sy, integer *incy);

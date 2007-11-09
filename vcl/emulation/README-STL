@@ -1,0 +1,26 @@
+
+[multi]map<Key, T, Compare, Alloc>
+  value_type = pair<const Key, T>
+  binary_function<value_type, value_type, bool>
+  rep_type = rb_tree<Key, value_type, select1st<value_type>, Compare, Alloc>;
+
+  pair<iterator,bool>
+  pair<iterator,iterator>
+  pair<const_iterator,const_iterator>
+
+  external ==, <
+
+[multi]set<Key, Compare>
+  rb_tree<Key, Key, identity<Key>, Compare, Alloc>
+  pair<iterator, bool>
+  pair<iterator, iterator>
+
+
+rb_tree<Key, Value, GetKey, Compare, Alloc>:
+  __rb_tree_node<Value>
+  __rb_tree_iterator<Value>
+  __rb_tree_const_iterator<Value>
+  __rb_tree_base<Value,Alloc>
+  simple_alloc<__rb_tree_node<Value>, Alloc>
+  reverse_bidirectional_iterator<iterator, Value, reference, difference_type>
+  reverse_bidirectional_iterator<const_iterator, value_type, const_reference, difference_type>

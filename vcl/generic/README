@@ -1,0 +1,5 @@
+Another generated-file-extravaganza.
+
+The purpose of this directory is to shared all
+those vcl_* #defines between ISO compilers and
+non-ISO.

@@ -1,0 +1,54 @@
+header names
+------------
+There's a list of ISO headers in headers.iso; each ISO header <blah> becomes
+<vcl_blah.h> and there should not be any other headers here. Exceptions are:
+
+vcl_compiler.h
+  Every other header file in this directory should include this file.
+  That's a requirement and it's service which clients can rely on; thus
+  if you include <vcl_iostream.h> you *don't* need to include 
+  <vcl_compiler.h> even if you need the macros defined in there.
+
+vcl_complex_fwd.h
+  This is deprecated
+
+vcl_rel_ops.h
+  This is the (deprecated) vcl form of the ISO incantation
+  #include <utility>
+  using std::rel_ops::operator!=;
+  using std::rel_ops::operator> ;
+  using std::rel_ops::operator<=;
+  using std::rel_ops::operator>=;
+
+vcl_rtti.h
+  Under construction. For rtti emulation with compilers that don't support
+  rtti.
+
+vcl_stlfwd.h
+  Forward declare the most commonly used parts of the STL, if possible.
+
+vcl_deprecated_header.h
+  Including this causes a preprocessor or compiler warning to be emitted. So
+  include <vcl_deprecated_header.h> in header files that are to be deprecated.
+
+
+tests directory
+---------------
+It is important to have a test program for every vcl feature as early 
+detection of problems can save hours of recompilation time if a vcl
+header has to be modified.
+
+
+template files
+--------------
+This is the official codification of template file naming, as was proposed by
+Peter Vanroose.
+~       is for pointer (*)
++       is for < in templates
+-       is for > in templates
+.       is for the commas between template arguments
++-      is for the :: in nested classes
+The abbreviations uchar, ushort, uint, ulong stand for unsigned versions of 
+integer types. Use 's' as a prefix for signed versions. Beware that 'char'
+can be either signed or unsigned and may or may not be the same type as the
+qualified form.

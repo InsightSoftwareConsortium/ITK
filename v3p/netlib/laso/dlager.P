@@ -1,0 +1,1 @@
+extern int dlager_(integer *n, integer *nband, integer *nstart, doublereal *a, doublereal *tmin, doublereal *tmax);

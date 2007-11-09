@@ -1,0 +1,3 @@
+extern int qrfac_(integer *m, integer *n, doublereal *a, integer *lda, logical *pivot, integer *ipvt, integer *lipvt, doublereal *rdiag, doublereal *acnorm, doublereal *wa);
+/*:ref: dpmpar_ 7 1 4 */
+/*:ref: enorm_ 7 2 4 7 */

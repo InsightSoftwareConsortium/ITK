@@ -1,0 +1,36 @@
+@cin
+@cout
+@cerr
+@clog
+@wcout
+// the following are not actually in the
+// <iostream> synopsis. for example, endl
+// and ends actually come from <ostream>.
+// hex, oct, dec, ws, setprecision, setw,
+// setfill, fixed, scientific come from
+// <iomanip>.
+@ios
+@ios::in
+@ios::out
+@ios::ate
+@ios::app
+@ios::trunc
+@ios::binary
+@ios::openmode
+@istream
+@ostream
+@endl
+@ends
+@flush
+@streampos
+@streambuf
+@streamsize
+@hex
+@oct
+@dec
+@ws
+@setfill
+@setprecision
+@setw
+@fixed
+@scientific

@@ -1,0 +1,3 @@
+extern int dtgexc_(logical *wantq, logical *wantz, integer *n, doublereal *a, integer *lda, doublereal *b, integer *ldb, doublereal *q, integer *ldq, doublereal *z__, integer *ldz, integer *ifst, integer *ilst, doublereal *work, integer *lwork, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dtgex2_ 14 17 12 12 4 7 4 7 4 7 4 7 4 4 4 4 7 4 4 */

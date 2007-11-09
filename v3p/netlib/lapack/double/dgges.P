@@ -1,0 +1,18 @@
+extern int dgges_(char *jobvsl, char *jobvsr, char *sort, L_fp delctg, integer *n, doublereal *a, integer *lda, doublereal *b, integer *ldb, integer *sdim, doublereal *alphar, doublereal *alphai, doublereal *beta, doublereal *vsl, integer *ldvsl, doublereal *vsr, integer *ldvsr, doublereal *work, integer *lwork, logical *bwork, integer *info, ftnlen jobvsl_len, ftnlen jobvsr_len, ftnlen sort_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: ilaenv_ 4 9 4 13 13 4 4 4 4 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: dlabad_ 14 2 7 7 */
+/*:ref: dlange_ 7 7 13 4 4 7 4 7 124 */
+/*:ref: dlascl_ 14 11 13 4 4 7 7 4 4 7 4 4 124 */
+/*:ref: dggbal_ 14 13 13 4 7 4 7 4 4 4 7 7 7 4 124 */
+/*:ref: dgeqrf_ 14 8 4 4 7 4 7 7 4 4 */
+/*:ref: dormqr_ 14 15 13 13 4 4 4 7 4 7 7 4 7 4 4 124 124 */
+/*:ref: dlaset_ 14 8 13 4 4 7 7 7 4 124 */
+/*:ref: dlacpy_ 14 8 13 4 4 7 4 7 4 124 */
+/*:ref: dorgqr_ 14 9 4 4 4 7 4 7 7 4 4 */
+/*:ref: dgghrd_ 14 16 13 13 4 4 4 7 4 7 4 7 4 7 4 4 124 124 */
+/*:ref: dhgeqz_ 14 23 13 13 13 4 4 4 7 4 7 4 7 7 7 7 4 7 4 7 4 4 124 124 124 */
+/*:ref: dtgsen_ 14 25 4 12 12 12 4 7 4 7 4 7 7 7 7 4 7 4 4 7 7 7 7 4 4 4 4 */
+/*:ref: dggbak_ 14 13 13 13 4 4 4 7 7 4 7 4 4 124 124 */

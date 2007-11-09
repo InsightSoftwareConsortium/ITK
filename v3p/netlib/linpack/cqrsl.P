@@ -1,0 +1,4 @@
+extern int cqrsl_(complex *x, integer *ldx, integer *n, integer *k, complex *qraux, complex *y, complex *qy, complex *qty, complex *b, complex *rsd, complex *xb, integer *job, integer *info);
+/*:ref: ccopy_ 14 5 4 8 4 8 4 */
+/*:ref: cdotc_ 8 6 8 4 8 4 8 4 */
+/*:ref: caxpy_ 14 6 4 8 8 4 8 4 */

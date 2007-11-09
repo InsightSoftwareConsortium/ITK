@@ -1,0 +1,6 @@
+extern int cqrdc_(complex *x, integer *ldx, integer *n, integer *p, complex *qraux, integer *jpvt, complex *work, integer *job);
+/*:ref: cswap_ 14 5 4 8 4 8 4 */
+/*:ref: scnrm2_ 6 3 4 8 4 */
+/*:ref: cscal_ 14 4 4 8 8 4 */
+/*:ref: cdotc_ 8 6 8 4 8 4 8 4 */
+/*:ref: caxpy_ 14 6 4 8 8 4 8 4 */

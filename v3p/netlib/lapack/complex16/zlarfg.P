@@ -1,0 +1,7 @@
+extern int zlarfg_(integer *n, doublecomplex *alpha, doublecomplex *x, integer *incx, doublecomplex *tau);
+/*:ref: dznrm2_ 7 3 4 9 4 */
+/*:ref: dlapy3_ 7 3 7 7 7 */
+/*:ref: dlamch_ 7 2 13 124 */
+/*:ref: zdscal_ 14 4 4 7 9 4 */
+/*:ref: zladiv_ 9 3 9 9 9 */
+/*:ref: zscal_ 14 4 4 9 9 4 */

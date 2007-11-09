@@ -1,0 +1,4 @@
+extern int sqrsl_(real *x, integer *ldx, integer *n, integer *k, real *qraux, real *y, real *qy, real *qty, real *b, real *rsd, real *xb, integer *job, integer *info);
+/*:ref: scopy_ 14 5 4 6 4 6 4 */
+/*:ref: sdot_ 6 5 4 6 4 6 4 */
+/*:ref: saxpy_ 14 6 4 6 6 4 6 4 */

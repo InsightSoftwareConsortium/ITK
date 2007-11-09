@@ -1,0 +1,4 @@
+extern int sormr2_(char *side, char *trans, integer *m, integer *n, integer *k, real *a, integer *lda, real *tau, real *c__, integer *ldc, real *work, integer *info, ftnlen side_len, ftnlen trans_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: slarf_ 14 10 13 4 4 6 4 6 6 4 6 124 */

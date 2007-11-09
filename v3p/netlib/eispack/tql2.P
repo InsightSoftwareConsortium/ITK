@@ -1,0 +1,2 @@
+extern int tql2_(integer *nm, integer *n, doublereal *d__, doublereal *e, doublereal *z__, integer *ierr);
+/*:ref: pythag_ 7 2 7 7 */

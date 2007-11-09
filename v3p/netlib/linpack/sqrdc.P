@@ -1,0 +1,6 @@
+extern int sqrdc_(real *x, integer *ldx, integer *n, integer *p, real *qraux, integer *jpvt, real *work, integer *job);
+/*:ref: sswap_ 14 5 4 6 4 6 4 */
+/*:ref: snrm2_ 6 3 4 6 4 */
+/*:ref: sscal_ 14 4 4 6 6 4 */
+/*:ref: sdot_ 6 5 4 6 4 6 4 */
+/*:ref: saxpy_ 14 6 4 6 6 4 6 4 */

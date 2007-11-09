@@ -1,0 +1,2 @@
+extern int lmder1_(U_fp fcn, integer *m, integer *n, doublereal *x, doublereal *fvec, doublereal *fjac, integer *ldfjac, doublereal *tol, integer *info, integer *ipvt, doublereal *wa, integer *lwa);
+/*:ref: lmder_ 14 24 200 4 4 7 7 7 4 7 7 7 4 7 4 7 4 4 4 4 4 7 7 7 7 7 */

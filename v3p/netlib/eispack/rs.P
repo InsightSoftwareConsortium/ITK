@@ -1,0 +1,5 @@
+extern int rs_(integer *nm, integer *n, doublereal *a, doublereal *w, integer *matz, doublereal *z__, doublereal *fv1, doublereal *fv2, integer *ierr);
+/*:ref: tred1_ 14 6 4 4 7 7 7 7 */
+/*:ref: tql1_ 14 4 4 7 7 4 */
+/*:ref: tred2_ 14 6 4 4 7 7 7 7 */
+/*:ref: tql2_ 14 6 4 4 7 7 7 4 */

@@ -1,0 +1,7 @@
+extern int rg_(integer *nm, integer *n, doublereal *a, doublereal *wr, doublereal *wi, integer *matz, doublereal *z__, integer *iv1, doublereal *fv1, integer *ierr);
+/*:ref: balanc_ 14 6 4 4 7 4 4 7 */
+/*:ref: elmhes_ 14 6 4 4 4 4 7 4 */
+/*:ref: hqr_ 14 8 4 4 4 4 7 7 7 4 */
+/*:ref: eltran_ 14 7 4 4 4 4 7 4 7 */
+/*:ref: hqr2_ 14 9 4 4 4 4 7 7 7 7 4 */
+/*:ref: balbak_ 14 7 4 4 4 4 7 4 7 */

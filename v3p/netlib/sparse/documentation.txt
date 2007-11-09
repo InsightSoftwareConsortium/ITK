@@ -1,0 +1,5124 @@
+                           Sparse User's Guide
+
+                      A Sparse Linear Equation Solver
+
+
+                               Version 1.3a
+
+                               1 April 1988
+
+
+
+
+
+                            Kenneth S. Kundert
+                      Alberto Sangiovanni-Vincentelli
+
+
+
+
+
+
+                              Department of
+               Electrical Engineering and Computer Sciences
+                    University of California, Berkeley
+                          Berkeley, Calif. 94720
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+
+
+
+1:  INTRODUCTION
+
+     Sparse1.3 is a flexible package of subroutines written in  C  used  to
+quickly and accurately solve large sparse systems of linear equations.  The
+package is able to handle arbitrary real and complex  square  matrix  equa-
+tions.   Besides  being  able  to  solve linear systems, it is also able to
+quickly solve transposed systems, find determinants,  and  estimate  errors
+due  to  ill-conditioning in the system of equations and instability in the
+computations.  Sparse also provides a test program that is able read matrix
+equations  from  a file, solve them, and print useful information about the
+equation and its solution.
+
+     Sparse1.3 is generally as fast or faster  than  other  popular  sparse
+matrix  packages  when  solving many matrices of similar structure.  Sparse
+does not require or assume symmetry and is able to perform numerical pivot-
+ing  to avoid unnecessary error in the solution.  It handles its own memory
+allocation, which allows the user to forgo the hassle of providing adequate
+memory.   It  also  has a natural, flexible, and efficient interface to the
+calling program.
+
+     Sparse was originally written for use in  circuit  simulators  and  is
+particularly  apt  at handling node- and modified-node admittance matrices.
+The systems of linear generated in a circuit simulator  stem  from  solving
+large  systems of nonlinear equations using Newton's method and integrating
+large stiff systems of ordinary differential equations.  However, Sparse is
+also  suitable  for other uses, one in particular is solving the very large
+systems of linear equations resulting from the numerical solution  of  par-
+tial differential equations.
+
+
+1.1:  Features of Sparse1.3
+
+     Beyond the basic capability of being able to create, factor and  solve
+systems of equations, this package features several other capabilities that
+enhance its utility.  These features are:
+
+o    Ability to handle both real and complex systems  of  equations.   Both
+     types  may  resident  and  active at the same time.  In fact, the same
+     matrix may alternate between being real and complex.
+
+o    Ability to quickly solve the transposed system.  This feature is  use-
+     ful  when  computing  the  sensitivity  of a circuit using the adjoint
+     method.
+
+o    Memory for elements in the matrix is  allocated  dynamically,  so  the
+     size  of  the matrix is only limited by the amount of memory available
+     to Sparse and the range of the integer data type,  which  is  used  to
+     hold matrix indices.
+
+o    Ability to efficiently compute the condition number of the matrix  and
+     an  a posteriori estimate of the error caused by growth in the size of
+     the elements during the factorization.
+
+o    Much  of  the  matrix  initialization  can  be  performed  by  Sparse,
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 2 -
+
+
+     providing  advantages  in  speed  and simplified coding of the calling
+     program.
+
+o    Ability to preorder modified node admittance matrices to enhance accu-
+     racy and speed.
+
+o    Ability to exploit sparsity in the right-hand side  vector  to  reduce
+     unnecessary computation.
+
+o    Ability to scale matrices prior to factoring to reduce uncertainty  in
+     the solution.
+
+o    The ability to create and build a matrix  without  knowing  its  final
+     size.
+
+o    The ability to add elements, and rows and columns, to a  matrix  after
+     the matrix has been reordered.
+
+o    The ability to delete rows and columns from a matrix.
+
+o    The ability to strip the fill-ins from a matrix.  This can improve the
+     efficiency of a subsequent reordering.
+
+o    The ability to handle matrices that have rows and columns missing from
+     their input description.
+
+o    Ability to output the matrix in forms readable by either by people  or
+     by  the  Sparse  package.   Basic statistics on the matrix can also be
+     output.
+
+o    By default all arithmetic operations and  number  storage  use  double
+     precision.   Thus,  Sparse  usually  gives  accurate  results, even on
+     highly ill-conditioned systems.  If so desired, Sparse can  be  easily
+     configured to use single precision arithmetic.
+
+
+1.2:  Enhancements of Sparse1.3 over Sparse1.2
+
+     Most notable of the enhancements provided by Sparse1.3 is that  it  is
+considerably faster on dense matrices.  Also, external names have been made
+unique to 7 characters and the Sparse prefix sp has been prepended  to  all
+externally  accessible  names  to  avoid conflicts.  In addition, a routine
+that efficiently estimates the condition number of a matrix has been  added
+and  the code that estimates the growth in the factorization has been split
+off from the actual factorization so that it is computed only when needed.
+
+     It is now possible for the user program to store  information  in  the
+matrix  elements.   It  is  also possible to provide a subroutine to Sparse
+that uses that information to initialize the matrix.  This can greatly sim-
+plify the user's code.
+
+     Sparse1.3 has an FORTRAN interface.  Routines written in  FORTRAN  can
+access almost all of the features Sparse1.3.
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 3 -
+
+
+1.3:  Copyright Information
+
+     Sparse1.3 has been copyrighted.  Permission to use, copy, modify,  and
+distribute  this software and its documentation for any purpose and without
+fee is hereby granted, provided that the copyright  notice  appear  in  all
+copies,  and  Sparse  and the University of California, Berkeley are refer-
+enced in all documentation for the program or product in which Sparse is to
+be  installed.   The  authors  and  the  University  of  California make no
+representations as to the suitability of the software for any purpose.   It
+is provided `as is', without express or implied warranty.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 4 -
+
+
+2:  PRIMER
+
+2.1:  Solving Matrix Equations
+
+     Sparse contains a collection of C subprograms  that  can  be  used  to
+solve  linear  algebraic  systems  of  equations.  These systems are of the
+form:
+
+      Ax = b
+where A is an nxn matrix, x is the vector of n unknowns and b is the vector
+of  n right-hand side terms.  Through out this package A is denoted Matrix,
+x is denoted Solution and b is denoted RHS (for right-hand side).  The sys-
+tem  is  solved  using  LU factorization, so the actual solution process is
+broken into two steps, the factorization or decomposition  of  the  matrix,
+performed  by  spFactor(),  and the forward and backward substitution, per-
+formed by spSolve().  spFactor() factors the given matrix  into  upper  and
+lower triangular matrices independent of the right-hand side.  Once this is
+done, the solution vector can be determined efficiently for any  number  of
+right-hand sides without refactoring the matrix.
+
+     This package exploits the fact that large matrices usually are  sparse
+by not storing or operating on elements in the matrix that are zero.  Stor-
+ing zero elements is avoided by organizing the matrix  into  an  orthogonal
+linked-list.   Thus,  to  access  an  element if only its indices are known
+requires stepping through the list, which is slow.  This function  is  per-
+formed  by  the routine spGetElement().  It is used to initially enter data
+into a matrix and to build  the  linked-list.   Because  it  is  common  to
+repeatedly solve matrices with identical zero/nonzero structure, it is pos-
+sible to reuse the linked-list.  Thus, the linked list is  left  in  memory
+and  the  element values are simply cleared by spClear() before the linked-
+list is reused.  To speed the entering of the element values  into  succes-
+sive  matrices,  spGetElement()  returns  a  pointer  to the element in the
+matrix.  This pointer can then be used to  place  data  directly  into  the
+matrix without having to traverse through the linked-list.
+
+     The order in which the rows and columns of the matrix are factored  is
+very  important.   It  directly affects the amount of time required for the
+factorization and the forward and backward substitution.  It  also  affects
+the  accuracy  of  the  result.  The process of choosing this order is time
+consuming, but fortunately it usually only has to be  done  once  for  each
+particular  matrix  structure  encountered.   When  a  matrix  with  a  new
+zero/nonzero structure is to  be  factored,  it  is  done  by  using  spOr-
+derAndFactor().   Subsequent  matrices  of  the same structure are factored
+with spFactor().  The latter routine does not have the ability  to  reorder
+matrix,  but  it is considerably faster.  It may be that a order chosen may
+be unsuitable for subsequent factorizations.  If this is known to be true a
+priori, it is possible to use spOrderAndFactor() for the subsequent factor-
+izations, with a noticeable speed penalty.  spOrderAndFactor() monitors the
+numerical stability of the factorization and will modify an existing order-
+ing to maintain stability.  Otherwise,  an  a  posteriori  measure  of  the
+numerical  stability  of  the factorization can be computed, and the matrix
+reordered if necessary.
+
+     The Sparse routines allow several matrices of different structures  to
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 5 -
+
+
+be  resident at once.  When a matrix of a new structure is encountered, the
+user calls spCreate().  This  routine  creates  the  basic  frame  for  the
+linked-list  and  returns  a  pointer  to this frame.  This pointer is then
+passed as an argument to the other Sparse routines to indicate which matrix
+is to be operated on.  The number of matrices that can be kept in memory at
+once is only limited by the amount of memory available to the user and  the
+size  of the matrices.  When a matrix frame is no longer needed, the memory
+can be reclaimed by calling spDestroy().
+
+     A more complete discussion of sparse systems of equations, methods for
+solving them, their error mechanisms, and the algorithms used in Sparse can
+be found in Kundert  [kundert86].   A  particular  emphasis  is  placed  on
+matrices resulting from circuit simulators.
+
+
+2.2:  Error Control
+
+     There are two separate mechanisms that can  cause  errors  during  the
+factoring  and  solution  of  a  system  of  equations.   The first is ill-
+conditioning in the system.  A system of equations  is  ill-conditioned  if
+the  solution  is  excessively sensitive to disturbances in the input data,
+which occurs when the system is nearly  singular.   If  a  system  is  ill-
+conditioned  then  uncertainty  in  the result is unavoidable, even if A is
+accurately factored into L and U.  When ill-conditioning is a problem,  the
+problem  as  stated is probably ill-posed and the system should be reformu-
+lated such that it is not so ill-conditioned.  It is  possible  to  measure
+the  ill-conditioning of matrix using spCondition().  This function returns
+an estimate of the reciprocal of the condition number of the matrix  (K(A))
+[strang80].  The condition number can be used when computing a bound on the
+error in the solution using the following inequality [golub83].
+
+            ||dx||        (||dA||   ||db||)
+            ------ < K(A) (------ + ------) + higher order terms
+            ||x||         (||A||    ||b|| )
+
+where dA and db are the uncertainties in the  matrix  and  right-hand  side
+vector and are assumed small.
+
+     The second mechanism that causes uncertainty is the build up of round-
+off  error.   Roundoff  error  can  become excessive if there is sufficient
+growth in the size of the elements during  the  factorization.   Growth  is
+controlled  by  careful pivoting.  In Sparse, the pivoting is controlled by
+the relative threshold parameter.  In conventional full  matrix  techniques
+the  pivot  is  chosen to be the largest element in a column.  When working
+with sparse matrices it is important  to  choose  pivots  to  minimize  the
+reduction  in sparsity.  The best pivot to retain sparsity is often not the
+best pivot to retain accuracy.  Thus, some compromise  must  be  made.   In
+threshold pivoting, as used in this package, the best pivot to retain spar-
+sity is used unless it is smaller than the  relative  threshold  times  the
+largest  element  in  the  column.  Thus, a relative threshold close to one
+emphasizes accuracy so it will produce a minimum amount of  growth,  unfor-
+tunately  it also slows the factorization.  A very small relative threshold
+emphasizes maintenance of sparsity and so speeds the factorization, but can
+result  in a large amount of growth.  In our experience, we have found that
+a relative threshold of 0.001 seems to result in a satisfactory  compromise
+between  speed  and accuracy, though other authors suggest a more conserva-
+tive value of 0.1 [duff86].
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 6 -
+
+
+     The growth that occurred during a factorization  can  be  computed  by
+taking the ratio of the largest matrix element in any stage of the factori-
+zation to the largest matrix element before factorization.  The two numbers
+are  estimated  using  spLargestElement().   If  the  growth is found to be
+excessive after spOrderAndFactor(), then the relative threshold  should  be
+increased and the matrix reconstructed and refactored.  Once the matrix has
+been ordered and factored without suffering too much growth, the amount  of
+growth that occurred should be recorded.  If, on subsequent factorizations,
+as performed by spFactor(), the  amount  of  growth  becomes  significantly
+larger,  then  the  matrix  should be reconstructed and reordered using the
+same relative threshold with spOrderAndFactor().  If the  growth  is  still
+excessive, then the relative threshold should be raised again.
+
+
+2.3:  Building the Matrix
+
+     It is not necessary to specify the size of the matrix before beginning
+to add elements to it.  When the compiler option EXPANDABLE is turned on it
+is possible to initially specify the size of the matrix to any  size  equal
+to  or smaller than the final size of the matrix.  Specifically, the matrix
+size may be initially specified as zero.  If this is done then, as the ele-
+ments  are entered into the matrix, the matrix is enlarged as needed.  This
+feature is particularly useful in circuit simulators because it allows  the
+building  of  the  matrix  as the circuit description is parsed.  Note that
+once the matrix has been reordered by the routines spMNA Preorder(), spFac-
+tor() or spOrderAndFactor() the size of the matrix becomes fixed and may no
+longer be enlarged unless the compiler option TRANSLATE is enabled.
+
+     The TRANSLATE option allows Sparse to translate a  non-packed  set  of
+row  and  column  numbers to an internal packed set.  In other words, there
+may be rows and columns  missing  from  the  external  description  of  the
+matrix.   This  feature  provides two benefits.  First, if two matrices are
+identical in structure, except for a few missing rows and columns  in  one,
+then  the  TRANSLATE  option  allows them to be treated identically.  Simi-
+larly, rows and columns may be deleted from a  matrix  after  it  has  been
+built  and operated upon.  Deletion of rows and columns is performed by the
+function spDeleteRowAndCol().  Second, it allows the use of  the  functions
+spGetElement(),  spGetAdmittance(),  spGetQuad(), and spGetOnes() after the
+matrix has been reordered.  These functions access the matrix by using  row
+and  column  indices,  which have to be translated to internal indices once
+the matrix is reordered.  Thus, when TRANSLATE is used in conjunction  with
+the  EXPANDABLE  option, rows and columns may be added to a matrix after it
+has been reordered.
+
+     Another provided feature that is useful with circuit simulators is the
+ability  to  add  elements to the matrix in row zero or column zero.  These
+elements will have no affect on the matrix or the results.  The benefit  of
+this  is that when working with a nodal formulation, grounded components do
+not have to be treated special when building the matrix.
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 7 -
+
+
+2.4:  Initializing the Matrix
+
+     Once a matrix has been factored, it is necessary to clear  the  matrix
+before  it  can  be  reloaded with new values.  The straight forward way of
+doing that is to call spClear(), which sets the value of every  element  in
+the  matrix to zero.  Sparse also provides a more flexible way to clear the
+matrix.  Using spInitialize(), it is possible to clear and reload at  least
+part of the matrix in one step.
+
+     Sparse allows the user to keep initialization  information  with  each
+structurally  nonzero  matrix  element.  Each element has a pointer that is
+set and used by the user.  The user can set this pointer using spInstallIn-
+itInfo()  and  may  read it using spGetInitInfo().  The function spInitial-
+ize() is a user customizable way to initialize the matrix.  Passed to  this
+routine is a function pointer.  spInitialize() sweeps through every element
+in the matrix and checks the pInitInfo pointer (the user supplied pointer).
+If  the pInitInfo is NULL, which is true unless the user changes it (always
+true for fill-ins), then the element is zeroed.   Otherwise,  the  function
+pointer  is  called and passed the pInitInfo pointer as well as the element
+pointer and the external row and column numbers, allowing the user to  ini-
+tialize the matrix element and the right-hand side.
+
+     Why spInitialize() would be used over spClear() can be illustrated  by
+way  of  an  example.  Consider a circuit simulator that handles linear and
+nonlinear resistors and capacitors performing a  transient  analysis.   For
+the  linear  resistors,  a constant value is loaded into the matrix at each
+time step and for each Newton iteration.  For the linear capacitor, a value
+is loaded into the matrix that is constant over Newton iterations, but is a
+function of the time step and the integration method.  The  nonlinear  com-
+ponents  contribute values to the matrix that change on every time step and
+Newton iteration.
+
+     Sparse allows the user to attach a data structure to each  element  in
+the  matrix.  For this example, the user might attach a structure that held
+several pieces of information, such as the conductance of the linear resis-
+tor,  the  capacitance of the linear capacitor, the capacitance of the non-
+linear capacitor, and perhaps past values of capacitances.  The  user  also
+provides  a  subroutine  to  spInitialize()  that  is called for each user-
+created element in the matrix.  This routine would, using  the  information
+in  the  attached data structure, initialize the matrix element and perhaps
+the right-hand side vector.
+
+     In this example, the user supplied routine might load the linear  con-
+ductance  into the matrix and multiply it by some voltage to find a current
+that could be loaded into the right-hand side vector.  For the  capacitors,
+the  routine  would  first  apply  an  integration method and then load the
+matrix and the right-hand side.
+
+     This approach is useful for two reasons.  First, much of the  work  of
+the device code in the simulator can be off-loaded onto the matrix package.
+Since there are usually many devices, this usually  results  overall  in  a
+simpler  system.   Second,  the  integration  method can be hidden from the
+simulator device code.  Thus the integration method can be  changed  simply
+by  changing  the  routine  handed  to  spInitialize(), resulting in a much
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 8 -
+
+
+cleaner and more easily maintained simulator.
+
+
+2.5:  Indices
+
+     By far the most common errors made when using Sparse  are  related  to
+array  indices.  Sparse itself contributes to the problem by having several
+different indexing schemes.  There are three different options that  affect
+index   bounds   or   the  way  indices  are  interpreted.   The  first  is
+ARRAY OFFSET, which only affects array indices.  ARRAY OFFSET is a compiler
+flag  that  selects  whether arrays start at index zero or index one.  Note
+that if ARRAY OFFSET is zero then RHS[0] corresponds  to  row  one  in  the
+matrix  and  Solution[0] corresponds to column one.  Further note that when
+ARRAY OFFSET is set to one, then the allocated length of the arrays  handed
+to  the  Sparse routines should be at least the external size of the matrix
+plus one.  The main utility of ARRAY OFFSET is that it allows natural array
+indexing  when Sparse is coupled to programs in other languages.  For exam-
+ple; in FORTRAN arrays always start at one whereas in C array always  start
+at  zero.   Thus  the  first  entry  in  a FORTRAN array corresponds to the
+zero'th entry in a C array.  Setting ARRAY OFFSET to zero allows the arrays
+in  FORTRAN  to start at one rather than two.  For the rest of this discus-
+sion, assume that ARRAY OFFSET is set so that arrays start at  one  in  the
+program that calls Sparse.
+
+     The second option that affects indices is EXPANDABLE.  When EXPANDABLE
+is  set  false  the  upper bound on array and matrix indices is Size, where
+Size is a parameter handed to spCreate().  When EXPANDABLE set  true,  then
+there  is essentially no upper bound on array indices.  Indeed, the size of
+the matrix is determined by the largest row  or  column  number  handed  to
+Sparse.   The  upper  bound on the array indices then equals the final size
+determined by Sparse.  This size can be determined by calling spGetSize().
+
+
+     The final option that affects indices is TRANSLATE.  This  option  was
+provided to allow row and columns to be deleted, but it also allows row and
+column numbers to be missing from the input description for a matrix.  This
+means  that  the size of the matrix is not determined by the largest row or
+column number entered into the matrix.  Rather, the size is  determined  by
+the  total  number of rows or column entered.  For example, if the elements
+[2,3], [5,3], and [7,2] are entered into the matrix, the internal  size  of
+the  matrix  becomes  four  while the external size is seven.  The internal
+size equals the number of rows and columns in the matrix while the external
+size equals the largest row or column number entered into the matrix.  Note
+that if a row is entered into the matrix, then its corresponding column  is
+also  entered,  and  vice  versa.  The indices used in the RHS and Solution
+vectors correspond to the row and column indices in the matrix.  Thus,  for
+this  example,  valid  data  is expected in RHS at locations 2, 3, 5 and 7.
+Data at other locations is ignored.  Similarly, valid data is  returned  in
+Solution  at  locations  2,  3,  5,  and  7.   The other locations are left
+unmolested.  This shows that the length of the  arrays  correspond  to  the
+external size of the matrix.  Again, this value can be determined by spGet-
+Size().
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 9 -
+
+
+2.6:  Configuring Sparse
+
+     It is possible at compile-time to customize Sparse for your particular
+application.  This is done by changing the compiler options, which are kept
+in the personality file, spConfig.h.  There are three  classes  of  choices
+available.   First  are the Sparse options, which specify the dominant per-
+sonality characteristics, such as if real and/or complex systems  of  equa-
+tions are to be handled.  The second class is the Sparse constants, such as
+the default pivot threshold and the amount of  memory  initially  allocated
+per  matrix.   The last class is the machine constants.  These numbers must
+be updated when Sparse is ported to another machine.
+
+     As an aid in the setup and  testing  of  Sparse  a  test  routine  and
+several  test  matrices  and  their solutions have been provided.  The test
+routine is  capable  of  reading  files  generated  by  spFileMatrix()  and
+spFileVector().
+
+     By default Sparse stores all real numbers and  performs  all  computa-
+tions  using  double precision arithmetic.  This can be changed by changing
+the definition of spREAL from  double  to  float.   spREAL  is  defined  in
+spExports.h.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 10 -
+
+
+3:  INTRODUCTION TO THE SPARSE ROUTINES
+
+In this section the routines are grouped by function and briefly described.
+
+3.1:  Creating the Matrix
+
+spCreate()
+     Allocates and initializes the data structure for a matrix.  Necessari-
+     ly the first routine run for any particular matrix.
+
+spDestroy()
+     Destroys the data structure for a matrix and frees the memory.
+
+spSetReal()
+spSetComplex()
+     These routines toggle a flag internal to Sparse  that  indicates  that
+     the matrix is either real or complex.  This is useful if both real and
+     complex matrices of identical structure are expected.
+
+
+3.2:  Building the Matrix
+
+spGetElement()
+     Assures that the specified element exists in the matrix data structure
+     and returns a pointer to it.
+
+spGetAdmittance()
+spGetQuad()
+spGetOnes()
+     These routines add a group of four related  elements  to  the  matrix.
+     spGetAdmittance()  adds the four elements associated with a two termi-
+     nal admittance.  spGetQuad() is a more general routine that is  useful
+     for  entering  controlled sources to the matrix.  spGetOnes() adds the
+     four structural ones to the matrix that  are  often  encountered  with
+     elements that do not have admittance representations.
+
+spDeleteRowAndCol()
+     This function is used to delete a row and column from the matrix.
+
+
+3.3:  Clearing the Matrix
+
+spClear()
+     Sets every element in the matrix to zero.
+
+spInitialize()
+     Runs a user provided initialization routine on each element in the ma-
+     trix.  This routine would be used in lieu of spClear().
+
+spGetInitInfo()
+spInstallInitInfo()
+     These routines allow the user to  install  and  read  a  user-provided
+     pointer to initialization data for a particular matrix element.
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 11 -
+
+
+
+spStripFills()
+     This routine returns a matrix to a semi-virgin state by  removing  all
+     fill-ins.   This  can  be useful if a matrix is to be reordered and it
+     has changed significantly since it was previously ordered.   This  may
+     be the case if a few rows and columns have been added or deleted or if
+     the previous ordering was done on a matrix that was numerically  quite
+     different  than  the  matrix  currently being factored.  Stripping and
+     reordering a matrix may speed subsequent factorization if the  current
+     ordering  is  inferior,  whereas simply reordering will generally only
+     enhance accuracy and not speed.
+
+
+3.4:  Placing Data in the Matrix
+
+spADD REAL ELEMENT()
+spADD IMAG ELEMENT()
+spADD COMPLEX ELEMENT()
+     Adds a value to a particular matrix element.
+
+spADD REAL QUAD()
+spADD IMAG QUAD()
+spADD COMPLEX QUAD()
+     Adds a value to a group of four matrix elements.
+
+
+3.5:  Influencing the Factorization
+
+spMNA Preorder()
+     This routine preorders  modified  node  admittance  matrices  so  that
+     Sparse  can  take  full  advantage of their structure.  In particular,
+     this routine tries to remove zeros from the diagonal so that  diagonal
+     pivoting can be used more successfully.
+
+spPartition()
+     Sparse partitions the matrix in an attempt to make spFactor()  run  as
+     fast  as  possible.  The partitioning is a relatively expensive opera-
+     tion that is not needed in all cases.  spPartition() allows  the  user
+     specify a simpler and faster partitioning.
+
+spScale()
+     It is sometimes desirable to scale the rows and columns of a matrix in
+     to  achieve  a  better  pivoting  order.  This is particularly true in
+     modified node admittance matrices, where the size of the elements in a
+     matrix  can  easily  vary  through  ten to twelve orders of magnitude.
+     This routine performs scaling on a matrix.
+
+
+3.6:  Factoring the Matrix
+
+spOrderAndFactor()
+     This routine chooses a pivot order for the matrix and factors it  into
+     LU  form.   It  handles  both the initial factorization and subsequent
+     factorizations when a reordering is desired.
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 12 -
+
+
+
+spFactor()
+     Factors a matrix that has already been ordered by  spOrderAndFactor().
+     If spFactor() is passed a matrix that needs ordering, it will automat-
+     ically pass the matrix to spOrderAndFactor().
+
+
+3.7:  Solving the Matrix Equation
+
+spSolve()
+     Solves the matrix equation
+
+      Ax = b
+     given the matrix A factored into LU form and b.
+
+spSolveTransposed()
+     When working with adjoint systems, such as in sensitivity analysis, it
+     is desirable to quickly solve
+
+       T
+      A x = b
+     Once A has been factored into LU form, this routine  can  be  used  to
+     solve  the transposed system without having to suffer the cost of fac-
+     toring the matrix again.
+
+
+3.8:  Numerical Error Estimation
+
+spCondition()
+     Estimates the L-infinity condition number of the matrix.  This  number
+     is  a  measure  of the ill-conditioning in the matrix equation.  It is
+     also useful for making estimates of the error in the solution.
+
+spNorm()
+     Returns the L-infinity norm (the maximum absolute row sum) of  an  un-
+     factored matrix.
+
+spPseudoCondition()
+     Returns the ratio of the largest pivot to the smallest pivot of a fac-
+     tored  matrix.   This  is a rough indicator of ill-conditioning in the
+     matrix.
+
+spLargestElement()
+     If passed an unfactored matrix,  this  routine  returns  the  absolute
+     value  of the largest element in the matrix.  If passed a factored ma-
+     trix, it returns an estimate of the largest element that  occurred  in
+     any of the reduced submatrices during the factorization.  The ratio of
+     these two numbers (factored/unfactored) is the growth, which  is  used
+     to determine if the pivoting order is numerically satisfactory.
+
+spRoundoff()
+     Returns a bound on the magnitude of the largest element  in  E = A-LU,
+     where  E  represents error in the matrix resulting from roundoff error
+     during the factorization.
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 13 -
+
+
+3.9:  Matrix Operations
+
+spDeterminant()
+     This routine simply calculates and returns the determinant of the fac-
+     tored matrix.
+
+spMultiply()
+     This routine multiplys the matrix by a vector on the right.   This  is
+     useful  for forming the product Ax = b in order to determine if a cal-
+     culated solution is correct.
+
+spMultTransposed()
+     Multiplys the transposed matrix by a vector on  the  right.   This  is
+     useful  for  forming  the  product  A  sup {roman T} x = b in order to
+     determine if a calculated solution is correct.
+
+
+3.10:  Matrix Statistics and Documentation
+
+spError()
+     Determines the error status of a particular matrix.  While most of the
+     Sparse  routines  do  return an indication that an error has occurred,
+     some do not and so spError() provides the only way of uncovering these
+     errors.
+
+spWhereSingular()
+     Returns the row and column number where the  matrix  was  detected  as
+     singular or where a zero pivot was found.
+
+spGetSize()
+     A function that returns the size of the matrix.  Either  the  internal
+     or  external size of the matrix is returned.  The internal size of the
+     matrix is the actual size of the matrix whereas the external  size  is
+     the  value of the largest row or column number.  These two numbers may
+     differ if the TRANSLATE option is used.
+
+spElementCount()
+spFillinCount()
+     Functions that return the total number of elements in the matrix,  and
+     the  number of fill-ins in the matrix.  These functions are useful for
+     gathering statistics on matrices.
+
+spPrint()
+     This routine outputs the matrix as well as some statistics to standard
+     output  in  a  format  that  is readable by people.  The matrix can be
+     printed in either a compressed or standard format.   In  the  standard
+     format,  a  numeric  value is given for each structurally nonzero ele-
+     ment, whereas in the compressed format, only the existence  or  nonex-
+     istence  of an element is indicated.  This routine is not suitable for
+     use on large matrices.
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 14 -
+
+
+
+spFileMatrix()
+spFileVector()
+     These two routines send a copy of the matrix and its  right-hand  side
+     vector to a file.  This file can then be read by the test program that
+     is included with Sparse.  Only those elements of the matrix  that  are
+     structurally nonzero are output, so very large matrices can be sent to
+     a file.
+
+spFileStats()
+     This routine calculates and sends some useful statistics concerning  a
+     matrix to a file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 15 -
+
+
+4:  SPARSE ROUTINES
+
+This section contains a complete list  of  the  Sparse  routines  that  are
+available  to  the  user.  Each routine is described as to its function and
+how to use it.  The routines are listed in alphabetic order.
+
+
+
+
+
+4.1:  spClear()
+
+Sets every element in the matrix  to  zero.   The  Sparse  error  state  is
+cleared to spOKAY in this routine.
+
+void spClear( Matrix )
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to matrix that is to be cleared.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 16 -
+
+
+
+
+
+4.2:  spCondition()
+
+spCondition() computes an estimate of the condition number using  a  varia-
+tion  on  the LINPACK condition number estimation algorithm.  This quantity
+is an measure of ill-conditioning in the matrix.  To  avoid  problems  with
+overflow,  the  reciprocal  of  the  condition number is returned.  If this
+number is small, and if the matrix is scaled such that uncertainties in the
+RHS  and  the  matrix  entries  are  equilibrated,  then the matrix is ill-
+conditioned.  If the this number is near one, the  matrix  is  well  condi-
+tioned.  This routine must only be used after a matrix has been factored by
+spOrderAndFactor() or spFactor() and before it is cleared by  spClear()  or
+spInitialize().
+
+Unlike the LINPACK condition number estimator, this routines returns the  L
+infinity  condition  number.  This is an artifact of Sparse placing ones on
+the diagonal of the upper triangular matrix rather than  the  lower.   This
+difference should be of no importance.
+
+spREAL spCondition( Matrix, NormOfMatrix, Error )
+
+o Returns:
+     An estimate of the L infinity condition number of the matrix.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          The matrix for which the condition number is desired.
+
+     NormOfMatrix  input  (spREAL)
+          The L-infinity norm of  the  unfactored  matrix  as  computed  by
+          spNorm().
+
+     Error  output  (int *)
+          Used to return the error code.
+
+o Possible errors:
+     spSINGULAR
+     spNO MEMORY
+     Error is not cleared in this routine.
+
+o Compiler options that must be set for this routine to exist:
+     CONDITION
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 17 -
+
+
+
+
+
+4.3:  spCreate()
+
+Allocates and initializes the data structures  associated  with  a  matrix.
+This  routine  is  necessarily the first routine run for any particular ma-
+trix.
+
+char *spCreate( Size, Complex, Error )
+
+o Returned:
+     A pointer to the matrix is returned cast into the form of a pointer to
+     a character.  This pointer is then passed and used by the other matrix
+     routines to refer to a particular matrix.  If  an  error  occurs,  the
+     NULL pointer is returned.
+
+o Arguments:
+
+     Size  input  (int)
+          Size of matrix.  When the compiler option  EXPANDABLE  is  turned
+          on,  Size  is  used  as  a lower bound on the size of the matrix.
+          Size must not be negative.
+
+     Complex  input  (int)
+          Type of matrix.  If Complex is 0 then the matrix is real,  other-
+          wise  the  matrix will be complex.  Note that if the routines are
+          not set up to handle the type of matrix requested, then a spPANIC
+          error will occur.
+
+     Error  output  (int *)
+          Returns error flag, needed because function  spError()  will  not
+          work correctly if spCreate() returns NULL.
+
+o Possible errors:
+     spNO MEMORY
+     spPANIC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 18 -
+
+
+
+
+
+4.4:  spDeleteRowAndCol()
+
+This function is used to delete a row and column from the matrix.  The ele-
+ments  removed from the matrix are never used again and are not freed until
+the matrix is destroyed and so the pointers to these elements remain valid.
+
+void spDeleteRowAndCol( Matrix, Row, Col )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          The matrix from which the row and column are to be deleted.
+
+     Row  input  (int)
+          The row to be deleted.
+
+     Col  input  (int)
+          The column to be deleted.
+
+o Compiler options that must be set for this routine to exist:
+     DELETE
+     TRANSLATE
+
+
+
+
+
+4.5:  spDestroy()
+
+Destroys a matrix frame and reclaims the memory.
+
+void spDestroy( Matrix )
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to the matrix frame which is to be removed from memory.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 19 -
+
+
+
+
+
+4.6:  spDeterminant()
+
+This routine in capable of calculating the determinant of the  matrix  once
+the  LU  factorization  has  been  performed.  Hence, only use this routine
+after spFactor() or spOrderAndFactor() and before spClear()  or  spInitial-
+ize().   Note  that  the determinants of matrices can be very large or very
+small.  On large matrices, the determinant can be  far  larger  or  smaller
+than  can  be  represented by a floating point number.  For this reason the
+mantissa and exponent of the determinant are returned separately.
+
+void spDeterminant( Matrix, Exponent, Determinant )
+void spDeterminant( Matrix, Exponent, Determinant, iDeterminant )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          The matrix for which the determinant is desired.
+
+     Exponent  output  (int *)
+          The logarithm base 10 of the scale factor  for  the  determinant.
+          To  find  the actual determinant, Exponent should be added to the
+          exponent of Determinant and iDeterminant.
+
+     Determinant  output  (spREAL *)
+          The real portion of the determinant.  If the matrix is real, then
+          the  magnitude  of  this  number  is scaled to be greater than or
+          equal to 1.0 and less than 10.0. Otherwise the magnitude  of  the
+          complex determinant will be scaled such.
+
+     iDeterminant  output  (spREAL *)
+          The imaginary portion of the determinant.   When  the  matrix  is
+          real this pointer need not be supplied; nothing will be returned.
+
+o Compiler options that must be set for this routine to exist:
+     DETERMINANT
+
+o Bugs:
+     The sign of determinant may be in error if rows and columns have  been
+     added or deleted from matrix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 20 -
+
+
+
+
+
+4.7:  spElementCount()
+
+Returns the total number of structurally nonzero elements in the matrix.
+
+int spElementCount( Matrix )
+
+o Returns:
+     The total number of structurally nonzero elements.
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to the matrix.
+
+
+
+
+
+4.8:  spError()
+
+This function returns the error status of a matrix.
+
+int MatrixError( Matrix )
+
+o Returned:
+     The error status of the given matrix.
+
+o Argument:
+
+     Matrix  input  (char *)
+          The matrix for which the error status is desired.
+
+o Possible errors:
+     spOKAY
+     spILL CONDITIONED
+     spZERO PIVOT
+     spSINGULAR
+     spNO MEMORY
+     spPANIC
+     Error is not cleared in this routine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 21 -
+
+
+
+
+
+4.9:  spFactor()
+
+This routine factors the matrix into LU form and is the  companion  routine
+to spOrderAndFactor().  Unlike spOrderAndFactor(), spFactor() cannot change
+the ordering.  Its utility is that it is considerably faster.  The standard
+way  to  use  these two routines is to first use spOrderAndFactor() for the
+initial factorization.  For subsequent factorizations, spFactor() is  used.
+If  spFactor()  is called for the initial factorization of the matrix, then
+it will automatically call spOrderAndFactor() with the default  thresholds.
+If  spFactor()  finds  a  zero on the diagonal, it will terminate early and
+complain.  This does not necessarily mean that matrix is singular.   Before
+a  matrix  is  condemned  as being singular, it should be run through spOr-
+derAndFactor(), which can reorder the matrix and remove the offensive  zero
+from the diagonal.
+
+int spFactor( Matrix )
+
+o Returned:
+     The error code is returned.  Possible errors are listed below.
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to matrix to be factored.
+
+o Possible errors:
+     spZERO PIVOT
+     spNO MEMORY
+     spSINGULAR
+     spILL CONDITIONED
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 22 -
+
+
+
+
+4.10:  spFileMatrix()
+
+Writes matrix to file in format suitable to be read back in by  the  matrix
+test  program.   Normally, spFileMatrix() should be executed before the ma-
+trix is factored, otherwise matrix is output in factored form.  If the  ma-
+trix  is  sent  to  a file without the header or data, it will be in a form
+that is easily plotted by typical plotting programs.
+
+int spFileMatrix( Matrix, File, Label, Reordered, Data, Header )
+
+o Returns:
+     One is returned if routine was successful, otherwise zero is returned.
+     The  calling  function  can query errno (the system global error vari-
+     able) as to the reason why this routine failed.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix that is to be sent to file.
+
+     File  input  (char *)
+          Name of output file.
+
+     Label  input  (char *)
+          String that is transferred to file and used as a  label.   String
+          should fit on one line and have no embedded line feeds.
+
+     Reordered  input  (int)
+          Specifies whether the matrix should be output using the  original
+          order or in reordered form.  Zero specifies original order.
+
+     Data  input  (int)
+          Indicates that the element values should be output along with the
+          indices  for each element.  Element values are not output if Data
+          is zero.  This parameter must be nonzero if matrix is to be  read
+          by the Sparse test program.
+
+     Header  input  (int)
+          If nonzero a header is output that includes that size of the  ma-
+          trix  and the label.  This parameter must be nonzero if matrix is
+          to be read by the Sparse test program.
+
+o Compiler options that must be set for this routine to exist:
+     DOCUMENTATION
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 23 -
+
+
+
+
+
+4.11:  spFileStats()
+
+Appends useful information concerning the matrix to the end of a file.   If
+file  does  not  exist, it is created.  This file should not be the same as
+one used to hold the matrix or vector if the matrix is to be  read  by  the
+Sparse test program.  Should be executed after the matrix is factored.
+
+int spFileStats( Matrix, File, Label )
+
+o Returns:
+     One is returned if routine was successful, otherwise zero is returned.
+     The  calling  function  can query errno (the system global error vari-
+     able) as to the reason why this routine failed.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix for which statistics are desired.
+
+     File  input  (char *)
+          Name of output file.
+
+     Label  input  (char *)
+          String that is transferred to file and is used as a label. String
+          should fit on one line and have no embedded line feeds.
+
+o Compiler options that must be set for this routine to exist:
+     DOCUMENTATION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 24 -
+
+
+
+
+
+4.12:  spFileVector()
+
+Appends the RHS vector to the end of a file in a format suitable to be read
+back in by the matrix test program.  If file does not exist, it is created.
+To be compatible with the test program, if spFileVector() is run,  it  must
+be run after spFileMatrix() and use the same file.
+
+int spFileVector( Matrix, File, RHS )
+int spFileVector( Matrix, File, RHS, iRHS )
+
+o Returns:
+     One is returned if routine was successful, otherwise zero is returned.
+     The  calling  function  can query errno (the system global error vari-
+     able) as to the reason why this routine failed.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix that corresponds to the vector to be output.
+
+     File  input  (char *)
+          Name of file where output is to be written.
+
+     RHS  input  (spREAL[])
+          The right-hand side vector.  RHS contains only the  real  portion
+          of  the  right-hand  side  vector  if  the  matrix is complex and
+          spSEPARATED COMPLEX VECTORS is set true.
+
+     iRHS  input  (spREAL[])
+          Right-hand side vector, imaginary portion.  Not necessary if  ma-
+          trix is real or if spSEPARATED COMPLEX VECTORS is set false.
+
+o Compiler options that must be set for this routine to exist:
+     DOCUMENTATION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 25 -
+
+
+
+
+
+4.13:  spFillinCount()
+
+Returns the total number of fill-ins in the matrix.  A fill-in is  an  ele-
+ment  that  is originally structurally zero, but becomes nonzero during the
+factorization.
+
+int spFillinCount( Matrix )
+
+o Returns:
+     The total number of fill-ins.
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to the matrix.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 26 -
+
+
+
+
+
+4.14:  spGetAdmittance()
+
+Performs same function as spGetElement() except rather  than  one  element,
+all four matrix elements for a floating admittance are reserved.  This rou-
+tine also works if the admittance is grounded (zero is  the  ground  node).
+This function returns a group of pointers to the four elements through Tem-
+plate, which is an output.  They are used by  the  spADD QUAD()  macros  to
+directly  access  matrix  elements  during  subsequent loads of the matrix.
+spGetAdmittance()  arranges  the  pointers  in   Template   so   that   the
+spADD QUAD()  routines  add the admittance to the elements at [Node1,Node1]
+and  [Node2,Node2]  and  subtract  the  admittance  from  the  elements  at
+[Node1,Node2]  and  [Node2,Node1].  This  routine is only to be used before
+spMNA Preorder(), spFactor() or spOrderAndFactor() unless the compiler flag
+TRANSLATE is enabled.
+
+int spGetAdmittance( Matrix, Node1, Node2, Template )
+
+o Returned:
+     The error  code  is  returned.   Possible  errors  are  listed  below.
+     spGetAdmittance() does not clear the error state, so it is possible to
+     ignore the return code of each spGetAdmittance() call, and  check  for
+     errors after constructing the whole matrix by calling spError().
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix that admittance is to be installed.
+
+     Node1  input  (int)
+          One node number for the admittance.  Node1 must be in  the  range
+          [0..Size]  unless  either  the  TRANSLATE  or EXPANDABLE compiler
+          flags are set true.  In either case Node1 must not be negative.
+
+     Node2  input  (int)
+          Other node number for the admittance.  Node2 must be in the range
+          [0..Size]  unless  either  the  TRANSLATE  or EXPANDABLE compiler
+          flags are set true.  In either case Node2 must not be negative.
+
+     Template  output  (struct spTemplate *)
+          Collection of pointers to four elements that are  later  used  to
+          directly  address  elements.  User must supply the template, this
+          routine will fill it.
+
+o Possible errors:
+     spNO MEMORY
+     Error is not cleared in this routine.
+
+o Compiler options that must be set for this routine to exist:
+     QUAD ELEMENT
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 27 -
+
+
+
+
+
+4.15:  spGetElement()
+
+Reserves an element at [Row,Col] and returns a pointer to it.   If  element
+is  not found then it is created and spliced into matrix.  A pointer to the
+real portion of the element is returned.  This pointer is later used by the
+spADD ELEMENT()  macros  to  directly  access the element.  This routine is
+only to be used before spMNA Preorder(), spFactor()  or  spOrderAndFactor()
+unless the compiler option TRANSLATE is set true.
+
+spREAL *spGetElement( Matrix, Row, Col )
+
+o Returned:
+     Returns a pointer to the  element.   This  pointer  is  then  used  to
+     directly access the element during successive builds.  Returns NULL if
+     insufficient memory is available.  spGetElement() does not  clear  the
+     error  state,  so  it  is  possible  to ignore the return code of each
+     spGetElement() call, and check for errors after constructing the whole
+     matrix by calling spError().
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix that the element is to be added to.
+
+     Row  input  (int)
+          Row index for element. Row must be in the range [0..Size]  unless
+          either  the  TRANSLATE or EXPANDABLE compiler flags are set true.
+          In either case Row must not be negative though it  may  be  zero.
+          If  zero  then the element is not entered into the matrix, but is
+          otherwise treated normally.
+
+     Col  input  (int)
+          Column index for element. Col must be in the range [0..Size]  un-
+          less  either  the  TRANSLATE or EXPANDABLE compiler flags are set
+          true.  In either case Col must not be negative though it  may  be
+          zero.   If  zero then the element is not entered into the matrix,
+          but is otherwise treated normally.
+
+o Possible errors:
+     spNO MEMORY
+     Error is not cleared in this routine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 28 -
+
+
+
+
+
+4.16:  spGetInitInfo()
+
+With the INITIALIZE compiler option enabled Sparse allows the user to  keep
+initialization  information  with each structurally nonzero matrix element.
+Each element has a pointer (referred to as pInitInfo) that is set and  used
+by  the user.  This routine returns pInitInfo from a particular matrix ele-
+ment.
+
+char *spGetInitInfo( pElement )
+
+o Returned:
+     The user installed pointer pInitInfo.
+
+o Argument:
+
+     pElement  input  (spREAL *)
+          Pointer to the element to which pInitInfo is attached.
+
+o Compiler options that must be set for this routine to exist:
+     INITIALIZE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 29 -
+
+
+
+
+4.17:  spGetOnes()
+
+Performs a similar function  to  spGetAdmittance()  except  that  the  four
+reserved  matrix  elements  are  assumed to be structural ones generated by
+components without  admittance  representations  during  a  modified  nodal
+analysis.  Positive ones are placed at [Pos,Eqn] and [Eqn,Pos] and negative
+ones are placed at [Neg,Eqn] and [Eqn,Neg].  This function returns a  group
+of  pointers  to  the  four  elements through Template, which is an output.
+They are used by the spADD QUAD() macros to add the ones  directly  to  the
+matrix  elements  during  subsequent  loads of the matrix.  This routine is
+only to be used before spMNA Preorder(), spFactor()  or  spOrderAndFactor()
+unless the compiler flag TRANSLATE is set true.
+
+int spGetOnes( Matrix, Pos, Neg, Eqn, Template )
+
+o Returned:
+     The error  code  is  returned.   Possible  errors  are  listed  below.
+     spGetOnes()  does  not clear the error state, so it is possible to ig-
+     nore the return code of each spGetOnes() call, and  check  for  errors
+     after constructing the whole matrix by calling spError().
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix that ones are to be entered in.
+
+     Pos  input  (int)
+          Number of positive node.  Must be in the range of  [0..Size]  un-
+          less  either  the options EXPANDABLE or TRANSLATE are used.  Zero
+          is the ground row.  In no case may Pos be less than zero.
+
+     Neg input  (int)
+          Number of negative node.  Must be in the range of  [0..Size]  un-
+          less either the options EXPANDABLE or TRANSLATE are used. Zero is
+          the ground row.  In no case may Neg be less than zero.
+
+     Eqn input  (int)
+          Row that contains the branch equation.  Must be in the  range  of
+          [1..Size]  unless  either the options EXPANDABLE or TRANSLATE are
+          used. In no case may Eqn be less than one.
+
+     Template  output  (struct spTemplate *)
+          Collection of pointers to four elements that are  later  used  to
+          directly  address  elements.  User must supply the template, this
+          routine will fill it.
+
+o Possible errors:
+     spNO MEMORY
+     Error is not cleared in this routine.
+
+o Compiler options that must be set for this routine to exist:
+     QUAD ELEMENT
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 30 -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 31 -
+
+
+
+
+
+4.18:  spGetQuad()
+
+Similar to spGetAdmittance(), except that  spGetAdmittance()  only  handles
+2-terminal  components,  whereas  spGetQuad() handles simple 4-terminals as
+well.  These 4-terminals are simply generalized 2-terminals with the option
+of having the sense terminals different from the source and sink terminals.
+spGetQuad() installs four  elements  into  the  matrix  and  returns  their
+pointers  in  the Template structure, which is an output.  The pointers are
+arranged in Template such that when passed to one of the spADD QUAD()  mac-
+ros  along with an admittance, the admittance will be added to the elements
+at  [Row1,Col1]  and  [Row2,Col2]  and  subtracted  from  the  elements  at
+[Row1,Col2] and [Row2,Col1].  The routine works fine if any of the rows and
+columns are zero.  This routine is only to be used before spMNA Preorder(),
+spFactor() or spOrderAndFactor() unless TRANSLATE is set true.
+
+int spGetQuad( Matrix, Row1, Row2, Col1, Col2, Template )
+
+o Returned:
+     The error code is returned.  Possible errors are listed below.  spGet-
+     Quad() does not clear the error state, so it is possible to ignore the
+     return code of each spGetQuad() call, and check for errors after  con-
+     structing the whole matrix by calling spError().
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix that quad is to be entered in.
+
+     Row1  input  (int)
+          First row index for the elements.  Row1  must  be  in  the  range
+          [0..Size]  unless  either  the  TRANSLATE  or EXPANDABLE compiler
+          flags are set true.  In either case Row1 must not be negative.
+
+     Row2  input  (int)
+          Second row index for the elements.  Row2 must  be  in  the  range
+          [0..Size]  unless  either  the  TRANSLATE  or EXPANDABLE compiler
+          flags are set true.  In either case Row2 must not be negative.
+
+     Col1  input  (int)
+          First column index for the elements.  Col1 must be in  the  range
+          [0..Size]  unless  either  the  TRANSLATE  or EXPANDABLE compiler
+          flags are set true.  In either case Col1 must not be negative.
+
+     Col2  input  (int)
+          Second column index for the elements.  Col2 must be in the  range
+          [0..Size]  unless  either  the  TRANSLATE  or EXPANDABLE compiler
+          flags are set true.  In either case Col2 must not be negative.
+
+     Template  output  (struct spTemplate *)
+          Collection of pointers to four elements that are  later  used  to
+          directly  address  elements.  User must supply the template, this
+          routine will fill it.
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 32 -
+
+
+o Possible errors:
+     spNO MEMORY
+     Error is not cleared in this routine.
+
+o Compiler options that must be set for this routine to exist:
+     QUAD ELEMENT
+
+
+
+
+
+4.19:  spGetSize()
+
+Returns the size of the matrix, either the internal or external size of the
+matrix  is  returned.   The  internal size is the actual number of rows and
+columns in the matrix.  The external size is equal to the  largest  row  or
+column  number.  These numbers will be the same unless the TRANSLATE option
+is enabled.
+
+int spGetSize( Matrix, External )
+
+o Returned:
+     The size of the matrix.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix for which the size is desired.
+
+     External  input  (int)
+          If External is nonzero, the external size of the  matrix  is  re-
+          turned, otherwise the internal size of the matrix is returned.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 33 -
+
+
+
+
+
+4.20:  spInitialize()
+
+spInitialize() is a user customizable way to initialize the matrix.  Passed
+to this routine is a function pointer.  spInitialize() sweeps through every
+element in the matrix and checks the pInitInfo pointer (the  user  supplied
+pointer).   If the pInitInfo is NULL, which is true unless the user changes
+it (always true for fill-ins), then the element is zeroed.  Otherwise,  the
+function  pointer is called and passed the pInitInfo pointer as well as the
+element pointer and the external row and column numbers allowing  the  user
+to set the value of each element and perhaps the right-hand side vector.
+
+The user function (pInit()) is expected to  return  a  nonzero  integer  if
+there is a fatal error and zero otherwise.  Upon encountering a nonzero re-
+turn code, spInitialize() terminates and returns the error code.
+
+The Sparse error state is cleared to spOKAY in this routine.
+
+int spInitialize( Matrix, pInit )
+
+o Returns:
+     The error code returned by pInit.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix that is to be initialized.
+
+     pInit  input  ((*int)())
+          Pointer to a function that, given a  pointer  to  an  element,  a
+          pointer to the users data structure containing initialization in-
+          formation for that element, and the row and column number of  the
+          element, initializes it.
+
+
+int pInit( pElement, pInitInfo, Row, Col )
+
+o Returns:
+     Nonzero if fatal error, zero otherwise.
+
+o Arguments:
+
+     pElement  input  (spREAL *)
+          The pointer to the real portion of the element.  The real portion
+          can  be accessed using either *pElement or pElement[0].  The ima-
+          ginary portion can be  accessed  using  either  *(pElement+1)  or
+          pElement[1].
+
+     pInitInfo  input  (char *)
+          The user-installed pointer to the initialization data structure.
+
+     Row  input  (int)
+          The external row number of the element.
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 34 -
+
+
+     Col  input  (int)
+          The external column number of the element.
+
+o Compiler options that must be set for this routine to exist:
+     INITIALIZE
+
+
+
+
+
+4.21:  spInstallInitInfo()
+
+With the INITIALIZE compiler option enabled Sparse allows the user to  keep
+initialization  information  with each structurally nonzero matrix element.
+Each element has a pointer (referred to as pInitInfo) that is set and  used
+by the user.  This routine installs the pointer pInitInfo into a particular
+matrix element.
+
+void spInstallInitInfo( pElement, pInitInfo )
+
+o Arguments:
+
+     pElement  input  (spREAL *)
+          Pointer to the element to which pInitInfo is to be attached.
+
+     pInitInfo  input  (char *)
+          The pointer pInitInfo.
+
+o Compiler options that must be set for this routine to exist:
+     INITIALIZE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 35 -
+
+
+
+
+
+4.22:  spLargestElement()
+
+If this routine is called before the matrix is factored, it returns the ab-
+solute value of the largest element in the matrix.  If called after the ma-
+trix has been factored, it returns a lower bound on the absolute  value  of
+the  largest element that occurred in any of the reduced submatrices during
+the factorization.  The ratio of these two numbers (factored/unfactored) is
+the  growth,  which  can be used to determine if the pivoting order is ade-
+quate.  A large growth implies that considerable error has been made in the
+factorization  and  that  it is probably a good idea to reorder the matrix.
+If a large growth in encountered after using  spFactor(),  reconstruct  the
+matrix and refactor using spOrderAndFactor().  If a large growth is encoun-
+tered after using  spOrderAndFactor(),  refactor  using  spOrderAndFactor()
+with the pivot threshold increased, say to 0.1.
+
+spREAL spLargestElement( Matrix )
+
+o Returns:
+     If matrix is unfactored, returns the magnitude of the largest  element
+     in the matrix.  If the matrix is factored, a bound on the magnitude of
+     the largest element in any of the reduced submatrices is returned.
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to the matrix.
+
+o Compiler options that must be set for this routine to exist:
+     STABILITY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 36 -
+
+
+
+
+
+4.23:  spMNA Preorder()
+
+This routine massages modified node admittance matrices to improve the per-
+formance  of  spOrderAndFactor().  It tries to remove structural zeros from
+the diagonal by exploiting the fact that the row and column associated with
+a  zero  diagonal  usually  have structural ones placed symmetrically.  For
+this routine to work, the structural ones must be exactly equal  to  either
+one or negative one.  This routine should be used only on modified node ad-
+mittance matrices and must be executed after the matrix has been built  but
+before spScale(), spNorm(), spMultiply(), spFactor(), spOrderAndFactor() or
+spDeleteRowAndCol() are executed.  It should be executed  for  the  initial
+factorization only.
+
+void spMNA Preorder( Matrix )
+
+o Argument:
+
+     Matrix  input  (char *)
+
+          Pointer to the matrix to be preordered.
+
+o Compiler options that must be set for this routine to exist:
+     MODIFIED NODAL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 37 -
+
+
+
+
+4.24:  spMultiply()
+
+Multiplies Matrix by Solution on the right to find RHS.  Assumes matrix has
+not been factored.  This routine can be  used as a test to see if solutions
+are correct.
+
+void spMultiply( Matrix, RHS, Solution )
+void spMultiply( Matrix, RHS, Solution, iRHS, iSolution )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix.
+
+     RHS  output  (spREAL[])
+          RHS is the right hand side vector.  This is what is being  solved
+          for.   RHS  contains only the real portion of the right-hand side
+          if spSEPARATED COMPLEX VECTORS is set true.
+
+     Solution  input  (spREAL[])
+          Solution is the vector being multiplied by the matrix.   Solution
+          contains    only   the   real   portion   of   that   vector   if
+          spSEPARATED COMPLEX VECTORS is set true.
+
+     iRHS  output  (spREAL[])
+          iRHS is the imaginary portion of the right  hand  side.  This  is
+          what is being solved for.  It is only necessary to supply iRHS if
+          the matrix is  complex  and  spSEPARATED COMPLEX VECTORS  is  set
+          true.
+
+     iSolution  input  (spREAL[])
+          iSolution is the imaginary portion of the vector being multiplied
+          by the matrix.  It is only necessary to supply iRHS if the matrix
+          is complex and spSEPARATED COMPLEX VECTORS is set true.
+
+o Compiler options that must be set for this routine to exist:
+     MULTIPLICATION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 38 -
+
+
+
+
+
+4.25:  spMultTransposed()
+
+Multiplies transposed Matrix by Solution on the right to find RHS.  Assumes
+matrix has not been factored.  This routine can be used as a test to see if
+solutions are correct.
+
+void spMultTransposed( Matrix, RHS, Solution )
+void spMultTransposed( Matrix, RHS, Solution, iRHS, iSolution )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix.
+
+     RHS  output  (spREAL[])
+          RHS is the right hand side vector.  This is what is being  solved
+          for.   RHS  contains only the real portion of the right-hand side
+          if spSEPARATED COMPLEX VECTORS is set true.
+
+     Solution  input  (spREAL[])
+          Solution is the vector being multiplied by the matrix.   Solution
+          contains    only   the   real   portion   of   that   vector   if
+          spSEPARATED COMPLEX VECTORS is set true.
+
+     iRHS  output  (spREAL[])
+          iRHS is the imaginary portion of the right  hand  side.  This  is
+          what is being solved for.  It is only necessary to supply iRHS if
+          the matrix is  complex  and  spSEPARATED COMPLEX VECTORS  is  set
+          true.
+
+     iSolution  input  (spREAL[])
+          iSolution is the imaginary portion of the vector being multiplied
+          by the matrix.  It is only necessary to supply iRHS if the matrix
+          is complex and spSEPARATED COMPLEX VECTORS is set true.
+
+o Compiler options that must be set for this routine to exist:
+     MULTIPLICATION
+     TRANSPOSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 39 -
+
+
+
+
+
+4.26:  spNorm()
+
+Computes and returns the L-infinity norm of  an  unfactored  matrix.   This
+number  is  used  in computing the condition number of the matrix.  It is a
+fatal error to pass this routine a factored matrix.
+
+spREAL spNorm( Matrix )
+
+o Returns:
+     The largest absolute row sum (the L-infinity norm) of the matrix.
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to the matrix.
+
+o Compiler options that must be set for this routine to exist:
+     CONDITION
+
+
+
+
+
+4.27:  spOrderAndFactor()
+
+This routine chooses a pivot order for the matrix and factors  it  into  LU
+form.   It handles both the initial factorization and subsequent factoriza-
+tions when a reordering or threshold pivoting is desired.  This is  handled
+in a manner that is transparent to the user.
+
+int spOrderAndFactor( Matrix, RHS, Threshold, AbsoluteThreshold, DiagPivot-
+ing )
+
+o Returned:
+     The error code is returned.  Possible errors are listed below.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix to be factored.
+
+     RHS  input  (spREAL[])
+          Representative RHS vector that  is  used  to  determine  pivoting
+          order  when  the  right-hand side vector is sparse.  If a term in
+          RHS is zero, it is assumed that it will usually  be  zero.   Con-
+          versely, a nonzero term in RHS indicates that the term will often
+          be nonzero.  If RHS is a NULL pointer then  the  right-hand  side
+          vector  is assumed to be full and it is not used when determining
+          the pivoting order.
+
+     Threshold  input  (spREAL)
+          This is the pivot threshold, which should  be  between  zero  and
+          one.   If  it  is  one  then the pivoting method becomes complete
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 40 -
+
+
+          pivoting, which is very slow and tends to fill up the matrix.  If
+          it  is  set close to zero the pivoting method becomes strict Mar-
+          kowitz with no threshold.  The pivot threshold is used  to  elim-
+          inate  pivot candidates that would cause excessive element growth
+          if they were used.  Element  growth  is  the  cause  of  roundoff
+          error,  which  can occur even in well-conditioned matrices.  Set-
+          ting the threshold large will reduce element growth and  roundoff
+          error,  but  setting it too large will cause execution time to be
+          excessive and will result in a large number of fill-ins.  If this
+          occurs,  accuracy  can  actually be degraded because of the large
+          number of operations required on the  matrix  due  to  the  large
+          number  of fill-ins.  A good value for diagonal pivoting seems to
+          be 0.001 while a good value for complete pivoting appears  to  be
+          0.1.   The default is chosen by giving a value larger than one or
+          less than or equal to zero.  Once the pivot threshold is set, the
+          value  becomes  the new default for later calls to spOrderAndFac-
+          tor.  The threshold value should be increased and the matrix  re-
+          solved  if  growth  is found to be excessive.  Changing the pivot
+          threshold does not improve performance on matrices  where  growth
+          is  low, as is often the case with ill-conditioned matrices.  The
+          default value of Threshold was choosen for use with nearly diago-
+          nally  dominant  matrices  such as node- and modified-node admit-
+          tance matrices.  For these matrices it is  usually  best  to  use
+          diagonal pivoting.  For matrices without a strong diagonal, it is
+          usually best to use a larger threshold, such as 0.01 or 0.1.
+
+     AbsoluteThreshold  input  (spREAL)
+          The absolute magnitude an element must have to be considered as a
+          pivot  candidate, except as a last resort.  This number should be
+          set significantly smaller than the smallest diagonal element that
+          is  is  expected to be placed in the matrix.  If there is no rea-
+          sonable prediction for the lower bound on  these  elements,  then
+          AbsoluteThreshold  should  be  set to zero.  AbsoluteThreshold is
+          used to reduce the possibility of choosing as a pivot an  element
+          that  has suffered heavy cancellation and as a result mainly con-
+          sists of roundoff error.  Note that if AbsoluteThreshold  is  set
+          too  large,  it  could  drastically increase the time required to
+          factor and solve the matrix.  AbsoluteThreshold should be  nonne-
+          gative.   If  no  element  in  the  matrix is larger than Absolu-
+          teThreshold, the warning spILL CONDITIONED is returned.
+
+     DiagPivoting  input  (int)
+          A flag indicating that pivot selection should be confined to  the
+          diagonal   if  possible.   If  DiagPivoting  is  nonzero  and  if
+          DIAGONAL PIVOTING is enabled pivots will be chosen only from  the
+          diagonal  unless  there are no diagonal elements that satisfy the
+          threshold criteria.  Otherwise, the entire reduced  submatrix  is
+          searched  when  looking  for  a  pivot.  The diagonal pivoting in
+          Sparse is efficient and well refined, while the complete pivoting
+          is not.  For symmetric and near symmetric matrices, it is best to
+          use diagonal pivoting because it results in the best  performance
+          when  reordering the matrix and when factoring the matrix without
+          ordering.  If there is a considerable amount  of  nonsymmetry  in
+          the  matrix,  then  complete  pivoting  may  result  in  a better
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 41 -
+
+
+          equation ordering simply because there are more pivot  candidates
+          to  choose  from.  A better ordering results in faster subsequent
+          factorizations.  However, the  initial  pivot  selection  process
+          takes considerably longer for complete pivoting.
+
+o Possible errors:
+     spNO MEMORY
+     spSINGULAR
+     spILL CONDITIONED
+
+
+
+
+
+4.28:  spPartition()
+
+This routine determines the cost to factor each row using both  direct  and
+indirect  addressing  and  decides, on a row-by-row basis, which addressing
+mode is fastest.  This information is used in spFactor() to speed the  fac-
+torization.
+
+When factoring a  previously  ordered  matrix  using  spFactor(),  fISparse
+operates  on a row-at-a-time basis.  For speed, on each step, the row being
+updated is copied into a full vector and the operations  are  performed  on
+that  vector.   This  can  be done one of two ways, either using direct ad-
+dressing or indirect addressing.  Direct addressing is fastest when the ma-
+trix is relatively dense and indirect addressing is best when the matrix is
+quite sparse.  The user selects the type of partition used with  Mode.   If
+Mode  is  set  to  spDIRECT PARTITION,  then the all rows are placed in the
+direct   addressing   partition.    Similarly,   if   Mode   is   set    to
+spINDIRECT PARTITION, then the all rows are placed in the indirect address-
+ing partition.  By setting Mode to spAUTO PARTITION, the user allows Sparse
+to  select  the  partition for each row individually.  spFactor() generally
+runs faster if Sparse is allowed to choose its  own  partitioning,  however
+choosing a partition is expensive.  The time required to choose a partition
+is of the same order of the cost to factor the matrix.  If you plan to fac-
+tor  a  large number of matrices with the same structure, it is best to let
+Sparse choose the partition.  Otherwise, you should  choose  the  partition
+based  on the predicted density of the matrix.  By default (i.e., if spPar-
+tition() is never called), Sparse chooses the partition for each row  indi-
+vidually.
+
+void spPartition( Matrix, Mode )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix to be partitioned.
+
+     Mode  input  (int)
+          Mode must be one  of  three  special  codes:  spDIRECT PARTITION,
+          spINDIRECT PARTITION, or spAUTO PARTITION.
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 42 -
+
+
+
+
+
+4.29:  spPrint()
+
+Formats and send the matrix to standard output.  Some elementary statistics
+are also output.  The matrix is output in a format that is readable by peo-
+ple.  This routine should not be used on large matrices.
+
+void spPrint( Matrix, PrintReordered, Data, Header )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix to be printed.
+
+     PrintReordered  input  (int)
+          Indicates whether the matrix should be printed out in its  origi-
+          nal  form,  as input by the user, or whether it should be printed
+          in its reordered form, as used internally by the matrix routines.
+          A  zero indicates that the matrix should be printed as inputed, a
+          one indicates that it should be printed reordered.
+
+     Data  input  (int)
+          Boolean flag that when false  indicates  that  output  should  be
+          compressed  such  that only the existence of an element should be
+          indicated rather than giving the actual value.  Thus 10 times  as
+          many elements can be printed on a row.  A zero indicates that the
+          matrix should be printed compressed.  A one  signifies  that  the
+          matrix should be printed in all its glory.
+
+     Header  input  (int)
+          A flag indicating that extra information should be printed,  such
+          as row and column numbers.
+
+o Compiler options that must be set for this routine to exist:
+     DOCUMENTATION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 43 -
+
+
+
+
+
+4.30:  spPseudoCondition()
+
+Computes the magnitude of the ratio of the largest to the smallest  pivots.
+This  quantity  is an indicator of ill-conditioning in the matrix.  If this
+ratio is large, and if the matrix is scaled such that uncertainties in  the
+right-hand  side  vector  and the matrix entries are equilibrated, then the
+matrix is ill-conditioned.  However, a small ratio does not necessarily im-
+ply  that  the  matrix is well-conditioned.  This routine must only be used
+after a matrix has been factored by spOrderAndFactor()  or  spFactor()  and
+before  it  is cleared by spClear() or spInitialize().  The pseudocondition
+is faster to compute than the condition number calculated by spCondition(),
+but is not as informative.
+
+spREAL  spPseudoCondition( Matrix )
+
+o Returns:
+     The magnitude of the ratio of the largest to smallest pivot used  dur-
+     ing  previous  factorization.  If the matrix was singular, zero is re-
+     turned.
+
+o Argument:
+
+     Matrix  input  (char *)
+          Pointer to matrix.
+
+o Compiler options that must be set for this routine to exist:
+     PSEUDOCONDITION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 44 -
+
+
+
+
+
+4.31:  spRoundoff()
+
+Returns a bound on the magnitude of the largest element in E = A-LU,  where
+E represents error in the matrix resulting from roundoff during the factor-
+ization.
+
+spREAL  spRoundoff( Matrix, Rho )
+
+o Returns:
+     Returns a bound on the magnitude of the largest element in E = A-LU.
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix.  Matrix must be factored.
+
+     Rho  input  (spREAL)
+          The bound on the magnitude of the largest element in any  of  the
+          reduced submatrices.  This is the number computed by the function
+          spLargestElement() when given a factored matrix.  If this  number
+          is negative, the bound will be computed automatically.
+
+o Compiler options that must be set for this routine to exist:
+     STABILITY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 45 -
+
+
+
+
+4.32:  spScale()
+
+This function scales the matrix to enhance the  possibility  of  finding  a
+good  pivoting  order.  Note that scaling enhances accuracy of the solution
+only if it affects the pivoting order, so it only makes sense to scale  the
+matrix  before  spOrderAndFactor().   There are several things to take into
+account when choosing the scale factors.   First,  the  scale  factors  are
+directly multiplied times the elements in the matrix.  To prevent roundoff,
+each scale factor should be equal to an integer power of the number base of
+the machine.  Since most machines operate in base two, scale factors should
+be a power of two.  Second, the matrix should be scaled such that  the  ma-
+trix of element uncertainties is equilibrated.  Third, this function multi-
+plies the scale factors times the elements, so if one row tends to have un-
+certainties  1000  times smaller than the other rows, then its scale factor
+should be 1024, not 1/1024.  Fourth, to save time, this function  does  not
+scale  rows  or columns if their scale factors are equal to one.  Thus, the
+scale factors should be normalized to the most common scale  factor.   Rows
+and  columns  should be normalized separately.  For example, if the size of
+the matrix is 100 and 10 rows tend to have uncertainties near 1e-6 and  the
+remaining  90  have uncertainties near 1e-12, then the scale factor for the
+10 should be 1/1,048,576 and the scale factors for the remaining 90  should
+be  1.  Fifth,  since  this  routine directly operates on the matrix, it is
+necessary to apply the scale factors to the RHS and Solution  vectors.   It
+may be easier to simply use spOrderAndFactor() on a scaled matrix to choose
+the pivoting order, and then throw away the matrix.  Subsequent  factoriza-
+tions,  performed  with spFactor(), will not need to have the RHS and Solu-
+tion vectors descaled.
+
+void spScale( Matrix, RHS ScaleFactors, SolutionScaleFactors )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to the matrix to be scaled.
+
+     RHS ScaleFactors  input  (spREAL[])
+          The array of RHS scale factors.  These factors  scale  the  rows.
+          All scale factors are real-valued.
+
+     SolutionScaleFactors  input  (spREAL[])
+          The array of Solution scale factors.   These  factors  scale  the
+          columns.  All scale factors are real-valued.
+
+o Compiler options that must be set for this routine to exist:
+     SCALING
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 46 -
+
+
+
+
+
+4.33:  spSetComplex()
+
+The type of the matrix may then be toggled back and forth  between  complex
+and  real.   This  function changes the type of matrix to complex.  For the
+matrix to be set complex, the compiler option spCOMPLEX must be set true.
+
+void spSetComplex( Matrix )
+
+o Argument:
+
+     Matrix  input  (char *)
+
+          The matrix that is to be to be complex.
+
+
+
+
+
+4.34:  spSetReal()
+
+The type of the matrix may then be toggled back and forth  between  complex
+and  real.   This function changes the type of matrix to real.  For the ma-
+trix to be set real, the compiler option REAL must be set true.
+
+void spSetReal( Matrix )
+
+o Argument:
+
+     Matrix  input  (char *)
+          The matrix that is to be real.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 47 -
+
+
+
+
+
+4.35:  spSolve()
+
+Performs the forward and backward elimination to find the unknown  Solution
+vector from RHS and the factored matrix.
+
+void spSolve( Matrix, RHS, Solution )
+void spSolve( Matrix, RHS, Solution, iRHS, iSolution )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix.
+
+     RHS  input  (spREAL[])
+          RHS is the input data array, the right-hand side vector. RHS con-
+          tains  only  the  real  portion  of the right-hand side vector if
+          spSEPARATED COMPLEX VECTORS is set true.  RHS is undisturbed  and
+          may be reused for other solves.
+
+     Solution  output  (spREAL[])
+          Solution is the output data array, the unknown vector. This  rou-
+          tine  is  constructed  such that RHS and Solution can be the same
+          array.  Solution contains only the real portion  of  the  unknown
+          vector if spSEPARATED COMPLEX VECTORS is set true.
+
+     iRHS  input  (spREAL[])
+          iRHS is the imaginary  portion  of  the  input  data  array,  the
+          right-hand  side  vector.  This  data  is  undisturbed and may be
+          reused for other solves.  This argument is unnecessary if the ma-
+          trix is real or spSEPARATED COMPLEX VECTORS is set false.
+
+     iSolution  output  (spREAL[])
+          iSolution is the imaginary portion  of  the  output  data  array.
+          This  routine  is constructed such that iRHS and iSolution can be
+          the same array.  This argument is unnecessary if  the  matrix  is
+          real or spSEPARATED COMPLEX VECTORS is set false.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 48 -
+
+
+
+
+
+4.36:  spSolveTransposed()
+
+Performs the forward and backward elimination to find the unknown  Solution
+vector  from RHS and the transposed factored matrix. This routine is useful
+when performing sensitivity analysis on a circuit using the adjoint method.
+
+void spSolveTransposed( Matrix, RHS, Solution )
+void spSolveTransposed( Matrix, RHS, Solution, iRHS, iSolution )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix.
+
+     RHS  input  (spREAL[])
+          RHS is the input data array, the  right-hand  side  vector.   RHS
+          contains  only  the real portion of the right-hand side vector if
+          spSEPARATED COMPLEX VECTORS is set true.  RHS is undisturbed  and
+          may be reused for other solves.
+
+     Solution  output  (spREAL[])
+          Solution is the output data array, the unknown vector. This  rou-
+          tine  is  constructed  such that RHS and Solution can be the same
+          array.  Solution contains only the real portion  of  the  unknown
+          vector if spSEPARATED COMPLEX VECTORS is set true.
+
+     iRHS  input  (spREAL[])
+          iRHS is the imaginary  portion  of  the  input  data  array,  the
+          right-hand  side  vector.  This  data  is  undisturbed and may be
+          reused for other solves.  This parameter is  unnecessary  if  the
+          matrix is real or spSEPARATED COMPLEX VECTORS is set false.
+
+     iSolution  output  (spREAL[])
+          iSolution is the imaginary portion  of  the  output  data  array.
+          This  routine  is constructed such that iRHS and iSolution can be
+          the same array.  This parameter is unnecessary if the  matrix  is
+          real or spSEPARATED COMPLEX VECTORS is set false.
+
+o Compiler options that must be set for this routine to exist:
+     TRANSPOSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 49 -
+
+
+
+
+
+4.37:  spStripFills()
+
+spStripFills() strips all accumulated fill-ins  from  a  matrix.   This  is
+often  a  useful thing to do before reordering a matrix to help insure that
+subsequent factorizations will be as efficient as possible.
+
+void spStripFills( Matrix )
+
+o Argument:
+
+     Matrix  input  (char *)
+          The matrix to be stripped.
+
+o Compiler options that must be set for this routine to exist:
+     STRIP
+
+
+
+
+
+4.38:  spWhereSingular()
+
+This function returns the row  and  column  number  where  the  matrix  was
+detected as singular or where a zero pivot was found.
+
+void spWhereSingular( Matrix, Row, Col )
+
+o Arguments:
+
+     Matrix  input  (char *)
+          Pointer to matrix.
+
+     Row  output  (int *)
+          The row number.
+
+     Row  output  (int *)
+          The column number.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 50 -
+
+
+5:  MACRO FUNCTIONS
+These macro functions are used to quickly enter data into the matrix  using
+pointers.   These  pointers  are  originally  acquired  by  the  user  from
+spGetElement(), spGetAdmittance(), spGetQuad(), and spGetOnes() during  the
+initial  loading  of  the  matrix.  These macros work correctly even if the
+elements they are to add data to are in row or column zero.
+
+     The macros reside in the file spExports.h.  To  use  them,  this  file
+must  be  included in the file of the calling routine and that routine must
+be written in C.
+
+
+5.1:  spADD REAL ELEMENT()
+
+Macro function that adds a real value to an element  in  the  matrix  by  a
+pointer.
+
+spADD REAL ELEMENT( pElement , Real )
+
+o Arguments:
+
+     pElement  input  (spREAL *)
+          A pointer to the element to which Real is to be added.
+
+     Real  input  (spREAL)
+          The real value that is to be added to the element.
+
+
+
+
+
+5.2:  spADD IMAG ELEMENT()
+
+Macro function that adds a imaginary value to an element in the matrix by a
+pointer.
+
+spADD IMAG ELEMENT( pElement , Imag )
+
+o Arguments:
+
+     pElement  input  (spREAL *)
+          A pointer to the element to which Imag is to be added.
+
+     Imag  input  (spREAL)
+          The imaginary value that is to be added to the element.
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 51 -
+
+
+
+
+
+5.3:  spADD COMPLEX ELEMENT()
+
+Macro function that adds a complex value to an element in the matrix  by  a
+pointer.
+
+spADD COMPLEX ELEMENT( pElement, Real, Imag )
+
+o Arguments:
+
+     pElement  input  (spREAL  *)
+          A pointer to the element to which Real and Imag are to be added.
+
+     Real  input  (spREAL)
+          The real value that is to be added to the element.
+
+     Imag  input  (spREAL)
+          The imaginary value that is to be added to the element.
+
+
+
+
+
+5.4:  spADD REAL QUAD()
+
+Macro that adds a real value to the four elements  specified  by  Template.
+The  value  is  added to the first two elements in Template, and subtracted
+from the last two.
+
+spADD REAL QUAD( Template, Real )
+
+o Arguments:
+
+     Template  input  (struct spTemplate)
+          Data structure containing the pointers to four matrix elements.
+
+     Real  input  (spREAL)
+          Real value to be added to the elements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 52 -
+
+
+
+
+
+5.5:  spADD IMAG QUAD()
+
+Macro that adds an imaginary value to the four elements specified  by  Tem-
+plate.   The value is added to the first two elements in Template, and sub-
+tracted from the last two.
+
+spADD IMAG QUAD( Template, Imag )
+
+o Arguments:
+
+     Template  input  (struct spTemplate)
+          Data structure containing the pointers to four matrix elements.
+
+     Imag  input  (spREAL)
+          Imaginary value to be added to the elements.
+
+
+
+
+
+5.6:  spADD COMPLEX QUAD()
+
+Macro that adds a complex value to the four elements specified by Template.
+The  value  is  added to the first two elements in Template, and subtracted
+from the last two.
+
+spADD COMPLEX QUAD( Template, Real, Imag )
+
+o Arguments:
+
+     Template  input  (struct spTemplate)
+          Data structure containing the pointers to four matrix elements.
+
+     Real  input  (spREAL)
+          Real value to be added to the elements.
+
+     Imag  input  (spREAL)
+          Imaginary value to be added to the elements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 53 -
+
+
+6:  CONFIGURING SPARSE
+
+     Sparse has a extensive set of options and parameters that can  be  set
+at  compile  time  to  alter the personality of the program.  They also are
+used to eliminate routines that are not needed so as to reduce  the  amount
+of  memory  required to hold the object code.  These options and parameters
+consist of macros definitions and are contained in the file spConfig.h.  To
+configure  Sparse, spConfig.h must be edited and then Sparse must be recom-
+piled.
+
+     Some terminology should be defined.  The Markowitz row  count  is  the
+number  of non-zero elements in a row excluding the one being considered as
+pivot.  There is one Markowitz row count  for  every  row.   The  Markowitz
+column  count  is defined similarly for columns.  The Markowitz product for
+an element is the product of its row and column counts. It is a measure  of
+how  much  work  would be required on the next step of the factorization if
+that element were chosen to be pivot.  A small Markowitz product is  desir-
+able.  For a more detailed explanation, see Kundert [kundert86].
+
+
+6.1:  Sparse Options
+
+REAL
+
+This specifies that the routines are expected to  handle  real  systems  of
+equations.   The  routines  can be compiled to handle both real and complex
+systems at the same time, but there is a slight speed and memory  advantage
+if the routines are complied to handle only real systems of equations.
+
+
+spCOMPLEX
+
+This specifies that the routines will be complied to handle complex systems
+of equations.
+
+
+EXPANDABLE
+
+Setting this compiler flag true makes the matrix expandable before  it  has
+been  reordered.   If the matrix is expandable, then if an element is added
+that would be considered out of bounds in the current matrix, the  size  of
+the matrix is increased to hold that element.  As a result, the size of the
+matrix need not be known before the matrix is built.  The matrix can be al-
+located  with size zero and expanded.  It is possible to expand the size of
+a matrix after it is been reordered if TRANSLATE and  EXPANDABLE  are  both
+set true.
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 54 -
+
+
+
+TRANSLATE
+
+This option allows the set of external row and column numbers  to  be  non-
+packed.  In other words, the row and column numbers need not be contiguous.
+The priced paid for this flexibility is that when TRANSLATE  is  set  true,
+the time required to initially build the matrix will be greater because the
+external  row  and  column  number  must  be   translated   into   internal
+equivalents.   This translation brings about other benefits though.  First,
+the spGetElement(), spGetAdmittance(), spGetQuad(),  and  spGetOnes()  rou-
+tines  may  be used after the matrix has been factored.  Further, elements,
+and even rows and columns, may be added to the matrix, and rows and columns
+may  be  deleted  from  the matrix, after it has been reordered.  Note that
+when the set of row and column number is not a packed set, neither are  the
+RHS  and Solution vectors.  Thus the size of these vectors must be at least
+as large as the external size, which is the value of the largest given  row
+or column numbers.
+
+
+INITIALIZE
+
+Causes the spInitialize(), spGetInitInfo(),  and  spInstallInitInfo()  rou-
+tines  to be compiled.  These routines allow the user to store and read one
+pointer in each nonzero element in the matrix.  spInitialize() then calls a
+user  specified function for each structural nonzero in the matrix, and in-
+cludes this pointer as well as the external row and column numbers as argu-
+ments.   This  allows  the  user to write custom matrix and right-hand side
+vector initialization routines.
+
+
+DIAGONAL PIVOTING
+
+Many matrices, and in particular node-  and  modified-node  admittance  ma-
+trices,  tend  to  be nearly symmetric and nearly diagonally dominant.  For
+these matrices, it is a good idea to select pivots from the diagonal.  With
+this option enabled, this is exactly what happens, though if no satisfacto-
+ry pivot can be found on the diagonal, an off-diagonal pivot will be  used.
+If this option is disabled, Sparse does not preferentially search the diag-
+onal.  Because of this, Sparse has a  wider  variety  of  pivot  candidates
+available,  and so presumably fewer fill-ins will be created.  However, the
+initial pivot selection process will take considerably longer.  If  working
+with node admittance matrices, or other matrices with a strong diagonal, it
+is probably best to use DIAGONAL PIVOTING for two reasons.  First, accuracy
+will  be  better because pivots will be chosen from the large diagonal ele-
+ments, thus reducing the chance of growth and hence, roundoff.   Second,  a
+near optimal ordering will be chosen quickly.  If the class of matrices you
+are  working  with  does  not  have  a  strong   diagonal,   do   not   use
+DIAGONAL PIVOTING,   but   consider   using   a   larger  threshold.   When
+DIAGONAL PIVOTING is turned off, the following options  and  constants  are
+not used: MODIFIED MARKOWITZ, MAX MARKOWITZ TIES, and TIES MULTIPLIER.
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 55 -
+
+
+
+ARRAY OFFSET
+
+This determines whether arrays start at an index of zero or one.  This  op-
+tion  is  necessitated by the fact that standard C convention dictates that
+arrays begin with an index of zero but the standard  mathematic  convention
+states  that  arrays begin with an index of one.  So if you prefer to start
+your arrays with zero, or you're calling Sparse from some other programming
+language,  use  an ARRAY OFFSET of 0.  Otherwise, use an ARRAY OFFSET of 1.
+Note that if you use an offset of one, the arrays that you pass  to  Sparse
+must  have an allocated length of one plus the external size of the matrix.
+ARRAY OFFSET must be either 0 or 1, no other offsets are valid.
+
+
+spSEPARATED COMPLEX VECTORS
+
+This specifies the format for complex vectors.  If this is set false then a
+complex vector is made up of one double sized array of spREALs in which the
+real and imaginary numbers are placed alternately in the array.   In  other
+words,   the   first   entry   would   be   Complex[1].Real,   then   comes
+Complex[1].Imag, then Complex[2].Real, etc.  If spSEPARATED COMPLEX VECTORS
+is  set  true,  then  each  complex  vector is represented by two arrays of
+spREALs, one with the real terms, the other with the imaginary.
+
+
+MODIFIED MARKOWITZ
+
+This specifies that the modified Markowitz method of pivot selection is  to
+be  used.  The modified Markowitz method differs from standard Markowitz in
+two ways.  First, under modified Markowitz, the search for a pivot  can  be
+terminated  early  if  a adequate (in terms of sparsity) pivot candidate is
+found.  Thus, when using modified Markowitz, the initial factorization  can
+be  faster, but at the expense of a suboptimal pivoting order that may slow
+subsequent factorizations.  The second difference is in  the  way  modified
+Markowitz  breaks Markowitz ties.  When two or more elements are pivot can-
+didates and they all have the same Markowitz product, then the tie is  bro-
+ken by choosing the element that is best numerically.  The numerically best
+element is the one with the largest ratio of its magnitude to the magnitude
+of  the largest element in the same column, excluding itself.  The modified
+Markowitz method results in marginally better accuracy.
+
+
+DELETE
+
+This specifies that the spDeleteRowAndCol()  routine  should  be  compiled.
+Note that for this routine to be compiled, both DELETE and TRANSLATE should
+be set true.
+
+
+STRIP
+
+This specifies that the spStripFills() routine should be compiled.
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 56 -
+
+
+
+MODIFIED NODAL
+
+This specifies that the spMNA Preorder(), the routine that preorders  modi-
+fied node admittance matrices, should be compiled.  This routine results in
+greater speed and accuracy if used with this type of matrix.
+
+
+QUAD ELEMENT
+
+This specifies that the routines that allow four related elements to be en-
+tered into the matrix at once should be compiled.  The routines affected by
+QUAD ELEMENT are spGetAdmittance(), spGetQuad(), and spGetOnes().
+
+
+TRANSPOSE
+
+This specifies  that  spSolveTranspose()  and  perhaps  spMultTransposed(),
+which operate on the matrix as if it was transposed, should be compiled.
+
+SCALING
+
+This specifies that the routine that performs scaling on the matrix  should
+be  complied.  Scaling is not strongly supported.  The routine to scale the
+matrix is provided, but no routines are provided to scale and  descale  the
+RHS  and  Solution vectors.  It is suggested that if scaling is desired, it
+only be performed when the pivot order is being chosen, which  is  done  in
+spOrderAndFactor().   This,  and when the condition number of the matrix is
+calculated with spCondition(), are the only times scaling  has  an  effect.
+The scaling may then either be removed from the solution by the user or the
+scaled factored matrix may simply be thrown away.
+
+
+DOCUMENTATION
+
+This specifies  that  routines  that  are  used  to  document  the  matrix,
+spPrint(),  spFileMatrix(),  spFileVector(),  and  spFileStats(), should be
+compiled.
+
+
+DETERMINANT
+
+This specifies that the spDeterminant() routine should be complied.
+
+
+STABILITY
+
+This specifies that spLargestElement() and spRoundoff() should be compiled.
+These  routines  are  used to check the stability (and hence the quality of
+the pivoting) of the factorization by computing a bound on the size of  the
+element  is the matrix E = A-LU.  If this bound is very high after applying
+spOrderAndFactor(), then the pivot threshold  should  be  raised.   If  the
+bound  increases  greatly  after  using  spFactor(), then the matrix should
+probably be reordered.
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 57 -
+
+
+
+CONDITION
+
+This specifies that spCondition() and spNorm(), the code  that  computes  a
+good estimate of the condition number of the matrix, should be compiled.
+
+
+PSEUDOCONDITION
+
+This specifies that spPseudoCondition(), the code that computes a crude and
+easily  fooled  indicator  of the ill-conditioning in the matrix, should be
+compiled.
+
+
+MULTIPLICATION
+
+This specifies that spMultiply() and perhaps spMultTransposed(),  the  rou-
+tines that multiply an unfactored matrix by a vector, should be compiled.
+
+
+FORTRAN
+
+This specifies that the FORTRAN interface to Sparse1.3 should be  compiled.
+The  ARRAY OFFSET  option  should  be set to NO when interfacing to FORTRAN
+programs.
+
+
+DEBUG
+
+This specifies that additional error checking should be compiled.  The type
+of  errors  checked  are those that are common when the matrix routines are
+first integrated into a user's program.  Once the routines  have  been  in-
+tegrated  in  and  are  running smoothly, this option should be turned off.
+With DEBUG enabled, Sparse is very  defensive.   If  a  Sparse  routine  is
+called  improperly,  a message will be printed describing the file and line
+number where the error was found and execution is aborted.  One thing  that
+Sparse  is  particularly  picky about is calling certain functions after an
+error  has  occurred.   If   an   error   has   occurred,   do   not   call
+spMNA Preorder(),  spScale(), spOrderAndFactor(), spFactor(), spSolve(), or
+spSolveTransposed() until the error has been cleared by spClear() or spIni-
+tialize().
+
+
+
+6.2:  Sparse Constants
+
+     These constants are used throughout the sparse matrix routines.   They
+should be set to suit the type of matrices being solved.
+
+
+DEFAULT THRESHOLD
+
+The threshold used if the user  enters  an  invalid  threshold.   Also  the
+threshold  used by spFactor() when calling spOrderAndFactor().  The default
+threshold should not be less than or equal to zero nor larger than one.
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 58 -
+
+
+
+DIAG PIVOTING AS DEFAULT
+
+This indicates whether spOrderAndFactor() should use diagonal  pivoting  as
+default.   This  issue  only  arises when spOrderAndFactor() is called from
+spFactor().
+
+
+SPACE FOR ELEMENTS
+
+This number multiplied by the size of the matrix equals the number of  ele-
+ments for which memory is initially allocated in spCreate().
+
+
+SPACE FOR FILL INS
+
+This number multiplied by the size of the matrix equals the number of  ele-
+ments for which memory is initially allocated and specifically reserved for
+fill-ins in spCreate().
+
+
+ELEMENTS PER ALLOCATION
+
+The number of matrix elements requested from the  malloc  utility  on  each
+call  to  it.   Setting  this  value greater than one reduces the amount of
+overhead spent in this system call.
+
+
+MINIMUM ALLOCATED SIZE
+
+The minimum allocated size of a matrix.  Note that this does not limit  the
+minimum  size  of  a  matrix.  This just prevents having to resize a matrix
+many times if the matrix is expandable, large and  allocated  with  an  es-
+timated size of zero.  This number must not be less than one.
+
+
+EXPANSION FACTOR
+
+The minimum increase in the allocated size of the matrix when it is expand-
+ed.  This number must be greater than one but shouldn't be much larger than
+two.
+
+
+MAX MARKOWITZ TIES
+
+This number is used for two slightly different things, both of which relate
+to  the search for the best pivot.  First, it is the maximum number of ele-
+ments that are Markowitz tied that will be sifted through  when  trying  to
+find  the  one  that  is numerically the best.  Second, it creates an upper
+bound on how large a Markowitz product can be before it eliminates the pos-
+sibility  of early termination of the pivot search.  In other words, if the
+product of the smallest Markowitz product yet found and TIES MULTIPLIER  is
+greater  than  MAX MARKOWITZ TIES,  then  no early termination takes place.
+Set MAX MARKOWITZ TIES to some small value if no early termination  of  the
+pivot  search  is  desired.  An  array  of  spREALs  is  allocated  of size
+MAX MARKOWITZ TIES so it must be positive and shouldn't be too large.
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 59 -
+
+
+
+TIES MULTIPLIER
+
+Specifies the number of Markowitz ties that are allowed to occur before the
+search  for  the  pivot is terminated early.  Set to some large value if no
+early termination of the pivot search is desired.  This  number  is  multi-
+plied  by the Markowitz product to determine how many ties are required for
+early termination.  This means that more elements will be  searched  before
+early termination if a large number of fill-ins could be created by accept-
+ing what is currently considered the best choice for  the  pivot.   Setting
+this  number  to  zero effectively eliminates all pivoting, which should be
+avoided.  This number must be positive.
+
+
+DEFAULT PARTITION
+
+Which partition mode is used by spPartition()  as  default.   Possibilities
+include:
+
+     spDIRECT PARTITION  - each row used direct addressing, best for a  few
+          relatively dense matrices.
+
+     spINDIRECT PARTITION  - each row used indirect addressing, best for  a
+          few very sparse matrices.
+
+     spAUTO PARTITION  - direct or indirect addressing is chosen on a  row-
+          by-row  basis, carries a large overhead, but speeds up both dense
+          and sparse matrices, best if there is a large number of  matrices
+          that can use the same ordering.
+
+
+PRINTER WIDTH
+
+Gives the number of characters printable in one page width.  Set to 80  for
+terminals and 132 for line printers.
+
+
+6.3:  Machine Constants
+
+These numbers must be updated when the program is ported to a new machine.
+
+
+MACHINE RESOLUTION
+
+This is the smallest positive real double  precision  number  e  such  that
+1 + e = 1.
+
+
+LARGEST REAL
+
+The largest positive real number representable by a double.
+
+
+SMALLEST REAL
+
+The smallest positive real number representable by a double.
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 60 -
+
+
+
+LARGEST SHORT INTEGER
+
+The largest positive integer representable by a short.
+
+
+LARGEST LONG INTEGER
+
+The largest positive integer representable by a long.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 61 -
+
+
+7:  EXPORTS
+
+7.1:  Error Codes
+
+     Errors are indicated with a integer error  code.   Macros  definitions
+for  these  error codes are set up and placed in the file spMatrix.h.  They
+may be imported into the users program to give readable names to the possi-
+ble matrix errors.  The possible error codes and there corresponding macros
+are:
+
+
+
+spOKAY  -  0
+
+No error has occurred.
+
+spSMALL PIVOT  -  1
+
+When reordering the matrix, no element was found which satisfies the  abso-
+lute  threshold  criteria.  The largest element in the matrix was chosen as
+pivot.  Nonfatal.
+
+spZERO DIAG  -  2
+
+Fatal error.  A zero was encountered on the diagonal of the  matrix.   This
+does  not  necessarily  imply that the matrix is singular.  When this error
+occurs, the  matrix  should  be  reconstructed  and  factored  using  spOr-
+derAndFactor().
+
+spSINGULAR  -  3
+
+Fatal error.  Matrix is singular, so no unique solution exists.
+
+spNO MEMORY  -  4
+
+Fatal error.  Indicates that not enough memory is available from the system
+to handle the matrix.
+
+spPANIC  -  5
+
+Fatal error indicating that the routines are being asked  to  do  something
+nonsensical  or  something they are not prepared for.  This error may occur
+when the matrix is specified to be real and the routines are  not  compiled
+for  real  matrices,  or when the matrix is specified to be complex and the
+routines are not compiled to handle complex matrices.
+
+spFATAL  -  2
+
+Not an error flag, but rather the dividing line between  fatal  errors  and
+warnings.
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 62 -
+
+
+7.2:  Data Structures
+
+     There is only one data structure that may need  to  be  imported  from
+Sparse  by  the user.  This data structure is used to hold pointers to four
+related elements in matrix.  It is used in conjunction with the routines
+        spGetAdmittance()
+        spGetOnes()
+        spGetQuad()
+
+spGetAdmittance(), spGetOnes(), and spGetQuad() stuff the  structure  which
+is later used by the spADD QUAD() macros.  It is also possible for the user
+to collect four pointers returned by spGetElement() and stuff them into the
+template.   The  spADD QUAD() macros add a value into Element1 and Element2
+and subtract the value from Element3 and Element4.  The structure is:
+
+
+struct spTemplate
+{       spREAL    *Element1;
+        spREAL    *Element2;
+        spREAL    *Element3Negated;
+        spREAL    *Element4Negated;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 63 -
+
+
+8:  FORTRAN COMPATIBILITY
+
+     The Sparse1.3 package contains routines that interface  to  a  calling
+program  written  in  FORTRAN.  Almost every externally available Sparse1.3
+routine has a counterpart defined with the same name except that  the  `sp'
+prefix is changed to `sf'.  The spADD ELEMENT() and spADD QUAD() macros are
+also replaced with the sfAdd1() and sfAdd4() functions.
+
+     Any interface between two languages is going to have portibility prob-
+lems, this one is no exception.  To ease porting the FORTRAN interface file
+to different operating systems, the names of the interface functions can be
+easily  redefined  (search  for  `Routine  Renaming' in spFortran.c).  When
+interfacing to a FORTRAN program, the FORTRAN option should be set  to  YES
+and  the  ARRAY OFFSET  option  should  be set to NO (see spConfig.h).  For
+details on the return value and argument list  of  a  particular  interface
+routine, see the file spFortran.c.
+
+     A simple example of a FORTRAN program that calls Sparse follows.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 64 -
+
+
+Example:
+           integer matrix, error, sfCreate, sfGetElement, spFactor
+           integer element(10)
+           double precision rhs(4), solution(4)
+     c
+     c create matrix
+           matrix = sfCreate(4,0,error)
+     c
+     c reserve elements
+           element(1) = sfGetElement(matrix,1,1)
+           element(2) = sfGetElement(matrix,1,2)
+           element(3) = sfGetElement(matrix,2,1)
+           element(4) = sfGetElement(matrix,2,2)
+           element(5) = sfGetElement(matrix,2,3)
+           element(6) = sfGetElement(matrix,3,2)
+           element(7) = sfGetElement(matrix,3,3)
+           element(8) = sfGetElement(matrix,3,4)
+           element(9) = sfGetElement(matrix,4,3)
+           element(10) = sfGetElement(matrix,4,4)
+     c
+     c clear matrix
+           call sfClear(matrix)
+     c
+     c load matrix
+           call sfAdd1Real(element(1), 2d0)
+           call sfAdd1Real(element(2), -1d0)
+           call sfAdd1Real(element(3), -1d0)
+           call sfAdd1Real(element(4), 3d0)
+           call sfAdd1Real(element(5), -1d0)
+           call sfAdd1Real(element(6), -1d0)
+           call sfAdd1Real(element(7), 3d0)
+           call sfAdd1Real(element(8), -1d0)
+           call sfAdd1Real(element(9), -1d0)
+           call sfAdd1Real(element(10), 3d0)
+           call sfprint(matrix, .false., .false., .true.)
+           rhs(1) = 34d0
+           rhs(2) = 0d0
+           rhs(3) = 0d0
+           rhs(4) = 0d0
+     c
+     c factor matrix
+           error = sfFactor(matrix)
+     c
+     c solve matrix
+           call sfSolve(matrix, rhs, solution)
+           write (6, 10) solution(1), solution(2), solution(3), solution(4)
+        10 format (f 10.2)
+           end
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 65 -
+
+
+9:  SPARSE TEST PROGRAM
+
+     The Sparse package includes a test program that is able to read matrix
+equations  from  text  files  and  print  their  solution along with matrix
+statistics and timing information.  The program  can  also  generate  files
+containing stripped versions of the unfactored and factored matrix suitable
+for plotting using standard plotting programs, such as the UNIX  graph  and
+plot commands.
+
+The Sparse test program is invoked using the following syntax.
+
+     sparse [options] [file1] [file2] ...
+
+     Options:
+     -s         Print solution only.
+     -r x       Use x as relative threshold.
+     -a x       Use x as absolute threshold.
+     -n n       Print first n terms of solution vector.
+     -i n       Repeat build/factor/solve n times for  better
+                timing results.
+     -b n       Use column n of  matrix  as  right-hand  side
+                vector.
+     -p         Create  plot   files   ``filename.bef''   and
+                ``filename.aft''.
+     -c         Use complete (as opposed to diagonal)  pivot-
+                ing.
+     -x         Treat real matrix as complex  with  imaginary
+                part zero.
+     -t         Solve transposed system.
+     -u         Print usage message.
+
+
+The presence of certain options is dependent  on  whether  the  appropriate
+Sparse option has been enabled.
+
+If no input files are specified, sparse reads from the standard input.  The
+syntax of the input file is as follows.  The matrix begins with one line of
+arbitrary text that acts as the label, followed by a line with the  integer
+size  of  the  matrix  and  either the real or complex keywords.  After the
+header is an  arbitrary  number  of  lines  that  describe  the  structural
+nonzeros  in  the matrix.  These lines have the form row column data, where
+row and column are integers and data is either one  real  number  for  real
+matrices  or  a  real/imaginary pair of numbers for complex matrices.  Only
+one structural nonzero is described per line  and  the  section  ends  when
+either  row  or  column are zero.  Following the matrix, an optional right-
+hand side vector can be described.  The vector is  given  one  element  per
+line,  the  number  of element must equal the size of the matrix.  Only one
+matrix and one vector are allowed per file, and the vector, if given,  must
+follow the matrix.
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 66 -
+
+
+Example:
+     mat0  -  Simple matrix.
+     4       real
+     1       1       2.0
+     1       2       -1.0
+     2       1       -1.0
+     2       2       3.0
+     2       3       -1.0
+     3       2       -1.0
+     3       3       3.0
+     3       4       -1.0
+     4       3       -1.0
+     4       4       3.0
+     0       0       0.0
+     34.0
+     0.0
+     0.0
+     0.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 67 -
+
+
+10:  SPARSE FILES
+
+     The following is a list of the files contained in the  Sparse  package
+and  a  brief description of their contents.  Of the files, only spConfig.h
+is expected to be modified by the user and only spMatrix.h need be imported
+into the program that calls Sparse.
+
+
+spAlloc.c
+
+This file contains the routines for allocating and deallocating objects as-
+sociated with the matrices, including the matrices themselves.
+
+o User accessible functions contained in this module:
+     spCreate()
+     spDestroy()
+     spError()
+     spWhereSingular()
+     spGetSize()
+     spSetReal()
+     spSetComplex()
+     spFillinCount()
+     spElementCount()
+
+
+spBuild.c
+
+This file contains the routines for clearing and loading the matrix.
+
+o User accessible functions contained in this module:
+     spClear()
+     spGetAdmittance()
+     spGetElement()
+     spGetInitInfo()
+     spGetOnes()
+     spGetQuad()
+     spInitialize()
+     spInstallInitInfo()
+
+
+spConfig.h
+
+This file contains the options that are used to customize the package.  For
+example,  it is possible to specify whether only real or complex systems of
+equations are to be solved.  Also included in this  file  are  the  various
+constants used by the Sparse package, such as the amount of memory initial-
+ly allocated for each matrix and the largest real number represented by the
+machine.   The user is expected to modify this file to maximize the perfor-
+mance of the routines with his/her matrices.
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 68 -
+
+
+
+spDefs.h
+
+This module contains common data structure definitions and macros  for  the
+sparse  matrix routines.  These definitions are meant to remain hidden from
+the program that calls the sparse matrix routines.
+
+
+spDoc
+
+This reference manual.  spDoc contains the manual in a form that  is  read-
+able  on-line  and  spDoc.ms contains the manual in a form that is suitable
+for input into the text formatting program troff using the -ms macros.
+
+
+spFactor.c
+
+This file contains the routines for factoring matrices into LU form.
+
+o User accessible functions contained in this module:
+     spFactor()
+     spOrderAndFactor()
+     spPartition()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 69 -
+
+
+
+spFortran.c
+
+This file contains the routines for  interfacing  Sparse1.3  to  a  program
+written  in  FORTRAN.   The  function and argument lists of the routines in
+this file are almost identical to their C equivalents except that they  are
+suitable  for  calling from a FORTRAN program.  The names of these routines
+use the `sf' prefix to distinguish them from their C counterparts.
+
+o User accessible functions contained in this module:
+     sfAdd1Complex()
+     sfAdd1Imag()
+     sfAdd1Real()
+     sfAdd4Complex()
+     sfAdd4Imag()
+     sfAdd4Real()
+     sfClear()
+     sfCondition()
+     sfCreate()
+     sfDeleteRowAndCol()
+     sfDestroy()
+     sfDeterminant()
+     sfElementCount()
+     sfError()
+     sfFactor()
+     sfFileMatrix()
+     sfFileStats()
+     sfFileVector()
+     sfFillinCount()
+     sfGetAdmittance()
+     sfGetElement()
+     sfGetOnes()
+     sfGetQuad()
+     sfGetSize()
+     sfLargestElement()
+     sfMNA Preorder()
+     sfMultTransposed()
+     sfMultiply()
+     sfNorm()
+     sfOrderAndFactor()
+     sfPartition()
+     sfPrint()
+     sfPseudoCondition()
+     sfRoundoff()
+     sfScale()
+     sfSetComplex()
+     sfSetReal()
+     sfSolve()
+     sfSolveTransposed()
+     sfStripFills()
+     sfWhereSingular()
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 70 -
+
+
+
+spMatrix.h
+
+This file contains definitions that are useful to the calling program.   In
+particular,  this file contains error keyword definitions, some macro func-
+tions that are used to quickly enter data into the matrix,  the  definition
+of  a  data structure that acts as a template for entering admittances into
+the matrix, and the type declarations of the various Sparse functions.
+
+
+spOutput.c
+
+This file contains the output-to-file and output-to-screen routines for the
+matrix package.  They are capable of outputting the matrix in either a form
+readable by people or a form readable by the Sparse test program.
+
+o User accessible functions contained in this module:
+     spFileMatrix()
+     spFileStats()
+     spFileVector()
+     spPrint()
+
+
+spRevision
+
+The history of updates for the program.  This file also  includes  ordering
+information for the Sparse package.
+
+
+spSolve.c
+
+This module contains the forward and backward substitution routines.
+
+o User accessible functions contained in this module:
+     spSolve()
+     spSolveTransposed()
+
+
+spTest.c
+
+This module contains a test program for the sparse matrix routines.  It  is
+able  to  read  matrices  from  files and solve them.  Because of the large
+number of options and capabilities built into Sparse, it is  impossible  to
+have one test routine thoroughly exercise Sparse.  Thus, emphasis is on ex-
+ercising as many capabilities as is reasonable while also providing a  use-
+ful tool.
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 71 -
+
+
+
+spUtil.c
+
+This module contains various optional utility routines.
+
+o User accessible functions contained in this module:
+     spCondition()
+     spDeleteRowAndCol()
+     spDeterminant()
+     spLargestElement()
+     spMNA Preorder()
+     spMultiply()
+     spMultTransposed()
+     spNorm()
+     spPseudoCondition()
+     spRoundoff()
+     spScale()
+     spStripFills()
+
+
+Makefile
+
+This file is used in conjunction with the UNIX program make to compile  the
+matrix routines and their test program.
+
+
+make.com
+
+This file is used to automatically compile Sparse under the  VMS  operating
+system.  It needs to modified slightly before being used, see the installa-
+tion notes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+                           - 72 -
+
+
+REFERENCES
+
+[duff86]       I. S. Duff, A. M. Erisman, J. K. Reid.  Direct  Methods  for
+               Sparse Matrices.  Oxford University Press, 1986.
+
+[golub86]      G. H. Golub, C. F. V. Van Loan.  Matrix  Computations.   The
+               Johns Hopkins University Press, 1983.
+
+[kundert86]    Kenneth S. Kundert.  Sparse matrix techniques.   In  Circuit
+               Analysis,  Simulation  and  Design,  Albert Ruehli (editor).
+               North-Holland, 1986.
+
+[strang80]     Gilbert  Strang.   Linear  Algebra  and  Its   Applications.
+               Academic Press, 1980.
+
+
+Acknowledgements
+
+     We would like to acknowledge and thank the those people  that  contri-
+buted  ideas  that  were  incorporated  into  Sparse.  In particular, Jacob
+White, Kartikeya Mayaram, Don Webber, Tom Quarles, Howard Ko and  Beresford
+Parlett.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+
+
+
+
+
+
+                     Table of Contents
+
+
+
+
+1:  Introduction .....................................................    1
+
+        1.1:  Features of Sparse1.3 ..................................    1
+
+        1.2:  Enhancements of Sparse1.3 over Sparse1.2 ...............    2
+
+        1.3:  Copyright Information ..................................    3
+
+2:  Primer ...........................................................    4
+
+        2.1:  Solving Matrix Equations ...............................    4
+
+        2.2:  Error Control ..........................................    5
+
+        2.3:  Building the Matrix ....................................    6
+
+        2.4:  Initializing the Matrix ................................    7
+
+        2.5:  Indices ................................................    8
+
+        2.6:  Configuring Sparse .....................................    9
+
+3:  Introduction to the Sparse Routines ..............................   10
+
+        3.1:  Creating the Matrix ....................................   10
+
+        3.2:  Building the Matrix ....................................   10
+
+        3.3:  Clearing the Matrix ....................................   10
+
+        3.4:  Placing Data in the Matrix .............................   11
+
+        3.5:  Influencing the Factorization ..........................   11
+
+        3.6:  Factoring the Matrix ...................................   11
+
+        3.7:  Solving the Matrix Equation ............................   12
+
+        3.8:  Numerical Error Estimation .............................   12
+
+        3.9:  Matrix Operations ......................................   13
+
+        3.10:  Matrix Statistics and Documentation ...................   13
+
+4:  Routines .........................................................   15
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+
+
+
+        4.1:  spClear() ..............................................   15
+
+        4.2:  spCondition() ..........................................   16
+
+        4.3:  spCreate() .............................................   17
+
+        4.4:  spDeleteRowAndCol() ....................................   18
+
+        4.5:  spDestroy() ............................................   18
+
+        4.6:  spDeterminant() ........................................   19
+
+        4.7:  spElementCount() .......................................   20
+
+        4.8:  spError() ..............................................   20
+
+        4.9:  spFactor() .............................................   21
+
+        4.10:  spFileMatrix() ........................................   22
+
+        4.11:  spFileStats() .........................................   23
+
+        4.12:  spFileVector() ........................................   24
+
+        4.13:  spFillinCount() .......................................   25
+
+        4.14:  spGetAdmittance() .....................................   26
+
+        4.15:  spGetElement() ........................................   27
+
+        4.16:  spGetInitInfo() .......................................   28
+
+        4.17:  spGetOnes() ...........................................   30
+
+        4.18:  spGetQuad() ...........................................   32
+
+        4.19:  spGetSize() ...........................................   32
+
+        4.20:  spInitialize() ........................................   34
+
+        4.21:  spInstallInitInfo() ...................................   34
+
+        4.22:  spLargestElement() ....................................   35
+
+        4.23:  spMNA Preorder() ......................................   36
+
+        4.24:  spMultiply() ..........................................   37
+
+        4.25:  spMultTransposed() ....................................   38
+
+        4.26:  spNorm() ..............................................   39
+
+        4.27:  spOrderAndFactor() ....................................   39
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+
+
+
+        4.28:  spPartition() .........................................   42
+
+        4.29:  spPrint() .............................................   42
+
+        4.30:  spPseudoCondition() ...................................   43
+
+        4.31:  spRoundoff() ..........................................   44
+
+        4.32:  spScale() .............................................   45
+
+        4.33:  spSetComplex() ........................................   46
+
+        4.34:  spSetReal() ...........................................   46
+
+        4.35:  spSolve() .............................................   47
+
+        4.36:  spSolveTransposed() ...................................   48
+
+        4.37:  spStripFills() ........................................   49
+
+        4.38:  spWhereSingular() .....................................   49
+
+5:  Macro Functions ..................................................   50
+
+        5.1:  spADD REAL ELEMENT() ...................................   50
+
+        5.2:  spADD IMAG ELEMENT() ...................................   50
+
+        5.3:  spADD COMPLEX ELEMENT() ................................   51
+
+        5.4:  spADD REAL QUAD() ......................................   51
+
+        5.5:  spADD IMAG QUAD() ......................................   52
+
+        5.6:  spADD COMPLEX QUAD() ...................................   52
+
+6:  Configuring Sparse ...............................................   53
+
+        6.1:  Sparse Options .........................................   53
+
+        6.2:  Sparse Constants .......................................   57
+
+        6.3:  Machine Constants ......................................   59
+
+7:  Exports ..........................................................   61
+
+        7.1:  Error Codes ............................................   61
+
+        7.2:  Data Structures ........................................   62
+
+8:  FORTRAN Compatibility ............................................   63
+
+9:  Sparse Test Program ..............................................   65
+
+
+
+
+                       June 23, 1988
+
+
+
+
+
+
+
+
+10:  Sparse Files ....................................................   67
+
+References ...........................................................   72
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       June 23, 1988

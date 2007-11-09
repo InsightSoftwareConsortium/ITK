@@ -1,0 +1,13 @@
+// NB: size_t is declared in <cstddef>, not <ctime>
+@clock_t
+@time_t
+@tm
+@asctime
+@clock
+@difftime
+@localtime
+@strftime
+@ctime
+@gmtime
+@mktime
+@time

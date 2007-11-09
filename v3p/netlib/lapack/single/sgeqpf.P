@@ -1,0 +1,9 @@
+extern int sgeqpf_(integer *m, integer *n, real *a, integer *lda, integer *jpvt, real *tau, real *work, integer *info);
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: sswap_ 14 5 4 6 4 6 4 */
+/*:ref: sgeqr2_ 14 7 4 4 6 4 6 6 4 */
+/*:ref: sorm2r_ 14 14 13 13 4 4 4 6 4 6 6 4 6 4 124 124 */
+/*:ref: snrm2_ 6 3 4 6 4 */
+/*:ref: isamax_ 4 3 4 6 4 */
+/*:ref: slarfg_ 14 5 4 6 6 4 6 */
+/*:ref: slarf_ 14 10 13 4 4 6 4 6 6 4 6 124 */

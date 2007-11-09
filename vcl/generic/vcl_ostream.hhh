@@ -1,0 +1,6 @@
+@basic_ostream
+@ostream
+@wostream
+@endl
+@ends
+@flush

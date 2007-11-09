@@ -1,0 +1,4 @@
+extern int dlabfc_(integer *n, integer *nband, doublereal *a, doublereal *sigma, integer *number, integer *lde, doublereal *eigvec, integer *numl, integer *ldad, doublereal *atemp, doublereal *d__, doublereal *atol);
+/*:ref: dcopy_ 14 5 4 7 4 7 4 */
+/*:ref: dswap_ 14 5 4 7 4 7 4 */
+/*:ref: daxpy_ 14 6 4 7 7 4 7 4 */
