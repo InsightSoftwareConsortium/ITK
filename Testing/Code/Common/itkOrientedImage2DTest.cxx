@@ -32,6 +32,8 @@ int itkOrientedImage2DTest( int ac, char * av[] )
     << "corner1x corner1y "
     << "corner2x corner2y "
     << "corner3x corner3y "
+    << "derivative1x derivative1y "
+    << "derivative2x derivative2y "
     << std::endl;
     return EXIT_FAILURE;
     }
@@ -41,6 +43,10 @@ int itkOrientedImage2DTest( int ac, char * av[] )
 
   typedef itk::OrientedImage<PixelType, Dimension>    ImageType;
   typedef itk::ImageFileReader< ImageType >           ReaderType;
+
+  typedef ImageType::IndexType                        IndexType;
+  typedef ImageType::PointType                        PointType;
+  typedef IndexType::IndexValueType                   IndexValueType;
 
   ReaderType::Pointer reader = ReaderType::New();
   
@@ -70,8 +76,8 @@ int itkOrientedImage2DTest( int ac, char * av[] )
 
   const int numberOfPointsToTest = 3;
 
-  ImageType::IndexType index[numberOfPointsToTest];
-  ImageType::PointType physicalPoint;
+  IndexType index[numberOfPointsToTest];
+  PointType physicalPoint;
 
   index[0][0] = 0;
   index[0][1] = 0;
@@ -115,9 +121,9 @@ int itkOrientedImage2DTest( int ac, char * av[] )
   // Select a point in the middle of the image and compute its
   // derivative using the image orientation.
   //
-  ImageType::IndexType centralIndex;
-  centralIndex[0] = size[0] / 2.0;
-  centralIndex[1] = size[1] / 2.0;
+  IndexType centralIndex;
+  centralIndex[0] = static_cast< IndexValueType >( size[0] / 2.0 );
+  centralIndex[1] = static_cast< IndexValueType >( size[1] / 2.0 );
 
   typedef itk::CentralDifferenceImageFunction< ImageType, double >   CentralDifferenceImageFunctionType;
 
