@@ -174,8 +174,8 @@ IF(ITK_DATA_ROOT)
                     124.000    214.774     0.000
                       0.000      0.000   168.000
 
-                      0.000      0.000     0.000
-                      0.000      0.000     0.000
+                      0.125     -4.125     9.000
+                     -1.95425   -3.63485   9.000
                    )
   ELSE(ITK_USE_ORIENTED_IMAGE_DIRECTION)
     ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
@@ -186,8 +186,8 @@ IF(ITK_DATA_ROOT)
                     124.000    214.774     0.000
                       0.000      0.000   168.000
 
-                      0.000      0.000     0.000
-                      0.000      0.000     0.000
+                      0.125     -4.125     9.000
+                      0.125     -4.125     9.000
                    )
   ENDIF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
