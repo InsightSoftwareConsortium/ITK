@@ -101,7 +101,7 @@ int itkVariableSizeMatrixTest(int, char*[])
     }
 
   // Product by vnl_matrix
-  vnl_matrix<float> dVnl(3,2,10.0);
+  vnl_matrix<float> dVnl(2,3,10.0);
   std::cout << "***** h" << std::endl << h << std::endl;
   std::cout << "***** dVnl" << std::endl << dVnl << std::endl;
   std::cout << "***** h * dVnl" << std::endl << h * dVnl << std::endl;
