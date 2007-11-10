@@ -128,29 +128,69 @@ IF(ITK_DATA_ROOT)
                  ${ITK_DATA_ROOT}/Input/cake_hard.png 
                  ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
 
-  ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
-     itkOrientedImage2DTest 
-                 ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
+  IF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
+    # The difference between these two tests is that if the CMake flag for
+    # image orientation is ON, then the second computation of the gradient
+    # should now take direction into account. Since not all builds have this
+    # flag enabled, the builds with the option OFF will get the gradients in 
+    # the frame of the image grid.
+    ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
+       itkOrientedImage2DTest 
+                   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
 
-                     0.000    0.000
-                   191.392  110.500
-                  -128.500  222.569
+                       0.000    0.000
+                     191.392  110.500
+                    -128.500  222.569
 
-                     4.000   -8.000
-                     7.4641  -4.9282
-                  )
+                       4.000   -8.000
+                       7.4641  -4.9282
+                    )
+  ELSE(ITK_USE_ORIENTED_IMAGE_DIRECTION)
+    ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
+       itkOrientedImage2DTest 
+                   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
 
-  ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
-     itkOrientedImage3DTest 
-                 ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd
-                    0.000      0.000     0.000
-                  166.277    -96.000     0.000
-                  124.000    214.774     0.000
-                    0.000      0.000   168.000
+                       0.000    0.000
+                     191.392  110.500
+                    -128.500  222.569
 
-                    0.000      0.000     0.000
-                    0.000      0.000     0.000
-                 )
+                       4.000   -8.000
+                       4.000   -8.000
+                    )
+  ENDIF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
+
+
+  IF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
+    # The difference between these two tests is that if the CMake flag for
+    # image orientation is ON, then the second computation of the gradient
+    # should now take direction into account. Since not all builds have this
+    # flag enabled, the builds with the option OFF will get the gradients in 
+    # the frame of the image grid.
+    ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
+       itkOrientedImage3DTest 
+                   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd
+                      0.000      0.000     0.000
+                    166.277    -96.000     0.000
+                    124.000    214.774     0.000
+                      0.000      0.000   168.000
+
+                      0.000      0.000     0.000
+                      0.000      0.000     0.000
+                   )
+  ELSE(ITK_USE_ORIENTED_IMAGE_DIRECTION)
+    ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
+       itkOrientedImage3DTest 
+                   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd
+                      0.000      0.000     0.000
+                    166.277    -96.000     0.000
+                    124.000    214.774     0.000
+                      0.000      0.000   168.000
+
+                      0.000      0.000     0.000
+                      0.000      0.000     0.000
+                   )
+  ENDIF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
+
 
 ENDIF(ITK_DATA_ROOT)
 
