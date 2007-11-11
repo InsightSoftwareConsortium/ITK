@@ -27,6 +27,7 @@
 typedef itk::ImportImageContainer<unsigned long,short>::Pointer myPointer;
 bool TestNew2(myPointer v, const char* expectedClassName)
 {
+
   std::cout << "v->GetNameOfClass(): " << v->GetNameOfClass();
   std::cout << ", expectedClassName: " << expectedClassName << std::endl;
   if(strcmp(v->GetNameOfClass(), expectedClassName) != 0)
@@ -68,6 +69,7 @@ void MakeImage(const int count, T pixel)
 
 int itkObjectFactoryTest2(int argc, char *argv[])
 {
+  itk::ObjectFactoryBase::UnRegisterAllFactories();
   if (argc < 2)
     {
     std::cout << "Usage: " << argv[0] << " FactoryPath" << std::endl;
@@ -136,11 +138,12 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   MakeImage(10, static_cast<double>(0));
   }
   itk::RGBPixel<unsigned char> rgbUC; rgbUC.Fill(0);
-  itk::RGBPixel<unsigned char> rgbUS; rgbUS.Fill(0);
+  itk::RGBPixel<unsigned short> rgbUS; rgbUS.Fill(0);
   MakeImage(10, rgbUC);
   MakeImage(10, rgbUS);
 
   int status = EXIT_SUCCESS;
+
   return status;
 }
 

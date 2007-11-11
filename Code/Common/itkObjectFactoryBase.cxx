@@ -37,12 +37,14 @@ class CleanUpObjectFactory
 {
 public:
   inline void Use() 
-  {
-  }
+    {
+    }
   ~CleanUpObjectFactory()
-  {
+    {
+#if THERE_MAY_BE_LEAKS_HERE
     itk::ObjectFactoryBase::UnRegisterAllFactories();
-  }  
+#endif
+    }  
 };
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
 }
@@ -465,7 +467,6 @@ ObjectFactoryBase
     if ( factory == *i )
       {
       m_RegisteredFactories->remove(factory);
-      factory->UnRegister();
       return;
       }
     }
@@ -486,7 +487,7 @@ ObjectFactoryBase
             = m_RegisteredFactories->begin();
           i != m_RegisteredFactories->end(); ++i )
       {
-      (*i)->UnRegister();
+      UnRegisterFactory(*i);
       }
     delete ObjectFactoryBase::m_RegisteredFactories;
     ObjectFactoryBase::m_RegisteredFactories = 0;

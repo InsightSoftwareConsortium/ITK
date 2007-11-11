@@ -68,33 +68,33 @@ private:
   mutable TElementIdentifier m_TotalSize;
 };
 
-class TestFactory : public itk::ObjectFactoryBase
+class ImportImageContainerFactory : public itk::ObjectFactoryBase
 {
 public:
-  typedef TestFactory                   Self;
+  typedef ImportImageContainerFactory   Self;
   typedef itk::ObjectFactoryBase        Superclass;
   typedef itk::SmartPointer<Self>       Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion() const { return ITK_SOURCE_VERSION; }
-  const char* GetDescription() const { return "A Test Factory"; }
+  const char* GetDescription() const { return "A Factory for ImportImageContainer"; }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TestFactory, itk::ObjectFactoryBase);
+  itkTypeMacro(ImportImageContainerFactory, itk::ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
-    TestFactory::Pointer factory = TestFactory::New();
+    ImportImageContainerFactory::Pointer factory = ImportImageContainerFactory::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }
 
 private:
-  TestFactory(const Self&);    //purposely not implemented
+  ImportImageContainerFactory(const Self&);    //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
 #define OverrideTypeMacro(t)       this->RegisterOverride(\
@@ -105,7 +105,7 @@ private:
         itk::CreateObjectFunction<TestImportImageContainer<unsigned long,t > >::New())
 
 
-  TestFactory()
+  ImportImageContainerFactory()
     {
       OverrideTypeMacro(short);
       OverrideTypeMacro(unsigned char);
@@ -125,6 +125,6 @@ private:
  */
 itk::ObjectFactoryBase* itkLoad()
 {
-    static TestFactory::Pointer f = TestFactory::New();
+    static ImportImageContainerFactory::Pointer f = ImportImageContainerFactory::New();
     return f;
 }
