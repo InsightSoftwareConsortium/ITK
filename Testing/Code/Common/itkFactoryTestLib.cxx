@@ -19,6 +19,8 @@
 #include "itkRGBPixel.h"
 #include "itkVersion.h"
 
+static unsigned long itkTotalMemoryUsed = 0;
+
 template<class TElementIdentifier, typename TElement>
 class TestImportImageContainer : public itk::ImportImageContainer< TElementIdentifier, TElement >
 {
@@ -114,8 +116,6 @@ private:
       OverrideTypeMacro(itk::RGBPixel<unsigned short>);
     }
 };
-
-static unsigned long itkTotalMemoryUsed = 0;
 
 /**
  * Routine that is called when the shared library is loaded by

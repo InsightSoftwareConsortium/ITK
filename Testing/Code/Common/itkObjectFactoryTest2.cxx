@@ -20,6 +20,7 @@
 
 #include "itkImage.h"
 #include "itkRGBPixel.h"
+#include "itksys/SystemTools.hxx"
 #include <string>
 #include <list>
 
@@ -41,11 +42,11 @@ template<class T>
 void MakeImage(const int count, T pixel)
 {
   typedef itk::Image<T, 3>      ImageType;
-  typedef ImageType::IndexType  IndexType;
-  typedef ImageType::RegionType RegionType;
-  typedef ImageType::SizeType   SizeType;
+  typedef typename ImageType::IndexType  IndexType;
+  typedef typename ImageType::RegionType RegionType;
+  typedef typename ImageType::SizeType   SizeType;
 
-  ImageType::Pointer  testImage    = ImageType::New();
+  typename ImageType::Pointer  testImage    = ImageType::New();
 
   IndexType index;
   index[0] = 0;
