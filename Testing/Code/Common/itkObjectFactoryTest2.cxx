@@ -133,8 +133,10 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   MakeImage(10, static_cast<float>(0));
   MakeImage(10, static_cast<double>(0));
   }
+#ifndef __BORLANDC__
   MakeImage(10, itk::NumericTraits<itk::RGBPixel<unsigned char> >::Zero);
   MakeImage(10, itk::NumericTraits<itk::RGBPixel<unsigned short> >::Zero);
+#endif
 
   int status = EXIT_SUCCESS;
   return status;
