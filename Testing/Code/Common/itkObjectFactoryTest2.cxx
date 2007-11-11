@@ -38,7 +38,7 @@ bool TestNew2(myPointer v, const char* expectedClassName)
 
 
 template<class T>
-void MakeImage(const int count, T)
+void MakeImage(const int count, T pixel)
 {
   typedef itk::Image<T, 3>      ImageType;
   typedef ImageType::IndexType  IndexType;
@@ -62,6 +62,7 @@ void MakeImage(const int count, T)
 
   testImage->SetRegions( region );
   testImage->Allocate();
+  testImage->FillBuffer(pixel);
 }
 
 int itkObjectFactoryTest2(int argc, char *argv[])
@@ -133,10 +134,10 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   MakeImage(10, static_cast<float>(0));
   MakeImage(10, static_cast<double>(0));
   }
-#ifndef __BORLANDC__
-  MakeImage(10, itk::NumericTraits<itk::RGBPixel<unsigned char> >::Zero);
-  MakeImage(10, itk::NumericTraits<itk::RGBPixel<unsigned short> >::Zero);
-#endif
+  itk::RGBPixel<unsigned char> rgbUC; rgbUC.Fill(0);
+  itk::RGBPixel<unsigned char> rgbUS; rgbUS.Fill(0);
+  MakeImage(10, rgbUC);
+  MakeImage(10, rgbUS);
 
   int status = EXIT_SUCCESS;
   return status;
