@@ -79,7 +79,7 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   myenv += std::string(CMAKE_INTDIR);
 #endif
   std::cout << myenv << std::endl;
-  putenv (myenv.c_str());
+  putenv (const_cast<char *>(myenv.c_str()));
   itk::ObjectFactoryBase::ReHash();
 
   // List all registered factories
