@@ -41,9 +41,7 @@ public:
     }
   ~CleanUpObjectFactory()
     {
-#if THERE_MAY_BE_LEAKS_HERE
     itk::ObjectFactoryBase::UnRegisterAllFactories();
-#endif
     }  
 };
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
@@ -488,7 +486,11 @@ ObjectFactoryBase
             = m_RegisteredFactories->begin();
           i != m_RegisteredFactories->end(); ++i )
       {
-      UnRegisterFactory(*i);
+      // Although it seems that one could call UnRegisterFactory here,
+      // there must be some iterator issue after a remove on a
+      // list. Unregistering each factory followed by a delete of the
+      // lists has the same effect.
+      (*i)->UnRegister();
       }
     delete ObjectFactoryBase::m_RegisteredFactories;
     ObjectFactoryBase::m_RegisteredFactories = 0;
