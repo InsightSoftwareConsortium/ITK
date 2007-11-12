@@ -15,6 +15,7 @@ SET(REGISTRATION_EXAMPLES6 ${CXX_TEST_PATH}/RegistrationExamples6)
 SET(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
 SET(REGISTRATION_EXAMPLES8 ${CXX_TEST_PATH}/RegistrationExamples8)
 SET(REGISTRATION_EXAMPLES9 ${CXX_TEST_PATH}/RegistrationExamples9)
+SET(REGISTRATION_EXAMPLES10 ${CXX_TEST_PATH}/RegistrationExamples10)
 
 ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration3 ITKIO ITKNumerics)
@@ -479,7 +480,7 @@ ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
 )
 
 
-ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES9}
+ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES10}
   ModelToImageRegistration2Test
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png  12 12
 )
@@ -515,6 +516,9 @@ TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKBasicFilters
 
 ADD_EXECUTABLE(RegistrationExamples9 RegistrationExamples9.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples9 ITKFEM ITKBasicFilters ITKNumerics)
+
+ADD_EXECUTABLE(RegistrationExamples10 RegistrationExamples10.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples10 ITKFEM ITKBasicFilters ITKNumerics)
 
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
