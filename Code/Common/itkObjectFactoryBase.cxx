@@ -41,7 +41,9 @@ public:
     }
   ~CleanUpObjectFactory()
     {
+#if !defined(__GNUC__)
     itk::ObjectFactoryBase::UnRegisterAllFactories();
+#endif
     }  
 };
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
