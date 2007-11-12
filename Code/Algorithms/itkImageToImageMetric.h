@@ -17,6 +17,15 @@
 #ifndef __itkImageToImageMetric_h
 #define __itkImageToImageMetric_h
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptImageToImageMetric.h"
+#else
+
 #include "itkImageBase.h"
 #include "itkTransform.h"
 #include "itkInterpolateImageFunction.h"
@@ -234,6 +243,8 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageToImageMetric.txx"
+#endif
+
 #endif
 
 #endif

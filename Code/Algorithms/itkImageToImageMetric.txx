@@ -17,6 +17,15 @@
 #ifndef __itkImageToImageMetric_txx
 #define __itkImageToImageMetric_txx
 
+// First, make sure that we include the configuration file.
+// This line may be removed once the ThreadSafeTransform gets
+// integrated into ITK.
+#include "itkConfigure.h"
+
+// Second, redirect to the optimized version if necessary
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptImageToImageMetric.txx"
+#else
 
 #include "itkImageToImageMetric.h"
 
@@ -200,5 +209,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
 
 } // end namespace itk
+
+#endif
 
 #endif
