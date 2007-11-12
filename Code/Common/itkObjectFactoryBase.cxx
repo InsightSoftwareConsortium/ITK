@@ -41,7 +41,9 @@ public:
     }
   ~CleanUpObjectFactory()
     {
+#if THERE_MAY_BE_LEAKS_HERE
     itk::ObjectFactoryBase::UnRegisterAllFactories();
+#endif
     }  
 };
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
@@ -418,9 +420,6 @@ ObjectFactoryBase
 
   ObjectFactoryBase::Initialize();
   ObjectFactoryBase::m_RegisteredFactories->push_back(factory);
-
-  // Register the pointer since m_RegisteredFactories contains raw
-  // pointers to factories, not smart pointers.
   factory->Register();
 }
 
@@ -467,10 +466,6 @@ ObjectFactoryBase
     {
     if ( factory == *i )
       {
-      // NOTE: the UnRegister must be done before the remove. If
-      // "factory" is an iterator to a list element, then the ->remove
-      // invalidates it. UnRegisterFactory is called from
-      // UnRegisterAllFactories which calls UnRegisterFactory with an iterator.
       factory->UnRegister();
       m_RegisteredFactories->remove(factory);
       return;
