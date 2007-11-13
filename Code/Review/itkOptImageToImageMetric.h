@@ -376,7 +376,7 @@ protected:
    * image derivatives from the BSpline interpolator. Otherwise, 
    * image derivatives are computed using central differencing.
    */
-  typedef OptBSplineInterpolateImageFunction<MovingImageType,
+  typedef BSplineInterpolateImageFunction<MovingImageType,
                                              CoordinateRepresentationType> 
                                                        BSplineInterpolatorType;
   /** Typedefs for using central difference calculator. */

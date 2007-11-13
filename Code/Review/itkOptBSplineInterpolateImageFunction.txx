@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineInterpolateImageFunction.txx
+  Module:    itkOptBSplineInterpolateImageFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -19,16 +19,6 @@
 =========================================================================*/
 #ifndef _itkBSplineInterpolateImageFunction_txx
 #define _itkBSplineInterpolateImageFunction_txx
-
-// First, make sure that we include the configuration file.
-// This line may be removed once the ThreadSafeTransform gets
-// integrated into ITK.
-#include "itkConfigure.h"
-
-// Second, redirect to the optimized version if necessary
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptBSplineInterpolateImageFunction.txx"
-#else
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"
@@ -49,13 +39,39 @@ template <class TImageType, class TCoordRep, class TCoefficientType>
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::BSplineInterpolateImageFunction()
 {
+  m_NumberOfThreads = 1;
+  m_ThreadedEvaluateIndex = NULL;
+  m_ThreadedWeights = NULL;
+  m_ThreadedWeightsDerivative = NULL;
+
+  m_CoefficientFilter = CoefficientFilter::New();
+  m_Coefficients = CoefficientImageType::New();
+
   m_SplineOrder = 0;
   unsigned int SplineOrder = 3;
-  m_CoefficientFilter = CoefficientFilter::New();
-  // ***TODO: Should we store coefficients in a variable or retrieve from filter?
-  m_Coefficients = CoefficientImageType::New();
   this->SetSplineOrder(SplineOrder);
   this->m_UseImageDirection = false;
+}
+
+template <class TImageType, class TCoordRep, class TCoefficientType>
+BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
+::~BSplineInterpolateImageFunction()
+{
+  if(m_ThreadedEvaluateIndex != NULL)
+    {
+    delete [] m_ThreadedEvaluateIndex;
+    m_ThreadedEvaluateIndex = NULL;
+    }
+  if(m_ThreadedWeights != NULL)
+    {
+    delete [] m_ThreadedWeights;
+    m_ThreadedWeights = NULL;
+    }
+  if(m_ThreadedWeightsDerivative != NULL)
+    {
+    delete [] m_ThreadedWeightsDerivative;
+    m_ThreadedWeightsDerivative = NULL;
+    }
 }
 
 /**
@@ -84,11 +100,6 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   if ( inputData )
     {
     m_CoefficientFilter->SetInput(inputData);
-
-    // the Coefficient Filter requires that the spline order and the input data be set.
-    // TODO:  We need to ensure that this is only run once and only after both input and
-    //        spline order have been set. Should we force an update after the 
-    //        splineOrder has been set also?
 
     m_CoefficientFilter->Update();
     m_Coefficients = m_CoefficientFilter->GetOutput();
@@ -127,25 +138,34 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   this->GeneratePointsToIndex( );
 }
 
+template <class TImageType, class TCoordRep, class TCoefficientType>
+void 
+BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
+::SetNumberOfThreads(unsigned int numThreads)
+{
+  m_NumberOfThreads = numThreads;
+  this->GeneratePointsToIndex( );
+}
 
 template <class TImageType, class TCoordRep, class TCoefficientType>
 typename 
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::OutputType
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
-::EvaluateAtContinuousIndex( const ContinuousIndexType & x ) const
+::EvaluateAtContinuousIndex( const ContinuousIndexType & x,
+                             unsigned int threadID ) const
 {
-  vnl_matrix<long>        EvaluateIndex(ImageDimension, ( m_SplineOrder + 1 ));
+  vnl_matrix<long> * evaluateIndex = &(m_ThreadedEvaluateIndex[threadID]);
+  vnl_matrix<double> * weights = &(m_ThreadedWeights[threadID]);
 
   // compute the interpolation indexes 
-  this->DetermineRegionOfSupport(EvaluateIndex, x, m_SplineOrder); 
+  this->DetermineRegionOfSupport((*evaluateIndex), x, m_SplineOrder); 
 
   // Determine weights
-  vnl_matrix<double>        weights(ImageDimension, ( m_SplineOrder + 1 ));
-  SetInterpolationWeights( x, EvaluateIndex, weights, m_SplineOrder );
+  SetInterpolationWeights( x, (*evaluateIndex), (*weights), m_SplineOrder );
 
-  // Modify EvaluateIndex at the boundaries using mirror boundary conditions
-  this->ApplyMirrorBoundaryConditions(EvaluateIndex, m_SplineOrder);
+  // Modify evaluateIndex at the boundaries using mirror boundary conditions
+  this->ApplyMirrorBoundaryConditions((*evaluateIndex), m_SplineOrder);
   
   // perform interpolation 
   double interpolated = 0.0;
@@ -153,70 +173,44 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   // Step through eachpoint in the N-dimensional interpolation cube.
   for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; p++)
     {
-    // translate each step into the N-dimensional index.
-    //      IndexType pointIndex = PointToIndex( p );
-
     double w = 1.0;
     for (unsigned int n = 0; n < ImageDimension; n++ )
       {
-      w *= weights[n][ m_PointsToIndex[p][n] ];
-      coefficientIndex[n] = EvaluateIndex[n][m_PointsToIndex[p][n]];  // Build up ND index for coefficients.
+      unsigned int indx = m_PointsToIndex[p][n];
+      w *= (*weights)[n][indx];
+      coefficientIndex[n] = (*evaluateIndex)[n][indx];
       }
-    // Convert our step p to the appropriate point in ND space in the
-    // m_Coefficients cube.
     interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
     }
     
-/*  double interpolated = 0.0;
-  IndexType coefficientIndex;
-  // Step through eachpoint in the N-dimensional interpolation cube.
-  for (unsigned int sp = 0; sp <= m_SplineOrder; sp++)
-    {
-    for (unsigned int sp1=0; sp1 <= m_SplineOrder; sp1++)
-      {
-
-      double w = 1.0;
-      for (unsigned int n1 = 0; n1 < ImageDimension; n1++ )
-        {
-        w *= weights[n1][ sp1 ];
-        coefficientIndex[n1] = EvaluateIndex[n1][sp];  // Build up ND index for coefficients.
-        }
-
-        interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
-      }  
-    }
-*/
   return(interpolated);
-    
 }
-
 
 template <class TImageType, class TCoordRep, class TCoefficientType>
 typename 
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 :: CovariantVectorType
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
-::EvaluateDerivativeAtContinuousIndex( const ContinuousIndexType & x ) const
+::EvaluateDerivativeAtContinuousIndex( const ContinuousIndexType & x,
+                                       unsigned int threadID ) const
 {
-  vnl_matrix<long>        EvaluateIndex(ImageDimension, ( m_SplineOrder + 1 ));
+  vnl_matrix<long> * evaluateIndex =   &(m_ThreadedEvaluateIndex[threadID]);
+  vnl_matrix<double> * weights =       &(m_ThreadedWeights[threadID]);
+  vnl_matrix<double> * weightsDerivative = 
+                                       &(m_ThreadedWeightsDerivative[threadID]);
 
-  // compute the interpolation indexes 
-  // TODO: Do we need to revisit region of support for the derivatives?
-  this->DetermineRegionOfSupport(EvaluateIndex, x, m_SplineOrder);
+  this->DetermineRegionOfSupport((*evaluateIndex), x, m_SplineOrder);
 
-  // Determine weights
-  vnl_matrix<double>        weights(ImageDimension, ( m_SplineOrder + 1 ));
-  SetInterpolationWeights( x, EvaluateIndex, weights, m_SplineOrder );
+  SetInterpolationWeights( x, (*evaluateIndex), (*weights), m_SplineOrder );
 
-  vnl_matrix<double>        weightsDerivative(ImageDimension, ( m_SplineOrder + 1));
-  SetDerivativeWeights( x, EvaluateIndex, weightsDerivative, ( m_SplineOrder ) );
+  SetDerivativeWeights( x,
+                        (*evaluateIndex),
+                        (*weightsDerivative),
+                        m_SplineOrder );
 
   // Modify EvaluateIndex at the boundaries using mirror boundary conditions
-  this->ApplyMirrorBoundaryConditions(EvaluateIndex, m_SplineOrder);
+  this->ApplyMirrorBoundaryConditions((*evaluateIndex), m_SplineOrder);
   
-  const InputImageType * inputImage = this->GetInputImage();
-  const typename InputImageType::SpacingType & spacing = inputImage->GetSpacing();
-
   // Calculate derivative
   CovariantVectorType derivativeValue;
   double tempValue;
@@ -229,22 +223,23 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
       tempValue = 1.0 ; 
       for (unsigned int n1 = 0; n1 < ImageDimension; n1++)
         {
-        //coefficientIndex[n1] = EvaluateIndex[n1][sp];
-        coefficientIndex[n1] = EvaluateIndex[n1][m_PointsToIndex[p][n1]];
+        unsigned int indx;
+        indx = m_PointsToIndex[p][n1];
+        coefficientIndex[n1] = (*evaluateIndex)[n1][indx];
 
         if (n1 == n)
           {
-          //w *= weights[n][ m_PointsToIndex[p][n] ];
-          tempValue *= weightsDerivative[n1][ m_PointsToIndex[p][n1] ];
+          tempValue *= (*weightsDerivative)[n1][indx];
           }
         else
           {
-          tempValue *= weights[n1][ m_PointsToIndex[p][n1] ];          
+          tempValue *= (*weights)[n1][indx];          
           }
         }
-      derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) * tempValue ;
+      derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) 
+                            * tempValue ;
       }
-     derivativeValue[n] /= spacing[n];   // take spacing into account
+     derivativeValue[n] /= this->GetInputImage()->GetSpacing()[n];   
     }
 
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
@@ -259,12 +254,93 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   return(derivativeValue);
 }
 
+template <class TImageType, class TCoordRep, class TCoefficientType>
+void
+BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
+::EvaluateValueAndDerivativeAtContinuousIndex( const ContinuousIndexType & x,
+                                       OutputType & value,
+                                       CovariantVectorType & derivativeValue,
+                                       unsigned int threadID ) const
+{
+  vnl_matrix<long> * evaluateIndex =   &(m_ThreadedEvaluateIndex[threadID]);
+  vnl_matrix<double> * weights =       &(m_ThreadedWeights[threadID]);
+  vnl_matrix<double> * weightsDerivative = 
+                                       &(m_ThreadedWeightsDerivative[threadID]);
+
+  this->DetermineRegionOfSupport((*evaluateIndex), x, m_SplineOrder);
+
+  SetInterpolationWeights( x, (*evaluateIndex), (*weights), m_SplineOrder );
+
+  SetDerivativeWeights( x, 
+                        (*evaluateIndex), 
+                        (*weightsDerivative),
+                        m_SplineOrder );
+
+  // Modify EvaluateIndex at the boundaries using mirror boundary conditions
+  this->ApplyMirrorBoundaryConditions( (*evaluateIndex), m_SplineOrder);
+  
+  unsigned int indx;
+  double tmpV;
+  double w, w1, tmpW;
+  IndexType coefficientIndex;
+  value = 0.0;
+  unsigned int p, n, n1;
+  derivativeValue[0] = 0.0;
+  for (p = 0; p < m_MaxNumberInterpolationPoints; p++)
+    {
+    indx = m_PointsToIndex[p][0];
+    coefficientIndex[0] = (*evaluateIndex)[0][indx];
+    w = (*weights)[0][indx];
+    w1 = (*weightsDerivative)[0][indx];
+    for (n = 1; n < ImageDimension; n++)
+      {
+      indx = m_PointsToIndex[p][n];
+      coefficientIndex[n] = (*evaluateIndex)[n][indx];
+      tmpW = (*weights)[n][indx];
+      w *= tmpW;
+      w1 *= tmpW;
+      }
+    tmpV = m_Coefficients->GetPixel(coefficientIndex);
+    value += w * tmpV;
+    derivativeValue[0] += w1 * tmpV;
+    }
+  derivativeValue[0] /= this->GetInputImage()->GetSpacing()[0];
+  for (n = 1; n < ImageDimension; n++)
+    {
+    derivativeValue[n] = 0.0;
+    for (p = 0; p < m_MaxNumberInterpolationPoints; p++)
+      {
+      w1 = 1.0 ; 
+      for (n1 = 0; n1 < ImageDimension; n1++)
+        {
+        indx = m_PointsToIndex[p][n1];
+        coefficientIndex[n1] = (*evaluateIndex)[n1][indx];
+
+        if (n1 == n)
+          {
+          w1 *= (*weightsDerivative)[n1][indx];
+          }
+        else
+          {
+          w1 *= (*weights)[n1][indx];          
+          }
+        }
+      derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) 
+                            * w1 ;
+      }
+    // take spacing into account
+    derivativeValue[n] /= this->GetInputImage()->GetSpacing()[n];
+    }
+}
+
 
 template <class TImageType, class TCoordRep, class TCoefficientType>
 void 
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
-::SetInterpolationWeights( const ContinuousIndexType & x, const vnl_matrix<long> & EvaluateIndex, 
-                           vnl_matrix<double> & weights, unsigned int splineOrder ) const
+::SetInterpolationWeights( const ContinuousIndexType & x,
+                           const vnl_matrix<long> & EvaluateIndex, 
+                           vnl_matrix<double> & weights,
+                           unsigned int splineOrder ) const
 {
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
@@ -361,12 +437,15 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 template <class TImageType, class TCoordRep, class TCoefficientType>
 void 
 BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
-::SetDerivativeWeights( const ContinuousIndexType & x, const vnl_matrix<long> & EvaluateIndex, 
-                        vnl_matrix<double> & weights, unsigned int splineOrder ) const
+::SetDerivativeWeights( const ContinuousIndexType & x,
+                        const vnl_matrix<long> & EvaluateIndex, 
+                        vnl_matrix<double> & weights,
+                        unsigned int splineOrder ) const
 {
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
-  // Another possiblity would be to loop inside the case statement (reducing the number
+  // Another possiblity would be to loop inside the case statement (reducing
+  // the number
   // of switch statement executions to one per routine call.
   // Left as is for now for readability.
   double w, w1, w2, w3, w4, w5, t, t0, t1, t2;
@@ -375,7 +454,8 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   switch (derivativeSplineOrder)
     {
     
-    // Calculates B(splineOrder) ( (x + 1/2) - xi) - B(splineOrder -1) ( (x - 1/2) - xi)
+    // Calculates B(splineOrder) ( (x + 1/2) - xi) - 
+    //            B(splineOrder -1)( (x - 1/2) - xi)
     case -1:
       // Why would we want to do this?
       for (unsigned int n = 0; n < ImageDimension; n++)
@@ -478,7 +558,30 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 ::GeneratePointsToIndex( )
 {
   // m_PointsToIndex is used to convert a sequential location to an N-dimension
-  // index vector.  This is precomputed to save time during the interpolation routine.
+  // index vector.  This is precomputed to save time during the interpolation
+  // routine.
+  if(m_ThreadedEvaluateIndex != NULL)
+    {
+    delete [] m_ThreadedEvaluateIndex;
+    }
+  m_ThreadedEvaluateIndex = new vnl_matrix<long>[m_NumberOfThreads];
+  if(m_ThreadedWeights != NULL)
+    {
+    delete [] m_ThreadedWeights;
+    }
+  m_ThreadedWeights = new vnl_matrix<double>[m_NumberOfThreads];
+  if(m_ThreadedWeightsDerivative != NULL)
+    {
+    delete [] m_ThreadedWeightsDerivative;
+    }
+  m_ThreadedWeightsDerivative = new vnl_matrix<double>[m_NumberOfThreads];
+  for(unsigned int i=0; i<m_NumberOfThreads; i++)
+    {
+    m_ThreadedEvaluateIndex[i].set_size(ImageDimension, m_SplineOrder+1);
+    m_ThreadedWeights[i].set_size(ImageDimension, m_SplineOrder+1);
+    m_ThreadedWeightsDerivative[i].set_size(ImageDimension, m_SplineOrder+1);
+    }
+
   m_PointsToIndex.resize(m_MaxNumberInterpolationPoints);
   for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; p++)
     {
@@ -507,19 +610,32 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   long indx;
 
 // compute the interpolation indexes 
-  for (unsigned int n = 0; n< ImageDimension; n++)
+  if (splineOrder & 1)     // Use this index calculation for odd splineOrder
     {
-    if (splineOrder & 1)     // Use this index calculation for odd splineOrder
+    for (unsigned int n = 0; n< ImageDimension; n++)
       {
-      indx = (long)vcl_floor((float)x[n]) - splineOrder / 2;
+      indx = (long)x[n];
+      if(indx<0 && (double)indx != (double)x[n])
+        {
+        indx--;
+        }
+      indx -= splineOrder / 2;
       for (unsigned int k = 0; k <= splineOrder; k++)
         {
         evaluateIndex[n][k] = indx++;
         }
       }
-    else                       // Use this index calculation for even splineOrder
+    }
+  else                       // Use this index calculation for even splineOrder
+    {
+    for (unsigned int n = 0; n< ImageDimension; n++)
       { 
-      indx = (long)vcl_floor((float)(x[n] + 0.5)) - splineOrder / 2;
+      indx = (long)(x[n]+0.5);
+      if(indx<0 && (double)indx != (double)(x[n]+0.5))
+        {
+        indx--;
+        }
+      indx -= splineOrder / 2;
       for (unsigned int k = 0; k <= splineOrder; k++)
         {
         evaluateIndex[n][k] = indx++;
@@ -551,9 +667,21 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
       {
       for (unsigned int k = 0; k <= splineOrder; k++)
         {
-        // btw - Think about this couldn't this be replaced with a more elagent modulus method?
-        evaluateIndex[n][k] = (evaluateIndex[n][k] < 0L) ? (-evaluateIndex[n][k] - dataLength2 * ((-evaluateIndex[n][k]) / dataLength2))
-          : (evaluateIndex[n][k] - dataLength2 * (evaluateIndex[n][k] / dataLength2));
+        // btw - Think about this couldn't this be replaced with a more
+        // elagent modulus method?
+
+        if(evaluateIndex[n][k] < 0L)
+          {
+          evaluateIndex[n][k] = -evaluateIndex[n][k] 
+                                 - dataLength2 
+                                   * ((-evaluateIndex[n][k]) / dataLength2);
+          }
+        else
+          {
+          evaluateIndex[n][k] = evaluateIndex[n][k] 
+                                - dataLength2 
+                                  * (evaluateIndex[n][k] / dataLength2);
+          }
         if ((long) m_DataLength[n] <= evaluateIndex[n][k])
           {
           evaluateIndex[n][k] = dataLength2 - evaluateIndex[n][k];
@@ -564,7 +692,5 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 }
 
 } // namespace itk
-
-#endif
 
 #endif
