@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineDeformableTransform.h
+  Module:    itkOptBSplineDeformableTransform.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,17 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBSplineDeformableTransform_h
-#define __itkBSplineDeformableTransform_h
 
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptBSplineDeformableTransform.h"
-#else
+#ifndef __itkOptBSplineDeformableTransform_h
+#define __itkOptBSplineDeformableTransform_h
 
 #include <iostream>
 #include "itkTransform.h"
@@ -122,9 +114,9 @@ class ITK_EXPORT BSplineDeformableTransform :
 public:
   /** Standard class typedefs. */
   typedef BSplineDeformableTransform                         Self;
-  typedef Transform< TScalarType, NDimensions, NDimensions > Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  typedef Transform< TScalarType, NDimensions, NDimensions >    Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
       
   /** New macro for creation of through the object factory.*/
   itkNewMacro( Self );
@@ -244,6 +236,10 @@ public:
   /** Get the Transformation Fixed Parameters. */
   virtual const ParametersType& GetFixedParameters(void) const;
   
+  /** Set the number of threads from which this Transform can be used
+      and reallocate internal auxiliary variables accordingly */
+  virtual void SetNumberOfThreads( unsigned int numberOfThreads ) const;
+
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType                      PixelType;
   typedef Image<PixelType,itkGetStaticConstMacro(SpaceDimension)> ImageType;
@@ -304,7 +300,7 @@ public:
   itkGetConstObjectMacro( BulkTransform, BulkTransformType );
 
   /** Transform points by a BSpline deformable transformation. */
-  OutputPointType  TransformPoint(const InputPointType  &point ) const;
+  OutputPointType  TransformPoint(const InputPointType  &point, unsigned int threadId=0 ) const;
 
   /** Interpolation weights function type. */
   typedef BSplineInterpolationWeightFunction<ScalarType,
@@ -336,7 +332,7 @@ public:
 
   /** Method to transform a vector - 
    *  not applicable for this type of transform. */
-  virtual OutputVectorType TransformVector(const InputVectorType &) const
+  virtual OutputVectorType TransformVector( const InputVectorType &, unsigned int threadID=0 ) const
     { 
     itkExceptionMacro(<< "Method not applicable for deformable transform." );
     return OutputVectorType(); 
@@ -344,7 +340,7 @@ public:
 
   /** Method to transform a vnl_vector - 
    *  not applicable for this type of transform */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const
+  virtual OutputVnlVectorType TransformVector( const InputVnlVectorType &, unsigned int threadID=0 ) const
     { 
     itkExceptionMacro(<< "Method not applicable for deformable transform. ");
     return OutputVnlVectorType(); 
@@ -353,14 +349,14 @@ public:
   /** Method to transform a CovariantVector - 
    *  not applicable for this type of transform */
   virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &) const
+    const InputCovariantVectorType &, unsigned int threadID=0 ) const
     { 
     itkExceptionMacro(<< "Method not applicable for deformable transfrom. ");
     return OutputCovariantVectorType(); 
     } 
     
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType& GetJacobian(const InputPointType  &point ) const;
+  virtual const JacobianType& GetJacobian(const InputPointType  &point, unsigned int threadID=0 ) const;
 
   /** Return the number of parameters that completely define the Transfom */
   virtual unsigned int GetNumberOfParameters(void) const;
@@ -392,6 +388,10 @@ protected:
 
   /** Wrap flat array into images of coefficients. */
   void WrapAsImages();
+
+  /** Initialize the variables for supporting multi-threading
+      computation of the Jacobian */
+  void InitializeJacobianImages() const;
 
 private:
   BSplineDeformableTransform(const Self&); //purposely not implemented
@@ -425,12 +425,15 @@ private:
   typedef Image<JacobianPixelType,
                 itkGetStaticConstMacro(SpaceDimension)> JacobianImageType;
  
-  typename JacobianImageType::Pointer m_JacobianImage[NDimensions];
+  /** Group of Jacobian images per thread */
+  typedef typename JacobianImageType::Pointer JacobianImagePointer;
+  typedef JacobianImagePointer JacobianImageArrayType[NDimensions];
+  mutable JacobianImageArrayType * m_ThreaderJacobianImage;
 
   /** Keep track of last support region used in computing the Jacobian
    * for fast resetting of Jacobian to zero.
    */
-  mutable IndexType m_LastJacobianIndex;
+  mutable IndexType * m_ThreaderLastJacobianIndex;
 
   /** Keep a pointer to the input parameters. */
   const ParametersType *  m_InputParametersPointer;
@@ -463,8 +466,6 @@ private:
 
 #if ITK_TEMPLATE_TXX
 # include "itkBSplineDeformableTransform.txx"
-#endif
-
 #endif
 
 #endif /* __itkBSplineDeformableTransform_h */

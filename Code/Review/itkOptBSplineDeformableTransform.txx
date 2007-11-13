@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBSplineDeformableTransform.txx
+  Module:    itkOptBSplineDeformableTransform.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,18 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBSplineDeformableTransform_txx
-#define __itkBSplineDeformableTransform_txx
-
-// First, make sure that we include the configuration file.
-// This line may be removed once the ThreadSafeTransform gets
-// integrated into ITK.
-#include "itkConfigure.h"
-
-// Second, redirect to the optimized version if necessary
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptBSplineDeformableTransform.txx"
-#else
+#ifndef __itkOptBSplineDeformableTransform_txx
+#define __itkOptBSplineDeformableTransform_txx
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkContinuousIndex.h"
@@ -88,15 +78,6 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     }
   m_ValidRegion = m_GridRegion;
 
-  // Initialize jacobian images
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
-    {
-    m_JacobianImage[j] = ImageType::New();
-    m_JacobianImage[j]->SetRegions( m_GridRegion );
-    m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
-    m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
-    }
-
   /** Fixed Parameters store the following information:
    *     Grid Size
    *     Grid Origin
@@ -106,8 +87,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   this->m_FixedParameters.SetSize ( NDimensions * 3 );
   this->m_FixedParameters.Fill ( 0.0 );
   
-  m_LastJacobianIndex = m_ValidRegion.GetIndex();
   
+  this->m_ThreaderJacobianImage = NULL;
+  this->m_ThreaderLastJacobianIndex = NULL;
+
+  this->InitializeJacobianImages();
 }
     
 
@@ -117,6 +101,50 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::~BSplineDeformableTransform()
 {
 
+  if( this->m_ThreaderLastJacobianIndex != NULL )
+    {
+    delete [] this->m_ThreaderLastJacobianIndex;
+    }
+
+  if( this->m_ThreaderJacobianImage != NULL )
+    {
+    delete [] this->m_ThreaderJacobianImage;
+    }
+}
+
+
+// Get the number of parameters
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::InitializeJacobianImages(void) const
+{
+
+  if( this->m_ThreaderLastJacobianIndex != NULL )
+    {
+    delete [] this->m_ThreaderLastJacobianIndex;
+    }
+
+  this->m_ThreaderLastJacobianIndex = new IndexType[ this->GetNumberOfThreads() ];
+
+  // Initialize jacobian images
+  if( this->m_ThreaderJacobianImage != NULL )
+    {
+    delete [] this->m_ThreaderJacobianImage;
+    }
+
+  this->m_ThreaderJacobianImage = new JacobianImageArrayType[ this->GetNumberOfThreads() ];
+  for ( unsigned int t = 0; t < this->GetNumberOfThreads(); t++ )
+    {
+    JacobianImageArrayType & jacobianImage = this->m_ThreaderJacobianImage[ t ];
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      jacobianImage[j] = ImageType::New();
+      jacobianImage[j]->SetRegions( m_GridRegion );
+      jacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
+      jacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+      }
+    }
 }
 
 
@@ -148,6 +176,26 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 }
 
 
+/**
+ * Set the number of threads and resize thread-safe supporting variables accordingly.
+ */
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::SetNumberOfThreads( unsigned int numberOfThreads ) const
+{
+  if( this->GetNumberOfThreads() == numberOfThreads )
+    {
+    return;
+    }
+
+  this->Superclass::SetNumberOfThreads( numberOfThreads );
+
+  this->InitializeJacobianImages();
+}
+
+
+
 // Set the grid region
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
@@ -163,7 +211,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       m_WrappedImage[j]->SetRegions( m_GridRegion );
-      m_JacobianImage[j]->SetRegions( m_GridRegion );
+      for ( unsigned int thread = 0; thread < this->GetNumberOfThreads(); thread++ )
+        {
+        JacobianImageArrayType & jacobianImage = this->m_ThreaderJacobianImage[ thread ];
+        jacobianImage[j]->SetRegions( m_GridRegion );
+        }
       }
 
     // Set the valid region
@@ -208,7 +260,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       m_WrappedImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
-      m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+      for ( unsigned int t = 0; t < this->GetNumberOfThreads(); t++ )
+        {
+        JacobianImageArrayType & jacobianImage = this->m_ThreaderJacobianImage[ t ];
+        jacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+        }
       }
 
     this->Modified();
@@ -231,7 +287,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       m_WrappedImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
-      m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
+      for ( unsigned int t = 0; t < this->GetNumberOfThreads(); t++ )
+        {
+        JacobianImageArrayType & jacobianImage = this->m_ThreaderJacobianImage[ t ];
+        jacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
+        }
       }
 
     this->Modified();
@@ -376,16 +436,23 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
    * Allocate memory for Jacobian and wrap into SpaceDimension number
    * of ITK images
    */
-  this->m_Jacobian.set_size( SpaceDimension, this->GetNumberOfParameters() );
-  this->m_Jacobian.Fill( NumericTraits<JacobianPixelType>::Zero );
-  m_LastJacobianIndex = m_ValidRegion.GetIndex();
-  JacobianPixelType * jacobianDataPointer = this->m_Jacobian.data_block();
-
-  for ( unsigned int j = 0; j < SpaceDimension; j++ )
+  for( unsigned int jt = 0; jt < this->GetNumberOfThreads(); jt++ )
     {
-    m_JacobianImage[j]->GetPixelContainer()->
-      SetImportPointer( jacobianDataPointer, numberOfPixels );
-    jacobianDataPointer += this->GetNumberOfParameters() + numberOfPixels;
+    JacobianType * jacobian = this->GetJacobianVariableForThread( jt );
+    IndexType & lastJacobianIndex = this->m_ThreaderLastJacobianIndex[ jt ];
+    JacobianImageArrayType & jacobianImage = this->m_ThreaderJacobianImage[ jt ];
+
+    jacobian->set_size( SpaceDimension, this->GetNumberOfParameters() );
+    jacobian->Fill( NumericTraits<JacobianPixelType>::Zero );
+    lastJacobianIndex = m_ValidRegion.GetIndex();
+    JacobianPixelType * jacobianDataPointer = jacobian->data_block();
+
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      jacobianImage[j]->GetPixelContainer()->
+        SetImportPointer( jacobianDataPointer, numberOfPixels );
+      jacobianDataPointer += this->GetNumberOfParameters() + numberOfPixels;
+      }
     }
 }
 
@@ -520,7 +587,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   os << indent << "InputParametersPointer: " 
      << m_InputParametersPointer << std::endl;
   os << indent << "ValidRegion: " << m_ValidRegion << std::endl;
-  os << indent << "LastJacobianIndex: " << m_LastJacobianIndex << std::endl;
+  os << indent << "ThreaderLastJacobianIndex: " << m_ThreaderLastJacobianIndex << std::endl;
   os << indent << "BulkTransform: ";
   os << m_BulkTransform.GetPointer() << std::endl;
   os << indent << "WeightsFunction: ";
@@ -674,7 +741,7 @@ template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::OutputPointType
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
-::TransformPoint(const InputPointType &point) const 
+::TransformPoint( const InputPointType &point, unsigned int itkNotUsed( threadId ) ) const 
 {
   
   WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
@@ -695,7 +762,7 @@ const
 typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::JacobianType & 
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
-::GetJacobian( const InputPointType & point ) const
+::GetJacobian( const InputPointType & point, unsigned int threadId ) const
 {
   // Can only compute Jacobian if parameters are set via
   // SetParameters or SetParametersByValue
@@ -709,15 +776,18 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // that got fill last time this method was called.
   RegionType supportRegion;
   supportRegion.SetSize( m_SupportSize );
-  supportRegion.SetIndex( m_LastJacobianIndex );
+  IndexType & lastJacobianIndex = this->m_ThreaderLastJacobianIndex[ threadId ];
+  supportRegion.SetIndex( lastJacobianIndex );
 
   typedef ImageRegionIterator<JacobianImageType> IteratorType;
   IteratorType m_Iterator[ SpaceDimension ];
   unsigned int j;
 
+  JacobianImageArrayType & jacobianImage = this->m_ThreaderJacobianImage[ threadId ];
+
   for ( j = 0; j < SpaceDimension; j++ )
     {
-    m_Iterator[j] = IteratorType( m_JacobianImage[j], supportRegion );
+    m_Iterator[j] = IteratorType( jacobianImage[j], supportRegion );
     }
 
   while ( ! m_Iterator[0].IsAtEnd() )
@@ -746,7 +816,8 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   // we assume zero displacement and return the input point
   if ( !this->InsideValidRegion( index ) )
     {
-    return this->m_Jacobian;
+    JacobianType * jacobian = this->GetJacobianVariableForThread(threadId);
+    return *jacobian;
     }
 
   // Compute interpolation weights
@@ -754,7 +825,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   IndexType supportIndex;
 
   m_WeightsFunction->Evaluate( index, weights, supportIndex );
-  m_LastJacobianIndex = supportIndex;
+  lastJacobianIndex = supportIndex;
 
   // For each dimension, copy the weight to the support region
   supportRegion.SetIndex( supportIndex );
@@ -762,7 +833,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   for ( j = 0; j < SpaceDimension; j++ )
     {
-    m_Iterator[j] = IteratorType( m_JacobianImage[j], supportRegion );
+    m_Iterator[j] = IteratorType( jacobianImage[j], supportRegion );
     }
 
   while ( ! m_Iterator[0].IsAtEnd() )
@@ -784,14 +855,12 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 
   // Return the results
-  return this->m_Jacobian;
-
+  JacobianType * jacobian = this->GetJacobianVariableForThread(threadId);
+  return *jacobian;
 }
 
  
   
 } // namespace
-
-#endif
 
 #endif
