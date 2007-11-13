@@ -353,7 +353,7 @@ protected:
 
   itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3 );
 
-  typedef OptBSplineDeformableTransform< CoordinateRepresentationType,
+  typedef BSplineDeformableTransform< CoordinateRepresentationType,
                       ::itk::GetImageDimension<FixedImageType>::ImageDimension,
                       DeformationSplineOrder >             BSplineTransformType;
 
