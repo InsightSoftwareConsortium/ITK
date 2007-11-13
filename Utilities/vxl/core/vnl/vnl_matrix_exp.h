@@ -19,6 +19,8 @@
 // \endvarbatim
 
 #include <vnl/vnl_matrix.h>
+#include <vnl/vnl_matrix_fixed.h>
+
 
 //: Compute the exponential of a square matrix - fiddly form
 // \relates vnl_matrix
@@ -29,8 +31,6 @@ bool vnl_matrix_exp(vnl_matrix<T> const &X, vnl_matrix<T> &expX, double max_err)
 // \relates vnl_matrix
 template <class T>
 vnl_matrix<T> vnl_matrix_exp(vnl_matrix<T> const &X);
-
-#include <vnl/vnl_matrix_fixed.h>
 
 //: Compute the exponential of a square nxn matrix - easy form.
 // \relates vnl_matrix_fixed
