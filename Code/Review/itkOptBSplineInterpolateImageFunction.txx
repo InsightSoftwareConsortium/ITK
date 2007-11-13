@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineInterpolateImageFunction_txx
-#define _itkBSplineInterpolateImageFunction_txx
+#ifndef _itkOptBSplineInterpolateImageFunction_txx
+#define _itkOptBSplineInterpolateImageFunction_txx
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"
@@ -210,7 +210,10 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
 
   // Modify EvaluateIndex at the boundaries using mirror boundary conditions
   this->ApplyMirrorBoundaryConditions((*evaluateIndex), m_SplineOrder);
-  
+
+  const InputImageType * inputImage = this->GetInputImage();
+  const typename InputImageType::SpacingType & spacing = inputImage->GetSpacing();
+
   // Calculate derivative
   CovariantVectorType derivativeValue;
   double tempValue;
@@ -236,10 +239,9 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
           tempValue *= (*weights)[n1][indx];          
           }
         }
-      derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) 
-                            * tempValue ;
+      derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) * tempValue ;
       }
-     derivativeValue[n] /= this->GetInputImage()->GetSpacing()[n];   
+     derivativeValue[n] /= spacing[n];   
     }
 
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
