@@ -8,7 +8,8 @@
 // \file
 
 //: pretty-printing matlab formats
-enum vnl_matlab_print_format {
+enum vnl_matlab_print_format
+{
   vnl_matlab_print_format_default,
   vnl_matlab_print_format_short,
   vnl_matlab_print_format_long,

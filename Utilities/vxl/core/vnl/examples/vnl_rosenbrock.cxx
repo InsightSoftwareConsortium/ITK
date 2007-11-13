@@ -24,8 +24,9 @@
 // optimization examples because of the slow convergence
 // of most methods.
 
-class vnl_rosenbrock : public vnl_least_squares_function {
-public:
+class vnl_rosenbrock : public vnl_least_squares_function
+{
+ public:
   vnl_rosenbrock(): vnl_least_squares_function(2, 2, no_gradient) {}
 
   void f(const vnl_vector<double>& x, vnl_vector<double>& fx)
@@ -35,8 +36,9 @@ public:
   }
 };
 
-class vnl_rosenbrock_grad_cost_fun : public vnl_cost_function {
-public:
+class vnl_rosenbrock_grad_cost_fun : public vnl_cost_function
+{
+ public:
   vnl_rosenbrock_grad_cost_fun(): vnl_cost_function(2) {}
 
   double f(const vnl_vector<double>& x) {
@@ -71,10 +73,10 @@ int main()
   levmarq.minimize(x);
 
   // Summarize the results, by querying the levmarq object.
-  vcl_cout << "** LevenbergMarquardt default **" << vcl_endl;
-  vcl_cout << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << vcl_endl;
-  vcl_cout << "Iterations: " << levmarq.get_num_iterations() << "    ";
-  vcl_cout << "Evaluations: " << levmarq.get_num_evaluations() << vcl_endl;
+  vcl_cout << "** LevenbergMarquardt default **" << vcl_endl
+           << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << vcl_endl
+           << "Iterations: " << levmarq.get_num_iterations() << "    "
+           << "Evaluations: " << levmarq.get_num_evaluations() << vcl_endl;
 
   levmarq.diagnose_outcome();
 
@@ -94,7 +96,7 @@ int main()
 
   {
     // Make a vnl_cost_function, and use vnl_amoeba
-    vcl_cout << "** Amoeba (Nelder Meade downhill simplex)  ** \n";
+    vcl_cout << "** Amoeba (Nelder Meade downhill simplex)  **\n";
     vnl_least_squares_cost_function cf(&f);
     vnl_amoeba amoeba(cf);
     x = x0;
@@ -103,7 +105,7 @@ int main()
              << "Evaluations: " << amoeba.get_num_evaluations() << vcl_endl;
   }
   {
-    vcl_cout << "** Conjugate Gradient ** \n";
+    vcl_cout << "** Conjugate Gradient **\n";
     vnl_rosenbrock_grad_cost_fun rcf;
     vnl_conjugate_gradient cg(rcf);
     x = x0;
@@ -113,7 +115,7 @@ int main()
   }
 
   {
-    vcl_cout << "** LBFGS (Limited memory Broyden Fletcher Goldfarb Shanno) ** \n";
+    vcl_cout << "** LBFGS (Limited memory Broyden Fletcher Goldfarb Shanno) **\n";
     vnl_rosenbrock_grad_cost_fun rcf;
     vnl_lbfgs lbfgs(rcf);
     x = x0;
@@ -124,7 +126,7 @@ int main()
   }
 
   {
-    vcl_cout << "** Powell (Powell's direction set method) ** \n";
+    vcl_cout << "** Powell (Powell's direction set method) **\n";
     vnl_rosenbrock_grad_cost_fun rcf;
     vnl_powell powell(&rcf);
     x = x0;

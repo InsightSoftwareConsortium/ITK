@@ -17,7 +17,8 @@
 // non-negative chisq.  Thus if a random variable x is drawn from a
 // chi-squared distribution with d degrees of freedom, then P(x < X) =
 // vnl_chi_squared::vnl_chi_squaredCumulative(X,d).
-double vnl_chi_squared_cumulative(double chisq, long dof) {
+double vnl_chi_squared_cumulative(double chisq, long dof)
+{
   double cdf;
   v3p_netlib_dchscdf_(&chisq,&dof,&cdf);
   return cdf;
@@ -30,7 +31,8 @@ double vnl_chi_squared_statistic_1 (T const *A, T const *B, int n, bool normaliz
 {
   double sum = 0;
 
-  if (normalize) {
+  if (normalize)
+  {
     T sumA = 0;
     T sumB = 0;
     for (int i=0; i<n; ++i) {
@@ -46,7 +48,8 @@ double vnl_chi_squared_statistic_1 (T const *A, T const *B, int n, bool normaliz
         sum += tmp*tmp/a;
       }
   }
-  else {
+  else
+  {
     for (int i=0; i<n; ++i)
       if (A[i]) {
         double tmp = A[i] - B[i];
@@ -68,7 +71,8 @@ double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normaliz
 {
   double sum = 0;
 
-  if (normalize) {
+  if (normalize)
+  {
     T sumA = 0;
     T sumB = 0;
     for (int i=0; i<n; ++i) {
@@ -84,7 +88,8 @@ double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normaliz
         sum += tmp*tmp/(a + b);
       }
   }
-  else {
+  else
+  {
     for (int i=0; i<n; ++i)
       if (A[i] || B[i]) {
         double tmp = A[i] - B[i];

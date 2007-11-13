@@ -90,7 +90,8 @@ extern "C" {
         void (*both)(double*,double*,double*,void*),
         void (*pre)(double*,double*,void*),
         doublereal *h__,
-        void* userdata)
+        void* userdata,
+        integer* error_code)
 {
     /* Initialized data */
 
@@ -143,6 +144,12 @@ extern "C" {
     h_dim1 = *n;
     h_offset = 1 + h_dim1;
     h__ -= h_offset;
+
+    /* Initialize to no error.  */
+    if(error_code)
+      {
+      *error_code = 0;
+      }
 
     /* Function Body */
 /*<       DATA A7/.3D0/ >*/
@@ -1041,19 +1048,45 @@ L600:
         goto L560;
     }
 /*<       WRITE(6,*) 'UNABLE TO OBTAIN DESCENT DIRECTION' >*/
-    printf("UNABLE TO OBTAIN DESCENT DIRECTION\n");
+    if(error_code)
+      {
+      *error_code = 1;
+      return 0;
+      }
+    else
+      {
+      printf("UNABLE TO OBTAIN DESCENT DIRECTION\n");
+      }
 /*<       STOP >*/
-    assert(0);
+    /*assert(0);*/
+    return 0;
 /*< 610   WRITE(6,*) 'THE FUNCTION DECREASES WITH NO MINIMUM' >*/
 L610:
-    printf("THE FUNCTION DECREASES WITH NO MINIMUM\n");
+    if(error_code)
+      {
+      *error_code = 2;
+      }
+    else
+      {
+      printf("THE FUNCTION DECREASES WITH NO MINIMUM\n");
+      }
 /*<       STOP >*/
-    assert(0);
+    /*assert(0);*/
+    return 0;
 /*< 620   WRITE(6,*) 'PRECONDITIONER NOT POSITIVE DEFINITE' >*/
 L620:
-    printf("PRECONDITIONER NOT POSITIVE DEFINITE\n");
+    if(error_code)
+      {
+      *error_code = 3;
+      return 0;
+      }
+    else
+      {
+      printf("PRECONDITIONER NOT POSITIVE DEFINITE\n");
+      }
 /*<       STOP >*/
-    assert(0);
+    /*assert(0);*/
+    return 0;
 /*< 630   Q = Q*A3**25 >*/
 L630:
 /* Computing 25th power */

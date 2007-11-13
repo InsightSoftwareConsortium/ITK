@@ -16,4 +16,7 @@
 //: Set to 0 if you don't need thread safe code (and use a more efficient alloc).
 #define VNL_CONFIG_THREAD_SAFE    @VNL_CONFIG_THREAD_SAFE@
 
+//: Set to 0 if you don't have SSE2 support on your target platform
+#define VNL_CONFIG_ENABLE_SSE2    @VNL_CONFIG_ENABLE_SSE2@
+
 #endif

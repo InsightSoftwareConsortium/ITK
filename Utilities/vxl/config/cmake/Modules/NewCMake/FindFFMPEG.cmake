@@ -42,11 +42,21 @@ ELSE( FFMPEG_CONFIG )
     /usr/local/lib64
   )
   
+  FIND_LIBRARY( FFMPEG_avutil_LIBRARY avutil
+    /usr/lib
+    /usr/local/lib
+    /usr/lib64
+    /usr/local/lib64
+  )
+  
   IF( FFMPEG_avcodec_LIBRARY )
   IF( FFMPEG_avformat_LIBRARY )
 
     SET( FFMPEG_FOUND "YES" )
     SET( FFMPEG_LIBRARIES ${FFMPEG_avformat_LIBRARY} ${FFMPEG_avcodec_LIBRARY} )
+    IF( FFMPEG_avutil_LIBRARY )
+       SET( FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_avutil_LIBRARY} )
+    ENDIF( FFMPEG_avutil_LIBRARY )
 
   ENDIF( FFMPEG_avformat_LIBRARY )
   ENDIF( FFMPEG_avcodec_LIBRARY )

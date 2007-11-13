@@ -43,8 +43,11 @@
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_matrix.h>
-#include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_numeric_traits.h>
+
+#include <vnl/vnl_c_vector.h>
+
+#include <vnl/vnl_sse.h>
 
 //--------------------------------------------------------------------------------
 
@@ -54,8 +57,9 @@
 #else
 # define vnl_vector_construct_hack()
 #endif
-
+  
 // This macro allocates the dynamic storage used by a vnl_vector.
+
 #define vnl_vector_alloc_blah(size) \
 do { \
   this->num_elmts = (size); \
@@ -68,6 +72,7 @@ do { \
   vnl_c_vector<T>::deallocate(this->data, this->num_elmts); \
 } while (false)
 
+  
 //: Creates a vector with specified length. O(n).
 // Elements are not initialized.
 
@@ -239,12 +244,7 @@ vnl_vector<T>::vnl_vector (vnl_matrix<T> const &M, vnl_vector<T> const &v, vnl_t
   if (M.cols() != v.size())
     vnl_error_vector_dimension ("vnl_vector<>::vnl_vector(M, v, vnl_vector_mul_tag)", M.cols(), v.size());
 #endif
-  for (unsigned int i=0; i<num_elmts; ++i) {
-    T som(0);
-    for (unsigned int j=0; j<M.cols(); ++j)
-      som += M[i][j] * v[j];
-    data[i] = som;
-  }
+  vnl_sse<T>::matrix_x_vector(M.begin(), v.begin(), this->begin(), M.rows(), M.cols());
 }
 
 template<class T>
@@ -256,12 +256,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &v, vnl_matrix<T> const &M, vnl_t
   if (v.size() != M.rows())
     vnl_error_vector_dimension ("vnl_vector<>::vnl_vector(v, M, vnl_vector_mul_tag)", v.size(), M.rows());
 #endif
-  for (unsigned int j=0; j<num_elmts; ++j) {
-    T som(0);
-    for (unsigned int i=0; i<M.rows(); ++i)
-      som += v[i] * M[i][j];
-    data[j] = som;
-  }
+  vnl_sse<T>::vector_x_matrix(v.begin(), M.begin(), this->begin(),  M.rows(), M.cols());
 }
 
 template<class T>
@@ -609,9 +604,11 @@ vnl_vector<T> element_product (vnl_vector<T> const& v1, vnl_vector<T> const& v2)
   if (v1.size() != v2.size())
     vnl_error_vector_dimension ("element_product", v1.size(), v2.size());
 #endif
+  
   vnl_vector<T> result(v1.size());
-  for (unsigned i = 0; i < v1.size(); i++)
-    result[i] = v1[i] * v2[i];
+ 
+  vnl_sse<T>::element_product(v1.begin(), v2.begin(), result.begin(), v1.size());
+  
   return result;
 }
 

@@ -87,6 +87,39 @@ double vnl_real_npolynomial::eval(const vnl_vector<double>& x)
   return eval(xn);
 }
 
+double vnl_real_npolynomial::deval(const vnl_vector<double>& x, unsigned int var)
+{
+  return deriv(var).eval(x);
+}
+
+vnl_vector<double> vnl_real_npolynomial::deval(const vnl_vector<double>& x)
+{
+  vnl_vector<double> dx(nvar_);
+
+  for (unsigned int j=0; j<nvar_; j++) {
+    dx(j) = deriv(j).eval(x);
+  }
+  return dx;
+}
+
+vnl_real_npolynomial vnl_real_npolynomial::deriv(unsigned int unk)
+{
+  vnl_vector<double> c(nterms_);
+  vnl_matrix<unsigned int> p = polyn_;
+
+  for (unsigned int i = 0; i < nterms_; i++) {
+    if (polyn_(i,unk) > 0) {
+      p(i,unk) = p(i,unk) - 1;
+      c(i) = coeffs_(i)*polyn_(i,unk);
+    }
+    else {
+      c(i) = coeffs_(i);
+    }
+  }
+
+  return vnl_real_npolynomial(c,p);
+}
+
 void vnl_real_npolynomial::set(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p)
 {
   coeffs_= c;

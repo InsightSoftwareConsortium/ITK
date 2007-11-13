@@ -25,7 +25,9 @@ vnl_alloc::chunk_alloc(vcl_size_t size, int& nobjs)
     result = start_free;
     start_free += total_bytes;
     return result;
-  } else {
+  }
+  else
+  {
     vcl_size_t bytes_to_get = 2 * total_bytes + ROUND_UP(heap_size >> 4);
     // Try to make use of the left-over piece.
     if (bytes_left > 0) {
@@ -35,7 +37,8 @@ vnl_alloc::chunk_alloc(vcl_size_t size, int& nobjs)
       *my_free_list = (obj *)start_free;
     }
     start_free = (char*)vcl_malloc(bytes_to_get);
-    if (0 == start_free) {
+    if (0 == start_free)
+    {
       obj *  * my_free_list, *p;
       // Try to make do with what we have.  That can't
       // hurt.  We do not try smaller requests, since that tends
@@ -120,8 +123,8 @@ char *vnl_alloc::end_free = 0;
 vcl_size_t vnl_alloc::heap_size = 0;
 
 vnl_alloc::obj *
-vnl_alloc::free_list[VNL_ALLOC_NFREELISTS]
-= {
+vnl_alloc::free_list[VNL_ALLOC_NFREELISTS] =
+{
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };

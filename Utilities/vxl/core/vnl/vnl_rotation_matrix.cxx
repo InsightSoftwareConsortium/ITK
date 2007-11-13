@@ -58,6 +58,22 @@ bool vnl_rotation_matrix(double const axis[3], double *R0, double *R1, double *R
   return vnl_rotation_matrix(axis, R);
 }
 
+#include <vnl/vnl_vector_fixed.h>
+#include <vnl/vnl_matrix_fixed.h>
+
+bool vnl_rotation_matrix(vnl_vector_fixed<double,3> const& axis,
+                         vnl_matrix_fixed<double,3,3>& R)
+{
+  return vnl_rotation_matrix(&axis[0], R[0], R[1], R[2]);
+}
+
+vnl_matrix_fixed<double,3,3> vnl_rotation_matrix(vnl_vector_fixed<double,3> const& axis)
+{
+  vnl_matrix_fixed<double,3,3> R;
+  vnl_rotation_matrix(&axis[0], R[0], R[1], R[2]);
+  return R;
+}
+
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 

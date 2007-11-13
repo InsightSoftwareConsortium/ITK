@@ -20,8 +20,7 @@
 //-------------------------------------------------------------------------
 class vnl_test_powell_quadratic : public vnl_cost_function 
 {
-public:
-
+ public:
   vnl_test_powell_quadratic(int n) : vnl_cost_function(n) {}
 
   double f(const vnl_vector<double>& x) 
@@ -41,7 +40,7 @@ public:
 //-------------------------------------------------------------------------
 class vnl_test_powell_rosenbrock : public vnl_cost_function
 {
-public:
+ public:
   vnl_test_powell_rosenbrock() : vnl_cost_function(2) {}
 
   double f(const vnl_vector<double>& x) 
@@ -66,9 +65,9 @@ public:
 //-------------------------------------------------------------------------
 static void test_quadratic_2d()
 {
-  vcl_cout << "-------------------------------\n"
-           << "test_quadratic_2d() \n"
-           << "-------------------------------\n";
+  vcl_cout << "---------------------\n"
+           << " test_quadratic_2d()\n"
+           << "---------------------\n";
 
   // No. of dimensions
   const unsigned n = 2;
@@ -113,9 +112,9 @@ static void test_quadratic_nd()
   const unsigned max_n = 16;
   for (unsigned n=1; n<max_n; ++n)
   {
-    vcl_cout << "-------------------------------\n"
-             << "test_quadratic_" <<  n << "d \n"
-             << "-------------------------------\n";
+    vcl_cout << "-------------------\n"
+             << " test_quadratic_" << n << "d\n"
+             << "-------------------\n";
 
     // Start at (1,1,...,1)
     vnl_vector<double> x(n);
@@ -127,8 +126,8 @@ static void test_quadratic_nd()
     double err=0;
     for (unsigned i=0; i<n; ++i) err+=vcl_fabs(x[i]-i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    vcl_cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<vcl_endl;
-    vcl_cout << vcl_endl;
+    vcl_cout << "Number of evaluations: " << powell.get_num_evaluations()
+             << vcl_endl << vcl_endl;
   }
 }
 
@@ -138,9 +137,9 @@ static void test_quadratic_nd()
 //-------------------------------------------------------------------------
 static void test_rosenbrock_2d()
 {
-  vcl_cout << "-------------------------------\n"
-           << "test_rosenbrock_2d() \n"
-           << "-------------------------------\n";
+  vcl_cout << "----------------------\n"
+           << " test_rosenbrock_2d()\n"
+           << "----------------------\n";
   vnl_test_powell_rosenbrock c;
   vnl_double_2 xmin(1.0, 1.0); // true minimum
   vnl_powell powell(&c);
@@ -150,8 +149,8 @@ static void test_rosenbrock_2d()
   powell.minimize(x);
   double r = (x-xmin).magnitude();
   TEST_NEAR("test_rosenbrock_2d", r, 0, 1e-6);
-  vcl_cout << "Number of evaluations: " << powell.get_num_evaluations() << "\n";
-  vcl_cout << vcl_endl;
+  vcl_cout << "Number of evaluations: " << powell.get_num_evaluations()
+           << vcl_endl << vcl_endl;
 }
 
 

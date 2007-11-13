@@ -17,12 +17,20 @@
 #ifndef __itkLBFGSBOptimizer_h
 #define __itkLBFGSBOptimizer_h
 
-#include "itkSingleValuedNonLinearOptimizer.h"
-#include <string>
+#include "itkSingleValuedNonLinearVnlOptimizer.h"
 
 namespace itk
 {
-  
+
+/** \class LBFGSBOptimizerHelper
+ * \brief Wrapper helper around vnl_lbfgsb.
+ *
+ * This class is used to translate iteration events, etc, from
+ * vnl_lbfgsb into iteration events in ITK.
+ */
+class ITK_EXPORT LBFGSBOptimizerHelper;
+
+
 /** \class LBFGSBOptimizer
  * \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.
  *
@@ -49,12 +57,12 @@ namespace itk
  * \ingroup Numerics Optimizers
  */
 class ITK_EXPORT LBFGSBOptimizer : 
-    public SingleValuedNonLinearOptimizer
+    public SingleValuedNonLinearVnlOptimizer
 {
 public:
   /** Standard "Self" typedef. */
   typedef LBFGSBOptimizer                     Self;
-  typedef SingleValuedNonLinearOptimizer      Superclass;
+  typedef SingleValuedNonLinearVnlOptimizer   Superclass;
   typedef SmartPointer<Self>                  Pointer;
   typedef SmartPointer<const Self>            ConstPointer;
   
@@ -62,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( LBFGSBOptimizer, SingleValuedNonLinearOptimizer );
+  itkTypeMacro( LBFGSBOptimizer, SingleValuedNonLinearVnlOptimizer );
 
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables. 
@@ -74,13 +82,21 @@ public:
    */
   typedef Array<long>                BoundSelectionType;
 
+  /** Internal boundary value storage type */
+  typedef vnl_vector<double>    InternalBoundValueType;
+
+  /** Internal boundary selection storage type */
+  typedef vnl_vector<long>      InternalBoundSelectionType;
+
+  /** The vnl optimizer */
+  typedef LBFGSBOptimizerHelper InternalOptimizerType;
+
+
   /** Start optimization with an initial value. */
   void StartOptimization( void );
 
-  /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction         CostFunctionType;
-  typedef  CostFunctionType::Pointer        CostFunctionPointer;
-  typedef  CostFunctionType::MeasureType    MeasureType;
+  /** Plug in a Cost Function into the optimizer  */
+  virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
 
   /** Set the lower bound value for each variable. */
   virtual void SetLowerBound( const BoundValueType & value );
@@ -105,26 +121,26 @@ public:
    * Typical values for factor: 1e+12 for low accuracy; 
    * 1e+7 for moderate accuracy and 1e+1 for extremely high accuracy.
    */
-  itkSetMacro( CostFunctionConvergenceFactor, double );
+  virtual void SetCostFunctionConvergenceFactor( double );
   itkGetMacro( CostFunctionConvergenceFactor, double );
 
   /** Set/Get the ProjectedGradientTolerance. Algorithm terminates
    * when the project gradient is below the tolerance. Default value
    * is 1e-5.
    */
-  itkSetMacro( ProjectedGradientTolerance, double );
+  virtual void SetProjectedGradientTolerance( double );
   itkGetMacro( ProjectedGradientTolerance, double );
 
   /** Set/Get the MaximumNumberOfIterations. Default is 500 */
-  itkSetMacro( MaximumNumberOfIterations, unsigned int );
+  virtual void SetMaximumNumberOfIterations( unsigned int );
   itkGetMacro( MaximumNumberOfIterations, unsigned int );
 
   /** Set/Get the MaximumNumberOfEvaluations. Default is 500 */
-  itkSetMacro( MaximumNumberOfEvaluations, unsigned int );
+  virtual void SetMaximumNumberOfEvaluations( unsigned int );
   itkGetMacro( MaximumNumberOfEvaluations, unsigned int );
 
   /** Set/Get the MaximumNumberOfCorrections. Default is 5 */
-  itkSetMacro( MaximumNumberOfCorrections, unsigned int );
+  virtual void SetMaximumNumberOfCorrections( unsigned int );
   itkGetMacro( MaximumNumberOfCorrections, unsigned int );
 
   /** This optimizer does not support scaling of the derivatives. */
@@ -148,24 +164,32 @@ protected:
   virtual ~LBFGSBOptimizer();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  typedef Superclass::CostFunctionAdaptorType   CostFunctionAdaptorType;
 
 private:
   LBFGSBOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
-  BoundValueType        m_LowerBound;
-  BoundValueType        m_UpperBound;
-  BoundSelectionType    m_BoundSelection;
 
-  double                m_CostFunctionConvergenceFactor;
-  double                m_ProjectedGradientTolerance;
-  unsigned int          m_MaximumNumberOfIterations;
-  unsigned int          m_MaximumNumberOfEvaluations;
-  unsigned int          m_MaximumNumberOfCorrections;
+  // give the helper access to member variables, to update iteration
+  // counts, etc.
+  friend class LBFGSBOptimizerHelper;
 
-  unsigned int          m_CurrentIteration;
-  MeasureType           m_Value;
-  double                m_InfinityNormOfProjectedGradient;
+  bool                     m_OptimizerInitialized;
+  InternalOptimizerType  * m_VnlOptimizer;
+
+  BoundValueType           m_LowerBound;
+  BoundValueType           m_UpperBound;
+  BoundSelectionType       m_BoundSelection;
+
+  double                   m_CostFunctionConvergenceFactor;
+  double                   m_ProjectedGradientTolerance;
+  unsigned int             m_MaximumNumberOfIterations;
+  unsigned int             m_MaximumNumberOfEvaluations;
+  unsigned int             m_MaximumNumberOfCorrections;
+
+  unsigned int             m_CurrentIteration;
+  MeasureType              m_Value;
+  double                   m_InfinityNormOfProjectedGradient;
 
 };
 

@@ -57,7 +57,7 @@ class vnl_brent : public vnl_nonlinear_minimizer
   void bracket_minimum(double *ax, double *bx, double *cx);
 
  protected:
-  vnl_brent_data *p;
+  vnl_brent_data *data_;
 };
 
 #endif // vnl_brent_h_

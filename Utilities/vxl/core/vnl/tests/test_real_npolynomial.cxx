@@ -4,7 +4,6 @@
 #include <vnl/vnl_real_npolynomial.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <vcl_cmath.h>
 
 void test_real_npolynomial()
 {

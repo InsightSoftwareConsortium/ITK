@@ -168,6 +168,7 @@ bool vnl_matlab_readhdr::read_data(T * const *m) { \
   vnl_c_vector<T >::deallocate(tmp, rows()*cols()); \
   data_read = true; return *this; \
 }
+
 fsm_define_methods(float);
 fsm_define_methods(double);
 fsm_define_methods(vcl_complex<float>);
@@ -176,7 +177,7 @@ fsm_define_methods(vcl_complex<double>);
 
 //--------------------------------------------------------------------------------
 
-#include <vcl_cassert.h>
+#include <vcl_cstdlib.h>
 #include <vcl_new.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
@@ -189,14 +190,21 @@ bool vnl_matlab_read_or_die(vcl_istream &s,
   vnl_matlab_readhdr h(s);
   if (!s) // eof?
     return false;
-  if (name && *name)
-    assert(vcl_strcmp(name, h.name())==0/*wrong name?*/);
+  if (name && *name) {
+    if (vcl_strcmp(name, h.name())!=0) { /*wrong name?*/
+      vcl_cerr << "vnl_matlab_read_or_die: names do not match\n";
+      vcl_abort();
+    }
+  }
   if (v.size() != unsigned(h.rows()*h.cols()))
   {
     vcl_destroy(&v);
     new (&v) vnl_vector<T>(h.rows()*h.cols());
   }
-  assert(h.read_data(v.begin())/*wrong type?*/);
+  if( ! h.read_data(v.begin()) ) { /*wrong type?*/
+    vcl_cerr << "vnl_matlab_read_or_die: failed to read data\n";
+    vcl_abort();
+  }
   return true;
 }
 
@@ -208,14 +216,21 @@ bool vnl_matlab_read_or_die(vcl_istream &s,
   vnl_matlab_readhdr h(s);
   if (!s) // eof?
     return false;
-  if (name && *name)
-    assert(vcl_strcmp(name, h.name())==0/*wrong name?*/);
+  if (name && *name) {
+    if (vcl_strcmp(name, h.name())!=0) { /*wrong name?*/
+      vcl_cerr << "vnl_matlab_read_or_die: names do not match\n";
+      vcl_abort();
+    }
+  }
   if (M.rows() != unsigned(h.rows()) || M.cols() != unsigned(h.cols()))
   {
     vcl_destroy(&M);
     new (&M) vnl_matrix<T>(h.rows(), h.cols());
   }
-  assert(h.read_data(M.data_array())/*wrong type?*/);
+  if( ! h.read_data(M.data_array()) ) { /*wrong type?*/
+    vcl_cerr << "vnl_matlab_read_or_die: failed to read data\n";
+    vcl_abort();
+  }
   return true;
 }
 

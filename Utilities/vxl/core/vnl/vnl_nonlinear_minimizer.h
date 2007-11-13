@@ -120,7 +120,8 @@ class vnl_nonlinear_minimizer
     FAILED_TOO_MANY_ITERATIONS  = 5,
     FAILED_FTOL_TOO_SMALL       = 6,
     FAILED_XTOL_TOO_SMALL       = 7,
-    FAILED_GTOL_TOO_SMALL       = 8
+    FAILED_GTOL_TOO_SMALL       = 8,
+    FAILED_USER_REQUEST         = 9
   };
 
   //:Return the failure code of the last minimization
@@ -149,8 +150,14 @@ class vnl_nonlinear_minimizer
   ReturnCodes failure_code_;
 
   void reset();
+
+  //: Called by derived classes after each function evaluation.
   void report_eval(double f);
-  void report_iter();
+
+  //: Called by derived classes after each iteration.
+  //  When true is returned, minimizer should stop with code FAILED_USER_REQUEST.
+  //  Derived classes can redefine this function to make the optimizer stop when a condition is satisfied.
+  virtual bool report_iter();
 };
 
 #endif // vnl_nonlinear_minimizer_h_

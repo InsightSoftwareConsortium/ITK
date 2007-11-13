@@ -15,13 +15,13 @@
 #include <vnl/vnl_complex_traits.h>
 #include <vnl/vnl_numeric_traits.h>
 
+#include <vnl/vnl_config.h>
+#include <vnl/vnl_sse.h>
+
 template <class T>
 T vnl_c_vector<T>::sum(T const* v, unsigned n)
 {
-  T tot(0);
-  for (unsigned i = 0; i < n; ++i)
-    tot += *v++;
-  return tot;
+  return vnl_sse<T>::sum(v,n);
 }
 
 template <class T>
@@ -215,10 +215,7 @@ void vnl_c_vector<T>::reverse(T *x, unsigned n)
 template<class T>
 T vnl_c_vector<T>::dot_product(T const *a, T const *b, unsigned n)
 {
-  T ip(0);
-  for (unsigned i=0; i<n; ++i)
-    ip += a[i] * b[i];
-  return ip;
+  return vnl_sse<T>::dot_product(a,b,n);
 }
 
 // conjugating "dot" product.
@@ -246,11 +243,7 @@ template<class T>
 T vnl_c_vector<T>::max_value(T const *src, unsigned n)
 {
   assert(n!=0); // max_value of an empty vector is undefined
-  T tmp = src[0];
-  for (unsigned i=1; i<n; ++i)
-    if (src[i] > tmp)
-      tmp = src[i];
-  return tmp;
+  return vnl_sse<T>::max(src,n);
 }
 
 //: Returns min value of the vector.
@@ -258,36 +251,14 @@ template<class T>
 T vnl_c_vector<T>::min_value(T const *src, unsigned n)
 {
   assert(n!=0); // min_value of an empty vector is undefined
-  T tmp = src[0];
-  for (unsigned i=1; i<n; ++i)
-    if (src[i] < tmp)
-      tmp = src[i];
-  return tmp;
+  return vnl_sse<T>::min(src,n);
 }
 
 //: Sum of Differences squared.
 template<class T>
 T vnl_c_vector<T>::euclid_dist_sq(T const *a, T const *b, unsigned n)
 {
-  //IMS: Unable to optimise this any further for MSVC compiler
-  T sum(0);
-#ifdef VCL_VC_6
-  for (unsigned i=0; i<n; ++i)
-  {
-    const T diff = a[i] - b[i];
-    sum += diff*diff;
-  }
-#else
-  --a;
-  --b;
-  while (n!=0)
-  {
-    const T diff = a[n] - b[n];
-    sum += diff*diff;
-    --n;
-  }
-#endif
-  return sum;
+  return vnl_sse<T>::euclid_dist_sq(a,b,n);
 }
 
 template <class T>
@@ -366,38 +337,17 @@ void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out)
 
 //---------------------------------------------------------------------------
 
-#include <vnl/vnl_config.h>
-#if VNL_CONFIG_THREAD_SAFE
-# define VNL_C_VECTOR_USE_VNL_ALLOC 0
-#else
-# define VNL_C_VECTOR_USE_VNL_ALLOC 1
-#endif
-
-#if VNL_C_VECTOR_USE_VNL_ALLOC
-# include <vnl/vnl_alloc.h>
-#endif
 
 inline void* vnl_c_vector_alloc(int n, int size)
 {
-#if VNL_C_VECTOR_USE_VNL_ALLOC
-  return vnl_alloc::allocate((n == 0) ? 8 : (n * size));
-#else
-  return new char[n * size];
-#endif
+  return vnl_sse_alloc(n,size);
 }
 
-#if VNL_C_VECTOR_USE_VNL_ALLOC
+
 inline void vnl_c_vector_dealloc(void* v, int n, int size)
 {
-  if (v)
-    vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * size));
+  vnl_sse_dealloc(v,n,size);
 }
-#else
-inline void vnl_c_vector_dealloc(void* v, int, int)
-{
-  delete[] static_cast<char*>(v);
-}
-#endif
 
 template<class T>
 T** vnl_c_vector<T>::allocate_Tptr(int n)

@@ -312,6 +312,12 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
   }
 
   //: Copy operator
+  vnl_vector_fixed_ref<T,n> const& operator=( const vnl_vector_fixed_ref<T,n>& rhs ) const {
+    vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
+    return *this;
+  }
+
+  //: Copy operator
   vnl_vector_fixed_ref<T,n> const& operator=( const vnl_vector_fixed_ref_const<T,n>& rhs ) const {
     vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
     return *this;

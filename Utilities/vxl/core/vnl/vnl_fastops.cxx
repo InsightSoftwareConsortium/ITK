@@ -209,6 +209,80 @@ void vnl_fastops::ABt(vnl_matrix<double>& out, const vnl_matrix<double>& A, cons
     }
 }
 
+//: Compute $A B A^\top$.
+void vnl_fastops::ABAt(vnl_matrix<double>& out, const vnl_matrix<double>& A, const vnl_matrix<double>& B)
+{
+  const unsigned int na = A.columns();
+  const unsigned int mb = B.rows();
+
+  // Verify matrices compatible
+  if (na != mb) {
+    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << mb << '\n';
+    vcl_abort();
+  }
+
+  const unsigned int ma = A.rows();
+  const unsigned int nb = B.columns();
+
+  // Verify matrices compatible
+  if (na != nb) {
+    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << nb << '\n';
+    vcl_abort();
+  }
+
+  // Verify output is the right size
+  if (out.rows() != ma || out.columns() != ma)
+    out.set_size(ma,mb);
+
+
+  double const* const* a = A.data_array();
+  double const* const* b = B.data_array();
+  double** outdata = out.data_array();
+
+  // initialize
+  for (unsigned int i = 0; i < ma; ++i)
+    for (unsigned int w = 0; w < ma; ++w)
+      outdata[i][w] = 0.0;
+
+  for (unsigned int i = 0; i < ma; ++i)
+    for (unsigned int j = 0; j < nb; ++j) {
+      double accum = 0;
+      for (unsigned int k = 0; k < na; ++k)
+        accum += a[i][k] * b[k][j];
+      for (unsigned int w = 0; w < ma; ++w)
+        outdata[i][w] += accum * a[w][j];
+    }
+}
+
+//: Compute $b^\top A b$ for vector b and matrix A
+double vnl_fastops::btAb(const vnl_matrix<double>& A, const vnl_vector<double>& b)
+{
+  const unsigned int m = A.rows();
+  const unsigned int n = A.cols();
+  const unsigned int l = b.size();
+
+  // Verify matrices compatible
+  if (m != l ) {
+    vcl_cerr << "vnl_fastops::btAb: argument sizes do not match: " << m << " != " << l << '\n';
+    vcl_abort();
+  }
+  if ( m != n ) {
+    vcl_cerr << "vnl_fastops::btAb: not a square matrix: " << m << " != " << n << '\n';
+    vcl_abort();
+  }
+
+
+  double const* const* a = A.data_array();
+  double const* bb = b.data_block();
+
+  double accum = 0;
+  for (unsigned int i = 0; i < n; ++i)
+    for (unsigned int j = 0; j < n; ++j) {
+      accum += bb[j] * a[i][j] * bb[i];
+    }
+  return accum;
+}
+
 //: Compute $ X += A^\top A$
 void vnl_fastops::inc_X_by_AtA(vnl_matrix<double>& X, const vnl_matrix<double>& A)
 {
@@ -614,4 +688,45 @@ void vnl_fastops::dec_X_by_ABt(vnl_matrix<double>& X, const vnl_matrix<double>& 
       for (unsigned int j = 0; j < ma; ++j)
         x[j][i] -= dot(a[j], b[i], na);
   }
+}
+
+
+//: Compute $X += A B A^\top$.
+void vnl_fastops::inc_X_by_ABAt(vnl_matrix<double>& X, const vnl_matrix<double>& A, const vnl_matrix<double>& B)
+{
+  const unsigned int na = A.columns();
+  const unsigned int mb = B.rows();
+
+  // Verify matrices compatible
+  if (na != mb) {
+    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << mb << '\n';
+    vcl_abort();
+  }
+
+  const unsigned int ma = A.rows();
+  const unsigned int nb = B.columns();
+
+  // Verify matrices compatible
+  if (na != nb) {
+    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << nb << '\n';
+    vcl_abort();
+  }
+
+  // Verify output is the right size
+  if (X.rows() != ma || X.columns() != ma)
+    X.set_size(ma,mb);
+
+
+  double const* const* a = A.data_array();
+  double const* const* b = B.data_array();
+  double** Xdata = X.data_array();
+
+  for (unsigned int i = 0; i < ma; ++i)
+    for (unsigned int j = 0; j < nb; ++j) {
+      double accum = 0;
+      for (unsigned int k = 0; k < na; ++k)
+        accum += a[i][k] * b[k][j];
+      for (unsigned int w = 0; w < ma; ++w)
+        Xdata[i][w] += accum * a[w][j];
+    }
 }

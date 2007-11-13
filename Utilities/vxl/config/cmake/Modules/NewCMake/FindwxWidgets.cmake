@@ -479,7 +479,7 @@ IF(NOT WXWIDGETS_FOUND)
       MESSAGE(FATAL_ERROR
               "wxWidgets required, please specify it's location.")
     ELSE(wxWidgets_FIND_REQUIRED)
-      MESSAGE(STATUS "ERROR: wxWidgets was not found.")
+      MESSAGE(STATUS "Warning: wxWidgets was not found.")
     ENDIF(wxWidgets_FIND_REQUIRED)
   ENDIF(NOT wxWidgets_FIND_QUIETLY)
 ENDIF(NOT WXWIDGETS_FOUND)

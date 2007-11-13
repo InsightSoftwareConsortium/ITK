@@ -10,7 +10,6 @@
 //-----------------------------------------------------------------------------
 
 #include "vnl_lsqr.h"
-#include <vcl_cstdlib.h>
 #include <vcl_vector.h>
 #include <vcl_iostream.h>
 #include <vnl/vnl_vector_ref.h>
@@ -93,7 +92,10 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
            << "x norm estimate          = " << xnorm << vcl_endl;
 #endif
 
-  return 0; // return value not used
+  // We should return the return code, as translate_return_code is public and
+  // it is very misleading that the return code from this function can't be fed
+  // into translate_return_code. (Brian Amberg)
+  return return_code_;
 }
 
 void vnl_lsqr::diagnose_outcome(vcl_ostream& os) const

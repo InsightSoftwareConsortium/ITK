@@ -127,7 +127,7 @@ static integer c__3 = 3;
 /*  JOB.) */
 
 /*  If JOB='S', then the pair (A,B) is simultaneously reduced to Schur */
-/*  form by applying one orthogonal tranformation (usually called Q) on */
+/*  form by applying one orthogonal transformation (usually called Q) on */
 /*  the left and another (usually called Z) on the right.  The 2-by-2 */
 /*  upper-triangular diagonal blocks of B corresponding to 2-by-2 blocks */
 /*  of A will be reduced to positive diagonal matrices.  (I.e., */
@@ -161,7 +161,7 @@ static integer c__3 = 3;
 /*  COMPQ   (input) CHARACTER*1 */
 /*          = 'N': do not modify Q. */
 /*          = 'V': multiply the array Q on the right by the transpose of */
-/*                 the orthogonal tranformation that is applied to the */
+/*                 the orthogonal transformation that is applied to the */
 /*                 left side of A and B to reduce them to Schur form. */
 /*          = 'I': like COMPQ='V', except that Q will be initialized to */
 /*                 the identity first. */
@@ -169,7 +169,7 @@ static integer c__3 = 3;
 /*  COMPZ   (input) CHARACTER*1 */
 /*          = 'N': do not modify Z. */
 /*          = 'V': multiply the array Z on the right by the orthogonal */
-/*                 tranformation that is applied to the right side of */
+/*                 transformation that is applied to the right side of */
 /*                 A and B to reduce them to Schur form. */
 /*          = 'I': like COMPZ='V', except that Z will be initialized to */
 /*                 the identity first. */

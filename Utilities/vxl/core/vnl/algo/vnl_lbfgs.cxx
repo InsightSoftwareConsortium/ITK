@@ -45,8 +45,8 @@ void vnl_lbfgs::init_parameters()
 
 bool vnl_lbfgs::minimize(vnl_vector<double>& x)
 {
-  /* Local variables */
-  /*     The driver for vnl_lbfgs must always declare LB2 as EXTERNAL */
+  // Local variables
+  // The driver for vnl_lbfgs must always declare LB2 as EXTERNAL
 
   long n = f_->get_number_of_unknowns();
   long m = memory; // The number of basis vectors to remember.
@@ -137,7 +137,15 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     v3p_netlib_lbfgs_(
       &n, &m, x.data_block(), &f, g.data_block(), &diagco, diag.data_block(),
       iprint, &eps, &local_xtol, w.data_block(), &iflag, &lbfgs_global);
-    ++this->num_iterations_;
+
+    this->report_eval(f);
+
+    if (this->report_iter()) {
+      failure_code_ = FAILED_USER_REQUEST;
+      ok = false;
+      x = best_x;
+      break;
+    }
 
     if (we_trace)
       vcl_cerr << iflag << ":" << f_->reported_error(f) << " ";
@@ -151,19 +159,20 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     }
 
     if (iflag < 0) {
-      // Eeek.
-      vcl_cerr << "vnl_lbfgs: ** EEEK **\n";
+      // Netlib routine lbfgs failed
+      vcl_cerr << "vnl_lbfgs: Error. Netlib routine lbfgs failed.\n";
       ok = false;
       x = best_x;
       break;
     }
 
-    if (++this->num_evaluations_ > get_max_function_evals()) {
+    if (this->num_evaluations_ > get_max_function_evals()) {
       failure_code_ = FAILED_TOO_MANY_ITERATIONS;
       ok = false;
       x = best_x;
       break;
     }
+
   }
   if (we_trace) vcl_cerr << "done\n";
 

@@ -172,4 +172,19 @@
 #define VXL_APPLE_HAS_ISNAND @VXL_APPLE_HAS_ISNAND@
 #endif 
 
+/* true if <emmintrin.h> is available */
+#define VXL_HAS_EMMINTRIN_H   @VXL_HAS_EMMINTRIN_H@
+
+/* true if _mm_malloc and _mm_free are defined */
+#define VXL_HAS_MM_MALLOC @VXL_HAS_MM_MALLOC@
+
+/* true if _aligned_malloc and _aligned_free are defined */
+#define VXL_HAS_ALIGNED_MALLOC @VXL_HAS_ALIGNED_MALLOC@
+
+/* true if __mingw_aligned_malloc and __mingw_aligned_free are defined */
+#define VXL_HAS_MINGW_ALIGNED_MALLOC @VXL_HAS_MINGW_ALIGNED_MALLOC@
+
+/* true if memalign is defined */
+#define VXL_HAS_POSIX_MEMALIGN @VXL_HAS_POSIX_MEMALIGN@
+
 #endif /* vxl_config_h_ */

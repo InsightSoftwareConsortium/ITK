@@ -30,7 +30,6 @@ ADD_LIBRARY(ITKNumerics
   itkSingleValuedVnlCostFunctionAdaptor.cxx
   itkVersorRigid3DTransformOptimizer.cxx
   itkVersorTransformOptimizer.cxx
-  lbfgsb.c
 )
 
 TARGET_LINK_LIBRARIES(ITKNumerics ITKCommon)

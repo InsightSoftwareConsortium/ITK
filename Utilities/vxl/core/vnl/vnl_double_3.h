@@ -14,6 +14,7 @@
 //  Modifications
 //   Peter Vanroose, 25 June 1999: vnl_vector_fixed<double,3> already instantiated
 //   Peter Vanroose, 28 Mar. 2004: renamed cross_3d() to vnl_cross_3d()
+//   Peter Vanroose, 24 Mar. 2007: removed deprecated cross_3d() alias
 // \endverbatim
 
 #include <vnl/vnl_T_n.h>
@@ -31,8 +32,5 @@ vnl_double_3 vnl_cross_3d(vnl_double_3 const& v1, vnl_double_3 const& v2)
   result[2] = v1[0] * v2[1] - v1[1] * v2[0];
   return result;
 }
-
-//: deprecated
-#define cross_3d vnl_cross_3d
 
 #endif // vnl_double_3_h_

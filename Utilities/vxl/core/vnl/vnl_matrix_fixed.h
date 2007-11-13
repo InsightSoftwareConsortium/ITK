@@ -883,11 +883,13 @@ struct outer_product_fixed_type_helper
 {
   typedef vnl_matrix_fixed<T,m,FixedVector::SIZE> result_matrix;
 };
+
 template<class V1, class V2, class RM>
 struct outer_product_fixed_calc_helper
 {
   static RM calc( V1 const& a, V2 const& b );
 };
+
 template <class T, unsigned m, class SecondFixedVector>
 outer_product_fixed_type_helper<T,m,SecondFixedVector>::result_matrix
 outer_product(vnl_vector_fixed<T,m> const& a, SecondFixedVector const& b)

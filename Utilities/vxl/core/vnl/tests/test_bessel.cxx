@@ -1,6 +1,6 @@
 // This is core/vnl/tests/test_bessel.cxx
 #include <vnl/vnl_bessel.h>
-#include <vcl_fstream.h>
+// not used? #include <vcl_fstream.h>
 #include <testlib/testlib_test.h>
 
 

@@ -8,7 +8,8 @@
 #include <vnl/vnl_finite.h>
 
 template <int N>
-void test_finite_int(vnl_finite_int<N>) {
+void test_finite_int(vnl_finite_int<N>)
+{
   vcl_cout << "\n --- Testing vnl_finite_int<" << N << "> ---\n";
 
   vcl_cout << "Phi(" << N << ") = " << vnl_finite_int<N>::totient() << '\n';
@@ -43,8 +44,8 @@ void test_finite_int(vnl_finite_int<N>) {
   vnl_finite_int<N> b5 = 4321; b1 = b5;
   TEST("b1 = b5", b1, b5);
 
-  vcl_cout << "b1 = " << b1 << vcl_endl;
-  vcl_cout << "b5 = " << b5 << vcl_endl;
+  vcl_cout << "b1 = " << b1 << vcl_endl
+           << "b5 = " << b5 << vcl_endl;
   TEST("<<", 1, 1);
 
   TEST("unary plus", +b5, b5);
@@ -77,8 +78,8 @@ void test_finite_int(vnl_finite_int<N>) {
   vcl_cout << "\nStarting addition, subtraction tests:\n";
 
   vnl_finite_int<N> bi,bj,bij;
-  vcl_cout << " for (i = 1; i < 1000; i *= 3)\n";
-  vcl_cout << "   for (j = 1; j < 1000; j *= 3)\n      ";
+  vcl_cout << " for (i = 1; i < 1000; i *= 3)\n"
+           << "   for (j = 1; j < 1000; j *= 3)\n      ";
 
   for (int i = 1; i < 1000;  i *= 3) {
     for (int j = 1; j < 1000; j *= 3) {
@@ -148,10 +149,10 @@ void test_finite_int(vnl_finite_int<N>) {
   // Do not continue when N is too large, since that would take too long
   if (N > 1000) return;
 
-  vcl_cout << " for (i = 10000; i > 0; i /= 3) \n";
-  vcl_cout << "   for (j = 10000; j > 0; j /= 3) \n";
-  vcl_cout << "     for (k = 1; k < 17; ++k) \n";
-  vcl_cout << "       for (l = 1; l < 17; ++l) \n         ";
+  vcl_cout << " for (i = 10000; i > 0; i /= 3)\n"
+           << "   for (j = 10000; j > 0; j /= 3)\n"
+           << "     for (k = 1; k < 17; ++k)\n"
+           << "       for (l = 1; l < 17; ++l)\n         ";
   for (int i = 10000; i > 0; i /= 3) {
     for (int j = 10000; j > 0; j /= 3) {
       for (int k = 1; k < 17; ++k) {
@@ -174,7 +175,8 @@ void test_finite_int(vnl_finite_int<N>) {
 }
 
 template <int N, int M>
-void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s) {
+void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
+{
   vcl_cout << "\n --- Testing vnl_finite_int_poly<" << N << ',' << M << "> ---\n";
 
   vcl_cout << "\nStarting constructor tests:\n";
@@ -194,8 +196,8 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s) {
 
   vcl_cout << "\nStarting addition, subtraction tests:\n";
 
-  vcl_cout << " for (i = 1; i < 1000; i *= 3)\n";
-  vcl_cout << "   for (j = 1; j < 1000; j *= 3)\n      ";
+  vcl_cout << " for (i = 1; i < 1000; i *= 3)\n"
+           << "   for (j = 1; j < 1000; j *= 3)\n      ";
 
   for (int i = 1000; i > 0;  i /= 3) {
     for (int j = 1000; j > 0; j /= 3) {
@@ -231,18 +233,18 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s) {
 
   mod_p.pop_back();
   vnl_finite_int_poly<N,M> irred = mod_p;
-  vcl_cout << "X^" << M << " = " << irred << "\n";
+  vcl_cout << "X^" << M << " = " << irred << '\n';
 
   vcl_vector<vnl_finite_int<N> > v(M);
   for (int m = 0; m < M;  ++m) v[m] = m+1+m*m;
   vnl_finite_int_poly<N,M> x(v);
-  vcl_cout << "x = " << x << "\n";
+  vcl_cout << "x = " << x << '\n';
   for (int m = 0; m < M;  ++m) v[m] = m+1-m*m;
   vnl_finite_int_poly<N,M> y(v);
-  vcl_cout << "y = " << y << "\n";
+  vcl_cout << "y = " << y << '\n';
   y *= x;
   TEST("multiplying y with x", 1, 1);
-  vcl_cout << "y * x = " << y << "\n";
+  vcl_cout << "y * x = " << y << '\n';
 
   // Is irred indeed a polynomial of maximal multiplicative order?
   vnl_finite_int_poly<N,M> t = vnl_finite_int<N>(1);
@@ -258,7 +260,8 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s) {
   vcl_cout << vcl_endl;
 }
 
-void test_finite() {
+void test_finite()
+{
   test_finite_int(vnl_finite_int<2>(0));
   test_finite_int(vnl_finite_int<3>(0));
   test_finite_int(vnl_finite_int<4>(0)); // not a field

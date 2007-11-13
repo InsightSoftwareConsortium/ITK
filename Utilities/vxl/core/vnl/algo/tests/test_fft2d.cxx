@@ -38,7 +38,8 @@ void test_cplx(vnl_fft_prime_factors<double> const &/*prx*/,
   testlib_test_assert ("test transform", fft_matrix != M);
 }
 
-void test_fft2d () {
+void test_fft2d ()
+{
   const unsigned int rows = 64;
   const unsigned int cols = 64;
 

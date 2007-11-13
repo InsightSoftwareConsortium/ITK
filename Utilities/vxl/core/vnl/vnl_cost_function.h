@@ -29,7 +29,7 @@ class vnl_cost_function : public vnl_unary_function<double, vnl_vector<double> >
 {
  public:
 
-  //! Ddefault constructor   
+  //! Default constructor   
   vnl_cost_function():dim(0) {}
 
   //! Construct with a specified number of unknowns
@@ -37,26 +37,26 @@ class vnl_cost_function : public vnl_unary_function<double, vnl_vector<double> >
 
   virtual ~vnl_cost_function() {}
 
-//:  The main function.  Given the parameter vector x, compute the value of f(x).
+  //:  The main function.  Given the parameter vector x, compute the value of f(x).
   virtual double f(vnl_vector<double> const& x);
 
-//:  Calculate the gradient of f at parameter vector x.
+  //:  Calculate the gradient of f at parameter vector x.
   virtual void gradf(vnl_vector<double> const& x, vnl_vector<double>& gradient);
 
-//:  Compute one or both of f and g.
-//  Normally implemented in terms of the above two, but may be faster if specialized. f != 0 => compute f
+  //:  Compute one or both of f and g.
+  //   Normally implemented in terms of the above two, but may be faster if specialized. f != 0 => compute f
   virtual void compute(vnl_vector<double> const& x, double *f, vnl_vector<double>* g);
 
-//:  Return the number of unknowns
+  //:  Return the number of unknowns
   int get_number_of_unknowns() const { return dim; }
 
-//:  Compute finite-difference gradient
+  //:  Compute finite-difference gradient
   void fdgradf(vnl_vector<double> const& x, vnl_vector<double>& gradient, double stepsize = 1e-5);
 
-//:  Called when error is printed for user.
+  //:  Called when error is printed for user.
   virtual double reported_error(double f_value) { return f_value; }
 
-//:  Conveniences for printing grad, fdgrad
+  //:  Conveniences for printing grad, fdgrad
   vnl_vector<double> gradf(vnl_vector<double> const& x);
   vnl_vector<double> fdgradf(vnl_vector<double> const& x);
 

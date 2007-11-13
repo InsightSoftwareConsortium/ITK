@@ -18,33 +18,39 @@
 #define __itkLBFGSBOptimizer_txx
 
 #include "itkLBFGSBOptimizer.h"
+#include "vnl/algo/vnl_lbfgsb.h"
 
-#include "v3p_netlib.h"
-#include "v3p_f2c_mangle.h"
 
 namespace itk
 {
 
-typedef long     Integer;
-typedef double   Doublereal;
-typedef long     Logical; // not bool
-typedef long int Ftnlen;
 
-extern "C" int
-setulb_(
-Integer *n, Integer *m,
-const Doublereal *x, Doublereal *l, Doublereal *u,
-Integer *nbd,
-Doublereal *f, Doublereal *g, Doublereal *factr, Doublereal *pgtol, Doublereal *wa,
-Integer *iwa,
-char *task,
-Integer *iprint,
-char *csave,
-Logical *lsave,
-Integer *isave,
-Doublereal *dsave,
-Ftnlen task_len,
-Ftnlen csave_len );
+/** \class LBFGSBOptimizerHelper
+ * \brief Wrapper helper around vnl_lbfgsb.
+ *
+ * This class is used to translate iteration events, etc, from
+ * vnl_lbfgsb into iteration events in ITK.
+ */
+class ITK_EXPORT LBFGSBOptimizerHelper :
+    public vnl_lbfgsb
+{
+public:
+  typedef LBFGSBOptimizerHelper               Self;
+  typedef vnl_lbfgsb                          Superclass;
+
+  /** Create with a reference to the ITK object */
+  LBFGSBOptimizerHelper( vnl_cost_function& f,
+                         LBFGSBOptimizer* itkObj );
+
+  /** Handle new iteration event */
+  virtual bool report_iter();
+
+private:
+  LBFGSBOptimizer* m_itkObj;
+};
+
+  
+
 
 /**
  * Constructor
@@ -52,9 +58,12 @@ Ftnlen csave_len );
 LBFGSBOptimizer
 ::LBFGSBOptimizer()
 {
-  m_LowerBound       = BoundValueType(0);
-  m_UpperBound       = BoundValueType(0); 
-  m_BoundSelection   = BoundSelectionType(0);
+  m_OptimizerInitialized = false;
+  m_VnlOptimizer         = 0;
+
+  m_LowerBound       = InternalBoundValueType(0);
+  m_UpperBound       = InternalBoundValueType(0); 
+  m_BoundSelection   = InternalBoundSelectionType(0);
 
   m_CostFunctionConvergenceFactor   = 1e+7;
   m_ProjectedGradientTolerance      = 1e-5;
@@ -74,6 +83,7 @@ LBFGSBOptimizer
 LBFGSBOptimizer
 ::~LBFGSBOptimizer()
 {
+  delete m_VnlOptimizer;
 }
 
 /**
@@ -124,6 +134,11 @@ LBFGSBOptimizer
 const BoundValueType& value )
 {
   m_LowerBound = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_lower_bound( m_LowerBound );
+    }
+
   this->Modified();
 }
 
@@ -148,6 +163,11 @@ LBFGSBOptimizer
 const BoundValueType& value )
 {
   m_UpperBound = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_upper_bound( m_UpperBound );
+    }
+
   this->Modified();
 }
 
@@ -173,6 +193,10 @@ LBFGSBOptimizer
 const BoundSelectionType& value )
 {
   m_BoundSelection = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_bound_selection( m_BoundSelection );
+    }
   this->Modified();
 }
 
@@ -189,6 +213,127 @@ LBFGSBOptimizer
 } 
 
 
+/** Set/Get the CostFunctionConvergenceFactor. Algorithm terminates
+ * when the reduction in cost function is less than factor * epsmcj
+ * where epsmch is the machine precision.
+ * Typical values for factor: 1e+12 for low accuracy; 
+ * 1e+7 for moderate accuracy and 1e+1 for extremely high accuracy.
+ */
+void
+LBFGSBOptimizer
+::SetCostFunctionConvergenceFactor( double value )
+{
+  m_CostFunctionConvergenceFactor = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_cost_function_convergence_factor(
+      m_CostFunctionConvergenceFactor );
+    }
+  this->Modified();
+}
+
+
+/** Set/Get the ProjectedGradientTolerance. Algorithm terminates
+ * when the project gradient is below the tolerance. Default value
+ * is 1e-5.
+ */
+void
+LBFGSBOptimizer
+::SetProjectedGradientTolerance( double value )
+{
+  m_ProjectedGradientTolerance = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_projected_gradient_tolerance(
+      m_ProjectedGradientTolerance );
+    }
+  this->Modified();
+}
+
+
+/** Set/Get the MaximumNumberOfIterations. Default is 500 */
+void
+LBFGSBOptimizer
+::SetMaximumNumberOfIterations( unsigned int value )
+{
+  m_MaximumNumberOfIterations = value;
+  this->Modified();
+}
+
+
+/** Set/Get the MaximumNumberOfEvaluations. Default is 500 */
+void
+LBFGSBOptimizer
+::SetMaximumNumberOfEvaluations( unsigned int value )
+{
+  m_MaximumNumberOfEvaluations = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_max_function_evals( m_MaximumNumberOfEvaluations );
+    }
+  this->Modified();
+}
+
+
+/** Set/Get the MaximumNumberOfCorrections. Default is 5 */
+void
+LBFGSBOptimizer
+::SetMaximumNumberOfCorrections( unsigned int value )
+{
+  m_MaximumNumberOfCorrections = value;
+  if( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_max_variable_metric_corrections(
+      m_MaximumNumberOfCorrections );
+    }
+  this->Modified();
+}
+
+
+/**
+ * Connect a Cost Function
+ */
+void
+LBFGSBOptimizer::
+SetCostFunction( SingleValuedCostFunction * costFunction )
+{
+  m_CostFunction = costFunction;
+
+  const unsigned int numberOfParameters = 
+    costFunction->GetNumberOfParameters();
+
+  CostFunctionAdaptorType * adaptor = 
+    new CostFunctionAdaptorType( numberOfParameters );
+       
+  adaptor->SetCostFunction( costFunction );
+
+  if( m_OptimizerInitialized )
+    { 
+    delete m_VnlOptimizer;
+    }
+    
+  this->SetCostFunctionAdaptor( adaptor );
+
+  m_VnlOptimizer = new InternalOptimizerType( *adaptor, this );
+
+  // set the optimizer parameters
+  m_VnlOptimizer->set_lower_bound( m_LowerBound );
+  m_VnlOptimizer->set_upper_bound( m_UpperBound );
+  m_VnlOptimizer->set_bound_selection( m_BoundSelection );
+  m_VnlOptimizer->set_cost_function_convergence_factor(
+    m_CostFunctionConvergenceFactor );
+  m_VnlOptimizer->set_projected_gradient_tolerance( 
+    m_ProjectedGradientTolerance );
+  m_VnlOptimizer->set_max_function_evals( m_MaximumNumberOfEvaluations );
+  m_VnlOptimizer->set_max_variable_metric_corrections(
+    m_MaximumNumberOfCorrections );
+
+  m_OptimizerInitialized = true;
+
+  this->Modified();
+}
+
+
 /**
  * Start the optimization
  */
@@ -197,9 +342,7 @@ LBFGSBOptimizer
 ::StartOptimization( void )
 {
   
-  /**
-   * Check if all the bounds parameters are the same size as the initial parameters.
-   */
+  // Check if all the bounds parameters are the same size as the initial parameters.
   unsigned int numberOfParameters = m_CostFunction->GetNumberOfParameters();
 
   if ( this->GetInitialPosition().Size() < numberOfParameters )
@@ -207,137 +350,91 @@ LBFGSBOptimizer
     itkExceptionMacro( << "InitialPosition array does not have sufficient number of elements" );
     }
 
-  if ( m_LowerBound.Size() < numberOfParameters )
+  if ( m_LowerBound.size() < numberOfParameters )
     {
     itkExceptionMacro( << "LowerBound array does not have sufficient number of elements" );
     }
 
-  if ( m_UpperBound.Size() < numberOfParameters )
+  if ( m_UpperBound.size() < numberOfParameters )
     {
     itkExceptionMacro( << "UppperBound array does not have sufficient number of elements" );
     }
 
-  if ( m_BoundSelection.Size() < numberOfParameters )
+  if ( m_BoundSelection.size() < numberOfParameters )
     {
     itkExceptionMacro( << "BoundSelection array does not have sufficient number of elements" );
     }
 
+  if( this->GetMaximize() )
+    {
+    this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
+    }
+
   this->SetCurrentPosition( this->GetInitialPosition() );
 
-  /**
-   * Allocate memory for gradient and workspaces
-   */
-  Integer n = numberOfParameters;
-  Integer m = m_MaximumNumberOfCorrections;
+  ParametersType parameters( this->GetInitialPosition() );
 
-  Array<double>  gradient( n );                           // gradient
-  Array<double>  wa( (2*m+4)*n + 12*m*m + 12*m );  // double array workspace
+  // vnl optimizers return the solution by reference 
+  // in the variable provided as initial position
+  m_VnlOptimizer->minimize( parameters );
 
-  Array<Integer> iwa( 3* n );                     // Integer array workspace
-
-  /** String indicating current job */
-  char task[60];
-  s_copy( task, const_cast<char *>("START"), (Ftnlen)60, (Ftnlen)5);
- 
-  /**  Control frequency and type of output */
-  Integer iprint = -1;  // no output
-
-  /** Working string of characters */
-  char csave[60];
-
-  /** Logical working array */
-  Array<Logical> lsave(4);
-
-  /** Integer working array */
-  Array<Integer> isave(44);
-
-  /** Double working array */
-  Array<double> dsave(29);
-
-  // Initialize
-  unsigned int numberOfEvaluations = 0;
-  m_CurrentIteration = 0;
-
-  this->InvokeEvent( StartEvent() );
-
-  // Iteration looop
-  for (;;)
+  if ( parameters.size() != this->GetInitialPosition().Size() )
     {
-
-    /** Call the L-BFGS-B code */
-    setulb_(&n, &m, this->GetCurrentPosition().data_block(), 
-           (double *)m_LowerBound.data_block(), (double *)m_UpperBound.data_block(), 
-           (long *)m_BoundSelection.data_block(),
-           &m_Value, gradient.data_block(), 
-           &m_CostFunctionConvergenceFactor, &m_ProjectedGradientTolerance, 
-           wa.data_block(), iwa.data_block(),
-           task, &iprint, csave, lsave.data_block(), isave.data_block(), 
-           dsave.data_block(), (Ftnlen)60, (Ftnlen)60 );
-
-    /** Check return code.
-     * 'FG_*'  = request to evaluate f & g for the current x and continue
-     * 'NEW_X' = return with new iterate - continue the iteration w/out evaluation
-     * 'ERROR' = error in input arguments
-     * 'CONVERGENCE' = convergence has been reached
-     */
-
-    if ( s_cmp(task, const_cast<char *>("FG"), (Ftnlen)2, (Ftnlen)2) == 0 )
-      {
-      m_CostFunction->GetValueAndDerivative( this->GetCurrentPosition(), m_Value, gradient );
-      numberOfEvaluations++;
-
-      }
-    else if ( s_cmp( task, const_cast<char *>("NEW_X"), (Ftnlen)5, (Ftnlen)5) == 0 )
-      {
-
-      m_InfinityNormOfProjectedGradient = dsave[12];
-      this->InvokeEvent( IterationEvent() );
-      m_CurrentIteration++;
-
-      }
-    else
-      {
-      // terminate
-
-      if( s_cmp( task,const_cast<char *>("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"), 
-        (Ftnlen)48, (Ftnlen)48) == 0 )
-        {
-        itkDebugMacro( << "Convergence: gradient tolerance reached." );
-        break;
-        }
-
-      if( s_cmp( task, const_cast<char *>("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH"), 
-        (Ftnlen)47, (Ftnlen)47) == 0 )
-        {
-        itkDebugMacro( << "Convergence: function tolerance reached." );
-        break;
-        }
-
-      if ( s_cmp( task, const_cast<char *>("ERROR"), (Ftnlen)5, (Ftnlen)5) == 0 )
-        {
-        itkDebugMacro( << "Error: dodgy input." );
-        break;
-        }
-
-      // unknown error
-      itkDebugMacro( << "Unknown error." );
-      break;
-        
-      }
-
-    /** Check if we have exceeded the maximum number of iterations */
-    if ( numberOfEvaluations > m_MaximumNumberOfEvaluations || 
-      m_CurrentIteration > m_MaximumNumberOfIterations ) 
-      {
-      itkDebugMacro( << "Exceeded maximum number of iterations." );
-      break;
-      }
-
+    // set current position to initial position and throw an exception
+    this->SetCurrentPosition( this->GetInitialPosition() );
+    itkExceptionMacro( << "Error occured in optimization" );
     }
+
+  this->SetCurrentPosition( parameters );
 
   this->InvokeEvent( EndEvent() );
 
 }
+
+
+/*-------------------------------------------------------------------------
+ * helper class
+ *-------------------------------------------------------------------------
+ */
+
+
+
+
+/** Create with a reference to the ITK object */
+LBFGSBOptimizerHelper
+::LBFGSBOptimizerHelper( vnl_cost_function& f,
+                         LBFGSBOptimizer* itkObj )
+  : vnl_lbfgsb( f ),
+    m_itkObj( itkObj )
+{
+}
+
+
+/** Handle new iteration event */
+bool
+LBFGSBOptimizerHelper
+::report_iter()
+{
+  Superclass::report_iter();
+
+  m_itkObj->m_InfinityNormOfProjectedGradient =
+    this->get_inf_norm_projected_gradient();
+
+  m_itkObj->InvokeEvent( IterationEvent() );
+
+  m_itkObj->m_CurrentIteration = this->num_iterations_;
+
+  // Return true to terminate the optimization loop.
+  if( this->num_iterations_ > m_itkObj->m_MaximumNumberOfIterations )
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
+}
+
 
 } // end namespace itk
 

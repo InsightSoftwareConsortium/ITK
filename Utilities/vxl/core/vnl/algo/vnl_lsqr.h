@@ -44,7 +44,8 @@ class vnl_lsqr
   void set_max_iterations(long max_iter) { max_iter_ = max_iter; }
 
   //: Perform the minimization starting from x=0 and putting the result into x.
-  // Return code may be translated with translate_return_code().
+  // Return code may be translated with translate_return_code(), or the result of the
+  // minimization may be printed in more detail with diagnose_outcome()
   int minimize(vnl_vector<double>& x);
 
   long get_number_of_iterations() const { return num_iter_; }
@@ -56,6 +57,9 @@ class vnl_lsqr
 
   //: Return the residual norm estimate:
   double get_resid_norm_estimate() const { return resid_norm_estimate_; }
+
+  //: Get the return code for the last minimization
+  inline int return_code() const { return return_code_; }
 
  protected:
   vnl_linear_system* ls_;

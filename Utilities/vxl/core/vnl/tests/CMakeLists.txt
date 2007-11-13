@@ -24,6 +24,7 @@ ADD_EXECUTABLE( vnl_test_all
   test_real_polynomial.cxx
   test_real_npolynomial.cxx
   test_resize.cxx
+  test_rotation_matrix.cxx
   test_sample.cxx
   test_sym_matrix.cxx
   test_transpose.cxx
@@ -67,6 +68,7 @@ ADD_TEST( vnl_test_rational             ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all t
 ADD_TEST( vnl_test_real_polynomial      ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_real_polynomial      )
 ADD_TEST( vnl_test_real_npolynomial     ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_real_npolynomial     )
 ADD_TEST( vnl_test_resize               ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_resize               )
+ADD_TEST( vnl_test_rotation_matrix      ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_rotation_matrix      )
 ADD_TEST( vnl_test_sample               ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_sample               )
 ADD_TEST( vnl_test_sym_matrix           ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_sym_matrix           )
 ADD_TEST( vnl_test_transpose            ${EXECUTABLE_OUTPUT_PATH}/vnl_test_all test_transpose            )

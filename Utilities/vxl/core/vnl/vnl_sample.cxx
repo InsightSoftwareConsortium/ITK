@@ -5,6 +5,10 @@
 //:
 // \file
 // \author fsm
+// \verbatim
+//  Modifications
+//   2007-03-26 Peter Vanroose - avoid returning log(0.0) by switching params
+// \endverbatim
 
 #include "vnl_sample.h"
 #include <vnl/vnl_math.h>
@@ -16,7 +20,7 @@
 # include <stdlib.h> // dont_vxl_filter
 #else
 // rand() is not always a good random number generator,
-// so use a simple congruential random number generator - PVr
+// so use a simple congruential random number generator when no drand48 - PVr
 static unsigned long vnl_sample_seed = 12345;
 #endif
 
@@ -54,7 +58,7 @@ double vnl_sample_uniform(double a, double b)
 
 void vnl_sample_normal_2(double *x, double *y)
 {
-  double u     = vnl_sample_uniform(0, 1);
+  double u     = vnl_sample_uniform(1, 0); // not (0,1): should not return 0
   double theta = vnl_sample_uniform(0, 2 * vnl_math::pi);
 
   double r = vcl_sqrt(-2*vcl_log(u));

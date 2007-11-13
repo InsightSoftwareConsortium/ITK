@@ -1124,3 +1124,70 @@ int main()
 }
 #endif // VXL_APPLE_HAS_INLINE_ISNAND
 
+//-------------------------------------
+
+#ifdef VXL_HAS_MM_MALLOC
+#include <emmintrin.h>
+int main()
+{
+  void* x = _mm_malloc(4*sizeof(float),16);
+  _mm_free(x);
+  return 0;
+}
+#endif
+
+//-------------------------------------
+
+#ifdef VXL_HAS_ALIGNED_MALLOC
+#include <malloc.h>
+int main()
+{
+  void* x = _aligned_malloc(4*sizeof(float),16);
+  _aligned_free(x);
+  return 0;
+}
+#endif
+
+//-------------------------------------
+
+#ifdef VXL_HAS_MINGW_ALIGNED_MALLOC
+#include <malloc.h>
+int main()
+{
+  void* x = __mingw_aligned_malloc(4*sizeof(float),16);
+  __mingw_aligned_free(x);
+  return 0;
+}
+#endif
+
+//-------------------------------------
+
+#ifdef VXL_HAS_POSIX_MEMALIGN
+#include <cstdlib>
+int main()
+{
+  void* x = memalign(16,4*sizeof(float));
+  free(x);
+  return 0;
+}
+#endif
+
+//-------------------------------------
+
+#ifdef VXL_HAS_SSE2_HARDWARE_SUPPORT
+#include <emmintrin.h>
+int main()
+{
+  //try to do some sse2 calculations
+  double d_a[]  = { 6.75, 3.42 };
+  double d_b[]  = { 2.3, 9.2 };
+  double res[2] = {0.0};
+  
+  __m128d z;
+  z = _mm_mul_pd(_mm_loadu_pd(d_a),_mm_loadu_pd(d_b));
+  
+  _mm_storeu_pd(res,z);
+  
+  return 0;
+}
+#endif

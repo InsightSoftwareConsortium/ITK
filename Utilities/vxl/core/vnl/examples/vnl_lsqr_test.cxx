@@ -6,8 +6,8 @@
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vnl/algo/vnl_lsqr.h>
 
-int main (int /*argc*/, char** /*argv*/) {
-
+int main (int /*argc*/, char** /*argv*/)
+{
   vnl_sparse_matrix<double> A(10000, 1000);
 
   vcl_vector<int> cols(50);

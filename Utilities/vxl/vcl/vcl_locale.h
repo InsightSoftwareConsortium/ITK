@@ -10,7 +10,7 @@
 #if !VCL_CXX_HAS_HEADER_LOCALE
 # include <locale.h>
 #else
-# include <locale>
+# include <iso/vcl_locale.h>
 #endif
 
 #endif // vcl_locale_h_

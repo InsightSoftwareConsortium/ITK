@@ -3,7 +3,9 @@
 #include <vnl/algo/vnl_adaptsimpson_integral.h>
 #include <vnl/algo/vnl_adjugate.h>
 #include <vnl/algo/vnl_amoeba.h>
+#include <vnl/algo/vnl_bracket_minimum.h>
 #include <vnl/algo/vnl_brent.h>
+#include <vnl/algo/vnl_brent_minimizer.h>
 #include <vnl/algo/vnl_chi_squared.h>
 #include <vnl/algo/vnl_cholesky.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
@@ -15,6 +17,7 @@
 #include <vnl/algo/vnl_fft_1d.h>
 #include <vnl/algo/vnl_fft_2d.h>
 #include <vnl/algo/vnl_fft.h>
+#include <vnl/algo/vnl_fit_parabola.h>
 #include <vnl/algo/vnl_gaussian_kernel_1d.h>
 #include <vnl/algo/vnl_generalized_eigensystem.h>
 #include <vnl/algo/vnl_generalized_schur.h>
@@ -34,6 +37,7 @@
 #include <vnl/algo/vnl_scatter_3x3.h>
 #include <vnl/algo/vnl_simpson_integral.h>
 #include <vnl/algo/vnl_solve_qp.h>
+#include <vnl/algo/vnl_sparse_lu.h>
 #include <vnl/algo/vnl_sparse_symmetric_eigensystem.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_svd_economy.h>

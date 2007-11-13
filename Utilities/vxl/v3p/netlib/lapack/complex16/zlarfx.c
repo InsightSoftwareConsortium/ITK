@@ -16,7 +16,7 @@
 
     Note: When compiling a program using computed gotos, a GCC exten-
     sion, you may get better runtime performance if you disable the
-    global common subexpression elmination pass by adding -fno-gcse to
+    global common subexpression elimination pass by adding -fno-gcse to
     the command line.
 */
 #ifdef _MSC_VER

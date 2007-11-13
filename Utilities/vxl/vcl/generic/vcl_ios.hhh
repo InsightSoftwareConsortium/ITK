@@ -5,6 +5,7 @@
 @streamsize
 @fpos
 @basic_ios
+@ios_base
 @ios::basefield
 @ios::floatfield
 @ios::adjustfield

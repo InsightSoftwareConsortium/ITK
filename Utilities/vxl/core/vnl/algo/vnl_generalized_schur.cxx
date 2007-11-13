@@ -66,7 +66,8 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
     // ok
     return true;
   }
-  else {
+  else
+  {
     // These return codes are taken from dgges.f:
     //*          = 0:  successful exit
     //*          < 0:  if INFO = -i, the i-th argument had an illegal value.

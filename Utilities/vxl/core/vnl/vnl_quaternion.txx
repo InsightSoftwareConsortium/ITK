@@ -178,7 +178,8 @@ vnl_vector_fixed<T,3> vnl_quaternion<T>::rotation_euler_angles() const
 }
 
 
-//:
+//: Queries the rotation angle of the quaternion.
+//  Returned angle lies in [0, 2*pi]
 template <class T>
 T vnl_quaternion<T>::angle() const
 {
@@ -186,9 +187,8 @@ T vnl_quaternion<T>::angle() const
                           this->real()));            // angle is always positive
 }
 
-//: Queries the angle and the direction of the rotation axis of the quaternion.
+//: Queries the direction of the rotation axis of the quaternion.
 //  A null quaternion will return zero for angle and k direction for axis.
-
 template <class T>
 vnl_vector_fixed<T,3> vnl_quaternion<T>::axis() const
 {

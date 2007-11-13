@@ -91,7 +91,7 @@ class vnl_svd
   //: find weights below tol*max(w) and zero them out
   void            zero_out_relative(double tol = 1e-8); //sqrt(machine epsilon)
   int             singularities () const { return W_.rows() - rank(); }
-  int             rank () const { return rank_; }
+  unsigned int    rank () const { return rank_; }
   singval_t       well_condition () const { return sigma_min()/sigma_max(); }
 
   //: Calculate determinant as product of diagonals in W.

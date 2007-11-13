@@ -7,6 +7,16 @@ OPTION(VNL_CONFIG_LEGACY_METHODS
   "Whether backward-compatibility methods are provided by vnl." OFF)
 OPTION(VNL_CONFIG_THREAD_SAFE
   "Whether thread-safe vnl implementations are used." ON)
+
+ 
+#IF( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
+#  OPTION(VNL_CONFIG_ENABLE_SSE2
+#    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant)." ON)
+#ELSE ( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
+  OPTION(VNL_CONFIG_ENABLE_SSE2
+    "Enable Streaming SIMD Extensions 2 optimisations (hardware dependant)." OFF)
+#ENDIF( VXL_HAS_EMMINTRIN_H AND VXL_HAS_SSE2_HARDWARE_SUPPORT )
+
 MARK_AS_ADVANCED(
   VNL_CONFIG_CHECK_BOUNDS
   VNL_CONFIG_LEGACY_METHODS
@@ -28,6 +38,11 @@ IF(VNL_CONFIG_THREAD_SAFE)
 ELSE(VNL_CONFIG_THREAD_SAFE)
   SET(VNL_CONFIG_THREAD_SAFE 0)
 ENDIF(VNL_CONFIG_THREAD_SAFE)
+IF(VNL_CONFIG_ENABLE_SSE2) 
+  SET(VNL_CONFIG_ENABLE_SSE2 1)
+ELSE(VNL_CONFIG_ENABLE_SSE2)
+  SET(VNL_CONFIG_ENABLE_SSE2 0)
+ENDIF(VNL_CONFIG_ENABLE_SSE2)
 CONFIGURE_FILE(${vxl_SOURCE_DIR}/core/vnl/vnl_config.h.in
                ${vxl_BINARY_DIR}/core/vnl/vnl_config.h @ONLY IMMEDIATE)
 
@@ -175,6 +190,9 @@ SET( vnl_sources
                                vnl_integrant_fnct.h
                                vnl_analytic_integrant.h
   vnl_definite_integral.cxx    vnl_definite_integral.h
+
+  # hardware optimisation
+                               vnl_sse.h
 )
 
 AUX_SOURCE_DIRECTORY(Templates vnl_sources)
@@ -191,6 +209,10 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_matrix_fixed+vnl_bignum.3.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector+vnl_rational-.cxx PROPERTIES COMPILE_FLAGS -O0)
   SET_SOURCE_FILES_PROPERTIES(Templates/vnl_vector_fixed+vnl_rational.3-.cxx PROPERTIES COMPILE_FLAGS -O0)
+  # gcc must have -msse2 option to enable sse2 support
+  IF(VNL_CONFIG_ENABLE_SSE2)
+    ADD_DEFINITIONS( -msse2 )
+  ENDIF(VNL_CONFIG_ENABLE_SSE2)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ADD_LIBRARY(itkvnl ${vnl_sources})

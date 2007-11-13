@@ -135,6 +135,7 @@
 //   27-Nov-1996 Peter Vanroose - added default constructor which allocates matrix storage
 //    4-Jul-2003 Paul Smyth - general cleanup and rewrite; interface now as vnl_matrix_fixed
 //   15-Aug-2003 Peter Vanroose - removed "duplicate" operator=(vnl_matrix_fixed<T,n> const&)
+//    8-Dec-2006 Markus Moll - changed operator>> signature (to const& argument)
 // \endverbatim
 //
 //-----------------------------------------------------------------------------
@@ -910,7 +911,7 @@ vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed_ref_const<T,m,n> cons
 
 template<class T, unsigned m, unsigned n>
 inline
-vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed_ref<T,m,n>& mat)
+vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed_ref<T,m,n> const& mat)
 {
   mat.read_ascii(is);
   return is;

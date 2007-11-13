@@ -11,8 +11,10 @@ IF(MSVC)
   # Find DirectX Include Directory
   FIND_PATH(DIRECTX_INCLUDE_DIR ddraw.h
     "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Include"
+    "C:/Program Files/Microsoft DirectX SDK (August 2007)/Include"
     "C:/Program Files/Microsoft DirectX SDK (February 2006)/Include"
     "C:/Program Files/Microsoft DirectX 9.0 SDK (June 2005)/Include"
+    "C:/Program Files (x86)/Microsoft DirectX SDK (June 2006)/Include"
     "C:/DXSDK/Include"
     DOC "What is the path where the file ddraw.h can be found"
   )
@@ -21,6 +23,7 @@ IF(MSVC)
   IF(DIRECTX_INCLUDE_DIR)
     FIND_PATH(DIRECTSHOW_INCLUDE_DIR dshow.h
       "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Include"
+      "C:/Program Files/Microsoft Platform SDK for Windows Server 2003 R2/Include"
       "C:/Program Files/Microsoft Platform SDK/Include"
       "C:/DXSDK/Include"
       DOC "What is the path where the file dshow.h can be found"
@@ -30,12 +33,14 @@ IF(MSVC)
     IF(DIRECTSHOW_INCLUDE_DIR)
       FIND_LIBRARY(DIRECTSHOW_strmiids_LIBRARY strmiids
         "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Lib"
+        "C:/Program Files/Microsoft Platform SDK for Windows Server 2003 R2/Lib"
         "C:/Program Files/Microsoft Platform SDK/Lib"
         "C:/DXSDK/Include/Lib"
         DOC "Where can the DirectShow strmiids library be found"
       )
       FIND_LIBRARY(DIRECTSHOW_quartz_LIBRARY quartz
         "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK/Lib"
+        "C:/Program Files/Microsoft Platform SDK for Windows Server 2003 R2/Lib"
         "C:/Program Files/Microsoft Platform SDK/Lib"
         "C:/DXSDK/Include/Lib"
         DOC "Where can the DirectShow quartz library be found"

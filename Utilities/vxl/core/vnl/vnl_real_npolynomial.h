@@ -22,6 +22,7 @@
 //   Lee Worden, Berkeley 2006-06-22 Minor fixes to simplify() and operator<<()
 //   Peter Vanroose   2006-06-24  Added method asString implementing oper<<()
 //   Peter Vanroose   2006-06-24  Bug fix in degree(), and added degrees() & maxdegree()
+//   Marcus Brubaker  2007-10-15  Added deval() and deriv() functions
 // \endverbatim
 
 
@@ -75,7 +76,15 @@ class vnl_real_npolynomial
 
   // Computations--------------------------------------------------------------
 
+  //: Evaluate the polynomial at x.
   double eval(const vnl_vector<double>& x);
+  //: Evaluate the derivative of the polynomial at x with respect to the ith variable.
+  double deval(const vnl_vector<double>& x, unsigned int i);
+  //: Evaluate the gradient of the polynomial at x.
+  vnl_vector<double> deval(const vnl_vector<double>& x);
+  //: Differentiate the polynomial with respect to the ith variable.
+  vnl_real_npolynomial deriv(unsigned int i);
+
   vnl_real_npolynomial operator-() const; // unary minus
   vnl_real_npolynomial operator+(vnl_real_npolynomial const& ) const;
   vnl_real_npolynomial operator-(vnl_real_npolynomial const& ) const;

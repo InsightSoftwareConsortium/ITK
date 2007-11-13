@@ -12,6 +12,7 @@ INCLUDE( ${MODULE_PATH}/FindZLIB.cmake )
 INCLUDE( ${MODULE_PATH}/FindPNG.cmake )
 INCLUDE( ${MODULE_PATH}/FindJPEG.cmake )
 INCLUDE( ${MODULE_PATH}/FindTIFF.cmake )
+INCLUDE( ${MODULE_PATH}/FindGEOTIFF.cmake )
 INCLUDE( ${MODULE_PATH}/FindMPEG2.cmake )
 
 # Save the compiler settings so another project can import them.

@@ -21,7 +21,8 @@
 //: Calculate trace of a matrix
 // \relates vnl_matrix
 template <class T>
-T vnl_trace(vnl_matrix<T> const& M) {
+T vnl_trace(vnl_matrix<T> const& M)
+{
   T sum(0);
   const unsigned int N = M.rows()<M.cols() ? M.rows() : M.cols();
   for (unsigned int i=0; i<N; ++i)
@@ -32,7 +33,8 @@ T vnl_trace(vnl_matrix<T> const& M) {
 //: Calculate trace of a matrix
 // \relates vnl_matrix_fixed
 template <class T, unsigned int N1, unsigned int N2>
-T vnl_trace(vnl_matrix_fixed<T,N1,N2> const& M) {
+T vnl_trace(vnl_matrix_fixed<T,N1,N2> const& M)
+{
   T sum(0);
   for (unsigned int i=0; i<N1 && i<N2; ++i)
     sum += M(i, i);

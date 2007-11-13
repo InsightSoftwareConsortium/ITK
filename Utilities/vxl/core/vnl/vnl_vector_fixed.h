@@ -6,7 +6,7 @@
 #endif
 //:
 // \file
-// \brief Fixed length stack-stored vnl_vector
+// \brief Fixed length stack-stored vector
 //
 // The operators are inlined because (1) they are small and
 // (2) we then have less explicit instantiation trouble.
@@ -37,7 +37,7 @@
 export template <class T, unsigned int n> class vnl_vector_fixed;
 export template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
-//: Fixed length  stack-stored, space-efficient vector.
+//: Fixed length stack-stored, space-efficient vector.
 // vnl_vector_fixed is a fixed-length, stack storage vector. It has
 // the same storage size as a C-style array. It is not related via
 // inheritance to vnl_vector. However, it can be converted cheaply to

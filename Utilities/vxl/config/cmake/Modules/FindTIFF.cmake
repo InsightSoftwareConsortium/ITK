@@ -36,7 +36,7 @@ ELSE(TIFF_FOUND)
 
     SET( TIFF_FOUND "YES" )
     SET( TIFF_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/tiff)  
-    SET( TIFF_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_DIR}/include/v3p/tiff)
+    SET( TIFF_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_DIR}/include/vxl/v3p/tiff)
     SET( TIFF_LIBRARIES tiff )
   
   ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/tiff/tiff.h)

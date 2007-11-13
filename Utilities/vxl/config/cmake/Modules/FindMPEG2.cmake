@@ -41,10 +41,10 @@ ELSE( MPEG2_FOUND )
       ${vxl_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec
     )
     SET( MPEG2_INSTALL_INCLUDE_DIR
-      ${CMAKE_INSTALL_PREFIX}/include/v3p/mpeg2/include
+      ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/mpeg2/include
       # use of the following is deprecated
       # it is better to use #include <mpeg2dec/mpeg2.h> in client code
-      ${CMAKE_INSTALL_PREFIX}/include/v3p/mpeg2/include/mpeg2dec
+      ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/mpeg2/include/mpeg2dec
     )
 
   ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/mpeg2/include/mpeg2dec/mpeg2.h)

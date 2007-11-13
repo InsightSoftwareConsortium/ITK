@@ -1,6 +1,6 @@
 // This is core/vnl/algo/tests/test_matrix_update.cxx
 #include "test_util.h"
-#include <vcl_iostream.h>
+// not used? #include <vcl_iostream.h>
 #include <testlib/testlib_test.h>
 #include <vnl/algo/vnl_matrix_update.h>
 

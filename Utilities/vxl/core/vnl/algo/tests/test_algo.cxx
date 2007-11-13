@@ -34,6 +34,7 @@
 #include <vnl/algo/vnl_fft_2d.h>
 #include <vnl/algo/vnl_generalized_schur.h>
 #include <vnl/algo/vnl_lbfgs.h>
+#include <vnl/algo/vnl_lbfgsb.h>
 #include <vnl/algo/vnl_lsqr.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
 #include <vnl/algo/vnl_orthogonal_complement.h>
@@ -84,12 +85,15 @@ static void test_orthogonal_complement()
 }
 
 class F_test_powell : public vnl_cost_function
-  {
-   public: F_test_powell() : vnl_cost_function(2) {}
-    double f(vnl_vector<double> const& x) { double u=x[0]-x[1]*x[1], v=x[1]-1; return u*u+v*v+1; }
-    void gradf(vnl_vector<double> const& x, vnl_vector<double>& g) {
-      g[0]=2*x[0]-2*x[1]*x[1]; g[1]=4*x[1]*x[1]*x[1]-4*x[0]*x[1]+2*x[1]-2; }
-  };
+{
+public:
+  // Local min near (0,0) is at (1,1) and has value 1.
+  F_test_powell() : vnl_cost_function(2) {}
+  double f(vnl_vector<double> const& x)
+    { double u=x[0]-x[1]*x[1], v=x[1]-1; return u*u+v*v+1; }
+  void gradf(vnl_vector<double> const& x, vnl_vector<double>& g)
+    { g[0]=2*x[0]-2*x[1]*x[1]; g[1]=4*x[1]*x[1]*x[1]-4*x[0]*x[1]+2*x[1]-2; }
+};
 
 static void test_powell()
 {
@@ -100,6 +104,20 @@ static void test_powell()
 
   vnl_lbfgs lbfgs(f); x[0]=x[1]=0.0; lbfgs.minimize(x);
   TEST_NEAR("vnl_lbfgs", x[1], 1.0, 1e-6);
+
+  {
+  // Local min near (0,0) with (x,y) bounded to [-0.5,+0.5] is
+  //   at (0.25, 0.5) with value 1.25.
+  vnl_lbfgsb lbfgsb(f); x[0]=x[1]=0.0;
+  vnl_vector<double> l(2); l[0] = -0.5; l[1] = -0.5;
+  vnl_vector<double> u(2); u[0] = +0.5; u[1] = +0.5;
+  vnl_vector<long> nbd(2); nbd[0] = 3; nbd[1] = 3;
+  lbfgsb.set_lower_bound(l);
+  lbfgsb.set_upper_bound(u);
+  lbfgsb.set_bound_selection(nbd);
+  lbfgsb.minimize(x);
+  TEST_NEAR("vnl_lbfgsb", x[0], 0.25, 1e-6);
+  }
 
   vnl_powell powell(&f); x[0]=x[1]=0.0; powell.minimize(x);
   TEST_NEAR("vnl_powell", f.f(x), 1.0, 1e-6);

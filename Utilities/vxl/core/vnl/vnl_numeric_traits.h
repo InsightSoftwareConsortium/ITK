@@ -100,7 +100,15 @@ class vnl_numeric_traits<char>
   static const char one VCL_STATIC_CONST_INIT_INT_DECL(1);
   //: Maximum value which this type can assume.
   //  It is 127 (and not 255) since "char" is not guaranteed to be unsigned.
+#ifdef _MSC_VER
+#ifdef _CHAR_UNSIGNED
+  static const char maxval VCL_STATIC_CONST_INIT_INT_DECL(255);
+#else
+  static const char maxval VCL_STATIC_CONST_INIT_INT_DECL(127);
+#endif
+#else
   static const char maxval VCL_STATIC_CONST_INIT_INT_DECL(char(255)<0?127:255);
+#endif
   //: Return value of abs()
   typedef unsigned char abs_t;
   //: Name of a type twice as long as this one for accumulators and products.

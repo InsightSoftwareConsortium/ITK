@@ -41,6 +41,9 @@ IF(NETLIB_FOUND)
     #test_symmetric_eigensystem.cxx # Removing for ITK: needs vul
     test_integral.cxx
     test_solve_qp.cxx
+    test_sparse_lu.cxx
+    test_bracket_minimum.cxx
+    test_brent_minimizer.cxx
   )
 
 
@@ -72,6 +75,9 @@ IF(NETLIB_FOUND)
   ADD_TEST( vnl_test_rpoly_roots              ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_rpoly_roots             )
   ADD_TEST( vnl_test_integral                 ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_integral                )
   ADD_TEST( vnl_test_solve_qp                 ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_solve_qp                )
+  ADD_TEST( vnl_test_sparse_lu                ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_sparse_lu               )
+  ADD_TEST( vnl_test_bracket_minimum          ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_bracket_minimum         )
+  ADD_TEST( vnl_test_brent_minimizer          ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_brent_minimizer         )
 
   IF ( SITE MATCHES "isbe.man.ac.uk" )
     # For some reason my box (linux-gcc-3.2) has a problem with the optimisation

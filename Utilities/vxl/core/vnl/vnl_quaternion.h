@@ -73,7 +73,11 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
   // the Z axis, using a fixed reference frame.
   vnl_quaternion(T theta_X, T theta_Y, T theta_Z);
 
-  //: Construct quaternion from axis and angle of rotation
+  //: Construct quaternion from axis and angle of rotation.
+  // \note If you specify an angle in [0, 2pi], then methods angle() and axis() will return the same values.
+  // However, if you specify an angle in [-2pi, 0], then methods angle() and axis() will return values with opposite signs.
+  // \sa vnl_quaternion::angle()
+  // \sa vnl_quaternion::axis()
   vnl_quaternion(vnl_vector_fixed<T,3> const& axis, T angle);
 
   //: Construct quaternion from from 3x3 row-major matrix
@@ -126,10 +130,12 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
   //: Copies and returns the imaginary part.
   inline vnl_vector_fixed<T,3> imaginary() const { return this->extract(3,0); }
 
-  //: Axis of rotation
+  //: Axis of rotation.
+  // \note Axis not well defined for theta==0. In such a case (or if provided axis==(0,0,0)), this function returns (0,0,1).
   vnl_vector_fixed<T,3> axis() const;
 
-  //: Angle of rotation
+  //: Angle of rotation.
+  // \note Returned angle lies in [0, 2*pi]
   T angle() const;
 
   //: 3x3 rotation matrix

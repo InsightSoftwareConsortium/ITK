@@ -1,0 +1,7 @@
+extern int dsptrs_(char *uplo, integer *n, integer *nrhs, doublereal *ap, integer *ipiv, doublereal *b, integer *ldb, integer *info, ftnlen uplo_len);
+/*:ref: lsame_ 12 4 13 13 124 124 */
+/*:ref: xerbla_ 14 3 13 4 124 */
+/*:ref: dswap_ 14 5 4 7 4 7 4 */
+/*:ref: dger_ 14 9 4 4 7 7 4 7 4 7 4 */
+/*:ref: dscal_ 14 4 4 7 7 4 */
+/*:ref: dgemv_ 14 12 13 4 4 7 7 4 7 4 7 7 4 124 */

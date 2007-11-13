@@ -208,7 +208,7 @@ L20:
     return 0;
 
 /*     ................ ENTRY   (JUMP = 2) */
-/*     FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY TRANDPOSE(A)*X. */
+/*     FIRST ITERATION.  X HAS BEEN OVERWRITTEN BY TRANSPOSE(A)*X. */
 
 /*<    40 CONTINUE >*/
 L40:
@@ -290,7 +290,7 @@ L90:
     return 0;
 
 /*     ................ ENTRY   (JUMP = 4) */
-/*     X HAS BEEN OVERWRITTEN BY TRANDPOSE(A)*X. */
+/*     X HAS BEEN OVERWRITTEN BY TRANSPOSE(A)*X. */
 
 /*<   110 CONTINUE >*/
 L110:

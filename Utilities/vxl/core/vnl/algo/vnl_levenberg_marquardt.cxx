@@ -12,7 +12,6 @@
 #include "vnl_levenberg_marquardt.h"
 
 #include <vcl_cassert.h>
-#include <vcl_cstdlib.h>
 #include <vcl_iostream.h>
 
 #include <vnl/vnl_vector.h>
@@ -150,7 +149,7 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
     return false;
   }
 
-  vnl_vector<double> fx(m);    // W m   Storage for residual vector
+  vnl_vector<double> fx(m, 0.0);    // W m   Storage for target vector
   vnl_vector<double> diag(n);  // I     Multiplicative scale factors for variables
   long user_provided_scale_factors = 1;  // 1 is no, 2 is yes
   double factor = 100;
@@ -279,7 +278,9 @@ void vnl_levenberg_marquardt::lmder_lsqfun(long* n,     // I   Number of residua
           diff = ref_fJ(j,i) - finite_jac(j,i);
           diff = diff*diff;
           if ( diff > self->epsfcn ) {
-            vcl_cerr << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j,i) << ' ' << finite_jac(j,i) << '\n';
+            vcl_cout << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j,i) 
+                     << "  " << finite_jac(j,i)
+                     << "  " << ref_fJ(j,i)-finite_jac(j,i) << '\n';
           }
         }
     }
@@ -310,7 +311,7 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
     return false;
   }
 
-  vnl_vector<double> fx(m);    // W m   Storage for residual vector
+  vnl_vector<double> fx(m, 0.0);    // W m   Explicitly set target to 0.0
   vnl_vector<double> wa1(5*n + m);
 
   num_iterations_ = 0;

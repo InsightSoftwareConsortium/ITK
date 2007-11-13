@@ -25,6 +25,10 @@
 #ifndef vcl_basic_ios
 #define vcl_basic_ios vcl_generic_ios_STD :: basic_ios
 #endif
+// ios_base
+#ifndef vcl_ios_base
+#define vcl_ios_base vcl_generic_ios_STD :: ios_base
+#endif
 // ios::basefield
 #ifndef vcl_ios_basefield
 #define vcl_ios_basefield vcl_generic_ios_STD :: ios::basefield

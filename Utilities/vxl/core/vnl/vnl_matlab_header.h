@@ -9,13 +9,15 @@
 //  \brief MATLAB header structure
 //  \author fsm
 
+#include <vxl_config.h>
+
 struct vnl_matlab_header
 {
-  long type; // sum of one byte order, one storage specifier and one precision specifier
-  long rows;
-  long cols;
-  long imag;
-  long namlen;
+  vxl_int_32 type; // sum of one byte order, one storage specifier and one precision specifier
+  vxl_int_32 rows;
+  vxl_int_32 cols;
+  vxl_int_32 imag;
+  vxl_int_32 namlen;
 
   enum type_t {
     // precision specifier

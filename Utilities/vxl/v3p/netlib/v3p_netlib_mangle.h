@@ -13,16 +13,20 @@ nm libv3p_netlib.a |grep " [TR] "
 
 /* Functions */
 
+#define active_ v3p_netlib_active_
 #define adaptquad_ v3p_netlib_adaptquad_
 #define balanc_ v3p_netlib_balanc_
 #define balbak_ v3p_netlib_balbak_
+#define bmv_ v3p_netlib_bmv_
 #define calcsc_ v3p_netlib_calcsc_
+#define cauchy_ v3p_netlib_cauchy_
 #define caxpy_ v3p_netlib_caxpy_
 #define ccopy_ v3p_netlib_ccopy_
 #define cdiv_ v3p_netlib_cdiv_
 #define cdotc_ v3p_netlib_cdotc_
 #define cg_ v3p_netlib_cg_
 #define chscdf_ v3p_netlib_chscdf_
+#define cmprlb_ v3p_netlib_cmprlb_
 #define cqrdc_ v3p_netlib_cqrdc_
 #define cqrsl_ v3p_netlib_cqrsl_
 #define cscal_ v3p_netlib_cscal_
@@ -35,6 +39,8 @@ nm libv3p_netlib.a |grep " [TR] "
 #define dcabs1_ v3p_netlib_dcabs1_
 #define dchscdf_ v3p_netlib_dchscdf_
 #define dcopy_ v3p_netlib_dcopy_
+#define dcsrch_ v3p_netlib_dcsrch_
+#define dcstep_ v3p_netlib_dcstep_
 #define ddot_ v3p_netlib_ddot_
 #define dgecon_ v3p_netlib_dgecon_
 #define dgemm_ v3p_netlib_dgemm_
@@ -62,6 +68,7 @@ nm libv3p_netlib.a |grep " [TR] "
 #define dlacpy_ v3p_netlib_dlacpy_
 #define dladiv_ v3p_netlib_dladiv_
 #define dlaeig_ v3p_netlib_dlaeig_
+#define dlaev2_ v3p_netlib_dlaev2_
 #define dlag2_ v3p_netlib_dlag2_
 #define dlager_ v3p_netlib_dlager_
 #define dlagv2_ v3p_netlib_dlagv2_
@@ -101,6 +108,7 @@ nm libv3p_netlib.a |grep " [TR] "
 #define dormqr_ v3p_netlib_dormqr_
 #define dormr2_ v3p_netlib_dormr2_
 #define dortqr_ v3p_netlib_dortqr_
+#define dpmeps_ v3p_netlib_dpmeps_
 #define dpmpar_ v3p_netlib_dpmpar_
 #define dpoco_ v3p_netlib_dpoco_
 #define dpodi_ v3p_netlib_dpodi_
@@ -112,6 +120,9 @@ nm libv3p_netlib.a |grep " [TR] "
 #define drotg_ v3p_netlib_drotg_
 #define drscl_ v3p_netlib_drscl_
 #define dscal_ v3p_netlib_dscal_
+#define dspr_ v3p_netlib_dspr_
+#define dsptrf_ v3p_netlib_dsptrf_
+#define dsptrs_ v3p_netlib_dsptrs_
 #define dsvdc_ v3p_netlib_dsvdc_
 #define dswap_ v3p_netlib_dswap_
 #define dtgex2_ v3p_netlib_dtgex2_
@@ -121,6 +132,7 @@ nm libv3p_netlib.a |grep " [TR] "
 #define dtgsyl_ v3p_netlib_dtgsyl_
 #define dtrmm_ v3p_netlib_dtrmm_
 #define dtrmv_ v3p_netlib_dtrmv_
+#define dtrsl_ v3p_netlib_dtrsl_
 #define dtrsv_ v3p_netlib_dtrsv_
 #define dvsort_ v3p_netlib_dvsort_
 #define dzasum_ v3p_netlib_dzasum_
@@ -129,8 +141,12 @@ nm libv3p_netlib.a |grep " [TR] "
 #define eltran_ v3p_netlib_eltran_
 #define enorm_ v3p_netlib_enorm_
 #define epslon_ v3p_netlib_epslon_
+#define errclb_ v3p_netlib_errclb_
 #define fd_ v3p_netlib_fd_
 #define fdjac2_ v3p_netlib_fdjac2_
+#define formk_ v3p_netlib_formk_
+#define formt_ v3p_netlib_formt_
+#define freev_ v3p_netlib_freev_
 #define fv_ v3p_netlib_fv_
 #define fvd_ v3p_netlib_fvd_
 #define fxshfr_ v3p_netlib_fxshfr_
@@ -138,6 +154,7 @@ nm libv3p_netlib.a |grep " [TR] "
 #define gpfa3f_ v3p_netlib_gpfa3f_
 #define gpfa5f_ v3p_netlib_gpfa5f_
 #define gpfa_ v3p_netlib_gpfa_
+#define hpsolb_ v3p_netlib_hpsolb_
 #define hqr2_ v3p_netlib_hqr2_
 #define hqr_ v3p_netlib_hqr_
 #define idamax_ v3p_netlib_idamax_
@@ -154,13 +171,20 @@ nm libv3p_netlib.a |grep " [TR] "
 #define lmder_ v3p_netlib_lmder_
 #define lmdif_ v3p_netlib_lmdif_
 #define lmpar_ v3p_netlib_lmpar_
+#define lnsrlb_ v3p_netlib_lnsrlb_
 #define lsame_ v3p_netlib_lsame_
 #define lse_ v3p_netlib_lse_
 #define lsqr_ v3p_netlib_lsqr_
+#define mainlb_ v3p_netlib_mainlb_
+#define matupd_ v3p_netlib_matupd_
 #define mcsrch_ v3p_netlib_mcsrch_
 #define mcstep_ v3p_netlib_mcstep_
 #define newest_ v3p_netlib_newest_
 #define nextk_ v3p_netlib_nextk_
+#define prn1lb_ v3p_netlib_prn1lb_
+#define prn2lb_ v3p_netlib_prn2lb_
+#define prn3lb_ v3p_netlib_prn3lb_
+#define projgr_ v3p_netlib_projgr_
 #define pythag_ v3p_netlib_pythag_
 #define qrfac_ v3p_netlib_qrfac_
 #define qrsolv_ v3p_netlib_qrsolv_
@@ -189,6 +213,7 @@ nm libv3p_netlib.a |grep " [TR] "
 #define sdot_ v3p_netlib_sdot_
 #define setdgpfa_ v3p_netlib_setdgpfa_
 #define setgpfa_ v3p_netlib_setgpfa_
+#define setulb_ v3p_netlib_setulb_
 #define sgbmv_ v3p_netlib_sgbmv_
 #define sgemv_ v3p_netlib_sgemv_
 #define sgeqpf_ v3p_netlib_sgeqpf_
@@ -246,6 +271,8 @@ nm libv3p_netlib.a |grep " [TR] "
 #define stpsv_ v3p_netlib_stpsv_
 #define strmv_ v3p_netlib_strmv_
 #define strsv_ v3p_netlib_strsv_
+#define subsm_ v3p_netlib_subsm_
+#define timer_ v3p_netlib_timer_
 #define tql1_ v3p_netlib_tql1_
 #define tql2_ v3p_netlib_tql2_
 #define tqlrat_ v3p_netlib_tqlrat_

@@ -1,7 +1,7 @@
 #include <vnl/vnl_hungarian_algorithm.h>
 #include <testlib/testlib_test.h>
 
-#include <vcl_iostream.h>
+// not used? #include <vcl_iostream.h>
 #include <vcl_limits.h>
 #include <vnl/vnl_matrix.h>
 
@@ -21,7 +21,6 @@ static void test_hungarian_algorithm( int, char*[] )
                           assign[1]==1 &&
                           assign[2]==0 );
   }
-
 
   {
     double cost_val[4][4] = { { 2.0, 1.0, 5.0, 3.0 },
@@ -97,6 +96,7 @@ static void test_hungarian_algorithm( int, char*[] )
   }
 
   double Inf = vcl_numeric_limits<double>::infinity();
+
   {
     double cost_val[5][3] = { { 2.0, 0.5, 7.0 },
                               { 1.1, 6.0, 1.0 },

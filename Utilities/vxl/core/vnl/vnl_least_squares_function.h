@@ -19,7 +19,7 @@
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 // \endverbatim
 //
-#include <vcl_string.h>
+// not used? #include <vcl_string.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 

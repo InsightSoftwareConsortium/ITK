@@ -13,7 +13,12 @@ extern int v3p_netlib_cg_(
   void (*both)(double*,double*,double*,void*),
   void (*pre)(double*,double*,void*),
   v3p_netlib_doublereal *h__,
-  void* userdata
+  void* userdata,
+  v3p_netlib_integer* error_code /*!< (OUT) error code
+                                   0 = NO ERROR,
+                                   1 = UNABLE TO OBTAIN DESCENT DIRECTION,
+                                   2 = THE FUNCTION DECREASES WITH NO MINIMUM,
+                                   3 = PRECONDITIONER NOT POSITIVE DEFINITE */
   );
 extern v3p_netlib_doublereal v3p_netlib_fv_(
   v3p_netlib_doublereal *a,

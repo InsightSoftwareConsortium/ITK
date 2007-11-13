@@ -81,6 +81,7 @@
 #include "vnl_matrix.h"
 
 #include <vcl_cassert.h>
+#include <vcl_cstdio.h>   // EOF
 #include <vcl_cstdlib.h>  // abort()
 #include <vcl_cctype.h>   // isspace()
 #include <vcl_iostream.h>

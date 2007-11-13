@@ -18,6 +18,7 @@ DECLARE( test_rational );
 DECLARE( test_real_polynomial );
 DECLARE( test_real_npolynomial );
 DECLARE( test_resize );
+DECLARE( test_rotation_matrix );
 DECLARE( test_sample );
 DECLARE( test_sym_matrix );
 DECLARE( test_transpose );
@@ -52,6 +53,7 @@ register_tests()
   REGISTER( test_real_polynomial );
   REGISTER( test_real_npolynomial );
   REGISTER( test_resize );
+  REGISTER( test_rotation_matrix );
   REGISTER( test_sample );
   REGISTER( test_sym_matrix );
   REGISTER( test_transpose );

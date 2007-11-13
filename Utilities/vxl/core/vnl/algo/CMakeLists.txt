@@ -15,6 +15,7 @@ IF(NETLIB_FOUND)
 # vnl_generalized_eigensystem      rsg_
 # vnl_generalized_schur            dgges_
 # vnl_lbfgs                        lbfgs_ lb3_
+# vnl_lbfgsb                       setulb_
 # vnl_levenberg_marquardt          lmder1_ lmdif_
 # vnl_lsqr                         lsqr_
 # vnl_qr                           cqrdc_ cqrsl_ dqrdc_ dqrsl_ sqrdc_ sqrsl_ zqrdc_ zqrsl_
@@ -39,6 +40,7 @@ IF(NETLIB_FOUND)
     vnl_scatter_3x3.txx vnl_scatter_3x3.h
     vnl_cholesky.cxx vnl_cholesky.h
     vnl_ldl_cholesky.cxx vnl_ldl_cholesky.h
+    vnl_sparse_lu.cxx vnl_sparse_lu.h
     vnl_real_eigensystem.cxx vnl_real_eigensystem.h
     vnl_complex_eigensystem.cxx vnl_complex_eigensystem.h
     vnl_symmetric_eigensystem.cxx vnl_symmetric_eigensystem.h
@@ -51,16 +53,20 @@ IF(NETLIB_FOUND)
     vnl_levenberg_marquardt.cxx vnl_levenberg_marquardt.h
     vnl_conjugate_gradient.cxx vnl_conjugate_gradient.h
     vnl_lbfgs.cxx vnl_lbfgs.h
+    vnl_lbfgsb.cxx vnl_lbfgsb.h
     vnl_amoeba.cxx vnl_amoeba.h
     vnl_powell.cxx vnl_powell.h
     vnl_brent.cxx vnl_brent.h
     vnl_lsqr.cxx vnl_lsqr.h
     vnl_solve_qp.cxx vnl_solve_qp.h
+    vnl_bracket_minimum.cxx vnl_bracket_minimum.h
+    vnl_brent_minimizer.cxx vnl_brent_minimizer.h
 
     # equation solvers
     vnl_rpoly_roots.cxx vnl_rpoly_roots.h
     vnl_cpoly_roots.cxx vnl_cpoly_roots.h
     vnl_rnpoly_solve.cxx vnl_rnpoly_solve.h
+    vnl_fit_parabola.h
 
     # fft
     vnl_fft.cxx vnl_fft.h

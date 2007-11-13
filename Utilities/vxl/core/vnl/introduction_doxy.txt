@@ -23,6 +23,7 @@
 * - vnl_svd and vnl_svd_economy : Singular value decomposition
 * - vnl_qr : QR decomposition
 * - vnl_cholesky : Cholesky decomposition (for symmetric matrices)
+* - vnl_ldl_cholesky : Variant on Cholesky, allowing fast updating
 * - vnl_symmetric_eigensystem : Eigen-decomposition
 * - vnl_real_eigensystem : Eigen-decomposition
 * - vnl_complex_eigensystem : Eigen-decomposition
@@ -33,11 +34,12 @@
 * Optimisation routines include
 * - vnl_amoeba : Downhill simplex algorithm
 * - vnl_lsqr
-* - vnl_brent
+* - vnl_brent_minimizer  (For 1D optimization)
 * - vnl_conjugate_gradient
 * - vnl_lbfgs
 * - vnl_levenberg_marquardt
 * - vnl_powell
+* - vnl_bracket_minimum (To bracket a minimum of a 1D function)
 *
 * Support for manipulating polynomials
 * - vnl_real_polynomial

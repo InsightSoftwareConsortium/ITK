@@ -6,7 +6,7 @@ The vxl-upstream branch in the vxl subdirectory contains the latest
 version of vxl that has been copied into ITK.  Sticky tags on the
 branch mark versions that have been merged into the ITK trunk.
 
-MOST RECENTLY MERGED TAG: vxl-upstream-2006-07-20
+MOST RECENTLY MERGED TAG: vxl-upstream-2007-11-09
 
 See below for instructions to upgrade the vxl version.
 
@@ -24,20 +24,25 @@ directory during this process.
   cvs update -dAP -r vxl-upstream
 
 3.) Checkout the desired vxl version in another directory.
-    For this example we use 2006-07-20 because that is the date
+    For this example we use 2007-11-09 because that is the date
     on which this README was written.
     Create a tarball containing the needed portion:
 
-  cd /path/to/upstream/vxl
-  tar cvzf ~/vxl-2006-07-20.tar.gz --exclude=CVS \
-      CMakeLists.txt v3p/CMakeLists.txt v3p/netlib vcl config/cmake \
-      core/vnl core/vxl_config.h.in core/vxl_copyright.h core/vxl_version.h \
-      core/CMakeLists.txt core/testlib
+  cd /path/to/upstream/  # the export command below will create a "vxl" subdir
+  cvs -d:ext:USERNAME@vxl.cvs.sourceforge.net:/cvsroot/vxl \
+     export -kv "-D2007-11-09 11:00" \
+     vxl/CMakeLists.txt vxl/v3p/CMakeLists.txt vxl/v3p/netlib vxl/vcl \
+     vxl/config/cmake vxl/core/vnl vxl/core/vxl_config.h.in \
+     vxl/core/vxl_copyright.h vxl/core/vxl_version.h \
+     vxl/core/CMakeLists.txt vxl/core/testlib
+     
+    References below to /path/to/upstream/vxl refer to the vxl subdir that was
+    created by the export command.
 
-4.) Extract the tarball into the vxl subdirectory in Insight/Utilities:
+4.) Copy the exported directory into the vxl subdirectory in Insight/Utilities:
 
   cd /path/to/Insight/Utilities/vxl
-  tar xvzf ~/vxl-2006-07-20.tar.gz
+  cp -pr /path/to/upstream/vxl .
 
 5.) Use diff to make sure the directories are the same.  If there are
     any files reported as "Only in ./something" they should be removed
@@ -53,12 +58,12 @@ directory during this process.
 7.) Commit the changes to the vxl-upstream branch.
 
   cd /path/to/Insight/Utilities/vxl
-  cvs commit -m "ENH: Updating vxl-upstream branch to 2006-07-20 vxl version."
+  cvs commit -m "ENH: Updating vxl-upstream branch to 2007-11-09 vxl version."
 
 8.) Create a sticky tag on the branch to mark the vxl upstream version:
 
   cd /path/to/Insight/Utilities/vxl
-  cvs tag vxl-upstream-2006-07-20
+  cvs tag vxl-upstream-2007-11-09
 
 9.) Move your checkout back to the trunk of ITK:
 
@@ -69,7 +74,7 @@ directory during this process.
      upgrade.  Note this tag should appear on the entire ITK tree:
 
   cd /path/to/Insight
-  cvs tag ITK-vxl-2006-07-20-merge-pre
+  cvs tag ITK-vxl-2007-11-09-merge-pre
 
 11.) Merge changes from the vxl-upstream branch from between the last
      merge and the new version.  In this example the previous merge
@@ -79,7 +84,7 @@ directory during this process.
      the most recent version that has been merged.
 
   cd /path/to/Insight/Utilities/vxl
-  cvs update -d -j vxl-upstream-1-2-0 -j vxl-upstream-2006-07-20
+  cvs update -d -j vxl-upstream-2006-07-20 -j vxl-upstream-2007-11-09
 
 12.) Manually resolve conflicts and test building ITK.  THIS STEP CONTAINS
      THE MAJORITY OF THE WORK IN MANUALLY EDITING VXL SOURCES FOR ITK.
@@ -88,12 +93,12 @@ directory during this process.
 13.) Commit all changes to the entire ITK tree:
 
   cd /path/to/Insight
-  cvs commit -m "ENH: Merging changes from vxl-upstream-1-2-0 to vxl-upstream-2006-07-20"
+  cvs commit -m "ENH: Merging changes from vxl-upstream-2006-07-20 to vxl-upstream-2007-11-09"
 
 14.) Create a sticky tag on the trunk to mark the state after the vxl
      upgrade.  Note this tag should appear on the entire ITK tree:
 
   cd /path/to/Insight
-  cvs tag ITK-vxl-2006-07-20-merge-post
+  cvs tag ITK-vxl-2007-11-09-merge-post
 
 15.) Watch the dashboard!

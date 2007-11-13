@@ -5,11 +5,11 @@
 
 #include <testlib/testlib_test.h>
 
-double qr_det(vnl_matrix<double> const &M) {
-  return vnl_qr<double>(M).determinant();
-}
+double qr_det(vnl_matrix<double> const &M)
+{ return vnl_qr<double>(M).determinant(); }
 
-void test_determinant() {
+void test_determinant()
+{
   double eps = 1e-14;
 
 #if 0 // commented out
