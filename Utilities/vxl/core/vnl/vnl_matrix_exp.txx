@@ -112,17 +112,35 @@ bool vnl_matrix_exp(vnl_matrix_fixed<T,n,n> const &X, vnl_matrix_fixed<T,n,n> &e
 
 //--------------------------------------------------------------------------------
 
+// Use implicit instatiation of the exp functions, triggered by the
+// explicit instantiation of the helper, because explicit
+// instantiation of the exp functions causes an internal compiler
+// error on VC6.
 #undef VNL_MATRIX_EXP_INSTANTIATE
-#define VNL_MATRIX_EXP_INSTANTIATE(T) \
-template bool vnl_matrix_exp(vnl_matrix<T > const&, vnl_matrix<T >&, double); \
-template vnl_matrix<T > vnl_matrix_exp(vnl_matrix<T > const&);\
-template bool vnl_matrix_exp(vnl_matrix_fixed<T,1,1> const&, vnl_matrix_fixed<T,1,1>&, double); \
-template vnl_matrix_fixed<T,1,1> vnl_matrix_exp(vnl_matrix_fixed<T,1,1> const&);\
-template bool vnl_matrix_exp(vnl_matrix_fixed<T,2,2> const&, vnl_matrix_fixed<T,2,2>&, double); \
-template vnl_matrix_fixed<T,2,2> vnl_matrix_exp(vnl_matrix_fixed<T,2,2> const&);\
-template bool vnl_matrix_exp(vnl_matrix_fixed<T,3,3> const&, vnl_matrix_fixed<T,3,3>&, double); \
-template vnl_matrix_fixed<T,3,3> vnl_matrix_exp(vnl_matrix_fixed<T,3,3> const&);\
-template bool vnl_matrix_exp(vnl_matrix_fixed<T,4,4> const&, vnl_matrix_fixed<T,4,4>&, double); \
-template vnl_matrix_fixed<T,4,4> vnl_matrix_exp(vnl_matrix_fixed<T,4,4> const&)
+#define VNL_MATRIX_EXP_INSTANTIATE(inpT)                        \
+template<class T>                                               \
+void vnl_matrix_exp_instantiation_helper( T* )                  \
+{                                                               \
+  vnl_matrix<T> dT;                                             \
+  vnl_matrix_exp( dT, dT, 1.0 );                                \
+  vnl_matrix_exp( dT );                                         \
+                                                                \
+  vnl_matrix_fixed<T,1,1> fT1;                                  \
+  vnl_matrix_exp( fT1, fT1, 1.0 );                              \
+  vnl_matrix_exp( fT1 );                                        \
+                                                                \
+  vnl_matrix_fixed<T,2,2> fT2;                                  \
+  vnl_matrix_exp( fT2, fT2, 1.0 );                              \
+  vnl_matrix_exp( fT2 );                                        \
+                                                                \
+  vnl_matrix_fixed<T,3,3> fT3;                                  \
+  vnl_matrix_exp( fT3, fT3, 1.0 );                              \
+  vnl_matrix_exp( fT3 );                                        \
+                                                                \
+  vnl_matrix_fixed<T,4,4> fT4;                                  \
+  vnl_matrix_exp( fT4, fT4, 1.0 );                              \
+  vnl_matrix_exp( fT4 );                                        \
+}                                                               \
+template void vnl_matrix_exp_instantiation_helper( inpT* )
 
 #endif
