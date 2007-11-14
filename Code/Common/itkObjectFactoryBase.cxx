@@ -483,12 +483,12 @@ ObjectFactoryBase
     {
     // Collect up all the library handles so they can be closed
     // AFTER the factory has been deleted.
-    std::list<LibHandle> libs;
+    std::list<void *> libs;
     for ( std::list<ObjectFactoryBase*>::iterator i 
             = m_RegisteredFactories->begin();
           i != m_RegisteredFactories->end(); ++i )
       {
-      libs.push_back((*i)->m_LibraryHandle);
+      libs.push_back(static_cast<void *>((*i)->m_LibraryHandle));
       }
     // Unregister each factory
     for ( std::list<ObjectFactoryBase*>::iterator i 
@@ -498,13 +498,13 @@ ObjectFactoryBase
       (*i)->UnRegister();
       }
     // And delete the library handles all at once
-    for ( std::list<LibHandle>::iterator lib = libs.begin();
+    for ( std::list<void *>::iterator lib = libs.begin();
           lib != libs.end();
           ++lib)
       {
       if((*lib))
         {
-        DynamicLoader::CloseLibrary(*(lib));
+        DynamicLoader::CloseLibrary(static_cast<LibHandle>(*lib));
         }
       }
     delete ObjectFactoryBase::m_RegisteredFactories;
