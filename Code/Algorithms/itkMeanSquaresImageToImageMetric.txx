@@ -17,6 +17,15 @@
 #ifndef _itkMeanSquaresImageToImageMetric_txx
 #define _itkMeanSquaresImageToImageMetric_txx
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptMeanSquaresImageToImageMetric.txx"
+#else
+
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
@@ -379,3 +388,6 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
 
 #endif
+
+#endif
+

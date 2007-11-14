@@ -17,6 +17,16 @@
 #ifndef _itkMatchCardinalityImageToImageMetric_txx
 #define _itkMatchCardinalityImageToImageMetric_txx
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptMatchCardinalityImageToImageMetric.txx"
+#else
+
+
 #include "itkMatchCardinalityImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
@@ -304,3 +314,6 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 
 
 #endif
+
+#endif
+

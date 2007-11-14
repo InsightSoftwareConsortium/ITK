@@ -17,6 +17,15 @@
 #ifndef __itkMatchCardinalityImageToImageMetric_h
 #define __itkMatchCardinalityImageToImageMetric_h
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptMatchCardinalityImageToImageMetric.h"
+#else
+
 #include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
@@ -182,6 +191,7 @@ private:
   int m_NumberOfThreads;
 };
 
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
@@ -190,5 +200,5 @@ private:
 
 #endif
 
-
+#endif
 
