@@ -36,7 +36,6 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   m_MeasureMatches = true;  // default to measure percentage of pixel matches
 
   m_Threader = MultiThreader::New();
-  m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 }
 
 /*
@@ -297,7 +296,6 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "MeasureMatches: " << (m_MeasureMatches ? "On" : "Off")  << std::endl;
-  os << indent << "NumberOfThreads: " << m_NumberOfThreads  << std::endl;
 }
 
 } // end namespace itk
