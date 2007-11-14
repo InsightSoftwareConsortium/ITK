@@ -271,9 +271,8 @@ int main( int argc, char *argv[] )
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first $N
   //  \times N$ elements of the parameters array correspond to the rotation
-  //  matrix factor, the next $N$ correspond to the rotation center, and the
-  //  last $N$ are the components of the translation to be applied after
-  //  multiplication with the matrix is performed.
+  //  matrix factor, and the last $N$ are the components of the translation to
+  //  be applied after multiplication with the matrix is performed.
   //
   //  Software Guide : EndLatex 
 
