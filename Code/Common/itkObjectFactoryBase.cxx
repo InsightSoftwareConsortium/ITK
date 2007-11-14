@@ -41,9 +41,7 @@ public:
     }
   ~CleanUpObjectFactory()
     {
-#if !defined(__GNUC__)
     itk::ObjectFactoryBase::UnRegisterAllFactories();
-#endif
     }  
 };
 static CleanUpObjectFactory CleanUpObjectFactoryGlobal;
@@ -345,6 +343,7 @@ ObjectFactoryBase
         if ( loadfunction )
           {
           ObjectFactoryBase* newfactory = (*loadfunction)();
+
           /**
            * initialize class members if load worked
            */
@@ -388,10 +387,6 @@ ObjectFactoryBase::ObjectFactoryBase()
 ObjectFactoryBase
 ::~ObjectFactoryBase()
 {
-  if(m_LibraryHandle)
-    {
-    DynamicLoader::CloseLibrary((LibHandle)m_LibraryHandle);
-    }
   m_OverrideMap->erase(m_OverrideMap->begin(), m_OverrideMap->end());
   delete m_OverrideMap;
 }
@@ -448,6 +443,8 @@ ObjectFactoryBase
        << std::endl;
     os << indent << "Enable flag: " << (*i).second.m_EnabledFlag
        << std::endl;
+    os << indent << "Create object: " << (*i).second.m_CreateObject
+       << std::endl;
     os << std::endl;
     }
 }
@@ -484,15 +481,31 @@ ObjectFactoryBase
   
   if ( ObjectFactoryBase::m_RegisteredFactories )
     {
+    // Collect up all the library handles so they can be closed
+    // AFTER the factory has been deleted.
+    std::list<LibHandle> libs;
     for ( std::list<ObjectFactoryBase*>::iterator i 
             = m_RegisteredFactories->begin();
           i != m_RegisteredFactories->end(); ++i )
       {
-      // Although it seems that one could call UnRegisterFactory here,
-      // there must be some iterator issue after a remove on a
-      // list. Unregistering each factory followed by a delete of the
-      // lists has the same effect.
+      libs.push_back((*i)->m_LibraryHandle);
+      }
+    // Unregister each factory
+    for ( std::list<ObjectFactoryBase*>::iterator i 
+            = m_RegisteredFactories->begin();
+          i != m_RegisteredFactories->end(); ++i )
+      {
       (*i)->UnRegister();
+      }
+    // And delete the library handles all at once
+    for ( std::list<LibHandle>::iterator lib = libs.begin();
+          lib != libs.end();
+          ++lib)
+      {
+      if((*lib))
+        {
+        DynamicLoader::CloseLibrary(*(lib));
+        }
       }
     delete ObjectFactoryBase::m_RegisteredFactories;
     ObjectFactoryBase::m_RegisteredFactories = 0;
@@ -517,6 +530,7 @@ ObjectFactoryBase
   info.m_OverrideWithName = subclass;
   info.m_EnabledFlag = enableFlag;
   info.m_CreateObject = createFunction;
+
   m_OverrideMap->insert(OverRideMap::value_type(classOverride, info));
 }
 
