@@ -29,6 +29,17 @@ TranslationTransform<TScalarType, NDimensions>::
 TranslationTransform():Superclass(SpaceDimension,ParametersDimension)
 {
   m_Offset.Fill( 0 );
+
+  // The Jacobian of this transform is constant.
+  // Therefore the m_Jacobian variable can be 
+  // initialized here and be shared among all the threads.
+  this->m_Jacobian.Fill( 0.0 );
+
+  for(unsigned int i=0; i<NDimensions; i++)
+    {
+    this->m_Jacobian(i,i) = 1.0;
+    }
+
 }
     
 
@@ -182,16 +193,9 @@ const typename TranslationTransform<TScalarType, NDimensions>::JacobianType &
 TranslationTransform< TScalarType, NDimensions >::
 GetJacobian( const InputPointType & ) const
 {
-
-  this->m_Jacobian.Fill( 0.0 );
-
-  for(unsigned int i=0; i<NDimensions; i++)
-    {
-    this->m_Jacobian(i,i) = 1.0;
-    }
-
+  // the Jacobian is constant for this transform, and it has already been
+  // initialized in the constructor, so we just need to return it here.
   return this->m_Jacobian;
-
 }
 
 
