@@ -17,6 +17,15 @@
 #ifndef _itkMutualInformationImageToImageMetric_txx
 #define _itkMutualInformationImageToImageMetric_txx
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptMutualInformationImageToImageMetric.txx"
+#else
+
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
@@ -532,6 +541,8 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 } // end namespace itk
 
+
+#endif
 
 #endif
 

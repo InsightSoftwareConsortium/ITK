@@ -17,6 +17,17 @@
 #ifndef _itkMattesMutualInformationImageToImageMetric_txx
 #define _itkMattesMutualInformationImageToImageMetric_txx
 
+
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptMattesMutualInformationImageToImageMetric.txx"
+#else
+
+
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkCovariantVector.h"
@@ -1487,6 +1498,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 } // end namespace itk
 
+
+#endif
 
 #endif
 
