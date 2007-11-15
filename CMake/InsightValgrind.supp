@@ -321,3 +321,11 @@
   Memcheck:Cond
   obj:*/libz.so.1.2.3
 }
+
+{
+   dlopen leak
+   Memcheck:Leak
+   fun:calloc
+   fun:_dlerror_run
+   fun:dlopen*
+}
