@@ -141,7 +141,7 @@ public:
 
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;
+  virtual const JacobianType & GetJacobian(const InputPointType  &point) const;
 
   /** Set the Transformation Parameters and update the internal transformation. 
    * The parameters represent the source landmarks. Each landmark point is represented
@@ -223,12 +223,7 @@ public:
   /** Column matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
 
-  /** The list of source landmarks, denoted 'p'. */
-  PointSetPointer m_SourceLandmarks;
-  
-  /** The list of target landmarks, denoted 'q'. */
-  PointSetPointer m_TargetLandmarks;
-  
+ 
 protected:
   /** Compute G(x)
    * This is essentially the kernel of the transform.
@@ -236,7 +231,7 @@ protected:
    *    Elastic body spline
    *    Thin plate spline
    *    Volume spline */
-  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
+  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix ) const;
   /**
    * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
    */
@@ -244,10 +239,10 @@ protected:
 
 
   /** Compute a G(x) for a point to itself (i.e. for the block diagonal
-   * elements of the matrix K. Parameter indicates for which landmark the
-   * reflexive G is to be computed. The default implementation for the
-   * reflexive contribution is a diagonal matrix where the diagonal elements
-   * are the stiffness of the spline.  
+   * elements of the matrix K. Parameter indicates for which landmark
+   * the reflexive G is to be computed. The default implementation for
+   * the reflexive contribution is a diagonal matrix where the diagonal
+   * elements are the stiffness of the spline.
    *
    * \warning this method is not thread-safe. However this method is called
    * only through ComputeWMatrix() that is itself normally called from a single
@@ -317,8 +312,8 @@ protected:
   BMatrixType m_BVector;
 
   /** The G matrix. 
-    It is made mutable because m_GMatrix was made an ivar
-    only to avoid copying the matrix at return time */
+   *  It is made mutable because m_GMatrix was made an ivar
+   *  only to avoid copying the matrix at return time */
   mutable GMatrixType m_GMatrix;
 
   /** Has the W matrix been computed? */
@@ -326,6 +321,12 @@ protected:
 
   /** Identity matrix. */
   IMatrixType m_I;
+
+  /** The list of source landmarks, denoted 'p'. */
+  PointSetPointer m_SourceLandmarks;
+  
+  /** The list of target landmarks, denoted 'q'. */
+  PointSetPointer m_TargetLandmarks;
 
  private:
   KernelTransform(const Self&); //purposely not implemented
