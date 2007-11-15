@@ -29,7 +29,7 @@
 
 //Try and use compiler instructions for forcing inlining if possible
 //Also instruction for aligning stack memory is compiler dependent
-#if defined(VCL_GCC)
+#if defined(VCL_GCC) && ! defined(VCL_GCC_3)
 # define VNL_SSE_FORCE_INLINE __attribute__((always_inline)) inline
 # define VNL_SSE_STACK_ALIGNED(x)  __attribute__((aligned(x)))
 #elif defined VCL_VC || defined VCL_ICC
