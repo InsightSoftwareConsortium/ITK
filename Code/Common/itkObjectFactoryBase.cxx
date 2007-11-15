@@ -491,11 +491,11 @@ ObjectFactoryBase
       libs.push_back(static_cast<void *>((*i)->m_LibraryHandle));
       }
     // Unregister each factory
-    for ( std::list<ObjectFactoryBase*>::iterator i 
+    for ( std::list<ObjectFactoryBase*>::iterator f 
             = m_RegisteredFactories->begin();
-          i != m_RegisteredFactories->end(); ++i )
+          f != m_RegisteredFactories->end(); ++f )
       {
-      (*i)->UnRegister();
+      (*f)->UnRegister();
       }
     // And delete the library handles all at once
     for ( std::list<void *>::iterator lib = libs.begin();
