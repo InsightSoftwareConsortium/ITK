@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkResampleImageFilter.h
+  Module:    itkOptResampleImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,17 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkResampleImageFilter_h
-#define __itkResampleImageFilter_h
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptResampleImageFilter.h"
-#else
+#ifndef __itkOptResampleImageFilter_h
+#define __itkOptResampleImageFilter_h
 
 #include "itkFixedArray.h"
 #include "itkTransform.h"
@@ -32,6 +23,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
+#include "itkBSplineInterpolateImageFunction.h"
 #include "itkSize.h"
 
 namespace itk
@@ -46,7 +39,8 @@ namespace itk
  *
  * Note that the choice of interpolator function can be important.
  * This function is set via SetInterpolator().  The default is
- * itk::LinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>, which
+ * itk::LinearInterpolateImageFunction<InputImageType,
+ * TInterpolatorPrecisionType>, which
  * is reasonable for ordinary medical images.  However, some synthetic
  * images have pixels drawn from a finite prescribed set.  An example
  * would be a mask indicating the segmentation of a brain into a small
@@ -74,7 +68,9 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType=double>
+template <class TInputImage,
+          class TOutputImage,
+          class TInterpolatorPrecisionType=double>
 class ITK_EXPORT ResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -109,35 +105,46 @@ public:
    *
    **/
   typedef Transform<TInterpolatorPrecisionType, 
-    itkGetStaticConstMacro(ImageDimension), 
-    itkGetStaticConstMacro(ImageDimension)> TransformType;
-  typedef typename TransformType::ConstPointer TransformPointerType;
+                    itkGetStaticConstMacro(ImageDimension), 
+                    itkGetStaticConstMacro(ImageDimension)>       TransformType;
+  typedef typename TransformType::ConstPointer             TransformPointerType;
 
   /** Interpolator typedef. */
-  typedef InterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
-  typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
+  typedef InterpolateImageFunction<InputImageType,
+                        TInterpolatorPrecisionType>     InterpolatorType;
+  typedef typename InterpolatorType::Pointer            InterpolatorPointerType;
+
+  typedef LinearInterpolateImageFunction<InputImageType,
+                TInterpolatorPrecisionType>   LinearInterpolatorType;
+  typedef typename LinearInterpolatorType::Pointer 
+                                              LinearInterpolatorPointerType;
+
+  typedef BSplineInterpolateImageFunction<InputImageType,
+                TInterpolatorPrecisionType>   BSplineInterpolatorType;
+  typedef typename BSplineInterpolatorType::Pointer 
+                                              BSplineInterpolatorPointerType;
 
   /** Image size typedef. */
-  typedef Size<itkGetStaticConstMacro(ImageDimension)> SizeType;
+  typedef Size<itkGetStaticConstMacro(ImageDimension)>  SizeType;
 
   /** Image index typedef. */
-  typedef typename TOutputImage::IndexType IndexType;
+  typedef typename TOutputImage::IndexType              IndexType;
 
   /** Image point typedef. */
-  typedef typename InterpolatorType::PointType    PointType;
-  //typedef typename TOutputImage::PointType    PointType;
+  typedef typename InterpolatorType::PointType          PointType;
+  //typedef typename TOutputImage::PointType            PointType;
 
   /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType   PixelType;
-  typedef typename TInputImage::PixelType    InputPixelType;
+  typedef typename TOutputImage::PixelType              PixelType;
+  typedef typename TInputImage::PixelType               InputPixelType;
   
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  typedef typename TOutputImage::RegionType             OutputImageRegionType;
 
   /** Image spacing,origin and direction typedef */
-  typedef typename TOutputImage::SpacingType   SpacingType;
-  typedef typename TOutputImage::PointType     OriginPointType;
-  typedef typename TOutputImage::DirectionType DirectionType;
+  typedef typename TOutputImage::SpacingType            SpacingType;
+  typedef typename TOutputImage::PointType              OriginPointType;
+  typedef typename TOutputImage::DirectionType          DirectionType;
   
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
@@ -152,7 +159,8 @@ public:
   itkGetConstObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function.  The default is
-   * itk::LinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>. Some
+   * itk::LinearInterpolateImageFunction<InputImageType,
+   * TInterpolatorPrecisionType>. Some
    * other options are itk::NearestNeighborInterpolateImageFunction
    * (useful for binary masks and other images with a small number of
    * possible pixel values), and itk::BSplineInterpolateImageFunction
@@ -257,10 +265,11 @@ protected:
   ~ResampleImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** ResampleImageFilter can be implemented as a multithreaded filter.  Therefore,
-   * this implementation provides a ThreadedGenerateData() routine which
-   * is called for each processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling ThreadedGenerateData().
+  /** ResampleImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData()
+   * routine which is called for each processing thread. The output
+   * image data is allocated automatically by the superclass prior
+   * to calling ThreadedGenerateData().
    * ThreadedGenerateData can only write to the portion of the output image
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
@@ -270,14 +279,15 @@ protected:
 
   /** Default implementation for resampling that works for any
    * transformation type. */
-  void NonlinearThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+  void NonlinearThreadedGenerateData(const OutputImageRegionType &
+                                           outputRegionForThread,
                                      int threadId );
 
   /** Implementation for resampling that works for with linear
    *  transformation types. 
    */
-  void LinearThreadedGenerateData(const OutputImageRegionType&
-                                  outputRegionForThread,
+  void LinearThreadedGenerateData(const OutputImageRegionType &
+                                        outputRegionForThread,
                                   int threadId );
   
 
@@ -298,6 +308,13 @@ private:
   IndexType               m_OutputStartIndex;  // output image start index
   bool                    m_UseReferenceImage;
 
+  bool                    m_InterpolatorIsLinear;
+  LinearInterpolatorPointerType
+                          m_LinearInterpolator;
+  bool                    m_InterpolatorIsBSpline;
+  BSplineInterpolatorPointerType
+                          m_BSplineInterpolator;
+
 };
 
   
@@ -308,6 +325,3 @@ private:
 #endif
   
 #endif
-  
-#endif
-
