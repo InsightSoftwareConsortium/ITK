@@ -119,7 +119,11 @@ public:
    * StartOptimization()  */
   void StartRegistration(void);
 
-  /** Method that initiates the optimization process. */
+  /** Method that initiates the optimization process. This method should not be
+   * called directly by the users. Instead, this method is intended to be
+   * invoked internally by the StartRegistration() which is in turn invoked by
+   * the Update() method.  
+   * FIXME: This method should be declared protected. */
   void StartOptimization(void);
 
   /** Set/Get the Fixed image. */
