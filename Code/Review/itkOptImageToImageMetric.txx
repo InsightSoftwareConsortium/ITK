@@ -200,7 +200,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   this->InvokeEvent( InitializeEvent() );
 
   m_Threader->SetNumberOfThreads( m_NumberOfThreads );
-  // FIXME: DEPRECATED m_Transform->SetNumberOfThreads( m_NumberOfThreads );
 
   if( m_UseAllPixels )
     {
