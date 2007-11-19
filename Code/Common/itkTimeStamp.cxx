@@ -47,7 +47,7 @@ TimeStamp
 // Windows optimization
 #if defined(WIN32) || defined(_WIN32)
   static LONG itkTimeStampTime = 0;
-  this->ModifiedTime = (unsigned long)InterlockedIncrement(&itkTimeStampTime);
+  m_ModifiedTime = (unsigned long)InterlockedIncrement(&itkTimeStampTime);
 
 // Mac optimization (64 bit)
 #elif defined(__APPLE__) && __LP64__
