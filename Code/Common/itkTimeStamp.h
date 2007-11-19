@@ -69,13 +69,13 @@ public:
   void Modified();
 
   /** Return this object's Modified time.  */
-  unsigned long int GetMTime() const
+  unsigned long GetMTime() const
     {return m_ModifiedTime;};
 
   /** Support comparisons of time stamp objects directly.  */
-  int operator>(TimeStamp& ts) 
+  bool operator>(TimeStamp& ts) 
     {return (m_ModifiedTime > ts.m_ModifiedTime);}
-  int operator<(TimeStamp& ts) 
+  bool operator<(TimeStamp& ts) 
     {return (m_ModifiedTime < ts.m_ModifiedTime);}
 
   /** Allow for typcasting to unsigned long.  */
