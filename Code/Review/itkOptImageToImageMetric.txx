@@ -230,8 +230,11 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     // This static_cast should always work since the pointer was created by
     // CreateAnother() called from the transform itself.
     TransformType * transformCopy = static_cast< TransformType * >( anotherTransform.GetPointer() );
-    transformCopy->SetParameters( this->m_Transform->GetParameters() );
+    /** Set the fixed parameters first. Some transforms have parameters which depend on 
+        the values of the fixed parameters. For instance, the BSplineDeformableTransform
+        checks the grid size (part of the fixed parameters) before setting the parameters. */
     transformCopy->SetFixedParameters( this->m_Transform->GetFixedParameters() );
+    transformCopy->SetParameters( this->m_Transform->GetParameters() );
     this->m_ThreaderTransform[ithread] = transformCopy;
     }
 
