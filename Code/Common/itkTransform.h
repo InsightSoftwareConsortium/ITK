@@ -17,15 +17,6 @@
 #ifndef __itkTransform_h
 #define __itkTransform_h
 
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkThreadSafeTransform.h"
-#else
-
 #include "itkTransformBase.h"
 #include "itkPoint.h"
 #include "itkVector.h"
@@ -262,8 +253,6 @@ private:
 
 #if ITK_TEMPLATE_TXX
 # include "itkTransform.txx"
-#endif
-
 #endif
 
 #endif

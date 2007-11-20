@@ -17,16 +17,6 @@
 #ifndef _itkTransform_txx
 #define _itkTransform_txx
 
-// First, make sure that we include the configuration file.
-// This line may be removed once the ThreadSafeTransform gets
-// integrated into ITK.
-#include "itkConfigure.h"
-
-// Second, redirect to the optimized version if necessary
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkThreadSafeTransform.txx"
-#else
-
 #include "itkTransform.h"
 
 namespace itk
@@ -96,7 +86,5 @@ std::string Transform< TScalarType,NInputDimensions,NOutputDimensions>
 
 } // end namespace itk
 
-
-#endif
 
 #endif
