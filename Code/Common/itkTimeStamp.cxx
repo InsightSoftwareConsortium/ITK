@@ -19,8 +19,13 @@
 =========================================================================*/
 #include "itkTimeStamp.h"
 #include "itkFastMutexLock.h"
+
+// OSAtomic.h optimizations only used in 10.5 and later
 #if defined(__APPLE__)
-  #include <libkern/OSAtomic.h>
+  #include <AvailabilityMacros.h>
+  #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+    #include <libkern/OSAtomic.h>
+  #endif
 #endif
 
 namespace itk
@@ -49,19 +54,19 @@ TimeStamp
   static LONG itkTimeStampTime = 0;
   m_ModifiedTime = (unsigned long)InterlockedIncrement(&itkTimeStampTime);
 
-// Mac optimization (64 bit)
-#elif defined(__APPLE__) && __LP64__
+// Mac optimization
+#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
+ #if __LP64__
   // "m_ModifiedTime" is "unsigned long", a type that changess sizes
   // depending on architecture.  The atomic increment is safe, since it
   // operates on a variable of the exact type needed.  The cast does not
   // change the size, but does change signedness, which is not ideal.
   static volatile int64_t itkTimeStampTime = 0;
   m_ModifiedTime = (unsigned long)OSAtomicIncrement64Barrier(&itkTimeStampTime);
-
-// Mac optimization (32 bit, 10.4 or later)
-#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1040)
+ #else
   static volatile int32_t itkTimeStampTime = 0;
   m_ModifiedTime = (unsigned long)OSAtomicIncrement32Barrier(&itkTimeStampTime);
+ #endif
 
 // General case
 #else
