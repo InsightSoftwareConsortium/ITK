@@ -188,7 +188,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   m_ThreaderMSE[threadID] += diff*diff;
 
   const TransformJacobianType & jacobian = this->m_Transform
-                                               ->GetJacobian( mappedPoint, threadID ); 
+                                               ->GetJacobian( mappedPoint ); 
 
   for(unsigned int par=0; par<this->m_NumberOfParameters; par++)
     {
