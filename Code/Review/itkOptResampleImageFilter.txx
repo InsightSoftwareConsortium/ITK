@@ -311,7 +311,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       outputPtr->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
   
       // Compute corresponding input pixel position
-      inputPoint = m_Transform->TransformPoint( outputPoint, threadId );
+      inputPoint = m_Transform->TransformPoint( outputPoint );
       inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
   
       // The inputIndex is precise to many decimal points, but this precision
@@ -376,7 +376,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       outputPtr->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
   
       // Compute corresponding input pixel position
-      inputPoint = m_Transform->TransformPoint( outputPoint, threadId );
+      inputPoint = m_Transform->TransformPoint( outputPoint );
       inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
   
       // The inputIndex is precise to many decimal points, but this precision
@@ -440,7 +440,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       outputPtr->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
   
       // Compute corresponding input pixel position
-      inputPoint = m_Transform->TransformPoint( outputPoint, threadId );
+      inputPoint = m_Transform->TransformPoint( outputPoint );
       inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
   
       // The inputIndex is precise to many decimal points, but this precision
@@ -562,7 +562,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   
 
   // Compute corresponding input pixel position
-  inputPoint = m_Transform->TransformPoint( outputPoint, threadId );
+  inputPoint = m_Transform->TransformPoint( outputPoint );
   inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
   
   // As we walk across a scan line in the output image, we trace
@@ -584,7 +584,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // 
   ++index[0];
   outputPtr->TransformIndexToPhysicalPoint( index, tmpOutputPoint );
-  tmpInputPoint = m_Transform->TransformPoint( tmpOutputPoint, threadId );
+  tmpInputPoint = m_Transform->TransformPoint( tmpOutputPoint );
   inputPtr->TransformPhysicalPointToContinuousIndex(tmpInputPoint,
                                                     tmpInputIndex);
   delta = tmpInputIndex - inputIndex;
@@ -634,7 +634,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
     // Compute corresponding input pixel continuous index, this index
     // will incremented in the scanline loop
-    inputPoint = m_Transform->TransformPoint( outputPoint, threadId );
+    inputPoint = m_Transform->TransformPoint( outputPoint );
     inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
     
     // The inputIndex is precise to many decimal points, but this precision
