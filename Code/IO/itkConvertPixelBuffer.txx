@@ -568,7 +568,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertTensor6ToTensor6(InputPixelType* inputData, 
           OutputPixelType* outputData , int size)
 {
-  for( unsigned long i=0; i< size; i++ )
+  for( int i=0; i< size; i++ )
     {
     OutputConvertTraits::SetNthComponent( 0, *outputData,
                          static_cast<OutputComponentType>(*inputData));
@@ -595,7 +595,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
 ::ConvertTensor9ToTensor6(InputPixelType* inputData, 
           OutputPixelType* outputData , int size)
 {
-  for( unsigned long i=0; i< size; i++ )
+  for( int i=0; i< size; i++ )
     {
     OutputConvertTraits::SetNthComponent( 0, *outputData, 
         static_cast <  OutputComponentType >( *inputData ));
