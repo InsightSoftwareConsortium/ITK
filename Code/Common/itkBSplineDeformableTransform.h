@@ -14,17 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #ifndef __itkBSplineDeformableTransform_h
 #define __itkBSplineDeformableTransform_h
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptBSplineDeformableTransform.h"
-#else
 
 #include <iostream>
 #include "itkTransform.h"
@@ -463,8 +455,6 @@ private:
 
 #if ITK_TEMPLATE_TXX
 # include "itkBSplineDeformableTransform.txx"
-#endif
-
 #endif
 
 #endif /* __itkBSplineDeformableTransform_h */

@@ -17,16 +17,6 @@
 #ifndef __itkBSplineDeformableTransform_txx
 #define __itkBSplineDeformableTransform_txx
 
-// First, make sure that we include the configuration file.
-// This line may be removed once the ThreadSafeTransform gets
-// integrated into ITK.
-#include "itkConfigure.h"
-
-// Second, redirect to the optimized version if necessary
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptBSplineDeformableTransform.txx"
-#else
-
 #include "itkBSplineDeformableTransform.h"
 #include "itkContinuousIndex.h"
 #include "itkImageRegionIterator.h"
@@ -791,7 +781,5 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
  
   
 } // namespace
-
-#endif
 
 #endif
