@@ -25,7 +25,7 @@
 #include "itkExceptionObject.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSpatialObject.h"
-#include "itkOptBSplineDeformableTransform.h"
+#include "itkBSplineDeformableTransform.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkCovariantVector.h"
 
