@@ -102,19 +102,19 @@ FlipImageFilter<TImage>
       // that dimension
       newIndex[j] += (inputSize[j] - 1);
 
-      // If flipping about origin, then we really want the index
-      // padded further by the amount the start index is from [0,0,0] (because
-      // the output regions have the same index layout as the input regions)
-      if (m_FlipAboutOrigin)
-        {
-        newIndex[j] += inputStartIndex[j];
-        }
+      // What we really want is the index padded out past this point
+      // by the amount the start index is from [0,0,0] (because the
+      // output regions have the same index layout as the input
+      // regions)
+      newIndex[j] += inputStartIndex[j];
 
       // Only flip the directions if we are NOT flipping about the
       // origin (when flipping about the origin, the pixels are
       // ordered in the same direction as the input directions. when
-      // not flipping about the origin, the pixels traverse space in
-      // the opposite direction).
+      // NOT flipping about the origin, the pixels traverse space in
+      // the opposite direction. when flipping about the origin,
+      // increasing indices traverse space in the same direction as
+      // the original data.).
       if (!m_FlipAboutOrigin)
         {
         flipMatrix[j][j] = -1.0;
@@ -124,7 +124,7 @@ FlipImageFilter<TImage>
 
   inputPtr->TransformIndexToPhysicalPoint( newIndex, outputOrigin );
 
-  // If flipping about the origin, then we need to slide the data as well.
+  // Finally, flip about the origin if needed
   if (m_FlipAboutOrigin)
     {
     for ( j = 0; j < ImageDimension; j++ )
