@@ -546,6 +546,7 @@ OrientImageFilter<TInputImage, TOutputImage>
     {
     flip->SetInput(flipInput);
     flip->SetFlipAxes(m_FlipAxes);
+    flip->FlipAboutOriginOff();
     flip->ReleaseDataFlagOn();
     DEBUG_EXECUTE(
                   std::cerr << "Flip Axes: ";

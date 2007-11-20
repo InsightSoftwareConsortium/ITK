@@ -78,89 +78,66 @@ FlipImageFilter<TImage>
 
   const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
   const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
-  const typename TImage::DirectionType& inputDirection = inputPtr->GetDirection();;
+  const typename TImage::DirectionType& inputDirection = inputPtr->GetDirection();
   const typename TImage::SizeType& inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType& inputStartIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typename TImage::PointType outputOrigin;
+  typename TImage::IndexType newIndex = inputStartIndex;
 
   unsigned int j;
 
   typename TImage::DirectionType flipMatrix;
   flipMatrix.SetIdentity();
 
-  // If FlipOrigin is "on", the flip will occur about the origin. If
-  // "off", the flipped axis will "cover" the original access.
+  // Need the coordinate of the pixel that will become the first pixel
+  // and need a matrix to model the flip
+  for ( j = 0; j < ImageDimension; j++ )
+    {
+    if ( m_FlipAxes[j] )
+      {
+      // If flipping the axis, then we need to know the last pixel in
+      // that dimension
+      newIndex[j] += (inputSize[j] - 1);
+
+      // If flipping about origin, then we really want the index
+      // padded further by the amount the start index is from [0,0,0] (because
+      // the output regions have the same index layout as the input regions)
+      if (m_FlipAboutOrigin)
+        {
+        newIndex[j] += inputStartIndex[j];
+        }
+
+      // Only flip the directions if we are NOT flipping about the
+      // origin (when flipping about the origin, the pixels are
+      // ordered in the same direction as the input directions. when
+      // not flipping about the origin, the pixels traverse space in
+      // the opposite direction).
+      if (!m_FlipAboutOrigin)
+        {
+        flipMatrix[j][j] = -1.0;
+        }
+      }
+    }
+
+  inputPtr->TransformIndexToPhysicalPoint( newIndex, outputOrigin );
+
+  // If flipping about the origin, then we need to slide the data as well.
   if (m_FlipAboutOrigin)
     {
     for ( j = 0; j < ImageDimension; j++ )
       {
       if ( m_FlipAxes[j] )
         {
-        outputOrigin[j] = -inputOrigin[j] -
-          inputSpacing[j] * (2 * static_cast<double>( inputStartIndex[j] ) + 
-                              static_cast<double>( inputSize[j] ) - 1.0 );
-         flipMatrix[j][j] = -1.0;
-        }
-      else
-        {
-        outputOrigin[j] = inputOrigin[j];
+        outputOrigin[j] *= -1;
         }
       }
     }
-  else
-    {
-    for ( j = 0; j < ImageDimension; j++ )
-      {
-      if ( m_FlipAxes[j] )
-        {
-        outputOrigin[j] = -inputOrigin[j] -
-          inputSpacing[j] * (static_cast<double>( inputStartIndex[j] ) + 
-                             static_cast<double>( inputSize[j] ) - 1.0);
-        flipMatrix[j][j] = -1.0;
-        }
-      else
-        {
-        outputOrigin[j] = inputOrigin[j];
-        }
-      }
-    }
-  typename TImage::DirectionType afterFlip;
-  // Setting Directions for the filter output by
-  // multiplying by the flipMatrix is wrong. 
-  // nShould negate dir cosines (i.e. column 
-  // vectors) based on flipAxes flags
-#if 0
-  afterFlip = flipMatrix * inputDirection;
-#else
-  afterFlip = inputDirection;
-  for(unsigned ii = 0; ii < ImageDimension; ii++)
-    {
-    if(m_FlipAxes[ii])
-      {
-      for(unsigned jj = 0; jj < ImageDimension; jj++)
-        {
-        afterFlip[jj][ii] = -inputDirection[jj][ii];
-        }
-      }
-    }
-#endif
-   outputPtr->SetDirection( afterFlip );
-   outputPtr->SetOrigin( outputOrigin );
-
-#if 0
-  Point<double,3> inputMax, outputMax;
-  for (j = 0; j < ImageDimension; j++)
-    {
-    inputMax[j] = inputOrigin[j] + inputSpacing[j] * (inputSize[j] - 1);
-    outputMax[j] = outputOrigin[j] + inputSpacing[j] * (inputSize[j] - 1);
-    }
-  std::cout << "Size, spacing: " << inputSize << " : " << inputSpacing << std::endl;
-  std::cout << "Input range: " << inputOrigin << " -> " << inputMax << std::endl;
-  std::cout << "Output range: " << outputOrigin << " -> " << outputMax << std::endl;
-#endif
+                                           
+  outputPtr->SetDirection( inputDirection * flipMatrix );
+  outputPtr->SetOrigin( outputOrigin );
 }
 
 
