@@ -76,8 +76,6 @@ FlipImageFilter<TImage>
     return;
     }
 
-  const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
-  const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
   const typename TImage::DirectionType& inputDirection = inputPtr->GetDirection();
   const typename TImage::SizeType& inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
