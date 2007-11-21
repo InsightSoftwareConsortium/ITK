@@ -19,7 +19,6 @@
 =========================================================================*/
 #include "itkTimeStamp.h"
 #include "itkFastMutexLock.h"
-#include "itkWindows.h"
 
 // OSAtomic.h optimizations only used in 10.5 and later
 #if defined(__APPLE__)
@@ -27,6 +26,10 @@
   #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
     #include <libkern/OSAtomic.h>
   #endif
+#endif
+
+#if defined(_WIN32)
+#include "itkWindows.h"
 #endif
 
 namespace itk
