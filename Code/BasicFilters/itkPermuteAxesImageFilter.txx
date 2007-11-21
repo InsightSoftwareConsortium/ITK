@@ -159,8 +159,11 @@ PermuteAxesImageFilter<TImage>
   unsigned int i, j;
   for ( j = 0; j < ImageDimension; j++ )
     {
+    // origin does not change by a Permute.  But spacing, directions,
+    // size and start index do.
+    outputOrigin[j]  = inputOrigin[j];
+    
     outputSpacing[j] = inputSpacing[m_Order[j]];
-    outputOrigin[j]  = inputOrigin[m_Order[j]];
     outputSize[j]    = inputSize[m_Order[j]];
     outputStartIndex[j] = inputStartIndex[m_Order[j]];
     for ( i = 0; i < ImageDimension; i++ )
