@@ -268,7 +268,7 @@ int itkChangeInformationImageFilterTest(int, char* [] )
     std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
-    filter->ChangeOriginOn();
+    filter->ChangeOriginOff();
     filter->ChangeSpacingOff();
     filter->ChangeDirectionOn();
     filter->Update();
