@@ -965,10 +965,10 @@ void GDCMImageIO::Write(const void* buffer)
   std::string highBit;
   std::string pixelRep;
 
+  // Write Explicit for both 1 and 3 components images:
+  gfile->SetWriteTypeToDcmExplVR();
   if( m_NumberOfComponents == 1 )
     {
-    gfile->SetWriteTypeToDcmExplVR();
-
     switch (this->GetComponentType())
       {
       case ImageIOBase::CHAR:
