@@ -19,6 +19,7 @@
 =========================================================================*/
 #include "itkTimeStamp.h"
 #include "itkFastMutexLock.h"
+#include "itkWindows.h"
 
 // OSAtomic.h optimizations only used in 10.5 and later
 #if defined(__APPLE__)
