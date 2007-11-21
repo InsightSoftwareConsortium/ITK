@@ -186,7 +186,6 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   MultiThreader::Pointer m_Threader;
-  // unsigned int m_NumberOfThreads;
 };
 
 } // end namespace itk
