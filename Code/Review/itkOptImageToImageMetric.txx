@@ -1212,6 +1212,10 @@ ImageToImageMetric<TFixedImage,TMovingImage>
      << std::endl;
   os << indent << "Fixed Image Mask: " << m_FixedImageMask.GetPointer() 
      << std::endl;
+  os << indent << "Number of Moving Image Samples: " << m_NumberOfMovingImageSamples 
+     << std::endl;
+  os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted 
+     << std::endl;
 
 }
 

@@ -88,7 +88,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
   os << indent << "UseImageDirection = " 
      << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
-
+  os << indent << "NumberOfThreads: " << m_NumberOfThreads  << std::endl;
 }
 
 
