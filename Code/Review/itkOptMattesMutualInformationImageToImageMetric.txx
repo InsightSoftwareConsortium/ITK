@@ -18,14 +18,12 @@
 #define _itkOptMattesMutualInformationImageToImageMetric_txx
 
 #include "itkOptMattesMutualInformationImageToImageMetric.h"
-#include "itkOptBSplineInterpolateImageFunction.h"
 #include "itkCovariantVector.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"
 #include "vnl/vnl_math.h"
-#include "itkBSplineDeformableTransform.h"
 #include "itkStatisticsImageFilter.h"
 
 #include "vnl/vnl_vector.txx"

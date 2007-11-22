@@ -277,6 +277,10 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     m_DerivativeCalculator = DerivativeFunctionType::New();
     m_DerivativeCalculator->SetInputImage( m_MovingImage );
 
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+    m_DerivativeCalculator->UseImageDirectionOn();
+#endif
+
     m_BSplineInterpolator = NULL;
     itkDebugMacro( "Interpolator is not BSpline" );
     } 
@@ -284,6 +288,11 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     {
     m_BSplineInterpolator = testPtr;
     m_BSplineInterpolator->SetNumberOfThreads( m_NumberOfThreads );
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  m_BSplineInterpolator->SetUseImageDirection( true );
+#endif
+  
     m_DerivativeCalculator = NULL;
     itkDebugMacro( "Interpolator is BSpline" );
     }
@@ -548,6 +557,10 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   gradientFilter->SetSigma( maximumSpacing );
   gradientFilter->SetNormalizeAcrossScale( true );
   gradientFilter->SetNumberOfThreads( m_NumberOfThreads );
+  
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  gradientFilter->SetUseImageDirection( true );
+#endif
   
   gradientFilter->Update();
   
