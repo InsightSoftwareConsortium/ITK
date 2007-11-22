@@ -126,12 +126,6 @@ public:
   itkBooleanMacro(MeasureMatches);
   itkGetMacro(MeasureMatches, bool);
   
-  /** Get/Set the number of threads to create when executing. */
-  /** DEPRECATED
-  itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
-  itkGetConstReferenceMacro( NumberOfThreads, int );
-  */
-  
   /** Return the multithreader used by this class. */
   MultiThreader * GetMultiThreader()
     {return m_Threader;}
