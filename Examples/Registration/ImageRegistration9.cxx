@@ -545,6 +545,7 @@ int main( int argc, char *argv[] )
   resampler->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
+  resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
   
   typedef  unsigned char  OutputPixelType;

@@ -96,6 +96,7 @@ $resampler SetSize  [ $region GetSize ]
 
 $resampler SetOutputSpacing [ $fixedImage GetSpacing ]
 $resampler SetOutputOrigin  [ $fixedImage GetOrigin  ]
+$resampler SetOutputDirection  [ $fixedImage GetDirection  ]
 $resampler SetDefaultPixelValue 100
 
 set outputCast  [itkRescaleIntensityImageFilterF2US2_New]

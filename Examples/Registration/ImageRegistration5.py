@@ -143,6 +143,7 @@ region = fixedImage.GetLargestPossibleRegion()
 
 resampler.SetSize( region.GetSize() )
 resampler.SetOutputSpacing( fixedImage.GetSpacing() )
+resampler.SetOutputDirection( fixedImage.GetDirection() )
 resampler.SetOutputOrigin(  fixedImage.GetOrigin() )
 resampler.SetDefaultPixelValue( 100 )
 

@@ -445,6 +445,7 @@ int main( int argc, char *argv[] )
   resample->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
+  resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 0 );
   resample->SetInterpolator( interpolator );
 

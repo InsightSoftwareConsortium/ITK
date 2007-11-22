@@ -150,11 +150,13 @@ int main( int argc, char * argv[] )
   resampler->SetInterpolator( interpolator );
   InputImageType::SpacingType spacing = inputImage->GetSpacing();
   InputImageType::PointType   origin  = inputImage->GetOrigin();
+  InputImageType::DirectionType direction  = inputImage->GetDirection();
   InputImageType::RegionType region = inputImage->GetBufferedRegion();
   InputImageType::SizeType   size =  region.GetSize();
 
   // Software Guide : BeginCodeSnippet
   resampler->SetOutputSpacing( spacing );
+  resampler->SetOutputDirection( direction );
   resampler->SetOutputOrigin(  origin  );
   resampler->SetSize( size );
   resampler->SetTransform( tps );

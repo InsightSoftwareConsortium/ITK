@@ -104,11 +104,13 @@ int main( int argc, char * argv[] )
 
   resampler->SetInterpolator( interpolator );
 
-  FixedImageType::SpacingType fixedSpacing = fixedImage->GetSpacing();
-  FixedImageType::PointType   fixedOrigin  = fixedImage->GetOrigin();
+  FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
+  FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
+  FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
 
   resampler->SetOutputSpacing( fixedSpacing );
   resampler->SetOutputOrigin(  fixedOrigin  );
+  resampler->SetOutputDirection(  fixedDirection  );
 
   
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
