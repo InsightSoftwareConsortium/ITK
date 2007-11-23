@@ -2,16 +2,26 @@
 
 PROJECT( netlib C )
 
-SET(netlib_sources
-     # The "Triangle" program of Jonathan Richard Shewchuk
-     triangle.c triangle.h
-   )
-
+#
+# Begin NOTE:
+#
+# The following lines should be removed because the 
+# "Triangle" program by Jonathan Richard Shewchuk is
+# distributed under a restrictive license that is
+# incompatible with the BDS license used by ITK.
+#
+# SET(netlib_sources
+#     # The "Triangle" program of Jonathan Richard Shewchuk
+#     triangle.c triangle.h
+#   )
+#
 #ADD_LIBRARY( netlib ${netlib_sources} )
-
 #IF(UNIX)
 #  TARGET_LINK_LIBRARIES( netlib m )
 #ENDIF(UNIX)
+#
+# End NOTE.
+#
 
 IF(BUILD_TESTING)
   SUBDIRS(tests)
