@@ -142,6 +142,10 @@ ADD_TEST(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS2} itkNeighborho
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS2} itkNeighborhoodOperatorTest)
 ADD_TEST(itkNumericTraitsTest ${COMMON_TESTS2} itkNumericTraitsTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS2} itkOctreeTest)
+ADD_TEST(itkObjectFactoryTest ${COMMON_TESTS2} itkObjectFactoryTest)
+IF(ITK_BUILD_SHARED_LIBS)
+ADD_TEST(itkObjectFactoryTest2 ${COMMON_TESTS2} itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR})
+ENDIF(ITK_BUILD_SHARED_LIBS)
 ADD_TEST(itkOrthogonallyCorrected2DParametricPathTest ${COMMON_TESTS2} itkOrthogonallyCorrected2DParametricPathTest)
 ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS2} itkPathFunctionsTest)
 ADD_TEST(itkPathIteratorTest ${COMMON_TESTS2} itkPathIteratorTest)
@@ -345,6 +349,8 @@ itkNeighborhoodIteratorTest.cxx
 itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkNumericTraitsTest.cxx
+itkObjectFactoryTest.cxx
+itkObjectFactoryTest2.cxx
 itkObjectStoreTest.cxx
 itkOctreeTest.cxx
 itkOrthogonallyCorrected2DParametricPathTest.cxx
@@ -434,5 +440,13 @@ TARGET_LINK_LIBRARIES(itkCommonHeaderTest ITKCommon)
 TARGET_LINK_LIBRARIES(itkCommonTests ITKIO)
 TARGET_LINK_LIBRARIES(itkCommonTests2 ITKIO)
 
+IF(ITK_BUILD_SHARED_LIBS)
+## Create a library to test ITK loadable factories
+SET(FactoryTest_Source itkFactoryTestLib.cxx)
+SET(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
+ADD_LIBRARY(FactoryTestLib SHARED ${FactoryTest_Source})
+TARGET_LINK_LIBRARIES (FactoryTestLib ITKCommon)
+ADD_DEPENDENCIES(itkCommonTests2 FactoryTestLib)
+ENDIF(ITK_BUILD_SHARED_LIBS)
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

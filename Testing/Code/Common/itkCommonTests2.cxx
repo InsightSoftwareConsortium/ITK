@@ -29,6 +29,8 @@ REGISTER_TEST(itkNeighborhoodOperatorImageFunctionTest);
 REGISTER_TEST(itkNeighborhoodOperatorTest );
 REGISTER_TEST(itkNumericTraitsTest );
 REGISTER_TEST(itkObjectStoreTest );
+REGISTER_TEST(itkObjectFactoryTest );
+REGISTER_TEST(itkObjectFactoryTest2 );
 REGISTER_TEST(itkOctreeTest );
 REGISTER_TEST(itkOrthogonallyCorrected2DParametricPathTest );
 REGISTER_TEST(itkPathFunctionsTest );
