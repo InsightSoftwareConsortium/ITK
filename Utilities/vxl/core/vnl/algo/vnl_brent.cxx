@@ -31,9 +31,8 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
 {
   assert( xmin != NULL );
   this->set_x_tolerance( tol );
-  double fx = vnl_brent_minimizer::minimize_given_bounds( ax, bx, cx );
-  *xmin = vnl_brent_minimizer::f_at_last_minimum();
-  return fx;
+  *xmin = vnl_brent_minimizer::minimize_given_bounds( ax, bx, cx );
+  return vnl_brent_minimizer::f_at_last_minimum();
 }
 
 double vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx,
@@ -42,9 +41,8 @@ double vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx,
 {
   assert( xmin != NULL );
   this->set_x_tolerance( tol );
-  double fx = vnl_brent_minimizer::minimize_given_bounds_and_one_f( ax, bx, cx, fb );
-  *xmin = vnl_brent_minimizer::f_at_last_minimum();
-  return fx;
+  *xmin = vnl_brent_minimizer::minimize_given_bounds_and_one_f( ax, bx, cx, fb );
+  return vnl_brent_minimizer::f_at_last_minimum();
 }
 
 
@@ -57,7 +55,7 @@ void vnl_brent::bracket_minimum(double *ax, double *bx, double *cx)
 void vnl_brent::bracket_minimum(double *ax, double *bx, double *cx,
                                 double *fa, double *fb, double *fc)
 {
-  vnl_bracket_minimum( *f_, *ax, *bx, *cx, *fa, *fb, *fc );
+  vnl_bracket_minimum( *f_, *cx, *bx, *ax, *fc, *fb, *fa );
 }
 
 

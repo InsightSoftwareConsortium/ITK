@@ -19,9 +19,12 @@
 #include <vnl/vnl_nonlinear_minimizer.h>
 #include <vnl/algo/vnl_brent_minimizer.h>
 
-//: Brent 1D minimizer
-// This minimised uses both golden section search and parabolic interpolation
-// for a fast and robust function minimiser.
+//: Brent 1D minimizer (deprecated)
+//
+// Please use vnl_brent_minimizer instead.
+//
+// This routine used to contain copyrighted code, and is deprecated.
+// It is now simply a wrapper around vnl_brent_minimizer.
 class vnl_brent : public vnl_brent_minimizer
 {
  public:
@@ -46,13 +49,17 @@ class vnl_brent : public vnl_brent_minimizer
                                          double cx,  double tol, double *xmin);
 
   //: Given distinct points ax, and bx, find a bracket for the minimum.
-  // Return a bracket ax < bx < cx, f(b) < f(a), f(b) < f(c) for minimum.
+  // Return a bracket ax > bx > cx, f(b) < f(a), f(b) < f(c) for minimum.
   // Also returns fa = f(a), etc.
+  //
+  // You should probably use vnl_bracket_minimum instead of this function.
   void bracket_minimum(double *ax, double *bx, double *cx,
                        double *fa, double *fb, double *fc);
 
   //: Given distinct points ax, and bx, find a bracket for the minimum.
-  // Return a bracket ax < bx < cx, f(b) < f(a), f(b) < f(c) for minimum.
+  // Return a bracket ax > bx > cx, f(b) < f(a), f(b) < f(c) for minimum.
+  //
+  // You should probably use vnl_bracket_minimum instead of this function.
   void bracket_minimum(double *ax, double *bx, double *cx);
 };
 
