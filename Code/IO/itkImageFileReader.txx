@@ -100,8 +100,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }
 
-  // Test if the file exist and if it can be open.
-  // and exception will be thrown otherwise.
+  // Test if the file exists and if it can be open.
+  // An exception will be thrown otherwise.
   //
   try
     {
@@ -371,17 +371,16 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
     // note: char is used here because the buffer is read in bytes
     // regardles of the actual type of the pixels.
     ImageRegionType region = output->GetBufferedRegion();
-    char * loadBuffer =  new char[m_ImageIO->GetImageSizeInBytes()];
+    std::vector<char> loadBuffer(m_ImageIO->GetImageSizeInBytes());
 
-    m_ImageIO->Read(loadBuffer);
+    m_ImageIO->Read(static_cast<void *>(&loadBuffer[0]));
     
     itkDebugMacro(<< "Buffer conversion required from: "
                   << m_ImageIO->GetComponentTypeInfo().name()
                   << " to: "
                   << typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType).name());
 
-    this->DoConvertBuffer(loadBuffer, region.GetNumberOfPixels());
-    delete [] loadBuffer;
+    this->DoConvertBuffer(static_cast<void *>(&loadBuffer[0]), region.GetNumberOfPixels());
     }
 }
 
