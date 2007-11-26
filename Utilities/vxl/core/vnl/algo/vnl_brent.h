@@ -17,13 +17,12 @@
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
-
-struct vnl_brent_data;
+#include <vnl/algo/vnl_brent_minimizer.h>
 
 //: Brent 1D minimizer
 // This minimised uses both golden section search and parabolic interpolation
 // for a fast and robust function minimiser.
-class vnl_brent : public vnl_nonlinear_minimizer
+class vnl_brent : public vnl_brent_minimizer
 {
  public:
   vnl_brent(vnl_cost_function* functor);
@@ -55,9 +54,6 @@ class vnl_brent : public vnl_nonlinear_minimizer
   //: Given distinct points ax, and bx, find a bracket for the minimum.
   // Return a bracket ax < bx < cx, f(b) < f(a), f(b) < f(c) for minimum.
   void bracket_minimum(double *ax, double *bx, double *cx);
-
- protected:
-  vnl_brent_data *data_;
 };
 
 #endif // vnl_brent_h_

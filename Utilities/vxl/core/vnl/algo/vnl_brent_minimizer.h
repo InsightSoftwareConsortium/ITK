@@ -49,7 +49,7 @@ struct vnl_brent_data;
 // \endverbatim
 class vnl_brent_minimizer : public vnl_nonlinear_minimizer
 {
- private:
+ protected:
   vnl_cost_function* f_;
      //: Function evaluation at value returned by minimize(x)
   double f_at_last_minimum_;
