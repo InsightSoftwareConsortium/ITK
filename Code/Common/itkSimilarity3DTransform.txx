@@ -77,7 +77,19 @@ Similarity3DTransform<TScalarType>
   // multiplied by the scale factor, then its determinant
   // must be equal to the cube of the scale factor.
   //
-  double s = vnl_math_cuberoot( vnl_det( matrix.GetVnlMatrix() ) );
+  double det = vnl_det( matrix.GetVnlMatrix() );
+
+  if( det == 0.0 )
+    {
+    itkExceptionMacro( << "Attempting to set a matrix with a zero determinant" );
+    }
+
+  //
+  // A negative scale is not acceptable
+  // It will imply a reflection of the coordinate system.
+  //
+
+  double s = vnl_math_cuberoot( det );
 
   //
   // A negative scale is not acceptable
