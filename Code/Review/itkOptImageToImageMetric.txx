@@ -848,11 +848,7 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueMultiThreadedPreProcessInitiate( void ) const
 {
-  for( unsigned int threadID = 0; threadID<m_NumberOfThreads-1; threadID++ )
-    {
-    this->m_ThreaderTransform[threadID]->SetParameters( this->m_Transform->GetParameters() );
-    this->m_ThreaderTransform[threadID]->SetFixedParameters( this->m_Transform->GetFixedParameters() );
-    }
+  this->SynchronizeTransforms();
 
   m_Threader->SetSingleMethod(GetValueMultiThreadedPreProcess,
                               (void *)(&m_ThreaderParameter));
@@ -864,6 +860,8 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueMultiThreadedInitiate( void ) const
 {
+  this->SynchronizeTransforms();
+
   m_Threader->SetSingleMethod(GetValueMultiThreaded,
                               (void *)(&m_ThreaderParameter));
   m_Threader->SingleMethodExecute();
@@ -1021,11 +1019,7 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivativeMultiThreadedPreProcessInitiate( void ) const
 {
-  for( unsigned int threadID = 0; threadID<m_NumberOfThreads-1; threadID++ )
-    {
-    this->m_ThreaderTransform[threadID]->SetParameters( this->m_Transform->GetParameters() );
-    this->m_ThreaderTransform[threadID]->SetFixedParameters( this->m_Transform->GetFixedParameters() );
-    }
+  this->SynchronizeTransforms();
 
   m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreadedPreProcess,
                               (void *)(&m_ThreaderParameter));
@@ -1037,6 +1031,8 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivativeMultiThreadedInitiate( void ) const
 {
+  this->SynchronizeTransforms();
+
   m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreaded,
                               (void *)(&m_ThreaderParameter));
   m_Threader->SingleMethodExecute();
@@ -1232,6 +1228,24 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
+/** This method can be const because we are not altering the m_ThreaderTransform
+ *  pointer. We are altering the object that m_ThreaderTransform[idx] points at.
+ *  This is allowed under C++ const rules.
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::SynchronizeTransforms() const
+{
+  for( unsigned int threadID = 0; threadID<m_NumberOfThreads-1; threadID++ )
+    {
+    /** Set the fixed parameters first. Some transforms have parameters which depend on 
+        the values of the fixed parameters. For instance, the BSplineDeformableTransform
+        checks the grid size (part of the fixed parameters) before setting the parameters. */
+    this->m_ThreaderTransform[threadID]->SetFixedParameters( this->m_Transform->GetFixedParameters() );
+    this->m_ThreaderTransform[threadID]->SetParameters( this->m_Transform->GetParameters() );
+    }
+}
 
 } // end namespace itk
 

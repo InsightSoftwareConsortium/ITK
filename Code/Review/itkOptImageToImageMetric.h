@@ -517,6 +517,11 @@ protected:
                                               bool withinSampleThread
                                               ) const {};
 
+  /** Synchronizes the threader transforms with the transform
+   *   member variable.
+   */
+  void SynchronizeTransforms() const;
+
 private:
   ImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
