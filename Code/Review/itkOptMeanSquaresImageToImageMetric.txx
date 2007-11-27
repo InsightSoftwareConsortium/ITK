@@ -187,7 +187,15 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   m_ThreaderMSE[threadID] += diff*diff;
 
-  const TransformJacobianType & jacobian = this->m_Transform
+  // Need to use one of the threader transforms if we're 
+  // not in thread 0.
+  TransformType::ConstPointer transform = this->m_Transform;
+  if (threadID > 0)
+    {
+    transform = this->m_ThreaderTransform[threadID - 1];
+    }
+
+  const TransformJacobianType & jacobian = transform
                                                ->GetJacobian( mappedPoint ); 
 
   for(unsigned int par=0; par<this->m_NumberOfParameters; par++)
