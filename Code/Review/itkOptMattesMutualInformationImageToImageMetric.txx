@@ -1090,7 +1090,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     // Need to use one of the threader transforms if we're 
     // not in thread 0.
-    typename TransformType::ConstPointer transform = this->m_Transform;
+    typename TransformType::Pointer transform = this->m_Transform;
     if (threadID > 0)
       {
       transform = this->m_ThreaderTransform[threadID - 1];
