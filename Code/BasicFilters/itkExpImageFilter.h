@@ -102,7 +102,9 @@ private:
 
 
 };
-
+#if defined(_MSC_VER) && (_MSC_VER == 1300)
+#pragma optimize("",on)
+#endif
 } // end namespace itk
 
 
