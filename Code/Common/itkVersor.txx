@@ -320,7 +320,7 @@ Versor<T>
   
   const RealType vectorNorm = vcl_sqrt(ax * ax  +  ay * ay  +  az * az  );
 
-  const ValueType angle = 2.0 * vcl_atan2(vectorNorm, m_W );
+  const ValueType angle = 2.0 * vcl_atan2(vectorNorm, static_cast<RealType>(m_W) );
   
   return angle;
 }
