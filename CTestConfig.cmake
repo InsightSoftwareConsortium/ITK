@@ -8,6 +8,6 @@ ENDIF(NOT DEFINED CTEST_DROP_METHOD)
 IF(CTEST_DROP_METHOD STREQUAL "http")
   SET(CTEST_DROP_SITE "public.kitware.com")
   SET(CTEST_DROP_LOCATION "/cgi-bin/HTTPUploadDartFile.cgi")
-  SET(CTEST_TRIGGER_SITE
-    "http://${CTEST_DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.cgi")
+  #SET(CTEST_TRIGGER_SITE "http://${CTEST_DROP_SITE}/cgi-bin/Submit-Insight-TestingResults.cgi")
+  SET(CTEST_TRIGGER_SITE "http://public.kitware.com/cgi-bin/Submit-Insight-TestingResults.cgi")
 ENDIF(CTEST_DROP_METHOD STREQUAL "http")
