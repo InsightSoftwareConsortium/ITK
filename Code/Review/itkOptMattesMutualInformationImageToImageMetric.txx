@@ -602,8 +602,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // MUST BE CALLED TO INITIATE PROCESSING
   this->GetValueMultiThreadedPostProcessInitiate();
 
-  int threadID;
-  for(threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
+  for(int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
     {
     m_JointPDFSum += m_ThreaderJointPDFSum[threadID];
     }
@@ -833,6 +832,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                                            movingImageParzenWindowArg );
 
     // Compute PDF derivative contribution.
+
     this->ComputePDFDerivatives( threadID,
                                  fixedImageSample,
                                  pdfMovingIndex, 
@@ -921,8 +921,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // CALL IF DOING THREADED POST PROCESSING
   this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
 
-  int threadID;
-  for(threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
+  for(int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
     {
     m_JointPDFSum += m_ThreaderJointPDFSum[threadID];
     }
@@ -1088,7 +1087,16 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // Compute the transform Jacobian.
     // Should pre-compute
     typedef typename TransformType::JacobianType JacobianType;
-    const JacobianType& jacobian = this->m_Transform->
+
+    // Need to use one of the threader transforms if we're 
+    // not in thread 0.
+    TransformType::ConstPointer transform = this->m_Transform;
+    if (threadID > 0)
+      {
+      transform = this->m_ThreaderTransform[threadID - 1];
+      }
+
+    const JacobianType& jacobian = transform->
                                       GetJacobian( 
                                        this->m_FixedImageSamples[sampleNumber]
                                              .point );
