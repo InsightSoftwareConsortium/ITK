@@ -269,7 +269,7 @@ public:
 // assembler code. The code below will be slower for windows but will
 // produce consistent results. This can be removed once vnl_math_rnd is
 // fixed in VXL.
-#if defined (VCL_VC) && !defined(__GCCXML__)
+#if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
 #define vnl_math_rnd(x) ((x>=0.0)?(int)(x + 0.5):(int)(x - 0.5))
 #endif
   /** Copy values from a FixedArray by rounding each one of the components */
@@ -285,7 +285,7 @@ public:
       }
 #endif
     }
-#if defined (VCL_VC) && !defined(__GCCXML__)
+#if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
 #undef vnl_math_rnd
 #endif
 
