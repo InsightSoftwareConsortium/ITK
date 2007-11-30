@@ -479,10 +479,20 @@ void VTKImageIO::Write(const void* buffer)
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
 
-  file << "SCALARS scalars " 
-       << this->GetComponentTypeAsString(m_ComponentType) << " "
-       << this->GetNumberOfComponents() << "\n"
-       << "LOOKUP_TABLE default\n";
+  // Prefer the VECTORS representation when possible:
+  if( this->GetPixelType() == ImageIOBase::VECTOR && this->GetNumberOfComponents() == 3 )
+    {
+    file << "VECTORS vectors " 
+      << this->GetComponentTypeAsString(m_ComponentType) << "\n";
+    }
+  else
+    {
+    // According to VTK documentation number of components should in range (1,4):
+    file << "SCALARS scalars " 
+      << this->GetComponentTypeAsString(m_ComponentType) << " "
+      << this->GetNumberOfComponents() << "\n"
+      << "LOOKUP_TABLE default\n";
+    }
 
   // Write the actual pixel data
   if ( m_FileType == ASCII )
