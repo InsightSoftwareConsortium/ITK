@@ -38,7 +38,8 @@ try:
   if not os.path.exists(ITK_TEST_ROOT):
     os.mkdir(ITK_TEST_OUTPUT)
 except:
-  sys.stderr.write("Bla: %s\n" % `sys.exc_info()[0]`)
+  # Return information about the most recent exception:
+  sys.stderr.write("Last exception was: %s\n" % `sys.exc_info()[0]`)
   sys.stderr.write("Unable to create testing output directory with name: %s\n" % ITK_TEST_OUTPUT)
   sys.exit(1)
 
