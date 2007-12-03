@@ -127,6 +127,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 {
   m_UseFixedImageIndexes = true;
   m_NumberOfFixedImageSamples = indexes.size();
+  this->NumberOfFixedImageSamplesUpdated();
   m_FixedImageIndexes.resize( m_NumberOfFixedImageSamples );
   for(unsigned int i=0; i<m_NumberOfFixedImageSamples; i++)
     {
@@ -204,12 +205,10 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   if( m_UseAllPixels )
     {
     m_NumberOfFixedImageSamples = GetFixedImageRegion().GetNumberOfPixels();
+    // NumberOfFixedImageSamplesUpdated called below.
     }
   
-  m_ThreaderChunkSize = m_NumberOfFixedImageSamples / m_NumberOfThreads;
-  m_ThreaderSizeOfLastChunk = m_NumberOfFixedImageSamples 
-                              - ((m_NumberOfThreads-1) 
-                                 * m_ThreaderChunkSize);
+  this->NumberOfFixedImageSamplesUpdated();
 
   if(m_ThreaderNumberOfMovingImageSamples != NULL)
     {
@@ -352,6 +351,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
   int len = m_FixedImageIndexes.size();
   m_NumberOfFixedImageSamples = len;
+  this->NumberOfFixedImageSamplesUpdated();
 
   samples.resize(len);
   iter=samples.begin();
@@ -501,6 +501,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     if (nSamplesPicked != m_NumberOfFixedImageSamples)
       {
       m_NumberOfFixedImageSamples = nSamplesPicked;
+      this->NumberOfFixedImageSamplesUpdated();
       samples.resize(m_NumberOfFixedImageSamples);
       }
     }
@@ -511,6 +512,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
           > GetFixedImageRegion().GetNumberOfPixels())
       {
       m_NumberOfFixedImageSamples = GetFixedImageRegion().GetNumberOfPixels();
+      this->NumberOfFixedImageSamplesUpdated();
       samples.resize(m_NumberOfFixedImageSamples);
       }
       
@@ -648,6 +650,12 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     transform = this->m_ThreaderTransform[threadID-1];
     }
 
+  /** Useful for debugging */
+  if (sampleNumber >= m_FixedImageSamples.size())
+    {
+    itkExceptionMacro( << "sampleNumber " << sampleNumber << " exceeds " << m_FixedImageSamples.size() << " which is the container size of m_FixedImageSamples" << std::endl);
+    }
+
   if ( !m_TransformIsBSpline )
     {
     // Use generic transform to compute mapped position
@@ -733,6 +741,12 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
+    }
+
+  /** Useful for debugging */
+  if (sampleNumber >= m_FixedImageSamples.size())
+    {
+    itkExceptionMacro( << "sampleNumber " << sampleNumber << " exceeds " << m_FixedImageSamples.size() << " which is the container size of m_FixedImageSamples" << std::endl);
     }
 
   if ( !m_TransformIsBSpline )
@@ -1246,6 +1260,18 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     this->m_ThreaderTransform[threadID]->SetParameters( this->m_Transform->GetParameters() );
     }
 }
+
+template <class TFixedImage, class TMovingImage>
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::NumberOfFixedImageSamplesUpdated()
+{
+  m_ThreaderChunkSize = m_NumberOfFixedImageSamples / m_NumberOfThreads;
+  m_ThreaderSizeOfLastChunk = m_NumberOfFixedImageSamples 
+                              - ((m_NumberOfThreads-1) 
+                                 * m_ThreaderChunkSize);
+}
+
 
 } // end namespace itk
 

@@ -522,6 +522,9 @@ protected:
    */
   void SynchronizeTransforms() const;
 
+  /** Update sample sizes for the threads. */
+  void NumberOfFixedImageSamplesUpdated();
+
 private:
   ImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
