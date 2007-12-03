@@ -794,6 +794,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   test4Image->SetSpacing(spacing);
   test4Image->SetOrigin(origin);
   test4Image->Allocate();
+  test4Image->FillBuffer(0);
   Test4ImageType::DirectionType dir;
   dir.SetIdentity();
 #if 1
