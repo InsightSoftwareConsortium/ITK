@@ -5,9 +5,24 @@
 
 /* -------------------- machine word characteristics */
 
-/* these are 0 or 1, never empty. */
-#define VXL_LITTLE_ENDIAN @VXL_LITTLE_ENDIAN@
-#define VXL_BIG_ENDIAN    @VXL_BIG_ENDIAN@
+/* what byte order */
+/* All compilers that support Mac OS X define either __BIG_ENDIAN__ or
+   __LITTLE_ENDIAN__ to match the endianness of the architecture being
+   compiled for. This is not necessarily the same as the architecture of
+   the machine doing the building. In order to support Universal Binaries on
+   Mac OS X, we prefer those defines to decide the endianness.
+   On other platform, we use the result of the TRY_RUN. */
+#if !defined(__APPLE__)
+  /* these are 0 or 1, never empty. */
+  #define VXL_LITTLE_ENDIAN @VXL_LITTLE_ENDIAN@
+  #define VXL_BIG_ENDIAN    @VXL_BIG_ENDIAN@
+#elif defined(__BIG_ENDIAN__)
+  #define VXL_BIG_ENDIAN 1
+  #define VXL_LITTLE_ENDIAN 0
+#else
+  #define VXL_BIG_ENDIAN 0
+  #define VXL_LITTLE_ENDIAN 1
+#endif
 
 /* we can't just use typedefs, because on systems where there are   */
 /* no 64bit integers we have to #define vxl_int_64 to `void' in     */
