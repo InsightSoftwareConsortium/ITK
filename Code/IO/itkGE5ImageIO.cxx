@@ -166,7 +166,7 @@ GE5ImageIO::SwapPixHdr (Ge5xPixelHeader * hdr)
 }
 
 
-struct GEImageHeader *
+GEImageHeader *
 GE5ImageIO::ReadHeader (const char  *FileNameToRead)
 {
   //#define VERBOSE_DEBUGGING
@@ -178,7 +178,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
 
   Ge5xPixelHeader imageHdr;              /* Header Structure for GE 5x images */
   char hdr[GENESIS_IM_HDR_START + GENESIS_MR_HDR_LEN];  /* Header to hold GE header */
-  struct GEImageHeader *curImage;
+  GEImageHeader *curImage;
   bool pixelHdrFlag;
   int timeStamp;
   char tmpId[64];
@@ -207,7 +207,7 @@ GE5ImageIO::ReadHeader (const char  *FileNameToRead)
       );
     
     }
-  memset(curImage,0,sizeof(struct GEImageHeader));
+  memset(curImage,0,sizeof(GEImageHeader));
   pixelHdrFlag = false;
 
   
@@ -502,8 +502,8 @@ GE5ImageIO::ModifyImageInformation()
     it++;
     std::string file2 = (*it)->GetImageFileName();
 
-    struct GEImageHeader *hdr1 = this->ReadHeader(file1.c_str());
-    struct GEImageHeader *hdr2 = this->ReadHeader(file2.c_str());
+    GEImageHeader *hdr1 = this->ReadHeader(file1.c_str());
+    GEImageHeader *hdr2 = this->ReadHeader(file2.c_str());
 
     float origin1[3], origin2[3];
     origin1[0] = hdr1->tlhcR;

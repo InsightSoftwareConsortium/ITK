@@ -1,24 +1,22 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkBrains2HeaderFactory.cxx
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkBrains2HeaderFactory.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include "itkBrains2HeaderFactory.h"
 #include "itkBrains2IPLHeaderInfo.h"
 #include "itkBrains2MaskHeaderInfo.h"
-//#include "itkROIHeaderInfo.h"
-//#include "itkBrains2TalairachParametersHeaderInfo.h"
 
 namespace itk
 {

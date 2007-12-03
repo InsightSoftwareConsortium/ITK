@@ -92,7 +92,7 @@ bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
   return true;
 }
 
-struct GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
+GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
 {
   char tmpbuf[1024];
 
@@ -100,7 +100,7 @@ struct GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
     {
     RAISE_EXCEPTION();
     }
-  GEImageHeader *hdr = new struct GEImageHeader;
+  GEImageHeader *hdr = new GEImageHeader;
   if(hdr == 0)
     {
     RAISE_EXCEPTION();

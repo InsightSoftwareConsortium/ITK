@@ -35,10 +35,6 @@
 #define __itkGE4ImageIO_h
 
 #include "itkIPLCommonImageIO.h"
-#include "itkImageIOBase.h"
-#include "itkGEImageHeader.h"
-
-#include <fstream>
 
 namespace itk
 {
@@ -116,7 +112,7 @@ protected:
   ~GE4ImageIO();
   // Implemented in Superclass
   // void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
+  virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
 private:
   GE4ImageIO(const Self&); //purposely not implemented
   float MvtSunf (int numb);

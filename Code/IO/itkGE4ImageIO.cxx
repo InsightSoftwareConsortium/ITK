@@ -77,7 +77,7 @@ bool GE4ImageIO::CanReadFile( const char* FileNameToRead )
   return true;
 }
 
-struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
+GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
 {
   // #define VERBOSE_DEBUGGING
 #if defined(VERBOSE_DEBUGGING)
@@ -95,7 +95,7 @@ struct GEImageHeader *GE4ImageIO::ReadHeader(const char *FileNameToRead)
     {
     RAISE_EXCEPTION();
     }
-  struct GEImageHeader *hdr = new struct GEImageHeader;
+  GEImageHeader *hdr = new GEImageHeader;
   if(hdr == 0)
     {
     RAISE_EXCEPTION();

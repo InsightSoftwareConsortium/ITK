@@ -226,7 +226,8 @@ void IPLCommonImageIO::Read(void* buffer)
   f2.close();
 #endif
 }
-struct GEImageHeader *IPLCommonImageIO::ReadHeader(const char * )
+
+GEImageHeader *IPLCommonImageIO::ReadHeader(const char * )
 {
   //
   // must be redefined in a child class
@@ -313,7 +314,7 @@ void IPLCommonImageIO::ReadImageInformation()
   std::vector<std::string>::size_type i;
   std::vector<std::string>::size_type numfiles; 
     
-  struct GEImageHeader *curImageHeader;
+  GEImageHeader *curImageHeader;
 
   for(i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; i++) 
     {

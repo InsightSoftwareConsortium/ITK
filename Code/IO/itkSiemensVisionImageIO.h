@@ -1,20 +1,19 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkSiemensVisionImageIO.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkSiemensVisionImageIO.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 /**
  * \file   Much of the code for this file reader/writer was taken from
  *         the University of Iowa Imaging Group library with the
@@ -35,10 +34,7 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <fstream>
-#include "itkImageIOBase.h"
 #include "itkIPLCommonImageIO.h"
-#include "itkGEImageHeader.h"
 
 namespace itk
 {
@@ -115,7 +111,7 @@ protected:
   ~SiemensVisionImageIO();
   // Implemented in superclass
   //      void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
+  virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
 private:
   typedef enum {
     HDR_STUDY_YEAR= 0,      // Study date year, u_int

@@ -1,17 +1,17 @@
 /*=========================================================================
 
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkGEAdwImageIO.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGEAdwImageIO.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -35,11 +35,7 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <fstream>
-#include "itkImageIOBase.h"
 #include "itkIPLCommonImageIO.h"
-#include "itkGEImageHeader.h"
-//#include "idbm_hdr_def.h"
 
 namespace itk
 {
@@ -116,7 +112,7 @@ protected:
   ~GEAdwImageIO();
   // Implemented in superclass
   //      void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual struct GEImageHeader *ReadHeader(const char *FileNameToRead);
+  virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
 private:
   GEAdwImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

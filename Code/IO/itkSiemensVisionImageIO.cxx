@@ -73,7 +73,7 @@ bool SiemensVisionImageIO::CanReadFile( const char* FileNameToRead )
   return true;
 }
 
-struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
+GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 {
   if(!this->CanReadFile(FileNameToRead))
     {
@@ -93,7 +93,7 @@ struct GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRea
 #define TEMPLEN 2048
   char tmpStr[TEMPLEN], tmpStr2[TEMPLEN],
     tmpStr3[TEMPLEN], tmpStr4[TEMPLEN];
-  GEImageHeader *hdr = new struct GEImageHeader;
+  GEImageHeader *hdr = new GEImageHeader;
   if(hdr == 0)
     RAISE_EXCEPTION();
 #if defined(DEBUGHEADER)
