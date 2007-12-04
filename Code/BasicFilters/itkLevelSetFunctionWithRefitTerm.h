@@ -144,7 +144,10 @@ protected:
   }
   
 private:
-  /** The sparse image that contains the target curvature information. */
+  LevelSetFunctionWithRefitTerm(const Self&); //purposely not implemented                                                                                                            
+  void operator=(const Self&);   //purposely not implemented                                                                                                            
+   
+   /** The sparse image that contains the target curvature information. */
   typename SparseImageType::Pointer m_SparseTargetImage;
 
   /** The minimum vector norm parameter. */
