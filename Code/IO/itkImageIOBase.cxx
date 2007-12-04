@@ -447,7 +447,6 @@ ImageIOBase
 
 void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
 {
-  std::cerr << "SetNumberOfDimensions" << dim << std::endl;
   if(dim != m_NumberOfDimensions)
     {
     m_Origin.resize( dim );
