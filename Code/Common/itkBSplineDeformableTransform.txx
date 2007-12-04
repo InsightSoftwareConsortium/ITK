@@ -180,6 +180,22 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_ValidRegion.SetSize( size );
     m_ValidRegion.SetIndex( index );
 
+    //
+    // If we are using the default parameters, update their size and set to identity.
+    //
+    
+    // Input parameters point to internal buffer => using default parameters.
+    if (m_InputParametersPointer == &m_InternalParametersBuffer)
+      {
+      // Check if we need to resize the default parameter buffer.
+      if ( m_InternalParametersBuffer.GetSize() != this->GetNumberOfParameters() )
+        {
+        m_InternalParametersBuffer.SetSize( this->GetNumberOfParameters() );
+        // Fill with zeros for identity.
+        m_InternalParametersBuffer.Fill( 0 );
+        }
+      }
+
     this->Modified();
     }
 }
