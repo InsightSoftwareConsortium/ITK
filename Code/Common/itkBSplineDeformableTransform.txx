@@ -53,8 +53,9 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   m_GridOrigin.Fill( 0.0 );  // default origin is all zeros
   m_GridSpacing.Fill( 1.0 ); // default spacing is all ones
 
-  m_InputParametersPointer = NULL;
   m_InternalParametersBuffer = ParametersType(0);
+  // Make sure the parameters pointer is not NULL after construction.
+  m_InputParametersPointer = &m_InternalParametersBuffer;
 
   // Initialize coeffient images
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -421,6 +422,11 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   /** NOTE: For efficiency, this class does not keep a copy of the parameters - 
    * it just keeps pointer to input parameters. 
    */
+  if (NULL == m_InputParametersPointer)
+    {
+    itkExceptionMacro( <<"Cannot GetParameters() because m_InputParametersPointer is NULL. Perhaps SetCoefficientImage() has been called causing the NULL pointer." );
+    }
+
   return (*m_InputParametersPointer);
 }
 
