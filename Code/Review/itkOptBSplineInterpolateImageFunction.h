@@ -138,7 +138,8 @@ public:
     ContinuousIndexType index;
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point,
                                                                     index );
-    return ( this->EvaluateAtContinuousIndex( index, 0 ) );
+    // No thread info passed in, so call method that doesn't need thread ID.
+    return ( this->EvaluateAtContinuousIndex( index ) );
     }
 
   virtual OutputType Evaluate( const PointType & point,
@@ -153,7 +154,16 @@ public:
   virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & 
                                                                  index ) const
     {
-    return this->EvaluateAtContinuousIndex( index, 0 );
+    // Don't know thread information, make evaluateIndex, weights on the stack.
+    // Slower, but safer.
+    vnl_matrix<long>        evaluateIndex(ImageDimension, ( m_SplineOrder + 1 ));
+    vnl_matrix<double>      weights(ImageDimension, ( m_SplineOrder + 1 ));
+    
+    // Pass evaluateIndex, weights by reference. They're only good as long 
+    // as this method is in scope.
+    return this->EvaluateAtContinuousIndexInternal( index,
+                                                    evaluateIndex,
+                                                    weights);
     }
 
   virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & 
@@ -165,7 +175,8 @@ public:
     ContinuousIndexType index;
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point,
                                                                     index );
-    return ( this->EvaluateDerivativeAtContinuousIndex( index, 0 ) );
+    // No thread info passed in, so call method that doesn't need thread ID.
+    return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
     } 
 
   CovariantVectorType EvaluateDerivative( const PointType & point,
@@ -180,7 +191,19 @@ public:
   CovariantVectorType EvaluateDerivativeAtContinuousIndex( 
                                          const ContinuousIndexType & x ) const
     {
-    return this->EvaluateDerivativeAtContinuousIndex( x, 0 );
+    // Don't know thread information, make evaluateIndex, weights, weightsDerivative 
+    // on the stack.
+    // Slower, but safer.
+    vnl_matrix<long>          evaluateIndex(ImageDimension, ( m_SplineOrder + 1 ));
+    vnl_matrix<double>        weights(ImageDimension, ( m_SplineOrder + 1 ));
+    vnl_matrix<double>        weightsDerivative(ImageDimension, ( m_SplineOrder + 1));
+
+    // Pass evaluateIndex, weights, weightsDerivative by reference. They're only good 
+    // as long as this method is in scope.
+    return this->EvaluateDerivativeAtContinuousIndexInternal( x,
+                                                              evaluateIndex,
+                                                              weights,
+                                                              weightsDerivative );
     }
 
   CovariantVectorType EvaluateDerivativeAtContinuousIndex( 
@@ -194,16 +217,17 @@ public:
     ContinuousIndexType index;
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point,
                                                                     index );
+
+    // No thread info passed in, so call method that doesn't need thread ID.
     this->EvaluateValueAndDerivativeAtContinuousIndex( index,
                                                        value,
-                                                       deriv,
-                                                       0 );
+                                                       deriv );
     } 
 
   void EvaluateValueAndDerivative( const PointType & point,
                                    OutputType & value,
                                    CovariantVectorType & deriv,
-                                   unsigned int threadID = 0 ) const
+                                   unsigned int threadID ) const
     {    
     ContinuousIndexType index;
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point,
@@ -220,14 +244,28 @@ public:
                                                 CovariantVectorType & deriv
                                                 ) const
     {
-    this->EvaluateValueAndDerivativeAtContinuousIndex(x, value, deriv, 0);
+    // Don't know thread information, make evaluateIndex, weights, weightsDerivative
+    // on the stack.
+    // Slower, but safer.
+    vnl_matrix<long>          evaluateIndex(ImageDimension, ( m_SplineOrder + 1 ));
+    vnl_matrix<double>        weights(ImageDimension, ( m_SplineOrder + 1 ));
+    vnl_matrix<double>        weightsDerivative(ImageDimension, ( m_SplineOrder + 1));
+
+    // Pass evaluateIndex, weights, weightsDerivative by reference. They're only good 
+    // as long as this method is in scope.
+    this->EvaluateValueAndDerivativeAtContinuousIndexInternal(x, 
+                                                              value, 
+                                                              deriv,
+                                                              evaluateIndex, 
+                                                              weights, 
+                                                              weightsDerivative );
     }
 
   void EvaluateValueAndDerivativeAtContinuousIndex( 
                                                 const ContinuousIndexType & x,
                                                 OutputType & value,
                                                 CovariantVectorType & deriv,
-                                                unsigned int threadID = 0
+                                                unsigned int threadID 
                                                 ) const;
 
 
@@ -257,6 +295,44 @@ public:
 
 
 protected:
+
+  /** The following methods take working space (evaluateIndex, weights, weightsDerivative)
+   *  that is managed by the caller. If threadID is known, the working variables are looked
+   *  up in the thread indexed arrays. If threadID is not known, working variables are made
+   *  on the stack and passed to these methods. The stack allocation should be ok since 
+   *  these methods do not store the working variables, i.e. they are not expected to 
+   *  be available beyond the scope of the function call. 
+   *
+   *  This was done to allow for two types of re-entrancy. The first is when a threaded 
+   *  filter, e.g. InterpolateImagePointsFilter calls EvaluateAtContinuousIndex from multiple
+   *  threads without passing a threadID. So, EvaluateAtContinuousIndex must be thread safe.
+   *  This is handled with the stack-based allocation of the working space.
+   *
+   *  The second form of re-entrancy involves methods that call EvaluateAtContinuousIndex 
+   *  from multiple threads, but pass a threadID. In this case, we can gain a little efficiency 
+   *  (hopefully) by looking up pre-allocated working space in arrays that are indexed by thread.
+   *  The efficiency gain is likely dependent on the size of the working variables, which are
+   *  in-turn dependent on the dimensionality of the image and the order of the spline.
+   */
+  virtual OutputType EvaluateAtContinuousIndexInternal( const ContinuousIndexType & index,
+                                                        vnl_matrix<long>& evaluateIndex,
+                                                        vnl_matrix<double>& weights) const;
+
+  virtual void EvaluateValueAndDerivativeAtContinuousIndexInternal( const ContinuousIndexType & x,
+                                                       OutputType & value,
+                                                       CovariantVectorType & derivativeValue,
+                                                       vnl_matrix<long>& evaluateIndex,
+                                                       vnl_matrix<double>& weights,
+                                                       vnl_matrix<double>& weightsDerivative
+                                                       ) const;
+
+  virtual CovariantVectorType EvaluateDerivativeAtContinuousIndexInternal( const ContinuousIndexType & x,
+                                                                           vnl_matrix<long>& evaluateIndex,
+                                                                           vnl_matrix<double>& weights,
+                                                                           vnl_matrix<double>& weightsDerivative
+                                                                           ) const;
+
+
   BSplineInterpolateImageFunction();
   ~BSplineInterpolateImageFunction();
   void operator=( const Self& ); //purposely not implemented
