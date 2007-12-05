@@ -66,7 +66,7 @@ namespace itk {
     protected:
       /** Method for creation through the object factory.   */
       // Should not be able to construct a new MetaDataObjectBase
-      static  Pointer New(void);
+//       static  Pointer New(void);
       /**
        * Default destructor
        */
