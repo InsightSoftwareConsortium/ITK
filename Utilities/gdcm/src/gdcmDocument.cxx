@@ -1913,7 +1913,7 @@ void Document::SkipDocEntry(DocEntry *entry)
 void Document::SkipToNextDocEntry(DocEntry *currentDocEntry) 
 {
    long l = currentDocEntry->GetReadLength();
-   if ( l == -1 ) // length = 0xffff shouldn't appear here ...
+   if ( (uint32_t)l == (uint32_t)-1 ) // length = 0xffff shouldn't appear here ...
                   // ... but PMS imagers happen !
       return;
    Fp->seekg((size_t)(currentDocEntry->GetOffset()), std::ios::beg); //FIXME :each DocEntry
