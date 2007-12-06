@@ -643,11 +643,15 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   double& movingImageValue,
                   unsigned int threadID ) const
 {
-  TransformType * transform = this->m_Transform;
+  TransformType * transform;
   
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
+    }
+  else
+    {
+    transform = this->m_Transform;
     }
 
   /** Useful for debugging */
@@ -736,11 +740,15 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   ImageDerivativesType & movingImageGradient,
                   unsigned int threadID ) const
 {
-  TransformType * transform = this->m_Transform;
+  TransformType * transform;
   
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
+    }
+  else
+    {
+    transform = this->m_Transform;
     }
 
   /** Useful for debugging */

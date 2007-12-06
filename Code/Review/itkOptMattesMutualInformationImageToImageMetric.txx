@@ -1090,10 +1090,19 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     // Need to use one of the threader transforms if we're 
     // not in thread 0.
-    typename TransformType::Pointer transform = this->m_Transform;
+    //
+    // Use a raw pointer here to avoid the overhead of smart pointers. 
+    // For instance, Register and UnRegister have mutex locks around
+    // the reference counts.
+    TransformType* transform;
+
     if (threadID > 0)
       {
       transform = this->m_ThreaderTransform[threadID - 1];
+      }
+    else
+      {
+      transform = this->m_Transform;
       }
 
     const JacobianType& jacobian = transform->
