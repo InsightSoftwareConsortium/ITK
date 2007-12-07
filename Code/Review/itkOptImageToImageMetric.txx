@@ -541,7 +541,6 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::ComputeGradient() 
 {
-  std::cout << "compute grad images" << std::endl;
   GradientImageFilterPointer gradientFilter = GradientImageFilterType::New();
 
   gradientFilter->SetInput( m_MovingImage );
