@@ -27,6 +27,7 @@
 void RegisterTests()
 {
   REGISTER_TEST( itkClosingByReconstructionImageFilterTest );
+  REGISTER_TEST( itkDivideImageFilterTest2 );
   REGISTER_TEST( itkGetAverageSliceImageFilterTest );
   REGISTER_TEST( itkGrayscaleGeodesicErodeDilateImageFilterTest );
   REGISTER_TEST( itkHessian3DToVesselnessMeasureImageFilterTest );

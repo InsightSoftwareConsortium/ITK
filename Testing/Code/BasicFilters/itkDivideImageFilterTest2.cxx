@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkDivideImageFilterTest.cxx
+  Module:    itkDivideImageFilterTest2.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -21,21 +21,22 @@
 
 
 
-#include <itkImage.h>
-#include <itkDivideImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
+#include "itkVectorImage.h"
+#include "itkDivideImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 
-int itkDivideImageFilterTest(int, char* [] ) 
+int itkDivideImageFilterTest2(int, char* [] ) 
 {
 
   // Define the dimension of the images
   const unsigned int myDimension = 3;
+  typedef float      myElementPixelType;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType3;
+  typedef itk::VectorImage<myElementPixelType, myDimension>  myImageType1;
+  typedef itk::Image<myElementPixelType, myDimension>        myImageType2;
+  typedef itk::VectorImage<myElementPixelType, myDimension>  myImageType3;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
@@ -81,6 +82,7 @@ int itkDivideImageFilterTest(int, char* [] )
   inputImageA->SetLargestPossibleRegion( region );
   inputImageA->SetBufferedRegion( region );
   inputImageA->SetRequestedRegion( region );
+  inputImageA->SetNumberOfComponentsPerPixel( 4 );
   inputImageA->Allocate();
 
   // Initialize Image B
@@ -98,11 +100,14 @@ int itkDivideImageFilterTest(int, char* [] )
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
 
+  myImageType1::PixelType valueA( inputImageA->GetNumberOfComponentsPerPixel() );
+  valueA.Fill( 2.0 );
+
   // Initialize the content of Image A
   std::cout << "First operand " << std::endl;
   while( !it1.IsAtEnd() ) 
   {
-    it1.Set( 2.0 );
+    it1.Set( valueA );
     std::cout << it1.Get() << std::endl;
     ++it1;
   }

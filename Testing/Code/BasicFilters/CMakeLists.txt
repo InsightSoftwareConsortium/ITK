@@ -671,6 +671,8 @@ ADD_TEST(itkVectorResampleImageFilterTest ${BASIC_FILTERS_TESTS3}
   itkVectorResampleImageFilterTest
             ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
 
+ADD_TEST(itkDivideImageFilterTest2 ${BASIC_FILTERS_TESTS4} itkDivideImageFilterTest2)
+
 ADD_TEST(itkGrayscaleGeodesicErodeDilateImageFilterTest ${BASIC_FILTERS_TESTS4} 
      --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png 
                ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 
@@ -1062,6 +1064,7 @@ itkTriangleMeshToBinaryImageFilterTest2.cxx
 
 SET(BasicFilters4_SRCS
 itkClosingByReconstructionImageFilterTest
+itkDivideImageFilterTest2
 itkGetAverageSliceImageFilterTest
 itkGrayscaleGeodesicErodeDilateImageFilterTest
 itkHessian3DToVesselnessMeasureImageFilterTest

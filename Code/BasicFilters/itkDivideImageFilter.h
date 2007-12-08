@@ -53,9 +53,13 @@ public:
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
   {
     if(B != (TInput2) 0)
+      {
       return (TOutput)(A / B);
+      }
     else
-      return NumericTraits<TOutput>::max();
+      {
+      return NumericTraits<TOutput>::max(A);
+      }
   }
 }; 
 }
