@@ -34,173 +34,57 @@
  
 namespace itk
 {
-template <> class NumericTraits<VariableLengthVector<unsigned char > > {
+// We provide here a generic implementation based on creating types of
+// VariableLengthVectors whose components are the types of the NumericTraits
+// from the original VariableLengthVectors components.
+template <class T> 
+class NumericTraits<VariableLengthVector< T > > 
+{
 public:
-  typedef unsigned char ValueType;
-  typedef VariableLengthVector<unsigned char> PrintType;
-  typedef VariableLengthVector<unsigned char> AbsType;
-  typedef VariableLengthVector<unsigned short> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<unsigned char> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< unsigned char > & );
-  static const VariableLengthVector<unsigned char> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< unsigned char >&);
-};
-template <> class NumericTraits<VariableLengthVector<signed char> > {
-public:
-  typedef signed char ValueType;
-  typedef VariableLengthVector<signed char> PrintType;
-  typedef VariableLengthVector<unsigned char> AbsType;
-  typedef VariableLengthVector<short> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<signed char> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< signed char > & );
-  static const VariableLengthVector<signed char> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< signed char >&);
-};
-template <> class NumericTraits<VariableLengthVector<char> > {
-public:
-  typedef char ValueType;
-  typedef VariableLengthVector<char> PrintType;
-  typedef VariableLengthVector<unsigned char> AbsType;
-  typedef VariableLengthVector<short> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<char> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< char > & );
-  static const VariableLengthVector<char> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< char >&);
-};
-template <> class NumericTraits<VariableLengthVector<short> > {
-public:
-  typedef short ValueType;
-  typedef VariableLengthVector<short> PrintType;
-  typedef VariableLengthVector<unsigned short> AbsType;
-  typedef VariableLengthVector<int> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<short> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< short > & );
-  static const VariableLengthVector<short> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< short >&);
-};
-template <> class NumericTraits<VariableLengthVector<unsigned short> > {
-public:
-  typedef unsigned short ValueType;
-  typedef VariableLengthVector<unsigned short> PrintType;
-  typedef VariableLengthVector<unsigned short> AbsType;
-  typedef VariableLengthVector<unsigned int> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<unsigned short> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< unsigned short > & );
-  static const VariableLengthVector<unsigned short> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< unsigned short >&);
-};
-template <> class NumericTraits<VariableLengthVector<int> > {
-public:
-  typedef int ValueType;
-  typedef VariableLengthVector<int> PrintType;
-  typedef VariableLengthVector<unsigned int> AbsType;
-  typedef VariableLengthVector<long> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<int> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< int > & );
-  static const VariableLengthVector<int> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< int >&);
-};
-template <> class NumericTraits<VariableLengthVector<unsigned int> > {
-public:
-  typedef unsigned int ValueType;
-  typedef VariableLengthVector<unsigned int> PrintType;
-  typedef VariableLengthVector<unsigned int> AbsType;
-  typedef VariableLengthVector<unsigned long> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<unsigned int> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< unsigned int > & );
-  static const VariableLengthVector<unsigned int> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< unsigned int >&);
-};
-template <> class NumericTraits<VariableLengthVector<long> > {
-public:
-  typedef long ValueType;
-  typedef VariableLengthVector<long> PrintType;
-  typedef VariableLengthVector<unsigned long> AbsType;
-  typedef VariableLengthVector<long> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<long> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< long > & );
-  static const VariableLengthVector<long> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< long >&);
-};
-template <> class NumericTraits<VariableLengthVector<unsigned long> > {
-public:
-  typedef unsigned long ValueType;
-  typedef VariableLengthVector<unsigned long> PrlongType;
-  typedef VariableLengthVector<unsigned long> AbsType;
-  typedef VariableLengthVector<unsigned long> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<unsigned long> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< unsigned long > & );
-  static const VariableLengthVector<unsigned long> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< unsigned long >&);
-};
-template <> class NumericTraits<VariableLengthVector<float> > {
-public:
-  typedef float ValueType;
-  typedef VariableLengthVector<float> PrintType;
-  typedef VariableLengthVector<float> AbsType;
-  typedef VariableLengthVector<double> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<float> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< float > & );
-  static const VariableLengthVector<float> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< float >&);
-};
-template <> class NumericTraits<VariableLengthVector<double> > {
-public:
-  typedef double ValueType;
-  typedef VariableLengthVector<double> PrintType;
-  typedef VariableLengthVector<double> AbsType;
-  typedef VariableLengthVector<long double> AccumulateType;
-  typedef VariableLengthVector<double> RealType;
-  typedef VariableLengthVector<float> FloatType;
-  typedef double ScalarRealType;
-  static const VariableLengthVector<double> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< double > & );
-  static const VariableLengthVector<double> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< double >&);
-};
-template <> class NumericTraits<VariableLengthVector<long double> > {
-public:
-  typedef long double ValueType;
-  typedef VariableLengthVector<long double> PrintType;
-  typedef VariableLengthVector<long double> AbsType;
-  typedef VariableLengthVector<long double> AccumulateType;
-  typedef VariableLengthVector<long double> RealType;
-  typedef long double ScalarRealType;
-  typedef VariableLengthVector<float> FloatType;
-  static const VariableLengthVector<long double> ITKCommon_EXPORT 
-                        Zero( const VariableLengthVector< long double > & );
-  static const VariableLengthVector<long double> ITKCommon_EXPORT 
-                        One(const VariableLengthVector< long double >&);
+  typedef T ValueType;
+
+  // Get traits from the component
+  typedef typename NumericTraits<T>::AbsType        ElementAbsType;
+  typedef typename NumericTraits<T>::AccumulateType ElementAccumulateType;
+  typedef typename NumericTraits<T>::FloatType      ElementFloatType;
+  typedef typename NumericTraits<T>::PrintType      ElementPrintType;
+  typedef typename NumericTraits<T>::RealType       ElementRealType;
+
+  typedef VariableLengthVector<T>                   Self;
+
+  // Use the component traits to define the VariableLengthVector traits.
+  typedef VariableLengthVector<ElementAbsType>          AbsType;
+  typedef VariableLengthVector<ElementAccumulateType>   AccumulateType;
+  typedef VariableLengthVector<ElementFloatType>        FloatType;
+  typedef VariableLengthVector<ElementPrintType>        PrintType;
+  typedef VariableLengthVector<ElementRealType>         RealType;
+
+  typedef ElementRealType ScalarRealType;
+
+  static const RealType max( const Self & a )
+    { 
+      RealType b(a.Size()); 
+      b.Fill( NumericTraits< T >::max() );
+      return b;
+    }
+  static const RealType min( const Self & a )
+    { 
+      RealType b(a.Size()); 
+      b.Fill( NumericTraits< T >::min() );
+      return b;
+    }
+  static const Self Zero( const Self  & a )
+  { 
+    Self b(a.Size()); 
+    b.Fill( NumericTraits< T >::Zero );
+    return b;
+  }
+  static const Self One( const Self & a )
+  { 
+    Self b(a.Size()); 
+    b.Fill( NumericTraits< T >::One );
+    return b;
+  }
 };
 
 } // end namespace itk
