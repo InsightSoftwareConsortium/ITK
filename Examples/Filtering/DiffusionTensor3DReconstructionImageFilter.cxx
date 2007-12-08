@@ -84,6 +84,7 @@ int main( int argc, char *argv[] )
   
   const unsigned int Dimension = 3;
   unsigned int numberOfImages = 0;
+  unsigned int numberOfGradientImages = 0;
   bool readb0 = false;
   double b0 = 0;
   
@@ -158,9 +159,16 @@ int main( int argc, char *argv[] )
       std::cout << *itKey << " ---> " << metaString << std::endl;      
       sscanf(metaString.c_str(), "%lf %lf %lf\n", &x, &y, &z);
       vect3d[0] = x; vect3d[1] = y; vect3d[2] = z;
-      
       DiffusionVectors->InsertElement( numberOfImages, vect3d );
       ++numberOfImages;
+      // If the direction is 0.0, this is a reference image
+      if (vect3d[0] == 0.0 &&
+          vect3d[1] == 0.0 &&
+          vect3d[2] == 0.0)
+        {
+        continue;
+        }
+      ++numberOfGradientImages;;
       }
     else if (itKey->find("DWMRI_b-value") != std::string::npos)
       {
@@ -169,7 +177,11 @@ int main( int argc, char *argv[] )
       b0 = atof(metaString.c_str());
       }
     }
-  std::cout << "Number Of Gradient images: " << numberOfImages << std::endl;
+  std::cout << "Number of gradient images: "
+            << numberOfGradientImages
+            << " and Number of reference images: "
+            << numberOfImages - numberOfGradientImages
+            << std::endl;
   if(!readb0)
     {
     std::cerr << "BValue not specified in header file" << std::endl;
@@ -194,7 +206,7 @@ int main( int argc, char *argv[] )
   typedef ReferenceImageType                 GradientImageType;
   
   // A container of smart pointers to images. This container will hold
-  // the 'numberOfImages' gradient images and the reference image.
+  // the 'numberOfGradientImages' gradient images and the reference image.
   // 
   std::vector< GradientImageType::Pointer > imageContainer;
   
@@ -206,17 +218,18 @@ int main( int argc, char *argv[] )
   // In this for loop, we will extract the 'n' gradient images + 1 reference
   // image from the DWI Vector image.
   // 
-  for( unsigned int i = 0; i<=numberOfImages; i++ )
+  for( unsigned int i = 0; i<numberOfImages; i++ )
     { 
     GradientImageType::Pointer image = GradientImageType::New();
     image->CopyInformation( img );
     image->SetBufferedRegion( img->GetBufferedRegion() );
     image->SetRequestedRegion( img->GetRequestedRegion() );
     image->Allocate();
-    
+
     IteratorType it( image, image->GetBufferedRegion() );
     dwiit.GoToBegin();
     it.GoToBegin();
+
     while (!it.IsAtEnd())
       {
       it.Set(dwiit.Get()[i]);
@@ -233,7 +246,7 @@ int main( int argc, char *argv[] )
   if( (argc > 4) && (atoi(argv[6])) )
     {
     typedef itk::ImageFileWriter< GradientImageType > GradientWriterType;
-    for( unsigned int i = 0; i<=numberOfImages; i++ )
+    for( unsigned int i = 0; i<numberOfImages; i++ )
       {
       GradientWriterType::Pointer gradientWriter = GradientWriterType::New();
       gradientWriter->SetInput( imageContainer[i] );

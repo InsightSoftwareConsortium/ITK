@@ -764,7 +764,7 @@ ADD_TEST( SubsampleVolumeTest ${FILTERING_EXAMPLES4}
 ADD_TEST( DiffusionTensor3DReconstructionImageFilterTest1 ${FILTERING_EXAMPLES5}
   --compare ${BASELINE}/FACorpusCallosum.mhd
             ${TEMP}/FACorpusCallosum.mhd
-  DiffusionTensor3DReconstructionImageFilterTest1
+  DiffusionTensor3DReconstructionImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
@@ -772,7 +772,7 @@ ADD_TEST( DiffusionTensor3DReconstructionImageFilterTest1 ${FILTERING_EXAMPLES5}
 ADD_TEST( DiffusionTensor3DReconstructionImageFilterTest2 ${FILTERING_EXAMPLES5}
   --compare ${BASELINE}/RACorpusCallosum.mhd
             ${TEMP}/RACorpusCallosum.mhd
-  DiffusionTensor3DReconstructionImageFilterTest2
+  DiffusionTensor3DReconstructionImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/DwiCorpusCallosum.nhdr
         80 ${TEMP}/Tensors.mhd ${TEMP}/FACorpusCallosum.mhd
         ${TEMP}/RACorpusCallosum.mhd 0
