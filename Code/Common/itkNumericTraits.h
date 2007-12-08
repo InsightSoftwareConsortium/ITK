@@ -21,6 +21,13 @@
 #undef min
 #undef max
 
+#define itkNUMERIC_TRAITS_MIN_MAX_MACRO() \
+  static ValueType min() { return vcl_numeric_limits<ValueType>::min(); } \
+  static ValueType max() { return vcl_numeric_limits<ValueType>::max(); } \
+  static ValueType min( ValueType ) { return vcl_numeric_limits<ValueType>::min(); } \
+  static ValueType max( ValueType ) { return vcl_numeric_limits<ValueType>::max(); } \
+
+ 
 #include "vcl_limits.h" // for vcl_numeric_limits
 #include <complex>
 
@@ -92,6 +99,14 @@ public:
   /** Return zero value. This function should be used to support
    *  RGBPixel type and standard types (not vectors) */
   static T ZeroValue() { return Zero; }
+
+  /* Provide a default implementation of the max() method with
+   * argument. This API is needed for VariableLengthVector because
+   * its length is only known at run-time. Specializations of the
+   * VariableLengthVector will provide a different implementation
+   * where a vector of the correct size is built. */
+  static T max( const T & val ) { return TraitsType::max(); }
+  static T min( const T & val ) { return TraitsType::min(); }
 };
 
 /** \class NumericTraits<bool>
@@ -115,6 +130,8 @@ public:
 
   static bool min() { return false; }
   static bool max() { return true; }
+  static bool min( bool ) { return min(); }
+  static bool max( bool ) { return max(); }
   static bool NonpositiveMin() { return false; }
   static bool IsPositive(bool val) { return val; }
   static bool IsNonpositive(bool val) { return !val; }
@@ -142,6 +159,8 @@ public:
 
   static char min() { return char(255) < 0 ? -128 : 0; }
   static char max() { return char(255) < 0 ? 127 : 255; }
+  static char min( char ) { return min(); }
+  static char max( char ) { return max(); }
   static char NonpositiveMin() { return min(); }
   static bool IsPositive(char val) { return val > Zero; }
   static bool IsNonpositive(char val) { return val <= Zero; }
@@ -169,6 +188,8 @@ public:
 
   static signed char min() { return -128; }
   static signed char max() { return  127; }
+  static signed char min( signed char ) { return min(); }
+  static signed char max( signed char ) { return max(); }
   static signed char NonpositiveMin() { return min(); }
   static bool IsPositive(signed char val) { return val > Zero; }
   static bool IsNonpositive(signed char val) { return val <= Zero; }
@@ -194,7 +215,9 @@ public:
   static const unsigned char ITKCommon_EXPORT Zero;
   static const unsigned char ITKCommon_EXPORT One;
 
-  static unsigned char NonpositiveMin() { return min(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+
+  static unsigned char NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static bool IsPositive(unsigned char val) { return val != Zero; }
   static bool IsNonpositive(unsigned char val) { return val == Zero; }
   static bool IsNegative(unsigned char /* val */) { return false; }
@@ -218,7 +241,8 @@ public:
   static const short ITKCommon_EXPORT Zero;
   static const short ITKCommon_EXPORT One;
 
-  static short NonpositiveMin() { return min(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static short NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static bool IsPositive(short val) { return val > Zero; }
   static bool IsNonpositive(short val) { return val <= Zero; }
   static bool IsNegative(short val) { return val < Zero; }
@@ -243,7 +267,8 @@ public:
   static const unsigned short ITKCommon_EXPORT Zero;
   static const unsigned short ITKCommon_EXPORT One;
 
-  static unsigned short NonpositiveMin() { return min(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static unsigned short NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static unsigned short IsPositive(unsigned short val) { return val != Zero; }
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
   static bool IsNegative(unsigned short/* val*/) { return false; }
@@ -267,7 +292,8 @@ public:
   static const int ITKCommon_EXPORT Zero;
   static const int ITKCommon_EXPORT One;
 
-  static int NonpositiveMin() { return min(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static int NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static bool IsPositive(int val) { return val > Zero; }
   static bool IsNonpositive(int val) { return val <= Zero; }
   static bool IsNegative(int val) { return val < Zero; }
@@ -294,6 +320,8 @@ public:
 
   static unsigned int min(void) { return 0; }
   static unsigned int max(void) { return static_cast<unsigned int>( -1 ); }
+  static unsigned int min( unsigned int ) { return vcl_numeric_limits<ValueType>::min(); }
+  static unsigned int max( unsigned int ) { return vcl_numeric_limits<ValueType>::max(); }
   static unsigned int NonpositiveMin() { return 0; }
   static bool IsPositive(unsigned int val) { return val != Zero; }
   static bool IsNonpositive(unsigned int val) { return  val == Zero; }
@@ -319,7 +347,8 @@ public:
   static const long ITKCommon_EXPORT Zero;
   static const long ITKCommon_EXPORT One;
 
-  static long NonpositiveMin() { return min(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static long NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static bool IsPositive(long val) { return val > Zero; }
   static bool IsNonpositive(long val) { return val <= Zero; }
   static bool IsNegative(long val) { return val < Zero; }
@@ -344,7 +373,8 @@ public:
   static const unsigned long ITKCommon_EXPORT Zero;
   static const unsigned long ITKCommon_EXPORT One;
 
-  static unsigned long NonpositiveMin() { return min(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static unsigned long NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static bool IsPositive(unsigned long val) { return val != Zero; }
   static bool IsNonpositive(unsigned long val) { return val == Zero; }
   static bool IsNegative(unsigned long) { return false; }
@@ -369,7 +399,8 @@ public:
   static const float ITKCommon_EXPORT Zero;
   static const float ITKCommon_EXPORT One;
 
-  static float NonpositiveMin() { return -max(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static float NonpositiveMin() { return -vcl_numeric_limits<ValueType>::max(); }
   static bool IsPositive(float val) { return val > Zero; }
   static bool IsNonpositive(float val) { return val <= Zero; }
   static bool IsNegative(float val) { return val < Zero; }
@@ -394,7 +425,8 @@ public:
   static const double ITKCommon_EXPORT Zero;
   static const double ITKCommon_EXPORT One;
 
-  static double NonpositiveMin() { return -max(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static double NonpositiveMin() { return -vcl_numeric_limits<ValueType>::max(); }
   static bool IsPositive(double val) { return val > Zero; }
   static bool IsNonpositive(double val) { return val <= Zero; }
   static bool IsNegative(double val) { return val < Zero; }
@@ -419,7 +451,8 @@ public:
   static const long double ITKCommon_EXPORT Zero;
   static const long double ITKCommon_EXPORT One;
 
-  static long double NonpositiveMin() { return -max(); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
+  static long double NonpositiveMin() { return -vcl_numeric_limits<ValueType>::max(); }
   static bool IsPositive(long double val) { return val > Zero; }
   static bool IsNonpositive(long double val) { return val <= Zero; }
   static bool IsNegative(long double val) { return val < Zero; }
@@ -445,6 +478,8 @@ public:
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
 
+  static TheType min( TheType ) { return vcl_numeric_limits<ValueType>::min(); }
+  static TheType max( TheType ) { return vcl_numeric_limits<ValueType>::max(); }
   static TheType NonpositiveMin() { 
     return TheType(-NumericTraits<float>::NonpositiveMin(),0.0f); }
   static bool IsPositive(TheType val) { return val.real() > 0.0; }
@@ -473,6 +508,8 @@ public:
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
 
+  static TheType min( TheType ) { return vcl_numeric_limits<ValueType>::min(); }
+  static TheType max( TheType ) { return vcl_numeric_limits<ValueType>::max(); }
   static TheType NonpositiveMin() { 
     return TheType(-NumericTraits<double>::NonpositiveMin(),0.0); }
   static bool IsPositive(TheType val) { return val.real() > 0.0; }
