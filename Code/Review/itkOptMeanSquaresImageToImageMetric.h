@@ -67,6 +67,9 @@ public:
   typedef typename Superclass::WeightsValueType         WeightsValueType;
   typedef typename Superclass::IndexValueType           IndexValueType;
 
+  // Needed for evaluation of Jacobian.
+  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
+
   /** The moving image dimension. */
   itkStaticConstMacro( MovingImageDimension, unsigned int,
                        MovingImageType::ImageDimension );

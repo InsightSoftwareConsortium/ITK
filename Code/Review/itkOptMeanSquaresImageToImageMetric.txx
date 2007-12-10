@@ -187,6 +187,8 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   m_ThreaderMSE[threadID] += diff*diff;
 
+  FixedImagePointType fixedImagePoint = this->m_FixedImageSamples[fixedImageSample].point;
+
   // Need to use one of the threader transforms if we're 
   // not in thread 0.
   //
@@ -204,8 +206,9 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     transform = this->m_Transform;
     }
 
+  // Jacobian should be evaluated at the unmapped (fixed image) point.
   const TransformJacobianType & jacobian = transform
-                                               ->GetJacobian( mappedPoint ); 
+                                               ->GetJacobian( fixedImagePoint ); 
 
   for(unsigned int par=0; par<this->m_NumberOfParameters; par++)
     {
