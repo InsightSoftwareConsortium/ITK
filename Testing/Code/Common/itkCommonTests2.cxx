@@ -102,5 +102,6 @@ REGISTER_TEST(itkSTLThreadTest );
 REGISTER_TEST(itkVariableLengthVectorTest);
 REGISTER_TEST(itkVariableSizeMatrixTest);
 // REGISTER_TEST(itkQuaternionOrientationAdapterTest);
+REGISTER_TEST(itkImportContainerTest);
 }
 
