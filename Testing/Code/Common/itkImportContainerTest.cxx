@@ -32,11 +32,10 @@ int itkImportContainerTest(int , char * [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 // First test with ContainerManagesMemory false
-  PixelType *ptr1, *ptr2;
+  PixelType *ptr1;
   {
   // Test 1: Create an empty container and print it
   ContainerType::Pointer container1 = ContainerType::New();
-  container1->ContainerManageMemoryOff();
   container1->Print(std::cout);
   std::cout << "After New(), size is "
             << container1->Size()
@@ -57,6 +56,10 @@ int itkImportContainerTest(int , char * [] )
             << container1->GetImportPointer()
             << std::endl;
 
+  // Take control of the pointer
+  container1->ContainerManageMemoryOff();
+  ptr1 = container1->GetImportPointer();
+
   // Test 3: Reserve a smaller amount of memory
   container1->Reserve(100);
   std::cout << "After container1->Reserve(100), size is "
@@ -67,7 +70,6 @@ int itkImportContainerTest(int , char * [] )
             << container1->GetImportPointer()
             << std::endl;
 
-  ptr1 = container1->GetImportPointer();
 
   // Test 4: Squeeze the container
   container1->Squeeze();
@@ -78,8 +80,6 @@ int itkImportContainerTest(int , char * [] )
             << " and import pointer is "
             << container1->GetImportPointer()
             << std::endl;
-
-  ptr2 = container1->GetImportPointer();
 
   // Test 5: Initialize the container
   container1->Initialize();
@@ -115,8 +115,9 @@ int itkImportContainerTest(int , char * [] )
             << container1->GetImportPointer()
             << std::endl;
 
+  *(myPtr + 500) = 500.0;
 
-  // Test 2: Reserve memory
+  // Test 2: Reserve less memory than capacity
   container1->Reserve(1000);
   std::cout << "After container1->Reserve(1000), size is "
             << container1->Size()
@@ -126,8 +127,14 @@ int itkImportContainerTest(int , char * [] )
             << container1->GetImportPointer()
             << std::endl;
 
-  // Test 3: Reserve a smaller amount of memory
-  container1->Reserve(100);
+  if (*(myPtr + 500) != 500.0)
+    {
+    std::cout << "Test failed: After container1->Reserve(1000), container1[500] does != 500." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test 3: Reserve more memory than capacity
+  container1->Reserve(10000);
   std::cout << "After container1->Reserve(100), size is "
             << container1->Size()
             << ", capacity is "
@@ -135,8 +142,12 @@ int itkImportContainerTest(int , char * [] )
             << " and import pointer is "
             << container1->GetImportPointer()
             << std::endl;
+  if (*(myPtr + 500) != 500.0)
+    {
+    std::cout << "Test failed: After container1->Reserve(10000), container1[500] does != 500." << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  ptr1 = container1->GetImportPointer();
 
   // Test 4: Squeeze the container
   container1->Squeeze();
@@ -148,7 +159,11 @@ int itkImportContainerTest(int , char * [] )
             << container1->GetImportPointer()
             << std::endl;
 
-  ptr2 = container1->GetImportPointer();
+  if (*(myPtr + 500) != 500.0)
+    {
+    std::cout << "Test failed: After container1->Squeeze(), container1[500] does != 500." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Test 5: Initialize the container
   container1->Initialize();
@@ -228,10 +243,10 @@ int itkImportContainerTest(int , char * [] )
     std::cout << "Caught expected exception: " << err << std::endl;
     caughtException = true;
     }
-  // We must delete the memory
-  delete ptr1;
-  delete ptr2;
-  delete myPtr;
+
+  // We must delete the memory we said we would manage
+  delete [] ptr1;
+  delete [] myPtr;
 
   if (!caughtException)
     {
