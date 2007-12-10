@@ -59,6 +59,7 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkGDCMImageIO.h"
+#include "itkImageIOBase.h"
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 // Software Guide : EndCodeSnippet
@@ -343,7 +344,6 @@ int main( int argc, char* argv[] )
 
 
 
-
 // Software Guide : BeginLatex
 // 
 // If the entry is actually found in the Dictionary, then we can attempt to
@@ -416,6 +416,28 @@ int main( int argc, char* argv[] )
 // \code{Insight/Utilities/gdcm/Dicts/dicomV3.dic}
 //
 // Software Guide : EndLatex
+
+
+//  Software Guide : BeginLatex
+//
+// The following piece of code will print out the proper pixel type / component for
+// instanciating an itk::ImageFileReader that can properly import the
+// printed DICOM file.
+//
+//  Software Guide : EndLatex 
+
+// Software Guide : BeginCodeSnippet
+
+    itk::ImageIOBase::IOPixelType pixelType;
+    pixelType = reader->GetImageIO()->GetPixelType(); 
+
+    itk::ImageIOBase::IOComponentType componentType;
+    componentType = reader->GetImageIO()->GetComponentType();
+    std::cout << "PixelType: " << reader->GetImageIO()->GetPixelTypeAsString(pixelType) << std::endl;
+    std::cout << "Component Type: " << 
+      reader->GetImageIO()->GetComponentTypeAsString(componentType) << std::endl;
+
+// Software Guide : EndCodeSnippet
 
 
   return EXIT_SUCCESS;
