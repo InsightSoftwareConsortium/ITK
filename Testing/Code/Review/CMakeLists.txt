@@ -83,6 +83,13 @@ SET(ReviewTest_SRCS
   itkBinaryMorphologicalOpeningImageFilterTest.cxx
 )
 
+ADD_EXECUTABLE(OptImageToImageMetricsTest OptImageToImageMetricsTest.cxx)
+TARGET_LINK_LIBRARIES(OptImageToImageMetricsTest
+  ITKCommon
+  ITKAlgorithms
+  ITKIO
+  )
+
 IF(ITK_USE_MINC2 AND MINC2_FOUND)
   SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkMINC2ImageIOTest.cxx)
 ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
