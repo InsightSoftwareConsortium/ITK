@@ -86,6 +86,10 @@ public:
   TElement *GetBufferPointer()
     { return m_ImportPointer; };
   
+  /** Get the capacity of the container. */
+  unsigned long Capacity(void) const
+    { return (unsigned long) m_Capacity; };
+
   /** Get the number of elements currently stored in the container. */
   unsigned long Size(void) const
     { return (unsigned long) m_Size; };

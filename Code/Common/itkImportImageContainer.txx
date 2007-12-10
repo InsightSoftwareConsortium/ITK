@@ -73,6 +73,11 @@ ImportImageContainer< TElementIdentifier , TElement >
       m_Size = size;
       this->Modified();
       }
+    else
+      {
+      m_Size = size;
+      this->Modified();
+      }
     }
   else
     {
@@ -199,7 +204,7 @@ ImportImageContainer< TElementIdentifier , TElement >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Pointer: " << &m_ImportPointer << std::endl;
+  os << indent << "Pointer: " << m_ImportPointer << std::endl;
   os << indent << "Container manages memory: "
      << (m_ContainerManageMemory ? "true" : "false") << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
