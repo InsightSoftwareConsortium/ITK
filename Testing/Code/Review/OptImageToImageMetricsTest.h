@@ -3,7 +3,7 @@
 #define OptImageToImageMetricsTest_h
 
 #include "itkTimeProbe.h"
-
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 template <typename FixedImageType, 
           typename MovingImageType, 
@@ -67,6 +67,11 @@ public:
 
   // Make a time probe
   itk::TimeProbe timeProbe;
+
+  // Always use the same seed value.
+  // All instances are the same since MersenneTwisterRandomVariateGenerator
+  // uses a singleton pattern.
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 42 );
 
   // Walk around the parameter value at parameterIdx
   for (int parameterIdx = 0; parameterIdx < parameters.GetSize(); parameterIdx++)
@@ -216,6 +221,7 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
 
   TestAMetric( fixedImageReader, movingImageReader, interpolator, transform, mattesMetric.GetPointer(), mattesMetricInitializer );
 
+#if 0 // OptMutualInformationImageToImageMetric will be removed from Review.
   // MI
   typedef itk::MutualInformationImageToImageMetric< FixedImageType, MovingImageType > MIMetricType;
   typedef MIMetricInitializer< FixedImageType, MovingImageType > MIMetricInitializerType;
@@ -223,6 +229,7 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
   MIMetricInitializer< FixedImageType, MovingImageType> miMetricInitializer( miMetric );
   
   TestAMetric( fixedImageReader, movingImageReader, interpolator, transform, miMetric.GetPointer(), miMetricInitializer );
+#endif 
 }
 
 template <class FixedImageReaderType,
@@ -248,9 +255,9 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
                           InterpolatorType,
                           TransformType,
                           MetricType,
-                          MetricInitializerType > testMIMetric;
+                          MetricInitializerType > testMetric;
 
-  int test3 = testMIMetric.RunTest( fixedImageReader->GetOutput(), movingImageReader->GetOutput(), interpolator, transform, metric, metricInitializer );
+  int test3 = testMetric.RunTest( fixedImageReader->GetOutput(), movingImageReader->GetOutput(), interpolator, transform, metric, metricInitializer );
 }
 
 template <class FixedImageReaderType, class MovingImageReaderType>
@@ -307,6 +314,85 @@ void TranslationLinearTest( FixedImageReaderType* fixedImageReader,
             transform.GetPointer());
 }
 
+
+template <class FixedImageReaderType, class MovingImageReaderType>
+void DoDebugTest( FixedImageReaderType* fixedImageReader,
+                  MovingImageReaderType* movingImageReader)
+{
+  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+
+  typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
+  typedef itk::Rigid2DTransform<double> TransformType;
+
+  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  TransformType::Pointer transform = TransformType::New();
+
+  typedef typename FixedImageReaderType::OutputImageType FixedImageType;
+  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+
+  fixedImageReader->Update();
+  movingImageReader->Update();
+
+  typename FixedImageType::Pointer fixed = fixedImageReader->GetOutput();
+  typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
+
+  // Mean squares 
+  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
+  typedef MeanSquaresMetricInitializer< FixedImageType, MovingImageType > MetricInitializerType;
+  typename MetricType::Pointer metric = MetricType::New();
+  MeanSquaresMetricInitializer< FixedImageType, MovingImageType > metricInitializer( metric );
+
+  metric->SetFixedImageRegion( fixedImageReader->GetOutput()->GetBufferedRegion() );
+
+  typedef typename MetricType::ParametersType ParametersType;
+
+  std::cout << "===================================================================" << std::endl;
+  std::cout << "Testing" << std::endl;
+  std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
+  std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
+  std::cout << "\tTransform    : " << transform->GetNameOfClass() << std::endl;
+  std::cout << "-------------------------------------------------------------------" << std::endl;
+  std::cout << std::endl;
+
+  int result = EXIT_SUCCESS;
+
+  // connect the interpolator
+  metric->SetInterpolator( interpolator );
+
+  // connect the transform
+  metric->SetTransform( transform );
+
+  // connect the images to the metric
+  metric->SetFixedImage( fixed );
+  metric->SetMovingImage( moving );
+
+  // call custom initialization for the metric
+  metricInitializer.Initialize();
+
+  // initialize the metric
+  metric->Initialize();
+
+  // Set the transform to identity
+  transform->SetIdentity();
+
+  // Get the transform parameters for identity.
+  ParametersType parameters = transform->GetParameters();
+
+  typename MetricType::MeasureType value;
+  typename MetricType::DerivativeType derivative;
+
+  parameters[0] = 0.1;
+
+  metric->GetValueAndDerivative( parameters,
+                                 value, 
+                                 derivative );
+
+  //metric->StopDebug();
+
+  // Force the test to end here so the debug file
+  // ends at the right place.
+  exit(EXIT_SUCCESS);
+}
 
 #endif 
 
