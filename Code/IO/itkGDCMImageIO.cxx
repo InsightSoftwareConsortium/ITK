@@ -57,6 +57,36 @@ bool GDCMImageIO::m_LoadSequencesDefault = false;
 bool GDCMImageIO::m_LoadPrivateTagsDefault = false;
 
 
+// Minimal functionality to handle 12bits pixel for the Interval Calculator:
+// Technically BitsAllocated should be considered but since GDCM always presents
+// 12 Bits allocated stored pixel as if it was 16 bits allocated data we do not
+// need to take it into account here.
+template <
+  unsigned char BitsAllocated,
+  unsigned char BitsStored,
+  unsigned char HighBit,
+  unsigned char PixelRepresentation
+  >
+struct Pixel; // no implementation for now
+typedef Pixel<16,12,11,0> Pixel16_12_11_0;
+typedef Pixel<16,12,11,1> Pixel16_12_11_1;
+
+template <>
+class NumericTraits< Pixel16_12_11_0 >  {
+public:
+  typedef unsigned short ValueType;
+  static unsigned short min(void) { return 0; }
+  static unsigned short max(void) { return 4096; } // 2^12
+};
+template <>
+class NumericTraits< Pixel16_12_11_1 >  {
+public:
+  typedef signed short ValueType;
+  static signed short min(void) { return -2048; } // -2^12
+  static signed short max(void) { return 2047; } // 2^12 - 1
+};
+
+
 template <typename PixelType>
 class IntervalCalculator
 {
@@ -65,8 +95,8 @@ public:
   Compute(double slope, double intercept)
     {
     ImageIOBase::IOComponentType comptype;
-    PixelType maximum = NumericTraits<PixelType>::max();
-    PixelType minimum = NumericTraits<PixelType>::min();
+    typename NumericTraits<PixelType>::ValueType maximum = NumericTraits<PixelType>::max();
+    typename NumericTraits<PixelType>::ValueType minimum = NumericTraits<PixelType>::min();
     
     double dmax, dmin; // do computation in double
     dmax = maximum * slope + intercept;
@@ -653,6 +683,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
         m_ComponentType = 
           IntervalCalculator<short>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
+      // RT Dose and Secondary Capture might have 32bits integer...
       case ImageIOBase::UINT:
         m_ComponentType = 
           IntervalCalculator<unsigned int>::Compute(m_RescaleSlope, m_RescaleIntercept);
@@ -664,6 +695,25 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
       default:
         m_ComponentType = UNKNOWNCOMPONENTTYPE;
         break;
+      }
+    }
+  // Handle here the special case where we are dealing with 12bits data :
+  if( header->GetEntryValue(0x0028, 0x0101) == "12" ) // Bits Stored
+    {
+    std::string sign = header->GetEntryValue(0x0028, 0x0103); // Pixel Representation
+    if ( sign == "0" )
+      {
+      m_ComponentType = 
+        IntervalCalculator<Pixel16_12_11_0>::Compute(m_RescaleSlope, m_RescaleIntercept);
+      }
+    else if ( sign == "1" )
+      {
+      m_ComponentType = 
+        IntervalCalculator<Pixel16_12_11_1>::Compute(m_RescaleSlope, m_RescaleIntercept);
+      }
+    else
+      {
+      itkExceptionMacro(<< "Pixel Representation cannot be handled: " << sign );
       }
     }
 
