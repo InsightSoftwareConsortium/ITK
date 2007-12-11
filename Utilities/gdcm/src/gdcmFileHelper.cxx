@@ -847,6 +847,36 @@ bool FileHelper::CheckWriteIntegrity()
    return true;
 }
 
+size_t FileHelper::ComputeExpectedImageDataSize()
+{
+  int numberBitsAllocated = FileInternal->GetBitsAllocated();
+  if ( numberBitsAllocated == 0 || numberBitsAllocated == 12 )
+    {
+    gdcmWarningMacro( "numberBitsAllocated changed from " 
+      << numberBitsAllocated << " to 16 " 
+      << " for consistency purpose" );
+    numberBitsAllocated = 16;
+    }
+
+  size_t decSize = FileInternal->GetXSize()
+    * FileInternal->GetYSize() 
+    * FileInternal->GetZSize()
+    * FileInternal->GetSamplesPerPixel()
+    * ( numberBitsAllocated / 8 );
+  size_t rgbSize = decSize;
+  if ( FileInternal->HasLUT() )
+    rgbSize = decSize * 3;
+
+  switch(WriteMode)
+    {
+  case WMODE_RAW :
+    return decSize;
+  case WMODE_RGB :
+    return rgbSize;
+    }
+  return 0;
+}
+
 /**
  * \brief Updates the File to write RAW data (as opposed to RGB data)
  *       (modifies, when necessary, photochromatic interpretation, 

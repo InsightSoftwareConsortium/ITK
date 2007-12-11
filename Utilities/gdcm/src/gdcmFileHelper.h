@@ -94,6 +94,7 @@ public:
    void SetImageData(uint8_t *data, size_t expectedSize);
 
    // User data
+   size_t ComputeExpectedImageDataSize();
    void SetUserData(uint8_t *data, size_t expectedSize);
    uint8_t *GetUserData();
    size_t GetUserDataSize();
