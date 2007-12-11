@@ -90,7 +90,7 @@ public:
 class ICDirect // IntervalCalculatorDirect
 {
 public:
-  inline double operator() (double value, double slope, double intercept)
+  double operator() (double value, double slope, double intercept)
     {
     return value * slope + intercept;
     }
@@ -98,7 +98,7 @@ public:
 class ICInverse // IntervalCalculatorInverse
 {
 public:
-  inline double operator() (double value, double slope, double intercept)
+  double operator() (double value, double slope, double intercept)
     {
     return ( value - intercept ) / slope;
     }
