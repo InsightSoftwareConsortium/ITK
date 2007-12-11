@@ -90,6 +90,8 @@ TARGET_LINK_LIBRARIES(OptImageToImageMetricsTest
   ITKIO
   )
 
+ADD_TEST(OptImageToImageMetricsTest OptImageToImageMetricsTest)
+
 IF(ITK_USE_MINC2 AND MINC2_FOUND)
   SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkMINC2ImageIOTest.cxx)
 ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
