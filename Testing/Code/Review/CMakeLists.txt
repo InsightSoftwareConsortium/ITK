@@ -90,7 +90,7 @@ TARGET_LINK_LIBRARIES(OptImageToImageMetricsTest
   ITKIO
   )
 
-ADD_TEST(OptImageToImageMetricsTest OptImageToImageMetricsTest)
+ADD_TEST(OptImageToImageMetricsTest OptImageToImageMetricsTest ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png)
 
 IF(ITK_USE_MINC2 AND MINC2_FOUND)
   SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkMINC2ImageIOTest.cxx)
