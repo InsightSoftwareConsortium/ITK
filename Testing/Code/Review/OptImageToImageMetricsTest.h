@@ -49,7 +49,15 @@ public:
   // call custom initialization for the metric
   metricInitializer.Initialize();
 
+  // Always use the same seed value.
+  // All instances are the same since MersenneTwisterRandomVariateGenerator
+  // uses a singleton pattern.
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 42 );
+
   // initialize the metric
+  // Samples are drawn here in metric->Initialize(), 
+  // so we seed the random number generator
+  // immediately before this call.
   metric->Initialize();
 
   // Set the transform to identity
@@ -67,11 +75,6 @@ public:
 
   // Make a time probe
   itk::TimeProbe timeProbe;
-
-  // Always use the same seed value.
-  // All instances are the same since MersenneTwisterRandomVariateGenerator
-  // uses a singleton pattern.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 42 );
 
   // Walk around the parameter value at parameterIdx
   for (int parameterIdx = 0; parameterIdx < parameters.GetSize(); parameterIdx++)
