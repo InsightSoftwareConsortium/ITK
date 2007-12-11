@@ -87,20 +87,35 @@ public:
 };
 
 
-template <typename PixelType>
+class ICDirect // IntervalCalculatorDirect
+{
+public:
+  inline double operator() (double value, double slope, double intercept)
+    {
+    return value * slope + intercept;
+    }
+};
+class ICInverse // IntervalCalculatorInverse
+{
+public:
+  inline double operator() (double value, double slope, double intercept)
+    {
+    return ( value - intercept ) / slope;
+    }
+};
+
+template <typename PixelType, typename TOperation>
 class IntervalCalculator
 {
 public:
   static ImageIOBase::IOComponentType 
-  Compute(double slope, double intercept)
+  ComputeWithMinMax(double slope, double intercept, double minimum, double maximum)
     {
     ImageIOBase::IOComponentType comptype;
-    typename NumericTraits<PixelType>::ValueType maximum = NumericTraits<PixelType>::max();
-    typename NumericTraits<PixelType>::ValueType minimum = NumericTraits<PixelType>::min();
-    
     double dmax, dmin; // do computation in double
-    dmax = maximum * slope + intercept;
-    dmin = minimum * slope + intercept;
+    TOperation op;
+    dmax = op(maximum, slope , intercept);
+    dmin = op(minimum, slope , intercept);
 
     // do the case in order:
     if( dmin >= NumericTraits<unsigned char>::min() && dmax <= NumericTraits<unsigned char>::max() )
@@ -133,6 +148,15 @@ public:
       }
     return comptype;
     }
+
+  static ImageIOBase::IOComponentType 
+  Compute(double slope, double intercept)
+    {
+    typename NumericTraits<PixelType>::ValueType maximum = NumericTraits<PixelType>::max();
+    typename NumericTraits<PixelType>::ValueType minimum = NumericTraits<PixelType>::min();
+    return ComputeWithMinMax(slope, intercept, minimum, maximum);
+    }
+    
 };
 
 GDCMImageIO::GDCMImageIO()
@@ -165,7 +189,7 @@ GDCMImageIO::GDCMImageIO()
   // received through the MetaDataDictionary
   m_GlobalNumberOfDimensions = 2;
   // By default use JPEG2000. For legacy system, one should prefer JPEG since
-  // JPEG2000 was only recently added to the DICOM standart
+  // JPEG2000 was only recently added to the DICOM standard
   m_CompressionType = JPEG2000;
 }
 
@@ -282,6 +306,25 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   return false;
 }
 
+// Use a MACRO to exploit the Duff's device trick so that we can use for the direct
+// rescale function AND the inverse rescale function
+#define DUFF_DEVICE_8(aCount, aAction) \
+{ \
+  const size_t count_ = (aCount); \
+  register size_t times_ = (count_ + 7) >> 3; \
+  switch (count_ & 7){ \
+  case 0: do { aAction; \
+  case 7: aAction; \
+  case 6: aAction; \
+  case 5: aAction; \
+  case 4: aAction; \
+  case 3: aAction; \
+  case 2: aAction; \
+  case 1: aAction; \
+  } while (--times_ > 0); \
+  } \
+}
+
 // Internal function to rescale pixel according to Rescale Slope/Intercept
 template<class TBuffer, class TSource>
 void RescaleFunction(TBuffer* buffer, TSource *source,
@@ -299,20 +342,7 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     //    }
     //
     // use Duff's device which exploits "fall through"
-    register size_t n = (size + 7) / 8;
-    switch ( size % 8)
-      {
-      case 0:
-        do { *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 7: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 6: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 5: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 4: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 3: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 2: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        case 1: *buffer++ = (TBuffer)((*source++)*slope + intercept);
-        }  while (--n > 0);
-      }
+    DUFF_DEVICE_8(size, *buffer++ = (TBuffer)((*source++)*slope + intercept) );
     }
   else if (slope == 1.0 && intercept != 0.0)
     {
@@ -324,41 +354,16 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     //    }
     //
     // use Duff's device which exploits "fall through"
-    register size_t n = (size + 7) / 8;
     TSource sintercept = (TSource)intercept;
     if (sintercept == intercept)
       {
       // intercept is "really" the same type as source, e.g. a whole
       // number intercept when the source is of type short
-      switch ( size % 8)
-        {
-        case 0:
-          do { *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 7: *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 6: *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 5: *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 4: *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 3: *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 2: *buffer++ = (TBuffer)(*source++ + sintercept);
-          case 1: *buffer++ = (TBuffer)(*source++ + sintercept);
-          } while (--n > 0);
-        }
+      DUFF_DEVICE_8(size, *buffer++ = (TBuffer)(*source++ + sintercept) );
       }
     else
       {
-      switch ( size % 8)
-        {
-        case 0:
-          do { *buffer++ = (TBuffer)(*source++ + intercept);
-          case 7: *buffer++ = (TBuffer)(*source++ + intercept);
-          case 6: *buffer++ = (TBuffer)(*source++ + intercept);
-          case 5: *buffer++ = (TBuffer)(*source++ + intercept);
-          case 4: *buffer++ = (TBuffer)(*source++ + intercept);
-          case 3: *buffer++ = (TBuffer)(*source++ + intercept);
-          case 2: *buffer++ = (TBuffer)(*source++ + intercept);
-          case 1: *buffer++ = (TBuffer)(*source++ + intercept);
-          }  while (--n > 0);
-        }
+      DUFF_DEVICE_8(size, *buffer++ = (TBuffer)(*source++ + intercept) );
       }
     }
   else if (slope != 1.0 && intercept == 0.0)
@@ -371,20 +376,7 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     //    }
     //
     // use Duff's device which exploits "fall through"
-    register size_t n = (size + 7) / 8;
-    switch ( size % 8)
-      {
-      case 0:
-        do { *buffer++ = (TBuffer)((*source++)*slope);
-        case 7: *buffer++ = (TBuffer)((*source++)*slope);
-        case 6: *buffer++ = (TBuffer)((*source++)*slope);
-        case 5: *buffer++ = (TBuffer)((*source++)*slope);
-        case 4: *buffer++ = (TBuffer)((*source++)*slope);
-        case 3: *buffer++ = (TBuffer)((*source++)*slope);
-        case 2: *buffer++ = (TBuffer)((*source++)*slope);
-        case 1: *buffer++ = (TBuffer)((*source++)*slope);
-        }  while (--n > 0);
-      }
+    DUFF_DEVICE_8(size, *buffer++ = (TBuffer)((*source++)*slope) );
     }
   else
     {
@@ -396,20 +388,78 @@ void RescaleFunction(TBuffer* buffer, TSource *source,
     //    }
     //
     // use Duff's device which exploits "fall through"
-    register size_t n = (size + 7) / 8;
-    switch ( size % 8)
+    DUFF_DEVICE_8(size, *buffer++ = (TBuffer)(*source++) );
+    }
+}
+
+// FIXME: Sorry for the duplicated code, but I cannot think of any other solution other
+// than a template member function of class where arg would be deduce, unfortunately
+// this does not work AFAIK on VS6.
+// Internal function to implement the inverse operation of 
+// rescale pixel according to Rescale Slope/Intercept
+template<class TBuffer, class TSource>
+void RescaleFunctionInverse(TBuffer* buffer, TSource *source,
+                     double slope, double intercept, size_t size)
+{
+  size /= sizeof(TSource);
+
+  if (slope != 1.0 && intercept != 0.0)
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i]*slope + intercept);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    DUFF_DEVICE_8(size, *buffer++ = (TBuffer)((*source++ - intercept) / slope) );
+    }
+  else if (slope == 1.0 && intercept != 0.0)
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i] + intercept);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    TSource sintercept = (TSource)intercept;
+    if (sintercept == intercept)
       {
-      case 0:
-        do { *buffer++ = (TBuffer)(*source++);
-        case 7: *buffer++ = (TBuffer)(*source++);
-        case 6: *buffer++ = (TBuffer)(*source++);
-        case 5: *buffer++ = (TBuffer)(*source++);
-        case 4: *buffer++ = (TBuffer)(*source++);
-        case 3: *buffer++ = (TBuffer)(*source++);
-        case 2: *buffer++ = (TBuffer)(*source++);
-        case 1: *buffer++ = (TBuffer)(*source++);
-        }  while (--n > 0);
+      // intercept is "really" the same type as source, e.g. a whole
+      // number intercept when the source is of type short
+      DUFF_DEVICE_8(size, *buffer++ = (TBuffer)(*source++ - sintercept) );
       }
+    else
+      {
+      DUFF_DEVICE_8(size, *buffer++ = (TBuffer)(*source++ - intercept) );
+      }
+    }
+  else if (slope != 1.0 && intercept == 0.0)
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i]*slope);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    DUFF_DEVICE_8(size, *buffer++ = (TBuffer)((*source++) / slope) );
+    }
+  else
+    {
+    // Duff's device.  Instead of this code:
+    //
+    //   for(unsigned int i=0; i<size; i++)
+    //    {
+    //    buffer[i] = (TBuffer)(source[i]);
+    //    }
+    //
+    // use Duff's device which exploits "fall through"
+    DUFF_DEVICE_8(size, *buffer++ = (TBuffer)(*source++) );
     }
 }
 
@@ -444,6 +494,45 @@ void RescaleFunction(ImageIOBase::IOComponentType bufferType,
       break;
     case ImageIOBase::DOUBLE:
       RescaleFunction( (double *)buffer, source, slope, intercept, size);
+      break;
+    default:
+      ::itk::OStringStream message;
+      message << "itk::ERROR: GDCMImageIO: Unknown component type : " << bufferType;
+      ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
+      throw e;
+    }
+}
+
+template<class TSource>
+void RescaleFunctionInverse(ImageIOBase::IOComponentType bufferType,
+                     void* buffer, TSource *source,
+                     double slope, double intercept, size_t size)
+{
+  switch (bufferType)
+    {
+    case ImageIOBase::UCHAR:
+      RescaleFunctionInverse( (unsigned char *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::CHAR:
+      RescaleFunctionInverse( (char *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::USHORT:
+      RescaleFunctionInverse( (unsigned short *)buffer, source, slope, intercept,size);
+      break;
+    case ImageIOBase::SHORT:
+      RescaleFunctionInverse( (short *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::UINT:
+      RescaleFunctionInverse( (unsigned int *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::INT:
+      RescaleFunctionInverse( (int *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::FLOAT:
+      RescaleFunctionInverse( (float *)buffer, source, slope, intercept, size);
+      break;
+    case ImageIOBase::DOUBLE:
+      RescaleFunctionInverse( (double *)buffer, source, slope, intercept, size);
       break;
     default:
       ::itk::OStringStream message;
@@ -519,7 +608,7 @@ void GDCMImageIO::Read(void* buffer)
         }
         break;
       default:
-        itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
+        itkExceptionMacro(<< "Unknown component type :" << m_InternalComponentType);
       }
     }
   else
@@ -669,28 +758,28 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
       {
       case ImageIOBase::UCHAR:
         m_ComponentType = 
-          IntervalCalculator<unsigned char>::Compute(m_RescaleSlope, m_RescaleIntercept);
+          IntervalCalculator<unsigned char, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
       case ImageIOBase::CHAR:
         m_ComponentType = 
-          IntervalCalculator<char>::Compute(m_RescaleSlope, m_RescaleIntercept);
+          IntervalCalculator<char, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
       case ImageIOBase::USHORT:
         m_ComponentType = 
-          IntervalCalculator<unsigned short>::Compute(m_RescaleSlope, m_RescaleIntercept);
+          IntervalCalculator<unsigned short, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
       case ImageIOBase::SHORT:
         m_ComponentType = 
-          IntervalCalculator<short>::Compute(m_RescaleSlope, m_RescaleIntercept);
+          IntervalCalculator<short, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
       // RT Dose and Secondary Capture might have 32bits integer...
       case ImageIOBase::UINT:
         m_ComponentType = 
-          IntervalCalculator<unsigned int>::Compute(m_RescaleSlope, m_RescaleIntercept);
+          IntervalCalculator<unsigned int, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
       case ImageIOBase::INT:
         m_ComponentType = 
-          IntervalCalculator<int>::Compute(m_RescaleSlope, m_RescaleIntercept);
+          IntervalCalculator<int, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
         break;
       default:
         m_ComponentType = UNKNOWNCOMPONENTTYPE;
@@ -704,12 +793,12 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     if ( sign == "0" )
       {
       m_ComponentType = 
-        IntervalCalculator<Pixel16_12_11_0>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        IntervalCalculator<Pixel16_12_11_0, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
       }
     else if ( sign == "1" )
       {
       m_ComponentType = 
-        IntervalCalculator<Pixel16_12_11_1>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        IntervalCalculator<Pixel16_12_11_1, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
       }
     else
       {
@@ -845,8 +934,6 @@ void GDCMImageIO::Write(const void* buffer)
     }
   file.close();
 
-  const size_t numberOfBytes = this->GetImageSizeInBytes();
-
   gdcm::File *header = new gdcm::File();
   gdcm::FileHelper *gfile = new gdcm::FileHelper( header );
 
@@ -880,11 +967,10 @@ void GDCMImageIO::Write(const void* buffer)
       {
       if (dictEntry->GetVR() != "OB" && dictEntry->GetVR() != "OW")
         {
-        if(dictEntry->GetElement() != 0
-          // Remove also any Rescale Slope or Intercept if present at read time.
-          && !(dictEntry->GetGroup() == 0x0028 && dictEntry->GetElement() == 0x1052)
-          && !(dictEntry->GetGroup() == 0x0028 && dictEntry->GetElement() == 0x1053) 
-        )
+        // TODO, should we keep:
+        // (0028,0106) US/SS 0                                        #   2, 1 SmallestImagePixelValue
+        // (0028,0107) US/SS 4095                                     #   2, 1 LargestImagePixelValue
+        if(dictEntry->GetElement() != 0) // Get rid of group length, they are not useful
           {
           header->InsertValEntry( value,
                                   dictEntry->GetGroup(),
@@ -1009,18 +1095,56 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   str.unsetf( itksys_ios::ios::fixed ); // back to normal
+
+  // reset any previous value:
+  m_RescaleSlope = 1.0;
+  m_RescaleIntercept = 0.0;
+
+  // Get user defined rescale slope/intercept
+  std::string rescaleintercept;
+  ExposeMetaData<std::string>(dict, "0028|1052" , rescaleintercept);
+  std::string rescaleslope;
+  ExposeMetaData<std::string>(dict, "0028|1053" , rescaleslope);
+  if( rescaleintercept != "" && rescaleslope != "" )
+    {
+    itksys_ios::stringstream sstr1;
+    sstr1 << rescaleintercept;
+    if( ! (sstr1 >> m_RescaleIntercept) )
+      {
+      itkExceptionMacro( "Problem reading RescaleIntercept: " << rescaleintercept );
+      }
+    itksys_ios::stringstream sstr2;
+    sstr2 << rescaleslope;
+    if( !(sstr2 >> m_RescaleSlope) )
+      {
+      itkExceptionMacro( "Problem reading RescaleSlope: " << rescaleslope );
+      }
+    }
+  else if( rescaleintercept != "" || rescaleslope != "" ) // xor
+    {
+    itkExceptionMacro( "Both RescaleSlope & RescaleIntercept need to be present" );
+    }
+ 
+  // Write Explicit for both 1 and 3 components images:
+  gfile->SetWriteTypeToDcmExplVR();
+
   // Handle the bitDepth:
   std::string bitsAllocated;
   std::string bitsStored;
   std::string highBit;
   std::string pixelRep;
-
-  // Write Explicit for both 1 and 3 components images:
-  gfile->SetWriteTypeToDcmExplVR();
-  if( m_NumberOfComponents == 1 )
+  // Get user defined bit representation:
+  ExposeMetaData<std::string>(dict, "0028|0100", bitsAllocated);
+  ExposeMetaData<std::string>(dict, "0028|0101", bitsStored);
+  ExposeMetaData<std::string>(dict, "0028|0102", highBit);
+  ExposeMetaData<std::string>(dict, "0028|0103", pixelRep);
+  // If one is missing then recompute them from the image itself:
+  if( bitsAllocated == "" || bitsStored == "" || highBit == "" || pixelRep == "" )
     {
-    switch (this->GetComponentType())
+    if( m_NumberOfComponents == 1 )
       {
+      switch (this->GetComponentType())
+        {
       case ImageIOBase::CHAR:
         bitsAllocated = "8"; // Bits Allocated
         bitsStored    = "8"; // Bits Stored
@@ -1049,16 +1173,26 @@ void GDCMImageIO::Write(const void* buffer)
         pixelRep      = "0";  // Pixel Representation
         break;
 
+        //Disabling INT and UINT for now...
+        //case ImageIOBase::INT:
+        //case ImageIOBase::UINT:
+      case ImageIOBase::FLOAT:
+      case ImageIOBase::DOUBLE:
+        // Disable that mode for now as we would need to compute on the fly the min/max of the image to
+        // compute a somewhat correct shift/scale transform:
+        itkExceptionMacro(<<"A Floating point buffer was passed but the stored pixel type was not specified."
+          "This is currently not supported" );
+        break;
       default:
         itkExceptionMacro(<<"DICOM does not support this component type");
+        }
       }
-    }
-  else if( m_NumberOfComponents == 3 )
-    {
-    // Write the image as RGB DICOM
-    gfile->SetWriteModeToRGB();
-    switch (this->GetComponentType())
+    else if( m_NumberOfComponents == 3 )
       {
+      // Write the image as RGB DICOM
+      gfile->SetWriteModeToRGB();
+      switch (this->GetComponentType())
+        {
       case ImageIOBase::CHAR:
         bitsAllocated = "8"; // Bits Allocated
         bitsStored    = "8"; // Bits Stored
@@ -1074,14 +1208,14 @@ void GDCMImageIO::Write(const void* buffer)
         break;
       default:
         itkExceptionMacro(<<"DICOM does not support this component type");
+        }
+      }
+    else
+      {
+      itkExceptionMacro(
+        <<"DICOM does not support RGBPixels with components != 3");
       }
     }
-  else
-    {
-    itkExceptionMacro(
-      <<"DICOM does not support RGBPixels with components != 3");
-    }
-
   // Write component specific information in the header:
   header->InsertValEntry( bitsAllocated, 0x0028, 0x0100 ); //Bits Allocated
   header->InsertValEntry( bitsStored, 0x0028, 0x0101 ); //Bits Stored
@@ -1091,6 +1225,29 @@ void GDCMImageIO::Write(const void* buffer)
   str.str("");
   str << m_NumberOfComponents;
   header->InsertValEntry(str.str(),0x0028,0x0002); // Samples per Pixel
+
+  // Now is a good time to compute the internal type that will be used to store the image on disk:
+  std::string type = header->GetPixelType();
+  if( type == "8U")
+    {
+    m_InternalComponentType = UCHAR;
+    }
+  else if( type == "8S")
+    {
+    m_InternalComponentType = CHAR;
+    }
+  else if( type == "16U")
+    {
+    m_InternalComponentType = USHORT;
+    }
+  else if( type == "16S")
+    {
+    m_InternalComponentType = SHORT;
+    }
+  else
+    {
+    itkExceptionMacro(<<"Unrecognized type:" << type << " in file " << m_FileName);
+    }
 
   if( !m_KeepOriginalUID )
     {
@@ -1115,9 +1272,81 @@ void GDCMImageIO::Write(const void* buffer)
     header->InsertValEntry( "1.2.840.10008.5.1.4.1.1.7", 0x0002, 0x0012); //[Implementation Class UID]
     }
 
+  // size is the size of the actual image in memory
+  size_t size = this->GetImageSizeInBytes();
+  // numberOfBytes is the number of bytes the image will hold on disk, most of the time
+  // those two are equal
+  size_t numberOfBytes = gfile->ComputeExpectedImageDataSize();
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];
-  memcpy(imageData, buffer, numberOfBytes);
+
+  // Technically when user is passing dictionary back m_InternalComponentType should still be set
+  // We only need to recompute it when the use pass in a non-DICOM input file
+  // FIXME: is this robust in all cases ?
+  assert( m_InternalComponentType != UNKNOWNCOMPONENTTYPE );
+
+  // Do the inverse rescale !
+  if( m_NumberOfComponents == 1 )
+    {
+    switch(m_ComponentType)
+      {
+      case ImageIOBase::UCHAR:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (unsigned char*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::CHAR:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (char*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::USHORT:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (unsigned short*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::SHORT:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (short*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::UINT:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (unsigned int*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::INT:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (int*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::FLOAT:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (float*)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      case ImageIOBase::DOUBLE:
+        {
+        RescaleFunctionInverse(m_InternalComponentType, imageData, (double *)buffer,
+                        m_RescaleSlope, m_RescaleIntercept, size);
+        }
+        break;
+      default:
+        itkExceptionMacro(<< "Unknown component type :" << m_ComponentType);
+      }
+    }
+  else
+    {
+    // This is a RGB buffer, only do a straight copy:
+    memcpy(imageData, buffer, numberOfBytes);
+    }
 
   // If user ask to use compression:
   if( m_UseCompression )
@@ -1135,6 +1364,7 @@ void GDCMImageIO::Write(const void* buffer)
       itkExceptionMacro(<< "Unknown compression type" );
       }
     }
+
   gfile->SetUserData( imageData, numberOfBytes);
   if( ! gfile->Write( m_FileName ) )
     {
