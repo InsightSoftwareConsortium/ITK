@@ -246,17 +246,20 @@ ImageToImageMetric<TFixedImage,TMovingImage>
      */
     SampleFullFixedImageDomain( m_FixedImageSamples );
     }
-  else if( m_UseFixedImageIndexes )
-    {
-    SampleFixedImageIndexes( m_FixedImageSamples );
-    }
   else
     {
-    /*
-     * Uniformly sample the fixed image (within the fixed image region)
-     * to create the sample points list.
-     */
-    SampleFixedImageDomain( m_FixedImageSamples );
+    if( m_UseFixedImageIndexes )
+      {
+      SampleFixedImageIndexes( m_FixedImageSamples );
+      }
+    else
+      {
+      /*
+       * Uniformly sample the fixed image (within the fixed image region)
+       * to create the sample points list.
+       */
+      SampleFixedImageDomain( m_FixedImageSamples );
+      }
     }
 
   /*
