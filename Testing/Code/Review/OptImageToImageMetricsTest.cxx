@@ -80,8 +80,5 @@ int main(int argc, char* argv[])
   std::cout << "OPTIMIZED OFF" << std::endl;  
 #endif
 
-  // For right now, make this test always fail so that we can gather
-  // some performance information from the platforms running the new
-  // optimized code.
-  return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }
