@@ -23,6 +23,8 @@
 #include "itkImage.h"
 #include "itkImageRandomIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
+#include "itkDifferenceImageFilter.h"
 
 
 int itkImageRandomIteratorTest2( int argc, char * argv [] )
@@ -32,6 +34,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
     std::cerr << "Missing arguments " << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  outputImageFile" << std::endl;
+    std::cerr << "[baselineImage  differenceImage]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -87,9 +90,48 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
   writer->SetFileName( argv[1] );
   writer->Update();
   
+  if( argc > 4 )
+    {
+
+    typedef itk::ImageFileReader< ImageType > ReaderType;
+
+    ReaderType::Pointer reader = ReaderType::New();
+
+    reader->SetFileName( argv[2] );
+
+    typedef signed long    DifferencePixelType;
+    typedef itk::Image< DifferencePixelType, ImageDimension > DifferenceImageType;
+
+    typedef itk::DifferenceImageFilter< 
+      ImageType, DifferenceImageType > DifferenceFilterType;
+
+    DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+
+    difference->SetValidInput( image );
+    difference->SetTestInput( reader->GetOutput() );
+    difference->SetToleranceRadius( 0 );
+    difference->SetDifferenceThreshold( 0 );
+
+    typedef itk::ImageFileWriter< DifferenceImageType >  DifferenceWriterType;
+    DifferenceWriterType::Pointer writer2 = DifferenceWriterType::New();
+
+    writer2->SetInput( difference->GetOutput() );
+
+    try
+      {
+      writer2->Update();
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    std::cout << "Number of pixels with differences = ";
+    std::cout << difference->GetNumberOfPixelsWithDifferences() << std::endl;
+    }
+
   return EXIT_SUCCESS;
 
   }
-
-
 
