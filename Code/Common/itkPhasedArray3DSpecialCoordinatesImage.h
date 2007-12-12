@@ -325,8 +325,8 @@ public:
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   template<class TCoordRep>
   void RotateArrayByDirectionCosines(
-    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
-          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+    const FixedArray<TCoordRep, 3> & inputGradient,
+          FixedArray<TCoordRep, 3> & outputGradient ) const
     {
     }
 #endif
