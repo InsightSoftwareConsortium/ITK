@@ -931,8 +931,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueThreadPreProcess( unsigned int threadID,
-                            bool withinSampleThread ) const
+::GetValueThreadPreProcess( unsigned int itkNotUsed(threadID),
+                            bool itkNotUsed(withinSampleThread) ) const
 {
   // intended to be overloaded in derived classes.
 }

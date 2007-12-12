@@ -445,10 +445,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueThreadProcessSample( unsigned int threadID,
-                               unsigned long fixedImageSample,
-                               const MovingImagePointType & mappedPoint,
-                               double movingImageValue) const
+::GetValueThreadProcessSample( 
+  unsigned int threadID,
+  unsigned long fixedImageSample,
+  const MovingImagePointType & itkNotUsed(mappedPoint),
+  double movingImageValue) const
 {
   /**
    * Compute this sample's contribution to the marginal and 
@@ -534,7 +535,7 @@ template < class TFixedImage, class TMovingImage  >
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueThreadPostProcess( unsigned int threadID,
-                             bool withinSampleThread ) const
+                             bool itkNotUsed(withinSampleThread) ) const
 {
     unsigned int t;
     unsigned int i;
@@ -696,7 +697,7 @@ template < class TFixedImage, class TMovingImage  >
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueAndDerivativeThreadPreProcess( unsigned int threadID,
-                                         bool withinSampleThread ) const
+                                         bool itkNotUsed(withinSampleThread) ) const
 {
   if(threadID > 0)
     {
@@ -728,13 +729,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueAndDerivativeThreadProcessSample( unsigned int threadID,
-                               unsigned long fixedImageSample,
-                               const MovingImagePointType & mappedPoint,
-                               double movingImageValue,
-                               const ImageDerivativesType &
-                                                     movingImageGradientValue
-                               ) const
+::GetValueAndDerivativeThreadProcessSample(
+  unsigned int threadID,
+  unsigned long fixedImageSample,
+  const MovingImagePointType & itkNotUsed(mappedPoint),
+  double movingImageValue,
+  const ImageDerivativesType &
+  movingImageGradientValue
+  ) const
 {
   /**
    * Compute this sample's contribution to the marginal 

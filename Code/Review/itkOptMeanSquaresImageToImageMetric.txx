@@ -109,13 +109,14 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline bool
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueThreadProcessSample( unsigned int threadID,
-                               unsigned long fixedImageSample,
-                               const MovingImagePointType & mappedPoint,
-                               double movingImageValue) const
+::GetValueThreadProcessSample(
+  unsigned int threadID,
+  unsigned long fixedImageSample,
+  const MovingImagePointType & itkNotUsed(mappedPoint),
+  double movingImageValue) const
 {
   double diff = movingImageValue 
-                - this->m_FixedImageSamples[fixedImageSample].value;
+    - this->m_FixedImageSamples[fixedImageSample].value;
 
   m_ThreaderMSE[threadID] += diff*diff;
 
@@ -174,16 +175,17 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline bool
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueAndDerivativeThreadProcessSample( unsigned int threadID,
-                               unsigned long fixedImageSample,
-                               const MovingImagePointType & mappedPoint,
-                               double movingImageValue,
-                               const ImageDerivativesType &
-                                                     movingImageGradientValue
-                               ) const
+::GetValueAndDerivativeThreadProcessSample(
+  unsigned int threadID,
+  unsigned long fixedImageSample,
+  const MovingImagePointType & itkNotUsed(mappedPoint),
+  double movingImageValue,
+  const ImageDerivativesType &
+  movingImageGradientValue
+  ) const
 {
   double diff = movingImageValue 
-                - this->m_FixedImageSamples[fixedImageSample].value;
+    - this->m_FixedImageSamples[fixedImageSample].value;
 
   m_ThreaderMSE[threadID] += diff*diff;
 

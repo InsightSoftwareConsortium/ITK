@@ -355,7 +355,7 @@ protected:
 
   typedef BSplineDeformableTransform< CoordinateRepresentationType,
                       ::itk::GetImageDimension<FixedImageType>::ImageDimension,
-                      DeformationSplineOrder >             BSplineTransformType;
+                                      itkGetStaticConstMacro(DeformationSplineOrder) >             BSplineTransformType;
 
   typedef typename BSplineTransformType::WeightsType       BSplineTransformWeightsType;
   typedef typename BSplineTransformWeightsType::ValueType  WeightsValueType;
@@ -463,14 +463,14 @@ protected:
                                        unsigned int threadID,
                                        bool withinSampleThread ) const;
   virtual inline bool       GetValueThreadProcessSample( 
-                                       unsigned int threadID,
-                                       unsigned long fixedImageSample,
-                                       const MovingImagePointType & mappedPoint,
-                                       double movingImageValue) const 
-                                         { return false; };
+    unsigned int itkNotUsed(threadID),
+    unsigned long itkNotUsed(fixedImageSample),
+    const MovingImagePointType & itkNotUsed(mappedPoint),
+    double itkNotUsed(movingImageValue)) const 
+    { return false; };
   virtual inline void       GetValueThreadPostProcess( 
-                                       unsigned int threadID,
-                                       bool withinSampleThread ) const {};
+    unsigned int itkNotUsed(threadID),
+    bool itkNotUsed(withinSampleThread) ) const {};
       
 
   /*
@@ -499,23 +499,21 @@ protected:
 
   void                 GetValueAndDerivativeThread(unsigned int threadID) const;
   virtual inline void  GetValueAndDerivativeThreadPreProcess( 
-                                              unsigned int threadID,
-                                              bool withinSampleThread
-                                              ) const {};
+    unsigned int itkNotUsed(threadID),
+    bool itkNotUsed(withinSampleThread)
+    ) const {};
   virtual inline bool  GetValueAndDerivativeThreadProcessSample( 
-                                              unsigned int threadID,
-                                              unsigned long fixedImageSample,
-                                              const MovingImagePointType &
-                                                       mappedPoint,
-                                              double movingImageValue,
-                                              const ImageDerivativesType &
-                                                       movingImageGradientValue 
-                                              ) const
+    unsigned int itkNotUsed(threadID),
+    unsigned long itkNotUsed(fixedImageSample),
+    const MovingImagePointType & itkNotUsed(mappedPoint),
+    double itkNotUsed(movingImageValue),
+    const ImageDerivativesType & itkNotUsed(movingImageGradientValue)
+    ) const
     { return false; }
   virtual inline void  GetValueAndDerivativeThreadPostProcess( 
-                                              unsigned int threadID,
-                                              bool withinSampleThread
-                                              ) const {};
+    unsigned int itkNotUsed(threadID),
+    bool itkNotUsed(withinSampleThread)
+    ) const {};
 
   /** Synchronizes the threader transforms with the transform
    *   member variable.
