@@ -302,7 +302,6 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // needs to be made lower.
   double precisionConstant = 1<<(NumericTraits<double>::digits>>1);
 
-  int c = 0;
   if(m_InterpolatorIsBSpline)
     {
     while ( !outIt.IsAtEnd() )
