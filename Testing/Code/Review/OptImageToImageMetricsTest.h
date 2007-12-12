@@ -260,7 +260,7 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
                           MetricType,
                           MetricInitializerType > testMetric;
 
-  int test3 = testMetric.RunTest( fixedImageReader->GetOutput(), movingImageReader->GetOutput(), interpolator, transform, metric, metricInitializer );
+  testMetric.RunTest( fixedImageReader->GetOutput(), movingImageReader->GetOutput(), interpolator, transform, metric, metricInitializer );
 }
 
 template <class FixedImageReaderType, class MovingImageReaderType>

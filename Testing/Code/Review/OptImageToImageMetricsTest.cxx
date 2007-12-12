@@ -15,7 +15,7 @@
 
 #include "OptImageToImageMetricsTest.h"
 
-int main(int argc, char* argv[])
+int main(int , char* argv[])
 {
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
