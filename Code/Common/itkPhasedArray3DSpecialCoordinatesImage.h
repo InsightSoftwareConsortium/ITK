@@ -322,6 +322,14 @@ public:
   /**  Set the distance to add to the radius. */
   itkSetMacro(FirstSampleDistance, double);
   
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  template<class TCoordRep>
+  void RotateArrayByDirectionCosines(
+    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
+          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+    {
+    }
+#endif
 protected:
   PhasedArray3DSpecialCoordinatesImage()
     {
