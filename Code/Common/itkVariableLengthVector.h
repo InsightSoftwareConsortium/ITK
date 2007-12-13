@@ -273,7 +273,9 @@ public:
     Self result( m_NumElements );
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      result[i] = m_Data[i] / (static_cast< ValueType >( s ));
+      result[i] = static_cast< ValueType >(
+                     static_cast< RealValueType >(m_Data[i]) / 
+                     static_cast< RealValueType >( s ));
       }
     return result;
     }
@@ -369,7 +371,9 @@ public:
     {
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      m_Data[i] /= (static_cast< ValueType >( s ));
+      m_Data[i] = static_cast< ValueType >(
+                     static_cast< RealValueType >(m_Data[i]) / 
+                     static_cast< RealValueType >( s ));      
       }
     return *this;
     }
