@@ -29,13 +29,8 @@ namespace itk
  *
  * This class implements an Affine transform in which the rotation center 
  * can be explicitly selected.
- * Note that the method "ComputeOffset()" must be called just before using 
- * the transform for mapping points, vectors or covariantvectors. 
- * This is necessary for updating the offset of the transform taking into 
- * account the center of rotation.
  *
  * \ingroup Transforms
- *
  */
 template <
  class TScalarType=double,         // Data type for scalars
