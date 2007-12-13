@@ -21,6 +21,7 @@
 #include "itkTIFFImageIO.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include <itksys/SystemTools.hxx>
 #include <stdio.h>
 
 #include <sys/stat.h>
@@ -1277,12 +1278,14 @@ void TIFFImageIO::Read(void* buffer)
   if(m_InternalImage->m_NumberOfPages>0 && this->GetIORegion().GetImageDimension()>2)
     {
     this->ReadVolume(buffer);
+    m_InternalImage->Clean();
     return;
     }
 
   if(m_InternalImage->m_NumberOfTiles>0 && this->GetIORegion().GetImageDimension()>2)
     {
     this->ReadTiles(buffer);
+    m_InternalImage->Clean();
     return;
     }
 
@@ -1305,6 +1308,7 @@ void TIFFImageIO::Read(void* buffer)
         delete [] tempImage;
         }
 
+      m_InternalImage->Clean();
       return;
       }
     int xx, yy;
@@ -1335,6 +1339,7 @@ void TIFFImageIO::Read(void* buffer)
       {
       delete [] tempImage;
       }
+    m_InternalImage->Clean();
     return;
     }
 
@@ -1351,6 +1356,7 @@ void TIFFImageIO::Read(void* buffer)
     default:
       return;
     }
+  m_InternalImage->Clean();
 }
 
 
@@ -1684,8 +1690,11 @@ void TIFFImageIO::InternalWrite(const void* buffer)
   TIFF *tif = TIFFOpen(m_FileName.c_str(), "w");
   if ( !tif )
     {
-    itkDebugMacro( << "Returning" );
-    return;
+    itkExceptionMacro("Error while trying to open file for writing: "
+                      <<this->GetFileName()
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   if(this->GetComponentType() == SHORT
