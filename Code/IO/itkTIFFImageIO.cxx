@@ -1635,9 +1635,6 @@ public:
     return out->tellp();
     }
 
-  // File will be closed by the superclass
-  static int TIFFClose(thandle_t) { return 1; }
-
   static toff_t TIFFSize(thandle_t fd)
     {
     std::ostream *out = reinterpret_cast<std::ostream *>(fd);
