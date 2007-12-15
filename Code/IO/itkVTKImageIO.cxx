@@ -195,8 +195,8 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
 
   //extract dimensions, spacing, origin
   unsigned int dims[3];
-  float spacing[3];
-  float origin[3];
+  double spacing[3];
+  double origin[3];
   file.getline(line,255);
   text = line;
 
@@ -239,7 +239,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
     if ( text.find("SPACING") < text.length() || 
          text.find("spacing") < text.length() )
       {
-      sscanf(line, "%*s %f %f %f", spacing, spacing+1, spacing+2);
+      sscanf(line, "%*s %lf %lf %lf", spacing, spacing+1, spacing+2);
       for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
         {
         m_Spacing[i] = spacing[i];
@@ -249,7 +249,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
     else if ( text.find("ORIGIN") < text.length() || 
               text.find("origin") < text.length() )
       {
-      sscanf(line, "%*s %f %f %f", origin, origin+1, origin+2);
+      sscanf(line, "%*s %lf %lf %lf", origin, origin+1, origin+2);
       for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
         {
         m_Origin[i] = origin[i];
