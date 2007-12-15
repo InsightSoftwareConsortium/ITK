@@ -58,18 +58,19 @@ bool GDCMImageIO::m_LoadPrivateTagsDefault = false;
 
 
 // Minimal functionality to handle 12bits pixel for the Interval Calculator:
-// Technically BitsAllocated should be considered but since GDCM always presents
-// 12 Bits allocated stored pixel as if it was 16 bits allocated data we do not
-// need to take it into account here.
+// Technically BitsAllocated should be considered but since GDCM
+// always presents
+// 12 Bits allocated stored pixel as if it was 16 bits allocated data
+// we do not need to take it into account here.
 template <
-  unsigned char BitsAllocated,
-  unsigned char BitsStored,
-  unsigned char HighBit,
-  unsigned char PixelRepresentation
+  unsigned char VBitsAllocated,
+  unsigned char VBitsStored,
+  unsigned char VHighBit,
+  unsigned char VPixelRepresentation
   >
-struct Pixel; // no implementation for now
-typedef Pixel<16,12,11,0> Pixel16_12_11_0;
-typedef Pixel<16,12,11,1> Pixel16_12_11_1;
+struct m_Pixel; // no implementation for now
+typedef m_Pixel<16,12,11,0> Pixel16_12_11_0;
+typedef m_Pixel<16,12,11,1> Pixel16_12_11_1;
 
 template <>
 class NumericTraits< Pixel16_12_11_0 >  {
@@ -1145,46 +1146,46 @@ void GDCMImageIO::Write(const void* buffer)
       {
       switch (this->GetComponentType())
         {
-      case ImageIOBase::CHAR:
-        bitsAllocated = "8"; // Bits Allocated
-        bitsStored    = "8"; // Bits Stored
-        highBit       = "7"; // High Bit
-        pixelRep      = "1"; // Pixel Representation
-        break;
+        case ImageIOBase::CHAR:
+          bitsAllocated = "8"; // Bits Allocated
+          bitsStored    = "8"; // Bits Stored
+          highBit       = "7"; // High Bit
+          pixelRep      = "1"; // Pixel Representation
+          break;
 
-      case ImageIOBase::UCHAR:
-        bitsAllocated = "8"; // Bits Allocated
-        bitsStored    = "8"; // Bits Stored
-        highBit       = "7"; // High Bit
-        pixelRep      = "0"; // Pixel Representation
-        break;
+        case ImageIOBase::UCHAR:
+          bitsAllocated = "8"; // Bits Allocated
+          bitsStored    = "8"; // Bits Stored
+          highBit       = "7"; // High Bit
+          pixelRep      = "0"; // Pixel Representation
+          break;
 
-      case ImageIOBase::SHORT:
-        bitsAllocated = "16"; // Bits Allocated
-        bitsStored    = "16"; // Bits Stored
-        highBit       = "15"; // High Bit
-        pixelRep      = "1";  // Pixel Representation
-        break;
+        case ImageIOBase::SHORT:
+          bitsAllocated = "16"; // Bits Allocated
+          bitsStored    = "16"; // Bits Stored
+          highBit       = "15"; // High Bit
+          pixelRep      = "1";  // Pixel Representation
+          break;
 
-      case ImageIOBase::USHORT:
-        bitsAllocated = "16"; // Bits Allocated
-        bitsStored    = "16"; // Bits Stored
-        highBit       = "15"; // High Bit
-        pixelRep      = "0";  // Pixel Representation
-        break;
+        case ImageIOBase::USHORT:
+          bitsAllocated = "16"; // Bits Allocated
+          bitsStored    = "16"; // Bits Stored
+          highBit       = "15"; // High Bit
+          pixelRep      = "0";  // Pixel Representation
+          break;
 
-        //Disabling INT and UINT for now...
-        //case ImageIOBase::INT:
-        //case ImageIOBase::UINT:
-      case ImageIOBase::FLOAT:
-      case ImageIOBase::DOUBLE:
-        // Disable that mode for now as we would need to compute on the fly the min/max of the image to
-        // compute a somewhat correct shift/scale transform:
-        itkExceptionMacro(<<"A Floating point buffer was passed but the stored pixel type was not specified."
-          "This is currently not supported" );
-        break;
-      default:
-        itkExceptionMacro(<<"DICOM does not support this component type");
+          //Disabling INT and UINT for now...
+          //case ImageIOBase::INT:
+          //case ImageIOBase::UINT:
+        case ImageIOBase::FLOAT:
+        case ImageIOBase::DOUBLE:
+          // Disable that mode for now as we would need to compute on the fly the min/max of the image to
+          // compute a somewhat correct shift/scale transform:
+          itkExceptionMacro(<<"A Floating point buffer was passed but the stored pixel type was not specified."
+                            "This is currently not supported" );
+          break;
+        default:
+          itkExceptionMacro(<<"DICOM does not support this component type");
         }
       }
     else if( m_NumberOfComponents == 3 )
@@ -1193,21 +1194,21 @@ void GDCMImageIO::Write(const void* buffer)
       gfile->SetWriteModeToRGB();
       switch (this->GetComponentType())
         {
-      case ImageIOBase::CHAR:
-        bitsAllocated = "8"; // Bits Allocated
-        bitsStored    = "8"; // Bits Stored
-        highBit       = "7"; // High Bit
-        pixelRep      = "1"; // Pixel Representation
-        break;
+        case ImageIOBase::CHAR:
+          bitsAllocated = "8"; // Bits Allocated
+          bitsStored    = "8"; // Bits Stored
+          highBit       = "7"; // High Bit
+          pixelRep      = "1"; // Pixel Representation
+          break;
 
-      case ImageIOBase::UCHAR:
-        bitsAllocated = "8"; // Bits Allocated
-        bitsStored    = "8"; // Bits Stored
-        highBit       = "7"; // High Bit
-        pixelRep      = "0"; // Pixel Representation
-        break;
-      default:
-        itkExceptionMacro(<<"DICOM does not support this component type");
+        case ImageIOBase::UCHAR:
+          bitsAllocated = "8"; // Bits Allocated
+          bitsStored    = "8"; // Bits Stored
+          highBit       = "7"; // High Bit
+          pixelRep      = "0"; // Pixel Representation
+          break;
+        default:
+          itkExceptionMacro(<<"DICOM does not support this component type");
         }
       }
     else

@@ -141,7 +141,7 @@ protected:
   virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
   //
   // data members
-  GEImageHeader  *m_ImageHeader;
+  GEImageHeader         *m_ImageHeader;
   ImageIOBase::ByteOrder m_SystemByteOrder;
   IPLFileNameList       *m_FilenameList;
   //
