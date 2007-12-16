@@ -48,7 +48,7 @@ bool AssertTopologicalInvariants( TMesh *mesh,
                                   IdentifierType Genus)
 {
   typedef itk::QuadEdgeMeshTopologyChecker< TMesh > CheckerType;
-  CheckerType::Pointer check = CheckerType::New();
+  typename CheckerType::Pointer check = CheckerType::New();
   check->SetMesh( mesh );
   check->SetExpectedNumberOfPoints( NumVertices );
   check->SetExpectedNumberOfEdges( NumFaces );
