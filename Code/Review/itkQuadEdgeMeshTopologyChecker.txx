@@ -33,8 +33,8 @@ QuadEdgeMeshTopologyChecker< TMesh >
   m_ExpectedNumberOfFaces = 0;
   m_ExpectedNumberOfBoundaries = 0;
   m_ExpectedGenus = 0;
+  m_Mesh = 0;
 }
-
 
 template< class TMesh >
 bool

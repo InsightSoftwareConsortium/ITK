@@ -48,7 +48,7 @@ bool AssertTopologicalInvariants( TMesh *mesh,
                                   IdentifierType Genus)
 {
   typedef itk::QuadEdgeMeshTopologyChecker< TMesh > CheckerType;
-  CheckerType *check = new CheckerType;
+  CheckerType::Pointer check = CheckerType::New();
   check->SetMesh( mesh );
   check->SetExpectedNumberOfPoints( NumVertices );
   check->SetExpectedNumberOfEdges( NumFaces );
@@ -190,7 +190,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   // TEST TOPOLOGYCHECKER
     {
     typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
-    CheckerType *check = new CheckerType;
+    CheckerType::Pointer check = CheckerType::New();
     
     // test no input
     if( check->ValidateEulerCharacteristic( ) )
@@ -202,6 +202,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     
     // test with an isolated edge
     MeshPointer testmesh = MeshType::New( );  // empty mesh
+
     PointType dummyPoint1;
     PointType dummyPoint2;
     for( unsigned char i = 0; i < 3; i++ )
@@ -211,12 +212,14 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
       } 
     testmesh->SetPoint( 0, dummyPoint1 );     // add points to mesh
     testmesh->SetPoint( 1, dummyPoint2 );
+
     LineCellType * Line = new LineCellType;   // create an Isolated Edge
     CellType::CellAutoPointer cellpointer;    // create the corresponding AutoPointer
     cellpointer.TakeOwnership( Line );
     cellpointer->SetPointId( 0, 0 );
     cellpointer->SetPointId( 1, 1 );
     testmesh->SetCell( 0, cellpointer );      // add the cell to the mesh
+
     check->SetMesh( testmesh );
     if( check->ValidateEulerCharacteristic( ) )
       {

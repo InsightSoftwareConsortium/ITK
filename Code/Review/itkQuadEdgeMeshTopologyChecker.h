@@ -72,7 +72,10 @@ public:
 
   bool ValidateEulerCharacteristic() const;
 
+
+protected:
   QuadEdgeMeshTopologyChecker();
+  ~QuadEdgeMeshTopologyChecker(){};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
