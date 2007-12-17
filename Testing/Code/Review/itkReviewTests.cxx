@@ -85,6 +85,8 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMorphologicalClosingImageFilterTest);
   REGISTER_TEST(itkBinaryMorphologicalOpeningImageFilterTest);
 
+  REGISTER_TEST(itkOptImageToImageMetricsTest);
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif 

@@ -81,17 +81,28 @@ SET(ReviewTest_SRCS
 
   itkBinaryMorphologicalClosingImageFilterTest.cxx
   itkBinaryMorphologicalOpeningImageFilterTest.cxx
+
+  itkOptImageToImageMetricsTest.cxx
 )
 
-ADD_EXECUTABLE(OptImageToImageMetricsTest OptImageToImageMetricsTest.cxx)
-TARGET_LINK_LIBRARIES(OptImageToImageMetricsTest
-  ITKCommon
-  ITKAlgorithms
-  ITKIO
+ADD_TEST(itkOptImageToImageMetricsTest01 
+  ${REVIEW_TESTS} itkOptImageToImageMetricsTest 
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
-ADD_TEST(OptImageToImageMetricsTest 
-  ${CXX_TEST_PATH}/OptImageToImageMetricsTest 
+ADD_TEST(itkOptImageToImageMetricsTest02 
+  ${REVIEW_TESTS} 
+  --with-threads 2
+  itkOptImageToImageMetricsTest 
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  )
+
+ADD_TEST(itkOptImageToImageMetricsTest03 
+  ${REVIEW_TESTS} 
+  --without-threads
+  itkOptImageToImageMetricsTest 
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )

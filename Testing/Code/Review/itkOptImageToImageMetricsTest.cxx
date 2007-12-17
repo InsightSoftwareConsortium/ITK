@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkOptImageToImageMetricsTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 
 #include "itkImage.h"
 #include "itkTranslationTransform.h"
@@ -13,9 +29,9 @@
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
-#include "OptImageToImageMetricsTest.h"
+#include "itkOptImageToImageMetricsTest.h"
 
-int main(int , char* argv[])
+int itkOptImageToImageMetricsTest(int , char* argv[])
 {
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
