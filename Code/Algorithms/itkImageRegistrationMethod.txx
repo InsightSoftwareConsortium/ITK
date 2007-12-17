@@ -56,8 +56,12 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+  this->SetNumberOfThreads( this->GetMultiThreader()->GetNumberOfThreads() );
+#else
   this->SetNumberOfThreads( 1 );
   this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+#endif
 }
 
 
