@@ -21,10 +21,10 @@
 #include "itkApproximateSignedDistanceMapImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkRescaleIntensityImageFilter.h"
 #include "vnl/vnl_math.h"
 
-// For debugging
-//#include "itkImageFileWriter.h"
+#include "itkImageFileWriter.h"
 
 namespace{
 
@@ -50,15 +50,22 @@ SimpleSignedDistance( const TPoint & p )
 
 
 
-int itkApproximateSignedDistanceMapImageFilterTest(int, char* [] )
+int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
 {
+  if(argc < 2)
+    {
+    std::cerr << "Usage: " << argv[0] << " OutputImage\n";
+    return EXIT_FAILURE;
+    }
 
   const unsigned int ImageDimension = 2;
   typedef unsigned int InputPixelType;
   typedef float OutputPixelType;
-  
+  typedef unsigned char WriterPixelType;
+
   typedef itk::Image<InputPixelType,ImageDimension> InputImageType;
   typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;
+  typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
   typedef InputImageType::IndexType IndexType;
   typedef itk::Point<double,ImageDimension> PointType;
 
@@ -98,19 +105,19 @@ int itkApproximateSignedDistanceMapImageFilterTest(int, char* [] )
   try
     {
   
-//    typedef itk::ImageFileWriter<InputImageType> InputWriterType;
-//    InputWriterType::Pointer iwriter = InputWriterType::New();
-//    iwriter->SetInput( image );
-//    iwriter->SetFileName( "input.mhd" );
-//    iwriter->Update();
-   
     distance->Update();
       
-//    typedef itk::ImageFileWriter<OutputImageType> OutputWriterType;
-//    OutputWriterType::Pointer owriter = OutputWriterType::New();
-//    owriter->SetInput( distance->GetOutput() );
-//    owriter->SetFileName( "output.mhd" );
-//    owriter->Update();
+    typedef itk::RescaleIntensityImageFilter<OutputImageType, WriterImageType> RescaleType;
+    RescaleType::Pointer rescale = RescaleType::New();
+    rescale->SetInput(distance->GetOutput());
+    rescale->SetOutputMinimum(0);
+    rescale->SetOutputMaximum(255);
+   
+    typedef itk::ImageFileWriter<WriterImageType> OutputWriterType;
+    OutputWriterType::Pointer owriter = OutputWriterType::New();
+    owriter->SetInput( rescale->GetOutput() );
+    owriter->SetFileName( argv[1] );
+    owriter->Update();
     }
   catch (itk::ExceptionObject &err)
     {
