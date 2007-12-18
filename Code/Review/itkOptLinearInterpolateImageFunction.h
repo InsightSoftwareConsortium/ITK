@@ -45,10 +45,10 @@ class ITK_EXPORT OptLinearInterpolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef OptLinearInterpolateImageFunction Self;
-  typedef InterpolateImageFunction<TInputImage,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef OptLinearInterpolateImageFunction                 Self;
+  typedef InterpolateImageFunction<TInputImage,TCoordRep>   Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(OptLinearInterpolateImageFunction, InterpolateImageFunction);
@@ -196,13 +196,17 @@ private:
     }
 
   inline OutputType EvaluateOptimized( const Dispatch<3>&,
-                                       const ContinuousIndexType & index
-                                       ) const
+                                       const ContinuousIndexType & index) const
     {
     IndexType basei;
     double val[8];
 
-    long min0, max0, min1, max1, min2, max2;
+    unsigned long min0;
+    unsigned long max0;
+    unsigned long min1;
+    unsigned long max1;
+    unsigned long min2;
+    unsigned long max2;
 
     double i = index[0];
     basei[0] = (long)i;
