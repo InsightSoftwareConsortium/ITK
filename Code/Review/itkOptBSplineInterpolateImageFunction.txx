@@ -520,20 +520,25 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     // Calculates B(splineOrder) ( (x + 1/2) - xi) -
     //            B(splineOrder -1)( (x - 1/2) - xi)
     case -1:
+      {
       // Why would we want to do this?
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
         weights[n][0] = 0.0;
         }
       break;
+      }
     case 0:
+      {
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
         weights[n][0] = -1.0;
         weights[n][1] =  1.0;
         }
       break;
+      }
     case 1:
+      {
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + 0.5 - (double)EvaluateIndex[n][1];
@@ -545,8 +550,9 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         weights[n][2] = w;
         }
       break;
+      }
     case 2:
-
+      {
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + .5 - (double)EvaluateIndex[n][2];
@@ -560,8 +566,9 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         weights[n][3] = w3;
         }
       break;
+      }
     case 3:
-
+      {
       for (unsigned int n = 0; n < ImageDimension; n++)
         {
         w = x[n] + 0.5 - (double)EvaluateIndex[n][2];
@@ -577,6 +584,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         weights[n][4] = w4;
         }
       break;
+      }
     case 4:
       {
       for (unsigned int n = 0; n < ImageDimension; n++)
