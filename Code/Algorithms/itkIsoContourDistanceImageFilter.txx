@@ -9,13 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
-=========================================================================*/    
-#ifndef _itkIsoContourDistanceImageFilter_txx
-#define _itkIsoContourDistanceImageFilter_txx
+=========================================================================*/
+#ifndef __itkIsoContourDistanceImageFilter_txx
+#define __itkIsoContourDistanceImageFilter_txx
 
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -30,7 +30,7 @@
 namespace itk
 {
 
-/*
+/**
  * Default constructor.
  */
 template <class TInputImage, class TOutputImage>
@@ -39,18 +39,18 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 {
 
   m_LevelSetValue = NumericTraits<InputPixelType>::Zero;
-  
+
   m_FarValue = 10*NumericTraits<PixelType>::One;
-  
+
   m_NarrowBanding = false;
   m_NarrowBand = NULL;
-  
+
   m_Barrier = Barrier::New();
 
 }
 
 
-/*
+/**
  * Set the input narrowband container.
  */
 template <class TInputImage, class TOutputImage>
@@ -67,7 +67,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 }
 
 
-/*
+/**
  * PrintSelf method.
  */
 template <class TInputImage, class TOutputImage>
@@ -83,7 +83,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * GenerateInputRequestedRegion method.
  */
 template <class TInputImage, class TOutputImage>
@@ -96,7 +96,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 }
 
 
-/*
+/**
  * EnlargeOutputRequestedRegion method.
  */
 template <class TInputImage, class TOutputImage>
@@ -127,7 +127,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * Before ThreadedGenerateData:
  *  Split the band if we use narrowband mode
  */
@@ -142,285 +142,231 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>
   // itkImageSource::SplitRequestedRegion.  Sometimes this number is less than
   // the number of threads requested.
   typename TOutputImage::RegionType dummy;
-  unsigned int actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfThreads(),
-                                            dummy);
-  
-  if( m_NarrowBanding )
-     {
-     // Split the narrow band into sections, one section for each thread
-       this->m_NarrowBandRegion
-       = this->m_NarrowBand->SplitBand(actualThreads);
-       
-     // Initialize the barrier for the thread syncronization in
-     // the narrowband case.
-     this->m_Barrier->Initialize(actualThreads);
+  unsigned int actualThreads = this->SplitRequestedRegion(
+    0, this->GetNumberOfThreads(),
+    dummy);
 
-     }
+  // Initialize the barrier for the thread synchronization in
+  // the narrowband case.
+  this->m_Barrier->Initialize(actualThreads);
+
+  if( m_NarrowBanding )
+    {
+    // Split the narrow band into sections, one section for each thread
+    this->m_NarrowBandRegion = this->m_NarrowBand->SplitBand(actualThreads);
+    }
 }
 
 //----------------------------------------------------------------------------
 // The execute method created by the subclass.
 template <class TInputImage, class TOutputImage>
-void 
+void
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        int threadId)
 {
+  typedef typename InputImageType::ConstPointer ImageConstPointer;
+  typedef typename OutputImageType::Pointer     OutputPointer;
+
+  ImageConstPointer inputPtr = this->GetInput();
+  OutputPointer     outputPtr = this->GetOutput();
+
+  typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
+  typedef ImageRegionIterator<OutputImageType>     IteratorType;
+  ConstIteratorType inIt (inputPtr,
+                          outputRegionForThread);
+  IteratorType outIt (outputPtr,
+                      outputRegionForThread);
+
+  //Initialize output image. Thi needs to be done regardless of the
+  // NarrowBanding or Full implementation
+  while(!inIt.IsAtEnd())
+    {
+    if(inIt.Get() > m_LevelSetValue)
+      {
+      outIt.Set(+m_FarValue);
+      }
+    else if (inIt.Get() < m_LevelSetValue)
+      {
+      outIt.Set(-(double)m_FarValue);
+      }
+    else
+      {
+      outIt.Set(NumericTraits<PixelType>::Zero);
+      }
+    ++inIt;
+    ++outIt;
+    }
+
+  // Wait for all threads to be done initializing output
+  this->m_Barrier->Wait();
 
   //Iterate over split region or split band as convinient.
   if( m_NarrowBanding == false )
-     {  
-     this->ThreadedGenerateDataFull(outputRegionForThread,threadId);
-     }
-  else 
-     {
-     this->ThreadedGenerateDataBand(outputRegionForThread,threadId);
-     }
-     
+    {
+    this->ThreadedGenerateDataFull(outputRegionForThread,threadId);
+    }
+  else
+    {
+    this->ThreadedGenerateDataBand(outputRegionForThread,threadId);
+    }
+
 }
 
 // The execute method created by the subclass.
 template <class TInputImage, class TOutputImage>
-void 
+void
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateDataFull(const OutputImageRegionType& outputRegionForThread,
-                       int itkNotUsed(threadId))
+                           int itkNotUsed(threadId))
 {
   typedef typename InputImageType::ConstPointer ImageConstPointer;
-  typedef typename OutputImageType::Pointer OutputPointer;
+  typedef typename OutputImageType::Pointer     OutputPointer;
+
   ImageConstPointer inputPtr = this->GetInput();
-  OutputPointer outputPtr = this->GetOutput();
-  
-  typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
-  typedef ImageRegionIterator<OutputImageType> IteratorType;
-  ConstIteratorType inIt (inputPtr,
-                          outputRegionForThread);
-  IteratorType outIt (outputPtr,
-                      outputRegionForThread); 
-  
+  OutputPointer     outputPtr = this->GetOutput();
+
   unsigned int n,ng;
- 
-  //Initialize output image 
-  while(!inIt.IsAtEnd())
-   {
-     if(inIt.Get() > m_LevelSetValue)
-       {
-       outIt.Set(+m_FarValue);
-       }
-     else if (inIt.Get() < m_LevelSetValue)
-       {
-       outIt.Set(-(double)m_FarValue);
-       }
-     else
-       {
-       outIt.Set(NumericTraits<PixelType>::Zero);    
-       }
-     ++inIt;
-     ++outIt;
-    } 
-  
-  inIt.GoToBegin();
-  outIt.GoToBegin();
-  
+
   InputSizeType radius_in;
   SizeType radius_out;
-  for (n=0 ; n<ImageDimension ; n++)
+  for (n=0; n<ImageDimension; n++)
     {
     radius_in[n]= 2;
     radius_out[n]= 1;
     }
 
-  //Define Neighborhood iterator       
-  ConstNeighborhoodIterator<InputImageType> inNeigIt(radius_in, inputPtr, 
-                                                        inputPtr->GetRequestedRegion());
-  NeighborhoodIterator<OutputImageType> outNeigIt(radius_out, outputPtr, 
-                                                        outputPtr->GetRequestedRegion());
+  //Define Neighborhood iterator
+  ConstNeighborhoodIterator<InputImageType> inNeigIt(radius_in, inputPtr,
+                                                        outputRegionForThread);
+  NeighborhoodIterator<OutputImageType> outNeigIt(radius_out, outputPtr,
+                                                        outputRegionForThread);
   PixelType val,val0,val1,val0_new,val1_new,diff;
   PixelType norm;
   bool sign,neigh_sign;
- 
+
   PixelType grad0[ImageDimension];
   PixelType grad1[ImageDimension];
   PixelType grad[ImageDimension];
-  
+
   PixelType alpha0 = 0.5;  //Interpolation factor
   PixelType alpha1 = 0.5;  //Interpolation factor
   const typename InputImageType::SpacingType& vs = inputPtr->GetSpacing();
   double vs_2[ImageDimension];
-  
-  for(n = 0; n<ImageDimension ; n++)
-     vs_2[n]=2*vs[n];
-  
+
+  for(n = 0; n<ImageDimension; n++)
+    {
+    vs_2[n]=2*vs[n];
+    }
+
   //Get Stride information to move across dimension
   ::size_t stride[ImageDimension];
   unsigned int center;
-  
-  for (n=0 ; n<ImageDimension ; n++) 
-   {
-    stride[n]=inNeigIt.GetStride(n);
-   }
-  center = inNeigIt.Size() / 2;
-   
-  for (inNeigIt.GoToBegin(); !inNeigIt.IsAtEnd() ; ++inNeigIt, ++outNeigIt) 
-    {
-     val0 = inNeigIt.GetPixel(center) - static_cast< PixelType >( m_LevelSetValue );
-     sign = (val0>0);
-     
-     //Compute gradient at val0
-     for (ng=0;ng<ImageDimension;ng++) 
-       {
-       grad0[ng] = static_cast< PixelType >( inNeigIt.GetNext(ng,1) ) -
-                   static_cast< PixelType >( inNeigIt.GetPrevious(ng,1) );
-       } 
-     
-     for (n=0;n<ImageDimension;n++)
-       {
-       
-       val1 =  static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]) )
-              -static_cast< PixelType >( m_LevelSetValue );
-       
-       neigh_sign = (val1>0);
-       
-       if(sign != neigh_sign) {
-         for (ng=0;ng<ImageDimension;ng++)
-           {
-           grad1[ng]= static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]+stride[ng]) ) 
-                     -static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]-stride[ng]) );
-           }
-         if(sign)
-           {
-           diff = val0-val1;
-           }
-         else
-           {
-           diff = val1-val0;
-           }
-         if(diff < NumericTraits<PixelType>::min()) 
-           {
-          //do something: printf, or thorw exception. ??
-           continue;
-           }
-          //Interpolate values
-          norm = NumericTraits<PixelType>::Zero;
-          for (ng=0;ng<ImageDimension;ng++)
-            {
-            grad[ng] = (grad0[ng]*alpha0 + grad1[ng]*alpha1)/vs_2[ng];
-            norm += grad[ng]*grad[ng];
-            }
-          norm = vcl_sqrt((float)norm);
 
-          if (norm > NumericTraits<PixelType>::min())
+  for (n=0; n<ImageDimension; n++)
+    {
+    stride[n]=inNeigIt.GetStride(n);
+    }
+  center = inNeigIt.Size() / 2;
+
+  for (inNeigIt.GoToBegin(); !inNeigIt.IsAtEnd(); ++inNeigIt, ++outNeigIt)
+    {
+    val0 = inNeigIt.GetPixel(center) - static_cast< PixelType >( m_LevelSetValue );
+    sign = (val0>0);
+
+    //Compute gradient at val0
+    for (ng=0;ng<ImageDimension;ng++)
+      {
+      grad0[ng] = static_cast< PixelType >( inNeigIt.GetNext(ng,1) ) -
+        static_cast< PixelType >( inNeigIt.GetPrevious(ng,1) );
+      }
+
+    for (n=0;n<ImageDimension;n++)
+      {
+
+      val1 =  static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]) )
+        -static_cast< PixelType >( m_LevelSetValue );
+
+      neigh_sign = (val1>0);
+
+      if(sign != neigh_sign)
+        {
+        for (ng=0;ng<ImageDimension;ng++)
+          {
+          grad1[ng]= static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]+stride[ng]) )
+            -static_cast< PixelType >( inNeigIt.GetPixel(center+stride[n]-stride[ng]) );
+          }
+        if(sign)
+          {
+          diff = val0-val1;
+          }
+        else
+          {
+          diff = val1-val0;
+          }
+        if(diff < NumericTraits<PixelType>::min())
+          {
+          //do something: printf, or thorw exception. ??
+          continue;
+          }
+        //Interpolate values
+        norm = NumericTraits<PixelType>::Zero;
+        for (ng=0;ng<ImageDimension;ng++)
+          {
+          grad[ng] = (grad0[ng]*alpha0 + grad1[ng]*alpha1)/vs_2[ng];
+          norm += grad[ng]*grad[ng];
+          }
+        norm = vcl_sqrt((float)norm);
+
+        if (norm > NumericTraits<PixelType>::min())
+          {
+          val = vcl_fabs((float)grad[n])*vs[n]/norm/diff;
+
+          val0_new = val0*val;
+          val1_new = val1*val;
+
+          if(fabs((float)val0_new)<fabs((float)outNeigIt.GetNext(n,0)))
             {
-            val = vcl_fabs((float)grad[n])*vs[n]/norm/diff;
-            
-            val0_new = val0*val;
-            val1_new = val1*val;    
-            
-            if(fabs((float)val0_new)<fabs((float)outNeigIt.GetNext(n,0)))
-              {
-              outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
-              }
-            if(fabs((float)val1_new)<fabs((float)outNeigIt.GetNext(n,1)))
-              {
-              outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
-              }
-             }
-           else
-             {
-             itkExceptionMacro(<<"Gradient norm is lower than pixel precision");
+            outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
             }
-         } // end if (sign != sign_neigh)
-       } //end for n               
-       
-     }
+          if(fabs((float)val1_new)<fabs((float)outNeigIt.GetNext(n,1)))
+            {
+            outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
+            }
+          }
+        else
+          {
+          itkExceptionMacro(<<"Gradient norm is lower than pixel precision");
+          }
+        } // end if (sign != sign_neigh)
+      } //end for n
+    }
 }
 
 // The execute method created by the subclass.
 template <class TInputImage, class TOutputImage>
-void 
+void
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 ::ThreadedGenerateDataBand(const OutputImageRegionType& outputRegionForThread,
                            int threadId)
 {
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
-  
   //Tasks:
-  //1. Initialize whole output image
-  //2. Wait for threads
-  //3. Compute over the narrowband
-  
-  //1. Initialization of the output image
-  //Each thread initializes the region given by outputRegionForThread.
-  typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
-  typedef ImageRegionIterator<OutputImageType> IteratorType;
-  ConstIteratorType inInitIt (inputPtr,
-                          outputRegionForThread);
-  IteratorType outInitIt (outputPtr,
-                      outputRegionForThread); 
-  
-
-  //Initialize output image 
-  while(!inInitIt.IsAtEnd())
-   {
-     if(inInitIt.Get() > m_LevelSetValue)
-       {
-       outInitIt.Set(+m_FarValue);
-       }
-     else if (inInitIt.Get() < m_LevelSetValue)
-       {
-       outInitIt.Set(-(double)m_FarValue);
-       }
-     else
-       {
-       outInitIt.Set(NumericTraits<PixelType>::Zero);    
-       }
-     ++inInitIt;
-     ++outInitIt;
-    } 
-
-  //2. Threads must wait till all are done
-  this->m_Barrier->Wait();
+  //1. Initialize whole output image (done in ThreadedGenerateData)
+  //2. Wait for threads (done in ThreadedGenerateData)
   //3. Computation over the narrowband
   ConstBandIterator bandIt  = m_NarrowBandRegion[threadId].Begin;
   ConstBandIterator bandEnd = m_NarrowBandRegion[threadId].End;
   typedef ImageRegionConstIterator<InputImageType> ConstIteratorType;
-  typedef ImageRegionIterator<OutputImageType> IteratorType;
-  
-  ConstIteratorType inIt (inputPtr,
-                          inputPtr->GetRequestedRegion());
-  IteratorType outIt (outputPtr,
-                      outputPtr->GetRequestedRegion());
+  typedef ImageRegionIterator<OutputImageType>     IteratorType;
+
   unsigned int n,ng;
-                       
-  //We don't have to initialize the band again.
-  //Following commented lines will be deprecetated.
-  /**
-  for( ; bandIt != bandEnd; ++bandIt )
-    {
-    inIt.SetIndex(bandIt->m_Index);
-    outIt.SetIndex(bandIt->m_Index);
-    if (inputPtr->GetPixel(bandIt->m_Index) > m_LevelSetValue)
-      { 
-      outputPtr->SetPixel(bandIt->m_Index,+m_FarValue);
-      }
-    else if (inputPtr->GetPixel(bandIt->m_Index) < m_LevelSetValue)
-       {
-       outputPtr->SetPixel(bandIt->m_Index,-m_FarValue);
-       }
-    else
-       {
-       outputPtr->SetPixel(bandIt->m_Index,NumericTraits<PixelType>::Zero);     
-       }
-    }
-   bandIt = m_NarrowBandRegion[threadId].Begin;
-   bandEnd = m_NarrowBandRegion[threadId].End;
-  **/
 
   InputSizeType radius_in;
   SizeType radius_out;
-  for (n=0 ; n<ImageDimension ; n++)
+  for (n=0; n<ImageDimension; n++)
     {
     //radius_in[n]= 2*NumericTraits<InputSizeType>::One();
     radius_in[n] = 2;
@@ -428,113 +374,120 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
     //radius_out[n]= NumericTraits<SizeType>::One();
     }
 
-  //Create neigh iterator       
-  ConstNeighborhoodIterator<InputImageType> inNeigIt(radius_in, inputPtr, 
-                                                        inputPtr->GetRequestedRegion());
-  NeighborhoodIterator<OutputImageType> outNeigIt(radius_out, outputPtr, 
-                                                        outputPtr->GetRequestedRegion());
+  //Create neighborhood iterator
+  ConstNeighborhoodIterator<InputImageType> inNeigIt(radius_in, inputPtr,
+                                                     inputPtr->GetRequestedRegion());
+  NeighborhoodIterator<OutputImageType> outNeigIt(radius_out, outputPtr,
+                                                  outputPtr->GetRequestedRegion());
   PixelType val,val0,val1,val0_new,val1_new,diff;
   PixelType norm;
   bool sign,neigh_sign;
- 
+
   PixelType grad0[ImageDimension];
   PixelType grad1[ImageDimension];
   PixelType grad[ImageDimension];
-  
+
   PixelType alpha0 = 0.5;  //Interpolation factor
   PixelType alpha1 = 0.5;  //Interpolation factor
   const typename InputImageType::SpacingType& vs = inputPtr->GetSpacing();
   double vs_2[ImageDimension];
-  
-  for(n = 0; n<ImageDimension ; n++)
-     {
-     vs_2[n]=2*vs[n];
-     }
+
+  for(n = 0; n<ImageDimension; n++)
+    {
+    vs_2[n]=2*vs[n];
+    }
   //Get Stride information to move across dimension
   ::size_t stride[ImageDimension];
   unsigned int center;
-  
 
-  for (n=0 ; n<ImageDimension ; n++) 
-     {
-     stride[n]=inNeigIt.GetStride(n);
-     }
-  center = inNeigIt.Size() / 2;  
 
-  for ( ; bandIt != bandEnd ; bandIt++)
+  for (n=0; n<ImageDimension; n++)
     {
-     inNeigIt.SetLocation(bandIt->m_Index);
-     outNeigIt.SetLocation(bandIt->m_Index);
-     
-     val0 = inNeigIt.GetPixel(center)-m_LevelSetValue;
-     sign = (val0>0);
-     
-     //Compute gradient at val0
-     for (ng=0;ng<ImageDimension;ng++) 
+    stride[n]=inNeigIt.GetStride(n);
+    }
+  center = inNeigIt.Size() / 2;
+
+  for (; bandIt != bandEnd; bandIt++)
+    {
+    inNeigIt.SetLocation(bandIt->m_Index);
+    outNeigIt.SetLocation(bandIt->m_Index);
+
+    val0 = inNeigIt.GetPixel(center)-m_LevelSetValue;
+    sign = (val0>0);
+
+    //Compute gradient at val0
+    for (ng=0;ng<ImageDimension;ng++)
+      {
+      grad0[ng]=inNeigIt.GetNext(ng,1)-inNeigIt.GetPrevious(ng,1);
+      }
+    //Compute gradient at val0
+    for (ng=0;ng<ImageDimension;ng++)
+      {
+      grad0[ng]=inNeigIt.GetNext(ng,1)-inNeigIt.GetPrevious(ng,1);
+      }
+
+    for (n=0;n<ImageDimension;n++)
+      {
+
+      val1 = inNeigIt.GetPixel(center+stride[n])-m_LevelSetValue;
+
+      neigh_sign = (val1>0);
+
+      if(sign != neigh_sign)
         {
-        grad0[ng]=inNeigIt.GetNext(ng,1)-inNeigIt.GetPrevious(ng,1);
-        } 
-     //Compute gradient at val0
-     for (ng=0;ng<ImageDimension;ng++) 
-        {
-        grad0[ng]=inNeigIt.GetNext(ng,1)-inNeigIt.GetPrevious(ng,1);
-        } 
-     
-     for (n=0;n<ImageDimension;n++)
-        {
-       
-        val1 = inNeigIt.GetPixel(center+stride[n])-m_LevelSetValue;
-       
-        neigh_sign = (val1>0);
-       
-        if(sign != neigh_sign)
-           {
-           for (ng=0;ng<ImageDimension;ng++)
-              {
-              grad1[ng]=inNeigIt.GetPixel(center+stride[n]+stride[ng]) -
-                       inNeigIt.GetPixel(center+stride[n]-stride[ng]);  
-              }
-           if(sign)
-             diff = val0-val1;
-           else
-             diff = val1-val0;  
-          
-           if (diff < NumericTraits<PixelType>::min())
-             {
-             //do something: printf, or thorw exception.??
-             continue;
-             }
-          //Interpolate values
-          norm = NumericTraits<PixelType>::Zero;
-          for (ng=0;ng<ImageDimension;ng++)
-             {
-             grad[ng] = (grad0[ng]*alpha0 + grad1[ng]*alpha1)/vs_2[ng];
-             norm += grad[ng]*grad[ng];
-             }
-          norm = vcl_sqrt((float)norm);
-          
-          if (norm > NumericTraits<PixelType>::min())
+        for (ng=0;ng<ImageDimension;ng++)
+          {
+          grad1[ng]=inNeigIt.GetPixel(center+stride[n]+stride[ng]) -
+            inNeigIt.GetPixel(center+stride[n]-stride[ng]);
+          }
+        if(sign)
+          {
+          diff = val0-val1;
+          }
+        else
+          {
+          diff = val1-val0;
+          }
+        if (diff < NumericTraits<PixelType>::min())
+          {
+          //do something: printf, or thorw exception.??
+          continue;
+          }
+        //Interpolate values
+        norm = NumericTraits<PixelType>::Zero;
+        for (ng=0;ng<ImageDimension;ng++)
+          {
+          grad[ng] = (grad0[ng]*alpha0 + grad1[ng]*alpha1)/vs_2[ng];
+          norm += grad[ng]*grad[ng];
+          }
+        norm = vcl_sqrt((float)norm);
+        
+        if (norm > NumericTraits<PixelType>::min())
+          {
+          val = vcl_fabs((float)grad[n])*vs[n]/norm/diff;
+
+          val0_new = val0*val;
+          val1_new = val1*val;
+
+          if(fabs((float)val0_new) < vcl_fabs((float)outNeigIt.GetNext(n,0)))
             {
-            val = vcl_fabs((float)grad[n])*vs[n]/norm/diff;
-            
-            val0_new = val0*val;
-            val1_new = val1*val;    
-           
-            if(fabs((float)val0_new) < vcl_fabs((float)outNeigIt.GetNext(n,0)))
-              outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
-            if(fabs((float)val1_new) < vcl_fabs((float)outNeigIt.GetNext(n,1)))
-              outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
+            outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
             }
-          else
+          if(fabs((float)val1_new) < vcl_fabs((float)outNeigIt.GetNext(n,1)))
             {
-             itkExceptionMacro(<<"Gradient norm is lower than pixel precision");
+            outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
             }
-         } // end if (sign != sign_neigh)
-       } //end for n       
-   } //Band iteratior
+          }
+        else
+          {
+          itkExceptionMacro(<<"Gradient norm is lower than pixel precision");
+          }
+        } // end if (sign != sign_neigh)
+      } //end for n
+    } //Band iteratior
 }
 
- 
+
 } // namespace itk
 
 #endif

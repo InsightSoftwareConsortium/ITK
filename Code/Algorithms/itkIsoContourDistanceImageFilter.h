@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkIsoContourDistanceImageFilter_h
-#define _itkIsoContourDistanceImageFilter_h
+#ifndef __itkIsoContourDistanceImageFilter_h
+#define __itkIsoContourDistanceImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNarrowBand.h"
@@ -33,9 +33,9 @@ namespace itk
  * to the current level set.
  * This class provides the first step in this reinitialization by
  * computing an estimate of the distance from the interpolated isocontour
- * to the pixels (or voxels) that are close to it, i.e. for which the isocontour
- * crosses a segment between them and one of their direct neighbors.
- *
+ * to the pixels (or voxels) that are close to it, i.e. for which the
+ * isocontour crosses a segment between them and one of their direct
+ * neighbors.
  * This class supports narrowbanding. If the input narrowband is provided,
  * the algorithm will only locate the level set within the input narrowband.
  *
@@ -56,10 +56,10 @@ class ITK_EXPORT IsoContourDistanceImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef IsoContourDistanceImageFilter Self;
+  typedef IsoContourDistanceImageFilter                Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,24 +77,24 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
-   /** The pixel type of the output image will be used in computations.
+  /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename OutputImageType::PixelType PixelType;
-  typedef typename InputImageType::PixelType InputPixelType;
+  typedef typename OutputImageType::PixelType  PixelType;
+  typedef typename InputImageType::PixelType   InputPixelType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** Some typedef */
-  typedef typename InputImageType::SizeType  InputSizeType;
-  typedef typename OutputImageType::SizeType SizeType;
-  typedef typename InputImageType::IndexType InputIndexType;
+  typedef typename InputImageType::SizeType   InputSizeType;
+  typedef typename OutputImageType::SizeType  SizeType;
+  typedef typename InputImageType::IndexType  InputIndexType;
   typedef typename OutputImageType::IndexType IndexType;
 
   /** NarrowBand typedef support. */
-  typedef BandNode<IndexType,PixelType> BandNodeType;
-  typedef NarrowBand<BandNodeType> NarrowBandType;
-  typedef typename NarrowBandType::Pointer NarrowBandPointer;
-  typedef typename NarrowBandType::RegionType RegionType;
+  typedef BandNode<IndexType,PixelType>          BandNodeType;
+  typedef NarrowBand<BandNodeType>               NarrowBandType;
+  typedef typename NarrowBandType::Pointer       NarrowBandPointer;
+  typedef typename NarrowBandType::RegionType    RegionType;
   typedef typename NarrowBandType::ConstIterator ConstBandIterator;
-  typedef typename NarrowBandType::Iterator BandIterator;
+  typedef typename NarrowBandType::Iterator      BandIterator;
 
 
  /** Set/Get the value of the level set to be located. The default value is
@@ -118,7 +118,7 @@ public:
   /** Set/Get the narrowband. */
   void SetNarrowBand( NarrowBandType * ptr );
   NarrowBandPointer GetNarrowBand() const
-  { return m_NarrowBand; }
+    { return m_NarrowBand; }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
