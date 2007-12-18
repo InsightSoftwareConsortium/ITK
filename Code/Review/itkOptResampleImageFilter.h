@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -63,7 +63,7 @@ namespace itk
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::GenerateOutputInformation().
  *
- * This filter is implemented as a multithreaded filter.  It provides a 
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \ingroup GeometricTransforms
@@ -89,7 +89,7 @@ public:
   typedef typename InputImageType::RegionType     InputImageRegionType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
@@ -101,11 +101,11 @@ public:
                       TInputImage::ImageDimension);
 
 
-  /** Transform typedef.
-   *
-   **/
-  typedef Transform<TInterpolatorPrecisionType, 
-                    itkGetStaticConstMacro(ImageDimension), 
+  /** 
+   *  Transform typedef.
+   */
+  typedef Transform<TInterpolatorPrecisionType,
+                    itkGetStaticConstMacro(ImageDimension),
                     itkGetStaticConstMacro(ImageDimension)>       TransformType;
   typedef typename TransformType::ConstPointer             TransformPointerType;
 
@@ -116,12 +116,12 @@ public:
 
   typedef LinearInterpolateImageFunction<InputImageType,
                 TInterpolatorPrecisionType>   LinearInterpolatorType;
-  typedef typename LinearInterpolatorType::Pointer 
+  typedef typename LinearInterpolatorType::Pointer
                                               LinearInterpolatorPointerType;
 
   typedef BSplineInterpolateImageFunction<InputImageType,
                 TInterpolatorPrecisionType>   BSplineInterpolatorType;
-  typedef typename BSplineInterpolatorType::Pointer 
+  typedef typename BSplineInterpolatorType::Pointer
                                               BSplineInterpolatorPointerType;
 
   /** Image size typedef. */
@@ -137,7 +137,7 @@ public:
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType              PixelType;
   typedef typename TInputImage::PixelType               InputPixelType;
-  
+
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType             OutputImageRegionType;
 
@@ -145,7 +145,7 @@ public:
   typedef typename TOutputImage::SpacingType            SpacingType;
   typedef typename TOutputImage::PointType              OriginPointType;
   typedef typename TOutputImage::DirectionType          DirectionType;
-  
+
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
@@ -153,7 +153,7 @@ public:
    * the filter uses an Identity transform. You must provide a different
    * transform here, before attempting to run the filter, if you do not want to
    * use the default Identity transform. */
-  itkSetConstObjectMacro( Transform, TransformType ); 
+  itkSetConstObjectMacro( Transform, TransformType );
 
   /** Get a pointer to the coordinate transform. */
   itkGetConstObjectMacro( Transform, TransformType );
@@ -175,7 +175,7 @@ public:
 
   /** Get the size of the output image. */
   itkGetConstReferenceMacro( Size, SizeType );
-     
+
   /** Set the pixel value when a transformed pixel is outside of the
    * image.  The default default pixel value is 0. */
   itkSetMacro(DefaultPixelValue,PixelType);
@@ -210,7 +210,7 @@ public:
     this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
     }
 
-  /** Set the start index of the output largest possible region. 
+  /** Set the start index of the output largest possible region.
    * The default is an index of all zeros. */
   itkSetMacro( OutputStartIndex, IndexType );
 
@@ -220,7 +220,8 @@ public:
   /** Copy the output information from another Image.  By default,
    *  the information is specified with the SetOutputSpacing, Origin,
    *  and Direction methods. UseReferenceImage must be On and a
-   *  Reference image must be present to override the defaul behavior.*/
+   *  Reference image must be present to override the defaul behavior.
+   */
   void SetReferenceImage ( const TOutputImage *image );
   const TOutputImage * GetReferenceImage() const;
 
@@ -242,11 +243,11 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
-  /** This method is used to set the state of the filter before 
+  /** This method is used to set the state of the filter before
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
-  /** This method is used to set the state of the filter after 
+  /** This method is used to set the state of the filter after
    * multi-threading. */
   virtual void AfterThreadedGenerateData();
 
@@ -284,12 +285,12 @@ protected:
                                      int threadId );
 
   /** Implementation for resampling that works for with linear
-   *  transformation types. 
+   *  transformation types.
    */
   void LinearThreadedGenerateData(const OutputImageRegionType &
                                         outputRegionForThread,
                                   int threadId );
-  
+
 
 private:
   ResampleImageFilter(const Self&); //purposely not implemented
@@ -308,20 +309,18 @@ private:
   IndexType               m_OutputStartIndex;  // output image start index
   bool                    m_UseReferenceImage;
 
-  bool                    m_InterpolatorIsLinear;
-  LinearInterpolatorPointerType
-                          m_LinearInterpolator;
-  bool                    m_InterpolatorIsBSpline;
-  BSplineInterpolatorPointerType
-                          m_BSplineInterpolator;
+  bool                             m_InterpolatorIsLinear;
+  LinearInterpolatorPointerType    m_LinearInterpolator;
+  bool                             m_InterpolatorIsBSpline;
+  BSplineInterpolatorPointerType   m_BSplineInterpolator;
 
 };
 
-  
+
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkOptResampleImageFilter.txx"
 #endif
-  
+
 #endif
