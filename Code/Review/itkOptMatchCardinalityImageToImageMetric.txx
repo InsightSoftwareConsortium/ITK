@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOptMatchCardinalityImageToImageMetric_txx
-#define _itkOptMatchCardinalityImageToImageMetric_txx
+#ifndef __itkOptMatchCardinalityImageToImageMetric_txx
+#define __itkOptMatchCardinalityImageToImageMetric_txx
 
 #include "itkOptMatchCardinalityImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -49,7 +49,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   return const_cast<Self*>(this)->GetNonconstValue(parameters);
 }
 
-/*
+/**
  * Get the match Measure (non const version. spawns threads).
  */
 template <class TFixedImage, class TMovingImage> 
@@ -286,7 +286,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-/*
+/**
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 
