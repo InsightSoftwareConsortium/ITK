@@ -19,12 +19,13 @@
 #endif
 
 #include <iostream>
-//#include "itkImageFileWriter.h"
+#include "itkImageFileWriter.h"
 #include "itkNarrowBandImageFilterBase.h"
 #include "itkCastImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
 #include "itkRandomImageSource.h"
 #include "itkAddImageFilter.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 namespace itk 
 {
@@ -64,36 +65,25 @@ namespace itk
     }
     
     virtual void CreateNarrowBand()
-    {
+      {
       //Create a band
       typename ImageType::SizeType sz= this->GetInput()->GetRequestedRegion().GetSize();
       typename ImageType::IndexType tl= this->GetInput()->GetRequestedRegion().GetIndex();
       typename Superclass::IndexType in;
 
-      for (in[0]=32+tl[0];in[0]<tl[0]+(long int)(sz[0]);in[0]++)
-        for (in[1]=tl[1]+32;in[1]<tl[1]+(long int)(sz[1]);in[1]++)       
+      for (in[0]=32+tl[0]; in[0]<tl[0]+(long int)(sz[0]); in[0]++)
+        {
+        for (in[1]=tl[1]+32; in[1]<tl[1]+(long int)(sz[1]);in[1]++)       
+          {
           this->InsertNarrowBandNode (in); 
-    }
-    /*
-    virtual void Initialize() {
-      //Do itkNarrowBandImageFilterBase initialize
-      Superclass::Initialize();
-      
-      //Create a band
-      typename ImageType::SizeType sz= this->GetInput()->GetRequestedRegion().GetSize();
-      typename ImageType::IndexType tl= this->GetInput()->GetRequestedRegion().GetIndex();
-      typename Superclass::IndexType in;
-
-      for (in[0]=32+tl[0];in[0]<tl[0]+(long int)(sz[0]);in[0]++)
-        for (in[1]=tl[1]+32;in[1]<tl[1]+(long int)(sz[1]);in[1]++)       
-          this->InsertNarrowBandNode (in); 
-     m_RegionList=m_NarrowBand->SplitBand(this->GetNumberOfThreads());
-    }
-    */
+          }
+        }
+      }
   };
 }
 
-namespace {
+namespace
+{
 // simple signed distance function
 template <typename TPoint>
 double
@@ -112,15 +102,22 @@ SimpleSignedDistance( const TPoint & p )
   return ( accum - radius );
 
 }
-
 }
 
 
-int itkNarrowBandImageFilterBaseTest(int, char* [])
+int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
 {
+  if(argc < 2)
+    {
+    std::cerr << "Usage: " << argv[0] << " OutputImage\n";
+    return EXIT_FAILURE;
+    }
+
   typedef float PixelType;
+  typedef unsigned char WriterPixelType;
   const unsigned int ImageDimension = 2;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
   typedef itk::Point<double,ImageDimension> PointType;
   
   ImageType::SizeType size = {{64,64}};
@@ -153,39 +150,44 @@ int itkNarrowBandImageFilterBaseTest(int, char* [])
   tam[0]=64;
   tam[1]=64;
   randomSource->SetSize(tam);
-  randomSource->SetMin(0);
-  randomSource->SetMax(10);
-  randomSource->Update();
-  
+  randomSource->SetMin(-2);
+  randomSource->SetMax(2);
+  //  For testing purposes we want random source to produce
+  //  deterministic values. This is accompished by restricting the
+  //  number of threads to 1.
+  randomSource->SetNumberOfThreads(1);
+
   typedef itk::AddImageFilter<ImageType,ImageType,ImageType> AddFilterType;
   AddFilterType::Pointer addFilter = AddFilterType::New();
   addFilter->SetInput1(inputImage);
   addFilter->SetInput2(randomSource->GetOutput());
-  addFilter->Update();
 
   typedef itk::NbTestClass <ImageType,ImageType> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(addFilter->GetOutput());    
 
-  
-  try {
-  filter->Update();
-  /* For Debugging
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( "outputNB.mhd" );
-  writer->Write();
- */
-  }
+  try
+    {
+    typedef itk::RescaleIntensityImageFilter<ImageType, WriterImageType> RescaleType;
+    RescaleType::Pointer rescale = RescaleType::New();
+    rescale->SetInput(filter->GetOutput());
+    rescale->SetOutputMinimum(0);
+    rescale->SetOutputMaximum(255);
+
+    typedef itk::ImageFileWriter<WriterImageType> WriterType;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetInput( rescale->GetOutput() );
+    writer->SetFileName( argv[1] );
+    writer->Write();
+    }
   catch (itk::ExceptionObject &err)
     {
-      (&err)->Print(std::cerr);
+    (&err)->Print(std::cerr);
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
+  
   std::cout << "Test Passed. " << std::endl;
   return EXIT_SUCCESS;
  

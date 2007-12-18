@@ -227,7 +227,11 @@ ADD_TEST(itkMultiplyImageFilterTest ${BASIC_FILTERS_TESTS} itkMultiplyImageFilte
 ADD_TEST(itkNaryAddImageFilterTest ${BASIC_FILTERS_TESTS1} itkNaryAddImageFilterTest)
 ADD_TEST(itkNaryMaximumImageFilterTest ${BASIC_FILTERS_TESTS1} itkNaryMaximumImageFilterTest)
 ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS1} itkNarrowBandTest)
-ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS1} itkNarrowBandImageFilterBaseTest)
+ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS1}
+  --compare ${BASELINE}/itkNarrowBandImageFilterBaseTest.png
+            ${TEMP}/itkNarrowBandImageFilterBaseTest.png
+  itkNarrowBandImageFilterBaseTest
+             ${TEMP}/itkNarrowBandImageFilterBaseTest.png)
 ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS1} itkNeighborhoodOperatorImageFilterTest)
 ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS1}
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png
