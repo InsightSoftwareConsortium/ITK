@@ -240,10 +240,10 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_FixedImageSamples.resize(m_NumberOfFixedImageSamples);
   if( m_UseAllPixels )
     {
-    /* 
-     * Take all the pixels within the fixed image region)
-     * to create the sample points list.
-     */
+    // 
+    // Take all the pixels within the fixed image region)
+    // to create the sample points list.
+    // 
     SampleFullFixedImageDomain( m_FixedImageSamples );
     }
   else
@@ -254,20 +254,20 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
-      /*
-       * Uniformly sample the fixed image (within the fixed image region)
-       * to create the sample points list.
-       */
+      // 
+      // Uniformly sample the fixed image (within the fixed image region)
+      // to create the sample points list.
+      // 
       SampleFixedImageDomain( m_FixedImageSamples );
       }
     }
 
-  /*
-   * Check if the interpolator is of type BSplineInterpolateImageFunction.
-   * If so, we can make use of its EvaluateDerivatives method.
-   * Otherwise, we instantiate an external central difference
-   * derivative calculator.
-   */
+  //  
+  //  Check if the interpolator is of type BSplineInterpolateImageFunction.
+  //  If so, we can make use of its EvaluateDerivatives method.
+  //  Otherwise, we instantiate an external central difference
+  //  derivative calculator.
+  //  
   m_InterpolatorIsBSpline = true;
 
   BSplineInterpolatorType * testPtr = dynamic_cast<BSplineInterpolatorType *>(
