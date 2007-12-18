@@ -107,7 +107,11 @@ itkMultiResolutionImageRegistrationMethodTest_1  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_2 ${ALGORITHMS_TESTS3}   
 itkMultiResolutionImageRegistrationMethodTest_2  )
 ADD_TEST(itkMutualInformationMetricTest ${ALGORITHMS_TESTS3} itkMutualInformationMetricTest)
-ADD_TEST(itkNarrowBandCurvesLevelSetImageFilterTest ${ALGORITHMS_TESTS4} itkNarrowBandCurvesLevelSetImageFilterTest)
+ADD_TEST(itkNarrowBandCurvesLevelSetImageFilterTest1 ${ALGORITHMS_TESTS4}
+  --compare ${BASELINE}/itkNarrowBandCurvesLevelSetImageFilterTest.png
+            ${TEMP}/itkNarrowBandCurvesLevelSetImageFilterTest.png
+  itkNarrowBandCurvesLevelSetImageFilterTest
+            ${TEMP}/itkNarrowBandCurvesLevelSetImageFilterTest.png)
 ADD_TEST(itkNarrowBandThresholdSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS2} itkNarrowBandThresholdSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkNewTest ${ALGORITHMS_TESTS3} itkNewTest)
 ADD_TEST(itkNormalizedCorrelationImageMetricTest ${ALGORITHMS_TESTS3} itkNormalizedCorrelationImageMetricTest)
