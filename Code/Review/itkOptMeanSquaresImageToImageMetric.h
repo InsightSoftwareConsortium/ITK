@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -35,10 +35,10 @@ class ITK_EXPORT MeanSquaresImageToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef MeanSquaresImageToImageMetric  Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MeanSquaresImageToImageMetric                     Self;
+  typedef ImageToImageMetric< TFixedImage, TMovingImage >   Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,7 +61,7 @@ public:
   typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
   typedef typename Superclass::CoordinateRepresentationType
                                                    CoordinateRepresentationType;
-  typedef typename Superclass::FixedImageSampleContainer   
+  typedef typename Superclass::FixedImageSampleContainer  
                                                       FixedImageSampleContainer;
   typedef typename Superclass::ImageDerivativesType     ImageDerivativesType;
   typedef typename Superclass::WeightsValueType         WeightsValueType;
@@ -74,12 +74,12 @@ public:
   itkStaticConstMacro( MovingImageDimension, unsigned int,
                        MovingImageType::ImageDimension );
 
-  /** 
-   *  Initialize the Metric by 
-   *  (1) making sure that all the components are present and plugged 
+  /**
+   *  Initialize the Metric by
+   *  (1) making sure that all the components are present and plugged
    *      together correctly,
    *  (2) uniformly select NumberOfSpatialSamples within
-   *      the FixedImageRegion, and 
+   *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
   virtual void Initialize(void) throw ( ExceptionObject );
 
@@ -91,7 +91,7 @@ public:
                       DerivativeType & Derivative ) const;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative( const ParametersType & parameters, 
+  void GetValueAndDerivative( const ParametersType & parameters,
                               MeasureType & Value,
                               DerivativeType & Derivative ) const;
 
@@ -104,9 +104,9 @@ protected:
 private:
 
   //purposely not implemented
-  MeanSquaresImageToImageMetric(const Self &); 
+  MeanSquaresImageToImageMetric(const Self &);
   //purposely not implemented
-  void operator=(const Self &); 
+  void operator=(const Self &);
 
   inline bool GetValueThreadProcessSample( unsigned int threadID,
                                        unsigned long fixedImageSample,
@@ -132,4 +132,3 @@ private:
 #endif
 
 #endif
-

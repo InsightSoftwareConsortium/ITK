@@ -9,13 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOptMeanSquaresImageToImageMetric_txx
-#define _itkOptMeanSquaresImageToImageMetric_txx
+#ifndef __itkOptMeanSquaresImageToImageMetric_txx
+#define __itkOptMeanSquaresImageToImageMetric_txx
 
 #include "itkOptMeanSquaresImageToImageMetric.h"
 #include "itkCovariantVector.h"
@@ -44,7 +44,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   //  For backward compatibility, the default behavior is to use all the pixels
   //  in the fixed image.
-  this->UseAllPixelsOn(); 
+  this->UseAllPixelsOn();
 }
 
 template < class TFixedImage, class TMovingImage >
@@ -72,7 +72,7 @@ void
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  
+ 
   Superclass::PrintSelf(os, indent);
 
 }
@@ -81,7 +81,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 /**
  * Initialize
  */
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::Initialize(void) throw ( ExceptionObject )
@@ -115,7 +115,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   const MovingImagePointType & itkNotUsed(mappedPoint),
   double movingImageValue) const
 {
-  double diff = movingImageValue 
+  double diff = movingImageValue
     - this->m_FixedImageSamples[fixedImageSample].value;
 
   m_ThreaderMSE[threadID] += diff*diff;
@@ -131,7 +131,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 
-  if( !this->m_FixedImage ) 
+  if( !this->m_FixedImage )
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
@@ -147,17 +147,17 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   // MUST BE CALLED TO INITIATE PROCESSING
   this->GetValueMultiThreadedInitiate();
 
-  itkDebugMacro( "Ratio of voxels mapping into moving image buffer: " 
-                 << this->m_NumberOfMovingImageSamples << " / " 
-                 << this->m_NumberOfFixedImageSamples 
+  itkDebugMacro( "Ratio of voxels mapping into moving image buffer: "
+                 << this->m_NumberOfMovingImageSamples << " / "
+                 << this->m_NumberOfFixedImageSamples
                  << std::endl );
 
-  if( this->m_NumberOfMovingImageSamples < 
+  if( this->m_NumberOfMovingImageSamples <
       this->m_NumberOfFixedImageSamples / 4 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
-                       << this->m_NumberOfMovingImageSamples << " / " 
-                       << this->m_NumberOfFixedImageSamples 
+                       << this->m_NumberOfMovingImageSamples << " / "
+                       << this->m_NumberOfFixedImageSamples
                        << std::endl );
     }
 
@@ -184,17 +184,17 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   movingImageGradientValue
   ) const
 {
-  double diff = movingImageValue 
+  double diff = movingImageValue
     - this->m_FixedImageSamples[fixedImageSample].value;
 
   m_ThreaderMSE[threadID] += diff*diff;
 
   FixedImagePointType fixedImagePoint = this->m_FixedImageSamples[fixedImageSample].point;
 
-  // Need to use one of the threader transforms if we're 
+  // Need to use one of the threader transforms if we're
   // not in thread 0.
   //
-  // Use a raw pointer here to avoid the overhead of smart pointers. 
+  // Use a raw pointer here to avoid the overhead of smart pointers.
   // For instance, Register and UnRegister have mutex locks around
   // the reference counts.
   TransformType* transform;
@@ -210,7 +210,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   // Jacobian should be evaluated at the unmapped (fixed image) point.
   const TransformJacobianType & jacobian = transform
-                                               ->GetJacobian( fixedImagePoint ); 
+                                               ->GetJacobian( fixedImagePoint );
 
   for(unsigned int par=0; par<this->m_NumberOfParameters; par++)
     {
@@ -236,7 +236,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
                          DerivativeType & derivative) const
 {
 
-  if( !this->m_FixedImage ) 
+  if( !this->m_FixedImage )
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
@@ -269,17 +269,17 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   // MUST BE CALLED TO INITIATE PROCESSING
   this->GetValueAndDerivativeMultiThreadedInitiate();
 
-  itkDebugMacro( "Ratio of voxels mapping into moving image buffer: " 
-                 << this->m_NumberOfMovingImageSamples << " / " 
-                 << this->m_NumberOfFixedImageSamples 
+  itkDebugMacro( "Ratio of voxels mapping into moving image buffer: "
+                 << this->m_NumberOfMovingImageSamples << " / "
+                 << this->m_NumberOfFixedImageSamples
                  << std::endl );
 
-  if( this->m_NumberOfMovingImageSamples < 
+  if( this->m_NumberOfMovingImageSamples <
       this->m_NumberOfFixedImageSamples / 4 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
-                       << this->m_NumberOfMovingImageSamples << " / " 
-                       << this->m_NumberOfFixedImageSamples 
+                       << this->m_NumberOfMovingImageSamples << " / "
+                       << this->m_NumberOfFixedImageSamples
                        << std::endl );
     }
 
@@ -312,7 +312,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 ::GetDerivative( const ParametersType & parameters,
                  DerivativeType & derivative ) const
 {
-  if( !this->m_FixedImage ) 
+  if( !this->m_FixedImage )
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
@@ -326,4 +326,3 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
 
 #endif
-
