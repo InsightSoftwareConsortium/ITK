@@ -498,22 +498,21 @@ protected:
                       GetValueAndDerivativeMultiThreadedPostProcess(void * arg);
 
   void                 GetValueAndDerivativeThread(unsigned int threadID) const;
-  virtual inline void  GetValueAndDerivativeThreadPreProcess( 
-    unsigned int itkNotUsed(threadID),
-    bool itkNotUsed(withinSampleThread)
-    ) const {};
+  virtual inline void  GetValueAndDerivativeThreadPreProcess( unsigned int itkNotUsed(threadID),
+    bool itkNotUsed(withinSampleThread)) const {};
   virtual inline bool  GetValueAndDerivativeThreadProcessSample( 
     unsigned int itkNotUsed(threadID),
     unsigned long itkNotUsed(fixedImageSample),
     const MovingImagePointType & itkNotUsed(mappedPoint),
     double itkNotUsed(movingImageValue),
-    const ImageDerivativesType & itkNotUsed(movingImageGradientValue)
-    ) const
-    { return false; }
+    const ImageDerivativesType & itkNotUsed(movingImageGradientValue) ) const
+    { 
+    return false; 
+    }
+
   virtual inline void  GetValueAndDerivativeThreadPostProcess( 
     unsigned int itkNotUsed(threadID),
-    bool itkNotUsed(withinSampleThread)
-    ) const {};
+    bool itkNotUsed(withinSampleThread) ) const {};
 
   /** Synchronizes the threader transforms with the transform
    *   member variable.
