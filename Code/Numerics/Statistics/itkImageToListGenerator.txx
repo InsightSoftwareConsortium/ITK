@@ -135,7 +135,7 @@ ImageToListGenerator< TImage, TMaskImage >
   if (maskImage) // mask specified
     {
     typedef ImageRegionConstIterator< MaskImageType > MaskIteratorType;
-    MaskIteratorType mit( maskImage, maskImage->GetBufferedRegion() );
+    MaskIteratorType mit( maskImage, input->GetBufferedRegion() );
     mit.GoToBegin();
     while (!it.IsAtEnd())
       {
