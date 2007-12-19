@@ -231,6 +231,8 @@ int itkImportContainerTest(int , char * [] )
             << std::endl;
   }
 
+  // SGI's always say they can get you the memory you want.
+#if !defined(__sgi)
   // Check the exception on the memory allocation
   bool caughtException = false;
   try
@@ -243,6 +245,7 @@ int itkImportContainerTest(int , char * [] )
     std::cout << "Caught expected exception: " << err << std::endl;
     caughtException = true;
     }
+#endif
 
   // We must delete the memory we said we would manage
   delete [] ptr1;
