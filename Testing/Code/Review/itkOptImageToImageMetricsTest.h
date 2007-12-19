@@ -15,11 +15,13 @@
 
 =========================================================================*/
 
-#ifndef OptImageToImageMetricsTest_h
-#define OptImageToImageMetricsTest_h
+#ifndef __itkOptImageToImageMetricsTest_h
+#define __itkOptImageToImageMetricsTest_h
 
 #include "itkTimeProbe.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+
+namespace itk {
 
 template <typename FixedImageType, 
           typename MovingImageType, 
@@ -39,94 +41,92 @@ public:
                TransformType* transform,
                MetricType* metric,
                MetricInitializerType metricInitializer)
-  {
-  typedef typename MetricType::ParametersType ParametersType;
-
-  std::cout << "===================================================================" << std::endl;
-  std::cout << "Testing" << std::endl;
-  std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
-  std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
-  std::cout << "\tTransform    : " << transform->GetNameOfClass() << std::endl;
-  std::cout << "-------------------------------------------------------------------" << std::endl;
-  std::cout << std::endl;
-
-  int result = EXIT_SUCCESS;
-
-  // connect the interpolator
-  metric->SetInterpolator( interpolator );
-
-  // connect the transform
-  metric->SetTransform( transform );
-
-  // connect the images to the metric
-  metric->SetFixedImage( fixed );
-  metric->SetMovingImage( moving );
-
-  // call custom initialization for the metric
-  metricInitializer.Initialize();
-
-  // Always use the same seed value.
-  // All instances are the same since MersenneTwisterRandomVariateGenerator
-  // uses a singleton pattern.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 42 );
-
-  // initialize the metric
-  // Samples are drawn here in metric->Initialize(), 
-  // so we seed the random number generator
-  // immediately before this call.
-  metric->Initialize();
-
-  // Set the transform to identity
-  transform->SetIdentity();
-
-  // Get the transform parameters for identity.
-  ParametersType parameters = transform->GetParameters();
-
-  typename MetricType::MeasureType value;
-  typename MetricType::DerivativeType derivative;
-
-  // Try GetValue and GetDerivative...
-  value = metric->GetValue( parameters );
-  metric->GetDerivative( parameters, derivative );
-
-  // Make a time probe
-  itk::TimeProbe timeProbe;
-
-  // Walk around the parameter value at parameterIdx
-  for (int parameterIdx = 0; parameterIdx < parameters.GetSize(); parameterIdx++)
     {
-    std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << std::endl; //[" << parameterIdx << "]" << std::endl;
-    double startVal = parameters[parameterIdx];
-    // endVal is 10% beyond startVal.
-    double endVal = 1.10 * startVal;
-    // If startVal is 0, endVal needs to be fixed up.
-    if (fabs(endVal - 0.0) < 1e-8)
+    typedef typename MetricType::ParametersType ParametersType;
+
+    std::cout << "-------------------------------------------------------------------" << std::endl;
+    std::cout << "Testing" << std::endl;
+    std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
+    std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
+    std::cout << "\tTransform    : " << transform->GetNameOfClass() << std::endl;
+    std::cout << "-------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+
+    int result = EXIT_SUCCESS;
+
+    // connect the interpolator
+    metric->SetInterpolator( interpolator );
+
+    // connect the transform
+    metric->SetTransform( transform );
+
+    // connect the images to the metric
+    metric->SetFixedImage( fixed );
+    metric->SetMovingImage( moving );
+
+    // call custom initialization for the metric
+    metricInitializer.Initialize();
+
+    // Always use the same seed value.
+    // All instances are the same since MersenneTwisterRandomVariateGenerator
+    // uses a singleton pattern.
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 42 );
+
+    // initialize the metric
+    // Samples are drawn here in metric->Initialize(), 
+    // so we seed the random number generator
+    // immediately before this call.
+    metric->Initialize();
+
+    // Set the transform to identity
+    transform->SetIdentity();
+
+    // Get the transform parameters for identity.
+    ParametersType parameters = transform->GetParameters();
+
+    typename MetricType::MeasureType value;
+    typename MetricType::DerivativeType derivative;
+
+    // Try GetValue and GetDerivative...
+    value = metric->GetValue( parameters );
+    metric->GetDerivative( parameters, derivative );
+
+    // Make a time probe
+    itk::TimeProbe timeProbe;
+
+    // Walk around the parameter value at parameterIdx
+    for (int parameterIdx = 0; parameterIdx < parameters.GetSize(); parameterIdx++)
       {
-      endVal = startVal + 1.0;
+      std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << std::endl; //[" << parameterIdx << "]" << std::endl;
+      double startVal = parameters[parameterIdx];
+      // endVal is 10% beyond startVal.
+      double endVal = 1.10 * startVal;
+      // If startVal is 0, endVal needs to be fixed up.
+      if( fabs(endVal - 0.0) < 1e-8 )
+        {
+        endVal = startVal + 1.0;
+        }
+      double incr = (endVal - startVal) / 10.0;
+
+      for( double pval = startVal; pval <= endVal; pval += incr )
+        {
+        parameters[parameterIdx] = pval;
+
+        timeProbe.Start();
+        metric->GetValueAndDerivative( parameters, value, derivative );
+        timeProbe.Stop();
+
+        std::cout << pval << "\t" << value << "\t" << derivative << std::endl;
+        }
       }
-    double incr = (endVal - startVal) / 10.0;
 
-    for (double pval = startVal; pval <= endVal; pval += incr)
-      {
-      parameters[parameterIdx] = pval;
+    std::cout << std::endl;
+    std::cout << "Mean time for GetValueAndDerivative : " << timeProbe.GetMeanTime() << std::endl;
+    std::cout << std::endl;
+    std::cout << "------------------------------Done---------------------------------" << std::endl;
 
-      timeProbe.Start();
-      metric->GetValueAndDerivative( parameters,
-                                     value, 
-                                     derivative );
-      timeProbe.Stop();
-
-      std::cout << pval << "\t" << value << "\t" << derivative << std::endl;
-      }
+    return result;
     }
-
-  std::cout << std::endl;
-  std::cout << "Mean time for GetValueAndDerivative : " << timeProbe.GetMeanTime() << std::endl;
-  std::cout << std::endl;
-  std::cout << "------------------------------Done---------------------------------" << std::endl;
-
-  return result;
-  }
 
 };
 
@@ -215,8 +215,8 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
                 TransformType* transform
                 )
 {
-  typedef typename FixedImageReaderType::OutputImageType FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
+  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
 
   fixedImageReader->Update();
   movingImageReader->Update();
@@ -264,8 +264,8 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
                  MetricType* metric,
                  MetricInitializerType metricInitializer)
 {
-  typedef typename FixedImageReaderType::OutputImageType FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
+  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
 
   metric->SetFixedImageRegion( fixedImageReader->GetOutput()->GetBufferedRegion() );
 
@@ -337,7 +337,7 @@ void TranslationLinearTest( FixedImageReaderType* fixedImageReader,
 template <class FixedImageReaderType, class MovingImageReaderType>
 void DoDebugTest( FixedImageReaderType* fixedImageReader,
                   MovingImageReaderType* movingImageReader)
-{
+  {
   typedef typename MovingImageReaderType::OutputImageType MovingImageType;
 
   typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
@@ -346,8 +346,8 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   TransformType::Pointer transform = TransformType::New();
 
-  typedef typename FixedImageReaderType::OutputImageType FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+  typedef typename FixedImageReaderType::OutputImageType      FixedImageType;
+  typedef typename MovingImageReaderType::OutputImageType     MovingImageType;
 
   fixedImageReader->Update();
   movingImageReader->Update();
@@ -365,7 +365,7 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
 
   typedef typename MetricType::ParametersType ParametersType;
 
-  std::cout << "===================================================================" << std::endl;
+  std::cout << "-------------------------------------------------------------------" << std::endl;
   std::cout << "Testing" << std::endl;
   std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
   std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
@@ -411,7 +411,8 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
   // Force the test to end here so the debug file
   // ends at the right place.
   exit(EXIT_SUCCESS);
-}
+  }
+
+} // end namespace itk
 
 #endif 
-

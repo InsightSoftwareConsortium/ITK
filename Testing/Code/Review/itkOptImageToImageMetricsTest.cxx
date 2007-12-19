@@ -45,8 +45,10 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
 
   typedef itk::Image< unsigned int > FixedImageType;
   typedef itk::Image< unsigned int > MovingImageType;
+
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
