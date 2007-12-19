@@ -1,4 +1,9 @@
 {
+   Some dl_relocate_object suppressions
+   Memcheck:Cond
+   fun:_dl_relocate_object
+}
+{
    Some Error from the itk::MultiThreader::DispatchSingleMethodThread
    Memcheck:Leak
    fun:calloc
