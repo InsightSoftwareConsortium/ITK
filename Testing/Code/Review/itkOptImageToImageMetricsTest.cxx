@@ -55,14 +55,14 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  TranslationLinearTest( fixedImageReader.GetPointer(), 
-                    movingImageReader.GetPointer() );
+  itk::TranslationLinearTest( fixedImageReader.GetPointer(), 
+                              movingImageReader.GetPointer() );
 
-  RigidLinearTest( fixedImageReader.GetPointer(), 
-                    movingImageReader.GetPointer() );
+  itk::RigidLinearTest( fixedImageReader.GetPointer(), 
+                        movingImageReader.GetPointer() );
 
-  AffineLinearTest( fixedImageReader.GetPointer(), 
-                    movingImageReader.GetPointer() );
+  itk::AffineLinearTest( fixedImageReader.GetPointer(), 
+                         movingImageReader.GetPointer() );
 
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
@@ -83,14 +83,14 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
   itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
 
-  TranslationLinearTest( fixedImageReader.GetPointer(), 
-                    movingImageReader.GetPointer() );
+  itk::TranslationLinearTest( fixedImageReader.GetPointer(), 
+                              movingImageReader.GetPointer() );
 
-  RigidLinearTest( fixedImageReader.GetPointer(), 
-                    movingImageReader.GetPointer() );
+  itk::RigidLinearTest( fixedImageReader.GetPointer(), 
+                        movingImageReader.GetPointer() );
 
-  AffineLinearTest( fixedImageReader.GetPointer(), 
-                    movingImageReader.GetPointer() );
+  itk::AffineLinearTest( fixedImageReader.GetPointer(), 
+                         movingImageReader.GetPointer() );
 
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
