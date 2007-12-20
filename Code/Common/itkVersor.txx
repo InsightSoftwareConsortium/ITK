@@ -469,10 +469,27 @@ void
 Versor<T>
 ::Set( T x, T y, T z, T w )
 {
-  m_X = x;
-  m_Y = y;
-  m_Z = z;
-  m_W = w;
+  //
+  // We assume in this class that the W component is always non-negative.
+  // The rotation represented by a Versor remains unchanged if all its 
+  // four components are negated simultaneously. Therefore, if we are 
+  // requested to initialize a Versor with a negative W, we negate the
+  // signs of all the components.
+  //
+  if( w < 0.0 )
+    {
+    m_X = -x;
+    m_Y = -y;
+    m_Z = -z;
+    m_W = -w;
+    }
+  else
+    {
+    m_X = x;
+    m_Y = y;
+    m_Z = z;
+    m_W = w;
+    }
   this->Normalize();
 }
 

@@ -447,6 +447,29 @@ int itkVersorTest(int, char* [] )
     std::cout << " PASSED !" << std::endl;
 
 
+    std::cout << "Test for Set(x,y,z,w) with negative W.";
+    // Check that a negative W results in negating 
+    // all the versor components.
+    x = - v1.GetX();
+    y = - v1.GetY();
+    z = - v1.GetZ();
+    w = - v1.GetW();
+ 
+    VersorType v3;
+    v3.Set( x, y, z, w );
+
+     // Compare both versors 
+    if( fabs( v1.GetX() - v3.GetX() ) > epsilon ||
+        fabs( v1.GetY() - v3.GetY() ) > epsilon ||
+        fabs( v1.GetZ() - v3.GetZ() ) > epsilon ||
+        fabs( v1.GetW() - v3.GetW() ) > epsilon )
+      {
+      std::cout << "Error in Versor Set() with negative W ! " << std::endl;
+      std::cout << "v1  = " << v1 << std::endl;
+      std::cout << "v3  = " << v3 << std::endl;
+      return EXIT_FAILURE;
+      } 
+    std::cout << " PASSED !" << std::endl;
 
   }
 

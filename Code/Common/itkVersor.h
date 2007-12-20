@@ -89,8 +89,22 @@ public:
   void Set( const VnlQuaternionType & ); 
 
   /** Set the Versor from Quaternion components.
-   \warning After assignment, the corresponding quaternion will 
-            be normalized in order to get a consistent Versor.  */
+   \warning After assignment, the corresponding quaternion will be normalized
+   in order to get a consistent Versor.  Also, if the "w" component is
+   negative, the four components will be negated in order to produce a
+   quaternion where "w" is positive, since this is implicitly assumed in other
+   sections of the code, in particular when "w" is computed from (x,y,z) via
+   normalization. The reason why it is valid to negate all the components is
+   that the rotation by angle \theta, is represented by \sin(\frac{\theta}{2})
+   in the (x,y,z) components and by \cos(\frac{\theta}{2}) in the "w"
+   component. The rotation by any \theta should be equivalent to a rotation by
+   \theta + n \times \pi, therefore we should be able to replace
+   \sin(\frac{\theta}{2}) with \sin(\frac{\theta}{2} + n \times \pi ) and
+   \cos(\frac{\theta}{2}) with \cos(\frac{\theta}{2} + n \times \pi ). 
+   Considering that \cos( n \times \pi ) = (-1)^{n} we can conclude that if we 
+   simultaneously change the signs of all the Versor components, the rotation
+   that it represents remains unchanged.
+   */
   void Set( T x, T y, T z, T w );  
 
 
