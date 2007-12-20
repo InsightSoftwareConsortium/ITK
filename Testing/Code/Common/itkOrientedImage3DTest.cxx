@@ -101,7 +101,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   std::cout << std::endl;
   std::cout << std::endl;
 
-  for( unsigned int pointId=0; pointId < numberOfPointsToTest; ++pointId )
+  for( int pointId=0; pointId < numberOfPointsToTest; ++pointId )
     {
 
     image->TransformIndexToPhysicalPoint( index[pointId], physicalPoint );
