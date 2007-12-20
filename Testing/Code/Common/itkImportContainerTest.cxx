@@ -231,8 +231,13 @@ int itkImportContainerTest(int , char * [] )
             << std::endl;
   }
 
+  // valgrind has problems with exceptions after a failed memory
+  // allocation. Since valgrind is normally built with debug, a check
+  // for NDEBUG will eliminate this code. Unfortunately, coverage is
+  // also built debug, so the coverage report will show that the
+  // exception after a refused allocation is not exercised.
   // SGI's always say they can get you the memory you want.
-#if !defined(__sgi)
+#if (!defined(__sgi) && defined(NDEBUG))
   // Check the exception on the memory allocation
   bool caughtException = false;
   try
@@ -252,7 +257,7 @@ int itkImportContainerTest(int , char * [] )
   delete [] myPtr;
 
   // SGI's always say they can get you the memory you want.
-#if !defined(__sgi)
+#if (!defined(__sgi) && defined(NDEBUG))
   if (!caughtException)
     {
     std::cout << "Failed to catch expected exception" << std::endl;
