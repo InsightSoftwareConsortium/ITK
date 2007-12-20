@@ -317,7 +317,7 @@ def physical_point_to_index( imageOrFilter, p ):
   p = itk.Point[ itk.D, dim ]( p )
   
   # create the output object
-  idx = itk.ContinuousIndex[ itk.D, dim ]()
+  idx = itk.Index[ dim ]()
   for i in range( 0, dim ):
     idx.SetElement( i, int( round( ( p.GetElement(i) - o.GetElement(i) ) / s.GetElement(i) ) ) )
   return idx
