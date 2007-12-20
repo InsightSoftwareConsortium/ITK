@@ -120,6 +120,9 @@ TARGET_LINK_LIBRARIES(LandmarkWarping2 ITKIO)
 ADD_EXECUTABLE(BSplineWarping1 BSplineWarping1.cxx )
 TARGET_LINK_LIBRARIES(BSplineWarping1 ITKIO)
 
+ADD_EXECUTABLE(ThinPlateSplineWarp ThinPlateSplineWarp.cxx )
+TARGET_LINK_LIBRARIES(ThinPlateSplineWarp ITKIO)
+
 ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
 
