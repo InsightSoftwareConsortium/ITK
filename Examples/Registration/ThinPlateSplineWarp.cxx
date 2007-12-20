@@ -21,7 +21,9 @@
 
 
 
-//  Command Line Arguments: LandmarksTPS.txt
+//  Command Line Arguments: Insight/Testing/Data/LandmarkWarping3Landmarks1.txt
+//                          inputImage  deformedImage deformationField
+//
 //  Software Guide : BeginLatex
 //  This example deforms a 3D volume with the Thin plate spline.
 //  \index{ThinPlateSplineKernelTransform}
@@ -35,11 +37,11 @@
 #include "itkLinearInterpolateImageFunction.h"
 
 // Software Guide : BeginCodeSnippet
-#include <itkThinPlateSplineKernelTransform.h>
+#include "itkThinPlateSplineKernelTransform.h"
 // Software Guide : EndCodeSnippet
 
 #include "itkPoint.h"
-#include <itkPointSet.h>
+#include "itkPointSet.h"
 #include <fstream>
 
 
