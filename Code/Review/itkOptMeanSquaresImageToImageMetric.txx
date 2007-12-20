@@ -88,6 +88,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 {
 
   this->Superclass::Initialize();
+  this->Superclass::MultiThreadingInitialize();
 
   if(m_ThreaderMSE != NULL)
     {

@@ -162,6 +162,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::Initialize(void) throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
+  this->Superclass::MultiThreadingInitialize();
 
   typedef StatisticsImageFilter<FixedImageType> FixedImageStatisticsFilterType;
   typename FixedImageStatisticsFilterType::Pointer fixedImageStats =

@@ -228,6 +228,9 @@ public:
    *  are present and plugged together correctly     */
   virtual void Initialize(void) throw ( ExceptionObject );
 
+  /** Initialize the components related to supporting multiple threads */
+  virtual void MultiThreadingInitialize(void) throw ( ExceptionObject );
+
   /** Number of spatial samples to used to compute metric */
   itkSetClampMacro( NumberOfFixedImageSamples,
                     unsigned long, 1, NumericTraits<unsigned long>::max() );

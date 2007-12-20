@@ -199,7 +199,17 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   // If there are any observers on the metric, call them to give the
   // user code a chance to set parameters on the metric
   this->InvokeEvent( InitializeEvent() );
+}
 
+
+/**
+ * MultiThreading Initialize
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::MultiThreadingInitialize(void) throw ( ExceptionObject )
+{
   m_Threader->SetNumberOfThreads( m_NumberOfThreads );
 
   if( m_UseAllPixels )
