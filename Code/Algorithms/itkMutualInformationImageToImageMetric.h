@@ -224,8 +224,12 @@ private:
   typename KernelFunction::Pointer    m_KernelFunction;
   double                              m_MinProbability;
 
-  /** Uniformly select samples from the fixed image buffer. */
-  void SampleFixedImageDomain( SpatialSampleContainer& samples ) const;
+  /** Uniformly select samples from the fixed image buffer.
+   * \warning Note that this method has a different signature than the one in
+   * the base OptImageToImageMetric and therefore they are not intended to
+   * provide polymorphism. That is, this function is not overriding the one in
+   * the base class. */
+  virtual void SampleFixedImageDomain( SpatialSampleContainer& samples ) const;
 
   /**
    * Calculate the intensity derivatives at a point

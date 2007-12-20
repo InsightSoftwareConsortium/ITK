@@ -102,6 +102,12 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
  * Uniformly sample the fixed image domain. Each sample consists of:
  *  - the fixed image value
  *  - the corresponding moving image value
+ *
+ * \warning Note that this method has a different signature than the one in
+ * the base OptImageToImageMetric and therefore they are not intended to
+ * provide polymorphism. That is, this function is not overriding the one in
+ * the base class. 
+ *
  */
 template < class TFixedImage, class TMovingImage  >
 void
