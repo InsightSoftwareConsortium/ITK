@@ -130,9 +130,6 @@ int main( int argc, char * argv[] )
     } 
   infile.close();
 
-  // Set TPS params
-  const unsigned int SpaceDimension = ImageDimension;
-
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer tps = TransformType::New();
   tps->SetSourceLandmarks(sourceLandMarks);
