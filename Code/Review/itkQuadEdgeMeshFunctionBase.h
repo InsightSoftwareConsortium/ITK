@@ -78,10 +78,10 @@ public:
     }
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( )
-    {
-    return( (OutputType) 0 );
-    }
+  //virtual OutputType Evaluate( )
+  //  {
+  //  return( (OutputType) 0 );
+  //  }
 
 protected:
   QuadEdgeMeshFunctionBase()
