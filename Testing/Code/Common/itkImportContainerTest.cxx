@@ -245,6 +245,8 @@ int itkImportContainerTest(int , char * [] )
     std::cout << "Caught expected exception: " << err << std::endl;
     caughtException = true;
     }
+#else
+  caughtException = true;
 #endif
 
   // We must delete the memory we said we would manage
