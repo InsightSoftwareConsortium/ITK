@@ -245,18 +245,19 @@ int itkImportContainerTest(int , char * [] )
     std::cout << "Caught expected exception: " << err << std::endl;
     caughtException = true;
     }
-#else
-  caughtException = true;
 #endif
 
   // We must delete the memory we said we would manage
   delete [] ptr1;
   delete [] myPtr;
 
+  // SGI's always say they can get you the memory you want.
+#if !defined(__sgi)
   if (!caughtException)
     {
     std::cout << "Failed to catch expected exception" << std::endl;
-    return EXIT_FAILURE;   
+    return EXIT_FAILURE;
     }
-  return EXIT_SUCCESS;   
+#endif
+  return EXIT_SUCCESS;
 }
