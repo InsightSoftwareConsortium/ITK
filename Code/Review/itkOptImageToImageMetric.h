@@ -298,7 +298,7 @@ protected:
   typedef std::vector<FixedImageSamplePoint> FixedImageSampleContainer;
 
   /** Uniformly select a sample set from the fixed image domain. */
-  virtual void SampleFixedImageDomain( FixedImageSampleContainer & samples);
+  virtual void SampleFixedImageDomain( FixedImageSampleContainer & samples) const;
 
   virtual void SampleFixedImageIndexes( FixedImageSampleContainer & 
                                            samples);

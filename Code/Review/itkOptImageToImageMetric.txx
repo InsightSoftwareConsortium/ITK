@@ -387,7 +387,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage >
 void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::SampleFixedImageDomain( FixedImageSampleContainer & samples )
+::SampleFixedImageDomain( FixedImageSampleContainer & samples ) const
 {
   // Set up a random interator within the user specified fixed image region.
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
