@@ -231,17 +231,17 @@ ADD_TEST(itkNarrowBandTest ${BASIC_FILTERS_TESTS1} itkNarrowBandTest)
 # The next test uses itkRandomSource which does not produce deterministic
 # results on 64 bit systems. No regression is performed for 64 bit systems.
 #
-IF(${SIZEOF_LONG} EQUAL 4) 
+IF(${CMAKE_SIZEOF_LONG} EQUAL 4) 
   ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS1}
     --compare ${BASELINE}/itkNarrowBandImageFilterBaseTest.png
               ${TEMP}/itkNarrowBandImageFilterBaseTest.png
     itkNarrowBandImageFilterBaseTest
                ${TEMP}/itkNarrowBandImageFilterBaseTest.png)
-ELSE(${SIZEOF_LONG} EQUAL 4) 
+ELSE(${CMAKE_SIZEOF_LONG} EQUAL 4) 
   ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS1}
     itkNarrowBandImageFilterBaseTest
                ${TEMP}/itkNarrowBandImageFilterBaseTest.png)
-ENDIF(${SIZEOF_LONG} EQUAL 4)
+ENDIF(${CMAKE_SIZEOF_LONG} EQUAL 4)
 
 ADD_TEST(itkNeighborhoodOperatorImageFilterTest ${BASIC_FILTERS_TESTS1} itkNeighborhoodOperatorImageFilterTest)
 ADD_TEST(itkNoiseImageFilterTest ${BASIC_FILTERS_TESTS1}
