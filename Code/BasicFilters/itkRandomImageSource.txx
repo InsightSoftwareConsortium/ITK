@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRandomImageSource_txx
-#define _itkRandomImageSource_txx
+#ifndef __itkRandomImageSource_txx
+#define __itkRandomImageSource_txx
 
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
@@ -146,9 +146,8 @@ RandomImageSource<TOutputImage>
   double dMin = static_cast<double>(m_Min);
   double dMax = static_cast<double>(m_Max);
 
-  for ( ; !it.IsAtEnd(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
-
     sample_seed = (sample_seed*16807)%2147483647L;
     u = static_cast<double>(sample_seed)/2147483711UL;
     rnd = (1.0 - u)*dMin + u*dMax;

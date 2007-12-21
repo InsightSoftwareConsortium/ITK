@@ -32,7 +32,9 @@ namespace itk
  * RandomImageSource generates an image of random pixel values.
  * This filter uses an inline random number generator since the library
  * drand48, although thread-safe, is very slow in a threaded environment.
- * The output image may be of any dimension. 
+ * The output image may be of any dimension.
+ * NOTE: To produce deterministic results, set the number of threads
+ * to 1.
  *
  * \ingroup DataSources Multithreaded
  */
@@ -41,9 +43,9 @@ class ITK_EXPORT RandomImageSource : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef RandomImageSource   Self;
-  typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef RandomImageSource         Self;
+  typedef ImageSource<TOutputImage> Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Typedef for the output image PixelType. */
