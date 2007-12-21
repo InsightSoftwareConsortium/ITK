@@ -54,7 +54,7 @@ StructHashFunction< TInput >
 {
   int len = sizeof( InputType );
   const char* p = reinterpret_cast< const char* >( &key );
-  int hash = 0;
+  unsigned int hash = 0;
   while( len-- )
     {
     hash = hash * 65 + *p++;
