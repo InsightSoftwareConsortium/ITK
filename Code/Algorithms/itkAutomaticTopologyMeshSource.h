@@ -119,6 +119,7 @@ public:
 
   /** Hold on to the type information specified by the template parameters. */
   typedef          TOutputMesh               MeshType;
+  typedef typename MeshType::PointHashType   PointHashType;
   typedef typename MeshType::PointType       PointType;
   typedef typename MeshType::CellType        CellType;
   typedef typename MeshType::Pointer         MeshPointer;
@@ -145,7 +146,7 @@ public:
   typedef itk::hash_map<
     PointType,
     IdentifierType,
-    StructHashFunction< PointType > >          PointHashMap;
+    StructHashFunction< PointHashType > >          PointHashMap;
 
   /** The dimension of the output mesh. */
   itkStaticConstMacro(PointDimension, unsigned int,

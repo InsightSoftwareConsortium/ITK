@@ -132,6 +132,7 @@ public:
   typedef typename Superclass::CellPixelType    CellPixelType;
   typedef typename Superclass::CoordRepType     CoordRepType;
   typedef typename Superclass::PointIdentifier  PointIdentifier;
+  typedef typename Superclass::PointHashType    PointHashType;
   typedef typename Superclass::PointType        PointType;
   typedef typename Superclass::CellTraits       CellTraits;
 

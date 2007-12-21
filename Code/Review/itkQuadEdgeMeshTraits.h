@@ -111,6 +111,10 @@ public:
   typedef typename QEPrimal::OriginRefType     VertexRefType;
   typedef typename QEPrimal::DualOriginRefType FaceRefType;
 
+  /** The type of point used for hashing.  This should never change from
+   * this setting, regardless of the mesh type. */
+  typedef Point< CoordRepType, VPointDimension >       PointHashType;
+
   /** Points have an entry in the Onext ring */
   typedef QuadEdgeMeshPoint< 
     CoordRepType, VPointDimension, QEPrimal >           PointType;

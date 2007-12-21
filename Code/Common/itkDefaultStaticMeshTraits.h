@@ -88,9 +88,12 @@ public:
    * this will probably never change from an integer setting. */
   typedef unsigned long  CellFeatureIdentifier;
   
-  /** The type of point used by the mesh.  This should never change from
-   * this setting, regardless of the mesh type. */
+  /** The type of point used by the mesh. */
   typedef Point< CoordRepType, VPointDimension >  PointType;
+
+  /** The type of point used for hashing.  This should never change from
+   * this setting, regardless of the mesh type. */
+  typedef Point< CoordRepType, VPointDimension >  PointHashType;
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainer interface. */

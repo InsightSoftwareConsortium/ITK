@@ -154,6 +154,7 @@ public:
   typedef typename MeshTraits::PointIdentifier         PointIdentifier;
   typedef typename MeshTraits::CellIdentifier          CellIdentifier;
   typedef typename MeshTraits::CellFeatureIdentifier   CellFeatureIdentifier;
+  typedef typename MeshTraits::PointHashType           PointHashType;
   typedef typename MeshTraits::PointType               PointType;
   typedef typename MeshTraits::PointsContainer         PointsContainer;
   typedef typename MeshTraits::CellTraits              CellTraits;
