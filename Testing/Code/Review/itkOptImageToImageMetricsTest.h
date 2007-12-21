@@ -97,7 +97,7 @@ public:
     // Walk around the parameter value at parameterIdx
     for (int parameterIdx = 0; parameterIdx < parameters.GetSize(); parameterIdx++)
       {
-      std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << std::endl; //[" << parameterIdx << "]" << std::endl;
+      std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << std::endl;
       double startVal = parameters[parameterIdx];
       // endVal is 10% beyond startVal.
       double endVal = 1.10 * startVal;
@@ -337,7 +337,7 @@ void TranslationLinearTest( FixedImageReaderType* fixedImageReader,
 template <class FixedImageReaderType, class MovingImageReaderType>
 void DoDebugTest( FixedImageReaderType* fixedImageReader,
                   MovingImageReaderType* movingImageReader)
-  {
+{
   typedef typename MovingImageReaderType::OutputImageType MovingImageType;
 
   typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
@@ -411,7 +411,7 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
   // Force the test to end here so the debug file
   // ends at the right place.
   exit(EXIT_SUCCESS);
-  }
+}
 
 } // end namespace itk
 
