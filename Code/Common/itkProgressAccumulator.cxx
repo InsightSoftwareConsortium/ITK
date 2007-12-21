@@ -65,7 +65,7 @@ ProgressAccumulator
 {
   // The filters should no longer be observing us
   FilterRecordVector::iterator it;
-  for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+  for(it = m_FilterRecord.begin(); it != m_FilterRecord.end();++it)
     {
     it->Filter->RemoveObserver(it->ProgressObserverTag);
     it->Filter->RemoveObserver(it->IterationObserverTag);
@@ -88,7 +88,7 @@ ProgressAccumulator
   
   // Reset each of the individial progress meters 
   FilterRecordVector::iterator it;
-  for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+  for(it = m_FilterRecord.begin();it != m_FilterRecord.end();++it)
     {
     it->Progress = 0.0f;
     it->Filter->SetProgress( 0.0f );
@@ -102,7 +102,7 @@ ProgressAccumulator
   m_BaseAccumulatedProgress = m_AccumulatedProgress;
   // Reset each of the individial progress meters 
   FilterRecordVector::iterator it;
-  for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+  for(it = m_FilterRecord.begin();it != m_FilterRecord.end();++it)
     {
     it->Progress = 0.0f;
     it->Filter->SetProgress( 0.0f );
@@ -122,7 +122,7 @@ ProgressAccumulator
     m_AccumulatedProgress = m_BaseAccumulatedProgress;
 
     FilterRecordVector::iterator it;
-    for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+    for(it = m_FilterRecord.begin();it != m_FilterRecord.end();++it)
       {
       m_AccumulatedProgress += it->Filter->GetProgress() * it->Weight;
       }
@@ -134,12 +134,12 @@ ProgressAccumulator
     if ( m_MiniPipelineFilter->GetAbortGenerateData() )
       {
       // Abort the filter that is reporting progress
-      FilterRecordVector::iterator it;
-      for(it = m_FilterRecord.begin();it!=m_FilterRecord.end();++it)
+      FilterRecordVector::iterator fit;
+      for(fit = m_FilterRecord.begin();fit != m_FilterRecord.end();++it)
         {
-        if (who == it->Filter)
+        if (who == fit->Filter)
           {
-          it->Filter->AbortGenerateDataOn();
+          fit->Filter->AbortGenerateDataOn();
           }
         }
       }
@@ -163,5 +163,3 @@ void ProgressAccumulator
 }
 
 } // End namespace itk
-
-

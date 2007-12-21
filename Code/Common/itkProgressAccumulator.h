@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkProgressAccumulator_h_
-#define __itkProgressAccumulator_h_
+#ifndef __itkProgressAccumulator_h
+#define __itkProgressAccumulator_h
 
 #include "itkCommand.h"
 #include "itkObject.h"
@@ -28,7 +28,7 @@ namespace itk {
  * \class ProgressAccumulator
  * \brief Facilitates progress reporting for filters that wrap around
  *        multiple other filters.
- *        
+ *
  * This object allows a mini-pipeline filters to easily keep track of the 
  * progress performed by the internal filters.  
  * See DiscreteGaussianImageFilter.txx for an implementation example.
@@ -138,4 +138,3 @@ private:
 } // End namespace itk
 
 #endif // __itkProgressAccumulator_h_
-
