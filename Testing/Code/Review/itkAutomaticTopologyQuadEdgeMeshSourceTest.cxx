@@ -80,7 +80,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
 
   IdentifierArrayType idArray( 8 );
     {
-    for( IdentifierType i = 0; i < 8; i++ )
+    for( unsigned int i = 0; i < 8; i++ )
       {
       idArray[ i ] = i;
       }
@@ -249,7 +249,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
 
   // ... In more detail.
 
-  unsigned int i;
+  unsigned long i;
 
   std::cout << mesh->GetNumberOfPoints() << " points:" << std::endl;
   for( i = 0; i < mesh->GetNumberOfPoints(); i++ )
@@ -330,7 +330,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
 
   // Check that the right number of points has been added.
 
-  int numPoints = meshSource->GetOutput()->GetNumberOfPoints();
+  unsigned long numPoints = meshSource->GetOutput()->GetNumberOfPoints();
   if( numPoints != 17 )
     {
     std::cerr << "Mesh shows " << numPoints
@@ -340,7 +340,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
 
   // Check that the right number of cells has been added.
 
-  int numCells = meshSource->GetOutput()->GetNumberOfCells();
+  unsigned long numCells = meshSource->GetOutput()->GetNumberOfCells();
   if( numCells != 53 )
     {
     std::cerr << "Mesh shows "

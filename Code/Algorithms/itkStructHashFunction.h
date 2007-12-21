@@ -52,7 +52,7 @@ inline unsigned int
 StructHashFunction< TInput >
 ::operator()( const InputType& key ) const
 {
-  int len = sizeof( InputType );
+  ::size_t len = sizeof( InputType );
   const char* p = reinterpret_cast< const char* >( &key );
   unsigned int hash = 0;
   while( len-- )
