@@ -272,7 +272,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
         }
       derivativeValue[n] += m_Coefficients->GetPixel(coefficientIndex) * tempValue;
       }
-     derivativeValue[n] /= spacing[n];
+    derivativeValue[n] /= spacing[n];
     }
 
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
