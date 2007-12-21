@@ -1,5 +1,5 @@
 #
-# Check if the system is big endian or little endian
+# Tests whether the compiler is Intel icc and needs -i_dynamic
 #
 # VARIABLE - variable to store the result to
 #
