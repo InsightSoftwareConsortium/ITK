@@ -135,7 +135,7 @@ ProgressAccumulator
       {
       // Abort the filter that is reporting progress
       FilterRecordVector::iterator fit;
-      for(fit = m_FilterRecord.begin();fit != m_FilterRecord.end();++it)
+      for(fit = m_FilterRecord.begin();fit != m_FilterRecord.end();++fit)
         {
         if (who == fit->Filter)
           {
