@@ -98,7 +98,7 @@ public:
    * successive equivalencies.  For example, if the follow entries
    * exist in the table {8=7, 7=6, 6=5}, then RecursiveLookup(8)
    * returns 5.  */
-  unsigned long RecursiveLookup(const unsigned a) const;
+  unsigned long RecursiveLookup(const unsigned long a) const;
 
   /** Returns TRUE if the label is found in the table and FALSE is the label is
    * not found in the table.   */

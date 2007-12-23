@@ -87,6 +87,7 @@ public:
 
   /** This type is provided to Adapt this container as an STL container */
   typedef VectorType STLContainerType;
+  typedef typename VectorType::size_type VectorContainerSizeType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

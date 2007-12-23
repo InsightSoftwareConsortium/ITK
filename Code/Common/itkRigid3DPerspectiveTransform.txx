@@ -31,7 +31,7 @@ Rigid3DPerspectiveTransform():Superclass(SpaceDimension,ParametersDimension)
   m_Offset.Fill( 0 );
   m_Versor.SetIdentity();
   m_RotationMatrix = m_Versor.GetMatrix();
-  m_FocalDistance = 1.0;
+  m_FocalDistance = NumericTraits<ScalarType>::One;
   m_FixedOffset.Fill(0);
   m_CenterOfRotation.Fill(0);
   this->m_Parameters.Fill(0);

@@ -58,6 +58,7 @@ public:
   
   typedef float APrioriValueType ;
   typedef std::vector< APrioriValueType > APrioriVectorType ;
+  typedef APrioriVectorType::size_type APrioriVectorSizeType ;
 
 
   /** Types for the arguments that are acceptable in the Evaluate() method */
@@ -87,7 +88,7 @@ protected:
   
 private:
   /** Number of classes */
-  unsigned int m_NumberOfClasses ;
+  APrioriVectorSizeType m_NumberOfClasses ;
 
   /** a priori probability ratio matrix: internal use */
   vnl_matrix< double > m_APrioriRatioMatrix ;

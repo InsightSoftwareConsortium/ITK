@@ -558,7 +558,7 @@ KLMSegmentationRegion
 } // end GetRegionBorderConstItEnd
 
 
-int
+KLMSegmentationRegion::RegionBorderVectorSizeType
 KLMSegmentationRegion
 ::GetRegionBorderSize() const
 {

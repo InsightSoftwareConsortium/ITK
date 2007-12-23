@@ -107,6 +107,7 @@ public:
   /** Type definition for vector container that stores the borders
    * associated with a current region. */
   typedef std::vector< KLMSegmentationBorder * > RegionBorderVectorType;
+  typedef RegionBorderVectorType::size_type RegionBorderVectorSizeType;
 
   /** Type definition for the region border vector iterators to be used. */
   typedef RegionBorderVectorType::iterator RegionBorderVectorIterator;
@@ -129,7 +130,7 @@ public:
 
   /** Get the number of borders in the vector container storing the borders
    * associated with a region. */
-  int GetRegionBorderSize() const;
+  RegionBorderVectorSizeType GetRegionBorderSize() const;
 
   /** Set/Get the mean pixel intensity in the region. */
   itkSetMacro(MeanRegionIntensity, MeanRegionIntensityType)

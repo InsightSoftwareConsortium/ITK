@@ -95,7 +95,7 @@ void EquivalencyTable::Flatten()
     }
 }
 
-unsigned long EquivalencyTable::RecursiveLookup(const unsigned a) const
+unsigned long EquivalencyTable::RecursiveLookup(const unsigned long a) const
 {
   unsigned long ans = a;
   unsigned long last_ans=a;

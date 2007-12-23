@@ -28,8 +28,8 @@ template<class ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::
 ScaleTransform():Superclass(SpaceDimension,ParametersDimension)
 {
-  m_Scale.Fill( 1.0 );
-  m_Center.Fill( 0.0 );
+  m_Scale.Fill( NumericTraits<ScalarType>::One );
+  m_Center.Fill( NumericTraits<ScalarType>::Zero );
 }
     
 

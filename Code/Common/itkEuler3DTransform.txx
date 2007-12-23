@@ -30,7 +30,7 @@ Euler3DTransform<TScalarType>
   Superclass(SpaceDimension, ParametersDimension)
 {
   m_ComputeZYX = false;
-  m_AngleX = m_AngleY = m_AngleZ = 0.0;
+  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::Zero;
 }
 
 // Constructor with default arguments
@@ -58,7 +58,7 @@ Euler3DTransform<TScalarType>
   Superclass(spaceDimension, parametersDimension)
 {
   m_ComputeZYX = false;
-  m_AngleX = m_AngleY = m_AngleZ = 0.0;
+  m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::Zero;
 }
 
 // Set Parameters

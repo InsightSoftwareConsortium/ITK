@@ -237,7 +237,7 @@ DataObject
 
 bool
 DataObject
-::DisconnectSource(ProcessObject *arg, unsigned int idx) const
+::DisconnectSource(ProcessObject *arg, unsigned long idx) const
 {
   if ( m_Source == arg && m_SourceOutputIndex == idx)
     {
@@ -259,7 +259,7 @@ DataObject
 
 bool
 DataObject
-::ConnectSource(ProcessObject *arg, unsigned int idx) const
+::ConnectSource(ProcessObject *arg, unsigned long idx) const
 {
   if ( m_Source != arg || m_SourceOutputIndex != idx)
     {

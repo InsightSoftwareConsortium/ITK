@@ -27,14 +27,14 @@ OrthogonallyCorrected2DParametricPath::OutputType
 OrthogonallyCorrected2DParametricPath
 ::Evaluate( const InputType & inputValue ) const
 {
-  InputType           input = inputValue; // we may want to remap the input
-  InputType           inputRange;
-  InputType           normalizedInput;
-  OutputType          output;
-  int                 numOrthogonalCorrections;
-  double              softOrthogonalCorrectionTableIndex;
-  double              Correction, Correction1, Correction2;
-  VectorType          originalDerivative;
+  InputType               input = inputValue; // we may want to remap the input
+  InputType               inputRange;
+  InputType               normalizedInput;
+  OutputType              output;
+  OrthogonalCorrectionTableSizeType numOrthogonalCorrections;
+  double                  softOrthogonalCorrectionTableIndex;
+  double                  Correction, Correction1, Correction2;
+  VectorType              originalDerivative;
   
   numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size(); 
 

@@ -27,7 +27,7 @@ void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType& values)
 {
   m_NumberOfClasses = values.size() ;
   m_APrioriRatioMatrix.set_size(values.size(), values.size()) ;
-  unsigned int i, j ;
+  APrioriVectorSizeType i, j ;
   double APrioriRatio ;
   for (i = 0 ; i < m_NumberOfClasses ; i++)
     {

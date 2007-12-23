@@ -39,7 +39,7 @@ ProcessObject
   m_NumberOfRequiredOutputs = 0;
 
   m_AbortGenerateData = false;
-  m_Progress = 0.0;
+  m_Progress = 0.0f;
   m_Updating = false;
   
   m_Threader = MultiThreader::New();
@@ -972,7 +972,7 @@ ProcessObject
    * before we start to execute is 0.0.
    */
   m_AbortGenerateData = false;
-  m_Progress = 0.0;
+  m_Progress = 0.0f;
 
   /**
    * Count the number of required inputs which have been assigned 
@@ -1012,7 +1012,7 @@ ProcessObject
    */
   if ( m_AbortGenerateData )
     {
-    this->UpdateProgress(1.0);
+    this->UpdateProgress(1.0f);
     }
 
   /**

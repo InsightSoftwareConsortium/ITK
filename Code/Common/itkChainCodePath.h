@@ -75,6 +75,8 @@ public:
 
   typedef std::vector<OffsetType>  ChainCodeType;
 
+  typedef typename ChainCodeType::size_type ChainCodeSizeType;
+
   // Functions inherited from Path
   
   /** Evaluate the chaincode for the offset at the specified path-position. */
@@ -127,7 +129,7 @@ public:
     }
   
   /** How many steps in the chaincode? */
-  virtual inline unsigned int NumberOfSteps() const
+  virtual inline ChainCodeSizeType NumberOfSteps() const
     {
     return m_Chain.size();
     }
