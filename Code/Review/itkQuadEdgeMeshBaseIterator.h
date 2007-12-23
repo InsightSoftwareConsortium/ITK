@@ -306,7 +306,7 @@ public:
   QuadEdgeMeshConstIterator( const QuadEdgeType* e = (QuadEdgeType*)0,
                              int op = Superclass::OperatorOnext,
                              bool start = true )
-    : Superclass( ( QuadEdgeType* )e, op, start ) {}
+    : Superclass( const_cast<QuadEdgeType*>(e), op, start ) {}
   
   virtual ~QuadEdgeMeshConstIterator() {}
 
