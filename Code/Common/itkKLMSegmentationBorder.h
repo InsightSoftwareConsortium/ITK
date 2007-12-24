@@ -64,11 +64,11 @@ public:
         // constant C, allowing a single region to be repeatedly
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
-        unsigned int v1 = vnl_math_max(
+        KLMSegmentationRegion::RegionBorderVectorSizeType v1 = vnl_math_max(
           m_Pointer->GetRegion1()->GetRegionBorderSize(),
           m_Pointer->GetRegion2()->GetRegionBorderSize() );
 
-        unsigned int v2 = vnl_math_max(
+        KLMSegmentationRegion::RegionBorderVectorSizeType v2 = vnl_math_max(
           rhs.m_Pointer->GetRegion1()->GetRegionBorderSize(),
           rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() );
 
@@ -94,11 +94,11 @@ public:
         // constant C, allowing a single region to be repeatedly
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
-        unsigned int v1 = vnl_math_max(
+        KLMSegmentationRegion::RegionBorderVectorSizeType v1 = vnl_math_max(
           m_Pointer->GetRegion1()->GetRegionBorderSize(),
           m_Pointer->GetRegion2()->GetRegionBorderSize() );
 
-        unsigned int v2 = vnl_math_max(
+        KLMSegmentationRegion::RegionBorderVectorSizeType v2 = vnl_math_max(
           rhs.m_Pointer->GetRegion1()->GetRegionBorderSize(),
           rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() );
 
