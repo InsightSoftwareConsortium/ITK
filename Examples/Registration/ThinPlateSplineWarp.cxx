@@ -203,13 +203,15 @@ int main( int argc, char * argv[] )
   DeformationFieldType::IndexType index;
 
   FieldVectorType displacement;
-  int i;
   while( ! fi.IsAtEnd() )
     {
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint( index, point1 );
     point2 = tps->TransformPoint( point1 );
-    for (i=0;i<ImageDimension;i++) displacement[i] = point2[i] - point1[i];
+    for ( unsigned int i = 0;i < ImageDimension;i++)
+      {
+      displacement[i] = point2[i] - point1[i];
+      }
     fi.Set( displacement );
     ++fi;
     }
