@@ -20,20 +20,21 @@ formatPNM.c formatText.c formatVTK.c )
 # used on windows builds.
 ADD_DEFINITIONS(-DTEEM_BUILD=1)
 
+# Configure files with settings for use by the build.
+CONFIGURE_FILE(${ITKNrrdIO_SOURCE_DIR}/NrrdConfigure.h.in 
+  ${ITKNrrdIO_BINARY_DIR}/NrrdConfigure.h)
+
+# Need to be able to fine NrrdConfig.h
+INCLUDE_DIRECTORIES(
+        ${ITKNrrdIO_BINARY_DIR} 
+)
+
 # Set compiler flags for endian-ness.
 IF(CMAKE_WORDS_BIGENDIAN)
   ADD_DEFINITIONS(-DTEEM_ENDIAN=4321)
 ELSE(CMAKE_WORDS_BIGENDIAN)
   ADD_DEFINITIONS(-DTEEM_ENDIAN=1234)
 ENDIF(CMAKE_WORDS_BIGENDIAN)
-
-# Set compiler flags for 32 or 64 bit architecture (based on the size
-# of a void pointer).
-IF(CMAKE_SIZEOF_VOID_P MATCHES  8)
-  ADD_DEFINITIONS(-DTEEM_32BIT=0)
-ELSE(CMAKE_SIZEOF_VOID_P MATCHES 8)
-  ADD_DEFINITIONS(-DTEEM_32BIT=1)
-ENDIF(CMAKE_SIZEOF_VOID_P MATCHES 8)
 
 #The QNANHIBIT variable is configured by the root level CMakeLists.txt
 IF(QNANHIBIT)

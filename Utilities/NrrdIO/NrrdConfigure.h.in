@@ -1,0 +1,18 @@
+// Configure compile time dependent code
+// BUG: 0005904 shows that special action must be taken for Mac 64 bit systems.
+// See: http://public.kitware.com/Bug/view.php?id=5904
+/* 32 or 64 bits.  */
+/* All compilers that support Mac OS X define __LP64__ if the architecture is
+  64 bits. */
+#define CMAKE_SIZEOF_VOID_P @CMAKE_SIZEOF_VOID_P@
+#if !defined(__APPLE__)
+ #if CMAKE_SIZEOF_VOID_P == 8
+   #define TEEM_32BIT 0
+ #else
+   #define TEEM_32BIT 1
+ #endif
+#elif defined(__LP64__) && __LP64__
+ #define TEEM_32BIT 0
+#else
+ #define TEEM_32BIT 1
+#endif
