@@ -30,6 +30,7 @@ SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
   ${ITK_SOURCE_DIR}/Code/SpatialObject
   ${ITK_SOURCE_DIR}/Utilities/MetaIO
   ${ITK_SOURCE_DIR}/Utilities/NrrdIO
+  ${ITK_BINARY_DIR}/Utilities/NrrdIO
   ${ITK_SOURCE_DIR}/Utilities/DICOMParser
   ${ITK_BINARY_DIR}/Utilities/DICOMParser
   ${ITK_BINARY_DIR}/Utilities/expat
