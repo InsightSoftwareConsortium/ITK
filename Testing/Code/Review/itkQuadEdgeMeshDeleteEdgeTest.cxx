@@ -80,6 +80,5 @@ int itkQuadEdgeMeshDeleteEdgeTest( int , char* [] )
     return( EXIT_FAILURE );
     }
 
-  mesh->Delete( );
-   
+    return( EXIT_SUCCESS );
 }
