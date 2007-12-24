@@ -32,7 +32,7 @@ namespace itk
 namespace Function
 {
 
-inline unsigned int Max3(float x, float y, float z)
+inline unsigned Max3(double x, double y, double z)
 {
   const double obliquityThresholdCosineValue = 0.001;
   
@@ -56,7 +56,7 @@ inline unsigned int Max3(float x, float y, float z)
   return 0;
 }
 
-inline int Sign(float x)
+inline int Sign(double x)
 {
   if(x < 0)
     {

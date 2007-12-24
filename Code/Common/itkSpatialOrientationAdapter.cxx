@@ -27,8 +27,8 @@ SpatialOrientationAdapter::OrientationType
 SpatialOrientationAdapter
 ::FromDirectionCosines(const DirectionType &Dir)
 {
-  unsigned int axes[9] = {0,0,0,0,0,0,0,0,0};
-  unsigned int dominant_axis;
+  int axes[9] = {0,0,0,0,0,0,0,0,0};
+  unsigned dominant_axis;
 
   dominant_axis = Function::Max3(Dir[0][0],Dir[1][0],Dir[2][0]);
   axes[dominant_axis] = Function::Sign(Dir[dominant_axis][0]);
@@ -43,7 +43,7 @@ SpatialOrientationAdapter
      SpatialOrientation::ITK_COORDINATE_UNKNOWN
      };
 
-  for(unsigned int i = 0; i < 3; i++)
+  for(unsigned i = 0; i < 3; i++)
     {
     if(int(axes[(i*3)]) == 1)
       {
