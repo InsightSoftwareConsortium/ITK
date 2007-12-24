@@ -347,7 +347,7 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateDataBand(const OutputImageRegionType& outputRegionForThread,
+::ThreadedGenerateDataBand(const OutputImageRegionType& itkNotUsed(outputRegionForThread),
                            int threadId)
 {
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
