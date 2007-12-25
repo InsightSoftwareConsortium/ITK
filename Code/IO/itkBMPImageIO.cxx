@@ -111,7 +111,7 @@ bool BMPImageIO::CanReadFile( const char* filename )
   int  itmp;       // in case we are on a 64bit machine
 
   // get the size of the file
-  int sizeLong = sizeof(long);
+  ::size_t sizeLong = sizeof(long);
   if (sizeLong == 4)
     {
     inputStream.read((char*)&tmp,4);
@@ -361,7 +361,7 @@ void BMPImageIO::ReadImageInformation()
     }
 
   // get the size of the file
-  int sizeLong = sizeof(long);
+  ::size_t sizeLong = sizeof(long);
   if (sizeLong == 4)
     {
     m_Ifstream.read((char*)&tmp,4);
