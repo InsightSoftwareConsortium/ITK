@@ -360,6 +360,10 @@ ObjectFactoryBase
           newfactory->m_LibraryDate = 0; // unused for now...
           ObjectFactoryBase::RegisterFactory(newfactory);
           }
+        else
+          {
+          DynamicLoader::CloseLibrary(lib);
+          }
         }
       }
     }
