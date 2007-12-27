@@ -106,7 +106,7 @@ int itkMeanSquaresHistogramImageToImageMetricTest(int , char* [])
     
     // Set up an interpolator.
     typedef itk::LinearInterpolateImageFunction<MovingImageType,
-      double> InterpolatorType;
+      CoordinateRepresentationType> InterpolatorType;
     
     InterpolatorType::Pointer interpolator = InterpolatorType::New();
     interpolator->SetInputImage(movingImage.GetPointer());
