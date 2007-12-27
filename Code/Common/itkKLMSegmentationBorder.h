@@ -66,12 +66,12 @@ public:
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
         ::size_t v1 = vnl_math_max(
-          m_Pointer->GetRegion1()->GetRegionBorderSize(),
-          m_Pointer->GetRegion2()->GetRegionBorderSize() );
+          static_cast< ::size_t>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< ::size_t>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
 
         ::size_t v2 = vnl_math_max(
-          rhs.m_Pointer->GetRegion1()->GetRegionBorderSize(),
-          rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() );
+          static_cast< ::size_t>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< ::size_t>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
 
         return ( v1 > v2 );
         }
@@ -96,12 +96,12 @@ public:
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
         ::size_t v1 = vnl_math_max(
-          m_Pointer->GetRegion1()->GetRegionBorderSize(),
-          m_Pointer->GetRegion2()->GetRegionBorderSize() );
+          static_cast< ::size_t>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< ::size_t>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
 
         ::size_t v2 = vnl_math_max(
-          rhs.m_Pointer->GetRegion1()->GetRegionBorderSize(),
-          rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() );
+          static_cast< ::size_t>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< ::size_t>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
 
         return ( v1 > v2 );
         }
