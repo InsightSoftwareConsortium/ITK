@@ -328,6 +328,8 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
                       std::cout << " Failed X Tolerance too small "; break;
     case  vnl_nonlinear_minimizer::FAILED_GTOL_TOO_SMALL:
                       std::cout << " Failed G Tolerance too small "; break;
+    case  vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
+                      std::cout << " Failed user request "; break;
   }
   std::cout << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
