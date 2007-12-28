@@ -637,6 +637,21 @@ private:
 
 //----------------------------------------------------------------------------
 // Setup legacy code policy.
+//
+// CMake options ITK_LEGACY_REMOVE and ITK_LEGACY_SILENT are converted
+// to definitions (or non-defs) in itkConfigure.h and tested below.
+// They may be used to completely remove legacy code or silence the
+// warnings.  The default is to warn about their use.
+//
+// Source files that test the legacy code may define ITK_LEGACY_TEST
+// like this:
+//
+//  #define ITK_LEGACY_TEST
+//  #include "itkClassWithDeprecatedMethod.h"
+//
+// in order to silence the warnings for calling deprecated methods.
+// No other source files in ITK should call the methods since they are
+// provided only for compatibility with older user code.
 
 // Define itkLegacyMacro to mark legacy methods where they are
 // declared in their class.  Example usage:
@@ -648,8 +663,8 @@ private:
 // place to avoid stray semicolons because this is an error for some
 // compilers.  Using a class forward declaration allows any number
 // of repeats in any context without generating unique names.
-# define itkLegacyMacro(method) class itkLegacyMethodRemoved;
-#elif defined(ITK_LEGACY_SILENT) || defined(CSWIG)
+# define itkLegacyMacro(method) class itkLegacyMethodRemoved /* no ';' */
+#elif defined(ITK_LEGACY_SILENT) || defined(ITK_LEGACY_TEST) || defined(CSWIG)
   // Provide legacy methods with no warnings.
 # define itkLegacyMacro(method) method
 #else
