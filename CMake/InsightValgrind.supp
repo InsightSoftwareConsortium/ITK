@@ -339,5 +339,6 @@
    dlopen leak2
    Memcheck:Leak
    fun:calloc
+   obj:/lib/libdl-2.3.?.so
    fun:dlopen*
 }
