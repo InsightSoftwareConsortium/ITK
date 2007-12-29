@@ -53,10 +53,10 @@ class ITK_EXPORT GradientRecursiveGaussianImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientRecursiveGaussianImageFilter  Self;
+  typedef GradientRecursiveGaussianImageFilter         Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
   
   
   /** Pixel Type of the input image */
@@ -78,15 +78,13 @@ public:
                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
 
-
-
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar 
    *  smoothing filters to compute each one of the 
    *  components of the gradient image pixels. */
   typedef NthElementImageAdaptor< TOutputImage,
                                   InternalRealType >  OutputImageAdaptorType;
-  typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
+  typedef typename OutputImageAdaptorType::Pointer    OutputImageAdaptorPointer;
 
   /**  Smoothing filter type */
   typedef RecursiveGaussianImageFilter<
@@ -112,7 +110,7 @@ public:
 
 
   /** Type of the output Image */
-  typedef TOutputImage      OutputImageType;
+  typedef TOutputImage                                      OutputImageType;
   typedef typename          OutputImageType::PixelType      OutputPixelType;
   typedef typename PixelTraits<OutputPixelType>::ValueType  OutputComponentType;
 
@@ -144,7 +142,7 @@ public:
    * into account the image Direction or not. The flag ON will take into
    * account the image direction and will result in an extra matrix
    * multiplication compared to the amount of computation performed when the
-   * flag is OFF.  This flag is OFF by default.*/
+   * flag is OFF.  This flag is OFF by default. */
   itkSetMacro( UseImageDirection, bool );
   itkGetMacro( UseImageDirection, bool );
   itkBooleanMacro( UseImageDirection );
@@ -191,7 +189,3 @@ private:
 #endif
 
 #endif
-
-
-
-
