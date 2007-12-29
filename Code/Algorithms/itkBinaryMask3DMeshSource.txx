@@ -1243,6 +1243,13 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         }
       else
         {
+        if (m_LastRowNum >  m_CurrentRowIndex)
+          {
+          for (i = m_CurrentRowIndex; i < m_LastRowNum; i++)
+            {
+            free(m_LastRow[i]);
+            }
+          }
         m_LastRow = ( unsigned long ** ) realloc( m_LastRow, m_CurrentRowIndex*sizeof(unsigned long *) );
         }
       for ( i=0; i<m_CurrentRowIndex; i++ )
@@ -1285,6 +1292,13 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
         }
       else
         {
+        if (m_LastFrameNum >  m_CurrentFrameIndex)
+          {
+          for (i = m_CurrentFrameIndex; i < m_LastFrameNum; i++)
+            {
+            free(m_LastFrame[i]);
+            }
+          }
         m_LastFrame = ( unsigned long ** ) realloc( m_LastFrame, m_CurrentFrameIndex*sizeof(unsigned long *) );
         }
       for ( i=0; i<m_CurrentFrameIndex; i++ )
