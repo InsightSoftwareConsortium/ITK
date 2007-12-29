@@ -65,13 +65,13 @@ public:
         // constant C, allowing a single region to be repeatedly
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
-        ::size_t v1 = vnl_math_max(
-          static_cast< ::size_t>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< ::size_t>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
+        double v1 = vnl_math_max(
+          static_cast< double>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< double>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
 
-        ::size_t v2 = vnl_math_max(
-          static_cast< ::size_t>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< ::size_t>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
+        double v2 = vnl_math_max(
+          static_cast< double>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< double>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
 
         return ( v1 > v2 );
         }
@@ -95,13 +95,13 @@ public:
         // constant C, allowing a single region to be repeatedly
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
-        ::size_t v1 = vnl_math_max(
-          static_cast< ::size_t>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< ::size_t>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
+        double v1 = vnl_math_max(
+          static_cast< double>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< double>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
 
-        ::size_t v2 = vnl_math_max(
-          static_cast< ::size_t>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< ::size_t>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
+        double v2 = vnl_math_max(
+          static_cast< double>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
+          static_cast< double>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
 
         return ( v1 > v2 );
         }
