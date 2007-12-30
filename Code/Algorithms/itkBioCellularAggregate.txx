@@ -52,7 +52,6 @@ template<unsigned int NSpaceDimension>
 CellularAggregate<NSpaceDimension>
 ::~CellularAggregate()
 {
-  m_Mesh->DebugOn();
   this->KillAll();
 }
 
@@ -116,10 +115,13 @@ CellularAggregate<NSpaceDimension>
 
     if( !realRegion )
       {
-      std::cerr << "CellularAggregate::Remove() couldn't dynamic_cast region " << std::endl;
+      itkExceptionMacro("CellularAggregate::Remove() couldn't dynamic_cast region ");
       }
     else
       {
+      //
+      // Notify all the neighbors that this cell is going away
+      //
       typename VoronoiRegionType::PointIdIterator neighbor = realRegion->PointIdsBegin();
       typename VoronoiRegionType::PointIdIterator end      = realRegion->PointIdsEnd();
       while( neighbor != end )
@@ -142,14 +144,23 @@ CellularAggregate<NSpaceDimension>
           }
         neighbor++;
         }
+
+      // We can now remove the entry from the list of cells in the Mesh
+      m_Mesh->GetCells()->DeleteIndex( id );
+
+      // and then release the memory used by the VoronoiRegion
+      delete realRegion; 
       }
-    // update voronoi connections
+    }
+  else
+    {
+    itkExceptionMacro(" Region " << id << " doesn't exist ");
     }
  
-  m_Mesh->GetCells()->DeleteIndex( id );
   m_Mesh->GetPoints()->DeleteIndex( id );
   m_Mesh->GetPointData()->DeleteIndex( id );
- 
+
+  // Finally we can delete the BioCell;
   delete cell;
 }
 
