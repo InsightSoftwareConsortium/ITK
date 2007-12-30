@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTriangleMeshToBinaryImageFilter_txx
-#define _itkTriangleMeshToBinaryImageFilter_txx
+#ifndef __itkTriangleMeshToBinaryImageFilter_txx
+#define __itkTriangleMeshToBinaryImageFilter_txx
 
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -158,7 +158,7 @@ bool
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::ComparePoints1D(Point1D a, Point1D b)
 {
-  return (a.x < b.x);
+  return (a.m_X < b.m_X);
 }
 //----------------------------------------------------------------------------
 
@@ -187,11 +187,11 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 
   OutputImage->SetLargestPossibleRegion( region);     // 
   OutputImage->SetBufferedRegion( region );           // set the region 
-  OutputImage->SetRequestedRegion( region );          //                                                                       
+  OutputImage->SetRequestedRegion( region );          //
   OutputImage->SetSpacing(m_Spacing);         // set spacing
   OutputImage->SetOrigin(m_Origin);   //   and origin
 
-  OutputImage->Allocate();   // allocate the image                            
+  OutputImage->Allocate();   // allocate the image
   
   typedef itk::ImageRegionIteratorWithIndex<OutputImageType> myIteratorType;
 
@@ -202,19 +202,19 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   int StencilId=0;
   it.GoToBegin();
   
-  int n=StencilIndex.size();
+  int n=m_StencilIndex.size();
   if ( n == 0 )
     {
     itkExceptionMacro(<< "No Image Indices Found.");
     }  
-  int StencilMin = StencilIndex[0];
-  int StencilMax = StencilIndex[n-1];
+  int StencilMin = m_StencilIndex[0];
+  int StencilMax = m_StencilIndex[n-1];
   
   while(!it.IsAtEnd())
     {
     if (DataIndex >=  StencilMin && DataIndex <=  StencilMax )
       {
-      if (DataIndex == StencilIndex[StencilId])
+      if (DataIndex == m_StencilIndex[StencilId])
         {
         it.Set(m_InsideValue);
         StencilId++;
@@ -448,30 +448,33 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     {
      
     CellType *nextCell = cellIt->Value();
-    typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin() ;
+    typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin();
     PointType  p;
     
     switch (nextCell->GetType())
       {
       case CellType::VERTEX_CELL:
       case CellType::LINE_CELL:
-      break;
+        break;
       case CellType::TRIANGLE_CELL:
       case CellType::POLYGON_CELL:
-      {
-      pointId = 0;
-      coords.clear();
-      while (pointIt != nextCell->PointIdsEnd() ) 
         {
-        NewPointSet->GetPoint(*pointIt++, &newpoint);
-        p[0] = newpoint[0];
-        p[1] = newpoint[1];
-        p[2] = newpoint[2];
-        coords.push_back(p);
+        coords.clear();
+        while (pointIt != nextCell->PointIdsEnd() ) 
+          {
+          if (!NewPointSet->GetPoint(*pointIt++, &newpoint))
+            {
+            itkExceptionMacro ("Point with id " << *pointIt - 1 <<
+                               " does not exist in the new pointset");
+            }
+          p[0] = newpoint[0];
+          p[1] = newpoint[1];
+          p[2] = newpoint[2];
+          coords.push_back(p);
+          }
+        this->PolygonToImageRaster(coords, zymatrix, extent);
         }
-      this->PolygonToImageRaster(coords, zymatrix, extent);
-      }
-      break;
+        break;
       default:
         itkExceptionMacro(<< "Need Triangle or Polygon cells ONLY");
       }
@@ -499,7 +502,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
         std::sort(xlist.begin(), xlist.end(), ComparePoints1D);
         }
       //get the first entry
-      double lastx = xlist[0].x;
+      double lastx = xlist[0].m_X;
       int signproduct = 1;
   
       // if adjacent x values are within tolerance of each
@@ -514,8 +517,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
       for (int j = 1; j < m; j++)
         {
         Point1D p1D = xlist[j];
-        double x = p1D.x;
-        int sign = p1D.sign;
+        double x = p1D.m_X;
+        int sign = p1D.m_Sign;
 
         //check absolute distance from lastx to x
         if (((x < lastx) ? (lastx - x) : (x - lastx)) > m_Tolerance)
@@ -563,7 +566,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
           {
           for (int idX = x1; idX <= x2; idX++)
             {
-            StencilIndex.push_back(idX + y * m_Size[0] + z * m_Size[0] * m_Size[1]);
+            m_StencilIndex.push_back(idX + y * m_Size[0] + z * m_Size[0] * m_Size[1]);
             }
           }
         // next x1 value must be at least x2+1

@@ -35,34 +35,34 @@
 
 namespace itk
 {
-
-  class Point1D  
-    {
-    public:
-      double x;
-      int   sign;
+class Point1D  
+{
+public:
+  double m_X;
+  int    m_Sign;
      
-      Point1D(){};
-      Point1D(const double p, const int s)
-        {
-        x = p;
-        sign = s;
-        };
-      Point1D(const Point1D &point)
-        {
-        x = point.x;
-        sign = point.sign;
-        };
-      double getX() const
-        {
-        return x;
-        };
-      int  getSign() const
-        {
-        return sign;
-        };     
+  Point1D(){};
+  Point1D(const double p, const int s)
+    {
+    m_X = p;
+    m_Sign = s;
+    }
+  Point1D(const Point1D &point)
+    {
+    m_X = point.m_X;
+    m_Sign = point.m_Sign;
+    }
+  double getX() const
+    {
+    return m_X;
+    }
+  int  getSign() const
+    {
+    return m_Sign;
+    }
   
-    };
+};
+
 /** \class TriangleMeshToBinaryImageFilter
  *
  * \brief 3D Rasterization algorithm Courtesy of Dr David Gobbi of Atamai Inc.
@@ -75,14 +75,15 @@ class ITK_EXPORT TriangleMeshToBinaryImageFilter : public ImageSource<TOutputIma
 public:
   /** Standard class typedefs. */
   typedef TriangleMeshToBinaryImageFilter  Self;
-  typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef typename TOutputImage::IndexType  IndexType;
-  typedef typename TOutputImage::SizeType   SizeType;
-  typedef TOutputImage  OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::ValueType  ValueType;
+  typedef ImageSource<TOutputImage>        Superclass;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
+
+  typedef typename TOutputImage::IndexType      IndexType;
+  typedef typename TOutputImage::SizeType       SizeType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::ValueType   ValueType;
   typedef typename OutputImageType::SpacingType SpacingType;
   
   /** Method for creation through the object factory. */
@@ -95,22 +96,21 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Some convenient typedefs. */
-  typedef TInputMesh                             InputMeshType;
-  typedef typename InputMeshType::Pointer        InputMeshPointer;
-  typedef typename InputMeshType::PointType                       InputPointType;
-  typedef typename InputMeshType::PixelType                       InputPixelType;
-  typedef typename InputMeshType::MeshTraits::CellTraits          InputCellTraitsType;
-  typedef typename InputMeshType::CellType                        CellType;
-  typedef typename InputMeshType::CellsContainerPointer           CellsContainerPointer;
-  typedef typename InputMeshType::CellsContainerIterator          CellsContainerIterator;
+  typedef TInputMesh                                     InputMeshType;
+  typedef typename InputMeshType::Pointer                InputMeshPointer;
+  typedef typename InputMeshType::PointType              InputPointType;
+  typedef typename InputMeshType::PixelType              InputPixelType;
+  typedef typename InputMeshType::MeshTraits::CellTraits InputCellTraitsType;
+  typedef typename InputMeshType::CellType               CellType;
+  typedef typename InputMeshType::CellsContainerPointer  CellsContainerPointer;
+  typedef typename InputMeshType::CellsContainerIterator CellsContainerIterator;
 
-  typedef typename InputMeshType::PointsContainer                 InputPointsContainer;
-  typedef typename InputPointsContainer::Pointer                  InputPointsContainerPointer;
-  typedef typename InputPointsContainer::Iterator                 InputPointsContainerIterator;
+  typedef typename InputMeshType::PointsContainer InputPointsContainer;
+  typedef typename InputPointsContainer::Pointer  InputPointsContainerPointer;
+  typedef typename InputPointsContainer::Iterator InputPointsContainerIterator;
   
-  typedef itk::PointSet < double , 3 > PointSetType;
-  
-  typedef PointSetType::PointsContainer      PointsContainer;
+  typedef itk::PointSet < double , 3 >           PointSetType;
+  typedef typename PointSetType::PointsContainer PointsContainer;
   
 
   typedef itk::Point < double, 3> PointType;
@@ -118,14 +118,14 @@ public:
   
   typedef itk::Array<double> DoubleArrayType;
 
-  typedef std::vector< Point1D >  Point1DVector;
+  typedef std::vector< Point1D >               Point1DVector;
   typedef std::vector< std::vector< Point1D> > Point1DArray;
 
-  typedef std::vector< Point2DType >       Point2DVector;
-  typedef std::vector< std::vector< Point2DType > >       Point2DArray;
+  typedef std::vector< Point2DType >                Point2DVector;
+  typedef std::vector< std::vector< Point2DType > > Point2DArray;
 
-  typedef std::vector< PointType >       PointVector;
-  typedef std::vector< std::vector< PointType > >       PointArray;
+  typedef std::vector< PointType >                PointVector;
+  typedef std::vector< std::vector< PointType > > PointArray;
 
   typedef std::vector< int > StencilIndexVector;
   /** Spacing (size of a pixel) of the output image. The
@@ -199,7 +199,8 @@ protected:
   double       m_Tolerance;
   ValueType    m_InsideValue;
   ValueType    m_OutsideValue;
-  StencilIndexVector  StencilIndex;
+
+  StencilIndexVector m_StencilIndex;
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
