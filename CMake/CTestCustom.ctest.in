@@ -17,5 +17,6 @@ IF(APPLE)
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning -.: directory name .* does not exist"
+  "ranlib:.*file:.*has no symbols"
   )
 ENDIF(APPLE)
