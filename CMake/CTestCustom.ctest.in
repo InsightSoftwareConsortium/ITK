@@ -4,6 +4,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning LNK4221.*no public symbols found"
   "ranlib:.*file:.*has no symbols"
+  "ranlib: file: .+ has no symbols"
   "libtool:.*file:.*has no symbols"
   "vxl.core.vnl.algo"
   "vxl.core.vnl"
@@ -17,6 +18,5 @@ IF(APPLE)
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning -.: directory name .* does not exist"
-  "ranlib:.*file:.*has no symbols"
   )
 ENDIF(APPLE)
