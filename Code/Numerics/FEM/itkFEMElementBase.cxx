@@ -199,7 +199,7 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
     this->ShapeFunctionGlobalDerivatives(ip,shapeDgl,&J,&shapeD);
 
     this->GetStrainDisplacementMatrix( B, shapeDgl );
-    Float detJ=this->JacobianDeterminant( ip, &J );
+    detJ=this->JacobianDeterminant( ip, &J );
     Ke+=detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
   }
 }

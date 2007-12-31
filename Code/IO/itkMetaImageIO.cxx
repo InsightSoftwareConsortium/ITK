@@ -899,13 +899,13 @@ void MetaImageIO::ReadImageInformation()
   //
   const double *transformMatrix = m_MetaImage.TransformMatrix();
   vnl_vector< double > directionAxis( this->GetNumberOfDimensions() );
-  for( unsigned int i=0; i < this->GetNumberOfDimensions(); i++)
+  for( unsigned int ii=0; ii < this->GetNumberOfDimensions(); ii++)
     {
-    for( unsigned int j=0; j < this->GetNumberOfDimensions(); j++)
+    for( unsigned int jj=0; jj < this->GetNumberOfDimensions(); jj++)
       {
-      directionAxis[j] = transformMatrix[i*this->GetNumberOfDimensions() + j];
+      directionAxis[jj] = transformMatrix[ii*this->GetNumberOfDimensions() + jj];
       }
-    this->SetDirection( i, directionAxis );
+    this->SetDirection( ii, directionAxis );
     }
 } 
 
@@ -1131,11 +1131,11 @@ MetaImageIO
       dirx = this->GetDirection(0);
       diry = this->GetDirection(1);
       dirz = this->GetDirection(2);
-      for(unsigned i = 0; i < 3; i++)
+      for(unsigned ii = 0; ii < 3; ii++)
         {
-        dir[i][0] = dirx[i];
-        dir[i][1] = diry[i];
-        dir[i][2] = dirz[i];
+        dir[ii][0] = dirx[ii];
+        dir[ii][1] = diry[ii];
+        dir[ii][2] = dirz[ii];
         }
       coordOrient = itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
@@ -1377,12 +1377,12 @@ MetaImageIO
   double *transformMatrix = 
   static_cast< double *>(malloc(this->GetNumberOfDimensions() * 
                   this->GetNumberOfDimensions() * sizeof(double)));
-  for( unsigned int i=0; i < this->GetNumberOfDimensions(); i++)
+  for( unsigned int ii=0; ii < this->GetNumberOfDimensions(); ii++)
     {
-    for( unsigned int j=0; j < this->GetNumberOfDimensions(); j++)
+    for( unsigned int jj=0; jj < this->GetNumberOfDimensions(); jj++)
       {
-      transformMatrix[i*this->GetNumberOfDimensions() +j ] =
-                                         this->GetDirection(i)[j];
+      transformMatrix[ii*this->GetNumberOfDimensions() +jj ] =
+                                         this->GetDirection(ii)[jj];
       }
     }
   m_MetaImage.TransformMatrix( transformMatrix );

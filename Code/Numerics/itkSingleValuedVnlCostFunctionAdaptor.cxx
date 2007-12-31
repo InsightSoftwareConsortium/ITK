@@ -126,7 +126,7 @@ SingleValuedVnlCostFunctionAdaptor
 void 
 SingleValuedVnlCostFunctionAdaptor
 ::compute( const InternalParametersType   & x,
-           InternalMeasureType      * f, 
+           InternalMeasureType      * fun, 
            InternalDerivativeType   * g   ) 
 {
   // delegate the computation to the CostFunction
@@ -149,21 +149,21 @@ SingleValuedVnlCostFunctionAdaptor
     {
     this->ConvertExternalToInternalGradient( m_CachedDerivative, *g );
     }
-  if( f ) // paranoids have longer lives...
+  if( fun ) // paranoids have longer lives...
     {
     if( !m_NegateCostFunction )
       {
-      *f = static_cast<InternalMeasureType>( measure );  
+      *fun = static_cast<InternalMeasureType>( measure );  
       }
     else
       {
-      *f = static_cast<InternalMeasureType>( - measure );  
+      *fun = static_cast<InternalMeasureType>( - measure );  
       }
     }
   // Notify observers. This is used for overcoming the limitaion of VNL
   // optimizers of not providing callbacks per iteration.
   // Note that m_CachedDerivative is already loaded in the GetDerivative() above.
-  m_CachedValue = *f;
+  m_CachedValue = *fun;
   m_CachedCurrentParameters = parameters;
   this->ReportIteration( FunctionAndGradientEvaluationIterationEvent() ); 
  

@@ -516,22 +516,22 @@ void NiftiImageIO::Read(void* buffer)
         // scalarPtr[1] = start of second scalar image etc
         unsigned vecStride = _size[0] * _size[1] *
           _size[2] * _size[3];
-        for(unsigned i = 0; i < numComponents; i++)
+        for(unsigned ii = 0; ii < numComponents; ii++)
           {
-          scalarPtr[i] =
+          scalarPtr[ii] =
             frombuf +
             (l * lStride) +
             (m * mStride) +
-            (vecStride * pixelSize * i);
+            (vecStride * pixelSize * ii);
           }
         char *to = tobuf + (l * lStride) +
           (m * mStride);
-        for(unsigned i = 0; i < (vecStride * numComponents); i++)
+        for(unsigned ii = 0; ii < (vecStride * numComponents); ii++)
           {
           memcpy(to,
-                 scalarPtr[i % numComponents],pixelSize);
+                 scalarPtr[ii % numComponents],pixelSize);
           to += pixelSize;
-          scalarPtr[i % numComponents] += pixelSize;
+          scalarPtr[ii % numComponents] += pixelSize;
           }
         }
       }
