@@ -143,7 +143,7 @@ bool BMPImageIO::CanReadFile( const char* filename )
     }
   else    // else we are on a 64bit machine
     {
-    inputStream.read((char*)&iinfoSize,sizeof(int));
+    inputStream.read((char*)&iinfoSize,4);
     ByteSwapper<int>::SwapFromSystemToLittleEndian(&iinfoSize);
     infoSize = iinfoSize;
     
@@ -386,7 +386,7 @@ void BMPImageIO::ReadImageInformation()
   // get size of header
   if (sizeLong == 4)   // if we are on a 32 bit machine
     {
-    m_Ifstream.read((char*)&infoSize,sizeof(long));
+    m_Ifstream.read((char*)&infoSize,4);
     ByteSwapper<long>::SwapFromSystemToLittleEndian(&infoSize);
                        
     // error checking
@@ -402,9 +402,9 @@ void BMPImageIO::ReadImageInformation()
     if (infoSize == 40)
       {
       // now get the dimensions
-      m_Ifstream.read((char*)&xsize,sizeof(long));
+      m_Ifstream.read((char*)&xsize,4);
       ByteSwapper<int>::SwapFromSystemToLittleEndian(&xsize);
-      m_Ifstream.read((char*)&ysize,sizeof(long));
+      m_Ifstream.read((char*)&ysize,4);
       ByteSwapper<int>::SwapFromSystemToLittleEndian(&ysize);
       }
     else
@@ -437,18 +437,18 @@ void BMPImageIO::ReadImageInformation()
     if (infoSize == 40)
       {
       // now get the dimensions
-      m_Ifstream.read((char*)&xsize,sizeof(int));
+      m_Ifstream.read((char*)&xsize,4);
       ByteSwapper<int>::SwapFromSystemToLittleEndian(&xsize);
-      m_Ifstream.read((char*)&ysize,sizeof(int));
+      m_Ifstream.read((char*)&ysize,4);
       ByteSwapper<int>::SwapFromSystemToLittleEndian(&ysize);
       }
     else
       {
       stmp =0;
-      m_Ifstream.read((char*)&xsize,sizeof(short));
+      m_Ifstream.read((char*)&stmp,2);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&stmp);
       xsize = stmp;
-      m_Ifstream.read((char*)&xsize,sizeof(short));
+      m_Ifstream.read((char*)&stmp,2);
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&stmp);
       ysize = stmp;
       }
@@ -470,9 +470,9 @@ void BMPImageIO::ReadImageInformation()
     }
     
   // ignore planes
-  m_Ifstream.read((char*)&stmp,sizeof(short));
+  m_Ifstream.read((char*)&stmp,2);
   // read depth
-  m_Ifstream.read((char*)&m_Depth,sizeof(short));
+  m_Ifstream.read((char*)&m_Depth,2);
   ByteSwapper<short>::SwapFromSystemToLittleEndian(&m_Depth);
 
   if ((m_Depth != 8)&&(m_Depth != 24))
@@ -482,58 +482,62 @@ void BMPImageIO::ReadImageInformation()
     return;
     }
   
-  // skip over rest of info for long format
   if (infoSize == 40)
     {
-    // Compression
-    m_Ifstream.read((char*)&m_BMPCompression,4);
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BMPCompression);
-    // Image Data Size
-    m_Ifstream.read((char*)&m_BMPDataSize,4);
-    ByteSwapper<unsigned long>::SwapFromSystemToLittleEndian(&m_BMPDataSize);
-    // Horizontal Resolution
-    m_Ifstream.read((char*)&tmp,4);
-    // Vertical Resolution
-    m_Ifstream.read((char*)&tmp,4);
-    // Number of colors
-    m_Ifstream.read((char*)&tmp,4);
-    m_NumberOfColors = tmp;
-    // Number of important colors
-    m_Ifstream.read((char*)&tmp,4);
+    if (sizeLong == 4)
+      {
+      // Compression
+      m_Ifstream.read((char*)&m_BMPCompression,4);
+      ByteSwapper<long>::SwapFromSystemToLittleEndian(&m_BMPCompression);
+      // Image Data Size
+      m_Ifstream.read((char*)&m_BMPDataSize,4);
+      ByteSwapper<unsigned long>::SwapFromSystemToLittleEndian(&m_BMPDataSize);
+      // Horizontal Resolution
+      m_Ifstream.read((char*)&tmp,4);
+      // Vertical Resolution
+      m_Ifstream.read((char*)&tmp,4);
+      // Number of colors
+      m_Ifstream.read((char*)&tmp,4);
+      m_NumberOfColors = tmp;
+      // Number of important colors
+      m_Ifstream.read((char*)&tmp,4);
+      }
+    else
+      {
+      // Compression
+      m_Ifstream.read((char*)&itmp,4);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian(&itmp);
+      m_BMPCompression = static_cast<long>(itmp);
+      // Image Data Size
+      m_Ifstream.read((char*)&itmp,4);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian(&itmp);
+      m_BMPDataSize = static_cast<unsigned long>(itmp);
+      // Horizontal Resolution
+      m_Ifstream.read((char*)&itmp,4);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian(&itmp);
+      // Vertical Resolution
+      m_Ifstream.read((char*)&itmp,4);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian(&itmp);
+      // Number of colors
+      m_Ifstream.read((char*)&itmp,4);
+      ByteSwapper<int>::SwapFromSystemToLittleEndian(&itmp);
+      m_NumberOfColors = static_cast<unsigned short>(itmp);
+      // Number of important colors
+      m_Ifstream.read((char*)&itmp,4);
+      }
     }
-  else
-    {
-    // Compression
-    m_Ifstream.read((char*)&tmp,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
-    // Image Data Size
-    m_Ifstream.read((char*)&tmp,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
-    // Horizontal Resolution
-    m_Ifstream.read((char*)&tmp,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
-    // Vertical Resolution
-    m_Ifstream.read((char*)&tmp,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
-    // Number of colors
-    m_Ifstream.read((char*)&tmp,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
-    m_NumberOfColors = tmp;
-    // Number of important colors
-    m_Ifstream.read((char*)&tmp,sizeof(long));
-    ByteSwapper<long>::SwapFromSystemToLittleEndian(&tmp);
-    }
-    
+
   // Read the color palette
+  unsigned char uctmp;
   for(unsigned long i=0;i<m_NumberOfColors;i++)
     {
     RGBPixelType p;
-    m_Ifstream.read((char*)&tmp,1);
-    p.SetRed(tmp);
-    m_Ifstream.read((char*)&tmp,1);
-    p.SetGreen(tmp);
-    m_Ifstream.read((char*)&tmp,1);
-    p.SetBlue(tmp);
+    m_Ifstream.read((char*)&uctmp,1);
+    p.SetRed(uctmp);
+    m_Ifstream.read((char*)&uctmp,1);
+    p.SetGreen(uctmp);
+    m_Ifstream.read((char*)&uctmp,1);
+    p.SetBlue(uctmp);
     m_Ifstream.read((char*)&tmp,1);
     m_ColorPalette.push_back(p);
     }
