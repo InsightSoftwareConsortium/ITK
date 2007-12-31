@@ -13,7 +13,8 @@
 #include <stdio.h>
 #include <float.h> 
 #include <math.h> 
-double d1mach_(int *i) 
+#include "v3p_f2c_original.h"
+double d1mach_(integer *i) 
 { 
   switch(*i)
     { 
