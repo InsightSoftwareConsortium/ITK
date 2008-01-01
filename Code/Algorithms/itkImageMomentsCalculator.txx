@@ -50,6 +50,7 @@ ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void)
 {
   m_Valid = false;
   m_Image = NULL;
+  m_SpatialObjectMask = NULL;
   m_M0 = NumericTraits<ScalarType>::Zero;
   m_M1.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
   m_M2.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
@@ -112,32 +113,36 @@ Compute()
     double value = it.Value();
     
     IndexType indexPosition = it.GetIndex();
+
     Point<double, ImageDimension> physicalPosition;
-
-    m_M0 += value;
-
-    for(unsigned int i=0; i<ImageDimension; i++)
-      {
-      m_M1[i] += static_cast<double>( indexPosition[i] ) * value; 
-      for(unsigned int j=0; j<ImageDimension; j++)
-        {
-        double weight = value * static_cast<double>( indexPosition[i] ) * 
-          static_cast<double>( indexPosition[j] );
-        m_M2[i][j] += weight;
-        }
-      }
-
     m_Image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);  
-    
-    for(unsigned int i=0; i<ImageDimension; i++)
-      {
-      m_Cg[i] += physicalPosition[i] * value; 
-      for(unsigned int j=0; j<ImageDimension; j++)
-        {
-        double weight = value * physicalPosition[i] * physicalPosition[j];
-        m_Cm[i][j] += weight;
-        }
 
+    if(m_SpatialObjectMask.IsNull()
+       || m_SpatialObjectMask->IsInside(physicalPosition))
+      {
+      m_M0 += value;
+
+      for(unsigned int i=0; i<ImageDimension; i++)
+        {
+        m_M1[i] += static_cast<double>( indexPosition[i] ) * value; 
+        for(unsigned int j=0; j<ImageDimension; j++)
+          {
+          double weight = value * static_cast<double>( indexPosition[i] ) * 
+            static_cast<double>( indexPosition[j] );
+          m_M2[i][j] += weight;
+          }
+        }
+      
+      for(unsigned int i=0; i<ImageDimension; i++)
+        {
+        m_Cg[i] += physicalPosition[i] * value; 
+        for(unsigned int j=0; j<ImageDimension; j++)
+          {
+          double weight = value * physicalPosition[i] * physicalPosition[j];
+          m_Cm[i][j] += weight;
+          }
+  
+        }
       }
 
     ++it;
