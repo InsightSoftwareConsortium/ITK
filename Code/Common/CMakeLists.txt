@@ -25,7 +25,6 @@ SET(ITKCommon_SRCS
   itkLightObject.cxx
   itkLightProcessObject.cxx
   itkLoggerBase.cxx
-  itkLogger.cxx
   itkLoggerManager.cxx
   itkLoggerOutput.cxx
   itkMaximumDecisionRule.cxx
@@ -40,7 +39,6 @@ SET(ITKCommon_SRCS
   itkNumericTraitsCovariantVectorPixel.cxx
   itkNumericTraitsRGBPixel.cxx
   itkNumericTraitsVectorPixel.cxx
-  itkNumericTraitsVariableLengthVectorPixel.cxx
   itkObject.cxx
   itkObjectFactoryBase.cxx
   itkOneWayEquivalencyTable.cxx
