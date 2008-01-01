@@ -7,8 +7,8 @@ INCLUDE_DIRECTORIES(${ITKPNG_SOURCE_DIR})
 SET(PNG_SRCS
 pngget.c    pngrio.c    pngwrite.c
 png.c       pngmem.c    pngrtran.c  pngtrans.c  pngwtran.c
-pngerror.c  pngpread.c  pngrutil.c  pngvcrd.c   pngwutil.c
-pnggccrd.c  pngread.c   pngset.c   pngwio.c
+pngerror.c  pngpread.c  pngrutil.c  pngwutil.c
+pngread.c   pngset.c   pngwio.c
 )
 
 IF(WIN32)
