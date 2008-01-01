@@ -94,6 +94,7 @@ std::string s;
 std::string::size_type b,e;
 int clID;
 FEMLightObject::Pointer a=0;
+std::string errorMessage;
 
 start:
 #ifndef __sgi
@@ -102,7 +103,11 @@ start:
   SkipWhiteSpace(f);      // skip comments and whitespaces
   if ( f.eof() ) return 0; // end of stream. all was good
 
-  if ( f.get()!='<' ) goto out; // we expect a token
+  if ( f.get()!='<' )
+    {
+    errorMessage = "Expected < token not found";
+    goto out; // we expect a token
+    }
   f.getline(buf,256,'>');  // read up to 256 characters until '>' is reached. we read and discard the '>'
   s=std::string(buf);
 
@@ -122,12 +127,18 @@ start:
     goto start;
   }
   clID=FEMOF::ClassName2ID(s);  // obtain the class ID from FEMObjectFactory
-  if (clID<0) goto out;  // class not found
-
+  if (clID<0)
+    {
+    errorMessage = "Could not obtain class ID from FEMObjectFactory";
+    goto out;  // class not found
+    }
   // create a new object of the correct class
   a=FEMOF::Create(clID);
-  if (!a) goto out;    // error creating new object of the derived class
-
+  if (!a)
+    {
+    errorMessage = "Error creating new object of the derived class";
+    goto out;    // error creating new object of the derived class
+    }
   /*
    * Now we have to read additional data, which is
    * specific to the class of object we just created
@@ -169,7 +180,7 @@ out:
   /*
    * Throw an IO exception
    */
-  throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::ReadAnyObjectFromStream()","Error reading object from stream!");
+  throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::ReadAnyObjectFromStream()",errorMessage);
 
 }
 
