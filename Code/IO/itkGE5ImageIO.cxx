@@ -82,11 +82,13 @@ int GE5ImageIO
   // First pass see if image is a raw MR extracted via ximg
   if( !this->ReadBufferAsBinary( f, (void *)&imageHdr,sizeof(imageHdr) ) )
     {
+    f.close();
     return -1;
     }
   ByteSwapper<int>::SwapFromSystemToBigEndian(&imageHdr.GENESIS_IH_img_magic);
   if (imageHdr.GENESIS_IH_img_magic == GE_5X_MAGIC_NUMBER)
     {
+    f.close();
     return 0;
     }
   f.seekg(0,std::ios::beg);
@@ -98,16 +100,19 @@ int GE5ImageIO
   if( !this->ReadBufferAsBinary( f, (void *)hdr, GENESIS_SU_HDR_LEN ) )
     {
     reason = "Failed to read study header";
+    f.close();
     return -1;
     }
   strncpy (prod, hdr+GENESIS_SU_PRODID, 13);
   prod[13] = '\0';
   if (strcmp (prod, GE_PROD_STR) == 0)
     {
+    f.close();
     return 0;
     }
 
   reason = "Failed to find string SIGNA";
+  f.close();
   return -1;
 }
 

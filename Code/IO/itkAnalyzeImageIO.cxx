@@ -783,6 +783,7 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
                                   (void *)&(this->m_Hdr), 
                                   sizeof(struct dsr) ) )
     {
+    local_InputStream.close();
     return false;
     }
   local_InputStream.close();

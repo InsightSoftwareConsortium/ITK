@@ -58,6 +58,7 @@ bool GE4ImageIO::CanReadFile( const char* FileNameToRead )
   // Get the Plane from the IMAGE Header.
   if(this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_PLANENAME * 2,tmpStr,16,false) == -1)
     {
+    f.close();
     return false;
     }
   tmpStr[16] = '\0';

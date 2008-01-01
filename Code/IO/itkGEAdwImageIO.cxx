@@ -70,16 +70,19 @@ bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
   // that this operation will fail somewhere along the line.
   if(this->GetShortAt(f,GE_ADW_IM_IMATRIX_X,&matrixX,false) != 0)
     {
+    f.close();
     return false;
     }
 
   if(this->GetShortAt(f,GE_ADW_IM_IMATRIX_Y,&matrixY,false) != 0)
     {
+    f.close();
     return false;
     }
 
   if(this->GetIntAt(f,GE_ADW_VARIABLE_HDR_LENGTH,&varHdrSize,false) != 0)
     {
+    f.close();
     return false;
     }
 
@@ -87,8 +90,10 @@ bool GEAdwImageIO::CanReadFile( const char* FileNameToRead )
 
   if ( imageSize != itksys::SystemTools::FileLength(FileNameToRead) )
     {
+    f.close();
     return false;
     }
+  f.close();
   return true;
 }
 
