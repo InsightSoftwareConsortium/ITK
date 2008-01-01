@@ -1007,5 +1007,7 @@ void vcl_hashtable_base<Value, Alloc>::copy_from(const vcl_hashtable_base<Value,
 # undef __value_type__
 # undef __key_type__
 # undef __node__
+// A dummy symbol to avoid missing symbol warnings from ranlib
+void vcl_hashtable_dummy_to_avoid_ranlib_warning() {}
 
 #endif // vcl_emulation_hashtable_h

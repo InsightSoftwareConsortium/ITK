@@ -434,3 +434,5 @@ const vcl_float_round_style vcl_numeric_limits<float>::round_style VCL_STATIC_CO
 #endif
 
 #endif // !VCL_CXX_HAS_HEADER_LIMITS || !VCL_USE_NATIVE_STL || (!VCL_NUMERIC_LIMITS_HAS_INFINITY && VCL_PROCESSOR_HAS_INFINITY)
+// A dummy symbol to avoid missing symbol warnings from ranlib
+int vcl_limits_dummy_to_avoid_ranlib_warning = 0;

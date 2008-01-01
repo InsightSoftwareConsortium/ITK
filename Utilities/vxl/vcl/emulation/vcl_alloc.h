@@ -798,4 +798,7 @@ typedef vcl_malloc_alloc multithreaded_alloc;
 #  include "vcl_defalloc.h"
 # endif
 
+// A dummy symbol to avoid missing symbol warnings from ranlib
+void vcl_alloc_dummy_to_avoid_ranlib_warning() {}
+
 #endif // vcl_emulation_alloc_h
