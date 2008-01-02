@@ -1006,6 +1006,8 @@ void GDCMImageIO::Write(const void* buffer)
         unsigned int numberOfDimensions = 0;
         ExposeMetaData<unsigned int>(dict, key, numberOfDimensions);
         m_GlobalNumberOfDimensions = numberOfDimensions;
+        m_Origin.resize( m_GlobalNumberOfDimensions );
+        m_Spacing.resize( m_GlobalNumberOfDimensions );
         }
       else if( key == ITK_Origin )
         {
