@@ -58,6 +58,7 @@ itkIOPrintTest.cxx
 itkImageFileWriterTest.cxx
 itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
+itkImageReadDICOMSeriesWriteTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
 itkMeshSpatialObjectIOTest.cxx
@@ -404,6 +405,7 @@ ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS}
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries 0)
+
 ADD_TEST(itkDICOMSeriesFileNamesTest ${IO_TESTS} 
   itkDICOMSeriesFileNamesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries)
@@ -417,13 +419,21 @@ ADD_TEST(itkImageSeriesWriterTest ${IO_TESTS}
 ADD_TEST(itkNumericSeriesFileNamesTest ${IO_TESTS} 
   itkNumericSeriesFileNamesTest)
 
-  ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
-           ${ITK_DATA_ROOT}/Input/012345.002.050
-           ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
-  ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
-           ${ITK_DATA_ROOT}/Input/cthead1.png)
-  ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
-           ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
+         ${ITK_DATA_ROOT}/Input/012345.002.050
+         ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
+
+ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
+         ${ITK_DATA_ROOT}/Input/cthead1.png)
+
+ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
+         ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+
+ADD_TEST(itkImageReadDICOMSeriesWriteTest ${IO_TESTS} 
+  itkImageReadDICOMSeriesWriteTest
+  ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha
+  ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolume)
+
 
 ##Analyze Test Suite
   ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS}

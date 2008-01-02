@@ -18,15 +18,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-//  Software Guide : BeginLatex
 //
 //  This example illustrates how to read a DICOM series into a volume
 //  and then save this volume into another DICOM series using the 
 //  exact same name.
 //  It makes use of the GDCM library
 //
-//  Software Guide : EndLatex 
-
 
 #include "itkImageSeriesReader.h"
 #include "itkImageFileWriter.h"
