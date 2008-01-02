@@ -103,9 +103,12 @@ start:
   SkipWhiteSpace(f);      // skip comments and whitespaces
   if ( f.eof() ) return 0; // end of stream. all was good
 
-  if ( f.get()!='<' )
+  char c;
+  if ( (c = f.get())!='<' )
     {
-    errorMessage = "Expected < token not found";
+    errorMessage = "Expected < token not found. Instead found '";
+    errorMessage += c;
+    errorMessage += "'.";
     goto out; // we expect a token
     }
   f.getline(buf,256,'>');  // read up to 256 characters until '>' is reached. we read and discard the '>'
@@ -192,10 +195,11 @@ void
 FEMLightObject::
 SkipWhiteSpace(std::istream& f)
 {
+  std::string skip;
   while(f && !f.eof() && (std::ws(f).peek())=='%' )
-  {
-    f.ignore(NumericTraits<int>::max(), '\n');
-  }
+    {
+    std::getline(f,skip);
+    }
 }
 
 // string containing all whitespace characters
