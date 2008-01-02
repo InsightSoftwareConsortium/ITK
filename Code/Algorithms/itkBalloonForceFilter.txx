@@ -1225,6 +1225,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1];
     vec_for[0] = mag*vec_nor[0];
     vec_for[1] = mag*vec_nor[1];
+    vec_for[2] = 0.0;
 
     forces.Value() = vec_for;
 
