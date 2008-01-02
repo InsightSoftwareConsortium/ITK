@@ -170,28 +170,28 @@ public:
      
   /** Set the pixel value when a transformed pixel is outside of the
    * image.  The default default pixel value is 0. */
-  itkSetMacro(DefaultPixelValue,PixelType);
+  itkSetMacro( DefaultPixelValue, PixelType );
 
   /** Get the pixel value when a transformed pixel is outside of the image */
-  itkGetMacro(DefaultPixelValue,PixelType);
+  itkGetMacro( DefaultPixelValue, PixelType );
 
   /** Set the output image spacing. */
-  itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing( const double* values);
+  itkSetMacro( OutputSpacing, SpacingType );
+  virtual void SetOutputSpacing( const double* values );
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro( OutputSpacing, SpacingType );
 
   /** Set the output image origin. */
-  itkSetMacro(OutputOrigin, OriginPointType);
+  itkSetMacro( OutputOrigin, OriginPointType );
   virtual void SetOutputOrigin( const double* values);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro( OutputOrigin, OriginPointType );
 
   /** Set the output direciton cosine matrix. */
-  itkSetMacro(OutputDirection, DirectionType);
-  itkGetConstReferenceMacro(OutputDirection, DirectionType);
+  itkSetMacro( OutputDirection, DirectionType );
+  itkGetConstReferenceMacro( OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
   void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image )
@@ -212,35 +212,37 @@ public:
   /** Copy the output information from another Image.  By default,
    *  the information is specified with the SetOutputSpacing, Origin,
    *  and Direction methods. UseReferenceImage must be On and a
-   *  Reference image must be present to override the defaul behavior.*/
+   *  Reference image must be present to override the defaul behavior.
+   *  NOTE: This function seems redundant with the 
+   *  SetOutputParametersFromImage( image ) function */
   void SetReferenceImage ( const TOutputImage *image );
-  const TOutputImage * GetReferenceImage() const;
+  const TOutputImage * GetReferenceImage( void ) const;
 
-  itkSetMacro(UseReferenceImage, bool);
-  itkBooleanMacro(UseReferenceImage);
-  itkGetMacro(UseReferenceImage, bool);
+  itkSetMacro( UseReferenceImage, bool );
+  itkBooleanMacro( UseReferenceImage );
+  itkGetMacro( UseReferenceImage, bool );
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation( void );
 
   /** ResampleImageFilter needs a different input requested region than
    * the output requested region.  As such, ResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion( void );
 
   /** This method is used to set the state of the filter before 
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData( void );
 
   /** This method is used to set the state of the filter after 
    * multi-threading. */
-  virtual void AfterThreadedGenerateData();
+  virtual void AfterThreadedGenerateData( void );
 
   /** Method Compute the Modified Time based on changed to the components. */
   unsigned long GetMTime( void ) const;
@@ -253,9 +255,10 @@ public:
 #endif
 
 protected:
-  ResampleImageFilter();
-  ~ResampleImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ResampleImageFilter( void );
+  ~ResampleImageFilter( void ) {};
+
+  void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -265,25 +268,25 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
+                             int threadId );
 
   /** Default implementation for resampling that works for any
    * transformation type. */
-  void NonlinearThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                                     int threadId );
+  void NonlinearThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
+                                      int threadId );
 
   /** Implementation for resampling that works for with linear
    *  transformation types. 
    */
-  void LinearThreadedGenerateData(const OutputImageRegionType&
-                                  outputRegionForThread,
-                                  int threadId );
+  void LinearThreadedGenerateData( const OutputImageRegionType&
+                                   outputRegionForThread,
+                                   int threadId );
   
 
 private:
-  ResampleImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ResampleImageFilter( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
 
   SizeType                m_Size;              // Size of the output image
   TransformPointerType    m_Transform;         // Coordinate transform to use
