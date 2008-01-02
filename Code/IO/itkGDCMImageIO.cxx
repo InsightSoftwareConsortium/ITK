@@ -1077,23 +1077,46 @@ void GDCMImageIO::Write(const void* buffer)
   // will have the proper settings for pixel spacing, spacing between slices,
   // image position patient and the row/column direction cosines.
 
-  if( ( m_Dimensions.size() > 2 && m_Dimensions[2]>1 ) || 
-      m_GlobalNumberOfDimensions == 3 )
-    {
-    str.str("");
-    str << m_Origin[0] << "\\" << m_Origin[1] << "\\" << m_Origin[2];
-    header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position (Patient)
+  // At the point we can only have 2 or 3 dim images:
+  assert( m_Origin.size() == 2 || m_Origin.size() == 3 );
+  str.str("");
+  str << m_Origin[0] << "\\" << m_Origin[1] << "\\";
 
-    // Handle Direction = Image Orientation Patient
-    str.str("");
-    str << m_Direction[0][0] << "\\"
-        << m_Direction[1][0] << "\\"
-        << m_Direction[2][0] << "\\"
-        << m_Direction[0][1] << "\\"
-        << m_Direction[1][1] << "\\"
-        << m_Direction[2][1];
-    header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
+  if( m_Origin.size() == 3 )
+    {
+    str << m_Origin[2];
     }
+  else // We are coming from the default SeriesWriter which is passing us a 2D image
+      // therefore default to a Z position = 0, this will make the image at least valid
+      // if not correct
+    {
+    str << 0.;
+    }
+  header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position (Patient)
+
+  // Handle Direction = Image Orientation Patient
+  str.str("");
+  str << m_Direction[0][0] << "\\"
+    << m_Direction[1][0] << "\\";
+  if( m_Direction.size() == 3 )
+    {
+    str << m_Direction[2][0] << "\\";
+    }
+  else
+    {
+    str << 0. << "\\";
+    }
+  str << m_Direction[0][1] << "\\"
+    << m_Direction[1][1] << "\\";
+  if( m_Direction.size() == 3 )
+    {
+    str << m_Direction[2][1];
+    }
+  else
+    {
+    str << 0.;
+    }
+  header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
 
   str.unsetf( itksys_ios::ios::fixed ); // back to normal
 
@@ -1282,7 +1305,7 @@ void GDCMImageIO::Write(const void* buffer)
   uint8_t* imageData = new uint8_t[numberOfBytes];
 
   // Technically when user is passing dictionary back m_InternalComponentType should still be set
-  // We only need to recompute it when the use pass in a non-DICOM input file
+  // We only need to recompute it when the user passes in a non-DICOM input file
   // FIXME: is this robust in all cases ?
   assert( m_InternalComponentType != UNKNOWNCOMPONENTTYPE );
 
