@@ -34,7 +34,7 @@ namespace itk
  *
  *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
  *
- *  CREATIS INSA - Lyon 2003-2005
+ *  CREATIS INSA - Lyon 2003-2008
  *    http://www.creatis.insa-lyon.fr
  *
  *  \warning There are several restrictions to this current writer:
@@ -46,9 +46,10 @@ namespace itk
  *                             - The SeQuence DICOM field (SQ).
  *                             - Fields from Private Dictionary with unresolved Name (= unknown at runtime)
  *           *  As of 01/15 the binary fields are properly passed.
-              *  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010), 
+ *           *  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010), 
  *              you need to explicitely set the maximum length of elements to load to be bigger
  *              (see Get/SetMaxSizeLoadEntry)
+ *           * GDCMImageIO was not handling rescale slope/intercept properly. This is fixed as of 11/12/2007
  *
  *  \ingroup IOFilters
  *
