@@ -25,12 +25,13 @@ namespace itk
 
 /** Constructor */
 template <class TInputSpatialObject, class TOutputImage>
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SpatialObjectToImageFilter()
 {
-  this->SetNumberOfRequiredInputs(1);
-  m_ChildrenDepth = 1;
-  m_Size.Fill(0);
+  this->SetNumberOfRequiredInputs( 1 );
+  m_ChildrenDepth = 999999;
+  m_Size.Fill( 0 );
+  m_Direction.SetIdentity();
   
   for (unsigned int i = 0; i < OutputImageDimension; i++)
     {
@@ -45,7 +46,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
 /** Destructor */
 template <class TInputSpatialObject, class TOutputImage>
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::~SpatialObjectToImageFilter()
 {
 }
@@ -54,8 +55,8 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 /** Set the Input SpatialObject */
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
-::SetInput(const InputSpatialObjectType *input)
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
+::SetInput( const InputSpatialObjectType *input )
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
@@ -66,7 +67,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 /** Connect one of the operands  */
 template <class TInputSpatialObject, class TOutputImage>
 void
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetInput( unsigned int index, const TInputSpatialObject * object ) 
 {
   // Process object is not const-correct so the const_cast is required here
@@ -78,8 +79,8 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
 /** Get the input Spatial Object */
 template <class TInputSpatialObject, class TOutputImage>
-const typename SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>::InputSpatialObjectType *
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+const typename SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::InputSpatialObjectType *
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::GetInput(void) 
 {
   if (this->GetNumberOfInputs() < 1)
@@ -93,8 +94,8 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
   
 /** Get the input Spatial Object */
 template <class TInputSpatialObject, class TOutputImage>
-const typename SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>::InputSpatialObjectType *
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+const typename SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::InputSpatialObjectType *
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::GetInput(unsigned int idx)
 {
   return static_cast< const TInputSpatialObject * >
@@ -105,7 +106,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetSpacing(const SpacingType& spacing )
 {
   unsigned int i; 
@@ -129,7 +130,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetSpacing(const double* spacing)
 {
   unsigned int i; 
@@ -146,12 +147,13 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
       {
       m_Spacing[i] = spacing[i];
       }
+    this->Modified();
     }
 }
 
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetSpacing(const float* spacing)
 {
   unsigned int i; 
@@ -168,12 +170,13 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
       {
       m_Spacing[i] = spacing[i];
       }
+    this->Modified();
     }
 }
 
 template <class TInputSpatialObject, class TOutputImage>
 const double * 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::GetSpacing() const
 {
   return m_Spacing;
@@ -183,20 +186,20 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetOrigin(const PointType& origin)
 {
   unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  for (i=0; i<OutputImageDimension; i++)
     {
     if ( (double)origin[i] != m_Origin[i] )
       {
       break;
       }
     } 
-  if ( i < TOutputImage::ImageDimension ) 
+  if ( i < OutputImageDimension ) 
     { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    for (i=0; i<OutputImageDimension; i++)
       {
       m_Origin[i] = origin[i];
       }
@@ -207,7 +210,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 //----------------------------------------------------------------------------
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetOrigin(const double* origin)
 {
   unsigned int i; 
@@ -230,7 +233,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
 template <class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::SetOrigin(const float* origin)
 {
   unsigned int i; 
@@ -253,7 +256,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
 template <class TInputSpatialObject, class TOutputImage>
 const double * 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::GetOrigin() const
 {
   return m_Origin;
@@ -261,10 +264,31 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
 //----------------------------------------------------------------------------
 
+template <class TInputSpatialObject, class TOutputImage>
+void
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
+::SetDirection( const DirectionType & dir ) 
+{
+  m_Direction = dir;
+  this->Modified();
+}
+
+
+template <class TInputSpatialObject, class TOutputImage>
+const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::DirectionType &
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
+::GetDirection( void ) const
+{
+  return m_Direction;
+}
+
+
+//----------------------------------------------------------------------------
+
 /** Update */
 template <class TInputSpatialObject, class TOutputImage>
 void
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::GenerateData(void)
 {
   unsigned int i;
@@ -337,28 +361,30 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
     {
     OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());   // set spacing
     }
-  OutputImage->SetOrigin(m_Origin);   //   and origin
+  OutputImage->SetOrigin( m_Origin );   //   and origin
+  OutputImage->SetDirection( m_Direction );
   OutputImage->Allocate();   // allocate the image                            
 
   typedef itk::ImageRegionIteratorWithIndex<OutputImageType> myIteratorType;
 
-  myIteratorType it(OutputImage,region);
+  myIteratorType it(OutputImage, region);
 
-  itk::Point<double,ObjectDimension> point;
+  itk::Point<double, ObjectDimension> objectPoint;
+  itk::Point<double, OutputImageDimension>  imagePoint;
 
   while(!it.IsAtEnd())
     {
-       
     // ValueAt requires the point to be in physical coordinate i.e
-    for(unsigned int i=0;i<ObjectDimension;i++)
+    OutputImage->TransformIndexToPhysicalPoint(it.GetIndex(), imagePoint);
+    for(i=0; i<ObjectDimension; i++)
       {
-      point[i]=(it.GetIndex()[i]*m_Spacing[i])+m_Origin[i];
+      objectPoint[i] = imagePoint[i];
       }
-    double val =0;
 
-    InputObject->ValueAt(point,val,99999);
-    if(   m_InsideValue != 0 
-          ||  m_OutsideValue != 0 )
+    double val = 0;
+
+    InputObject->ValueAt(objectPoint, val, m_ChildrenDepth);
+    if( m_InsideValue != 0 || m_OutsideValue != 0 )
       {
       if( val)
         {
@@ -390,7 +416,7 @@ SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
 
 template<class TInputSpatialObject, class TOutputImage>
 void 
-SpatialObjectToImageFilter<TInputSpatialObject,TOutputImage>
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
