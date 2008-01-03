@@ -286,8 +286,8 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
   // Min/max values of the output pixel type AND these values
   // represented as the output type of the interpolator
-  const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
-  const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
+  const PixelType minValue =  NumericTraits<PixelType >::NonpositiveMin();
+  const PixelType maxValue =  NumericTraits<PixelType >::max();
 
   const OutputType minOutputValue = static_cast<OutputType>(minValue);
   const OutputType maxOutputValue = static_cast<OutputType>(maxValue);
@@ -547,8 +547,8 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
   // Min/max values of the output pixel type AND these values
   // represented as the output type of the interpolator
-  const PixelType minValue =  itk::NumericTraits<PixelType >::NonpositiveMin();
-  const PixelType maxValue =  itk::NumericTraits<PixelType >::max();
+  const PixelType minValue =  NumericTraits<PixelType >::NonpositiveMin();
+  const PixelType maxValue =  NumericTraits<PixelType >::max();
 
   const OutputType minOutputValue = static_cast<OutputType>(minValue);
   const OutputType maxOutputValue = static_cast<OutputType>(maxValue);
