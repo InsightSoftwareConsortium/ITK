@@ -52,7 +52,7 @@ public:
   bool              m_HasValidPhotometricInterpretation;
   unsigned short    m_PlanarConfig;
   unsigned short    m_Orientation;
-  unsigned long int m_TileDepth;
+  uint32 int        m_TileDepth;
   unsigned int      m_TileRows;
   unsigned int      m_TileColumns;
   unsigned int      m_TileWidth;
@@ -196,7 +196,7 @@ int TIFFReaderInternal::Initialize()
 
       for(unsigned int page = 0;page<this->m_NumberOfPages;page++)
         {
-        long subfiletype = 6;
+        int32 subfiletype = 6;
         if(TIFFGetField(this->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype))
           {
           if(subfiletype == 0)
@@ -330,8 +330,8 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
       }
     else if(m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE)
       {
-      unsigned long s;
-      unsigned long nsamples = 0;
+      uint32 s;
+      uint32 nsamples = 0;
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -402,7 +402,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage( void *out,
       }
     else if(m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE)
       {
-      unsigned long s, nsamples;
+      uint32 s, nsamples;
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -505,8 +505,8 @@ void TIFFImageIO::ReadGenericImage( void *out,
       }
     else if(m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE)
       {
-      unsigned long s;
-      unsigned long nsamples;
+      uint32 s;
+      uint32 nsamples;
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -574,8 +574,8 @@ void TIFFImageIO::ReadGenericImage( void *out,
       }
     else if(m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE)
       {
-      unsigned long s;
-      unsigned long nsamples;
+      uint32 s;
+      uint32 nsamples;
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -644,7 +644,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
       }
     else if(m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE)
       {
-      unsigned long s, nsamples;
+      uint32 s, nsamples;
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -712,7 +712,7 @@ void TIFFImageIO::ReadGenericImage( void *out,
       }
     else if(m_InternalImage->m_PlanarConfig == PLANARCONFIG_SEPARATE)
       {
-      unsigned long s, nsamples;
+      uint32 s, nsamples;
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for (s = 0; s < nsamples; s++)
         {
@@ -1033,7 +1033,7 @@ void TIFFImageIO::ReadVolume(void* buffer)
     {
     if(m_InternalImage->m_SubFiles>0)
       {
-      long subfiletype = 6;
+      int32 subfiletype = 6;
       if(TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype))
         {
         if(subfiletype != 0)
