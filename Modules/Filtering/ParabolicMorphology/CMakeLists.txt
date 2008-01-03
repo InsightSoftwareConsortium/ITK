@@ -80,8 +80,10 @@ ADD_TEST(Open ${ TEST_COMMAND } testOpen ${ INPUT_IMAGE } open.png-- compare ope
          images / open.png)
 ADD_TEST(Spacing ${ TEST_COMMAND } testSpacing ${ INPUT_IMAGE } o1.png o2.png-- compare o1.png o2.png)
 
-ADD_TEST(Sharpen1 ${ TEST_COMMAND } testSharpen 1 sharp1.mha)
+ADD_TEST(Sharpen1 ${ TEST_COMMAND } testSharpen 1 sharp1.mha sharp1.txt)
 
-ADD_TEST(Sharpen2 ${ TEST_COMMAND } testSharpen 2 sharp2.mha)
+ADD_TEST(Sharpen2 ${ TEST_COMMAND } testSharpen 2 sharp2.mha sharp2.txt)
 
-ADD_TEST(Sharpen3 ${ TEST_COMMAND } testSharpen 3 sharp3.mha)
+ADD_TEST(Sharpen3 ${ TEST_COMMAND } testSharpen 3 sharp3.mha sharp3.txt)
+ADD_TEST(Sharpen10 ${ TEST_COMMAND } testSharpen 10 sharp10.mha sharp10.txt)
+ADD_TEST(Sharpen100 ${ TEST_COMMAND } testSharpen 100 sharp100.mha sharp100.txt)
