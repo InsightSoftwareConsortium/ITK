@@ -52,7 +52,7 @@ public:
   bool              m_HasValidPhotometricInterpretation;
   unsigned short    m_PlanarConfig;
   unsigned short    m_Orientation;
-  uint32 int        m_TileDepth;
+  uint32            m_TileDepth;
   unsigned int      m_TileRows;
   unsigned int      m_TileColumns;
   unsigned int      m_TileWidth;
