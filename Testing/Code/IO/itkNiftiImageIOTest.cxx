@@ -19,7 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include <fstream>
-#include <complex>
 #include <string.h>
 #include "itkImageFileReader.h"
 #include "itkImage.h"
