@@ -106,9 +106,13 @@ start:
   char c;
   if ( (c = f.get())!='<' )
     {
+    std::string rest;
+    std::getline(f,rest);
     errorMessage = "Expected < token not found. Instead found '";
     errorMessage += c;
-    errorMessage += "'.";
+    errorMessage += "'.\nRest of line is '";
+    errorMessage += rest;
+    errorMessage += "'.\n";
     goto out; // we expect a token
     }
   f.getline(buf,256,'>');  // read up to 256 characters until '>' is reached. we read and discard the '>'
@@ -132,7 +136,9 @@ start:
   clID=FEMOF::ClassName2ID(s);  // obtain the class ID from FEMObjectFactory
   if (clID<0)
     {
-    errorMessage = "Could not obtain class ID from FEMObjectFactory";
+    errorMessage = "Could not obtain class ID from FEMObjectFactory for '";
+    errorMessage += s;
+    errorMessage += "'.";
     goto out;  // class not found
     }
   // create a new object of the correct class
