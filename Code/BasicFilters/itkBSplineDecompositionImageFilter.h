@@ -91,7 +91,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Iterator typedef support */
-  typedef itk::ImageLinearIteratorWithIndex<TOutputImage> OutputLinearIterator;
+  typedef ImageLinearIteratorWithIndex<TOutputImage> OutputLinearIterator;
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
