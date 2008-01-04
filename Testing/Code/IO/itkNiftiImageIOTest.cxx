@@ -746,7 +746,7 @@ bool Equal(double a, double b)
     {
     avg = - avg;
     }
-  if(diff > avg/10000.0)
+  if(diff > avg/1000.0)
     {
     return false;
     }
