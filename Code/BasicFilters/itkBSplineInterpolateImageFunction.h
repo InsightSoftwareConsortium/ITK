@@ -114,16 +114,16 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** Iterator typedef support */
-  typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
+  typedef ImageLinearIteratorWithIndex<TImageType> Iterator;
 
   /** Internal Coefficient typedef support */
   typedef TCoefficientType CoefficientDataType;
-  typedef itk::Image<CoefficientDataType, 
+  typedef Image<CoefficientDataType, 
                      itkGetStaticConstMacro(ImageDimension)
     > CoefficientImageType;
 
   /** Define filter for calculating the BSpline coefficients */
-  typedef itk::BSplineDecompositionImageFilter<TImageType, CoefficientImageType> 
+  typedef BSplineDecompositionImageFilter<TImageType, CoefficientImageType> 
   CoefficientFilter;
   typedef typename CoefficientFilter::Pointer CoefficientFilterPointer;
 
