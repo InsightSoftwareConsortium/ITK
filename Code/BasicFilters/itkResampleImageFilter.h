@@ -74,7 +74,8 @@ namespace itk
  *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType=double>
+template <class TInputImage, class TOutputImage,
+          class TInterpolatorPrecisionType=double>
 class ITK_EXPORT ResampleImageFilter:
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
