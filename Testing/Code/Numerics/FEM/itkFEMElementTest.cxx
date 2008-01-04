@@ -65,7 +65,7 @@ int itkFEMElementTest(int ac, char* av[] )
   {
     std::cout << "Loading menu..." << std::endl;
     
-    f.open(listloc);
+    f.open(listloc,std::ios::binary);
     if (!f) {
       std::cout << "ERROR: null file handle - couldn't read input file list" << std::endl;
       std::cout << "Test FAILED" << std::endl;
@@ -117,7 +117,7 @@ int itkFEMElementTest(int ac, char* av[] )
   }
     
   // Open a file handle & associate it with the input file
-  f.open(fname);
+  f.open(fname,std::ios::binary);
   if (!f)
   {
     std::cout << "ERROR: null file handle...terminating." << std::endl;
