@@ -139,7 +139,7 @@ RandomImageSource<TOutputImage>
   ImageRegionIterator<TOutputImage> it(image, outputRegionForThread);
 
   // Random number seed
-  unsigned long sample_seed = 12345 + threadId;
+  unsigned int sample_seed = 12345 + threadId;
   double u;
   double rnd;
 
