@@ -607,6 +607,21 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::PreComputeTransformValues()
 {
+  // Note: This code is specific to the b-spline deformable transform.
+
+  // Unfortunately, the BSplineDeformableTransform stores a 
+  // pointer to parameters passed to SetParameters(). Since
+  // we're creating a dummy set of parameters below on the
+  // stack, this can cause a crash if the transform's 
+  // parameters are not later reset with a more properly 
+  // scoped set of parameters. In addition, we're overwriting
+  // any previously set parameters. In order to be kinder,
+  // we'll save a pointer to the current set of parameters 
+  // and restore them after we're done.
+
+  // Note the address operator.
+  const TransformParametersType* previousParameters = & m_Transform->GetParameters();
+
   // Create all zero dummy transform parameters
   ParametersType dummyParameters( m_NumberOfParameters );
   dummyParameters.Fill( 0.0 );
@@ -639,6 +654,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     m_WithinBSplineSupportRegionArray[counter]     = valid;
     }
 
+  // Restore the previous parameters.
+  m_Transform->SetParameters( *previousParameters );
 }
 
 
@@ -664,12 +681,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
     transform = this->m_Transform;
-    }
-
-  /** Useful for debugging */
-  if (sampleNumber >= m_FixedImageSamples.size())
-    {
-    itkExceptionMacro( << "sampleNumber " << sampleNumber << " exceeds " << m_FixedImageSamples.size() << " which is the container size of m_FixedImageSamples" << std::endl);
     }
 
   if ( !m_TransformIsBSpline )
@@ -761,12 +772,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
     transform = this->m_Transform;
-    }
-
-  /** Useful for debugging */
-  if (sampleNumber >= m_FixedImageSamples.size())
-    {
-    itkExceptionMacro( << "sampleNumber " << sampleNumber << " exceeds " << m_FixedImageSamples.size() << " which is the container size of m_FixedImageSamples" << std::endl);
     }
 
   if ( !m_TransformIsBSpline )
@@ -1291,7 +1296,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                               - ((m_NumberOfThreads-1) 
                                  * m_ThreaderChunkSize);
 }
-
 
 } // end namespace itk
 
