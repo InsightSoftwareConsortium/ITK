@@ -17,6 +17,17 @@
 #ifndef __itkLinearInterpolateImageFunction_txx
 #define __itkLinearInterpolateImageFunction_txx
 
+// First, make sure that we include the configuration file.
+// This line may be removed once the ThreadSafeTransform gets
+// integrated into ITK.
+#include "itkConfigure.h"
+
+// Second, redirect to the optimized version if necessary
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#include "itkOptLinearInterpolateImageFunction.txx"
+#else
+
+
 #include "itkLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -150,5 +161,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 } // end namespace itk
+
+#endif
 
 #endif
