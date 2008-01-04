@@ -387,7 +387,7 @@ private:
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkLinearInterpolateImageFunction.txx"
+# include "itkOptLinearInterpolateImageFunction.txx"
 #endif
 
 #endif
