@@ -17,7 +17,7 @@
 #ifndef __itkOptLinearInterpolateImageFunction_txx
 #define __itkOptLinearInterpolateImageFunction_txx
 
-#include "itkOptLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
 
@@ -29,7 +29,7 @@ namespace itk
  */
 template<class TInputImage, class TCoordRep>
 const unsigned long
-OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
 
@@ -37,14 +37,14 @@ OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
  * Constructor
  */
 template<class TInputImage, class TCoordRep>
-OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
-::OptLinearInterpolateImageFunction()
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
+::LinearInterpolateImageFunction()
 {
 }
 
 template<class TInputImage, class TCoordRep>
-OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
-::~OptLinearInterpolateImageFunction()
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
+::~LinearInterpolateImageFunction()
 {
 }
 
@@ -53,7 +53,7 @@ OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
  */
 template<class TInputImage, class TCoordRep>
 void
-OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
@@ -64,9 +64,9 @@ OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
  * Evaluate at image index position
  */
 template<class TInputImage, class TCoordRep>
-typename OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
+typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
-OptLinearInterpolateImageFunction< TInputImage, TCoordRep >
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateUnoptimized( const ContinuousIndexType& index) const
 {
   unsigned int dim;  // index over dimension

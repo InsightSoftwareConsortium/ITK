@@ -22,10 +22,10 @@
 namespace itk
 {
 
-/** \class OptLinearInterpolateImageFunction
- * \brief OptLinearly interpolate an image at specified positions.
+/** \class LinearInterpolateImageFunction
+ * \brief Linearly interpolate an image at specified positions.
  *
- * OptLinearInterpolateImageFunction linearly interpolates image intensity at
+ * LinearInterpolateImageFunction linearly interpolates image intensity at
  * a non-integer pixel position. This class is templated
  * over the input image type and the coordinate representation type 
  * (e.g. float or double).
@@ -40,18 +40,18 @@ namespace itk
  * \ingroup ImageFunctions ImageInterpolators 
  */
 template <class TInputImage, class TCoordRep = float>
-class ITK_EXPORT OptLinearInterpolateImageFunction : 
+class ITK_EXPORT LinearInterpolateImageFunction : 
   public InterpolateImageFunction<TInputImage,TCoordRep> 
 {
 public:
   /** Standard class typedefs. */
-  typedef OptLinearInterpolateImageFunction                 Self;
+  typedef LinearInterpolateImageFunction                 Self;
   typedef InterpolateImageFunction<TInputImage,TCoordRep>   Superclass;
   typedef SmartPointer<Self>                                Pointer;
   typedef SmartPointer<const Self>                          ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(OptLinearInterpolateImageFunction, InterpolateImageFunction);
+  itkTypeMacro(LinearInterpolateImageFunction, InterpolateImageFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -90,12 +90,12 @@ public:
     }
 
 protected:
-  OptLinearInterpolateImageFunction();
-  ~OptLinearInterpolateImageFunction();
+  LinearInterpolateImageFunction();
+  ~LinearInterpolateImageFunction();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  OptLinearInterpolateImageFunction( const Self& ); //purposely not implemented
+  LinearInterpolateImageFunction( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
   /** Number of neighbors used in the interpolation */
@@ -376,18 +376,18 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_OptLinearInterpolateImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT OptLinearInterpolateImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef OptLinearInterpolateImageFunction< ITK_TEMPLATE_2 x > \
-                                                  OptLinearInterpolateImageFunction##y; } \
+#define ITK_TEMPLATE_LinearInterpolateImageFunction(_, EXPORT, x, y) namespace itk { \
+  _(2(class EXPORT LinearInterpolateImageFunction< ITK_TEMPLATE_2 x >)) \
+  namespace Templates { typedef LinearInterpolateImageFunction< ITK_TEMPLATE_2 x > \
+                                                  LinearInterpolateImageFunction##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkOptLinearInterpolateImageFunction+-.h"
+# include "Templates/itkLinearInterpolateImageFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkOptLinearInterpolateImageFunction.txx"
+# include "itkLinearInterpolateImageFunction.txx"
 #endif
 
 #endif
