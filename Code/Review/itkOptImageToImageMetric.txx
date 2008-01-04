@@ -620,7 +620,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   // and restore them after we're done.
 
   // Note the address operator.
-  const TransformParametersType* previousParameters = & m_Transform->GetParameters();
+  // const TransformParametersType* previousParameters = & m_Transform->GetParameters();
 
   // Create all zero dummy transform parameters
   ParametersType dummyParameters( m_NumberOfParameters );
@@ -655,7 +655,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   // Restore the previous parameters.
-  m_Transform->SetParameters( *previousParameters );
+  // m_Transform->SetParameters( *previousParameters );
 }
 
 
