@@ -58,7 +58,8 @@ IF(BUILD_TESTING)
 FOREACH(CurrentExe "check"
                    "testOpen"
                    "testSpacing"
-                   "testSharpen")
+                   "testSharpen"
+                   "testDT")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
@@ -87,3 +88,7 @@ ADD_TEST(Sharpen2 ${ TEST_COMMAND } testSharpen 2 sharp2.mha sharp2.txt)
 ADD_TEST(Sharpen3 ${ TEST_COMMAND } testSharpen 3 sharp3.mha sharp3.txt)
 ADD_TEST(Sharpen10 ${ TEST_COMMAND } testSharpen 10 sharp10.mha sharp10.txt)
 ADD_TEST(Sharpen100 ${ TEST_COMMAND } testSharpen 100 sharp100.mha sharp100.txt)
+
+ADD_TEST(Dist1 ${ TEST_COMMAND } testDT $ { INPUT_IMAGE } 100 0 mask.png dist1.mha)
+
+ADD_TEST(Dist2 ${ TEST_COMMAND } testDT $ { INPUT_IMAGE } 100 255 mask.png dist2.mha)
