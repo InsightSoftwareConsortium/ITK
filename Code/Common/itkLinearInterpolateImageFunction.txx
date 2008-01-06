@@ -23,7 +23,7 @@
 #include "itkConfigure.h"
 
 // Second, redirect to the optimized version if necessary
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+#if defined( ITK_USE_OPTIMIZED_REGISTRATION_METHODS ) && defined( LINEAR_INTERPOLATOR_FIXED )
 #include "itkOptLinearInterpolateImageFunction.txx"
 #else
 
