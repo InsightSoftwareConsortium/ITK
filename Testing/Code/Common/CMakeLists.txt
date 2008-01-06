@@ -104,6 +104,7 @@ ADD_TEST(itkImageTest ${COMMON_TESTS} itkImageTest)
 ADD_TEST(itkIteratorTests ${COMMON_TESTS} itkIteratorTests)
 ADD_TEST(itkLandmarkBasedTransformInitializerTest ${COMMON_TESTS} itkLandmarkBasedTransformInitializerTest)
 ADD_TEST(itkLightObjectTest ${COMMON_TESTS} itkLightObjectTest)
+ADD_TEST(itkLinearInterpolateImageFunctionTest ${COMMON_TESTS2} itkLinearInterpolateImageFunctionTest)
 ADD_TEST(itkLineIteratorTest ${COMMON_TESTS} 
   --compare ${BASELINE}/itkLineIteratorTest.png
             ${TEMP}/itkLineIteratorTest.png
@@ -407,6 +408,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 #-----------------------------------------------------------------------------
 SET(BasicTests2_SRCS
 itkCellInterfaceTest.cxx
+itkLinearInterpolateImageFunctionTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
 itkDifferenceImageFilterTest.cxx 
