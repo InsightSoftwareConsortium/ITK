@@ -593,9 +593,9 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     while( m < size && p_n > p);
 
     binProportion = f_n / totalFrequency ;
-    double min = double( this->GetBinMin(dimension, n + 1) ) ;
-    double max = double( this->GetBinMax(dimension, n + 1) ) ;
-    double interval = max - min ;
+    min = double( this->GetBinMin(dimension, n + 1) ) ;
+    max = double( this->GetBinMax(dimension, n + 1) ) ;
+    interval = max - min ;
     return max - ((p_n_prev - p) / binProportion) * interval ;
     }
 }

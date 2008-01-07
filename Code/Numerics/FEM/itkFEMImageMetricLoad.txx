@@ -42,11 +42,11 @@ ImageMetricLoad<TMoving , TFixed>
 //  typename MovingType::IndexType rindex;
   // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
-  //Set the size of the image region
+    { 
+    //Set the size of the image region
     size[k] = 1;
     tindex[k]=0;
-  }
+    }
 
 // Set the number of integration points to zero (default for an element)
 
@@ -70,13 +70,14 @@ ImageMetricLoad<TMoving , TFixed>
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
   try 
-  {
+    {
     m_Metric->Initialize();
-  } catch( ExceptionObject & e )
-  {
+    }
+  catch( ExceptionObject & e )
+    {
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
-  }
+    }
 
 }
 
@@ -91,9 +92,9 @@ ImageMetricLoad<TMoving , TFixed>::ImageMetricLoad()
   m_Sign=1.0;
 
   for (unsigned int i=0; i<ImageDimension; i++)
-  {
+    {
     m_MetricRadius[i] = 1;
-  }
+    }
   m_MetricGradientImage=NULL;
 
 }
@@ -101,7 +102,7 @@ ImageMetricLoad<TMoving , TFixed>::ImageMetricLoad()
 
 template<class TMoving,class TFixed>
 typename ImageMetricLoad<TMoving , TFixed>::Float 
-ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayType* el,Float step)
+ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayType* element,Float step)
 {
   Float energy=0.0,defe=0.0; 
 
@@ -111,15 +112,15 @@ ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayTy
   Element::MatrixType solmat;
   Element::Float w;
  
-  Element::ArrayType::iterator elt=el->begin();
+  Element::ArrayType::iterator elt=element->begin();
   const unsigned int Nnodes=(*elt)->GetNumberOfNodes();
 
   solmat.set_size(Nnodes*ImageDimension,1);
 
-  for(  ; elt!=el->end(); elt++) 
-  {
-    for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
+  for(  ; elt!=element->end(); elt++) 
     {
+    for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
+      {
       dynamic_cast<Element*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 
@@ -127,41 +128,41 @@ ImageMetricLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayTy
       Float detJ=(*elt)->JacobianDeterminant(ip);
         
       for(unsigned int f=0; f<ImageDimension; f++)
-      {
+        {
         solval=0.0;
         posval=0.0;
         for(unsigned int n=0; n<Nnodes; n++)
-        {
+          {
           posval+=shapef[n]*(((*elt)->GetNodeCoordinates(n))[f]);
           float nodeval=( (m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex)
-            +(m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex2)*step);
+                          +(m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex2)*step);
       
           solval+=shapef[n] * nodeval;   
           solmat[(n*ImageDimension)+f][0]=nodeval;
-        }
+          }
         InVec[f]=posval;
         InVec[f+ImageDimension]=solval;
-      }
+        }
 
       float tempe=0.0;
       try
-      {
-      tempe=vcl_fabs(GetMetric(InVec));
-      }
+        {
+        tempe=vcl_fabs(GetMetric(InVec));
+        }
       catch( itk::ExceptionObject & )
-      { 
-      // do nothing we dont care if the metric region is outside the image
-      //std::cerr << e << std::endl;
-      }
+        { 
+        // do nothing we dont care if the metric region is outside the image
+        //std::cerr << e << std::endl;
+        }
       for(unsigned int n=0; n<Nnodes; n++)
-      {
+        {
         itk::fem::Element::Float temp=shapef[n]*tempe*w*detJ;
         energy+=temp;
-      }
-    }  
+        }
+      }  
     
     defe+=0.0;//(double)(*elt)->GetElementDeformationEnergy( solmat );
-  }
+    }
    
   //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
   return vcl_fabs((double)energy*(double)m_Gamma-(double)defe);
@@ -189,14 +190,15 @@ ImageMetricLoad<TMoving , TFixed>::Fe
 
   VectorType OutVec;
   
-  for( unsigned int k = 0; k < ImageDimension; k++ ) {
-    if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
-        vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
-         vcl_fabs(Gpos[k]) > 1.e33  || vcl_fabs(Gsol[k]) > 1.e33  ) 
+  for( unsigned int k = 0; k < ImageDimension; k++ )
     {
+    if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
+         vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
+         vcl_fabs(Gpos[k]) > 1.e33  || vcl_fabs(Gsol[k]) > 1.e33  ) 
+      {
       OutVec.set_size(ImageDimension);  OutVec.fill(0.0);  return OutVec;
+      }
     }
-  }
 //  OutVec=this->MetricFiniteDiff(Gpos,Gsol); // gradient direction
 //  OutVec=this->GetPolynomialFitToMetric(Gpos,Gsol); // gradient direction
 //  for( unsigned int k = 0; k < ImageDimension; k++ ) {
@@ -215,8 +217,8 @@ ImageMetricLoad<TMoving , TFixed>::Fe
 
   int lobordercheck=0,hibordercheck=0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
-  //Set the size of the image region
+    { 
+    //Set the size of the image region
     parameters[k]= Gsol[k]; // this gives the translation by the vector field 
     rindex[k] =(long)(Gpos[k]+Gsol[k]+0.5);  // where the piece of reference image currently lines up under the above translation
     tindex[k]= (long)(Gpos[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
@@ -226,7 +228,7 @@ ImageMetricLoad<TMoving , TFixed>::Fe
     else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
     else regionRadius[k]=m_MetricRadius[k];
     tindex[k]= (long)(Gpos[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
-  }
+    }
 
 // Set the associated region
 
@@ -243,31 +245,31 @@ ImageMetricLoad<TMoving , TFixed>::Fe
   typename MetricBaseType::DerivativeType  derivative;
 
   try
-  { 
+    { 
     m_Metric->GetValueAndDerivative( parameters, measure, derivative );
-  //  m_Metric->GetDerivative( parameters, derivative );
-  }
+    //  m_Metric->GetDerivative( parameters, derivative );
+    }
   catch( ... )
-  {
-  // do nothing we don't care if the metric lies outside the image sometimes
-  //std::cerr << e << std::endl;
-  }
+    {
+    // do nothing we don't care if the metric lies outside the image sometimes
+    //std::cerr << e << std::endl;
+    }
  
   m_Energy+=(double)measure;
   float gmag=0.0;
   for( unsigned int k = 0; k < ImageDimension; k++ )
-  {
-    if (lobordercheck < 0 || hibordercheck >=0 ||
-       vnl_math_isnan(derivative[k])  || vnl_math_isinf(derivative[k]) ) 
     {
+    if (lobordercheck < 0 || hibordercheck >=0 ||
+        vnl_math_isnan(derivative[k])  || vnl_math_isinf(derivative[k]) ) 
+      {
       OutVec[k]=0.0;
-    } 
+      } 
     else OutVec[k]= m_Sign*m_Gamma*derivative[k];
     gmag+=OutVec[k]*OutVec[k];
-  }
+    }
   if (gmag==0.0) gmag=1.0;
- // NOTE : POSSIBLE THAT DERIVATIVE DIRECTION POINTS UP OR DOWN HILL!
- // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
+  // NOTE : POSSIBLE THAT DERIVATIVE DIRECTION POINTS UP OR DOWN HILL!
+  // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   //std::cout   << " deriv " << derivative <<  " val " << measure << endl;
   //if (m_Temp !=0.0) 
   //return OutVec * vcl_exp(-1.*OutVec.magnitude()/m_Temp);
@@ -299,10 +301,10 @@ ImageMetricLoad<TMoving , TFixed>::GetMetric
   FixedRadiusType regionRadius;
   VectorType OutVec(ImageDimension,0.0); // gradient direction
   //std::cout << " pos   translation " << InVec  << endl;
-   // initialize the offset/vector part
+  // initialize the offset/vector part
   for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
-  //Set the size of the image region
+    { 
+    //Set the size of the image region
     parameters[k]= InVec[k+ImageDimension]; // this gives the translation by the vector field 
     rindex[k] =(long)(InVec[k]+InVec[k+ImageDimension]+0.5);  // where the piece of reference image currently lines up under the above translation
     tindex[k]= (long)(InVec[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
@@ -312,7 +314,7 @@ ImageMetricLoad<TMoving , TFixed>::GetMetric
     else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
     else regionRadius[k]=m_MetricRadius[k];  
     tindex[k]= (long)(InVec[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
-  }
+    }
 
 // Set the associated region
 
@@ -327,14 +329,14 @@ ImageMetricLoad<TMoving , TFixed>::GetMetric
 
   typename MetricBaseType::MeasureType     measure=0.0;
   try
-  { 
-  measure=m_Metric->GetValue( parameters);
-  }
+    { 
+    measure=m_Metric->GetValue( parameters);
+    }
   catch( ... )
-  {
-  // do nothing we dont care if the metric lies outside the image sometimes
-  //std::cerr << e << std::endl;
-  }
+    {
+    // do nothing we dont care if the metric lies outside the image sometimes
+    //std::cerr << e << std::endl;
+    }
       
  
   return (Float) measure;
@@ -358,7 +360,7 @@ ImageMetricLoad<TMoving , TFixed>::MetricFiniteDiff
   OutVec.set_size(ImageDimension);
 
   for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
+    { 
     parameters[k]= Gsol[k]; // this gives the translation by the vector field 
     tindex[k]= (long)(Gpos[k]+0.5)-(long)m_MetricRadius[k]/2;  // position in reference image
     if (tindex[k] > m_TarSize[k]-1 || tindex[k] < 0) tindex[k]=(long)(Gpos[k]+0.5);
@@ -368,45 +370,51 @@ ImageMetricLoad<TMoving , TFixed>::MetricFiniteDiff
     else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
     else regionRadius[k]=m_MetricRadius[k];  
     tindex[k]= (long)(Gpos[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
-  }
+    }
   
   unsigned int row;
   typename ImageType::IndexType difIndex[ImageDimension][2];
   
   typename MetricBaseType::MeasureType   dPixL,dPixR;
-  for(row=0; row< ImageDimension;row++){
+  for(row=0; row< ImageDimension;row++)
+    {
     difIndex[row][0]=tindex;
     difIndex[row][1]=tindex;
-    if (tindex[row] < m_TarSize[row]-1) difIndex[row][0][row]=tindex[row]+1;
-    if (tindex[row] > 0 )               difIndex[row][1][row]=tindex[row]-1;
-
+    if (tindex[row] < m_TarSize[row]-1)
+      {
+      difIndex[row][0][row]=tindex[row]+1;
+      }
+    if (tindex[row] > 0 )
+      {
+      difIndex[row][1][row]=tindex[row]-1;
+      }
     try
-    { 
-    requestedRegion.SetIndex(difIndex[row][1]);
-    requestedRegion.SetSize(regionRadius);
-    m_TarImage->SetRequestedRegion(requestedRegion);  
-    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
-    dPixL=m_Metric->GetValue( parameters);
-    }
+      { 
+      requestedRegion.SetIndex(difIndex[row][1]);
+      requestedRegion.SetSize(regionRadius);
+      m_TarImage->SetRequestedRegion(requestedRegion);  
+      m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+      dPixL=m_Metric->GetValue( parameters);
+      }
     catch( ... )
-    {
+      {
       dPixL=0.0;
-    } 
+      } 
     try
-    { 
-    requestedRegion.SetIndex(difIndex[row][0]);
-    requestedRegion.SetSize(regionRadius);
-    m_TarImage->SetRequestedRegion(requestedRegion);  
-    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
-    dPixR=m_Metric->GetValue( parameters);
-    }
+      { 
+      requestedRegion.SetIndex(difIndex[row][0]);
+      requestedRegion.SetSize(regionRadius);
+      m_TarImage->SetRequestedRegion(requestedRegion);  
+      m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+      dPixR=m_Metric->GetValue( parameters);
+      }
     catch( ... )
-    {
+      {
       dPixR=0.0;
-    }
+      }
     
     OutVec[row]=dPixL-dPixR;
-  }
+    }
   return OutVec;
 }
 
@@ -425,7 +433,6 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
 //
 //f(x,y,z) = a0 + a1*x + a2*y + a3*z
 //
-  typename MetricBaseType::MeasureType     measure;
   ParametersType parameters( ImageDimension );
   typename FixedType::RegionType requestedRegion;
   typename FixedType::IndexType tindex;
@@ -444,7 +451,7 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
   double inds[3]; inds[0]=-1.0;  inds[1]=0.0;  inds[2]=1.0;
 
   for( unsigned int k = 0; k < ImageDimension; k++ )
-  { 
+    { 
     a0norm/=3.0;
     if (k < ImageDimension-1) a1norm/=3.0;
     chebycoefs[k]=0.0;
@@ -457,92 +464,122 @@ ImageMetricLoad<TMoving , TFixed>::GetPolynomialFitToMetric
     else if (lobordercheck < 0) regionRadius[k]=m_MetricRadius[k]+(long)lobordercheck;
     else regionRadius[k]=m_MetricRadius[k];
     tindex[k]= (long)(Gpos[k]+0.5)-(long)regionRadius[k]/2;  // position in reference image
-  }
+    }
   
 
-  if (ImageDimension==2){
-
-  double measure[3][3];
-  for(int row=-1; row< 2; row++){
-  for(int col=-1; col< 2; col++){
-
-    temp[0]=tindex[0]+(long)row;
-    temp[1]=tindex[1]+(long)col;
-
-    for (unsigned int i=0; i<ImageDimension; i++){
-      if (temp[i] > m_TarSize[i]-1) temp[i]=m_TarSize[i]-1;
-      else if (temp[i] < 0 ) temp[i]=0;
-    }
-
-    requestedRegion.SetIndex(temp);
-    requestedRegion.SetSize(regionRadius);
-    m_TarImage->SetRequestedRegion(requestedRegion);  
-    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
-    measure[row+1][col+1]=0.0;
-   
-    try
-    { 
-      measure[row+1][col+1]=m_Metric->GetValue( parameters);
-    }
-    catch( ... )
+  if (ImageDimension==2)
     {
-    }
+    
+    double measure[3][3];
+    for(int row=-1; row< 2; row++)
+      {
+      for(int col=-1; col< 2; col++)
+        {
+      
+        temp[0]=tindex[0]+(long)row;
+        temp[1]=tindex[1]+(long)col;
+        
+        for (unsigned int i=0; i<ImageDimension; i++)
+          {
+          if (temp[i] > m_TarSize[i]-1)
+            {
+            temp[i]=m_TarSize[i]-1;
+            }
+          else if (temp[i] < 0 )
+            {
+            temp[i]=0;
+            }
+          }
+
+        requestedRegion.SetIndex(temp);
+        requestedRegion.SetSize(regionRadius);
+        m_TarImage->SetRequestedRegion(requestedRegion);  
+        m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+        measure[row+1][col+1]=0.0;
+        
+        try
+          { 
+          measure[row+1][col+1]=m_Metric->GetValue( parameters);
+          }
+        catch( ... )
+          {
+          }
  
     
-     datatotal+=measure[row+1][col+1];
-  }}
-  for( unsigned int cb1 = 0; cb1 < 3; cb1++ ) 
-  for( unsigned int cb2 = 0; cb2 < 3; cb2++ ) 
-  {
-    met=measure[cb1][cb2];
-    ind1=inds[cb1]*a1norm;
-    ind2=inds[cb2]*a1norm;
-    chebycoefs[0]+=met*ind1;
-    chebycoefs[1]+=met*ind2;
-  }
-  }
-  else if (ImageDimension == 3) {
-
-  double measure3D[3][3][3];
-  for(int row=-1; row< 2; row++){
-  for(int col=-1; col< 2; col++){
-  for(int z=-1; z< 2; z++){
-
-    temp[0]=tindex[0]+(long)row;
-    temp[1]=tindex[1]+(long)col;
-    temp[2]=tindex[2]+(long)z;
-
-    for (unsigned int i=0; i<ImageDimension; i++){
-      if (temp[i] > m_TarSize[i]-1) temp[i]=m_TarSize[i]-1;
-      else if (temp[i] < 0 ) temp[i]=0;
+        datatotal+=measure[row+1][col+1];
+        }
+      }
+    for( unsigned int cb1 = 0; cb1 < 3; cb1++ )
+      { 
+      for( unsigned int cb2 = 0; cb2 < 3; cb2++ ) 
+        {
+        met=measure[cb1][cb2];
+        ind1=inds[cb1]*a1norm;
+        ind2=inds[cb2]*a1norm;
+        chebycoefs[0]+=met*ind1;
+        chebycoefs[1]+=met*ind2;
+        }
+      }
     }
-
-    requestedRegion.SetIndex(temp);
-    requestedRegion.SetSize(regionRadius);
-    m_TarImage->SetRequestedRegion(requestedRegion);  
-    m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
-    measure3D[row+1][col+1][z+1]=0.0;
-   
-    try
-    { 
-      measure3D[row+1][col+1][z+1]=m_Metric->GetValue( parameters);
-    }
-    catch( ... )
+  else if (ImageDimension == 3)
     {
-    }
+
+    double measure3D[3][3][3];
+    for(int row=-1; row< 2; row++)
+      {
+      for(int col=-1; col< 2; col++)
+        {
+        for(int z=-1; z< 2; z++)
+          {
+
+          temp[0]=tindex[0]+(long)row;
+          temp[1]=tindex[1]+(long)col;
+          temp[2]=tindex[2]+(long)z;
+
+          for (unsigned int i=0; i<ImageDimension; i++)
+            {
+            if (temp[i] > m_TarSize[i]-1)
+              {
+              temp[i]=m_TarSize[i]-1;
+              }
+            else if (temp[i] < 0 )
+              {
+              temp[i]=0;
+              }
+            }
+
+          requestedRegion.SetIndex(temp);
+          requestedRegion.SetSize(regionRadius);
+          m_TarImage->SetRequestedRegion(requestedRegion);  
+          m_Metric->SetFixedImageRegion( m_TarImage->GetRequestedRegion() );
+          measure3D[row+1][col+1][z+1]=0.0;
+   
+          try
+            { 
+            measure3D[row+1][col+1][z+1]=m_Metric->GetValue( parameters);
+            }
+          catch( ... )
+            {
+            }
  
     
-     datatotal+=measure3D[row+1][col+1][z+1];
-  }}}
-  for( unsigned int cb1 = 0; cb1 < 2; cb1++ ) 
-  for( unsigned int cb2 = 0; cb2 < 2; cb2++ ) 
-  for( unsigned int cb3 = 0; cb3 < 2; cb3++ ) 
-  {
-    chebycoefs[0]+=measure3D[cb1][cb2][cb3]*inds[cb1]*a1norm;
-    chebycoefs[1]+=measure3D[cb1][cb2][cb3]*inds[cb2]*a1norm;
-    chebycoefs[2]+=measure3D[cb1][cb2][cb3]*inds[cb3]*a1norm;
-  }
-  }
+          datatotal+=measure3D[row+1][col+1][z+1];
+          }
+        }
+      }
+    for( unsigned int cb1 = 0; cb1 < 2; cb1++ )
+      {
+      for( unsigned int cb2 = 0; cb2 < 2; cb2++ )
+        { 
+        for( unsigned int cb3 = 0; cb3 < 2; cb3++ ) 
+          {
+          chebycoefs[0]+=measure3D[cb1][cb2][cb3]*inds[cb1]*a1norm;
+          chebycoefs[1]+=measure3D[cb1][cb2][cb3]*inds[cb2]*a1norm;
+          chebycoefs[2]+=measure3D[cb1][cb2][cb3]*inds[cb3]*a1norm;
+          }
+        }
+      }
+    }
   
   chebycoefs0=a0norm*datatotal;
 //  std::cout << " cb " << chebycoefs << std::endl;
@@ -555,7 +592,7 @@ template<class TMoving,class TFixed>
 int ImageMetricLoad<TMoving,TFixed>::CLID()
 {
   static const int CLID_ = FEMOF::Register( ImageMetricLoad::NewB,(std::string("ImageMetricLoad(")
-                +typeid(TMoving).name()+","+typeid(TFixed).name()+")").c_str());
+                                                                   +typeid(TMoving).name()+","+typeid(TFixed).name()+")").c_str());
   return CLID_;
 }
 
