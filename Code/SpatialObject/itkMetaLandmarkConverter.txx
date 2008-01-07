@@ -47,9 +47,9 @@ MetaLandmarkConverter<NDimensions>
 
   unsigned int ndims = Landmark->NDims();
   double spacing[NDimensions];
-  for(unsigned int i=0;i<ndims;i++)
+  for(unsigned int ii=0;ii<ndims;ii++)
     {
-    spacing[i]=Landmark->ElementSpacing()[i];
+    spacing[ii]=Landmark->ElementSpacing()[ii];
     }
   landmark->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   landmark->GetProperty()->SetName(Landmark->Name());
@@ -74,9 +74,9 @@ MetaLandmarkConverter<NDimensions>
     typedef typename LandmarkSpatialObjectType::PointType PointType;
     PointType point;
 
-    for(unsigned int i=0;i<ndims;i++)
+    for(unsigned int ii=0;ii<ndims;ii++)
       {
-      point[i]=(*it2)->m_X[i];
+      point[ii]=(*it2)->m_X[ii];
       }
 
     pnt.SetPosition(point);
@@ -132,9 +132,9 @@ MetaLandmarkConverter<NDimensions>
     }
 
   float color[4];
-  for(unsigned int i=0;i<4;i++)
+  for(unsigned int ii=0;ii<4;ii++)
     {
-    color[i]=spatialObject->GetProperty()->GetColor()[i];
+    color[ii]=spatialObject->GetProperty()->GetColor()[ii];
     }
 
   Landmark->Color(color);

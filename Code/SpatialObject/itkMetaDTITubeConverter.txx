@@ -44,9 +44,9 @@ MetaDTITubeConverter<NDimensions>
   double spacing[NDimensions];
 
   unsigned int ndims = tube->NDims();
-  for(unsigned int i=0;i<ndims;i++)
+  for(unsigned int ii=0;ii<ndims;ii++)
     {
-    spacing[i]=tube->ElementSpacing()[i];
+    spacing[ii]=tube->ElementSpacing()[ii];
     }
 
   tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
@@ -75,9 +75,9 @@ MetaDTITubeConverter<NDimensions>
     typedef typename DTITubeSpatialObjectType::PointType PointType;
     PointType point;
 
-    for(unsigned int i=0;i<ndims;i++)
+    for(unsigned int ii=0;ii<ndims;ii++)
       {
-      point[i]=(*it2)->m_X[i];
+      point[ii]=(*it2)->m_X[ii];
       }
 
     // Get the fields from the metaIO
@@ -112,9 +112,9 @@ MetaDTITubeConverter<NDimensions>
 
     float* tensor = new float[6];
 
-    for(unsigned int i=0;i<6;i++)
+    for(unsigned int ii=0;ii<6;ii++)
       {
-      tensor[i]=(*it2)->m_TensorMatrix[i];
+      tensor[ii]=(*it2)->m_TensorMatrix[ii];
       }
     pnt.SetTensorMatrix(tensor);
 
@@ -344,9 +344,9 @@ MetaDTITubeConverter<NDimensions>
   tube->PointDim("x y z tensor1 tensor2 tensor3 tensor4 tensor5 tensor6");
 
   float color[4];
-  for(unsigned int i=0;i<4;i++)
+  for(unsigned int ii=0;ii<4;ii++)
     {
-    color[i]=spatialObject->GetProperty()->GetColor()[i];
+    color[ii]=spatialObject->GetProperty()->GetColor()[ii];
     }
 
   tube->Color(color);
@@ -359,10 +359,10 @@ MetaDTITubeConverter<NDimensions>
   tube->ParentPoint(spatialObject->GetParentPoint());
   tube->NPoints(tube->GetPoints().size());
 
-  for(unsigned int i=0;i<NDimensions;i++)
+  for(unsigned int ii=0;ii<NDimensions;ii++)
     {
-    tube->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
-                                         ->GetScaleComponent()[i]);
+    tube->ElementSpacing(ii, spatialObject->GetIndexToObjectTransform()
+                                         ->GetScaleComponent()[ii]);
     }
   return tube;
 }

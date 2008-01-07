@@ -45,9 +45,9 @@ MetaBlobConverter<NDimensions>
 
   unsigned int ndims = Blob->NDims();
   double spacing[NDimensions];
-  for(unsigned int i=0;i<ndims;i++)
+  for(unsigned int ii=0;ii<ndims;ii++)
     {
-    spacing[i]=Blob->ElementSpacing()[i];
+    spacing[ii]=Blob->ElementSpacing()[ii];
     }
 
   blob->GetIndexToObjectTransform()->SetScaleComponent(spacing);
@@ -75,9 +75,9 @@ MetaBlobConverter<NDimensions>
     typedef typename BlobSpatialObjectType::PointType PointType;
     PointType point;
 
-    for(unsigned int i=0;i<ndims;i++)
+    for(unsigned int ii=0;ii<ndims;ii++)
       {
-      point[i]=(*it2)->m_X[i];
+      point[ii]=(*it2)->m_X[ii];
       }
 
     pnt.SetPosition(point);
@@ -134,9 +134,9 @@ MetaBlobConverter<NDimensions>
     }
 
   float color[4];
-  for(unsigned int i=0;i<4;i++)
+  for(unsigned int ii=0;ii<4;ii++)
     {
-    color[i]=spatialObject->GetProperty()->GetColor()[i];
+    color[ii]=spatialObject->GetProperty()->GetColor()[ii];
     }
 
   Blob->Color(color);
@@ -148,10 +148,10 @@ MetaBlobConverter<NDimensions>
   Blob->NPoints(Blob->GetPoints().size());
 
   
-  for(unsigned int i=0;i<NDimensions;i++)
+  for(unsigned int ii=0;ii<NDimensions;ii++)
     {
-    Blob->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
-                                         ->GetScaleComponent()[i]);
+    Blob->ElementSpacing(ii, spatialObject->GetIndexToObjectTransform()
+                                         ->GetScaleComponent()[ii]);
     }
 
   return Blob;

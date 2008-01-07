@@ -438,7 +438,7 @@ PolygonSpatialObject<TDimension>
   bool oddNodes = false;
   for(int i = 0; i < numpoints; i++)
     {
-    PointType start = (*it).GetPosition();
+    start = (*it).GetPosition();
     it++;
     PointType end;
     if(i == numpoints - 1)

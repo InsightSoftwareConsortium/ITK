@@ -44,9 +44,9 @@ MetaLineConverter<NDimensions>
   double spacing[NDimensions];
  
   unsigned int ndims = Line->NDims();
-  for(unsigned int i=0;i<ndims;i++)
+  for(unsigned int ii=0;ii<ndims;ii++)
     {
-    spacing[i]=Line->ElementSpacing()[i];
+    spacing[ii]=Line->ElementSpacing()[ii];
     }
   line->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   line->GetProperty()->SetName(Line->Name());
@@ -74,21 +74,21 @@ MetaLineConverter<NDimensions>
     PointType point;
     typedef typename LinePointType::VectorType NormalType;
 
-    for(unsigned int i=0;i<ndims;i++)
+    for(unsigned int ii=0;ii<ndims;ii++)
       {
-      point[i]=(*it2)->m_X[i];
+      point[ii]=(*it2)->m_X[ii];
       }
 
     pnt.SetPosition(point);
 
-    for(unsigned int i=0;i<ndims-1;i++)
+    for(unsigned int ii=0;ii<ndims-1;ii++)
       {
       NormalType normal;
-      for(unsigned int j=0;j<ndims;j++)
+      for(unsigned int jj=0;jj<ndims;jj++)
         {
-        normal[j]=(*it2)->m_V[i][j];
+        normal[jj]=(*it2)->m_V[ii][jj];
         }
-      pnt.SetNormal(normal,i);
+      pnt.SetNormal(normal,ii);
       }
 
     
@@ -151,9 +151,9 @@ MetaLineConverter<NDimensions>
     }
 
   float color[4];
-  for(unsigned int i=0;i<4;i++)
+  for(unsigned int ii=0;ii<4;ii++)
     {
-    color[i]=spatialObject->GetProperty()->GetColor()[i];
+    color[ii]=spatialObject->GetProperty()->GetColor()[ii];
     }
 
   Line->Color(color);
