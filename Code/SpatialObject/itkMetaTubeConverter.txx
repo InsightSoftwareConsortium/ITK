@@ -190,8 +190,8 @@ MetaTubeConverter<NDimensions>
 
   for(unsigned int ii=0;ii<NDimensions;ii++)
     {
-    tube->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()
-                                        ->GetScaleComponent()[i]);
+    tube->ElementSpacing(ii,spatialObject->GetIndexToObjectTransform()
+                                        ->GetScaleComponent()[ii]);
     }
   return tube;
 }
