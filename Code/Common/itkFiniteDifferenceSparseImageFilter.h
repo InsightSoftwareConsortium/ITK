@@ -88,6 +88,7 @@ public:
 
   /** Typedefs from the sparse output image type. */
   typedef typename SparseOutputImageType::IndexType    IndexType;
+  typedef typename SparseOutputImageType::SizeType     SizeType;
   typedef typename SparseOutputImageType::NodeType     OutputNodeType;
   typedef typename SparseOutputImageType::NodeListType NodeListType;
 

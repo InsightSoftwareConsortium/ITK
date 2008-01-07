@@ -286,9 +286,9 @@ VectorContainer< TElementIdentifier , TElement >
 template <typename TElementIdentifier, typename TElement>
 void
 VectorContainer< TElementIdentifier , TElement >
-::Reserve(ElementIdentifier size)
+::Reserve(ElementIdentifier sz)
 {
-  this->CreateIndex(size-1);
+  this->CreateIndex(sz-1);
 }
 
 

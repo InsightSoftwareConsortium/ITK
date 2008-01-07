@@ -87,7 +87,6 @@ AnnulusOperator<TPixel, TDimension, TAllocator>
     }
 
   // Compute the size of the kernel in pixels
-  typedef typename SizeType::SizeValueType SizeValueType;
   SizeType r;
   unsigned int i, j;
   double outerRadius = m_InnerRadius + m_Thickness;

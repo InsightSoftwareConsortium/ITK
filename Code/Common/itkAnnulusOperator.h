@@ -76,9 +76,10 @@ public:
   typedef NeighborhoodOperator<TPixel, TDimension, TAllocator>  Superclass;
 
   /** Additional typedefs */
-  typedef typename Superclass::SizeType   SizeType;
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef Vector<double, TDimension>      SpacingType;
+  typedef typename Superclass::SizeType      SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
+  typedef typename Superclass::OffsetType    OffsetType;
+  typedef Vector<double, TDimension>         SpacingType;
   
   itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
   

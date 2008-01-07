@@ -593,7 +593,6 @@ TriangleCell< TCellInterface >
     }
   else
     {
-    double t;
     if (closestPoint)
       {
       if ( pcoords[0] < 0.0 && pcoords[1] < 0.0 )

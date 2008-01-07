@@ -268,8 +268,6 @@ typename FiniteDifferenceSparseImageFilter<TInputImageType,
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
 ::ThreadedCalculateChange( const ThreadRegionType &regionToProcess, int )
 {
-  typedef typename SparseOutputImageType::SizeType   SizeType;
-  typedef typename SparseOutputImageType::IndexType  IndexType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
     NeighborhoodIteratorType;
   
@@ -312,7 +310,6 @@ void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
 ::ThreadedPrecalculateChange( const ThreadRegionType &regionToProcess, int )
 {
-  typedef typename SparseOutputImageType::SizeType   SizeType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
     NeighborhoodIteratorType;
 

@@ -129,7 +129,8 @@ public:
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::IndexValueType  IndexValueType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
   typedef typename Superclass::OffsetType OffsetType;
@@ -312,8 +313,6 @@ public:
             const Point<TCoordRep, VImageDimension>& point,
             IndexType & index                                ) const
     {
-    typedef typename IndexType::IndexValueType IndexValueType;
-
     // Update the output index
     for (unsigned int i = 0; i < VImageDimension; i++)
       {

@@ -186,9 +186,9 @@ TetrahedronCell< TCellInterface >
     {
     if (closestPoint)
       {
-      for(unsigned int i=0;i <PointDimension;i++)
+      for(unsigned int ii=0;ii <PointDimension;ii++)
         {
-        closestPoint[i] = x[i]; 
+        closestPoint[ii] = x[ii]; 
         }
       if(minDist2)
         {
