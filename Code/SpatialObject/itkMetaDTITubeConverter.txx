@@ -66,7 +66,9 @@ MetaDTITubeConverter<NDimensions>
   ListType::iterator it2 = tube->GetPoints().begin();
     
   itk::CovariantVector<double,NDimensions> v; 
+  v.Fill(0.0);
   itk::Vector<double,NDimensions> t;
+  t.Fill(0.0);
   
   for(unsigned int identifier=0;identifier< tube->GetPoints().size();identifier++)
     {
