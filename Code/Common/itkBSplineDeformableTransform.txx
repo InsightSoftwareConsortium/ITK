@@ -29,7 +29,7 @@ namespace itk
 
 // Constructor with default arguments
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::BSplineDeformableTransform():Superclass(SpaceDimension,0)
 {
 
@@ -38,7 +38,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   m_SupportSize = m_WeightsFunction->GetSupportSize();
 
   // Instantiate an identity transform
-  typedef IdentityTransform<ScalarType,SpaceDimension> IdentityTransformType;
+  typedef IdentityTransform<ScalarType, SpaceDimension> IdentityTransformType;
   typename IdentityTransformType::Pointer id = IdentityTransformType::New();
   m_BulkTransform = id;
 
@@ -52,6 +52,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   m_GridOrigin.Fill( 0.0 );  // default origin is all zeros
   m_GridSpacing.Fill( 1.0 ); // default spacing is all ones
+  m_GridDirection.SetIdentity(); // default spacing is all ones
 
   m_InternalParametersBuffer = ParametersType(0);
   // Make sure the parameters pointer is not NULL after construction.
@@ -64,6 +65,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_WrappedImage[j]->SetRegions( m_GridRegion );
     m_WrappedImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
     m_WrappedImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+    m_WrappedImage[j]->SetDirection( m_GridDirection );
     m_CoefficientImage[j] = NULL;
     }
 
@@ -86,16 +88,39 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     m_JacobianImage[j]->SetRegions( m_GridRegion );
     m_JacobianImage[j]->SetOrigin( m_GridOrigin.GetDataPointer() );
     m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
+    m_JacobianImage[j]->SetDirection( m_GridDirection );
     }
 
   /** Fixed Parameters store the following information:
    *     Grid Size
    *     Grid Origin
    *     Grid Spacing
+   *     Grid Direction
    *  The size of these is equal to the  NInputDimensions
    */
-  this->m_FixedParameters.SetSize ( NDimensions * 3 );
+  this->m_FixedParameters.SetSize ( NDimensions * (NDimensions + 3) );
   this->m_FixedParameters.Fill ( 0.0 );
+  for (unsigned int i=0; i<NDimensions; i++)
+    {
+    this->m_FixedParameters[2*NDimensions+i] = m_GridSpacing[i];
+    }
+  for (unsigned int di=0; di<NDimensions; di++)
+    {
+    for (unsigned int dj=0; dj<NDimensions; dj++)
+      {
+      this->m_FixedParameters[3*NDimensions+(di*NDimensions+dj)] = m_GridDirection[di][dj];
+      }
+    }
+
+  DirectionType scale;
+  for( unsigned int i=0; i<SpaceDimension; i++)
+    {
+    scale[i][i] = m_GridSpacing[i];
+    }
+
+  m_IndexToPoint = m_GridDirection * scale;
+  m_PointToIndex = m_IndexToPoint.GetInverse();
+
   
   m_LastJacobianIndex = m_ValidRegion.GetIndex();
   
@@ -104,7 +129,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 // Destructor
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::~BSplineDeformableTransform()
 {
 
@@ -114,7 +139,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Get the number of parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 unsigned int
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetNumberOfParameters(void) const
 {
 
@@ -129,7 +154,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Get the number of parameters per dimension
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 unsigned int
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetNumberOfParametersPerDimension(void) const
 {
   // The number of parameters per dimension equal number of
@@ -142,7 +167,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the grid region
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetGridRegion( const RegionType& region )
 {
   if ( m_GridRegion != region )
@@ -158,10 +183,10 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
       }
 
     // Set the valid region
-    // If the grid spans the interval [start,last].
-    // The valid interval for evaluation is [start+offset,last-offset]
+    // If the grid spans the interval [start, last].
+    // The valid interval for evaluation is [start+offset, last-offset]
     // when spline order is even.
-    // The valid interval for evaluation is [start+offset,last-offset)
+    // The valid interval for evaluation is [start+offset, last-offset)
     // when spline order is odd.
     // Where offset = vcl_floor(spline / 2 ).
     // Note that the last pixel is not included in the valid region
@@ -204,7 +229,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the grid spacing
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetGridSpacing( const SpacingType& spacing )
 {
   if ( m_GridSpacing != spacing )
@@ -218,6 +243,46 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
       m_JacobianImage[j]->SetSpacing( m_GridSpacing.GetDataPointer() );
       }
 
+    DirectionType scale;
+    for( unsigned int i=0; i<SpaceDimension; i++)
+      {
+      scale[i][i] = m_GridSpacing[i];
+      }
+
+    m_IndexToPoint = m_GridDirection * scale;
+    m_PointToIndex = m_IndexToPoint.GetInverse();
+
+    this->Modified();
+    }
+
+}
+
+// Set the grid direction
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
+::SetGridDirection( const DirectionType & direction )
+{
+  if ( m_GridDirection != direction )
+    {
+    m_GridDirection = direction;
+
+    // set direction for each coefficient and jacobian image
+    for ( unsigned int j = 0; j < SpaceDimension; j++ )
+      {
+      m_WrappedImage[j]->SetDirection( m_GridDirection );
+      m_JacobianImage[j]->SetDirection( m_GridDirection );
+      }
+
+    DirectionType scale;
+    for( unsigned int i=0; i<SpaceDimension; i++)
+      {
+      scale[i][i] = m_GridSpacing[i];
+      }
+
+    m_IndexToPoint = m_GridDirection * scale;
+    m_PointToIndex = m_IndexToPoint.GetInverse();
+
     this->Modified();
     }
 
@@ -227,7 +292,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the grid origin
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetGridOrigin( const OriginType& origin )
 {
   if ( m_GridOrigin != origin )
@@ -250,7 +315,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetIdentity()
 {
   if( m_InputParametersPointer )
@@ -270,7 +335,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetParameters( const ParametersType & parameters )
 {
 
@@ -301,18 +366,39 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the Fixed Parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
-::SetFixedParameters( const ParametersType & parameters )
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
+::SetFixedParameters( const ParametersType & passedParameters )
 {
  
+  ParametersType parameters( NDimensions * (3 + NDimensions) );
+
   // check if the number of parameters match the
   // expected number of parameters
-  if ( parameters.Size() != NDimensions*3 )
+  if ( passedParameters.Size() == NDimensions * 3 )
+    {
+    parameters.Fill( 0.0 );
+    for(unsigned int i=0; i<3 * NDimensions; i++)
+      {
+      parameters[i] = passedParameters[i];
+      }
+    for (unsigned int di=0; di<NDimensions; di++)
+      {
+      parameters[3*NDimensions+(di*NDimensions+di)] = 1;
+      }
+    }
+  else if ( passedParameters.Size() != NDimensions * (3 + NDimensions) )
     {
     itkExceptionMacro(<< "Mismatched between parameters size "
-                      << parameters.size() 
+                      << passedParameters.size() 
                       << " and number of fixed parameters "
-                      << NDimensions*3 );
+                      << NDimensions * (3 + NDimensions) );
+    }
+  else
+    {
+    for(unsigned int i=0; i<3 * NDimensions; i++)
+      {
+      parameters[i] = passedParameters[i];
+      }
     }
 
   /********************************************************* 
@@ -320,12 +406,13 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
         Grid Size
         Grid Origin
         Grid Spacing
+        Grid Direction
      The size of these is equal to the  NInputDimensions
   *********************************************************/
   
   /** Set the Grid Parameters */
   SizeType   gridSize;
-  for (unsigned int i=0;i<NDimensions;i++)
+  for (unsigned int i=0; i<NDimensions; i++)
     {
     gridSize[i] = static_cast<int> (parameters[i]);
     }
@@ -334,20 +421,31 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   
   /** Set the Origin Parameters */
   OriginType origin;
-  for (unsigned int i=0;i<NDimensions;i++)
+  for (unsigned int i=0; i<NDimensions; i++)
     {
     origin[i] = parameters[NDimensions+i];
     }
   
   /** Set the Spacing Parameters */
   SpacingType spacing;
-  for (unsigned int i=0;i<NDimensions;i++)
+  for (unsigned int i=0; i<NDimensions; i++)
     {
     spacing[i] = parameters[2*NDimensions+i];
     }
 
+  /** Set the Direction Parameters */
+  DirectionType direction;
+  for (unsigned int di=0; di<NDimensions; di++)
+    {
+    for (unsigned int dj=0; dj<NDimensions; dj++)
+      {
+      direction[di][dj] = parameters[3*NDimensions+(di*NDimensions+dj)];
+      }
+    }
+  
   
   this->SetGridSpacing( spacing );
+  this->SetGridDirection( direction );
   this->SetGridOrigin( origin );
   this->SetGridRegion( bsplineRegion );
 
@@ -358,7 +456,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Wrap flat parameters as images
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::WrapAsImages()
 {
 
@@ -400,7 +498,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the parameters by value
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetParametersByValue( const ParametersType & parameters )
 {
 
@@ -430,9 +528,9 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Get the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 const 
-typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::ParametersType &
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetParameters( void ) const
 {
   /** NOTE: For efficiency, this class does not keep a copy of the parameters - 
@@ -450,24 +548,31 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Get the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 const 
-typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::ParametersType &
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetFixedParameters( void ) const
 {
   RegionType resRegion = this->GetGridRegion(  );
   
-  for (unsigned int i=0;i<NDimensions;i++)
+  for (unsigned int i=0; i<NDimensions; i++)
     {
     this->m_FixedParameters[i] = (resRegion.GetSize())[i];
     }
-  for (unsigned int i=0;i<NDimensions;i++)
+  for (unsigned int i=0; i<NDimensions; i++)
     {
     this->m_FixedParameters[NDimensions+i] = (this->GetGridOrigin())[i];
     } 
-  for (unsigned int i=0;i<NDimensions;i++)
+  for (unsigned int i=0; i<NDimensions; i++)
     {
     this->m_FixedParameters[2*NDimensions+i] =  (this->GetGridSpacing())[i];
+    }
+  for (unsigned int di=0; di<NDimensions; di++)
+    {
+    for (unsigned int dj=0; dj<NDimensions; dj++)
+      {
+      this->m_FixedParameters[3*NDimensions+(di*NDimensions+dj)] = (this->GetGridDirection())[di][dj];
+      }
     }
   
   return (this->m_FixedParameters);
@@ -478,13 +583,14 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Set the B-Spline coefficients using input images
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void 
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetCoefficientImage( ImagePointer images[] )
 {
   if ( images[0] )
     {
     this->SetGridRegion( images[0]->GetBufferedRegion() );
     this->SetGridSpacing( images[0]->GetSpacing() );
+    this->SetGridDirection( images[0]->GetDirection() );
     this->SetGridOrigin( images[0]->GetOrigin() );
 
     for( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -503,17 +609,20 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Print self
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
 
   unsigned int j;
 
-  this->Superclass::PrintSelf(os,indent);
+  this->Superclass::PrintSelf(os, indent);
 
   os << indent << "GridRegion: " << m_GridRegion << std::endl;
   os << indent << "GridOrigin: " << m_GridOrigin << std::endl;
   os << indent << "GridSpacing: " << m_GridSpacing << std::endl;
+  os << indent << "GridDirection: " << m_GridDirection << std::endl;
+  os << indent << "IndexToPoint: " << m_IndexToPoint << std::endl;
+  os << indent << "PointToIndex: " << m_PointToIndex << std::endl;
 
   os << indent << "CoefficientImage: [ ";
   for ( j = 0; j < SpaceDimension - 1; j++ )
@@ -549,7 +658,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 bool 
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::InsideValidRegion( 
   const ContinuousIndexType& index ) const
 {
@@ -579,7 +688,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void 
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::TransformPoint( 
   const InputPointType & point, 
   OutputPointType & outputPoint, 
@@ -603,11 +712,20 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   if ( m_CoefficientImage[0] )
     {
-
     ContinuousIndexType index;
+
+    Vector<double, SpaceDimension> cvector;
+
+    Vector<double, SpaceDimension> tvector;
     for ( j = 0; j < SpaceDimension; j++ )
       {
-      index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
+      tvector = point[j] - m_GridOrigin[j];
+      }
+    cvector = m_PointToIndex * tvector;
+
+    for ( j = 0; j < SpaceDimension; j++ )
+      {
+      index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
       }
 
     // NOTE: if the support region does not lie totally within the grid
@@ -683,9 +801,9 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::OutputPointType
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::TransformPoint(const InputPointType &point) const 
 {
   
@@ -704,9 +822,9 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 const 
-typename BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::JacobianType & 
-BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetJacobian( const InputPointType & point ) const
 {
   // Can only compute Jacobian if parameters are set via
@@ -749,9 +867,19 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
  
   ContinuousIndexType index;
+
+  Vector<double, SpaceDimension> cvector;
+
+  Vector<double, SpaceDimension> tvector;
   for ( j = 0; j < SpaceDimension; j++ )
     {
-    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
+    tvector = point[j] - m_GridOrigin[j];
+    }
+  cvector = m_PointToIndex * tvector;
+
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
     }
 
   // NOTE: if the support region does not lie totally within the grid

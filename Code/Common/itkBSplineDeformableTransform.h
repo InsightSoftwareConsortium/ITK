@@ -193,6 +193,7 @@ public:
    * This function has the effect of make the following calls:
    *       transform->SetGridSpacing( spacing );
    *       transform->SetGridOrigin( origin );
+   *       transform->SetGridDirection( direction );
    *       transform->SetGridRegion( bsplineRegion );
    *
    * This function was added to allow the transform to work with the 
@@ -267,6 +268,7 @@ public:
   typedef typename RegionType::IndexType  IndexType;
   typedef typename RegionType::SizeType   SizeType;
   typedef typename ImageType::SpacingType SpacingType;
+  typedef typename ImageType::DirectionType DirectionType;
   typedef typename ImageType::PointType   OriginType;
 
   /** This method specifies the region over which the grid resides. */
@@ -278,6 +280,11 @@ public:
   virtual void SetGridSpacing( const SpacingType& spacing );
   itkGetMacro( GridSpacing, SpacingType );
   itkGetConstMacro( GridSpacing, SpacingType );
+
+  /** This method specifies the grid directions . */
+  virtual void SetGridDirection( const DirectionType & spacing );
+  itkGetMacro( GridDirection, DirectionType );
+  itkGetConstMacro( GridDirection, DirectionType );
 
   /** This method specifies the grid origin. */
   virtual void SetGridOrigin( const OriginType& origin );
@@ -395,7 +402,11 @@ private:
   /** Variables defining the coefficient grid extend. */
   RegionType    m_GridRegion;
   SpacingType   m_GridSpacing;
+  DirectionType m_GridDirection;
   OriginType    m_GridOrigin;
+
+  DirectionType m_PointToIndex;
+  DirectionType m_IndexToPoint;
   
   RegionType    m_ValidRegion;
 
