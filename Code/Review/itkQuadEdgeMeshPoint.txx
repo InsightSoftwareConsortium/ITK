@@ -118,7 +118,7 @@ int QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 void
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
-::SetEdge( const TQuadEdge * inputEdge ) 
+::SetEdge( TQuadEdge * inputEdge ) 
 { 
   m_Edge = inputEdge; 
 }
@@ -127,7 +127,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
  *  
  */
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
-const TQuadEdge * 
+TQuadEdge * 
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::GetEdge() const 
 { 
@@ -138,11 +138,11 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
  *  
  */
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
-const TQuadEdge * 
+TQuadEdge * 
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::GetEdge()
 { 
-  return  m_Edge; 
+  return(m_Edge); 
 }
 
 } 

@@ -428,7 +428,8 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 void QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::DeletePoint( const PointIdentifier& pid )
 {
-  if( this->GetPoint( pid ).GetEdge() )
+  PointType pointToDelete = this->GetPoint( pid);  
+  if( pointToDelete.GetEdge() )
     {
     itkDebugMacro("Point is not isolated.");
     return;
@@ -979,9 +980,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdge( const PointIdentifier& pid0 ) const
 {
   PointType p = this->GetPoint( pid0 );
-  const QEPrimal * edge =
-    dynamic_cast< const QEPrimal* >( p.GetEdge() );
-  return const_cast< QEPrimal * >( edge ); 
+  return( p.GetEdge() ); 
 }
 
 /**
@@ -991,31 +990,20 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdge( const PointIdentifier& pid0, const PointIdentifier& pid1 ) const
 {
-  QEPrimal * edgeFound = static_cast< QEPrimal * >(NULL);
-  
-  if( pid0 == edgeFound->m_NoPoint || pid1 == edgeFound->m_NoPoint )
-    {
-    return( edgeFound );
-    }
-
   QEPrimal * initialEdge = this->FindEdge( pid0 );
   if( initialEdge )
     {
     typename QEPrimal::IteratorGeom it = initialEdge->BeginGeomOnext();
-
     while( it != initialEdge->EndGeomOnext() )
       {
       if(  it.Value()->GetDestination() == pid1 )
         {
-        edgeFound = dynamic_cast< QEPrimal* >( it.Value() );
-        break;
+        return( dynamic_cast< QEPrimal* >( it.Value() ) );
         }
       ++it;
       }
-    
     }
-
-  return( edgeFound );
+  return( static_cast< QEPrimal * >(NULL) );
 }
 
 /**

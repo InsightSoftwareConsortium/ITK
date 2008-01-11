@@ -14,22 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-// -------------------------------------------------------------------------
-// This code is an implementation of the well known quad edge (QE) data
-// structure in the ITK library. Although the original QE can handle non
-// orientable 2-manifolds and its dual and its mirror, this implementation
-// is specifically dedicated to handle orientable 2-manifolds along with
-// their dual.
-//
-// Any comment, criticism and/or donation is welcome.
-//
-// Please contact any member of the team:
-//
-// - The frog master (Eric Boix)       eboix@ens-lyon.fr
-// - The duck master (Alex Gouaillard) alexandre.gouaillard@sun.com
-// - The cow  master (Leonardo Florez) florez@creatis.insa-lyon.fr
-// -------------------------------------------------------------------------
-
 #ifndef __itkQuadEdgeMeshPoint_h
 #define __itkQuadEdgeMeshPoint_h
 
@@ -87,11 +71,11 @@ public:
   
  
   /** Accessor on \ref m_Edge */
-  void SetEdge( const TQuadEdge * inputEdge );
+  void SetEdge( TQuadEdge * inputEdge );
 
   /** Accessor on \ref m_Edge */
-  const TQuadEdge * GetEdge();
-  const TQuadEdge * GetEdge() const;
+  TQuadEdge * GetEdge();
+  TQuadEdge * GetEdge() const;
 
   /** FIXME Documentation missing */
   bool IsInternal() const;
@@ -103,7 +87,7 @@ protected:
   void Initialize();
 
 protected:
-  const TQuadEdge * m_Edge; /// Entry edge for this point into an Onext ring
+  TQuadEdge * m_Edge; /// Entry edge for this point into an Onext ring
 };
 
 } // end namespace itk
