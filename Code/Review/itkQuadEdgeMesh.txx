@@ -1033,6 +1033,9 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddFace( const PointIdList& points )
 {
+  typedef std::vector< QEPrimal* >  QEList;
+  QEList FaceQEList;
+  
   // Check that there are no duplicate points
   for(unsigned int i=0; i < points.size(); i++)
     {
@@ -1074,15 +1077,14 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     QEPrimal* edge = this->FindEdge( pid0, pid1 );
 
     if( edge )
+      {
+      if( edge->IsLeftSet() )
         {
-            if( edge->IsLeftSet() )
-           {
-              itkDebugMacro("Edge [" << i << " " << ((i+1) % points.size())
+          itkDebugMacro("Edge [" << i << " " << ((i+1) % points.size())
               <<" has a left face.");
               return (QEPrimal*) NULL;
-          }
-         }
-     
+        }
+      }
     }
 
   // Now create edges as needed.
@@ -1099,24 +1101,27 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         {
         return( entry );
         }
+      FaceQEList.push_back( entry);
+      }
+    else
+      {
+      FaceQEList.push_back( edge );
       }
     }
 
   // Reorder all Onext rings
+  QEPrimal* e1 = (QEPrimal*)0;
+  QEPrimal* e0 = FaceQEList[points.size()-1];
   for(unsigned int i=0; i < points.size(); i++)
     {
-    PointIdentifier pid0 = points[ (i+points.size()-1) % points.size() ];
-    PointIdentifier pid1 = points[i];
-    PointIdentifier pid2 = points[ (i+1) % points.size() ];
-
-    QEPrimal* e0 = this->FindEdge( pid1, pid2 );
-    QEPrimal* e1 = this->FindEdge( pid1, pid0 );
+    e1 = e0->GetSym();
+    e0 = FaceQEList[i];
 
     e0->ReorderOnextRingBeforeAddFace( e1 );
     }
 
   // all edges are ready to receive a face on the left
-  QEPrimal* entry = this->FindEdge( points[0], points[1] );
+  QEPrimal* entry = FaceQEList[0];
 
   if( !entry )
     {
