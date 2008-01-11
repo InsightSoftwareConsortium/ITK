@@ -27,7 +27,7 @@ namespace itk
  * Line filter to provide a vesselness measure for tubular objects from the
  * hessian matrix. The filter takes as input an image of hessian pixels
  * (SymmetricSecondRankTensor pixels) and preserves pixels that have
- * eigen values \f[\lambda_3\f] close to 0 and \f[\lambda_2\f] and \f[\lambda_1\f] as
+ * eigen values \f$ \lambda_3 \f$ close to 0 and \f$\lambda_2\f$ and \f$\lambda_1\f$ as
  * large negative values. (for bright tubular structures).
  * 
  * \f[ \lambda_1 < \lambda_2 < \lambda_3 \f]
@@ -36,15 +36,15 @@ namespace itk
  * The filter takes into account that the eigen values play a crucial role in 
  * discrimintaitng shape and orientation of structures. 
  *
- * \li Bright tubular structures will have low \f[\lambda_1\f] and large negative 
- * values of \f[\lambda_2\f] and \f[\lambda_3\f].
+ * \li Bright tubular structures will have low \f$\lambda_1\f$ and large negative 
+ * values of \f$\lambda_2\f$ and \f$\lambda_3\f$.
  * \li Conversely dark tubular structures will have a low value of 
- * \f[\lambda_1\f] and large positive values of \f[\lambda_2\f] and 
- * \f[\lambda_3\f]. 
- * \li Bright plate like structures have low values of \f[\lambda_1\f] and 
- * \f[\lambda_2\f] and large negative values of \f[\lambda_3\f]
- * \li Dark plate like structures have low values of \f[\lambda_1\f] and 
- * \f[\lambda_2\f] and large positive values of \f[\lambda_3\f]
+ * \f$\lambda_1\f$ and large positive values of \f$\lambda_2\f$ and 
+ * \f$\lambda_3\f$. 
+ * \li Bright plate like structures have low values of \f$\lambda_1\f$ and 
+ * \f$\lambda_2\f$ and large negative values of \f$\lambda_3\f$
+ * \li Dark plate like structures have low values of \f$\lambda_1\f$ and 
+ * \f$\lambda_2\f$ and large positive values of \f$\lambda_3\f$
  * \li Bright spherical (blob) like structures have all three eigen values as
  * large negative numbers
  * \li Dark spherical (blob) like structures have all three eigen values as
