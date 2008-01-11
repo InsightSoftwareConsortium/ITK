@@ -387,6 +387,8 @@ public:
   /** */
   virtual QEPrimal* AddEdge( const PointIdentifier& orgPid,
                              const PointIdentifier& destPid );
+  virtual QEPrimal* AddEdgeWithSecurePointList( const PointIdentifier& orgPid,
+                             const PointIdentifier& destPid );
 
   /** Add a polygonal face to the Mesh, suppose QE layer ready */
   virtual void      AddFace( QEPrimal* e );
@@ -396,6 +398,7 @@ public:
    * of the new face will be on the left side of the edges 
    * formed by consecutive points in this list. */
   virtual QEPrimal* AddFace( const PointIdList& points );
+  virtual QEPrimal* AddFaceWithSecurePointList( const PointIdList& points );
 
   /** Adds a triangular face to the Mesh */
   virtual QEPrimal* AddFaceTriangle( const PointIdentifier& aPid,

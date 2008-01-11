@@ -146,23 +146,15 @@ bool
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 ::IsOriginInternal() const
 {
-  bool internal = true;
   ConstIteratorGeom it = this->BeginGeomOnext();
   while( it != this->EndGeomOnext() )
     {
     typedef typename ConstIteratorGeom::QuadEdgeType  QuadEdgeType;
     const QuadEdgeType * value = it.Value();
-    if( value )
-      {
-      internal &= ( value->IsInternal() );
-      }
-    else
-      {
-      // FIXME: What to do if value is NULL ??
-      }
+    if(!value->IsInternal()) return false;
     ++it;
     }
-  return  internal;
+  return true;
 }
 
 /**

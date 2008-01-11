@@ -60,7 +60,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     if( ( qe = dynamic_cast< InputEdgeCellType* >( cIt.Value() ) ) )
       {
       InputQEPrimal* QEGeom = qe->GetQEGeom( );
-      out->AddEdge( QEGeom->GetOrigin(), QEGeom->GetDestination() );
+      out->AddEdgeWithSecurePointList( QEGeom->GetOrigin(), QEGeom->GetDestination() );
       }
     else
       {
@@ -74,7 +74,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
           points.push_back( ( *pit ) );
           pit++;
           }
-        out->AddFace( points );
+        out->AddFaceWithSecurePointList( points );
         } 
       }
     cIt++;

@@ -347,7 +347,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
       pit++;
       }
     // NOTE ALEX: here
-    this->AddFace( points );
+    this->AddFaceWithSecurePointList( points );
     cell.ReleaseOwnership( );
     delete pe;
     }
@@ -516,6 +516,37 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return( (QEPrimal*)0 );
     }
 
+
+  // Check if the points have room to receive a new edge
+  QEPrimal*  eOrigin     = this->GetPoint(  orgPid ).GetEdge();
+
+  if( eOrigin )
+    if( eOrigin->IsOriginInternal() )
+      {
+      itkDebugMacro("No room for a new edge in the Origin() ring.");
+      return( (QEPrimal*)0 );
+      }
+
+  QEPrimal* eDestination = this->GetPoint( destPid ).GetEdge();
+
+  if( eDestination )
+    if( eDestination->IsOriginInternal() )
+      {
+      itkDebugMacro("No room for a new edge in the Destination() ring.");
+      return( (QEPrimal*)0 );
+      }
+
+  return AddEdgeWithSecurePointList( orgPid, destPid );
+}
+
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::AddEdgeWithSecurePointList( const PointIdentifier& orgPid, const PointIdentifier& destPid )
+{
+  QEPrimal*  eOrigin     = this->GetPoint(  orgPid ).GetEdge();
+  QEPrimal* eDestination = this->GetPoint( destPid ).GetEdge();
+  
   // Make sure the edge is not allready in the container
   QEPrimal* e = this->FindEdge( orgPid, destPid );
   if( e != (QEPrimal*)0 )
@@ -523,23 +554,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     itkDebugMacro("Edge already in QuadEdgeMesh.");
     return e;
     }
-
-  // Check if the points have room to receive a new edge
-  QEPrimal*  eOrigin     = this->FindEdge(  orgPid );
-  QEPrimal* eDestination = this->FindEdge( destPid );
-
-  if( eOrigin && eOrigin->IsOriginInternal() )
-    {
-    itkDebugMacro("No room for a new edge in the Origin() ring.");
-    return( (QEPrimal*)0 );
-    }
-
-  if( eDestination && eDestination->IsOriginInternal() )
-    {
-    itkDebugMacro("No room for a new edge in the Destination() ring.");
-    return( (QEPrimal*)0 );
-    }
-
+  
   // Ok, there's room and the points exist
   // create an AutoPointer just to be sure
   // that memory will be safe, as PushOnContainer
@@ -1033,8 +1048,6 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddFace( const PointIdList& points )
 {
-  typedef std::vector< QEPrimal* >  QEList;
-  QEList FaceQEList;
   
   // Check that there are no duplicate points
   for(unsigned int i=0; i < points.size(); i++)
@@ -1086,6 +1099,19 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         }
       }
     }
+
+    return AddFaceWithSecurePointList( points );
+}
+
+/**
+ */
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::AddFaceWithSecurePointList( const PointIdList& points )
+{
+  typedef std::vector< QEPrimal* >  QEList;
+  QEList FaceQEList;
 
   // Now create edges as needed.
   for(unsigned int i=0; i < points.size(); i++)
