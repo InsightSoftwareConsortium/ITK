@@ -153,51 +153,38 @@ public:
 
   virtual PointIdIterator PointIdsBegin()
     {
-    if (m_PointIds.size() >0)
+    if (m_PointIds.size() == 0)
       {
-      return &*(m_PointIds.begin());
+      MakePointIds();
       }
-    else
-      {
-      return NULL;
-      }
+    return &*(m_PointIds.begin());
     }
 
   virtual PointIdIterator PointIdsEnd()
     {
-    if (m_PointIds.size() >0)
+    if (m_PointIds.size() == 0)
       {
-      return &m_PointIds[m_PointIds.size()-1] + 1;
+      MakePointIds();
       }
-    else
-      {
-      return NULL;
-      }
+    return &m_PointIds[m_PointIds.size()-1] + 1;
     }
 
   virtual PointIdConstIterator PointIdsBegin() const
     {
-    if (m_PointIds.size() >0)
+    if (m_PointIds.size() == 0)
       {
-      return &*(m_PointIds.begin());
+      MakePointIds();
       }
-    else
-      {
-      return NULL;
-      }
-
+    return &*(m_PointIds.begin());
     }
 
   virtual PointIdConstIterator PointIdsEnd() const
     {
-    if (m_PointIds.size() >0)
+    if (m_PointIds.size() == 0)
       {
-      return &m_PointIds[m_PointIds.size()-1] + 1;
+      MakePointIds();
       }
-    else
-      {
-      return NULL;
-      }
+    return &m_PointIds[m_PointIds.size()-1] + 1;
     }
 
   /** QuadEdge internal flavor of cell API */
@@ -213,14 +200,14 @@ public:
   virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
 
 protected:
-  std::vector<PointIdentifier>  m_PointIds;
-  //std::vector<EdgeInfo> m_Edges;
+  typedef std::vector<PointIdentifier>  PointIDListType;
+  mutable PointIDListType m_PointIds;
 
 private:
   QuadEdgeMeshPolygonCell( const Self& ); // Not impl.
   void operator=( const Self& ); // Not impl.
 
-  void MakePointIds()
+  void MakePointIds() const
     {
     if( !this->GetNumberOfPoints( ) )
       {
@@ -230,7 +217,7 @@ private:
     // NOTE ALEX: very inefficient way of doing it ...
     for( PointIdentifier i = 0; i < this->GetNumberOfPoints( ); i++ )
       {
-      m_PointIds.push_back( GetPointId( i ) );
+       m_PointIds.push_back( GetPointId( i ) );
       }
     }
 

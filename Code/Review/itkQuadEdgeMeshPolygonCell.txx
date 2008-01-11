@@ -49,7 +49,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
   // Last topological connection, i.e., close the face
   m_EdgeRingEntry->Splice( last->GetSym() );
   
-  MakePointIds( );
+  //MakePointIds( );
 
 }
 
@@ -61,7 +61,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
   this->m_Ident = 0;
   this->m_EdgeRingEntry = e;
 
-  MakePointIds( );
+  //MakePointIds( );
 }
 
 // ---------------------------------------------------------------------
