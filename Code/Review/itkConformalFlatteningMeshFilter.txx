@@ -340,17 +340,17 @@ ConformalFlatteningMeshFilter<TPixelType>
 
   while( cellIterator != cellEnd )
     {
-    CellType * cell = cellIterator.Value();
-    unsigned int cellNumberOfPoints = cell->GetNumberOfPoints();
+    CellType * aCell = cellIterator.Value();
+    unsigned int aCellNumberOfPoints = aCell->GetNumberOfPoints();
 
-    if( cellNumberOfPoints != 3 )
+    if( aCellNumberOfPoints != 3 )
       {
-      itkExceptionMacro("cell has " << cellNumberOfPoints << " points\n"
+      itkExceptionMacro("cell has " << aCellNumberOfPoints << " points\n"
       "This filter can only process triangle meshes.");
       return;
       }
 
-    PointIdIterator pointIditer = cell->PointIdsBegin();
+    pointIditer = aCell->PointIdsBegin();
 
     ptIdA = *pointIditer;
     pointIditer++;
@@ -489,8 +489,6 @@ ConformalFlatteningMeshFilter<TPixelType>
     outPoints->Begin();
   typename OutputPointsContainer::Iterator      outputPointEnd =
     outPoints->End();
-
-  typedef typename OutputMeshType::PointType OutputPointType;
 
   OutputPointType point;
   point[2] = 0.0;

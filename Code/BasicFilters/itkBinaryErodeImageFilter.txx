@@ -244,14 +244,14 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
         // of the connected component border
 
         // paint the structuring element
-        typename NeighborIndexContainer::const_iterator itIndex;
-        NeighborIndexContainer& indexDifferenceSet
+        typename NeighborIndexContainer::const_iterator itIdx;
+        NeighborIndexContainer& idxDifferenceSet
           = this->GetDifferenceSet( centerPixelCode );
-        for( itIndex = indexDifferenceSet.begin();
-          itIndex != indexDifferenceSet.end();
-          ++itIndex )
+        for( itIdx = idxDifferenceSet.begin();
+          itIdx != idxDifferenceSet.end();
+          ++itIdx )
           {
-          IndexType idx = tmpRegIndexIt.GetIndex() + *itIndex;
+          IndexType idx = tmpRegIndexIt.GetIndex() + *itIdx;
           if( outputRegion.IsInside( idx ) )
             { output->SetPixel( idx, backgroundValue ); }
           }

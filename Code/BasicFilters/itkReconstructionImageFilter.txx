@@ -118,9 +118,6 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
 
   TCompare compare;
 
-  typedef ImageRegionConstIterator<InputImageType> InputIteratorType;
-  typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
-  
   MarkerImageConstPointer markerImage = this->GetMarkerImage();
   MaskImageConstPointer   maskImage = this->GetMaskImage();
   OutputImagePointer      output = this->GetOutput();
@@ -163,7 +160,6 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
   else
     {
     maskImageP = this->GetMaskImage();
-    OutputImagePointer      output = this->GetOutput();
     InputIteratorType inIt( markerImage,
                             output->GetRequestedRegion() );
     OutputIteratorType outIt( output,
