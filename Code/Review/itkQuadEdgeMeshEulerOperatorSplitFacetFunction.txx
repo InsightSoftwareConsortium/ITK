@@ -73,7 +73,6 @@ Evaluate( QEType* h, QEType* g )
     }   
    
   typedef typename MeshType::VertexRefType   VertexRefType;
-  typedef typename MeshType::EdgeCellType    EdgeCellType;
 
   this->m_Mesh->DeleteFace( h->GetLeft( ) );
   VertexRefType orgPid  = h->GetDestination( );

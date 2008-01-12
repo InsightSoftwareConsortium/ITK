@@ -51,6 +51,7 @@ public:
 
   typedef typename Superclass::MeshType   MeshType;
   typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::EdgeCellType EdgeCellType;
 
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( QEType* h, QEType* g );
