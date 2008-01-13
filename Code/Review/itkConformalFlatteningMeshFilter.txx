@@ -227,7 +227,6 @@ ConformalFlatteningMeshFilter<TPixelType>
   unsigned int boundaryId1 = *pointIditer;
   pointIditer++;
   unsigned int boundaryId2 = *pointIditer;
-  pointIditer++;
 
   InputPointType ptA; ptA.Fill(0.0);
   InputPointType ptB; ptB.Fill(0.0);
