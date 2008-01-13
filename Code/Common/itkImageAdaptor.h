@@ -348,13 +348,22 @@ public:
     m_Image->TransformIndexToPhysicalPoint( index, point );
     }
 
+  template<class TCoordRep>
+  void RotateArrayByDirectionCosines(
+    const FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & inputGradient,
+          FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & outputGradient ) const
+    {
+    m_Image->RotateArrayByDirectionCosines( inputGradient, outputGradient );
+    }
 
 protected:
+
   ImageAdaptor();
   virtual ~ImageAdaptor();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
+
   ImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   

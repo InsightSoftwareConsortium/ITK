@@ -248,7 +248,6 @@ public:
     }
 #endif
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   /** Take a vector or covariant vector that has been computed in the
    * coordinate system parallel to the image grid and rotate it by the
    * direction cosines in order to get it in terms of the coordinate system of
@@ -268,6 +267,7 @@ public:
     //
     // This temporary implementation should be replaced with Template MetaProgramming.
     // 
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
     const DirectionType & direction = this->GetDirection();
     for (unsigned int i = 0 ; i < VImageDimension ; i++)
       {
@@ -279,8 +279,13 @@ public:
         }
       outputGradient[i] = static_cast<TCoordRep>( sum );
       }
-    }
+#else
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      outputGradient[i] = inputGradient[i];
+      }
 #endif
+    }
 
 protected:
   OrientedImage();

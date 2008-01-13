@@ -358,7 +358,6 @@ public:
       }
     }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   /** Take a vector or covariant vector that has been computed in the
    * coordinate system parallel to the image grid and rotate it by the
    * direction cosines in order to get it in terms of the coordinate system of
@@ -381,7 +380,6 @@ public:
       outputGradient[i] = inputGradient[i];
       }
     }
-#endif
 
 protected:
   Image();

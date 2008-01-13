@@ -53,7 +53,8 @@ class ITK_EXPORT NthElementImageAdaptorHelper
     
 
 template <class TImage, class TOutputPixelType>
-  class ITK_EXPORT NthElementImageAdaptor : public NthElementImageAdaptorHelper<TImage, TOutputPixelType>::Super
+  class ITK_EXPORT NthElementImageAdaptor 
+  : public NthElementImageAdaptorHelper<TImage, TOutputPixelType>::Super
 {
 public:
   /** Standard class typedefs. */
