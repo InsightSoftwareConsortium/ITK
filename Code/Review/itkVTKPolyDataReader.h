@@ -55,10 +55,12 @@ public:
   typedef typename MeshTraits::PixelType       PixelType;
 
   /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer     OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits  CellTraits;
-  typedef typename CellTraits::CellIdentifier  CellIdentifier;
-  typedef typename CellTraits::PointIdentifier PointIdentifier;
+  typedef typename OutputMeshType::Pointer         OutputMeshPointer;
+  typedef typename OutputMeshType::CellTraits      CellTraits;
+  typedef typename OutputMeshType::CellIdentifier  CellIdentifier;
+  typedef typename OutputMeshType::CellType        CellType;
+  typedef typename OutputMeshType::CellAutoPointer CellAutoPointer;
+  typedef typename OutputMeshType::PointIdentifier PointIdentifier;
   typedef typename CellTraits::PointIdIterator PointIdIterator;
   typedef typename OutputMeshType::PointsContainerPointer
     PointsContainerPointer;
@@ -67,16 +69,10 @@ public:
     PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  typedef CellInterface<PixelType, CellTraits>         CellInterfaceType;
-  typedef typename CellInterfaceType::CellAutoPointer  CellAutoPointer;
-
-
-  typedef TriangleCell<CellInterfaceType>      TriangleCellType;
+  typedef TriangleCell<CellType>      TriangleCellType;
 
   typedef typename TriangleCellType::SelfAutoPointer
     TriangleCellAutoPointer;
-  //typedef typename TriangleCellType::CellAutoPointer
-  //  CellAutoPointer;
 
   typedef std::pair<unsigned long,unsigned long>     IndexPairType;
   typedef MapContainer<IndexPairType, unsigned long> PointMapType;

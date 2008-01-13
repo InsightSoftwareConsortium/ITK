@@ -35,6 +35,8 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    */
   typedef itk::QuadEdgeMesh<int, 3>  MeshType;
   typedef MeshType::CellTraits       CellTraits;
+  typedef MeshType::CellIdentifier   CellIdentifier;
+  typedef MeshType::PointIdentifier  PointIdentifier;
 
   /**
    * Define a few cell types which uses a PixelType of "int".  Again,
@@ -102,13 +104,13 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
   /**
    * List the points that the polygon will use from the mesh.
    */
-  unsigned long polygon1Points[4] = {0,1,2,3};
+  PointIdentifier polygon1Points[4] = {0,1,2,3};
  
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
   testCell->SetPointIds(polygon1Points);
-  if( newcell->GetPointId( 18 ) != -1 )
+  if( newcell->GetPointId( 18 ) != PointIdentifier(-1) )
     {
     std::cerr << "Get Point should have failed !" << std::endl;
     return EXIT_FAILURE;
