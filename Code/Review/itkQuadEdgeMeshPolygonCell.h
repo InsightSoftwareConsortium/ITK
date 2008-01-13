@@ -157,7 +157,14 @@ public:
       {
       MakePointIds();
       }
+    if (m_PointIds.size() == 0)
+      {
+      return (static_cast<PointIdIterator>(0));
+      }
+    else
+      {
     return &*(m_PointIds.begin());
+      }
     }
 
   virtual PointIdIterator PointIdsEnd()
@@ -166,7 +173,14 @@ public:
       {
       MakePointIds();
       }
-    return &m_PointIds[m_PointIds.size()-1] + 1;
+    if (m_PointIds.size() == 0)
+      {
+      return (static_cast<PointIdIterator>(0));
+      }
+    else
+      {
+      return &m_PointIds[m_PointIds.size()-1] + 1;
+      }
     }
 
   virtual PointIdConstIterator PointIdsBegin() const
@@ -175,7 +189,14 @@ public:
       {
       MakePointIds();
       }
+    if (m_PointIds.size() == 0)
+      {
+      return (static_cast<PointIdIterator>(0));
+      }
+    else
+      {
     return &*(m_PointIds.begin());
+      }
     }
 
   virtual PointIdConstIterator PointIdsEnd() const
@@ -184,7 +205,14 @@ public:
       {
       MakePointIds();
       }
-    return &m_PointIds[m_PointIds.size()-1] + 1;
+    if (m_PointIds.size() == 0)
+      {
+      return (static_cast<PointIdIterator>(0));
+      }
+    else
+      {
+      return &m_PointIds[m_PointIds.size()-1] + 1;
+      }
     }
 
   /** QuadEdge internal flavor of cell API */

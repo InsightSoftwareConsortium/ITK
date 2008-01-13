@@ -397,7 +397,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     pid = this->GetNumberOfPoints();
     if( pid != 0 )
       {
-      PointsContainerIterator last = this->GetPoints()->End();
+      PointsContainerConstIterator last = this->GetPoints()->End();
       last--;
       pid = last.Index() + 1;
       }
@@ -783,84 +783,79 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   QEPrimal* e = edgeCell->GetQEGeom( );
  
+  if ( !e)
+    {
+    return;
+    }
   /////////////////////////////////////////////////////////////////
   // First make sure the points are not pointing to the edge we are
   // trying to delete.
   const PointIdentifier& orgPid  = e->GetOrigin();
-  if( orgPid == e->m_NoPoint )
-    {
-    // org not set
-    return;
-    }
   const PointIdentifier& destPid = e->GetDestination();
-  if( destPid == e->m_NoPoint )
+  if( orgPid != e->m_NoPoint &&  destPid != e->m_NoPoint)
     {
-    // dest not set
-    return;
-    }
+    // Check if the Origin point's edge ring entry is the edge we are
+    // trying to delete. When this is the case shift the Origin edge entry
+    // to another edge and when no other edge is available leave it
+    // to NULL.
+    PointType pOrigin = this->GetPoint( orgPid );
 
-  // Check if the Origin point's edge ring entry is the edge we are
-  // trying to delete. When this is the case shift the Origin edge entry
-  // to another edge and when no other edge is available leave it
-  // to NULL.
-  PointType pOrigin = this->GetPoint( orgPid );
-
-  if( pOrigin.GetEdge() == e )
-    {
-    if( !e->IsOriginDisconnected() )
+    if( pOrigin.GetEdge() == e )
       {
-      pOrigin.SetEdge( e->GetOprev() );
-      }
-    else
-      {
-      pOrigin.SetEdge( (QEPrimal*)0 );
-      }
-
-    this->SetPoint( orgPid, pOrigin );
-    }
-
-  // Same thing for the Destination point:
-  PointType pDestination = this->GetPoint( destPid );
-
-  if( pDestination.GetEdge() == e->GetSym() )
-    {
-    if( !e->IsDestinationDisconnected() )
-      {
-      pDestination.SetEdge( e->GetLnext() );
-      }
-    else
-      {
-      pDestination.SetEdge( (QEPrimal*)0 );
+      if( !e->IsOriginDisconnected() )
+        {
+        pOrigin.SetEdge( e->GetOprev() );
+        }
+      else
+        {
+        pOrigin.SetEdge( (QEPrimal*)0 );
+        }
+      
+      this->SetPoint( orgPid, pOrigin );
       }
 
-    this->SetPoint( destPid, pDestination );
+    // Same thing for the Destination point:
+    PointType pDestination = this->GetPoint( destPid );
+
+    if( pDestination.GetEdge() == e->GetSym() )
+      {
+      if( !e->IsDestinationDisconnected() )
+        {
+        pDestination.SetEdge( e->GetLnext() );
+        }
+      else
+        {
+        pDestination.SetEdge( (QEPrimal*)0 );
+        }
+
+      this->SetPoint( destPid, pDestination );
+      }
+    /////////////////////////////////////////////////////////////////
+    // Second we need to destroy the adjacent faces (both GetLeft()
+    // and GetRight() when they exist) because their very definition
+    // makes reference to the edge we are trying to delete:
+    if( e->IsLeftSet() )
+      {
+      this->DeleteFace( e->GetLeft() );
+      }
+
+    if( e->IsRightSet() )
+      {
+      this->DeleteFace( e->GetRight() );
+      }
+      
+    /////////////////////////////////////////////////////////////////
+    // Third we need to remove from the container the EdgeCell
+    // representing the edge we are trying to destroy at the itk
+    // level.
+    this->GetCells()->DeleteIndex( edgeCell->GetIdent() );
+    edgeCell->SetIdent( 0 );
+
+    // Eventually, we disconnect (at the QuadEdge level) the edge we
+    // are trying to delete and we delete it.
+    e->Disconnect();
+    delete edgeCell;
     }
-
-  /////////////////////////////////////////////////////////////////
-  // Second we need to destroy the adjacent faces (both GetLeft()
-  // and GetRight() when they exist) because their very definition
-  // makes reference to the edge we are trying to delete:
-  if( e->IsLeftSet() )
-    {
-    this->DeleteFace( e->GetLeft() );
-    }
-
-  if( e->IsRightSet() )
-    {
-    this->DeleteFace( e->GetRight() );
-    }
-
-  /////////////////////////////////////////////////////////////////
-  // Third we need to remove from the container the EdgeCell
-  // representing the edge we are trying to destroy at the itk
-  // level.
-  this->GetCells()->DeleteIndex( edgeCell->GetIdent() );
-  edgeCell->SetIdent( 0 );
-
-  // Eventually, we disconnect (at the QuadEdge level) the edge we
-  // are trying to delete and we delete it.
-  e->Disconnect();
-  delete edgeCell;
 
   this->Modified();
 }
@@ -870,13 +865,25 @@ void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::LightWeightDeleteEdge( QEPrimal* e )
 {
-  if( e == (QEPrimal*)0 )
+  if (!e)
     {
-    itkDebugMacro( "No Incoming edge." );
+    return;
+    }
+  const PointIdentifier& orgPid  = e->GetOrigin();
+  if( orgPid == e->m_NoPoint )
+    {
+    // org not set
     return;
     }
     
-  EdgeCellType* edgeCell = FindEdgeCell( e->GetOrigin( ), e->GetDestination( ) );
+  const PointIdentifier& destPid = e->GetDestination();
+  if( destPid == e->m_NoPoint )
+    {
+    // dest not set
+    return;
+    }
+
+  EdgeCellType* edgeCell = FindEdgeCell( orgPid, destPid);
   if( edgeCell == (EdgeCellType*)0 )
     {
     itkDebugMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
@@ -884,7 +891,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
     
   LightWeightDeleteEdge( edgeCell );
-    
 }
 
 /**
@@ -1246,7 +1252,6 @@ unsigned long
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfPoints() const
 {
-  typedef typename PointsContainer::ConstIterator PointsContainerIterator;
   const PointsContainer* points = this->GetPoints();
 
   if( ! points )
@@ -1256,7 +1261,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 
   unsigned long numberOfPoints = 0;
-  PointsContainerIterator pointIterator = points->Begin();
+  PointsContainerConstIterator pointIterator = points->Begin();
 
   while( pointIterator != points->End() )
     {
