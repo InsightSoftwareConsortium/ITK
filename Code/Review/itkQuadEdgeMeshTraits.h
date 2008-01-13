@@ -23,44 +23,10 @@
 #include <itkMapContainer.h>
 #include "itkQuadEdgeMeshPoint.h"
 #include "itkGeometricalQuadEdge.h"
+#include "itkQuadEdgeCellTraitsInfo.h"
 
 namespace itk
 {
-/** \class QuadEdgeMeshCellTraitsInfo
- *  \brief Helper class holding the traits of QuadEdge cells.
- *
- * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
- *
- * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/306
- *
- */
-template< int VPointDimension, typename TCoordRep,
-          typename TInterpolationWeight, typename TPointIdentifier,
-          typename TCellIdentifier, typename TCellFeatureIdentifier,
-          typename TPoint, typename TPointsContainer,
-          typename TUsingCellsContainer, typename TQE >
-class QuadEdgeMeshCellTraitsInfo
-{
-public:
-  itkStaticConstMacro( PointDimension, unsigned int, VPointDimension );
-  typedef TCoordRep               CoordRepType;
-  typedef TInterpolationWeight    InterpolationWeightType;
-  typedef TPointIdentifier        PointIdentifier;
-  typedef TCellIdentifier         CellIdentifier;
-  typedef TCellFeatureIdentifier  CellFeatureIdentifier;
-  typedef TPoint                  PointType;
-  typedef TPointsContainer        PointsContainer;
-  typedef TUsingCellsContainer    UsingCellsContainer;
-
-  /** Iterator types. */
-  typedef PointIdentifier*                PointIdIterator;
-  typedef const PointIdentifier*          PointIdConstIterator;  
-  typedef TQE                             QuadEdgeType;
-  typedef typename TQE::IteratorGeom      PointIdInternalIterator;
-  typedef typename TQE::ConstIteratorGeom PointIdInternalConstIterator;
-};
-
 /** \class QuadEdgeMeshTraits
  *  \brief Class holding the traits of the QuadEdgeMesh.
  * 

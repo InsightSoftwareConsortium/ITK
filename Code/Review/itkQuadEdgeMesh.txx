@@ -516,6 +516,13 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return( (QEPrimal*)0 );
     }
 
+  // Make sure the edge is not allready in the container
+  QEPrimal* e = this->FindEdge( orgPid, destPid );
+  if( e != (QEPrimal*)0 )
+    {
+    itkDebugMacro("Edge already in QuadEdgeMesh.");
+    return e;
+    }
 
   // Check if the points have room to receive a new edge
   QEPrimal*  eOrigin     = this->GetPoint(  orgPid ).GetEdge();
@@ -546,14 +553,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   QEPrimal*  eOrigin     = this->GetPoint(  orgPid ).GetEdge();
   QEPrimal* eDestination = this->GetPoint( destPid ).GetEdge();
-  
-  // Make sure the edge is not allready in the container
-  QEPrimal* e = this->FindEdge( orgPid, destPid );
-  if( e != (QEPrimal*)0 )
-    {
-    itkDebugMacro("Edge already in QuadEdgeMesh.");
-    return e;
-    }
   
   // Ok, there's room and the points exist
   // create an AutoPointer just to be sure
@@ -1122,7 +1121,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
     if( !edge )
       {
-      QEPrimal* entry = this->AddEdge( pid0, pid1 );
+      QEPrimal* entry = this->AddEdgeWithSecurePointList( pid0, pid1 );
       if( entry == (QEPrimal*)0 )
         {
         return( entry );
@@ -1136,7 +1135,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
 
   // Reorder all Onext rings
-  QEPrimal* e1 = (QEPrimal*)0;
+  QEPrimal* e1;
   QEPrimal* e0 = FaceQEList[points.size()-1];
   for(unsigned int i=0; i < points.size(); i++)
     {

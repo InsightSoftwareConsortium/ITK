@@ -67,13 +67,16 @@ public:
     PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  typedef CellInterface<PixelType, CellTraits> CellInterfaceType;
+  typedef CellInterface<PixelType, CellTraits>         CellInterfaceType;
+  typedef typename CellInterfaceType::CellAutoPointer  CellAutoPointer;
+
+
   typedef TriangleCell<CellInterfaceType>      TriangleCellType;
 
   typedef typename TriangleCellType::SelfAutoPointer
     TriangleCellAutoPointer;
-  typedef typename TriangleCellType::CellAutoPointer
-    CellAutoPointer;
+  //typedef typename TriangleCellType::CellAutoPointer
+  //  CellAutoPointer;
 
   typedef std::pair<unsigned long,unsigned long>     IndexPairType;
   typedef MapContainer<IndexPairType, unsigned long> PointMapType;
