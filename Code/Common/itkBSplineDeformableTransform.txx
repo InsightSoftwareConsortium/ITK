@@ -719,7 +719,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     Vector<double, SpaceDimension> tvector;
     for ( j = 0; j < SpaceDimension; j++ )
       {
-      tvector = point[j] - m_GridOrigin[j];
+      tvector[j] = point[j] - m_GridOrigin[j];
       }
     cvector = m_PointToIndex * tvector;
 
@@ -873,7 +873,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   Vector<double, SpaceDimension> tvector;
   for ( j = 0; j < SpaceDimension; j++ )
     {
-    tvector = point[j] - m_GridOrigin[j];
+    tvector[j] = point[j] - m_GridOrigin[j];
     }
   cvector = m_PointToIndex * tvector;
 
