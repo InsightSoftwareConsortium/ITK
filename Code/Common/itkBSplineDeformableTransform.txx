@@ -395,7 +395,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     }
   else
     {
-    for(unsigned int i=0; i<3 * NDimensions; i++)
+    for(unsigned int i=0; i<NDimensions * (3 + NDimensions); i++)
       {
       parameters[i] = passedParameters[i];
       }
