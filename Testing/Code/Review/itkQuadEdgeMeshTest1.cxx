@@ -164,8 +164,8 @@ int itkQuadEdgeMeshTest1( int , char* [] )
     // LightWeightDeleteEdge
     QELineCellType * qeLineCell = new QELineCellType;
     mesh->LightWeightDeleteEdge( (QEType *)NULL );
-    mesh->LightWeightDeleteEdge( qeLineCell );
     mesh->LightWeightDeleteEdge( qeLineCell->GetQEGeom( ) );
+    mesh->LightWeightDeleteEdge( qeLineCell );
     }
 
   // test delete face failsafe

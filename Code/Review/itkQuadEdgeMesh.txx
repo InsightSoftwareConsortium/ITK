@@ -787,13 +787,14 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     {
     return;
     }
-  /////////////////////////////////////////////////////////////////
-  // First make sure the points are not pointing to the edge we are
-  // trying to delete.
   const PointIdentifier& orgPid  = e->GetOrigin();
   const PointIdentifier& destPid = e->GetDestination();
   if( orgPid != e->m_NoPoint &&  destPid != e->m_NoPoint)
     {
+    // ------------------------------------------------------------------
+    // First make sure the points are not pointing to the edge we are
+    // trying to delete.
+
     // Check if the Origin point's edge ring entry is the edge we are
     // trying to delete. When this is the case shift the Origin edge entry
     // to another edge and when no other edge is available leave it
@@ -830,7 +831,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
       this->SetPoint( destPid, pDestination );
       }
-    /////////////////////////////////////////////////////////////////
+    // ------------------------------------------------------------------
     // Second we need to destroy the adjacent faces (both GetLeft()
     // and GetRight() when they exist) because their very definition
     // makes reference to the edge we are trying to delete:
@@ -854,9 +855,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     // Eventually, we disconnect (at the QuadEdge level) the edge we
     // are trying to delete and we delete it.
     e->Disconnect();
-    delete edgeCell;
     }
 
+  delete edgeCell;
   this->Modified();
 }
 
