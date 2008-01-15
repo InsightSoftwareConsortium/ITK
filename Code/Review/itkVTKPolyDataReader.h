@@ -61,7 +61,8 @@ public:
   typedef typename OutputMeshType::CellType        CellType;
   typedef typename OutputMeshType::CellAutoPointer CellAutoPointer;
   typedef typename OutputMeshType::PointIdentifier PointIdentifier;
-  typedef typename CellTraits::PointIdIterator PointIdIterator;
+  typedef typename CellTraits::PointIdIterator     PointIdIterator;
+
   typedef typename OutputMeshType::PointsContainerPointer
     PointsContainerPointer;
   
