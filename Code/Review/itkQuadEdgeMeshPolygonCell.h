@@ -163,7 +163,7 @@ public:
       }
     else
       {
-    return &*(m_PointIds.begin());
+      return &*(m_PointIds.begin());
       }
     }
 
@@ -195,7 +195,7 @@ public:
       }
     else
       {
-    return &*(m_PointIds.begin());
+      return &*(m_PointIds.begin());
       }
     }
 
@@ -245,7 +245,7 @@ private:
     // NOTE ALEX: very inefficient way of doing it ...
     for( PointIdentifier i = 0; i < this->GetNumberOfPoints( ); i++ )
       {
-       m_PointIds.push_back( GetPointId( i ) );
+      m_PointIds.push_back( GetPointId( i ) );
       }
     }
 
