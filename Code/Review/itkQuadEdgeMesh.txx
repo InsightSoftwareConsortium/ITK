@@ -528,20 +528,24 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   QEPrimal*  eOrigin     = this->GetPoint(  orgPid ).GetEdge();
 
   if( eOrigin )
+    {
     if( eOrigin->IsOriginInternal() )
       {
       itkDebugMacro("No room for a new edge in the Origin() ring.");
       return( (QEPrimal*)0 );
       }
+    }
 
   QEPrimal* eDestination = this->GetPoint( destPid ).GetEdge();
 
   if( eDestination )
+    {
     if( eDestination->IsOriginInternal() )
       {
       itkDebugMacro("No room for a new edge in the Destination() ring.");
       return( (QEPrimal*)0 );
       }
+    }
 
   return AddEdgeWithSecurePointList( orgPid, destPid );
 }
@@ -884,14 +888,18 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return;
     }
 
-  EdgeCellType* edgeCell = FindEdgeCell( orgPid, destPid);
-  if( edgeCell == (EdgeCellType*)0 )
+  CellIdentifier LineIdent = e->GetIdent( );
+  if( LineIdent != m_NoPoint )
+    { 
+      EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
+      LightWeightDeleteEdge( edgeCell );
+    }
+  else
     {
-    itkDebugMacro( "Edge Not found. Org not set? Dest not set? LineIdent not set?" );
+    itkDebugMacro( "Edge Not found. LineIdent not set?" );
     return;
     }
-    
-  LightWeightDeleteEdge( edgeCell );
+
 }
 
 /**
