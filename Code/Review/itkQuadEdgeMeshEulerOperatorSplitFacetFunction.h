@@ -49,8 +49,8 @@ public:
   /** Type of QuadEdge with which to apply slicing. */
   typedef TQEType QEType;
 
-  typedef typename Superclass::MeshType   MeshType;
-  typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::MeshType     MeshType;
+  typedef typename Superclass::OutputType   OutputType;
   typedef typename Superclass::EdgeCellType EdgeCellType;
 
   /** Evaluate at the specified input position */
