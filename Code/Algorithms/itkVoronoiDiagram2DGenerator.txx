@@ -1073,6 +1073,7 @@ GenerateVDFortune(void)
   FortuneSite *currentSite = &(m_SeedSites[1]);
 
   PointType currentCircle;
+  currentCircle.Fill(0.0);
   FortuneHalfEdge *leftHalfEdge;
   FortuneHalfEdge *rightHalfEdge;
   FortuneHalfEdge *left2HalfEdge;
