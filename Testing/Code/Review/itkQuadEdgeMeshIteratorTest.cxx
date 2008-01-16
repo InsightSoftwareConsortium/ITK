@@ -69,10 +69,9 @@ int itkQuadEdgeMeshIteratorTest( int , char* [] )
     pids[ i ] = mesh->AddPoint( pnts[ i ] );
     }
 
-  MeshType::QEPrimal* edges[ NumEdges ];
   for( int i = 0; i < NumPoints; i++ )
     {
-    edges[ i ] = mesh->AddEdge( pids[ i ], pids[ (i + 1 ) % NumPoints ] );
+    mesh->AddEdge( pids[ i ], pids[ (i + 1 ) % NumPoints ] );
     }
    
   MeshType::QEPrimal* foundEdges[ NumEdges ];
