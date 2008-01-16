@@ -891,8 +891,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellIdentifier LineIdent = e->GetIdent( );
   if( LineIdent != m_NoPoint )
     { 
-      EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
-      LightWeightDeleteEdge( edgeCell );
+    EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
+    this->LightWeightDeleteEdge( edgeCell );
     }
   else
     {
