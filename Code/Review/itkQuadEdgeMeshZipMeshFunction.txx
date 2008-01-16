@@ -85,7 +85,7 @@ Evaluate( QEType* e )
     {
     this->m_Mesh->DeleteFace( e->GetRight( ) );
     }
-  this->m_Mesh->DeleteEdge( e );
+  this->m_Mesh->LightWeightDeleteEdge( e );
 
   // We should be cautious and consider the case when the very
   // initial situation was the following:
