@@ -110,10 +110,11 @@ public:
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::MeasurementType MeasurementType ;
+  typedef typename Superclass::PixelType          PixelType ;
+  typedef typename Superclass::FrequencyType      FrequencyType ;
+  typedef typename Superclass::MeasurementType    MeasurementType ;
   typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
-  typedef MeasurementVectorType ValueType ;
+  typedef MeasurementVectorType                   ValueType ;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,

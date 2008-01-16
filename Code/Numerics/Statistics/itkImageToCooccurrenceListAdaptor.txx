@@ -57,8 +57,6 @@ ImageToCooccurrenceListAdaptor< TImage >
 
   typedef typename ShapedNeighborhoodIteratorType::ConstIterator ShapeNeighborhoodIterator;    
 
-  typedef typename ImageType::PixelType PixelType;
-
   typedef typename OffsetTable::iterator OffsetIterator;
 
   typename SampleType::MeasurementVectorType coords;  
