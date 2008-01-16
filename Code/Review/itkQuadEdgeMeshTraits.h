@@ -60,7 +60,7 @@ public:
 
   typedef unsigned long PointIdentifier;
   typedef unsigned long CellIdentifier;
-  typedef unsigned long CellFeatureIdentifier;
+  typedef unsigned char CellFeatureIdentifier; // made small in purpose
 
   typedef std::set< CellIdentifier > UsingCellsContainer;
   typedef std::set< CellIdentifier > PointCellLinksContainer;
