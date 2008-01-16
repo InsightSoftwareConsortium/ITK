@@ -153,10 +153,8 @@ public:
 
   virtual PointIdIterator PointIdsBegin()
     {
-    if (m_PointIds.size() == 0)
-      {
-      MakePointIds();
-      }
+    // NOTE ALEX: should update the array on the fly to make it faster
+    MakePointIds();
     if (m_PointIds.size() == 0)
       {
       return (static_cast<PointIdIterator>(0));
@@ -169,10 +167,8 @@ public:
 
   virtual PointIdIterator PointIdsEnd()
     {
-    if (m_PointIds.size() == 0)
-      {
-      MakePointIds();
-      }
+    // NOTE ALEX: should update the array on the fly to make it faster
+    MakePointIds();
     if (m_PointIds.size() == 0)
       {
       return (static_cast<PointIdIterator>(0));
@@ -185,10 +181,8 @@ public:
 
   virtual PointIdConstIterator PointIdsBegin() const
     {
-    if (m_PointIds.size() == 0)
-      {
-      MakePointIds();
-      }
+    // NOTE ALEX: should update the array on the fly to make it faster
+    MakePointIds();
     if (m_PointIds.size() == 0)
       {
       return (static_cast<PointIdIterator>(0));
@@ -201,10 +195,8 @@ public:
 
   virtual PointIdConstIterator PointIdsEnd() const
     {
-    if (m_PointIds.size() == 0)
-      {
-      MakePointIds();
-      }
+    // NOTE ALEX: should update the array on the fly to make it faster
+    MakePointIds();
     if (m_PointIds.size() == 0)
       {
       return (static_cast<PointIdIterator>(0));
@@ -243,6 +235,8 @@ private:
       }
 
     // NOTE ALEX: very inefficient way of doing it ...
+    // you wanna support old API, you pay for it.
+    m_PointIds.clear();
     for( PointIdentifier i = 0; i < this->GetNumberOfPoints( ); i++ )
       {
       m_PointIds.push_back( GetPointId( i ) );
