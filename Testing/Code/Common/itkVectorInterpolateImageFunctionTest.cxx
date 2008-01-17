@@ -35,9 +35,6 @@ typedef InterpolatorType::PointType  PointType;
 typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
 typedef InterpolatorType::OutputType OutputType;
 
-ImageType::SizeType size = { { 20, 40, 80 } };
-double origin [3] = { 0.5,   0.5,   0.5};
-double spacing[3] = { 0.1,   0.05 , 0.025};
 
 
 /**
@@ -164,6 +161,10 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
   int flag = 0;
 
   std::cout << "Testing vector image interpolation: " << std::endl;
+
+  ImageType::SizeType size = { { 20, 40, 80 } };
+  double origin [3] = { 0.5,   0.5,   0.5};
+  double spacing[3] = { 0.1,   0.05 , 0.025};
 
   // Create a test image
   ImageType::Pointer image = ImageType::New();

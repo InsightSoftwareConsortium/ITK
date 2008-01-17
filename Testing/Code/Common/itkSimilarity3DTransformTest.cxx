@@ -179,9 +179,9 @@ int itkSimilarity3DTransformTest(int, char* [] )
       }
       if( !Ok )
       { 
-        std::cerr << "Error rotating point : " << p << std::endl;
-        std::cerr << "Result should be     : " << q << std::endl;
-        std::cerr << "Reported Result is   : " << r << std::endl;
+        std::cout << "Error rotating point : " << p << std::endl;
+        std::cout << "Result should be     : " << q << std::endl;
+        std::cout << "Reported Result is   : " << r << std::endl;
         return EXIT_FAILURE;
       }
       else
@@ -209,9 +209,9 @@ int itkSimilarity3DTransformTest(int, char* [] )
       }
       if( !Ok )
       { 
-        std::cerr << "Error rotating vector : " << p << std::endl;
-        std::cerr << "Result should be      : " << q << std::endl;
-        std::cerr << "Reported Result is    : " << r << std::endl;
+        std::cout << "Error rotating vector : " << p << std::endl;
+        std::cout << "Result should be      : " << q << std::endl;
+        std::cout << "Reported Result is    : " << r << std::endl;
         return EXIT_FAILURE;
       }
       else
@@ -240,9 +240,9 @@ int itkSimilarity3DTransformTest(int, char* [] )
       }
       if( !Ok )
       { 
-        std::cerr << "Error rotating covariant vector : " << p << std::endl;
-        std::cerr << "Result should be                : " << q << std::endl;
-        std::cerr << "Reported Result is              : " << r << std::endl;
+        std::cout << "Error rotating covariant vector : " << p << std::endl;
+        std::cout << "Result should be                : " << q << std::endl;
+        std::cout << "Reported Result is              : " << r << std::endl;
         return EXIT_FAILURE;
       }
       else
@@ -274,9 +274,9 @@ int itkSimilarity3DTransformTest(int, char* [] )
       }
       if( !Ok )
       { 
-        std::cerr << "Error rotating vnl_vector : " << p << std::endl;
-        std::cerr << "Result should be          : " << q << std::endl;
-        std::cerr << "Reported Result is        : " << r << std::endl;
+        std::cout << "Error rotating vnl_vector : " << p << std::endl;
+        std::cout << "Result should be          : " << q << std::endl;
+        std::cout << "Reported Result is        : " << r << std::endl;
         return EXIT_FAILURE;
       }
       else
@@ -324,7 +324,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
     if( !Ok )
       { 
-      std::cerr << "The center point was not invariant to rotation " << std::endl;
+      std::cout << "The center point was not invariant to rotation " << std::endl;
       return EXIT_FAILURE;
       }
     else
@@ -356,7 +356,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
       {
       if( fabs( parameters[p] - parameters2[p] ) > tolerance )
         {
-        std::cerr << "Output parameter does not match input " << std::endl;
+        std::cout << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
         }
       }
@@ -408,13 +408,13 @@ int itkSimilarity3DTransformTest(int, char* [] )
          {
          if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
            {
-           std::cerr << "Jacobian components differ from expected values ";
-           std::cerr << std::endl << std::endl;
-           std::cerr << "Expected Jacobian = " << std::endl;
-           std::cerr << TheoreticalJacobian << std::endl << std::endl;
-           std::cerr << "Computed Jacobian = " << std::endl;
-           std::cerr << jacobian << std::endl << std::endl;
-           std::cerr << std::endl << "Test FAILED ! " << std::endl;
+           std::cout << "Jacobian components differ from expected values ";
+           std::cout << std::endl << std::endl;
+           std::cout << "Expected Jacobian = " << std::endl;
+           std::cout << TheoreticalJacobian << std::endl << std::endl;
+           std::cout << "Computed Jacobian = " << std::endl;
+           std::cout << jacobian << std::endl << std::endl;
+           std::cout << std::endl << "Test FAILED ! " << std::endl;
            return EXIT_FAILURE;
            }
          }
@@ -463,7 +463,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
     {
     if( fabs( parameters[p] - parameters2[p] ) > tolerance )
       {
-      std::cerr << "Output parameter does not match input " << std::endl;
+      std::cout << "Output parameter does not match input " << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -505,7 +505,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
   if( fabs( rscale - scale ) > tolerance )
     {
-    std::cerr << "Error in Set/Get Scale() " << std::endl;
+    std::cout << "Error in Set/Get Scale() " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -531,7 +531,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
     {
     if( fabs( parameters[p] - parameters2[p] ) > tolerance )
       {
-      std::cerr << "Output parameter does not match input " << std::endl;
+      std::cout << "Output parameter does not match input " << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -570,8 +570,9 @@ int itkSimilarity3DTransformTest(int, char* [] )
       {
       t->SetMatrix( matrix );
       }
-     catch ( itk::ExceptionObject & itkNotUsed(err) )
+     catch ( itk::ExceptionObject & err )
       {
+      std::cout << "Caught expected exception" << err << std::endl;
       Ok = true;
       }
      catch( ... )
@@ -581,8 +582,8 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
      if( !Ok )
       {
-      std::cerr << "Error: expected to catch an exception when attempting";
-      std::cerr << " to set an non-orthogonal matrix." << std::endl;
+      std::cout << "Error: expected to catch an exception when attempting";
+      std::cout << " to set an non-orthogonal matrix." << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -617,7 +618,7 @@ int itkSimilarity3DTransformTest(int, char* [] )
 
      if( !Ok )
       {
-      std::cerr << "Error: caught unexpected exception" << std::endl;
+      std::cout << "Error: caught unexpected exception" << std::endl;
       return EXIT_FAILURE;
       }
 

@@ -31,13 +31,13 @@ namespace
 {
   
 void PrintVector( const VectorType & v )
-{
-  for( unsigned int i=0; i<VectorType::Dimension; i++)
   {
+  for( unsigned int i=0; i<VectorType::Dimension; i++)
+    {
     std::cout << v[i] << ", ";
-  }
+    }
   std::cout << std::endl;
-}
+  }
 }
 
 
@@ -81,11 +81,14 @@ int itkAffineTransformTest(int, char *[])
     Affine2DType::Pointer aff2 = Affine2DType::New();
     aff2->SetMatrix( matrix2 );
     aff2->SetOffset( vector2 );
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++)
-            matrix2[i][j] = 0.0;
-        vector2[i]    = 0.0;
-    }
+    for (i = 0; i < 2; i++)
+      {
+      for (j = 0; j < 2; j++)
+        {
+        matrix2[i][j] = 0.0;
+        }
+      vector2[i]    = 0.0;
+      }
     std::cout << "Instantiation of a given 2D transform:" << std::endl;
     aff2->Print( std::cout );
 
@@ -102,11 +105,14 @@ int itkAffineTransformTest(int, char *[])
     vector2[1] = 1;
     aff2->SetMatrix(matrix2);
     aff2->SetOffset(vector2);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++)
-            matrix2[i][j] = 0.0;
-        vector2[i]    = 0.0;
-    }
+    for (i = 0; i < 2; i++)
+      {
+      for (j = 0; j < 2; j++)
+        {
+        matrix2[i][j] = 0.0;
+        }
+      vector2[i]    = 0.0;
+      }
     matrix2 = aff2->GetMatrix();
     vector2 = aff2->GetOffset();
     std::cout << "Setting the matrix in an existing transform:"
@@ -249,37 +255,37 @@ int itkAffineTransformTest(int, char *[])
     
     /* Test SetParameters */
     Affine3DType::Pointer paff = Affine3DType::New();
-    Affine3DType::ParametersType parameters( paff->GetNumberOfParameters() );
+    Affine3DType::ParametersType parameters1( paff->GetNumberOfParameters() );
 
     /* set up a 3x3 magic square matrix */
-    parameters[0] = 8;
-    parameters[1] = 1;
-    parameters[2] = 6;
-    parameters[3] = 3;
-    parameters[4] = 5;
-    parameters[5] = 7;
-    parameters[6] = 4;
-    parameters[7] = 9;
-    parameters[8] = 2;
+    parameters1[0] = 8;
+    parameters1[1] = 1;
+    parameters1[2] = 6;
+    parameters1[3] = 3;
+    parameters1[4] = 5;
+    parameters1[5] = 7;
+    parameters1[6] = 4;
+    parameters1[7] = 9;
+    parameters1[8] = 2;
 
-    parameters[9] = 5;
-    parameters[10] = 5;
-    parameters[11] = 5;
+    parameters1[9] = 5;
+    parameters1[10] = 5;
+    parameters1[11] = 5;
     
     paff->Print( std::cout );
-    paff->SetParameters( parameters );
+    paff->SetParameters( parameters1 );
     paff->Print( std::cout );
 
     paff->SetIdentity();
     paff->Print( std::cout );
 
 
-  {
+    {
     // Test SetParameters and GetInverse
     typedef itk::AffineTransform<double,2> TransformType;
     TransformType::Pointer transform = TransformType::New();
 
-    TransformType::ParametersType parameters;
+    TransformType::ParametersType parameters2;
     TransformType::ParametersType expectedParameters;
     expectedParameters.SetSize( transform->GetNumberOfParameters() );
 
@@ -289,7 +295,7 @@ int itkAffineTransformTest(int, char *[])
 
     // Test 1: SetIdentity
     transform->SetIdentity();
-    parameters = transform->GetParameters();
+    parameters2 = transform->GetParameters();
 
     expectedParameters.Fill( 0.0 );
     expectedParameters[0] = 1.0;
@@ -297,10 +303,10 @@ int itkAffineTransformTest(int, char *[])
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( fabs( parameters[k] - expectedParameters[k] ) > epsilon )
+      if( fabs( parameters2[k] - expectedParameters[k] ) > epsilon )
         {
         std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters << std::endl;
+        std::cout << "Results=" << parameters2 << std::endl;
         std::cout << "Expected=" << expectedParameters << std::endl;
         any = true;
         break;
@@ -314,14 +320,14 @@ int itkAffineTransformTest(int, char *[])
     expectedParameters[3] = 2.0;
 
     transform->SetParameters( expectedParameters );
-    parameters = transform->GetParameters();
+    parameters2 = transform->GetParameters();
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( fabs( parameters[k] - expectedParameters[k] ) > epsilon )
+      if( fabs( parameters2[k] - expectedParameters[k] ) > epsilon )
         {
         std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters << std::endl;
+        std::cout << "Results=" << parameters2 << std::endl;
         std::cout << "Expected=" << expectedParameters << std::endl;
         any = true;
         break;
@@ -339,7 +345,7 @@ int itkAffineTransformTest(int, char *[])
     TransformType::Pointer other = TransformType::New();
     transform->GetInverse( other );
 
-    parameters = other->GetParameters();
+    parameters2 = other->GetParameters();
 
     expectedParameters.Fill( 0.0 );
     expectedParameters[0] = 0.5;
@@ -349,10 +355,10 @@ int itkAffineTransformTest(int, char *[])
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( fabs( parameters[k] - expectedParameters[k] ) > epsilon )
+      if( fabs( parameters2[k] - expectedParameters[k] ) > epsilon )
         {
         std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters << std::endl;
+        std::cout << "Results=" << parameters2 << std::endl;
         std::cout << "Expected=" << expectedParameters << std::endl;
         any = true;
         break;

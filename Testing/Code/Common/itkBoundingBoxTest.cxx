@@ -30,7 +30,6 @@ int itkBoundingBoxTest (int, char*[])
 
   BB::PointsContainerPointer Points = BB::PointsContainer::New();
 
-  int i;
   itk::Point<double, 1> P;
 
   std::cout << "Testing Bounding Box" <<std::endl;
@@ -75,7 +74,7 @@ int itkBoundingBoxTest (int, char*[])
   std::cout << "Null GetPoints test passed" <<std::endl;
 
   
-  for ( i = 0; i < 10; i++ )
+  for ( unsigned int i = 0; i < 10; i++ )
     {
     P[0] = (double)i;
     Points->InsertElement ( i, P );
