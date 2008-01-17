@@ -108,36 +108,37 @@ ENDIF(ITK_USE_SYSTEM_VXL)
 #-----------------------------------------------------------------------------
 # Include directories from the install tree.
 SET(ITK_INSTALL_INCLUDE_PATH "${CMAKE_INSTALL_PREFIX}${ITK_INSTALL_INCLUDE_DIR}")
-SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-  ${ITK_INSTALL_INCLUDE_PATH}
-  ${ITK_INSTALL_INCLUDE_PATH}/Algorithms
-  ${ITK_INSTALL_INCLUDE_PATH}/BasicFilters
-  ${ITK_INSTALL_INCLUDE_PATH}/Common
-  ${ITK_INSTALL_INCLUDE_PATH}/expat
-  ${ITK_INSTALL_INCLUDE_PATH}/Numerics
-  ${ITK_INSTALL_INCLUDE_PATH}/IO
-  ${ITK_INSTALL_INCLUDE_PATH}/Numerics/FEM
-  ${ITK_INSTALL_INCLUDE_PATH}/Numerics/Statistics
-  ${ITK_INSTALL_INCLUDE_PATH}/Numerics/NeuralNetworks
-  ${ITK_INSTALL_INCLUDE_PATH}/SpatialObject
-  ${ITK_INSTALL_INCLUDE_PATH}/Utilities/MetaIO
-  ${ITK_INSTALL_INCLUDE_PATH}/Utilities/NrrdIO
-  ${ITK_INSTALL_INCLUDE_PATH}/Utilities/DICOMParser
-  ${ITK_INSTALL_INCLUDE_PATH}/Utilities/itkExtHdrs
-  ${ITK_INSTALL_INCLUDE_PATH}/Utilities
+SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
+  Algorithms
+  BasicFilters
+  Common
+  Numerics
+  IO
+  Numerics/FEM
+  Numerics/Statistics
+  Numerics/NeuralNetworks
+  SpatialObject
+  Utilities/MetaIO
+  Utilities/NrrdIO
+  Utilities/DICOMParser
+  Utilities/expat
+  Utilities/nifti/niftilib
+  Utilities/nifti/znzlib
+  Utilities/itkExtHdrs
+  Utilities
 )
 
 IF(NOT ITK_USE_SYSTEM_VXL)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-    ${ITK_INSTALL_INCLUDE_PATH}/Utilities/vxl/vcl
-    ${ITK_INSTALL_INCLUDE_PATH}/Utilities/vxl/core
+  SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
+    Utilities/vxl/vcl
+    Utilities/vxl/core
     )
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
 
 IF(NOT ITK_USE_SYSTEM_GDCM)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-    ${ITK_INSTALL_INCLUDE_PATH}/gdcm
-    ${ITK_INSTALL_INCLUDE_PATH}/gdcm/src
+  SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
+    gdcm
+    gdcm/src
     )
 ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 
@@ -145,8 +146,8 @@ ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 # ITK_USE_PATENTED option. Users are responsible for getting a license from the
 # patent holders in order to use any of those methods.
 IF(ITK_USE_PATENTED)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-    ${ITK_INSTALL_INCLUDE_PATH}/Patented
+  SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
+    Patented
     )
 ENDIF(ITK_USE_PATENTED)
 
@@ -155,8 +156,8 @@ ENDIF(ITK_USE_PATENTED)
 # copyright holders in order to use any of those methods. The methods are not
 # covered by the backward compatibility policy either.
 IF(ITK_USE_REVIEW)
-  SET(ITK_INCLUDE_DIRS_INSTALL_TREE ${ITK_INCLUDE_DIRS_INSTALL_TREE}
-    ${ITK_INSTALL_INCLUDE_PATH}/Review
+  SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
+    Review
     )
 ENDIF(ITK_USE_REVIEW)
 
