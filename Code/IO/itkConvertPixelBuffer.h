@@ -109,6 +109,13 @@ protected:
                                           int inputNumberOfComponents,
                                           OutputPixelType* outputData , 
                                           int size);
+
+  /** Convert tensor output. */
+  /** Each input is made into a 6 component symmetric pixel */
+  static void ConvertTensor6ToTensor6(InputPixelType* inputData, 
+                               OutputPixelType* outputData , int size);
+  static void ConvertTensor9ToTensor6(InputPixelType* inputData, 
+                               OutputPixelType* outputData , int size);
     
 private:
   ConvertPixelBuffer();
