@@ -284,9 +284,10 @@ void
 PolygonCell< TCellInterface >
 ::SetPointId(int localId, PointIdentifier ptId)
 {
-  if(m_PointIds.size() < (unsigned int)(localId + 1)) {
-  m_PointIds.resize( localId + 1 );
-  }
+  if(m_PointIds.size() < (unsigned int)(localId + 1))
+    {
+    m_PointIds.resize( localId + 1 );
+    }
   m_PointIds[localId] = ptId;
 }
 
