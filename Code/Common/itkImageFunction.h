@@ -121,7 +121,7 @@ public:
    * Subclasses must provide this method. */
   virtual TOutput EvaluateAtIndex( const IndexType & index ) const = 0;
 
-  /** Evaluate the function at specified ContinousIndex position.
+  /** Evaluate the function at specified ContinuousIndex position.
    * Subclasses must provide this method. */
   virtual TOutput EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const = 0;
@@ -172,7 +172,7 @@ public:
     }
 
   /** Convert point to continuous index */
-   void ConvertPointToContinousIndex( const PointType & point,
+   void ConvertPointToContinuousIndex( const PointType & point,
     ContinuousIndexType & cindex ) const
     {
     m_Image->TransformPhysicalPointToContinuousIndex( point, cindex );
