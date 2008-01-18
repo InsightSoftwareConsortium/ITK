@@ -175,7 +175,16 @@ public:
     return !this->operator==(matrix);
   }
 
-
+  inline const Self & operator=( const InternalMatrixType & matrix )
+  {
+    this->m_Matrix = matrix;
+  }
+ 
+  /**For every operator=, there should be an equivalent copy constructor. */
+  inline explicit Matrix(const InternalMatrixType & matrix)
+  {
+    this->operator=(matrix);
+  }
   /** Assignment operator. */
   inline const Self & operator=( const Self & matrix)
   {

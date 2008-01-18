@@ -300,6 +300,57 @@ int itkMatrixTest(int, char* [] )
 
   }
 
+  {
+  // Test for vnl_matrix_fixed assignment and construction
+  MatrixType matrixA;
+
+  int counter = 0;
+  for( unsigned int row=0; row < 3; row++)
+    {
+    for( unsigned int col=0; col < 3; col++ )
+      {
+      matrixA[row][col] = counter++;
+      }
+    }
+
+  MatrixType::InternalMatrixType vnlMatrixA = matrixA.GetVnlMatrix();
+
+  MatrixType matrixB( vnlMatrixA ); // Test constructor
+
+    { // verify values
+    const double tolerance = 1e-7;
+    for( unsigned int row=0; row < 3; row++)
+      {
+      for( unsigned int col=0; col < 3; col++ )
+        {
+        if( vcl_abs( matrixB[row][col] - matrixA[row][col] ) > tolerance )
+          {
+          std::cerr << "constructor from vnl_matrix failed ! " << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+      }
+    }
+
+  MatrixType matrixC;
+  matrixC = vnlMatrixA; // Test assignment
+
+    { // verify values
+    const double tolerance = 1e-7;
+    for( unsigned int row=0; row < 3; row++)
+      {
+      for( unsigned int col=0; col < 3; col++ )
+        {
+        if( vcl_abs( matrixC[row][col] - matrixA[row][col] ) > tolerance )
+          {
+          std::cerr << "assignment from vnl_matrix failed ! " << std::endl;
+          return EXIT_FAILURE;
+          }
+        }
+      }
+    }
+
+  }
 
   std::cout << "Test Passed !" << std::endl;
 
