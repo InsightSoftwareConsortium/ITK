@@ -178,7 +178,8 @@ public:
   inline const Self & operator=( const InternalMatrixType & matrix )
   {
     this->m_Matrix = matrix;
-  }
+    return *this;
+ }
  
   /**For every operator=, there should be an equivalent copy constructor. */
   inline explicit Matrix(const InternalMatrixType & matrix)
