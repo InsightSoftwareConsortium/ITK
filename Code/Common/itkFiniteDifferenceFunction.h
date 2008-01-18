@@ -77,8 +77,8 @@ public:
 
   /** Extract some parameters from the image type */
   typedef TImageType ImageType;
-  typedef typename ImageType::PixelType               PixelType;
-  typedef typename NumericTraits<PixelType>::RealType PixelRealType;  
+  typedef typename ImageType::PixelType  PixelType;
+  typedef double                         PixelRealType;  
   
   /** Save image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
