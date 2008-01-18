@@ -143,9 +143,6 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
   const float tolerance = 1e-7;
 
-  // Dimension & Type
-  const     unsigned int    N = 3;
-
   //  CovariantVector Classes
   typedef    itk::CovariantVector<  double, N >    DoubleCovariantVectorType;
   typedef    itk::CovariantVector<  float , N >    FloatCovariantVectorType;
@@ -191,20 +188,20 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     typedef itk::Vector<double, 3>           ContravariantVectorType;
     typedef itk::CovariantVector<double, 3>  CovariantVectorType;
     
-    ContravariantVectorType va;
-    ContravariantVectorType vb;
+    ContravariantVectorType vaa;
+    ContravariantVectorType vbb;
 
-    va[0] = 1.0;
-    va[1] = 0.0;
-    va[2] = 0.0;
+    vaa[0] = 1.0;
+    vaa[1] = 0.0;
+    vaa[2] = 0.0;
 
-    vb[0] = 0.0;
-    vb[1] = 1.0;
-    vb[2] = 0.0;
+    vbb[0] = 0.0;
+    vbb[1] = 1.0;
+    vbb[2] = 0.0;
 
     CovariantVectorType normal;
 
-    itk::CrossProduct( normal, va, vb );
+    itk::CrossProduct( normal, vaa, vbb );
     
     CovariantVectorType expectedNormal;
 

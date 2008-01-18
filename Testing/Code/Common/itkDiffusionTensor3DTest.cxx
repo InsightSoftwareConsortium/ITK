@@ -192,30 +192,30 @@ int itkDiffusionTensor3DTest(int, char* [] )
   {
     typedef itk::DiffusionTensor3D<double>         Double3DTensorType;
 
-    Double3DTensorType tensor;
+    Double3DTensorType tensor2;
 
     double v[3];
     v[0] = 19.0;
     v[1] = 23.0;
     v[2] = 29.0;
 
-    tensor(0,0) = v[0];
-    tensor(0,1) =  0.0;
-    tensor(0,2) =  0.0;
-    tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) = v[1];
-    tensor(1,2) =  0.0;
-    tensor(2,0) =  0.0; // overrides (0,2)
-    tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) = v[2];
+    tensor2(0,0) = v[0];
+    tensor2(0,1) =  0.0;
+    tensor2(0,2) =  0.0;
+    tensor2(1,0) =  0.0; // overrides (0,1)
+    tensor2(1,1) = v[1];
+    tensor2(1,2) =  0.0;
+    tensor2(2,0) =  0.0; // overrides (0,2)
+    tensor2(2,1) =  0.0; // overrides (1,2)
+    tensor2(2,2) = v[2];
 
     std::cout << "DiffusionTensor3D = " << std::endl;
-    std::cout << tensor << std::endl;
+    std::cout << tensor2 << std::endl;
 
     Double3DTensorType::EigenValuesArrayType     eigenValues;
     Double3DTensorType::EigenVectorsMatrixType   eigenVectors;
 
-    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor2.ComputeEigenAnalysis( eigenValues, eigenVectors );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -244,20 +244,20 @@ int itkDiffusionTensor3DTest(int, char* [] )
     }
 
     // Now let's do something more involved...
-    tensor(0,0) =  7.0;
-    tensor(0,1) =  0.0;
-    tensor(0,2) =  3.0;
-    tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) =  0.0;
-    tensor(1,2) =  0.0;
-    tensor(2,0) =  3.0; // overrides (0,2)
-    tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) =  7.0;
+    tensor2(0,0) =  7.0;
+    tensor2(0,1) =  0.0;
+    tensor2(0,2) =  3.0;
+    tensor2(1,0) =  0.0; // overrides (0,1)
+    tensor2(1,1) =  0.0;
+    tensor2(1,2) =  0.0;
+    tensor2(2,0) =  3.0; // overrides (0,2)
+    tensor2(2,1) =  0.0; // overrides (1,2)
+    tensor2(2,2) =  7.0;
 
     std::cout << "DiffusionTensor3D = " << std::endl;
-    std::cout << tensor << std::endl;
+    std::cout << tensor2 << std::endl;
 
-    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor2.ComputeEigenAnalysis( eigenValues, eigenVectors );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -284,20 +284,20 @@ int itkDiffusionTensor3DTest(int, char* [] )
     }
 
     // Now let's do one where we know the rotation...
-    tensor(0,0) =  9.0;
-    tensor(0,1) =  0.0;
-    tensor(0,2) =  7.0;
-    tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) =  0.0;
-    tensor(1,2) =  0.0;
-    tensor(2,0) =  7.0; // overrides (0,2)
-    tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) =  3.0;
+    tensor2(0,0) =  9.0;
+    tensor2(0,1) =  0.0;
+    tensor2(0,2) =  7.0;
+    tensor2(1,0) =  0.0; // overrides (0,1)
+    tensor2(1,1) =  0.0;
+    tensor2(1,2) =  0.0;
+    tensor2(2,0) =  7.0; // overrides (0,2)
+    tensor2(2,1) =  0.0; // overrides (1,2)
+    tensor2(2,2) =  3.0;
 
     std::cout << "DiffusionTensor3D = " << std::endl;
-    std::cout << tensor << std::endl;
+    std::cout << tensor2 << std::endl;
 
-    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor2.ComputeEigenAnalysis( eigenValues, eigenVectors );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -329,32 +329,32 @@ int itkDiffusionTensor3DTest(int, char* [] )
   // Test GetTrace() and GetFractionalAnisotropy methods
   {
 
-    typedef itk::DiffusionTensor3D<double>         Double3DTensorType;
-    typedef Double3DTensorType::AccumulateValueType          AccumulateValueType;
-    typedef Double3DTensorType::RealValueType                RealValueType;
+    typedef itk::DiffusionTensor3D<double>          Double3DTensorType;
+    typedef Double3DTensorType::AccumulateValueType AccumulateValueType;
+    typedef Double3DTensorType::RealValueType       RealValueType;
 
-    Double3DTensorType tensor;
+    Double3DTensorType tensor3;
 
-    tensor(0,0) =  19.0;
-    tensor(0,1) =   0.0;
-    tensor(0,2) =   0.0;
-    tensor(1,0) =   0.0; // overrides (0,1)
-    tensor(1,1) =  23.0;
-    tensor(1,2) =   0.0;
-    tensor(2,0) =   7.0; // overrides (0,2)
-    tensor(2,1) =   0.0; // overrides (1,2)
-    tensor(2,2) =  29.0;
+    tensor3(0,0) =  19.0;
+    tensor3(0,1) =   0.0;
+    tensor3(0,2) =   0.0;
+    tensor3(1,0) =   0.0; // overrides (0,1)
+    tensor3(1,1) =  23.0;
+    tensor3(1,2) =   0.0;
+    tensor3(2,0) =   7.0; // overrides (0,2)
+    tensor3(2,1) =   0.0; // overrides (1,2)
+    tensor3(2,2) =  29.0;
 
     AccumulateValueType expectedTrace =
               itk::NumericTraits< AccumulateValueType >::Zero;
 
-    expectedTrace += tensor(0,0);
-    expectedTrace += tensor(1,1);
-    expectedTrace += tensor(2,2);
+    expectedTrace += tensor3(0,0);
+    expectedTrace += tensor3(1,1);
+    expectedTrace += tensor3(2,2);
 
     const double tolerance = 1e-4;
 
-    AccumulateValueType computedTrace = tensor.GetTrace();
+    AccumulateValueType computedTrace = tensor3.GetTrace();
     if( fabs( computedTrace - expectedTrace ) > tolerance )
       {
       std::cerr << "Error computing the Trace" << std::endl;
@@ -366,7 +366,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
     // Test the value of internal scalar product 
     const RealValueType expectedInternalScalarProduct = 1829;
 
-    RealValueType computedInternalScalarProduct = tensor.GetInnerScalarProduct();
+    RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
     if( fabs( computedInternalScalarProduct - expectedInternalScalarProduct ) > tolerance )
       {
       std::cerr << "Error computing Internal Scalar Product" << std::endl;
@@ -379,7 +379,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
     // Test the value of Fractional Anisotropy
     const RealValueType expectedFractionalAnisotropy = 0.349177;
 
-    RealValueType computedFractionalAnisotropy = tensor.GetFractionalAnisotropy();
+    RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
     if( fabs( computedFractionalAnisotropy - expectedFractionalAnisotropy ) > tolerance )
       {
       std::cerr << "Error computing Fractional Anisotropy" << std::endl;
@@ -391,7 +391,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
     // Test the value of Relative Anisotropy
     const RealValueType expectedRelativeAnisotropy = 1.9044;
 
-    RealValueType computedRelativeAnisotropy = tensor.GetRelativeAnisotropy();
+    RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
     if( fabs( computedRelativeAnisotropy - expectedRelativeAnisotropy ) > tolerance )
       {
       std::cerr << "Error computing Relative Anisotropy" << std::endl;

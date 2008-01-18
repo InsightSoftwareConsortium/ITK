@@ -206,17 +206,17 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       TransformType::Pointer t1 = TransformType::New();
 
       // Set parameters
-      TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
+      TransformType::ParametersType parameters2( t1->GetNumberOfParameters() );
       TransformType::InputPointType center;
 
-      parameters[0] = -21.0 / 180.0 * vnl_math::pi;
-      parameters[1] = 67.8;
-      parameters[2] = -0.2;
+      parameters2[0] = -21.0 / 180.0 * vnl_math::pi;
+      parameters2[1] = 67.8;
+      parameters2[2] = -0.2;
 
       center[0] = 12.0;
       center[1] = -8.9;
 
-      t1->SetParameters( parameters );
+      t1->SetParameters( parameters2 );
       t1->SetCenter( center );
 
       TransformType::InputPointType p1;
@@ -227,11 +227,11 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       p2 = t1->TransformPoint( p1 );
 
       // Test inverse
-      TransformType::Pointer t2;
-      t1->CloneInverseTo( t2 );
+      TransformType::Pointer t22;
+      t1->CloneInverseTo( t22 );
 
       TransformType::InputPointType p3;
-      p3 = t2->TransformPoint( p2 );
+      p3 = t22->TransformPoint( p2 );
 
       std::cout << "Test CloneInverseTo(): ";
       if( !CheckEqual( p1, p3 ) )
@@ -267,13 +267,13 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
      // Test compose
      TransformType::Pointer t4 = TransformType::New();
 
-     parameters[0] = 14.7 / 180.0 * vnl_math::pi;
-     parameters[1] = 67.1;
-     parameters[2] = 67.1;
+     parameters2[0] = 14.7 / 180.0 * vnl_math::pi;
+     parameters2[1] = 67.1;
+     parameters2[2] = 67.1;
 
      center.Fill( 4.0 );
 
-     t4->SetParameters( parameters );
+     t4->SetParameters( parameters2 );
      t4->SetCenter( center );
 
      TransformType::Pointer t5;
@@ -306,10 +306,10 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
 
     // Really test the jacobian
     std::cout << "Testing Jacobian: ";
-    TransformType::JacobianType jacobian;
-    jacobian = t4->GetJacobian( p1 );
+    TransformType::JacobianType jacobian2;
+    jacobian2 = t4->GetJacobian( p1 );
 
-    TransformType::JacobianType approxJacobian = jacobian;
+    TransformType::JacobianType approxJacobian = jacobian2;
 
     for( unsigned int k = 0; k < t1->GetNumberOfParameters(); k++ )
       {
@@ -317,8 +317,8 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
-      plusParameters = parameters;
-      minusParameters = parameters;
+      plusParameters = parameters2;
+      minusParameters = parameters2;
       plusParameters[k] += delta;
       minusParameters[k] -= delta;
 
@@ -333,7 +333,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       for( unsigned int j = 0; j < 2; j++ )
         {
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
-        double computedDerivative = jacobian[j][k];
+        double computedDerivative = jacobian2[j][k];
         approxJacobian[j][k] = approxDerivative;
         if ( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
           {
@@ -355,25 +355,25 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     // Test Set/Get Matrix and Set/Get Offset
     typedef EulerTransformType TransformType;
     TransformType::Pointer t1 = TransformType::New();
-    TransformType::Pointer t2 = TransformType::New();
+    TransformType::Pointer t23 = TransformType::New();
 
     TransformType::InputPointType center;
     center[0] = 9.0;
     center[1] = 10.0;
 
-    TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
+    TransformType::ParametersType parameters3( t1->GetNumberOfParameters() );
     for( unsigned int j = 0; j < t1->GetNumberOfParameters(); j++ )
       {
-      parameters[j] = static_cast<double>( j ) + 1.0;
+      parameters3[j] = static_cast<double>( j ) + 1.0;
       }
-    parameters[0] *= vnl_math::pi / 180.0;
+    parameters3[0] *= vnl_math::pi / 180.0;
 
     t1->SetCenter( center );
-    t1->SetParameters( parameters );
+    t1->SetParameters( parameters3 );
 
-    t2->SetCenter( center );
-    t2->SetMatrix( t1->GetMatrix() );
-    t2->SetOffset( t1->GetOffset() );
+    t23->SetCenter( center );
+    t23->SetMatrix( t1->GetMatrix() );
+    t23->SetOffset( t1->GetOffset() );
 
     // check the transformed points are the same
     TransformType::InputPointType ip;
@@ -382,7 +382,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
 
     TransformType::OutputPointType op1, op2;
     op1 = t1->TransformPoint( ip );
-    op2 = t2->TransformPoint( ip );
+    op2 = t23->TransformPoint( ip );
 
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     if( !CheckEqual( op1, op2 ) )
@@ -391,14 +391,14 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       } 
  
     // check that parameters are the same
-    TransformType::ParametersType pdash = t2->GetParameters();
+    TransformType::ParametersType pdash = t23->GetParameters();
 
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     for( unsigned int j = 0; j < t1->GetNumberOfParameters(); j++ )
       {
-      if ( fabs( parameters[j] - pdash[j] ) > epsilon )
+      if ( fabs( parameters3[j] - pdash[j] ) > epsilon )
         {
-        std::cout << "Expected: " << parameters << std::endl;
+        std::cout << "Expected: " << parameters3 << std::endl;
         std::cout << "Got: " << pdash << std::endl;
         std::cout << " [ FAILED ] " << std::endl;
         return EXIT_FAILURE;
@@ -472,11 +472,11 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
       std::cout << "Can't cast back to the right type!" << std::endl;
       return EXIT_FAILURE;
       }
-    TransformType::Pointer t2 = ptr;
+    TransformType::Pointer t24 = ptr;
 
     TransformType::OutputPointType op1, op2;
     op1 = t1->TransformPoint( ip );
-    op2 = t2->TransformPoint( ip );
+    op2 = t24->TransformPoint( ip );
 
     if( !CheckEqual( op1, op2 ) )
       {

@@ -208,10 +208,10 @@ int itkEuler3DTransformTest(int,char *[] )
   std::cout << " [ PASSED ] " << std::endl;
 
   // Really test the Jacobian
-  for( unsigned int p = 0; p < 2; p++ )
+  for( unsigned int pp = 0; pp < 2; pp++ )
     {
     std::cout << "Testing Jacobian when ComputeZYX is ";
-    if ( p == 0 )
+    if ( pp == 0 )
       {
       std::cout << "true" << std::endl;
       eulerTransform->SetComputeZYX( true );
@@ -404,18 +404,18 @@ int itkEuler3DTransformTest(int,char *[] )
     t = TransformType::New();
     t->SetParameters( e );
 
-    TransformType::Pointer t2 = TransformType::New();
-    t2->SetMatrix( t->GetMatrix() );
+    TransformType::Pointer t3 = TransformType::New();
+    t3->SetMatrix( t->GetMatrix() );
 
-    ParametersType p = t2->GetParameters();
+    ParametersType par = t3->GetParameters();
 
     for( unsigned int k = 0; k < e.GetSize(); k++ )
       {
-      if( fabs( e[k] - p[k] ) > epsilon )
+      if( fabs( e[k] - par[k] ) > epsilon )
         {
         std::cout << " [ FAILED ] " << std::endl;
         std::cout << "Expected parameters: " << e << std::endl;
-        std::cout << "but got: " << p << std::endl;
+        std::cout << "but got: " << par << std::endl;
         return EXIT_FAILURE; 
         }
       }

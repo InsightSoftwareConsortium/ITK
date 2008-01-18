@@ -40,42 +40,42 @@ int itkImageLinearIteratorTest(int, char* [] )
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
   
-  ImageType::SizeType size;
+  ImageType::SizeType size0;
 
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
+  size0[0] = 100;
+  size0[1] = 100;
+  size0[2] = 100;
 
-  ImageType::IndexType start;
-  start.Fill(0);
+  ImageType::IndexType start0;
+  start0.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  ImageType::RegionType region0; 
+  region0.SetIndex( start0 );
+  region0.SetSize( size0 );
 
-  myImage->SetLargestPossibleRegion( region );
-  myImage->SetBufferedRegion( region );
-  myImage->SetRequestedRegion( region );
+  myImage->SetLargestPossibleRegion( region0 );
+  myImage->SetBufferedRegion( region0 );
+  myImage->SetRequestedRegion( region0 );
   myImage->Allocate();
 
   typedef itk::ImageLinearIteratorWithIndex< ImageType > IteratorType;
 
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 
-  IteratorType it( myImage, region );
+  IteratorType it( myImage, region0 );
 
 
   it.GoToBegin();
   it.SetDirection( 0 ); // 0=x, 1=y, 2=z
 
-  ImageType::IndexType index;
+  ImageType::IndexType index0;
   
   while( !it.IsAtEnd() )
   {
     while( !it.IsAtEndOfLine() )
     {
-      index = it.GetIndex();
-      it.Set( index );
+      index0 = it.GetIndex();
+      it.Set( index0 );
       ++it;
     }
     it.NextLine();
@@ -83,7 +83,7 @@ int itkImageLinearIteratorTest(int, char* [] )
 
   
   // Verification 
-  IteratorType ot( myImage, region );
+  IteratorType ot( myImage, region0 );
 
   ot.GoToBegin();
   ot.SetDirection( 0 ); // 0=x, 1=y, 2=z
@@ -94,13 +94,13 @@ int itkImageLinearIteratorTest(int, char* [] )
   {
     while( !ot.IsAtEndOfLine() )
     {
-      index = ot.GetIndex();
-      if( ot.Get() != index )
+      index0 = ot.GetIndex();
+      if( ot.Get() != index0 )
       {
         std::cerr << "Values don't correspond to what was stored "
           << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index << std::endl;
+        std::cerr << index0 << std::endl;
         return EXIT_FAILURE;
       }
       ++ot;
@@ -111,7 +111,7 @@ int itkImageLinearIteratorTest(int, char* [] )
 
   
   // Verification 
-  ConstIteratorType cot( myConstImage, region );
+  ConstIteratorType cot( myConstImage, region0 );
 
   cot.GoToBegin();
   cot.SetDirection( 0 ); // 0=x, 1=y, 2=z
@@ -122,13 +122,13 @@ int itkImageLinearIteratorTest(int, char* [] )
   {
     while( !cot.IsAtEndOfLine() )
     {
-      index = cot.GetIndex();
-      if( cot.Get() != index )
+      index0 = cot.GetIndex();
+      if( cot.Get() != index0 )
       {
         std::cerr << "Values don't correspond to what was stored "
           << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index << " value is " << cot.Get() <<  std::endl;
+        std::cerr << index0 << " value is " << cot.Get() <<  std::endl;
         return EXIT_FAILURE;
       }
       ++cot;
@@ -141,13 +141,13 @@ int itkImageLinearIteratorTest(int, char* [] )
   // Test GoToReverseBeginOfLine()
   cot.GoToBegin();
   cot.GoToReverseBeginOfLine();
-  index = cot.GetIndex();
-  if( cot.Get() != index )
+  index0 = cot.GetIndex();
+  if( cot.Get() != index0 )
     {
     std::cerr << "Values don't correspond to what was stored "
               << std::endl;
     std::cerr << "Test failed at index ";
-    std::cerr << index << " value is " << cot.Get() <<  std::endl;
+    std::cerr << index0 << " value is " << cot.Get() <<  std::endl;
     return EXIT_FAILURE;
     }
   
@@ -156,7 +156,7 @@ int itkImageLinearIteratorTest(int, char* [] )
   // Verification 
   std::cout << "Verifying iterator in reverse direction... ";
 
-  IteratorType ior( myImage, region );
+  IteratorType ior( myImage, region0 );
 
   ior.GoToReverseBegin();
   ior.SetDirection( 0 ); // 0=x, 1=y, 2=z
@@ -166,13 +166,13 @@ int itkImageLinearIteratorTest(int, char* [] )
   {
     while( !ior.IsAtReverseEndOfLine() )
     {
-      index = ior.GetIndex();
-      if( ior.Get() != index )
+      index0 = ior.GetIndex();
+      if( ior.Get() != index0 )
       {
         std::cerr << "Values don't correspond to what was stored "
           << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index << " value is " << ior.Get() <<  std::endl;
+        std::cerr << index0 << " value is " << ior.Get() <<  std::endl;
         return EXIT_FAILURE;
       }
       --ior;
@@ -186,7 +186,7 @@ int itkImageLinearIteratorTest(int, char* [] )
   // Verification 
   std::cout << "Verifying const iterator in reverse direction... ";
 
-  ConstIteratorType cor( myImage, region );
+  ConstIteratorType cor( myImage, region0 );
 
   cor.GoToReverseBegin();
   cor.SetDirection( 0 ); // 0=x, 1=y, 2=z
@@ -196,13 +196,13 @@ int itkImageLinearIteratorTest(int, char* [] )
   {
     while( !cor.IsAtReverseEndOfLine() )
     {
-      index = cor.GetIndex();
-      if( cor.Get() != index )
+      index0 = cor.GetIndex();
+      if( cor.Get() != index0 )
       {
         std::cerr << "Values don't correspond to what was stored "
           << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index << " value is " << cor.Get() <<  std::endl;
+        std::cerr << index0 << " value is " << cor.Get() <<  std::endl;
         return EXIT_FAILURE;
       }
       --cor;

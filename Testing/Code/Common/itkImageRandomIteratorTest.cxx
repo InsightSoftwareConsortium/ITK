@@ -41,24 +41,24 @@ int itkImageRandomIteratorTest(int, char* [] )
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
   
-  ImageType::SizeType size;
+  ImageType::SizeType size0;
 
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
+  size0[0] = 100;
+  size0[1] = 100;
+  size0[2] = 100;
 
   unsigned long numberOfSamples = 10;
 
-  ImageType::IndexType start;
-  start.Fill(0);
+  ImageType::IndexType start0;
+  start0.Fill(0);
 
-  ImageType::RegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
+  ImageType::RegionType region0;
+  region0.SetIndex( start0 );
+  region0.SetSize( size0 );
 
-  myImage->SetLargestPossibleRegion( region );
-  myImage->SetBufferedRegion( region );
-  myImage->SetRequestedRegion( region );
+  myImage->SetLargestPossibleRegion( region0 );
+  myImage->SetBufferedRegion( region0 );
+  myImage->SetRequestedRegion( region0 );
   myImage->Allocate();
 
   typedef itk::ImageRegionIteratorWithIndex< ImageType >            IteratorType;
@@ -67,22 +67,22 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   typedef itk::ImageRandomConstIteratorWithIndex< ImageType > RandomConstIteratorType;
 
-  IteratorType it( myImage, region );
+  IteratorType it( myImage, region0 );
 
   it.GoToBegin();
-  ImageType::IndexType index;
+  ImageType::IndexType index0;
   
   // Fill an image with indices
   while( !it.IsAtEnd() )
   {
-    index = it.GetIndex();
-    it.Set( index );
+    index0 = it.GetIndex();
+    it.Set( index0 );
     ++it;
   }
 
   
   // Sample the image 
-  RandomIteratorType ot( myImage, region );
+  RandomIteratorType ot( myImage, region0 );
   ot.SetNumberOfSamples( numberOfSamples ); 
   ot.GoToBegin();
 
@@ -91,23 +91,23 @@ int itkImageRandomIteratorTest(int, char* [] )
   std::cout << "Random walk of the Iterator over the image " << std::endl;
   while( !ot.IsAtEnd() )
     {
-    index = ot.GetIndex();
-    if( ot.Get() != index )
+    index0 = ot.GetIndex();
+    if( ot.Get() != index0 )
       {
         std::cerr << "Values don't correspond to what was stored "
           << std::endl;
         std::cerr << "Test failed at index ";
-        std::cerr << index << std::endl;
+        std::cerr << index0 << std::endl;
         return EXIT_FAILURE;
       }
-    std::cout << index << std::endl;
+    std::cout << index0 << std::endl;
     ++ot;
     }
   std::cout << "   Done ! " << std::endl;
 
   
   // Verification 
-  RandomConstIteratorType cot( myConstImage, region );
+  RandomConstIteratorType cot( myConstImage, region0 );
   cot.SetNumberOfSamples( numberOfSamples );
   cot.GoToBegin();
 
@@ -117,16 +117,16 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   while( !cot.IsAtEnd() )
   {
-    index = cot.GetIndex();
-    if( cot.Get() != index )
+    index0 = cot.GetIndex();
+    if( cot.Get() != index0 )
       {
       std::cerr << "Values don't correspond to what was stored "
         << std::endl;
       std::cerr << "Test failed at index ";
-      std::cerr << index << " value is " << cot.Get() <<  std::endl;
+      std::cerr << index0 << " value is " << cot.Get() <<  std::endl;
       return EXIT_FAILURE;
       }
-    std::cout << index << std::endl;
+    std::cout << index0 << std::endl;
     ++cot;
   }
   std::cout << "   Done ! " << std::endl;
@@ -137,7 +137,7 @@ int itkImageRandomIteratorTest(int, char* [] )
   std::cout << "Verifying iterator in reverse direction... " << std::endl;
   std::cout << "Should be a random walk too (a different one)" << std::endl;
 
-  RandomIteratorType ior( myImage, region );
+  RandomIteratorType ior( myImage, region0 );
   ior.SetNumberOfSamples( numberOfSamples );
   ior.GoToEnd();
 
@@ -146,19 +146,19 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   while( !ior.IsAtBegin() )
   {
-    index = ior.GetIndex();
-    if( ior.Get() != index )
+    index0 = ior.GetIndex();
+    if( ior.Get() != index0 )
     {
       std::cerr << "Values don't correspond to what was stored "
         << std::endl;
       std::cerr << "Test failed at index ";
-      std::cerr << index << " value is " << ior.Get() <<  std::endl;
+      std::cerr << index0 << " value is " << ior.Get() <<  std::endl;
       return EXIT_FAILURE;
     }
-    std::cout << index << std::endl;
+    std::cout << index0 << std::endl;
     --ior;
   }
-  std::cout << index << std::endl; // print the value at the beginning index
+  std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
 
@@ -166,7 +166,7 @@ int itkImageRandomIteratorTest(int, char* [] )
   // Verification 
   std::cout << "Verifying const iterator in reverse direction... ";
 
-  RandomConstIteratorType cor( myImage, region );
+  RandomConstIteratorType cor( myImage, region0 );
   cor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
   cor.GoToEnd();
 
@@ -174,25 +174,25 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   while( !cor.IsAtBegin() )
     {
-    index = cor.GetIndex();
-    if( cor.Get() != index )
+    index0 = cor.GetIndex();
+    if( cor.Get() != index0 )
       {
       std::cerr << "Values don't correspond to what was stored "
         << std::endl;
       std::cerr << "Test failed at index ";
-      std::cerr << index << " value is " << cor.Get() <<  std::endl;
+      std::cerr << index0 << " value is " << cor.Get() <<  std::endl;
       return EXIT_FAILURE;
       }
-    std::cout << index << std::endl;
+    std::cout << index0 << std::endl;
     --cor;
     }
-  std::cout << index << std::endl; // print the value at the beginning index
+  std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
 
  // Verification 
   std::cout << "Verifying const iterator in both directions... ";
 
-  RandomConstIteratorType dor( myImage, region );
+  RandomConstIteratorType dor( myImage, region0 );
   dor.SetNumberOfSamples( numberOfSamples ); // 0=x, 1=y, 2=z
   dor.GoToEnd();
 
@@ -200,20 +200,20 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   for (unsigned int counter = 0; ! dor.IsAtEnd(); ++counter)
     {
-      index = dor.GetIndex();
-      if( dor.Get() != index )
+      index0 = dor.GetIndex();
+      if( dor.Get() != index0 )
         {
           std::cerr << "Values don't correspond to what was stored "
                     << std::endl;
           std::cerr << "Test failed at index ";
-          std::cerr << index << " value is " << dor.Get() <<  std::endl;
+          std::cerr << index0 << " value is " << dor.Get() <<  std::endl;
           return EXIT_FAILURE;
         }
-      std::cout << index << std::endl;
+      std::cout << index0 << std::endl;
       if (counter < 6)  { --dor; }
       else { ++dor; }
     }
-  std::cout << index << std::endl; // print the value at the beginning index
+  std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
   
 
