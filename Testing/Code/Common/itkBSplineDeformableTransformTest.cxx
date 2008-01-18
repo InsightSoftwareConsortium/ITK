@@ -454,18 +454,18 @@ int itkBSplineDeformableTransformTest1()
    */
   {
     std::cout << "Exercising SetIdentity() " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
-    transform->SetGridSpacing( spacing );
-    transform->SetGridOrigin( origin );
-    transform->SetGridRegion( region );
-    transform->SetParameters( parameters );
-    transform->SetIdentity();
-    TransformType::ParametersType parameters = transform->GetParameters();
-    const unsigned int numberOfParameters = transform->GetNumberOfParameters();
-    std::cout << "numberOfParameters =  " << numberOfParameters << std::endl;
-    for(unsigned int i=0; i<numberOfParameters; i++)
+    TransformType::Pointer transform2 = TransformType::New();
+    transform2->SetGridSpacing( spacing );
+    transform2->SetGridOrigin( origin );
+    transform2->SetGridRegion( region );
+    transform2->SetParameters( parameters );
+    transform2->SetIdentity();
+    TransformType::ParametersType parameters2 = transform2->GetParameters();
+    const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
+    std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
+    for(unsigned int i=0; i<numberOfParameters2; i++)
       {
-      if( fabs( parameters[i] ) > 1e-10 )
+      if( fabs( parameters2[i] ) > 1e-10 )
         {
         std::cerr << "SetIdentity failed, parameters are not null after invoking SetIdentity() " << std::endl;
         return EXIT_FAILURE;

@@ -129,17 +129,17 @@ const double b3[npoints] = {
   typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
   FunctionType::Pointer function = FunctionType::New();
 
-  double x = -0.25;
-  double expectedValue = function->Evaluate( x + 0.5 ) -
-    function->Evaluate( x - 0.5 );
-  double results = derivFunction->Evaluate( x );
+  double xx = -0.25;
+  double expectedValue = function->Evaluate( xx + 0.5 ) -
+    function->Evaluate( xx - 0.5 );
+  double results = derivFunction->Evaluate( xx );
 
   if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
     {
     std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
       << std::endl;
     std::cout << "Expected: " << expectedValue << " but got " << results;
-    std::cout << " at x = " << x << std::endl;
+    std::cout << " at x = " << xx << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }

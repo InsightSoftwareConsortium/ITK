@@ -222,10 +222,10 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
 
   eulerTransform->Print( std::cout );
 
-  for( unsigned int p = 0; p < 2; p++ )
+  for( unsigned int pp = 0; pp < 2; pp++ )
     {
     std::cout << "Testing Jacobian when ComputeZYX is ";
-    if ( p == 0 )
+    if ( pp == 0 )
       {
       std::cout << "true" << std::endl;
       eulerTransform->SetComputeZYX( true );

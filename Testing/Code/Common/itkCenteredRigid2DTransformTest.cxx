@@ -144,19 +144,19 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     std::cout << "Testing Inverse:";
 
     // Populate the transform with some parameters
-    CenteredRigidTransformType::Pointer transform = CenteredRigidTransformType::New();
+    CenteredRigidTransformType::Pointer transform2 = CenteredRigidTransformType::New();
     const double a = 0.175;
-    transform->SetAngle( a);
+    transform2->SetAngle( a);
 
     CenteredRigidTransformType::InputPointType c;
     c[0] = 13.456;
     c[1] = 45.890;
-    transform->SetCenter( c );
+    transform2->SetCenter( c );
 
     CenteredRigidTransformType::OutputVectorType t;
     t[0] = 9.873;
     t[1] = 40.312;
-    transform->SetTranslation( t );
+    transform2->SetTranslation( t );
 
     // Transform point p1 to obtain p2
     CenteredRigidTransformType::InputPointType p1;
@@ -164,11 +164,11 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     p1[1] = 9.02;
 
     CenteredRigidTransformType::OutputPointType p2 = 
-      transform->TransformPoint( p1 );
+      transform2->TransformPoint( p1 );
 
     // Get inverse transform and transform point p2 to obtain point p3
     CenteredRigidTransformType::Pointer inverse;
-    transform->CloneInverseTo( inverse );
+    transform2->CloneInverseTo( inverse );
 
     CenteredRigidTransformType::OutputPointType p3 = 
       inverse->TransformPoint( p2 );
