@@ -58,7 +58,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   m_InverseSpeed = -1.0;
   m_LabelImage = LabelImageType::New();
 
-  typedef typename LevelSetImageType::PixelType PixelType;
   m_LargeValue    = static_cast<PixelType>( NumericTraits<PixelType>::max() / 2.0 );
   m_StoppingValue = static_cast<double>( m_LargeValue );
   m_CollectPoints = false;

@@ -85,7 +85,6 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   double Cxd;
   
   // PixelType is scalar in this context
-  typedef typename NumericTraits<PixelType>::RealType PixelRealType;  
   PixelRealType delta;
   PixelRealType dx_forward;
   PixelRealType dx_backward;

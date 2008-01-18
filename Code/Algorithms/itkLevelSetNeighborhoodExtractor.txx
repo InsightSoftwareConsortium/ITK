@@ -40,7 +40,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   m_OutsidePoints = 0;
   m_InputLevelSet = 0;  
 
-  typedef typename LevelSetImageType::PixelType PixelType;
   m_LargeValue = NumericTraits<PixelType>::max();
   m_NodesUsed.resize( SetDimension );
 

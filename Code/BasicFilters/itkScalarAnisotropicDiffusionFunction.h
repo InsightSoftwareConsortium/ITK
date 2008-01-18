@@ -51,11 +51,12 @@ public:
                       Superclass::ImageDimension );
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::PixelRealType    PixelRealType;
+  typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::TimeStepType     TimeStepType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,

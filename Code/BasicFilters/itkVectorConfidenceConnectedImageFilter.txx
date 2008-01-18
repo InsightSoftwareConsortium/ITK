@@ -231,9 +231,6 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     secondFunction->SetInputImage ( outputImage );
     secondFunction->ThresholdBetween( m_ReplaceValue, m_ReplaceValue );
 
-    CovarianceMatrixType covariance;
-    MeanVectorType       mean;
-
     covariance = CovarianceMatrixType( dimension, dimension );
     mean       = MeanVectorType( dimension );
 

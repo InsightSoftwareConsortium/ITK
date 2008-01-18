@@ -118,17 +118,17 @@ public:
   itkTypeMacro(FastMarchingImageFilter, ImageSource);
 
   /** Typedef support of level set method types. */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
-  typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
-  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
-  typedef typename LevelSetType::PixelType  PixelType;
-  typedef typename LevelSetType::NodeType NodeType;
-  typedef typename LevelSetType::NodeContainer NodeContainer;
+  typedef LevelSetTypeDefault<TLevelSet>              LevelSetType;
+  typedef typename LevelSetType::LevelSetImageType    LevelSetImageType;
+  typedef typename LevelSetType::LevelSetPointer      LevelSetPointer;
+  typedef typename LevelSetType::PixelType            PixelType;
+  typedef typename LevelSetType::NodeType             NodeType;
+  typedef typename LevelSetType::NodeContainer        NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
-  typedef typename LevelSetImageType::SizeType    OutputSizeType;
-  typedef typename LevelSetImageType::RegionType  OutputRegionType;
-  typedef typename LevelSetImageType::SpacingType OutputSpacingType;
-  typedef typename LevelSetImageType::PointType   OutputPointType;
+  typedef typename LevelSetImageType::SizeType        OutputSizeType;
+  typedef typename LevelSetImageType::RegionType      OutputRegionType;
+  typedef typename LevelSetImageType::SpacingType     OutputSpacingType;
+  typedef typename LevelSetImageType::PointType       OutputPointType;
 
   class AxisNodeType : public NodeType
   {

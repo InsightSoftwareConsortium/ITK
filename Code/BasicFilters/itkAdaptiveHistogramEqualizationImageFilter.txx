@@ -52,7 +52,6 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
 ::GenerateData()
 {
   
-  typedef TImageType ImageType;
   typename ImageType::ConstPointer input = this->GetInput();
   typename ImageType::Pointer output = this->GetOutput();
   

@@ -146,12 +146,13 @@ public:
   itkTypeMacro( AnisotropicDiffusionFunction, FiniteDifferenceFunction );
   
   /** Inherit some parameters from the superclass type */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::PixelRealType    PixelrealType;
+  typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::TimeStepType TimeStepType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::TimeStepType     TimeStepType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Inherit some parameters from the superclass type */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);

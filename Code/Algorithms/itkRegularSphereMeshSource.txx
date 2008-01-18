@@ -124,7 +124,8 @@ RegularSphereMeshSource<TOutputMesh>
   // followed by a repositioning of the point on the sphere
   // for each resolution.
   // it's an IN-PLACE process.
-  for (unsigned int i = 0; i < m_Resolution; i++) 
+  unsigned int i;
+  for (i = 0; i < m_Resolution; i++) 
     {
     typename OutputMeshType::CellsContainerPointer myCells = outputMesh->GetCells();
     typename OutputMeshType::CellsContainer::Iterator cells = myCells->Begin();
@@ -173,7 +174,7 @@ RegularSphereMeshSource<TOutputMesh>
         tp = cells.Value()->GetPointIds();
 
         // for each point of the input triangle, create a copy in the output mesh
-        for( unsigned int i = 0; i < 3; i++ )
+        for( i = 0; i < 3; i++ )
           {
           // get the point's geometry from previous mesh      
           outputMesh->GetPoint(tp[i],v_pt[i]);
