@@ -290,15 +290,15 @@ int itkRigid3DTransformTest(int ,char * [] )
     }
 
     // Verify the Matrix content
-    TransformType::MatrixType matrix = rotation->GetRotationMatrix();
+    TransformType::MatrixType matrix0 = rotation->GetRotationMatrix();
     std::cout << "Rotation matrix:  " << std::endl;
-    std::cout << matrix << std::endl;
+    std::cout << matrix0 << std::endl;
 
     for(unsigned int i=0; i<N; i++)
     {
       for(unsigned int j=0; j<N; j++)
       {
-        if( fabs( matrix[i][j]- mrotation[i][j] ) > epsilon )
+        if( fabs( matrix0[i][j]- mrotation[i][j] ) > epsilon )
         {
           Ok = false;
           break;    

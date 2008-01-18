@@ -407,15 +407,15 @@ int itkEuler3DTransformTest(int,char *[] )
     TransformType::Pointer t3 = TransformType::New();
     t3->SetMatrix( t->GetMatrix() );
 
-    ParametersType par = t3->GetParameters();
+    ParametersType par0 = t3->GetParameters();
 
     for( unsigned int k = 0; k < e.GetSize(); k++ )
       {
-      if( fabs( e[k] - par[k] ) > epsilon )
+      if( fabs( e[k] - par0[k] ) > epsilon )
         {
         std::cout << " [ FAILED ] " << std::endl;
         std::cout << "Expected parameters: " << e << std::endl;
-        std::cout << "but got: " << par << std::endl;
+        std::cout << "but got: " << par0 << std::endl;
         return EXIT_FAILURE; 
         }
       }

@@ -30,13 +30,6 @@
 #include <vnl/vnl_vector_ref.h>
 #include <iostream>
 
-  // Dimension & Type
-  const     unsigned int    N = 3;
-  typedef   double          ValueType;
-
-  //  Vector & Point Classes
-  typedef    itk::Vector< ValueType, N >    VectorType;
-  typedef    itk::Point<  ValueType, N >    PointType;
 
 
 
@@ -47,6 +40,14 @@
 //-------------------------
 int itkPointGeometryTest(int, char* [] ) 
 {
+
+// Dimension & Type
+  const     unsigned int    N = 3;
+  typedef   double          ValueType;
+
+//  Vector & Point Classes
+  typedef    itk::Vector< ValueType, N >    VectorType;
+  typedef    itk::Point<  ValueType, N >    PointType;
 
   VectorType va;
   
@@ -119,9 +120,6 @@ int itkPointGeometryTest(int, char* [] )
   std::cout << "Test for CastFrom() method... ";
 
   const float tolerance = 1e-7;
-
-  // Dimension & Type
-  const     unsigned int    N = 3;
 
   //  Point Classes
   typedef    itk::Point<  double, N >    DoublePointType;
