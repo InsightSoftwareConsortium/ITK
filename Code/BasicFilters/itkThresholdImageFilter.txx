@@ -155,7 +155,6 @@ ThresholdImageFilter<TImage>
   // walk the regions, threshold each pixel
   while( !outIt.IsAtEnd() )
     {
-    typedef typename TImage::PixelType PixelType;
     const PixelType value = inIt.Get();
     if (m_Lower <= value && value <= m_Upper)
       {

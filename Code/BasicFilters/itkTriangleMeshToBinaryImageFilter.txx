@@ -346,7 +346,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>
     // sort by ascending y, then x
     std::sort(xylist.begin(), xylist.end(), ComparePoints2D);
     
-    int n = (int)(xylist.size())/2;
+    n = (int)(xylist.size())/2;
     for (int k = 0; k < n; k++)
       {  
       Point2DType  &p1 = xylist[2*k];

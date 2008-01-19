@@ -185,8 +185,6 @@ ExpandImageFilter<TInputImage,TOutputImage>
   typename TOutputImage::IndexType outputIndex;
   typename InterpolatorType::ContinuousIndexType inputIndex;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-
   // Support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   

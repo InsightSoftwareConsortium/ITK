@@ -114,8 +114,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
   
-  typedef typename TInputImage::SizeType      SizeType;
-  typedef typename TInputImage::IndexType     IndexType;
   typedef typename SizeType::SizeValueType    SizeValueType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 
@@ -164,8 +162,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typename TOutputImage::SpacingType outputSpacing;
-  typedef typename TOutputImage::SizeType     SizeType;
-  typedef typename TOutputImage::IndexType    IndexType;
   typedef typename SizeType::SizeValueType    SizeValueType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 

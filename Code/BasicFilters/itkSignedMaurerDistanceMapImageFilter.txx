@@ -161,7 +161,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   vnl_vector<unsigned int> k(InputImageDimension-1);
 
   typedef typename InputImageType::RegionType   InputRegionType;
-  typedef typename InputImageType::SizeType     InputSizeType;
 
   InputRegionType region = this->GetInput()->GetRequestedRegion();
   InputSizeType   size   = region.GetSize();
@@ -231,11 +230,11 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     typedef ImageRegionIterator< OutputImageType > OutputIterator;
     typedef ImageRegionConstIterator< InputImageType  > InputIterator;
 
-    typename OutputImageType::RegionType region =
+    typename OutputImageType::RegionType outputRegion =
                        this->GetOutput()->GetRequestedRegion();
 
-    OutputIterator Ot( this->GetOutput(), region );
-    InputIterator  It( this->GetInput(),  region );
+    OutputIterator Ot( this->GetOutput(), outputRegion );
+    InputIterator  It( this->GetInput(),  outputRegion );
 
     Ot.GoToBegin();
     It.GoToBegin();

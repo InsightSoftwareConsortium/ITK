@@ -278,13 +278,13 @@ TileImageFilter<TInputImage, TOutputImage>
     value = it.Get().m_ImageNumber;
     if (value >= 0)
       {
-      typename TileImageType::IndexType tileIndex = it.GetIndex();
+      typename TileImageType::IndexType tileIndex2 = it.GetIndex();
 
       OutputSizeType regionSize;
       OutputIndexType regionIndex;
       for (unsigned int i = 0; i < OutputImageDimension; i++)
         {
-        regionIndex[i] = offsets[i][tileIndex[i]];
+        regionIndex[i] = offsets[i][tileIndex2[i]];
         if (i < InputImageDimension)
           {
           regionSize[i] = this->GetInput(value)->GetLargestPossibleRegion().GetSize()[i];

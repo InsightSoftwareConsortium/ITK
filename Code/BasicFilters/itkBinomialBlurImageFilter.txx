@@ -171,13 +171,13 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
     // blur each dimension
     for (unsigned int dim = 0; dim < NDimensions; dim ++)
       {
-      TempIterator tempIt = TempIterator(tempPtr,
+      TempIterator tempItDir = TempIterator(tempPtr,
                                          tempPtr->GetRequestedRegion());
-      tempIt.GoToBegin();
-      while( !tempIt.IsAtEnd() )
+      tempItDir.GoToBegin();
+      while( !tempItDir.IsAtEnd() )
         {
         // determine the index of the output pixel
-        index = tempIt.GetIndex();
+        index = tempItDir.GetIndex();
 
         if ( index[dim] < 
              ( startIndex[dim] + static_cast<long>(size[dim]) - 1))
@@ -206,7 +206,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
           progress.CompletedPixel();
           }
 
-        ++tempIt;
+        ++tempItDir;
     
         } // end walk the image forwards
       

@@ -106,7 +106,6 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   typedef FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType> SecondIteratorType;
 
   unsigned int loop;
-  unsigned long num;
   
   typename Superclass::InputImageConstPointer inputImage  = this->GetInput();
   typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
@@ -271,7 +270,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     typename NumericTraits<ITK_TYPENAME InputImageType::PixelType>::RealType sum, sumOfSquares;
     sum = NumericTraits<InputRealType>::Zero;
     sumOfSquares = NumericTraits<InputRealType>::Zero;
-    num = 0;
+    unsigned long numberOfSamples = 0;
     
     SecondIteratorType sit
       = SecondIteratorType ( inputImage, secondFunction, m_Seeds );
@@ -281,16 +280,16 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
       const InputRealType value = static_cast<InputRealType>(sit.Get());
       sum += value;
       sumOfSquares += value * value;
-      ++num;
+      ++numberOfSamples;
       ++sit;
       }
-    m_Mean      = sum / double(num);
-    m_Variance  = (sumOfSquares - (sum*sum / double(num))) / (double(num) - 1.0);
+    m_Mean      = sum / double(numberOfSamples);
+    m_Variance  = (sumOfSquares - (sum*sum / double(numberOfSamples))) / (double(numberOfSamples) - 1.0);
     // if the variance is zero, there is no point in continuing
     if ( m_Variance == 0 )
       {
       itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << ", variance = " << m_Variance << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance));
-      itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
+      itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnumberOfSamples = " << numberOfSamples);
       break;
       }
     lower = m_Mean - m_Multiplier * vcl_sqrt(m_Variance );
@@ -321,7 +320,7 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
                                static_cast<InputImagePixelType>(upper));
     
     itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << ", variance = " << m_Variance << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance ));
-    itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << num);
+    itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << numberOfSamples);
     
 
 

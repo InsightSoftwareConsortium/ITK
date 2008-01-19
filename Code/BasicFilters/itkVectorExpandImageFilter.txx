@@ -233,7 +233,6 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   typename TOutputImage::IndexType outputIndex;
   typename InterpolatorType::ContinuousIndexType inputIndex;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename InterpolatorType::OutputType InterpolatedType;
 
   OutputPixelType outputValue;

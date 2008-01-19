@@ -80,15 +80,15 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   // - the corresponding region of the second image
   if ( this->GetInput1() )
     {
-    InputImage1Pointer image =
+    InputImage1Pointer image1 =
       const_cast< InputImage1Type * >( this->GetInput1() );
-    image->SetRequestedRegionToLargestPossibleRegion();
+    image1->SetRequestedRegionToLargestPossibleRegion();
 
     if ( this->GetInput2() )
       {
-      InputImage2Pointer image =
+      InputImage2Pointer image2 =
         const_cast< InputImage2Type * >( this->GetInput2() );
-      image->SetRequestedRegion( 
+      image2->SetRequestedRegion( 
         this->GetInput1()->GetRequestedRegion() );
       }
 
