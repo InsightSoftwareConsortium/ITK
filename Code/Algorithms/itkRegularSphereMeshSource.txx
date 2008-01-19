@@ -174,25 +174,25 @@ RegularSphereMeshSource<TOutputMesh>
         tp = cells.Value()->GetPointIds();
 
         // for each point of the input triangle, create a copy in the output mesh
-        for( i = 0; i < 3; i++ )
+        for( unsigned int ii = 0; ii < 3; ii++ )
           {
           // get the point's geometry from previous mesh      
-          outputMesh->GetPoint(tp[i],v_pt[i]);
+          outputMesh->GetPoint(tp[ii],v_pt[ii]);
 
           // This is a QE specific case
           // if the point already is in the output mesh
           // we should not overwrite it as it would
           // reset the link to the Quad Edge Ring
-          if( !result->GetPoints()->IndexExists( tp[i] ) )
+          if( !result->GetPoints()->IndexExists( tp[ii] ) )
             {
             // this is needed when the PointType is a QuadEdgeMeshPoint 
             PointType localPt;
-            localPt[0] = v[i][0];
-            localPt[1] = v[i][1];
-            localPt[2] = v[i][2];
+            localPt[0] = v[ii][0];
+            localPt[1] = v[ii][1];
+            localPt[2] = v[ii][2];
 
             // copy the point in the output mesh
-            result->SetPoint(tp[i], localPt);
+            result->SetPoint(tp[ii], localPt);
             }
           }
 
