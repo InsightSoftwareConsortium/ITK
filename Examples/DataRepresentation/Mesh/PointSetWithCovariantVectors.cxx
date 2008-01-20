@@ -149,8 +149,8 @@ int main(int, char *[])
 
   while( pixelIterator != pixelEnd  && pointIterator != pointEnd ) 
     {
-    PointSetType::PointType point    = pointIterator.Value();
-    PointSetType::PixelType gradient = pixelIterator.Value();
+    point    = pointIterator.Value();
+    gradient = pixelIterator.Value();
     for(unsigned int i=0; i<Dimension; i++) 
       {
       point[i] += gradient[i];

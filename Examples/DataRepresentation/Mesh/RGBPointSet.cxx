@@ -113,7 +113,7 @@ int main(int, char *[])
   PointIterator pointEnd      = pointSet->GetPoints()->End();
   while( pointIterator != pointEnd ) 
     {
-    PointSetType::PointType point = pointIterator.Value();
+     point = pointIterator.Value();
     std::cout << point << std::endl;  
     ++pointIterator;                      
     }
@@ -146,7 +146,7 @@ int main(int, char *[])
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
   while( pixelIterator != pixelEnd ) 
     {
-    PointSetType::PixelType pixel = pixelIterator.Value();
+    pixel = pixelIterator.Value();
     std::cout << pixel << std::endl;  
     ++pixelIterator;                      
     }
