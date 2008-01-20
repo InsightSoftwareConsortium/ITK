@@ -155,7 +155,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
     {
     if(dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer()))
       {
-      unsigned long n = dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
+      n = dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetNumberOfPoints();
       for(unsigned int i=0;i<n;i+=m_SamplingFactor)
         {
         typename InputSpatialObjectType::PointType transformedPoint

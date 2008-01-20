@@ -77,7 +77,6 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
   typedef  LineIterator<TOutputImage>                   LineIteratorType;
   typedef  ImageLinearIteratorWithIndex< TOutputImage > ImageLineIteratorType;
 
-  typedef typename TInputImage::Pointer                 InputImagePointer;
   typedef ImageRegionConstIterator<TInputImage>         InputImageConstIteratorType;
 
   typedef typename TOutputImage::IndexType              ImageIndexType;

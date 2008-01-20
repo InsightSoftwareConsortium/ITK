@@ -184,7 +184,6 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   ::GenerateData(void)
   {
 
-  typedef typename TInputImage::Pointer                               InputImagePointer;
   typedef typename TInputImage::SizeType                              InputImageSizeType;
   typedef typename TInputImage::PointType                             InputImagePointType;
   typedef typename TInputImage::SpacingType                           InputImageSpacingType;
@@ -235,14 +234,14 @@ PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
   typedef NearestNeighborInterpolateImageFunction< TInputImage, double> InterpolatorType;
   typedef typename InterpolatorType::OutputType OutputType;
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  typedef typename InterpolatorType::PointType    PointType;
+  typedef typename InterpolatorType::PointType    InterpolatorPointType;
 
 
   /* Generate the transformation matrix */
   this->GenerateRotationMatrix();
  
   // Generate input and output point 
-  PointType inputPoint;
+  InterpolatorPointType inputPoint;
   ProjPlanePointType outputPoint;
    
   // Generate a 2D image with the viewing polygon as a mask 

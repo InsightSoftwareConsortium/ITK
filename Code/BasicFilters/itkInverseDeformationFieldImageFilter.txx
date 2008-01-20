@@ -139,23 +139,23 @@ InverseDeformationFieldImageFilter<TInputImage,TOutputImage>
   typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
 
 
-  typedef typename InputImageType::RegionType   RegionType;
-  typedef typename RegionType::SizeType         SizeType;
-  typedef typename RegionType::IndexType        IndexType;
+  typedef typename InputImageType::RegionType InputRegionType;
+  typedef typename InputImageType::SizeType   InputSizeType;
+  typedef typename InputImageType::IndexType  InputIndexType;
 
-  RegionType region;
+  InputRegionType region;
 
   region = inputImage->GetLargestPossibleRegion();
 
-  SizeType size = region.GetSize();
+  InputSizeType size = region.GetSize();
 
   for(unsigned int i=0; i < ImageDimension; i++)
     {
-    size[i]    =  static_cast< typename SizeType::SizeValueType >( size[i] / m_SubsamplingFactor );
+    size[i]    =  static_cast< typename InputSizeType::SizeValueType >( size[i] / m_SubsamplingFactor );
     spacing[i] *= m_SubsamplingFactor;
     }
 
-  RegionType subsampledRegion;
+  InputRegionType subsampledRegion;
   subsampledRegion.SetSize( size );
   subsampledRegion.SetIndex( region.GetIndex() );
 

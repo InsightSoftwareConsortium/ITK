@@ -111,7 +111,6 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   m_InternalImageTime = m_Image->GetMTime();
   m_InternalSpatialObjectTime = m_SpatialObject->GetMTime();
   
-  typedef typename ImageType::PixelType PixelType;
   m_Sample = SampleType::New();
   m_Sample->SetMeasurementVectorSize( SampleDimension );
    

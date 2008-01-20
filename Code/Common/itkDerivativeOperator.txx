@@ -31,7 +31,6 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
 {
   unsigned int i;
   unsigned int j;
-  typedef typename NumericTraits<PixelType>::RealType PixelRealType;  
   PixelRealType previous;
   PixelRealType next;
   const unsigned int w = 2*((m_Order + 1)/2) + 1;

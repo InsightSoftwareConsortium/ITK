@@ -349,12 +349,12 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>
     n = (int)(xylist.size())/2;
     for (int k = 0; k < n; k++)
       {  
-      Point2DType  &p1 = xylist[2*k];
-      double X1 = p1[0];
-      double Y1 = p1[1];
-      Point2DType  &p2 = xylist[2*k+1];
-      double X2 = p2[0];
-      double Y2 = p2[1];
+      Point2DType  &p2D1 = xylist[2*k];
+      double X1 = p2D1[0];
+      double Y1 = p2D1[1];
+      Point2DType  &p2D2 = xylist[2*k+1];
+      double X2 = p2D2[0];
+      double Y2 = p2D2[1];
       
       if (Y2 == Y1)
         {

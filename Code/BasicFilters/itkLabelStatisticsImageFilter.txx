@@ -174,15 +174,15 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 
       //bounding box is min,max pairs
       int dimension = (*mapIt).second.m_BoundingBox.size() / 2;
-      for (int i = 0; i < (dimension * 2) ; i += 2 ) 
+      for (int ii = 0; ii < (dimension * 2) ; ii += 2 ) 
          {
-         if ((*mapIt).second.m_BoundingBox[i] > (*threadIt).second.m_BoundingBox[i])
+         if ((*mapIt).second.m_BoundingBox[ii] > (*threadIt).second.m_BoundingBox[ii])
            {
-           (*mapIt).second.m_BoundingBox[i] = (*threadIt).second.m_BoundingBox[i];
+           (*mapIt).second.m_BoundingBox[ii] = (*threadIt).second.m_BoundingBox[ii];
            }
-         if ((*mapIt).second.m_BoundingBox[i + 1] < (*threadIt).second.m_BoundingBox[i + 1])
+         if ((*mapIt).second.m_BoundingBox[ii + 1] < (*threadIt).second.m_BoundingBox[ii + 1])
            {
-           (*mapIt).second.m_BoundingBox[i + 1] = (*threadIt).second.m_BoundingBox[i + 1];
+           (*mapIt).second.m_BoundingBox[ii + 1] = (*threadIt).second.m_BoundingBox[ii + 1];
            }
          }
 

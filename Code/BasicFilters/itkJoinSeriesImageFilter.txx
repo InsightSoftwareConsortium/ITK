@@ -88,7 +88,7 @@ JoinSeriesImageFilter<TInputImage,TOutputImage>
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
-    unsigned int i;
+    unsigned int ii;
     const typename InputImageType::SpacingType&
       inputSpacing = inputPtr->GetSpacing();
     const typename InputImageType::PointType&
@@ -99,15 +99,15 @@ JoinSeriesImageFilter<TInputImage,TOutputImage>
 
     // copy the input to the output and fill the rest of the
     // output with zeros.
-    for (i=0; i < InputImageDimension; ++i)
+    for (ii=0; ii < InputImageDimension; ++ii)
       {
-      outputSpacing[i] = inputSpacing[i];
-      outputOrigin[i] = inputOrigin[i];
+      outputSpacing[ii] = inputSpacing[ii];
+      outputOrigin[ii] = inputOrigin[ii];
       }
-    for (; i < OutputImageDimension; ++i)
+    for (; ii < OutputImageDimension; ++ii)
       {
-      outputSpacing[i] = 1.0;
-      outputOrigin[i] = 0.0;
+      outputSpacing[ii] = 1.0;
+      outputOrigin[ii] = 0.0;
       }
 
     // for the new dimension

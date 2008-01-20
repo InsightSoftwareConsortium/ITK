@@ -63,7 +63,8 @@ public:
   
   /** Some convenient typedefs for input image */
   typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::ConstPointer InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::RegionType   InputImageRegionType; 
   typedef typename InputImageType::PixelType    InputImagePixelType; 
 

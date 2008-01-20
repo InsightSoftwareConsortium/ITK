@@ -168,16 +168,16 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
     m_InterpolatorIsLinear = true;
 
-    LinearInterpolatorType * testPtr =
+    LinearInterpolatorType * test2Ptr =
                                      dynamic_cast<LinearInterpolatorType *>
                                                 (m_Interpolator.GetPointer() );
-    if( !testPtr )
+    if( !test2Ptr )
       {
       m_InterpolatorIsLinear = false;
       }
     else
       {
-      m_LinearInterpolator = testPtr;
+      m_LinearInterpolator = test2Ptr;
       }
     }
 }

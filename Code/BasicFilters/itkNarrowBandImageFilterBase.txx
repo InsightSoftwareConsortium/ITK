@@ -332,12 +332,8 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
                           int itkNotUsed(threadId))
 {
-  typedef typename OutputImageType::RegionType RegionType;
-  typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename OutputImageType::SizeValueType   SizeValueType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::IndexValueType  IndexValueType;
-  
+  typedef typename OutputImageType::SizeType        OutputSizeType;
+
   typedef typename FiniteDifferenceFunctionType::NeighborhoodType
     NeighborhoodIteratorType;
   
@@ -348,7 +344,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   // Get the FiniteDifferenceFunction to use in calculations.
   const typename FiniteDifferenceFunctionType::Pointer df
     = this->GetDifferenceFunction();
-  const SizeType  radius = df->GetRadius();
+  const OutputSizeType  radius = df->GetRadius();
   
   // Ask the function object for a pointer to a data structure it will use to
   // manage any global values it needs.  We'll pass this back to the function

@@ -51,7 +51,8 @@ public:
   typedef DerivativeOperator Self;
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
   
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType     PixelType;
+  typedef typename Superclass::PixelRealType PixelRealType;
 
   /** Constructor. */
   DerivativeOperator() : m_Order(1) {}
