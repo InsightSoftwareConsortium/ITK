@@ -433,18 +433,20 @@ int itkImageLinearIteratorTest(int, char* [] )
     cbot.SetDirection( 0 ); // 0=x, 1=y, 2=z
     std::cout << "    cbot.GoToBegin();" << std::endl;
     cbot.GoToBegin();
-
+    std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
     // go to the middle of the first line
     std::cout << "    for(unsigned int i=0; i<size[0]/2; i++)" << std::endl;
     for(unsigned int i=0; i<size[0]/2; i++)
       {
       std::cout << "      ++cbot;" << std::endl;
       ++cbot;
+      std::cout << "      GetIndex(): " << cbot.GetIndex() << std::endl;
       }
 
     // go to next line
     std::cout << "    cbot.NextLine();" << std::endl;
     cbot.NextLine();
+    std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
 
     std::cout << "    const ImageType::IndexType testIndex = cbot.Get();" << std::endl;
     const ImageType::IndexType testIndex = cbot.Get();
