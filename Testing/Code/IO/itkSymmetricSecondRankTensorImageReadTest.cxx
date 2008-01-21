@@ -17,10 +17,14 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+
 #include <fstream>
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkImage.h"
-#include "itkCovariantVector.h"
+#include "itkSymmetricSecondRankTensor.h"
+#include "itkImageRegionIterator.h"
+
 
 int itkSymmetricSecondRankTensorImageReadTest( int ac, char* av[] )
 {
@@ -30,60 +34,127 @@ int itkSymmetricSecondRankTensorImageReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
   
-  typedef itk::CovariantVector<float, 4> PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  typedef itk::SymmetricSecondRankTensor<float, 3>    TensorPixelType;
+  typedef itk::Image<TensorPixelType, 3>              TensorImageType;
 
-  itk::ImageFileReader<myImage>::Pointer reader 
-                                  = itk::ImageFileReader<myImage>::New();
-  reader->SetFileName(av[1]);
+  typedef itk::Matrix<float,3,3>                      MatrixPixelType;
+  typedef itk::Image<MatrixPixelType, 3>              MatrixImageType;
+ 
+  MatrixImageType::Pointer matrixImage = MatrixImageType::New();
+   
+  MatrixImageType::SizeType size;
+  size.Fill(10);
+  
+  MatrixImageType::IndexType start;
+  start.Fill(0);
+
+  MatrixImageType::RegionType region;
+  region.SetIndex( start );
+  region.SetSize( size );
+
+  matrixImage->SetRegions( region );
+  matrixImage->Allocate();
+
+  MatrixPixelType matrixPixel;
+
+  matrixPixel[0][0] = 1; 
+  matrixPixel[0][1] = 2; 
+  matrixPixel[0][2] = 3; 
+
+  matrixPixel[1][0] = 4; 
+  matrixPixel[1][1] = 5; 
+  matrixPixel[1][2] = 6; 
+
+  matrixPixel[2][0] = 7; 
+  matrixPixel[2][1] = 8; 
+  matrixPixel[2][2] = 9; 
+
+  itk::ImageRegionIterator< MatrixImageType > itr( matrixImage, region );
+
+  itr.GoToBegin();
+
+  while( !itr.IsAtEnd() )
+    {
+    itr.Set( matrixPixel );
+    for(unsigned int i=0; i<3; i++)
+      {
+      for(unsigned int j=0; j<3; j++)
+        {
+        matrixPixel[i][j]++;
+        }
+      }
+    ++itr;
+    }
+
+  typedef itk::ImageFileWriter< MatrixImageType > MatrixWriterType;
+
+  MatrixWriterType::Pointer matrixWriter = MatrixWriterType::New();
+
+  matrixWriter->SetInput( matrixImage );
+  matrixWriter->SetFileName( av[1] );
 
   try
     {
-    reader->Update();
+    matrixWriter->Update();
     }
-  catch (itk::ExceptionObject & e)
+  catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
+
+  typedef itk::ImageFileReader<  TensorImageType > TensorReaderType;
+
+  TensorReaderType::Pointer tensorReader = TensorReaderType::New();
+ 
+  tensorReader->SetFileName( av[1] );
+
+  try
+    {
+    tensorReader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
-  myImage::Pointer image = reader->GetOutput();
-  myImage::IndexType coord;
-  PixelType sample;
+  TensorImageType::ConstPointer tensorImage = tensorReader->GetOutput();
 
-  // The test image has been constructed so that the vector coefficients
-  // coincide with sample coordinates
-  double err = 0;
-  unsigned int idx = 0;
-  for (unsigned int zi=0; zi<5; zi++)
+  // Compare the read values to the original values
+  const float tolerance = 1e-5;
+
+  itk::ImageRegionConstIterator< TensorImageType > tItr( tensorImage, region );
+  itk::ImageRegionConstIterator< MatrixImageType > mItr( matrixImage, region );
+  
+  tItr.GoToBegin();
+  mItr.GoToBegin();
+
+  while( !mItr.IsAtEnd() )
     {
-    coord[2] = zi;
-    for (unsigned int yi=0; yi<5; yi++)
+    const MatrixPixelType matrixPixel = mItr.Get();
+    const TensorPixelType tensorPixel = tItr.Get();
+
+    for(unsigned int i=0; i<3; i++)
       {
-      coord[1] = yi;
-      for (unsigned int xi=0; xi<5; xi++)
+      for(unsigned int j=0; j<3; j++)
         {
-        coord[0] = xi;
-        sample = image->GetPixel(coord);
-        err += fabs(sample[0] - coord[0]);
-        err += fabs(sample[1] - coord[1]);
-        err += fabs(sample[2] - coord[2]);
-        err += fabs(sample[3] - idx);
-        idx++;
+        if( vcl_abs( matrixPixel[i][j] - tensorPixel(i,j) ) > tolerance )
+          {
+          std::cerr << "Tensor read does not match expected values " << std::endl;
+          std::cerr << "Index " << tItr.GetIndex() << std::endl;
+          std::cerr << "Tensor value " << std::endl << tensorPixel << std::endl;
+          std::cerr << "Matrix value " << std::endl << matrixPixel << std::endl;
+          return EXIT_FAILURE;
+          }
         }
       }
+    ++mItr;
+    ++tItr;
     }
+  
 
-  if (err)
-    {
-    std::cout << "test FAILED because values not as expected\n";
-    return EXIT_FAILURE;
-    }
-  else
-    {
-    return EXIT_SUCCESS;
-    }
+  return EXIT_SUCCESS;
 
 }

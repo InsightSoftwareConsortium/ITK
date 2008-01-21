@@ -72,6 +72,7 @@ void RegisterTests()
   REGISTER_TEST(itkReadWriteSpatialObjectTest);
   REGISTER_TEST(itkRegularExpressionSeriesFileNamesTest);
   REGISTER_TEST(itkArchetypeSeriesFileNamesTest);
+  REGISTER_TEST(itkSymmetricSecondRankTensorImageReadTest);
   REGISTER_TEST(itkStimulateImageIOTest);
   REGISTER_TEST(itkStimulateImageIOTest2);
   REGISTER_TEST(itkGEImageIOTest);
