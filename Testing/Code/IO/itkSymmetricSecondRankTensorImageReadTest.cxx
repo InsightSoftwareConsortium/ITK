@@ -61,13 +61,13 @@ int itkSymmetricSecondRankTensorImageReadTest( int ac, char* av[] )
   matrixPixel[0][1] = 2; 
   matrixPixel[0][2] = 3; 
 
-  matrixPixel[1][0] = 4; 
-  matrixPixel[1][1] = 5; 
-  matrixPixel[1][2] = 6; 
+  matrixPixel[1][0] = 2; 
+  matrixPixel[1][1] = 4; 
+  matrixPixel[1][2] = 5; 
 
-  matrixPixel[2][0] = 7; 
-  matrixPixel[2][1] = 8; 
-  matrixPixel[2][2] = 9; 
+  matrixPixel[2][0] = 3; 
+  matrixPixel[2][1] = 5; 
+  matrixPixel[2][2] = 6; 
 
   itk::ImageRegionIterator< MatrixImageType > itr( matrixImage, region );
 
