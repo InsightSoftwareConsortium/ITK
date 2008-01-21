@@ -381,6 +381,9 @@ public:
   bool operator==( const Self &v) const;
   bool operator!=( const Self &v) const;
     
+  /** Returns vector's Euclidean Norm  */
+  RealValueType GetNorm() const;  
+
   /** Returns vector's Squared Euclidean Norm  */
   RealValueType GetSquaredNorm() const;
 

@@ -19,6 +19,7 @@
 
 #include "itkVariableLengthVector.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -294,6 +295,17 @@ VariableLengthVector<TValueType >
       }
     }
   return false;
+}
+
+/**
+ * Returns vector's Euclidean Norm
+ */
+template < typename TValueType >
+typename VariableLengthVector< TValueType >::RealValueType
+VariableLengthVector<TValueType >
+::GetNorm( void ) const
+{
+ return (RealValueType)( vcl_sqrt(double(this->GetSquaredNorm()) ));
 }
 
 /**
