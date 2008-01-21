@@ -61,6 +61,7 @@ itkImageIODirection3DTest.cxx
 itkImageReadDICOMSeriesWriteTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
+itkMatrixImageWriteReadTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
 itkMetaImageStreamingIOTest.cxx
@@ -147,6 +148,11 @@ ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest
 ADD_TEST(itkReadWriteSpatialObjectTest1 ${IO_TESTS} itkReadWriteSpatialObjectTest binary)
 ADD_TEST(itkReadWriteSpatialObjectTest2 ${IO_TESTS} itkReadWriteSpatialObjectTest 
                                                     ${ITK_DATA_ROOT}/Input/SpatialObjects.meta)
+
+ADD_TEST(itkMatrixImageWriteReadTest ${IO_TESTS} 
+         itkMatrixImageWriteReadTest
+         ${TEMP}/testMatrix1.mha)
+
 ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest)
 ADD_TEST(itkMeshSpatialObjectIOTest1 ${IO_TESTS} itkMeshSpatialObjectIOTest binary)
 ADD_TEST(itkMeshSpatialObjectIOTest2 ${IO_TESTS} itkMeshSpatialObjectIOTest 

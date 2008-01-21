@@ -191,6 +191,71 @@ public:                                                                  \
 //
 //
 
+
+//
+//  Default traits for the pixel types deriving from Matrix<>
+//
+
+#define ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(type,componenttype,rows,cols) \
+template<>                                                               \
+class DefaultConvertPixelTraits< type< componenttype, rows, cols > >     \
+{                                                                        \
+public:                                                                  \
+  typedef type< componenttype, rows, cols >  TargetType;                 \
+  typedef componenttype                     ComponentType;               \
+  static unsigned int GetNumberOfComponents()                            \
+    {                                                                    \
+      return rows * cols;                                                \
+    }                                                                    \
+  static void SetNthComponent(int i, TargetType & pixel, const ComponentType& v)   \
+    {                                                                    \
+      const unsigned int row = i / cols;                                 \
+      const unsigned int col = i % cols;                                 \
+      pixel[row][col] = v;                                               \
+    }                                                                    \
+  static ComponentType GetScalarValue(const TargetType& pixel)           \
+    {                                                                    \
+      return pixel[0][0];                                                \
+    }                                                                    \
+};                                                                       \
+
+//
+//
+// Define traits for Classed deriving from Matrix from dimensions 1 to 6
+//
+//
+#define ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, Type) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType,Type,1,1) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType,Type,2,2) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType,Type,3,3) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType,Type,4,4) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType,Type,5,5) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType,Type,6,6)
+
+#define ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(ArrayType) \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, char); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, signed char); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned char); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, short); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned short); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, int); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned int); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, float); \
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, double);
+
+//
+// Add here other classes that derive from Matrix or that have the same API
+//
+  ITK_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(Matrix);
+
+//
+//  End of Traits for the classes deriving from Matrix.
+//
+//
+
+
 //
 //  Default traits for the pixel types deriving from std::complex<>
 //
