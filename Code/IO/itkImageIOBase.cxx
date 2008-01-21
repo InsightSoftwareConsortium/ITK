@@ -306,6 +306,27 @@ itkSetPixelType(ImageIOBase *This,
     This->SetPixelType(ImageIOBase::DIFFUSIONTENSOR3D);
     return true;
     }
+  else if ( ptype == typeid(Matrix<T,2,2>) )
+    {
+    This->SetNumberOfComponents(4);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::MATRIX);
+    return true;
+    }
+  else if ( ptype == typeid(Matrix<T,3,3>) )
+    {
+    This->SetNumberOfComponents(9);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::MATRIX);
+    return true;
+    }
+  else if ( ptype == typeid(Matrix<T,4,4>) )
+    {
+    This->SetNumberOfComponents(16);
+    This->SetComponentType(ntype);
+    This->SetPixelType(ImageIOBase::MATRIX);
+    return true;
+    }
   else if ( ptype == typeid(std::complex<T>) )
     {
     This->SetNumberOfComponents(2);

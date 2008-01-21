@@ -81,7 +81,7 @@ public:
    * SCALAR, VECTOR to SCALAR). */
   typedef  enum {UNKNOWNPIXELTYPE,SCALAR,RGB,RGBA,OFFSET,VECTOR,
                  POINT,COVARIANTVECTOR,SYMMETRICSECONDRANKTENSOR,
-                 DIFFUSIONTENSOR3D,COMPLEX,FIXEDARRAY}  IOPixelType;
+                 DIFFUSIONTENSOR3D,COMPLEX,FIXEDARRAY,MATRIX}  IOPixelType;
 
   /** Enums used to manipulate the component type. The component type
    * refers to the actual storage class associated with either a
