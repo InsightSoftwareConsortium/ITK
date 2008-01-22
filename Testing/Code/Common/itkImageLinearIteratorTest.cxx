@@ -435,7 +435,7 @@ int itkImageLinearIteratorTest(int, char* [] )
     cbot.GoToBegin();
     std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
     // go to the middle of the first line
-    std::cout << "    for(unsigned int i=0; i<size[0]/2; i++)" << std::endl;
+    std::cout << "    for(unsigned int i=0; ..." << std::endl;
     for(unsigned int i=0; i<size[0]/2; i++)
       {
       std::cout << "      ++cbot;" << std::endl;
