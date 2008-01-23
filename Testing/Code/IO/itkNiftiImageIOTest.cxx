@@ -322,7 +322,7 @@ int itkNiftiImageIOTest(int ac, char* av[])
           catch (itk::ExceptionObject e)
             {
               e.Print(std::cerr) ;
-              rval = 0;
+              rval = 1;
             }
         }
     }
@@ -333,54 +333,36 @@ int itkNiftiImageIOTest(int ac, char* av[])
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type char" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<unsigned char>();
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type unsigned char" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<short>();
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type short" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<unsigned short>();
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type unsigned short" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<int>();
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type int" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<float>();
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type float" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       // awaiting a double precision byte swapper
@@ -388,9 +370,6 @@ int itkNiftiImageIOTest(int ac, char* av[])
       if(cur_return != 0)
         {
           std::cerr << "Error writing Nifti file type double" << std::endl;
-        }
-      else
-        {
           rval += cur_return;
         }
       rval += TestByteSwap();
@@ -799,7 +778,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
 #if 1
   // arbitrarily rotate the unit vectors to pick random direction
   // cosines;
-  vnl_random randgen;
+  vnl_random randgen(8775070);
   typedef itk::AffineTransform<double,3>  TransformType;
   typedef itk::Vector<double,3> AxisType;
   TransformType::Pointer transform = TransformType::New();
