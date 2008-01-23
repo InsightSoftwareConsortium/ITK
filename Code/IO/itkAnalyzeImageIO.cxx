@@ -750,9 +750,17 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
 
   // we check that the correction extension is given by the user
   std::string filenameext = GetExtension(filename);
-  if(filenameext != std::string("hdr") 
-     && filenameext != std::string("img.gz")
-     && filenameext != std::string("img")
+  if (filenameext == std::string("gz"))
+    {
+    const std::string::size_type it = filename.rfind( ".img.gz" );
+    if (it != (filename.length() - 7))
+      {
+      return false;
+      }
+    }
+  else if(filenameext != std::string("hdr") 
+          && filenameext != std::string("img.gz")
+          && filenameext != std::string("img")
     )
     {
     return false;
