@@ -4231,6 +4231,7 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
    /* set up data space, open data file and seek, then call nifti_read_buffer */
    size_t ntot , ii , ioff;
    znzFile fp;
+   char *tmpname;
    char    fname[] = { "nifti_image_load_prep" };
 
    /**- perform sanity checks */
@@ -4249,11 +4250,15 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
 
    /**- open image data file */
 
-   fp = znzopen(nim->iname, "rb", nifti_is_gzfile(nim->iname));
-   if( znz_isnull(fp) ){
-      if( g_opts.debug > 0 ) LNI_FERR(fname,"cannot open data file",nim->iname);
+   tmpname = nifti_findimgname(nim->iname , nim->nifti_type);
+   if( tmpname == NULL ){
+      if( g_opts.debug > 0 )
+         fprintf(stderr,"** no image file found for '%s'\n",nim->iname);
       return NULL;
    }
+   fp = znzopen(tmpname, "rb", nifti_is_gzfile(tmpname));
+   free(tmpname);
+   if (znz_isnull(fp))                      return -1 ;  /* bad open? */
 
    /**- get image offset: a negative offset means to figure from end of file */
    if( nim->iname_offset < 0 ){
