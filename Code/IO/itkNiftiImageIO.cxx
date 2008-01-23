@@ -346,8 +346,8 @@ void NiftiImageIO::Read(void* buffer)
   unsigned int i;
   for(i = 0; i < start.size(); i++)
     {
-    _origin[i] = start[i];
-    _size[i] = size[i];
+    _origin[i] = static_cast<int>( start[i] );
+    _size[i] = static_cast<int>( size[i] );
     numElts *= _size[i];
     }
   for(; i < 7; i++)
@@ -411,7 +411,7 @@ void NiftiImageIO::Read(void* buffer)
                         << this->GetFileName());
       }
     }
-  unsigned pixelSize = this->m_NiftiImage->nbyper;
+  unsigned int pixelSize = this->m_NiftiImage->nbyper;
   //
   // if we're going to have to rescale pixels, and the on-disk
   // pixel type is different than the pixel type reported to
@@ -421,7 +421,8 @@ void NiftiImageIO::Read(void* buffer)
   if(this->MustRescale() &&
      m_ComponentType != m_OnDiskComponentType)
     {
-    pixelSize = this->GetNumberOfComponents() * sizeof(float);
+    pixelSize = 
+      static_cast< unsigned int >( this->GetNumberOfComponents() ) * sizeof(float);
      
     // Deal with correct management of 64bits platforms
     const size_t imageSizeInComponents = 
@@ -981,12 +982,12 @@ NiftiImageIO
   // external tools believe that the time units must be set, even if there
   // is only one dataset.  Having the time specified for a purly spatial
   // image has no consequence, so go ahead and set it to seconds.
-  this->m_NiftiImage->xyz_units=NIFTI_UNITS_MM | NIFTI_UNITS_SEC;
+  this->m_NiftiImage->xyz_units= static_cast< int >( NIFTI_UNITS_MM | NIFTI_UNITS_SEC );
   switch(origdims)
     {
     case 7:
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[7] =
-        this->m_NiftiImage->nw = this->GetDimensions(6);
+        this->m_NiftiImage->nw = static_cast< int >( this->GetDimensions(6) );
       this->m_NiftiImage->pixdim[7] = this->m_NiftiImage->dw =
         this->GetSpacing(6);
     case 6:
