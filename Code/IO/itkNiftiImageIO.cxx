@@ -628,6 +628,11 @@ bool
 NiftiImageIO
 ::CanReadFile( const char* FileNameToRead )
 {
+  // is_nifti_file returns 
+  //       < 0 for an error,
+  //      == 0 for an analyze file,
+  //       > 0 for a nifti file
+  // if the return test is >= 0, nifti will read analyze files
   return is_nifti_file(FileNameToRead) > 0;
 }
 
