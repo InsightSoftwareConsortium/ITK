@@ -520,11 +520,11 @@ TestVectorImage()
               for(int k = 0; k < dims[0]; k++)
                 {
                 _index[0] = k;
-                FieldPixelType p;
+                FieldPixelType pixel;
                 float lowrange(100.00),highrange(200.00);
                 for(unsigned int q = 0; q < VecLength; q++)
                   {
-                  p[q] = randgen.drand32(lowrange,highrange);
+                  pixel[q] = randgen.drand32(lowrange,highrange);
                   lowrange += 100.0;
                   highrange += 100.0;
                   }
@@ -532,8 +532,8 @@ TestVectorImage()
                   {
                   index[q] = _index[q];
                   }
-                vi->SetPixel(index,p);
-                std::cout << p << std::endl;
+                vi->SetPixel(index,pixel);
+                std::cout << pixel << std::endl;
                 }
               }
             }
@@ -602,13 +602,13 @@ TestVectorImage()
               for(int k = 0; k < dims[0]; k++)
                 {
                 _index[0] = k;
-                FieldPixelType p;
+                FieldPixelType pixel;
                 for(unsigned int q = 0; q < Dimension; q++)
                   {
                   index[q] = _index[q];
                   }
-                p = readback->GetPixel(index);
-                std::cout << p << std::endl;
+                pixel = readback->GetPixel(index);
+                std::cout << pixel << std::endl;
                 }
               }
             }
