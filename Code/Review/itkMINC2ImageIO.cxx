@@ -586,7 +586,7 @@ void MINC2ImageIO::WriteImageInformation(void)
 }
 
 template <class TBuffer>
-void MINCComputeScalarRange(int Strides[3], int Sizes[3], int nComponents, double& maxval,double& minval,TBuffer *buffer)
+void MINCComputeScalarRange(int itkNotUsed(Strides)[3], int Sizes[3], int nComponents, double& maxval,double& minval,TBuffer *buffer)
 {
 // This differs with ITK Journal version in that
 // no longer skipping ahead by strides, but just plodding through
