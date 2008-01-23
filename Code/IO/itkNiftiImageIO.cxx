@@ -323,7 +323,7 @@ void RescaleFunction(TBuffer* buffer,
 
 template <typename PixelType>
 void
-CastCopy(float *to,void *from,unsigned pixelcount)
+CastCopy(float *to,void *from, size_t pixelcount)
 {
   PixelType *_from = static_cast<PixelType *>(from);
   for(unsigned i = 0; i < pixelcount; i++)
@@ -422,37 +422,42 @@ void NiftiImageIO::Read(void* buffer)
      m_ComponentType != m_OnDiskComponentType)
     {
     pixelSize = this->GetNumberOfComponents() * sizeof(float);
+     
+    // Deal with correct management of 64bits platforms
+    const size_t imageSizeInComponents = 
+      static_cast< size_t >( this->GetImageSizeInComponents() );
+
     //
     // allocate new buffer for floats. Malloc instead of new to
     // be consistent with allocation used in niftilib
     float *_data = 
       static_cast<float *>
-      (malloc(this->GetImageSizeInComponents() * sizeof(float)));
+      (malloc( imageSizeInComponents * sizeof(float)));
     switch(m_OnDiskComponentType)
       {
       case CHAR:
-        CastCopy<char>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<char>(_data,data, imageSizeInComponents);
         break;
       case UCHAR:
-        CastCopy<unsigned char>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<unsigned char>(_data,data, imageSizeInComponents);
         break;
       case SHORT:
-        CastCopy<short>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<short>(_data,data, imageSizeInComponents);
         break;
       case USHORT:
-        CastCopy<unsigned short>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<unsigned short>(_data,data, imageSizeInComponents);
         break;
       case INT:
-        CastCopy<int>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<int>(_data,data, imageSizeInComponents);
         break;
       case UINT:
-        CastCopy<unsigned int>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<unsigned int>(_data,data, imageSizeInComponents);
         break;
       case LONG:
-        CastCopy<long>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<long>(_data,data, imageSizeInComponents);
         break;
       case ULONG:
-        CastCopy<unsigned long>(_data,data,this->GetImageSizeInComponents());
+        CastCopy<unsigned long>(_data,data, imageSizeInComponents);
         break;
       case FLOAT:
         itkExceptionMacro(<< "FLOAT pixels do not need Casting to float");
@@ -930,7 +935,8 @@ NiftiImageIO
   if(Ext == ".nii" || Ext == ".nii.gz")
     {
     this->m_NiftiImage->nifti_type = 1;
-    this->m_NiftiImage->iname = (char *)malloc(FName.size()+1);
+    size_t filenameLength = static_cast<size_t>( FName.size() ) + 1;
+    this->m_NiftiImage->iname = (char *)malloc( filenameLength );
     strcpy(this->m_NiftiImage->fname,FName.c_str());
     strcpy(this->m_NiftiImage->iname,FName.c_str());
     }
