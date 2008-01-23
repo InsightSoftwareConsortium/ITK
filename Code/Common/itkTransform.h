@@ -200,9 +200,13 @@ public:
   virtual unsigned int GetNumberOfParameters(void) const 
                       { return m_Parameters.Size(); }
 
-  /** Return the inverse of the transform.
-   *  The inverse is recomputed if it has been modified */
-  bool GetInverse(Self*) const {return false;}
+  /** Returns a boolean indicating whether it is possible or not to compute the
+   * inverse of this current Transform. If it is possible, then the inverse of
+   * the transform is returned in the inverseTransform variable passed by the
+   * user.  The inverse is recomputed if this current transform has been modified.
+   * This method is intended to be overriden by derived classes.
+   * */
+  bool GetInverse(Self * inverseTransform) const {return false;}
 
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const;
