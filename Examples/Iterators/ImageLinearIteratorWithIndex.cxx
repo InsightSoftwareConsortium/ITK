@@ -201,12 +201,11 @@ int main( int argc, char *argv[] )
     {
     inputIt.GoToBeginOfLine();
     outputIt.GoToEndOfLine();
-    --outputIt;
     while ( ! inputIt.IsAtEndOfLine() )
       {
+      --outputIt;
       outputIt.Set( inputIt.Get() );
       ++inputIt;
-      --outputIt;
       }
     }
 // Software Guide : EndCodeSnippet
