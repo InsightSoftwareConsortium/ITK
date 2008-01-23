@@ -159,7 +159,7 @@ GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
   this->GetStringAt(f, TEXT_SLICE_THCK,tmpStr, TEXT_SLICE_THCK_LEN);
   tmpStr[TEXT_SLICE_THCK_LEN] = '\0';
   hdr->sliceThickness = atoi(tmpStr);
-  hdr->sliceGap = 0.0;
+  hdr->sliceGap = 0.0f;
 
   DB(hdr->sliceThickness );
   
@@ -282,15 +282,15 @@ GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   /* fprintf(stderr, "Slice Location %f\n", hdr->sliceLocation); */
   this->GetDoubleAt(f, HDR_TR,&tmpDble, sizeof (double));
-  hdr->TR = (float) tmpDble / 1000.0;
+  hdr->TR = (float) tmpDble / 1000.0f;
   DB(hdr->TR );
 
   this->GetDoubleAt(f,  HDR_TE+8,&tmpDble, sizeof (double));
-  hdr->TI = (float) tmpDble / 1000.0;
+  hdr->TI = (float) tmpDble / 1000.0f;
   DB(hdr->TI );
 
   this->GetDoubleAt(f,  HDR_TE,&tmpDble, sizeof (double));
-  hdr->TE = (float) tmpDble / 1000.0;
+  hdr->TE = (float) tmpDble / 1000.0f;
   DB(hdr->TE );
 
   this->GetStringAt(f, TEXT_ECHO_NUM,tmpStr, TEXT_ECHO_NUM_LEN);

@@ -484,24 +484,24 @@ AnalyzeImageIO::AnalyzeImageIO()
   // A value of 0.0 for these fields implies that the value is unknown.
   // Change these values to what is appropriate for your data
   // or pass additional commathis->m_Hdr.dime.dim[0] line arguments
-  this->m_Hdr.dime.pixdim[0]=0.0;//Unused field
-  this->m_Hdr.dime.pixdim[1]=1.0;//x_dimension
-  this->m_Hdr.dime.pixdim[2]=1.0;//y_dimension
-  this->m_Hdr.dime.pixdim[3]=1.0;//z_dimension
-  this->m_Hdr.dime.pixdim[4]=1.0;//t_dimension
-  this->m_Hdr.dime.pixdim[5]=1.0;
-  this->m_Hdr.dime.pixdim[6]=1.0;
-  this->m_Hdr.dime.pixdim[7]=1.0;
+  this->m_Hdr.dime.pixdim[0]=0.0f;//Unused field
+  this->m_Hdr.dime.pixdim[1]=1.0f;//x_dimension
+  this->m_Hdr.dime.pixdim[2]=1.0f;//y_dimension
+  this->m_Hdr.dime.pixdim[3]=1.0f;//z_dimension
+  this->m_Hdr.dime.pixdim[4]=1.0f;//t_dimension
+  this->m_Hdr.dime.pixdim[5]=1.0f;
+  this->m_Hdr.dime.pixdim[6]=1.0f;
+  this->m_Hdr.dime.pixdim[7]=1.0f;
   // Assume zero offset in .img file, byte at which pixel data starts in
   // the HeaderObj file
   // byte offset in the HeaderObj file which voxels start
-  this->m_Hdr.dime.vox_offset=0.0;
+  this->m_Hdr.dime.vox_offset=0.0f;
 
-  this->m_Hdr.dime.roi_scale=0.0;
-  this->m_Hdr.dime.funused1=0.0;
-  this->m_Hdr.dime.funused2=0.0;
-  this->m_Hdr.dime.cal_max=0.0;  // specify range of calibration values
-  this->m_Hdr.dime.cal_min=0.0;  // specify range of calibration values
+  this->m_Hdr.dime.roi_scale=0.0f;
+  this->m_Hdr.dime.funused1=0.0f;
+  this->m_Hdr.dime.funused2=0.0f;
+  this->m_Hdr.dime.cal_max=0.0f;  // specify range of calibration values
+  this->m_Hdr.dime.cal_min=0.0f;  // specify range of calibration values
   this->m_Hdr.dime.compressed=0; // specify that the data file with extension
                                  // .img is not compressed 
   this->m_Hdr.dime.verified=0;

@@ -501,7 +501,7 @@ int IPLCommonImageIO
     }
   else
     {
-    *ip = 0.0;
+    *ip = 0.0f;
     }
   return 0;
 }

@@ -414,9 +414,9 @@ Brains2MaskImageIO
   const unsigned ysize = this->GetDimensions(1);
   const unsigned zsize = this->GetDimensions(2);
 
-  const float xres = this->GetSpacing(0);
-  const float yres = this->GetSpacing(1);
-  const float zres = this->GetSpacing(2);
+  const double xres = this->GetSpacing(0);
+  const double yres = this->GetSpacing(1);
+  const double zres = this->GetSpacing(2);
 
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string temp;

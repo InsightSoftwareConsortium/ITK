@@ -149,7 +149,7 @@ GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
   this->GetShortAt(f,GE_ADW_IM_CPHASENUM,&(hdr->turboFactor));
 
   this->GetFloatAt(f,GE_ADW_IM_SLTHICK,&(hdr->sliceThickness));
-  hdr->sliceGap = 0.0;
+  hdr->sliceGap = 0.0f;
 
   this->GetShortAt(f,GE_ADW_IM_IMATRIX_X,&(hdr->imageXsize));
 
@@ -195,13 +195,13 @@ GEImageHeader *GEAdwImageIO::ReadHeader(const char *FileNameToRead)
 
   int tmpInt;
   this->GetIntAt(f,GE_ADW_IM_TR,&tmpInt);
-  hdr->TR = (float) tmpInt / 1000.0;
+  hdr->TR = (float) tmpInt / 1000.0f;
 
   this->GetIntAt(f,GE_ADW_IM_TI,&tmpInt);
-  hdr->TI = (float) tmpInt / 1000.0;
+  hdr->TI = (float) tmpInt / 1000.0f;
 
   this->GetIntAt(f,GE_ADW_IM_TE,&tmpInt);
-  hdr->TE = (float) tmpInt / 1000.0;
+  hdr->TE = (float) tmpInt / 1000.0f;
 
   this->GetShortAt(f, GE_ADW_IM_NUMECHO,&(hdr->numberOfEchoes));
 
