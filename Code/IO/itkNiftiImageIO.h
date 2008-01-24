@@ -103,8 +103,8 @@ protected:
 private:
   bool  MustRescale();
   void  DefineHeaderObjectDataType();
-  void  SetNIfTIOrientationFromImageIO(int origdims, int dims);
-  void  SetImageIOOrientationFromNIfTI(int dims);
+  void  SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims);
+  void  SetImageIOOrientationFromNIfTI(unsigned short int dims);
   /**
    * \enum ValidAnalyzeOrientationFlags
    * Valid Orientation values for objects

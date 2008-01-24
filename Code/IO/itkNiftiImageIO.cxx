@@ -356,7 +356,7 @@ void NiftiImageIO::Read(void* buffer)
     _size[i] = 1;
     }
 
-  unsigned numComponents = this->GetNumberOfComponents();
+  unsigned int numComponents = this->GetNumberOfComponents();
   //
   // special case for images of vector pixels
   if(numComponents > 1 && this->GetPixelType() != COMPLEX)
@@ -422,7 +422,8 @@ void NiftiImageIO::Read(void* buffer)
      m_ComponentType != m_OnDiskComponentType)
     {
     pixelSize = 
-      static_cast< unsigned int >( this->GetNumberOfComponents() ) * sizeof(float);
+      static_cast< unsigned int >( this->GetNumberOfComponents() ) * 
+      static_cast< unsigned int >( sizeof(float) );
      
     // Deal with correct management of 64bits platforms
     const size_t imageSizeInComponents = 
@@ -994,42 +995,45 @@ NiftiImageIO
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[7] =
         this->m_NiftiImage->nw = static_cast< int >( this->GetDimensions(6) );
       this->m_NiftiImage->pixdim[7] = this->m_NiftiImage->dw =
-        this->GetSpacing(6);
+        static_cast<float>( this->GetSpacing(6) );
     case 6:
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[6] =
         this->m_NiftiImage->nv = this->GetDimensions(5);
       this->m_NiftiImage->pixdim[6] = this->m_NiftiImage->dv =
-        this->GetSpacing(5);
+        static_cast<float>( this->GetSpacing(5) );
     case 5:
       this->m_NiftiImage->dim[5] =
         this->m_NiftiImage->nu = this->GetDimensions(4);
       this->m_NiftiImage->pixdim[5] =
-        this->m_NiftiImage->du = this->GetSpacing(4);
+        this->m_NiftiImage->du = static_cast<float>( this->GetSpacing(4) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[5];
     case 4:
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[4] =
         this->m_NiftiImage->nt = this->GetDimensions(3);
       this->m_NiftiImage->pixdim[4] =
-        this->m_NiftiImage->dt = this->GetSpacing(3);
+        this->m_NiftiImage->dt = static_cast<float>( this->GetSpacing(3) );
     case 3:
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[3] =
         this->m_NiftiImage->nz = this->GetDimensions(2);
       this->m_NiftiImage->pixdim[3] =
-        this->m_NiftiImage->dz = this->GetSpacing(2);
+        this->m_NiftiImage->dz = static_cast<float>( this->GetSpacing(2) );
     case 2:
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[2] =
         this->m_NiftiImage->ny = this->GetDimensions(1);
       this->m_NiftiImage->pixdim[2] =
-        this->m_NiftiImage->dy = this->GetSpacing(1);
+        this->m_NiftiImage->dy = static_cast<float>( this->GetSpacing(1) );
     case 1:
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[1] =
         this->m_NiftiImage->nx = this->GetDimensions(0);
       this->m_NiftiImage->pixdim[1] =
-        this->m_NiftiImage->dx = this->GetSpacing(0);
+        this->m_NiftiImage->dx = static_cast<float>( this->GetSpacing(0) );
     }
-  if(this->GetNumberOfComponents() > 1
+
+  const unsigned int numComponents = this->GetNumberOfComponents();
+
+  if( numComponents > 1
      && !(this->GetPixelType() == COMPLEX
-          && this->GetNumberOfComponents() == 2))
+          &&  numComponents == 2))
     {
     this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
     //
@@ -1143,7 +1147,8 @@ NiftiImageIO
         }
       break;
     default:
-      this->m_NiftiImage->nbyper *= this->GetNumberOfComponents();
+      this->m_NiftiImage->nbyper *= 
+        static_cast< int >( this->GetNumberOfComponents() );
       break;
     }
   //     -----------------------------------------------------
@@ -1180,7 +1185,7 @@ void Normalize(std::vector<double> &x)
 
 void  
 NiftiImageIO::
-SetImageIOOrientationFromNIfTI(int dims)
+SetImageIOOrientationFromNIfTI(unsigned short int dims)
 {
 
   typedef SpatialOrientationAdapter OrientAdapterType;
@@ -1290,7 +1295,7 @@ SetImageIOOrientationFromNIfTI(int dims)
 
 void 
 NiftiImageIO::
-SetNIfTIOrientationFromImageIO(int origdims, int dims)
+SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims)
 {
   //
   // use NIFTI method 2
