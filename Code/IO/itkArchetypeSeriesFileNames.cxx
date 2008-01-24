@@ -155,7 +155,7 @@ ArchetypeSeriesFileNames
     // If the element is a number, find its starting index and length.
     if ((*sit) >= '0' && (*sit) <= '9')
       {
-      sIndex = sit - fileName.begin();
+      sIndex = static_cast< int >( sit - fileName.begin() );
       numGroupStart.push_back( sIndex );
       
       // Loop to one past the end of the group of numbers.
@@ -164,7 +164,7 @@ ArchetypeSeriesFileNames
         ++sit;
         }
       
-      numGroupLength.push_back( (sit - fileName.begin()) - sIndex );
+      numGroupLength.push_back( static_cast< int >(sit - fileName.begin()) - sIndex );
         
       if( sit == fileName.end() )
         {

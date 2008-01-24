@@ -76,14 +76,14 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
 {
   std::string Key;
   //NOTE: tellg returns the position in number of bytes from the begining of the stream.
-  long int FileStartPos=inputstream.tellg();
+  const std::streampos FileStartPos = inputstream.tellg();
   //NOTE: the >> operator on a stream reads "words" at a time.
   inputstream >> Key;  //The first word to read must be "IPL_HEADER_BEGIN", with no value
   //std::cout << "Looking for " << this->GetHeaderBeginTag() <<" but found " << Key << std::endl;
   if(Key.find(this->GetHeaderBeginTag()) == std::string::npos )
     {
     //Return the file to it's position before attempting read.
-    inputstream.seekg(FileStartPos);
+    inputstream.seekg( FileStartPos );
     return inputstream;
     }
   else
@@ -91,7 +91,7 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
     this->push_back(std::list< std::pair<std::string,std::string> >::value_type(Key,""));
     }
   itk::Brains2HeaderFactory MyBrains2HdrFac;
-  long int PreKeyReadPosition=inputstream.tellg();
+  std::streampos PreKeyReadPosition = inputstream.tellg();
   inputstream >> Key; //Read key that follows "IPL_HEADER_BEGIN"
 //DEBUG:  std::cerr << "ReadBrains2Header: GetHeaderEndTag is |" << this->GetHeaderEndTag() << "|" << std::endl;
   while(Key != this->GetHeaderEndTag() )  //If key = "IPL_HEADER_END", then there is no value
@@ -107,7 +107,7 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
       {
       this->push_back(std::list< std::pair<std::string,std::string> >::value_type("--BEGIN_CHILD--",""));
       //Rewind to befor the key.
-      inputstream.seekg(PreKeyReadPosition);
+      inputstream.seekg( PreKeyReadPosition );
       //Need Factory Here to produce proper factory based on Key.
       this->m_Child.push_back(MyBrains2HdrFac.CreateBrains2HeaderReader(Key));
       if(this->m_Child.back() == NULL)
@@ -116,7 +116,7 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
         return inputstream;
         }
       this->m_Child.back()->ReadBrains2Header(inputstream);
-      PreKeyReadPosition=inputstream.tellg();
+      PreKeyReadPosition = inputstream.tellg();
       inputstream >> Key;
       continue;
       }
@@ -124,7 +124,7 @@ std::ifstream & Brains2HeaderBase::ReadBrains2Header(std::ifstream  & inputstrea
     inputstream >> Value;
     this->push_back(std::list< std::pair<std::string,std::string> >::value_type(Key,Value));
     //Read Next Key
-    PreKeyReadPosition=inputstream.tellg();
+    PreKeyReadPosition = inputstream.tellg();
     inputstream >> Key;
     }
   //pusch back the end key
@@ -213,7 +213,7 @@ float Brains2HeaderBase::getFloat(const std::string &KeyID) const
   std::string TempStringValue=this->getString(KeyID);
   if(TempStringValue.length() != 0)
     {
-    return atof(TempStringValue.c_str());
+    return static_cast< float >( atof( TempStringValue.c_str() ) );
     }
   return 0.0F;
 }
@@ -221,7 +221,7 @@ float Brains2HeaderBase::getFloat(const std::string &KeyID) const
 int Brains2HeaderBase::getInt(const std::string &KeyID) const
 {
   std::string TempStringValue=this->getString(KeyID);
-  if(TempStringValue.length() != 0)
+  if( static_cast< int >( TempStringValue.length() ) != 0 )
     {
     return atoi(TempStringValue.c_str());
     }
