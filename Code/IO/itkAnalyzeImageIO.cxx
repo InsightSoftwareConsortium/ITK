@@ -448,7 +448,7 @@ AnalyzeImageIO::AnalyzeImageIO()
   // strcpy(this->m_Hdr.hk.data_type,DataTypes[DT_INDEX_UNKNOWN]);
   /* Acceptable this->m_Hdr.hk.data_type values are */
   /* "UNKNOWN","BINARY","CHAR","SHORT","INT","FLOAT","COMPLEX","DOUBLE","RGB" */
-  this->m_Hdr.hk.sizeof_hdr=sizeof(struct dsr);
+  this->m_Hdr.hk.sizeof_hdr = static_cast< int >( sizeof(struct dsr) );
   this->m_Hdr.hk.db_name[0]='\0';
   this->m_Hdr.hk.extents=16384;
   this->m_Hdr.hk.session_error=0;
@@ -735,7 +735,7 @@ void AnalyzeImageIO::Read(void* buffer)
   // ::gzseek( file_p, total_offset, SEEK_SET );
 
   // read image in
-  ::gzread( file_p, p, this->GetImageSizeInBytes());
+  ::gzread( file_p, p, static_cast< unsigned >( this->GetImageSizeInBytes() ) );
   gzclose( file_p );
   SwapBytesIfNecessary( buffer, numberOfPixels );
 }
@@ -1372,7 +1372,7 @@ AnalyzeImageIO
     {
     //NOTE: Analyze pixdim[0] is ignored, and the number of dims are
     //taken from dims[0], and pixdim[1..7] are the actual pixdims.
-    this->m_Hdr.dime.pixdim[dim+1]= m_Spacing[ dim ];
+    this->m_Hdr.dime.pixdim[dim+1]= static_cast< float >( m_Spacing[ dim ] );
     }
   //The next funciton sets bitpix, and datatype, and data_type fields
   //Along with gl_min and gl_max fields.
@@ -1485,7 +1485,7 @@ AnalyzeImageIO
     else
 #endif
       {
-      ::gzwrite( file_p,p,this->GetImageSizeInBytes());
+      ::gzwrite( file_p,p, static_cast< unsigned >( this->GetImageSizeInBytes() ) );
       }
     ::gzclose( file_p );
     //RemoveFile FileNameToRead.img so that it does not get confused with
@@ -1513,7 +1513,7 @@ AnalyzeImageIO
       exception.SetLocation(ITK_LOCATION);
       throw exception;
       }
-    local_OutputStream.write((const char *)p, this->GetImageSizeInBytes() );
+    local_OutputStream.write((const char *)p, static_cast< std::streamsize >( this->GetImageSizeInBytes() ) );
     bool success = !local_OutputStream.bad();
     local_OutputStream.close();
     if( !success )
