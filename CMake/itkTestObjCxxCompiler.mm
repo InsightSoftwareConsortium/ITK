@@ -12,11 +12,6 @@
 
 =========================================================================*/
 #import <objc/objc.h>
-#error
-
-AZUCAR
-
-this is a syntax error
 
 @interface MyObject
 {
