@@ -4258,7 +4258,7 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
    }
    fp = znzopen(tmpname, "rb", nifti_is_gzfile(tmpname));
    free(tmpname);
-   if (znz_isnull(fp))                      return -1 ;  /* bad open? */
+   if (znz_isnull(fp))                      return NULL;  /* bad open? */
 
    /**- get image offset: a negative offset means to figure from end of file */
    if( nim->iname_offset < 0 ){
