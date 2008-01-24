@@ -1358,10 +1358,10 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
   this->m_NiftiImage->sto_xyz =  matrix;
   //
   //
-  int sto_limit = origdims > 3 ? 3 : origdims;
-  for(int i = 0; i < sto_limit; i++)
+  unsigned int sto_limit = origdims > 3 ? 3 : origdims;
+  for(unsigned int i = 0; i < sto_limit; i++)
     {
-    for(int j = 0; j < sto_limit; j++)
+    for(unsigned int j = 0; j < sto_limit; j++)
       {
       this->m_NiftiImage->sto_xyz.m[i][j] = this->GetSpacing(j) *
         this->m_NiftiImage->sto_xyz.m[i][j];
@@ -1389,7 +1389,7 @@ NiftiImageIO
 ::Write( const void* buffer)
 {
   this->WriteImageInformation();
-  unsigned numComponents = this->GetNumberOfComponents();
+  unsigned int numComponents = this->GetNumberOfComponents();
   if(numComponents == 1 ||
      (numComponents == 2 && this->GetPixelType() == COMPLEX))
     {
@@ -1404,7 +1404,7 @@ NiftiImageIO
     {
     // Data must be rearranged to meet nifti organzation.
     // output[vec][t][z][y][x] = input[t][z][y][z][vec]
-    unsigned nbyper = this->m_NiftiImage->nbyper;
+    unsigned int nbyper = this->m_NiftiImage->nbyper;
     const char *frombuf = (const char *)buffer;
 
     // correct these values filled in in WriteImageInformation
