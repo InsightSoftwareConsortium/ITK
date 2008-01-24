@@ -60,7 +60,8 @@ namespace itk {
  *
  * \par References
  *  R. Whitaker and X. Xue. Variable-Conductance, Level-Set Curvature for 
- *  Image Processing, ICIP 2001.
+ *  Image Denoising, International Conference on Image Processing, 2001
+ *  pp. 142-145, Vol.3.
  *
  *  
  * \sa AnisotropicDiffusionFunction
