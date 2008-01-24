@@ -258,7 +258,7 @@ int itkImportContainerTest(int , char * [] )
 
   // SGI's always say they can get you the memory you want.
 #if (!defined(__sgi) && defined(NDEBUG))
-  if (!caughtException)
+  if (!caughtException && (sizeof(void *) != 8))
     {
     std::cout << "Failed to catch expected exception" << std::endl;
     return EXIT_FAILURE;
