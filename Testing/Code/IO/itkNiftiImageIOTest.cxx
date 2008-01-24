@@ -130,7 +130,7 @@ static int TestByteSwap(void)
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
   }
-  catch (itk::ExceptionObject e)
+  catch (itk::ExceptionObject &e)
     {
       e.Print(std::cerr) ;
       RemoveByteSwapTestFiles();
@@ -276,7 +276,7 @@ template <typename T> int MakeNiftiImage(void)
       imageReader->Update() ;
       input = imageReader->GetOutput() ;
     }
-  catch (itk::ExceptionObject e)
+  catch (itk::ExceptionObject &e)
     {
       e.Print(std::cerr) ;
       Remove(filename);
@@ -319,7 +319,7 @@ int itkNiftiImageIOTest(int ac, char* av[])
               imageReader->Update() ;
               input=imageReader->GetOutput() ;
             }
-          catch (itk::ExceptionObject e)
+          catch (itk::ExceptionObject &e)
             {
               e.Print(std::cerr) ;
               rval = 1;
@@ -417,7 +417,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
       imageReader->Update();
       input = imageReader->GetOutput();
     }
-  catch (itk::ExceptionObject e)
+  catch (itk::ExceptionObject &)
     {
       test_success = 1;
     }
