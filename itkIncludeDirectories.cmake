@@ -57,8 +57,10 @@ ENDIF(USE_FFTWF OR USE_FFTWD)
 # VXL include directories.
 IF(NOT ITK_USE_SYSTEM_VXL)
   SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+    ${ITK_SOURCE_DIR}/Utilities/vxl/v3p/netlib
     ${ITK_SOURCE_DIR}/Utilities/vxl/vcl
     ${ITK_SOURCE_DIR}/Utilities/vxl/core
+    ${ITK_BINARY_DIR}/Utilities/vxl/v3p/netlib
     ${ITK_BINARY_DIR}/Utilities/vxl/vcl
     ${ITK_BINARY_DIR}/Utilities/vxl/core
     )
@@ -130,6 +132,7 @@ SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
 
 IF(NOT ITK_USE_SYSTEM_VXL)
   SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
+    Utilities/vxl/v3p/netlib
     Utilities/vxl/vcl
     Utilities/vxl/core
     )
