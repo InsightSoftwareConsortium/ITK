@@ -147,7 +147,7 @@ Similarity2DTransform<TScalarType>
 
   if(this->GetMatrix()[1][0]<0.0)
     {
-    this->SetVarAngle( this->GetAngle() );
+    this->SetVarAngle( -this->GetAngle() );
     }
 
   if( ( this->GetMatrix()[1][0] / m_Scale ) - vcl_sin(this->GetAngle()) > 0.000001)
