@@ -390,7 +390,7 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
       imageReader->Update();
       input = imageReader->GetOutput();
     }
-  catch (itk::ExceptionObject &e)
+  catch (itk::ExceptionObject &)
     {
       test_success = 1;
     }
