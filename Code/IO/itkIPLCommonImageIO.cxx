@@ -334,7 +334,7 @@ void IPLCommonImageIO::ReadImageInformation()
       {
       curImageHeader = this->ReadHeader(fullPath);
       }
-    catch (itk::ExceptionObject e)
+    catch (itk::ExceptionObject &)
       {
       // ReadGE4XHeader throws an exception on any error.
       // So if, for example we run into a subdirectory, it would
