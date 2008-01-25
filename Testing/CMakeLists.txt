@@ -34,6 +34,11 @@ ELSE(ITK_BINARY_DIR)
   FIND_PACKAGE(ITK)
   IF(ITK_FOUND)
     INCLUDE(${ITK_USE_FILE})
+    #-----------------------------------------------------------------------------
+    # Test for some required system information.
+    INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityC.cmake)
+    INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
+    #-----------------------------------------------------------------------------
     SUBDIRS(Code)
     IF(ITK_CSWIG_TCL)
       FIND_PROGRAM(ITKWISH_EXECUTABLE itkwish ${ITK_DIR}/bin ${ITK_DIR})
