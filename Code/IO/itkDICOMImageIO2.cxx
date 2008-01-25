@@ -82,7 +82,7 @@ void DICOMImageIO2::ReadDataCallback( doublebyte,
                                       unsigned char* val,
                                       quadbyte len)
 {
-  unsigned int imageBytes = this->GetImageSizeInBytes();
+  unsigned int imageBytes = static_cast<unsigned int>( this->GetImageSizeInBytes() );
   if (len < 0)
     {
     len = 0;

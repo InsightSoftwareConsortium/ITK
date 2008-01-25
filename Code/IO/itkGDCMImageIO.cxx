@@ -830,9 +830,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
           char *bin = new char[encodedLengthEstimate];
           int encodedLengthActual = itksysBase64_Encode(
             (const unsigned char *) b->GetBinArea(),
-            b->GetLength(),
+            static_cast< unsigned long>( b->GetLength() ),
             (unsigned char *) bin,
-            0);
+            static_cast< int >( 0 ) );
           std::string encodedValue(bin, encodedLengthActual);
           EncapsulateMetaData<std::string>(dico, b->GetKey(), encodedValue);
           delete []bin;
@@ -984,9 +984,9 @@ void GDCMImageIO::Write(const void* buffer)
         uint8_t *bin = new uint8_t[value.size()];
         unsigned int decodedLengthActual = itksysBase64_Decode(
           (const unsigned char *) value.c_str(),
-          0,
+          static_cast<unsigned long>( 0 ),
           (unsigned char *) bin,
-          value.size());
+          static_cast<unsigned long>( value.size()));
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
           header->InsertBinEntry( bin,
@@ -1299,7 +1299,7 @@ void GDCMImageIO::Write(const void* buffer)
     }
 
   // size is the size of the actual image in memory
-  size_t size = this->GetImageSizeInBytes();
+  size_t size = static_cast< size_t >( this->GetImageSizeInBytes() );
   // numberOfBytes is the number of bytes the image will hold on disk, most of the time
   // those two are equal
   size_t numberOfBytes = gfile->ComputeExpectedImageDataSize();
