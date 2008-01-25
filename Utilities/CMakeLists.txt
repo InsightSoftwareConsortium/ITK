@@ -95,6 +95,7 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     ${ITK_SOURCE_DIR}/Utilities/itk_tiff.h
     ${ITK_SOURCE_DIR}/Utilities/itk_png.h
     ${ITK_SOURCE_DIR}/Utilities/metaIOConfig.h
+    ${ITK_BINARY_DIR}/Utilities/NrrdIO/NrrdConfigure.h
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities
     COMPONENT Development
     )
