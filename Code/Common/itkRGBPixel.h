@@ -93,6 +93,8 @@ public:
   const Self & operator-=(const Self &vec);
   Self operator*(const ComponentType &f) const;
 
+  bool operator<(const Self &vec) const;
+  bool operator==(const Self &vec) const;
  
   /** Return the number of components. */
   static unsigned int GetNumberOfComponents(){ return 3;}

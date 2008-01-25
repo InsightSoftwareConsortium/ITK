@@ -126,6 +126,42 @@ RGBPixel<T>
   return result;
 }
 
+ 
+/**
+ * Returns the results from a test for equality (all components must be equal)
+ */
+template<class T>
+bool
+RGBPixel<T>
+::operator==(const Self & r) const
+{
+  for( unsigned int i=0; i<3; i++) 
+    {
+    if((*this)[i] != r[i])
+      {
+      return false;
+      }
+    }
+  return true;
+}
+
+/**
+ * Returns the results from a test for less than (all components must be less than)
+ */
+template<class T>
+bool
+RGBPixel<T>
+::operator<(const Self & r) const
+{
+  for( unsigned int i=0; i<3; i++) 
+    {
+    if((*this)[i] >= r[i])
+      {
+      return false;
+      }
+    }
+  return true;
+}
 
 
 
