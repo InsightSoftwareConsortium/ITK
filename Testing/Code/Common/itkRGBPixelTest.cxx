@@ -147,7 +147,7 @@ int itkRGBPixelTest(int, char* [] )
   rgbLess[0] = 99;
   rgbLess[1] = 149;
   rgbLess[2] = 119;
-  if( !(rgbBase < rgbLess) )
+  if( !(rgbLess < rgbBase) )
     {
     std::cerr << "Error in test for less than" << std::endl;
     return EXIT_FAILURE;
