@@ -168,7 +168,6 @@ public:
   virtual PointIdIterator PointIdsEnd()
     {
     // NOTE ALEX: should update the array on the fly to make it faster
-    // MakePointIds();
     if (m_PointIds.size() == 0)
       {
       return (static_cast<PointIdIterator>(0));
@@ -196,7 +195,6 @@ public:
   virtual PointIdConstIterator PointIdsEnd() const
     {
     // NOTE ALEX: should update the array on the fly to make it faster
-    // MakePointIds();
     if (m_PointIds.size() == 0)
       {
       return (static_cast<PointIdIterator>(0));
