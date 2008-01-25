@@ -128,5 +128,42 @@ int itkRGBPixelTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  itk::RGBPixel< float > rgbBase;
+  rgbBase[0] = 100;
+  rgbBase[1] = 150;
+  rgbBase[2] = 120;
+
+  itk::RGBPixel< float > rgbEqual;
+  rgbEqual[0] = 100;
+  rgbEqual[1] = 150;
+  rgbEqual[2] = 120;
+  if( !(rgbBase == rgbEqual) )
+    {
+    std::cerr << "Error in test for equality" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  itk::RGBPixel< float > rgbLess;
+  rgbLess[0] = 99;
+  rgbLess[1] = 149;
+  rgbLess[2] = 119;
+  if( !(rgbBase < rgbLess) )
+    {
+    std::cerr << "Error in test for less than" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( rgbBase < rgbEqual )
+    {
+    std::cerr << "Error in test for (not) less than" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( rgbBase == rgbLess )
+    {
+    std::cerr << "Error in test for (not) equal" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
