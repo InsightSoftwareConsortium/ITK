@@ -27,10 +27,11 @@ class PostOrderTreeIterator : public TreeIteratorBase<TTreeType>
 public:
    
   /** Typedefs */
-  typedef TreeIteratorBase<TTreeType>  Superclass;
-  typedef TTreeType TreeType;
-  typedef typename TTreeType::ValueType ValueType;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef PostOrderTreeIterator               Self;
+  typedef TreeIteratorBase<TTreeType>         Superclass;
+  typedef TTreeType                           TreeType;
+  typedef typename TTreeType::ValueType       ValueType;
+  typedef typename Superclass::TreeNodeType   TreeNodeType;
 
   /** Constructor */
   PostOrderTreeIterator(TreeType* tree);
@@ -39,6 +40,13 @@ public:
   int GetType() const;
   /** Clone function */
   TreeIteratorBase<TTreeType>* Clone();
+
+  /** operator = */
+  virtual const Self & operator=(const Self& iterator) 
+    {
+    this->Superclass::operator=( iterator );
+    return *this;
+    }
 
 protected:
   /** Return the next node */

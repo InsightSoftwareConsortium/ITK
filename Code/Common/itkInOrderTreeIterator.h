@@ -27,10 +27,11 @@ class InOrderTreeIterator : public TreeIteratorBase<TTreeType>
 public:
 
   /** Typedefs */
-  typedef TreeIteratorBase<TTreeType>  Superclass;
-  typedef TTreeType TreeType;
-  typedef typename TTreeType::ValueType ValueType;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
+  typedef InOrderTreeIterator                 Self;
+  typedef TreeIteratorBase<TTreeType>         Superclass;
+  typedef TTreeType                           TreeType;
+  typedef typename TTreeType::ValueType       ValueType;
+  typedef typename Superclass::TreeNodeType   TreeNodeType;
 
   /** Constructors */
   InOrderTreeIterator( TreeType& start );
@@ -41,6 +42,13 @@ public:
   
   /** Clone function */
   TreeIteratorBase<TTreeType>* Clone();
+
+  /** operator = */
+  virtual const Self & operator=(const Self& iterator) 
+    {
+    this->Superclass::operator=( iterator );
+    return *this;
+    }
 
 protected:
 

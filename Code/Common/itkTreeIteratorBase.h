@@ -32,9 +32,9 @@ class TreeIteratorBase
 public: 
   
   /** Typedefs */
-  typedef TreeIteratorBase<TTreeType> Self;
-  typedef typename TTreeType::ValueType ValueType;
-  typedef typename TTreeType::TreeNodeType TreeNodeType;
+  typedef TreeIteratorBase<TTreeType>         Self;
+  typedef typename TTreeType::ValueType       ValueType;
+  typedef typename TTreeType::TreeNodeType    TreeNodeType;
 
   /** Add an element to the tree */
   virtual bool Add(ValueType element);
@@ -164,7 +164,7 @@ public:
   }
 
   /** operator = */
-  virtual Self& operator=(Self& iterator) 
+  virtual const Self & operator=(const Self& iterator) 
     {
     m_Position = iterator.m_Position; 
     m_Begin  = iterator.m_Begin;

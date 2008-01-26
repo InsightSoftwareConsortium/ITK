@@ -28,10 +28,11 @@ class LeafTreeIterator : public TreeIteratorBase<TTreeType>
 public:
 
   /** Typedefs*/
-  typedef TreeIteratorBase<TTreeType> Superclass;
-  typedef TTreeType TreeType;
-  typedef typename TreeType::ValueType ValueType;
-  typedef TreeNode<ValueType>  TreeNodeType;
+  typedef LeafTreeIterator                Self;
+  typedef TreeIteratorBase<TTreeType>     Superclass;
+  typedef TTreeType                       TreeType;
+  typedef typename TreeType::ValueType    ValueType;
+  typedef TreeNode<ValueType>             TreeNodeType;
 
   /** Constructor */
   LeafTreeIterator( const TreeType* tree );
@@ -47,6 +48,13 @@ public:
 
   /** Clone function */
   TreeIteratorBase<TTreeType>* Clone();
+
+  /** operator = */
+  virtual const Self & operator=(const Self& iterator) 
+    {
+    this->Superclass::operator=( iterator );
+    return *this;
+    }
 
 protected:
   
