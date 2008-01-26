@@ -66,8 +66,8 @@ int itkGEImageIOFactoryTest(int ac, char * av[])
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cerr << "Caught unexpected exception. Test Failed!" << std::endl;
-    std::cerr << e << std::endl;
+    std::cout << "Caught unexpected exception. Test Failed!" << std::endl;
+    std::cout << e << std::endl;
     return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;
@@ -127,13 +127,13 @@ int itkGEImageIOTest(int ac, char * av[])
     {
     if (Failmode)
       {
-      std::cerr << "Caught unexpected exception. Test Failed!" << std::endl;
+      std::cout << "Caught unexpected exception. Test Failed!" << std::endl;
       }
     else
       {
-      std::cerr << "Caught expected exception. Test Passed!" << std::endl;
+      std::cout << "Caught expected exception. Test Passed!" << std::endl;
       }
-    std::cerr << e << std::endl;
+    std::cout << e << std::endl;
     return Failmode ? 1 : 0;
     }
 
