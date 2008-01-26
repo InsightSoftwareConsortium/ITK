@@ -90,12 +90,12 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   SimilarityTransformType::Pointer transform1 = SimilarityTransformType::New();
   SimilarityTransformType::Pointer transform2 = SimilarityTransformType::New();
   transform1->SetIdentity();
-  double angle1 = 45.0 * atan( 1.0f ) / 45.0;
+  double angle1 = .125;
   transform1->SetAngle(angle1);
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << angle1 << ")/GetAngle():";
-  if (static_cast<int>((transform2->GetAngle() *10000)) !=
-      static_cast<int>((angle1 * 10000)))
+  const double epsilon2 = 1e-5;
+  if (fabs(transform2->GetAngle() - angle1) > epsilon2)
     {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
     std::cerr << "transform1->SetAngle: " << angle1 << std::endl;
@@ -111,7 +111,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   transform1->SetAngle(-angle1);
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << -angle1 << ")/GetAngle():";
-  if (transform2->GetAngle() != -angle1)
+  if (fabs(transform2->GetAngle() - (-angle1)) > epsilon2)
     {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
     std::cerr << "transform1->SetAngle: " << -angle1 << std::endl;
