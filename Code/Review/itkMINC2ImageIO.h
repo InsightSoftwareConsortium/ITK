@@ -102,7 +102,7 @@ public:
   char *GetDimensionOrder() { return m_DimensionOrder; }
   void SetDimensionOrder(char *dimorder) { m_DimensionOrder = dimorder; }
 
-  void XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indices, int *number_of_components);
+  void XYZFromDirectionCosines(midimhandle_t *hdims, unsigned int *dim_indices, unsigned int *number_of_components);
 
 protected:
   MINC2ImageIO();
@@ -111,7 +111,7 @@ protected:
 
   void WriteSlice(std::string& fileName, const void* buffer);
 
-  int m_NDims;
+  unsigned int m_NDims;
 
   char **m_DimensionName;
   virtual void SetDimensionName(unsigned int i, char *name);
@@ -124,10 +124,10 @@ protected:
   double m_Scale;
 
   // dimension size and start and step
-  int *        m_DimensionSize;
-  double *     m_DimensionStart;
-  double *     m_DimensionStep;
-  MatrixType   m_DirectionCosines;
+  unsigned int * m_DimensionSize;
+  double       * m_DimensionStart;
+  double       * m_DimensionStep;
+  MatrixType     m_DirectionCosines;
 
   int * m_DimensionIndices;
 
