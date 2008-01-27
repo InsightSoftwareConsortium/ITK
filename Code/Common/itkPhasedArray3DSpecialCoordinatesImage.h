@@ -139,7 +139,8 @@ public:
   typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
   typedef typename Superclass::OffsetType OffsetType;
@@ -213,8 +214,6 @@ public:
             const Point<TCoordRep, 3>& point,
             IndexType & index                                ) const
     {
-    typedef typename IndexType::IndexValueType IndexValueType;
-    
     RegionType region = this->GetLargestPossibleRegion();
     double maxAzimuth =    region.GetSize(0) - 1;
     double maxElevation =  region.GetSize(1) - 1;

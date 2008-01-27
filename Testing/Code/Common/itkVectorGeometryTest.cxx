@@ -201,9 +201,6 @@ int itkVectorGeometryTest(int, char* [] )
 
   const float tolerance = 1e-7;
 
-  // Dimension & Type
-  const     unsigned int    N = 3;
-
   //  Vector Classes
   typedef    itk::Vector<  double, N >    DoubleVectorType;
   typedef    itk::Vector<  float , N >    FloatVectorType;

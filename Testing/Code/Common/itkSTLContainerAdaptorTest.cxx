@@ -31,7 +31,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
   typedef unsigned long   IndexType;
   typedef int             ElementType;
 
-  const unsigned int containerSize = 100;
+  unsigned int containerSize = 100;
 
   // Test with the VectorContainer
   { // create a local scope
@@ -51,7 +51,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
       vectorSource.push_back(containerSize - i);
       }
 
-    const unsigned int containerSize = static_cast<unsigned int>( vectorSource.size() );
+    containerSize = static_cast<unsigned int>( vectorSource.size() );
 
     typedef itk::STLContainerAdaptor<VectorContainerType>       AdaptorType;
     typedef AdaptorType::TargetType                       TargetType;
@@ -184,7 +184,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
     }
 
 
-    const unsigned int containerSize = static_cast<unsigned int>( mapSource.size() );
+    containerSize = static_cast<unsigned int>( mapSource.size() );
 
     typedef itk::STLContainerAdaptor<MapContainerType>       AdaptorType;
     typedef AdaptorType::TargetType                       TargetType;

@@ -135,17 +135,17 @@ InOrderTreeIterator<TTreeType>::FindNextNode() const
   TreeNodeType* child = this->m_Position;
   TreeNodeType* parent = this->m_Position->GetParent();
 
-  int ChildPosition = parent->ChildPosition( child );
+  int childPosition = parent->ChildPosition( child );
   int lastChildPosition = parent->CountChildren() - 1;
 
-  while ( ChildPosition < lastChildPosition ) 
+  while ( childPosition < lastChildPosition ) 
     {
-    TreeNodeType* help = parent->GetChild( ChildPosition + 1 );
+    TreeNodeType* help = parent->GetChild( childPosition + 1 );
     if ( help != NULL )
       {
       return help;
       }
-    ChildPosition++;
+    childPosition++;
     }
 
   while ( parent->HasParent() )
@@ -158,12 +158,12 @@ InOrderTreeIterator<TTreeType>::FindNextNode() const
       {
       return NULL;
       }
-    ChildPosition = parent->ChildPosition(child);
+    childPosition = parent->ChildPosition(child);
     lastChildPosition = parent->CountChildren() - 1;
 
-    while ( ChildPosition < lastChildPosition ) 
+    while ( childPosition < lastChildPosition ) 
       {
-      TreeNodeType* help = parent->GetChild( ChildPosition + 1 );
+      TreeNodeType* help = parent->GetChild( childPosition + 1 );
       if ( help != NULL )
         {
         return help;

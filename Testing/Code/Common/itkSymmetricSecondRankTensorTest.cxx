@@ -196,32 +196,32 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   {
     typedef itk::SymmetricSecondRankTensor<double,3>         Double3DTensorType;
 
-    Double3DTensorType tensor;
+    Double3DTensorType tensor3D;
 
     double v[3];
     v[0] = 19.0;
     v[1] = 23.0;
     v[2] = 29.0;
 
-    tensor(0,0) = v[0]; 
-    tensor(0,1) =  0.0; 
-    tensor(0,2) =  0.0; 
-    tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) = v[1]; 
-    tensor(1,2) =  0.0; 
-    tensor(2,0) =  0.0; // overrides (0,2)
-    tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) = v[2]; 
+    tensor3D(0,0) = v[0]; 
+    tensor3D(0,1) =  0.0; 
+    tensor3D(0,2) =  0.0; 
+    tensor3D(1,0) =  0.0; // overrides (0,1)
+    tensor3D(1,1) = v[1]; 
+    tensor3D(1,2) =  0.0; 
+    tensor3D(2,0) =  0.0; // overrides (0,2)
+    tensor3D(2,1) =  0.0; // overrides (1,2)
+    tensor3D(2,2) = v[2]; 
    
     std::cout << "SymmetricTensor = " << std::endl;
-    std::cout << tensor << std::endl;
+    std::cout << tensor3D << std::endl;
 
     Double3DTensorType::EigenValuesArrayType     eigenValues;
     Double3DTensorType::EigenValuesArrayType     eigenValues2;
     Double3DTensorType::EigenVectorsMatrixType   eigenVectors;
     
-    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
-    tensor.ComputeEigenValues( eigenValues2 );
+    tensor3D.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor3D.ComputeEigenValues( eigenValues2 );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -262,21 +262,21 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     }
 
     // Now let's do something more involved...
-    tensor(0,0) =  7.0;
-    tensor(0,1) =  0.0; 
-    tensor(0,2) =  3.0;
-    tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) =  0.0;
-    tensor(1,2) =  0.0; 
-    tensor(2,0) =  3.0; // overrides (0,2)
-    tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) =  7.0;
+    tensor3D(0,0) =  7.0;
+    tensor3D(0,1) =  0.0; 
+    tensor3D(0,2) =  3.0;
+    tensor3D(1,0) =  0.0; // overrides (0,1)
+    tensor3D(1,1) =  0.0;
+    tensor3D(1,2) =  0.0; 
+    tensor3D(2,0) =  3.0; // overrides (0,2)
+    tensor3D(2,1) =  0.0; // overrides (1,2)
+    tensor3D(2,2) =  7.0;
  
     std::cout << "SymmetricTensor = " << std::endl;
-    std::cout << tensor << std::endl;
+    std::cout << tensor3D << std::endl;
 
-    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
-    tensor.ComputeEigenValues( eigenValues2 );
+    tensor3D.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor3D.ComputeEigenValues( eigenValues2 );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -316,21 +316,21 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     }
 
     // Now let's do one where we know the rotation...
-    tensor(0,0) =  9.0;
-    tensor(0,1) =  0.0; 
-    tensor(0,2) =  7.0;
-    tensor(1,0) =  0.0; // overrides (0,1)
-    tensor(1,1) =  0.0;
-    tensor(1,2) =  0.0; 
-    tensor(2,0) =  7.0; // overrides (0,2)
-    tensor(2,1) =  0.0; // overrides (1,2)
-    tensor(2,2) =  3.0;
+    tensor3D(0,0) =  9.0;
+    tensor3D(0,1) =  0.0; 
+    tensor3D(0,2) =  7.0;
+    tensor3D(1,0) =  0.0; // overrides (0,1)
+    tensor3D(1,1) =  0.0;
+    tensor3D(1,2) =  0.0; 
+    tensor3D(2,0) =  7.0; // overrides (0,2)
+    tensor3D(2,1) =  0.0; // overrides (1,2)
+    tensor3D(2,2) =  3.0;
  
     std::cout << "SymmetricTensor = " << std::endl;
-    std::cout << tensor << std::endl;
+    std::cout << tensor3D << std::endl;
 
-    tensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
-    tensor.ComputeEigenValues( eigenValues2 );
+    tensor3D.ComputeEigenAnalysis( eigenValues, eigenVectors );
+    tensor3D.ComputeEigenValues( eigenValues2 );
 
     std::cout << "EigenValues = " << std::endl;
     std::cout << eigenValues << std::endl;
@@ -377,28 +377,28 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     typedef itk::SymmetricSecondRankTensor<double,3>         Double3DTensorType;
     typedef Double3DTensorType::AccumulateValueType          AccumulateValueType;
 
-    Double3DTensorType tensor;
+    Double3DTensorType tensor3D;
 
-    tensor(0,0) =  19.0;
-    tensor(0,1) =   0.0; 
-    tensor(0,2) =   0.0;
-    tensor(1,0) =   0.0; // overrides (0,1)
-    tensor(1,1) =  23.0;
-    tensor(1,2) =   0.0; 
-    tensor(2,0) =   7.0; // overrides (0,2)
-    tensor(2,1) =   0.0; // overrides (1,2)
-    tensor(2,2) =  29.0;
+    tensor3D(0,0) =  19.0;
+    tensor3D(0,1) =   0.0; 
+    tensor3D(0,2) =   0.0;
+    tensor3D(1,0) =   0.0; // overrides (0,1)
+    tensor3D(1,1) =  23.0;
+    tensor3D(1,2) =   0.0; 
+    tensor3D(2,0) =   7.0; // overrides (0,2)
+    tensor3D(2,1) =   0.0; // overrides (1,2)
+    tensor3D(2,2) =  29.0;
 
     AccumulateValueType expectedTrace = 
               itk::NumericTraits< AccumulateValueType >::Zero;
 
-    expectedTrace += tensor(0,0);
-    expectedTrace += tensor(1,1);
-    expectedTrace += tensor(2,2);
+    expectedTrace += tensor3D(0,0);
+    expectedTrace += tensor3D(1,1);
+    expectedTrace += tensor3D(2,2);
 
     const double tolerance = 1e-4;
 
-    AccumulateValueType computedTrace = tensor.GetTrace();
+    AccumulateValueType computedTrace = tensor3D.GetTrace();
     if( fabs( computedTrace - expectedTrace ) > tolerance )
       {
       std::cerr << "Error computing the Trace" << std::endl;
