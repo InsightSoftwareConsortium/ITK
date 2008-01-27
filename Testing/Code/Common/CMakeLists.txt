@@ -203,7 +203,14 @@ ENDIF(ITK_DATA_ROOT)
 
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
 ADD_TEST(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespondencesTest)
-ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS2} itkMemoryLeakTest)
+
+#
+# This test should be enabled if you suspect that the memory leak detector
+# is not working
+IF(0)
+  ADD_TEST(itkMemoryLeakTest ${COMMON_TESTS2} itkMemoryLeakTest)
+ENDIF(0)
+
 ADD_TEST(itkMeshTest ${COMMON_TESTS2} itkMeshTest)
 ADD_TEST(itkMeshFstreamTest ${COMMON_TESTS2} itkMeshFstreamTest ${TEMP}/testMeshFstream.txt)
 ADD_TEST(itkMeshSourceGraftOutputTest ${COMMON_TESTS2} itkMeshSourceGraftOutputTest)
