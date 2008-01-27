@@ -10,6 +10,7 @@
 void RegisterTests()
 {
 REGISTER_TEST(itkCellInterfaceTest);
+REGISTER_TEST(itkImageTransformTest);
 REGISTER_TEST(itkLinearInterpolateImageFunctionTest);
 REGISTER_TEST(itkMaximumDecisionRuleTest );
 REGISTER_TEST(itkMaximumRatioDecisionRuleTest );

@@ -86,6 +86,7 @@ ADD_TEST(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest
 ADD_TEST(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
 
 ADD_TEST(itkCellInterfaceTest ${COMMON_TESTS2} itkCellInterfaceTest)
+ADD_TEST(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkImageDuplicatorTest ${COMMON_TESTS} itkImageDuplicatorTest)
 ADD_TEST(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
@@ -408,6 +409,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 #-----------------------------------------------------------------------------
 SET(BasicTests2_SRCS
 itkCellInterfaceTest.cxx
+itkImageTransformTest.cxx
 itkLinearInterpolateImageFunctionTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
