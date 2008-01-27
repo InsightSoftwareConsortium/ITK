@@ -133,7 +133,7 @@ int itkSymmetricSecondRankTensorImageReadTest( int ac, char* av[] )
 
   while( !mItr.IsAtEnd() )
     {
-    const MatrixPixelType matrixPixel = mItr.Get();
+    matrixPixel = mItr.Get();
     const TensorPixelType tensorPixel = tItr.Get();
 
     for(unsigned int i=0; i<3; i++)
