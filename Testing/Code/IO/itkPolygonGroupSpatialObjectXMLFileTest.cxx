@@ -24,7 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
 #include <itksys/SystemTools.hxx>
 
-static float points[11][2] = 
+static float strandPoints[11][2] = 
   {
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
@@ -54,8 +54,8 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       for(int i = 0; i < 11; i++)
         {
         double pos[3];
-        pos[0] = points[i][0];
-        pos[1] = points[i][1];
+        pos[0] = strandPoints[i][0];
+        pos[1] = strandPoints[i][1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType curpoint(pos);
         if(!strand->AddPoint(curpoint)) 

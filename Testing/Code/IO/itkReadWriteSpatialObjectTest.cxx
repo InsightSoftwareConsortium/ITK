@@ -279,10 +279,10 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   itkImage->SetSpacing(spacing);
   itkImage->Allocate();
 
-  itk::ImageRegionIteratorWithIndex< itkImageType > it(itkImage, region);
-  for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+  itk::ImageRegionIteratorWithIndex< itkImageType > sit(itkImage, region);
+  for(unsigned int i = 0; !sit.IsAtEnd(); i++, ++sit)
     {
-    it.Set(i);
+    sit.Set(i);
     }
 
   ImageType::Pointer image = ImageType::New();
@@ -686,9 +686,9 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     {
     if(!strcmp((*obj)->GetTypeName(),"EllipseSpatialObject"))
       {
-      for(unsigned int j=0;j<3;j++)
+      for(unsigned int jj=0;jj<3;jj++)
         {
-        if (dynamic_cast<EllipseType*>((*obj).GetPointer())->GetRadius()[j] != 9)
+        if (dynamic_cast<EllipseType*>((*obj).GetPointer())->GetRadius()[jj] != 9)
           {
           std::cout<<" [FAILED]"<<std::endl; 
           return EXIT_FAILURE;
@@ -712,8 +712,8 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     {
     if(!strcmp((*obj)->GetTypeName(),"ImageSpatialObject"))
       {
-      itkImageType::ConstPointer image = dynamic_cast<const ImageType*>((*obj).GetPointer())->GetImage();
-      itk::ImageRegionConstIteratorWithIndex< itkImageType > it(image, image->GetLargestPossibleRegion());
+      itkImageType::ConstPointer constImage = dynamic_cast<const ImageType*>((*obj).GetPointer())->GetImage();
+      itk::ImageRegionConstIteratorWithIndex< itkImageType > it(constImage, constImage->GetLargestPossibleRegion());
       for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
         {
         if(it.Get() != i)
@@ -736,8 +736,8 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     if(!strcmp((*obj)->GetTypeName(),"ImageMaskSpatialObject"))
       {
       maskFound = true;
-      itkImageMaskType::ConstPointer image = dynamic_cast<const ImageMaskType*>((*obj).GetPointer())->GetImage();
-      itk::ImageRegionConstIteratorWithIndex< itkImageMaskType > it(image, image->GetLargestPossibleRegion());
+      itkImageMaskType::ConstPointer constImage = dynamic_cast<const ImageMaskType*>((*obj).GetPointer())->GetImage();
+      itk::ImageRegionConstIteratorWithIndex< itkImageMaskType > it(constImage, constImage->GetLargestPossibleRegion());
       for(unsigned char i = 0; !it.IsAtEnd(); i++, ++it)
         {
         if(it.Get() != i)
@@ -763,43 +763,43 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    BlobType::PointListType::const_iterator j;
+    BlobType::PointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName(),"BlobSpatialObject"))
       {
       unsigned int value = 0;
-      for(j = dynamic_cast<BlobType*>((*obj).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<BlobType*>((*obj).GetPointer())->GetPoints().end(); 
-          j++)
+      for(pit = dynamic_cast<BlobType*>((*obj).GetPointer())->GetPoints().begin(); 
+          pit != dynamic_cast<BlobType*>((*obj).GetPointer())->GetPoints().end(); 
+          pit++)
         {
         for(unsigned int d=0;d<3;d++)
           {
-          if((*j).GetPosition()[d]!=value)
+          if((*pit).GetPosition()[d]!=value)
             {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
             }
           // Testing the color of the tube points
-          if( (*j).GetRed() != value)
+          if( (*pit).GetRed() != value)
             {
-            std::cout<<" [FAILED] : Red : found " << (*j).GetRed() << " instead of " << value <<std::endl;
+            std::cout<<" [FAILED] : Red : found " << (*pit).GetRed() << " instead of " << value <<std::endl;
             return EXIT_FAILURE;
             }
       
-          if((*j).GetGreen()!=value+1)
+          if((*pit).GetGreen()!=value+1)
             {
-            std::cout<<" [FAILED] : Green : found " << (*j).GetGreen() << " instead of " << value+1 <<std::endl;
+            std::cout<<" [FAILED] : Green : found " << (*pit).GetGreen() << " instead of " << value+1 <<std::endl;
             return EXIT_FAILURE;
             }
           
-          if((*j).GetBlue()!=value+2)
+          if((*pit).GetBlue()!=value+2)
             {
-            std::cout<<" [FAILED] : Blue : found " << (*j).GetBlue() << " instead of " << value+2 <<std::endl;
+            std::cout<<" [FAILED] : Blue : found " << (*pit).GetBlue() << " instead of " << value+2 <<std::endl;
             return EXIT_FAILURE;
             }
           
-          if((*j).GetAlpha()!=value+3)
+          if((*pit).GetAlpha()!=value+3)
             {
-            std::cout<<" [FAILED] : Alpha : found " << (*j).GetAlpha() << " instead of " << value+3 <<std::endl;
+            std::cout<<" [FAILED] : Alpha : found " << (*pit).GetAlpha() << " instead of " << value+3 <<std::endl;
             return EXIT_FAILURE;
             }
           }
@@ -815,52 +815,52 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    SurfaceType::PointListType::const_iterator j;
+    SurfaceType::PointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName(),"SurfaceSpatialObject"))
       {
       unsigned int value = 0;
-      for(j = dynamic_cast<SurfaceType*>((*obj).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<SurfaceType*>((*obj).GetPointer())->GetPoints().end(); 
-          j++)
+      for(pit = dynamic_cast<SurfaceType*>((*obj).GetPointer())->GetPoints().begin(); 
+          pit != dynamic_cast<SurfaceType*>((*obj).GetPointer())->GetPoints().end(); 
+          pit++)
         {
         for(unsigned int d=0;d<3;d++)
           {
-          if((*j).GetPosition()[d]!=value)
+          if((*pit).GetPosition()[d]!=value)
             {
-            std::cout << (*j).GetPosition()[d] << "!=" << value << std::endl;
+            std::cout << (*pit).GetPosition()[d] << "!=" << value << std::endl;
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
             }
 
-          if((*j).GetNormal()[d]!= d)
+          if((*pit).GetNormal()[d]!= d)
             {
-            std::cout << "Normal : " << (*j).GetNormal()[d] << std::endl;
+            std::cout << "Normal : " << (*pit).GetNormal()[d] << std::endl;
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
             }
 
           // Testing the color of the tube points
-          if( (*j).GetRed() != value)
+          if( (*pit).GetRed() != value)
             {
-            std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
+            std::cout<<" [FAILED] : Red : found " << ( *pit).GetRed() << " instead of " << value <<std::endl;
             return EXIT_FAILURE;
             }
           
-          if((*j).GetGreen()!=value+1)
+          if((*pit).GetGreen()!=value+1)
             {
-            std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
+            std::cout<<" [FAILED] : Green : found " << ( *pit).GetGreen() << " instead of " << value+1 <<std::endl;
             return EXIT_FAILURE;
             }
       
-          if((*j).GetBlue()!=value+2)
+          if((*pit).GetBlue()!=value+2)
             {
-            std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
+            std::cout<<" [FAILED] : Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 <<std::endl;
             return EXIT_FAILURE;
             }
     
-          if((*j).GetAlpha()!=value+3)
+          if((*pit).GetAlpha()!=value+3)
             {
-            std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
+            std::cout<<" [FAILED] : Alpha : found " << ( *pit).GetAlpha() << " instead of " << value+3 <<std::endl;
             return EXIT_FAILURE;
             }
           }
@@ -875,56 +875,56 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    LineType::PointListType::const_iterator j;
+    LineType::PointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName(),"LineSpatialObject"))
       {
       unsigned int value = 0;
-      for(j = dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().end(); 
-          j++)
+      for(pit = dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().begin(); 
+          pit != dynamic_cast<LineType*>((*obj).GetPointer())->GetPoints().end(); 
+          pit++)
         {
         for(unsigned int d=0;d<3;d++)
           {
-          if((*j).GetPosition()[d]!=value)
+          if((*pit).GetPosition()[d]!=value)
             {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
             }
 
-          if(((*j).GetNormal(0))[d]!= d)
+          if(((*pit).GetNormal(0))[d]!= d)
             {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
             }
 
-          if(((*j).GetNormal(1))[d]!= 2*d)
+          if(((*pit).GetNormal(1))[d]!= 2*d)
             {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
             }
 
           // Testing the color of the tube points
-          if( (*j).GetRed() != value)
+          if( (*pit).GetRed() != value)
             {
-            std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
+            std::cout<<" [FAILED] : Red : found " << ( *pit).GetRed() << " instead of " << value <<std::endl;
             return EXIT_FAILURE;
             }
           
-          if((*j).GetGreen()!=value+1)
+          if((*pit).GetGreen()!=value+1)
             {
-            std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
+            std::cout<<" [FAILED] : Green : found " << ( *pit).GetGreen() << " instead of " << value+1 <<std::endl;
             return EXIT_FAILURE;
             }
       
-          if((*j).GetBlue()!=value+2)
+          if((*pit).GetBlue()!=value+2)
             {
-            std::cout<<" [FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
+            std::cout<<" [FAILED] : Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 <<std::endl;
             return EXIT_FAILURE;
             }
     
-          if((*j).GetAlpha()!=value+3)
+          if((*pit).GetAlpha()!=value+3)
             {
-            std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
+            std::cout<<" [FAILED] : Alpha : found " << ( *pit).GetAlpha() << " instead of " << value+3 <<std::endl;
             return EXIT_FAILURE;
             }
           }
@@ -939,17 +939,17 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    LandmarkType::PointListType::const_iterator j;
+    LandmarkType::PointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName(),"LandmarkSpatialObject"))
       {
       unsigned int value = 0;
-      for(j = dynamic_cast<LandmarkType*>((*obj).GetPointer())->GetPoints().begin(); 
-          j != dynamic_cast<LandmarkType*>((*obj).GetPointer())->GetPoints().end(); 
-          j++)
+      for(pit = dynamic_cast<LandmarkType*>((*obj).GetPointer())->GetPoints().begin(); 
+          pit != dynamic_cast<LandmarkType*>((*obj).GetPointer())->GetPoints().end(); 
+          pit++)
         {
         for(unsigned int d=0;d<3;d++)
           {
-          if((*j).GetPosition()[d]!=value)
+          if((*pit).GetPosition()[d]!=value)
             {
             std::cout<<" [FAILED]"<<std::endl;
             return EXIT_FAILURE;
