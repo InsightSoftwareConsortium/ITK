@@ -235,7 +235,7 @@ MINC2ImageIO::MINC2ImageIO()
 {
   this->m_NDims = 0;
   this->m_DimensionName  = new char *[ MINC2_MAXDIM + 1];
-  this->m_DimensionSize  = new int[MINC2_MAXDIM+1];
+  this->m_DimensionSize  = new unsigned int[MINC2_MAXDIM+1];
   this->m_DimensionStart = new double[MINC2_MAXDIM+1];
   this->m_DimensionStep  = new double[MINC2_MAXDIM+1];
   this->m_DimensionIndices = new int[MINC2_MAXDIM+1];
@@ -284,11 +284,13 @@ void MINC2ImageIO::ReadImageInformation()
     }
   // find out how many dimensions are there regularly sampled
   // dimensions only
-  if(miget_volume_dimension_count(volume, MI_DIMCLASS_ANY, MI_DIMATTR_REGULARLY_SAMPLED, &m_NDims) < 0)
+  int numberOfDimensions = static_cast<int>( m_NDims );
+  if(miget_volume_dimension_count(volume, MI_DIMCLASS_ANY, MI_DIMATTR_REGULARLY_SAMPLED, &numberOfDimensions) < 0)
     {
     itkDebugMacro("Could not get the number of dimensions in the volume!");
     return;
     }
+  m_NDims = static_cast<unsigned int>( numberOfDimensions );
   if (m_NDims > MINC2_MAXDIM)
     {
     // Error TOO MANY dimensions
@@ -342,7 +344,7 @@ void MINC2ImageIO::ReadImageInformation()
     {
     this->m_DimensionSize[i] = sizes[i];
     }
-  int numberOfComponents = 1;
+  unsigned int numberOfComponents = 1;
   this->XYZFromDirectionCosines(hdims, this->m_DimensionIndices, &numberOfComponents);
 
   double separations[MINC2_MAXDIM+1];
@@ -1303,7 +1305,7 @@ void MINC2ImageIO::SetSliceScalingFromGlobalScaling(mihandle_t volume)
 
 }
 
-void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, unsigned int *dim_indices, unsigned int *numberOfComponents)
+void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indices, unsigned int *numberOfComponents)
 {
 
   midimclass_t dim_class;

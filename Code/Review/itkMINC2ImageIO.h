@@ -102,7 +102,7 @@ public:
   char *GetDimensionOrder() { return m_DimensionOrder; }
   void SetDimensionOrder(char *dimorder) { m_DimensionOrder = dimorder; }
 
-  void XYZFromDirectionCosines(midimhandle_t *hdims, unsigned int *dim_indices, unsigned int *number_of_components);
+  void XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indices, unsigned int *number_of_components);
 
 protected:
   MINC2ImageIO();
