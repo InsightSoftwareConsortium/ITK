@@ -80,11 +80,11 @@ static int oneTest(const char *goodname,const char *badname)
     {
     itk::TransformFileReader::TransformListType *list;
     list = reader->GetTransformList();
-    itk::TransformFileReader::TransformListType::iterator i = list->begin();
-    while ( i != list->end() )
+    itk::TransformFileReader::TransformListType::iterator lit = list->begin();
+    while ( lit != list->end() )
       {
-      (*i)->Print ( std::cout );
-      i++;
+      (*lit)->Print ( std::cout );
+      lit++;
       }
     }
   catch( itk::ExceptionObject & excp )

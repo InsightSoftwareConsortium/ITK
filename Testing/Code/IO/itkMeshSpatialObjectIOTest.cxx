@@ -218,16 +218,16 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       return EXIT_FAILURE;
       }
     
-    unsigned int i=0;
+    unsigned int ii=0;
     while(itptids != (*it_cells)->Value()->PointIdsEnd())
       {
-      if(*itptids != i)
+      if(*itptids != ii)
         {
         std::cout<<" [FAILED]"<<std::endl;
-        std::cout << *itptids << " v.s. " << i << std::endl;
+        std::cout << *itptids << " v.s. " << ii << std::endl;
         return EXIT_FAILURE;
         }  
-      i++;
+      ii++;
       itptids++;
       }
     j++;
