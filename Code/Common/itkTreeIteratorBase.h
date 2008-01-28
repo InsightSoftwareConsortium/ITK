@@ -32,7 +32,7 @@ class TreeIteratorBase
 public: 
   
   /** Typedefs */
-  typedef TreeIteratorBase<TTreeType>         Self;
+  typedef TreeIteratorBase                    Self;
   typedef typename TTreeType::ValueType       ValueType;
   typedef typename TTreeType::TreeNodeType    TreeNodeType;
 

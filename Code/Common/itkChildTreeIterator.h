@@ -29,9 +29,9 @@ class ChildTreeIterator : public TreeIteratorBase<TTreeType>
 public:
   
   /** Typedefs */
+  typedef ChildTreeIterator                 Self;
   typedef TreeIteratorBase<TTreeType>       Superclass;
   typedef TTreeType                         TreeType;
-  typedef typename Superclass::Self         Self;
   typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
 
