@@ -99,12 +99,15 @@ public:
   typedef SmartPointer<Self>   Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename InputPixelType::ValueType      InputValueType;
-  typedef typename OutputPixelType::ValueType     OutputValueType;
-  typedef typename NumericTraits<InputValueType>::RealType InputRealType;
+  typedef typename TOutputImage::PixelType                  OutputPixelType;
+  typedef typename TInputImage::PixelType                   InputPixelType;
+  typedef typename InputPixelType::ValueType                InputValueType;
+  typedef typename OutputPixelType::ValueType               OutputValueType;
+  typedef typename NumericTraits<InputValueType>::RealType  InputRealType;
   typedef typename NumericTraits<OutputValueType>::RealType OutputRealType;
+
+  typedef typename Superclass::InputImageType      InputImageType;
+  typedef typename Superclass::InputImagePointer   InputImagePointer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro( VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter );

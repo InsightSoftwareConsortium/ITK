@@ -75,9 +75,6 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>
     return;
     }
 
-  typedef  typename Superclass::InputImageType      InputImageType;
-  typedef  typename Superclass::InputImagePointer   InputImagePointer;
-
   InputImagePointer inputImage =   this->GetInput();
 
   typedef ImageRegionConstIterator< InputImageType >  InputIterator;
