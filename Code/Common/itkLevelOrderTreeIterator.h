@@ -56,7 +56,7 @@ public:
   TreeIteratorBase<TTreeType>* Clone();
 
   /** operator = */
-  virtual const Self & operator=(const Self & iterator) 
+  const Self & operator=(const Self & iterator) 
     {
     this->Superclass::operator=(iterator);
     m_StartLevel = iterator.m_StartLevel;

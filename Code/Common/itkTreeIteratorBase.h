@@ -164,7 +164,7 @@ public:
   }
 
   /** operator = */
-  virtual const Self & operator=(const Self& iterator) 
+  const Self & operator=(const Self& iterator) 
     {
     m_Position = iterator.m_Position; 
     m_Begin  = iterator.m_Begin;

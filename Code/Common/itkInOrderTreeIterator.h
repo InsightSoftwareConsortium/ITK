@@ -43,13 +43,6 @@ public:
   /** Clone function */
   TreeIteratorBase<TTreeType>* Clone();
 
-  /** operator = */
-  virtual const Self & operator=(const Self& iterator) 
-    {
-    this->Superclass::operator=( iterator );
-    return *this;
-    }
-
 protected:
 
   /** Return the next node */
