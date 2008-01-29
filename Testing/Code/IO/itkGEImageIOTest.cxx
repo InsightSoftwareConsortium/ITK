@@ -132,6 +132,7 @@ int itkGEImageIOTest(int ac, char * av[])
     else
       {
       std::cout << "Caught expected exception. Test Passed!" << std::endl;
+      return EXIT_SUCCESS;
       }
     std::cout << e << std::endl;
     return Failmode ? 1 : 0;
