@@ -1,6 +1,9 @@
 
 
-MACRO(ADD_PYTHON_TYPEMAP simple_name cpp_name swig_name template_params)
+MACRO(ADD_PYTHON_TYPEMAP simple_name cpp_name swig_name template_params_without_u)+
+  # TODO: remove this hack once bug #6177 is fixed
+  STRING(REGEX REPLACE "(^| |<|,)([0-9]+)($| |>|,)" "\\1\\2u\\3" template_params "${template_params_without_u}")
+
   SET(text "\n\n")
   IF("${cpp_name}" STREQUAL "itk::SmartPointer")
     ADD_PYTHON_POINTER_TYPEMAP("${template_params}")
