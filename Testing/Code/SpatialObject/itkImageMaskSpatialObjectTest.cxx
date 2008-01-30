@@ -90,15 +90,15 @@ int itkImageMaskSpatialObjectTest(int, char* [])
   
   while( !itr.IsAtEnd() )
     {
-    const ImageType::IndexType index =  itr.GetIndex();
-    const bool reference = insideRegion.IsInside( index );
+    const ImageType::IndexType constIndex =  itr.GetIndex();
+    const bool reference = insideRegion.IsInside( constIndex );
     ImageType::PointType point;
-    image->TransformIndexToPhysicalPoint( index, point );
+    image->TransformIndexToPhysicalPoint( constIndex, point );
     const bool test      = maskSO->IsInside( point );
       if( test != reference )
         {
         std::cerr << "Error in the evaluation of IsInside() " << std::endl;
-        std::cerr << "Index failed = " << index << std::endl;
+        std::cerr << "Index failed = " << constIndex << std::endl;
         return EXIT_FAILURE;
         }
     ++itr;

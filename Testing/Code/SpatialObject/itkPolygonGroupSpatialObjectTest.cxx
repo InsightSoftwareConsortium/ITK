@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkPolygonSpatialObject.h"
 #include <iostream>
 
-static float points[11][2] = 
+static float testPoints[11][2] = 
   {
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
@@ -53,8 +53,8 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       for(int i = 0; i < 11; i++)
         {
         double pos[3];
-        pos[0] = points[i][0];
-        pos[1] = points[i][1];
+        pos[0] = testPoints[i][0];
+        pos[1] = testPoints[i][1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType curpoint(pos);
         if(!strand->AddPoint(curpoint)) 
@@ -99,8 +99,8 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
                   << std::endl;
 
         double pos[3];
-        pos[0] = points[5][0];
-        pos[1] = points[5][1];
+        pos[0] = testPoints[5][0];
+        pos[1] = testPoints[5][1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType testpoint(pos);
         if(!strand->DeletePoint(testpoint))
@@ -110,8 +110,8 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         //
         // put the same point back
         double p2[3];
-        p2[0] = points[4][0];
-        p2[1] = points[4][1];
+        p2[0] = testPoints[4][0];
+        p2[1] = testPoints[4][1];
         p2[2] = z;
         itk::PolygonSpatialObject<3>::PointType insertafter(p2);
         if(!strand->InsertPoint(insertafter,testpoint))
@@ -127,8 +127,8 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         //
         // try deleting a segment
         double p3[3];
-        p3[0] = points[10][0];
-        p3[1] = points[10][1];
+        p3[0] = testPoints[10][0];
+        p3[1] = testPoints[10][1];
         p3[2] = z;
         itk::PolygonSpatialObject<3>::PointType endpt(p3);
         if(!strand->RemoveSegment(testpoint,endpt))
@@ -144,9 +144,8 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         // put the same points back.
         for(int i = 5; i < 11; i++)
           {
-          double pos[3];
-          pos[0] = points[i][0];
-          pos[1] = points[i][1];
+          pos[0] = testPoints[i][0];
+          pos[1] = testPoints[i][1];
           pos[2] = z;
           itk::PolygonSpatialObject<3>::PointType curpoint(pos);
 
