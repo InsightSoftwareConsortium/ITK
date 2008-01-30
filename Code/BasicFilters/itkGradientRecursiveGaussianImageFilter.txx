@@ -268,7 +268,6 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   if( this->m_UseImageDirection )
     {
     OutputImageType * gradientImage = this->GetOutput();
-    const TInputImage * inputImage = this->GetInput();
     typedef typename InputImageType::DirectionType DirectionType;
     ImageRegionIterator< OutputImageType > itr( gradientImage,
       gradientImage->GetRequestedRegion() );
