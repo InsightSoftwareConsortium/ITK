@@ -39,6 +39,8 @@ IF(ITK_USE_LIBXML2)
         EXECUTE_PROCESS(
               COMMAND "${Subversion_SVN_EXECUTABLE}" ${ARG1} ${ARG2} ${ARG3} 
               INPUT_FILE ${ITK_BINARY_DIR}/Utilities/t
+              OUTPUT_VARIABLE svnOutput
+              ERROR_VARIABLE svnError
               )
         SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
       ENDIF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2")
