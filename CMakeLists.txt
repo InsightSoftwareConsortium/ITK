@@ -377,6 +377,10 @@ ITK_THIRD_PARTY_OPTION(ZLIB zlib)
 ITK_THIRD_PARTY_OPTION(PNG  png)
 ITK_THIRD_PARTY_OPTION(TIFF tiff)
 
+OPTION(ITK_USE_LIBXML2 "Use LIBXML2." OFF)
+MARK_AS_ADVANCED(ITK_USE_LIBXML2)
+ITK_THIRD_PARTY_OPTION(LIBXML2 libxml2)
+
 #-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
 SUBDIRS(Utilities Code)

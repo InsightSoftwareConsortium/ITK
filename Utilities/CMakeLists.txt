@@ -21,6 +21,35 @@ ITK_THIRD_PARTY_SUBDIR(TIFF itktiff)
 SET(OPJ_PREFIX "itk")
 ITK_THIRD_PARTY_SUBDIR(OpenJPEG openjpeg)
 ITK_THIRD_PARTY_SUBDIR(GDCM gdcm)
+
+#
+# Handle the special case of building libxml2
+#  Fetch libxml2 using subversion if requested 
+IF(ITK_USE_LIBXML2)
+  IF(NOT ITK_USE_SYSTEM_LIBXML2)
+    FIND_PACKAGE(Subversion REQUIRED)
+    IF(Subversion_SVN_FOUND)
+      IF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2")
+        SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
+      ELSE(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2")
+        SET(ARG1 "co")
+        SET(ARG2 "https://www.kitware.com:8443/svn/KWPublic/trunk/itklibxml2")
+        SET(ARG3 "${ITK_BINARY_DIR}/Utilities")
+        FILE(WRITE ${ITK_BINARY_DIR}/Utilities/t "t\n")
+        EXECUTE_PROCESS(
+              COMMAND "${Subversion_SVN_EXECUTABLE}" ${ARG1} ${ARG2} ${ARG3} 
+              INPUT_FILE ${ITK_BINARY_DIR}/Utilities/t
+              )
+        SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
+      ENDIF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2")
+    ELSE(Subversion_SVN_FOUND)
+      MESSAGE(FATAL_ERROR "Subversion is required to install itklibxml2.  Point SVN_COMMAND to your svn installation.")
+    ENDIF(Subversion_SVN_FOUND)
+  ELSE(NOT ITK_USE_SYSTEM_LIBXML2)
+    MESSAGE(FATAL_ERROR "You cannot enable both ITK_USE_SYSTEM_LIBXML2 and ITK_USE_LIBXML2.  Enable the SYSTEM variable if libxml2 is already installed outside of the Insight build directory.")
+  ENDIF(NOT ITK_USE_SYSTEM_LIBXML2)
+ENDIF(ITK_USE_LIBXML2)
+
 #------------------------------------------------------------------------------
 # Other utilities libraries
 SUBDIRS(MetaIO)
@@ -99,4 +128,11 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities
     COMPONENT Development
     )
+  IF(ITK_USE_LIBXML2)
+    INSTALL(FILES
+      "${ITK_BINARY_DIR}/Utilities/itk_libxml2.h"
+      DESTINATION "${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities"
+      COMPONENT Development
+      )
+  ENDIF(ITK_USE_LIBXML2)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
