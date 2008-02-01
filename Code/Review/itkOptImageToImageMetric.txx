@@ -35,6 +35,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_NumberOfFixedImageSamples = 50000;
   m_UseAllPixels = false;
   m_UseFixedImageIndexes = false;
+  m_UseFixedImageSamplesIntensityThreshold = false;
+  m_FixedImageSamplesIntensityThreshold = 0;
   m_ReseedIterator = false;
   m_RandomSeed = -1;
 
@@ -133,6 +135,15 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     {
     m_FixedImageIndexes[i] = indexes[i];
     }
+}
+
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::SetFixedImageSamplesIntensityThreshold( const FixedImagePixelType & thresh )
+{
+  m_UseFixedImageSamplesIntensityThreshold = true;
+  m_FixedImageSamplesIntensityThreshold = thresh;
 }
 
 /**
@@ -426,6 +437,13 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       if( !m_FixedImageMask->IsInside( inputPoint ) )
         {
         ++randIter; // jump to another random position
+        continue;
+        }
+
+      if( m_UseFixedImageSamplesIntensityThreshold &&
+          randIter.Get() < m_FixedImageSamplesIntensityThreshold )
+        {
+        ++randIter;
         continue;
         }
 
@@ -1232,6 +1250,12 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
   os << indent << "NumberOfFixedImageSamples: ";
   os << m_NumberOfFixedImageSamples << std::endl;
+
+  os << indent << "FixedImageSamplesIntensityThreshold: ";
+  os << m_FixedImageSamplesIntensityThreshold << std::endl;
+
+  os << indent << "UseFixedImageSamplesIntensityThreshold: ";
+  os << m_UseFixedImageSamplesIntensityThreshold << std::endl;
 
   os << indent << "UseAllPixels: ";
   os << m_UseAllPixels << std::endl;

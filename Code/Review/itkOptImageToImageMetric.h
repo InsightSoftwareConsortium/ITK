@@ -79,6 +79,7 @@ public:
 
   /**  Type of the fixed Image. */
   typedef TFixedImage                                FixedImageType;
+  typedef typename TFixedImage::PixelType            FixedImagePixelType;
   typedef typename FixedImageType::ConstPointer      FixedImageConstPointer;
   typedef typename FixedImageType::RegionType        FixedImageRegionType;
 
@@ -184,7 +185,9 @@ public:
   /** Get the number of pixels considered in the computation. */
   itkGetConstReferenceMacro( NumberOfMovingImageSamples, unsigned long );
   unsigned long GetNumberOfPixelsCounter( void )
-    { return GetNumberOfMovingImageSamples(); }
+    {
+    return GetNumberOfMovingImageSamples(); 
+    }
 
   /** Set the region over which the metric will be computed */
   itkSetMacro( FixedImageRegion, FixedImageRegionType );
@@ -200,19 +203,21 @@ public:
   itkSetObjectMacro( FixedImageMask, FixedImageMaskType );
   itkGetConstObjectMacro( FixedImageMask, FixedImageMaskType );
 
-  void SetFixedImageIndexes( const FixedImageIndexContainer & indexes);
+  /** Set the fixed image indexes to be used as the samples when
+   *   computing the match metric */
+  void SetFixedImageIndexes( const FixedImageIndexContainer & indexes );
 
   /** Set/Get number of threads to use for computations. */
-  itkSetMacro( NumberOfThreads, unsigned int);
-  itkGetConstReferenceMacro( NumberOfThreads, unsigned int);
+  itkSetMacro( NumberOfThreads, unsigned int );
+  itkGetConstReferenceMacro( NumberOfThreads, unsigned int );
 
   /** Set/Get gradient computation. */
-  itkSetMacro( ComputeGradient, bool);
-  itkGetConstReferenceMacro( ComputeGradient, bool);
-  itkBooleanMacro(ComputeGradient);
+  itkSetMacro( ComputeGradient, bool );
+  itkGetConstReferenceMacro( ComputeGradient, bool );
+  itkBooleanMacro(ComputeGradient );
 
   /** Computes the gradient image and assigns it to m_GradientImage */
-  virtual void ComputeGradient();
+  virtual void ComputeGradient( void );
 
   /** Get Gradient Image. */
   itkGetConstObjectMacro( GradientImage, GradientImageType );
@@ -221,24 +226,46 @@ public:
   void SetTransformParameters( const ParametersType & parameters ) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const 
-    { return m_Transform->GetNumberOfParameters(); }
+  unsigned int GetNumberOfParameters( void ) const 
+    {
+    return m_Transform->GetNumberOfParameters(); 
+    }
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void) throw ( ExceptionObject );
+  virtual void Initialize( void ) throw ( ExceptionObject );
 
   /** Initialize the components related to supporting multiple threads */
-  virtual void MultiThreadingInitialize(void) throw ( ExceptionObject );
+  virtual void MultiThreadingInitialize( void ) throw ( ExceptionObject );
 
   /** Number of spatial samples to used to compute metric */
-  itkSetClampMacro( NumberOfFixedImageSamples,
-                    unsigned long, 1, NumericTraits<unsigned long>::max() );
-  itkGetConstReferenceMacro( NumberOfFixedImageSamples, unsigned long); 
+  itkSetClampMacro( NumberOfFixedImageSamples, unsigned long,
+                    1, NumericTraits<unsigned long>::max() );
+  itkGetConstReferenceMacro( NumberOfFixedImageSamples, unsigned long ); 
   void SetNumberOfSpatialSamples( unsigned long num )
-    { this->SetNumberOfFixedImageSamples(num); }
+    {
+    this->SetNumberOfFixedImageSamples( num ); 
+    }
   unsigned long GetNumberOfSpatialSamples( void )
-    { return this->GetNumberOfFixedImageSamples(); }
+    {
+    return this->GetNumberOfFixedImageSamples(); 
+    }
+
+  /** Minimum fixed-image intensity needed for a sample to be used in the
+   *  metric computation */
+  void SetFixedImageSamplesIntensityThreshold( const FixedImagePixelType & thresh );
+  itkGetConstReferenceMacro( FixedImageSamplesIntensityThreshold, FixedImagePixelType );
+  itkSetMacro( UseFixedImageSamplesIntensityThreshold, bool );
+  itkGetConstReferenceMacro( UseFixedImageSamplesIntensityThreshold, bool );
+
+  /** Select whether the metric will be computed using all the pixels on the
+   * fixed image region, or only using a set of randomly selected pixels. */ 
+  itkSetMacro( UseAllPixels, bool );
+  itkGetConstReferenceMacro( UseAllPixels, bool );
+  itkBooleanMacro( UseAllPixels );
+
+  /** Get the number of pixels considered in the computation. */
+  itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
 
   /** Reinitialize the seed of the random number generator that selects the
    * sample of pixels used for estimating the image histograms and the joint
@@ -250,16 +277,8 @@ public:
    * the seed. This will indeed increase the non-deterministic behavior of the
    * metric. */
   void ReinitializeSeed();
-  void ReinitializeSeed(int);  
+  void ReinitializeSeed( int seed );  
 
-  /** Select whether the metric will be computed using all the pixels on the
-   * fixed image region, or only using a set of randomly selected pixels. */ 
-  itkSetMacro(UseAllPixels,bool);
-  itkGetConstReferenceMacro(UseAllPixels,bool);
-  itkBooleanMacro(UseAllPixels);
-
-  /** Get the number of pixels considered in the computation. */
-  itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
 
 protected:
   ImageToImageMetric();
@@ -293,6 +312,8 @@ protected:
   
   bool                      m_UseFixedImageIndexes;
   FixedImageIndexContainer  m_FixedImageIndexes;
+  FixedImagePixelType       m_FixedImageSamplesIntensityThreshold;
+  bool                      m_UseFixedImageSamplesIntensityThreshold;
 
   /** FixedImageSamplePoint typedef support. */
   typedef std::vector<FixedImageSamplePoint> FixedImageSampleContainer;
