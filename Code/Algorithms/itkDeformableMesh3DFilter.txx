@@ -475,7 +475,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++points;
     } 
 
-  for (int i=0; i<m_NumberOfCells; i++) 
+  for (i=0; i<m_NumberOfCells; i++) 
     {
     tp = cells.Value()->GetPointIds();
     tripoints[0] = tp[0];

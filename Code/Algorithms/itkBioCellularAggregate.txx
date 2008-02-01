@@ -131,15 +131,15 @@ CellularAggregate<NSpaceDimension>
         bool neighborVoronoiExist = m_Mesh->GetCell( neighborId, cellPointer );
         if( neighborVoronoiExist ) 
           {
-          VoronoiRegionType * region =
+          VoronoiRegionType * vregion =
              dynamic_cast < VoronoiRegionType * >( cellPointer.GetPointer() );
-          if( !region )
+          if( !vregion )
             {
             std::cerr << "CellularAggregate::Add() Failed to find a region"  << std::endl;
             }
           else
             {
-            region->RemovePointId( id );
+            vregion->RemovePointId( id );
             }
           }
         neighbor++;
@@ -450,9 +450,9 @@ CellularAggregate<NSpaceDimension>
     this->GetVoronoi( cell1Id, voronoiRegion );
               
     typename VoronoiRegionType::PointIdIterator neighbor = voronoiRegion->PointIdsBegin();
-    typename VoronoiRegionType::PointIdIterator end      = voronoiRegion->PointIdsEnd();
+    typename VoronoiRegionType::PointIdIterator vend      = voronoiRegion->PointIdsEnd();
 
-    while( neighbor != end )
+    while( neighbor != vend )
       {
 
       const IdentifierType cell2Id = (*neighbor);  

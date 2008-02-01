@@ -77,6 +77,7 @@ public:
 
   typedef typename Superclass::PointIterator              PointIterator;
   typedef typename Superclass::PointDataIterator          PointDataIterator;
+  typedef typename Superclass::OutputPointType            OutputPointType;
 
 
   /** Get the derivatives of the match measure. */

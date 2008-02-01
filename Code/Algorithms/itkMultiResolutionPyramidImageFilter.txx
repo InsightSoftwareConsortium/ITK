@@ -393,7 +393,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
     {
 
-    OutputImagePointer outputPtr = this->GetOutput( ilevel );
+    outputPtr = this->GetOutput( ilevel );
     if( !outputPtr ) { continue; }
 
     for( idim = 0; idim < OutputImageType::ImageDimension; idim++ )

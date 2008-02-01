@@ -165,13 +165,13 @@ SphereMeshSource<TOutputMesh>
 
 // store all regular cells
         CellAutoPointer testCell;
-        for(unsigned int i=0; i+1 < m_ResolutionX; i++) 
+        for(unsigned int ii=0; ii+1 < m_ResolutionX; ii++) 
           {
-          for (unsigned int j=0; j<m_ResolutionY; j++) 
+          for (unsigned int jj=0; jj<m_ResolutionY; jj++) 
             {
-            jn = (j+1)%m_ResolutionY; 
-            tripoints[0] = i*m_ResolutionY+j; 
-            tripoints[1] = tripoints[0]-j+jn; 
+            jn = (jj+1)%m_ResolutionY; 
+            tripoints[0] = ii*m_ResolutionY+jj; 
+            tripoints[1] = tripoints[0]-jj+jn; 
             tripoints[2] = tripoints[0]+m_ResolutionY; 
             testCell.TakeOwnership( new TriCellType );
             testCell->SetPointIds(tripoints);
@@ -189,12 +189,12 @@ SphereMeshSource<TOutputMesh>
           }
  
 // store cells containing the south pole nodes
-        for (unsigned int j=0; j<m_ResolutionY; j++) 
+        for (unsigned int jj=0; jj<m_ResolutionY; jj++) 
           {
-          jn = (j+1)%m_ResolutionY; 
+          jn = (jj+1)%m_ResolutionY; 
           tripoints[0] = numpts-2; 
           tripoints[1] = jn; 
-          tripoints[2] = j; 
+          tripoints[2] = jj; 
           testCell.TakeOwnership( new TriCellType );
           testCell->SetPointIds(tripoints);
           outputMesh->SetCell(p, testCell );
@@ -203,12 +203,12 @@ SphereMeshSource<TOutputMesh>
           }
 
 // store cells containing the north pole nodes
-        for (unsigned int j=0; j<m_ResolutionY; j++) 
+        for (unsigned int jj=0; jj<m_ResolutionY; jj++) 
           {
-          jn = (j+1)%m_ResolutionY; 
-          tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+j; 
+          jn = (jj+1)%m_ResolutionY; 
+          tripoints[2] = (m_ResolutionX-1)*m_ResolutionY+jj; 
           tripoints[1] = numpts-1; 
-          tripoints[0] = tripoints[2]-j+jn; 
+          tripoints[0] = tripoints[2]-jj+jn; 
           testCell.TakeOwnership( new TriCellType );
           testCell->SetPointIds(tripoints);
           outputMesh->SetCell(p, testCell );
