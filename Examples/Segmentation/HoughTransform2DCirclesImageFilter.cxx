@@ -244,10 +244,10 @@ int main( int argc, char *argv[] )
       localIndex[1] =
          (long int)((*itCircles)->GetObjectToParentTransform()->GetOffset()[1] 
                                   + (*itCircles)->GetRadius()[0]*sin(angle));
-      OutputImageType::RegionType region =
+      OutputImageType::RegionType outputRegion =
                                   localOutputImage->GetLargestPossibleRegion();
 
-      if( region.IsInside( localIndex ) )
+      if( outputRegion.IsInside( localIndex ) )
         {
         localOutputImage->SetPixel( localIndex, 255 );
         }
