@@ -214,7 +214,7 @@ int testMinMaxCurvatureFlow(
 
   typename ImageType::Pointer swapPointer = circleImage;
 
-  for ( int j = 0; j < numberOfRuns; j++ )
+  for ( j = 0; j < numberOfRuns; j++ )
     {
 
     denoiser->SetInput( swapPointer );

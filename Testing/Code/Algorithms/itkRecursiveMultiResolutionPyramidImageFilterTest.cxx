@@ -274,9 +274,9 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
       {
       break;
       }
-    unsigned int size = inputSize[j] / schedule[testLevel][j];
-    if( size == 0 ) size = 1;
-    if( outputSize[j] != size )
+    unsigned int sz = inputSize[j] / schedule[testLevel][j];
+    if( sz == 0 ) sz = 1;
+    if( outputSize[j] != sz )
       {
       break;
       }

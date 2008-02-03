@@ -78,7 +78,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -87,7 +87,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -154,8 +154,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<
     FixedImageType> FixedIteratorType;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<
-    ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
+  typedef  itk::ImageRegionConstIteratorWithIndex<GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -177,7 +176,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -186,7 +185,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -208,8 +207,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typedef typename Superclass::OutputPointType OutputPointType;
-      typedef typename OutputPointType::CoordRepType CoordRepType;
+      CoordRepType CoordRepType;
       typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
         MovingImageContinuousIndexType;
 
@@ -280,8 +278,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   typedef  itk::ImageRegionConstIteratorWithIndex<
     FixedImageType> FixedIteratorType;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<
-    ITK_TYPENAME Superclass::GradientImageType> GradientIteratorType;
+  typedef  itk::ImageRegionConstIteratorWithIndex<GradientImageType> GradientIteratorType;
 
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
@@ -305,7 +302,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -314,7 +311,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -339,8 +336,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typedef typename Superclass::OutputPointType OutputPointType;
-      typedef typename OutputPointType::CoordRepType CoordRepType;
+      OutputPointType::CoordRepType CoordRepType;
       typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
         MovingImageContinuousIndexType;
 

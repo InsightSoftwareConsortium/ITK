@@ -266,10 +266,10 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
 
   metric->SetNumberOfHistogramBins( 50 );
 
-  for( unsigned int j = 0; j < dimension; j++ )
+  for( unsigned int jj = 0; jj < dimension; jj++ )
     {
-    size[j] -= 4;
-    index[j] += 2;
+    size[jj] -= 4;
+    index[jj] += 2;
     }
   region.SetSize( size );
   region.SetIndex( index );

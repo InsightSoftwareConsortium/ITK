@@ -159,8 +159,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
   
   m_RegionSizes.clear();
   m_Visited.resize(numCells);
-  unsigned int i;
-  for ( i=0; i < numCells; i++ )
+  for ( unsigned int i=0; i < numCells; i++ )
     {
     m_Visited[i] = -1;
     }

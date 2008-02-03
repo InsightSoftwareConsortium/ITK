@@ -50,7 +50,7 @@ int itkSphereMeshSourceTest(int, char* [] ){
 //  itk::Mesh<float>::PointsContainer::Iterator   m_output = myoutput->Begin();
 
   IPT*  pt_ptr;
-  IPT   pt;
+  IPT   pt; pt.Fill(0.0);
   pt_ptr = &pt;
 
   std::cout << "Testing itk::SphereMeshSource "<< std::endl;

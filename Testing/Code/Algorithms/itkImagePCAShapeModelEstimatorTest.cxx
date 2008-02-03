@@ -214,16 +214,16 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //Print the largest two eigen vectors
   for (unsigned int j=1; j< NUMLARGESTPC + 1; j++ )
     {
-    OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput( j );
-    OutputImageIterator outImageIt( outImage, outImage->GetBufferedRegion() );
-    outImageIt.GoToBegin();
+    OutputImageType::Pointer outImage2 = applyPCAShapeEstimator->GetOutput( j );
+    OutputImageIterator outImage2It( outImage2, outImage2->GetBufferedRegion() );
+    outImage2It.GoToBegin();
 
     std::cout << "" << std::endl;
     std::cout << "The eigen vector number: " << j << " is:" << std::endl;
-    while(!outImageIt.IsAtEnd() )
+    while(!outImage2It.IsAtEnd() )
       {
-      std::cout << (double) (outImageIt.Get()) << ";"  << std::endl;  
-      ++outImageIt; 
+      std::cout << (double) (outImage2It.Get()) << ";"  << std::endl;  
+      ++outImage2It; 
       } 
     std::cout << "  " << std::endl;
 

@@ -143,7 +143,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Get moving image related information
   double movingValue;
   PointType mappedPoint;
-  typename Superclass::DeformationFieldType::PixelType itvec=this->GetDeformationField()->GetPixel(index);
+  DeformationFieldPixelType itvec=this->GetDeformationField()->GetPixel(index);
 
   for( j = 0; j < ImageDimension; j++ )
     {

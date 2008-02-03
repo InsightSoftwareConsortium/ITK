@@ -77,6 +77,7 @@ public:
 
   typedef typename Superclass::PointIterator              PointIterator;
   typedef typename Superclass::PointDataIterator          PointDataIterator;
+  typedef typename Superclass::InputPointType             InputPointType;
   typedef typename Superclass::OutputPointType            OutputPointType;
 
 

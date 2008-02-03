@@ -814,11 +814,11 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     }
 
   // Assign new consecutive labels
-  for ( unsigned int iregion = 0; iregion < m_InitialNumberOfRegions; iregion++ )
+  for ( iregion = 0; iregion < m_InitialNumberOfRegions; iregion++ )
     {
     RegionLabelType labelValue = m_RegionsPointer[ iregion ]->GetRegionLabel();
 
-    RegionLabelType newLabelValue = remapLabelsVec[ labelValue - 1 ];
+    newLabelValue = remapLabelsVec[ labelValue - 1 ];
     double newAreaValue = m_RegionsPointer[ labelValue - 1 ]->GetRegionArea();
     MeanRegionIntensityType newMeanValue =
       m_RegionsPointer[ labelValue - 1 ]->GetMeanRegionIntensity();

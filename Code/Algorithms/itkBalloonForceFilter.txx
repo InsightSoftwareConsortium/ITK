@@ -856,7 +856,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     int p = 0, jn;
 
     // store cells containing the south pole nodes
-    for (int j=0; j<m_Resolution; j++)
+    for (j=0; j<m_Resolution; j++)
       {
       jn = (j+1)%m_Resolution;
       tripoints[0] = m_NumberOfNodes-2;
@@ -870,7 +870,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       }
 
     // store cells containing the north pole nodes
-    for (int j=0; j<m_Resolution; j++)
+    for (j=0; j<m_Resolution; j++)
       {
       jn = (j+1)%m_Resolution;
       tripoints[2] = (1-1)*m_Resolution+j;
@@ -888,9 +888,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     m_K = (vnl_matrix_fixed<double,4,4>**)
       malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
 
-    InputCellDataContainerIterator    celldata = m_Locations->GetCellData()->Begin();
+    celldata = m_Locations->GetCellData()->Begin();
 
-    int j=0;
+    j=0;
     while (celldata != m_Locations->GetCellData()->End())
       {
       w = celldata.Value();

@@ -82,6 +82,7 @@ public:
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
+  typedef typename DeformationFieldType::PixelType     DeformationFieldPixelType;
   typedef typename Superclass::DeformationFieldTypePointer   
     DeformationFieldTypePointer;
 

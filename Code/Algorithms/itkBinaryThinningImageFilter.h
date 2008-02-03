@@ -92,6 +92,9 @@ public:
 
   /** Pointer Type for the output image. */
   typedef typename OutputImageType::Pointer OutputImagePointer;
+
+  /** Superclass typedefs. */
+  typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
   
   /** Neighborhood iterator type */
   typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType ;
@@ -125,7 +128,6 @@ public:
 protected:
   BinaryThinningImageFilter();
   virtual ~BinaryThinningImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Compute thinning Image. */
   void GenerateData();

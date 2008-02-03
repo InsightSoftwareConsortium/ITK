@@ -160,7 +160,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
     {
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->GetFixedImageMask() && !this->GetFixedImageMask()->IsInside( inputPoint ) )
@@ -169,7 +169,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType
+    OutputPointType
       transformedPoint = this->GetTransform()->TransformPoint( inputPoint );
 
     if( this->GetMovingImageMask() && !this->GetMovingImageMask()->IsInside( transformedPoint ) )

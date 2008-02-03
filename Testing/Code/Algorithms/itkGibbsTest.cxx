@@ -278,9 +278,9 @@ int itkGibbsTest(int, char*[] )
     SetDecisionRule((DecisionRuleBasePointer) myDecisionRule );
 
   //Add the membership functions
-  for( unsigned int i=0; i<NUM_CLASSES; i++ )
+  for( unsigned int ii=0; ii<NUM_CLASSES; ii++ )
     {
-    myClassifier->AddMembershipFunction( membershipFunctions[i] );
+    myClassifier->AddMembershipFunction( membershipFunctions[ii] );
     }
 
   //Set the Gibbs Prior labeller

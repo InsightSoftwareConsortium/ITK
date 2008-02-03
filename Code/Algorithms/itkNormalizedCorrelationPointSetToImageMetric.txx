@@ -71,9 +71,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
-    typename Superclass::InputPointType  inputPoint;
+    InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
-    typename Superclass::OutputPointType transformedPoint = 
+    OutputPointType transformedPoint = 
       this->m_Transform->TransformPoint( inputPoint );
 
     if(this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
@@ -178,9 +178,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
-    typename Superclass::InputPointType  inputPoint;
+    InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
-    typename Superclass::OutputPointType transformedPoint = 
+    OutputPointType transformedPoint = 
       this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
@@ -331,9 +331,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
   while( pointItr != pointEnd && pointDataItr != pointDataEnd )
     {
-    typename Superclass::InputPointType  inputPoint;
+    InputPointType  inputPoint;
     inputPoint.CastFrom( pointItr.Value() );
-    typename Superclass::OutputPointType transformedPoint = 
+    OutputPointType transformedPoint = 
       this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )

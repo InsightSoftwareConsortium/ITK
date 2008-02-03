@@ -74,7 +74,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -83,7 +83,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -194,7 +194,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -203,7 +203,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -236,7 +236,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if ( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -245,7 +245,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if ( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -263,7 +263,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typedef typename Superclass::OutputPointType OutputPointType;
       typedef typename OutputPointType::CoordRepType CoordRepType;
       typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
         MovingImageContinuousIndexType;
@@ -390,7 +389,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -399,7 +398,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -433,7 +432,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -442,7 +441,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -460,7 +459,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typedef typename Superclass::OutputPointType OutputPointType;
       typedef typename OutputPointType::CoordRepType CoordRepType;
       typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
         MovingImageContinuousIndexType;

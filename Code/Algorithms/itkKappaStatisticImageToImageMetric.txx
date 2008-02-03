@@ -63,7 +63,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   //Get an iterator over the fixed image
   //
   //
-  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  typedef  ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
   typename FixedImageType::IndexType fixedIndex;
   FixedIteratorType fi( fixedImage, fixedImage->GetBufferedRegion() );
 
@@ -98,7 +98,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     {
     fixedIndex = fi.GetIndex();
     
-    typename Superclass::InputPointType fixedInputPoint;
+    InputPointType fixedInputPoint;
     fixedImage->TransformIndexToPhysicalPoint( fixedIndex, fixedInputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( fixedInputPoint ) )
@@ -121,7 +121,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     //the point in the fixed image (physical coordinates)
     //
     //
-    typename Superclass::OutputPointType
+    OutputPointType
       transformedPoint = this->m_Transform->TransformPoint( fixedInputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
@@ -188,7 +188,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex< FixedImageType > FixedIteratorType;
+  typedef  ImageRegionConstIteratorWithIndex< FixedImageType > FixedIteratorType;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
   
@@ -219,7 +219,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     {    
     index = ti.GetIndex();
     
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside( inputPoint ) )
@@ -234,7 +234,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
       fixedArea++;
       }
 
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
+    OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
     if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside( transformedPoint ) )
       {
@@ -263,7 +263,6 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation: 
       // which is equivalent to round up the point components.
-      typedef typename Superclass::OutputPointType OutputPointType;
       typedef typename OutputPointType::CoordRepType CoordRepType;
       typedef ContinuousIndex<CoordRepType,MovingImageType::ImageDimension>
         MovingImageContinuousIndexType;
@@ -316,14 +315,13 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 {
   const unsigned int dim = MovingImageType::ImageDimension;
 
-  typedef itk::Image< GradientPixelType, dim > GradientImageType;
   typename GradientImageType::Pointer tempGradientImage = GradientImageType::New();
     tempGradientImage->SetRegions( this->m_MovingImage->GetBufferedRegion().GetSize() );
     tempGradientImage->Allocate();
     tempGradientImage->Update();
 
-  typedef  itk::ImageRegionIteratorWithIndex< GradientImageType > GradientIteratorType;
-  typedef  itk::ImageRegionConstIteratorWithIndex< MovingImageType > MovingIteratorType; 
+  typedef  ImageRegionIteratorWithIndex< GradientImageType > GradientIteratorType;
+  typedef  ImageRegionConstIteratorWithIndex< MovingImageType > MovingIteratorType; 
 
   GradientIteratorType git( tempGradientImage, tempGradientImage->GetBufferedRegion() );
   MovingIteratorType mit( this->m_MovingImage, this->m_MovingImage->GetBufferedRegion() );

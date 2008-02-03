@@ -254,7 +254,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
     FloatImage::IndexType tempIndex;
     double distance;
-    float output;
+    float outputValue;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
@@ -265,17 +265,17 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
       }
     distance = vcl_sqrt( distance );
 
-    output = (float) iterator.Get();
+    outputValue = (float) iterator.Get();
 
     if (distance == 0)
       {
       continue;
       }
-    if ( vnl_math_abs( output ) / distance > 1.42 )
+    if ( vnl_math_abs( outputValue ) / distance > 1.42 )
       {
       std::cout << iterator.GetIndex() << " ";
-      std::cout << vnl_math_abs( output ) / distance << " ";
-      std::cout << vnl_math_abs( output ) << " " << distance << std::endl;
+      std::cout << vnl_math_abs( outputValue ) / distance << " ";
+      std::cout << vnl_math_abs( outputValue ) << " " << distance << std::endl;
       passed = false;
       break;
       }

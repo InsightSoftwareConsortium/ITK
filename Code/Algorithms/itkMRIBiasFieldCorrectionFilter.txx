@@ -929,7 +929,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>
         m_BiasFieldCoefficients.push_back( lastBiasCoef[i] ) ;
         }
 
-      BiasFieldType bias = 
+      bias = 
         this->EstimateBiasField(*iter, m_BiasFieldDegree, 
                                 m_VolumeCorrectionMaximumIteration) ;
 

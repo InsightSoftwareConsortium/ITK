@@ -73,7 +73,10 @@ public:
   typedef typename Superclass::TransformPointer         TransformPointer;
   typedef typename Superclass::TransformParametersType  TransformParametersType;
   typedef typename Superclass::TransformJacobianType    TransformJacobianType;
+  typedef typename Superclass::GradientImageType        GradientImageType;
   typedef typename Superclass::GradientPixelType        GradientPixelType;
+  typedef typename Superclass::InputPointType           InputPointType;
+  typedef typename Superclass::OutputPointType          OutputPointType;
 
   typedef typename Superclass::MeasureType              MeasureType;
   typedef typename Superclass::DerivativeType           DerivativeType;

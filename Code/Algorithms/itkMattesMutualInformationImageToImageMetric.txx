@@ -457,7 +457,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   if( this->m_FixedImageMask )
     {
 
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
 
     iter=samples.begin();
     int count = 0;
@@ -540,7 +540,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   if( this->m_FixedImageMask )
     {
-    typename Superclass::InputPointType inputPoint;
+    InputPointType inputPoint;
 
     iter=samples.begin();
     unsigned long nSamplesPicked = 0;

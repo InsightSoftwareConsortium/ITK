@@ -90,7 +90,6 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
  
   // Copy the input to the output, changing all foreground pixels to
   // have value 1 in the process.
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
   while( !ot.IsAtEnd() )
       {
       if ( it.Get() )
@@ -316,23 +315,6 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
  
 
 } // end GenerateData()
-
-/**
- *  Print Self
- */
-template <class TInputImage,class TOutputImage>
-void 
-BinaryThinningImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  
-  os << indent << "Thinning image: " << std::endl;
-
-}
-
-
-
 } // end namespace itk
 
 #endif

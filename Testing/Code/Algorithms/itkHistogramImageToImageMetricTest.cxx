@@ -229,12 +229,12 @@ int itkHistogramImageToImageMetricTest(int , char*[] )
   // Force an exception
   try
     {
-    ParametersType parameters( 2 ); 
-    DerivativeType derivatives( 2 );
+    ParametersType parameters2( 2 ); 
+    DerivativeType derivatives2( 2 );
     ScalesType badScales( 1 );
     metric->SetDerivativeStepLengthScales(badScales);
     metric->Initialize();
-    metric->GetDerivative (parameters, derivatives);
+    metric->GetDerivative (parameters2, derivatives2);
     }
   catch (itk::ExceptionObject &ex)
     {

@@ -277,7 +277,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
         (!m_UsePaddingValue ||
          (m_UsePaddingValue && ti.Get() > m_PaddingValue)))
       {
-      typename Superclass::InputPointType inputPoint;
+      InputPointType inputPoint;
       fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
           
       if( this->m_FixedImageMask && 
@@ -287,7 +287,7 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
         continue;
         }
 
-      typename Superclass::OutputPointType transformedPoint =
+      OutputPointType transformedPoint =
         this->m_Transform->TransformPoint(inputPoint);
 
       if( this->m_MovingImageMask && 
