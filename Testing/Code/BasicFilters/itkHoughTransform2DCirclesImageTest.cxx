@@ -190,20 +190,20 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
     if(it_input.Get() == max) 
     {
       it_output.Set(255);
-      double radius = m_RadiusImage->GetPixel(it_output.GetIndex());
+      double radius2 = m_RadiusImage->GetPixel(it_output.GetIndex());
       center_result[circles][0]=it_output.GetIndex()[0];
       center_result[circles][1]=it_output.GetIndex()[1];
-      radius_result[circles]=radius;
+      radius_result[circles]=radius2;
 
       /** Draw the circle */
       for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000)
       {
-        index[0] = (long int)(it_output.GetIndex()[0] + radius * cos(angle));
-        index[1] = (long int)(it_output.GetIndex()[1] + radius * sin(angle));
+        index[0] = (long int)(it_output.GetIndex()[0] + radius2 * cos(angle));
+        index[1] = (long int)(it_output.GetIndex()[1] + radius2 * sin(angle));
         m_HoughSpaceImage->SetPixel(index,255);
         
         /** Remove the maximum from the accumulator */
-        for(double length = 0; length < discRatio*radius;length+=1)
+        for(double length = 0; length < discRatio*radius2;length+=1)
         {
           index[0] = (long int)(it_output.GetIndex()[0] + length * cos(angle));
           index[1] = (long int)(it_output.GetIndex()[1] + length* sin(angle));
