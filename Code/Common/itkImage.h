@@ -371,7 +371,7 @@ public:
    * \sa OrientedImage
    */ 
   template<class TCoordRep>
-  void RotateArrayByDirectionCosines(
+  void TransformLocalVectorToPhysicalVector(
     const FixedArray<TCoordRep, VImageDimension> & inputGradient,
           FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
     {

@@ -349,11 +349,11 @@ public:
     }
 
   template<class TCoordRep>
-  void RotateArrayByDirectionCosines(
+  void TransformLocalVectorToPhysicalVector(
     const FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & inputGradient,
           FixedArray< TCoordRep, itkGetStaticConstMacro(ImageDimension) > & outputGradient ) const
     {
-    m_Image->RotateArrayByDirectionCosines( inputGradient, outputGradient );
+    m_Image->TransformLocalVectorToPhysicalVector( inputGradient, outputGradient );
     }
 
 protected:

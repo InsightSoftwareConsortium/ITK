@@ -276,7 +276,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     while( !itr.IsAtEnd() )
       {
       const OutputPixelType & gradient = itr.Get();
-      inputImage->RotateArrayByDirectionCosines( gradient, correctedGradient );
+      inputImage->TransformLocalVectorToPhysicalVector( gradient, correctedGradient );
       itr.Set( correctedGradient );
       ++itr;
       }

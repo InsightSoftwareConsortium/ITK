@@ -94,7 +94,7 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
   if( this->m_UseImageDirection )
     {
     OutputType orientedDerivative;
-    inputImage->RotateArrayByDirectionCosines( derivative, orientedDerivative );
+    inputImage->TransformLocalVectorToPhysicalVector( derivative, orientedDerivative );
     return orientedDerivative;
     }
 #endif

@@ -206,7 +206,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
       if( this->m_UseImageDirection )
         {
-        inputImage->RotateArrayByDirectionCosines( gradient, it.Value() );
+        inputImage->TransformLocalVectorToPhysicalVector( gradient, it.Value() );
         }
       else
         {

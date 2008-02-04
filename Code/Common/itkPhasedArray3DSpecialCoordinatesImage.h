@@ -323,7 +323,7 @@ public:
   
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   template<class TCoordRep>
-  void RotateArrayByDirectionCosines(
+  void TransformLocalVectorToPhysicalVector(
     const FixedArray<TCoordRep, 3> & inputGradient,
           FixedArray<TCoordRep, 3> & outputGradient ) const
     {
