@@ -69,6 +69,10 @@ public:
   typedef  SingleValuedCostFunction         CostFunctionType;
   typedef  CostFunctionType::Pointer        CostFunctionPointer;
 
+  /** Convert gradient to a unit length vector */
+  itkSetMacro( UseUnitLengthGradient, bool );
+  itkGetConstMacro( UseUnitLengthGradient, bool );
+
   /** Start optimization. */
   void StartOptimization();
 
@@ -104,6 +108,8 @@ private:
     }               OptimizationType;
 
   OptimizationType  m_OptimizationType;
+
+  bool              m_UseUnitLengthGradient;
 
 }; // end of class
 

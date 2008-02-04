@@ -28,6 +28,7 @@ const double FRPR_TINY = 1e-20;
 FRPROptimizer
 ::FRPROptimizer()
 {
+  m_UseUnitLengthGradient = false;
   m_OptimizationType = PolakRibiere;
 }
 
@@ -48,6 +49,19 @@ FRPROptimizer
     for(unsigned int i=0; i<this->GetSpaceDimension(); i++)
       {
       (*xi)[i] = -(*xi)[i];
+      }
+    }
+  if(this->GetUseUnitLengthGradient())
+    {
+    double len = (*xi)[0]*(*xi)[0];
+    for(unsigned int i=1; i<this->GetSpaceDimension(); i++)
+      {
+      len += (*xi)[i]*(*xi)[i];
+      }
+    len = sqrt(len);
+    for(unsigned int i=0; i<this->GetSpaceDimension(); i++)
+      {
+      (*xi)[i] /= len;
       }
     }
 }
@@ -226,6 +240,7 @@ FRPROptimizer
   Superclass::PrintSelf(os,indent);
   os << indent << "Optimization Type = " << m_OptimizationType << std::endl;
   os << indent << "0=FletchReeves, 1=PolakRibiere" << std::endl;
+  os << indent << "Use unit length gradient = " << m_UseUnitLengthGradient << std::endl;
 }
 
 } // end of namespace itk
