@@ -11,11 +11,7 @@ ENDIF(ITK_BINARY_DIR)
 
   SET(NEURAL_NETWORKS_HEADER_TEST  ${CXX_TEST_PATH}/itkNeuralNetworksHeaderTest)
     
-  INCLUDE_DIRECTORIES(
-   ${ITK_SOURCE_DIR}/Code/Numerics/NeuralNetworks
-   ${ITK_INCLUDE_DIRS}
-    )
-    
+   
   LINK_DIRECTORIES(
       ${ITK_BINARY_DIR}/Code/Numerics/NeuralNetworks 
     )
