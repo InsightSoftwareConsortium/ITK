@@ -8,11 +8,12 @@ ZNZ		=	znzlib
 FSLIO		=	fsliolib
 EXAMPLES	=	examples
 UTILS		=	utils
+TESTING		=	Testing
 UTILS_PROGS	=	nifti_stats nifti_tool nifti1_test
 THIS_DIR	=	`basename ${PWD}`
 
 ## Note the TARFILE_NAME embeds the release version number
-TARFILE_NAME	=	nifticlib-0.5
+TARFILE_NAME	=	nifticlib-1.0.0
 
 
 ## Compiler  defines
@@ -30,7 +31,7 @@ CFLAGS		=	$(ANSI_FLAGS)
 RM		=	rm
 MV		=	mv
 CP		=	cp
-TAR		=	/usr/freeware/bin/tar
+TAR		=	/usr/local/pkg/gnu/bin/tar
 
 
 ## Installation
@@ -57,11 +58,13 @@ else
 ifeq ($(ARCH),I386) ## 32-bit Linux
 ZLIB_INC	=	-I/usr/include
 ZLIB_PATH	=	-L/usr/lib
+TAR		=	/bin/tar
 else
 ifeq ($(ARCH),X86_64) ## 64-bit Linux
 ZLIB_INC	=
 ZLIB_PATH	=
 ZLIB_LIBS 	= 	$(ZLIB_PATH) -lm -lz 
+TAR		=	/bin/tar
 endif
 endif
 endif
@@ -105,9 +108,10 @@ all:	   znz nifti nifticdf fslio install
 
 install:   znz_install nifti_install nifticdf_install fslio_install utils_install
 
-clean:	   znz_clean nifti_clean nifticdf_clean fslio_clean examples_clean utils_clean
+clean:	   znz_clean nifti_clean nifticdf_clean fslio_clean examples_clean \
+	   utils_clean regress_clean
 
-clean_all: clean install_clean doc_clean
+clean_all: clean regress_clean_all install_clean doc_clean
 
 
 znz:
@@ -145,6 +149,13 @@ utils:  nifti nifticdf
 doc:
 	(cd docs; doxygen Doxy_nifti.txt;)
 	@echo "doxygen doc rebuilt, run netscape docs/html/index.html to view."
+	@echo ""
+
+regress_data:
+	(cd $(TESTING); $(MAKE) regress_data 'RM=$(RM)' 'TAR=$(TAR)'; )
+	@echo ""
+	@echo Regression testing data installed.
+	@echo See Testing/README_regress for details.
 	@echo ""
 
 $(INSTALL_BIN_DIR):
@@ -208,6 +219,12 @@ utils_clean:
 
 doc_clean:
 	($(RM) -fr docs/html;)
+
+regress_clean:
+	(cd $(TESTING); $(MAKE) regress_clean; )
+
+regress_clean_all:
+	(cd $(TESTING); $(MAKE) regress_clean_all; )
 
 tar:
 	(cd .. ; ln -s $(THIS_DIR) ${TARFILE_NAME} ; \

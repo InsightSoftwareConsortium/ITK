@@ -2,8 +2,6 @@
 #Please contact hans-johnson@uiowa.edu for making enhancments/corrections
 PROJECT(TESTING)
 
-
 SUBDIRS(niftilib)
-
-
+SUBDIRS(nifti_regress_test)
 

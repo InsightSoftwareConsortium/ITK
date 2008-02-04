@@ -1,4 +1,5 @@
 #define _NIFTI1_IO_C_
+
 #include "nifti1_io.h"   /* typedefs, prototypes, macros, etc. */
 
 /*****===================================================================*****/
@@ -296,16 +297,74 @@ static char * gni_history[] =
   "1.25 12 Jun 2007 [rickr] EMPTY_IMAGE creation\n",
   "   - added nifti_make_new_header() - to create from dims/dtype\n"
   "   - added nifti_make_new_nim() - to create from dims/dtype/fill\n"
-  "   - added nifti_is_valid_datatype(), and more debug info\n"
-  "1.26 12 Jul 2007 [hjohnson] Read arbitrary subregions from nifti file.\n"
-  "   - added nifti_read_subregion_image() - to read arbirary subregions\n"
-  "                     of an image into memory."
+  "   - added nifti_is_valid_datatype(), and more debug info\n",
+  "1.26 27 Jul 2007 [rickr] handle single volumes > 2^31 bytes (but < 2^32)\n",
+  "1.27 28 Jul 2007 [rickr] nim->nvox, NBL-bsize are now type size_t\n"
+  "1.28 30 Jul 2007 [rickr] size_t updates\n",
+  "1.29 08 Aug 2007 [rickr] for list, valid_nifti_brick_list requires 3 dims\n"
+  "1.30 08 Nov 2007 [Yaroslav/rickr]\n"
+  "   - fix ARM struct alignment problem in byte-swapping routines\n",
+  "1.31 29 Nov 2007 [rickr] for nifticlib-1.0.0\n"
+  "   - added nifti_datatype_to/from_string routines\n"
+  "   - added DT_RGBA32/NIFTI_TYPE_RGBA32 datatype macros (2304)\n"
+  "   - added NIFTI_ECODE_FREESURFER (14)\n",
+  "1.32 08 Dec 2007 [rickr]\n"
+  "   - nifti_hdr_looks_good() allows ANALYZE headers (req. by V. Luccio)\n"
+  "   - added nifti_datatype_is_valid()\n",
   "----------------------------------------------------------------------\n"
 };
-static char gni_version[] = "nifti library version 1.25, 12 Jun, 2007)";
+static char gni_version[] = "nifti library version 1.32 (8 Dec, 2007)";
 
 /*! global nifti options structure */
 static nifti_global_options g_opts = { 1, 0 };
+
+/*! global nifti types structure list (per type, ordered oldest to newest) */
+static nifti_type_ele nifti_type_list[] = {
+    /* type  nbyper  swapsize   name  */
+    {    0,     0,       0,   "DT_UNKNOWN"              }, 
+    {    0,     0,       0,   "DT_NONE"                 }, 
+    {    1,     0,       0,   "DT_BINARY"               },  /* not usable */
+    {    2,     1,       0,   "DT_UNSIGNED_CHAR"        },
+    {    2,     1,       0,   "DT_UINT8"                },
+    {    2,     1,       0,   "NIFTI_TYPE_UINT8"        },
+    {    4,     2,       2,   "DT_SIGNED_SHORT"         },
+    {    4,     2,       2,   "DT_INT16"                },
+    {    4,     2,       2,   "NIFTI_TYPE_INT16"        },
+    {    8,     4,       4,   "DT_SIGNED_INT"           },
+    {    8,     4,       4,   "DT_INT32"                },
+    {    8,     4,       4,   "NIFTI_TYPE_INT32"        },
+    {   16,     4,       4,   "DT_FLOAT"                },
+    {   16,     4,       4,   "DT_FLOAT32"              },
+    {   16,     4,       4,   "NIFTI_TYPE_FLOAT32"      },
+    {   32,     8,       4,   "DT_COMPLEX"              },
+    {   32,     8,       4,   "DT_COMPLEX64"            },
+    {   32,     8,       4,   "NIFTI_TYPE_COMPLEX64"    },
+    {   64,     8,       8,   "DT_DOUBLE"               },
+    {   64,     8,       8,   "DT_FLOAT64"              },
+    {   64,     8,       8,   "NIFTI_TYPE_FLOAT64"      },
+    {  128,     3,       0,   "DT_RGB"                  },
+    {  128,     3,       0,   "DT_RGB24"                },
+    {  128,     3,       0,   "NIFTI_TYPE_RGB24"        },
+    {  255,     0,       0,   "DT_ALL"                  },
+    {  256,     1,       0,   "DT_INT8"                 },
+    {  256,     1,       0,   "NIFTI_TYPE_INT8"         },
+    {  512,     2,       2,   "DT_UINT16"               },
+    {  512,     2,       2,   "NIFTI_TYPE_UINT16"       },
+    {  768,     4,       4,   "DT_UINT32"               },
+    {  768,     4,       4,   "NIFTI_TYPE_UINT32"       },
+    { 1024,     8,       8,   "DT_INT64"                },
+    { 1024,     8,       8,   "NIFTI_TYPE_INT64"        },
+    { 1280,     8,       8,   "DT_UINT64"               },
+    { 1280,     8,       8,   "NIFTI_TYPE_UINT64"       },
+    { 1536,    16,      16,   "DT_FLOAT128"             },
+    { 1536,    16,      16,   "NIFTI_TYPE_FLOAT128"     },
+    { 1792,    16,       8,   "DT_COMPLEX128"           },
+    { 1792,    16,       8,   "NIFTI_TYPE_COMPLEX128"   },
+    { 2048,    32,      16,   "DT_COMPLEX256"           },
+    { 2048,    32,      16,   "NIFTI_TYPE_COMPLEX256"   },
+    { 2304,     4,       0,   "DT_RGBA32"               },
+    { 2304,     4,       0,   "NIFTI_TYPE_RGBA32"       },
+};
 
 /*---------------------------------------------------------------------------*/
 /* prototypes for internal functions - not part of exported library          */
@@ -329,7 +388,7 @@ static int  nifti_copynsort(int nbricks, const int *blist, int **slist,
 
 /* for nifti_read_collapsed_image: */
 static int  rci_read_data(nifti_image *nim, int *pivots, int *prods, int nprods,
-                     const int dims[], char *data, znzFile fp, int base_offset);
+                  const int dims[], char *data, znzFile fp, size_t base_offset);
 static int  rci_alloc_mem(void ** data, int prods[8], int nprods, int nbyper );
 static int  make_pivot_list(nifti_image * nim, const int dims[], int pivots[],
                             int prods[], int * nprods );
@@ -631,7 +690,7 @@ int nifti_image_load_bricks( nifti_image * nim , int nbricks,
       blist = NULL; /* pretend nothing was passed */
    }
 
-   if( blist && ! valid_nifti_brick_list( nim, nbricks, blist, g_opts.debug>0 ) )
+   if( blist && ! valid_nifti_brick_list(nim, nbricks, blist, g_opts.debug>0) )
       return -1;
 
    /* for efficiency, let's read the file in order */
@@ -686,7 +745,7 @@ void nifti_free_NBL( nifti_brick_list * NBL )
       NBL->bricks = NULL;
    }
 
-   NBL->nbricks = NBL->bsize = 0;
+   NBL->bsize = NBL->nbricks = 0;
 }
 
 
@@ -698,16 +757,18 @@ void nifti_free_NBL( nifti_brick_list * NBL )
 static int nifti_load_NBL_bricks( nifti_image * nim , int * slist, int * sindex,
                                   nifti_brick_list * NBL, znzFile fp )
 {
-   int c, rv;
-   int oposn, fposn;      /* orig and current file positions */
-   int prev, isrc, idest; /* previous and current sub-brick, and new index */
+   size_t oposn, fposn;      /* orig and current file positions */
+   size_t rv;
+   long   test;
+   int    c;
+   int    prev, isrc, idest; /* previous and current sub-brick, and new index */
 
-   oposn = znztell(fp);  /* store current file position */
-   fposn = oposn;
-   if( fposn < 0 ){
+   test = znztell(fp);  /* store current file position */
+   if( test < 0 ){
       fprintf(stderr,"** load bricks: ztell failed??\n");
       return -1;
    }
+   fposn = oposn = test;
 
    /* first, handle the default case, no passed blist */
    if( !slist ){
@@ -720,8 +781,9 @@ static int nifti_load_NBL_bricks( nifti_image * nim , int * slist, int * sindex,
          }
       }
       if( g_opts.debug > 1 )
-         fprintf(stderr,"+d read %d default bricks from file %s\n",
-                 NBL->nbricks, nim->iname ? nim->iname : nim->fname );
+         fprintf(stderr,"+d read %d default %u-byte bricks from file %s\n",
+                 NBL->nbricks, (unsigned int)NBL->bsize,
+                 nim->iname ? nim->iname:nim->fname );
       return 0;
    }
 
@@ -787,7 +849,7 @@ static int nifti_alloc_NBL_mem(nifti_image * nim, int nbricks,
           nbl->nbricks *= nim->dim[c];
    }
 
-   nbl->bsize   = nim->nx * nim->ny * nim->nz * nim->nbyper;  /* bytes */
+   nbl->bsize   = (size_t)nim->nx * nim->ny * nim->nz * nim->nbyper;/* bytes */
    nbl->bricks  = (void **)malloc(nbl->nbricks * sizeof(void *));
 
    if( ! nbl->bricks ){
@@ -798,8 +860,8 @@ static int nifti_alloc_NBL_mem(nifti_image * nim, int nbricks,
    for( c = 0; c < nbl->nbricks; c++ ){
       nbl->bricks[c] = (void *)malloc(nbl->bsize);
       if( ! nbl->bricks[c] ){
-         fprintf(stderr,"** NANM: failed to alloc %d bytes for brick %d\n",
-                 nbl->bsize, c);
+         fprintf(stderr,"** NANM: failed to alloc %u bytes for brick %d\n",
+                 (unsigned int)nbl->bsize, c);
          /* so free and clear everything before returning */
          while( c > 0 ){
             c--;
@@ -807,14 +869,14 @@ static int nifti_alloc_NBL_mem(nifti_image * nim, int nbricks,
          }
          free(nbl->bricks);
          nbl->bricks = NULL;
-         nbl->nbricks = nbl->bsize = 0;
+         nbl->bsize = nbl->nbricks = 0;
          return -1;
       }
    }
 
    if( g_opts.debug > 2 )
-      fprintf(stderr,"+d NANM: alloc'd %d bricks of %d bytes for NBL\n",
-              nbl->nbricks, nbl->bsize);
+      fprintf(stderr,"+d NANM: alloc'd %d bricks of %u bytes for NBL\n",
+              nbl->nbricks, (unsigned int)nbl->bsize);
 
    return 0;
 }
@@ -925,6 +987,13 @@ int valid_nifti_brick_list(nifti_image * nim , int nbricks,
    if( nbricks <= 0 || !blist ){
       if( disp_error || g_opts.debug > 1 )
          fprintf(stderr,"** valid_nifti_brick_list: no brick list to check\n");
+      return 0;
+   }
+
+   if( nim->dim[0] < 3 ){
+      if( disp_error || g_opts.debug > 1 )
+         fprintf(stderr,"** cannot read explict brick list from %d-D dataset\n",
+                 nim->dim[0]);
       return 0;
    }
 
@@ -1041,6 +1110,7 @@ char *nifti_datatype_string( int dt )
      case DT_COMPLEX128: return "COMPLEX128" ;
      case DT_COMPLEX256: return "COMPLEX256" ;
      case DT_RGB24:      return "RGB24"      ;
+     case DT_RGBA32:     return "RGBA32"     ;
    }
    return "**ILLEGAL**" ;
 }
@@ -1072,6 +1142,7 @@ int nifti_is_inttype( int dt )
      case DT_COMPLEX128: return 0 ;
      case DT_COMPLEX256: return 0 ;
      case DT_RGB24:      return 1 ;
+     case DT_RGBA32:     return 1 ;
    }
    return 0 ;
 }
@@ -1257,6 +1328,7 @@ void nifti_datatype_sizes( int datatype , int *nbyper, int *swapsize )
      case DT_UINT16:      nb =  2 ; ss =  2 ; break ;
 
      case DT_RGB24:       nb =  3 ; ss =  0 ; break ;
+     case DT_RGBA32:      nb =  4 ; ss =  0 ; break ;
 
      case DT_INT32:
      case DT_UINT32:
@@ -1963,26 +2035,27 @@ void nifti_mat44_to_orientation( mat44 R , int *icod, int *jcod, int *kcod )
     - 16 at a time:  abcdefghHGFEDCBA -> ABCDEFGHhgfedcba [long double]
 -----------------------------------------------------------------------------*/
 
-typedef struct { unsigned char a,b ; } twobytes ;
-
 /*----------------------------------------------------------------------*/
 /*! swap each byte pair from the given list of n pairs
+ * 
+ *  Due to alignment of structures at some architectures (e.g. on ARM),
+ *  stick to char varaibles.
+ *  Fixes http://bugs.debian.org/446893   Yaroslav <debian@onerussian.com>
+ *
 *//*--------------------------------------------------------------------*/
 void nifti_swap_2bytes( int n , void *ar )    /* 2 bytes at a time */
 {
    register int ii ;
-   register twobytes *tb = (twobytes *)ar ;
-   register unsigned char tt ;
+   unsigned char * cp1 = (unsigned char *)ar, * cp2 ;
+   unsigned char   tval;
 
    for( ii=0 ; ii < n ; ii++ ){
-     tt = tb[ii].a ; tb[ii].a = tb[ii].b ; tb[ii].b = tt ;
+       cp2 = cp1 + 1;
+       tval = *cp1;  *cp1 = *cp2;  *cp2 = tval;
+       cp1 += 2;
    }
    return ;
 }
-
-/*---------------------------------------------------------------------------*/
-
-typedef struct { unsigned char a,b,c,d ; } fourbytes ;
 
 /*----------------------------------------------------------------------*/
 /*! swap 4 bytes at a time from the given list of n sets of 4 bytes
@@ -1990,42 +2063,41 @@ typedef struct { unsigned char a,b,c,d ; } fourbytes ;
 void nifti_swap_4bytes( int n , void *ar )    /* 4 bytes at a time */
 {
    register int ii ;
-   register fourbytes *tb = (fourbytes *)ar ;
-   register unsigned char tt ;
+   unsigned char * cp0 = (unsigned char *)ar, * cp1, * cp2 ;
+   register unsigned char tval ;
 
    for( ii=0 ; ii < n ; ii++ ){
-     tt = tb[ii].a ; tb[ii].a = tb[ii].d ; tb[ii].d = tt ;
-     tt = tb[ii].b ; tb[ii].b = tb[ii].c ; tb[ii].c = tt ;
+       cp1 = cp0; cp2 = cp0+3;
+       tval = *cp1;  *cp1 = *cp2;  *cp2 = tval;
+       cp1++;  cp2--;
+       tval = *cp1;  *cp1 = *cp2;  *cp2 = tval;
+       cp0 += 4;
    }
    return ;
 }
 
-/*---------------------------------------------------------------------------*/
-
-typedef struct { unsigned char a,b,c,d , D,C,B,A ; } eightbytes ;
-
 /*----------------------------------------------------------------------*/
 /*! swap 8 bytes at a time from the given list of n sets of 8 bytes
+ *
+ *  perhaps use this style for the general Nbytes, as Yaroslav suggests
 *//*--------------------------------------------------------------------*/
 void nifti_swap_8bytes( int n , void *ar )    /* 8 bytes at a time */
 {
    register int ii ;
-   register eightbytes *tb = (eightbytes *)ar ;
-   register unsigned char tt ;
+   unsigned char * cp0 = (unsigned char *)ar, * cp1, * cp2 ;
+   register unsigned char tval ;
 
    for( ii=0 ; ii < n ; ii++ ){
-     tt = tb[ii].a ; tb[ii].a = tb[ii].A ; tb[ii].A = tt ;
-     tt = tb[ii].b ; tb[ii].b = tb[ii].B ; tb[ii].B = tt ;
-     tt = tb[ii].c ; tb[ii].c = tb[ii].C ; tb[ii].C = tt ;
-     tt = tb[ii].d ; tb[ii].d = tb[ii].D ; tb[ii].D = tt ;
+       cp1 = cp0;  cp2 = cp0+7;
+       while ( cp2 > cp1 )      /* unroll? */
+       {
+           tval = *cp1 ; *cp1 = *cp2 ; *cp2 = tval ;
+           cp1++; cp2--;
+       }
+       cp0 += 8;
    }
    return ;
 }
-
-/*---------------------------------------------------------------------------*/
-
-typedef struct { unsigned char a,b,c,d,e,f,g,h ,
-                               H,G,F,E,D,C,B,A  ; } sixteenbytes ;
 
 /*----------------------------------------------------------------------*/
 /*! swap 16 bytes at a time from the given list of n sets of 16 bytes
@@ -2033,19 +2105,17 @@ typedef struct { unsigned char a,b,c,d,e,f,g,h ,
 void nifti_swap_16bytes( int n , void *ar )    /* 16 bytes at a time */
 {
    register int ii ;
-   register sixteenbytes *tb = (sixteenbytes *)ar ;
-   register unsigned char tt ;
+   unsigned char * cp0 = (unsigned char *)ar, * cp1, * cp2 ;
+   register unsigned char tval ;
 
    for( ii=0 ; ii < n ; ii++ ){
-     tt = tb[ii].a ; tb[ii].a = tb[ii].A ; tb[ii].A = tt ;
-     tt = tb[ii].b ; tb[ii].b = tb[ii].B ; tb[ii].B = tt ;
-     tt = tb[ii].c ; tb[ii].c = tb[ii].C ; tb[ii].C = tt ;
-     tt = tb[ii].d ; tb[ii].d = tb[ii].D ; tb[ii].D = tt ;
-
-     tt = tb[ii].e ; tb[ii].e = tb[ii].E ; tb[ii].E = tt ;
-     tt = tb[ii].f ; tb[ii].f = tb[ii].F ; tb[ii].F = tt ;
-     tt = tb[ii].g ; tb[ii].g = tb[ii].G ; tb[ii].G = tt ;
-     tt = tb[ii].h ; tb[ii].h = tb[ii].H ; tb[ii].H = tt ;
+       cp1 = cp0;  cp2 = cp0+15;
+       while ( cp2 > cp1 )
+       {
+           tval = *cp1 ; *cp1 = *cp2 ; *cp2 = tval ;
+           cp1++; cp2--;
+       }
+       cp0 += 16;
    }
    return ;
 }
@@ -2404,7 +2474,7 @@ char * nifti_findhdrname(const char* fname)
 
    /* if we get more extension choices, this could be a loop */
 
-   if ( ext && strncmp(ext,".img",4) != 0 ) efirst = 0;
+   if ( ext && strncmp(ext,".img",4) == 0 ) efirst = 0;
    else                                     efirst = 1;
 
    hdrname = (char *)calloc(sizeof(char),strlen(basename)+8);
@@ -2807,6 +2877,7 @@ int nifti_is_valid_datatype( int dtype )
        dtype == NIFTI_TYPE_COMPLEX64    ||
        dtype == NIFTI_TYPE_FLOAT64      ||
        dtype == NIFTI_TYPE_RGB24        ||
+       dtype == NIFTI_TYPE_RGBA32       ||
        dtype == NIFTI_TYPE_INT8         ||
        dtype == NIFTI_TYPE_UINT16       ||
        dtype == NIFTI_TYPE_UINT32       ||
@@ -3474,8 +3545,7 @@ nifti_1_header * nifti_read_header(const char * hname, int * swapped, int check)
 *//*--------------------------------------------------------------------*/
 int nifti_hdr_looks_good(const nifti_1_header * hdr)
 {
-   int nbyper, swapsize;
-   int c, errs = 0;
+   int is_nifti, c, errs = 0;
 
    /* check dim[0] and sizeof_hdr */
    if( need_nhdr_swap(hdr->dim[0], hdr->sizeof_hdr) < 0 ){
@@ -3493,34 +3563,27 @@ int nifti_hdr_looks_good(const nifti_1_header * hdr)
          errs++;
       }
 
-   /* check the magic string */
-   if( (hdr->magic[0] != 'n')                           ||
-       (hdr->magic[1] != 'i' && hdr->magic[1] != '+')   ||
-       (hdr->magic[2] != '1')                           ||
-       (hdr->magic[3] != '\0') )
-   {
-      if( g_opts.debug > 0 )
+   is_nifti = NIFTI_VERSION(*hdr);      /* determine header type */
+
+   if( is_nifti ){      /* NIFTI */
+
+      if( ! nifti_datatype_is_valid(hdr->datatype, 1) ){
+         if( g_opts.debug > 0 )
+            fprintf(stderr,"** bad NIFTI datatype in hdr, %d\n",hdr->datatype);
+         errs++;
+      }
+
+   } else {             /* ANALYZE 7.5 */
+
+      if( g_opts.debug > 1 )  /* maybe tell user it's an ANALYZE hdr */
          fprintf(stderr,
-            "** bad nhdr field: magic = '%.4s', should be \"n+1\" or \"ni1\"\n"
-            "   (in hex) magic = 0x%02x%02x%02x%02x\n"
-            "        should be = 0x6e2b3100  or  0x6e693100\n",
-            hdr->magic, hdr->magic[0], hdr->magic[1],
-            hdr->magic[2], hdr->magic[3]);
-      errs++;
-   }
+            "-- nhdr magic field implies ANALYZE: magic = '%.4s'\n",hdr->magic);
 
-   /* check the datatype */
-   if( hdr->datatype == DT_BINARY || hdr->datatype == DT_UNKNOWN ){
-      if( g_opts.debug > 0 )
-         fprintf(stderr,"** bad nhdr field: datatype = %d\n",hdr->datatype);
-      errs++;
-   }
-
-   nifti_datatype_sizes(hdr->datatype, &nbyper, &swapsize);
-   if( nbyper == 0 ){
-      if( g_opts.debug > 0 )
-         fprintf(stderr,"** bad nhdr field: datatype = %d\n",hdr->datatype);
-      errs++;
+      if( ! nifti_datatype_is_valid(hdr->datatype, 0) ){
+         if( g_opts.debug > 0 )
+           fprintf(stderr,"** bad ANALYZE datatype in hdr, %d\n",hdr->datatype);
+         errs++;
+      }
    }
 
    if( errs ) return 0;  /* problems */
@@ -4231,7 +4294,6 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
    /* set up data space, open data file and seek, then call nifti_read_buffer */
    size_t ntot , ii , ioff;
    znzFile fp;
-   char *tmpname;
    char    fname[] = { "nifti_image_load_prep" };
 
    /**- perform sanity checks */
@@ -4240,8 +4302,8 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
    {
       if ( g_opts.debug > 0 ){
          if( !nim ) fprintf(stderr,"** ERROR: N_image_load: no nifti image\n");
-         else fprintf(stderr,"** ERROR: N_image_load: bad params (%p,%d,%d)\n",
-                      nim->iname, nim->nbyper, nim->nvox);
+         else fprintf(stderr,"** ERROR: N_image_load: bad params (%p,%d,%u)\n",
+                      nim->iname, nim->nbyper, (unsigned)nim->nvox);
       }
       return NULL;
    }
@@ -4250,15 +4312,11 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
 
    /**- open image data file */
 
-   tmpname = nifti_findimgname(nim->iname , nim->nifti_type);
-   if( tmpname == NULL ){
-      if( g_opts.debug > 0 )
-         fprintf(stderr,"** no image file found for '%s'\n",nim->iname);
+   fp = znzopen(nim->iname, "rb", nifti_is_gzfile(nim->iname));
+   if( znz_isnull(fp) ){
+      if( g_opts.debug > 0 ) LNI_FERR(fname,"cannot open data file",nim->iname);
       return NULL;
    }
-   fp = znzopen(tmpname, "rb", nifti_is_gzfile(tmpname));
-   free(tmpname);
-   if (znz_isnull(fp))                      return NULL;  /* bad open? */
 
    /**- get image offset: a negative offset means to figure from end of file */
    if( nim->iname_offset < 0 ){
@@ -4281,8 +4339,8 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
 
    /**- seek to the appropriate read position */
    if( znzseek(fp , ioff , SEEK_SET) < 0 ){
-      fprintf(stderr,"** could not seek to offset %d in file '%s'\n",
-              (int)ioff, nim->iname);
+      fprintf(stderr,"** could not seek to offset %u in file '%s'\n",
+              (unsigned)ioff, nim->iname);
       znzclose(fp);
       return NULL;
    }
@@ -4399,13 +4457,13 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
   }
 
   if( g_opts.debug > 2 )
-    fprintf(stderr,"+d nifti_read_buffer: read %d bytes\n",(unsigned int)ii);
+    fprintf(stderr,"+d nifti_read_buffer: read %u bytes\n", (unsigned)ii);
   
   /* byte swap array if needed */
   
   if( nim->swapsize > 1 && nim->byteorder != nifti_short_order() )
     nifti_swap_Nbytes( ntot / nim->swapsize , nim->swapsize , dataptr ) ;
-  
+
 #ifdef isfinite
 {
   /* check input float arrays for goodness, and fix bad floats */
@@ -4415,7 +4473,7 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
     
     case NIFTI_TYPE_FLOAT32:
     case NIFTI_TYPE_COMPLEX64:{
-        register float *far = (float *)dataptr ; register int jj,nj ;
+        register float *far = (float *)dataptr ; register size_t jj,nj ;
         nj = ntot / sizeof(float) ;
         for( jj=0 ; jj < nj ; jj++ )   /* count fixes 30 Nov 2004 [rickr] */
            if( !IS_GOOD_FLOAT(far[jj]) ){
@@ -4427,7 +4485,7 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
     
     case NIFTI_TYPE_FLOAT64:
     case NIFTI_TYPE_COMPLEX128:{
-        register double *far = (double *)dataptr ; register int jj,nj ;
+        register double *far = (double *)dataptr ; register size_t jj,nj ;
         nj = ntot / sizeof(double) ;
         for( jj=0 ; jj < nj ; jj++ )   /* count fixes 30 Nov 2004 [rickr] */
            if( !IS_GOOD_FLOAT(far[jj]) ){
@@ -4582,34 +4640,34 @@ int nifti_write_all_data(znzFile fp, nifti_image * nim,
       }
 
       ss = nifti_write_buffer(fp,nim->data,nim->nbyper * nim->nvox);
-      if (ss < (size_t)(nim->nbyper * nim->nvox)){
+      if (ss < nim->nbyper * nim->nvox){
          fprintf(stderr,
-            "** ERROR: NWAD: wrote only %d of %d bytes to file\n",
-            (int)ss, nim->nbyper * nim->nvox);
+            "** ERROR: NWAD: wrote only %u of %u bytes to file\n",
+            (unsigned)ss, (unsigned)(nim->nbyper * nim->nvox));
          return -1;
       }
 
       if( g_opts.debug > 1 )
-         fprintf(stderr,"+d wrote single image of %d bytes\n",(int)ss);
+         fprintf(stderr,"+d wrote single image of %u bytes\n", (unsigned)ss);
    } else {
       if( ! NBL->bricks || NBL->nbricks <= 0 || NBL->bsize <= 0 ){
-         fprintf(stderr,"** NWAD: no brick data to write (%p,%d,%d)\n",
-                 (void *)NBL->bricks, NBL->nbricks, NBL->bsize);
+         fprintf(stderr,"** NWAD: no brick data to write (%p,%d,%u)\n",
+                 (void *)NBL->bricks, NBL->nbricks, (unsigned)NBL->bsize);
          return -1;
       }
 
       for( bnum = 0; bnum < NBL->nbricks; bnum++ ){
          ss = nifti_write_buffer(fp, NBL->bricks[bnum], NBL->bsize);
-         if( ss < (size_t)NBL->bsize ){
+         if( ss < NBL->bsize ){
             fprintf(stderr,
-               "** NWAD ERROR: wrote %d of %d bytes of brick %d of %d to file",
-               (int)ss, NBL->bsize, bnum+1, NBL->nbricks);
+              "** NWAD ERROR: wrote %u of %u bytes of brick %d of %d to file",
+               (unsigned)ss, (unsigned)NBL->bsize, bnum+1, NBL->nbricks);
             return -1;
          }
       }
       if( g_opts.debug > 1 )
-         fprintf(stderr,"+d wrote image of %d brick(s), each of %d bytes\n",
-                 NBL->nbricks, NBL->bsize);
+         fprintf(stderr,"+d wrote image of %d brick(s), each of %u bytes\n",
+                 NBL->nbricks, (unsigned int)NBL->bsize);
    }
 
    /* mark as being in this CPU byte order */
@@ -4825,8 +4883,8 @@ nifti_image * nifti_make_new_nim(const int dims[], int datatype, int data_fill)
 
       /* if we cannot allocate data, take ball and go home */
       if( !nim->data ) {
-         fprintf(stderr,"** NMNN: failed to alloc %d bytes for data\n",
-                 nim->nvox);
+         fprintf(stderr,"** NMNN: failed to alloc %u bytes for data\n",
+                 (unsigned)nim->nvox);
          nifti_image_free(nim);
          nim = NULL;
       }
@@ -5573,7 +5631,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
    sprintf( buf+strlen(buf) , "  datatype_name = '%s'\n" ,
                               nifti_datatype_string(nim->datatype) ) ;
 
-   sprintf( buf+strlen(buf) , "  nvox = '%d'\n" , nim->nvox ) ;
+   sprintf( buf+strlen(buf) , "  nvox = '%u'\n" , (unsigned)nim->nvox ) ;
    sprintf( buf+strlen(buf) , "  nbyper = '%d'\n" , nim->nbyper ) ;
 
    sprintf( buf+strlen(buf) , "  byteorder = '%s'\n" ,
@@ -5963,8 +6021,8 @@ nifti_image *nifti_image_from_ascii( const char *str, int * bytes_read )
    nim->dim[6] = nim->nv ; nim->pixdim[6] = nim->dv ;
    nim->dim[7] = nim->nw ; nim->pixdim[7] = nim->dw ;
 
-   nim->nvox =  nim->nx * nim->ny * nim->nz
-              * nim->nt * nim->nu * nim->nv * nim->nw ;
+   nim->nvox = (size_t)nim->nx * nim->ny * nim->nz
+                     * nim->nt * nim->nu * nim->nv * nim->nw ;
 
    if( nim->qform_code > 0 )
      nim->qto_xyz = nifti_quatern_to_mat44(
@@ -6029,7 +6087,8 @@ int nifti_nim_is_valid(nifti_image * nim, int complain)
 *//*-------------------------------------------------------------------------*/
 int nifti_nim_has_valid_dims(nifti_image * nim, int complain)
 {
-   int c, prod, errs = 0;
+   size_t prod;
+   int    c, errs = 0;
 
    /**- start with dim[0]: failure here is considered terminal */
    if( nim->dim[0] <= 0 || nim->dim[0] > 7 ){
@@ -6064,6 +6123,12 @@ int nifti_nim_has_valid_dims(nifti_image * nim, int complain)
                      nim->nt, nim->nu, nim->nv, nim->nw );
    }
 
+   if( g_opts.debug > 2 ){
+      fprintf(stderr,"-d check dim[%d] =", nim->dim[0]);
+      for( c = 0; c < 7; c++ ) fprintf(stderr," %d", nim->dim[c]);
+      fputc('\n', stderr);
+   }
+
    /**- check the dimensions, and that their product matches nvox */
    prod = 1;
    for( c = 1; c <= nim->dim[0]; c++ ){
@@ -6077,8 +6142,8 @@ int nifti_nim_has_valid_dims(nifti_image * nim, int complain)
    }
    if( prod != nim->nvox ){
       if( ! complain ) return 0;
-      fprintf(stderr,"** NVd: nvox does not match dimension product (%d, %d)\n",
-              nim->nvox, prod);
+      fprintf(stderr,"** NVd: nvox does not match %d-dim product (%u, %u)\n",
+              nim->dim[0], (unsigned)nim->nvox, (unsigned)prod);
       errs++;
    }
 
@@ -6445,6 +6510,7 @@ int nifti_read_subregion_image( nifti_image * nim,
   return bytes;
 }
 
+
 /* read the data from the file pointed to by fp
 
    - this a recursive function, so start with the base case
@@ -6453,20 +6519,20 @@ int nifti_read_subregion_image( nifti_image * nim,
    return 0 on success, < 0 on failure
 */
 static int rci_read_data(nifti_image * nim, int * pivots, int * prods,
-         int nprods, const int dims[], char * data, znzFile fp, int base_offset)
+      int nprods, const int dims[], char * data, znzFile fp, size_t base_offset)
 {
-   int c, sublen, offset, read_size;
+   size_t sublen, offset, read_size;
+   int    c;
 
    /* bad check first - base_offset may not have been checked */
-   if( base_offset < 0 || nprods <= 0 ){
-      fprintf(stderr,"** rci_read_data, bad params, %d,%d\n",
-              nprods, base_offset);
+   if( nprods <= 0 ){
+      fprintf(stderr,"** rci_read_data, bad prods, %d\n", nprods);
       return -1;
    }
 
    /* base case: actually read the data */
    if( nprods == 1 ){
-      int nread, bytes;
+      size_t nread, bytes;
 
       /* make sure things look good here */
       if( *pivots != 0 ){
@@ -6476,15 +6542,15 @@ static int rci_read_data(nifti_image * nim, int * pivots, int * prods,
 
       /* so just seek and read (prods[0] * nbyper) bytes from the file */
       znzseek(fp, base_offset, SEEK_SET);
-      bytes = prods[0] * nim->nbyper;
+      bytes = (size_t)prods[0] * nim->nbyper;
       nread = nifti_read_buffer(fp, data, bytes, nim);
       if( nread != bytes ){
-         fprintf(stderr,"** rciRD: read only %d of %d bytes from '%s'\n",
-                 nread, bytes, nim->fname);
+         fprintf(stderr,"** rciRD: read only %u of %u bytes from '%s'\n",
+                 (unsigned)nread, (unsigned)bytes, nim->fname);
          return -1;
       } else if( g_opts.debug > 3 )
-         fprintf(stderr,"+d successful read of %d bytes at offset %d\n",
-                 bytes, base_offset);
+         fprintf(stderr,"+d successful read of %u bytes at offset %u\n",
+                 (unsigned)bytes, (unsigned)base_offset);
 
       return 0;  /* done with base case - return success */
    }
@@ -6503,12 +6569,14 @@ static int rci_read_data(nifti_image * nim, int * pivots, int * prods,
       /* offset is (c * sub-block size (including pivot dim))   */
       /*         + (dims[] index into pivot sub-block)          */
       /* the unneeded multiplication is to make this more clear */
-      offset = c * sublen * nim->dim[*pivots] + sublen * dims[*pivots];
+      offset = (size_t)c * sublen * nim->dim[*pivots] +
+               (size_t)sublen * dims[*pivots];
       offset *= nim->nbyper;
 
       if( g_opts.debug > 3 )
-         fprintf(stderr,"-d reading %d bytes, foff %d + %d, doff %d\n",
-                 read_size, base_offset, offset, c*read_size);
+         fprintf(stderr,"-d reading %u bytes, foff %u + %u, doff %u\n",
+                 (unsigned)read_size, (unsigned)base_offset, (unsigned)offset,
+                 (unsigned)(c*read_size));
 
       /* now read the next level down, adding this offset */
       if( rci_read_data(nim, pivots+1, prods+1, nprods-1, dims,
@@ -6785,3 +6853,139 @@ int * nifti_get_intlist( int nvals , const char * str )
    if( subv[0] == 0 ){ free(subv); subv = NULL; }
    return subv ;
 }
+
+/*---------------------------------------------------------------------*/
+/*! Given a NIFTI_TYPE string, such as "NIFTI_TYPE_INT16", return the
+ *  corresponding integral type code.  The type code is the macro
+ *  value defined in nifti1.h.
+*//*-------------------------------------------------------------------*/
+int nifti_datatype_from_string( const char * name )
+{
+    int tablen = sizeof(nifti_type_list)/sizeof(nifti_type_ele);
+    int c;
+
+    if( !name ) return DT_UNKNOWN;
+
+    for( c = tablen-1; c > 0; c-- )
+        if( !strcmp(name, nifti_type_list[c].name) )
+            break;
+
+    return nifti_type_list[c].type;
+}
+
+
+/*---------------------------------------------------------------------*/
+/*! Given a NIFTI_TYPE value, such as NIFTI_TYPE_INT16, return the
+ *  corresponding macro label as a string.  The dtype code is the
+ *  macro value defined in nifti1.h.
+*//*-------------------------------------------------------------------*/
+char * nifti_datatype_to_string( int dtype )
+{
+    int tablen = sizeof(nifti_type_list)/sizeof(nifti_type_ele);
+    int c;
+
+    for( c = tablen-1; c > 0; c-- )
+        if( nifti_type_list[c].type == dtype )
+            break;
+
+    return nifti_type_list[c].name;
+}
+
+
+/*---------------------------------------------------------------------*/
+/*! Determine whether dtype is a valid NIFTI_TYPE.
+ *
+ *  DT_UNKNOWN is considered invalid
+ *
+ *  The only difference 'for_nifti' makes is that DT_BINARY
+ *  should be invalid for a NIfTI dataset.
+*//*-------------------------------------------------------------------*/
+int nifti_datatype_is_valid( int dtype, int for_nifti )
+{
+    int tablen = sizeof(nifti_type_list)/sizeof(nifti_type_ele);
+    int c;
+
+    /* special case */
+    if( for_nifti && dtype == DT_BINARY ) return 0;
+
+    for( c = tablen-1; c > 0; c-- )
+        if( nifti_type_list[c].type == dtype )
+            return 1;
+
+    return 0;
+}
+
+
+/*---------------------------------------------------------------------*/
+/*! Only as a test, verify that the new nifti_type_list table matches
+ *  the the usage of nifti_datatype_sizes (which could be changed to
+ *  use the table, if there were interest).
+ *
+ *  return the number of errors (so 0 is success, as usual)
+*//*-------------------------------------------------------------------*/
+int nifti_test_datatype_sizes(int verb)
+{
+    int tablen = sizeof(nifti_type_list)/sizeof(nifti_type_ele);
+    int nbyper, ssize;
+    int c, errs = 0;
+
+    for( c = 0; c < tablen; c++ )
+    {
+        nbyper = ssize = -1;
+        nifti_datatype_sizes(nifti_type_list[c].type, &nbyper, &ssize);
+        if( nbyper < 0 || ssize < 0 ||
+                nbyper != nifti_type_list[c].nbyper ||
+                ssize != nifti_type_list[c].swapsize )
+        {
+            if( verb || g_opts.debug > 2 )
+                fprintf(stderr, "** type mismatch: %s, %d, %d, %d : %d, %d\n",
+                    nifti_type_list[c].name, nifti_type_list[c].type,
+                    nifti_type_list[c].nbyper, nifti_type_list[c].swapsize,
+                    nbyper, ssize);
+            errs++;
+        }
+    }
+
+    if( errs )
+        fprintf(stderr,"** nifti_test_datatype_sizes: found %d errors\n",errs);
+    else if( verb || g_opts.debug > 1 )
+        fprintf(stderr,"-- nifti_test_datatype_sizes: all OK\n");
+
+    return errs;
+}
+
+
+/*---------------------------------------------------------------------*/
+/*! Display the nifti_type_list table.
+ *
+ *  if which == 1  : display DT_*
+ *  if which == 2  : display NIFTI_TYPE*
+ *  else           : display all
+*//*-------------------------------------------------------------------*/
+int nifti_disp_type_list( int which )
+{
+    char * style;
+    int    tablen = sizeof(nifti_type_list)/sizeof(nifti_type_ele);
+    int    lwhich, c;
+
+    if     ( which == 1 ){ lwhich = 1; style = "DT_"; }
+    else if( which == 2 ){ lwhich = 2; style = "NIFTI_TYPE_"; }
+    else                 { lwhich = 3; style = "ALL"; }
+
+    printf("nifti_type_list entries (%s) :\n"
+           "  name                    type    nbyper    swapsize\n"
+           "  ---------------------   ----    ------    --------\n", style);
+
+    for( c = 0; c < tablen; c++ )
+        if( (lwhich & 1 && nifti_type_list[c].name[0] == 'D')  ||
+            (lwhich & 2 && nifti_type_list[c].name[0] == 'N')     )
+            printf("  %-22s %5d     %3d      %5d\n",
+                   nifti_type_list[c].name,
+                   nifti_type_list[c].type,
+                   nifti_type_list[c].nbyper,
+                   nifti_type_list[c].swapsize);
+
+    return 0;
+}
+
+

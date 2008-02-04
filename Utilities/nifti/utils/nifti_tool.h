@@ -44,7 +44,8 @@ typedef struct{
 #define USE_HIST       3
 #define USE_FIELD_HDR  4
 #define USE_FIELD_NIM  5
-#define USE_VERSION    6
+#define USE_DTYPES     6
+#define USE_VERSION    7
 
 #define CHECK_NEXT_OPT(n,m,str)                                       \
    do { if ( (n) >= (m) ) {                                           \
@@ -110,6 +111,7 @@ int    act_mod_hdrs   ( nt_opts * opts );
 int    act_mod_nims   ( nt_opts * opts );
 int    act_rm_ext     ( nt_opts * opts );
 int    act_strip      ( nt_opts * opts );  /* strip extras from datasets */
+
 
 field_s * get_hdr_field( char * fname, int show_fail );
 field_s * get_nim_field( char * fname, int show_fail );

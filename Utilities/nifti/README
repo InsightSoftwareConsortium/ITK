@@ -2,6 +2,8 @@
 Nifti-1 C libraries
 -------------------
 
+Version 1.0.0 beta release Dec  2007
+Version 0.6 beta release Aug  2007
 Version 0.5 beta release May  2007
 Version 0.4 beta release Sept. 2006
 Version 0.3 beta release April 2006
@@ -43,8 +45,16 @@ docs     -- destination directory Doxygen html (created via "make doc")
 
 Example directories
 -------------------
-examples -- directory containing sample code using nifti reference library
+examples  -- directory containing sample code using nifti reference library
 real_easy -- code snippets to read nifti-1 files, not using nifti ref. lib.
+
+
+Other directories
+-----------------
+Testing   -- directory containing code to test the libraries
+packaging -- spec file for building RPMs, and template package
+             description for Dev-Cpp (http://www.bloodshed.net/devcpp.html)
+
 
 
 Instructions to build

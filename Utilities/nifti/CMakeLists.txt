@@ -11,7 +11,8 @@ ADD_DEFINITIONS(-DHAVE_ZLIB)
 # This library version will be applied to all libraries in the package
 # unless it is not explicitely for a certain lib.
 IF (NOT DEFINED NIFTI_SHAREDLIB_VERSION)
-  SET ( NIFTI_SHAREDLIB_VERSION 0.0.0 )
+  SET ( NIFTI_SHAREDLIB_VERSION 1.0.0 )
+  STRING( REGEX MATCH "^[0-9]+" NIFTI_SHAREDLIB_SOVERSION ${NIFTI_SHAREDLIB_VERSION})
 ENDIF (NOT DEFINED NIFTI_SHAREDLIB_VERSION)
 
 # add option to build shared libraries. The default is OFF to maintain the

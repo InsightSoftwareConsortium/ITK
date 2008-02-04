@@ -1,5 +1,12 @@
 /** \file nifti1.h
     \brief Official definition of the nifti1 header.  Written by Bob Cox, SSCC, NIMH.
+
+    HISTORY:
+
+        29 Nov 2007 [rickr]
+           - added DT_RGBA32 and NIFTI_TYPE_RGBA32
+           - added NIFTI_INTENT codes:
+                TIME_SERIES, NODE_INDEX, RGB_VECTOR, RGBA_VECTOR, SHAPE
  */
 
 #ifndef _NIFTI_HEADER_
@@ -504,6 +511,7 @@ typedef struct nifti1_extension nifti1_extension ;
 #define DT_FLOAT128             1536     /* long double (128 bits)       */
 #define DT_COMPLEX128           1792     /* double pair (128 bits)       */
 #define DT_COMPLEX256           2048     /* long double pair (256 bits)  */
+#define DT_RGBA32               2304     /* 4 byte RGBA (32 bits/voxel)  */
 /* @} */
 
 
@@ -543,6 +551,8 @@ typedef struct nifti1_extension nifti1_extension ;
 #define NIFTI_TYPE_COMPLEX128   1792
                                        /*! 256 bit complex = 2 128 bit floats */
 #define NIFTI_TYPE_COMPLEX256   2048
+                                       /*! 4 8 bit bytes. */
+#define NIFTI_TYPE_RGBA32       2304
 /* @} */
 
                      /*-------- sample typedefs for complicated types ---*/
@@ -904,6 +914,45 @@ typedef struct { unsigned char r,g,b; } rgb_byte ;
      the name of the parameter may be stored in intent_name.     */
 
 #define NIFTI_INTENT_DIMLESS    1011
+
+ /*---------- these values apply to GIFTI datasets ----------*/
+
+ /*! To signify that the value at each location is from a time series. */
+
+#define NIFTI_INTENT_TIME_SERIES  2001
+
+ /*! To signify that the value at each location is a node index, from
+     a complete surface dataset.                                       */
+
+#define NIFTI_INTENT_NODE_INDEX   2002
+
+ /*! To signify that the vector value at each location is an RGB triplet,
+     of whatever type.
+       - dataset must have a 5th dimension
+       - dim[0] = 5
+       - dim[1] = number of nodes
+       - dim[2] = dim[3] = dim[4] = 1
+       - dim[5] = 3
+    */
+
+#define NIFTI_INTENT_RGB_VECTOR   2003
+
+ /*! To signify that the vector value at each location is a 4 valued RGBA
+     vector, of whatever type.
+       - dataset must have a 5th dimension
+       - dim[0] = 5
+       - dim[1] = number of nodes
+       - dim[2] = dim[3] = dim[4] = 1
+       - dim[5] = 4
+    */
+
+#define NIFTI_INTENT_RGBA_VECTOR  2004
+
+ /*! To signify that the value at each location is a shape value, such
+     as the curvature.  */
+
+#define NIFTI_INTENT_SHAPE        2005
+
 /* @} */
 
 /*---------------------------------------------------------------------------*/

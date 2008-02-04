@@ -45,3 +45,36 @@ Updates in version 0.5 May 17, 2007
     - modified CMake system to build shared libraries
     - modified Makefiles to use ARCH in more cases
 
+-----------------------------------------------------------------
+Updated in version 0.6 August 27, 2007
+
+    - RR allowed for datasets with a single volume > 2^31 bytes
+    - RR allowed for datasets with total size > 2^32 bytes
+    - RR added regression testing under Testing/nifti_regress_test
+    - KF added upper level packaging directory and put Andy Loenings's 
+         rpm spec file in it
+    - HJ Changed default installation path of header files into include/nifti 
+         from CMakeLists.txt
+    - HJ/KW Added exposing Analyze75 orientation codes
+    - HJ/KW Added function to allow any sized subregion of the image to be read 
+         from disk
+    - RR/KF znzlib/config.h incorporated into znzlib.h and removed
+
+-----------------------------------------------------------------
+Updated in version 1.0 December 6, 2007
+
+    - MH added DevPak packaging template for Dev-Cpp IDE
+    - MH added Makefile for cross-compiling for win32 on linux using mingw32
+    - Yaroslav/MH/RR fixed ARM struct alignment problem when byte-swapping
+    - MH fixed short filename problem in FslFileType
+    - RR added RGBA32 type nad NIFTI_ECODE_FREESURFER macros
+    - RR added 5 NIFTI_INTENT codes for GIFTI
+    - RR added nifti_datatype_to_string and similar functionality
+    - MH Simplified CMake configuration to apply same shared library version
+         to all libraries.
+
+-----------------------------------------------------------------
+Updated in version UNRELEASED
+
+    - RR allowed ANALYZE headers in nifti_hdr_looks_good
+

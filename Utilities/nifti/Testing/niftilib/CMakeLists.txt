@@ -4,25 +4,12 @@ PROJECT(NIFTILIB_TESTS)
 
 INCLUDE_DIRECTORIES(${NIFTILIB_SOURCE_DIR} ${ZNZLIB_SOURCE_DIR} ${NIFTILIB_SOURCE_DIR}/../utils)
 
-ADD_EXECUTABLE(nifti_first_test nifti_test.c)
-TARGET_LINK_LIBRARIES(nifti_first_test ${PACKAGE_PREFIX}niftiio )
+ADD_EXECUTABLE(first_test nifti_test.c)
+TARGET_LINK_LIBRARIES(first_test niftiio )
 
-ADD_EXECUTABLE(nifti_second_test nifti_test2.c)
-TARGET_LINK_LIBRARIES(nifti_second_test ${PACKAGE_PREFIX}niftiio )
+ADD_EXECUTABLE(second_test nifti_test2.c)
+TARGET_LINK_LIBRARIES(second_test niftiio )
 
-ADD_EXECUTABLE(nifti_subregion_test nifti_test_subimage.c)
-TARGET_LINK_LIBRARIES(nifti_subregion_test ${PACKAGE_PREFIX}niftiio )
 
-ADD_EXECUTABLE(nifti_headersize_test nifti_headersize_test.c)
-TARGET_LINK_LIBRARIES(nifti_headersize_test ${PACKAGE_PREFIX}niftiio )
+ADD_TEST(first_test first_test )
 
-IF(ITK_BINARY_DIR)
-SET(TESTBIN ${ITK_BINARY_DIR}/bin)
-ELSE(ITK_BINARY_DIR)
-SET(TESTBIN ${NIFTILIB_TESTS_BINARY_DIR})
-ENDIF(ITK_BINARY_DIR)
-
-ADD_TEST(nifti_first_test ${TESTBIN}/nifti_first_test )
-ADD_TEST(nifti_second_test ${TESTBIN}/nifti_second_test )
-ADD_TEST(subregion_test ${TESTBIN}/nifti_subregion_test )
-ADD_TEST(nifti_headersize_test ${TESTBIN}/nifti_headersize_test)

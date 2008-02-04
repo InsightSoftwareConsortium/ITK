@@ -69,17 +69,15 @@ typedef struct {                   /** 3x3 matrix struct **/
  *  \brief Old-style analyze75 orientation
  *         codes.
  */
-typedef enum _analyze75_orient_code
-  {
-    a75_transverse_unflipped = 0,
-    a75_coronal_unflipped = 1,
-    a75_sagittal_unflipped = 2,
-    a75_transverse_flipped = 3,
-    a75_coronal_flipped = 4,
-    a75_sagittal_flipped = 5,
-    a75_orient_unknown = 6
-  }
-  analyze_75_orient_code;
+typedef enum _analyze75_orient_code {
+  a75_transverse_unflipped = 0,
+  a75_coronal_unflipped = 1,
+  a75_sagittal_unflipped = 2,
+  a75_transverse_flipped = 3,
+  a75_coronal_flipped = 4,
+  a75_sagittal_flipped = 5,
+  a75_orient_unknown = 6
+} analyze_75_orient_code;
 
 /*! \struct nifti_image
     \brief High level data structure for open nifti datasets in the
@@ -98,7 +96,7 @@ typedef struct {                /*!< Image storage struct **/
   int nv ;                      /*!< dimensions of grid array             */
   int nw ;                      /*!< dimensions of grid array             */
   int dim[8] ;                  /*!< dim[0]=ndim, dim[1]=nx, etc.         */
-  int nvox ;                    /*!< number of voxels = nx*ny*nz*...*nw   */
+  size_t nvox ;                    /*!< number of voxels = nx*ny*nz*...*nw   */
   int nbyper ;                  /*!< bytes per voxel, matches datatype    */
   int datatype ;                /*!< type of data in voxels: DT_* code    */
 
@@ -168,15 +166,16 @@ typedef struct {                /*!< Image storage struct **/
   int                num_ext ;  /*!< number of extensions in ext_list       */
   nifti1_extension * ext_list ; /*!< array of extension structs (with data) */
   analyze_75_orient_code analyze75_orient; /*!< for old analyze files, orient */
+
 } nifti_image ;
 
 
 
 /* struct for return from nifti_image_read_bricks() */
 typedef struct {
-  int     nbricks;    /* the number of allocated pointers in 'bricks' */
-  int     bsize;      /* the length of each data block, in bytes      */
-  void ** bricks;     /* array of pointers to data blocks             */
+  int       nbricks;    /* the number of allocated pointers in 'bricks' */
+  size_t    bsize;      /* the length of each data block, in bytes      */
+  void   ** bricks;     /* array of pointers to data blocks             */
 } nifti_brick_list;
 
 
@@ -207,6 +206,10 @@ void  nifti_swap_8bytes ( int n , void *ar ) ;
 void  nifti_swap_16bytes( int n , void *ar ) ;
 void  nifti_swap_Nbytes ( int n , int siz , void *ar ) ;
 
+int    nifti_datatype_is_valid   (int dtype, int for_nifti);
+int    nifti_datatype_from_string(const char * name);
+char * nifti_datatype_to_string  (int dtype);
+
 void  swap_nifti_header ( struct nifti_1_header *h , int is_nifti ) ;
 int   nifti_get_filesize( const char *pathname ) ;
 
@@ -226,8 +229,9 @@ void         nifti_image_free    ( nifti_image *nim ) ;
 int          nifti_read_collapsed_image( nifti_image * nim, const int dims [8],
                                          void ** data );
 
-int nifti_read_subregion_image( nifti_image * nim, int *start_index, int *region_size,
-                                void ** data );
+int          nifti_read_subregion_image( nifti_image * nim, 
+                                         int *start_index, int *region_size,
+                                         void ** data );
 
 void         nifti_image_write   ( nifti_image * nim ) ;
 void         nifti_image_write_bricks(nifti_image * nim, 
@@ -237,6 +241,8 @@ void         nifti_image_infodump( const nifti_image * nim ) ;
 void         nifti_disp_lib_hist( void ) ;     /* to display library history */
 void         nifti_disp_lib_version( void ) ;  /* to display library version */
 int          nifti_disp_matrix_orient( const char * mesg, mat44 mat );
+int          nifti_disp_type_list( int which );
+
 
 char *       nifti_image_to_ascii  ( const nifti_image * nim ) ;
 nifti_image *nifti_image_from_ascii( const char * str, int * bytes_read ) ;
@@ -334,6 +340,7 @@ int    nifti_is_valid_ecode        (int ecode);
 int    nifti_nim_is_valid          (nifti_image * nim, int complain);
 int    nifti_nim_has_valid_dims    (nifti_image * nim, int complain);
 int    is_valid_nifti_type         (int nifti_type);
+int    nifti_test_datatype_sizes   (int verb);
 int    nifti_type_and_names_match  (nifti_image * nim, int show_warn);
 int    nifti_update_dims_from_array(nifti_image * nim);
 void   nifti_set_iname_offset      (nifti_image *nim);
@@ -370,12 +377,14 @@ int    valid_nifti_extensions(const nifti_image *nim);
                                            mah5@leicester.ac.uk
                                            http://someplace/something         */
 
-#define NIFTI_ECODE_WORKFLOW_FWDS   12  /* Kate Fissell: fissel+@pitt.edu
+#define NIFTI_ECODE_WORKFLOW_FWDS   12  /* Kate Fissell: fissell@pitt.edu
                                            http://kraepelin.wpic.pitt.edu
                                             /~fissell/NIFTI_ECODE_WORKFLOW_FWDS
                                             /NIFTI_ECODE_WORKFLOW_FWDS.html   */
 
-#define NIFTI_MAX_ECODE             12  /******* maximum extension code *******/
+#define NIFTI_ECODE_FREESURFER      14  /* http://surfer.nmr.mgh.harvard.edu */
+
+#define NIFTI_MAX_ECODE             14  /******* maximum extension code *******/
 
 /* nifti_type file codes */
 #define NIFTI_FTYPE_ANALYZE   0
@@ -393,6 +402,13 @@ typedef struct {
     int debug;               /*!< debug level for status reports */
     int skip_blank_ext;      /*!< skip extender if no extensions */
 } nifti_global_options;
+
+typedef struct {
+    int    type;           /* should match the NIFTI_TYPE_ #define */
+    int    nbyper;         /* bytes per value, matches nifti_image */
+    int    swapsize;       /* bytes per swap piece, matches nifti_image */
+    char * name;           /* text string to match #define */
+} nifti_type_ele;
 
 #undef  LNI_FERR /* local nifti file error, to be compact and repetative */
 #define LNI_FERR(func,msg,file)                                      \
