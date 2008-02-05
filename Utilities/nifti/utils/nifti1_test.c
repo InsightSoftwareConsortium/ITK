@@ -23,8 +23,7 @@ int main( int argc , char *argv[] )
      printf("  -za2 => write an ANALYZE 7.5 file pair:\n"
             "          prefix.hdr.gz/prefix.img.gz\n"
             "  -zn2 => write a NIFTI-1 file pair: prefix.hdr.gz/prefix.img.gz\n"
-            "  -zn1 => write a NIFTI-1 single file: prefix.nii.gz\n"
-            "  -zna => write a NIFTI-1 ASCII+binary file: prefix.nia.gz\n");
+            "  -zn1 => write a NIFTI-1 single file: prefix.nii.gz\n");
      printf(" The default is '-n1'.\n"
             "\n"
             " If prefix is not given, then the header info from infile\n"

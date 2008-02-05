@@ -2366,7 +2366,7 @@ char * nifti_find_file_extension( const char * name )
    ext = (char *)name + len - 7;
 
    if ( (strcmp(ext, ".hdr.gz") == 0) || (strcmp(ext, ".img.gz") == 0) ||
-        (strcmp(ext, ".nia.gz") == 0) || (strcmp(ext, ".nii.gz") == 0) )
+        (strcmp(ext, ".nii.gz") == 0) )
       return ext;
 #endif
 
@@ -2526,11 +2526,10 @@ char * nifti_findhdrname(const char* fname)
 *//*---------------------------------------------------------------------*/
 char * nifti_findimgname(const char* fname , int nifti_type)
 {
-   char *basename, *imgname, ext[2][5] = { ".nii", ".img" };
+   char *basename, *imgname, ext[2][5] = { ".nii", ".img"};
    int  first;  /* first extension to use */
 
    /* check input file(s) for sanity */
-
    if( !nifti_validfilename(fname) ) return NULL;
 
    basename =  nifti_makebasename(fname);
@@ -2541,35 +2540,41 @@ char * nifti_findimgname(const char* fname , int nifti_type)
       return NULL;
    }
 
+   if( nifti_type == NIFTI_FTYPE_ASCII ){ /*Only valid extension for ASCII type .nia*/
+     strcpy(imgname,basename);
+     strcat(imgname,".nia");
+     if (nifti_fileexists(imgname)) { free(basename); return imgname; }
+   } else {
    /**- test for .nii and .img (don't assume input type from image type) */
    /**- if nifti_type = 1, check for .nii first, else .img first         */
 
    /* if we get 3 or more extensions, can make a loop here... */
 
-   if (nifti_type == NIFTI_FTYPE_NIFTI1_1) first = 0;   /* should match .nii */
-   else                                    first = 1;   /* should match .img */
+     if (nifti_type == NIFTI_FTYPE_NIFTI1_1) first = 0;   /* should match .nii */
+     else                                    first = 1;   /* should match .img */
 
-   strcpy(imgname,basename);
-   strcat(imgname,ext[first]);
-   if (nifti_fileexists(imgname)) { free(basename); return imgname; }
+     strcpy(imgname,basename);
+     strcat(imgname,ext[first]);
+     if (nifti_fileexists(imgname)) { free(basename); return imgname; }
 #ifdef HAVE_ZLIB  /* then also check for .gz */
-   strcat(imgname,".gz");
-   if (nifti_fileexists(imgname)) { free(basename); return imgname; }
+     strcat(imgname,".gz");
+     if (nifti_fileexists(imgname)) { free(basename); return imgname; }
 #endif
 
-   /* failed to find image file with expected extension, try the other */
+     /* failed to find image file with expected extension, try the other */
 
-   strcpy(imgname,basename);
-   strcat(imgname,ext[1-first]);  /* can do this with only 2 choices */
-   if (nifti_fileexists(imgname)) { free(basename); return imgname; }
+     strcpy(imgname,basename);
+     strcat(imgname,ext[1-first]);  /* can do this with only 2 choices */
+     if (nifti_fileexists(imgname)) { free(basename); return imgname; }
 #ifdef HAVE_ZLIB  /* then also check for .gz */
-   strcat(imgname,".gz");
-   if (nifti_fileexists(imgname)) { free(basename); return imgname; }
+     strcat(imgname,".gz");
+     if (nifti_fileexists(imgname)) { free(basename); return imgname; }
 #endif
+   }
 
    /**- if nothing has been found, return NULL */
-   free(basename); 
-   free(imgname); 
+   free(basename);
+   free(imgname);
    return NULL;
 }
 
@@ -2924,11 +2929,16 @@ int nifti_set_type_from_names( nifti_image * nim )
    if( g_opts.debug > 2 )
       fprintf(stderr,"-d verify nifti_type from filenames: %d",nim->nifti_type);
 
-   /* not too picky here, do what must be done, and then verify */
-   if( strcmp(nim->fname, nim->iname) == 0 )          /* one file, type 1 */
-      nim->nifti_type = NIFTI_FTYPE_NIFTI1_1;
-   else if( nim->nifti_type == NIFTI_FTYPE_NIFTI1_1 ) /* cannot be type 1 */
-      nim->nifti_type = NIFTI_FTYPE_NIFTI1_2;
+   /* Must force the type to be NIFTI_FTYPE_ASCII if extension is .nia */
+   if( (strcmp(nifti_find_file_extension( nim->fname ),".nia")==0) ) {
+     nim->nifti_type = NIFTI_FTYPE_ASCII;
+   } else {
+     /* not too picky here, do what must be done, and then verify */
+     if( strcmp(nim->fname, nim->iname) == 0 )          /* one file, type 1 */
+        nim->nifti_type = NIFTI_FTYPE_NIFTI1_1;
+     else if( nim->nifti_type == NIFTI_FTYPE_NIFTI1_1 ) /* cannot be type 1 */
+        nim->nifti_type = NIFTI_FTYPE_NIFTI1_2;
+   }
 
    if( g_opts.debug > 2 ) fprintf(stderr," -> %d\n",nim->nifti_type);
 
@@ -3813,7 +3823,7 @@ nifti_image * nifti_read_ascii_image(znzFile fp, char *fname, int flen,
    char        * sbuf, lfunc[25] = { "nifti_read_ascii_image" };
 
    if( nifti_is_gzfile(fname) ){
-      LNI_FERR(lfunc, "compressed file with negative offset", fname);
+      LNI_FERR(lfunc, "compression not supported for file type NIFTI_FTYPE_ASCII", fname);
       free(fname);  znzclose(fp);  return NULL;
    }
    slen = flen;  /* slen will be our buffer length */
@@ -4294,6 +4304,7 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
    /* set up data space, open data file and seek, then call nifti_read_buffer */
    size_t ntot , ii , ioff;
    znzFile fp;
+   char *tmpimgname;
    char    fname[] = { "nifti_image_load_prep" };
 
    /**- perform sanity checks */
@@ -4312,11 +4323,19 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
 
    /**- open image data file */
 
-   fp = znzopen(nim->iname, "rb", nifti_is_gzfile(nim->iname));
-   if( znz_isnull(fp) ){
-      if( g_opts.debug > 0 ) LNI_FERR(fname,"cannot open data file",nim->iname);
+   tmpimgname = nifti_findimgname(nim->iname , nim->nifti_type);
+   if( tmpimgname == NULL ){
+      if( g_opts.debug > 0 )
+         fprintf(stderr,"** no image file found for '%s'\n",nim->iname);
       return NULL;
    }
+   fp = znzopen(tmpimgname, "rb", nifti_is_gzfile(tmpimgname));
+   if (znz_isnull(fp)){
+       if( g_opts.debug > 0 ) { LNI_FERR(fname,"cannot open data file",tmpimgname); }
+       free(tmpimgname);
+       return NULL;  /* bad open? */
+   }
+   free(tmpimgname);
 
    /**- get image offset: a negative offset means to figure from end of file */
    if( nim->iname_offset < 0 ){
@@ -5880,7 +5899,8 @@ nifti_image *nifti_image_from_ascii( const char *str, int * bytes_read )
    nim->nx = nim->ny = nim->nz = nim->nt
            = nim->nu = nim->nv = nim->nw = 1 ;
    nim->dx = nim->dy = nim->dz = nim->dt
-           = nim->du = nim->dv = nim->dw = nim->qfac = 1.0 ;
+           = nim->du = nim->dv = nim->dw = 0 ;
+   nim->qfac = 1.0 ;
 
    nim->byteorder = nifti_short_order() ;
 
