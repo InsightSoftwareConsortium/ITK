@@ -941,7 +941,7 @@ NiftiImageIO
     }
   if(Ext == ".nii" || Ext == ".nii.gz")
     {
-    this->m_NiftiImage->nifti_type = 1;
+    this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_1;
     size_t filenameLength = static_cast<size_t>( FName.size() ) + 1;
     this->m_NiftiImage->iname = (char *)malloc( filenameLength );
     strcpy(this->m_NiftiImage->fname,FName.c_str());
@@ -949,7 +949,12 @@ NiftiImageIO
     }
   else if(Ext == ".hdr" || Ext == ".img")
     {
-    this->m_NiftiImage->nifti_type = 2;
+    this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_2;
+    // This filter needs to write nifti files, not the attempt at
+    // analyze files.
+    // If it is desired to write out ANALYZE7.5 in the traditional
+    // format, then the itkAnalyze75IO must be called explicitly.
+    // this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ANALYZE;
     if(Ext == ".hdr")
       {
       strcpy(this->m_NiftiImage->fname,FName.c_str());
