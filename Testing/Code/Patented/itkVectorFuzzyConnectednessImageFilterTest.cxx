@@ -62,7 +62,7 @@ itk::Image<itk::Vector<unsigned char,3>,2>::IndexValueType  Seed2[1][2] =
 };
 
 // this data array is from part of visible human data
-const int data[400][3] = 
+const int vhData[400][3] = 
 {
   {201, 178, 127}, {201, 177, 131}, {198, 178, 131}, {196, 172, 123}, {190, 148, 93}, {175, 117, 67}, {153, 96, 47}, {133, 65, 33}, {106, 56, 32}, {91, 47, 26}, 
   {81, 45, 25}, {79, 42, 23}, {74, 38, 21}, {69, 35, 19}, {64, 39, 19}, {68, 51, 26}, {80, 62, 38}, {89, 66, 40}, {94, 62, 33}, {88, 52, 29}, 
@@ -142,9 +142,9 @@ int itkVectorFuzzyConnectednessImageFilterTest(int, char* [] )
 
   while( !it.IsAtEnd()) 
   {
-    value[0] = data[k][0];
-    value[1] = data[k][1];
-    value[2] = data[k][2];
+    value[0] = vhData[k][0];
+    value[1] = vhData[k][1];
+    value[2] = vhData[k][2];
     k = k+1;
     it.Set(value);
     ++it;

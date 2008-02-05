@@ -539,8 +539,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                              bool itkNotUsed(withinSampleThread) ) const
 {
     unsigned int t;
-    unsigned int i;
-    unsigned int maxI;
+    int i;
+    int maxI;
     maxI = m_NumberOfHistogramBins
            * ( m_ThreaderJointPDFEndBin[threadID]
                - m_ThreaderJointPDFStartBin[threadID] + 1);
@@ -604,7 +604,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // MUST BE CALLED TO INITIATE PROCESSING
   this->GetValueMultiThreadedPostProcessInitiate();
 
-  for(int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
+  for(unsigned int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
     {
     m_JointPDFSum += m_ThreaderJointPDFSum[threadID];
     }
@@ -619,7 +619,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   JointPDFValueType * pdfPtr;
   PDFValueType * movingMarginalPtr;
-  int i, j;
+  unsigned int i, j;
   double fixedPDFSum = 0.0;
   double nFactor = 1.0 / m_JointPDFSum;
   pdfPtr = m_JointPDF->GetBufferPointer();
@@ -924,7 +924,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // CALL IF DOING THREADED POST PROCESSING
   this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
 
-  for(int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
+  for(unsigned int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
     {
     m_JointPDFSum += m_ThreaderJointPDFSum[threadID];
     }
@@ -939,7 +939,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   JointPDFValueType * pdfPtr;
   PDFValueType * movingMarginalPtr;
-  int i, j;
+  unsigned int i, j;
   double fixedPDFSum = 0.0;
   double nFactor = 1.0 / m_JointPDFSum;
   pdfPtr = m_JointPDF->GetBufferPointer();

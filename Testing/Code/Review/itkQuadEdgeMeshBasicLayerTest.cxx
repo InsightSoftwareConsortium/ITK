@@ -241,7 +241,7 @@ int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
                                { 0, 2 } };
   for( int edge = 0; edge < 5; edge++ )
     {
-    int test = 0;
+    test = 0;
     for( IteratorGeom itSym = e[edge]->BeginGeomSym( );
          itSym != e[edge]->EndGeomSym( );
          itSym++, test++ )

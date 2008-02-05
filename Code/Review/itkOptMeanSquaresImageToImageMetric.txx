@@ -101,7 +101,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
     delete [] m_ThreaderMSEDerivatives;
     }
   m_ThreaderMSEDerivatives = new DerivativeType[this->m_NumberOfThreads];
-  for(int threadID=0; threadID<this->m_NumberOfThreads; threadID++)
+  for(unsigned int threadID=0; threadID<this->m_NumberOfThreads; threadID++)
     {
     m_ThreaderMSEDerivatives[threadID].SetSize( this->m_NumberOfParameters );
     }

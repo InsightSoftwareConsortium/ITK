@@ -32,7 +32,7 @@ public:
   /*
    * Constructor. Needed to ensure the exception object can be copied.
    */
-  InvalidActiveShapeModeError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid training image are availble.");}  
+  InvalidActiveShapeModeError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid training image are available.");}  
   
   itkTypeMacro(InvalidActiveShapeModeError, ExceptionObject);
 };
@@ -446,9 +446,9 @@ ActiveShapeModelCalculator<TImage>
   int d, dx, dy, sx, sy;
   unsigned int ax, ay;
 
-  for (unsigned int i = 0; i < slices; i++)
+  for (i = 0; i < slices; i++)
   {
-      for ( unsigned long j = 0 ; j < numberOfLandmarks ; j++ )
+      for ( j = 0 ; j < numberOfLandmarks ; j++ )
       {
           mv = sampleLandmarks->GetMeasurementVector(j);
           position3D [ 0 ] = mv [ 0 ];
@@ -589,9 +589,9 @@ ActiveShapeModelCalculator<TImage>
       v.erase(v.begin(), v.end());
   }
 
-  for(unsigned int i = 0; i < slices; i++)
+  for( i = 0; i < slices; i++)
     {
-    for(unsigned int j = 0; j < 2*numberOfLandmarks; j++)
+    for( j = 0; j < 2*numberOfLandmarks; j++)
       {
       m_Means[j] += coordLandmarks[j][i];
       }
@@ -599,9 +599,9 @@ ActiveShapeModelCalculator<TImage>
   m_Means /= slices;
 
    
-  for(unsigned int i = 0; i < 2*numberOfLandmarks; i++)
+  for(i = 0; i < 2*numberOfLandmarks; i++)
   {
-    for(unsigned int j = 0; j < 2*numberOfLandmarks; j++)
+    for(j = 0; j < 2*numberOfLandmarks; j++)
      {
        for(unsigned int k = 0; k < slices; k++) 
          covarianceMatrix[i][j] += (coordLandmarks[i][k] - m_Means[i]) * (coordLandmarks[j][k] - m_Means[j]);

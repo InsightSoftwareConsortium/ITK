@@ -373,14 +373,14 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 {
   typename FixedImageSampleContainer::iterator iter;
 
-  int len = m_FixedImageIndexes.size();
+  unsigned long len = m_FixedImageIndexes.size();
   m_NumberOfFixedImageSamples = len;
   this->NumberOfFixedImageSamplesUpdated();
 
   samples.resize(len);
   iter=samples.begin();
 
-  for(unsigned int i=0; i<len; i++)
+  for(unsigned long i=0; i<len; i++)
     {
     // Get sampled index
     FixedImageIndexType index = m_FixedImageIndexes[i];
