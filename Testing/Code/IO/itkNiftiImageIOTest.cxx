@@ -290,6 +290,8 @@ template <typename T> int MakeNiftiImage(void)
 
 int itkNiftiImageIOTest(int ac, char* av[])
 {
+  itk::ObjectFactoryBase::UnRegisterAllFactories();
+  itk::NiftiImageIOFactory::RegisterOneFactory();
   int rval = 0;
   //
   // first argument is passing in the writable directory to do all testing

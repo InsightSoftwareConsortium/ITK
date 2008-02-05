@@ -30,7 +30,10 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImageFileWriter.h"
 #include "itkImageIOFactory.h"
 #include "itkAnalyzeImageIOFactory.h"
+#include "itkNiftiImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
+#include "itkNiftiImageIO.h"
+#include "itkSpatialOrientationAdapter.h"
 #include <stdio.h>
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
@@ -51,49 +54,61 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
-int WriteTestFiles(void)
+int WriteTestFiles(std::string AugmentName)
 {
 #include "LittleEndian_hdr.h"
 #include "LittleEndian_img.h"
 #include "BigEndian_hdr.h"
 #include "BigEndian_img.h"
-  std::ofstream little_hdr("LittleEndian.hdr", std::ios::binary | std::ios::out);
+  std::string LittleEndianHdrName=AugmentName+"LittleEndian.hdr";
+  std::ofstream little_hdr(LittleEndianHdrName.c_str(), std::ios::binary | std::ios::out);
   if(!little_hdr.is_open())
+    {
     return EXIT_FAILURE;
-  std::cout << "LittleEndian written" << std::endl;
+    }
+  //std::cout << LittleEndianHdrName << " written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
-  std::ofstream little_img("LittleEndian.img", std::ios::binary | std::ios::out);
+  std::string LittleEndianImgName=AugmentName+"LittleEndian.img";
+  std::ofstream little_img(LittleEndianImgName.c_str(), std::ios::binary | std::ios::out);
   if(!little_img.is_open())
+    {
     return EXIT_FAILURE;
+    }
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
-  std::ofstream big_hdr("BigEndian.hdr", std::ios::binary | std::ios::out);
+  std::string BigEndianHdrName=AugmentName+"BigEndian.hdr";
+  std::ofstream big_hdr(BigEndianHdrName.c_str(), std::ios::binary | std::ios::out);
   if(!big_hdr.is_open())
+    {
     return EXIT_FAILURE;
+    }
   big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
   big_hdr.close();
-  std::ofstream big_img("BigEndian.img", std::ios::binary | std::ios::out);
+  std::string BigEndianImgName=AugmentName+"BigEndian.img";
+  std::ofstream big_img(BigEndianImgName.c_str(), std::ios::binary | std::ios::out);
   if(!big_img.is_open())
+    {
     return EXIT_FAILURE;
+    }
   big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
   big_img.close();
   return EXIT_SUCCESS;
 }
-void RemoveByteSwapTestFiles(void)
+void RemoveByteSwapTestFiles(std::string AugmentName)
 {
-  Remove("LittleEndian.hdr");
-  Remove("LittleEndian.img");
-  Remove("BigEndian.hdr");
-  Remove("BigEndian.img");
+//--//  Remove(AugmentName+"LittleEndian.hdr");
+//--//  Remove(AugmentName+"LittleEndian.img");
+//--//  Remove(AugmentName+"BigEndian.hdr");
+//--//  Remove(AugmentName+"BigEndian.img");
 }
 
-int TestByteSwap(void)
+int TestByteSwap(std::string AugmentName)
 {
   int rval;
   typedef itk::Image<double, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
-  if(WriteTestFiles() == -1)
+  if(WriteTestFiles(AugmentName) == -1)
     {
       return EXIT_FAILURE;
     }
@@ -105,10 +120,10 @@ int TestByteSwap(void)
     itk::ImageFileReader<ImageType>::New();
   try
   {
-    imageReader->SetFileName("LittleEndian.hdr") ;
+    imageReader->SetFileName(AugmentName+"LittleEndian.hdr") ;
     imageReader->Update() ;
     little = imageReader->GetOutput() ;
-    imageReader->SetFileName("BigEndian.hdr") ;
+    imageReader->SetFileName(AugmentName+"BigEndian.hdr") ;
     imageReader->Update() ;
     big = imageReader->GetOutput();
     std::cout << "Printing Dictionary" << std::endl;
@@ -117,7 +132,7 @@ int TestByteSwap(void)
   catch (itk::ExceptionObject &e)
     {
       e.Print(std::cerr) ;
-      RemoveByteSwapTestFiles();
+      RemoveByteSwapTestFiles(AugmentName);
       return EXIT_FAILURE;
     }
   rval = 0;
@@ -142,16 +157,15 @@ int TestByteSwap(void)
       std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
       rval= -1;
     }
-
-  RemoveByteSwapTestFiles();
+  RemoveByteSwapTestFiles(AugmentName);
   return rval;
 }
 
-template <typename T> int MakeImage(void)
+template <typename T> int MakeImage(const std::string NameAugment="")
 {
   typedef itk::Image<T, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
-  const char *filename = "test.hdr";
+  const std::string filename=std::string(typeid(T).name()) +"_"+NameAugment+"_" +std::string("test.hdr");
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
   typename ImageType::Pointer img;
@@ -165,6 +179,9 @@ template <typename T> int MakeImage(void)
   img->SetLargestPossibleRegion( region );
   img->SetBufferedRegion( region );
   img->SetRequestedRegion( region );
+  typename itk::SpatialOrientationAdapter::DirectionType CORdir=
+    itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  img->SetDirection(CORdir);
   img->Allocate();
 
   { //Fill in entire image
@@ -246,7 +263,7 @@ template <typename T> int MakeImage(void)
       message += "\n";
       message += ex.GetDescription();
       std::cerr << message << std::endl;
-      Remove(filename);
+//--//      Remove(filename);
       return EXIT_FAILURE;
     }
 
@@ -263,10 +280,10 @@ template <typename T> int MakeImage(void)
   catch (itk::ExceptionObject &e)
     {
       e.Print(std::cerr) ;
-      Remove(filename);
+//--//      Remove(filename);
       return EXIT_FAILURE;
     }
-  Remove(filename);
+//--//  Remove(filename);
   return EXIT_SUCCESS;
 }
 
@@ -275,6 +292,29 @@ template <typename T> int MakeImage(void)
 int itkAnalyzeImageIOTest(int ac, char* av[])
 {
   int rval = 0;
+  //Have two loops through the code, the first one
+  //reads and writes with the legacy AnalyzeIO, and
+  //the second reads a writes with the NiftiIO mechanism.
+  for(int loops=0;loops<2;loops++)
+    {
+  std::string AugmentName="NoneGiven";
+  if(loops==1)
+    {
+    itk::ObjectFactoryBase::UnRegisterAllFactories();
+    itk::AnalyzeImageIOFactory::RegisterOneFactory();
+    //itk::AnalyzeImageIOFactory::Pointer myAnalyzeIOFactory = itk::AnalyzeImageIOFactory::New();
+    //itk::ObjectFactoryBase::UnRegisterFactory(myAnalyzeIOFactory.GetPointer());
+    AugmentName="Analyze";
+    }
+  else
+    {
+    itk::ObjectFactoryBase::UnRegisterAllFactories();
+    itk::NiftiImageIOFactory::RegisterOneFactory();
+    //itk::NiftiImageIOFactory::Pointer myNiftiIOFactory = itk::NiftiImageIOFactory::New();
+    //itk::ObjectFactoryBase::UnRegisterFactory(myNiftiIOFactory.GetPointer());
+    AugmentName="Nifti";
+    }
+
   //
   // first argument is passing in the writable directory to do all testing
   if(ac > 1) {
@@ -307,56 +347,52 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
   else //This is the mechanism for doing internal testing of all data types.
     {
       int cur_return;
-      cur_return = MakeImage<char>();
+      cur_return = MakeImage<char>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type char" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeImage<unsigned char>();
+      cur_return = MakeImage<unsigned char>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeImage<short>();
+      cur_return = MakeImage<short>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type short" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeImage<unsigned short>();
+      cur_return = MakeImage<unsigned short>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeImage<int>();
+      cur_return = MakeImage<int>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type int" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeImage<float>();
+      cur_return = MakeImage<float>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type float" << std::endl;
           rval += cur_return;
         }
       // awaiting a double precision byte swapper
-      cur_return = MakeImage<double>();
+      cur_return = MakeImage<double>(AugmentName);
       if(cur_return != 0)
         {
           std::cerr << "Error writing Analyze file type double" << std::endl;
           rval += cur_return;
         }
-      rval += TestByteSwap();
+      rval += TestByteSwap(AugmentName);
     }
-  //Tests added to increase code coverage.
-      {
-      itk::AnalyzeImageIOFactory::Pointer MyFactoryTest=itk::AnalyzeImageIOFactory::New();
-      //This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
-      }
+    }
   return rval;
 }
 
@@ -378,8 +414,6 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
   typedef ImageType::Pointer ImagePointer ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
 
-
-
   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
   ImageReaderType::Pointer imageReader = ImageReaderType::New();
   ImagePointer input;
@@ -394,8 +428,6 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
     {
       test_success = 1;
     }
-  
-
 
   if(strcmp(arg1, "true") == 0)
     {
@@ -405,5 +437,4 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
     {
       return !test_success;
     }
-
 }
