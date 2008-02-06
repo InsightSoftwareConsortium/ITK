@@ -271,6 +271,20 @@ itkSetPixelType(ImageIOBase *This,
     This->SetComponentType(ntype);
     return true;
     }
+  else if ( ptype == typeid(FixedArray<T,3>) )
+    {
+    This->SetNumberOfComponents(3);
+    This->SetPixelType(ImageIOBase::FIXEDARRAY);
+    This->SetComponentType(ntype);
+    return true;
+    }
+  else if ( ptype == typeid(FixedArray<T,4>) )
+    {
+    This->SetNumberOfComponents(4);
+    This->SetPixelType(ImageIOBase::FIXEDARRAY);
+    This->SetComponentType(ntype);
+    return true;
+    }
   else if ( ptype == typeid(SymmetricSecondRankTensor<T,3>) )
     {
     This->SetNumberOfComponents(6);
