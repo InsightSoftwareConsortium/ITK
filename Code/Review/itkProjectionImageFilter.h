@@ -26,22 +26,22 @@ namespace itk
 /** \class ProjectionImageFilter
  * \brief Implements an accumulation of an image along a selected direction.
  *
- *    This class accumulates an image along a dimension and reduce the size 
- * of this dimension to 1. The dimension being accumulated is set by 
- * ProjectionDimension. 
+ * This class accumulates an image along a dimension and reduces the
+ * size of this dimension to 1. The dimension being accumulated is set
+ * by ProjectionDimension. 
  *
- *   Each pixel is the cumulative sum of the pixels along the collapsed
- * dimension and reduce the size of the accumulated dimension to 1 (only 
+ * Each pixel is the cumulative sum of the pixels along the collapsed
+ * dimension and reduces the size of the accumulated dimension to 1 (only 
  * on the accumulated). 
  *
- *   The dimensions of the InputImage and the OutputImage must be the same.
+ * The dimensions of the InputImage and the OutputImage must be the same.
  *
  * This class is parameterized over the type of the input image and
  * the type of the output image.
  *
  * This class was contributed to the Insight Journal by Emilian Beronich and
  * Gaetan Lehmann. The original paper can be found at 
- *      http://hdl.handle.net/1926/164
+ *      http://insight-journal.org/midas/handle.php?handle=1926/164
  *
  * \author Emiliano Beronich
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,

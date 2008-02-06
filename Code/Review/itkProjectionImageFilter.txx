@@ -47,6 +47,14 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 {
   itkDebugMacro("GenerateOutputInformation Start");
 
+  if(m_ProjectionDimension>=TInputImage::ImageDimension)
+    {
+    itkExceptionMacro(<<"Invalid ProjectionDimension. ProjectionDimension is "
+                      << m_ProjectionDimension
+                      << " but input ImageDimension is "
+                      << TInputImage::ImageDimension);
+    }
+
   typename TOutputImage::RegionType outputRegion;
   typename TInputImage::IndexType inputIndex;
   typename TInputImage::SizeType  inputSize;
@@ -129,6 +137,15 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 ::GenerateInputRequestedRegion()
 {
   itkDebugMacro("GenerateInputRequestedRegion Start");
+
+  if(m_ProjectionDimension>=TInputImage::ImageDimension)
+    {
+    itkExceptionMacro(<<"Invalid ProjectionDimension "
+                      << m_ProjectionDimension
+                      << " but ImageDimension is "
+                      << TInputImage::ImageDimension);
+    }
+
   Superclass::GenerateInputRequestedRegion();
 
   if ( this->GetInput() )
@@ -207,8 +224,10 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 {
   if(m_ProjectionDimension>=TInputImage::ImageDimension)
     {
-    itkExceptionMacro(<<"Invalid dimension to accumulate. ProjectionDimension="
-                      << m_ProjectionDimension);
+    itkExceptionMacro(<<"Invalid ProjectionDimension "
+                      << m_ProjectionDimension
+                      << " but ImageDimension is "
+                      << TInputImage::ImageDimension);
     }
 
   // use the output image to report the progress: there is no need to 
