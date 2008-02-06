@@ -51,10 +51,6 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetProjectionDimension( dim );
-  
-  // to be sure that the result is ok with several threads, even on a single
-  // proc computer
-  filter->SetNumberOfThreads( 2 );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
@@ -73,5 +69,23 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
+  // Set ProjectionDimension to a bad value
+  bool caught = false;
+  try
+    {
+    filter->SetProjectionDimension(100);
+    writer->Update();
+    }
+  catch ( itk::ExceptionObject & excp )
+    {
+    std::cerr << std::endl << "Caught expected exception!";
+    std::cerr << excp << std::endl;
+    caught = true;
+    }
+  if (!caught)
+    {
+    std::cerr << "Failed to catch expected exception!" << std::endl;
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }
