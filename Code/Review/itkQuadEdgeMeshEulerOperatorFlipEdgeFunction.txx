@@ -18,6 +18,8 @@
 #define __itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_txx
 
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
+#include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
+#include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 
 namespace itk
 {
@@ -70,8 +72,8 @@ Evaluate( QEType* h )
   // that is immediately deleted (with SplitFacet). Still we chose to write it
   // that way in the sake of maintenance simplicity (as long as JoinFacet and
   // SplitFacet are working, this operator does it job).
-  typedef itk::QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType > JoinFacet;
-  typedef itk::QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType> SplitFacet;
+  typedef QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType > JoinFacet;
+  typedef QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType> SplitFacet;
    
   QEType* G = h->GetLnext( );
   typename JoinFacet::Pointer joinFacet = JoinFacet::New( );
