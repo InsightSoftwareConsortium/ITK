@@ -17,6 +17,7 @@
 
 #ifndef __itkQuadEdgeMesh_txx
 #define __itkQuadEdgeMesh_txx
+#include "itkQuadEdgeMesh.h"
 
 #include <vector>
 

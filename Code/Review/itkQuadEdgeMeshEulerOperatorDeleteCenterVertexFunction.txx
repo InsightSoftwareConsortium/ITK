@@ -17,6 +17,8 @@
 #ifndef __itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction_txx
 
+#include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.h"
+
 namespace itk
 {
 

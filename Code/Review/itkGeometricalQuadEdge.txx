@@ -17,7 +17,7 @@
 
 #ifndef __itkGeometricalQuadEdge_txx
 #define __itkGeometricalQuadEdge_txx
-
+#include "itkGeometricalQuadEdge.h"
 #include <vcl_limits.h>
 #include <iostream>
 

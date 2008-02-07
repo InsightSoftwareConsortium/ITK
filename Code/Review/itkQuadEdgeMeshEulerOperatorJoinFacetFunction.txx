@@ -17,6 +17,8 @@
 #ifndef __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorJoinFacetFunction_txx
 
+#include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
+
 namespace itk
 {
 

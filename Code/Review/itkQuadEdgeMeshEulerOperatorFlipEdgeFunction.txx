@@ -17,6 +17,8 @@
 #ifndef __itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_txx
 
+#include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
+
 namespace itk
 {
 

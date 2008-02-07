@@ -17,6 +17,8 @@
 #ifndef __itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction_txx
 
+#include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h"
+
 namespace itk
 {
 template < class TMesh, class TQEType >

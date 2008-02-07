@@ -17,6 +17,7 @@
 #ifndef __itkQuadEdgeMeshEulerOperatorJoinVertexFunction_txx
 #define __itkQuadEdgeMeshEulerOperatorJoinVertexFunction_txx
 
+#include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshZipMeshFunction.h"
 
 namespace itk
