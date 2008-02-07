@@ -37,7 +37,7 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/306
+ * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
  * \warning Don't forget to close the opened block with the corresponding
  *          itkQE::itkQEMeshForAllPointsMacro macro.
@@ -93,7 +93,7 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/306
+ * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
 
  * \warning Don't forget to close the opened block with the corresponding
@@ -143,7 +143,7 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/306
+ * http://insight-journal.org/midas/handle.php?handle=1926/306
  *
  * \warning Don't forget to close the opened block with the corresponding
  *          itkQE::itkQEMeshForAllPrimalEdgesMacro macro.

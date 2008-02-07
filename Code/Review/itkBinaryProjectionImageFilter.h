@@ -164,15 +164,13 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
 
-    typedef typename NumericTraits<InputPixelType>::PrintType
-                                              InputPixelPrintType;
+    typedef typename NumericTraits<InputPixelType>::PrintType InputPixelPrintType;
 
     os << indent << "ForegroundValue: " 
                     << static_cast< InputPixelPrintType > (m_ForegroundValue) 
                     << std::endl;
  
-    typedef typename NumericTraits<OutputPixelType>::PrintType
-                                              OutputPixelPrintType;
+    typedef typename NumericTraits<OutputPixelType>::PrintType OutputPixelPrintType;
 
     os << indent << "BackgroundValue: " 
                     << static_cast< OutputPixelPrintType > (m_BackgroundValue) 

@@ -38,7 +38,7 @@ namespace itk
  * INRA de Jouy-en-Josas, France.
  *
  * This class was contributed to the Insight Journal 
- *     http://hdl.handle.net/1926/172
+ *     http://insight-journal.org/midas/handle.php?handle=1926/172
  *
  *
  * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
