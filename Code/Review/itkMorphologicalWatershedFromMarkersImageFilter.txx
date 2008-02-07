@@ -121,8 +121,8 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>
     }
   
   // FAH (in french: File d'Attente Hierarchique)
-  typedef typename std::queue< IndexType >                    QueueType;
-  typedef typename std::map< InputImagePixelType, QueueType > MapType;
+  typedef std::queue< IndexType >                    QueueType;
+  typedef std::map< InputImagePixelType, QueueType > MapType;
   MapType fah;
 
   // the radius which will be used for all the shaped iterators

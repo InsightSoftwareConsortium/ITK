@@ -133,7 +133,7 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
   // + SafeBorder is false; we just have to connect filters
   if ( m_SafeBorder )
     {
-    typedef typename itk::ConstantPadImageFilter<InputImageType, InputImageType> PadType;
+    typedef ConstantPadImageFilter<InputImageType, InputImageType> PadType;
     typename PadType::Pointer pad = PadType::New();
     pad->SetPadLowerBound( m_Kernel.GetRadius().m_Size );
     pad->SetPadUpperBound( m_Kernel.GetRadius().m_Size );
@@ -142,7 +142,7 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 
     dilate->SetInput( pad->GetOutput() );
     
-    typedef typename itk::CropImageFilter<TOutputImage, TOutputImage> CropType;
+    typedef CropImageFilter<TOutputImage, TOutputImage> CropType;
     typename CropType::Pointer crop = CropType::New();
     crop->SetInput( erode->GetOutput() );
     crop->SetUpperBoundaryCropSize( m_Kernel.GetRadius() );

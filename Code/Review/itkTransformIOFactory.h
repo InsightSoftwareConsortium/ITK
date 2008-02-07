@@ -40,7 +40,7 @@ public:
   itkTypeMacro(TransformIOFactory, Object);
 
   /** Convenient typedefs. */
-  typedef ::itk::TransformIOBase::Pointer TransformIOBasePointer;
+  typedef TransformIOBase::Pointer TransformIOBasePointer;
 
   /** Mode in which the files is intended to be used */
   typedef enum { ReadMode, WriteMode } FileModeType;

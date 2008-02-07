@@ -39,8 +39,8 @@ public:
   /** Standard class typedefs. */
   typedef QuadEdgeMeshEulerOperatorSplitFacetFunction      Self;
   typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >      Superclass;
-  typedef itk::SmartPointer< Self >                        Pointer;
-  typedef itk::SmartPointer< const Self >                  ConstPointer;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
   
   itkNewMacro( Self );
   /** Run-time type information (and related methods). */

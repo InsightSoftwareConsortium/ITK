@@ -52,7 +52,7 @@ CanWriteFile(const char *fileName)
 // but handle single precision as well.
 static void 
 ReadMat(vnl_matlab_readhdr &mathdr,
-        itk::Array<double> &array)
+        Array<double> &array)
 {
   if(mathdr.is_single())
     {
@@ -94,7 +94,7 @@ Read()
       itkExceptionMacro 
         ("Only vector parameters supported");
       }
-    itk::Array<double> TmpParameterArray(mathdr.rows());
+    Array<double> TmpParameterArray(mathdr.rows());
     ReadMat(mathdr,TmpParameterArray);
     std::string classname(mathdr.name());
     // create transform based on name of first vector
@@ -108,7 +108,7 @@ Read()
       itkExceptionMacro 
         ("Only vector parameters supported");
       }
-    itk::Array<double> TmpFixedParameterArray(mathdr2.rows());
+    Array<double> TmpFixedParameterArray(mathdr2.rows());
     ReadMat(mathdr2,TmpFixedParameterArray);
     transform->SetFixedParameters(TmpFixedParameterArray);
     transform->SetParametersByValue(TmpParameterArray);

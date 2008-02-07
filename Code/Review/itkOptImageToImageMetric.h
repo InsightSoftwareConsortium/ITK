@@ -458,7 +458,7 @@ protected:
    * Types and variables related to multi-threading
    */
 
-  typedef itk::MultiThreader               MultiThreaderType;
+  typedef MultiThreader               MultiThreaderType;
 
   struct MultiThreaderParameterType
     {

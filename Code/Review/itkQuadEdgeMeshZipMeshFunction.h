@@ -36,8 +36,8 @@ class ITK_EXPORT QuadEdgeMeshZipMeshFunction :
 public:
   /** Standard class typedefs. */
   typedef QuadEdgeMeshZipMeshFunction     Self;
-  typedef itk::SmartPointer< Self >       Pointer;
-  typedef itk::SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   typedef QuadEdgeMeshFunctionBase< TMesh,
                             typename TQEType::OriginRefType >  Superclass;

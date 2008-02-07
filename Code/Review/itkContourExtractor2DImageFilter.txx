@@ -546,7 +546,7 @@ ContourExtractor2DImageFilter<TInputImage>
     os << indent << "Custom region: " << m_RequestedRegion << std::endl;
     }
   
-  typedef typename  NumericTraits<InputRealType>::PrintType InputRealPrintType;
+  typedef typename NumericTraits<InputRealType>::PrintType InputRealPrintType;
 
   os << indent << "Contour value: " 
      << static_cast<InputRealPrintType> (m_ContourValue) 

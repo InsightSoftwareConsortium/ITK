@@ -138,7 +138,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  typedef  ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
   typename FixedImageType::IndexType index;
   FixedIteratorType ti( fixedImage, regionForThread );
 

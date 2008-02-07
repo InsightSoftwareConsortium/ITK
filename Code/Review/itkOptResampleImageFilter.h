@@ -39,14 +39,14 @@ namespace itk
  *
  * Note that the choice of interpolator function can be important.
  * This function is set via SetInterpolator().  The default is
- * itk::LinearInterpolateImageFunction<InputImageType,
+ * LinearInterpolateImageFunction<InputImageType,
  * TInterpolatorPrecisionType>, which
  * is reasonable for ordinary medical images.  However, some synthetic
  * images have pixels drawn from a finite prescribed set.  An example
  * would be a mask indicating the segmentation of a brain into a small
  * number of tissue types.  For such an image, one does not want to
  * interpolate between different pixel values, and so
- * itk::NearestNeighborInterpolateImageFunction< InputImageType,
+ * NearestNeighborInterpolateImageFunction< InputImageType,
  * TCoordRep > would be a better choice.
  *
  * Output information (spacing, size and direction) for the output
@@ -159,11 +159,11 @@ public:
   itkGetConstObjectMacro( Transform, TransformType );
 
   /** Set the interpolator function.  The default is
-   * itk::LinearInterpolateImageFunction<InputImageType,
+   * LinearInterpolateImageFunction<InputImageType,
    * TInterpolatorPrecisionType>. Some
-   * other options are itk::NearestNeighborInterpolateImageFunction
+   * other options are NearestNeighborInterpolateImageFunction
    * (useful for binary masks and other images with a small number of
-   * possible pixel values), and itk::BSplineInterpolateImageFunction
+   * possible pixel values), and BSplineInterpolateImageFunction
    * (which provides a higher order of interpolation).  */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 

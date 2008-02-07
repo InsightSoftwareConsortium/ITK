@@ -52,7 +52,7 @@ public:
   typedef typename MeshType::EdgeCellType      EdgeCellType;
   typedef typename MeshType::CellsContainerConstIterator
                                                CellsContainerConstIterator; 
-  typedef typename itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType >
+  typedef QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType >
                                                BoundaryEdges;
 
 public:

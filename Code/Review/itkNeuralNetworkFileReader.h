@@ -78,7 +78,7 @@ public:
 
   typedef typename TNetwork::MeasurementVectorType     MeasurementVectorType;
   typedef typename TNetwork::TargetVectorType          TargetVectorType;
-  typedef typename Statistics::BackPropagationLayer<
+  typedef Statistics::BackPropagationLayer<
     MeasurementVectorType, TargetVectorType>           BackPropagationLayerType;
   typedef typename BackPropagationLayerType::Pointer   BackPropagationLayerPointer;
   typedef typename MeasurementVectorType::ValueType    MeasurementVectorValueType;

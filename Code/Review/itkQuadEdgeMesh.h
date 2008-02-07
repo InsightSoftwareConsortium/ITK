@@ -59,16 +59,16 @@
  * loosely coupling of those operation methods with the targeted QuadEdgeMesh
  * object and heavier invocation syntax are a small price to pay in
  * exchange for optimal memory usage and end user modularity.
- * But we couldn't inherit from \ref itk::FunctionBase since its
+ * But we couldn't inherit from \ref FunctionBase since its
  * Evaluate( const InputType& input ) method promises to leave its
  * argument (the mesh we want to modify in our case) untouched.
  * Hence we created the \ref itkQE::MeshFunctionBase class whose main
- * difference with \ref itk::FunctionBase is that its Evaluate()
+ * difference with \ref FunctionBase is that its Evaluate()
  * method allows to modify the considered mesh.
  * When considering a new QuadEdgeMesh method we are left with four possible
  * "slots" to implement it:
  *   - the QuadEdgeMesh method
- *   - a derived class from itk::FunctionBase when the method leaves
+ *   - a derived class from FunctionBase when the method leaves
  *     the mesh constant.
  *   - a derived class from \ref itkQE::MeshFunctionBase when the
  *     method modifies the mesh (typically in the case of Euler operators)
@@ -82,7 +82,7 @@
  *     \ref Mesh::ComputeNumberOfPoints are left within the Mesh class.
  *   - heavier methods and less often called like
  *     \ref SanityCheckMeshFunction were implemented as derived classes of
- *     \ref itk::FunctionBase.
+ *     \ref FunctionBase.
  *   - methods with the same weight (measured e.g. in number of lines of
  *     code) but that modify the considered mesh, like
  *     \ref BoundaryEdgesMeshFunction or
@@ -92,7 +92,7 @@
  *   - more specialised methods, with a wider scope and that require a
  *     copy of the mesh should follow the classical itk Filter pattern,
  *     like \ref itkQE::MeshExtractComponentFilter, and inherit from
- *     \ref itk::MeshToMeshFilter.
+ *     \ref MeshToMeshFilter.
  */
 namespace itk
 {
@@ -240,7 +240,7 @@ public:
 
 public:
 
-  /** Basic itk::Object interface. */
+  /** Basic Object interface. */
   itkNewMacro( Self );
   itkTypeMacro( QuadEdgeMesh, Mesh );
 
@@ -259,7 +259,7 @@ public:
   /** another way of deleting all the cells */
   virtual void Clear();
 
-  /** Overloaded to avoid a bug in itk::Mesh that prevents proper inheritance
+  /** Overloaded to avoid a bug in Mesh that prevents proper inheritance
    * Refer to
    * http://public.kitware.com/pipermail/insight-users/2005-March/012459.html
    * and

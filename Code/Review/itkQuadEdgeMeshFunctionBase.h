@@ -52,17 +52,17 @@ namespace itk
  * 
  */
 template < class TMesh, class TOutput >
-class ITK_EXPORT QuadEdgeMeshFunctionBase : public itk::Object
+class ITK_EXPORT QuadEdgeMeshFunctionBase : public Object
 {
 public:
   /** Standard class typedefs. */
   typedef QuadEdgeMeshFunctionBase      Self;
-  typedef itk::Object                   Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  typedef Object                        Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuadEdgeMeshFunctionBase, itk::Object);
+  itkTypeMacro(QuadEdgeMeshFunctionBase, Object);
 
   /** Mesh type that must be modified */
   typedef TMesh                           MeshType;
