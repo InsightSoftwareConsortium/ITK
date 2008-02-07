@@ -49,7 +49,7 @@ template <class TInputPixel, class TAccumulate>
 class StandardDeviationAccumulator
 {
 public:
-  typedef NumericTraits<TInputPixel>::RealType RealType;
+  typedef typename NumericTraits<TInputPixel>::RealType RealType;
 
   StandardDeviationAccumulator( unsigned long size )
     {
