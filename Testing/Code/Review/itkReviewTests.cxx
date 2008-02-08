@@ -51,18 +51,6 @@ void RegisterTests()
 
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
  
-  REGISTER_TEST(itkSumProjectionImageFilterTest);
-  REGISTER_TEST(itkMaximumProjectionImageFilterTest);
-  REGISTER_TEST(itkMaximumProjectionImageFilterTest2);
-  REGISTER_TEST(itkMaximumProjectionImageFilterTest3);
-  REGISTER_TEST(itkMeanProjectionImageFilterTest);
-  REGISTER_TEST(itkMedianProjectionImageFilterTest);
-  REGISTER_TEST(itkMinimumProjectionImageFilterTest);
-  REGISTER_TEST(itkStandardDeviationProjectionImageFilterTest);
-  REGISTER_TEST(itkBinaryProjectionImageFilterTest);
-  REGISTER_TEST(itkBinaryThresholdProjectionImageFilterTest);
-  REGISTER_TEST(itkProjectionImageFilterTest);
-
   REGISTER_TEST(itkValuedRegionalMinimaImageFilterTest);
   REGISTER_TEST(itkValuedRegionalMaximaImageFilterTest);
   REGISTER_TEST(itkRegionalMaximaImageFilterTest);

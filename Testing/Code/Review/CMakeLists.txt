@@ -48,17 +48,6 @@ SET(ReviewTest_SRCS
   itkRegularSphereQuadEdgeMeshSourceTest.cxx
 
   itkContourExtractor2DImageFilterTest.cxx
-  itkSumProjectionImageFilterTest.cxx
-  itkMaximumProjectionImageFilterTest.cxx
-  itkMaximumProjectionImageFilterTest2.cxx
-  itkMaximumProjectionImageFilterTest3.cxx
-  itkMeanProjectionImageFilterTest.cxx
-  itkMedianProjectionImageFilterTest.cxx
-  itkMinimumProjectionImageFilterTest.cxx
-  itkStandardDeviationProjectionImageFilterTest.cxx  
-  itkBinaryProjectionImageFilterTest.cxx  
-  itkBinaryThresholdProjectionImageFilterTest.cxx  
-  itkProjectionImageFilterTest.cxx  
 
   itkValuedRegionalMinimaImageFilterTest.cxx
   itkValuedRegionalMaximaImageFilterTest.cxx
@@ -169,116 +158,6 @@ ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
 
-ADD_TEST(itkMaximumProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMaximumProjection.tif
-                  ${TEMP}/HeadMRVolumeMaximumProjection.tif
-                  itkMaximumProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMaximumProjection.tif)
-
-ADD_TEST(itkMaximumProjectionImageFilterTest2_1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMaximumProjection0.tif
-                  ${TEMP}/HeadMRVolumeMaximumProjection0.tif
-                  itkMaximumProjectionImageFilterTest2
-                  0
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMaximumProjection0.tif)
-
-ADD_TEST(itkMaximumProjectionImageFilterTest2_2 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMaximumProjection1.tif
-                  ${TEMP}/HeadMRVolumeMaximumProjection1.tif
-                  itkMaximumProjectionImageFilterTest2
-                  1
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMaximumProjection1.tif)
-
-ADD_TEST(itkMaximumProjectionImageFilterTest3_1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMaximumProjection2D0.tif
-                  ${TEMP}/HeadMRVolumeMaximumProjection2D0.tif
-                  itkMaximumProjectionImageFilterTest3
-                  0
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMaximumProjection2D0.tif)
-
-ADD_TEST(itkMaximumProjectionImageFilterTest3_2 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMaximumProjection2D1.tif
-                  ${TEMP}/HeadMRVolumeMaximumProjection2D1.tif
-                  itkMaximumProjectionImageFilterTest3
-                  1
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMaximumProjection2D1.tif)
-
-ADD_TEST(itkMinimumProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMinimumProjection.tif
-                  ${TEMP}/HeadMRVolumeMinimumProjection.tif
-                  itkMinimumProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMinimumProjection.tif)
-
-ADD_TEST(itkMedianProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMedianProjection.tif
-                  ${TEMP}/HeadMRVolumeMedianProjection.tif
-                  itkMedianProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMedianProjection.tif)
-
-ADD_TEST(itkMeanProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeMeanProjection.tif
-                  ${TEMP}/HeadMRVolumeMeanProjection.tif
-                  itkMeanProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeMeanProjection.tif)
-
-ADD_TEST(itkStandardDeviationProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeStandardDeviationProjection.tif
-                  ${TEMP}/HeadMRVolumeStandardDeviationProjection.tif
-                  itkStandardDeviationProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeStandardDeviationProjection.tif)
-
-ADD_TEST(itkSumProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeSumProjection.tif
-                  ${TEMP}/HeadMRVolumeSumProjection.tif
-                  itkSumProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeSumProjection.tif)
-
-ADD_TEST(itkProjectionImageFilterTest1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
-                  ${TEMP}/HeadMRVolumeProjection100.tif
-                  itkProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeProjection100.tif
-                  100
-                  0)
-
-ADD_TEST(itkBinaryProjectionImageFilterTest1 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
-                  ${TEMP}/HeadMRVolumeBinaryProjection100.tif
-                  itkBinaryProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeBinaryProjection100.tif
-                  100
-                  0)
-
-ADD_TEST(itkBinaryProjectionImageFilterTest2 ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeBinaryProjection200.tif
-                  ${TEMP}/HeadMRVolumeBinaryProjection200.tif
-                  itkBinaryProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeBinaryProjection200.tif
-                  200
-                  0)
-
-ADD_TEST(itkBinaryThresholdProjectionImageFilterTest ${REVIEW_TESTS}
-        --compare ${BASELINE}/HeadMRVolumeBinaryThresholdProjection.png
-                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.png
-                  itkBinaryThresholdProjectionImageFilterTest
-                  ${INPUTDATA}/HeadMRVolume.mhd
-                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.png
-                  100
-                  255
-                  0)
 
 
 ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
