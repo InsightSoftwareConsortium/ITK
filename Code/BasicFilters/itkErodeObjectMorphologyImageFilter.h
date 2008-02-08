@@ -74,6 +74,18 @@ public:
                                              DefaultBoundaryConditionType;
 
 
+  /** Set the object's value. Added for API consistency with itkBinaryErode filter */
+  void SetErodeValue( PixelType objectValue )
+    {
+    this->SetObjectValue( objectValue );
+    }
+
+  /** Set the object's value. Added for API consistency with itkBinaryErode filter */
+  PixelType GetErodeValue( void )
+    {
+    return this->GetObjectValue();
+    }
+
   /** Set the value to be assigned to eroded pixels */
   itkSetMacro(BackgroundValue, PixelType);
 
