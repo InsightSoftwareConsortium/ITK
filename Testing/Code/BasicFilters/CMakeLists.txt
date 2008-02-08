@@ -15,6 +15,7 @@ SET(BASIC_FILTERS_TESTS1 ${CXX_TEST_PATH}/itkBasicFiltersTests1)
 SET(BASIC_FILTERS_TESTS2 ${CXX_TEST_PATH}/itkBasicFiltersTests2)
 SET(BASIC_FILTERS_TESTS3 ${CXX_TEST_PATH}/itkBasicFiltersTests3)
 SET(BASIC_FILTERS_TESTS4 ${CXX_TEST_PATH}/itkBasicFiltersTests4)
+SET(BASIC_FILTERS_TESTS5 ${CXX_TEST_PATH}/itkBasicFiltersTests5)
 
 SET(BASIC_FILTERS_HEADER_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderTest)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/BasicFilters)
@@ -832,6 +833,116 @@ ADD_TEST( itkVectorIndexSelectionCastImageFilterTest3 ${BASIC_FILTERS_TESTS4}
           ${INPUTDATA}/RGBTestImage.tif
           ${TEMP}/itkVectorIndexSelectionCastImageFilterTest3.mha 2)
 
+ADD_TEST(itkMaximumProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection.tif
+                  itkMaximumProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest2_1 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection0.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection0.tif
+                  itkMaximumProjectionImageFilterTest2
+                  0
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection0.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest2_2 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection1.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection1.tif
+                  itkMaximumProjectionImageFilterTest2
+                  1
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection1.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest3_1 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection2D0.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D0.tif
+                  itkMaximumProjectionImageFilterTest3
+                  0
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D0.tif)
+
+ADD_TEST(itkMaximumProjectionImageFilterTest3_2 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMaximumProjection2D1.tif
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D1.tif
+                  itkMaximumProjectionImageFilterTest3
+                  1
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMaximumProjection2D1.tif)
+
+ADD_TEST(itkMinimumProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMinimumProjection.tif
+                  ${TEMP}/HeadMRVolumeMinimumProjection.tif
+                  itkMinimumProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMinimumProjection.tif)
+
+ADD_TEST(itkMedianProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMedianProjection.tif
+                  ${TEMP}/HeadMRVolumeMedianProjection.tif
+                  itkMedianProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMedianProjection.tif)
+
+ADD_TEST(itkMeanProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeMeanProjection.tif
+                  ${TEMP}/HeadMRVolumeMeanProjection.tif
+                  itkMeanProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeMeanProjection.tif)
+
+ADD_TEST(itkStandardDeviationProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeStandardDeviationProjection.tif
+                  ${TEMP}/HeadMRVolumeStandardDeviationProjection.tif
+                  itkStandardDeviationProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeStandardDeviationProjection.tif)
+
+ADD_TEST(itkSumProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeSumProjection.tif
+                  ${TEMP}/HeadMRVolumeSumProjection.tif
+                  itkSumProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeSumProjection.tif)
+
+ADD_TEST(itkProjectionImageFilterTest1 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
+                  ${TEMP}/HeadMRVolumeProjection100.tif
+                  itkProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeProjection100.tif
+                  100
+                  0)
+
+ADD_TEST(itkBinaryProjectionImageFilterTest1 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeBinaryProjection100.tif
+                  ${TEMP}/HeadMRVolumeBinaryProjection100.tif
+                  itkBinaryProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeBinaryProjection100.tif
+                  100
+                  0)
+
+ADD_TEST(itkBinaryProjectionImageFilterTest2 ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeBinaryProjection200.tif
+                  ${TEMP}/HeadMRVolumeBinaryProjection200.tif
+                  itkBinaryProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeBinaryProjection200.tif
+                  200
+                  0)
+
+ADD_TEST(itkBinaryThresholdProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/HeadMRVolumeBinaryThresholdProjection.png
+                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.png
+                  itkBinaryThresholdProjectionImageFilterTest
+                  ${INPUTDATA}/HeadMRVolume.mhd
+                  ${TEMP}/HeadMRVolumeBinaryThresholdProjection.png
+                  100
+                  255
+                  0)
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -1100,6 +1211,20 @@ itkVectorIndexSelectionCastImageFilterTest
 itkVectorConnectedComponentImageFilterTest
 )
 
+SET(BasicFilters5_SRCS
+  itkSumProjectionImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest2.cxx
+  itkMaximumProjectionImageFilterTest3.cxx
+  itkMeanProjectionImageFilterTest.cxx
+  itkMedianProjectionImageFilterTest.cxx
+  itkMinimumProjectionImageFilterTest.cxx
+  itkStandardDeviationProjectionImageFilterTest.cxx  
+  itkBinaryProjectionImageFilterTest.cxx  
+  itkBinaryThresholdProjectionImageFilterTest.cxx  
+  itkProjectionImageFilterTest.cxx  
+)
+
 IF(ITK_OBJCXX_COMPILER_WORKS)
   SET(BASICFILTERS_OBJCXX_TEST ${CXX_TEST_PATH}/itkBasicFiltersHeaderObjCxxTest)
   ADD_TEST(itkBasicFiltersHeaderObjCxxTest ${BASICFILTERS_OBJCXX_TEST})
@@ -1108,18 +1233,27 @@ IF(ITK_OBJCXX_COMPILER_WORKS)
 ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
 ADD_TEST(itkBasicFiltersHeaderTest ${BASIC_FILTERS_HEADER_TEST})
+
 ADD_EXECUTABLE(itkBasicFiltersHeaderTest itkBasicFiltersHeaderTest.cxx)
 TARGET_LINK_LIBRARIES(itkBasicFiltersHeaderTest ITKIO ITKNumerics ITKBasicFilters)
+
 ADD_EXECUTABLE(itkBasicFiltersTests itkBasicFiltersTests.cxx ${BasicFilters_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests ITKIO ITKNumerics ITKBasicFilters)
+
 ADD_EXECUTABLE(itkBasicFiltersTests1 itkBasicFiltersTests1.cxx ${BasicFilters1_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests1 ITKIO ITKNumerics ITKBasicFilters ITKStatistics)
+
 ADD_EXECUTABLE(itkBasicFiltersTests2 itkBasicFiltersTests2.cxx ${BasicFilters2_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests2 ITKIO ITKNumerics ITKBasicFilters)
+
 ADD_EXECUTABLE(itkBasicFiltersTests3 itkBasicFiltersTests3.cxx ${BasicFilters3_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests3 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
+
 ADD_EXECUTABLE(itkBasicFiltersTests4 itkBasicFiltersTests4.cxx ${BasicFilters4_SRCS})
 TARGET_LINK_LIBRARIES(itkBasicFiltersTests4 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
+
+ADD_EXECUTABLE(itkBasicFiltersTests5 itkBasicFiltersTests5.cxx ${BasicFilters5_SRCS})
+TARGET_LINK_LIBRARIES(itkBasicFiltersTests5 ITKStatistics ITKIO ITKNumerics ITKBasicFilters)
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 
 
