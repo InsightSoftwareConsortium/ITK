@@ -33,7 +33,7 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned char, ImageDimension>  InputImageType;
+  typedef itk::Image<unsigned short, ImageDimension>  InputImageType;
   typedef itk::Image<unsigned char, ImageDimension>  OutputImageType;
   typedef InputImageType::PixelType InputPixelType;
   typedef OutputImageType::PixelType OutputPixelType;
@@ -65,7 +65,7 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   // Create a filter                                
   FilterType::Pointer filter = FilterType::New();
 
-  // Eleiminate most labels
+  // Eliminate most labels
   InputPixelType background = 0;
   InputPixelType maxRemainingLabel = 2;
   for (InputPixelType i = maxRemainingLabel; i <= upper; i++) {
