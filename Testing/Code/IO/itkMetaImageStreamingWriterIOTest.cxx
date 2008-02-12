@@ -106,11 +106,11 @@ int itkMetaImageStreamingWriterIOTest(int ac, char* av[])
    
     // Write the image     
     itk::ImageIORegion  ioregion(3);
-    itk::ImageIORegion::IndexType index;
-    index.push_back(region.GetIndex()[0]);
-    index.push_back(region.GetIndex()[1]);
-    index.push_back(region.GetIndex()[2]);
-    ioregion.SetIndex(index);
+    itk::ImageIORegion::IndexType index2;
+    index2.push_back(region.GetIndex()[0]);
+    index2.push_back(region.GetIndex()[1]);
+    index2.push_back(region.GetIndex()[2]);
+    ioregion.SetIndex(index2);
     itk::ImageIORegion::SizeType size2;
     size2.push_back(region.GetSize()[0]);
     size2.push_back(region.GetSize()[1]);
