@@ -84,7 +84,7 @@ int itkMetaImageStreamingWriterIOTest(int ac, char* av[])
     // we are reading everything
     if(i == m_NumberOfPieces-1)
       {
-      size[2] = fullsize[2]-index[2]-1;
+      size[2] = fullsize[2]-index[2];
       }
     else
       {
