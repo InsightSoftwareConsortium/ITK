@@ -65,6 +65,7 @@ itkMatrixImageWriteReadTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
 itkMetaImageStreamingIOTest.cxx
+itkMetaImageStreamingWriterIOTest.cxx
 itkNrrdImageIOTest.cxx
 itkNrrdImageReadWriteTest.cxx
 itkNrrdRGBImageReadWriteTest.cxx
@@ -226,15 +227,21 @@ ADD_TEST(itkMetaImageIOShouldFailTest ${IO_TESTS}
 ADD_TEST(itkMetaImageStreamingIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
-  itkMetaImageIOTest
+  itkMetaImageStreamingIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd)
 ADD_TEST(itkMetaImageCompressedStreamingIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
-  itkMetaImageIOTest
+  itkMetaImageStreamingIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha)
+ADD_TEST(itkMetaImageStreamingWriterIOTest ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha
+  itkMetaImageStreamingWriterIOTest
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha)
 ADD_TEST(itkGiplImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
