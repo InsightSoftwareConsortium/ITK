@@ -37,7 +37,7 @@ int itkMetaImageStreamingWriterIOTest(int ac, char* av[])
   // We remove the output file
   itksys::SystemTools::RemoveFile(av[2]);
     
-  typedef unsigned short            PixelType;
+  typedef unsigned char            PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
 
   itk::MetaImageIO::Pointer metaImageIO = itk::MetaImageIO::New();
