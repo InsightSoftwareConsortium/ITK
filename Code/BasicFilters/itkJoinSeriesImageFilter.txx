@@ -159,6 +159,10 @@ JoinSeriesImageFilter<TInputImage,TOutputImage>
 {
   Superclass::GenerateInputRequestedRegion();
 
+  if (!this->GetOutput())
+    {
+    return;
+    }
   OutputImageRegionType outputRegion = this->GetOutput()->GetRequestedRegion();
   IndexValueType begin = outputRegion.GetIndex(InputImageDimension);
   IndexValueType end = begin + outputRegion.GetSize(InputImageDimension);

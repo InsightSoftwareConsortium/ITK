@@ -57,7 +57,10 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     {
     InputImagePointer image =
       const_cast< typename Superclass::InputImageType * >( this->GetInput() );
-    image->SetRequestedRegionToLargestPossibleRegion();
+    if (image)
+      {
+      image->SetRequestedRegionToLargestPossibleRegion();
+      }
     }
   if ( this->GetLabelInput() )
     {
