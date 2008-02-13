@@ -401,13 +401,21 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -w")
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50")
   IF(APPLE)
+    # -no-cpp-precomp and -Wno-long-double were compiler flags present
+    # only in Apple's gcc and not in the FSF gcc. The flags are obsolete
+    # and totally removed in gcc 4.2 and later. I believe they are only
+    # needed with gcc 3.3 and earlier.
     INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
     itkCHECK_CXX_ACCEPTS_FLAGS("-no-cpp-precomp" CXX_HAS_CPP_PRECOMP_FLAG)
     IF(${CXX_HAS_CPP_PRECOMP_FLAG})    
       SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -no-cpp-precomp")
       SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -no-cpp-precomp")
     ENDIF(${CXX_HAS_CPP_PRECOMP_FLAG})    
-    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-long-double")
+    itkCHECK_CXX_ACCEPTS_FLAGS("-Wno-long-double" CXX_HAS_LONGDOUBLE_FLAG)
+    IF(${CXX_HAS_LONGDOUBLE_FLAG})    
+      SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wno-long-double")
+      SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-long-double")
+    ENDIF(${CXX_HAS_LONGDOUBLE_FLAG})    
 
     OPTION(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
     MARK_AS_ADVANCED(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
