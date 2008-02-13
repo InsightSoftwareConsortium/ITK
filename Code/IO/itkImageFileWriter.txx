@@ -218,6 +218,11 @@ ImageFileWriter<TInputImage>
       }
     m_ImageIO->SetDirection( i, axisDirection );
     }
+    
+  if(m_UserSpecifiedIORegion)
+    {
+    m_ImageIO->SetUseStreamedWriting(true);
+    }
 
   m_ImageIO->SetUseCompression(m_UseCompression);
   m_ImageIO->SetIORegion(m_IORegion);

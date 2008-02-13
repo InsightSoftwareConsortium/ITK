@@ -74,97 +74,6 @@ bool MetaImageIO::CanReadFile( const char* filename )
     }
 
   return m_MetaImage.CanRead(filename);
-
-  /*bool extensionFound = false;
-  std::string::size_type mhaPos = fname.rfind(".mha");
-  if ((mhaPos != std::string::npos)
-      && (mhaPos == fname.length() - 4))
-    {
-    extensionFound = true;
-    }
-
-  std::string::size_type mhdPos = fname.rfind(".mhd");
-  if ((mhdPos != std::string::npos)
-      && (mhdPos == fname.length() - 4))
-    {
-    extensionFound = true;
-    }
-  
-  if( !extensionFound )
-    {
-    itkDebugMacro(<<"The filename extension is not recognized");
-    return false;
-    }
-
-  // Now check the file content
-  std::ifstream inputStream;
-
-  inputStream.open( filename, std::ios::in | std::ios::binary );
-
-  if( inputStream.fail() )
-    {
-    return false;
-    }
-
-  char key[8000];
-
-  inputStream >> key;
-
-  if( inputStream.eof() )
-    {
-    inputStream.close();
-    return false;
-    }
-
-  if( strcmp(key,"NDims") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"ObjectType") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"TransformType") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"ID") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"ParentID") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"BinaryData") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"Comment") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"AcquisitionDate") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-  if( strcmp(key,"Modality") == 0 ) 
-    {
-    inputStream.close();
-    return true;
-    }
-
-  inputStream.close();
-  return false;*/
-
 }
   
 
@@ -1389,7 +1298,30 @@ MetaImageIO
   free(transformMatrix);
   
   m_MetaImage.CompressedData(m_UseCompression);
-  m_MetaImage.Write(m_FileName.c_str());
+
+  if(m_UseCompression && m_UseStreamedWriting)
+    {
+    std::cout << "Cannot use compression while stream reading" << std::endl;
+    }
+  else if(m_UseStreamedWriting)
+    {
+    int* indexMin = new int[nDims];
+    int* indexMax = new int[nDims];
+    for(unsigned int k=0;k<nDims;k++)
+      {
+      indexMin[k] = m_IORegion.GetIndex()[k];
+      indexMax[k] = m_IORegion.GetIndex()[k]+m_IORegion.GetSize()[k];
+      }
+      
+    m_MetaImage.WriteROI(indexMin,indexMax,m_FileName.c_str());
+    
+    delete [] indexMin;
+    delete [] indexMax;
+    }
+  else
+    {
+    m_MetaImage.Write(m_FileName.c_str());
+    }
 
   delete []dSize;
   delete []eSpacing;
