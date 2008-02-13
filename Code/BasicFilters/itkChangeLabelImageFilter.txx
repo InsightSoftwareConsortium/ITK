@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkChangeLabelImageFilter_txx
-#define _itkChangeLabelImageFilter_txx
+#ifndef __itkChangeLabelImageFilter_txx
+#define __itkChangeLabelImageFilter_txx
 
 #include "itkChangeLabelImageFilter.h"
 
@@ -42,12 +42,12 @@ void
 ChangeLabelImageFilter<TInputImage, TOutputImage>
 ::SetChange( const InputPixelType & original, const OutputPixelType & result )
 {
-   OutputPixelType  current = this->GetFunctor().GetChange(original); 
-   if ( current != result )
-     {
-     this->GetFunctor().SetChange(original, result);
-     this->Modified();
-     }  
+  OutputPixelType  current = this->GetFunctor().GetChange(original); 
+  if ( current != result )
+    {
+    this->GetFunctor().SetChange(original, result);
+    this->Modified();
+    }  
 }
 
 /**
@@ -58,9 +58,9 @@ void
 ChangeLabelImageFilter<TInputImage, TOutputImage>
 ::SetChangeMap( const ChangeMapType & changeMap )
 {
-   //If the whole map is being set then we assume that a real change is made
-   this->GetFunctor().SetChangeMap(changeMap); 
-   this->Modified();
+  //If the whole map is being set then we assume that a real change is made
+  this->GetFunctor().SetChangeMap(changeMap); 
+  this->Modified();
 }
 
 /**
@@ -71,9 +71,9 @@ void
 ChangeLabelImageFilter<TInputImage, TOutputImage>
 ::ClearChangeMap( )
 {
-   //If the whole map is being set then we assume that a real change is made
-   this->GetFunctor().ClearChangeMap(); 
-   this->Modified();
+  //If the whole map is being set then we assume that a real change is made
+  this->GetFunctor().ClearChangeMap(); 
+  this->Modified();
 }
 
 /**

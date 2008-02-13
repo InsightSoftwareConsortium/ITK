@@ -59,48 +59,47 @@ public:
   typedef std::map<TInput, TOutput> ChangeMapType;
 
   bool operator!=( const ChangeLabel & other ) const
-  {
+    {
     if (m_ChangeMap != other.m_ChangeMap)
       {
       return true;
       }
     return false;
-  }
+    }
   bool operator==( const ChangeLabel & other ) const
-  {
+    {
     return !(*this != other);
-  }
-  TInput GetChange( const TInput & original )
-  { 
+    }
+  TOutput GetChange( const TInput & original )
+    {  
     return m_ChangeMap[original]; 
-  }
+    }
 
   void SetChange( const TInput & original, const TOutput & result )
-  { 
+    { 
     m_ChangeMap[original] = result; 
-  }
+    }
   
   void SetChangeMap( const ChangeMapType & changeMap )
-  { 
+    { 
     m_ChangeMap = changeMap; 
-  }
+    }
 
   void ClearChangeMap( )
-  { 
+    { 
     m_ChangeMap.clear(); 
-  }
+    }
 
   inline TOutput operator()( const TInput & A )
-  {
+    {
     if ( m_ChangeMap.find(A) != m_ChangeMap.end() )
       {
       return m_ChangeMap[A];
       }
     return A;
-  }
+    }
 
 private:
-
   ChangeMapType m_ChangeMap;
 
 };
@@ -116,14 +115,14 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef ChangeLabelImageFilter  Self;
+  typedef ChangeLabelImageFilter   Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
     Functor::ChangeLabel< 
     typename TInputImage::PixelType, 
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  >                                Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
