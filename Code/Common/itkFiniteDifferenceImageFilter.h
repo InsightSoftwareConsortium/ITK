@@ -205,8 +205,10 @@ public:
   }
   
   /** Set/Get the state of the filter. */
+#if !defined(CABLE_CONFIGURATION)
   itkSetMacro(State, FilterStateType);
   itkGetConstReferenceMacro(State, FilterStateType);
+#endif
 
   /** Require the filter to be manually reinitialized (by calling
       SetStateToUninitialized() */
