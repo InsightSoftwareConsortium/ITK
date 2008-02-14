@@ -25,7 +25,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_transpose.h"
 #include "vnl/vnl_matrix.h"
-
+#include <vnl/algo/vnl_determinant.h>
 
 namespace itk
 {
@@ -196,6 +196,10 @@ public:
   /** Return the inverse matrix. */
   inline vnl_matrix_fixed<T,NColumns,NRows> GetInverse( void ) const
   {
+    if (vnl_determinant(m_Matrix) == 0.0)
+      {
+      itkGenericExceptionMacro(<< "Singular matrix. Determinant is 0.");
+      }
     vnl_matrix<T> temp = vnl_matrix_inverse<T>( m_Matrix );
     return temp;
   }
