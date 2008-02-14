@@ -168,11 +168,11 @@ IF(CMAKE_BUILD_TOOL MATCHES ".*dev")
 ENDIF(CMAKE_BUILD_TOOL MATCHES ".*dev")
 
 # Avoid anachronism warnings by Sun compilers
-INCLUDE(${CMAKE_ROOT}/Modules/TestCXXAcceptsFlag.cmake)
-CHECK_CXX_ACCEPTS_FLAG("-features=no%anachronisms" SUN_COMPILER)
-IF(NOT WIN32 AND SUN_COMPILER)
+INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
+itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
+IF(${SUN_COMPILER})
   ADD_DEFINITIONS("-w")
-ENDIF(NOT WIN32 AND SUN_COMPILER)
+ENDIF(${SUN_COMPILER})
 
 # Define source groups that look nice in DSP files
 SOURCE_GROUP("Elements" REGULAR_EXPRESSION itkFEMElement*)
