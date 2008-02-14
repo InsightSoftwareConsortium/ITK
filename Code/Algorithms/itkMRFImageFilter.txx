@@ -117,8 +117,10 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   InputImagePointer inputPtr = 
     const_cast< InputImageType * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
-  inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
-  
+  if (inputPtr && outputPtr)
+    {
+    inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
+    }
 }
 
 

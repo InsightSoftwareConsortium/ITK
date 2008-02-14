@@ -1122,7 +1122,10 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   {
   InputImagePointer input =
     const_cast< InputImageType * >( this->GetInput() );
-  input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+  if (input)
+    {
+    input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+    }
   }
 }
 
