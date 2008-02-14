@@ -26,6 +26,8 @@
 #include "itkCovariantVector.h"
 
 #include "vnl/vnl_vector_fixed.h"
+#include <vnl/vnl_matrix_fixed.txx>
+VNL_MATRIX_FIXED_INSTANTIATE(float,7,7);
 
 
 int itkMatrixTest(int, char* [] ) 
@@ -160,7 +162,7 @@ int itkMatrixTest(int, char* [] )
       std::cout << "m2=" << std::endl;
       std::cout << m2 << std::endl;
 
-
+      
       std::cout << "VNL * VNL Multiplication result: " << std::endl;
       std::cout << m1.GetVnlMatrix()*m2.GetVnlMatrix() << std::endl;
 
@@ -352,9 +354,38 @@ int itkMatrixTest(int, char* [] )
 
   }
 
+  typedef   itk::Matrix<NumericType,7,7> LargeMatrixType;
+  LargeMatrixType matrixBad;
+  matrixBad.Fill( 2.0);
+  bool caught = false;
+  try
+    {
+    matrixBad.GetInverse();
+    }
+  catch (itk::ExceptionObject &excp)
+    {
+    std::cout << "Caught expected exception!" << std::endl;
+    std::cout << excp;
+    caught = true;
+    }
+  if (!caught)
+    {
+    std::cout << "Failed to catch expected exception!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  matrixBad.SetIdentity();
+  try
+    {
+    matrixBad.GetInverse();
+    }
+  catch (itk::ExceptionObject &excp)
+    {
+    std::cout << "Caught unexpected exception!" << std::endl;
+    std::cout << excp;
+    return EXIT_FAILURE;
+    }
   std::cout << "Test Passed !" << std::endl;
 
   return EXIT_SUCCESS;
 }
-
-

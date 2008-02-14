@@ -365,7 +365,20 @@ int itkAffineTransformTest(int, char *[])
         }
       }
 
-  }
+    // Try to invert a singular transform
+    TransformType::Pointer singularTransform = TransformType::New();
+    TransformType::Pointer singularTransformInverse = TransformType::New();
+    singularTransform->Scale(0.0);
+    if (!singularTransform->GetInverse(singularTransformInverse))
+      {
+      std::cout << "Detected an attempt to invert a singular transform as expected" << std::endl;
+      }
+    else
+      {
+      std::cout << "Failed to detect an attempt to invert a singular transform!" << std::endl;
+      return EXIT_FAILURE;
+      }
+}
 
     return any;
 }
