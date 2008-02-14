@@ -222,6 +222,7 @@ int itkOrientedImageAdaptorTest(int, char* []) {
     }
 
   myImageType::DirectionType imageDirection;
+  imageDirection.SetIdentity();
   imageDirection[1][1]=10.0;
 
   myImage->SetDirection(imageDirection);
