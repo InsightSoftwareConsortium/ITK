@@ -346,10 +346,10 @@ TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest2 ITKAlgorithms ITKFEM ITKNumerics)
 # by Sun compilers
 INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
 itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
-IF(${SUN_COMPILER})
+IF(SUN_COMPILER)
   SET_SOURCE_PROPERTIES(itkAlgorithmsPrintTest3.cxx
                         PROPERTIES COMPILE_FLAGS -w)
-ENDIF(${SUN_COMPILER})
+ENDIF(SUN_COMPILER)
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
 TARGET_LINK_LIBRARIES(itkAlgorithmsPrintTest3 ITKAlgorithms ITKFEM ITKNumerics)
