@@ -133,6 +133,9 @@ int main(int,char *[])
     {
       ITK_SYSTEM_INFORMATION_DIR "/CMakeCache.txt", 
       ITK_SYSTEM_INFORMATION_DIR "/itkConfigure.h",
+      ITK_SYSTEM_INFORMATION_DIR "/CMakeFiles/CMakeOutput.log",
+      ITK_SYSTEM_INFORMATION_DIR "/CMakeFiles/CMakeError.log",
+      ITK_SYSTEM_INFORMATION_DIR "/CMakeOutput.log",
       ITK_SYSTEM_INFORMATION_DIR "/CMakeError.log",
       ITK_SYSTEM_INFORMATION_DIR "/ITKBuildSettings.cmake",
       ITK_SYSTEM_INFORMATION_DIR "/ITKLibraryDepends.cmake",
