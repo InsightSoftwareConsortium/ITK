@@ -721,4 +721,10 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   ENDFOREACH(COMP_OPTION)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
+#
+# These checks are temporary to see how different compilers handle bad flags
+INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
+itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" TEST_CXX_ACCEPTS_FEATURES)
+itkCHECK_CXX_ACCEPTS_FLAGS("-barf" TEST_CXX_ACCEPTS_BARF)
+itkCHECK_CXX_ACCEPTS_FLAGS("-Wall" TEST_CXX_ACCEPTS_WALL)
 
