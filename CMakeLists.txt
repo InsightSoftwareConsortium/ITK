@@ -5,6 +5,12 @@ PROJECT(ITK)
 INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
 SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 
+# Cleanup the CMake Error and Output logs
+FILE(REMOVE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log)
+FILE(REMOVE ${CMAKE_BINARY_DIR}/CMakeOutput.log)
+FILE(REMOVE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log)
+FILE(REMOVE ${CMAKE_BINARY_DIR}/CMakeError.log)
+
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
 IF(WIN32)
