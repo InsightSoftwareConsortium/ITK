@@ -59,7 +59,8 @@ FOREACH(CurrentExe "check"
                    "testOpen"
                    "testSpacing"
                    "testSharpen"
-                   "testDT")
+                   "testDT"
+                   "perfDT")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
