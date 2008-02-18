@@ -60,7 +60,8 @@ FOREACH(CurrentExe "check"
                    "testSpacing"
                    "testSharpen"
                    "testDT"
-                   "perfDT")
+                   "perfDT"
+                   "mkSpot")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
@@ -93,3 +94,7 @@ ADD_TEST(Sharpen100 ${ TEST_COMMAND } testSharpen 100 sharp100.mha sharp100.txt)
 ADD_TEST(Dist1 ${ TEST_COMMAND } testDT $ { INPUT_IMAGE } 100 0 mask.png dist1.mha)
 
 ADD_TEST(Dist2 ${ TEST_COMMAND } testDT $ { INPUT_IMAGE } 100 255 mask.png dist2.mha)
+
+ADD_TEST(Perf ${ TEST_COMMAND } perfDT $ {
+  INPUT_IMAGE
+} 100 255 mask.png dist3.mha dist4.mha-- compare dist3.mha dist4.mha)
