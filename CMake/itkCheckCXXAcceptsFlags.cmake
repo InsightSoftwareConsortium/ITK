@@ -8,7 +8,10 @@
 #  VAR   - variable to store whether compiler accepts the FLAGS (TRUE or FALSE)
 #
 MACRO(itkCHECK_CXX_ACCEPTS_FLAGS FLAGS VAR)
-  IF(NOT DEFINED ${VAR})
+    #
+    # If this file changed since CMakeOutput.log changed rerun the macro
+    #
+    IF(NOT DEFINED ${VAR} OR ${CMAKE_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake IS_NEWER_THAN ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log)
     SET(_SOURCE "int main() { return 0;}\n")
     FILE(WRITE "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cxx"
       "${_SOURCE}")
@@ -51,5 +54,5 @@ MACRO(itkCHECK_CXX_ACCEPTS_FLAGS FLAGS VAR)
        "Source file was:\n${_SOURCE}\n")
    ENDIF(${VAR})
 
-  ENDIF(NOT DEFINED ${VAR})
+   ENDIF(NOT DEFINED ${VAR} OR ${CMAKE_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake IS_NEWER_THAN ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log)
 ENDMACRO(itkCHECK_CXX_ACCEPTS_FLAGS)
