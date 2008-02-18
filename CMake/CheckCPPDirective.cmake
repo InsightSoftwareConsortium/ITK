@@ -17,12 +17,12 @@ MACRO(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
   IF(${VARIABLE})
     SET(HAVE_${VARIABLE} TRUE CACHE INTERNAL " ")
     MESSAGE(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive - yes")
-    FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log
+    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
       "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive with "
       "the following output:\n${OUTPUT}\n\n")
   ELSE(${VARIABLE})
     MESSAGE(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive - no")
-    FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log
+    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
       "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive with "
       "the following output:\n${OUTPUT}\n\n")
   ENDIF(${VARIABLE})

@@ -41,14 +41,14 @@ IF("GDCM_COMPILER_HAS_FUNCTION" MATCHES "^GDCM_COMPILER_HAS_FUNCTION$")
   IF(GDCM_COMPILER_HAS_FUNCTION)
     MESSAGE(STATUS "Checking support for __FUNCTION__ -- yes")
     SET(GDCM_COMPILER_HAS_FUNCTION 1 CACHE INTERNAL "Support for extension C __FUNCTION__")
-    WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeOutput.log
+    WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
       "Determining if the C compiler supports __FUNCTION__ "
       "passed with the following output:\n"
       "${OUTPUT}\n" APPEND)
   ELSE(GDCM_COMPILER_HAS_FUNCTION)
     MESSAGE(STATUS "Checking support for __FUNCTION__ -- no")
     SET(GDCM_COMPILER_HAS_FUNCTION 0 CACHE INTERNAL "Support for extension C __FUNCTION__")
-    WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+    WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
       "Determining if the C compiler supports __FUNCTION__ "
       "failed with the following output:\n"
       "${OUTPUT}\n" APPEND)
@@ -118,14 +118,14 @@ IF( ${CMAKE_HAVE_SYS_SOCKET_H} )
     IF(HAVE_SA_LEN)
       MESSAGE(STATUS "Checking if ifreq has a sa_len -- yes")
       SET(HAVE_SA_LEN 1 CACHE INTERNAL "Support if ifreq has a sa_len")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeOutput.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
         "Determining if ifreq has a sa_len"
         "passed with the following output:\n"
         "${OUTPUT}\n" APPEND)
     ELSE(HAVE_SA_LEN)
       MESSAGE(STATUS "Checking if ifreq has a sa_len -- no")
       SET(HAVE_SA_LEN 0 CACHE INTERNAL "Support if ifreq has a sa_len")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Determining if ifreq has a sa_len"
         "failed with the following output:\n"
         "${OUTPUT}\n" APPEND)

@@ -29,7 +29,7 @@ MACRO(CHECK_PROTOTYPE_EXISTS_CXX FUNC INCLUDE VARIABLE)
       CHECK_INCLUDE_FILE( ${FILE} ${CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE} )
       IF( CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE )
 
-        FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log "Trying struct with ${FILE}\n" )
+        FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log "Trying struct with ${FILE}\n" )
         CONFIGURE_FILE( ${CHECK_PROTOTYPE_EXISTS_CXX_FILE_IN}
                         ${CHECK_PROTOTYPE_EXISTS_CXX_FILE} IMMEDIATE )
 
@@ -40,12 +40,12 @@ MACRO(CHECK_PROTOTYPE_EXISTS_CXX FUNC INCLUDE VARIABLE)
           -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_PROTOTYPE_EXISTS_CXX_FLAGS}
           OUTPUT_VARIABLE OUTPUT)
         IF( CHECK_PROTOTYPE_EXISTS_CXX_RESULT ) 
-          FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log 
+          FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log 
             "Determining if prototype ${FUNC} exists in ${FILE} "
             "failed with the following output:\n"
             "${OUTPUT}\n\n")
         ELSE( CHECK_PROTOTYPE_EXISTS_CXX_RESULT ) 
-          FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log 
+          FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log 
             "Determining if prototype ${FUNC} exists in ${FILE} "
             "passed with the following output:\n"
             "${OUTPUT}\n\n")

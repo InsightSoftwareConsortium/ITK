@@ -16,12 +16,12 @@ MACRO(CHECK_BIG_BITFIELD VARIABLE LOCAL_TEST_DIR)
   IF(${VARIABLE})
     SET(HAVE_${VARIABLE} TRUE CACHE INTERNAL " ")
     MESSAGE(STATUS "Checking to see if this platform supports large bit-fields (>32 bits) - yes")
-    FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeOutput.log
+    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
       "Checking to see if this platform supports large bit-fields (>32 bits) passed with "
       "the following output:\n${OUTPUT}\n\n")
   ELSE(${VARIABLE})
     MESSAGE(STATUS "Checking to see if this platform supports large bit-fields (>32 bits) - no")
-    FILE(APPEND ${CMAKE_BINARY_DIR}/CMakeError.log
+    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
       "Checking to see if this platform supports large bit-fields (>32 bits) failed with "
       "the following output:\n${OUTPUT}\n\n")
   ENDIF(${VARIABLE})

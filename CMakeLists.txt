@@ -6,8 +6,10 @@ INCLUDE_REGULAR_EXPRESSION("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpa
 SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 
 # Cleanup the CMake Error and Output logs
+FILE(REMOVE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log)
 FILE(REMOVE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log)
 FILE(REMOVE ${CMAKE_BINARY_DIR}/CMakeOutput.log)
+FILE(REMOVE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}${CMAKE_FILES_DIRECTORY}/CMakeError.log)
 FILE(REMOVE ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log)
 FILE(REMOVE ${CMAKE_BINARY_DIR}/CMakeError.log)
 
@@ -548,7 +550,7 @@ IF(ITK_SIZEOF___INT64)
     ELSE(ITK_TYPE_SAME_LONG_AND___INT64)
       MESSAGE(STATUS "Checking whether long and __int64 are the same type -- no")
       SET(ITK_TYPE_SAME_LONG_AND___INT64 0 CACHE INTERNAL "Whether long and __int64 are the same type")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Determining whether long and __int64 are the same type "
         "failed with the following output:\n"
         "${OUTPUT}\n" APPEND)
@@ -572,7 +574,7 @@ IF(ITK_SIZEOF_LONG_LONG)
     ELSE(ITK_OSTREAM_SUPPORTS_LONG_LONG)
       MESSAGE(STATUS "Checking if ostream supports long long -- no")
       SET(ITK_OSTREAM_SUPPORTS_LONG_LONG 0 CACHE INTERNAL "Whether ostream supports long long")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Determining if ostream supports long long "
         "failed with the following output:\n"
         "${OUTPUT}\n" APPEND)
@@ -591,7 +593,7 @@ IF(ITK_SIZEOF_LONG_LONG)
     ELSE(ITK_ISTREAM_SUPPORTS_LONG_LONG)
       MESSAGE(STATUS "Checking if istream supports long long -- no")
       SET(ITK_ISTREAM_SUPPORTS_LONG_LONG 0 CACHE INTERNAL "Whether istream supports long long")
-      WRITE_FILE(${CMAKE_BINARY_DIR}/CMakeError.log
+      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
         "Determining if istream supports long long "
         "failed with the following output:\n"
         "${OUTPUT}\n" APPEND)
@@ -733,4 +735,3 @@ INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
 itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" TEST_CXX_ACCEPTS_FEATURES)
 itkCHECK_CXX_ACCEPTS_FLAGS("-barf" TEST_CXX_ACCEPTS_BARF)
 itkCHECK_CXX_ACCEPTS_FLAGS("-Wall" TEST_CXX_ACCEPTS_WALL)
-
