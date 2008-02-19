@@ -348,8 +348,8 @@ void MetaImageIO::ReadImageInformation()
   
   this->SetNumberOfDimensions(m_MetaImage.NDims());
 
-  int i;
-  for(i=0; i<(int)m_NumberOfDimensions; i++)
+  unsigned int i;
+  for(i=0; i<m_NumberOfDimensions; i++)
     {
     this->SetDimensions(i,m_MetaImage.DimSize(i)/m_SubSamplingFactor);
     this->SetSpacing(i, m_MetaImage.ElementSpacing(i)*m_SubSamplingFactor);
@@ -822,13 +822,13 @@ void MetaImageIO::ReadImageInformation()
 void MetaImageIO::Read(void* buffer)
 { 
   // Pass the IO region to the MetaImage library
-  int nDims = this->GetNumberOfDimensions();
+  unsigned int nDims = this->GetNumberOfDimensions();
 
   if(m_UseStreamedReading)
     {
     int* indexMin = new int[nDims];
     int* indexMax = new int[nDims];
-    for(int i=0;i<nDims;i++)
+    for(unsigned int i=0;i<nDims;i++)
       {
       indexMin[i] = m_IORegion.GetIndex()[i];
       indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] -1;
@@ -897,7 +897,7 @@ void
 MetaImageIO
 ::Write( const void* buffer) 
 {
-  int nDims = this->GetNumberOfDimensions();
+  unsigned int nDims = this->GetNumberOfDimensions();
 
   bool binaryData = true;
   if(this->GetFileType() == ASCII)
@@ -997,7 +997,7 @@ MetaImageIO
       break;
     }
   
-  int i;
+  unsigned int i;
   int * dSize = new int[nDims];
   float * eSpacing = new float[nDims];
   double * eOrigin = new double[nDims];
@@ -1010,7 +1010,7 @@ MetaImageIO
   ImageIORegion::IndexType indx = this->GetIORegion().GetIndex();
   for(i=0; i<nDims; i++)
     {
-    int j;
+    unsigned int j;
     for(j=0; j<nDims; j++)
       {
       eOrigin[i] += indx[j] * eSpacing[j] * this->GetDirection(j)[i];
