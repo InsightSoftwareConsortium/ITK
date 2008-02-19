@@ -66,15 +66,15 @@ ELSE (NOT UNIX)
 
   SET(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
   SET_SOURCE_FILES_PROPERTIES(tif_fax3sm.c GENERATED)
-  ADD_EXECUTABLE(mkg3states mkg3states.c)
+  ADD_EXECUTABLE(itkmkg3states mkg3states.c)
   IF(CYGWIN)
     SET(EXE_EXTENSION .exe)
   ENDIF(CYGWIN)
   ADD_CUSTOM_COMMAND(
     OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-    COMMAND ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}/mkg3states${EXE_EXTENSION}
+    COMMAND ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}/itkmkg3states${EXE_EXTENSION}
     ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
-    DEPENDS mkg3states
+    DEPENDS itkmkg3states
     )
 ENDIF (NOT UNIX)
 
