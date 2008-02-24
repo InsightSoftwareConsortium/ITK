@@ -1180,8 +1180,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     if( sampleOk )
       {
-      ++nSamples; 
-
       // Get moving image derivative at the mapped position
       ImageDerivativesType movingImageGradientValue;
       this->ComputeImageDerivatives( mappedPoint, movingImageGradientValue );
