@@ -47,7 +47,9 @@ static int print_hex_vals(
     }
   fputs("0x", fp);
   for ( c = 0; c < nbytes; c++ )
+    {
     fprintf(fp, " %x", data[c]);
+    }
 
   return 0;
 }
@@ -247,12 +249,12 @@ NiftiImageIO
 
 
 NiftiImageIO::NiftiImageIO():
-  m_NiftiImage(0)
+  m_NiftiImage(0),
+  m_RescaleSlope(1.0),
+  m_RescaleIntercept(0.0),
+  m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE)
 {
   this->SetNumberOfDimensions(3);
-  m_RescaleSlope = 1.0;
-  m_RescaleIntercept = 0.0;
-  m_OnDiskComponentType = UNKNOWNCOMPONENTTYPE;
   nifti_set_debug_level(0); // suppress error messages
 }
 
@@ -272,30 +274,8 @@ bool
 NiftiImageIO
 ::CanWriteFile(const char * FileNameToWrite)
 {
-  return nifti_is_complete_filename(FileNameToWrite) > 0;
-#if 0
-  std::string fname(FileNameToWrite);
-  std::string::size_type ext = fname.rfind('.');
-  //
-  // for now, defer to analyze to write .hdr/.img pairs
-  if(ext != std::string::npos)
-    {
-    std::string exts = fname.substr(ext);
-    if(exts == ".gz")
-      {
-      std::string::size_type dotpos = fname.rfind('.',ext-1);
-      if(dotpos != std::string::npos)
-        {
-        exts = fname.substr(dotpos);
-        }
-      }
-    if(exts == ".hdr" || exts == ".img" || exts == ".img.gz")
-      {
-      return false;
-      }
-    }
-  return (nifti_is_complete_filename(FileNameToWrite) == 1 ) ? true: false;
-#endif
+  const int ValidFileNameFound=nifti_is_complete_filename(FileNameToWrite) > 0;
+  return ValidFileNameFound;
 }
 
 bool
@@ -371,7 +351,7 @@ void NiftiImageIO::Read(void* buffer)
 
   //
   // allocate nifti image...
-  this->m_NiftiImage = nifti_image_read(m_FileName.c_str(),false);
+  this->m_NiftiImage = nifti_image_read(this->GetFileName(),false);
   if (this->m_NiftiImage == NULL)
     {
     itkExceptionMacro(<< "nifti_image_read (just header) failed for file: "
@@ -634,25 +614,26 @@ NiftiImageIO
   //      == 0 for an analyze file,
   //       > 0 for a nifti file
   // if the return test is >= 0, nifti will read analyze files
-  return is_nifti_file(FileNameToRead) > 0;
+  //return is_nifti_file(FileNameToRead) > 0;
+  return is_nifti_file(FileNameToRead) >= 0;
 }
 
 void
 NiftiImageIO
 ::ReadImageInformation()
 {
-  this->m_NiftiImage=nifti_image_read(m_FileName.c_str(),false);
+  this->m_NiftiImage=nifti_image_read(this->GetFileName(),false);
   static std::string prev;
-  if(prev != m_FileName)
+  if(prev != this->GetFileName())
     {
 #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
-    DumpNiftiHeader(m_FileName);
+    DumpNiftiHeader(this->GetFileName());
 #endif
-    prev = m_FileName;
+    prev = this->GetFileName();
     }
   if(this->m_NiftiImage == 0)
     {
-    itkExceptionMacro(<< m_FileName << " is not recognized as a NIFTI file");
+    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a NIFTI file");
     }
   this->SetNumberOfDimensions(this->m_NiftiImage->ndim);
 
@@ -918,62 +899,52 @@ NiftiImageIO
   //
   // set the filename
   std::string FName(this->GetFileName());
-  this->m_NiftiImage->fname = (char *)malloc(FName.size()+1);
-  strcpy(this->m_NiftiImage->fname,FName.c_str());
   //
   // set the file type
-  std::string::size_type ext = FName.rfind('.');
-  if(ext == std::string::npos)
+  char * tempextension=nifti_find_file_extension(FName.c_str());
+  if(tempextension == NULL)
     {
     itkExceptionMacro( <<
                        "Bad Nifti file name. No extension found for file: " << FName);
     }
-  std::string Ext = FName.substr(ext);
-  //
-  // look for compressed Nifti
-  if(Ext == ".gz")
-    {
-    ext = FName.rfind(".nii.gz");
-    if(ext != std::string::npos)
-      {
-      Ext = ".nii.gz";
-      }
-    }
-  if(Ext == ".nii" || Ext == ".nii.gz")
+  const std::string ExtensionName( tempextension );
+  char *tempbasename=nifti_makebasename(FName.c_str());
+  const std::string BaseName(tempbasename);
+  free(tempbasename); //Need to clear the extension
+
+  const std::string::size_type ext = ExtensionName.rfind(".gz");
+  const bool IsCompressed=(ext == std::string::npos)?false:true;
+  if( ( ExtensionName == ".nii" || ExtensionName == ".nii.gz" ) && this->GetUseLegacyModeForTwoFileWriting()==false)
     {
     this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_1;
-    size_t filenameLength = static_cast<size_t>( FName.size() ) + 1;
-    this->m_NiftiImage->iname = (char *)malloc( filenameLength );
-    strcpy(this->m_NiftiImage->fname,FName.c_str());
-    strcpy(this->m_NiftiImage->iname,FName.c_str());
     }
-  else if(Ext == ".hdr" || Ext == ".img")
+  else if ( (ExtensionName == "nia" ) && this->GetUseLegacyModeForTwoFileWriting()==false)
     {
-    this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_2;
-    // This filter needs to write nifti files, not the attempt at
-    // analyze files.
-    // If it is desired to write out ANALYZE7.5 in the traditional
-    // format, then the itkAnalyze75IO must be called explicitly.
-    // this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ANALYZE;
-    if(Ext == ".hdr")
+      this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ASCII;
+    }
+  else if(ExtensionName == ".hdr" || ExtensionName == ".img"
+       || ExtensionName == ".hdr.gz" || ExtensionName == ".img.gz" )
+    { //NOTE: LegacyMode is only valid for header extensions .hdr and .img
+    if(this->GetUseLegacyModeForTwoFileWriting()==false)
       {
-      strcpy(this->m_NiftiImage->fname,FName.c_str());
+      // This filter needs to write nifti files in it's default mode
+      // , not default to legacy analyze files.
+      this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_2;
       }
     else
       {
-      FName.erase(ext);
-      FName += ".hdr";
+      // If it is desired to write out the nifti variant of
+      //  ANALYZE7.5.
+      //  NOTE: OREINTATION IS NOT WELL DEFINED IN THIS FORMAT.
+      this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ANALYZE;
       }
-    strcpy(this->m_NiftiImage->fname,FName.c_str());
-    FName.erase(FName.rfind('.'));
-    FName += ".img";
-    this->m_NiftiImage->iname = (char *)malloc(FName.size()+1);
-    strcpy(this->m_NiftiImage->iname,FName.c_str());
     }
   else
     {
     itkExceptionMacro(<< "Bad Nifti file name: " << FName);
     }
+    this->m_NiftiImage->fname = nifti_makehdrname(BaseName.c_str(),this->m_NiftiImage->nifti_type,false,IsCompressed);
+    this->m_NiftiImage->iname = nifti_makeimgname(BaseName.c_str(),this->m_NiftiImage->nifti_type,false,IsCompressed);
   unsigned short dims =
     this->m_NiftiImage->ndim =
     this->m_NiftiImage->dim[0] =

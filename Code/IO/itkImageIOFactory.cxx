@@ -106,8 +106,14 @@ ImageIOFactory::RegisterBuiltInFactories()
       ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
-      ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());//should be before AnalyzeImageIOFactory
+      // ITK Teleconference 2008-02-22 determined that
+      // AnalyzeImageIOFactory MUST be the default for reading all
+      // non-nifti identified .hdr/.img images.  This requires
+      // that the AnalyzeImageIOFactory can now come before the Nifti
+      // Factory because AnalyzeImageIO->CanRead() has been instrumented to
+      // reject .hdr/.img files with the nifti magic number tags.
       ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
       ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
       ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
       ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());

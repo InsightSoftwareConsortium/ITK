@@ -54,7 +54,7 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
-int WriteTestFiles(std::string AugmentName)
+static int WriteTestFiles(const std::string AugmentName)
 {
 #include "LittleEndian_hdr.h"
 #include "LittleEndian_img.h"
@@ -95,7 +95,7 @@ int WriteTestFiles(std::string AugmentName)
   big_img.close();
   return EXIT_SUCCESS;
 }
-void RemoveByteSwapTestFiles(std::string AugmentName)
+static void RemoveByteSwapTestFiles(const std::string AugmentName)
 {
 //--//  Remove(AugmentName+"LittleEndian.hdr");
 //--//  Remove(AugmentName+"LittleEndian.img");
@@ -103,9 +103,9 @@ void RemoveByteSwapTestFiles(std::string AugmentName)
 //--//  Remove(AugmentName+"BigEndian.img");
 }
 
-int TestByteSwap(std::string AugmentName)
+static int TestByteSwap(const std::string AugmentName)
 {
-  int rval;
+  int rval=EXIT_FAILURE;
   typedef itk::Image<double, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   if(WriteTestFiles(AugmentName) == -1)
@@ -161,11 +161,11 @@ int TestByteSwap(std::string AugmentName)
   return rval;
 }
 
-template <typename T> int MakeImage(const std::string NameAugment="")
+template <typename T> int MakeImage(const std::string AugmentName)
 {
   typedef itk::Image<T, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
-  const std::string filename=std::string(typeid(T).name()) +"_"+NameAugment+"_" +std::string("test.hdr");
+  const std::string filename=std::string(typeid(T).name()) +"_"+AugmentName+"_" +std::string("test.hdr");
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
   typename ImageType::Pointer img;

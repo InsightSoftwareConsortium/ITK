@@ -815,7 +815,8 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   // version of the analyze file.
   //Eventually the entire itkAnalyzeImageIO class will be
   //subsumed by the nifti reader.
-  return is_nifti_file(FileNameToRead) == 0;
+  const bool NotNiftiTaggedFile=(is_nifti_file(FileNameToRead) == 0);
+  return NotNiftiTaggedFile;
 }
 
 void AnalyzeImageIO::ReadImageInformation()
