@@ -22,6 +22,7 @@
 
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkStatisticsImageFilter.h"
 #include "itkRandomImageSource.h"
@@ -110,5 +111,49 @@ int itkStatisticsImageFilterTest(int, char* [] )
     std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << std::endl;
     }
 
+  // Now generate an image with a known mean and variance
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen = itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
+  double knownMean = 12.0;
+  double knownVariance = 10.0;
+
+  typedef itk::Image<double,3> DoubleImage;
+  DoubleImage::Pointer dImage = DoubleImage::New();
+  DoubleImage::SizeType dsize;
+  DoubleImage::IndexType dindex;
+  DoubleImage::RegionType dregion;
+  dsize.Fill(50);
+  dindex.Fill(0);
+  dregion.SetSize(dsize);
+  dregion.SetIndex(dindex);
+  dImage->SetRegions(dregion);
+  dImage->Allocate();
+  itk::ImageRegionIterator<DoubleImage> it(dImage, dregion);
+  while (!it.IsAtEnd())
+    {
+    it.Set(rvgen->GetNormalVariate(knownMean, knownVariance));
+    ++it;
+    }
+  typedef itk::StatisticsImageFilter<DoubleImage> DFilterType;
+  DFilterType::Pointer dfilter = DFilterType::New();
+  dfilter->SetInput(dImage);
+  dfilter->UpdateLargestPossibleRegion();
+  double testMean = dfilter->GetMean();
+  double testVariance = dfilter->GetVariance();
+  double diff = vnl_math_abs(testMean - knownMean);
+  if ((diff != 0.0 && knownMean != 0.0) &&
+      diff / vnl_math_abs(knownMean) > .01)
+    {
+    std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
+  diff = vnl_math_abs(testVariance - knownVariance);
+  if ((diff != 0.0 && knownVariance != 0.0) &&
+      diff / vnl_math_abs(knownVariance) > .1)
+    {
+    std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << std::endl;
   return status;
 }
