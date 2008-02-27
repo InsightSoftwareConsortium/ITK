@@ -494,7 +494,7 @@ inline double
   }
   
 
-/* Access to a normal randon number distribution */
+/* Access to a normal random number distribution */
 // TODO: Compare with vnl_sample_normal
 inline double 
   MersenneTwisterRandomVariateGenerator::GetNormalVariate( 
@@ -502,7 +502,7 @@ inline double
   {
   // Return a real number from a normal (Gaussian) distribution with given
   // mean and variance by Box-Muller method
-  double r = vcl_sqrt( -2.0 * vcl_log( 1.0-GetVariateWithOpenRange()) ) * variance;
+  double r = vcl_sqrt( -2.0 * vcl_log( 1.0-GetVariateWithOpenRange()) * variance);
   double phi = 2.0 * 3.14159265358979323846264338328 
                           * GetVariateWithOpenUpperRange();
   return mean + r * vcl_cos(phi);
