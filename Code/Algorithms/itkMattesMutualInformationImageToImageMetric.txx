@@ -269,7 +269,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    *  for each bin of the joint histogram. This is part of the effort
    *  for flattening the computation of the PDF Jacobians.
    */
-  m_PRatioArray.resize( m_NumberOfHistogramBins * m_NumberOfHistogramBins );
+  m_PRatioArray.SetSize( m_NumberOfHistogramBins, m_NumberOfHistogramBins );
 
 
   /**
@@ -1136,17 +1136,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
       double jointPDFValue = *(jointPDFPtr);
 
-      // Location of the bin in the derivatives array
-      const int linearHistogramBinIndex =
-        ( fixedIndex  * this->m_NumberOfHistogramBins ) + movingIndex;
-
       // check for non-zero bin contribution
       if( jointPDFValue > 1e-16 &&  movingImagePDFValue > 1e-16 )
         {
 
         double pRatio = vcl_log(jointPDFValue / movingImagePDFValue );
 
-        this->m_PRatioArray[linearHistogramBinIndex] = pRatio * nFactor;
+        this->m_PRatioArray[fixedIndex][movingIndex] = pRatio * nFactor;
 
         if( fixedImagePDFValue > 1e-16)
           {
@@ -1156,7 +1152,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         }  // end if-block to check non-zero bin contribution
       else
         {
-        this->m_PRatioArray[linearHistogramBinIndex] = 0.0;
+        this->m_PRatioArray[fixedIndex][movingIndex] = 0.0;
         }
       }  // end for-loop over moving index
     }  // end for-loop over fixed index
@@ -1391,11 +1387,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   const int pdfFixedIndex = 
     m_FixedImageSamples[sampleNumber].FixedImageParzenWindowIndex;
 
-  // Location of the bin in the derivatives array
-  const int linearHistogramBinIndex =
-    ( pdfFixedIndex  * this->m_NumberOfHistogramBins ) + pdfMovingIndex;
-
-  const double precomputedWeight = m_PRatioArray[linearHistogramBinIndex];
+  const double precomputedWeight = this->m_PRatioArray[pdfFixedIndex][pdfMovingIndex];
 
   if( !m_TransformIsBSpline )
     {
