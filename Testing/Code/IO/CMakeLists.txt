@@ -43,6 +43,7 @@ itkAnalyzeImageIOTest.cxx
 itkNiftiImageIOTest.cxx
 itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
+itkBMPImageIOTest2.cxx
 itkBioRadImageIOTest.cxx
 itkLSMImageIOTest.cxx
 itkBrains2MaskImageIOTest.cxx
@@ -288,6 +289,12 @@ ADD_TEST(itkBMPImageIOTest4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/image_color.bmp
             ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
   itkBMPImageIOTest 
+            ${ITK_DATA_ROOT}/Input/image_color.bmp
+            ${ITK_TEST_OUTPUT_DIR}/image_color.bmp)
+ADD_TEST(itkBMPImageIOTest5 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/image_color.bmp
+            ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
+  itkBMPImageIOTest2 
             ${ITK_DATA_ROOT}/Input/image_color.bmp
             ${ITK_TEST_OUTPUT_DIR}/image_color.bmp)
 ADD_TEST(itkJPEGImageIOTest ${IO_TESTS} 
