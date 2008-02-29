@@ -100,7 +100,7 @@ bool BMPImageIO::CanReadFile( const char* filename )
 
   if ((magic_number1 != 'B')||(magic_number2 != 'M'))
     {
-    std::cout << "BMPImageIO : Magic Number Fails = " << magic_number1 << " : " << magic_number2 << std::endl;
+    std::cerr << "BMPImageIO : Magic Number Fails = " << magic_number1 << " : " << magic_number2 << std::endl;
     inputStream.close();
     return false;
     }
@@ -203,6 +203,11 @@ void BMPImageIO::Read(void* buffer)
   unsigned long step = this->GetNumberOfComponents();
   long streamRead = m_Dimensions[0]*m_Depth/8;
 
+  // ERASEME BEGIN
+  bool firstTime = true;
+  // ERASEME END
+
+
   m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
 
   long paddedStreamRead = streamRead;
@@ -261,6 +266,7 @@ void BMPImageIO::Read(void* buffer)
         {
         m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
         m_Ifstream.read((char *)value, paddedStreamRead);
+
         for(long i=0;i<streamRead;i++)
           {
           if(this->GetNumberOfComponents() == 1)
@@ -271,9 +277,19 @@ void BMPImageIO::Read(void* buffer)
             {
             if(m_NumberOfColors == 0)
               {
-              p[l++]=value[i+2];
-              p[l++]=value[i+1];
-              p[l++]=value[i];
+              if(this->GetNumberOfComponents() == 3 )
+                {
+                p[l++]=value[i+2];
+                p[l++]=value[i+1];
+                p[l++]=value[i];
+                }
+              if(this->GetNumberOfComponents() == 4 )
+                {
+                p[l++]=value[i+3];
+                p[l++]=value[i+2];
+                p[l++]=value[i+1];
+                p[l++]=value[i];
+                }
               i += step-1;
               }
             else
@@ -355,8 +371,8 @@ void BMPImageIO::ReadImageInformation()
 
   if ((magic_number1 != 'B')||(magic_number2 != 'M'))
     {
-    std::cout << "BMPImageIO : Magic Number Fails = " << magic_number1 << " : " << magic_number2 << std::endl;
     m_Ifstream.close();
+    itkExceptionMacro( "BMPImageIO : Magic Number Fails = " << magic_number1 << " : " << magic_number2 );
     return;
     }
 
@@ -475,10 +491,10 @@ void BMPImageIO::ReadImageInformation()
   m_Ifstream.read((char*)&m_Depth,2);
   ByteSwapper<short>::SwapFromSystemToLittleEndian(&m_Depth);
 
-  if ((m_Depth != 8)&&(m_Depth != 24))
+  if ((m_Depth != 8)&&(m_Depth != 24)&&(m_Depth != 32))
     {
-    std::cout <<"Only BMP depths of (8,24) are supported. Not " << m_Depth << std::endl;
     m_Ifstream.close();
+    itkExceptionMacro( "Only BMP depths of (8,24,32) are supported. Not " << m_Depth );
     return;
     }
   
@@ -542,15 +558,29 @@ void BMPImageIO::ReadImageInformation()
     m_ColorPalette.push_back(p);
     }
 
-  if ((m_Depth == 8) && m_Allow8BitBMP)
+  switch( m_Depth )
     {
-    this->SetNumberOfComponents(1);
-    m_PixelType = SCALAR;
-    }
-  else
-    {
-    this->SetNumberOfComponents(3);
-    m_PixelType = RGB;
+    case 8:
+      {
+      if( m_Allow8BitBMP )
+        {
+        this->SetNumberOfComponents(1);
+        m_PixelType = SCALAR;
+        }
+      break;
+      }
+    case 24:
+      {
+      this->SetNumberOfComponents(3);
+      m_PixelType = RGB;
+      break;
+      }
+    case 32:
+      {
+      this->SetNumberOfComponents(4);
+      m_PixelType = RGBA;
+      break;
+      }
     }
 
   m_Ifstream.close();
@@ -650,9 +680,11 @@ BMPImageIO
     {
     itkExceptionMacro(<<"BMPImageIO supports unsigned char only");
     }
-  if( (this->m_NumberOfComponents != 1) && (this->m_NumberOfComponents !=3) )
+  if( (this->m_NumberOfComponents != 1) && 
+      (this->m_NumberOfComponents != 3) && 
+      (this->m_NumberOfComponents != 4) )
     {
-    itkExceptionMacro(<<"BMPImageIO supports 1 or 3 components only");
+    itkExceptionMacro(<<"BMPImageIO supports 1,3 or 4 components only");
     }
   
 
@@ -766,17 +798,19 @@ BMPImageIO
   m_Ofstream.write(&tmp,sizeof(char));
 
   // Set bits per pel.  
-  if( bpp == 3 ) 
+  switch( bpp )
     {
-    tmp=24;
-    }
-  else if( bpp == 1)
-    {
-    tmp=8;
-    }
-  else
-    {
-    itkExceptionMacro(<< "Number of components not supported.");
+    case 4:
+      tmp = 32;
+      break;
+    case 3:
+      tmp = 24;
+      break;
+    case 1:
+      tmp = 8;
+      break;
+    default:
+      itkExceptionMacro(<< "Number of components not supported.");
     }
   m_Ofstream.write(&tmp,sizeof(char));
   tmp =0;
