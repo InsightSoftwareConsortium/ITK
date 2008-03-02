@@ -203,11 +203,6 @@ void BMPImageIO::Read(void* buffer)
   unsigned long step = this->GetNumberOfComponents();
   long streamRead = m_Dimensions[0]*m_Depth/8;
 
-  // ERASEME BEGIN
-  bool firstTime = true;
-  // ERASEME END
-
-
   m_Ifstream.open( m_FileName.c_str(), std::ios::in | std::ios::binary );
 
   long paddedStreamRead = streamRead;
@@ -657,6 +652,34 @@ BMPImageIO
 
 void 
 BMPImageIO
+::Write32BitsInteger( unsigned int value )
+{
+  char tmp;
+  tmp = value%256;
+  m_Ofstream.write(&tmp,sizeof(char));
+  tmp = (value%65536L)/256;
+  m_Ofstream.write(&tmp,sizeof(char));
+  tmp = (value/65536L)%256;
+  m_Ofstream.write(&tmp,sizeof(char));
+  tmp = (value/65536L)/256;
+  m_Ofstream.write(&tmp,sizeof(char));
+}
+
+void 
+BMPImageIO
+::Write16BitsInteger( unsigned short value )
+{
+  char tmp;
+  tmp = value%256;
+  m_Ofstream.write(&tmp,sizeof(char));
+  tmp = (value%65536L)/256;
+  m_Ofstream.write(&tmp,sizeof(char));
+}
+
+
+
+void 
+BMPImageIO
 ::WriteImageInformation(void)
 {
   
@@ -703,128 +726,160 @@ BMPImageIO
                       << itksys::SystemTools::GetLastSystemError());
     }
 
-  // Write the header  
-  // spit out the BMP header
+  //
+  //
+  // A BMP file has four sections:
+  //
+  // * BMP Header                         14 bytes
+  // * Bitmap Information (DIB header)    40 bytes (Windows V3) 
+  // * Color Palette
+  // * Bitmap Data
+  //
+  // For more details:
+  //
+  //             http://en.wikipedia.org/wiki/BMP_file_format
+  //
+  //
+  
+  // Write the BMP header
+  //
   // Header structure is represented by first a 14 byte field, then the bitmap 
   // info header. 
   // 
   // The 14 byte field:
-  // first 2 bytes contain the string, "BM", and whose next 4 bytes contain
-  // the length of the entire file.  The next 4 bytes must be 0. The final
-  // 4 bytes provides an offset from the start of the file to the first byte
-  // of image sample data. If the bit_count is 1, 4 or 8, the structure must 
-  // be followed by a colour lookup table, with 4 bytes per entry, the first 
-  // 3 of which identify the blue, green and red intensities, respectively.
+  // 
+  // Offset Length Description
+  // 
+  //   0      2    Contain the string, "BM", (Hex: 42 4D)
+  //   2      4    The length of the entire file.  
+  //   6      2    Reserved for application data. Usually zero.
+  //   8      2    Reserved for application data. Usually zero.
+  //  10      4    Provides an offset from the start of the file 
+  //               to the first byte of image sample data. This 
+  //               is normally 54 bytes (Hex: 36)
   //
   char tmp = 66;
   m_Ofstream.write(&tmp,sizeof(char));
   tmp = 77;
   m_Ofstream.write(&tmp,sizeof(char));
 
-  unsigned int bpp = this->GetNumberOfComponents(); 
+  const unsigned int bpp = this->GetNumberOfComponents(); 
   long bytesPerRow = m_Dimensions[0]*bpp;  
   if ( bytesPerRow % 4 )
     {
     bytesPerRow = ( ( bytesPerRow / 4 ) + 1 ) * 4;
     }
-  unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0]*bpp);
+  const unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0]*bpp);
 
-  long temp = (long)( bytesPerRow * m_Dimensions[1]) + 54L;
+  const unsigned int rawImageDataSize = ( bytesPerRow * m_Dimensions[1]);
+  unsigned int fileSize = ( rawImageDataSize ) + 54;
   if( bpp == 1 ) 
     {
-    temp += 1024; // need colour LUT
+    fileSize += 1024; // need colour LUT
     }
+  this->Write32BitsInteger( fileSize );
 
-  tmp = temp%256;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp = (temp%65536L)/256;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp = temp/65536L;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0;
+  const unsigned short applicationReservedValue = 0;
+  this->Write16BitsInteger( applicationReservedValue );
+  this->Write16BitsInteger( applicationReservedValue );
 
-  int row;
-  for(row = 0; row < 5; row++)
+  unsigned int offsetToBinaryDataStart = 54;
+  if( bpp == 1 ) // more space is needed for the LUT
     {
-    m_Ofstream.write(&tmp,sizeof(char));
+    offsetToBinaryDataStart += 1024;
     }
-
-  tmp=54;
-  m_Ofstream.write(&tmp,sizeof(char));
-  if( bpp == 1 ) 
-    {
-    tmp=4;
-    m_Ofstream.write(&tmp,sizeof(char));
-    }
-  else if(bpp==3)
-    {
-    tmp=0;
-    m_Ofstream.write(&tmp,sizeof(char));
-    }
-  tmp =0;
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
+  this->Write32BitsInteger( offsetToBinaryDataStart );
+  //  
+  // End of BMP header, 14 bytes written so far
+  //
   
-  // info header, 14 bytes written so far
-  tmp = 40;  // bitmap header size
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0; 
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
+ 
+  //
+  // Write the DIB header
+  //
+  // Offset Length Description
+  // 
+  //  14      4    Size of the header (40 bytes)(Hex: 28)
+  //
+  //
+  //  Color Palette
+  //
+  //  If the bit_count is 1, 4 or 8, the structure must be followed by a colour
+  //  lookup table, with 4 bytes per entry, the first 3 of which identify the
+  //  blue, green and red intensities, respectively.
+  //
+  //  Finally the pixel data
+  //
+  const unsigned int bitmapHeaderSize = 40;
+  this->Write32BitsInteger( bitmapHeaderSize );
   
   // image width
-  tmp = m_Dimensions[0]%256;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp = m_Dimensions[0]/256;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0;
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
+  this->Write32BitsInteger( m_Dimensions[0] );
   
   // image height -ve means top to bottom
-  tmp = m_Dimensions[1]%256;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp = m_Dimensions[1]/256;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0;
-  m_Ofstream.write(&tmp,sizeof(char));
-  m_Ofstream.write(&tmp,sizeof(char));
+  this->Write32BitsInteger( m_Dimensions[1] );
   
   // Set `planes'=1 (mandatory)
-  tmp =1;
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0;
-  m_Ofstream.write(&tmp,sizeof(char));
+  const unsigned short numberOfColorPlanes = 1;
+  this->Write16BitsInteger( numberOfColorPlanes );
 
-  // Set bits per pel.  
+  // Set bits per pixel.  
+  unsigned short numberOfBitsPerPixel = 0;
   switch( bpp )
     {
     case 4:
-      tmp = 32;
+      numberOfBitsPerPixel = 32;
       break;
     case 3:
-      tmp = 24;
+      numberOfBitsPerPixel = 24;
       break;
     case 1:
-      tmp = 8;
+      numberOfBitsPerPixel = 8;
       break;
     default:
       itkExceptionMacro(<< "Number of components not supported.");
     }
-  m_Ofstream.write(&tmp,sizeof(char));
-  tmp =0;
-  for(row = 0; row < 25; row++)
-    {
-    m_Ofstream.write(&tmp,sizeof(char));
-    }
+  this->Write16BitsInteger( numberOfBitsPerPixel );
 
-  // spit out colour LUT
+  const unsigned int compressionMethod = 0;
+  this->Write32BitsInteger( compressionMethod );
+  this->Write32BitsInteger( rawImageDataSize );
+
+  // Assuming spacing is in millimeters, 
+  // the resolution is set here in pixel per meter.
+  // The specification calls for a signed integer, but
+  // here we force it to be an unsigned integer to avoid
+  // dealing with directions in a subterraneous way.
+  const unsigned int horizontalResolution = 
+    static_cast<unsigned int>( vnl_math_rnd( 1000.0 / m_Spacing[0] ) );
+  const unsigned int verticalResolution =
+    static_cast<unsigned int>( vnl_math_rnd( 1000.0 / m_Spacing[1] ) );
+
+  this->Write32BitsInteger( horizontalResolution );
+  this->Write32BitsInteger( verticalResolution );
+
+  // zero here defaults to 2^n colors in the palette
+  const unsigned int numberOfColorsInPalette = 0;
+  this->Write32BitsInteger( numberOfColorsInPalette );
+
+  // zero here indicates that all colors in the palette are important.
+  const unsigned int numberOfImportantColorsInPalette = 0; 
+  this->Write32BitsInteger( numberOfImportantColorsInPalette );
+  //  
+  // End of DIB header, 54 bytes written so far
+  //
+  
+
+  //
+  // Write down colour LUT
+  //
+  // only when using 1 byte per pixel
+  //
   if (bpp == 1)
     {
     for (unsigned int n=0; n < 256; n++)
       { 
-      char tmp2 = static_cast< char >( n );
+      char tmp2 = static_cast< unsigned char >( n );
       m_Ofstream.write(&tmp2,sizeof(char));
       m_Ofstream.write(&tmp2,sizeof(char));
       m_Ofstream.write(&tmp2,sizeof(char));
@@ -832,6 +887,10 @@ BMPImageIO
       }
     }
 
+
+  //
+  // Write down the raw binary pixel data
+  //
   unsigned int i;
   for (unsigned int h = 0; h < m_Dimensions[1]; h++)
     {  
@@ -871,7 +930,9 @@ BMPImageIO
       {
       for (i = 0; i < m_Dimensions[0]; i++)
         {
-        ptr += 2;
+        ptr += 3;
+        m_Ofstream.write(ptr,sizeof(char));
+        ptr--;
         m_Ofstream.write(ptr,sizeof(char));
         ptr--;
         m_Ofstream.write(ptr,sizeof(char));

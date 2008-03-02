@@ -86,6 +86,10 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
+
+  /** This methods ensures that the endianess is respected */
+  void Write32BitsInteger(unsigned int   value);
+  void Write16BitsInteger(unsigned short value);
  
   std::ifstream             m_Ifstream;
   std::ofstream             m_Ofstream;
