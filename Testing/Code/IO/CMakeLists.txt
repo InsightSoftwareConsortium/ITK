@@ -292,11 +292,11 @@ ADD_TEST(itkBMPImageIOTest4 ${IO_TESTS}
             ${ITK_DATA_ROOT}/Input/image_color.bmp
             ${ITK_TEST_OUTPUT_DIR}/image_color.bmp)
 ADD_TEST(itkBMPImageIOTest5 ${IO_TESTS} 
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.bmp
-            ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.mha
+            ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
   itkBMPImageIOTest2 
             ${ITK_DATA_ROOT}/Input/smallRGBA.bmp
-            ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp)
+            ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha)
 ADD_TEST(itkJPEGImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.png
             ${ITK_TEST_OUTPUT_DIR}/cthead1.png
