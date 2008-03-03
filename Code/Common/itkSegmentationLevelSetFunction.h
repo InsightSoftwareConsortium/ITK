@@ -58,6 +58,7 @@ public:
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType ImageType;
   typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::PixelRealType PixelRealType;
   typedef TFeatureImageType FeatureImageType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::ScalarValueType ScalarValueType;

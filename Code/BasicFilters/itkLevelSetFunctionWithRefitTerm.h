@@ -69,6 +69,7 @@ public:
   typedef typename Superclass::ScalarValueType ScalarValueType;
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Index type derived from the ImageType. */

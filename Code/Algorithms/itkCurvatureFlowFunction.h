@@ -60,7 +60,9 @@ public:
   typedef typename Superclass::PixelType  PixelType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef PixelType  ScalarValueType;
+  typedef typename Superclass::PixelRealType PixelRealType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
   typedef typename Superclass::TimeStepType TimeStepType;
 

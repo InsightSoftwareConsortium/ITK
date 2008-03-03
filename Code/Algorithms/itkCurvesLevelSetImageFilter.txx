@@ -48,6 +48,25 @@ CurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
   m_CurvesFunction->Print(os, indent.GetNextIndent());
 }
 
+template <class TInputImage, class TFeatureImage, class TOutputType>
+void
+CurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+::GenerateData()
+{
+
+  // Make sure the SpeedImage is setup for the case when PropagationScaling
+  // is zero
+  if ( this->GetSegmentationFunction() && 
+       this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+    {
+    this->GetSegmentationFunction()->AllocateSpeedImage();
+    this->GetSegmentationFunction()->CalculateSpeedImage();
+    }
+
+  // Continue with Superclass implementation
+  Superclass::GenerateData();
+
+}
 
 }// end namespace itk
 

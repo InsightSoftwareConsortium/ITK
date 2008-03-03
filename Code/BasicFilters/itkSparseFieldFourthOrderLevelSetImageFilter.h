@@ -173,6 +173,8 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   typedef typename Superclass::ValueType ValueType;
   typedef typename Superclass::IndexType IndexType;
   typedef typename Superclass::LayerType LayerType;
+  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
 
   /** The storage class used as the node type for the sparse normal vector
       image. */

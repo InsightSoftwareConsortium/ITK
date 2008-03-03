@@ -92,6 +92,8 @@ CurvatureFlowFunction<TImage>
   unsigned long stride[ImageDimension];
   unsigned int i,j;
 
+  const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
+
   // get the center pixel position
   center = it.Size() / 2;
 
@@ -107,11 +109,11 @@ CurvatureFlowFunction<TImage>
 
     // compute first order derivatives
     firstderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
-                            it.GetPixel(center - stride[i]) );
+                            it.GetPixel(center - stride[i]) ) * neighborhoodScales[i];
 
     // compute second order derivatives
     secderiv[i] = ( it.GetPixel(center + stride[i]) - 
-                    2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) );
+                    2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) ) * vnl_math_sqr( neighborhoodScales[i] );
 
     // compute cross derivatives
     for( j = i + 1; j < ImageDimension; j++ )
@@ -120,7 +122,8 @@ CurvatureFlowFunction<TImage>
         it.GetPixel( center - stride[i] - stride[j] ) 
         - it.GetPixel( center - stride[i] + stride[j] )
         - it.GetPixel( center + stride[i] - stride[j] ) 
-        + it.GetPixel( center + stride[i] + stride[j] ) );
+        + it.GetPixel( center + stride[i] + stride[j] ) ) 
+        * neighborhoodScales[i] * neighborhoodScales[j];
       }
 
     // accumlate the gradient magnitude squared

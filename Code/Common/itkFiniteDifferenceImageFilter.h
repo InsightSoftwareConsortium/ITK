@@ -155,6 +155,9 @@ public:
   typedef FiniteDifferenceFunction<TOutputImage> FiniteDifferenceFunctionType;
   typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
+  typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;
+  typedef typename FiniteDifferenceFunctionType::NeighborhoodScalesType NeighborhoodScalesType;
+
   typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
   
   /** Get the number of elapsed iterations of the filter. */

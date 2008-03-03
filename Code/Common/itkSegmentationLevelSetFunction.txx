@@ -81,11 +81,13 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
                    const FloatOffsetType &offset, GlobalDataStruct *) const
 {
   IndexType idx = neighborhood.GetIndex();
+
   ContinuousIndexType cdx;
   for (unsigned i = 0; i < ImageDimension; ++i)
     {
     cdx[i] = static_cast<double>(idx[i]) - offset[i];
     }
+
   if ( m_Interpolator->IsInsideBuffer(cdx) )
     {
     return (static_cast<ScalarValueType>(

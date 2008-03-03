@@ -86,6 +86,8 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>
 
   const unsigned long center = neighborhood.Size()/2;
   
+  const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales(); 
+
   NormalVectorType normalvector;
   ScalarValueType curvature;
 
@@ -123,11 +125,11 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>
           }
         if ( counterP & indicator[j] ) 
           {
-          normalvector[j] += neighborhood.GetPixel (positionP);
+          normalvector[j] += neighborhood.GetPixel (positionP) * neighborhoodScales[j];
           }
         else
           {
-          normalvector[j] -= neighborhood.GetPixel (positionP);
+          normalvector[j] -= neighborhood.GetPixel (positionP) * neighborhoodScales[j];
           }
         } // end counterP
       } // end derivative axis
@@ -137,11 +139,11 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>
       {
       if ( counterN & indicator[j] )
         {
-        curvature -= normalvector[j];
+        curvature -= normalvector[j] * neighborhoodScales[j];
         }
       else
         {
-        curvature += normalvector[j];
+        curvature += normalvector[j] * neighborhoodScales[j];
         }
       } // end derivative axis
     } // end counterN

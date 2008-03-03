@@ -66,7 +66,7 @@ LevelSetFunction< TImageType >
   const ScalarValueType MIN_EIG = NumericTraits<ScalarValueType>::min();
 
   ScalarValueType mincurve; 
-  
+
   for (i = 0; i < ImageDimension; i++)
     {
     Pgrad[i][i] = 1.0 - gd->m_dx[i] * gd->m_dx[i]/gradMag;
@@ -255,7 +255,14 @@ LevelSetFunction<TImageType>
       dt = 0.0;
       }
     }
-  
+
+  double maxScaleCoefficient = 0.0;
+  for (unsigned int i=0; i<ImageDimension; i++)
+    {
+    maxScaleCoefficient = vnl_math_max(this->m_ScaleCoefficients[i],maxScaleCoefficient);
+    }
+  dt /= maxScaleCoefficient;
+ 
   // reset the values  
   d->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
   d->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
@@ -293,6 +300,8 @@ LevelSetFunction< TImageType >
   const ScalarValueType ZERO = NumericTraits<ScalarValueType>::Zero;
   const ScalarValueType center_value  = it.GetCenterPixel();
 
+  const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
+
   ScalarValueType laplacian, x_energy, laplacian_term, propagation_term,
     curvature_term, advection_term, propagation_gradient;
   VectorType advection_field;
@@ -311,13 +320,13 @@ LevelSetFunction< TImageType >
       static_cast<unsigned int>( m_Center - m_xStride[i]);    
 
     gd->m_dx[i] = 0.5 * (it.GetPixel( positionA ) - 
-                     it.GetPixel( positionB )    );
-      
-    gd->m_dxy[i][i] = it.GetPixel( positionA )
-      + it.GetPixel( positionB ) - 2.0 * center_value;
-    
-    gd->m_dx_forward[i]  = it.GetPixel( positionA ) - center_value;
-    gd->m_dx_backward[i] = center_value - it.GetPixel( positionB );
+                         it.GetPixel( positionB ) ) * neighborhoodScales[i]; 
+    gd->m_dxy[i][i] = ( it.GetPixel( positionA )
+                      + it.GetPixel( positionB ) - 2.0 * center_value ) *
+                                            vnl_math_sqr(neighborhoodScales[i]) ;
+
+    gd->m_dx_forward[i]  = ( it.GetPixel( positionA ) - center_value ) * neighborhoodScales[i];
+    gd->m_dx_backward[i] = ( center_value - it.GetPixel( positionB ) ) * neighborhoodScales[i];
     gd->m_GradMagSqr += gd->m_dx[i] * gd->m_dx[i];
 
     for( j = i+1; j < ImageDimension; j++ )
@@ -331,11 +340,11 @@ LevelSetFunction< TImageType >
       const unsigned int positionDa = static_cast<unsigned int>( 
         m_Center + m_xStride[i] + m_xStride[j] );
 
-      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 *( it.GetPixel( positionAa )
-                                          - it.GetPixel( positionBa )
-                                          - it.GetPixel( positionCa )
-                                          + it.GetPixel( positionDa )
-        );
+      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 * ( it.GetPixel( positionAa )
+                                                 - it.GetPixel( positionBa )
+                                                 - it.GetPixel( positionCa )
+                                                 + it.GetPixel( positionDa ) )
+                                          * neighborhoodScales[i] * neighborhoodScales[j] ;
       }
     }
 

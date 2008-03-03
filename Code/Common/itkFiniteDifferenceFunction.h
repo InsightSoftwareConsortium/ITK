@@ -98,6 +98,10 @@ public:
    * to evaluate at a pixel that does not lie on a data set boundary. */
   typedef ConstNeighborhoodIterator<TImageType, DefaultBoundaryConditionType> NeighborhoodType;
 
+  /** The type of data structure that holds the scales with which the
+   * neighborhood is weighted to properly account for spacing and neighborhood radius. */
+  typedef Vector<PixelRealType,itkGetStaticConstMacro(ImageDimension)> NeighborhoodScalesType;
+
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
   typedef Vector<float,itkGetStaticConstMacro(ImageDimension)> FloatOffsetType;
@@ -152,6 +156,11 @@ public:
         m_ScaleCoefficients[i] = vals[i];
         }
     }
+
+  /** Compute the scales that weight the neighborhood during difference operations
+   * to properly account for spacing and neighborhood radius
+   */
+  const NeighborhoodScalesType ComputeNeighborhoodScales() const;
 
   /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on

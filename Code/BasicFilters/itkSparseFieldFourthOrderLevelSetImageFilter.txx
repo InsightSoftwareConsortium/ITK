@@ -103,7 +103,9 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
   NormalVectorType normalvector;
   ValueType curvature;
   bool flag = false;
-  
+
+  const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
+
   for( j = 0; j < ImageDimension; j++ )
     {
         stride[j] = it.GetStride( (unsigned long) j);
@@ -133,11 +135,11 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
         {
         if ( counter & indicator[j] )
           {
-          curvature -= normalvector[j];
+          curvature -= normalvector[j] * neighborhoodScales[j];
           }
         else
           {
-          curvature += normalvector[j];
+          curvature += normalvector[j] * neighborhoodScales[j];
           }
         } // end derivative axis
       }

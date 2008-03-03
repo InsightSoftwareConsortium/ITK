@@ -129,8 +129,7 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
-  typename FiniteDifferenceFunctionType::RadiusType radius
-    = this->GetDifferenceFunction()->GetRadius();
+  RadiusType radius = this->GetDifferenceFunction()->GetRadius();
 
   // Try to set up a buffered region that will accommodate our
   // neighborhood operations.  This may not be possible and we

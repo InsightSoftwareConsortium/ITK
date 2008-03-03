@@ -128,6 +128,13 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>
       }
     }
   
+  double maxScaleCoefficient = 0.0;
+  for (unsigned int i=0; i<ImageDimension; i++)
+    {
+    maxScaleCoefficient = vnl_math_max(this->m_ScaleCoefficients[i],maxScaleCoefficient);
+    }
+  dt /= maxScaleCoefficient;
+ 
   // reset the values  
   d->m_MaxAdvectionChange  = 0;
   d->m_MaxPropagationChange= 0;

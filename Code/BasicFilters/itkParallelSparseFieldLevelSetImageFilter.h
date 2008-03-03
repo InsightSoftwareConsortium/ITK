@@ -257,6 +257,8 @@ public:
   /**Typedefs from the superclass */
   typedef typename Superclass::TimeStepType TimeStepType;
   typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
+  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -344,7 +346,7 @@ protected:
   
   /** The constant gradient to maintain between isosurfaces in the
       spare-field of the level-set image.  This value defaults to 1.0 */
-  static double m_ConstantGradientValue;
+  double m_ConstantGradientValue;
   
   /** Multiplicative identity of the ValueType. */
   static ValueType m_ValueOne;

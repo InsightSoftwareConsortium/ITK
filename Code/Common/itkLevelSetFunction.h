@@ -85,8 +85,10 @@ public:
   typedef typename Superclass::ImageType  ImageType;
   typedef typename Superclass::PixelType  PixelType;
   typedef                      PixelType  ScalarValueType;
+  typedef typename Superclass::PixelRealType  PixelRealType;
   typedef typename Superclass::RadiusType RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
   typedef typename Superclass::FloatOffsetType FloatOffsetType;
 
   /** The vector type that will be used in the calculations. */

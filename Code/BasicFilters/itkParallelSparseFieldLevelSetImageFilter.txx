@@ -88,9 +88,9 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>
     }
 }
 
-template<class TInputImage, class TOutputImage>
-double ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
-::m_ConstantGradientValue = 1.0;
+//template<class TInputImage, class TOutputImage>
+//double ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+//::m_ConstantGradientValue = 1.0;
 
 template<class TInputImage, class TOutputImage>
 ITK_TYPENAME ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
@@ -139,6 +139,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   this->SetRMSChange( static_cast<double>( m_ValueOne ) );
   m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
+  m_ConstantGradientValue = 1.0;
   m_GlobalZHistogram = 0;
   m_ZCumulativeFrequency = 0;
   m_MapZToThreadNumber = 0;
@@ -496,15 +497,26 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::InitializeActiveLayerValues()
 {
   const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
-  const ValueType MIN_NORM      = 1.0e-6;
-  
+  ValueType MIN_NORM      = 1.0e-6;
+  if (this->GetUseImageSpacing())
+    {
+    double minSpacing = NumericTraits<double>::max();
+    for (unsigned int i=0; i<ImageDimension; i++)
+      {
+      minSpacing = vnl_math_min(minSpacing,this->GetInput()->GetSpacing()[i]);
+      }
+    MIN_NORM *= minSpacing;
+    }
+
   typename LayerType::ConstIterator activeIt;
   ConstNeighborhoodIterator<OutputImageType>shiftedIt (m_NeighborList.GetRadius(), m_ShiftedImage,
                                                        m_OutputImage->GetRequestedRegion());
   
   unsigned int center = shiftedIt.Size() /2;
   unsigned int stride;
-  
+
+  const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
+
   ValueType dx_forward, dx_backward, length, distance;
   
   // For all indicies in the active layer...
@@ -518,10 +530,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     for (unsigned int i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
       {
       stride = shiftedIt.GetStride(i);
-      
-      dx_forward  = shiftedIt.GetPixel(center + stride) - shiftedIt.GetCenterPixel();
-      dx_backward = shiftedIt.GetCenterPixel()          - shiftedIt.GetPixel(center - stride);
-      
+ 
+      dx_forward  = ( shiftedIt.GetPixel(center + stride) - shiftedIt.GetCenterPixel() ) * neighborhoodScales[i];
+      dx_backward = ( shiftedIt.GetCenterPixel()          - shiftedIt.GetPixel(center - stride) ) * neighborhoodScales[i];
+
       if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
         {
         length += dx_forward  * dx_forward;
@@ -668,9 +680,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // the outermost layer.
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
   
-  const ValueType outside_value  = max_layer + m_ConstantGradientValue;
-  const ValueType inside_value = -(max_layer + m_ConstantGradientValue);
-  
+  const ValueType outside_value  = (max_layer+1) * m_ConstantGradientValue;
+  const ValueType inside_value = -(max_layer+1) * m_ConstantGradientValue;
+
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
                                                      this->GetOutput()->GetRequestedRegion());
 
@@ -1380,8 +1392,17 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   typename FiniteDifferenceFunctionType::FloatOffsetType offset;
   ValueType norm_grad_phi_squared, dx_forward, dx_backward;
   ValueType centerValue, forwardValue, backwardValue;
-  const float MIN_NORM = 1.0e-6;
-  
+  ValueType MIN_NORM      = 1.0e-6;
+  if (this->GetUseImageSpacing())
+    {
+    double minSpacing = NumericTraits<double>::max();
+    for (unsigned int i=0; i<ImageDimension; i++)
+      {
+      minSpacing = vnl_math_min(minSpacing,this->GetInput()->GetSpacing()[i]);
+      }
+    MIN_NORM *= minSpacing;
+    }
+
   ConstNeighborhoodIterator<OutputImageType> outputIt (df->GetRadius(), m_OutputImage,
                                                        m_OutputImage->GetRequestedRegion());
   if ( m_BoundsCheckingActive == false )
@@ -1389,7 +1410,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     outputIt.NeedToUseBoundaryConditionOff();
     }
   unsigned int i, center = outputIt.Size() /2;
-  
+ 
+  const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
+ 
   // Calculates the update values for the active layer indicies in this
   // iteration.  Iterates through the active layer index list, applying 
   // the level set function to the output image (level set image) at each
@@ -1421,9 +1444,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         if (forwardValue * backwardValue >= 0)
           {
             // 1. both neighbors have the same sign OR at least one of them is ZERO
-            dx_forward = forwardValue - centerValue;
-            dx_backward= centerValue - backwardValue;
-            
+            dx_forward  = forwardValue - centerValue;
+            dx_backward = centerValue - backwardValue;
+ 
             // take the one-sided derivative with the larger magnitude
             if (vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward))
               {
@@ -2503,8 +2526,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.  
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
-  const ValueType outside_value =   max_layer + m_ConstantGradientValue;
-  const ValueType inside_value  = -(max_layer + m_ConstantGradientValue);
+  const ValueType inside_value  = (max_layer+1) * m_ConstantGradientValue;
+  const ValueType outside_value = -(max_layer+1) * m_ConstantGradientValue;
   
   ImageRegionConstIterator <StatusImageType> statusIt(m_StatusImage, regionToProcess);
   ImageRegionIterator      <OutputImageType> outputIt(m_OutputImage, regionToProcess);

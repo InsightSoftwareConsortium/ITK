@@ -78,6 +78,7 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   typedef typename Superclass::IndexType        IndexType;
   typedef typename Superclass::SparseImageType  SparseImageType;
