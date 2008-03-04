@@ -528,7 +528,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   if (this->GetUseImageSpacing())
     {
     double minSpacing = NumericTraits<double>::max();
-    for (unsigned int i=0; i<ImageDimension; i++)
+    for (i=0; i<ImageDimension; i++)
       {
       minSpacing = vnl_math_min(minSpacing,this->GetInput()->GetSpacing()[i]);
       }
@@ -907,7 +907,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   if (this->GetUseImageSpacing())
     {
     double minSpacing = NumericTraits<double>::max();
-    for (unsigned int i=0; i<ImageDimension; i++)
+    for (i=0; i<ImageDimension; i++)
       {
       minSpacing = vnl_math_min(minSpacing,this->GetInput()->GetSpacing()[i]);
       }
