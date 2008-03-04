@@ -252,7 +252,8 @@ NiftiImageIO::NiftiImageIO():
   m_NiftiImage(0),
   m_RescaleSlope(1.0),
   m_RescaleIntercept(0.0),
-  m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE)
+  m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),
+  m_LegacyAnalyze75Mode(false)
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
@@ -609,13 +610,23 @@ bool
 NiftiImageIO
 ::CanReadFile( const char* FileNameToRead )
 {
-  // is_nifti_file returns 
-  //       < 0 for an error,
-  //      == 0 for an analyze file,
-  //       > 0 for a nifti file
-  // if the return test is >= 0, nifti will read analyze files
-  //return is_nifti_file(FileNameToRead) > 0;
-  return is_nifti_file(FileNameToRead) >= 0;
+    // is_nifti_file returns
+    //       > 0 for a nifti file
+    //      == 0 for an analyze file,
+    //       < 0 for an error,
+    // if the return test is >= 0, nifti will read analyze files
+    //return is_nifti_file(FileNameToRead) > 0;
+    const int image_FTYPE=is_nifti_file(FileNameToRead);
+  if(image_FTYPE>0)
+    {
+    return true;
+    }
+  else if (image_FTYPE == 0 && ( this->GetLegacyAnalyze75Mode() == true ))
+    {
+    return true;
+    }
+  /* image_FTYPE < 0 */
+  return false;
 }
 
 void
@@ -914,20 +925,18 @@ NiftiImageIO
 
   const std::string::size_type ext = ExtensionName.rfind(".gz");
   const bool IsCompressed=(ext == std::string::npos)?false:true;
-  if( ( ExtensionName == ".nii" || ExtensionName == ".nii.gz" )
-      && this->GetUseLegacyModeForTwoFileWriting() == false)
+  if( ( ExtensionName == ".nii" || ExtensionName == ".nii.gz" ) && this->GetUseLegacyModeForTwoFileWriting()==false)
     {
     this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_1;
     }
-  else if ( (ExtensionName == "nia" )
-            && this->GetUseLegacyModeForTwoFileWriting() == false)
+  else if ( (ExtensionName == "nia" ) && this->GetUseLegacyModeForTwoFileWriting()==false)
     {
-    this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ASCII;
+      this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ASCII;
     }
   else if(ExtensionName == ".hdr" || ExtensionName == ".img"
        || ExtensionName == ".hdr.gz" || ExtensionName == ".img.gz" )
     { //NOTE: LegacyMode is only valid for header extensions .hdr and .img
-    if(this->GetUseLegacyModeForTwoFileWriting() == false)
+    if(this->GetUseLegacyModeForTwoFileWriting()==false)
       {
       // This filter needs to write nifti files in it's default mode
       // , not default to legacy analyze files.

@@ -96,6 +96,14 @@ public:
   virtual ImageIORegion 
   GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion ) const;
 
+  /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
+    * the nifti library maintainers.  This format does not properly respect the file orientation fields.
+    * The itkAnalyzeImageIO file reader/writer should be used to match the Analyze75 file definitions as
+    * specified by the Mayo Clinic BIR laboratory.  By default this is set to false.
+    */
+  itkSetMacro(LegacyAnalyze75Mode,bool);
+  itkGetMacro(LegacyAnalyze75Mode,bool);
+
 protected:
   NiftiImageIO();
   ~NiftiImageIO();
@@ -111,6 +119,7 @@ private:
   double            m_RescaleSlope;
   double            m_RescaleIntercept;
   IOComponentType   m_OnDiskComponentType;
+  bool              m_LegacyAnalyze75Mode;
 
   NiftiImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
