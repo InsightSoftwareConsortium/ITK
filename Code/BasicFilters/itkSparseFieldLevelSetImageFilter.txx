@@ -991,7 +991,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       
       for (i = 0; i < ImageDimension; ++i)
         {
-        offset[i] = (offset[i] * centerValue) / (norm_grad_phi_squared + MIN_NORM);
+//        offset[i] = (offset[i] * centerValue) / (norm_grad_phi_squared + MIN_NORM);
+        offset[i] = (offset[i] * centerValue) * vcl_sqrt(ImageDimension +0.5) 
+                    / (norm_grad_phi_squared + MIN_NORM);
         }
           
       m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData, offset) );
