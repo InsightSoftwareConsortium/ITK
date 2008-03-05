@@ -4,7 +4,7 @@
 # The file should be copied, edited if necessary and moved to another location
 # 
 # This file was generated from
-# @ITK_SOURCE_DIR@/CMake/itkBuildTest.cmake
+# @ITK_SOURCE_DIR@/CMake/itkSampleBuildTest.cmake
 #
 
 ######################
@@ -15,7 +15,8 @@ SET(DASHBOARD Continuous)
 SET(DASHBOARD Experimental) 
 
 ######################
-# Set the Dashboard to one of Release, Debug, RelWithDebInfo or MinSizeRel
+# Set the Default Build Type to one of Release, Debug, RelWithDebInfo 
+# or MinSizeRel
 #
 SET(DEFAULT_BUILD_TYPE "Debug")
 SET(DEFAULT_BUILD_TYPE "RelWithDebInfo")
@@ -39,11 +40,21 @@ SET(CTEST_COMMAND
    "@CMAKE_CTEST_COMMAND@ -D ${DASHBOARD} -A \"${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}\""
 )
 
+# CMake/RemoveTemporaryFiles.cmake must exist before the CTEST_COMMAND runs
+IF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMake/RemoveTemporaryFiles.cmake)
+SET(CTEST_CMAKE_COMMAND "@CMAKE_COMMAND@")
+ENDIF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMake/RemoveTemporaryFiles.cmake)
+
+# CMakeCache.txt must exist before the CTEST_COMMAND runs
+IF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
+SET(CTEST_CMAKE_COMMAND "@CMAKE_COMMAND@")
+ENDIF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
+
 # Specify how long to run the continuous in minutes
 IF(${DASHBOARD} STREQUAL "Continuous")
   SET (CTEST_CONTINUOUS_DURATION 1080)
   SET (CTEST_CONTINUOUS_MINIMUM_INTERVAL 15)
-IF(${DASHBOARD} STREQUAL "Continuous")
+ENDIF(${DASHBOARD} STREQUAL "Continuous")
 
 # For Nightly builds, this should be TRUE
 IF(${DASHBOARD} STREQUAL "Nightly")
@@ -92,6 +103,7 @@ ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=@ITK_USE_OPTIMIZED_REGISTRATION_METH
 ITK_USE_ORIENTED_IMAGE_DIRECTION:BOOL=@ITK_USE_ORIENTED_IMAGE_DIRECTION@
 ITK_LEGACY_REMOVE:BOOL=@ITK_LEGACY_REMOVE@
 ITK_LEGACY_SILENT:BOOL=@ITK_LEGACY_SILENT@
+ITK_USE_KWSTYLE:BOOL=OFF
 
 ")
 
