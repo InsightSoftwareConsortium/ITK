@@ -1452,13 +1452,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
               {
                 offset[i]= dx_forward;
               }
-            else if (vnl_math_abs(dx_forward) < vnl_math_abs(dx_backward))
+            else 
               {
                 offset[i]= dx_backward;
-              }
-            else
-              {
-                offset[i]= (dx_forward + dx_backward) / 2.0;
               }
           }
         else

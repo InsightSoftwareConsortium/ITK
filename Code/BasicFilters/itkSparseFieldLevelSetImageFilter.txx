@@ -638,7 +638,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   const ValueType outside_value  = (max_layer+1) * m_ConstantGradientValue;
   const ValueType inside_value = -(max_layer+1) * m_ConstantGradientValue;
-  
+ 
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
                                                      this->GetOutput()->GetRequestedRegion());
 
@@ -965,13 +965,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
             {
             offset[i] = dx_forward;
             }
-          else if (::vnl_math_abs(dx_forward) < ::vnl_math_abs(dx_backward) )
-            {
-            offset[i] = dx_backward;
-            }
           else
             {
-            offset[i]= (dx_forward + dx_backward) / 2.0;
+            offset[i] = dx_backward;
             }
           }
         else //Neighbors are opposite sign, pick the direction of the 0 surface.
@@ -1163,9 +1159,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   // OUTSIDE the sparse field layers to a new level set with value greater than
   // the outermost layer.
   const ValueType max_layer = static_cast<ValueType>(m_NumberOfLayers);
+
   const ValueType inside_value  = (max_layer+1) * m_ConstantGradientValue;
   const ValueType outside_value = -(max_layer+1) * m_ConstantGradientValue;
-  
+ 
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage,
                                                      this->GetOutput()->GetRequestedRegion());
 
