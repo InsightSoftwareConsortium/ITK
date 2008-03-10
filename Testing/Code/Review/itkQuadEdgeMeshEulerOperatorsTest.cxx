@@ -631,7 +631,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   PopulateMesh<MeshType>( mesh );
  
   JoinVertex::Pointer joinVertex = JoinVertex::New( );
-  std::cout << "     " << "Test No Mesh Input";
+  std::cout << "     " << "Test No Mesh Input.";
   if( joinVertex->Evaluate( (QEType*)1 ) )
     {
     std::cout << "FAILED." << std::endl;
@@ -643,7 +643,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 
   joinVertex->SetInput( mesh );
   
-  std::cout << "     " << "Test QE Input and Sym isolated";
+  std::cout << "     " << "Test QE Input and Sym isolated.";
   LineCellType* IsolatedLineCell = new LineCellType;
   if( joinVertex->Evaluate( IsolatedLineCell->GetQEGeom( ) ) )
     {
@@ -652,13 +652,59 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     }
   std::cout << "OK" << std::endl;
 
-  std::cout << "     " << "Test No QE Input";
+  std::cout << "     " << "Test No QE Input.";
   if( joinVertex->Evaluate( (QEType*)0 ) )
     {
     std::cout << "FAILED." << std::endl;
     return 1;
     }
   std::cout << "OK" << std::endl;
+
+  std::cout << "     " << "Test Topological Changes";
+  MeshType::Pointer topotest = MeshType::New( );
+  MeshType::PointType pts[4];
+  pts[ 0][0] = 0.0;  pts[ 0][1] = 0.0;  pts[ 0][2] = 0.0;
+  pts[ 1][0] = 1.0;  pts[ 1][1] = 0.0;  pts[ 1][2] = 0.0;
+  pts[ 2][0] = 0.0;  pts[ 2][1] = 1.0;  pts[ 2][2] = 0.0;
+  pts[ 3][0] = 0.0;  pts[ 3][1] = 0.0;  pts[ 3][2] = 1.0;
+  for(int ii=0; ii<4; ii++)
+    {
+    topotest->SetPoint( ii, pts[ii] );
+    }
+  MeshType::PointIdList topotestpoints;
+
+  topotestpoints.push_back( 3 );
+  topotestpoints.push_back( 0 );
+  topotestpoints.push_back( 1 );
+  topotest->AddFace( topotestpoints );
+  topotestpoints.clear( );
+
+  topotestpoints.push_back( 3 );
+  topotestpoints.push_back( 2 );
+  topotestpoints.push_back( 0 );
+  topotest->AddFace( topotestpoints );
+  topotestpoints.clear( );
+
+  topotestpoints.push_back( 3 );
+  topotestpoints.push_back( 1 );
+  topotestpoints.push_back( 2 );
+  topotest->AddFace( topotestpoints );
+  topotestpoints.clear( );
+
+  topotestpoints.push_back( 0 );
+  topotestpoints.push_back( 2 );
+  topotestpoints.push_back( 1 );
+  topotest->AddFace( topotestpoints );
+  topotestpoints.clear( );
+
+  joinVertex->SetInput( topotest );
+  if( joinVertex->Evaluate( mesh->FindEdge( 0, 1 ) ) )
+    {
+    std::cout << "FAILED." << std::endl;
+    return 1;
+    }
+  std::cout << "OK" << std::endl;
+  joinVertex->SetInput( mesh );
 
   // First test the case were the argument is an internal edge (here
   // we consider [12, 11]) whose adjacent faces are both internal (i.e.

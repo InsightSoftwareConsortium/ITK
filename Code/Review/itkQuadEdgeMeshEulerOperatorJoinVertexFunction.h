@@ -94,6 +94,8 @@ private:
 
   PointIdentifier m_OldPointID;
 
+  bool CommonVertexNeighboor( QEType* e );
+
 };
 
 } // namespace itk

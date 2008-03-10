@@ -49,6 +49,12 @@ Evaluate( QEType* e )
     itkDebugMacro( "Argument edge isolated." );
     return( (QEType*) 0 );
     }
+
+  if( CommonVertexNeighboor( e ) )
+    {
+    itkDebugMacro( "The two vertices have a common neighboor vertex." );
+    return( (QEType*) 0 );
+    }
    
   // First case: pathological
   if( e->IsIsolated( ) || e->GetSym( )->IsIsolated( ) )
@@ -197,6 +203,46 @@ Evaluate( QEType* e )
 
   return( this->m_Mesh->FindEdge( NewOrg, NewDest ) );
 
+}
+
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+CommonVertexNeighboor( QEType* e )
+{
+  bool isLeftTriangle = e->IsLnextOfTriangle( );
+  bool isRiteTriangle = e->GetSym( )->IsLnextOfTriangle( );
+
+  //easy case
+  if( isLeftTriangle && isRiteTriangle )
+    {
+    if( e->GetOrder( ) == 3 && e->GetSym( )->GetOrder( ) == 3 )
+      return( true );
+    if( e->GetOnext( )->GetSym( )->GetOrder( ) == 3 )
+      return( true );
+    if( e->GetOprev( )->GetSym( )->GetOrder( ) == 3 )
+      return( true );
+    }
+
+  // general case
+    unsigned int counter = 0;
+  QEType* e_it = e->GetOnext( );
+  QEType* e_sym = e->GetSym( );
+  while( e_it != e )
+    {
+    QEType* e_sym_it = e->GetSym( )->GetOnext( );
+    while( e_sym_it != e_sym )
+      {
+      if(  e_it->GetDestination() == e_sym_it->GetDestination() )
+        counter++;
+      e_sym_it = e_sym_it->GetOnext( );
+      }
+    e_it = e_it->GetOnext( );
+    }
+  if( counter > 2 ) return( true );
+
+  return( false );
 }
 
 } // namespace itkQE
