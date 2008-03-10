@@ -22,9 +22,9 @@
 #undef SymmetricSecondRankTensor
 #endif
 
-#include <itkIndent.h>
-#include <itkFixedArray.h>
-#include <itkMatrix.h>
+#include "itkIndent.h"
+#include "itkFixedArray.h"
+#include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
 
 namespace itk
@@ -188,7 +188,29 @@ inline SymmetricSecondRankTensor< TValueType, VLength> operator*
   return f * d;
 }
 
+template <typename TValueType, unsigned int VLength>
+inline SymmetricSecondRankTensor< TValueType, VLength> operator* 
+    (const Matrix<TValueType,VLength,VLength> & m, 
+     const SymmetricSecondRankTensor< TValueType, VLength > & f)
+{
+  SymmetricSecondRankTensor< TValueType, VLength> result;
+  for(unsigned int r=0; r<VLength; r++)
+    {
+    for(unsigned int c=0; c<VLength; c++)
+      {
+      typename NumericTraits<TValueType>::AccumulateType sum = 
+        NumericTraits<TValueType>::Zero;
+      for(unsigned int t=0; t<VLength; t++)
+        {
+        sum += m(r,t) * f(t,c);
+        }
+      result(r,c) = static_cast<TValueType>( sum );
+      }
+    }
+  return result;
+}
 
+    
 
 } // end namespace itk
 

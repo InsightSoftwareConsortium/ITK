@@ -409,6 +409,32 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   } // end of Test GetTrace() method
 
+
+  // Test Matrix * SymmetricSecondRankTensor function
+  {
+
+    typedef itk::SymmetricSecondRankTensor<double,3>   Double3DTensorType;
+    typedef itk::Matrix<double, 3, 3>                  Double3DMatrixType;
+
+    Double3DTensorType tensor3D;
+
+    tensor3D(0,0) =  19.0;
+    tensor3D(0,1) =   0.0; 
+    tensor3D(0,2) =   0.0;
+    tensor3D(1,0) =   0.0; // overrides (0,1)
+    tensor3D(1,1) =  23.0;
+    tensor3D(1,2) =   0.0; 
+    tensor3D(2,0) =   7.0; // overrides (0,2)
+    tensor3D(2,1) =   0.0; // overrides (1,2)
+    tensor3D(2,2) =  29.0;
+
+    Double3DMatrixType matrix3D;
+
+    Double3DTensorType result = matrix3D * tensor3D;
+
+  } // end of Matrix * SymmetricSecondRankTensor test
+
+
   return EXIT_SUCCESS;
 }
 
