@@ -31,6 +31,7 @@
 //    OUTPUTS: {ImageRegistration8Output.png}
 //    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
+//    OUTPUTS: {ImageRegistration8RegisteredSlice.png}
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -149,7 +150,9 @@ int main( int argc, char *argv[] )
     std::cerr << " outputImagefile  [differenceBeforeRegistration] ";
     std::cerr << " [differenceAfterRegistration] ";
     std::cerr << " [sliceBeforeRegistration] ";
-    std::cerr << " [sliceAfterRegistration] "<< std::endl;
+    std::cerr << " [sliceDifferenceBeforeRegistration] ";
+    std::cerr << " [sliceDifferenceAfterRegistration] ";
+    std::cerr << " [sliceAfterRegistration] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -728,7 +731,13 @@ int main( int argc, char *argv[] )
     sliceWriter->Update();
     }
 
-
+  if( argc > 9 )
+    {
+    extractor->SetInput( caster->GetOutput() );
+    resampler->SetTransform( finalTransform );
+    sliceWriter->SetFileName( argv[9] );  
+    sliceWriter->Update();
+    }
 
 
   return EXIT_SUCCESS;
