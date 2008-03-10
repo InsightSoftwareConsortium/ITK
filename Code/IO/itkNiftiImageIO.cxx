@@ -926,18 +926,20 @@ NiftiImageIO
 
   const std::string::size_type ext = ExtensionName.rfind(".gz");
   const bool IsCompressed=(ext == std::string::npos)?false:true;
-  if( ( ExtensionName == ".nii" || ExtensionName == ".nii.gz" ) && this->GetUseLegacyModeForTwoFileWriting()==false)
+  if( ( ExtensionName == ".nii" || ExtensionName == ".nii.gz" ) &&
+      this->GetUseLegacyModeForTwoFileWriting() == false)
     {
     this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_1;
     }
-  else if ( (ExtensionName == "nia" ) && this->GetUseLegacyModeForTwoFileWriting()==false)
+  else if ( (ExtensionName == "nia" ) &&
+            this->GetUseLegacyModeForTwoFileWriting() == false)
     {
       this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ASCII;
     }
   else if(ExtensionName == ".hdr" || ExtensionName == ".img"
        || ExtensionName == ".hdr.gz" || ExtensionName == ".img.gz" )
     { //NOTE: LegacyMode is only valid for header extensions .hdr and .img
-    if(this->GetUseLegacyModeForTwoFileWriting()==false)
+    if(this->GetUseLegacyModeForTwoFileWriting() == false)
       {
       // This filter needs to write nifti files in it's default mode
       // , not default to legacy analyze files.

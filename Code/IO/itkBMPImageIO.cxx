@@ -676,15 +676,12 @@ BMPImageIO
   m_Ofstream.write(&tmp,sizeof(char));
 }
 
-
-
 void 
 BMPImageIO
 ::WriteImageInformation(void)
 {
   
 }
-
 
 /** The write function is not implemented */
 void 
