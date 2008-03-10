@@ -298,12 +298,13 @@ ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
         1.0   1.0  0.0
 )
 
+IF(ITK_BRAINWEB_DATA_ROOT)
 ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
-  --compare ${ITK_BRAINWEB_ROOT}/ImageRegistration8Output.png
+  --compare ${ITK_BRAINWEB_DATA_ROOT}/ImageRegistration8Output.png
             ${TEMP}/ImageRegistration8Output.png
   ImageRegistration7Test
-        ${ITK_BRAINWEB_ROOT}/brainweb1e1a10f20.mha
-        ${ITK_BRAINWEB_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
         ${TEMP}/ImageRegistration8Output.mhd
         ${TEMP}/ImageRegistration8DifferenceBefore.mhd
         ${TEMP}/ImageRegistration8DifferenceAfter.mhd
@@ -311,6 +312,7 @@ ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
         ${TEMP}/ImageRegistration8DifferenceBefore.png
         ${TEMP}/ImageRegistration8DifferenceAfter.png
 )
+ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
 ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/ImageRegistration9Test.png
