@@ -610,6 +610,13 @@ CHECK_CPP_DIRECTIVE_EXISTS(__FUNCTION__ ITK_CPP_FUNCTION)
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
 MARK_AS_ADVANCED(ITK_DATA_ROOT)
 
+#-----------------------------------------------------------------------------
+# Configure the default ITK_BRAINWEB_DATA_ROOT for the location of ITK Data.
+# When this data is available, additional 3D tests are enabled.
+FIND_PATH(ITK_BRAINWEB_DATA_ROOT brainweb165a10f17.mha 
+  DOC "Directory with data taken from http://public.kitware.com/pub/itk/Data/BrainWeb/")
+MARK_AS_ADVANCED(ITK_BRAINWEB_DATA_ROOT)
+
 
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
