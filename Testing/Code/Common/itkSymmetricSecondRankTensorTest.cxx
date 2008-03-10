@@ -430,7 +430,8 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
     Double3DMatrixType matrix3D;
 
-    Double3DTensorType result = matrix3D * tensor3D;
+    Double3DTensorType result1 = tensor3D.PreMultiply( matrix3D );
+    Double3DTensorType result2 = tensor3D.PostMultiply( matrix3D );
 
   } // end of Matrix * SymmetricSecondRankTensor test
 

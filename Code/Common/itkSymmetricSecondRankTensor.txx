@@ -349,6 +349,58 @@ SymmetricSecondRankTensor<T,NDimension>
 
 }
 
+/*
+ * Pre-multiply the Tensor by a Matrix
+ */
+template<class T,unsigned int NDimension>
+SymmetricSecondRankTensor<T,NDimension>
+SymmetricSecondRankTensor<T,NDimension>
+::PreMultiply( const MatrixType & m ) const
+{
+Self result;
+typedef typename NumericTraits<T>::AccumulateType  AccumulateType;
+for(unsigned int r=0; r<NDimension; r++)
+  {
+  for(unsigned int c=0; c<NDimension; c++)
+    {
+    AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
+    for(unsigned int t=0; t<NDimension; t++)
+      {
+      sum += m(r,t) * (*this)(t,c);
+      }
+    result(r,c) = static_cast<T>( sum );
+    }
+  }
+return result;
+}
+
+/*
+ * Post-multiply the Tensor by a Matrix
+ */
+template<class T,unsigned int NDimension>
+SymmetricSecondRankTensor<T,NDimension>
+SymmetricSecondRankTensor<T,NDimension>
+::PostMultiply( const MatrixType & m ) const
+{
+Self result;
+typedef typename NumericTraits<T>::AccumulateType  AccumulateType;
+for(unsigned int r=0; r<NDimension; r++)
+  {
+  for(unsigned int c=0; c<NDimension; c++)
+    {
+    AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
+    for(unsigned int t=0; t<NDimension; t++)
+      {
+      sum += (*this)(r,t) * m(t,c);
+      }
+    result(r,c) = static_cast<T>( sum );
+    }
+  }
+return result;
+}
+
+
+
 
 /**
  * Print content to an ostream

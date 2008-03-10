@@ -164,10 +164,17 @@ public:
   void ComputeEigenAnalysis( EigenValuesArrayType & eigenValues,
                              EigenVectorsMatrixType & eigenVectors ) const;
 
+  /** Pre-Multiply by a Matrix as ResultingTensor = Matrix * ThisTensor. */
+  Self PreMultiply( const MatrixType & m ) const;
+
+  /** Post-Multiply by a Matrix as ResultingTensor = ThisTensor * Matrix. */
+  Self PostMultiply( const MatrixType & m ) const;
+
 private:
 
   
 };
+
 
 /** This extra typedef is necessary for preventing an Internal Compiler Error in
  * Microsoft Visual C++ 6.0. This typedef is not needed for any other compiler. */
@@ -181,36 +188,7 @@ template< typename TComponent, unsigned int NDimension  >
 ITK_EXPORT InputStreamType& operator>>(InputStreamType& is, 
                     SymmetricSecondRankTensor<TComponent,NDimension> & c); 
 
-template <typename TValueType, unsigned int VLength>
-inline SymmetricSecondRankTensor< TValueType, VLength> operator* 
-    (double d, const SymmetricSecondRankTensor< TValueType, VLength > & f)
-{
-  return f * d;
-}
-
-template <typename TValueType, unsigned int VLength>
-inline SymmetricSecondRankTensor< TValueType, VLength> operator* 
-    (const Matrix<TValueType,VLength,VLength> & m, 
-     const SymmetricSecondRankTensor< TValueType, VLength > & f)
-{
-  SymmetricSecondRankTensor< TValueType, VLength> result;
-  for(unsigned int r=0; r<VLength; r++)
-    {
-    for(unsigned int c=0; c<VLength; c++)
-      {
-      typename NumericTraits<TValueType>::AccumulateType sum = 
-        NumericTraits<TValueType>::Zero;
-      for(unsigned int t=0; t<VLength; t++)
-        {
-        sum += m(r,t) * f(t,c);
-        }
-      result(r,c) = static_cast<TValueType>( sum );
-      }
-    }
-  return result;
-}
-
-    
+   
 
 } // end namespace itk
 
