@@ -128,10 +128,10 @@ class ITK_EXPORT MattesMutualInformationImageToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetric           Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage >     Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  typedef MattesMutualInformationImageToImageMetric  Self;
+  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
+  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -151,6 +151,9 @@ public:
   typedef typename Superclass::MovingImageType          MovingImageType;
   typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer  MovingImageCosntPointer;
+  typedef typename Superclass::InputPointType           InputPointType;
+  typedef typename Superclass::OutputPointType          OutputPointType;
+
   typedef typename Superclass::CoordinateRepresentationType
   CoordinateRepresentationType;
 
@@ -270,51 +273,50 @@ private:
 
 
   /** The marginal PDFs are stored as std::vector. */
-  typedef float                       PDFValueType;
-  typedef std::vector<PDFValueType>   MarginalPDFType;
+  typedef float PDFValueType;
+  typedef std::vector<PDFValueType> MarginalPDFType;
 
   /** The fixed image marginal PDF. */
-  mutable MarginalPDFType             m_FixedImageMarginalPDF;
+  mutable MarginalPDFType m_FixedImageMarginalPDF;
 
   /** The moving image marginal PDF. */
-  mutable MarginalPDFType             m_MovingImageMarginalPDF;
-
-  /** Helper array for storing the values of the JointPDF ratios. */
-  typedef double                      PRatioType;
-  typedef Array2D< PRatioType >       PRatioArrayType;
-  mutable PRatioArrayType             m_PRatioArray;
-
-  /** Helper variable for accumulating the derivative of the metric. */
-  mutable DerivativeType              m_MetricDerivative;
+  mutable MarginalPDFType m_MovingImageMarginalPDF;
 
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
-  typedef Image<PDFValueType,2>                 JointPDFType;
-  typedef JointPDFType::IndexType               JointPDFIndexType;
-  typedef JointPDFType::PixelType               JointPDFValueType;
+  typedef Image<PDFValueType,2> JointPDFType;
+  typedef Image<PDFValueType,3> JointPDFDerivativesType;
+  typedef JointPDFType::IndexType                JointPDFIndexType;
+  typedef JointPDFType::PixelType                JointPDFValueType;
   typedef JointPDFType::RegionType              JointPDFRegionType;
   typedef JointPDFType::SizeType                JointPDFSizeType;
+  typedef JointPDFDerivativesType::IndexType    JointPDFDerivativesIndexType;
+  typedef JointPDFDerivativesType::PixelType    JointPDFDerivativesValueType;
+  typedef JointPDFDerivativesType::RegionType    JointPDFDerivativesRegionType;
+  typedef JointPDFDerivativesType::SizeType      JointPDFDerivativesSizeType;
 
   /** The joint PDF and PDF derivatives. */
-  typename JointPDFType::Pointer                m_JointPDF;
+  typename JointPDFType::Pointer m_JointPDF;
+  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
 
-  unsigned long                                 m_NumberOfSpatialSamples;
-  unsigned long                                 m_NumberOfParameters;
+  unsigned long m_NumberOfSpatialSamples;
+  unsigned long m_NumberOfParameters;
 
   /** Variables to define the marginal and joint histograms. */
-  unsigned long  m_NumberOfHistogramBins;
-  double         m_MovingImageNormalizedMin;
-  double         m_FixedImageNormalizedMin;
-  double         m_MovingImageTrueMin;
-  double         m_MovingImageTrueMax;
-  double         m_FixedImageBinSize;
-  double         m_MovingImageBinSize;
+  unsigned long m_NumberOfHistogramBins;
+  double m_MovingImageNormalizedMin;
+  double m_FixedImageNormalizedMin;
+  double m_MovingImageTrueMin;
+  double m_MovingImageTrueMax;
+  double m_FixedImageBinSize;
+  double m_MovingImageBinSize;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction<3>           CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction<3> CubicBSplineDerivativeFunctionType;
+  typedef BSplineKernelFunction<3> CubicBSplineFunctionType;
+  typedef BSplineDerivativeKernelFunction<3> 
+  CubicBSplineDerivativeFunctionType;
 
   /** Cubic BSpline kernel for computing Parzen histograms. */
-  typename CubicBSplineFunctionType::Pointer   m_CubicBSplineKernel;
+  typename CubicBSplineFunctionType::Pointer m_CubicBSplineKernel;
   typename CubicBSplineDerivativeFunctionType::Pointer 
   m_CubicBSplineDerivativeKernel;
 
@@ -362,7 +364,7 @@ private:
                                       int movingImageParzenWindowIndex,
                                       const ImageDerivativesType&
                                                 movingImageGradientValue,
-                                      double cubicBSplineDerivativeValue
+                                      double cubicBSplineDerivativeValue 
                                       ) const;
 
   /**
