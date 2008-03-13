@@ -1489,7 +1489,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     m_FixedImageSamples[sampleNumber].FixedImageParzenWindowIndex;
 
   JointPDFValueType * derivPtr = NULL;
-  const double precomputedWeight 0.0;
+  double precomputedWeight = 0.0;
 
   if( this->m_UseExplicitPDFDerivatives )
     {
