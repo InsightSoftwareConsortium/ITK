@@ -376,7 +376,20 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
   ReflectiveImageRegionConstIterator< VectorImageType > 
     it( distanceComponents, region );
-  it.FillOffsets(1);
+  typename VectorImageType::OffsetType voffset;
+  for(unsigned int dim=0; dim <VectorImageType::ImageDimension; dim++)
+    {
+    if (region.GetSize()[dim] > 1)
+      {
+      voffset[dim] = 1;
+      }
+    else
+      {
+      voffset[dim] = 0;
+      }
+    }
+  it.SetBeginOffset(voffset);
+  it.SetEndOffset(voffset);
 
   it.GoToBegin();
 
@@ -410,6 +423,10 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     IndexType here = it.GetIndex();
     for(unsigned int dim=0; dim <VectorImageType::ImageDimension; dim++)
       {
+      if (region.GetSize()[dim] <= 1)
+        {
+        continue;
+        }
       if( it.IsReflected(dim) ) 
         {
         offset[dim]++;
