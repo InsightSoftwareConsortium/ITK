@@ -183,6 +183,34 @@ public:
                     1, NumericTraits<unsigned long>::max() );
   itkGetConstReferenceMacro( NumberOfHistogramBins, unsigned long);   
 
+  /** This variable selects the method to be used for computing the Metric
+   * derivatives with respect to the Transform parameters. Two modes of
+   * computation are available. The choice between one and the other is a
+   * trade-off between computation speed and memory allocations. The two modes
+   * are described in detail below: 
+   *
+   * UseExplicitPDFDerivatives = True 
+   * will compute the Metric derivative by first calculating the derivatives of
+   * each one of the Joint PDF bins with respect to each one of the Transform
+   * parameters and then accumulating these contributions in the final metric
+   * derivative array by using a bin-specific weight.  The memory required for
+   * storing the intermediate derivatives is a 3D array of doubles with size
+   * equals to the product of (number of histogram bins)^2 times number of
+   * transform parameters. This method is well suited for Transform with a small
+   * number of parameters.
+   *
+   * UseExplicitPDFDerivatives = False will compute the Metric derivative by
+   * first computing the weights for each one of the Joint PDF bins and caching
+   * them into an array. Then it will revisit each one of the PDF bins for
+   * computing its weighted contribution to the full derivative array. In this
+   * method an extra 2D array is used for storing the weights of each one of
+   * the PDF bins. This is an array of doubles with size equals to (number of
+   * histogram bins)^2. This method is well suited for Transforms with a large
+   * number of parameters, such as, BSplineDeformableTransforms. */
+  itkSetMacro(UseExplicitPDFDerivatives,bool);
+  itkGetConstReferenceMacro(UseExplicitPDFDerivatives,bool);
+  itkBooleanMacro(UseExplicitPDFDerivatives);
+
 protected:
 
   MattesMutualInformationImageToImageMetric();
@@ -264,6 +292,9 @@ private:
   int                                         * m_ThreaderJointPDFEndBin;
   mutable double                              * m_ThreaderJointPDFSum;
   mutable double                                m_JointPDFSum;
+
+  bool                                          m_UseExplicitPDFDerivatives;
+
 
   inline void GetValueThreadPreProcess( unsigned int threadID,
                                         bool withinSampleThread ) const;
