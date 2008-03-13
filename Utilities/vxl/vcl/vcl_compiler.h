@@ -132,7 +132,9 @@
 #   define VCL_VC_DOTNET 1 // VC is at least version >= 7.0
 #  endif
 #  if _MSC_VER >= 1400     // .NET 2005 = Version 8.x
-#   define _CRT_SECURE_NO_DEPRECATE 1
+#   ifndef _CRT_SECURE_NO_DEPRECATE
+#    define _CRT_SECURE_NO_DEPRECATE 1
+#   endif
 #   define VCL_VC_8
 #   if _MSC_VER >= 1400
 #    define VCL_VC_80 1    // version 8.0
