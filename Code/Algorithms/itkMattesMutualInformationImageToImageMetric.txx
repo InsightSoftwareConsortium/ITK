@@ -1229,23 +1229,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         if( this->m_UseExplicitPDFDerivatives )
           {
           // move joint pdf derivative pointer to the right position
-          JointPDFValueType * derivPtr = 
-                                m_JointPDFDerivatives->GetBufferPointer() 
-                                + ( fixedIndex 
-                                     * m_JointPDFDerivatives->GetOffsetTable()[2] 
-                                  ) 
-                                + ( movingIndex 
-                                     * m_JointPDFDerivatives->GetOffsetTable()[1] 
-                                  );
+          JointPDFValueType * derivPtr = m_JointPDFDerivatives->GetBufferPointer() 
+             + ( fixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] ) 
+             + ( movingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
 
-          for( unsigned int parameter=0;
-               parameter < m_NumberOfParameters; 
-               ++parameter, derivPtr++ )
+          for( unsigned int parameter=0; parameter < m_NumberOfParameters; ++parameter, derivPtr++ )
             {
-
             // Ref: eqn 23 of Thevenaz & Unser paper [3]
             derivative[parameter] -= (*derivPtr) * pRatio;
-
             }  // end for-loop over parameters
           }
         else
@@ -1494,7 +1485,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   if( this->m_UseExplicitPDFDerivatives )
     {
     // Update bins in the PDF derivatives for the current intensity pair
-    JointPDFValueType * derivPtr = m_JointPDFDerivatives->GetBufferPointer() +
+    derivPtr = m_JointPDFDerivatives->GetBufferPointer() +
       ( pdfFixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] ) +
       ( pdfMovingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
     }
