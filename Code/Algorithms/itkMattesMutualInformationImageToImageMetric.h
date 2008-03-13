@@ -128,10 +128,10 @@ class ITK_EXPORT MattesMutualInformationImageToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetric  Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MattesMutualInformationImageToImageMetric           Self;
+  typedef ImageToImageMetric< TFixedImage, TMovingImage >     Superclass;
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -217,6 +217,33 @@ public:
   itkGetConstReferenceMacro(UseAllPixels,bool);
   itkBooleanMacro(UseAllPixels);
 
+  /** This variable selects the method to be used for computing the Metric
+   * derivatives with respect to the Transform parameters. Two modes of
+   * computation are available. The choice between one and the other is a
+   * trade-off between computation speed and memory allocations. The two modes
+   * are described in detail below: 
+   *
+   * UseExplicitPDFDerivatives = True 
+   * will compute the Metric derivative by first calculating the derivatives of
+   * each one of the Joint PDF bins with respect to each one of the Transform
+   * parameters and then accumulating these contributions in the final metric
+   * derivative array by using a bin-specific weight.  The memory required for
+   * storing the intermediate derivatives is a 3D array of doubles with size
+   * equals to the product of (number of histogram bins)^2 times number of
+   * transform parameters. This method is well suited for Transform with a small
+   * number of parameters.
+   *
+   * UseExplicitPDFDerivatives = False will compute the Metric derivative by
+   * first computing the weights for each one of the Joint PDF bins and caching
+   * them into an array. Then it will revisit each one of the PDF bins for
+   * computing its weighted contribution to the full derivative array. In this
+   * method an extra 2D array is used for storing the weights of each one of
+   * the PDF bins. This is an array of doubles with size equals to (number of
+   * histogram bins)^2. This method is well suited for Transforms with a large
+   * number of parameters, such as, BSplineDeformableTransforms. */
+  itkSetMacro(UseExplicitPDFDerivatives,bool);
+  itkGetConstReferenceMacro(UseExplicitPDFDerivatives,bool);
+  itkBooleanMacro(UseExplicitPDFDerivatives);
 
 protected:
 
@@ -273,50 +300,57 @@ private:
 
 
   /** The marginal PDFs are stored as std::vector. */
-  typedef float PDFValueType;
-  typedef std::vector<PDFValueType> MarginalPDFType;
+  typedef float                       PDFValueType;
+  typedef std::vector<PDFValueType>   MarginalPDFType;
 
   /** The fixed image marginal PDF. */
-  mutable MarginalPDFType m_FixedImageMarginalPDF;
+  mutable MarginalPDFType             m_FixedImageMarginalPDF;
 
   /** The moving image marginal PDF. */
-  mutable MarginalPDFType m_MovingImageMarginalPDF;
+  mutable MarginalPDFType             m_MovingImageMarginalPDF;
+
+  /** Helper array for storing the values of the JointPDF ratios. */
+  typedef double                      PRatioType;
+  typedef Array2D< PRatioType >       PRatioArrayType;
+  mutable PRatioArrayType             m_PRatioArray;
+
+  /** Helper variable for accumulating the derivative of the metric. */
+  mutable DerivativeType              m_MetricDerivative;
 
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
-  typedef Image<PDFValueType,2> JointPDFType;
-  typedef Image<PDFValueType,3> JointPDFDerivativesType;
-  typedef JointPDFType::IndexType                JointPDFIndexType;
-  typedef JointPDFType::PixelType                JointPDFValueType;
+  typedef Image<PDFValueType,2>                 JointPDFType;
+  typedef JointPDFType::IndexType               JointPDFIndexType;
+  typedef JointPDFType::PixelType               JointPDFValueType;
   typedef JointPDFType::RegionType              JointPDFRegionType;
   typedef JointPDFType::SizeType                JointPDFSizeType;
+  typedef Image<PDFValueType,3>                 JointPDFDerivativesType;
   typedef JointPDFDerivativesType::IndexType    JointPDFDerivativesIndexType;
   typedef JointPDFDerivativesType::PixelType    JointPDFDerivativesValueType;
-  typedef JointPDFDerivativesType::RegionType    JointPDFDerivativesRegionType;
-  typedef JointPDFDerivativesType::SizeType      JointPDFDerivativesSizeType;
+  typedef JointPDFDerivativesType::RegionType   JointPDFDerivativesRegionType;
+  typedef JointPDFDerivativesType::SizeType     JointPDFDerivativesSizeType;
 
   /** The joint PDF and PDF derivatives. */
-  typename JointPDFType::Pointer m_JointPDF;
-  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives;
+  typename JointPDFType::Pointer                m_JointPDF;
+  typename JointPDFDerivativesType::Pointer     m_JointPDFDerivatives;
 
-  unsigned long m_NumberOfSpatialSamples;
-  unsigned long m_NumberOfParameters;
+  unsigned long                                 m_NumberOfSpatialSamples;
+  unsigned long                                 m_NumberOfParameters;
 
   /** Variables to define the marginal and joint histograms. */
-  unsigned long m_NumberOfHistogramBins;
-  double m_MovingImageNormalizedMin;
-  double m_FixedImageNormalizedMin;
-  double m_MovingImageTrueMin;
-  double m_MovingImageTrueMax;
-  double m_FixedImageBinSize;
-  double m_MovingImageBinSize;
+  unsigned long  m_NumberOfHistogramBins;
+  double         m_MovingImageNormalizedMin;
+  double         m_FixedImageNormalizedMin;
+  double         m_MovingImageTrueMin;
+  double         m_MovingImageTrueMax;
+  double         m_FixedImageBinSize;
+  double         m_MovingImageBinSize;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction<3> CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction<3> 
-  CubicBSplineDerivativeFunctionType;
+  typedef BSplineKernelFunction<3>           CubicBSplineFunctionType;
+  typedef BSplineDerivativeKernelFunction<3> CubicBSplineDerivativeFunctionType;
 
   /** Cubic BSpline kernel for computing Parzen histograms. */
-  typename CubicBSplineFunctionType::Pointer m_CubicBSplineKernel;
+  typename CubicBSplineFunctionType::Pointer   m_CubicBSplineKernel;
   typename CubicBSplineDerivativeFunctionType::Pointer 
   m_CubicBSplineDerivativeKernel;
 
@@ -364,7 +398,7 @@ private:
                                       int movingImageParzenWindowIndex,
                                       const ImageDerivativesType&
                                                 movingImageGradientValue,
-                                      double cubicBSplineDerivativeValue 
+                                      double cubicBSplineDerivativeValue
                                       ) const;
 
   /**
@@ -440,6 +474,7 @@ private:
   bool             m_ReseedIterator;
   int              m_RandomSeed;
   
+  bool             m_UseExplicitPDFDerivatives;
 };
 
 } // end namespace itk
