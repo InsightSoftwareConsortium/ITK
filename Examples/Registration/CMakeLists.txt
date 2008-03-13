@@ -257,6 +257,19 @@ ADD_TEST(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration4Test.png 0
         ${TEMP}/ImageRegistration4BeforeTest.png
         ${TEMP}/ImageRegistration4AfterTest.png
+        24 10000 1
+)
+
+ADD_TEST(ImageRegistration4Test2 ${REGISTRATION_EXAMPLES}
+  --compare ${BASELINE}/ImageRegistration4Test.png
+            ${TEMP}/ImageRegistration4Test2.png
+  ImageRegistration4Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration4Test2.png 0
+        ${TEMP}/ImageRegistration4BeforeTest.png
+        ${TEMP}/ImageRegistration4AfterTest.png
+        24 10000 0
 )
 
 ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
@@ -367,6 +380,17 @@ ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test.png
 )
 
+ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
+  --compare ${BASELINE}/ImageRegistration13Test.png
+            ${TEMP}/ImageRegistration13Test2.png
+  ImageRegistration13Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/ImageRegistration13Test2.png
+        0
+)
+
+
 ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration14Test.png
             ${TEMP}/ImageRegistration14Test.png
@@ -392,6 +416,16 @@ ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration16Test.png 0.0 0.0
+)
+
+ADD_TEST(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
+  --compare ${BASELINE}/ImageRegistration16Test.png
+            ${TEMP}/ImageRegistration16Test2.png
+  ImageRegistration16Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/ImageRegistration16Test2.png 0.0 0.0
+        0
 )
 
 

@@ -96,7 +96,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile ";
-    std::cerr << " [initialTx] [initialTy]" << std::endl;
+    std::cerr << " [initialTx] [initialTy]";
+    std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -159,6 +160,15 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
   // Software Guide : EndCodeSnippet
+
+  if( argc > 6 )
+    {
+    // Define whether to calculate the metric derivative by explicitly
+    // computing the derivatives of the joint PDF with respect to the Transform
+    // parameters, or doing it by progressively accumulating contributions from
+    // each bin in the joint PDF.
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[6] ) );
+    }
 
 
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();

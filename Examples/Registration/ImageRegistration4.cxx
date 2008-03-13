@@ -119,7 +119,8 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [defaultPixelValue]" << std::endl;
     std::cerr << "[checkerBoardAfter] [checkerBoardBefore]" << std::endl;
-    std::cerr << "[numberOfBins]" << std::endl;
+    std::cerr << "[numberOfBins] [numberOfSamples]";
+    std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -230,6 +231,15 @@ int main( int argc, char *argv[] )
   //
   // Software Guide : EndLatex 
 
+
+  if( argc > 9 )
+    {
+    // Define whether to calculate the metric derivative by explicitly
+    // computing the derivatives of the joint PDF with respect to the Transform
+    // parameters, or doing it by progressively accumulating contributions from
+    // each bin in the joint PDF.
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[9] ) );
+    }
 
 
 
