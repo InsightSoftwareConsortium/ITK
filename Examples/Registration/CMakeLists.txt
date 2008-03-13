@@ -448,6 +448,16 @@ ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
         ${TEMP}/MultiResImageRegistration1Test.png
 )
 
+ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
+  --compare ${BASELINE}/MultiResImageRegistration1Test.png
+            ${TEMP}/MultiResImageRegistration1Test2.png
+  MultiResImageRegistration1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/MultiResImageRegistration1Test2.png    0
+)
+
+
 ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration2Test.png
             ${TEMP}/MultiResImageRegistration2Test.png
@@ -457,6 +467,18 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration2Test.png  0
 )
+
+
+ADD_TEST(MultiResImageRegistration2Test2 ${REGISTRATION_EXAMPLES2}
+  --compare ${BASELINE}/MultiResImageRegistration2Test.png
+            ${TEMP}/MultiResImageRegistration2Test2.png
+  --compareNumberOfPixelsTolerance 100
+  MultiResImageRegistration2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/MultiResImageRegistration2Test2.png  0   0
+)
+
 
 ADD_TEST(DeformableRegistration2Test ${REGISTRATION_EXAMPLES5}
   --compare ${BASELINE}/DeformableRegistration2Test.png

@@ -168,7 +168,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile [backgroundGrayLevel]";
-    std::cerr << " [checkerboardbefore] [CheckerBoardAfter]" << std::endl;
+    std::cerr << " [checkerboardbefore] [CheckerBoardAfter]";
+    std::cerr << " [useExplicitPDFderivatives ] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -397,6 +398,16 @@ int main( int argc, char *argv[] )
   metric->ReinitializeSeed( 76926294 );
   // Software Guide : EndCodeSnippet
  
+  if( argc > 7 )
+    {
+    // Define whether to calculate the metric derivative by explicitly
+    // computing the derivatives of the joint PDF with respect to the Transform
+    // parameters, or doing it by progressively accumulating contributions from
+    // each bin in the joint PDF.
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    }
+
+
   //  Software Guide : BeginLatex
   //  
   //  The step length has to be proportional to the expected values of the
