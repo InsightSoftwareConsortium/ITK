@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    BSplineWarping1.cxx
+  Module:    BSplineWarping2.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -21,7 +21,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to deform a 2D image using a BSplineTransform.
+//  This example illustrates how to deform a 3D image using a BSplineTransform.
 // 
 //  \index{BSplineDeformableTransform}
 //
@@ -88,7 +88,7 @@ int main( int argc, char * argv[] )
     }
 
 // Software Guide : BeginCodeSnippet
-  const     unsigned int   ImageDimension = 2;
+  const     unsigned int   ImageDimension = 3;
 
   typedef   unsigned char  PixelType;
   typedef   itk::Image< PixelType, ImageDimension >  FixedImageType;
@@ -228,11 +228,13 @@ int main( int argc, char * argv[] )
   SpacingType spacing;
   spacing[0] = floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
   spacing[1] = floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
+  spacing[2] = floor( fixedSpacing[2] * (fixedSize[2] - 1) / numberOfGridCells );
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;
   origin[0] = fixedOrigin[0] - spacing[0];
   origin[1] = fixedOrigin[1] - spacing[1];
+  origin[2] = fixedOrigin[2] - spacing[2];
   
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
@@ -362,6 +364,7 @@ int main( int argc, char * argv[] )
     movingPoint = bsplineTransform->TransformPoint( fixedPoint );
     displacement[0] = movingPoint[0] - fixedPoint[0];
     displacement[1] = movingPoint[1] - fixedPoint[1];
+    displacement[2] = movingPoint[2] - fixedPoint[2];
     fi.Set( displacement );
     ++fi;
     }

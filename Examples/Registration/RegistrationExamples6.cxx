@@ -35,6 +35,7 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(DeformableRegistration4Test);
   REGISTER_TEST(BSplineWarping1Test);
+  REGISTER_TEST(BSplineWarping2Test);
   REGISTER_TEST(LandmarkWarping2Test);
   vnl_sample_reseed(8775070);
   REGISTER_TEST(DeformableRegistration6Test);
@@ -48,21 +49,27 @@ void RegisterTests()
 
 #undef main
 #define main  BSplineWarping1Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate16
+#undef CommandProgressUpdate
+#define CommandProgressUpdate CommandProgressUpdate01
 #include "BSplineWarping1.cxx"
+
+#undef main
+#define main  BSplineWarping2Test
+#undef CommandProgressUpdate
+#define CommandProgressUpdate CommandProgressUpdate02
+#include "BSplineWarping2.cxx"
 
 #undef main
 #define main  LandmarkWarping2Test
 #undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate17
+#define CommandIterationUpdate CommandIterationUpdate18
 #include "LandmarkWarping2.cxx"
 
 
 #undef main
 #define main  DeformableRegistration6Test
 #undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate18
+#define CommandIterationUpdate CommandIterationUpdate19
 #include "DeformableRegistration6.cxx"
 
 

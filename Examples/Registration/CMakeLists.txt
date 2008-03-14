@@ -120,6 +120,9 @@ TARGET_LINK_LIBRARIES(LandmarkWarping2 ITKIO)
 ADD_EXECUTABLE(BSplineWarping1 BSplineWarping1.cxx )
 TARGET_LINK_LIBRARIES(BSplineWarping1 ITKIO)
 
+ADD_EXECUTABLE(BSplineWarping2 BSplineWarping2.cxx )
+TARGET_LINK_LIBRARIES(BSplineWarping2 ITKIO)
+
 ADD_EXECUTABLE(ThinPlateSplineWarp ThinPlateSplineWarp.cxx )
 TARGET_LINK_LIBRARIES(ThinPlateSplineWarp ITKIO)
 
@@ -544,7 +547,20 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${TEMP}/BSplineWarping1Test.png
+        ${TEMP}/BSplineWarping1TestDeformationField.mhd
 )
+
+IF(ITK_BRAINWEB_DATA_ROOT)
+ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
+  BSplineWarping2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements2.txt
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/BSplineWarping2TestDeformationField.mhd
+)
+ENDIF(ITK_BRAINWEB_DATA_ROOT)
+
 
 ADD_TEST(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/LandmarkWarping2Test.png
