@@ -1453,7 +1453,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       {
       this->m_BSplineTransform->TransformPoint( 
         this->m_FixedImageSamples[sampleNumber].FixedImagePointValue,
-        mappedPoint, m_Weights, m_Indices, sampleOk);
+        mappedPoint, this->m_Weights, this->m_Indices, sampleOk);
       }
 
     }
@@ -1558,6 +1558,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       /**
       * If the transform is of type BSplineDeformableTransform,
       * we can obtain a speed up by only processing the affected parameters.
+      * Note that these pointers are just pointing to pre-allocated rows
+      * of the caching arrays. There is therefore, no need to free this
+      * memory.
       */
       weights = m_BSplineTransformWeightsArray[sampleNumber];
       indices = m_BSplineTransformIndicesArray[sampleNumber];
@@ -1631,7 +1634,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 
 /**
- * Cache pre-transformed points, weights and indices.
+ * Cache pre-transformed points, weights and indices. 
+ * This method is only called if the flag UseCachingOfBSplineWeights is ON.
  */
 template < class TFixedImage, class TMovingImage >
 void
