@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    DeformableRegistration8.cxx
+  Module:    DeformableRegistration12.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -23,10 +23,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{BSplineDeformableTransform}
-// class for performing registration of two $3D$ images and for the case of
-// multi-modality images. The image metric of choice in this case is the
-// \doxygen{MattesMutualInformationImageToImageMetric}.
+// This example illustrates the use of the
+// \doxygen{BSplineDeformableTransform} class for performing
+// registration of two $2D$ images. The example code is for the most
+// part identical to the code presented in
+// Section~\ref{sec:DeformableRegistration8}.  The major difference is
+// that this example we set the image dimension to 2.
 //
 // \index{itk::BSplineDeformableTransform}
 // \index{itk::BSplineDeformableTransform!DeformableRegistration}
@@ -125,8 +127,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   
-  const    unsigned int    ImageDimension = 3;
-  typedef  signed short    PixelType;
+  const    unsigned int    ImageDimension = 2;
+  typedef  float           PixelType;
 
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
@@ -236,7 +238,7 @@ int main( int argc, char *argv[] )
   RegionType::SizeType   gridBorderSize;
   RegionType::SizeType   totalGridSize;
 
-  gridSizeOnImage.Fill( 12 );
+  gridSizeOnImage.Fill( 5 );
   gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
@@ -308,11 +310,11 @@ int main( int argc, char *argv[] )
   optimizer->SetUpperBound( upperBound );
   optimizer->SetLowerBound( lowerBound );
 
-  optimizer->SetCostFunctionConvergenceFactor( 1e+7 );
-  optimizer->SetProjectedGradientTolerance( 1e-4 );
+  optimizer->SetCostFunctionConvergenceFactor( 1e+12 );
+  optimizer->SetProjectedGradientTolerance( 1.0 );
   optimizer->SetMaximumNumberOfIterations( 500 );
   optimizer->SetMaximumNumberOfEvaluations( 500 );
-  optimizer->SetMaximumNumberOfCorrections( 12 );
+  optimizer->SetMaximumNumberOfCorrections( 5 );
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
@@ -320,35 +322,30 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
+  metric->SetNumberOfHistogramBins( 20 );
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Next we set the parameters of the Mattes Mutual Information Metric. 
-  //
-  //  Software Guide : EndLatex 
-
-  // Software Guide : BeginCodeSnippet
-  metric->SetNumberOfHistogramBins( 50 );
-  
   const unsigned int numberOfSamples = fixedRegion.GetNumberOfPixels() / 10;
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
-  // Software Guide : EndCodeSnippet
- 
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Given that the Mattes Mutual Information metric uses a random iterator in
-  //  order to collect the samples from the images, it is usually convenient to
-  //  initialize the seed of the random number generator.
-  //
-  //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!ReinitializeSeed()}
-  //
-  //  Software Guide : EndLatex 
+  if( argc > 7 )
+    {
+    // Define whether to calculate the metric derivative by explicitly
+    // computing the derivatives of the joint PDF with respect to the Transform
+    // parameters, or doing it by progressively accumulating contributions from
+    // each bin in the joint PDF.
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    }
 
-  // Software Guide : BeginCodeSnippet
-  metric->ReinitializeSeed( 76926294 );
-  // Software Guide : EndCodeSnippet
+  if( argc > 8 )
+    {
+    // Define whether to cache the BSpline weights and indexes corresponding to
+    // each one of the samples used to compute the metric. Enabling caching will
+    // make the algorithm run faster but it will have a cost on the amount of memory
+    // that needs to be allocated. This option is only relevant when using the 
+    // BSplineDeformableTransform.
+    metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
+    }
 
 
   // Add a time probe
@@ -397,7 +394,7 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
   
-  typedef  signed short  OutputPixelType;
+  typedef  unsigned char  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
   

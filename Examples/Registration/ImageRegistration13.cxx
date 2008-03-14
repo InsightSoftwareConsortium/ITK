@@ -96,7 +96,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile ";
-    std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
+    std::cerr << "[useExplicitPDFderivatives ] ";
+    std::cerr << "[useCachingBSplineWeights ] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -157,6 +158,16 @@ int main( int argc, char *argv[] )
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
     metric->SetUseExplicitPDFDerivatives( atoi( argv[4] ) );
+    }
+
+  if( argc > 5 )
+    {
+    // Define whether to cache the BSpline weights and indexes corresponding to
+    // each one of the samples used to compute the metric. Enabling caching will
+    // make the algorithm run faster but it will have a cost on the amount of memory
+    // that needs to be allocated. This option is only relevant when using the 
+    // BSplineDeformableTransform.
+    metric->SetUseCachingOfBSplineWeights( atoi( argv[5] ) );
     }
 
 
