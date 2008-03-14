@@ -438,14 +438,22 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   if ( m_TransformIsBSpline )
     {
-    m_BSplineTransformWeightsArray.SetSize( m_NumberOfSpatialSamples, 
-                                            m_NumBSplineWeights );
-    m_BSplineTransformIndicesArray.SetSize( m_NumberOfSpatialSamples,
-                                            m_NumBSplineWeights );
-    m_PreTransformPointsArray.resize( m_NumberOfSpatialSamples );
-    m_WithinSupportRegionArray.resize( m_NumberOfSpatialSamples );
+    if( m_UseCachingOfBSplineWeights )
+      {
+      m_BSplineTransformWeightsArray.SetSize( 
+        m_NumberOfSpatialSamples, m_NumBSplineWeights );
+      m_BSplineTransformIndicesArray.SetSize( 
+        m_NumberOfSpatialSamples, m_NumBSplineWeights );
+      m_PreTransformPointsArray.resize( m_NumberOfSpatialSamples );
+      m_WithinSupportRegionArray.resize( m_NumberOfSpatialSamples );
 
-    this->PreComputeTransformValues();
+      this->PreComputeTransformValues();
+      }
+    else
+      {
+      this->m_Weights.SetSize( this->m_NumBSplineWeights );
+      this->m_Indices.SetSize( this->m_NumBSplineWeights );
+      }
 
     for ( unsigned int j = 0; j < FixedImageDimension; j++ )
       {
@@ -1402,42 +1410,52 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
 
-    // If the transform is BSplineDeformable, we can use the precomputed
-    // weights and indices to obtained the mapped position
-    const WeightsValueType * weights = 
-                                 m_BSplineTransformWeightsArray[sampleNumber];
-    const IndexValueType   * indices = 
-                                 m_BSplineTransformIndicesArray[sampleNumber];
-    mappedPoint.Fill( 0.0 );
+    if( this->m_UseCachingOfBSplineWeights )
+      {  
+      // If the transform is BSplineDeformable, we can use the precomputed
+      // weights and indices to obtained the mapped position
+      //
+      // FIXME m_UseCachingOfBSplineWeights
+      const WeightsValueType * weights = 
+                                   m_BSplineTransformWeightsArray[sampleNumber];
+      const IndexValueType   * indices = 
+                                   m_BSplineTransformIndicesArray[sampleNumber];
+      mappedPoint.Fill( 0.0 );
 
-    if ( m_WithinSupportRegionArray[sampleNumber] )
-      {
-      for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
+      if ( m_WithinSupportRegionArray[sampleNumber] )
         {
-        for ( unsigned int j = 0; j < FixedImageDimension; j++ )
+        for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
           {
-          mappedPoint[j] += weights[k] * 
-            parameters[ indices[k] + m_ParametersOffset[j] ];
+          for ( unsigned int j = 0; j < FixedImageDimension; j++ )
+            {
+            mappedPoint[j] += weights[k] * 
+              parameters[ indices[k] + m_ParametersOffset[j] ];
+            }
           }
         }
-      }
 
-    for( unsigned int j = 0; j < FixedImageDimension; j++ )
+      for( unsigned int j = 0; j < FixedImageDimension; j++ )
+        {
+        mappedPoint[j] += m_PreTransformPointsArray[sampleNumber][j];
+        }
+
+      // Check if mapped point inside image buffer
+      sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
+
+      if ( m_TransformIsBSpline )
+        {
+        // Check if mapped point is within the support region of a grid point.
+        // This is neccessary for computing the metric gradient
+        sampleOk = sampleOk && m_WithinSupportRegionArray[sampleNumber];
+        }
+      }
+    else
       {
-      mappedPoint[j] += m_PreTransformPointsArray[sampleNumber][j];
+      this->m_BSplineTransform->TransformPoint( 
+        this->m_FixedImageSamples[sampleNumber].FixedImagePointValue,
+        mappedPoint, m_Weights, m_Indices, sampleOk);
       }
 
-    }
-
-
-  // Check if mapped point inside image buffer
-  sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
-
-  if ( m_TransformIsBSpline )
-    {
-    // Check if mapped point is within the support region of a grid point.
-    // This is neccessary for computing the metric gradient
-    sampleOk = sampleOk && m_WithinSupportRegionArray[sampleNumber];
     }
 
   // If user provided a mask over the Moving image
@@ -1520,7 +1538,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
       if( this->m_UseExplicitPDFDerivatives )
         {
-        *(derivPtr) -= innerProduct * cubicBSplineDerivativeValue;
+        *(derivPtr) -= derivativeContribution;
         ++derivPtr; 
         }
       else
@@ -1532,18 +1550,29 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
+    const WeightsValueType * weights = NULL;
+    const IndexValueType   * indices = NULL;
 
-    /**
-    * If the transform is of type BSplineDeformableTransform,
-    * we can obtain a speed up by only processing the affected parameters.
-    */
-    const WeightsValueType * weights = 
-                                 m_BSplineTransformWeightsArray[sampleNumber];
-    const IndexValueType   * indices = 
-                                 m_BSplineTransformIndicesArray[sampleNumber];
+    if( this->m_UseCachingOfBSplineWeights )
+      {
+      /**
+      * If the transform is of type BSplineDeformableTransform,
+      * we can obtain a speed up by only processing the affected parameters.
+      */
+      weights = m_BSplineTransformWeightsArray[sampleNumber];
+      indices = m_BSplineTransformIndicesArray[sampleNumber];
+      }
+    else
+      {
+      m_BSplineTransform->GetJacobian(  
+        m_FixedImageSamples[sampleNumber].FixedImagePointValue, m_Weights, m_Indices );
+      }
 
     for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
       {
+
+      double innerProduct = 0.0;
+      int parameterIndex  = 0;
 
       for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
         {
@@ -1552,9 +1581,16 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
          * (because for each parameter the Jacobian is non-zero in only 1 of the
          * possible dimensions) which is multiplied by the moving image 
          * gradient. */
-        double innerProduct = movingImageGradientValue[dim] * weights[mu];
-
-        const int parameterIndex = indices[mu] + m_ParametersOffset[dim];
+        if( this->m_UseCachingOfBSplineWeights )
+          {
+          innerProduct = movingImageGradientValue[dim] * weights[mu];
+          parameterIndex = indices[mu] + m_ParametersOffset[dim];
+          }
+        else
+          {
+          innerProduct = movingImageGradientValue[dim] * this->m_Weights[mu];
+          parameterIndex = this->m_Indices[mu] + this->m_ParametersOffset[dim];
+          }
 
         const double derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
 

@@ -928,8 +928,71 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
 }
 
- 
+
+// Compute the Jacobian in one position 
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::GetJacobian( const InputPointType & point, WeightsType& weights, ParameterIndexArrayType& indexes) const
+{
+
+  RegionType supportRegion;
+  supportRegion.SetSize( m_SupportSize );
+  const PixelType * basePointer = m_CoefficientImage[0]->GetBufferPointer();
+
+  unsigned int j;
+
+  ContinuousIndexType index;
+  for ( j = 0; j < SpaceDimension; j++ )
+  {
+    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
+  }
+
+  // NOTE: if the support region does not lie totally within the grid
+  // we assume zero displacement and return the input point
+  if ( !this->InsideValidRegion( index ) )
+  {
+    weights.Fill(0.0);
+    indexes.Fill(0);
+    return;
+  }
   
+  // Compute interpolation weights
+  IndexType supportIndex;
+
+  m_WeightsFunction->Evaluate( index, weights, supportIndex );
+
+  // For each dimension, copy the weight to the support region
+  supportRegion.SetIndex( supportIndex );
+  unsigned long counter = 0;
+
+  typedef ImageRegionIterator<JacobianImageType> IteratorType;
+
+  IteratorType m_Iterator = IteratorType( m_CoefficientImage[0], supportRegion );
+
+
+  while ( ! m_Iterator.IsAtEnd() )
+    {
+
+
+    indexes[counter] = &(m_Iterator.Value()) - basePointer;
+
+    // go to next coefficient in the support region
+    ++ counter;
+    ++m_Iterator;
+    
+    }
+
+}
+
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+unsigned int 
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::GetNumberOfAffectedWeights() const
+{
+  return m_WeightsFunction->GetNumberOfWeights();
+}
+
 } // namespace
 
 #endif

@@ -329,6 +329,12 @@ public:
                        ParameterIndexArrayType & indices, 
                        bool & inside ) const;
 
+  virtual void GetJacobian( const InputPointType & inputPoint,
+                       WeightsType & weights,
+                       ParameterIndexArrayType & indices
+                       ) const;
+
+
   /** Get number of weights. */
   unsigned long GetNumberOfWeights() const
     { return m_WeightsFunction->GetNumberOfWeights(); }
@@ -376,6 +382,8 @@ public:
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
   virtual bool IsLinear() const { return false; }
+
+  unsigned int GetNumberOfAffectedWeights() const;
 
 protected:
   /** Print contents of an BSplineDeformableTransform. */

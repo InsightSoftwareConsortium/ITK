@@ -245,6 +245,26 @@ public:
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives,bool);
   itkBooleanMacro(UseExplicitPDFDerivatives);
 
+  /** This boolean flag is only relevant when this metric is used along
+   * with a BSplineDeformableTransform. The flag enables/disables the
+   * caching of values computed when a physical point is mapped through
+   * the BSplineDeformableTransform. In particular it will cache the
+   * values of the BSpline weights for that points, and the indexes
+   * indicating what BSpline-grid nodes are relevant for that specific
+   * point. This caching is made optional due to the fact that the
+   * memory arrays used for the caching can reach large sizes even for
+   * moderate image size problems. For example, for a 3D image of
+   * 256^3, using 20% of pixels, these arrays will take about 1
+   * Gigabyte of RAM for storage. The ratio of computing time between
+   * using the cache or not using the cache can reach 1:5, meaning that
+   * using the caching can provide a five times speed up. It is
+   * therefore, interesting to enable the caching, if enough memory is
+   * available for it. The caching is enabled by default, in order to
+   * preserve backward compatibility with previous versions of ITK. */
+  itkSetMacro(UseCachingOfBSplineWeights,bool);
+  itkGetConstReferenceMacro(UseCachingOfBSplineWeights,bool);
+  itkBooleanMacro(UseCachingOfBSplineWeights);
+
 protected:
 
   MattesMutualInformationImageToImageMetric();
@@ -474,7 +494,15 @@ private:
   bool             m_ReseedIterator;
   int              m_RandomSeed;
   
+  // Selection of explicit or implicit computation of PDF derivatives
+  // with respect to Transform parameters.
   bool             m_UseExplicitPDFDerivatives;
+
+  // Variables needed for optionally caching values when using a BSpline transform.
+  bool                                    m_UseCachingOfBSplineWeights;
+  mutable BSplineTransformWeightsType     m_Weights;
+  mutable BSplineTransformIndexArrayType  m_Indices;
+
 };
 
 } // end namespace itk
