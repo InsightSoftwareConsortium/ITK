@@ -130,7 +130,7 @@ int main( int argc, char *argv[] )
     }
   
   const    unsigned int    ImageDimension = 2;
-  typedef  float           PixelType;
+  typedef  unsigned char   PixelType;
 
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
