@@ -1406,6 +1406,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // Use generic transform to compute mapped position
     mappedPoint = this->m_Transform->TransformPoint( 
       m_FixedImageSamples[sampleNumber].FixedImagePointValue );
+
+    // Check if mapped point inside image buffer
+    sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
     }
   else
     {
