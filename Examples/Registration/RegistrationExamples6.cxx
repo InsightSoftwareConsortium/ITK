@@ -39,6 +39,7 @@ void RegisterTests()
   REGISTER_TEST(LandmarkWarping2Test);
   vnl_sample_reseed(8775070);
   REGISTER_TEST(DeformableRegistration6Test);
+  REGISTER_TEST(DeformableRegistration8Test);
   REGISTER_TEST(DeformableRegistration12Test);
 }
 
@@ -66,18 +67,21 @@ void RegisterTests()
 #define CommandIterationUpdate CommandIterationUpdate18
 #include "LandmarkWarping2.cxx"
 
-
 #undef main
 #define main  DeformableRegistration6Test
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate19
 #include "DeformableRegistration6.cxx"
 
+#undef main
+#define main  DeformableRegistration8Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdate20
+#include "DeformableRegistration8.cxx"
 
 #undef main
 #define main  DeformableRegistration12Test
 #undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate20
+#define CommandIterationUpdate CommandIterationUpdate21
 #include "DeformableRegistration12.cxx"
-
 

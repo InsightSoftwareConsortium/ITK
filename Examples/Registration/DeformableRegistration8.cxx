@@ -107,7 +107,7 @@ public:
         return;
         }
       std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
+      std::cout << optimizer->GetCachedValue() << "   ";
       std::cout << optimizer->GetInfinityNormOfProjectedGradient() << std::endl;
     }
 };
@@ -122,6 +122,8 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
     std::cerr << " [deformationField] ";
+    std::cerr << " [filenameForFinalTransformParameters] ";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -236,7 +238,7 @@ int main( int argc, char *argv[] )
   RegionType::SizeType   gridBorderSize;
   RegionType::SizeType   totalGridSize;
 
-  gridSizeOnImage.Fill( 12 );
+  gridSizeOnImage.Fill( 5 );
   gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
@@ -308,11 +310,11 @@ int main( int argc, char *argv[] )
   optimizer->SetUpperBound( upperBound );
   optimizer->SetLowerBound( lowerBound );
 
-  optimizer->SetCostFunctionConvergenceFactor( 1e+7 );
-  optimizer->SetProjectedGradientTolerance( 1e-4 );
-  optimizer->SetMaximumNumberOfIterations( 500 );
-  optimizer->SetMaximumNumberOfEvaluations( 500 );
-  optimizer->SetMaximumNumberOfCorrections( 12 );
+  optimizer->SetCostFunctionConvergenceFactor( 1e-35 );
+  optimizer->SetProjectedGradientTolerance( 1e-35 );
+  optimizer->SetMaximumNumberOfIterations( 8000 );
+  optimizer->SetMaximumNumberOfEvaluations( 8000 );
+  optimizer->SetMaximumNumberOfCorrections( 3000 );
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
@@ -330,7 +332,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( 50 );
   
-  const unsigned int numberOfSamples = fixedRegion.GetNumberOfPixels() / 10;
+  const unsigned int numberOfSamples = 
+    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 60.0 / 100.0 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
@@ -349,6 +352,25 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   metric->ReinitializeSeed( 76926294 );
   // Software Guide : EndCodeSnippet
+
+  if( argc > 7 )
+    {
+    // Define whether to calculate the metric derivative by explicitly
+    // computing the derivatives of the joint PDF with respect to the Transform
+    // parameters, or doing it by progressively accumulating contributions from
+    // each bin in the joint PDF.
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    }
+
+  if( argc > 8 )
+    {
+    // Define whether to cache the BSpline weights and indexes corresponding to
+    // each one of the samples used to compute the metric. Enabling caching will
+    // make the algorithm run faster but it will have a cost on the amount of memory
+    // that needs to be allocated. This option is only relevant when using the 
+    // BSplineDeformableTransform.
+    metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
+    }
 
 
   // Add a time probe
@@ -395,7 +417,12 @@ int main( int argc, char *argv[] )
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
-  resample->SetDefaultPixelValue( 100 );
+
+  // This value is set to zero in order to make easier to perform
+  // regression testing in this example. However, for didactic 
+  // exercise it will be better to set it to a medium gray value
+  // such as 100 or 128.
+  resample->SetDefaultPixelValue( 0 );
   
   typedef  signed short  OutputPixelType;
 
@@ -445,7 +472,7 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc >= 5 )
+  if( argc > 4 )
     {
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( resample->GetOutput() );
@@ -465,7 +492,7 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc >= 6 )
+  if( argc > 5 )
     {
     writer2->SetFileName( argv[5] );
     difference->SetInput1( fixedImageReader->GetOutput() );
@@ -486,7 +513,7 @@ int main( int argc, char *argv[] )
 
   // Generate the explicit deformation field resulting from 
   // the registration.
-  if( argc >= 7 )
+  if( argc > 6 )
     {
 
     typedef itk::Vector< float, ImageDimension >  VectorType;
@@ -535,6 +562,15 @@ int main( int argc, char *argv[] )
       std::cerr << excp << std::endl;
       return EXIT_FAILURE;
       }
+    }
+
+  // Optionally, save the transform parameters in a file
+  if( argc > 9 )
+    {
+    std::ofstream parametersFile;
+    parametersFile.open( argv[9] );
+    parametersFile << finalParameters << std::endl;
+    parametersFile.close();
     }
 
   return EXIT_SUCCESS;

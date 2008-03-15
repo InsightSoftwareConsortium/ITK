@@ -542,19 +542,6 @@ ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration6Test.png
 )
 
-ADD_TEST(DeformableRegistration12Test ${REGISTRATION_EXAMPLES6}
-  --compare ${BASELINE}/DeformableRegistration12Test.png
-            ${TEMP}/DeformableRegistration12Test.png
-  --compareNumberOfPixelsTolerance 100
-  DeformableRegistration12Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
-        ${TEMP}/DeformableRegistration12Test.png
-        ${TEMP}/DeformableRegistration12TestDifferenceBefore.png
-        ${TEMP}/DeformableRegistration12TestDifferenceAfter.png
-        ${TEMP}/DeformableRegistration12TestDeformationField.mhd
-        ${TEMP}/DeformableRegistration12TestFinalTransformParameters.txt
-)
 
 ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/BSplineWarping1Test.png
@@ -567,7 +554,68 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping1TestDeformationField.mhd
 )
 
+ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES6}
+  --compare ${BASELINE}/DeformableRegistration12Test.png
+            ${TEMP}/DeformableRegistration12Test1.png
+  --compareNumberOfPixelsTolerance 100
+  DeformableRegistration12Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${TEMP}/BSplineWarping1Test.png
+        ${TEMP}/DeformableRegistration12Test1.png
+        ${TEMP}/DeformableRegistration12Test1DifferenceBefore.png
+        ${TEMP}/DeformableRegistration12Test1DifferenceAfter.png
+        ${TEMP}/DeformableRegistration12Test1DeformationField.mhd
+        0 0
+        ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
+)
+
+ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES6}
+  --compare ${BASELINE}/DeformableRegistration12Test.png
+            ${TEMP}/DeformableRegistration12Test2.png
+  --compareNumberOfPixelsTolerance 100
+  DeformableRegistration12Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${TEMP}/BSplineWarping1Test.png
+        ${TEMP}/DeformableRegistration12Test2.png
+        ${TEMP}/DeformableRegistration12Test2DifferenceBefore.png
+        ${TEMP}/DeformableRegistration12Test2DifferenceAfter.png
+        ${TEMP}/DeformableRegistration12Test2DeformationField.mhd
+        0 1
+        ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
+)
+
+ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES6}
+  --compare ${BASELINE}/DeformableRegistration12Test.png
+            ${TEMP}/DeformableRegistration12Test3.png
+  --compareNumberOfPixelsTolerance 100
+  DeformableRegistration12Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${TEMP}/BSplineWarping1Test.png
+        ${TEMP}/DeformableRegistration12Test3.png
+        ${TEMP}/DeformableRegistration12Test3DifferenceBefore.png
+        ${TEMP}/DeformableRegistration12Test3DifferenceAfter.png
+        ${TEMP}/DeformableRegistration12Test3DeformationField.mhd
+        1 0
+        ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
+)
+
+ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES6}
+  --compare ${BASELINE}/DeformableRegistration12Test.png
+            ${TEMP}/DeformableRegistration12Test4.png
+  --compareNumberOfPixelsTolerance 100
+  DeformableRegistration12Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${TEMP}/BSplineWarping1Test.png
+        ${TEMP}/DeformableRegistration12Test4.png
+        ${TEMP}/DeformableRegistration12Test4DifferenceBefore.png
+        ${TEMP}/DeformableRegistration12Test4DifferenceAfter.png
+        ${TEMP}/DeformableRegistration12Test4DeformationField.mhd
+        1 1
+        ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
+)
+
 IF(ITK_BRAINWEB_DATA_ROOT)
+
 ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
   BSplineWarping2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements2.txt
@@ -576,6 +624,19 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
 )
+
+ADD_TEST(DeformableRegistration8Test ${REGISTRATION_EXAMPLES6}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test.mhd
+        ${TEMP}/DeformableRegistration8TestDifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8TestDifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8TestDeformationField.mhd
+        0 0
+        ${TEMP}/DeformableRegistration8TestFinalTransformParameters.txt
+)
+
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
 
