@@ -324,7 +324,7 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  metric->SetNumberOfHistogramBins( 20 );
+  metric->SetNumberOfHistogramBins( 50 );
 
   const unsigned int numberOfSamples = 
     static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 60.0 / 100.0 );
