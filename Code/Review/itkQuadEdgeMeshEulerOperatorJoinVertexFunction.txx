@@ -217,16 +217,16 @@ CommonVertexNeighboor( QEType* e )
   //easy case
   if( isLeftTriangle && isRiteTriangle )
     {
-    if( e->GetOrder( ) == 3 && e->GetSym( )->GetOrder( ) == 3 )
+    if( e->GetOrder( ) <= 3 && e->GetSym( )->GetOrder( ) <= 3 )
       return( true );
-    if( e->GetOnext( )->GetSym( )->GetOrder( ) == 3 )
+    if( e->GetOnext( )->GetSym( )->GetOrder( ) <= 3 )
       return( true );
-    if( e->GetOprev( )->GetSym( )->GetOrder( ) == 3 )
+    if( e->GetOprev( )->GetSym( )->GetOrder( ) <= 3 )
       return( true );
     }
 
   // general case
-    unsigned int counter = 0;
+  unsigned int counter = 0;
   QEType* e_it = e->GetOnext( );
   QEType* e_sym = e->GetSym( );
   while( e_it != e )
