@@ -549,6 +549,10 @@ ADD_TEST(DeformableRegistration12Test ${REGISTRATION_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration12Test.png
+        ${TEMP}/DeformableRegistration12TestDifferenceBefore.png
+        ${TEMP}/DeformableRegistration12TestDifferenceAfter.png
+        ${TEMP}/DeformableRegistration12TestDeformationField.mhd
+        ${TEMP}/DeformableRegistration12TestFinalTransformParameters.txt
 )
 
 ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}

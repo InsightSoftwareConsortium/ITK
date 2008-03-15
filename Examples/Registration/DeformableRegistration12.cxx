@@ -484,7 +484,7 @@ int main( int argc, char *argv[] )
 
   // Generate the explicit deformation field resulting from 
   // the registration.
-  if( argc >= 7 )
+  if( argc > 6 )
     {
 
     typedef itk::Vector< float, ImageDimension >  VectorType;
@@ -533,6 +533,15 @@ int main( int argc, char *argv[] )
       std::cerr << excp << std::endl;
       return EXIT_FAILURE;
       }
+    }
+
+  // Optionally, save the transform parameters in a file
+  if( argc > 7 )
+    {
+    std::ofstream parametersFile;
+    parametersFile.open( argv[7] );
+    parametersFile << finalParameters << std::endl;
+    parametersFile.close();
     }
 
   return EXIT_SUCCESS;
