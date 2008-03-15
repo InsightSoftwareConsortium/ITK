@@ -124,6 +124,8 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
     std::cerr << " [deformationField] ";
+    std::cerr << " [filenameForFinalTransformParameters] ";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -448,7 +450,7 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and resampled moving image.
-  if( argc >= 5 )
+  if( argc > 4 )
     {
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( resample->GetOutput() );
@@ -468,7 +470,7 @@ int main( int argc, char *argv[] )
 
   // Compute the difference image between the 
   // fixed and moving image before registration.
-  if( argc >= 6 )
+  if( argc > 5 )
     {
     writer2->SetFileName( argv[5] );
     difference->SetInput1( fixedImageReader->GetOutput() );
@@ -541,10 +543,10 @@ int main( int argc, char *argv[] )
     }
 
   // Optionally, save the transform parameters in a file
-  if( argc > 7 )
+  if( argc > 9 )
     {
     std::ofstream parametersFile;
-    parametersFile.open( argv[7] );
+    parametersFile.open( argv[9] );
     parametersFile << finalParameters << std::endl;
     parametersFile.close();
     }
