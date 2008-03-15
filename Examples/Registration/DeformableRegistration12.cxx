@@ -393,7 +393,12 @@ int main( int argc, char *argv[] )
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
-  resample->SetDefaultPixelValue( 100 );
+
+  // This value is set to zero in order to make easier to perform
+  // regression testing in this example. However, for didactic 
+  // exercise it will be better to set it to a medium gray value
+  // such as 100 or 128.
+  resample->SetDefaultPixelValue( 0 );
   
   typedef  unsigned char  OutputPixelType;
 
