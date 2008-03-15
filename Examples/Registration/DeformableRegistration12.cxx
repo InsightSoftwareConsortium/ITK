@@ -109,7 +109,7 @@ public:
         return;
         }
       std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
+      std::cout << optimizer->GetCachedValue() << "   ";
       std::cout << optimizer->GetInfinityNormOfProjectedGradient() << std::endl;
     }
 };
@@ -310,11 +310,11 @@ int main( int argc, char *argv[] )
   optimizer->SetUpperBound( upperBound );
   optimizer->SetLowerBound( lowerBound );
 
-  optimizer->SetCostFunctionConvergenceFactor( 1e+12 );
-  optimizer->SetProjectedGradientTolerance( 1.0 );
-  optimizer->SetMaximumNumberOfIterations( 500 );
-  optimizer->SetMaximumNumberOfEvaluations( 500 );
-  optimizer->SetMaximumNumberOfCorrections( 5 );
+  optimizer->SetCostFunctionConvergenceFactor( 1e-35 );
+  optimizer->SetProjectedGradientTolerance( 1e-35 );
+  optimizer->SetMaximumNumberOfIterations( 8000 );
+  optimizer->SetMaximumNumberOfEvaluations( 8000 );
+  optimizer->SetMaximumNumberOfCorrections( 3000 );
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
@@ -324,7 +324,8 @@ int main( int argc, char *argv[] )
 
   metric->SetNumberOfHistogramBins( 20 );
 
-  const unsigned int numberOfSamples = fixedRegion.GetNumberOfPixels() / 10;
+  const unsigned int numberOfSamples = 
+    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 60.0 / 100.0 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
 
