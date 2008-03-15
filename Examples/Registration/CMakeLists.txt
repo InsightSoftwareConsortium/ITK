@@ -625,17 +625,55 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
 )
 
-ADD_TEST(DeformableRegistration8Test ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES6}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
-        ${TEMP}/DeformableRegistration8Test.mhd
-        ${TEMP}/DeformableRegistration8TestDifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8TestDifferenceAfter.mhd
-        ${TEMP}/DeformableRegistration8TestDeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test1.mhd
+        ${TEMP}/DeformableRegistration8Test1DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test1DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test1DeformationField.mhd
         0 0
-        ${TEMP}/DeformableRegistration8TestFinalTransformParameters.txt
+        ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
 )
+
+ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES6}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test2.mhd
+        ${TEMP}/DeformableRegistration8Test2DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test2DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test2DeformationField.mhd
+        1 0
+        ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
+)
+
+ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES6}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test3.mhd
+        ${TEMP}/DeformableRegistration8Test3DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test3DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test3DeformationField.mhd
+        0 1
+        ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
+)
+
+ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES6}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test4.mhd
+        ${TEMP}/DeformableRegistration8Test4DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test4DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test4DeformationField.mhd
+        1 1
+        ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
+)
+
+
 
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
