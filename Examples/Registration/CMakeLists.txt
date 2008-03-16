@@ -515,7 +515,7 @@ ADD_TEST(DeformableRegistration3Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration3Test.png
 )
 
-ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/DeformableRegistration4Test.png
             ${TEMP}/DeformableRegistration4Test.png
   DeformableRegistration4Test
@@ -533,7 +533,7 @@ ADD_TEST(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration5Test.png
 )
 
-ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES10}
   --compare ${BASELINE}/DeformableRegistration6Test.png
             ${TEMP}/DeformableRegistration6Test.png
   DeformableRegistration6Test
@@ -554,7 +554,7 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping1TestDeformationField.mhd
 )
 
-ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES10}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test1.png
   --compareNumberOfPixelsTolerance 400
@@ -569,7 +569,7 @@ ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES10}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test2.png
   --compareNumberOfPixelsTolerance 400
@@ -584,7 +584,7 @@ ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES10}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test3.png
   --compareNumberOfPixelsTolerance 400
@@ -599,7 +599,7 @@ ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES10}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test4.png
   --compareNumberOfPixelsTolerance 400
@@ -625,7 +625,7 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
 )
 
-ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES10}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -637,7 +637,7 @@ ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES10}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -649,7 +649,7 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES10}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -661,7 +661,7 @@ ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES6}
         ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES6}
+ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES10}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
