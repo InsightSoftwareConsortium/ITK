@@ -1577,8 +1577,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
       {
 
-      double innerProduct = 0.0;
-      int parameterIndex  = 0;
+      double innerProduct;
+      int parameterIndex;
 
       for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
         {
