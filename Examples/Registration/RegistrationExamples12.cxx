@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    RegistrationExamples10.cxx
+  Module:    RegistrationExamples12.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -33,26 +33,12 @@
 
 void RegisterTests()
 {
-  REGISTER_TEST(ModelToImageRegistration2Test);
-  REGISTER_TEST(DeformableRegistration6Test);
-  REGISTER_TEST(DeformableRegistration8Test);
+  REGISTER_TEST(DeformableRegistration12Test);
 }
 
 #undef main
-#define main  ModelToImageRegistration2Test
+#define main  DeformableRegistration12Test
 #undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate10
-#include "ModelToImageRegistration2.cxx"
-
-#undef main
-#define main  DeformableRegistration6Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate11
-#include "DeformableRegistration6.cxx"
-
-#undef main
-#define main  DeformableRegistration8Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate12
-#include "DeformableRegistration8.cxx"
+#define CommandIterationUpdate CommandIterationUpdate13
+#include "DeformableRegistration12.cxx"
 
