@@ -23,7 +23,6 @@
 #include "itkIndex.h"
 
 #include "itkMultiThreader.h"
-#include "itkOptBSplineInterpolateImageFunction.h"
 
 namespace itk
 {
