@@ -124,6 +124,7 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
     std::cerr << " [deformationField] ";
+    std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
     std::cerr << " [filenameForFinalTransformParameters] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
