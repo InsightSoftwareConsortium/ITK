@@ -293,14 +293,10 @@ int RegressionTestImage (const char *testImageFilename,
     diff->SetToleranceRadius( radiusTolerance );
     diff->UpdateLargestPossibleRegion();
 
-  double status = diff->GetTotalDifference();
-
-  const unsigned int numberOfFailedPixels = 
-    diff->GetNumberOfPixelsWithDifferences();
+  double status = diff->GetNumberOfPixelsWithDifferences();
 
   // if there are discrepencies, create an diff image
-  if ( status && reportErrors &&  
-      ( numberOfFailedPixels > numberOfPixelsTolerance ) )
+  if ( (status > numberOfPixelsTolerance) && reportErrors )
     {
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
     typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
@@ -414,7 +410,7 @@ int RegressionTestImage (const char *testImageFilename,
 
 
     }
-  return (status != 0) ? 1 : 0;
+  return (status > numberOfPixelsTolerance) ? 1 : 0;
 }
 
 //
