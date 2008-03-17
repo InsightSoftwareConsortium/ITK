@@ -18,6 +18,7 @@ SET(REGISTRATION_EXAMPLES9 ${CXX_TEST_PATH}/RegistrationExamples9)
 SET(REGISTRATION_EXAMPLES10 ${CXX_TEST_PATH}/RegistrationExamples10)
 SET(REGISTRATION_EXAMPLES11 ${CXX_TEST_PATH}/RegistrationExamples11)
 SET(REGISTRATION_EXAMPLES12 ${CXX_TEST_PATH}/RegistrationExamples12)
+SET(REGISTRATION_EXAMPLES13 ${CXX_TEST_PATH}/RegistrationExamples13)
 
 ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration3 ITKIO ITKNumerics)
@@ -555,13 +556,13 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping1TestDeformationField.mhd
 )
 
-ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES12}
+ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test1.png
   --compareNumberOfPixelsTolerance 400
   DeformableRegistration12Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${TEMP}/BSplineWarping1Test.png
+        ${BASELINE}/BSplineWarping1Test.png
         ${TEMP}/DeformableRegistration12Test1.png
         ${TEMP}/DeformableRegistration12Test1DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test1DifferenceBefore.png
@@ -570,13 +571,13 @@ ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES12}
+ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test2.png
   --compareNumberOfPixelsTolerance 400
   DeformableRegistration12Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${TEMP}/BSplineWarping1Test.png
+        ${BASELINE}/BSplineWarping1Test.png
         ${TEMP}/DeformableRegistration12Test2.png
         ${TEMP}/DeformableRegistration12Test2DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test2DifferenceBefore.png
@@ -585,13 +586,13 @@ ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES12}
+ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test3.png
   --compareNumberOfPixelsTolerance 400
   DeformableRegistration12Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${TEMP}/BSplineWarping1Test.png
+        ${BASELINE}/BSplineWarping1Test.png
         ${TEMP}/DeformableRegistration12Test3.png
         ${TEMP}/DeformableRegistration12Test3DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test3DifferenceBefore.png
@@ -600,13 +601,13 @@ ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES12}
+ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test4.png
   --compareNumberOfPixelsTolerance 400
   DeformableRegistration12Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${TEMP}/BSplineWarping1Test.png
+        ${BASELINE}/BSplineWarping1Test.png
         ${TEMP}/DeformableRegistration12Test4.png
         ${TEMP}/DeformableRegistration12Test4DifferenceAfter.png
         ${TEMP}/DeformableRegistration12Test4DifferenceBefore.png
@@ -745,5 +746,8 @@ TARGET_LINK_LIBRARIES(RegistrationExamples11 ITKFEM ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(RegistrationExamples12 RegistrationExamples12.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples12 ITKIO ITKBasicFilters ITKNumerics)
+
+ADD_EXECUTABLE(RegistrationExamples13 RegistrationExamples13.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples13 ITKIO ITKBasicFilters ITKNumerics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
