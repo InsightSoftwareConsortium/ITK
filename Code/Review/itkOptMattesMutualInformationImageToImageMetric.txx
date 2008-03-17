@@ -290,9 +290,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // fixed image parzen window index and moving image parzen window index,
     // respectively. 
     jointPDFDerivativesIndex.Fill( 0 ); 
-    jointPDFDerivativesSize[0] = m_NumberOfParameters;
-    jointPDFDerivativesSize[1] = m_NumberOfHistogramBins;
-    jointPDFDerivativesSize[2] = m_NumberOfHistogramBins;
+    jointPDFDerivativesSize[0] = this->m_NumberOfParameters;
+    jointPDFDerivativesSize[1] = this->m_NumberOfHistogramBins;
+    jointPDFDerivativesSize[2] = this->m_NumberOfHistogramBins;
 
     jointPDFDerivativesRegion.SetIndex( jointPDFDerivativesIndex );
     jointPDFDerivativesRegion.SetSize( jointPDFDerivativesSize );
@@ -1248,8 +1248,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
-      m_BSplineTransform->GetJacobian(  
-        m_FixedImageSamples[sampleNumber].point, m_BSplineTransformWeights, m_BSplineTransformIndices );
+      this->m_BSplineTransform->GetJacobian(  
+        this->m_FixedImageSamples[sampleNumber].point, 
+        this->m_BSplineTransformWeights, this->m_BSplineTransformIndices );
       }
 
     for( unsigned int dim = 0; dim < Superclass::FixedImageDimension; dim++ )
@@ -1258,7 +1259,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       double innerProduct;
       int parameterIndex;
 
-      for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
+      for( unsigned int mu = 0; mu < this->m_NumBSplineWeights; mu++ )
         {
 
         /* The array weights contains the Jacobian values in a 1-D array 
@@ -1268,7 +1269,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         if( this->m_UseCachingOfBSplineWeights )
           {
           innerProduct = movingImageGradientValue[dim] * weights[mu];
-          parameterIndex = indices[mu] + m_BSplineParametersOffset[dim];
+          parameterIndex = indices[mu] + this->m_BSplineParametersOffset[dim];
           }
         else
           {
