@@ -292,17 +292,18 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_InterpolatorIsBSpline = true;
 
   BSplineInterpolatorType * testPtr = dynamic_cast<BSplineInterpolatorType *>(
-                                           m_Interpolator.GetPointer() );
+    this->m_Interpolator.GetPointer() );
   if ( !testPtr )
     {
     m_InterpolatorIsBSpline = false;
 
     m_DerivativeCalculator = DerivativeFunctionType::New();
-    m_DerivativeCalculator->SetInputImage( m_MovingImage );
 
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
     m_DerivativeCalculator->UseImageDirectionOn();
 #endif
+
+    m_DerivativeCalculator->SetInputImage( this->m_MovingImage );
 
     m_BSplineInterpolator = NULL;
     itkDebugMacro( "Interpolator is not BSpline" );
@@ -313,9 +314,9 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     m_BSplineInterpolator->SetNumberOfThreads( m_NumberOfThreads );
 
 #ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
-  m_BSplineInterpolator->SetUseImageDirection( true );
+    m_BSplineInterpolator->UseImageDirectionOn();
 #endif
-  
+
     m_DerivativeCalculator = NULL;
     itkDebugMacro( "Interpolator is BSpline" );
     }
@@ -333,30 +334,52 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_TransformIsBSpline = true;
 
   BSplineTransformType * testPtr2 = dynamic_cast<BSplineTransformType *>(
-                                               m_Transform.GetPointer() );
+    this->m_Transform.GetPointer() );
   if( !testPtr2 )
     {
     m_TransformIsBSpline = false;
     m_BSplineTransform = NULL;
+    itkDebugMacro( "Transform is not BSplineDeformable" );
     }
   else
     {
     m_BSplineTransform = testPtr2;
     m_NumBSplineWeights = m_BSplineTransform->GetNumberOfWeights();
+    itkDebugMacro( "Transform is BSplineDeformable" );
+    }
 
-    m_BSplineTransformWeightsArray.SetSize( m_NumberOfFixedImageSamples, 
-                                            m_NumBSplineWeights );
-    m_BSplineTransformIndicesArray.SetSize( m_NumberOfFixedImageSamples,
-                                            m_NumBSplineWeights );
-    m_BSplinePreTransformPointsArray.resize( m_NumberOfFixedImageSamples );
-    m_WithinBSplineSupportRegionArray.resize( m_NumberOfFixedImageSamples );
+  if( this->m_TransformIsBSpline )
+    {
+    // First, deallocate memory that may have been used from previous run of the Metric
+    this->m_BSplineTransformWeightsArray.SetSize( 1, 1 );
+    this->m_BSplineTransformIndicesArray.SetSize( 1, 1 );
+    this->m_BSplinePreTransformPointsArray.resize( 1 );
+    this->m_WithinBSplineSupportRegionArray.resize( 1 );
+    this->m_Weights.SetSize( 1 );
+    this->m_Indices.SetSize( 1 );
 
-    this->PreComputeTransformValues();
+
+    if( m_UseCachingOfBSplineWeights )
+      {
+      m_BSplineTransformWeightsArray.SetSize( 
+        m_NumberOfFixedImageSamples, m_NumBSplineWeights );
+      m_BSplineTransformIndicesArray.SetSize( 
+        m_NumberOfFixedImageSamples, m_NumBSplineWeights );
+      m_BSplinePreTransformPointsArray.resize( m_NumberOfFixedImageSamples );
+      m_WithinBSplineSupportRegionArray.resize( m_NumberOfFixedImageSamples );
+
+      this->PreComputeTransformValues();
+      }
+    else
+      {
+      this->m_Weights.SetSize( this->m_NumBSplineWeights );
+      this->m_Indices.SetSize( this->m_NumBSplineWeights );
+      }
 
     for ( unsigned int j = 0; j < FixedImageDimension; j++ )
       {
       m_BSplineParametersOffset[j] = j * 
-                       m_BSplineTransform->GetNumberOfParametersPerDimension(); 
+        m_BSplineTransform->GetNumberOfParametersPerDimension(); 
       }
     }
 
