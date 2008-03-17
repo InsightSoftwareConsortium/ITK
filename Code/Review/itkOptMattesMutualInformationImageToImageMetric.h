@@ -234,6 +234,15 @@ private:
   /** The moving image marginal PDF. */
   mutable MarginalPDFType             m_MovingImageMarginalPDF;
 
+  /** Helper array for storing the values of the JointPDF ratios. */
+  typedef double                      PRatioType;
+  typedef Array2D< PRatioType >       PRatioArrayType;
+  mutable PRatioArrayType             m_PRatioArray;
+
+  /** Helper variable for accumulating the derivative of the metric. */
+  mutable DerivativeType              m_MetricDerivative;
+  mutable DerivativeType            * m_ThreaderMetricDerivative;
+
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
   typedef Image<PDFValueType,2>                 JointPDFType;
   typedef Image<PDFValueType,3>                 JointPDFDerivativesType;

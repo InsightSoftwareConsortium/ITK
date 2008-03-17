@@ -440,6 +440,13 @@ protected:
   
   BSplineParametersOffsetType              m_BSplineParametersOffset;
 
+  // Variables needed for optionally caching values when using a BSpline transform.
+  bool                                    m_UseCachingOfBSplineWeights;
+  mutable BSplineTransformWeightsType     m_BSplineTransformWeights;
+  mutable BSplineTransformIndexArrayType  m_BSplineTransformIndices;
+
+  mutable BSplineTransformWeightsType     * m_ThreaderBSplineTransformWeights;
+  mutable BSplineTransformIndexArrayType  * m_ThreaderBSplineTransformIndices;
 
   virtual void PreComputeTransformValues( void );
 
@@ -571,10 +578,6 @@ private:
   
   FixedImageRegionType        m_FixedImageRegion;  
 
-  // Variables needed for optionally caching values when using a BSpline transform.
-  bool                                    m_UseCachingOfBSplineWeights;
-  mutable BSplineTransformWeightsType     m_Weights;
-  mutable BSplineTransformIndexArrayType  m_Indices;
 };
 
 } // end namespace itk

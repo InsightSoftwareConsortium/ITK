@@ -73,6 +73,11 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 
+  this->m_ThreaderBSplineTransformWeights = NULL;
+  this->m_ThreaderBSplineTransformIndices = NULL;
+
+  this->m_UseCachingOfBSplineWeights = true;
+
   /* if 100% backward compatible, we should include this...but...
   typename BSplineTransformType::Pointer transformer =
            BSplineTransformType::New();
@@ -82,7 +87,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
            BSplineInterpolatorType::New();
   this->SetInterpolator (interpolator);
   */
-
 }
 
 template <class TFixedImage, class TMovingImage> 
@@ -355,11 +359,20 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     this->m_BSplineTransformIndicesArray.SetSize( 1, 1 );
     this->m_BSplinePreTransformPointsArray.resize( 1 );
     this->m_WithinBSplineSupportRegionArray.resize( 1 );
-    this->m_Weights.SetSize( 1 );
-    this->m_Indices.SetSize( 1 );
+    this->m_BSplineTransformWeights.SetSize( 1 );
+    this->m_BSplineTransformIndices.SetSize( 1 );
 
+    if( this->m_ThreaderBSplineTransformWeights != NULL )
+      {
+      delete [] this->m_ThreaderBSplineTransformWeights;
+      }
 
-    if( m_UseCachingOfBSplineWeights )
+    if( this->m_ThreaderBSplineTransformIndices != NULL )
+      {
+      delete [] this->m_ThreaderBSplineTransformIndices;
+      }
+
+    if( this->m_UseCachingOfBSplineWeights )
       {
       m_BSplineTransformWeightsArray.SetSize( 
         m_NumberOfFixedImageSamples, m_NumBSplineWeights );
@@ -372,8 +385,17 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
-      this->m_Weights.SetSize( this->m_NumBSplineWeights );
-      this->m_Indices.SetSize( this->m_NumBSplineWeights );
+      this->m_BSplineTransformWeights.SetSize( this->m_NumBSplineWeights );
+      this->m_BSplineTransformIndices.SetSize( this->m_NumBSplineWeights );
+
+      this->m_ThreaderBSplineTransformWeights = new BSplineTransformWeightsType[m_NumberOfThreads-1];
+      this->m_ThreaderBSplineTransformIndices = new BSplineTransformIndexArrayType[m_NumberOfThreads-1];
+
+      for( unsigned int ithread=0; ithread < m_NumberOfThreads-1; ++ithread)
+        {
+        this->m_ThreaderBSplineTransformWeights[ithread].SetSize( this->m_NumBSplineWeights );
+        this->m_ThreaderBSplineTransformIndices[ithread].SetSize( this->m_NumBSplineWeights );
+        }
       }
 
     for ( unsigned int j = 0; j < FixedImageDimension; j++ )
@@ -714,14 +736,17 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   unsigned int threadID ) const
 {
   TransformType * transform;
+  BSplineTransformIndexArrayType * bsplineIndices; 
   
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
+    bsplineIndices = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
     }
   else
     {
     transform = this->m_Transform;
+    bsplineIndices = &(this->m_BSplineTransformIndices);
     }
 
   if ( !m_TransformIsBSpline )
@@ -732,30 +757,41 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
-    sampleOk = m_WithinBSplineSupportRegionArray[sampleNumber];
+    if( this->m_UseCachingOfBSplineWeights )
+      {  
+      sampleOk = m_WithinBSplineSupportRegionArray[sampleNumber];
 
-    if(sampleOk)
-      {
-      // If the transform is BSplineDeformable, we can use the precomputed
-      // weights and indices to obtained the mapped position
-      const WeightsValueType * weights = 
-                                   m_BSplineTransformWeightsArray[sampleNumber];
-      const IndexValueType   * indices = 
-                                   m_BSplineTransformIndicesArray[sampleNumber];
+      if(sampleOk)
+        {
+        // If the transform is BSplineDeformable, we can use the precomputed
+        // weights and indices to obtained the mapped position
+        const WeightsValueType * weights = 
+                                     m_BSplineTransformWeightsArray[sampleNumber];
+        const IndexValueType   * indices = 
+                                     m_BSplineTransformIndicesArray[sampleNumber];
 
-      for( unsigned int j = 0; j < FixedImageDimension; j++ )
-        {
-        mappedPoint[j] = m_BSplinePreTransformPointsArray[sampleNumber][j];
-        }
-  
-      for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
-        {
-        for ( unsigned int j = 0; j < FixedImageDimension; j++ )
+        for( unsigned int j = 0; j < FixedImageDimension; j++ )
           {
-          mappedPoint[j] += weights[k] * m_Parameters[ indices[k] 
-                                               + m_BSplineParametersOffset[j] ];
+          mappedPoint[j] = m_BSplinePreTransformPointsArray[sampleNumber][j];
+          }
+    
+        for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
+          {
+          for ( unsigned int j = 0; j < FixedImageDimension; j++ )
+            {
+            mappedPoint[j] += weights[k] * m_Parameters[ indices[k] 
+                                                 + m_BSplineParametersOffset[j] ];
+            }
           }
         }
+      }
+    else
+      {
+      // If not caching values, we invoke the Transform to recompute the
+      // mapping of the point.
+      this->m_BSplineTransform->TransformPoint( 
+        this->m_FixedImageSamples[sampleNumber].point,
+        mappedPoint, this->m_BSplineTransformWeights, *bsplineIndices, sampleOk);
       }
     }
   
@@ -805,14 +841,17 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   unsigned int threadID ) const
 {
   TransformType * transform;
+  BSplineTransformIndexArrayType * bsplineIndices; 
   
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
+    bsplineIndices = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
     }
   else
     {
     transform = this->m_Transform;
+    bsplineIndices = &(this->m_BSplineTransformIndices);
     }
 
   if ( !m_TransformIsBSpline )
@@ -823,30 +862,41 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
-    sampleOk = m_WithinBSplineSupportRegionArray[sampleNumber];
+    if( this->m_UseCachingOfBSplineWeights )
+      {  
+      sampleOk = m_WithinBSplineSupportRegionArray[sampleNumber];
 
-    if(sampleOk)
-      {
-      // If the transform is BSplineDeformable, we can use the precomputed
-      // weights and indices to obtained the mapped position
-      const WeightsValueType * weights = 
-                                   m_BSplineTransformWeightsArray[sampleNumber];
-      const IndexValueType   * indices = 
-                                   m_BSplineTransformIndicesArray[sampleNumber];
+      if(sampleOk)
+        {
+        // If the transform is BSplineDeformable, we can use the precomputed
+        // weights and indices to obtained the mapped position
+        const WeightsValueType * weights = 
+                                     m_BSplineTransformWeightsArray[sampleNumber];
+        const IndexValueType   * indices = 
+                                     m_BSplineTransformIndicesArray[sampleNumber];
 
-      for( unsigned int j = 0; j < FixedImageDimension; j++ )
-        {
-        mappedPoint[j] = m_BSplinePreTransformPointsArray[sampleNumber][j];
-        }
-  
-      for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
-        {
-        for ( unsigned int j = 0; j < FixedImageDimension; j++ )
+        for( unsigned int j = 0; j < FixedImageDimension; j++ )
           {
-          mappedPoint[j] += weights[k] * m_Parameters[ indices[k] 
-                                               + m_BSplineParametersOffset[j] ];
+          mappedPoint[j] = m_BSplinePreTransformPointsArray[sampleNumber][j];
+          }
+    
+        for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
+          {
+          for ( unsigned int j = 0; j < FixedImageDimension; j++ )
+            {
+            mappedPoint[j] += weights[k] * m_Parameters[ indices[k] 
+                                                 + m_BSplineParametersOffset[j] ];
+            }
           }
         }
+      }
+    else
+      {
+      // If not caching values, we invoke the Transform to recompute the
+      // mapping of the point.
+      this->m_BSplineTransform->TransformPoint( 
+        this->m_FixedImageSamples[sampleNumber].point,
+        mappedPoint, this->m_BSplineTransformWeights, *bsplineIndices, sampleOk);
       }
     }
   
