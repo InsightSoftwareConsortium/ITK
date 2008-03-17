@@ -534,7 +534,7 @@ ADD_TEST(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration5Test.png
 )
 
-ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES10}
+ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
   --compare ${BASELINE}/DeformableRegistration6Test.png
             ${TEMP}/DeformableRegistration6Test.png
   DeformableRegistration6Test
@@ -626,7 +626,7 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
 )
 
-ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES10}
+ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -638,7 +638,7 @@ ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES10}
         ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES10}
+ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -650,7 +650,7 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES10}
         ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES10}
+ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -662,7 +662,7 @@ ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES10}
         ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES10}
+ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd

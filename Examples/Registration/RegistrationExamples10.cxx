@@ -34,8 +34,6 @@
 void RegisterTests()
 {
   REGISTER_TEST(ModelToImageRegistration2Test);
-  REGISTER_TEST(DeformableRegistration6Test);
-  REGISTER_TEST(DeformableRegistration8Test);
 }
 
 #undef main
@@ -43,16 +41,3 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate10
 #include "ModelToImageRegistration2.cxx"
-
-#undef main
-#define main  DeformableRegistration6Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate11
-#include "DeformableRegistration6.cxx"
-
-#undef main
-#define main  DeformableRegistration8Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate12
-#include "DeformableRegistration8.cxx"
-
