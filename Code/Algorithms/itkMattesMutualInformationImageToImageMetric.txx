@@ -437,8 +437,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     itkDebugMacro( "Transform is BSplineDeformable" );
     }
 
-  if ( m_TransformIsBSpline )
+  if( this->m_TransformIsBSpline )
     {
+    // First, deallocate memory that may have been used from previous run of the Metric
+    this->m_BSplineTransformWeightsArray.SetSize( 1, 1 );
+    this->m_BSplineTransformIndicesArray.SetSize( 1, 1 );
+    this->m_PreTransformPointsArray.resize( 1 );
+    this->m_WithinSupportRegionArray.resize( 1 );
+    this->m_Weights.SetSize( 1 );
+    this->m_Indices.SetSize( 1 );
+
+
     if( m_UseCachingOfBSplineWeights )
       {
       m_BSplineTransformWeightsArray.SetSize( 
