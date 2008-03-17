@@ -89,6 +89,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_UseAllPixels = false;
   m_ReseedIterator = false;
   m_RandomSeed = -1;
+  m_UseCachingOfBSplineWeights = true;
 }
 
 
