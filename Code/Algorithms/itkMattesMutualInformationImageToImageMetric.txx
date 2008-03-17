@@ -448,7 +448,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     this->m_Indices.SetSize( 1 );
 
 
-    if( m_UseCachingOfBSplineWeights )
+    if( this->m_UseCachingOfBSplineWeights )
       {
       m_BSplineTransformWeightsArray.SetSize( 
         m_NumberOfSpatialSamples, m_NumBSplineWeights );
@@ -1428,7 +1428,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // If the transform is BSplineDeformable, we can use the precomputed
       // weights and indices to obtained the mapped position
       //
-      // FIXME m_UseCachingOfBSplineWeights
       const WeightsValueType * weights = 
                                    m_BSplineTransformWeightsArray[sampleNumber];
       const IndexValueType   * indices = 
@@ -1464,6 +1463,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
+      // If not caching values, we invoke the Transform to recompute the
+      // mapping of the point.
       this->m_BSplineTransform->TransformPoint( 
         this->m_FixedImageSamples[sampleNumber].FixedImagePointValue,
         mappedPoint, this->m_Weights, this->m_Indices, sampleOk);
