@@ -931,42 +931,45 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 {
   this->GetValueThreadPostProcess( threadID, withinSampleThread );
 
-  unsigned int t;
-  unsigned int maxI;
-  unsigned int rowSize = this->m_NumberOfParameters * m_NumberOfHistogramBins;
-  maxI = rowSize * ( m_ThreaderJointPDFEndBin[threadID]
-                     - m_ThreaderJointPDFStartBin[threadID] + 1 );
-  JointPDFDerivativesValueType *pdfDPtr;
-  JointPDFDerivativesValueType *pdfDPtrStart;
-  pdfDPtrStart = m_JointPDFDerivatives->GetBufferPointer()
-                 + ( m_ThreaderJointPDFStartBin[threadID] * rowSize );
-  JointPDFDerivativesValueType *tPdfDPtr;
-  JointPDFDerivativesValueType *tPdfDPtrEnd;
-  unsigned int tPdfDPtrOffset;
-  tPdfDPtrOffset = m_ThreaderJointPDFStartBin[threadID] *  rowSize;
-  for(t=0; t<this->m_NumberOfThreads-1; t++)
+  if( this->m_UseExplicitPDFDerivatives )
     {
-    pdfDPtr = pdfDPtrStart;
-    tPdfDPtr = m_ThreaderJointPDFDerivatives[t]->GetBufferPointer()
-               + tPdfDPtrOffset;
-    tPdfDPtrEnd = tPdfDPtr + maxI;
-    // for(i = 0; i < maxI; i++)
-    while(tPdfDPtr < tPdfDPtrEnd)
+    const unsigned int rowSize = this->m_NumberOfParameters * m_NumberOfHistogramBins;
+   
+    const unsigned int maxI =
+      rowSize * ( m_ThreaderJointPDFEndBin[threadID]
+                - m_ThreaderJointPDFStartBin[threadID] + 1 );
+
+    JointPDFDerivativesValueType *pdfDPtr;
+    JointPDFDerivativesValueType *pdfDPtrStart;
+    pdfDPtrStart = m_JointPDFDerivatives->GetBufferPointer()
+                   + ( m_ThreaderJointPDFStartBin[threadID] * rowSize );
+    JointPDFDerivativesValueType *tPdfDPtr;
+    JointPDFDerivativesValueType *tPdfDPtrEnd;
+    unsigned int tPdfDPtrOffset;
+    tPdfDPtrOffset = m_ThreaderJointPDFStartBin[threadID] *  rowSize;
+    for(unsigned int t=0; t<this->m_NumberOfThreads-1; t++)
       {
-      *(pdfDPtr++) += *(tPdfDPtr++);
+      pdfDPtr = pdfDPtrStart;
+      tPdfDPtr = m_ThreaderJointPDFDerivatives[t]->GetBufferPointer()
+                 + tPdfDPtrOffset;
+      tPdfDPtrEnd = tPdfDPtr + maxI;
+      // for(i = 0; i < maxI; i++)
+      while(tPdfDPtr < tPdfDPtrEnd)
+        {
+        *(pdfDPtr++) += *(tPdfDPtr++);
+        }
+      }
+
+    double nFactor = 1.0 / (m_MovingImageBinSize
+                            * this->m_NumberOfMovingImageSamples);
+    pdfDPtr = pdfDPtrStart;
+    tPdfDPtrEnd = pdfDPtrStart + maxI;
+    //for(int i = 0; i < maxI; i++)
+    while(pdfDPtr < tPdfDPtrEnd)
+      {
+      *(pdfDPtr++) *= nFactor;
       }
     }
-
-  double nFactor = 1.0 / (m_MovingImageBinSize
-                          * this->m_NumberOfMovingImageSamples);
-  pdfDPtr = pdfDPtrStart;
-  tPdfDPtrEnd = pdfDPtrStart + maxI;
-  //for(int i = 0; i < maxI; i++)
-  while(pdfDPtr < tPdfDPtrEnd)
-    {
-    *(pdfDPtr++) *= nFactor;
-    }
-
 }
 
 /**
@@ -1231,7 +1234,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         (*derivativeHelperArray)[mu] += precomputedWeight * derivativeContribution;
         }
       }
-
     }
   else
     {
