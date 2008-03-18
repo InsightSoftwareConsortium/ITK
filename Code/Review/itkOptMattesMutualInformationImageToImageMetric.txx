@@ -144,7 +144,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfHistogramBins: ";
-  os << m_NumberOfHistogramBins << std::endl;
+  os << this->m_NumberOfHistogramBins << std::endl;
 
   // Debugging information
   os << indent << "FixedImageNormalizedMin: ";
@@ -986,13 +986,28 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                          DerivativeType & derivative) const
 {
   // Set output values to zero
-  if(derivative.GetSize() != this->m_NumberOfParameters)
+  value = NumericTraits< MeasureType >::Zero;
+
+  if( this->m_UseExplicitPDFDerivatives )
     {
-    derivative = DerivativeType( this->m_NumberOfParameters );
+    // Set output values to zero
+    if(derivative.GetSize() != this->m_NumberOfParameters)
+      {
+      derivative = DerivativeType( this->m_NumberOfParameters );
+      }
+    memset( derivative.data_block(),
+            0,
+            this->m_NumberOfParameters * sizeof(double) );
     }
-  memset( derivative.data_block(),
-          0,
-          this->m_NumberOfParameters * sizeof(double) );
+  else
+    {
+    this->m_PRatioArray.Fill( 0.0 );
+    this->m_MetricDerivative.Fill( NumericTraits< MeasureType >::Zero );
+    for(unsigned int threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++ )
+      {
+      this->m_ThreaderMetricDerivative[threadID].Fill( NumericTraits< MeasureType >::Zero );
+      }
+    }
 
   // Set up the parameters in the transform
   this->m_Transform->SetParameters( parameters );
@@ -1090,18 +1105,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         if( this->m_UseExplicitPDFDerivatives )
           {
           // move joint pdf derivative pointer to the right position
-          JointPDFValueType * derivPtr =
-                                m_JointPDFDerivatives->GetBufferPointer()
-                                + ( fixedIndex
-                                     * m_JointPDFDerivatives->GetOffsetTable()[2]
-                                  )
-                                + ( movingIndex
-                                     * m_JointPDFDerivatives->GetOffsetTable()[1]
-                                  );
+          JointPDFValueType * derivPtr = m_JointPDFDerivatives->GetBufferPointer()
+             + ( fixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] )
+             + ( movingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
 
-          for( unsigned int parameter=0;
-               parameter < this->m_NumberOfParameters;
-               ++parameter, derivPtr++ )
+          for( unsigned int parameter=0; parameter < this->m_NumberOfParameters; ++parameter, derivPtr++ )
             {
 
             // Ref: eqn 23 of Thevenaz & Unser paper [3]
@@ -1116,6 +1124,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         }  // end if-block to check non-zero bin contribution
       }  // end for-loop over moving index
     }  // end for-loop over fixed index
+
+  if( !(this->m_UseExplicitPDFDerivatives ) )
+    {
+    // Second pass: This one is done for accumulating the contributions
+    //              to the derivative array.
+    //
+    // FIXME Add here the multi-threaded version of the second pass
+    }
 
   value = static_cast<MeasureType>( -1.0 * sum );
 
