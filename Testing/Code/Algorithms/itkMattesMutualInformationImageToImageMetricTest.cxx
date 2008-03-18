@@ -45,7 +45,8 @@
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithAffineTransform(
-TInterpolator * interpolator, bool useSampling )
+  TInterpolator * interpolator, bool useSampling, 
+  bool useExplicitJointPDFDerivatives, bool useCachingBSplineWeights )
 {
 
 //------------------------------------------------------------
@@ -165,6 +166,9 @@ TInterpolator * interpolator, bool useSampling )
 
   // set the number of histogram bins
   metric->SetNumberOfHistogramBins( 50 );
+
+  metric->SetUseExplicitPDFDerivatives( useExplicitJointPDFDerivatives );
+  metric->SetUseCachingOfBSplineWeights( useCachingBSplineWeights );
 
   if( useSampling )
     {
@@ -326,7 +330,8 @@ TInterpolator * interpolator, bool useSampling )
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithBSplineDeformableTransform(
-TInterpolator * interpolator, bool useSampling )
+  TInterpolator * interpolator, bool useSampling,
+  bool useExplicitJointPDFDerivatives, bool useCachingBSplineWeights )
 {
 
 //------------------------------------------------------------
@@ -482,6 +487,9 @@ TInterpolator * interpolator, bool useSampling )
   // set the number of histogram bins
   metric->SetNumberOfHistogramBins( 50 );
 
+  metric->SetUseExplicitPDFDerivatives( useExplicitJointPDFDerivatives );
+  metric->SetUseCachingOfBSplineWeights( useCachingBSplineWeights );
+
   if( useSampling )
     {
     // set the number of samples to use
@@ -589,8 +597,21 @@ TInterpolator * interpolator, bool useSampling )
 }
 
 
-int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
+int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
 {
+
+  bool useExplicitJointPDFDerivatives = true;
+  bool useCachingBSplineWeights = true;
+
+  if( argc > 1 )
+    {
+    useExplicitJointPDFDerivatives = atoi( argv[1] );
+    }
+
+  if( argc > 2 )
+    {
+    useCachingBSplineWeights = atoi( argv[2] );
+    }
 
   int failed;
   typedef itk::Image<unsigned char,2> ImageType;
@@ -608,7 +629,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
     = LinearInterpolatorType::New();
 
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
-    linearInterpolator, useSampling );
+    linearInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
   if ( failed ) 
     {
@@ -618,7 +639,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
 
   useSampling = false;
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
-    linearInterpolator, useSampling );
+    linearInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
   if ( failed ) 
     {
@@ -638,7 +659,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
 
   useSampling = true;
   failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
-    bSplineInterpolator, useSampling );
+    bSplineInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
   if ( failed ) 
     {
@@ -648,7 +669,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
 
   useSampling = false;
   failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
-    bSplineInterpolator, useSampling );
+    bSplineInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
   if ( failed ) 
     {
@@ -660,7 +681,8 @@ int itkMattesMutualInformationImageToImageMetricTest(int, char* [] )
   // Test metric with BSpline deformable transform
   useSampling = true;
   failed = TestMattesMetricWithBSplineDeformableTransform<
-    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
+    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling, 
+        useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
   if ( failed ) 
     {
