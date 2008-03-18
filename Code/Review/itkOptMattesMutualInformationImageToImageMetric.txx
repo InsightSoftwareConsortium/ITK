@@ -71,6 +71,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   this->m_WithinThreadPostProcess = false;
 
   this->m_ThreaderMetricDerivative = NULL;
+  this->m_UseExplicitPDFDerivatives = true;
 }
 
 template < class TFixedImage, class TMovingImage >
