@@ -159,6 +159,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   os << m_FixedImageBinSize << std::endl;
   os << indent << "MovingImageBinSize: ";
   os << m_MovingImageBinSize << std::endl;
+  os << indent << "UseExplicitPDFDerivatives: ";
+  os << m_UseExplicitPDFDerivatives << std::endl;
+  os << indent << "UseCachingOfBSplineWeights: ";
+  os << m_UseCachingOfBSplineWeights << std::endl;
+
 }
 
 
