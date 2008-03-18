@@ -363,14 +363,42 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_ThreaderJointPDF = new typename
                                JointPDFType::Pointer[this->m_NumberOfThreads-1];
 
+  if(m_ThreaderJointPDFStartBin != NULL)
+    {
+    delete [] m_ThreaderJointPDFStartBin;
+    }
+  m_ThreaderJointPDFStartBin = new int[this->m_NumberOfThreads];
+
+  if(m_ThreaderJointPDFEndBin != NULL)
+    {
+    delete [] m_ThreaderJointPDFEndBin;
+    }
+  m_ThreaderJointPDFEndBin = new int[this->m_NumberOfThreads];
+
+  if(m_ThreaderJointPDFSum != NULL)
+    {
+    delete [] m_ThreaderJointPDFSum;
+    }
+  m_ThreaderJointPDFSum = new double[this->m_NumberOfThreads];
+
   unsigned int threadID;
+
+  int binRange = m_NumberOfHistogramBins / this->m_NumberOfThreads;
 
   for(threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++)
     {
     m_ThreaderJointPDF[threadID] = JointPDFType::New();
     m_ThreaderJointPDF[threadID]->SetRegions( jointPDFRegion );
     m_ThreaderJointPDF[threadID]->Allocate();
+
+    m_ThreaderJointPDFStartBin[threadID] = threadID * binRange;
+    m_ThreaderJointPDFEndBin[threadID] = (threadID + 1) * binRange - 1;
     }
+
+  m_ThreaderJointPDFStartBin[this->m_NumberOfThreads-1] = 
+    (this->m_NumberOfThreads - 1 ) * binRange;
+
+  m_ThreaderJointPDFEndBin[this->m_NumberOfThreads-1] = m_NumberOfHistogramBins - 1;
 
   // Release memory of arrays that may have been used for 
   // previous executions of this metric with different settings
@@ -380,24 +408,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     delete [] m_ThreaderJointPDFDerivatives;
     }
   m_ThreaderJointPDFDerivatives = NULL;
-
-  if(m_ThreaderJointPDFStartBin != NULL)
-    {
-    delete [] m_ThreaderJointPDFStartBin;
-    }
-  m_ThreaderJointPDFStartBin = NULL;
-
-  if(m_ThreaderJointPDFEndBin != NULL)
-    {
-    delete [] m_ThreaderJointPDFEndBin;
-    }
-  m_ThreaderJointPDFEndBin = NULL;
-
-  if(m_ThreaderJointPDFSum != NULL)
-    {
-    delete [] m_ThreaderJointPDFSum;
-    }
-  m_ThreaderJointPDFSum = NULL;
 
   if(m_ThreaderMetricDerivative != NULL)
     {
@@ -411,12 +421,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     m_ThreaderJointPDFDerivatives = new typename
                       JointPDFDerivativesType::Pointer[this->m_NumberOfThreads-1];
 
-    m_ThreaderJointPDFStartBin = new int[this->m_NumberOfThreads];
-
-    m_ThreaderJointPDFEndBin = new int[this->m_NumberOfThreads];
-
-    m_ThreaderJointPDFSum = new double[this->m_NumberOfThreads];
-
     for(threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++)
       {
       m_ThreaderJointPDFDerivatives[threadID] = JointPDFDerivativesType::New();
@@ -424,14 +428,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                                                    jointPDFDerivativesRegion );
       m_ThreaderJointPDFDerivatives[threadID]->Allocate();
       }
-
-    int binRange = m_NumberOfHistogramBins / this->m_NumberOfThreads;
-    for(threadID = 0; threadID < this->m_NumberOfThreads; threadID++)
-      {
-      m_ThreaderJointPDFStartBin[threadID] = threadID * binRange;
-      m_ThreaderJointPDFEndBin[threadID] = (threadID + 1) * binRange - 1;
-      }
-    m_ThreaderJointPDFEndBin[this->m_NumberOfThreads-1] = m_NumberOfHistogramBins - 1;
     }
    else
     {
@@ -1162,20 +1158,27 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       derivPtr = m_ThreaderJointPDFDerivatives[threadID-1]->GetBufferPointer()
         + ( pdfFixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] )
         + ( pdfMovingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
-      derivativeHelperArray = &(this->m_ThreaderMetricDerivative[threadID]);
       }
     else
       {
       derivPtr = m_JointPDFDerivatives->GetBufferPointer()
         + ( pdfFixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] )
         + ( pdfMovingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
-      derivativeHelperArray = &(this->m_MetricDerivative);
       }
     }
   else
     {
     // Recover the precomputed weight for this specific PDF bin
     precomputedWeight = this->m_PRatioArray[pdfFixedIndex][pdfMovingIndex];
+    if(threadID > 0)
+      {
+      derivativeHelperArray = &(this->m_ThreaderMetricDerivative[threadID]);
+      }
+    else
+      {
+      derivativeHelperArray = &(this->m_MetricDerivative);
+      }
+
     }
 
   if( !this->m_TransformIsBSpline )
