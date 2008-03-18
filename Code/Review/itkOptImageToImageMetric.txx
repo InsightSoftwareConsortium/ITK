@@ -1362,6 +1362,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted 
      << std::endl;
 
+  os << indent << "UseCachingOfBSplineWeights: ";
+  os << this->m_UseCachingOfBSplineWeights << std::endl;
 }
 
 /** This method can be const because we are not altering the m_ThreaderTransform

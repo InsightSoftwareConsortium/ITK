@@ -148,21 +148,19 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   // Debugging information
   os << indent << "FixedImageNormalizedMin: ";
-  os << m_FixedImageNormalizedMin << std::endl;
+  os << this->m_FixedImageNormalizedMin << std::endl;
   os << indent << "MovingImageNormalizedMin: ";
-  os << m_MovingImageNormalizedMin << std::endl;
+  os << this->m_MovingImageNormalizedMin << std::endl;
   os << indent << "MovingImageTrueMin: ";
-  os << m_MovingImageTrueMin << std::endl;
+  os << this->m_MovingImageTrueMin << std::endl;
   os << indent << "MovingImageTrueMax: ";
-  os << m_MovingImageTrueMax << std::endl;
+  os << this->m_MovingImageTrueMax << std::endl;
   os << indent << "FixedImageBinSize: ";
-  os << m_FixedImageBinSize << std::endl;
+  os << this->m_FixedImageBinSize << std::endl;
   os << indent << "MovingImageBinSize: ";
-  os << m_MovingImageBinSize << std::endl;
+  os << this->m_MovingImageBinSize << std::endl;
   os << indent << "UseExplicitPDFDerivatives: ";
-  os << m_UseExplicitPDFDerivatives << std::endl;
-  os << indent << "UseCachingOfBSplineWeights: ";
-  os << m_UseCachingOfBSplineWeights << std::endl;
+  os << this->m_UseExplicitPDFDerivatives << std::endl;
 
 }
 
