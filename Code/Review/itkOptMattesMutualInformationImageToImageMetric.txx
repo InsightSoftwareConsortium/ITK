@@ -1175,7 +1175,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     precomputedWeight = this->m_PRatioArray[pdfFixedIndex][pdfMovingIndex];
     if(threadID > 0)
       {
-      derivativeHelperArray = &(this->m_ThreaderMetricDerivative[threadID]);
+      derivativeHelperArray = &(this->m_ThreaderMetricDerivative[threadID-1]);
       }
     else
       {
