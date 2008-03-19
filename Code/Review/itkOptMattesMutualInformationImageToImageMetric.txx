@@ -1261,13 +1261,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     if( this->m_UseCachingOfBSplineWeights )
       {
-      /**
-      * If the transform is of type BSplineDeformableTransform,
-      * we can obtain a speed up by only processing the affected parameters.
-      * Note that these pointers are just pointing to pre-allocated rows
-      * of the caching arrays. There is therefore, no need to free this
-      * memory.
-      */
+      // 
+      // If the transform is of type BSplineDeformableTransform, we can obtain
+      // a speed up by only processing the affected parameters.  Note that
+      // these pointers are just pointing to pre-allocated rows of the caching
+      // arrays. There is therefore, no need to free this memory.
+      // 
       weights = this->m_BSplineTransformWeightsArray[sampleNumber];
       indices = this->m_BSplineTransformIndicesArray[sampleNumber];
       }
