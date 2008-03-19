@@ -676,6 +676,62 @@ ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
 )
 
 
+IF(ITK_USE_LARGE_MEMORY_COMPUTER)
+
+SET(NUMBER_OF_BSPLINE_GRID_NODES 32)
+ADD_TEST(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test5.mhd
+        ${TEMP}/DeformableRegistration8Test5DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test5DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test5DeformationField.mhd
+        1 1
+        ${TEMP}/DeformableRegistration8Test5FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+)
+
+ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test6.mhd
+        ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test6DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test6DeformationField.mhd
+        1 0
+        ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+)
+
+ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test6.mhd
+        ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test6DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test6DeformationField.mhd
+        0 1
+        ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+)
+
+ADD_TEST(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
+  DeformableRegistration8Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration8Test9.mhd
+        ${TEMP}/DeformableRegistration8Test9DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test9DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test9DeformationField.mhd
+        0 0
+        ${TEMP}/DeformableRegistration8Test9FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+)
+
+ENDIF(ITK_USE_LARGE_MEMORY_COMPUTER)
 
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 

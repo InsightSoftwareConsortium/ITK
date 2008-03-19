@@ -231,6 +231,12 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
+  unsigned int numberOfGridNodesInOneDimension = 5;
+
+  if( argc > 10 )
+    {
+    numberOfGridNodesInOneDimension = atoi( argv[10] );
+    }
 
   // Software Guide : BeginCodeSnippet
   typedef TransformType::RegionType RegionType;
@@ -239,12 +245,15 @@ int main( int argc, char *argv[] )
   RegionType::SizeType   gridBorderSize;
   RegionType::SizeType   totalGridSize;
 
-  gridSizeOnImage.Fill( 5 );
+  gridSizeOnImage.Fill( numberOfGridNodesInOneDimension );
   gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
   bsplineRegion.SetSize( totalGridSize );
+  //  Software Guide : EndCodeSnippet
 
+
+  // Software Guide : BeginCodeSnippet
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing = fixedImage->GetSpacing();
 
