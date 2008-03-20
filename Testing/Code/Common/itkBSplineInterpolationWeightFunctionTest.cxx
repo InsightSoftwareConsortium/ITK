@@ -26,10 +26,41 @@
  */
 int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 {
-  
+  { // Creating a local scope
+  typedef double CoordRepType;
+  const unsigned int SpaceDimension= 1;
+  const unsigned int SplineOrder = 2;
+  std::cout << "Testing SpaceDimension= " << SpaceDimension;
+  std::cout << " and SplineOrder= " << SplineOrder << "  ";
+
+  typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
+    SpaceDimension, SplineOrder> FunctionType;
+  typedef FunctionType::ContinuousIndexType ContinuousIndexType;
+  typedef FunctionType::IndexType IndexType;
+  typedef FunctionType::WeightsType WeightsType;
+  typedef FunctionType::SizeType SizeType;
+
+  FunctionType::Pointer function = FunctionType::New();
+
+  WeightsType weights;
+  ContinuousIndexType position;
+  IndexType startIndex;
+
+  for(double x=-2.0; x<=2.0; x+=0.1 )
+    {
+    position[0] = x;
+    weights = function->Evaluate( position );
+    std::cout << position[0] << "\t" << weights[0] << "\t" << weights[1] << "\t" << weights[2] << std::endl;
+    }
+  std::cout << "Test passed. " << std::endl;
+  }
+
+  { // Creating a local scope
   typedef double CoordRepType;
   const unsigned int SpaceDimension= 3;
   const unsigned int SplineOrder = 3;
+  std::cout << "Testing SpaceDimension= " << SpaceDimension;
+  std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
   typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
     SpaceDimension, SplineOrder> FunctionType;
@@ -103,6 +134,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
     }
 
   std::cout << "Test passed. " << std::endl;
+  }
   return EXIT_SUCCESS;
 
 }
