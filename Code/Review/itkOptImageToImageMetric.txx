@@ -1324,8 +1324,9 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "NumberOfFixedImageSamples: ";
   os << m_NumberOfFixedImageSamples << std::endl;
 
-  os << indent << "FixedImageSamplesIntensityThreshold: ";
-  os << m_FixedImageSamplesIntensityThreshold << std::endl;
+  os << indent << "FixedImageSamplesIntensityThreshold: "
+     << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_FixedImageSamplesIntensityThreshold)
+     << std::endl;
 
   os << indent << "UseFixedImageSamplesIntensityThreshold: ";
   os << m_UseFixedImageSamplesIntensityThreshold << std::endl;
