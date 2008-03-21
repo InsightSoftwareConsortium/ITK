@@ -85,6 +85,39 @@ ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
 ADD_TEST(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest)
 ADD_TEST(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
 
+ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2} 
+  --compare ${BASELINE}/itkBSplineDeformableTransformTest2.png
+            ${TEMP}/itkBSplineDeformableTransformTest2.png
+  itkBSplineDeformableTransformTest2
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${TEMP}/itkBSplineDeformableTransformTest2.png
+        ${TEMP}/itkBSplineDeformableTransformTest2DeformationField.mhd 1
+  )
+
+ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2} 
+  --compare ${BASELINE}/itkBSplineDeformableTransformTest3.png
+            ${TEMP}/itkBSplineDeformableTransformTest3.png
+  itkBSplineDeformableTransformTest2
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${TEMP}/itkBSplineDeformableTransformTest3.png
+        ${TEMP}/itkBSplineDeformableTransformTest3DeformationField.mhd 2
+  )
+
+ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2} 
+  --compare ${BASELINE}/itkBSplineDeformableTransformTest4.png
+            ${TEMP}/itkBSplineDeformableTransformTest3.png
+  itkBSplineDeformableTransformTest2
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${TEMP}/itkBSplineDeformableTransformTest4.png
+        ${TEMP}/itkBSplineDeformableTransformTest4DeformationField.mhd 3
+  )
+
 ADD_TEST(itkCellInterfaceTest ${COMMON_TESTS2} itkCellInterfaceTest)
 ADD_TEST(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
@@ -415,6 +448,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 
 #-----------------------------------------------------------------------------
 SET(BasicTests2_SRCS
+itkBSplineDeformableTransformTest2.cxx 
 itkCellInterfaceTest.cxx
 itkImageTransformTest.cxx
 itkLinearInterpolateImageFunctionTest.cxx

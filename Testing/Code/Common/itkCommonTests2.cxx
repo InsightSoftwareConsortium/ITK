@@ -9,6 +9,7 @@
 
 void RegisterTests()
 {
+REGISTER_TEST(itkBSplineDeformableTransformTest2 );
 REGISTER_TEST(itkCellInterfaceTest);
 REGISTER_TEST(itkImageTransformTest);
 REGISTER_TEST(itkLinearInterpolateImageFunctionTest);
