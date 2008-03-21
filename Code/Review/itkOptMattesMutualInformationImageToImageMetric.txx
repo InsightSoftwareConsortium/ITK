@@ -72,6 +72,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   this->m_ThreaderMetricDerivative = NULL;
   this->m_UseExplicitPDFDerivatives = true;
+  this->m_ImplicitDerivativesSecondPass = false;
 }
 
 template < class TFixedImage, class TMovingImage >
@@ -161,6 +162,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   os << this->m_MovingImageBinSize << std::endl;
   os << indent << "UseExplicitPDFDerivatives: ";
   os << this->m_UseExplicitPDFDerivatives << std::endl;
+  os << indent << "ImplicitDerivativesSecondPass: ";
+  os << this->m_ImplicitDerivativesSecondPass << std::endl;
 
 }
 
@@ -906,18 +909,19 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                                               ->Evaluate(
                                                 movingImageParzenWindowArg ) );
 
-    // Compute the cubicBSplineDerivative for later repeated use.
-    double cubicBSplineDerivativeValue = m_CubicBSplineDerivativeKernel
-                                         ->Evaluate(
-                                           movingImageParzenWindowArg );
+    if( this->m_UseExplicitPDFDerivatives || this->m_ImplicitDerivativesSecondPass )
+      {
+      // Compute the cubicBSplineDerivative for later repeated use.
+      double cubicBSplineDerivativeValue = 
+        m_CubicBSplineDerivativeKernel->Evaluate( movingImageParzenWindowArg );
 
-    // Compute PDF derivative contribution.
-
-    this->ComputePDFDerivatives( threadID,
-                                 fixedImageSample,
-                                 pdfMovingIndex,
-                                 movingImageGradientValue,
-                                 cubicBSplineDerivativeValue );
+      // Compute PDF derivative contribution.
+      this->ComputePDFDerivatives( threadID,
+                                   fixedImageSample,
+                                   pdfMovingIndex,
+                                   movingImageGradientValue,
+                                   cubicBSplineDerivativeValue );
+       }
 
     movingImageParzenWindowArg += 1;
     ++pdfMovingIndex;
@@ -973,6 +977,20 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       *(pdfDPtr++) *= nFactor;
       }
     }
+  else
+    {
+    if( this->m_ImplicitDerivativesSecondPass )
+      {
+      for(unsigned int t=0; t<this->m_NumberOfThreads-1; t++)
+        {
+        DerivativeType * source = &(this->m_ThreaderMetricDerivative[t]);
+        for(unsigned int pp=0; pp < this->m_NumberOfParameters; pp++ )
+          {
+          this->m_MetricDerivative[pp] += (*source)[pp];
+          }
+        }
+      }
+    }
 }
 
 /**
@@ -1007,6 +1025,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       {
       this->m_ThreaderMetricDerivative[threadID].Fill( NumericTraits< MeasureType >::Zero );
       }
+    this->m_ImplicitDerivativesSecondPass = false;
     }
 
   // Set up the parameters in the transform
@@ -1130,8 +1149,16 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // Second pass: This one is done for accumulating the contributions
     //              to the derivative array.
     //
-    // FIXME Add here the multi-threaded version of the second pass
+    this->m_ImplicitDerivativesSecondPass = true;
+    //
+    // MUST BE CALLED TO INITIATE PROCESSING ON SAMPLES
+    this->GetValueAndDerivativeMultiThreadedInitiate();
+
+    // CALL IF DOING THREADED POST PROCESSING
+    this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
     }
+
+  derivative = this->m_MetricDerivative;
 
   value = static_cast<MeasureType>( -1.0 * sum );
 

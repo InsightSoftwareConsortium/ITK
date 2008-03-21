@@ -303,6 +303,7 @@ private:
   mutable double                                m_JointPDFSum;
 
   bool                                          m_UseExplicitPDFDerivatives;
+  mutable bool                                  m_ImplicitDerivativesSecondPass;
 
 
   inline void GetValueThreadPreProcess( unsigned int threadID,
