@@ -147,7 +147,7 @@ void BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension,
   for ( j = 0; j < SpaceDimension; j++ )
     {
     startIndex[j] = static_cast<typename IndexType::IndexValueType>(
-      BSplineFloor( index[j] - static_cast<double>( SplineOrder / 2 ) ) );
+      BSplineFloor( index[j] - static_cast<double>( SplineOrder - 1 ) / 2.0 ) );
     }
 
   // Compute the weights
