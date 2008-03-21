@@ -395,7 +395,37 @@ ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration13Test2.png
-        0
+        0 0
+)
+
+ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
+  --compare ${BASELINE}/ImageRegistration13Test.png
+            ${TEMP}/ImageRegistration13Test3.png
+  ImageRegistration13Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/ImageRegistration13Test3.png
+        0 1
+)
+
+ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
+  --compare ${BASELINE}/ImageRegistration13Test.png
+            ${TEMP}/ImageRegistration13Test4.png
+  ImageRegistration13Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/ImageRegistration13Test4.png
+        1 0
+)
+
+ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
+  --compare ${BASELINE}/ImageRegistration13Test.png
+            ${TEMP}/ImageRegistration13Test5.png
+  ImageRegistration13Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
+        ${TEMP}/ImageRegistration13Test5.png
+        1 1
 )
 
 
