@@ -109,7 +109,7 @@ ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2}
 
 ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest4.png
-            ${TEMP}/itkBSplineDeformableTransformTest3.png
+            ${TEMP}/itkBSplineDeformableTransformTest4.png
   itkBSplineDeformableTransformTest2
         ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
         ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
