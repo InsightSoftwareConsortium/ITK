@@ -1156,9 +1156,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     // CALL IF DOING THREADED POST PROCESSING
     this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
-    }
 
-  derivative = this->m_MetricDerivative;
+    derivative = this->m_MetricDerivative;
+    }
 
   value = static_cast<MeasureType>( -1.0 * sum );
 
