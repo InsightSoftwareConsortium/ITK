@@ -977,20 +977,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       *(pdfDPtr++) *= nFactor;
       }
     }
-  else
-    {
-    if( this->m_ImplicitDerivativesSecondPass )
-      {
-      for(unsigned int t=0; t<this->m_NumberOfThreads-1; t++)
-        {
-        DerivativeType * source = &(this->m_ThreaderMetricDerivative[t]);
-        for(unsigned int pp=0; pp < this->m_NumberOfParameters; pp++ )
-          {
-          this->m_MetricDerivative[pp] += (*source)[pp];
-          }
-        }
-      }
-    }
 }
 
 /**
@@ -1156,6 +1142,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     // CALL IF DOING THREADED POST PROCESSING
     this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
+
+    // Consolidate the contributions from each one of the threads to the total
+    // derivative.
+    for(unsigned int t = 0; t < this->m_NumberOfThreads-1; t++ )
+      {
+      DerivativeType * source = &(this->m_ThreaderMetricDerivative[t]);
+      for(unsigned int pp=0; pp < this->m_NumberOfParameters; pp++ )
+        {
+        this->m_MetricDerivative[pp] += (*source)[pp];
+        }
+      }
 
     derivative = this->m_MetricDerivative;
     }
