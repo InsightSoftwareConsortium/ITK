@@ -400,8 +400,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 
     for ( unsigned int j = 0; j < FixedImageDimension; j++ )
       {
-      m_BSplineParametersOffset[j] = j * 
-        m_BSplineTransform->GetNumberOfParametersPerDimension(); 
+      this->m_BSplineParametersOffset[j] = j * this->m_BSplineTransform->GetNumberOfParametersPerDimension();
       }
     }
 
@@ -736,17 +735,14 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   unsigned int threadID ) const
 {
   TransformType * transform;
-  BSplineTransformIndexArrayType * bsplineIndices; 
   
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
-    bsplineIndices = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
     }
   else
     {
     transform = this->m_Transform;
-    bsplineIndices = &(this->m_BSplineTransformIndices);
     }
 
   if ( !m_TransformIsBSpline )
@@ -787,11 +783,25 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
+      BSplineTransformWeightsType    * weightsHelper = NULL;
+      BSplineTransformIndexArrayType * indicesHelper = NULL; 
+
+      if( threadID > 0 )
+        {
+        weightsHelper = &(this->m_ThreaderBSplineTransformWeights[threadID-1]);
+        indicesHelper = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
+        }
+      else
+        {
+        weightsHelper = &(this->m_BSplineTransformWeights);
+        indicesHelper = &(this->m_BSplineTransformIndices);
+        }
+
       // If not caching values, we invoke the Transform to recompute the
       // mapping of the point.
       this->m_BSplineTransform->TransformPoint( 
         this->m_FixedImageSamples[sampleNumber].point,
-        mappedPoint, this->m_BSplineTransformWeights, *bsplineIndices, sampleOk);
+        mappedPoint, *weightsHelper, *indicesHelper, sampleOk);
       }
     }
   
@@ -865,7 +875,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
     if( this->m_UseCachingOfBSplineWeights )
-      {  
+      {
       sampleOk = m_WithinBSplineSupportRegionArray[sampleNumber];
 
       if(sampleOk)
@@ -894,11 +904,25 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
+      BSplineTransformWeightsType    * weightsHelper = NULL;
+      BSplineTransformIndexArrayType * indicesHelper = NULL; 
+
+      if( threadID > 0 )
+        {
+        weightsHelper = &(this->m_ThreaderBSplineTransformWeights[threadID-1]);
+        indicesHelper = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
+        }
+      else
+        {
+        weightsHelper = &(this->m_BSplineTransformWeights);
+        indicesHelper = &(this->m_BSplineTransformIndices);
+        }
+
       // If not caching values, we invoke the Transform to recompute the
       // mapping of the point.
       this->m_BSplineTransform->TransformPoint( 
         this->m_FixedImageSamples[sampleNumber].point,
-        mappedPoint, this->m_BSplineTransformWeights, *bsplineIndices, sampleOk);
+        mappedPoint, *weightsHelper, *indicesHelper, sampleOk);
       }
     }
   
@@ -909,27 +933,29 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       {
       // Check if mapped point is within the support region of the moving image
       // mask
-      sampleOk = m_MovingImageMask->IsInside( mappedPoint );
+      sampleOk = sampleOk && m_MovingImageMask->IsInside( mappedPoint );
       }
-    else
+ 
+  
+    if( m_InterpolatorIsBSpline )
       {
       // Check if mapped point inside image buffer
-      sampleOk = m_Interpolator->IsInsideBuffer( mappedPoint );
-      }
-  
-    if ( sampleOk )
-      {
-      if(m_InterpolatorIsBSpline)
+      sampleOk = sampleOk && m_BSplineInterpolator->IsInsideBuffer( mappedPoint );
+      if( sampleOk )
         {
-        m_BSplineInterpolator->EvaluateValueAndDerivative(mappedPoint,
+        this->m_BSplineInterpolator->EvaluateValueAndDerivative(mappedPoint,
                                                           movingImageValue,
                                                           movingImageGradient,
                                                           threadID);
         }
-      else
+      }
+    else
+      {
+      // Check if mapped point inside image buffer
+      sampleOk = sampleOk && m_Interpolator->IsInsideBuffer( mappedPoint );
+      if( sampleOk )
         {
-        this->ComputeImageDerivatives( mappedPoint, movingImageGradient,
-                                       threadID );
+        this->ComputeImageDerivatives( mappedPoint, movingImageGradient, threadID );
         movingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
         }
       }
