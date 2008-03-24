@@ -758,7 +758,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   else
     {
     if( this->m_UseCachingOfBSplineWeights )
-      {  
+      {
       sampleOk = m_WithinBSplineSupportRegionArray[sampleNumber];
 
       if(sampleOk)
@@ -802,22 +802,24 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       {
       // Check if mapped point is within the support region of the moving image
       // mask
-      sampleOk = m_MovingImageMask->IsInside( mappedPoint );
+      sampleOk = sampleOk && m_MovingImageMask->IsInside( mappedPoint );
+      }
+
+  
+    if( m_InterpolatorIsBSpline )
+      {
+      // Check if mapped point inside image buffer
+      sampleOk = sampleOk && m_BSplineInterpolator->IsInsideBuffer( mappedPoint );
+      if( sampleOk )
+        {
+        movingImageValue = m_BSplineInterpolator->Evaluate( mappedPoint, threadID );
+        }
       }
     else
       {
       // Check if mapped point inside image buffer
-      sampleOk = m_Interpolator->IsInsideBuffer( mappedPoint );
-      }
-  
-    if ( sampleOk )
-      {
-      if(m_InterpolatorIsBSpline)
-        {
-        movingImageValue = m_BSplineInterpolator->Evaluate( mappedPoint, 
-                                                            threadID );
-        }
-      else
+      sampleOk = sampleOk && m_Interpolator->IsInsideBuffer( mappedPoint );
+      if( sampleOk )
         {
         movingImageValue = m_Interpolator->Evaluate( mappedPoint );
         }
