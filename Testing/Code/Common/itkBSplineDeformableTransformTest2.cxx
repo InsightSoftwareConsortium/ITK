@@ -158,7 +158,7 @@ public:
   RegionType bsplineRegion;
   typename RegionType::SizeType   size;
 
-  const unsigned int numberOfGridNodesOutsideTheImageSupport = 3;
+  const unsigned int numberOfGridNodesOutsideTheImageSupport = VSplineOrder;
 
   const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
 
