@@ -1198,6 +1198,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   double precomputedWeight = 0.0;
 
   const int pdfFixedIndex = this->m_FixedImageSamples[sampleNumber].valueIndex;
+
   DerivativeType * derivativeHelperArray = NULL;
 
   if( this->m_UseExplicitPDFDerivatives )
@@ -1286,6 +1287,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     const WeightsValueType * weights = NULL;
     const IndexValueType   * indices = NULL;
 
+    typedef typename Superclass::BSplineTransformWeightsType     BSplineTransformWeightsType;
+    typedef typename Superclass::BSplineTransformIndexArrayType  BSplineTransformIndexArrayType;
+    
+    BSplineTransformWeightsType    * weightsHelper = NULL;
+    BSplineTransformIndexArrayType * indicesHelper = NULL; 
+
     if( this->m_UseCachingOfBSplineWeights )
       {
       // 
@@ -1299,9 +1306,20 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
+      if( threadID > 0 )
+        {
+        weightsHelper = &(this->m_ThreaderBSplineTransformWeights[threadID-1]);
+        indicesHelper = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
+        }
+      else
+        {
+        weightsHelper = &(this->m_BSplineTransformWeights);
+        indicesHelper = &(this->m_BSplineTransformIndices);
+        }
+
       this->m_BSplineTransform->GetJacobian(  
         this->m_FixedImageSamples[sampleNumber].point, 
-        this->m_BSplineTransformWeights, this->m_BSplineTransformIndices );
+        *weightsHelper, *indicesHelper );
       }
 
     for( unsigned int dim = 0; dim < Superclass::FixedImageDimension; dim++ )
@@ -1324,8 +1342,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
           }
         else
           {
-          innerProduct = movingImageGradientValue[dim] * this->m_BSplineTransformWeights[mu];
-          parameterIndex = this->m_BSplineTransformIndices[mu] + this->m_BSplineParametersOffset[dim];
+          innerProduct = movingImageGradientValue[dim] * (*weightsHelper)[mu];
+          parameterIndex = (*indicesHelper)[mu] + this->m_BSplineParametersOffset[dim];
           }
 
         const double derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
