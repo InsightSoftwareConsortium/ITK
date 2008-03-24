@@ -783,8 +783,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
-      BSplineTransformWeightsType    * weightsHelper = NULL;
-      BSplineTransformIndexArrayType * indicesHelper = NULL; 
+      BSplineTransformWeightsType    * weightsHelper;
+      BSplineTransformIndexArrayType * indicesHelper;
 
       if( threadID > 0 )
         {
@@ -853,17 +853,14 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   unsigned int threadID ) const
 {
   TransformType * transform;
-  BSplineTransformIndexArrayType * bsplineIndices; 
   
   if( threadID > 0 )
     {
     transform = this->m_ThreaderTransform[threadID-1];
-    bsplineIndices = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
     }
   else
     {
     transform = this->m_Transform;
-    bsplineIndices = &(this->m_BSplineTransformIndices);
     }
 
   if ( !m_TransformIsBSpline )
@@ -904,8 +901,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
-      BSplineTransformWeightsType    * weightsHelper = NULL;
-      BSplineTransformIndexArrayType * indicesHelper = NULL; 
+      BSplineTransformWeightsType    * weightsHelper;
+      BSplineTransformIndexArrayType * indicesHelper;
 
       if( threadID > 0 )
         {
