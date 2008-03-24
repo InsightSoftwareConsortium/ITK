@@ -1454,12 +1454,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Check if mapped point inside image buffer
       sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
 
-      if ( m_TransformIsBSpline )
-        {
-        // Check if mapped point is within the support region of a grid point.
-        // This is neccessary for computing the metric gradient
-        sampleOk = sampleOk && m_WithinSupportRegionArray[sampleNumber];
-        }
+      // Check if mapped point is within the support region of a grid point.
+      // This is neccessary for computing the metric gradient
+      sampleOk = sampleOk && m_WithinSupportRegionArray[sampleNumber];
       }
     else
       {
@@ -1468,6 +1465,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       this->m_BSplineTransform->TransformPoint( 
         this->m_FixedImageSamples[sampleNumber].FixedImagePointValue,
         mappedPoint, this->m_Weights, this->m_Indices, sampleOk);
+
+      // Check if mapped point inside image buffer
+      sampleOk = sampleOk && this->m_Interpolator->IsInsideBuffer( mappedPoint );
       }
 
     }
