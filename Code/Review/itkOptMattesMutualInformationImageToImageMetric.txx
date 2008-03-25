@@ -969,6 +969,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     double nFactor = 1.0 / (m_MovingImageBinSize
                             * this->m_NumberOfMovingImageSamples);
+
     pdfDPtr = pdfDPtrStart;
     tPdfDPtrEnd = pdfDPtrStart + maxI;
     //for(int i = 0; i < maxI; i++)
@@ -1041,7 +1042,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   PDFValueType * movingMarginalPtr;
   unsigned int i, j;
   double fixedPDFSum = 0.0;
-  double nFactor = 1.0 / m_JointPDFSum;
+  const double normalizationFactor = 1.0 / m_JointPDFSum;
+
   pdfPtr = m_JointPDF->GetBufferPointer();
   for(i=0; i<m_NumberOfHistogramBins; i++)
     {
@@ -1049,7 +1051,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     movingMarginalPtr = m_MovingImageMarginalPDF;
     for(j=0; j<m_NumberOfHistogramBins; j++)
       {
-      *(pdfPtr) *= nFactor;
+      *(pdfPtr) *= normalizationFactor;
       *(movingMarginalPtr++) += *(pdfPtr++);
       }
     }
@@ -1082,6 +1084,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   // Initialize sum to zero
   double sum = 0.0;
+
+  const double nFactor = 1.0 / (m_MovingImageBinSize
+                            * this->m_NumberOfMovingImageSamples);
 
   for( unsigned int fixedIndex = 0;
        fixedIndex < m_NumberOfHistogramBins;
