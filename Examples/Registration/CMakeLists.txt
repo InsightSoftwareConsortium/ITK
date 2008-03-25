@@ -659,19 +659,29 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
 )
 
+SET(NUMBER_OF_BSPLINE_GRID_NODES 5)
 ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration8Test1.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration8Test1.mhd
-        ${TEMP}/DeformableRegistration8Test1DifferenceBefore.mhd
         ${TEMP}/DeformableRegistration8Test1DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test1DifferenceBefore.mhd
         ${TEMP}/DeformableRegistration8Test1DeformationField.mhd
         0 0
         ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
 ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration8Test2.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -681,9 +691,14 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test2DeformationField.mhd
         1 0
         ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
 ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration8Test3.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -693,9 +708,14 @@ ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test3DeformationField.mhd
         0 1
         ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
 ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration8Test4.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -705,6 +725,7 @@ ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test4DeformationField.mhd
         1 1
         ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
 
@@ -719,7 +740,7 @@ ADD_TEST(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test5DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test5DifferenceBefore.mhd
         ${TEMP}/DeformableRegistration8Test5DeformationField.mhd
-        1 1
+        0 0
         ${TEMP}/DeformableRegistration8Test5FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
@@ -732,7 +753,7 @@ ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test6DifferenceBefore.mhd
         ${TEMP}/DeformableRegistration8Test6DeformationField.mhd
-        1 0
+        0 1
         ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
@@ -745,7 +766,7 @@ ADD_TEST(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test7DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test7DifferenceBefore.mhd
         ${TEMP}/DeformableRegistration8Test7DeformationField.mhd
-        0 1
+        1 0
         ${TEMP}/DeformableRegistration8Test7FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
@@ -758,7 +779,7 @@ ADD_TEST(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test8DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration8Test8DifferenceBefore.mhd
         ${TEMP}/DeformableRegistration8Test8DeformationField.mhd
-        0 0
+        1 1
         ${TEMP}/DeformableRegistration8Test8FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
