@@ -261,6 +261,8 @@ int TestMattesMetricWithAffineTransform(
 
   double delta = 0.001;
 
+  bool testFailed = false;
+
   for( unsigned int i = 0; i < numberOfParameters; ++i )
     {
     //copy the parameters and perturb the current one.
@@ -294,11 +296,15 @@ int TestMattesMetricWithAffineTransform(
     if ( vnl_math_abs( ratio - 1.0 ) > 0.012 )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
-      return EXIT_FAILURE;
+      testFailed = true;
       }
 
-  }
+    }
 
+  if( testFailed )
+    {
+    return EXIT_FAILURE;
+    }
 
 //-------------------------------------------------------
 // exercise misc member functions
@@ -554,6 +560,8 @@ int TestMattesMetricWithBSplineDeformableTransform(
 
   double delta = 0.01 * imgSpacing[0];
 
+  bool testFailed = false;
+
   for( unsigned int i = 0; i < numberOfParameters; ++i )
     {
     //copy the parameters and perturb the current one.
@@ -587,10 +595,15 @@ int TestMattesMetricWithBSplineDeformableTransform(
     if ( vnl_math_abs( ratio - 1.0 ) > 0.01 && vnl_math_abs( derivative[i] ) > 1e-4 )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
-      return EXIT_FAILURE;
+      testFailed = true;
       }
 
-  }
+    }
+
+  if( testFailed )
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 
