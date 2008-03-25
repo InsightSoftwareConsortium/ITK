@@ -123,6 +123,11 @@ LBFGSBOptimizer
   os << indent << "InfinityNormOfProjectedGradient: " <<
     m_InfinityNormOfProjectedGradient << std::endl;
 
+  if( this->m_VnlOptimizer )
+    {
+    os << indent << "Vnl LBFGSB Failure Code: " << 
+      this->m_VnlOptimizer->get_failure_code() << std::endl;
+    }
 }
 
 /**
