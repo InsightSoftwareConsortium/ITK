@@ -246,7 +246,7 @@ int main( int argc, char *argv[] )
   RegionType::SizeType   totalGridSize;
 
   gridSizeOnImage.Fill( numberOfGridNodesInOneDimension );
-  gridBorderSize.Fill( 3 );    // Border for spline order = 3 ( 1 lower, 2 upper )
+  gridBorderSize.Fill( SplineOrder );    // Border for spline order = 3 ( 1 lower, 2 upper )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
   bsplineRegion.SetSize( totalGridSize );
@@ -320,11 +320,11 @@ int main( int argc, char *argv[] )
   optimizer->SetUpperBound( upperBound );
   optimizer->SetLowerBound( lowerBound );
 
-  optimizer->SetCostFunctionConvergenceFactor( 1e-35 );
-  optimizer->SetProjectedGradientTolerance( 1e-35 );
-  optimizer->SetMaximumNumberOfIterations( 8000 );
-  optimizer->SetMaximumNumberOfEvaluations( 8000 );
-  optimizer->SetMaximumNumberOfCorrections( 3000 );
+  optimizer->SetCostFunctionConvergenceFactor( 1e-6 );
+  optimizer->SetProjectedGradientTolerance( 1e-6 );
+  optimizer->SetMaximumNumberOfIterations( 200 );
+  optimizer->SetMaximumNumberOfEvaluations( 30 );
+  optimizer->SetMaximumNumberOfCorrections( 5 );
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
@@ -343,7 +343,7 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 50 );
   
   const unsigned int numberOfSamples = 
-    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 60.0 / 100.0 );
+    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
@@ -405,9 +405,8 @@ int main( int argc, char *argv[] )
                     registration->GetLastTransformParameters();
 
 
-
   // Report the time taken by the registration
-  collector.Report();
+  collector.Report( std::cout );
 
   // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
