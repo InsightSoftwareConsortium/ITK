@@ -283,8 +283,9 @@ int main( int argc, char * argv[] )
 
   for( unsigned int n=0; n < numberOfNodes; n++ )
     {
-    infile >>  parameters[n]; 
-    infile >>  parameters[n+numberOfNodes]; 
+    infile >>  parameters[n];                  // X coordinate
+    infile >>  parameters[n+numberOfNodes];    // Y coordinate
+    infile >>  parameters[n+numberOfNodes*2];  // Z coordinate
     } 
 
   infile.close();
@@ -362,9 +363,7 @@ int main( int argc, char * argv[] )
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint( index, fixedPoint );
     movingPoint = bsplineTransform->TransformPoint( fixedPoint );
-    displacement[0] = movingPoint[0] - fixedPoint[0];
-    displacement[1] = movingPoint[1] - fixedPoint[1];
-    displacement[2] = movingPoint[2] - fixedPoint[2];
+    displacement = movingPoint - fixedPoint;
     fi.Set( displacement );
     ++fi;
     }
