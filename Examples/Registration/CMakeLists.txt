@@ -737,29 +737,29 @@ ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
+ADD_TEST(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
-        ${TEMP}/DeformableRegistration8Test6.mhd
-        ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
-        ${TEMP}/DeformableRegistration8Test6DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test6DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test7.mhd
+        ${TEMP}/DeformableRegistration8Test7DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test7DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test7DeformationField.mhd
         0 1
-        ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
+        ${TEMP}/DeformableRegistration8Test7FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
+ADD_TEST(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
-        ${TEMP}/DeformableRegistration8Test9.mhd
-        ${TEMP}/DeformableRegistration8Test9DifferenceAfter.mhd
-        ${TEMP}/DeformableRegistration8Test9DifferenceBefore.mhd
-        ${TEMP}/DeformableRegistration8Test9DeformationField.mhd
+        ${TEMP}/DeformableRegistration8Test8.mhd
+        ${TEMP}/DeformableRegistration8Test8DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration8Test8DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration8Test8DeformationField.mhd
         0 0
-        ${TEMP}/DeformableRegistration8Test9FinalTransformParameters.txt
+        ${TEMP}/DeformableRegistration8Test8FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
