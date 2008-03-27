@@ -45,6 +45,10 @@ namespace itk
  * images by computing the transform parameters that will map one image onto 
  * the other image.
  *
+ * A user can specify schedules for the fixed and moving image using
+ * SetSchedules() method.  However, SetNumberOfLevels() and SetSchedules() 
+ * should not be used together. An exception will be thrown if that happens. 
+ *
  * The downsampled images are provided by user specified
  * MultiResolutionPyramidImageFilters. User must specify the schedule
  * for each pyramid externally prior to calling StartRegistration().
@@ -116,6 +120,9 @@ public:
   FixedImagePyramidType;
   typedef typename FixedImagePyramidType::Pointer  FixedImagePyramidPointer;
 
+  /** Type of pyramid schedule type */
+  typedef typename FixedImagePyramidType::ScheduleType              ScheduleType;
+
   /** Type of the moving image multiresolution pyramid. */
   typedef MultiResolutionPyramidImageFilter< MovingImageType,
                                              MovingImageType >
@@ -171,9 +178,14 @@ public:
   itkSetObjectMacro( MovingImagePyramid, MovingImagePyramidType );
   itkGetObjectMacro( MovingImagePyramid, MovingImagePyramidType );
 
+  /** Set/Get the schedules . */
+  void SetSchedules( const ScheduleType & fixedSchedule,
+                    const ScheduleType & movingSchedule );
+  itkGetConstMacro( FixedImagePyramidSchedule, ScheduleType ); 
+  itkGetConstMacro( MovingImagePyramidSchedule, ScheduleType ); 
+
   /** Set/Get the number of multi-resolution levels. */
-  itkSetClampMacro( NumberOfLevels, unsigned long, 1,
-                    NumericTraits<unsigned long>::max() );
+  void SetNumberOfLevels( unsigned long numberOfLevels );
   itkGetMacro( NumberOfLevels, unsigned long );
 
   /** Get the current resolution level being processed. */
@@ -252,6 +264,12 @@ private:
   unsigned long                    m_CurrentLevel;
 
   bool                             m_Stop;
+
+  ScheduleType                     m_FixedImagePyramidSchedule;
+  ScheduleType                     m_MovingImagePyramidSchedule;
+
+  bool                             m_ScheduleSpecified;
+  bool                             m_NumberOfLevelsSpecified;
   
 };
 
