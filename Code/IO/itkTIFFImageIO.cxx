@@ -917,7 +917,7 @@ void TIFFImageIO::GetColor( int index, unsigned short *red,
     case 8: case 16:
         break;
     default:
-      itkExceptionMacro( <<  "Sorry, can not image with "
+      itkExceptionMacro( <<  "Sorry, can not handle image with "
                      << m_InternalImage->m_BitsPerSample
                      << "-bit samples" );
         return;
