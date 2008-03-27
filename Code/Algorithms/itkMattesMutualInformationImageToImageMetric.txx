@@ -130,6 +130,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   os << m_InterpolatorIsBSpline << std::endl;
   os << indent << "TransformIsBSpline: ";
   os << m_TransformIsBSpline << std::endl;
+  os << indent << "UseCachingOfBSplineWeights: ";
+  os << m_UseCachingOfBSplineWeights << std::endl;
+  os << indent << "UseExplicitPDFDerivatives: ";
+  os << m_UseExplicitPDFDerivatives << std::endl;
   
 }
 
