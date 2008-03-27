@@ -299,6 +299,13 @@ public:
       }
     }
 
+// force gccxml to find the constructors found before the internal upgrade to gcc 4.2
+#if defined(CABLE_CONFIGURATION)
+  Index(); //purposely not implemented
+  Index(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+#endif
+
 };
 
 namespace Functor

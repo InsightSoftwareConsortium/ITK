@@ -188,6 +188,14 @@ public:
    * bracketed initializer. */
   SizeValueType m_Size[VDimension];
 
+
+// force gccxml to find the constructors found before the internal upgrade to gcc 4.2
+#if defined(CABLE_CONFIGURATION)
+  Size(); //purposely not implemented
+  Size(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+#endif
+
 };
 
 
