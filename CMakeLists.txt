@@ -618,12 +618,10 @@ FIND_PATH(ITK_BRAINWEB_DATA_ROOT brainweb165a10f17.mha
 MARK_AS_ADVANCED(ITK_BRAINWEB_DATA_ROOT)
 
 #-----------------------------------------------------------------------------
-# Define if this computer has a large memory (currently defined as memory > 6 Gb ).
 # This flag is used in particular, to enable some tests that require large memory to run.
 # This probably can be discovered at configuration time by CMake. (Check with CMake developers).
-OPTION(ITK_USE_LARGE_MEMORY_COMPUTER "Enable this option if your have more than 6Gb of RAM" OFF)
-MARK_AS_ADVANCED(ITK_USE_LARGE_MEMORY_COMPUTER)
-
+SET(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes") 
+MARK_AS_ADVANCED(ITK_COMPUTER_MEMORY_SIZE)
 
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
