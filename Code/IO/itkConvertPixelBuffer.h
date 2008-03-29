@@ -116,7 +116,16 @@ protected:
                                OutputPixelType* outputData , int size);
   static void ConvertTensor9ToTensor6(InputPixelType* inputData, 
                                OutputPixelType* outputData , int size);
-    
+
+  /** Convertions related to complex */
+  static void ConvertGrayToComplex(InputPixelType * inputData,
+                                OutputPixelType * OutputData, int size);
+  static void ConvertComplexToComplex(InputPixelType* inputData, 
+                                OutputPixelType* outputData , int size);
+  static void ConvertMultiComponentToComplex(InputPixelType* inputData, 
+                                int inputNumberOfComponents,
+                                OutputPixelType* outputData , int size);
+
 private:
   ConvertPixelBuffer();
   ~ConvertPixelBuffer();
