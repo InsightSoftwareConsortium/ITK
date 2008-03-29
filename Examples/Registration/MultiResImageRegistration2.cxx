@@ -141,17 +141,20 @@ public:
     OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
                        registration->GetOptimizer() );
 
+    std::cout << "-------------------------------------" << std::endl;
+    std::cout << "MultiResolution Level : "
+              << registration->GetCurrentLevel()  << std::endl;
+    std::cout << std::endl;
+
     if ( registration->GetCurrentLevel() == 0 )
       {
       optimizer->SetMaximumStepLength( 16.00 );  
-      optimizer->SetMinimumStepLength(  2.50 );
+      optimizer->SetMinimumStepLength(  0.10 );
       }
     else
       {
-      optimizer->SetMaximumStepLength( 
-                optimizer->GetCurrentStepLength() );
-      optimizer->SetMinimumStepLength(
-                optimizer->GetMinimumStepLength() / 10.0 );
+      optimizer->SetMaximumStepLength( optimizer->GetMaximumStepLength() / 4.0 );
+      optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
       }
   }
   void Execute(const itk::Object * , const itk::EventObject & )
@@ -381,8 +384,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  metric->SetNumberOfHistogramBins( 20 );
-  metric->SetNumberOfSpatialSamples( 10000 );
+  metric->SetNumberOfHistogramBins( 32 );
+  metric->SetNumberOfSpatialSamples( 20000 );
 
  //  Software Guide : BeginLatex
   //  
@@ -424,7 +427,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  optimizer->SetNumberOfIterations(    50   );
+  optimizer->SetNumberOfIterations(  100  );
+  optimizer->SetRelaxationFactor( 0.9 );
 
 
   // Create the Command observer and register it with the optimizer.
@@ -450,6 +454,9 @@ int main( int argc, char *argv[] )
     std::cout << err << std::endl; 
     return EXIT_FAILURE;
     } 
+
+  std::cout << "Optimizer Stopping Condition = " 
+            << optimizer->GetStopCondition() << std::endl;
 
   typedef RegistrationType::ParametersType ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
