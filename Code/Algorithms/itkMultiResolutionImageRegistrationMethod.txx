@@ -425,6 +425,10 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
     os << indent << "FixedImageRegion at level " << level << ": ";
     os << m_FixedImageRegionPyramid[level] << std::endl;
     }
+  os << indent << "FixedImagePyramidSchedule : " << std::endl;
+  os << m_FixedImagePyramidSchedule << std::endl;
+  os << indent << "MovingImagePyramidSchedule : " << std::endl;
+  os << m_MovingImagePyramidSchedule << std::endl;
 
 }
 
