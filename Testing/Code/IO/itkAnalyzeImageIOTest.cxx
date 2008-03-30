@@ -105,7 +105,7 @@ static void RemoveByteSwapTestFiles(const std::string AugmentName)
 
 static int TestByteSwap(const std::string AugmentName)
 {
-  int rval=EXIT_FAILURE;
+  int rval;
   typedef itk::Image<double, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   if(WriteTestFiles(AugmentName) == -1)
