@@ -116,6 +116,9 @@ TARGET_LINK_LIBRARIES(DeformableRegistration11 ITKFEM ITKIO
 ADD_EXECUTABLE(DeformableRegistration12 DeformableRegistration12.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration12 ITKIO ITKStatistics ITKNumerics)
 
+ADD_EXECUTABLE(DeformableRegistration13 DeformableRegistration13.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration13 ITKIO ITKStatistics ITKNumerics)
+
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKIO)
 
@@ -617,6 +620,37 @@ ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES13}
         0 1
         ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
 )
+
+ADD_TEST(DeformableRegistration13Test1 ${REGISTRATION_EXAMPLES13}
+  --compare ${BASELINE}/DeformableRegistration13Test.png
+            ${TEMP}/DeformableRegistration13Test1.png
+  --compareNumberOfPixelsTolerance 400
+  DeformableRegistration13Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${BASELINE}/BSplineWarping1Test.png
+        ${TEMP}/DeformableRegistration13Test1.png
+        ${TEMP}/DeformableRegistration13Test1DifferenceAfter.png
+        ${TEMP}/DeformableRegistration13Test1DifferenceBefore.png
+        ${TEMP}/DeformableRegistration13Test1DeformationField.mhd
+        0 0
+        ${TEMP}/DeformableRegistration13Test1FinalTransformParameters.txt
+)
+
+ADD_TEST(DeformableRegistration13Test2 ${REGISTRATION_EXAMPLES13}
+  --compare ${BASELINE}/DeformableRegistration13Test.png
+            ${TEMP}/DeformableRegistration13Test2.png
+  --compareNumberOfPixelsTolerance 400
+  DeformableRegistration13Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${BASELINE}/BSplineWarping1Test.png
+        ${TEMP}/DeformableRegistration13Test2.png
+        ${TEMP}/DeformableRegistration13Test2DifferenceAfter.png
+        ${TEMP}/DeformableRegistration13Test2DifferenceBefore.png
+        ${TEMP}/DeformableRegistration13Test2DeformationField.mhd
+        0 1
+        ${TEMP}/DeformableRegistration13Test2FinalTransformParameters.txt
+)
+
 
 ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
