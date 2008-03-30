@@ -254,7 +254,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( 10.0   );
-  optimizer->SetMinimumStepLength(  0.001 );
+  optimizer->SetMinimumStepLength(  0.01 );
 
   optimizer->SetRelaxationFactor( 0.7 );
   optimizer->SetNumberOfIterations( 200 );
