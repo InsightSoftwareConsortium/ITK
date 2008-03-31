@@ -36,7 +36,7 @@ void vnl_symmetric_eigensystem_compute_eigenvals(
   const double c =  M11*M22 +M11*M33 +M22*M33  -M12*M12 -M13*M13 -M23*M23;
   const double d = M11*M23*M23 +M12*M12*M33 +M13*M13*M22 -2.0*M12*M13*M23 -M11*M22*M33;
 
- 
+
   // Using a numerically tweaked version of the real cubic solver http://www.1728.com/cubic2.htm
   const double b_3 = b/3.0;
   const double f = b_3*b_3 -  c/3.0 ;
@@ -49,17 +49,17 @@ void vnl_symmetric_eigensystem_compute_eigenvals(
     return;
   }
 
-  
+
   const double f3 = f*f*f;
   const double g2 = g*g;
   const double sqrt_f = -vcl_sqrt(f);
-      
+
   // deal explicitly with repeated root and treat
   // complex conjugate roots as numerically inaccurate repeated roots.
-  
+
   // first check we are not too numerically innacurate
-  assert((g2 - f3) / vnl_math_sqr(vnl_math_cube(b)) < 1e-8);  
-  
+  assert((g2 - f3) / vnl_math_sqr(vnl_math_cube(b)) < 1e-8);
+
   if (g2 >= f3)
   {
     if (g < 0.0)
@@ -74,7 +74,7 @@ void vnl_symmetric_eigensystem_compute_eigenvals(
       }
     return;
   }
-  
+
 
   const double sqrt_f3 = sqrt_f * sqrt_f * sqrt_f;
   const double k = vcl_acos(g / sqrt_f3) / 3.0;
