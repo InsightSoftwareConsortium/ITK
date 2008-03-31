@@ -76,6 +76,8 @@
 #include "itkSquaredDifferenceImageFilter.h"
 
 
+#include "itkTransformFileReader.h"
+
 //  The following section of code implements a Command observer
 //  used to monitor the evolution of the registration process.
 //
@@ -196,6 +198,50 @@ int main( int argc, char *argv[] )
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
+
+
+  //
+  //   In general, you must first solve an Affine registration between
+  //   the images before attempting to solve a deformable registration.
+  //   If you have solve an affine transform, it can be loaded into the
+  //   BSplineDeformableTransform as a "bulk" transform that will be
+  //   pre-composed with the deformation computed by the BSpline.
+  //   The following code loads one of such initial transforms if they
+  //   are available.
+  //   
+  typedef itk::TransformFileReader        TransformReaderType;
+  typedef itk::AffineTransform<double, 3> AffineTransformType;
+
+  TransformReaderType::Pointer transformReader = TransformReaderType::New();
+
+  if( argc > 11 )
+    {
+    std::cout << "Loading Transform: " << argv[11] << std::endl;
+    transformReader->SetFileName( argv[11] );
+    transformReader->Update();
+    
+    typedef TransformReaderType::TransformListType * TransformListType;
+    TransformListType transforms = transformReader->GetTransformList();
+    TransformReaderType::TransformListType::const_iterator tit = transforms->begin();
+    if( !strcmp((*tit)->GetNameOfClass(),"AffineTransform") )
+      {
+      AffineTransformType::Pointer affine_read = 
+                  static_cast<AffineTransformType*>((*tit).GetPointer());
+      AffineTransformType::Pointer affine_transform = 
+                  dynamic_cast< AffineTransformType * >( affine_read.GetPointer() );
+    
+      if( affine_transform )
+        {
+        transform->SetBulkTransform( affine_transform );
+        }
+      } 
+    else
+      {
+      std::cerr << "Bulk transform wasn't an affine transform." << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
