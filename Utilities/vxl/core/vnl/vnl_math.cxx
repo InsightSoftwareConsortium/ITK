@@ -36,7 +36,7 @@
 #  define finitel finite
 # endif
 
-#elif defined(__hpux) 
+#elif defined(__hpux)
 # include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
 # define finite _Isfinite
 # define finitef _Isfinitef
@@ -48,7 +48,7 @@ extern "C" int finite(double);
 # define finitef finite
 # define finitel finite
 
-#elif defined(VCL_BORLAND) 
+#elif defined(VCL_BORLAND)
 # include <math.h> // dont_vxl_filter: this is *not* supposed to be <cmath>
 # include <float.h>
 
