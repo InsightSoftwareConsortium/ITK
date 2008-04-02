@@ -252,7 +252,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 
   typedef typename FixedImageRegionType::SizeType         SizeType;
   typedef typename FixedImageRegionType::IndexType        IndexType;
-  typedef typename FixedImagePyramidType::ScheduleType    ScheduleType;
 
   ScheduleType schedule = m_FixedImagePyramid->GetSchedule();
   std::cout << "FixedImage schedule: " << schedule << std::endl;
