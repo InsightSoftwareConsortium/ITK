@@ -315,9 +315,9 @@ int main( int argc, char *argv[] )
 
   optimizer->SetCostFunctionConvergenceFactor( 1e-35 );
   optimizer->SetProjectedGradientTolerance( 1e-35 );
-  optimizer->SetMaximumNumberOfIterations( 8000 );
-  optimizer->SetMaximumNumberOfEvaluations( 8000 );
-  optimizer->SetMaximumNumberOfCorrections( 3000 );
+  optimizer->SetMaximumNumberOfIterations( 200 );
+  optimizer->SetMaximumNumberOfEvaluations( 200 );
+  optimizer->SetMaximumNumberOfCorrections( 7 );
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
