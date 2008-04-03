@@ -70,7 +70,7 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
 
   PixelType pixelValue = itk::NumericTraits< PixelType >::Zero;
 
-  while( itr.IsAtEnd() )
+  while( !itr.IsAtEnd() )
     {
     itr.Set( pixelValue );
     ++pixelValue;
@@ -113,7 +113,7 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   ritr.GoToBegin();
   oitr.GoToBegin();
 
-  while( itr.IsAtEnd() )
+  while( !ritr.IsAtEnd() )
     {
     if( oitr.Get() != ritr.Get() )
       {
