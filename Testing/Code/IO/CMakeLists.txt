@@ -62,6 +62,7 @@ itkImageIODirection3DTest.cxx
 itkImageReadDICOMSeriesWriteTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
+itkLargeImageWriteReadTest.cxx
 itkMatrixImageWriteReadTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
@@ -208,6 +209,20 @@ IF(ITK_OBJCXX_COMPILER_WORKS)
   ADD_EXECUTABLE(itkIOHeaderObjCxxTest itkIOHeaderObjCxxTest.mm)
   TARGET_LINK_LIBRARIES(itkIOHeaderObjCxxTest ITKIO ITKEXPAT ITKSpatialObject ITKAlgorithms)
 ENDIF(ITK_OBJCXX_COMPILER_WORKS)
+
+
+IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 3 )
+
+  # Just below 2 Gigabytes
+  ADD_TEST(itkLargeImageWriteReadTest1 ${IO_TESTS} itkLargeImageWriteReadTest
+           ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd  30000L )
+
+  # Just above 2 Gigabytes
+  ADD_TEST(itkLargeImageWriteReadTest2 ${IO_TESTS} itkLargeImageWriteReadTest
+           ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd  40000L )
+
+ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 3 )
+
 
 
 IF(ITK_DATA_ROOT)
