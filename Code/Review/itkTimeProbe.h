@@ -14,16 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTimeProbe_h
-#define __itkTimeProbe_h
+#ifndef __itkTimeProbe_h_Review
+#define __itkTimeProbe_h_Review
 
 #include "itkConfigure.h"
-
-#ifdef ITK_USE_REVIEW
-#include "../Review/itkTimeProbe.h"
-#else
+#include "itkProbe.h"
 #include "itkRealTimeClock.h"
-
 
 namespace itk 
 {
@@ -39,7 +35,7 @@ namespace itk
    *   \sa RealTimeClock
    *
    */
-class ITKCommon_EXPORT TimeProbe
+class ITKCommon_EXPORT TimeProbe: public Probe<RealTimeClock::TimeStampType,RealTimeClock::TimeStampType>
 {
 
 public:
@@ -57,39 +53,25 @@ public:
   TimeProbe();
 
   /** Destructor */
-  ~TimeProbe();
+  virtual ~TimeProbe();
 
-  /** Start counting the time */
-  void Start(void);
-
-  /** Stop counting the time */
-  void Stop(void);
-
-  /** Returns the number of times that the probe has been started. */
-  CountType     GetNumberOfStarts(void) const;
-
-  /** Returns the number of times that the probe has been stopped. */
-  CountType     GetNumberOfStops(void) const;
+  /** Get the current time.
+   *  Warning: the returned value is not the elapsed time since the last Start() call. 
+   */ 
+  virtual RealTimeClock::TimeStampType GetInstantValue(void)const;
 
   /** Returns the average times passed between the starts and stops of the
-   * probe. See the RealTimeClock for details on the precision and units of
-   * this time value. */
+   *  probe. See the RealTimeClock for details on the precision and units of
+   *  this time value. Obsolete method kept for backward compatibility, 
+   *  use Probe::GetMean() instead.
+   */
   TimeStampType GetMeanTime(void) const;
 
 private:
-
-    TimeStampType   m_Start;
-    TimeStampType   m_TotalTime;
-    
-    CountType       m_NumberOfStarts;
-    CountType       m_NumberOfStops;
-
-    RealTimeClock::Pointer   m_RealTimeClock;
+  RealTimeClock::Pointer   m_RealTimeClock;
 };
 
 
-}
+} // end namespace itk
 
-#endif // ITK_USE_REVIEW
-
-#endif
+#endif //__itkTimeProbe_h_Review

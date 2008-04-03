@@ -72,6 +72,8 @@ SET(ReviewTest_SRCS
   itkBinaryMorphologicalOpeningImageFilterTest.cxx
 
   itkOptImageToImageMetricsTest.cxx
+
+  itkTimeAndMemoryProbeTest.cxx
 )
 
 ADD_TEST(itkOptImageToImageMetricsTest01 
@@ -374,7 +376,9 @@ ADD_TEST(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
                   ${TEMP}/itkBinaryMorphologicalOpeningImageFilterTest.png
                   8 150 200
                   )
-
+ADD_TEST(itkTimeAndMemoryProbeTest1 ${REVIEW_TESTS} 
+        itkTimeAndMemoryProbeTest
+        )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
