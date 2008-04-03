@@ -31,10 +31,25 @@ namespace itk {
 /** This struct contains an entry in a smaps file. 
  *  It is filled by operator>>(istream&,SmapsRecord&).
 */
-struct ITK_EXPORT SmapsRecord
+struct ITKCommon_EXPORT SmapsRecord
 {
   typedef unsigned int  MemoryLoadType;
-  /** Input operator to fill a SmapsRecord 
+
+  /** Reset the record
+  */
+  void Reset(void);
+
+  /** Name of the file if any. Can be [heap] or [stack] also.
+  */
+  std::string  m_HeaderName;
+
+  /** Contains a list of token with the associated memory allocated, tokens 
+   *  could be typically: Size, Rss, Shared_Clean, Shared_Dirty, Private_Clean, 
+   *  Private_Dirty, Referenced.
+  */
+  std::map<std::string, MemoryLoadType> m_Tokens;
+
+    /** Input operator to fill a SmapsRecord 
    *  The format has to be the following:
    *  "address permissions offset device inode optional_name
    *   Token1:      number kB
@@ -50,22 +65,9 @@ struct ITK_EXPORT SmapsRecord
    *  Private_Clean:        0 kB
    *  Private_Dirty:        0 kB
   */
-  std::istream &operator>>(std::istream &in);
-
-  /** Reset the record
-  */
-  void Reset(void);
-
-  /** Name of the file if any. Can be [heap] or [stack] also.
-  */
-  std::string  m_HeaderName;
-
-  /** Contains a list of token with the associated memory allocated, tokens 
-   *  could be typically: Size, Rss, Shared_Clean, Shared_Dirty, Private_Clean, 
-   *  Private_Dirty, Referenced.
-  */
-  std::map<std::string, MemoryLoadType> m_Tokens;
+  friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, SmapsRecord &record);
 };
+
 
 
 /** \class SmapsData_2_6 
@@ -73,7 +75,7 @@ struct ITK_EXPORT SmapsRecord
  *  Smaps files have been added since the linux kernel 2.6 
 */
 template <class TSmapsRecord>
-class ITKCommon_EXPORT SmapsData_2_6{
+class ITK_EXPORT SmapsData_2_6{
 public:
   /** need an unsigned long type to be able to accumulate the SmapsRecord */
   typedef unsigned long             MemoryLoadType;
@@ -92,7 +94,7 @@ public:
   MemoryLoadType GetTotalMemoryUsage();
 
   /** fill the smaps data */
-  std::istream& operator>>( std::istream &smapsStream);
+  template<class TSmapsRecordType> friend ITK_EXPORT std::istream& operator>>( std::istream &smapsStream,SmapsData_2_6<TSmapsRecord>&data);
 
 protected:
   void Reset(void);  
@@ -114,7 +116,7 @@ protected:
  *  long as they implement a operator>>(istream&) and have GetXXXUsage() methods.
 */
 template<class TSmapsData>
-class ITKCommon_EXPORT SmapsFileParser
+class ITK_EXPORT SmapsFileParser
 {
 public:
   typedef typename TSmapsData::MemoryLoadType MemoryLoadType;

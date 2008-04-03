@@ -28,7 +28,7 @@ void SmapsRecord::Reset(void)
   m_HeaderName.clear();
 }
 
-std::istream &operator>>(std::istream &in,SmapsRecord &record)
+ITKCommon_EXPORT std::istream &  operator>>(std::istream &in,SmapsRecord &record)
 {
   record.Reset();
 
@@ -89,5 +89,6 @@ std::istream &operator>>(std::istream &in,SmapsRecord &record)
     }
   return in;
 }
+
 
 } // end namespace itk

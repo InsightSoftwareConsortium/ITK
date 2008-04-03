@@ -67,32 +67,40 @@ struct SmapsRecordConditionalPlusor{
 };
 
 
-template<class TSmapsRecordType>
+
+template<class TSmapsRecordType> ITK_EXPORT
 std::istream& 
-SmapsData_2_6<TSmapsRecordType>
-::operator>>( std::istream &smapsStream)
+operator>>( std::istream & smapsStream, SmapsData_2_6<TSmapsRecordType> & data)
 {
   // reset the records from a previous parsing
-  this->Reset();
+  data.Reset();
   try
     {
-    RecordType record;
+    TSmapsRecordType record;
+    //SmapsRecord record;
     // parse each line of the Smaps file and fill the record vector.
     while( smapsStream >> record  )
       {
-      m_Records.push_back( record );
+      data.m_Records.push_back( record );
       }
     }
   catch( ExceptionObject excp )
     {
     // erase the added records.
-    this->Reset();
+    data.Reset();
     // propagate the exception
     itkGenericExceptionMacro( << "The Smaps stream contains errors, can't read the memory records." );
     }
   return smapsStream;
 }
 
+template<class TSmapsRecordType>
+bool 
+SmapsData_2_6<TSmapsRecordType>
+::Empty()
+{
+  return m_Records.empty();
+}
 
 template<class TSmapsRecordType>
 typename SmapsData_2_6<TSmapsRecordType>::MemoryLoadType 
@@ -149,7 +157,7 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &smapsFileLoca
   // if location is empty (default parameter), use the regular linux smaps file.
   if ( filename.str().empty() )
     {
-    int pid = getpid();
+    int pid = 50;//getpid();
     filename << "/proc/" << pid << "/smaps";
     }
 
