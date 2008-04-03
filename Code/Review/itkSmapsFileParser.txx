@@ -157,7 +157,7 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &smapsFileLoca
   // if location is empty (default parameter), use the regular linux smaps file.
   if ( filename.str().empty() )
     {
-    int pid = 50;//getpid();
+    int pid = getpid();
     filename << "/proc/" << pid << "/smaps";
     }
 
