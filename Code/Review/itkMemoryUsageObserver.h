@@ -44,13 +44,13 @@ public:
 
 };
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
 class WindowsMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   virtual MemoryLoadType GetMemoryUsage();
 };
-#elif __linux
+#elif linux
 class LinuxMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
@@ -62,20 +62,24 @@ class SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
 public:
   virtual MemoryLoadType GetMemoryUsage();
 };
+#ifndef __APPLE__
 class MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   virtual MemoryLoadType GetMemoryUsage();
 };
 #endif
+#endif
 
 
 class ITKCommon_EXPORT MemoryUsageObserver:
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
   public WindowsMemoryUsageObserver
-#elif __linux
+#elif linux
   public LinuxMemoryUsageObserver
-#else // Unix and Mac Platforms
+#elif __APPLE__
+  public SysResourceMemoryUsageObserver
+#else
   public MallinfoMemoryUsageObserver
 #endif
 {

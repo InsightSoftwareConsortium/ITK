@@ -17,24 +17,29 @@
 
 #include "itkMemoryUsageObserver.h"
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
   #include <windows.h>
+#if 0
   #include <psapi.h>
-#elif __linux
+#endif
+#elif linux
   #include "itkSmapsFileParser.h"
 #else
   #include <sys/resource.h>     // getrusage()
-  #include <malloc.h>           // mallinfo()
+  #ifndef __APPLE__
+    #include <malloc.h>           // mallinfo()
+  #endif
 #endif
 
 namespace itk
 {
 
-#ifdef WIN32
+#if defined(WIN32) || defined(_WIN32)
 
 MemoryUsageObserverBase::MemoryLoadType 
 WindowsMemoryUsageObserver::GetMemoryUsage()
 {
+#if 0
   DWORD pid = GetCurrentProcessId();
   PROCESS_MEMORY_COUNTERS memoryCounters;
 
@@ -53,10 +58,13 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   MemoryLoadType mem = static_cast<MemoryLoadType>( 
                           static_cast<double>( memoryCounters.PagefileUsage )
                                                                           / 1024.0 );
+#else
+  MemoryLoadType mem = 0;
+#endif
   return mem;
 }
 
-#elif __linux
+#elif linux
 
 MemoryUsageObserverBase::MemoryLoadType 
 LinuxMemoryUsageObserver::GetMemoryUsage()
@@ -82,7 +90,7 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
 
   return 0;
 }
-
+#ifndef __APPLE__
 MemoryUsageObserverBase::MemoryLoadType 
 MallinfoMemoryUsageObserver::GetMemoryUsage()
 {
@@ -92,7 +100,7 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
                           static_cast<double>( minfo.uordblks ) / 1024.0 );
   return mem;
 }
-
+#endif 
 #endif
 
 }//end namespace itk
