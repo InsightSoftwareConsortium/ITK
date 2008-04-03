@@ -92,7 +92,7 @@ public:
   MemoryLoadType GetTotalMemoryUsage();
 
   /** fill the smaps data */
-  std::istream& operator>>( std::istream &smapsStream) throw ( ExceptionObject );
+  std::istream& operator>>( std::istream &smapsStream);
 
 protected:
   void Reset(void);  
@@ -124,12 +124,12 @@ public:
    *  "/proc/" + PID + "/smaps" 
    *  Throw an exception is the file can't be opened.
    */
-  void ReadFile( const std::string &smapsFileLocation = "") throw ( ExceptionObject );
+  void ReadFile( const std::string &smapsFileLocation = "");
 
   /** ReRead the last parsed file to refresh the memory usage.
    *  Returns false if no smaps file has been previously read.
   */
-  bool Update(void) throw (ExceptionObject);
+  bool Update(void);
   
   /** Returns the heap usage in kB of the process. 
    *  If no file has been loaded yet, load a default file.

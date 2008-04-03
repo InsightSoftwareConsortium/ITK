@@ -166,11 +166,10 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &smapsFileLoca
   try
     {
     //load the file
-    inputFile>>m_SmapsData;
+    inputFile >> m_SmapsData;
     }
   catch( ExceptionObject excp )
     {
-    this->Reset();
     // propagate the exception
     itkGenericExceptionMacro( << "The smaps file " << filename << " is an invalid file or contains errors" );
     }
@@ -180,7 +179,7 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &smapsFileLoca
 template<class TSmapsDataType>
 bool SmapsFileParser<TSmapsDataType>::Update()
 {
-  if (m_SmapsFilePath.Empty())
+  if (m_SmapsFilePath.empty())
     {
     return false;
     }
