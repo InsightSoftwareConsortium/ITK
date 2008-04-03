@@ -88,6 +88,7 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   catch (itk::ExceptionObject &ex)
     {
     std::cout << ex << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "Trying to read the image back from disk" << std::endl;
@@ -101,6 +102,7 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   catch (itk::ExceptionObject &ex)
     {
     std::cout << ex << std::endl;
+    return EXIT_FAILURE;
     }
 
   ImageType::ConstPointer readImage = reader->GetOutput();
