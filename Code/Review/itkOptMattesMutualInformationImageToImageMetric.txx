@@ -1289,8 +1289,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     const WeightsValueType * weights = NULL;
     const IndexValueType   * indices = NULL;
 
-    typedef typename Superclass::BSplineTransformWeightsType     BSplineTransformWeightsType;
-    typedef typename Superclass::BSplineTransformIndexArrayType  BSplineTransformIndexArrayType;
     
     BSplineTransformWeightsType    * weightsHelper = NULL;
     BSplineTransformIndexArrayType * indicesHelper = NULL; 

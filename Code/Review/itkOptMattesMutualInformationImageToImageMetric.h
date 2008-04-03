@@ -145,6 +145,11 @@ public:
   typedef typename Superclass::MovingImagePointType     MovingImagePointType;
   typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
+  typedef typename Superclass::BSplineTransformWeightsType
+                                                        BSplineTransformWeightsType;
+  typedef typename Superclass::BSplineTransformIndexArrayType
+                                                        BSplineTransformIndexArrayType;
+
   typedef typename Superclass::CoordinateRepresentationType
                                                    CoordinateRepresentationType;
   typedef typename Superclass::FixedImageSampleContainer   
