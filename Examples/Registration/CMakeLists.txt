@@ -741,6 +741,7 @@ ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
         0 0
         ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
 ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
@@ -758,6 +759,7 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
         1 0
         ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
 ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
@@ -775,6 +777,7 @@ ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
         0 1
         ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
 ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
@@ -792,6 +795,7 @@ ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
         1 1
         ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
 ADD_TEST(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
@@ -809,7 +813,67 @@ ADD_TEST(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
         0 0
         ${TEMP}/DeformableRegistration14Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
+        10.0 50
 )
+
+ADD_TEST(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration14Test2.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
+  DeformableRegistration14Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration14Test2.mhd
+        ${TEMP}/DeformableRegistration14Test2DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration14Test2DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration14Test2DeformationField.mhd
+        0 1
+        ${TEMP}/DeformableRegistration14Test2FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
+        10.0 50
+)
+
+ADD_TEST(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration14Test3.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
+  DeformableRegistration14Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration14Test3.mhd
+        ${TEMP}/DeformableRegistration14Test3DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration14Test3DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration14Test3DeformationField.mhd
+        1 0
+        ${TEMP}/DeformableRegistration14Test3FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
+        10.0 50
+)
+
+ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration14Test4.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
+  DeformableRegistration14Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration14Test4.mhd
+        ${TEMP}/DeformableRegistration14Test4DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration14Test4DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration14Test4DeformationField.mhd
+        1 1
+        ${TEMP}/DeformableRegistration14Test4FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
+        10.0 50
+)
+
 
 
 IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
