@@ -119,6 +119,9 @@ TARGET_LINK_LIBRARIES(DeformableRegistration12 ITKIO ITKStatistics ITKNumerics)
 ADD_EXECUTABLE(DeformableRegistration13 DeformableRegistration13.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration13 ITKIO ITKStatistics ITKNumerics)
 
+ADD_EXECUTABLE(DeformableRegistration14 DeformableRegistration14.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration14 ITKIO ITKStatistics ITKNumerics)
+
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKIO)
 
@@ -788,6 +791,23 @@ ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration8Test4DeformationField.mhd
         1 1
         ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
+        ${NUMBER_OF_BSPLINE_GRID_NODES}
+)
+
+ADD_TEST(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration14Test1.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
+  DeformableRegistration14Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/DeformableRegistration14Test1.mhd
+        ${TEMP}/DeformableRegistration14Test1DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration14Test1DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration14Test1DeformationField.mhd
+        0 0
+        ${TEMP}/DeformableRegistration14Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
