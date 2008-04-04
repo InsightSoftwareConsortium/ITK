@@ -54,8 +54,10 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   image->SetRegions(region);
 
   const unsigned long sizeInMegaBytes =
-    ( sizeof(PixelType) * numberOfPixelsInOneDimension * numberOfPixelsInOneDimension ) /
-    ( 1024.0 * 1024.0 );
+    static_cast< unsigned long >(
+      ( sizeof(PixelType) * numberOfPixelsInOneDimension * numberOfPixelsInOneDimension ) /
+      ( 1024.0 * 1024.0 ) );
+
 
   std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl; 
 
