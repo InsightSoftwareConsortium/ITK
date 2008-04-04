@@ -292,7 +292,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  const double stepMagnitudeRedistributionFactor = bsplineRegion.GetNumberOfPixels();
+  const double stepMagnitudeRedistributionFactor =  1.0;
 
   optimizer->SetMaximumStepLength( 10.0 * stepMagnitudeRedistributionFactor  );
   optimizer->SetMinimumStepLength(  0.01 );
