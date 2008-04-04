@@ -25,7 +25,7 @@ namespace itk
 void SmapsRecord::Reset(void)
 {
   m_Tokens.clear();
-  m_HeaderName.clear();
+  m_HeaderName = "";
 }
 
 ITKCommon_EXPORT std::istream &  operator>>(std::istream &in,SmapsRecord &record)
