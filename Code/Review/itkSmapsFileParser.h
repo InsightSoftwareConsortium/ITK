@@ -94,7 +94,7 @@ public:
   MemoryLoadType GetTotalMemoryUsage();
 
   /** fill the smaps data */
-  template<class TSmapsRecordType> friend ITK_EXPORT std::istream& operator>>( std::istream &smapsStream,SmapsData_2_6<TSmapsRecord>&data);
+  template<class TSmapsRecordType> friend ITK_EXPORT std::istream& operator>>( std::istream &smapsStream,SmapsData_2_6<TSmapsRecordType>&data);
 
 protected:
   void Reset(void);  
