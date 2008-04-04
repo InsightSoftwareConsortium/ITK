@@ -47,7 +47,7 @@
 //  The following are the most relevant headers to this example.
 //
 //  \index{itk::BSplineDeformableTransform!header}
-//  \index{itk::LBFGSBOptimizer!header}
+//  \index{itk::RegularStepGradientDescentOptimizer!header}
 // 
 //  Software Guide : EndLatex 
 
