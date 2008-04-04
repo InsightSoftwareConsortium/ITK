@@ -20,6 +20,12 @@
 
 #include "itkSmapsFileParser.h"
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+# include <io.h>
+# include <process.h>
+#else
+# include <unistd.h>
+#endif
 
 #include <fstream>  // std::ifstream
 #include <numeric>  // std::accumulate
