@@ -114,6 +114,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [deformationField] ";
     std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
     std::cerr << " [filenameForFinalTransformParameters] ";
+    std::cerr << " [maximumStepLength] [maximumNumberOfIterations]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -179,6 +180,7 @@ int main( int argc, char *argv[] )
 
   if( argc > 11 )
     {
+    #if BACKWARD_COMPATIBILITY_OF_TRANSFORM_IO_IS_SOLVED
     std::cout << "Loading Transform: " << argv[11] << std::endl;
     transformReader->SetFileName( argv[11] );
     transformReader->Update();
@@ -203,6 +205,7 @@ int main( int argc, char *argv[] )
       std::cerr << "Bulk transform wasn't an affine transform." << std::endl;
       return EXIT_FAILURE;
       }
+    #endif
     }
 
 
@@ -292,14 +295,26 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  const double stepMagnitudeRedistributionFactor =  1.0;
-
-  optimizer->SetMaximumStepLength( 10.0 * stepMagnitudeRedistributionFactor  );
+  optimizer->SetMaximumStepLength( 10.0 );
   optimizer->SetMinimumStepLength(  0.01 );
 
   optimizer->SetRelaxationFactor( 0.7 );
-  optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetNumberOfIterations( 50 );
   // Software Guide : EndCodeSnippet
+
+
+  // Optionally, get the step length from the command line arguments
+  if( argc > 12 )
+    {
+    optimizer->SetMaximumStepLength( atof( argv[12] ) );
+    }
+
+  // Optionally, get the number of iterations from the command line arguments
+  if( argc > 13 )
+    {
+    optimizer->SetNumberOfIterations( atoi( argv[13] ) );
+    }
+
 
   // Create the Command observer and register it with the optimizer.
   //
