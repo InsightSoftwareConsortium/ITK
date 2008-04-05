@@ -886,7 +886,6 @@ ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration15Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e5a10f17Rot20Tx20.mha
-        ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceBefore.mhd
@@ -894,7 +893,6 @@ ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES12}
         0 0
         ${TEMP}/DeformableRegistration15Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
-        ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
         10.0 50
 )
 
