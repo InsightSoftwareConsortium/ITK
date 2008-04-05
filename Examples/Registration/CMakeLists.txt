@@ -878,8 +878,8 @@ ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
 )
 
 
-ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES12}
-  DeformableRegistration15Test
+ADD_TEST(DeformableRegistration15Test1 
+        ${CXX_TEST_PATH}/DeformableRegistration15
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e5a10f17Rot20Tx20.mha
         ${TEMP}/DeformableRegistration15Test1.mhd
