@@ -120,6 +120,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [deformationField] ";
     std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
     std::cerr << " [filenameForFinalTransformParameters] ";
+    std::cerr << " [numberOfGridNodesInsideImageInOneDimension] ";
     std::cerr << " [maximumStepLength] [maximumNumberOfIterations]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
@@ -208,6 +209,11 @@ int main( int argc, char *argv[] )
   registration->SetFixedImage(  fixedImage   );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
 
+  //
+  // Add a time probes collector for profiling the computation time of every
+  // stage.
+  //
+  itk::TimeProbesCollectorBase collector;
 
   //
   //  Initialize a rigid transform by using Image Intensity Moments
@@ -220,8 +226,15 @@ int main( int argc, char *argv[] )
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->MomentsOn();
+
+
+  std::cout << "Starting Rigid Transform Initialization " << std::endl;
+  collector.Start( "Rigid Initialization" );
   initializer->InitializeTransform();
- 
+  collector.Stop( "Rigid Initialization" );
+  std::cout << "Rigid Transform Initialization completed" << std::endl;
+  std::cout << std::endl;
+
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   
   registration->SetFixedImageRegion( fixedRegion );
@@ -259,9 +272,6 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  // Add a time probe
-  itk::TimeProbesCollectorBase collector;
-
   std::cout << "Starting Rigid Registration " << std::endl;
 
   try 
@@ -278,10 +288,9 @@ int main( int argc, char *argv[] )
     } 
 
   std::cout << "Rigid Registration completed" << std::endl;
+  std::cout << std::endl;
 
   rigidTransform->SetParameters( registration->GetLastTransformParameters() );
-
-  rigidTransform->Print( std::cout );
 
 
   //
@@ -292,9 +301,6 @@ int main( int argc, char *argv[] )
   affineTransform->SetCenter( rigidTransform->GetCenter() );
   affineTransform->SetTranslation( rigidTransform->GetTranslation() );
   affineTransform->SetMatrix( rigidTransform->GetMatrix() );
-
-  std::cout << "Initial Affine Transform" << std::endl;
-  affineTransform->Print( std::cout );
 
   registration->SetTransform( affineTransform );
   registration->SetInitialTransformParameters( affineTransform->GetParameters() );
@@ -338,26 +344,15 @@ int main( int argc, char *argv[] )
     } 
 
   std::cout << "Affine Registration completed" << std::endl;
+  std::cout << std::endl;
 
   affineTransform->SetParameters( registration->GetLastTransformParameters() );
-
-  affineTransform->Print( std::cout );
-
 
 
   //
   //  Perform Deformable Registration
   // 
   DeformableTransformType::Pointer  bsplineTransform = DeformableTransformType::New();
-
-  registration->SetTransform( bsplineTransform );
-
-  optimizerScales = OptimizerScalesType( bsplineTransform->GetNumberOfParameters() );
-
-  optimizerScales.Fill( 1.0 );
-
-  optimizer->SetScales( optimizerScales );
-
 
   unsigned int numberOfGridNodesInOneDimension = 5;
 
@@ -378,8 +373,6 @@ int main( int argc, char *argv[] )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
   bsplineRegion.SetSize( totalGridSize );
-
-
 
   typedef DeformableTransformType::SpacingType SpacingType;
   SpacingType spacing = fixedImage->GetSpacing();
@@ -405,14 +398,22 @@ int main( int argc, char *argv[] )
   typedef DeformableTransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
-  
-  ParametersType initialDeformableTransformParameters( numberOfParameters );
 
+
+  optimizerScales = OptimizerScalesType( numberOfParameters );
+  optimizerScales.Fill( 1.0 );
+
+  optimizer->SetScales( optimizerScales );
+
+
+  ParametersType initialDeformableTransformParameters( numberOfParameters );
   initialDeformableTransformParameters.Fill( 0.0 );
 
   bsplineTransform->SetParameters( initialDeformableTransformParameters );
 
   registration->SetInitialTransformParameters( bsplineTransform->GetParameters() );
+  registration->SetTransform( bsplineTransform );
+
   // Software Guide : EndCodeSnippet
 
 
@@ -433,15 +434,15 @@ int main( int argc, char *argv[] )
 
 
   // Optionally, get the step length from the command line arguments
-  if( argc > 12 )
+  if( argc > 11 )
     {
-    optimizer->SetMaximumStepLength( atof( argv[12] ) );
+    optimizer->SetMaximumStepLength( atof( argv[11] ) );
     }
 
   // Optionally, get the number of iterations from the command line arguments
-  if( argc > 13 )
+  if( argc > 12 )
     {
-    optimizer->SetNumberOfIterations( atoi( argv[13] ) );
+    optimizer->SetNumberOfIterations( atoi( argv[12] ) );
     }
 
 
