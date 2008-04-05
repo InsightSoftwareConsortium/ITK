@@ -36,7 +36,10 @@ bool
 TxtTransformIO::
 CanReadFile(const char *fileName)
 {
-  return (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
+  bool recognizedExtension = false;
+  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
+  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm");
+  return recognizedExtension;
   
 }
 
