@@ -885,6 +885,7 @@ ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES12}
     --compareIntensityTolerance 15
   DeformableRegistration15Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e5a10f17Rot20Tx20.mha
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceAfter.mhd
