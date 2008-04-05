@@ -95,6 +95,9 @@ class ITKCommon_EXPORT MemoryUsageObserver:
   public MallinfoMemoryUsageObserver
 #endif
 {
+public:
+  /** destructor */
+  virtual ~MemoryUsageObserver(){}
 };
 
 } // end of namespace itk

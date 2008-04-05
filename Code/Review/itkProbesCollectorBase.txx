@@ -23,6 +23,10 @@
 namespace itk
 {
 
+template <class TProbe>
+~ProbesCollectorBase()
+{
+}
 
 template <class TProbe>
 void 

@@ -40,6 +40,9 @@ class ITK_EXPORT ProbesCollectorBase
 public:
   typedef std::string               IdType;
   typedef std::map<IdType,TProbe>   MapType;
+  
+  /** destructor */
+  virtual ~ProbesCollectorBase();
 
   /** Start a probe with a particular name. If the time probe does not
    * exist, it will be created */

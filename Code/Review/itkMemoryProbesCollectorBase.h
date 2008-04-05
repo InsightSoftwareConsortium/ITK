@@ -33,7 +33,11 @@ namespace itk
  *  \sa MemoryProbe
  *
  */
-class ITK_EXPORT MemoryProbesCollectorBase :public ProbesCollectorBase<MemoryProbe>{};
+class ITK_EXPORT MemoryProbesCollectorBase :public ProbesCollectorBase<MemoryProbe>
+{
+public: 
+  virtual ~MemoryProbesCollectorBase(){}
+};
 
 } // end namespace itk
 

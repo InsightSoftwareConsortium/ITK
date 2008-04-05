@@ -35,7 +35,12 @@ namespace itk
  *  \sa RealTimeClock
  *
  */
-class ITK_EXPORT TimeProbesCollectorBase :public ProbesCollectorBase<TimeProbe>{};
+class ITK_EXPORT TimeProbesCollectorBase :public ProbesCollectorBase<TimeProbe>
+{
+public:
+  /** destructor */ 
+  virtual ~TimeProbesCollectorBase(){}
+};
 
 }
 

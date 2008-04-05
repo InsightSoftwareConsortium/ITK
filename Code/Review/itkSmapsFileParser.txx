@@ -173,7 +173,7 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &smapsFileLoca
   // can't find or open the Smaps file
   if ( inputFile.is_open() == false )
     {
-    itkGenericExceptionMacro( << "The smaps file " << filename << " could not be open" );
+    itkGenericExceptionMacro( << "The smaps file " << filename.str() << " could not be open" );
     return;
     }
 
@@ -185,7 +185,7 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &smapsFileLoca
   catch( ExceptionObject excp )
     {
     // propagate the exception
-    itkGenericExceptionMacro( << "The smaps file " << filename << " is an invalid file or contains errors" );
+    itkGenericExceptionMacro( << "The smaps file " << filename.str() << " is an invalid file or contains errors" );
     }
   m_SmapsFilePath = filename.str();
 }
