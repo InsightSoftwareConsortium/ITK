@@ -26,7 +26,7 @@
   #include "itkSmapsFileParser.h"
 #else
   #include <sys/resource.h>     // getrusage()
-  #ifndef __APPLE__
+  #if !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
     #include <malloc.h>           // mallinfo()
   #endif
 #endif
@@ -107,7 +107,7 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
 
   return 0;
 }
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
 
 MallinfoMemoryUsageObserver::~MallinfoMemoryUsageObserver()
 {
@@ -123,7 +123,7 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
   return mem;
 }
 
-#endif //ifndef __APPLE__
+#endif //  !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
 
 #endif // // Unix and Mac Platforms
 

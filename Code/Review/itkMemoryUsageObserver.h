@@ -72,7 +72,7 @@ public:
   virtual ~SysResourceMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
 class ITKCommon_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
@@ -87,9 +87,9 @@ public:
 class ITKCommon_EXPORT MemoryUsageObserver:
 #if defined(WIN32) || defined(_WIN32)
   public WindowsMemoryUsageObserver
-#elif linux
+#elif defined(linux)
   public LinuxMemoryUsageObserver
-#elif __APPLE__
+#elif defined(__APPLE__) || defined(__SUNPRO_CC) || defined (__sun__)
   public SysResourceMemoryUsageObserver
 #else
   public MallinfoMemoryUsageObserver
