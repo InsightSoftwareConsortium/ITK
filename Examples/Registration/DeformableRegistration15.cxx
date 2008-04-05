@@ -259,9 +259,16 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
+  // Add a time probe
+  itk::TimeProbesCollectorBase collector;
+
+  std::cout << "Starting Rigid Registration " << std::endl;
+
   try 
     { 
+    collector.Start( "Rigid Registration" );
     registration->StartRegistration(); 
+    collector.Stop( "Rigid Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -278,12 +285,78 @@ int main( int argc, char *argv[] )
 
 
   //
+  //  Perform Affine Registration
+  // 
+  AffineTransformType::Pointer  affineTransform = AffineTransformType::New();
+
+  affineTransform->SetCenter( rigidTransform->GetCenter() );
+  affineTransform->SetTranslation( rigidTransform->GetTranslation() );
+  affineTransform->SetMatrix( rigidTransform->GetMatrix() );
+
+  std::cout << "Initial Affine Transform" << std::endl;
+  affineTransform->Print( std::cout );
+
+  registration->SetTransform( affineTransform );
+  registration->SetInitialTransformParameters( affineTransform->GetParameters() );
+
+  optimizerScales = OptimizerScalesType( affineTransform->GetNumberOfParameters() );
+
+  optimizerScales[0] = 1.0;
+  optimizerScales[1] = 1.0;
+  optimizerScales[2] = 1.0;
+  optimizerScales[3] = 1.0;
+  optimizerScales[4] = 1.0;
+  optimizerScales[5] = 1.0;
+  optimizerScales[6] = 1.0;
+  optimizerScales[7] = 1.0;
+  optimizerScales[8] = 1.0;
+
+  optimizerScales[9]  = translationScale;
+  optimizerScales[10] = translationScale;
+  optimizerScales[11] = translationScale;
+
+  optimizer->SetScales( optimizerScales );
+
+  optimizer->SetMaximumStepLength( 0.2000  ); 
+  optimizer->SetMinimumStepLength( 0.0001 );
+
+  optimizer->SetNumberOfIterations( 200 );
+
+  std::cout << "Starting Affine Registration " << std::endl;
+
+  try 
+    { 
+    collector.Start( "Affine Registration" );
+    registration->StartRegistration(); 
+    collector.Stop( "Affine Registration" );
+    } 
+  catch( itk::ExceptionObject & err ) 
+    { 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
+    return EXIT_FAILURE;
+    } 
+
+  std::cout << "Affine Registration completed" << std::endl;
+
+  affineTransform->SetParameters( registration->GetLastTransformParameters() );
+
+  affineTransform->Print( std::cout );
+
+
+
+  //
   //  Perform Deformable Registration
   // 
   DeformableTransformType::Pointer  bsplineTransform = DeformableTransformType::New();
 
   registration->SetTransform( bsplineTransform );
 
+  optimizerScales = OptimizerScalesType( bsplineTransform->GetNumberOfParameters() );
+
+  optimizerScales.Fill( 1.0 );
+
+  optimizer->SetScales( optimizerScales );
 
 
   unsigned int numberOfGridNodesInOneDimension = 5;
@@ -308,7 +381,6 @@ int main( int argc, char *argv[] )
 
 
 
-
   typedef DeformableTransformType::SpacingType SpacingType;
   SpacingType spacing = fixedImage->GetSpacing();
 
@@ -328,17 +400,17 @@ int main( int argc, char *argv[] )
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
   
-  bsplineTransform->SetBulkTransform( rigidTransform );
+  bsplineTransform->SetBulkTransform( affineTransform );
 
   typedef DeformableTransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
   
-  ParametersType parameters( numberOfParameters );
+  ParametersType initialDeformableTransformParameters( numberOfParameters );
 
-  parameters.Fill( 0.0 );
+  initialDeformableTransformParameters.Fill( 0.0 );
 
-  bsplineTransform->SetParameters( parameters );
+  bsplineTransform->SetParameters( initialDeformableTransformParameters );
 
   registration->SetInitialTransformParameters( bsplineTransform->GetParameters() );
   // Software Guide : EndCodeSnippet
@@ -402,16 +474,13 @@ int main( int argc, char *argv[] )
     }
 
 
-  // Add a time probe
-  itk::TimeProbesCollectorBase collector;
-
-  std::cout << std::endl << "Starting Registration" << std::endl;
+  std::cout << std::endl << "Starting Deformable Registration" << std::endl;
 
   try 
     { 
-    collector.Start( "Registration" );
+    collector.Start( "Deformable Registration" );
     registration->StartRegistration(); 
-    collector.Stop( "Registration" );
+    collector.Stop( "Deformable Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
