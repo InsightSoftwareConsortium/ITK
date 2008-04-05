@@ -24,7 +24,8 @@ namespace itk
 {
 
 template <class TProbe>
-~ProbesCollectorBase()
+ProbesCollectorBase<TProbe>
+::~ProbesCollectorBase()
 {
 }
 
