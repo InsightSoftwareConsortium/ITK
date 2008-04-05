@@ -48,7 +48,7 @@ public:
 };
 
 #if defined(WIN32) || defined(_WIN32)
-class WindowsMemoryUsageObserver:public MemoryUsageObserverBase
+class ITKCommon_EXPORT WindowsMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -57,7 +57,7 @@ public:
   virtual MemoryLoadType GetMemoryUsage();
 };
 #elif linux
-class LinuxMemoryUsageObserver:public MemoryUsageObserverBase
+class ITKCommon_EXPORT LinuxMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -65,7 +65,7 @@ public:
   virtual MemoryLoadType GetMemoryUsage();
 };
 #else // Unix and Mac Platforms
-class SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
+class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
@@ -73,7 +73,7 @@ public:
   virtual MemoryLoadType GetMemoryUsage();
 };
 #ifndef __APPLE__
-class MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
+class ITKCommon_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
