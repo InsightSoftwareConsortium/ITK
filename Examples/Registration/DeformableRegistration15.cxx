@@ -227,6 +227,8 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion( fixedRegion );
   registration->SetInitialTransformParameters( rigidTransform->GetParameters() );
 
+  registration->SetTransform( rigidTransform );
+
   //
   //  Define optimizer normaliztion to compensate for different dynamic range
   //  of rotations and translations.
