@@ -180,7 +180,6 @@ int main( int argc, char *argv[] )
 
   if( argc > 11 )
     {
-    #if BACKWARD_COMPATIBILITY_OF_TRANSFORM_IO_IS_SOLVED
     std::cout << "Loading Transform: " << argv[11] << std::endl;
     transformReader->SetFileName( argv[11] );
     transformReader->Update();
@@ -205,7 +204,6 @@ int main( int argc, char *argv[] )
       std::cerr << "Bulk transform wasn't an affine transform." << std::endl;
       return EXIT_FAILURE;
       }
-    #endif
     }
 
 
