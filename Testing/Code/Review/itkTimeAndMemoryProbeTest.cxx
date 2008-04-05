@@ -22,6 +22,9 @@ PURPOSE.  See the above copyright notices for more information.
 
 int itkTimeAndMemoryProbeTest(int argc,char* argv[])
 {
+  (void)argc;
+  (void)argv;
+
   itk::TimeProbe timeProbe;
   itk::MemoryProbesCollectorBase memoryProbes;
 
