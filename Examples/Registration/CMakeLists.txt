@@ -880,11 +880,17 @@ ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
+ADD_TEST(ChangeInformationTest1 
+        ${CXX_TEST_PATH}/ChangeInformationImageFilter
+        ${TEMP}/BSplineWarping2Test.mhd
+        ${TEMP}/BSplinedTranlatedScaledRotated.mhd
+        1.1 3.0 5.0 7.0
+)
 
 ADD_TEST(DeformableRegistration15Test1 
         ${CXX_TEST_PATH}/DeformableRegistration15
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e5a10f17Rot20Tx20.mha
+        ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration15Test1DifferenceBefore.mhd
