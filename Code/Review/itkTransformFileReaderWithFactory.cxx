@@ -46,7 +46,7 @@ void TransformFileReader
     }
   TransformIOBase::Pointer transformIO = 
     TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
-                                      TransformIOFactory::WriteMode );
+                                      TransformIOFactory::ReadMode );
   if(transformIO.IsNull())
     {
     itkExceptionMacro( "Can't Create IO object for file " <<
