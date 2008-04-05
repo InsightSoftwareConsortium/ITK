@@ -39,6 +39,9 @@ public:
   /** Define the type for the memory usage */
   typedef unsigned long        MemoryLoadType;
 
+  /** destructor */
+  virtual ~MemoryUsageObserverBase();
+
   /** Returns the memory load in kO */
   virtual MemoryLoadType GetMemoryUsage() = 0;
 
@@ -48,24 +51,33 @@ public:
 class WindowsMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
+  /** destructor */
+  virtual ~WindowsMemoryUsageObserver();
+
   virtual MemoryLoadType GetMemoryUsage();
 };
 #elif linux
 class LinuxMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
+  /** destructor */
+  virtual ~LinuxMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
 #else // Unix and Mac Platforms
 class SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
+  /** destructor */
+  virtual ~SysResourceMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
 #ifndef __APPLE__
 class MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
+  /** destructor */
+  virtual ~MallinfoMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
 #endif

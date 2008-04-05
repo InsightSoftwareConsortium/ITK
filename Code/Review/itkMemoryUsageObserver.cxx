@@ -34,7 +34,16 @@
 namespace itk
 {
 
+MemoryUsageObserverBase::~MemoryUsageObserverBase()
+{
+}
+
+
 #if defined(WIN32) || defined(_WIN32)
+
+WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
+{
+}
 
 MemoryUsageObserverBase::MemoryLoadType 
 WindowsMemoryUsageObserver::GetMemoryUsage()
@@ -66,6 +75,10 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
 #elif linux
 
+LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver()
+{
+}
+
 MemoryUsageObserverBase::MemoryLoadType 
 LinuxMemoryUsageObserver::GetMemoryUsage()
 {
@@ -75,6 +88,10 @@ LinuxMemoryUsageObserver::GetMemoryUsage()
 }
 
 #else  // Unix and Mac Platforms
+
+SysResourceMemoryUsageObserver::~SysResourceMemoryUsageObserver()
+{
+}
 
 MemoryUsageObserverBase::MemoryLoadType 
 SysResourceMemoryUsageObserver::GetMemoryUsage()
@@ -91,6 +108,11 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
   return 0;
 }
 #ifndef __APPLE__
+
+MallinfoMemoryUsageObserver::~MallinfoMemoryUsageObserver()
+{
+}
+
 MemoryUsageObserverBase::MemoryLoadType 
 MallinfoMemoryUsageObserver::GetMemoryUsage()
 {
@@ -100,7 +122,9 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
                           static_cast<double>( minfo.uordblks ) / 1024.0 );
   return mem;
 }
-#endif 
-#endif
+
+#endif //ifndef __APPLE__
+
+#endif // // Unix and Mac Platforms
 
 }//end namespace itk
