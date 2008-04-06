@@ -165,8 +165,6 @@ int main( int argc, char * argv[] )
     {
     double additionalAngle = atof( argv[7] );
 
-    ImageType::DirectionType direction = inputImage->GetDirection();
-
     itk::Versor< double >  rotation; 
     double angleInRadians = additionalAngle * atan(1.0) / 45.0;
     rotation.SetRotationAroundZ( angleInRadians );
