@@ -884,7 +884,9 @@ ADD_TEST(ChangeInformationTest1
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
-        1.1 3.0 5.0 7.0
+        1.05 
+        1.0 2.0 0.0
+        10.0
 )
 
 ADD_TEST(DeformableRegistration15Test1 

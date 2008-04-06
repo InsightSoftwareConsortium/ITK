@@ -43,6 +43,7 @@
 #include "itkOrientedImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkVersor.h"
 
 
 //  Software Guide : BeginLatex
@@ -65,6 +66,8 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile   outputImageFile" << std::endl;
+    std::cerr << " [scalingFactor] [translationX translationY translationZ]" << std::endl;
+    std::cerr << " [rotationZinDegrees]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -156,6 +159,22 @@ int main( int argc, char * argv[] )
 
     filter->SetOutputOrigin( origin );
     filter->ChangeOriginOn();
+    }
+
+  if( argc > 7 )
+    {
+    double additionalAngle = atof( argv[7] );
+
+    ImageType::DirectionType direction = inputImage->GetDirection();
+
+    itk::Versor< double >  rotation; 
+    double angleInRadians = additionalAngle * atan(1.0) / 45.0;
+    rotation.SetRotationAroundZ( angleInRadians );
+
+    ImageType::DirectionType newDirection = direction * rotation.GetMatrix();
+
+    filter->SetOutputDirection( newDirection );
+    filter->ChangeDirectionOn();
     }
 
 
