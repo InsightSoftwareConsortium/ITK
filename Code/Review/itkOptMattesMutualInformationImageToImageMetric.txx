@@ -1220,6 +1220,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
+    derivPtr = 0;
     // Recover the precomputed weight for this specific PDF bin
     precomputedWeight = this->m_PRatioArray[pdfFixedIndex][pdfMovingIndex];
     if(threadID > 0)
