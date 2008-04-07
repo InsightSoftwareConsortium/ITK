@@ -41,6 +41,23 @@
 
 #include "itkTimeProbesCollectorBase.h"
 
+#ifdef ITK_USE_REVIEW
+#include "itkMemoryProbesCollectorBase.h"
+#define itkProbesCreate()  \
+  itk::TimeProbesCollectorBase chronometer; \
+  itk::MemoryProbesCollectorBase memorymeter
+#define itkProbesStart( text ) memorymeter.Start( text ); chronometer.Start( text )
+#define itkProbesStop( text )  chronometer.Stop( text ); memorymeter.Stop( text  )
+#define itkProbesReport( stream )  chronometer.Report( stream ); memorymeter.Report( stream  )
+#else
+#define itkProbesCreate()  \
+  itk::TimeProbesCollectorBase chronometer
+#define itkProbesStart( text ) chronometer.Start( text )
+#define itkProbesStop( text )  chronometer.Stop( text )
+#define itkProbesReport( stream )  chronometer.Report( stream )
+#endif
+
+
 //  Software Guide : BeginLatex
 //  
 //  The following are the most relevant headers to this example.
@@ -349,16 +366,16 @@ int main( int argc, char *argv[] )
     }
 
 
-  // Add a time probe
-  itk::TimeProbesCollectorBase collector;
+  // Add time and memory probes
+  itkProbesCreate();
 
   std::cout << std::endl << "Starting Registration" << std::endl;
 
   try 
     { 
-    collector.Start( "Registration" );
+    itkProbesStart( "Registration" );
     registration->StartRegistration(); 
-    collector.Stop( "Registration" );
+    itkProbesStop( "Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -371,8 +388,8 @@ int main( int argc, char *argv[] )
                     registration->GetLastTransformParameters();
 
 
-  // Report the time taken by the registration
-  collector.Report( std::cout );
+  // Report the time and memory taken by the registration
+  itkProbesReport( std::cout );
 
   transform->SetParameters( finalParameters );
 

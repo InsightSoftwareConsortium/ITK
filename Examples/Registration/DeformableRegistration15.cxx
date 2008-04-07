@@ -42,6 +42,22 @@
 
 #include "itkTimeProbesCollectorBase.h"
 
+#ifdef ITK_USE_REVIEW
+#include "itkMemoryProbesCollectorBase.h"
+#define itkProbesCreate()  \
+  itk::TimeProbesCollectorBase chronometer; \
+  itk::MemoryProbesCollectorBase memorymeter
+#define itkProbesStart( text ) memorymeter.Start( text ); chronometer.Start( text )
+#define itkProbesStop( text )  chronometer.Stop( text ); memorymeter.Stop( text  )
+#define itkProbesReport( stream )  chronometer.Report( stream ); memorymeter.Report( stream  )
+#else
+#define itkProbesCreate()  \
+  itk::TimeProbesCollectorBase chronometer
+#define itkProbesStart( text ) chronometer.Start( text )
+#define itkProbesStop( text )  chronometer.Stop( text )
+#define itkProbesReport( stream )  chronometer.Report( stream )
+#endif
+
 //  Software Guide : BeginLatex
 //  
 //  The following are the most relevant headers to this example.
@@ -210,10 +226,10 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
 
   //
-  // Add a time probes collector for profiling the computation time of every
-  // stage.
+  // Add a time and memory probes collector for profiling the computation time
+  // of every stage.
   //
-  itk::TimeProbesCollectorBase collector;
+  itkProbesCreate();
 
   //
   //  Initialize a rigid transform by using Image Intensity Moments
@@ -229,9 +245,9 @@ int main( int argc, char *argv[] )
 
 
   std::cout << "Starting Rigid Transform Initialization " << std::endl;
-  collector.Start( "Rigid Initialization" );
+  itkProbesStart( "Rigid Initialization");
   initializer->InitializeTransform();
-  collector.Stop( "Rigid Initialization" );
+  itkProbesStop( "Rigid Initialization");
   std::cout << "Rigid Transform Initialization completed" << std::endl;
   std::cout << std::endl;
 
@@ -276,9 +292,9 @@ int main( int argc, char *argv[] )
 
   try 
     { 
-    collector.Start( "Rigid Registration" );
+    itkProbesStart( "Rigid Registration" );
     registration->StartRegistration(); 
-    collector.Stop( "Rigid Registration" );
+    itkProbesStop( "Rigid Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -332,9 +348,9 @@ int main( int argc, char *argv[] )
 
   try 
     { 
-    collector.Start( "Affine Registration" );
+    itkProbesStart( "Affine Registration" );
     registration->StartRegistration(); 
-    collector.Stop( "Affine Registration" );
+    itkProbesStop( "Affine Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -479,9 +495,9 @@ int main( int argc, char *argv[] )
 
   try 
     { 
-    collector.Start( "Deformable Registration" );
+    itkProbesStart( "Deformable Registration" );
     registration->StartRegistration(); 
-    collector.Stop( "Deformable Registration" );
+    itkProbesStop( "Deformable Registration" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -494,8 +510,8 @@ int main( int argc, char *argv[] )
                     registration->GetLastTransformParameters();
 
 
-  // Report the time taken by the registration
-  collector.Report( std::cout );
+  // Report the time and memory taken by the registration
+  itkProbesReport( std::cout );
 
   bsplineTransform->SetParameters( finalParameters );
 
