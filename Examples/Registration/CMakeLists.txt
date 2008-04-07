@@ -19,6 +19,7 @@ SET(REGISTRATION_EXAMPLES10 ${CXX_TEST_PATH}/RegistrationExamples10)
 SET(REGISTRATION_EXAMPLES11 ${CXX_TEST_PATH}/RegistrationExamples11)
 SET(REGISTRATION_EXAMPLES12 ${CXX_TEST_PATH}/RegistrationExamples12)
 SET(REGISTRATION_EXAMPLES13 ${CXX_TEST_PATH}/RegistrationExamples13)
+SET(REGISTRATION_EXAMPLES14 ${CXX_TEST_PATH}/RegistrationExamples14)
 
 ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration3 ITKIO ITKNumerics)
@@ -889,8 +890,12 @@ ADD_TEST(ChangeInformationTest1
         10.0
 )
 
-ADD_TEST(DeformableRegistration15Test1 
-        ${CXX_TEST_PATH}/DeformableRegistration15
+ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
+    --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+              ${TEMP}/DeformableRegistration15Test1.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
+        DeformableRegistration15
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
@@ -902,7 +907,6 @@ ADD_TEST(DeformableRegistration15Test1
         ${NUMBER_OF_BSPLINE_GRID_NODES}
         10.0 50
 )
-
 
 
 IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
@@ -1091,5 +1095,8 @@ TARGET_LINK_LIBRARIES(RegistrationExamples12 ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(RegistrationExamples13 RegistrationExamples13.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples13 ITKIO ITKBasicFilters ITKNumerics)
+
+ADD_EXECUTABLE(RegistrationExamples14 RegistrationExamples14.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples14 ITKIO ITKBasicFilters ITKNumerics)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
