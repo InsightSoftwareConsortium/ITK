@@ -18,9 +18,18 @@
 #ifndef __itkMemoryUsageObserver_h
 #define __itkMemoryUsageObserver_h
 
+#include "itkConfigure.h"
 #include <itkMacro.h>
 #include <itkObject.h>
 #include <itkObjectFactory.h>
+
+#if defined(WIN32) || defined(_WIN32)
+  #include <windows.h>
+  #define SUPPORT_TOOLHELP32
+  #if defined(SUPPORT_TOOLHELP32) 
+    typedef LONG    NTSTATUS;
+  #endif
+#endif
 
 namespace itk
 {
@@ -51,12 +60,25 @@ public:
 class ITKCommon_EXPORT WindowsMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
+  WindowsMemoryUsageObserver();
   /** destructor */
   virtual ~WindowsMemoryUsageObserver();
 
+  /** Returns the memory load in kO */
   virtual MemoryLoadType GetMemoryUsage();
+protected:
+#if defined(SUPPORT_TOOLHELP32)
+  typedef NTSTATUS (WINAPI * PZwQuerySystemInformation)(UINT, PVOID, ULONG, PULONG);
+  
+  // handle ntdll.dll library
+  HMODULE                     m_hNTLib;
+  // Windows native API function to query system information
+  PZwQuerySystemInformation   ZwQuerySystemInformation;
+#endif // defined(SUPPORT_TOOLHELP32)
 };
-#elif linux
+#endif // defined(WIN32) || defined(_WIN32)
+
+#ifdef linux
 class ITKCommon_EXPORT LinuxMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
@@ -64,7 +86,19 @@ public:
   virtual ~LinuxMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
-#else // Unix and Mac Platforms
+#endif // linux
+
+#if defined(__SUNPRO_CC) || defined (__sun__) 
+class ITKCommon_EXPORT SunSolarisMemoryUsageObserver:public MemoryUsageObserverBase
+{
+public:
+  /** destructor */
+  virtual ~SunSolarisMemoryUsageObserver();
+  virtual MemoryLoadType GetMemoryUsage();
+};
+#endif // Sun Solaris
+
+#if !defined(WIN32) && !defined(_WIN32) 
 class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
@@ -80,8 +114,8 @@ public:
   virtual ~MallinfoMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
-#endif
-#endif
+#endif // Mallinfo
+#endif // !defined(WIN32) && !defined(_WIN32)
 
 
 class ITKCommon_EXPORT MemoryUsageObserver:
@@ -89,7 +123,9 @@ class ITKCommon_EXPORT MemoryUsageObserver:
   public WindowsMemoryUsageObserver
 #elif defined(linux)
   public LinuxMemoryUsageObserver
-#elif defined(__APPLE__) || defined(__SUNPRO_CC) || defined (__sun__)
+#elif defined(__SUNPRO_CC) || defined (__sun__)
+  public SunSolarisUsageObserver
+#elif defined(__APPLE__)
   public SysResourceMemoryUsageObserver
 #else
   public MallinfoMemoryUsageObserver

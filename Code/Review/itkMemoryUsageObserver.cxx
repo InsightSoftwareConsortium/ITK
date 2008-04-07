@@ -15,21 +15,33 @@
 
 =========================================================================*/
 
+#include "itkConfigure.h"
 #include "itkMemoryUsageObserver.h"
 
 #if defined(WIN32) || defined(_WIN32)
   #include <windows.h>
-#if 0
-  #include <psapi.h>
-#endif
-#elif linux
+  #if defined(SUPPORT_PSAPI)
+    #include <psapi.h>
+  #endif
+#endif // defined(WIN32) || defined(_WIN32)
+
+#ifdef linux
   #include "itkSmapsFileParser.h"
-#else
+#endif // linux
+
+#if defined(__SUNPRO_CC) || defined (__sun__)
+  #include <unistd.h>
+  #include <stdio.h>
+  #include <string>
+  #include <sstream>
+#endif // !defined(__SUNPRO_CC) && !defined (__sun__)
+
+#if !defined(WIN32) && !defined(_WIN32)
   #include <sys/resource.h>     // getrusage()
   #if !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
     #include <malloc.h>           // mallinfo()
-  #endif
-#endif
+  #endif // !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
+#endif // !defined(WIN32) && !defined(_WIN32)
 
 namespace itk
 {
@@ -41,14 +53,103 @@ MemoryUsageObserverBase::~MemoryUsageObserverBase()
 
 #if defined(WIN32) || defined(_WIN32)
 
-WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
+/**         ----         Windows Memory Usage Observer       ----       */ 
+
+WindowsMemoryUsageObserver::WindowsMemoryUsageObserver()
 {
+#if defined(SUPPORT_TOOLHELP32)
+  m_hNTLib = ::LoadLibraryA("ntdll.dll");
+  if(m_hNTLib)
+  {
+    // load the support function from the kernel
+    ZwQuerySystemInformation = (PZwQuerySystemInformation)::GetProcAddress(m_hNTLib, 
+                                                        "ZwQuerySystemInformation");
+  }
+#endif
 }
 
+WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
+{
+#if defined (SUPPORT_TOOLHELP32)
+  if(m_hNTLib)
+    FreeLibrary(m_hNTLib);
+#endif
+}
+
+#if defined(SUPPORT_TOOLHELP32)
+
+#define STATUS_INFO_LENGTH_MISMATCH ((NTSTATUS)0xC0000004L)
+
+typedef LONG    KPRIORITY;
+#define SystemProcessesAndThreadsInformation    5
+
+typedef struct _CLIENT_ID {
+    DWORD        UniqueProcess;
+    DWORD        UniqueThread;
+} CLIENT_ID;
+
+typedef struct _UNICODE_STRING {
+    USHORT        Length;
+    USHORT        MaximumLength;
+    PWSTR        Buffer;
+} UNICODE_STRING;
+
+typedef struct _VM_COUNTERS {
+    SIZE_T        PeakVirtualSize;
+    SIZE_T        VirtualSize;
+    ULONG        PageFaultCount;
+    SIZE_T        PeakWorkingSetSize;
+    SIZE_T        WorkingSetSize;
+    SIZE_T        QuotaPeakPagedPoolUsage;
+    SIZE_T        QuotaPagedPoolUsage;
+    SIZE_T        QuotaPeakNonPagedPoolUsage;
+    SIZE_T        QuotaNonPagedPoolUsage;
+    SIZE_T        PagefileUsage;
+    SIZE_T        PeakPagefileUsage;
+} VM_COUNTERS;
+
+typedef struct _SYSTEM_THREADS {
+    LARGE_INTEGER   KernelTime;
+    LARGE_INTEGER   UserTime;
+    LARGE_INTEGER   CreateTime;
+    ULONG            WaitTime;
+    PVOID            StartAddress;
+    CLIENT_ID        ClientId;
+    KPRIORITY        Priority;
+    KPRIORITY        BasePriority;
+    ULONG            ContextSwitchCount;
+    LONG            State;
+    LONG            WaitReason;
+} SYSTEM_THREADS, * PSYSTEM_THREADS;
+
+typedef struct _SYSTEM_PROCESSES { // Information Class 5
+ULONG NextEntryDelta;
+ULONG ThreadCount;
+ULONG Reserved1[6];
+LARGE_INTEGER CreateTime;
+LARGE_INTEGER UserTime;
+LARGE_INTEGER KernelTime;
+UNICODE_STRING ProcessName;
+KPRIORITY BasePriority;
+ULONG ProcessId;
+ULONG InheritedFromProcessId;
+ULONG HandleCount;
+ULONG Reserved2[2];
+VM_COUNTERS VmCounters;
+#if _WIN32_WINNT >= 0x500
+    IO_COUNTERS        IoCounters;
+#endif
+SYSTEM_THREADS Threads[1];
+} SYSTEM_PROCESSES, *PSYSTEM_PROCESSES;
+#endif
+  
 MemoryUsageObserverBase::MemoryLoadType 
 WindowsMemoryUsageObserver::GetMemoryUsage()
 {
-#if 0
+
+  MemoryLoadType mem = 0;
+
+#if defined(SUPPORT_PSAPI)
   DWORD pid = GetCurrentProcessId();
   PROCESS_MEMORY_COUNTERS memoryCounters;
 
@@ -64,16 +165,77 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
   GetProcessMemoryInfo( hProcess, &memoryCounters, sizeof(memoryCounters));
 
-  MemoryLoadType mem = static_cast<MemoryLoadType>( 
+  mem = static_cast<MemoryLoadType>( 
                           static_cast<double>( memoryCounters.PagefileUsage )
-                                                                          / 1024.0 );
+                                                                          / 1024.0 ); 
+#elif defined(SUPPORT_TOOLHELP32)
+
+  /* Retrieve memory usage using Windows Native API. For more information, 
+   * read the book "Windows NT 2000 Native API Reference" 
+  */
+
+  if(!m_hNTLib)
+  {
+    itkGenericExceptionMacro( << "Can't find ntdll.dll. "
+                              << "You should probably disable SUPPORT_TOOLHELP32" );
+  }
+  // the ntdll.dll library could not have been opened (file not found?)
+  if ( !ZwQuerySystemInformation )
+  {
+    itkGenericExceptionMacro( << "The file ntdll.dll is not supported. "
+                              << "You should probably disable SUPPORT_TOOLHELP32" );
+    return mem;
+  }
+
+  DWORD pid = GetCurrentProcessId();
+  ULONG n = 30;
+  PSYSTEM_PROCESSES sp = new SYSTEM_PROCESSES[n];
+  // as we can't know how many processes running, we loop and test a new size everytime.
+  while (ZwQuerySystemInformation(SystemProcessesAndThreadsInformation,
+                                      sp, n * sizeof *sp, 0)
+                                      == STATUS_INFO_LENGTH_MISMATCH)
+    {                                    
+    delete [] sp, sp = new SYSTEM_PROCESSES[n = n * 2];
+    }
+  bool done = false;
+  for ( PSYSTEM_PROCESSES spp = sp; 
+        !done ; 
+        spp = PSYSTEM_PROCESSES(PCHAR(spp) + spp->NextEntryDelta))
+    {
+    // only the current process is interesting here
+    if (spp->ProcessId == pid)
+      {
+      mem = static_cast<MemoryLoadType>( 
+                          static_cast<double>( spp->VmCounters.PagefileUsage - sizeof(sp)) / 1024);
+      break;
+      }
+    done = (spp->NextEntryDelta == 0);
+    }
+  delete [] sp;
+  
 #else
-  MemoryLoadType mem = 0;
+
+  /* This solution is not optimal as it returns the system memory usage 
+   * instead of the process memory usage. 
+  */
+
+  MEMORYSTATUSEX statex;
+
+  statex.dwLength = sizeof (statex);
+
+  GlobalMemoryStatusEx (&statex);
+
+  mem   = static_cast<MemoryLoadType>( 
+                          static_cast<double>( statex.ullTotalPhys - statex.ullAvailPhys) / 1024);
 #endif
   return mem;
 }
 
-#elif linux
+#endif // WIN32
+
+#if linux
+
+/**         ----         Linux Memory Usage Observer       ----       */ 
 
 LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver()
 {
@@ -87,7 +249,94 @@ LinuxMemoryUsageObserver::GetMemoryUsage()
   return m_ParseSmaps.GetHeapUsage() + m_ParseSmaps.GetStackUsage();
 }
 
-#else  // Unix and Mac Platforms
+#endif // linux
+
+#if defined(__SUNPRO_CC) || defined (__sun__)
+
+/**         ----         Sun Solaris Memory Usage Observer       ----       */ 
+
+SunSolarisMemoryUsageObserver::~SunSolarisMemoryUsageObserver()
+{
+}
+/** On Sun Solaris machines, the system call pmap returns information on process.
+ *  calling "pmap PID", the output shall be like the following:
+ *  102905:    *my_app*
+ *  00010000    192K r-x--  /usr/bin/my_app
+ *  00042000     40K rwx--    [ heap ]
+ *  FF180000    664K r-x--  /usr/lib/libc.so.1
+ *  FF236000     24K rwx--  /usr/lib/libc.so.1
+ *  FF23C000      8K rwx--  /usr/lib/libc.so.1
+ *  FF250000      8K rwx--    [ anon ]
+ *  ...       ...    ...    ...
+ *  FF3F6000      8K rwx--  /usr/lib/ld.so.1
+ *  FFBFC000     16K rw---    [ stack ]
+ *   total     1880K
+*/
+MemoryUsageObserverBase::MemoryLoadType 
+SunSolarisMemoryUsageObserver::GetMemoryUsage()
+{
+  MemoryLoadType mem = 0;
+  int pid = getpid();
+
+  FILE * fp = NULL;
+  std::stringstream command;
+  command << "pmap " << pid << std::endl;
+  
+  if ((fp = popen(command.str().c_str(), "r")) == NULL)
+    {
+    itkGenericExceptionMacro( << "Error using pmap. Can execute pmap command" );
+    }
+  char remaining[256];
+  int pmappid = -1;
+  fscanf(fp,"%d:%s",&pmappid,remaining);
+  //the first word shall be the process ID
+  if ( pmappid != pid)
+    {
+      itkGenericExceptionMacro( << "Error using pmap. 1st line output shall be PID: name" );
+    }
+  bool heapNotFound = true;
+  char address[64],perms[32];
+  int memUsage = 0;
+  std::string mapping;
+  while (heapNotFound)
+    {
+    if ( fscanf(fp,"%s %dK %s",address, &memUsage, perms) != 3 )
+      break;
+    if ( fgets(remaining,256,fp) != NULL )
+      {
+      mapping = remaining;
+      if ( mapping.find("[ heap ]",0) != std::string::npos)
+        {
+        mem = memUsage;
+        heapNotFound = false;
+        break;
+        }
+      // if no [ heap ] token is defined, accumulate all the [ xxx ] tokens
+      else if ( mapping.find("[ ",0) != std::string::npos && 
+                mapping.find(" ]",0) != std::string::npos )
+        {  
+        mem += memUsage;
+        }
+      }
+    else
+      {
+      if (ferror (fp))
+        {
+        itkGenericExceptionMacro( << "Error using pmap. Corrupted pmap output" );
+        }
+      }
+    }
+  if (pclose(fp) == -1)
+    {
+    itkGenericExceptionMacro( << "Error using pmap. Can't close pmap output file." );
+    }
+  return mem;
+}
+#endif //defined(__SUNPRO_CC) || defined (__sun__)
+
+#if !defined(WIN32) && !defined(_WIN32) 
+
+/**         ----         SysResource Memory Usage Observer       ----       */ 
 
 SysResourceMemoryUsageObserver::~SysResourceMemoryUsageObserver()
 {
@@ -107,7 +356,10 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
 
   return 0;
 }
+
 #if !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
+
+/**         ----         Mallinfo Memory Usage Observer       ----       */ 
 
 MallinfoMemoryUsageObserver::~MallinfoMemoryUsageObserver()
 {
@@ -125,6 +377,6 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
 
 #endif //  !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
 
-#endif // // Unix and Mac Platforms
+#endif // Unix and Mac Platforms !defined(WIN32) && !defined(_WIN32) 
 
 }//end namespace itk
