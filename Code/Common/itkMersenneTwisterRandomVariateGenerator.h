@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4146 )
+#endif
+
 #ifndef __itkMersenneTwisterRandomVariateGenerator_h
 #define __itkMersenneTwisterRandomVariateGenerator_h
 
