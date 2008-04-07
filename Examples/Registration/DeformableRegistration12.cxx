@@ -393,7 +393,7 @@ int main( int argc, char *argv[] )
 
 
   // Report the time and memory taken by the registration
-  itkProbesReport();
+  itkProbesReport( std::cout );
 
   // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
