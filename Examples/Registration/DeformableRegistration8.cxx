@@ -366,7 +366,7 @@ int main( int argc, char *argv[] )
   optimizer->SetUpperBound( upperBound );
   optimizer->SetLowerBound( lowerBound );
 
-  optimizer->SetCostFunctionConvergenceFactor( 1e-6 );
+  optimizer->SetCostFunctionConvergenceFactor( 1.e7 );
   optimizer->SetProjectedGradientTolerance( 1e-6 );
   optimizer->SetMaximumNumberOfIterations( 200 );
   optimizer->SetMaximumNumberOfEvaluations( 30 );
