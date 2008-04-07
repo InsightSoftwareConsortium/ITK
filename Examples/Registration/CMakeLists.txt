@@ -895,7 +895,7 @@ ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
               ${TEMP}/DeformableRegistration15Test1.mhd
     --compareNumberOfPixelsTolerance 700000
     --compareIntensityTolerance 15
-        DeformableRegistration15
+        DeformableRegistration15Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         ${TEMP}/DeformableRegistration15Test1.mhd
