@@ -904,7 +904,7 @@ ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
         ${TEMP}/DeformableRegistration15Test1DeformationField.mhd
         0 0
         ${TEMP}/DeformableRegistration15Test1FinalTransformParameters.txt
-        ${NUMBER_OF_BSPLINE_GRID_NODES}
+        5 100
         10.0 50
 )
 

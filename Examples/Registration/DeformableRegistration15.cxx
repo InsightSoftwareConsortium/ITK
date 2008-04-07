@@ -77,6 +77,8 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
+#include "itkBSplineResampleImageFunction.h"
+#include "itkBSplineDecompositionImageFilter.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -136,7 +138,8 @@ int main( int argc, char *argv[] )
     std::cerr << " [deformationField] ";
     std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
     std::cerr << " [filenameForFinalTransformParameters] ";
-    std::cerr << " [numberOfGridNodesInsideImageInOneDimension] ";
+    std::cerr << " [numberOfGridNodesInsideImageInOneDimensionCoarse] ";
+    std::cerr << " [numberOfGridNodesInsideImageInOneDimensionFine] ";
     std::cerr << " [maximumStepLength] [maximumNumberOfIterations]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
@@ -368,13 +371,13 @@ int main( int argc, char *argv[] )
   //
   //  Perform Deformable Registration
   // 
-  DeformableTransformType::Pointer  bsplineTransform = DeformableTransformType::New();
+  DeformableTransformType::Pointer  bsplineTransformCoarse = DeformableTransformType::New();
 
-  unsigned int numberOfGridNodesInOneDimension = 5;
+  unsigned int numberOfGridNodesInOneDimensionCoarse = 5;
 
   if( argc > 10 )
     {
-    numberOfGridNodesInOneDimension = atoi( argv[10] );
+    numberOfGridNodesInOneDimensionCoarse = atoi( argv[10] );
     }
 
 
@@ -384,7 +387,7 @@ int main( int argc, char *argv[] )
   RegionType::SizeType   gridBorderSize;
   RegionType::SizeType   totalGridSize;
 
-  gridSizeOnImage.Fill( numberOfGridNodesInOneDimension );
+  gridSizeOnImage.Fill( numberOfGridNodesInOneDimensionCoarse );
   gridBorderSize.Fill( SplineOrder );    // Border for spline order = 3 ( 1 lower, 2 upper )
   totalGridSize = gridSizeOnImage + gridBorderSize;
 
@@ -405,30 +408,30 @@ int main( int argc, char *argv[] )
     origin[r]  -=  spacing[r]; 
     }
 
-  bsplineTransform->SetGridSpacing( spacing );
-  bsplineTransform->SetGridOrigin( origin );
-  bsplineTransform->SetGridRegion( bsplineRegion );
+  bsplineTransformCoarse->SetGridSpacing( spacing );
+  bsplineTransformCoarse->SetGridOrigin( origin );
+  bsplineTransformCoarse->SetGridRegion( bsplineRegion );
   
-  bsplineTransform->SetBulkTransform( affineTransform );
+  bsplineTransformCoarse->SetBulkTransform( affineTransform );
 
   typedef DeformableTransformType::ParametersType     ParametersType;
 
-  const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
+  unsigned int numberOfBSplineParameters = bsplineTransformCoarse->GetNumberOfParameters();
 
 
-  optimizerScales = OptimizerScalesType( numberOfParameters );
+  optimizerScales = OptimizerScalesType( numberOfBSplineParameters );
   optimizerScales.Fill( 1.0 );
 
   optimizer->SetScales( optimizerScales );
 
 
-  ParametersType initialDeformableTransformParameters( numberOfParameters );
+  ParametersType initialDeformableTransformParameters( numberOfBSplineParameters );
   initialDeformableTransformParameters.Fill( 0.0 );
 
-  bsplineTransform->SetParameters( initialDeformableTransformParameters );
+  bsplineTransformCoarse->SetParameters( initialDeformableTransformParameters );
 
-  registration->SetInitialTransformParameters( bsplineTransform->GetParameters() );
-  registration->SetTransform( bsplineTransform );
+  registration->SetInitialTransformParameters( bsplineTransformCoarse->GetParameters() );
+  registration->SetTransform( bsplineTransformCoarse );
 
   // Software Guide : EndCodeSnippet
 
@@ -452,13 +455,13 @@ int main( int argc, char *argv[] )
   // Optionally, get the step length from the command line arguments
   if( argc > 11 )
     {
-    optimizer->SetMaximumStepLength( atof( argv[11] ) );
+    optimizer->SetMaximumStepLength( atof( argv[12] ) );
     }
 
   // Optionally, get the number of iterations from the command line arguments
   if( argc > 12 )
     {
-    optimizer->SetNumberOfIterations( atoi( argv[12] ) );
+    optimizer->SetNumberOfIterations( atoi( argv[13] ) );
     }
 
 
@@ -491,13 +494,13 @@ int main( int argc, char *argv[] )
     }
 
 
-  std::cout << std::endl << "Starting Deformable Registration" << std::endl;
+  std::cout << std::endl << "Starting Deformable Registration Coarse Grid" << std::endl;
 
   try 
     { 
-    itkProbesStart( "Deformable Registration" );
+    itkProbesStart( "Deformable Registration Coarse" );
     registration->StartRegistration(); 
-    itkProbesStop( "Deformable Registration" );
+    itkProbesStop( "Deformable Registration Coarse" );
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -506,14 +509,154 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     } 
   
+  std::cout << "Deformable Registration Coarse Grid completed" << std::endl;
+  std::cout << std::endl;
+
   OptimizerType::ParametersType finalParameters = 
                     registration->GetLastTransformParameters();
+
+  bsplineTransformCoarse->SetParameters( finalParameters );
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Once the registration has finished with the low resolution grid, we
+  //  proceed to instantiate a higher resolution
+  //  \code{BSplineDeformableTransform}.
+  //  
+  //  Software Guide : EndLatex 
+
+  DeformableTransformType::Pointer  bsplineTransformFine = DeformableTransformType::New();
+
+  unsigned int numberOfGridNodesInOneDimensionFine = 20;
+
+  if( argc > 11 )
+    {
+    numberOfGridNodesInOneDimensionFine = atoi( argv[11] );
+    }
+
+  RegionType::SizeType   gridHighSizeOnImage;
+  gridHighSizeOnImage.Fill( numberOfGridNodesInOneDimensionFine );
+  totalGridSize = gridHighSizeOnImage + gridBorderSize;
+
+  bsplineRegion.SetSize( totalGridSize );
+
+  SpacingType spacingHigh = fixedImage->GetSpacing();
+  OriginType  originHigh  = fixedImage->GetOrigin();;
+
+  for(unsigned int rh=0; rh<ImageDimension; rh++)
+    {
+    spacingHigh[rh] *= floor( static_cast<double>(fixedImageSize[rh] - 1)  / 
+                            static_cast<double>(gridHighSizeOnImage[rh] - 1) );
+    originHigh[rh]  -=  spacingHigh[rh]; 
+    }
+
+  bsplineTransformFine->SetGridSpacing( spacingHigh );
+  bsplineTransformFine->SetGridOrigin( originHigh );
+  bsplineTransformFine->SetGridRegion( bsplineRegion );
+
+  numberOfBSplineParameters = bsplineTransformFine->GetNumberOfParameters();
+
+  ParametersType parametersHigh( numberOfBSplineParameters );
+  parametersHigh.Fill( 0.0 );
+
+  //  Software Guide : BeginLatex
+  //  
+  //  Now we need to initialize the BSpline coefficients of the higher resolution
+  //  transform. This is done by first computing the actual deformation field 
+  //  at the higher resolution from the lower resolution BSpline coefficients. 
+  //  Then a BSpline decomposition is done to obtain the BSpline coefficient of 
+  //  the higher resolution transform.
+  //  
+  //  Software Guide : EndLatex 
+
+  unsigned int counter = 0;
+
+  for ( unsigned int k = 0; k < SpaceDimension; k++ )
+    {
+    typedef DeformableTransformType::ImageType ParametersImageType;
+    typedef itk::ResampleImageFilter<ParametersImageType,ParametersImageType> ResamplerType;
+    ResamplerType::Pointer upsampler = ResamplerType::New();
+
+    typedef itk::BSplineResampleImageFunction<ParametersImageType,double> FunctionType;
+    FunctionType::Pointer function = FunctionType::New();
+
+    typedef itk::IdentityTransform<double,SpaceDimension> IdentityTransformType;
+    IdentityTransformType::Pointer identity = IdentityTransformType::New();
+
+    upsampler->SetInput( bsplineTransformCoarse->GetCoefficientImage()[k] );
+    upsampler->SetInterpolator( function );
+    upsampler->SetTransform( identity );
+    upsampler->SetSize( bsplineTransformFine->GetGridRegion().GetSize() );
+    upsampler->SetOutputSpacing( bsplineTransformFine->GetGridSpacing() );
+    upsampler->SetOutputOrigin( bsplineTransformFine->GetGridOrigin() );
+
+    typedef itk::BSplineDecompositionImageFilter<ParametersImageType,ParametersImageType>
+      DecompositionType;
+    DecompositionType::Pointer decomposition = DecompositionType::New();
+
+    decomposition->SetSplineOrder( SplineOrder );
+    decomposition->SetInput( upsampler->GetOutput() );
+    decomposition->Update();
+
+    ParametersImageType::Pointer newCoefficients = decomposition->GetOutput();
+
+    // copy the coefficients into the parameter array
+    typedef itk::ImageRegionIterator<ParametersImageType> Iterator;
+    Iterator it( newCoefficients, bsplineTransformFine->GetGridRegion() );
+    while ( !it.IsAtEnd() )
+      {
+      parametersHigh[ counter++ ] = it.Get();
+      ++it;
+      }
+
+    }
+
+
+  optimizerScales = OptimizerScalesType( numberOfBSplineParameters );
+  optimizerScales.Fill( 1.0 );
+
+  optimizer->SetScales( optimizerScales );
+
+  bsplineTransformFine->SetParameters( parametersHigh );
+
+  //  Software Guide : BeginLatex
+  //  
+  //  We now pass the parameters of the high resolution transform as the initial
+  //  parameters to be used in a second stage of the registration process.
+  //
+  //  Software Guide : EndLatex 
+
+  std::cout << "Starting Registration with high resolution transform" << std::endl;
+
+  // Software Guide : BeginCodeSnippet
+  registration->SetInitialTransformParameters( bsplineTransformFine->GetParameters() );
+  registration->SetTransform( bsplineTransformFine );
+
+  try 
+    { 
+    itkProbesStart( "Deformable Registration Fine" );
+    registration->StartRegistration(); 
+    itkProbesStop( "Deformable Registration Fine" );
+    } 
+  catch( itk::ExceptionObject & err ) 
+    { 
+    std::cerr << "ExceptionObject caught !" << std::endl; 
+    std::cerr << err << std::endl; 
+    return EXIT_FAILURE;
+    } 
+  // Software Guide : EndCodeSnippet
+
+
+  std::cout << "Deformable Registration Coarse Grid completed" << std::endl;
+  std::cout << std::endl;
 
 
   // Report the time and memory taken by the registration
   itkProbesReport( std::cout );
 
-  bsplineTransform->SetParameters( finalParameters );
+  finalParameters = registration->GetLastTransformParameters();
+
+  bsplineTransformFine->SetParameters( finalParameters );
 
 
   typedef itk::ResampleImageFilter< 
@@ -522,7 +665,7 @@ int main( int argc, char *argv[] )
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  resample->SetTransform( bsplineTransform );
+  resample->SetTransform( bsplineTransformFine );
   resample->SetInput( movingImageReader->GetOutput() );
 
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
@@ -652,7 +795,7 @@ int main( int argc, char *argv[] )
       {
       index = fi.GetIndex();
       field->TransformIndexToPhysicalPoint( index, fixedPoint );
-      movingPoint = bsplineTransform->TransformPoint( fixedPoint );
+      movingPoint = bsplineTransformFine->TransformPoint( fixedPoint );
       displacement = movingPoint - fixedPoint;
       fi.Set( displacement );
       ++fi;
