@@ -2,6 +2,10 @@
 #   CMakeConfigurableFile.in from config/cmake/Modules/NewCmake
 #   (This is used in GENERATE_TEST_INCLUDE)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+IF(COMMAND CMAKE_POLICY)
+  CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND CMAKE_POLICY)
+
 #IF(CMAKE_MINIMUM_REQUIRED_VERSION GREATER "2.3")
 #  MESSAGE(SEND_ERROR
 #    "The file CMakeConfigurableFile.in can be removed\n"
