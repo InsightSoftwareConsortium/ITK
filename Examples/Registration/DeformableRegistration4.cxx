@@ -499,3 +499,8 @@ int main( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
+#undef itkProbesCreate
+#undef itkProbesStart
+#undef itkProbesStop
+#undef itkProbesReport
+
