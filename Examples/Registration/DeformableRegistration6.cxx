@@ -225,8 +225,8 @@ int main( int argc, char *argv[] )
 
   for(unsigned int r=0; r<ImageDimension; r++)
     {
-    spacingLow[r] *= floor( static_cast<double>(fixedImageSize[r] - 1)  / 
-                            static_cast<double>(gridLowSizeOnImage[r] - 1) );
+    spacingLow[r] *= static_cast<double>(fixedImageSize[r] - 1)  / 
+                     static_cast<double>(gridLowSizeOnImage[r] - 1);
     originLow[r]  -=  spacingLow[r]; 
     }
 
@@ -302,8 +302,8 @@ int main( int argc, char *argv[] )
 
   for(unsigned int rh=0; rh<ImageDimension; rh++)
     {
-    spacingHigh[rh] *= floor( static_cast<double>(fixedImageSize[rh] - 1)  / 
-                            static_cast<double>(gridHighSizeOnImage[rh] - 1) );
+    spacingHigh[rh] *= static_cast<double>(fixedImageSize[rh] - 1)  / 
+                       static_cast<double>(gridHighSizeOnImage[rh] - 1);
     originHigh[rh]  -=  spacingHigh[rh]; 
     }
 
