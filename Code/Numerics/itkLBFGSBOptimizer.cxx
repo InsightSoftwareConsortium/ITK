@@ -229,7 +229,7 @@ void
 LBFGSBOptimizer
 ::SetCostFunctionConvergenceFactor( double value )
 {
-  if( value < 0.1 )
+  if( value < 1.0 )
     {
     itkExceptionMacro("Value " << value 
       << " is too small for SetCostFunctionConvergenceFactor()"
