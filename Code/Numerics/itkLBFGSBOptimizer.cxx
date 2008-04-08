@@ -19,6 +19,7 @@
 
 #include "itkLBFGSBOptimizer.h"
 #include "vnl/algo/vnl_lbfgsb.h"
+#include <vnl/vnl_math.h>
 
 
 namespace itk
@@ -228,6 +229,12 @@ void
 LBFGSBOptimizer
 ::SetCostFunctionConvergenceFactor( double value )
 {
+  if( value < 0.1 )
+    {
+    itkExceptionMacro("Value " << value 
+      << " is too small for SetCostFunctionConvergenceFactor()"
+      << "a typical range would be from 1.0 to 1e+12");
+    }
   m_CostFunctionConvergenceFactor = value;
   if( m_OptimizerInitialized )
     {
