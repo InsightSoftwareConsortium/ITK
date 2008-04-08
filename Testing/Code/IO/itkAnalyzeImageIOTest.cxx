@@ -95,7 +95,7 @@ static int WriteTestFiles(const std::string AugmentName)
   big_img.close();
   return EXIT_SUCCESS;
 }
-static void RemoveByteSwapTestFiles(const std::string AugmentName)
+static void RemoveByteSwapTestFiles(const std::string & itkNotUsed(AugmentName) )
 {
 //--//  Remove(AugmentName+"LittleEndian.hdr");
 //--//  Remove(AugmentName+"LittleEndian.img");
@@ -103,7 +103,7 @@ static void RemoveByteSwapTestFiles(const std::string AugmentName)
 //--//  Remove(AugmentName+"BigEndian.img");
 }
 
-static int TestByteSwap(const std::string AugmentName)
+static int TestByteSwap(const std::string & AugmentName)
 {
   int rval;
   typedef itk::Image<double, 3> ImageType ;
@@ -161,7 +161,7 @@ static int TestByteSwap(const std::string AugmentName)
   return rval;
 }
 
-template <typename T> int MakeImage(const std::string AugmentName)
+template <typename T> int MakeImage(const std::string & AugmentName)
 {
   typedef itk::Image<T, 3> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;
