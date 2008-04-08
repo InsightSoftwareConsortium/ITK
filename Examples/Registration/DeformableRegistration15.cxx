@@ -554,6 +554,8 @@ int main( int argc, char *argv[] )
   bsplineTransformFine->SetGridOrigin( originHigh );
   bsplineTransformFine->SetGridRegion( bsplineRegion );
 
+  bsplineTransformFine->SetBulkTransform( affineTransform );
+
   numberOfBSplineParameters = bsplineTransformFine->GetNumberOfParameters();
 
   ParametersType parametersHigh( numberOfBSplineParameters );
