@@ -124,7 +124,7 @@ class ITKCommon_EXPORT MemoryUsageObserver:
 #elif defined(linux)
   public LinuxMemoryUsageObserver
 #elif defined(__SUNPRO_CC) || defined (__sun__)
-  public SunSolarisUsageObserver
+  public SunSolarisMemoryUsageObserver
 #elif defined(__APPLE__)
   public SysResourceMemoryUsageObserver
 #else
