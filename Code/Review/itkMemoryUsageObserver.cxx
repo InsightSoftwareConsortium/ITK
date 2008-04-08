@@ -95,17 +95,32 @@ typedef struct _UNICODE_STRING {
 } UNICODE_STRING;
 
 typedef struct _VM_COUNTERS {
-    SIZE_T        PeakVirtualSize;
-    SIZE_T        VirtualSize;
-    ULONG        PageFaultCount;
-    SIZE_T        PeakWorkingSetSize;
-    SIZE_T        WorkingSetSize;
-    SIZE_T        QuotaPeakPagedPoolUsage;
-    SIZE_T        QuotaPagedPoolUsage;
-    SIZE_T        QuotaPeakNonPagedPoolUsage;
-    SIZE_T        QuotaNonPagedPoolUsage;
-    SIZE_T        PagefileUsage;
-    SIZE_T        PeakPagefileUsage;
+#ifdef _WIN64
+// the following was inferred by painful reverse engineering
+SIZE_T             PeakVirtualSize;     // not actually
+SIZE_T         PageFaultCount;
+SIZE_T         PeakWorkingSetSize;
+SIZE_T         WorkingSetSize;
+SIZE_T         QuotaPeakPagedPoolUsage;
+SIZE_T         QuotaPagedPoolUsage;
+SIZE_T         QuotaPeakNonPagedPoolUsage;
+SIZE_T         QuotaNonPagedPoolUsage;
+SIZE_T         PagefileUsage;
+SIZE_T         PeakPagefileUsage;
+SIZE_T         VirtualSize;         // not actually
+#else
+SIZE_T         PeakVirtualSize;
+SIZE_T         VirtualSize;
+ULONG          PageFaultCount;
+SIZE_T         PeakWorkingSetSize;
+SIZE_T         WorkingSetSize;
+SIZE_T         QuotaPeakPagedPoolUsage;
+SIZE_T         QuotaPagedPoolUsage;
+SIZE_T         QuotaPeakNonPagedPoolUsage;
+SIZE_T         QuotaNonPagedPoolUsage;
+SIZE_T         PagefileUsage;
+SIZE_T         PeakPagefileUsage;
+#endif
 } VM_COUNTERS;
 
 typedef struct _SYSTEM_THREADS {
@@ -131,14 +146,24 @@ LARGE_INTEGER UserTime;
 LARGE_INTEGER KernelTime;
 UNICODE_STRING ProcessName;
 KPRIORITY BasePriority;
-ULONG ProcessId;
-ULONG InheritedFromProcessId;
+#ifdef _WIN64
+ULONG  pad1;
+ULONG  ProcessId;
+ULONG  pad2;
+ULONG  InheritedFromProcessId;
+ULONG  pad3;
+ULONG  pad4;
+ULONG  pad5;
+#else
+ULONG  ProcessId;
+ULONG  InheritedFromProcessId;
+#endif
 ULONG HandleCount;
 ULONG Reserved2[2];
 VM_COUNTERS VmCounters;
-#if _WIN32_WINNT >= 0x500
+//#if _WIN32_WINNT >= 0x500
     IO_COUNTERS        IoCounters;
-#endif
+//#endif
 SYSTEM_THREADS Threads[1];
 } SYSTEM_PROCESSES, *PSYSTEM_PROCESSES;
 #endif
