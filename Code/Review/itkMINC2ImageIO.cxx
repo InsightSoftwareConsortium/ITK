@@ -92,7 +92,8 @@ void MINC2ImageIO::Read(void* buffer)
 
  // figure out how many dimensions out of the total NDims
  // are used by this class
- int usefulDimensions = 0,i;
+ unsigned int usefulDimensions = 0;
+ unsigned int i;
  for (i=0; i < MINC2_MAXUSE; i++)
    {
    if (this->m_DimensionIndices[i] != -1 )
@@ -311,7 +312,8 @@ void MINC2ImageIO::ReadImageInformation()
   // in FILE_ORDER) and DimensionName
   char *name;
   char *text = new char[ m_NDims + 1];
-  int i,j;
+  unsigned int i;
+  unsigned int j;
   for (i=0; i < m_NDims; i++)
     {
 
@@ -1317,7 +1319,9 @@ void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indice
   // figure out present dimension in the order of either
   // xspace,yspace,zspace, time or xfrequency,yfrequency,zfrequency, tfrequency
   // --> x,y,z,t and vector-dimension
-  int i=0,counter=0, counter2=5;
+  unsigned int i=0;
+  unsigned int counter=0;
+  unsigned int counter2=5;
 
   for(i=0; i < this->m_NDims; i++)
     {
