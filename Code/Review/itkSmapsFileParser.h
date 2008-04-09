@@ -25,6 +25,7 @@
 #include <vector>
 #include <map>
 #include <istream>
+#include <iostream>
 
 namespace itk {
 
