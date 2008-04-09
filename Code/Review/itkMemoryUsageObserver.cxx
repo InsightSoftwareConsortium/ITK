@@ -226,7 +226,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
     {                                    
     delete [] sp;
     n = n * 2;
-    sp = new SYSTEM_PROCESSES[];
+    sp = new SYSTEM_PROCESSES[n];
     }
   bool done = false;
   for ( PSYSTEM_PROCESSES spp = sp; 
