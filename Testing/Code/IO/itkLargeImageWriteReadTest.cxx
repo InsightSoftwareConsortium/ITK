@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkImageRegionIterator.h"
+#include "itkTimeProbesCollectorBase.h"
 
 int itkLargeImageWriteReadTest(int ac, char* av[])
 {
@@ -44,6 +45,8 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   ImageType::IndexType index;
   ImageType::SizeType size;
 
+  itk::TimeProbesCollectorBase chronometer;
+
   const unsigned long numberOfPixelsInOneDimension = atol( av[2] );
  
   size.Fill( numberOfPixelsInOneDimension );
@@ -61,7 +64,9 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
 
   std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl; 
 
+  chronometer.Start("Allocate");
   image->Allocate();
+  chronometer.Stop("Allocate");
 
   std::cout << "Initializing pixel values " << std::endl;
   typedef itk::ImageRegionIterator< ImageType >  IteratorType;
@@ -72,12 +77,14 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
 
   PixelType pixelValue = itk::NumericTraits< PixelType >::Zero;
 
+  chronometer.Start("Initializing");
   while( !itr.IsAtEnd() )
     {
     itr.Set( pixelValue );
     ++pixelValue;
     ++itr;
     }
+  chronometer.Stop("Initializing");
 
   std::cout << "Trying to write the image to disk" << std::endl;
   try
@@ -85,7 +92,9 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(av[1]);
+    chronometer.Start("Write");
     writer->Update();
+    chronometer.Stop("Write");
     }
   catch (itk::ExceptionObject &ex)
     {
@@ -99,7 +108,9 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
 
   try
     {
+    chronometer.Start("Read");
     reader->Update();
+    chronometer.Stop("Read");
     }
   catch (itk::ExceptionObject &ex)
     {
@@ -115,6 +126,9 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   ritr.GoToBegin();
   oitr.GoToBegin();
 
+  std::cout << "Comparing the pixel values.. :" << std::endl;
+
+  chronometer.Start("Compare");
   while( !ritr.IsAtEnd() )
     {
     if( oitr.Get() != ritr.Get() )
@@ -125,9 +139,12 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
     ++oitr;
     ++ritr;
     }
+  chronometer.Stop("Compare");
 
+  chronometer.Report( std::cout );
 
-  std::cout << "Comparing the pixel values.. :" << std::endl;
+  std::cout << std::endl;
+  std::cout << "Test PASSED !" << std::endl;
 
   return EXIT_SUCCESS;
 
