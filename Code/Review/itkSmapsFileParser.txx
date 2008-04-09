@@ -271,7 +271,7 @@ MapFileParser<TMapDataType>
 {
   if ( m_MapData.Empty() )
     {
-    itkGenericExceptionMacro( << "Read a map file before quering memory usage" );
+    std::cerr << "Read a map file before quering memory usage";
     }
   return m_MapData.GetHeapUsage();
 }
@@ -283,7 +283,7 @@ MapFileParser<TMapDataType>
 {
   if ( m_MapData.Empty() )
     {
-    itkGenericExceptionMacro( << "Read a map file before quering memory usage" );
+    std::cerr<< "Read a map file before quering memory usage" ;
     }
   return m_MapData.GetStackUsage();
 }
@@ -296,7 +296,7 @@ MapFileParser<TMapDataType>
 { 
   if ( m_MapData.Empty() )
     {
-    itkGenericExceptionMacro( << "Read a map file before quering memory usage" );
+    std::cerr<< "Read a map file before quering memory usage" ;
     }
   return m_MapData.GetTotalMemoryUsage();
 }
@@ -308,7 +308,7 @@ MapFileParser<TMapDataType>
 {
   if ( m_MapData.Empty() )
     {
-    itkGenericExceptionMacro( << "Read a map file before quering memory usage" );
+    std::cerr << "Read a map file before quering memory usage" ;
     }
   return m_MapData.GetMemoryUsage(filter,token);
 }
@@ -345,7 +345,7 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &mapFileLocati
   // can't find or open the Smaps file
   if ( inputFile.is_open() == false )
     {
-    itkGenericExceptionMacro( << "The smaps file " << filename.str() << " could not be open" );
+    std::cerr<< "The smaps file " << filename.str() << " could not be open";
     return;
     }
 
