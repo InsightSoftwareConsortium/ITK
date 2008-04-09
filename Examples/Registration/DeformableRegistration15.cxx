@@ -234,6 +234,41 @@ int main( int argc, char *argv[] )
   //
   itkProbesCreate();
 
+
+  // 
+  // Setup the metric parameters
+  //
+  metric->SetNumberOfHistogramBins( 50 );
+  
+  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  
+  const unsigned int numberOfSamples = 
+    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
+
+  metric->SetNumberOfSpatialSamples( numberOfSamples );
+  metric->ReinitializeSeed( 76926294 );
+
+
+  if( argc > 7 )
+    {
+    // Define whether to calculate the metric derivative by explicitly
+    // computing the derivatives of the joint PDF with respect to the Transform
+    // parameters, or doing it by progressively accumulating contributions from
+    // each bin in the joint PDF.
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
+    }
+
+  if( argc > 8 )
+    {
+    // Define whether to cache the BSpline weights and indexes corresponding to
+    // each one of the samples used to compute the metric. Enabling caching will
+    // make the algorithm run faster but it will have a cost on the amount of memory
+    // that needs to be allocated. This option is only relevant when using the 
+    // BSplineDeformableTransform.
+    metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
+    }
+
+
   //
   //  Initialize a rigid transform by using Image Intensity Moments
   //
@@ -254,8 +289,6 @@ int main( int argc, char *argv[] )
   std::cout << "Rigid Transform Initialization completed" << std::endl;
   std::cout << std::endl;
 
-  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  
   registration->SetFixedImageRegion( fixedRegion );
   registration->SetInitialTransformParameters( rigidTransform->GetParameters() );
 
@@ -462,35 +495,6 @@ int main( int argc, char *argv[] )
   if( argc > 12 )
     {
     optimizer->SetNumberOfIterations( atoi( argv[13] ) );
-    }
-
-
-  metric->SetNumberOfHistogramBins( 50 );
-  
-  const unsigned int numberOfSamples = 
-    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
-
-  metric->SetNumberOfSpatialSamples( numberOfSamples );
-  metric->ReinitializeSeed( 76926294 );
-
-
-  if( argc > 7 )
-    {
-    // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
-    }
-
-  if( argc > 8 )
-    {
-    // Define whether to cache the BSpline weights and indexes corresponding to
-    // each one of the samples used to compute the metric. Enabling caching will
-    // make the algorithm run faster but it will have a cost on the amount of memory
-    // that needs to be allocated. This option is only relevant when using the 
-    // BSplineDeformableTransform.
-    metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 
 
