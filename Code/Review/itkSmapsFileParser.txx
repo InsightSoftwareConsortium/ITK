@@ -98,7 +98,7 @@ void MapData<TMapRecord>::Reset()
 
 template<class TMapRecord>
 SmapsData_2_6<TMapRecord>
-::~SmapsData_2_6<TMapRecord>()
+::~SmapsData_2_6()
 {
 }
 
@@ -170,7 +170,7 @@ SmapsData_2_6<TMapRecord>
 
 template<class TVMMapRecord>
 VMMapData_10_2<TVMMapRecord>
-::~VMMapData_10_2<TVMMapRecord>()
+::~VMMapData_10_2()
 {
 }
 
