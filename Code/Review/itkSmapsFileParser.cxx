@@ -20,15 +20,20 @@
 namespace itk
 {
 
-/* SmapsRecord implementation */
-
-void SmapsRecord::Reset(void)
+bool ITKCommon_EXPORT ci_equal(char a, char b)
 {
-  m_Tokens.clear();
-  m_HeaderName = "";
+  return tolower(static_cast<int>(a)) == tolower(static_cast<int>(b));
 }
 
-ITKCommon_EXPORT std::istream &  operator>>(std::istream &in,SmapsRecord &record)
+/* SmapsRecord implementation */
+
+void MapRecord::Reset(void)
+{
+  m_Tokens.clear();
+  m_RecordName = "";
+}
+
+ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, SmapsRecord &record)
 {
   record.Reset();
 
@@ -49,18 +54,18 @@ ITKCommon_EXPORT std::istream &  operator>>(std::istream &in,SmapsRecord &record
     int inode=-1;
     // the header is defined with the following expression: "address permissions offset device inode [name]"
     stream>>address;
-    if (!stream.good()) itkGenericExceptionMacro( << "The smaps header is corrupted" );
+    if (!stream.good()) itkGenericExceptionMacro( << "bad address: " << address );
     stream>>perms;
-    if (!stream.good()) itkGenericExceptionMacro( << "The smaps header is corrupted" );
+    if (!stream.good()) itkGenericExceptionMacro( << "bad perms: " << perms );
     stream>>offset;
-    if (!stream.good()) itkGenericExceptionMacro( << "The smaps header is corrupted" );
+    if (!stream.good()) itkGenericExceptionMacro( << "bad offset: " << offset );
     stream>>device;
-    if (!stream.good()) itkGenericExceptionMacro( << "The smaps header is corrupted" );
+    if (!stream.good()) itkGenericExceptionMacro( << "bad device: " << device );
     stream>>inode;
     // name can be empty
     if (!stream.eof())
       {
-      std::getline(stream, record.m_HeaderName);
+      std::getline(stream, record.m_RecordName);
       }
     
     std::string token;
@@ -77,8 +82,52 @@ ITKCommon_EXPORT std::istream &  operator>>(std::istream &in,SmapsRecord &record
       //fill the token with the memory usage N in kB
       in>>record.m_Tokens[token];
       std::getline(in,token);
-      if ( token != " kB" || !in.good()) itkGenericExceptionMacro( << "The smaps header is corrupted" );
+      if ( token != " kB" || !in.good()) itkGenericExceptionMacro( << "bad size: " << record.m_Tokens[token] );
       lastPos = in.tellg();
+      }
+    }
+  catch (ExceptionObject excp)
+    {
+    record.Reset();
+    // propagate the exception
+    itkGenericExceptionMacro( << "The smaps header is corrupted" );
+    }
+  return in;
+}
+
+
+ITKCommon_EXPORT std::istream& operator>>(std::istream &in, VMMapRecord &record)
+{
+  record.Reset();
+  try 
+    {
+    // the record name can have spaces.
+    in>>record.m_RecordName;
+    if (in.eof() && record.m_RecordName.empty())
+      return in;
+    if (!in.good()) 
+      {
+      itkGenericExceptionMacro( << "Bad record name: " << record.m_RecordName );
+      }
+    std::string bracket;
+    while ( (in>>bracket).good() && bracket.find("[",0) == std::string::npos )
+      record.m_RecordName += std::string(" ") + bracket;  
+    if (!in.good() || bracket.find("[",0) == std::string::npos ) 
+      {
+      itkGenericExceptionMacro( << "For record: " << record.m_RecordName
+                               << ", bad left bracket: " << bracket );
+      }
+    in>>record.m_Tokens["Size"];
+    if (!in.good()) 
+      {
+      itkGenericExceptionMacro( << "For record: " << record.m_RecordName
+                               << ", bad size: " << record.m_Tokens["Size"] );
+      }
+    in>>bracket;
+    if (!in.good()) 
+      {
+      itkGenericExceptionMacro( << "For record: " << record.m_RecordName
+                               << ", bad right bracket: " << bracket );
       }
     }
   catch (ExceptionObject excp)

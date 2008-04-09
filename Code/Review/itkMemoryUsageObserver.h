@@ -88,6 +88,16 @@ public:
 };
 #endif // linux
 
+#if defined(__APPLE__) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
+{
+public:
+  /** destructor */
+  virtual ~MacOSXMemoryUsageObserver();
+  virtual MemoryLoadType GetMemoryUsage();
+};
+#endif // Mac OS X
+
 #if defined(__SUNPRO_CC) || defined (__sun__) 
 class ITKCommon_EXPORT SunSolarisMemoryUsageObserver:public MemoryUsageObserverBase
 {
@@ -125,6 +135,8 @@ class ITKCommon_EXPORT MemoryUsageObserver:
   public LinuxMemoryUsageObserver
 #elif defined(__SUNPRO_CC) || defined (__sun__)
   public SunSolarisMemoryUsageObserver
+#elif defined(__APPLE__) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+  public MacOSXMemoryUsageObserver
 #elif defined(__APPLE__)
   public SysResourceMemoryUsageObserver
 #else

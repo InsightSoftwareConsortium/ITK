@@ -29,6 +29,10 @@
   #include "itkSmapsFileParser.h"
 #endif // linux
 
+#if defined(__APPLE__) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+  #include "itkSmapsFileParser.h"
+#endif // Mac OS X
+
 #if defined(__SUNPRO_CC) || defined (__sun__)
   #include <unistd.h>
   #include <stdio.h>
@@ -84,87 +88,87 @@ typedef LONG    KPRIORITY;
 #define SystemProcessesAndThreadsInformation    5
 
 typedef struct _CLIENT_ID {
-    DWORD        UniqueProcess;
-    DWORD        UniqueThread;
+  DWORD        UniqueProcess;
+  DWORD        UniqueThread;
 } CLIENT_ID;
 
 typedef struct _UNICODE_STRING {
-    USHORT        Length;
-    USHORT        MaximumLength;
-    PWSTR        Buffer;
+  USHORT        Length;
+  USHORT        MaximumLength;
+  PWSTR        Buffer;
 } UNICODE_STRING;
 
 typedef struct _VM_COUNTERS {
 #ifdef _WIN64
-// the following was inferred by painful reverse engineering
-SIZE_T             PeakVirtualSize;     // not actually
-SIZE_T         PageFaultCount;
-SIZE_T         PeakWorkingSetSize;
-SIZE_T         WorkingSetSize;
-SIZE_T         QuotaPeakPagedPoolUsage;
-SIZE_T         QuotaPagedPoolUsage;
-SIZE_T         QuotaPeakNonPagedPoolUsage;
-SIZE_T         QuotaNonPagedPoolUsage;
-SIZE_T         PagefileUsage;
-SIZE_T         PeakPagefileUsage;
-SIZE_T         VirtualSize;         // not actually
+  // the following was inferred by painful reverse engineering
+  SIZE_T         PeakVirtualSize;     // not actually
+  SIZE_T         PageFaultCount;
+  SIZE_T         PeakWorkingSetSize;
+  SIZE_T         WorkingSetSize;
+  SIZE_T         QuotaPeakPagedPoolUsage;
+  SIZE_T         QuotaPagedPoolUsage;
+  SIZE_T         QuotaPeakNonPagedPoolUsage;
+  SIZE_T         QuotaNonPagedPoolUsage;
+  SIZE_T         PagefileUsage;
+  SIZE_T         PeakPagefileUsage;
+  SIZE_T         VirtualSize;         // not actually
 #else
-SIZE_T         PeakVirtualSize;
-SIZE_T         VirtualSize;
-ULONG          PageFaultCount;
-SIZE_T         PeakWorkingSetSize;
-SIZE_T         WorkingSetSize;
-SIZE_T         QuotaPeakPagedPoolUsage;
-SIZE_T         QuotaPagedPoolUsage;
-SIZE_T         QuotaPeakNonPagedPoolUsage;
-SIZE_T         QuotaNonPagedPoolUsage;
-SIZE_T         PagefileUsage;
-SIZE_T         PeakPagefileUsage;
+  SIZE_T         PeakVirtualSize;
+  SIZE_T         VirtualSize;
+  ULONG          PageFaultCount;
+  SIZE_T         PeakWorkingSetSize;
+  SIZE_T         WorkingSetSize;
+  SIZE_T         QuotaPeakPagedPoolUsage;
+  SIZE_T         QuotaPagedPoolUsage;
+  SIZE_T         QuotaPeakNonPagedPoolUsage;
+  SIZE_T         QuotaNonPagedPoolUsage;
+  SIZE_T         PagefileUsage;
+  SIZE_T         PeakPagefileUsage;
 #endif
 } VM_COUNTERS;
 
 typedef struct _SYSTEM_THREADS {
-    LARGE_INTEGER   KernelTime;
-    LARGE_INTEGER   UserTime;
-    LARGE_INTEGER   CreateTime;
-    ULONG            WaitTime;
-    PVOID            StartAddress;
-    CLIENT_ID        ClientId;
-    KPRIORITY        Priority;
-    KPRIORITY        BasePriority;
-    ULONG            ContextSwitchCount;
-    LONG            State;
-    LONG            WaitReason;
+  LARGE_INTEGER   KernelTime;
+  LARGE_INTEGER   UserTime;
+  LARGE_INTEGER   CreateTime;
+  ULONG           WaitTime;
+  PVOID           StartAddress;
+  CLIENT_ID       ClientId;
+  KPRIORITY       Priority;
+  KPRIORITY       BasePriority;
+  ULONG           ContextSwitchCount;
+  LONG            State;
+  LONG            WaitReason;
 } SYSTEM_THREADS, * PSYSTEM_THREADS;
 
 typedef struct _SYSTEM_PROCESSES { // Information Class 5
-ULONG NextEntryDelta;
-ULONG ThreadCount;
-ULONG Reserved1[6];
-LARGE_INTEGER CreateTime;
-LARGE_INTEGER UserTime;
-LARGE_INTEGER KernelTime;
-UNICODE_STRING ProcessName;
-KPRIORITY BasePriority;
+  ULONG NextEntryDelta;
+  ULONG ThreadCount;
+  ULONG Reserved1[6];
+  LARGE_INTEGER CreateTime;
+  LARGE_INTEGER UserTime;
+  LARGE_INTEGER KernelTime;
+  UNICODE_STRING ProcessName;
+  KPRIORITY BasePriority;
 #ifdef _WIN64
-ULONG  pad1;
-ULONG  ProcessId;
-ULONG  pad2;
-ULONG  InheritedFromProcessId;
-ULONG  pad3;
-ULONG  pad4;
-ULONG  pad5;
+  ULONG  pad1;
+  ULONG  ProcessId;
+  ULONG  pad2;
+  ULONG  InheritedFromProcessId;
+  ULONG  pad3;
+  ULONG  pad4;
+  ULONG  pad5;
 #else
-ULONG  ProcessId;
-ULONG  InheritedFromProcessId;
+  ULONG  ProcessId;
+  ULONG  InheritedFromProcessId;
 #endif
-ULONG HandleCount;
-ULONG Reserved2[2];
-VM_COUNTERS VmCounters;
-//#if _WIN32_WINNT >= 0x500
-    IO_COUNTERS        IoCounters;
-//#endif
-SYSTEM_THREADS Threads[1];
+  ULONG HandleCount;
+  ULONG Reserved2[2];
+  VM_COUNTERS VmCounters;
+#if defined(_WIN64) || _WIN32_WINNT >= 0x500
+  IO_COUNTERS        IoCounters;
+#endif
+  SYSTEM_THREADS Threads[1];
 } SYSTEM_PROCESSES, *PSYSTEM_PROCESSES;
 #endif
   
@@ -213,14 +217,16 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   }
 
   DWORD pid = GetCurrentProcessId();
-  ULONG n = 30;
+  ULONG n = 50;
   PSYSTEM_PROCESSES sp = new SYSTEM_PROCESSES[n];
   // as we can't know how many processes running, we loop and test a new size everytime.
   while (ZwQuerySystemInformation(SystemProcessesAndThreadsInformation,
                                       sp, n * sizeof *sp, 0)
                                       == STATUS_INFO_LENGTH_MISMATCH)
     {                                    
-    delete [] sp, sp = new SYSTEM_PROCESSES[n = n * 2];
+    delete [] sp;
+    n = n * 2;
+    sp = new SYSTEM_PROCESSES[];
     }
   bool done = false;
   for ( PSYSTEM_PROCESSES spp = sp; 
@@ -231,7 +237,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
     if (spp->ProcessId == pid)
       {
       mem = static_cast<MemoryLoadType>( 
-                          static_cast<double>( spp->VmCounters.PagefileUsage - sizeof(sp)) / 1024);
+                          static_cast<double>( spp->VmCounters.PagefileUsage - sizeof(*sp)) / 1024);
       break;
       }
     done = (spp->NextEntryDelta == 0);
@@ -275,6 +281,24 @@ LinuxMemoryUsageObserver::GetMemoryUsage()
 }
 
 #endif // linux
+
+#if defined(__APPLE__) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
+
+/**         ----         Mac OS X Memory Usage Observer       ----       */ 
+
+MacOSXMemoryUsageObserver::~MacOSXMemoryUsageObserver()
+{
+}
+
+MemoryUsageObserverBase::MemoryLoadType 
+MacOSXMemoryUsageObserver::GetMemoryUsage()
+{
+  VMMapFileParser<VMMapData_10_2<VMMapRecord> > m_ParseVMMmap;
+  m_ParseVMMmap.ReadFile();
+  return m_ParseVMMmap.GetHeapUsage() + m_ParseVMMmap.GetStackUsage();
+}
+
+#endif // Mac OS X
 
 #if defined(__SUNPRO_CC) || defined (__sun__)
 
