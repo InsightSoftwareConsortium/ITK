@@ -76,11 +76,15 @@ void RegisterTests()
   REGISTER_TEST(itkOptImageToImageMetricsTest);
   REGISTER_TEST(itkTimeAndMemoryProbeTest);
 
+#ifdef ITK_USE_REVIEW
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif 
 
 #ifdef ITK_USE_TRANSFORM_IO_FACTORIES
   REGISTER_TEST(itkTransformFileReaderWriterTest);
+#endif
+
 #endif
 }

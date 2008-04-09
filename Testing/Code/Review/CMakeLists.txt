@@ -76,9 +76,11 @@ SET(ReviewTest_SRCS
   itkTimeAndMemoryProbeTest.cxx
 )
 
-IF(ITK_USE_TRANSFORM_IO_FACTORIES)
-  SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
-ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
+IF(ITK_USE_REVIEW)
+  IF(ITK_USE_TRANSFORM_IO_FACTORIES)
+    SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
+  ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
+ENDIF(ITK_USE_REVIEW)
 
 
 ADD_TEST(itkOptImageToImageMetricsTest01 
