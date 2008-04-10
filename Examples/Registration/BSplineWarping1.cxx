@@ -226,8 +226,8 @@ int main( int argc, char * argv[] )
 
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing;
-  spacing[0] = floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
-  spacing[1] = floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
+  spacing[0] = fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells;
+  spacing[1] = fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells;
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;

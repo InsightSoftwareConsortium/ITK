@@ -237,8 +237,8 @@ int main( int argc, char *argv[] )
 
   for(unsigned int r=0; r<ImageDimension; r++)
     {
-    spacing[r] *= floor( static_cast<double>(fixedImageSize[r] - 1)  / 
-                  static_cast<double>(gridSizeOnImage[r] - 1) );
+    spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  / 
+                  static_cast<double>(gridSizeOnImage[r] - 1);
     origin[r]  -=  spacing[r]; 
     }
 
