@@ -132,6 +132,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 ::SetFixedImageIndexes( const FixedImageIndexContainer & indexes )
 {
   m_UseFixedImageIndexes = true;
+  m_UseAllPixels = false;
   m_NumberOfFixedImageSamples = indexes.size();
   this->NumberOfFixedImageSamplesUpdated();
   m_FixedImageIndexes.resize( m_NumberOfFixedImageSamples );
