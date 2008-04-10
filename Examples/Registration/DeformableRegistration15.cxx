@@ -242,10 +242,8 @@ int main( int argc, char *argv[] )
   
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   
-  const unsigned int numberOfSamples = 
-    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
+  const unsigned int numberOfPixels = fixedRegion.GetNumberOfPixels();
 
-  metric->SetNumberOfSpatialSamples( numberOfSamples );
   metric->ReinitializeSeed( 76926294 );
 
 
@@ -316,6 +314,14 @@ int main( int argc, char *argv[] )
 
   optimizer->SetNumberOfIterations( 200 );
 
+  //
+  // The rigid transform has 6 parameters we use therefore a few samples to run
+  // this stage.
+  //
+  // Regulating the number of samples in the Metric is equivalent to performing
+  // multi-resolution registration because it is indeed a sub-sampling of the
+  // image.
+  metric->SetNumberOfSpatialSamples( 10000L );
 
   //
   // Create the Command observer and register it with the optimizer.
@@ -379,6 +385,16 @@ int main( int argc, char *argv[] )
   optimizer->SetMinimumStepLength( 0.0001 );
 
   optimizer->SetNumberOfIterations( 200 );
+
+  //
+  // The Affine transform has 12 parameters we use therefore a more samples to run
+  // this stage.
+  //
+  // Regulating the number of samples in the Metric is equivalent to performing
+  // multi-resolution registration because it is indeed a sub-sampling of the
+  // image.
+  metric->SetNumberOfSpatialSamples( 50000L );
+
 
   std::cout << "Starting Affine Registration " << std::endl;
 
@@ -496,6 +512,18 @@ int main( int argc, char *argv[] )
     {
     optimizer->SetNumberOfIterations( atoi( argv[13] ) );
     }
+
+
+  //
+  // The BSpline transform has a large number of parameters, we use therefore a
+  // much larger number of samples to run this stage.
+  //
+  // Regulating the number of samples in the Metric is equivalent to performing
+  // multi-resolution registration because it is indeed a sub-sampling of the
+  // image.
+  metric->SetNumberOfSpatialSamples( numberOfBSplineParameters * 100 );
+
+
 
 
   std::cout << std::endl << "Starting Deformable Registration Coarse Grid" << std::endl;
@@ -637,6 +665,24 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( bsplineTransformFine->GetParameters() );
   registration->SetTransform( bsplineTransformFine );
+
+  //
+  // The BSpline transform at fine scale has a very large number of parameters,
+  // we use therefore a much larger number of samples to run this stage. In this
+  // case, however, the number of transform parameters is closer to the number
+  // of pixels in the image. Therefore we use the geometric mean of the two numbers
+  // to ensure that the number of samples is larger than the number of transform
+  // parameters and smaller than the number of samples.
+  //
+  // Regulating the number of samples in the Metric is equivalent to performing
+  // multi-resolution registration because it is indeed a sub-sampling of the
+  // image.
+  const double numberOfSamples = 
+     vcl_sqrt( static_cast<double>( numberOfBSplineParameters ) *
+               static_cast<double>( numberOfPixels ) );
+
+  metric->SetNumberOfSpatialSamples( numberOfSamples );
+
 
   try 
     { 
