@@ -215,6 +215,11 @@ public:
     OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
                        registration->GetOptimizer() );
 
+    std::cout << "-------------------------------------" << std::endl;
+    std::cout << "MultiResolution Level : "
+              << registration->GetCurrentLevel()  << std::endl;
+    std::cout << std::endl;
+
     if ( registration->GetCurrentLevel() == 0 )
       {
       optimizer->SetMaximumStepLength( 16.00 );  
@@ -222,10 +227,8 @@ public:
       }
     else
       {
-      optimizer->SetMaximumStepLength( 
-                optimizer->GetCurrentStepLength() );
-      optimizer->SetMinimumStepLength(
-                optimizer->GetMinimumStepLength() / 10.0 );
+      optimizer->SetMaximumStepLength( optimizer->GetMaximumStepLength() / 4.0 );
+      optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
       }
   }
 // Software Guide : EndCodeSnippet
