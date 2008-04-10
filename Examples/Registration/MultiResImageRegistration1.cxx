@@ -465,6 +465,7 @@ int main( int argc, char *argv[] )
 
 
   optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetRelaxationFactor( 0.9 );
 
 
   // Create the Command observer and register it with the optimizer.
