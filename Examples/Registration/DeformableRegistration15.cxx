@@ -677,9 +677,10 @@ int main( int argc, char *argv[] )
   // Regulating the number of samples in the Metric is equivalent to performing
   // multi-resolution registration because it is indeed a sub-sampling of the
   // image.
-  const double numberOfSamples = 
-     vcl_sqrt( static_cast<double>( numberOfBSplineParameters ) *
-               static_cast<double>( numberOfPixels ) );
+  const unsigned long numberOfSamples = 
+     static_cast<unsigned long>(
+       vcl_sqrt( static_cast<double>( numberOfBSplineParameters ) *
+                 static_cast<double>( numberOfPixels ) ) );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
 
