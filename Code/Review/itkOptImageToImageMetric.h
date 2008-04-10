@@ -239,8 +239,18 @@ public:
   virtual void MultiThreadingInitialize( void ) throw ( ExceptionObject );
 
   /** Number of spatial samples to used to compute metric */
-  itkSetClampMacro( NumberOfFixedImageSamples, unsigned long,
-                    1, NumericTraits<unsigned long>::max() );
+  virtual void SetNumberOfFixedImageSamples( unsigned long numSamples )
+    {
+    // This is not a macro because we need to also set m_UseAllPixels
+    itkDebugMacro("Setting NumberOfFixedImageSamples to " << numSamples ); 
+    if (this->m_NumberOfFixedImageSamples != numSamples)
+      {
+      this->m_UseAllPixels = false;
+      this->m_NumberOfFixedImageSamples = numSamples;
+      this->Modified();
+      } 
+    } 
+
   itkGetConstReferenceMacro( NumberOfFixedImageSamples, unsigned long ); 
   void SetNumberOfSpatialSamples( unsigned long num )
     {
