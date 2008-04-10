@@ -144,7 +144,8 @@ protected:
  *  Smaps files have been added since the linux kernel 2.6 
 */
 template <class TMapRecord>
-class ITK_EXPORT SmapsData_2_6:public MapData<TMapRecord>{
+class ITK_EXPORT SmapsData_2_6:public MapData<TMapRecord>
+{
 public:
   typedef typename MapData<TMapRecord>::MemoryLoadType MemoryLoadType;
   
@@ -176,7 +177,8 @@ protected:
  *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg, 
 */
 template <class TMapRecord>
-class ITK_EXPORT VMMapData_10_2:public MapData<TMapRecord> {
+class ITK_EXPORT VMMapData_10_2:public MapData<TMapRecord>
+{
 public:
   typedef typename MapData<TMapRecord>::MemoryLoadType MemoryLoadType;
 
