@@ -223,7 +223,7 @@ public:
     if ( registration->GetCurrentLevel() == 0 )
       {
       optimizer->SetMaximumStepLength( 16.00 );  
-      optimizer->SetMinimumStepLength( 2.5 );
+      optimizer->SetMinimumStepLength( 0.01 );
       }
     else
       {
@@ -436,8 +436,8 @@ int main( int argc, char *argv[] )
   
   registration->SetInitialTransformParameters( initialParameters );
 
-  metric->SetNumberOfHistogramBins( 20 );
-  metric->SetNumberOfSpatialSamples( 10000 );
+  metric->SetNumberOfHistogramBins( 128 );
+  metric->SetNumberOfSpatialSamples( 50000 );
 
  //  Software Guide : BeginLatex
   //  

@@ -149,7 +149,7 @@ public:
     if ( registration->GetCurrentLevel() == 0 )
       {
       optimizer->SetMaximumStepLength( 16.00 );  
-      optimizer->SetMinimumStepLength(  0.10 );
+      optimizer->SetMinimumStepLength(  0.01 );
       }
     else
       {
@@ -384,8 +384,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  metric->SetNumberOfHistogramBins( 32 );
-  metric->SetNumberOfSpatialSamples( 20000 );
+  metric->SetNumberOfHistogramBins( 128 );
+  metric->SetNumberOfSpatialSamples( 50000 );
 
  //  Software Guide : BeginLatex
   //  
