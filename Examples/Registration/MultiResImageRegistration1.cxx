@@ -290,9 +290,10 @@ int main( int argc, char *argv[] )
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << " outputImagefile ";
+    std::cerr << " outputImagefile [backgroundGrayLevel]";
     std::cerr << " [checkerBoardBefore] [checkerBoardAfter]";
     std::cerr << " [useExplicitPDFderivatives ] " << std::endl;
+    std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -439,6 +440,19 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 128 );
   metric->SetNumberOfSpatialSamples( 50000 );
 
+  if( argc > 8 )
+    {
+    // optionally, override the values with numbers taken from the command line arguments.
+    metric->SetNumberOfHistogramBins( atoi( argv[8] ) );
+    }
+
+  if( argc > 9 )
+    {
+    // optionally, override the values with numbers taken from the command line arguments.
+    metric->SetNumberOfSpatialSamples( atoi( argv[9] ) );
+    }
+
+
  //  Software Guide : BeginLatex
   //  
   //  Given that the Mattes Mutual Information metric uses a random iterator in
@@ -454,13 +468,13 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
  
 
-  if( argc > 6 )
+  if( argc > 7 )
     {
     // Define whether to calculate the metric derivative by explicitly
     // computing the derivatives of the joint PDF with respect to the Transform
     // parameters, or doing it by progressively accumulating contributions from
     // each bin in the joint PDF.
-    metric->SetUseExplicitPDFDerivatives( atoi( argv[6] ) );
+    metric->SetUseExplicitPDFDerivatives( atoi( argv[7] ) );
     }
 
 
@@ -591,11 +605,17 @@ int main( int argc, char *argv[] )
 
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
+  PixelType backgroundGrayLevel = 100;
+  if( argc > 4 )
+    {
+    backgroundGrayLevel = atoi( argv[4] );
+    }
+
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
-  resample->SetDefaultPixelValue( 100 );
+  resample->SetDefaultPixelValue( backgroundGrayLevel );
 
 
   typedef  unsigned char  OutputPixelType;
@@ -640,18 +660,18 @@ int main( int argc, char *argv[] )
   identityTransform->SetIdentity();
   resample->SetTransform( identityTransform );
 
-  if( argc > 4 )
+  if( argc > 5 )
     {
-    writer->SetFileName( argv[4] );
+    writer->SetFileName( argv[5] );
     writer->Update();
     }
 
  
   // After registration
   resample->SetTransform( finalTransform );
-  if( argc > 5 )
+  if( argc > 6 )
     {
-    writer->SetFileName( argv[5] );
+    writer->SetFileName( argv[6] );
     writer->Update();
     }
 

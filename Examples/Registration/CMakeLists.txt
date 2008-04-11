@@ -499,7 +499,7 @@ ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   MultiResImageRegistration1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/MultiResImageRegistration1Test.png
+        ${TEMP}/MultiResImageRegistration1Test.png 100
         ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png  
         ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png  
 )
@@ -511,7 +511,7 @@ ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
   MultiResImageRegistration1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/MultiResImageRegistration1Test2.png
+        ${TEMP}/MultiResImageRegistration1Test2.png 100
         ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png  
         ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png  
         0
