@@ -1,6 +1,6 @@
 BEGIN_WRAPPER_LIBRARY(Calculators)
 
-SET(WRAPPER_LIBRARY_DEPENDS Base BaseNumerics BaseTransforms)
+SET(WRAPPER_LIBRARY_DEPENDS Base BaseNumerics BaseTransforms BaseSpatialObject)
 
 SET(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon ITKStatistics)
 
