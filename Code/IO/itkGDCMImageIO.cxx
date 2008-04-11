@@ -553,6 +553,11 @@ void GDCMImageIO::Read(void* buffer)
   gdcm::FileHelper gfile(header);
 
   size_t size = gfile.GetImageDataSize();
+  // Handle nasty case, where header says: single scalar but provides a LUT
+  if( header->HasLUT() && m_NumberOfComponents == 1 )
+    {
+    size = gfile.GetImageDataRawSize();
+    }
   unsigned char *source = (unsigned char*)gfile.GetImageData();
 
   // We can rescale pixel only in grayscale image
@@ -786,24 +791,24 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
         m_ComponentType = UNKNOWNCOMPONENTTYPE;
         break;
       }
-    }
-  // Handle here the special case where we are dealing with 12bits data :
-  if( header->GetEntryValue(0x0028, 0x0101) == "12" ) // Bits Stored
-    {
-    std::string sign = header->GetEntryValue(0x0028, 0x0103); // Pixel Representation
-    if ( sign == "0" )
+    // Handle here the special case where we are dealing with 12bits data :
+    if( header->GetEntryValue(0x0028, 0x0101) == "12" ) // Bits Stored
       {
-      m_ComponentType = 
-        IntervalCalculator<Pixel16_12_11_0, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      }
-    else if ( sign == "1" )
-      {
-      m_ComponentType = 
-        IntervalCalculator<Pixel16_12_11_1, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
-      }
-    else
-      {
-      itkExceptionMacro(<< "Pixel Representation cannot be handled: " << sign );
+      std::string sign = header->GetEntryValue(0x0028, 0x0103); // Pixel Representation
+      if ( sign == "0" )
+        {
+        m_ComponentType = 
+          IntervalCalculator<Pixel16_12_11_0, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        }
+      else if ( sign == "1" )
+        {
+        m_ComponentType = 
+          IntervalCalculator<Pixel16_12_11_1, ICDirect>::Compute(m_RescaleSlope, m_RescaleIntercept);
+        }
+      else
+        {
+        itkExceptionMacro(<< "Pixel Representation cannot be handled: " << sign );
+        }
       }
     }
 

@@ -1419,7 +1419,7 @@ int File::GetNumberOfScalarComponents()
 
    std::string strPhotometricInterpretation = GetEntryValue(0x0028,0x0004);
 
-   if ( ( strPhotometricInterpretation == "PALETTE COLOR ") )
+   if ( Util::DicomStringEqual(strPhotometricInterpretation, "PALETTE COLOR") )
    {
       if ( HasLUT() )// PALETTE COLOR is NOT enough
       {
