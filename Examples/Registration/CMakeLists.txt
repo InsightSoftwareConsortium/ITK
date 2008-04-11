@@ -1031,10 +1031,6 @@ ENDIF(ITK_BRAINWEB_DATA_ROOT)
 IF(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 
 ADD_TEST(DeformableRegistration15Test2 ${REGISTRATION_EXAMPLES14}
-    --compare ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
-              ${TEMP}/DeformableRegistration15Test2.mhd
-    --compareNumberOfPixelsTolerance 700000
-    --compareIntensityTolerance 15
         DeformableRegistration15Test
         ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
         ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/c/I.hdr
