@@ -233,6 +233,7 @@ int main( int argc, char *argv[] )
   transformLow->SetGridSpacing( spacingLow );
   transformLow->SetGridOrigin( originLow );
   transformLow->SetGridRegion( bsplineRegion );
+  transformLow->SetGridDirection( fixedImage->GetDirection() );
 
   typedef TransformType::ParametersType     ParametersType;
 
@@ -310,6 +311,7 @@ int main( int argc, char *argv[] )
   transformHigh->SetGridSpacing( spacingHigh );
   transformHigh->SetGridOrigin( originHigh );
   transformHigh->SetGridRegion( bsplineRegion );
+  transformHigh->SetGridDirection( fixedImage->GetDirection() );
 
   ParametersType parametersHigh( transformHigh->GetNumberOfParameters() );
   parametersHigh.Fill( 0.0 );

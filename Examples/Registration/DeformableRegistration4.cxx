@@ -247,6 +247,7 @@ int main( int argc, char *argv[] )
   transform->SetGridSpacing( spacing );
   transform->SetGridOrigin( origin );
   transform->SetGridRegion( bsplineRegion );
+  transform->SetGridDirection( fixedImage->GetDirection() );
   
 
   typedef TransformType::ParametersType     ParametersType;

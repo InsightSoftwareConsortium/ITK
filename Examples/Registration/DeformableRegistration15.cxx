@@ -460,6 +460,7 @@ int main( int argc, char *argv[] )
   bsplineTransformCoarse->SetGridSpacing( spacing );
   bsplineTransformCoarse->SetGridOrigin( origin );
   bsplineTransformCoarse->SetGridRegion( bsplineRegion );
+  bsplineTransformCoarse->SetGridDirection( fixedImage->GetDirection() );
   
   bsplineTransformCoarse->SetBulkTransform( affineTransform );
 
@@ -585,6 +586,7 @@ int main( int argc, char *argv[] )
   bsplineTransformFine->SetGridSpacing( spacingHigh );
   bsplineTransformFine->SetGridOrigin( originHigh );
   bsplineTransformFine->SetGridRegion( bsplineRegion );
+  bsplineTransformFine->SetGridDirection( fixedImage->GetDirection() );
 
   bsplineTransformFine->SetBulkTransform( affineTransform );
 

@@ -239,6 +239,7 @@ int main( int argc, char * argv[] )
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
+  bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
   
 
   typedef TransformType::ParametersType     ParametersType;
