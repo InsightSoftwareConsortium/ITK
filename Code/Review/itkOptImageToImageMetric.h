@@ -245,6 +245,11 @@ public:
     itkDebugMacro("Setting NumberOfFixedImageSamples to " << numSamples ); 
     if (this->m_NumberOfFixedImageSamples != numSamples)
       {
+      if( this->m_NumberOfFixedImageSamples == 0 )
+        {
+        // make sure that there is at least one sample
+        this->m_NumberOfFixedImageSamples = 1;
+        }
       this->m_UseAllPixels = false;
       this->m_NumberOfFixedImageSamples = numSamples;
       this->Modified();
