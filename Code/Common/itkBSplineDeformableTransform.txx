@@ -714,19 +714,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     {
     ContinuousIndexType index;
 
-    Vector<double, SpaceDimension> cvector;
-
-    Vector<double, SpaceDimension> tvector;
-    for ( j = 0; j < SpaceDimension; j++ )
-      {
-      tvector[j] = point[j] - m_GridOrigin[j];
-      }
-    cvector = m_PointToIndex * tvector;
-
-    for ( j = 0; j < SpaceDimension; j++ )
-      {
-      index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
-      }
+    this->TransformPointToContinuousIndex( point, index );
 
     // NOTE: if the support region does not lie totally within the grid
     // we assume zero displacement and return the input point
@@ -868,19 +856,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
  
   ContinuousIndexType index;
 
-  Vector<double, SpaceDimension> cvector;
-
-  Vector<double, SpaceDimension> tvector;
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    tvector[j] = point[j] - m_GridOrigin[j];
-    }
-  cvector = m_PointToIndex * tvector;
-
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
-    }
+  this->TransformPointToContinuousIndex( point, index );
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
@@ -940,33 +916,18 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   supportRegion.SetSize( m_SupportSize );
   const PixelType * basePointer = m_CoefficientImage[0]->GetBufferPointer();
 
-  unsigned int j;
-
   ContinuousIndexType index;
 
-  Vector<double, SpaceDimension> cvector;
-
-  Vector<double, SpaceDimension> tvector;
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    tvector[j] = point[j] - m_GridOrigin[j];
-    }
-  cvector = m_PointToIndex * tvector;
-
-  for ( j = 0; j < SpaceDimension; j++ )
-    {
-    index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
-    }
-
+  this->TransformPointToContinuousIndex( point, index ); 
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
   if ( !this->InsideValidRegion( index ) )
-  {
+    {
     weights.Fill(0.0);
     indexes.Fill(0);
     return;
-  }
+    }
   
   // Compute interpolation weights
   IndexType supportIndex;
@@ -995,6 +956,32 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     }
 
 }
+
+
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
+::TransformPointToContinuousIndex( const InputPointType & point, ContinuousIndexType & index ) const
+{
+  unsigned int j;
+
+  Vector<double, SpaceDimension> tvector;
+
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    tvector[j] = point[j] - this->m_GridOrigin[j];
+    }
+
+  Vector<double, SpaceDimension> cvector;
+
+  cvector = m_PointToIndex * tvector;
+
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
+    }
+}
+
 
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 unsigned int 

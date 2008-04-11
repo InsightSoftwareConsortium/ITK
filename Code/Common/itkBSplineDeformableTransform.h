@@ -400,6 +400,10 @@ protected:
   /** Wrap flat array into images of coefficients. */
   void WrapAsImages();
 
+  /** Convert an input point to a continuous index inside the BSpline grid */
+  void TransformPointToContinuousIndex( 
+   const InputPointType & point, ContinuousIndexType & index ) const;
+
 private:
   BSplineDeformableTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
