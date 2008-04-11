@@ -56,6 +56,7 @@
 // Software Guide : EndCodeSnippet
 
 
+#include "itkCenteredTransformInitializer.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -173,6 +174,7 @@ int main( int argc, char *argv[] )
     std::cerr << " outputImagefile [backgroundGrayLevel]";
     std::cerr << " [checkerboardbefore] [CheckerBoardAfter]";
     std::cerr << " [useExplicitPDFderivatives ] " << std::endl;
+    std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
     return EXIT_FAILURE;
     }
   
@@ -287,19 +289,29 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //  
   //  One of the easiest ways of preparing a consistent set of parameters for
-  //  the transform is to use the transform itself.  We can simplify the task
-  //  of initialization by taking advantage of the additional convenience
-  //  methods that most transforms have. In this case, we simply force the
-  //  transform to be initialized as an identity transform. The method
-  //  \code{SetIdentity()} is used to that end. Once the transform is
-  //  initialized, we can invoke its \code{GetParameters()} method to extract
-  //  the array of parameters. Finally the array is passed to the registration
-  //  method using its \code{SetInitialTransformParameters()} method.
+  //  the transform is to use the \doxygen{CenteredTransformInitializer}. Once
+  //  the transform is initialized, we can invoke its \code{GetParameters()}
+  //  method to extract the array of parameters. Finally the array is passed to
+  //  the registration method using its \code{SetInitialTransformParameters()}
+  //  method.
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  transform->SetIdentity();
+  typedef itk::CenteredTransformInitializer< 
+                                    TransformType, 
+                                    FixedImageType, 
+                                    MovingImageType >  TransformInitializerType;
+
+  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+
+  initializer->SetTransform(   transform );
+  initializer->SetFixedImage(  fixedImageReader->GetOutput() );
+  initializer->SetMovingImage( movingImageReader->GetOutput() );
+
+  initializer->MomentsOn();
+  initializer->InitializeTransform();
+
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 
@@ -333,8 +345,8 @@ int main( int argc, char *argv[] )
   optimizerScales[2] = 1.0; // scale for M21
   optimizerScales[3] = 1.0; // scale for M22
 
-  optimizerScales[4] = 1.0 / 1000000.0; // scale for translation on X
-  optimizerScales[5] = 1.0 / 1000000.0; // scale for translation on Y
+  optimizerScales[4] = 1.0 / 1e7; // scale for translation on X
+  optimizerScales[5] = 1.0 / 1e7; // scale for translation on Y
   // Software Guide : EndCodeSnippet
 
 
@@ -383,9 +395,22 @@ int main( int argc, char *argv[] )
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
 
-
   metric->SetNumberOfHistogramBins( 128 );
   metric->SetNumberOfSpatialSamples( 50000 );
+
+
+  if( argc > 8 )
+    {
+    // optionally, override the values with numbers taken from the command line arguments.
+    metric->SetNumberOfHistogramBins( atoi( argv[8] ) );
+    }
+
+  if( argc > 9 )
+    {
+    // optionally, override the values with numbers taken from the command line arguments.
+    metric->SetNumberOfSpatialSamples( atoi( argv[9] ) );
+    }
+
 
  //  Software Guide : BeginLatex
   //  
@@ -427,8 +452,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-  optimizer->SetNumberOfIterations(  100  );
-  optimizer->SetRelaxationFactor( 0.9 );
+  optimizer->SetNumberOfIterations(  200  );
+  optimizer->SetRelaxationFactor( 0.8 );
 
 
   // Create the Command observer and register it with the optimizer.
@@ -619,6 +644,8 @@ int main( int argc, char *argv[] )
   caster->SetInput( checker->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
   
+  resample->SetDefaultPixelValue( 0 );
+
   // Write out checkerboard outputs
   // Before registration
   TransformType::Pointer identityTransform = TransformType::New();
