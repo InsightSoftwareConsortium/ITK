@@ -1028,6 +1028,29 @@ ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
 
+IF(ITK_MRI_UNC_DATABASE_DATA_ROOT)
+
+ADD_TEST(DeformableRegistration15Test2 ${REGISTRATION_EXAMPLES14}
+    --compare ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
+              ${TEMP}/DeformableRegistration15Test2.mhd
+    --compareNumberOfPixelsTolerance 700000
+    --compareIntensityTolerance 15
+        DeformableRegistration15Test
+        ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
+        ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/c/I.hdr
+        ${TEMP}/DeformableRegistration15Test2.mhd
+        ${TEMP}/DeformableRegistration15Test2DifferenceAfter.mhd
+        ${TEMP}/DeformableRegistration15Test2DifferenceBefore.mhd
+        ${TEMP}/DeformableRegistration15Test2DeformationField.mhd
+        0 0
+        ${TEMP}/DeformableRegistration15Test2FinalTransformParameters.txt
+        5 100
+        10.0 50
+)
+
+ENDIF(ITK_MRI_UNC_DATABASE_DATA_ROOT)
+
+
 ADD_TEST(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/LandmarkWarping2Test.png
             ${TEMP}/LandmarkWarping2Test.png

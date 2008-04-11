@@ -618,6 +618,14 @@ FIND_PATH(ITK_BRAINWEB_DATA_ROOT brainweb165a10f17.mha
 MARK_AS_ADVANCED(ITK_BRAINWEB_DATA_ROOT)
 
 #-----------------------------------------------------------------------------
+# Configure the default ITK_MRI_UNC_DATABASE_DATA_ROOT for the location of the
+# database of healthy volunteers MRI brain images.
+# When this data is available, additional 3D tests are enabled.
+FIND_PATH(ITK_MRI_UNC_DATABASE_DATA_ROOT LICENSE.txt
+  DOC "Directory with data taken from http://public.kitware.com/pub/itk/Data/HealthyVolunteersMRIDatabase/")
+MARK_AS_ADVANCED(ITK_MRI_UNC_DATABASE_DATA_ROOT)
+
+#-----------------------------------------------------------------------------
 # This flag is used in particular, to enable some tests that require large memory to run.
 # This probably can be discovered at configuration time by CMake. (Check with CMake developers).
 SET(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes") 
