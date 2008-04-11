@@ -943,10 +943,21 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
   unsigned int j;
 
   ContinuousIndexType index;
+
+  Vector<double, SpaceDimension> cvector;
+
+  Vector<double, SpaceDimension> tvector;
   for ( j = 0; j < SpaceDimension; j++ )
-  {
-    index[j] = ( point[j] - m_GridOrigin[j] ) / m_GridSpacing[j];
-  }
+    {
+    tvector[j] = point[j] - m_GridOrigin[j];
+    }
+  cvector = m_PointToIndex * tvector;
+
+  for ( j = 0; j < SpaceDimension; j++ )
+    {
+    index[j] = static_cast< typename ContinuousIndexType::CoordRepType >( cvector[j] );
+    }
+
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
