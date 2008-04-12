@@ -1033,7 +1033,7 @@ IF(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 ADD_TEST(DeformableRegistration15Test2 ${REGISTRATION_EXAMPLES14}
         DeformableRegistration15Test
         ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
-        ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/c/I.hdr
+        ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/d/I.hdr
         ${TEMP}/DeformableRegistration15Test2.mhd
         ${TEMP}/DeformableRegistration15Test2DifferenceAfter.mhd
         ${TEMP}/DeformableRegistration15Test2DifferenceBefore.mhd
