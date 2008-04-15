@@ -141,12 +141,14 @@ public:
   typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >
                                                      FixedImageMaskType;
   typedef typename  FixedImageMaskType::Pointer      FixedImageMaskPointer;
+  typedef typename  FixedImageMaskType::ConstPointer FixedImageMaskConstPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
   typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >
                                                      MovingImageMaskType;
   typedef typename  MovingImageMaskType::Pointer     MovingImageMaskPointer;
+  typedef typename  MovingImageMaskType::ConstPointer  MovingImageMaskConstPointer;
 
 
   /**  Type of the measure. */
@@ -196,11 +198,11 @@ public:
   itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
  
   /** Set/Get the moving image mask. */
-  itkSetObjectMacro( MovingImageMask, MovingImageMaskType );
+  itkSetConstObjectMacro( MovingImageMask, MovingImageMaskType );
   itkGetConstObjectMacro( MovingImageMask, MovingImageMaskType );
 
   /** Set/Get the fixed image mask. */
-  itkSetObjectMacro( FixedImageMask, FixedImageMaskType );
+  itkSetConstObjectMacro( FixedImageMask, FixedImageMaskType );
   itkGetConstObjectMacro( FixedImageMask, FixedImageMaskType );
 
   /** Set the fixed image indexes to be used as the samples when
@@ -385,8 +387,8 @@ protected:
   bool                        m_ComputeGradient;
   GradientImagePointer        m_GradientImage;
 
-  FixedImageMaskPointer       m_FixedImageMask;
-  MovingImageMaskPointer      m_MovingImageMask;
+  FixedImageMaskConstPointer       m_FixedImageMask;
+  MovingImageMaskConstPointer      m_MovingImageMask;
 
   unsigned int                m_NumberOfThreads;
 

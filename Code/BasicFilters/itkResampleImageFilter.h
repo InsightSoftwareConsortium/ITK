@@ -203,6 +203,15 @@ public:
     this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
     }
 
+  /** Helper method to set the output parameters based on this image */
+  void SetOutputParametersFromConstImage ( typename OutputImageType::ConstPointer Image )
+    {
+    this->SetOutputOrigin ( Image->GetOrigin() );
+    this->SetOutputSpacing ( Image->GetSpacing() );
+    this->SetOutputDirection ( Image->GetDirection() );
+    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+    }
+
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
   itkSetMacro( OutputStartIndex, IndexType );
