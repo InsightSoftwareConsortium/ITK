@@ -80,7 +80,7 @@ public:
   typedef   itk::ImageFileWriter< MovingImageType >  MovingWriterType;
 
 
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
 
   try
@@ -95,39 +95,39 @@ public:
     }
 
 
-  MovingReaderType::Pointer movingReader = MovingReaderType::New();
-  MovingWriterType::Pointer movingWriter = MovingWriterType::New();
+  typename MovingReaderType::Pointer movingReader = MovingReaderType::New();
+  typename MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
   movingReader->SetFileName( argv[3] );
   movingWriter->SetFileName( argv[4] );
 
 
-  FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
+  typename FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
   typedef itk::ResampleImageFilter< MovingImageType, 
                                     FixedImageType  >  FilterType;
 
-  FilterType::Pointer resampler = FilterType::New();
+  typename FilterType::Pointer resampler = FilterType::New();
 
   typedef itk::LinearInterpolateImageFunction< 
                        MovingImageType, double >  InterpolatorType;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   resampler->SetInterpolator( interpolator );
 
-  FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
-  FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
-  FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
+  typename FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
+  typename FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
+  typename FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
 
   resampler->SetOutputSpacing( fixedSpacing );
   resampler->SetOutputOrigin(  fixedOrigin  );
   resampler->SetOutputDirection(  fixedDirection  );
 
   
-  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
+  typename FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  typename FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
   resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
 
@@ -223,7 +223,7 @@ public:
 
 
 
-   CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
+   typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
    resampler->AddObserver( itk::ProgressEvent(), observer );
   
@@ -247,7 +247,7 @@ public:
   typedef itk::Vector< float, ImageDimension >  VectorType;
   typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
 
-  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  typename DeformationFieldType::Pointer field = DeformationFieldType::New();
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedOrigin );
   field->SetSpacing( fixedSpacing );
@@ -260,7 +260,7 @@ public:
 
   typename TransformType::InputPointType  fixedPoint;
   typename TransformType::OutputPointType movingPoint;
-  DeformationFieldType::IndexType index;
+  typename DeformationFieldType::IndexType index;
 
   VectorType displacement;
 
@@ -278,7 +278,7 @@ public:
 
 
   typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  typename FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );
 
