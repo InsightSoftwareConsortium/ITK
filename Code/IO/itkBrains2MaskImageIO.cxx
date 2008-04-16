@@ -73,9 +73,9 @@ void Brains2MaskImageIO::PrintSelf(std::ostream& os, Indent indent) const
 bool Brains2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
 {
   m_FileName=FileNameToWrite;
-  if( ( m_FileName != "" ) &&
-      ( m_FileName.find(".mask") < m_FileName.length() )  // Mask name Given
-    )
+  // Check filename to ensure that it meets the requirement of ending with .mask
+  const std::string FileExtension=itksys::SystemTools::GetFilenameLastExtension(m_FileName);
+  if( FileExtension == std::string(".mask"))// .mask is at the end of the filename
     {
     return true;
     }
@@ -214,9 +214,14 @@ void Brains2MaskImageIO
 // a StateMachine could provide a better implementation
 bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
 {
-  // The following assignment doesn't seem neccessary and was causing 
-  // a problem in MSVC60 which resulted in m_FileName becoming a NULL string.
-  //  m_FileName=FileNameToRead;
+    { // Check filename to ensure that it meets the requirement of ending with .mask
+    const std::string FileName(FileNameToRead);
+    const std::string FileExtension=itksys::SystemTools::GetFilenameLastExtension(FileName);
+    if( FileExtension != std::string(".mask"))// .mask is at the end of the filename
+      {
+      return false;
+      }
+    }
   std::ifstream   local_InputStream;
   local_InputStream.open( FileNameToRead, std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
