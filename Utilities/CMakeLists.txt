@@ -27,34 +27,41 @@ ITK_THIRD_PARTY_SUBDIR(GDCM gdcm)
 #  Fetch libxml2 using subversion if requested 
 IF(ITK_USE_LIBXML2)
   IF(NOT ITK_USE_SYSTEM_LIBXML2)
-    FIND_PACKAGE(Subversion REQUIRED)
-    IF(Subversion_SVN_FOUND)
-      IF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
+    IF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
+      SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
+    ELSE(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
+      IF(NOT SVNCOMMAND)
+        IF(Subversion_SVN_EXECUTABLE)
+          SET(SVNCOMMAND ${Subversion_SVN_EXECUTABLE})
+        ELSE(Subversion_SVN_EXECUTABLE)
+          FIND_PACKAGE(Subversion REQUIRED)
+          IF(Subversion_SVN_FOUND)
+            SET(SVNCOMMAND ${Subversion_SVN_EXECUTABLE})
+          ELSE(Subversion_SVN_FOUND)
+            MESSAGE(FATAL_ERROR "Subversion is required to install itklibxml2.  Point SVNCOMMAND to your svn executable.")
+          ENDIF(Subversion_SVN_FOUND)
+        ENDIF(Subversion_SVN_EXECUTABLE)
+      ENDIF(NOT SVNCOMMAND)
+      SET(svnCmd "co")
+      SET(svnRevFlag "-r")
+      SET(svnRevNum  "188")
+      SET(svnSite "https://www.kitware.com:8443/svn/KWPublic/trunk/itklibxml2")
+      SET(svnDir "${ITK_BINARY_DIR}/Utilities")
+      FILE(WRITE ${ITK_BINARY_DIR}/Utilities/t "t\n")
+      EXECUTE_PROCESS(
+            COMMAND "${SVNCOMMAND}" ${svnCmd} ${svnRevFlag} ${svnRevNum} ${svnSite} ${svnDir} 
+            INPUT_FILE ${ITK_BINARY_DIR}/Utilities/t
+            OUTPUT_VARIABLE svnOutput
+            ERROR_VARIABLE svnError
+            RESULT_VARIABLE svnResult
+            )
+      # Result should be 0 on success
+      IF(NOT svnResult)
         SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
-      ELSE(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
-        SET(svnCmd "co")
-        SET(svnRevFlag "-r")
-        SET(svnRevNum  "188")
-        SET(svnSite "https://www.kitware.com:8443/svn/KWPublic/trunk/itklibxml2")
-        SET(svnDir "${ITK_BINARY_DIR}/Utilities")
-        FILE(WRITE ${ITK_BINARY_DIR}/Utilities/t "t\n")
-        EXECUTE_PROCESS(
-              COMMAND "${Subversion_SVN_EXECUTABLE}" ${svnCmd} ${svnRevFlag} ${svnRevNum} ${svnSite} ${svnDir} 
-              INPUT_FILE ${ITK_BINARY_DIR}/Utilities/t
-              OUTPUT_VARIABLE svnOutput
-              ERROR_VARIABLE svnError
-              RESULT_VARIABLE svnResult
-              )
-        # Result should be 0 on success
-        IF(NOT svnResult)
-          SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
-        ELSE(NOT svnResult)
-          MESSAGE(FATAL_ERROR "SVN checkout of itklibxml2 failed with error = ${svnError}")
-        ENDIF(NOT svnResult)
-      ENDIF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
-    ELSE(Subversion_SVN_FOUND)
-      MESSAGE(FATAL_ERROR "Subversion is required to install itklibxml2.  Point SVN_COMMAND to your svn installation.")
-    ENDIF(Subversion_SVN_FOUND)
+      ELSE(NOT svnResult)
+        MESSAGE(FATAL_ERROR "SVN checkout of itklibxml2 failed with error = ${svnError}")
+      ENDIF(NOT svnResult)
+    ENDIF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
   ELSE(NOT ITK_USE_SYSTEM_LIBXML2)
     MESSAGE(FATAL_ERROR "You cannot enable both ITK_USE_SYSTEM_LIBXML2 and ITK_USE_LIBXML2.  Enable the SYSTEM variable if libxml2 is already installed outside of the Insight build directory.")
   ENDIF(NOT ITK_USE_SYSTEM_LIBXML2)
