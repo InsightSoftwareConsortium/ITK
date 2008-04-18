@@ -146,7 +146,7 @@ VotingBinaryImageFilter< TInputImage, TOutputImage>
 
       if( inpixel == m_BackgroundValue )
         {
-        if( count >= m_BirthThreshold )
+        if( count >= (unsigned int)m_BirthThreshold )
           {
           it.Set( static_cast<OutputPixelType>( m_ForegroundValue ) );
           }
