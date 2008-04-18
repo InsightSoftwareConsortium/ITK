@@ -331,10 +331,10 @@ void vnl_vector_test_float()
     TEST("v.squared_magnitude", v.squared_magnitude(), 1);
     TEST("v.magnitude", v.magnitude(), 1);
 // Trying to track down test failure in Intel 10.0 compiler
-    v1 = 3.0f * v;
+    v1 = 4.0f * v;
     vcl_cout << "v1.normalize() is " << v1.normalize() << " and v is " << v << "\n" << vcl_flush;
     vcl_cout << "v1.normalize() - v is " << v1.normalize() - v << "\n" << vcl_flush;
-    TEST("v.normalize", (v1 = 3.0f * v, v1.normalize(), v1), v);
+    TEST("v.normalize", (v1 = 4.0f * v, v1.normalize(), v1), v);
   }
 
   TEST("vnl_vector_ssd",
