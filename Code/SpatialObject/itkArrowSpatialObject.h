@@ -111,7 +111,12 @@ public:
 
   /** Set the length of the arrow */
   void SetLength(double length);
-  void SetLenght(double length){this->SetLength(length); return;}
+  void SetLenght(double length)
+  {
+  itkWarningMacro("Please change your code to use SetLength rather than SetLenght. The latter method name was mispelled and the ITK developers failed to correct it before it was released. The mispelled method name is retained in order to maintain backward compatibility.");
+  this->SetLength(length);
+  return;
+  }
 
   /** Get the length of the arrow */
   itkGetMacro(Length,double);
