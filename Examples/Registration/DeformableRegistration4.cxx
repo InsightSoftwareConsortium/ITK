@@ -241,13 +241,17 @@ int main( int argc, char *argv[] )
     {
     spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  / 
                   static_cast<double>(gridSizeOnImage[r] - 1);
-    origin[r]  -=  spacing[r]; 
     }
 
+  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
+  SpacingType gridOriginOffset = gridDirection * spacing;
+
+  OriginType gridOrigin = origin - gridOriginOffset; 
+
   transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( origin );
+  transform->SetGridOrigin( gridOrigin );
   transform->SetGridRegion( bsplineRegion );
-  transform->SetGridDirection( fixedImage->GetDirection() );
+  transform->SetGridDirection( gridDirection );
   
 
   typedef TransformType::ParametersType     ParametersType;
@@ -451,6 +455,7 @@ int main( int argc, char *argv[] )
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedImage->GetOrigin() );
   field->SetSpacing( fixedImage->GetSpacing() );
+  field->SetDirection( fixedImage->GetDirection() );
   field->Allocate();
 
   typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
@@ -469,8 +474,7 @@ int main( int argc, char *argv[] )
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint( index, fixedPoint );
     movingPoint = transform->TransformPoint( fixedPoint );
-    displacement[0] = movingPoint[0] - fixedPoint[0];
-    displacement[1] = movingPoint[1] - fixedPoint[1];
+    displacement = movingPoint - fixedPoint;
     fi.Set( displacement );
     ++fi;
     }

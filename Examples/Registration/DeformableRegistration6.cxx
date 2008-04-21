@@ -227,13 +227,17 @@ int main( int argc, char *argv[] )
     {
     spacingLow[r] *= static_cast<double>(fixedImageSize[r] - 1)  / 
                      static_cast<double>(gridLowSizeOnImage[r] - 1);
-    originLow[r]  -=  spacingLow[r]; 
     }
 
+  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
+  SpacingType gridOriginOffsetLow = gridDirection * spacingLow;
+
+  OriginType gridOriginLow = originLow - gridOriginOffsetLow; 
+
   transformLow->SetGridSpacing( spacingLow );
-  transformLow->SetGridOrigin( originLow );
+  transformLow->SetGridOrigin( gridOriginLow );
   transformLow->SetGridRegion( bsplineRegion );
-  transformLow->SetGridDirection( fixedImage->GetDirection() );
+  transformLow->SetGridDirection( gridDirection );
 
   typedef TransformType::ParametersType     ParametersType;
 
@@ -305,13 +309,17 @@ int main( int argc, char *argv[] )
     {
     spacingHigh[rh] *= static_cast<double>(fixedImageSize[rh] - 1)  / 
                        static_cast<double>(gridHighSizeOnImage[rh] - 1);
-    originHigh[rh]  -=  spacingHigh[rh]; 
     }
 
+  SpacingType gridOriginOffsetHigh = gridDirection * spacingHigh;
+
+  OriginType gridOriginHigh = originHigh - gridOriginOffsetHigh; 
+
+
   transformHigh->SetGridSpacing( spacingHigh );
-  transformHigh->SetGridOrigin( originHigh );
+  transformHigh->SetGridOrigin( gridOriginHigh );
   transformHigh->SetGridRegion( bsplineRegion );
-  transformHigh->SetGridDirection( fixedImage->GetDirection() );
+  transformHigh->SetGridDirection( gridDirection );
 
   ParametersType parametersHigh( transformHigh->GetNumberOfParameters() );
   parametersHigh.Fill( 0.0 );
@@ -346,6 +354,7 @@ int main( int argc, char *argv[] )
     upsampler->SetSize( transformHigh->GetGridRegion().GetSize() );
     upsampler->SetOutputSpacing( transformHigh->GetGridSpacing() );
     upsampler->SetOutputOrigin( transformHigh->GetGridOrigin() );
+    upsampler->SetOutputDirection( fixedImage->GetDirection() );
 
     typedef itk::BSplineDecompositionImageFilter<ParametersImageType,ParametersImageType>
       DecompositionType;
@@ -523,6 +532,7 @@ int main( int argc, char *argv[] )
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedImage->GetOrigin() );
   field->SetSpacing( fixedImage->GetSpacing() );
+  field->SetDirection( fixedImage->GetDirection() );
   field->Allocate();
 
   typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
@@ -541,8 +551,7 @@ int main( int argc, char *argv[] )
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint( index, fixedPoint );
     movingPoint = transformHigh->TransformPoint( fixedPoint );
-    displacement[0] = movingPoint[0] - fixedPoint[0];
-    displacement[1] = movingPoint[1] - fixedPoint[1];
+    displacement = movingPoint - fixedPoint;
     fi.Set( displacement );
     ++fi;
     }

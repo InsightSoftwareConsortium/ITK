@@ -242,10 +242,15 @@ int main( int argc, char *argv[] )
     origin[r]  -=  spacing[r]; 
     }
 
+  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
+  SpacingType gridOriginOffset = gridDirection * spacing;
+
+  OriginType gridOrigin = origin - gridOriginOffset; 
+
   transform->SetGridSpacing( spacing );
-  transform->SetGridOrigin( origin );
+  transform->SetGridOrigin( gridOrigin );
   transform->SetGridRegion( bsplineRegion );
-  transform->SetGridDirection( fixedImage->GetDirection() );
+  transform->SetGridDirection( gridDirection );
   
 
   typedef TransformType::ParametersType     ParametersType;
@@ -456,6 +461,7 @@ int main( int argc, char *argv[] )
     field->SetRegions( fixedRegion );
     field->SetOrigin( fixedImage->GetOrigin() );
     field->SetSpacing( fixedImage->GetSpacing() );
+    field->SetDirection( fixedImage->GetDirection() );
     field->Allocate();
 
     typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;

@@ -454,13 +454,17 @@ int main( int argc, char *argv[] )
     {
     spacing[r] *= static_cast<double>(fixedImageSize[r] - 1)  / 
                   static_cast<double>(gridSizeOnImage[r] - 1);
-    origin[r]  -=  spacing[r]; 
     }
 
+  FixedImageType::DirectionType gridDirection = fixedImage->GetDirection();
+  SpacingType gridOriginOffset = gridDirection * spacing;
+
+  OriginType gridOrigin = origin - gridOriginOffset; 
+
   bsplineTransformCoarse->SetGridSpacing( spacing );
-  bsplineTransformCoarse->SetGridOrigin( origin );
+  bsplineTransformCoarse->SetGridOrigin( gridOrigin );
   bsplineTransformCoarse->SetGridRegion( bsplineRegion );
-  bsplineTransformCoarse->SetGridDirection( fixedImage->GetDirection() );
+  bsplineTransformCoarse->SetGridDirection( gridDirection );
   
   bsplineTransformCoarse->SetBulkTransform( affineTransform );
 
@@ -583,10 +587,15 @@ int main( int argc, char *argv[] )
     originHigh[rh]  -=  spacingHigh[rh]; 
     }
 
+  SpacingType gridOriginOffsetHigh = gridDirection * spacingHigh;
+
+  OriginType gridOriginHigh = origin - gridOriginOffsetHigh; 
+
+
   bsplineTransformFine->SetGridSpacing( spacingHigh );
-  bsplineTransformFine->SetGridOrigin( originHigh );
+  bsplineTransformFine->SetGridOrigin( gridOriginHigh );
   bsplineTransformFine->SetGridRegion( bsplineRegion );
-  bsplineTransformFine->SetGridDirection( fixedImage->GetDirection() );
+  bsplineTransformFine->SetGridDirection( gridDirection );
 
   bsplineTransformFine->SetBulkTransform( affineTransform );
 
@@ -833,6 +842,7 @@ int main( int argc, char *argv[] )
     field->SetRegions( fixedRegion );
     field->SetOrigin( fixedImage->GetOrigin() );
     field->SetSpacing( fixedImage->GetSpacing() );
+    field->SetDirection( fixedImage->GetDirection() );
     field->Allocate();
 
     typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;

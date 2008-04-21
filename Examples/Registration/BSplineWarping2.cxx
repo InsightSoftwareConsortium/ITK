@@ -226,15 +226,15 @@ int main( int argc, char * argv[] )
 
   typedef TransformType::SpacingType SpacingType;
   SpacingType spacing;
-  spacing[0] = fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells;
-  spacing[1] = fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells;
-  spacing[2] = fixedSpacing[2] * (fixedSize[2] - 1) / numberOfGridCells;
 
   typedef TransformType::OriginType OriginType;
   OriginType origin;
-  origin[0] = fixedOrigin[0] - spacing[0];
-  origin[1] = fixedOrigin[1] - spacing[1];
-  origin[2] = fixedOrigin[2] - spacing[2];
+  
+  for( unsigned int i=0; i< SpaceDimension; i++ )
+    {
+    origin[i]  = fixedOrigin[i] - spacing[i];
+    spacing[i] = fixedSpacing[i] * (fixedSize[i] - 1) / numberOfGridCells;
+    }
   
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
