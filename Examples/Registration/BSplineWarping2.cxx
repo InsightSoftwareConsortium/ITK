@@ -232,14 +232,15 @@ int main( int argc, char * argv[] )
   
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    origin[i]  = fixedOrigin[i] - spacing[i];
     spacing[i] = fixedSpacing[i] * (fixedSize[i] - 1) / numberOfGridCells;
     }
   
+  origin  = fixedOrigin - fixedDirection * spacing;
+
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
-  bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
+  bsplineTransform->SetGridDirection( fixedDirection );
   
 
   typedef TransformType::ParametersType     ParametersType;
@@ -346,6 +347,7 @@ int main( int argc, char * argv[] )
   field->SetRegions( fixedRegion );
   field->SetOrigin( fixedOrigin );
   field->SetSpacing( fixedSpacing );
+  field->SetDirection( fixedDirection );
   field->Allocate();
 
   typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
