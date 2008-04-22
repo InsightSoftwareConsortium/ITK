@@ -39,7 +39,7 @@ FRPROptimizer
 
 void
 FRPROptimizer
-::GetValueAndDerivative(ParametersType p, double * val,
+::GetValueAndDerivative(ParametersType & p, double * val,
                         ParametersType * xi)
 {
   this->m_CostFunction->GetValueAndDerivative(p, *val, *xi);
@@ -68,7 +68,7 @@ FRPROptimizer
 
 void
 FRPROptimizer
-::LineOptimize(ParametersType * p, ParametersType xi, double * val)
+::LineOptimize(ParametersType * p, ParametersType & xi, double * val)
 {
   this->SetLine(*p, xi);
 
@@ -204,7 +204,6 @@ FRPROptimizer
     this->InvokeEvent( IterationEvent() );
     }
 
-  this->SetCurrentPosition(p);
   this->InvokeEvent( EndEvent() );
 }
 
