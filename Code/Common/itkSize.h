@@ -57,7 +57,7 @@ public:
 
   /** Add two sizes.  */
   const Self
-  operator+(const Self &vec)
+  operator+(const Self &vec) const
     {
     Self result;
     for (unsigned int i=0; i < VDimension; i++)
@@ -76,7 +76,7 @@ public:
 
   /** Subtract two sizes.  */
   const Self
-  operator-(const Self &vec)
+  operator-(const Self &vec) const
     {
     Self result;
     for (unsigned int i=0; i < VDimension; i++)
@@ -95,7 +95,7 @@ public:
 
   /** Multiply two sizes (elementwise product).  */
   const Self
-  operator*(const Self &vec)
+  operator*(const Self &vec) const
     {
     Self result;
     for (unsigned int i=0; i < VDimension; i++)
