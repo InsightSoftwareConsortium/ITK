@@ -58,7 +58,7 @@ FRPROptimizer
       {
       len += (*xi)[i]*(*xi)[i];
       }
-    len = sqrt(len);
+    len = sqrt(len/this->GetSpaceDimension());
     for(unsigned int i=0; i<this->GetSpaceDimension(); i++)
       {
       (*xi)[i] /= len;
