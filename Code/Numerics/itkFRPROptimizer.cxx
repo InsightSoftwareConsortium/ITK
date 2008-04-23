@@ -70,6 +70,15 @@ void
 FRPROptimizer
 ::LineOptimize(ParametersType * p, ParametersType & xi, double * val)
 {
+  ParametersType tempCoord( this->GetSpaceDimension() );
+  this->LineOptimize( p, xi, val, tempCoord );
+}
+
+void
+FRPROptimizer
+::LineOptimize(ParametersType * p, ParametersType & xi, double * val, 
+               ParametersType & tempCoord )
+{
   this->SetLine(*p, xi);
 
   double ax = 0.0;
@@ -79,15 +88,14 @@ FRPROptimizer
   double bx;
   double fb;
 
-  ParametersType pp = (*p);
-
-  this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb);
+  this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
   this->SetCurrentLinePoint(xx, fx);
 
   double extX = 0;
   double extVal = 0;
 
-  this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &extX, &extVal);
+  this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &extX, &extVal,
+                              tempCoord);
   this->SetCurrentLinePoint(extX, extVal);
 
   (*p) = this->GetCurrentPosition();
@@ -110,21 +118,21 @@ FRPROptimizer
 
   this->SetSpaceDimension(m_CostFunction->GetNumberOfParameters());
 
-  const unsigned int SpaceDimension = this->GetSpaceDimension();
+  FRPROptimizer::ParametersType tempCoord( this->GetSpaceDimension() );
 
   double gg, gam, dgg;
-  FRPROptimizer::ParametersType g( SpaceDimension );
-  FRPROptimizer::ParametersType h( SpaceDimension );
-  FRPROptimizer::ParametersType xi( SpaceDimension );
+  FRPROptimizer::ParametersType g( this->GetSpaceDimension() );
+  FRPROptimizer::ParametersType h( this->GetSpaceDimension() );
+  FRPROptimizer::ParametersType xi( this->GetSpaceDimension() );
 
-  FRPROptimizer::ParametersType p( SpaceDimension );
+  FRPROptimizer::ParametersType p( this->GetSpaceDimension() );
   p = this->GetInitialPosition();
   this->SetCurrentPosition(p);
 
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
 
-  for( i = 0; i < SpaceDimension; i++ )
+  for( i = 0; i < this->GetSpaceDimension(); i++ )
     {
     g[i] = -xi[i];
     xi[i] = g[i];
@@ -141,12 +149,12 @@ FRPROptimizer
 
     double fret;
     fret = fp;
-    this->LineOptimize(&p, xi, &fret);
+    this->LineOptimize(&p, xi, &fret, tempCoord);
 
     if ( 2.0 * vcl_abs(fret - fp) <= 
       this->GetValueTolerance() * (vcl_abs(fret)+ vcl_abs(fp) + FRPR_TINY) )
       {
-      if( limitCount <  SpaceDimension )
+      if( limitCount <  this->GetSpaceDimension() )
         {
         this->GetValueAndDerivative(p, &fp, &xi);
         xi[limitCount] = 1;
@@ -170,7 +178,7 @@ FRPROptimizer
     
     if( m_OptimizationType == PolakRibiere )
       {
-      for( i=0; i< SpaceDimension; i++ )
+      for( i=0; i< this->GetSpaceDimension(); i++ )
         {
         gg += g[i] * g[i];
         dgg += (xi[i] + g[i]) * xi[i];
@@ -178,7 +186,7 @@ FRPROptimizer
       } 
     if( m_OptimizationType == FletchReeves )
       {
-      for( i=0; i< SpaceDimension; i++ )
+      for( i=0; i< this->GetSpaceDimension(); i++ )
         {
         gg += g[i] * g[i];
         dgg += xi[i] * xi[i];  
@@ -193,7 +201,7 @@ FRPROptimizer
       }
 
     gam = dgg/gg;
-    for( i = 0; i < SpaceDimension; i++)
+    for( i = 0; i < this->GetSpaceDimension(); i++)
       {
       g[i] = -xi[i];
       xi[i] = g[i] + gam * h[i];

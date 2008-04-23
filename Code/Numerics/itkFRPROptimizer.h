@@ -96,6 +96,9 @@ protected:
 
   virtual void   LineOptimize(ParametersType * p, ParametersType & xi,
                               double * val );
+  virtual void   LineOptimize(ParametersType * p, ParametersType & xi,
+                              double * val,
+                              ParametersType & tempCoord );
 
 
 private:

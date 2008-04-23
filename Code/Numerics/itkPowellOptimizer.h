@@ -145,6 +145,8 @@ protected:
    * Line origin and distances are set via SetLine */
   double GetLineValue(double x) const;
 
+  double GetLineValue(double x, ParametersType & tempCoord) const;
+
   /** Set the given scalar step distance (x) and function value (fx) as the
    * "best-so-far" optimizer values. */
   void   SetCurrentLinePoint(double x, double fx);
@@ -169,6 +171,10 @@ protected:
   virtual void   LineBracket(double *ax, double *bx, double *cx,
                              double *fa, double *fb, double *fc);
 
+  virtual void   LineBracket(double *ax, double *bx, double *cx,
+                             double *fa, double *fb, double *fc,
+                             ParametersType & tempCoord);
+
   /** Given a bracketing triple of points and their function values, returns
    * a bounded extreme.  These values are in parameter space, along the 
    * current line and wrt the current origin set via SetLine.   Optimization
@@ -178,8 +184,20 @@ protected:
                                        double fa, double fb, double fc,
                                        double * extX, double * extVal);
 
+  virtual void   BracketedLineOptimize(double ax, double bx, double cx,
+                                       double fa, double fb, double fc,
+                                       double * extX, double * extVal,
+                                       ParametersType & tempCoord);
+
   itkGetMacro(SpaceDimension, unsigned int);
-  itkSetMacro(SpaceDimension, unsigned int);
+  void SetSpaceDimension( unsigned int dim )
+    {
+    this->m_SpaceDimension = dim;
+    this->m_LineDirection.set_size( dim );
+    this->m_LineOrigin.set_size( dim );
+    this->m_CurrentPosition.set_size( dim );
+    this->Modified();
+    }
 
   itkSetMacro(CurrentIteration, unsigned int);
 

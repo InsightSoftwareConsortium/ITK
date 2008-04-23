@@ -55,11 +55,10 @@ PowellOptimizer
 ::SetLine(const PowellOptimizer::ParametersType & origin,
           const vnl_vector<double> & direction)
 {
-  m_LineOrigin = origin;
-  m_LineDirection = direction;
   for(unsigned int i=0; i<m_SpaceDimension; i++)
     {
-    m_LineDirection[i] = m_LineDirection[i] / this->GetScales()[i];
+    m_LineOrigin[i] = origin[i];
+    m_LineDirection[i] = direction[i] / this->GetScales()[i];
     }
 }
 
@@ -67,18 +66,25 @@ double
 PowellOptimizer
 ::GetLineValue(double x) const
 {
-  PowellOptimizer::ParametersType xCoord( m_SpaceDimension );
+  PowellOptimizer::ParametersType tempCoord( m_SpaceDimension );
+  return this->GetLineValue(x, tempCoord);
+}
+
+double
+PowellOptimizer
+::GetLineValue(double x, ParametersType & tempCoord) const
+{
   for(unsigned int i=0; i<m_SpaceDimension; i++)
     {
-    xCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
+    tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
     }
   if(m_Maximize)
     {
-    return -(this->m_CostFunction->GetValue(xCoord));
+    return -(this->m_CostFunction->GetValue(tempCoord));
     }
   else
     {
-    return this->m_CostFunction->GetValue(xCoord);
+    return this->m_CostFunction->GetValue(tempCoord);
     }
 }
 
@@ -86,12 +92,10 @@ void
 PowellOptimizer
 ::SetCurrentLinePoint(double x, double fx)
 {
-  PowellOptimizer::ParametersType xCoord( m_SpaceDimension );
   for(unsigned int i=0; i<m_SpaceDimension; i++)
     {
-    xCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
+    this->m_CurrentPosition[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
     }
-  this->SetCurrentPosition(xCoord);
   if(m_Maximize)
     {
     this->SetCurrentCost(-fx);
@@ -100,6 +104,7 @@ PowellOptimizer
     {
     this->SetCurrentCost(fx);
     }
+  this->Modified();
 }
 
 void
@@ -144,6 +149,16 @@ PowellOptimizer
 ::LineBracket(double * x1, double * x2, double * x3,
               double * f1, double * f2, double * f3)
 {
+  PowellOptimizer::ParametersType tempCoord( m_SpaceDimension );
+  this->LineBracket( x1, x2, x3, f1, f2, f3, tempCoord);
+}
+
+void
+PowellOptimizer
+::LineBracket(double * x1, double * x2, double * x3,
+              double * f1, double * f2, double * f3,
+              ParametersType & tempCoord)
+{
   //
   // Compute the golden ratio as a constant to be
   // used when extrapolating the bracket
@@ -153,7 +168,7 @@ PowellOptimizer
   //
   // Get the value of the function for point x2
   //
-  *f2 = this->GetLineValue( *x2 );
+  *f2 = this->GetLineValue( *x2, tempCoord );
 
   //
   // Compute extrapolated point using the golden ratio
@@ -162,7 +177,7 @@ PowellOptimizer
     {
     // compute x3 on the side of x2
     *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
-    *f3 = this->GetLineValue( *x3 );
+    *f3 = this->GetLineValue( *x3, tempCoord );
 
     // If the new point is a minimum
     // then continue extrapolating in
@@ -174,14 +189,14 @@ PowellOptimizer
       *x2 = *x3;
       *f2 = *f3;
       *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
-      *f3 = this->GetLineValue( *x3 );
+      *f3 = this->GetLineValue( *x3, tempCoord );
       }
     }
   else
     {
     // compute x3 on the side of x1
     *x3 = *x2 + goldenRatio * ( *x1 - *x2 );
-    *f3 = this->GetLineValue( *x3 );
+    *f3 = this->GetLineValue( *x3, tempCoord );
 
     // If the new point is a minimum
     // then continue extrapolating in
@@ -193,7 +208,7 @@ PowellOptimizer
       *x1 = *x3;
       *f1 = *f3;
       *x3 = *x2 + goldenRatio * ( *x1 - *x2 );
-      *f3 = this->GetLineValue( *x3 );
+      *f3 = this->GetLineValue( *x3, tempCoord );
       }
     }
 
@@ -226,7 +241,7 @@ PowellOptimizer
     // is no need for using it as a factor.
     //
     *x4 = *x1 - *x2 + *x3;
-    *f4 = this->GetLineValue( *x4 );
+    *f4 = this->GetLineValue( *x4, tempCoord );
 
     //
     // If the new value f4 at x4 is larger than f2
@@ -280,8 +295,19 @@ PowellOptimizer
 void
 PowellOptimizer
 ::BracketedLineOptimize(double ax, double bx, double cx,
-                        double itkNotUsed(fa), double functionValueOfb, double itkNotUsed(fc),
+                        double fa, double functionValueOfb, double fc,
                         double * extX, double * extVal)
+{
+  PowellOptimizer::ParametersType tempCoord( m_SpaceDimension );
+  this->BracketedLineOptimize( ax, bx, cx, fa, functionValueOfb, fc, extX, extVal, tempCoord);
+}
+
+void
+PowellOptimizer
+::BracketedLineOptimize(double ax, double bx, double cx,
+                        double itkNotUsed(fa), double functionValueOfb, double itkNotUsed(fc),
+                        double * extX, double * extVal,
+                        ParametersType & tempCoord)
 {
   double x;
   double v = 0.0;
@@ -389,7 +415,7 @@ PowellOptimizer
 
     double functionValueOft;
 
-    functionValueOft = this->GetLineValue(t);
+    functionValueOft = this->GetLineValue(t, tempCoord);
 
     if( functionValueOft <= functionValueOfX )
     {
@@ -459,12 +485,15 @@ PowellOptimizer
   m_SpaceDimension = m_CostFunction->GetNumberOfParameters();
   m_LineOrigin.set_size(m_SpaceDimension);
   m_LineDirection.set_size(m_SpaceDimension);
+  this->m_CurrentPosition.set_size(m_SpaceDimension);
 
   vnl_matrix<double> xi(m_SpaceDimension, m_SpaceDimension);
   vnl_vector<double> xit(m_SpaceDimension);
   xi.set_identity();
   xit.fill(0);
   xit[0] = 1;
+
+  PowellOptimizer::ParametersType tempCoord(m_SpaceDimension);
 
   PowellOptimizer::ParametersType p(m_SpaceDimension);
   PowellOptimizer::ParametersType pt(m_SpaceDimension);
@@ -479,7 +508,7 @@ PowellOptimizer
 
   xx = 0;
   this->SetLine(p, xit);
-  fx = this->GetLineValue(0);
+  fx = this->GetLineValue(0, tempCoord);
 
   for (m_CurrentIteration = 0;
        m_CurrentIteration <= m_MaximumIteration;
@@ -502,8 +531,8 @@ PowellOptimizer
       ax = 0.0;
       fa = fx;
       xx = m_StepLength;
-      this->LineBracket( &ax, &xx, &bx, &fa, &fx, &fb);
-      this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx);
+      this->LineBracket( &ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
+      this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
       this->SetCurrentLinePoint(xx, fx);
       p = this->GetCurrentPosition();
 
@@ -529,7 +558,7 @@ PowellOptimizer
       }
 
     this->SetLine(ptt, xit);
-    fptt = this->GetLineValue(0);
+    fptt = this->GetLineValue(0, tempCoord);
     if (fptt < fp)
       {
       double t = 2.0 * (fp - 2.0*fx + fptt)
@@ -542,8 +571,8 @@ PowellOptimizer
         ax = 0.0;
         fa = fx;
         xx = 1;
-        this->LineBracket( &ax, &xx, &bx, &fa, &fx, &fb);
-        this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx);
+        this->LineBracket( &ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
+        this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
         this->SetCurrentLinePoint(xx, fx);
         p = this->GetCurrentPosition();
 
