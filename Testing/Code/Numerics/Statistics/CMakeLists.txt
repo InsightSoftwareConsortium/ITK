@@ -37,7 +37,7 @@ ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS}
          itkKdTreeGeneratorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkKdTreeTest1 ${STATISTICS_TESTS} itkKdTreeTest1)
 ADD_TEST(itkKdTreeTest2 ${STATISTICS_TESTS} itkKdTreeTest2
-         ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt)
+         ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt 16)
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest 4)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)

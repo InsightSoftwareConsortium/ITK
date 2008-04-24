@@ -33,17 +33,18 @@
 int itkKdTreeTest2( int argc, char * argv [] )
 {
 
-  if( argc < 2 )
+  if( argc < 3 )
     {
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " pointsInputFile " << std::endl;
+    std::cerr << argv[0] << " pointsInputFile  bucketSize" << std::endl;
     return EXIT_FAILURE;
     }
 
   const unsigned int Dimension = 2;
+  typedef float MeasurementValueType;
 
-  typedef itk::Vector< float, Dimension > MeasurementVectorType;
+  typedef itk::Vector< MeasurementValueType, Dimension > MeasurementVectorType;
 
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
@@ -72,8 +73,10 @@ int itkKdTreeTest2( int argc, char * argv [] )
   typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
+  const unsigned int bucketSize = atoi( argv[2] );
+
   treeGenerator->SetSample( sample );
-  treeGenerator->SetBucketSize( 16 );
+  treeGenerator->SetBucketSize( bucketSize );
   treeGenerator->Update();
 
   typedef TreeGeneratorType::KdTreeType TreeType;
@@ -137,6 +140,11 @@ int itkKdTreeTest2( int argc, char * argv [] )
     std::cerr << "Incorrect distance was found" << std::endl;
     return EXIT_FAILURE;
     }
+
+  //
+  // Print out the tree structure to the console
+  //
+  tree->PrintTree( std::cout );
 
   return EXIT_SUCCESS;
 }
