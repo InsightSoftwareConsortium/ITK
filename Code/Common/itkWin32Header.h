@@ -59,7 +59,6 @@
 // clients of class 'type2'
 #pragma warning ( disable : 4251 )
 
-
 // non dll-interface class 'type' used as base for dll-interface class 'type2'
 #pragma warning ( disable : 4275 )
 
@@ -69,6 +68,12 @@
 
 // 'type' : inconsistent dll linkage.  dllexport assumed.
 #pragma warning ( disable : 4273 )
+
+// conditional expression is constant
+#pragma warning ( disable : 4127 )
+
+// unreferenced local function has been removed
+#pragma warning ( disable : 4505 )
 
 
 // typename keyword in default template arguments is not accepted by
