@@ -69,19 +69,24 @@ int itkKdTreeTest1(int argc, char * argv[] )
 
   MeasurementVectorType result( measurementVectorSize ) ;
   MeasurementVectorType test_point( measurementVectorSize ) ;
+
   for (unsigned int i = 0 ; i < 1000 ; ++i )
     {
-    double min_dist = INFINITY;
+
+    double min_dist = itk::NumericTraits< double >::max();
+
     queryPoint[0] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
     queryPoint[1] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
     tree->Search( queryPoint, numberOfNeighbors, neighbors ) ;
     result = tree->GetMeasurementVector( neighbors[0] );
+
     double result_dist = sqrt(
           (result[0] - queryPoint[0]) *
           (result[0] - queryPoint[0]) +
           (result[1] - queryPoint[1]) *
           (result[1] - queryPoint[1])
           );
+
     for( unsigned int i = 0 ; i < 1000 ; ++i )
       {
       double dist;
