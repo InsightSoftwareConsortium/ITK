@@ -62,10 +62,6 @@ int itkKdTreeTest2( int argc, char * argv [] )
   do
     {
     sample->PushBack( mv );
-    if( i==3 )
-      {
-      queryPoint = mv;  // -> the exact query point is part of the tree
-      }
     ++i;
     pntFile >> mv[0] >> mv[1];
     } 
@@ -92,32 +88,35 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   DistanceMetricType::OriginType origin( Dimension );
 
-  for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
+  for( unsigned int k = 0; k < sample->Size(); k++ )
     {
-    origin[i] = queryPoint[i];
-    }
+    for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
+      {
+      origin[i] = sample->GetMeasurementVector(k)[i];
+      }
 
-  distanceMetric->SetOrigin( origin );
-  
-  unsigned int numberOfNeighbors = 1;
-  TreeType::InstanceIdentifierVectorType neighbors;
-  
-  // this search has to return the query point itself and a distance of 0, 
-  // but it does return a point ~0.74 units away:
-  tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
-  
-  std::cout << "kd-tree knn search result:" << std::endl 
-            << "query point = [" << queryPoint << "]" << std::endl
-            << "k = " << numberOfNeighbors << std::endl;
-  std::cout << "measurement vector : distance" << std::endl;
+    std::cout << "Origin = " << origin << std::endl;
 
-  for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
-    {
-    std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
-              << "] : "  
-              << distanceMetric->Evaluate( 
-                  tree->GetMeasurementVector( neighbors[i] )) 
-              << std::endl;
+    distanceMetric->SetOrigin( origin );
+    
+    unsigned int numberOfNeighbors = 1;
+    TreeType::InstanceIdentifierVectorType neighbors;
+    
+    tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
+    
+    std::cout << "kd-tree knn search result:" << std::endl 
+              << "query point = [" << queryPoint << "]" << std::endl
+              << "k = " << numberOfNeighbors << std::endl;
+    std::cout << "measurement vector : distance" << std::endl;
+
+    for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
+      {
+      std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
+                << "] : "  
+                << distanceMetric->Evaluate( 
+                    tree->GetMeasurementVector( neighbors[i] )) 
+                << std::endl;
+      }
     }
 
   return EXIT_SUCCESS;
