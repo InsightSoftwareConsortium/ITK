@@ -36,6 +36,7 @@ ADD_TEST(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS}
 ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS} 
          itkKdTreeGeneratorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkKdTreeTest1 ${STATISTICS_TESTS} itkKdTreeTest1)
+ADD_TEST(itkKdTreeTest2 ${STATISTICS_TESTS} itkKdTreeTest2)
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest 4)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
@@ -97,6 +98,7 @@ itkImageToListGeneratorTest.cxx
 itkKdTreeBasedKmeansEstimatorTest.cxx
 itkKdTreeGeneratorTest.cxx
 itkKdTreeTest1.cxx
+itkKdTreeTest2.cxx
 itkListSampleTest.cxx
 itkListSampleToHistogramFilterTest.cxx
 itkListSampleToHistogramGeneratorTest.cxx

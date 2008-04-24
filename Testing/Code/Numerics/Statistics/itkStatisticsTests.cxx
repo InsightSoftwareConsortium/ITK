@@ -46,6 +46,7 @@ void RegisterTests()
   REGISTER_TEST(itkKdTreeBasedKmeansEstimatorTest);
   REGISTER_TEST(itkKdTreeGeneratorTest);
   REGISTER_TEST(itkKdTreeTest1);
+  REGISTER_TEST(itkKdTreeTest2);
   REGISTER_TEST(itkListSampleTest);
   REGISTER_TEST(itkListSampleToHistogramFilterTest);
   REGISTER_TEST(itkListSampleToHistogramGeneratorTest);
