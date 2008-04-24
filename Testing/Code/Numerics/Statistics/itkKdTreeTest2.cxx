@@ -41,7 +41,7 @@ int itkKdTreeTest2( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 3;
+  const unsigned int Dimension = 2;
 
   typedef itk::Vector< float, Dimension > MeasurementVectorType;
 
@@ -56,17 +56,21 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   pntFile.open( argv[1], std::ios_base::in|std::ios_base::binary );
 
-  for (unsigned int i = 0 ; i < 131854 ; ++i )
+  pntFile >> mv[0] >> mv[1];
+
+  unsigned int i=0;
+  do
     {
-    pntFile.read( (char*)(&mv[0]), sizeof(float) );
-    pntFile.read( (char*)(&mv[1]), sizeof(float) );
-    pntFile.read( (char*)(&mv[2]), sizeof(float) );
     sample->PushBack( mv );
-    if( i==653 )
+    if( i==3 )
       {
       queryPoint = mv;  // -> the exact query point is part of the tree
       }
-    }
+    ++i;
+    pntFile >> mv[0] >> mv[1];
+    } 
+  while( !pntFile.eof() );
+
   pntFile.close();
 
   typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType;
