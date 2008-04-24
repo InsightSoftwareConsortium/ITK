@@ -80,6 +80,8 @@ int itkKdTreeTest2( int argc, char * argv [] )
   typedef TreeType::NearestNeighbors NeighborsType;
   typedef TreeType::KdTreeNodeType NodeType;
 
+  bool testFailed = false;
+
   TreeType::Pointer tree = treeGenerator->GetOutput();
     
   typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
@@ -90,10 +92,15 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   for( unsigned int k = 0; k < sample->Size(); k++ )
     {
+    
+    queryPoint = sample->GetMeasurementVector(k);
+
     for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
       {
-      origin[i] = sample->GetMeasurementVector(k)[i];
+      origin[i] = queryPoint[i];
       }
+
+    std::cout << "----------------------------------" << std::endl;
 
     std::cout << "Origin = " << origin << std::endl;
 
@@ -111,12 +118,24 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
     for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
       {
+      const double distance = 
+        distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
+
       std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
                 << "] : "  
-                << distanceMetric->Evaluate( 
-                    tree->GetMeasurementVector( neighbors[i] )) 
-                << std::endl;
+                << distance << std::endl;
+
+      if( distance > vnl_math::eps )
+        {
+        testFailed = true;
+        }
       }
+    }
+
+  if( testFailed )
+    {
+    std::cerr << "Incorrect distance was found" << std::endl;
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
