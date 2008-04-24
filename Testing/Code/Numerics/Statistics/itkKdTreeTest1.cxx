@@ -41,6 +41,9 @@ int itkKdTreeTest1(int argc, char * argv[] )
   SampleType::Pointer sample = SampleType::New() ;
   sample->SetMeasurementVectorSize( measurementVectorSize );
 
+  // 
+  // Generate a sample of random points
+  //
   MeasurementVectorType mv( measurementVectorSize ) ;
   for (unsigned int i = 0 ; i < 1000 ; ++i )
     {
@@ -69,7 +72,12 @@ int itkKdTreeTest1(int argc, char * argv[] )
 
   MeasurementVectorType result( measurementVectorSize ) ;
   MeasurementVectorType test_point( measurementVectorSize ) ;
+  MeasurementVectorType min_point( measurementVectorSize ) ;
 
+  //
+  // Generate a second sample of random points
+  // and use them to query the tree
+  //
   for (unsigned int i = 0 ; i < 1000 ; ++i )
     {
 
@@ -77,9 +85,17 @@ int itkKdTreeTest1(int argc, char * argv[] )
 
     queryPoint[0] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
     queryPoint[1] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
+
     tree->Search( queryPoint, numberOfNeighbors, neighbors ) ;
+
+    //
+    // The first neighbor should be the closest point.
+    //
     result = tree->GetMeasurementVector( neighbors[0] );
 
+    // 
+    // Compute the distance to the "presumed" nearest neighbor
+    //
     double result_dist = sqrt(
           (result[0] - queryPoint[0]) *
           (result[0] - queryPoint[0]) +
@@ -87,25 +103,38 @@ int itkKdTreeTest1(int argc, char * argv[] )
           (result[1] - queryPoint[1])
           );
 
+    //
+    // Compute the distance to all other points, to verify
+    // whether the first neighbor was the closest one or not.
+    //
     for( unsigned int i = 0 ; i < 1000 ; ++i )
       {
-      double dist;
       test_point = tree->GetMeasurementVector( i );
-      dist = sqrt(
+
+      const double dist = sqrt(
           (test_point[0] - queryPoint[0]) *
           (test_point[0] - queryPoint[0]) +
           (test_point[1] - queryPoint[1]) *
           (test_point[1] - queryPoint[1])
           );
+
       if( dist < min_dist )
         {
         min_dist = dist;
+        min_point = test_point;
         }
       }
+
     if( min_dist < result_dist )
       {
-      std::cout << min_dist << " " << result_dist << std::endl;
-      std::cout << "Test FAILED." << std::endl;
+      std::cerr << "Problem found " << std::endl;
+      std::cerr << "Query point " << queryPoint << std::endl;
+      std::cerr << "Reported closest point " << result
+                << " distance " << result_dist << std::endl;
+      std::cerr << "Actual   closest point " << min_point
+                << " distance " << min_dist << std::endl;
+      std::cerr << std::endl;
+      std::cerr << "Test FAILED." << std::endl;
       return EXIT_FAILURE;
       }
 
