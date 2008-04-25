@@ -59,11 +59,9 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   pntFile >> mv[0] >> mv[1];
 
-  unsigned int i=0;
   do
     {
     sample->PushBack( mv );
-    ++i;
     pntFile >> mv[0] >> mv[1];
     } 
   while( !pntFile.eof() );

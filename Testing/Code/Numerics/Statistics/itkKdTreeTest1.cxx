@@ -25,7 +25,7 @@
 #include "itkKdTreeGenerator.h"
 #include "itkEuclideanDistance.h"
 
-int itkKdTreeTest1(int argc, char * argv[] )
+int itkKdTreeTest1(int , char * [] )
 {
   // Random number generator
   typedef itk::Statistics::MersenneTwisterRandomVariateGenerator NumberGeneratorType;
