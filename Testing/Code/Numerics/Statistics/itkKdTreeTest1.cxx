@@ -74,11 +74,15 @@ int itkKdTreeTest1(int , char * [] )
   MeasurementVectorType test_point( measurementVectorSize ) ;
   MeasurementVectorType min_point( measurementVectorSize ) ;
 
+  unsigned int numberOfFailedPoints = 0;
+
+  const unsigned int numberOfTestPoints = 1000;
+
   //
   // Generate a second sample of random points
   // and use them to query the tree
   //
-  for (unsigned int i = 0 ; i < 1000 ; ++i )
+  for (unsigned int i = 0 ; i < numberOfTestPoints ; ++i )
     {
 
     double min_dist = itk::NumericTraits< double >::max();
@@ -135,11 +139,18 @@ int itkKdTreeTest1(int , char * [] )
                 << " distance " << min_dist << std::endl;
       std::cerr << std::endl;
       std::cerr << "Test FAILED." << std::endl;
-      return EXIT_FAILURE;
+      numberOfFailedPoints++;
       }
 
     }
   
+  if( numberOfFailedPoints )
+    {
+    std::cerr << numberOfFailedPoints << " failed out of " 
+              << numberOfTestPoints << " points " << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
 }
