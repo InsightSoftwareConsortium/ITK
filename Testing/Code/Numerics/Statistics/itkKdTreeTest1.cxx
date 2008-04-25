@@ -25,8 +25,15 @@
 #include "itkKdTreeGenerator.h"
 #include "itkEuclideanDistance.h"
 
-int itkKdTreeTest1(int , char * [] )
+int itkKdTreeTest1(int argc , char * argv [] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " bucketSize" << std::endl;
+    }
+
   // Random number generator
   typedef itk::Statistics::MersenneTwisterRandomVariateGenerator NumberGeneratorType;
 
@@ -55,8 +62,10 @@ int itkKdTreeTest1(int , char * [] )
   typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType ;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New() ;
 
+  const unsigned int bucketSize = atoi( argv[1] );
+
   treeGenerator->SetSample( sample ) ;
-  treeGenerator->SetBucketSize( 16 ) ;
+  treeGenerator->SetBucketSize( bucketSize );
   treeGenerator->Update() ;
 
   typedef TreeGeneratorType::KdTreeType TreeType ;
