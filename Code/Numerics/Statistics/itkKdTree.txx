@@ -535,19 +535,19 @@ KdTree< TSample >
     if (node == m_EmptyTerminalNode)
       {
       // empty node
-      std::cout << "Empty node: level = " << level << std::endl;
+      os << "Empty node: level = " << level << std::endl;
       return;
       }
 
-    std::cout << "Terminal: level = " << level
+    os << "Terminal: level = " << level
               << " dim = " << activeDimension<< std::endl ;
-    std::cout << "          ";
+    os << "          ";
     for (unsigned int i = 0; i < node->Size(); i++)
       {
-      std::cout << "[" << node->GetInstanceIdentifier(i) << "] "
+      os << "[" << node->GetInstanceIdentifier(i) << "] "
                 << m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(i)) << ", ";
       }
-    std::cout << std::endl;
+    os << std::endl;
     return;
     }
   
@@ -557,12 +557,11 @@ KdTree< TSample >
   node->GetParameters(partitionDimension, partitionValue);
   typename KdTreeNodeType::CentroidType centroid;
   node->GetWeightedCentroid(centroid);
-  std::cout << "Nonterminal: level = " << level << std::endl;
-  std::cout << "             dim = " << partitionDimension << std::endl;
-  std::cout << "             value = " << partitionValue << std::endl;
-  std::cout << "             weighted centroid = " 
-            << centroid;
-  std::cout << "             size = " << node->Size()<< std::endl;
+  os << "Nonterminal: level = " << level << std::endl;
+  os << "             dim = " << partitionDimension << std::endl;
+  os << "             value = " << partitionValue << std::endl;
+  os << "             weighted centroid = " << centroid;
+  os << "             size = " << node->Size()<< std::endl;
  
   this->PrintTree( node->Left(), level, partitionDimension );
   this->PrintTree( node->Right(), level, partitionDimension );
