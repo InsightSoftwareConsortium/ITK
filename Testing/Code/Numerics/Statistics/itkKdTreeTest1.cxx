@@ -32,6 +32,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
     std::cerr << "Missing parameters" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " bucketSize" << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Random number generator
