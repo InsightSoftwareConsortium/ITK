@@ -173,7 +173,7 @@ bool File::DoTheLoadingJob( )
  
    // Image Location
    const std::string &imgLocation = GetEntryValue(0x0028, 0x0200);
-   if ( imgLocation == GDCM_UNFOUND )
+   if ( imgLocation == GDCM_UNFOUND || imgLocation == GDCM_BINLOADED )
    {
       // default value
       GrPixel = 0x7fe0;
