@@ -550,6 +550,10 @@ void GDCMImageIO::Read(void* buffer)
   //GdcmHeader.HasLUT()
 
   gdcm::File *header = this->m_DICOMHeader->m_Header;
+  if( !header->IsReadable() )
+    {
+    itkExceptionMacro( "Cannot read the file");
+    }
   gdcm::FileHelper gfile(header);
 
   size_t size = gfile.GetImageDataSize();
@@ -558,6 +562,8 @@ void GDCMImageIO::Read(void* buffer)
     {
     size = gfile.GetImageDataRawSize();
     }
+  // source pointer is only a placeholder and can be not null when all info
+  // but the Pixel Data element 7fe0,0010 are present.
   unsigned char *source = (unsigned char*)gfile.GetImageData();
 
   // We can rescale pixel only in grayscale image
