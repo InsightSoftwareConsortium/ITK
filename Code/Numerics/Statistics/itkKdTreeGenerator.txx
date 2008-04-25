@@ -70,7 +70,7 @@ KdTreeGenerator< TSample >
 template< class TSample >
 void
 KdTreeGenerator< TSample >
-::SetBucketSize(int size)
+::SetBucketSize(unsigned int size)
 {
   m_BucketSize = size;
 }
@@ -111,23 +111,21 @@ KdTreeGenerator< TSample >
 template< class TSample >
 inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
 KdTreeGenerator< TSample >
-::GenerateNonterminalNode(int beginIndex,
-                          int endIndex,
+::GenerateNonterminalNode(unsigned int beginIndex,
+                          unsigned int endIndex,
                           MeasurementVectorType &lowerBound,
                           MeasurementVectorType &upperBound,
-                          int level)
+                          unsigned int level)
 {
   typedef typename KdTreeType::KdTreeNodeType NodeType;
   MeasurementType dimensionLowerBound;
   MeasurementType dimensionUpperBound;
   MeasurementType partitionValue;
   unsigned int partitionDimension = 0;
-  NodeType* left;
-  NodeType* right;
   unsigned int i;
   MeasurementType spread;
   MeasurementType maxSpread;
-  int medianIndex;
+  unsigned int medianIndex;
 
   // find most widely spread dimension
   FindSampleBoundAndMean< SubsampleType >(this->GetSubsample(),
@@ -160,27 +158,39 @@ KdTreeGenerator< TSample >
   dimensionUpperBound = upperBound[partitionDimension];
 
   upperBound[partitionDimension] = partitionValue;
-  left = GenerateTreeLoop(beginIndex, medianIndex, lowerBound, upperBound, level + 1);
+  const unsigned int beginLeftIndex = beginIndex;
+  const unsigned int endLeftIndex   = medianIndex;
+  NodeType* left = GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound;
 
   lowerBound[partitionDimension] = partitionValue;
-  right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound, level + 1);
+  const unsigned int beginRightIndex = medianIndex+1;
+  const unsigned int endRighIndex    = endIndex;
+  NodeType* right = GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
 
-  return new KdTreeNonterminalNode< TSample >(partitionDimension,
-                                              partitionValue,
-                                              left,
-                                              right);
+  typedef KdTreeNonterminalNode< TSample >  KdTreeNonterminalNodeType;
+
+  KdTreeNonterminalNodeType * nonTerminalNode = 
+    new KdTreeNonterminalNodeType( partitionDimension,
+                                   partitionValue,
+                                   left,
+                                   right);
+
+  nonTerminalNode->AddInstanceIdentifier( 
+    this->GetSubsample()->GetInstanceIdentifier( medianIndex ) );
+
+  return nonTerminalNode;
 }
 
 template< class TSample >
 inline typename KdTreeGenerator< TSample >::KdTreeNodeType*
 KdTreeGenerator< TSample >
-::GenerateTreeLoop(int beginIndex,
-                   int endIndex,
+::GenerateTreeLoop(unsigned int beginIndex,
+                   unsigned int endIndex,
                    MeasurementVectorType &lowerBound,
                    MeasurementVectorType &upperBound,
-                   int level)
+                   unsigned int level)
 {
   if (endIndex - beginIndex <= m_BucketSize)
     {
@@ -196,9 +206,8 @@ KdTreeGenerator< TSample >
       KdTreeTerminalNode< TSample >* ptr =
         new KdTreeTerminalNode< TSample >();
 
-      for (int j = beginIndex; j < endIndex; j++)
+      for (unsigned int j = beginIndex; j < endIndex; j++)
         {
-
         ptr->AddInstanceIdentifier(m_Subsample->GetInstanceIdentifier(j));
         }
 

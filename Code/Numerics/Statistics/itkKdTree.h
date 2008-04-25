@@ -162,20 +162,25 @@ struct KdTreeNonterminalNode: public KdTreeNode< TSample >
   unsigned int Size() const
   { return 0; }
 
-  void GetWeightedCentroid(CentroidType &)
+  void GetWeightedCentroid( CentroidType & )
   { /* do nothing */ }
 
-  void GetCentroid(CentroidType &)
+  void GetCentroid( CentroidType & )
   { /* do nothing */ }
 
+  // Returns the identifier of the only MeasurementVector associated with 
+  // this node in the tree. This MeasurementVector will be used later during
+  // the distance computation when querying the tree.
   InstanceIdentifier GetInstanceIdentifier(size_t) const
-  { return 0; }
+  { return this->m_InstanceIdentifier; }
 
-  void AddInstanceIdentifier(InstanceIdentifier) {}
+  void AddInstanceIdentifier(InstanceIdentifier valueId) 
+  { this->m_InstanceIdentifier = valueId; }
 
 private:
-  unsigned int m_PartitionDimension;
-  MeasurementType m_PartitionValue;
+  unsigned int          m_PartitionDimension;
+  MeasurementType       m_PartitionValue;
+  InstanceIdentifier    m_InstanceIdentifier;
   Superclass* m_Left;
   Superclass* m_Right;
 }; // end of class
@@ -246,19 +251,21 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
   { centroid = m_Centroid; }
 
   InstanceIdentifier GetInstanceIdentifier(size_t) const
-  { return 0; }
+  { return this->m_InstanceIdentifier; }
 
-  void AddInstanceIdentifier(InstanceIdentifier) {}
+  void AddInstanceIdentifier(InstanceIdentifier valueId) 
+  { this->m_InstanceIdentifier = valueId; }
 
 private:
-  MeasurementVectorSizeType m_MeasurementVectorSize;
-  unsigned int m_PartitionDimension;
-  MeasurementType m_PartitionValue;
-  CentroidType m_WeightedCentroid;
-  CentroidType m_Centroid;
-  unsigned int m_Size;
-  Superclass* m_Left;
-  Superclass* m_Right;
+  MeasurementVectorSizeType   m_MeasurementVectorSize;
+  unsigned int                m_PartitionDimension;
+  MeasurementType             m_PartitionValue;
+  CentroidType                m_WeightedCentroid;
+  CentroidType                m_Centroid;
+  InstanceIdentifier          m_InstanceIdentifier;
+  unsigned int                m_Size;
+  Superclass*                 m_Left;
+  Superclass*                 m_Right;
 }; // end of class
 
 
@@ -519,12 +526,12 @@ public:
   { return m_DistanceMetric.GetPointer(); }
 
   /** Searches the k-nearest neighbors */
-  void Search(MeasurementVectorType &query,
-              unsigned int k,
+  void Search(const MeasurementVectorType &query,
+              unsigned int numberOfNeighborsRequested,
               InstanceIdentifierVectorType& result) const;
 
   /** Searches the neighbors fallen into a hypersphere */
-  void Search(MeasurementVectorType &query,
+  void Search(const MeasurementVectorType &query,
               double radius,
               InstanceIdentifierVectorType& result) const;
 
@@ -538,7 +545,7 @@ public:
    * upperBound. Otherwise returns false. Returns false if the ball
    * defined by the distance between the query point and the farthest
    * neighbor touch the surface of the bounding box.*/
-  bool BallWithinBounds(MeasurementVectorType &query,
+  bool BallWithinBounds(const MeasurementVectorType &query,
                         MeasurementVectorType &lowerBound,
                         MeasurementVectorType &upperBound,
                         double radius) const;
@@ -546,7 +553,7 @@ public:
   /** Returns true if the ball defined by the distance between the query
    * point and the farthest neighbor overlaps with the bounding box
    * defined by the lower and the upper bounds.*/
-  bool BoundsOverlapBall(MeasurementVectorType &query,
+  bool BoundsOverlapBall(const MeasurementVectorType &query,
                          MeasurementVectorType &lowerBound,
                          MeasurementVectorType &upperBound,
                          double radius) const;
@@ -600,12 +607,12 @@ protected:
 
   /** search loop */
   int NearestNeighborSearchLoop(const KdTreeNodeType* node,
-                                MeasurementVectorType &query,
+                                const MeasurementVectorType &query,
                                 MeasurementVectorType &lowerBound,
                                 MeasurementVectorType &upperBound) const;
 
   /** search loop */
-  int SearchLoop(const KdTreeNodeType* node, MeasurementVectorType &query,
+  int SearchLoop(const KdTreeNodeType* node, const MeasurementVectorType &query,
                  MeasurementVectorType &lowerBound,
                  MeasurementVectorType &upperBound) const;
 private:

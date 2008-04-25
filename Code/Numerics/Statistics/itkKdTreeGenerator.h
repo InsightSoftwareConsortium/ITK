@@ -111,7 +111,7 @@ public:
 
   /** Sets the number of measurement vectors that can be stored in a
    * terminal node. */
-  void SetBucketSize(int size);
+  void SetBucketSize(unsigned int size);
 
   /** Returns the pointer to the generated k-d tree. */
   OutputPointer GetOutput()
@@ -145,19 +145,19 @@ protected:
   { return m_Subsample; }
 
   /** Nonterminal node generation routine */
-  virtual KdTreeNodeType* GenerateNonterminalNode(int beginIndex,
-                                                  int endIndex,
+  virtual KdTreeNodeType* GenerateNonterminalNode(unsigned int beginIndex,
+                                                  unsigned int endIndex,
                                                   MeasurementVectorType
                                                   &lowerBound,
                                                   MeasurementVectorType
                                                   &upperBound,
-                                                  int level);
+                                                  unsigned int level);
 
   /** Tree generation loop */
-  KdTreeNodeType* GenerateTreeLoop(int beginIndex, int endIndex,
+  KdTreeNodeType* GenerateTreeLoop(unsigned int beginIndex, unsigned int endIndex,
                                    MeasurementVectorType &lowerBound,
                                    MeasurementVectorType &upperBound,
-                                   int level);
+                                   unsigned int level);
 
 private:
   KdTreeGenerator(const Self&); //purposely not implemented
@@ -173,7 +173,7 @@ private:
 
   /** The number of measurement vectors that can be stored in a terminal
    * node. */
-  int m_BucketSize;
+  unsigned int m_BucketSize;
 
   /** Pointer to the resulting k-d tree. */
   OutputPointer m_Tree;

@@ -98,13 +98,13 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ;
 
   /** Nonterminal node generation routine */
-  virtual KdTreeNodeType* GenerateNonterminalNode(int beginIndex,
-                                                  int endIndex,
+  virtual KdTreeNodeType* GenerateNonterminalNode(unsigned int beginIndex,
+                                                  unsigned int endIndex,
                                                   MeasurementVectorType 
                                                   &lowerBound,
                                                   MeasurementVectorType 
                                                   &upperBound,
-                                                  int level) ;
+                                                  unsigned int level) ;
 
 private:
   WeightedCentroidKdTreeGenerator(const Self&) ; //purposely not implemented

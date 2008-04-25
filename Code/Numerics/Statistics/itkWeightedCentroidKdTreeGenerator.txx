@@ -37,18 +37,16 @@ WeightedCentroidKdTreeGenerator< TSample >
 template< class TSample >
 inline typename WeightedCentroidKdTreeGenerator< TSample >::KdTreeNodeType*
 WeightedCentroidKdTreeGenerator< TSample >
-::GenerateNonterminalNode(int beginIndex,
-                          int endIndex,
+::GenerateNonterminalNode(unsigned int beginIndex,
+                          unsigned int endIndex,
                           MeasurementVectorType &lowerBound,
                           MeasurementVectorType &upperBound,
-                          int level)
+                          unsigned int level)
 {
   MeasurementType dimensionLowerBound ;
   MeasurementType dimensionUpperBound ;
   MeasurementType partitionValue ;
   unsigned int partitionDimension = 0 ;
-  KdTreeNodeType* left ;
-  KdTreeNodeType* right ;
   int i, j ;
   MeasurementType spread ;
   MeasurementType maxSpread ;
@@ -108,16 +106,29 @@ WeightedCentroidKdTreeGenerator< TSample >
   dimensionUpperBound = upperBound[partitionDimension] ;
 
   upperBound[partitionDimension] = partitionValue ;
-  left = GenerateTreeLoop(beginIndex, medianIndex, lowerBound, upperBound, level + 1);
+  const unsigned int beginLeftIndex = beginIndex;
+  const unsigned int endLeftIndex   = medianIndex;
+  KdTreeNodeType* left = GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound ;
 
   lowerBound[partitionDimension] = partitionValue ;
-  right = GenerateTreeLoop(medianIndex, endIndex, lowerBound, upperBound, level + 1) ;
+  const unsigned int beginRightIndex = medianIndex+1;
+  const unsigned int endRighIndex    = endIndex;
+  KdTreeNodeType* right = GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound ;
 
-  return new KdTreeWeightedCentroidNonterminalNode< TSample >
-    (partitionDimension, partitionValue,
-     left, right, weightedCentroid, endIndex - beginIndex) ;
+  typedef KdTreeWeightedCentroidNonterminalNode< TSample >  KdTreeNonterminalNodeType;
+
+  KdTreeNonterminalNodeType * nonTerminalNode = 
+    new KdTreeNonterminalNodeType( partitionDimension, partitionValue,
+                                   left, right, 
+                                   weightedCentroid, 
+                                   endIndex - beginIndex);
+
+  nonTerminalNode->AddInstanceIdentifier( 
+    subsample->GetInstanceIdentifier( medianIndex ) );
+
+  return nonTerminalNode;
 }
 
 } // end of namespace Statistics 
