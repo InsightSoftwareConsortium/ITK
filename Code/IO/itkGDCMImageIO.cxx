@@ -643,7 +643,15 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   header->SetFileName( m_FileName );
   header->SetLoadMode( (m_LoadSequences ? 0 : gdcm::LD_NOSEQ)
                        | (m_LoadPrivateTags ? 0 : gdcm::LD_NOSHADOW));
-  header->Load();
+  bool b = header->Load();
+  if ( !b )
+    {
+    itkExceptionMacro(<< "Cannot read requested file");
+    }
+  if( !header->IsReadable() )
+    {
+    itkExceptionMacro(<< "Cannot read requested file");
+    }
 
   // We don't need to positionate the Endian related stuff (by using
   // this->SetDataByteOrderToBigEndian() or SetDataByteOrderToLittleEndian()
