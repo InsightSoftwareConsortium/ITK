@@ -552,7 +552,7 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
 //    if ( ! gdcm_read_JPEGLS_file( fp,Raw ) )
          return false;
    }
-   else
+   else if( JPEGInfo )
    {
      // make sure this is the right JPEG compression
      assert( !IsJPEGLS || !IsJPEG2000 );
@@ -560,9 +560,12 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
      int length = XSize * YSize * SamplesPerPixel;
      int numberBytes = BitsAllocated / 8;
 
+     
      JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
      return true;
    }
+   //else (not sure how get there...), must be one of those crazy DICOM file
+   return false;
 }
 
 /**

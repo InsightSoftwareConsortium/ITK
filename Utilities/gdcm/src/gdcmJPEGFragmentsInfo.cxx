@@ -51,7 +51,7 @@ void JPEGFragmentsInfo::DecompressFromFile(std::ifstream *fp, uint8_t *buffer, i
    // Pointer to the Raw image
    uint8_t *localRaw = buffer;
 
-  // Loop on the fragment[s]
+   // Loop on the fragment[s]
    JPEGFragmentsList::const_iterator it;
    for( it  = Fragments.begin();
         it != Fragments.end();
