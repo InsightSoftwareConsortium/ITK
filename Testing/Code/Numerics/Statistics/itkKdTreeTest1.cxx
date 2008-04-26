@@ -94,7 +94,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
   // Generate a second sample of random points
   // and use them to query the tree
   //
-  for (unsigned int i = 0 ; i < numberOfTestPoints ; ++i )
+  for (unsigned int j = 0 ; j < numberOfTestPoints ; ++j )
     {
 
     double min_dist = itk::NumericTraits< double >::max();
