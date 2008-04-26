@@ -38,6 +38,8 @@ ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS}
 ADD_TEST(itkKdTreeTest1 ${STATISTICS_TESTS} itkKdTreeTest1 100 100 1 ${TEMP}/itkKdTreeTest1_100.dot)
 ADD_TEST(itkKdTreeTest2 ${STATISTICS_TESTS} itkKdTreeTest2
          ${ITK_DATA_ROOT}/Input/pointsForKdTree.txt 1 ${TEMP}/itkKdTreeTest2.dot)
+ADD_TEST(itkKdTreeTest3 ${STATISTICS_TESTS} itkKdTreeTest2
+         ${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt 1 ${TEMP}/itkKdTreeTest3.dot)
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest 4)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
