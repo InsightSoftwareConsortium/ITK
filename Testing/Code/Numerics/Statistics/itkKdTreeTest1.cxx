@@ -32,7 +32,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
     {
     std::cerr << "Missing parameters" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "numberOfDataPoints numberOfTestPoints bucketSize graphvizDotOutputFile" << std::endl;
+    std::cerr << argv[0] << " numberOfDataPoints numberOfTestPoints bucketSize graphvizDotOutputFile" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -160,7 +160,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
   // Plot out the tree structure to the console in the format used by Graphviz dot
   //
   std::ofstream plotFile;
-  plotFile.open( argv[2] );
+  plotFile.open( argv[4] );
   tree->PlotTree( plotFile );
   plotFile.close();
 
