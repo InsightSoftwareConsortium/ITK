@@ -569,6 +569,14 @@ public:
                  unsigned int activeDimension,
                  std::ostream & os = std::cout ) const;
 
+  /** Draw out the tree information to a ostream using 
+   * the format of the Graphviz dot tool. */
+  void PlotTree( std::ostream & os ) const;
+
+  /** Prints out the tree information */
+  void PlotTree(KdTreeNodeType *node, std::ostream & os = std::cout ) const;
+
+
   typedef typename TSample::Iterator Iterator;
   typedef typename TSample::ConstIterator ConstIterator;
 

@@ -272,7 +272,7 @@ KdTree< TSample >
   // Check the point associated with the nonterminal node
   // and potentially add it to the list of nearest neighbors
   //
-  tempId = node->GetInstanceIdentifier(i);
+  tempId = node->GetInstanceIdentifier(0);
   tempDistance = m_DistanceMetric->Evaluate(query, m_Sample->GetMeasurementVector(tempId));
   if( tempDistance < m_NearestNeighbors.GetLargestDistance() )
     {
@@ -581,9 +581,85 @@ KdTree< TSample >
   os << "             identifier = " << node->GetInstanceIdentifier(0);
   os << m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(0)) << std::endl;
  
-  this->PrintTree( node->Left(), level, partitionDimension );
-  this->PrintTree( node->Right(), level, partitionDimension );
+  this->PrintTree( node->Left(),  level, partitionDimension, os );
+  this->PrintTree( node->Right(), level, partitionDimension, os );
 }
+
+
+template< class TSample >
+void
+KdTree< TSample >
+::PlotTree( std::ostream & os ) const
+{
+  // 
+  // Graph header
+  //
+  os << "digraph G {" << std::endl;
+
+  //
+  // Recursively visit the tree and add entries for the nodes
+  //
+  this->PlotTree( this->m_Root, os );
+
+  // 
+  // Graph footer
+  //
+  os << "}" << std::endl;
+}
+
+
+template< class TSample >
+void
+KdTree< TSample >
+::PlotTree(KdTreeNodeType *node, std::ostream & os ) const
+{
+  unsigned int partitionDimension;
+  MeasurementType partitionValue;
+
+  node->GetParameters(partitionDimension, partitionValue);
+
+  KdTreeNodeType * left  = node->Left();
+  KdTreeNodeType * right = node->Right();
+
+  char partitionDimensionCharSymbol = ('X'+partitionDimension);
+
+  if( node->IsTerminal() )
+    {
+    // terminal node
+    if( node != m_EmptyTerminalNode )
+      {
+      os << "\"" << node << "\" [label=\"";
+      for( unsigned int i = 0; i < node->Size(); i++ )
+        {
+        os << this->GetMeasurementVector( node->GetInstanceIdentifier(i) );
+        os << " ";
+        }
+      os << "\" ];" << std::endl;
+      }
+    }
+  else
+    {
+    os << "\"" << node << "\" [label=\"";
+    os << this->GetMeasurementVector( node->GetInstanceIdentifier(0) );
+    os << " " << partitionDimensionCharSymbol << "=" << partitionValue;
+    os << "\" ];" << std::endl;
+    }
+
+
+  if( left &&  ( left != m_EmptyTerminalNode ) )
+    { 
+    os << "\"" << node << "\" -> \"" << left << "\" ;" << std::endl;
+    this->PlotTree( left, os );
+    }
+
+  if( right && ( right != m_EmptyTerminalNode ) )
+    {
+    os << "\"" << node << "\" -> \"" << right << "\" ;" << std::endl;
+    this->PlotTree( right, os );
+    }
+}
+
+
 
 } // end of namespace Statistics 
 } // end of namespace itk
