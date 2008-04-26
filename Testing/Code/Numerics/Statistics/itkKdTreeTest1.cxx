@@ -24,14 +24,15 @@
 #include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
 #include "itkEuclideanDistance.h"
+#include <fstream>
 
 int itkKdTreeTest1(int argc , char * argv [] )
 {
-  if( argc < 2 )
+  if( argc < 5 )
     {
     std::cerr << "Missing parameters" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " bucketSize" << std::endl;
+    std::cerr << argv[0] << "numberOfDataPoints numberOfTestPoints bucketSize graphvizDotOutputFile" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -52,8 +53,9 @@ int itkKdTreeTest1(int argc , char * argv [] )
   // 
   // Generate a sample of random points
   //
+  const unsigned int numberOfDataPoints = atoi( argv[1] );
   MeasurementVectorType mv( measurementVectorSize ) ;
-  for (unsigned int i = 0 ; i < 1000 ; ++i )
+  for (unsigned int i = 0 ; i < numberOfDataPoints ; ++i )
     {
     mv[0] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
     mv[1] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
@@ -63,7 +65,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
   typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType ;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New() ;
 
-  const unsigned int bucketSize = atoi( argv[1] );
+  const unsigned int bucketSize = atoi( argv[3] );
 
   treeGenerator->SetSample( sample ) ;
   treeGenerator->SetBucketSize( bucketSize );
@@ -86,7 +88,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
 
   unsigned int numberOfFailedPoints = 0;
 
-  const unsigned int numberOfTestPoints = 1000;
+  const unsigned int numberOfTestPoints = atoi( argv[2] );
 
   //
   // Generate a second sample of random points
@@ -121,7 +123,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
     // Compute the distance to all other points, to verify
     // whether the first neighbor was the closest one or not.
     //
-    for( unsigned int i = 0 ; i < 1000 ; ++i )
+    for( unsigned int i = 0 ; i < numberOfDataPoints; ++i )
       {
       test_point = tree->GetMeasurementVector( i );
 
@@ -153,7 +155,16 @@ int itkKdTreeTest1(int argc , char * argv [] )
       }
 
     }
-  
+
+  //
+  // Plot out the tree structure to the console in the format used by Graphviz dot
+  //
+  std::ofstream plotFile;
+  plotFile.open( argv[2] );
+  tree->PlotTree( plotFile );
+  plotFile.close();
+
+
   if( numberOfFailedPoints )
     {
     std::cerr << numberOfFailedPoints << " failed out of " 

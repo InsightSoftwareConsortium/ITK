@@ -33,11 +33,11 @@
 int itkKdTreeTest2( int argc, char * argv [] )
 {
 
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " pointsInputFile  bucketSize" << std::endl;
+    std::cerr << argv[0] << " pointsInputFile  bucketSize graphvizDotOutputFile" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -91,6 +91,12 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   DistanceMetricType::OriginType origin( Dimension );
 
+  //
+  // Print out the tree structure to the console
+  //
+  tree->PrintTree( std::cout );
+
+
   for( unsigned int k = 0; k < sample->Size(); k++ )
     {
     
@@ -133,16 +139,21 @@ int itkKdTreeTest2( int argc, char * argv [] )
       }
     }
 
+
+  //
+  // Plot out the tree structure to the console in the format used by Graphviz dot
+  //
+  std::ofstream plotFile;
+  plotFile.open( argv[3] );
+  tree->PlotTree( plotFile );
+  plotFile.close();
+
+
   if( testFailed )
     {
     std::cerr << "Incorrect distance was found" << std::endl;
     return EXIT_FAILURE;
     }
-
-  //
-  // Print out the tree structure to the console
-  //
-  tree->PrintTree( std::cout );
 
   return EXIT_SUCCESS;
 }
