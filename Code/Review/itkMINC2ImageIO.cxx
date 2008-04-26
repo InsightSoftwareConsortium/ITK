@@ -114,7 +114,7 @@ void MINC2ImageIO::Read(void* buffer)
   midimhandle_t *apparent_order = new  midimhandle_t[usefulDimensions];
   // order of dim_indices x,y,z,t,vector-dimension
   // apparent order vector-dimension,t,z,y,x
-  int j=0;
+  unsigned int j=0;
   for( i = 0; i < 5; i++ )
     {
     if (this->m_DimensionIndices[i] != -1 )
@@ -127,7 +127,7 @@ void MINC2ImageIO::Read(void* buffer)
   //check to see if app order same as file order
   for( i = 0; i < usefulDimensions; i++ )
     {
-    if (this->m_DimensionIndices[i] != i )
+    if (this->m_DimensionIndices[i] != static_cast<int>(i) )
       {
       // set apparent order of dimensions so data can be accesed in that order
       if(miset_apparent_dimension_order(volume,usefulDimensions ,apparent_order) < 0)
