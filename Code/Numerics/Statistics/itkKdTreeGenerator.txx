@@ -145,13 +145,15 @@ KdTreeGenerator< TSample >
     }
 
   // find median and partition this node using the quick select algorithm
+  // http://en.wikipedia.org/wiki/Selection_algorithm
   medianIndex = (endIndex - beginIndex) / 2;
   partitionValue =
     QuickSelect< SubsampleType >(m_Subsample,
                                  partitionDimension,
                                  beginIndex, endIndex, medianIndex,
                                  m_TempMean[partitionDimension]);
-  medianIndex += beginIndex - 1;
+
+  medianIndex += beginIndex;
 
   // save bounds for cutting dimension
   dimensionLowerBound = lowerBound[partitionDimension];
@@ -208,7 +210,8 @@ KdTreeGenerator< TSample >
 
       for (unsigned int j = beginIndex; j < endIndex; j++)
         {
-        ptr->AddInstanceIdentifier(m_Subsample->GetInstanceIdentifier(j));
+        ptr->AddInstanceIdentifier(
+          this->GetSubsample()->GetInstanceIdentifier(j));
         }
 
       // return a terminal node
