@@ -78,6 +78,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
   TreeType::Pointer tree = treeGenerator->GetOutput() ;
 
   MeasurementVectorType queryPoint( measurementVectorSize ) ;
+  MeasurementVectorType origin( measurementVectorSize ) ;
 
   unsigned int numberOfNeighbors = 1 ;
   TreeType::InstanceIdentifierVectorType neighbors ;
@@ -89,6 +90,54 @@ int itkKdTreeTest1(int argc , char * argv [] )
   unsigned int numberOfFailedPoints = 0;
 
   const unsigned int numberOfTestPoints = atoi( argv[2] );
+
+  //
+  //  Check that for every point in the sample, its closest point is itself.
+  //
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > DistanceMetricType;
+  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  bool testFailed = false;
+
+  for( unsigned int k = 0; k < sample->Size(); k++ )
+    {
+    
+    queryPoint = sample->GetMeasurementVector(k);
+
+    for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
+      {
+      origin[i] = queryPoint[i];
+      }
+
+    distanceMetric->SetOrigin( origin );
+    
+    unsigned int numberOfNeighbors = 1;
+    TreeType::InstanceIdentifierVectorType neighbors;
+    
+    tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
+    
+    for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
+      {
+      const double distance = 
+        distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
+
+      if( distance > vnl_math::eps )
+        {
+        std::cout << "kd-tree knn search result:" << std::endl 
+                  << "query point = [" << queryPoint << "]" << std::endl
+                  << "k = " << numberOfNeighbors << std::endl;
+        std::cout << "measurement vector : distance" << std::endl;
+        std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
+                  << "] : "  
+                  << distance << std::endl;
+        testFailed = true;
+        }
+      }
+    }
+
+  if( testFailed )
+    {
+    std::cout << "Points failed to find themselves as closest-point" << std::endl;
+    }
 
   //
   // Generate a second sample of random points
