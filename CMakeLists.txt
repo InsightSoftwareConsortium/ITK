@@ -388,6 +388,12 @@ MARK_AS_ADVANCED(ITK_USE_LIBXML2)
 ITK_THIRD_PARTY_OPTION(LIBXML2 libxml2)
 
 #-----------------------------------------------------------------------------
+# If choose to build documentation, then search for Doxygen executables.
+IF(BUILD_DOXYGEN)
+  FIND_PACKAGE(Doxygen)
+ENDIF(BUILD_DOXYGEN)
+
+#-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
 SUBDIRS(Utilities Code)
 
