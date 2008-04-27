@@ -47,6 +47,20 @@ ADD_TEST(itkKdTreeTest7 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 5 )
 ADD_TEST(itkKdTreeTest7 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 10 )
 ADD_TEST(itkKdTreeTest8 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 20 )
 ADD_TEST(itkKdTreeTest9 ${STATISTICS_TESTS} itkKdTreeTest1 1000 1000 100 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest1 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 1 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest2 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 2 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest3 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 3 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest4 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 5 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest5 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 10 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest6 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 20 )
+ADD_TEST(itkWeightedCentroidKdTreeGeneratorTest7 ${STATISTICS_TESTS} 
+  itkWeightedCentroidKdTreeGeneratorTest1 1000 1000 100 )
 ADD_TEST(itkListSampleTest ${STATISTICS_TESTS} itkListSampleTest 4)
 ADD_TEST(itkListSampleToHistogramFilterTest ${STATISTICS_TESTS} itkListSampleToHistogramFilterTest)
 ADD_TEST(itkListSampleToHistogramGeneratorTest ${STATISTICS_TESTS} itkListSampleToHistogramGeneratorTest)
@@ -131,6 +145,7 @@ itkSubsampleTest.cxx
 itkVariableDimensionHistogramTest.cxx
 itkWeightedMeanCalculatorTest.cxx
 itkWeightedCovarianceCalculatorTest.cxx
+itkWeightedCentroidKdTreeGeneratorTest1.cxx
 itkGaussianDistributionTest.cxx
 itkChiSquareDistributionTest.cxx
 itkTDistributionTest.cxx
