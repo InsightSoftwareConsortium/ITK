@@ -81,6 +81,7 @@ ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS}
                     itkNormalVariateGeneratorTest)
 ADD_TEST(itkQuickSelectTest1a ${STATISTICS_TESTS} itkQuickSelectTest1)
 ADD_TEST(itkQuickSelectTest1b ${STATISTICS_TESTS} itkQuickSelectTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect1.txt)
+ADD_TEST(itkQuickSelectTest1c ${STATISTICS_TESTS} itkQuickSelectTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect2.txt)
 ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS} 
          itkSampleClassifierTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS} 
