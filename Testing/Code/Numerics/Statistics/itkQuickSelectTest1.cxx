@@ -20,17 +20,11 @@
 
 #include "itkListSample.h"
 #include "itkStatisticsAlgorithm.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+#include <fstream>
 
 int itkQuickSelectTest1(int argc, char * argv [] )
 {
-  if( argc < 2 )
-    {
-    std::cout << "Missing arguments" << std::endl;
-    std::cerr << "Usage: ";
-    std::cerr << argv[0] << " inputDataFile" << std::endl;
-    return EXIT_FAILURE;
-    }
-
   std::cout << "Statistics Algorithm Test \n \n";
   bool pass = true;
 
@@ -44,6 +38,46 @@ int itkQuickSelectTest1(int argc, char * argv [] )
   typedef itk::Statistics::Subsample< SampleType > SubsampleType;
 
   SampleType::Pointer sample = SampleType::New();
+
+  sample->SetMeasurementVectorSize( Dimension );
+
+  if( argc > 1 )
+    {
+    //
+    // Read the values from a file
+    //
+    std::ifstream valuesFile;
+    valuesFile.open( argv[1] );
+    
+    MeasurementVectorType vector;
+    valuesFile >> vector[testDimension];
+
+    while( !valuesFile.eof() );
+      {
+      sample->PushBack( vector );
+      valuesFile >> vector[testDimension];
+      }
+    }
+  else
+    {
+    // 
+    // Generate values using a Random number generator
+    //
+    typedef itk::Statistics::MersenneTwisterRandomVariateGenerator NumberGeneratorType;
+
+    NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::New();
+    randomNumberGenerator->Initialize();
+ 
+    unsigned int numberOfValues = 100;
+    MeasurementVectorType vector;
+
+    for(unsigned int i=0; i<numberOfValues; i++)
+      {
+      vector[testDimension] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
+      sample->PushBack( vector );
+      }
+    }
+
 
   SubsampleType::Pointer subsample1 = SubsampleType::New();
   SubsampleType::Pointer subsample2 = SubsampleType::New();
