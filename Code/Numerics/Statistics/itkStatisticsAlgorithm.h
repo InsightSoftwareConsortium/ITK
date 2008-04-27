@@ -46,12 +46,32 @@ void FindSampleBoundAndMean(const TSubsample* sample,
                             typename TSubsample::MeasurementVectorType &max,
                             typename TSubsample::MeasurementVectorType &mean) ;
 
+/** The Partition algorithm performs partial sorting in a sample. Given a
+ * partitionValue, the algorithm moves to the beginning of the sample all
+ * MeasurementVectors whose component activeDimension is smaller than the
+ * partitionValue. In this way, the sample is partially sorted in two groups.
+ * First the group with activeDimension component smaller than the
+ * partitionValue, then the group of MeasurementVectors with activeDimension
+ * component larger than the partitionValue. The Partition algorithm takes as
+ * input a sample, and a range in that sample defined by [beginIndex,endIndex].
+ * Only the activeDimension components of the MeasurementVectors in the sample
+ * will be considered by the algorithm. The Algorithm return an index in the
+ * range of [beginIndex,endIndex] pointing to the element with activeDimension
+ * component closest to the partitionValue. */
 template< class TSubsample >
 int Partition(TSubsample* sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex,
               const typename TSubsample::MeasurementType partitionValue) ;
 
+/** QuickSelect is an algorithm for finding the k-th largest element of a list.
+ * In this case, only of the components of the measurement vectors is
+ * considered. This component is defined by the argument activeDimension. The
+ * search is rectricted to the range between the index begin and end, also
+ * passed as arguments. In this version, a guess value for the median index is
+ * provided in the argument medianGuess. The algoritm returns the value of the
+ * activeDimension component in the MeasurementVector located in the kth position.
+ * http://en.wikipedia.org/wiki/Selection_algorithm */
 template< class TSubsample >
 typename TSubsample::MeasurementType 
 QuickSelect(TSubsample* sample,
@@ -60,6 +80,12 @@ QuickSelect(TSubsample* sample,
             int kth,
             typename TSubsample::MeasurementType medianGuess) ;
 
+/** QuickSelect is an algorithm for finding the k-th largest element of a list.
+ * In this case, only of the components of the measurement vectors is
+ * considered. This component is defined by the argument activeDimension. The
+ * search is rectricted to the range between the index begin and end, also
+ * passed as arguments.  
+ * http://en.wikipedia.org/wiki/Selection_algorithm. */
 template< class TSubsample >
 typename TSubsample::MeasurementType 
 QuickSelect(TSubsample* sample,
