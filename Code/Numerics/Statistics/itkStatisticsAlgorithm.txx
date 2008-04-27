@@ -36,40 +36,68 @@ inline TSize FloorLog(TSize size)
   return k;
 }
 
-/** the endIndex should points one point after the last elements 
- * if multiple partitionValue exist in the sample the return index
- * will points the middle of such values */
+/** The endIndex should points one point after the last elements if multiple
+ * partitionValue exist in the sample the return index will points the middle
+ * of such values. Implemented following the description of the partition
+ * algorithm in the QuickSelect entry of the Wikipedia.
+ * http://en.wikipedia.org/wiki/Selection_algorithm. */
 template< class TSubsample >
 inline int Partition(TSubsample* sample,
                      unsigned int activeDimension,
                      int beginIndex, int endIndex,
-                     const typename TSubsample::MeasurementType
-                     partitionValue) 
+                     const typename TSubsample::MeasurementType partitionValue)
 {
-  while (true) 
+  typedef typename TSubsample::MeasurementType MeasurementType;
+
+  // 
+  // First, find pivot Index as the index with value closest to the partitionValue.
+  //
+  int pivotIndex = beginIndex;
+  MeasurementType pivotValue =
+      sample->GetMeasurementVectorByIndex(pivotIndex)[activeDimension];
+  MeasurementType minimumDistance = itk::NumericTraits< MeasurementType >::max();
+
+  for( int kk = beginIndex+1; kk < endIndex; kk++ )
     {
-    while (sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension]
-           < partitionValue)
+    const MeasurementType value =
+      sample->GetMeasurementVectorByIndex(kk)[activeDimension];
+    const MeasurementType distance = vnl_math_abs( partitionValue - value );
+    if( distance < minimumDistance )
       {
-      ++beginIndex;
+      minimumDistance = distance;
+      pivotIndex = kk;
+      pivotValue = value;
       }
-
-    --endIndex;
-    while (partitionValue < 
-           sample->GetMeasurementVectorByIndex(endIndex)[activeDimension])
-      {
-      --endIndex;
-      }
-
-    if (!(beginIndex < endIndex))
-      {
-      return beginIndex ;
-      }
-      
-    sample->Swap(beginIndex, endIndex);
-    ++beginIndex;
     }
-} 
+
+
+  // 
+  // Send the pivot value to the end of the list.
+  // Keep in mind that endIndex points to the past-the-end of the list.
+  //
+  sample->Swap( pivotIndex, endIndex-1 );
+
+  int storeIndex = beginIndex;
+
+  for( int i = beginIndex; i < endIndex - 1; i++ )
+    {
+    const MeasurementType value =
+      sample->GetMeasurementVectorByIndex(i)[activeDimension];
+    if( value < pivotValue )
+      {
+      sample->Swap( storeIndex, i );
+      storeIndex++;
+      }
+    }
+
+  //
+  // Move pivot to its final place
+  //
+  sample->Swap( storeIndex, endIndex-1 );
+
+  return storeIndex;
+}
+
 
 template< class TValue >
 inline TValue MedianOfThree(const TValue a, 
@@ -206,7 +234,11 @@ FindSampleBoundAndMean(const TSubsample* sample,
     }
 }
 
-/** The endIndex should point one point after the last elements. */
+/** The endIndex should point one point after the last elements.  Note that kth
+ * is an index in a different scale than [beginIndex,endIndex].  For example,
+ * it is possible to feed this function with beginIndex=15, endIndex=23, and
+ * kth=3, since we can ask for the element 3rd in the range [15,23]. */
+ 
 template< class TSubsample >
 inline typename TSubsample::MeasurementType 
 QuickSelect(TSubsample* sample,
@@ -221,65 +253,55 @@ QuickSelect(TSubsample* sample,
   int length = endIndex - beginIndex ;
   int begin = beginIndex ;
   int end = endIndex - 1 ;
-  int cut ;
-  MeasurementType tempMedian ;
+  int kthIndex = kth + beginIndex;
 
+  MeasurementType tempMedian;
+
+  //
+  // Select a pivot value
+  //
   if (medianGuess != NumericTraits< MeasurementType >::NonpositiveMin())
     {
     tempMedian = medianGuess ;
     }
   else
     {
-    tempMedian = 
-      MedianOfThree< MeasurementType >
-      (sample->
-       GetMeasurementVectorByIndex(begin)[activeDimension],
-       sample->
-       GetMeasurementVectorByIndex(end)[activeDimension],
-       sample->
-       GetMeasurementVectorByIndex(begin + length/2)[activeDimension]) ;
+    const int middle = begin + length / 2;
+    const MeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
+    const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
+    const MeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
+    tempMedian = MedianOfThree< MeasurementType >( v1, v2, v3 );
     }
 
-  while (length > 2)
+  while( true )
     {
-    cut = Partition< TSubsample >(sample, activeDimension, 
-                                  begin, end, tempMedian) ;
-    
-    if (begin == cut)
-      {
-      break ;
-      }
+    // Partition expects the end argument to be one past-the-end of the array.
+    // The index pivotNewIndex returned by Partition is in the range [begin,end].
+    int pivotNewIndex = 
+      Partition< TSubsample >(sample, activeDimension, begin, end+1, tempMedian) ;
 
-    if ( cut >= beginIndex + kth)
+    if( kthIndex == pivotNewIndex )
       {
-      end = cut ;
+      break;
+      }
+ 
+    if( kthIndex < pivotNewIndex )
+      {
+      end = pivotNewIndex-1;
       }
     else
       {
-      begin = cut ;
+      begin = pivotNewIndex;
       }
 
-    length = end - begin ;
+    if( begin > end )
+      {
+      break;
+      }
 
-    tempMedian = 
-      MedianOfThree< MeasurementType >
-      (sample->
-       GetMeasurementVectorByIndex(begin)[activeDimension],
-       sample->
-       GetMeasurementVectorByIndex(end)[activeDimension],
-       sample->
-       GetMeasurementVectorByIndex(begin + length/2)[activeDimension]) ;
-    } // end of while
-
-  // current partition has only 1 or 2 elements
-  if (length == 2 && 
-      sample->GetMeasurementVectorByIndex(end)[activeDimension]
-      < sample->GetMeasurementVectorByIndex(begin)[activeDimension])
-    {
-    sample->Swap(begin, end) ;
     }
 
-  return sample->GetMeasurementVectorByIndex(begin)[activeDimension] ;
+  return sample->GetMeasurementVectorByIndex(kthIndex)[activeDimension]; 
 }
 
 
