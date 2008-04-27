@@ -46,17 +46,22 @@ int itkQuickSelectTest1(int argc, char * argv [] )
     //
     // Read the values from a file
     //
+    std::cout << "Reading input file " << argv[1] << std::endl;
+
     std::ifstream valuesFile;
     valuesFile.open( argv[1] );
     
     MeasurementVectorType vector;
     valuesFile >> vector[testDimension];
 
-    while( !valuesFile.eof() );
+    while( !valuesFile.eof() )
       {
       sample->PushBack( vector );
       valuesFile >> vector[testDimension];
       }
+
+    valuesFile.close();
+
     }
   else
     {
@@ -85,6 +90,13 @@ int itkQuickSelectTest1(int argc, char * argv [] )
   subsample1->SetSample( sample );
   subsample2->SetSample( sample );
 
+  subsample1->InitializeWithAllInstances();
+  subsample2->InitializeWithAllInstances();
+
+  std::cout << "sample     Size = " << sample->Size() << std::endl;
+  std::cout << "subsample1 Size = " << subsample1->Size() << std::endl;
+  std::cout << "subsample2 Size = " << subsample2->Size() << std::endl;
+
   // Sort all the values in subsample1
   itk::Statistics::HeapSort< SubsampleType >( subsample1, testDimension, 0, subsample1->Size());
 
@@ -94,6 +106,7 @@ int itkQuickSelectTest1(int argc, char * argv [] )
   //
   for( unsigned int kth = 0; kth < subsample2->Size(); kth++)
     {
+std::cout << "Testing QuickSelect at kth = " << kth << std::endl;
     MeasurementType kthValue2 = itk::Statistics::QuickSelect< SubsampleType >(
       subsample2, testDimension, 0, subsample2->Size(), kth );
 
