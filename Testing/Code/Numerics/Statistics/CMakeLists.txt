@@ -79,7 +79,7 @@ ADD_TEST(itkMersenneTwisterRandomVariateGeneratorTest.cxx ${STATISTICS_TESTS}
                     itkMersenneTwisterRandomVariateGeneratorTest) 
 ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
                     itkNormalVariateGeneratorTest)
-
+ADD_TEST(itkQuickSelectTest1 ${STATISTICS_TESTS} itkQuickSelectTest1)
 ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS} 
          itkSampleClassifierTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS} 
@@ -138,6 +138,7 @@ itkMembershipSampleGeneratorTest.cxx
 itkMersenneTwisterRandomVariateGeneratorTest.cxx 
 itkNeighborhoodSamplerTest.cxx
 itkNormalVariateGeneratorTest.cxx
+itkQuickSelectTest1.cxx
 itkSampleClassifierTest.cxx
 itkSampleClassifierWithMaskTest.cxx
 itkSampleMeanShiftClusteringFilterTest.cxx

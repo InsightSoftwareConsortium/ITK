@@ -57,6 +57,7 @@ void RegisterTests()
   REGISTER_TEST(itkMeanCalculatorTest);
   REGISTER_TEST(itkNeighborhoodSamplerTest) ;
   REGISTER_TEST(itkNormalVariateGeneratorTest);
+  REGISTER_TEST(itkQuickSelectTest1);
   REGISTER_TEST(itkSampleClassifierTest) ;
   REGISTER_TEST(itkSampleClassifierWithMaskTest) ;
   REGISTER_TEST(itkSampleMeanShiftClusteringFilterTest) ;
