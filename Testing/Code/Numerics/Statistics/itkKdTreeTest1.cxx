@@ -87,7 +87,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
   MeasurementVectorType test_point( measurementVectorSize ) ;
   MeasurementVectorType min_point( measurementVectorSize ) ;
 
-  unsigned int numberOfFailedPoints = 0;
+  unsigned int numberOfFailedPoints1 = 0;
 
   const unsigned int numberOfTestPoints = atoi( argv[2] );
 
@@ -122,22 +122,20 @@ int itkKdTreeTest1(int argc , char * argv [] )
 
       if( distance > vnl_math::eps )
         {
-        std::cout << "kd-tree knn search result:" << std::endl 
+        std::cerr << "kd-tree knn search result:" << std::endl 
                   << "query point = [" << queryPoint << "]" << std::endl
                   << "k = " << numberOfNeighbors << std::endl;
-        std::cout << "measurement vector : distance" << std::endl;
-        std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
+        std::cerr << "measurement vector : distance" << std::endl;
+        std::cerr << "[" << tree->GetMeasurementVector( neighbors[i] )
                   << "] : "  
                   << distance << std::endl;
+        numberOfFailedPoints1++;
         testFailed = true;
         }
       }
     }
 
-  if( testFailed )
-    {
-    std::cout << "Points failed to find themselves as closest-point" << std::endl;
-    }
+  unsigned int numberOfFailedPoints2 = 0;
 
   //
   // Generate a second sample of random points
@@ -200,7 +198,7 @@ int itkKdTreeTest1(int argc , char * argv [] )
                 << " distance " << min_dist << std::endl;
       std::cerr << std::endl;
       std::cerr << "Test FAILED." << std::endl;
-      numberOfFailedPoints++;
+      numberOfFailedPoints2++;
       }
 
     }
@@ -218,12 +216,24 @@ int itkKdTreeTest1(int argc , char * argv [] )
     }
 
 
-  if( numberOfFailedPoints )
+  if( numberOfFailedPoints1 )
     {
-    std::cerr << numberOfFailedPoints << " failed out of " 
-              << numberOfTestPoints << " points " << std::endl;
+    std::cerr << numberOfFailedPoints1 << " out of " << sample->Size();
+    std::cerr << " points failed to find themselves as closest-point" << std::endl;
+    }
+
+  if( numberOfFailedPoints2 )
+    {
+    std::cerr << numberOfFailedPoints2 << " out of " << numberOfTestPoints;
+    std::cerr << " points failed to find the correct closest point." << std::endl;
+    }
+
+
+  if( numberOfFailedPoints1 || numberOfFailedPoints2 )
+    {
     return EXIT_FAILURE;
     }
+
 
   std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
