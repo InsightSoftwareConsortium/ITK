@@ -85,39 +85,43 @@ int itkQuickSelectTest1(int argc, char * argv [] )
 
 
   SubsampleType::Pointer subsample1 = SubsampleType::New();
-  SubsampleType::Pointer subsample2 = SubsampleType::New();
 
   subsample1->SetSample( sample );
-  subsample2->SetSample( sample );
 
   subsample1->InitializeWithAllInstances();
-  subsample2->InitializeWithAllInstances();
-
-  std::cout << "sample     Size = " << sample->Size() << std::endl;
-  std::cout << "subsample1 Size = " << subsample1->Size() << std::endl;
-  std::cout << "subsample2 Size = " << subsample2->Size() << std::endl;
 
   // Sort all the values in subsample1
   itk::Statistics::HeapSort< SubsampleType >( subsample1, testDimension, 0, subsample1->Size());
 
-  //
-  // Test the Quick Select Algorithm by asking k-th elements in subsample2 and
-  // comparing them to the enetries in the sorted subsample1.
-  //
-  for( unsigned int kth = 0; kth < subsample2->Size(); kth++)
+  try
     {
-std::cout << "Testing QuickSelect at kth = " << kth << std::endl;
-    MeasurementType kthValue2 = itk::Statistics::QuickSelect< SubsampleType >(
-      subsample2, testDimension, 0, subsample2->Size(), kth );
-
-    MeasurementType kthValue1 =
-      subsample1->GetMeasurementVectorByIndex( kth )[testDimension];
-
-    if( vnl_math_abs( kthValue1 - kthValue2 ) > vnl_math::eps )
+    //
+    // Test the Quick Select Algorithm by asking k-th elements in subsample2 and
+    // comparing them to the enetries in the sorted subsample1.
+    //
+    for( unsigned int kth = 0; kth < subsample1->Size(); kth++)
       {
-      std::cerr << "Comparison failed for component kth= " << kth << std::endl;
-      pass = false;
+      SubsampleType::Pointer subsample2 = SubsampleType::New();
+      subsample2->SetSample( sample );
+      subsample2->InitializeWithAllInstances();
+
+      MeasurementType kthValue2 = itk::Statistics::QuickSelect< SubsampleType >(
+        subsample2, testDimension, 0, subsample2->Size(), kth );
+
+      MeasurementType kthValue1 =
+        subsample1->GetMeasurementVectorByIndex( kth )[testDimension];
+
+      if( vnl_math_abs( kthValue1 - kthValue2 ) > vnl_math::eps )
+        {
+        std::cerr << "Comparison failed for component kth= " << kth << std::endl;
+        pass = false;
+        }
       }
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   if( !pass )
