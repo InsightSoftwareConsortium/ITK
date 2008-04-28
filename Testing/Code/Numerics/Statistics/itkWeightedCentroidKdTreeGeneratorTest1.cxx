@@ -110,9 +110,6 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
 
     distanceMetric->SetOrigin( origin );
     
-    unsigned int numberOfNeighbors = 1;
-    TreeType::InstanceIdentifierVectorType neighbors;
-    
     tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
     
     for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
