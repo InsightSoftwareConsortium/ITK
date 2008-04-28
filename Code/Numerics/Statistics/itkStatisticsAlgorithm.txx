@@ -188,7 +188,7 @@ inline int Partition(TSubsample* sample,
     // Therefore we must now find the largest value of the left section and
     // swap it to the boundary between smaller and larger than the
     // partitionValue.
-    for(unsigned int kk=beginIndex; kk<storeIndex; kk++)
+    for(int kk=beginIndex; kk<storeIndex; kk++)
       {
       MeasurementType nodeValue      = sample->GetMeasurementVectorByIndex( kk )[activeDimension];
       MeasurementType boundaryValue  = sample->GetMeasurementVectorByIndex( storeIndex )[activeDimension];
