@@ -38,7 +38,8 @@ ListSample< TMeasurementVector >
     {
     return m_InternalContainer[identifier] ;
     }
-  throw ExceptionObject(__FILE__,__LINE__);  
+  itkExceptionMacro("Identifier " << identifier 
+    << " is out of range 0:" << m_InternalContainer.size() ); 
 }
 
 template< class TMeasurementVector >
