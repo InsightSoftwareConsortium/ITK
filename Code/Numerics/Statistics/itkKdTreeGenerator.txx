@@ -144,6 +144,7 @@ KdTreeGenerator< TSample >
       }
     }
 
+
   // find median and partition this node using the quick select algorithm
   // http://en.wikipedia.org/wiki/Selection_algorithm
   medianIndex = (endIndex - beginIndex) / 2;
@@ -167,9 +168,10 @@ KdTreeGenerator< TSample >
 
   lowerBound[partitionDimension] = partitionValue;
   const unsigned int beginRightIndex = medianIndex+1;
-  const unsigned int endRighIndex    = endIndex;
-  NodeType* right = GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
+  const unsigned int endRightIndex   = endIndex;
+  NodeType* right = GenerateTreeLoop(beginRightIndex, endRightIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
+
 
   typedef KdTreeNonterminalNode< TSample >  KdTreeNonterminalNodeType;
 
