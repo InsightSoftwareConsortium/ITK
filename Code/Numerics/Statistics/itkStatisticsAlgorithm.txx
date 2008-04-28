@@ -49,51 +49,156 @@ inline int Partition(TSubsample* sample,
 {
   typedef typename TSubsample::MeasurementType MeasurementType;
 
-  // 
-  // First, find pivot Index as the index with value closest to the partitionValue.
-  //
-  int pivotIndex = beginIndex;
-  MeasurementType pivotValue =
-      sample->GetMeasurementVectorByIndex(pivotIndex)[activeDimension];
-  MeasurementType minimumDistance = itk::NumericTraits< MeasurementType >::max();
+  int moveToFrontIndex = beginIndex;
+  int moveToBackIndex = endIndex-1;
 
-  for( int kk = beginIndex+1; kk < endIndex; kk++ )
+  //
+  // Move to the back all entries whose activeDimension component is equal to
+  // the partitionValue.
+  // 
+  while( moveToFrontIndex < moveToBackIndex )
     {
-    const MeasurementType value =
-      sample->GetMeasurementVectorByIndex(kk)[activeDimension];
-    const MeasurementType distance = vnl_math_abs( partitionValue - value );
-    if( distance < minimumDistance )
+    // 
+    //  Find the first element (from the back) that is in the wrong side of the partition.
+    //
+    while( moveToBackIndex >= beginIndex )
       {
-      minimumDistance = distance;
-      pivotIndex = kk;
-      pivotValue = value;
+      if( sample->GetMeasurementVectorByIndex(moveToBackIndex)[activeDimension] != partitionValue )
+        {
+        break;
+        }
+      moveToBackIndex--;
+      }
+
+    // 
+    //  Find the first element (from the front) that is in the wrong side of the partition.
+    //
+    while( moveToFrontIndex < endIndex )
+      {
+      if( sample->GetMeasurementVectorByIndex(moveToFrontIndex)[activeDimension] == partitionValue )
+        {
+        break;
+        }
+      moveToFrontIndex++;
+      }
+
+    if( moveToFrontIndex < moveToBackIndex )
+      {
+      // 
+      // Swap them to place them in the correct side of the partition
+      //
+      sample->Swap( moveToBackIndex, moveToFrontIndex );
       }
     }
 
 
-  // 
-  // Send the pivot value to the end of the list.
-  // Keep in mind that endIndex points to the past-the-end of the list.
   //
-  sample->Swap( pivotIndex, endIndex-1 );
-
-  int storeIndex = beginIndex;
-
-  for( int i = beginIndex; i < endIndex - 1; i++ )
+  // Now, ignore the section at the end with all the values equal to the partition value,
+  // and start swapping entries that are in the wrong side of the partition.
+  // 
+  moveToFrontIndex = beginIndex;
+  moveToBackIndex  = endIndex-1;
+  while( moveToFrontIndex < moveToBackIndex )
     {
-    const MeasurementType value =
-      sample->GetMeasurementVectorByIndex(i)[activeDimension];
-    if( value < pivotValue )
+    // 
+    //  Find the first element (from the back) that is in the wrong side of the partition.
+    //
+    while( moveToBackIndex >= beginIndex )
       {
-      sample->Swap( storeIndex, i );
-      storeIndex++;
+      if( sample->GetMeasurementVectorByIndex(moveToBackIndex)[activeDimension] < partitionValue )
+        {
+        break;
+        }
+      moveToBackIndex--;
+      }
+
+    // 
+    //  Find the first element (from the front) that is in the wrong side of the partition.
+    //
+    while( moveToFrontIndex < endIndex )
+      {
+      if( sample->GetMeasurementVectorByIndex(moveToFrontIndex)[activeDimension] > partitionValue )
+        {
+        break;
+        }
+      moveToFrontIndex++;
+      }
+
+
+    if( moveToFrontIndex < moveToBackIndex )
+      {
+      // 
+      // Swap them to place them in the correct side of the partition
+      //
+      sample->Swap( moveToBackIndex, moveToFrontIndex );
       }
     }
 
+
   //
-  // Move pivot to its final place
+  // Take all the entries with activeDimension component equal to
+  // partitionValue, that were placed at the end of the list, and move them to
+  // the interface between smaller and larger values.
   //
-  sample->Swap( storeIndex, endIndex-1 );
+  int beginOfSectionEqualToPartition = moveToFrontIndex;
+  moveToBackIndex = endIndex-1;
+  while( moveToFrontIndex < moveToBackIndex )
+    {
+    // 
+    //  Find the first element (from the back) that is in the wrong side of the partition.
+    //
+    while( moveToBackIndex >= beginIndex )
+      {
+      if( sample->GetMeasurementVectorByIndex(moveToBackIndex)[activeDimension] == partitionValue )
+        {
+        break;
+        }
+      moveToBackIndex--;
+      }
+
+
+    // 
+    //  Find the first element (from the front) that is in the wrong side of the partition.
+    //
+    while( moveToFrontIndex < endIndex )
+      {
+      if( sample->GetMeasurementVectorByIndex(moveToFrontIndex)[activeDimension] != partitionValue )
+        {
+        break;
+        }
+      moveToFrontIndex++;
+      }
+
+    if( moveToFrontIndex < moveToBackIndex )
+      {
+      // 
+      // Swap them to place them in the correct side of the partition
+      //
+      sample->Swap( moveToBackIndex, moveToFrontIndex );
+      }
+    }
+  int endOfSectionEqualToPartition = moveToFrontIndex-1;
+
+  int storeIndex = ( beginOfSectionEqualToPartition + endOfSectionEqualToPartition ) / 2;
+
+  const MeasurementType pivotValue  = sample->GetMeasurementVectorByIndex( storeIndex )[activeDimension];
+  if( pivotValue != partitionValue )
+    {
+    // The partition was done using a value that is not present in the sample.
+    // Therefore we must now find the largest value of the left section and
+    // swap it to the boundary between smaller and larger than the
+    // partitionValue.
+    for(unsigned int kk=beginIndex; kk<storeIndex; kk++)
+      {
+      MeasurementType nodeValue      = sample->GetMeasurementVectorByIndex( kk )[activeDimension];
+      MeasurementType boundaryValue  = sample->GetMeasurementVectorByIndex( storeIndex )[activeDimension];
+      if( nodeValue > boundaryValue )
+        {
+        sample->Swap(kk, storeIndex) ;
+        }
+      }
+
+    }
 
   return storeIndex;
 }
@@ -250,7 +355,6 @@ QuickSelect(TSubsample* sample,
 {
   typedef typename TSubsample::MeasurementType MeasurementType ;
 
-  int length = endIndex - beginIndex ;
   int begin = beginIndex ;
   int end = endIndex - 1 ;
   int kthIndex = kth + beginIndex;
@@ -266,6 +370,7 @@ QuickSelect(TSubsample* sample,
     }
   else
     {
+    const int length = end - begin ;
     const int middle = begin + length / 2;
     const MeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
     const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
@@ -287,7 +392,7 @@ QuickSelect(TSubsample* sample,
  
     if( kthIndex < pivotNewIndex )
       {
-      end = pivotNewIndex-1;
+      end = pivotNewIndex;
       }
     else
       {
@@ -299,7 +404,25 @@ QuickSelect(TSubsample* sample,
       break;
       }
 
+    const int length = end - begin ;
+    const MeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
+    const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
+
+    // current partition has only 1 or 2 elements
+    if( length < 2 )
+      {
+      if( v2 < v1 )
+        {
+        sample->Swap(begin, end) ;
+        }
+      break;
+      }
+
+    const int middle = begin + length / 2;
+    const MeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
+    tempMedian = MedianOfThree< MeasurementType >( v1, v2, v3 );
     }
+
 
   return sample->GetMeasurementVectorByIndex(kthIndex)[activeDimension]; 
 }
