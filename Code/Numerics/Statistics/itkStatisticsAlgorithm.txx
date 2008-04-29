@@ -392,11 +392,11 @@ QuickSelect(TSubsample* sample,
  
     if( kthIndex < pivotNewIndex )
       {
-      end = pivotNewIndex;
+      end = pivotNewIndex - 1;
       }
     else
       {
-      begin = pivotNewIndex;
+      begin = pivotNewIndex + 1;
       }
 
     if( begin > end )
@@ -436,7 +436,10 @@ QuickSelect(TSubsample* sample,
             int endIndex,
             int kth)
 {
-  return NthElement( sample, activeDimension, beginIndex, endIndex, kth );
+  typedef typename TSubsample::MeasurementType MeasurementType;
+  MeasurementType medianGuess = NumericTraits< MeasurementType >::NonpositiveMin();
+  return QuickSelect< TSubsample >(sample, activeDimension, 
+            beginIndex, endIndex, kth, medianGuess);
 }
 
 

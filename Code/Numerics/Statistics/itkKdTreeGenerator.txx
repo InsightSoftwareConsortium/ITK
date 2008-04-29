@@ -157,14 +157,16 @@ KdTreeGenerator< TSample >
   medianIndex = (endIndex - beginIndex) / 2;
 
   //
-  // Find the medial element by using the NthElement function
-  // based on the STL implementation of the QuickSelect algorithm.
+  // Find the medial element by using the QuickSelect algorithm
+  // based on its description on the Wikipedia:
+  // http://en.wikipedia.org/wiki/Selection_algorithm
   //
   partitionValue =
-    NthElement< SubsampleType >(m_Subsample,
+    QuickSelect< SubsampleType >(m_Subsample,
                                 partitionDimension,
                                 beginIndex, endIndex, 
-                                medianIndex);
+                                medianIndex,
+                                m_TempMean[partitionDimension]);
 
   medianIndex += beginIndex;
 
