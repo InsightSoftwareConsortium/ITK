@@ -207,8 +207,8 @@ KdTree< TSample >
 
   for (unsigned int d = 0; d < this->m_MeasurementVectorSize; d++)
     {
-    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() / 2.0;
-    upperBound[d] = NumericTraits< MeasurementType >::max() / 2.0;
+    lowerBound[d] = -vcl_sqrt( -NumericTraits< MeasurementType >::NonpositiveMin() ) / 2.0;
+    upperBound[d] =  vcl_sqrt(  NumericTraits< MeasurementType >::max() ) / 2.0;
     }
 
   m_NumberOfVisits = 0;
@@ -353,8 +353,8 @@ KdTree< TSample >
 
   for (unsigned int d = 0; d < this->m_MeasurementVectorSize; d++)
     {
-    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() / 2.0;
-    upperBound[d] = NumericTraits< MeasurementType >::max() / 2.0;
+    lowerBound[d] = -vcl_sqrt( -NumericTraits< MeasurementType >::NonpositiveMin() ) / 2.0;
+    upperBound[d] =  vcl_sqrt(  NumericTraits< MeasurementType >::max() ) / 2.0;
     }
 
   m_NumberOfVisits = 0;
