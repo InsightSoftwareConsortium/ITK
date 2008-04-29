@@ -127,6 +127,13 @@ public:
   void StopOptimization() 
     { m_Stop = true; }
 
+  itkGetMacro(CatchGetValueException, bool);
+  itkSetMacro(CatchGetValueException, bool);
+
+  itkGetMacro(MetricWorstPossibleValue, double);
+  itkSetMacro(MetricWorstPossibleValue, double);
+
+
 protected:
   PowellOptimizer();
   PowellOptimizer(const PowellOptimizer&);
@@ -214,6 +221,9 @@ private:
   /** Maximum iteration limit. */
   unsigned int       m_MaximumIteration;
   unsigned int       m_MaximumLineIteration;
+
+  bool               m_CatchGetValueException;
+  double             m_MetricWorstPossibleValue;
 
   /** Set if the Metric should be maximized: Default = False */
   bool               m_Maximize;

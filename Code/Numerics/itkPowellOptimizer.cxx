@@ -27,6 +27,9 @@ namespace itk
 PowellOptimizer
 ::PowellOptimizer()
 {
+  m_CatchGetValueException = false;
+  m_MetricWorstPossibleValue = 0;
+
   m_Maximize = false;
 
   m_StepLength = 1.0;
@@ -78,14 +81,29 @@ PowellOptimizer
     {
     tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
     }
+  itkDebugMacro( << "x = " << x );
+  double val;
+  try
+    {
+    val = (this->m_CostFunction->GetValue(tempCoord));
+    }
+  catch( ... )
+    {
+    if(m_CatchGetValueException)
+      {
+      val = m_MetricWorstPossibleValue;
+      }
+    else
+      {
+      throw;
+      }
+    }
   if(m_Maximize)
     {
-    return -(this->m_CostFunction->GetValue(tempCoord));
+    val = -val;
     }
-  else
-    {
-    return this->m_CostFunction->GetValue(tempCoord);
-    }
+  itkDebugMacro( << "val = " << val );
+  return val;
 }
 
 void
@@ -194,8 +212,11 @@ PowellOptimizer
     }
   else
     {
+    this->Swap(x1, x2);
+    this->Swap(f1, f2);
+
     // compute x3 on the side of x1
-    *x3 = *x2 + goldenRatio * ( *x1 - *x2 );
+    *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
     *f3 = this->GetLineValue( *x3, tempCoord );
 
     // If the new point is a minimum
@@ -203,11 +224,11 @@ PowellOptimizer
     // that direction until we find a
     // value of f3 that makes f2 to be
     // a minimum.
-    while( *f3 < *f1 )
+    while( *f3 < *f2 )
       {
-      *x1 = *x3;
-      *f1 = *f3;
-      *x3 = *x2 + goldenRatio * ( *x1 - *x2 );
+      *x2 = *x3;
+      *f2 = *f3;
+      *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
       *f3 = this->GetLineValue( *x3, tempCoord );
       }
     }
@@ -223,6 +244,7 @@ PowellOptimizer
   double * x4 = & x4memory;
   double * f4 = & f4memory;
 
+  itkDebugMacro( << "Initial: " << *x1 << ", " << *x2 << ", " << *x3 );
   //
   // Now that the function is bracketed as
   //
@@ -232,7 +254,7 @@ PowellOptimizer
   // inside of the bracket by using a golden
   // section search
   //
-  do
+  /*do
     {
     //
     // Compute the next point using the golden ratio.
@@ -242,6 +264,13 @@ PowellOptimizer
     //
     *x4 = *x1 - *x2 + *x3;
     *f4 = this->GetLineValue( *x4, tempCoord );
+    if(vcl_abs(*x1-*x4) > vcl_abs(*x1-*x2))
+      {
+      this->Swap(x4, x2);
+      this->Swap(f4, f2);
+      }
+
+    itkDebugMacro( << *x1 << ", " << *x4 << ", " << *x2 << ", " << *x3 );
 
     //
     // If the new value f4 at x4 is larger than f2
@@ -254,8 +283,8 @@ PowellOptimizer
       // take the values of x4,f4 and we are
       // back to having a bracket x1,x2,x3.
       //
-      *x3 = *x4;
-      *f3 = *f4;
+      *x1 = *x4;
+      *f1 = *f4;
       }
     else
       {
@@ -267,8 +296,8 @@ PowellOptimizer
       // x2,f2 take the values of x4,f4. At that
       // point we are back to having a bracket x1,x2,x3.
       //
-      *x1 = *x2;
-      *f1 = *f2;
+      *x3 = *x2;
+      *f3 = *f2;
       *x2 = *x4;
       *f2 = *f4;
       }
@@ -285,6 +314,7 @@ PowellOptimizer
 
     }
   while( intervalWidth > floatingPointPrecision );
+  */
 
   //
   // Report the central point as the minimum
@@ -353,6 +383,9 @@ PowellOptimizer
       *extX = x;
       *extVal = functionValueOfX;
       this->SetCurrentLinePoint(x, functionValueOfX);
+      itkDebugMacro( << "x = " << *extX );
+      itkDebugMacro( << "val = " << *extVal );
+      itkDebugMacro( << "return 1" );
       return;        /* Acceptable approx. is found  */
       }
 
@@ -465,6 +498,9 @@ PowellOptimizer
 
   *extX = x;
   *extVal = functionValueOfX;
+  itkDebugMacro( << "x = " << *extX );
+  itkDebugMacro( << "val = " << *extVal );
+  itkDebugMacro( << "return 2" );
 
   this->SetCurrentLinePoint(x, functionValueOfX);
 
@@ -600,6 +636,8 @@ PowellOptimizer
 {
   Superclass::PrintSelf(os,indent);
 
+  os << indent << "Metric Worst Possible Value " << m_MetricWorstPossibleValue << std::endl;
+  os << indent << "Catch GetValue Exception " << m_CatchGetValueException   << std::endl;
   os << indent << "Space Dimension   " << m_SpaceDimension   << std::endl;
   os << indent << "Maximum Iteration " << m_MaximumIteration << std::endl;
   os << indent << "Current Iteration " << m_CurrentIteration << std::endl;
