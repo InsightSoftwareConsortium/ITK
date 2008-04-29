@@ -203,10 +203,12 @@ KdTree< TSample >
   MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize );
   MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize );
   
-  for (unsigned int d = 0; d < m_MeasurementVectorSize; d++)
+  typedef typename TSample::MeasurementType  MeasurementType;
+
+  for (unsigned int d = 0; d < this->m_MeasurementVectorSize; d++)
     {
-    lowerBound[d] = -vcl_sqrt(NumericTraits< MeasurementType >::max())/2.0;
-    upperBound[d] = vcl_sqrt(NumericTraits< MeasurementType >::max())/2.0;
+    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() / 2.0;
+    upperBound[d] = NumericTraits< MeasurementType >::max() / 2.0;
     }
 
   m_NumberOfVisits = 0;
@@ -347,10 +349,12 @@ KdTree< TSample >
   MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize );
   MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize );
   
+  typedef typename TSample::MeasurementType  MeasurementType;
+
   for (unsigned int d = 0; d < this->m_MeasurementVectorSize; d++)
     {
-    lowerBound[d] = static_cast<MeasurementType>(-vcl_sqrt(NumericTraits< MeasurementType >::max())/2.0);
-    upperBound[d] = static_cast<MeasurementType>( vcl_sqrt(NumericTraits< MeasurementType >::max())/2.0);
+    lowerBound[d] = NumericTraits< MeasurementType >::NonpositiveMin() / 2.0;
+    upperBound[d] = NumericTraits< MeasurementType >::max() / 2.0;
     }
 
   m_NumberOfVisits = 0;
