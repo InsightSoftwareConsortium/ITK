@@ -39,19 +39,21 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 {
   namespace stat = itk::Statistics ;
  
-  if (argc < 2)
+  if (argc < 4)
     {
-      std::cout << "ERROR: data file name argument missing." 
-                << std::endl ;
-      return EXIT_FAILURE;
+    std::cerr << "Missing Arguments" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "inputFileName  bucketSize minStandardDeviation tolerancePercent" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  unsigned int i, j ;
+  unsigned int i;
+  unsigned int j;
   char* dataFileName = argv[1] ;
   int dataSize = 2000 ;
-  int bucketSize = 10 ;
+  int bucketSize = atoi( argv[3] ) ;
   typedef itk::FixedArray< double, 2 > MeanType ;
-  double minStandardDeviation =28.54746 ;
+  double minStandardDeviation = atof( argv[2] );
 
   itk::Array< double > trueMeans(4) ;
   trueMeans[0] = 99.261 ;
@@ -80,13 +82,13 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   std::ifstream dataStream(dataFileName) ;
   while (p_iter != pointsContainer->End())
     {
-      for ( i = 0 ; i < PointSetType::PointDimension ; i++)
-        {
-          dataStream >> temp ;
-          point[i] = temp ;
-        }
-      p_iter.Value() = point ;
-      ++p_iter ;
+    for ( i = 0 ; i < PointSetType::PointDimension ; i++)
+      {
+      dataStream >> temp ;
+      point[i] = temp ;
+      }
+    p_iter.Value() = point ;
+    ++p_iter ;
     }
 
   dataStream.close() ;
@@ -125,45 +127,50 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements ;
   for (i = 0 ; i < numberOfClasses ; i++)
     {
-      std::cout << "cluster[" << i << "] " << std::endl ;
-      double displacement = 0.0 ;
-      std::cout << "    true mean :" << std::endl ;
-      std::cout << "        " ;
-      index = numberOfMeasurements * i ;
-      for (j = 0 ; j < numberOfMeasurements ; j++)
-        {
-          std::cout << trueMeans[index] << " " ;
-          ++index ;
-        }
-      std::cout << std::endl ;
-      std::cout << "    estimated mean :" << std::endl ;
-      std::cout << "        "  ;
+    std::cout << "cluster[" << i << "] " << std::endl ;
+    double displacement = 0.0 ;
+    std::cout << "    true mean :" << std::endl ;
+    std::cout << "        " ;
+    index = numberOfMeasurements * i ;
+    for (j = 0 ; j < numberOfMeasurements ; j++)
+      {
+      std::cout << trueMeans[index] << " " ;
+      ++index ;
+      }
+    std::cout << std::endl ;
+    std::cout << "    estimated mean :" << std::endl ;
+    std::cout << "        "  ;
 
-      index = numberOfMeasurements * i ;
-      for (j = 0 ; j < numberOfMeasurements ; j++)
-        {
-          std::cout << estimatedMeans[index] << " " ;
-          temp = estimatedMeans[index] - trueMeans[index] ;
-          ++index ;
-          displacement += (temp * temp) ;
-        }
-      std::cout << std::endl ;
-      displacement = sqrt(displacement) ;
-      std::cout << "    Mean displacement: " << std::endl ;
-      std::cout << "        " << displacement 
-                << std::endl << std::endl ;
-      // if the displacement of the estimates are within 3 % of
-      // standardDeviation then we assume it is successful
-      if ( displacement > (minStandardDeviation / 100.0) * 3 )
-        {
-          passed = false ;
-        }
+    index = numberOfMeasurements * i ;
+    for (j = 0 ; j < numberOfMeasurements ; j++)
+      {
+      std::cout << estimatedMeans[index] << " " ;
+      temp = estimatedMeans[index] - trueMeans[index] ;
+      ++index ;
+      displacement += (temp * temp) ;
+      }
+    std::cout << std::endl ;
+    displacement = sqrt(displacement) ;
+    std::cout << "    Mean displacement: " << std::endl ;
+    std::cout << "        " << displacement 
+              << std::endl << std::endl ;
+
+    double tolearancePercent = atof( argv[3] );
+
+    // if the displacement of the estimates are within tolearancePercent% of
+    // standardDeviation then we assume it is successful
+    if( displacement > ( minStandardDeviation * tolearancePercent ) )
+      {
+      std::cerr << "displacement is larger than tolerance ";
+      std::cerr << minStandardDeviation * tolearancePercent << std::endl;
+      passed = false ;
+      }
     }
   
   if( !passed )
     {
-      std::cout << "Test failed." << std::endl;
-      return EXIT_FAILURE;
+    std::cout << "Test failed." << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "Test passed." << std::endl;

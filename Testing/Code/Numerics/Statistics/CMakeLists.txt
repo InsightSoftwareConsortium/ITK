@@ -32,7 +32,9 @@ ADD_TEST(itkImageToCooccurrenceListAdaptorTest ${STATISTICS_TESTS}
          itkImageToCooccurrenceListAdaptorTest ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd)
 ADD_TEST(itkImageToHistogramGeneratorTest ${STATISTICS_TESTS} itkImageToHistogramGeneratorTest)
 ADD_TEST(itkKdTreeBasedKmeansEstimatorTest ${STATISTICS_TESTS} 
-         itkKdTreeBasedKmeansEstimatorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
+         itkKdTreeBasedKmeansEstimatorTest 
+         ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat 
+         1 28.54746 0.07)
 ADD_TEST(itkKdTreeGeneratorTest ${STATISTICS_TESTS} 
          itkKdTreeGeneratorTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkKdTreeTest1 ${STATISTICS_TESTS} itkKdTreeTest1 100 100 1 ${TEMP}/itkKdTreeTest1_100.dot)
