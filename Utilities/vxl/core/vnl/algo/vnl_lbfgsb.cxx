@@ -73,6 +73,9 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
   // TODO: Deal with verbose_, check_derivatives_, trace, xtol,
   // maxfev, ftol, gtol, epsfcn members of vnl_nonlinear_minimizer.
 
+  // Track the best position found.
+  vnl_vector<double> x_best(x);
+
   bool ok = true;
   for(;;)
     {
@@ -102,7 +105,14 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
 
       if(this->num_evaluations_ == 0)
         {
+        x_best = x;
         this->start_error_ = f;
+        this->end_error_ = f;
+        }
+      else if(f < this->end_error_)
+        {
+        x_best = x;
+        this->end_error_ = f;
         }
       this->report_eval(f);
       }
@@ -129,7 +139,11 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
     else if(vcl_strncmp("CONVERGENCE", task, 11) == 0)
       {
       // convergence has been reached
-      this->end_error_ = f;
+      if(f < this->end_error_)
+        {
+        x_best = x;
+        this->end_error_ = f;
+        }
 
       if(vcl_strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
                      task, 47) == 0)
@@ -172,6 +186,9 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
       break;
       }
     }
+
+  // Store the best known position no matter the outcome.
+  x = x_best;
 
   return ok;
 }
