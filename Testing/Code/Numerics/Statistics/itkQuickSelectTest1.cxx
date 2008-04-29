@@ -23,6 +23,9 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <fstream>
 
+#include <algorithm>
+#include <vector>
+
 int itkQuickSelectTest1(int argc, char * argv [] )
 {
   std::cout << "Statistics Algorithm Test \n \n";
@@ -41,6 +44,9 @@ int itkQuickSelectTest1(int argc, char * argv [] )
 
   sample->SetMeasurementVectorSize( Dimension );
 
+  typedef std::vector< MeasurementType > VerificationVectorType;
+  VerificationVectorType verificationVector;
+
   if( argc > 1 )
     {
     //
@@ -57,7 +63,10 @@ int itkQuickSelectTest1(int argc, char * argv [] )
     while( !valuesFile.eof() )
       {
       sample->PushBack( vector );
-      valuesFile >> vector[testDimension];
+      MeasurementType value;
+      valuesFile >> value;
+      vector[testDimension] = value;
+      verificationVector.push_back( value );
       }
 
     valuesFile.close();
@@ -78,8 +87,10 @@ int itkQuickSelectTest1(int argc, char * argv [] )
 
     for(unsigned int i=0; i<numberOfValues; i++)
       {
-      vector[testDimension] = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
+      MeasurementType value = randomNumberGenerator->GetNormalVariate( 0.0, 1.0 );
+      vector[testDimension] = value;
       sample->PushBack( vector );
+      verificationVector.push_back( value );
       }
     }
 
@@ -97,7 +108,7 @@ int itkQuickSelectTest1(int argc, char * argv [] )
     {
     //
     // Test the Quick Select Algorithm by asking k-th elements in subsample2 and
-    // comparing them to the enetries in the sorted subsample1.
+    // comparing them to the entries in the sorted subsample1.
     //
     for( unsigned int kth = 0; kth < subsample1->Size(); kth++)
       {
@@ -105,17 +116,39 @@ int itkQuickSelectTest1(int argc, char * argv [] )
       subsample2->SetSample( sample );
       subsample2->InitializeWithAllInstances();
 
-      MeasurementType kthValue2 = itk::Statistics::QuickSelect< SubsampleType >(
+      MeasurementType kthValue1 = itk::Statistics::QuickSelect< SubsampleType >(
         subsample2, testDimension, 0, subsample2->Size(), kth );
 
-      MeasurementType kthValue1 =
+      MeasurementType kthValue2 =
         subsample1->GetMeasurementVectorByIndex( kth )[testDimension];
+
+      for(unsigned int i=0; i<sample->Size(); i++)
+        {
+        verificationVector[i] = sample->GetMeasurementVector(i)[testDimension];
+        }
+
+      nth_element( verificationVector.begin(), 
+                   verificationVector.begin() + kth,
+                   verificationVector.end() );
+
+      MeasurementType kthValue3 = verificationVector[kth];
 
       if( vnl_math_abs( kthValue1 - kthValue2 ) > vnl_math::eps )
         {
         std::cerr << "Comparison failed for component kth= " << kth << std::endl;
         pass = false;
         }
+
+      if( vnl_math_abs( kthValue1 - kthValue3 ) > vnl_math::eps )
+        {
+        std::cerr << "Comparison with std::nth_element failed for component kth= " << kth << std::endl;
+        for(unsigned int k=0; k<verificationVector.size(); k++)
+          {
+          std::cerr << "STL: " << verificationVector[k] << " : " << subsample2->GetMeasurementVectorByIndex(k)[testDimension] << std::endl;
+          }
+        pass = false;
+        }
+
       }
     }
   catch( itk::ExceptionObject & excp )
