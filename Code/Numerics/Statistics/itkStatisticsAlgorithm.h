@@ -93,6 +93,19 @@ QuickSelect(TSubsample* sample,
             int beginIndex, int endIndex,
             int kth) ;
 
+/** NthElement is an algorithm for finding the n-th largest element of a list.
+ * In this case, only of the components of the measurement vectors is
+ * considered. This component is defined by the argument activeDimension. The
+ * search is rectricted to the range between the index begin and end, also
+ * passed as arguments. This algorithm was based on the procedure used in the STL 
+ * nth_element method.*/
+template< class TSubsample >
+typename TSubsample::MeasurementType 
+NthElement(TSubsample* sample,
+            unsigned int activeDimension,
+            int beginIndex, int endIndex,
+            int nth);
+
 template< class TSubsample >
 void InsertSort(TSubsample* sample, 
                 unsigned int activeDimension,

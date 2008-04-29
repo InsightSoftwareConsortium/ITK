@@ -436,11 +436,98 @@ QuickSelect(TSubsample* sample,
             int endIndex,
             int kth)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType ;
-  MeasurementType medianGuess = NumericTraits< MeasurementType >::NonpositiveMin() ;
-  return QuickSelect< TSubsample >(sample, activeDimension, beginIndex, 
-                                   endIndex, kth, medianGuess) ;
+  return NthElement( sample, activeDimension, beginIndex, endIndex, kth );
 }
+
+
+template< class TSubsample >
+inline typename TSubsample::MeasurementType 
+NthElement(TSubsample* sample,
+            unsigned int activeDimension,
+            int beginIndex,
+            int endIndex,
+            int nth)
+{
+  typedef typename TSubsample::MeasurementType  MeasurementType;
+
+  const int nthIndex = beginIndex + nth;
+
+  int beginElement = beginIndex;
+  int endElement   = endIndex;
+
+  while( endElement - beginElement > 3)
+    {
+    const int begin = beginElement;
+    const int end   = endElement-1;
+    const int length = endElement - beginElement ;
+    const int middle = beginElement + length / 2;
+
+    const MeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
+    const MeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
+    const MeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
+
+    const MeasurementType tempMedian = MedianOfThree< MeasurementType >( v1, v2, v3 );
+
+    int cut = UnguardedPartition( sample, activeDimension, beginElement,  endElement, tempMedian );
+
+    if( cut <= nthIndex )
+      {
+      beginElement = cut;
+      }
+    else
+      {
+      endElement = cut;
+      }
+    }
+
+  InsertSort( sample, activeDimension, beginElement,  endElement );
+
+  return sample->GetMeasurementVectorByIndex(nthIndex)[activeDimension];
+}
+
+
+template< class TSubsample >
+inline int UnguardedPartition(TSubsample* sample, 
+                       unsigned int activeDimension,
+                       int beginIndex,
+                       int endIndex,
+                       typename TSubsample::MeasurementType pivotValue ) 
+{
+  typedef typename TSubsample::MeasurementType  MeasurementType;
+  while( true )
+    {
+    MeasurementType beginValue = 
+      sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension];
+
+    while( beginValue < pivotValue )
+      {
+      ++beginIndex;
+
+      beginValue = sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension];
+      }
+
+    --endIndex;
+
+    MeasurementType endValue = 
+      sample->GetMeasurementVectorByIndex(endIndex)[activeDimension];
+
+    while( pivotValue < endValue )
+      {
+      --endIndex;
+      endValue = sample->GetMeasurementVectorByIndex(endIndex)[activeDimension];
+      }
+
+    if( !(beginIndex < endIndex) )
+      {
+      return beginIndex;
+      }
+
+    sample->Swap( beginIndex, endIndex );
+
+    ++beginIndex;
+    }
+}
+
 
 template< class TSubsample >
 inline void InsertSort(TSubsample* sample, 
