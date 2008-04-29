@@ -12,6 +12,7 @@
 
 #include "vnl_lbfgsb.h"
 #include <vcl_cstring.h>
+#include <vcl_iostream.h>
 
 #include <vnl/algo/vnl_netlib.h> // setulb_()
 
@@ -62,7 +63,8 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
     "START                                                       ";
 
   // Verbosity level inside lbfgs implementation.
-  long const iprint = -1;
+  // (-1 no o/p, 0 start and end, 1 every iter)
+  long const iprint = trace ? 1 : -1;
 
   // Initialize iteration.
   this->num_evaluations_ = 0;
@@ -135,11 +137,19 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
         // function tolerance reached
         this->failure_code_ = CONVERGED_FTOL;
         }
-      if(vcl_strncmp("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
-                     task, 48) == 0)
+      else if(vcl_strncmp("CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+                          task, 48) == 0)
         {
         // gradient tolerance reached
         this->failure_code_ = CONVERGED_GTOL;
+        }
+      else
+        {
+        this->failure_code_ = ERROR_FAILURE;
+        if(trace)
+          {
+          vcl_cerr << "Unknown convergence type: " << task << std::endl;
+          }
         }
       break;
       }
@@ -147,6 +157,10 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
       {
       // unknown task
       this->failure_code_ = ERROR_FAILURE;
+      if(trace)
+        {
+        vcl_cerr << "Unknown failure with task: " << task << std::endl;
+        }
       ok = false;
       break;
       }
