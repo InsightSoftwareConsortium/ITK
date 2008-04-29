@@ -81,6 +81,10 @@ ADD_TEST(itkMersenneTwisterRandomVariateGeneratorTest.cxx ${STATISTICS_TESTS}
                     itkMersenneTwisterRandomVariateGeneratorTest) 
 ADD_TEST(itkNormalVariateGeneratorTest ${STATISTICS_TESTS} 
                     itkNormalVariateGeneratorTest)
+ADD_TEST(itkNthElementTest1a ${STATISTICS_TESTS} itkNthElementTest1)
+ADD_TEST(itkNthElementTest1b ${STATISTICS_TESTS} itkNthElementTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect1.txt)
+ADD_TEST(itkNthElementTest1c ${STATISTICS_TESTS} itkNthElementTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect2.txt)
+ADD_TEST(itkNthElementTest1d ${STATISTICS_TESTS} itkNthElementTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect3.txt)
 ADD_TEST(itkQuickSelectTest1a ${STATISTICS_TESTS} itkQuickSelectTest1)
 ADD_TEST(itkQuickSelectTest1b ${STATISTICS_TESTS} itkQuickSelectTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect1.txt)
 ADD_TEST(itkQuickSelectTest1c ${STATISTICS_TESTS} itkQuickSelectTest1 ${ITK_DATA_ROOT}/Input/pointsForQuickSelect2.txt)
@@ -143,6 +147,7 @@ itkMembershipSampleGeneratorTest.cxx
 itkMersenneTwisterRandomVariateGeneratorTest.cxx 
 itkNeighborhoodSamplerTest.cxx
 itkNormalVariateGeneratorTest.cxx
+itkNthElementTest1.cxx
 itkQuickSelectTest1.cxx
 itkSampleClassifierTest.cxx
 itkSampleClassifierWithMaskTest.cxx
