@@ -23,8 +23,8 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <fstream>
 
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 
 int itkNthElementTest1(int argc, char * argv [] )
 {
@@ -127,9 +127,9 @@ int itkNthElementTest1(int argc, char * argv [] )
         verificationVector[i] = sample->GetMeasurementVector(i)[testDimension];
         }
 
-      nth_element( verificationVector.begin(), 
-                   verificationVector.begin() + kth,
-                   verificationVector.end() );
+      std::nth_element( verificationVector.begin(), 
+                        verificationVector.begin() + kth,
+                        verificationVector.end() );
 
       MeasurementType kthValue3 = verificationVector[kth];
 
