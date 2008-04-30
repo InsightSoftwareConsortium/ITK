@@ -188,6 +188,11 @@ SingleValuedVnlCostFunctionAdaptor
       {
       output[i] = -input[i];
       }
+
+    if(m_ScalesInitialized)
+      {
+      output[i] /= m_Scales[i];
+      }
     }
 }
 
