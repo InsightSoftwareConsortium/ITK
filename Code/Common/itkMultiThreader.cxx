@@ -20,6 +20,8 @@
 
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
+#include "itksys/SystemTools.hxx"
+
 #ifndef _WIN32
 #include <unistd.h>
 #endif
@@ -78,7 +80,24 @@ void MultiThreader::SetGlobalDefaultNumberOfThreads(int val)
 
 int MultiThreader::GetGlobalDefaultNumberOfThreads()
 {
-  if (m_GlobalDefaultNumberOfThreads == 0)
+  // if default number has been set then don't try to update it; just
+  // return the value
+  if (m_GlobalDefaultNumberOfThreads != 0)
+    {
+    return m_GlobalDefaultNumberOfThreads;
+    }
+
+  // first, check for enviornment variable
+  itksys_stl::string itkGlobalDefaultNumberOfThreadsEnv = "0";
+  if (itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS",
+                                  itkGlobalDefaultNumberOfThreadsEnv))
+    {
+    m_GlobalDefaultNumberOfThreads = 
+      atoi(itkGlobalDefaultNumberOfThreadsEnv.c_str());
+    }
+
+  // otherwise, set number of threads based on system information
+  if (m_GlobalDefaultNumberOfThreads <= 0)
     {
     int num;
 #ifdef ITK_USE_SPROC
@@ -133,12 +152,13 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
       }
 #endif
 
-    // Limit the number of threads
-    if (num > ITK_MAX_THREADS)
-      {
-      num = ITK_MAX_THREADS;
-      }
     m_GlobalDefaultNumberOfThreads = num;
+    }
+
+  // limit the number of threads to ITK_MAX_THREADS
+  if (m_GlobalDefaultNumberOfThreads > ITK_MAX_THREADS)
+    {
+    m_GlobalDefaultNumberOfThreads = ITK_MAX_THREADS;
     }
   
   return m_GlobalDefaultNumberOfThreads;
