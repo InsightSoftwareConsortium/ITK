@@ -130,7 +130,7 @@ int itkPowellOptimizerTest(int, char* [] )
 
   itkOptimizer->SetMaximize(false);
   itkOptimizer->SetStepLength( 10 );
-  itkOptimizer->SetStepTolerance( 0.1 );
+  itkOptimizer->SetStepTolerance( 0.01 );
   itkOptimizer->SetValueTolerance( 0.1 );
   itkOptimizer->SetMaximumIteration( 100 );
 
