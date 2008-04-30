@@ -96,7 +96,6 @@ int itkKdTreeTest1(int argc , char * argv [] )
   //
   typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > DistanceMetricType;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
-  bool testFailed = false;
 
   for( unsigned int k = 0; k < sample->Size(); k++ )
     {
@@ -127,7 +126,6 @@ int itkKdTreeTest1(int argc , char * argv [] )
                   << "] : "  
                   << distance << std::endl;
         numberOfFailedPoints1++;
-        testFailed = true;
         }
       }
     }
