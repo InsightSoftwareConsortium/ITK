@@ -203,8 +203,6 @@ KdTree< TSample >
   MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize );
   MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize );
   
-  typedef typename TSample::MeasurementType  MeasurementType;
-
   for (unsigned int d = 0; d < this->m_MeasurementVectorSize; d++)
     {
     lowerBound[d] = static_cast< MeasurementType >( -vcl_sqrt( -NumericTraits< MeasurementType >::NonpositiveMin() ) / 2.0 );
@@ -349,8 +347,6 @@ KdTree< TSample >
   MeasurementVectorTraits::SetLength( lowerBound, m_MeasurementVectorSize );
   MeasurementVectorTraits::SetLength( upperBound, m_MeasurementVectorSize );
   
-  typedef typename TSample::MeasurementType  MeasurementType;
-
   for (unsigned int d = 0; d < this->m_MeasurementVectorSize; d++)
     {
     lowerBound[d] = static_cast< MeasurementType >( -vcl_sqrt( -NumericTraits< MeasurementType >::NonpositiveMin() ) / 2.0 );
