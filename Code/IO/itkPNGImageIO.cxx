@@ -25,6 +25,7 @@ namespace itk
 
 extern "C"
 {
+  #include <setjmp.h>
   /* The PNG library does not expect the error function to return.
      Therefore we must use this ugly longjmp call.  */
   void itkPNGWriteErrorFunction(png_structp png_ptr,
