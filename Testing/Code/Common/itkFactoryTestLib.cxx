@@ -123,8 +123,9 @@ private:
  *
  * itkLoad() is C (not C++) function.
  */
+static ImportImageContainerFactory::Pointer staticImportImageContainerFactory;
 itk::ObjectFactoryBase* itkLoad()
 {
-    static ImportImageContainerFactory::Pointer f = ImportImageContainerFactory::New();
-    return f;
+    staticImportImageContainerFactory = ImportImageContainerFactory::New();
+    return staticImportImageContainerFactory;
 }
