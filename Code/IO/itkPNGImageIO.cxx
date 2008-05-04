@@ -173,12 +173,15 @@ void PNGImageIO::Read(void* buffer)
     return;
     }
   
+//  VS 7.1 has problems with setjmp/longjmp in C++ code
+#if !defined(MSC_VER) || _MSC_VER != 1310
   if( setjmp( png_jmpbuf( png_ptr ) ) )
     {
     png_destroy_read_struct( &png_ptr, &info_ptr, &end_info );
     itkExceptionMacro("File is not png type " << this->GetFileName());
     return;
     }
+#endif
 
   png_init_io(png_ptr, fp);
   png_set_sig_bytes(png_ptr, 8);
@@ -482,6 +485,9 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     }
 
   png_init_io(png_ptr, fp);
+
+//  VS 7.1 has problems with setjmp/longjmp in C++ code
+#if !defined(_MSC_VER) || _MSC_VER != 1310
   png_set_error_fn(png_ptr, png_ptr,
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if (setjmp(png_ptr->jmpbuf))
@@ -494,6 +500,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
                       << itksys::SystemTools::GetLastSystemError());
     return;
     } 
+#endif
 
   int colorType;
   unsigned int numComp = this->GetNumberOfComponents();
