@@ -37,7 +37,7 @@ class ITKCommon_EXPORT MapRecord
 {
 public:
   typedef unsigned int  MemoryLoadType;
-
+  virtual ~MapRecord();
   /** Reset the record
   */
   void Reset(void);
@@ -79,30 +79,30 @@ class ITKCommon_EXPORT SmapsRecord : public MapRecord
 };
 
 /** This struct contains an entry in a smaps file. 
+ *  It is filled by operator>>(istream&,VMMapRecord&).
+*/
+class ITKCommon_EXPORT VMMapSummaryRecord : public MapRecord
+{
+  /** Input operator to fill a VMMapRecord 
+   *  recordName             [ numberK]
+   *  Example
+   *  MALLOC                  [  18536K]
+  */
+  friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, VMMapSummaryRecord &record);
+};
+
+/** This struct contains an entry in a smaps file. 
  *  It is filled by operator>>(istream&,SmapsRecord&).
 */
 class ITKCommon_EXPORT VMMapRecord : public MapRecord
 {
-
-    /** Input operator to fill a SmapsRecord 
-   *  The format has to be the following:
-   *  "address permissions offset device inode optional_name
-   *   Token1:      number kB
-   *   Token2:      number kB
-   *   ...
-   *   TokenN:      number kB"
-   *  Example:
-   *  00101000-0023b000 r-xp 00000000 fd:00 165671     /lib/libc-2.5.so
-   *  Size:              1256 kB
-   *  Rss:                640 kB
-   *  Shared_Clean:       640 kB
-   *  Shared_Dirty:         0 kB
-   *  Private_Clean:        0 kB
-   *  Private_Dirty:        0 kB
+  /** Input operator to fill a VMMapRecord 
+   *  recordName address [ numberK] permissions mode
+   *  Example
+   *  __DATA                         8fe51000 [   4K] rw-/rwx SM=COW /usr/lib/dyld
   */
   friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, VMMapRecord &record);
 };
-
 
 /** MAP DATA **/
 
@@ -110,21 +110,21 @@ class ITKCommon_EXPORT VMMapRecord : public MapRecord
 /** Base class for the ?map data container. 
  *  Inherited classes must implement their own 
 */
-template <class TMapRecord>
-class ITK_EXPORT MapData{
+class ITKCommon_EXPORT MapData{
 public:
   /** need an unsigned long type to be able to accumulate the SmapsRecord */
   typedef unsigned long             MemoryLoadType;
+  //todo delete records
   virtual ~MapData();
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage() = 0;
   /** Returns the stack usage in kB of the process */
-  virtual MemoryLoadType GetStackUsage() = 0;  
+  virtual MemoryLoadType GetStackUsage() = 0;
   /** Returns the total memory usage in kB of the process */
-  virtual MemoryLoadType GetTotalMemoryUsage() = 0;
+  virtual MemoryLoadType GetTotalMemoryUsage();
   /** Returns the memory usage in kB of a process segment */
-  virtual MemoryLoadType GetMemoryUsage( const char * filter, const char * token ) =0;
+  virtual MemoryLoadType GetMemoryUsage( const char * filter, const char * token );
 
   /** Returns true if the data has not been initialized yet */
   bool Empty();
@@ -132,8 +132,7 @@ protected:
   /** Clear the content of the container */
   void Reset(void);
 protected: 
-  typedef TMapRecord                    MapRecordType;
-  typedef typename std::vector< MapRecordType >  MapRecordVectorType;
+  typedef std::vector< MapRecord* >  MapRecordVectorType;
 
   /** contains all the segment records */
   MapRecordVectorType                   m_Records;
@@ -143,11 +142,10 @@ protected:
  *  \brief Read a smaps stream and return the memory usage information.
  *  Smaps files have been added since the linux kernel 2.6 
 */
-template <class TMapRecord>
-class ITK_EXPORT SmapsData_2_6:public MapData<TMapRecord>
+class ITKCommon_EXPORT SmapsData_2_6:public MapData
 {
 public:
-  typedef typename MapData<TMapRecord>::MemoryLoadType MemoryLoadType;
+  typedef MapData::MemoryLoadType MemoryLoadType;
   
   virtual ~SmapsData_2_6();
 
@@ -155,20 +153,13 @@ public:
   virtual MemoryLoadType GetHeapUsage();
   /** Returns the stack usage in kB of the process */
   virtual MemoryLoadType GetStackUsage();
-  /** Returns the total memory usage in kB of the process */
-  virtual MemoryLoadType GetTotalMemoryUsage();
-  /** Returns the memory usage in kB of a process segment. 
-   *  Typically, token == "Size" 
-  */
-  virtual MemoryLoadType GetMemoryUsage( const char * filter, const char * token );
 
   /** fill the smaps data */
-  template<class TSmapsRecordType> 
-  friend ITK_EXPORT std::istream& operator>>( std::istream &smapsStream,
-                                              SmapsData_2_6<TSmapsRecordType>&data);
+  friend ITKCommon_EXPORT std::istream&  operator>>( std::istream &smapsStream,
+                                              SmapsData_2_6 &data);
 
 protected:
-  bool                m_HeapRecordFound;  
+  bool                m_HeapRecordFound;
 };
 
 /**  
@@ -176,27 +167,23 @@ protected:
  *  On Tiger, /usr/bin/vmmap used to be installed by the Essentials.pkg, 
  *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg, 
 */
-template <class TMapRecord>
-class ITK_EXPORT VMMapData_10_2:public MapData<TMapRecord>
+class ITKCommon_EXPORT VMMapData_10_2:public MapData
 {
 public:
-  typedef typename MapData<TMapRecord>::MemoryLoadType MemoryLoadType;
-
+  typedef MapData::MemoryLoadType MemoryLoadType;
+  VMMapData_10_2();
   virtual ~VMMapData_10_2();
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage();
   /** Returns the stack usage in kB of the process */
   virtual MemoryLoadType GetStackUsage();  
-  /** Returns the total memory usage in kB of the process */
-  virtual MemoryLoadType GetTotalMemoryUsage();
-  /** Returns the memory usage in kB of a process segment */
-  virtual MemoryLoadType GetMemoryUsage( const char * filter, const char * token );
 
   /** fill the smaps data */
-  template<class TVMMapRecordType> 
-  friend ITK_EXPORT std::istream& operator>>( std::istream &stream,
-                                              VMMapData_10_2<TVMMapRecordType>&data);
+  friend ITKCommon_EXPORT std::istream& operator>>( std::istream &stream,
+                                              VMMapData_10_2 &data);
+protected: 
+  bool                m_UsingSummary;
 };
 
 

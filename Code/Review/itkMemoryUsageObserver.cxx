@@ -275,7 +275,7 @@ LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver()
 MemoryUsageObserverBase::MemoryLoadType 
 LinuxMemoryUsageObserver::GetMemoryUsage()
 {
-  SmapsFileParser<SmapsData_2_6<SmapsRecord> > m_ParseSmaps;
+  SmapsFileParser<SmapsData_2_6> m_ParseSmaps;
   m_ParseSmaps.ReadFile();
   return m_ParseSmaps.GetHeapUsage() + m_ParseSmaps.GetStackUsage();
 }
@@ -293,7 +293,7 @@ MacOSXMemoryUsageObserver::~MacOSXMemoryUsageObserver()
 MemoryUsageObserverBase::MemoryLoadType 
 MacOSXMemoryUsageObserver::GetMemoryUsage()
 {
-  VMMapFileParser<VMMapData_10_2<VMMapRecord> > m_ParseVMMmap;
+  VMMapFileParser<VMMapData_10_2> m_ParseVMMmap;
   m_ParseVMMmap.ReadFile();
   return m_ParseVMMmap.GetHeapUsage() + m_ParseVMMmap.GetStackUsage();
 }
