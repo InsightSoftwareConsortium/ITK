@@ -66,7 +66,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<CenteredAffineTransform<double,2> >::RegisterTransform ();
     TransformFactory<CenteredAffineTransform<double,3> >::RegisterTransform ();
     TransformFactory<CenteredEuler3DTransform<double> >::RegisterTransform ();
-    TransformFactory<CenteredRigid2DTransform < float > >::RegisterTransform();
+    TransformFactory<CenteredRigid2DTransform < double > >::RegisterTransform();
     TransformFactory<CenteredSimilarity2DTransform<double> >::RegisterTransform ();
     TransformFactory<Similarity2DTransform<double> >::RegisterTransform ();
     TransformFactory<Euler2DTransform<double> >::RegisterTransform ();
@@ -93,6 +93,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<CenteredAffineTransform<float,2> >::RegisterTransform ();
     TransformFactory<CenteredAffineTransform<float,3> >::RegisterTransform ();
     TransformFactory<CenteredEuler3DTransform<float> >::RegisterTransform ();
+    TransformFactory<CenteredRigid2DTransform < float > >::RegisterTransform();
     TransformFactory<CenteredSimilarity2DTransform<float> >::RegisterTransform ();
     TransformFactory<Similarity2DTransform<float> >::RegisterTransform ();
     TransformFactory<Euler2DTransform<float> >::RegisterTransform ();
