@@ -18,7 +18,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include <vector>
+#include <algorithm>
+
+#include "itkCommand.h"
 #include "itkExhaustiveOptimizer.h"
+
 #include <vnl/vnl_math.h>
 
 /** 
@@ -52,7 +57,6 @@ public:
   typedef Superclass::DerivativeType      DerivativeType;
   typedef Superclass::MeasureType         MeasureType ;
 
-
   RSGCostFunction() 
   {
   }
@@ -70,7 +74,8 @@ public:
 
     MeasureType measure = 0.5*(3*x*x+4*x*y+6*y*y) - 2*x + 8*y;
 
-    std::cout << measure << std::endl; 
+    std::cout << measure << std::endl;    
+
     return measure;
 
   }
@@ -97,15 +102,42 @@ public:
     {
     return SpaceDimension;
     }
-
-
-
-private:
-
-
 };
 
+class IndexObserver : public itk::Command
+{
+public:
+  typedef IndexObserver              Self;
+  typedef itk::Command               Superclass;
+  typedef itk::SmartPointer < Self > Pointer;
 
+  itkNewMacro ( IndexObserver );
+
+  virtual void  Execute ( const itk::Object *caller, const itk::EventObject &event)
+  {
+    typedef itk::ExhaustiveOptimizer OptimizerType;
+    const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
+
+    if ( 0 != optimizer )
+    {
+      OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex ();
+
+      if ( currentIndex.GetSize () == 2 )
+      {
+        std::cout << " @ index = " << currentIndex << std::endl;
+        long idx = currentIndex [ 0 ] + 21 * currentIndex [ 1 ];
+        m_visitedIndices.push_back ( idx );
+      }
+    } 
+  }
+
+  virtual void  Execute (itk::Object *caller, const itk::EventObject &event)
+  {
+    Execute ( static_cast < const itk::Object * > ( caller ), event );
+  }
+
+  std::vector < long > m_visitedIndices;
+};
 
 int itkExhaustiveOptimizerTest(int, char* [] ) 
 {
@@ -121,10 +153,12 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
 
+  // Index observer (enables us to check if all positions were indeed visisted):
+  IndexObserver::Pointer idxObserver = IndexObserver::New ();
+  itkOptimizer->AddObserver ( itk::IterationEvent (), idxObserver );
+
   // Declaration of the CostFunction 
   RSGCostFunction::Pointer costFunction = RSGCostFunction::New();
-
-
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   
@@ -174,9 +208,12 @@ int itkExhaustiveOptimizerTest(int, char* [] )
     }
 
 
+  bool minimumValuePass = vnl_math_abs ( itkOptimizer->GetMinimumMetricValue() - -10 ) < 1E-3;
+
   std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
   std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
 
+  bool maximumValuePass = vnl_math_abs ( itkOptimizer->GetMaximumMetricValue() - 926 ) < 1E-3;
   std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
   std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
 
@@ -185,21 +222,45 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
 
+  bool visitedIndicesPass = true;
+  std::vector < long > visitedIndices = idxObserver->m_visitedIndices;
+
+  int requiredNumberOfSteps = ( 2 * steps [ 0 ] + 1 ) * ( 2 * steps [ 1 ] + 1 );
+  if ( visitedIndices.size () != requiredNumberOfSteps )
+  {
+    visitedIndicesPass = false;
+  }
+
+  sort ( visitedIndices.begin (), visitedIndices.end () );
+  for ( int i = 0; i < visitedIndices.size (); ++i )
+  {
+    if ( visitedIndices [ i ] != i )
+    {
+      visitedIndicesPass = false;
+      std::cout << "Mismatch in visited index " << visitedIndices [ i ] << " @ " << i << std::endl;
+      break;
+    }    
+  }
+
   //
   // check results to see if it is within range
   //
-  bool pass = true;
+  bool trueParamsPass = true;
   double trueParameters[2] = { 2, -2 };
   for( unsigned int j = 0; j < 2; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       {
-      pass = false;
+      trueParamsPass = false;
       }
     }
 
-  if( !pass )
+  if( !minimumValuePass || !maximumValuePass || !trueParamsPass || !visitedIndicesPass )
     {
+    std::cout << "minimumValuePass   = " << minimumValuePass << std::endl;
+    std::cout << "maximumValuePass   = " << maximumValuePass << std::endl;
+    std::cout << "trueParamsPass     = " << trueParamsPass << std::endl;
+    std::cout << "visitedIndicesPass = " << visitedIndicesPass << std::endl;
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }
@@ -213,6 +274,3 @@ int itkExhaustiveOptimizerTest(int, char* [] )
 
 
 }
-
-
-

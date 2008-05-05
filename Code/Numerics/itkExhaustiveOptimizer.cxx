@@ -28,7 +28,6 @@ namespace itk
 ExhaustiveOptimizer
 ::ExhaustiveOptimizer()
 {
-
   itkDebugMacro("Constructor");
       
   m_StepLength = 1.0;
@@ -39,6 +38,7 @@ ExhaustiveOptimizer
   m_Stop = false;
   m_NumberOfSteps.Fill(0);
 }
+
 
 /**
  * Start walking
@@ -54,15 +54,16 @@ void
 ExhaustiveOptimizer
 ::StartWalking( void )
 {
-
   itkDebugMacro("StartWalking");
   this->InvokeEvent( StartEvent() );
 
-  m_MinimumMetricValuePosition = this->GetInitialPosition();
-  m_MaximumMetricValuePosition = this->GetInitialPosition();
+  ParametersType initialPos = this->GetInitialPosition();
+  m_MinimumMetricValuePosition = initialPos;
+  m_MaximumMetricValuePosition = initialPos;
 
-  m_MaximumMetricValue = this->GetValue( m_MaximumMetricValuePosition );
-  m_MinimumMetricValue = this->GetValue( m_MinimumMetricValuePosition );
+  MeasureType initialValue = this->GetValue( this->GetInitialPosition() );
+  m_MaximumMetricValue = initialValue;
+  m_MinimumMetricValue = initialValue;
   
   m_CurrentIteration          = 0;
   m_MaximumNumberOfIterations = 1;
@@ -76,13 +77,33 @@ ExhaustiveOptimizer
     
   m_CurrentIndex.SetSize(spaceDimension);
   m_CurrentIndex.Fill(0);
-  
-  this->SetCurrentPosition( this->GetInitialPosition() );
+ 
+  ScalesType  scales = this->GetScales();
+
+  // Make sure the scales have been set properly
+  if (scales.size() != spaceDimension)
+    {
+    itkExceptionMacro(<< "The size of Scales is "
+                      << scales.size()
+                      << ", but the NumberOfParameters is "
+                      << spaceDimension
+                      << ".");
+    }
+
+  // Setup first grid position.
+  ParametersType position( spaceDimension );
+  for(unsigned int i=0; i<spaceDimension; i++)
+    {
+    position[i] = this->GetInitialPosition()[i]
+      - m_NumberOfSteps[i] * m_StepLength * scales[i];
+    }
+  this->SetCurrentPosition( position );
   
   itkDebugMacro("Calling ResumeWalking");
   
   this->ResumeWalking();
 }
+
 
 /**
  * Resume the optimization
@@ -116,8 +137,6 @@ ExhaustiveOptimizer
       m_MinimumMetricValue = m_CurrentValue;
       m_MinimumMetricValuePosition = currentPosition;
       }
-     
-
     
     if( m_Stop )
       {
@@ -125,10 +144,9 @@ ExhaustiveOptimizer
       break;
       }
 
+    this->InvokeEvent( IterationEvent() );
     this->AdvanceOneStep();
-
     m_CurrentIteration++;
-
     }
 }
 
@@ -137,60 +155,36 @@ void
 ExhaustiveOptimizer
 ::StopWalking( void )
 {
-
   itkDebugMacro("StopWalking");
   
   m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }
 
+
 void
 ExhaustiveOptimizer
 ::AdvanceOneStep( void )
 { 
-
   itkDebugMacro("AdvanceOneStep");
 
-  const unsigned int  spaceDimension =
-    m_CostFunction->GetNumberOfParameters();
-
-  ScalesType     scales = this->GetScales();
-
-
-  // Make sure the scales have been set properly
-  if (scales.size() != spaceDimension)
-    {
-    itkExceptionMacro(<< "The size of Scales is "
-                      << scales.size()
-                      << ", but the NumberOfParameters is "
-                      << spaceDimension
-                      << ".");
-    }
-
+  const unsigned int  spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   ParametersType newPosition( spaceDimension );
-  ParametersType currentPosition = this->GetCurrentPosition();
-
   IncrementIndex( newPosition );
-
   
-  itkDebugMacro(<<"new position = " << newPosition );
-
+  itkDebugMacro(<< "new position = " << newPosition );
   
-  this->InvokeEvent( IterationEvent() );
   this->SetCurrentPosition( newPosition );
-
 }
+
 
 void
 ExhaustiveOptimizer
 ::IncrementIndex( ParametersType &newPosition ) 
 {
-
   unsigned int idx = 0;
-
-  const unsigned int  spaceDimension =
-    m_CostFunction->GetNumberOfParameters();
+  const unsigned int  spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   while( idx < spaceDimension )
     {
@@ -219,6 +213,7 @@ ExhaustiveOptimizer
                       this->GetInitialPosition()[i];
     }
 }
+
 
 void
 ExhaustiveOptimizer
