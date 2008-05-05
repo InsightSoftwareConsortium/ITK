@@ -24,6 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredSimilarity2DTransform.h"
+#include "itkSimilarity2DTransform.h"
 #include "itkEuler2DTransform.h"
 #include "itkEuler3DTransform.h"
 #include "itkFixedCenterOfRotationAffineTransform.h"
@@ -67,6 +68,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<CenteredEuler3DTransform<double> >::RegisterTransform ();
     TransformFactory<CenteredRigid2DTransform < float > >::RegisterTransform();
     TransformFactory<CenteredSimilarity2DTransform<double> >::RegisterTransform ();
+    TransformFactory<Similarity2DTransform<double> >::RegisterTransform ();
     TransformFactory<Euler2DTransform<double> >::RegisterTransform ();
     TransformFactory<Euler3DTransform<double> >::RegisterTransform ();
     TransformFactory<FixedCenterOfRotationAffineTransform<double> >::RegisterTransform ();
@@ -92,6 +94,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<CenteredAffineTransform<float,3> >::RegisterTransform ();
     TransformFactory<CenteredEuler3DTransform<float> >::RegisterTransform ();
     TransformFactory<CenteredSimilarity2DTransform<float> >::RegisterTransform ();
+    TransformFactory<Similarity2DTransform<float> >::RegisterTransform ();
     TransformFactory<Euler2DTransform<float> >::RegisterTransform ();
     TransformFactory<Euler3DTransform<float> >::RegisterTransform ();
     TransformFactory<FixedCenterOfRotationAffineTransform<float> >::RegisterTransform ();
