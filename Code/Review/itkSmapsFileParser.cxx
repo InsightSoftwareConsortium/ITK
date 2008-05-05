@@ -331,7 +331,7 @@ void DeleteMapRecord(MapRecord* const &record)
 
 void MapData::Reset()
 {
-  for_each(m_Records.begin(),m_Records.end(),DeleteMapRecord);
+  std::for_each(m_Records.begin(),m_Records.end(),DeleteMapRecord);
   m_Records.clear();
 }
 
