@@ -410,8 +410,8 @@ ENDIF(BUILD_EXAMPLES)
 #-----------------------------------------------------------------------------
 # ITK requires special compiler flags on some platforms.
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -w")
-  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50")
+  SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wall")
+  SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50 -Wall")
   IF(APPLE)
     # -no-cpp-precomp and -Wno-long-double were compiler flags present
     # only in Apple's gcc and not in the FSF gcc. The flags are obsolete
