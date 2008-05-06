@@ -199,6 +199,11 @@ int main( int argc, char *argv[] )
 
 
 
+  // Auxiliary identity transform.
+  typedef itk::IdentityTransform<double,SpaceDimension> IdentityTransformType;
+  IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+
+
   //
   //   Read the Fixed and Moving images.
   // 
@@ -625,12 +630,9 @@ int main( int argc, char *argv[] )
     typedef itk::BSplineResampleImageFunction<ParametersImageType,double> FunctionType;
     FunctionType::Pointer function = FunctionType::New();
 
-    typedef itk::IdentityTransform<double,SpaceDimension> IdentityTransformType;
-    IdentityTransformType::Pointer identity = IdentityTransformType::New();
-
     upsampler->SetInput( bsplineTransformCoarse->GetCoefficientImage()[k] );
     upsampler->SetInterpolator( function );
-    upsampler->SetTransform( identity );
+    upsampler->SetTransform( identityTransform );
     upsampler->SetSize( bsplineTransformFine->GetGridRegion().GetSize() );
     upsampler->SetOutputSpacing( bsplineTransformFine->GetGridSpacing() );
     upsampler->SetOutputOrigin( bsplineTransformFine->GetGridOrigin() );
@@ -711,7 +713,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  std::cout << "Deformable Registration Coarse Grid completed" << std::endl;
+  std::cout << "Deformable Registration Fine Grid completed" << std::endl;
   std::cout << std::endl;
 
 
@@ -764,6 +766,7 @@ int main( int argc, char *argv[] )
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
 
+  std::cout << "Writing resampled moving image...";
 
   try
     {
@@ -776,6 +779,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     } 
  
+  std::cout << " Done!" << std::endl;
 
 
   typedef itk::SquaredDifferenceImageFilter< 
@@ -796,6 +800,9 @@ int main( int argc, char *argv[] )
     difference->SetInput1( fixedImageReader->GetOutput() );
     difference->SetInput2( resample->GetOutput() );
     writer2->SetFileName( argv[4] );
+
+    std::cout << "Writing difference image after registration...";
+
     try
       {
       writer2->Update();
@@ -806,6 +813,8 @@ int main( int argc, char *argv[] )
       std::cerr << err << std::endl; 
       return EXIT_FAILURE;
       } 
+
+    std::cout << " Done!" << std::endl;
     }
 
 
@@ -815,7 +824,10 @@ int main( int argc, char *argv[] )
     {
     writer2->SetFileName( argv[5] );
     difference->SetInput1( fixedImageReader->GetOutput() );
-    difference->SetInput2( movingImageReader->GetOutput() );
+    resample->SetTransform( identityTransform );
+
+    std::cout << "Writing difference image before registration...";
+
     try
       {
       writer2->Update();
@@ -826,6 +838,8 @@ int main( int argc, char *argv[] )
       std::cerr << err << std::endl; 
       return EXIT_FAILURE;
       } 
+
+    std::cout << " Done!" << std::endl;
     }
 
 
@@ -872,6 +886,9 @@ int main( int argc, char *argv[] )
     fieldWriter->SetInput( field );
 
     fieldWriter->SetFileName( argv[6] );
+
+    std::cout << "Writing deformation field ...";
+
     try
       {
       fieldWriter->Update();
@@ -882,15 +899,19 @@ int main( int argc, char *argv[] )
       std::cerr << excp << std::endl;
       return EXIT_FAILURE;
       }
+
+    std::cout << " Done!" << std::endl;
     }
 
   // Optionally, save the transform parameters in a file
   if( argc > 9 )
     {
+    std::cout << "Writing transform parameter file ...";
     std::ofstream parametersFile;
     parametersFile.open( argv[9] );
     parametersFile << finalParameters << std::endl;
     parametersFile.close();
+    std::cout << " Done!" << std::endl;
     }
 
   return EXIT_SUCCESS;
