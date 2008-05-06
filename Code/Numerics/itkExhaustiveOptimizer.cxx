@@ -94,8 +94,7 @@ ExhaustiveOptimizer
   ParametersType position( spaceDimension );
   for(unsigned int i=0; i<spaceDimension; i++)
     {
-    position[i] = this->GetInitialPosition()[i]
-      - m_NumberOfSteps[i] * m_StepLength * scales[i];
+    position[i] = this->GetInitialPosition()[i] - m_NumberOfSteps[i] * m_StepLength * scales[i];
     }
   this->SetCurrentPosition( position );
   

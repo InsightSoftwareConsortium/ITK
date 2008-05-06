@@ -125,7 +125,8 @@ public:
       if ( currentIndex.GetSize () == 2 )
       {
         std::cout << " @ index = " << currentIndex << std::endl;
-        long idx = currentIndex [ 0 ] + 21 * currentIndex [ 1 ];
+        // Casting is safe here since the indices are always integer values (but there are stored in doubles):
+        unsigned long idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
         m_visitedIndices.push_back ( idx );
       }
     } 
@@ -136,7 +137,7 @@ public:
     Execute ( static_cast < const itk::Object * > ( caller ), event );
   }
 
-  std::vector < long > m_visitedIndices;
+  std::vector < unsigned long > m_visitedIndices;
 };
 
 int itkExhaustiveOptimizerTest(int, char* [] ) 
@@ -223,16 +224,16 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   std::cout << finalPosition[1] << ")" << std::endl;  
 
   bool visitedIndicesPass = true;
-  std::vector < long > visitedIndices = idxObserver->m_visitedIndices;
+  std::vector < unsigned long > visitedIndices = idxObserver->m_visitedIndices;
 
-  int requiredNumberOfSteps = ( 2 * steps [ 0 ] + 1 ) * ( 2 * steps [ 1 ] + 1 );
+  size_t requiredNumberOfSteps = ( 2 * steps [ 0 ] + 1 ) * ( 2 * steps [ 1 ] + 1 );
   if ( visitedIndices.size () != requiredNumberOfSteps )
   {
     visitedIndicesPass = false;
   }
 
   sort ( visitedIndices.begin (), visitedIndices.end () );
-  for ( int i = 0; i < visitedIndices.size (); ++i )
+  for ( size_t i = 0; i < visitedIndices.size (); ++i )
   {
     if ( visitedIndices [ i ] != i )
     {
