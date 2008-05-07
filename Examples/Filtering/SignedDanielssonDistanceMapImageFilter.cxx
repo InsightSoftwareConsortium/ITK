@@ -134,8 +134,16 @@ int main( int argc, char * argv[] )
   scaler->SetOutputMaximum( 65535L );
   scaler->SetOutputMinimum( 0L );
   
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject exp )
+    {
+    std::cerr << "Exception caught !" << std::endl;
+    std::cerr <<     exp    << std::endl;
+    }
 
-  writer->Update();
   
   const char * voronoiMapFileName = argv[3];
 
@@ -147,7 +155,17 @@ int main( int argc, char * argv[] )
   //
   scaler->SetInput( filter->GetVoronoiMap() );
   writer->SetFileName( voronoiMapFileName );
-  writer->Update();
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject exp )
+    {
+    std::cerr << "Exception caught !" << std::endl;
+    std::cerr <<     exp    << std::endl;
+    }
+
 
   //  The distance filter also produces an image of \doxygen{Offset} pixels
   //  representing the vectorial distance to the closest object in the scene.
