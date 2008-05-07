@@ -232,16 +232,17 @@ int itkExhaustiveOptimizerTest(int, char* [] )
     visitedIndicesPass = false;
   }
 
-  sort ( visitedIndices.begin (), visitedIndices.end () );
+  std::sort ( visitedIndices.begin (), visitedIndices.end () );
+
   for ( size_t i = 0; i < visitedIndices.size (); ++i )
-  {
-    if ( visitedIndices [ i ] != i )
     {
+    if ( visitedIndices [ i ] != i )
+      {
       visitedIndicesPass = false;
       std::cout << "Mismatch in visited index " << visitedIndices [ i ] << " @ " << i << std::endl;
       break;
-    }    
-  }
+      }    
+    }
 
   //
   // check results to see if it is within range
