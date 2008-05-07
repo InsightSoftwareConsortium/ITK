@@ -263,7 +263,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
   while( !outIt.IsAtEnd() )
     {
     // copy the input pixel to the output
-    outIt.Set( inIt.Get());
+    outIt.Set( static_cast<OutputImagePixelType>(inIt.Get()));
     ++outIt; 
     ++inIt; 
     progress.CompletedPixel();
