@@ -25,6 +25,162 @@
 
 namespace itk
 {
+template <> class NumericTraits<Vector<unsigned char, 1 > > {
+public:
+  typedef unsigned char ValueType;
+  typedef Vector<unsigned char, 1> PrintType;
+  typedef Vector<unsigned char, 1> AbsType;
+  typedef Vector<unsigned short, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<unsigned char, 1> ITKCommon_EXPORT Zero;
+  static const Vector<unsigned char, 1> ITKCommon_EXPORT One;
+  static Vector<unsigned char,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<signed char, 1> > {
+public:
+  typedef signed char ValueType;
+  typedef Vector<signed char, 1> PrintType;
+  typedef Vector<unsigned char, 1> AbsType;
+  typedef Vector<short, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<signed char, 1> ITKCommon_EXPORT Zero;
+  static const Vector<signed char, 1> ITKCommon_EXPORT One;
+  static Vector<signed char,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<char, 1> > {
+public:
+  typedef char ValueType;
+  typedef Vector<char, 1> PrintType;
+  typedef Vector<unsigned char, 1> AbsType;
+  typedef Vector<short, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<char, 1> ITKCommon_EXPORT Zero;
+  static const Vector<char, 1> ITKCommon_EXPORT One;
+  static Vector<char,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<short, 1> > {
+public:
+  typedef short ValueType;
+  typedef Vector<short, 1> PrintType;
+  typedef Vector<unsigned short, 1> AbsType;
+  typedef Vector<int, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<short, 1> ITKCommon_EXPORT Zero;
+  static const Vector<short, 1> ITKCommon_EXPORT One;
+  static Vector<short,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<unsigned short, 1> > {
+public:
+  typedef unsigned short ValueType;
+  typedef Vector<unsigned short, 1> PrintType;
+  typedef Vector<unsigned short, 1> AbsType;
+  typedef Vector<unsigned int, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<unsigned short, 1> ITKCommon_EXPORT Zero;
+  static const Vector<unsigned short, 1> ITKCommon_EXPORT One;
+  static Vector<unsigned short,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<int, 1> > {
+public:
+  typedef int ValueType;
+  typedef Vector<int, 1> PrintType;
+  typedef Vector<unsigned int, 1> AbsType;
+  typedef Vector<long, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<int, 1> ITKCommon_EXPORT Zero;
+  static const Vector<int, 1> ITKCommon_EXPORT One;
+  static Vector<int,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<unsigned int, 1> > {
+public:
+  typedef unsigned int ValueType;
+  typedef Vector<unsigned int, 1> PrintType;
+  typedef Vector<unsigned int, 1> AbsType;
+  typedef Vector<unsigned long, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<unsigned int, 1> ITKCommon_EXPORT Zero;
+  static const Vector<unsigned int, 1> ITKCommon_EXPORT One;
+  static Vector<unsigned int,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<long, 1> > {
+public:
+  typedef long ValueType;
+  typedef Vector<long, 1> PrintType;
+  typedef Vector<unsigned long, 1> AbsType;
+  typedef Vector<long, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<long, 1> ITKCommon_EXPORT Zero;
+  static const Vector<long, 1> ITKCommon_EXPORT One;
+  static Vector<long,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<unsigned long, 1> > {
+public:
+  typedef unsigned long ValueType;
+  typedef Vector<unsigned long, 1> PrintType;
+  typedef Vector<unsigned long, 1> AbsType;
+  typedef Vector<unsigned long, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<unsigned long, 1> ITKCommon_EXPORT Zero;
+  static const Vector<unsigned long, 1> ITKCommon_EXPORT One;
+  static Vector<unsigned long,1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<float, 1> > {
+public:
+  typedef float ValueType;
+  typedef Vector<float, 1> PrintType;
+  typedef Vector<float, 1> AbsType;
+  typedef Vector<double, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<float, 1> ITKCommon_EXPORT Zero;
+  static const Vector<float, 1> ITKCommon_EXPORT One;
+  static Vector<float, 1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<double, 1> > {
+public:
+  typedef double ValueType;
+  typedef Vector<double, 1> PrintType;
+  typedef Vector<double, 1> AbsType;
+  typedef Vector<long double, 1> AccumulateType;
+  typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<double, 1> ITKCommon_EXPORT Zero;
+  static const Vector<double, 1> ITKCommon_EXPORT One;
+  static Vector<double, 1>  ZeroValue() { return Zero; }
+};
+template <> class NumericTraits<Vector<long double, 1> > {
+public:
+  typedef long double ValueType;
+  typedef Vector<long double, 1> PrintType;
+  typedef Vector<long double, 1> AbsType;
+  typedef Vector<long double, 1> AccumulateType;
+  typedef Vector<long double, 1> RealType;
+  typedef long double ScalarRealType;
+  typedef Vector<float, 1> FloatType;
+  static const Vector<long double, 1> ITKCommon_EXPORT Zero;
+  static const Vector<long double, 1> ITKCommon_EXPORT One;
+  static Vector<long double, 1>  ZeroValue() { return Zero; }
+};
+
 template <> class NumericTraits<Vector<unsigned char, 2 > > {
 public:
   typedef unsigned char ValueType;
