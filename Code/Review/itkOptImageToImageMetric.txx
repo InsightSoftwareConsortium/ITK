@@ -735,6 +735,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   double& movingImageValue,
                   unsigned int threadID ) const
 {
+  sampleOk = true;
   TransformType * transform;
   
   if( threadID > 0 )
@@ -854,6 +855,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
                   unsigned int threadID ) const
 {
   TransformType * transform;
+  sampleOk = true;
   
   if( threadID > 0 )
     {
