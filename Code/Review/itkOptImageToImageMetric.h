@@ -161,7 +161,16 @@ public:
   typedef typename Superclass::ParametersType                 ParametersType;
 
   /** Connect the Fixed Image.  */
-  itkSetConstObjectMacro( FixedImage, FixedImageType );
+  void SetFixedImage( const FixedImageType * _arg)
+    {
+    itkDebugMacro("setting FixedImage to " << _arg );
+    if( this ->m_FixedImage != _arg )
+      {
+      this->m_FixedImage = _arg;
+      m_FixedImageRegion = m_FixedImage->GetLargestPossibleRegion();
+      this->Modified();
+      }
+    }
 
   /** Get the Fixed Image. */
   itkGetConstObjectMacro( FixedImage, FixedImageType );
