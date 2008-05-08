@@ -61,7 +61,7 @@ class TPixelType = ITK_TYPENAME TInputImage::PixelType
 class ITK_EXPORT VectorInterpolateImageFunction : 
   public ImageFunction<
     TInputImage, 
-    ITK_TYPENAME NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType,
+    ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType,
     TCoordRep > 
 {
 public:
@@ -76,7 +76,7 @@ public:
   /** Standard class typedefs. */
   typedef VectorInterpolateImageFunction Self;
   typedef ImageFunction<TInputImage,
-    ITK_TYPENAME NumericTraits<ITK_TYPENAME TInputImage::PixelType>::RealType,
+    ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType,
     TCoordRep > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
