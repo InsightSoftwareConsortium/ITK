@@ -18,7 +18,7 @@
 #ifndef __itkBrains2MaskImageIO_h
 #define __itkBrains2MaskImageIO_h
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #pragma warning(disable:4786)
 #endif
 

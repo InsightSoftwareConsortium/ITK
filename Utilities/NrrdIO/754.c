@@ -129,7 +129,7 @@ airFPPartsToVal_d(unsigned int sign,
 ** Disable the 'local variable used without having been initialized'
 ** warning produced by the MSVC compiler
 */
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4700)
 #endif
@@ -142,7 +142,7 @@ airFPValToParts_d(unsigned int *signP,
   d.v = v;
   FP_GET_D(*signP, *expoP, *mant0P, *mant1P, d);
 }
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
@@ -333,7 +333,7 @@ airFPClass_f(float val) {
 ** Disable the 'local variable used without having been initialized'
 ** warning produced by the MSVC compiler
 */ 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4700)
 #endif
@@ -419,7 +419,7 @@ airFPClass_d(double val) {
   }
   return ret;
 }
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
