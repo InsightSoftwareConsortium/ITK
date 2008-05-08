@@ -56,6 +56,10 @@ protected:
   /** Destructor */
   virtual ~Logger() {};
 
+private:
+  Logger(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };  // class Logger
 
 } // namespace itk

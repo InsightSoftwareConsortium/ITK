@@ -82,6 +82,8 @@ protected:
   virtual ~MultipleLogOutput();
 
 private:
+  MultipleLogOutput(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
   typedef std::set< OutputType::Pointer >   ContainerType;
 

@@ -87,6 +87,9 @@ protected:
   virtual ~MaximumRatioDecisionRule() {}
   
 private:
+  MaximumRatioDecisionRule(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   /** Number of classes */
   APrioriVectorSizeType m_NumberOfClasses ;
 
