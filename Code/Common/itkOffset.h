@@ -24,6 +24,11 @@
 
 #include "itkExceptionObject.h"
 
+#if defined(_MSC_VER)
+
+// local variable may be used without having been initialized
+#pragma warning ( disable : 4701 )
+#endif
 namespace itk
 {
 

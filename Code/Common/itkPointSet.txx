@@ -531,7 +531,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>
     itkExceptionMacro( << "Cannot break object into " <<
                        m_RequestedNumberOfRegions << ". The limit is " <<
                        m_MaximumNumberOfRegions );
-    retval = false;
     }
 
   if ( m_RequestedRegion >= m_RequestedNumberOfRegions ||
@@ -540,7 +539,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>
     itkExceptionMacro( << "Invalid update region " << m_RequestedRegion
                        << ". Must be between 0 and " 
                        << m_RequestedNumberOfRegions - 1);
-    retval = false;
     }
 
   return retval;

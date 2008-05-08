@@ -68,6 +68,13 @@
 #ifndef itk_emulation_hashtable_h
 #define itk_emulation_hashtable_h
 
+#if defined(_MSC_VER)
+// unreachable code
+#pragma warning ( disable : 4702 )
+// assignment operator could not be generated
+#pragma warning ( disable : 4512 )
+#endif
+
 #if (defined(__GNUC__) && (((__GNUC__==3) && (__GNUC_MINOR__>=1) || (__GNUC__>3) ) || ( (__GNUC__==4) && defined(__INTEL_COMPILER) ) )) || (defined(__IBMCPP__) && __IBMCPP__ >= 600)
 // Use this hashtable that is already define for GNU_C versions >= 3.1, IBMCPP >=600, or Intel compilers with GCCv4
 

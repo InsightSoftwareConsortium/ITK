@@ -293,7 +293,8 @@ int RegressionTestImage (const char *testImageFilename,
     diff->SetToleranceRadius( radiusTolerance );
     diff->UpdateLargestPossibleRegion();
 
-  double status = diff->GetNumberOfPixelsWithDifferences();
+    unsigned long status = 0;
+    status = diff->GetNumberOfPixelsWithDifferences();
 
   // if there are discrepencies, create an diff image
   if ( (status > numberOfPixelsTolerance) && reportErrors )
