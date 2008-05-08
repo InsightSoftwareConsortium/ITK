@@ -696,9 +696,10 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   ParameterIndexArrayType & indices,
   bool& inside ) const
 {
-
   unsigned int j;
   IndexType supportIndex;
+
+  inside = true;
 
   InputPointType transformedPoint;
   if ( m_BulkTransform )
@@ -773,7 +774,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
       }
 
     }
-    else
+  else
     {
 
     itkWarningMacro( << "B-spline coefficients have not been set" );
