@@ -25,8 +25,10 @@
 #ifndef _WIN32
 #include <unistd.h>
 #endif
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
+#endif
+#ifdef _WIN32
 #include "itkWindows.h"
 #include <process.h>
 #endif
@@ -258,7 +260,7 @@ void MultiThreader::SetMultipleMethod( int index, ThreadFunctionType f, void *da
 // Execute the method set as the SingleMethod on NumberOfThreads threads.
 void MultiThreader::SingleMethodExecute()
 {
-  int thread_loop;
+  int thread_loop = 0;
   ThreadProcessIDType process_id[ITK_MAX_THREADS];
   
   if ( !m_SingleMethod)
@@ -666,7 +668,6 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
   if ( id >= ITK_MAX_THREADS )
     {
     itkExceptionMacro( << "You have too many active threads!" );
-    return -1;
     }
   
   m_SpawnedThreadInfoArray[id].UserData        = UserData;
