@@ -96,7 +96,7 @@ TIFFReadDirectory(TIFF* tif)
   TIFFDirEntry* dir;
   uint16 iv;
   uint32 v;
-  double dv;
+  double dv = 0.0;
   const TIFFFieldInfo* fip;
   int fix;
   uint16 dircount;
