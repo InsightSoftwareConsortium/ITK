@@ -113,7 +113,7 @@ public:
 
   itkNewMacro ( IndexObserver );
 
-  virtual void  Execute ( const itk::Object *caller, const itk::EventObject &event)
+  virtual void  Execute ( const itk::Object *caller, const itk::EventObject &)
   {
     typedef itk::ExhaustiveOptimizer OptimizerType;
     const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
