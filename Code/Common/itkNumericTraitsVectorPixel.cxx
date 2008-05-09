@@ -19,6 +19,31 @@
 namespace itk
 {
 
+const Vector<unsigned char, 1>  NumericTraits<Vector<unsigned char, 1> >::Zero = Vector<unsigned char, 1>( NumericTraits<unsigned char>::Zero );
+const Vector<unsigned char, 1>  NumericTraits<Vector<unsigned char, 1> >::One = Vector<unsigned char, 1>( NumericTraits<unsigned char>::One );
+const Vector<signed char, 1>  NumericTraits<Vector<signed char, 1> >::Zero = Vector<signed char, 1>( NumericTraits<signed char>::Zero );
+const Vector<signed char, 1>  NumericTraits<Vector<signed char, 1> >::One = Vector<signed char, 1>( NumericTraits<signed char>::One );
+const Vector<char, 1>  NumericTraits<Vector<char, 1> >::Zero = Vector<char, 1>( NumericTraits<char>::Zero );
+const Vector<char, 1>  NumericTraits<Vector<char, 1> >::One = Vector<char, 1>( NumericTraits<char>::One );
+const Vector<short, 1>  NumericTraits<Vector<short, 1> >::Zero = Vector<short, 1>( NumericTraits<short>::Zero );
+const Vector<short, 1>  NumericTraits<Vector<short, 1> >::One = Vector<short, 1>( NumericTraits<short>::One );
+const Vector<unsigned short, 1>  NumericTraits<Vector<unsigned short, 1> >::Zero = Vector<unsigned short, 1>( NumericTraits<unsigned short>::Zero );
+const Vector<unsigned short, 1>  NumericTraits<Vector<unsigned short, 1> >::One = Vector<unsigned short, 1>( NumericTraits<unsigned short>::One );
+const Vector<int, 1>  NumericTraits<Vector<int, 1> >::Zero = Vector<int, 1>( NumericTraits<int>::Zero );
+const Vector<int, 1>  NumericTraits<Vector<int, 1> >::One = Vector<int, 1>( NumericTraits<int>::One );
+const Vector<unsigned int, 1>  NumericTraits<Vector<unsigned int, 1> >::Zero = Vector<unsigned int, 1>( NumericTraits<unsigned int>::Zero );
+const Vector<unsigned int, 1>  NumericTraits<Vector<unsigned int, 1> >::One = Vector<unsigned int, 1>( NumericTraits<unsigned int>::One );
+const Vector<long, 1>  NumericTraits<Vector<long, 1> >::Zero = Vector<long, 1>( NumericTraits<long>::Zero );
+const Vector<long, 1>  NumericTraits<Vector<long, 1> >::One = Vector<long, 1>( NumericTraits<long>::One );
+const Vector<unsigned long, 1>  NumericTraits<Vector<unsigned long, 1> >::Zero = Vector<unsigned long, 1>( NumericTraits<unsigned long>::Zero );
+const Vector<unsigned long, 1>  NumericTraits<Vector<unsigned long, 1> >::One = Vector<unsigned long, 1>( NumericTraits<unsigned long>::One );
+const Vector<float, 1>  NumericTraits<Vector<float, 1> >::Zero = Vector<float, 1>( NumericTraits<float >::Zero );
+const Vector<float, 1>  NumericTraits<Vector<float, 1> >::One = Vector<float, 1>( NumericTraits<float>::One );
+const Vector<double, 1>  NumericTraits<Vector<double, 1> >::Zero = Vector<double , 1>( NumericTraits<double>::Zero );
+const Vector<double, 1>  NumericTraits<Vector<double, 1> >::One = Vector<double, 1>( NumericTraits<double>::One );
+const Vector<long double, 1>  NumericTraits<Vector<long double, 1> >::Zero = Vector<long double, 1>( NumericTraits<long double>::Zero );
+const Vector<long double, 1>  NumericTraits<Vector<long double, 1> >::One = Vector<long double, 1>( NumericTraits<long double>::One );
+
 const Vector<unsigned char, 2>  NumericTraits<Vector<unsigned char, 2> >::Zero = Vector<unsigned char, 2>( NumericTraits<unsigned char>::Zero );
 const Vector<unsigned char, 2>  NumericTraits<Vector<unsigned char, 2> >::One = Vector<unsigned char, 2>( NumericTraits<unsigned char>::One );
 const Vector<signed char, 2>  NumericTraits<Vector<signed char, 2> >::Zero = Vector<signed char, 2>( NumericTraits<signed char>::Zero );
