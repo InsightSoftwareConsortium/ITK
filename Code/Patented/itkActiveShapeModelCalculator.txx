@@ -85,11 +85,11 @@ ActiveShapeModelCalculator<TImage>
 
   for (i = 0, j = 0; i < 3; ++i )
     {
-       if (i != projectionDirection)
-        {
-            direction[j] = i;
-            j++;
-        }
+    if (i != projectionDirection)
+      {
+      direction[j] = i;
+      j++;
+      }
     }
 
   index[ direction[0] ]    = requestedRegion.GetIndex()[ direction[0] ];
@@ -116,12 +116,12 @@ ActiveShapeModelCalculator<TImage>
 
   while ( ! outputIt.IsAtEnd() )
     {
-        while ( ! outputIt.IsAtEndOfLine() )
-        {
-            outputIt.Set( NumericTraits<unsigned char>::NonpositiveMin() );
-            ++outputIt;
-        }
-        outputIt.NextLine();
+    while ( ! outputIt.IsAtEndOfLine() )
+      {
+      outputIt.Set( NumericTraits<unsigned char>::NonpositiveMin() );
+      ++outputIt;
+      }
+    outputIt.NextLine();
     }
 
   inputIt.GoToBegin();
@@ -129,35 +129,35 @@ ActiveShapeModelCalculator<TImage>
 
   while( !inputIt.IsAtEnd() )
     {
-        while ( !inputIt.IsAtEndOfSlice() )
-         {
-            while ( !inputIt.IsAtEndOfLine() )
-             {
-                float valueOutput = outputIt.Get();
-                float valueInput = inputIt.Get();
-                float sum = valueOutput + valueInput;
-                outputIt.Set( static_cast<PixelType> (sum) );
-                ++inputIt;
-                ++outputIt;
-             }
-            outputIt.NextLine();
-            inputIt.NextLine();
-         }
-         outputIt.GoToBegin();
-         inputIt.NextSlice();
+    while ( !inputIt.IsAtEndOfSlice() )
+      {
+      while ( !inputIt.IsAtEndOfLine() )
+        {
+        float valueOutput = outputIt.Get();
+        float valueInput = inputIt.Get();
+        float sum = valueOutput + valueInput;
+        outputIt.Set( static_cast<PixelType> (sum) );
+        ++inputIt;
+        ++outputIt;
+        }
+      outputIt.NextLine();
+      inputIt.NextLine();
+      }
+    outputIt.GoToBegin();
+    inputIt.NextSlice();
     }
   outputIt.GoToBegin();
 
   while ( ! outputIt.IsAtEnd() )
     {
-      while ( ! outputIt.IsAtEndOfLine() )
-        {
-            float valueOutput = outputIt.Get();
-            float mean = valueOutput / static_cast<float> (slices);
-            outputIt.Set( static_cast<PixelType>(mean) );
-            ++outputIt;
-        }
-        outputIt.NextLine();
+    while ( ! outputIt.IsAtEndOfLine() )
+      {
+      float valueOutput = outputIt.Get();
+      float mean = valueOutput / static_cast<float> (slices);
+      outputIt.Set( static_cast<PixelType>(mean) );
+      ++outputIt;
+      }
+    outputIt.NextLine();
     }
   
   typename BinaryFilterType1::Pointer binaryFilter1 = BinaryFilterType1::New();
@@ -190,18 +190,18 @@ ActiveShapeModelCalculator<TImage>
 
   while( !ot.IsAtEnd() )
     {
-       if ( ot.Get() )
-        {
-            position = ot.GetIndex();
-            ot.Set ( value0 );
-            break;
-        }
-        ++ot;
+    if ( ot.Get() )
+      {
+      position = ot.GetIndex();
+      ot.Set ( value0 );
+      break;
+      }
+    ++ot;
     }
 
-   for (unsigned int identifier = 0; identifier<2; identifier++)
+  for (unsigned int identifier = 0; identifier<2; identifier++)
     {
-      p[identifier] = position[identifier];
+    p[identifier] = position[identifier];
     }
 
   int pointId = 0;
@@ -223,126 +223,142 @@ ActiveShapeModelCalculator<TImage>
   unsigned int count = 1;
 
   while(count)
-  { 
+    { 
     count = 0;
     if ( otNeighbor.GetPixel(offset1) )
-    {
+      {
       position = otNeighbor.GetIndex(offset1);
       otNeighbor.SetPixel ( offset1, value0 );
       for (unsigned int identifier = 0; identifier<2; identifier++)
+        {
         p[identifier] = position[identifier];
-    points->InsertElement( pointId, p );
-    pointData->InsertElement( pointId, value1 );
-    pointId++;
-    count = 1;
-    otNeighbor += offset1;
-    }
+        }
+      points->InsertElement( pointId, p );
+      pointData->InsertElement( pointId, value1 );
+      pointId++;
+      count = 1;
+      otNeighbor += offset1;
+      }
     else
-    {
-      if ( otNeighbor.GetPixel(offset2) )
       {
+      if ( otNeighbor.GetPixel(offset2) )
+        {
         position = otNeighbor.GetIndex(offset2);
         otNeighbor.SetPixel ( offset2, value0 );
         for (unsigned int identifier = 0; identifier<2; identifier++)
+          {
           p[identifier] = position[identifier];
+          }
         points->InsertElement( pointId, p );
         pointData->InsertElement( pointId, value1 );
         pointId++;
         count = 1;
         otNeighbor += offset2;
-      }
+        }
       else
-      {
+        {
         if ( otNeighbor.GetPixel(offset3) )
-      { 
-        position = otNeighbor.GetIndex(offset3);
-        otNeighbor.SetPixel ( offset3, value0 );
-        for (unsigned int identifier = 0; identifier<2; identifier++)
-           p[identifier] = position[identifier];
-        points->InsertElement( pointId, p );
-        pointData->InsertElement( pointId, value1 );
-        pointId++;
-        count = 1;
-        otNeighbor += offset3;
-      }
-      else
-      {
-       if ( otNeighbor.GetPixel(offset4) )
-        {
-        position = otNeighbor.GetIndex(offset4);
-        otNeighbor.SetPixel ( offset4, value0 );
-        for (unsigned int identifier = 0; identifier<2; identifier++)
-        p[identifier] = position[identifier];
-        points->InsertElement( pointId, p );
-        pointData->InsertElement( pointId, value1 );
-        pointId++;
-        count = 1;
-        otNeighbor += offset4;
-        }
-      else
-      {
-       if ( otNeighbor.GetPixel(offset5) )
-        {
-         position = otNeighbor.GetIndex(offset5);
-         otNeighbor.SetPixel ( offset5, value0 );
-         for (unsigned int identifier = 0; identifier<2; identifier++)
-           p[identifier] = position[identifier];
-         points->InsertElement( pointId, p );
-         pointData->InsertElement( pointId,value1 );
-         pointId++;
-         count = 1;
-         otNeighbor += offset5;
-        }
-        else
-        {
-         if ( otNeighbor.GetPixel(offset6) )
-         {
-          position = otNeighbor.GetIndex(offset6);
-          otNeighbor.SetPixel ( offset6,value0 );
+          { 
+          position = otNeighbor.GetIndex(offset3);
+          otNeighbor.SetPixel ( offset3, value0 );
           for (unsigned int identifier = 0; identifier<2; identifier++)
+            {
             p[identifier] = position[identifier];
+            }
           points->InsertElement( pointId, p );
           pointData->InsertElement( pointId, value1 );
           pointId++;
           count = 1;
-          otNeighbor += offset6;
-         }
-         else
-         {
-          if ( otNeighbor.GetPixel(offset7) )
-           {
-            position = otNeighbor.GetIndex(offset7);
-            otNeighbor.SetPixel ( offset7, value0 );
+          otNeighbor += offset3;
+          }
+        else
+          {
+          if ( otNeighbor.GetPixel(offset4) )
+            {
+            position = otNeighbor.GetIndex(offset4);
+            otNeighbor.SetPixel ( offset4, value0 );
             for (unsigned int identifier = 0; identifier<2; identifier++)
+              {
               p[identifier] = position[identifier];
+              }
             points->InsertElement( pointId, p );
             pointData->InsertElement( pointId, value1 );
             pointId++;
             count = 1;
-            otNeighbor += offset7;
-           }
+            otNeighbor += offset4;
+            }
           else
-           {
-            if ( otNeighbor.GetPixel(offset8) )
-             { 
-              position = otNeighbor.GetIndex(offset8);
-              otNeighbor.SetPixel ( offset8, value0 );
+            {
+            if ( otNeighbor.GetPixel(offset5) )
+              {
+              position = otNeighbor.GetIndex(offset5);
+              otNeighbor.SetPixel ( offset5, value0 );
               for (unsigned int identifier = 0; identifier<2; identifier++)
-              p[identifier] = position[identifier];
+                {
+                p[identifier] = position[identifier];
+                }
               points->InsertElement( pointId, p );
-              pointData->InsertElement( pointId, value1 );
+              pointData->InsertElement( pointId,value1 );
               pointId++;
               count = 1;
-              otNeighbor += offset8;
-             } 
-           } 
-          }  
-        }   
+              otNeighbor += offset5;
+              }
+            else
+              {
+              if ( otNeighbor.GetPixel(offset6) )
+                {
+                position = otNeighbor.GetIndex(offset6);
+                otNeighbor.SetPixel ( offset6,value0 );
+                for (unsigned int identifier = 0; identifier<2; identifier++)
+                  {
+                  p[identifier] = position[identifier];
+                  }
+                points->InsertElement( pointId, p );
+                pointData->InsertElement( pointId, value1 );
+                pointId++;
+                count = 1;
+                otNeighbor += offset6;
+                }
+              else
+                {
+                if ( otNeighbor.GetPixel(offset7) )
+                  {
+                  position = otNeighbor.GetIndex(offset7);
+                  otNeighbor.SetPixel ( offset7, value0 );
+                  for (unsigned int identifier = 0; identifier<2; identifier++)
+                    {
+                    p[identifier] = position[identifier];
+                    }
+                  points->InsertElement( pointId, p );
+                  pointData->InsertElement( pointId, value1 );
+                  pointId++;
+                  count = 1;
+                  otNeighbor += offset7;
+                  }
+                else
+                  {
+                  if ( otNeighbor.GetPixel(offset8) )
+                    { 
+                    position = otNeighbor.GetIndex(offset8);
+                    otNeighbor.SetPixel ( offset8, value0 );
+                    for (unsigned int identifier = 0; identifier<2; identifier++)
+                      {
+                      p[identifier] = position[identifier];
+                      }
+                    points->InsertElement( pointId, p );
+                    pointData->InsertElement( pointId, value1 );
+                    pointId++;
+                    count = 1;
+                    otNeighbor += offset8;
+                    } 
+                  } 
+                }  
+              }   
+            }
+          }
+        }
       }
-     }
-   }
-  }
- }
+    }
 
   pointSet->SetPoints( points );
   pointSet->SetPointData( pointData );
@@ -360,49 +376,55 @@ ActiveShapeModelCalculator<TImage>
 
   m_Queue.push_front(position);
   while (! m_Queue.empty())
-  {
-     current = m_Queue.front();
-     m_Queue.pop_front();
-     double m_distance = 0;
-     pointSet->GetPoint( current[ 0 ], & p1 );
-     pointSet->GetPoint( current[ 1 ], & p2 );
-     for (unsigned int identifier = 0; identifier<2; identifier++)
-       v1[ identifier ]= p2[ identifier ] - p1[ identifier ];
-     v1[ 2 ] = 0;
-     squareNorm1 = v1.GetSquaredNorm();
-     for( pointId = (current[ 0 ] + 1); pointId < (current[ 1 ] - 1); pointId++)
+    {
+    current = m_Queue.front();
+    m_Queue.pop_front();
+    double m_distance = 0;
+    pointSet->GetPoint( current[ 0 ], & p1 );
+    pointSet->GetPoint( current[ 1 ], & p2 );
+    for (unsigned int identifier = 0; identifier<2; identifier++)
       {
-       pointSet->GetPoint( pointId, & p2 );
-       for (unsigned int identifier = 0; identifier < 2; identifier++)
-          v2[ identifier ]= p2[ identifier ] - p1[ identifier ];
-       v2[ 2 ] = 0;
-       for (unsigned int identifier = 0; identifier < 2; identifier++)
-          v3 [identifier] = 0;
-       v3[ 2 ] = (v1[0] * v2[ 1 ]) - (v1[ 1 ] * v2[ 0 ]);
-       squareNorm2 = v3.GetSquaredNorm();
-       double m_temp = squareNorm2 / squareNorm1;
-       if ( m_temp > m_distance)
+      v1[ identifier ]= p2[ identifier ] - p1[ identifier ];
+      }
+    v1[ 2 ] = 0;
+    squareNorm1 = v1.GetSquaredNorm();
+    for( pointId = (current[ 0 ] + 1); pointId < (current[ 1 ] - 1); pointId++)
+      {
+      pointSet->GetPoint( pointId, & p2 );
+      for (unsigned int identifier = 0; identifier < 2; identifier++)
         {
-         m_distance = m_temp;
-         pointId2 = pointId;
+        v2[ identifier ]= p2[ identifier ] - p1[ identifier ];
+        }
+      v2[ 2 ] = 0;
+      for (unsigned int identifier = 0; identifier < 2; identifier++)
+        {
+        v3 [identifier] = 0;
+        }
+      v3[ 2 ] = (v1[0] * v2[ 1 ]) - (v1[ 1 ] * v2[ 0 ]);
+      squareNorm2 = v3.GetSquaredNorm();
+      double m_temp = squareNorm2 / squareNorm1;
+      if ( m_temp > m_distance)
+        {
+        m_distance = m_temp;
+        pointId2 = pointId;
         }
       }
-     if (m_distance > m_Tolerance)
+    if (m_distance > m_Tolerance)
       {
-        position[ 0 ] = current[ 0 ];
-        position[ 1 ] = pointId2;
-        m_Queue.push_front( position );
-        position[ 0 ] = pointId2;
-        position[ 1 ] = current[ 1 ];
-        m_Queue.push_front( position );
+      position[ 0 ] = current[ 0 ];
+      position[ 1 ] = pointId2;
+      m_Queue.push_front( position );
+      position[ 0 ] = pointId2;
+      position[ 1 ] = current[ 1 ];
+      m_Queue.push_front( position );
       }
-      else
+    else
       {
-        position[ 0 ] = static_cast<unsigned long int> (p1[ 0 ]);
-        position[ 1 ] = static_cast<unsigned long int> (p1[ 1 ]);
-        m_Queue2.push_back( position );
+      position[ 0 ] = static_cast<unsigned long int> (p1[ 0 ]);
+      position[ 1 ] = static_cast<unsigned long int> (p1[ 1 ]);
+      m_Queue2.push_back( position );
       } 
-  }
+    }
 
   unsigned int numberOfLandmarks = static_cast<unsigned int> (m_Queue2.size());
   typename SampleType::Pointer sampleLandmarks = SampleType::New();
@@ -410,13 +432,13 @@ ActiveShapeModelCalculator<TImage>
 
   
   while (! m_Queue2.empty())
-  {
-      current = m_Queue2.front();
-      m_Queue2.pop_front();
-      mv [ 0 ] = current [ 0 ];
-      mv [ 1 ] = current [ 1 ];
-      sampleLandmarks->PushBack( mv );
-  }
+    {
+    current = m_Queue2.front();
+    m_Queue2.pop_front();
+    mv [ 0 ] = current [ 0 ];
+    mv [ 1 ] = current [ 1 ];
+    sampleLandmarks->PushBack( mv );
+    }
 
   
   VectorType v;
@@ -447,147 +469,161 @@ ActiveShapeModelCalculator<TImage>
   unsigned int ax, ay;
 
   for (i = 0; i < slices; i++)
-  {
-      for ( j = 0 ; j < numberOfLandmarks ; j++ )
+    {
+    for ( j = 0 ; j < numberOfLandmarks ; j++ )
       {
-          mv = sampleLandmarks->GetMeasurementVector(j);
-          position3D [ 0 ] = mv [ 0 ];
-          position3D [ 1 ] = mv [ 1 ];
-          position3D [ 2 ] = i;
-          constIterator.SetIndex(position3D);
-          if (constIterator.Get())
-           {
-              v.push_back (mv [ 0 ]);
-              v.push_back (mv [ 1 ]);
-           }
-          else
-           {
-            for (unsigned int identifier = 0; identifier<2; identifier++)
-              {
-                  posRight[ identifier ] = mv [ identifier ];
-                  posLeft[ identifier ] = mv [ identifier ];
-               }
-             if (j == 0)
-              {
-                dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
-                sampleLandmarks->GetMeasurementVector(0);
-                dxyRef2 = sampleLandmarks->GetMeasurementVector(numberOfLandmarks - 1) -
-                sampleLandmarks->GetMeasurementVector(0);
-              }
-             if (j == numberOfLandmarks - 1)
-             {
-                dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
-                sampleLandmarks->GetMeasurementVector(j);
-                dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
-                sampleLandmarks->GetMeasurementVector(j);
-             }
-            if ((j < numberOfLandmarks - 1) && (j > 1))
-             {
-               dxyRef1 = sampleLandmarks->GetMeasurementVector(j + 1) -
-               sampleLandmarks->GetMeasurementVector(j);
-               dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
-               sampleLandmarks->GetMeasurementVector(j);
-             }
+      mv = sampleLandmarks->GetMeasurementVector(j);
+      position3D [ 0 ] = mv [ 0 ];
+      position3D [ 1 ] = mv [ 1 ];
+      position3D [ 2 ] = i;
+      constIterator.SetIndex(position3D);
+      if (constIterator.Get())
+        {
+        v.push_back (mv [ 0 ]);
+        v.push_back (mv [ 1 ]);
+        }
+      else
+        {
+        for (unsigned int identifier = 0; identifier<2; identifier++)
+          {
+          posRight[ identifier ] = mv [ identifier ];
+          posLeft[ identifier ] = mv [ identifier ];
+          }
+        if (j == 0)
+          {
+          dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
+            sampleLandmarks->GetMeasurementVector(0);
+          dxyRef2 = sampleLandmarks->GetMeasurementVector(numberOfLandmarks - 1) -
+            sampleLandmarks->GetMeasurementVector(0);
+          }
+        if (j == numberOfLandmarks - 1)
+          {
+          dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
+            sampleLandmarks->GetMeasurementVector(j);
+          dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
+            sampleLandmarks->GetMeasurementVector(j);
+          }
+        if ((j < numberOfLandmarks - 1) && (j > 1))
+          {
+          dxyRef1 = sampleLandmarks->GetMeasurementVector(j + 1) -
+            sampleLandmarks->GetMeasurementVector(j);
+          dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
+            sampleLandmarks->GetMeasurementVector(j);
+          }
 
-             /**
+        /**
               * Normal slope ****************
               */
-              dx = dxyRef2[ 1 ] - dxyRef1[ 1 ];
-              dy = dxyRef1[ 0 ] - dxyRef2[ 0 ];
+        dx = dxyRef2[ 1 ] - dxyRef1[ 1 ];
+        dy = dxyRef1[ 0 ] - dxyRef2[ 0 ];
 
-              ax = vcl_abs(dx) * 2;
-              ay = vcl_abs(dy) * 2;
-              if (dx < 0) sx = -1; else sx = 1;
-              if (dy < 0) sy = -1; else sy = 1;
-              count = 1;
-              if (ax > ay)
-               {
-                d = ay - ax/2;
-                while (count)
-                  {
-                  if (d >= 0)
-                   {
-                     posRight[ 1 ] = posRight[ 1 ] + sy;
-                     posLeft[ 1 ]  = posLeft[ 1 ] - sy;
-                     d = d - ax;
-                    }
-                   posRight[ 0 ] = posRight[ 0 ] + sx;
-                   posLeft[ 0 ]  = posLeft[ 0 ] - sx;
-                   d = d + ay;
-                   position3D [ 0 ] = posRight [ 0 ];
-                   position3D [ 1 ] = posRight[ 1 ];
-                   position3D [ 2 ] = i;
-                   constIterator.SetIndex(position3D);
-                   if (constIterator.Get())
-                     {
-                          count = 0;
-                          v.push_back (posRight[ 0 ]);
-                          v.push_back (posRight[ 1 ]);
-                      }
-                   else
-                     {
-                  position3D [ 0 ] = posLeft [ 0 ];
-                  position3D [ 1 ] = posLeft[ 1 ];
-                  position3D [ 2 ] = i;
-                  constIterator.SetIndex(position3D);
-                  if (constIterator.Get())
-                     {
-                         count = 0;
-                         v.push_back (posLeft[ 0 ]);
-                         v.push_back (posLeft[ 1 ]);
-                     }
-                  }
+        ax = vcl_abs(dx) * 2;
+        ay = vcl_abs(dy) * 2;
+        if (dx < 0)
+          {
+          sx = -1;
+          }
+        else
+          {
+          sx = 1;
+          }
+        if (dy < 0)
+          {
+          sy = -1;
+          }
+        else
+          {
+          sy = 1;
+          }
+        count = 1;
+        if (ax > ay)
+          {
+          d = ay - ax/2;
+          while (count)
+            {
+            if (d >= 0)
+              {
+              posRight[ 1 ] = posRight[ 1 ] + sy;
+              posLeft[ 1 ]  = posLeft[ 1 ] - sy;
+              d = d - ax;
+              }
+            posRight[ 0 ] = posRight[ 0 ] + sx;
+            posLeft[ 0 ]  = posLeft[ 0 ] - sx;
+            d = d + ay;
+            position3D [ 0 ] = posRight [ 0 ];
+            position3D [ 1 ] = posRight[ 1 ];
+            position3D [ 2 ] = i;
+            constIterator.SetIndex(position3D);
+            if (constIterator.Get())
+              {
+              count = 0;
+              v.push_back (posRight[ 0 ]);
+              v.push_back (posRight[ 1 ]);
+              }
+            else
+              {
+              position3D [ 0 ] = posLeft [ 0 ];
+              position3D [ 1 ] = posLeft[ 1 ];
+              position3D [ 2 ] = i;
+              constIterator.SetIndex(position3D);
+              if (constIterator.Get())
+                {
+                count = 0;
+                v.push_back (posLeft[ 0 ]);
+                v.push_back (posLeft[ 1 ]);
                 }
               }
-              else
-             {
-              d = ax - ay/2;
-              while (count)
-                {
-                  if (d >= 0)
-                    {
-                          posRight[ 0 ] = posRight[ 0 ] + sx;
-                          posLeft[ 0 ]  = posLeft[ 0 ] - sx;
-                          d = d - ay;
-                     }
-                     posRight[ 1 ] = posRight[ 1 ] + sy;
-                     posLeft[ 1 ]  = posLeft[ 1 ] - sy;
-                     d = d + ax;
-                     position3D [ 0 ] = posRight [ 0 ];
-                     position3D [ 1 ] = posRight[ 1 ];
-                     position3D [ 2 ] = i;
-                     constIterator.SetIndex(position3D);
-                     if (constIterator.Get())
-                       {
-                         count = 0;
-                         v.push_back (posRight[ 0 ]);
-                         v.push_back (posRight[ 1 ]);
-                        }
-                     else
-                        {
-                          position3D [ 0 ] = posLeft [ 0 ];
-                          position3D [ 1 ] = posLeft[ 1 ];
-                          position3D [ 2 ] = i;
-                          constIterator.SetIndex(position3D);
-                          if (constIterator.Get())
-                            {
-                               count = 0;
-                               v.push_back (posLeft[ 0 ]);
-                               v.push_back (posLeft[ 1 ]);
-                             }
-                     }
-                 }
-             }
+            }
           }
-     }
-     unsigned int row = 0;
-     for (p6 = v.begin(); p6 != v.end(); p6++)
+        else
+          {
+          d = ax - ay/2;
+          while (count)
+            {
+            if (d >= 0)
+              {
+              posRight[ 0 ] = posRight[ 0 ] + sx;
+              posLeft[ 0 ]  = posLeft[ 0 ] - sx;
+              d = d - ay;
+              }
+            posRight[ 1 ] = posRight[ 1 ] + sy;
+            posLeft[ 1 ]  = posLeft[ 1 ] - sy;
+            d = d + ax;
+            position3D [ 0 ] = posRight [ 0 ];
+            position3D [ 1 ] = posRight[ 1 ];
+            position3D [ 2 ] = i;
+            constIterator.SetIndex(position3D);
+            if (constIterator.Get())
+              {
+              count = 0;
+              v.push_back (posRight[ 0 ]);
+              v.push_back (posRight[ 1 ]);
+              }
+            else
+              {
+              position3D [ 0 ] = posLeft [ 0 ];
+              position3D [ 1 ] = posLeft[ 1 ];
+              position3D [ 2 ] = i;
+              constIterator.SetIndex(position3D);
+              if (constIterator.Get())
+                {
+                count = 0;
+                v.push_back (posLeft[ 0 ]);
+                v.push_back (posLeft[ 1 ]);
+                }
+              }
+            }
+          }
+        }
+      }
+    unsigned int row = 0;
+    for (p6 = v.begin(); p6 != v.end(); p6++)
       {
-        coordLandmarks[row][i] = (*p6);
-        row++;
-       }
-      v.erase(v.begin(), v.end());
-  }
+      coordLandmarks[row][i] = (*p6);
+      row++;
+      }
+    v.erase(v.begin(), v.end());
+    }
 
   for( i = 0; i < slices; i++)
     {
@@ -600,20 +636,22 @@ ActiveShapeModelCalculator<TImage>
 
    
   for(i = 0; i < 2*numberOfLandmarks; i++)
-  {
+    {
     for(j = 0; j < 2*numberOfLandmarks; j++)
-     {
-       for(unsigned int k = 0; k < slices; k++) 
-         covarianceMatrix[i][j] += (coordLandmarks[i][k] - m_Means[i]) * (coordLandmarks[j][k] - m_Means[j]);
-     }
-  }
+      {
+      for(unsigned int k = 0; k < slices; k++) 
+        {
+        covarianceMatrix[i][j] += (coordLandmarks[i][k] - m_Means[i]) * (coordLandmarks[j][k] - m_Means[j]);
+        }
+      }
+    }
   if( ( slices - 1 ) != 0 )
     {
-      covarianceMatrix /= ( slices - 1 );
+    covarianceMatrix /= ( slices - 1 );
     }
   else
     {
-      covarianceMatrix.fill(0);
+    covarianceMatrix.fill(0);
     }  
 
   vnl_generalized_eigensystem eigenVectors_eigenValues(covarianceMatrix, identityMatrix);
@@ -625,10 +663,10 @@ ActiveShapeModelCalculator<TImage>
   count = 0;
   double temp = 0;
   while (temp < maxVariance)
-  {
+    {
     temp += eigenValuesFull[count];
     count++;
-  }
+    }
   m_EigenVectors.set_size(eigenVectorsFull.rows(),count);
   m_EigenVectors = eigenVectorsFull.extract (eigenVectorsFull.rows(),count, 0, 0);
   m_EigenValues.set_size(count);
@@ -649,7 +687,10 @@ typename ActiveShapeModelCalculator<TImage>::VectorOfDoubleType
 ActiveShapeModelCalculator<TImage>::
 GetMeanShape()
 {
-  if (!m_Valid)        throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+  if (!m_Valid)
+    {
+    throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+    }
   return m_Means;
 }
 
@@ -661,7 +702,10 @@ typename ActiveShapeModelCalculator<TImage>::VectorOfDoubleType
 ActiveShapeModelCalculator<TImage>::
 GetEigenvalues()
 {
-  if (!m_Valid)        throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+  if (!m_Valid)
+    {
+    throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+    }
   return m_EigenValues;
 }
 
@@ -673,7 +717,10 @@ typename ActiveShapeModelCalculator<TImage>::MatrixOfDoubleType
 ActiveShapeModelCalculator<TImage>::
 GetEigenvector()
 {
-  if (!m_Valid)        throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+  if (!m_Valid)
+    {
+    throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+    }
   return m_EigenVectors;
 }
 

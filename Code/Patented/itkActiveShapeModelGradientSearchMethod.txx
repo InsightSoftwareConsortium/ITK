@@ -29,18 +29,18 @@ namespace itk
 template<class TImage>
 ActiveShapeModelGradientSearchMethod<TImage>
 ::ActiveShapeModelGradientSearchMethod( ):m_LenghtOfProfile(3)
-  {
-    m_NumberOfIteration = 1;     // default value
-    m_EigenVectors.set_size(0,0);
-    m_EigenValues.set_size(0);
-    m_MeanShape.set_size(0);
-    m_NewShape.set_size( 0);
-    m_DiffVector.set_size( 0 );
-    m_Db.set_size( 0 );
-    m_Blimit.set_size( 0 );
-    m_Valid = false;
-    m_Image = NULL;
-  }
+{
+  m_NumberOfIteration = 1;     // default value
+  m_EigenVectors.set_size(0,0);
+  m_EigenValues.set_size(0);
+  m_MeanShape.set_size(0);
+  m_NewShape.set_size( 0);
+  m_DiffVector.set_size( 0 );
+  m_Db.set_size( 0 );
+  m_Blimit.set_size( 0 );
+  m_Valid = false;
+  m_Image = NULL;
+}
 
 
 /**
@@ -83,11 +83,11 @@ ActiveShapeModelGradientSearchMethod<TImage>
   
   for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
     {
-      mv [ 0 ] = (unsigned int) (m_NewShape [ 2*j ] + 0.5);
-      mv [ 1 ] = (unsigned int) (m_NewShape [ 2*j+1 ] + 0.5);
-      sampleLandmarks->PushBack( mv );
-      centerShape [ 0 ] += mv [ 0 ];
-      centerShape [ 1 ] += mv [ 1 ];
+    mv [ 0 ] = (unsigned int) (m_NewShape [ 2*j ] + 0.5);
+    mv [ 1 ] = (unsigned int) (m_NewShape [ 2*j+1 ] + 0.5);
+    sampleLandmarks->PushBack( mv );
+    centerShape [ 0 ] += mv [ 0 ];
+    centerShape [ 1 ] += mv [ 1 ];
     }
   centerShape [ 0 ] = centerShape [ 0 ] / numberOfLandmarks;
   centerShape [ 1 ] = centerShape [ 1 ] / numberOfLandmarks;
@@ -114,149 +114,163 @@ ActiveShapeModelGradientSearchMethod<TImage>
 
 
   for ( unsigned int i = 0 ; i < m_NumberOfIteration ; i++ )
-  {
+    {
     for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
-     {
-          mv = sampleLandmarks->GetMeasurementVector(j);
-          position2D [ 0 ] = mv [ 0 ];
-          position2D [ 1 ] = mv [ 1 ];
-          constIterator.SetIndex(position2D);
-          maximumGrad = constIterator.Get();
-          newPosition2D = position2D;
+      {
+      mv = sampleLandmarks->GetMeasurementVector(j);
+      position2D [ 0 ] = mv [ 0 ];
+      position2D [ 1 ] = mv [ 1 ];
+      constIterator.SetIndex(position2D);
+      maximumGrad = constIterator.Get();
+      newPosition2D = position2D;
 
-          for (unsigned int identifier = 0; identifier<2; identifier++)
-           {
-               posRight[ identifier ] = position2D [ identifier ];
-               posLeft[ identifier ] = position2D [ identifier ];
-           }
-         if (j == 0)
-           {
-              dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
-              sampleLandmarks->GetMeasurementVector(0);
-              dxyRef2 = sampleLandmarks->GetMeasurementVector(numberOfLandmarks - 1) -
-              sampleLandmarks->GetMeasurementVector(0);
-            }
-         if (j == numberOfLandmarks - 1)
-           {
-             dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
-             sampleLandmarks->GetMeasurementVector(j);
-             dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
-             sampleLandmarks->GetMeasurementVector(j);
-           }
-         if ((j < numberOfLandmarks - 1) && (j > 1))
-           {
-             dxyRef1 = sampleLandmarks->GetMeasurementVector(j + 1) -
-             sampleLandmarks->GetMeasurementVector(j);
-             dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
-             sampleLandmarks->GetMeasurementVector(j);
-            }
+      for (unsigned int identifier = 0; identifier<2; identifier++)
+        {
+        posRight[ identifier ] = position2D [ identifier ];
+        posLeft[ identifier ] = position2D [ identifier ];
+        }
+      if (j == 0)
+        {
+        dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
+          sampleLandmarks->GetMeasurementVector(0);
+        dxyRef2 = sampleLandmarks->GetMeasurementVector(numberOfLandmarks - 1) -
+          sampleLandmarks->GetMeasurementVector(0);
+        }
+      if (j == numberOfLandmarks - 1)
+        {
+        dxyRef1 = sampleLandmarks->GetMeasurementVector(1) -
+          sampleLandmarks->GetMeasurementVector(j);
+        dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
+          sampleLandmarks->GetMeasurementVector(j);
+        }
+      if ((j < numberOfLandmarks - 1) && (j > 1))
+        {
+        dxyRef1 = sampleLandmarks->GetMeasurementVector(j + 1) -
+          sampleLandmarks->GetMeasurementVector(j);
+        dxyRef2 = sampleLandmarks->GetMeasurementVector(j-1) -
+          sampleLandmarks->GetMeasurementVector(j);
+        }
 
-         dx = dxyRef2[ 1 ] - dxyRef1[ 1 ];
-         dy = dxyRef1[ 0 ] - dxyRef2[ 0 ];
+      dx = dxyRef2[ 1 ] - dxyRef1[ 1 ];
+      dy = dxyRef1[ 0 ] - dxyRef2[ 0 ];
 
-         ax = vcl_abs(dx) * 2;
-         ay = vcl_abs(dy) * 2;
-         if (dx < 0) sx = -1; else sx = 1;
-         if (dy < 0) sy = -1; else sy = 1;
-           unsigned int count = 0;
-         if (ax > ay)
-           {
-             d = ay - ax/2;
-             while (count < m_LenghtOfProfile)
-               {
-                  if (d >= 0)
-                    {
-                      posRight[ 1 ] = posRight[ 1 ] + sy;
-                      posLeft[ 1 ]  = posLeft[ 1 ] - sy;
-                      d = d - ax;
-                    }
-                    posRight[ 0 ] = posRight[ 0 ] + sx;
-                    posLeft[ 0 ]  = posLeft[ 0 ] - sx;
-                    d = d + ay;
-                    position2D[ 0 ] = posRight[ 0 ];
-                    position2D[ 1 ] = posRight[ 1 ];
-                    constIterator.SetIndex(position2D);
-                    if (maximumGrad < constIterator.Get())
-                      {
-                        maximumGrad = constIterator.Get();
-                        newPosition2D = position2D;
-                      }
-                    position2D[ 0 ]  = posLeft[ 0 ];
-                    position2D[ 1 ]  = posLeft[ 1 ];
-                    constIterator.SetIndex(position2D);
-                    if (maximumGrad < constIterator.Get())
-                      {
-                        maximumGrad = constIterator.Get();
-                        newPosition2D = position2D;
-                      }
-                    count++;
-               }
-             v.push_back (newPosition2D[ 0 ]);
-             v.push_back (newPosition2D[ 1 ]);
-             }
-             else
-             {
-               d = ax - ay/2;
-               while (count < m_LenghtOfProfile)
-                {
-                  if (d >= 0)
-                   {
-                     posRight[ 0 ] = posRight[ 0 ] + sx;
-                     posLeft[ 0 ]  = posLeft[ 0 ] - sx;
-                     d = d - ay;
-                   }
-                  posRight[ 1 ] = posRight[ 1 ] + sy;
-                  posLeft[ 1 ]  = posLeft[ 1 ] - sy;
-                  d = d + ax;
-                  position2D[ 0 ] = posRight[ 0 ];
-                  position2D[ 1 ] = posRight[ 1 ];
-                  constIterator.SetIndex(position2D);
-                  if (maximumGrad < constIterator.Get())
-                    {
-                      maximumGrad = constIterator.Get();
-                      newPosition2D = position2D;
-                    }
-                 position2D[ 0 ]  = posLeft[ 0 ];
-                 position2D[ 1 ]  = posLeft[ 1 ];
-                 constIterator.SetIndex(position2D);
-                 if (maximumGrad < constIterator.Get())
-                   {
-                      maximumGrad = constIterator.Get();
-                      newPosition2D = position2D;
-                   }
-                 count++;
-                }
-                v.push_back (newPosition2D[ 0 ]);
-                v.push_back (newPosition2D[ 1 ]);
-             }
-           }
-     
-         unsigned int row = 0;
-         for (p6 = v.begin(); p6 != v.end(); p6++)
+      ax = vcl_abs(dx) * 2;
+      ay = vcl_abs(dy) * 2;
+      if (dx < 0)
+        {
+        sx = -1;
+        }
+      else
+        {
+        sx = 1;
+        }
+      if (dy < 0)
+        {
+        sy = -1;
+        }
+      else
+        {
+        sy = 1;
+        }
+      unsigned int count = 0;
+      if (ax > ay)
+        {
+        d = ay - ax/2;
+        while (count < m_LenghtOfProfile)
           {
-            m_NewShape[row] = (*p6);
-            row++;
+          if (d >= 0)
+            {
+            posRight[ 1 ] = posRight[ 1 ] + sy;
+            posLeft[ 1 ]  = posLeft[ 1 ] - sy;
+            d = d - ax;
+            }
+          posRight[ 0 ] = posRight[ 0 ] + sx;
+          posLeft[ 0 ]  = posLeft[ 0 ] - sx;
+          d = d + ay;
+          position2D[ 0 ] = posRight[ 0 ];
+          position2D[ 1 ] = posRight[ 1 ];
+          constIterator.SetIndex(position2D);
+          if (maximumGrad < constIterator.Get())
+            {
+            maximumGrad = constIterator.Get();
+            newPosition2D = position2D;
+            }
+          position2D[ 0 ]  = posLeft[ 0 ];
+          position2D[ 1 ]  = posLeft[ 1 ];
+          constIterator.SetIndex(position2D);
+          if (maximumGrad < constIterator.Get())
+            {
+            maximumGrad = constIterator.Get();
+            newPosition2D = position2D;
+            }
+          count++;
           }
-         v.erase(v.begin(), v.end());
-         sampleLandmarks->Clear();
+        v.push_back (newPosition2D[ 0 ]);
+        v.push_back (newPosition2D[ 1 ]);
+        }
+      else
+        {
+        d = ax - ay/2;
+        while (count < m_LenghtOfProfile)
+          {
+          if (d >= 0)
+            {
+            posRight[ 0 ] = posRight[ 0 ] + sx;
+            posLeft[ 0 ]  = posLeft[ 0 ] - sx;
+            d = d - ay;
+            }
+          posRight[ 1 ] = posRight[ 1 ] + sy;
+          posLeft[ 1 ]  = posLeft[ 1 ] - sy;
+          d = d + ax;
+          position2D[ 0 ] = posRight[ 0 ];
+          position2D[ 1 ] = posRight[ 1 ];
+          constIterator.SetIndex(position2D);
+          if (maximumGrad < constIterator.Get())
+            {
+            maximumGrad = constIterator.Get();
+            newPosition2D = position2D;
+            }
+          position2D[ 0 ]  = posLeft[ 0 ];
+          position2D[ 1 ]  = posLeft[ 1 ];
+          constIterator.SetIndex(position2D);
+          if (maximumGrad < constIterator.Get())
+            {
+            maximumGrad = constIterator.Get();
+            newPosition2D = position2D;
+            }
+          count++;
+          }
+        v.push_back (newPosition2D[ 0 ]);
+        v.push_back (newPosition2D[ 1 ]);
+        }
+      }
+     
+    unsigned int row = 0;
+    for (p6 = v.begin(); p6 != v.end(); p6++)
+      {
+      m_NewShape[row] = (*p6);
+      row++;
+      }
+    v.erase(v.begin(), v.end());
+    sampleLandmarks->Clear();
 
-         m_DiffVector = m_NewShape - m_MeanShape;
+    m_DiffVector = m_NewShape - m_MeanShape;
 
 
-         m_Db = m_EigenVectors.transpose() * m_DiffVector;
+    m_Db = m_EigenVectors.transpose() * m_DiffVector;
 
-         for(unsigned int j = 0; j < numberOfEigenValues; j++)
-           {
-           m_Blimit[j] = 2 * vcl_sqrt(m_EigenValues[j]);
-           }
+    for(unsigned int j = 0; j < numberOfEigenValues; j++)
+      {
+      m_Blimit[j] = 2 * vcl_sqrt(m_EigenValues[j]);
+      }
 
-         for(unsigned int j = 0; j < numberOfEigenValues; j++)
-           {
-           if(fabs(m_Db[j]) >  m_Blimit[j])
-             {
-             m_Db[j] = ( m_Db[j] / vcl_fabs(m_Db[j]) ) * m_Blimit[j];
-             }
-           }
+    for(unsigned int j = 0; j < numberOfEigenValues; j++)
+      {
+      if(fabs(m_Db[j]) >  m_Blimit[j])
+        {
+        m_Db[j] = ( m_Db[j] / vcl_fabs(m_Db[j]) ) * m_Blimit[j];
+        }
+      }
 
     m_NewShape = m_MeanShape + m_EigenVectors * m_Db;
 
@@ -265,30 +279,30 @@ ActiveShapeModelGradientSearchMethod<TImage>
     newCenterShape [ 1 ] = 0.0;
   
     for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
-     {
-        mv [ 0 ] = (unsigned int) (m_NewShape [ 2*j ] + 0.5);
-        mv [ 1 ] = (unsigned int) (m_NewShape [ 2*j+1 ] + 0.5);
-        sampleLandmarks->PushBack( mv );
-        newCenterShape [ 0 ] += mv [ 0 ];
-        newCenterShape [ 1 ] += mv [ 1 ];
-     }
-     newCenterShape [ 0 ] =  newCenterShape [ 0 ] / numberOfLandmarks;
-     newCenterShape [ 1 ] =  newCenterShape [ 1 ] / numberOfLandmarks;
+      {
+      mv [ 0 ] = (unsigned int) (m_NewShape [ 2*j ] + 0.5);
+      mv [ 1 ] = (unsigned int) (m_NewShape [ 2*j+1 ] + 0.5);
+      sampleLandmarks->PushBack( mv );
+      newCenterShape [ 0 ] += mv [ 0 ];
+      newCenterShape [ 1 ] += mv [ 1 ];
+      }
+    newCenterShape [ 0 ] =  newCenterShape [ 0 ] / numberOfLandmarks;
+    newCenterShape [ 1 ] =  newCenterShape [ 1 ] / numberOfLandmarks;
 
-     deltaX = newCenterShape[ 0 ] - centerShape[ 0 ];
-     deltaY = newCenterShape[ 1 ] - centerShape[ 1 ];
+    deltaX = newCenterShape[ 0 ] - centerShape[ 0 ];
+    deltaY = newCenterShape[ 1 ] - centerShape[ 1 ];
 
-     for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
-       {
-         m_MeanShape [ 2*j ]   = m_MeanShape [ 2*j ] + deltaX;
-         m_MeanShape [ 2*j+1 ] = m_MeanShape [ 2*j+1 ] + deltaY;
-         centerShape [ 0 ] += m_MeanShape [ 2*j ];
-         centerShape [ 1 ] += m_MeanShape [ 2*j+1 ];
-       }
-     centerShape [ 0 ] = centerShape [ 0 ] / numberOfLandmarks;
-     centerShape [ 1 ] = centerShape [ 1 ] / numberOfLandmarks;
+    for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
+      {
+      m_MeanShape [ 2*j ]   = m_MeanShape [ 2*j ] + deltaX;
+      m_MeanShape [ 2*j+1 ] = m_MeanShape [ 2*j+1 ] + deltaY;
+      centerShape [ 0 ] += m_MeanShape [ 2*j ];
+      centerShape [ 1 ] += m_MeanShape [ 2*j+1 ];
+      }
+    centerShape [ 0 ] = centerShape [ 0 ] / numberOfLandmarks;
+    centerShape [ 1 ] = centerShape [ 1 ] / numberOfLandmarks;
 
-  }
+    }
 
   /* *
      * Remember that the moments are valid
@@ -305,7 +319,10 @@ typename ActiveShapeModelGradientSearchMethod<TImage>::VectorOfDoubleType
 ActiveShapeModelGradientSearchMethod<TImage>::
 GetNewShape()
 {
-  if (!m_Valid)        throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+  if (!m_Valid)
+    {
+    throw InvalidActiveShapeModeError(__FILE__, __LINE__);
+    }
   return m_NewShape;
 }
 
@@ -345,8 +362,6 @@ PrintSelf(std::ostream& os, Indent indent) const
   itkDebugMacro(<< " ");
   itkDebugMacro(<< "+++++++++++++++++++++++++");
 }// end PrintSelf
-
-
 
 } // end namespace itk
 
