@@ -5,6 +5,7 @@ WRAP_INCLUDE("itkNumericTraitsRGBPixel.h")
 WRAP_INCLUDE("itkNumericTraitsTensorPixel.h")
 WRAP_INCLUDE("itkNumericTraitsVariableLengthVectorPixel.h")
 WRAP_INCLUDE("itkNumericTraitsVectorPixel.h")
+WRAP_INCLUDE("itkNumericTraitsFixedArrayPixel.h")
 
 
 WRAP_CLASS(vcl_numeric_limits FORCE_INSTANTIATE)
