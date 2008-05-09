@@ -138,7 +138,7 @@ public:
    * \sa SetParametersByValue
    */
   virtual void SetParameters( const ParametersType & ) 
-    { itkExceptionMacro( << "Subclasses should override this method" ) };
+    { itkExceptionMacro( << "Subclasses should override this method" ) }
 
   /** Set the transformation parameters and update internal transformation. 
    * This method forces the transform to copy the parameters.  The
@@ -148,19 +148,24 @@ public:
    * \sa SetParameters
    */
   virtual void SetParametersByValue ( const ParametersType & p ) 
-    { this->SetParameters ( p ); };
+    { this->SetParameters ( p ); }
 
   /** Get the Transformation Parameters. */
   virtual const ParametersType& GetParameters(void) const
-    { itkExceptionMacro( << "Subclasses should override this method" );};
+    { 
+    itkExceptionMacro( << "Subclasses should override this method" );
+    // Next line is needed to avoid errors due to: 
+    // "function must return a value".
+    return this->m_Parameters; 
+    }
 
   /** Set the fixed parameters and update internal transformation. */
   virtual void SetFixedParameters( const ParametersType & ) 
-    { itkExceptionMacro( << "Subclasses should override this method" ) };
+    { itkExceptionMacro( << "Subclasses should override this method" ) }
 
   /** Get the Fixed Parameters. */
   virtual const ParametersType& GetFixedParameters(void) const
-    { itkExceptionMacro( << "Subclasses should override this method" );};
+    { itkExceptionMacro( << "Subclasses should override this method" ) }
 
   /** Compute the Jacobian of the transformation
    *
@@ -190,12 +195,12 @@ public:
    * \f]
    * **/
   virtual const JacobianType & GetJacobian(const InputPointType  &) const
-    { itkExceptionMacro( << "Subclass should override this method" );}; 
+    { itkExceptionMacro( << "Subclass should override this method" );} 
 
 
   /** Return the number of parameters that completely define the Transfom  */
   virtual unsigned int GetNumberOfParameters(void) const 
-                      { return m_Parameters.Size(); }
+                      { return this->m_Parameters.Size(); }
 
   /** Returns a boolean indicating whether it is possible or not to compute the
    * inverse of this current Transform. If it is possible, then the inverse of
@@ -226,7 +231,7 @@ public:
 protected:
   Transform(); 
   Transform(unsigned int Dimension, unsigned int NumberOfParameters);
-  virtual ~Transform() {};
+  virtual ~Transform() {}
 
 
   mutable ParametersType     m_Parameters;
