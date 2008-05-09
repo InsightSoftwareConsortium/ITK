@@ -163,11 +163,14 @@ public:
   /** Connect the Fixed Image.  */
   void SetFixedImage( const FixedImageType * _arg)
     {
-    itkDebugMacro("setting FixedImage to " << _arg );
+    itkDebugMacro("Setting FixedImage to " << _arg );
     if( this ->m_FixedImage != _arg )
       {
       this->m_FixedImage = _arg;
-      m_FixedImageRegion = m_FixedImage->GetLargestPossibleRegion();
+      if (m_FixedImage)
+        {
+        m_FixedImageRegion = m_FixedImage->GetLargestPossibleRegion();
+        }
       this->Modified();
       }
     }
