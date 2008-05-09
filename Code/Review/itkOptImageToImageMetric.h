@@ -167,7 +167,7 @@ public:
     if( this ->m_FixedImage != _arg )
       {
       this->m_FixedImage = _arg;
-      if (m_FixedImage)
+      if( m_FixedImage.IsNotNull() )
         {
         m_FixedImageRegion = m_FixedImage->GetLargestPossibleRegion();
         }
