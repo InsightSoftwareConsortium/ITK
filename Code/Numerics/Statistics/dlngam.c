@@ -34,7 +34,7 @@ doublereal dlngam_(doublereal *x)
     // static logical first = TRUE_;
 
     /* System generated locals */
-    doublereal ret_val, d__1, d__2;
+    doublereal ret_val = 0.0, d__1, d__2;
 
     /* Builtin functions */
     double log(doublereal), sqrt(doublereal), sin(doublereal), d_int(

@@ -45,7 +45,7 @@ doublereal d9gmit_(doublereal *a, doublereal *x, doublereal *algap1,
     integer ma;
     doublereal fk, te;
     /* static */ doublereal bot, eps;
-    doublereal alg2, algs, aeps, sgng2;
+    doublereal alg2, algs = 0.0, aeps, sgng2;
     extern doublereal d1mach_(integer *), dlngam_(doublereal *);
     extern /* Subroutine */ int xermsg_(char *, char *, char *, integer *, 
             integer *, ftnlen, ftnlen, ftnlen);
