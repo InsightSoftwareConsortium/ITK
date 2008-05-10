@@ -322,8 +322,9 @@ void vnl_vector_test_float()
   }
 
   {
-    float vvalues [] = {1,0,0,0};
-    vnl_vector<float> v (4,4,vvalues);
+    double vvalues [] = {1,0,0,0};
+    vnl_vector<double> vd (4);
+    vnl_vector<double> v (4,4,vvalues);
     v[0] = 1;
     v[1] = 0;
     v[2] = 0;
@@ -331,10 +332,10 @@ void vnl_vector_test_float()
     TEST("v.squared_magnitude", v.squared_magnitude(), 1);
     TEST("v.magnitude", v.magnitude(), 1);
 // Trying to track down test failure in Intel 10.0 compiler
-    v1 = 4.0f * v;
-    vcl_cout << "v1.normalize() is " << v1.normalize() << " and v is " << v << "\n" << vcl_flush;
-    vcl_cout << "v1.normalize() - v is " << v1.normalize() - v << "\n" << vcl_flush;
-    TEST("v.normalize", (v1 = 4.0f * v, v1.normalize(), v1), v);
+    vd = 4.0 * v;
+    vcl_cout << "vd.normalize() is " << vd.normalize() << " and v is " << v << "\n" << vcl_flush;
+    vcl_cout << "vd.normalize() - v is " << vd.normalize() - v << "\n" << vcl_flush;
+    TEST("v.normalize", (vd = 4.0 * v, vd.normalize(), vd), v);
   }
 
   TEST("vnl_vector_ssd",
