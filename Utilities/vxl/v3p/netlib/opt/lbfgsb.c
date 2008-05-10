@@ -407,7 +407,9 @@ static doublereal c_b277 = .1;
     integer col;
     doublereal tol;
     logical wrk;
-    doublereal stp, cpu1, cpu2;
+    doublereal stp;
+    doublereal cpu1;
+    doublereal cpu2;
     integer head;
     doublereal fold;
     integer nact;
@@ -503,6 +505,9 @@ static doublereal c_b277 = .1;
 
     (void)task_len;
     (void)csave_len;
+    
+    cpu1 = 0;
+    cpu2 = 0;
 
 /*<       character*60     task, csave >*/
 /*<       logical          lsave(4) >*/
