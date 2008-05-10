@@ -18,6 +18,7 @@
 #define _itkFixedArray_txx
 
 #include "itkFixedArray.h"
+#include "itkNumericTraitsFixedArrayPixel.h"
 
 namespace itk
 {
