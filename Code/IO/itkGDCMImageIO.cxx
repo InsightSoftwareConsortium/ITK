@@ -210,7 +210,6 @@ bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream& os,
   if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
-    return false;
     }
 
   // Close file from any previous image
@@ -241,7 +240,6 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
   if ( *filename == 0 )
     {
     itkExceptionMacro(<<"A FileName must be specified.");
-    return false;
     }
 
   // Close file from any previous image
@@ -269,7 +267,6 @@ bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream& os,
                       << std::endl
                       << "Reason: "
                       << itksys::SystemTools::GetLastSystemError());
-    return false;
     }
 
 
@@ -649,8 +646,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   header->SetFileName( m_FileName );
   header->SetLoadMode( (m_LoadSequences ? 0 : gdcm::LD_NOSEQ)
                        | (m_LoadPrivateTags ? 0 : gdcm::LD_NOSHADOW));
-  bool b = header->Load();
-  if ( !b )
+  bool headerLoaded = header->Load();
+  if ( !headerLoaded )
     {
     itkExceptionMacro(<< "Cannot read requested file");
     }
