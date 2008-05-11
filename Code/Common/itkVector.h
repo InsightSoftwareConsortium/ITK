@@ -273,10 +273,7 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
 # include "itkVector.txx"
 #endif
 
-
-#if ITK_TEMPLATE_EXPLICIT
-  #include "itkNumericTraitsVectorPixel.h"
-#endif
+#include "itkNumericTraitsVectorPixel.h"
 
 
 #endif
