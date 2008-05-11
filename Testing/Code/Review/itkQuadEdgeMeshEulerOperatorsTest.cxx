@@ -662,14 +662,14 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 
   std::cout << "     " << "Test Topological Changes";
   MeshType::Pointer topotest = MeshType::New( );
-  MeshType::PointType pts[4];
-  pts[ 0][0] = 0.0;  pts[ 0][1] = 0.0;  pts[ 0][2] = 0.0;
-  pts[ 1][0] = 1.0;  pts[ 1][1] = 0.0;  pts[ 1][2] = 0.0;
-  pts[ 2][0] = 0.0;  pts[ 2][1] = 1.0;  pts[ 2][2] = 0.0;
-  pts[ 3][0] = 0.0;  pts[ 3][1] = 0.0;  pts[ 3][2] = 1.0;
+  MeshType::PointType pts2[4];
+  pts2[ 0][0] = 0.0;  pts2[ 0][1] = 0.0;  pts2[ 0][2] = 0.0;
+  pts2[ 1][0] = 1.0;  pts2[ 1][1] = 0.0;  pts2[ 1][2] = 0.0;
+  pts2[ 2][0] = 0.0;  pts2[ 2][1] = 1.0;  pts2[ 2][2] = 0.0;
+  pts2[ 3][0] = 0.0;  pts2[ 3][1] = 0.0;  pts2[ 3][2] = 1.0;
   for(int ii=0; ii<4; ii++)
     {
-    topotest->SetPoint( ii, pts[ii] );
+    topotest->SetPoint( ii, pts2[ii] );
     }
   MeshType::PointIdList topotestpoints;
 
@@ -1530,14 +1530,14 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 
     {
     MeshPointer  specialmesh = MeshType::New();
-    PointType pts[4];
-    pts[ 0][0] = 0.0;  pts[ 0][1] = 0.0;  pts[ 0][2] = 0.0;
-    pts[ 1][0] = 1.0;  pts[ 1][1] = 0.0;  pts[ 1][2] = 0.0;
-    pts[ 2][0] = 0.0;  pts[ 2][1] = 1.0;  pts[ 2][2] = 0.0;
-    pts[ 3][0] = 0.0;  pts[ 3][1] = 0.0;  pts[ 3][2] = 1.0;
+    PointType pts2[4];
+    pts2[ 0][0] = 0.0;  pts2[ 0][1] = 0.0;  pts2[ 0][2] = 0.0;
+    pts2[ 1][0] = 1.0;  pts2[ 1][1] = 0.0;  pts2[ 1][2] = 0.0;
+    pts2[ 2][0] = 0.0;  pts2[ 2][1] = 1.0;  pts2[ 2][2] = 0.0;
+    pts2[ 3][0] = 0.0;  pts2[ 3][1] = 0.0;  pts2[ 3][2] = 1.0;
     for(int i=0; i<4; i++)
       {
-      specialmesh->SetPoint( i, pts[i] );
+      specialmesh->SetPoint( i, pts2[i] );
       }
     int specialCells[12] =
     {  0,  1,  2,
