@@ -468,6 +468,9 @@ ActiveShapeModelCalculator<TImage>
   int d, dx, dy, sx, sy;
   unsigned int ax, ay;
 
+  dxyRef1.Fill(0);
+  dxyRef2.Fill(0);
+
   for (i = 0; i < slices; i++)
     {
     for ( j = 0 ; j < numberOfLandmarks ; j++ )

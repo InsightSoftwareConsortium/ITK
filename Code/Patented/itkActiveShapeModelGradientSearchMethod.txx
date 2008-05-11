@@ -100,6 +100,9 @@ ActiveShapeModelGradientSearchMethod<TImage>
   VectorType v;
   typename VectorType::iterator p6;
 
+  dxyRef1.Fill(0);
+  dxyRef2.Fill(0);
+
   m_NewShape.set_size( 2*numberOfLandmarks );
   m_NewShape.fill(0);
 
