@@ -253,12 +253,12 @@ _biffAddErr(_biffEntry *e, const char *err) {
   buf = airStrdup(err);
   len = strlen(buf);
   for (ii=0; ii<=((int)len)-1; ii++) {
-    if (isspace(buf[ii])) {
+    if (isspace((int) buf[ii])) {
       buf[ii] = ' ';
     }
   }
   ii = (int)(len)-1;
-  while (isspace(buf[ii])) {
+  while (isspace((int) buf[ii])) {
     buf[ii--] = 0;
   }
   /* printf("%s: HEY(after): err[%s]->num = %d\n", me, e->key, e->num); */

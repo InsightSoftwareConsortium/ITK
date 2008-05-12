@@ -225,11 +225,11 @@ airOneLinify(char *s) {
 
   /* convert white space to space (' '), and delete unprintables */
   for (i=0; i<len; i++) {
-    if (isspace(s[i])) {
+    if (isspace((int) s[i])) {
       s[i] = ' ';
       continue;
     }
-    if (!isprint(s[i])) {
+    if (!isprint((int) s[i])) {
       for (j=i; j<len; j++) {
         /* this will copy the '\0' at the end */
         s[j] = s[j+1];

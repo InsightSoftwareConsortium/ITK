@@ -5916,7 +5916,7 @@ nifti_image *nifti_image_from_ascii( const char *str, int * bytes_read )
 
    while(1){
 
-     while( isspace(str[spos]) ) spos++ ;  /* skip whitespace */
+     while( isspace((int) str[spos]) ) spos++ ;  /* skip whitespace */
      if( str[spos] == '\0' ) break ;       /* end of string? */
 
      /* get lhs string */
@@ -5926,7 +5926,7 @@ nifti_image *nifti_image_from_ascii( const char *str, int * bytes_read )
 
      /* skip whitespace and the '=' marker */
 
-     while( isspace(str[spos]) || str[spos] == '=' ) spos++ ;
+     while( isspace((int) str[spos]) || str[spos] == '=' ) spos++ ;
      if( str[spos] == '\0' ) break ;       /* end of string? */
 
      /* if next character is a quote ', copy everything up to next '
@@ -6754,7 +6754,7 @@ int * nifti_get_intlist( int nvals , const char * str )
    slen = strlen(str) ;
    while( ipos < slen && !ISEND(str[ipos]) ){
 
-      while( isspace(str[ipos]) ) ipos++ ;   /* skip blanks */
+     while( isspace((int) str[ipos]) ) ipos++ ;   /* skip blanks */
       if( ISEND(str[ipos]) ) break ;         /* done */
 
       /**- get starting value */
@@ -6781,7 +6781,7 @@ int * nifti_get_intlist( int nvals , const char * str )
          ipos += nused ;
       }
 
-      while( isspace(str[ipos]) ) ipos++ ;   /* skip blanks */
+      while( isspace((int) str[ipos]) ) ipos++ ;   /* skip blanks */
 
       /**- if that's it for this sub-selector, add one value to list */
 
@@ -6834,7 +6834,7 @@ int * nifti_get_intlist( int nvals , const char * str )
 
       istep = (ibot <= itop) ? 1 : -1 ;
 
-      while( isspace(str[ipos]) ) ipos++ ;                  /* skip blanks */
+      while( isspace((int) str[ipos]) ) ipos++ ;                  /* skip blanks */
 
       /**- check if we have a non-default loop step */
 
@@ -6865,7 +6865,7 @@ int * nifti_get_intlist( int nvals , const char * str )
 
       /**- check if we have a comma to skip over */
 
-      while( isspace(str[ipos]) ) ipos++ ;                  /* skip blanks */
+      while( isspace((int) str[ipos]) ) ipos++ ;                  /* skip blanks */
       if( str[ipos] == ',' ) ipos++ ;                       /* skip commas */
 
    }  /* end of loop through selector string */
