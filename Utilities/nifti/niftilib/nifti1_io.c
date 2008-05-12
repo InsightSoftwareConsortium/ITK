@@ -3732,7 +3732,7 @@ nifti_image *nifti_image_read( const char *hname , int read_data )
 
    /* keep file open so we can check for exts. after nifti_convert_nhdr2nim() */
 
-   if( ii < (unsigned int) sizeof(nhdr) ){
+   if( ii < (int) sizeof(nhdr) ){
       if( g_opts.debug > 0 ){
          LNI_FERR(fname,"bad binary header read for file", hfile);
          fprintf(stderr,"  - read %d of %d bytes\n",ii, (int)sizeof(nhdr));
