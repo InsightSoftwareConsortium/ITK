@@ -269,11 +269,19 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
 # include "Templates/itkVector+-.h"
 #endif
 
+//
+// Numeric traits must be included after (optionally) including the explicit
+// instantiations control of this class, in case the implicit instantiation
+// needs to be disabled. 
+//
+// NumericTraits must be included before (optionally) including the .txx file,
+// in case the .txx requires to use NumericTraits.
+//
+#include "itkNumericTraitsVectorPixel.h"
+
 #if ITK_TEMPLATE_TXX
 # include "itkVector.txx"
 #endif
-
-#include "itkNumericTraitsVectorPixel.h"
 
 
 #endif
