@@ -46,6 +46,13 @@ namespace itk
  * InputImageDimension.  The number of non-zero dimensions in 
  * ExtractionRegion.Size must = OutputImageDimension.
  *
+ * The output image produced by this filter will have the same origin than the
+ * input image, while the ImageRegion of the output image will start at the
+ * starting index value provided in the ExtractRegion parameter.  If you are
+ * looking for a filter that will re-compute the origin of the output image,
+ * and provide an output image region whose index is set to zeros, then you may
+ * want to use the RegionOfInterestImageFilter.
+ *
  * This filter is implemented as a multithreaded filter.  It provides a 
  * ThreadedGenerateData() method for its implementation.
  * 
