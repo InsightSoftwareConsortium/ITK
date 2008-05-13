@@ -20,20 +20,34 @@
 #include "itkTimeStamp.h"
 #include "itkFastMutexLock.h"
 
-// OSAtomic.h optimizations only used in 10.5 and later
-#if defined(__APPLE__)
+#if defined(_WIN32)
+  #include "itkWindows.h"
+
+#elif defined(__APPLE__)
+  // OSAtomic.h optimizations only used in 10.5 and later
   #include <AvailabilityMacros.h>
   #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
     #include <libkern/OSAtomic.h>
   #endif
+
+#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+  #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+  # include <ext/atomicity.h>
+  #else
+  # include <bits/atomicity.h>
+  #endif
+
 #endif
 
-#if defined(_WIN32)
-#include "itkWindows.h"
-#endif
 
 namespace itk
 {
+
+#if defined(__GLIBCXX__) // g++ 3.4+
+
+using __gnu_cxx::__exchange_and_add;
+
+#endif
 
 /**
  * Instance creation.
@@ -71,6 +85,11 @@ TimeStamp
   static volatile int32_t itkTimeStampTime = 0;
   m_ModifiedTime = (unsigned long)OSAtomicIncrement32Barrier(&itkTimeStampTime);
  #endif
+
+// gcc optimization
+#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+  static volatile _Atomic_word itkTimeStampTime = 0;
+  m_ModifiedTime = (unsigned long)__exchange_and_add(&itkTimeStampTime, 1)+1;
 
 // General case
 #else
