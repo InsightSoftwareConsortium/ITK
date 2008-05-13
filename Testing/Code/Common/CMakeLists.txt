@@ -47,6 +47,7 @@ ADD_TEST(itkBarrierTest ${COMMON_TESTS} itkBarrierTest)
 ADD_TEST(itkConditionVariableTest ${COMMON_TESTS} itkConditionVariableTest)
 ADD_TEST(itkSemaphoreTest ${COMMON_TESTS2} itkSemaphoreTest)
 ENDIF(NOT MINGW)
+ADD_TEST(itkTimeStampTest ${COMMON_TESTS2} itkTimeStampTest)
 ADD_TEST(itkBinaryThresholdImageFunctionTest ${COMMON_TESTS} itkBinaryThresholdImageFunctionTest)
 ADD_TEST(itkBinaryThresholdSpatialFunctionTest ${COMMON_TESTS} itkBinaryThresholdSpatialFunctionTest)
 ADD_TEST(itkBoundingBoxTest ${COMMON_TESTS} itkBoundingBoxTest)
@@ -518,6 +519,7 @@ itkStdStreamLogOutputTest.cxx
 itkThreadDefsTest.cxx
 itkThreadLoggerTest.cxx
 itkTimeProbesTest.cxx
+itkTimeStampTest.cxx
 itkTransformTest.cxx
 itkTransformsSetParametersTest.cxx
 itkTranslationTransformTest.cxx

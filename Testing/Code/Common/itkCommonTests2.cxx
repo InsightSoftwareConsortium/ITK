@@ -79,6 +79,7 @@ REGISTER_TEST(itkStdStreamLogOutputTest );
 REGISTER_TEST(itkThreadDefsTest );
 REGISTER_TEST(itkThreadLoggerTest );
 REGISTER_TEST(itkTimeProbesTest );
+REGISTER_TEST(itkTimeStampTest );
 REGISTER_TEST(itkTransformTest );
 REGISTER_TEST(itkTransformsSetParametersTest );
 REGISTER_TEST(itkTranslationTransformTest );
