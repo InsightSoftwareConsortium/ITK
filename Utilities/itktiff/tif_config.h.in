@@ -1,4 +1,6 @@
 /* libtiff/tif_config.h.in.  Generated from configure.ac by autoheader.  */
+#ifndef __tif_config_h
+#define __tif_config_h
 
 /* Support CCITT Group 3 & 4 algorithms */
 #define CCITT_SUPPORT 1
@@ -258,3 +260,5 @@ the sizes can be different.*/
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #cmakedefine size_t
+
+#endif
