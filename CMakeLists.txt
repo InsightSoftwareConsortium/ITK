@@ -611,6 +611,14 @@ ENDIF(ITK_SIZEOF_LONG_LONG)
 INCLUDE(${ITK_SOURCE_DIR}/CMake/CheckCPPDirective.cmake)
 CHECK_CPP_DIRECTIVE_EXISTS(__FUNCTION__ ITK_CPP_FUNCTION)
 
+#
+# See if compiler support template partial specialization
+#
+TRY_COMPILE(ITK_SUPPORTS_TEMPLATE_PARTIAL_SPECIALIZATION
+      ${ITK_BINARY_DIR}/CMakeTmp
+      ${ITK_SOURCE_DIR}/CMake/itkTestTemplatePartialSpecialization.cxx
+      OUTPUT_VARIABLE ITK_SUPPORTS_TEMPLATE_PARTIAL_SPECIALIZATION_OUTPUT)
+
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
