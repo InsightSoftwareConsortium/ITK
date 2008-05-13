@@ -258,7 +258,6 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     else
       {
       itkExceptionMacro(<< "If MASK_ACQ_PLANE is specified, then it must be one of CORONAL, AXIAL, or SAGITAL flags.");
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       }
     }
   itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
