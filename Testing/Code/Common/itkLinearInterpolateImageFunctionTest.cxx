@@ -38,7 +38,8 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
  typedef itk::ContinuousIndex<float, 2>                ContinuousIndexType;
  typedef itk::Point<float,2>                           PointType;
 
- typedef itk::LinearInterpolateImageFunction< ImageType >  InterpolatorType;
+ typedef float                                         CoordRepType;
+ typedef itk::LinearInterpolateImageFunction< ImageType, CoordRepType >  InterpolatorType;
 
  ImageType::Pointer image = ImageType::New();
 
