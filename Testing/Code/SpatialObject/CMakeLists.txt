@@ -34,6 +34,7 @@ ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageSpatialObje
 ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkMeshSpatialObjectTest )
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
 ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
+ADD_TEST( itkPolygonSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonSpatialObjectTest )
 ADD_TEST( itkSceneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSceneSpatialObjectTest )
 ADD_TEST( itkSpatialObjectTreeContainerTest ${SPATIAL_OBJECT_TESTS2} itkSpatialObjectTreeContainerTest )
 ADD_TEST( itkSurfaceSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkSurfaceSpatialObjectTest )
@@ -65,6 +66,7 @@ SET(SpatialObject_SRCS4
 SET(SpatialObject_SRCS2
   itkPlaneSpatialObjectTest.cxx
   itkPolygonGroupSpatialObjectTest.cxx
+  itkPolygonSpatialObjectTest.cxx
   itkSceneSpatialObjectTest.cxx
   itkSpatialObjectTreeContainerTest.cxx
   itkSurfaceSpatialObjectTest.cxx

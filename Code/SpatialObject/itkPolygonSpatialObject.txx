@@ -118,6 +118,7 @@ PolygonSpatialObject<TDimension>
     if(curdistance < distance)
       {
       closestPoint = (*it).GetPosition();
+      distance = curdistance;
       }
     it++;
     }
