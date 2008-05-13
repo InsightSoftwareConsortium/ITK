@@ -1530,14 +1530,14 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
 
     {
     MeshPointer  specialmesh = MeshType::New();
-    PointType pts2[4];
-    pts2[ 0][0] = 0.0;  pts2[ 0][1] = 0.0;  pts2[ 0][2] = 0.0;
-    pts2[ 1][0] = 1.0;  pts2[ 1][1] = 0.0;  pts2[ 1][2] = 0.0;
-    pts2[ 2][0] = 0.0;  pts2[ 2][1] = 1.0;  pts2[ 2][2] = 0.0;
-    pts2[ 3][0] = 0.0;  pts2[ 3][1] = 0.0;  pts2[ 3][2] = 1.0;
+    PointType pts3[4];
+    pts3[ 0][0] = 0.0;  pts3[ 0][1] = 0.0;  pts3[ 0][2] = 0.0;
+    pts3[ 1][0] = 1.0;  pts3[ 1][1] = 0.0;  pts3[ 1][2] = 0.0;
+    pts3[ 2][0] = 0.0;  pts3[ 2][1] = 1.0;  pts3[ 2][2] = 0.0;
+    pts3[ 3][0] = 0.0;  pts3[ 3][1] = 0.0;  pts3[ 3][2] = 1.0;
     for(int i=0; i<4; i++)
       {
-      specialmesh->SetPoint( i, pts2[i] );
+      specialmesh->SetPoint( i, pts3[i] );
       }
     int specialCells[12] =
     {  0,  1,  2,
