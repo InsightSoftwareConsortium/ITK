@@ -57,10 +57,16 @@ public:
   /** Determine if a file can be read */
   virtual int CanReadFile(const char* name);
 protected:
+  PolygonGroupSpatialObjectXMLFileReader() {};
+  virtual ~PolygonGroupSpatialObjectXMLFileReader() {};
+
   virtual void StartElement(const char * name,const char **atts);
   virtual void EndElement(const char *name);
   virtual void CharacterDataHandler(const char *inData, int inLength);
 private:
+  PolygonGroupSpatialObjectXMLFileReader(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
   PGroupSpatialObjectType::Pointer  m_PGroup;
   PolygonSpatialObjectType::Pointer m_CurPoly;
   PointListType                     m_CurPointList;
@@ -93,6 +99,13 @@ public:
   virtual int CanWriteFile(const char* name);
   /** Actually write out the file in question */
   virtual int WriteFile();
+protected:
+  PolygonGroupSpatialObjectXMLFileWriter() {};
+  virtual ~PolygonGroupSpatialObjectXMLFileWriter() {};
+private:
+  PolygonGroupSpatialObjectXMLFileWriter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 }
