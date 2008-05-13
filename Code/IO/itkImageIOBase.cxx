@@ -516,11 +516,11 @@ ImageIOBase
 ::ReadBufferAsBinary(std::istream& is, void *buffer, ImageIOBase::SizeType num)
 {
 
-  const SizeType numberOfBytesToBeRead = num;
+  const std::streamsize numberOfBytesToBeRead = num;
 
   is.read( static_cast<char *>( buffer ), numberOfBytesToBeRead );
 
-  const SizeType numberOfBytesRead = is.gcount();
+  const std::streamsize numberOfBytesRead = is.gcount();
 
 #ifdef __APPLE_CC__
   // fail() is broken in the Mac. It returns true when reaches eof().

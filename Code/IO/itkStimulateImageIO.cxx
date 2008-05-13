@@ -214,19 +214,19 @@ void StimulateImageIO::Read(void* buffer)
   switch (this->GetComponentType())
     {
     case CHAR:
-      ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
       break;
     case SHORT:
-      ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
       break;
     case INT:
-      ByteSwapper<int>::SwapRangeFromSystemToBigEndian((int *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper<int>::SwapRangeFromSystemToBigEndian((int *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
       break;
     case FLOAT:
-      ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
       break;
     case DOUBLE:
-      ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
       break;
     default:
       break;
@@ -562,8 +562,8 @@ void StimulateImageIO::Write(const void* buffer)
     }
 
   //preparation for writing buffer:
-  const unsigned long numberOfBytes      = this->GetImageSizeInBytes();
-  const unsigned long numberOfComponents = this->GetImageSizeInComponents();
+  const unsigned long numberOfBytes      = static_cast<unsigned long>(this->GetImageSizeInBytes());
+  const unsigned long numberOfComponents = static_cast<unsigned long>(this->GetImageSizeInComponents());
 
   file << "\ndataType: ";
   {

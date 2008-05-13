@@ -81,7 +81,7 @@ void TransformFileReader
   pbuf=in.rdbuf();
 
   // get file size using buffer's members
-  int size=pbuf->pubseekoff (0,std::ios::end,std::ios::in);
+  int size=static_cast<int>(pbuf->pubseekoff (0,std::ios::end,std::ios::in));
   pbuf->pubseekpos (0,std::ios::in);
 
   // allocate memory to contain file data

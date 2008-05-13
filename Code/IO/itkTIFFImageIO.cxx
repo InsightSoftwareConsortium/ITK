@@ -1630,16 +1630,16 @@ public:
         out->seekp(off, std::ios::cur);
         break;
       default:
-        return out->tellp();
+        return static_cast<toff_t>(out->tellp());
       }
-    return out->tellp();
+    return static_cast<toff_t>(out->tellp());
     }
 
   static toff_t TIFFSize(thandle_t fd)
     {
     std::ostream *out = reinterpret_cast<std::ostream *>(fd);
     out->seekp(0, std::ios::end);
-    return out->tellp();
+    return static_cast<toff_t>(out->tellp());
     }
 
   static int TIFFMapFile(thandle_t, tdata_t*, toff_t*) { return (0); }

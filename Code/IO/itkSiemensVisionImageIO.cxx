@@ -181,12 +181,12 @@ GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   this->GetStringAt(f, TEXT_FOVH,tmpStr, TEXT_FOVH_LEN);
   tmpStr[TEXT_FOVH_LEN] = '\0';
-  hdr->xFOV = atof(tmpStr);
+  hdr->xFOV = static_cast<float>(atof(tmpStr));
   DB(hdr->xFOV );
   
   this->GetStringAt(f, TEXT_FOVV,tmpStr, TEXT_FOVV_LEN);
   tmpStr[TEXT_FOVV_LEN] = '\0';
-  hdr->yFOV = atof(tmpStr);
+  hdr->yFOV = static_cast<float>(atof(tmpStr));
   DB(hdr->yFOV );
 
   this->GetDoubleAt(f, HDR_PIXELSIZE_ROW,&tmpDble, sizeof (double));
@@ -277,7 +277,7 @@ GEImageHeader *SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
   /* fprintf(stderr, "Plane %d\n", hdr->imagePlane); */
   this->GetStringAt(f, TEXT_SLICE_POS,tmpStr, TEXT_SLICE_POS_LEN);
   tmpStr[TEXT_SLICE_POS_LEN] = '\0';
-  hdr->sliceLocation = atof(tmpStr);
+  hdr->sliceLocation = static_cast<float>(atof(tmpStr));
   DB(hdr->sliceLocation );
 
   /* fprintf(stderr, "Slice Location %f\n", hdr->sliceLocation); */

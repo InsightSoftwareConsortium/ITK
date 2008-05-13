@@ -1004,7 +1004,7 @@ MetaImageIO
   for(i=0; i<nDims; i++)
     {
     dSize[i] = this->GetDimensions(i);
-    eSpacing[i] = this->GetSpacing(i);
+    eSpacing[i] = static_cast<float>(this->GetSpacing(i));
     eOrigin[i] = this->GetOrigin(i);
     } 
   ImageIORegion::IndexType indx = this->GetIORegion().GetIndex();

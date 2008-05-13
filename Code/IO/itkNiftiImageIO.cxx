@@ -1331,10 +1331,10 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
                             dirz[0],dirz[1],dirz[2]);
   matrix = mat44_transpose(matrix);
   // Fill in origin.
-  matrix.m[0][3]=               -this->GetOrigin(0);
-  matrix.m[1][3] = (origdims > 1) ? -this->GetOrigin(1) : 0.0;
+  matrix.m[0][3]=  static_cast<float>(-this->GetOrigin(0));
+  matrix.m[1][3] = (origdims > 1) ? static_cast<float>(-this->GetOrigin(1)) : 0.0f;
   //NOTE:  The final dimension is not negated!
-  matrix.m[2][3] = (origdims > 2) ? this->GetOrigin(2) : 0.0;
+  matrix.m[2][3] = (origdims > 2) ? static_cast<float>(this->GetOrigin(2)) : 0.0f;
 
   nifti_mat44_to_quatern(matrix,
                          &(this->m_NiftiImage->quatern_b),
