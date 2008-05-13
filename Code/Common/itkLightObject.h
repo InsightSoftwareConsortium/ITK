@@ -95,7 +95,7 @@ public:
 
   /** Gets the reference count on this object. */
   virtual int GetReferenceCount() const 
-    {return m_ReferenceCount;}
+    {return static_cast<int>(m_ReferenceCount);}
 
   /** Sets the reference count on this object. This is a dangerous
    * method, use it with care. */
@@ -112,9 +112,23 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   virtual void PrintHeader(std::ostream& os, Indent indent) const;
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
+
+#if defined(WIN32) || defined(_WIN32)
+  typedef LONG InternalReferenceCountType;
+#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
+ #if __LP64__
+  typedef int64_t InternalReferenceCountType;
+ #else
+  typedef int32_t InternalReferenceCountType;
+ #endif
+#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+  typedef _Atomic_word InternalReferenceCountType;
+#else
+  typedef int InternalReferenceCountType;
+#endif
   
   /** Number of uses of this object by other objects. */
-  mutable volatile int m_ReferenceCount;
+  mutable InternalReferenceCountType m_ReferenceCount;
 
   /** Mutex lock to protect modification to the reference count */
   mutable SimpleFastMutexLock m_ReferenceCountLock;
