@@ -17,6 +17,11 @@
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
+#if defined(__APPLE__)
+  // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
+  #include <AvailabilityMacros.h>
+#endif
+
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
@@ -117,9 +122,9 @@ protected:
   typedef LONG InternalReferenceCountType;
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
  #if __LP64__
-  typedef int64_t InternalReferenceCountType;
+  typedef volatile int64_t InternalReferenceCountType;
  #else
-  typedef int32_t InternalReferenceCountType;
+  typedef volatile int32_t InternalReferenceCountType;
  #endif
 #elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
   typedef _Atomic_word InternalReferenceCountType;
