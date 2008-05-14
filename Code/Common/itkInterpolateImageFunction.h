@@ -39,16 +39,18 @@ namespace itk
  * 
  * */
 template <class TInputImage, class TCoordRep = double>
-class ITK_EXPORT InterpolateImageFunction : 
-  public ImageFunction< TInputImage, 
-    ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep > 
+class ITK_EXPORT InterpolateImageFunction :
+  public ImageFunction< TInputImage,
+    ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
-  typedef InterpolateImageFunction Self;
-  typedef ImageFunction<TInputImage,typename NumericTraits<typename TInputImage::PixelType>::RealType,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef InterpolateImageFunction     Self;
+  typedef ImageFunction<TInputImage,
+    typename NumericTraits<typename TInputImage::PixelType>::RealType,
+    TCoordRep>                         Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImageFunction, ImageFunction);

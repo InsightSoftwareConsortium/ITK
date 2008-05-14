@@ -53,21 +53,17 @@ struct GetDimension
  * \sa InterpolateImageFunction
  * \ingroup ImageFunctions ImageInterpolators
  */
-template <
-class TInputImage,
-class TCoordRep = double,
-class TPixelType = ITK_TYPENAME TInputImage::PixelType
->
-class ITK_EXPORT VectorInterpolateImageFunction : 
+template <class TInputImage, class TCoordRep = double>
+class ITK_EXPORT VectorInterpolateImageFunction :
   public ImageFunction<
-    TInputImage, 
+    TInputImage,
     ITK_TYPENAME NumericTraits<typename TInputImage::PixelType>::RealType,
-    TCoordRep > 
+    TCoordRep >
 {
 public:
   /** Extract the vector dimension from the pixel template parameter. */
   itkStaticConstMacro(Dimension, unsigned int,
-                      TPixelType::Dimension);
+                      TInputImage::PixelType::Dimension);
   
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -89,7 +85,6 @@ public:
   typedef typename InputImageType::PixelType  PixelType;
   typedef typename PixelType::ValueType       ValueType;
   typedef typename NumericTraits<ValueType>::RealType  RealType;
-    
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
