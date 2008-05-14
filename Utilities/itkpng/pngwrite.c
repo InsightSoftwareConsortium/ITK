@@ -434,7 +434,7 @@ png_create_write_struct_2(png_const_charp user_png_ver, png_voidp error_ptr,
    png_malloc_ptr malloc_fn, png_free_ptr free_fn)
 {
 #endif /* PNG_USER_MEM_SUPPORTED */
-   png_structp png_ptr;
+   volatile png_structp png_ptr;
 #ifdef PNG_SETJMP_SUPPORTED
 #ifdef USE_FAR_KEYWORD
    jmp_buf jmpbuf;
