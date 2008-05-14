@@ -793,7 +793,7 @@ const char *ArgMgr::LoadedParam ( const char *param, FILE *fd )
   int    nbcar = 0;
 
   /* remove spaces at the beginning****/
-  while ( isspace(carlu=fgetc (fd)) );
+  while ( isspace(carlu=fgetc (fd)) ) {}
   if (carlu==EOF)
      return 0;
   /* Search for a " */
