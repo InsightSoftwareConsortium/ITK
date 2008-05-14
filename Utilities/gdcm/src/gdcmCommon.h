@@ -65,7 +65,9 @@ typedef  unsigned char       uint8_t;
 typedef  unsigned short      uint16_t;
 typedef  unsigned int        uint32_t;
 #else
+#ifndef SWIG
 #error "Sorry your platform is not supported"
+#endif
 #endif // defined(_MSC_VER) || defined(__BORLANDC__) && (__BORLANDC__ < 0x0560)  || defined(__MINGW32__)
 #endif // CMAKE_HAVE_INTTYPES_H
 #endif // CMAKE_HAVE_STDINT_H
