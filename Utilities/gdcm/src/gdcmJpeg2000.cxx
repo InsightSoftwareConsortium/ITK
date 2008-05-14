@@ -25,6 +25,7 @@
    #include <mem.h> // for memset
 #endif 
 #include <stdio.h> // for fprintf
+#include <stdlib.h> // for abort
 
 extern "C" {
   #include "openjpeg/openjpeg.h"

@@ -118,7 +118,6 @@ typedef std::list<Element> ListElements;
    void SetLoadMode (int mode) { if (LoadMode != mode)
                                      LoadMode=mode, IsDocumentModified = true; }
 
-protected:
 // Methods
    // Constructor and destructor are protected to forbid end user
    // to instanciate from this class Document (only gdcm::File and
@@ -127,6 +126,7 @@ protected:
    GDCM_LEGACY( Document( std::string const &filename ) )
    virtual ~Document();
 
+protected:
    uint16_t ReadInt16() throw ( FormatError );
    uint32_t ReadInt32() throw ( FormatError );
    void     SkipBytes(uint32_t);
@@ -163,7 +163,7 @@ protected:
    FileType Filetype;  
 
    /// After opening the file, we read HEADER_LENGTH_TO_READ bytes.
-   static const unsigned int HEADER_LENGTH_TO_READ; 
+   //static const unsigned int HEADER_LENGTH_TO_READ; 
    /// \brief Elements whose value is longer than MAX_SIZE_LOAD_ELEMENT_VALUE
    /// are NOT loaded.
    static const unsigned int MAX_SIZE_LOAD_ELEMENT_VALUE;
@@ -174,6 +174,7 @@ protected:
    /// User supplied list of elements to force Load
    ListElements UserForceLoadList;
 
+protected:
    /// \brief Bit string integer (each one considered as a boolean)
    ///        Bit 0 : Skip Sequences,    if possible
    ///        Bit 1 : Skip Shadow Groups if possible
@@ -197,7 +198,7 @@ private:
    void ParseSQ (SeqEntry *seq,    long offset, long l_max, bool delim_mode);
 
    void LoadDocEntry         (DocEntry *e, bool forceLoad = false);
-   void FindDocEntryLength   (DocEntry *e) throw ( FormatError );
+   void FindDocEntryLength   (DocEntry *e, std::string vr) throw ( FormatError );
    uint32_t FindDocEntryLengthOBOrOW() throw( FormatUnexpected );
    std::string FindDocEntryVR();
    bool CheckDocEntryVR      (VRKey k);

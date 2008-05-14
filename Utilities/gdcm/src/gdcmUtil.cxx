@@ -105,7 +105,7 @@ std::string Util::RootUID        = GDCM_UID;
  */
 const uint16_t Util::FMIV = 0x0100;
 uint8_t *Util::FileMetaInformationVersion = (uint8_t *)&FMIV;
-std::string Util::GDCM_MAC_ADRESS = GetMACAddress();
+std::string Util::GDCM_MAC_ADDRESS = GetMACAddress();
 
 //-------------------------------------------------------------------------
 // Public
@@ -916,6 +916,7 @@ std::string Util::CreateUniqueUID(const std::string &root)
    if ( root.empty() )
    {
       // gdcm UID prefix, as supplied by http://www.medicalconnections.co.uk
+      assert( !RootUID.empty() );
       prefix = RootUID; 
    }
    else
@@ -926,8 +927,11 @@ std::string Util::CreateUniqueUID(const std::string &root)
    // A root was specified use it to forge our new UID:
    append += ".";
    //append += Util::GetMACAddress(); // to save CPU time
-   append += Util::GDCM_MAC_ADRESS;
-   append += ".";
+   if( !Util::GDCM_MAC_ADDRESS.empty() )
+     {
+     append += Util::GDCM_MAC_ADDRESS;
+     append += ".";
+     }
    append += Util::GetCurrentDateTime();
 
    //Also add a mini random number just in case:

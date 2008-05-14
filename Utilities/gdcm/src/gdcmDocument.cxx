@@ -312,6 +312,8 @@ bool Document::DoTheLoadingDocumentJob(  )
    std::string RecCode;
    RecCode = GetEntryValue(0x0008, 0x0010); // recognition code (RET)
    if (RecCode == "ACRNEMA_LIBIDO_1.1" ||
+       RecCode == "ACRNEMA_LIBIDO_1.0" ||
+       RecCode == "CANRME_AILIBOD1_0." ||
        RecCode == "CANRME_AILIBOD1_1." )  // for brain-damaged softwares
                                           // with "little-endian strings"
    {
@@ -1134,8 +1136,12 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                   if ( LoadMode & LD_NOSHADOW ) // if user asked to skip shad.gr
                   {
                      std::string strLgrGroup = newValEntry->GetValue();
+                     int lgrGroup;
                      if ( strLgrGroup != GDCM_UNFOUND)
                      {
+                        lgrGroup = atoi(strLgrGroup.c_str());
+                        Fp->seekg(lgrGroup, std::ios::cur);
+                        //used = false;  // never used
                         RemoveEntry( newDocEntry );  // Remove and delete
                         // bcc 5.5 is right "assigned a value that's never used"
                         // newDocEntry = 0;
@@ -1577,10 +1583,9 @@ void Document::LoadDocEntry(DocEntry *entry, bool forceLoad)
  * \brief  Find the value Length of the passed Doc Entry
  * @param  entry Header Entry whose length of the value shall be loaded. 
  */
-void Document::FindDocEntryLength( DocEntry *entry )
+void Document::FindDocEntryLength( DocEntry *entry, std::string vr )
    throw ( FormatError )
 {
-   std::string vr  = entry->GetVR();
    uint16_t length16;       
    
    if ( Filetype == ExplicitVR && !entry->IsImplicitVR() ) 
@@ -2388,7 +2393,7 @@ DocEntry *Document::ReadNextDocEntry()
 
    try
    {
-      FindDocEntryLength(newEntry);
+      FindDocEntryLength(newEntry, realVR);
    }
    catch ( FormatError )
    {

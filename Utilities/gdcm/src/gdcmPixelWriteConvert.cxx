@@ -25,6 +25,7 @@
 #include "gdcmUtil.h"
 
 #include <vector>
+#include <stdlib.h>
 
 #define WITHOFFSETTABLE 1
 

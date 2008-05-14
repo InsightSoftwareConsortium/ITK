@@ -144,6 +144,11 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
    IsJPEGLossless  = Global::GetTS()->IsJPEGLossless(ts);
    IsRLELossless   = Global::GetTS()->IsRLELossless(ts);
 
+      IsPrivateGETransferSyntax = 
+                ( Global::GetTS()->GetSpecialTransferSyntax(ts) == TS::ImplicitVRBigEndianPrivateGE );
+
+
+
    PixelOffset     = file->GetPixelOffset();
    PixelDataLength = file->GetPixelAreaLength();
    RLEInfo         = file->GetRLEInfo();
@@ -560,7 +565,6 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
      int length = XSize * YSize * SamplesPerPixel;
      int numberBytes = BitsAllocated / 8;
 
-     
      JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
      return true;
    }

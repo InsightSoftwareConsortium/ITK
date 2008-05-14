@@ -83,7 +83,7 @@ private:
    static const std::string GDCM_UID;
    static uint8_t *FileMetaInformationVersion;
    static const uint16_t FMIV;
-   static std::string GDCM_MAC_ADRESS;
+   static std::string GDCM_MAC_ADDRESS;
 };
 
 GDCM_EXPORT std::ostream &binary_write(std::ostream &os, const uint16_t &val);

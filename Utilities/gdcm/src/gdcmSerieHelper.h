@@ -189,6 +189,7 @@ private:
    SerieRestrictions Restrictions;
 #endif
 
+public:
    // New style for (extented) Rules
    typedef struct {
       uint16_t group;
@@ -197,6 +198,7 @@ private:
       int op;
    } ExRule;
    typedef std::vector<ExRule> SerieExRestrictions;
+private:
    SerieExRestrictions ExRestrictions;
    SerieExRestrictions ExRefine;
 

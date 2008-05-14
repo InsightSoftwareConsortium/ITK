@@ -1372,7 +1372,7 @@ double File::GetRescaleIntercept()
 
 /**
  *\brief   gets the info from 0028,1053 : Rescale Slope
- * @return Rescale Slope. defaulted to 1.0 is not found or empty
+ * @return Rescale Slope. defaulted to 1.0 is not found, == 0.0 or empty
  */
 double File::GetRescaleSlope()
 {
@@ -1392,6 +1392,11 @@ double File::GetRescaleSlope()
          gdcmWarningMacro( "Rescale Slope (0028,1053) is empty.");
       }
    }
+   if( resSlope == 0. )
+     {
+     gdcmWarningMacro( "No such thing as a slope of 0.0. Defaulting to 1.0 value" );
+     return 1.0;
+     }
 
    return resSlope;
 }

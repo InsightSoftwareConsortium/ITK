@@ -1440,8 +1440,8 @@ void FileHelper::CheckMandatoryElements()
    // just to remember : 'official' 0002 group
    if ( WriteType != ACR && WriteType != ACR_LIBIDO )
    {
-     // Group 000002 (Meta Elements) already pushed out
-  
+   // Group 000002 (Meta Elements) already pushed out
+
    //0002 0000 UL 1 Meta Group Length
    //0002 0001 OB 1 File Meta Information Version
    //0002 0002 UI 1 Media Storage SOP Class UID
@@ -1452,7 +1452,7 @@ void FileHelper::CheckMandatoryElements()
    //0002 0016 AE 1 Source Application Entity Title
    //0002 0100 UI 1 Private Information Creator
    //0002 0102 OB 1 Private Information
-  
+
    // Push out 'ACR-NEMA-special' entries, if any
    Archive->Push(0x0008,0x0001); // Length to End
    Archive->Push(0x0008,0x0010); // Recognition Code
@@ -1461,13 +1461,13 @@ void FileHelper::CheckMandatoryElements()
    // Create them if not found
    // Always modify the value
    // Push the entries to the archive.
-      CopyMandatoryEntry(0x0002,0x0000,"0");
+   CopyMandatoryEntry(0x0002,0x0000,"0");
 
-      BinEntry *e_0002_0001 = CopyBinEntry(0x0002,0x0001, "OB");
-      e_0002_0001->SetBinArea(const_cast<uint8_t*>(Util::GetFileMetaInformationVersion()),
-                               false);
-      e_0002_0001->SetLength(2);
-      Archive->Push(e_0002_0001);
+   BinEntry *e_0002_0001 = CopyBinEntry(0x0002,0x0001, "OB");
+   e_0002_0001->SetBinArea(const_cast<uint8_t*>(Util::GetFileMetaInformationVersion()),
+     false);
+   e_0002_0001->SetLength(2);
+   Archive->Push(e_0002_0001);
 
    // 'Media Storage SOP Class UID'  --> [Secondary Capture Image Storage]
    // Only if not specified by user, to let people create DERIVED images
@@ -1481,12 +1481,13 @@ void FileHelper::CheckMandatoryElements()
    CopyMandatoryEntry(0x0002,0x0003,sop);
 
    // 'Implementation Class UID'
-      CopyMandatoryEntry(0x0002,0x0012,Util::CreateUniqueUID());
+   // $ echo "gdcm" | od -b
+   CopyMandatoryEntry(0x0002,0x0012,"147.144.143.155");
 
    // 'Implementation Version Name'
-      std::string version = "ITK/GDCM ";
-      version += Util::GetVersion();
-      CopyMandatoryEntry(0x0002,0x0013,version);
+   std::string version = "ITK/GDCM ";
+   version += Util::GetVersion();
+   CopyMandatoryEntry(0x0002,0x0013,version);
    }
 
    // Push out 'LibIDO-special' entries, if any
@@ -1607,8 +1608,11 @@ void FileHelper::CheckMandatoryElements()
          Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0016) );
        e_0008_0016 ->SetValue( e_0002_0002->GetValue() );
        ValEntry *e_0008_0018 = FileInternal->GetValEntry(0x0008, 0x0018);
-       e_0008_0018->SetValue(
-         FileInternal->GetValEntry(0x0002,0x0003)->GetValue() );
+       if( e_0008_0018 )
+         {
+         e_0008_0018->SetValue(
+           FileInternal->GetValEntry(0x0002,0x0003)->GetValue() );
+         }
        Archive->Push(e_0008_0016);
        }
      else
