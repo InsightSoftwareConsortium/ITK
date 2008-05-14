@@ -9,8 +9,8 @@ ENDIF(COMMAND CMAKE_POLICY)
 # GDCM version number, usefull for packaging and doxygen doc:
 SET(GDCM_MAJOR_VERSION 1)
 SET(GDCM_MINOR_VERSION 2)
-SET(GDCM_BUILD_VERSION 2)
-SET(GDCM_VERSION 
+SET(GDCM_BUILD_VERSION 4)
+SET(GDCM_VERSION
     "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 
 #-----------------------------------------------------------------------------
@@ -112,7 +112,7 @@ IF( ${CMAKE_HAVE_SYS_SOCKET_H} )
     FILE(WRITE ${GDCM_BINARY_DIR}/CMakeTmp/gdcmTestHAVESALEN.c
       "${POUND}include <sys/types.h>\n"
       "${POUND}include <sys/socket.h>\n"
-      "int main() { struct sockaddr sa; sa.sa_len = 0; }")
+      "int main() { struct sockaddr sa; sa.sa_len = 0; }\n")
     MESSAGE(STATUS "Checking if ifreq has a sa_len")
     TRY_COMPILE(HAVE_SA_LEN
       ${GDCM_BINARY_DIR}
@@ -145,7 +145,6 @@ IF (WIN32)
     SET(OPJ_STATIC 1)
   ENDIF (BUILD_SHARED_LIBS)
 ENDIF (WIN32)
-
 
 CONFIGURE_FILE(${GDCM_SOURCE_DIR}/gdcmConfigure.h.in
                ${GDCM_BINARY_DIR}/gdcmConfigure.h @ONLY IMMEDIATE)
