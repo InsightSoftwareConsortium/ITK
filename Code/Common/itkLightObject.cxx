@@ -164,7 +164,7 @@ LightObject
 ::Register() const
 {
   // Windows optimization
-#if defined(WIN32) || defined(_WIN32)
+#if (defined(WIN32) || defined(_WIN32)) && !defined(__CYGWIN__)
   InterlockedIncrement(&m_ReferenceCount);
 
 // Mac optimization
@@ -199,7 +199,7 @@ LightObject
   // to delete the object.
    
   // Windows optimization
-#if defined(WIN32) || defined(_WIN32)
+#if (defined(WIN32) || defined(_WIN32)) && !defined(__CYGWIN__)
   if ( InterlockedDecrement(&m_ReferenceCount) <= 0 )
     {
     delete this;
