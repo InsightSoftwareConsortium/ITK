@@ -106,6 +106,13 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET_SOURCE_FILES_PROPERTIES(itkPolygonGroupSpatialObjectXMLFile.cxx PROPERTIES COMPILE_FLAGS -w)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
+# Avoid anachronism warnings by Sun compilers
+INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
+itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
+IF(SUN_COMPILER)
+  SET_SOURCE_FILES_PROPERTIES(itkXMLFile.cxx PROPERTIES COMPILE_FLAGS -w)
+ENDIF(SUN_COMPILER)
+
 # itkTestDriver is built even when BUILD_TESTING is FALSE to:
 # + allow to run WrapITK tests without the other of the ITK tests
 # + be used by external code like contributions to the insight journal
