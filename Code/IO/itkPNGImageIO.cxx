@@ -431,7 +431,7 @@ void PNGImageIO::Write(const void* buffer)
 
 void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
 {
-  const unsigned char *outPtr = ( (const unsigned char *) buffer);
+  volatile const unsigned char *outPtr = ( (const unsigned char *) buffer);
 
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(),"wb");
@@ -447,7 +447,7 @@ void PNGImageIO::WriteSlice(const std::string& fileName, const void* buffer)
     throw excp; 
     }
 
-  int bitDepth;
+  volatile int bitDepth;
   switch (this->GetComponentType())
     {
     case UCHAR:

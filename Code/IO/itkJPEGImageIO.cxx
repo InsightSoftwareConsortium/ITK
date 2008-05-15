@@ -449,7 +449,7 @@ void JPEGImageIO::Write(const void* buffer)
 
 void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
 {
-  const JSAMPLE *outPtr = ( (const JSAMPLE*) buffer);
+  volatile const JSAMPLE *outPtr = ( (const JSAMPLE*) buffer);
 
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(),"wb");
