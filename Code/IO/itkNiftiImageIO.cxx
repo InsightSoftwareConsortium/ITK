@@ -1299,20 +1299,30 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
   //The type here must be float, because that matches the signature
   //of the nifti_make_orthog_mat44() method below.
   typedef float DirectionMatrixComponentType;
-  std::vector<DirectionMatrixComponentType> dirx(dims,0);
-  for(unsigned int i=0; i < this->GetDirection(0).size(); i++)
+  int mindims(dims < 3 ? 3 : dims);
+  std::vector<DirectionMatrixComponentType> dirx(mindims,0);
+  unsigned int i;
+  for(i=0; i < this->GetDirection(0).size(); i++)
     {
     dirx[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(0)[i]);
     }
-  std::vector<DirectionMatrixComponentType> diry(dims,0);
+  if(i < 3)
+    {
+    dirx[2] = 0;
+    }
+  std::vector<DirectionMatrixComponentType> diry(mindims,0);
   if(origdims > 1)
     {
-    for(unsigned int i=0; i < this->GetDirection(1).size(); i++)
+    for(i=0; i < this->GetDirection(1).size(); i++)
       {
       diry[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(1)[i]);
       }
+    if(i < 3)
+      {
+      diry[2] = 0;
+      }
     }
-  std::vector<DirectionMatrixComponentType> dirz(dims,0);
+  std::vector<DirectionMatrixComponentType> dirz(mindims,0);
   if(origdims > 2)
     {
     for(unsigned int i=0; i < this->GetDirection(2).size(); i++)
@@ -1324,6 +1334,11 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
     dirx[2] = - dirx[2];
     diry[2] = - diry[2];
     dirz[2] = - dirz[2];
+    }
+  else
+    {
+    dirz[0] = dirz[1] = 0.0;
+    dirz[2] = 1.0;
     }
   mat44 matrix =
     nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
