@@ -526,12 +526,13 @@ void RescaleFunctionInverse(ImageIOBase::IOComponentType bufferType,
     case ImageIOBase::INT:
       RescaleFunctionInverse( (int *)buffer, source, slope, intercept, size);
       break;
-    case ImageIOBase::FLOAT:
-      RescaleFunctionInverse( (float *)buffer, source, slope, intercept, size);
-      break;
-    case ImageIOBase::DOUBLE:
-      RescaleFunctionInverse( (double *)buffer, source, slope, intercept, size);
-      break;
+    // DICOM does not allow floating point type as stored value:
+    //case ImageIOBase::FLOAT:
+    //  RescaleFunctionInverse( (float *)buffer, source, slope, intercept, size);
+    //  break;
+    //case ImageIOBase::DOUBLE:
+    //  RescaleFunctionInverse( (double *)buffer, source, slope, intercept, size);
+    //  break;
     default:
       ::itk::OStringStream message;
       message << "itk::ERROR: GDCMImageIO: Unknown component type : " << bufferType;
@@ -1096,7 +1097,7 @@ void GDCMImageIO::Write(const void* buffer)
   // image position patient and the row/column direction cosines.
 
   // At the point we can only have 2 or 3 dim images:
-  assert( m_Origin.size() == 2 || m_Origin.size() == 3 );
+  //assert( m_Origin.size() == 2 || m_Origin.size() == 3 );
   str.str("");
   str << m_Origin[0] << "\\" << m_Origin[1] << "\\";
 
@@ -1309,9 +1310,9 @@ void GDCMImageIO::Write(const void* buffer)
     header->InsertValEntry( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
     header->InsertValEntry( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
     header->InsertValEntry( m_SeriesInstanceUID, 0x0020, 0x000e); //[Series Instance UID]
-    header->InsertValEntry( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
+    //header->InsertValEntry( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
     // Secondary Capture Image Storage SOP Class
-    header->InsertValEntry( "1.2.840.10008.5.1.4.1.1.7", 0x0002, 0x0012); //[Implementation Class UID]
+    //header->InsertValEntry( "1.2.840.10008.5.1.4.1.1.7", 0x0002, 0x0012); //[Implementation Class UID]
     }
 
   // size is the size of the actual image in memory
