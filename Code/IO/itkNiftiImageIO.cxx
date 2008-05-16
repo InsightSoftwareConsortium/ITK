@@ -1325,9 +1325,9 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
   std::vector<DirectionMatrixComponentType> dirz(mindims,0);
   if(origdims > 2)
     {
-    for(unsigned int i=0; i < this->GetDirection(2).size(); i++)
+    for(unsigned int ii=0; ii < this->GetDirection(2).size(); ii++)
       {
-      dirz[i] = static_cast<DirectionMatrixComponentType>( -this->GetDirection(2)[i] );
+      dirz[ii] = static_cast<DirectionMatrixComponentType>( -this->GetDirection(2)[ii] );
       }
     //  Read comments in nifti1.h about interpreting 
     //  "DICOM Image Orientation (Patient)"
