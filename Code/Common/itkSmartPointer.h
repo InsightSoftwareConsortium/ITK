@@ -17,7 +17,6 @@
 #ifndef __itkSmartPointer_h
 #define __itkSmartPointer_h
 
-#include "itkMacro.h"
 #include <iostream>
 
 namespace itk
@@ -40,7 +39,7 @@ namespace itk
  * \ingroup DataAccess
  */
 template <class TObjectType>
-class ITK_EXPORT SmartPointer 
+class SmartPointer 
 {
 public:
   typedef TObjectType ObjectType;
