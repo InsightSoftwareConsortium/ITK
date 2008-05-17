@@ -145,6 +145,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 { 
   m_FixedImageRegion = region;
   m_FixedImageRegionDefined = true;
+  this->Modified();
 }
 
 
