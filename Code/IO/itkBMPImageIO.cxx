@@ -657,11 +657,11 @@ BMPImageIO
   char tmp;
   tmp = value%256;
   m_Ofstream.write(&tmp,sizeof(char));
-  tmp = (value%65536L)/256;
+  tmp = static_cast<char>((value%65536L)/256);
   m_Ofstream.write(&tmp,sizeof(char));
-  tmp = (value/65536L)%256;
+  tmp = static_cast<char>((value/65536L)%256);
   m_Ofstream.write(&tmp,sizeof(char));
-  tmp = (value/65536L)/256;
+  tmp = static_cast<char>((value/65536L)/256);
   m_Ofstream.write(&tmp,sizeof(char));
 }
 
@@ -672,7 +672,7 @@ BMPImageIO
   char tmp;
   tmp = value%256;
   m_Ofstream.write(&tmp,sizeof(char));
-  tmp = (value%65536L)/256;
+  tmp = static_cast<char>((value%65536L)/256);
   m_Ofstream.write(&tmp,sizeof(char));
 }
 
@@ -768,7 +768,7 @@ BMPImageIO
     }
   const unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0]*bpp);
 
-  const unsigned int rawImageDataSize = ( bytesPerRow * m_Dimensions[1]);
+  const unsigned int rawImageDataSize = static_cast<unsigned int>(( bytesPerRow * m_Dimensions[1]));
   unsigned int fileSize = ( rawImageDataSize ) + 54;
   if( bpp == 1 ) 
     {

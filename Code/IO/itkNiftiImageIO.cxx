@@ -1308,7 +1308,7 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
     }
   if(i < 3)
     {
-    dirx[2] = 0;
+    dirx[2] = 0.0f;
     }
   std::vector<DirectionMatrixComponentType> diry(mindims,0);
   if(origdims > 1)
@@ -1319,7 +1319,7 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
       }
     if(i < 3)
       {
-      diry[2] = 0;
+      diry[2] = 0.0f;
       }
     }
   std::vector<DirectionMatrixComponentType> dirz(mindims,0);
@@ -1337,8 +1337,8 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
     }
   else
     {
-    dirz[0] = dirz[1] = 0.0;
-    dirz[2] = 1.0;
+    dirz[0] = dirz[1] = 0.0f;
+    dirz[2] = 1.0f;
     }
   mat44 matrix =
     nifti_make_orthog_mat44(dirx[0],dirx[1],dirx[2],
@@ -1368,17 +1368,17 @@ SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int d
   //
   //
   unsigned int sto_limit = origdims > 3 ? 3 : origdims;
-  for(unsigned int i = 0; i < sto_limit; i++)
+  for(unsigned int ii = 0; ii < sto_limit; ii++)
     {
-    for(unsigned int j = 0; j < sto_limit; j++)
+    for(unsigned int jj = 0; jj < sto_limit; jj++)
       {
-      this->m_NiftiImage->sto_xyz.m[i][j] = 
-        static_cast<float>( this->GetSpacing(j) ) *
-        this->m_NiftiImage->sto_xyz.m[i][j];
+      this->m_NiftiImage->sto_xyz.m[ii][jj] = 
+        static_cast<float>( this->GetSpacing(jj) ) *
+        this->m_NiftiImage->sto_xyz.m[ii][jj];
 #if 0 // this is almost certainly wrong and gets overwritten immediately
       // below...
-      this->m_NiftiImage->sto_ijk.m[i][j] =
-        this->m_NiftiImage->sto_xyz.m[i][j] / this->GetSpacing(j);
+      this->m_NiftiImage->sto_ijk.m[ii][jj] =
+        this->m_NiftiImage->sto_xyz.m[ii][jj] / this->GetSpacing(jj);
 #endif
       }
     }

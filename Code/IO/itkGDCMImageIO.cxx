@@ -845,11 +845,12 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
           encodedLengthEstimate = ((encodedLengthEstimate / 4) + 1) * 4;
 
           char *bin = new char[encodedLengthEstimate];
-          int encodedLengthActual = itksysBase64_Encode(
+          unsigned int encodedLengthActual = static_cast<unsigned int>(
+            itksysBase64_Encode(
             (const unsigned char *) b->GetBinArea(),
             static_cast< unsigned long>( b->GetLength() ),
             (unsigned char *) bin,
-            static_cast< int >( 0 ) );
+            static_cast< int >( 0 ) ));
           std::string encodedValue(bin, encodedLengthActual);
           EncapsulateMetaData<std::string>(dico, b->GetKey(), encodedValue);
           delete []bin;
@@ -999,11 +1000,12 @@ void GDCMImageIO::Write(const void* buffer)
         {
         // convert value from Base64
         uint8_t *bin = new uint8_t[value.size()];
-        unsigned int decodedLengthActual = itksysBase64_Decode(
+        unsigned int decodedLengthActual = static_cast<unsigned int>(
+          itksysBase64_Decode(
           (const unsigned char *) value.c_str(),
           static_cast<unsigned long>( 0 ),
           (unsigned char *) bin,
-          static_cast<unsigned long>( value.size()));
+          static_cast<unsigned long>( value.size())));
         if(dictEntry->GetGroup() != 0 || dictEntry->GetElement() != 0)
           {
           header->InsertBinEntry( bin,
