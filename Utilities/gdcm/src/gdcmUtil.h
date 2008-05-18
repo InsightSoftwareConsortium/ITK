@@ -68,6 +68,7 @@ public:
    static std::string GetMACAddress();
 
    static std::string CreateUniqueUID(const std::string &root = "");
+   static const char * CreateUniqueUID2(const std::string &root = "");
    static void SetRootUID(const std::string &root = "");
    static const std::string &GetRootUID();
 
@@ -77,6 +78,9 @@ public:
                      { FileMetaInformationVersion = (uint8_t *)&fmiv; }
 
 private:
+   static bool   GenerateUUID(unsigned char *uuid_data);
+   static size_t EncodeBytes(char *out, const unsigned char *data, int size);
+   static bool IsValid(const char *uid_);
    static std::string GetIPAddress(); //Do not expose this method
 
    static std::string RootUID;

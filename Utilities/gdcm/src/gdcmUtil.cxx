@@ -92,6 +92,18 @@
    #include <thread.h>
 #endif
 
+#if _WIN32
+#define HAVE_UUIDCREATE
+#else
+#define HAVE_UUID_GENERATE
+#endif
+
+#ifdef HAVE_UUID_GENERATE
+#include "uuid/uuid.h"
+#endif
+#include <bitset>
+
+
 namespace gdcm 
 {
 //-------------------------------------------------------------------------
@@ -852,10 +864,10 @@ int GetMacAddrSys ( unsigned char *addr )
  *        pre condition data contain an array of 6 unsigned char
  *        post condition carry contain the last digit
  */
-inline int getlastdigit(unsigned char *data)
+inline int getlastdigit(unsigned char *data, unsigned int size = 6)
 {
   int extended, carry = 0;
-  for(int i=0;i<6;i++)
+  for(unsigned int i=0;i<size;i++)
     {
     extended = (carry << 8) + data[i];
     data[i] = extended / 10;
@@ -863,6 +875,32 @@ inline int getlastdigit(unsigned char *data)
     }
   return carry;
 }
+
+
+size_t Util::EncodeBytes(char *out, const unsigned char *data, int size)
+{
+  bool zero = false;
+  int res;
+  std::string sres;
+  unsigned char buffer[32];
+  unsigned char *addr = buffer;
+  memcpy(addr, data, size);
+  while(!zero)
+    {
+    res = getlastdigit(addr, size);
+    sres.insert(sres.begin(), '0' + res);
+    zero = true;
+    for(int i = 0; i < size; ++i)
+      {
+      zero = zero && (addr[i] == 0);
+      }
+    }
+
+  //return sres;
+  strcpy(out, sres.c_str()); //, sres.size() );
+  return sres.size();
+}
+
 
 /**
  * \brief Encode the mac address on a fixed length string of 15 characters.
@@ -953,6 +991,111 @@ std::string Util::CreateUniqueUID(const std::string &root)
    return prefix + append;
 }
 
+/* return true on success */
+bool Util::GenerateUUID(unsigned char *uuid_data)
+{
+#if defined(HAVE_UUID_GENERATE)
+  uuid_t g;
+  uuid_generate(g);
+  memcpy(uuid_data, g, sizeof(uuid_t));
+#elif defined(HAVE_UUID_CREATE)
+  uint32_t rv;
+  uuid_t g;
+  uuid_create(&g, &rv);
+  if (rv != uuid_s_ok)
+    return false;
+  memcpy(uuid_data, &g, sizeof(uuid_t));
+#elif defined(HAVE_UUIDCREATE)
+  if (FAILED(UuidCreate((UUID *)uuid_data)))
+    {
+    return false;
+    }
+#else
+#error should not happen
+#endif
+  return true;
+}
+
+const char * Util::CreateUniqueUID2(const std::string &root)
+{
+   static std::string Unique;
+   std::string prefix;
+   //std::string append;
+   if ( root.empty() )
+   {
+      // gdcm UID prefix, as supplied by http://www.medicalconnections.co.uk
+      assert( !RootUID.empty() );
+      prefix = RootUID; 
+   }
+   else
+   {
+      prefix = root;
+   }
+
+  //Unique = GetRoot();
+  Unique = prefix;
+  // We choose here a value of 26 so that we can still have 37 bytes free to 
+  // set the suffix part which is sufficient to store a 2^(128-8+1)-1 number
+  if( Unique.empty() || Unique.size() > 62 ) // 62 is simply the highest possible limit
+    {
+    // I cannot go any further...
+    return NULL;
+    }
+  unsigned char uuid[16];
+  bool r = GenerateUUID(uuid);
+  // This should only happen in some obscure cases. Since the creation of UUID failed
+  // I should try to go any further and make sure the user's computer crash and burn
+  // right away
+  if( !r ) return 0;
+  char randbytesbuf[64];
+  size_t len = Util::EncodeBytes(randbytesbuf, uuid, sizeof(uuid));
+  assert( len < 64 ); // programmer error
+  Unique += "."; // This dot is compulsary to separate root from suffix
+  if( Unique.size() + len > 64 )
+    {
+    int idx = 0;
+    bool found = false;
+    std::bitset<8> x;
+    while( !found && idx < 16 ) /* 16 is insane ... oh well */
+      {
+      // too bad ! randbytesbuf is too long, let's try to truncate the high bits a little
+      x = uuid[idx];
+      unsigned int i = 0;
+      while( ( Unique.size() + len > 64 ) && i < 8 )
+        {
+        x[7-i] = 0;
+        uuid[idx] = x.to_ulong();
+        len = Util::EncodeBytes(randbytesbuf, uuid, sizeof(uuid));
+        ++i;
+        }
+      if( ( Unique.size() + len > 64 ) && i == 8 ) 
+        {
+        // too bad only reducing the 8 bits from uuid[idx] was not enought,
+        // let's set to zero the following bits...
+        idx++;
+        }
+      else
+        {
+        // cool we found enough to stop
+        found = true;
+        }
+      }
+    if( !found )
+      {
+      // Technically this could only happen when root has a length >= 64 ... is it
+      // even remotely possible ?
+      gdcmWarningMacro( "Root is too long for current implementation" );
+      return NULL;
+      }
+    }
+  // can now safely use randbytesbuf as is, no need to truncate any more:
+  Unique += randbytesbuf;
+
+  assert( Util::IsValid( Unique.c_str() ) );
+
+  return Unique.c_str();
+}
+
 void Util::SetRootUID(const std::string &root)
 {
    if ( root.empty() )
@@ -965,6 +1108,69 @@ const std::string &Util::GetRootUID()
 {
    return RootUID;
 }
+
+bool Util::IsValid(const char *uid_)
+{
+  /*
+  9.1 UID ENCODING RULES
+  The DICOM UID encoding rules are defined as follows:
+  - Each component of a UID is a number and shall consist of one or more digits. The first digit of
+  each component shall not be zero unless the component is a single digit.
+  Note: Registration authorities may distribute components with non-significant leading zeroes. The leading
+  zeroes should be ignored when being encoded (ie. ¿00029¿ would be encoded ¿29¿).
+  - Each component numeric value shall be encoded using the characters 0-9 of the Basic G0 Set
+  of the International Reference Version of ISO 646:1990 (the DICOM default character
+  repertoire).
+  - Components shall be separated by the character "." (2EH).
+  - If ending on an odd byte boundary, except when used for network negotiation (See PS 3.8),
+  one trailing NULL (00H), as a padding character, shall follow the last component in order to
+  align the UID on an even byte boundary.
+  - UID's, shall not exceed 64 total characters, including the digits of each component, separators
+  between components, and the NULL (00H) padding character if needed.
+  */
+
+  /*
+   * FIXME: This is not clear in the standard, but I believe a trailing '.' is not allowed since
+   * this is considered as a separator for components
+   */
+
+  std::string uid = uid_;
+  if( uid.size() > 64 || uid.empty() )
+    {
+    return false;
+    }
+  if( uid[0] == '.' || uid[uid.size()-1] == '.' ) // important to do that first
+    {
+    return false;
+    }
+  std::string::size_type i = 0;
+  for(; i < uid.size(); ++i)
+    {
+    if( uid[i] == '.' ) // if test is true we are garantee that next char is valid (see previous check)
+      {
+      // check that next character is neither '0' (except single number) not '.'
+      if( uid[i+1] == '.' )
+        {
+        return false;
+        }
+      else if( uid[i+1] == '0' ) // character is garantee to exist since '.' is not last char
+        {
+        // Need to check first if we are not at the end of string
+        if( i+2 != uid.size() && uid[i+2] != '.' )
+          {
+          return false;
+          }
+        }
+      }
+    else if ( !isdigit( (unsigned char)uid[i] ) )
+      {
+      return false;
+      }
+    }
+  // no error found !
+  return true;
+}
+
 
 //-------------------------------------------------------------------------
 /**

@@ -2,6 +2,8 @@
 # Rebuild gdcm whenever a file starting with gdcm* is modified
 INCLUDE_REGULAR_EXPRESSION("^gdcm.*$")
 
+FIND_PACKAGE(UUID)
+
 # Add proper includes
 INCLUDE_DIRECTORIES(
   ${GDCM_SOURCE_DIR}/src
@@ -66,10 +68,12 @@ TARGET_LINK_LIBRARIES(itkgdcm
   itkjpeg12
   itkjpeg16
   itkopenjpeg
+  ${UUID_LIBRARIES}
 )
 IF(WIN32)
   IF(NOT BORLAND)
-    TARGET_LINK_LIBRARIES(itkgdcm wsock32 snmpapi)
+    # rpcrt4 -> UuidCreate
+    TARGET_LINK_LIBRARIES(itkgdcm wsock32 snmpapi rpcrt4)
   ENDIF(NOT BORLAND)
 ENDIF(WIN32)
 
