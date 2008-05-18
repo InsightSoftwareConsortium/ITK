@@ -13,6 +13,9 @@ SET(GDCM_BUILD_VERSION 4)
 SET(GDCM_VERSION
     "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 
+SET(CMAKE_MODULE_PATH ${GDCM_SOURCE_DIR}/CMake)
+FIND_PACKAGE(UUID)
+
 #-----------------------------------------------------------------------------
 # datadir in CMake:
 SET(GDCM_DATA_DIR "/share/gdcm/" CACHE INTERNAL 

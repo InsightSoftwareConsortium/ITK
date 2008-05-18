@@ -2,7 +2,6 @@
 # Rebuild gdcm whenever a file starting with gdcm* is modified
 INCLUDE_REGULAR_EXPRESSION("^gdcm.*$")
 
-FIND_PACKAGE(UUID)
 
 # Add proper includes
 INCLUDE_DIRECTORIES(
