@@ -1597,7 +1597,40 @@ void FileHelper::CheckMandatoryElements()
       Archive->Push(sis);
 
       // 'Image Type' (The written image is no longer an 'ORIGINAL' one)
-      CopyMandatoryEntry(0x0008,0x0008,"DERIVED\\PRIMARY");
+      ValEntry *e_0008_0008 = FileInternal->GetValEntry(0x0008, 0x0008);
+      std::string imagetype = "DERIVED\\PRIMARY";
+      // Make sure to preserved information from element 0008,0008, simply replace
+      // comp #1 of Image Type with 'DERIVED', as gdcm is always deriving image
+      if( e_0008_0008 )
+        {
+        std::string s = e_0008_0008->GetValue();
+        if( !s.empty() )
+          {
+          std::vector<std::string> tokens;
+          gdcm::Util::Tokenize( s, tokens, "\\");
+          // Make sure we can find at least 2 names...
+          if( tokens.size() >= 2 )
+            {
+            itksys_ios::ostringstream os;
+            for( std::vector<std::string>::const_iterator it = tokens.begin();
+              it != tokens.end(); ++it)
+              {
+              if( it == tokens.begin() )
+                {
+                // Mark it DERIVED
+                os << "DERIVED";
+                }
+              else
+                {
+                os << "\\";
+                os << *it;
+                }
+              }
+            imagetype = os.str();
+            }
+          }
+        }
+      CopyMandatoryEntry(0x0008,0x0008,imagetype);
    }
    else
    {
