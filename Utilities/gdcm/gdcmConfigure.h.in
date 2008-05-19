@@ -71,6 +71,8 @@
 /* GDCM uses __FUNCTION__ which is not ANSI C89, but is in ANSI C99 */
 #cmakedefine GDCM_COMPILER_HAS_FUNCTION
 
+#cmakedefine GDCM_SYSTEM_UUID_FOUND
+
 
 /* GetMacAddress require a lot of include file to access low level API */
 #cmakedefine CMAKE_HAVE_UNISTD_H

@@ -95,12 +95,13 @@
 #if _WIN32
 #define HAVE_UUIDCREATE
 #else
+#ifdef GDCM_SYSTEM_UUID_FOUND
 #define HAVE_UUID_GENERATE
-#endif
-
-#ifdef HAVE_UUID_GENERATE
 #include "uuid/uuid.h"
 #endif
+#endif
+
+
 #include <bitset>
 
 
@@ -998,6 +999,7 @@ bool Util::GenerateUUID(unsigned char *uuid_data)
   uuid_t g;
   uuid_generate(g);
   memcpy(uuid_data, g, sizeof(uuid_t));
+  return true;
 #elif defined(HAVE_UUID_CREATE)
   uint32_t rv;
   uuid_t g;
@@ -1005,15 +1007,17 @@ bool Util::GenerateUUID(unsigned char *uuid_data)
   if (rv != uuid_s_ok)
     return false;
   memcpy(uuid_data, &g, sizeof(uuid_t));
+  return true;
 #elif defined(HAVE_UUIDCREATE)
   if (FAILED(UuidCreate((UUID *)uuid_data)))
     {
     return false;
     }
-#else
-#error should not happen
-#endif
   return true;
+#else
+  uuid_data = 0;
+  return false;
+#endif
 }
 
 const char * Util::CreateUniqueUID2(const std::string &root)

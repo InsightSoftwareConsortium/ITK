@@ -14,7 +14,7 @@ FIND_PATH(UUID_INCLUDE_DIR uuid/uuid.h
 
 FIND_LIBRARY(UUID_LIBRARY
   NAMES uuid
-  PATHS /usr/lib /usr/local/lib
+  PATHS /lib /usr/lib /usr/local/lib
   )
 
 IF (UUID_LIBRARY AND UUID_INCLUDE_DIR)

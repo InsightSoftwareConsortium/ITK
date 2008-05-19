@@ -15,6 +15,9 @@ SET(GDCM_VERSION
 
 SET(CMAKE_MODULE_PATH ${GDCM_SOURCE_DIR}/CMake)
 FIND_PACKAGE(UUID)
+IF(UUID_FOUND)
+  SET(GDCM_SYSTEM_UUID_FOUND 1)
+ENDIF(UUID_FOUND)
 
 #-----------------------------------------------------------------------------
 # datadir in CMake:
