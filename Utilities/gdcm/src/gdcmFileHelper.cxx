@@ -1574,6 +1574,10 @@ void FileHelper::CheckMandatoryElements()
    ValEntry *e_0008_0016 = FileInternal->GetValEntry(0x0008, 0x0016);
    if ( e_0008_0016 )
    {
+      // Make sure 0008,0016 & 0002,0002 are always consistant whatever user says...
+      ValEntry *e_0002_0002 = FileInternal->GetValEntry(0x0002, 0x0002);
+      e_0002_0002->SetValue( e_0008_0016->GetValue() );
+
       // Create 'Source Image Sequence' SeqEntry
       SeqEntry *sis = new SeqEntry (
             Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x2112) );
@@ -1587,6 +1591,11 @@ void FileHelper::CheckMandatoryElements()
 
       // create 'Referenced SOP Instance UID'
       ValEntry *e_0008_0018 = FileInternal->GetValEntry(0x0008, 0x0018);
+
+      // Make sure 0008,0018 & 0002,0003 are always consistant whatever user says...
+      ValEntry *e_0002_0003 = FileInternal->GetValEntry(0x0002, 0x0003);
+      e_0002_0003->SetValue( e_0008_0018->GetValue() );
+
       ValEntry *e_0008_1155 = new ValEntry(
             Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x1155) );
       e_0008_1155->SetValue( e_0008_0018->GetValue());
