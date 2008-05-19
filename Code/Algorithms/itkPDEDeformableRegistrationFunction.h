@@ -79,13 +79,27 @@ public:
   const FixedImageType * GetFixedImage(void) const
     { return m_FixedImage; }
 
-  /** Set the fixed image. */
+  /** Set the deformation field image. */
   void SetDeformationField(  DeformationFieldTypePointer ptr )
     { m_DeformationField = ptr; }
 
-  /** Get the fixed image. */
+  /** Get the deformation field image as a SmartPointer. This method has a
+   * performance penalty due to the intermediate creation of SmartPointers in
+   * the return of the function. You should consider using the faster method
+   * GetDeformationFieldRawPointer().
+   *
+   *\sa GetDeformationFieldRawPointer
+   *
+   */
   DeformationFieldTypePointer GetDeformationField(void)
     { return m_DeformationField; }
+
+  /** Get the deformation field image as a raw pointer. This method performs
+   *  faster than the GetDeformationField() method since it doesn't create
+   *  SmartPointers during the return of the function.
+   *
+   *  \sa GetDeformationField.
+   */
   DeformationFieldType * GetDeformationFieldRawPointer(void)
     { return m_DeformationField.GetPointer(); }
 
