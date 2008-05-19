@@ -32,12 +32,8 @@
 #include <cxxabi.h>
 #endif
 
-#if defined(_WIN32)
-  #include "itkWindows.h"
-
-#elif defined(__APPLE__)
+#if defined(__APPLE__)
   // OSAtomic.h optimizations only used in 10.5 and later
-  #include <AvailabilityMacros.h>
   #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
     #include <libkern/OSAtomic.h>
   #endif
@@ -164,7 +160,7 @@ LightObject
 ::Register() const
 {
   // Windows optimization
-#if (defined(WIN32) || defined(_WIN32)) && !defined(__CYGWIN__)
+#if (defined(WIN32) || defined(_WIN32))
   InterlockedIncrement(&m_ReferenceCount);
 
 // Mac optimization
@@ -199,7 +195,7 @@ LightObject
   // to delete the object.
    
   // Windows optimization
-#if (defined(WIN32) || defined(_WIN32)) && !defined(__CYGWIN__)
+#if (defined(WIN32) || defined(_WIN32))
   if ( InterlockedDecrement(&m_ReferenceCount) <= 0 )
     {
     delete this;

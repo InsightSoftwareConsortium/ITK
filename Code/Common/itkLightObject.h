@@ -17,7 +17,10 @@
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
-#if defined(__APPLE__)
+#if defined(_WIN32)
+  // To get LONG defined
+  #include "itkWindows.h"
+#elif defined(__APPLE__)
   // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
   #include <AvailabilityMacros.h>
 #endif
@@ -118,7 +121,9 @@ protected:
   virtual void PrintHeader(std::ostream& os, Indent indent) const;
   virtual void PrintTrailer(std::ostream& os, Indent indent) const;
 
-#if (defined(WIN32) || defined(_WIN32)) && !defined(__CYGWIN__)
+  /** Define the type of the reference count according to the
+      target. This allows the use of atomic operations */
+#if (defined(WIN32) || defined(_WIN32))
   typedef LONG InternalReferenceCountType;
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
  #if __LP64__
