@@ -8,6 +8,10 @@
 #include <vcl_iostream.h>
 #include <vcl_cassert.h>
 
+#if defined(__INTEL_COMPILER)
+# pragma warning (disable:279) /* controlling expression is constant */
+#endif
+
 //: Approximate gamma function
 //  Uses 6 parameter Lanczos approximation as described by Viktor Toth
 //  (http://www.rskey.org/gamma.htm)
