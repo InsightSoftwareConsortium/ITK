@@ -87,7 +87,8 @@
 # define ITK_TYPENAME typename
 #endif
 
-// ITK_EXPORT can not be used
+// When a class definition has ITK_EXPORT, the class will be
+// checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
 #define ITK_EXPORT
 
 #if (defined(_WIN32) || defined(WIN32)) && !defined(ITKSTATIC) 
