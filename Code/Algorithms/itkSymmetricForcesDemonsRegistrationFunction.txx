@@ -197,7 +197,12 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
   PointType mappedCenterPoint;
   CovariantVectorType movingGradient;
   double movingValue;
+  
+  const DeformationFieldType * field = this->GetDeformationFieldRawPointer();
 
+  typedef typename DeformationFieldType::PixelType DeformationPixelType;
+  DeformationPixelType deformation;
+  
   for( unsigned int dim = 0; dim < ImageDimension; dim++ ){
 
     // bounds checking
@@ -207,25 +212,32 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
 
     else{
       tmpIndex[dim] += 1;
-      for( unsigned int j = 0; j < ImageDimension; j++ ){
+      deformation = field->GetPixel( tmpIndex );
+      for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
         mappedNeighPoint[j] = double( tmpIndex[j] ) * m_FixedImageSpacing[j] + m_FixedImageOrigin[j];
-        mappedNeighPoint[j] += this->GetDeformationField()->GetPixel(tmpIndex)[j];
-      }
-      if( m_MovingImageInterpolator->IsInsideBuffer( mappedNeighPoint ) ){
+        mappedNeighPoint[j] += deformation[j];
+        }
+      if( m_MovingImageInterpolator->IsInsideBuffer( mappedNeighPoint ) )
+        {
         movingGradient[dim] = m_MovingImageInterpolator->Evaluate( mappedNeighPoint );
-      }
-      else{
+        }
+      else
+        {
         movingGradient[dim] = 0.0;
-      }
+       }
 
       tmpIndex[dim] -= 2;
-      for( unsigned int j = 0; j < ImageDimension; j++ ){
+      deformation = field->GetPixel( tmpIndex );
+      for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
         mappedNeighPoint[j] = double( tmpIndex[j] ) * m_FixedImageSpacing[j] + m_FixedImageOrigin[j];
-        mappedNeighPoint[j] += this->GetDeformationField()->GetPixel(tmpIndex)[j];
-      }
-      if( m_MovingImageInterpolator->IsInsideBuffer( mappedNeighPoint ) ){
+        mappedNeighPoint[j] += deformation[j];
+        }
+      if( m_MovingImageInterpolator->IsInsideBuffer( mappedNeighPoint ) )
+        {
         movingGradient[dim] -= m_MovingImageInterpolator->Evaluate( mappedNeighPoint );
-      }
+        }
 
       movingGradient[dim] *= 0.5 / m_FixedImageSpacing[dim];
       tmpIndex[dim] += 1;
@@ -235,12 +247,14 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
     mappedCenterPoint[dim] += it.GetCenterPixel()[dim];
   }
 
-  if( m_MovingImageInterpolator->IsInsideBuffer( mappedCenterPoint ) ){
+  if( m_MovingImageInterpolator->IsInsideBuffer( mappedCenterPoint ) )
+    {
     movingValue = m_MovingImageInterpolator->Evaluate( mappedCenterPoint );
-  }
-  else{
+    }
+  else
+    {
     movingValue = 0.0;
-  }
+    }
 
 
   /**

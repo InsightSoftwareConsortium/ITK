@@ -216,8 +216,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   NeighborhoodIterator<DeformationFieldType> 
     asamIt( hradius,
-            this->GetDeformationField(),
-            this->GetDeformationField()->GetRequestedRegion());
+            this->GetDeformationFieldRawPointer(),
+            this->GetDeformationFieldRawPointer()->GetRequestedRegion());
   asamIt.SetLocation(oindex);
   unsigned int hoodlen=asamIt.Size();
  
@@ -245,7 +245,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
        
       // Get moving image related information
-      typename DeformationFieldType::PixelType itvec=this->GetDeformationField()->GetPixel(index);
+      typedef typename DeformationFieldType::PixelType DeformationPixelType;
+      const DeformationPixelType itvec = this->GetDeformationFieldRawPointer()->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
         {
@@ -328,7 +329,8 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
           fgm+=fixedGradient[j] *fixedGradient[j];
           } 
         // Get moving image related information
-        typename DeformationFieldType::PixelType itvec=this->GetDeformationField()->GetPixel(index);
+        typedef typename DeformationFieldType::PixelType DeformationPixelType;
+        const DeformationPixelType itvec=this->GetDeformationFieldRawPointer()->GetPixel(index);
 
         for( j = 0; j < ImageDimension; j++ )
           {
@@ -376,13 +378,11 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
 
-
+  DeformationFieldType * field = this->GetDeformationFieldRawPointer();
 
   for (j=0;j<ImageDimension; j++) hradius[j]=0;
   NeighborhoodIterator<DeformationFieldType> 
-    hoodIt( hradius,
-            this->GetDeformationField(),
-            this->GetDeformationField()->GetRequestedRegion());
+    hoodIt( hradius, field, field->GetRequestedRegion());
   hoodIt.SetLocation(oindex);
  
 // then get the entropy ( and MI derivative ) related sample

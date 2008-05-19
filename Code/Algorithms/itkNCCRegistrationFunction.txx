@@ -107,7 +107,7 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
   std::cout << " total metric " << m_MetricTotal << " field size " <<
-    this->GetDeformationField()->GetLargestPossibleRegion().GetSize()<< " image size " <<
+    this->GetDeformationFieldRawPointer()->GetLargestPossibleRegion().GetSize()<< " image size " <<
     this->m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
   m_MetricTotal=0.0;
 
@@ -193,22 +193,23 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       
       PointType mappedPoint;
 
-      typename TDeformationField::PixelType vec = this->GetDeformationField()->GetPixel(index);
+      typedef typename TDeformationField::PixelType  DeformationPixelType;
+      const DeformationPixelType vec = this->GetDeformationFieldRawPointer()->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
-      {
+        {
         mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
         m_FixedImageOrigin[j];
         mappedPoint[j] += vec[j];
-      }
+        }
       if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
-      {
+        {
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-      }
+        }
       else
-      {
+        {
         movingValue = 0.0;
-      }
+        }
 
       sff+=fixedValue*fixedValue;
       smm+=movingValue*movingValue;

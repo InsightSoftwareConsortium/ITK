@@ -86,6 +86,9 @@ public:
   /** Get the fixed image. */
   DeformationFieldTypePointer GetDeformationField(void)
     { return m_DeformationField; }
+  DeformationFieldType * GetDeformationFieldRawPointer(void)
+    { return m_DeformationField.GetPointer(); }
+
 
 
   void SetEnergy( double e) { m_Energy=e;}
