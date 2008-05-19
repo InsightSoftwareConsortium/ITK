@@ -17,14 +17,6 @@
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
-#if defined(_WIN32)
-  // To get LONG defined
-  #include "itkWindows.h"
-#elif defined(__APPLE__)
-  // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
-  #include <AvailabilityMacros.h>
-#endif
-
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
@@ -33,6 +25,14 @@
 
 #include <iostream>
 #include <typeinfo>
+
+#if defined(_WIN32)
+  // To get LONG defined
+  #include "itkWindows.h"
+#elif defined(__APPLE__)
+  // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
+  #include <AvailabilityMacros.h>
+#endif
 
 namespace itk
 {
