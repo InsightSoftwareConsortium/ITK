@@ -1119,6 +1119,10 @@ void GDCMImageIO::Write(const void* buffer)
   str.str("");
   str << m_Direction[0][0] << "\\"
     << m_Direction[1][0] << "\\";
+  /*
+   * This is where the 3rd component of the direction is being lost
+   * ITK mechanism does not support 2D image, placed in 3D world...
+   */
   if( m_Direction.size() == 3 )
     {
     str << m_Direction[2][0] << "\\";
