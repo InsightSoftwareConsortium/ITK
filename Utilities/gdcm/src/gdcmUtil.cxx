@@ -118,7 +118,11 @@ std::string Util::RootUID        = GDCM_UID;
  */
 const uint16_t Util::FMIV = 0x0100;
 uint8_t *Util::FileMetaInformationVersion = (uint8_t *)&FMIV;
+#if defined(HAVE_UUIDCREATE) || defined(HAVE_UUID_GENERATE) || defined(HAVE_UUID_CREATE)
+std::string Util::GDCM_MAC_ADDRESS = "";
+#else
 std::string Util::GDCM_MAC_ADDRESS = GetMACAddress();
+#endif
 
 //-------------------------------------------------------------------------
 // Public
@@ -950,6 +954,10 @@ std::string Util::GetMACAddress()
  */
 std::string Util::CreateUniqueUID(const std::string &root)
 {
+#if defined(HAVE_UUIDCREATE) || defined(HAVE_UUID_GENERATE) || defined(HAVE_UUID_CREATE)
+   const char * s = Util::CreateUniqueUID2(root);
+   return s;
+#else
    std::string prefix;
    std::string append;
    if ( root.empty() )
@@ -990,6 +998,7 @@ std::string Util::CreateUniqueUID(const std::string &root)
    }
 
    return prefix + append;
+#endif
 }
 
 /* return true on success */
