@@ -771,6 +771,7 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
+IF( DART_TESTING_TIMEOUT GREATER 3000 )
 ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test3.mhd
@@ -882,6 +883,7 @@ ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
         10.0 50
 )
+ENDIF( DART_TESTING_TIMEOUT GREATER 3000 )
 
 ADD_TEST(ChangeInformationTest1 
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
