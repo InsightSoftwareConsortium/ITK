@@ -28,8 +28,8 @@ MultipleValuedVnlCostFunctionAdaptor
   unsigned int spaceDimension, unsigned int numberOfValues ):
   vnl_least_squares_function(spaceDimension,numberOfValues) 
 { 
-  m_ScalesInitialized =false;
-  m_Reporter = Object::New();
+  this->m_ScalesInitialized =false;
+  this->m_Reporter = Object::New();
 }
 
     
@@ -38,8 +38,8 @@ void
 MultipleValuedVnlCostFunctionAdaptor
 ::SetScales(const ScalesType & scales)
 {
-  m_Scales = scales;
-  m_ScalesInitialized = true;
+  this->m_Scales = scales;
+  this->m_ScalesInitialized = true;
 }
 
 /**  Delegate computation of the value to the CostFunction. */
@@ -48,7 +48,7 @@ MultipleValuedVnlCostFunctionAdaptor
 ::f( const InternalParametersType & inparameters, 
      InternalMeasureType    & measures        )
 {
-  if( !m_CostFunction )
+  if( ! this->m_CostFunction )
     {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);
@@ -58,11 +58,11 @@ MultipleValuedVnlCostFunctionAdaptor
 
   ParametersType parameters(inparameters.size());
   // Use scales if they are provided
-  if(m_ScalesInitialized)
+  if( this->m_ScalesInitialized )
     { 
-    for(unsigned int i=0;i<parameters.size();i++)
+    for( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] = inparameters[i]/m_Scales[i];
+      parameters[i] = inparameters[i] / this->m_Scales[i];
       }
     }
   else
@@ -70,7 +70,7 @@ MultipleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
 
-   measures = m_CostFunction->GetValue( parameters );
+   measures = this->m_CostFunction->GetValue( parameters );
 
   // Notify observers. This is used for overcoming the limitaion of VNL
   // optimizers of not providing callbacks per iteration.
@@ -88,7 +88,7 @@ MultipleValuedVnlCostFunctionAdaptor
 ::gradf(  const InternalParametersType   & inparameters,
           InternalDerivativeType   & gradient       ) 
 {
-  if( !m_CostFunction )
+  if( !this->m_CostFunction )
     {
     ExceptionObject ex;
     ex.SetLocation(__FILE__);
@@ -98,11 +98,11 @@ MultipleValuedVnlCostFunctionAdaptor
 
   DerivativeType externalGradient;
   ParametersType parameters(inparameters.size());
-  if(m_ScalesInitialized)
+  if( this->m_ScalesInitialized )
     {  
     for(unsigned int i=0;i<parameters.size();i++)
       {
-      parameters[i] = inparameters[i]/m_Scales[i];
+      parameters[i] = inparameters[i] / this->m_Scales[i];
       }
     }
   else
@@ -110,8 +110,8 @@ MultipleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
 
-  m_CostFunction->GetDerivative( parameters, externalGradient ); 
-  ConvertExternalToInternalGradient( externalGradient, gradient);
+  this->m_CostFunction->GetDerivative( parameters, externalGradient ); 
+  this->ConvertExternalToInternalGradient( externalGradient, gradient);
 }
   
 
@@ -126,11 +126,11 @@ MultipleValuedVnlCostFunctionAdaptor
   // delegate the computation to the CostFunction
   DerivativeType externalGradient;
   ParametersType parameters(x.size());
-  if(m_ScalesInitialized)
+  if( this->m_ScalesInitialized )
     {
     for(unsigned int i=0;i<parameters.size();i++)
       {
-      parameters[i] = x[i]/m_Scales[i];
+      parameters[i] = x[i] / this->m_Scales[i];
       }
     }
   else
@@ -138,11 +138,11 @@ MultipleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(x.data_block()));
     }
 
-   *ff = static_cast<InternalMeasureType>(
-        m_CostFunction->GetValue( parameters ) );
-  m_CostFunction->GetDerivative( parameters, externalGradient );
+  *ff = static_cast<InternalMeasureType>(
+        this->m_CostFunction->GetValue( parameters ) );
+  this->m_CostFunction->GetDerivative( parameters, externalGradient );
 
-  ConvertExternalToInternalGradient( externalGradient, *g );  
+  this->ConvertExternalToInternalGradient( externalGradient, *g );  
 
   // Notify observers. This is used for overcoming the limitaion of VNL
   // optimizers of not providing callbacks per iteration.
@@ -161,11 +161,18 @@ MultipleValuedVnlCostFunctionAdaptor
 {
   const unsigned int rows = input.rows();
   const unsigned int cols = input.cols();
+
   for( unsigned int i=0; i<rows; i++ ) 
     {
     for( unsigned int j=0; j<cols; j++ ) 
       {
       output(j,i) = input(i,j);
+
+      if( this->m_ScalesInitialized )
+        {
+        output(j,i) /= this->m_Scales[i];
+        }
+
       }
     }
 }
@@ -225,7 +232,7 @@ unsigned long
 MultipleValuedVnlCostFunctionAdaptor
 ::AddObserver(const EventObject & event, Command * command) const
 {
-  return m_Reporter->AddObserver( event, command );
+  return this->m_Reporter->AddObserver( event, command );
 }
 
 
