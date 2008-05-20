@@ -165,7 +165,7 @@ LightObject
 
 // Mac optimization
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
- #if __LP64__
+ #if defined (__LP64__) && __LP64__
   OSAtomicIncrement64Barrier(&m_ReferenceCount);
  #else
   OSAtomicIncrement32Barrier(&m_ReferenceCount);
@@ -203,7 +203,7 @@ LightObject
 
 // Mac optimization
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
- #if __LP64__
+ #if defined (__LP64__) && __LP64__
   if ( OSAtomicDecrement64Barrier(&m_ReferenceCount) <= 0 )
     {
     delete this;

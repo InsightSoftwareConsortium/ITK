@@ -126,7 +126,7 @@ protected:
 #if (defined(WIN32) || defined(_WIN32))
   typedef LONG InternalReferenceCountType;
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
- #if __LP64__
+ #if defined (__LP64__) && __LP64__
   typedef volatile int64_t InternalReferenceCountType;
  #else
   typedef volatile int32_t InternalReferenceCountType;
