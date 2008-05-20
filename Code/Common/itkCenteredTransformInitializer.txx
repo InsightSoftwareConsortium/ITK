@@ -156,7 +156,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
   Superclass::PrintSelf(os,indent);
      
   os << indent << "Transform   = " << std::endl;
-  if (m_Transform)
+  if( m_Transform )
     { 
     os << indent << m_Transform  << std::endl;
     }
@@ -166,7 +166,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "FixedImage   = " << std::endl;
-  if (m_FixedImage)
+  if( m_FixedImage )
     { 
     os << indent << m_FixedImage  << std::endl;
     }
@@ -176,7 +176,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "MovingImage   = " << std::endl;
-  if (m_MovingImage)
+  if( m_MovingImage )
     { 
     os << indent << m_MovingImage  << std::endl;
     }
@@ -186,7 +186,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "MovingMomentCalculator   = " << std::endl;
-  if (m_MovingCalculator)
+  if( m_UseMoments && m_MovingCalculator )
     { 
     os << indent << m_MovingCalculator  << std::endl;
     }
@@ -196,7 +196,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "FixedMomentCalculator   = " << std::endl;
-  if (m_FixedCalculator)
+  if( m_UseMoments && m_FixedCalculator )
     { 
     os << indent << m_FixedCalculator  << std::endl;
     }
