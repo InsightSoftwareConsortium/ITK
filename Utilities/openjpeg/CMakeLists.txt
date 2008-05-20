@@ -27,6 +27,7 @@ CONFIGURE_FILE(${ITKOpenJPEG_SOURCE_DIR}/.NoDartCoverage
 
 IF (BORLAND)
   SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004")
+  ADD_DEFINITIONS(-DWIN32)
 ENDIF (BORLAND)
 
 # Pass proper definition to preprocessor to generate shared lib
