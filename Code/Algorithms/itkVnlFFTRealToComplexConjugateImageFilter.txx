@@ -22,19 +22,13 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkExceptionObject.h"
-#include "vnl/algo/vnl_fft_base.txx"
+#include "vnl/algo/vnl_fft_base.h"
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
 #include "vnl_fft_3d.h"
 
-VNL_FFT_BASE_INSTANTIATE(3,double);
-VNL_FFT_BASE_INSTANTIATE(3,float);
-//#define DEBUG_PRINT(x) /* */
-//#define DEBUG_PRINT(x) x
-
 namespace itk
 {
-//#define DEBUG_PRINT(x) /* */
 #define DEBUG_PRINT(x) x
 
   template <class TPixel, unsigned int Dimension>

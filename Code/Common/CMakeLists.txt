@@ -119,6 +119,8 @@ ADD_LIBRARY(itkvnl_inst
   vnl_vector+short-.cxx
   vnl_vector+ushort-.cxx
   vnl_vector+char-.cxx
+  vnl_fft_base+double.3-.cxx
+  vnl_fft_base+float.3-.cxx
   )
 TARGET_LINK_LIBRARIES (itkvnl_inst ${VXL_NUMERICS_LIBRARIES} )
 
