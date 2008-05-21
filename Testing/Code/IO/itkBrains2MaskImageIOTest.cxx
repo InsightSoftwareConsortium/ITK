@@ -54,7 +54,11 @@ int itkBrains2MaskTest(int ac, char *av[])
   img->Allocate();
   itk::SpatialOrientationAdapter::DirectionType CORdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   img->SetDirection(CORdir);
-
+  ImageType::PointType origin;
+  origin[0] = 10;
+  origin[1] = 20;
+  origin[2] = 30;
+  img->SetOrigin(origin);
   vnl_sample_reseed(8775070);
   itk::ImageRegionIterator<ImageType> ri(img,region);
   try
@@ -133,6 +137,18 @@ int itkBrains2MaskTest(int ac, char *av[])
     message += ex.GetDescription();
     std::cerr << message << std::endl;
     itksys::SystemTools::RemoveFile(fileName.c_str());
+    return EXIT_FAILURE;
+    }
+  itk::SpatialOrientationAdapter::DirectionType readDirection(readImage->GetDirection());
+  if(readDirection != CORdir)
+    {
+    std::string message("Direction Cosines read do not match direction cosines written");
+    return EXIT_FAILURE;
+    }
+  ImageType::PointType readOrigin(readImage->GetOrigin());
+  if(readOrigin != origin)
+    {
+    std::string message("Origin read does not match origin written");
     return EXIT_FAILURE;
     }
   ri.GoToBegin();

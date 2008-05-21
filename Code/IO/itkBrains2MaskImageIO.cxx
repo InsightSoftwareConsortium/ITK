@@ -25,7 +25,7 @@
 #include "itk_zlib.h"
 #include <time.h>
 #include <itksys/SystemTools.hxx>
-
+#include <sstream>
 static const unsigned char DEF_WHITE_MASK=255;
 namespace itk
 {
@@ -237,12 +237,30 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     {
     return false;
     }
-  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags
-    coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
-  if(this->m_B2MaskHeader.DoesKeyExist("MASK_ACQ_PLANE:"))
+  //
+  // to try and maintain some backwards compatibility
+  unsigned dims = this->GetNumberOfDimensions();
+  std::vector<double> dirx(dims,0), diry(dims,0), dirz(dims,0);
+  if(this->m_IPLHeaderInfo.DoesKeyExist("DIRX0:"))
     {
-    std::string acqVal = this->m_B2MaskHeader.getString("MASK_ACQ_PLANE:");
+    dirx[0] = this->m_IPLHeaderInfo.getFloat("DIRX0:");
+    dirx[1] = this->m_IPLHeaderInfo.getFloat("DIRX1:");
+    dirx[2] = this->m_IPLHeaderInfo.getFloat("DIRX2:");
+    diry[0] = this->m_IPLHeaderInfo.getFloat("DIRY0:");
+    diry[1] = this->m_IPLHeaderInfo.getFloat("DIRY1:");
+    diry[2] = this->m_IPLHeaderInfo.getFloat("DIRY2:");
+    dirz[0] = this->m_IPLHeaderInfo.getFloat("DIRZ0:");
+    dirz[1] = this->m_IPLHeaderInfo.getFloat("DIRZ1:");
+    dirz[2] = this->m_IPLHeaderInfo.getFloat("DIRZ2:");
+    }
+  else if(this->m_IPLHeaderInfo.DoesKeyExist("MASK_ACQ_PLANE:"))
+    {
+    // backwards compatibility -- no newly created mask file will
+    // include this tag.
+    itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+    itk::SpatialOrientation::ValidCoordinateOrientationFlags
+      coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+    std::string acqVal = this->m_IPLHeaderInfo.getString("MASK_ACQ_PLANE:");
     if(acqVal == "SAGITTAL")
       {
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
@@ -259,31 +277,43 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
       {
       itkExceptionMacro(<< "If MASK_ACQ_PLANE is specified, then it must be one of CORONAL, AXIAL, or SAGITAL flags.");
       }
+    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+      (thisDic,ITK_CoordinateOrientation, coord_orient);
+    //An error was encountered in code that depends upon the valid coord_orientation.
+    typedef SpatialOrientationAdapter OrientAdapterType;
+    SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+    dirx[0] = dir[0][0];
+    dirx[1] = dir[1][0];
+    dirx[2] = dir[2][0];
+    diry[0] = dir[0][1];
+    diry[1] = dir[1][1];
+    diry[2] = dir[2][1];
+    dirz[0] = dir[0][2];
+    dirz[1] = dir[1][2];
+    dirz[2] = dir[2][2];
+    for(unsigned i = 3; i < dims; i++)
+      {
+      dirx[i] = diry[i] = dirz[i] = 0;
+      }
     }
-  itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
-    (thisDic,ITK_CoordinateOrientation, coord_orient);
-  //An error was encountered in code that depends upon the valid coord_orientation.
-  typedef SpatialOrientationAdapter OrientAdapterType;
-  SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
-  unsigned dims = this->GetNumberOfDimensions();
-  std::vector<double> dirx(dims,0), diry(dims,0), dirz(dims,0);
-  dirx[0] = dir[0][0];
-  dirx[1] = dir[1][0];
-  dirx[2] = dir[2][0];
-  diry[0] = dir[0][1];
-  diry[1] = dir[1][1];
-  diry[2] = dir[2][1];
-  dirz[0] = dir[0][2];
-  dirz[1] = dir[1][2];
-  dirz[2] = dir[2][2];
-  for(unsigned i = 3; i < dims; i++)
+  else
     {
-    dirx[i] = diry[i] = dirz[i] = 0;
+    itkExceptionMacro(<< "No orientation specified.");
     }
   this->SetDirection(0,dirx);
   this->SetDirection(1,diry);
   this->SetDirection(2,dirz);
-
+  if(this->m_IPLHeaderInfo.DoesKeyExist("ORIGIN0:"))
+    {
+    double origin[3];
+    origin[0] = this->m_IPLHeaderInfo.getFloat("ORIGIN0:");
+    origin[1] = this->m_IPLHeaderInfo.getFloat("ORIGIN1:");
+    origin[2] = this->m_IPLHeaderInfo.getFloat("ORIGIN2:");
+    this->SetOrigin(0,origin[0]);
+    this->SetOrigin(1,origin[1]);
+    this->SetOrigin(2,origin[2]);
+    }
+  
   local_InputStream.close();
   if(this->m_IPLHeaderInfo.DoesKeyExist("MASK_HEADER_BEGIN") == false)
     {
@@ -319,27 +349,41 @@ void Brains2MaskImageIO::ReadImageInformation()
 // long printf
 static const char mask_header_format[] =
   "IPL_HEADER_BEGIN\n"
-  "PATIENT_ID: %s\n"
-  "SCAN_ID: %s\n"
-  "FILENAME: %s\n"
-  "DATE: %s\n"
-  "CREATOR: %s\n"
-  "PROGRAM: %s\n"
-  "MODULE: %s\n"
-  "VERSION: %s\n"
-  "NAME: %s\n"
+  "PATIENT_ID: %s\n"            // 0
+  "SCAN_ID: %s\n"               // 1
+  "FILENAME: %s\n"              // 2
+  "DATE: %s\n"                  // 3
+  "CREATOR: %s\n"               // 4
+  "PROGRAM: %s\n"               // 5
+  "MODULE: %s\n"                // 6
+  "VERSION: %s\n"               // 7
+  "NAME: %s\n"                  // 8
   "BYTE_ORDER: BIG_ENDIAN\n"
   "MASK_HEADER_BEGIN\n"
-  "MASK_NUM_DIMS: %d\n"
-  "MASK_X_SIZE: %d\n"
-  "MASK_X_RESOLUTION: %f\n"
-  "MASK_Y_SIZE: %d\n"
-  "MASK_Y_RESOLUTION: %f\n"
-  "MASK_Z_SIZE: %d\n"
-  "MASK_Z_RESOLUTION: %f\n"
-  "MASK_THRESHOLD: %f\n"
-  "MASK_NAME: %d\n"
-  "MASK_ACQ_PLANE: %s\n"
+  "MASK_NUM_DIMS: %d\n"         // 9
+  "MASK_X_SIZE: %d\n"           // 10
+  "MASK_X_RESOLUTION: %f\n"     // 11
+  "MASK_Y_SIZE: %d\n"           // 12
+  "MASK_Y_RESOLUTION: %f\n"     // 13
+  "MASK_Z_SIZE: %d\n"           // 14
+  "MASK_Z_RESOLUTION: %f\n"     // 15
+  "MASK_THRESHOLD: %f\n"        // 16
+  "MASK_NAME: %d\n"             // 17
+#if defined(OBSOLETE)
+  "MASK_ACQ_PLANE: %s\n"        // 18
+#endif
+  "DIRX0: %f\n"                 // 18
+  "DIRX1: %f\n"                 // 19
+  "DIRX2: %f\n"                 // 20
+  "DIRY0: %f\n"                 // 21
+  "DIRY1: %f\n"                 // 22
+  "DIRY2: %f\n"                 // 23
+  "DIRZ0: %f\n"                 // 24
+  "DIRZ1: %f\n"                 // 25
+  "DIRZ2: %f\n"                 // 26
+  "ORIGIN0: %f\n"               // 27
+  "ORIGIN1: %f\n"               // 28
+  "ORIGIN2: %f\n"               // 29
   "MASK_HEADER_END\n"
   "IPL_HEADER_END\n";
 
@@ -450,11 +494,18 @@ Brains2MaskImageIO
   std::string fname = this->m_FileName;
   replace_blanks(fname);
   std::string orientation = "UNKNOWN";
-  itk::SpatialOrientationAdapter::DirectionType dir;
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
   std::vector<double> dirx = this->GetDirection(0);
   std::vector<double> diry = this->GetDirection(1);
   std::vector<double> dirz = this->GetDirection(2);
+  double origin[3];
+  origin[0] = this->GetOrigin(0);
+  origin[1] = this->GetOrigin(1);
+  origin[2] = this->GetOrigin(2);
+  //
+  // the old way of doing things...
+#if defined(OBSOLETE)
+  itk::SpatialOrientationAdapter::DirectionType dir;
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
   for(unsigned int i = 0; i < 3; i++)
     {
     dir[i][1] = dirx[i];
@@ -490,26 +541,33 @@ Brains2MaskImageIO
         );
       break;
     }
+#endif
   sprintf(buf,mask_header_format,
-          patient_id.c_str(),
-          "00000",                 // scan_id
-          fname.c_str(),           // file_name
-          timestr.c_str(),         // date
-          "Anonymous",             // creator
-          "itkBrains2MaskImageIO", // program
-          "None",                  // module
-          "1",                     // version
-          itksys::SystemTools::GetFilenameName(m_FileName).c_str(),   // name
-          3,                       // num_dims
-          xsize,                   // xsize
-          xres,                     // x_res
-          ysize,                   // ysize
-          yres,                     // y_res
-          zsize,                   // zsize
-          zres,                     // z_res
-          0.0,                     // threshold
-          -1,                      // mask_name
+          patient_id.c_str(),      // 0
+          "00000",                 // scan_id 1
+          fname.c_str(),           // file_name 2
+          timestr.c_str(),         // date 3
+          "Anonymous",             // creator 4
+          "itkBrains2MaskImageIO", // program 5
+          "None",                  // module 6
+          "1",                     // version 7
+          itksys::SystemTools::GetFilenameName(m_FileName).c_str(),   // name 8
+          3,                       // num_dims 9
+          xsize,                   // xsize 10
+          xres,                     // x_res 11
+          ysize,                   // ysize 12
+          yres,                     // y_res 13
+          zsize,                   // zsize 14
+          zres,                     // z_res 15
+          0.0,                     // threshold 16 
+          -1,                      // mask_name 17
+#if defined(OBSOLETE)
           orientation.c_str()      // acq plane
+#endif
+          dirx[0],dirx[1],dirx[2], // 18, 19, 20
+          diry[0],diry[1],diry[2], // 21, 22, 23
+          dirz[0],dirz[1],dirz[2], // 24, 25, 26
+          origin[0],origin[1],origin[2] // 27, 28, 29
     );
   output.write(buf,strlen(buf));
   unsigned octreeHdr[6];
