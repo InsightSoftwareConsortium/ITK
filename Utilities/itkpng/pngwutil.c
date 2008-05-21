@@ -169,7 +169,7 @@ png_text_compress(png_structp png_ptr,
    if (compression == PNG_TEXT_COMPRESSION_NONE)
    {
        comp->input = text;
-       comp->input_len = text_len;
+       comp->input_len = (int)text_len;
        return((int)text_len);
    }
 
@@ -1235,7 +1235,7 @@ png_write_tEXt(png_structp png_ptr, png_charp key, png_charp text,
       text_len = png_strlen(text);
 
    /* make sure we include the 0 after the key */
-   png_write_chunk_start(png_ptr, (png_bytep)png_tEXt, (png_uint_32)key_len+text_len+1);
+   png_write_chunk_start(png_ptr, (png_bytep)png_tEXt, (png_uint_32)(key_len+text_len+1));
    /*
     * We leave it to the application to meet PNG-1.0 requirements on the
     * contents of the text.  PNG-1.0 through PNG-1.2 discourage the use of
@@ -1438,7 +1438,7 @@ png_write_pCAL(png_structp png_ptr, png_charp purpose, png_int_32 X0,
       null terminator for the last parameter. */
    for (i = 0; i < nparams; i++)
    {
-      params_len[i] = png_strlen(params[i]) + (i == nparams - 1 ? 0 : 1);
+      params_len[i] = (png_uint_32)png_strlen(params[i]) + (i == nparams - 1 ? 0 : 1);
       png_debug2(3, "pCAL parameter %d length = %lu\n", i, params_len[i]);
       total_len += (png_size_t)params_len[i];
    }

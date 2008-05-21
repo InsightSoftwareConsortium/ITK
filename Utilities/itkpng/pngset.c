@@ -292,7 +292,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    if (png_ptr == NULL || info_ptr == NULL)
       return;
 
-   length = png_strlen(purpose) + 1;
+   length = (png_uint_32)png_strlen(purpose) + 1;
    png_debug1(3, "allocating purpose for info (%lu bytes)\n", length);
    info_ptr->pcal_purpose = (png_charp)png_malloc(png_ptr, length);
    png_memcpy(info_ptr->pcal_purpose, purpose, (png_size_t)length);
@@ -303,7 +303,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
    info_ptr->pcal_type = (png_byte)type;
    info_ptr->pcal_nparams = (png_byte)nparams;
 
-   length = png_strlen(units) + 1;
+   length = (png_uint_32)png_strlen(units) + 1;
    png_debug1(3, "allocating units for info (%lu bytes)\n", length);
    info_ptr->pcal_units = (png_charp)png_malloc(png_ptr, length);
    png_memcpy(info_ptr->pcal_units, units, (png_size_t)length);
@@ -315,7 +315,7 @@ png_set_pCAL(png_structp png_ptr, png_infop info_ptr,
 
    for (i = 0; i < nparams; i++)
    {
-      length = png_strlen(params[i]) + 1;
+      length = (png_uint_32)png_strlen(params[i]) + 1;
       png_debug2(3, "allocating parameter %d for info (%lu bytes)\n", i, length);
       info_ptr->pcal_params[i] = (png_charp)png_malloc(png_ptr, length);
       png_memcpy(info_ptr->pcal_params[i], params[i], (png_size_t)length);
@@ -535,7 +535,7 @@ png_set_iCCP(png_structp png_ptr, png_infop info_ptr,
    if (png_ptr == NULL || info_ptr == NULL || name == NULL || profile == NULL)
       return;
 
-   new_iccp_name = (png_charp)png_malloc(png_ptr, png_strlen(name)+1);
+   new_iccp_name = (png_charp)png_malloc(png_ptr, (png_uint_32)png_strlen(name)+1);
    png_strcpy(new_iccp_name, name);
    new_iccp_profile = (png_charp)png_malloc(png_ptr, proflen);
    png_memcpy(new_iccp_profile, profile, (png_size_t)proflen);
@@ -784,7 +784,7 @@ png_set_sPLT(png_structp png_ptr,
         png_sPLT_tp from = entries + i;
 
         to->name = (png_charp)png_malloc(png_ptr,
-            png_strlen(from->name) + 1);
+            (png_uint_32)png_strlen(from->name) + 1);
         png_strcpy(to->name, from->name);
         to->entries = (png_sPLT_entryp)png_malloc(png_ptr,
             from->nentries * sizeof(png_sPLT_t));
@@ -815,7 +815,7 @@ png_set_unknown_chunks(png_structp png_ptr,
         return;
 
     np = (png_unknown_chunkp)png_malloc(png_ptr,
-        (info_ptr->unknown_chunks_num + num_unknowns) *
+        (png_uint_32)(info_ptr->unknown_chunks_num + num_unknowns) *
         sizeof(png_unknown_chunk));
 
     png_memcpy(np, info_ptr->unknown_chunks,
@@ -829,7 +829,7 @@ png_set_unknown_chunks(png_structp png_ptr,
         png_unknown_chunkp from = unknowns + i;
 
         png_strcpy((png_charp)to->name, (png_charp)from->name);
-        to->data = (png_bytep)png_malloc(png_ptr, from->size);
+        to->data = (png_bytep)png_malloc(png_ptr, (png_uint_32)(from->size));
         png_memcpy(to->data, from->data, from->size);
         to->size = from->size;
 

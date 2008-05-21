@@ -49,7 +49,7 @@ png_default_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
    if ( !WriteFile((HANDLE)(png_ptr->io_ptr), data, length, &check, NULL) )
       check = 0;
 #else
-   check = fwrite(data, 1, length, (png_FILE_p)(png_ptr->io_ptr));
+   check = (png_uint_32)fwrite(data, 1, length, (png_FILE_p)(png_ptr->io_ptr));
 #endif
    if (check != length)
       png_error(png_ptr, "Write Error");
