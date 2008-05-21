@@ -357,8 +357,8 @@ _nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read) {
         s->stream.avail_in  -= n;
       }
       if (s->stream.avail_out > 0) {
-        s->stream.avail_out -= fread(next_out, 1, s->stream.avail_out,
-                                     s->file);
+        s->stream.avail_out -= 
+         (uInt)fread(next_out, 1, s->stream.avail_out, s->file);
       }
       len -= s->stream.avail_out;
       s->stream.total_in  += len;
@@ -370,7 +370,7 @@ _nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read) {
     if (s->stream.avail_in == 0 && !s->z_eof) {
 
       errno = 0;
-      s->stream.avail_in = fread(s->inbuf, 1, _NRRD_Z_BUFSIZE, s->file);
+      s->stream.avail_in = (uInt)fread(s->inbuf, 1, _NRRD_Z_BUFSIZE, s->file);
       if (s->stream.avail_in == 0) {
         s->z_eof = 1;
         if (ferror(s->file)) {
@@ -471,7 +471,7 @@ _nrrdGzGetByte(_NrrdGzStream *s) {
   if (s->z_eof) return EOF;
   if (s->stream.avail_in == 0) {
     errno = 0;
-    s->stream.avail_in = fread(s->inbuf, 1, _NRRD_Z_BUFSIZE, s->file);
+    s->stream.avail_in = (uInt)fread(s->inbuf, 1, _NRRD_Z_BUFSIZE, s->file);
     if (s->stream.avail_in == 0) {
       s->z_eof = 1;
       if (ferror(s->file)) {

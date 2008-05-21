@@ -276,7 +276,7 @@ nrrdOriginCalculate(const Nrrd *nrrd,
   }
   
   for (ai=0; ai<axisIdxNum; ai++) {
-    size = axis[ai]->size;
+    size = (int)(axis[ai]->size);
     min = axis[ai]->min;
     center = (nrrdCenterUnknown != axis[ai]->center
               ? axis[ai]->center

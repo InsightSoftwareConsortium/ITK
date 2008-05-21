@@ -713,7 +713,7 @@ nrrdAxisInfoPos(const Nrrd *nrrd, unsigned int ax, double idx) {
   center = _nrrdCenter(nrrd->axis[ax].center);
   min = nrrd->axis[ax].min;
   max = nrrd->axis[ax].max;
-  size = nrrd->axis[ax].size;
+  size = (unsigned int)(nrrd->axis[ax].size);
   
   return NRRD_POS(center, min, max, size, idx);
 }
@@ -739,7 +739,7 @@ nrrdAxisInfoIdx(const Nrrd *nrrd, unsigned int ax, double pos) {
   center = _nrrdCenter(nrrd->axis[ax].center);
   min = nrrd->axis[ax].min;
   max = nrrd->axis[ax].max;
-  size = nrrd->axis[ax].size;
+  size = (unsigned int)(nrrd->axis[ax].size);
 
   return NRRD_IDX(center, min, max, size, pos);
 }
@@ -766,7 +766,7 @@ nrrdAxisInfoPosRange(double *loP, double *hiP,
   center = _nrrdCenter(nrrd->axis[ax].center);
   min = nrrd->axis[ax].min;
   max = nrrd->axis[ax].max;
-  size = nrrd->axis[ax].size;
+  size = (unsigned)(nrrd->axis[ax].size);
 
   if (loIdx > hiIdx) {
     flip = 1;
@@ -818,7 +818,7 @@ nrrdAxisInfoIdxRange(double *loP, double *hiP,
   center = _nrrdCenter(nrrd->axis[ax].center);
   min = nrrd->axis[ax].min;
   max = nrrd->axis[ax].max;
-  size = nrrd->axis[ax].size;
+  size = (unsigned)(nrrd->axis[ax].size);
 
   if (loPos > hiPos) {
     flip = 1;

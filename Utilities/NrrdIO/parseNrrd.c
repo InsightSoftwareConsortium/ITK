@@ -408,7 +408,7 @@ _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX],
 
   hh = *hhP;
   /* skip past space */
-  length = strspn(hh, _nrrdFieldSep);
+  length = (unsigned int)strspn(hh, _nrrdFieldSep);
   hh += length;
 
   /* make sure we have something */
@@ -424,7 +424,7 @@ _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX],
       for (dd=0; dd<spaceDim; dd++) {
         val[dd] = AIR_NAN;
       }
-      length += strlen(_nrrdNoSpaceVector);
+      length += (unsigned int)strlen(_nrrdNoSpaceVector);
     } else {
       /* we got something that started out looking like the non-vector */
       sprintf(err, "%s: couldn't parse non-vector \"%s\"", me, hh);
@@ -459,7 +459,7 @@ _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX],
     }
     /* terminate at end paren */
     *(hh+1) = 0;
-    length += strlen(buff);
+    length += (unsigned int)strlen(buff);
     /* see if we have too many fields */
     ret = airStrntok(buff+1, sep);
     if (ret > spaceDim) {
@@ -1221,7 +1221,7 @@ _nrrdReadNrrdParse_data_file (FILE *ffile, Nrrd *nrrd,
     /* --------- format.%d <min> <max> <step> [<dim>] ----------- */
     /* ---------------------------------------------------------- */
     nums = info + strcspn(info, _nrrdFieldSep);
-    tmp = strspn(nums, _nrrdFieldSep);
+    tmp = (int)strspn(nums, _nrrdFieldSep);
     nums[0] = 0;   /* terminate so that format is now in info */
     nums += tmp;
     if (!( 3 == sscanf(nums, "%d %d %d",&(nio->dataFNMin), 
