@@ -105,7 +105,7 @@ _nrrdEncodingAscii_write(FILE *file, const void *_data, size_t elNum,
       fprintf(file, "%s%c", buff,
               (I+1)%(nrrd->axis[0].size) ? ' ' : '\n');
     } else {
-      bufflen = strlen(buff);
+      bufflen = (unsigned int)strlen(buff);
       if (linelen+bufflen+1 <= nio->charsPerLine) {
         fprintf(file, "%s%s", I ? " " : "", buff);
         linelen += (I ? 1 : 0) + bufflen;

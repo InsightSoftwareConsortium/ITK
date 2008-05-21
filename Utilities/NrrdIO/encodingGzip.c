@@ -85,7 +85,7 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
   data = (char *)_data;
   
   /* Ok, now we can begin reading. */
-  while ((error = _nrrdGzRead(gzfin, data, block_size, &read)) == 0 
+  while ((error = _nrrdGzRead(gzfin, data, (unsigned int)block_size, &read)) == 0 
          && read > 0) {
     /* Increment the data pointer to the next available spot. */
     data += read; 
@@ -193,7 +193,7 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
   data = (char *)_data;
   
   /* Ok, now we can begin writing. */
-  while ((error = _nrrdGzWrite(gzfout, data, block_size, &wrote)) == 0 
+  while ((error = _nrrdGzWrite(gzfout, data, (unsigned int)block_size, &wrote)) == 0 
          && wrote > 0) {
     /* Increment the data pointer to the next available spot. */
     data += wrote;
