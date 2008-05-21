@@ -146,8 +146,8 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==VCL_NULL_TMPL_ARGS(const hash_set<Value,HashFcn,EqualKey,Alloc>&,
-                           const hash_set<Value,HashFcn,EqualKey,Alloc>&);
+
+  friend bool operator==ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(self)(const self &, const self &);
 
   iterator begin() const { return rep.begin(); }
   iterator end() const { return rep.end(); }
@@ -260,8 +260,8 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==VCL_NULL_TMPL_ARGS(const hash_multiset<Value,HashFcn,EqualKey,Alloc>&,
-                         const hash_multiset<Value,HashFcn,EqualKey,Alloc>&);
+
+  friend bool operator==ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(self)(const self &, const self &);
 
   iterator begin() const { return rep.begin(); }
   iterator end() const { return rep.end(); }

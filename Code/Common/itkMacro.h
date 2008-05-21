@@ -707,6 +707,42 @@ private:
 #endif
 
 //=============================================================================
+/* Define a common way of declaring a templated function as a friend inside a class.
+  - ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENTS(T) 
+
+  The following templated function 
+
+            template <T>
+            T add(const T & a, const T & b);
+
+  is declared as friend in some compilers as:
+
+            class A
+              {
+              public:
+                friend Self add<Self>( const Self & a, const Self & b );
+              }
+
+   while other compilers will do
+
+            class A
+              {
+              public:
+                friend Self add<>( const Self & a, const Self & b );
+              }
+*/
+#if defined(_MSC_VER) && (_MSC_VER <= 1300)
+#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)
+#else
+#if defined(__BORLANDC__)
+#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)  <>
+#else
+#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)  <T>
+#endif
+#endif
+
+
+//=============================================================================
 /* Choose a way to prevent template instantiation on this platform.
   - ITK_TEMPLATE_DO_NOT_INSTANTIATE = use #pragma do_not_instantiate to
                                       prevent instantiation

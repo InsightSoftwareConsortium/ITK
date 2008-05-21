@@ -177,9 +177,9 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-#ifndef __BORLANDC__
-  friend bool operator==<self>(const self &, const self &);
-#endif
+
+  friend bool operator==ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(self)(const self &, const self &);
+
   iterator begin() { return rep.begin(); }
   iterator end() { return rep.end(); }
   const_iterator begin() const { return rep.begin(); }
@@ -281,7 +281,8 @@ public:
   size_type max_size() const { return rep.max_size(); }
   bool empty() const { return rep.empty(); }
   void swap(self& hs) { rep.swap(hs.rep); }
-  friend bool operator==<self>(const self &, const self &);
+
+  friend bool operator==ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(self)(const self &, const self &);
 
   iterator begin() { return rep.begin(); }
   iterator end() { return rep.end(); }
