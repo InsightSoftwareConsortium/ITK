@@ -354,7 +354,7 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
        being printed explicity), so they are never "interesting" */
     break;
   case nrrdField_sample_units:
-    ret = airStrlen(nrrd->sampleUnits);
+    ret = (int)airStrlen(nrrd->sampleUnits);
     break;
   case nrrdField_space_units:
     for (ai=0; ai<nrrd->spaceDim; ai++) {
@@ -423,7 +423,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   }
   
   fs = airEnumStr(nrrdField, field);
-  fslen = strlen(prefix) + strlen(fs) + strlen(": ") + 1;
+  fslen = (int)(strlen(prefix) + strlen(fs) + strlen(": ") + 1);
   switch (field) {
   case nrrdField_comment:
   case nrrdField_keyvalue:
@@ -520,7 +520,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_centers:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += 1 + airStrlen(nrrd->axis[ii].center 
+      fdlen += 1 + (int)airStrlen(nrrd->axis[ii].center 
                              ? airEnumStr(nrrdCenter, nrrd->axis[ii].center)
                              : NRRD_UNKNOWN);
     }
@@ -537,7 +537,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_kinds:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += 1 + airStrlen(nrrd->axis[ii].kind
+      fdlen += 1 + (int)airStrlen(nrrd->axis[ii].kind
                              ? airEnumStr(nrrdKind, nrrd->axis[ii].kind)
                              : NRRD_UNKNOWN);
     }
@@ -554,7 +554,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_labels:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += airStrlen(nrrd->axis[ii].label) + 4;
+      fdlen += (int)airStrlen(nrrd->axis[ii].label) + 4;
     }
     *strP = (char *)calloc(fslen + fdlen, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
@@ -569,7 +569,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_units:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += airStrlen(nrrd->axis[ii].units) + 4;
+      fdlen += (int)airStrlen(nrrd->axis[ii].units) + 4;
     }
     *strP = (char *)calloc(fslen + fdlen, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
@@ -637,7 +637,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_space_units:
     fdlen = 0;
     for (ii=0; ii<nrrd->spaceDim; ii++) {
-      fdlen += airStrlen(nrrd->spaceUnits[ii]) + 4;
+      fdlen += (int)airStrlen(nrrd->spaceUnits[ii]) + 4;
     }
     *strP = (char *)calloc(fslen + fdlen, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);

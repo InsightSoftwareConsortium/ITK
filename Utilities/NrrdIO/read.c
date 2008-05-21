@@ -123,7 +123,7 @@ _nrrdOneLine (unsigned int *lenP, NrrdIoState *nio, FILE *file) {
     for (lineIdx=0; lineIdx<(int)lineArr->len; lineIdx++) {
       strcat(nio->line, line[lineIdx]);
     }
-    *lenP = strlen(nio->line) + 1;
+    *lenP = (unsigned int)(strlen(nio->line) + 1);
     airMopError(mop);
   }
   return 0;
