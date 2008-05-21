@@ -298,14 +298,18 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     return m_Min[dimension][this->m_Size[dimension]-1];
     }
 
+  MeasurementType binMinFromValue = NumericTraits<MeasureType>::NonPositiveMin();
+  
   for ( int i=0; i < this->m_Size[dimension]; i++ )
     {
     if (  (value >= this->m_Min[dimension][i])
           && (value <  this->m_Max[dimension][i])  )
       {
-      return this->m_Min[dimension][i];
+      binMinFromValue = this->m_Min[dimension][i];
       }
     }
+    
+  return binMinFromValue;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -329,14 +333,18 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     return m_Max[dimension][this->m_Size[dimension]-1];
     }
 
+  MeasurementType binMaxFromValue = NumericTraits<MeasureType>::max();
+  
   for ( int i = 0 ; i < this->m_Size[dimension]; i++ )
     {
     if (  (value >= this->m_Min[dimension][i])
           && (value <  this->m_Max[dimension][i])  )
       {
-      return this->m_Max[dimension][i];
+      binMaxFromValue = this->m_Max[dimension][i];
       }
     }
+  
+  return binMaxFromValue;
 }
 
 /*template< class TMeasurement, unsigned int VMeasurementVectorSize, 
