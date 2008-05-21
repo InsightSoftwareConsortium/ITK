@@ -450,7 +450,11 @@ public:
 
   const_iterator end() const { return const_iterator((node*)0, this); }
 
+#ifndef __BORLANDC__
   friend bool operator== <self>(const self&,const self&);
+#else
+  friend bool operator==VCL_NULL_TMPL_ARGS(const self&,const self&);
+#endif
 
 public:
 
