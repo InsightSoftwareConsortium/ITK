@@ -804,7 +804,7 @@ static int nifti_load_NBL_bricks( nifti_image * nim , int * slist, int * sindex,
           /* if we are not looking at the correct sub-brick, scan forward */
           if( fposn != (oposn + isrc*NBL->bsize) ){
              fposn = oposn + isrc*NBL->bsize;
-             if( znzseek(fp, fposn, SEEK_SET) < 0 ){
+             if( znzseek(fp, (long)fposn, SEEK_SET) < 0 ){
                 fprintf(stderr,"** failed to locate brick %d in file '%s'\n",
                         isrc, nim->iname ? nim->iname : nim->fname);
                 return -1;
@@ -2352,7 +2352,7 @@ char * nifti_find_file_extension( const char * name )
 
    if ( ! name ) return NULL;
 
-   len = strlen(name);
+   len = (int)strlen(name);
    if ( len < 4 ) return NULL;
 
    ext = (char *)name + len - 4;
@@ -2387,7 +2387,7 @@ int nifti_is_gzfile(const char* fname)
 #ifdef HAVE_ZLIB
   { /* just so len doesn't generate compile warning */
      int len;
-     len = strlen(fname);
+     len = (int)strlen(fname);
      if (len < 3) return 0;  /* so we don't search before the name */
      if (strcmp(fname + strlen(fname) - 3,".gz")==0) { return 1; }
   }
@@ -2993,7 +2993,7 @@ int is_nifti_file( const char *hname )
 
    /* read header, close file */
 
-   ii = znzread( &nhdr , 1 , sizeof(nhdr) , fp ) ;
+   ii = (int)znzread( &nhdr , 1 , sizeof(nhdr) , fp ) ;
    znzclose( fp ) ;
    if( ii < (int) sizeof(nhdr) )               return -1 ;  /* bad read? */
 
@@ -3501,7 +3501,7 @@ nifti_1_header * nifti_read_header(const char * hname, int * swapped, int check)
    }
 
    /* read the binary header */ 
-   bytes = znzread( &nhdr, 1, sizeof(nhdr), fp );
+   bytes = (int)znzread( &nhdr, 1, sizeof(nhdr), fp );
    znzclose( fp );                      /* we are done with the file now */
 
    if( bytes < (int)sizeof(nhdr) ){
@@ -3728,7 +3728,7 @@ nifti_image *nifti_image_read( const char *hname , int read_data )
 
    /**- read binary header */
 
-   ii = znzread( &nhdr , 1 , sizeof(nhdr) , fp ) ;       /* read the thing */
+   ii = (int)znzread( &nhdr , 1 , sizeof(nhdr) , fp ) ;       /* read the thing */
 
    /* keep file open so we can check for exts. after nifti_convert_nhdr2nim() */
 
@@ -3799,7 +3799,7 @@ static int has_ascii_header( znzFile fp )
 
    if( znz_isnull(fp) ) return 0;
 
-   nread = znzread( buf, 1, 12, fp );
+   nread = (int)znzread( buf, 1, 12, fp );
    buf[12] = '\0';
 
    if( nread < 12 ) return -1;
@@ -3924,7 +3924,7 @@ static int nifti_read_extensions( nifti_image *nim, znzFile fp, int remain )
       return 0;
    }
 
-   count = znzread( extdr.extension, 1, 4, fp ); /* get extender */
+   count = (int)znzread( extdr.extension, 1, 4, fp ); /* get extender */
 
    if( count < 4 ){
       if( g_opts.debug > 1 )
@@ -4127,8 +4127,8 @@ static int nifti_read_next_extension( nifti1_extension * nex, nifti_image *nim,
    }
 
    /* must start with 4-byte size and code */
-   count = znzread( &size, 4, 1, fp );
-   if( count == 1 ) count += znzread( &code, 4, 1, fp );
+   count = (int)znzread( &size, 4, 1, fp );
+   if( count == 1 ) count += (int)znzread( &code, 4, 1, fp );
 
    if( count != 2 ){
       if( g_opts.debug > 2 )
@@ -4167,7 +4167,7 @@ static int nifti_read_next_extension( nifti1_extension * nex, nifti_image *nim,
       return -1;
    }
 
-   count = znzread(nex->edata, 1, size, fp);
+   count = (int)znzread(nex->edata, 1, size, fp);
    if( count < size ){
       if( g_opts.debug > 0 )
          fprintf(stderr,"-d read only %d (of %d) bytes for extension\n",
@@ -4363,7 +4363,7 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
    }
 
    /**- seek to the appropriate read position */
-   if( znzseek(fp , ioff , SEEK_SET) < 0 ){
+   if( znzseek(fp , (long)ioff , SEEK_SET) < 0 ){
       fprintf(stderr,"** could not seek to offset %u in file '%s'\n",
               (unsigned)ioff, nim->iname);
       znzclose(fp);
@@ -4487,7 +4487,7 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
   /* byte swap array if needed */
   
   if( nim->swapsize > 1 && nim->byteorder != nifti_short_order() )
-    nifti_swap_Nbytes( ntot / nim->swapsize , nim->swapsize , dataptr ) ;
+    nifti_swap_Nbytes( (int)(ntot / nim->swapsize ), nim->swapsize , dataptr ) ;
 
 #ifdef isfinite
 {
@@ -4734,14 +4734,14 @@ static int nifti_write_extensions(znzFile fp, nifti_image *nim)
 
    list = nim->ext_list;
    for ( c = 0; c < nim->num_ext; c++ ){
-      size = nifti_write_buffer(fp, &list->esize, sizeof(int));
+      size = (int)nifti_write_buffer(fp, &list->esize, sizeof(int));
       ok = (size == (int)sizeof(int));
       if( ok ){
-         size = nifti_write_buffer(fp, &list->ecode, sizeof(int));
+         size = (int)nifti_write_buffer(fp, &list->ecode, sizeof(int));
          ok = (size == (int)sizeof(int));
       }
       if( ok ){
-         size = nifti_write_buffer(fp, list->edata, list->esize - 8);
+         size = (int)nifti_write_buffer(fp, list->edata, list->esize - 8);
          ok = (size == list->esize - 8);
       }
 
@@ -5447,7 +5447,7 @@ static int unescape_string( char *str )
    int ii,jj , nn,ll ;
 
    if( str == NULL ) return 0 ;                /* no string? */
-   ll = strlen(str) ; if( ll == 0 ) return 0 ;
+   ll = (int)strlen(str) ; if( ll == 0 ) return 0 ;
 
    /* scan for escapes: &something; */
 
@@ -5544,7 +5544,7 @@ static char *escapize_string( const char * str )
    int ii,jj , lstr,lout ;
    char *out ;
 
-   if( str == NULL || (lstr=strlen(str)) == 0 ){      /* 0 length */
+   if( str == NULL || (lstr=(int)strlen(str)) == 0 ){      /* 0 length */
      out = nifti_strdup("''") ; return out ;                /* string?? */
    }
 
@@ -5826,7 +5826,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
 
    sprintf( buf+strlen(buf) , "/>\n" ) ;   /* XML-ish closer */
 
-   nbuf = strlen(buf) ;
+   nbuf = (int)strlen(buf) ;
    buf  = (char *)realloc((void *)buf, nbuf+1); /* cut back to proper length */
    if( !buf ) fprintf(stderr,"** NITA: failed to realloc %d bytes\n",nbuf+1);
    return buf ;
@@ -5890,7 +5890,7 @@ nifti_image *nifti_image_from_ascii( const char *str, int * bytes_read )
 
    /* scan for opening string */
 
-   spos = 0 ; slen = strlen(str) ;
+   spos = 0 ; slen = (int)strlen(str) ;
    ii = sscanf( str+spos , "%1023s%n" , lhs , &nn ) ; spos += nn ;
    if( ii == 0 || strcmp(lhs,"<nifti_image") != 0 ) return NULL ;
 
@@ -6515,7 +6515,7 @@ int nifti_read_subregion_image( nifti_image * nim,
                 (si[0] * strides[0]);
               znzseek(fp, offset, SEEK_SET); /* seek to current row */
               read_amount = rs[0] * nim->nbyper; /* read a row of the subregion*/
-              nread = nifti_read_buffer(fp, readptr, read_amount, nim);
+              nread = (int)nifti_read_buffer(fp, readptr, read_amount, nim);
               if(nread != read_amount)
                 {
                 if(g_opts.debug > 1)
@@ -6567,7 +6567,7 @@ static int rci_read_data(nifti_image * nim, int * pivots, int * prods,
       }
 
       /* so just seek and read (prods[0] * nbyper) bytes from the file */
-      znzseek(fp, base_offset, SEEK_SET);
+      znzseek(fp, (long)base_offset, SEEK_SET);
       bytes = (size_t)prods[0] * nim->nbyper;
       nread = nifti_read_buffer(fp, data, bytes, nim);
       if( nread != bytes ){
@@ -6751,7 +6751,7 @@ int * nifti_get_intlist( int nvals , const char * str )
 
    /**- for each sub-selector until end of input... */
 
-   slen = strlen(str) ;
+   slen = (int)strlen(str) ;
    while( ipos < slen && !ISEND(str[ipos]) ){
 
      while( isspace((int) str[ipos]) ) ipos++ ;   /* skip blanks */
