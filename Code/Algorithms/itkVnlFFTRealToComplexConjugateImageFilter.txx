@@ -109,19 +109,19 @@ namespace itk
       case 1:
         {
         vnl_fft_1d<TPixel> v1d(vec_size);
-        v1d.fwd_transform(signal);
+        v1d.bwd_transform(signal);
         }
         break;
       case 2:
         {
-        vnl_fft_2d<TPixel> v2d(inputSize[0],inputSize[1]);
-        v2d.vnl_fft_2d<TPixel>::base::transform(signal.data_block(),+1);
+        vnl_fft_2d<TPixel> v2d(inputSize[1],inputSize[0]);
+        v2d.vnl_fft_2d<TPixel>::base::transform(signal.data_block(),-1);
         }
         break;
       case 3:
         {
-        vnl_fft_3d<TPixel> v3d(inputSize[0],inputSize[1],inputSize[2]);
-        v3d.vnl_fft_3d<TPixel>::base::transform(signal.data_block(),+1);
+        vnl_fft_3d<TPixel> v3d(inputSize[2],inputSize[1],inputSize[0]);
+        v3d.vnl_fft_3d<TPixel>::base::transform(signal.data_block(),-1);
         }
         break;
       default:
