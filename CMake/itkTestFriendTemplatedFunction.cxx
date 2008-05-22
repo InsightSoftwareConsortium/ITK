@@ -45,7 +45,16 @@ public:
     return result;
     }
 
+  WantToHaveFriend()
+    {
+    x = 0;
+    }
  
+  void DoNothing() const
+    {
+    // of course... do nothing.
+    }
+
 //
 //  Here are the variants that some compilers use
 //
@@ -70,7 +79,13 @@ int main()
 { 
   typedef WantToHaveFriend<int>  FriendlyType;
 
-  FriendlyType foo;
+  FriendlyType foo1;
+  FriendlyType foo2;
+  FriendlyType foo3;
+
+  foo1 = compose( foo2, foo3 );
+
+  foo1.DoNothing();
 
   return 0;
 }
