@@ -57,12 +57,14 @@ int itkListSampleTest(int argc, char *argv[] )
   // general interface
   //
   std::cerr << "General interface..." << std::endl;
+  std::cerr << "  if ( sampleSize != sample->Size() )" << std::endl;
   if ( sampleSize != sample->Size() )
     {
     std::cerr << "Size() failed" << std::endl;
     return EXIT_FAILURE;
     }
 
+  std::cerr << "  if (sample->GetMeasurementVectorSize() != measurementVectorSize)" << std::endl;
   if (sample->GetMeasurementVectorSize() != measurementVectorSize)
     {
     std::cerr << "GetMeasurementVectorSize() failed" << std::endl;
@@ -70,24 +72,33 @@ int itkListSampleTest(int argc, char *argv[] )
     }
 
   // get and set measurements
+  std::cerr << "  mv = sample->GetMeasurementVector(4) ;" << std::endl;
   mv = sample->GetMeasurementVector(4) ;
+  std::cerr << "  if ( mv != sample->GetMeasurementVector(4) )" << std::endl;
   if ( mv != sample->GetMeasurementVector(4) )
     {
     std::cerr << "GetMeasurementVector failed" << std::endl;
     return EXIT_FAILURE;
     }
 
+  std::cerr << "  float tmp = mv[0];" << std::endl;
   float tmp = mv[0];
+  std::cerr << "  mv[0] += 1.0;" << std::endl;
   mv[0] += 1.0;
+  std::cerr << "  sample->SetMeasurementVector(4,mv);" << std::endl;
   sample->SetMeasurementVector(4,mv);
+  std::cerr << "  if (mv != sample->GetMeasurementVector(4))" << std::endl;
   if (mv != sample->GetMeasurementVector(4))
     {
     std::cerr << "SetMeasurementVector failed" << std::endl;
     return EXIT_FAILURE;
     }  
 
+  std::cerr << "  mv[0] = tmp;" << std::endl;
   mv[0] = tmp;
+  std::cerr << "  sample->SetMeasurement(4,0,tmp);" << std::endl;
   sample->SetMeasurement(4,0,tmp);
+  std::cerr << "  if (mv != sample->GetMeasurementVector(4))" << std::endl;
   if (mv != sample->GetMeasurementVector(4))
     {
     std::cerr << "SetMeasurement failed" << std::endl;
@@ -95,6 +106,7 @@ int itkListSampleTest(int argc, char *argv[] )
     }  
   
   // frequency
+  std::cerr << "  if (sample->GetTotalFrequency() != sampleSize)" << std::endl;
   if (sample->GetTotalFrequency() != sampleSize)
   {
     std::cerr << "GetTotalFrequency failed" << std::endl;
