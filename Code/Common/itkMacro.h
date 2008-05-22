@@ -730,14 +730,20 @@ private:
               public:
                 friend Self add<>( const Self & a, const Self & b );
               }
+
+   This characteristic of the compiler is checked by a TRY_COMPILE
+   command defined in Insight/CMake/itkTestFriendTemplatedFunction.cxx
+
 */
-#if defined(_MSC_VER) && (_MSC_VER <= 1300)
+#if defined(ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_NULL_STRING)
 #define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)
 #else
-#if defined(__BORLANDC__)
+#if defined(ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_EMPTY_BRACKETS)
 #define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)  <>
 #else
+#if defined(ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_TEMPLATE_ARGUMENTS)
 #define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)  <T>
+#endif
 #endif
 #endif
 
