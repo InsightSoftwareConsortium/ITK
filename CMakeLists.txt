@@ -623,24 +623,7 @@ TRY_COMPILE(ITK_SUPPORTS_TEMPLATE_PARTIAL_SPECIALIZATION
 # Figure out how the compiler likes to declare templated functions as friends
 # of a templated class.
 #
-TRY_COMPILE(ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_NULL_STRING
-      ${ITK_BINARY_DIR}/CMakeTmp
-      ${ITK_SOURCE_DIR}/CMake/itkTestFriendTemplatedFunction.cxx
-      COMPILE_DEFINITIONS TRY_COMPILE_FRIEND_WITH_NULL_TEMPLATE_STRING
-      )
-
-TRY_COMPILE(ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_EMPTY_BRACKETS
-      ${ITK_BINARY_DIR}/CMakeTmp
-      ${ITK_SOURCE_DIR}/CMake/itkTestFriendTemplatedFunction.cxx
-      COMPILE_DEFINITIONS TRY_COMPILE_FRIEND_WITH_EMPTY_TEMPLATE_BRACKETS
-      )
-
-TRY_COMPILE(ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_TEMPLATE_ARGUMENTS
-      ${ITK_BINARY_DIR}/CMakeTmp
-      ${ITK_SOURCE_DIR}/CMake/itkTestFriendTemplatedFunction.cxx
-      COMPILE_DEFINITIONS TRY_COMPILE_FRIEND_WITH_TEMPLATE_ARGUMENTS
-      )
-
+INCLUDE(${ITK_SOURCE_DIR}/CMake/itkTestFriendTemplatedFunction.cmake)
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
