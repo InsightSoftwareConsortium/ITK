@@ -83,27 +83,10 @@ public:
   void SetDeformationField(  DeformationFieldTypePointer ptr )
     { m_DeformationField = ptr; }
 
-  /** Get the deformation field image as a SmartPointer. This method has a
-   * performance penalty due to the intermediate creation of SmartPointers in
-   * the return of the function. You should consider using the faster method
-   * GetDeformationFieldRawPointer().
-   *
-   *\sa GetDeformationFieldRawPointer
-   *
-   */
-  DeformationFieldTypePointer GetDeformationField(void)
+  /** Get the deformation field. This function should have been
+   *  declared const. It is not for backward compatibility reasons. */
+  DeformationFieldType * GetDeformationField(void)
     { return m_DeformationField; }
-
-  /** Get the deformation field image as a raw pointer. This method performs
-   *  faster than the GetDeformationField() method since it doesn't create
-   *  SmartPointers during the return of the function.
-   *
-   *  \sa GetDeformationField.
-   */
-  DeformationFieldType * GetDeformationFieldRawPointer(void)
-    { return m_DeformationField.GetPointer(); }
-
-
 
   void SetEnergy( double e) { m_Energy=e;}
   double GetEnergy( ) const { return m_Energy;}
@@ -136,17 +119,17 @@ protected:
   };
 
   /** The moving image. */
-  MovingImagePointer                m_MovingImage;
+  MovingImagePointer              m_MovingImage;
   
   /** The fixed image. */
-  FixedImagePointer                   m_FixedImage;
+  FixedImagePointer               m_FixedImage;
 
   /** The deformation field. */
-  DeformationFieldTypePointer                   m_DeformationField;
+  DeformationFieldTypePointer     m_DeformationField;
 
   mutable double                  m_Energy;
   bool                            m_NormalizeGradient;
-  mutable double                          m_GradientStep;
+  mutable double                  m_GradientStep;
 private:
   PDEDeformableRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

@@ -198,7 +198,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
   CovariantVectorType movingGradient;
   double movingValue;
   
-  const DeformationFieldType * field = this->GetDeformationFieldRawPointer();
+  const DeformationFieldType * const field = this->GetDeformationField();
 
   typedef typename DeformationFieldType::PixelType DeformationPixelType;
   DeformationPixelType deformation;

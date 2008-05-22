@@ -214,10 +214,10 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   unsigned int sampct=0;
 
 
-  NeighborhoodIterator<DeformationFieldType> 
+  ConstNeighborhoodIterator<DeformationFieldType> 
     asamIt( hradius,
-            this->GetDeformationFieldRawPointer(),
-            this->GetDeformationFieldRawPointer()->GetRequestedRegion());
+            this->GetDeformationField(),
+            this->GetDeformationField()->GetRequestedRegion());
   asamIt.SetLocation(oindex);
   unsigned int hoodlen=asamIt.Size();
  
@@ -246,7 +246,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
        
       // Get moving image related information
       typedef typename DeformationFieldType::PixelType DeformationPixelType;
-      const DeformationPixelType itvec = this->GetDeformationFieldRawPointer()->GetPixel(index);
+      const DeformationPixelType itvec = this->GetDeformationField()->GetPixel(index);
 
       for( j = 0; j < ImageDimension; j++ )
         {
@@ -330,7 +330,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
           } 
         // Get moving image related information
         typedef typename DeformationFieldType::PixelType DeformationPixelType;
-        const DeformationPixelType itvec=this->GetDeformationFieldRawPointer()->GetPixel(index);
+        const DeformationPixelType itvec=this->GetDeformationField()->GetPixel(index);
 
         for( j = 0; j < ImageDimension; j++ )
           {
@@ -378,10 +378,10 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 
 
-  DeformationFieldType * field = this->GetDeformationFieldRawPointer();
+  const DeformationFieldType * const field = this->GetDeformationField();
 
   for (j=0;j<ImageDimension; j++) hradius[j]=0;
-  NeighborhoodIterator<DeformationFieldType> 
+  ConstNeighborhoodIterator<DeformationFieldType> 
     hoodIt( hradius, field, field->GetRequestedRegion());
   hoodIt.SetLocation(oindex);
  
