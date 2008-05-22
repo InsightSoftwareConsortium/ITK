@@ -687,7 +687,7 @@ nrrdAlloc_nva (Nrrd *nrrd, int type, unsigned int dim, const size_t *size) {
   esize = nrrdElementSize(nrrd);
   nrrd->data = calloc(num, esize);
   if (!(nrrd->data)) {
-    sprintf(err, "%s: calloc(" _AIR_SIZE_T_CNV ",%d) failed",
+    sprintf(err, "%s: calloc(" _AIR_SIZE_T_CNV ",%zd) failed",
             me, num, esize);
     biffAdd(NRRD, err); return 1 ;
   }
