@@ -21,11 +21,12 @@
 */
 
 //
-// Here is our templated function
+// Here is our templated function, forward declared
 //
+template <class T> class WantToHaveFriend;
+
 template <class T>
-T compose( const T & a, const T & b )
-{ return a + b; }
+bool operator==( const WantToHaveFriend<T> & a, const  WantToHaveFriend<T> & b );
 
 
 //
@@ -37,13 +38,6 @@ class WantToHaveFriend
 public:
 
   typedef WantToHaveFriend Self;
-
-  Self operator+(const Self & other) const
-    {
-    Self result;
-    result.x = this->x + other.x;
-    return result;
-    }
 
   WantToHaveFriend()
     {
@@ -60,20 +54,25 @@ public:
 //
 
 #ifdef TRY_COMPILE_FRIEND_WITH_NULL_TEMPLATE_STRING
-  friend Self compose(const Self &, const Self &);
+  friend bool operator==(const Self &, const Self &);
 #endif
 
 #ifdef TRY_COMPILE_FRIEND_WITH_EMPTY_TEMPLATE_BRACKETS
-  friend Self compose<>(const Self &, const Self &);
+  friend bool operator==<>(const Self &, const Self &);
 #endif
 
 #ifdef TRY_COMPILE_FRIEND_WITH_TEMPLATE_ARGUMENTS
-  friend Self compose<Self>(const Self &, const Self &);
+  friend bool operator==<Self>(const Self &, const Self &);
 #endif
 
 private:
    int x;
 };
+
+template <class T>
+bool operator==( const WantToHaveFriend<T> & a, const  WantToHaveFriend<T> & b )
+{ return a.x == b.x; }
+
 
 int main() 
 { 
@@ -81,11 +80,13 @@ int main()
 
   FriendlyType foo1;
   FriendlyType foo2;
-  FriendlyType foo3;
 
-  foo1 = compose( foo2, foo3 );
+  bool result = ( foo1 == foo2 );
 
-  foo1.DoNothing();
+  if( result )
+    {
+    return 1;
+    }
 
   return 0;
 }
