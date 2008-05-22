@@ -68,6 +68,10 @@ private:
 
 int main() 
 { 
+  typedef WantToHaveFriend<int>  FriendlyType;
+
+  FriendlyType foo;
+
   return 0;
 }
 
