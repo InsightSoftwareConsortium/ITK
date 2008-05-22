@@ -191,46 +191,27 @@ PowellOptimizer
   //
   // Compute extrapolated point using the golden ratio
   //
-  if( *f2 < *f1 )
-    {
-    // compute x3 on the side of x2
-    *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
-    *f3 = this->GetLineValue( *x3, tempCoord );
-
-    // If the new point is a minimum
-    // then continue extrapolating in
-    // that direction until we find a
-    // value of f3 that makes f2 to be
-    // a minimum.
-    while( *f3 < *f2 )
-      {
-      *x2 = *x3;
-      *f2 = *f3;
-      *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
-      *f3 = this->GetLineValue( *x3, tempCoord );
-      }
-    }
-  else
+  if( *f2 >= *f1 )
     {
     this->Swap(x1, x2);
     this->Swap(f1, f2);
-
-    // compute x3 on the side of x1
+    }
+  
+  // compute x3 on the side of x2
+  *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
+  *f3 = this->GetLineValue( *x3, tempCoord );
+  
+  // If the new point is a minimum
+  // then continue extrapolating in
+  // that direction until we find a
+  // value of f3 that makes f2 to be
+  // a minimum.
+  while( *f3 < *f2 )
+    {
+    *x2 = *x3;
+    *f2 = *f3;
     *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
     *f3 = this->GetLineValue( *x3, tempCoord );
-
-    // If the new point is a minimum
-    // then continue extrapolating in
-    // that direction until we find a
-    // value of f3 that makes f2 to be
-    // a minimum.
-    while( *f3 < *f2 )
-      {
-      *x2 = *x3;
-      *f2 = *f3;
-      *x3 = *x1 + goldenRatio * ( *x2 - *x1 );
-      *f3 = this->GetLineValue( *x3, tempCoord );
-      }
     }
 
   itkDebugMacro( << "Initial: " << *x1 << ", " << *x2 << ", " << *x3 );
