@@ -142,7 +142,7 @@ size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
       {
       /*  NOTE:  We must typecast const away from the buffer because
           gzwrite does not have complete const specification */
-    return (size_t) ( gzwrite(file->zfptr,(void *)buf,size*nmemb) / size );
+    return (size_t) (gzwrite(file->zfptr,(void *)buf,((unsigned)size)*((unsigned)nmemb)) / size);
       }
 #endif
   return fwrite(buf,size,nmemb,file->nzfptr);
