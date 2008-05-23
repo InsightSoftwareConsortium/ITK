@@ -26,6 +26,7 @@ namespace itk
 {
 
 //----------------------------------------------------------------------------
+extern "C" {
 static void itkXMLParserStartElement(void* parser, const char *name,
                               const char **atts)
 {
@@ -34,16 +35,20 @@ static void itkXMLParserStartElement(void* parser, const char *name,
   // StartElement.
   static_cast<XMLReaderBase*>(parser)->StartElement(name, atts);
 }
+}
 
 //----------------------------------------------------------------------------
+extern "C" {
 static void itkXMLParserEndElement(void* parser, const char *name)
 {
   // End element handler that is registered with the XML_Parser.  This
   // just casts the user data to a itkXMLParser and calls EndElement.
   static_cast<XMLReaderBase*>(parser)->EndElement(name);
 }
+}
 
 //----------------------------------------------------------------------------
+extern "C" {
 static void itkXMLParserCharacterDataHandler(void* parser, const char* data,
                                       int length)
 {
@@ -51,6 +56,7 @@ static void itkXMLParserCharacterDataHandler(void* parser, const char* data,
   // This just casts the user data to a itkXMLParser and calls
   // CharacterDataHandler.
   static_cast<XMLReaderBase*>(parser)->CharacterDataHandler(data, length);
+}
 }
 
 void
