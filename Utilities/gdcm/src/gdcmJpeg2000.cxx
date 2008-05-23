@@ -45,6 +45,7 @@ namespace gdcm
 /**
 sample error callback expecting a FILE* client object
 */
+extern "C" {
 void error_callback(const char *msg, void *) {
   std::cerr << "Error in gdcmopenjpeg" << msg << std::endl;
 }
@@ -59,6 +60,7 @@ sample debug callback expecting no client object
 */
 void info_callback(const char *, void *) {
 //  std::cerr << "Info in gdcmopenjpeg" << msg << std::endl;
+}
 }
 
 #define J2K_CFMT 0
