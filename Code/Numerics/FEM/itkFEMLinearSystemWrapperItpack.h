@@ -23,6 +23,17 @@
 #include "itkFEMItpackSparseMatrix.h"
 #include <vector>
 
+/** Array of pointers to available solver functions */
+/** typedefs from f2c.h  */
+typedef long      integer;
+typedef double    doublereal;
+
+extern "C" {
+typedef  
+  int (*ItkItpackSolverFunction)(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, 
+       integer *, doublereal *, integer *);
+}
+
 
 namespace itk {
 namespace fem {
@@ -463,11 +474,6 @@ public:
 
 private:
 
-
-  /** typedefs from f2c.h  */
-  typedef long      integer;
-  typedef double    doublereal;
-
   /** pointer to vector of matrices */
   MatrixHolder *m_Matrices;
 
@@ -482,8 +488,7 @@ private:
   unsigned int m_MaximumNonZeroValues;
 
   /** Array of pointers to available solver functions */
-  int (*m_Methods[7])(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, 
-       integer *, doublereal *, integer *);
+  ItkItpackSolverFunction    m_Methods[7];
 
   /** flag indicating which solver function should be used */
   integer m_Method;
