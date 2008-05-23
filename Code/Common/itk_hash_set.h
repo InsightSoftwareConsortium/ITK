@@ -294,15 +294,19 @@ public:
 };
 
 
+/** This method MUST NOT be declared "inline" because it a specialization of its template is 
+    declared as friend of a class. The hash_set class, in this case */ 
 template <class Value, class HashFcn, class EqualKey, class Alloc>
-inline bool operator==(const hash_set<Value, HashFcn, EqualKey, Alloc>& hs1,
+bool operator==(const hash_set<Value, HashFcn, EqualKey, Alloc>& hs1,
                        const hash_set<Value, HashFcn, EqualKey, Alloc>& hs2)
 {
   return hs1.rep == hs2.rep;
 }
 
+/** This method MUST NOT be declared "inline" because it a specialization of its template is 
+    declared as friend of a class. The hash_set class, in this case */ 
 template <class Value, class HashFcn, class EqualKey, class Alloc>
-inline bool operator==(const hash_multiset<Value, HashFcn, EqualKey, Alloc>& hs1,
+bool operator==(const hash_multiset<Value, HashFcn, EqualKey, Alloc>& hs1,
                        const hash_multiset<Value, HashFcn, EqualKey, Alloc>& hs2)
 {
   return hs1.rep == hs2.rep;
