@@ -703,8 +703,9 @@ distance_type(const hashtable_const_iterator<Value, Key, HashFcn, ExtractKey, Eq
 
 
 
+/** This method MUST NOT be declared "inline" because it a specialization of its template is 
+    declared as friend of a class. The hashtable class, in this case */ 
 template <class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
-IUEi_STL_INLINE 
 bool operator==(const hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>& ht1,
                 const hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>& ht2)
 {

@@ -319,15 +319,19 @@ public:
     { return rep.elems_in_bucket(n); }
 };
 
+/** This method MUST NOT be declared "inline" because it a specialization of its template is 
+    declared as friend of a class. The hash_map class, in this case */ 
 template <class Key, class T, class HashFcn, class EqualKey, class Alloc>
-inline bool operator==(const hash_map<Key, T, HashFcn, EqualKey, Alloc>& hm1,
+bool operator==(const hash_map<Key, T, HashFcn, EqualKey, Alloc>& hm1,
                        const hash_map<Key, T, HashFcn, EqualKey, Alloc>& hm2)
 {
   return hm1.rep == hm2.rep;
 }
 
+/** This method MUST NOT be declared "inline" because it a specialization of its template is 
+    declared as friend of a class. The hash_map class, in this case */ 
 template <class Key, class T, class HashFcn, class EqualKey, class Alloc>
-inline bool operator==(const hash_multimap<Key, T, HashFcn, EqualKey, Alloc>& hm1,
+bool operator==(const hash_multimap<Key, T, HashFcn, EqualKey, Alloc>& hm1,
                        const hash_multimap<Key, T, HashFcn, EqualKey, Alloc>& hm2)
 {
   return hm1.rep == hm2.rep;
