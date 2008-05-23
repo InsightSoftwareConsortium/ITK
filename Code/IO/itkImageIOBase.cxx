@@ -516,7 +516,7 @@ ImageIOBase
 ::ReadBufferAsBinary(std::istream& is, void *buffer, ImageIOBase::SizeType num)
 {
 
-  const std::streamsize numberOfBytesToBeRead = num;
+  const std::streamsize numberOfBytesToBeRead = static_cast< std::streamsize>( num );
 
   is.read( static_cast<char *>( buffer ), numberOfBytesToBeRead );
 
