@@ -2856,7 +2856,7 @@ png_read_start_row(png_structp png_ptr)
 
          row_bytes = ((png_ptr->iwidth *
             (png_uint_32)png_ptr->pixel_depth + 7) >> 3) +1;
-         png_ptr->irowbytes = (png_size_t)row_bytes;
+         png_ptr->irowbytes = (png_uint_32)row_bytes;
          if((png_uint_32)png_ptr->irowbytes != row_bytes)
             png_error(png_ptr, "Rowbytes overflow in png_read_start_row");
    }

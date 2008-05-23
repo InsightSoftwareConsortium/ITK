@@ -89,7 +89,7 @@ _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
       /* its white space */
       continue;
     }
-    *data += nib << (4*(1-(nibIdx & 1)));
+    *data += (unsigned char)(nib << (4*(1-(nibIdx & 1))));
     data += nibIdx & 1;
     nibIdx++;
   }
