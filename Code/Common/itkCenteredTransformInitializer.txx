@@ -30,6 +30,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 {
   m_FixedCalculator  = FixedImageCalculatorType::New();
   m_MovingCalculator = MovingImageCalculatorType::New();
+  m_UseMoments = false;
 }
 
 
