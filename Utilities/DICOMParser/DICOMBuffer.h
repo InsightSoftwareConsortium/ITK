@@ -29,6 +29,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
 
 #include "DICOMTypes.h"
 #include "DICOMConfig.h"

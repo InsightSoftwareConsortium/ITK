@@ -26,6 +26,7 @@
 
 #include <vector>
 #include <string>
+#include <cstring>
 
 #include "DICOMConfig.h"
 #include "DICOMTypes.h"

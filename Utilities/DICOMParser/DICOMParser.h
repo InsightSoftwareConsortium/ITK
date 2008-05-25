@@ -33,6 +33,7 @@
 #include <map>
 #include <utility> 
 #include <vector>
+#include <cstring>
 
 #include "DICOMConfig.h"
 #include "DICOMFile.h"
