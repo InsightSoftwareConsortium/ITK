@@ -201,10 +201,10 @@ class DICOM_EXPORT DICOMSource
   //
   static ulong swapLong(ulong v)
     {
-    return ulong((v << 24) 
-      | (v << 8) & 0x00ff0000
-      | (v >> 8) & 0x0000ff00
-      | (v >> 24));
+    return ulong( (v << 24) 
+      | ( (v <<  8) & 0x00ff0000 )
+      | ( (v >>  8) & 0x0000ff00 )
+      |   (v >> 24) );
     }
 
   const char* GetPlatformEndian() {return this->PlatformEndian;}
