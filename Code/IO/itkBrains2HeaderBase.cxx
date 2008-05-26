@@ -21,6 +21,7 @@
 #include "itkBrains2HeaderBase.h"
 #include "itkBrains2HeaderFactory.h"
 #include <iostream>
+#include <cstdlib>
 
 namespace itk {
 Brains2HeaderBase::Brains2HeaderBase()
