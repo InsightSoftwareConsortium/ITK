@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <cstdlib>
 #include <metaScene.h>
 #include <metaGroup.h>
 #include <metaEllipse.h>

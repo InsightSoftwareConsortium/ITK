@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <cstdlib>
 #include <metaLandmark.h>
 
 int testMetaLandmark(int , char * [])

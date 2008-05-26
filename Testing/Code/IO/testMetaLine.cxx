@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <cstdlib>
 #include <metaLine.h>
 
 int testMetaLine(int , char * [])

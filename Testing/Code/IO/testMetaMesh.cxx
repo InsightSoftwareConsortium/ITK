@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <ctype.h>
+#include <cstdlib>
 #include <metaMesh.h>
 #include <metaScene.h>
 #include <math.h>

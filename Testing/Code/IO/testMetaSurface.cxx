@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <cstdlib>
 #include <metaSurface.h>
 
 int testMetaSurface(int , char * [])

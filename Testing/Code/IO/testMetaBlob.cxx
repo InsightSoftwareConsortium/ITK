@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <metaBlob.h>
+#include <cstdlib>
 
 int testMetaBlob(int , char * [])
 {
