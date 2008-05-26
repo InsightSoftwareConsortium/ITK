@@ -22,6 +22,7 @@
 #include "itkByteSwapper.h"
 #include "itkObjectFactory.h"
 #include <memory>
+#include <cstring>
 
 namespace itk
 {
