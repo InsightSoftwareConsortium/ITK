@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "vnl/vnl_sample.h"
 #include <stdio.h>
+#include <cstring>
 
 namespace itk
 {

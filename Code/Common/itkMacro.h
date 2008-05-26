@@ -34,6 +34,7 @@
 #include "itkConfigure.h"
 
 #include <string>
+#include <cstdlib>
 
 // Determine type of string stream to use.
 #if !defined(CMAKE_NO_ANSI_STRING_STREAM)

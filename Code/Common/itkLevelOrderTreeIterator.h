@@ -18,6 +18,7 @@
 #define __itkLevelOrderTreeIterator_h
 
 #include <queue>
+#include <climits>
 #include <itkTreeIteratorBase.h>
 
 namespace itk{

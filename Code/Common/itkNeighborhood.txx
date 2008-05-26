@@ -18,6 +18,7 @@
 #define _itkNeighborhood_txx
 
 #include "itkNeighborhood.h"
+#include <cstring>
 
 namespace itk {
   

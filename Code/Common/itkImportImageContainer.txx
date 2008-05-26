@@ -21,6 +21,7 @@
 #define _itkImportImageContainer_txx
 
 #include "itkImportImageContainer.h"
+#include <cstring>
 
 namespace itk
 {
