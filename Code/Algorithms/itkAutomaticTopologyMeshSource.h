@@ -127,12 +127,12 @@ public:
   typedef typename CellType::CellAutoPointer CellAutoPointer;
 
   /** Different kinds of cells. */
-  typedef VertexCell< CellType >             VertexCell;
-  typedef LineCell< CellType >               LineCell;
-  typedef TriangleCell< CellType >           TriangleCell;
-  typedef QuadrilateralCell< CellType >      QuadrilateralCell;
-  typedef TetrahedronCell< CellType >        TetrahedronCell;
-  typedef HexahedronCell< CellType >         HexahedronCell;
+  typedef ::itk::VertexCell< CellType >        VertexCell;
+  typedef ::itk::LineCell< CellType >          LineCell;
+  typedef ::itk::TriangleCell< CellType >      TriangleCell;
+  typedef ::itk::QuadrilateralCell< CellType > QuadrilateralCell;
+  typedef ::itk::TetrahedronCell< CellType >   TetrahedronCell;
+  typedef ::itk::HexahedronCell< CellType >    HexahedronCell;
 
   /** This class requires that the mesh being built use unsigned long
    * as the identifier type for all its elements. */
