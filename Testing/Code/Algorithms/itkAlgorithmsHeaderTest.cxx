@@ -197,7 +197,7 @@
 #include "itkWatershedSegmenter.txx"
 #include "vnl_fft_3d.h"
 
-int main ( int , char*  )
+int main ( int , char ** )
 {
   
   return EXIT_SUCCESS;
