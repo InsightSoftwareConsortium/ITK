@@ -94,7 +94,7 @@
 #include "itkWeightSetBase.h"
 #include "itkWeightSetBase.txx"
 
-int main ( int , char*  )
+int main ( int , char ** )
 {
   return 0;
 }

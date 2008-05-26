@@ -305,7 +305,7 @@
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.txx"
 #include "itkZeroCrossingImageFilter.txx"
 
-int main ( int , char*  )
+int main ( int , char ** )
 {
   
   return EXIT_SUCCESS;

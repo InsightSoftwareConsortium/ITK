@@ -419,7 +419,7 @@
 #include "vcl_alloc.h"
 #include "vnl_complex_traits+char-.h"
 
-int main ( int , char*  )
+int main ( int , char ** )
 {
   
   return EXIT_SUCCESS;
