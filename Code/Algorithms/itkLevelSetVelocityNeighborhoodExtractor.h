@@ -81,7 +81,7 @@ public:
                       LevelSetType::SetDimension);
 
   /** Index typedef support */
-  typedef Index<itkGetStaticConstMacro(SetDimension)> Index;
+  typedef ::itk::Index<itkGetStaticConstMacro(SetDimension)> Index;
 
   /** AuxVarType typedef support. */
   typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,itkGetStaticConstMacro(SetDimension)> AuxVarType;

@@ -114,10 +114,10 @@ public:
   typedef Vector<int, 2>                        Int2Vector;
 
   /** Cell related types. */
-  typedef typename InputMeshType::CellType     CellType;
-  typedef typename InputMeshType::CellTraits   CellTraits;
-  typedef CellInterface<PixelType, CellTraits> CellInterface;
-  typedef TriangleCell< CellInterface >        TriCell;
+  typedef typename InputMeshType::CellType              CellType;
+  typedef typename InputMeshType::CellTraits            CellTraits;
+  typedef ::itk::CellInterface<PixelType, CellTraits>   CellInterface;
+  typedef ::itk::TriangleCell< CellInterface >          TriCell;
 
 
   /** Some functions. */
