@@ -21,7 +21,7 @@
 #include "itkImageIOBase.h"
 #include "itkMetaImageIO.h"
 
-int itkImageIOBaseTest(int ac, char* av[])
+int itkImageIOBaseTest( int , char * [] )
 {
   typedef itk::ImageIOBase                 BaseReaderType;
   typedef BaseReaderType                   BaseReaderPointerType;
