@@ -55,6 +55,7 @@ itkDICOMSeriesFileNamesTest.cxx
 itkDicomImageIOTest.cxx
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
+itkImageIOBaseTest.cxx
 itkIOCommonTest.cxx
 itkIOPrintTest.cxx
 itkImageFileWriterTest.cxx
@@ -117,6 +118,7 @@ testMetaCommand.cxx
 
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
+ADD_TEST(itkImageIOBaseTest ${IO_TESTS} itkImageIOBaseTest)
 ADD_TEST(itkIOCommonTest ${IO_TESTS} itkIOCommonTest)
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest2 ${IO_TESTS} itkConvertBufferTest2)

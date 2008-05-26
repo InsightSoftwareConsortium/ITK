@@ -78,35 +78,75 @@ void ImageIOBase::Resize(const unsigned int numDimensions,
 
 void ImageIOBase::SetDimensions(unsigned int i, unsigned int dim)
 {
-  if ( i >= m_Dimensions.size() ) {return;}
+  if ( i >= m_Dimensions.size() ) 
+    {
+    itkWarningMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Dimensions.size());
+    itkExceptionMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Dimensions.size());
+    }
   this->Modified();
   m_Dimensions[i] = dim;
 }
 
 void ImageIOBase::SetOrigin(unsigned int i, double origin)
 {
-  if ( i >= m_Origin.size() ) {return;}
+  if ( i >= m_Origin.size() ) 
+    {
+    itkWarningMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Origin.size());
+    itkExceptionMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Origin.size());
+    }
   this->Modified();
   m_Origin[i] = origin;
 }
 
 void ImageIOBase::SetSpacing(unsigned int i, double spacing)
 {
-  if (i >= m_Spacing.size() ) {return;}
+  if (i >= m_Spacing.size() ) 
+    {
+    itkWarningMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Spacing.size());
+    itkExceptionMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Spacing.size());
+    }
   this->Modified();
   m_Spacing[i] = spacing;
 }
 
 void ImageIOBase::SetDirection(unsigned int i, std::vector<double> &direction)
 {
-  if (i >= m_Direction.size() ) {return;}
+  if (i >= m_Direction.size() ) 
+    {
+    itkWarningMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Direction.size());
+    itkExceptionMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Direction.size());
+    }
   this->Modified();
   m_Direction[i] = direction;
 }
 
 void ImageIOBase::SetDirection(unsigned int i, vnl_vector<double> &direction)
 {
-  if (i >= m_Direction.size() ) {return;}
+  if (i >= m_Direction.size() ) 
+    {
+    itkWarningMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Direction.size());
+    itkExceptionMacro("Index: " << i <<
+                      " is out of bounds, expected maximum is " <<
+                      m_Direction.size());
+    }
   this->Modified();
   std::vector<double> v;
   v.resize(m_Direction.size());
