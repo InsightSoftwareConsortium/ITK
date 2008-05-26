@@ -20,6 +20,7 @@
 
 #include "itkXMLFileOutputWindow.h"
 #include <fstream>
+#include <string.h>
 
 namespace itk
 {

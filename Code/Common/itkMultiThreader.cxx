@@ -21,6 +21,7 @@
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
+#include <vcl_cstdlib.h>
 
 #ifndef _WIN32
 #include <unistd.h>
