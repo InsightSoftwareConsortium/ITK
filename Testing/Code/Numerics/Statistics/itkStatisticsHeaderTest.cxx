@@ -96,7 +96,7 @@
 #include "itkWeightedCovarianceCalculator.h"
 #include "itkWeightedMeanCalculator.h"
 
-int main ( int , char*  )
+int main ( int , char ** )
 {
   return EXIT_SUCCESS;
 }
