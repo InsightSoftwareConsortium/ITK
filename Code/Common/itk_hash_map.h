@@ -61,7 +61,13 @@
 #if (defined(__GNUC__) && (((__GNUC__==3) && (__GNUC_MINOR__>=1) || (__GNUC__>3) ) || ( (__GNUC__==4) && defined(__INTEL_COMPILER) ) )) || (defined(__IBMCPP__) && __IBMCPP__ >= 600)
 // Use this hash_map for GNU_C versions >= 3.1, IBMCPP >=600, or Intel compilers with GCCv4
 
+// #if (defined(__GNUC__) && ((__GNUC__==4) && (__GNUC_MINOR__>=3) ) )
+// in gcc 4.3 the header <ext/hash_map> was deprecated and replaced with <unordered_map>.
+// note that this is still experimental in gcc 4.3
+// #include <tr1/unordered_map>
+// #else
 #include <ext/hash_map>
+// #endif
 
 namespace itk
 {
