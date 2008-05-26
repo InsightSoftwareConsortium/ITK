@@ -144,8 +144,7 @@ DicomDir::DicomDir()
  * @deprecated use : new DicomDir() + [ SetLoadMode(lm) + ] SetDirectoryName(name)
  *              or : new DicomDir() + SetFileName(name)
  */
-DicomDir::DicomDir(std::string const &fileName, bool parseDir ):
-   Document( )
+DicomDir::DicomDir(std::string const &fileName, bool parseDir )
 {
    // At this step, Document constructor is already executed,
    // whatever user passed (either a root directory or a DICOMDIR)
