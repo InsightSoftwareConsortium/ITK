@@ -22,6 +22,7 @@
 #include "itkCumulativeGaussianCostFunction.h"
 
 #include <iostream>
+#include <cstdlib>
 
 /**
  * Generate test data with the Cumulative Gaussian Cost Function

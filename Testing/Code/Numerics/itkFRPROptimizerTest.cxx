@@ -17,6 +17,7 @@
 
 #include <vnl/vnl_math.h>
 #include "itkFRPROptimizer.h"
+#include <cstdlib>
 
 
 /** 
