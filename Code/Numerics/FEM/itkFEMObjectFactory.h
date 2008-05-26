@@ -20,6 +20,7 @@
 #include "itkFastMutexLock.h"
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 namespace itk {
 namespace fem {
