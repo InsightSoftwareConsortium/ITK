@@ -696,11 +696,17 @@ private:
 #if defined(ITK_LEGACY_REMOVE) || defined(ITK_LEGACY_SILENT)
 # define itkLegacyBodyMacro(method, version)
 # define itkLegacyReplaceBodyMacro(method, version, replace)
+# define itkGenericLegacyBodyMacro(method, version)
+# define itkGenericLegacyReplaceBodyMacro(method, version, replace)
 #else
 # define itkLegacyBodyMacro(method, version) \
   itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
 # define itkLegacyReplaceBodyMacro(method, version, replace) \
   itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.  Use " #replace " instead.")
+# define itkGenericLegacyBodyMacro(method, version) \
+  itkGenericOutputMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
+# define itkGenericLegacyReplaceBodyMacro(method, version, replace) \
+  itkGenericOutputMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.  Use " #replace " instead.")
 #endif
 
 #if defined(__INTEL_COMPILER)

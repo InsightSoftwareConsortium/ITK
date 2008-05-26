@@ -139,6 +139,10 @@ unsigned int IOCommon
 char* IOCommon
 ::ExtractFileName (const char* fileName)
 {
+  itkGenericLegacyReplaceBodyMacro(itk::IOCommon::ExtractFileName, 
+                                   3.6, 
+                                   itksys::SystemTools::GetFilenameName);
+
   const char* dot;
   const char* slash;
   char* fName = NULL;
@@ -174,6 +178,10 @@ char* IOCommon
 char* IOCommon
 ::ExtractFileExtension (const char* fileName)
 {
+  itkGenericLegacyReplaceBodyMacro(itk::IOCommon::ExtractFileExtension, 
+                                   3.6, 
+                                   itksys::SystemTools::GetFilenameExtension);
+
   const char* dot;
   char* fExtension = NULL;
 
@@ -192,6 +200,10 @@ char* IOCommon
 char* IOCommon
 ::ExtractFilePath (const char* fileName)
 {
+  itkGenericLegacyReplaceBodyMacro(itk::IOCommon::ExtractFilePath, 
+                                   3.6, 
+                                   itksys::SystemTools::GetFilenamePath);
+
   const char* slash;
   char* fPath = NULL;
 
