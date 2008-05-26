@@ -19,6 +19,7 @@
 #endif
 
 #include <iostream>
+#include <cstdlib>
 #include "itkSmartPointer.h"
 
 class itkTestObject

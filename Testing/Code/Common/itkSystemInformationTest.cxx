@@ -21,6 +21,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
+#include <cstring>
 #include <Code/Common/itkSystemInformationTest.h>
 #include <sys/stat.h>
 #include <time.h>
