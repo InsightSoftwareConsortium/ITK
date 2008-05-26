@@ -20,6 +20,7 @@
 
 #include <itkConjugateGradientOptimizer.h>
 #include <vnl/vnl_math.h>
+#include <cstdlib>
 
 
 /** 
