@@ -85,7 +85,7 @@
 #include "itkVesselTubeSpatialObject.txx"
 #include "itkVesselTubeSpatialObjectPoint.txx"
 
-int main ( int , char*  )
+int main ( int , char * [] )
 {
   
   return EXIT_SUCCESS;
