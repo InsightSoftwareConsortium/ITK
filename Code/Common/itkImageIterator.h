@@ -115,15 +115,14 @@ public:
   /** Set the pixel value */
   void Set( const PixelType & value) const  
     { 
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>
-          (this->m_Buffer)+this->m_Offset), value); 
+    this->m_PixelAccessorFunctor.Set(*(this->m_Buffer+this->m_Offset), value); 
     }
 
   /** Return a reference to the pixel 
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void) 
-    { return *(const_cast<InternalPixelType *>(this->m_Buffer)+this->m_Offset); }
+    { return *(this->m_Buffer+this->m_Offset); }
 
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
@@ -137,7 +136,7 @@ public:
 
   /** Get the image that this iterator walks. */
   ImageType * GetImage() const
-    { return const_cast<ImageType *>( this->m_Image.GetPointer() ); };
+    { return this->m_Image.GetPointer(); };
 
 
 protected:
