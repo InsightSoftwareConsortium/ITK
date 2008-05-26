@@ -73,11 +73,11 @@ public:
   typedef typename AllocatorType::const_iterator ConstIterator;
   
   /** Size and value typedef support. */
-  typedef Size<VDimension> SizeType;
+  typedef ::itk::Size<VDimension> SizeType;
   typedef typename SizeType::SizeValueType SizeValueType;
   
   /** Radius typedef support. */
-  typedef Size<VDimension> RadiusType;
+  typedef ::itk::Size<VDimension> RadiusType;
 
   /** Offset type used to reference neighbor locations */
   typedef Offset<VDimension> OffsetType;
