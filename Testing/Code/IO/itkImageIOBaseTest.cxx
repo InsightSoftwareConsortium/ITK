@@ -35,7 +35,7 @@ int itkImageIOBaseTest( int , char * [] )
   bool gotException = false;
   try 
     {
-    reader->SetDimensions(3,1.0);
+    reader->SetDimensions(3,1);
     }
   catch ( itk::ExceptionObject& e )
     {
