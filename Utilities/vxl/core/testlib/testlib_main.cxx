@@ -1,9 +1,9 @@
 #include "testlib_register.h"
 
-#include <cstdlib>
 #include <vcl_iostream.h>
 #include <vcl_string.h>
 #include <vcl_vector.h>
+#include <vcl_cstdlib.h>
 #if VCL_HAS_EXCEPTIONS
 #include <vcl_exception.h>
 #endif
