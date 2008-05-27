@@ -20,19 +20,53 @@
 
 #include "itkIOCommon.h"
 #include <string>
+#include <itksys/SystemTools.hxx>
 
 bool CheckFileNameParsing(const std::string fileName,
                           const std::string correctNameOnly,
                           const std::string correctExtension,
                           const std::string correctPath)
 {
-  std::cout << "Extracting...file name..."; std::flush(std::cout);  
+#if !defined(ITK_LEGACY_REMOVE)
+  // the old, depricated way...
+  std::cout << "(itk, depricated) Extracting...file name..."; std::flush(std::cout);  
   char* nameOnly  = itk::IOCommon::ExtractFileName(fileName.c_str());
   std::cout << "extension..."; std::flush(std::cout);  
   char* extension = itk::IOCommon::ExtractFileExtension(fileName.c_str());
   std::cout << "path..."; std::flush(std::cout);  
   char* path      = itk::IOCommon::ExtractFilePath(fileName.c_str());
   std::cout << "DONE" << std::endl;
+#else
+  // the current kwsys way...
+  std::cout << "(kwsys) Extracting...file name..."; std::flush(std::cout);  
+  std::string fileNameString = 
+    itksys::SystemTools::GetFilenameWithoutLastExtension
+    (itksys::SystemTools::GetFilenameName(fileName));
+  char* nameOnly = new char[fileNameString.size() + 1];
+  strcpy(nameOnly, fileNameString.c_str());
+  std::cout << "extension..."; std::flush(std::cout);  
+  std::string extensionString =
+    itksys::SystemTools::GetFilenameLastExtension(fileName);
+  // NB: remove the period (kwsys leaves it on, ITK precedent was to
+  // remove it)            
+  char* extension = new char[extensionString.size()];
+  strcpy(extension, extensionString.c_str() + 1);
+  std::cout << "path..."; std::flush(std::cout);  
+  std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
+  // NB: add trailing slash iff the result is non-empty (kwsys always
+  // removes it, ITK precedent was to keep it) 
+  if (pathString.size() > 1)
+  {
+#if defined(_WIN32)
+    pathString = pathString + "\\";
+#else
+    pathString = pathString + "/";
+#endif
+  }
+  char* path = new char[pathString.size() + 1];
+  strcpy(path, pathString.c_str());
+  std::cout << "DONE" << std::endl;
+#endif
 
   std::cout << "Comparing...file name..."; std::flush(std::cout);  
   bool nameMatches;
