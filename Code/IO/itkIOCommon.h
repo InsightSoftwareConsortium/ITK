@@ -67,14 +67,14 @@ public:
 
   /** Given a full filename, extracts just the pathname.  
    *
-   * \deprecated in ITK 3.6, please use
+   * \deprecated in ITK 3.8, please use
    * itksys::SystemTools::GetFilenamePath(fileName) instead.
    */
   itkLegacyMacro( static char* ExtractFilePath (const char* fileName) );
 
   /** Given a full filename, extracts just the file extension.
    *
-   * \deprecated in ITK 3.6, please use
+   * \deprecated in ITK 3.8, please use
    * itksys::SystemTools::GetFilenameExtension(fileName) or
    * itksys::SystemTools::GetFilenameLastExtension(fileName) instead.
    */
@@ -82,7 +82,7 @@ public:
 
   /** Given a full filename, extracts just the filename.
    *
-   * \deprecated in ITK 3.6, please use
+   * \deprecated in ITK 3.8, please use
    * itksys::SystemTools::GetFilenameName(fileName) instead.
    */
   itkLegacyMacro( static char* ExtractFileName (const char* fileName) );
@@ -90,7 +90,7 @@ public:
   /** Given a filename determine whether it exists and return true if
    * it does.
    *
-   * \deprecated in ITK 3.6, please use
+   * \deprecated in ITK 3.8, please use
    * itksys::SystemTools::FileExists(fileName) instead.
    */
   itkLegacyMacro( static bool FileExists(const char* filename) );
