@@ -66,9 +66,9 @@ int itkRawImageIOTest2(int argc, char * argv [])
 
   std::cout << "IO: " << io << std::endl;
 
-  typedef itk::Image<RGBPixelType,3> RGBImage2DType;
-  itk::ImageFileReader<RGBImage2DType>::Pointer reader;
-  reader = itk::ImageFileReader<RGBImage2DType>::New();
+  typedef itk::Image<RGBPixelType,3> RGBImage3DType;
+  itk::ImageFileReader<RGBImage3DType>::Pointer reader;
+  reader = itk::ImageFileReader<RGBImage3DType>::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
   reader->Update();
