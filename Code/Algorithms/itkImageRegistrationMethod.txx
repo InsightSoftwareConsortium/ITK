@@ -225,7 +225,9 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   if ( m_InitialTransformParameters.Size() != 
        m_Transform->GetNumberOfParameters() )
     {
-    itkExceptionMacro(<<"Size mismatch between initial parameter and transform"); 
+    itkExceptionMacro(<<"Size mismatch between initial parameters and transform." <<
+      "Expected " << m_Transform->GetNumberOfParameters() << " parameters and received "
+      <<  m_InitialTransformParameters.Size() << " parameters");
     }
 
   m_Optimizer->SetInitialPosition( m_InitialTransformParameters );
