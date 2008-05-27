@@ -22,15 +22,12 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
 //
-// This example was contributed by Stephan in the users list
+// This example was originally contributed by Stephan in the users list
 //
 //     http://public.kitware.com/pipermail/insight-users/2005-June/013482.html
 //
 //
-
-
 
 
 // Software Guide : BeginLatex
@@ -41,17 +38,12 @@
 //
 // Software Guide : EndLatex 
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkVnlFFTRealToComplexConjugateImageFilter.h"
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"
-#include "itkFlipImageFilter.h"
-
-
 
 int main( int argc, char * argv[] )
 {
@@ -60,7 +52,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << argv[0] << " input output" << std::endl;
     return EXIT_FAILURE;
     }
-
+  
 // Software Guide : BeginLatex
 //
 // First we set up the types of the input and output images.
@@ -68,9 +60,9 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-  const unsigned int      Dimension = 2;
-  typedef unsigned char   IOPixelType;
-  typedef float           WorkPixelType; 
+  const   unsigned int      Dimension = 2;
+  typedef unsigned short    IOPixelType;
+  typedef float             WorkPixelType; 
   
   typedef itk::Image< IOPixelType,  Dimension > IOImageType;
   typedef itk::Image< WorkPixelType, Dimension > WorkImageType;
@@ -88,18 +80,13 @@ int main( int argc, char * argv[] )
   inputreader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-
-
 // Handle padding of the image with resampling
   typedef itk::ResampleImageFilter< 
                               IOImageType, 
                               WorkImageType >  ResamplerType;
 
   ResamplerType::Pointer inputresampler = ResamplerType::New();
-
   inputresampler->SetDefaultPixelValue(0);
-
-
 
 // Read the image and get its size
   inputreader->Update();
@@ -120,70 +107,42 @@ int main( int argc, char * argv[] )
       }
     worksize[i] = 1 << (n+1);
 
+    std::cout << "inputsize[" << i << "]=" << inputsize[i] << std::endl;
     std::cout << "worksize[" << i << "]=" << worksize[i] << std::endl;
     }
 
   inputresampler->SetSize( worksize );
   inputresampler->SetInput( inputreader->GetOutput() );
 
-
 // Forward FFT filter
   typedef itk::VnlFFTRealToComplexConjugateImageFilter < 
                                               WorkPixelType, 
                                               Dimension 
                                                       > FFTFilterType;
-
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
-
   fftinput->SetInput( inputresampler->GetOutput() );
 
 // This is the output type from the FFT filters
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
-
-
-// Do the inverse transform = forward transform + flip all axes
+// Do the inverse transform = forward transform / num voxels
   typedef itk::VnlFFTComplexConjugateToRealImageFilter < 
                                               WorkPixelType, 
                                               Dimension > invFFTFilterType;
-
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
-
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
 
-// Flip all axes to complete the inverse transform
-  typedef itk::FlipImageFilter< WorkImageType > FlipperType;
-
-  FlipperType::Pointer flipper = FlipperType::New();
-
-
-
-  bool fliparray[Dimension] = {true,true};
-
-  FlipperType::FlipAxesArrayType flipAxes( fliparray );
-
-  flipper->SetFlipAxes(flipAxes);
-
-  flipper->SetInput(fftoutput->GetOutput());
-
-// Rescale the output to suit the output image type
-  typedef itk::RescaleIntensityImageFilter< 
-                                      WorkImageType, 
-                                      IOImageType > RescaleFilterType;
-
-  RescaleFilterType::Pointer intensityrescaler = RescaleFilterType::New();
-
-  intensityrescaler->SetInput( flipper->GetOutput() );
-
-  intensityrescaler->SetOutputMinimum(  0  );
-  intensityrescaler->SetOutputMaximum( 255 );
+// undo the padding
+  typedef itk::ResampleImageFilter<WorkImageType, IOImageType> ResampleOutType;
+  ResampleOutType::Pointer outputResampler = ResampleOutType::New();
+  outputResampler->SetDefaultPixelValue( 0 );
+  outputResampler->SetSize( inputsize );
+  outputResampler->SetInput( fftoutput->GetOutput() );
 
 // Write the output
-  writer->SetInput(intensityrescaler->GetOutput());
+  writer->SetInput(outputResampler->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;
-
-
 }
 
