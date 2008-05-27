@@ -135,7 +135,12 @@ unsigned int IOCommon
     }
 }
 
-
+/**
+ * This method has been deprecated as of ITK 3.8.
+ * Please use the method:
+ * itksys::SystemTools::GetFilenameName(fileName) instead.
+ */
+#if !defined(ITK_LEGACY_REMOVE)
 char* IOCommon
 ::ExtractFileName (const char* fileName)
 {
@@ -174,7 +179,15 @@ char* IOCommon
 
   return fName;
 }
+#endif
 
+/**
+ * This method has been deprecated as of ITK 3.8.
+ * Please use the method:
+ * itksys::SystemTools::GetFilenameExtension(fileName) or
+ * itksys::SystemTools::GetFilenameLastExtension(fileName) instead.
+ */
+#if !defined(ITK_LEGACY_REMOVE)
 char* IOCommon
 ::ExtractFileExtension (const char* fileName)
 {
@@ -196,7 +209,14 @@ char* IOCommon
 
   return fExtension;
 }
+#endif
 
+/**
+ * This method has been deprecated as of ITK 3.8.
+ * Please use the method:
+ * itksys::SystemTools::GetFilenamePath(fileName) instead.
+ */
+#if !defined(ITK_LEGACY_REMOVE)
 char* IOCommon
 ::ExtractFilePath (const char* fileName)
 {
@@ -229,6 +249,7 @@ char* IOCommon
 
   return fPath;
 }
+#endif
 
 
 } // namespace itk
