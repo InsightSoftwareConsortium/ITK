@@ -23,7 +23,7 @@
 
 #if defined(__BORLANDC__)
    #include <mem.h> // for memset
-#endif 
+#endif
 #include <stdio.h> // for fprintf
 #include <stdlib.h> // for abort
 
@@ -103,87 +103,87 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
   /* set decoding parameters to default values */
   opj_set_default_decoder_parameters(&parameters);
  
-   // default blindly copied
-   parameters.cp_layer=0;
-   parameters.cp_reduce=0;
-//   parameters.decod_format=-1;
-//   parameters.cod_format=-1;
+  // default blindly copied
+  parameters.cp_layer=0;
+  parameters.cp_reduce=0;
+  //   parameters.decod_format=-1;
+  //   parameters.cod_format=-1;
 
-      /* JPEG-2000 codestream */
-    parameters.decod_format = J2K_CFMT;
-    assert(parameters.decod_format == J2K_CFMT);
+  /* JPEG-2000 codestream */
+  parameters.decod_format = J2K_CFMT;
+  assert(parameters.decod_format == J2K_CFMT);
   parameters.cod_format = PGX_DFMT;
   assert(parameters.cod_format == PGX_DFMT);
 
-      /* get a decoder handle */
-      dinfo = opj_create_decompress(CODEC_J2K);
+  /* get a decoder handle */
+  dinfo = opj_create_decompress(CODEC_J2K);
 
-      /* catch events using our callbacks and give a local context */
-      opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, NULL);
+  /* catch events using our callbacks and give a local context */
+  opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, NULL);
 
-      /* setup the decoder decoding parameters using user parameters */
-      opj_setup_decoder(dinfo, &parameters);
+  /* setup the decoder decoding parameters using user parameters */
+  opj_setup_decoder(dinfo, &parameters);
 
-      /* open a byte stream */
-      cio = opj_cio_open((opj_common_ptr)dinfo, src, file_length);
+  /* open a byte stream */
+  cio = opj_cio_open((opj_common_ptr)dinfo, src, file_length);
 
-      /* decode the stream and fill the image structure */
-      image = opj_decode(dinfo, cio);
-      if(!image) {
-        opj_destroy_decompress(dinfo);
-        opj_cio_close(cio);
-        return 1;
-      }
-      
-      /* close the byte stream */
-      opj_cio_close(cio);
+  /* decode the stream and fill the image structure */
+  image = opj_decode(dinfo, cio);
+  if(!image) {
+    opj_destroy_decompress(dinfo);
+    opj_cio_close(cio);
+    return 1;
+  }
+
+  /* close the byte stream */
+  opj_cio_close(cio);
 
   /* free the memory containing the code-stream */
   delete[] src;  //FIXME
 
-   // Copy buffer
-   for (int compno = 0; compno < image->numcomps; compno++)
-   {
-      opj_image_comp_t *comp = &image->comps[compno];
+  // Copy buffer
+  for (int compno = 0; compno < image->numcomps; compno++)
+    {
+    opj_image_comp_t *comp = &image->comps[compno];
 
-      int w = image->comps[compno].w;
-      int wr = int_ceildivpow2(image->comps[compno].w, image->comps[compno].factor);
+    int w = image->comps[compno].w;
+    int wr = int_ceildivpow2(image->comps[compno].w, image->comps[compno].factor);
 
-      //int h = image.comps[compno].h;
-      int hr = int_ceildivpow2(image->comps[compno].h, image->comps[compno].factor);
+    //int h = image.comps[compno].h;
+    int hr = int_ceildivpow2(image->comps[compno].h, image->comps[compno].factor);
 
-      if (comp->prec <= 8)
+    if (comp->prec <= 8)
       {
-         uint8_t *data8 = (uint8_t*)raw + compno;
-         for (int i = 0; i < wr * hr; i++)
-         {
-            int v = image->comps[compno].data[i / wr * w + i % wr];
-            *data8 = (uint8_t)v;
-            data8 += image->numcomps;
-         }
+      uint8_t *data8 = (uint8_t*)raw + compno;
+      for (int i = 0; i < wr * hr; i++)
+        {
+        int v = image->comps[compno].data[i / wr * w + i % wr];
+        *data8 = (uint8_t)v;
+        data8 += image->numcomps;
+        }
       }
-      else if (comp->prec <= 16)
+    else if (comp->prec <= 16)
       {
-         uint16_t *data16 = (uint16_t*)raw + compno;
-         for (int i = 0; i < wr * hr; i++)
-         {
-            int v = image->comps[compno].data[i / wr * w + i % wr];
-            *data16 = (uint16_t)v;
-            data16 += image->numcomps;
-         }
+      uint16_t *data16 = (uint16_t*)raw + compno;
+      for (int i = 0; i < wr * hr; i++)
+        {
+        int v = image->comps[compno].data[i / wr * w + i % wr];
+        *data16 = (uint16_t)v;
+        data16 += image->numcomps;
+        }
       }
-      else
+    else
       {
-         uint32_t *data32 = (uint32_t*)raw + compno;
-         for (int i = 0; i < wr * hr; i++)
-         {
-            int v = image->comps[compno].data[i / wr * w + i % wr];
-            *data32 = (uint32_t)v;
-            data32 += image->numcomps;
-         }
+      uint32_t *data32 = (uint32_t*)raw + compno;
+      for (int i = 0; i < wr * hr; i++)
+        {
+        int v = image->comps[compno].data[i / wr * w + i % wr];
+        *data32 = (uint32_t)v;
+        data32 += image->numcomps;
+        }
       }
-      //free(image.comps[compno].data);
-   }
+    //free(image.comps[compno].data);
+    }
 
 
   /* free remaining structures */
