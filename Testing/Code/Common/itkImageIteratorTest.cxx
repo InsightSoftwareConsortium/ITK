@@ -116,6 +116,33 @@ int itkImageIteratorTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Exercise operator<=
+  if( !( itr4 <= itr1 ) )
+    {
+    std::cerr << "Error in operator= or operator<=" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise operator<
+  if( itr4 < itr1 )
+    {
+    std::cerr << "Error in operator= or operator<" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise operator>=
+  if( !( itr4 >= itr1 ) )
+    {
+    std::cerr << "Error in operator= or operator>=" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise operator>
+  if( itr4 > itr1 )
+    {
+    std::cerr << "Error in operator= or operator>" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Exercise GetImageIteratorDimension()
   if( itr1.GetImageIteratorDimension() != ImageDimension )
@@ -123,6 +150,56 @@ int itkImageIteratorTest(int, char* [] )
     std::cerr << "Error in GetImageIteratorDimension" << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Exercise GetIndex()
+  VectorImageType::IndexType index1 = itr1.GetIndex();
+  if( index1 != startIndex3D )
+    {
+    std::cerr << "Error in GetIndex()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise SetIndex()
+  VectorImageType::IndexType index2 = index1;
+  index2[0]++;
+  VectorImageIterator   itr5 = itr1;
+  itr5.SetIndex( index2 );
+  if( itr5.GetIndex() != index2 )
+    {
+    std::cerr << "Error in GetIndex() and/or SetIndex()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( itr5.GetIndex() == itr1.GetIndex() )
+    {
+    std::cerr << "Error in GetIndex() and/or SetIndex()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise GetRegion()
+  VectorImageType::RegionType region1 = itr1.GetRegion();
+  if( region1 != region )
+    {
+    std::cerr << "Error in GetRegion()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise GetImage() non-const version
+  VectorImageType * image1 = itr1.GetImage();
+  if( image1 != o3.GetPointer() )
+    {
+    std::cerr << "Error in GetImage()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise GetImage() const version
+  const VectorImageType * image2 = itr2.GetImage();
+  if( image2 != o3.GetPointer() )
+    {
+    std::cerr << "Error in GetImage()" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   return EXIT_SUCCESS;
 }
