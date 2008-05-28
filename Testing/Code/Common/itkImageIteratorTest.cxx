@@ -200,6 +200,90 @@ int itkImageIteratorTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  // Exercise Get() non-const and const version
+  {
+  VectorPixelType vp1 = itr1.Get();
+  VectorPixelType vp2 = itr2.Get();
+  if( vp1 != vp2 )
+    {
+    std::cerr << "Error in Get()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  // verify that the value can be modified
+  vp1[0]++;
+  itr1.Set( vp1 );
+  vp2 = itr2.Get();
+  if( vp1 != vp2 )
+    {
+    std::cerr << "Error in Get() and/or Set()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
+ 
+  // Exercise Value() const and non-const methods
+  {
+  VectorPixelType vp1 = itr1.Value();
+  VectorPixelType vp2 = itr2.Value();
+  if( vp1 != vp2 )
+    {
+    std::cerr << "Error in Value()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  // verify that the value can be modified
+  vp1[0]++;
+  itr1.Value() = vp1;
+  vp2 = itr2.Value();
+  if( vp1 != vp2 )
+    {
+    std::cerr << "Error in Get() and/or Set()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
+  // Exercise Begin(), GoToBegin(), IsAtBegin() and IsAtEnd()
+  {
+  VectorImageIterator itr6 = itr1.Begin();
+  itr1.GoToBegin();
+  if( itr1 != itr6 )
+    {
+    std::cerr << "Error in Begin() and/or GoToBegin()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( !itr1.IsAtBegin() )
+    {
+    std::cerr << "Error in Begin() and/or IsAtBegin()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( itr1.IsAtEnd() )
+    {
+    std::cerr << "Error in Begin() and/or IsAtEnd()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
+ 
+  // Exercise End(), GoToEnd(), IsAtBegin() and IsAtEnd()
+  {
+  VectorImageIterator itr7 = itr1.End();
+  itr1.GoToEnd();
+  if( itr1 != itr7 )
+    {
+    std::cerr << "Error in End() and/or GoToEnd()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( !itr1.IsAtEnd() )
+    {
+    std::cerr << "Error in End() and/or IsAtEnd()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( itr1.IsAtBegin() )
+    {
+    std::cerr << "Error in End() and/or IsAtBegin()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
 
   return EXIT_SUCCESS;
 }
