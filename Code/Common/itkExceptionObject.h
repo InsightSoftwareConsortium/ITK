@@ -26,6 +26,7 @@
 #include <string>
 #include <stdexcept>
 
+#include "itkSmartPointer.h"
 #include "itkWin32Header.h"
 
 
@@ -55,64 +56,24 @@ class ITKCommon_EXPORT ExceptionObject : public std::exception
 public:
   typedef std::exception Superclass;
   /** Various types of constructors.  Note that these functions will be
-   * called when children are instantiated. */
-  ExceptionObject(const char *file="Unknown", unsigned int lineNumber=0,
-                  const char *desc="None", const char *loc="Unknown")
-  {
-    m_Location = loc;
-    m_Description = desc;
-    m_File = file;
-    m_Line = lineNumber;
-    this->UpdateWhat();
-  };
-  ExceptionObject(const std::string& file, unsigned int lineNumber,
+  * called when children are instantiated.  The default constructor and
+  * the copy constructor of ExceptionObject never throw an exception. */
+  ExceptionObject();
+  explicit ExceptionObject(const char *file, unsigned int lineNumber=0,
+                  const char *desc="None", const char *loc="Unknown");
+  explicit ExceptionObject(const std::string& file, unsigned int lineNumber=0,
                   const std::string& desc="None",
-                  const std::string& loc="Unknown")
-  {
-    m_Location = loc;
-    m_Description = desc;
-    m_File = file;
-    m_Line = lineNumber;
-    this->UpdateWhat();
-  };
-  ExceptionObject( const ExceptionObject &orig ): Superclass()
-  {
-    m_Location    = orig.m_Location;
-    m_Description = orig.m_Description;
-    m_File = orig.m_File;
-    m_Line = orig.m_Line;
-    this->UpdateWhat();
-  }
+                  const std::string& loc="Unknown");
+  ExceptionObject( const ExceptionObject &orig );
   
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~ExceptionObject() throw() {}
+  virtual ~ExceptionObject() throw();
 
   /** Assignment operator. */
-  ExceptionObject &operator= ( const ExceptionObject &orig )
-  {
-    m_Location    = orig.m_Location;
-    m_Description = orig.m_Description;
-    m_File = orig.m_File;
-    m_Line = orig.m_Line;
-    this->UpdateWhat();
-    return *this;
-  }
+  ExceptionObject &operator= ( const ExceptionObject &orig );
   
   /** Equivalence operator. */
-  virtual bool operator==( const ExceptionObject &orig )
-  {
-    if ( m_Location    == orig.m_Location &&
-         m_Description == orig.m_Description &&
-         m_File == orig.m_File &&
-         m_Line == orig.m_Line) 
-      {
-      return true;
-      }
-    else 
-      {
-      return false;
-      }
-  }
+  virtual bool operator==( const ExceptionObject &orig );
           
   virtual const char *GetNameOfClass() const 
     {return "ExceptionObject";}
@@ -126,48 +87,27 @@ public:
   /** Methods to get and set the Location and Description fields. The Set
    * methods are overloaded to support both std::string and const char 
    * array types. Get methods return const char arrays. */
-  virtual void SetLocation(const std::string& s)    
-    { m_Location = s; this->UpdateWhat(); }
-  virtual void SetDescription(const std::string& s) 
-    { m_Description = s; this->UpdateWhat(); }
-  virtual void SetLocation(const char * s)          
-    { m_Location = s; this->UpdateWhat(); }
-  virtual void SetDescription (const char *s)       
-    { m_Description = s; this->UpdateWhat(); }
-  virtual const char *GetLocation()    const 
-    { return m_Location.c_str();    }
-  virtual const char *GetDescription() const 
-    { return m_Description.c_str(); }
+  virtual void SetLocation(const std::string& s);
+  virtual void SetDescription(const std::string& s);
+  virtual void SetLocation(const char * s);
+  virtual void SetDescription (const char *s);
+  virtual const char *GetLocation()    const;
+  virtual const char *GetDescription() const;
   
   /** What file did the exception occur in? */
-  virtual const char *GetFile()    const 
-    { return m_File.c_str(); }
+  virtual const char *GetFile()    const;
 
   /** What line did the exception occur in? */
-  virtual unsigned int GetLine() const 
-    { return m_Line; }
+  virtual unsigned int GetLine() const;
   
   /** Provide std::exception::what() implementation. */
-  virtual const char* what() const throw()
-    { return m_What.c_str(); }
+  virtual const char* what() const throw();
   
-protected:
-  void UpdateWhat()
-    {
-    OStringStream loc;
-    loc << ":" << m_Line << ":\n";
-    m_What = m_File;
-    m_What += loc.str();
-    m_What += m_Description;
-    }
 private:
   /** Exception data.  Location of the error and description of the error. */
-  std::string  m_Location;
-  std::string  m_Description;
-  std::string  m_What;
-  std::string  m_File;
-  unsigned int m_Line;
- 
+  class ExceptionData;
+  class ReferenceCountedExceptionData;
+  SmartPointer<const ReferenceCountedExceptionData> m_ExceptionData;
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */
