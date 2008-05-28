@@ -37,6 +37,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <stdio.h>
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+#include "itk_zlib.h"
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 #include <stdlib.h>
@@ -69,14 +70,38 @@ static int WriteTestFiles(const std::string AugmentName)
   //std::cout << LittleEndianHdrName << " written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
+
+  std::string LittleEndianZName(AugmentName);
+  LittleEndianZName += "LittleEndianZ.hdr";
+  std::ofstream  littlez_hdr(LittleEndianZName.c_str(), std::ios::binary | std::ios::out);
+  if(!littlez_hdr.is_open())
+    {
+    return EXIT_FAILURE;
+    }
+  littlez_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
+
   std::string LittleEndianImgName=AugmentName+"LittleEndian.img";
   std::ofstream little_img(LittleEndianImgName.c_str(), std::ios::binary | std::ios::out);
   if(!little_img.is_open())
     {
     return EXIT_FAILURE;
     }
+  // write out compressed.
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
+
+  // write out compressed image
+  std::string ImageZFilename(AugmentName);
+  ImageZFilename += "LittleEndianZ.img.gz";
+  gzFile  file_p = ::gzopen( ImageZFilename.c_str(), "wb" );
+  if( file_p==NULL )
+    {
+    return EXIT_FAILURE;
+    }
+  ::gzwrite(file_p,reinterpret_cast<const char *>(LittleEndian_img),
+            sizeof(LittleEndian_img));
+  ::gzclose(file_p);
+
   std::string BigEndianHdrName=AugmentName+"BigEndian.hdr";
   std::ofstream big_hdr(BigEndianHdrName.c_str(), std::ios::binary | std::ios::out);
   if(!big_hdr.is_open())
@@ -114,6 +139,7 @@ static int TestByteSwap(const std::string & AugmentName)
     }
 
   ImageType::Pointer little;
+  ImageType::Pointer littlez;
   ImageType::Pointer big;
 
   itk::ImageFileReader<ImageType>::Pointer imageReader =
@@ -123,6 +149,11 @@ static int TestByteSwap(const std::string & AugmentName)
     imageReader->SetFileName(AugmentName+"LittleEndian.hdr") ;
     imageReader->Update() ;
     little = imageReader->GetOutput() ;
+
+    imageReader->SetFileName(AugmentName+"LittleEndianZ.hdr") ;
+    imageReader->Update() ;
+    littlez = imageReader->GetOutput() ;
+
     imageReader->SetFileName(AugmentName+"BigEndian.hdr") ;
     imageReader->Update() ;
     big = imageReader->GetOutput();
@@ -140,16 +171,20 @@ static int TestByteSwap(const std::string & AugmentName)
     {
       itk::ImageRegionConstIterator<ImageType> littleIter(little,
                                                           little->GetLargestPossibleRegion());
+      itk::ImageRegionConstIterator<ImageType> littlezIter(littlez,
+                                                          littlez->GetLargestPossibleRegion());
       itk::ImageRegionConstIterator<ImageType> bigIter(big,
                                                        big->GetLargestPossibleRegion());
       while(!littleIter.IsAtEnd())
         {
-          if(littleIter.Get() != bigIter.Get())
+        if(littleIter.Get() != bigIter.Get() || 
+           littlezIter.Get() != bigIter.Get())
             break;
           ++littleIter;
+          ++littlezIter;
           ++bigIter;
         }
-      if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd())
+      if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd() || !littlezIter.IsAtEnd())
         rval = -1;
     }
   catch ( itk::ExceptionObject & ex )

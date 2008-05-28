@@ -507,6 +507,8 @@ ADD_TEST(itkImageReadDICOMSeriesWriteTest ${IO_TESTS}
                                   false ${ITK_DATA_ROOT}/Input/ramp.gipl)
   ADD_TEST(itkAnalyzeIOShouldSucceed ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
+  ADD_TEST(itkAnalyzeIOShouldSucceedZ ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+                                  true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
 ##Nifti Test Suite
  ADD_TEST(itkNiftiImageIOTest ${IO_TESTS}
    itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR})
