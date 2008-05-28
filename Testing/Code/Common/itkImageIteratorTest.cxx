@@ -48,26 +48,23 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 
 int itkImageIteratorTest(int, char* [] )
 {
+  const unsigned int ImageDimension = 3;
+
   std::cout << "Creating an image" << std::endl;
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
-    o3 = itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer
+    o3 = itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::New();
 
-  int status = 0;
+  float origin3D[ImageDimension] = { 5, 2.1, 8.1};
+  float spacing3D[ImageDimension] = { 1.5, 2.1, 1};
 
-  float origin3D[3] = { 5, 2.1, 8.1};
-  float spacing3D[3] = { 1.5, 2.1, 1};
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D = {{ 20, 40, 60 }};
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType imageSize3D = {{ 20, 40, 60 }};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType bufferSize3D = {{ 8, 20, 14 }};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType regionSize3D = {{ 4,  6,  6 }};
-
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType startIndex3D = {{5, 4, 1}};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType bufferStartIndex3D = {{2, 3, 5}};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionStartIndex3D = {{5, 10, 12}};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionEndIndex3D = {{8, 15, 17}};
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType startIndex3D = {{5, 4, 1}};
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionStartIndex3D = {{5, 10, 12}};
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
 
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::RegionType region;
+  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetRegions( region );
@@ -90,7 +87,7 @@ int itkImageIteratorTest(int, char* [] )
   TestConstPixelAccess(*o3, *o3);
 
   typedef itk::Vector< unsigned short, 5 >  VectorPixelType;
-  typedef itk::Image< VectorPixelType, 3 >  VectorImageType;
+  typedef itk::Image< VectorPixelType, ImageDimension >  VectorImageType;
   
   typedef itk::ImageIterator<      VectorImageType >  VectorImageIterator;
   typedef itk::ImageConstIterator< VectorImageType >  VectorImageConstIterator;
@@ -98,6 +95,34 @@ int itkImageIteratorTest(int, char* [] )
   VectorImageIterator       itr1( o3, region );
   VectorImageConstIterator  itr2( o3, region );
 
+  // Exercise copy constructor
+  VectorImageIterator   itr3( itr1 );
   
+  // Exercise assignment operator
+  VectorImageIterator   itr4;
+  itr4 = itr1;
+  
+  // Exercise operator!=
+  if( itr4 != itr1 )
+    {
+    std::cerr << "Error in operator= or operator!=" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Exercise operator==
+  if( !( itr4 == itr1 ) )
+    {
+    std::cerr << "Error in operator= or operator==" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Exercise GetImageIteratorDimension()
+  if( itr1.GetImageIteratorDimension() != ImageDimension )
+    {
+    std::cerr << "Error in GetImageIteratorDimension" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
