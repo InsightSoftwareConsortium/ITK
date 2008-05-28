@@ -36,9 +36,9 @@ SET(libgdcm_la_SOURCES
    gdcmDocument.cxx
    gdcmElementSet.cxx
    gdcmException.cxx
+   gdcmFile.cxx
    gdcmFileHelper.cxx
    gdcmGlobal.cxx
-   gdcmFile.cxx
    gdcmJPEGFragment.cxx
    gdcmJPEGFragmentsInfo.cxx
    gdcmJpeg8.cxx
@@ -55,7 +55,7 @@ SET(libgdcm_la_SOURCES
    gdcmSQItem.cxx
    gdcmTS.cxx
    gdcmUtil.cxx
-   gdcmValEntry.cxx   
+   gdcmValEntry.cxx
    gdcmValidator.cxx
    gdcmVR.cxx
    ${GDCM_BINARY_DIR}/src/gdcmDefaultDicts.cxx
