@@ -16,7 +16,7 @@
 =========================================================================*/
 
 #include <nifti1_io.h> // Needed to make sure that the overlapping
-                       // Analyze/Nifti readers do not overlap 
+                       // Analyze/Nifti readers do not overlap
 #include "itkAnalyzeImageIO.h"
 #include "itkIOCommon.h"
 #include "itkExceptionObject.h"
@@ -70,36 +70,37 @@ const short int DataTypeKey[12]={
 };
 
 
-//GetExtension from uiig library.
 static std::string
 GetExtension( const std::string& filename )
 {
-
-  // This assumes that the final '.' in a file name is the delimiter
-  // for the file's extension type
-  const std::string::size_type it = filename.find_last_of( "." );
-
-  // This determines the file's type by creating a new string
-  // who's value is the extension of the input filename
-  // eg. "myimage.gif" has an extension of "gif"
-  std::string fileExt( filename, it+1, filename.length() );
-
+  std::string fileExt(itksys::SystemTools::GetFilenameLastExtension(filename));
+  //If the last extension is .gz, then need to pull off 2 extensions.
+  //.gz is the only valid compression extension.
+  if(fileExt == std::string(".gz"))
+    {
+    fileExt=itksys::SystemTools::GetFilenameLastExtension(itksys::SystemTools::GetFilenameWithoutLastExtension(filename) );
+    fileExt+=".gz";
+    }
+  //Check that a valid extension was found.
+  if(fileExt != ".img.gz" && fileExt != ".img" && fileExt != ".hdr")
+    {
+    return( "" );
+    }
   return( fileExt );
 }
 
-
-//GetRootName from uiig library.
 static std::string
 GetRootName( const std::string& filename )
 {
   const std::string fileExt = GetExtension(filename);
-
   // Create a base filename
   // i.e Image.hdr --> Image
-  if( fileExt.length() > 0 )
+  if( fileExt.length() > 0  //Ensure that an extension was found
+    && filename.length() > fileExt.length() //Ensure that the filename does not contain only the extension
+    )
     {
     const std::string::size_type it = filename.find_last_of( fileExt );
-    std::string baseName( filename, 0, it-fileExt.length() );
+    const std::string baseName( filename, 0, it-(fileExt.length()-1) );
     return( baseName );
     }
   //Default to return same as input when the extension is nothing (Analyze)
@@ -111,13 +112,6 @@ static std::string
 GetHeaderFileName( const std::string & filename )
 {
   std::string ImageFileName = GetRootName(filename);
-  std::string fileExt = GetExtension(filename);
-  // If file was named xxx.img.gz then remove both the gz and the img
-  // endings. 
-  if(!fileExt.compare("gz"))
-    {
-    ImageFileName=GetRootName(GetRootName(filename));
-    }
   ImageFileName += ".hdr";
   return( ImageFileName );
 }
@@ -125,22 +119,12 @@ GetHeaderFileName( const std::string & filename )
 //Returns the base image filename.
 static std::string GetImageFileName( const std::string& filename )
 {
-  // Why do we add ".img" here?  Look in fileutils.h
-  std::string fileExt = GetExtension(filename);
-  std::string ImageFileName = GetRootName(filename);
-  if(!fileExt.compare("gz"))
+  std::string ImageFileName (filename);
+  const std::string fileExt = GetExtension(filename);
+  if(fileExt == ".hdr") //Default to uncompressed .img if .hdr is given as file name.
     {
-    //First strip both extensions off
-    ImageFileName=GetRootName(GetRootName(filename));
-    ImageFileName += ".img.gz";
-    }
-  else if(!fileExt.compare("img") || !fileExt.compare("hdr") )
-    {
+    ImageFileName=GetRootName(filename);
     ImageFileName += ".img";
-    }
-  else
-    {
-    return ("");
     }
   return( ImageFileName );
 }
@@ -267,7 +251,7 @@ AnalyzeImageIO::CheckAnalyzeEndian(const struct dsr &temphdr)
   // dimensions.  If the Image dimensions is greater
   // than 16000 then the image is almost certainly byte-swapped-- Hans
 
-  const ImageIOBase::ByteOrder systemOrder = 
+  const ImageIOBase::ByteOrder systemOrder =
     (ByteSwapper<int>::SystemIsBigEndian()) ? BigEndian : LittleEndian;
 
   if((temphdr.hk.extents == 16384) || (temphdr.hk.sizeof_hdr == 348))
@@ -503,7 +487,7 @@ AnalyzeImageIO::AnalyzeImageIO()
   this->m_Hdr.dime.cal_max=0.0f;  // specify range of calibration values
   this->m_Hdr.dime.cal_min=0.0f;  // specify range of calibration values
   this->m_Hdr.dime.compressed=0; // specify that the data file with extension
-                                 // .img is not compressed 
+                                 // .img is not compressed
   this->m_Hdr.dime.verified=0;
   this->m_Hdr.dime.glmax=0;      // max value for all of the data set
   this->m_Hdr.dime.glmin=0;      // min value for all of the data set
@@ -575,7 +559,7 @@ bool AnalyzeImageIO::CanWriteFile(const char * FileNameToWrite)
     {
     return true;
     }
-    
+
   return false;
 }
 
@@ -713,7 +697,7 @@ void AnalyzeImageIO::Read(void* buffer)
     if( file_p == NULL )
       {
       ExceptionObject exception(__FILE__, __LINE__);
-      std::string message = 
+      std::string message =
         "Analyze Data File can not be read:"
         " The following files were attempted:\n ";
       message += GetImageFileName( m_FileName );
@@ -747,49 +731,28 @@ void AnalyzeImageIO::Read(void* buffer)
 bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
 {
   std::string filename(FileNameToRead);
-
-  // we check that the correction extension is given by the user
+  // we check that the correct extension is given by the user
   std::string filenameext = GetExtension(filename);
-  if (filenameext == std::string("gz"))
-    {
-    const std::string::size_type it = filename.rfind( ".img.gz" );
-    if (it != (filename.length() - 7))
-      {
-      return false;
-      }
-    }
-  else if(filenameext != std::string("hdr") 
-          && filenameext != std::string("img.gz")
-          && filenameext != std::string("img")
-    )
+  if(filenameext != std::string(".hdr")
+    && filenameext != std::string(".img.gz")
+    && filenameext != std::string(".img")
+  )
     {
     return false;
     }
 
   const std::string HeaderFileName = GetHeaderFileName(filename);
-  //
-  // only try to read HDR files
-  std::string ext = GetExtension(HeaderFileName);
-
-  if(ext == std::string("gz"))
-    {
-    ext = GetExtension(GetRootName(HeaderFileName));
-    }
-  if(ext != std::string("hdr") && ext != std::string("img"))
-    {
-    return false;
-    }
 
   std::ifstream   local_InputStream;
-  local_InputStream.open( HeaderFileName.c_str(), 
-                          std::ios::in | std::ios::binary );
+  local_InputStream.open( HeaderFileName.c_str(),
+    std::ios::in | std::ios::binary );
   if( local_InputStream.fail() )
     {
     return false;
     }
-  if( ! this->ReadBufferAsBinary( local_InputStream, 
-                                  (void *)&(this->m_Hdr), 
-                                  sizeof(struct dsr) ) )
+  if( ! this->ReadBufferAsBinary( local_InputStream,
+      (void *)&(this->m_Hdr),
+      sizeof(struct dsr) ) )
     {
     local_InputStream.close();
     return false;
@@ -800,8 +763,8 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   // perform the byte swapping on it
   this->m_ByteOrder = this->CheckAnalyzeEndian(this->m_Hdr);
   this->SwapHeaderBytesIfNecessary( &(this->m_Hdr) );
-#ifdef OMIT_THIS_CODE 
-  //It is OK for this flag to be set because the zlib will 
+#ifdef OMIT_THIS_CODE
+  //It is OK for this flag to be set because the zlib will
   //support the Unix compress files
   if(this->m_Hdr.dime.compressed==1)
     {
@@ -811,7 +774,7 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
     //    throw exception;
     }
 #endif
-  //The final check is to make sure that it is not a nifti 
+  //The final check is to make sure that it is not a nifti
   // version of the analyze file.
   //Eventually the entire itkAnalyzeImageIO class will be
   //subsumed by the nifti reader.
@@ -830,8 +793,8 @@ void AnalyzeImageIO::ReadImageInformation()
     {
     itkExceptionMacro(<< "File cannot be read");
     }
-  if( ! this->ReadBufferAsBinary( local_InputStream, 
-                                  (void *)&(this->m_Hdr), 
+  if( ! this->ReadBufferAsBinary( local_InputStream,
+                                  (void *)&(this->m_Hdr),
                                   sizeof(struct dsr) ) )
     {
     itkExceptionMacro(<< "Unexpected end of file");
@@ -847,7 +810,7 @@ void AnalyzeImageIO::ReadImageInformation()
     }
 
   // Check if any dimensions are 1. If they are, reduce dimensionality
-  // This shouldn't be necessary, but Analyse75 seems to require the first 
+  // This shouldn't be necessary, but Analyse75 seems to require the first
   // field to be 4. So when writing say a 50 x 27 2D image,
   //   m_Hdr.dime.dim[0] = 4;
   //   m_Hdr.dime.dim[1] = 50;
@@ -872,7 +835,7 @@ void AnalyzeImageIO::ReadImageInformation()
     {
     --numberOfDimensions;
     }
-    
+
   this->SetNumberOfDimensions(numberOfDimensions);
   switch( this->m_Hdr.dime.datatype )
     {
@@ -937,7 +900,7 @@ void AnalyzeImageIO::ReadImageInformation()
 
     itk::EncapsulateMetaData<std::string>
       (thisDic,ITK_ImageFileBaseName,std::string(this->m_Hdr.hk.db_name,18));
-    
+
     //Important dime fields
     itk::EncapsulateMetaData<std::string>
       (thisDic,ITK_VoxelUnits,std::string(this->m_Hdr.dime.vox_units,4));
@@ -954,7 +917,7 @@ void AnalyzeImageIO::ReadImageInformation()
                                     this->m_Hdr.dime.cal_min);
     itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMAX,this->m_Hdr.dime.glmax);
     itk::EncapsulateMetaData<int>(thisDic,ANALYZE_GLMIN,this->m_Hdr.dime.glmin);
-  
+
     for (dim=this->GetNumberOfDimensions(); dim>0; dim--)
       {
       if (m_Hdr.dime.dim[dim] != 1)
@@ -1022,7 +985,7 @@ void AnalyzeImageIO::ReadImageInformation()
        std::string(this->m_Hdr.hist.aux_file,24));
 
       {
-      itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags temporient 
+      itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags temporient
         = static_cast<itk::AnalyzeImageIO::ValidAnalyzeOrientationFlags>
         (this->m_Hdr.hist.orient);
       itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
@@ -1041,10 +1004,10 @@ void AnalyzeImageIO::ReadImageInformation()
           coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
           itkWarningMacro( "Unknown orientation in file " << m_FileName );
         }
-      // An error was encountered in code that depends upon the 
+      // An error was encountered in code that depends upon the
       // valid coord_orientation.
       typedef SpatialOrientationAdapter OrientAdapterType;
-      SpatialOrientationAdapter::DirectionType dir =  
+      SpatialOrientationAdapter::DirectionType dir =
         OrientAdapterType().ToDirectionCosines(coord_orient);
       unsigned dims = this->GetNumberOfDimensions();
       std::vector<double> dirx(dims,0),
@@ -1073,7 +1036,7 @@ void AnalyzeImageIO::ReadImageInformation()
       itk::EncapsulateMetaData
         <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
         (thisDic,ITK_CoordinateOrientation, coord_orient);
-#endif  
+#endif
       }
     itk::EncapsulateMetaData<std::string>
       (thisDic,ITK_FileOriginator,
@@ -1093,7 +1056,7 @@ void AnalyzeImageIO::ReadImageInformation()
     itk::EncapsulateMetaData<std::string>
       (thisDic,ITK_ExperimentTime,
        std::string(this->m_Hdr.hist.exp_date,10));
-    
+
     itk::EncapsulateMetaData<int>
       (thisDic,ANALYZE_O_MAX,
        this->m_Hdr.hist.omax);
@@ -1118,7 +1081,7 @@ AnalyzeImageIO
 ::WriteImageInformation(void)
 {
   unsigned int dim;
-  if(this->GetNumberOfComponents() > 1) 
+  if(this->GetNumberOfComponents() > 1)
     {
     itkExceptionMacro(<< "More than one component per pixel not supported");
     }
@@ -1237,7 +1200,7 @@ AnalyzeImageIO
       {
       strncpy(this->m_Hdr.dime.vox_units,temp.c_str(),4);
       }
-    
+
     if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_CALIBRATIONUNITS,temp))
       {
       strncpy(this->m_Hdr.dime.cal_units,temp.c_str(),8);
@@ -1266,12 +1229,12 @@ AnalyzeImageIO
       {
       strncpy(this->m_Hdr.hist.descrip,temp.c_str(),80);
       }
-    
+
     if(itk::ExposeMetaData<std::string>(thisDic,ANALYZE_AUX_FILE_NAME,temp))
       {
       strncpy(this->m_Hdr.hist.aux_file,temp.c_str(),24);
       }
-    
+
     itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient =
       itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
@@ -1299,15 +1262,15 @@ AnalyzeImageIO
     switch (coord_orient)
       {
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-        this->m_Hdr.hist.orient = 
+        this->m_Hdr.hist.orient =
           itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
         break;
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-        this->m_Hdr.hist.orient = 
+        this->m_Hdr.hist.orient =
           itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
         break;
       case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-        this->m_Hdr.hist.orient = 
+        this->m_Hdr.hist.orient =
           itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
         break;
       default:
@@ -1316,12 +1279,12 @@ AnalyzeImageIO
         itkWarningMacro( "ERROR: Analyze 7.5 File Format"
                          " Only Allows RPI, PIR, and RIP Orientation " );
       }
-    
+
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_FileOriginator,temp))
       {
       strncpy(this->m_Hdr.hist.originator,temp.c_str(),10);
       }
-    
+
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_OriginationDate,temp))
       {
       strncpy(this->m_Hdr.hist.generated,temp.c_str(),10);
@@ -1341,7 +1304,7 @@ AnalyzeImageIO
       {
       strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);
       }
-    
+
     if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentTime,temp))
       {
       strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);
@@ -1355,7 +1318,7 @@ AnalyzeImageIO
 
   for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
     {
-    //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are 
+    //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are
     // the actual dims.
     this->m_Hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
     }
@@ -1365,7 +1328,7 @@ AnalyzeImageIO
   for( dim=this->GetNumberOfDimensions();(int)dim < this->m_Hdr.dime.dim[0];
        dim++ )
     {
-    //NOTE: Analyze dim[0] are the number of dims, 
+    //NOTE: Analyze dim[0] are the number of dims,
     //and dim[1..7] are the actual dims.
     this->m_Hdr.dime.dim[dim+1]  = 1; //Hardcoded to be 1;
     }
@@ -1378,7 +1341,7 @@ AnalyzeImageIO
   //The next funciton sets bitpix, and datatype, and data_type fields
   //Along with gl_min and gl_max fields.
   this->DefineHeaderObjectDataType();
-    
+
   local_OutputStream.write( (const char *)&(this->m_Hdr), sizeof(struct dsr) );
   if( local_OutputStream.eof() )
     {
@@ -1406,7 +1369,7 @@ AnalyzeImageIO
   const std::string ImageFileName = GetImageFileName( m_FileName );
   const std::string fileExt=GetExtension( m_FileName );
   // Check case where image is acually a compressed image
-  if(!fileExt.compare( "gz" ))
+  if(!fileExt.compare( ".gz" ))
     {
     // Open the *.img.gz file for writing.
     gzFile  file_p = ::gzopen( ImageFileName.c_str(), "wb" );
@@ -1446,7 +1409,7 @@ AnalyzeImageIO
               unsigned int rowOffset =    j*m_uiRowOffset;
               for ( register unsigned int i=0; i<tempX; i++ )
                 {
-                ::gzwrite( file_p, 
+                ::gzwrite( file_p,
                            &(static_cast<unsigned char *>(data)[(m_uiInitialOffset+planeVolOffset+rowOffset)*m_dataSize]) + (i*3), sizeof(unsigned char) );
                 }
               }
