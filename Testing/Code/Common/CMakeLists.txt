@@ -126,6 +126,7 @@ ADD_TEST(itkImageDuplicatorTest ${COMMON_TESTS} itkImageDuplicatorTest)
 ADD_TEST(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
 ADD_TEST(itkImageIteratorsForwardBackwardTest ${COMMON_TESTS} itkImageIteratorsForwardBackwardTest)
 ADD_TEST(itkImageIteratorWithIndexTest ${COMMON_TESTS} itkImageIteratorWithIndexTest)
+ADD_TEST(itkImageRegionIteratorTest ${COMMON_TESTS} itkImageRegionIteratorTest)
 ADD_TEST(itkImageLinearIteratorTest ${COMMON_TESTS} itkImageLinearIteratorTest)
 ADD_TEST(itkImageRandomIteratorTest ${COMMON_TESTS} itkImageRandomIteratorTest)
 ADD_TEST(itkImageRandomIteratorTest2 ${COMMON_TESTS} itkImageRandomIteratorTest2
@@ -424,6 +425,7 @@ itkImageDuplicatorTest.cxx
 itkImageIteratorTest.cxx
 itkImageIteratorsForwardBackwardTest.cxx
 itkImageIteratorWithIndexTest.cxx
+itkImageRegionIteratorTest.cxx
 itkImageLinearIteratorTest.cxx
 itkImageRandomIteratorTest.cxx
 itkImageRandomIteratorTest2.cxx

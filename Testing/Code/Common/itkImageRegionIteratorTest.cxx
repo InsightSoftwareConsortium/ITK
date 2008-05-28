@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkImageIteratorTest.cxx
+  Module:    itkImageRegionIteratorTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -21,7 +21,7 @@
 
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkImageIterator.h"
+#include "itkImageRegionIterator.h"
 
 
 // This routine is used to make sure that we call the "const" version
@@ -46,7 +46,7 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 }
 
 
-int itkImageIteratorTest(int, char* [] )
+int itkImageRegionIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
   itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
@@ -70,7 +70,14 @@ int itkImageIteratorTest(int, char* [] )
   itk::Image<itk::Vector<unsigned short, 5>, 3>::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
-  o3->SetRegions( region );
+  o3->SetLargestPossibleRegion( region );
+  region.SetSize(bufferSize3D);
+  region.SetIndex(bufferStartIndex3D);
+  o3->SetBufferedRegion( region );
+  region.SetSize(regionSize3D);
+  region.SetIndex(regionStartIndex3D);
+  o3->SetRequestedRegion( region );
+  
   o3->SetOrigin(origin3D);
   o3->SetSpacing(spacing3D);
 
@@ -89,15 +96,58 @@ int itkImageIteratorTest(int, char* [] )
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  typedef itk::Vector< unsigned short, 5 >  VectorPixelType;
-  typedef itk::Image< VectorPixelType, 3 >  VectorImageType;
   
-  typedef itk::ImageIterator<      VectorImageType >  VectorImageIterator;
-  typedef itk::ImageConstIterator< VectorImageType >  VectorImageConstIterator;
-  
-  VectorImageIterator       itr1( o3, region );
-  VectorImageConstIterator  itr2( o3, region );
+  itk::ImageIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > standardIt(o3, region);
 
+  // Iterate over a region using a simple for loop
+  itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > it(o3, region);
+
+  std::cout << "Simple iterator loop: ";
+  for ( ; !it.IsAtEnd(); ++it)
+    {
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
+    std::cout << index << std::endl;
+    }
+
+  itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > standardCIt(o3, region);
+
+  // Iterate over a region using a simple for loop and a const iterator
+  itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > cit(o3, region);
+
+  std::cout << "Simple const iterator loop: ";
+  for ( ; !cit.IsAtEnd(); ++cit)
+    {
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.GetIndex();
+    std::cout << index << std::endl;
+    }
+
+
+  // Iterator over the region backwards using a simple for loop
+  itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > backIt(o3, region);
+ 
+  backIt = backIt.End(); // one pixel past the end of the region
+  do
+    {
+    --backIt;
+
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = backIt.GetIndex();
+    std::cout << "Simple iterator backwards loop: ";
+    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
+      {
+      std::cout << index[i] << " ";
+      }
+    std::cout << std::endl;    
+    }
+  while (!backIt.IsAtBegin()); // stop when we reach the beginning
   
-  return EXIT_SUCCESS;
+
+  if (status == 0)
+    {
+    std::cout << "Passed" << std::endl;
+    }
+  else
+    {
+    std::cout << "Failed" << std::endl;
+    }
+  return status;
 }
