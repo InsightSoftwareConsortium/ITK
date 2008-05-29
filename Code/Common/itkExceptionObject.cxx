@@ -252,7 +252,7 @@ ExceptionObject::SetDescription(const char *s)
     {
     description = s;
     }
-  ExceptionObject::SetLocation( description );
+  ExceptionObject::SetDescription( description );
 }
 
 const char *
