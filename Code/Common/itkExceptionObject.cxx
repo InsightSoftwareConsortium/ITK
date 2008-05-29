@@ -29,7 +29,7 @@ namespace itk
  * Contains the location and description of the error, as well as
  * the text that should be returned by itk::ExceptionObject::what().
  */
-class ExceptionObject::ExceptionData
+class ExceptionObject::ExceptionData : public ReferenceCounterInterface
 {
 protected:
   // Constructor. Might throw an exception.
@@ -90,8 +90,22 @@ public:
     ConstPointer smartPtr;
     const Self *const rawPtr = new Self(file, line, description, location);
     smartPtr = rawPtr;
-    rawPtr->UnRegister();
+    rawPtr->LightObject::UnRegister();
     return smartPtr;
+  }
+
+  /** Increase the reference count (mark as used by another object).
+    * Delegates the counting to its LightObject superclass  */
+  virtual void Register() const
+  {
+  this->LightObject::Register();
+  }
+
+  /** Decrease the reference count (release by another object).
+    * Delegates the counting to its LightObject superclass  */
+  virtual void UnRegister() const
+  {
+  this->LightObject::UnRegister();
   }
 
 private:
@@ -113,7 +127,6 @@ private:
 
   ReferenceCountedExceptionData(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
 };
 
 
@@ -158,6 +171,14 @@ ExceptionObject::~ExceptionObject() throw()
   // automatically, by the destructor of the smart pointer.
 }
 
+const ExceptionObject::ReferenceCountedExceptionData *
+ExceptionObject::GetExceptionData() const
+{
+  const ReferenceCountedExceptionData * thisData = 
+    dynamic_cast< const ReferenceCountedExceptionData *>( this->m_ExceptionData.GetPointer() );
+  return thisData;
+}
+ 
 ExceptionObject &
 ExceptionObject::operator= ( const ExceptionObject &orig )
 {
@@ -173,8 +194,8 @@ bool
 ExceptionObject::operator==( const ExceptionObject &orig )
 {
   // operator== is reimplemented, but it still behaves like the previous version, from ITK 3.6.0.
-  const ExceptionData *const thisData = this->m_ExceptionData.GetPointer();
-  const ExceptionData *const origData = orig.m_ExceptionData.GetPointer();
+  const ExceptionData *const thisData = this->GetExceptionData();
+  const ExceptionData *const origData = orig.GetExceptionData();
 
   if ( thisData == origData )
     {
@@ -195,9 +216,9 @@ ExceptionObject::SetLocation(const std::string& s)
 {
   const bool IsNull = m_ExceptionData.IsNull();
   m_ExceptionData = ReferenceCountedExceptionData::ConstNew(
-    IsNull ? "" : m_ExceptionData->m_File,
-    IsNull ? 0 : m_ExceptionData->m_Line,
-    IsNull ? "" : m_ExceptionData->m_Description,
+    IsNull ? "" : this->GetExceptionData()->m_File.c_str(),
+    IsNull ? 0 : this->GetExceptionData()->m_Line,
+    IsNull ? "" : this->GetExceptionData()->m_Description.c_str(),
     s);
 }
 
@@ -206,56 +227,66 @@ ExceptionObject::SetDescription(const std::string& s)
 {
   const bool IsNull = m_ExceptionData.IsNull();
   m_ExceptionData = ReferenceCountedExceptionData::ConstNew(
-    IsNull ? "" : m_ExceptionData->m_File,
-    IsNull ? 0 : m_ExceptionData->m_Line,
+    IsNull ? "" : this->GetExceptionData()->m_File.c_str(),
+    IsNull ? 0 : this->GetExceptionData()->m_Line,
     s,
-    IsNull ? "" : m_ExceptionData->m_Location);
+    IsNull ? "" : this->GetExceptionData()->m_Location.c_str());
 }
 
 void
 ExceptionObject::SetLocation(const char * s)          
 {
-  ExceptionObject::SetLocation(s == 0 ? std::string() : std::string(s));
+  std::string location;
+  if( s ) 
+    {
+    location = s;
+    }
+  ExceptionObject::SetLocation( location );
 }
 
 void
 ExceptionObject::SetDescription(const char *s)       
 {
-  ExceptionObject::SetDescription(s == 0 ? std::string() : std::string(s));
+  std::string description;
+  if( s ) 
+    {
+    description = s;
+    }
+  ExceptionObject::SetLocation( description );
 }
 
 const char *
 ExceptionObject::GetLocation() const 
 {
   // Note: std::string::c_str() might throw an exception.
-  return m_ExceptionData.IsNull() ? "" : m_ExceptionData->m_Location.c_str();
+  return m_ExceptionData.IsNull() ? "" : this->GetExceptionData()->m_Location.c_str();
 }
 
 const char *
 ExceptionObject::GetDescription() const
 {
   // Note: std::string::c_str() might throw an exception.
-  return m_ExceptionData.IsNull() ? "" : m_ExceptionData->m_Description.c_str();
+  return m_ExceptionData.IsNull() ? "" : this->GetExceptionData()->m_Description.c_str();
 }
 
 const char *
 ExceptionObject::GetFile() const 
 {
   // Note: std::string::c_str() might throw an exception.
-  return m_ExceptionData.IsNull() ? "" : m_ExceptionData->m_File.c_str();
+  return m_ExceptionData.IsNull() ? "" : this->GetExceptionData()->m_File.c_str();
 }
 
 unsigned int
 ExceptionObject::GetLine() const 
 {
-  return m_ExceptionData.IsNull() ? 0 : m_ExceptionData->m_Line;
+  return m_ExceptionData.IsNull() ? 0 : this->GetExceptionData()->m_Line;
 }
 
 const char *
 ExceptionObject::what() const throw()
 { 
   // Note: m_What.c_str() wouldn't be safe, because c_str() might throw an exception.
-  return m_ExceptionData->m_WhatPointer;
+  return this->GetExceptionData()->m_WhatPointer;
 }
 
 void
@@ -273,7 +304,7 @@ ExceptionObject
 
   if (m_ExceptionData.IsNotNull())
     {
-    const ExceptionData & data = *m_ExceptionData;
+    const ExceptionData & data = *(this->GetExceptionData());
 
     if (! data.m_Location.empty()) 
       {

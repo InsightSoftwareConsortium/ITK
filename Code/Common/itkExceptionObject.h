@@ -104,10 +104,40 @@ public:
   virtual const char* what() const throw();
   
 private:
-  /** Exception data.  Location of the error and description of the error. */
+  /** Exception data.  Location of the error and description of the error.
+   *
+   *  Class hierarchy
+   *
+   *
+   *           ReferenceCounterInterface (Register/UnRegister)
+   *                     ^
+   *                     |
+   *               ExceptionData       LightObject (Register/UnRegister)
+   *                     ^                  ^
+   *                     |                  |
+   *                   ReferenceCountedExceptionData (Register/UnRegister)
+   *                               
+   *                               
+   *
+   *  The ReferenceCounterInterface is an abstract class providing
+   *  the API interface expected by the SmartPointer. Its second derived
+   *  class, the ReferenceCountedExceptionData, double inherits from LightObject
+   *  and ExceptionData, and overloads the Register()/UnRegister() methods to
+   *  delegate them to its second parent, the LightObject.
+   *
+   */
+  class ReferenceCounterInterface
+  {
+  public:
+    virtual void Register() const = 0;
+    virtual void UnRegister() const = 0;
+    ReferenceCounterInterface() {};
+    virtual ~ReferenceCounterInterface() {};
+  };
   class ExceptionData;
   class ReferenceCountedExceptionData;
-  SmartPointer<const ReferenceCountedExceptionData> m_ExceptionData;
+  SmartPointer<const ReferenceCounterInterface> m_ExceptionData;
+  const ReferenceCountedExceptionData * GetExceptionData() const;
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */
