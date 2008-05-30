@@ -1012,10 +1012,12 @@ void AnalyzeImageIO::ReadImageInformation()
       unsigned dims = this->GetNumberOfDimensions();
       // always have at least 3 dimensions for the purposes of
       // setting directions
-#define DIMS (dims < 3 ? 3 : dims)      
-      std::vector<double> dirx(DIMS,0),
-        diry(DIMS,0),
-        dirz(DIMS,0);
+#define itkAnalzyeImageIO_MINDIMS_IS_THREE ( (dims < 3) ? 3 : dims)
+      std::vector<double> dirx( itkAnalzyeImageIO_MINDIMS_IS_THREE,0),
+        diry( itkAnalzyeImageIO_MINDIMS_IS_THREE,0),
+        dirz( itkAnalzyeImageIO_MINDIMS_IS_THREE,0);
+#undef itkAnalzyeImageIO_MINDIMS_IS_THREE
+
       dirx[0] = dir[0][0];
       dirx[1] = dir[1][0];
       dirx[2] = dir[2][0];
