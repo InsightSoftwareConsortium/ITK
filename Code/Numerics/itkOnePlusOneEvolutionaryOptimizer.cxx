@@ -109,8 +109,10 @@ OnePlusOneEvolutionaryOptimizer
     parentPosition[i] = parent[i];
     }
 
-  itkDebugMacro(<< ": initial position: " << parentPosition); 
   double pvalue = m_CostFunction->GetValue(parentPosition);
+  itkDebugMacro(<< ": initial position: " << parentPosition); 
+  itkDebugMacro(<< ": initial fitness: " << pvalue); 
+
   this->SetCurrentPosition(parentPosition);
   const Optimizer::ScalesType& scales = this->GetScales();
 
@@ -159,14 +161,24 @@ OnePlusOneEvolutionaryOptimizer
 
     double cvalue = m_CostFunction->GetValue(childPosition);
 
-    itkDebugMacro(<< iter << ": parent: " << pvalue 
-                  << " child: "<< cvalue );
+    itkDebugMacro(<< "iter: " << iter << ": parent position: " 
+                  << parentPosition);
+    itkDebugMacro(<< "iter: " << iter << ": parent fitness: " 
+                  << pvalue); 
+    itkDebugMacro(<< "iter: " << iter << ": random vector: " << f_norm); 
+    itkDebugMacro(<< "iter: " << iter << ": A: " << std::endl << A); 
+    itkDebugMacro(<< "iter: " << iter << ": delta: " << delta); 
+    itkDebugMacro(<< "iter: " << iter << ": child position: " 
+                  << childPosition); 
+    itkDebugMacro(<< "iter: " << iter << ": child fitness: " 
+                  << cvalue); 
 
     double adjust = m_ShrinkFactor;
     if( m_Maximize )
       {
       if (cvalue > pvalue) 
         {
+        itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
         pvalue = cvalue;
         parent.swap(child);
         adjust = m_GrowthFactor; 
@@ -176,11 +188,16 @@ OnePlusOneEvolutionaryOptimizer
           }
         this->SetCurrentPosition(parentPosition);
         } 
+      else
+        {
+        itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
+        }
       }
     else
       {
       if (cvalue < pvalue) 
         {
+        itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
         pvalue = cvalue;
         parent.swap(child);
         adjust = m_GrowthFactor; 
@@ -189,6 +206,10 @@ OnePlusOneEvolutionaryOptimizer
           parentPosition[i] = parent[i];
           }
         this->SetCurrentPosition(parentPosition);
+        }
+      else
+        {
+        itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
         } 
       }
 
