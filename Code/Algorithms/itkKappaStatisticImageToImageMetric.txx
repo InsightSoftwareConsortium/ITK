@@ -85,7 +85,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   //fixed and moving image.
   //
   //
-  MeasureType measure              = NumericTraits< MeasureType >::Zero;  
+  MeasureType measure;
   MeasureType intersection         = NumericTraits< MeasureType >::Zero;  
   MeasureType movingForegroundArea = NumericTraits< MeasureType >::Zero;  
   MeasureType fixedForegroundArea  = NumericTraits< MeasureType >::Zero;  
