@@ -1620,19 +1620,19 @@ void FileHelper::CheckMandatoryElements()
           // Make sure we can find at least 2 names...
           if( tokens.size() >= 2 )
             {
-            itksys_ios::ostringstream os;
+            itksys_ios::ostringstream os2;
             for( std::vector<std::string>::const_iterator it = tokens.begin();
               it != tokens.end(); ++it)
               {
               if( it == tokens.begin() )
                 {
                 // Mark it DERIVED
-                os << "DERIVED";
+                os2 << "DERIVED";
                 }
               else
                 {
-                os << "\\";
-                os << *it;
+                os2 << "\\";
+                os2 << *it;
                 }
               }
             imagetype = os.str();
