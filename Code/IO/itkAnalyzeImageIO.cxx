@@ -1010,9 +1010,12 @@ void AnalyzeImageIO::ReadImageInformation()
       SpatialOrientationAdapter::DirectionType dir =
         OrientAdapterType().ToDirectionCosines(coord_orient);
       unsigned dims = this->GetNumberOfDimensions();
-      std::vector<double> dirx(dims,0),
-        diry(dims,0),
-        dirz(dims,0);
+      // always have at least 3 dimensions for the purposes of
+      // setting directions
+#define DIMS (dims < 3 ? 3 : dims)      
+      std::vector<double> dirx(DIMS,0),
+        diry(DIMS,0),
+        dirz(DIMS,0);
       dirx[0] = dir[0][0];
       dirx[1] = dir[1][0];
       dirx[2] = dir[2][0];
