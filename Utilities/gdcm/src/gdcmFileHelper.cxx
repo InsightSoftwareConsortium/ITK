@@ -1505,7 +1505,7 @@ void FileHelper::CheckMandatoryElements()
 
    // Check if user wasn't drunk ;-)
 
-   itksys_ios::ostringstream s;
+   itksys_ios::ostringstream os;
    // check 'Bits Allocated' vs decent values
    int nbBitsAllocated = FileInternal->GetBitsAllocated();
    if ( (nbBitsAllocated == 0 || nbBitsAllocated > 32)
@@ -1520,9 +1520,9 @@ void FileHelper::CheckMandatoryElements()
    int nbBitsStored = FileInternal->GetBitsStored();
    if ( nbBitsStored == 0 || nbBitsStored > nbBitsAllocated )
    {
-      s.str("");
-      s << nbBitsAllocated;
-      CopyMandatoryEntry(0x0028,0x0101,s.str());
+      os.str("");
+      os << nbBitsAllocated;
+      CopyMandatoryEntry(0x0028,0x0101,os.str());
       gdcmWarningMacro("(0028,0101) changed from "
                        << nbBitsStored << " to " << nbBitsAllocated
                        << " for consistency purpose" );
@@ -1534,9 +1534,9 @@ void FileHelper::CheckMandatoryElements()
         highBitPosition > nbBitsAllocated-1 ||
         highBitPosition < nbBitsStored-1  )
    {
-      s.str("");
-      s << nbBitsStored - 1; 
-      CopyMandatoryEntry(0x0028,0x0102,s.str());
+      os.str("");
+      os << nbBitsStored - 1; 
+      CopyMandatoryEntry(0x0028,0x0102,os.str());
       gdcmWarningMacro("(0028,0102) changed from "
                        << highBitPosition << " to " << nbBitsAllocated-1
                        << " for consistency purpose");
