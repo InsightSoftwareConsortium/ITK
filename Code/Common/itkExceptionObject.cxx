@@ -182,8 +182,9 @@ ExceptionObject::GetExceptionData() const
 ExceptionObject &
 ExceptionObject::operator= ( const ExceptionObject &orig )
 {
-  // Assign its superclass:
-  static_cast<Superclass &>(*this) = orig;
+  // Note: there is no superclass assignment here, because std::exception::operator= 
+  // appears have a bug on some platforms, including MSVC 2003. As reported by Jouni Kiviniemi:
+  // https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=328570
 
   // Assigns its smart pointer:
   m_ExceptionData = orig.m_ExceptionData;
@@ -285,8 +286,10 @@ ExceptionObject::GetLine() const
 const char *
 ExceptionObject::what() const throw()
 { 
+  const ExceptionData * const thisData = this->GetExceptionData();
+
   // Note: m_What.c_str() wouldn't be safe, because c_str() might throw an exception.
-  return this->GetExceptionData()->m_WhatPointer;
+  return thisData ? thisData->m_WhatPointer : "ExceptionObject";
 }
 
 void
