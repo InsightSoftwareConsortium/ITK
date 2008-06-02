@@ -196,7 +196,9 @@ static int TestByteSwap(const std::string & AugmentName)
   return rval;
 }
 
-template <typename T, unsigned Dimension> int MakeImage(const std::string & AugmentName)
+template <typename T, unsigned Dimension> 
+int 
+MakeImage(const std::string & AugmentName)
 {
   typedef itk::Image<T, Dimension> ImageType ;
   typedef itk::ImageFileReader< ImageType > ImageReaderType ;

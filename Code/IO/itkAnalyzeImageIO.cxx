@@ -1248,17 +1248,38 @@ AnalyzeImageIO
          (thisDic,ITK_CoordinateOrientation, coord_orient) )
       {
 #endif
-      std::vector<double> dirx = this->GetDirection(0),
-        diry = this->GetDirection(1),
-        dirz = this->GetDirection(2);
       typedef itk::SpatialOrientationAdapter::DirectionType DirectionType;
       DirectionType dir;
-      for(unsigned int i = 0; i < 3; i++)
+      {
+      unsigned int dims = this->GetNumberOfDimensions();
+      std::vector<double> dirx = this->GetDirection(0),
+        diry = this->GetDirection(1);
+      std::vector<double> dirz;
+      if(dims > 2)
+        {
+        dirz = this->GetDirection(2);
+        }
+      else
+        {
+        for(unsigned i = 0; i < 3; i++)
+          {
+          dirz.push_back(0.0);
+          }
+        }
+      unsigned int i;
+      for(i = 0; i < dims; i++)
         {
         dir[i][0] = dirx[i];
         dir[i][1] = diry[i];
         dir[i][2] = dirz[i];
         }
+      for(; i < 3; i++)
+        {
+        dir[i][0] = 
+          dir[i][1] = 
+          dir[i][2] = 0;
+        }
+      }
       coord_orient =
         itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
