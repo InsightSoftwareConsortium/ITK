@@ -14,6 +14,12 @@ IF(ITK_BINARY_DIR)
   ENDIF(ITK_CSWIG_TCL)
 ELSE(ITK_BINARY_DIR)
   # We are building as a stand-alone project.
+
+  CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+  IF(COMMAND CMAKE_POLICY)
+    CMAKE_POLICY(SET CMP0003 NEW)
+  ENDIF(COMMAND CMAKE_POLICY)
+
   SET(LIBRARY_OUTPUT_PATH ${ITKTesting_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
   SET(EXECUTABLE_OUTPUT_PATH ${ITKTesting_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
   MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
