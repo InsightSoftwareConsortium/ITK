@@ -38,15 +38,18 @@ void RegisterTests()
   REGISTER_TEST(itkVnlFFTTest);
 #if defined(USE_FFTWF)
   REGISTER_TEST(itkFFTWF_FFTTest);
+  REGISTER_TEST(itkVnlFFTWF_FFTTest);
 #endif
 #if defined(USE_FFTWD)
   REGISTER_TEST(itkFFTWD_FFTTest);
+  REGISTER_TEST(itkVnlFFTWD_FFTTest);
 #endif
 #if defined(USE_FFTWD)
   REGISTER_TEST(itkCurvatureRegistrationFilterTest);
 #endif
 #if defined(USE_SCSL)
   REGISTER_TEST(itkSCSLFFTTest);
+  REGISTER_TEST(itkVnlSCSL_FFTTest);
 #endif
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
