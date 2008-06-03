@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DeformationFieldSource, ImageToImageFilter);
+  itkTypeMacro(DeformationFieldSource, ImageSource);
 
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
