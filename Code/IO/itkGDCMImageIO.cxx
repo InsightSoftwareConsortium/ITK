@@ -1168,6 +1168,7 @@ void GDCMImageIO::Write(const void* buffer)
       {
       itkExceptionMacro( "Problem reading RescaleSlope: " << rescaleslope );
       }
+    header->InsertValEntry( "US", 0x0028, 0x1054 ); // Rescale Type
     }
   else if( rescaleintercept != "" || rescaleslope != "" ) // xor
     {
