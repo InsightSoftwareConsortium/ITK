@@ -105,7 +105,7 @@ public:
   typedef TPixel InternalPixelType;
 
   /** Typedef alias for PixelType */
-  typedef TPixel ValueType ;
+  typedef PixelType ValueType;
 
   typedef InternalPixelType  IOPixelType;
 
