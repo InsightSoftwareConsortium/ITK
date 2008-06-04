@@ -72,6 +72,9 @@ int itkImageIteratorTest(int, char* [] )
   o3->SetSpacing(spacing3D);
 
   o3->Allocate();
+  itk::Vector<unsigned short, 5> fillValue;
+  fillValue.Fill(itk::NumericTraits<unsigned short>::max());
+  o3->FillBuffer(fillValue);
 
   std::cout << "Setting/Getting a pixel" << std::endl;
   itk::Vector<unsigned short, 5> vec;
@@ -204,6 +207,8 @@ int itkImageIteratorTest(int, char* [] )
   {
   VectorPixelType vp1 = itr1.Get();
   VectorPixelType vp2 = itr2.Get();
+  std::cout << "vp1: " << vp1 << std::endl;
+  std::cout << "vp2: " << vp2 << std::endl;
   if( vp1 != vp2 )
     {
     std::cerr << "Error in Get()" << std::endl;
