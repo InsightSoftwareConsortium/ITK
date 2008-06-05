@@ -492,13 +492,30 @@ IF(ITK_CSWIG_TCL)
 ENDIF(ITK_CSWIG_TCL)
 
 IF(ITK_CSWIG_PYTHON)
-  CONFIGURE_FILE(
-    "${WrapITK_SOURCE_DIR}/pythonfiles_install.cmake.in"
-    "${WrapITK_BINARY_DIR}/pythonfiles_install.cmake"
-    @ONLY IMMEDIATE)
-  ADD_CUSTOM_TARGET(python_install)
-  SET_TARGET_PROPERTIES(python_install PROPERTIES
-    POST_INSTALL_SCRIPT "${WrapITK_BINARY_DIR}/pythonfiles_install.cmake")
+  # Install the python files created at build time.
+  IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" STREQUAL "2.4")
+    # Old-style installation.
+    CONFIGURE_FILE(
+      "${WrapITK_SOURCE_DIR}/pythonfiles_install.cmake.in"
+      "${WrapITK_BINARY_DIR}/pythonfiles_install.cmake"
+      @ONLY IMMEDIATE)
+    ADD_CUSTOM_TARGET(python_install)
+    SET_TARGET_PROPERTIES(python_install PROPERTIES
+      POST_INSTALL_SCRIPT "${WrapITK_BINARY_DIR}/pythonfiles_install.cmake")
+  ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" STREQUAL "2.4")
+    # Use CMake 2.6 FILES_MATCHING feature to install correctly.
+    IF(ITK_CSWIG_CONFIGURATION_TYPES)
+      SET(_FROMDIR ${EXECUTABLE_OUTPUT_PATH}/\${CMAKE_INSTALL_CONFIG_NAME})
+    ELSE(ITK_CSWIG_CONFIGURATION_TYPES)
+      SET(_FROMDIR ${EXECUTABLE_OUTPUT_PATH})
+    ENDIF(ITK_CSWIG_CONFIGURATION_TYPES)
+    INSTALL(
+      DIRECTORY ${_FROMDIR}/
+      DESTINATION ${ITK_INSTALL_LIB_DIR_CM24}
+      COMPONENT "RuntimeLibraries"
+      FILES_MATCHING PATTERN "*.py"
+      )
+  ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" STREQUAL "2.4")
 
   # Install the package python files.
   FOREACH(file ${ITK_PYTHON_FILES})
