@@ -376,6 +376,19 @@ void
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
+  if (parameters.Size() < 
+      (NOutputDimensions * NInputDimensions + NOutputDimensions))
+    {
+    itkExceptionMacro
+      (<< "Error setting parameters: parameters array size ("
+       << parameters.Size() << ") is less than expected "
+       << " (NInputDimensions * NOutputDimensions + NOutputDimensions) "
+       << " (" << NInputDimensions << " * " << NOutputDimensions
+       << " + " << NOutputDimensions
+       << " = " << NInputDimensions*NOutputDimensions+NOutputDimensions << ")"
+       );
+    }
+
   unsigned int par = 0;
 
   this->m_Parameters = parameters;
