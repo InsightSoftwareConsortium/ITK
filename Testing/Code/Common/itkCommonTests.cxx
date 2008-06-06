@@ -55,6 +55,7 @@ REGISTER_TEST(itkExceptionObjectTest );
 REGISTER_TEST(itkFileOutputWindowTest );
 REGISTER_TEST(itkFiniteCylinderSpatialFunctionTest );
 REGISTER_TEST(itkFixedArrayTest );
+REGISTER_TEST(itkFixedArrayTest2 );
 REGISTER_TEST(itkFixedCenterOfRotationAffineTransformTest );
 REGISTER_TEST(itkFloodFilledSpatialFunctionTest );
 REGISTER_TEST(itkFourierSeriesPathTest );

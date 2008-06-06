@@ -39,6 +39,7 @@ ADD_TEST(itkAdaptorComparisonTest ${COMMON_TESTS} itkAdaptorComparisonTest)
 ADD_TEST(itkAffineTransformTest ${COMMON_TESTS} itkAffineTransformTest)
 ADD_TEST(itkFixedCenterOfRotationAffineTransformTest ${COMMON_TESTS} itkFixedCenterOfRotationAffineTransformTest)
 ADD_TEST(itkFixedArrayTest ${COMMON_TESTS} itkFixedArrayTest)
+ADD_TEST(itkFixedArrayTest2 ${COMMON_TESTS} itkFixedArrayTest2)
 ADD_TEST(itkArrayTest ${COMMON_TESTS} itkArrayTest)
 ADD_TEST(itkArray2DTest ${COMMON_TESTS} itkArray2DTest)
 ADD_TEST(itkAutoPointerTest ${COMMON_TESTS} itkAutoPointerTest)
@@ -413,6 +414,7 @@ itkExceptionObjectTest.cxx
 itkFileOutputWindowTest.cxx
 itkFiniteCylinderSpatialFunctionTest.cxx
 itkFixedArrayTest.cxx
+itkFixedArrayTest2.cxx
 itkFixedCenterOfRotationAffineTransformTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
 itkFourierSeriesPathTest.cxx
