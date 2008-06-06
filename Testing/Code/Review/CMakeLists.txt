@@ -79,6 +79,20 @@ SET(ReviewTest_SRCS
 IF(ITK_USE_REVIEW)
   IF(ITK_USE_TRANSFORM_IO_FACTORIES)
     SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
+
+    ADD_TEST(itkTransformFileReaderWriterTest0 
+      ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
+      ${INPUTDATA}/itkAffineTransform00.txt
+      ${TEMP}/itkTransformFileReaderWriterTest0.txt
+      )
+
+    ADD_TEST(itkTransformFileReaderWriterTest1 
+      ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
+      ${INPUTDATA}/itkAffineTransform01.txt
+      ${TEMP}/itkTransformFileReaderWriterTest1.txt
+      )
+
+
   ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 ENDIF(ITK_USE_REVIEW)
 
