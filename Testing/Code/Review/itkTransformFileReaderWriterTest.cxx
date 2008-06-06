@@ -68,7 +68,6 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     if( affine_transform1 )
       {
       std::cout << "Successful Read" << std::endl;
-      affine_transform1->Print( std::cout );
       }
     else
       {
@@ -112,7 +111,6 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     if( affine_transform2 )
       {
       std::cout << "Successful Read" << std::endl;
-      affine_transform2->Print( std::cout );
       }
     else
       {
@@ -121,11 +119,13 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
       }
     } 
 
+  const double tolerance = 1e-6;
+
+  std::cout << "Testing STANDARD parameters" << std::endl;
 
   AffineTransformType::ParametersType parameters1 = affine_transform1->GetParameters();
   AffineTransformType::ParametersType parameters2 = affine_transform2->GetParameters();
 
-  const double tolerance = 1e-6;
   for( unsigned int k = 0; k < parameters1.Size(); k++ )
     {
     if( vnl_math_abs( parameters1[k] - parameters2[k] ) > tolerance )
@@ -136,6 +136,24 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
       return EXIT_FAILURE;
       }
     }
+
+
+  std::cout << "Testing FIXED parameters" << std::endl;
+
+  AffineTransformType::ParametersType fixedparameters1 = affine_transform1->GetFixedParameters();
+  AffineTransformType::ParametersType fixedparameters2 = affine_transform2->GetFixedParameters();
+
+  for( unsigned int j = 0; j < fixedparameters1.Size(); j++ )
+    {
+    if( vnl_math_abs( fixedparameters1[j] - fixedparameters2[j] ) > tolerance )
+      {
+      std::cerr << "ERROR: parameter " << j << " differs above tolerace" << std::endl;
+      std::cerr << "Expected parameters  = " << fixedparameters1 << std::endl;
+      std::cerr << "but Found parameters = " << fixedparameters2 << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
 
   std::cout << "Test PASSED!" << std::endl;
 
