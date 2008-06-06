@@ -61,8 +61,10 @@ int itkFixedArrayTest2(int, char* [] )
   // Get the final timing and display it
   t=clock() - t;
 
+  const double time1 = (t*1000.0) / CLOCKS_PER_SEC;
+
   std::cout << "Initial execution time: "
-            << (t*1000.0) / CLOCKS_PER_SEC << "ms\n";
+            << time1 << "ms\n";
 
 
   // We now emulate an 8 bytes aligned array
@@ -98,12 +100,17 @@ int itkFixedArrayTest2(int, char* [] )
   // Get the final timing and display it
   t = clock() - t;
 
+  const double time2 = (t*1000.0) / CLOCKS_PER_SEC;
+
   std::cout << "Execution time: "
-            << (t*1000.0) / CLOCKS_PER_SEC << "ms\n";
+            << time2 << "ms\n";
 
 
   // Free up the memory
   delete [] vec;
+
+  std::cout << "Performance ratio = "
+            << 100.0 * (time1-time2)/time2 << "%" << std::endl;
 
   // Make sure we do something with the sums otherwise everything
   // could be optimized away by the compiler
@@ -111,6 +118,7 @@ int itkFixedArrayTest2(int, char* [] )
     {
     return EXIT_FAILURE;
     }
+
 
   return EXIT_SUCCESS;
 }
