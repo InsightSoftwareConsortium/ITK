@@ -111,14 +111,22 @@ int itkFixedArrayTest2(int, char* [] )
   // Free up the memory
   delete [] vec;
 
-  std::cout << "Performance ratio = "
-            << 100.0 * (time1-time2)/time2 << "%" << std::endl;
+  const double ratio = 100.0 * ( time1 - time2 ) / time2;
+
+  std::cout << "Performance ratio = " << ratio << "%" << std::endl;
+
+  if( ratio > 20.0 ) // tolerates only 20%
+    {
+    std::cerr << "Performance degraded below tolerance" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   // Make sure we do something with the sums otherwise everything
   // could be optimized away by the compiler
   if( acc1+acc2 == 0.0 )
     {
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS; // This is a null operation on purpose.
     }
 
 
