@@ -45,7 +45,7 @@ IF(ITK_USE_LIBXML2)
       SET(svnCmd "co")
       SET(svnRevFlag "-r")
       SET(svnRevNum  "188")
-      SET(svnSite "https://www.kitware.com:8443/svn/KWPublic/trunk/itklibxml2")
+      SET(svnSite "https://www.kitware.com:8443/svn/KWPublic/trunk/libxml2")
       SET(svnDir "${ITK_BINARY_DIR}/Utilities")
       FILE(WRITE ${ITK_BINARY_DIR}/Utilities/t "t\n")
       EXECUTE_PROCESS(
