@@ -46,7 +46,7 @@ int itkFixedArrayTest2(int, char* [] )
 
 
   // Display the alignment of the array
-  std::cout << "Initial alignment: " << (((int)vec)& 7) << "\n";
+  std::cout << "Initial alignment: " << (((size_t)vec)& 7) << "\n";
 
   // Start a simple experiment
   t = clock();
@@ -75,7 +75,7 @@ int itkFixedArrayTest2(int, char* [] )
   char * p = reinterpret_cast<char*>( vec );
 
   // Move the char pointer until is aligned on 8 bytes
-  while ( ( (int)p ) % 8 )
+  while ( ( (size_t)p ) % 8 )
     {
     ++p;
     }
@@ -85,7 +85,7 @@ int itkFixedArrayTest2(int, char* [] )
 
   // Make sure the new pointer is well aligned by
   // displaying the alignment
-  std::cout << "New alignment: " << (((int)vec2)& 7) << "\n";
+  std::cout << "New alignment: " << (((size_t)vec2)& 7) << "\n";
 
   // Start the simple experiment on the 8 byte aligned array
   t = clock();
