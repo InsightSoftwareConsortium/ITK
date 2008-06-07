@@ -146,9 +146,18 @@ public:
   
 
   /** This destructor is not virtual for performance reasons. However, this
-   * means that subclasses cannot allocate memory. */
-  ~FixedArray();
-  
+   * means that subclasses cannot allocate memory.
+   *
+   * The destructor is PURPOSELY NOT DEFINED, in order to prevent inefficient
+   * byte alignment of arrays of this object.
+   *
+   * ~FixedArray();
+   *
+   * For a full discussion, see 
+   * http://www.itk.org/mailman/private/insight-developers/2008-June/010480.html
+   *
+   */
+
   /** Operator= defined for a variety of types. */
   template< class TFixedArrayValueType >
   FixedArray& operator= (const FixedArray< TFixedArrayValueType, VLength > & r)

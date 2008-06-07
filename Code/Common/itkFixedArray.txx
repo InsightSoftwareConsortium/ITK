@@ -48,16 +48,6 @@ FixedArray<TValueType, VLength>
 
 
 /**
- * Destructor does nothing special.  Here for completeness.
- */
-template <typename TValueType, unsigned int VLength>
-FixedArray<TValueType, VLength>
-::~FixedArray()
-{
-}
-
-
-/**
  * Assignment operator assumes input points to array of correct size.
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
