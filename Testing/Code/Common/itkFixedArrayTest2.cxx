@@ -21,7 +21,7 @@
 #include <iostream>
 #include "itkFixedArray.h"
 #include <time.h>
-#include <memory>
+#include <cstring>
 
 int itkFixedArrayTest2(int, char* [] )
 {
