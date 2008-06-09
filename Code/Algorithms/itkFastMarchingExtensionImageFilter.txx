@@ -142,17 +142,6 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
 
   this->Superclass::Initialize( output );
 
-  AuxImagePointer auxImages[AuxDimension];
-  
-  // allocate memory for the auxiliary outputs
-  for ( unsigned int k = 0; k < VAuxDimension; k++ )
-    {
-    AuxImageType * ptr = this->GetAuxiliaryImage( k );
-    ptr->SetBufferedRegion( ptr->GetRequestedRegion() );
-    ptr->Allocate();
-    auxImages[k] = ptr;
-    }
-
   if ( this->GetAlivePoints() && !m_AuxAliveValues )
     {
     itkExceptionMacro(<<"in Initialize(): Null pointer for AuxAliveValues" );
@@ -175,6 +164,17 @@ FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,TSpeedImage>
     itkExceptionMacro(<<"in Initialize(): AuxTrialValues is the wrong size" );
     } 
   
+  AuxImagePointer auxImages[AuxDimension];
+  
+  // allocate memory for the auxiliary outputs
+  for ( unsigned int k = 0; k < VAuxDimension; k++ )
+    {
+    AuxImageType * ptr = this->GetAuxiliaryImage( k );
+    ptr->SetBufferedRegion( ptr->GetRequestedRegion() );
+    ptr->Allocate();
+    auxImages[k] = ptr;
+    }
+
   // set all alive points to alive
   typename Superclass::NodeType node;
 
