@@ -341,6 +341,34 @@ unsigned int test_regiongrowKLM1D()
          pixelLabel  != m )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != pixelIn[0])
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "pixelIn[0]: " << pixelIn[0]
+                  << std::endl;
+        }
+      if ( pixelOut[1] != pixelIn[1])
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "pixelIn[1]: " << pixelIn[1]
+                  << std::endl;
+        }
+      if ( pixelOut[2] != pixelIn[2])
+        {
+        std::cout << "pixelOut[2]: " << pixelOut[2]
+                  << " != "
+                  << "pixelIn[2]: " << pixelIn[2]
+                  << std::endl;
+        }
+      if ( pixelLabel  != m )
+        {
+        std::cout << "pixelLabel: " << pixelLabel
+                  << " != "
+                  << "m: " << m
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -418,6 +446,20 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut != pixelOut2a || pixelLabel != ma )
         {
         std::cout << "Test FAILED" << std::endl;
+        if ( pixelLabel != ma)
+          {
+          std::cout << "pixelLabel: " << pixelLabel
+                    << " != "
+                    << "ma: " << ma
+                    << std::endl;
+          }
+        if ( pixelOut != pixelOut2a)
+          {
+          std::cout << "pixelOut: " << pixelOut
+                    << " != "
+                    << "pixelOut2a: " << pixelOut2a
+                    << std::endl;
+          }
         return EXIT_FAILURE;
         }
       }
@@ -426,6 +468,20 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut != pixelOut2b || pixelLabel != mb )
         {
         std::cout << "Test FAILED" << std::endl;
+        if ( pixelLabel != ma)
+          {
+          std::cout << "pixelLabel: " << pixelLabel
+                    << " != "
+                    << "mb: " << mb
+                    << std::endl;
+          }
+        if ( pixelOut != pixelOut2b)
+          {
+          std::cout << "pixelOut: " << pixelOut
+                    << " != "
+                    << "pixelOut2b: " << pixelOut2b
+                    << std::endl;
+          }
         return EXIT_FAILURE;
         }
       }
@@ -532,6 +588,20 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut != pixelOut3a || pixelLabel != ma )
         {
         std::cout << "Test FAILED" << std::endl;
+        if ( pixelLabel != ma)
+          {
+          std::cout << "pixelLabel: " << pixelLabel
+                    << " != "
+                    << "ma: " << ma
+                    << std::endl;
+          }
+        if ( pixelOut != pixelOut3a)
+          {
+          std::cout << "pixelOut: " << pixelOut
+                    << " != "
+                    << "pixelOut3a: " << pixelOut3a
+                    << std::endl;
+          }
         return EXIT_FAILURE;
         }
       }
@@ -540,6 +610,20 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut != pixelOut3b || pixelLabel != mb )
         {
         std::cout << "Test FAILED" << std::endl;
+        if ( pixelLabel != mb)
+          {
+          std::cout << "pixelLabel: " << pixelLabel
+                    << " != "
+                    << "mb: " << mb
+                    << std::endl;
+          }
+        if ( pixelOut != pixelOut3b)
+          {
+          std::cout << "pixelOut: " << pixelOut
+                    << " != "
+                    << "pixelOut3b: " << pixelOut3b
+                    << std::endl;
+          }
         return EXIT_FAILURE;
         }
       }
@@ -548,6 +632,20 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut != pixelOut3c || pixelLabel != mc )
         {
         std::cout << "Test FAILED" << std::endl;
+        if ( pixelLabel != ma)
+          {
+          std::cout << "pixelLabel: " << pixelLabel
+                    << " != "
+                    << "mc: " << mc
+                    << std::endl;
+          }
+        if ( pixelOut != pixelOut3c)
+          {
+          std::cout << "pixelOut: " << pixelOut
+                    << " != "
+                    << "pixelOut3c: " << pixelOut3c
+                    << std::endl;
+          }
         return EXIT_FAILURE;
         }
       }
@@ -556,6 +654,20 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut != pixelOut3d || pixelLabel != md )
         {
         std::cout << "Test FAILED" << std::endl;
+        if ( pixelLabel != md)
+          {
+          std::cout << "pixelLabel: " << pixelLabel
+                    << " != "
+                    << "md: " << md
+                    << std::endl;
+          }
+        if ( pixelOut != pixelOut3d)
+          {
+          std::cout << "pixelOut: " << pixelOut
+                    << " != "
+                    << "pixelOut3d: " << pixelOut3d
+                    << std::endl;
+          }
         return EXIT_FAILURE;
         }
       }
@@ -664,6 +776,10 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelLabel != k )
         {
         std::cout << "Test FAILED" << std::endl;
+        std::cout << "pixelLabel: " << pixelLabel
+                  << " != "
+                  << "k : " << k
+                  << std::endl;
         return EXIT_FAILURE;
         }
       ++labelIt5;
@@ -679,6 +795,10 @@ unsigned int test_regiongrowKLM1D()
       if ( pixelOut5in != pixelOut5out )
         {
         std::cout << "Test FAILED" << std::endl;
+        std::cout << "pixelOut5in: " << pixelOut5in
+                  << " != "
+                  << "pixelOut5out: " << pixelOut5out
+                  << std::endl;
         return EXIT_FAILURE;
         }
       ++outIt5;
@@ -893,6 +1013,20 @@ unsigned int test_regiongrowKLM2D()
     if ( pixelOut[0] != pixelIn[0] || pixelOut[1] != pixelIn[1] )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != pixelIn[0] )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "pixelIn[0]: " << pixelIn[0]
+                  << std::endl;
+        }
+      if ( pixelOut[1] != pixelIn[1] )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "pixelIn[1]: " << pixelIn[1]
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -931,6 +1065,10 @@ unsigned int test_regiongrowKLM2D()
     if(pixelLabel != m)
       {
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelLabel: " << pixelLabel
+                << " != "
+                << "m: " << m
+                << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -990,6 +1128,21 @@ unsigned int test_regiongrowKLM2D()
          pixelOut[1] != 100 - pixelOut[0] )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != outImageVals[k] )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "outImageVals[k]: " << outImageVals[k]
+                  << std::endl;
+        }
+      if ( pixelOut[1] != (100 - pixelOut[0]) )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "100 - pixelOut[0]: " << 100 - pixelOut[0]
+                  << std::endl;
+        }
+
       return EXIT_FAILURE;
       }
 
@@ -1014,6 +1167,10 @@ unsigned int test_regiongrowKLM2D()
     if(pixelLabel != labelVals[k])
       {
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelLabel: " << pixelLabel
+                << " != "
+                << "labelVals[k]: " << labelVals[k]
+                << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -1084,6 +1241,20 @@ unsigned int test_regiongrowKLM2D()
     if ( pixelOut[0] != 0 || pixelOut[1] != 0 )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != 0 )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "0"
+                  << std::endl;
+        }
+      if ( pixelOut[1] != 0 )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "0"
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -1485,6 +1656,20 @@ unsigned int test_regiongrowKLM3D()
     if ( pixelOut[0] != pixelIn[0] || pixelOut[1] != pixelIn[1] )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != pixelIn[0] )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "pixelIn[0]: " << pixelIn[0]
+                  << std::endl;
+        }
+      if ( pixelOut[1] != 0 )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "pixelIn[1]: " << pixelIn[1]
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -1523,6 +1708,10 @@ unsigned int test_regiongrowKLM3D()
     if(pixelLabel != m)
       {
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelLabel: " << pixelLabel
+                  << " != "
+                  << "m: " << m
+                  << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -1582,6 +1771,20 @@ unsigned int test_regiongrowKLM3D()
          pixelOut[1] != 100 - pixelOut[0] )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != outImageVals[k] )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "outImageVals[k]: " << outImageVals[k]
+                  << std::endl;
+        }
+      if ( pixelOut[1] != (100 - pixelOut[0]) )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "100 - pixelOut[0]: " << 100 - pixelOut[0]
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -1606,6 +1809,10 @@ unsigned int test_regiongrowKLM3D()
     if(pixelLabel != labelVals[k])
       {
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelLabel: " << pixelLabel
+                << " != "
+                << "labelVals[k]: " << labelVals[k]
+                << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -1675,6 +1882,20 @@ unsigned int test_regiongrowKLM3D()
     if ( pixelOut[0] != 0 || pixelOut[1] != 0 )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != 0 )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "0"
+                  << std::endl;
+        }
+      if ( pixelOut[1] != 0 )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "0"
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -1873,6 +2094,20 @@ unsigned int test_regiongrowKLM4D()
     if ( pixelOut[0] != pixelIn[0] )
       {
       std::cout << "Test FAILED" << std::endl;
+      if ( pixelOut[0] != pixelIn[0] )
+        {
+        std::cout << "pixelOut[0]: " << pixelOut[0]
+                  << " != "
+                  << "pixelIn[0]: " << pixelIn[0]
+                  << std::endl;
+        }
+      if ( pixelOut[1] != 0 )
+        {
+        std::cout << "pixelOut[1]: " << pixelOut[1]
+                  << " != "
+                  << "pixelIn[1]: " << pixelIn[1]
+                  << std::endl;
+        }
       return EXIT_FAILURE;
       }
 
@@ -1910,9 +2145,11 @@ unsigned int test_regiongrowKLM4D()
 
     if(pixelLabel != m)
       {
-      std::cout << "pixelLabel " << pixelLabel << " m " << m << std::endl;
-
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelLabel: " << pixelLabel
+                  << " != "
+                  << "m: " << m
+                  << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -1970,6 +2207,10 @@ unsigned int test_regiongrowKLM4D()
     if ( pixelOut[0] != pixelIn[0] )
       {
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelOut[0]: " << pixelOut[0]
+                << " != "
+                << "pixelIn[0]: " << pixelIn[0]
+                << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -1995,11 +2236,11 @@ unsigned int test_regiongrowKLM4D()
 
     if(pixelLabel != static_cast<LabelType>(pixelIn[0]))
       {
+      std::cout << "Test FAILED" << std::endl;
       std::cout << "k = " << k
                 << " pixelLabel = " << pixelLabel
                 << " pixelIn[0] = " << pixelIn[0] << std::endl;
 
-      std::cout << "Test FAILED" << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -2071,6 +2312,10 @@ unsigned int test_regiongrowKLM4D()
     if ( pixelOut[0] != 0 )
       {
       std::cout << "Test FAILED" << std::endl;
+      std::cout << "pixelOut[0]: " << pixelOut[0]
+                << " != "
+                << "0"
+                << std::endl;
       return EXIT_FAILURE;
       }
 
