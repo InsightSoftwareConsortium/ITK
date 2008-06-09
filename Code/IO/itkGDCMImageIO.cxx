@@ -1098,50 +1098,59 @@ void GDCMImageIO::Write(const void* buffer)
   // will have the proper settings for pixel spacing, spacing between slices,
   // image position patient and the row/column direction cosines.
 
-  // At the point we can only have 2 or 3 dim images:
-  //assert( m_Origin.size() == 2 || m_Origin.size() == 3 );
-  str.str("");
-  str << m_Origin[0] << "\\" << m_Origin[1] << "\\";
-
-  if( m_Origin.size() == 3 )
+  // In the case where user specifically set the Image Position (Patient) either
+  // directly or indirectly using SetMetaDataDictionaryArray, we should not try
+  // to override it's input
+  if( !header->GetValEntry(0x0020,0x0032 ) )
     {
-    str << m_Origin[2];
-    }
-  else // We are coming from the default SeriesWriter which is passing us a 2D image
+    str.str("");
+    str << m_Origin[0] << "\\" << m_Origin[1] << "\\";
+
+    if( m_Origin.size() == 3 )
+      {
+      str << m_Origin[2];
+      }
+    else // We are coming from the default SeriesWriter which is passing us a 2D image
       // therefore default to a Z position = 0, this will make the image at least valid
       // if not correct
-    {
-    str << 0.;
+      {
+      str << 0.;
+      }
+    header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position (Patient)
     }
-  header->InsertValEntry(str.str(),0x0020,0x0032); // Image Position (Patient)
 
   // Handle Direction = Image Orientation Patient
-  str.str("");
-  str << m_Direction[0][0] << "\\"
-    << m_Direction[1][0] << "\\";
-  /*
-   * This is where the 3rd component of the direction is being lost
-   * ITK mechanism does not support 2D image, placed in 3D world...
-   */
-  if( m_Direction.size() == 3 )
+  // Same comment as above, if user tell us what the Orientation is, we should not try
+  // to set if from the Image as we might have lost some information
+  if( !header->GetValEntry(0x0020,0x0037 ) )
     {
-    str << m_Direction[2][0] << "\\";
+    str.str("");
+    str << m_Direction[0][0] << "\\"
+      << m_Direction[1][0] << "\\";
+    /*
+     * This is where the 3rd component of the direction is being lost
+     * ITK mechanism does not support 2D image, placed in 3D world...
+     */
+    if( m_Direction.size() == 3 )
+      {
+      str << m_Direction[2][0] << "\\";
+      }
+    else
+      {
+      str << 0. << "\\";
+      }
+    str << m_Direction[0][1] << "\\"
+      << m_Direction[1][1] << "\\";
+    if( m_Direction.size() == 3 )
+      {
+      str << m_Direction[2][1];
+      }
+    else
+      {
+      str << 0.;
+      }
+    header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
     }
-  else
-    {
-    str << 0. << "\\";
-    }
-  str << m_Direction[0][1] << "\\"
-    << m_Direction[1][1] << "\\";
-  if( m_Direction.size() == 3 )
-    {
-    str << m_Direction[2][1];
-    }
-  else
-    {
-    str << 0.;
-    }
-  header->InsertValEntry(str.str(),0x0020,0x0037); // Image Orientation (Patient)
 
   str.unsetf( itksys_ios::ios::fixed ); // back to normal
 
