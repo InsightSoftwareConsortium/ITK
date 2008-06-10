@@ -27,6 +27,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration3 ITKIO ITKNumerics)
 ADD_EXECUTABLE(ImageRegistration4o ImageRegistration4o.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration4o ITKIO ITKNumerics)
 
+ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration5 ITKIO ITKNumerics)
+
 ADD_EXECUTABLE(ImageRegistration6 ImageRegistration6.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration6 ITKIO ITKNumerics)
 
@@ -36,47 +39,44 @@ TARGET_LINK_LIBRARIES(ImageRegistration8 ITKIO ITKNumerics)
 ADD_EXECUTABLE(ImageRegistration9 ImageRegistration9.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration9 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration5 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration10 ImageRegistration10.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration10 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration10 ImageRegistration10.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration10 ITKIO ITKNumerics)
+ADD_EXECUTABLE(DeformableRegistration4 DeformableRegistration4.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
 
-  ADD_EXECUTABLE(DeformableRegistration4 DeformableRegistration4.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
+ADD_EXECUTABLE(ImageRegistration4 ImageRegistration4.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration4 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration4 ImageRegistration4.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration4 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration7 ImageRegistration7.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration7 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration7 ImageRegistration7.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration7 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration11 ImageRegistration11.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration11 ITKStatistics ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration11 ImageRegistration11.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration11 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration12 ImageRegistration12.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration12 ITKStatistics ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration12 ImageRegistration12.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration12 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration13 ImageRegistration13.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration13 ITKStatistics ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration13 ImageRegistration13.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration13 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration14 ImageRegistration14.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration14 ITKStatistics ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration14 ImageRegistration14.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration14 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration15 ImageRegistration15.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration15 ITKStatistics ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration15 ImageRegistration15.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration15 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration16 ImageRegistration16.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration16 ImageRegistration16.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKIO ITKNumerics)
+ADD_EXECUTABLE(DeformableRegistration7 DeformableRegistration7.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration7 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(DeformableRegistration7 DeformableRegistration7.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration7 ITKIO ITKNumerics)
-
-  ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKIO ITKNumerics)
+ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKIO ITKNumerics)
 
 IF( USE_FFTWD )
   ADD_EXECUTABLE(DeformableRegistration9 DeformableRegistration9.cxx )
@@ -150,7 +150,32 @@ TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
 ADD_EXECUTABLE(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
 
+IF(NOT BORLAND)
+
+  ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
+
+  ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
+
+  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
+
+  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
+                        ITKIO ITKStatistics ITKNumerics)
+
+  ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
+  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+
+  ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+  TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
+
+ENDIF(NOT BORLAND)
+
 IF( NOT ITK_DISABLE_CXX_TESTING )
+
+IF(BUILD_TESTING)
 
 ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration1Test.png
@@ -368,29 +393,6 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration10DifferenceTest.png
         -11 -13
 )
-
-IF(NOT BORLAND)
-
-  ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
-
-  ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
-
-  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
-
-  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
-                        ITKIO ITKStatistics ITKNumerics)
-
-  ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
-
-  ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-  TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
-
-ENDIF(NOT BORLAND)
 
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
@@ -1124,5 +1126,7 @@ TARGET_LINK_LIBRARIES(RegistrationExamples13 ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(RegistrationExamples14 RegistrationExamples14.cxx )
 TARGET_LINK_LIBRARIES(RegistrationExamples14 ITKIO ITKBasicFilters ITKNumerics)
+
+ENDIF(BUILD_TESTING)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

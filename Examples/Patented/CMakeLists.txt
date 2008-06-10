@@ -22,6 +22,8 @@ SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
+IF(BUILD_TESTING)
+
 ADD_EXECUTABLE(PatentedExamples PatentedExamples.cxx )
 TARGET_LINK_LIBRARIES(PatentedExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
@@ -41,7 +43,7 @@ ADD_TEST(IterativeClosestPoint1Test ${PATENTED_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
 )
 
-
+ENDIF(BUILD_TESTING)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

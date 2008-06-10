@@ -59,6 +59,8 @@ TARGET_LINK_LIBRARIES(MeshExamples ITKIO)
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
+IF(BUILD_TESTING)
+
 ADD_TEST(AutomaticMeshTest ${CXX_TEST_PATH}/MeshExamples AutomaticMeshTest)
 
 ADD_TEST(ImageToPointSetTest ${CXX_TEST_PATH}/MeshExamples
@@ -94,6 +96,7 @@ ADD_TEST(PointSetWithVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithVecto
 
 ADD_TEST(RGBPointSetTest ${CXX_TEST_PATH}/MeshExamples RGBPointSetTest)
 
+ENDIF(BUILD_TESTING)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

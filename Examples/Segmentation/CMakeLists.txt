@@ -43,6 +43,42 @@ TARGET_LINK_LIBRARIES(VectorConfidenceConnected ITKNumerics ITKIO)
 ADD_EXECUTABLE(RelabelComponentImageFilter RelabelComponentImageFilter.cxx )
 TARGET_LINK_LIBRARIES(RelabelComponentImageFilter ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
+TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
+TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
+TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKIO)
+
+ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
+TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
+TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+
+ADD_EXECUTABLE(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+
+
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
+
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
+IF(BUILD_TESTING)
+
 SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
 SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
 SET(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
@@ -53,10 +89,75 @@ SET(SEGMENTATION_EXAMPLES7 ${CXX_TEST_PATH}/SegmentationExamples7)
 SET(SEGMENTATION_EXAMPLES8 ${CXX_TEST_PATH}/SegmentationExamples8)
 SET(SEGMENTATION_EXAMPLES9 ${CXX_TEST_PATH}/SegmentationExamples9)
 
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
+)
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples2 
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+)
+
+ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples3
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKNumerics
+)
+
+ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples4
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples5 SegmentationExamples5.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples5
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples6
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples7
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples8 SegmentationExamples8.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples8
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKStatistics
+)
+
+ADD_EXECUTABLE(SegmentationExamples9 SegmentationExamples9.cxx )
+TARGET_LINK_LIBRARIES(SegmentationExamples9
+ITKAlgorithms 
+ITKIO 
+ITKBasicFilters 
+ITKStatistics
+)
 
 ADD_TEST(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
@@ -280,36 +381,6 @@ ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
         66 66 3 1
 )
 
-ADD_EXECUTABLE(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
-TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples2 
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-)
-
-ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples3
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKNumerics
-)
-
-ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKIO)
-
 
 ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
@@ -368,23 +439,6 @@ ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
         61 140 150 63 43
 )
 
-ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples
-ITKAlgorithms
-ITKIO
-ITKBasicFilters
-)
-
-
-
-ADD_EXECUTABLE(SegmentationExamples5 SegmentationExamples5.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples5
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKStatistics
-)
-
 ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
   --compare ${BASELINE}/RelabelComponentImageFilter.png
             ${TEMP}/RelabelComponentImageFilter.png
@@ -411,41 +465,6 @@ ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
         2.0 10 0.001 0.15 0
 )
 
-ADD_EXECUTABLE(SegmentationExamples8 SegmentationExamples8.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples8
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKStatistics
-)
-
-ADD_EXECUTABLE(SegmentationExamples9 SegmentationExamples9.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples9
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKStatistics
-)
-
-ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
-TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
-ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples4
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKStatistics
-)
 ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
   --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
             ${TEMP}/CurvesLevelSetImageFilterTest.png
@@ -453,14 +472,6 @@ ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/CurvesLevelSetImageFilterTest.png
         81 114 5.0 1.0 -0.5 3.0 2.0
-)
-
-ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples6
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKStatistics
 )
 
 ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
@@ -481,14 +492,6 @@ ADD_TEST(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES6}
         2 6 20 3.14 10 5 1.5
 )
 
-
-ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples7
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
-ITKStatistics
-)
 ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
   --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
             ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
@@ -499,6 +502,7 @@ ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
         10 2.0 1 127.5 15
 )
 
+ENDIF(BUILD_TESTING)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

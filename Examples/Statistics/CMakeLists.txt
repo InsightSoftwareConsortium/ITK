@@ -72,18 +72,8 @@ TARGET_LINK_LIBRARIES(SampleSorting ITKCommon)
 ADD_EXECUTABLE(WeightedSampleStatistics WeightedSampleStatistics.cxx )
 TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
 
-# Add some tests now, based on the examples.
-
-IF( NOT ITK_DISABLE_CXX_TESTING )
-
-SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
-SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
-SET(STATISTICS_EXAMPLES_WITH_TESTS3 ${CXX_TEST_PATH}/StatisticsExamplesTests3)
-SET(STATISTICS_EXAMPLES_WITH_TESTS4 ${CXX_TEST_PATH}/StatisticsExamplesTests4)
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
-
 IF(NOT BORLAND)
+
 ADD_EXECUTABLE(ImageHistogram3 ImageHistogram3.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram3 ITKIO ITKStatistics )
 
@@ -113,6 +103,24 @@ TARGET_LINK_LIBRARIES(ImageMutualInformation1 ITKIO ITKStatistics )
 
 ADD_EXECUTABLE(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO )
+
+ENDIF(NOT BORLAND)
+
+
+# Add some tests now, based on the examples.
+
+IF( NOT ITK_DISABLE_CXX_TESTING )
+
+IF(BUILD_TESTING)
+
+IF(NOT BORLAND)
+
+SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
+SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
+SET(STATISTICS_EXAMPLES_WITH_TESTS3 ${CXX_TEST_PATH}/StatisticsExamplesTests3)
+SET(STATISTICS_EXAMPLES_WITH_TESTS4 ${CXX_TEST_PATH}/StatisticsExamplesTests4)
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
@@ -170,12 +178,11 @@ ADD_TEST( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
 ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MaximumRatioDecisionRuleTest)
 
-ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKStatistics)
-
-
 ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKStatistics)
+
+ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
+TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKStatistics)
 
 ADD_EXECUTABLE( StatisticsExamplesTests4 StatisticsExamplesTests4.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests4 ITKIO ITKStatistics)
@@ -184,5 +191,7 @@ ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKStatistics)
 
 ENDIF(NOT BORLAND)
+
+ENDIF(BUILD_TESTING)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
