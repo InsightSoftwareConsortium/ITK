@@ -597,7 +597,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellIdentifier eid = this->FindFirstUnusedCellIndex();
   newEdge->SetIdent( eid );
   this->Superclass::SetCell( eid, pEdge );
-
+  
+  ++m_NumberOfEdges;
+  
   return( newEdgeGeom );
 }
 
@@ -702,6 +704,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       toDelete = ( edge == e || edge->GetSym() == e );
       if( toDelete )
         {
+        --m_NumberOfEdges;
         // Nicely handle the QE level
         e->Disconnect();
         }
@@ -721,6 +724,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       // Unset left faces
       if( toDelete )
         {
+        --m_NumberOfFaces;
         // handle QE level, i.e. for the polygon, just unset the faces
         it = edge->BeginGeomLnext();
         while( it != edge->EndGeomLnext() )
@@ -862,6 +866,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     e->Disconnect();
     }
 
+  --m_NumberOfEdges;
   delete edgeCell;
   this->Modified();
 }
@@ -948,6 +953,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   this->GetCells()->DeleteIndex( faceToDelete );
   delete cellToDelete;
+  
+  --m_NumberOfEdges;
 
   this->Modified();
 }
@@ -1200,6 +1207,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     it.Value()->SetLeft( fid );
     }
 
+  ++m_NumberOfFaces;
   CellAutoPointer face;
   face.TakeOwnership( faceCell );
   this->Superclass::SetCell( fid, face );
@@ -1230,7 +1238,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 QuadEdgeMesh< TPixel, VDimension, TTraits >
-::QuadEdgeMesh()
+::QuadEdgeMesh(): m_NumberOfFaces(0), m_NumberOfEdges(0)
 {
 }
 

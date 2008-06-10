@@ -46,6 +46,7 @@ SET(ReviewTest_SRCS
   itkDynamicQuadEdgeMeshTest.cxx
   itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
   itkRegularSphereQuadEdgeMeshSourceTest.cxx
+  itkQuadEdgeMeshCountingCellsTest.cxx
 
   itkContourExtractor2DImageFilterTest.cxx
 
@@ -156,7 +157,9 @@ ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx ${REVIEW_TESTS}
   itkAutomaticTopologyQuadEdgeMeshSourceTest)
 ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest.cxx ${REVIEW_TESTS}
   itkRegularSphereQuadEdgeMeshSourceTest)
-
+ADD_TEST(itkQuadEdgeMeshCountingCellsTest.cxx ${REVIEW_TESTS}
+  itkQuadEdgeMeshCountingCellsTest)
+  
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
   ADD_TEST(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS}

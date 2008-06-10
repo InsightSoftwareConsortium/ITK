@@ -48,6 +48,7 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshEulerOperatorsTest);
   REGISTER_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkRegularSphereQuadEdgeMeshSourceTest);
+  REGISTER_TEST(itkQuadEdgeMeshCountingCellsTest);
 
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
  
