@@ -792,6 +792,7 @@ unsigned int test_regiongrowKLM1D()
     for ( int idx = 0; idx < gridWidth; idx++ )
       {
       pixelOut5out = outIt5.Get();
+      std::cout << "idx: " << idx << " pixelOut5out: " << pixelOut5out << std::endl;
       if ( pixelOut5in != pixelOut5out )
         {
         std::cout << "Test FAILED" << std::endl;
@@ -2105,7 +2106,7 @@ unsigned int test_regiongrowKLM4D()
         {
         std::cout << "pixelOut[1]: " << pixelOut[1]
                   << " != "
-                  << "pixelIn[1]: " << pixelIn[1]
+                  << "0"
                   << std::endl;
         }
       return EXIT_FAILURE;
