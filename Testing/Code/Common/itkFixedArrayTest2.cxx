@@ -69,12 +69,12 @@ int itkFixedArrayTest2(int, char* [] )
             << time1 << "ms\n";
 
 
-  // We now emulate an 8 bytes aligned array
+  // We now force an 8 bytes aligned array
 
   // Cast the pointer to char to play with bytes
   char * p = reinterpret_cast<char*>( vec );
 
-  // Move the char pointer until is aligned on 8 bytes
+  // Move the char pointer until it is aligned on 8 bytes
   while ( ( (size_t)p ) % 8 )
     {
     ++p;
@@ -113,9 +113,13 @@ int itkFixedArrayTest2(int, char* [] )
 
   const double ratio = 100.0 * ( time1 - time2 ) / time2;
 
+  const bool sameptr = (vec==vec2);
+  if (sameptr) std::cout << "Same pointers: true" <<std::endl;
+  else std::cout << "Same pointers: false" <<std::endl;
+
   std::cout << "Performance ratio = " << ratio << "%" << std::endl;
 
-  if( ratio > 20.0 ) // tolerates only 20%
+  if( !sameptr && ratio > 20.0 ) // tolerates only 20%
     {
     std::cerr << "Performance degraded below tolerance" << std::endl;
     return EXIT_FAILURE;
@@ -124,11 +128,10 @@ int itkFixedArrayTest2(int, char* [] )
 
   // Make sure we do something with the sums otherwise everything
   // could be optimized away by the compiler
-  if( acc1+acc2 == 0.0 )
+  if( acc1 == 0.0 && acc2 == 0.0 )
     {
-    return EXIT_SUCCESS; // This is a null operation on purpose.
+    return EXIT_SUCCESS;
     }
-
-
-  return EXIT_SUCCESS;
+  
+  return EXIT_FAILURE;
 }
