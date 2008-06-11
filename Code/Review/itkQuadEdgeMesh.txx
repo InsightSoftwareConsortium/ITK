@@ -954,7 +954,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   this->GetCells()->DeleteIndex( faceToDelete );
   delete cellToDelete;
   
-  --m_NumberOfEdges;
+  --m_NumberOfFaces;
 
   this->Modified();
 }
