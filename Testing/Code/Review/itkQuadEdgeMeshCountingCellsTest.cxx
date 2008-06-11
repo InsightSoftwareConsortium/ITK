@@ -18,6 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkMacro.h"
+
 int itkQuadEdgeMeshCountingCellsTest( int , char *[] )
 {
   return EXIT_SUCCESS;
