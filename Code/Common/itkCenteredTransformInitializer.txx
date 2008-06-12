@@ -95,9 +95,13 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     {
     // Here use the geometrical center of each image.
 
-    typename FixedImageType::SizeType fixedSize = 
-      m_FixedImage->GetLargestPossibleRegion().GetSize();
-    
+    const typename FixedImageType::RegionType & fixedRegion =
+      m_FixedImage->GetLargestPossibleRegion();
+    const typename FixedImageType::IndexType & fixedIndex =
+      fixedRegion.GetIndex();
+    const typename FixedImageType::SizeType & fixedSize =
+      fixedRegion.GetSize();
+
     InputPointType centerFixedPoint;
 
     typedef typename InputPointType::ValueType CoordRepType;
@@ -112,23 +116,29 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     for( unsigned int k=0; k<InputSpaceDimension; k++ )
       {
       centerFixedIndex[k] = 
-        static_cast< ContinuousIndexValueType >( fixedSize[k] ) / 2.0;
+        static_cast< ContinuousIndexValueType >( fixedIndex[k] ) +
+        static_cast< ContinuousIndexValueType >( fixedSize[k] - 1 ) / 2.0;
       }
 
     m_FixedImage->TransformContinuousIndexToPhysicalPoint( 
       centerFixedIndex, centerFixedPoint );
 
-    typename MovingImageType::SizeType movingSize = 
-      m_MovingImage->GetLargestPossibleRegion().GetSize();
-    
+    const typename MovingImageType::RegionType & movingRegion =
+      m_MovingImage->GetLargestPossibleRegion();
+    const typename MovingImageType::IndexType & movingIndex =
+      movingRegion.GetIndex();
+    const typename MovingImageType::SizeType & movingSize =
+      movingRegion.GetSize();
+
     InputPointType centerMovingPoint;
-    
+
     ContinuousIndexType centerMovingIndex;
 
     for( unsigned int m=0; m<InputSpaceDimension; m++ )
       {
       centerMovingIndex[m] = 
-        static_cast< ContinuousIndexValueType >( movingSize[m] ) / 2.0;
+        static_cast< ContinuousIndexValueType >( movingIndex[m] ) +
+        static_cast< ContinuousIndexValueType >( movingSize[m] - 1 ) / 2.0;
       }
 
     m_MovingImage->TransformContinuousIndexToPhysicalPoint( 
