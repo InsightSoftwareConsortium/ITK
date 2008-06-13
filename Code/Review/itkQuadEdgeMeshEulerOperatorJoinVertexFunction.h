@@ -19,6 +19,9 @@
 
 #include "itkQuadEdgeMeshFunctionBase.h"
 
+#include <list>
+#include <algorithm>
+
 namespace itk
 {
 
