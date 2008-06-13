@@ -137,7 +137,7 @@ private:
   class ExceptionData;
   class ReferenceCountedExceptionData;
   SmartPointer<const ReferenceCounterInterface> m_ExceptionData;
-  const ReferenceCountedExceptionData * GetExceptionData() const;
+  const ExceptionData * GetExceptionData() const;
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */

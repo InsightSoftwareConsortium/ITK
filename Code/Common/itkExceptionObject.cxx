@@ -171,11 +171,15 @@ ExceptionObject::~ExceptionObject() throw()
   // automatically, by the destructor of the smart pointer.
 }
 
-const ExceptionObject::ReferenceCountedExceptionData *
+const ExceptionObject::ExceptionData *
 ExceptionObject::GetExceptionData() const
 {
-  const ReferenceCountedExceptionData * thisData = 
-    dynamic_cast< const ReferenceCountedExceptionData *>( this->m_ExceptionData.GetPointer() );
+  // Note: dynamic_cast does a runtime check if the m_ExceptionData pointer is indeed
+  // pointing to an ExceptionData object. In this case, a static_cast could have been
+  // used instead, which only does compile time checking. But we expect the
+  // runtime overhead of this particular dynamic_cast to be insignificant.
+  const ExceptionData * thisData = 
+    dynamic_cast< const ExceptionData *>( this->m_ExceptionData.GetPointer() );
   return thisData;
 }
  
