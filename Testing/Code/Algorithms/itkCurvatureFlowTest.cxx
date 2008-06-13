@@ -215,10 +215,20 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
     streamer->GetOutput()->GetBufferedRegion() );
 
   bool testPass = true;
+  unsigned int failedPixels = 0;
   while( !it1.IsAtEnd() )
     {
     if( it1.Get() != it2.Get() )
-      { testPass = false; }
+      {
+      if (failedPixels == 0)
+        {
+        std::cout << "it1.Get() != it2.Get(): "
+                  << it1.Get() << " != " << it2.Get()
+                  << std::endl;
+        }
+      failedPixels++;
+      testPass = false;
+      }
     ++it1;
     ++it2;
     }
@@ -226,6 +236,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   if( !testPass )
     {
     std::cout << "Test failed." << std::endl;
+    std::cout << "Number of failed pixels: " << failedPixels << std::endl;
     return EXIT_FAILURE;
     }
 
