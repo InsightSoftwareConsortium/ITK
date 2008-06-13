@@ -47,6 +47,7 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   m_MeanDifference = NumericTraits<RealType>::Zero;
   m_TotalDifference = NumericTraits<AccumulateType>::Zero;
   m_NumberOfPixelsWithDifferences = 0;
+  m_IgnoreBoundaryPixels = false;
 }
 
 //----------------------------------------------------------------------------
@@ -62,6 +63,8 @@ DifferenceImageFilter<TInputImage, TOutputImage>
   os << indent << "TotalDifference: " << m_TotalDifference << "\n";
   os << indent << "NumberOfPixelsWithDifferences: " 
                << m_NumberOfPixelsWithDifferences << "\n";
+  os << indent << "IgnoreBoundaryPixels: " 
+               << m_IgnoreBoundaryPixels << "\n";
 }
 
 //----------------------------------------------------------------------------
@@ -153,68 +156,79 @@ DifferenceImageFilter<TInputImage, TOutputImage>
     SmartIterator test(radius, testImage, *face); // Iterate over test image.
     InputIterator valid(validImage, *face);       // Iterate over valid image.
     OutputIterator out(outputPtr, *face);         // Iterate over output image.
-    test.OverrideBoundaryCondition(&nbc);
-    
-    for(valid.GoToBegin(), test.GoToBegin(), out.GoToBegin();
-        !valid.IsAtEnd();
-        ++valid, ++test, ++out)
+    if( !test.GetNeedToUseBoundaryCondition() || !m_IgnoreBoundaryPixels )
       {
-      // Get the current valid pixel.
-      InputPixelType t = valid.Get();
-      
-      //  Assume a good match - so test center pixel first, for speed
-      RealType difference = static_cast<RealType>(t) - test.GetCenterPixel();
-      if(NumericTraits<RealType>::IsNegative(difference))
+      test.OverrideBoundaryCondition(&nbc);
+    
+      for(valid.GoToBegin(), test.GoToBegin(), out.GoToBegin();
+          !valid.IsAtEnd();
+          ++valid, ++test, ++out)
         {
-        difference = -difference;
-        }
-      OutputPixelType minimumDifference = static_cast<OutputPixelType>(difference);
-
-      // If center pixel isn't good enough, then test the neighborhood
-      if(minimumDifference > m_DifferenceThreshold)
-        {
-        unsigned int neighborhoodSize = test.Size();
-        // Find the closest-valued pixel in the neighborhood of the test
-        // image.
-        for (unsigned int i=0; i < neighborhoodSize; ++i)
+        // Get the current valid pixel.
+        InputPixelType t = valid.Get();
+        
+        //  Assume a good match - so test center pixel first, for speed
+        RealType difference = static_cast<RealType>(t) - test.GetCenterPixel();
+        if(NumericTraits<RealType>::IsNegative(difference))
           {
-          // Use the RealType for the difference to make sure we get the
-          // sign.
-          RealType difference = static_cast<RealType>(t) - test.GetPixel(i);
-          if(NumericTraits<RealType>::IsNegative(difference))
+          difference = -difference;
+          }
+        OutputPixelType minimumDifference = static_cast<OutputPixelType>(difference);
+  
+        // If center pixel isn't good enough, then test the neighborhood
+        if(minimumDifference > m_DifferenceThreshold)
+          {
+          unsigned int neighborhoodSize = test.Size();
+          // Find the closest-valued pixel in the neighborhood of the test
+          // image.
+          for (unsigned int i=0; i < neighborhoodSize; ++i)
             {
-            difference = -difference;
-            }
-          OutputPixelType d = static_cast<OutputPixelType>(difference);
-          if(d < minimumDifference)
-            {
-            minimumDifference = d;
-            if(minimumDifference <= m_DifferenceThreshold)
+            // Use the RealType for the difference to make sure we get the
+            // sign.
+            RealType difference = static_cast<RealType>(t) - test.GetPixel(i);
+            if(NumericTraits<RealType>::IsNegative(difference))
               {
-              break;
+              difference = -difference;
+              }
+            OutputPixelType d = static_cast<OutputPixelType>(difference);
+            if(d < minimumDifference)
+              {
+              minimumDifference = d;
+              if(minimumDifference <= m_DifferenceThreshold)
+                {
+                break;
+                }
               }
             }
           }
-        }
+          
+        // Check if difference is above threshold.
+        if(minimumDifference > m_DifferenceThreshold)
+          {
+          // Store the minimum difference value in the output image.
+          out.Set(minimumDifference);
+          
+          // Update difference image statistics.
+          m_ThreadDifferenceSum[threadId] += minimumDifference;
+          m_ThreadNumberOfPixels[threadId]++;
+          }
+        else
+          {
+          // Difference is below threshold.
+          out.Set(NumericTraits<OutputPixelType>::Zero);
+          }
         
-      // Check if difference is above threshold.
-      if(minimumDifference > m_DifferenceThreshold)
-        {
-        // Store the minimum difference value in the output image.
-        out.Set(minimumDifference);
-        
-        // Update difference image statistics.
-        m_ThreadDifferenceSum[threadId] += minimumDifference;
-        m_ThreadNumberOfPixels[threadId]++;
+        // Update progress.
+        progress.CompletedPixel();
         }
-      else
+      }
+    else
+      {
+      for(out.GoToBegin(); !out.IsAtEnd(); ++out)
         {
-        // Difference is below threshold.
         out.Set(NumericTraits<OutputPixelType>::Zero);
+        progress.CompletedPixel();
         }
-      
-      // Update progress.
-      progress.CompletedPixel();
       }
     }
 }

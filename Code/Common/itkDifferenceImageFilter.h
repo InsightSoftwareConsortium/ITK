@@ -76,6 +76,12 @@ public:
   itkSetMacro(DifferenceThreshold, OutputPixelType);
   itkGetMacro(DifferenceThreshold, OutputPixelType);
   
+  /** Set/Get ignore boundary pixels.  Useful when resampling may have
+   *    introduced difference pixel values along the image edge 
+   *    Default = false */
+  itkSetMacro(IgnoreBoundaryPixels, bool);
+  itkGetMacro(IgnoreBoundaryPixels, bool);
+  
   /** Get parameters of the difference image after execution.  */
   itkGetMacro(MeanDifference, RealType);
   itkGetMacro(TotalDifference, AccumulateType);
@@ -116,6 +122,8 @@ protected:
 private:
   DifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  bool m_IgnoreBoundaryPixels;
 };
 
 } // end namespace itk
