@@ -162,26 +162,41 @@ DifferenceImageFilter<TInputImage, TOutputImage>
       // Get the current valid pixel.
       InputPixelType t = valid.Get();
       
-      // Find the closest-valued pixel in the neighborhood of the test
-      // image.
-      OutputPixelType minimumDifference = NumericTraits<OutputPixelType>::max();
-      unsigned int neighborhoodSize = test.Size();
-      for (unsigned int i=0; i < neighborhoodSize; ++i)
+      //  Assume a good match - so test center pixel first, for speed
+      RealType difference = static_cast<RealType>(t) - test.GetCenterPixel();
+      if(NumericTraits<RealType>::IsNegative(difference))
         {
-        // Use the RealType for the difference to make sure we get the
-        // sign.
-        RealType difference = static_cast<RealType>(t) - test.GetPixel(i);
-        if(NumericTraits<RealType>::IsNegative(difference))
+        difference = -difference;
+        }
+      OutputPixelType minimumDifference = static_cast<OutputPixelType>(difference);
+
+      // If center pixel isn't good enough, then test the neighborhood
+      if(minimumDifference > m_DifferenceThreshold)
+        {
+        unsigned int neighborhoodSize = test.Size();
+        // Find the closest-valued pixel in the neighborhood of the test
+        // image.
+        for (unsigned int i=0; i < neighborhoodSize; ++i)
           {
-          difference = -difference;
-          }
-        OutputPixelType d = static_cast<OutputPixelType>(difference);
-        if(d < minimumDifference)
-          {
-          minimumDifference = d;
+          // Use the RealType for the difference to make sure we get the
+          // sign.
+          RealType difference = static_cast<RealType>(t) - test.GetPixel(i);
+          if(NumericTraits<RealType>::IsNegative(difference))
+            {
+            difference = -difference;
+            }
+          OutputPixelType d = static_cast<OutputPixelType>(difference);
+          if(d < minimumDifference)
+            {
+            minimumDifference = d;
+            if(minimumDifference <= m_DifferenceThreshold)
+              {
+              break;
+              }
+            }
           }
         }
-      
+        
       // Check if difference is above threshold.
       if(minimumDifference > m_DifferenceThreshold)
         {
