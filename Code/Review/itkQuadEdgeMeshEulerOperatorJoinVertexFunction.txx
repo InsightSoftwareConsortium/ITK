@@ -211,38 +211,76 @@ bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 CommonVertexNeighboor( QEType* e )
 {
-  bool isLeftTriangle = e->IsLnextOfTriangle( );
-  bool isRiteTriangle = e->GetSym( )->IsLnextOfTriangle( );
+///NOTE  arnaud gelas: these first tests can not be applied in the
+///  case of mesh with boundaries (so I commented out for the time being)
+//   QEType* e_sym = e->GetSym( );
+// 
+//   bool isLeftTriangle = e->IsLnextOfTriangle( );
+//   bool isRiteTriangle = e_sym->IsLnextOfTriangle( );
+// 
+//   //easy case
+//   if( isLeftTriangle && isRiteTriangle )
+//     {
+//     if( e->GetOrder( ) <= 3 && e_sym->GetOrder( ) <= 3 )
+//       return( true );
+//     if( e->GetOnext( )->GetSym( )->GetOrder( ) <= 3 )
+//       return( true );
+//     if( e->GetOprev( )->GetSym( )->GetOrder( ) <= 3 )
+//       return( true );
+//     }
+// 
+//   // general case
 
-  //easy case
-  if( isLeftTriangle && isRiteTriangle )
-    {
-    if( e->GetOrder( ) <= 3 && e->GetSym( )->GetOrder( ) <= 3 )
-      return( true );
-    if( e->GetOnext( )->GetSym( )->GetOrder( ) <= 3 )
-      return( true );
-    if( e->GetOprev( )->GetSym( )->GetOrder( ) <= 3 )
-      return( true );
-    }
+///NOTE arnaud gelas: I replace the previous code by this one which is cleaner
+  QEType* qe = e;
+  QEType* e_it  = qe->GetOnext( );
 
-  // general case
-  unsigned int counter = 0;
-  QEType* e_it = e->GetOnext( );
-  QEType* e_sym = e->GetSym( );
-  while( e_it != e )
-    {
-    QEType* e_sym_it = e->GetSym( )->GetOnext( );
-    while( e_sym_it != e_sym )
-      {
-      if(  e_it->GetDestination() == e_sym_it->GetDestination() )
-        counter++;
-      e_sym_it = e_sym_it->GetOnext( );
-      }
-    e_it = e_it->GetOnext( );
-    }
-  if( counter > 2 ) return( true );
+  typedef std::list< PointIdentifier > PointIdentifierList;
+  PointIdentifierList dir_list;
+  PointIdentifierList sym_list;
+  PointIdentifierList intersection_list;
 
-  return( false );
+  PointIdentifier id;
+  do
+  {
+    id = e_it->GetDestination();
+    dir_list.push_back( id );
+    e_it = e_it->GetOnext();
+  } while( e_it != qe );
+
+  qe = qe->GetSym();
+  e_it = qe;
+
+  do
+  {
+    id = e_it->GetDestination();
+    sym_list.push_back( id );
+    e_it = e_it->GetOnext();
+  } while( e_it != qe );
+
+  dir_list.sort();
+  sym_list.sort();
+
+  std::set_intersection( dir_list.begin(), dir_list.end(),
+    sym_list.begin(), sym_list.end(),
+    std::back_inserter( intersection_list ) );
+
+  return intersection_list.size() > 2;
+//   unsigned int counter = 0;
+//   QEType* e_it = e->GetOnext( );
+//   
+//   while( e_it != e )
+//     {
+//     QEType* e_sym_it = e_sym->GetOnext( );
+//     while( e_sym_it != e_sym )
+//       {
+//       if(  e_it->GetDestination() == e_sym_it->GetDestination() )
+//         counter++;
+//       e_sym_it = e_sym_it->GetOnext( );
+//       }
+//     e_it = e_it->GetOnext( );
+//     }
+//   return ( counter > 2 );
 }
 
 } // namespace itkQE
