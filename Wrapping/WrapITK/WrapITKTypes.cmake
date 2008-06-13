@@ -35,6 +35,10 @@ MACRO(END_WRAP_TYPE)
    ENDFOREACH(wrap)
 ENDMACRO(END_WRAP_TYPE)
 
+MACRO(ADD_TEMPLATE name types)
+  WRAP_TEMPLATE("${name}" "${types}")
+ENDMACRO(ADD_TEMPLATE)
+
 #------------------------------------------------------------------------------
 
 # now, define types vars

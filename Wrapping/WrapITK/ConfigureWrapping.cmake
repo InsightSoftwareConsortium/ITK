@@ -44,6 +44,11 @@
 # All variables set here are optional and have sensible default values.
 # Also define some other global defaults like WRAPPER_MASTER_INDEX_OUTPUT_DIR.
 ###############################################################################
+MACRO(WRAP_LIBRARY library_name)
+  BEGIN_WRAPPER_LIBRARY("${library_name}")
+ENDMACRO(WRAP_LIBRARY library_name)
+
+
 MACRO(BEGIN_WRAPPER_LIBRARY library_name)
   SET(WRAPPER_LIBRARY_NAME "${library_name}")
 

@@ -3,6 +3,10 @@
 # Convention: Variable names in ALL_CAPS are global, and are shared between macros
 # lower-case variable names indicate that that variable is to be considered local.
 
+MACRO(END_WRAP_LIBRARY)
+  WRAPPER_LIBRARY_CREATE_LIBRARY()
+ENDMACRO(END_WRAP_LIBRARY)
+
 MACRO(WRAPPER_LIBRARY_CREATE_LIBRARY)
   
   # STEP 1
