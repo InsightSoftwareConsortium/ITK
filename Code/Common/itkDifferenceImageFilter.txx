@@ -185,12 +185,12 @@ DifferenceImageFilter<TInputImage, TOutputImage>
             {
             // Use the RealType for the difference to make sure we get the
             // sign.
-            RealType difference = static_cast<RealType>(t) - test.GetPixel(i);
-            if(NumericTraits<RealType>::IsNegative(difference))
+            RealType differenceReal = static_cast<RealType>(t) - test.GetPixel(i);
+            if(NumericTraits<RealType>::IsNegative(differenceReal))
               {
-              difference = -difference;
+              differenceReal = -differenceReal;
               }
-            OutputPixelType d = static_cast<OutputPixelType>(difference);
+            OutputPixelType d = static_cast<OutputPixelType>(differenceReal);
             if(d < minimumDifference)
               {
               minimumDifference = d;
