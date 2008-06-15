@@ -175,6 +175,7 @@ VTKPolyDataWriter<TInputMesh>
         {
         case 1: //LINE_CELL:
         case 7: //QUADRATIC_EDGE_CELL:
+          {
           PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
           PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
           outputFile << cellPointer->GetNumberOfPoints();
@@ -185,6 +186,7 @@ VTKPolyDataWriter<TInputMesh>
             }
           outputFile << std::endl;
           break;
+          }
         default:
           break;
         }
@@ -211,6 +213,7 @@ VTKPolyDataWriter<TInputMesh>
         case 3: //QUADRILATERAL_CELL:
         case 4: //POLYGON_CELL:
         case 8: //QUADRATIC_TRIANGLE_CELL: 
+          {
           PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
           PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
           outputFile << cellPointer->GetNumberOfPoints();
@@ -221,6 +224,7 @@ VTKPolyDataWriter<TInputMesh>
             }
           outputFile << std::endl;
           break;
+          }
         default:
           break;
         }
