@@ -240,7 +240,6 @@ VTKPolyDataReader<TOutputMesh>
   os << indent << "FileName: " << m_FileName << std::endl;
 }
 
-
 } //end of namespace itk
 
 
