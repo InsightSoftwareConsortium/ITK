@@ -196,11 +196,21 @@ VTKPolyDataWriter<TInputMesh>
 
   // POLYGONS
   if( numberOfPolygons )
-    { 
-    // the 4 here supposes only triangles
-    // to be rigourous, we would have to compute the number
-    // of points id used and add the number of cells
-    outputFile << "POLYGONS " << numberOfPolygons << " " << 4*numberOfPolygons;
+    {
+    // This could be optimized but at least now any polygonal
+    // mesh can be saved. 
+    cellIterator = this->m_Input->GetCells()->Begin();
+
+    unsigned long n( 0 );
+    for( ; cellIterator != this->m_Input->GetCells()->End(); cellIterator++ )
+      {
+      CellType * cellPointer = cellIterator.Value();
+      if( cellPointer->GetType() != 1 )
+        {
+          n += cellPointer->GetNumberOfPoints();
+        }
+      }
+    outputFile << "POLYGONS " << numberOfPolygons << " " << n+numberOfPolygons;
     outputFile << std::endl;
   
     cellIterator = this->m_Input->GetCells()->Begin();
