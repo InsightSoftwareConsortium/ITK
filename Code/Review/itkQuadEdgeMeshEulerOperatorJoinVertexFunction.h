@@ -97,7 +97,7 @@ private:
 
   PointIdentifier m_OldPointID;
 
-  bool CommonVertexNeighboor( QEType* e );
+  size_t CommonVertexNeighboor( QEType* e );
 
 };
 

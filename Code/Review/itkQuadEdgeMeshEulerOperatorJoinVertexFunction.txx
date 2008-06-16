@@ -50,11 +50,23 @@ Evaluate( QEType* e )
     return( (QEType*) 0 );
     }
 
-  if( CommonVertexNeighboor( e ) )
+  size_t number_common_vertices = CommonVertexNeighboor( e );
+  if( number_common_vertices > 2 )
     {
-    itkDebugMacro( "The two vertices have a common neighboor vertex." );
+    itkDebugMacro( "The 2 vertices have more than 2 common neighboor vertices.");
     return( (QEType*) 0 );
     }
+  if( number_common_vertices == 2 )
+  {
+    if( e->IsLnextOfTriangle( ) && e->GetSym( )->IsLnextOfTriangle( ) )
+      {
+      if( e->GetOrder( ) == 3 && e->GetSym( )->GetOrder( ) == 3 )
+        {
+        itkDebugMacro( "Edges and neighbors vertices form one tetraedron." );
+        return( (QEType*) 0 );
+        }
+      }
+  }
    
   // First case: pathological
   if( e->IsIsolated( ) || e->GetSym( )->IsIsolated( ) )
@@ -226,13 +238,12 @@ Evaluate( QEType* e )
 
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
-bool
+size_t
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 CommonVertexNeighboor( QEType* e )
 {
 ///NOTE  arnaud gelas: these first tests can not be applied in the
 ///  case of mesh with boundaries (so I commented out for the time being)
-   QEType* e_sym = e->GetSym( );
 // 
 //   bool isLeftTriangle = e->IsLnextOfTriangle( );
 //   bool isRiteTriangle = e_sym->IsLnextOfTriangle( );
@@ -284,22 +295,7 @@ CommonVertexNeighboor( QEType* e )
     sym_list.begin(), sym_list.end(),
     std::back_inserter( intersection_list ) );
 
-  if( intersection_list.size() > 2 )
-    {
-    return( true );
-    }
-  if( intersection_list.size( ) == 2 )
-    {
-    // tetrahedron ?
-    if( e->IsLnextOfTriangle( ) && e_sym->IsLnextOfTriangle( ) )
-      {
-      if( e->GetOrder( ) == 3 && e_sym->GetOrder( ) == 3 )
-        {
-        return( true );
-        }
-      }
-    }
-  return( false );
+  return intersection_list.size();
 
 //   unsigned int counter = 0;
 //   QEType* e_it = e->GetOnext( );
