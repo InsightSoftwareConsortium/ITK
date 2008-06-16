@@ -2,7 +2,7 @@ WRAP_CLASS("itk::BinaryProjectionImageFilter" POINTER_WITH_SUPERCLASS)
   WRAP_IMAGE_FILTER_SCALAR(2)
 
   # reduce the output dimension by 1, if possible
-  FOREACH(t ${WRAP_ITK_SCALAR})
+  FOREACH(t ${WRAP_ITK_INT})
     FOREACH(d ${WRAP_ITK_DIMS})
       DECREMENT(d1 ${d})
       FILTER_DIMS(d2 "${d1}")
