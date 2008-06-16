@@ -275,7 +275,7 @@ SurfaceSpatialObject< TDimension >
 
       typename PointListType::const_iterator it2 = m_Points.begin();
 
-      unsigned int i=0;
+      int i=0;
       while(it2 != m_Points.end())
         {
         if(it2 == it)

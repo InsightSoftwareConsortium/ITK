@@ -223,7 +223,7 @@ ImageMaskSpatialObject< TDimension >
         for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
         {
           index[ i ] = index[ i ] < tmpIndex[ i ] ? index[ i ] : tmpIndex[ i ];
-          size[ i ]  = size[ i ]  > tmpIndex[ i ] ? size[ i ]  : tmpIndex[ i ];
+          size[ i ]  = (long)size[ i ]  > tmpIndex[ i ] ? size[ i ]  : tmpIndex[ i ];
         }
       }
       ++it;
