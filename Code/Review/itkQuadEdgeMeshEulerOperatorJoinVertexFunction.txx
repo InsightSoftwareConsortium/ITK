@@ -117,6 +117,19 @@ Evaluate( QEType* e )
   QEType* leftZip = e->GetLnext( );
   QEType* riteZip = e->GetOprev( );
 
+  // case where the edge belongs to an isolated triangle
+  if( e->IsAtBorder( ) )
+    {
+    if( wasLeftTriangle && wasRiteTriangle )
+      {
+      this->m_Mesh->LightWeightDeleteEdge( e->GetLnext( )->GetLnext( ) );
+      this->m_Mesh->LightWeightDeleteEdge( e->GetLnext( ) );
+      this->m_Mesh->LightWeightDeleteEdge( e );
+      return( (QEType*) 0 );
+      }
+    }
+
+
   //
   //                    \   |   /                //
   //                     \  |  /                 //
@@ -136,7 +149,7 @@ Evaluate( QEType* e )
   //
   this->m_Mesh->LightWeightDeleteEdge( e );
   this->m_OldPointID = this->m_Mesh->Splice( leftZip, riteZip );
-
+ 
   //
   //                            |      /       __Y  //
   //                            |     /     __/  |  //
@@ -181,6 +194,7 @@ Evaluate( QEType* e )
       }
     }
 
+  // NewOrg = riteZip->GetOprev( )->GetDestination( );
   if( wasRiteTriangle )
     {
     NewOrg = riteZip->GetDestination( );
@@ -200,8 +214,13 @@ Evaluate( QEType* e )
       this->m_Mesh->AddFace( riteZip );
       }
     }
-
-  return( this->m_Mesh->FindEdge( NewOrg, NewDest ) );
+  
+  OutputType result = this->m_Mesh->FindEdge( NewOrg, NewDest );
+  if( !result)
+    {
+    result = this->m_Mesh->FindEdge( NewDest )->GetSym( );
+    } 
+  return( result );
 
 }
 
@@ -213,7 +232,7 @@ CommonVertexNeighboor( QEType* e )
 {
 ///NOTE  arnaud gelas: these first tests can not be applied in the
 ///  case of mesh with boundaries (so I commented out for the time being)
-//   QEType* e_sym = e->GetSym( );
+   QEType* e_sym = e->GetSym( );
 // 
 //   bool isLeftTriangle = e->IsLnextOfTriangle( );
 //   bool isRiteTriangle = e_sym->IsLnextOfTriangle( );
@@ -265,7 +284,23 @@ CommonVertexNeighboor( QEType* e )
     sym_list.begin(), sym_list.end(),
     std::back_inserter( intersection_list ) );
 
-  return intersection_list.size() > 2;
+  if( intersection_list.size() > 2 )
+    {
+    return( true );
+    }
+  if( intersection_list.size( ) == 2 )
+    {
+    // tetrahedron ?
+    if( e->IsLnextOfTriangle( ) && e_sym->IsLnextOfTriangle( ) )
+      {
+      if( e->GetOrder( ) == 3 && e_sym->GetOrder( ) == 3 )
+        {
+        return( true );
+        }
+      }
+    }
+  return( false );
+
 //   unsigned int counter = 0;
 //   QEType* e_it = e->GetOnext( );
 //   

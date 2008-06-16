@@ -698,7 +698,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   topotestpoints.clear( );
 
   joinVertex->SetInput( topotest );
-  if( joinVertex->Evaluate( mesh->FindEdge( 0, 1 ) ) )
+  if( joinVertex->Evaluate( topotest->FindEdge( 0, 1 ) ) )
     {
     std::cout << "FAILED." << std::endl;
     return 1;

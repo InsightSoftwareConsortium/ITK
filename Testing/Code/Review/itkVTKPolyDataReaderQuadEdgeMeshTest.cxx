@@ -57,9 +57,12 @@ int itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char* argv[] )
 
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
-
+ 
   MeshType::Pointer mesh = polyDataReader->GetOutput();
 
+  std::cout << "Using following MeshType :";
+  std::cout << mesh->GetNameOfClass( ) << std::endl; 
+  
   PointType  point;
 
   std::cout << "Testing itk::VTKPolyDataReader" << std::endl;

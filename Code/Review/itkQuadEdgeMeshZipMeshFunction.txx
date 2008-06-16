@@ -36,6 +36,7 @@ Evaluate( QEType* e )
     itkDebugMacro( "Incoming edge must be adjacent to NOFACE." );
     return( QEType::m_NoPoint );
     }
+
   //     Initial state                          Final state        //
   //                                                               // 
   //   |               |                         \       /         //
@@ -79,6 +80,35 @@ Evaluate( QEType* e )
   OutputType VLeft = e->GetDestination( );
   OutputType VRite = b->GetOrigin( );
   bool wasFacePresent = e->IsRightSet( );
+  OutputType resultingPointId = QEType::m_NoPoint;
+
+  // We should be cautious and consider the case when the very
+  // initial situation was the following:
+  //                                                       //
+  //                   *                                   //
+  //        *                     *                        //
+  //                                                       //
+  //             VRite = VLeft                             //
+  //                  / \                                  //
+  //                 /   \                                 //
+  //                /     \                                //
+  //       *        |  *  |        *                       //
+  //                \     /                                //
+  //                 \   /                                 //
+  //                  \ /                                  //
+  //        --------- Org ---------                        //
+  //                 / | \                                 //
+  //                /  |  \                                //
+  //               /   |   \                               //
+  if( VRite == VLeft )
+    {
+    if( e->IsWire( ) && b->IsWire( ) )
+      {
+      this->m_Mesh->LightWeightDeleteEdge( e );
+      this->m_Mesh->LightWeightDeleteEdge( b );
+      return( resultingPointId );
+      } 
+    }
 
   // Delete the Edge e and it's right face:
   if( wasFacePresent )
@@ -128,7 +158,6 @@ Evaluate( QEType* e )
   // and hence the connectivity part of "Zip" job is allready done.
   // Check for that case:
   // 
-  OutputType resultingPointId = QEType::m_NoPoint;
   if( VLeft != VRite )
     {
     // We are now left with the following situation
