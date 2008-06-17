@@ -85,15 +85,35 @@ public:
     }
   
 protected:
-  QuadEdgeMeshEulerOperatorJoinVertexFunction()
-    {
-    m_OldPointID = (PointIdentifier)0;
-    }
-  ~QuadEdgeMeshEulerOperatorJoinVertexFunction(){};
+  QuadEdgeMeshEulerOperatorJoinVertexFunction();
+  ~QuadEdgeMeshEulerOperatorJoinVertexFunction() {}
 
   PointIdentifier m_OldPointID;
+
+  /**
+  * \brief 
+  * \param[in] e
+  * \return The number of common vertices in the 0-ring of e->GetOrigin() and
+  * e->GetDestination()
+  */
   size_t CommonVertexNeighboor( QEType* e );
+
+  /**
+  * \brief 
+  * \param[in] e
+  * \return true if it is a tetraedron
+  * \return false else
+  */
   bool IsTetraedron( QEType* e );
+
+  /**
+  * \brief
+  * \param[in]
+  * \param[in]
+  * \param[out]
+  * \return true if the face is isolated
+  * \return false else
+  */
   bool IsFaceIsolated( QEType* e, const bool& iWasLeftFace,
     std::stack< TQEType* >& oToBeDeleted );
   

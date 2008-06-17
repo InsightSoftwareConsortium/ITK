@@ -26,6 +26,11 @@
 namespace itk
 {
 
+template < class TMesh, class TQEType >
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+QuadEdgeMeshEulerOperatorJoinVertexFunction() : Superclass(), m_OldPointID( 0 )
+{}
+
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::OutputType
@@ -207,7 +212,7 @@ Evaluate( QEType* e )
   // originaly present.
   //
 
-  typedef itk::QuadEdgeMeshZipMeshFunction< MeshType, QEType > Zip;
+  typedef QuadEdgeMeshZipMeshFunction< MeshType, QEType > Zip;
   if( wasLeftTriangle )
     {
     typename Zip::Pointer zip = Zip::New( );
