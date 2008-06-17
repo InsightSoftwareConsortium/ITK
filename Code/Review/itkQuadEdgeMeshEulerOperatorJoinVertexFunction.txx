@@ -20,6 +20,8 @@
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshZipMeshFunction.h"
 
+#include <stack>
+
 namespace itk
 {
 
@@ -41,7 +43,12 @@ Evaluate( QEType* e )
     return( (QEType*) 0 );
     }
 
-  if( e->IsIsolated( ) && e->GetSym( )->IsIsolated( ) )
+  QEType* e_sym = e->GetSym();
+
+  bool IsEdgeIsolated = e->IsIsolated( );
+  bool IsSymEdgeIsolated = e_sym->IsIsolated( );
+
+  if( IsEdgeIsolated && IsSymEdgeIsolated )
     {
     // We could shrink the edge to a point,
     // But we consider this case to be degenerated.
@@ -65,7 +72,7 @@ Evaluate( QEType* e )
   }
    
   // First case: pathological
-  if( e->IsIsolated( ) || e->GetSym( )->IsIsolated( ) )
+  if( IsEdgeIsolated || IsSymEdgeIsolated )
     {
     // One the endpoints (and only one) of the incoming edge is isolated.
     // Instead of "shrinking" the edge it suffice to delete it. Note that
@@ -90,13 +97,13 @@ Evaluate( QEType* e )
     QEType* rebuildEdge;
     if( e->IsIsolated( ) )
       {
-      rebuildEdge = e->GetSym( )->GetOprev( );
+      rebuildEdge = e_sym->GetOprev( );
       this->m_OldPointID = e->GetOrigin( );
       }
     else
       {
       rebuildEdge = e->GetOprev( );
-      this->m_OldPointID = e->GetSym( )->GetOrigin( );
+      this->m_OldPointID = e_sym->GetOrigin( );
       }
       
     bool e_leftset = e->IsLeftSet( );
@@ -114,25 +121,42 @@ Evaluate( QEType* e )
     return( rebuildEdge );
     }
 
-
   // General case
   bool wasLeftFace     = e->IsLeftSet( );
   bool wasRiteFace     = e->IsRightSet( );
   bool wasLeftTriangle = e->IsLnextOfTriangle( );
-  bool wasRiteTriangle = e->GetSym( )->IsLnextOfTriangle( );
+  bool wasRiteTriangle = e_sym->IsLnextOfTriangle( );
+
   PointIdentifier NewDest = e->GetDestination( );
   PointIdentifier NewOrg  = e->GetOrigin( );
   QEType* leftZip = e->GetLnext( );
   QEType* riteZip = e->GetOprev( );
 
-  // case where the edge belongs to an isolated triangle
-  if( e->IsAtBorder( ) )
+  // case where the edge belongs to an isolated polygon
+  if( ( wasLeftFace && !wasRiteFace ) || ( !wasLeftFace && wasRiteFace ) )
     {
-    if( wasLeftTriangle && wasRiteTriangle )
+    bool border( true );
+
+    QEType* temp = ( wasLeftFace == true ) ? e : e_sym;
+    QEType* e_it = temp;
+
+    std::stack< QEType* > edges_to_be_deleted;
+    edges_to_be_deleted.push( e_it );
+    e_it = e_it->GetLnext();
+    
+    do
       {
-      this->m_Mesh->LightWeightDeleteEdge( e->GetLnext( )->GetLnext( ) );
-      this->m_Mesh->LightWeightDeleteEdge( e->GetLnext( ) );
-      this->m_Mesh->LightWeightDeleteEdge( e );
+      edges_to_be_deleted.push( e_it );
+      border = e_it->IsAtBorder();
+      e_it = e_it->GetLnext();
+      } while( ( e_it != temp ) && border );
+    if( border )
+      {
+      while( !edges_to_be_deleted.empty() )
+        {
+        this->m_Mesh->LightWeightDeleteEdge( edges_to_be_deleted.top() );
+        edges_to_be_deleted.pop();
+        }
       return( (QEType*) 0 );
       }
     }
