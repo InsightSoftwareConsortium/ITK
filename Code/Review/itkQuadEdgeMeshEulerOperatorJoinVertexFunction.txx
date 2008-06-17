@@ -20,7 +20,8 @@
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshZipMeshFunction.h"
 
-#include <stack>
+#include <list>
+#include <algorithm>
 
 namespace itk
 {
@@ -133,31 +134,30 @@ Evaluate( QEType* e )
   QEType* riteZip = e->GetOprev( );
 
   // case where the edge belongs to an isolated polygon
+  // Is edge at the border
   if( ( wasLeftFace && !wasRiteFace ) || ( !wasLeftFace && wasRiteFace ) )
     {
-    bool border( true );
-
-    QEType* temp = ( wasLeftFace == true ) ? e : e_sym;
-    QEType* e_it = temp;
-
     std::stack< QEType* > edges_to_be_deleted;
-    edges_to_be_deleted.push( e_it );
-    e_it = e_it->GetLnext();
-    
-    do
+
+    if( IsFaceIsolated( e, wasLeftFace, edges_to_be_deleted) )
       {
-      edges_to_be_deleted.push( e_it );
-      border = e_it->IsAtBorder();
-      e_it = e_it->GetLnext();
-      } while( ( e_it != temp ) && border );
-    if( border )
-      {
+      // delete all elements
       while( !edges_to_be_deleted.empty() )
         {
         this->m_Mesh->LightWeightDeleteEdge( edges_to_be_deleted.top() );
         edges_to_be_deleted.pop();
         }
-      return( (QEType*) 0 );
+      // it now retuns one edge from NewDest or NewOrg if there are any
+      // else NULL
+      QEType* temp = this->m_Mesh->FindEdge( NewDest );
+      if( temp != 0 )
+        {
+        return temp;
+        }
+      else
+        {
+        return this->m_Mesh->FindEdge( NewOrg );
+        }
       }
     }
 
@@ -256,6 +256,35 @@ Evaluate( QEType* e )
 
 }
 
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+IsFaceIsolated( QEType* e,
+  const bool& iWasLeftFace,
+  std::stack< TQEType* >& oToBeDeleted )
+{
+  bool border( true );
+  QEType* e_sym = e->GetSym();
+
+  // turn around the face (left or right one) while edges are on the border
+  // and push them into a stack (which will be used to delete properly all
+  // elements )
+  QEType* temp = ( iWasLeftFace == true ) ? e : e_sym;
+  QEType* e_it = temp;
+
+  oToBeDeleted.push( e_it );
+  e_it = e_it->GetLnext();
+    
+  do
+    {
+    oToBeDeleted.push( e_it );
+    border = e_it->IsAtBorder();
+    e_it = e_it->GetLnext();
+    } while( ( e_it != temp ) && border );
+
+  return border;
+}
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
 bool

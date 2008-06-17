@@ -19,8 +19,7 @@
 
 #include "itkQuadEdgeMeshFunctionBase.h"
 
-#include <list>
-#include <algorithm>
+#include <stack>
 
 namespace itk
 {
@@ -95,6 +94,8 @@ protected:
   PointIdentifier m_OldPointID;
   size_t CommonVertexNeighboor( QEType* e );
   bool IsTetraedron( QEType* e );
+  bool IsFaceIsolated( QEType* e, const bool& iWasLeftFace,
+    std::stack< TQEType* >& oToBeDeleted );
   
 private:
   QuadEdgeMeshEulerOperatorJoinVertexFunction(const Self& ); //purposely not implemented
