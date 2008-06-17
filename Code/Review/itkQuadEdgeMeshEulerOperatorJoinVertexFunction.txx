@@ -303,19 +303,50 @@ IsTetraedron( QEType* e )
   
     if( left_triangle && right_triangle )
       {
-      CellIdentifier
+      CellIdentifier id_left_right_triangle;
+      if( e->GetLprev()->IsRightSet() )
+        {
         id_left_right_triangle = e->GetLprev()->GetRight();
-      CellIdentifier
+        }
+      else
+        {
+        return false;
+        }
+
+      CellIdentifier id_left_left_triangle;
+      if( e->GetLnext()->IsRightSet() )
+        {
         id_left_left_triangle = e->GetLnext()->GetRight();
-      CellIdentifier
+        }
+      else
+        {
+        return false;
+        }
+
+      CellIdentifier id_right_left_triangle;
+      if( e_sym->GetLnext()->IsRightSet() )
+        {
         id_right_left_triangle = e_sym->GetLnext()->GetRight();
-      CellIdentifier
+        }
+      else
+        {
+        return false;
+        }
+
+      CellIdentifier id_right_right_triangle;
+      if( e_sym->GetLprev()->IsRightSet() )
+        {
         id_right_right_triangle = e_sym->GetLprev()->GetRight();
+        }
+      else
+        {
+        return false;
+        }
 
       if( ( id_left_right_triangle == id_right_left_triangle ) &&
           ( id_left_left_triangle == id_right_right_triangle ) )
         {
-          return true;
+        return true;
         }
       }
     }
