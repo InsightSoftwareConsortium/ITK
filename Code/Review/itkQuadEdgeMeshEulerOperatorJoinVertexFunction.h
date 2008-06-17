@@ -74,6 +74,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   typedef typename MeshType::PointIdentifier PointIdentifier;
+  typedef typename MeshType::CellIdentifier CellIdentifier;
   typedef typename MeshType::FaceRefType     FaceRefType;
 
   /** Evaluate at the specified input position */
@@ -91,13 +92,13 @@ protected:
     }
   ~QuadEdgeMeshEulerOperatorJoinVertexFunction(){};
 
+  PointIdentifier m_OldPointID;
+  size_t CommonVertexNeighboor( QEType* e );
+  bool IsTetraedron( QEType* e );
+  
 private:
   QuadEdgeMeshEulerOperatorJoinVertexFunction(const Self& ); //purposely not implemented
   void operator=(const Self& );        //purposely not implemented
-
-  PointIdentifier m_OldPointID;
-
-  size_t CommonVertexNeighboor( QEType* e );
 
 };
 

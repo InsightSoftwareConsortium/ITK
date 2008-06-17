@@ -29,7 +29,6 @@ typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::OutputTy
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 Evaluate( QEType* e )
 {
-  
   if( !e )
     {
     itkDebugMacro( "Input is not an edge." );
@@ -58,13 +57,10 @@ Evaluate( QEType* e )
     }
   if( number_common_vertices == 2 )
   {
-    if( e->IsLnextOfTriangle( ) && e->GetSym( )->IsLnextOfTriangle( ) )
+    if( IsTetraedron( e ) )
       {
-      if( e->GetOrder( ) == 3 && e->GetSym( )->GetOrder( ) == 3 )
-        {
-        itkDebugMacro( "Edges and neighbors vertices form one tetraedron." );
-        return( (QEType*) 0 );
-        }
+      itkDebugMacro( "It forms a tetraedron." );
+      return( (QEType*) 0 );
       }
   }
    
@@ -234,6 +230,44 @@ Evaluate( QEType* e )
     } 
   return( result );
 
+}
+
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+IsTetraedron( QEType* e )
+{
+  QEType* e_sym = e->GetSym();
+
+  if( ( e->GetOrder() == 3 ) &&
+      ( e_sym->GetOrder() == 3 ) &&
+      ( e->GetLprev()->GetOrder() == 3 ) &&
+      ( e_sym->GetLprev()->GetOrder() == 3 ) )
+    {
+    bool left_triangle = e->IsLnextOfTriangle( );
+    bool right_triangle = e_sym->IsLnextOfTriangle( );
+  
+    if( left_triangle && right_triangle )
+      {
+      CellIdentifier
+        id_left_right_triangle = e->GetLprev()->GetRight();
+      CellIdentifier
+        id_left_left_triangle = e->GetLnext()->GetRight();
+      CellIdentifier
+        id_right_left_triangle = e_sym->GetLnext()->GetRight();
+      CellIdentifier
+        id_right_right_triangle = e_sym->GetLprev()->GetRight();
+
+      if( ( id_left_right_triangle == id_right_left_triangle ) &&
+          ( id_left_left_triangle == id_right_right_triangle ) )
+        {
+          return true;
+        }
+      }
+    }
+
+  return false;
 }
 
 //--------------------------------------------------------------------------
