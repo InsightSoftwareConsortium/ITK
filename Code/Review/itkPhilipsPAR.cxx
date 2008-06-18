@@ -79,11 +79,11 @@ struct image_info_defV3
   int window_center;
   int window_width;
   float angAP;
-    float angFH;
-    float angRL;
-    float offAP;
-    float offFH;
-    float offRL;
+  float angFH;
+  float angRL;
+  float offAP;
+  float offFH;
+  float offRL;
   int display_orientation;
   int slice_orientation;
   int fmri_status_indication;
@@ -160,11 +160,11 @@ struct image_info_defV4
   int window_center;
   int window_width;
   float angAP;
-    float angFH;
-    float angRL;
-    float offAP;
-    float offFH;
-    float offRL;
+  float angFH;
+  float angRL;
+  float offAP;
+  float offFH;
+  float offRL;
   float slice_thick;
   float slice_gap;
   int display_orientation;
@@ -254,11 +254,11 @@ struct image_info_defV41
   int window_center;
   int window_width;
   float angAP;
-    float angFH;
-    float angRL;
-    float offAP;
-    float offFH;
-    float offRL;
+  float angFH;
+  float angRL;
+  float offAP;
+  float offFH;
+  float offRL;
   float slice_thick;
   float slice_gap;
   int display_orientation;
@@ -294,28 +294,28 @@ static std::string GetLineNumber(std::string file, int lineNum)
   char readFileBuffer[512] = "";
 
   if( lineNum <= 0 )
-  {
+    {
     return line;
-  }
+    }
 
   // Try to read the text file.
     std::ifstream   local_InputStream;
     local_InputStream.open( file.c_str(),
                           std::ios::in );
   if( local_InputStream.fail() )
-  {
+    {
     return line;
-  }
+    }
   while( (!local_InputStream.eof()) && (lineCount != lineNum) )
-  {
+    {
     local_InputStream.getline(readFileBuffer, sizeof(readFileBuffer));
     ++lineCount;
-  }
+    }
   local_InputStream.close();
   if( lineCount == lineNum )
-  {
+    {
     line = readFileBuffer;
-  }
+    }
   return line;
 }
 
@@ -325,16 +325,16 @@ static std::string GetGeneralInfoString(std::string file, int lineNum)
   std::string::size_type index = 0;
   std::string outString = "";
   if( (lineNum < 12) && (lineNum > 51) )
-  {
+    {
     return outString;
-  }
+    }
   currentLine = GetLineNumber(file,lineNum);
   index = currentLine.find(":");
   if( index != std::string::npos )
-  {
+    {
     std::string tempString = ":";
     outString = currentLine.substr(index+tempString.length());
-  }
+    }
   return outString;
 }
 
@@ -345,10 +345,10 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
 
   memset((void*)&tempInfo,0,sizeof(struct image_info_defV3));
   if( lineNum < 89 )
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   currentLine = GetLineNumber(file,lineNum);
   if( (currentLine == "") ||
     (currentLine == "\n") ||
@@ -356,16 +356,16 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
     (currentLine == "\r") ||
     (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
       (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   std::istringstream inString(currentLine);
   if( !inString )
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   inString >> tempInfo.slice >> tempInfo.echo >> tempInfo.dynamic;
   inString >> tempInfo.cardiac >> tempInfo.image_type_mr >> tempInfo.scan_sequence;
   inString >> tempInfo.index >> tempInfo.rescale_int >> tempInfo.rescale_slope;
@@ -386,10 +386,10 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
 
   memset((void*)&tempInfo,0,sizeof(struct image_info_defV4));
   if( lineNum < 92 )
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   currentLine = GetLineNumber(file,lineNum);
   if( (currentLine == "") ||
     (currentLine == "\n") ||
@@ -397,16 +397,16 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
     (currentLine == "\r") ||
     (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
       (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   std::istringstream inString(currentLine);
   if( !inString )
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   inString >> tempInfo.slice >> tempInfo.echo >> tempInfo.dynamic;
   inString >> tempInfo.cardiac >> tempInfo.image_type_mr >> tempInfo.scan_sequence;
   inString >> tempInfo.index >> tempInfo.image_bits >> tempInfo.scan_percent;
@@ -432,10 +432,10 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
 
   memset((void*)&tempInfo,0,sizeof(struct image_info_defV41));
   if( lineNum < 99 )
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   currentLine = GetLineNumber(file,lineNum);
   if( (currentLine == "") ||
     (currentLine == "\n") ||
@@ -443,16 +443,16 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
     (currentLine == "\r") ||
     (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
       (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   std::istringstream inString(currentLine);
   if( !inString )
-  {
+    {
     tempInfo.problemreading = 1;
     return tempInfo;
-  }
+    }
   inString >> tempInfo.slice >> tempInfo.echo >> tempInfo.dynamic;
   inString >> tempInfo.cardiac >> tempInfo.image_type_mr >> tempInfo.scan_sequence;
   inString >> tempInfo.index >> tempInfo.image_bits >> tempInfo.scan_percent;
@@ -488,10 +488,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
   std::istringstream inString;
 
   if( pPar == NULL )
-  {
+    {
     std::cerr << "ReadPAR: pPar == NULL" << std::endl;
     return false;
-  }
+    }
 
   // Zero out struct.
   memset((void *)pPar,0,sizeof(struct par_parameter));
@@ -516,31 +516,31 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
   //std::cout << currentLine << std::endl;
   index = currentLine.find("V3");
   if( index != std::string::npos )
-  {
+    {
     pPar->ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V3;
-  }
+    }
   else
-  {
+    {
     index = currentLine.find("V4.1");
     if( index != std::string::npos )
-    {
+      {
       pPar->ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4_1;
-    }
+      }
     else
-    {
+      {
       index = currentLine.find("V4");
       if( index != std::string::npos )
-      {
+        {
         pPar->ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4;
-      }
+        }
       else
-      {
+        {
         pPar->problemreading = 1;
         std::cerr << "ReadPAR: Unknown PAR version?" << std::endl;
         return false;
+        }
       }
     }
-  }
 
   switch( pPar->ResToolsVersion )
     {
@@ -607,17 +607,17 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       // sequence.
       inString.str(GetGeneralInfoString(parFile,31));
       for(int repTime=0; repTime<pPar->mixes; repTime++)
-      {
+        {
         inString >> pPar->repetition_time[repTime];
-      }
+        }
       inString.clear();
       tempInfo = GetImageInformationDefinitionV3(parFile, 89);
       if( tempInfo.problemreading )
-      {
+        {
         pPar->problemreading = 1;
         std::cerr << "ReadPAR: GetImageInformationDefinitionV3(parFile, 89)" << std::endl;
         return false;
-      }
+        }
       pPar->sliceorient = tempInfo.slice_orientation;
       int echoNumber = tempInfo.echo;
       pPar->echo_times[0] = tempInfo.echo_time;
@@ -629,20 +629,20 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
-      {
+        {
         pPar->fov[0] = fovAP;
         pPar->fov[1] = fovRL;
-      }
+        }
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   // slice orientation: sagital
-      {
+        {
         pPar->fov[0] = fovFH;
         pPar->fov[1] = fovAP;
-      }
+        }
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   // slice orientation: coronal
-      {
+        {
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
-      }
+        }
       inString.str(GetGeneralInfoString(parFile,33));
       inString >> pPar->slth;
       inString.clear();
@@ -712,25 +712,25 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       // and whether or not the images are sorted by slice or by image blocks.
       // Also get echo times and trigger_times.
       if( pPar->slice > 1 )
-      {
+        {
         int lineIncrement = 89;
         int echoIndex = 0;
         int cardiacIndex = 0;
         tempInfo1 = GetImageInformationDefinitionV3(parFile, 90);
         if( tempInfo1.problemreading )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: GetImageInformationDefinitionV3(parFile, 90)" << std::endl;
           return false;
-        }
+          }
         if ((tempInfo1.slice-tempInfo.slice) > 0 )
-        {
+          {
           pPar->slicessorted = 1;
-        }
+          }
         // If slices are sorted I only need to calculate the number of
         // image blocks (if more than 1) and store the echo times.
         if( pPar->slicessorted )
-        {
+          {
           ++pPar->image_blocks;
           ++pPar->num_image_types;
           pPar->image_types[0] = tempInfo.image_type_mr;
@@ -739,61 +739,61 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           lineIncrement += pPar->slice;
           tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
           while( !tempInfo1.problemreading && tempInfo1.slice )
-          {
+            {
             int isUnique = 1;
             // Find unique image types in REC.
             for(int i=0; i<pPar->num_image_types; i++)
-            {
-              if( pPar->image_types[i] == tempInfo1.image_type_mr )
               {
+              if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_image_types;
               pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-            }
+              }
             isUnique = 1;
             // Find all of the scanning sequences.
             for(int i=0; i<pPar->num_scanning_sequences; i++)
-            {
-              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
               {
+              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_scanning_sequences;
               pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-            }
+              }
             ++pPar->image_blocks;
             lineIncrement += pPar->slice;
             // Get the echo times.
             if( echoNumber != tempInfo1.echo )
-            {
+              {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
               //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
-            }
+              }
             // Get the trigger times
             if( cardiacPhase != tempInfo1.cardiac )
-            {
+              {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
               //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
-            }
+              }
             tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
+            }
           }
-        }
         // Slices are not sorted.
         else
-        {
+          {
           int slice = tempInfo.slice;
           ++pPar->image_blocks;
           ++pPar->num_image_types;
@@ -803,121 +803,121 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           ++lineIncrement;
           tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
           while( !tempInfo1.problemreading && tempInfo1.slice )
-          {
-            if( slice == tempInfo1.slice )
             {
+            if( slice == tempInfo1.slice )
+              {
               int isUnique = 1;
               // Find unique image types in REC.
               for(int i=0; i<pPar->num_image_types; i++)
-              {
-                if( pPar->image_types[i] == tempInfo1.image_type_mr )
                 {
+                if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                  {
                   isUnique = 0;
                   break;
+                  }
                 }
-              }
               if( isUnique )
-              {
+                {
                 ++pPar->num_image_types;
                 pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-              }
+                }
               isUnique = 1;
               // Find all of the scanning sequences.
               for(int i=0; i<pPar->num_scanning_sequences; i++)
-              {
-                if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
                 {
+                if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                  {
                   isUnique = 0;
                   break;
+                  }
                 }
-              }
               if( isUnique )
-              {
+                {
                 ++pPar->num_scanning_sequences;
                 pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-              }
+                }
               ++pPar->image_blocks;
               // Get the echo times.
               if( echoNumber != tempInfo1.echo )
-              {
+                {
                 ++echoIndex;
                 pPar->echo_times[echoIndex] = tempInfo1.echo_time;
                 //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                 echoNumber = tempInfo1.echo;
-              }
+                }
               // Get the trigger times
               if( cardiacPhase != tempInfo1.cardiac )
-              {
+                {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
                 //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                 cardiacPhase = tempInfo1.cardiac;
+                }
               }
-            }
             else
-            {
+              {
               lineIncrement = 89;
               // OK, I need to determine if there are more image blocks,
               // only if pPar->num_image_types or pPar->num_scanning_sequences > 1
               if( (pPar->num_image_types > 1) ||
                  (pPar->num_scanning_sequences > 1) )
-              {
+                {
                 pPar->num_slice_repetitions = pPar->image_blocks;
                 lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
                 tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
                 while( !tempInfo1.problemreading && tempInfo1.slice )
-                {
+                  {
                   // Get the echo times.
                   if( echoNumber != tempInfo1.echo )
-                  {
+                    {
                     ++echoIndex;
                     pPar->echo_times[echoIndex] = tempInfo1.echo_time;
                     //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                     echoNumber = tempInfo1.echo;
-                  }
+                    }
                   // Get the trigger times
                   if( cardiacPhase != tempInfo1.cardiac )
-                  {
+                    {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
                     //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                     cardiacPhase = tempInfo1.cardiac;
-                  }
+                    }
                   pPar->image_blocks += pPar->num_slice_repetitions;
                   lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
                   tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
+                  }
                 }
-              }
               break;
-            }
+              }
             ++lineIncrement;
             tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
+            }
           }
-        }
         // This is a sanity check.  The echoIndex should match
         // (pPar->echoes-1).
         if( (pPar->echoes-1) != echoIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->echoes-1) != echoIndex" << std::endl;
           std::cerr << "pPar->echoes-1 = " << pPar->echoes-1 << std::endl;
           std::cerr << "echoIndex = " << echoIndex << std::endl;
           return false;
-        }
+          }
         // Another sanity check.  The cardiacIndex should match
         // (pPar->cardiac_phases-1).
         if( (pPar->cardiac_phases-1) != cardiacIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
           std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
+          }
         }
-      }
       // Only 1 slice, but how many repetitions of that slice?
       else
-      {
+        {
         int lineIncrement = 89;
         int echoIndex = 0;
         int cardiacIndex = 0;
@@ -933,103 +933,103 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         ++lineIncrement;
         tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
         while( !tempInfo1.problemreading && tempInfo1.slice )
-        {
-          if( slice == tempInfo1.slice )
           {
+          if( slice == tempInfo1.slice )
+            {
             int isUnique = 1;
             // Find unique image types in REC.
             for(int i=0; i<pPar->num_image_types; i++)
-            {
-              if( pPar->image_types[i] == tempInfo1.image_type_mr )
               {
+              if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_image_types;
               pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-            }
+              }
             isUnique = 1;
             // Find all of the scanning sequences.
             for(int i=0; i<pPar->num_scanning_sequences; i++)
-            {
-              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
               {
+              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_scanning_sequences;
               pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-            }
+              }
             ++pPar->image_blocks;
             // Get the echo times.
             if( echoNumber != tempInfo1.echo )
-            {
+              {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
               //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
-            }
+              }
             // Get the trigger times
             if( cardiacPhase != tempInfo1.cardiac )
-            {
+              {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
               //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
-            }
+              }
             // Need to keep track of the number of consecutive slice repetitions.
             if( (pPar->echoes > 1) && (firstEchoNumber == tempInfo1.echo) )
-            {
+              {
               ++pPar->num_slice_repetitions;
-            }
+              }
             if( (pPar->cardiac_phases > 1) && (firstCardiacPhase == tempInfo1.cardiac) )
-            {
+              {
               ++pPar->num_slice_repetitions;
-            }
+              }
             if( (pPar->dyn > 1) && (firstDynamic == tempInfo1.dynamic) )
-            {
+              {
               ++pPar->num_slice_repetitions;
+              }
             }
-          }
           else
-          {
+            {
             break;
-          }
+            }
           ++lineIncrement;
           tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
-        }
+          }
         // This is a sanity check.  The echoIndex should match
         // (pPar->echoes-1).
         if( (pPar->echoes-1) != echoIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->echoes-1) != echoIndex" << std::endl;
           std::cerr << "pPar->echoes-1 = " << pPar->echoes-1 << std::endl;
           std::cerr << "echoIndex = " << echoIndex << std::endl;
           return false;
-        }
+          }
         // Another sanity check.  The cardiacIndex should match
         // (pPar->cardiac_phases-1).
         if( (pPar->cardiac_phases-1) != cardiacIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
           std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
+          }
         }
       }
-    }
     break;
 
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
-    {
+      {
       struct image_info_defV4 tempInfo;
       struct image_info_defV4 tempInfo1;
       float fovAP, fovFH, fovRL;
@@ -1084,17 +1084,17 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       // sequence.
       inString.str(GetGeneralInfoString(parFile,30));
       for(int repTime=0; repTime<pPar->mixes; repTime++)
-      {
+        {
         inString >> pPar->repetition_time[repTime];
-      }
+        }
       inString.clear();
       tempInfo = GetImageInformationDefinitionV4(parFile, 92);
       if( tempInfo.problemreading )
-      {
+        {
         pPar->problemreading = 1;
         std::cerr << "ReadPAR: GetImageInformationDefinitionV4(parFile, 92)" << std::endl;
         return false;
-      }
+        }
       pPar->sliceorient = tempInfo.slice_orientation;
       int echoNumber = tempInfo.echo;
       pPar->echo_times[0] = tempInfo.echo_time;
@@ -1113,20 +1113,20 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
-      {
+        {
         pPar->fov[0] = fovAP;
         pPar->fov[1] = fovRL;
-      }
+        }
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   // slice orientation: sagital
-      {
+        {
         pPar->fov[0] = fovFH;
         pPar->fov[1] = fovAP;
-      }
+        }
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   // slice orientation: coronal
-      {
+        {
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
-      }
+        }
       pPar->fov[2] = (pPar->gap + pPar->slth)*pPar->slice;
       inString.str(GetGeneralInfoString(parFile,32));
       inString >> pPar->water_fat_shift;
@@ -1174,25 +1174,25 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       // and whether or not the images are sorted by slice or by image blocks.
       // Also get echo times.
       if( pPar->slice > 1 )
-      {
+        {
         int lineIncrement = 92;
         int echoIndex = 0;
         int cardiacIndex = 0;
         tempInfo1 = GetImageInformationDefinitionV4(parFile, 93);
         if( tempInfo1.problemreading )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: GetImageInformationDefinitionV4(parFile, 93)" << std::endl;
           return false;
-        }
+          }
         if ((tempInfo1.slice-tempInfo.slice) > 0 )
-        {
+          {
           pPar->slicessorted = 1;
-        }
+          }
         // If slices are sorted I only need to calculate the number of
         // image blocks (if more than 1) and store the echo times.
         if( pPar->slicessorted )
-        {
+          {
           ++pPar->image_blocks;
           ++pPar->num_image_types;
           pPar->image_types[0] = tempInfo.image_type_mr;
@@ -1201,61 +1201,61 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           lineIncrement += pPar->slice;
           tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
           while( !tempInfo1.problemreading && tempInfo1.slice )
-          {
+            {
             int isUnique = 1;
             // Find unique image types in REC.
             for(int i=0; i<pPar->num_image_types; i++)
-            {
-              if( pPar->image_types[i] == tempInfo1.image_type_mr )
               {
+              if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_image_types;
               pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-            }
+              }
             isUnique = 1;
             // Find all of the scanning sequences.
             for(int i=0; i<pPar->num_scanning_sequences; i++)
-            {
-              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
               {
+              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_scanning_sequences;
               pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-            }
+              }
             ++pPar->image_blocks;
             // Get the echo times.
             if( echoNumber != tempInfo1.echo )
-            {
+              {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
               //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
-            }
+              }
             // Get the trigger times
             if( cardiacPhase != tempInfo1.cardiac )
-            {
+              {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
               //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
-            }
+              }
             lineIncrement += pPar->slice;
             tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
+            }
           }
-        }
         // Slices are not sorted.
         else
-        {
+          {
           int slice = tempInfo.slice;
           ++pPar->image_blocks;
           ++pPar->num_image_types;
@@ -1265,124 +1265,124 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           ++lineIncrement;
           tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
           while( !tempInfo1.problemreading && tempInfo1.slice )
-          {
+            {
             int isUnique = 1;
             // This if statement applies to just the first slice.
             if( slice == tempInfo1.slice )
-            {
+              {
               // Find unique image types in REC.
               for(int i=0; i<pPar->num_image_types; i++)
-              {
-                if( pPar->image_types[i] == tempInfo1.image_type_mr )
                 {
+                if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                  {
                   isUnique = 0;
                   break;
+                  }
                 }
-              }
               if( isUnique )
-              {
+                {
                 ++pPar->num_image_types;
                 pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-              }
+                }
               isUnique = 1;
               // Find all of the scanning sequences.
               for(int i=0; i<pPar->num_scanning_sequences; i++)
-              {
-                if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
                 {
+                if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                  {
                   isUnique = 0;
                   break;
+                  }
                 }
-              }
               if( isUnique )
-              {
+                {
                 ++pPar->num_scanning_sequences;
                 pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-              }
+                }
               ++pPar->image_blocks;
               // Get the echo times.
               if( echoNumber != tempInfo1.echo )
-              {
+                {
                 ++echoIndex;
                 pPar->echo_times[echoIndex] = tempInfo1.echo_time;
                 //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                 echoNumber = tempInfo1.echo;
-              }
+                }
               // Get the trigger times
               if( cardiacPhase != tempInfo1.cardiac )
-              {
+                {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
                 //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                 cardiacPhase = tempInfo1.cardiac;
+                }
               }
-            }
             // Now we have sufficient information to parse the rest of the PAR
             // file (a very poorly designed file format!).
             else
-            {
+              {
               lineIncrement = 92;
               // OK, I need to determine if there are more image blocks,
               // only if pPar->num_image_types or pPar->num_scanning_sequences > 1
               if( (pPar->num_image_types > 1) ||
                  (pPar->num_scanning_sequences > 1) )
-              {
+                {
                 pPar->num_slice_repetitions = pPar->image_blocks;
                 lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
                 tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
                 while( !tempInfo1.problemreading && tempInfo1.slice )
-                {
+                  {
                   // Get the echo times.
                   if( echoNumber != tempInfo1.echo )
-                  {
+                    {
                     ++echoIndex;
                     pPar->echo_times[echoIndex] = tempInfo1.echo_time;
                     //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                     echoNumber = tempInfo1.echo;
-                  }
+                    }
                   // Get the trigger times
                   if( cardiacPhase != tempInfo1.cardiac )
-                  {
+                    {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
                     //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                     cardiacPhase = tempInfo1.cardiac;
-                  }
+                    }
                   pPar->image_blocks += pPar->num_slice_repetitions;
                   lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
                   tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
+                  }
                 }
-              }
               break;
-            }
+              }
             ++lineIncrement;
             tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
+            }
           }
-        }
         // This is a sanity check.  The echoIndex should match
         // (pPar->echoes-1).
         if( (pPar->echoes-1) != echoIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->echoes-1) != echoIndex" << std::endl;
           std::cerr << "pPar->echoes-1 = " << pPar->echoes-1 << std::endl;
           std::cerr << "echoIndex = " << echoIndex << std::endl;
           return false;
-        }
+          }
         // Another sanity check.  The cardiacIndex should match
         // (pPar->cardiac_phases-1).
         if( (pPar->cardiac_phases-1) != cardiacIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
           std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
+          }
         }
-      }
       // Only 1 slice, but how many repetitions of that slice?
       else
-      {
+        {
         int lineIncrement = 92;
         int echoIndex = 0;
         int cardiacIndex = 0;
@@ -1398,101 +1398,101 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         ++lineIncrement;
         tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
         while( !tempInfo1.problemreading && tempInfo1.slice )
-        {
-          if( slice == tempInfo1.slice )
           {
+          if( slice == tempInfo1.slice )
+            {
             int isUnique = 1;
             // Find unique image types in REC.
             for(int i=0; i<pPar->num_image_types; i++)
-            {
-              if( pPar->image_types[i] == tempInfo1.image_type_mr )
               {
+              if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_image_types;
               pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-            }
+              }
             isUnique = 1;
             // Find all of the scanning sequences.
             for(int i=0; i<pPar->num_scanning_sequences; i++)
-            {
-              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
               {
+              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_scanning_sequences;
               pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-            }
+              }
             ++pPar->image_blocks;
             // Should be equal after the first iteration, but will only
             // add additional echoes in latter iterations if they differ
             // from the first.
             if( echoNumber != tempInfo1.echo )
-            {
+              {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
               //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
-            }
+              }
             // Get the trigger times
             if( cardiacPhase != tempInfo1.cardiac )
-            {
+              {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
               //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
-            }
+              }
             // Need to keep track of the number of consecutive slice repetitions.
             if( (pPar->echoes > 1) && (firstEchoNumber == tempInfo1.echo) )
-            {
+              {
               ++pPar->num_slice_repetitions;
-            }
+              }
             if( (pPar->cardiac_phases > 1) && (firstCardiacPhase == tempInfo1.cardiac) )
-            {
+              {
               ++pPar->num_slice_repetitions;
-            }
+              }
             if( (pPar->dyn > 1) && (firstDynamic == tempInfo1.dynamic) )
-            {
+              {
               ++pPar->num_slice_repetitions;
+              }
             }
-          }
           else
-          {
+            {
             break;
-          }
+            }
           ++lineIncrement;
           tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
-        }
+          }
         // This is a sanity check.  The echoIndex should match
         // (pPar->echoes-1).
         if( (pPar->echoes-1) != echoIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->echoes-1) != echoIndex" << std::endl;
           std::cerr << "pPar->echoes-1 = " << pPar->echoes-1 << std::endl;
           std::cerr << "echoIndex = " << echoIndex << std::endl;
           return false;
-        }
+          }
         // Another sanity check.  The cardiacIndex should match
         // (pPar->cardiac_phases-1).
         if( (pPar->cardiac_phases-1) != cardiacIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
           std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
+          }
         }
       }
-    }
     break;
 
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
@@ -1551,17 +1551,17 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       // sequence.
       inString.str(GetGeneralInfoString(parFile,30));
       for(int repTime=0; repTime<pPar->mixes; repTime++)
-      {
+        {
         inString >> pPar->repetition_time[repTime];
-      }
+        }
       inString.clear();
       tempInfo = GetImageInformationDefinitionV41(parFile, 99);
       if( tempInfo.problemreading )
-      {
+        {
         pPar->problemreading = 1;
         std::cerr << "ReadPAR: GetImageInformationDefinitionV41(parFile, 99)" << std::endl;
         return false;
-      }
+        }
       pPar->sliceorient = tempInfo.slice_orientation;
       int echoNumber = tempInfo.echo;
       pPar->echo_times[0] = tempInfo.echo_time;
@@ -1580,20 +1580,20 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
-      {
+        {
         pPar->fov[0] = fovAP;
         pPar->fov[1] = fovRL;
-      }
+        }
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   // slice orientation: sagital
-      {
+        {
         pPar->fov[0] = fovFH;
         pPar->fov[1] = fovAP;
-      }
+        }
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   // slice orientation: coronal
-      {
+        {
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
-      }
+        }
       pPar->fov[2] = (pPar->gap + pPar->slth)*pPar->slice;
       inString.str(GetGeneralInfoString(parFile,32));
       inString >> pPar->water_fat_shift;
