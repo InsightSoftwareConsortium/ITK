@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
  
 =========================================================================*/
-/* 
+/** 
  * \author Don C. Bigler
  *         The Pennsylvania State University 2005
  *
@@ -151,10 +151,10 @@ static std::string GetImageFileName( const std::string& filename )
   std::string ImageFileName(filename);
   const std::string fileExt = GetExtension(filename);
   if(fileExt == ".PAR") // Default to uncompressed .REC if .PAR is given as file name.
-  {
+    {
     ImageFileName = GetRootName(filename);
     ImageFileName += ".REC";
-  }
+    }
   return( ImageFileName );
 }
 
@@ -213,55 +213,55 @@ void PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *indexMa
   // Different index depending on the desired slice sort and the REC slice order.
   if( (sortBlock && parParam.slicessorted) ||
     (!sortBlock && !parParam.slicessorted) )
-  {
+    {
     // No sorting nessecary for these cases.
     for(int i=0; i<parParam.dim[2]; i++)
-    {
+      {
       (*indexMatrix)[i] = i;
+      }
     }
-  }
   // This case is the real problematic one.
   else if( sortBlock && !parParam.slicessorted && (parParam.num_slice_repetitions > 1) )
-  {
+    {
     // Ok, need to figure out where all of the images are located
     // using sliceImageTypesIndex and sliceScanSequenceIndex.
     for(int i=0; i<parParam.num_slice_repetitions; i++)
-    {
-      for(int j=0; j<remainingVolumes; j++)
       {
-        for(int k=0; k<actualSlices; k++)
+      for(int j=0; j<remainingVolumes; j++)
         {
+        for(int k=0; k<actualSlices; k++)
+          {
           (*indexMatrix)[index] = j*parParam.num_slice_repetitions*actualSlices 
                       + k*parParam.num_slice_repetitions
                       + PhilipsRECImageIOGetImageTypeOffset(imageTypesScanSequenceIndex[i].first,
                           imageTypesScanSequenceIndex[i].second,j,k,actualSlices,parParam,
                           sliceImageTypesIndex,sliceScanSequenceIndex);
           index++;
+          }
         }
       }
     }
-  }
   else
-  {
+    {
     // Unsort image block or sort by image block.
     for(int i=0; i<parParam.image_blocks; i++)
-    {
-      for(int j=0; j<actualSlices; j++)
       {
+      for(int j=0; j<actualSlices; j++)
+        {
         (*indexMatrix)[index] = j*parParam.image_blocks+i;
         index++;
+        }
       }
     }
-  }
 }
 
 void
 PhilipsRECImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
 {
   if ( m_ByteOrder == LittleEndian )
-  {
-    switch(this->m_ComponentType)
     {
+    switch(this->m_ComponentType)
+      {
       case CHAR:
         ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char*)buffer,
                                  numberOfPixels );
@@ -306,12 +306,12 @@ PhilipsRECImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPix
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
         throw exception;
+      }
     }
-  }
   else
-  {
-    switch(this->m_ComponentType)
     {
+    switch(this->m_ComponentType)
+      {
       case CHAR:
         ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer,
                                 numberOfPixels );
@@ -356,8 +356,8 @@ PhilipsRECImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPix
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
         throw exception;
+      }
     }
-  }
 }
 
 PhilipsRECImageIO::PhilipsRECImageIO()
@@ -372,13 +372,13 @@ PhilipsRECImageIO::PhilipsRECImageIO()
   // this will be changed if we're reading a file to whatever
   // the file actually contains.
   if(ByteSwapper<int>::SystemIsBigEndian())
-  {
+    {
     this->m_MachineByteOrder = this->m_ByteOrder = BigEndian;
-  }
+    }
   else
-  {
+    {
     this->m_MachineByteOrder = this->m_ByteOrder = LittleEndian;
-  }
+    }
   this->m_SliceIndex = new SliceIndexType();
 }
 
@@ -395,9 +395,9 @@ void PhilipsRECImageIO::PrintSelf(std::ostream& os, Indent indent) const
 int PhilipsRECImageIO::GetSliceIndex(int index)
 {
   if( (index < 0) || (index > (int)(this->m_SliceIndex->size()-1)) )
-  {
+    {
     return -1;
-  }
+    }
   return (*this->m_SliceIndex)[index];
 }
 
@@ -428,6 +428,24 @@ void PhilipsRECImageIO::Read(void* buffer)
   gzFile file_p = ::gzopen( ImageFileName.c_str(), "rb" );
   if( file_p == NULL )
     {
+    ExceptionObject exception(__FILE__, __LINE__);
+    std::string message="Philips REC Data File can not be read: The following files were attempted:\n ";
+    message += GetImageFileName( this->m_FileName );
+    message += '\n';
+    message += ImageFileName;
+    message += '\n';
+    exception.SetDescription(message.c_str());
+    throw exception;
+    }
+  
+  // read image a slice at a time (sorted).
+  unsigned int imageSliceSizeInBytes = this->GetImageSizeInBytes()
+  /(this->m_Dimensions[2]*this->m_Dimensions[3]);
+  for(unsigned int slice=0; slice<this->m_Dimensions[2]*this->m_Dimensions[3]; slice++)
+    {
+    int realIndex = this->GetSliceIndex((int)slice);
+    if( realIndex < 0 )
+      {
       ExceptionObject exception(__FILE__, __LINE__);
       std::string message="Philips REC Data File can not be read: The following files were attempted:\n ";
       message += GetImageFileName( this->m_FileName );
@@ -436,28 +454,10 @@ void PhilipsRECImageIO::Read(void* buffer)
       message += '\n';
       exception.SetDescription(message.c_str());
       throw exception;
+      }
+    ::gzseek( file_p, (unsigned int)realIndex*imageSliceSizeInBytes, SEEK_SET );
+    ::gzread( file_p, p+(slice*imageSliceSizeInBytes), imageSliceSizeInBytes);
     }
-  
-  // read image a slice at a time (sorted).
-  unsigned int imageSliceSizeInBytes = this->GetImageSizeInBytes()
-  /(this->m_Dimensions[2]*this->m_Dimensions[3]);
-  for(unsigned int slice=0; slice<this->m_Dimensions[2]*this->m_Dimensions[3]; slice++)
-  {
-    int realIndex = this->GetSliceIndex((int)slice);
-  if( realIndex < 0 )
-  {
-    ExceptionObject exception(__FILE__, __LINE__);
-      std::string message="Philips REC Data File can not be read: The following files were attempted:\n ";
-      message += GetImageFileName( this->m_FileName );
-      message += '\n';
-      message += ImageFileName;
-      message += '\n';
-      exception.SetDescription(message.c_str());
-      throw exception;
-  }
-  ::gzseek( file_p, (unsigned int)realIndex*imageSliceSizeInBytes, SEEK_SET );
-  ::gzread( file_p, p+(slice*imageSliceSizeInBytes), imageSliceSizeInBytes);
-  }
   gzclose( file_p );
   SwapBytesIfNecessary( buffer, numberOfPixels );
 }
@@ -468,12 +468,12 @@ bool PhilipsRECImageIO::CanReadFile( const char* FileNameToRead )
 
   // we check that the correct extension is given by the user
   std::string filenameext = GetExtension(filename);
-  if(filenameext != std::string(".PAR")
+  if(  filenameext != std::string(".PAR")
     && filenameext != std::string(".REC")
-      && filenameext != std::string(".REC.gz") )
-  {
+    && filenameext != std::string(".REC.gz") )
+    {
     return false;
-  }
+    }
   
   const std::string HeaderFileName = GetHeaderFileName(filename);
 
@@ -481,21 +481,22 @@ bool PhilipsRECImageIO::CanReadFile( const char* FileNameToRead )
   struct par_parameter par;
   // Zero out par_parameter.
   memset(&par,0, sizeof(struct par_parameter));
-    if( !ReadPAR(HeaderFileName, &par) )
+
+  if( !ReadPAR(HeaderFileName, &par) )
     {
-      return false;
+    return false;
     }
   else
-  {
+    {
     // Check to see if there were any problems reading
     // the par file.
     if( par.problemreading )
-    {
+      {
       return false;
+      }
     }
-  }
   
-    return true;
+  return true;
 }
 
 void PhilipsRECImageIO::ReadImageInformation()
@@ -512,11 +513,11 @@ void PhilipsRECImageIO::ReadImageInformation()
     throw exception;
     }
   else if( par.problemreading )
-  {
-  ExceptionObject exception(__FILE__, __LINE__);
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("Problem reading PAR file");
     throw exception;
-  }
+    }
   
   // Get all the diffusion info, rescale, etc.
   GradientBvalueContainerType::Pointer diffusionBvalueVector 
@@ -524,28 +525,28 @@ void PhilipsRECImageIO::ReadImageInformation()
   GradientDirectionContainerType::Pointer diffusionGradientOrientationVector 
   = GradientDirectionContainerType::New();
   if( !GetDiffusionGradientOrientationAndBValues(HeaderFileName,
-  diffusionGradientOrientationVector, diffusionBvalueVector) )
-  {
-   ExceptionObject exception(__FILE__, __LINE__);
-   exception.SetDescription("Problem reading PAR file");
-   throw exception;
-  }
+       diffusionGradientOrientationVector, diffusionBvalueVector) )
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription("Problem reading PAR file");
+    throw exception;
+    }
   ScanningSequenceImageTypeRescaleValuesContainerType::Pointer scanningSequenceImageTypeRescaleVector = 
     ScanningSequenceImageTypeRescaleValuesContainerType::New();
   scanningSequenceImageTypeRescaleVector->clear();
   scanningSequenceImageTypeRescaleVector->resize(par.num_scanning_sequences); // Must match number of scanning sequences.
   for(int scanIndex=0; scanIndex<par.num_scanning_sequences; scanIndex++)
-  {
-      ImageTypeRescaleValuesContainerType::Pointer imageTypeRescaleValuesVector = 
-      ImageTypeRescaleValuesContainerType::New();
-    if( !GetRECRescaleValues(HeaderFileName,imageTypeRescaleValuesVector,par.scanning_sequences[scanIndex]) )
     {
-     ExceptionObject exception(__FILE__, __LINE__);
-     exception.SetDescription("Problem reading PAR file");
-     throw exception;
-    }
+    ImageTypeRescaleValuesContainerType::Pointer imageTypeRescaleValuesVector = 
+    ImageTypeRescaleValuesContainerType::New();
+    if( !GetRECRescaleValues(HeaderFileName,imageTypeRescaleValuesVector,par.scanning_sequences[scanIndex]) )
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("Problem reading PAR file");
+      throw exception;
+      }
     (*scanningSequenceImageTypeRescaleVector)[scanIndex] = imageTypeRescaleValuesVector;
-  }
+    }
   
   // Setup the slice index matrix.
   this->m_SliceIndex->clear();
@@ -602,9 +603,11 @@ void PhilipsRECImageIO::ReadImageInformation()
   //
   // figure out re-orientation required if not in Coronal
   this->ComputeStrides();
+
+
   //Get Dictionary Information
   //Insert Orientation.
-  {
+ 
   //Important hk fields.
   itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
@@ -616,11 +619,13 @@ void PhilipsRECImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_VoxelUnits,std::string("mm",4));
   itk::EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,par.bit);
     
-  for (dim=this->GetNumberOfDimensions()-1; dim>=0; dim--)
-  {
-      if (m_Dimensions[dim] != 1)
-          break;
-  }
+  for( dim=this->GetNumberOfDimensions()-1; dim>=0; dim-- )
+    {
+    if( m_Dimensions[dim] != 1 )
+      {
+      break;
+      }
+    }
   itk::EncapsulateMetaData<int>(thisDic,ITK_NumberOfDimensions,dim+1);
 
   switch( par.bit )
@@ -638,27 +643,28 @@ void PhilipsRECImageIO::ReadImageInformation()
   //Important hist fields
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_FileNotes,std::string(par.series_type,32));
 
-  {
-    itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
-    switch (par.sliceorient)
-      {
-      case PAR_SLICE_ORIENTATION_TRANSVERSAL: 
-          //Transverse - the REC data appears to be stored as right-left, anterior-posterior, and inferior-superior.
-          // Verified using a marker on right side of brain.
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
-          break;
-      case PAR_SLICE_ORIENTATION_SAGITTAL: 
-          //Sagittal - the REC data appears to be stored as anterior-posterior, superior-inferior, and right-left.
-          // Verified using marker on right side of brain.
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL;
-          break;
-      case PAR_SLICE_ORIENTATION_CORONAL: 
-          //Coronal - the REC data appears to be stored as right-left, superior-inferior, and anterior-posterior.
-          // Verified using marker on right side of brain.
-            // fall thru
-      default:
-          coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
-      }
+  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+
+  switch (par.sliceorient)
+    {
+    case PAR_SLICE_ORIENTATION_TRANSVERSAL: 
+      //Transverse - the REC data appears to be stored as right-left, anterior-posterior, and inferior-superior.
+      // Verified using a marker on right side of brain.
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+      break;
+    case PAR_SLICE_ORIENTATION_SAGITTAL: 
+      //Sagittal - the REC data appears to be stored as anterior-posterior, superior-inferior, and right-left.
+      // Verified using marker on right side of brain.
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL;
+      break;
+    case PAR_SLICE_ORIENTATION_CORONAL: 
+      //Coronal - the REC data appears to be stored as right-left, superior-inferior, and anterior-posterior.
+      // Verified using marker on right side of brain.
+      // fall thru
+    default:
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
+    }
+
     //An error was encountered in code that depends upon the valid coord_orientation.
 #if ITK_VERSION_MAJOR < 3
   typedef SpatialOrientationAdapter<3> OrientAdapterType;
@@ -687,7 +693,7 @@ void PhilipsRECImageIO::ReadImageInformation()
     itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
 #endif
     
-  }
+
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(par.patient_name,32));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(par.exam_date,32));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentTime,std::string(par.exam_time,32));
@@ -695,17 +701,18 @@ void PhilipsRECImageIO::ReadImageInformation()
   // Encapsulate remaining PAR parameters
   itk::EncapsulateMetaData<int>(thisDic,PAR_SliceOrientation,par.sliceorient);
   switch(par.ResToolsVersion)
-  {
-  case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    itk::EncapsulateMetaData<std::string>(thisDic,PAR_Version,std::string("V3",4));
-    break;
-  case RESEARCH_IMAGE_EXPORT_TOOL_V4:
-    itk::EncapsulateMetaData<std::string>(thisDic,PAR_Version,std::string("V4",4));
-    break;
-  case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    itk::EncapsulateMetaData<std::string>(thisDic,PAR_Version,std::string("V4.1",6));
-    break;
-  }
+    {
+    case RESEARCH_IMAGE_EXPORT_TOOL_V3:
+      itk::EncapsulateMetaData<std::string>(thisDic,PAR_Version,std::string("V3",4));
+      break;
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4:
+      itk::EncapsulateMetaData<std::string>(thisDic,PAR_Version,std::string("V4",4));
+      break;
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
+      itk::EncapsulateMetaData<std::string>(thisDic,PAR_Version,std::string("V4.1",6));
+      break;
+    }
+
   itk::EncapsulateMetaData<std::string>(thisDic,PAR_ExaminationName,std::string(par.exam_name,32));
   itk::EncapsulateMetaData<std::string>(thisDic,PAR_ProtocolName,std::string(par.protocol_name,32));
   itk::EncapsulateMetaData<std::string>(thisDic,PAR_SeriesType,std::string(par.series_type,32));
@@ -715,18 +722,22 @@ void PhilipsRECImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<int>(thisDic,PAR_MaxNumberOfCardiacPhases,par.cardiac_phases);
   TriggerTimesContainerType::Pointer triggerTimes = TriggerTimesContainerType::New();
   triggerTimes->resize(par.cardiac_phases);
+
   for(unsigned int ttime_index=0; ttime_index<(unsigned int)par.cardiac_phases; ttime_index++)
-  {
-  triggerTimes->SetElement(ttime_index,(double)par.trigger_times[ttime_index]);
-  }
+    {
+    triggerTimes->SetElement(ttime_index,(double)par.trigger_times[ttime_index]);
+    }
+
   itk::EncapsulateMetaData<TriggerTimesContainerType::Pointer>(thisDic,PAR_TriggerTimes,triggerTimes);
   itk::EncapsulateMetaData<int>(thisDic,PAR_MaxNumberOfEchoes,par.echoes);
   EchoTimesContainerType::Pointer echoTimes = EchoTimesContainerType::New();
   echoTimes->resize(par.echoes);
+
   for(unsigned int echo_index=0; echo_index<(unsigned int)par.echoes; echo_index++)
-  {
-  echoTimes->SetElement(echo_index,(double)par.echo_times[echo_index]);
-  }
+    {
+    echoTimes->SetElement(echo_index,(double)par.echo_times[echo_index]);
+    }
+
   itk::EncapsulateMetaData<EchoTimesContainerType::Pointer>(thisDic,PAR_EchoTimes,echoTimes);
   itk::EncapsulateMetaData<int>(thisDic,PAR_MaxNumberOfDynamics,par.dyn);
   itk::EncapsulateMetaData<int>(thisDic,PAR_MaxNumberOfMixes,par.mixes);
@@ -738,10 +749,12 @@ void PhilipsRECImageIO::ReadImageInformation()
   itk::EncapsulateMetaData<ScanResolutionType>(thisDic,PAR_ScanResolution,ScanResolutionType(par.scan_resolution));
   RepetitionTimesContainerType::Pointer repTimes = RepetitionTimesContainerType::New();
   repTimes->resize(par.mixes); // This has only been verified using a Look-Locker sequence and may not be valid.
+
   for(unsigned int rep_index=0; rep_index<(unsigned int)par.mixes; rep_index++)
-  {
-  repTimes->SetElement(rep_index,(double)par.repetition_time[rep_index]);
-  }
+    {
+    repTimes->SetElement(rep_index,(double)par.repetition_time[rep_index]);
+    }
+
   itk::EncapsulateMetaData<RepetitionTimesContainerType::Pointer>(thisDic,PAR_RepetitionTimes,repTimes);
   itk::EncapsulateMetaData<int>(thisDic,PAR_ScanPercentage,par.scan_percent);
   itk::EncapsulateMetaData<FOVType>(thisDic,PAR_FOV,FOVType(par.fov));
@@ -784,8 +797,6 @@ void PhilipsRECImageIO::ReadImageInformation()
     ScanningSequencesType(par.scanning_sequences));
   itk::EncapsulateMetaData<ScanningSequenceImageTypeRescaleValuesContainerType::Pointer>(thisDic,
     PAR_ScanningSequenceImageTypeRescaleValues,scanningSequenceImageTypeRescaleVector);
-  
-  }
   
   return;
 }  
