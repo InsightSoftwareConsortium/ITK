@@ -78,6 +78,8 @@ SET(ReviewTest_SRCS
 
   itkBruker2DSEQImageIOTest.cxx
   itkPhilipsRECImageIOTest.cxx
+  
+  itkVoxBoCUBImageIOTest.cxx
 )
 
 IF(ITK_USE_REVIEW)
@@ -414,6 +416,11 @@ ADD_TEST(itkBruker2DSEQImageIOTest1 ${REVIEW_TESTS}
 ADD_TEST(itkPhilipsRECImageIOTest1 ${REVIEW_TESTS}
         itkPhilipsRECImageIOTest
         )
+
+ADD_TEST(itkVoxBoCUBImageIOTest1 ${REVIEW_TESTS}
+        itkVoxBoCUBImageIOTest
+        )
+
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

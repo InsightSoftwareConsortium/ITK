@@ -4,6 +4,8 @@ SET(ITKReview_SRCS ${ITKReview_SRCS}
   itkPhilipsRECImageIO.cxx
   itkPhilipsRECImageIOFactory.cxx
   itkPhilipsPAR.cxx
+  itkVoxBoCUBImageIO.cxx
+  itkVoxBoCUBImageIOFactory.cxx
   )
  
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)

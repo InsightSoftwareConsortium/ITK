@@ -77,10 +77,12 @@ void RegisterTests()
   REGISTER_TEST(itkOptImageToImageMetricsTest);
   REGISTER_TEST(itkTimeAndMemoryProbeTest);
 
+#ifdef ITK_USE_REVIEW
+
   REGISTER_TEST(itkBruker2DSEQImageIOTest);
   REGISTER_TEST(itkPhilipsRECImageIOTest);
 
-#ifdef ITK_USE_REVIEW
+  REGISTER_TEST(itkVoxBoCUBImageIOTest);
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
