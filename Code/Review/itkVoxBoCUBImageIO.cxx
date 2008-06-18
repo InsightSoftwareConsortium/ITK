@@ -26,7 +26,7 @@
 #include <time.h>
 
 
-#include <zlib.h>
+#include "itk_zlib.h"
 
 namespace itk {
 
