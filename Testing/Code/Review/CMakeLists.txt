@@ -82,25 +82,21 @@ SET(ReviewTest_SRCS
   itkVoxBoCUBImageIOTest.cxx
 )
 
-IF(ITK_USE_REVIEW)
-  IF(ITK_USE_TRANSFORM_IO_FACTORIES)
-    SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
+IF(ITK_USE_TRANSFORM_IO_FACTORIES)
+  SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
 
-    ADD_TEST(itkTransformFileReaderWriterTest0 
-      ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
-      ${INPUTDATA}/itkAffineTransform00.txt
-      ${TEMP}/itkTransformFileReaderWriterTest0.txt
-      )
+  ADD_TEST(itkTransformFileReaderWriterTest0 
+    ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
+    ${INPUTDATA}/itkAffineTransform00.txt
+    ${TEMP}/itkTransformFileReaderWriterTest0.txt
+    )
 
-    ADD_TEST(itkTransformFileReaderWriterTest1 
-      ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
-      ${INPUTDATA}/itkAffineTransform01.txt
-      ${TEMP}/itkTransformFileReaderWriterTest1.txt
-      )
-
-
-  ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
-ENDIF(ITK_USE_REVIEW)
+  ADD_TEST(itkTransformFileReaderWriterTest1 
+    ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
+    ${INPUTDATA}/itkAffineTransform01.txt
+    ${TEMP}/itkTransformFileReaderWriterTest1.txt
+    )
+ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 
 ADD_TEST(itkOptImageToImageMetricsTest01 
@@ -411,10 +407,14 @@ ADD_TEST(itkTimeAndMemoryProbeTest1 ${REVIEW_TESTS}
 
 ADD_TEST(itkBruker2DSEQImageIOTest1 ${REVIEW_TESTS}
         itkBruker2DSEQImageIOTest
+        ${ITK_DATA_ROOT}/Input/DCB120604.t61/11/pdata/1/2dseq
+        ${ITK_TEST_OUTPUT_DIR}/itkBruker2DSEQImageIOTest1.mha
         )
 
 ADD_TEST(itkPhilipsRECImageIOTest1 ${REVIEW_TESTS}
         itkPhilipsRECImageIOTest
+        ${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR
+        ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha
         )
 
 ADD_TEST(itkVoxBoCUBImageIOTest1 ${REVIEW_TESTS}
