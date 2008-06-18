@@ -31,15 +31,7 @@
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include <itksys/SystemTools.hxx>
-#if ITK_VERSION_MAJOR < 3
-#ifdef ITK_USE_SYSTEM_ZLIB
-#include <zlib.h>
-#else
-#include "zlib/zlib.h"
-#endif
-#else
 #include "itk_zlib.h"
-#endif
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -665,34 +657,30 @@ void PhilipsRECImageIO::ReadImageInformation()
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
     }
 
-    //An error was encountered in code that depends upon the valid coord_orientation.
-#if ITK_VERSION_MAJOR < 3
-  typedef SpatialOrientationAdapter<3> OrientAdapterType;
-  SpatialOrientationAdapter<3>::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
-#else
   typedef SpatialOrientationAdapter OrientAdapterType;
   SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
-#endif
-    std::vector<double> dirx(numberOfDimensions,0),
-    diry(numberOfDimensions,0),dirz(numberOfDimensions,0),
-    dirBlock(numberOfDimensions,0);
-    dirx[0] = dir[0][0];
-    dirx[1] = dir[1][0];
-    dirx[2] = dir[2][0];
-    diry[0] = dir[0][1];
-    diry[1] = dir[1][1];
-    diry[2] = dir[2][1];
-    dirz[0] = dir[0][2];
-    dirz[1] = dir[1][2];
-    dirz[2] = dir[2][2];
-    this->SetDirection(0,dirx);
-    this->SetDirection(1,diry);
-    this->SetDirection(2,dirz);
+
+  std::vector<double> dirx(numberOfDimensions,0),
+  diry(numberOfDimensions,0),dirz(numberOfDimensions,0),
+  dirBlock(numberOfDimensions,0);
+  dirx[0] = dir[0][0];
+  dirx[1] = dir[1][0];
+  dirx[2] = dir[2][0];
+  diry[0] = dir[0][1];
+  diry[1] = dir[1][1];
+  diry[2] = dir[2][1];
+  dirz[0] = dir[0][2];
+  dirz[1] = dir[1][2];
+  dirz[2] = dir[2][2];
+
+  this->SetDirection(0,dirx);
+  this->SetDirection(1,diry);
+  this->SetDirection(2,dirz);
   this->SetDirection(3,dirBlock);
+
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
     itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>(thisDic,ITK_CoordinateOrientation, coord_orient);
 #endif
-    
 
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_PatientID,std::string(par.patient_name,32));
   itk::EncapsulateMetaData<std::string>(thisDic,ITK_ExperimentDate,std::string(par.exam_date,32));
