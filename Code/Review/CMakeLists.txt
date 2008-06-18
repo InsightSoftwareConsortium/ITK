@@ -1,6 +1,14 @@
+SET(ITKReview_SRCS ${ITKReview_SRCS}
+  itkBruker2DSEQImageIO.cxx
+  itkBruker2DSEQImageIOFactory.cxx
+  itkPhilipsRECImageIO.cxx
+  itkPhilipsRECImageIOFactory.cxx
+  itkPhilipsPAR.cxx
+  )
+ 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 # Sources of non-templated classes.
-SET(ITKReview_SRCS
+SET(ITKReview_SRCS ${ITKReview_SRCS}
   itkTransformFileReaderWithFactory.cxx
   itkTransformFileWriterWithFactory.cxx
   itkMatlabTransformIO.cxx
@@ -10,6 +18,7 @@ SET(ITKReview_SRCS
   itkTxtTransformIO.cxx
   itkTxtTransformIOFactory.cxx
   )
+ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 #
 #   Begin of optional ITKReview library setup
@@ -37,7 +46,6 @@ ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
 #
 #   End of optional ITKReview library setup
 #
-ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 
 IF(ITK_USE_MINC2 AND MINC2_FOUND)

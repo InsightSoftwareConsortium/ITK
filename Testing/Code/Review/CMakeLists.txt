@@ -75,6 +75,9 @@ SET(ReviewTest_SRCS
   itkOptImageToImageMetricsTest.cxx
 
   itkTimeAndMemoryProbeTest.cxx
+
+  itkBruker2DSEQImageIOTest.cxx
+  itkPhilipsRECImageIOTest.cxx
 )
 
 IF(ITK_USE_REVIEW)
@@ -402,6 +405,14 @@ ADD_TEST(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
                   )
 ADD_TEST(itkTimeAndMemoryProbeTest1 ${REVIEW_TESTS} 
         itkTimeAndMemoryProbeTest
+        )
+
+ADD_TEST(itkBruker2DSEQImageIOTest1 ${REVIEW_TESTS}
+        itkBruker2DSEQImageIOTest
+        )
+
+ADD_TEST(itkPhilipsRECImageIOTest1 ${REVIEW_TESTS}
+        itkPhilipsRECImageIOTest
         )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
