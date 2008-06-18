@@ -269,7 +269,7 @@ IsFaceIsolated( QEType* e,
   const bool& iWasLeftFace,
   std::stack< TQEType* >& oToBeDeleted )
 {
-  bool border( true );
+  bool border;
   QEType* e_sym = e->GetSym();
 
   // turn around the face (left or right one) while edges are on the border
