@@ -61,8 +61,8 @@ namespace itk
 #
 # === IMAGE INFORMATION ==========================================================*/
 /**
-   * \struct image_info_defV3
-   */
+ * \struct image_info_defV3
+ */
 struct image_info_defV3
 {
   int problemreading;
@@ -138,8 +138,8 @@ struct image_info_defV3
 #
 # === IMAGE INFORMATION ==========================================================*/
 /**
-   * \struct image_info_defV4
-   */
+ * \struct image_info_defV4
+ */
 struct image_info_defV4
 {
   int problemreading;
@@ -232,8 +232,8 @@ struct image_info_defV4
 #
 # === IMAGE INFORMATION ==========================================================*/
 /**
-   * \struct image_info_defV41
-   */
+ * \struct image_info_defV41
+ */
 struct image_info_defV41
 {
   int problemreading;
@@ -545,7 +545,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
   switch( pPar->ResToolsVersion )
     {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
-    {
+      {
       struct image_info_defV3 tempInfo;
       struct image_info_defV3 tempInfo1;
       float fovAP, fovFH, fovRL;
@@ -587,8 +587,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       strncpy(pPar->technique,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->technique));
       strncpy(pPar->scan_mode,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->scan_mode));
       inString.str(GetGeneralInfoString(parFile,27));
-      inString >> pPar->scan_resolution[0]
-           >> pPar->scan_resolution[1];
+      inString >> pPar->scan_resolution[0];
+      inString >> pPar->scan_resolution[1];
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,28));
       inString >> pPar->scan_percent;
@@ -655,14 +655,14 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> pPar->water_fat_shift;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,36));
-      inString >> pPar->angAP
-          >> pPar->angFH
-          >> pPar->angRL;
+      inString >> pPar->angAP;
+      inString >> pPar->angFH;
+      inString >> pPar->angRL;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,37));
-      inString >> pPar->offAP
-          >> pPar->offFH
-          >> pPar->offRL;
+      inString >> pPar->offAP;
+      inString >> pPar->offFH;
+      inString >> pPar->offRL;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,38));
       inString >> pPar->flow_comp;
@@ -680,9 +680,9 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> pPar->max_rr_int;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,43));
-      inString >> pPar->phase_encode_vel[0]
-          >> pPar->phase_encode_vel[1]
-          >> pPar->phase_encode_vel[2];
+      inString >> pPar->phase_encode_vel[0];
+      inString >> pPar->phase_encode_vel[1];
+      inString >> pPar->phase_encode_vel[2];
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,44));
       inString >> pPar->mtc;
@@ -1071,8 +1071,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->prep_direction));
       strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),sizeof(pPar->technique));
       inString.str(GetGeneralInfoString(parFile,28));
-      inString >> pPar->scan_resolution[0]
-          >> pPar->scan_resolution[1];
+      inString >> pPar->scan_resolution[0];
+      inString >> pPar->scan_resolution[1];
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,29));
       inString >> pPar->scan_mode;
@@ -1132,14 +1132,14 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> pPar->water_fat_shift;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,33));
-      inString >> pPar->angAP
-          >> pPar->angFH
-          >> pPar->angRL;
+      inString >> pPar->angAP;
+      inString >> pPar->angFH;
+      inString >> pPar->angRL;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,34));
-      inString >> pPar->offAP
-          >> pPar->offFH
-          >> pPar->offRL;
+      inString >> pPar->offAP;
+      inString >> pPar->offFH;
+      inString >> pPar->offRL;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,35));
       inString >> pPar->flow_comp;
@@ -1148,9 +1148,9 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> pPar->presaturation;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,37));
-      inString >> pPar->phase_encode_vel[0]
-          >> pPar->phase_encode_vel[1]
-          >> pPar->phase_encode_vel[2];
+      inString >> pPar->phase_encode_vel[0];
+      inString >> pPar->phase_encode_vel[1];
+      inString >> pPar->phase_encode_vel[2];
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,38));
       inString >> pPar->mtc;
@@ -1538,8 +1538,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->prep_direction));
       strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),sizeof(pPar->technique));
       inString.str(GetGeneralInfoString(parFile,28));
-      inString >> pPar->scan_resolution[0]
-          >> pPar->scan_resolution[1];
+      inString >> pPar->scan_resolution[0];
+      inString >> pPar->scan_resolution[1];
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,29));
       inString >> pPar->scan_mode;
@@ -1599,14 +1599,14 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> pPar->water_fat_shift;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,33));
-      inString >> pPar->angAP
-          >> pPar->angFH
-          >> pPar->angRL;
+      inString >> pPar->angAP;
+      inString >> pPar->angFH;
+      inString >> pPar->angRL;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,34));
-      inString >> pPar->offAP
-          >> pPar->offFH
-          >> pPar->offRL;
+      inString >> pPar->offAP;
+      inString >> pPar->offFH;
+      inString >> pPar->offRL;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,35));
       inString >> pPar->flow_comp;
@@ -1615,9 +1615,9 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString >> pPar->presaturation;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,37));
-      inString >> pPar->phase_encode_vel[0]
-          >> pPar->phase_encode_vel[1]
-          >> pPar->phase_encode_vel[2];
+      inString >> pPar->phase_encode_vel[0];
+      inString >> pPar->phase_encode_vel[1];
+      inString >> pPar->phase_encode_vel[2];
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,38));
       inString >> pPar->mtc;
@@ -2440,7 +2440,7 @@ bool GetRECRescaleValues(std::string parFile,
         }
       }
       break;
-  }
+    }
   return true;
 }
 
