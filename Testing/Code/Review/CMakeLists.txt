@@ -486,6 +486,7 @@ SET(ReviewTest_LIBS
   ITKFEM
   ITKStatistics
   ITKQuadEdgeMesh
+  ITKReview
   )
 
 IF(ITK_USE_MINC2 AND MINC2_FOUND)
