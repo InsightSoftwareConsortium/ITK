@@ -19,7 +19,7 @@
 #include "itkPhilipsRECImageIO.h"
 #include "itkVersion.h"
 
-/* 
+/** 
  * \author Don C. Bigler
  *         The Pennsylvania State University 2005
  *
