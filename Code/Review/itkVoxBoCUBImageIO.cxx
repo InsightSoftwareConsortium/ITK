@@ -49,6 +49,9 @@ namespace itk {
 class GenericCUBFileAdaptor
 {
 public:
+  GenericCUBFileAdaptor() {}
+  virtual ~GenericCUBFileAdaptor() {}
+
   virtual unsigned char ReadByte() = 0;
   virtual void ReadData(void *data, unsigned long bytes) = 0;
   virtual void WriteData(const void *data, unsigned long bytes) = 0;
@@ -100,13 +103,13 @@ public:
       }
     }
 
-  ~CompressedCUBFileAdaptor()
+  virtual ~CompressedCUBFileAdaptor()
     {
     if(m_GzFile)
-  {
-  ::gzflush(m_GzFile,Z_FINISH);
-        ::gzclose(m_GzFile);
-  }
+      {
+      ::gzflush(m_GzFile,Z_FINISH);
+            ::gzclose(m_GzFile);
+      }
     }
 
   unsigned char ReadByte()
@@ -132,8 +135,8 @@ public:
       throw exception;
       }
 
-    int bread = ::gzread(m_GzFile, data, bytes);
-    if(bread != bytes)
+    size_t bread = ::gzread(m_GzFile, data, bytes);
+    if( bread != bytes )
       {
       std::ostringstream oss;
       oss << "File size does not match header: "
@@ -155,8 +158,8 @@ public:
       throw exception;
       }
 
-    int bwritten = ::gzwrite(m_GzFile, (void *) data, bytes);
-    if(bwritten != bytes)
+    size_t bwritten = ::gzwrite(m_GzFile, (void *) data, bytes);
+    if( bwritten != bytes )
       {
         ExceptionObject exception;
         exception.SetDescription("Could not write all bytes to file");
@@ -217,8 +220,8 @@ public:
       throw exception;
       }
 
-    int bread = fread(data, 1, bytes, m_File);
-    if(bread != bytes)
+    size_t bread = fread(data, 1, bytes, m_File);
+    if( bread != bytes )
       {
       std::ostringstream oss;
       oss << "File size does not match header: "
@@ -240,8 +243,8 @@ public:
       throw exception;
       }
 
-    int bwritten = fwrite(data, 1, bytes, m_File);
-    if(bwritten != bytes)
+    size_t bwritten = fwrite(data, 1, bytes, m_File);
+    if( bwritten != bytes )
       {
       ExceptionObject exception;
       exception.SetDescription("Could not write all bytes to file");
@@ -284,20 +287,20 @@ public:
 
 
 // Strings
-const char *VoxBoCUBImageIO::VB_IDENTIFIER_SYSTEM = "VB98";
-const char *VoxBoCUBImageIO::VB_IDENTIFIER_FILETYPE = "CUB1";
-const char *VoxBoCUBImageIO::VB_DIMENSIONS = "VoxDims(XYZ)";
-const char *VoxBoCUBImageIO::VB_SPACING = "VoxSizes(XYZ)";
-const char *VoxBoCUBImageIO::VB_ORIGIN = "Origin(XYZ)";
-const char *VoxBoCUBImageIO::VB_DATATYPE = "DataType";
-const char *VoxBoCUBImageIO::VB_BYTEORDER = "Byteorder";
-const char *VoxBoCUBImageIO::VB_ORIENTATION = "Orientation";
-const char *VoxBoCUBImageIO::VB_BYTEORDER_MSB = "msbfirst";
-const char *VoxBoCUBImageIO::VB_BYTEORDER_LSB = "lsbfirst";
-const char *VoxBoCUBImageIO::VB_DATATYPE_BYTE = "Byte";
-const char *VoxBoCUBImageIO::VB_DATATYPE_INT = "Integer";
-const char *VoxBoCUBImageIO::VB_DATATYPE_FLOAT = "Float";
-const char *VoxBoCUBImageIO::VB_DATATYPE_DOUBLE = "Double";
+const char *VoxBoCUBImageIO::m_VB_IDENTIFIER_SYSTEM = "VB98";
+const char *VoxBoCUBImageIO::m_VB_IDENTIFIER_FILETYPE = "CUB1";
+const char *VoxBoCUBImageIO::m_VB_DIMENSIONS = "VoxDims(XYZ)";
+const char *VoxBoCUBImageIO::m_VB_SPACING = "VoxSizes(XYZ)";
+const char *VoxBoCUBImageIO::m_VB_ORIGIN = "Origin(XYZ)";
+const char *VoxBoCUBImageIO::m_VB_DATATYPE = "DataType";
+const char *VoxBoCUBImageIO::m_VB_BYTEORDER = "Byteorder";
+const char *VoxBoCUBImageIO::m_VB_ORIENTATION = "Orientation";
+const char *VoxBoCUBImageIO::m_VB_BYTEORDER_MSB = "msbfirst";
+const char *VoxBoCUBImageIO::m_VB_BYTEORDER_LSB = "lsbfirst";
+const char *VoxBoCUBImageIO::m_VB_DATATYPE_BYTE = "Byte";
+const char *VoxBoCUBImageIO::m_VB_DATATYPE_INT = "Integer";
+const char *VoxBoCUBImageIO::m_VB_DATATYPE_FLOAT = "Float";
+const char *VoxBoCUBImageIO::m_VB_DATATYPE_DOUBLE = "Double";
 
 /** Constructor */
 VoxBoCUBImageIO::VoxBoCUBImageIO()
@@ -401,14 +404,14 @@ bool VoxBoCUBImageIO::CanReadFile( const char* filename )
 
     // Read the first line from the file
     iss >> word;
-    if(word != VB_IDENTIFIER_SYSTEM)
+    if(word != m_VB_IDENTIFIER_SYSTEM)
       {
       iscub = false;
       }
 
     // Read the second line
     iss >> word;
-    if(word != VB_IDENTIFIER_FILETYPE)
+    if(word != m_VB_IDENTIFIER_FILETYPE)
       {
       iscub = false;
       }
@@ -487,21 +490,21 @@ void VoxBoCUBImageIO::ReadImageInformation()
       key = key.substr(0, key.size() - 1);
 
       // Check if this is a relevant key
-      if(key == VB_DIMENSIONS)
+      if(key == m_VB_DIMENSIONS)
         {
         iss >> m_Dimensions[0];
         iss >> m_Dimensions[1];
         iss >> m_Dimensions[2];
         }
 
-      else if(key == VB_SPACING)
+      else if(key == m_VB_SPACING)
         {
         iss >> m_Spacing[0];
         iss >> m_Spacing[1];
         iss >> m_Spacing[2];
         }
 
-      else if(key == VB_ORIGIN)
+      else if(key == m_VB_ORIGIN)
         {
         double ox, oy, oz;
         iss >> ox; iss >> oy; iss >> oz;
@@ -510,28 +513,28 @@ void VoxBoCUBImageIO::ReadImageInformation()
         m_Origin[2] = -oz * m_Spacing[2];
         }
 
-      else if(key == VB_DATATYPE)
+      else if(key == m_VB_DATATYPE)
         {
         std::string type;
         iss >> type;
         m_PixelType = SCALAR;
-        if(type == VB_DATATYPE_BYTE)
+        if(type == m_VB_DATATYPE_BYTE)
           m_ComponentType = UCHAR;
-        else if(type == VB_DATATYPE_INT)
+        else if(type == m_VB_DATATYPE_INT)
           m_ComponentType = USHORT;
-        else if(type == VB_DATATYPE_FLOAT)
+        else if(type == m_VB_DATATYPE_FLOAT)
           m_ComponentType = FLOAT;
-        else if(type == VB_DATATYPE_DOUBLE)
+        else if(type == m_VB_DATATYPE_DOUBLE)
           m_ComponentType = DOUBLE;
         }
 
-      else if(key == VB_BYTEORDER)
+      else if(key == m_VB_BYTEORDER)
         {
         std::string type;
         iss >> type;
-        if(type == VB_BYTEORDER_MSB)
+        if(type == m_VB_BYTEORDER_MSB)
           SetByteOrderToBigEndian();
-        else if(type == VB_BYTEORDER_LSB)
+        else if(type == m_VB_BYTEORDER_LSB)
           SetByteOrderToLittleEndian();
         else
           {
@@ -541,7 +544,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
           }
         }
 
-      else if(key == VB_ORIENTATION)
+      else if(key == m_VB_ORIENTATION)
         {
         std::string code;
         iss >> code;
@@ -599,25 +602,25 @@ VoxBoCUBImageIO
   std::ostringstream header;
 
   // Write the identifiers
-  header << VB_IDENTIFIER_SYSTEM << std::endl;
-  header << VB_IDENTIFIER_FILETYPE << std::endl;
+  header << m_VB_IDENTIFIER_SYSTEM << std::endl;
+  header << m_VB_IDENTIFIER_FILETYPE << std::endl;
 
     // Write the data type
   switch(m_ComponentType)
     {
     case CHAR:
     case UCHAR:
-      header << VB_DATATYPE << ":\t" << VB_DATATYPE_BYTE << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_BYTE << std::endl;
       break;
     case SHORT:
     case USHORT:
-      header << VB_DATATYPE << ":\t" << VB_DATATYPE_INT << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_INT << std::endl;
       break;
     case FLOAT:
-      header << VB_DATATYPE << ":\t" << VB_DATATYPE_FLOAT << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_FLOAT << std::endl;
       break;
     case DOUBLE:
-      header << VB_DATATYPE << ":\t" << VB_DATATYPE_DOUBLE << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_DOUBLE << std::endl;
       break;
     default:
       ExceptionObject exception(__FILE__, __LINE__);
@@ -626,13 +629,13 @@ VoxBoCUBImageIO
     }
 
   // Write the image dimensions
-  header << VB_DIMENSIONS << ":\t"
+  header << m_VB_DIMENSIONS << ":\t"
     << m_Dimensions[0] << "\t"
     << m_Dimensions[1] << "\t"
     << m_Dimensions[2] << std::endl;
 
   // Write the spacing
-  header << VB_SPACING << ":\t"
+  header << m_VB_SPACING << ":\t"
     << m_Spacing[0] << "\t"
     << m_Spacing[1] << "\t"
     << m_Spacing[2] << std::endl;
@@ -642,14 +645,14 @@ VoxBoCUBImageIO
 double x= -m_Origin[0] / m_Spacing[0];
 double y= -m_Origin[1] / m_Spacing[1];
 double z= -m_Origin[2] / m_Spacing[2];
-  header << VB_ORIGIN << ":\t"
+  header << m_VB_ORIGIN << ":\t"
     << ((x>=0)?(int) (x+.5):(int) (x-.5)) << "\t"
     << ((y>=0)?(int) (y+.5):(int) (y-.5)) << "\t"
     << ((z>=0)?(int) (z+.5):(int) (z-.5)) << std::endl;
 
 
   // Write the byte order
-  header << VB_BYTEORDER << ":\t" << ((ByteSwapper<short>::SystemIsBigEndian()) ? VB_BYTEORDER_MSB : VB_BYTEORDER_LSB) << std::endl;
+  header << m_VB_BYTEORDER << ":\t" << ((ByteSwapper<short>::SystemIsBigEndian()) ? m_VB_BYTEORDER_MSB : m_VB_BYTEORDER_LSB) << std::endl;
 
   // Write the orientation code
   MetaDataDictionary &dic = GetMetaDataDictionary();
@@ -659,15 +662,15 @@ double z= -m_Origin[2] / m_Spacing[2];
     InverseOrientationMap::const_iterator it =
       m_InverseOrientationMap.find(oflag);
     if(it != m_InverseOrientationMap.end())
-      header << VB_ORIENTATION << ":\t" << it->second << std::endl;
+      header << m_VB_ORIENTATION << ":\t" << it->second << std::endl;
   }
 
   //Add CUB specific parameters to header from MetaDictionary
 
   std::vector<std::string> keys= dic.GetKeys();
   std::string word;
-  for (int i=0; i<keys.size(); i++)
-  {
+  for(size_t i=0; i<keys.size(); i++)
+    {
     if (strcmp(keys[i].c_str(),ITK_CoordinateOrientation))
       {
       ExposeMetaData<std::string>(dic, keys[i], word);
@@ -683,7 +686,7 @@ double z= -m_Origin[2] / m_Spacing[2];
         header<<keys[i]<<":\t"<<word<<std::endl;
         }
       }
-  }
+    }
 
   // Write the terminating characters
   header << "\f\n";
