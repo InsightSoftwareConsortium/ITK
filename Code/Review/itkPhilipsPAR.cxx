@@ -543,7 +543,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
   }
 
   switch( pPar->ResToolsVersion )
-  {
+    {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
     {
       struct image_info_defV3 tempInfo;
@@ -1496,7 +1496,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
     break;
 
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
-    {
+      {
       struct image_info_defV41 tempInfo;
       struct image_info_defV41 tempInfo1;
       float fovAP, fovFH, fovRL;
@@ -1647,25 +1647,25 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       // and whether or not the images are sorted by slice or by image blocks.
       // Also get echo times.
       if( pPar->slice > 1 )
-      {
+        {
         int lineIncrement = 99;
         int echoIndex = 0;
         int cardiacIndex = 0;
         tempInfo1 = GetImageInformationDefinitionV41(parFile, 100);
         if( tempInfo1.problemreading )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: GetImageInformationDefinitionV41(parFile, 100)" << std::endl;
           return false;
-        }
+          }
         if ((tempInfo1.slice-tempInfo.slice) > 0 )
-        {
+          {
           pPar->slicessorted = 1;
-        }
+          }
         // If slices are sorted I only need to calculate the number of
         // image blocks (if more than 1) and store the echo times.
         if( pPar->slicessorted )
-        {
+          {
           ++pPar->image_blocks;
           ++pPar->num_image_types;
           pPar->image_types[0] = tempInfo.image_type_mr;
@@ -1674,61 +1674,64 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           lineIncrement += pPar->slice;
           tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
           while( !tempInfo1.problemreading && tempInfo1.slice )
-          {
+            {
             int isUnique = 1;
             // Find unique image types in REC.
             for(int i=0; i<pPar->num_image_types; i++)
-            {
-              if( pPar->image_types[i] == tempInfo1.image_type_mr )
               {
+              if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_image_types;
               pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-            }
+              }
             isUnique = 1;
             // Find all of the scanning sequences.
             for(int i=0; i<pPar->num_scanning_sequences; i++)
-            {
-              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
               {
+              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_scanning_sequences;
               pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-            }
+              }
+
             ++pPar->image_blocks;
+
             // Get the echo times.
             if( echoNumber != tempInfo1.echo )
-            {
+              {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
               //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
-            }
+              }
+
             // Get the trigger times
             if( cardiacPhase != tempInfo1.cardiac )
-            {
+              {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
               //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
-            }
+              }
             lineIncrement += pPar->slice;
             tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
+            }
           }
-        }
         // Slices are not sorted.
         else
-        {
+          {
           int slice = tempInfo.slice;
           ++pPar->image_blocks;
           ++pPar->num_image_types;
@@ -1738,124 +1741,125 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           ++lineIncrement;
           tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
           while( !tempInfo1.problemreading && tempInfo1.slice )
-          {
+            {
             int isUnique = 1;
             // This if statement applies to just the first slice.
             if( slice == tempInfo1.slice )
-            {
+              {
               // Find unique image types in REC.
               for(int i=0; i<pPar->num_image_types; i++)
-              {
-                if( pPar->image_types[i] == tempInfo1.image_type_mr )
                 {
+                if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                  {
                   isUnique = 0;
                   break;
+                  }
                 }
-              }
               if( isUnique )
-              {
+                {
                 ++pPar->num_image_types;
                 pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-              }
+                }
               isUnique = 1;
               // Find all of the scanning sequences.
               for(int i=0; i<pPar->num_scanning_sequences; i++)
-              {
-                if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
                 {
+                if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                  {
                   isUnique = 0;
                   break;
+                  }
                 }
-              }
               if( isUnique )
-              {
+                {
                 ++pPar->num_scanning_sequences;
                 pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-              }
+                }
               ++pPar->image_blocks;
               // Get the echo times.
               if( echoNumber != tempInfo1.echo )
-              {
+                {
                 ++echoIndex;
                 pPar->echo_times[echoIndex] = tempInfo1.echo_time;
                 //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                 echoNumber = tempInfo1.echo;
-              }
+                }
               // Get the trigger times
               if( cardiacPhase != tempInfo1.cardiac )
-              {
+                {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
                 //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                 cardiacPhase = tempInfo1.cardiac;
+                }
               }
-            }
             // Now we have sufficient information to parse the rest of the PAR
             // file (a very poorly designed file format!).
             else
-            {
+              {
               lineIncrement = 99;
               // OK, I need to determine if there are more image blocks,
               // only if pPar->num_image_types or pPar->num_scanning_sequences > 1
               if( (pPar->num_image_types > 1) ||
                  (pPar->num_scanning_sequences > 1) )
-              {
+                {
                 pPar->num_slice_repetitions = pPar->image_blocks;
                 lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
                 tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
                 while( !tempInfo1.problemreading && tempInfo1.slice )
-                {
+                  {
                   // Get the echo times.
                   if( echoNumber != tempInfo1.echo )
-                  {
+                    {
                     ++echoIndex;
                     pPar->echo_times[echoIndex] = tempInfo1.echo_time;
                     //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                     echoNumber = tempInfo1.echo;
-                  }
+                    }
                   // Get the trigger times
                   if( cardiacPhase != tempInfo1.cardiac )
-                  {
+                    {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
                     //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                     cardiacPhase = tempInfo1.cardiac;
-                  }
+                    }
                   pPar->image_blocks += pPar->num_slice_repetitions;
                   lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
                   tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
+                  }
                 }
-              }
               break;
-            }
+              }
             ++lineIncrement;
             tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
+            }
           }
-        }
         // This is a sanity check.  The echoIndex should match
         // (pPar->echoes-1).
         if( (pPar->echoes-1) != echoIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->echoes-1) != echoIndex" << std::endl;
           std::cerr << "pPar->echoes-1 = " << pPar->echoes-1 << std::endl;
           std::cerr << "echoIndex = " << echoIndex << std::endl;
           return false;
-        }
+          }
+
         // Another sanity check.  The cardiacIndex should match
         // (pPar->cardiac_phases-1).
         if( (pPar->cardiac_phases-1) != cardiacIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
           std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
+          }
         }
-      }
       // Only 1 slice, but how many repetitions of that slice?
       else
-      {
+        {
         int lineIncrement = 99;
         int echoIndex = 0;
         int cardiacIndex = 0;
@@ -1871,133 +1875,138 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         ++lineIncrement;
         tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
         while( !tempInfo1.problemreading && tempInfo1.slice )
-        {
-          if( slice == tempInfo1.slice )
           {
+          if( slice == tempInfo1.slice )
+            {
             int isUnique = 1;
             // Find unique image types in REC.
             for(int i=0; i<pPar->num_image_types; i++)
-            {
-              if( pPar->image_types[i] == tempInfo1.image_type_mr )
               {
+              if( pPar->image_types[i] == tempInfo1.image_type_mr )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_image_types;
               pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
-            }
+              }
             isUnique = 1;
             // Find all of the scanning sequences.
             for(int i=0; i<pPar->num_scanning_sequences; i++)
-            {
-              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
               {
+              if( pPar->scanning_sequences[i] == tempInfo1.scan_sequence )
+                {
                 isUnique = 0;
                 break;
+                }
               }
-            }
             if( isUnique )
-            {
+              {
               ++pPar->num_scanning_sequences;
               pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
-            }
+              }
             ++pPar->image_blocks;
             // Should be equal after the first iteration, but will only
             // add additional echoes in latter iterations if they differ
             // from the first.
             if( echoNumber != tempInfo1.echo )
-            {
+              {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
               //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
-            }
+              }
             // Get the trigger times
             if( cardiacPhase != tempInfo1.cardiac )
-            {
+              {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
               //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
-            }
+              }
             // Need to keep track of the number of consecutive slice repetitions.
             if( (pPar->echoes > 1) && (firstEchoNumber == tempInfo1.echo) )
-            {
+              {
               ++pPar->num_slice_repetitions;
-            }
+              }
             if( (pPar->cardiac_phases > 1) && (firstCardiacPhase == tempInfo1.cardiac) )
-            {
+              {
               ++pPar->num_slice_repetitions;
-            }
+              }
             if( (pPar->dyn > 1) && (firstDynamic == tempInfo1.dynamic) )
-            {
+              {
               ++pPar->num_slice_repetitions;
+              }
             }
-          }
           else
-          {
+            {
             break;
-          }
+            }
           ++lineIncrement;
           tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
-        }
+          }
         // This is a sanity check.  The echoIndex should match
         // (pPar->echoes-1).
         if( (pPar->echoes-1) != echoIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->echoes-1) != echoIndex" << std::endl;
           std::cerr << "pPar->echoes-1 = " << pPar->echoes-1 << std::endl;
           std::cerr << "echoIndex = " << echoIndex << std::endl;
           return false;
-        }
+          }
         // Another sanity check.  The cardiacIndex should match
         // (pPar->cardiac_phases-1).
         if( (pPar->cardiac_phases-1) != cardiacIndex )
-        {
+          {
           pPar->problemreading = 1;
           std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
           std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
+          }
         }
       }
-    }
     break;
 
     default:
       std::cerr << "ReadPAR: Unkown PAR version" << std::endl;
       return false;
-  }
+    }
+
+
   // Reorder the image type matrix so that it is least to greatest.
   // Only if the slices need sorting.
   if( !pPar->slicessorted )
-  {
+    {
     std::vector<int> sortedImageTypes;
     for(int j=0; j<pPar->num_image_types; j++)
-    {
+      {
       sortedImageTypes.push_back(pPar->image_types[j]);
-    }
+      }
+
     std::sort(sortedImageTypes.begin(),sortedImageTypes.end());
     for(int k=0; k<pPar->num_image_types; k++)
-    {
+      {
       pPar->image_types[k] = sortedImageTypes[k];
-    }
+      }
+
     // Reorder the scanning sequences matrix so that it is least to greatest.
     std::vector<int> sortedScanningSequences;
     for(int l=0; l<pPar->num_scanning_sequences; l++)
-    {
+      {
       sortedScanningSequences.push_back(pPar->scanning_sequences[l]);
-    }
+      }
+
     std::sort(sortedScanningSequences.begin(),sortedScanningSequences.end());
     for(int m=0; m<pPar->num_scanning_sequences; m++)
-    {
+      {
       pPar->scanning_sequences[m] = sortedScanningSequences[m];
+      }
     }
-  }
   // OK, I hate hard-coding things in, but I have no joice here.
   // Dr. Qing Yang developed a multi-echo GESEPI-SENSE technique on
   // the Philips 3T that uses some pecularities not normally found in
@@ -2038,80 +2047,81 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
   //std::cout << currentLine << std::endl;
   index = currentLine.find("V3");
   if( index != std::string::npos )
-  {
+    {
     ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V3;
-  }
+    }
   else
-  {
+    {
     index = currentLine.find("V4.1");
     if( index != std::string::npos )
-    {
+      {
       ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4_1;
-    }
+      }
     else
-    {
+      {
       index = currentLine.find("V4");
       if( index != std::string::npos )
-      {
+        {
         ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4;
-      }
+        }
       else
-      {
+        {
         return recSliceIndexImageTypes;
+        }
       }
     }
-  }
+
   switch ( ResToolsVersion )
-  {
+    {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
-        struct image_info_defV3 tempInfo;
-        std::pair< int, int > sliceAndType;
-        int lineIncrement = 89;
-        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV3 tempInfo;
+      std::pair< int, int > sliceAndType;
+      int lineIncrement = 89;
+      tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          sliceAndType.first = tempInfo.slice;
-          sliceAndType.second = tempInfo.image_type_mr;
-          recSliceIndexImageTypes.push_back(sliceAndType);
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+        sliceAndType.first = tempInfo.slice;
+        sliceAndType.second = tempInfo.image_type_mr;
+        recSliceIndexImageTypes.push_back(sliceAndType);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
         }
       }
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
-        struct image_info_defV4 tempInfo;
-        std::pair< int, int > sliceAndType;
-        int lineIncrement = 92;
-        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV4 tempInfo;
+      std::pair< int, int > sliceAndType;
+      int lineIncrement = 92;
+      tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          sliceAndType.first = tempInfo.slice;
-          sliceAndType.second = tempInfo.image_type_mr;
-          recSliceIndexImageTypes.push_back(sliceAndType);
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+        sliceAndType.first = tempInfo.slice;
+        sliceAndType.second = tempInfo.image_type_mr;
+        recSliceIndexImageTypes.push_back(sliceAndType);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
         }
       }
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
-        struct image_info_defV41 tempInfo;
-        std::pair< int, int > sliceAndType;
-        int lineIncrement = 99;
-        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV41 tempInfo;
+      std::pair< int, int > sliceAndType;
+      int lineIncrement = 99;
+      tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          sliceAndType.first = tempInfo.slice;
-          sliceAndType.second = tempInfo.image_type_mr;
-          recSliceIndexImageTypes.push_back(sliceAndType);
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+        sliceAndType.first = tempInfo.slice;
+        sliceAndType.second = tempInfo.image_type_mr;
+        recSliceIndexImageTypes.push_back(sliceAndType);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
         }
       }
       break;
-  }
+    }
   return recSliceIndexImageTypes;
 }
 
@@ -2127,80 +2137,81 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
   //std::cout << currentLine << std::endl;
   index = currentLine.find("V3");
   if( index != std::string::npos )
-  {
+    {
     ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V3;
-  }
+    }
   else
-  {
+    {
     index = currentLine.find("V4.1");
     if( index != std::string::npos )
-    {
+      {
       ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4_1;
-    }
+      }
     else
-    {
+      {
       index = currentLine.find("V4");
       if( index != std::string::npos )
-      {
+        {
         ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4;
-      }
+        }
       else
-      {
+        {
         return recSliceIndexScanSequence;
+        }
       }
     }
-  }
+
   switch ( ResToolsVersion )
-  {
+    {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
-        struct image_info_defV3 tempInfo;
-        std::pair< int, int > sliceAndSequence;
-        int lineIncrement = 89;
-        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV3 tempInfo;
+      std::pair< int, int > sliceAndSequence;
+      int lineIncrement = 89;
+      tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          sliceAndSequence.first = tempInfo.slice;
-          sliceAndSequence.second = tempInfo.scan_sequence;
-          recSliceIndexScanSequence.push_back(sliceAndSequence);
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+        sliceAndSequence.first = tempInfo.slice;
+        sliceAndSequence.second = tempInfo.scan_sequence;
+        recSliceIndexScanSequence.push_back(sliceAndSequence);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
         }
       }
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
-        struct image_info_defV4 tempInfo;
-        std::pair< int, int > sliceAndSequence;
-        int lineIncrement = 92;
-        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV4 tempInfo;
+      std::pair< int, int > sliceAndSequence;
+      int lineIncrement = 92;
+      tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          sliceAndSequence.first = tempInfo.slice;
-          sliceAndSequence.second = tempInfo.scan_sequence;
-          recSliceIndexScanSequence.push_back(sliceAndSequence);
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+        sliceAndSequence.first = tempInfo.slice;
+        sliceAndSequence.second = tempInfo.scan_sequence;
+        recSliceIndexScanSequence.push_back(sliceAndSequence);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
         }
       }
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
-        struct image_info_defV41 tempInfo;
-        std::pair< int, int > sliceAndSequence;
-        int lineIncrement = 99;
-        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV41 tempInfo;
+      std::pair< int, int > sliceAndSequence;
+      int lineIncrement = 99;
+      tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          sliceAndSequence.first = tempInfo.slice;
-          sliceAndSequence.second = tempInfo.scan_sequence;
-          recSliceIndexScanSequence.push_back(sliceAndSequence);
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+        sliceAndSequence.first = tempInfo.slice;
+        sliceAndSequence.second = tempInfo.scan_sequence;
+        recSliceIndexScanSequence.push_back(sliceAndSequence);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
         }
       }
       break;
-  }
+    }
   return recSliceIndexScanSequence;
 }
 
@@ -2212,38 +2223,38 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
 
   // Read the PAR file.
   if( !ReadPAR(parFile, &parParam) )
-  {
+    {
     return recImageTypesScanSequence;
-  }
+    }
 
   switch ( parParam.ResToolsVersion )
-  {
+    {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
-        struct image_info_defV3 tempInfo;
-        for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
+      struct image_info_defV3 tempInfo;
+      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
         {
-          std::pair< int, int > imageTypeAndSequence;
-          int lineIncrement = 89;
-          int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
-          tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
-          while( !tempInfo.problemreading && tempInfo.slice )
+        std::pair< int, int > imageTypeAndSequence;
+        int lineIncrement = 89;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
+        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+        while( !tempInfo.problemreading && tempInfo.slice )
           {
-            if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-              (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
+          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
+            (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
             {
-              *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
+            *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
             }
-            ++lineIncrement;
-            tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+          ++lineIncrement;
+          tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
           }
-          for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
+        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
           {
-            if( *(imageType+imageTypeIndex) >= 0 )
+          if( *(imageType+imageTypeIndex) >= 0 )
             {
-              imageTypeAndSequence.first = imageTypeIndex;
-              imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
-              recImageTypesScanSequence.push_back(imageTypeAndSequence);
+            imageTypeAndSequence.first = imageTypeIndex;
+            imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
+            recImageTypesScanSequence.push_back(imageTypeAndSequence);
             }
           }
         }
@@ -2251,30 +2262,30 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
-        struct image_info_defV4 tempInfo;
-        for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
+      struct image_info_defV4 tempInfo;
+      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
         {
-          std::pair< int, int > imageTypeAndSequence;
-          int lineIncrement = 92;
-          int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
-          tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
-          while( !tempInfo.problemreading && tempInfo.slice )
+        std::pair< int, int > imageTypeAndSequence;
+        int lineIncrement = 92;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
+        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+        while( !tempInfo.problemreading && tempInfo.slice )
           {
-            if( (*(imageType+tempInfo.image_type_mr) < 0) &&
+          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
               (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
             {
-              *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
+            *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
             }
             ++lineIncrement;
             tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
           }
-          for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
+        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
           {
-            if( *(imageType+imageTypeIndex) >= 0 )
+          if( *(imageType+imageTypeIndex) >= 0 )
             {
-              imageTypeAndSequence.first = imageTypeIndex;
-              imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
-              recImageTypesScanSequence.push_back(imageTypeAndSequence);
+            imageTypeAndSequence.first = imageTypeIndex;
+            imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
+            recImageTypesScanSequence.push_back(imageTypeAndSequence);
             }
           }
         }
@@ -2282,36 +2293,36 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
-        struct image_info_defV41 tempInfo;
-        for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
+      struct image_info_defV41 tempInfo;
+      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
         {
-          std::pair< int, int > imageTypeAndSequence;
-          int lineIncrement = 99;
-          int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
-          tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
-          while( !tempInfo.problemreading && tempInfo.slice )
+        std::pair< int, int > imageTypeAndSequence;
+        int lineIncrement = 99;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
+        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+        while( !tempInfo.problemreading && tempInfo.slice )
           {
-            if( (*(imageType+tempInfo.image_type_mr) < 0) &&
+          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
               (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
             {
-              *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
+            *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
             }
             ++lineIncrement;
             tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
           }
-          for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
+        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
           {
-            if( *(imageType+imageTypeIndex) >= 0 )
+          if( *(imageType+imageTypeIndex) >= 0 )
             {
-              imageTypeAndSequence.first = imageTypeIndex;
-              imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
-              recImageTypesScanSequence.push_back(imageTypeAndSequence);
+            imageTypeAndSequence.first = imageTypeIndex;
+            imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
+            recImageTypesScanSequence.push_back(imageTypeAndSequence);
             }
           }
         }
       }
       break;
-  }
+    }
   return recImageTypesScanSequence;
 }
 
@@ -2326,105 +2337,106 @@ bool GetRECRescaleValues(std::string parFile,
   rescaleValues->resize(PAR_DEFAULT_IMAGE_TYPES_SIZE); // Must match size of image_types
   vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > zero(0.0);
   for(unsigned int zeroIndex=0; zeroIndex<rescaleValues->size(); zeroIndex++)
-  {
+    {
     (*rescaleValues)[zeroIndex] = zero; // Zero out everything
-  }
+    }
 
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
   index = currentLine.find("V3");
   if( index != std::string::npos )
-  {
+    {
     ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V3;
-  }
+    }
   else
-  {
+    {
     index = currentLine.find("V4.1");
     if( index != std::string::npos )
-    {
+      {
       ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4_1;
-    }
+      }
     else
-    {
+      {
       index = currentLine.find("V4");
       if( index != std::string::npos )
-      {
+        {
         ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4;
-      }
+        }
       else
-      {
+        {
         return false;
+        }
       }
     }
-  }
+
   switch ( ResToolsVersion )
-  {
+    {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
-        struct image_info_defV3 tempInfo;
-        vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
-        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
-        int lineIncrement = 89;
-        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV3 tempInfo;
+      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
+      int lineIncrement = 89;
+      tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-             (tempInfo.scan_sequence == scan_sequence) )
+        if( (*(imageType+tempInfo.image_type_mr) < 0) &&
+            (tempInfo.scan_sequence == scan_sequence) )
           {
-            *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
-            rescale[0] = tempInfo.rescale_int;
-            rescale[1] = tempInfo.rescale_slope;
-            rescale[2] = tempInfo.scale_slope;
-            (*rescaleValues)[tempInfo.image_type_mr] = rescale;
+          *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
+          rescale[0] = tempInfo.rescale_int;
+          rescale[1] = tempInfo.rescale_slope;
+          rescale[2] = tempInfo.scale_slope;
+          (*rescaleValues)[tempInfo.image_type_mr] = rescale;
           }
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
         }
       }
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
-        struct image_info_defV4 tempInfo;
-        vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
-        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
-        int lineIncrement = 92;
-        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV4 tempInfo;
+      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
+      int lineIncrement = 92;
+      tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-             (tempInfo.scan_sequence == scan_sequence) )
+        if( (*(imageType+tempInfo.image_type_mr) < 0) &&
+           (tempInfo.scan_sequence == scan_sequence) )
           {
-            *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
-            rescale[0] = tempInfo.rescale_int;
-            rescale[1] = tempInfo.rescale_slope;
-            rescale[2] = tempInfo.scale_slope;
-            (*rescaleValues)[tempInfo.image_type_mr] = rescale;
+          *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
+          rescale[0] = tempInfo.rescale_int;
+          rescale[1] = tempInfo.rescale_slope;
+          rescale[2] = tempInfo.scale_slope;
+          (*rescaleValues)[tempInfo.image_type_mr] = rescale;
           }
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
         }
       }
       break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
-        struct image_info_defV41 tempInfo;
-        vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
-        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
-        int lineIncrement = 99;
-        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
-        while( !tempInfo.problemreading && tempInfo.slice )
+      struct image_info_defV41 tempInfo;
+      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
+      int lineIncrement = 99;
+      tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+      while( !tempInfo.problemreading && tempInfo.slice )
         {
-          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-             (tempInfo.scan_sequence == scan_sequence) )
+        if( (*(imageType+tempInfo.image_type_mr) < 0) &&
+           (tempInfo.scan_sequence == scan_sequence) )
           {
-            *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
-            rescale[0] = tempInfo.rescale_int;
-            rescale[1] = tempInfo.rescale_slope;
-            rescale[2] = tempInfo.scale_slope;
-            (*rescaleValues)[tempInfo.image_type_mr] = rescale;
+          *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
+          rescale[0] = tempInfo.rescale_int;
+          rescale[1] = tempInfo.rescale_slope;
+          rescale[2] = tempInfo.scale_slope;
+          (*rescaleValues)[tempInfo.image_type_mr] = rescale;
           }
-          ++lineIncrement;
-          tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+        ++lineIncrement;
+        tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
         }
       }
       break;
@@ -2448,41 +2460,45 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   currentLine = GetLineNumber(parFile,8);
   index = currentLine.find("V4.1");
   if( index != std::string::npos )
-  {
+    {
     struct image_info_defV41 tempInfo;
     vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > direction;
     int lineIncrement = 99;
+
     if( !ReadPAR(parFile, &tempPar) )
-    {
+      {
       return false;
-    }
+      }
+
     gradientValues->resize(tempPar.max_num_grad_orient);
     bValues->resize(tempPar.max_num_grad_orient);
+
     if( tempPar.max_num_grad_orient <= 0 )
-    {
+      {
       return true;
-    }
+      }
+
     tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
     while( !tempInfo.problemreading && tempInfo.slice
       && (gradientDirectionCount < tempPar.max_num_grad_orient) )
-    {
-        vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > tempDirection;
-        tempDirection[0] = tempInfo.diffusion_ap;
+      {
+      vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > tempDirection;
+      tempDirection[0] = tempInfo.diffusion_ap;
       tempDirection[1] = tempInfo.diffusion_fh;
       tempDirection[2] = tempInfo.diffusion_rl;
       if( tempDirection != direction )
-      {
+        {
         direction[0] = tempInfo.diffusion_ap;
         direction[1] = tempInfo.diffusion_fh;
         direction[2] = tempInfo.diffusion_rl;
         (*gradientValues)[gradientDirectionCount] = direction;
         (*bValues)[gradientDirectionCount] = tempInfo.diffusion_b_factor;
-      }
+        }
       ++lineIncrement;
       ++gradientDirectionCount;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
+      }
     }
-  }
   return true;
 }
 
