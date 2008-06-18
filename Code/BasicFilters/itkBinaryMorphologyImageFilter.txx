@@ -151,7 +151,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel>
                 
   for ( i=0, kernel_it=KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++i)
     {
-    if ((*kernel_it) > 0)
+    if (*kernel_it)
       {
       kernelOnElements.push_back(i);
       }
@@ -192,7 +192,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel>
 
   while( !kernelImageIt.IsAtEnd() )
     {
-    kernelImageIt.Set( *kernel_it > 0 );
+    kernelImageIt.Set( *kernel_it ? true : false);
     ++kernelImageIt;
     ++kernel_it;
     }
@@ -385,7 +385,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel>
   unsigned int centerKernelIndex  = adjNeigh.Size() / 2;
   for ( k=0, kernel_it=KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++k)
     {
-    if ((*kernel_it) > 0)
+    if (*kernel_it)
       {
       OffsetType currentOffset = m_Kernel.GetOffset(k);
       m_KernelDifferenceSets[centerKernelIndex].push_back(currentOffset);
