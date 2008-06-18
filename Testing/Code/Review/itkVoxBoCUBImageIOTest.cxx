@@ -22,8 +22,8 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 
-#include "itkVoxBoCUBImageIOImageIOFactory.h"
-#include "itkVoxBoCUBImageIOImageIO.h"
+#include "itkVoxBoCUBImageIOFactory.h"
+#include "itkVoxBoCUBImageIO.h"
 
 int itkVoxBoCUBImageIOTest( int argc, char * argv [] )
 {
@@ -40,17 +40,13 @@ int itkVoxBoCUBImageIOTest( int argc, char * argv [] )
   typedef itk::ImageFileReader< ImageType >   ReaderType;
   typedef itk::ImageFileWriter< ImageType >   WriterType;
 
-  typedef itk::VoxBoCUBImageIO                ImageIOType;
+  itk::VoxBoCUBImageIOFactory::RegisterOneFactory();
   
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
-
-  ImageIOType::Pointer imageIO = ImageIOType::New();
- 
-  reader->SetImageIO( imageIO );
 
   writer->SetInput( reader->GetOutput() );
 
