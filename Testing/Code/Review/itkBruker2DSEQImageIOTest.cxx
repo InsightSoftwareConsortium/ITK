@@ -35,22 +35,18 @@ int itkBruker2DSEQImageIOTest( int argc, char * argv [] )
     }
  
   typedef unsigned short                      PixelType;
-  typedef itk::Image< PixelType, 3 >          ImageType;
+  typedef itk::Image< PixelType, 2 >          ImageType;
 
   typedef itk::ImageFileReader< ImageType >   ReaderType;
   typedef itk::ImageFileWriter< ImageType >   WriterType;
 
-  typedef itk::Bruker2DSEQImageIO             ImageIOType;
+  itk::Bruker2DSEQImageIOFactory::RegisterOneFactory();
   
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
-
-  ImageIOType::Pointer imageIO = ImageIOType::New();
- 
-  reader->SetImageIO( imageIO );
 
   writer->SetInput( reader->GetOutput() );
 
