@@ -9,19 +9,19 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
 /**
- * \file   The code for this file reader was written based on 
- *         examination of Philips REC/PAR image files acquired at the 
- *         Center for NMR Research at the Penn State Milton S. Hershey 
+ * \file   The code for this file reader was written based on
+ *         examination of Philips REC/PAR image files acquired at the
+ *         Center for NMR Research at the Penn State Milton S. Hershey
  *         Medical Center.
  *
- *         
+ *
  * \author Don C. Bigler
  *         The Pennsylvania State University 2005
  *
@@ -54,14 +54,14 @@
 
 #define PAR_SLICE_ORIENTATION_TRANSVERSAL  1
 #define PAR_SLICE_ORIENTATION_SAGITTAL    2
-#define PAR_SLICE_ORIENTATION_CORONAL    3              
+#define PAR_SLICE_ORIENTATION_CORONAL    3
 
 namespace itk
 {
 
 /**
-   * \struct par_parameter
-   */
+ * \struct par_parameter
+ */
 struct par_parameter                            /*      par_parameter       */
 {
   int problemreading;                    /* Marked 1 if problem occurred reading in PAR file, 0 otherwise */
@@ -71,7 +71,7 @@ struct par_parameter                            /*      par_parameter       */
   char protocol_name[PAR_DEFAULT_STRING_LENGTH];      /* Protocol name */
   char exam_date[PAR_DEFAULT_STRING_LENGTH];        /* Examination date/time */
   char exam_time[PAR_DEFAULT_STRING_LENGTH];        /* Examination date/time */
-  char series_type[PAR_DEFAULT_STRING_LENGTH];        /* Series Type */  
+  char series_type[PAR_DEFAULT_STRING_LENGTH];        /* Series Type */
   int scno;                                /* Acquisition nr */
   int recno;                        /* Reconstruction nr */
   int scan_duration;                    /* Scan Duration [sec] */
@@ -122,14 +122,14 @@ struct par_parameter                            /*      par_parameter       */
   float vox[3];                        /* pixel spacing (x,y) (in mm) */
   int slicessorted;                      /* 1-slices sorted, 0-slices not sorted */
   int image_blocks;                             /* The total number of image blocks stored in the REC file */
-  int num_image_types;                    /* The number of image types in the REC file */ 
+  int num_image_types;                    /* The number of image types in the REC file */
   int image_types[PAR_DEFAULT_IMAGE_TYPES_SIZE];      /* The different image types detected in the REC */
-  int num_scanning_sequences;                /* The number of scanning sequences in the REC file */ 
+  int num_scanning_sequences;                /* The number of scanning sequences in the REC file */
   int scanning_sequences[PAR_DEFAULT_SCAN_SEQUENCE_SIZE];  /* The different scanning sequences detected in the REC */
   int num_slice_repetitions;        /* If num_scanning_sequences > 1 then num_image_types may not equal the total number of */
                   /* slice repetitions for a single acquisition.  This value is the total number of */
                   /* slice repetitions for a single acquisition and is valid only when slicessorted == 0. */
-                  
+
 };
 
 // Reads the PAR file parameters in "parFile" and stores the PAR parameters in pPar.
@@ -137,28 +137,28 @@ struct par_parameter                            /*      par_parameter       */
 ITK_EXPORT bool ReadPAR(std::string parFile, struct par_parameter* pPar);
 
 // Returns a vector of paired values, the first contains the slice index and the second is the image type
-// for the PAR file "parFile".  
+// for the PAR file "parFile".
 ITK_EXPORT std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parFile);
 
 // Returns a vector of paired values, the first contains the slice index and the second is the scan sequence
-// for the PAR file "parFile".  
+// for the PAR file "parFile".
 ITK_EXPORT std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::string parFile);
 
 // Returns a vector of paired values, the first contains the image type and the second is the scan sequence
-// for that image type for the PAR file "parFile".  
+// for that image type for the PAR file "parFile".
 ITK_EXPORT std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string parFile);
 
-// Stores rescale values in the VectorContainer "rescaleValues" for each image type of the specified scan 
+// Stores rescale values in the VectorContainer "rescaleValues" for each image type of the specified scan
 // sequence number "scan_sequence" (from scanning_sequences) for the PAR file "parFile".
 // Returns false if an error is encountered during reading, otherwise true is returned.
-ITK_EXPORT bool GetRECRescaleValues(std::string parFile, 
-  VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > > *rescaleValues, 
+ITK_EXPORT bool GetRECRescaleValues(std::string parFile,
+  VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > > *rescaleValues,
   int scan_sequence);
 
 // Stores the diffusion gradient values in the VectorContainer "gradientValues" and the diffusion b
 // values in the VectorContainer "bValues" for each gradient direction in the PAR file "parFile".
 // Returns false if an error is encountered during reading, otherwise true is returned.
-ITK_EXPORT bool GetDiffusionGradientOrientationAndBValues(std::string parFile, 
+ITK_EXPORT bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > > *gradientValues,
   VectorContainer< unsigned int, double > *bValues);
 

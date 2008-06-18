@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,13 +25,13 @@
 namespace itk
 {
 /*# === IMAGE INFORMATION DEFINITION =============================================
-# 
+#
 #  \author Don C. Bigler
 #          The Pennsylvania State University 2005
-# 
+#
 #  This implementation was contributed as a paper to the Insight Journal
 #  http://insight-journal.org/midas/handle.php?handle=1926/1381
-# 
+#
 #  The rest of this file contains ONE line per image, this line contains the following information:
 #
 #  slice number                             (integer)
@@ -78,11 +78,11 @@ struct image_info_defV3
   float scale_slope;
   int window_center;
   int window_width;
-  float angAP;            
-    float angFH;            
-    float angRL;            
-    float offAP;            
-    float offFH;            
+  float angAP;
+    float angFH;
+    float angRL;
+    float offAP;
+    float offFH;
     float offRL;
   int display_orientation;
   int slice_orientation;
@@ -94,7 +94,7 @@ struct image_info_defV3
   float dyn_scan_begin_time;
   float trigger_time;
   float diffusion_b_factor;
-  float image_flip_angle;  
+  float image_flip_angle;
 };
 
 /*# === IMAGE INFORMATION DEFINITION =============================================
@@ -159,11 +159,11 @@ struct image_info_defV4
   float scale_slope;
   int window_center;
   int window_width;
-  float angAP;            
-    float angFH;            
-    float angRL;            
-    float offAP;            
-    float offFH;            
+  float angAP;
+    float angFH;
+    float angRL;
+    float offAP;
+    float offFH;
     float offRL;
   float slice_thick;
   float slice_gap;
@@ -178,7 +178,7 @@ struct image_info_defV4
   float trigger_time;
   float diffusion_b_factor;
   int num_averages;
-  float image_flip_angle;  
+  float image_flip_angle;
   int cardiac_freq;
   int min_rr_int;
   int max_rr_int;
@@ -253,11 +253,11 @@ struct image_info_defV41
   float scale_slope;
   int window_center;
   int window_width;
-  float angAP;            
-    float angFH;            
-    float angRL;            
-    float offAP;            
-    float offFH;            
+  float angAP;
+    float angFH;
+    float angRL;
+    float offAP;
+    float offFH;
     float offRL;
   float slice_thick;
   float slice_gap;
@@ -272,7 +272,7 @@ struct image_info_defV41
   float trigger_time;
   float diffusion_b_factor;
   int num_averages;
-  float image_flip_angle;  
+  float image_flip_angle;
   int cardiac_freq;
   int min_rr_int;
   int max_rr_int;
@@ -292,15 +292,15 @@ static std::string GetLineNumber(std::string file, int lineNum)
   std::string line = "";
   int lineCount = 0;
   char readFileBuffer[512] = "";
-  
+
   if( lineNum <= 0 )
   {
     return line;
   }
-  
+
   // Try to read the text file.
     std::ifstream   local_InputStream;
-    local_InputStream.open( file.c_str(), 
+    local_InputStream.open( file.c_str(),
                           std::ios::in );
   if( local_InputStream.fail() )
   {
@@ -342,7 +342,7 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
 {
   struct image_info_defV3 tempInfo;
   std::string currentLine = "";
-  
+
   memset((void*)&tempInfo,0,sizeof(struct image_info_defV3));
   if( lineNum < 89 )
   {
@@ -350,7 +350,7 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
     return tempInfo;
   }
   currentLine = GetLineNumber(file,lineNum);
-  if( (currentLine == "") || 
+  if( (currentLine == "") ||
     (currentLine == "\n") ||
     (currentLine == "\r\n") ||
     (currentLine == "\r") ||
@@ -383,7 +383,7 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
 {
   struct image_info_defV4 tempInfo;
   std::string currentLine = "";
-  
+
   memset((void*)&tempInfo,0,sizeof(struct image_info_defV4));
   if( lineNum < 92 )
   {
@@ -391,7 +391,7 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
     return tempInfo;
   }
   currentLine = GetLineNumber(file,lineNum);
-  if( (currentLine == "") || 
+  if( (currentLine == "") ||
     (currentLine == "\n") ||
     (currentLine == "\r\n") ||
     (currentLine == "\r") ||
@@ -429,7 +429,7 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
 {
   struct image_info_defV41 tempInfo;
   std::string currentLine = "";
-  
+
   memset((void*)&tempInfo,0,sizeof(struct image_info_defV41));
   if( lineNum < 99 )
   {
@@ -437,7 +437,7 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
     return tempInfo;
   }
   currentLine = GetLineNumber(file,lineNum);
-  if( (currentLine == "") || 
+  if( (currentLine == "") ||
     (currentLine == "\n") ||
     (currentLine == "\r\n") ||
     (currentLine == "\r") ||
@@ -476,7 +476,7 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
 
 #define UNDEFINED "Undefined"
 
-// Adapted from r2agui.m 
+// Adapted from r2agui.m
 bool ReadPAR(std::string parFile, struct par_parameter* pPar)
 {
   //read version number of Philips research tools
@@ -486,13 +486,13 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
   std::string temp = "";
   std::string::size_type index = 0;
   std::istringstream inString;
-  
+
   if( pPar == NULL )
   {
     std::cerr << "ReadPAR: pPar == NULL" << std::endl;
     return false;
   }
-  
+
   // Zero out struct.
   memset((void *)pPar,0,sizeof(struct par_parameter));
   // Need to set strings to UNDEFINED to avoid segmentation faults.
@@ -510,7 +510,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
   memset((void *)pPar->image_types,-1,sizeof(pPar->image_types));
   // Set num_slice_repetitions to 1 to avoid divide by zero.
   pPar->num_slice_repetitions = 1;
-  
+
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
   //std::cout << currentLine << std::endl;
@@ -566,38 +566,38 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,18));
       inString >> pPar->scan_duration;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,19)); 
+      inString.str(GetGeneralInfoString(parFile,19));
       inString >> pPar->cardiac_phases;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,20));
       inString >> pPar->echoes;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,21)); 
+      inString.str(GetGeneralInfoString(parFile,21));
       inString >> pPar->slice;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,22)); 
+      inString.str(GetGeneralInfoString(parFile,22));
       inString >> pPar->dyn;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,23));
       inString >> pPar->mixes;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,24)); 
+      inString.str(GetGeneralInfoString(parFile,24));
       inString >> pPar->bit;
       inString.clear();
       strncpy(pPar->technique,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->technique));
       strncpy(pPar->scan_mode,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->scan_mode));
-      inString.str(GetGeneralInfoString(parFile,27)); 
+      inString.str(GetGeneralInfoString(parFile,27));
       inString >> pPar->scan_resolution[0]
            >> pPar->scan_resolution[1];
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,28)); 
+      inString.str(GetGeneralInfoString(parFile,28));
       inString >> pPar->scan_percent;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,29)); 
+      inString.str(GetGeneralInfoString(parFile,29));
       inString >> pPar->dim[0] >> pPar->dim[1];
       pPar->dim[2] = pPar->slice;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,30)); 
+      inString.str(GetGeneralInfoString(parFile,30));
       inString >> pPar->num_averages;
       inString.clear();
       // It appears that the max number of mixes
@@ -625,7 +625,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       pPar->trigger_times[0] = tempInfo.trigger_time;
       pPar->vox[0] = tempInfo.spacingx;
       pPar->vox[1] = tempInfo.spacingy;
-      inString.str(GetGeneralInfoString(parFile,32)); 
+      inString.str(GetGeneralInfoString(parFile,32));
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
@@ -643,69 +643,69 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
       }
-      inString.str(GetGeneralInfoString(parFile,33)); 
+      inString.str(GetGeneralInfoString(parFile,33));
       inString >> pPar->slth;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,34)); 
+      inString.str(GetGeneralInfoString(parFile,34));
       inString >> pPar->gap;
       inString.clear();
       pPar->fov[2] = (pPar->gap + pPar->slth)*pPar->slice;
       pPar->vox[2] = pPar->slth + pPar->gap;
-      inString.str(GetGeneralInfoString(parFile,35)); 
+      inString.str(GetGeneralInfoString(parFile,35));
       inString >> pPar->water_fat_shift;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,36));
-      inString >> pPar->angAP 
-          >> pPar->angFH 
+      inString >> pPar->angAP
+          >> pPar->angFH
           >> pPar->angRL;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,37)); 
-      inString >> pPar->offAP 
-          >> pPar->offFH 
+      inString.str(GetGeneralInfoString(parFile,37));
+      inString >> pPar->offAP
+          >> pPar->offFH
           >> pPar->offRL;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,38)); 
+      inString.str(GetGeneralInfoString(parFile,38));
       inString >> pPar->flow_comp;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,39)); 
+      inString.str(GetGeneralInfoString(parFile,39));
       inString >> pPar->presaturation;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,40)); 
+      inString.str(GetGeneralInfoString(parFile,40));
       inString >> pPar->cardiac_freq;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,41)); 
+      inString.str(GetGeneralInfoString(parFile,41));
       inString >> pPar->min_rr_int;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,42)); 
+      inString.str(GetGeneralInfoString(parFile,42));
       inString >> pPar->max_rr_int;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,43)); 
+      inString.str(GetGeneralInfoString(parFile,43));
       inString >> pPar->phase_encode_vel[0]
           >> pPar->phase_encode_vel[1]
           >> pPar->phase_encode_vel[2];
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,44)); 
+      inString.str(GetGeneralInfoString(parFile,44));
       inString >> pPar->mtc;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,45)); 
+      inString.str(GetGeneralInfoString(parFile,45));
       inString >> pPar->spir;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,46)); 
+      inString.str(GetGeneralInfoString(parFile,46));
       inString >> pPar->epi;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,47)); 
+      inString.str(GetGeneralInfoString(parFile,47));
       inString >> pPar->turbo;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,48)); 
+      inString.str(GetGeneralInfoString(parFile,48));
       inString >> pPar->dynamic_scan;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,49)); 
+      inString.str(GetGeneralInfoString(parFile,49));
       inString >> pPar->diffusion;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,50)); 
+      inString.str(GetGeneralInfoString(parFile,50));
       inString >> pPar->diff_echo;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,51)); 
+      inString.str(GetGeneralInfoString(parFile,51));
       inString >> pPar->inversion_delay;
       inString.clear();
       // OK, need to figure out how many images are stored in the REC file
@@ -1027,7 +1027,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       }
     }
     break;
-    
+
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
     {
       struct image_info_defV4 tempInfo;
@@ -1043,38 +1043,38 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           GetGeneralInfoString(parFile,15).substr(GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
           sizeof(pPar->exam_time));
       strncpy(pPar->series_type,GetGeneralInfoString(parFile,16).c_str(),sizeof(pPar->series_type));
-      inString.str(GetGeneralInfoString(parFile,17)); 
+      inString.str(GetGeneralInfoString(parFile,17));
       inString >> pPar->scno;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,18)); 
+      inString.str(GetGeneralInfoString(parFile,18));
       inString >> pPar->recno;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,19)); 
+      inString.str(GetGeneralInfoString(parFile,19));
       inString >> pPar->scan_duration;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,20)); 
+      inString.str(GetGeneralInfoString(parFile,20));
       inString >> pPar->cardiac_phases;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,21)); 
+      inString.str(GetGeneralInfoString(parFile,21));
       inString >> pPar->echoes;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,22)); 
+      inString.str(GetGeneralInfoString(parFile,22));
       inString >> pPar->slice;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,23)); 
+      inString.str(GetGeneralInfoString(parFile,23));
       inString >> pPar->dyn;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,24)); 
+      inString.str(GetGeneralInfoString(parFile,24));
       inString >> pPar->mixes;
       inString.clear();
       strncpy(pPar->patient_position,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->patient_position));
       strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->prep_direction));
       strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),sizeof(pPar->technique));
-      inString.str(GetGeneralInfoString(parFile,28)); 
+      inString.str(GetGeneralInfoString(parFile,28));
       inString >> pPar->scan_resolution[0]
           >> pPar->scan_resolution[1];
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,29)); 
+      inString.str(GetGeneralInfoString(parFile,29));
       inString >> pPar->scan_mode;
       inString.clear();
       // It appears that the max number of mixes
@@ -1109,7 +1109,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       pPar->vox[0] = tempInfo.spacingx;
       pPar->vox[1] = tempInfo.spacingy;
       pPar->vox[2] = tempInfo.slice_thick + tempInfo.slice_gap;
-      inString.str(GetGeneralInfoString(parFile,31)); 
+      inString.str(GetGeneralInfoString(parFile,31));
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
@@ -1128,46 +1128,46 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         pPar->fov[1] = fovFH;
       }
       pPar->fov[2] = (pPar->gap + pPar->slth)*pPar->slice;
-      inString.str(GetGeneralInfoString(parFile,32)); 
+      inString.str(GetGeneralInfoString(parFile,32));
       inString >> pPar->water_fat_shift;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,33)); 
+      inString.str(GetGeneralInfoString(parFile,33));
       inString >> pPar->angAP
           >> pPar->angFH
           >> pPar->angRL;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,34)); 
+      inString.str(GetGeneralInfoString(parFile,34));
       inString >> pPar->offAP
           >> pPar->offFH
           >> pPar->offRL;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,35)); 
+      inString.str(GetGeneralInfoString(parFile,35));
       inString >> pPar->flow_comp;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,36)); 
+      inString.str(GetGeneralInfoString(parFile,36));
       inString >> pPar->presaturation;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,37)); 
+      inString.str(GetGeneralInfoString(parFile,37));
       inString >> pPar->phase_encode_vel[0]
           >> pPar->phase_encode_vel[1]
           >> pPar->phase_encode_vel[2];
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,38)); 
+      inString.str(GetGeneralInfoString(parFile,38));
       inString >> pPar->mtc;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,39)); 
+      inString.str(GetGeneralInfoString(parFile,39));
       inString >> pPar->spir;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,40)); 
+      inString.str(GetGeneralInfoString(parFile,40));
       inString >> pPar->epi;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,41)); 
+      inString.str(GetGeneralInfoString(parFile,41));
       inString >> pPar->dynamic_scan;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,42));
       inString >> pPar->diffusion;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,43)); 
+      inString.str(GetGeneralInfoString(parFile,43));
       inString >> pPar->diff_echo;
       inString.clear();
       // OK, need to figure out how many images are stored in the REC file
@@ -1433,7 +1433,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             }
             ++pPar->image_blocks;
             // Should be equal after the first iteration, but will only
-            // add additional echoes in latter iterations if they differ 
+            // add additional echoes in latter iterations if they differ
             // from the first.
             if( echoNumber != tempInfo1.echo )
             {
@@ -1494,7 +1494,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       }
     }
     break;
-    
+
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
     {
       struct image_info_defV41 tempInfo;
@@ -1510,38 +1510,38 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
           GetGeneralInfoString(parFile,15).substr(GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
           sizeof(pPar->exam_time));
       strncpy(pPar->series_type,GetGeneralInfoString(parFile,16).c_str(),sizeof(pPar->series_type));
-      inString.str(GetGeneralInfoString(parFile,17)); 
+      inString.str(GetGeneralInfoString(parFile,17));
       inString >> pPar->scno;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,18)); 
+      inString.str(GetGeneralInfoString(parFile,18));
       inString >> pPar->recno;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,19)); 
+      inString.str(GetGeneralInfoString(parFile,19));
       inString >> pPar->scan_duration;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,20)); 
+      inString.str(GetGeneralInfoString(parFile,20));
       inString >> pPar->cardiac_phases;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,21)); 
+      inString.str(GetGeneralInfoString(parFile,21));
       inString >> pPar->echoes;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,22)); 
+      inString.str(GetGeneralInfoString(parFile,22));
       inString >> pPar->slice;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,23)); 
+      inString.str(GetGeneralInfoString(parFile,23));
       inString >> pPar->dyn;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,24)); 
+      inString.str(GetGeneralInfoString(parFile,24));
       inString >> pPar->mixes;
       inString.clear();
       strncpy(pPar->patient_position,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->patient_position));
       strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->prep_direction));
       strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),sizeof(pPar->technique));
-      inString.str(GetGeneralInfoString(parFile,28)); 
+      inString.str(GetGeneralInfoString(parFile,28));
       inString >> pPar->scan_resolution[0]
           >> pPar->scan_resolution[1];
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,29)); 
+      inString.str(GetGeneralInfoString(parFile,29));
       inString >> pPar->scan_mode;
       inString.clear();
       // It appears that the max number of mixes
@@ -1576,7 +1576,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       pPar->vox[0] = tempInfo.spacingx;
       pPar->vox[1] = tempInfo.spacingy;
       pPar->vox[2] = tempInfo.slice_thick + tempInfo.slice_gap;
-      inString.str(GetGeneralInfoString(parFile,31)); 
+      inString.str(GetGeneralInfoString(parFile,31));
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
       if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
@@ -1595,52 +1595,52 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         pPar->fov[1] = fovFH;
       }
       pPar->fov[2] = (pPar->gap + pPar->slth)*pPar->slice;
-      inString.str(GetGeneralInfoString(parFile,32)); 
+      inString.str(GetGeneralInfoString(parFile,32));
       inString >> pPar->water_fat_shift;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,33)); 
+      inString.str(GetGeneralInfoString(parFile,33));
       inString >> pPar->angAP
           >> pPar->angFH
           >> pPar->angRL;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,34)); 
+      inString.str(GetGeneralInfoString(parFile,34));
       inString >> pPar->offAP
           >> pPar->offFH
           >> pPar->offRL;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,35)); 
+      inString.str(GetGeneralInfoString(parFile,35));
       inString >> pPar->flow_comp;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,36)); 
+      inString.str(GetGeneralInfoString(parFile,36));
       inString >> pPar->presaturation;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,37)); 
+      inString.str(GetGeneralInfoString(parFile,37));
       inString >> pPar->phase_encode_vel[0]
           >> pPar->phase_encode_vel[1]
           >> pPar->phase_encode_vel[2];
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,38)); 
+      inString.str(GetGeneralInfoString(parFile,38));
       inString >> pPar->mtc;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,39)); 
+      inString.str(GetGeneralInfoString(parFile,39));
       inString >> pPar->spir;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,40)); 
+      inString.str(GetGeneralInfoString(parFile,40));
       inString >> pPar->epi;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,41)); 
+      inString.str(GetGeneralInfoString(parFile,41));
       inString >> pPar->dynamic_scan;
       inString.clear();
       inString.str(GetGeneralInfoString(parFile,42));
       inString >> pPar->diffusion;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,43)); 
+      inString.str(GetGeneralInfoString(parFile,43));
       inString >> pPar->diff_echo;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,44)); 
+      inString.str(GetGeneralInfoString(parFile,44));
       inString >> pPar->max_num_diff_vals;
       inString.clear();
-      inString.str(GetGeneralInfoString(parFile,45)); 
+      inString.str(GetGeneralInfoString(parFile,45));
       inString >> pPar->max_num_grad_orient;
       inString.clear();
       // OK, need to figure out how many images are stored in the REC file
@@ -1906,7 +1906,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             }
             ++pPar->image_blocks;
             // Should be equal after the first iteration, but will only
-            // add additional echoes in latter iterations if they differ 
+            // add additional echoes in latter iterations if they differ
             // from the first.
             if( echoNumber != tempInfo1.echo )
             {
@@ -1967,7 +1967,7 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       }
     }
     break;
-    
+
     default:
       std::cerr << "ReadPAR: Unkown PAR version" << std::endl;
       return false;
@@ -1999,8 +1999,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
     }
   }
   // OK, I hate hard-coding things in, but I have no joice here.
-  // Dr. Qing Yang developed a multi-echo GESEPI-SENSE technique on 
-  // the Philips 3T that uses some pecularities not normally found in 
+  // Dr. Qing Yang developed a multi-echo GESEPI-SENSE technique on
+  // the Philips 3T that uses some pecularities not normally found in
   // PAR files.  Essentially these multi-echo sequences are used to
   // calculate T2* parameter maps, HOWEVER the echo times for this
   // sequence are not written out to the PAR file, so they must be
@@ -2032,7 +2032,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
   std::string currentLine = "";
   std::string::size_type index = 0;
   int ResToolsVersion = 0;
-  
+
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
   //std::cout << currentLine << std::endl;
@@ -2049,7 +2049,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
       ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4_1;
     }
     else
-    {  
+    {
       index = currentLine.find("V4");
       if( index != std::string::npos )
       {
@@ -2121,7 +2121,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
   std::string currentLine = "";
   std::string::size_type index = 0;
   int ResToolsVersion = 0;
-  
+
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
   //std::cout << currentLine << std::endl;
@@ -2138,7 +2138,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
       ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_V4_1;
     }
     else
-    {  
+    {
       index = currentLine.find("V4");
       if( index != std::string::npos )
       {
@@ -2209,13 +2209,13 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
   std::vector< std::pair< int, int > > recImageTypesScanSequence;
   std::string currentLine = "";
   struct par_parameter parParam;
-  
+
   // Read the PAR file.
   if( !ReadPAR(parFile, &parParam) )
   {
     return recImageTypesScanSequence;
   }
-  
+
   switch ( parParam.ResToolsVersion )
   {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
@@ -2229,7 +2229,7 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
           tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
           while( !tempInfo.problemreading && tempInfo.slice )
           {
-            if( (*(imageType+tempInfo.image_type_mr) < 0) && 
+            if( (*(imageType+tempInfo.image_type_mr) < 0) &&
               (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
             {
               *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
@@ -2260,7 +2260,7 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
           tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
           while( !tempInfo.problemreading && tempInfo.slice )
           {
-            if( (*(imageType+tempInfo.image_type_mr) < 0) && 
+            if( (*(imageType+tempInfo.image_type_mr) < 0) &&
               (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
             {
               *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
@@ -2291,7 +2291,7 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
           tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
           while( !tempInfo.problemreading && tempInfo.slice )
           {
-            if( (*(imageType+tempInfo.image_type_mr) < 0) && 
+            if( (*(imageType+tempInfo.image_type_mr) < 0) &&
               (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
             {
               *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
@@ -2315,8 +2315,8 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
   return recImageTypesScanSequence;
 }
 
-bool GetRECRescaleValues(std::string parFile, 
-  VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > > *rescaleValues, 
+bool GetRECRescaleValues(std::string parFile,
+  VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > > *rescaleValues,
   int scan_sequence)
 {
   std::string currentLine = "";
@@ -2329,7 +2329,7 @@ bool GetRECRescaleValues(std::string parFile,
   {
     (*rescaleValues)[zeroIndex] = zero; // Zero out everything
   }
-  
+
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
   index = currentLine.find("V3");
@@ -2432,7 +2432,7 @@ bool GetRECRescaleValues(std::string parFile,
   return true;
 }
 
-bool GetDiffusionGradientOrientationAndBValues(std::string parFile, 
+bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > > *gradientValues,
   VectorContainer< unsigned int, double > *bValues)
 {
@@ -2442,7 +2442,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   gradientValues->resize(0); // Reset to zero size.
   bValues->resize(0);
   struct par_parameter tempPar;
-  
+
   // Check version of PAR file.
   // Diffusion gradients are only stored in version 4.1 PAR files.
   currentLine = GetLineNumber(parFile,8);
@@ -2463,7 +2463,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
       return true;
     }
     tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
-    while( !tempInfo.problemreading && tempInfo.slice 
+    while( !tempInfo.problemreading && tempInfo.slice
       && (gradientDirectionCount < tempPar.max_num_grad_orient) )
     {
         vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > tempDirection;
