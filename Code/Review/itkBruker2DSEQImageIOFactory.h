@@ -36,10 +36,10 @@ class ITK_EXPORT Bruker2DSEQImageIOFactory : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef Bruker2DSEQImageIOFactory   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Bruker2DSEQImageIOFactory     Self;
+  typedef ObjectFactoryBase             Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
   virtual const char* GetITKSourceVersion(void) const;
@@ -47,20 +47,20 @@ public:
     
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static Bruker2DSEQImageIOFactory* FactoryNew() { return new Bruker2DSEQImageIOFactory;}
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(Bruker2DSEQImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-  {
-    Bruker2DSEQImageIOFactory::Pointer MINC2Factory = Bruker2DSEQImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(MINC2Factory);
-  }
+    {
+    Bruker2DSEQImageIOFactory::Pointer factory = Bruker2DSEQImageIOFactory::New();
+    ObjectFactoryBase::RegisterFactory(factory);
+    }
   
 protected:
   Bruker2DSEQImageIOFactory();
-  ~Bruker2DSEQImageIOFactory();
+  virtual ~Bruker2DSEQImageIOFactory();
 
 private:
   Bruker2DSEQImageIOFactory(const Self&); //purposely not implemented
