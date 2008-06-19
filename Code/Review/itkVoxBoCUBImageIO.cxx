@@ -71,8 +71,9 @@ public:
     // Read the next byte
     unsigned char term = ReadByte();
     if(term == '\r')
+      {
       term = ReadByte();
-
+      }
     // Throw exception if term is not there
     if(term != '\n')
       {
@@ -195,7 +196,9 @@ public:
   ~DirectCUBFileAdaptor()
     {
     if(m_File)
+      {
       fclose(m_File);
+      }
     }
 
   unsigned char ReadByte()
@@ -520,13 +523,21 @@ void VoxBoCUBImageIO::ReadImageInformation()
         iss >> type;
         m_PixelType = SCALAR;
         if(type == m_VB_DATATYPE_BYTE)
+          {
           m_ComponentType = UCHAR;
+          }
         else if(type == m_VB_DATATYPE_INT)
+          {
           m_ComponentType = USHORT;
+          }
         else if(type == m_VB_DATATYPE_FLOAT)
+          {
           m_ComponentType = FLOAT;
+          }
         else if(type == m_VB_DATATYPE_DOUBLE)
+          {
           m_ComponentType = DOUBLE;
+          }
         }
 
       else if(key == m_VB_BYTEORDER)
@@ -534,9 +545,13 @@ void VoxBoCUBImageIO::ReadImageInformation()
         std::string type;
         iss >> type;
         if(type == m_VB_BYTEORDER_MSB)
+          {
           SetByteOrderToBigEndian();
+          }
         else if(type == m_VB_BYTEORDER_LSB)
+          {
           SetByteOrderToLittleEndian();
+          }
         else
           {
           ExceptionObject exception(__FILE__, __LINE__);
@@ -663,7 +678,9 @@ VoxBoCUBImageIO
     InverseOrientationMap::const_iterator it =
       m_InverseOrientationMap.find(oflag);
     if(it != m_InverseOrientationMap.end())
+      {
       header << m_VB_ORIENTATION << ":\t" << it->second << std::endl;
+      }
   }
 
   //Add CUB specific parameters to header from MetaDictionary
@@ -811,35 +828,55 @@ VoxBoCUBImageIO
 ::SwapBytesIfNecessary(void *buffer, unsigned long numberOfBytes)
 {
   if(m_ComponentType == CHAR)
+    {
     VoxBoCUBImageIOSwapHelper<char>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == UCHAR)
+    {
     VoxBoCUBImageIOSwapHelper<unsigned char>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == SHORT)
+    {
     VoxBoCUBImageIOSwapHelper<short>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == USHORT)
+    {
     VoxBoCUBImageIOSwapHelper<unsigned short>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == INT)
+    {
     VoxBoCUBImageIOSwapHelper<int>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == UINT)
+    {
     VoxBoCUBImageIOSwapHelper<unsigned int>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == LONG)
+    {
     VoxBoCUBImageIOSwapHelper<long>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == ULONG)
+    {
     VoxBoCUBImageIOSwapHelper<unsigned long>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == FLOAT)
+    {
     VoxBoCUBImageIOSwapHelper<float>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else if(m_ComponentType == DOUBLE)
+    {
     VoxBoCUBImageIOSwapHelper<double>::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
+    }
   else
     {
     ExceptionObject exception(__FILE__, __LINE__);
