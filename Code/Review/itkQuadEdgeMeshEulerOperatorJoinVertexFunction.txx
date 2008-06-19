@@ -28,7 +28,8 @@ namespace itk
 
 template < class TMesh, class TQEType >
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-QuadEdgeMeshEulerOperatorJoinVertexFunction() : Superclass(), m_OldPointID( 0 )
+QuadEdgeMeshEulerOperatorJoinVertexFunction() : Superclass(),
+  m_OldPointID( 0 ), m_EdgeStatus( 0 )
 {}
 
 //--------------------------------------------------------------------------
@@ -37,95 +38,39 @@ typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::OutputTy
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 Evaluate( QEType* e )
 {
-  if( !e )
-    {
-    itkDebugMacro( "Input is not an edge." );
-    return( (QEType*) 0 );
-    }
+  std::stack< QEType* > edges_to_be_deleted;
+  m_EdgeStatus = CheckStatus( e, edges_to_be_deleted );
 
-  if( !this->m_Mesh )
-    {
-    itkDebugMacro( "No mesh present." );
-    return( (QEType*) 0 );
-    }
-
+  switch( m_EdgeStatus )
+  {
+    default:
+    case 0:
+      return Process( e );
+    case 1: // e == 0
+    case 2: // m_Mesh == 0
+    case 3: // e->IsIsolated() && e_sym->IsIsolated()
+    case 4: // more than 2 common vertices in 0-ring of org and dest respectively
+    case 5: // Tetraedron case
+      return( (QEType*) 0 );
+    case 6: // Isolated edge
+      return ProcessIsolatedQuadEdge( e );
+    case 7: // Isolated face
+      return ProcessIsolatedFace( e, edges_to_be_deleted );
+    case 8: // Samosa case
+    case 9: // Eye case
+      return( (QEType*) 0 );
+  }
+}
+//--------------------------------------------------------------------------
+template< class TMesh, class TQEType >
+TQEType*
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+Process( QEType* e )
+{
   QEType* e_sym = e->GetSym();
 
-  bool IsEdgeIsolated = e->IsIsolated( );
-  bool IsSymEdgeIsolated = e_sym->IsIsolated( );
-
-  if( IsEdgeIsolated && IsSymEdgeIsolated )
-    {
-    // We could shrink the edge to a point,
-    // But we consider this case to be degenerated.
-    itkDebugMacro( "Argument edge isolated." );
-    return( (QEType*) 0 );
-    }
-
-  size_t number_common_vertices = CommonVertexNeighboor( e );
-  if( number_common_vertices > 2 )
-    {
-    itkDebugMacro( "The 2 vertices have more than 2 common neighboor vertices.");
-    return( (QEType*) 0 );
-    }
-  if( number_common_vertices == 2 )
-  {
-    if( IsTetraedron( e ) )
-      {
-      itkDebugMacro( "It forms a tetraedron." );
-      return( (QEType*) 0 );
-      }
-  }
-   
-  // First case: pathological
-  if( IsEdgeIsolated || IsSymEdgeIsolated )
-    {
-    // One the endpoints (and only one) of the incoming edge is isolated.
-    // Instead of "shrinking" the edge it suffice to delete it. Note that
-    // this also avoids trouble since the definition of leftZip or riteZip
-    // would be improper in this case (in fact leftZip or riteZip would
-    // in fact be e or e->GetSym( )...
-    //
-    // When e is adjacent to a face, we must retrieve the edge [ a, b ]
-    // in order to rebuild the face after edge deletion. If the left face
-    // of e is set then the right face is also set... since it is the same
-    // face ! Here is the situation:
-    //
-    //        b----a----X
-    //        |    |    |
-    //        |    e    |
-    //        |    |    |
-    //        |         |
-    //        X----X----X
-    //
-    // We are not yet sure of the orientation of e and which endpoint 
-    // of e is attached in a. Find it out:
-    QEType* rebuildEdge;
-    if( e->IsIsolated( ) )
-      {
-      rebuildEdge = e_sym->GetOprev( );
-      this->m_OldPointID = e->GetOrigin( );
-      }
-    else
-      {
-      rebuildEdge = e->GetOprev( );
-      this->m_OldPointID = e_sym->GetOrigin( );
-      }
-      
-    bool e_leftset = e->IsLeftSet( );
-    this->m_Mesh->LightWeightDeleteEdge( e );
-    if( e_leftset )
-      {
-      this->m_Mesh->AddFace( rebuildEdge );
-      }
-      
-    // this case has no symetric case in SPlitVertex
-    // i.e. it is impossible to reconstruct such a pathological
-    // case using SplitVertex. Thus the return value is
-    // of less interest.
-    // We return an edge whose dest is a, whichever.
-    return( rebuildEdge );
-    }
+//   bool IsEdgeIsolated = e->IsIsolated( );
+//   bool IsSymEdgeIsolated = e_sym->IsIsolated( );
 
   // General case
   bool wasLeftFace     = e->IsLeftSet( );
@@ -137,34 +82,6 @@ Evaluate( QEType* e )
   PointIdentifier NewOrg  = e->GetOrigin( );
   QEType* leftZip = e->GetLnext( );
   QEType* riteZip = e->GetOprev( );
-
-  // case where the edge belongs to an isolated polygon
-  // Is edge at the border
-  if( ( wasLeftFace && !wasRiteFace ) || ( !wasLeftFace && wasRiteFace ) )
-    {
-    std::stack< QEType* > edges_to_be_deleted;
-
-    if( IsFaceIsolated( e, wasLeftFace, edges_to_be_deleted) )
-      {
-      // delete all elements
-      while( !edges_to_be_deleted.empty() )
-        {
-        this->m_Mesh->LightWeightDeleteEdge( edges_to_be_deleted.top() );
-        edges_to_be_deleted.pop();
-        }
-      // it now retuns one edge from NewDest or NewOrg if there are any
-      // else NULL
-      QEType* temp = this->m_Mesh->FindEdge( NewDest );
-      if( temp != 0 )
-        {
-        return temp;
-        }
-      else
-        {
-        return this->m_Mesh->FindEdge( NewOrg );
-        }
-      }
-    }
 
 
   //
@@ -258,7 +175,58 @@ Evaluate( QEType* e )
     result = this->m_Mesh->FindEdge( NewDest )->GetSym( );
     } 
   return( result );
+}
 
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+TQEType*
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+ProcessIsolatedQuadEdge( QEType* e )
+{
+  QEType* temp = ( e->IsIsolated() == true ) ? e->GetSym() : e;
+  QEType* rebuildEdge = temp->GetOprev();
+  m_OldPointID = temp->GetSym()->GetOrigin();
+
+  bool e_leftset = e->IsLeftSet( );
+  this->m_Mesh->LightWeightDeleteEdge( e );
+  if( e_leftset )
+    {
+    this->m_Mesh->AddFace( rebuildEdge );
+    }
+      
+  // this case has no symetric case in SPlitVertex
+  // i.e. it is impossible to reconstruct such a pathological
+  // case using SplitVertex. Thus the return value is
+  // of less interest.
+  // We return an edge whose dest is a, whichever.
+  return( rebuildEdge );
+}
+//--------------------------------------------------------------------------
+template< class TMesh, class TQEType >
+TQEType*
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+ProcessIsolatedFace( QEType* e, std::stack< QEType* > EdgesToBeDeleted )
+{
+  PointIdentifier org = e->GetOrigin();
+  PointIdentifier dest = e->GetDestination();
+
+  // delete all elements
+  while( !EdgesToBeDeleted.empty() )
+    {
+    this->m_Mesh->LightWeightDeleteEdge( EdgesToBeDeleted.top() );
+    EdgesToBeDeleted.pop();
+    }
+  // it now retuns one edge from NewDest or NewOrg if there are any
+  // else NULL
+  QEType* temp = this->m_Mesh->FindEdge( dest );
+  if( temp != 0 )
+    {
+    return temp;
+    }
+  else
+    {
+    return this->m_Mesh->FindEdge( org );
+    }
 }
 
 //--------------------------------------------------------------------------
@@ -289,6 +257,106 @@ IsFaceIsolated( QEType* e,
     } while( ( e_it != temp ) && border );
 
   return border;
+}
+//--------------------------------------------------------------------------
+template< class TMesh, class TQEType >
+unsigned int
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
+{
+  if( !e )
+    {
+    itkDebugMacro( "Input is not an edge." );
+    return 1;
+    }
+
+  if( !this->m_Mesh )
+    {
+    itkDebugMacro( "No mesh present." );
+    return 2;
+    }
+
+  QEType* e_sym = e->GetSym();
+
+  bool IsEdgeIsolated = e->IsIsolated( );
+  bool IsSymEdgeIsolated = e_sym->IsIsolated( );
+
+  if( IsEdgeIsolated && IsSymEdgeIsolated )
+    {
+    // We could shrink the edge to a point,
+    // But we consider this case to be degenerated.
+    itkDebugMacro( "Argument edge isolated." );
+    return 3;
+    }
+
+  size_t number_common_vertices = CommonVertexNeighboor( e );
+  if( number_common_vertices > 2 )
+    {
+    itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
+    return 4;
+    }
+
+  if( number_common_vertices == 2 )
+    {
+    if( IsTetraedron( e ) )
+      {
+      itkDebugMacro( "It forms a tetraedron." );
+      return 5;
+      }
+    }
+
+  if( IsEdgeIsolated || IsSymEdgeIsolated )
+    {
+    // One the endpoints (and only one) of the incoming edge is isolated.
+    // Instead of "shrinking" the edge it suffice to delete it. Note that
+    // this also avoids trouble since the definition of leftZip or riteZip
+    // would be improper in this case (in fact leftZip or riteZip would
+    // in fact be e or e->GetSym( )...
+    //
+    // When e is adjacent to a face, we must retrieve the edge [ a, b ]
+    // in order to rebuild the face after edge deletion. If the left face
+    // of e is set then the right face is also set... since it is the same
+    // face ! Here is the situation:
+    //
+    //        b----a----X
+    //        |    |    |
+    //        |    e    |
+    //        |    |    |
+    //        |         |
+    //        X----X----X
+    //
+    // We are not yet sure of the orientation of e and which endpoint
+    // of e is attached in a.
+    return 6;
+    }
+
+  // General case
+  bool wasLeftFace     = e->IsLeftSet( );
+  bool wasRiteFace     = e->IsRightSet( );
+//   bool wasLeftTriangle = e->IsLnextOfTriangle( );
+//   bool wasRiteTriangle = e_sym->IsLnextOfTriangle( );
+
+  // case where the edge belongs to an isolated polygon
+  // Is edge at the border
+  if( ( wasLeftFace && !wasRiteFace ) || ( !wasLeftFace && wasRiteFace ) )
+    {
+    if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
+      {
+      return 7;
+      }
+    }
+
+  if( IsSamosa( e ) )
+    {
+    return 8;
+    }
+  if( IsEye( e ) )
+    {
+    return 9;
+    }
+
+
+  return 0;
 }
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
@@ -357,6 +425,26 @@ IsTetraedron( QEType* e )
     }
 
   return false;
+}
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+IsSamosa( QEType* e )
+{
+  return ( ( e->GetOrder() == 2 ) &&  ( e->GetSym()->GetOrder() == 2 ) );
+}
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+IsEye( QEType* e )
+{
+  bool OriginOrderIsTwo = ( e->GetOrder( ) == 2 );
+  bool DestinationOrderIsTwo = ( e->GetSym()->GetOrder( ) == 2 );
+
+  return ( ( OriginOrderIsTwo && !DestinationOrderIsTwo ) ||
+           ( !OriginOrderIsTwo && DestinationOrderIsTwo ) );
 }
 
 //--------------------------------------------------------------------------

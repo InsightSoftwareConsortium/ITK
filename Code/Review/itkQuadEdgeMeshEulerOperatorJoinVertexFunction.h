@@ -79,16 +79,15 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( QEType* h );
 
-  PointIdentifier GetOldPointID( )
-    {
-    return( this->m_OldPointID );
-    }
-  
+  itkGetMacro( OldPointID, PointIdentifier );
+  itkGetMacro( EdgeStatus, unsigned int );
+
 protected:
   QuadEdgeMeshEulerOperatorJoinVertexFunction();
   ~QuadEdgeMeshEulerOperatorJoinVertexFunction() {}
 
   PointIdentifier m_OldPointID;
+  unsigned int m_EdgeStatus;
 
   /**
   * \brief 
@@ -116,7 +115,17 @@ protected:
   */
   bool IsFaceIsolated( QEType* e, const bool& iWasLeftFace,
     std::stack< TQEType* >& oToBeDeleted );
-  
+
+  bool IsSamosa( QEType* e );
+  bool IsEye( QEType* e );
+
+  unsigned int CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted );
+
+  QEType* Process( QEType* e );
+  QEType* ProcessIsolatedQuadEdge( QEType* e );
+  QEType* ProcessIsolatedFace( QEType* e,
+    std::stack< QEType* > EdgesToBeDeleted );
+
 private:
   QuadEdgeMeshEulerOperatorJoinVertexFunction(const Self& ); //purposely not implemented
   void operator=(const Self& );        //purposely not implemented
