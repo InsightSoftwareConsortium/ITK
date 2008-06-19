@@ -672,7 +672,7 @@ VoxBoCUBImageIO
 
   // Write the orientation code
   MetaDataDictionary &dic = GetMetaDataDictionary();
-  OrientationFlags oflag;
+  OrientationFlags oflag = SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
   if(ExposeMetaData<OrientationFlags>(dic, ITK_CoordinateOrientation, oflag))
     {
     InverseOrientationMap::const_iterator it =
