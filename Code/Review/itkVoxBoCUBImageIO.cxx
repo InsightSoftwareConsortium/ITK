@@ -19,6 +19,7 @@
 #include "itkExceptionObject.h"
 #include "itkMetaDataObject.h"
 #include "itkByteSwapper.h"
+#include <itksys/SystemTools.hxx>
 #include <iostream>
 #include <list>
 #include <string>
@@ -59,7 +60,7 @@ public:
   std::string ReadHeader()
     {
     // Read everything up to the \f symbol
-    std::ostringstream oss;
+    itksys_ios::ostringstream oss;
     unsigned char byte = ReadByte();
     while(byte != '\f')
       {
@@ -117,7 +118,7 @@ public:
     int byte = ::gzgetc(m_GzFile);
     if(byte < 0)
       {
-      std::ostringstream oss;
+      itksys_ios::ostringstream oss;
       oss << "Error reading byte from file at position: " << ::gztell(m_GzFile);
       ExceptionObject exception;
       exception.SetDescription(oss.str().c_str());
@@ -138,7 +139,7 @@ public:
     size_t bread = ::gzread(m_GzFile, data, bytes);
     if( bread != bytes )
       {
-      std::ostringstream oss;
+      itksys_ios::ostringstream oss;
       oss << "File size does not match header: "
         << bytes << " bytes requested but only "
         << bread << " bytes available!" << std::endl
@@ -202,7 +203,7 @@ public:
     int byte = fgetc(m_File);
     if(byte == EOF)
       {
-      std::ostringstream oss;
+      itksys_ios::ostringstream oss;
       oss << "Error reading byte from file at position: " << ::ftell(m_File);
       ExceptionObject exception;
       exception.SetDescription(oss.str().c_str());
@@ -223,7 +224,7 @@ public:
     size_t bread = fread(data, 1, bytes, m_File);
     if( bread != bytes )
       {
-      std::ostringstream oss;
+      itksys_ios::ostringstream oss;
       oss << "File size does not match header: "
         << bytes << " bytes requested but only "
         << bread << " bytes available!" << std::endl
@@ -563,7 +564,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
         {
         // Encode the right hand side of the string in the meta-data dic
         std::string word;
-        std::ostringstream oss;
+        itksys_ios::ostringstream oss;
         while(iss >> word)
           {
           if(oss.str().size())
@@ -599,7 +600,7 @@ VoxBoCUBImageIO
     }
 
   // Put together a header
-  std::ostringstream header;
+  itksys_ios::ostringstream header;
 
   // Write the identifiers
   header << m_VB_IDENTIFIER_SYSTEM << std::endl;
@@ -642,9 +643,9 @@ VoxBoCUBImageIO
 
   // Write the origin (have to convert to bytes)
 
-double x= -m_Origin[0] / m_Spacing[0];
-double y= -m_Origin[1] / m_Spacing[1];
-double z= -m_Origin[2] / m_Spacing[2];
+  double x= -m_Origin[0] / m_Spacing[0];
+  double y= -m_Origin[1] / m_Spacing[1];
+  double z= -m_Origin[2] / m_Spacing[2];
   header << m_VB_ORIGIN << ":\t"
     << ((x>=0)?(int) (x+.5):(int) (x-.5)) << "\t"
     << ((y>=0)?(int) (y+.5):(int) (y-.5)) << "\t"
@@ -673,21 +674,22 @@ double z= -m_Origin[2] / m_Spacing[2];
     {
     if (strcmp(keys[i].c_str(),ITK_CoordinateOrientation))
       {
-      ExposeMetaData<std::string>(dic, keys[i], word);
-      if (!strcmp(keys[i].c_str(),"resample_date"))
+      // The following local, key, was required to avoid Borland compiler errors
+      std::string key = keys[i];
+      ExposeMetaData<std::string>(dic, key, word);
+      if (!strcmp(key.c_str(),"resample_date"))
         {
         time_t rawtime;
         time(&rawtime);
         word=ctime(&rawtime);
-        header<<keys[i]<<":\t"<<word;
+        header<<key<<":\t"<<word;
         }
       else
         {
-        header<<keys[i]<<":\t"<<word<<std::endl;
+        header<<key<<":\t"<<word<<std::endl;
         }
       }
     }
-
   // Write the terminating characters
   header << "\f\n";
 
