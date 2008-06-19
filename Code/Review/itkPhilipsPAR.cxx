@@ -322,7 +322,7 @@ static std::string GetLineNumber(std::string file, int lineNum)
 static std::string GetGeneralInfoString(std::string file, int lineNum)
 {
   std::string currentLine = "";
-  std::string::size_type index = 0;
+  std::string::size_type index;
   std::string outString = "";
   if( (lineNum < 12) && (lineNum > 51) )
     {
@@ -351,10 +351,10 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
     }
   currentLine = GetLineNumber(file,lineNum);
   if( (currentLine == "") ||
-    (currentLine == "\n") ||
-    (currentLine == "\r\n") ||
-    (currentLine == "\r") ||
-    (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "\n") ||
+      (currentLine == "\r\n") ||
+      (currentLine == "\r") ||
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
       (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
     {
     tempInfo.problemreading = 1;
@@ -392,10 +392,10 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
     }
   currentLine = GetLineNumber(file,lineNum);
   if( (currentLine == "") ||
-    (currentLine == "\n") ||
-    (currentLine == "\r\n") ||
-    (currentLine == "\r") ||
-    (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "\n") ||
+      (currentLine == "\r\n") ||
+      (currentLine == "\r") ||
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
       (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
     {
     tempInfo.problemreading = 1;
@@ -438,10 +438,10 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
     }
   currentLine = GetLineNumber(file,lineNum);
   if( (currentLine == "") ||
-    (currentLine == "\n") ||
-    (currentLine == "\r\n") ||
-    (currentLine == "\r") ||
-    (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "\n") ||
+      (currentLine == "\r\n") ||
+      (currentLine == "\r") ||
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
       (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
     {
     tempInfo.problemreading = 1;
@@ -2039,8 +2039,8 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
 {
   std::vector< std::pair< int, int > > recSliceIndexImageTypes;
   std::string currentLine = "";
-  std::string::size_type index = 0;
-  int ResToolsVersion = 0;
+  std::string::size_type index;
+  int ResToolsVersion;
 
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
@@ -2129,8 +2129,8 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
 {
   std::vector< std::pair< int, int > > recSliceIndexScanSequence;
   std::string currentLine = "";
-  std::string::size_type index = 0;
-  int ResToolsVersion = 0;
+  std::string::size_type index;
+  int ResToolsVersion;
 
   // Check version of PAR file.
   currentLine = GetLineNumber(parFile,8);
@@ -2331,8 +2331,8 @@ bool GetRECRescaleValues(std::string parFile,
   int scan_sequence)
 {
   std::string currentLine = "";
-  std::string::size_type index = 0;
-  int ResToolsVersion = 0;
+  std::string::size_type index;
+  int ResToolsVersion;
   rescaleValues->clear();
   rescaleValues->resize(PAR_DEFAULT_IMAGE_TYPES_SIZE); // Must match size of image_types
   vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > zero(0.0);
@@ -2449,7 +2449,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   VectorContainer< unsigned int, double > *bValues)
 {
   std::string currentLine = "";
-  std::string::size_type index = 0;
+  std::string::size_type index;
   int gradientDirectionCount = 0;
   gradientValues->resize(0); // Reset to zero size.
   bValues->resize(0);

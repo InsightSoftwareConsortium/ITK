@@ -106,45 +106,45 @@ Bruker2DSEQImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPi
     switch(this->m_ComponentType)
       {
       case CHAR:
-        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char*)buffer,
-                                 numberOfPixels );
-      break;
+        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian
+          ((char*)buffer, numberOfPixels );
+        break;
       case UCHAR:
         ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian
-            ((unsigned char*)buffer, numberOfPixels );
-      break;
+          ((unsigned char*)buffer, numberOfPixels );
+        break;
       case SHORT:
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian
-            ((short*)buffer, numberOfPixels );
-      break;
+          ((short*)buffer, numberOfPixels );
+        break;
       case USHORT:
         ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian
-            ((unsigned short*)buffer, numberOfPixels );
-      break;
+          ((unsigned short*)buffer, numberOfPixels );
+        break;
       case INT:
         ByteSwapper<int>::SwapRangeFromSystemToLittleEndian
-            ((int*)buffer, numberOfPixels );
-      break;
+          ((int*)buffer, numberOfPixels );
+        break;
       case UINT:
         ByteSwapper<unsigned int>::SwapRangeFromSystemToLittleEndian
-            ((unsigned int*)buffer, numberOfPixels );
-      break;
+          ((unsigned int*)buffer, numberOfPixels );
+        break;
       case LONG:
         ByteSwapper<long>::SwapRangeFromSystemToLittleEndian
-            ((long*)buffer, numberOfPixels );
-      break;
+          ((long*)buffer, numberOfPixels );
+        break;
       case ULONG:
         ByteSwapper<unsigned long>::SwapRangeFromSystemToLittleEndian
-            ((unsigned long*)buffer, numberOfPixels );
-      break;
+          ((unsigned long*)buffer, numberOfPixels );
+        break;
       case FLOAT:
-        ByteSwapper<float>::SwapRangeFromSystemToLittleEndian((float*)buffer,
-                                  numberOfPixels );
-      break;
+        ByteSwapper<float>::SwapRangeFromSystemToLittleEndian
+          ((float*)buffer, numberOfPixels );
+        break;
       case DOUBLE:
         ByteSwapper<double>::SwapRangeFromSystemToLittleEndian
-            ((double*)buffer, numberOfPixels );
-      break;
+          ((double*)buffer, numberOfPixels );
+        break;
       default:
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
@@ -156,45 +156,45 @@ Bruker2DSEQImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPi
     switch(this->m_ComponentType)
       {
       case CHAR:
-        ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer,
-                                numberOfPixels );
-      break;
+        ByteSwapper<char>::SwapRangeFromSystemToBigEndian
+          ((char *)buffer, numberOfPixels );
+        break;
       case UCHAR:
         ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian
-            ((unsigned char *)buffer, numberOfPixels );
-      break;
+          ((unsigned char *)buffer, numberOfPixels );
+        break;
       case SHORT:
         ByteSwapper<short>::SwapRangeFromSystemToBigEndian
-            ((short *)buffer, numberOfPixels );
-      break;
+          ((short *)buffer, numberOfPixels );
+        break;
       case USHORT:
         ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian
-            ((unsigned short *)buffer, numberOfPixels );
-      break;
+          ((unsigned short *)buffer, numberOfPixels );
+        break;
       case INT:
         ByteSwapper<int>::SwapRangeFromSystemToBigEndian
-            ((int *)buffer, numberOfPixels );
-      break;
+          ((int *)buffer, numberOfPixels );
+        break;
       case UINT:
         ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian
-            ((unsigned int *)buffer, numberOfPixels );
-      break;
+          ((unsigned int *)buffer, numberOfPixels );
+        break;
       case LONG:
         ByteSwapper<long>::SwapRangeFromSystemToBigEndian
-            ((long *)buffer, numberOfPixels );
-      break;
+          ((long *)buffer, numberOfPixels );
+        break;
       case ULONG:
         ByteSwapper<unsigned long>::SwapRangeFromSystemToBigEndian
-            ((unsigned long *)buffer, numberOfPixels );
-      break;
+          ((unsigned long *)buffer, numberOfPixels );
+        break;
       case FLOAT:
         ByteSwapper<float>::SwapRangeFromSystemToBigEndian
-            ((float *)buffer, numberOfPixels );
-      break;
+          ((float *)buffer, numberOfPixels );
+        break;
       case DOUBLE:
         ByteSwapper<double>::SwapRangeFromSystemToBigEndian
-            ((double *)buffer, numberOfPixels );
-      break;
+          ((double *)buffer, numberOfPixels );
+        break;
       default:
         ExceptionObject exception(__FILE__, __LINE__);
         exception.SetDescription("Pixel Type Unknown");
@@ -210,6 +210,7 @@ Bruker2DSEQImageIO::Bruker2DSEQImageIO()
   this->m_PixelType         = SCALAR;
   this->m_ComponentType     = CHAR;
   this->SetNumberOfComponents(1);
+
   // Set m_MachineByteOrder to the ByteOrder of the machine
   // Start out with file byte order == system byte order
   // this will be changed if we're reading a file to whatever
@@ -249,8 +250,8 @@ void Bruker2DSEQImageIO::Read(void* buffer)
 
   /* Get the 2dseq filename*/
   std::ifstream   twodseq_InputStream;
-    twodseq_InputStream.open( this->m_FileName.c_str(),
-                          std::ios::in | std::ios::binary );
+  twodseq_InputStream.open( this->m_FileName.c_str(),
+                            std::ios::in | std::ios::binary );
   if( twodseq_InputStream.fail() )
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -298,15 +299,15 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
   fileacqp = itksys::SystemTools::ConvertToOutputPath(fileacqp.c_str());
   std::string readFileBufferString = "";
   char readFileBuffer[512] = "";
-  std::string::size_type index = 0;
+  std::string::size_type index;
   unsigned long length2DSEQ = 0;
   unsigned long calcLength = 1;
 
-    // Does the '2dseq' file exist?
-    if( !itksys::SystemTools::FileExists(file2Dseq.c_str()) )
-      {
-      return false;
-      }
+  // Does the '2dseq' file exist?
+  if( !itksys::SystemTools::FileExists(file2Dseq.c_str()) )
+    {
+    return false;
+    }
 
   // get length of file in bytes:
   length2DSEQ = itksys::SystemTools::FileLength(file2Dseq.c_str());
@@ -315,7 +316,7 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
   // Check reco for existance.
   std::ifstream   reco_InputStream;
   reco_InputStream.open( filereco.c_str(),
-              std::ios::in );
+                         std::ios::in );
   if( reco_InputStream.fail() )
     {
     return false;
@@ -372,7 +373,7 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
   // Check d3proc for existance.
   std::ifstream   d3proc_InputStream;
   d3proc_InputStream.open( filed3proc.c_str(),
-              std::ios::in );
+                           std::ios::in );
   if( d3proc_InputStream.fail() )
     {
     return false;
@@ -408,7 +409,7 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
     //  {
     //      std::cerr << "FIX ME: Unknown DATTYPE = " << dattypeString << std::endl;
     //  }
-      //std::cout << "calcLength = " << calcLength << std::endl;
+    //std::cout << "calcLength = " << calcLength << std::endl;
     //}
 
     // Get the x size.
@@ -475,7 +476,7 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
     return false;
     }
 
-    return true;
+  return true;
 }
 
 void Bruker2DSEQImageIO::ReadImageInformation()
@@ -505,7 +506,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   fileacqp = itksys::SystemTools::ConvertToOutputPath(fileacqp.c_str());
   std::string readFileBufferString = "";
   char readFileBuffer[512] = "";
-  std::string::size_type index = 0;
+  std::string::size_type index;
   std::string::size_type tempIndex = 0;
   std::vector<double> imageFOV(3);
   std::vector<unsigned int> imageDim(3);
@@ -530,13 +531,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   int transpose = 0;
 
   // Get the meta dictionary for this object.
-  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
-    itk::EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
+  EncapsulateMetaData<std::string>(thisDic,ITK_InputFilterName, classname);
 
   std::ifstream   d3proc_InputStream;
   d3proc_InputStream.open( filed3proc.c_str(),
-              std::ios::in );
+                           std::ios::in );
   if( d3proc_InputStream.fail() )
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -637,7 +638,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   std::ifstream   reco_InputStream;
   reco_InputStream.open(filereco.c_str(),
-             std::ios::in );
+                        std::ios::in );
   if( reco_InputStream.fail())
     {
     ExceptionObject exception(__FILE__, __LINE__);
@@ -684,7 +685,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           throw exception;
           }
         }
-      itk::EncapsulateMetaData<RECOFOVContainerType::Pointer>(thisDic,RECO_FOV,tempRecoFOV);
+      EncapsulateMetaData<RECOFOVContainerType::Pointer>(thisDic,RECO_FOV,tempRecoFOV);
       }
 
     // Get reco size.
@@ -705,7 +706,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           throw exception;
           }
         }
-      itk::EncapsulateMetaData<unsigned int>(thisDic,RECO_SIZE,tempRecoSize);
+      EncapsulateMetaData<unsigned int>(thisDic,RECO_SIZE,tempRecoSize);
       }
 
     // Get data type
@@ -718,7 +719,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         {
         this->m_ComponentType = CHAR;
         this->m_PixelType = SCALAR;
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_CHAR,13));
+        EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_CHAR,13));
         }
       else
         {
@@ -727,7 +728,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           this->m_ComponentType = UCHAR;
           this->m_PixelType = SCALAR;
-          itk::EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_UNSIGNED_CHAR,15));
+          EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_UNSIGNED_CHAR,15));
           }
         else
           {
@@ -736,7 +737,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
             {
             this->m_ComponentType = SHORT;
             this->m_PixelType = SCALAR;
-            itk::EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_SHORT,14));
+            EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_SHORT,14));
             }
           else
             {
@@ -745,7 +746,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
               {
               this->m_ComponentType = INT;
               this->m_PixelType = SCALAR;
-              itk::EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_INT,14));
+              EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_INT,14));
               }
             else
               {
@@ -754,7 +755,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
                 {
                 this->m_ComponentType = FLOAT;
                 this->m_PixelType = SCALAR;
-                itk::EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_FLOAT,12));
+                EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_FLOAT,12));
                 }
               else
                 {
@@ -795,7 +796,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           reco_InputStream >> recoTransposition[i];
           tempRecoTransposition->SetElement(i,recoTransposition[i]);
           }
-        itk::EncapsulateMetaData<RECOTranspositionContainerType::Pointer>(thisDic,RECO_TRANSPOSITION,tempRecoTransposition);
+        EncapsulateMetaData<RECOTranspositionContainerType::Pointer>(thisDic,RECO_TRANSPOSITION,tempRecoTransposition);
         }
       }
 
@@ -808,27 +809,27 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       recoType = readFileBufferString.substr(index+tempString.length());
       if( recoType.find(MAGNITUDE_IMAGE) != std::string::npos )
         {
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(MAGNITUDE_IMAGE,15));
+        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(MAGNITUDE_IMAGE,15));
         }
       else if( recoType.find(REAL_IMAGE) != std::string::npos )
         {
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(REAL_IMAGE,10));
+        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(REAL_IMAGE,10));
         }
       else if( recoType.find(IMAGINARY_IMAGE) != std::string::npos )
         {
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(IMAGINARY_IMAGE,15));
+        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(IMAGINARY_IMAGE,15));
         }
       else if( recoType.find(COMPLEX_IMAGE) != std::string::npos )
         {
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(COMPLEX_IMAGE,15));
+        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(COMPLEX_IMAGE,15));
         }
       else if( recoType.find(PHASE_IMAGE) != std::string::npos )
         {
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(PHASE_IMAGE,11));
+        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(PHASE_IMAGE,11));
         }
       else if( recoType.find(IR_IMAGE) != std::string::npos )
         {
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(IR_IMAGE,8));
+        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(IR_IMAGE,8));
         }
       else
         {
@@ -848,7 +849,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         {
         this->m_ByteOrder = LittleEndian;
         byteOrder = true;
-        itk::EncapsulateMetaData<std::string>(thisDic,RECO_BYTE_ORDER,std::string(BRUKER_LITTLE_ENDIAN,12));
+        EncapsulateMetaData<std::string>(thisDic,RECO_BYTE_ORDER,std::string(BRUKER_LITTLE_ENDIAN,12));
         }
       else
         {
@@ -857,7 +858,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           this->m_ByteOrder = BigEndian;
           byteOrder = true;
-          itk::EncapsulateMetaData<std::string>(thisDic,RECO_BYTE_ORDER,std::string(BRUKER_BIG_ENDIAN,9));
+          EncapsulateMetaData<std::string>(thisDic,RECO_BYTE_ORDER,std::string(BRUKER_BIG_ENDIAN,9));
           }
         else
           {
@@ -894,7 +895,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   std::ifstream   acqp_InputStream;
   std::string   acqpFileString = "";
   acqp_InputStream.open(fileacqp.c_str(),
-               std::ios::in );
+                        std::ios::in );
   //std::cout << fileacqp.c_str() << std::endl;
   if( acqp_InputStream.fail() )
     {
@@ -926,7 +927,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         }
       acqDimString >> acq_dim;
       //std::cout << "acq_dim = " << acq_dim << std::endl;
-      itk::EncapsulateMetaData<int>(thisDic,ACQ_DIM,acq_dim);
+      EncapsulateMetaData<int>(thisDic,ACQ_DIM,acq_dim);
       }
 
     // Get the number of objects produced by a single repetition.
@@ -945,7 +946,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         }
       niString >> ni;
       //std::cout << "ni = " << ni << std::endl;
-      itk::EncapsulateMetaData<int>(thisDic,NI,ni);
+      EncapsulateMetaData<int>(thisDic,NI,ni);
       }
 
     // Get the number of repetitions of this experiment.
@@ -963,7 +964,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         }
       nrString >> nr;
       //std::cout << "nr = " << nr << std::endl;
-      itk::EncapsulateMetaData<int>(thisDic,NR,nr);
+      EncapsulateMetaData<int>(thisDic,NR,nr);
       }
 
     // Get number of echo images.
@@ -981,7 +982,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         }
       dimString >> numEchoImages;
       //std::cout << "numEchoImages = " << numEchoImages << std::endl;
-      itk::EncapsulateMetaData<unsigned int>(thisDic,NECHOES,numEchoImages);
+      EncapsulateMetaData<unsigned int>(thisDic,NECHOES,numEchoImages);
       }
 
     //Get the slice thickness
@@ -1000,7 +1001,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       sliceThickString >> sliceThick;
       //std::cout << "sliceThick = " << sliceThick << std::endl;
       sliceThickness = true;
-      itk::EncapsulateMetaData<double>(thisDic,ACQ_SLICE_THICK,sliceThick);
+      EncapsulateMetaData<double>(thisDic,ACQ_SLICE_THICK,sliceThick);
       }
 
     // Get the slice seperation.
@@ -1028,7 +1029,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           acqp_InputStream >> imageSliceSeperation[i];
           sliceSepn->SetElement(i,imageSliceSeperation[i]);
           }
-        itk::EncapsulateMetaData<ACQSliceSepnContainerType::Pointer>(thisDic,ACQ_SLICE_SEPN,sliceSepn);
+        EncapsulateMetaData<ACQSliceSepnContainerType::Pointer>(thisDic,ACQ_SLICE_SEPN,sliceSepn);
         sliceSeperation = true;
         }
       }
@@ -1040,7 +1041,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       std::string tempString = ACQ_slice_sepn_mode;
       seperationMode = acqpFileString.substr(index+tempString.length());
       //std::cout << "seperationMode = " << seperationMode << std::endl;
-      itk::EncapsulateMetaData<std::string>(thisDic,ACQ_SLICE_SEPN_MODE,seperationMode);
+      EncapsulateMetaData<std::string>(thisDic,ACQ_SLICE_SEPN_MODE,seperationMode);
       }
 
     // Get echo times.
@@ -1068,7 +1069,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           acqp_InputStream >> Echo_time[i];
           echoTimes->SetElement(i,Echo_time[i]);
           }
-        itk::EncapsulateMetaData<ACQEchoTimeContainerType::Pointer>(thisDic,ACQ_ECHO_TIME,echoTimes);
+        EncapsulateMetaData<ACQEchoTimeContainerType::Pointer>(thisDic,ACQ_ECHO_TIME,echoTimes);
         echoTime = true;
         }
       else
@@ -1105,7 +1106,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           acqp_InputStream >> Repetition_time[i];
           repetitionTimes->SetElement(i,Repetition_time[i]);
           }
-        itk::EncapsulateMetaData<ACQRepetitionTimeContainerType::Pointer>(thisDic,ACQ_REPETITION_TIME,repetitionTimes);
+        EncapsulateMetaData<ACQRepetitionTimeContainerType::Pointer>(thisDic,ACQ_REPETITION_TIME,repetitionTimes);
         repetitionTime = true;
         }
       else
@@ -1142,7 +1143,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           acqp_InputStream >> Inversion_time[i];
           inversionTimes->SetElement(i,Inversion_time[i]);
           }
-        itk::EncapsulateMetaData<ACQInversionTimeContainerType::Pointer>(thisDic,ACQ_INVERSION_TIME,inversionTimes);
+        EncapsulateMetaData<ACQInversionTimeContainerType::Pointer>(thisDic,ACQ_INVERSION_TIME,inversionTimes);
         inversionTime = true;
         }
       else
@@ -1222,8 +1223,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           }
         // Ok, now that the directions are read in transpose if necessary.
         if( (acq_dim == 2) &&
-          (numRecoTranspose == numMatrix) &&
-          recoTransposition[0] )
+            (numRecoTranspose == numMatrix) &&
+            recoTransposition[0] )
           {
           // Transpose read/phase.
           transpose = 1;
@@ -1352,8 +1353,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
               }
             // Compare with original
             if( !std::equal(dirx.begin(),dirx.end(),gradMatrixX.begin()) ||
-              !std::equal(diry.begin(),diry.end(),gradMatrixY.begin()) ||
-              !std::equal(dirz.begin(),dirz.end(),gradMatrixZ.begin()) )
+                !std::equal(diry.begin(),diry.end(),gradMatrixY.begin()) ||
+                !std::equal(dirz.begin(),dirz.end(),gradMatrixZ.begin()) )
               {
               slicesNotInSameOrientation = true;
               break;
@@ -1441,7 +1442,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     imageDim[2] = 1;
     }
 
-  itk::EncapsulateMetaData<unsigned int>(thisDic,ITK_NumberOfDimensions,this->GetNumberOfDimensions());
+  EncapsulateMetaData<unsigned int>(thisDic,ITK_NumberOfDimensions,this->GetNumberOfDimensions());
 
   //
   // Transpose the dims and FOV if required.
@@ -1470,7 +1471,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       imageDim[1] = imageDim[2];
       imageDim[2] = tempDim;
       }
-      break;
+    break;
     case 3:
       {
       double tempFOV;
@@ -1482,7 +1483,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       imageDim[0] = imageDim[2];
       imageDim[2] = tempDim;
       }
-      break;
+    break;
     }
 
   //
