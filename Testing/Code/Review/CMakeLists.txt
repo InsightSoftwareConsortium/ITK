@@ -488,7 +488,7 @@ SET(ReviewTest_LIBS
   ITKQuadEdgeMesh
   ITKIOReview
   ITKIO
-  ITKReview
+  ITKTransformIOReview 
   )
 
 IF(ITK_USE_MINC2 AND MINC2_FOUND)
