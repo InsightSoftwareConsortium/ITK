@@ -449,6 +449,7 @@ ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
 ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration14Test.png
             ${TEMP}/ImageRegistration14Test.png
+  --compareNumberOfPixelsTolerance 2000
   ImageRegistration14Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
