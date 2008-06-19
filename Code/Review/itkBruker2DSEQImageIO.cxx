@@ -909,7 +909,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     int numRepetitions = 0;
     int numInversionTimes = 0;
     acqp_InputStream.getline(readFileBuffer, sizeof(readFileBuffer));
-    acqpFileString.clear();
+
     acqpFileString = readFileBuffer;
 
     // Get ACQ_dim.
