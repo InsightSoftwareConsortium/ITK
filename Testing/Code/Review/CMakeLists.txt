@@ -486,6 +486,8 @@ SET(ReviewTest_LIBS
   ITKFEM
   ITKStatistics
   ITKQuadEdgeMesh
+  ITKIOReview
+  ITKIO
   ITKReview
   )
 
