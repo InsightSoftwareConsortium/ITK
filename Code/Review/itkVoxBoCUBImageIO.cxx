@@ -160,7 +160,7 @@ public:
       throw exception;
       }
 
-    size_t bwritten = ::gzwrite(m_GzFile, (void *) data, bytes);
+    size_t bwritten = ::gzwrite(m_GzFile, const_cast<void *>(data), bytes);
     if( bwritten != bytes )
       {
         ExceptionObject exception;
