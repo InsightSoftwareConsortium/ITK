@@ -86,6 +86,9 @@ protected:
   QuadEdgeMeshEulerOperatorJoinVertexFunction();
   ~QuadEdgeMeshEulerOperatorJoinVertexFunction() {}
 
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+
   PointIdentifier m_OldPointID;
   unsigned int m_EdgeStatus;
 

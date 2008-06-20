@@ -434,6 +434,7 @@ IsSamosa( QEType* e )
 {
   return ( ( e->GetOrder() == 2 ) &&  ( e->GetSym()->GetOrder() == 2 ) );
 }
+
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
 bool
@@ -445,6 +446,17 @@ IsEye( QEType* e )
 
   return ( ( OriginOrderIsTwo && !DestinationOrderIsTwo ) ||
            ( !OriginOrderIsTwo && DestinationOrderIsTwo ) );
+}
+
+template < class TMesh, class TQEType >
+void
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "OldPointID: " << this->m_OldPointID << std::endl;
+  os << indent << "EdgeStatus: " << this->m_EdgeStatus << std::endl;
 }
 
 //--------------------------------------------------------------------------
