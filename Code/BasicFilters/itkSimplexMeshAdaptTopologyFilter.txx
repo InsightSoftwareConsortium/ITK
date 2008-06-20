@@ -91,19 +91,31 @@ namespace itk
     while ( curvatureIt != curvatures->End())
       {
       bool doRefinement = false;
-      if ( (m_SelectionMethod == 0) && 
-        (curvatureIt.Value() > averageCurvature 
-        && areaIt.Value() > (0.05 * rangeCellSize + simplexVisitor->GetMinimumCellSize()) ) 
-        || areaIt.Value() > (m_Threshold * rangeCellSize + simplexVisitor->GetMinimumCellSize())
-        )
+
+      const bool condition1 = ( m_SelectionMethod == 0 );
+      const bool condition2 = ( curvatureIt.Value() > averageCurvature );
+
+      const double limit1 =        0.05 * rangeCellSize + simplexVisitor->GetMinimumCellSize();
+      const double limit2 = m_Threshold * rangeCellSize + simplexVisitor->GetMinimumCellSize();
+
+      const bool condition3 = ( areaIt.Value() > limit1 );
+      const bool condition4 = ( areaIt.Value() > limit2 );
+
+      if( condition1 && ( condition2 && condition3 ) || condition4 )
         {
         doRefinement = true;
         }
-      else if ((m_SelectionMethod == 1) &&
-        ((curvatureIt.Value() > m_Threshold * rangeCurvature &&  areaIt.Value() > 0.05 * rangeCellSize )
-       || areaIt.Value() > m_Threshold * rangeCellSize  ) )
+      else
         {
-        doRefinement = true;
+        const bool condition1 = ( m_SelectionMethod == 1 );
+        const bool condition2 = curvatureIt.Value() > m_Threshold * rangeCurvature;
+        const bool condition3 = areaIt.Value() > 0.05 * rangeCellSize;
+        const bool condition4 = areaIt.Value() > m_Threshold * rangeCellSize;
+
+        if( condition1  && ( ( condition2 && condition3  ) || condition4  ) )
+          {
+          doRefinement = true;
+          }
         }
 
       if (doRefinement)
