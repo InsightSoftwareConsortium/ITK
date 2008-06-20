@@ -614,7 +614,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData<std::string>(thisDic,ITK_VoxelUnits,std::string("mm",4));
   EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,par.bit);
     
-  for( dim=this->GetNumberOfDimensions()-1; dim>=0; dim-- )
+  for( dim = (unsigned int)(this->GetNumberOfDimensions()-1); dim >= 0; dim-- )
     {
     if( m_Dimensions[dim] != 1 )
       {
