@@ -488,7 +488,10 @@ void VoxBoCUBImageIO::ReadImageInformation()
 
     // Read the key and strip the colon from it
     iss >> key;
-    if(key[key.size() - 1] == ':')
+
+    const std::string::size_type keysize = key.size();
+
+    if( ( keysize > 0 ) && (key[key.size() - 1] == ':' ))
       {
       // Strip the colon off the key
       key = key.substr(0, key.size() - 1);
