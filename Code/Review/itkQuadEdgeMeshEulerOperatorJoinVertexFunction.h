@@ -79,8 +79,22 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( QEType* h );
 
+  enum EdgeStatusType
+    {
+      STANDARD_CONFIG = 0,
+      EDGE_NULL,
+      MESH_NULL,
+      EDGE_ISOLATED,
+      TOO_MANY_COMMON_VERTICES,
+      TETRAEDRON_CONFIG,
+      QUADEDGE_ISOLATED,
+      FACE_ISOLTAED,
+      SAMOSA_CONFIG,
+      EYE_CONFIG
+    };
+
   itkGetMacro( OldPointID, PointIdentifier );
-  itkGetMacro( EdgeStatus, unsigned int );
+  itkGetMacro( EdgeStatus, EdgeStatusType );
 
 protected:
   QuadEdgeMeshEulerOperatorJoinVertexFunction();
@@ -90,7 +104,7 @@ protected:
 
 
   PointIdentifier m_OldPointID;
-  unsigned int m_EdgeStatus;
+  EdgeStatusType m_EdgeStatus;
 
   /**
   * \brief 
@@ -122,7 +136,7 @@ protected:
   bool IsSamosa( QEType* e );
   bool IsEye( QEType* e );
 
-  unsigned int CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted );
+  EdgeStatusType CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted );
 
   QEType* Process( QEType* e );
   QEType* ProcessIsolatedQuadEdge( QEType* e );

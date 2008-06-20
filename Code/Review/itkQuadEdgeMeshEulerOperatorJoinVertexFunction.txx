@@ -29,7 +29,7 @@ namespace itk
 template < class TMesh, class TQEType >
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 QuadEdgeMeshEulerOperatorJoinVertexFunction() : Superclass(),
-  m_OldPointID( 0 ), m_EdgeStatus( 0 )
+  m_OldPointID( 0 ), m_EdgeStatus( STANDARD_CONFIG )
 {}
 
 //--------------------------------------------------------------------------
@@ -44,20 +44,34 @@ Evaluate( QEType* e )
   switch( m_EdgeStatus )
   {
     default:
-    case 0:
+    case STANDARD_CONFIG:
       return Process( e );
-    case 1: // e == 0
-    case 2: // m_Mesh == 0
-    case 3: // e->IsIsolated() && e_sym->IsIsolated()
-    case 4: // more than 2 common vertices in 0-ring of org and dest respectively
-    case 5: // Tetraedron case
-      return( (QEType*) 0 );
-    case 6: // Isolated edge
+
+    // ******************************************************************
+    // Isolated quad edge
+    case QUADEDGE_ISOLATED: 
       return ProcessIsolatedQuadEdge( e );
-    case 7: // Isolated face
+
+    // ******************************************************************
+    // Isolated face
+    case FACE_ISOLTAED: 
       return ProcessIsolatedFace( e, edges_to_be_deleted );
-    case 8: // Samosa case
-    case 9: // Eye case
+
+    // ******************************************************************
+    // e == 0
+    case EDGE_NULL:
+    // m_Mesh == 0
+    case MESH_NULL:
+    // e->IsIsolated() && e_sym->IsIsolated()
+    case EDGE_ISOLATED:
+    // more than 2 common vertices in 0-ring of org and dest respectively
+    case TOO_MANY_COMMON_VERTICES:
+    // Tetraedron case
+    case TETRAEDRON_CONFIG:
+    // Samosa case
+    case SAMOSA_CONFIG:
+    // Eye case
+    case EYE_CONFIG: 
       return( (QEType*) 0 );
   }
 }
@@ -260,20 +274,21 @@ IsFaceIsolated( QEType* e,
 }
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
-unsigned int
+typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType
+>::EdgeStatusType
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
 {
   if( !e )
     {
     itkDebugMacro( "Input is not an edge." );
-    return 1;
+    return EDGE_NULL;
     }
 
   if( !this->m_Mesh )
     {
     itkDebugMacro( "No mesh present." );
-    return 2;
+    return MESH_NULL;
     }
 
   QEType* e_sym = e->GetSym();
@@ -286,14 +301,14 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     // We could shrink the edge to a point,
     // But we consider this case to be degenerated.
     itkDebugMacro( "Argument edge isolated." );
-    return 3;
+    return EDGE_ISOLATED;
     }
 
   size_t number_common_vertices = CommonVertexNeighboor( e );
   if( number_common_vertices > 2 )
     {
     itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
-    return 4;
+    return TOO_MANY_COMMON_VERTICES;
     }
 
   if( number_common_vertices == 2 )
@@ -301,7 +316,7 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     if( IsTetraedron( e ) )
       {
       itkDebugMacro( "It forms a tetraedron." );
-      return 5;
+      return TETRAEDRON_CONFIG;
       }
     }
 
@@ -327,7 +342,7 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     //
     // We are not yet sure of the orientation of e and which endpoint
     // of e is attached in a.
-    return 6;
+    return QUADEDGE_ISOLATED;
     }
 
   // General case
@@ -342,21 +357,21 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     {
     if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
       {
-      return 7;
+      return FACE_ISOLTAED;
       }
     }
 
   if( IsSamosa( e ) )
     {
-    return 8;
+    return SAMOSA_CONFIG;
     }
   if( IsEye( e ) )
     {
-    return 9;
+    return EYE_CONFIG;
     }
 
 
-  return 0;
+  return STANDARD_CONFIG;
 }
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
