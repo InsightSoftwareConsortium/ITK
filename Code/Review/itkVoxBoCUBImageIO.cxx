@@ -692,7 +692,8 @@ VoxBoCUBImageIO
     if (strcmp(keys[i].c_str(),ITK_CoordinateOrientation))
       {
       // The following local, key, was required to avoid Borland compiler errors
-      std::string key = keys[i];
+      // Using const reference should avoid extra copy while still please bcc32
+      const std::string &key = keys[i];
       ExposeMetaData<std::string>(dic, key, word);
       if (!strcmp(key.c_str(),"resample_date"))
         {
