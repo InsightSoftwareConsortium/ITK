@@ -25,6 +25,18 @@ namespace itk {
  *  \brief TreeIteratorBase class
  * 
  * This class provides the base implementation for tree iterators
+ *
+ * Events will notify interested observers about tree changes. These events all derive from TreeChangeEvent. They are:
+ *
+ *  - TreeNodeChangeEvent: invoked when Set() is called, i.e. exactly one node changes
+ *  - TreeAddEvent: invoked when Add() is called.
+ *  - TreeRemoveEvent: when a single node has been removed, i.e. Disconnect() has been called.
+ *  - TreePruneEvent: when a node and all its children were removed, i.e. Remove() has been called.
+ *
+ *  All those events have a member GetChangePosition(), which returns an iterator to the position that has changd. Please
+ *  note that this iterator may not be fully functional, but you should always be able to use its Get() method to retrieve
+ *  the thing it points to.
+ *
  */
 template <class TTreeType>
 class TreeIteratorBase
@@ -49,7 +61,7 @@ public:
   virtual const ValueType& Get() const ;
 
   /** Get the subtree */
-  virtual TTreeType* GetSubTree() const ;
+  virtual TTreeType* GetSubTree() const;
 
   /** Return true if the current node is a leaf */
   virtual bool IsLeaf() const;
@@ -67,7 +79,7 @@ public:
   virtual bool GoToParent( );
 
   /** Set the current value of the node */
-  ValueType Set( ValueType element);
+  void Set(ValueType element);
 
   /** Return true if the current node has a child */
   virtual bool HasChild(int number = 0) const;
@@ -158,11 +170,17 @@ public:
   /** operator++ */
   Self &
   operator++()
-  {
+    {
     this->Next();
     return *this;
-  }
-
+    }
+  /** operator++ */
+  void
+  operator++(int)
+    {
+    assert( !IsAtEnd() );
+    this->Next();
+    }
   /** operator = */
   const Self & operator=(const Self& iterator) 
     {
@@ -175,6 +193,7 @@ public:
     }
 
   virtual ~TreeIteratorBase() {}
+  
 protected:
 
   /** Constructors */

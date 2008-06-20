@@ -18,7 +18,7 @@
 #define __TreeChangeEvent_h
 
 #include "itkMacro.h"
-#include <itkObject.h>
+#include <itkEventObject.h>
 #include <itkTreeIteratorBase.h>
 
 namespace itk
@@ -76,9 +76,9 @@ public:
     return *m_ChangePosition; 
     }
 
-private: 
+  TreeChangeEvent(const Self&s) : itk::ModifiedEvent(s) {}; 
 
-//   TreeChangeEvent(const Self&); 
+private:
   void operator=(const Self&); 
 
 protected:
@@ -86,6 +86,39 @@ protected:
   const TreeIteratorBase<TTreeType>* m_ChangePosition;
 };
 
+/**  Signals, that a node has been set to another value. Position of the changed node is provided */
+template <class TTreeType>
+class TreeNodeChangeEvent : public TreeChangeEvent<TTreeType>
+{  
+public:
+  typedef TreeNodeChangeEvent Self; 
+  typedef TreeChangeEvent<TTreeType> Superclass; 
+
+  TreeNodeChangeEvent() {}
+
+  TreeNodeChangeEvent( const TreeIteratorBase<TTreeType>& position ) : 
+    TreeChangeEvent<TTreeType>(position) {} 
+
+  virtual const char * GetEventName() const 
+    { 
+    return "TreeNodeChangeEvent"; 
+    } 
+
+  virtual bool CheckEvent(const ::itk::EventObject* e) const 
+    { 
+    return dynamic_cast<const Self*>(e); 
+    } 
+
+  virtual ::itk::EventObject* MakeObject() const 
+    { 
+    return new Self( *this->m_ChangePosition ); 
+    } 
+
+  TreeNodeChangeEvent(const Self&s) : TreeChangeEvent<TTreeType>(s) {}
+private:
+  void operator=(const Self&);
+
+};
 
 /** \class TreeAddEvent
  *  \brief This class derives from TreeChangeEvent and check if a node has been
@@ -124,6 +157,11 @@ public:
     { 
     return new Self( *this->m_ChangePosition ); 
     }  
+
+  TreeAddEvent(const Self&s) : TreeChangeEvent<TTreeType>(s) {}
+private:
+  void operator=(const Self&);
+  
 };
 
 
@@ -164,7 +202,50 @@ public:
     { 
     return new Self( *this->m_ChangePosition ); 
     } 
-  };
+
+    TreeRemoveEvent(const Self&s) : TreeChangeEvent<TTreeType>(s) {}
+
+private:
+    void operator=(const Self&);
+};
+
+/** Signals that a node and all its childs will shortly be removed. Position of the top-level removed node is provided */
+template <class TTreeType>
+class TreePruneEvent : public TreeRemoveEvent<TTreeType>
+{
+public:
+  typedef TreePruneEvent Self; 
+  typedef TreeRemoveEvent<TTreeType> Superclass; 
+
+  /** */
+  TreePruneEvent(){}
+
+  /** */
+  TreePruneEvent( const TreeIteratorBase<TTreeType>& position ) : 
+    TreeRemoveEvent<TTreeType>(position) {} 
+
+  /** */
+  virtual const char * GetEventName() const 
+  { 
+    return "TreePruneEvent"; 
+  } 
+
+  /** */
+  virtual bool CheckEvent(const ::itk::EventObject* e) const 
+  { 
+    return dynamic_cast<const Self*>(e); 
+  } 
+
+  /** */     
+  virtual ::itk::EventObject* MakeObject() const 
+  { 
+    return new Self( *this->m_ChangePosition ); 
+  } 
+
+  TreePruneEvent(const Self& s) : TreeRemoveEvent<TTreeType>(s) {}
+private:
+  void operator=(const Self&);
+};
   
 } // namespace itk
 

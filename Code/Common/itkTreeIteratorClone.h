@@ -41,7 +41,7 @@ public:
   /** Copy constructor  */
   TreeIteratorClone (const TreeIteratorClone<ObjectType> &p)
     { 
-
+    m_Pointer = 0;
     if(p.m_Pointer != NULL)
       {
       m_Pointer = p.m_Pointer->Clone();
@@ -52,12 +52,12 @@ public:
   TreeIteratorClone (ObjectType *p)
     { 
     m_Pointer = 0;
-    if(p!=NULL)
+    if(p!=NULL) 
       {
       m_Pointer=p->Clone();
       }
     }                             
-
+  
   /** Constructor to reference p  */
   TreeIteratorClone (const ObjectType &p)
     { 
@@ -135,7 +135,18 @@ public:
       ++(*m_Pointer);
     return *this;
     }
-  
+
+  const Self
+  operator++(int)
+    {
+    if(m_Pointer)
+      {
+      const Self oldValue( m_Pointer ); // create a copy of the iterator behind the pointer (Clone())
+      ++(*m_Pointer);
+      return oldValue;
+      }
+    }
+   
   /** Function to print object pointed to  */
   ObjectType *Print (std::ostream& os) const 
     { 

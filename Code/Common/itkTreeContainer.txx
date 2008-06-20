@@ -60,12 +60,8 @@ TreeContainer<TValueType>::~TreeContainer()
 /** Set the root of the tree */
 template <class TValueType>
 bool 
-TreeContainer<TValueType>::SetRoot( TValueType element)  
+TreeContainer<TValueType>::SetRoot(const TValueType element)  
 {
-  if (m_Root)
-    {
-    return false;
-    }
   m_Root = TreeNodeType::New();
   m_Root->Set(element);
   m_Root->SetParent(NULL);
@@ -77,10 +73,6 @@ template <class TValueType>
 bool 
 TreeContainer<TValueType>::SetRoot( TreeNode<TValueType>* node)
 {
-  if (m_Root)
-    {
-    return false;
-    }
   m_Root = node;
   return true;
 }
@@ -95,7 +87,7 @@ TreeContainer<TValueType>::Count() const
     return 0;
     }
   int size = 0;
-  PreOrderTreeIterator<Self> it(this,m_Root);
+  PreOrderTreeIterator<Self> it(this,this->m_Root);
   it.GoToBegin();
   while(!it.IsAtEnd())
     {
@@ -242,20 +234,9 @@ template <class TValueType>
 bool TreeContainer<TValueType>::Clear() 
 {
   PreOrderTreeIterator<Self> it(this,m_Root);
-  it.GoToBegin();
-  while(!it.IsAtEnd())
-    {
-    if(it.Remove())
-      {
-      ++it;
-      }
-    else
-      {
-      return false;
-      }
-    }
+  bool success = it.Remove();
   m_Root = NULL;
-  return true;
+  return success;
 }
 
 /** Get node given a value */

@@ -18,16 +18,14 @@
 #define _itkTreeNode_txx
 
 #include "itkTreeNode.h"
-#include <cstring>
 
 namespace itk
 {
 
 /** Constructor */
 template <class TValueType>
-TreeNode<TValueType>::TreeNode()
+TreeNode<TValueType>::TreeNode() : m_Parent(NULL)
 {
-  m_Parent = NULL;
 }
 
 /** Destructor */
@@ -42,7 +40,6 @@ TreeNode<TValueType>::~TreeNode()
  for ( size_t i=m_Children.size() ; i > 0; i-- )
    {
    m_Children[i-1]->SetParent(NULL);
-   m_Children[i-1] = 0;
    }
   m_Children.clear();
   m_Parent = NULL;
@@ -103,6 +100,12 @@ template <class TValueType>
 void 
 TreeNode<TValueType>::SetParent( TreeNode<TValueType>* node) 
 {
+  //keep ourself alive just a bit longer
+  Pointer ourself = this;
+  if(m_Parent != NULL)
+    {
+    m_Parent->Remove(this);
+    }
   m_Parent = node;
 }
 
@@ -132,6 +135,8 @@ TreeNode<TValueType>
   pos = std::find(m_Children.begin(), m_Children.end(), n );
   if ( pos != m_Children.end() ) 
     {
+    //keep node alive just a bit longer
+    Pointer position = n;
     m_Children.erase(pos);
     n->SetParent(NULL);
     return true;
@@ -186,6 +191,7 @@ int TreeNode<TValueType>::ChildPosition( TValueType element ) const
 template <class TValueType>
 void TreeNode<TValueType>::AddChild( TreeNode<TValueType> *node ) 
 {
+  Pointer nodeKeepAlive = node;    
   node->SetParent(this);
   m_Children.push_back(node);
 }
@@ -208,11 +214,6 @@ TreeNode<TValueType>
     return;
     }
 
-  TreeNode<TValueType>* old = m_Children[number];
-  if ( old != NULL )
-    {
-    delete old;
-    }
   m_Children[number] = node;
 }
 

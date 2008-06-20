@@ -68,7 +68,7 @@ public:
   TreeContainer( TreeContainer<TValueType>& tree );
 
   /** Set the root as an element */
-  virtual bool SetRoot( TValueType element);
+  virtual bool SetRoot( const TValueType element);
 
   /** The the root as an iterator position */
   bool SetRoot( IteratorType& pos );

@@ -55,7 +55,7 @@ private:
 
 /** Constructor */
 template <class TTreeType>
-PreOrderTreeIterator<TTreeType>::PreOrderTreeIterator( const TTreeType* tree,const TreeNodeType* start )
+PreOrderTreeIterator<TTreeType>::PreOrderTreeIterator( const TTreeType* tree, const TreeNodeType* start )
   :TreeIteratorBase<TTreeType>(tree,start) 
 {
 
@@ -112,6 +112,12 @@ PreOrderTreeIterator<TTreeType>::FindNextNode() const
   TreeNodeType* child = this->m_Position;
   TreeNodeType* parent = dynamic_cast<TreeNodeType*>(this->m_Position->GetParent());
 
+  // Are we a subtree? Then we are done.
+  if( parent && parent->ChildPosition( this->m_Root ) >= 0 )
+  {
+    return NULL;
+  }
+
   int childPosition = parent->ChildPosition( child ); 
   int lastChildPosition = parent->CountChildren() - 1;
 
@@ -157,7 +163,7 @@ PreOrderTreeIterator<TTreeType>::FindNextNode() const
 template <class TTreeType>
 TreeIteratorBase<TTreeType>* PreOrderTreeIterator<TTreeType>::Clone() 
 {
-  PreOrderTreeIterator<TTreeType>* clone = new PreOrderTreeIterator<TTreeType>(this-> m_Tree, this->m_Position );
+  PreOrderTreeIterator<TTreeType>* clone = new PreOrderTreeIterator<TTreeType>( this->m_Tree, this->m_Position );
   *clone = *this;
   return clone;
 }

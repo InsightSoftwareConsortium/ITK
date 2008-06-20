@@ -20,7 +20,6 @@
 #include "itkMacro.h"
 #include <itkObject.h>
 #include <iostream>
-#include <itkObjectFactory.h>
 #include <itkTreeNode.h>
 
 namespace itk
@@ -45,7 +44,7 @@ public:
 
   /** Set the root element. 
    * A new node is created and the element is added to the node */
-  virtual bool SetRoot( TValueType element ) = 0;
+  virtual bool SetRoot( const TValueType element ) = 0;
 
   /** Set the root has a node */
   virtual bool SetRoot( TreeNode<TValueType>* node) = 0;
