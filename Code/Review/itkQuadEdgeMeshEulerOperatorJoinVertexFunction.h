@@ -102,7 +102,6 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-
   PointIdentifier m_OldPointID;
   EdgeStatusType m_EdgeStatus;
 

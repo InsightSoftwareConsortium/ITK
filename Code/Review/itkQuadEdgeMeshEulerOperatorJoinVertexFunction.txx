@@ -34,6 +34,51 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction() : Superclass(),
 
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
+void
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "m_OldPointID: " << m_OldPointID <<std::endl;
+  os << indent << "m_EdgeStatus: ";
+  switch( m_EdgeStatus )
+  {
+    default:
+    case STANDARD_CONFIG:
+      os << "STANDARD_CONFIG" <<std::endl;
+      break;
+    case QUADEDGE_ISOLATED: 
+      os << "QUADEDGE_ISOLATED" <<std::endl;
+      break;
+    case FACE_ISOLTAED: 
+      os << "FACE_ISOLTAED" <<std::endl;
+      break;
+    case EDGE_NULL:
+      os << "EDGE_NULL" <<std::endl;
+      break;
+    case MESH_NULL:
+      os << "MESH_NULL" <<std::endl;
+      break;
+    case EDGE_ISOLATED:
+      os << "EDGE_ISOLATED" <<std::endl;
+      break;
+    case TOO_MANY_COMMON_VERTICES:
+      os << "TOO_MANY_COMMON_VERTICES" <<std::endl;
+      break;
+    case TETRAEDRON_CONFIG:
+      os << "TETRAEDRON_CONFIG" <<std::endl;
+      break;
+    case SAMOSA_CONFIG:
+      os << "SAMOSA_CONFIG" <<std::endl;
+      break;
+    case EYE_CONFIG: 
+      os << "EYE_CONFIG" <<std::endl;
+      break;
+  }
+}
+
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 Evaluate( QEType* e )
@@ -461,17 +506,6 @@ IsEye( QEType* e )
 
   return ( ( OriginOrderIsTwo && !DestinationOrderIsTwo ) ||
            ( !OriginOrderIsTwo && DestinationOrderIsTwo ) );
-}
-
-template < class TMesh, class TQEType >
-void
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "OldPointID: " << this->m_OldPointID << std::endl;
-  os << indent << "EdgeStatus: " << this->m_EdgeStatus << std::endl;
 }
 
 //--------------------------------------------------------------------------
