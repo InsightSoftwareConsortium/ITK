@@ -135,14 +135,23 @@ public:
        * \post This function will always return false (Not implemented).
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile(const char * FileNameToWrite){return false;};
+  virtual bool CanWriteFile( const char * itkNotUsed(FileNameToWrite) )
+    {
+    return false;
+    }
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() { return; }
+  virtual void WriteImageInformation() 
+    { 
+    return;
+    }
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer) { return; }
+  virtual void Write( const void * itkNotUsed( buffer ) ) 
+    { 
+    return;
+    }
 
 
 protected:
@@ -158,6 +167,7 @@ private:
 
   ImageIOBase::ByteOrder m_MachineByteOrder;
 };
+
 extern const char *const RECO_BYTE_ORDER;
 extern const char *const RECO_FOV;
 extern const char *const RECO_SIZE;
