@@ -18,7 +18,7 @@
 #define _itkTreeNode_txx
 
 #include "itkTreeNode.h"
-#include <strstream>
+#include <cstring>
 
 namespace itk
 {
