@@ -60,6 +60,7 @@ SET(ReviewTest_SRCS
   itkNeuralNetworkIOTest.cxx
 
   itkConformalFlatteningMeshFilterTest.cxx
+  itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 
   itkVTKPolyDataIOQuadEdgeMeshTest.cxx
   itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
@@ -203,11 +204,29 @@ ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
                  1
                  )
 
+ADD_TEST(itkConformalFlatteningQuadEdgeMeshFilterTest1 ${REVIEW_TESTS}
+                 itkConformalFlatteningQuadEdgeMeshFilterTest
+                 ${INPUTDATA}/genusZeroSurface01.vtk
+                 ${TEMP}/genusZeroQuadEdgeMesh01ConformalFlattenedToSphere.vtk
+                 3
+                 100.0
+                 1
+                 )
+
 ADD_TEST(itkConformalFlatteningMeshFilterTest2 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroMesh01ConformalFlattenedToPlane.vtk
                  319
+                 100.0
+                 0
+                 )
+
+ADD_TEST(itkConformalFlatteningQuadEdgeMeshFilterTest2 ${REVIEW_TESTS}
+                 itkConformalFlatteningQuadEdgeMeshFilterTest
+                 ${INPUTDATA}/genusZeroSurface01.vtk
+                 ${TEMP}/genusZeroQuadEdgeMesh01ConformalFlattenedToPlane.vtk
+                 3
                  100.0
                  0
                  )

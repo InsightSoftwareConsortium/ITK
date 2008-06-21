@@ -28,61 +28,6 @@
 
 namespace itk
 {
-
-class ConformalFlatteningFunction :  public vnl_cost_function
-{
-public:
-  typedef vnl_vector<double>        VectorType;
-  typedef vnl_sparse_matrix<double> MatrixType;
-
-  ConformalFlatteningFunction( MatrixType const& A, VectorType const& b );
-
-  double f(const VectorType& x);
-
-  void gradf(const VectorType& x, VectorType& g);
-
-  inline unsigned int GetDimension() { return m_Dimension; }
-
-private:
-  MatrixType const*    m_Matrix;
-  VectorType const*    m_Vector;
-  unsigned int         m_Dimension;
-};
-
-ConformalFlatteningFunction
-::ConformalFlatteningFunction(vnl_sparse_matrix<double> const& A,
-    VectorType const& b) : vnl_cost_function(b.size())
-{
-  this->m_Matrix = &A;
-  this->m_Vector = &b;
-  this->m_Dimension = b.size();
-
-  if( A.rows() != b.size() )
-    {
-    ExceptionObject excp(__FILE__,__LINE__,
-    "The # of rows in A must be the same as the length of b");
-    throw excp;
-    }
-}
-
-double
-ConformalFlatteningFunction
-::f(const VectorType& x)
-{
-  VectorType tmp;
-  this->m_Matrix->pre_mult(x, tmp);
-  return 0.5 * inner_product(tmp,x) - inner_product(*this->m_Vector,x);
-}
-
-void
-ConformalFlatteningFunction
-::gradf(const VectorType& x, VectorType& gradient)
-{
-  VectorType tmp;
-  this->m_Matrix->mult(x, tmp);
-  gradient = tmp - *this->m_Vector;
-}
-
 /**
  *
  */
@@ -346,12 +291,23 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     CellType * aCell = cellIterator.Value();
     unsigned int aCellNumberOfPoints = aCell->GetNumberOfPoints();
 
-    if( aCellNumberOfPoints != 3 )
+    if( aCellNumberOfPoints > 3 )
       {
       itkExceptionMacro("cell has " << aCellNumberOfPoints << " points\n"
       "This filter can only process triangle meshes.");
       return;
       }
+
+    while( aCellNumberOfPoints < 3 ) // leave the edges and points untouched
+      {
+      cellIterator++;
+      if( cellIterator !=cellEnd )
+        {
+        aCell = cellIterator.Value();
+        aCellNumberOfPoints = aCell->GetNumberOfPoints();
+        }
+      }
+    if( cellIterator == cellEnd ) break;
 
     pointIditer = aCell->PointIdsBegin();
 
