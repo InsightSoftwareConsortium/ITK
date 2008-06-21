@@ -47,7 +47,7 @@ SET(ReviewTest_SRCS
   itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
   itkRegularSphereQuadEdgeMeshSourceTest.cxx
   itkQuadEdgeMeshCountingCellsTest.cxx
-
+  itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
 
   itkValuedRegionalMinimaImageFilterTest.cxx
@@ -155,12 +155,14 @@ ADD_TEST(itkQuadEdgeMeshPolygonCellTest ${REVIEW_TESTS}
   itkQuadEdgeMeshPolygonCellTest)
 ADD_TEST(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS}
   itkDynamicQuadEdgeMeshTest)
-ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx ${REVIEW_TESTS}
+ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest ${REVIEW_TESTS}
   itkAutomaticTopologyQuadEdgeMeshSourceTest)
-ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest.cxx ${REVIEW_TESTS}
+ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest ${REVIEW_TESTS}
   itkRegularSphereQuadEdgeMeshSourceTest)
-ADD_TEST(itkQuadEdgeMeshCountingCellsTest.cxx ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS}
   itkQuadEdgeMeshCountingCellsTest)
+ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS}
+  itkBinaryMask3DQuadEdgeMeshSourceTest)
   
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
