@@ -50,8 +50,8 @@ PrintSelf( std::ostream& os, Indent indent ) const
     case QUADEDGE_ISOLATED: 
       os << "QUADEDGE_ISOLATED" <<std::endl;
       break;
-    case FACE_ISOLTAED: 
-      os << "FACE_ISOLTAED" <<std::endl;
+    case FACE_ISOLATED: 
+      os << "FACE_ISOLATED" <<std::endl;
       break;
     case EDGE_NULL:
       os << "EDGE_NULL" <<std::endl;
@@ -99,7 +99,7 @@ Evaluate( QEType* e )
 
     // ******************************************************************
     // Isolated face
-    case FACE_ISOLTAED: 
+    case FACE_ISOLATED: 
       return ProcessIsolatedFace( e, edges_to_be_deleted );
 
     // ******************************************************************
@@ -402,7 +402,7 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     {
     if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
       {
-      return FACE_ISOLTAED;
+      return FACE_ISOLATED;
       }
     }
 
