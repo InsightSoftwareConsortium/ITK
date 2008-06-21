@@ -406,13 +406,16 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
       }
     }
 
-  if( IsSamosa( e ) )
+  if( wasLeftFace && wasRiteFace )
     {
-    return SAMOSA_CONFIG;
-    }
-  if( IsEye( e ) )
-    {
-    return EYE_CONFIG;
+    if( IsSamosa( e ) )
+      {
+      return SAMOSA_CONFIG;
+      }
+    if( IsEye( e ) )
+      {
+      return EYE_CONFIG;
+      }
     }
 
 
