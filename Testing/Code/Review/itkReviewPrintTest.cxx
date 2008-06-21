@@ -117,9 +117,9 @@ int main(int , char* [])
   std:: cout << "-------------NeuralNetworkFileWriterObj "
              << NeuralNetworkFileWriterObj;
 
-  itk::ConformalFlatteningMeshFilter<PixelType>::Pointer
+  itk::ConformalFlatteningMeshFilter<MeshType, MeshType>::Pointer
     ConformalFlatteningMeshFilterObj =
-    itk::ConformalFlatteningMeshFilter<PixelType>::New();
+    itk::ConformalFlatteningMeshFilter<MeshType, MeshType>::New();
   std::cout << "--------------ConformalFlatteningMeshFilterObj "
             << ConformalFlatteningMeshFilterObj;
 

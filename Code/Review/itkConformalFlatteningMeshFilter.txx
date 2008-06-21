@@ -86,8 +86,8 @@ ConformalFlatteningFunction
 /**
  *
  */
-template <class TPixelType>
-ConformalFlatteningMeshFilter<TPixelType>
+template <class TInputMesh, class TOutputMesh>
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::ConformalFlatteningMeshFilter()
 {
   this->m_PolarCellIdentifier = 0;
@@ -98,8 +98,9 @@ ConformalFlatteningMeshFilter<TPixelType>
 /**
  * Set the triangle used to define the boundary of the flattened region.
  */
-template <class TPixelType>
-void ConformalFlatteningMeshFilter<TPixelType>
+template <class TInputMesh, class TOutputMesh>
+void
+ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>
 ::SetPolarCellIdentifier( CellIdentifier cellId )
 {
   this->m_PolarCellIdentifier = cellId;
@@ -109,8 +110,9 @@ void ConformalFlatteningMeshFilter<TPixelType>
  * Define the scale of the mapping. The largest coordinates of the
  * furthest point in the plane is m_MapScale.
  */
-template <class TPixelType>
-void ConformalFlatteningMeshFilter<TPixelType>
+template <class TInputMesh, class TOutputMesh>
+void
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::SetScale( double scale )
 {
   this->m_MapScale = scale;
@@ -119,8 +121,9 @@ void ConformalFlatteningMeshFilter<TPixelType>
 /**
  * Define that the input surface will be mapped to a sphere
  */
-template <class TPixelType>
-void ConformalFlatteningMeshFilter<TPixelType>
+template <class TInputMesh, class TOutputMesh>
+void
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::MapToSphere( void )
 {
   this->m_MapToSphere = true;
@@ -129,8 +132,9 @@ void ConformalFlatteningMeshFilter<TPixelType>
 /** Define that the input surface will be mapped to a plane.
  *  This skips the steps of the stereographic projection.
  */
-template <class TPixelType>
-void ConformalFlatteningMeshFilter<TPixelType>
+template <class TInputMesh, class TOutputMesh>
+void
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::MapToPlane( void )
 {
   this->m_MapToSphere = false;
@@ -139,9 +143,9 @@ void ConformalFlatteningMeshFilter<TPixelType>
 /**
  *
  */
-template <class TPixelType>
+template <class TInputMesh, class TOutputMesh>
 void
-ConformalFlatteningMeshFilter<TPixelType>
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
@@ -150,9 +154,9 @@ ConformalFlatteningMeshFilter<TPixelType>
 /**
  *
  */
-template <class TPixelType>
+template <class TInputMesh, class TOutputMesh>
 void
-ConformalFlatteningMeshFilter<TPixelType>
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::SetInput(TInputMesh *input)
 {
   this->ProcessObject::SetNthInput(0, input);
@@ -161,9 +165,9 @@ ConformalFlatteningMeshFilter<TPixelType>
 /**
  * This method causes the filter to generate its output.
  */
-template <class TPixelType>
+template <class TInputMesh, class TOutputMesh>
 void
-ConformalFlatteningMeshFilter<TPixelType>
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
 {
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;

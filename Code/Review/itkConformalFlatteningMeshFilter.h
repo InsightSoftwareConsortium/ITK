@@ -36,17 +36,14 @@ namespace itk
  * \sa TransformMeshFilter
  */
 
-template <class TPixelType>
+template <class TInputMesh, class TOutputMesh>
 class ITK_EXPORT ConformalFlatteningMeshFilter :
-    public MeshToMeshFilter< Mesh<TPixelType, 3>,Mesh<TPixelType, 3> >
+    public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Standard class typedefs. */
   typedef ConformalFlatteningMeshFilter  Self;
-  typedef Mesh< TPixelType, 3 >          Mesh3DType;
 
-  typedef Mesh3DType   TInputMesh;
-  typedef Mesh3DType   TOutputMesh;
   typedef TInputMesh   InputMeshType;
   typedef TOutputMesh  OutputMeshType;
 

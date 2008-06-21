@@ -33,17 +33,14 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef double FloatingPointType;
+  typedef itk::Mesh< double, 3 > MeshType;
+ 
+  typedef itk::ConformalFlatteningMeshFilter<MeshType, MeshType>  FilterType;
 
-  typedef itk::ConformalFlatteningMeshFilter<FloatingPointType>  FilterType;
+  typedef itk::VTKPolyDataReader<MeshType>   ReaderType;
+  typedef itk::VTKPolyDataWriter<MeshType>  WriterType;
 
-  typedef FilterType::InputMeshType   InputMeshType;
-  typedef FilterType::OutputMeshType  OutputMeshType;
-
-  typedef itk::VTKPolyDataReader<InputMeshType>   ReaderType;
-  typedef itk::VTKPolyDataWriter<OutputMeshType>  WriterType;
-
-  typedef InputMeshType::CellIdentifier  CellIdentifier;
+  typedef MeshType::CellIdentifier  CellIdentifier;
 
   //
   // Read mesh file
@@ -64,7 +61,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  InputMeshType::Pointer mesh = reader->GetOutput();
+  MeshType::Pointer mesh = reader->GetOutput();
 
   //
   // Test itkConformalFlatteningMeshFilter
@@ -108,7 +105,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     }
 
   // Get the Smart Pointer to the Filter Output
-  OutputMeshType::Pointer newMesh = filter->GetOutput();
+  MeshType::Pointer newMesh = filter->GetOutput();
 
   //
   // Write to file
