@@ -109,7 +109,7 @@ TreeIteratorBase<TTreeType>::Add(ValueType element)
   m_Tree->Modified();
 
   // signal AddEvent for new child
-  TreeIteratorBase<TTreeType>* childIterator( Clone() );
+  TreeIteratorBase<TTreeType>* childIterator = Clone();
   childIterator->m_Position = dynamic_cast<TreeNodeType*>( m_Position->GetChild( m_Position->ChildPosition(node)) );
   m_Tree->InvokeEvent( TreeAddEvent<TTreeType>(*childIterator) );         // signal "child has been added deleted"
   delete childIterator;
@@ -130,7 +130,7 @@ TreeIteratorBase<TTreeType>::Add( int itkNotUsed(childPosition), ValueType eleme
     m_Tree->Modified();
     
     // signal AddEvent
-    TreeIteratorBase<TTreeType>* childIterator( Clone() );
+    TreeIteratorBase<TTreeType>* childIterator = Clone();
     childIterator->m_Position = dynamic_cast<TreeNodeType*>( m_Position->GetChild( m_Position->ChildPosition(node)) );
     m_Tree->InvokeEvent( TreeAddEvent<TTreeType>(*childIterator) );         // signal "child has been added deleted"
     delete childIterator;
@@ -248,7 +248,7 @@ TreeIteratorBase<TTreeType>::RemoveChild( int number )
   if( child != NULL ) 
     {
       // signal PruneEvent (node plus all children are removed)
-      TreeIteratorBase<TTreeType>* childIterator( Clone() );
+      TreeIteratorBase<TTreeType>* childIterator = Clone();
       childIterator->m_Position = child;
       m_Tree->InvokeEvent( TreePruneEvent<TTreeType>(*childIterator) );         // signal "child has been added deleted"
       delete childIterator;
