@@ -47,14 +47,19 @@ public:
     
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-  static PhilipsRECImageIOFactory* FactoryNew() { return new PhilipsRECImageIOFactory;}
+  static PhilipsRECImageIOFactory* FactoryNew() 
+    { 
+    return new PhilipsRECImageIOFactory;
+    }
+    
   /** Run-time type information (and related methods). */
   itkTypeMacro(PhilipsRECImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
     {
-    PhilipsRECImageIOFactory::Pointer MINC2Factory = PhilipsRECImageIOFactory::New();
+    PhilipsRECImageIOFactory::Pointer MINC2Factory = 
+      PhilipsRECImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(MINC2Factory);
     }
   

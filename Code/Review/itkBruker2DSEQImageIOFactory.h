@@ -54,7 +54,8 @@ public:
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
     {
-    Bruker2DSEQImageIOFactory::Pointer factory = Bruker2DSEQImageIOFactory::New();
+    Bruker2DSEQImageIOFactory::Pointer factory = 
+      Bruker2DSEQImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(factory);
     }
   

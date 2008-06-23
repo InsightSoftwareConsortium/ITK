@@ -22,17 +22,21 @@
 #include <algorithm>
 #include <string.h>
 
+/**
+ * \author Don C. Bigler
+ *         The Pennsylvania State University 2005
+ *
+ * This implementation was contributed as a paper to the Insight Journal
+ * http://insight-journal.org/midas/handle.php?handle=1926/1381
+ *
+ */
+
 namespace itk
 {
-/*# === IMAGE INFORMATION DEFINITION =============================================
+/*# === IMAGE INFORMATION DEFINITION ============================================
 #
-#  \author Don C. Bigler
-#          The Pennsylvania State University 2005
-#
-#  This implementation was contributed as a paper to the Insight Journal
-#  http://insight-journal.org/midas/handle.php?handle=1926/1381
-#
-#  The rest of this file contains ONE line per image, this line contains the following information:
+#  The rest of this file contains ONE line per image, this line contains the 
+#  following information:
 #
 #  slice number                             (integer)
 #  echo number                              (integer)
@@ -59,7 +63,7 @@ namespace itk
 #  diffusion_b_factor                       (float)
 #  image_flip_angle (in degrees)            (float)
 #
-# === IMAGE INFORMATION ==========================================================*/
+# === IMAGE INFORMATION =======================================================*/
 /**
  * \struct image_info_defV3
  */
@@ -97,8 +101,9 @@ struct image_info_defV3
   float image_flip_angle;
 };
 
-/*# === IMAGE INFORMATION DEFINITION =============================================
-#  The rest of this file contains ONE line per image, this line contains the following information:
+/*# === IMAGE INFORMATION DEFINITION ============================================
+#  The rest of this file contains ONE line per image, this line contains the 
+#  following information:
 #
 #  slice number                             (integer)
 #  echo number                              (integer)
@@ -136,7 +141,7 @@ struct image_info_defV3
 #  TURBO factor  <0=no turbo>               (integer)
 #  Inversion delay (in ms)                  (float)
 #
-# === IMAGE INFORMATION ==========================================================*/
+# === IMAGE INFORMATION =======================================================*/
 /**
  * \struct image_info_defV4
  */
@@ -186,8 +191,9 @@ struct image_info_defV4
   float inversion_delay;
 };
 
-/*# === IMAGE INFORMATION DEFINITION =============================================
-#  The rest of this file contains ONE line per image, this line contains the following information:
+/*# === IMAGE INFORMATION DEFINITION ============================================
+#  The rest of this file contains ONE line per image, this line contains the 
+#  following information:
 #
 #  slice number                             (integer)
 #  echo number                              (integer)
@@ -230,7 +236,7 @@ struct image_info_defV4
 #  diffusion anisotropy type                (string)
 #  diffusion (ap, fh, rl)                   (3*float)
 #
-# === IMAGE INFORMATION ==========================================================*/
+# === IMAGE INFORMATION =======================================================*/
 /**
  * \struct image_info_defV41
  */
@@ -338,7 +344,8 @@ static std::string GetGeneralInfoString(std::string file, int lineNum)
   return outString;
 }
 
-static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file, int lineNum)
+static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file, 
+  int lineNum)
 {
   struct image_info_defV3 tempInfo;
   std::string currentLine = "";
@@ -354,8 +361,10 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
       (currentLine == "\n") ||
       (currentLine == "\r\n") ||
       (currentLine == "\r") ||
-      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
-      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ======================"
+      "=========================") ||
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ======================"
+      "=========================\r"))
     {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -367,19 +376,25 @@ static struct image_info_defV3 GetImageInformationDefinitionV3(std::string file,
     return tempInfo;
     }
   inString >> tempInfo.slice >> tempInfo.echo >> tempInfo.dynamic;
-  inString >> tempInfo.cardiac >> tempInfo.image_type_mr >> tempInfo.scan_sequence;
+  inString >> tempInfo.cardiac >> tempInfo.image_type_mr 
+    >> tempInfo.scan_sequence;
   inString >> tempInfo.index >> tempInfo.rescale_int >> tempInfo.rescale_slope;
-  inString >> tempInfo.scale_slope >> tempInfo.window_center >> tempInfo.window_width;
+  inString >> tempInfo.scale_slope >> tempInfo.window_center 
+    >> tempInfo.window_width;
   inString >> tempInfo.angAP >> tempInfo.angFH >> tempInfo.angRL;
   inString >> tempInfo.offAP >> tempInfo.offFH >> tempInfo.offRL;
-  inString >> tempInfo.display_orientation >> tempInfo.slice_orientation >> tempInfo.fmri_status_indication;
-  inString >> tempInfo.image_type_ed_es >> tempInfo.spacingx >> tempInfo.spacingy;
-  inString >> tempInfo.echo_time >> tempInfo.dyn_scan_begin_time >> tempInfo.trigger_time;
+  inString >> tempInfo.display_orientation >> tempInfo.slice_orientation 
+    >> tempInfo.fmri_status_indication;
+  inString >> tempInfo.image_type_ed_es >> tempInfo.spacingx 
+    >> tempInfo.spacingy;
+  inString >> tempInfo.echo_time >> tempInfo.dyn_scan_begin_time 
+    >> tempInfo.trigger_time;
   inString >> tempInfo.diffusion_b_factor >> tempInfo.image_flip_angle;
   return tempInfo;
 }
 
-struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int lineNum)
+struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, 
+  int lineNum)
 {
   struct image_info_defV4 tempInfo;
   std::string currentLine = "";
@@ -395,8 +410,10 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
       (currentLine == "\n") ||
       (currentLine == "\r\n") ||
       (currentLine == "\r") ||
-      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
-      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ======================"
+      "=========================") ||
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ======================"
+      "=========================\r"))
     {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -408,24 +425,32 @@ struct image_info_defV4 GetImageInformationDefinitionV4(std::string file, int li
     return tempInfo;
     }
   inString >> tempInfo.slice >> tempInfo.echo >> tempInfo.dynamic;
-  inString >> tempInfo.cardiac >> tempInfo.image_type_mr >> tempInfo.scan_sequence;
+  inString >> tempInfo.cardiac >> tempInfo.image_type_mr 
+    >> tempInfo.scan_sequence;
   inString >> tempInfo.index >> tempInfo.image_bits >> tempInfo.scan_percent;
   inString >> tempInfo.recon_dimx >> tempInfo.recon_dimy;
   inString >> tempInfo.rescale_int >> tempInfo.rescale_slope;
-  inString >> tempInfo.scale_slope >> tempInfo.window_center >> tempInfo.window_width;
+  inString >> tempInfo.scale_slope >> tempInfo.window_center 
+    >> tempInfo.window_width;
   inString >> tempInfo.angAP >> tempInfo.angFH >> tempInfo.angRL;
   inString >> tempInfo.offAP >> tempInfo.offFH >> tempInfo.offRL;
   inString >> tempInfo.slice_thick >> tempInfo.slice_gap;
-  inString >> tempInfo.display_orientation >> tempInfo.slice_orientation >> tempInfo.fmri_status_indication;
-  inString >> tempInfo.image_type_ed_es >> tempInfo.spacingx >> tempInfo.spacingy;
-  inString >> tempInfo.echo_time >> tempInfo.dyn_scan_begin_time >> tempInfo.trigger_time;
-  inString >> tempInfo.diffusion_b_factor >> tempInfo.num_averages >> tempInfo.image_flip_angle;
-  inString >> tempInfo.cardiac_freq >> tempInfo.min_rr_int >> tempInfo.max_rr_int;
+  inString >> tempInfo.display_orientation >> tempInfo.slice_orientation 
+    >> tempInfo.fmri_status_indication;
+  inString >> tempInfo.image_type_ed_es >> tempInfo.spacingx 
+    >> tempInfo.spacingy;
+  inString >> tempInfo.echo_time >> tempInfo.dyn_scan_begin_time 
+    >> tempInfo.trigger_time;
+  inString >> tempInfo.diffusion_b_factor >> tempInfo.num_averages 
+    >> tempInfo.image_flip_angle;
+  inString >> tempInfo.cardiac_freq >> tempInfo.min_rr_int 
+    >> tempInfo.max_rr_int;
   inString >> tempInfo.turbo_factor >> tempInfo.inversion_delay;
   return tempInfo;
 }
 
-struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int lineNum)
+struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, 
+  int lineNum)
 {
   struct image_info_defV41 tempInfo;
   std::string currentLine = "";
@@ -441,8 +466,10 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
       (currentLine == "\n") ||
       (currentLine == "\r\n") ||
       (currentLine == "\r") ||
-      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================") ||
-      (currentLine == "# === END OF DATA DESCRIPTION FILE ===============================================\r"))
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ======================"
+      "=========================") ||
+      (currentLine == "# === END OF DATA DESCRIPTION FILE ======================"
+      "=========================\r"))
     {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -454,23 +481,32 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
     return tempInfo;
     }
   inString >> tempInfo.slice >> tempInfo.echo >> tempInfo.dynamic;
-  inString >> tempInfo.cardiac >> tempInfo.image_type_mr >> tempInfo.scan_sequence;
+  inString >> tempInfo.cardiac >> tempInfo.image_type_mr 
+    >> tempInfo.scan_sequence;
   inString >> tempInfo.index >> tempInfo.image_bits >> tempInfo.scan_percent;
   inString >> tempInfo.recon_dimx >> tempInfo.recon_dimy;
   inString >> tempInfo.rescale_int >> tempInfo.rescale_slope;
-  inString >> tempInfo.scale_slope >> tempInfo.window_center >> tempInfo.window_width;
+  inString >> tempInfo.scale_slope >> tempInfo.window_center 
+    >> tempInfo.window_width;
   inString >> tempInfo.angAP >> tempInfo.angFH >> tempInfo.angRL;
   inString >> tempInfo.offAP >> tempInfo.offFH >> tempInfo.offRL;
   inString >> tempInfo.slice_thick >> tempInfo.slice_gap;
-  inString >> tempInfo.display_orientation >> tempInfo.slice_orientation >> tempInfo.fmri_status_indication;
-  inString >> tempInfo.image_type_ed_es >> tempInfo.spacingx >> tempInfo.spacingy;
-  inString >> tempInfo.echo_time >> tempInfo.dyn_scan_begin_time >> tempInfo.trigger_time;
-  inString >> tempInfo.diffusion_b_factor >> tempInfo.num_averages >> tempInfo.image_flip_angle;
-  inString >> tempInfo.cardiac_freq >> tempInfo.min_rr_int >> tempInfo.max_rr_int;
+  inString >> tempInfo.display_orientation >> tempInfo.slice_orientation 
+    >> tempInfo.fmri_status_indication;
+  inString >> tempInfo.image_type_ed_es >> tempInfo.spacingx 
+    >> tempInfo.spacingy;
+  inString >> tempInfo.echo_time >> tempInfo.dyn_scan_begin_time 
+    >> tempInfo.trigger_time;
+  inString >> tempInfo.diffusion_b_factor >> tempInfo.num_averages 
+    >> tempInfo.image_flip_angle;
+  inString >> tempInfo.cardiac_freq >> tempInfo.min_rr_int 
+    >> tempInfo.max_rr_int;
   inString >> tempInfo.turbo_factor >> tempInfo.inversion_delay;
-  inString >> tempInfo.diffusion_b_value_number >> tempInfo.gradient_orientation_number;
+  inString >> tempInfo.diffusion_b_value_number 
+    >> tempInfo.gradient_orientation_number;
   inString >> tempInfo.contrast_type >> tempInfo.contrast_type;
-  inString >> tempInfo.diffusion_ap >> tempInfo.diffusion_fh >> tempInfo.diffusion_rl;
+  inString >> tempInfo.diffusion_ap >> tempInfo.diffusion_fh 
+    >> tempInfo.diffusion_rl;
   return tempInfo;
 }
 
@@ -480,8 +516,8 @@ struct image_info_defV41 GetImageInformationDefinitionV41(std::string file, int 
 bool ReadPAR(std::string parFile, struct par_parameter* pPar)
 {
   //read version number of Philips research tools
-  //Research tools are used to extract data from database; data formats differ considerably
-  //between versions. Handles V3, V4, and V4.1
+  //Research tools are used to extract data from database; data formats differ 
+  //considerably between versions. Handles V3, V4, and V4.1
   std::string currentLine = "";
   std::string temp = "";
   std::string::size_type index = 0;
@@ -549,13 +585,17 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       struct image_info_defV3 tempInfo;
       struct image_info_defV3 tempInfo1;
       float fovAP, fovFH, fovRL;
-      strncpy(pPar->patient_name,GetGeneralInfoString(parFile,12).c_str(),sizeof(pPar->patient_name));
-      strncpy(pPar->exam_name,GetGeneralInfoString(parFile,13).c_str(),sizeof(pPar->exam_name));
-      strncpy(pPar->protocol_name,GetGeneralInfoString(parFile,14).c_str(),sizeof(pPar->protocol_name));
+      strncpy(pPar->patient_name,GetGeneralInfoString(parFile,12).c_str(),
+        sizeof(pPar->patient_name));
+      strncpy(pPar->exam_name,GetGeneralInfoString(parFile,13).c_str(),
+        sizeof(pPar->exam_name));
+      strncpy(pPar->protocol_name,GetGeneralInfoString(parFile,14).c_str(),
+        sizeof(pPar->protocol_name));
       strncpy(pPar->exam_date,GetGeneralInfoString(parFile,15).c_str(),
                 GetGeneralInfoString(parFile,15).find("/"));
       strncpy(pPar->exam_time,
-          GetGeneralInfoString(parFile,15).substr(GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
+          GetGeneralInfoString(parFile,15).substr(
+            GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
           sizeof(pPar->exam_time));
       inString.str(GetGeneralInfoString(parFile,16));
       inString >> pPar->scno;
@@ -584,8 +624,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,24));
       inString >> pPar->bit;
       inString.clear();
-      strncpy(pPar->technique,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->technique));
-      strncpy(pPar->scan_mode,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->scan_mode));
+      strncpy(pPar->technique,GetGeneralInfoString(parFile,25).c_str(),
+        sizeof(pPar->technique));
+      strncpy(pPar->scan_mode,GetGeneralInfoString(parFile,26).c_str(),
+        sizeof(pPar->scan_mode));
       inString.str(GetGeneralInfoString(parFile,27));
       inString >> pPar->scan_resolution[0];
       inString >> pPar->scan_resolution[1];
@@ -615,7 +657,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       if( tempInfo.problemreading )
         {
         pPar->problemreading = 1;
-        std::cerr << "ReadPAR: GetImageInformationDefinitionV3(parFile, 89)" << std::endl;
+        std::cerr << "ReadPAR: GetImageInformationDefinitionV3(parFile, 89)" 
+          << std::endl;
         return false;
         }
       pPar->sliceorient = tempInfo.slice_orientation;
@@ -628,17 +671,20 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,32));
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
+      // slice orientation: transversal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) 
         {
         pPar->fov[0] = fovAP;
         pPar->fov[1] = fovRL;
         }
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   // slice orientation: sagital
+      // slice orientation: sagittal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   
         {
         pPar->fov[0] = fovFH;
         pPar->fov[1] = fovAP;
         }
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   // slice orientation: coronal
+      // slice orientation: coronal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   
         {
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
@@ -720,7 +766,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( tempInfo1.problemreading )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: GetImageInformationDefinitionV3(parFile, 90)" << std::endl;
+          std::cerr << "ReadPAR: GetImageInformationDefinitionV3(parFile, 90)" 
+            << std::endl;
           return false;
           }
         if ((tempInfo1.slice-tempInfo.slice) > 0 )
@@ -753,7 +800,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_image_types;
-              pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+              pPar->image_types[pPar->num_image_types-1] = 
+                tempInfo1.image_type_mr;
               }
             isUnique = 1;
             // Find all of the scanning sequences.
@@ -768,7 +816,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_scanning_sequences;
-              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                tempInfo1.scan_sequence;
               }
             ++pPar->image_blocks;
             lineIncrement += pPar->slice;
@@ -777,7 +826,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-              //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
@@ -785,7 +833,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-              //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
               }
             tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
@@ -819,7 +866,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               if( isUnique )
                 {
                 ++pPar->num_image_types;
-                pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+                pPar->image_types[pPar->num_image_types-1] = 
+                  tempInfo1.image_type_mr;
                 }
               isUnique = 1;
               // Find all of the scanning sequences.
@@ -834,7 +882,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               if( isUnique )
                 {
                 ++pPar->num_scanning_sequences;
-                pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+                pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                  tempInfo1.scan_sequence;
                 }
               ++pPar->image_blocks;
               // Get the echo times.
@@ -842,7 +891,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                 {
                 ++echoIndex;
                 pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-                //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                 echoNumber = tempInfo1.echo;
                 }
               // Get the trigger times
@@ -850,21 +898,21 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                 {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-                //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                 cardiacPhase = tempInfo1.cardiac;
                 }
               }
             else
               {
               lineIncrement = 89;
-              // OK, I need to determine if there are more image blocks,
-              // only if pPar->num_image_types or pPar->num_scanning_sequences > 1
+              // OK, I need to determine if there are more image blocks, only 
+              // if pPar->num_image_types or pPar->num_scanning_sequences > 1
               if( (pPar->num_image_types > 1) ||
                  (pPar->num_scanning_sequences > 1) )
                 {
                 pPar->num_slice_repetitions = pPar->image_blocks;
                 lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
-                tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
+                tempInfo1 = GetImageInformationDefinitionV3(parFile, 
+                  lineIncrement);
                 while( !tempInfo1.problemreading && tempInfo1.slice )
                   {
                   // Get the echo times.
@@ -872,7 +920,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                     {
                     ++echoIndex;
                     pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-                    //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                     echoNumber = tempInfo1.echo;
                     }
                   // Get the trigger times
@@ -880,12 +927,12 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                     {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-                    //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                     cardiacPhase = tempInfo1.cardiac;
                     }
                   pPar->image_blocks += pPar->num_slice_repetitions;
                   lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
-                  tempInfo1 = GetImageInformationDefinitionV3(parFile, lineIncrement);
+                  tempInfo1 = GetImageInformationDefinitionV3(parFile, 
+                    lineIncrement);
                   }
                 }
               break;
@@ -909,8 +956,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
-          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
+          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" 
+            << std::endl;
+          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 
+            << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
           }
@@ -949,7 +998,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_image_types;
-              pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+              pPar->image_types[pPar->num_image_types-1] = 
+                tempInfo1.image_type_mr;
               }
             isUnique = 1;
             // Find all of the scanning sequences.
@@ -964,7 +1014,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_scanning_sequences;
-              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                tempInfo1.scan_sequence;
               }
             ++pPar->image_blocks;
             // Get the echo times.
@@ -972,7 +1023,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-              //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
@@ -980,7 +1030,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-              //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
               }
             // Need to keep track of the number of consecutive slice repetitions.
@@ -988,7 +1037,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++pPar->num_slice_repetitions;
               }
-            if( (pPar->cardiac_phases > 1) && (firstCardiacPhase == tempInfo1.cardiac) )
+            if( (pPar->cardiac_phases > 1) && 
+              (firstCardiacPhase == tempInfo1.cardiac) )
               {
               ++pPar->num_slice_repetitions;
               }
@@ -1019,8 +1069,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
-          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
+          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" 
+            << std::endl;
+          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 
+            << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
           }
@@ -1033,16 +1085,21 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       struct image_info_defV4 tempInfo;
       struct image_info_defV4 tempInfo1;
       float fovAP, fovFH, fovRL;
-      strncpy(pPar->patient_name,GetGeneralInfoString(parFile,12).c_str(),sizeof(pPar->patient_name));
-      strncpy(pPar->exam_name,GetGeneralInfoString(parFile,13).c_str(),sizeof(pPar->exam_name));
-      strncpy(pPar->protocol_name,GetGeneralInfoString(parFile,14).c_str(),sizeof(pPar->protocol_name));
+      strncpy(pPar->patient_name,GetGeneralInfoString(parFile,12).c_str(),
+        sizeof(pPar->patient_name));
+      strncpy(pPar->exam_name,GetGeneralInfoString(parFile,13).c_str(),
+        sizeof(pPar->exam_name));
+      strncpy(pPar->protocol_name,GetGeneralInfoString(parFile,14).c_str(),
+        sizeof(pPar->protocol_name));
       strncpy(pPar->exam_date,
           GetGeneralInfoString(parFile,15).c_str(),
           GetGeneralInfoString(parFile,15).find("/"));
       strncpy(pPar->exam_time,
-          GetGeneralInfoString(parFile,15).substr(GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
+          GetGeneralInfoString(parFile,15).substr(
+            GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
           sizeof(pPar->exam_time));
-      strncpy(pPar->series_type,GetGeneralInfoString(parFile,16).c_str(),sizeof(pPar->series_type));
+      strncpy(pPar->series_type,GetGeneralInfoString(parFile,16).c_str(),
+        sizeof(pPar->series_type));
       inString.str(GetGeneralInfoString(parFile,17));
       inString >> pPar->scno;
       inString.clear();
@@ -1067,9 +1124,12 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,24));
       inString >> pPar->mixes;
       inString.clear();
-      strncpy(pPar->patient_position,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->patient_position));
-      strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->prep_direction));
-      strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),sizeof(pPar->technique));
+      strncpy(pPar->patient_position,GetGeneralInfoString(parFile,25).c_str(),
+        sizeof(pPar->patient_position));
+      strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),
+        sizeof(pPar->prep_direction));
+      strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),
+        sizeof(pPar->technique));
       inString.str(GetGeneralInfoString(parFile,28));
       inString >> pPar->scan_resolution[0];
       inString >> pPar->scan_resolution[1];
@@ -1092,7 +1152,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       if( tempInfo.problemreading )
         {
         pPar->problemreading = 1;
-        std::cerr << "ReadPAR: GetImageInformationDefinitionV4(parFile, 92)" << std::endl;
+        std::cerr << "ReadPAR: GetImageInformationDefinitionV4(parFile, 92)" 
+          << std::endl;
         return false;
         }
       pPar->sliceorient = tempInfo.slice_orientation;
@@ -1112,17 +1173,20 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,31));
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
+      // slice orientation: transversal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) 
         {
         pPar->fov[0] = fovAP;
         pPar->fov[1] = fovRL;
         }
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   // slice orientation: sagital
+      // slice orientation: sagittal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   
         {
         pPar->fov[0] = fovFH;
         pPar->fov[1] = fovAP;
         }
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   // slice orientation: coronal
+      // slice orientation: coronal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   
         {
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
@@ -1182,7 +1246,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( tempInfo1.problemreading )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: GetImageInformationDefinitionV4(parFile, 93)" << std::endl;
+          std::cerr << "ReadPAR: GetImageInformationDefinitionV4(parFile, 93)" 
+            << std::endl;
           return false;
           }
         if ((tempInfo1.slice-tempInfo.slice) > 0 )
@@ -1215,7 +1280,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_image_types;
-              pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+              pPar->image_types[pPar->num_image_types-1] = 
+                tempInfo1.image_type_mr;
               }
             isUnique = 1;
             // Find all of the scanning sequences.
@@ -1230,7 +1296,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_scanning_sequences;
-              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                tempInfo1.scan_sequence;
               }
             ++pPar->image_blocks;
             // Get the echo times.
@@ -1238,7 +1305,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-              //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
@@ -1246,7 +1312,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-              //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
               }
             lineIncrement += pPar->slice;
@@ -1282,7 +1347,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               if( isUnique )
                 {
                 ++pPar->num_image_types;
-                pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+                pPar->image_types[pPar->num_image_types-1] = 
+                  tempInfo1.image_type_mr;
                 }
               isUnique = 1;
               // Find all of the scanning sequences.
@@ -1297,7 +1363,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               if( isUnique )
                 {
                 ++pPar->num_scanning_sequences;
-                pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+                pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                  tempInfo1.scan_sequence;
                 }
               ++pPar->image_blocks;
               // Get the echo times.
@@ -1305,7 +1372,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                 {
                 ++echoIndex;
                 pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-                //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                 echoNumber = tempInfo1.echo;
                 }
               // Get the trigger times
@@ -1313,23 +1379,23 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                 {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-                //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                 cardiacPhase = tempInfo1.cardiac;
                 }
               }
             // Now we have sufficient information to parse the rest of the PAR
-            // file (a very poorly designed file format!).
+            // file.
             else
               {
               lineIncrement = 92;
-              // OK, I need to determine if there are more image blocks,
-              // only if pPar->num_image_types or pPar->num_scanning_sequences > 1
+              // OK, I need to determine if there are more image blocks, only
+              // if pPar->num_image_types or pPar->num_scanning_sequences > 1
               if( (pPar->num_image_types > 1) ||
                  (pPar->num_scanning_sequences > 1) )
                 {
                 pPar->num_slice_repetitions = pPar->image_blocks;
                 lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
-                tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
+                tempInfo1 = GetImageInformationDefinitionV4(parFile, 
+                  lineIncrement);
                 while( !tempInfo1.problemreading && tempInfo1.slice )
                   {
                   // Get the echo times.
@@ -1337,7 +1403,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                     {
                     ++echoIndex;
                     pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-                    //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                     echoNumber = tempInfo1.echo;
                     }
                   // Get the trigger times
@@ -1345,12 +1410,12 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                     {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-                    //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                     cardiacPhase = tempInfo1.cardiac;
                     }
                   pPar->image_blocks += pPar->num_slice_repetitions;
                   lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
-                  tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement);
+                  tempInfo1 = GetImageInformationDefinitionV4(parFile, 
+                    lineIncrement);
                   }
                 }
               break;
@@ -1374,8 +1439,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
-          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
+          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" 
+            << std::endl;
+          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 
+            << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
           }
@@ -1414,7 +1481,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_image_types;
-              pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+              pPar->image_types[pPar->num_image_types-1] = 
+                tempInfo1.image_type_mr;
               }
             isUnique = 1;
             // Find all of the scanning sequences.
@@ -1429,7 +1497,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_scanning_sequences;
-              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                tempInfo1.scan_sequence;
               }
             ++pPar->image_blocks;
             // Should be equal after the first iteration, but will only
@@ -1439,7 +1508,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-              //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
@@ -1447,7 +1515,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-              //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
               }
             // Need to keep track of the number of consecutive slice repetitions.
@@ -1455,7 +1522,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++pPar->num_slice_repetitions;
               }
-            if( (pPar->cardiac_phases > 1) && (firstCardiacPhase == tempInfo1.cardiac) )
+            if( (pPar->cardiac_phases > 1) && 
+              (firstCardiacPhase == tempInfo1.cardiac) )
               {
               ++pPar->num_slice_repetitions;
               }
@@ -1486,8 +1554,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
-          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
+          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" 
+            << std::endl;
+          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 
+            << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
           }
@@ -1500,16 +1570,21 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       struct image_info_defV41 tempInfo;
       struct image_info_defV41 tempInfo1;
       float fovAP, fovFH, fovRL;
-      strncpy(pPar->patient_name,GetGeneralInfoString(parFile,12).c_str(),sizeof(pPar->patient_name));
-      strncpy(pPar->exam_name,GetGeneralInfoString(parFile,13).c_str(),sizeof(pPar->exam_name));
-      strncpy(pPar->protocol_name,GetGeneralInfoString(parFile,14).c_str(),sizeof(pPar->protocol_name));
+      strncpy(pPar->patient_name,GetGeneralInfoString(parFile,12).c_str(),
+        sizeof(pPar->patient_name));
+      strncpy(pPar->exam_name,GetGeneralInfoString(parFile,13).c_str(),
+        sizeof(pPar->exam_name));
+      strncpy(pPar->protocol_name,GetGeneralInfoString(parFile,14).c_str(),
+        sizeof(pPar->protocol_name));
       strncpy(pPar->exam_date,
           GetGeneralInfoString(parFile,15).c_str(),
           GetGeneralInfoString(parFile,15).find("/"));
       strncpy(pPar->exam_time,
-          GetGeneralInfoString(parFile,15).substr(GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
+          GetGeneralInfoString(parFile,15).substr(
+            GetGeneralInfoString(parFile,15).find("/")+1).c_str(),
           sizeof(pPar->exam_time));
-      strncpy(pPar->series_type,GetGeneralInfoString(parFile,16).c_str(),sizeof(pPar->series_type));
+      strncpy(pPar->series_type,GetGeneralInfoString(parFile,16).c_str(),
+        sizeof(pPar->series_type));
       inString.str(GetGeneralInfoString(parFile,17));
       inString >> pPar->scno;
       inString.clear();
@@ -1534,9 +1609,12 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,24));
       inString >> pPar->mixes;
       inString.clear();
-      strncpy(pPar->patient_position,GetGeneralInfoString(parFile,25).c_str(),sizeof(pPar->patient_position));
-      strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),sizeof(pPar->prep_direction));
-      strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),sizeof(pPar->technique));
+      strncpy(pPar->patient_position,GetGeneralInfoString(parFile,25).c_str(),
+        sizeof(pPar->patient_position));
+      strncpy(pPar->prep_direction,GetGeneralInfoString(parFile,26).c_str(),
+        sizeof(pPar->prep_direction));
+      strncpy(pPar->technique,GetGeneralInfoString(parFile,27).c_str(),
+        sizeof(pPar->technique));
       inString.str(GetGeneralInfoString(parFile,28));
       inString >> pPar->scan_resolution[0];
       inString >> pPar->scan_resolution[1];
@@ -1559,7 +1637,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       if( tempInfo.problemreading )
         {
         pPar->problemreading = 1;
-        std::cerr << "ReadPAR: GetImageInformationDefinitionV41(parFile, 99)" << std::endl;
+        std::cerr << "ReadPAR: GetImageInformationDefinitionV41(parFile, 99)" 
+          << std::endl;
         return false;
         }
       pPar->sliceorient = tempInfo.slice_orientation;
@@ -1579,17 +1658,20 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       inString.str(GetGeneralInfoString(parFile,31));
       inString >> fovAP >> fovFH >> fovRL;
       inString.clear();
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) // slice orientation: transversal
+      // slice orientation: transversal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_TRANSVERSAL ) 
         {
         pPar->fov[0] = fovAP;
         pPar->fov[1] = fovRL;
         }
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   // slice orientation: sagital
+      // slice orientation: sagittal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_SAGITTAL )   
         {
         pPar->fov[0] = fovFH;
         pPar->fov[1] = fovAP;
         }
-      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   // slice orientation: coronal
+      // slice orientation: coronal
+      if( pPar->sliceorient == PAR_SLICE_ORIENTATION_CORONAL )   
         {
         pPar->fov[0] = fovRL;
         pPar->fov[1] = fovFH;
@@ -1655,7 +1737,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( tempInfo1.problemreading )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: GetImageInformationDefinitionV41(parFile, 100)" << std::endl;
+          std::cerr << "ReadPAR: GetImageInformationDefinitionV41(parFile, 100)" 
+            << std::endl;
           return false;
           }
         if ((tempInfo1.slice-tempInfo.slice) > 0 )
@@ -1688,7 +1771,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_image_types;
-              pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+              pPar->image_types[pPar->num_image_types-1] = 
+                tempInfo1.image_type_mr;
               }
             isUnique = 1;
             // Find all of the scanning sequences.
@@ -1703,7 +1787,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_scanning_sequences;
-              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                tempInfo1.scan_sequence;
               }
 
             ++pPar->image_blocks;
@@ -1713,7 +1798,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-              //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
               }
 
@@ -1722,7 +1806,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-              //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
               }
             lineIncrement += pPar->slice;
@@ -1758,7 +1841,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               if( isUnique )
                 {
                 ++pPar->num_image_types;
-                pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+                pPar->image_types[pPar->num_image_types-1] = 
+                  tempInfo1.image_type_mr;
                 }
               isUnique = 1;
               // Find all of the scanning sequences.
@@ -1773,7 +1857,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               if( isUnique )
                 {
                 ++pPar->num_scanning_sequences;
-                pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+                pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                  tempInfo1.scan_sequence;
                 }
               ++pPar->image_blocks;
               // Get the echo times.
@@ -1781,7 +1866,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                 {
                 ++echoIndex;
                 pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-                //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                 echoNumber = tempInfo1.echo;
                 }
               // Get the trigger times
@@ -1789,7 +1873,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                 {
                 ++cardiacIndex;
                 pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-                //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                 cardiacPhase = tempInfo1.cardiac;
                 }
               }
@@ -1798,14 +1881,15 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             else
               {
               lineIncrement = 99;
-              // OK, I need to determine if there are more image blocks,
-              // only if pPar->num_image_types or pPar->num_scanning_sequences > 1
+              // OK, I need to determine if there are more image blocks, only
+              // if pPar->num_image_types or pPar->num_scanning_sequences > 1
               if( (pPar->num_image_types > 1) ||
                  (pPar->num_scanning_sequences > 1) )
                 {
                 pPar->num_slice_repetitions = pPar->image_blocks;
                 lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
-                tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
+                tempInfo1 = GetImageInformationDefinitionV41(parFile, 
+                  lineIncrement);
                 while( !tempInfo1.problemreading && tempInfo1.slice )
                   {
                   // Get the echo times.
@@ -1813,7 +1897,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                     {
                     ++echoIndex;
                     pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-                    //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
                     echoNumber = tempInfo1.echo;
                     }
                   // Get the trigger times
@@ -1821,12 +1904,12 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
                     {
                     ++cardiacIndex;
                     pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-                    //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
                     cardiacPhase = tempInfo1.cardiac;
                     }
                   pPar->image_blocks += pPar->num_slice_repetitions;
                   lineIncrement += (pPar->slice*pPar->num_slice_repetitions);
-                  tempInfo1 = GetImageInformationDefinitionV41(parFile, lineIncrement);
+                  tempInfo1 = GetImageInformationDefinitionV41(parFile, 
+                    lineIncrement);
                   }
                 }
               break;
@@ -1851,8 +1934,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
-          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
+          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" 
+            << std::endl;
+          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 
+            << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
           }
@@ -1891,7 +1976,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_image_types;
-              pPar->image_types[pPar->num_image_types-1] = tempInfo1.image_type_mr;
+              pPar->image_types[pPar->num_image_types-1] = 
+                tempInfo1.image_type_mr;
               }
             isUnique = 1;
             // Find all of the scanning sequences.
@@ -1906,7 +1992,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
             if( isUnique )
               {
               ++pPar->num_scanning_sequences;
-              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = tempInfo1.scan_sequence;
+              pPar->scanning_sequences[pPar->num_scanning_sequences-1] = 
+                tempInfo1.scan_sequence;
               }
             ++pPar->image_blocks;
             // Should be equal after the first iteration, but will only
@@ -1916,7 +2003,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++echoIndex;
               pPar->echo_times[echoIndex] = tempInfo1.echo_time;
-              //pPar->echo_times[echoIndex] /= 1000.0f; // Convert from ms to s.
               echoNumber = tempInfo1.echo;
               }
             // Get the trigger times
@@ -1924,7 +2010,6 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++cardiacIndex;
               pPar->trigger_times[cardiacIndex] = tempInfo1.trigger_time;
-              //pPar->trigger_times[cardiacIndex] /= 1000.0f; // Convert from ms to s.
               cardiacPhase = tempInfo1.cardiac;
               }
             // Need to keep track of the number of consecutive slice repetitions.
@@ -1932,7 +2017,8 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
               {
               ++pPar->num_slice_repetitions;
               }
-            if( (pPar->cardiac_phases > 1) && (firstCardiacPhase == tempInfo1.cardiac) )
+            if( (pPar->cardiac_phases > 1) && 
+              (firstCardiacPhase == tempInfo1.cardiac) )
               {
               ++pPar->num_slice_repetitions;
               }
@@ -1963,8 +2049,10 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" << std::endl;
-          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 << std::endl;
+          std::cerr << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex" 
+            << std::endl;
+          std::cerr << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1 
+            << std::endl;
           std::cerr << "cardiacIndex = " << cardiacIndex << std::endl;
           return false;
           }
@@ -2007,37 +2095,17 @@ bool ReadPAR(std::string parFile, struct par_parameter* pPar)
       pPar->scanning_sequences[m] = sortedScanningSequences[m];
       }
     }
-  // OK, I hate hard-coding things in, but I have no joice here.
-  // Dr. Qing Yang developed a multi-echo GESEPI-SENSE technique on
-  // the Philips 3T that uses some pecularities not normally found in
-  // PAR files.  Essentially these multi-echo sequences are used to
-  // calculate T2* parameter maps, HOWEVER the echo times for this
-  // sequence are not written out to the PAR file, so they must be
-  // hard-coded here.
-  // Commented out, as this class may be part of ITK at some point
-  // and it is not likely that anyone outside of our institution
-  // will come across this type of image.
-  //if( !strncmp(pPar->technique,"   FEEPI",strlen("   FEEPI")) &&
-  //  (pPar->dyn == 1) )
-  //{
-  //  if( pPar->epi > 1 )
-  //  {
-  //    pPar->echoes = pPar->epi;
-  //    for(int l=0; l<pPar->echoes; l++)
-  //    {
-  //      pPar->echo_times[l] = (float)(3.736e-3 + 3.272e-3*l);
-  //    }
-  //  }
-  //}
+  
   // This is a final fixup that will report the total z dimension
   // as the product of the # of slices and the number of image blocks.
   pPar->dim[2] *= pPar->image_blocks;
   return true;
 }
 
-std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parFile)
+PARSliceIndexImageTypeVector GetRECSliceIndexImageTypes(
+  std::string parFile)
 {
-  std::vector< std::pair< int, int > > recSliceIndexImageTypes;
+  PARSliceIndexImageTypeVector recSliceIndexImageTypes;
   std::string currentLine = "";
   std::string::size_type index;
   int ResToolsVersion;
@@ -2076,7 +2144,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
       struct image_info_defV3 tempInfo;
-      std::pair< int, int > sliceAndType;
+      PARSliceIndexImageType sliceAndType;
       int lineIncrement = 89;
       tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
       while( !tempInfo.problemreading && tempInfo.slice )
@@ -2092,7 +2160,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
       struct image_info_defV4 tempInfo;
-      std::pair< int, int > sliceAndType;
+      PARSliceIndexImageType sliceAndType;
       int lineIncrement = 92;
       tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
       while( !tempInfo.problemreading && tempInfo.slice )
@@ -2108,7 +2176,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
       struct image_info_defV41 tempInfo;
-      std::pair< int, int > sliceAndType;
+      PARSliceIndexImageType sliceAndType;
       int lineIncrement = 99;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
       while( !tempInfo.problemreading && tempInfo.slice )
@@ -2125,9 +2193,10 @@ std::vector< std::pair< int, int > > GetRECSliceIndexImageTypes(std::string parF
   return recSliceIndexImageTypes;
 }
 
-std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::string parFile)
+PARSliceIndexScanSequenceVector GetRECSliceIndexScanningSequence(
+  std::string parFile)
 {
-  std::vector< std::pair< int, int > > recSliceIndexScanSequence;
+  PARSliceIndexScanSequenceVector recSliceIndexScanSequence;
   std::string currentLine = "";
   std::string::size_type index;
   int ResToolsVersion;
@@ -2166,7 +2235,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
       struct image_info_defV3 tempInfo;
-      std::pair< int, int > sliceAndSequence;
+      PARSliceIndexScanSequence sliceAndSequence;
       int lineIncrement = 89;
       tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
       while( !tempInfo.problemreading && tempInfo.slice )
@@ -2182,7 +2251,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
       struct image_info_defV4 tempInfo;
-      std::pair< int, int > sliceAndSequence;
+      PARSliceIndexScanSequence sliceAndSequence;
       int lineIncrement = 92;
       tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
       while( !tempInfo.problemreading && tempInfo.slice )
@@ -2198,7 +2267,7 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
       struct image_info_defV41 tempInfo;
-      std::pair< int, int > sliceAndSequence;
+      PARSliceIndexScanSequence sliceAndSequence;
       int lineIncrement = 99;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
       while( !tempInfo.problemreading && tempInfo.slice )
@@ -2215,9 +2284,10 @@ std::vector< std::pair< int, int > > GetRECSliceIndexScanningSequence(std::strin
   return recSliceIndexScanSequence;
 }
 
-std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string parFile)
+PARImageTypeScanSequenceVector GetImageTypesScanningSequence(
+  std::string parFile)
 {
-  std::vector< std::pair< int, int > > recImageTypesScanSequence;
+  PARImageTypeScanSequenceVector recImageTypesScanSequence;
   std::string currentLine = "";
   struct par_parameter parParam;
 
@@ -2232,28 +2302,31 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
       struct image_info_defV3 tempInfo;
-      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
+      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; 
+        scanIndex++)
         {
-        std::pair< int, int > imageTypeAndSequence;
+        PARImageTypeScanSequence imageTypeAndSequence;
         int lineIncrement = 89;
         int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
         tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
         while( !tempInfo.problemreading && tempInfo.slice )
           {
-          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-            (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
+          if((*(imageType+tempInfo.image_type_mr) < 0) &&
+            (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)))
             {
             *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
             }
           ++lineIncrement;
           tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
           }
-        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
+        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; 
+          imageTypeIndex++)
           {
           if( *(imageType+imageTypeIndex) >= 0 )
             {
             imageTypeAndSequence.first = imageTypeIndex;
-            imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
+            imageTypeAndSequence.second = 
+              *(parParam.scanning_sequences+scanIndex);
             recImageTypesScanSequence.push_back(imageTypeAndSequence);
             }
           }
@@ -2263,28 +2336,31 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
       struct image_info_defV4 tempInfo;
-      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
+      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; 
+        scanIndex++)
         {
-        std::pair< int, int > imageTypeAndSequence;
+        PARImageTypeScanSequence imageTypeAndSequence;
         int lineIncrement = 92;
         int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
         tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
         while( !tempInfo.problemreading && tempInfo.slice )
           {
-          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-              (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
+          if((*(imageType+tempInfo.image_type_mr) < 0) &&
+            (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)))
             {
             *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
             }
             ++lineIncrement;
             tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
           }
-        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
+        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; 
+          imageTypeIndex++)
           {
           if( *(imageType+imageTypeIndex) >= 0 )
             {
             imageTypeAndSequence.first = imageTypeIndex;
-            imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
+            imageTypeAndSequence.second = 
+              *(parParam.scanning_sequences+scanIndex);
             recImageTypesScanSequence.push_back(imageTypeAndSequence);
             }
           }
@@ -2294,28 +2370,31 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
       struct image_info_defV41 tempInfo;
-      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; scanIndex++)
+      for(int scanIndex=0; scanIndex<parParam.num_scanning_sequences; 
+        scanIndex++)
         {
-        std::pair< int, int > imageTypeAndSequence;
+        PARImageTypeScanSequence imageTypeAndSequence;
         int lineIncrement = 99;
         int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
         tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
         while( !tempInfo.problemreading && tempInfo.slice )
           {
-          if( (*(imageType+tempInfo.image_type_mr) < 0) &&
-              (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)) )
+          if((*(imageType+tempInfo.image_type_mr) < 0) &&
+            (tempInfo.scan_sequence == *(parParam.scanning_sequences+scanIndex)))
             {
             *(imageType+tempInfo.image_type_mr) = tempInfo.image_type_mr;
             }
             ++lineIncrement;
             tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
           }
-        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; imageTypeIndex++)
+        for(int imageTypeIndex=0; imageTypeIndex<PAR_DEFAULT_IMAGE_TYPES_SIZE; 
+          imageTypeIndex++)
           {
           if( *(imageType+imageTypeIndex) >= 0 )
             {
             imageTypeAndSequence.first = imageTypeIndex;
-            imageTypeAndSequence.second = *(parParam.scanning_sequences+scanIndex);
+            imageTypeAndSequence.second = 
+              *(parParam.scanning_sequences+scanIndex);
             recImageTypesScanSequence.push_back(imageTypeAndSequence);
             }
           }
@@ -2327,15 +2406,15 @@ std::vector< std::pair< int, int > > GetImageTypesScanningSequence(std::string p
 }
 
 bool GetRECRescaleValues(std::string parFile,
-  VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > > *rescaleValues,
-  int scan_sequence)
+  PARRescaleValuesContainer *rescaleValues, int scan_sequence)
 {
   std::string currentLine = "";
   std::string::size_type index;
   int ResToolsVersion;
   rescaleValues->clear();
-  rescaleValues->resize(PAR_DEFAULT_IMAGE_TYPES_SIZE); // Must match size of image_types
-  vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > zero(0.0);
+  // Must match size of image_types
+  rescaleValues->resize(PAR_DEFAULT_IMAGE_TYPES_SIZE); 
+  PARRescaleValues zero(0.0);
   for(unsigned int zeroIndex=0; zeroIndex<rescaleValues->size(); zeroIndex++)
     {
     (*rescaleValues)[zeroIndex] = zero; // Zero out everything
@@ -2374,7 +2453,7 @@ bool GetRECRescaleValues(std::string parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
       {
       struct image_info_defV3 tempInfo;
-      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
+      PARRescaleValues rescale;
       int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
       int lineIncrement = 89;
       tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement);
@@ -2397,7 +2476,7 @@ bool GetRECRescaleValues(std::string parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
       {
       struct image_info_defV4 tempInfo;
-      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
+      PARRescaleValues rescale;
       int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
       int lineIncrement = 92;
       tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement);
@@ -2420,7 +2499,7 @@ bool GetRECRescaleValues(std::string parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
       {
       struct image_info_defV41 tempInfo;
-      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > rescale;
+      PARRescaleValues rescale;
       int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = {-1,-1,-1,-1,-1,-1,-1,-1};
       int lineIncrement = 99;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
@@ -2445,8 +2524,7 @@ bool GetRECRescaleValues(std::string parFile,
 }
 
 bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
-  VectorContainer< unsigned int, vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > > *gradientValues,
-  VectorContainer< unsigned int, double > *bValues)
+  PARDiffusionValuesContainer *gradientValues, PARBValuesContainer *bValues)
 {
   std::string currentLine = "";
   std::string::size_type index;
@@ -2462,7 +2540,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   if( index != std::string::npos )
     {
     struct image_info_defV41 tempInfo;
-    vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > direction;
+    PARDiffusionValues direction;
     int lineIncrement = 99;
 
     if( !ReadPAR(parFile, &tempPar) )
@@ -2482,7 +2560,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
     while( !tempInfo.problemreading && tempInfo.slice
       && (gradientDirectionCount < tempPar.max_num_grad_orient) )
       {
-      vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > tempDirection;
+      PARDiffusionValues tempDirection;
       tempDirection[0] = tempInfo.diffusion_ap;
       tempDirection[1] = tempInfo.diffusion_fh;
       tempDirection[2] = tempInfo.diffusion_rl;

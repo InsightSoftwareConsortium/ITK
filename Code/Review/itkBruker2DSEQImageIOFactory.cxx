@@ -20,13 +20,13 @@
 #include "itkVersion.h"
 
 /* 
- * \author Don C. Bigler
- *         The Pennsylvania State University 2005
- *
- * This implementation was contributed as a paper to the Insight Journal
- * http://insight-journal.org/midas/handle.php?handle=1926/1381
- *
- */
+* \author Don C. Bigler
+*         The Pennsylvania State University 2005
+*
+* This implementation was contributed as a paper to the Insight Journal
+* http://insight-journal.org/midas/handle.php?handle=1926/1381
+*
+*/
  
 namespace itk
 {
@@ -53,7 +53,8 @@ Bruker2DSEQImageIOFactory::GetITKSourceVersion(void) const
 const char* 
 Bruker2DSEQImageIOFactory::GetDescription(void) const
 {
-  return "Bruker 2DSEQ ImageIO Factory, allows the loading of most Bruker 2DSEQ images into Insight";
+  return "Bruker 2DSEQ ImageIO Factory, allows the loading of most Bruker 2DSEQ"
+  " images into Insight";
 }
 
 } // end namespace itk

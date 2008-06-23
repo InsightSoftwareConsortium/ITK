@@ -65,36 +65,44 @@ public:
   itkTypeMacro(PhilipsRECImageIO, Superclass);
 
   /** Special types used for Philips PAR meta data. */
-  typedef VectorContainer< unsigned int, double >   EchoTimesContainerType;
-  typedef VectorContainer< unsigned int, double >   TriggerTimesContainerType;
-  typedef VectorContainer< unsigned int, double >   RepetitionTimesContainerType;
-  typedef vnl_vector_fixed< int, 2 >                ScanResolutionType;
-  typedef vnl_vector_fixed< float, 3 >              FOVType;
-  typedef vnl_vector_fixed< double, 3 >             AngulationMidSliceType;
-  typedef vnl_vector_fixed< double, 3 >             OffCentreMidSliceType;
-  typedef vnl_vector_fixed< float, 3 >              PhaseEncodingVelocityType;
-  /** Image types: 0 = Magnitude, 1 = Real, 2 = Imaginary, 3 = Phase, & 4 = Special/Processed. */
-  typedef vnl_vector_fixed< int, 8 >                ImageTypesType;
-  typedef vnl_vector_fixed< int, 8 >                ScanningSequencesType;
-  typedef std::vector< int >                        SliceIndexType;
-  typedef vnl_vector_fixed< double, 3 >             ImageTypeRescaleValuesType;
+  typedef VectorContainer< unsigned int, double > EchoTimesContainerType;
+  typedef VectorContainer< unsigned int, double > TriggerTimesContainerType;
+  typedef VectorContainer< unsigned int, double > RepetitionTimesContainerType;
+  typedef vnl_vector_fixed< int, 2 >              ScanResolutionType;
+  typedef vnl_vector_fixed< float, 3 >            FOVType;
+  typedef vnl_vector_fixed< double, 3 >           AngulationMidSliceType;
+  typedef vnl_vector_fixed< double, 3 >           OffCentreMidSliceType;
+  typedef vnl_vector_fixed< float, 3 >            PhaseEncodingVelocityType;
+  /** Image types: 
+   * 0 = Magnitude, 
+   * 1 = Real, 
+   * 2 = Imaginary, 
+   * 3 = Phase,
+   * 4 = Special/Processed. */
+  typedef vnl_vector_fixed< int, 8 >              ImageTypesType;
+  typedef vnl_vector_fixed< int, 8 >              ScanningSequencesType;
+  typedef std::vector< int >                      SliceIndexType;
+  typedef vnl_vector_fixed< double, 3 >           ImageTypeRescaleValuesType;
+  
   typedef VectorContainer< unsigned int, ImageTypeRescaleValuesType >
-                                                    ImageTypeRescaleValuesContainerType;
-  typedef VectorContainer< unsigned int, ImageTypeRescaleValuesContainerType::Pointer >
-                                                    ScanningSequenceImageTypeRescaleValuesContainerType;
-  typedef double                                    GradientBvalueType;
+                             ImageTypeRescaleValuesContainerType;
+  typedef ImageTypeRescaleValuesContainerType::Pointer
+                             ImageTypeRescaleValuesContainerTypePtr;
+  typedef VectorContainer< unsigned int, ImageTypeRescaleValuesContainerTypePtr >
+                             ScanningSequenceImageTypeRescaleValuesContainerType;
+  typedef double             GradientBvalueType;
   typedef VectorContainer< unsigned int, GradientBvalueType >
-                                                    GradientBvalueContainerType;
-  typedef vnl_vector_fixed< double, 3 >             GradientDirectionType;
+                             GradientBvalueContainerType;
+  typedef vnl_vector_fixed< double, 3 >
+                             GradientDirectionType;
   typedef VectorContainer< unsigned int, GradientDirectionType >
-                                                    GradientDirectionContainerType;
+                             GradientDirectionContainerType;
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine if the file can be read with this ImageIO implementation.
        * \author Don C. Bigler
        * \param FileNameToRead The name of the file to test for reading.
-       * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
   virtual bool CanReadFile(const char* FileNameToRead);
