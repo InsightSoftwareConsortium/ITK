@@ -99,7 +99,8 @@ const char *const ACQ_INVERSION_TIME = "##$ACQ_inversion_time";
 #define IP_INT          "ip_int"
 
 void
-Bruker2DSEQImageIO::SwapBytesIfNecessary( void* buffer, unsigned long numberOfPixels )
+Bruker2DSEQImageIO::SwapBytesIfNecessary( void* buffer, 
+  unsigned long numberOfPixels )
 {
   if ( m_ByteOrder == LittleEndian )
     {
@@ -255,20 +256,22 @@ void Bruker2DSEQImageIO::Read(void* buffer)
   if( twodseq_InputStream.fail() )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    std::string message="The 2dseq Data File can not be opened: The following file was attempted:\n ";
-    message += this->m_FileName;
-    message += '\n';
-    exception.SetDescription(message.c_str());
+    std::string errMsg="The 2dseq Data File can not be opened: ";
+    errMsg += "The following file was attempted:\n ";
+    errMsg += this->m_FileName;
+    errMsg += '\n';
+    exception.SetDescription(errMsg.c_str());
     throw exception;
     }
   twodseq_InputStream.read(p, this->GetImageSizeInBytes());
   if( twodseq_InputStream.fail() )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    std::string message="The 2dseq Data File can not be read: The following file was attempted:\n ";
-    message += this->m_FileName;
-    message += '\n';
-    exception.SetDescription(message.c_str());
+    std::string errMsg="The 2dseq Data File can not be read: ";
+    errMsg += "The following file was attempted:\n ";
+    errMsg += this->m_FileName;
+    errMsg += '\n';
+    exception.SetDescription(errMsg.c_str());
     throw exception;
     }
   twodseq_InputStream.close();
@@ -278,13 +281,12 @@ void Bruker2DSEQImageIO::Read(void* buffer)
 bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
 {
   std::string file2Dseq = itksys::SystemTools::CollapseFullPath(FileNameToRead);
+  itksys::SystemTools::ConvertToUnixSlashes(file2Dseq);
   std::string path = itksys::SystemTools::GetFilenamePath(file2Dseq);
   std::string filereco = path + FORWARDSLASH_DIRECTORY_SEPARATOR;
   filereco += RECO_FILE;
-  filereco = itksys::SystemTools::ConvertToOutputPath(filereco.c_str());
   std::string filed3proc = path + FORWARDSLASH_DIRECTORY_SEPARATOR;
   filed3proc += DTHREEPROC_FILE;
-  filed3proc = itksys::SystemTools::ConvertToOutputPath(filed3proc.c_str());
   std::vector<std::string> pathComponents;
   itksys::SystemTools::SplitPath(path.c_str(), pathComponents);
   if(pathComponents.size() < 3)
@@ -296,7 +298,6 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
   path = itksys::SystemTools::JoinPath(pathComponents);
   std::string fileacqp = path + FORWARDSLASH_DIRECTORY_SEPARATOR;
   fileacqp += ACQP_FILE;
-  fileacqp = itksys::SystemTools::ConvertToOutputPath(fileacqp.c_str());
   std::string readFileBufferString = "";
   char readFileBuffer[512] = "";
   std::string::size_type index;
@@ -331,7 +332,8 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
     if( index != std::string::npos )
       {
       std::string tempString = RECO_wordtype;
-      std::string dattypeString = readFileBufferString.substr(index+tempString.length());
+      std::string dattypeString = 
+        readFileBufferString.substr(index+tempString.length());
       if( dattypeString.find(BRUKER_SIGNED_CHAR) != std::string::npos )
         {
         calcLength *= (unsigned long)sizeof(char);
@@ -354,7 +356,6 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
         }
       else
         {
-        //std::cerr << "FIX ME: Unknown RECO_wordtype = " << dattypeString << std::endl;
         reco_InputStream.close();
         return false;
         }
@@ -388,28 +389,30 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
     // Using RECO_wordtype instead.
     //index = readFileBufferString.find(DATTYPE);
     //if( index != std::string::npos )
-    //{
+    //  {
     //  std::string tempString = DATTYPE;
-    //  std::string dattypeString = readFileBufferString.substr(index+tempString.length());
+    //  std::string dattypeString = 
+    //  readFileBufferString.substr(index+tempString.length());
     //  if( dattypeString.find(IP_CHAR) != std::string::npos )
-    //  {
+    //    {
     //    calcLength *= 1;
-    //  }
+    //    }
     //  else if( (dattypeString.find(IP_SHORT) != std::string::npos) ||
-    //     (dattypeString.find("3") != std::string::npos) )
-    //  {
+    //    (dattypeString.find("3") != std::string::npos) )
+    //    {
     //    calcLength *= 2;
-    //  }
-    //  else if( (dattypeString.find(IP_INT) != std::string::npos) ||
-    //     (dattypeString.find("5") != std::string::npos) )
-    //  {
+    //    }
+    //    else if( (dattypeString.find(IP_INT) != std::string::npos) ||
+    //      (dattypeString.find("5") != std::string::npos) )
+    //    {
     //    calcLength *= 4;
-    //  }
-    //  else
-    //  {
-    //      std::cerr << "FIX ME: Unknown DATTYPE = " << dattypeString << std::endl;
-    //  }
-    //std::cout << "calcLength = " << calcLength << std::endl;
+    //    }
+    //    else
+    //    {
+    //    std::cerr << "FIX ME: Unknown DATTYPE = ";
+    //    std::cerr << dattypeString << std::endl;
+    //    }
+    //  std::cout << "calcLength = " << calcLength << std::endl;
     //}
 
     // Get the x size.
@@ -418,7 +421,8 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
       {
       unsigned long xDim = 0;
       std::string tempString = IM_SIX;
-      std::istringstream im_sixString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream im_sixString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!im_sixString)
         {
         d3proc_InputStream.close();
@@ -436,7 +440,8 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
       {
       unsigned long yDim = 0;
       std::string tempString = IM_SIY;
-      std::istringstream im_siyString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream im_siyString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!im_siyString)
         {
         d3proc_InputStream.close();
@@ -454,7 +459,8 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
       {
       unsigned long zDim = 0;
       std::string tempString = IM_SIZ;
-      std::istringstream im_sizString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream im_sizString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!im_sizString)
         {
         d3proc_InputStream.close();
@@ -482,14 +488,14 @@ bool Bruker2DSEQImageIO::CanReadFile( const char* FileNameToRead )
 void Bruker2DSEQImageIO::ReadImageInformation()
 {
   unsigned int dim;
-  std::string file2Dseq = itksys::SystemTools::CollapseFullPath(this->m_FileName.c_str());
+  std::string file2Dseq = 
+    itksys::SystemTools::CollapseFullPath(this->m_FileName.c_str());
+  itksys::SystemTools::ConvertToUnixSlashes(file2Dseq);
   std::string path = itksys::SystemTools::GetFilenamePath(file2Dseq);
   std::string filereco = path + FORWARDSLASH_DIRECTORY_SEPARATOR;
   filereco += RECO_FILE;
-  filereco = itksys::SystemTools::ConvertToOutputPath(filereco.c_str());
   std::string filed3proc = path + FORWARDSLASH_DIRECTORY_SEPARATOR;
   filed3proc += DTHREEPROC_FILE;
-  filed3proc = itksys::SystemTools::ConvertToOutputPath(filed3proc.c_str());
   std::vector<std::string> pathComponents;
   itksys::SystemTools::SplitPath(path.c_str(), pathComponents);
   if(pathComponents.size() < 3)
@@ -503,7 +509,6 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   path = itksys::SystemTools::JoinPath(pathComponents);
   std::string fileacqp = path + FORWARDSLASH_DIRECTORY_SEPARATOR;
   fileacqp += ACQP_FILE;
-  fileacqp = itksys::SystemTools::ConvertToOutputPath(fileacqp.c_str());
   std::string readFileBufferString = "";
   char readFileBuffer[512] = "";
   std::string::size_type index;
@@ -554,45 +559,49 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     // Using RECO_wordtype instead.
     //index = readFileBufferString.find(DATTYPE);
     //if( index != std::string::npos )
-    //{
-    //  std::string tempString = DATTYPE;
-    //  std::string dattypeString = readFileBufferString.substr(index+tempString.length());
-    //  if( dattypeString.find(IP_CHAR) != std::string::npos )
     //  {
+    //  std::string tempString = DATTYPE;
+    //  std::string dattypeString = 
+    //    readFileBufferString.substr(index+tempString.length());
+    //  if( dattypeString.find(IP_CHAR) != std::string::npos )
+    //    {
     //    this->m_ComponentType = CHAR;
     //    this->m_PixelType = SCALAR;
-    //  }
-    //  else if( (dattypeString.find(IP_SHORT) != std::string::npos) ||
-    //     (dattypeString.find("3") != std::string::npos) )
-    //  {
+    //    }
+    //    else if( (dattypeString.find(IP_SHORT) != std::string::npos) ||
+    //      (dattypeString.find("3") != std::string::npos) )
+    //    {
     //    this->m_ComponentType = SHORT;
     //    this->m_PixelType = SCALAR;
-    //  }
-    //  else if( (dattypeString.find(IP_INT) != std::string::npos) ||
-    //     (dattypeString.find("5") != std::string::npos) )
-    //  {
+    //    }
+    //    else if( (dattypeString.find(IP_INT) != std::string::npos) ||
+    //      (dattypeString.find("5") != std::string::npos) )
+    //    {
     //    this->m_ComponentType = INT;
     //    this->m_PixelType = SCALAR;
-    //  }
-    //  else
-    //  {
+    //    }
+    //    else
+    //    {
     //    ExceptionObject exception(__FILE__, __LINE__);
-    //    exception.SetDescription("Invalid d3proc file: Couldn't locate data type string");
+    //    exception.SetDescription("Invalid d3proc file: "
+    //      "Couldn't locate data type string");
     //    throw exception;
+    //    }
     //  }
-    //}
 
     // Get the x size.
     index = readFileBufferString.find(IM_SIX);
     if( index != std::string::npos )
       {
       std::string tempString = IM_SIX;
-      std::istringstream im_sixString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream im_sixString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!im_sixString)
         {
         d3proc_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$IM_SIX");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$IM_SIX");
         throw exception;
         }
       im_sixString >> imageDim[0];
@@ -604,12 +613,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = IM_SIY;
-      std::istringstream im_siyString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream im_siyString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!im_siyString)
         {
         d3proc_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$IM_SIY");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$IM_SIY");
         throw exception;
         }
       im_siyString >> imageDim[1];
@@ -621,12 +632,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = IM_SIZ;
-      std::istringstream im_sizString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream im_sizString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!im_sizString)
         {
         d3proc_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$IM_SIZ");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$IM_SIZ");
         throw exception;
         }
       im_sizString >> imageDim[2];
@@ -681,11 +694,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           reco_InputStream.close();
           ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid reco file: Couldn't locate proper fov parameters!");
+          exception.SetDescription("Invalid reco file: Couldn't locate proper "
+            "fov parameters");
           throw exception;
           }
         }
-      EncapsulateMetaData<RECOFOVContainerType::Pointer>(thisDic,RECO_FOV,tempRecoFOV);
+      EncapsulateMetaData<RECOFOVContainerType::Pointer>(
+        thisDic,RECO_FOV,tempRecoFOV);
       }
 
     // Get reco size.
@@ -702,7 +717,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           reco_InputStream.close();
           ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid reco file: Couldn't locate proper dimension parameters");
+          exception.SetDescription("Invalid reco file: Couldn't locate proper "
+            "dimension parameters");
           throw exception;
           }
         }
@@ -719,7 +735,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         {
         this->m_ComponentType = CHAR;
         this->m_PixelType = SCALAR;
-        EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_CHAR,13));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_CHAR,13));
         }
       else
         {
@@ -728,7 +745,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           this->m_ComponentType = UCHAR;
           this->m_PixelType = SCALAR;
-          EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_UNSIGNED_CHAR,15));
+          EncapsulateMetaData<std::string>(
+            thisDic,RECO_WORDTYPE,std::string(BRUKER_UNSIGNED_CHAR,15));
           }
         else
           {
@@ -737,7 +755,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
             {
             this->m_ComponentType = SHORT;
             this->m_PixelType = SCALAR;
-            EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_SHORT,14));
+            EncapsulateMetaData<std::string>(
+              thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_SHORT,14));
             }
           else
             {
@@ -746,7 +765,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
               {
               this->m_ComponentType = INT;
               this->m_PixelType = SCALAR;
-              EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_INT,14));
+              EncapsulateMetaData<std::string>(
+                thisDic,RECO_WORDTYPE,std::string(BRUKER_SIGNED_INT,14));
               }
             else
               {
@@ -755,13 +775,15 @@ void Bruker2DSEQImageIO::ReadImageInformation()
                 {
                 this->m_ComponentType = FLOAT;
                 this->m_PixelType = SCALAR;
-                EncapsulateMetaData<std::string>(thisDic,RECO_WORDTYPE,std::string(BRUKER_FLOAT,12));
+                EncapsulateMetaData<std::string>(
+                  thisDic,RECO_WORDTYPE,std::string(BRUKER_FLOAT,12));
                 }
               else
                 {
                 reco_InputStream.close();
                 ExceptionObject exception(__FILE__, __LINE__);
-                exception.SetDescription("Invalid reco file: Couldn't locate proper datatype parameter!");
+                exception.SetDescription("Invalid reco file: Couldn't locate "
+                  "proper wordtype parameter");
                 throw exception;
                 }
               }
@@ -775,12 +797,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = RECO_transposition;
-      std::istringstream recoTransposeString(readFileBufferString.substr(index+tempString.length()));
+      std::istringstream recoTransposeString(readFileBufferString.substr(
+        index+tempString.length()));
       if (!recoTransposeString)
         {
         reco_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$RECO_transposition");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$RECO_transposition");
         throw exception;
         }
       recoTransposeString >> numRecoTranspose;
@@ -796,7 +820,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           reco_InputStream >> recoTransposition[i];
           tempRecoTransposition->SetElement(i,recoTransposition[i]);
           }
-        EncapsulateMetaData<RECOTranspositionContainerType::Pointer>(thisDic,RECO_TRANSPOSITION,tempRecoTransposition);
+        EncapsulateMetaData<RECOTranspositionContainerType::Pointer>(
+          thisDic,RECO_TRANSPOSITION,tempRecoTransposition);
         }
       }
 
@@ -809,33 +834,40 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       recoType = readFileBufferString.substr(index+tempString.length());
       if( recoType.find(MAGNITUDE_IMAGE) != std::string::npos )
         {
-        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(MAGNITUDE_IMAGE,15));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_IMAGE_TYPE,std::string(MAGNITUDE_IMAGE,15));
         }
       else if( recoType.find(REAL_IMAGE) != std::string::npos )
         {
-        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(REAL_IMAGE,10));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_IMAGE_TYPE,std::string(REAL_IMAGE,10));
         }
       else if( recoType.find(IMAGINARY_IMAGE) != std::string::npos )
         {
-        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(IMAGINARY_IMAGE,15));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_IMAGE_TYPE,std::string(IMAGINARY_IMAGE,15));
         }
       else if( recoType.find(COMPLEX_IMAGE) != std::string::npos )
         {
-        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(COMPLEX_IMAGE,15));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_IMAGE_TYPE,std::string(COMPLEX_IMAGE,15));
         }
       else if( recoType.find(PHASE_IMAGE) != std::string::npos )
         {
-        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(PHASE_IMAGE,11));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_IMAGE_TYPE,std::string(PHASE_IMAGE,11));
         }
       else if( recoType.find(IR_IMAGE) != std::string::npos )
         {
-        EncapsulateMetaData<std::string>(thisDic,RECO_IMAGE_TYPE,std::string(IR_IMAGE,8));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_IMAGE_TYPE,std::string(IR_IMAGE,8));
         }
       else
         {
         reco_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Invalid reco file: Couldn't locate proper datatype parameter!");
+        exception.SetDescription("Invalid reco file: Couldn't locate proper "
+          "datatype parameter");
         throw exception;
         }
       }
@@ -849,7 +881,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         {
         this->m_ByteOrder = LittleEndian;
         byteOrder = true;
-        EncapsulateMetaData<std::string>(thisDic,RECO_BYTE_ORDER,std::string(BRUKER_LITTLE_ENDIAN,12));
+        EncapsulateMetaData<std::string>(
+          thisDic,RECO_BYTE_ORDER,std::string(BRUKER_LITTLE_ENDIAN,12));
         }
       else
         {
@@ -858,13 +891,15 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           this->m_ByteOrder = BigEndian;
           byteOrder = true;
-          EncapsulateMetaData<std::string>(thisDic,RECO_BYTE_ORDER,std::string(BRUKER_BIG_ENDIAN,9));
+          EncapsulateMetaData<std::string>(
+            thisDic,RECO_BYTE_ORDER,std::string(BRUKER_BIG_ENDIAN,9));
           }
         else
           {
           reco_InputStream.close();
           ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid reco file: Couldn't locate proper byte order parameter!");
+          exception.SetDescription("Invalid reco file: Couldn't locate proper "
+            "byte order parameter");
           throw exception;
           }
         }
@@ -875,19 +910,22 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   if( !numDimensions )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid reco file: Couldn't locate '##$RECO_fov=(' tag!");
+    exception.SetDescription("Invalid reco file: Couldn't locate "
+      "'##$RECO_fov=(' tag");
     throw exception;
     }
   if( !byteOrder )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid reco file: Couldn't locate '##$RECO_byte_order=' tag!");
+    exception.SetDescription("Invalid reco file: Couldn't locate "
+      "'##$RECO_byte_order=' tag");
     throw exception;
     }
   if( numRecoTranspose < 0 )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid reco file: Couldn't locate '##$RECO_transposition=(' tag!");
+    exception.SetDescription("Invalid reco file: Couldn't locate "
+      "'##$RECO_transposition=(' tag");
     throw exception;
     }
 
@@ -917,12 +955,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = ACQ_dim;
-      std::istringstream acqDimString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream acqDimString(acqpFileString.substr(
+        index+tempString.length()));
       if (!acqDimString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_dim");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_dim");
         throw exception;
         }
       acqDimString >> acq_dim;
@@ -936,12 +976,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = Ni;
-      std::istringstream niString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream niString(acqpFileString.substr(
+        index+tempString.length()));
       if (!niString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$NI");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$NI");
         throw exception;
         }
       niString >> ni;
@@ -954,12 +996,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = Nr;
-      std::istringstream nrString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream nrString(acqpFileString.substr(
+        index+tempString.length()));
       if (!nrString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$NR");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$NR");
         throw exception;
         }
       nrString >> nr;
@@ -972,12 +1016,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = Nechoes;
-      std::istringstream dimString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream dimString(acqpFileString.substr(
+        index+tempString.length()));
       if (!dimString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$NECHOES");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$NECHOES");
         throw exception;
         }
       dimString >> numEchoImages;
@@ -990,12 +1036,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = ACQ_slice_thick;
-      std::istringstream sliceThickString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream sliceThickString(acqpFileString.substr(
+        index+tempString.length()));
       if (!sliceThickString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_slice_thick");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_slice_thick");
         throw exception;
         }
       sliceThickString >> sliceThick;
@@ -1009,12 +1057,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = ACQ_slice_sepn;
-      std::istringstream sliceSepString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream sliceSepString(acqpFileString.substr(
+        index+tempString.length()));
       if (!sliceSepString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_slice_sepn");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_slice_sepn");
         throw exception;
         }
       sliceSepString >> numSeperation;
@@ -1022,14 +1072,16 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if( numSeperation > 0 )
         {
         std::vector<double> imageSliceSeperation(numSeperation);
-        ACQSliceSepnContainerType::Pointer sliceSepn = ACQSliceSepnContainerType::New();
+        ACQSliceSepnContainerType::Pointer sliceSepn = 
+          ACQSliceSepnContainerType::New();
         sliceSepn->resize(numSeperation);
         for(unsigned int i=0; i<(unsigned int)numSeperation; i++)
           {
           acqp_InputStream >> imageSliceSeperation[i];
           sliceSepn->SetElement(i,imageSliceSeperation[i]);
           }
-        EncapsulateMetaData<ACQSliceSepnContainerType::Pointer>(thisDic,ACQ_SLICE_SEPN,sliceSepn);
+        EncapsulateMetaData<ACQSliceSepnContainerType::Pointer>(
+          thisDic,ACQ_SLICE_SEPN,sliceSepn);
         sliceSeperation = true;
         }
       }
@@ -1041,7 +1093,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       std::string tempString = ACQ_slice_sepn_mode;
       seperationMode = acqpFileString.substr(index+tempString.length());
       //std::cout << "seperationMode = " << seperationMode << std::endl;
-      EncapsulateMetaData<std::string>(thisDic,ACQ_SLICE_SEPN_MODE,seperationMode);
+      EncapsulateMetaData<std::string>(
+        thisDic,ACQ_SLICE_SEPN_MODE,seperationMode);
       }
 
     // Get echo times.
@@ -1049,12 +1102,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = ACQ_echo_time;
-      std::istringstream echoTimeString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream echoTimeString(acqpFileString.substr(
+        index+tempString.length()));
       if (!echoTimeString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_echo_time");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_echo_time");
         throw exception;
         }
       echoTimeString >> numEchoes;
@@ -1062,14 +1117,16 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if( numEchoes > 0 )
         {
         std::vector<double> Echo_time(numEchoes);
-        ACQEchoTimeContainerType::Pointer echoTimes = ACQEchoTimeContainerType::New();
+        ACQEchoTimeContainerType::Pointer echoTimes = 
+          ACQEchoTimeContainerType::New();
         echoTimes->resize(numEchoes);
         for(unsigned int i=0; i<(unsigned int)numEchoes; i++)
           {
           acqp_InputStream >> Echo_time[i];
           echoTimes->SetElement(i,Echo_time[i]);
           }
-        EncapsulateMetaData<ACQEchoTimeContainerType::Pointer>(thisDic,ACQ_ECHO_TIME,echoTimes);
+        EncapsulateMetaData<ACQEchoTimeContainerType::Pointer>(
+          thisDic,ACQ_ECHO_TIME,echoTimes);
         echoTime = true;
         }
       else
@@ -1086,12 +1143,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = ACQ_repetition_time;
-      std::istringstream reptitionTimeString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream reptitionTimeString(acqpFileString.substr(
+        index+tempString.length()));
       if (!reptitionTimeString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_repetition_time");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_repetition_time");
         throw exception;
         }
       reptitionTimeString >> numRepetitions;
@@ -1099,14 +1158,16 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if( numRepetitions > 0 )
         {
         std::vector<double> Repetition_time(numRepetitions);
-        ACQRepetitionTimeContainerType::Pointer repetitionTimes = ACQRepetitionTimeContainerType::New();
+        ACQRepetitionTimeContainerType::Pointer repetitionTimes = 
+          ACQRepetitionTimeContainerType::New();
         repetitionTimes->resize(numRepetitions);
         for(unsigned int i=0; i<(unsigned int)numRepetitions; i++)
           {
           acqp_InputStream >> Repetition_time[i];
           repetitionTimes->SetElement(i,Repetition_time[i]);
           }
-        EncapsulateMetaData<ACQRepetitionTimeContainerType::Pointer>(thisDic,ACQ_REPETITION_TIME,repetitionTimes);
+        EncapsulateMetaData<ACQRepetitionTimeContainerType::Pointer>(
+          thisDic,ACQ_REPETITION_TIME,repetitionTimes);
         repetitionTime = true;
         }
       else
@@ -1123,12 +1184,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if( index != std::string::npos )
       {
       std::string tempString = ACQ_inversion_time;
-      std::istringstream inversionTimeString(acqpFileString.substr(index+tempString.length()));
+      std::istringstream inversionTimeString(acqpFileString.substr(
+        index+tempString.length()));
       if (!inversionTimeString)
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_inversion_time");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_inversion_time");
         throw exception;
         }
       inversionTimeString >> numInversionTimes;
@@ -1136,14 +1199,16 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if( numInversionTimes > 0 )
         {
         std::vector<double> Inversion_time(numInversionTimes);
-        ACQInversionTimeContainerType::Pointer inversionTimes = ACQInversionTimeContainerType::New();
+        ACQInversionTimeContainerType::Pointer inversionTimes = 
+          ACQInversionTimeContainerType::New();
         inversionTimes->resize(numInversionTimes);
         for(unsigned int i=0; i<(unsigned int)numInversionTimes; i++)
           {
           acqp_InputStream >> Inversion_time[i];
           inversionTimes->SetElement(i,Inversion_time[i]);
           }
-        EncapsulateMetaData<ACQInversionTimeContainerType::Pointer>(thisDic,ACQ_INVERSION_TIME,inversionTimes);
+        EncapsulateMetaData<ACQInversionTimeContainerType::Pointer>(
+          thisDic,ACQ_INVERSION_TIME,inversionTimes);
         inversionTime = true;
         }
       else
@@ -1163,7 +1228,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       int numMatrix=0, dim1=0, dim2=0;
       tempString = acqpFileString.substr(index+tempString.length());
       // MS VC++ cannot handle commas, so replace with spaces.
-      for(std::string::iterator iter = tempString.begin(); iter != tempString.end(); iter++ )
+      for(std::string::iterator iter = tempString.begin(); 
+        iter != tempString.end(); iter++ )
         {
         if(*iter == ',')
           {
@@ -1175,7 +1241,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         {
         acqp_InputStream.close();
         ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for ##$ACQ_grad_matrix");
+        exception.SetDescription("Could not create std::istringstream for "
+          "##$ACQ_grad_matrix");
         throw exception;
         }
       gradMatrixString >> numMatrix >> dim1 >> dim2;
@@ -1190,7 +1257,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
           {
           acqp_InputStream.close();
           ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_dim=' tag!");
+          exception.SetDescription("Invalid acqp file: Couldn't locate "
+            "'##$ACQ_dim=' tag");
           throw exception;
           }
         int i=0;
@@ -1376,56 +1444,62 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   if( !echoTime )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_echo_time=( ' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate "
+      "'##$ACQ_echo_time=( ' tag");
     throw exception;
     }
 
   if( !sliceThickness )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_slice_thick=' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate "
+      "'##$ACQ_slice_thick=' tag");
     throw exception;
     }
 
   if( !sliceSeperation )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_slice_sepn=(' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate "
+      "'##$ACQ_slice_sepn=(' tag");
     throw exception;
     }
 
   if( !nr )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$NR=' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate '##$NR=' tag");
     throw exception;
     }
 
   if( !ni )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$NI=' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate '##$NI=' tag");
     throw exception;
     }
 
   if( !echoTime )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_echo_time=( ' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate "
+      "'##$ACQ_echo_time=( ' tag");
     throw exception;
     }
 
   if( !repetitionTime )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_repetition_time=( ' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate "
+      "'##$ACQ_repetition_time=( ' tag");
     throw exception;
     }
 
   if( !inversionTime )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$ACQ_inversion_time=( ' tag!");
+    exception.SetDescription("Invalid acqp file: Couldn't locate "
+      "'##$ACQ_inversion_time=( ' tag");
     throw exception;
     }
 
@@ -1442,7 +1516,8 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     imageDim[2] = 1;
     }
 
-  EncapsulateMetaData<unsigned int>(thisDic,ITK_NumberOfDimensions,this->GetNumberOfDimensions());
+  EncapsulateMetaData<unsigned int>(
+    thisDic,ITK_NumberOfDimensions,this->GetNumberOfDimensions());
 
   //
   // Transpose the dims and FOV if required.
@@ -1471,7 +1546,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       imageDim[1] = imageDim[2];
       imageDim[2] = tempDim;
       }
-    break;
+      break;
     case 3:
       {
       double tempFOV;
@@ -1483,7 +1558,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       imageDim[0] = imageDim[2];
       imageDim[2] = tempDim;
       }
-    break;
+      break;
     }
 
   //
