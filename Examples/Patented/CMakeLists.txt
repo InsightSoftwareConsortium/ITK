@@ -43,6 +43,18 @@ ADD_TEST(IterativeClosestPoint1Test ${PATENTED_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
 )
 
+ADD_TEST(IterativeClosestPoint2Test ${PATENTED_EXAMPLES}
+  IterativeClosestPoint2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
+)
+
+ADD_TEST(IterativeClosestPoint3Test ${PATENTED_EXAMPLES}
+  IterativeClosestPoint3Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
+)
+
 ENDIF(BUILD_TESTING)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
