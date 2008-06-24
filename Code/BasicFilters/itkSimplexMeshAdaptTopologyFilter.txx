@@ -101,7 +101,7 @@ namespace itk
       const bool conditionA3 = ( areaIt.Value() > limit1 );
       const bool conditionA4 = ( areaIt.Value() > limit2 );
 
-      if( conditionA1 && ( conditionA2 && conditionA3 ) || conditionA4 )
+      if( conditionA1 && ( ( conditionA2 && conditionA3 ) || conditionA4 ) )
         {
         doRefinement = true;
         }
