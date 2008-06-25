@@ -44,7 +44,9 @@ public:
     return !(*this != other);
   }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)vcl_log10((double)A); }
+  {
+    return static_cast<TOutput>( vcl_log10( static_cast<double>( A ) ) );
+  }
 }; 
 }
 template <class TInputImage, class TOutputImage>

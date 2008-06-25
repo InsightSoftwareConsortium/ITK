@@ -46,7 +46,7 @@ public:
   }
   inline TOutput operator()( const TInput & A )
   {
-    return (TOutput)vcl_log((double)A);
+    return static_cast<TOutput>( vcl_log( static_cast<double>( A ) ) );
   }
 }; 
 }

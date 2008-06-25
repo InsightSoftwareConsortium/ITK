@@ -27,7 +27,7 @@ namespace itk
  * \brief Derivative of a BSpline kernel used for density estimation and 
  *  nonparameteric regression.
  *
- * This class enscapsulates the derivative of a BSpline kernel for
+ * This class encapsulates the derivative of a BSpline kernel for
  * density estimation or nonparameteric regression.
  * See documentation for KernelFunction for more details.
  *
