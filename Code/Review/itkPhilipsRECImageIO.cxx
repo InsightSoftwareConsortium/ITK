@@ -196,8 +196,8 @@ void PhilipsRECImageIOSetupSliceIndex(
     (PhilipsRECImageIO::SliceIndexType::size_type)parParam.dim[2])
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    std::string message="PhilipsRECImageIOSetupSliceIndex: indexMatrix->size() "
-      "!= parParam.dim[2]\n";
+    std::string message="PhilipsRECImageIOSetupSliceIndex: indexMatrix->size() !"
+      "= parParam.dim[2]\n";
     exception.SetDescription(message.c_str());
     throw exception;
     }
@@ -517,7 +517,6 @@ bool PhilipsRECImageIO::CanReadFile( const char* FileNameToRead )
 
 void PhilipsRECImageIO::ReadImageInformation()
 {
-  unsigned int dim;
   const std::string HeaderFileName = GetHeaderFileName( this->m_FileName );
   struct par_parameter par;
   // Zero out par_parameter.
@@ -590,7 +589,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   // but it is very difficult to sort out all of the
   // possibilities.  The reader will sort the images
   // by block and the different types of images
-  // stored in the blocks may determined using the 
+  // stored in the blocks may be determined using the 
   // MetaDataDictionary.
   this->SetNumberOfDimensions(numberOfDimensions);
   
@@ -630,8 +629,6 @@ void PhilipsRECImageIO::ReadImageInformation()
 
 
   //Get Dictionary Information
-  //Insert Orientation.
- 
   //Important hk fields.
   MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string classname(this->GetNameOfClass());
@@ -643,15 +640,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   //Important dime fields
   EncapsulateMetaData<std::string>(thisDic,ITK_VoxelUnits,std::string("mm",4));
   EncapsulateMetaData<short int>(thisDic,ITK_OnDiskBitPerPixel,par.bit);
-    
-  for( dim = (unsigned int)(this->GetNumberOfDimensions()-1); dim >= 0; dim-- )
-    {
-    if( m_Dimensions[dim] != 1 )
-      {
-      break;
-      }
-    }
-  EncapsulateMetaData<int>(thisDic,ITK_NumberOfDimensions,dim+1);
+  EncapsulateMetaData<int>(thisDic,ITK_NumberOfDimensions,numberOfDimensions);
 
   switch( par.bit )
     {
