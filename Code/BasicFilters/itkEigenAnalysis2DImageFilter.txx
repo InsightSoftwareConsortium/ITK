@@ -82,10 +82,8 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 }
 
 
-
-
 /**
- * Get the greatest eigenvalue considering the sign
+ * Get the largest eigenvalue considering the sign
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
 typename EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenValueImageType *
@@ -95,8 +93,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   return dynamic_cast<EigenValueImageType *>(
     this->ProcessObject::GetOutput( 0 ) );
 }
-
-
 
 
 /**
@@ -112,9 +108,8 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 }
 
 
-
 /**
- * Get the smallest eigenvalue considering the sign
+ * Get the eigenvector corresponding to the largest eigenvalue (considering the sign)
  */
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage> 
 typename EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>::EigenVectorImageType *
@@ -135,7 +130,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
       this->ProcessObject::GetOutput( 2 ) );
     }
 }
-
 
 
 /**
@@ -163,10 +157,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     }
   return output.GetPointer();
 }
-
-
-
-
 
 
 template <class TInputImage, class TEigenValueImage, class TEigenVectorImage>
@@ -269,3 +259,4 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 } // end namespace itk
 
 #endif
+
