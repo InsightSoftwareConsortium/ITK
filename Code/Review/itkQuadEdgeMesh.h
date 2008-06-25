@@ -266,6 +266,8 @@ public:
    * http://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
   virtual void CopyInformation( const DataObject* data ) { (void)data; }
+  /** squeeze the point container to be able to write the file properly */
+  void SqueezePointsIds( );
 
   /** overloaded method for backward compatibility */
   void BuildCellLinks() { }

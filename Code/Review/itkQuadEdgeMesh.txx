@@ -411,6 +411,34 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   return( pid );
 }
 
+
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+void
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::SqueezePointsIds( )
+{
+  PointsContainerConstIterator last = this->GetPoints()->End();
+  // if there is empty slots in PointCont
+  while( m_FreePointIndexes.size() != 0 )
+    {
+    --last;
+    // duplicate last point into the empty slot and pop the id from freeID list
+    PointIdentifier FilledPointID = AddPoint( GetPoint( last.Index( ) ) );
+    
+    // make sure that all the edges/faces now refer to the new ID
+    QEType* EdgeRingEntry = GetPoint( last.Index( ) ).GetEdge( );
+    QEType* EdgeRingIter  = EdgeRingEntry;
+    do {
+      EdgeRingIter->SetOrigin( FilledPointID );
+      EdgeRingIter = EdgeRingIter->GetOnext( );
+      }
+    while( EdgeRingIter != EdgeRingEntry );
+    
+    // Delete the point directly from the container
+    this->GetPoints()->DeleteIndex( last.Index( ) );
+    }
+}
+
 /**
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
@@ -436,8 +464,14 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     return;
     }
 
+  // if point is last point of the container, should not push in FreePointIDs
   this->GetPoints()->DeleteIndex( pid );
-  m_FreePointIndexes.push( pid );
+  PointsContainerIterator last =  this->GetPoints()->End( );
+  last--;
+  if( pid != last.Index( ) );
+    {
+    m_FreePointIndexes.push( pid );
+    }
 }
 
 /**
