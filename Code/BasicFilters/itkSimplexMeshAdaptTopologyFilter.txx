@@ -326,7 +326,7 @@ namespace itk
           NewSimplexCellPointer->SetPointId( cnt++,  first );
           second = *pointIt;
 
-          if (id1 == first && id2 == second || id2 == first && id1 == second )
+          if ( ( id1 == first && id2 == second ) || ( id2 == first && id1 == second ) )
             {
             NewSimplexCellPointer->SetPointId( cnt++,  insertPointId );
             }
@@ -335,7 +335,7 @@ namespace itk
           }
 
         NewSimplexCellPointer->SetPointId( cnt++,  second );
-        if (id1 == second && id2 == startId || id2 ==  second && id1 == startId )
+        if ( ( id1 == second && id2 == startId ) || ( id2 ==  second && id1 == startId ) )
           {
           NewSimplexCellPointer->SetPointId( cnt++,  insertPointId );
           }
