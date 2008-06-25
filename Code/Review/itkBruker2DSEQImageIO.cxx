@@ -249,16 +249,21 @@ void Bruker2DSEQImageIO::Read(void* buffer)
     numberOfPixels *= this->m_Dimensions[ dim ];
     }
 
-  /* Get the 2dseq filename*/
+  /* Get the 2dseq filename */
+  /* Use the same code as CanReadFile() */
+  std::string file2Dseq = 
+    itksys::SystemTools::CollapseFullPath(this->m_FileName.c_str());
+  itksys::SystemTools::ConvertToUnixSlashes(file2Dseq);
+  /* Try to open the file */
   std::ifstream   twodseq_InputStream;
-  twodseq_InputStream.open( this->m_FileName.c_str(),
+  twodseq_InputStream.open( file2Dseq.c_str(),
                             std::ios::in | std::ios::binary );
   if( twodseq_InputStream.fail() )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     std::string errMsg="The 2dseq Data File can not be opened: ";
     errMsg += "The following file was attempted:\n ";
-    errMsg += this->m_FileName;
+    errMsg += file2Dseq;
     errMsg += '\n';
     exception.SetDescription(errMsg.c_str());
     throw exception;
@@ -269,7 +274,7 @@ void Bruker2DSEQImageIO::Read(void* buffer)
     ExceptionObject exception(__FILE__, __LINE__);
     std::string errMsg="The 2dseq Data File can not be read: ";
     errMsg += "The following file was attempted:\n ";
-    errMsg += this->m_FileName;
+    errMsg += file2Dseq;
     errMsg += '\n';
     exception.SetDescription(errMsg.c_str());
     throw exception;
