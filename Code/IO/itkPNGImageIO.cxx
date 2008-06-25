@@ -74,6 +74,12 @@ bool PNGImageIO::CanReadFile(const char* file)
     return false;
     }
 
+  this->AddSupportedWriteExtension(".png");
+  this->AddSupportedWriteExtension(".PNG");
+
+  this->AddSupportedReadExtension(".png");
+  this->AddSupportedReadExtension(".PNG");
+
   // Now check the file header
   PNGFileWrapper pngfp(file,"rb");
   if(pngfp.m_FilePointer==NULL)

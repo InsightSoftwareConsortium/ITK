@@ -319,6 +319,21 @@ public:
   virtual ImageIORegion 
   GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const;
 
+  /** Type for the list of strings to be used for extensions.  */
+  typedef  std::vector< std::string >    ArrayOfExtensionsType;
+
+  /** This method returns an array with the list of filename extensions
+   * supported for reading by this ImageIO class. This is intended to
+   * facilitate GUI and application level integration. 
+   */
+  const ArrayOfExtensionsType & GetSupportedReadExtensions() const;
+
+  /** This method returns an array with the list of filename extensions
+   * supported for writing by this ImageIO class. This is intended to
+   * facilitate GUI and application level integration. 
+   */
+  const ArrayOfExtensionsType & GetSupportedWriteExtensions() const;
+
 
 protected:
   ImageIOBase();
@@ -430,10 +445,18 @@ protected:
   bool ReadBufferAsBinary(std::istream& os, void *buffer, SizeType numberOfBytesToBeRead);
 
   
+  /** Insert an extension to the list of supported extensions for reading. */
+  void AddSupportedReadExtension( const char * extension );
+
+  /** Insert an extension to the list of supported extensions for writing. */
+  void AddSupportedWriteExtension( const char * extension );
+
 private:
   ImageIOBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  ArrayOfExtensionsType    m_SupportedReadExtensions;
+  ArrayOfExtensionsType    m_SupportedWriteExtensions;
 
 };
 

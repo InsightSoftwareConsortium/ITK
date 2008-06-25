@@ -62,6 +62,28 @@ ImageIOBase::~ImageIOBase()
 {
 }
 
+const ImageIOBase::ArrayOfExtensionsType & 
+ImageIOBase::GetSupportedWriteExtensions() const
+{
+  return this->m_SupportedWriteExtensions;
+}
+ 
+const ImageIOBase::ArrayOfExtensionsType & 
+ImageIOBase::GetSupportedReadExtensions() const
+{
+  return this->m_SupportedReadExtensions;
+}
+
+void ImageIOBase::AddSupportedReadExtension( const char * extension )
+{
+  this->m_SupportedReadExtensions.push_back( extension );
+}
+
+void ImageIOBase::AddSupportedWriteExtension( const char * extension )
+{
+  this->m_SupportedWriteExtensions.push_back( extension );
+}
+
 void ImageIOBase::Resize(const unsigned int numDimensions,
                          const unsigned int* dimensions)
 {

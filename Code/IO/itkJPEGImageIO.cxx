@@ -294,6 +294,12 @@ JPEGImageIO::JPEGImageIO()
   
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
+
+  this->AddSupportedWriteExtension(".jpg");
+  this->AddSupportedWriteExtension(".JPG");
+
+  this->AddSupportedReadExtension(".jpg");
+  this->AddSupportedReadExtension(".JPG");
 }
 
 JPEGImageIO::~JPEGImageIO()

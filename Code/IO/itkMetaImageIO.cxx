@@ -41,6 +41,13 @@ MetaImageIO::MetaImageIO()
     {
     m_ByteOrder = LittleEndian;
     }
+
+  this->AddSupportedWriteExtension(".mha");
+  this->AddSupportedWriteExtension(".mhd");
+
+  this->AddSupportedReadExtension(".mha");
+  this->AddSupportedReadExtension(".mhd");
+
 } 
 
 MetaImageIO::~MetaImageIO()

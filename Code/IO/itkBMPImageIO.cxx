@@ -47,6 +47,13 @@ BMPImageIO::BMPImageIO()
   m_NumberOfColors = 0;
   m_BMPCompression = 0;
   m_BMPDataSize = 0;
+
+  this->AddSupportedWriteExtension(".bmp");
+  this->AddSupportedWriteExtension(".BMP");
+
+  this->AddSupportedReadExtension(".bmp");
+  this->AddSupportedReadExtension(".BMP");
+
 }
 
 
