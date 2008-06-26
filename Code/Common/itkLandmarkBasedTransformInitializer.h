@@ -134,13 +134,13 @@ public:
 
     
   /** Set the Fixed landmark point containers */
-  void SetFixedLandmarks(LandmarkPointContainer & fixedLandmarks)
+  void SetFixedLandmarks(const LandmarkPointContainer & fixedLandmarks)
     {
     this->m_FixedLandmarks = fixedLandmarks;
     } 
   
   /** Set the Moving landmark point containers */
-  void SetMovingLandmarks(LandmarkPointContainer & movingLandmarks)
+  void SetMovingLandmarks(const LandmarkPointContainer & movingLandmarks)
     {
     this->m_MovingLandmarks = movingLandmarks;
     }
