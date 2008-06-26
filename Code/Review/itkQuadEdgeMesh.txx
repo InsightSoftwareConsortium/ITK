@@ -468,7 +468,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
   this->GetPoints()->DeleteIndex( pid );
   PointsContainerIterator last =  this->GetPoints()->End( );
   last--;
-  if( pid != last.Index( ) );
+  if( pid != last.Index( ) )
     {
     m_FreePointIndexes.push( pid );
     }
