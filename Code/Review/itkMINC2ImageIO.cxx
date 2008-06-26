@@ -26,8 +26,9 @@ namespace itk
 bool MINC2ImageIO::CanReadFile(const char* file)
 {
   mihandle_t volume;
+  const std::string sfile = file;
 
-  if(file == "")
+  if(sfile == "")
     {
     itkDebugMacro(<<"No filename specified.");
     return false;
