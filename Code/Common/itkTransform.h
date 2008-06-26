@@ -218,7 +218,7 @@ public:
    * user.  The inverse is recomputed if this current transform has been modified.
    * This method is intended to be overriden by derived classes.
    * */
-  bool GetInverse(Self * inverseTransform) const {return false;}
+  virtual bool GetInverse(Self * inverseTransform) const {return false;}
 
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const;
