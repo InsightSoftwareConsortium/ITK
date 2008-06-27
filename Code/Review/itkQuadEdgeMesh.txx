@@ -391,7 +391,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindFirstUnusedPointIndex()
 {
-  PointIdentifier pid;
+  PointIdentifier pid = 0;
   if( ! m_FreePointIndexes.empty( ) )
     {
     do
