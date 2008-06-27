@@ -77,13 +77,13 @@ public:
   typedef VariableSizeMatrix< double >               OutputType;
 
   /** Stores the sample pointer */
-  void SetMean(MeanType* mean) ;
+  void SetMean( MeanType* mean );
 
   /** Returns the sample pointer */
-  MeanType* GetMean() ;
+  MeanType* GetMean( void );
 
   /** Returns the covariance matrix of the target sample data */ 
-  const OutputType * GetOutput() const;
+  const OutputType * GetOutput( void ) const;
 
 protected:
   CovarianceCalculator() ;
@@ -94,13 +94,13 @@ protected:
    * ComputeCovarianceWithGivenMean, if the user provides mean vector
    * using SetMean method. Otherwise, it calls
    * ComputeCovarianceWithoutGivenMethod depending on */
-  void GenerateData() ;
+  void GenerateData( void );
 
   /** Calculates the covariance matrix using the given mean */ 
-  void ComputeCovarianceWithGivenMean() ;
+  void ComputeCovarianceWithGivenMean( void );
 
   /** Calculates the covariance matrix and the mean in a single pass */ 
-  void ComputeCovarianceWithoutGivenMean() ;
+  void ComputeCovarianceWithoutGivenMean( void );
 
 private:
   MeanType* m_Mean ;
