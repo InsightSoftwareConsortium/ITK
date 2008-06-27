@@ -262,10 +262,11 @@ MINC2ImageIO::MINC2ImageIO()
 
 MINC2ImageIO::~MINC2ImageIO()
 {
-  if (this->m_DimensionSize)
-    {
-    delete this->m_DimensionSize;
-    }
+  delete [] this->m_DimensionName;
+  delete [] this->m_DimensionSize;
+  delete [] this->m_DimensionStart;
+  delete [] this->m_DimensionStep;
+  delete [] this->m_DimensionIndices;
 }
 
 void MINC2ImageIO::PrintSelf(std::ostream& os, Indent indent) const
