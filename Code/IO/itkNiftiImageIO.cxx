@@ -257,6 +257,20 @@ NiftiImageIO::NiftiImageIO():
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
+  this->AddSupportedWriteExtension(".nia");
+  this->AddSupportedWriteExtension(".nii");
+  this->AddSupportedWriteExtension(".nii.gz");
+
+  this->AddSupportedReadExtension(".nia");
+  this->AddSupportedReadExtension(".nii");
+  this->AddSupportedReadExtension(".nii.gz");
+
+  this->AddSupportedWriteExtension(".hdr");
+  this->AddSupportedWriteExtension(".img");
+  this->AddSupportedWriteExtension(".img.gz");
+  this->AddSupportedReadExtension(".hdr");
+  this->AddSupportedReadExtension(".img");
+  this->AddSupportedReadExtension(".img.gz");
 }
 
 NiftiImageIO::~NiftiImageIO()
@@ -931,7 +945,7 @@ NiftiImageIO
     {
     this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_1;
     }
-  else if ( (ExtensionName == "nia" ) &&
+  else if ( (ExtensionName == ".nia" ) &&
             this->GetUseLegacyModeForTwoFileWriting() == false)
     {
       this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ASCII;
@@ -947,7 +961,7 @@ NiftiImageIO
       }
     else
       {
-      // If it is desired to write out the nifti variant of
+      //  If it is desired to write out the nifti variant of
       //  ANALYZE7.5.
       //  NOTE: OREINTATION IS NOT WELL DEFINED IN THIS FORMAT.
       this->m_NiftiImage->nifti_type = NIFTI_FTYPE_ANALYZE;

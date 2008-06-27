@@ -521,6 +521,12 @@ AnalyzeImageIO::AnalyzeImageIO()
   this->m_Hdr.hist.omin=0;
   this->m_Hdr.hist.smax=0;
   this->m_Hdr.hist.smin=0;
+  this->AddSupportedWriteExtension(".hdr");
+  this->AddSupportedWriteExtension(".img");
+  this->AddSupportedWriteExtension(".img.gz");
+  this->AddSupportedReadExtension(".hdr");
+  this->AddSupportedReadExtension(".img");
+  this->AddSupportedReadExtension(".img.gz");
 }
 
 AnalyzeImageIO::~AnalyzeImageIO()
