@@ -113,14 +113,24 @@ ImageSpatialObject< TDimension,  PixelType >
     return false;
     }
     
+#if !defined( ITK_LEGACY_REMOVE )
   if(!this->GetIndexToWorldTransform()->GetInverse(
        const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
+#else
+  typename TransformType::Pointer internalInverse = 
+    const_cast<TransformType *>(this->GetInternalInverseTransform());
+  TransformBase::Pointer internalInverseBase = internalInverse.GetPointer();
+  if(!this->GetIndexToWorldTransform()->GetInverse( internalInverseBase ) )
+    {
+    return false;
+    }
+#endif
 
   PointType transformedPoint = 
-               this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetInternalInverseTransform()->TransformPoint(point);
 
   bool isInside = true;
   typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
@@ -182,11 +192,20 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if( IsEvaluableAt( point, 0, name ) )
     {
+#if !defined( ITK_LEGACY_REMOVE )
     typename TransformType::Pointer inverse = TransformType::New();
     if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
       {
       return false;
       }
+#else
+    typename TransformType::Pointer inverse = TransformType::New();
+    TransformBase::Pointer inverseBase = inverse.GetPointer();
+    if(!this->GetIndexToWorldTransform()->GetInverse(inverseBase))
+      {
+      return false;
+      }
+#endif
 
     PointType p = inverse->TransformPoint(point);
 

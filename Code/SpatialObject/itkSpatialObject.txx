@@ -444,13 +444,22 @@ SpatialObject< TDimension >
 
   if(m_TreeNode->HasParent())
     {
+#if !defined( ITK_LEGACY_REMOVE )
     typename TransformType::Pointer inverse = TransformType::New();
     if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())
        ->GetNodeToParentNodeTransform()->GetInverse(inverse))
       {
       m_ObjectToParentTransform->Compose(inverse,true);
       }
-    
+#else
+    typename TransformType::Pointer inverse = TransformType::New();
+    TransformBase::Pointer inverseBase = inverse.GetPointer();
+    if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())
+       ->GetNodeToParentNodeTransform()->GetInverse(inverseBase))
+      {
+      m_ObjectToParentTransform->Compose(inverse,true);
+      }
+#endif
     }
 
   m_AffineGeometryFrame->GetObjectToNodeTransform()->SetIdentity();
