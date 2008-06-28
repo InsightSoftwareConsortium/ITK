@@ -392,15 +392,24 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindFirstUnusedPointIndex()
 {
   PointIdentifier pid = 0;
+  PointIdentifier maxpid = this->GetNumberOfPoints( );
   if( ! m_FreePointIndexes.empty( ) )
     {
+    // find the first valid free ID
     do
       {
       pid = m_FreePointIndexes.front();
-      m_FreePointIndexes.pop();
+      if( pid < maxpid ) 
+        {
+        m_FreePointIndexes.pop();
+        return( pid );
+        }
+      else
+        {
+        m_FreePointIndexes.pop();
+        }
       }
-    while( pid > this->GetNumberOfPoints( ) 
-        && !m_FreePointIndexes.empty( ) );
+    while( !m_FreePointIndexes.empty( ) );
     }
 
   if( m_FreePointIndexes.empty() )
@@ -427,7 +436,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   
   // if there is empty slots in PointCont
   while( m_FreePointIndexes.size() != 0 
-      // && last.Index() > this->GetNumberOfPoints()
+      && last.Index() >= this->GetNumberOfPoints()
      ) 
     {
     
