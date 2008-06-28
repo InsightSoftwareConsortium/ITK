@@ -342,9 +342,14 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
     }
   std::cout << " [ PASSED ] " << std::endl;
 
+#if !defined(ITK_LEGACY_REMOVE)
   EulerTransformType::Pointer t3 = EulerTransformType::New();
-
   t2->GetInverse( t3 );
+#endif
+
+  EulerTransformType::Pointer t3b = EulerTransformType::New();
+  itk::TransformBase::Pointer t3base = t3b.GetPointer();
+  t2->GetInverse( t3base );
 
   return EXIT_SUCCESS;
 

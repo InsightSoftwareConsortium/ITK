@@ -334,7 +334,7 @@ public:
     *   bool GetInverse( Transform::Pointer & inverser ) const
     *
     **/
-  itkLegacyMacro( bool GetInverse(Self * inverse) const; )
+  itkLegacyMacro( bool GetInverse(Self * inverse) const; );
 
   /** Create inverse of an affine transformation   
     *   

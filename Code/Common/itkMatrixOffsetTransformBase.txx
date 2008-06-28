@@ -274,6 +274,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   return m_InverseMatrix;
 }
 
+#if !defined( ITK_LEGACY_REMOVE )
 // return an inverse transformation
 template<class TScalarType, unsigned int NInputDimensions,
                             unsigned int NOutputDimensions>
@@ -300,6 +301,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 
   return true;
 }
+#endif
 
 
 // return an inverse transformation

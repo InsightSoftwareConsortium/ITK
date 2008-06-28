@@ -222,6 +222,7 @@ int itkCenteredAffineTransformTest(int, char *[])
     std::cout << "Create and rotate a 3D transform:" << std::endl;
     aff3->Print( std::cout );
 
+#if !defined( ITK_LEGACY_REMOVE )
     /* Generate inverse transform */
     Affine3DType::Pointer inv3 = Affine3DType::New();
     if(!aff3->GetInverse(inv3))
@@ -230,6 +231,17 @@ int itkCenteredAffineTransformTest(int, char *[])
       }
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
+#endif
+
+    /* Generate inverse transform */
+    Affine3DType::Pointer inv3b = Affine3DType::New();
+    itk::TransformBase::Pointer inv3base = inv3b.GetPointer();
+    if(!aff3->GetInverse(inv3base))
+      {
+      std::cout << "Cannot create inverse transformation" << std::endl;
+      }
+    std::cout << "Create an inverse transformation:" << std::endl;
+    inv3b->Print( std::cout );
 
     /* Create an image for testing index<->physical transforms */
     std::cout << "Creating image for testing index<->physical transforms"
