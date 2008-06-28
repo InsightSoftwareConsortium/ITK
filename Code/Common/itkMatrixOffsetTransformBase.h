@@ -327,8 +327,26 @@ public:
     *
     * transform2 will now contain the inverse of transform1 and will 
     * with its center set to p. Flipping the two statements will produce an 
-    * incorrect transform. */
-  bool GetInverse(Self * inverse) const;
+    * incorrect transform. 
+    *
+    * \deprecate This methods was deprecated in ITK 3.8, please use the method
+    *
+    *   bool GetInverse( Transform::Pointer & inverser ) const
+    *
+    **/
+  itkLegacyMacro( bool GetInverse(Self * inverse) const; )
+
+  /** Create inverse of an affine transformation   
+    *   
+    * This populates the parameters an affine transform such that the transform
+    * is the inverse of self. If self is not invertible,   an exception is
+    * thrown.  Note that by default the inverse transform is centered at the
+    * same center of rotation as the current transform origin. This behavior of
+    * the center of rotation is different from what the deprecated method
+    * GetInverse( Self * ) used to do.
+    * 
+    **/
+  virtual bool GetInverse( TransformBase::Pointer & inverse ) const;
 
   /** \deprecated Use GetInverse instead.
    *
