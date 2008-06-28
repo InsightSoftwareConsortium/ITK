@@ -223,7 +223,7 @@ public:
    *  bool TransformBase::GetInverse( TransformBase::Pointer & inverseTransform ) 
    * 
    */
-  itkLegacyMacro( bool GetInverse(Self * inverseTransform) const {return false;} )
+  itkLegacyMacro( bool GetInverse(Self * inverseTransform) const {return false;} );
 
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const;
