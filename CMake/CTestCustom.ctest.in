@@ -1,5 +1,5 @@
 SET(CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE 1000000)
-SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 50)
+SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 1000)
 SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS 50)
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
@@ -13,6 +13,8 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "vxl.v3p.netlib"
   "usr.include.stdint.h"
   "Warning itk::Statistics::Histogram"
+  "gdcmDocument.cxx:.*warning:.*__base_ctor.* is deprecated"
+  "gdcmDicomDir.cxx:.*warning:.*__base_ctor.* is deprecated"
   )
 
 IF(APPLE)
