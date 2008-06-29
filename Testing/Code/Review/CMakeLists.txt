@@ -83,6 +83,8 @@ SET(ReviewTest_SRCS
   itkPhilipsRECImageIOTest.cxx
   
   itkVoxBoCUBImageIOTest.cxx
+
+  itkSliceBySliceImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -486,6 +488,13 @@ ADD_TEST(itkVoxBoCUBImageIOTest7 ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
         )
+
+ADD_TEST(itkSliceBySliceImageFilterTest ${REVIEW_TESTS}
+        itkSliceBySliceImageFilterTest
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+        ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha
+        )
+
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

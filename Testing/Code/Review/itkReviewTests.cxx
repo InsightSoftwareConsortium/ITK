@@ -84,6 +84,8 @@ void RegisterTests()
 
   REGISTER_TEST(itkVoxBoCUBImageIOTest);
 
+  REGISTER_TEST(itkSliceBySliceImageFilterTest);
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif 
