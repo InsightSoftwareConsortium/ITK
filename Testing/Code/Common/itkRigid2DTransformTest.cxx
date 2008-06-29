@@ -98,7 +98,6 @@ int itkRigid2DTransformTest(int ,char * [] )
 
     translation->SetOffset( ioffset );
 
-#if !defined( ITK_LEGACY_REMOVE )
     TransformType::Pointer translationInverse = TransformType::New();
     if(!translation->GetInverse(translationInverse))
       {
@@ -107,18 +106,6 @@ int itkRigid2DTransformTest(int ,char * [] )
       }
     std::cout << "translation: " << translation;
     std::cout << "translationInverse: " << translationInverse;
-#endif
-
-    TransformType::Pointer translationInverse2 = TransformType::New();
-    itk::TransformBase::Pointer translationInverse2base = translationInverse2.GetPointer();
-    if(!translation->GetInverse(translationInverse2base))
-      {
-      std::cout << "Cannot create transform" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "translation: " << translation;
-    std::cout << "translationInverse: " << translationInverse2;
-
 
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
@@ -279,7 +266,6 @@ int itkRigid2DTransformTest(int ,char * [] )
 
     rotation->SetOffset( ioffset );
 
-#if !defined( ITK_LEGACY_REMOVE )
     TransformType::Pointer rotationInverse = TransformType::New();
     if(!rotation->GetInverse(rotationInverse))
       {
@@ -288,17 +274,6 @@ int itkRigid2DTransformTest(int ,char * [] )
       }
     std::cout << "rotation: " << rotation;
     std::cout << "rotationInverse: " << rotationInverse;
-#endif
-
-    TransformType::Pointer rotationInverse2 = TransformType::New();
-    itk::TransformBase::Pointer rotationInverse2base = rotationInverse2.GetPointer();
-    if(!rotation->GetInverse(rotationInverse2base))
-      {
-      std::cout << "Cannot create transform" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "rotation: " << rotation;
-    std::cout << "rotationInverse: " << rotationInverse2;
 
 
     // Verify the Offset content
@@ -515,7 +490,6 @@ int itkRigid2DTransformTest(int ,char * [] )
         return EXIT_FAILURE;
         }
 
-#if !defined( ITK_LEGACY_REMOVE )
       TransformType::Pointer t2dash = TransformType::New();
       t1->GetInverse( t2dash );
       TransformType::InputPointType p3dash;
@@ -523,19 +497,6 @@ int itkRigid2DTransformTest(int ,char * [] )
 
       std::cout << "Test GetInverse(): ";
       if( !CheckEqual( p1, p3dash ) )
-        {
-        return EXIT_FAILURE;
-        }
-#endif
-
-      TransformType::Pointer t2dash2 = TransformType::New();
-      itk::TransformBase::Pointer t2dash2base = t2dash2.GetPointer();
-      t1->GetInverse( t2dash2base );
-      TransformType::InputPointType p3dash2;
-      p3dash2 = t2dash2->TransformPoint( p2 );
-
-      std::cout << "Test GetInverse(): ";
-      if( !CheckEqual( p1, p3dash2 ) )
         {
         return EXIT_FAILURE;
         }

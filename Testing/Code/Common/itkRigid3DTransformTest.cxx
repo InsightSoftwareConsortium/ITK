@@ -93,7 +93,6 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     translation->SetOffset( ioffset );
 
-#if !defined( ITK_LEGACY_REMOVE )
     TransformType::Pointer translationInverse = TransformType::New();
     if(!translation->GetInverse(translationInverse))
       {
@@ -102,17 +101,6 @@ int itkRigid3DTransformTest(int ,char * [] )
       }
     std::cout << "translation: " << translation;
     std::cout << "translationInverse: " << translationInverse;
-#endif
-
-    TransformType::Pointer translationInverse2 = TransformType::New();
-    itk::TransformBase::Pointer translationInverse2base = translationInverse2.GetPointer();
-    if(!translation->GetInverse(translationInverse2base))
-      {
-      std::cout << "Cannot compute inverse" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "translation: " << translation;
-    std::cout << "translationInverse: " << translationInverse2;
 
 
     TransformType::OffsetType offset = translation->GetOffset();
@@ -274,7 +262,6 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     rotation->SetOffset( ioffset );
 
-#if !defined( ITK_LEGACY_REMOVE )
     TransformType::Pointer rotationInverse = TransformType::New();
     if(!rotation->GetInverse(rotationInverse))
       {
@@ -283,17 +270,6 @@ int itkRigid3DTransformTest(int ,char * [] )
       }
     std::cout << "rotation: " << rotation;
     std::cout << "rotationInverse: " << rotationInverse;
-#endif
-
-    TransformType::Pointer rotationInverse2 = TransformType::New();
-    itk::TransformBase::Pointer rotationInverse2base = rotationInverse2.GetPointer();
-    if(!rotation->GetInverse(rotationInverse2base))
-      {
-      std::cout << "Cannot compute inverse" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "rotation: " << rotation;
-    std::cout << "rotationInverse: " << rotationInverse2;
 
 
     // Verify the Offset content
