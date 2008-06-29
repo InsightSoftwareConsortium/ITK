@@ -228,7 +228,6 @@ int itkAffineTransformTest(int, char *[])
     std::cout << "Create and rotate a 3D transform:" << std::endl;
     aff3->Print( std::cout );
 
-#if !defined(ITK_LEGACY_REMOVE)
     /* Generate inverse transform */
     Affine3DType::Pointer inv3 = Affine3DType::New();
     if(!aff3->GetInverse(inv3))
@@ -238,18 +237,6 @@ int itkAffineTransformTest(int, char *[])
       }
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
-#endif
-
-     /* Generate inverse transform */
-    Affine3DType::Pointer inv4 = Affine3DType::New();
-    itk::TransformBase::Pointer inv4base = inv4.GetPointer();
-    if( !aff3->GetInverse(inv4base) )
-      {
-      std::cout << "Cannot compute inverse transformation" << std::endl;
-      return EXIT_FAILURE;
-      }
-    std::cout << "Create an inverse transformation:" << std::endl;
-    inv4->Print( std::cout );
   
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();
@@ -354,7 +341,6 @@ int itkAffineTransformTest(int, char *[])
 
     transform->SetParameters( expectedParameters );
 
-#if !defined( ITK_LEGACY_REMOVE )
     TransformType::Pointer other = TransformType::New();
     transform->GetInverse( other );
 
@@ -377,55 +363,13 @@ int itkAffineTransformTest(int, char *[])
         break;
         }
       }
-#endif
 
-    TransformType::Pointer other2 = TransformType::New();
-    itk::TransformBase::Pointer other2base = other2.GetPointer();
-    transform->GetInverse( other2base );
 
-    TransformType::ParametersType parameters2b;
-    parameters2b = other2->GetParameters();
-
-    expectedParameters.Fill( 0.0 );
-    expectedParameters[0] = 0.5;
-    expectedParameters[3] = 0.5;
-    
-    other2->Print( std::cout );
-
-    for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
-      {
-      if( fabs( parameters2b[k] - expectedParameters[k] ) > epsilon )
-        {
-        std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters2b << std::endl;
-        std::cout << "Expected=" << expectedParameters << std::endl;
-        any = true;
-        break;
-        }
-      }
-
-#if !defined( ITK_LEGACY_REMOVE )
     // Try to invert a singular transform
     TransformType::Pointer singularTransform = TransformType::New();
     TransformType::Pointer singularTransformInverse = TransformType::New();
     singularTransform->Scale(0.0);
     if (!singularTransform->GetInverse(singularTransformInverse))
-      {
-      std::cout << "Detected an attempt to invert a singular transform as expected" << std::endl;
-      }
-    else
-      {
-      std::cout << "Failed to detect an attempt to invert a singular transform!" << std::endl;
-      return EXIT_FAILURE;
-      }
-#endif
-
-    // Try to invert a singular transform
-    TransformType::Pointer singularTransform2 = TransformType::New();
-    TransformType::Pointer singularTransform2Inverse = TransformType::New();
-    singularTransform2->Scale(0.0);
-    itk::TransformBase::Pointer singularTransform2InverseBase = singularTransform2Inverse.GetPointer();
-    if (!singularTransform2->GetInverse(singularTransform2InverseBase))
       {
       std::cout << "Detected an attempt to invert a singular transform as expected" << std::endl;
       }

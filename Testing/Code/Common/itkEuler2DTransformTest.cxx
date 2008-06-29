@@ -239,7 +239,6 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
         return EXIT_FAILURE;
         }
 
-#if !defined(ITK_LEGACY_REMOVE)
       TransformType::Pointer t2dash = TransformType::New();
       t1->GetInverse( t2dash );
       TransformType::InputPointType p3dash;
@@ -250,19 +249,6 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
         {
         return EXIT_FAILURE;
         }
-#endif
-      TransformType::Pointer t2dash2 = TransformType::New();
-      itk::TransformBase::Pointer t2dash2base = t2dash2.GetPointer();
-      t1->GetInverse( t2dash2base );
-      TransformType::InputPointType p3dash2;
-      p3dash2 = t2dash2->TransformPoint( p2 );
-
-      std::cout << "Test GetInverse(): ";
-      if( !CheckEqual( p1, p3dash2 ) )
-        {
-        return EXIT_FAILURE;
-        }
-
 
       // Test clone
       TransformType::Pointer t3;
