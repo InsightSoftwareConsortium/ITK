@@ -344,8 +344,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
       diff = fixedGradient - subtractionFactor[iDimension]*movedGradient; 
         
-      measure += m_Variance[iDimension] 
-        / ( m_Variance[iDimension] + diff*diff ); 
+      measure += m_Variance[iDimension] / ( m_Variance[iDimension] + diff * diff ); 
 
       ++fixedIterator;
       ++movedIterator;
@@ -365,8 +364,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
 {
   unsigned int iFilter;                        // Index of Sobel filters for each dimension
-  bool maximumFound = false;
-  bool firstIteration = true;
   unsigned int iDimension;
 
   this->SetTransformParameters( parameters );
@@ -385,76 +382,23 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
   //     However for the moment we'll assume that this is the case
   //     whenever GetValue() is called. 
 
-  ComputeMovedGradientRange();
+  this->ComputeMovedGradientRange();
 
-  // Compute the scale factor step size
 
-  MovedGradientPixelType stepSize[FixedImageDimension];
-
-  for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-    {
-    if (m_MaxMovedGradient[iDimension] != m_MinMovedGradient[iDimension])
-      {
-      stepSize[iDimension] = 
-        ((m_MaxFixedGradient[iDimension] - m_MinFixedGradient[iDimension])
-         / (m_MaxMovedGradient[iDimension] - m_MinMovedGradient[iDimension]))/50.;
-      }
-    else
-      {
-      stepSize[iDimension] = 0;
-      }
-    }
-  
   // Compute the similarity measure
 
   MovedGradientPixelType subtractionFactor[FixedImageDimension];
   MeasureType currentMeasure;
-  MeasureType maxMeasure = NumericTraits<MeasureType>::Zero;
 
   for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
     {
-    subtractionFactor[iDimension] = 0.;
+    subtractionFactor[iDimension] = 1.0;
     }
 
-  while (! maximumFound) 
-    {
-    if (! firstIteration) 
-      {
-      for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-        {
-        subtractionFactor[iDimension] += stepSize[iDimension];
-        }
-      }
+  // Compute the new value of the measure for this subtraction factor
+  currentMeasure = this->ComputeMeasure( parameters, subtractionFactor );
 
-    // Compute the new value of the measure for this subtraction factor
-
-    currentMeasure = ComputeMeasure( parameters, subtractionFactor );
-
-    if (firstIteration)
-      {
-      maxMeasure = currentMeasure;
-      firstIteration = false;
-      }
-    else 
-      {
-      if (currentMeasure > maxMeasure) 
-        {  
-        maxMeasure = currentMeasure;
-        }
-
-      else 
-        {
-        maximumFound = true;
-
-        for (iDimension=0; iDimension<FixedImageDimension; iDimension++)
-          {
-          subtractionFactor[iDimension] -= stepSize[iDimension];
-          }
-        }
-      }
-    }
-
-  return maxMeasure;
+  return currentMeasure;
 }
 
 /**
