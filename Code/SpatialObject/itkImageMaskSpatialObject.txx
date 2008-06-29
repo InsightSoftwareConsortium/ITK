@@ -51,21 +51,11 @@ ImageMaskSpatialObject< TDimension >
 {
   if(this->GetBounds()->IsInside(point))
     {
-#if !defined( ITK_LEGACY_REMOVE )
-    if(!this->GetIndexToWorldTransform()->GetInverse(
-           const_cast<TransformType *>(this->GetInternalInverseTransform())))
+
+    if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
       {
       return false;
       }
-#else
-    typename TransformType::Pointer internalInverse =
-      const_cast<TransformType *>(this->GetInternalInverseTransform());
-    TransformBase::Pointer internalInverseBase = internalInverse.GetPointer();
-    if(!this->GetIndexToWorldTransform()->GetInverse( internalInverseBase ) )
-      {
-      return false;
-      }
-#endif
 
     PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 

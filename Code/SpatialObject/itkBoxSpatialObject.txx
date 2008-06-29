@@ -56,14 +56,14 @@ BoxSpatialObject< TDimension >
     return false;
     }
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-          const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
   PointType transformedPoint = 
-                   this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetInternalInverseTransform()->TransformPoint(point);
+
   bool isInside = true;
   for(unsigned int i=0;i<TDimension;i++)
     {

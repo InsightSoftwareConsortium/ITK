@@ -143,24 +143,13 @@ LineSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-#if !defined(ITK_LEGACY_REMOVE)
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-           const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
-#else
-  typename TransformType::Pointer internalInverse =
-    const_cast<TransformType *>(this->GetInternalInverseTransform());
-  TransformBase::Pointer internalInverseBase = internalInverse.GetPointer();
-  if(!this->GetIndexToWorldTransform()->GetInverse( internalInverseBase ) )
-    {
-    return false;
-    }
-#endif
 
   PointType transformedPoint = 
-                  this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetInternalInverseTransform()->TransformPoint(point);
   
   if( this->GetBounds()->IsInside(transformedPoint) )
     {

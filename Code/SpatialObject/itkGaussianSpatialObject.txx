@@ -49,14 +49,14 @@ typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension > 
 ::SquaredZScore( const PointType& point ) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-          const_cast<TransformType *>(this->GetInternalInverseTransform())))
+
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return 0;
     }
 
   PointType transformedPoint = 
-                  this->GetInternalInverseTransform()->TransformPoint(point);  
+    this->GetInternalInverseTransform()->TransformPoint(point);  
    
   ScalarType r = 0;
   for( unsigned int i=0; i<TDimension; i++ )
@@ -80,14 +80,14 @@ GaussianSpatialObject< TDimension >
     return false;
     }
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-           const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
   PointType transformedPoint = 
-                    this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetInternalInverseTransform()->TransformPoint(point);
+
   double r = 0;
   for(unsigned int i=0;i<TDimension;i++)
     {

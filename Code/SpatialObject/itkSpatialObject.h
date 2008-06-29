@@ -554,6 +554,14 @@ protected:
   itkGetConstObjectMacro(Bounds,BoundingBoxType);
   itkGetConstObjectMacro(InternalInverseTransform,TransformType);
 
+  /** This convenience method take the IndexToWorldTransform, and 
+   * if it can compute its inverse, then stores the result in the 
+   * InternalInverse member variable, that can be later accessed 
+   * with the method GetInternalInverseTransform(). This method is
+   * not exposed to users, it is only intended to be called internally
+   * by derived classes. */
+  bool SetInternalInverseTransformToWorldToIndexTransform() const;
+
 private:
 
   SpatialObject(const Self&); //purposely not implemented

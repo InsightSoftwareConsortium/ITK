@@ -50,13 +50,14 @@ bool
 PlaneSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  typename TransformType::Pointer inverse = TransformType::New();
-  if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
+
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
-  PointType transformedPoint = inverse->TransformPoint(point);
+  PointType transformedPoint = 
+    this->GetInternalInverseTransform()->TransformPoint(point);
     
   bool inside = true;
   for(unsigned int i=0;i<TDimension;i++)

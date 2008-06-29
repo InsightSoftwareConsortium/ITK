@@ -134,8 +134,7 @@ bool
 ArrowSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-            const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }

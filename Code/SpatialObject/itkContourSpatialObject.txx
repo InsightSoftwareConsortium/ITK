@@ -210,14 +210,13 @@ ContourSpatialObject< TDimension >
   typename ControlPointListType::const_iterator it = m_ControlPoints.begin();
   typename ControlPointListType::const_iterator itEnd = m_ControlPoints.end();
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-            const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
   PointType transformedPoint = 
-                    this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetInternalInverseTransform()->TransformPoint(point);
 
   if( this->GetBounds()->IsInside(transformedPoint) )
     {

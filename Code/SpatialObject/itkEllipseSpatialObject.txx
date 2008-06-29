@@ -66,16 +66,14 @@ EllipseSpatialObject< TDimension >
     return false;
     }
     
-  TransformBase::Pointer inverse =
-    const_cast<TransformType *>(this->GetInternalInverseTransform());
-
-  if(!this->GetIndexToWorldTransform()->GetInverse( inverse ) )
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
   PointType transformedPoint = 
-                    this->GetInternalInverseTransform()->TransformPoint(point); 
+    this->GetInternalInverseTransform()->TransformPoint(point); 
+
   double r = 0;
   for(unsigned int i=0;i<TDimension;i++)
     {

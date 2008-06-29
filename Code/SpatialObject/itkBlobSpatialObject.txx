@@ -155,10 +155,7 @@ BlobSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-  TransformBase::Pointer inverse =
-    const_cast<TransformType *>( this->GetInternalInverseTransform() );
-
-  if(!this->GetIndexToWorldTransform()->GetInverse( inverse ) )
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }

@@ -215,10 +215,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   typename PointListType::const_iterator end = m_Points.end(); 
   typename PointListType::const_iterator min;
   
-  TransformBase::Pointer inverse = 
-    const_cast<TransformType *>(this->GetInternalInverseTransform());
-
-  if( !this->GetIndexToWorldTransform()->GetInverse( inverse ) )
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }

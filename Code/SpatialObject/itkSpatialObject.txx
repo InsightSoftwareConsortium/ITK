@@ -932,6 +932,29 @@ SpatialObject< TDimension >
 }
 
 template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::SetInternalInverseTransformToWorldToIndexTransform() const
+{
+#if !defined( ITK_LEGACY_REMOVE )
+  if(!this->GetIndexToWorldTransform()->GetInverse(
+         const_cast<TransformType *>(this->GetInternalInverseTransform())))
+    {
+    return false;
+    }
+#else
+  typename TransformType::Pointer internalInverse =
+    const_cast<TransformType *>(this->GetInternalInverseTransform());
+  TransformBase::Pointer internalInverseBase = internalInverse.GetPointer();
+  if(!this->GetIndexToWorldTransform()->GetInverse( internalInverseBase ) )
+    {
+    return false;
+    }
+#endif
+  return true;
+}
+ 
+template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
 ::SetNodeToParentNodeTransform( TransformType * transform )

@@ -142,14 +142,13 @@ SurfaceSpatialObject< TDimension >
   typename PointListType::const_iterator it = m_Points.begin();
   typename PointListType::const_iterator itEnd = m_Points.end();
     
-  if(!this->GetIndexToWorldTransform()->GetInverse(
-            const_cast<TransformType *>(this->GetInternalInverseTransform())))
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
   PointType transformedPoint = 
-                   this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetInternalInverseTransform()->TransformPoint(point);
   
   if( this->GetBounds()->IsInside(transformedPoint) )
     {
