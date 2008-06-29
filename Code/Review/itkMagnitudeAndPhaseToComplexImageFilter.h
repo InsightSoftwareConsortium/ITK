@@ -107,11 +107,11 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(Input1ConvertibleToDoubleCheck,
-    (Concept::Convertible<typename TInputImage1::PixelType, double>));
+    (Concept::Convertible<TInputPixel1, double>));
   itkConceptMacro(Input2ConvertibleToDoubleCheck,
-    (Concept::Convertible<typename TInputImage2::PixelType, double>));
+    (Concept::Convertible<TInputPixel2, double>));
   itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, typename TOutputImage::PixelType>));
+    (Concept::Convertible<double, TOutputPixel>));
   /** End concept checking */
 #endif
 
