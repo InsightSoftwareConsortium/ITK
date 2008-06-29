@@ -131,7 +131,7 @@ int main( int argc, char *argv[] )
 
   MetricType::Pointer         metric        = MetricType::New();
   
-  metric->SetDerivativeDelta( 1.5 );
+  metric->SetDerivativeDelta( 0.5 );
 
   registration->SetMetric( metric  );
 
