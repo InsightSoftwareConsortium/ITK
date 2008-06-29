@@ -217,13 +217,9 @@ public:
    * the transform is returned in the inverseTransform variable passed by the
    * user.  The inverse is recomputed if this current transform has been modified.
    * This method is intended to be overriden by derived classes.
-   *
-   * \deprecated in ITK 3.8, please use the method 
-   *
-   *  bool TransformBase::GetInverse( TransformBase::Pointer & inverseTransform ) 
    * 
    */
-  itkLegacyMacro( bool GetInverse(Self * inverseTransform) const {return false;} );
+  bool GetInverse(Self * inverseTransform) const {return false;}
 
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const;

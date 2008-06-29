@@ -274,7 +274,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   return m_InverseMatrix;
 }
 
-#if !defined( ITK_LEGACY_REMOVE )
 // return an inverse transformation
 template<class TScalarType, unsigned int NInputDimensions,
                             unsigned int NOutputDimensions>
@@ -301,57 +300,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 
   return true;
 }
-#endif
 
-
-// return an inverse transformation
-template<class TScalarType, unsigned int NInputDimensions,
-                            unsigned int NOutputDimensions>
-bool
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
-::GetInverse( TransformBase::Pointer & inverse ) const
-{
-  // 
-  // If this transform is not invertible, then don't even bother to inspect the
-  // TransformBase pointer used for the return.
-  //
-  this->GetInverseMatrix();
-  if(m_Singular)
-    {
-    return false;
-    }
-
-  // If the pointer is NULL, then we need to construct a transform internally.
-  if(!inverse)
-    {
-    inverse = Self::New();
-    }
-  else
-    {
-    // If the pointer is non-NULL but is not really pointing to a
-    // MatrixOffsetTransformBase, or one of its derived classes, then we need
-    // to replace it with it.
-    if( !dynamic_cast< Self * >( inverse.GetPointer() ) )
-      {
-      inverse = Self::New();
-      }
-    }
-
-
-  //
-  // Downcast the type to have access to the essential Set methods
-  //
-  Self * typedInverse = dynamic_cast< Self * >( inverse.GetPointer() );
-
-  typedInverse->SetCenter( this->GetCenter() );
-  typedInverse->m_Matrix         = this->GetInverseMatrix();
-  typedInverse->m_InverseMatrix  = m_Matrix;
-  typedInverse->m_Offset         = -(this->GetInverseMatrix() * m_Offset);
-  typedInverse->ComputeTranslation();
-  typedInverse->ComputeMatrixParameters();
-
-  return true;
-}
 
 // Get fixed parameters
 template<class TScalarType, unsigned int NInputDimensions,

@@ -84,15 +84,6 @@ public:
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const = 0;
 
-  /** Returns a boolean indicating whether it is possible or not to compute the
-   * inverse of this current Transform. If it is possible, then the inverse of
-   * the transform is returned in the inverseTransform SmartPointer passed by
-   * reference by the user. This method is intended to be overriden by derived
-   * classes.
-   *
-   */
-  virtual bool GetInverse( Pointer & inverseTransform ) const { return false; }
-
 protected:
   TransformBase() {}; 
   virtual ~TransformBase() {};
