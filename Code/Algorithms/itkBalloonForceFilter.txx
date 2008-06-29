@@ -596,108 +596,58 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeDt()
 {
-  int i;
+  unsigned long i = 0; // arnaud: I guess i an InputCellIdentifier ?
   const unsigned long *tp;
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
-  InputCellsContainerIterator   cells = myCells->Begin();
+  InputCellsContainerIterator   cells_it = myCells->Begin();
 
-  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator    forces = myForces->Begin();
-
-  InputPointsContainerPointer   myDerives = m_Derives->GetPoints();
-  InputPointsContainerIterator    derives = myDerives->Begin();
-
-  float p = 1;
-  i = 0;
-  IPixelType v1, v2, v3;
-  IPixelType* v1_PixelType;
-  IPixelType* v2_PixelType;
-  IPixelType* v3_PixelType;
-  v1_PixelType = &v1;
-  v2_PixelType = &v2;
-  v3_PixelType = &v3;
-
-  while( cells != myCells->End() )
+  float p = 1; // arnaud: why p is a float? 
+  // I guess it should be a typename IPixelType::CoordRepType?
+  // why p is set to 1 and never changed?
+  
+  IPixelType vd[3];
+  IPixelType vf[3];
+  unsigned int j = 0;
+  unsigned int k = 0;
+  
+  typename IPixelType::VectorType u[3];
+  
+  for( ; cells_it != myCells->End(); ++cells_it, i++ )
     {
-    tp = cells.Value()->GetPointIds();
-    ++cells;
-    m_Displacements->GetPoint (tp[0], v1_PixelType);
-    m_Displacements->GetPoint (tp[1], v2_PixelType);
-    m_Displacements->GetPoint (tp[2], v3_PixelType);
-    v1[0] *= m_K[i]->get(0, 0)*p;
-    v1[1] *= m_K[i]->get(0, 0)*p;
-    v1[2] *= m_K[i]->get(0, 0)*p;
-    v2[0] *= m_K[i]->get(0, 1)*p;
-    v2[1] *= m_K[i]->get(0, 1)*p;
-    v2[2] *= m_K[i]->get(0, 1)*p;
-    v3[0] *= m_K[i]->get(0, 2)*p;
-    v3[1] *= m_K[i]->get(0, 2)*p;
-    v3[2] *= m_K[i]->get(0, 2)*p;
-    v1[0] += v2[0]+v3[0];
-    v1[1] += v2[1]+v3[1];
-    v1[2] += v2[2]+v3[2];
-    m_Forces->GetPoint (tp[0], v2_PixelType);
-
-    v2[0] -= v1[0];
-    v2[1] -= v1[1];
-    v2[2] -= v1[2];
-
-    m_Forces->SetPoint (tp[0], v2);
-
-    m_Displacements->GetPoint (tp[0], v1_PixelType);
-    m_Displacements->GetPoint (tp[1], v2_PixelType);
-    m_Displacements->GetPoint (tp[2], v3_PixelType);
-    v1[0] *= m_K[i]->get(1, 0)*p;
-    v1[1] *= m_K[i]->get(1, 0)*p;
-    v1[2] *= m_K[i]->get(1, 0)*p;
-    v2[0] *= m_K[i]->get(1, 1)*p;
-    v2[1] *= m_K[i]->get(1, 1)*p;
-    v2[2] *= m_K[i]->get(1, 1)*p;
-    v3[0] *= m_K[i]->get(1, 2)*p;
-    v3[1] *= m_K[i]->get(1, 2)*p;
-    v3[2] *= m_K[i]->get(1, 2)*p;
-    v1[0] += v2[0]+v3[0];
-    v1[1] += v2[1]+v3[1];
-    v1[2] += v2[2]+v3[2];
-    m_Forces->GetPoint (tp[1], v2_PixelType);
-
-    v2[0] -= v1[0];
-    v2[1] -= v1[1];
-    v2[2] -= v1[2];
-
-    m_Forces->SetPoint (tp[1], v2);
-
-    m_Displacements->GetPoint (tp[0], v1_PixelType);
-    m_Displacements->GetPoint (tp[1], v2_PixelType);
-    m_Displacements->GetPoint (tp[2], v3_PixelType);
-    v1[0] *= m_K[i]->get(2, 0)*p;
-    v1[1] *= m_K[i]->get(2, 0)*p;
-    v1[2] *= m_K[i]->get(2, 0)*p;
-    v2[0] *= m_K[i]->get(2, 1)*p;
-    v2[1] *= m_K[i]->get(2, 1)*p;
-    v2[2] *= m_K[i]->get(2, 1)*p;
-    v3[0] *= m_K[i]->get(2, 2)*p;
-    v3[1] *= m_K[i]->get(2, 2)*p;
-    v3[2] *= m_K[i]->get(2, 2)*p;
-    v1[0] += v2[0]+v3[0];
-    v1[1] += v2[1]+v3[1];
-    v1[2] += v2[2]+v3[2];
-    m_Forces->GetPoint (tp[2], v2_PixelType);
-
-    v2[0] -= v1[0];
-    v2[1] -= v1[1];
-    v2[2] -= v1[2];
-
-    m_Forces->SetPoint (tp[2], v2);
-    ++i;
+    tp = cells_it.Value()->GetPointIds();
+    for( j = 0; j < 3; j++ )
+      {
+      u[j].Fill( 0. );
+      }
+    
+    for( j = 0; j < 3; j++ )
+      {
+       m_Displacements->GetPoint (tp[j], &vd[j]);
+       m_Forces->GetPoint (tp[j], &vf[j]);
+       
+       for( k = 0; k < 3; k++ )
+        {
+        u[k] += vd[j].GetVectorFromOrigin() * m_K[i]->get( k, j ) * p;
+        }
+      }
+      
+    for( j = 0; j < 3; j++ )
+      {
+      vf[j] -= u[j];
+      m_Forces->SetPoint (tp[j], vf[j]);
+      }
     }
 
-  while ( derives != myDerives->End() )
+  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator    forces_it = myForces->Begin();
+
+  InputPointsContainerPointer   myDerives = m_Derives->GetPoints();
+  InputPointsContainerIterator    derives_it = myDerives->Begin();
+
+  for ( ; derives_it != myDerives->End(); ++derives_it, ++forces_it )
     {
-    derives.Value() = forces.Value();
-    ++derives;
-    ++forces;
+    derives_it.Value() = forces_it.Value();
     }
 
 }
