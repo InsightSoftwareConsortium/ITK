@@ -444,22 +444,12 @@ SpatialObject< TDimension >
 
   if(m_TreeNode->HasParent())
     {
-#if !defined( ITK_LEGACY_REMOVE )
     typename TransformType::Pointer inverse = TransformType::New();
     if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())
        ->GetNodeToParentNodeTransform()->GetInverse(inverse))
       {
       m_ObjectToParentTransform->Compose(inverse,true);
       }
-#else
-    typename TransformType::Pointer inverse = TransformType::New();
-    TransformBase::Pointer inverseBase = inverse.GetPointer();
-    if(static_cast<TreeNodeType*>(m_TreeNode->GetParent())
-       ->GetNodeToParentNodeTransform()->GetInverse(inverseBase))
-      {
-      m_ObjectToParentTransform->Compose(inverse,true);
-      }
-#endif
     }
 
   m_AffineGeometryFrame->GetObjectToNodeTransform()->SetIdentity();
@@ -936,21 +926,11 @@ bool
 SpatialObject< TDimension >
 ::SetInternalInverseTransformToWorldToIndexTransform() const
 {
-#if !defined( ITK_LEGACY_REMOVE )
   if(!this->GetIndexToWorldTransform()->GetInverse(
          const_cast<TransformType *>(this->GetInternalInverseTransform())))
     {
     return false;
     }
-#else
-  typename TransformType::Pointer internalInverse =
-    const_cast<TransformType *>(this->GetInternalInverseTransform());
-  TransformBase::Pointer internalInverseBase = internalInverse.GetPointer();
-  if(!this->GetIndexToWorldTransform()->GetInverse( internalInverseBase ) )
-    {
-    return false;
-    }
-#endif
   return true;
 }
  

@@ -40,15 +40,13 @@ CylinderSpatialObject ::~CylinderSpatialObject()
 bool CylinderSpatialObject
 ::IsInside( const PointType & point) const
 {
-  TransformBase::Pointer inverse = 
-    const_cast< TransformType * >( this->GetInternalInverseTransform() );
-
-  if(!this->GetIndexToWorldTransform()->GetInverse( inverse ) )
+  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
 
-  PointType transformedPoint = this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType transformedPoint = 
+    this->GetInternalInverseTransform()->TransformPoint(point);
 
   this->ComputeLocalBoundingBox();
 
