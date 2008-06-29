@@ -90,6 +90,8 @@ void RegisterTests()
 
   REGISTER_TEST(itkDivideByConstantImageFilterTest);
   REGISTER_TEST(itkMultiplyByConstantImageFilterTest);
+  REGISTER_TEST(itkAddConstantToImageFilterTest);
+  REGISTER_TEST(itkSubtractConstantFromImageFilterTest);
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);

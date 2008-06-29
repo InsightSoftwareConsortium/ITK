@@ -90,6 +90,8 @@ SET(ReviewTest_SRCS
 
   itkMultiplyByConstantImageFilterTest.cxx
   itkDivideByConstantImageFilterTest.cxx
+  itkAddConstantToImageFilterTest.cxx
+  itkSubtractConstantFromImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -513,6 +515,14 @@ ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}
 
 ADD_TEST(itkDivideByConstantImageFilterTest ${REVIEW_TESTS}
         itkDivideByConstantImageFilterTest
+        )
+
+ADD_TEST(itkAddConstantToImageFilterTest ${REVIEW_TESTS}
+        itkAddConstantToImageFilterTest
+        )
+
+ADD_TEST(itkSubtractConstantFromImageFilterTest ${REVIEW_TESTS}
+        itkSubtractConstantFromImageFilterTest
         )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
