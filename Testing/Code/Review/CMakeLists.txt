@@ -85,6 +85,11 @@ SET(ReviewTest_SRCS
   itkVoxBoCUBImageIOTest.cxx
 
   itkSliceBySliceImageFilterTest.cxx
+  
+#  itkDiffeomorphicDemonsRegistrationFilterTest.cxx
+
+  itkMultiplyByConstantImageFilterTest.cxx
+  itkDivideByConstantImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -495,6 +500,20 @@ ADD_TEST(itkSliceBySliceImageFilterTest ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha
         )
 
+# ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest ${REVIEW_TESTS}
+#        itkDiffeomorphicDemonsRegistrationFilterTest
+#        ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+#        ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+#        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest.mha
+#        )
+
+ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}
+        itkMultiplyByConstantImageFilterTest
+        )
+
+ADD_TEST(itkDivideByConstantImageFilterTest ${REVIEW_TESTS}
+        itkDivideByConstantImageFilterTest
+        )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

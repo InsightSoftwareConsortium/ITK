@@ -86,6 +86,11 @@ void RegisterTests()
 
   REGISTER_TEST(itkSliceBySliceImageFilterTest);
 
+//  REGISTER_TEST(itkDiffeomorphicDemonsRegistrationFilterTest);
+
+  REGISTER_TEST(itkDivideByConstantImageFilterTest);
+  REGISTER_TEST(itkMultiplyByConstantImageFilterTest);
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif 
