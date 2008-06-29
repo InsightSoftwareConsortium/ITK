@@ -186,7 +186,7 @@ ImageSpatialObject< TDimension,  PixelType >
       return false;
       }
 
-    PointType p = inverse->TransformPoint(point);
+    PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 
     typename InterpolatorType::ContinuousIndexType index;
     typedef typename InterpolatorType::OutputType InterpolatorOutputType;
