@@ -161,6 +161,9 @@ IF(NOT BORLAND)
   ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
 
+  ADD_EXECUTABLE(ImageRegistration18 ImageRegistration18.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistration18 ITKStatistics ITKIO ITKNumerics)
+
   ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
   TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
                         ITKIO ITKStatistics ITKNumerics)
