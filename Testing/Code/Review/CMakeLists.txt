@@ -92,6 +92,10 @@ SET(ReviewTest_SRCS
   itkDivideByConstantImageFilterTest.cxx
   itkAddConstantToImageFilterTest.cxx
   itkSubtractConstantFromImageFilterTest.cxx
+
+  itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
+  itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
+  itkImageReadRealAndImaginaryWriteComplexTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -523,6 +527,27 @@ ADD_TEST(itkAddConstantToImageFilterTest ${REVIEW_TESTS}
 
 ADD_TEST(itkSubtractConstantFromImageFilterTest ${REVIEW_TESTS}
         itkSubtractConstantFromImageFilterTest
+        )
+
+ADD_TEST(itkImageReadRealAndImaginaryWriteComplexTest ${REVIEW_TESTS}
+        itkImageReadRealAndImaginaryWriteComplexTest
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png 
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
+        )
+
+ADD_TEST(itkImageReadComplexWriteMagnitudeAndPhaseTest ${REVIEW_TESTS}
+        itkImageReadComplexWriteMagnitudeAndPhaseTest
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha
+        )
+
+ADD_TEST(itkImageReadMagnitudeAndPhaseWriteComplexTest ${REVIEW_TESTS}
+        itkImageReadMagnitudeAndPhaseWriteComplexTest
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
         )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
