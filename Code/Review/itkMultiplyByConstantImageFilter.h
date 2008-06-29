@@ -39,7 +39,6 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \sa UnaryFunctorImageFilter
- * \sa ExtractImageFilter
  */
 namespace Functor {  
   
