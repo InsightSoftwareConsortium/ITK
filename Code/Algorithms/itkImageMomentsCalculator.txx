@@ -360,7 +360,8 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
   result->SetOffset(offset);
 
   AffineTransformPointer inverse = AffineTransformType::New();
-  result->GetInverse(inverse);
+  TransformBase::Pointer inverseBase = inverse.GetPointer();
+  result->GetInverse(inverseBase);
 
   return inverse;
 }
