@@ -126,7 +126,7 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
     {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const float expectedValue = factor * input;
+    const float expectedValue = input / factor;
     std::cout << output << " = ";
     std::cout << expectedValue  << std::endl; 
     if( fabs( expectedValue - output ) > epsilon )
