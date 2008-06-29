@@ -181,20 +181,10 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if( IsEvaluableAt( point, 0, name ) )
     {
-#if !defined( ITK_LEGACY_REMOVE )
-    typename TransformType::Pointer inverse = TransformType::New();
-    if(!this->GetIndexToWorldTransform()->GetInverse(inverse))
+    if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
       {
       return false;
       }
-#else
-    typename TransformType::Pointer inverse = TransformType::New();
-    TransformBase::Pointer inverseBase = inverse.GetPointer();
-    if(!this->GetIndexToWorldTransform()->GetInverse(inverseBase))
-      {
-      return false;
-      }
-#endif
 
     PointType p = inverse->TransformPoint(point);
 
