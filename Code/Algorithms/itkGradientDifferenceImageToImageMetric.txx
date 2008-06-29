@@ -53,6 +53,8 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
     m_MinMovedGradient[iDimension] = 0;
     m_MaxMovedGradient[iDimension] = 0;
     }
+
+  this->m_DerivativeDelta = 0.001;
 }
 
 
@@ -465,7 +467,6 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
                  DerivativeType & derivative           ) const
 {
 
-  const double delta = 0.001;
   TransformParametersType testPoint;
   testPoint = parameters;
 
@@ -474,11 +475,11 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
   for( unsigned int i=0; i<numberOfParameters; i++) 
     {
-    testPoint[i] -= delta;
+    testPoint[i] -= this->m_DerivativeDelta;
     const MeasureType valuep0 = this->GetValue( testPoint );
-    testPoint[i] += 2*delta;
+    testPoint[i] += 2 * this->m_DerivativeDelta;
     const MeasureType valuep1 = this->GetValue( testPoint );
-    derivative[i] = (valuep1 - valuep0 ) / ( 2 * delta );
+    derivative[i] = (valuep1 - valuep0 ) / ( 2 * this->m_DerivativeDelta );
     testPoint[i] = parameters[i];
     }
 }

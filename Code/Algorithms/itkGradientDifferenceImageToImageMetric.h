@@ -36,7 +36,9 @@ namespace itk
  * This metric computes the sum of squared differences between pixels in
  * the derivatives of the moving and fixed images after passing the squared
  * difference through a function of type \f$ \frac{1}{1+x} \f$.
-
+ *
+ * \warning THIS IMAGE METRIC IS CURRENTLY UNDER DEBUGGING. USE AT YOUR OWN RISK.
+ *
  * Spatial correspondance between both images is established through a
  * Transform. Pixel values are taken from the Moving image. Their positions
  * are mapped to the Fixed image and result in general in non-grid position
@@ -148,6 +150,11 @@ public:
   /** Write gradient images to a files for debugging purposes. */
   void WriteGradientImagesToFiles(void) const;
 
+  /** Set/Get the value of Delta used for computing derivatives by finite
+   * differences in the GetDerivative() method */
+  itkSetMacro( DerivativeDelta, double );
+  itkGetConstReferenceMacro( DerivativeDelta, double );
+
 protected:
   GradientDifferenceImageToImageMetric();
   virtual ~GradientDifferenceImageToImageMetric() {};
@@ -207,6 +214,7 @@ private:
 
   typename MovedSobelFilter::Pointer m_MovedSobelFilters[itkGetStaticConstMacro( MovedImageDimension )];
 
+  double      m_DerivativeDelta;
 };
 
 } // end namespace itk
