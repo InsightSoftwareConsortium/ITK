@@ -56,13 +56,13 @@ class CovarianceCalculator :
 public:
   /** Standard class typedefs. */
   typedef CovarianceCalculator Self;
-  typedef SampleAlgorithmBase< TSample > Superclass ;
+  typedef SampleAlgorithmBase< TSample > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(CovarianceCalculator, SampleAlgorithmBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Length of a measurement vector */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
@@ -86,8 +86,8 @@ public:
   const OutputType * GetOutput( void ) const;
 
 protected:
-  CovarianceCalculator() ;
-  virtual ~CovarianceCalculator() ;
+  CovarianceCalculator();
+  virtual ~CovarianceCalculator();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the covariance and save it. This method calls 
@@ -103,10 +103,10 @@ protected:
   void ComputeCovarianceWithoutGivenMean( void );
 
 private:
-  MeanType* m_Mean ;
-  MeanType* m_InternalMean ;
-  OutputType m_Output ;
-} ; // end of class
+  MeanType* m_Mean;
+  MeanType* m_InternalMean;
+  OutputType m_Output;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 

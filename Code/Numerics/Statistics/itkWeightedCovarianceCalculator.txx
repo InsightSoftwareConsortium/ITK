@@ -26,11 +26,11 @@ template< class TSample >
 WeightedCovarianceCalculator< TSample >
 ::WeightedCovarianceCalculator()
 {
-  m_Output = new OutputType() ;
-  m_WeightFunction = 0 ;
-  m_Weights = 0 ;
-  m_Mean = 0 ;
-  m_InternalMean = 0 ;
+  m_Output = new OutputType();
+  m_WeightFunction = 0;
+  m_Weights = 0;
+  m_Mean = 0;
+  m_InternalMean = 0;
 }
 
 template< class TSample >
@@ -39,12 +39,12 @@ WeightedCovarianceCalculator< TSample >
 {
   if ( m_InternalMean != 0 )
     {
-    delete m_InternalMean ;
-    m_InternalMean = 0 ;
-    m_Mean = 0 ;
+    delete m_InternalMean;
+    m_InternalMean = 0;
+    m_Mean = 0;
     }
-  delete m_Output ;
-  m_Output = 0 ;
+  delete m_Output;
+  m_Output = 0;
 }
 
 
@@ -58,8 +58,8 @@ WeightedCovarianceCalculator< TSample >
 
   if ( m_InternalMean != mean && m_InternalMean != 0 )
     {
-    delete m_InternalMean ;
-    m_InternalMean = 0 ;
+    delete m_InternalMean;
+    m_InternalMean = 0;
     }
   
   if( mean )
@@ -71,22 +71,22 @@ WeightedCovarianceCalculator< TSample >
       { this->SetMeasurementVectorSize( measurementVectorLength ); }
     }
 
-  m_Mean = mean ;
+  m_Mean = mean;
 }
 
 
 template< class TSample >
 typename WeightedCovarianceCalculator< TSample >::MeanType*
 WeightedCovarianceCalculator< TSample >
-::GetMean()
+::GetMean( void )
 {
   if ( m_InternalMean != 0 )
     {
-    return m_InternalMean ;
+    return m_InternalMean;
     }
   else
     {
-    return m_Mean ;
+    return m_Mean;
     }
 } 
 
@@ -95,15 +95,15 @@ void
 WeightedCovarianceCalculator< TSample >
 ::SetWeights(WeightArrayType* array)
 {
-  m_Weights = array ;
+  m_Weights = array;
 }
 
 template< class TSample >
 typename WeightedCovarianceCalculator< TSample >::WeightArrayType*
 WeightedCovarianceCalculator< TSample >
-::GetWeights()
+::GetWeights( void )
 {
-  return m_Weights ;
+  return m_Weights;
 }
 
 template< class TSample >
@@ -111,21 +111,21 @@ void
 WeightedCovarianceCalculator< TSample >
 ::SetWeightFunction(WeightFunctionType* func)
 {
-  m_WeightFunction = func ;
+  m_WeightFunction = func;
 }
 
 template< class TSample >
 typename WeightedCovarianceCalculator< TSample >::WeightFunctionType*
 WeightedCovarianceCalculator< TSample >
-::GetWeightFunction()
+::GetWeightFunction( void )
 {
-  return m_WeightFunction ;
+  return m_WeightFunction;
 }
 
 template< class TSample >
 void
 WeightedCovarianceCalculator< TSample >
-::ComputeCovarianceWithGivenMean()
+::ComputeCovarianceWithGivenMean( void )
 {
   // Assert at run time that the given mean has the same length as 
   // measurement vectors in the sample and that the size is non-zero.
@@ -134,201 +134,231 @@ WeightedCovarianceCalculator< TSample >
   const MeasurementVectorSizeType measurementVectorSize =
                                         this->GetMeasurementVectorSize();
   
-  delete m_Output ;
+  delete m_Output;
   m_Output = new OutputType();
   m_Output->SetSize( measurementVectorSize, measurementVectorSize );
-  m_Output->Fill(0.0) ;
+  m_Output->Fill(0.0);
   
   double weight;
-  double sumWeight = 0.0 ;
-  double sumSquaredWeight = 0.0 ;
+  double sumWeight = 0.0;
+  double sumSquaredWeight = 0.0;
   
-  unsigned int row, col ;
-  unsigned int i ;
-  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ; 
-  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
+  unsigned int row, col;
+  unsigned int i;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin();
+  typename TSample::ConstIterator end = this->GetInputSample()->End();
   MeanType diff( measurementVectorSize );
-  typename TSample::MeasurementVectorType measurements ;
-  int measurementVectorIndex = 0 ;
+  typename TSample::MeasurementVectorType measurements;
+  int measurementVectorIndex = 0;
   
   // fills the lower triangle and the diagonal cells in the covariance matrix
-  if (m_WeightFunction != 0) 
+  if (m_WeightFunction != 0)
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
-      weight = iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
-      sumWeight += weight ;
-      sumSquaredWeight += weight * weight ;
-      for (i = 0 ; i < measurementVectorSize ; i++)
+      measurements = iter.GetMeasurementVector();
+      weight = iter.GetFrequency() * m_WeightFunction->Evaluate(measurements);
+      sumWeight += weight;
+      sumSquaredWeight += weight * weight;
+      for (i = 0; i < measurementVectorSize; i++)
         {
-        diff[i] = measurements[i] - (*m_Mean)[i] ;
+        diff[i] = measurements[i] - (*m_Mean)[i];
         }
           
-      for ( row = 0; row < measurementVectorSize ; row++)
+      for ( row = 0; row < measurementVectorSize; row++)
         {
-        for ( col = 0; col < row + 1 ; col++)
+        for ( col = 0; col < row + 1; col++)
           {
           (*m_Output)(row,col) += 
-            weight * diff[row] * diff[col] ;
+            weight * diff[row] * diff[col];
           }
         }
-      ++iter ;
+      ++iter;
       }
     }
   else
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
-      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-      sumWeight += weight ;
-      sumSquaredWeight += weight * weight ;
-      for (i = 0 ; i < measurementVectorSize ; i++)
+      measurements = iter.GetMeasurementVector();
+      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex];
+      sumWeight += weight;
+      sumSquaredWeight += weight * weight;
+      for (i = 0; i < measurementVectorSize; i++)
         {
-        diff[i] = measurements[i] - (*m_Mean)[i] ;
+        diff[i] = measurements[i] - (*m_Mean)[i];
         }
           
-      for ( row = 0; row < measurementVectorSize ; row++)
+      for ( row = 0; row < measurementVectorSize; row++)
         {
-        for ( col = 0; col < row + 1 ; col++)
+        for ( col = 0; col < row + 1; col++)
           {
           (*m_Output)(row,col) += 
-            weight * diff[row] * diff[col] ;
+            weight * diff[row] * diff[col];
           }
         }
-      ++measurementVectorIndex ;
-      ++iter ;
+      ++measurementVectorIndex;
+      ++iter;
       } // end of while
     } // end of if-else
 
   // fills the upper triangle using the lower triangle  
-  for (row = 1 ; row < measurementVectorSize ; row++)
+  for (row = 1; row < measurementVectorSize; row++)
     {
-    for (col = 0 ; col < row ; col++)
+    for (col = 0; col < row; col++)
       {
       (*m_Output)(col, row) = 
-        (*m_Output)(row, col) ;
+        (*m_Output)(row, col);
       } 
     }
-  
-  (*m_Output) /= 
-    (sumWeight - (sumSquaredWeight / sumWeight) )  ;
+
+  double denom = sumWeight - ( sumSquaredWeight / sumWeight );
+  if ( denom > 1e-6 || denom < -1e-6 )
+  {
+    (*m_Output) /= denom;
+  }
+  else
+  {
+    m_Output->Fill( 0.0 );
+  }
+
 }
 
 template< class TSample >
 void
 WeightedCovarianceCalculator< TSample >
-::ComputeCovarianceWithoutGivenMean()
+::ComputeCovarianceWithoutGivenMean( void )
 {
   const MeasurementVectorSizeType measurementVectorSize = 
     this->GetMeasurementVectorSize();
-  delete m_Output ;
+  delete m_Output;
   m_Output = new OutputType();
   m_Output->SetSize( measurementVectorSize, measurementVectorSize );
-  m_Output->Fill(0.0) ;
+  m_Output->Fill(0.0);
   m_InternalMean = new MeanType(measurementVectorSize);
-  m_InternalMean->Fill(0.0) ;
+  m_InternalMean->Fill(0.0);
   
   double weight;
-  double tempWeight ;
-  double sumWeight = 0.0 ;
-  double sumSquaredWeight = 0.0 ;
+  double tempWeight;
+  double sumWeight = 0.0;
+  double sumSquaredWeight = 0.0;
   
-  unsigned int row, col ;
-  unsigned int i ;
-  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ; 
-  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
+  unsigned int row, col;
+  unsigned int i;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin(); 
+  typename TSample::ConstIterator end = this->GetInputSample()->End();
   MeanType diff( measurementVectorSize );
-  typename TSample::MeasurementVectorType measurements ;
-  int measurementVectorIndex = 0 ;
+  typename TSample::MeasurementVectorType measurements;
+  int measurementVectorIndex = 0;
   
   // fills the lower triangle and the diagonal cells in the covariance matrix
   if (m_WeightFunction != 0) 
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
+      measurements = iter.GetMeasurementVector();
       weight = 
-        iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
-      sumWeight += weight ;
-      sumSquaredWeight += weight * weight ;
-      for (i = 0 ; i < measurementVectorSize ; i++)
+        iter.GetFrequency() * m_WeightFunction->Evaluate(measurements);
+
+      if ( weight == 0 )
+      {
+        ++iter;
+        continue;
+      }
+
+      sumWeight += weight;
+      sumSquaredWeight += weight * weight;
+      for (i = 0; i < measurementVectorSize; i++)
         {
-        diff[i] = measurements[i] - (*m_InternalMean)[i] ;
+        diff[i] = measurements[i] - (*m_InternalMean)[i];
         }
           
       // updates the mean vector
-      tempWeight = weight / sumWeight ;
-      for ( i = 0 ; i < measurementVectorSize ; ++i )
+      tempWeight = weight / sumWeight;
+      for ( i = 0; i < measurementVectorSize; ++i )
         {
-        (*m_InternalMean)[i] += tempWeight * diff[i] ;
+        (*m_InternalMean)[i] += tempWeight * diff[i];
         }
 
-      tempWeight = tempWeight * ( sumWeight - weight ) ;
-      for ( row = 0; row < measurementVectorSize ; row++)
+      tempWeight = tempWeight * ( sumWeight - weight );
+      for ( row = 0; row < measurementVectorSize; row++)
         {
-        for ( col = 0; col < row + 1 ; col++)
+        for ( col = 0; col < row + 1; col++)
           {
           (*m_Output)(row,col) += 
-            tempWeight * diff[row] * diff[col] ;
+            tempWeight * diff[row] * diff[col];
           }
         }
-      ++iter ;
+      ++iter;
       }
     }
   else
     {
     while (iter != end)
       {
-      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-      sumWeight += weight ;
-      measurements = iter.GetMeasurementVector() ;
-      sumSquaredWeight += weight * weight ;
-      for (i = 0 ; i < measurementVectorSize ; i++)
+      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex];
+
+      if ( weight == 0 )
+      {
+        ++iter;
+        continue;
+      }
+
+      sumWeight += weight;
+      measurements = iter.GetMeasurementVector();
+      sumSquaredWeight += weight * weight;
+      for (i = 0; i < measurementVectorSize; i++)
         {
-        diff[i] = measurements[i] - (*m_InternalMean)[i] ;
+        diff[i] = measurements[i] - (*m_InternalMean)[i];
         }
           
       // updates the mean vector
-      tempWeight = weight / sumWeight ;
-      for ( i = 0 ; i < measurementVectorSize ; ++i )
+      tempWeight = weight / sumWeight;
+      for ( i = 0; i < measurementVectorSize; ++i )
         {
-        (*m_InternalMean)[i] += tempWeight * diff[i] ;
+        (*m_InternalMean)[i] += tempWeight * diff[i];
         }
 
-      tempWeight = tempWeight * ( sumWeight - weight ) ;
-      for ( row = 0; row < measurementVectorSize ; row++)
+      tempWeight = tempWeight * ( sumWeight - weight );
+      for ( row = 0; row < measurementVectorSize; row++)
         {
-        for ( col = 0; col < row + 1 ; col++)
+        for ( col = 0; col < row + 1; col++)
           {
-          (*m_Output)(row,col) += 
-            tempWeight * diff[row] * diff[col] ;
+          (*m_Output)(row,col) +=
+            tempWeight * diff[row] * diff[col];
           }
         }
-      ++measurementVectorIndex ;
-      ++iter ;
+      ++measurementVectorIndex;
+      ++iter;
       }
     }
 
   // fills the upper triangle using the lower triangle  
-  for (row = 1 ; row < measurementVectorSize ; row++)
+  for (row = 1; row < measurementVectorSize; row++)
     {
-    for (col = 0 ; col < row ; col++)
+    for (col = 0; col < row; col++)
       {
-      (*m_Output)(col, row) = 
-        (*m_Output)(row, col) ;
-      } 
+      (*m_Output)(col, row) =
+        (*m_Output)(row, col);
+      }
     }
 
-  (*m_Output) /= 
-    (sumWeight - (sumSquaredWeight / sumWeight) )  ;
+  double denom = sumWeight - ( sumSquaredWeight / sumWeight );
+  if ( denom > 1e-6 || denom < -1e-6 )
+  {
+    (*m_Output) /= denom;
+  }
+  else
+  {
+    m_Output->Fill( 0.0 );
+  }
+
 }
 
 template< class TSample >
 void
 WeightedCovarianceCalculator< TSample >
-::GenerateData() 
+::GenerateData( void ) 
 {
   const MeasurementVectorSizeType measurementVectorSize = 
     this->GetMeasurementVectorSize();
@@ -339,20 +369,20 @@ WeightedCovarianceCalculator< TSample >
 
    if ( m_Mean == 0 )
     {
-    this->ComputeCovarianceWithoutGivenMean() ;
+    this->ComputeCovarianceWithoutGivenMean();
     }
   else
     {
-    this->ComputeCovarianceWithGivenMean() ;
+    this->ComputeCovarianceWithGivenMean();
     }
 }
 
 template< class TSample >
 typename WeightedCovarianceCalculator< TSample >::OutputType*
 WeightedCovarianceCalculator< TSample >
-::GetOutput()
+::GetOutput( void )
 {
-  return m_Output ;
+  return m_Output;
 }
 
 template< class TSample >
@@ -367,20 +397,20 @@ WeightedCovarianceCalculator< TSample >
 
   if ( m_Mean != 0)
     {
-    os << indent << "Mean: [" << *m_Mean << "]" << std::endl ;
+    os << indent << "Mean: [" << *m_Mean << "]" << std::endl;
     }
   else
     {
-    os << indent << "Mean: not set" << std::endl ;
+    os << indent << "Mean: not set" << std::endl;
     }
 
   if ( m_InternalMean != 0)
     {
-    os << indent << "Internal Mean: [" << *m_InternalMean << "]" << std::endl ;
+    os << indent << "Internal Mean: [" << *m_InternalMean << "]" << std::endl;
     }
   else
     {
-    os << indent << "Internal Mean: not used" << std::endl ;
+    os << indent << "Internal Mean: not used" << std::endl;
     }
 }
 

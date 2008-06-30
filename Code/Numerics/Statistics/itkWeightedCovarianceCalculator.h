@@ -45,22 +45,22 @@ class WeightedCovarianceCalculator :
 public:
   /** Standard class typedefs. */
   typedef WeightedCovarianceCalculator Self;
-  typedef SampleAlgorithmBase< TSample > Superclass ;
+  typedef SampleAlgorithmBase< TSample > Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(WeightedCovarianceCalculator, SampleAlgorithmBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Length of a measurement vector */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   
   /** Measurement vector typedef */
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
   
   /** Weight calculation function typedef */
-  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
+  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType;
 
   /** Typedef for the mean output */
   typedef Array< double >                               MeanType;
@@ -69,49 +69,49 @@ public:
   typedef VariableSizeMatrix< double >                  OutputType;
   
   /** Array typedef for weights */
-  typedef Array< double > WeightArrayType ;
+  typedef Array< double > WeightArrayType;
 
   /** Sets the weights using an array */
-  void SetWeights(WeightArrayType* array) ;
+  void SetWeights(WeightArrayType* array);
 
   /** Gets the weights array */
-  WeightArrayType* GetWeights() ;
+  WeightArrayType* GetWeights( void );
 
   /** Sets the weights using an function the function should have a method, 
    * Evaluate(MeasurementVectorType&).  */
-  void SetWeightFunction(WeightFunctionType* func) ;
+  void SetWeightFunction(WeightFunctionType* func);
 
   /** Gets the weight function */
-  WeightFunctionType* GetWeightFunction() ;
+  WeightFunctionType* GetWeightFunction( void );
   
   /** Sets the mean (input) */
-  void SetMean(MeanType* mean) ;
+  void SetMean(MeanType* mean);
 
   /** Gets the mean */
-  MeanType* GetMean() ;
+  MeanType* GetMean( void );
 
   /** Returns the covariance matrix of the target sample data */ 
-  OutputType* GetOutput() ;
+  OutputType* GetOutput( void );
 
 protected:
-  WeightedCovarianceCalculator() ;
-  virtual ~WeightedCovarianceCalculator() ;
+  WeightedCovarianceCalculator();
+  virtual ~WeightedCovarianceCalculator();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the covariance and save it */
-  void GenerateData() ;
+  void GenerateData( void );
 
-  void ComputeCovarianceWithGivenMean() ;
+  void ComputeCovarianceWithGivenMean( void );
   
-  void ComputeCovarianceWithoutGivenMean() ;
+  void ComputeCovarianceWithoutGivenMean( void );
 
 private:
-  OutputType* m_Output ;
-  MeanType* m_Mean ;
-  MeanType* m_InternalMean ;
-  WeightArrayType* m_Weights ;
-  WeightFunctionType* m_WeightFunction ;
-} ; // end of class
+  OutputType* m_Output;
+  MeanType* m_Mean;
+  MeanType* m_InternalMean;
+  WeightArrayType* m_Weights;
+  WeightFunctionType* m_WeightFunction;
+}; // end of class
     
   } // end of namespace Statistics 
 } // end of namespace itk 
