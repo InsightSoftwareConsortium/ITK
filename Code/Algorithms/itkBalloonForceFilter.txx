@@ -596,54 +596,52 @@ void
 BalloonForceFilter<TInputMesh, TOutputMesh>
 ::ComputeDt()
 {
-  unsigned long i = 0; // arnaud: I guess i an InputCellIdentifier ?
   const unsigned long *tp;
 
   InputCellsContainerPointer    myCells = m_Locations->GetCells();
   InputCellsContainerIterator   cells_it = myCells->Begin();
 
-  float p = 1; // arnaud: why p is a float? 
+  float p = 1.0; // arnaud: why p is a float? 
   // I guess it should be a typename IPixelType::CoordRepType?
   // why p is set to 1 and never changed?
   
   IPixelType vd[3];
   IPixelType vf[3];
-  unsigned int j = 0;
-  unsigned int k = 0;
   
   typename IPixelType::VectorType u[3];
-  
+
+  unsigned long i = 0; // arnaud: I guess i an InputCellIdentifier?
   for( ; cells_it != myCells->End(); ++cells_it, i++ )
     {
     tp = cells_it.Value()->GetPointIds();
-    for( j = 0; j < 3; j++ )
+    for( unsigned int j = 0; j < 3; j++ )
       {
-      u[j].Fill( 0. );
+      u[j].Fill( 0.0 );
       }
     
-    for( j = 0; j < 3; j++ )
+    for( unsigned int j = 0; j < 3; j++ )
       {
        m_Displacements->GetPoint (tp[j], &vd[j]);
        m_Forces->GetPoint (tp[j], &vf[j]);
        
-       for( k = 0; k < 3; k++ )
+       for( unsigned int k = 0; k < 3; k++ )
         {
         u[k] += vd[j].GetVectorFromOrigin() * m_K[i]->get( k, j ) * p;
         }
       }
       
-    for( j = 0; j < 3; j++ )
+    for( unsigned int j = 0; j < 3; j++ )
       {
       vf[j] -= u[j];
       m_Forces->SetPoint (tp[j], vf[j]);
       }
     }
 
-  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator    forces_it = myForces->Begin();
+  InputPointsContainerPointer  myForces  = m_Forces->GetPoints();
+  InputPointsContainerIterator forces_it = myForces->Begin();
 
-  InputPointsContainerPointer   myDerives = m_Derives->GetPoints();
-  InputPointsContainerIterator    derives_it = myDerives->Begin();
+  InputPointsContainerPointer  myDerives  = m_Derives->GetPoints();
+  InputPointsContainerIterator derives_it = myDerives->Begin();
 
   for ( ; derives_it != myDerives->End(); ++derives_it, ++forces_it )
     {
