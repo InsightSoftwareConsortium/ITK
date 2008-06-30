@@ -15,6 +15,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "Warning itk::Statistics::Histogram"
   "gdcmDocument.cxx:.*warning:.*__base_ctor.* is deprecated"
   "gdcmDicomDir.cxx:.*warning:.*__base_ctor.* is deprecated"
+  "gdcmFileHelperd.cxx:.*warning:.*__base_ctor.* is deprecated"
   )
 
 IF(APPLE)
