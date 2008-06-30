@@ -1195,12 +1195,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   const unsigned long *tp;
   IPixelType v1, v2, v3, v4;
-  IPixelType* v1_PixelType;
-  IPixelType* v2_PixelType;
-  IPixelType* v3_PixelType;
-  v1_PixelType = &v1;
-  v2_PixelType = &v2;
-  v3_PixelType = &v3;
   float coa, cob, coc;
   float absvec;
 
@@ -1222,9 +1216,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     tp = cells.Value()->GetPointIds();
     ++cells;
 
-    m_Locations->GetPoint (tp[0], v1_PixelType);
-    m_Locations->GetPoint (tp[1], v2_PixelType);
-    m_Locations->GetPoint (tp[2], v3_PixelType);
+    m_Locations->GetPoint (tp[0], &v1 );
+    m_Locations->GetPoint (tp[1], &v2 );
+    m_Locations->GetPoint (tp[2], &v3 );
 
     coa = -(v1[1]*(v2[2]-v3[2]) +
             v2[1]*(v3[2]-v1[2]) +
@@ -1243,9 +1237,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     v4[0] = coa/absvec;
     v4[1] = cob/absvec;
     v4[2] = coc/absvec;
-    m_Normals->GetPoint (tp[0], v1_PixelType);
-    m_Normals->GetPoint (tp[1], v2_PixelType);
-    m_Normals->GetPoint (tp[2], v3_PixelType);
+    m_Normals->GetPoint (tp[0], &v1 );
+    m_Normals->GetPoint (tp[1], &v2 );
+    m_Normals->GetPoint (tp[2], &v3 );
 
     v1[0] += v4[0];
     v1[1] += v4[1];
@@ -1269,7 +1263,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   while( normals != myNormals->End() )
     {
     v1 = normals.Value();
-    absvec = vcl_sqrt((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])));
+    absvec = std::sqrt( v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2] );
     v1[0] = v1[0]/absvec;
     v1[1] = v1[1]/absvec;
     v1[2] = v1[2]/absvec;
