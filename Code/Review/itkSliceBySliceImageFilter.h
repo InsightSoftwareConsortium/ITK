@@ -38,11 +38,11 @@ namespace itk {
 template<class TInputImage,
   class TOutputImage,
   class TInputFilter=ImageToImageFilter< 
-    Image< typename TInputImage::PixelType,  ::itk::GetImageDimension<TInputImage >::ImageDimension - 1 >,
-    Image< typename TOutputImage::PixelType, ::itk::GetImageDimension<TOutputImage>::ImageDimension - 1 > >,
+    Image< ITK_TYPENAME TInputImage::PixelType,  ::itk::GetImageDimension<TInputImage >::ImageDimension - 1 >,
+    Image< ITK_TYPENAME TOutputImage::PixelType, ::itk::GetImageDimension<TOutputImage>::ImageDimension - 1 > >,
   class TOutputFilter=TInputFilter,
-  class TInternalInputImage=typename TInputFilter::InputImageType,
-  class TInternalOutputImage=typename TOutputFilter::OutputImageType >
+  class TInternalInputImage=ITK_TYPENAME TInputFilter::InputImageType,
+  class TInternalOutputImage=ITK_TYPENAME TOutputFilter::OutputImageType >
 class ITK_EXPORT SliceBySliceImageFilter : 
 public ImageToImageFilter<TInputImage, TOutputImage>
 {
