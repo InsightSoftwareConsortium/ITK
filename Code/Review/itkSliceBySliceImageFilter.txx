@@ -168,7 +168,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
 
     // reallocate the internal input at each slice, so the slice by slice filter can work
     // even if the pipeline is run in place
-    typename std::vector<typename InternalInputImageType::Pointer> internalInputs;
+    typename std::vector<ITK_TYPENAME InternalInputImageType::Pointer> internalInputs;
     internalInputs.resize( this->GetNumberOfInputs() );
 
     for( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
