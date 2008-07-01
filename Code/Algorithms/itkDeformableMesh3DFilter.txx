@@ -302,20 +302,14 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   double p = 1.0; 
   i = 0;
   InputPointType v1, v2, v3;
-  InputPointType* v1_pt;
-  InputPointType* v2_pt;
-  InputPointType* v3_pt;
-  v1_pt = &v1;
-  v2_pt = &v2;
-  v3_pt = &v3;
 
   while( cells != myCells->End() ) 
     {
     tp = cells.Value()->GetPointIds();
     ++cells;
-    m_Displacements->GetPoint (tp[0], v1_pt); 
-    m_Displacements->GetPoint (tp[1], v2_pt); 
-    m_Displacements->GetPoint (tp[2], v3_pt); 
+    m_Displacements->GetPoint (tp[0], &v1); 
+    m_Displacements->GetPoint (tp[1], &v2); 
+    m_Displacements->GetPoint (tp[2], &v3); 
     v1[0] *= m_K[i]->get(0, 0)*p; 
     v1[1] *= m_K[i]->get(0, 0)*p; 
     v1[2] *= m_K[i]->get(0, 0)*p; 
@@ -328,7 +322,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     v1[0] += v2[0]+v3[0]; 
     v1[1] += v2[1]+v3[1]; 
     v1[2] += v2[2]+v3[2]; 
-    m_Forces->GetPoint (tp[0], v2_pt); 
+    m_Forces->GetPoint (tp[0], &v2); 
 
     v2[0] -= v1[0]; 
     v2[1] -= v1[1]; 
@@ -336,9 +330,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     m_Forces->SetPoint (tp[0], v2); 
    
-    m_Displacements->GetPoint (tp[0], v1_pt); 
-    m_Displacements->GetPoint (tp[1], v2_pt); 
-    m_Displacements->GetPoint (tp[2], v3_pt); 
+    m_Displacements->GetPoint (tp[0], &v1); 
+    m_Displacements->GetPoint (tp[1], &v2); 
+    m_Displacements->GetPoint (tp[2], &v3); 
     v1[0] *= m_K[i]->get(1, 0)*p; 
     v1[1] *= m_K[i]->get(1, 0)*p; 
     v1[2] *= m_K[i]->get(1, 0)*p; 
@@ -351,7 +345,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     v1[0] += v2[0]+v3[0]; 
     v1[1] += v2[1]+v3[1]; 
     v1[2] += v2[2]+v3[2]; 
-    m_Forces->GetPoint (tp[1], v2_pt);  
+    m_Forces->GetPoint (tp[1], &v2);  
 
     v2[0] -= v1[0]; 
     v2[1] -= v1[1]; 
@@ -359,9 +353,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     m_Forces->SetPoint (tp[1], v2); 
    
-    m_Displacements->GetPoint (tp[0], v1_pt); 
-    m_Displacements->GetPoint (tp[1], v2_pt); 
-    m_Displacements->GetPoint (tp[2], v3_pt); 
+    m_Displacements->GetPoint (tp[0], &v1); 
+    m_Displacements->GetPoint (tp[1], &v2); 
+    m_Displacements->GetPoint (tp[2], &v3); 
     v1[0] *= m_K[i]->get(2, 0)*p; 
     v1[1] *= m_K[i]->get(2, 0)*p; 
     v1[2] *= m_K[i]->get(2, 0)*p; 
@@ -374,7 +368,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     v1[0] += v2[0]+v3[0]; 
     v1[1] += v2[1]+v3[1]; 
     v1[2] += v2[2]+v3[2]; 
-    m_Forces->GetPoint (tp[2], v2_pt); 
+    m_Forces->GetPoint (tp[2], &v2); 
 
     v2[0] -= v1[0]; 
     v2[1] -= v1[1]; 
@@ -792,12 +786,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   const unsigned long *tp;
   InputPointType v1, v2, v3, v4, d;
-  InputPointType* v1_pt;
-  InputPointType* v2_pt;
-  InputPointType* v3_pt;
-  v1_pt = &v1;
-  v2_pt = &v2;
-  v3_pt = &v3;
   double coa, cob, coc ;
   double absvec ;
 
@@ -820,9 +808,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   tp = cells.Value()->GetPointIds();
   ++cells;
 
-  m_Locations->GetPoint (tp[0], v1_pt);
-  m_Locations->GetPoint (tp[1], v2_pt);
-  m_Locations->GetPoint (tp[2], v3_pt);
+  m_Locations->GetPoint (tp[0], &v1);
+  m_Locations->GetPoint (tp[1], &v2);
+  m_Locations->GetPoint (tp[2], &v3);
 
   coa = -(v1[1]*(v2[2]-v3[2]) + 
           v2[1]*(v3[2]-v1[2]) +
@@ -841,9 +829,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   v4[0] = coa/absvec;
   v4[1] = cob/absvec;
   v4[2] = coc/absvec;
-  m_Normals->GetPoint (tp[0], v1_pt);
-  m_Normals->GetPoint (tp[1], v2_pt);
-  m_Normals->GetPoint (tp[2], v3_pt);
+  m_Normals->GetPoint (tp[0], &v1);
+  m_Normals->GetPoint (tp[1], &v2);
+  m_Normals->GetPoint (tp[2], &v3);
 
   v1[0] += v4[0];
   v1[1] += v4[1];
