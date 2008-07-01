@@ -64,15 +64,15 @@ public: \
       b.Fill( NumericTraits< T >::min() ); \
       return b; \
     } \
-  static const Self Zero( const Self  & a ) \
+  static const Self ZeroValue() \
   {  \
-    Self b(a.Size());  \
+    Self b; \
     b.Fill( NumericTraits< T >::Zero ); \
     return b; \
   } \
-  static const Self One( const Self & a ) \
+  static const Self OneValue() \
   {  \
-    Self b(a.Size());  \
+    Self b; \
     b.Fill( NumericTraits< T >::One ); \
     return b; \
   } \
