@@ -158,4 +158,8 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 # include "itkRGBAPixel.txx"
 #endif
 
+#ifndef ITKCommon_EXPORTS
+  #include "itkNumericTraitsRGBAPixel.h"
+#endif
+
 #endif
