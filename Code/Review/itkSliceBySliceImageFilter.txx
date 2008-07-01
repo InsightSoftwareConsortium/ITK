@@ -41,10 +41,11 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
+  typedef  typename InputImageType::Pointer  InputImagePointer;
+
   for( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
     {
-    typename InputImageType::Pointer  inputPtr =
-      const_cast< InputImageType * >( this->GetInput( i ) );
+    InputImagePointer  inputPtr = const_cast< InputImageType * >( this->GetInput( i ) );
   
     if ( !inputPtr )
       { 
@@ -168,7 +169,9 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
 
     // reallocate the internal input at each slice, so the slice by slice filter can work
     // even if the pipeline is run in place
-    typename std::vector<ITK_TYPENAME InternalInputImageType::Pointer> internalInputs;
+    typedef typename InternalInputImageType::Pointer InputImagePointer;
+    std::vector< InputImagePointer > internalInputs;
+
     internalInputs.resize( this->GetNumberOfInputs() );
 
     for( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
@@ -181,7 +184,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
   
     // copy the current slice to the input image
     typedef ImageRegionIterator< InternalInputImageType > InputIteratorType;
-    typename std::vector< InputIteratorType > inputIterators;
+    std::vector< InputIteratorType > inputIterators;
     inputIterators.resize( this->GetNumberOfInputs() );
 
     for( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
@@ -222,7 +225,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
     
     // and copy the output slice to the output image
     typedef ImageRegionConstIterator< InternalOutputImageType > OutputIteratorType;
-    typename std::vector< OutputIteratorType > outputIterators;
+    std::vector< OutputIteratorType > outputIterators;
 
     outputIterators.resize( this->GetNumberOfOutputs() );
 
