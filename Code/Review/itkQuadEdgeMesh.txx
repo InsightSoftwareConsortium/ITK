@@ -1075,7 +1075,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdge( const PointIdentifier& pid0, const PointIdentifier& pid1 ) const
 {
-  QEPrimal * initialEdge = this->FindEdge( pid0 );
+  QEPrimal * initialEdge = this->GetPoint( pid0 ).GetEdge( );
   if( initialEdge )
     {
     typename QEPrimal::IteratorGeom it = initialEdge->BeginGeomOnext();
@@ -1083,7 +1083,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       if(  it.Value()->GetDestination() == pid1 )
         {
-        return( dynamic_cast< QEPrimal* >( it.Value() ) );
+        return( it.Value( ) );//dynamic_cast< QEPrimal* >( it.Value() ) );
         }
       ++it;
       }
