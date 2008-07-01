@@ -393,8 +393,6 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
   // General case
   bool wasLeftFace     = e->IsLeftSet( );
   bool wasRiteFace     = e->IsRightSet( );
-//   bool wasLeftTriangle = e->IsLnextOfTriangle( );
-//   bool wasRiteTriangle = e_sym->IsLnextOfTriangle( );
 
   // case where the edge belongs to an isolated polygon
   // Is edge at the border

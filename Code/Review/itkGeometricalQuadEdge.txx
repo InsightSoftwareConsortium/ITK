@@ -103,7 +103,7 @@ template< typename TVRef, typename TFRef,
                       it++ )
     {
     if( b == it.Value() )
-       {
+      {
       return true;
       }
     }

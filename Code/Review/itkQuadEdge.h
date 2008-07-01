@@ -22,6 +22,8 @@
 
 #include "itkMacro.h"
 
+#include <assert.h>
+
 // Debugging macros for classes that do not derive from the itkObject.
 // FIXME: Maybe variations of these macros should be moved into
 // itkMacro.h
@@ -230,7 +232,7 @@ public:
   typedef QuadEdgeMeshConstIterator< Self > ConstIterator;
 
   /** Basic iterators methods. */
-  itkQEDefineIteratorMethodsMacro( Onext );
+  inline itkQEDefineIteratorMethodsMacro( Onext );
   // itkQEDefineIteratorMethodsMacro( Sym );
   // itkQEDefineIteratorMethodsMacro( Lnext );
   // itkQEDefineIteratorMethodsMacro( Rnext );
@@ -249,16 +251,16 @@ public:
   virtual ~QuadEdge();
 
   /** Sub-algebra Set methods. */
-  void SetOnext( Self* onext );
-  void SetRot( Self* rot );
+  inline void SetOnext( Self* onext ) { this->m_Onext = onext; };
+  inline void SetRot( Self* rot )     { this->m_Rot = rot; };
 
   /** Sub-algebra Get methods. 
    *  Returns edge with same Origin (see \ref DoxyWalkingLocalShort
    *  "Accessing adjacent edges"). */
-  Self* GetOnext();
-  Self* GetRot();
-  const Self* GetOnext() const;
-  const Self* GetRot() const;
+  inline Self* GetOnext() {return this->m_Onext;};
+  inline Self* GetRot()   {return this->m_Rot;};
+  inline const Self* GetOnext() const {return this->m_Onext;};
+  inline const Self* GetRot() const   {return this->m_Rot;};
 
   /**
    * \brief Basic quad-edge topological method.
@@ -277,15 +279,30 @@ public:
    *
    * \sa \ref DoxySurgeryConnectivity
    */
-  void Splice( Self* b );
+  inline void Splice( Self* b )
+    {
+    Self * aNext     = this->GetOnext();
+    Self * bNext     = b->GetOnext();
+    Self * alpha     = aNext->GetRot();
+    Self * beta      = bNext->GetRot();
+    Self * alphaNext = alpha->GetOnext();
+    Self * betaNext  = beta->GetOnext();
+
+    this->SetOnext( bNext );
+    b->SetOnext( aNext );
+    alpha->SetOnext( betaNext );
+    beta->SetOnext( alphaNext );
+    };
 
 
   //  Second order accessors.
 
   /** Returns the symetric edge
    * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
-  Self* GetSym();
-  const Self* GetSym() const; 
+  inline Self* GetSym() { if(this->m_Rot) return( this->m_Rot->m_Rot );
+                          else return( this->m_Rot ); };
+  inline const Self* GetSym() const { if( this->m_Rot) return( this->m_Rot->m_Rot );
+                          else return( this->m_Rot ); };
 
   /** Returns next edge with same Left face
    * (see \ref DoxyWalkingLocalShort "Accessing adjacent edges"). */
@@ -328,20 +345,34 @@ public:
   const Self* GetDprev() const;
 
   /** Inverse operators */
-  Self * GetInvRot();
-  Self * GetInvOnext();
-  Self * GetInvLnext();
-  Self * GetInvRnext();
-  Self * GetInvDnext();
-  const Self * GetInvRot() const;
-  const Self * GetInvOnext() const;
-  const Self * GetInvLnext() const;
-  const Self * GetInvRnext() const;
-  const Self * GetInvDnext() const;
+  inline Self * GetInvRot() 
+    { Self * p1 = this->GetRot();
+    if( !p1 ) return NULL;
+    Self * p2 = p1->GetRot();
+    if( !p2 ) return NULL;
+    Self * p3 = p2->GetRot();
+    if( !p3 ) return NULL;
+    return p3; };
+  inline Self * GetInvOnext() { return this->GetOprev(); };
+  inline Self * GetInvLnext() { return this->GetLprev(); };
+  inline Self * GetInvRnext() { return this->GetRprev(); };
+  inline Self * GetInvDnext() { return this->GetDprev(); };
+  inline const Self * GetInvRot() const 
+    { const Self * p1 = this->GetRot();
+    if( !p1 ) return NULL;
+    const Self * p2 = p1->GetRot();
+    if( !p2 ) return NULL;
+    const Self * p3 = p2->GetRot();
+    if( !p3 ) return NULL;
+    return p3; };
+  inline const Self * GetInvOnext() const { return this->GetOprev(); };
+  inline const Self * GetInvLnext() const { return this->GetLprev(); };
+  inline const Self * GetInvRnext() const { return this->GetRprev(); };
+  inline const Self * GetInvDnext() const { return this->GetDprev(); };
 
   /** Queries. */
-  bool IsHalfEdge() const;
-  bool IsIsolated() const;
+  inline bool IsHalfEdge() const { return( ( m_Onext == this ) || ( m_Rot == NULL ) ); };
+  inline bool IsIsolated() const { return( this == this->GetOnext() ); };
   bool IsEdgeInOnextRing( Self* testEdge ) const;
   bool IsLnextGivenSizeCyclic( const int size ) const;
   unsigned int GetOrder() const;
