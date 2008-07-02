@@ -76,6 +76,8 @@ public: \
     b.Fill( NumericTraits< T >::One ); \
     return b; \
   } \
+  static const Self ITKCommon_EXPORT Zero; \
+  static const Self ITKCommon_EXPORT One; \
 };
 
 

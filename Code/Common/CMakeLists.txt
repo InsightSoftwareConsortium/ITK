@@ -38,6 +38,7 @@ SET(ITKCommon_SRCS
   itkNumericTraits.cxx
   itkNumericTraitsCovariantVectorPixel.cxx
   itkNumericTraitsRGBPixel.cxx
+  itkNumericTraitsRGBAPixel.cxx
   itkNumericTraitsVectorPixel.cxx
   itkNumericTraitsFixedArrayPixel.cxx
   itkObject.cxx
