@@ -54,8 +54,8 @@ class RGBAPixel: public FixedArray<TComponent,4>
 public:
   /** Standard class typedefs. */
   typedef RGBAPixel  Self;
-  typedef FixedArray<TComponent, 4> Super;
-    
+  typedef FixedArray<TComponent, 4> Superclass;
+
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, 4);
 
@@ -92,9 +92,9 @@ public:
   ComponentType GetScalarValue() const
     {
       return static_cast<ComponentType> (vcl_sqrt(
-    static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
-          static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
-          static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
+        static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
+        static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
+        static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
     }
 
   /** Set the Nth component to v. */
@@ -154,12 +154,18 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 # include "Templates/itkRGBAPixel+-.h"
 #endif
 
+//
+// Numeric traits must be included after (optionally) including the explicit
+// instantiations control of this class, in case the implicit instantiation
+// needs to be disabled. 
+//
+// NumericTraits must be included before (optionally) including the .txx file,
+// in case the .txx requires to use NumericTraits.
+//
+#include "itkNumericTraitsRGBAPixel.h"
+
 #if ITK_TEMPLATE_TXX
 # include "itkRGBAPixel.txx"
-#endif
-
-#ifndef ITKCommon_EXPORTS
-  #include "itkNumericTraitsRGBAPixel.h"
 #endif
 
 #endif
