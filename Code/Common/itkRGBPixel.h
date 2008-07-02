@@ -162,12 +162,18 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 # include "Templates/itkRGBPixel+-.h"
 #endif
 
+//
+// Numeric traits must be included after (optionally) including the explicit
+// instantiations control of this class, in case the implicit instantiation
+// needs to be disabled. 
+//
+// NumericTraits must be included before (optionally) including the .txx file,
+// in case the .txx requires to use NumericTraits.
+//
+#include "itkNumericTraitsRGBPixel.h"
+
 #if ITK_TEMPLATE_TXX
 # include "itkRGBPixel.txx"
-#endif
-
-#ifndef ITKCommon_EXPORTS
-  #include "itkNumericTraitsRGBPixel.h"
 #endif
 
 #endif
