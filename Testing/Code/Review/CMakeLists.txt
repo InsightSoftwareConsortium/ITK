@@ -48,6 +48,7 @@ SET(ReviewTest_SRCS
   itkRegularSphereQuadEdgeMeshSourceTest.cxx
   itkQuadEdgeMeshCountingCellsTest.cxx
   itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
+  itkQuadEdgem_NoPointTest.cxx
 
   itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
@@ -144,6 +145,7 @@ ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
   )
+ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS} itkQuadEdgem_NoPointTest)  
 ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS} itkQuadEdgeTest1)
 ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS}
   itkGeometricalQuadEdgeTest1)

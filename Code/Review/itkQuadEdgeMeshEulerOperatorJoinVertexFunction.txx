@@ -120,6 +120,8 @@ Evaluate( QEType* e )
       return( (QEType*) 0 );
   }
 }
+
+
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
 TQEType*
@@ -127,9 +129,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 Process( QEType* e )
 {
   QEType* e_sym = e->GetSym();
-
-//   bool IsEdgeIsolated = e->IsIsolated( );
-//   bool IsSymEdgeIsolated = e_sym->IsIsolated( );
 
   // General case
   bool wasLeftFace     = e->IsLeftSet( );
@@ -260,6 +259,8 @@ ProcessIsolatedQuadEdge( QEType* e )
   // We return an edge whose dest is a, whichever.
   return( rebuildEdge );
 }
+
+
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
 TQEType*
@@ -275,6 +276,7 @@ ProcessIsolatedFace( QEType* e, std::stack< QEType* > EdgesToBeDeleted )
     this->m_Mesh->LightWeightDeleteEdge( EdgesToBeDeleted.top() );
     EdgesToBeDeleted.pop();
     }
+
   // it now retuns one edge from NewDest or NewOrg if there are any
   // else NULL
   QEType* temp = this->m_Mesh->FindEdge( dest );
@@ -324,6 +326,8 @@ typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
 {
+
+#ifndef NDEBUG
   if( !e )
     {
     itkDebugMacro( "Input is not an edge." );
@@ -335,38 +339,23 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     itkDebugMacro( "No mesh present." );
     return MESH_NULL;
     }
+#endif
 
   QEType* e_sym = e->GetSym();
 
   bool IsEdgeIsolated = e->IsIsolated( );
   bool IsSymEdgeIsolated = e_sym->IsIsolated( );
-
-  if( IsEdgeIsolated && IsSymEdgeIsolated )
-    {
-    // We could shrink the edge to a point,
-    // But we consider this case to be degenerated.
-    itkDebugMacro( "Argument edge isolated." );
-    return EDGE_ISOLATED;
-    }
-
-  size_t number_common_vertices = CommonVertexNeighboor( e );
-  if( number_common_vertices > 2 )
-    {
-    itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
-    return TOO_MANY_COMMON_VERTICES;
-    }
-
-  if( number_common_vertices == 2 )
-    {
-    if( IsTetraedron( e ) )
-      {
-      itkDebugMacro( "It forms a tetraedron." );
-      return TETRAEDRON_CONFIG;
-      }
-    }
-
   if( IsEdgeIsolated || IsSymEdgeIsolated )
     {
+
+    if( IsEdgeIsolated && IsSymEdgeIsolated )
+      {
+      // We could shrink the edge to a point,
+      // But we consider this case to be degenerated.
+      itkDebugMacro( "Argument edge isolated." );
+      return EDGE_ISOLATED;
+      }
+
     // One the endpoints (and only one) of the incoming edge is isolated.
     // Instead of "shrinking" the edge it suffice to delete it. Note that
     // this also avoids trouble since the definition of leftZip or riteZip
@@ -390,19 +379,25 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     return QUADEDGE_ISOLATED;
     }
 
+  size_t number_common_vertices = CommonVertexNeighboor( e );
+  if( number_common_vertices > 2 )
+    {
+    itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
+    return TOO_MANY_COMMON_VERTICES;
+    }
+
+  if( number_common_vertices == 2 )
+    {
+    if( IsTetraedron( e ) )
+      {
+      itkDebugMacro( "It forms a tetraedron." );
+      return TETRAEDRON_CONFIG;
+      }
+    }
+
   // General case
   bool wasLeftFace     = e->IsLeftSet( );
   bool wasRiteFace     = e->IsRightSet( );
-
-  // case where the edge belongs to an isolated polygon
-  // Is edge at the border
-  if( ( wasLeftFace && !wasRiteFace ) || ( !wasLeftFace && wasRiteFace ) )
-    {
-    if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
-      {
-      return FACE_ISOLATED;
-      }
-    }
 
   if( wasLeftFace && wasRiteFace )
     {
@@ -415,7 +410,16 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
       return EYE_CONFIG;
       }
     }
-
+  else
+    {
+    if( wasLeftFace || wasRiteFace )
+      {
+      if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
+        {
+        return FACE_ISOLATED;
+        }
+      }
+    }
 
   return STANDARD_CONFIG;
 }
@@ -515,26 +519,6 @@ size_t
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 CommonVertexNeighboor( QEType* e )
 {
-///NOTE  arnaud gelas: these first tests can not be applied in the
-///  case of mesh with boundaries (so I commented out for the time being)
-// 
-//   bool isLeftTriangle = e->IsLnextOfTriangle( );
-//   bool isRiteTriangle = e_sym->IsLnextOfTriangle( );
-// 
-//   //easy case
-//   if( isLeftTriangle && isRiteTriangle )
-//     {
-//     if( e->GetOrder( ) <= 3 && e_sym->GetOrder( ) <= 3 )
-//       return( true );
-//     if( e->GetOnext( )->GetSym( )->GetOrder( ) <= 3 )
-//       return( true );
-//     if( e->GetOprev( )->GetSym( )->GetOrder( ) <= 3 )
-//       return( true );
-//     }
-// 
-//   // general case
-
-///NOTE arnaud gelas: I replace the previous code by this one which is cleaner
   QEType* qe = e;
   QEType* e_it  = qe->GetOnext( );
 
@@ -569,22 +553,6 @@ CommonVertexNeighboor( QEType* e )
     std::back_inserter( intersection_list ) );
 
   return intersection_list.size();
-
-//   unsigned int counter = 0;
-//   QEType* e_it = e->GetOnext( );
-//   
-//   while( e_it != e )
-//     {
-//     QEType* e_sym_it = e_sym->GetOnext( );
-//     while( e_sym_it != e_sym )
-//       {
-//       if(  e_it->GetDestination() == e_sym_it->GetDestination() )
-//         counter++;
-//       e_sym_it = e_sym_it->GetOnext( );
-//       }
-//     e_it = e_it->GetOnext( );
-//     }
-//   return ( counter > 2 );
 }
 
 } // namespace itkQE

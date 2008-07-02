@@ -29,6 +29,7 @@ void RegisterTests()
   REGISTER_TEST(itkLabelToRGBImageFilterTest);
   REGISTER_TEST(itkLabelOverlayImageFilterTest);
 
+  REGISTER_TEST(itkQuadEdgem_NoPointTest);
   REGISTER_TEST(itkQuadEdgeTest1);
   REGISTER_TEST(itkGeometricalQuadEdgeTest1);
   REGISTER_TEST(itkQuadEdgeMeshAddFaceTest1);

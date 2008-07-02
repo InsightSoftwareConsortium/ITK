@@ -631,6 +631,8 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
   PopulateMesh<MeshType>( mesh );
  
   JoinVertex::Pointer joinVertex = JoinVertex::New( );
+
+#ifndef NDEBUG
   std::cout << "     " << "Test No Mesh Input.";
   if( joinVertex->Evaluate( (QEType*)1 ) )
     {
@@ -638,6 +640,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     return 1;
     }
   std::cout << "OK" << std::endl;
+#endif
   
   (void)joinVertex->GetNameOfClass(); 
 
@@ -652,6 +655,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     }
   std::cout << "OK" << std::endl;
 
+#ifndef NDEBUG
   std::cout << "     " << "Test No QE Input.";
   if( joinVertex->Evaluate( (QEType*)0 ) )
     {
@@ -659,6 +663,7 @@ int itkQuadEdgeMeshEulerOperatorsTest(int argc, char * argv[])
     return 1;
     }
   std::cout << "OK" << std::endl;
+#endif
 
   std::cout << "     " << "Test Topological Changes";
   MeshType::Pointer topotest = MeshType::New( );
