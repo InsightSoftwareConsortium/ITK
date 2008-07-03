@@ -19,6 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkVersion.h"
 
 #include "itkAffineTransform.h"
+#include "itkBSplineDeformableTransform.h"
 #include "itkCenteredAffineTransform.h"
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredEuler3DTransform.h"
@@ -63,6 +64,8 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     // BSpline purposely not registered!
     TransformFactory<AffineTransform<double,2> >::RegisterTransform ();
     TransformFactory<AffineTransform<double,3> >::RegisterTransform ();
+    TransformFactory<BSplineDeformableTransform<double,2,2> >::RegisterTransform ();
+    TransformFactory<BSplineDeformableTransform<double,3,3> >::RegisterTransform ();
     TransformFactory<CenteredAffineTransform<double,2> >::RegisterTransform ();
     TransformFactory<CenteredAffineTransform<double,3> >::RegisterTransform ();
     TransformFactory<CenteredEuler3DTransform<double> >::RegisterTransform ();
@@ -90,6 +93,8 @@ void TransformFactoryBase::RegisterDefaultTransforms()
 
     TransformFactory<AffineTransform<float,2> >::RegisterTransform ();
     TransformFactory<AffineTransform<float,3> >::RegisterTransform ();
+    TransformFactory<BSplineDeformableTransform<float,2,2> >::RegisterTransform ();
+    TransformFactory<BSplineDeformableTransform<float,3,3> >::RegisterTransform ();
     TransformFactory<CenteredAffineTransform<float,2> >::RegisterTransform ();
     TransformFactory<CenteredAffineTransform<float,3> >::RegisterTransform ();
     TransformFactory<CenteredEuler3DTransform<float> >::RegisterTransform ();
