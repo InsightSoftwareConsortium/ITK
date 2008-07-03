@@ -73,6 +73,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTComplexToComplexImageFilter, ImageToImageFilter);
 
+  // FIXME: This class must be reorganized as the existing FFT filters
+  // to avoid the variation of the FFTW to be visible.
+  //
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
   /** Image type typedef support. */
   typedef TInputImageType                         ImageType;
@@ -85,7 +90,9 @@ protected:
   /** methods needed for the image filter pipeline */
   virtual void GenerateOutputInformation(); // figure out allocation for output image
   virtual void GenerateInputRequestedRegion();
-  virtual bool FullMatrix() = 0; // must be implemented in child
+
+  // FIXME: This method was pure virtual. The design must be revised.
+  virtual bool FullMatrix(); // must be implemented in child
 
 
 private:
