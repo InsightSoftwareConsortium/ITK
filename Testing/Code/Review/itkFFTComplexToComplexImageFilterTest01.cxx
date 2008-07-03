@@ -51,7 +51,7 @@
 //will also work.
 #endif
 
-int itkFFTComplexToComplexImageFilterTest( int argc, char * argv[] )
+int itkFFTComplexToComplexImageFilterTest01( int argc, char * argv[] )
 {
 
   if( argc < 3 )
