@@ -55,15 +55,17 @@ public:
   static Pointer New(void);
 
   /** Image type typedef support. */
-  typedef TInputImageType ImageType;
-  typedef typename ImageType::SizeType ImageSizeType;
+  typedef TInputImageType                 ImageType;
+  typedef typename ImageType::SizeType    ImageSizeType;
+
+protected:
+  FFTRealToComplexConjugateImageFilter() {}
+  virtual ~FFTRealToComplexConjugateImageFilter(){}
+
   virtual void GenerateOutputInformation(); // figure out allocation for output image
   virtual void GenerateInputRequestedRegion(); 
   virtual void EnlargeOutputRequestedRegion(DataObject *output); 
   virtual bool FullMatrix() = 0; // must be implemented in child
-protected:
-  FFTRealToComplexConjugateImageFilter() {}
-  virtual ~FFTRealToComplexConjugateImageFilter(){}
 
 private:
   FFTRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
