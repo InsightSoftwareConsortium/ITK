@@ -35,8 +35,9 @@ public:
   static void RegisterTransform ()
     {
     typename T::Pointer t = T::New();
-    // std::cout << "Registering: " << t->GetTransformTypeAsString() << std::endl;
+
     TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
+
     f->RegisterTransform ( t->GetTransformTypeAsString().c_str(),
                            t->GetTransformTypeAsString().c_str(),
                            t->GetTransformTypeAsString().c_str(),
