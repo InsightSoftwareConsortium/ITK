@@ -47,7 +47,7 @@ public: \
   typedef RGBPixel<ElementAbsType>          AbsType; \
   typedef RGBPixel<ElementAccumulateType>   AccumulateType; \
   typedef RGBPixel<ElementFloatType>        FloatType; \
-  typedef RGBPixel<ElementPrintType>        PrintType; \
+  typedef Self                              PrintType; \
   typedef RGBPixel<ElementRealType>         RealType; \
  \
   typedef ElementRealType ScalarRealType; \
