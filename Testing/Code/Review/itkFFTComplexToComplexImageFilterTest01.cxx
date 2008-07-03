@@ -63,7 +63,26 @@ int itkFFTComplexToComplexImageFilterTest01( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  int Direction = FFT_FORWARD;
+  const unsigned int                              Dimension = 2;
+  typedef float                                   PixelComponentType;
+  typedef std::complex< PixelComponentType >      PixelType;
+
+  typedef itk::Image< PixelType,  Dimension >     ImageType;
+  typedef itk::ImageFileReader< ImageType >       ReaderType;
+  typedef itk::ImageFileWriter< ImageType >       WriterType;
+
+
+  ReaderType::Pointer reader = ReaderType::New();
+  WriterType::Pointer writer = WriterType::New();
+
+  reader->SetFileName( argv[1] );
+  writer->SetFileName( argv[2] );
+
+
+  //  FFT filter
+  typedef itk::FFTComplexToComplexImageFilter < PixelComponentType, Dimension> FFTFilterType;
+
+  int Direction = 1;
 
   if( argc == 4 )
     {
@@ -75,53 +94,36 @@ int itkFFTComplexToComplexImageFilterTest01( int argc, char * argv[] )
       std::cerr << "       " "dir: 1 for backward transform" << std::endl;
       return EXIT_FAILURE;
       }
+
     }
 
-  const unsigned int                              Dimension = 2;
-  typedef float                                   PixelComponentType;
-  typedef std::complex< PixelComponentType >      PixelType;
 
-  typedef itk::Image< PixelType,  Dimension >     ImageType;
-  typedef itk::ImageFileReader< ImageType >       ReaderType;
-  typedef itk::ImageFileWriter< ImageType >       WriterType;
+  FFTFilterType::Pointer fftFilter =    FFTFilterType::New();
 
 
-  ReaderType::Pointer inputreader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
-
-  inputreader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
-
-  // Read the image and get its size
-  inputreader->Update();
-
-  // Forward FFT filter
-  typedef itk::FFTComplexToComplexImageFilter <
-                  PixelComponentType, Dimension, FFT_FORWARD > FFTFilterType;
-
-  // Backward FFT filter
-  typedef itk::FFTComplexToComplexImageFilter <
-                 PixelComponentType, Dimension, FFT_BACKWARD > invFFTFilterType;
-
-  FFTFilterType::Pointer fftoutput = FFTFilterType::New();
-  invFFTFilterType::Pointer invfftoutput = invFFTFilterType::New();
-  
-  if(Direction == FFT_FORWARD)
+  if( Direction == 1 )
     {
-    // compute forward FFT
-    fftoutput->SetInput( inputreader->GetOutput() );
-    fftoutput->Update();
-    writer->SetInput(fftoutput->GetOutput());
+    fftFilter->SetTransformDirection( FFTFilterType::DIRECT );
     }
   else
     {
-    // compute inverse FFT
-    invfftoutput->SetInput( inputreader->GetOutput() );
-    invfftoutput->Update();
-    writer->SetInput(invfftoutput->GetOutput());
+    fftFilter->SetTransformDirection( FFTFilterType::INVERSE );
     }
 
-  writer->Update();
+
+  fftFilter->SetInput( reader->GetOutput() );
+  writer->SetInput( fftFilter->GetOutput() );
+
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 
