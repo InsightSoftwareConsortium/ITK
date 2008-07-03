@@ -59,9 +59,23 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
+    
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  return 0;
+  //
+  // Exercise PrintSelf()
+  //
+  filter->Print( std::cout );
+
+  return EXIT_SUCCESS;
 }
 
 
