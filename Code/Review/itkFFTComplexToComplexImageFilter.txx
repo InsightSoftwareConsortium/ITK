@@ -51,7 +51,7 @@ FFTComplexToComplexImageFilter< TPixel,NDimension >
     if( typeid(TPixel) == typeid(double) )
       {
       smartPtr = dynamic_cast<Self *>(
-        FFTWComplexToComplexImageFilter< double, Dimension >::New().GetPointer() );
+        FFTWComplexToComplexImageFilter< double, NDimension >::New().GetPointer() );
       }
     }
 #endif
@@ -61,7 +61,7 @@ FFTComplexToComplexImageFilter< TPixel,NDimension >
     if( typeid(TPixel) == typeid(float) )
       {
       smartPtr = dynamic_cast<Self *>(
-        FFTWComplexToComplexImageFilter< float, Dimension >::New().GetPointer() );
+        FFTWComplexToComplexImageFilter< float, NDimension >::New().GetPointer() );
       }
     }
 #endif

@@ -43,16 +43,16 @@ namespace itk
  *
  */
 
-template <typename TPixel,unsigned int NDimension = 3, int NDirection = FFT_FORWARD>
+template <typename TPixel,unsigned int NDimension = 3 >
 class FFTWComplexToComplexImageFilter:
-    public FFTComplexToComplexImageFilter<TPixel,NDimension,NDirection>
+    public FFTComplexToComplexImageFilter< TPixel, NDimension >
 {
 //#error Invalid Type Listed for TPixel
 };
 
-template <unsigned int NDimension, int NDirection>
-class FFTWComplexToComplexImageFilter<float,NDimension,NDirection>:
-    public FFTComplexToComplexImageFilter<float,NDimension,NDirection>
+template <unsigned int NDimension>
+class FFTWComplexToComplexImageFilter<float,NDimension>:
+    public FFTComplexToComplexImageFilter<float,NDimension>
 {
 // TODO:  There should be compile time type checks so that
 //        if only USE_FFTWF is defined, then only floats are valid.
@@ -61,13 +61,13 @@ public:
   typedef float                                       TPixel;
   typedef FFTWComplexToComplexImageFilter             Self;
   typedef FFTComplexToComplexImageFilter<
-    TPixel,NDimension,NDirection>                     Superclass;
+    TPixel,NDimension>                                Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
 
   /** Standard class typedefs. */
-  typedef typename Superclass::TInputImageType        TInputImageType;
-  typedef typename Superclass::TOutputImageType       TOutputImageType;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::OutputImageType        OutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,7 +77,7 @@ public:
                FFTComplexToComplexImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType                         ImageType;
+  typedef InputImageType                          ImageType;
   typedef typename ImageType::SizeType            ImageSizeType;
 
 
@@ -114,9 +114,9 @@ private:
 };
 
 
-template <unsigned int NDimension, int NDirection>
-class FFTWComplexToComplexImageFilter<double,NDimension,NDirection>:
-    public FFTComplexToComplexImageFilter<double,NDimension,NDirection>
+template <unsigned int NDimension>
+class FFTWComplexToComplexImageFilter<double,NDimension>:
+    public FFTComplexToComplexImageFilter<double,NDimension>
 {
 // TODO:  There should be compile time type checks so that
 //        if only USE_FFTWF is defined, then only floats are valid.
@@ -125,13 +125,13 @@ public:
   typedef double                                  TPixel;
   typedef FFTWComplexToComplexImageFilter         Self;
   typedef FFTComplexToComplexImageFilter<
-    TPixel,NDimension,NDirection>                 Superclass;
+    TPixel,NDimension>                            Superclass;
   typedef SmartPointer<Self>                      Pointer;
   typedef SmartPointer<const Self>                ConstPointer;
 
   /** Standard class typedefs. */
-  typedef typename Superclass::TInputImageType    TInputImageType;
-  typedef typename Superclass::TOutputImageType   TOutputImageType;
+  typedef typename Superclass::InputImageType     InputImageType;
+  typedef typename Superclass::OutputImageType    OutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -141,7 +141,7 @@ public:
                FFTComplexToComplexImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType                         ImageType;
+  typedef InputImageType                          ImageType;
   typedef typename ImageType::SizeType            ImageSizeType;
 
 protected:

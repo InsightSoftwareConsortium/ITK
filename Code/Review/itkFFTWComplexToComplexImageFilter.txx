@@ -54,15 +54,15 @@ FFTWComplexToComplexImageFilter<float,NDimension>::
 GenerateData()
 {
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
+  typename OutputImageType::Pointer      outputPtr = this->GetOutput();
 
   if( !inputPtr || !outputPtr )
     {
     return;
     }
 
-  const typename TInputImageType::SizeType&   outputSize
+  const typename InputImageType::SizeType&   outputSize
     = outputPtr->GetLargestPossibleRegion().GetSize();
   const unsigned int num_dims = outputPtr->GetImageDimension();
 
@@ -85,7 +85,7 @@ GenerateData()
     fftwf_complex *out = reinterpret_cast<fftwf_complex *>(outputPtr->GetBufferPointer());
 
     int transformDirection = 1;
-    if( this->GetTransformDirection() == INVERSE )
+    if( this->GetTransformDirection() == Superclass::INVERSE )
       {
       transformDirection = -1;
       }
@@ -93,19 +93,19 @@ GenerateData()
     switch(num_dims)
       {
       case 1:
-        M_plan = fftwf_plan_dft_1d(outputSize[0],
+        this->m_Plan = fftwf_plan_dft_1d(outputSize[0],
                                       dptr,out,
                                       transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0];
         break;
       case 2:
-        M_plan = fftwf_plan_dft_2d(outputSize[1],outputSize[0],
+        this->m_Plan = fftwf_plan_dft_2d(outputSize[1],outputSize[0],
                                       dptr,out,
                                       transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1];
         break;
       case 3:
-        M_plan = fftwf_plan_dft_3d(outputSize[2],outputSize[1],outputSize[0],
+        this->m_Plan = fftwf_plan_dft_3d(outputSize[2],outputSize[1],outputSize[0],
                                       dptr,out,
                                       transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1] * outputSize[2];
@@ -117,22 +117,22 @@ GenerateData()
           sizes[(num_dims - 1) - i] = outputSize[i];
           total_size *= outputSize[i];
           }
-        M_plan = fftwf_plan_dft(num_dims,sizes,
+        this->m_Plan = fftwf_plan_dft(num_dims,sizes,
                                    dptr,out,transformDirection,FFTW_ESTIMATE);
         delete [] sizes;
       }
-    M_PlanComputed = true;
-    fftwf_execute(M_plan);
+    this->m_PlanComputed = true;
+    fftwf_execute(this->m_Plan);
     }
 
-  typedef ImageRegionIterator< TOutputImageType >   IteratorType;
+  typedef ImageRegionIterator< OutputImageType >   IteratorType;
   
   IteratorType it(outputPtr,outputPtr->GetLargestPossibleRegion());
 
   //
   // Normalize the output if backward transform
   //
-  if( this->GetTransformDirection() == INVERSE )
+  if( this->GetTransformDirection() == Superclass::INVERSE )
     {
     std::complex<TPixel> val;
     while( !it.IsAtEnd() )
@@ -170,15 +170,15 @@ FFTWComplexToComplexImageFilter<double,NDimension>::
 GenerateData()
 {
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
+  typename OutputImageType::Pointer      outputPtr = this->GetOutput();
 
   if( !inputPtr || !outputPtr )
     {
     return;
     }
 
-  const typename TInputImageType::SizeType&   outputSize
+  const typename InputImageType::SizeType&   outputSize
     = outputPtr->GetLargestPossibleRegion().GetSize();
 
   const unsigned int num_dims = outputPtr->GetImageDimension();
@@ -199,10 +199,10 @@ GenerateData()
 
     {
     fftw_complex *dptr = reinterpret_cast<fftw_complex *>(in);
-    fftw_complex *out = reinterpret_cast<fftwf_complex *>(outputPtr->GetBufferPointer());
+    fftw_complex *out  = reinterpret_cast<fftw_complex *>(outputPtr->GetBufferPointer());
 
     int transformDirection = 1;
-    if( this->GetTransformDirection() == INVERSE )
+    if( this->GetTransformDirection() == Superclass::INVERSE )
       {
       transformDirection = -1;
       }
@@ -210,19 +210,19 @@ GenerateData()
     switch(num_dims)
       {
       case 1:
-        M_plan = fftw_plan_dft_1d(outputSize[0],
+        this->m_Plan = fftw_plan_dft_1d(outputSize[0],
                                       dptr,out,
                                       transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0];
         break;
       case 2:
-        M_plan = fftw_plan_dft_2d(outputSize[1],outputSize[0],
+        this->m_Plan = fftw_plan_dft_2d(outputSize[1],outputSize[0],
                                       dptr,out,
                                       transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1];
         break;
       case 3:
-        M_plan = fftw_plan_dft_3d(outputSize[2],outputSize[1],outputSize[0],
+        this->m_Plan = fftw_plan_dft_3d(outputSize[2],outputSize[1],outputSize[0],
                                       dptr,out,
                                       transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1] * outputSize[2];
@@ -234,20 +234,20 @@ GenerateData()
           sizes[(num_dims - 1) - i] = outputSize[i];
           total_size *= outputSize[i];
           }
-        M_plan = fftw_plan_dft(num_dims,sizes,
+        this->m_Plan = fftw_plan_dft(num_dims,sizes,
                                    dptr,out,transformDirection,FFTW_ESTIMATE);
         delete [] sizes;
       }
-    M_PlanComputed = true;
-    fftw_execute(M_plan);
+    this->m_PlanComputed = true;
+    fftw_execute(this->m_Plan);
     }
 
-  ImageRegionIterator<TOutputImageType> it(outputPtr,outputPtr->GetLargestPossibleRegion());
+  ImageRegionIterator<OutputImageType> it(outputPtr,outputPtr->GetLargestPossibleRegion());
 
   //
   // Normalize the output if backward transform
   //
-  if( this->GetTransformDirection() == INVERSE )
+  if( this->GetTransformDirection() == Superclass::INVERSE )
     {
     std::complex<TPixel> val;
     while( !it.IsAtEnd() )
