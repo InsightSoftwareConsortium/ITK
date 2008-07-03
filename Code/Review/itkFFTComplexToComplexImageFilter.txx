@@ -32,16 +32,47 @@
 #define __itkFFTComplexToComplexImageFilter_txx
 
 #include "itkFFTComplexToComplexImageFilter.h"
-#include "itkMetaDataDictionary.h"
-#include "itkMetaDataObject.h"
+#include "itkFFTWComplexToComplexImageFilter.h"
 
 namespace itk
 {
 
 
-template <class TPixel, unsigned int NDimension, int NDirection>
+template < class TPixel, unsigned int NDimension >
+typename FFTComplexToComplexImageFilter< TPixel, NDimension >::Pointer
+FFTComplexToComplexImageFilter< TPixel,NDimension >
+::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
+
+#ifdef USE_FFTWD
+  if( smartPtr.IsNull() )
+    {
+    if( typeid(TPixel) == typeid(double) )
+      {
+      smartPtr = dynamic_cast<Self *>(
+        FFTWComplexToComplexImageFilter< double, Dimension >::New().GetPointer() );
+      }
+    }
+#endif
+#ifdef USE_FFTWF
+  if(smartPtr.IsNull())
+    {
+    if( typeid(TPixel) == typeid(float) )
+      {
+      smartPtr = dynamic_cast<Self *>(
+        FFTWComplexToComplexImageFilter< float, Dimension >::New().GetPointer() );
+      }
+    }
+#endif
+
+  return smartPtr;
+}
+
+
+template <class TPixel, unsigned int NDimension >
 void
-FFTComplexToComplexImageFilter<TPixel,NDimension,NDirection>::
+FFTComplexToComplexImageFilter<TPixel,NDimension >::
 GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -54,8 +85,8 @@ GenerateOutputInformation()
     return;
  
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
+  typename InputImageType::ConstPointer  inputPtr  = this->GetInput();
+  typename OutputImageType::Pointer      outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {
@@ -69,13 +100,13 @@ GenerateOutputInformation()
   // spacing is propagated to the complex result, we can use the spacing
   // from the input to propagate back to the output.
   unsigned int i;
-  const typename TInputImageType::SizeType&   inputSize
+  const typename InputImageType::SizeType&   inputSize
     = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImageType::IndexType&  inputStartIndex
+  const typename InputImageType::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
   
-  typename TOutputImageType::SizeType     outputSize;
-  typename TOutputImageType::IndexType    outputStartIndex;
+  typename OutputImageType::SizeType     outputSize;
+  typename OutputImageType::IndexType    outputStartIndex;
   
   //
   // Size of output FFT:C2C is the same as input
@@ -84,27 +115,27 @@ GenerateOutputInformation()
   outputSize[0] = inputSize[0];
   outputStartIndex[0] = inputStartIndex[0];
 
-  for (i = 1; i < TOutputImageType::ImageDimension; i++)
+  for (i = 1; i < OutputImageType::ImageDimension; i++)
     {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];
     }
-  typename TOutputImageType::RegionType outputLargestPossibleRegion;
+  typename OutputImageType::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
   
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
-template <class TPixel, unsigned int NDimension, int NDirection>
+template <class TPixel, unsigned int NDimension >
 void
-FFTComplexToComplexImageFilter<TPixel,NDimension,NDirection>::
+FFTComplexToComplexImageFilter<TPixel,NDimension>::
 GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
-  typename TInputImageType::Pointer  inputPtr  = 
-    const_cast<TInputImageType *>(this->GetInput());
+  typename InputImageType::Pointer  inputPtr  = 
+    const_cast<InputImageType *>(this->GetInput());
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 

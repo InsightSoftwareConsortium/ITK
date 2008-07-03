@@ -44,44 +44,53 @@ namespace itk
  * http://insight-journal.org/midas/handle.php?handle=1926/326
  *
  */
-#define FFT_FORWARD -1
-#define FFT_BACKWARD 1
-
-/*
- * FIXME: This API must be converted to take an input image type instead of pixel and dimension.
- *        Otherwise it won't be usable by customized image types such as the OrientedImage.
- */
-template < class TPixel, unsigned int NDimension = 3, int NDirection = FFT_FORWARD >
+template < class TPixel, unsigned int NDimension = 3 >
 class FFTComplexToComplexImageFilter :
     public ImageToImageFilter< Image< std::complex< TPixel > , NDimension >,
                                Image< std::complex< TPixel > , NDimension > >
 {
 public:
-  /** Input and output image types. FIXME: These should be the template parameters */
-  typedef Image< std::complex< TPixel > , NDimension > TInputImageType;
-  typedef Image< std::complex< TPixel > , NDimension > TOutputImageType;
+  /** Input and output image types. */
+  typedef Image< std::complex< TPixel > , NDimension > InputImageType;
+  typedef Image< std::complex< TPixel > , NDimension > OutputImageType;
 
   /** Standard class typedefs. */
   typedef FFTComplexToComplexImageFilter                            Self;
-  typedef ImageToImageFilter< TInputImageType, TOutputImageType >   Superclass;
+  typedef ImageToImageFilter< InputImageType, OutputImageType >     Superclass;
   typedef SmartPointer<Self>                                        Pointer;
   typedef SmartPointer<const Self>                                  constPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImageType::ImageDimension );
+                      InputImageType::ImageDimension );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTComplexToComplexImageFilter, ImageToImageFilter);
 
-  // FIXME: This class must be reorganized as the existing FFT filters
-  // to avoid the variation of the FFTW to be visible.
-  //
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  /** Customized object creation methods that support configuration-based 
+    * selection of FFT implementation.
+    *
+    * Default implementation is FFTW.
+    */
+  static Pointer New(void);
+
+  /** Transform Direction */
+  typedef enum 
+    {
+    DIRECT = 1,
+    INVERSE
+    }                                             TransformDirectionType;
+    
 
   /** Image type typedef support. */
-  typedef TInputImageType                         ImageType;
+  typedef InputImageType                          ImageType;
   typedef typename ImageType::SizeType            ImageSizeType;
+
+  /** Set/Get the direction in which the transform will be applied.
+   * By selecting DIRECT, this filter will perform a direct Fourier Transform,
+   * By selecting INVERSE, this filter will perform an inverse Fourier Transform,
+   */
+  itkSetMacro( TransformDirection, TransformDirectionType );
+  itkGetMacro( TransformDirection, TransformDirectionType );
 
 protected:
   FFTComplexToComplexImageFilter() {}
@@ -91,13 +100,14 @@ protected:
   virtual void GenerateOutputInformation(); // figure out allocation for output image
   virtual void GenerateInputRequestedRegion();
 
-  // FIXME: This method was pure virtual. The design must be revised.
-  virtual bool FullMatrix() { return false; } // must be implemented in child
+  virtual bool FullMatrix() = 0; // must be implemented in child
 
 
 private:
   FFTComplexToComplexImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  TransformDirectionType                          m_TransformDirection;
 };
 
 } // end namespace itk

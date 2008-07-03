@@ -48,9 +48,9 @@ namespace itk
 */
 
 #if defined(USE_FFTWF)
-template <unsigned int NDimension,int NDirection>
+template <unsigned int NDimension>
 void
-FFTWComplexToComplexImageFilter<float,NDimension,NDirection>::
+FFTWComplexToComplexImageFilter<float,NDimension>::
 GenerateData()
 {
   // get pointers to the input and output
@@ -83,24 +83,31 @@ GenerateData()
     {
     fftwf_complex *dptr = reinterpret_cast<fftwf_complex *>(in);
     fftwf_complex *out = reinterpret_cast<fftwf_complex *>(outputPtr->GetBufferPointer());
+
+    int transformDirection = 1;
+    if( this->GetTransformDirection() == INVERSE )
+      {
+      transformDirection = -1;
+      }
+
     switch(num_dims)
       {
       case 1:
         M_plan = fftwf_plan_dft_1d(outputSize[0],
                                       dptr,out,
-                                      NDirection,FFTW_ESTIMATE);
+                                      transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0];
         break;
       case 2:
         M_plan = fftwf_plan_dft_2d(outputSize[1],outputSize[0],
                                       dptr,out,
-                                      NDirection,FFTW_ESTIMATE);
+                                      transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1];
         break;
       case 3:
         M_plan = fftwf_plan_dft_3d(outputSize[2],outputSize[1],outputSize[0],
                                       dptr,out,
-                                      NDirection,FFTW_ESTIMATE);
+                                      transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1] * outputSize[2];
         break;
       default:
@@ -111,7 +118,7 @@ GenerateData()
           total_size *= outputSize[i];
           }
         M_plan = fftwf_plan_dft(num_dims,sizes,
-                                   dptr,out,NDirection,FFTW_ESTIMATE);
+                                   dptr,out,transformDirection,FFTW_ESTIMATE);
         delete [] sizes;
       }
     M_PlanComputed = true;
@@ -125,7 +132,7 @@ GenerateData()
   //
   // Normalize the output if backward transform
   //
-  if(NDirection == FFT_BACKWARD)
+  if( this->GetTransformDirection() == INVERSE )
     {
     std::complex<TPixel> val;
     while( !it.IsAtEnd() )
@@ -139,17 +146,17 @@ GenerateData()
 }
 
 
-template <unsigned int NDimension,int NDirection>
+template <unsigned int NDimension>
 bool
-FFTWComplexToComplexImageFilter<float,NDimension,NDirection>::
+FFTWComplexToComplexImageFilter<float,NDimension >::
 FullMatrix()
 {
   return false;
 }
 
-template <unsigned int NDimension,int NDirection>
+template <unsigned int NDimension>
 void
-FFTWComplexToComplexImageFilter<float,NDimension,NDirection>::
+FFTWComplexToComplexImageFilter<float,NDimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
 }
@@ -157,9 +164,9 @@ PrintSelf(std::ostream& os,Indent indent) const
 #endif // defined(USE_FFTWF)
 
 #if defined(USE_FFTWD)
-template <unsigned int NDimension,int NDirection>
+template <unsigned int NDimension>
 void
-FFTWComplexToComplexImageFilter<double,NDimension,NDirection>::
+FFTWComplexToComplexImageFilter<double,NDimension>::
 GenerateData()
 {
   // get pointers to the input and output
@@ -193,24 +200,31 @@ GenerateData()
     {
     fftw_complex *dptr = reinterpret_cast<fftw_complex *>(in);
     fftw_complex *out = reinterpret_cast<fftwf_complex *>(outputPtr->GetBufferPointer());
+
+    int transformDirection = 1;
+    if( this->GetTransformDirection() == INVERSE )
+      {
+      transformDirection = -1;
+      }
+
     switch(num_dims)
       {
       case 1:
         M_plan = fftw_plan_dft_1d(outputSize[0],
                                       dptr,out,
-                                      NDirection,FFTW_ESTIMATE);
+                                      transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0];
         break;
       case 2:
         M_plan = fftw_plan_dft_2d(outputSize[1],outputSize[0],
                                       dptr,out,
-                                      NDirection,FFTW_ESTIMATE);
+                                      transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1];
         break;
       case 3:
         M_plan = fftw_plan_dft_3d(outputSize[2],outputSize[1],outputSize[0],
                                       dptr,out,
-                                      NDirection,FFTW_ESTIMATE);
+                                      transformDirection,FFTW_ESTIMATE);
         total_size = outputSize[0] * outputSize[1] * outputSize[2];
         break;
       default:
@@ -221,7 +235,7 @@ GenerateData()
           total_size *= outputSize[i];
           }
         M_plan = fftw_plan_dft(num_dims,sizes,
-                                   dptr,out,NDirection,FFTW_ESTIMATE);
+                                   dptr,out,transformDirection,FFTW_ESTIMATE);
         delete [] sizes;
       }
     M_PlanComputed = true;
@@ -233,7 +247,7 @@ GenerateData()
   //
   // Normalize the output if backward transform
   //
-  if( NDirection == FFT_BACKWARD )
+  if( this->GetTransformDirection() == INVERSE )
     {
     std::complex<TPixel> val;
     while( !it.IsAtEnd() )
@@ -246,21 +260,25 @@ GenerateData()
     }
 }
 
-template <unsigned int NDimension,int NDirection>
+template <unsigned int NDimension>
 bool
-FFTWComplexToComplexImageFilter<double,NDimension,NDirection>::
+FFTWComplexToComplexImageFilter<double,NDimension>::
 FullMatrix()
 {
   return false;
 }
 
-template <unsigned int NDimension,int NDirection>
+template <unsigned int NDimension>
 void
-FFTWComplexToComplexImageFilter<double,NDimension,NDirection>::
+FFTWComplexToComplexImageFilter<double,NDimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
 }
+
 #endif // defined(USE_FFTWD)
+
 }// namespace itk
+
 #endif // defined(USE_FFTWF) || defined(USE_FFTWD)
+
 #endif // _itkFFTWComplexToComplexImageFilter_txx
