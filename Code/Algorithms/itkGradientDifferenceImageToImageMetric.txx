@@ -153,6 +153,7 @@ GradientDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
+  os << indent << "DerivativeDelta: " << this->m_DerivativeDelta << std::endl;
 }
 
 /**
