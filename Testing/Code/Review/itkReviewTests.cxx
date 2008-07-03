@@ -98,6 +98,9 @@ void RegisterTests()
   REGISTER_TEST( itkImageReadMagnitudeAndPhaseWriteComplexTest );
   REGISTER_TEST( itkImageReadRealAndImaginaryWriteComplexTest );
 
+  REGISTER_TEST( itkFFTComplexToComplexImageFilterTest01 );
+  REGISTER_TEST( itkFFTComplexToComplexImageFilterTest02 );
+
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);

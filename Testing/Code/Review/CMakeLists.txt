@@ -97,6 +97,9 @@ SET(ReviewTest_SRCS
   itkImageReadComplexWriteMagnitudeAndPhaseTest.cxx
   itkImageReadMagnitudeAndPhaseWriteComplexTest.cxx
   itkImageReadRealAndImaginaryWriteComplexTest.cxx
+
+  itkFFTComplexToComplexImageFilterTest01.cxx
+  itkFFTComplexToComplexImageFilterTest02.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
