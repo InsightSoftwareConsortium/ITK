@@ -97,11 +97,11 @@ int itkFFTComplexToComplexImageFilterTest( int argc, char * argv[] )
 
   // Forward FFT filter
   typedef itk::FFTComplexToComplexImageFilter <
-                  PixelType, Dimension, FFT_FORWARD > FFTFilterType;
+                  PixelComponentType, Dimension, FFT_FORWARD > FFTFilterType;
 
   // Backward FFT filter
   typedef itk::FFTComplexToComplexImageFilter <
-                 PixelType, Dimension, FFT_BACKWARD > invFFTFilterType;
+                 PixelComponentType, Dimension, FFT_BACKWARD > invFFTFilterType;
 
   FFTFilterType::Pointer fftoutput = FFTFilterType::New();
   invFFTFilterType::Pointer invfftoutput = invFFTFilterType::New();
