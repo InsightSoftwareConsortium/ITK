@@ -92,7 +92,7 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
   // FIXME: This method was pure virtual. The design must be revised.
-  virtual bool FullMatrix(); // must be implemented in child
+  virtual bool FullMatrix() { return false; } // must be implemented in child
 
 
 private:
