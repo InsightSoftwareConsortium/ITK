@@ -21,7 +21,8 @@
 #include "itkSliceBySliceImageFilter.h"
 #include "itkProgressReporter.h"
 
-namespace itk {
+namespace itk
+{
 
 template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
 SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
@@ -40,8 +41,6 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-
-  typedef  typename InputImageType::Pointer  InputImagePointer;
 
   for( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )
     {
@@ -120,9 +119,14 @@ void
 SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::GenerateData()
 {
-  if( !m_InputFilter || !m_OutputFilter )
+  if( !m_InputFilter)
     {
-    itkExceptionMacro("Filters must be set.");
+    itkExceptionMacro("InputFilter must be set.");
+    }
+
+  if( !m_OutputFilter )
+    {
+    itkExceptionMacro("OutputFilter must be set.");
     }
 
   for( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
@@ -169,8 +173,8 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
 
     // reallocate the internal input at each slice, so the slice by slice filter can work
     // even if the pipeline is run in place
-    typedef typename InternalInputImageType::Pointer InputImagePointer;
-    std::vector< InputImagePointer > internalInputs;
+    typedef typename InternalInputImageType::Pointer InternalInputImagePointer;
+    std::vector< InternalInputImagePointer > internalInputs;
 
     internalInputs.resize( this->GetNumberOfInputs() );
 

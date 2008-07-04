@@ -53,6 +53,9 @@ public:
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
   
+  /** Superclass typedefs. */
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+
   /** Standard New method. */
   itkNewMacro(Self);
 
