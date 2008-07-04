@@ -87,7 +87,7 @@ void RegisterTests()
 
   REGISTER_TEST(itkSliceBySliceImageFilterTest);
 
-//  REGISTER_TEST(itkDiffeomorphicDemonsRegistrationFilterTest);
+  // REGISTER_TEST(itkDiffeomorphicDemonsRegistrationFilterTest);
 
   REGISTER_TEST(itkDivideByConstantImageFilterTest);
   REGISTER_TEST(itkMultiplyByConstantImageFilterTest);
@@ -102,10 +102,9 @@ void RegisterTests()
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest02 );
 
   REGISTER_TEST( itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );
-
   REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
-
-  REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
+  REGISTER_TEST( itkFastSymmetricForcesDemonsRegistrationFilterTest );
+  REGISTER_TEST( itkGridForwardWarpImageFilterTest );
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);

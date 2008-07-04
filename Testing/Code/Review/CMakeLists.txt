@@ -87,7 +87,7 @@ SET(ReviewTest_SRCS
 
   itkSliceBySliceImageFilterTest.cxx
   
-#  itkDiffeomorphicDemonsRegistrationFilterTest.cxx
+  # itkDiffeomorphicDemonsRegistrationFilterTest.cxx
 
   itkMultiplyByConstantImageFilterTest.cxx
   itkDivideByConstantImageFilterTest.cxx
@@ -102,10 +102,9 @@ SET(ReviewTest_SRCS
   itkFFTComplexToComplexImageFilterTest02.cxx
 
   itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
-
   itkExponentialDeformationFieldImageFilterTest.cxx
-   
   itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
+  itkGridForwardWarpImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
