@@ -159,7 +159,7 @@ OutputType trueValue )
 
 }
 
-int itkVectorInterpolateImageFunctionTest(int, char* [] )
+int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char* [] )
 {
   int flag = 0;
 
