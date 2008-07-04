@@ -61,6 +61,9 @@ namespace itk {
  *
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/1926/510
+ *
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  * 
@@ -107,6 +110,15 @@ public:
   virtual double GetMetric() const;
   virtual const double &GetRMSChange() const;
 
+  /** DemonsRegistrationFilterFunction type. 
+   * 
+   *  FIXME: Why is this the only permissible function ?
+   *
+   **/
+  typedef ESMDemonsRegistrationFunction<
+    FixedImageType, 
+    MovingImageType, DeformationFieldType>                DemonsRegistrationFunctionType;
+
   typedef typename DemonsRegistrationFunctionType::GradientType GradientType;
   virtual void SetUseGradientType( GradientType gtype );
   virtual GradientType GetUseGradientType() const;
@@ -133,9 +145,6 @@ protected:
    * FiniteDifferenceFilter::GenerateData(). */
   virtual void AllocateUpdateBuffer();
 
-  /** Apply update. */
-  virtual void ApplyUpdate(TimeStepType dt);
-
   /** FiniteDifferenceFunction type. */
   typedef typename 
     Superclass::FiniteDifferenceFunctionType              FiniteDifferenceFunctionType;
@@ -144,10 +153,8 @@ protected:
   typedef typename 
     FiniteDifferenceFunctionType::TimeStepType            TimeStepType;
 
-  /** DemonsRegistrationFilterFunction type. */
-  typedef ESMDemonsRegistrationFunction<
-    FixedImageType, 
-    MovingImageType, DeformationFieldType>                DemonsRegistrationFunctionType;
+  /** Apply update. */
+  virtual void ApplyUpdate(TimeStepType dt);
 
   /** other typedefs */
   typedef MultiplyByConstantImageFilter<
@@ -166,6 +173,11 @@ protected:
 private:
   FastSymmetricForcesDemonsRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type.
+   * this method will throw an exception if the function is not of the expected type. */
+  DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType() const;
 
   MultiplyByConstantPointer         m_Multiplier;
   AdderPointer                      m_Adder;

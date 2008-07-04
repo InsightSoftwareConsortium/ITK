@@ -69,7 +69,7 @@ double
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetMetric() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetMetric();
 }
 
@@ -81,7 +81,7 @@ double
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetIntensityDifferenceThreshold() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetIntensityDifferenceThreshold();
 }
 
@@ -106,7 +106,7 @@ double
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetMaximumUpdateStepLength() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetMaximumUpdateStepLength();
 }
 
@@ -131,7 +131,7 @@ const double &
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetRMSChange() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetRMSChange();
 }
 
@@ -145,7 +145,7 @@ typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TD
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetUseGradientType() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetUseGradientType();
 }
 
@@ -166,7 +166,7 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformatio
  * It throws and exception, if it is not.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
-typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>::DemonsRegistrationFunctionType
+typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>::DemonsRegistrationFunctionType *
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::DownCastDifferenceFunctionType()
 {
@@ -179,6 +179,30 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformatio
     itkExceptionMacro( << 
       "Could not cast difference function to SymmetricDemonsRegistrationFunction" );
     }
+
+  return drfp;
+}
+ 
+/**
+ * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
+ * It throws and exception, if it is not.
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+const typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>::DemonsRegistrationFunctionType *
+FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
+::DownCastDifferenceFunctionType() const
+{
+  const DemonsRegistrationFunctionType *drfp = 
+    dynamic_cast<const DemonsRegistrationFunctionType *>
+      (this->GetDifferenceFunction().GetPointer());
+ 
+  if( !drfp )
+    {
+    itkExceptionMacro( << 
+      "Could not cast difference function to SymmetricDemonsRegistrationFunction" );
+    }
+
+  return drfp;
 }
  
 template <class TFixedImage, class TMovingImage, class TDeformationField>
