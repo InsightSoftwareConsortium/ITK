@@ -38,6 +38,7 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
   // Setup default values
   m_OutputSpacing.Fill( 1.0 );
   m_OutputOrigin.Fill( 0.0 );
+  m_OutputDirection.SetIdentity();
 
   for (unsigned int i=0; i<PixelDimension; i++)
     {
@@ -254,6 +255,7 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   outputPtr->SetSpacing( m_OutputSpacing );
   outputPtr->SetOrigin( m_OutputOrigin );
+  outputPtr->SetDirection( m_OutputDirection );
 
   DeformationFieldPointer fieldPtr = this->GetDeformationField();
   if( fieldPtr )

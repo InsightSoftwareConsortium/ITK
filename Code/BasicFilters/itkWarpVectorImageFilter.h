@@ -59,10 +59,12 @@ namespace itk
  * Position mapped to outside of the input image buffer are assigned
  * a edge padding value.
  *
- * The LargetPossibleRegion for the output is inherited from the 
- * input deformation field. The output image spacing and origin may be set 
- * via SetOutputSpacing, SetOutputOrigin. The default are respectively a 
- * vector of 1's and a vector of 0's.
+ * The LargetPossibleRegion for the output is inherited
+ * from the input deformation field. The output image
+ * spacing, origin and direction may be set via
+ * SetOutputSpacing, SetOutputOrigin and
+ * SetOutputDirection. The default are respectively a
+ * vector of 1's, a vector of 0's and an identity matrix.
  *
  * This class is templated over the type of the input image, the
  * type of the output image and the type of the deformation field.
@@ -138,6 +140,9 @@ public:
   /** Point type */
   typedef Point<CoordRepType,itkGetStaticConstMacro(ImageDimension)> PointType;
 
+  /** Type for representing the direction of the output image */
+  typedef typename TOutputImage::DirectionType     DirectionType;
+
   /** Set the deformation field. */
   void SetDeformationField( DeformationFieldType * field );
 
@@ -163,6 +168,10 @@ public:
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, PointType);
+
+  /** Set/Get the direction (orientation) of the output image */
+  itkSetMacro(OutputDirection, DirectionType );
+  itkGetConstReferenceMacro(OutputDirection, DirectionType );
 
   /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );
@@ -218,6 +227,7 @@ private:
   PixelType                  m_EdgePaddingValue;
   SpacingType                m_OutputSpacing;
   PointType                  m_OutputOrigin;
+  DirectionType              m_OutputDirection;
 
   InterpolatorPointer        m_Interpolator;
   

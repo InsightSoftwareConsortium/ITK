@@ -39,6 +39,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   // Setup default values
   m_OutputSpacing.Fill( 1.0 );
   m_OutputOrigin.Fill( 0.0 );
+  m_OutputDirection.SetIdentity();
 
   m_EdgePaddingValue = NumericTraits<PixelType>::Zero;
 
@@ -64,6 +65,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "EdgePaddingValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
      << std::endl;
@@ -275,6 +277,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   outputPtr->SetSpacing( m_OutputSpacing );
   outputPtr->SetOrigin( m_OutputOrigin );
+  outputPtr->SetDirection( m_OutputDirection );
 
   DeformationFieldPointer fieldPtr = this->GetDeformationField();
   if( fieldPtr )
