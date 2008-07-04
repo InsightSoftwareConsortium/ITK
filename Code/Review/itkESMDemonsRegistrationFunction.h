@@ -80,15 +80,16 @@ public:
                 PDEDeformableRegistrationFunction );
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType     MovingImageType;
-  typedef typename Superclass::MovingImagePointer  MovingImagePointer;
+  typedef typename Superclass::MovingImageType      MovingImageType;
+  typedef typename Superclass::MovingImagePointer   MovingImagePointer;
+  typedef typename MovingImageType::PixelType       MovingPixelType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType     FixedImageType;
-  typedef typename Superclass::FixedImagePointer  FixedImagePointer;
-  typedef typename FixedImageType::IndexType      IndexType;
-  typedef typename FixedImageType::SizeType       SizeType;
-  typedef typename FixedImageType::SpacingType    SpacingType;
+  typedef typename Superclass::FixedImageType       FixedImageType;
+  typedef typename Superclass::FixedImagePointer    FixedImagePointer;
+  typedef typename FixedImageType::IndexType        IndexType;
+  typedef typename FixedImageType::SizeType         SizeType;
+  typedef typename FixedImageType::SpacingType      SpacingType;
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
