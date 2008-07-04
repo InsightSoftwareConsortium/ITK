@@ -101,6 +101,7 @@ void RegisterTests()
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest01 );
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest02 );
 
+  REGISTER_TEST( itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);

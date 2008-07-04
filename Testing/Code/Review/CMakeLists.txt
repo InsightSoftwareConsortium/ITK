@@ -100,6 +100,8 @@ SET(ReviewTest_SRCS
 
   itkFFTComplexToComplexImageFilterTest01.cxx
   itkFFTComplexToComplexImageFilterTest02.cxx
+
+  itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
