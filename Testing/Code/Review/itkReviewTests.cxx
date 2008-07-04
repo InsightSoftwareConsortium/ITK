@@ -103,6 +103,8 @@ void RegisterTests()
 
   REGISTER_TEST( itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );
 
+  REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif 
