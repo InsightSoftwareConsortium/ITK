@@ -104,6 +104,8 @@ SET(ReviewTest_SRCS
   itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
 
   itkExponentialDeformationFieldImageFilterTest.cxx
+   
+  itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
