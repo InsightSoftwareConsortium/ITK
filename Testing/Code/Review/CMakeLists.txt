@@ -105,6 +105,7 @@ SET(ReviewTest_SRCS
   itkExponentialDeformationFieldImageFilterTest.cxx
   itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
   itkGridForwardWarpImageFilterTest.cxx
+  itkWarpJacobianDeterminantFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)

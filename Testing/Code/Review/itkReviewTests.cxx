@@ -105,6 +105,7 @@ void RegisterTests()
   REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
   REGISTER_TEST( itkFastSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST( itkGridForwardWarpImageFilterTest );
+  REGISTER_TEST( itkWarpJacobianDeterminantFilterTest );
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
