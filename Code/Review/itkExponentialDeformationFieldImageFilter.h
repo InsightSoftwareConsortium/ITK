@@ -66,77 +66,50 @@ class ITK_EXPORT ExponentialDeformationFieldImageFilter:
       public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-   /** Standard class typedefs. */
-   typedef ExponentialDeformationFieldImageFilter         Self;
-   typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-   typedef SmartPointer<Self>                             Pointer;
-   typedef SmartPointer<const Self>                       ConstPointer;
+  /** Standard class typedefs. */
+  typedef ExponentialDeformationFieldImageFilter         Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
-   /** Method for creation through the object factory. */
-   itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-   /** Run-time type information (and related methods). */
-   itkTypeMacro(ExponentialDeformationFieldImageFilter, ImageToImageFilter);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ExponentialDeformationFieldImageFilter, ImageToImageFilter);
 
-   /** Some convenient typedefs. */
-   typedef TInputImage                                  InputImageType;
-   typedef typename InputImageType::Pointer             InputImagePointer;
-   typedef typename InputImageType::ConstPointer        InputImageConstPointer;
-   typedef typename InputImageType::PixelType           InputPixelType;
-   typedef typename InputPixelType::RealValueType       InputPixelRealValueType;
+  /** Some convenient typedefs. */
+  typedef TInputImage                                  InputImageType;
+  typedef typename InputImageType::Pointer             InputImagePointer;
+  typedef typename InputImageType::ConstPointer        InputImageConstPointer;
+  typedef typename InputImageType::PixelType           InputPixelType;
+  typedef typename InputPixelType::RealValueType       InputPixelRealValueType;
 
-   typedef TOutputImage                                 OutputImageType;
-   typedef typename OutputImageType::Pointer            OutputImagePointer;
-   typedef typename OutputImageType::PixelType          OutputPixelType;
+  typedef TOutputImage                                 OutputImageType;
+  typedef typename OutputImageType::Pointer            OutputImagePointer;
+  typedef typename OutputImageType::PixelType          OutputPixelType;
 
-   typedef typename InputImageType::RegionType          RegionType;
+  /** Specify the maximum number of iteration. */
+  itkSetMacro(MaximumNumberOfIterations, unsigned int);
+  itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
-   typedef DivideByConstantImageFilter<
-     InputImageType,
-     InputPixelRealValueType, OutputImageType >         DivideByConstantType;
+  /** If AutomaticNumberOfIterations is off, the number of iterations is
+   * given by MaximumNumberOfIterations. If it is on, we try to get
+   * the lowest good number (which may not be larger than
+   * MaximumNumberOfIterations ) */
+  itkSetMacro( AutomaticNumberOfIterations, bool );
+  itkGetMacro( AutomaticNumberOfIterations, bool );
+  itkBooleanMacro(AutomaticNumberOfIterations);
 
-   typedef CastImageFilter<
-     InputImageType, OutputImageType>                   CasterType;
-
-   typedef WarpVectorImageFilter<
-     OutputImageType,
-     OutputImageType, OutputImageType>                  VectorWarperType;
-
-   typedef VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
-     OutputImageType,double>                            FieldInterpolatorType;
-
-   typedef AddImageFilter<
-     OutputImageType, OutputImageType, OutputImageType> AdderType;
-
-   typedef typename DivideByConstantType::Pointer       DivideByConstantPointer;
-   typedef typename CasterType::Pointer                 CasterPointer;
-   typedef typename VectorWarperType::Pointer           VectorWarperPointer;
-   typedef typename FieldInterpolatorType::Pointer      FieldInterpolatorPointer;
-   typedef typename FieldInterpolatorType::OutputType   FieldInterpolatorOutputType;
-   typedef typename AdderType::Pointer                  AdderPointer;
-
-
-   /** Specify the maximum number of iteration. */
-   itkSetMacro(MaximumNumberOfIterations, unsigned int);
-   itkGetMacro(MaximumNumberOfIterations, unsigned int);
-
-   /** If AutomaticNumberOfIterations is off, the number of iterations is
-    * given by MaximumNumberOfIterations. If it is on, we try to get
-    * the lowest good number (which may not be larger than
-    * MaximumNumberOfIterations ) */
-   itkSetMacro( AutomaticNumberOfIterations, bool );
-   itkGetMacro( AutomaticNumberOfIterations, bool );
-   itkBooleanMacro(AutomaticNumberOfIterations);
-
-   /** Image dimension. */
-   itkStaticConstMacro(ImageDimension, unsigned int,
-                       TInputImage::ImageDimension);
-   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                       TInputImage::ImageDimension );
-   itkStaticConstMacro(PixelDimension, unsigned int,
-                       InputPixelType::Dimension );
-   itkStaticConstMacro(OutputPixelDimension, unsigned int,
-                       OutputPixelType::Dimension );
+  /** Image dimension. */
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int,
+                      TInputImage::ImageDimension );
+  itkStaticConstMacro(PixelDimension, unsigned int,
+                      InputPixelType::Dimension );
+  itkStaticConstMacro(OutputPixelDimension, unsigned int,
+                      OutputPixelType::Dimension );
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -162,6 +135,33 @@ protected:
    * GenerateData()
    */
   void GenerateData();
+
+  typedef typename InputImageType::RegionType          RegionType;
+
+  typedef DivideByConstantImageFilter<
+    InputImageType,
+    InputPixelRealValueType, OutputImageType >         DivideByConstantType;
+
+  typedef CastImageFilter<
+    InputImageType, OutputImageType>                   CasterType;
+
+  typedef WarpVectorImageFilter<
+    OutputImageType,
+    OutputImageType, OutputImageType>                  VectorWarperType;
+
+  typedef VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
+    OutputImageType,double>                            FieldInterpolatorType;
+
+  typedef AddImageFilter<
+    OutputImageType, OutputImageType, OutputImageType> AdderType;
+
+  typedef typename DivideByConstantType::Pointer       DivideByConstantPointer;
+  typedef typename CasterType::Pointer                 CasterPointer;
+  typedef typename VectorWarperType::Pointer           VectorWarperPointer;
+  typedef typename FieldInterpolatorType::Pointer      FieldInterpolatorPointer;
+  typedef typename FieldInterpolatorType::OutputType   FieldInterpolatorOutputType;
+  typedef typename AdderType::Pointer                  AdderPointer;
+
 
 private:
   ExponentialDeformationFieldImageFilter(const Self&); //purposely not implemented
