@@ -232,7 +232,7 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   CovariantVectorType usedGradientTimes2;
   
-  if( (this->m_UseGradientType==Symmetric) or 
+  if( (this->m_UseGradientType==Symmetric) || 
       (this->m_UseGradientType==WarpedMoving) )
     {
     // we don't use a CentralDifferenceImageFunction here to be able to
@@ -243,8 +243,8 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       {
       // bounds checking
       if( FirstIndex[dim]==LastIndex[dim]
-          or index[dim]<FirstIndex[dim]
-          or index[dim]>=LastIndex[dim] )
+          || index[dim]<FirstIndex[dim]
+          || index[dim]>=LastIndex[dim] )
         {
         warpedMovingGradient[dim] = 0.0;
         continue;
