@@ -122,9 +122,6 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  typename InputFilterType::Pointer       m_InputFilter;
-  typename OutputFilterType::Pointer      m_OutputFilter;
-
   void GenerateInputRequestedRegion();
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
@@ -132,7 +129,10 @@ private:
   SliceBySliceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned int m_Dimension;
+  unsigned int                            m_Dimension;
+  typename InputFilterType::Pointer       m_InputFilter;
+  typename OutputFilterType::Pointer      m_OutputFilter;
+
 };
 
 }
