@@ -563,6 +563,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   for( It = this->m_InputPointData->Begin(); It != this->m_InputPointData->End(); ++It )
     {
     PointType point;
+    point.Fill(0.0);
+
     this->GetInput()->GetPoint( It.Index(), &point );
 
     for( unsigned int i = 0; i < ImageDimension; i++ )
@@ -685,6 +687,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   while( ItIn != this->m_InputPointData->End() )
     {
     PointType point;
+    point.Fill(0.0);
+
     this->GetInput()->GetPoint( ItIn.Index(), &point );
 
     for( unsigned int i = 0; i < ImageDimension; i++ )

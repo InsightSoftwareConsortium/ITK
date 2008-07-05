@@ -106,7 +106,7 @@ public:
   inline RealType EvaluateDerivative( const double & u ) const
     {
     RealType absValue = vnl_math_abs( u );
-    int which;
+    unsigned int which;
     if ( this->m_SplineOrder % 2 == 0 )
       {
       which = static_cast<unsigned int>( absValue+0.5 );
@@ -115,7 +115,7 @@ public:
       {
       which = static_cast<unsigned int>( absValue );
       }
-    if( which < this->m_BSplineShapeFunctions.rows() )
+    if( which < static_cast<unsigned int>( this->m_BSplineShapeFunctions.rows() ) )
       {
       RealType der = PolynomialType(
         this->m_BSplineShapeFunctions.get_row( which ) ).devaluate( absValue );
