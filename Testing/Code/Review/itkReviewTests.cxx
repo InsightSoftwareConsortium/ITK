@@ -53,7 +53,7 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
- 
+
   REGISTER_TEST(itkValuedRegionalMinimaImageFilterTest);
   REGISTER_TEST(itkValuedRegionalMaximaImageFilterTest);
   REGISTER_TEST(itkRegionalMaximaImageFilterTest);
@@ -62,7 +62,7 @@ void RegisterTests()
   REGISTER_TEST(itkRegionalMinimaImageFilterTest2);
 
   REGISTER_TEST(itkNeuralNetworkIOTest);
- 
+
   REGISTER_TEST(itkConformalFlatteningMeshFilterTest);
   REGISTER_TEST(itkConformalFlatteningQuadEdgeMeshFilterTest);
 
@@ -93,7 +93,7 @@ void RegisterTests()
   REGISTER_TEST(itkMultiplyByConstantImageFilterTest);
   REGISTER_TEST(itkAddConstantToImageFilterTest);
   REGISTER_TEST(itkSubtractConstantFromImageFilterTest);
-  
+
   REGISTER_TEST( itkImageReadComplexWriteMagnitudeAndPhaseTest );
   REGISTER_TEST( itkImageReadMagnitudeAndPhaseWriteComplexTest );
   REGISTER_TEST( itkImageReadRealAndImaginaryWriteComplexTest );
@@ -106,10 +106,11 @@ void RegisterTests()
   REGISTER_TEST( itkFastSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST( itkGridForwardWarpImageFilterTest );
   REGISTER_TEST( itkWarpJacobianDeterminantFilterTest );
+  REGISTER_TEST( itkWarpHarmonicEnergyCalculatorTest );
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
-#endif 
+#endif
 
 #ifdef ITK_USE_TRANSFORM_IO_FACTORIES
   REGISTER_TEST(itkTransformFileReaderWriterTest);

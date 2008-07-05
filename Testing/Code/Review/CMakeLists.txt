@@ -82,11 +82,11 @@ SET(ReviewTest_SRCS
 
   itkBruker2DSEQImageIOTest.cxx
   itkPhilipsRECImageIOTest.cxx
-  
+
   itkVoxBoCUBImageIOTest.cxx
 
   itkSliceBySliceImageFilterTest.cxx
-  
+
   # itkDiffeomorphicDemonsRegistrationFilterTest.cxx
 
   itkMultiplyByConstantImageFilterTest.cxx
@@ -106,44 +106,45 @@ SET(ReviewTest_SRCS
   itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
   itkGridForwardWarpImageFilterTest.cxx
   itkWarpJacobianDeterminantFilterTest.cxx
+  itkWarpHarmonicEnergyCalculatorTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
   SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
 
-  ADD_TEST(itkTransformFileReaderWriterTest0 
-    ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
+  ADD_TEST(itkTransformFileReaderWriterTest0
+    ${REVIEW_TESTS} itkTransformFileReaderWriterTest
     ${INPUTDATA}/itkAffineTransform00.txt
     ${TEMP}/itkTransformFileReaderWriterTest0.txt
     )
 
-  ADD_TEST(itkTransformFileReaderWriterTest1 
-    ${REVIEW_TESTS} itkTransformFileReaderWriterTest 
+  ADD_TEST(itkTransformFileReaderWriterTest1
+    ${REVIEW_TESTS} itkTransformFileReaderWriterTest
     ${INPUTDATA}/itkAffineTransform01.txt
     ${TEMP}/itkTransformFileReaderWriterTest1.txt
     )
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 
-ADD_TEST(itkOptImageToImageMetricsTest01 
-  ${REVIEW_TESTS} itkOptImageToImageMetricsTest 
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 
+ADD_TEST(itkOptImageToImageMetricsTest01
+  ${REVIEW_TESTS} itkOptImageToImageMetricsTest
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
-ADD_TEST(itkOptImageToImageMetricsTest02 
-  ${REVIEW_TESTS} 
+ADD_TEST(itkOptImageToImageMetricsTest02
+  ${REVIEW_TESTS}
   --with-threads 2
-  itkOptImageToImageMetricsTest 
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 
+  itkOptImageToImageMetricsTest
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
-ADD_TEST(itkOptImageToImageMetricsTest03 
-  ${REVIEW_TESTS} 
+ADD_TEST(itkOptImageToImageMetricsTest03
+  ${REVIEW_TESTS}
   --without-threads
-  itkOptImageToImageMetricsTest 
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png 
+  itkOptImageToImageMetricsTest
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
@@ -154,7 +155,7 @@ ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
   )
-ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS} itkQuadEdgem_NoPointTest)  
+ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS} itkQuadEdgem_NoPointTest)
 ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS} itkQuadEdgeTest1)
 ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS}
   itkGeometricalQuadEdgeTest1)
@@ -372,7 +373,7 @@ FOREACH(M 0 1)
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestButtonHoleM${M}F${F}.png
                       ${M} ${F} 0
                       )
-    
+
     ADD_TEST(itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F} ${REVIEW_TESTS}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
@@ -381,7 +382,7 @@ FOREACH(M 0 1)
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestPassValuesM${M}F${F}.png
                       ${M} ${F} 0
                       )
-    
+
     ADD_TEST(itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F} ${REVIEW_TESTS}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
@@ -390,7 +391,7 @@ FOREACH(M 0 1)
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestPlateauM${M}F${F}.png
                       ${M} ${F} 0
                       )
-    
+
     ADD_TEST(itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F} ${REVIEW_TESTS}
             --compare ${BASELINE}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
@@ -399,7 +400,7 @@ FOREACH(M 0 1)
                       ${TEMP}/itkMorphologicalWatershedImageFilterTestThickLinesM${M}F${F}.png
                       ${M} ${F} 0
                       )
-    
+
     ADD_TEST(itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F} ${REVIEW_TESTS}
             --compare ${BASELINE}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
                       ${TEMP}/itkMorphologicalWatershedFromMarkersImageFilterTestM${M}F${F}.png
@@ -449,7 +450,7 @@ ADD_TEST(itkBinaryMorphologicalOpeningImageFilterTest$ ${REVIEW_TESTS}
                   ${TEMP}/itkBinaryMorphologicalOpeningImageFilterTest.png
                   8 150 200
                   )
-ADD_TEST(itkTimeAndMemoryProbeTest1 ${REVIEW_TESTS} 
+ADD_TEST(itkTimeAndMemoryProbeTest1 ${REVIEW_TESTS}
         itkTimeAndMemoryProbeTest
         )
 
@@ -542,7 +543,7 @@ ADD_TEST(itkSubtractConstantFromImageFilterTest ${REVIEW_TESTS}
 
 ADD_TEST(itkImageReadRealAndImaginaryWriteComplexTest ${REVIEW_TESTS}
         itkImageReadRealAndImaginaryWriteComplexTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png 
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
         )
@@ -579,7 +580,7 @@ ADD_TEST(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
 
 ADD_EXECUTABLE(itkReviewTests itkReviewTests.cxx ${ReviewTest_SRCS})
 
-SET(ReviewTest_LIBS 
+SET(ReviewTest_LIBS
   ITKAlgorithms
   ITKFEM
   ITKStatistics
@@ -591,7 +592,7 @@ SET(ReviewTest_LIBS
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 SET(ReviewTest_LIBS ${ReviewTest_LIBS}
-  ITKTransformIOReview 
+  ITKTransformIOReview
   )
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
