@@ -96,7 +96,6 @@ public:
   itkSetMacro(Dimension, unsigned int);
   itkGetMacro(Dimension, unsigned int);
 
-  // itkSetObjectMacro(Filter, FilterType);
   void SetFilter(InputFilterType * filter);
   InputFilterType * GetFilter()
     {

@@ -86,7 +86,9 @@ KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>
   os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << std::endl;
   os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << std::endl;
   os << indent << "SigmaFactor: " << m_SigmaFactor << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
+  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
+  os << indent << "Inside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_InsideValue) << std::endl;
+  os << indent << "Outside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutsideValue) << std::endl;
 }
 
 

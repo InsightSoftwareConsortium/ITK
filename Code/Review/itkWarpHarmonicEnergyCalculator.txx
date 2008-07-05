@@ -212,6 +212,9 @@ WarpHarmonicEnergyCalculator<TInputImage>
   os << indent << "Region: " << std::endl;
   m_Region.Print(os,indent.GetNextIndent());
   os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
+  os << indent << "Use image spacing: " << this->m_UseImageSpacing << std::endl;
+  os << indent << "Derivative Weights: " << this->m_DerivativeWeights << std::endl;
+  os << indent << "Neighborhood Radius: " << this->m_NeighborhoodRadius << std::endl;
 }
 
 } // end namespace itk
