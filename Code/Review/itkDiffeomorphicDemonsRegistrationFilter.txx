@@ -123,8 +123,7 @@ double
 DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetMetric() const
 {
- 
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetMetric();
 }
 
@@ -136,8 +135,7 @@ double
 DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetIntensityDifferenceThreshold() const
 {
- 
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetIntensityDifferenceThreshold();
 }
 
@@ -162,7 +160,7 @@ double
 DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetMaximumUpdateStepLength() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetMaximumUpdateStepLength();
 }
 
@@ -187,7 +185,7 @@ const double &
 DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetRMSChange() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetRMSChange();
 }
 
@@ -201,7 +199,7 @@ typename DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeforma
 DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::GetUseGradientType() const
 {
-  DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
+  const DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
   return drfp->GetUseGradientType();
 }
 
