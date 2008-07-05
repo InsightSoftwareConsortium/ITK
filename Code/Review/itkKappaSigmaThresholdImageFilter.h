@@ -45,7 +45,9 @@ namespace itk {
  * \ingroup IntensityImageFilters  Multithreaded
  */
 
-template<class TInputImage, class TMaskImage=Image<unsigned char, TInputImage::ImageDimension>, class TOutputImage=TInputImage>
+template<class TInputImage, 
+  class TMaskImage=Image<unsigned char,::itk::GetImageDimension<TInputImage>::ImageDimension>, 
+  class TOutputImage=TInputImage>
 class ITK_EXPORT KappaSigmaThresholdImageFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
