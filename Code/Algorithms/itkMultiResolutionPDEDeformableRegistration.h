@@ -30,7 +30,8 @@ namespace itk
 {
 /**
  * \class MultiResolutionPDEDeformableRegistration
- * \brief Framework for perfoming multi-resolution PDE deformable registration.
+ * \brief Framework for performing multi-resolution PDE
+ * deformable registration.
  *
  * MultiResolutionPDEDeformableRegistration provides a generic framework
  * to peform multi-resolution deformable registration.
@@ -72,7 +73,7 @@ namespace itk
  *
  * \ingroup DeformableImageRegistration
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template <class TFixedImage, class TMovingImage, class TDeformationField, class  TRealType = float>
 class ITK_EXPORT MultiResolutionPDEDeformableRegistration :
     public ImageToImageFilter <TDeformationField, TDeformationField>
 {
@@ -110,7 +111,7 @@ public:
                       FixedImageType::ImageDimension);
 
   /** Internal float image type. */
-  typedef Image<float,itkGetStaticConstMacro(ImageDimension)> FloatImageType;
+  typedef Image<TRealType,itkGetStaticConstMacro(ImageDimension)> FloatImageType;
 
   /** The internal registration type. */
   typedef PDEDeformableRegistrationFilter<
