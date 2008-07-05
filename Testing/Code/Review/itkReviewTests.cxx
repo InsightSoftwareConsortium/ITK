@@ -108,6 +108,8 @@ void RegisterTests()
   REGISTER_TEST( itkGridForwardWarpImageFilterTest );
   REGISTER_TEST( itkWarpJacobianDeterminantFilterTest );
   REGISTER_TEST( itkWarpHarmonicEnergyCalculatorTest );
+  
+  REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest );
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);

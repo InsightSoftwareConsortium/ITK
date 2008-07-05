@@ -108,6 +108,8 @@ SET(ReviewTest_SRCS
   itkGridForwardWarpImageFilterTest.cxx
   itkWarpJacobianDeterminantFilterTest.cxx
   itkWarpHarmonicEnergyCalculatorTest.cxx
+
+  itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -581,6 +583,10 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest10 ${REVIEW_TESTS}
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
         ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha
         0  1  0.001  0.1
+        )
+
+ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
+        itkBSplineScatteredDataPointSetToImageFilterTest
         )
 
 ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}
