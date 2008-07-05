@@ -18,6 +18,11 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
 SET(INPUTDATA ${ITK_DATA_ROOT}/Input)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
+INCLUDE_DIRECTORIES(
+  # This directory is needed to find the itkFilterWatcher.h
+  ${ITK_SOURCE_DIR}/Testing/Code/Algorithms
+  )
+
 #
 #  List of Tests in this directory
 #
@@ -110,6 +115,9 @@ SET(ReviewTest_SRCS
   itkWarpHarmonicEnergyCalculatorTest.cxx
 
   itkBSplineScatteredDataPointSetToImageFilterTest.cxx
+
+  itkKappaSigmaThresholdImageCalculatorTest.cxx
+  itkKappaSigmaThresholdImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -587,6 +595,28 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest10 ${REVIEW_TESTS}
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest
+        )
+
+ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest01 ${REVIEW_TESTS}
+        itkKappaSigmaThresholdImageCalculatorTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence1.png
+        )
+
+ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest02 ${REVIEW_TESTS}
+        itkKappaSigmaThresholdImageCalculatorTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence2.png
+        )
+
+ADD_TEST(itkKappaSigmaThresholdImageFilterTest01 ${REVIEW_TESTS}
+        itkKappaSigmaThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence1.png
+        ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest01.mha
+        )
+
+ADD_TEST(itkKappaSigmaThresholdImageFilterTest02 ${REVIEW_TESTS}
+        itkKappaSigmaThresholdImageFilterTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence2.png
+        ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.mha
         )
 
 ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}

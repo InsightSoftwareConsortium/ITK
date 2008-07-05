@@ -110,6 +110,9 @@ void RegisterTests()
   REGISTER_TEST( itkWarpHarmonicEnergyCalculatorTest );
   
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest );
+ 
+  REGISTER_TEST( itkKappaSigmaThresholdImageCalculatorTest );
+  REGISTER_TEST( itkKappaSigmaThresholdImageFilterTest );
 
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);

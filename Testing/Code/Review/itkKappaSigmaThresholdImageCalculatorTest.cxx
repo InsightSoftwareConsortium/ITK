@@ -1,0 +1,94 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkKappaSigmaThresholdImageCalculatorTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
+#include "itkKappaSigmaThresholdImageCalculator.h"
+#include "itkImageFileReader.h"
+#include "itkImage.h"
+
+
+int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
+{
+  if( argc < 3 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << argv[0] << std::endl;
+    std::cerr << "inputImage expectedThreshold" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  typedef signed short                          PixelType;
+  const unsigned int                            Dimension = 2;
+
+  typedef itk::Image< PixelType, Dimension >    ImageType;
+  typedef itk::Image< char, Dimension >         MaskType;
+  typedef itk::ImageFileReader< ImageType >     ReaderType;
+
+  ReaderType::Pointer reader = ReaderType::New();
+
+  reader->SetFileName( argv[1] );
+
+  typedef itk::KappaSigmaThresholdImageCalculator< ImageType, MaskType >  CalculatorType;
+
+  std::cout << "Testing Kappa Sigma Image Calulator:\n";
+
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /* Create and initialize the calculator */
+  CalculatorType::Pointer calculator = CalculatorType::New();
+  calculator->SetImage( reader->GetOutput() );
+  calculator->SetNumberOfIterations( 10 );
+  calculator->SetSigmaFactor( 1.2 );
+  calculator->SetMaskValue( 255 );
+
+  // Exercise Get methods
+  std::cout << "Number of iterations = " << calculator->GetNumberOfIterations() << std::endl;
+  std::cout << "Sigma factor         = " << calculator->GetSigmaFactor() << std::endl;
+  std::cout << "Mask value           = " << calculator->GetMaskValue() << std::endl;
+
+
+  calculator->Compute();
+
+  PixelType threshold = calculator->GetOutput();
+
+  std::cout << "calculator: " << calculator;
+  std::cout << "Threshold: " << threshold;
+  std::cout << std::endl;
+
+  PixelType expectedThreshold = atoi( argv[2] );
+
+  if( vnl_math_abs( expectedThreshold - threshold ) > 1e-3 )
+    {
+    std::cerr << "Test failed" << std::endl;
+    std::cerr << "Expected threshold = " << expectedThreshold << std::endl;
+    std::cerr << "bu Found threshold = " << threshold << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
+}
