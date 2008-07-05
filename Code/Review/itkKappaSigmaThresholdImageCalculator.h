@@ -107,7 +107,7 @@ private:
   unsigned int              m_NumberOfIterations;
   InputPixelType            m_Output;
 
-  InputImageConstPointer    m_Input;
+  InputImageConstPointer    m_Image;
   MaskImageConstPointer     m_Mask;
 
 };  // class KappaSigmaThresholdImageCalculator
