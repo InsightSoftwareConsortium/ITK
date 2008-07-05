@@ -213,6 +213,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   warper->Update();
  
   writer->SetInput( warper->GetOutput() );
+  writer->UseCompressionOn();
   
   try
     {
