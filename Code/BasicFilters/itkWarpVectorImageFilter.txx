@@ -67,6 +67,7 @@ WarpVectorImageFilter<TInputImage,TOutputImage,TDeformationField>
 
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "EdgePaddingValue: "
      << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
      << std::endl;
