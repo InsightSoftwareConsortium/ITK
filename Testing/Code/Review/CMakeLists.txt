@@ -518,12 +518,9 @@ ADD_TEST(itkSliceBySliceImageFilterTest ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha
         )
 
-# ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest ${REVIEW_TESTS}
-#        itkDiffeomorphicDemonsRegistrationFilterTest
-#        ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-#        ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-#        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest.mha
-#        )
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest
+        )
 
 ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}
         itkMultiplyByConstantImageFilterTest
