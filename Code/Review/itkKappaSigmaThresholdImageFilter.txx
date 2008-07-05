@@ -45,7 +45,7 @@ KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   // Compute the Threshold for the input image
   typename CalculatorType::Pointer thresholdImageCalculator = CalculatorType::New();
-  thresholdImageCalculator->SetInput( this->GetInput() );
+  thresholdImageCalculator->SetImage( this->GetInput() );
   thresholdImageCalculator->SetMask( this->GetMaskImage() );
   thresholdImageCalculator->SetMaskValue( m_MaskValue );
   thresholdImageCalculator->SetSigmaFactor( m_SigmaFactor );
