@@ -121,7 +121,7 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
     if( numiterfloat >= 0.0 )
       {
       // take the ceil and threshold
-      numiter = std::min(
+      numiter = vnl_math_min(
          static_cast<unsigned int>(numiterfloat + 1.0),
          m_MaximumNumberOfIterations );
       }
