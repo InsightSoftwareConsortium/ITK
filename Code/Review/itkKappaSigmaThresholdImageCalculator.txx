@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKappaSigmaThresholdCalculator.txx
+  Module:    itkKappaSigmaThresholdImageCalculator.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,9 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkKappaSigmaThresholdCalculator_txx
-#define __itkKappaSigmaThresholdCalculator_txx
-#include "itkKappaSigmaThresholdCalculator.h"
+#ifndef __itkKappaSigmaThresholdImageCalculator_txx
+#define __itkKappaSigmaThresholdImageCalculator_txx
+#include "itkKappaSigmaThresholdImageCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
@@ -26,8 +26,8 @@ namespace itk
 
 
 template < class TInputImage, class TMaskImage >
-KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
-::KappaSigmaThresholdCalculator(void) 
+KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>
+::KappaSigmaThresholdImageCalculator(void) 
 {
   m_Valid = false;
   m_Input = NULL;
@@ -41,7 +41,7 @@ KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
 
 template < class TInputImage, class TMaskImage >
 void
-KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
+KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
@@ -57,7 +57,7 @@ KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
 
 template < class TInputImage, class TMaskImage >
 void
-KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
+KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>
 ::Compute()
 {
 
@@ -137,8 +137,8 @@ KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
 
 
 template < class TInputImage, class TMaskImage >
-const typename KappaSigmaThresholdCalculator<TInputImage, TMaskImage>::InputPixelType &
-KappaSigmaThresholdCalculator<TInputImage, TMaskImage>
+const typename KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::InputPixelType &
+KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>
 ::GetOutput() const
 {
   if (!m_Valid)

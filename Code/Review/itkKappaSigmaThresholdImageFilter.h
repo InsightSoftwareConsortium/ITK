@@ -18,7 +18,7 @@
 #define __itkKappaSigmaThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkKappaSigmaThresholdCalculator.h"
+#include "itkKappaSigmaThresholdImageCalculator.h"
 
 namespace itk {
 
@@ -27,7 +27,7 @@ namespace itk {
  *
  * This filter creates a labeled image that separates the input
  * image into various classes. The filter
- * computes the thresholds using the MaximumEntropyThresholdCalculator and
+ * computes the thresholds using the MaximumEntropyThresholdImageCalculator and
  * applies those thesholds to the input image using the
  * ThresholdLabelerImageFilter. The NumberOfHistogramBins and
  * NumberOfThresholds can be set
@@ -40,7 +40,7 @@ namespace itk {
  * http://hdl.handle.net/1926/367
  *
  * \sa ScalarImageToHistogramGenerator
- * \sa MaximumEntropyThresholdCalculator
+ * \sa MaximumEntropyThresholdImageCalculator
  * \sa ThresholdLabelerImageFilter
  * \ingroup IntensityImageFilters  Multithreaded
  */
@@ -151,7 +151,7 @@ protected:
   typedef typename TOutputImage::IndexType              OutputIndexType;
   typedef typename TOutputImage::RegionType             OutputImageRegionType;
 
-  typedef KappaSigmaThresholdCalculator< TInputImage, TMaskImage > CalculatorType;
+  typedef KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage > CalculatorType;
   
   /** Image related typedefs. */
   itkStaticConstMacro(InputImageDimension, unsigned int,

@@ -44,15 +44,15 @@ KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Threshold for the input image
-  typename CalculatorType::Pointer thresholdCalculator = CalculatorType::New();
-  thresholdCalculator->SetInput( this->GetInput() );
-  thresholdCalculator->SetMask( this->GetMaskImage() );
-  thresholdCalculator->SetMaskValue( m_MaskValue );
-  thresholdCalculator->SetSigmaFactor( m_SigmaFactor );
-  thresholdCalculator->SetNumberOfIterations( m_NumberOfIterations );
-  thresholdCalculator->Compute();
+  typename CalculatorType::Pointer thresholdImageCalculator = CalculatorType::New();
+  thresholdImageCalculator->SetInput( this->GetInput() );
+  thresholdImageCalculator->SetMask( this->GetMaskImage() );
+  thresholdImageCalculator->SetMaskValue( m_MaskValue );
+  thresholdImageCalculator->SetSigmaFactor( m_SigmaFactor );
+  thresholdImageCalculator->SetNumberOfIterations( m_NumberOfIterations );
+  thresholdImageCalculator->Compute();
 
-  m_Threshold = thresholdCalculator->GetOutput();
+  m_Threshold = thresholdImageCalculator->GetOutput();
 
   typename BinaryThresholdImageFilter<TInputImage,TOutputImage>::Pointer threshold = 
     BinaryThresholdImageFilter<TInputImage,TOutputImage>::New();

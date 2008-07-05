@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkKappaSigmaThresholdCalculator.h
+  Module:    itkKappaSigmaThresholdImageCalculator.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkKappaSigmaThresholdCalculator_h
-#define __itkKappaSigmaThresholdCalculator_h
+#ifndef __itkKappaSigmaThresholdImageCalculator_h
+#define __itkKappaSigmaThresholdImageCalculator_h
 
 #include "itkMacro.h"
 #include "itkImage.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/** \class KappaSigmaThresholdCalculator
+/** \class KappaSigmaThresholdImageCalculator
  * \brief Compute moments of an n-dimensional image.
  *
  * 
@@ -36,11 +36,11 @@ namespace itk
  *
  */
 template < class TInputImage, class TMaskImage >
-class ITK_EXPORT KappaSigmaThresholdCalculator : public Object
+class ITK_EXPORT KappaSigmaThresholdImageCalculator : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef KappaSigmaThresholdCalculator         Self;
+  typedef KappaSigmaThresholdImageCalculator         Self;
   typedef Object                                Superclass;
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;
@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KappaSigmaThresholdCalculator, Object);
+  itkTypeMacro(KappaSigmaThresholdImageCalculator, Object);
 
   /** Extract the dimension of the image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -69,10 +69,10 @@ public:
   typedef typename MaskImageType::PixelType     MaskPixelType;
 
   /** Set the input image. */
-  itkSetObjectMacro( Input, InputImageType ):
+  itkSetConstObjectMacro( Image, InputImageType );
 
   /** Set the input mask */
-  itkSetObjectMacro( Mask, MaskImageType ):
+  itkSetConstObjectMacro( Mask, MaskImageType );
 
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetMacro(MaskValue, MaskPixelType);
@@ -93,12 +93,12 @@ public:
   const InputPixelType & GetOutput() const;
 
 protected:
-  KappaSigmaThresholdCalculator();
-  virtual ~KappaSigmaThresholdCalculator() {};
+  KappaSigmaThresholdImageCalculator();
+  virtual ~KappaSigmaThresholdImageCalculator() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  KappaSigmaThresholdCalculator(const Self&); //purposely not implemented
+  KappaSigmaThresholdImageCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool                      m_Valid;  // Have moments been computed yet?
@@ -110,13 +110,13 @@ private:
   InputImageConstPointer    m_Input;
   MaskImageConstPointer     m_Mask;
 
-};  // class KappaSigmaThresholdCalculator
+};  // class KappaSigmaThresholdImageCalculator
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkKappaSigmaThresholdCalculator.txx"
+#include "itkKappaSigmaThresholdImageCalculator.txx"
 #endif
 
-#endif /* __itkKappaSigmaThresholdCalculator_h */
+#endif /* __itkKappaSigmaThresholdImageCalculator_h */
