@@ -88,6 +88,7 @@ void RegisterTests()
   REGISTER_TEST(itkSliceBySliceImageFilterTest);
 
   REGISTER_TEST(itkDiffeomorphicDemonsRegistrationFilterTest);
+  REGISTER_TEST(itkDiffeomorphicDemonsRegistrationFilterTest2);
 
   REGISTER_TEST(itkDivideByConstantImageFilterTest);
   REGISTER_TEST(itkMultiplyByConstantImageFilterTest);

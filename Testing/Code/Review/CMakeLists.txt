@@ -88,6 +88,7 @@ SET(ReviewTest_SRCS
   itkSliceBySliceImageFilterTest.cxx
 
   itkDiffeomorphicDemonsRegistrationFilterTest.cxx
+  itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
 
   itkMultiplyByConstantImageFilterTest.cxx
   itkDivideByConstantImageFilterTest.cxx
@@ -540,6 +541,46 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest04 ${REVIEW_TESTS}
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest05 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.005  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest06 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest2 
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest06.mha
+        0  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest07 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest2 
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha
+        1  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest08 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest2 
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha
+        2  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest09 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest2 
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha
+        3  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest10 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest2 
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice1.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
+        ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha
+        0  1  0.001  0.1
         )
 
 ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}
