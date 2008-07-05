@@ -87,7 +87,7 @@ SET(ReviewTest_SRCS
 
   itkSliceBySliceImageFilterTest.cxx
 
-  # itkDiffeomorphicDemonsRegistrationFilterTest.cxx
+  itkDiffeomorphicDemonsRegistrationFilterTest.cxx
 
   itkMultiplyByConstantImageFilterTest.cxx
   itkDivideByConstantImageFilterTest.cxx
