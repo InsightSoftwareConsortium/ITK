@@ -600,11 +600,13 @@ ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
 ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest01 ${REVIEW_TESTS}
         itkKappaSigmaThresholdImageCalculatorTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence1.png
+        17
         )
 
 ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest02 ${REVIEW_TESTS}
         itkKappaSigmaThresholdImageCalculatorTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence2.png
+        19
         )
 
 ADD_TEST(itkKappaSigmaThresholdImageFilterTest01 ${REVIEW_TESTS}
