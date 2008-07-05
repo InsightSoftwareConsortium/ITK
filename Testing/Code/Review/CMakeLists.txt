@@ -518,8 +518,28 @@ ADD_TEST(itkSliceBySliceImageFilterTest ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterTest.mha
         )
 
-ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest ${REVIEW_TESTS}
-        itkDiffeomorphicDemonsRegistrationFilterTest
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest01 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest02 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest 1  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest03 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest 2  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest04 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest 3  0  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest04 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest 0  1  0.001  0.1
+        )
+
+ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest05 ${REVIEW_TESTS}
+        itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.005  0.1
         )
 
 ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}

@@ -102,8 +102,20 @@ TImage *output )
 
 }
 
-int itkDiffeomorphicDemonsRegistrationFilterTest(int, char* [] )
+int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
 {
+
+  if( argc < 5 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << argv[0] << std::endl;
+    std::cerr << "GradientType [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
+    std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
+    std::cerr << "Intensity Difference Threshold (double)" << std::endl;
+    std::cerr << "Maximum Update step length (double)" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   typedef unsigned char PixelType;
   enum {ImageDimension = 2};
@@ -184,12 +196,54 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetStandardDeviations( 1.0 );
   registrator->SetMaximumError( 0.08 );
   registrator->SetMaximumKernelWidth( 10 );
-  registrator->SetIntensityDifferenceThreshold( 0.001 );
+
+
+  const double intensityDifferenceThreshold = atof( argv[3] );
+
+  registrator->SetIntensityDifferenceThreshold( intensityDifferenceThreshold );
+
+  const double maximumUpdateStepLength = atof( argv[4] );
+
+  registrator->SetMaximumUpdateStepLength( maximumUpdateStepLength );
+
+
+  const int gradientType = atoi( argv[1] );
+
+  typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
+
+  switch( gradientType )
+    {
+    case 0:
+      registrator->SetUseGradientType( FunctionType::Symmetric );
+      break;
+    case 1:
+      registrator->SetUseGradientType( FunctionType::Fixed );
+      break;
+    case 2:
+      registrator->SetUseGradientType( FunctionType::WarpedMoving );
+      break;
+    case 3:
+      registrator->SetUseGradientType( FunctionType::MappedMoving );
+      break;
+    }
+
+  std::cout << "GradientType = " << registrator->GetUseGradientType() << std::endl;
+
+  const int useFirstOrderExponential = atoi( argv[2] );
+
+  if( useFirstOrderExponential == 0 )
+    {
+    registrator->SetUseFirstOrderExp( false );
+    }
+  else
+    {
+    registrator->SetUseFirstOrderExp( true );
+    }
+
 
   // turn on inplace execution
   registrator->InPlaceOn();
 
-  typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
 
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>(
