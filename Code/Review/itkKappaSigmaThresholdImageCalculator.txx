@@ -70,7 +70,6 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>
     
   // init the values
   InputPixelType threshold = NumericTraits< InputPixelType >::max(); // use all the pixels to begin
-  unsigned long count0 = 0;
 
   for( unsigned int iteration = 0; iteration < this->m_NumberOfIterations; iteration++ )
     {
@@ -122,12 +121,6 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>
       }
     threshold = newThreshold;
 
-    if( iteration == 0 )
-      {
-      count0 = count;
-      }
-  
-    // std::cout << "ratio: " << count/(float)count0 << "  mean: " << mean << "  sigma: " << sigma << "  threshold: " << threshold+0.0 << std::endl;
     }
 
   this->m_Output = threshold;
