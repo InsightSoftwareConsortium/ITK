@@ -346,12 +346,6 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     }
 #endif
 
-  if( IsEdgeLinkingTwoDifferentBorders( e ) )
-    {
-    itkDebugMacro( "EDGE_JOINING_DIFFERENT_BORDERS." );
-    return EDGE_JOINING_DIFFERENT_BORDERS;
-    }
-    
   QEType* e_sym = e->GetSym();
 
   bool IsEdgeIsolated = e->IsIsolated( );
@@ -414,11 +408,18 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     {
     if( IsSamosa( e ) )
       {
+      itkDebugMacro( "SAMOSA_CONFIG." );
       return SAMOSA_CONFIG;
       }
     if( IsEye( e ) )
       {
+      itkDebugMacro( "EYE_CONFIG." );
       return EYE_CONFIG;
+      }
+    if( IsEdgeLinkingTwoDifferentBorders( e ) )
+      {
+      itkDebugMacro( "EDGE_JOINING_DIFFERENT_BORDERS." );
+      return EDGE_JOINING_DIFFERENT_BORDERS;
       }
     }
   else
@@ -427,6 +428,7 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
       {
       if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
         {
+        itkDebugMacro( "FACE_ISOLATED." );
         return FACE_ISOLATED;
         }
       }
@@ -571,41 +573,34 @@ bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 IsEdgeLinkingTwoDifferentBorders( QEType* e )
 {
-  bool border = e->IsAtBorder();
-  if( !border )
+  QEType* t = e;
+  QEType* e_it = t;
+  bool org_border;
+    
+  do
     {
-    QEType* t = e;
-    QEType* e_it = t;
-    bool org_border = false;
-    bool dest_border = false;
-    do
-      {
-      org_border = e_it->IsAtBorder();
-      e_it = e_it->GetOnext();
-      } while( ( e_it != t ) && ( !org_border ) );
-    if( !org_border )
-      {
-      return false;
-      }
-    else
-      {
-      t = e->GetSym();
-      e_it = t;
-      do
-        {
-        dest_border =  border = e_it->IsAtBorder();
-        e_it = e_it->GetOnext();
-        } while( ( e_it != t ) && ( !dest_border ) );
-      
-      if( !dest_border )
-        return false;
-      else
-        return true;
-      }
+    org_border = e_it->IsAtBorder();
+    e_it = e_it->GetOnext();
+    } while( ( e_it != t ) && ( !org_border ) );
+  if( !org_border )
+    {
+    return false;
     }
   else
     {
-    return false;
+    t = e->GetSym();
+    e_it = t;
+    bool dest_border;
+    do
+      {
+      dest_border = e_it->IsAtBorder();
+      e_it = e_it->GetOnext();
+      } while( ( e_it != t ) && ( !dest_border ) );
+      
+    if( !dest_border )
+      return false;
+    else
+      return true;
     }
 }
 
