@@ -89,10 +89,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   // store the binary image in an image with a pixel type as small as possible
   // instead of keeping the native input pixel type to avoid using too much
   // memory.
-  typedef Image< unsigned char, InputImageDimension > BinaryImageType;
+  typedef Image< unsigned char, InputImageDimension >   BinaryImageType;
+
   typedef BinaryThresholdImageFilter<InputImageType, 
-                                     BinaryImageType
-                                        > BinaryFilterType;
+                                     BinaryImageType >  BinaryFilterType;
   
   ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
   progressAcc->SetMiniPipelineFilter(this);
@@ -227,8 +227,8 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   if ( !this->m_SquaredDistance )
     {
-    typedef ImageRegionIterator< OutputImageType > OutputIterator;
-    typedef ImageRegionConstIterator< InputImageType  > InputIterator;
+    typedef ImageRegionIterator< OutputImageType >        OutputIterator;
+    typedef ImageRegionConstIterator< InputImageType  >   InputIterator;
 
     typename OutputImageType::RegionType outputRegion =
                        this->GetOutput()->GetRequestedRegion();
@@ -368,7 +368,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       OutputPixelType d2 = vnl_math_abs(g(l+1)) + (h(l+1)-iw)*(h(l+1)-iw);
       // then compare d1 and d2
       if( d1 <= d2 )
+        {
         break;
+        }
       l++;
       d1 = d2;
       }
