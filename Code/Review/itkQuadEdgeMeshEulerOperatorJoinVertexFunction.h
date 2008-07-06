@@ -90,7 +90,8 @@ public:
       QUADEDGE_ISOLATED,
       FACE_ISOLATED,
       SAMOSA_CONFIG,
-      EYE_CONFIG
+      EYE_CONFIG,
+      EDGE_JOINING_DIFFERENT_BORDERS
     };
 
   itkGetMacro( OldPointID, PointIdentifier );
@@ -135,6 +136,8 @@ protected:
   bool IsSamosa( QEType* e );
   bool IsEye( QEType* e );
 
+  bool IsEdgeLinkingTwoDifferentBorders( QEType* e );
+  
   EdgeStatusType CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted );
 
   QEType* Process( QEType* e );

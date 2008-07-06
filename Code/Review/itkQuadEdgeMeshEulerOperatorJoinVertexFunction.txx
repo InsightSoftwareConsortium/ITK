@@ -74,6 +74,9 @@ PrintSelf( std::ostream& os, Indent indent ) const
     case EYE_CONFIG: 
       os << "EYE_CONFIG" <<std::endl;
       break;
+    case EDGE_JOINING_DIFFERENT_BORDERS:
+      os << "EDGE_JOINING_DIFFERENT_BORDERS" <<std::endl;
+      break;
   }
 }
 
@@ -117,6 +120,8 @@ Evaluate( QEType* e )
     case SAMOSA_CONFIG:
     // Eye case
     case EYE_CONFIG: 
+      return( (QEType*) 0 );
+    case EDGE_JOINING_DIFFERENT_BORDERS:
       return( (QEType*) 0 );
   }
 }
@@ -341,6 +346,12 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     }
 #endif
 
+  if( IsEdgeLinkingTwoDifferentBorders( e ) )
+    {
+    itkDebugMacro( "EDGE_JOINING_DIFFERENT_BORDERS." );
+    return EDGE_JOINING_DIFFERENT_BORDERS;
+    }
+    
   QEType* e_sym = e->GetSym();
 
   bool IsEdgeIsolated = e->IsIsolated( );
@@ -553,6 +564,49 @@ CommonVertexNeighboor( QEType* e )
     std::back_inserter( intersection_list ) );
 
   return intersection_list.size();
+}
+//--------------------------------------------------------------------------
+template < class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
+IsEdgeLinkingTwoDifferentBorders( QEType* e )
+{
+  bool border = e->IsAtBorder();
+  if( !border )
+    {
+    QEType* t = e;
+    QEType* e_it = t;
+    bool org_border = false;
+    bool dest_border = false;
+    do
+      {
+      org_border = e_it->IsAtBorder();
+      e_it = e_it->GetOnext();
+      } while( ( e_it != t ) && ( !org_border ) );
+    if( !org_border )
+      {
+      return false;
+      }
+    else
+      {
+      t = e->GetSym();
+      e_it = t;
+      do
+        {
+        dest_border =  border = e_it->IsAtBorder();
+        e_it = e_it->GetOnext();
+        } while( ( e_it != t ) && ( !dest_border ) );
+      
+      if( !dest_border )
+        return false;
+      else
+        return true;
+      }
+    }
+  else
+    {
+    return false;
+    }
 }
 
 } // namespace itkQE
