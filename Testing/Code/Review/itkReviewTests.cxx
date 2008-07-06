@@ -47,6 +47,14 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshPolygonCellTest);
   REGISTER_TEST(itkQuadEdgeMeshCellInterfaceTest);
   REGISTER_TEST(itkQuadEdgeMeshEulerOperatorsTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorFlipTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorJoinFacetTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorJoinVertexTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorSplitFaceTest);
+  REGISTER_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest);
   REGISTER_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkRegularSphereQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkQuadEdgeMeshCountingCellsTest);

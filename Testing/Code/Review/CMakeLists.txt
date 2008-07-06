@@ -44,6 +44,14 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshTest1.cxx
   itkQuadEdgeMeshTest2.cxx
   itkQuadEdgeMeshTest3.cxx
+  itkQuadEdgeMeshEulerOperatorFlipTest.cxx
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
+  itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
+  itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
   itkQuadEdgeMeshEulerOperatorsTest.cxx
   itkQuadEdgeMeshCellInterfaceTest.cxx
   itkQuadEdgeMeshIteratorTest.cxx
@@ -183,6 +191,16 @@ ADD_TEST(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS}
 ADD_TEST(itkQuadEdgeMeshTest1 ${REVIEW_TESTS} itkQuadEdgeMeshTest1)
 ADD_TEST(itkQuadEdgeMeshTest2 ${REVIEW_TESTS} itkQuadEdgeMeshTest2)
 ADD_TEST(itkQuadEdgeMeshTest3 ${REVIEW_TESTS} itkQuadEdgeMeshTest3)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorFlipTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshEulerOperatorFlipTest)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${REVIEW_TESTS} 
+  itkQuadEdgeMeshEulerOperatorJoinFacetTest)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinVertexTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshEulerOperatorJoinVertexTest)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS}
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS})
 ADD_TEST(itkQuadEdgeMeshEulerOperatorsTest ${REVIEW_TESTS}
   itkQuadEdgeMeshEulerOperatorsTest)
 ADD_TEST(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS}
