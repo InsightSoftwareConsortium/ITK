@@ -442,62 +442,67 @@ bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 IsTetraedron( QEType* e )
 {
-  QEType* e_sym = e->GetSym();
-
-  if( ( e->GetOrder() == 3 ) &&
-      ( e_sym->GetOrder() == 3 ) &&
-      ( e->GetLprev()->GetOrder() == 3 ) &&
-      ( e_sym->GetLprev()->GetOrder() == 3 ) )
+  if( e->GetOrder() == 3 )
     {
-    bool left_triangle = e->IsLnextOfTriangle( );
-    bool right_triangle = e_sym->IsLnextOfTriangle( );
-  
-    if( left_triangle && right_triangle )
+    QEType* e_sym = e->GetSym();
+    if( e_sym->GetOrder() == 3 )
       {
-      CellIdentifier id_left_right_triangle;
-      if( e->GetLprev()->IsRightSet() )
+      if( e->GetLprev()->GetOrder() == 3 )
         {
-        id_left_right_triangle = e->GetLprev()->GetRight();
-        }
-      else
-        {
-        return false;
-        }
+        if( e_sym->GetLprev()->GetOrder() == 3 )
+          {
+          bool left_triangle = e->IsLnextOfTriangle( );
+          bool right_triangle = e_sym->IsLnextOfTriangle( );
+  
+          if( left_triangle && right_triangle )
+            {
+              CellIdentifier id_left_right_triangle;
+              if( e->GetLprev()->IsRightSet() )
+                {
+                id_left_right_triangle = e->GetLprev()->GetRight();
+                }
+              else
+                {
+                return false;
+                }
 
-      CellIdentifier id_left_left_triangle;
-      if( e->GetLnext()->IsRightSet() )
-        {
-        id_left_left_triangle = e->GetLnext()->GetRight();
-        }
-      else
-        {
-        return false;
-        }
+            CellIdentifier id_left_left_triangle;
+            if( e->GetLnext()->IsRightSet() )
+              {
+              id_left_left_triangle = e->GetLnext()->GetRight();
+              }
+            else
+              {
+              return false;
+              }
 
-      CellIdentifier id_right_left_triangle;
-      if( e_sym->GetLnext()->IsRightSet() )
-        {
-        id_right_left_triangle = e_sym->GetLnext()->GetRight();
-        }
-      else
-        {
-        return false;
-        }
+            CellIdentifier id_right_left_triangle;
+            if( e_sym->GetLnext()->IsRightSet() )
+              {
+              id_right_left_triangle = e_sym->GetLnext()->GetRight();
+              }
+            else
+              {
+              return false;
+              }
 
-      CellIdentifier id_right_right_triangle;
-      if( e_sym->GetLprev()->IsRightSet() )
-        {
-        id_right_right_triangle = e_sym->GetLprev()->GetRight();
-        }
-      else
-        {
-        return false;
-        }
+            CellIdentifier id_right_right_triangle;
+            if( e_sym->GetLprev()->IsRightSet() )
+              {
+              id_right_right_triangle = e_sym->GetLprev()->GetRight();
+              }
+            else
+              {
+              return false;
+              }
 
-      if( ( id_left_right_triangle == id_right_left_triangle ) &&
-          ( id_left_left_triangle == id_right_right_triangle ) )
-        {
-        return true;
+            if( ( id_left_right_triangle == id_right_left_triangle ) &&
+                ( id_left_left_triangle == id_right_right_triangle ) )
+              {
+              return true;
+              }
+            }
+          }
         }
       }
     }
