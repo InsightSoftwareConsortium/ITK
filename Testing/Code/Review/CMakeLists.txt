@@ -52,7 +52,7 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
   itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-  itkQuadEdgeMeshEulerOperatorsTest.cxx
+  ##itkQuadEdgeMeshEulerOperatorsTest.cxx
   itkQuadEdgeMeshCellInterfaceTest.cxx
   itkQuadEdgeMeshIteratorTest.cxx
   itkQuadEdgeMeshPolygonCellTest.cxx
@@ -201,8 +201,8 @@ ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS}
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
 ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS}
   itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS})
-ADD_TEST(itkQuadEdgeMeshEulerOperatorsTest ${REVIEW_TESTS}
-  itkQuadEdgeMeshEulerOperatorsTest)
+##ADD_TEST(itkQuadEdgeMeshEulerOperatorsTest ${REVIEW_TESTS}
+##  itkQuadEdgeMeshEulerOperatorsTest)
 ADD_TEST(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS}
   itkQuadEdgeMeshCellInterfaceTest)
 ADD_TEST(itkQuadEdgeMeshIteratorTest ${REVIEW_TESTS}

@@ -71,7 +71,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   if( joinFacet->Evaluate( (QEType*)1 ) )
     {
     std::cout << "FAILED." << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
   
@@ -84,7 +84,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   if( joinFacet->Evaluate( dummy ) )
     {
     std::cout << "FAILED." << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   delete dummy;
   std::cout << "OK" << std::endl;
@@ -93,7 +93,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   if( joinFacet->Evaluate( (QEType*)0 ) )
     {
     std::cout << "FAILED." << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
 
@@ -123,14 +123,10 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   
   std::cout << "     " << "Test Edge deletion (possible)";
   // Find an internal edge and collapse it
-  QEType* DeletedEdge = mesh->FindEdge( 12, 7 );
-  // Store G and H for testing the inverse with SplitFace:
-  QEType* G = DeletedEdge->GetSym( )->GetLprev( );
-  QEType* H = joinFacet->Evaluate( DeletedEdge );
-  if( !H )
+  if( !joinFacet->Evaluate( mesh->FindEdge( 12, 7 ) ) )
     {
     std::cout << "FAILED." << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
    
   // Since the edge was internal we lost an edge and an face:
@@ -138,16 +134,18 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
           ( mesh, 25, 55, 31, 1, 0 ) )
     {
     std::cout << "FAILED." << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   if ( mesh->GetPoint( 12 ).GetValence( ) != 5 )
     {
     std::cout << "FAILED [wrong valence of "
               << mesh->GetPoint( 12 ).GetValence( )
               << " ]." << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
   std::cout << "Checking JointFacet." << "OK" << std::endl << std::endl;
+
+  return EXIT_SUCCESS;
 
 }
