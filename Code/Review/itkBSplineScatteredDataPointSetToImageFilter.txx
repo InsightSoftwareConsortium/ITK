@@ -119,7 +119,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         }
       for( unsigned int j = 0; j < C.cols(); j++ )
         {
-        RealType c = pow( 2.0, static_cast<RealType>( C.cols()-j-1 ) );
+        RealType c = vcl_pow( static_cast<RealType>( 2.0 ),
+                              static_cast<RealType>( C.cols() )-j-1 );
         for( unsigned int k = 0; k < C.rows(); k++)
           {
           R(k, j) *= c;
