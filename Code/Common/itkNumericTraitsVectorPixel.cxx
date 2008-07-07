@@ -25,7 +25,8 @@ namespace itk
 #define VECTORSTATICTRAITSMACRO( T, N ) \
 const Vector<T,N>  NumericTraits<Vector<T,N> >::Zero = Vector<T,N>( NumericTraits<T>::Zero ); \
 const Vector<T,N>  NumericTraits<Vector<T,N> >::One  = Vector<T,N>( NumericTraits<T>::One ); \
-Vector<T,N>  NumericTraits<Vector<T,N> >::ZeroValue() { return NumericTraits<Vector<T,N> >::Zero; }
+Vector<T,N>  NumericTraits<Vector<T,N> >::ZeroValue() { return NumericTraits<Vector<T,N> >::Zero; } \
+Vector<T,N>  NumericTraits<Vector<T,N> >::OneValue() { return NumericTraits<Vector<T,N> >::One; }
 
 //
 // Helper macro for defining the traits of Vector<T,k> for k in [1:9]
