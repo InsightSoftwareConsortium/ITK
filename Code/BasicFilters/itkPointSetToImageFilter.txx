@@ -33,8 +33,8 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   m_Size.Fill(0);
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
-  m_InsideValue = 1;
-  m_OutsideValue = 0;
+  m_InsideValue = NumericTraits< ValueType >::OneValue();
+  m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
 }
 
 /** Destructor */
