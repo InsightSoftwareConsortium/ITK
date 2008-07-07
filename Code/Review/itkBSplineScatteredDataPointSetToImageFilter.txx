@@ -185,7 +185,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 template <class TInputPointSet, class TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::SetPointWeights( typename WeightsContainerType::Pointer weights )
+::SetPointWeights( const WeightsContainerType * weights )
 {
   this->m_UsePointWeights = true;
   this->m_PointWeights = weights;
