@@ -302,6 +302,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   double p = 1.0; 
   i = 0;
   InputPointType v1, v2, v3;
+  v1.Fill(0.);
+  v2.Fill(0.);
+  v3.Fill(0.);
 
   while( cells != myCells->End() ) 
     {
@@ -786,6 +789,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 {
   const unsigned long *tp;
   InputPointType v1, v2, v3, v4, d;
+  v1.Fill(0.);
+  v2.Fill(0.);
+  v3.Fill(0.);
+  d.Fill(0.);
+  
   double coa, cob, coc ;
   double absvec ;
 
@@ -794,10 +802,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator  normals = myNormals->Begin();
-
-  d[0] = 0.0;
-  d[1] = 0.0;
-  d[2] = 0.0;
 
   while( normals != myNormals->End() ) {
   normals.Value() = d;

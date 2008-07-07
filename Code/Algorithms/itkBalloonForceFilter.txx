@@ -1195,6 +1195,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 {
   const unsigned long *tp;
   IPixelType v1, v2, v3, v4;
+  v1.Fill(0.);
+  v2.Fill(0.);
+  v3.Fill(0.);
+  v4.Fill(0.);
+  
   float coa, cob, coc;
   float absvec;
 
