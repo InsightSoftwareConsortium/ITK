@@ -56,7 +56,7 @@ Evaluate( QEType* h )
     return( (QEType*) 0 );
     }
    
-  if(  !h->IsInternal( ) )
+  if( !h->IsInternal( ) )
     {
     itkDebugMacro( "Can only flip internal edge." );
     return( (QEType*) 0 );
@@ -67,13 +67,22 @@ Evaluate( QEType* h )
     itkDebugMacro( "Can only flip edge for triangles." );
     return( (QEType*) 0 );
     }
+
+  if( this->m_Mesh->FindEdge( h->GetOnext()->GetDestination(),
+      h->GetSym()->GetOnext()->GetDestination() ) != 0 )
+    {
+    itkDebugMacro( "The opposite edge already exists." );
+    return( (QEType*) 0 );
+    }
    
   // The following is not optimum, since we create a new face (with JoinFacet)
   // that is immediately deleted (with SplitFacet). Still we chose to write it
   // that way in the sake of maintenance simplicity (as long as JoinFacet and
   // SplitFacet are working, this operator does it job).
-  typedef QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType > JoinFacet;
-  typedef QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType> SplitFacet;
+  typedef QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType >
+    JoinFacet;
+  typedef QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType>
+    SplitFacet;
    
   QEType* G = h->GetLnext( );
   typename JoinFacet::Pointer joinFacet = JoinFacet::New( );
