@@ -25,7 +25,7 @@
 /**
  * In this test, we approximate a sequence of 3D points with a parametric curve described by B-Splines
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv [] )
+int itkBSplineScatteredDataPointSetToImageFilterTest2( int , char * [] )
 {
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
@@ -94,11 +94,12 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv [] 
       FilterType::GradientType G;
       filter->EvaluateGradient( point, G );
 
+      std::cout << V << " :  " << G << std::endl;
       }
     }
-  catch (...) 
+  catch ( itk::ExceptionObject & excp ) 
     {
-    std::cerr << "Test 2: itkBSplineScatteredDataImageFilter exception thrown" << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
