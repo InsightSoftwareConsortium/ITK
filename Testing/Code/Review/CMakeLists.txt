@@ -126,6 +126,8 @@ SET(ReviewTest_SRCS
 
   itkKappaSigmaThresholdImageCalculatorTest.cxx
   itkKappaSigmaThresholdImageFilterTest.cxx
+
+  itkComposeRGBAImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -678,6 +680,14 @@ ADD_TEST(itkImageReadMagnitudeAndPhaseWriteComplexTest ${REVIEW_TESTS}
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
         )
 
+ADD_TEST(itkComposeRGBAImageFilterTest ${REVIEW_TESTS}
+    itkComposeRGBAImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkComposeRGBAImageFilterTestOutput.png
+    ${ITK_SOURCE_DIR}/Testing/Data/Input/Number1inText.png
+    ${ITK_SOURCE_DIR}/Testing/Data/Input/Number2inText.png
+    ${ITK_SOURCE_DIR}/Testing/Data/Input/Number3inText.png
+    ${ITK_SOURCE_DIR}/Testing/Data/Input/IntensityRamp64.png
+)
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKAlgorithms

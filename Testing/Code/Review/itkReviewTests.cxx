@@ -122,6 +122,8 @@ void RegisterTests()
   REGISTER_TEST( itkKappaSigmaThresholdImageCalculatorTest );
   REGISTER_TEST( itkKappaSigmaThresholdImageFilterTest );
 
+  REGISTER_TEST( itkComposeRGBAImageFilterTest );
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif
