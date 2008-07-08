@@ -617,16 +617,16 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest10 ${REVIEW_TESTS}
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/FivePoints.png
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
         )
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest02 ${REVIEW_TESTS}
-        itkBSplineScatteredDataPointSetToImageFilterTest
+        itkBSplineScatteredDataPointSetToImageFilterTest2
         )
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest03 ${REVIEW_TESTS}
-        itkBSplineScatteredDataPointSetToImageFilterTest
+        itkBSplineScatteredDataPointSetToImageFilterTest3
         ${ITK_SOURCE_DIR}/Testing/Data/Input/BSplineScatteredApproximationDataPointsInput.txt
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsOutput.txt
         )
