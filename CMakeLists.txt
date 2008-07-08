@@ -661,12 +661,6 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     COMPONENT Development)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
-               ${ITK_BINARY_DIR}/doxygen.config)
-
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
-               ${ITK_BINARY_DIR}/itkdoxygen.pl)
-
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml.in
                ${ITK_BINARY_DIR}/ITK.kws.xml)
 

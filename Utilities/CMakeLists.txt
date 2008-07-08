@@ -10,7 +10,7 @@ CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/itkThirdParty.h.in
                ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h @ONLY IMMEDIATE)
 
 # Build jpeg first because tiff needs it
-SUBDIRS(itkjpeg)
+ADD_SUBDIRECTORY(itkjpeg)
 
 #------------------------------------------------------------------------------
 # Build third-party utilities.
@@ -28,7 +28,7 @@ ITK_THIRD_PARTY_SUBDIR(GDCM gdcm)
 IF(ITK_USE_LIBXML2)
   IF(NOT ITK_USE_SYSTEM_LIBXML2)
     IF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
-      SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
+      ADD_SUBDIRECTORY( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
     ELSE(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
       IF(NOT SVNCOMMAND)
         IF(Subversion_SVN_EXECUTABLE)
@@ -57,7 +57,7 @@ IF(ITK_USE_LIBXML2)
             )
       # Result should be 0 on success
       IF(NOT svnResult)
-        SUBDIRS( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
+        ADD_SUBDIRECTORY( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
       ELSE(NOT svnResult)
         MESSAGE(FATAL_ERROR "SVN checkout of itklibxml2 failed with error = ${svnError}")
       ENDIF(NOT svnResult)
@@ -69,18 +69,18 @@ ENDIF(ITK_USE_LIBXML2)
 
 #------------------------------------------------------------------------------
 # Other utilities libraries
-SUBDIRS(MetaIO)
-SUBDIRS(NrrdIO)
-SUBDIRS(expat)
-SUBDIRS(nifti)
-SUBDIRS(itkExtHdrs)
+ADD_SUBDIRECTORY(MetaIO)
+ADD_SUBDIRECTORY(NrrdIO)
+ADD_SUBDIRECTORY(expat)
+ADD_SUBDIRECTORY(nifti)
+ADD_SUBDIRECTORY(itkExtHdrs)
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK
 SET(DICOMPARSER_NAMESPACE itkdicomparser)
 SET(DICOMPARSER_LIBRARY ITKDICOMParser)
 SET(DICOMPARSER_STANDALONE 0)
-SUBDIRS(DICOMParser)
+ADD_SUBDIRECTORY(DICOMParser)
 
 IF(ITK_DISABLE_CXX_TESTING)
   SET(BUILD_TESTING OFF)
@@ -89,13 +89,13 @@ ENDIF(ITK_DISABLE_CXX_TESTING)
 #------------------------------------------------------------------------------
 # Configure vxl/vnl as needed
 IF(NOT ITK_USE_SYSTEM_VXL)
-  SUBDIRS(vxl)
+  ADD_SUBDIRECTORY(vxl)
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
 
 #------------------------------------------------------------------------------
 # Build testing as needed
 IF (BUILD_TESTING)
-  SUBDIRS(Dart)
+  ADD_SUBDIRECTORY(Dart)
 ENDIF (BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
@@ -124,7 +124,14 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 SET(KWSYS_INSTALL_COMPONENT_NAME_RUNTIME RuntimeLibraries)
 SET(KWSYS_INSTALL_COMPONENT_NAME_DEVELOPMENT Development)
-SUBDIRS(kwsys)
+ADD_SUBDIRECTORY(kwsys)
+
+#-----------------------------------------------------------------------------
+# ITK build configuration options.
+IF(BUILD_DOXYGEN)
+  ADD_SUBDIRECTORY(Doxygen)
+ENDIF(BUILD_DOXYGEN)
+
 
 #-----------------------------------------------------------------------------
 # Install the UseITK.cmake file configured from the top-level.
