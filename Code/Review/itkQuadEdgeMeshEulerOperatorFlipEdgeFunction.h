@@ -40,31 +40,54 @@ class ITK_EXPORT QuadEdgeMeshEulerOperatorFlipEdgeFunction :
 {
 public:
   /** Standard class typedefs. */
-   typedef QuadEdgeMeshEulerOperatorFlipEdgeFunction       Self;
-   typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >     Superclass;
-   typedef SmartPointer< Self >                            Pointer;
-   typedef SmartPointer< const Self >                      ConstPointer;
+  typedef QuadEdgeMeshEulerOperatorFlipEdgeFunction       Self;
+  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >     Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
      
-   itkNewMacro( Self );
-   /** Run-time type information (and related methods). */
-   itkTypeMacro( QuadEdgeMeshEulerOperatorFlipEdgeFunction, QuadEdgeMeshFunctionBase );
+  itkNewMacro( Self );
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( QuadEdgeMeshEulerOperatorFlipEdgeFunction,
+    QuadEdgeMeshFunctionBase );
 
-   /** Type of QuadEdge with which to apply slicing. */
-   typedef TQEType QEType;
+  /** Type of QuadEdge with which to apply slicing. */
+  typedef TQEType QEType;
 
-   typedef typename Superclass::MeshType   MeshType;
-   typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::MeshType   MeshType;
+  typedef typename Superclass::OutputType OutputType;
 
-   /** Evaluate at the specified input position */
-   virtual OutputType Evaluate( QEType* h );
+  enum EdgeStatusType
+  {
+    STANDARD_CONFIG = 0,
+    EDGE_NULL,
+    MESH_NULL,
+    NON_INTERNAL_EDGE,
+    NON_TRIANGULAR_RIGHT_FACE,
+    NON_TRIANGULAR_LEFT_FACE,
+    EXISTING_OPPOSITE_EDGE
+  };
+
+  /** Evaluate at the specified input position */
+  virtual OutputType Evaluate( QEType* h );
+
+  itkGetMacro( EdgeStatus, EdgeStatusType );
 
 protected:
-   QuadEdgeMeshEulerOperatorFlipEdgeFunction(){};
-  ~QuadEdgeMeshEulerOperatorFlipEdgeFunction(){};
+  QuadEdgeMeshEulerOperatorFlipEdgeFunction();
+  ~QuadEdgeMeshEulerOperatorFlipEdgeFunction(){}
+
+  void PrintSelf(std::ostream& os, Indent indent) const;
+  EdgeStatusType m_EdgeStatus;
+
+  void CheckStatus( QEType* h );
+
+  OutputType Process( QEType* h );
 
 private:
-   QuadEdgeMeshEulerOperatorFlipEdgeFunction(const Self& ); //purposely not implemented
-   void operator=(const Self& );                //purposely not implemented
+  //purposely not implemented
+  QuadEdgeMeshEulerOperatorFlipEdgeFunction(const Self& );
+  //purposely not implemented
+  void operator=(const Self& );
 
 };
 
