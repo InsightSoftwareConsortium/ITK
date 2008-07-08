@@ -123,6 +123,8 @@ SET(ReviewTest_SRCS
   itkWarpHarmonicEnergyCalculatorTest.cxx
 
   itkBSplineScatteredDataPointSetToImageFilterTest.cxx
+  itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
+  itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 
   itkKappaSigmaThresholdImageCalculatorTest.cxx
   itkKappaSigmaThresholdImageFilterTest.cxx
@@ -617,6 +619,16 @@ ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FivePoints.png
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
+        )
+
+ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest02 ${REVIEW_TESTS}
+        itkBSplineScatteredDataPointSetToImageFilterTest
+        )
+
+ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest03 ${REVIEW_TESTS}
+        itkBSplineScatteredDataPointSetToImageFilterTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/BSplineScatteredApproximationDataPointsInput.txt
+        ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsOutput.txt
         )
 
 ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest01 ${REVIEW_TESTS}

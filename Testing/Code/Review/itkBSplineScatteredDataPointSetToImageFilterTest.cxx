@@ -28,8 +28,14 @@
  * image.  We write the output to an image for
  * comparison.
  */
-int itkBSplineScatteredDataPointSetToImageFilterInternalTest1( int argc, char **argv )
+int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 {
+  if ( argc != 3 )
+    {
+    std::cout << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 1;
 
@@ -123,115 +129,3 @@ int itkBSplineScatteredDataPointSetToImageFilterInternalTest1( int argc, char **
 
   return EXIT_SUCCESS; 
 };
-
-/**
- * In this example, we sample a parametric curve (helix)
- * and reconstruct using B-splines.
- */
-int itkBSplineScatteredDataPointSetToImageFilterInternalTest2()
-{
-  const unsigned int ParametricDimension = 1;
-  const unsigned int DataDimension = 3;
-
-  typedef double RealType;
-  typedef itk::Vector<RealType, DataDimension> VectorType;
-  typedef itk::Image<VectorType, ParametricDimension> ImageType;  
-
-  typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
-  PointSetType::Pointer pointSet = PointSetType::New();  
-
-  // Sample the helix.
-  for ( RealType t = 0.0; t <= 1.0+1e-10; t += 0.05 )
-    {
-    unsigned long i = pointSet->GetNumberOfPoints();
-
-    PointSetType::PointType point;
-    point[0] = t;
-    pointSet->SetPoint( i, point );        
-
-    VectorType V;
-    V[0] = 0.25*cos(t*6.0*3.141);
-    V[1] = 0.25*sin(t*6.0*3.141);
-    V[2] = 4.0*t;
-
-    pointSet->SetPointData( i, V );
-    }
-
-  // Instantiate the filter and set the parameters
-  typedef itk::BSplineScatteredDataPointSetToImageFilter
-     <PointSetType, ImageType>  FilterType;
-  FilterType::Pointer filter = FilterType::New();
-  
-  // Define the parametric domain
-  ImageType::SpacingType spacing;  
-  spacing.Fill( 0.001 );
-  ImageType::SizeType size;  
-  size.Fill( static_cast<unsigned int>( 1.0/spacing[0] ) + 1 );
-  ImageType::PointType origin;  
-  origin.Fill( 0.0 );
-
-  filter->SetSize( size );
-  filter->SetOrigin( origin );
-  filter->SetSpacing( spacing );
-  filter->SetInput( pointSet );
-
-  filter->SetSplineOrder( 3 );  
-  FilterType::ArrayType ncps;
-  ncps.Fill( 4 );  
-  filter->SetNumberOfControlPoints( ncps );
-  filter->SetNumberOfLevels( 5 );
-  filter->SetGenerateOutputImage( false );
-
-  try 
-    {
-    filter->Update();
-    
-    for ( RealType t = 0.0; t <= 1.0+1e-10; t += 0.01 )
-      {
-      PointSetType::PointType point;
-      point[0] = t;
-
-      VectorType V; 
-      filter->Evaluate( point, V );
-
-      FilterType::GradientType G;
-      filter->EvaluateGradient( point, G );
-
-      }
-    }
-  catch (...) 
-    {
-    std::cerr << "Test 2: itkBSplineScatteredDataImageFilter exception thrown" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  return EXIT_SUCCESS;
-};
-
-int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char **argv )
-{
-  if ( argc != 3 )
-    {
-    std::cout << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
-    return EXIT_FAILURE;
-    }
-  
-  bool test1 = itkBSplineScatteredDataPointSetToImageFilterInternalTest1( argc, argv );
-  bool test2 = itkBSplineScatteredDataPointSetToImageFilterInternalTest2();
-  
-  return ( test1 && test2 );
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

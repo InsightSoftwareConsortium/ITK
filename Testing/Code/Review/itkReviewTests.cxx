@@ -118,6 +118,8 @@ void RegisterTests()
   REGISTER_TEST( itkWarpHarmonicEnergyCalculatorTest );
   
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest );
+  REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest2 );
+  REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest3 );
  
   REGISTER_TEST( itkKappaSigmaThresholdImageCalculatorTest );
   REGISTER_TEST( itkKappaSigmaThresholdImageFilterTest );
