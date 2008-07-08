@@ -623,12 +623,13 @@ ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest02 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest2
+        ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsTestOutput2.txt
         )
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest03 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest3
         ${ITK_SOURCE_DIR}/Testing/Data/Input/BSplineScatteredApproximationDataPointsInput.txt
-        ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsOutput.txt
+        ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsTestOutput3.txt
         )
 
 ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest01 ${REVIEW_TESTS}

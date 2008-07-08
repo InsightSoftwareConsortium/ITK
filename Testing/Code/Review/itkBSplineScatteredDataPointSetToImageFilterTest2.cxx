@@ -25,8 +25,17 @@
 /**
  * In this test, we approximate a sequence of 3D points with a parametric curve described by B-Splines
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest2( int , char * [] )
+int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv [] )
 {
+
+  if( argc < 2 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << argv[0] << "outputPointsAndTangents.txt" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
 
@@ -37,6 +46,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int , char * [] )
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
   PointSetType::Pointer pointSet = PointSetType::New();  
+
+  std::cout << "Input Data" << std::endl;
 
   // Sample the helix.
   for ( RealType t = 0.0; t <= 1.0+1e-10; t += 0.05 )
@@ -51,6 +62,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int , char * [] )
     V[0] = 0.25*cos(t*6.0*3.141);
     V[1] = 0.25*sin(t*6.0*3.141);
     V[2] = 4.0*t;
+
+    std::cout << V << std::endl;
 
     pointSet->SetPointData( i, V );
     }
@@ -82,20 +95,30 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int , char * [] )
   try 
     {
     filter->Update();
+  
+    std::ofstream outputFile;
+
+    outputFile.open( argv[1] );
     
+    PointSetType::PointType parameterPosition;
+    VectorType V; 
+    FilterType::GradientType G;
+
     for ( RealType t = 0.0; t <= 1.0+1e-10; t += 0.01 )
       {
-      PointSetType::PointType point;
-      point[0] = t;
+      parameterPosition[0] = t;
 
-      VectorType V; 
-      filter->Evaluate( point, V );
+      filter->Evaluate( parameterPosition, V );
+      filter->EvaluateGradient( parameterPosition, G );
 
-      FilterType::GradientType G;
-      filter->EvaluateGradient( point, G );
-
-      std::cout << V << " :  " << G << std::endl;
+      outputFile << V[0] << " " << V[1] << " " << V[2];
+      outputFile << " : ";
+      outputFile << G[0][0] << " " << G[1][0] << " " << G[2][0];
+      outputFile << std::endl;
       }
+
+    outputFile.close();
+
     }
   catch ( itk::ExceptionObject & excp ) 
     {

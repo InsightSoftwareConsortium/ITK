@@ -40,9 +40,9 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   const unsigned int DataDimension = 3;
 
   typedef double                                         RealType;
-  typedef itk::Vector<RealType, DataDimension>            VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>     ImageType;  
-  typedef VectorType                                      PointSetPixelType;
+  typedef itk::Vector<RealType, DataDimension>           VectorType;
+  typedef itk::Image<VectorType, ParametricDimension>    ImageType;  
+  typedef VectorType                                     PointSetPixelType;
 
   typedef itk::PointSet< PointSetPixelType, ParametricDimension > PointSetType;
 
@@ -59,6 +59,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
   unsigned int pointCounter = 0;
 
+  std::cout << "Input Data" << std::endl;
+
   inputFile >> P;
 
   //  FIXME: add parameterization of the input points, in the range [0:1]
@@ -68,6 +70,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
     {
     parameterPosition[0] = t;
     t += 0.01; // FIXME
+
+    std::cout << P << std::endl;
 
     pointSet->SetPoint( pointCounter, parameterPosition );        
     pointSet->SetPointData( pointCounter, P );
@@ -121,7 +125,10 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
       filter->Evaluate( parameterPosition, P );
       filter->EvaluateGradient( parameterPosition, G );
 
-      outputFile << P << " " << G << std::endl;
+      outputFile << P[0] << " " << P[1] << " " << P[2];
+      outputFile << " : ";
+      outputFile << G[0][0] << " " << G[1][0] << " " << G[2][0];
+      outputFile << std::endl;
       }
 
     outputFile.close();
