@@ -100,6 +100,10 @@ public:
    *  RGBPixel type and standard types (not vectors) */
   static T ZeroValue() { return Zero; }
 
+  /** Return one value. This function should be used to support
+   *  RGBPixel type and standard types (not vectors) */
+  static T OneValue() { return One; }
+
   /* Provide a default implementation of the max() method with
    * argument. This API is needed for VariableLengthVector because
    * its length is only known at run-time. Specializations of the
@@ -138,6 +142,7 @@ public:
   static bool IsNegative(bool /* val */) { return false; }
   static bool IsNonnegative(bool /*val*/) {return true; }
   static bool ZeroValue() { return Zero; }
+  static bool OneValue() { return One; }
 };
 
 /** \class NumericTraits<char>
@@ -167,6 +172,7 @@ public:
   static bool IsNegative(char val) { return val < Zero; }
   static bool IsNonnegative(char val) {return val >= Zero; }
   static char ZeroValue() { return Zero; }
+  static char OneValue() { return One; }
 };
 
 /** \class NumericTraits<char>
@@ -196,6 +202,7 @@ public:
   static bool IsNegative(signed char val) { return val < Zero; }
   static bool IsNonnegative(signed char val) {return val >= Zero; }
   static signed char  ZeroValue() { return Zero; }
+  static signed char OneValue() { return One; }
 };
 
 /** \class NumericTraits<unsigned char>
@@ -223,6 +230,7 @@ public:
   static bool IsNegative(unsigned char /* val */) { return false; }
   static bool IsNonnegative(unsigned char /*val */) {return true; }
   static unsigned char  ZeroValue() { return Zero; }
+  static unsigned char OneValue() { return One; }
 };
 
 /** \class NumericTraits<short>
@@ -248,6 +256,7 @@ public:
   static bool IsNegative(short val) { return val < Zero; }
   static bool IsNonnegative(short val) {return val >= Zero; }
   static short  ZeroValue() { return Zero; }
+  static short OneValue() { return One; }
 };
 
 /** \class NumericTraits<unsigned short>
@@ -274,6 +283,7 @@ public:
   static bool IsNegative(unsigned short/* val*/) { return false; }
   static bool IsNonnegative(unsigned short /*val*/) {return true; }
   static unsigned short  ZeroValue() { return Zero; }
+  static unsigned short OneValue() { return One; }
 };
 
 /** \class NumericTraits<int>
@@ -299,6 +309,7 @@ public:
   static bool IsNegative(int val) { return val < Zero; }
   static bool IsNonnegative(int val) {return val >= Zero; }
   static int  ZeroValue() { return Zero; }
+  static int OneValue() { return One; }
 };
 
 /** \class NumericTraits<unsigned int>
@@ -328,6 +339,7 @@ public:
   static bool IsNegative(unsigned int /*val*/) { return false; }
   static bool IsNonnegative(unsigned int /*val*/) {return true; }
   static unsigned int  ZeroValue() { return Zero; }
+  static unsigned int OneValue() { return One; }
 };
 
 /** \class NumericTraits<long>
@@ -354,6 +366,7 @@ public:
   static bool IsNegative(long val) { return val < Zero; }
   static bool IsNonnegative(long val) {return val >= Zero; }
   static long  ZeroValue() { return Zero; }
+  static long OneValue() { return One; }
 };
 
 /** \class NumericTraits<unsigned long>
@@ -380,6 +393,7 @@ public:
   static bool IsNegative(unsigned long) { return false; }
   static bool IsNonnegative(unsigned long) {return true; }
   static unsigned long  ZeroValue() { return Zero; }
+  static unsigned long  OneValue() { return One; }
 };
 
 /** \class NumericTraits<float>
@@ -406,6 +420,7 @@ public:
   static bool IsNegative(float val) { return val < Zero; }
   static bool IsNonnegative(float val) {return val >= Zero; }
   static float  ZeroValue() { return Zero; }
+  static float  OneValue() { return One; }
 };
 
 /** \class NumericTraits<double>
@@ -432,6 +447,7 @@ public:
   static bool IsNegative(double val) { return val < Zero; }
   static bool IsNonnegative(double val) {return val >= Zero; }
   static double  ZeroValue() { return Zero; }
+  static double  OneValue() { return One; }
 };
 
 /** \class NumericTraits<long double>
@@ -458,6 +474,7 @@ public:
   static bool IsNegative(long double val) { return val < Zero; }
   static bool IsNonnegative(long double val) {return val >= Zero; }
   static long double ZeroValue() { return Zero; }
+  static long double OneValue() { return One; }
 };
 
 /** \class NumericTraits< std::complex<float> >
@@ -487,6 +504,7 @@ public:
   static bool IsNegative(TheType val) { return val.real() < 0.0; }
   static bool IsNonnegative(TheType val) {return val.real() >= 0.0; }
   static TheType ZeroValue() { return Zero; }
+  static TheType OneValue() { return One; }
 };
 
 
@@ -517,6 +535,7 @@ public:
   static bool IsNegative(TheType val) { return val.real() < 0.0; }
   static bool IsNonnegative(TheType val) {return val.real() >= 0.0; }
   static TheType ZeroValue() { return Zero; }
+  static TheType OneValue() { return One; }
 };
 
 
