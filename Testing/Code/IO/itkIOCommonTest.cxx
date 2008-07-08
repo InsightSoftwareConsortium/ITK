@@ -19,6 +19,7 @@
 #endif
 
 #include "itkIOCommon.h"
+#include <cstring>
 #include <string>
 #include <itksys/SystemTools.hxx>
 
