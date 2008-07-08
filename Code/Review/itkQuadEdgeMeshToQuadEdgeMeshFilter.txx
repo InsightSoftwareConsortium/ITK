@@ -30,8 +30,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   this->Superclass::SetNumberOfRequiredInputs( 1 );
   this->Superclass::SetNumberOfRequiredOutputs( 1 );
 
-  typename TInputMesh::Pointer out = TInputMesh::New();
-  this->Superclass::SetNthOutput( 0, out.GetPointer() );
+  this->Superclass::SetNthOutput( 0, OutputMeshType::New() );
 }
 
 // ---------------------------------------------------------------------

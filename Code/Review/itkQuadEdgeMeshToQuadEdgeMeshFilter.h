@@ -37,7 +37,7 @@ class QuadEdgeMeshToQuadEdgeMeshFilter
 {
 public:
   /** Basic types. */
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter                                    Self;
+  typedef QuadEdgeMeshToQuadEdgeMeshFilter            Self;
   typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
   typedef SmartPointer< Self >                        Pointer;
   typedef SmartPointer< const Self >                  ConstPointer;
