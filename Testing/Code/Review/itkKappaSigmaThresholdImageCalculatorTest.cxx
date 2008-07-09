@@ -25,12 +25,12 @@
 
 int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
 {
-  if( argc < 3 )
+  if( argc < 5 )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
     std::cerr << argv[0] << std::endl;
-    std::cerr << "inputImage expectedThreshold" << std::endl;
+    std::cerr << "inputImage numberOfIterations sigmaFactor expectedThreshold" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -62,8 +62,8 @@ int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
   /* Create and initialize the calculator */
   CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage( reader->GetOutput() );
-  calculator->SetNumberOfIterations( 10 );
-  calculator->SetSigmaFactor( 1.2 );
+  calculator->SetNumberOfIterations( atoi( argv[2] ) );
+  calculator->SetSigmaFactor( atof( argv[3] ) );
   calculator->SetMaskValue( 255 );
 
   // Exercise Get methods
@@ -80,7 +80,9 @@ int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
   std::cout << "Threshold: " << threshold;
   std::cout << std::endl;
 
-  PixelType expectedThreshold = atoi( argv[2] );
+  // Note that this notion of "expected" value is only for regression testing of the class.
+  // In a typical usage of this class, you will simply take the calculator->GetOutput().
+  PixelType expectedThreshold = atoi( argv[4] );
 
   if( vnl_math_abs( expectedThreshold - threshold ) > 1e-3 )
     {
