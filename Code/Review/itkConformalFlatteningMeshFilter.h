@@ -24,7 +24,7 @@
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_sparse_matrix.h>
 
-#include "itkConformalFlatteningFunction.h"
+// #include "itkConformalFlatteningFunction.h"
 
 namespace itk
 {

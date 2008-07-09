@@ -52,7 +52,6 @@ SET(ReviewTest_SRCS
   itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
   itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-  ##itkQuadEdgeMeshEulerOperatorsTest.cxx
   itkQuadEdgeMeshCellInterfaceTest.cxx
   itkQuadEdgeMeshIteratorTest.cxx
   itkQuadEdgeMeshPolygonCellTest.cxx
@@ -262,8 +261,6 @@ ADD_TEST(itkConformalFlatteningMeshFilterTest1 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroMesh01ConformalFlattenedToSphere.vtk
-                 319
-                 100.0
                  1
                  )
 
@@ -280,8 +277,6 @@ ADD_TEST(itkConformalFlatteningMeshFilterTest2 ${REVIEW_TESTS}
                  itkConformalFlatteningMeshFilterTest
                  ${INPUTDATA}/genusZeroSurface01.vtk
                  ${TEMP}/genusZeroMesh01ConformalFlattenedToPlane.vtk
-                 319
-                 100.0
                  0
                  )
 

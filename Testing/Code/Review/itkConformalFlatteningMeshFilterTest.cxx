@@ -25,11 +25,11 @@
 
 int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 {
-  if( argc != 6 )
+  if( argc != 4 )
     {
-    std::cerr << "Usage: itkConformalFlatteningMeshFilterTest "
-     << "vtkInputFilename vtkOutputFilename "
-     << "polarCellId scale mapToSphere[0:1]" << std::endl;
+     std::cerr << "Usage: "<< argv[0] \
+               << "vtkInputFilename vtkOutputFilename mapToSphere[0:1]\n";
+
     return EXIT_FAILURE;
     }
 
@@ -72,10 +72,11 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
   // Connect the input
   filter->SetInput( mesh );
 
-  CellIdentifier  polarCellId = atoi( argv[3] );
+  //  CellIdentifier  polarCellId = atoi( argv[3] );
+  CellIdentifier  polarCellId = 0; // default set to the first cell
   filter->SetPolarCellIdentifier( polarCellId );
 
-  int mapToSphere = atoi( argv[5] );
+  int mapToSphere = atoi( argv[3] );
 
   if( mapToSphere == 1 )
     {
@@ -86,9 +87,8 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
     filter->MapToPlane();
     }
 
-  double scale = atof( argv[4] );
-
-  filter->SetScale( scale );
+  //  double scale = atof( argv[4] );
+  //  filter->SetScale( scale );
 
   // Execute the filter
 

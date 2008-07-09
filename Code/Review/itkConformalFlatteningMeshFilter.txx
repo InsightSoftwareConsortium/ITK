@@ -21,10 +21,9 @@
 #include "itkExceptionObject.h"
 
 #include "vnl/vnl_math.h"
-#include "vcl_algorithm.h"
 
-#include <vnl/vnl_cost_function.h>
-#include <vnl/algo/vnl_conjugate_gradient.h>
+#include <float.h>  // for DBL_MIN
+
 
 namespace itk
 {
@@ -37,7 +36,13 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 {
   this->m_PolarCellIdentifier = 0;
   this->m_MapToSphere = false;
-  this->m_MapScale = 1.0;
+
+  this->m_MapScale = -1.0;
+  // If during the stage when this parameter is used and it is still
+  // -1.0, then it indicates that the user doesn't assign a scale
+  // factor. Then automatically calculate it s.t. after doing the
+  // stereo-graphic projection, upper and lowwer hemi-sphere will have
+  // same number of vertics.
 }
 
 /**
@@ -149,8 +154,6 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   SparseMatrixCoordType D(numberOfPoints,numberOfPoints);
 
-  VectorCoordType x(numberOfPoints, 0.0);
-  VectorCoordType y(numberOfPoints, 0.0);
   VectorCoordType bx(numberOfPoints, 0.0);
   VectorCoordType by(numberOfPoints, 0.0);
 
@@ -428,21 +431,67 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     cellIterator++;
     }
 
-  ConformalFlatteningFunction functionX(D,bx);
-  vnl_conjugate_gradient conjugateGradientX(functionX);
 
-  conjugateGradientX.minimize(x);
-  itkDebugMacro("Conjugate Gradient min of " << functionX.f(x));
-  //itkDebugMacro("x " << x );
-  conjugateGradientX.diagnose_outcome();
+  VectorCoordType x(numberOfPoints, 0.0);
+  VectorCoordType y(numberOfPoints, 0.0);
+  {
+  // solving Ax = b (D x = bx)
+  VectorCoordType Dx;
+  D.pre_mult(x, Dx);
 
-  ConformalFlatteningFunction functionY(D,by);
-  vnl_conjugate_gradient conjugateGradientY(functionY);
+  VectorCoordType Dy;
+  D.pre_mult(y, Dy);
 
-  conjugateGradientY.minimize(y);
-  itkDebugMacro("Conjugate Gradient min of " << functionY.f(y));
-  //itkDebugMacro("y " << y );
-  conjugateGradientY.diagnose_outcome();
+
+  VectorCoordType rx = bx - Dx;
+  VectorCoordType px = rx;
+
+  VectorCoordType ry = by - Dy;
+  VectorCoordType py = ry;
+
+
+  int numIter = bx.size();
+  numIter += numIter/10; // let the iteration times a little more than the dimesion
+
+  double tol = 1e-10;
+
+  for (int i = 0; i <= numIter; ++i)
+    {
+    VectorCoordType Dpx;
+    D.pre_mult(px, Dpx);
+    VectorCoordType Dpy;
+    D.pre_mult(py, Dpy);
+ 
+    double pDpx = inner_product(px, Dpx);
+    double pDpy = inner_product(py, Dpy);
+    
+    double alphax = inner_product(px, rx)/(pDpx + DBL_MIN);
+    double alphay = inner_product(py, ry)/(pDpy + DBL_MIN);
+
+
+    x += alphax*px;
+    y += alphay*py;
+
+    rx -= alphax*Dpx;
+    ry -= alphay*Dpy;
+
+    if (inner_product(rx, rx) < tol && inner_product(ry, ry) < tol)
+      {
+      break;
+      }
+
+    VectorCoordType Drx;
+    D.pre_mult(rx, Drx);
+    VectorCoordType Dry;
+    D.pre_mult(ry, Dry);
+
+    double betax = -inner_product(px, Drx)/(pDpx + DBL_MIN);
+    double betay = -inner_product(py, Dry)/(pDpy + DBL_MIN);
+
+    px = rx + betax*px;
+    py = ry + betay*py;
+    }
+  }
 
   typename OutputPointsContainer::Iterator      outputPointIterator =
     outPoints->Begin();
@@ -467,13 +516,37 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   if( this->m_MapToSphere )
     {
+    if (m_MapScale < 0)
+      {
+      // < 0 means user doesn't explictly assign it. Then
+      // automatically calculate it s.t. after doing the
+      // stereo-graphic projection, upper and lowwer hemi-sphere will have
+      // same number of vertics.
+
+      std::vector<double> v_r2(numberOfPoints);
+      std::vector<double>::iterator itv_r2=v_r2.begin();
+    
+      for (unsigned int i = 0; i < numberOfPoints;  ++i, ++itv_r2) 
+        {
+          *itv_r2 = x(i)*x(i) + y(i)*y(i);
+        }
+          
+      sort(v_r2.begin(), v_r2.end());
+      unsigned int uiMidPointIdx = (unsigned int)round(numberOfPoints/2)-1;
+      this->m_MapScale = 1.0/sqrt(v_r2[uiMidPointIdx]);
+      }
+
+
     while( outputPointIterator != outputPointEnd )
       {
-      double radius2 = x(i) * x(i) + y(i) * y(i);
+      double xx = (this->m_MapScale) * x(i);
+      double yy = (this->m_MapScale) * y(i);
 
-      point[0] = 2.0 * this->m_MapScale * x(i) / (1.0 + radius2);
-      point[1] = 2.0 * this->m_MapScale * y(i) / (1.0 + radius2);
-      point[2] = 2.0 * this->m_MapScale * radius2 / (1.0 + radius2) - 1.0;
+      double radius2 = xx*xx + yy*yy;
+
+      point[0] = 2.0*xx/(1.0 + radius2);
+      point[1] = 2.0*yy/(1.0 + radius2);
+      point[2] = 2.0*radius2/(1.0 + radius2) - 1.0;
 
       if( point[0] < bounds[0] ) { bounds[0] = point[0]; }
       if( point[0] > bounds[1] ) { bounds[1] = point[0]; }
@@ -493,8 +566,8 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     {
     while( outputPointIterator != outputPointEnd )
       {
-      point[0] = this->m_MapScale * x(i);
-      point[1] = this->m_MapScale * y(i);
+      point[0] = x(i);
+      point[1] = y(i);
 
       if( point[0] < bounds[0] ) { bounds[0] = point[0]; }
       if( point[0] > bounds[1] ) { bounds[1] = point[0]; }
@@ -535,3 +608,4 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 } // end namespace itk
 
 #endif
+
