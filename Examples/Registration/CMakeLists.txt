@@ -132,6 +132,12 @@ TARGET_LINK_LIBRARIES(ChangeInformationImageFilter ITKIO )
 ADD_EXECUTABLE(DeformableRegistration15 DeformableRegistration15.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration15 ITKIO ITKStatistics ITKNumerics)
 
+ADD_EXECUTABLE(DeformableRegistration16 DeformableRegistration16.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration16 ITKIO ITKStatistics ITKNumerics)
+
+ADD_EXECUTABLE(DeformableRegistration17 DeformableRegistration17.cxx )
+TARGET_LINK_LIBRARIES(DeformableRegistration17 ITKIO ITKStatistics ITKNumerics)
+
 ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
 TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKIO)
 
