@@ -35,6 +35,14 @@
 
 int itkComposeRGBAImageFilterTest(int argc, char* argv[])
 {
+
+  if( argc < 6 )
+    {
+    std::cerr << "Error: missing arguments" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " outputFile inputFileR inputFileG inputFileB inputFileA" << std::endl;
+    }
+
   try
     {
     // ARGUMENTS:

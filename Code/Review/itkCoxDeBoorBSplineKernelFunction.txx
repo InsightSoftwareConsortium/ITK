@@ -167,10 +167,11 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
     RealType a = 0.0;
     RealType b = 0.0;;
     os << indent << indent;
+
     PolynomialType( this->m_BSplineShapeFunctions.get_row( i ) ).print( os );
+
     if( i == 0 )
       {
-      a = 0.0;
       if( this->m_SplineOrder % 2 == 0 )
         {
         b = 0.5;
@@ -185,6 +186,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
       a = b;
       b += 1.0;
       }
+
     os << ",  X \\in [" << a << ", " << b << "]" << std::endl;
     }
 }

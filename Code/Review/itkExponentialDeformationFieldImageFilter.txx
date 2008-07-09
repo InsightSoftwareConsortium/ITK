@@ -127,7 +127,7 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
       }
     else
       {
-      numiter = 0;
+      // numiter will keep the zero to which it was initialized
       }
     }
   else
