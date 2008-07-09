@@ -648,12 +648,14 @@ ADD_TEST(itkKappaSigmaThresholdImageFilterTest01 ${REVIEW_TESTS}
         itkKappaSigmaThresholdImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence1.png
         ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest01.mha
+        10 3.5
         )
 
 ADD_TEST(itkKappaSigmaThresholdImageFilterTest02 ${REVIEW_TESTS}
         itkKappaSigmaThresholdImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/CellsFluorescence2.png
         ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.mha
+        10 3.0
         )
 
 ADD_TEST(itkMultiplyByConstantImageFilterTest ${REVIEW_TESTS}

@@ -26,15 +26,16 @@
 
 int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
 {
-  if( argc < 3 )
+
+  if( argc < 5 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImageFile outputImageFile";
+    std::cerr << " inputImageFile outputImageFile iterations sigmaFactor";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
-  typedef  short          InputPixelType;
+  typedef  unsigned char  InputPixelType;
   typedef  unsigned char  MaskPixelType;
   typedef  unsigned char  OutputPixelType;
 
@@ -64,8 +65,8 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
   filter->SetOutsideValue( 0 );
   filter->SetInsideValue( 255 );
   filter->SetMaskValue( 255 );
-  filter->SetSigmaFactor( 1.2 );
-  filter->SetNumberOfIterations( 20 );
+  filter->SetSigmaFactor( atof( argv[3] ) );
+  filter->SetNumberOfIterations( atoi( argv[4] ) );
 
   filter->Print( std::cout );
 
