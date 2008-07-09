@@ -17,9 +17,15 @@
 // - Due to the way vnl_matrix is represented in memory cannot guarantee 16-byte alignment,
 //   therefore have to use slower unaligned loading intrinsics for matrices.
 // - The GCC 3.4 intrinsics seem to be horrendously slow...
+// - On Mac OS X, in order to support Universal Binaries, we do not consider it a hard
+//   error if VNL_CONFIG_ENABLE_SSE2 is true for PowerPC builds. PowerPC obviously does
+//   not support SSE2, so we simply redefine it to false.
 
 #if VNL_CONFIG_ENABLE_SSE2
-# if !VXL_HAS_EMMINTRIN_H
+# if defined(__APPLE__) && (defined(__ppc__) || defined(__ppc64__))
+#   undef VNL_CONFIG_ENABLE_SSE2
+#   define VNL_CONFIG_ENABLE_SSE2 0
+# elif !VXL_HAS_EMMINTRIN_H
 #   error "Required file emmintrin.h for SSE2 not found"
 # else
 #   include <emmintrin.h> //sse 2 intrinsics
