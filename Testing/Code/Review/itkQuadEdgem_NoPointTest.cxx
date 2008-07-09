@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkGeometricalQuadEdge.h"
 #include "itkQuadEdgeMesh.h"
 #include <iostream>
 #include <vcl_limits.h>
@@ -36,6 +35,14 @@ int itkQuadEdgem_NoPointTest( int , char* [] )
   std::cout << "VCL limit:     " << VCL_LIMIT << std::endl;
   std::cout << "Geom QE limit: " << GQE_LIMIT << std::endl;
   std::cout << "QE mesh limit: " << QEM_LIMIT << std::endl;
-  
+ 
+  if( VCL_LIMIT != GQE_LIMIT ) return EXIT_FAILURE;
+  if( VCL_LIMIT != QEM_LIMIT ) return EXIT_FAILURE;
+  if( QEM_LIMIT != GQE_LIMIT ) return EXIT_FAILURE;
+
+  if( VCL_LIMIT == 0 ) return EXIT_FAILURE;
+  if( GQE_LIMIT == 0 ) return EXIT_FAILURE;
+  if( QEM_LIMIT == 0 ) return EXIT_FAILURE;
+
   return EXIT_SUCCESS;
 }
