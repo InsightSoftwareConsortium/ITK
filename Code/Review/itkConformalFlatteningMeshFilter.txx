@@ -531,8 +531,8 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
           *itv_r2 = x(i)*x(i) + y(i)*y(i);
         }
           
-      sort(v_r2.begin(), v_r2.end());
-      unsigned int uiMidPointIdx = (unsigned int)round(numberOfPoints/2)-1;
+      std::sort(v_r2.begin(), v_r2.end());
+      unsigned int uiMidPointIdx = (unsigned int)vnl_math_rnd(numberOfPoints/2.0)-1.0;
       this->m_MapScale = 1.0/sqrt(v_r2[uiMidPointIdx]);
       }
 
