@@ -21,6 +21,8 @@
 #include "itkLineCell.h"
 #include "itkTriangleCellTopology.h"
 
+#include <vector>
+
 namespace itk
 {
 
@@ -40,7 +42,8 @@ namespace itk
  */
 
 template < typename TCellInterface >
-class ITK_EXPORT TriangleCell: public TCellInterface, private TriangleCellTopology
+class ITK_EXPORT TriangleCell:
+  public TCellInterface, private TriangleCellTopology
 {
 public:
   /** Standard class typedefs. */
@@ -71,7 +74,8 @@ public:
   virtual unsigned int GetDimension(void) const;
   virtual unsigned int GetNumberOfPoints(void) const;
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,
+    CellAutoPointer &);
   virtual void SetPointIds(PointIdConstIterator first);
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last);
@@ -84,8 +88,8 @@ public:
   /** Triangle-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
   virtual CellFeatureCount GetNumberOfEdges(void) const;
-  virtual bool  GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
-  virtual bool  GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
+  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
   
   virtual bool EvaluatePosition(CoordRepType*,
                                 PointsContainer* ,
@@ -98,18 +102,14 @@ public:
   itkCellVisitMacro(Superclass::TRIANGLE_CELL);
 
  public:
-  TriangleCell()
-    {
-    for (unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++)
-      {
-      m_PointIds[i] = NumericTraits<unsigned long>::max();
-      }
-    }
+  TriangleCell() :
+    m_PointIds( NumberOfPoints, NumericTraits<PointIdentifier>::max() )
+    {}
   ~TriangleCell() {}
 
  protected:
   /** Store the number of points needed for a triangle. */
-  PointIdentifier m_PointIds[NumberOfPoints];
+  std::vector< PointIdentifier > m_PointIds;
 
  private:
   TriangleCell(const Self&); //purposely not implemented

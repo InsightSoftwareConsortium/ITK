@@ -146,9 +146,9 @@ TriangleCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i)
+  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i, ++ii)
     {
-    m_PointIds[i] = *ii++;
+    m_PointIds[i] = *ii;
     }
 }
 
@@ -168,7 +168,7 @@ TriangleCell< TCellInterface >
   int localId=0;
   PointIdConstIterator ii(first);
   
-  while(ii != last)
+  while( ( ii != last ) && ( localId < NumberOfPoints ) )
     {
     m_PointIds[localId++] = *ii++;
     }
