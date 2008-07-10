@@ -442,6 +442,85 @@ TriangleCell< TCellInterface >::ComputeArea( PointsContainer* iPoints )
   return vcl_sqrt( s * ( s - a ) * ( s - b ) * ( s - c ) );
 }
 
+template <typename TCellInterface>
+typename TriangleCell< TCellInterface >::PointType
+TriangleCell< TCellInterface >::ComputeBarycenter(
+  CoordRepType* iWeights, PointsContainer* iPoints )
+{
+  PointType p[3];
+  CoordRepType sum_weights(0.);
+  unsigned int i(0);
+
+  for( ; i < 3; i++ )
+    {
+    sum_weights += iWeights[i];
+    p[i] = iPoints->GetElement( m_PointIds[i] );
+    }
+
+  PointType oP;
+
+  if( sum_weights != 0. )
+    {
+    oP.Fill( 0. );
+    for( i = 0; i < 3; i++ )
+      oP += p[i].GetVectorFromOrigin() * iWeights[i] / sum_weights;
+    }
+  else
+    {
+    oP = p[0];
+    }
+  return oP;
+}
+
+template <typename TCellInterface>
+typename TriangleCell< TCellInterface >::PointType
+TriangleCell< TCellInterface >::ComputeCenterOfGravity(
+  PointsContainer* iPoints )
+{
+  std::vector< CoordRepType > weights( 3, 1./3. );
+  return ComputeBarycenter( weights.begin(), iPoints );
+}
+
+template <typename TCellInterface>
+typename TriangleCell< TCellInterface >::PointType
+TriangleCell< TCellInterface >::ComputeCircumCenter(
+  PointsContainer* iPoints )
+{
+  std::vector< CoordRepType > weights( 3, 0. );
+
+  PointType p[3];
+  unsigned int i(0);
+
+  for( unsigned int i = 0; i < 3; i++ )
+    {
+    p[i] = iPoints->GetElement( m_PointIds[i] );
+    }
+
+  CoordRepType a = p[1].SquaredEuclideanDistanceTo( p[2] );
+  CoordRepType b = p[0].SquaredEuclideanDistanceTo( p[2] );
+  CoordRepType c = p[1].SquaredEuclideanDistanceTo( p[0] );
+
+  weights[0] = a * ( b + c - a );
+  weights[1] = b * ( c + a - b );
+  weights[2] = c * ( a + b - c );
+
+  CoordRepType sum_weights = weights[0] + weights[1] + weights[2];
+  
+  if( sum_weights != 0. )
+    {
+    PointType oP;
+    oP.Fill( 0. );
+
+    for( unsigned int i = 0; i < 3; i++ )
+      oP += p[i].GetVectorFromOrigin() * weights[i] / sum_weights;
+
+    return oP;
+    }
+  else
+    return p[0];
+}
+
+
 /** Evaluate the position of a given point inside the cell 
  *  This only works in 3D since cross product is not defined
  *  for higher dimensions */

@@ -109,6 +109,9 @@ public:
   PointType ComputeBarycenter( CoordRepType*,
                                PointsContainer* );
 
+  PointType ComputeCenterOfGravity( PointsContainer* );
+  PointType ComputeCircumCenter( PointsContainer* );
+
  public:
   TriangleCell() :
     m_PointIds( NumberOfPoints, NumericTraits<PointIdentifier>::max() )
