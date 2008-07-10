@@ -114,7 +114,7 @@ public:
 #endif
 
    /** Set the mask image */
-  void SetMaskImage(MaskImageType *input)
+  void SetMaskImage(const MaskImageType *input)
     {
     // Process object is not const-correct so the const casting is required.
     this->SetNthInput( 1, const_cast<MaskImageType *>(input) );
