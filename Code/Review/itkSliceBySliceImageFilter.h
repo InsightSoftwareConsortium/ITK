@@ -25,8 +25,42 @@ namespace itk {
 
 /**
  * \class SliceBySliceImageFilter
- * \brief
+ * \brief Apply a filter or a pipeline slice by slice on an image
  *
+ * SliceBySliceImageFilter let the user apply a filter or a pipeline
+ * of filters on the slices of an image. The filters must work on images
+ * smaller of one dimension than the input and output images of the 
+ * SliceBySliceImageFilter - if the SliceBySliceImageFilter work on 3D
+ * images, the filters used internally must work on 2D images.
+ *
+ * The dimension along which the slices are extracted can be selected with SetDimension()
+ * and defaults to the last one.
+ *
+ * SliceBySliceImageFilter takes the input and the output filters of a pipeline
+ * as parameter. They can be set with SetInputFilter() and SetOutputFilter().
+ * The pipeline will be run once per slice.
+ *
+ * If there is only one filter to apply to the slices of the input image,
+ * the SetFilter() method can be used to set the filter passed as parameter
+ * both as the input and as the output filter.
+ *
+ * SliceBySliceImageFilter can take several images as input. In that case, the same
+ * number of slices will be passed to the input filter. If the output filter
+ * produce several output slices, SliceBySliceImageFilter produce the same number
+ * of output images. The input images are passed with the same input number
+ * to the input filter - if SetInput( 3, img ) is used on the SliceBySliceImageFilter
+ * the corresponding slice will be passed to the input filter with SetInput( 3, img ).
+ * See http://www.itk.org/pipermail/insight-users/2008-May/026112.html for an
+ * example of usage of that feature with MaskImageFilter.
+ *
+ * The requested region is always enlarged by the filter to cover entirely
+ * the whole slice - however, only the slice in the requested region are
+ * processed (the requested region is not enlarged to the whole image if
+ * not needed).
+ *
+ * The ouput images of SliceBySliceImageFilter must be of the same size than the
+ * input images. All the input images must be of the same pixel type. All the
+ * output images must be of the same pixel type.
  *
  * \author Gaetan Lehmann
  *
