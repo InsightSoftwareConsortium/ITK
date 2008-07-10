@@ -116,7 +116,7 @@ FULL_PATH_NAMES        = NO
 # If left blank the directory from which doxygen is run is used as the 
 # path to strip.
 
-STRIP_FROM_PATH        = @ITK_BINARY_DIR@/Documentation/
+STRIP_FROM_PATH        = @ITK_BINARY_DIR@/Utilities/
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of 
 # the path mentioned in the documentation of a class, which tells 
@@ -1159,7 +1159,7 @@ TAGFILES               =
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create 
 # a tag file that is based on the input files it reads.
 
-GENERATE_TAGFILE       = @ITK_BINARY_DIR@/Documentation/Doxygen/InsightDoxygen.tag
+GENERATE_TAGFILE       = @ITK_BINARY_DIR@/Utilities/Doxygen/InsightDoxygen.tag
 
 # If the ALLEXTERNALS tag is set to YES all external classes will be listed 
 # in the class index. If set to NO only the inherited external classes 
