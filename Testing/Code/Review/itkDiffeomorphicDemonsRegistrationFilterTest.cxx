@@ -27,6 +27,7 @@
 #include "itkCommand.h"
 #include "vnl/vnl_math.h"
 #include "itkVectorCastImageFilter.h"
+#include "itkImageFileWriter.h"
 
 
 namespace{
@@ -105,7 +106,7 @@ TImage *output )
 int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
 {
 
-  if( argc < 5 )
+  if( argc < 9 )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
@@ -114,6 +115,10 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
     std::cerr << "Intensity Difference Threshold (double)" << std::endl;
     std::cerr << "Maximum Update step length (double)" << std::endl;
+    std::cerr << "Maximum number of iterations (int)" << std::endl;
+    std::cerr << "Standard deviations (double)" << std::endl;
+    std::cerr << "Maximum error (double)" << std::endl;
+    std::cerr << "Maximum kernel width (int)" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -168,7 +173,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   FillWithCircle<ImageType>( moving, center, radius, fgnd, bgnd );
 
   // fill fixed with circle
-  center[0] = 62; center[1] = 64; radius = 32;
+  center[0] = 62; center[1] = 64; radius = 30;
   FillWithCircle<ImageType>( fixed, center, radius, fgnd, bgnd );
 
   // fill initial deformation with zero vectors
@@ -190,22 +195,23 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   RegistrationType::Pointer registrator = RegistrationType::New();
 
   registrator->SetInitialDeformationField( caster->GetOutput() );
+
   registrator->SetMovingImage( moving );
   registrator->SetFixedImage( fixed );
-  registrator->SetNumberOfIterations( 200 );
-  registrator->SetStandardDeviations( 1.0 );
-  registrator->SetMaximumError( 0.08 );
-  registrator->SetMaximumKernelWidth( 10 );
-
 
   const double intensityDifferenceThreshold = atof( argv[3] );
+  const double maximumUpdateStepLength = atof( argv[4] );
+  const unsigned int numberOfIterations = atoi( argv[5] );
+  const double standardDeviations = atof( argv[6] );
+  const double maximumError = atof( argv[7] );
+  const unsigned int maximumKernelWidth = atoi( argv[8] );
 
   registrator->SetIntensityDifferenceThreshold( intensityDifferenceThreshold );
-
-  const double maximumUpdateStepLength = atof( argv[4] );
-
   registrator->SetMaximumUpdateStepLength( maximumUpdateStepLength );
-
+  registrator->SetNumberOfIterations( numberOfIterations );
+  registrator->SetStandardDeviations( standardDeviations );
+  registrator->SetMaximumError( maximumError );
+  registrator->SetMaximumKernelWidth( maximumKernelWidth );
 
   const int gradientType = atoi( argv[1] );
 
@@ -309,6 +315,24 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     ++fixedIter;
     ++warpedIter;
     }
+
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+
+  WriterType::Pointer writer1 = WriterType::New();
+  WriterType::Pointer writer2 = WriterType::New();
+  WriterType::Pointer writer3 = WriterType::New();
+
+  writer1->SetFileName("fixedImage.mha");
+  writer2->SetFileName("movingImage.mha");
+  writer3->SetFileName("registeredImage.mha");
+
+  writer1->SetInput( fixed );
+  writer2->SetInput( moving );
+  writer3->SetInput( warper->GetOutput() );
+
+  writer1->Update();
+  writer2->Update();
+  writer3->Update();
 
   std::cout << "Number of pixels different: " << numPixelsDifferent; 
   std::cout << std::endl;
