@@ -82,6 +82,7 @@ virtual void Accept(unsigned long cellid, typename CellInterface<PixelType,\
   typedef typename Superclass::CellFeatureIdentifier   CellFeatureIdentifier; \
   typedef typename Superclass::CellFeatureIdentifier   CellFeatureCount; \
   typedef typename Superclass::PointType               PointType; \
+  typedef typename Superclass::VectorType              VectorType; \
   typedef typename Superclass::PointsContainer         PointsContainer; \
   typedef typename Superclass::UsingCellsContainer     UsingCellsContainer; \
   typedef typename Superclass::CellGeometry            CellGeometry;  \
@@ -135,6 +136,9 @@ public:
   typedef typename CellTraits::PointType               PointType;
   typedef typename CellTraits::PointsContainer         PointsContainer;
   typedef typename CellTraits::UsingCellsContainer     UsingCellsContainer;
+
+  ///NOTE: it should normally be defined in the traits
+  typedef typename PointType::VectorType               VectorType;
     
   /** Save the dimension from the template parameters. */
   itkStaticConstMacro(PointDimension, unsigned int,CellTraits::PointDimension);

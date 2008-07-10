@@ -146,7 +146,7 @@ TriangleCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i, ++ii)
+  for(unsigned int i=0; i < NumberOfPoints ; ++i, ++ii)
     {
     m_PointIds[i] = *ii;
     }
@@ -312,13 +312,12 @@ TriangleCell< TCellInterface >
 ::DistanceToLine(PointType x, PointType p1, PointType p2, 
                               double &t, CoordRepType *closestPoint)
 {
-  PointType temp;
-
   // convert from CoordRepType * to PointType:
-  for (unsigned int i = 0; i < PointDimension; i++)
-    {
-    temp[i] = closestPoint[i];
-    } 
+  PointType temp( closestPoint );
+//   for (unsigned int i = 0; i < PointDimension; i++)
+//     {
+//     temp[i] = closestPoint[i];
+//     }
 
   // Compute the squared distance to the line:
   const double distance2 = this->DistanceToLine (x, p1, p2, t, temp);
@@ -338,39 +337,28 @@ TriangleCell< TCellInterface >
 ::DistanceToLine(PointType x, PointType p1, PointType p2, 
                               double &t, PointType &closestPoint)
 {
-  double denom, num;
-  PointType p21;
-  PointType closest;
-  double tolerance;
-  //
-  //   Determine appropriate vectors
-  // 
-  unsigned int i;
-  for(i=0;i<PointDimension;i++)
-    {
-    p21[i] = p2[i] - p1[i];
-    }
-
+  VectorType v21 = p2 - p1;
   //
   //   Get parametric location
   //
-  num = 0;
-  denom = 0;
-  for(i=0;i<PointDimension;i++)
+  double num( 0 );
+  double denom( 0 );
+
+  for(unsigned int i=0;i<PointDimension;i++)
     {
-    num += p21[i]*(x[i]-p1[i]);
-    denom += p21[i]*p21[i];
+    num += static_cast<double>( v21[i]*(x[i]-p1[i]) );
+    denom += static_cast<double>(v21[i]*v21[i]);
     }
 
   // trying to avoid an expensive fabs
-  tolerance = 1.e-05*num;
+  double tolerance = 1.e-05*num;
   if (tolerance < 0.0)
     {
     tolerance = -tolerance;
     }
-  if ( -tolerance < denom && denom < tolerance ) //numerically bad!
+  if ( ( -tolerance < denom ) && ( denom < tolerance )) //numerically bad!
     {
-    closest = p1; //arbitrary, point is (numerically) far away
+    closestPoint = p1; //arbitrary, point is (numerically) far away
     }
   //
   // If parametric coordinate is within 0<=p<=1, then the point is closest to
@@ -378,38 +366,85 @@ TriangleCell< TCellInterface >
   //
   else if ( (t=num/denom) < 0.0 )
     {
-    closest = p1;
+    closestPoint = p1;
     }
   else if ( t > 1.0 )
     {
-    closest = p2;
+    closestPoint = p2;
     }
   else
     {
-    for(i=0;i<PointDimension;i++)
-      {
-      closest[i] = p1[i] + t*p21[i];
-      }
+    closestPoint = p1 + v21 * t;
+//     for(i=0;i<PointDimension;i++)
+//       {
+//       closest[i] = p1[i] + t*p21[i];
+//       }
     }
     
-  for(i=0;i<PointDimension;i++)
+//   for(i=0;i<PointDimension;i++)
+//     {
+//     closestPoint[i] = closest[i]; 
+//     }
+
+  return static_cast< double >( closestPoint.SquaredEuclideanDistanceTo(x) );
+}
+
+template<typename TCellInterface>
+typename TriangleCell< TCellInterface >::VectorType
+TriangleCell< TCellInterface >::ComputeNormal( const PointType& iP1,
+  const PointType& iP2, const PointType& iP3 )
+{
+  VectorType oN;
+  
+  if(PointDimension != 3)
     {
-    closestPoint[i] = closest[i]; 
+    itkWarningMacro("TriangleCell::ComputeNormal() only works with 3D points");
+    std::cout << "TriangleCell::ComputeNormal() only works with 3D points"
+      <<std::endl;
+    oN.Fill( 0. );
+    return oN;
     }
 
-  double dist = 0;
-      
-  for(i=0;i<PointDimension;i++)
-    {
-    const double value = closest[i] - x[i];
-    dist += value * value;
-    }
+  VectorType v23 = iP3 - iP2;
+  VectorType v21 = iP1 - iP2;
 
-  return dist;
+  oN = CrossProduct( v23, v21 );
+  oN.Normalize();
+
+  return oN;
+}
+
+template<typename TCellInterface>
+typename TriangleCell< TCellInterface >::VectorType
+TriangleCell< TCellInterface >::ComputeNormal( PointsContainer* iPoints )
+{
+  PointType p0 = iPoints->GetElement( m_PointIds[0] );
+  PointType p1 = iPoints->GetElement( m_PointIds[1] );
+  PointType p2 = iPoints->GetElement( m_PointIds[2] );
+
+  return ComputeNormal( p0, p1, p2 );
+}
+
+template<typename TCellInterface>
+typename TriangleCell< TCellInterface >::CoordRepType
+TriangleCell< TCellInterface >::ComputeArea( PointsContainer* iPoints )
+{
+  PointType p[3];
+
+  for( unsigned int i = 0; i < NumberOfPoints; ++i )
+    p[i] = iPoints->GetElement( m_PointIds[i] );
+
+  CoordRepType a = p[1].EuclideanDistanceTo( p[2] );
+  CoordRepType b = p[0].EuclideanDistanceTo( p[2] );
+  CoordRepType c = p[1].EuclideanDistanceTo( p[0] );
+
+  CoordRepType s = 0.5 * ( a + b + c );
+  return vcl_sqrt( s * ( s - a ) * ( s - b ) * ( s - c ) );
 }
 
 /** Evaluate the position of a given point inside the cell 
- *  This only works in 3D since cross product is not defined for higher dimensions */
+ *  This only works in 3D since cross product is not defined
+ *  for higher dimensions */
 template <typename TCellInterface>
 bool
 TriangleCell< TCellInterface >
@@ -423,15 +458,17 @@ TriangleCell< TCellInterface >
  
   if(PointDimension != 3)
     {
-    itkWarningMacro("TriangleCell::EvaluatePosition() only works with 3D points");
-    std::cout << "TriangleCell::EvaluatePosition() only works with 3D points" << std::endl;
+    itkWarningMacro(
+      "TriangleCell::EvaluatePosition() only works with 3D points");
+    std::cout << "TriangleCell::EvaluatePosition() only works with 3D points"
+      << std::endl;
     return false;
     }
 
 
   unsigned int i, j;
   double fabsn;
-  double rhs[2], c1[2], c2[2], n[3];
+  double rhs[2], c1[2], c2[2];
   double det;
   double maxComponent;
   unsigned int idx=0, indices[2];
@@ -439,6 +476,7 @@ TriangleCell< TCellInterface >
   PointType closest; 
   PointType closestPoint1, closestPoint2, cp;
   CoordRepType pcoords[3];
+  PointType X( x );
 
   if(!points)
     {
@@ -454,47 +492,48 @@ TriangleCell< TCellInterface >
 
 
   // This is the solution for 3D points
-  double ax, ay, az, bx, by, bz;
+//   double ax, ay, az, bx, by, bz;
 
-  // order is important!!! maintain consistency with triangle vertex order 
-  ax = pt3[0] - pt2[0]; ay = pt3[1] - pt2[1]; az = pt3[2] - pt2[2];
+  // order is important!!! maintain consistency with triangle vertex order
+  VectorType n = ComputeNormal( pt1, pt2, pt3 );
+
+/*  ax = pt3[0] - pt2[0]; ay = pt3[1] - pt2[1]; az = pt3[2] - pt2[2];
   bx = pt1[0] - pt2[0]; by = pt1[1] - pt2[1]; bz = pt1[2] - pt2[2];
 
   n[0] = (ay * bz - az * by);
   n[1] = (az * bx - ax * bz);
-  n[2] = (ax * by - ay * bx);
+  n[2] = (ax * by - ay * bx);*/
  
   // Project point to plane
-  double t, n2;
-  PointType xo;
-
-  for(i=0;i<PointDimension;i++)
+//   double t( 0. ), n2( 0. );
+  VectorType xo = X - pt1;
+  double t = static_cast< double >( xo * n );
+//   for(i=0;i<PointDimension;i++)
+//     {
+//     xo[i] = x[i] - pt1[i];
+//     }
+// 
+//   for(i=0;i<PointDimension;i++)
+//     {
+//     t += static_cast< double >( n[i]*xo[i] );
+//     n2 += static_cast< double >( n[i]*n[i] );
+//     }
+// 
+  if(( n[0] != 0.) && ( n[1] != 0. ) && ( n[2] != 0. ) )
     {
-    xo[i] = x[i] - pt1[i];
-    }
-
-  t = 0;
-  n2 = 0;
-
-  for(i=0;i<PointDimension;i++)
-    {
-    t += n[i]*xo[i];
-    n2 += n[i]*n[i];
-    }
-
-  if (n2 != 0)
-    {
-    for(i=0;i<PointDimension;i++)
-      {
-      cp[i] = x[i] - t * n[i]/n2;
-      }
+    cp = X - n * t;
+//     for(i=0;i<PointDimension;i++)
+//       {
+//       cp[i] = x[i] - t * n[i]/n2;
+//       }
     }
   else
     {
-    for(i=0;i<PointDimension;i++)
-      {
-      cp[i] = x[i];
-      }
+    cp = X;
+//     for(i=0;i<PointDimension;i++)
+//       {
+//       cp[i] = x[i];
+//       }
     }  
 
   // Construct matrices.  Since we have over determined system, need to find
@@ -504,14 +543,7 @@ TriangleCell< TCellInterface >
   for (maxComponent=0.0, i=0; i<3; i++)
     {
     // trying to avoid an expensive call to vcl_fabs()
-    if (n[i] < 0)
-      {
-      fabsn = -n[i];
-      }
-    else
-      {
-      fabsn = n[i];
-      }
+    fabsn = ( n[i] < 0. ) ? -n[i] : n[i];
     if (fabsn > maxComponent)
       {
       maxComponent = fabsn;
@@ -529,9 +561,9 @@ TriangleCell< TCellInterface >
   
   for (i=0; i<2; i++)
     {
-    rhs[i] = cp[indices[i]] - pt3[indices[i]];
-    c1[i] = pt1[indices[i]] - pt3[indices[i]];
-    c2[i] = pt2[indices[i]] - pt3[indices[i]];
+    rhs[i] = static_cast< double >( cp[indices[i]] - pt3[indices[i]] );
+    c1[i] = static_cast< double >( pt1[indices[i]] - pt3[indices[i]] );
+    c2[i] = static_cast< double >( pt2[indices[i]] - pt3[indices[i]] );
     }
 
   
