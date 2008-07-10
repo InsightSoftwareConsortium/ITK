@@ -176,11 +176,20 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
     m_Warper->SetInput(this->GetOutput());
     m_Warper->SetDeformationField(this->GetOutput());
 
+    m_Warper->GetOutput()->SetRequestedRegion(
+       this->GetOutput()->GetRequestedRegion() );
+
     m_Warper->Update();
+
+    OutputImagePointer warpedIm = m_Warper->GetOutput();
+    warpedIm->DisconnectPipeline();
 
     // Remember we chose to use an inplace adder
     m_Adder->SetInput1(this->GetOutput());
-    m_Adder->SetInput2(m_Warper->GetOutput());
+
+    m_Adder->SetInput2(warpedIm);
+    m_Adder->GetOutput()->SetRequestedRegion(
+      this->GetOutput()->GetRequestedRegion() );
 
     m_Adder->Update();
 

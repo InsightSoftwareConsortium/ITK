@@ -259,7 +259,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
   // the time step is one so this will be skipped
   if ( fabs(dt - 1.0)>1.0e-4 )
     {
-    std::cout<<"Using timestep: "<<dt<<std::endl;
+    itkDebugMacro( "Using timestep: " << dt );
     m_Multiplier->SetConstant( dt );
     m_Multiplier->SetInput( this->GetUpdateBuffer() );
     m_Multiplier->GraftOutput( this->GetUpdateBuffer() );
@@ -315,6 +315,9 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
       // is not thresholded
       m_Exponentiator->SetMaximumNumberOfIterations( 2000u );
       }
+
+    m_Exponentiator->GetOutput()->SetRequestedRegion(
+      this->GetOutput()->GetRequestedRegion() );
 
     m_Exponentiator->Update();
 
