@@ -538,7 +538,7 @@ IMAGE_PATH             = "@ITK_SOURCE_DIR@/Documentation/Art"
 # to standard output.  If FILTER_PATTERNS is specified, this tag will be 
 # ignored.
 
-INPUT_FILTER           = "perl @ITK_BINARY_DIR@/itkdoxygen.pl"
+INPUT_FILTER           = "perl @ITK_BINARY_DIR@/Utilities/Doxygen/itkdoxygen.pl"
 
 # The FILTER_PATTERNS tag can be used to specify filters on a per file pattern 
 # basis.  Doxygen will compare the file name with each pattern and apply the 
