@@ -489,9 +489,9 @@ TriangleCell< TCellInterface >::ComputeCircumCenter(
   std::vector< CoordRepType > weights( 3, 0. );
 
   PointType p[3];
-  unsigned int i(0);
+  unsigned int i;
 
-  for( unsigned int i = 0; i < 3; i++ )
+  for( i = 0; i < 3; i++ )
     {
     p[i] = iPoints->GetElement( m_PointIds[i] );
     }
@@ -511,7 +511,7 @@ TriangleCell< TCellInterface >::ComputeCircumCenter(
     PointType oP;
     oP.Fill( 0. );
 
-    for( unsigned int i = 0; i < 3; i++ )
+    for( i = 0; i < 3; i++ )
       oP += p[i].GetVectorFromOrigin() * weights[i] / sum_weights;
 
     return oP;
