@@ -98,7 +98,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
 }
  
 
-/*
+/**
  * Set the function state values before each iteration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -278,6 +278,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
     // skip exponential and compose the vector fields
     m_Warper->SetOutputSpacing( this->GetUpdateBuffer()->GetSpacing() );
     m_Warper->SetOutputOrigin( this->GetUpdateBuffer()->GetOrigin() );
+    m_Warper->SetOutputDirection( this->GetUpdateBuffer()->GetDirection() );
     m_Warper->SetInput( this->GetOutput() );
     m_Warper->SetDeformationField( this->GetUpdateBuffer() );
     
@@ -324,6 +325,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
     // compose the vector fields
     m_Warper->SetOutputSpacing( this->GetUpdateBuffer()->GetSpacing() );
     m_Warper->SetOutputOrigin( this->GetUpdateBuffer()->GetOrigin() );
+    m_Warper->SetOutputDirection( this->GetUpdateBuffer()->GetDirection() );
     m_Warper->SetInput( this->GetOutput() );
     m_Warper->SetDeformationField( m_Exponentiator->GetOutput() );
 

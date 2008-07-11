@@ -178,6 +178,7 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // Compute warped moving image
   m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
   m_MovingImageWarper->SetOutputOrigin( this->GetFixedImage()->GetOrigin() );
+  m_MovingImageWarper->SetOutputDirection( this->GetFixedImage()->GetDirection() );
   m_MovingImageWarper->SetInput( this->GetMovingImage() );
   m_MovingImageWarper->SetDeformationField( this->GetDeformationField() );
   m_MovingImageWarper->GetOutput()->SetRequestedRegion( this->GetDeformationField()->GetRequestedRegion() );
