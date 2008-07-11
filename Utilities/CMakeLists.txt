@@ -9,6 +9,35 @@ SET(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/itkThirdParty.h.in
                ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h @ONLY IMMEDIATE)
 
+#-----------------------------------------------------------------------------
+# Create the kwsys library for ITK.
+SET(KWSYS_NAMESPACE itksys)
+SET(KWSYS_USE_SystemTools 1)
+SET(KWSYS_USE_RegularExpression 1)
+SET(KWSYS_USE_Directory 1)
+SET(KWSYS_USE_Base64 1)
+SET(KWSYS_USE_FundamentalType 1)
+SET(KWSYS_USE_CommandLineArguments 1)
+SET(KWSYS_USE_Process 1)
+SET(KWSYS_USE_DynamicLoader 1)
+SET(KWSYS_USE_Glob 1)
+SET(KWSYS_USE_Registry 1)
+SET(KWSYS_USE_SystemInformation 1)
+SET(KWSYS_HEADER_ROOT ${ITK_BINARY_DIR}/Utilities)
+SET(KWSYS_PROPERTIES_CXX ${ITK_LIBRARY_PROPERTIES})
+SET(KWSYS_LIBRARY_INSTALL_DIR)
+IF(NOT ITK_INSTALL_NO_LIBRARIES)
+  SET(KWSYS_LIBRARY_INSTALL_DIR ${ITK_INSTALL_LIB_DIR})
+ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+SET(KWSYS_HEADER_INSTALL_DIR)
+IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  SET(KWSYS_HEADER_INSTALL_DIR ${ITK_INSTALL_INCLUDE_DIR}/Utilities)
+ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+SET(KWSYS_INSTALL_COMPONENT_NAME_RUNTIME RuntimeLibraries)
+SET(KWSYS_INSTALL_COMPONENT_NAME_DEVELOPMENT Development)
+ADD_SUBDIRECTORY(kwsys)
+
+#------------------------------------------------------------------------------
 # Build jpeg first because tiff needs it
 ADD_SUBDIRECTORY(itkjpeg)
 
@@ -99,39 +128,10 @@ IF (BUILD_TESTING)
 ENDIF (BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
-# Create the kwsys library for ITK.
-SET(KWSYS_NAMESPACE itksys)
-SET(KWSYS_USE_SystemTools 1)
-SET(KWSYS_USE_RegularExpression 1)
-SET(KWSYS_USE_Directory 1)
-SET(KWSYS_USE_Base64 1)
-SET(KWSYS_USE_FundamentalType 1)
-SET(KWSYS_USE_CommandLineArguments 1)
-SET(KWSYS_USE_Process 1)
-SET(KWSYS_USE_DynamicLoader 1)
-SET(KWSYS_USE_Glob 1)
-SET(KWSYS_USE_Registry 1)
-SET(KWSYS_USE_SystemInformation 1)
-SET(KWSYS_HEADER_ROOT ${ITK_BINARY_DIR}/Utilities)
-SET(KWSYS_PROPERTIES_CXX ${ITK_LIBRARY_PROPERTIES})
-SET(KWSYS_LIBRARY_INSTALL_DIR)
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  SET(KWSYS_LIBRARY_INSTALL_DIR ${ITK_INSTALL_LIB_DIR})
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
-SET(KWSYS_HEADER_INSTALL_DIR)
-IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  SET(KWSYS_HEADER_INSTALL_DIR ${ITK_INSTALL_INCLUDE_DIR}/Utilities)
-ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-SET(KWSYS_INSTALL_COMPONENT_NAME_RUNTIME RuntimeLibraries)
-SET(KWSYS_INSTALL_COMPONENT_NAME_DEVELOPMENT Development)
-ADD_SUBDIRECTORY(kwsys)
-
-#-----------------------------------------------------------------------------
 # ITK build configuration options.
 IF(BUILD_DOXYGEN)
   ADD_SUBDIRECTORY(Doxygen)
 ENDIF(BUILD_DOXYGEN)
-
 
 #-----------------------------------------------------------------------------
 # Install the UseITK.cmake file configured from the top-level.
