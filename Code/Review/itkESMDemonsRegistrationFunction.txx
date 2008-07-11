@@ -83,6 +83,11 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "UseGradientType: ";
+  os << m_UseGradientType << std::endl;
+  os << indent << "MaximumUpdateStepLength: ";
+  os << m_MaximumUpdateStepLength << std::endl;
+
   os << indent << "MovingImageIterpolator: ";
   os << m_MovingImageInterpolator.GetPointer() << std::endl;
   os << indent << "FixedImageGradientCalculator: ";
