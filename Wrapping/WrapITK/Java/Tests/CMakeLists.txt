@@ -22,13 +22,13 @@ MACRO(BUILD_JAVA_TEST name)
   # a convenient macro to build java tests
   # 
   ADD_CUSTOM_COMMAND(
-    OUTPUT ${name}.class
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}.class
     DEPENDS ${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
     COMMAND ${JAVA_COMPILE}
     ARGS -classpath "${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar"
     -d "${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_CURRENT_SOURCE_DIR}/${name}.java
     )
-  SET(targets ${targets} ${name}.class)
+  SET(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${name}.class)
   
 ENDMACRO(BUILD_JAVA_TEST)
 
@@ -53,7 +53,7 @@ FOREACH(JAVA_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
                   @ONLY IMMEDIATE)
 
     ADD_CUSTOM_COMMAND(
-      OUTPUT ${TEST_FILE_NAME}.class
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.class
       DEPENDS ${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar ${WrapITK_BINARY_DIR}/Java/Tests/${TEST_FILE_NAME}.java
       COMMAND ${JAVA_COMPILE}
       ARGS -classpath "${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar" -d "${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.java
@@ -67,7 +67,7 @@ FOREACH(JAVA_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
       --compare ${TEST_FILE_NAME}.nrrd ${WrapITK_SOURCE_DIR}/images/cthead1.png
     )
     
-    SET(targets ${targets} ${TEST_FILE_NAME}.class)
+    SET(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.class)
 
   ENDFOREACH(JAVA_TEST_PIXEL_TYPE)
 ENDFOREACH(JAVA_TEST_IMAGE_DIMENSION)
@@ -75,5 +75,7 @@ ENDFOREACH(JAVA_TEST_IMAGE_DIMENSION)
 
 
 
-ADD_CUSTOM_TARGET(JavaTests ALL DEPENDS ${targets})
+ADD_CUSTOM_TARGET(JavaTests DEPENDS ${targets})
+ADD_DEPENDENCIES(JavaTests ITKJavaJar)
+
 
