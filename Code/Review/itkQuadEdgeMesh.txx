@@ -35,6 +35,20 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >::m_NoFace =
 QuadEdgeMesh< TPixel, VDimension, TTraits >::QEDual::m_NoPoint;
 
 /**
+ * Restore the mesh to its initial state. Useful for data pipeline updates
+ * without memory re-allocation.
+ */
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+void 
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::Initialize()
+{
+  itkDebugMacro("Mesh Initialize method ");
+  Clear();
+  Superclass::Initialize();
+}
+
+/**
  * Clear all this mesh by deleting all contained edges which as
  * a side effect deletes adjacent faces
  */
@@ -68,6 +82,38 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
   this->ClearFreePointAndCellIndexesLists( ); // to start at index 0
 
+}
+
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+void
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::Graft( const DataObject* data )
+{
+  this->Superclass::Graft( data );
+  const Self* mesh = 0;
+
+  try
+    {
+    mesh = dynamic_cast< const Self* >( data );
+    }
+  catch( ... )
+    {
+    // mesh could not be cast back down
+    itkExceptionMacro(<< "itk::QuadEdgeMesh::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+  if ( !mesh )
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::QuadEdgeMesh::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to "
+                      << typeid(Self*).name() );
+    }
+
+  this->m_FreePointIndexes = mesh->m_FreePointIndexes;
+  this->m_FreeCellIndexes = mesh->m_FreeCellIndexes;
 }
 
 /**

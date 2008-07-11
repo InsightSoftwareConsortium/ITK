@@ -256,6 +256,8 @@ public:
     return( false );
     }
 
+  virtual void Initialize();
+
   /** another way of deleting all the cells */
   virtual void Clear();
 
@@ -266,6 +268,8 @@ public:
    * http://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
   virtual void CopyInformation( const DataObject* data ) { (void)data; }
+  virtual void Graft( const DataObject* data );
+
   /** squeeze the point container to be able to write the file properly */
   void SqueezePointsIds( );
 
