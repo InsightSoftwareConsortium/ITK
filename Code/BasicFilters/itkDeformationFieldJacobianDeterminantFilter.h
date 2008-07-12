@@ -25,6 +25,10 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_det.h"
 
+//This class now inherits from itkDisplacementFieldJacobianDeterminantFilter
+//and simply overrides the EvaluateAtNeighborhood function.
+#include "itkDisplacementFieldJacobianDeterminantFilter.h"
+
 namespace itk
 {
 /** \class DeformationFieldJacobianDeterminantFilter
@@ -72,12 +76,12 @@ template < typename TInputImage,
                                           ::itk::GetImageDimension<TInputImage>::ImageDimension >
 >
 class ITK_EXPORT DeformationFieldJacobianDeterminantFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+    public DisplacementFieldJacobianDeterminantFilter< TInputImage,TRealType,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef DeformationFieldJacobianDeterminantFilter Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef DisplacementFieldJacobianDeterminantFilter<TInputImage,TRealType,TOutputImage> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -85,7 +89,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(DeformationFieldJacobianDeterminantFilter, ImageToImageFilter);
+  itkTypeMacro(DeformationFieldJacobianDeterminantFilter, DisplacementFieldJacobianDeterminantFilter);
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -120,91 +124,13 @@ public:
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  /** DeformationFieldJacobianDeterminantFilter needs a larger input requested
-   * region than the output requested region (larger by the kernel
-   * size to calculate derivatives).  As such,
-   * DeformationFieldJacobianDeterminantFilter needs to provide an
-   * implementation for GenerateInputRequestedRegion() in order to inform the
-   * pipeline execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
-  /** Set the derivative weights according to the spacing of the input image
-      (1/spacing). Use this option if you want to calculate the Jacobian
-      determinant in the space in which the data was acquired.*/
-  void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
-
-  /** Reset the derivative weights to ignore image spacing.  Use this option if
-      you want to calculate the Jacobian determinant in the image space.
-      Default is ImageSpacingOff. */
-  void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  void SetUseImageSpacing(bool);
-  itkGetMacro(UseImageSpacing, bool);
-
-  /** Directly Set/Get the array of weights used in the gradient calculations.
-      Note that calling UseImageSpacingOn will clobber these values.*/
-  void SetDerivativeWeights(TRealType data[]);
-  itkGetVectorMacro(DerivativeWeights, const TRealType, itk::GetImageDimension<TInputImage>::ImageDimension);
-
+  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const;
 protected:
   DeformationFieldJacobianDeterminantFilter();
   virtual ~DeformationFieldJacobianDeterminantFilter() {}
 
-  /** Do any necessary casting/copying of the input data.  Input pixel types
-     whose value types are not real number types must be cast to real number
-     types.*/
-  void BeforeThreadedGenerateData ();
-
-  /** DeformationFieldJacobianDeterminantFilter can be implemented as a
-   * multithreaded filter (we're only using vnl_det(), which is trivially
-   * thread safe).  Therefore, this implementation provides a
-   * ThreadedGenerateData() routine which is called for each
-   * processing thread. The output image data is allocated
-   * automatically by the superclass prior to calling
-   * ThreadedGenerateData().  ThreadedGenerateData can only write to
-   * the portion of the output image specified by the parameter
-   * "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
-  typedef typename InputImageType::Superclass ImageBaseType;
-
-  /** Get access to the input image casted as real pixel values */
-  itkGetConstObjectMacro( RealValuedInputImage, ImageBaseType );
-
-  /** Get/Set the neighborhood radius used for gradient computation */
-  itkGetConstReferenceMacro( NeighborhoodRadius, RadiusType );
-  itkSetMacro( NeighborhoodRadius, RadiusType );
-
-
-  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const;
-
-  /** The weights used to scale partial derivatives during processing */
-  TRealType m_DerivativeWeights[itk::GetImageDimension<TInputImage>::ImageDimension];
-  /** Pre-compute 0.5*m_DerivativeWeights since that is the only thing used in the computations. */
-  TRealType m_HalfDerivativeWeights[itk::GetImageDimension<TInputImage>::ImageDimension];
-
 private:
-  bool m_UseImageSpacing;
-  int m_RequestedNumberOfThreads;
-
-  typename ImageBaseType::ConstPointer m_RealValuedInputImage;
-
-  DeformationFieldJacobianDeterminantFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  RadiusType    m_NeighborhoodRadius;
 };
 
 } // end namespace itk
