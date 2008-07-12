@@ -151,6 +151,8 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   outPoints->Reserve( numberOfPoints );
   outPoints->Squeeze();  // in case the previous mesh had
                          // allocated a larger memory
+                  
+  unsigned int i;
 
   SparseMatrixCoordType D(numberOfPoints,numberOfPoints);
 
@@ -450,12 +452,12 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   VectorCoordType py = ry;
 
 
-  int numIter = bx.size();
-  numIter += numIter/10; // let the iteration times a little more than the dimesion
+  unsigned int numIter = bx.size();
+  numIter += numIter/10; // let the iteration times a little more than the dimension
 
   double tol = 1e-10;
-
-  for (int i = 0; i <= numIter; ++i)
+  
+  for ( i = 0; i <= numIter; ++i)
     {
     VectorCoordType Dpx;
     D.pre_mult(px, Dpx);
@@ -468,14 +470,13 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     double alphax = inner_product(px, rx)/(pDpx + DBL_MIN);
     double alphay = inner_product(py, ry)/(pDpy + DBL_MIN);
 
-
     x += alphax*px;
     y += alphay*py;
 
     rx -= alphax*Dpx;
     ry -= alphay*Dpy;
 
-    if (inner_product(rx, rx) < tol && inner_product(ry, ry) < tol)
+    if ((inner_product(rx, rx) < tol) && (inner_product(ry, ry) < tol))
       {
       break;
       }
@@ -512,8 +513,6 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   bounds[4] = vcl_numeric_limits<double>::max();
   bounds[5] = -vcl_numeric_limits<double>::max();
 
-  unsigned int i=0;
-
   if( this->m_MapToSphere )
     {
     if (m_MapScale < 0)
@@ -526,7 +525,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
       std::vector<double> v_r2(numberOfPoints);
       std::vector<double>::iterator itv_r2=v_r2.begin();
     
-      for (unsigned int i = 0; i < numberOfPoints;  ++i, ++itv_r2) 
+      for (i = 0; i < numberOfPoints;  ++i, ++itv_r2) 
         {
           *itv_r2 = x(i)*x(i) + y(i)*y(i);
         }
@@ -544,7 +543,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
       this->m_MapScale = 1.0/sqrt(v_r2[uiMidPointIdx]);
       }
 
-
+    i = 0;
     while( outputPointIterator != outputPointEnd )
       {
       double xx = (this->m_MapScale) * x(i);
@@ -572,6 +571,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     }
   else
     {
+    i = 0;
     while( outputPointIterator != outputPointEnd )
       {
       point[0] = x(i);
