@@ -548,32 +548,32 @@ ADD_TEST(itkSliceBySliceImageFilterTest ${REVIEW_TESTS}
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest01 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.001  20.0
-        200   0.01   0.08   5
+        200   0.01   0.08   5 10
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest02 ${REVIEW_TESTS}
-        itkDiffeomorphicDemonsRegistrationFilterTest 1  0  0.001  5.0
-        200   1.0   0.08   10
+        itkDiffeomorphicDemonsRegistrationFilterTest 1  0  0.01  3.0
+        400   0.2   0.9   10 70
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest03 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 2  0  0.001  20.0
-        200   0.01   0.08   5
+        200   0.01   0.08   5   10
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest04 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 3  0  0.001  20.0
-        200   0.01   0.08   5
+        200   0.01   0.08   5   10
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest05 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  1  0.001  20.0
-        200   0.01   0.08   5
+        200   0.01   0.08   5  10
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest06 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  0  0.005  20.0
-        200   0.01   0.08   5
+        200   0.01   0.08   5  10
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest07 ${REVIEW_TESTS}

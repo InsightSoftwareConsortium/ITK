@@ -46,8 +46,6 @@ public:
     std::cout << "Metric: "   << m_Process->GetMetric()   << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
     std::cout << std::endl;
-    if ( m_Process->GetElapsedIterations() == 150 )
-      { m_Process->StopRegistration(); }
     }
   typename TRegistration::Pointer m_Process;
 };
@@ -103,7 +101,8 @@ TImage *output )
 
 }
 
-int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
+//int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
+int main(int argc, char * argv [] )
 {
 
   if( argc < 9 )
@@ -337,7 +336,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   std::cout << "Number of pixels different: " << numPixelsDifferent; 
   std::cout << std::endl;
 
-  if( numPixelsDifferent > 10 )
+  if( numPixelsDifferent > atoi( argv[9] ) )
     {
     std::cout << "Test failed - too many pixels different." << std::endl;
     return EXIT_FAILURE;
