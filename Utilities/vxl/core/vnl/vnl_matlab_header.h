@@ -13,11 +13,11 @@
 
 struct vnl_matlab_header
 {
-  int type; // sum of one byte order, one storage specifier and one precision specifier
-  int rows;
-  int cols;
-  int imag;
-  int namlen;
+  vxl_int_32 type; // sum of one byte order, one storage specifier and one precision specifier
+  vxl_int_32 rows;
+  vxl_int_32 cols;
+  vxl_int_32 imag;
+  vxl_int_32 namlen;
 
   enum type_t {
     // precision specifier
