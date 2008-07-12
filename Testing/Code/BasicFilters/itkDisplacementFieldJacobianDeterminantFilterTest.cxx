@@ -19,7 +19,6 @@
 #endif
 
 #include <iostream>
-#if 0
 #include "itkImage.h"
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
@@ -78,8 +77,8 @@ static bool TestDisplacementJacobianDeterminantValue(void)
   //|-------------------------------------------|
   //
   //J(1,1) = [ (.625-.125)/2 (.5-.25)/2; (.375-.125)/2 (.75-0.0)/2] =[ .25  .125; .125 .375]
-  //det(J(1,1))=(.25*.375)-(.125*.125) = .078125;
-  const float KNOWN_ANSWER=(.25*.375)-(.125*.125);
+  //det((J+I)(1,1))=((.25+1.0)*(.375+1.0))-(.125*.125) = 1.703125;
+  const float KNOWN_ANSWER=(((.25+1.0)*(.375+1.0))-(.125*.125));
   itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType,float>::Pointer
     filter =
     itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType,float>::New();
@@ -103,14 +102,10 @@ static bool TestDisplacementJacobianDeterminantValue(void)
     }
   return testPassed;
 }
-#endif
 
 int
 itkDisplacementFieldJacobianDeterminantFilterTest(int , char * [] )
 {
-  std::cout << "ECHO:  TEST NOT YET IMPLEMENTED FULLY" << std::endl;
-  return EXIT_SUCCESS;
-#if 0
   bool ValueTestPassed=TestDisplacementJacobianDeterminantValue();
   try
     {
@@ -143,6 +138,5 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int , char * [] )
     return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;
-#endif
 }
 
