@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -34,13 +34,13 @@ template <typename TInputImage, typename TRealType, typename TOutputImage>
 DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 ::DeformationFieldJacobianDeterminantFilter()
 {
-  unsigned int i;
   m_UseImageSpacing = false;
   m_RequestedNumberOfThreads = this->GetNumberOfThreads();
-  for (i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; i++)
     {
     m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
     m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
+    m_HalfDerivativeWeights[i] = static_cast<TRealType>(0.5);
     }
 }
 template <typename TInputImage, typename TRealType, typename TOutputImage>
@@ -56,12 +56,13 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
       {
       this->Modified();
       m_DerivativeWeights[i] = data[i];
+      m_HalfDerivativeWeights[i] = 0.5*data[i];
       }
     }
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>
-void 
+void
 DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 ::SetUseImageSpacing(bool f)
 {
@@ -77,25 +78,26 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
     for (unsigned int i = 0; i < ImageDimension; ++i)
       {
       m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
+      m_HalfDerivativeWeights[i] = static_cast<TRealType>(0.5);
       }
     }
 
   m_UseImageSpacing = f;
 }
-  
+
 template <typename TInputImage, typename TRealType, typename TOutputImage>
-void 
+void
 DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 ::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  InputImagePointer  inputPtr =
     const_cast< InputImageType * >( this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
-  
+
   if ( !inputPtr || !outputPtr )
     {
     return;
@@ -122,7 +124,7 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 
     // store what we tried to request (prior to trying to crop)
     inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
+
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
@@ -154,6 +156,7 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
       m_DerivativeWeights[i]
         = static_cast<TRealType>( 1.0 /
                                   static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) );
+      m_HalfDerivativeWeights[i]=0.5*m_DerivativeWeights[i];
       }
     }
 
@@ -173,7 +176,7 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
     m_RealValuedInputImage
       = dynamic_cast<const ImageBase<ImageDimension> *>(this->GetInput());
     }
-  
+
 }
 
 template< typename TInputImage, typename TRealType, typename TOutputImage >
@@ -186,7 +189,7 @@ DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage 
   ZeroFluxNeumannBoundaryCondition<RealVectorImageType> nbc;
   ConstNeighborhoodIteratorType bit;
   ImageRegionIterator<TOutputImage> it;
-  
+
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::
     FaceListType faceList;
@@ -205,7 +208,7 @@ DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage 
   // face so that it can determine whether or not to check for boundary
   // conditions.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
-    { 
+    {
     bit = ConstNeighborhoodIteratorType(m_NeighborhoodRadius,
                                         dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()),
                                         *fit);
@@ -223,6 +226,23 @@ DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage 
     }
 }
 
+
+template <typename TInputImage, typename TRealType, typename TOutputImage>
+TRealType
+DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
+::EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const
+{
+  vnl_matrix_fixed<TRealType,ImageDimension,VectorDimension> J;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+    {
+    for (unsigned int j = 0; j < VectorDimension; ++j)
+      {
+      J[i][j] = m_HalfDerivativeWeights[i] * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
+      }
+    }
+  return vnl_det(J);
+}
+
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 void
 DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
@@ -238,12 +258,16 @@ DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   for (i = 0; i < ImageDimension; i++)
     { os << m_DerivativeWeights[i] << " "; }
   os << std::endl;
+  os << indent << "m_HalfDerivativeWeights = ";
+  for (i = 0; i < ImageDimension; i++)
+    { os << m_HalfDerivativeWeights[i] << " "; }
+  os << std::endl;
   os << indent << "m_NeighborhoodRadius = "          << m_NeighborhoodRadius
      << std::endl;
   os << indent << "m_RealValuedInputImage = "          << m_RealValuedInputImage.GetPointer()
      << std::endl;
 }
-  
+
 } // end namespace itk
 
 #endif

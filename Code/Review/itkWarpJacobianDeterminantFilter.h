@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#error "This filter is being replaced by itkDisplacementFieldJacobianDeterminantFilter, and is slated to be removed from CVS."
 
 #ifndef __itkWarpJacobianDeterminantFilter_h
 #define __itkWarpJacobianDeterminantFilter_h
