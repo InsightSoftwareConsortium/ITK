@@ -330,7 +330,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
 
   // Check that the right number of points has been added.
 
-  unsigned long numPoints = meshSource->GetOutput()->GetNumberOfPoints();
+  unsigned long numPoints = mesh->GetNumberOfPoints();
   if( numPoints != 17 )
     {
     std::cerr << "Mesh shows " << numPoints
@@ -340,7 +340,8 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
 
   // Check that the right number of cells has been added.
 
-  unsigned long numCells = meshSource->GetOutput()->GetNumberOfCells();
+  unsigned long numCells = mesh->GetNumberOfCells();
+  numCells += mesh->GetNumberOfEdges();
   if( numCells != 53 )
     {
     std::cerr << "Mesh shows "
@@ -354,6 +355,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char* [] )
   
   numPoints = meshSource->GetOutput()->GetNumberOfPoints();
   numCells  = meshSource->GetOutput()->GetNumberOfCells();
+  numCells += meshSource->GetOutput()->GetNumberOfEdges();
   if( numPoints != 17 || numCells != 53 )
     {
     std::cerr << "Mesh is being changed when invoking Update()" << std::endl;

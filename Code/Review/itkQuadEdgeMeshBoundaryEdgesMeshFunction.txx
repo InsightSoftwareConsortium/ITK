@@ -48,8 +48,8 @@ Evaluate( const InputType& mesh )
   typedef typename MeshType::CellsContainerConstIterator
     CellsContainerConstIterator; 
   EdgeListType boundaryList;
-  CellsContainerConstIterator cellIterator = mesh.GetCells()->Begin();
-  CellsContainerConstIterator cellEnd      = mesh.GetCells()->End();
+  CellsContainerConstIterator cellIterator = mesh.GetEdgeCells()->Begin();
+  CellsContainerConstIterator cellEnd      = mesh.GetEdgeCells()->End();
   while( cellIterator != cellEnd )
     {
        if( EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )

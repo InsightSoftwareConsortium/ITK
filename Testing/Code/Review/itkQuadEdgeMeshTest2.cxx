@@ -70,7 +70,8 @@ int itkQuadEdgeMeshTest2( int , char* [] )
     return EXIT_FAILURE;
     }
 
-  if( mesh->GetNumberOfCells() != 3 )
+  if( ( mesh->GetNumberOfCells( ) != 0 )
+   && ( mesh->GetNumberOfEdges( ) != 3 ) )
     {
     std::cout << "Not all cells added." << std::endl;
     return EXIT_FAILURE;

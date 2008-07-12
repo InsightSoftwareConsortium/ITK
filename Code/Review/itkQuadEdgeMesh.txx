@@ -57,21 +57,15 @@ void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::Clear()
 {
-  if( this->GetCells() )
+  if( this->GetEdgeCells() )
     {
-    CellsContainerIterator cellIterator = this->GetCells( )->Begin( );
-    while( cellIterator != this->GetCells( )->End( ) )
+    CellsContainerIterator cellIterator = this->GetEdgeCells( )->Begin( );
+    while( !this->GetEdgeCells( )->empty( ) )
       {
-      if( EdgeCellType* edgeToDelete = 
-                      dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
-        {
-        this->LightWeightDeleteEdge( edgeToDelete );
-        cellIterator = this->GetCells( )->Begin( );
-        }
-      else
-        {
-        cellIterator++;
-        }
+      EdgeCellType* edgeToDelete = 
+                      dynamic_cast< EdgeCellType* >( cellIterator.Value( ) );
+      this->LightWeightDeleteEdge( edgeToDelete );
+      cellIterator = this->GetEdgeCells( )->Begin( );
       }
     }
 
@@ -660,12 +654,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   QEPrimal* eDestination = this->GetPoint( destPid ).GetEdge();
   
   // Ok, there's room and the points exist
-  // create an AutoPointer just to be sure
-  // that memory will be safe, as PushOnContainer
-  // should do just that anyway.
   EdgeCellType* newEdge = new EdgeCellType( );
-  CellAutoPointer pEdge;
-  pEdge.TakeOwnership( newEdge ); // Here we should be safe from mem leak
   QEPrimal* newEdgeGeom = newEdge->GetQEGeom( );
 
   newEdgeGeom->SetOrigin (  orgPid );
@@ -690,31 +679,35 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
   else
     {
-    eDestination->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom->GetSym() );
+    eDestination->InsertAfterNextBorderEdgeWithUnsetLeft(
+                                                        newEdgeGeom->GetSym() );
     }
 
   // Add it to the container
-  CellIdentifier eid = this->FindFirstUnusedCellIndex();
-  newEdge->SetIdent( eid );
-  this->Superclass::SetCell( eid, pEdge );
-  
-  ++m_NumberOfEdges;
-  
+  this->PushOnContainer( newEdge ); 
+
   return( newEdgeGeom );
 }
 
 /**
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
-void 
+void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::PushOnContainer( EdgeCellType* newEdge )
 {
-  CellIdentifier eid = this->FindFirstUnusedCellIndex();
+  CellIdentifier eid = 0;
+  if(this->GetEdgeCells()->size() > 0)
+    {
+    CellsContainerConstIterator last = this->GetEdgeCells()->End();
+    --last;
+    eid = last.Index() + 1;
+    }
   newEdge->SetIdent( eid );
-  CellAutoPointer edge;
-  edge.TakeOwnership( newEdge );
-  this->Superclass::SetCell( eid, edge );
+  CellAutoPointer pEdge;
+  pEdge.TakeOwnership( newEdge );
+  this->SetEdgeCell( eid, pEdge );
+  m_NumberOfEdges++;
 }
 
 /**
@@ -787,29 +780,13 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   typedef std::vector< CellIdentifier > DeleteCellsCont;
   DeleteCellsCont cellsToDelete;
 
-  // Delete all references to 'e' in the container
+  // Delete all references to 'e' in the cell container
   CellsContainerIterator cit = this->GetCells()->Begin();
-
   while( cit != this->GetCells()->End() )
     {
-
-    // reminder: there is only two types of cells in a QEMesh
-    // either one of this cast will succeed
-    EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cit.Value() );
     PolygonCellType* pcell = dynamic_cast< PolygonCellType* >(cit.Value());
     bool toDelete = false;
-    if( cell != (EdgeCellType*)0 )
-      {
-      QEPrimal* edge = cell->GetQEGeom( );
-      toDelete = ( edge == e || edge->GetSym() == e );
-      if( toDelete )
-        {
-        --m_NumberOfEdges;
-        // Nicely handle the QE level
-        e->Disconnect();
-        }
-      }
-    else if( pcell != (PolygonCellType*)0 )
+    if( pcell != (PolygonCellType*)0 )
       {
       QEPrimal* edge = pcell->GetEdgeRingEntry();
       typename QEPrimal::IteratorGeom it = edge->BeginGeomLnext();
@@ -821,7 +798,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         it++;
         }
 
-      // Unset left faces
       if( toDelete )
         {
         --m_NumberOfFaces;
@@ -836,21 +812,19 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
 
     // if the current face is to be deleted, 
-    // put her in the second container
+    // put it in the second container
     // and keep the Id for next cell insertion
     if( toDelete )
       {
       cellsToDelete.push_back( cit.Index() );
       m_FreeCellIndexes.push( cit.Index() );
       }
-
     cit++;
     }
 
   // we checked all the cells i nthe container
   // now delete the elements in the map
   typename DeleteCellsCont::iterator dit = cellsToDelete.begin();
-
   while( dit != cellsToDelete.end() )
     {
     const CellType * cellToBeDeleted = this->GetCells()->GetElement( *dit );
@@ -858,6 +832,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     this->GetCells()->DeleteIndex( *dit );
     dit++;
     }
+  
+  // now delete the edge in the edge container
+  this->GetEdgeCells()->DeleteIndex( e->GetIdent() );
+  --m_NumberOfEdges;
 
   // Now, disconnect it and let the garbage collector do the rest
   this->Modified();
@@ -958,7 +936,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     // Third we need to remove from the container the EdgeCell
     // representing the edge we are trying to destroy at the itk
     // level.
-    this->GetCells()->DeleteIndex( edgeCell->GetIdent() );
+    this->GetEdgeCells()->DeleteIndex( edgeCell->GetIdent() );
     edgeCell->SetIdent( 0 );
 
     // Eventually, we disconnect (at the QuadEdge level) the edge we
@@ -997,7 +975,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellIdentifier LineIdent = e->GetIdent( );
   if( LineIdent != m_NoPoint )
     { 
-    EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
+    EdgeCellType* edgeCell = dynamic_cast< EdgeCellType* >(this->GetEdgeCells( )->GetElement( LineIdent ));
     this->LightWeightDeleteEdge( edgeCell );
     }
   else
@@ -1066,23 +1044,11 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge() const
 {
-  EdgeCellType* e; // No need to be initialized says Borland compiler
-  CellsContainerIterator cit = this->GetCells()->Begin();
-  while(cit != this->GetCells( )->End( ) )
-    {
-    e = dynamic_cast< EdgeCellType* >( cit.Value( ) );
-    if( e == (EdgeCellType*)0)
-      {
-      PolygonCellType* pol = dynamic_cast< PolygonCellType* >( cit.Value( ) );
-      return( pol->GetEdgeRingEntry( ) );
-      }
-    else
-      {
-      return( e->GetQEGeom( ) );
-      }
-    cit++; 
-    }
-  return( (QEPrimal*)0 );
+  if( this->GetEdgeCells()->size() == 0 ) return( (QEPrimal*)0 );
+
+  CellsContainerIterator cit = this->GetEdgeCells()->Begin();
+  EdgeCellType* e = dynamic_cast< EdgeCellType* >( cit.Value( ) );
+  return( e->GetQEGeom( ) );
 }
 
 /**
@@ -1092,21 +1058,17 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge( const CellIdentifier& eid ) const
 {
-  QEPrimal* result = (QEPrimal*)0;
    
-  if( !this->GetCells()->IndexExists( eid ) )
+  if( !this->GetEdgeCells()->IndexExists( eid ) )
     {
     itkDebugMacro( "No such edge in container" );
-    return( result );
+    return( (QEPrimal*)0 );
     }
 
-  EdgeCellType* e = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( eid ) );
-  if ( e != (EdgeCellType*)0 )
-    {
-    result = e->GetQEGeom( );
-    }
+  EdgeCellType* e = dynamic_cast< EdgeCellType* >(
+                                    this->GetEdgeCells( )->GetElement( eid ) );
+  return( e->GetQEGeom( ) );
 
-  return( result );
 }
 
 /**
@@ -1135,7 +1097,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       if(  it.Value()->GetDestination() == pid1 )
         {
-        return( it.Value( ) );//dynamic_cast< QEPrimal* >( it.Value() ) );
+        return( dynamic_cast< QEPrimal* >( it.Value() ) );
         }
       ++it;
       }
@@ -1157,20 +1119,21 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     CellIdentifier LineIdent = EdgeGeom->GetIdent( );
     if( LineIdent != m_NoPoint )
       {
-      result = dynamic_cast< EdgeCellType* >( this->GetCells( )->GetElement( LineIdent ) );
+      result = dynamic_cast< EdgeCellType* >(
+                                this->GetEdgeCells()->GetElement( LineIdent ) );
       }
     }
   return( result );
 }
 
+ 
 /**
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
-::AddFace( const PointIdList& points )
+::AddFace( const PointIdList & points )
 {
-  
   // Check that there are no duplicate points
   for(unsigned int i=0; i < points.size(); i++)
     {
@@ -1340,7 +1303,28 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::QuadEdgeMesh(): m_NumberOfFaces(0), m_NumberOfEdges(0)
 {
+  m_EdgeCellsContainer = CellsContainer::New();
 }
+
+
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::~QuadEdgeMesh()
+{
+  if( m_EdgeCellsContainer->GetReferenceCount() == 1 )
+    {
+    CellsContainerIterator EdgeCell = m_EdgeCellsContainer->Begin();
+    CellsContainerIterator EdgeEnd  = m_EdgeCellsContainer->End();
+    while( EdgeCell != EdgeEnd )
+      {
+      const CellType * EdgeCellToBeDeleted = EdgeCell->Value( );
+      delete EdgeCellToBeDeleted;
+      ++EdgeCell;
+      }
+    m_EdgeCellsContainer->Initialize();
+    }
+}
+
 
 /**
  */
@@ -1433,23 +1417,7 @@ unsigned long
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::ComputeNumberOfEdges() const
 {
-  unsigned long numberOfEdges = 0;
-
-  CellsContainerConstIterator cellIterator = this->GetCells()->Begin();
-  CellsContainerConstIterator cellEnd      = this->GetCells()->End();
-
-  while( cellIterator != cellEnd )
-    {
-
-    EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) );
-    if( cell != (EdgeCellType*)0 )
-      {
-      (void)cell;
-      numberOfEdges++;
-      }
-
-    ++cellIterator;
-    }
+  unsigned long numberOfEdges = this->GetEdgeCells()->size();
 
   return( numberOfEdges );
 }

@@ -170,7 +170,6 @@ int itkQuadEdgeMeshTest1( int , char* [] )
 
   // test delete face failsafe
     {
-    mesh->DeleteFace( 0 ); // should fail, face 0 is by construction always an edge
     mesh->DeleteFace( 1299877 ); // should fail, Id too high
     }
 

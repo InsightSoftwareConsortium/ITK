@@ -261,6 +261,14 @@ public:
   /** another way of deleting all the cells */
   virtual void Clear();
 
+  CellsContainerPointer GetEdgeCells() {return m_EdgeCellsContainer;};
+  const CellsContainerPointer GetEdgeCells() const {return m_EdgeCellsContainer;};
+  void SetEdgeCells(CellsContainerPointer edgeCells)
+    {m_EdgeCellsContainer = edgeCells;}; 
+  void SetEdgeCell(CellIdentifier cellId, CellAutoPointer & cellPointer )
+    {m_EdgeCellsContainer->InsertElement(cellId,cellPointer.ReleaseOwnership());};
+
+
   /** Overloaded to avoid a bug in Mesh that prevents proper inheritance
    * Refer to
    * http://public.kitware.com/pipermail/insight-users/2005-March/012459.html
@@ -471,7 +479,9 @@ public:
 protected:
   /** Constructor and Destructor. */
   QuadEdgeMesh();
-  virtual ~QuadEdgeMesh() {}
+  virtual ~QuadEdgeMesh(); 
+
+  CellsContainerPointer  m_EdgeCellsContainer;
 
 private:
   QuadEdgeMesh( const Self& );    //purposely not implemented
