@@ -18,7 +18,7 @@
 #ifndef __itkQuadEdgeMesh_txx
 #define __itkQuadEdgeMesh_txx
 #include "itkQuadEdgeMesh.h"
-
+#include <vcl_limits.h>
 #include <vector>
 
 namespace itk
@@ -27,12 +27,12 @@ namespace itk
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 const typename QuadEdgeMesh< TPixel, VDimension, TTraits >::PointIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >::m_NoPoint =
-QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal::m_NoPoint;
+vcl_numeric_limits< PointIdentifier >::max();
 
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 const typename QuadEdgeMesh< TPixel, VDimension, TTraits >::CellIdentifier
 QuadEdgeMesh< TPixel, VDimension, TTraits >::m_NoFace =
-QuadEdgeMesh< TPixel, VDimension, TTraits >::QEDual::m_NoPoint;
+vcl_numeric_limits< CellIdentifier >::max();
 
 /**
  * Restore the mesh to its initial state. Useful for data pipeline updates
