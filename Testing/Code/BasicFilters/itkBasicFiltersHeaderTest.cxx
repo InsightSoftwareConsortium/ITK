@@ -91,6 +91,7 @@
 #include "itkCurvatureNDAnisotropicDiffusionFunction.txx"
 #include "itkDanielssonDistanceMapImageFilter.txx"
 #include "itkDeformationFieldJacobianDeterminantFilter.txx"
+#include "itkDisplacementFieldJacobianDeterminantFilter.txx"
 #include "itkDeformationFieldSource.txx"
 #include "itkDerivativeImageFilter.txx"
 #include "itkDifferenceOfGaussiansGradientImageFilter.txx"

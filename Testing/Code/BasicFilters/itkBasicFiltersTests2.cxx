@@ -37,6 +37,7 @@ void RegisterTests()
   REGISTER_TEST(itkContourDirectedMeanDistanceImageFilterTest );
   REGISTER_TEST(itkContourMeanDistanceImageFilterTest );
   REGISTER_TEST(itkDeformationFieldJacobianDeterminantFilterTest );
+  REGISTER_TEST(itkDisplacementFieldJacobianDeterminantFilterTest );
   REGISTER_TEST(itkGrayscaleMorphologicalClosingImageFilterTest );
   REGISTER_TEST(itkGrayscaleMorphologicalOpeningImageFilterTest );
   REGISTER_TEST(itkJoinSeriesImageFilterPrintTest);

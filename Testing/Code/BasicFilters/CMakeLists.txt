@@ -147,6 +147,7 @@ ADD_TEST(itkDeformationFieldSourceTest ${BASIC_FILTERS_TESTS} itkDeformationFiel
            ${TEMP}/itkDeformationFieldSourceTest.mha
            )
 ADD_TEST(itkDeformationFieldJacobianDeterminantFilterTest ${BASIC_FILTERS_TESTS2} itkDeformationFieldJacobianDeterminantFilterTest)
+ADD_TEST(itkDisplacementFieldJacobianDeterminantFilterTest ${BASIC_FILTERS_TESTS2} itkDisplacementFieldJacobianDeterminantFilterTest)
 ADD_TEST(itkDifferenceOfGaussiansGradientTest ${BASIC_FILTERS_TESTS} itkDifferenceOfGaussiansGradientTest)
 ADD_TEST(itkDiscreteGaussianImageFilterTest ${BASIC_FILTERS_TESTS} itkDiscreteGaussianImageFilterTest)
 ADD_TEST(itkDivideImageFilterTest ${BASIC_FILTERS_TESTS} itkDivideImageFilterTest)
@@ -1114,6 +1115,7 @@ itkConstrainedValueDifferenceImageFilterTest.cxx
 itkBasicFiltersPrintTest.cxx
 itkBasicFiltersPrintTest2.cxx
 itkDeformationFieldJacobianDeterminantFilterTest.cxx 
+itkDisplacementFieldJacobianDeterminantFilterTest.cxx 
 itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkJoinSeriesImageFilterTest.cxx
