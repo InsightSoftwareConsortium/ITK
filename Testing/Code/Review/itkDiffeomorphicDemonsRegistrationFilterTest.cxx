@@ -101,8 +101,7 @@ TImage *output )
 
 }
 
-//int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
-int main(int argc, char * argv [] )
+int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
 {
 
   if( argc < 9 )
@@ -336,7 +335,9 @@ int main(int argc, char * argv [] )
   std::cout << "Number of pixels different: " << numPixelsDifferent; 
   std::cout << std::endl;
 
-  if( numPixelsDifferent > atoi( argv[9] ) )
+  const unsigned int maximumNumberOfDifferentPixels = atoi( argv[9] );
+
+  if( numPixelsDifferent > maximumNumberOfDifferentPixels )
     {
     std::cout << "Test failed - too many pixels different." << std::endl;
     return EXIT_FAILURE;
