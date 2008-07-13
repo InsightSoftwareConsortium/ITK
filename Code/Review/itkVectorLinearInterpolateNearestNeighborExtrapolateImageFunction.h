@@ -92,6 +92,14 @@ public:
   /** Output type is Vector<double,Dimension> */
   typedef typename Superclass::OutputType                              OutputType;
 
+  /** Check if an index is inside the image buffer.
+   * \warning For efficiency, no validity checking of
+   * the input image is done. */
+  virtual bool IsInsideBuffer( const IndexType & index ) const
+    { 
+    return Superclass::IsInsideBuffer( index );
+    }
+
   /** Should check if a point is inside the image buffer however we
    * require that it answers true to use the extrapolation possibility. */
   virtual bool IsInsideBuffer( const PointType & ) const
