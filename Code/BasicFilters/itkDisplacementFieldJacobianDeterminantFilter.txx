@@ -204,6 +204,8 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
   // Support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
+  typedef typename TOutputImage::PixelType  OutputPixelType;
+
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
@@ -218,7 +220,7 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
 
     while ( ! bit.IsAtEnd() )
       {
-      it.Set( this->EvaluateAtNeighborhood(bit) );
+      it.Set( static_cast<OutputPixelType>( this->EvaluateAtNeighborhood(bit) ) );
       ++bit;
       ++it;
       progress.CompletedPixel();
