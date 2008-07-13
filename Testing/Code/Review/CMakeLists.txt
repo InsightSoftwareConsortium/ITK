@@ -568,7 +568,7 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest04 ${REVIEW_TESTS}
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest05 ${REVIEW_TESTS}
         itkDiffeomorphicDemonsRegistrationFilterTest 0  1  0.01  3.0
-        200   0.2   0.08   5  70
+        400   0.2   0.08   5  70
         )
 
 ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest06 ${REVIEW_TESTS}
