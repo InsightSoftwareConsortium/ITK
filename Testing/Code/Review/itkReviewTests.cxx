@@ -126,6 +126,8 @@ void RegisterTests()
 
   REGISTER_TEST( itkComposeRGBAImageFilterTest );
 
+  REGISTER_TEST( itkTransformToDeformationFieldSourceTest );
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif

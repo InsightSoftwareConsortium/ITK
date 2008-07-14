@@ -129,6 +129,8 @@ SET(ReviewTest_SRCS
   itkKappaSigmaThresholdImageFilterTest.cxx
 
   itkComposeRGBAImageFilterTest.cxx
+
+  itkTransformToDeformationFieldSourceTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -704,6 +706,14 @@ ADD_TEST(itkComposeRGBAImageFilterTest ${REVIEW_TESTS}
     ${ITK_SOURCE_DIR}/Testing/Data/Input/Number3inText.png
     ${ITK_SOURCE_DIR}/Testing/Data/Input/IntensityRamp64.png
 )
+
+ADD_TEST(itkTransformToDeformationFieldSourceTest01 ${REVIEW_TESTS}
+    itkTransformToDeformationFieldSourceTest
+    ${ITK_SOURCE_DIR}/Testing/Data/Input/AffineTransform.txt
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField01.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage01.mha
+)
+
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKAlgorithms
