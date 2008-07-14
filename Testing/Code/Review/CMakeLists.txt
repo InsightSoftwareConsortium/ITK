@@ -709,10 +709,19 @@ ADD_TEST(itkComposeRGBAImageFilterTest ${REVIEW_TESTS}
 
 ADD_TEST(itkTransformToDeformationFieldSourceTest01 ${REVIEW_TESTS}
     itkTransformToDeformationFieldSourceTest
-    ${ITK_SOURCE_DIR}/Testing/Data/Input/AffineTransform.txt
+    Affine
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField01.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage01.mha
 )
+
+ADD_TEST(itkTransformToDeformationFieldSourceTest02 ${REVIEW_TESTS}
+    itkTransformToDeformationFieldSourceTest
+    BSpline
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha
+    ${INPUTDATA}/parametersBSpline.txt
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha
+)
+
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

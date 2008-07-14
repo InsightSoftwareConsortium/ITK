@@ -30,7 +30,7 @@ int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
   if( argc < 3 )
     {
     std::cerr << "You must supply transform and output filename" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
     }
 
   std::string transformName = argv[ 1 ];
@@ -89,7 +89,7 @@ int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
   BSplineDeformableTransformType::Pointer bSplineTransform
     = BSplineDeformableTransformType::New();
   if ( transformName == "Affine" )
-  {
+    {
     /** Set the options. */
     OriginType centerOfRotation;
     centerOfRotation[ 0 ] = -3.0; centerOfRotation[ 1 ] = -3.0;
@@ -104,9 +104,9 @@ int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
     parameters[ 4 ] =  10.3;
     parameters[ 5 ] = -33.8;
     affineTransform->SetParameters( parameters );
-  }
+    }
   else if ( transformName == "BSpline" )
-  {
+    {
     /** Set the options. */
     SizeType gridSize;
     gridSize[ 0 ] = 7; gridSize[ 1 ] = 10;
@@ -126,25 +126,25 @@ int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
     ParametersType parameters( bSplineTransform->GetNumberOfParameters() );
     std::ifstream input( bSplineParametersFile.c_str() );
     if ( input.is_open() )
-    {
-      for ( unsigned int i = 0; i < parameters.GetSize(); ++i )
       {
+      for ( unsigned int i = 0; i < parameters.GetSize(); ++i )
+        {
         input >> parameters[ i ];
-      }
+        }
       input.close();
-    }
+      }
     else
-    {
+      {
       std::cerr << "ERROR: B-spline parameter file not found." << std::endl;
-      return 1;
-    }
+      return EXIT_FAILURE;
+      }
     bSplineTransform->SetParametersByValue( parameters );
-  }
+    }
   else
-  {
+    {
     std::cerr << "ERROR: Not a valid transform." << std::endl;
-    return 1;
-  }
+    return EXIT_FAILURE;
+    }
 
   /** Create an setup deformation field generator. */
   DeformationFieldGeneratorType::Pointer defGenerator
@@ -155,13 +155,13 @@ int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
   defGenerator->SetOutputIndex( index );
   //defGenerator->SetOutputDirection( direction );
   if ( transformName == "Affine" )
-  {
+    {
     defGenerator->SetTransform( affineTransform );
-  }
+    }
   else if ( transformName == "BSpline" )
-  {
+    {
     defGenerator->SetTransform( bSplineTransform );
-  }
+    }
 
   /** Write deformation field to disk. */
   WriterType::Pointer writer
@@ -170,17 +170,17 @@ int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
   writer->SetFileName( fileName.c_str() );
  
   try
-  {
+    {
     writer->Update();
-  }
+    }
   catch ( itk::ExceptionObject & e )
-  {
+    {
     std::cerr << "Exception detected while generating deformation field" << argv[1];
     std::cerr << " : "  << e.GetDescription();
-    return 1;
-  }
+    return EXIT_FAILURE;
+    }
 
-  return 0;
+  return EXIT_SUCCESS;
 
 } // end main
 
