@@ -14,6 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4756 ) // overflow in constant arithmetic
+// seems to be a bogus warning for this test
+#endif
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
