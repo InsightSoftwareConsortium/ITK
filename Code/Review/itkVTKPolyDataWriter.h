@@ -84,17 +84,16 @@ protected:
   VTKPolyDataWriter();
   virtual ~VTKPolyDataWriter();
 
-  void GenerateData();
+  virtual void GenerateData();
 
   std::string m_FileName;
+  InputMeshPointer m_Input;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+private:
   VTKPolyDataWriter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-private:
-  InputMeshPointer m_Input;
 };
 
 } // namespace itk
