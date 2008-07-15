@@ -24,7 +24,7 @@
 #include "itkTransformToDeformationFieldSource.h"
 #include "itkImageFileWriter.h"
 
-int itkTransformToDeformationFieldSourceTest( int argc, char **argv )
+int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
 {
   /** Check command line arguments. */
   if( argc < 3 )
