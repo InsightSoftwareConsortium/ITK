@@ -200,7 +200,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
     while( !inputIterators[0].IsAtEnd() )
       {
       IndexType idx;
-      const InternalIndexType & iidx = inputIterators[0].GetIndex();
+      const InternalIndexType iidx = inputIterators[0].GetIndex();
       for( unsigned int i = 0; i < InternalImageDimension; i++ )
         {
         if( i >= m_Dimension )
@@ -242,7 +242,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
     while( !outputIterators[0].IsAtEnd() )
       {
       IndexType idx;
-      const InternalIndexType & iidx = outputIterators[0].GetIndex();
+      const InternalIndexType iidx = outputIterators[0].GetIndex();
       for( unsigned int i = 0; i < InternalImageDimension; i++ )
         {
         if( i >= m_Dimension )
