@@ -156,6 +156,44 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
   return ( output );
 }
 
+
+/**
+ * Evaluate at image index position
+ */
+template<class TInputImage, class TCoordRep>
+typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
+::OutputType
+VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
+::EvaluateAtIndex( const IndexType & index) const
+{
+   // Find the index that is closest to the requested one
+   // but that lies within the image
+   IndexType insideIndex;
+
+   for( unsigned int dim = 0; dim < ImageDimension; dim++ )
+    {
+    if( index[dim] >=  this->m_StartIndex[dim] )
+      {
+      if( index[dim] <  this->m_EndIndex[dim] )
+        {
+        insideIndex[dim] = index[dim];
+        }
+      else
+        {
+        insideIndex[dim] = this->m_EndIndex[dim];
+        }
+      }
+    else
+      {
+      insideIndex[dim] = this->m_StartIndex[dim];
+      }
+    }
+
+   // Now call the superclass implementation of EvaluateAtIndex
+   // since we have ensured that the index lies in the image region
+   return this->Superclass::EvaluateAtIndex( insideIndex );
+}
+
 } // end namespace itk
 
 #endif

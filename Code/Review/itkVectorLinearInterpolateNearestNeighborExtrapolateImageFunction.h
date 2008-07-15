@@ -92,21 +92,22 @@ public:
   /** Output type is Vector<double,Dimension> */
   typedef typename Superclass::OutputType                              OutputType;
 
-  /** Check if an index is inside the image buffer.
-   * \warning For efficiency, no validity checking of
-   * the input image is done. */
+  /** Should check if an index is inside the image buffer, however we
+   * require that it answers true to use the extrapolation possibility. */
   virtual bool IsInsideBuffer( const IndexType & index ) const
     { 
-    return Superclass::IsInsideBuffer( index );
+    return true;
     }
 
-  /** Should check if a point is inside the image buffer however we
+  /** Should check if a point is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */
   virtual bool IsInsideBuffer( const PointType & ) const
     {
     return true;
     }
 
+  /** Should check if a continuous index is inside the image buffer, however we
+   * require that it answers true to use the extrapolation possibility. */
   virtual bool IsInsideBuffer( const ContinuousIndexType & ) const
     {
     return true;
@@ -119,6 +120,13 @@ public:
   * image buffer a nearest neighbor interpolation is done. */
   virtual OutputType EvaluateAtContinuousIndex(
      const ContinuousIndexType & index ) const;
+
+  /** Evaluate the function at an index position
+  *
+  * Simply returns the image value at the
+  * specified index position. If the index does not lie within the
+  * image buffer a nearest neighbor interpolation is done. */
+  virtual OutputType EvaluateAtIndex( const IndexType & index ) const;
 
 protected:
   VectorLinearInterpolateNearestNeighborExtrapolateImageFunction();
