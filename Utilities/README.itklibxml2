@@ -13,7 +13,7 @@ The version of libxml2 included with itk is intended to match the
 version of libxml2 distributed with vtk.   If an update to libxml2
 is needed, please contact the VTK and the ITK developers' lists.
 
-3. USEAGE
+3. USAGE
 
 The itklibxml2 library is only included in ITK if the cmake variable 
 ITK_USE_LIBXML2 is set to "ON".
