@@ -94,7 +94,7 @@ public:
 
   /** Should check if an index is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */
-  virtual bool IsInsideBuffer( const IndexType & index ) const
+  virtual bool IsInsideBuffer( const IndexType & ) const
     { 
     return true;
     }
