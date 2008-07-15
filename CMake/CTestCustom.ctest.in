@@ -16,6 +16,7 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "gdcmDocument.cxx:.*warning:.*__base_ctor.* is deprecated"
   "gdcmDicomDir.cxx:.*warning:.*__base_ctor.* is deprecated"
   "gdcmFileHelper.cxx:.*warning:.*__base_ctor.* is deprecated"
+  "/usr/bin/ld: warning: libnetcdf.so.3, needed by.*may conflict with libnetcdf.so.4"
   )
 
 IF(APPLE)
