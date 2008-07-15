@@ -25,10 +25,8 @@ SET(FEM_SRCS
   itkFEMElement3DC0LinearTetrahedronMembrane.cxx
   itkFEMElement3DC0LinearTetrahedronStrain.cxx
 
-  itkFEMMaterialBase.cxx
   itkFEMMaterialLinearElasticity.cxx
 
-  itkFEMLoadBase.cxx
   itkFEMLoadBC.cxx
   itkFEMLoadBCMFC.cxx
   itkFEMLoadNode.cxx
