@@ -618,6 +618,14 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest11 ${REVIEW_TESTS}
         0  1  0.001  0.1
         )
 
+ADD_TEST(itkGridForwardWarpImageFilterTest ${REVIEW_TESTS}
+        itkGridForwardWarpImageFilterTest
+        )
+
+ADD_TEST(itkWarpHarmonicEnergyCalculatorTest ${REVIEW_TESTS}
+        itkWarpHarmonicEnergyCalculatorTest
+        )
+
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png
