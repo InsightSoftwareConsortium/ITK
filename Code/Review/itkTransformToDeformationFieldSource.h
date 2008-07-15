@@ -169,6 +169,15 @@ public:
   /** Compute the Modified Time based on changes to the components. */
   unsigned long GetMTime( void ) const;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkStaticConstMacro(PixelDimension, unsigned int,
+                      PixelType::Dimension );
+  itkConceptMacro(SameDimensionCheck,
+    (Concept::SameDimension<ImageDimension,PixelDimension>));
+  /** End concept checking */
+#endif
+
 protected:
   TransformToDeformationFieldSource( void );
   ~TransformToDeformationFieldSource( void ) {};
