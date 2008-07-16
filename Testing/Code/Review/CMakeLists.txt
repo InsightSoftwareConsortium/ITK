@@ -504,25 +504,25 @@ ADD_TEST(itkVoxBoCUBImageIOTest1 ${REVIEW_TESTS}
 
 ADD_TEST(itkVoxBoCUBImageIOTest2 ${REVIEW_TESTS}
         itkVoxBoCUBImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume.cub
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub
         )
 
 ADD_TEST(itkVoxBoCUBImageIOTest3 ${REVIEW_TESTS}
         itkVoxBoCUBImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume1.cub
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub.gz
         )
 
 ADD_TEST(itkVoxBoCUBImageIOTest4 ${REVIEW_TESTS}
         itkVoxBoCUBImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub.gz
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume1.cub.gz
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
         )
 
 ADD_TEST(itkVoxBoCUBImageIOTest5 ${REVIEW_TESTS}
         itkVoxBoCUBImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub
         )
 
@@ -530,7 +530,7 @@ ADD_TEST(itkVoxBoCUBImageIOTest6 ${REVIEW_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
         itkVoxBoCUBImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
         )
 
@@ -538,7 +538,7 @@ ADD_TEST(itkVoxBoCUBImageIOTest7 ${REVIEW_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
         itkVoxBoCUBImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
+        ${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz
         ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
         )
 
