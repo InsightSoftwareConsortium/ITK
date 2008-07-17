@@ -618,6 +618,10 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest11 ${REVIEW_TESTS}
         0  1  0.001  0.1
         )
 
+ADD_TEST(itkFastSymmetricForcesDemonsRegistrationFilterTest ${REVIEW_TESTS}
+        itkFastSymmetricForcesDemonsRegistrationFilterTest
+        )
+
 ADD_TEST(itkGridForwardWarpImageFilterTest ${REVIEW_TESTS}
         itkGridForwardWarpImageFilterTest
         )
