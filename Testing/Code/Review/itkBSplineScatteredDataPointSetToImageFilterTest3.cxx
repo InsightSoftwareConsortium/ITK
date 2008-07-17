@@ -118,18 +118,18 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
     outputFile.open( argv[2] );
     
-    PointSetType::PointType parameterPosition;
-    VectorType P; 
+    PointSetType::PointType parameterPosition2;
+    VectorType P2; 
     FilterType::GradientType G;
 
-    for ( RealType t = 0.0; t <= 1.0+1e-10; t += 0.01 )
+    for ( RealType t2 = 0.0; t2 <= 1.0+1e-10; t2 += 0.01 )
       {
-      parameterPosition[0] = t;
+      parameterPosition[0] = t2;
 
-      filter->Evaluate( parameterPosition, P );
-      filter->EvaluateGradient( parameterPosition, G );
+      filter->Evaluate( parameterPosition2, P2 );
+      filter->EvaluateGradient( parameterPosition2, G );
 
-      outputFile << P[0] << " " << P[1] << " " << P[2];
+      outputFile << P2[0] << " " << P2[1] << " " << P2[2];
       outputFile << " : ";
       outputFile << G[0][0] << " " << G[1][0] << " " << G[2][0];
       outputFile << std::endl;
