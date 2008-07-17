@@ -237,6 +237,7 @@ IF(${CMAKE_SIZEOF_LONG} EQUAL 4)
   ADD_TEST(itkNarrowBandImageFilterBaseTest ${BASIC_FILTERS_TESTS1}
     --compare ${BASELINE}/itkNarrowBandImageFilterBaseTest.png
               ${TEMP}/itkNarrowBandImageFilterBaseTest.png
+    --compareNumberOfPixelsTolerance 5
     itkNarrowBandImageFilterBaseTest
                ${TEMP}/itkNarrowBandImageFilterBaseTest.png)
 ELSE(${CMAKE_SIZEOF_LONG} EQUAL 4) 
