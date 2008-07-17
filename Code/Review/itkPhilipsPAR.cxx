@@ -2540,7 +2540,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   if( index != std::string::npos )
     {
     struct image_info_defV41 tempInfo;
-    PARDiffusionValues direction;
+    PARDiffusionValues direction(0.0);
     int lineIncrement = 99;
 
     if( !ReadPAR(parFile, &tempPar) )
