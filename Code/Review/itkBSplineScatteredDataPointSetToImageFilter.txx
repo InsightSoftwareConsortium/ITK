@@ -446,14 +446,14 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         {
         off_Psi = this->NumberToIndex( j, size_Psi );
 
-        bool OutOfBoundary = false;
+        bool IsOutOfBoundary = false;
         for( unsigned int k = 0; k < ImageDimension; k++ )
           {
           tmp_Psi[k] = idx_Psi[k] + off_Psi[k];
           if( tmp_Psi[k] >= static_cast<int>( this->m_CurrentNumberOfControlPoints[k] )
                   && !this->m_CloseDimension[k] )
             {
-            OutOfBoundary = true;
+            IsOutOfBoundary = true;
             break;
             }
           if( this->m_CloseDimension[k] )
@@ -461,7 +461,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
            tmp_Psi[k] %= this->m_PsiLattice->GetLargestPossibleRegion().GetSize()[k];
             }
           }
-        if( OutOfBoundary )
+        if( IsOutOfBoundary )
           {
           continue;
           }
