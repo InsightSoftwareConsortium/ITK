@@ -124,7 +124,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
     for ( RealType t2 = 0.0; t2 <= 1.0+1e-10; t2 += 0.01 )
       {
-      parameterPosition[0] = t2;
+      parameterPosition2[0] = t2;
 
       filter->Evaluate( parameterPosition2, P2 );
       filter->EvaluateGradient( parameterPosition2, G );
