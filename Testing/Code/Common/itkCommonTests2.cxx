@@ -85,6 +85,7 @@ REGISTER_TEST(itkTransformsSetParametersTest );
 REGISTER_TEST(itkTranslationTransformTest );
 REGISTER_TEST(itkTreeContainerTest );
 REGISTER_TEST(itkTreeContainerTest2 );
+REGISTER_TEST(itkTriangleCellTest );
 REGISTER_TEST(itkVarianceImageFunctionTest );
 REGISTER_TEST(itkVectorGeometryTest );
 REGISTER_TEST(itkVectorImageTest );

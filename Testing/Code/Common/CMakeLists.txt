@@ -310,6 +310,7 @@ ADD_TEST(itkTransformsSetParametersTest ${COMMON_TESTS2} itkTransformsSetParamet
 ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS2} itkTranslationTransformTest)
 ADD_TEST(itkTreeContainerTest ${COMMON_TESTS2} itkTreeContainerTest)
 ADD_TEST(itkTreeContainerTest2 ${COMMON_TESTS2} itkTreeContainerTest2)
+ADD_TEST(itkTriangleCellTest ${COMMON_TESTS2} itkTriangleCellTest)
 ADD_TEST(itkVarianceImageFunctionTest ${COMMON_TESTS2} itkVarianceImageFunctionTest)
 ADD_TEST(itkVectorGeometryTest ${COMMON_TESTS2} itkVectorGeometryTest)
 ADD_TEST(itkVectorImageTest ${COMMON_TESTS2} itkVectorImageTest ${TEMP}/VectorImage.nrrd ${TEMP}/VectorImage.mhd)
@@ -531,6 +532,7 @@ itkTransformsSetParametersTest.cxx
 itkTranslationTransformTest.cxx
 itkTreeContainerTest.cxx
 itkTreeContainerTest2.cxx
+itkTriangleCellTest.cxx
 itkVarianceImageFunctionTest.cxx
 itkVectorGeometryTest.cxx
 itkVectorImageTest.cxx
