@@ -279,6 +279,77 @@ int itkTriangleCellTest(int, char* [] )
   //
 
 
+  // Test 4:
+  inputPoint[0] =  5.0;
+  inputPoint[1] = -5.0;
+  inputPoint[2] =  0.0;
+
+  std::cout << "Calling EvaluatePosition for ";
+  std::cout << inputPoint[0] << ", ";
+  std::cout << inputPoint[1] << ", ";
+  std::cout << inputPoint[2] << std::endl;
+
+  isInside = testCell->EvaluatePosition(inputPoint, 
+    points, closestPoint, pcoords , &distance, weights);
+ 
+  if( isInside )
+    {
+    std::cerr << "Error: point should be reported as being outside" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( ( vnl_math_abs( pcoords[0] + 0.5 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[1] - 0.5 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[2] - 1.0 ) > toleance )   )
+    {
+    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
+    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
+    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "pcoords[2] = " << pcoords[2] << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //
+  // NOTE: Outside points don't get their weights computed.
+  //
+
+
+  // Test 5:
+  inputPoint[0] = -5.0;
+  inputPoint[1] = -3.0;
+  inputPoint[2] =  0.0;
+
+  std::cout << "Calling EvaluatePosition for ";
+  std::cout << inputPoint[0] << ", ";
+  std::cout << inputPoint[1] << ", ";
+  std::cout << inputPoint[2] << std::endl;
+
+  isInside = testCell->EvaluatePosition(inputPoint, 
+    points, closestPoint, pcoords , &distance, weights);
+ 
+  if( isInside )
+    {
+    std::cerr << "Error: point should be reported as being outside" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( ( vnl_math_abs( pcoords[0] + 0.3 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[1] - 1.5 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[2] + 0.2 ) > toleance )   )
+    {
+    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
+    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
+    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "pcoords[2] = " << pcoords[2] << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //
+  // NOTE: Outside points don't get their weights computed.
+  //
+
+
+
   return EXIT_SUCCESS;  
 }
 
