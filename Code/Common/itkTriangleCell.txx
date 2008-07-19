@@ -390,42 +390,6 @@ TriangleCell< TCellInterface >
 }
 
 template<typename TCellInterface>
-typename TriangleCell< TCellInterface >::VectorType
-TriangleCell< TCellInterface >::ComputeNormal( const PointType& iP1,
-  const PointType& iP2, const PointType& iP3 )
-{
-  VectorType oN;
-  
-  if(PointDimension != 3)
-    {
-    itkWarningMacro("TriangleCell::ComputeNormal() only works with 3D points");
-    std::cout << "TriangleCell::ComputeNormal() only works with 3D points"
-      <<std::endl;
-    oN.Fill( 0. );
-    return oN;
-    }
-
-  VectorType v23 = iP3 - iP2;
-  VectorType v21 = iP1 - iP2;
-
-  oN = CrossProduct( v23, v21 );
-  oN.Normalize();
-
-  return oN;
-}
-
-template<typename TCellInterface>
-typename TriangleCell< TCellInterface >::VectorType
-TriangleCell< TCellInterface >::ComputeNormal( PointsContainer* iPoints )
-{
-  PointType p0 = iPoints->GetElement( m_PointIds[0] );
-  PointType p1 = iPoints->GetElement( m_PointIds[1] );
-  PointType p2 = iPoints->GetElement( m_PointIds[2] );
-
-  return ComputeNormal( p0, p1, p2 );
-}
-
-template<typename TCellInterface>
 typename TriangleCell< TCellInterface >::CoordRepType
 TriangleCell< TCellInterface >::ComputeArea( PointsContainer* iPoints )
 {
@@ -521,9 +485,7 @@ TriangleCell< TCellInterface >::ComputeCircumCenter(
 }
 
 
-/** Evaluate the position of a given point inside the cell 
- *  This only works in 3D since cross product is not defined
- *  for higher dimensions */
+/** Evaluate the position of a given point inside the cell */
 template <typename TCellInterface>
 bool
 TriangleCell< TCellInterface >
@@ -535,26 +497,13 @@ TriangleCell< TCellInterface >
                    InterpolationWeightType* weights)
 {
  
-  if(PointDimension != 3)
-    {
-    itkWarningMacro(
-      "TriangleCell::EvaluatePosition() only works with 3D points");
-    std::cout << "TriangleCell::EvaluatePosition() only works with 3D points"
-      << std::endl;
-    return false;
-    }
-
-
-  unsigned int i, j;
-  double fabsn;
-  double rhs[2], c1[2], c2[2];
-  double det;
-  double maxComponent;
-  unsigned int idx=0, indices[2];
-  double dist2Point, dist2Line1, dist2Line2;
+  unsigned int i;
+  double dist2Point;
+  double dist2Line1;
+  double dist2Line2;
   PointType closest; 
-  PointType closestPoint1, closestPoint2, cp;
-  CoordRepType pcoords[3];
+  PointType closestPoint1;
+  PointType closestPoint2;
   PointType X( x );
 
   if(!points)
@@ -562,128 +511,71 @@ TriangleCell< TCellInterface >
     return false;
     }
   
-  // Get normal for triangle, only the normal direction is needed, i.e. the
-  // normal need not be normalized (unit length)
+  //
+  // Get the vertexes of this triangle
   //
   PointType pt1 = points->GetElement(m_PointIds[0]);
   PointType pt2 = points->GetElement(m_PointIds[1]);
   PointType pt3 = points->GetElement(m_PointIds[2]);
 
-
-  // This is the solution for 3D points
-//   double ax, ay, az, bx, by, bz;
-
-  // order is important!!! maintain consistency with triangle vertex order
-  VectorType n = ComputeNormal( pt1, pt2, pt3 );
-
-/*  ax = pt3[0] - pt2[0]; ay = pt3[1] - pt2[1]; az = pt3[2] - pt2[2];
-  bx = pt1[0] - pt2[0]; by = pt1[1] - pt2[1]; bz = pt1[2] - pt2[2];
-
-  n[0] = (ay * bz - az * by);
-  n[1] = (az * bx - ax * bz);
-  n[2] = (ax * by - ay * bx);*/
- 
-  // Project point to plane
-//   double t( 0. ), n2( 0. );
-  VectorType xo = X - pt1;
-  double t = static_cast< double >( xo * n );
-//   for(i=0;i<PointDimension;i++)
-//     {
-//     xo[i] = x[i] - pt1[i];
-//     }
-// 
-//   for(i=0;i<PointDimension;i++)
-//     {
-//     t += static_cast< double >( n[i]*xo[i] );
-//     n2 += static_cast< double >( n[i]*n[i] );
-//     }
-// 
-  if(( n[0] != 0.) && ( n[1] != 0. ) && ( n[2] != 0. ) )
-    {
-    cp = X - n * t;
-//     for(i=0;i<PointDimension;i++)
-//       {
-//       cp[i] = x[i] - t * n[i]/n2;
-//       }
-    }
-  else
-    {
-    cp = X;
-//     for(i=0;i<PointDimension;i++)
-//       {
-//       cp[i] = x[i];
-//       }
-    }  
-
-  // Construct matrices.  Since we have over determined system, need to find
-  // which 2 out of 3 equations to use to develop equations. (Any 2 should 
-  // work since we've projected point to plane.)
   //
-  for (maxComponent=0.0, i=0; i<3; i++)
-    {
-    // trying to avoid an expensive call to vcl_fabs()
-    fabsn = ( n[i] < 0. ) ? -n[i] : n[i];
-    if (fabsn > maxComponent)
-      {
-      maxComponent = fabsn;
-      idx = i;
-      }
-    }
-
-  for (j=0, i=0; i<3; i++)  
-    {
-    if ( i != idx )
-      {
-      indices[j++] = i;
-      }
-    }
-  
-  for (i=0; i<2; i++)
-    {
-    rhs[i] = static_cast< double >( cp[indices[i]] - pt3[indices[i]] );
-    c1[i] = static_cast< double >( pt1[indices[i]] - pt3[indices[i]] );
-    c2[i] = static_cast< double >( pt2[indices[i]] - pt3[indices[i]] );
-    }
-
-  
-  if ( (det = c1[0]*c2[1] - c2[0]*c1[1]) == 0.0 )
-    {
-    pcoords[0] = pcoords[1] = pcoords[2] = 0.0;
-    if(pcoord)
-      {
-      pcoord[0] = pcoords[0]; 
-      pcoord[1] = pcoords[1];
-      pcoord[2] = pcoords[2];
-      }
-    return false;
-    }
-
-  const double _t1 = rhs[0]*c2[1] - c2[0]*rhs[1];
-  const double _t2 = c1[0]*rhs[1] - rhs[0]*c1[1];
-  pcoords[0] = _t1 / det;
-  pcoords[1] = _t2 / det;
-  pcoords[2] = (det - (_t1 + _t2))/det;
-
-  // Okay, now find closest point to element
+  // Compute Vectors along the edges.
+  // These two vectors form a vector base for the 2D space of the triangle cell.
   //
-  if(weights)
-    {
-    weights[0] = pcoords[2];
-    weights[1] = pcoords[0];
-    weights[2] = pcoords[1];
-    }
+  VectorType v12 = pt1 - pt2;
+  VectorType v32 = pt3 - pt2;
 
+  //
+  // Compute Vectors in the dual vector base inside the 2D space of the triangle cell.
+  // u12 is orthogonal to v32
+  // u32 is orthogonal to v12
+  //
+  const double dotproduct =  v12 * v32;
+  VectorType u12 = v12 - v32 * ( dotproduct / v32.GetSquaredNorm() );
+  VectorType u32 = v32 - v12 * ( dotproduct / v12.GetSquaredNorm() );
+
+  //
+  // Project point to plane, by using the dual vector base
+  //
+  // Compute components of the input point in the 2D
+  // space defined by v12 and v32
+  //
+  VectorType xo = X - pt2;
+  const double u12p = ( xo * u12 ) * v12.GetSquaredNorm();
+  const double u32p = ( xo * u32 ) * v32.GetSquaredNorm();
+
+  VectorType x12 = v12 * u12p;
+  VectorType x32 = v32 * u32p;
+
+  //
+  // The projection of point X in the plane is cp
+  //
+  PointType cp = pt2 + v12 + v32;
+
+  //
+  // Compute barycentric coordinates in the Triangle
+  //
+  const double b1 = u12p;
+  const double b2 = 1.0 - u12p - u32p;
+  const double b3 = u32p;
+
+  //
+  // Test if the projected point is inside the cell.
+  //
   // Zero with epsilon
   const double zwe = -NumericTraits<double>::min();
-  // One with epsilon
-  const double owe = 1.0 + NumericTraits<double>::min();
 
-  if ( pcoords[0] >= zwe  && pcoords[0] <= owe &&
-       pcoords[1] >= zwe  && pcoords[1] <= owe &&
-       pcoords[2] >= zwe  && pcoords[2] <= owe )
+  //
+  // Since the three barycentric coordinates are interdependent
+  // only three tests should be necessary. That is, we only need
+  // to test against the equations of three lines (half-spaces).
+  //
+  if( ( b1 >= zwe ) && ( b2 >= zwe ) && ( b3 >= zwe ) )
     {
+    //
+    // This is the case when the point is inside the triangle
     //projection distance
-    if (closestPoint)
+    if( closestPoint )
       { // Compute the Distance 2 Between Points
       *minDist2 = 0;
       for(i=0;i<PointDimension;i++)
@@ -694,19 +586,28 @@ TriangleCell< TCellInterface >
         }
       }
 
-    if(pcoord)
+    if( pcoord )
       {
-      pcoord[0] = pcoords[0]; 
-      pcoord[1] = pcoords[1];
-      pcoord[2] = pcoords[2];
+      pcoord[0] = b1;
+      pcoord[1] = b2;
+      pcoord[2] = b3;
       }
+
+    if(weights)
+      {
+      weights[0] = b1;
+      weights[1] = b2;
+      weights[2] = b3;
+      }
+
     return true;
-    }
+    }    
   else
     {
     if (closestPoint)
       {
-      if ( pcoords[0] < 0.0 && pcoords[1] < 0.0 )
+      double lt; // parameter along the line (not used)
+      if ( b1 < 0.0 && b2 < 0.0 )
         {
         dist2Point = 0;
         for(i=0;i<PointDimension;i++)
@@ -714,8 +615,8 @@ TriangleCell< TCellInterface >
           const double value = x[i] - pt3[i];
           dist2Point += value * value;
           }
-        dist2Line1 = this->DistanceToLine(x,pt1,pt3,t,closestPoint1);
-        dist2Line2 = this->DistanceToLine(x,pt3,pt2,t,closestPoint2);
+        dist2Line1 = this->DistanceToLine(x,pt1,pt3,lt,closestPoint1);
+        dist2Line2 = this->DistanceToLine(x,pt3,pt2,lt,closestPoint2);
         if (dist2Point < dist2Line1)
           {
           *minDist2 = dist2Point;
@@ -736,15 +637,15 @@ TriangleCell< TCellInterface >
           closestPoint[i] = closest[i];
           }
         }
-      else if ( pcoords[1] < 0.0 && pcoords[2] < 0.0 )
+      else if ( b2 < 0.0 && b3 < 0.0 )
         {
         dist2Point = 0;
         for(i=0;i<PointDimension;i++)
           {
           dist2Point += x[i]-pt1[i]*x[i]-pt1[i];
           }
-        dist2Line1 = this->DistanceToLine(x,pt1,pt3,t,closestPoint1);
-        dist2Line2 = this->DistanceToLine(x,pt1,pt2,t,closestPoint2);
+        dist2Line1 = this->DistanceToLine(x,pt1,pt3,lt,closestPoint1);
+        dist2Line2 = this->DistanceToLine(x,pt1,pt2,lt,closestPoint2);
         if (dist2Point < dist2Line1)
           {
           *minDist2 = dist2Point;
@@ -765,15 +666,15 @@ TriangleCell< TCellInterface >
           closestPoint[i] = closest[i];
           }
         }
-      else if ( pcoords[0] < 0.0 && pcoords[2] < 0.0 )
+      else if ( b1 < 0.0 && b3 < 0.0 )
         {
         dist2Point = 0;
         for(i=0;i<PointDimension;i++)
           {
           dist2Point += (x[i]-pt2[i])*(x[i]-pt2[i]);
           }
-        dist2Line1 = this->DistanceToLine(x,pt2,pt3,t,closestPoint1);
-        dist2Line2 = this->DistanceToLine(x,pt1,pt2,t,closestPoint2);
+        dist2Line1 = this->DistanceToLine(x,pt2,pt3,lt,closestPoint1);
+        dist2Line2 = this->DistanceToLine(x,pt1,pt2,lt,closestPoint2);
         if (dist2Point < dist2Line1)
           {
           *minDist2 = dist2Point;
@@ -794,24 +695,24 @@ TriangleCell< TCellInterface >
           closestPoint[i] = closest[i];
           }
         }
-      else if ( pcoords[0] < 0.0 )
+      else if ( b1 < 0.0 )
         {
-        *minDist2 = this->DistanceToLine(x,pt2,pt3,t,closestPoint);
+        *minDist2 = this->DistanceToLine(x,pt2,pt3,lt,closestPoint);
         }
-      else if ( pcoords[1] < 0.0 )
+      else if ( b2 < 0.0 )
         {
-        *minDist2 = this->DistanceToLine(x,pt1,pt3,t,closestPoint);
+        *minDist2 = this->DistanceToLine(x,pt1,pt3,lt,closestPoint);
         }
-      else if ( pcoords[2] < 0.0 )
+      else if ( b3 < 0.0 )
         {
-        *minDist2 = this->DistanceToLine(x,pt1,pt2,t,closestPoint);
+        *minDist2 = this->DistanceToLine(x,pt1,pt2,lt,closestPoint);
         }
       }
     if(pcoord)
       {
-      pcoord[0] = pcoords[0]; 
-      pcoord[1] = pcoords[1];
-      pcoord[2] = pcoords[2];
+      pcoord[0] = b1;
+      pcoord[1] = b2;
+      pcoord[2] = b3;
       }
     //Just fall through to default return false;
     }

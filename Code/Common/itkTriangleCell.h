@@ -101,8 +101,6 @@ public:
   /** Cell visitor interface. */
   itkCellVisitMacro(Superclass::TRIANGLE_CELL);
 
-  /** \brief Compute Normal to a TriangleCell given a PointsContainer.  */
-  VectorType ComputeNormal( PointsContainer* );
 
   /** \brief Compute Area to a TriangleCell given a PointsContainer.  */
   CoordRepType ComputeArea( PointsContainer* );
@@ -133,11 +131,6 @@ public:
   double DistanceToLine(PointType x, PointType p1, PointType p2, 
                               double &t, PointType &closestPoint);
 
-  /** \brief Compute to the face given 3 points: n=(iP3-iP2)^(iP1-iP2).
-  * Note that n is then normalized.
-  */
-  VectorType ComputeNormal( const PointType& iP1, const PointType& iP2,
-    const PointType& iP3 );
 };
 
 
