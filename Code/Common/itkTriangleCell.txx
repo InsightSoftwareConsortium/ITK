@@ -535,14 +535,21 @@ TriangleCell< TCellInterface >
   VectorType u32 = v32 - v12 * ( dotproduct / v12.GetSquaredNorm() );
 
   //
+  // Add normalizations for making {u12,u32} a vector basis orthonormal to {v12, v32}.
+  //
+  u12 /= ( u12 * v12 );
+  u32 /= ( u32 * v32 );
+
+  //
   // Project point to plane, by using the dual vector base
   //
   // Compute components of the input point in the 2D
   // space defined by v12 and v32
   //
   VectorType xo = X - pt2;
-  const double u12p = ( xo * u12 ) * v12.GetSquaredNorm();
-  const double u32p = ( xo * u32 ) * v32.GetSquaredNorm();
+
+  const double u12p = xo * u12;
+  const double u32p = xo * u32;
 
   VectorType x12 = v12 * u12p;
   VectorType x32 = v32 * u32p;
@@ -550,7 +557,7 @@ TriangleCell< TCellInterface >
   //
   // The projection of point X in the plane is cp
   //
-  PointType cp = pt2 + v12 + v32;
+  PointType cp = pt2 + x12 + x32;
 
   //
   // Compute barycentric coordinates in the Triangle
