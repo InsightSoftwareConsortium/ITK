@@ -163,6 +163,8 @@ int itkTriangleCellTest(int, char* [] )
   double distance;
   TriangleCellType::InterpolationWeightType weights[3];
 
+  const double toleance = 1e-5;
+
   bool isInside;
 
   // Test 1:
@@ -170,7 +172,10 @@ int itkTriangleCellTest(int, char* [] )
   inputPoint[1] = 3.0;
   inputPoint[2] = 0.0;
 
-  std::cout << "Calling EvaluatePosition for " << inputPoint << std::endl;
+  std::cout << "Calling EvaluatePosition for ";
+  std::cout << inputPoint[0] << ", ";
+  std::cout << inputPoint[1] << ", ";
+  std::cout << inputPoint[2] << std::endl;
 
   isInside = testCell->EvaluatePosition(inputPoint, 
     points, closestPoint, pcoords , &distance, weights);
@@ -180,6 +185,99 @@ int itkTriangleCellTest(int, char* [] )
     std::cerr << "Error: point should be reported as being inside" << std::endl;
     return EXIT_FAILURE;
     }
+
+  if( ( vnl_math_abs( pcoords[0] - 0.3 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[1] - 0.5 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[2] - 0.2 ) > toleance )   )
+    {
+    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
+    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
+    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "pcoords[2] = " << pcoords[2] << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( ( vnl_math_abs( weights[0] - 0.3 ) > toleance ) ||
+      ( vnl_math_abs( weights[1] - 0.5 ) > toleance ) ||
+      ( vnl_math_abs( weights[2] - 0.2 ) > toleance )   )
+    {
+    std::cerr << "Error: weights computed incorrectly" << std::endl;
+    std::cerr << "weights[0] = " << weights[0] << std::endl;
+    std::cerr << "weights[1] = " << weights[1] << std::endl;
+    std::cerr << "weights[2] = " << weights[2] << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Test 2:
+  inputPoint[0] = 15.0;
+  inputPoint[1] =  5.0;
+  inputPoint[2] =  0.0;
+
+  std::cout << "Calling EvaluatePosition for ";
+  std::cout << inputPoint[0] << ", ";
+  std::cout << inputPoint[1] << ", ";
+  std::cout << inputPoint[2] << std::endl;
+
+  isInside = testCell->EvaluatePosition(inputPoint, 
+    points, closestPoint, pcoords , &distance, weights);
+ 
+  if( isInside )
+    {
+    std::cerr << "Error: point should be reported as being outside" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( ( vnl_math_abs( pcoords[0] - 0.5 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[1] + 0.5 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[2] - 1.0 ) > toleance )   )
+    {
+    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
+    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
+    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "pcoords[2] = " << pcoords[2] << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //
+  // NOTE: Outside points don't get their weights computed.
+  //
+
+
+  // Test 3:
+  inputPoint[0] =  0.0;
+  inputPoint[1] = 10.0;
+  inputPoint[2] =  0.0;
+
+  std::cout << "Calling EvaluatePosition for ";
+  std::cout << inputPoint[0] << ", ";
+  std::cout << inputPoint[1] << ", ";
+  std::cout << inputPoint[2] << std::endl;
+
+  isInside = testCell->EvaluatePosition(inputPoint, 
+    points, closestPoint, pcoords , &distance, weights);
+ 
+  if( isInside )
+    {
+    std::cerr << "Error: point should be reported as being outside" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( ( vnl_math_abs( pcoords[0] - 1.0 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[1] - 1.0 ) > toleance ) ||
+      ( vnl_math_abs( pcoords[2] + 1.0 ) > toleance )   )
+    {
+    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
+    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
+    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "pcoords[2] = " << pcoords[2] << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //
+  // NOTE: Outside points don't get their weights computed.
+  //
+
 
   return EXIT_SUCCESS;  
 }
