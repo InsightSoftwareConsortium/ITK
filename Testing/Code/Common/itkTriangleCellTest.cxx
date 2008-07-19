@@ -44,7 +44,27 @@ int itkTriangleCellTest(int, char* [] )
   typedef itk::CellInterface< int, CellTraits >           CellInterfaceType;
   typedef itk::TriangleCell<CellInterfaceType>            TriangleCellType;
 
-   
+  class TriangleHelper : public TriangleCellType
+    {
+    typedef TriangleCellType::CoordRepType CoordRepType;
+    typedef TriangleCellType::PointsContainer PointsContainer;
+    typedef TriangleCellType::InterpolationWeightType InterpolationWeightType;
+
+    public:
+     bool EvaluatePosition(CoordRepType* inputPoint,
+                                PointsContainer* points,
+                                CoordRepType* closestPoint,
+                                CoordRepType pcoord [],
+                                double * distance,
+                                InterpolationWeightType* weights)
+      {
+      return this->Superclass::EvaluatePosition( inputPoint,
+        points, closestPoint, pcoord, distance, weights );
+      }
+      
+    };
+
+
   /**
    * Typedef the generic cell type for the mesh.  It is an abstract class,
    * so we can only use information from it, like get its pointer type.
@@ -66,12 +86,12 @@ int itkTriangleCellTest(int, char* [] )
   MeshType::Pointer mesh = MeshType::New();  
   mesh->DebugOn();
 
+  const unsigned int numberOfPoints = 4;
   /**
-   * Define the 3d geometric positions for 8 points in a cube.
+   * Define the 3d geometric positions for 4 points in a square.
    */
-  MeshType::CoordRepType testPointCoords[8][3]
-    = { {0,0,0}, {9,0,0}, {9,0,9}, {0,0,9},
-        {0,9,0}, {9,9,0}, {9,9,9}, {0,9,9} };
+  MeshType::CoordRepType testPointCoords[numberOfPoints][3]
+    = { {0,0,0}, {10,0,0}, {10,10,0}, {0,10,0} };
  
   /**
    * Add our test points to the mesh.
@@ -79,9 +99,9 @@ int itkTriangleCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8 ; ++i)
+  for(unsigned int i=0; i < numberOfPoints ; ++i)
     {
-    mesh->SetPoint(i, PointType(testPointCoords[i]));
+    mesh->SetPoint(i, PointType( testPointCoords[i] ) );
     }
 
   /** 
@@ -95,18 +115,18 @@ int itkTriangleCellTest(int, char* [] )
    * different types of cells.
    */
   CellAutoPointer testCell; 
-  TriangleCellType * newcell = new TriangleCellType;
+  TriangleHelper * newcell = new TriangleHelper;
   testCell.TakeOwnership( newcell ); // polymorphism
 
   /**
    * List the points that the polygon will use from the mesh.
    */
-  unsigned long polygon1Points[4] = {0,1,2,3};
+  unsigned long polygon1Points1[3] = {0,1,2};
  
   /**
    * Assign the points to the tetrahedron through their identifiers.
    */
-  testCell->SetPointIds(polygon1Points);
+  testCell->SetPointIds(polygon1Points1);
 
   /**
    * Add the test cell to the mesh.
@@ -130,6 +150,24 @@ int itkTriangleCellTest(int, char* [] )
     }
   }
  
+  
+
+  //
+  // Exercise the EvaluatePosition() method of the TriangleCell
+  //
+  TriangleCellType::CoordRepType inputPoint[3];
+  TriangleCellType::PointsContainer * points = mesh->GetPoints();
+  TriangleCellType::CoordRepType closestPoint[3];
+  TriangleCellType::CoordRepType pcoords[3];
+  double distance;
+  TriangleCellType::InterpolationWeightType weights[3];
+
+  bool isInside;
+
+  isInside = testCell->EvaluatePosition(inputPoint, 
+    points, closestPoint, pcoords , &distance, weights);
+ 
+
   return EXIT_SUCCESS;  
 }
 
