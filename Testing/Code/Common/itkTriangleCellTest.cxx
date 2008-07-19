@@ -46,9 +46,10 @@ int itkTriangleCellTest(int, char* [] )
 
   class TriangleHelper : public TriangleCellType
     {
-    typedef TriangleCellType::CoordRepType CoordRepType;
-    typedef TriangleCellType::PointsContainer PointsContainer;
-    typedef TriangleCellType::InterpolationWeightType InterpolationWeightType;
+    typedef TriangleCellType  Superclass;
+    typedef Superclass::CoordRepType CoordRepType;
+    typedef Superclass::PointsContainer PointsContainer;
+    typedef Superclass::InterpolationWeightType InterpolationWeightType;
 
     public:
      bool EvaluatePosition(CoordRepType* inputPoint,
@@ -121,7 +122,7 @@ int itkTriangleCellTest(int, char* [] )
   /**
    * List the points that the polygon will use from the mesh.
    */
-  unsigned long polygon1Points1[3] = {0,1,2};
+  unsigned long polygon1Points1[3] = {2,0,1};
  
   /**
    * Assign the points to the tetrahedron through their identifiers.
@@ -164,9 +165,21 @@ int itkTriangleCellTest(int, char* [] )
 
   bool isInside;
 
+  // Test 1:
+  inputPoint[0] = 5.0;
+  inputPoint[1] = 3.0;
+  inputPoint[2] = 0.0;
+
+  std::cout << "Calling EvaluatePosition for " << inputPoint << std::endl;
+
   isInside = testCell->EvaluatePosition(inputPoint, 
     points, closestPoint, pcoords , &distance, weights);
  
+  if( !isInside )
+    {
+    std::cerr << "Error: point should be reported as being inside" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;  
 }
