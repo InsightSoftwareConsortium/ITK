@@ -46,6 +46,9 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
 
   typedef itk::QuadEdgeMeshPoint< float, 3, QuadEdgeType >  PointType;
 
+  typedef PointType::Superclass             SuperclassPointType;
+
+
   PointType p0; // Test default constructor
 
   PointType p1;
@@ -62,6 +65,18 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
     return EXIT_FAILURE;
     }
      
+  //
+  // Test assigment from an itk::Point
+  //
+  SuperclassPointType ps;
+
+  ps[0] = 29;
+  ps[1] = 31;
+  ps[2] = 37;
+
+  PointType pp = ps;
+
+
   PointType::ValueArrayType cc;
   cc[0] =  17.7;
   cc[1] =  39.7;
