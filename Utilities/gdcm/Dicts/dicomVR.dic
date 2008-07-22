@@ -12,6 +12,7 @@ LO Long String;           // At most 64 chars
 LT Long Text;             // At most 10240 chars
 OB Other Byte String;     // String of bytes (VR independant)
 OW Other Word String;     // String of 16-bit words (VR dependant)
+OF Other Float String;    // String of 32-bits IEEE754:1985 floating point words
 PN Person Name;           // At most 64 chars
 SH Short String;          // At most 16 chars
 SL Signed Long;           // Exactly 4 bytes
