@@ -264,6 +264,10 @@ ADD_TEST(itkMetaImageStreamingWriterIOTest ${IO_TESTS}
   itkMetaImageStreamingWriterIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha)
+ADD_TEST(itkMetaImageStreamingWriterIOTest2 ${IO_TESTS} 
+  itkMetaImageStreamingWriterIOTest
+            ${ITK_DATA_ROOT}/Input/mri3D.mhd
+            ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
 ADD_TEST(itkGiplImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
