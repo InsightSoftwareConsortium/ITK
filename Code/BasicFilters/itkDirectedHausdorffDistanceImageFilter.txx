@@ -120,9 +120,13 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
   // Resize the thread temporaries
   m_MaxDistance.SetSize(numberOfThreads);
+  m_PixelCount.SetSize(numberOfThreads);
+  m_Sum.SetSize(numberOfThreads);
   
   // Initialize the temporaries
   m_MaxDistance.Fill(NumericTraits<RealType>::Zero);
+  m_PixelCount.Fill(0);
+  m_Sum.Fill(NumericTraits<RealType>::Zero);
 
   // Compute Danielsson distance from non-zero pixels in the second image
   typedef itk::DanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
@@ -148,6 +152,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   int numberOfThreads = this->GetNumberOfThreads();
 
   m_DirectedHausdorffDistance = NumericTraits<RealType>::Zero;
+  RealType sum = NumericTraits<RealType>::Zero;
+  unsigned int pixelcount = 0;
 
   // find max over all threads
   for( i = 0; i < numberOfThreads; i++)
@@ -156,7 +162,11 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
       {
       m_DirectedHausdorffDistance = m_MaxDistance[i];
       }
+    pixelcount += m_PixelCount[i];
+    sum += m_Sum[i];
     }
+
+  m_AverageHausdorffDistance = sum / (RealType) pixelcount;
 
   // clean up
   m_DistanceMap = NULL;
@@ -188,6 +198,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
         {
         m_MaxDistance[threadId] = it2.Get();
         }
+      m_PixelCount[threadId]++;
+      m_Sum[threadId] += it2.Get();
       }
 
     ++it1;

@@ -149,7 +149,7 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
     {
     m_HausdorffDistance = distance21;
     }
-
+  m_AverageHausdorffDistance = ( filter12->GetAverageHausdorffDistance() + filter21->GetAverageHausdorffDistance() ) / 2.0;
 }
 
 

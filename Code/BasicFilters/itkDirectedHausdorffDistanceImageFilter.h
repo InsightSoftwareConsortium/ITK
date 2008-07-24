@@ -113,6 +113,7 @@ public:
   
   /** Return the computed directed Hausdorff distance. */
   itkGetMacro(DirectedHausdorffDistance,RealType);
+  itkGetMacro(AverageHausdorffDistance,RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -154,7 +155,10 @@ private:
   
   typename DistanceMapType::Pointer   m_DistanceMap;
   Array<RealType>                     m_MaxDistance;
+  Array<unsigned int>                 m_PixelCount;
+  Array<RealType>                     m_Sum;
   RealType                            m_DirectedHausdorffDistance;
+  RealType                            m_AverageHausdorffDistance;
 
 } ; // end of class
 

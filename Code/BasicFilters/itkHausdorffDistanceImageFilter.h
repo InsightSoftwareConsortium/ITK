@@ -111,6 +111,7 @@ public:
   
   /** Return the computed Hausdorff distance. */
   itkGetMacro(HausdorffDistance,RealType);
+  itkGetMacro(AverageHausdorffDistance,RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -138,6 +139,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   RealType                            m_HausdorffDistance;
+  RealType                            m_AverageHausdorffDistance;
 
 } ; // end of class
 
