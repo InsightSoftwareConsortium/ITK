@@ -220,6 +220,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
   os << indent << "DirectedHausdorffDistance: "  
      << m_DirectedHausdorffDistance << std::endl;
+  os << indent << "AverageHausdorffDistance: "  
+     << m_AverageHausdorffDistance << std::endl;
 }
 
 

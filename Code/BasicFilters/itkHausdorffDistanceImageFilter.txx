@@ -163,6 +163,8 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
   os << indent << "HausdorffDistance: "  
      << m_HausdorffDistance << std::endl;
+  os << indent << "AverageHausdorffDistance: "  
+     << m_AverageHausdorffDistance << std::endl;
 }
 
 
