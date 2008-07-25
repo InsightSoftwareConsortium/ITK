@@ -40,16 +40,17 @@ CanReadFile(const char *fileName)
   recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
   recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm");
   return recognizedExtension;
-  
 }
 
 bool
 TxtTransformIO::
 CanWriteFile(const char *fileName)
 {
-  return (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
+  bool recognizedExtension = false;
+  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
+  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm");
+  return recognizedExtension;
 }
-
 
 std::string 
 TxtTransformIO::
