@@ -391,6 +391,7 @@ ITK_THIRD_PARTY_OPTION(LIBXML2 libxml2)
 
 #-----------------------------------------------------------------------------
 # If choose to build documentation, then search for Doxygen executables.
+OPTION(BUILD_DOXYGEN "Build Doxygen Documentation" OFF)
 IF(BUILD_DOXYGEN)
   FIND_PACKAGE(Doxygen)
 ENDIF(BUILD_DOXYGEN)
