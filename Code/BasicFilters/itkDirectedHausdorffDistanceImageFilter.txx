@@ -37,6 +37,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 
   m_DistanceMap = NULL;
   m_DirectedHausdorffDistance = NumericTraits<RealType>::Zero;      
+  m_AverageHausdorffDistance = NumericTraits<RealType>::Zero;      
 }
 
 
