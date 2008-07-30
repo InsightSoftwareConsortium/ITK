@@ -421,10 +421,9 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   unsigned long len = m_FixedImageIndexes.size();
   m_NumberOfFixedImageSamples = len;
   this->NumberOfFixedImageSamplesUpdated();
-
   samples.resize(len);
-  iter=samples.begin();
 
+  iter=samples.begin();
   for(unsigned long i=0; i<len; i++)
     {
     // Get sampled index
@@ -449,9 +448,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
   RandomIterator randIter( m_FixedImage, GetFixedImageRegion() );
 
-  randIter.SetNumberOfSamples( m_NumberOfFixedImageSamples );
-  randIter.GoToBegin();
-
   typename FixedImageSampleContainer::iterator iter;
   typename FixedImageSampleContainer::const_iterator end=samples.end();
 
@@ -463,11 +459,14 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     int count = 0;
     int samples_found = 0;
     int maxcount = m_NumberOfFixedImageSamples * 10;
+    randIter.SetNumberOfSamples( m_NumberOfFixedImageSamples * 10 );
+    randIter.GoToBegin();
     while( iter != end )
       {
 
-      if ( count > maxcount )
+      if ( count > maxcount || randIter.IsAtEnd() )
         {
+        m_NumberOfFixedImageSamples = samples_found;
         samples.resize(samples_found);
         break;
         }
@@ -478,8 +477,16 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       // Check if the Index is inside the mask, translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-      // If not inside the mask, ignore the point
-      if( !m_FixedImageMask->IsInside( inputPoint ) )
+      double val;
+      if( m_FixedImageMask->ValueAt( inputPoint, val ) )
+        {
+        if( val == 0 )
+          {
+          ++randIter; // jump to another random position
+          continue;
+          }
+        }
+      else
         {
         ++randIter; // jump to another random position
         continue;
@@ -506,6 +513,8 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
+    randIter.SetNumberOfSamples( m_NumberOfFixedImageSamples );
+    randIter.GoToBegin();
     for( iter=samples.begin(); iter != end; ++iter )
       {
       // Get sampled index

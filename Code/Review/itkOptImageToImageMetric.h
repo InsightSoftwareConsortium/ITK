@@ -370,7 +370,7 @@ protected:
   unsigned long               m_NumberOfParameters;
   mutable ParametersType      m_Parameters;
 
-  unsigned long               m_NumberOfFixedImageSamples;
+  mutable unsigned long       m_NumberOfFixedImageSamples;
   mutable unsigned long       m_NumberOfMovingImageSamples;
 
   FixedImageConstPointer      m_FixedImage;
