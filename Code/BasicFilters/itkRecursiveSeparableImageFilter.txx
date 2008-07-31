@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRecursiveSeparableImageFilter_txx
-#define _itkRecursiveSeparableImageFilter_txx
+#ifndef __itkRecursiveSeparableImageFilter_txx
+#define __itkRecursiveSeparableImageFilter_txx
 
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
@@ -52,8 +52,6 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 }
 
 
-
-
 /**
  * Get Input Image
  */
@@ -67,11 +65,9 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 }
 
 
-
-
 /**
-* Apply Recursive Filter
-*/
+ * Apply Recursive Filter
+ */
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveSeparableImageFilter<TInputImage,TOutputImage>
@@ -301,8 +297,8 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 {
   typedef typename TOutputImage::PixelType  OutputPixelType;
 
-  typedef ImageLinearConstIteratorWithIndex< TInputImage  >  InputConstIteratorType;
-  typedef ImageLinearIteratorWithIndex< TOutputImage >  OutputIteratorType;
+  typedef ImageLinearConstIteratorWithIndex< TInputImage >  InputConstIteratorType;
+  typedef ImageLinearIteratorWithIndex< TOutputImage >      OutputIteratorType;
 
   typedef ImageRegion< TInputImage::ImageDimension > RegionType;
     
@@ -427,6 +423,3 @@ RecursiveSeparableImageFilter<TInputImage,TOutputImage>
 } // end namespace itk
 
 #endif
-
-
-

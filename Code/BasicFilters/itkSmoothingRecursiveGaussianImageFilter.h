@@ -46,17 +46,17 @@ class ITK_EXPORT SmoothingRecursiveGaussianImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef SmoothingRecursiveGaussianImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef SmoothingRecursiveGaussianImageFilter             Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>      Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
   
   
   /** Pixel Type of the input image */
-  typedef TInputImage                                    InputImageType;
-  typedef TOutputImage                                   OutputImageType;
-  typedef typename TInputImage::PixelType                PixelType;
-  typedef typename NumericTraits<PixelType>::RealType    RealType;
+  typedef TInputImage                                       InputImageType;
+  typedef TOutputImage                                      OutputImageType;
+  typedef typename TInputImage::PixelType                   PixelType;
+  typedef typename NumericTraits<PixelType>::RealType       RealType;
   typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
 
 
@@ -105,7 +105,7 @@ public:
   typedef typename CastingFilterType::Pointer             CastingFilterPointer;
 
   /**  Pointer to the Output Image */
-  typedef typename OutputImageType::Pointer                  OutputImagePointer;                                  
+  typedef typename OutputImageType::Pointer                  OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -167,7 +167,3 @@ private:
 #endif
 
 #endif
-
-
-
-

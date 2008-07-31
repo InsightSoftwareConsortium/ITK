@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSmoothingRecursiveGaussianImageFilter_txx
-#define _itkSmoothingRecursiveGaussianImageFilter_txx
+#ifndef __itkSmoothingRecursiveGaussianImageFilter_txx
+#define __itkSmoothingRecursiveGaussianImageFilter_txx
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -71,7 +71,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 }
 
 
-
 template <typename TInputImage, typename TOutputImage>
 void 
 SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
@@ -85,7 +84,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_FirstSmoothingFilter->SetNumberOfThreads( nb );
 
 }
-
 
 
 /**
@@ -109,7 +107,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     }
 
 }
-
 
 
 /**

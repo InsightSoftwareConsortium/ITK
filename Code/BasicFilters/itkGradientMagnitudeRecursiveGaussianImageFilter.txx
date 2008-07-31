@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGradientMagnitudeRecursiveGaussianImageFilter_txx
-#define _itkGradientMagnitudeRecursiveGaussianImageFilter_txx
+#ifndef __itkGradientMagnitudeRecursiveGaussianImageFilter_txx
+#define __itkGradientMagnitudeRecursiveGaussianImageFilter_txx
 
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -259,7 +259,6 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   m_SqrtFilter->Update();
   this->GraftOutput( m_SqrtFilter->GetOutput() );
 }
-
 
 
 } // end namespace itk

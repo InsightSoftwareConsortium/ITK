@@ -50,9 +50,9 @@ class ITK_EXPORT GradientMagnitudeRecursiveGaussianImageFilter:
 public:
   /** Standard class typedefs. */
   typedef GradientMagnitudeRecursiveGaussianImageFilter  Self;
-  typedef InPlaceImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef InPlaceImageFilter<TInputImage,TOutputImage>   Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
   
   
   /** Pixel Type of the input image */
@@ -104,8 +104,8 @@ public:
   typedef typename TOutputImage::Pointer           OutputImagePointer;
 
   /** Type of the output Image */
-  typedef TOutputImage      OutputImageType;
-  typedef typename          OutputImageType::PixelType      OutputPixelType;
+  typedef TOutputImage                             OutputImageType;
+  typedef typename OutputImageType::PixelType      OutputPixelType;
 
   /**  Auxiliary image for holding the values of the squared gradient components */
   typedef Image< InternalRealType, 
@@ -163,8 +163,8 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   class SqrSpacing
-  {
-  public:
+    {
+    public:
     SqrSpacing() : m_Spacing(0) {};
     ~SqrSpacing() {};
     bool operator!=( const SqrSpacing & other ) const
@@ -181,7 +181,7 @@ private:
       }
     
     double m_Spacing;
-  };
+    };
   
   typedef BinaryFunctorImageFilter< RealImageType, RealImageType, RealImageType, SqrSpacing > SqrSpacingFilterType;
   typedef typename SqrSpacingFilterType::Pointer SqrSpacingFilterPointer;
@@ -204,7 +204,3 @@ private:
 #endif
 
 #endif
-
-
-
-

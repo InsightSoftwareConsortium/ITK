@@ -51,27 +51,28 @@ class ITK_EXPORT RecursiveSeparableImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef RecursiveSeparableImageFilter  Self;
+  typedef RecursiveSeparableImageFilter                  Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Type macro that defines a name for this class. */
   itkTypeMacro( RecursiveSeparableImageFilter, ImageToImageFilter );
 
   /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer  InputImagePointer;
+  typedef typename TInputImage::Pointer       InputImagePointer;
   typedef typename TInputImage::ConstPointer  InputImageConstPointer;
 
   /** Real type to be used in internal computations. RealType in general is
    * templated over the pixel type. (For example for vector or tensor pixels,
    * RealType is a vector or a tensor of doubles.) ScalarRealType is a type 
-   * meant for scalars.*/
-  typedef typename TInputImage::PixelType                   InputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType  RealType;
+   * meant for scalars.
+   */
+  typedef typename TInputImage::PixelType                        InputPixelType;
+  typedef typename NumericTraits<InputPixelType>::RealType       RealType;
   typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
 
-  typedef typename TOutputImage::RegionType                 OutputImageRegionType;
+  typedef typename TOutputImage::RegionType                      OutputImageRegionType;
 
   /** Type of the input image */
   typedef TInputImage      InputImageType;
@@ -97,7 +98,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** GenerateData (apply) the filter. */   
-//  void GenerateData(void);
   void BeforeThreadedGenerateData();
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
 
@@ -127,14 +127,6 @@ protected:
    * deallocation in the inner loop of the overall algorithm. */
   void FilterDataArray(RealType *outs, const RealType *data, RealType *scratch,
                        unsigned int ln);
-
-private:  
-  RecursiveSeparableImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  /** Direction in which the filter is to be applied
-   * this should be in the range [0,ImageDimension-1]. */ 
-  unsigned int m_Direction;
 
 protected:
   /** Causal coefficients that multiply the input data. */
@@ -169,6 +161,14 @@ protected:
   ScalarRealType m_BM3;
   ScalarRealType m_BM4; 
  
+private:  
+  RecursiveSeparableImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  /** Direction in which the filter is to be applied
+   * this should be in the range [0,ImageDimension-1]. */ 
+  unsigned int m_Direction;
+
 };
 
 
