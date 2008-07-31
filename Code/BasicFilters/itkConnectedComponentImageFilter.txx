@@ -66,12 +66,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 template< class TInputImage, class TOutputImage, class TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
-::GenerateData()
+::BeforeThreadedGenerateData()
 {
-  // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex<InputImageType>
-    InputLineIteratorType;
-
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
@@ -84,30 +80,85 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
     maskFilter->SetInput( input );
     maskFilter->SetInput2( mask );
     maskFilter->Update();
-    input = maskFilter->GetOutput();
+    m_Input = maskFilter->GetOutput();
+    }
+  else
+    {
+    m_Input = input;
     }
 
-  long LineIdx = 0;
-  InputLineIteratorType inLineIt(input, output->GetRequestedRegion());
-  inLineIt.SetDirection(0);
-  LineMapType LineMap;
-  // Allocate the output
-  this->AllocateOutputs();
+  long nbOfThreads = this->GetNumberOfThreads();
+  if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+    {
+    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    }
+//  std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
-  long int lab = NumericTraits<long int>::Zero;
-  OffsetVec LineOffsets;
+  // set up the vars used in the threads
+  m_NumberOfLabels.clear();
+  m_NumberOfLabels.resize( nbOfThreads, 0 );
+  m_Barrier = Barrier::New();
+  m_Barrier->Initialize( nbOfThreads );
+  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  long xsize = output->GetRequestedRegion().GetSize()[0];
+  long linecount = pixelcount/xsize;
+  m_LineMap.resize( linecount );
+  m_FirstLineIdToJoin.resize( nbOfThreads - 1 );
+}
+
+
+template< class TInputImage, class TOutputImage, class TMaskImage >
+void
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
+::ThreadedGenerateData(const RegionType& outputRegionForThread,
+         int threadId) 
+{
+  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TMaskImage::ConstPointer mask = this->GetMaskImage();
+
+  long nbOfThreads = this->GetNumberOfThreads();
+  if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+    {
+    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    }
+
+  // create a line iterator
+  typedef itk::ImageLinearConstIteratorWithIndex<InputImageType>
+    InputLineIteratorType;
+  InputLineIteratorType inLineIt(m_Input, outputRegionForThread);
+  inLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
-  long pixelcount = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = this->GetOutput()->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount/xsize;
-  ProgressReporter progress(this, 0, linecount * 2);
+  long pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
+  long xsizeForThread = outputRegionForThread.GetSize()[0];
+  long linecountForThread = pixelcountForThread/xsizeForThread;
+  ProgressReporter progress(this, threadId, linecountForThread * 2);
 
+  // find the split axis
+  IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
+  IndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
+  int splitAxis = 0;
+  for( int i=0; i<ImageDimension; i++ )
+    {
+    if( outputRegionIdx[i] != outputRegionForThreadIdx[i] )
+      {
+      splitAxis = i;
+      }
+    }
+
+  // compute the number of pixels before that threads
+  SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
+  outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
+  long firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
+  long lineId = firstLineIdForThread;
+
+  OffsetVec LineOffsets;
   SetupLineOffsets(LineOffsets);
 
+  long nbOfLabels = 0;
   for( inLineIt.GoToBegin();
     !inLineIt.IsAtEnd();
-    inLineIt.NextLine(), ++LineIdx)
+    inLineIt.NextLine() )
     {
     inLineIt.GoToBeginOfLine();
     lineEncoding ThisLine;
@@ -121,7 +172,6 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
         runLength thisRun;
         long length=0;
         IndexType thisIndex;
-        ++lab;
         thisIndex = inLineIt.GetIndex();
         //std::cout << thisIndex << std::endl;
         ++length;
@@ -134,83 +184,168 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
           }
         // create the run length object to go in the vector
         thisRun.length=length;
-        thisRun.label=lab;
+        thisRun.label=0; // will give a real label later
         thisRun.where = thisIndex;
         ThisLine.push_back(thisRun);
+        nbOfLabels++;
         }
       else 
         {
         ++inLineIt;
         }
       }
-    if (ThisLine.size() != 0)
-      {
-      //
-      // There are some runs on this line, so insert it into the map.
-      // This conditional insertion "breaks" the full progress report - because
-      // of it, the report will not be 1.0 at the end of the execution if some
-      // lines are empty - but with it, the computation time decrease from 
-      // 0.059922 s to 0.0452819 s on the test image
-      // http://voxel.jouy.inra.fr/darcs/contrib-itk/watershed/images/ESCells-markers.tif
-      //
-      LineMap[LineIdx] = ThisLine;
-      }
+    m_LineMap[lineId] = ThisLine;
+    lineId++;
     progress.CompletedPixel();
     }
-  
-  // set up the union find structure
-  InitUnion(lab);
-  // insert all the labels into the structure -- an extra loop but
-  // saves complicating the ones that come later
-  for (long pp = 1; pp <= lab; pp++)
+
+  m_NumberOfLabels[threadId] = nbOfLabels;
+
+  // wait for the other threads to complete that part
+  this->Wait();
+
+  // compute the total number of labels
+  nbOfLabels = 0;
+  for( int i=0; i<nbOfThreads; i++ )
     {
-    InsertSet(pp);
+    nbOfLabels += m_NumberOfLabels[i];
     }
+  
+  if( threadId == 0 )
+    {
+    // set up the union find structure
+    InitUnion(nbOfLabels);
+    // insert all the labels into the structure -- an extra loop but
+    // saves complicating the ones that come later
+    typename LineMapType::iterator MapBegin, MapEnd, LineIt;
+    MapBegin = m_LineMap.begin();
+    MapEnd = m_LineMap.end(); 
+    LineIt = MapBegin;
+    unsigned long label = 1;
+    for (LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
+      {
+      typename lineEncoding::iterator cIt;
+      for (cIt = LineIt->begin();cIt != LineIt->end();++cIt)
+        {
+        cIt->label = label;
+        InsertSet(label);
+        label++;
+        }
+      }
+    }
+
+  // wait for the other threads to complete that part
+  this->Wait();
+
   // now process the map and make appropriate entries in an equivalence
   // table
-  
+  // assert( linecount == m_LineMap.size() );
+  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  long xsize = output->GetRequestedRegion().GetSize()[0];
+  long linecount = pixelcount/xsize;
 
-  typename LineMapType::iterator MapBegin, MapEnd, LineIt;
-
-  MapBegin = LineMap.begin();
-  MapEnd = LineMap.end(); 
-  LineIt = MapBegin;
-
-  //while( LineIt != MapEnd)
-  for (LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
+  long lastLineIdForThread =  linecount;
+  long nbOfLineIdToJoin = 0;
+  if( threadId != nbOfThreads - 1 )
     {
-    //lineEncoding L = LineIt->second;
-    long ThisIdx = LineIt->first;
-    //std::cout << "Line number = " << LineIt->first << std::endl;
-    for (OffsetVec::const_iterator I = LineOffsets.begin();
-         I != LineOffsets.end(); ++I)
+    SizeType outputRegionForThreadSize = outputRegionForThread.GetSize();
+    outputRegionForThreadSize[splitAxis] -= 1;
+    lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
+    m_FirstLineIdToJoin[threadId] = lastLineIdForThread;
+    // found the number of line ids to join
+    nbOfLineIdToJoin = RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread - RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
+    }
+
+  for(long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
+    {
+    if( !m_LineMap[ThisIdx].empty() )
       {
-      long NeighIdx = ThisIdx + (*I);
-      // check if the neighbor is in the map
-      typename LineMapType::const_iterator NN = LineMap.find(NeighIdx);
-      if (NN != MapEnd) 
+      for (OffsetVec::const_iterator I = LineOffsets.begin();
+           I != LineOffsets.end(); ++I)
         {
-        // Now check whether they are really neighbors
-        bool areNeighbors
-          = CheckNeighbors(LineIt->second[0].where, NN->second[0].where);
-        if (areNeighbors)
+        long NeighIdx = ThisIdx + (*I);
+        // check if the neighbor is in the map
+        if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
-          // Compare the two lines
-          CompareLines(LineIt->second, NN->second);
+          // Now check whether they are really neighbors
+          bool areNeighbors
+            = CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
+          if (areNeighbors)
+            {
+            // Compare the two lines
+            CompareLines(m_LineMap[ThisIdx], m_LineMap[NeighIdx]);
+            }
           }
         }
       }
     }
   
-  unsigned long int totalLabs = CreateConsecutive();
-  m_ObjectCount = totalLabs;
-  // check for overflow exception here
-  if( totalLabs > static_cast<unsigned long int>(
-           NumericTraits<OutputPixelType>::max() ) )
+  // wait for the other threads to complete that part
+  this->Wait();
+
+  while( m_FirstLineIdToJoin.size() != 0 )
     {
-    itkExceptionMacro(
-      << "Number of objects greater than maximum of output pixel type " );
+    if( threadId * 2 < (int)m_FirstLineIdToJoin.size() )
+      {
+      for(long ThisIdx = m_FirstLineIdToJoin[threadId * 2];
+          ThisIdx < m_FirstLineIdToJoin[threadId * 2] + nbOfLineIdToJoin;
+          ++ThisIdx)
+        {
+        if( !m_LineMap[ThisIdx].empty() )
+          {
+          for (OffsetVec::const_iterator I = LineOffsets.begin();
+              I != LineOffsets.end(); ++I)
+            {
+            long NeighIdx = ThisIdx + (*I);
+            // check if the neighbor is in the map
+            if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
+              {
+              // Now check whether they are really neighbors
+              bool areNeighbors
+                = CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
+              if (areNeighbors)
+                {
+                // Compare the two lines
+                CompareLines(m_LineMap[ThisIdx], m_LineMap[NeighIdx]);
+                }
+              }
+            }
+          }
+        }
+      }
+
+    this->Wait();
+
+    if( threadId == 0 )
+      {
+      // remove the region already joined
+      typename std::vector< long > newFirstLineIdToJoin;
+      for( unsigned int i = 1; i<m_FirstLineIdToJoin.size(); i+=2 )
+        {
+        newFirstLineIdToJoin.push_back( m_FirstLineIdToJoin[i] );
+        }
+      m_FirstLineIdToJoin = newFirstLineIdToJoin;
+      }
+
+    this->Wait();
+
     }
+
+  if( threadId == 0 )
+    {
+    unsigned long int totalLabs = CreateConsecutive();
+    m_ObjectCount = totalLabs;
+    // check for overflow exception here
+    if( totalLabs > static_cast<unsigned long int>(
+            NumericTraits<OutputPixelType>::max() ) )
+      {
+      itkExceptionMacro(
+        << "Number of objects greater than maximum of output pixel type " );
+      }
+    }
+  this->Wait();
+
+
   // create the output
   // A more complex version that is intended to minimize the number of
   // visits to the output image which should improve cache
@@ -220,8 +355,54 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   // make much difference in practice.
   // Note - this is unnecessary if AllocateOutputs initalizes to zero
 
-  FillOutput(LineMap, progress);
+  ImageRegionIterator<OutputImageType> oit(output, outputRegionForThread);
+  ImageRegionIterator<OutputImageType> fstart=oit, fend=oit;
+  fstart.GoToBegin();
+  fend.GoToEnd();
 
+  lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread;
+
+  for (long ThisIdx = firstLineIdForThread; ThisIdx<lastLineIdForThread; ThisIdx++)
+    {
+    // now fill the labelled sections
+    typename lineEncoding::const_iterator cIt;
+
+    for (cIt = m_LineMap[ThisIdx].begin();cIt != m_LineMap[ThisIdx].end();++cIt)
+      {
+      unsigned long Ilab = LookupSet( cIt->label);
+      OutputPixelType lab = m_Consecutive[Ilab];
+      oit.SetIndex(cIt->where);
+      // initialize the non labelled pixels
+      for (; fstart != oit; ++fstart)
+        {
+        fstart.Set( m_BackgroundValue );
+        }
+      for (long i = 0; i < cIt->length; ++i, ++oit)
+        {
+        oit.Set(lab);
+        }
+      fstart = oit;
+      //++fstart;
+      }
+    progress.CompletedPixel();
+    }
+  // fill the rest of the image with background value
+  for (; fstart != fend; ++fstart)
+    {
+    fstart.Set( m_BackgroundValue );
+    }
+
+}
+
+template< class TInputImage, class TOutputImage, class TMaskImage >
+void
+ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
+::AfterThreadedGenerateData()
+{
+  m_NumberOfLabels.clear();
+  m_Barrier = NULL;
+  m_LineMap.clear();
+  m_Input = NULL;
 }
 
 
@@ -399,60 +580,6 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-void
-ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
-::FillOutput(const LineMapType &LineMap,
-             ProgressReporter &progress)
-{
-
-  typename LineMapType::const_iterator MapBegin, MapEnd, LineIt;
-  typename TOutputImage::Pointer output = this->GetOutput();
-  MapBegin = LineMap.begin();
-  MapEnd = LineMap.end(); 
-  LineIt = MapBegin;
-
-  ImageRegionIterator<OutputImageType> oit(output,
-                                           output->GetRequestedRegion());
-
-  ImageRegionIterator<OutputImageType> fstart=oit, fend=oit;
-  fstart.GoToBegin();
-  fend.GoToEnd();
-
-  for (LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
-    {
-    // now fill the labelled sections
-    typename lineEncoding::const_iterator cIt;
-
-    //std::cout << LineIt->first << std::endl;
-
-    for (cIt = LineIt->second.begin();cIt != LineIt->second.end();++cIt)
-      {
-      unsigned long Ilab = LookupSet( cIt->label);
-      OutputPixelType lab = m_Consecutive[Ilab];
-      oit.SetIndex(cIt->where);
-      // initialize the non labelled pixels
-      for (; fstart != oit; ++fstart)
-        {
-        fstart.Set(NumericTraits<OutputPixelType>::Zero );
-        }
-      for (long i = 0; i < cIt->length; ++i, ++oit)
-        {
-        oit.Set(lab);
-        }
-      fstart = oit;
-      //++fstart;
-      }
-    progress.CompletedPixel();
-    }
-  // fill the rest of the image with zeros
-  for (; fstart != fend; ++fstart)
-    {
-    fstart.Set(NumericTraits<OutputPixelType>::Zero );
-    }
-
-}
-
 // union find related functions
 template< class TInputImage, class TOutputImage, class TMaskImage >
 void
@@ -468,15 +595,19 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 ::CreateConsecutive()
 {
   m_Consecutive = UnionFindType(m_UnionFind.size());
-  m_Consecutive[0] = 0;
+  m_Consecutive[m_BackgroundValue] = m_BackgroundValue;
   unsigned long int CLab = 0;
   for (unsigned long int I = 1; I < m_UnionFind.size(); I++)
     {
     unsigned long int L = m_UnionFind[I];
     if (L == I) 
       {
-      ++CLab;
+      if( CLab == m_BackgroundValue )
+        {
+        ++CLab;
+        }
       m_Consecutive[L] = CLab;
+      ++CLab;
       }
     }
   return(CLab);
@@ -523,6 +654,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
   os << indent << "ObjectCount: "  << m_ObjectCount << std::endl;
+  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
 }
 
 } // end namespace itk
