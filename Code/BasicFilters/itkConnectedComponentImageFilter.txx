@@ -90,7 +90,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   long nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
 //  std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
@@ -119,7 +119,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   long nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
 
   // create a line iterator
