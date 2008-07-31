@@ -253,7 +253,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
     lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
     m_FirstLineIdToJoin[threadId] = lastLineIdForThread;
     // found the number of line ids to join
-    nbOfLineIdToJoin = RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread - RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
+    nbOfLineIdToJoin = RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread
+                         - RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
     }
 
   for(long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
@@ -320,7 +321,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       {
       // remove the region already joined
       typename std::vector< long > newFirstLineIdToJoin;
-      for( unsigned int i = 1; i<m_FirstLineIdToJoin.size(); i+=2 )
+      for( unsigned int i = 1; i < m_FirstLineIdToJoin.size(); i += 2 )
         {
         newFirstLineIdToJoin.push_back( m_FirstLineIdToJoin[i] );
         }
@@ -417,8 +418,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image<long, TOutputImage::ImageDimension - 1>   PretendImageType;
-  typedef typename PretendImageType::RegionType::SizeType PretendSizeType;
+  typedef Image<long, TOutputImage::ImageDimension - 1>    PretendImageType;
+  typedef typename PretendImageType::RegionType::SizeType  PretendSizeType;
   typedef typename PretendImageType::RegionType::IndexType PretendIndexType;
   typedef ConstShapedNeighborhoodIterator<PretendImageType>
     LineNeighborhoodType;

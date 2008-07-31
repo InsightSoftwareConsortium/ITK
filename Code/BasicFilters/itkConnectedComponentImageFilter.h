@@ -166,7 +166,7 @@ protected:
    */
   void BeforeThreadedGenerateData ();
   void AfterThreadedGenerateData ();
-  void ThreadedGenerateData (const RegionType& outputRegionForThread, int threadId) ;
+  void ThreadedGenerateData (const RegionType& outputRegionForThread, int threadId);
 
   /** ConnectedComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -182,7 +182,7 @@ protected:
   bool m_FullyConnected;
   
 private:
-  unsigned long m_ObjectCount;
+  unsigned long        m_ObjectCount;
   OutputImagePixelType m_BackgroundValue;
 
   // some additional types
@@ -242,11 +242,11 @@ private:
       }
     }
 
-  typename std::vector< long > m_NumberOfLabels;
-  typename std::vector< long > m_FirstLineIdToJoin;
-  typename Barrier::Pointer m_Barrier;
+  typename std::vector< long >       m_NumberOfLabels;
+  typename std::vector< long >       m_FirstLineIdToJoin;
+  typename Barrier::Pointer          m_Barrier;
   typename TInputImage::ConstPointer m_Input;
-  LineMapType m_LineMap;
+  LineMapType                        m_LineMap;
 };
   
 } // end namespace itk
