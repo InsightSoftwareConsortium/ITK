@@ -70,6 +70,8 @@ public:
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
 
   /** Convenient typedefs for simplifying declarations. */
@@ -104,7 +106,8 @@ public:
 
   typedef typename InputImageType::SpacingType  InputSpacingType;
   typedef typename OutputImageType::SpacingType OutputSpacingType;
-
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  
   /** Set if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);
 
@@ -153,6 +156,10 @@ protected:
 
   void GenerateData();
 
+  int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
+
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
+
   
 private:
 
@@ -169,6 +176,8 @@ private:
   bool     m_InsideIsPositive;
   bool     m_UseImageSpacing;
   bool     m_SquaredDistance;
+  
+  int      m_CurrentDimension;
 
 };
 
