@@ -252,7 +252,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   // compute the number of rows first, so we can setup a progress reporter
   typename std::vector< unsigned int > NumberOfRows;
-  unsigned long totalNumberOfRows = 0;
 
   for (unsigned int i = 0; i < InputImageDimension; i++)
     {
@@ -264,7 +263,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
         NumberOfRows[i] *= size[ d ];
         }
       }
-    totalNumberOfRows += NumberOfRows[i];
     }
 
   // set the progress reporter. Use a pointer to be able to destroy it before the creation of progress2
