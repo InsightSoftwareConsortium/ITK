@@ -106,7 +106,7 @@ public:
 
   typedef typename InputImageType::SpacingType  InputSpacingType;
   typedef typename OutputImageType::SpacingType OutputSpacingType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType;
   
   /** Set if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);

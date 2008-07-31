@@ -278,39 +278,39 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
 
   unsigned int i = m_CurrentDimension;
 
-    OutputIndexType idx;
-    idx.Fill( 0 );
+  OutputIndexType idx;
+  idx.Fill( 0 );
 
-    k[0] = 1;
-    unsigned int count = 1;
+  k[0] = 1;
+  unsigned int count = 1;
 
 
-    for (unsigned int d = i+2; d < i+InputImageDimension; d++)
+  for (unsigned int d = i+2; d < i+InputImageDimension; d++)
+    {
+    k[ count ] = k[ count-1 ] * size[ d % InputImageDimension ];
+    count++;
+    }
+  k.flip();
+
+  unsigned int index;
+  for (unsigned int n = 0; n < NumberOfRows[i];n++)
+    {
+    index = n;
+    count = 0;
+    for (unsigned int d = i+1; d < i+InputImageDimension; d++)
       {
-      k[ count ] = k[ count-1 ] * size[ d % InputImageDimension ];
+      idx[ d % InputImageDimension ] =
+           static_cast<unsigned int>(
+               static_cast<double>( index ) /
+               static_cast<double>( k[count] ) )
+           + startIndex[ d % InputImageDimension ];
+
+      index %= k[ count ];
       count++;
       }
-    k.flip();
-
-    unsigned int index;
-    for (unsigned int n = 0; n < NumberOfRows[i];n++)
-      {
-      index = n;
-      count = 0;
-      for (unsigned int d = i+1; d < i+InputImageDimension; d++)
-        {
-        idx[ d % InputImageDimension ] =
-             static_cast<unsigned int>(
-                 static_cast<double>( index ) /
-                 static_cast<double>( k[count] ) )
-             + startIndex[ d % InputImageDimension ];
-
-        index %= k[ count ];
-        count++;
-        }
-      this->Voronoi(i, idx);
-      progress->CompletedPixel();
-      }
+    this->Voronoi(i, idx);
+    progress->CompletedPixel();
+    }
   delete progress;
 
   if ( m_CurrentDimension == ImageDimension - 1 && !this->m_SquaredDistance )
