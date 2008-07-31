@@ -29,7 +29,7 @@ int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
     return -1;
     }
 
- const unsigned int      ImageDimension = 2;
+ const unsigned int      ImageDimension = 3;
   typedef int             InputPixelType;
   typedef double          OutputPixelType;
 
