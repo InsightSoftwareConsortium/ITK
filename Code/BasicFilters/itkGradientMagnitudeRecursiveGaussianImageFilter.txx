@@ -54,7 +54,16 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     {
     m_SmoothingFilters[ i ]->SetInput( m_SmoothingFilters[i-1]->GetOutput() );
     }
+
+  m_SqrSpacingFilter = SqrSpacingFilterType::New();
+  m_SqrSpacingFilter->SetInput( 1, m_SmoothingFilters[ ImageDimension-2 ]->GetOutput() );
+  // run that filter in place for much efficiency
+  m_SqrSpacingFilter->SetInPlace( true );
   
+  // input of SqrtFilter is the cumulative image - we can't set it now
+  m_SqrtFilter = SqrtFilterType::New();
+  m_SqrtFilter->SetInPlace( false );
+
   this->SetSigma( 1.0 );
 
   this->InPlaceOff();
@@ -68,6 +77,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
+  os << "Sigma: " << m_DerivativeFilter->GetSigma() << std::endl;
 }
 
 /**
@@ -79,17 +89,44 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetSigma( RealType sigma )
 {
 
-  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+  if( sigma != this->GetSigma() )
     {
-    m_SmoothingFilters[ i ]->SetSigma( sigma );
+    for( unsigned int i = 0; i<ImageDimension-1; i++ )
+      {
+      m_SmoothingFilters[ i ]->SetSigma( sigma );
+      }
+    m_DerivativeFilter->SetSigma( sigma );
+  
+    this->Modified();
     }
-  m_DerivativeFilter->SetSigma( sigma );
-
-  this->Modified();
-
 }
 
 
+template <typename TInputImage, typename TOutputImage>
+typename GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>::RealType
+GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::GetSigma()
+{
+  // just return the sigma value of one filter
+  return m_DerivativeFilter->GetSigma();
+}
+
+
+template <typename TInputImage, typename TOutputImage>
+void 
+GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetNumberOfThreads( int nb )
+{
+  Superclass::SetNumberOfThreads( nb );
+  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+    {
+    m_SmoothingFilters[ i ]->SetNumberOfThreads( nb );
+    }
+  m_DerivativeFilter->SetNumberOfThreads( nb );
+  m_SqrSpacingFilter->SetNumberOfThreads( nb );
+  m_SqrtFilter->SetNumberOfThreads( nb );
+
+}
 
 
 /**
@@ -101,16 +138,18 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetNormalizeAcrossScale( bool normalize )
 {
 
-  m_NormalizeAcrossScale = normalize;
-
-  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+  if( m_NormalizeAcrossScale != normalize )
     {
-    m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
+    m_NormalizeAcrossScale = normalize;
+  
+    for( unsigned int i = 0; i<ImageDimension-1; i++ )
+      {
+      m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
+      }
+    m_DerivativeFilter->SetNormalizeAcrossScale( normalize );
+  
+    this->Modified();
     }
-  m_DerivativeFilter->SetNormalizeAcrossScale( normalize );
-
-  this->Modified();
-
 }
 
 
@@ -201,65 +240,24 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       }
     m_DerivativeFilter->SetDirection( dim );
 
-    GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-2];
-
-    lastFilter->Update();
+    m_SqrSpacingFilter->GetFunctor().m_Spacing = inputImage->GetSpacing()[ dim ];
+    m_SqrSpacingFilter->SetInput( cumulativeImage );
+    
+    // run the mini pipeline for that dimension
+    m_SqrSpacingFilter->Update();
+    
+    // and user the result as the cumulative image
+    cumulativeImage = m_SqrSpacingFilter->GetOutput();
+    cumulativeImage->DisconnectPipeline();
     
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
-    // Cummulate the results on the output image
-
-    typename RealImageType::Pointer derivativeImage = lastFilter->GetOutput(); 
-
-    ImageRegionIterator< RealImageType > it( 
-      derivativeImage, 
-      derivativeImage->GetRequestedRegion() );
-
-    ImageRegionIterator< CumulativeImageType > ot( 
-      cumulativeImage, 
-      cumulativeImage->GetRequestedRegion() );
-  
-    const RealType spacing = inputImage->GetSpacing()[ dim ];
-
-    it.GoToBegin();
-    ot.GoToBegin();
-    while( !it.IsAtEnd() )
-      {
-      ot.Value() += vnl_math_sqr( it.Get() / spacing );
-      ++it;
-      ++ot;
-      }
-
     }
 
-  // Release the data on the last smoother since we have acculumated
-  // its data into our cumulative image.
-  m_SmoothingFilters[ImageDimension-2]->GetOutput()->ReleaseData();
-
-  // Now allocate the output image (postponed the allocation until
-  // after all the subfilters ran to minimize total memory footprint)
-  outputImage = this->GetOutput();
-  outputImage->SetRegions( inputImage->GetBufferedRegion() );
-  this->AllocateOutputs();
-
-  // Finally convert the cumulated image to the output by 
-  // taking the square root of the pixels.
-  ImageRegionIterator< OutputImageType > ot( 
-    outputImage, 
-    outputImage->GetRequestedRegion() );
-
-  ImageRegionIterator< CumulativeImageType > it( 
-    cumulativeImage, 
-    cumulativeImage->GetRequestedRegion() );
-
-  it.GoToBegin();
-  ot.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    ot.Set( static_cast<OutputPixelType>( vcl_sqrt( it.Get() ) ) );
-    ++it;
-    ++ot;
-    }
+  m_SqrtFilter->SetInput( cumulativeImage );
+  m_SqrtFilter->GraftOutput( this->GetOutput() );
+  m_SqrtFilter->Update();
+  this->GraftOutput( m_SqrtFilter->GetOutput() );
 }
 
 

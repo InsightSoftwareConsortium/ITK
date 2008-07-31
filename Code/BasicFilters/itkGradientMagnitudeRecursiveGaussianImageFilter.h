@@ -22,6 +22,8 @@
 #include "itkPixelTraits.h"
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkInPlaceImageFilter.h"
+#include "itkSqrtImageFilter.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
 {
@@ -84,11 +86,19 @@ public:
     RealImageType
     >    DerivativeFilterType;
 
+  /**  Smoothing filter type */
+  typedef SqrtImageFilter<
+    RealImageType,
+    TOutputImage
+    >    SqrtFilterType;
+
   /**  Pointer to a gaussian filter.  */
   typedef typename GaussianFilterType::Pointer     GaussianFilterPointer;
 
   /**  Pointer to a derivative filter.  */
   typedef typename DerivativeFilterType::Pointer   DerivativeFilterPointer;
+
+  typedef typename SqrtFilterType::Pointer         SqrtFilterPointer;
 
   /**  Pointer to the Output Image */
   typedef typename TOutputImage::Pointer           OutputImagePointer;
@@ -111,10 +121,14 @@ public:
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma( RealType sigma );
+  RealType GetSigma();
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
+  
+  void SetNumberOfThreads( int nb );
+
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -148,8 +162,34 @@ private:
   GradientMagnitudeRecursiveGaussianImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
+  class SqrSpacing
+  {
+  public:
+    SqrSpacing() : m_Spacing(0) {};
+    ~SqrSpacing() {};
+    bool operator!=( const SqrSpacing & other ) const
+      {
+      return !(*this == other);
+      }
+    bool operator==( const SqrSpacing & other ) const
+      {
+      return other.m_Spacing == m_Spacing;
+      }
+    inline InternalRealType operator()( const InternalRealType & a, const InternalRealType & b )
+      {
+      return a + vnl_math_sqr( b / m_Spacing );
+      }
+    
+    double m_Spacing;
+  };
+  
+  typedef BinaryFunctorImageFilter< RealImageType, RealImageType, RealImageType, SqrSpacing > SqrSpacingFilterType;
+  typedef typename SqrSpacingFilterType::Pointer SqrSpacingFilterPointer;
+
   GaussianFilterPointer         m_SmoothingFilters[ImageDimension-1];
   DerivativeFilterPointer       m_DerivativeFilter;
+  SqrSpacingFilterPointer       m_SqrSpacingFilter;
+  SqrtFilterPointer             m_SqrtFilter;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale; 
