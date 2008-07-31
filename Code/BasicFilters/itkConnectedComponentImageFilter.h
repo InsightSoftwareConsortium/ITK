@@ -246,13 +246,17 @@ private:
   typename std::vector< long >       m_FirstLineIdToJoin;
   typename Barrier::Pointer          m_Barrier;
   typename TInputImage::ConstPointer m_Input;
+#if !defined(CABLE_CONFIGURATION)
   LineMapType                        m_LineMap;
+#endif
 };
   
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
+#if !defined(CABLE_CONFIGURATION)
 #include "itkConnectedComponentImageFilter.txx"
+#endif
 #endif
 
 #endif
