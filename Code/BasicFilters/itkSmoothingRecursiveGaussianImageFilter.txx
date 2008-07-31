@@ -72,6 +72,22 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 
 
+template <typename TInputImage, typename TOutputImage>
+void 
+SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetNumberOfThreads( int nb )
+{
+  Superclass::SetNumberOfThreads( nb );
+  for( unsigned int i = 0; i<ImageDimension-1; i++ )
+    {
+    m_SmoothingFilters[ i ]->SetNumberOfThreads( nb );
+    }
+  m_FirstSmoothingFilter->SetNumberOfThreads( nb );
+
+}
+
+
+
 /**
  * Set value of Sigma
  */

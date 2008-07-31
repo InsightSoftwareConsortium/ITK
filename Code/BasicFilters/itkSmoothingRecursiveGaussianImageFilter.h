@@ -118,6 +118,8 @@ public:
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
   itkGetMacro( NormalizeAcrossScale, bool );
 
+  void SetNumberOfThreads( int nb );
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck,
