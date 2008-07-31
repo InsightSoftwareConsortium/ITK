@@ -92,6 +92,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
     {
     nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
+  // number of threads can be constrained by the region size, so call the SplitRequestedRegion
+  // to get the real number of threads which will be used
+  typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
+  nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
 //  std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
   // set up the vars used in the threads
@@ -116,11 +120,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  long nbOfThreads = this->GetNumberOfThreads();
-  if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
-    {
-    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
-    }
+  long nbOfThreads = m_NumberOfLabels.size();
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex<InputImageType>
