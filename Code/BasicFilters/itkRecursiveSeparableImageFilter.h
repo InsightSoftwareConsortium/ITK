@@ -71,6 +71,8 @@ public:
   typedef typename NumericTraits<InputPixelType>::RealType  RealType;
   typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
 
+  typedef typename TOutputImage::RegionType                 OutputImageRegionType;
+
   /** Type of the input image */
   typedef TInputImage      InputImageType;
 
@@ -95,7 +97,11 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** GenerateData (apply) the filter. */   
-  void GenerateData(void);
+//  void GenerateData(void);
+  void BeforeThreadedGenerateData();
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
+
+  int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
 
   /** RecursiveSeparableImageFilter needs all of the input to produce an
    * output. Therefore, RecursiveSeparableImageFilter needs to provide
