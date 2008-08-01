@@ -110,6 +110,9 @@ public:
   typedef typename OutputImageType::SpacingType   SpacingType;
   typedef typename OutputImageType::PointType     OriginType;
   typedef typename OutputImageType::DirectionType DirectionType;
+
+  /** Typedefs for base image. */
+  typedef ImageBase< itkGetStaticConstMacro( ImageDimension ) > ImageBaseType;
   
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
@@ -124,10 +127,23 @@ public:
   itkGetConstObjectMacro( Transform, TransformType );
 
   /** Set the size of the output image. */
-  itkSetMacro( OutputSize, SizeType );
+  virtual void SetOutputSize( const SizeType & size );
 
   /** Get the size of the output image. */
-  itkGetConstReferenceMacro( OutputSize, SizeType );
+  virtual const SizeType & GetOutputSize();
+
+  /** Set the start index of the output largest possible region. 
+  * The default is an index of all zeros. */
+  virtual void SetOutputIndex( const IndexType & index );
+
+  /** Get the start index of the output largest possible region. */
+  virtual const IndexType & GetOutputIndex();
+
+  /** Set the region of the output image. */
+  itkSetMacro( OutputRegion, OutputImageRegionType );
+
+  /** Get the region of the output image. */
+  itkGetConstReferenceMacro( OutputRegion, OutputImageRegionType );
      
   /** Set the output image spacing. */
   itkSetMacro( OutputSpacing, SpacingType );
@@ -143,22 +159,12 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro( OutputOrigin, OriginType );
 
-  /** Set the start index of the output largest possible region. 
-  * The default is an index of all zeros. */
-  itkSetMacro( OutputIndex, IndexType );
-
-  /** Get the start index of the output largest possible region. */
-  itkGetConstReferenceMacro( OutputIndex, IndexType );
-
   /** Set the output direction cosine matrix. */
   itkSetMacro( OutputDirection, DirectionType );
   itkGetConstReferenceMacro( OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage( OutputImagePointer image );
-
-  /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage( OutputImageConstPointer image );
+  void SetOutputParametersFromImage( const ImageBaseType * image );
   
   /** DeformationFieldImageFilter produces a vector image. */
   virtual void GenerateOutputInformation( void );
@@ -211,12 +217,11 @@ private:
   void operator=( const Self& ); //purposely not implemented
 
   /** Member variables. */
-  SizeType                m_OutputSize;        // Size of the output image
+  RegionType              m_OutputRegion;      // region of the output image
   TransformPointerType    m_Transform;         // Coordinate transform to use
   SpacingType             m_OutputSpacing;     // output image spacing
   OriginType              m_OutputOrigin;      // output image origin
   DirectionType           m_OutputDirection;   // output image direction cosines
-  IndexType               m_OutputIndex;       // output image start index
 
 }; // end class TransformToDeformationFieldSource
   
