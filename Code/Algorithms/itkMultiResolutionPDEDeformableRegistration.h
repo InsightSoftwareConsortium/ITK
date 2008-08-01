@@ -198,6 +198,12 @@ public:
   /** Set number of iterations per multi-resolution levels. */
   itkSetVectorMacro( NumberOfIterations, unsigned int, m_NumberOfLevels );
 
+  /** Set the moving image pyramid. */
+  itkSetObjectMacro( FieldExpander, FieldExpanderType );
+
+  /** Get the moving image pyramid. */
+  itkGetObjectMacro( FieldExpander, FieldExpanderType );
+
   /** Get number of iterations per multi-resolution levels. */
   virtual const unsigned int * GetNumberOfIterations() const
   { return &(m_NumberOfIterations[0]); }
