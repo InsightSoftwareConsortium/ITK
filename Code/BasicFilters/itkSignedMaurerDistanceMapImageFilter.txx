@@ -274,8 +274,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
     }
   ProgressReporter * progress = new ProgressReporter(this, threadId, NumberOfRows[m_CurrentDimension], 30, 0.33f + m_CurrentDimension * progressPerDimension, progressPerDimension);
 
-  unsigned int i = m_CurrentDimension;
-
   OutputIndexType idx;
   idx.Fill( 0 );
 
@@ -283,7 +281,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   unsigned int count = 1;
 
 
-  for (unsigned int d = i+2; d < i+InputImageDimension; d++)
+  for (unsigned int d = m_CurrentDimension+2; d < m_CurrentDimension+InputImageDimension; d++)
     {
     k[ count ] = k[ count-1 ] * size[ d % InputImageDimension ];
     count++;
@@ -291,11 +289,11 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   k.flip();
 
   unsigned int index;
-  for (unsigned int n = 0; n < NumberOfRows[i];n++)
+  for (unsigned int n = 0; n < NumberOfRows[m_CurrentDimension];n++)
     {
     index = n;
     count = 0;
-    for (unsigned int d = i+1; d < i+InputImageDimension; d++)
+    for (unsigned int d = m_CurrentDimension+1; d < m_CurrentDimension+InputImageDimension; d++)
       {
       idx[ d % InputImageDimension ] =
            static_cast<unsigned int>(
@@ -306,7 +304,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       index %= k[ count ];
       count++;
       }
-    this->Voronoi(i, idx);
+    this->Voronoi(m_CurrentDimension, idx);
     progress->CompletedPixel();
     }
   delete progress;
