@@ -231,12 +231,8 @@ private:
 
   void Wait()
     {
-    long nbOfThreads = this->GetNumberOfThreads();
-    if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
-      {
-      nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
-      }
-    if( nbOfThreads > 1 )
+    // use m_NumberOfLabels.size() to get the number of thread used
+    if( m_NumberOfLabels.size() > 1 )
       {
       m_Barrier->Wait();
       }
