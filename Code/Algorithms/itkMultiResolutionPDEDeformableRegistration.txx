@@ -193,6 +193,9 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   os << indent << "FixedImagePyramid: ";
   os << m_FixedImagePyramid.GetPointer() << std::endl;
 
+  os << indent << "FieldExpander: ";
+  os << m_FieldExpander.GetPointer() << std::endl;
+
   os << indent << "StopRegistrationFlag: ";
   os << m_StopRegistrationFlag << std::endl;
 
