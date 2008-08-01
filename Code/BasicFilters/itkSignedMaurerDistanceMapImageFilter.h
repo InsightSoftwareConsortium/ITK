@@ -173,11 +173,11 @@ private:
   InputPixelType         m_BackgroundValue;  
   InputSpacingType       m_Spacing;
 
-  bool     m_InsideIsPositive;
-  bool     m_UseImageSpacing;
-  bool     m_SquaredDistance;
+  bool                   m_InsideIsPositive;
+  bool                   m_UseImageSpacing;
+  bool                   m_SquaredDistance;
   
-  int      m_CurrentDimension;
+  unsigned int           m_CurrentDimension;
 
 };
 

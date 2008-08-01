@@ -84,7 +84,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   const typename TOutputImage::SizeType& requestedRegionSize 
     = outputPtr->GetRequestedRegion().GetSize();
 
-  int splitAxis;
+  unsigned int splitAxis;
   typename TOutputImage::IndexType splitIndex;
   typename TOutputImage::SizeType splitSize;
 
@@ -227,7 +227,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
   
   // multithread the execution
-  for( int d=0; d<ImageDimension; d++ )
+  for( unsigned int d=0; d<ImageDimension; d++ )
     {
     m_CurrentDimension = d;
     this->GetMultiThreader()->SingleMethodExecute();
