@@ -84,7 +84,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   const typename TOutputImage::SizeType& requestedRegionSize 
     = outputPtr->GetRequestedRegion().GetSize();
 
-  unsigned int splitAxis;
+  int splitAxis;
   typename TOutputImage::IndexType splitIndex;
   typename TOutputImage::SizeType splitSize;
 
@@ -96,7 +96,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
   // split on the outermost dimension available
   // and avoid the current dimension
   splitAxis = outputPtr->GetImageDimension() - 1;
-  while (requestedRegionSize[splitAxis] == 1 || splitAxis == m_CurrentDimension)
+  while (requestedRegionSize[splitAxis] == 1 || splitAxis == (int)m_CurrentDimension)
     {
     --splitAxis;
     if (splitAxis < 0)
