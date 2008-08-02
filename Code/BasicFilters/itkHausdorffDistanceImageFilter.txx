@@ -36,6 +36,7 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   this->SetNumberOfRequiredInputs( 2 );
 
   m_HausdorffDistance = NumericTraits<RealType>::Zero;      
+  m_AverageHausdorffDistance = NumericTraits<RealType>::Zero;      
 }
 
 
