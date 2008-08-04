@@ -120,6 +120,9 @@ void RegisterTests()
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest );
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest2 );
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest3 );
+
+  REGISTER_TEST( itkCoxDeBoorBSplineKernelFunctionTest );
+  REGISTER_TEST( itkCoxDeBoorBSplineKernelFunctionTest2 );
  
   REGISTER_TEST( itkKappaSigmaThresholdImageCalculatorTest );
   REGISTER_TEST( itkKappaSigmaThresholdImageFilterTest );

@@ -125,6 +125,9 @@ SET(ReviewTest_SRCS
   itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
   itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
 
+  itkCoxDeBoorBSplineKernelFunctionTest.cxx
+  itkCoxDeBoorBSplineKernelFunctionTest2.cxx
+
   itkKappaSigmaThresholdImageCalculatorTest.cxx
   itkKappaSigmaThresholdImageFilterTest.cxx
 
@@ -645,6 +648,14 @@ ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest03 ${REVIEW_TESTS}
         itkBSplineScatteredDataPointSetToImageFilterTest3
         ${ITK_SOURCE_DIR}/Testing/Data/Input/BSplineScatteredApproximationDataPointsInput.txt
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredApproximationDataPointsTestOutput3.txt
+        )
+
+ADD_TEST(itkCoxDeBoorBSplineKernelFunctionTest01 ${REVIEW_TESTS}
+        itkCoxDeBoorBSplineKernelFunctionTest
+        )
+
+ADD_TEST(itkCoxDeBoorBSplineKernelFunctionTest02 ${REVIEW_TESTS}
+        itkCoxDeBoorBSplineKernelFunctionTest2
         )
 
 ADD_TEST(itkKappaSigmaThresholdImageCalculatorTest01 ${REVIEW_TESTS}
