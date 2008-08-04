@@ -23,6 +23,11 @@
  */
 int itkCoxDeBoorBSplineKernelFunctionTest2( int argc, char * argv [] )
 {
+  if ( argc < 1 )
+    {
+    std::cerr << "Usage: " << argv[0] << std::endl;
+    return EXIT_FAILURE; 
+    } 
 
   typedef itk::CoxDeBoorBSplineKernelFunction<3> KernelType;
   KernelType::Pointer kernel = KernelType::New();
