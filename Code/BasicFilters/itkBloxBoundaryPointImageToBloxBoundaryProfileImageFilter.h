@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
+  itkTypeMacro(BloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
 
   /** Typedef for boundary point image */
   typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> BoundaryPointImageType;

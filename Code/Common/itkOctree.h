@@ -119,7 +119,7 @@ namespace itk {
     itkNewMacro(Self);
 
     /** Run-time type information (and related methods). */
-    itkTypeMacro(AnalyzeImageIO, Superclass);
+    itkTypeMacro(Octree, Superclass);
 
     ImageTypePointer GetImage();
     virtual void BuildFromBuffer(const void *buffer,const int xsize,const int ysize,const int zsize);

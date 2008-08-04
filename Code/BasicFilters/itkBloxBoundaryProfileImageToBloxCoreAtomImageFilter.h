@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter, ImageToImageFilter );
+  itkTypeMacro( BloxBoundaryProfileImageToBloxCoreAtomImageFilter, ImageToImageFilter );
 
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);

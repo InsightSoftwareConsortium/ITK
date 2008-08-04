@@ -124,7 +124,7 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VectorImageToImagePixelAccessor, ImageAdaptor );
+  itkTypeMacro( VectorImageToImageAdaptor, ImageAdaptor );
 
   /** PixelContainer typedef support. Used to construct a container for
    * the pixel data. */

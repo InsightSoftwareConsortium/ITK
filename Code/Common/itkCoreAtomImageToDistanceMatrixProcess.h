@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(itkCoreAtomImageToDistanceMatrixProcess, ProcessObject);
+  itkTypeMacro(CoreAtomImageToDistanceMatrixProcess, ProcessObject);
 
   //Get macro for m_NumNodes
   itkGetMacro(NumberOfNodes, int);

@@ -52,7 +52,7 @@ public:
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
   itkNewMacro(Self);  
-  itkTypeMacro(Self, ImageToImageFilter);
+  itkTypeMacro(ImageToVectorImageFilter, ImageToImageFilter);
 
   itkStaticConstMacro(Dimension, unsigned int, TInputImage::ImageDimension);
 
