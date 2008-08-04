@@ -83,7 +83,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(SegmentTreeGenerator, ProcessObject);
+  itkTypeMacro(WatershedSegmentTreeGenerator, ProcessObject);
 
   /** Convenient type definitions */
   typedef TScalarType ScalarType;

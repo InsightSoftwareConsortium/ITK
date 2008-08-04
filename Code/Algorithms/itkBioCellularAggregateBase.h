@@ -31,17 +31,17 @@ class CellBase;
  * \brief Base class for the CellularAggregates. This base class is not
  * templated over the space dimension.
  */
-class CellularAggregateBase : public itk::Object
+class CellularAggregateBase : public Object
 {
 public:
   /** Standard class typedefs. */
   typedef CellularAggregateBase      Self;
-  typedef itk::Object  Superclass;
-  typedef itk::SmartPointer<Self>        Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef Object  Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /*** Run-time type information (and related methods). */
-  itkTypeMacro(CellularAggregateBase, itk::Object);
+  itkTypeMacro(BioCellularAggregateBase, Object);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -61,7 +61,7 @@ protected:
   CellularAggregateBase();
   virtual ~CellularAggregateBase();
   CellularAggregateBase( const Self & );
-  void PrintSelf(std::ostream& os, itk::Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
  
 };

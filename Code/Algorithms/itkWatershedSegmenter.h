@@ -113,7 +113,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(Segmenter, ProcessObject);
+  itkTypeMacro(WatershedSegmenter, ProcessObject);
 
   /** Typedefs necessary on microsoft VC++ to avoid internal compiler errors */
   typedef typename InputImageType::Pointer InputImageTypePointer;

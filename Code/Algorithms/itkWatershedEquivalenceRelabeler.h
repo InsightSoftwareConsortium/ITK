@@ -69,7 +69,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(EquivalenceRelabeler, ProcessObject);
+  itkTypeMacro(WatershedEquivalenceRelabeler, ProcessObject);
 
   /** Set/Get the image to relabel.   */
   void SetInputImage(ImageType *img)

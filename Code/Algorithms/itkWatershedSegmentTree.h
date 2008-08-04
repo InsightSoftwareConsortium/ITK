@@ -50,7 +50,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(SegmentTree, DataObject);
+  itkTypeMacro(WatershedSegmentTree, DataObject);
   typedef TScalarType ScalarType;
 
   /** Elements of the list (nodes of the tree).  A record of a merge

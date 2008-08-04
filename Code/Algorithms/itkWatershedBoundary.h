@@ -129,7 +129,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(Boundary, DataObject);
+  itkTypeMacro(WatershedBoundary, DataObject);
 
   /** The following averts an internal compiler error on microsoft compilers */
   typedef typename face_t::Pointer FacePointer;

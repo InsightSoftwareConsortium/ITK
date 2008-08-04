@@ -72,7 +72,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(BoundaryResolver, ProcessObject);
+  itkTypeMacro(WatershedBoundaryResolver, ProcessObject);
   
   /** Expose the image dimension at run time. */
   itkStaticConstMacro(ImageDimension, unsigned int, TDimension);

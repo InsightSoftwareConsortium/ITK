@@ -71,7 +71,7 @@ public:
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
-  itkTypeMacro(Relabeler, ProcessObject);
+  itkTypeMacro(WatershedRelabeler, ProcessObject);
 
   /** Expose the ImageDimension template parameter at run time */
   itkStaticConstMacro(ImageDimension, unsigned int,TImageDimension);

@@ -57,7 +57,7 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   typedef TScalarType ScalarType;
   itkNewMacro(Self);
-  itkTypeMacro(SegmentTable, DataObject);
+  itkTypeMacro(WatershedSegmentTable, DataObject);
 
   /** The value type for lists of adjacencies contained in each table
       entry */
