@@ -80,6 +80,7 @@
 #include "itkBoxImageFilter.h"
 #include "itkKernelImageFilter.h"
 #include "itkMovingHistogramImageFilterBase.h"
+#include "itkMovingHistogramImageFilter.h"
 
 int main ( int , char * [] )
 {
