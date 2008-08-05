@@ -77,6 +77,8 @@
 #include "itkValuedRegionalMaximaImageFilter.h"
 #include "itkValuedRegionalMinimaImageFilter.h"
 
+#include "itkBoxImageFilter.h"
+
 int main ( int , char * [] )
 {
   
