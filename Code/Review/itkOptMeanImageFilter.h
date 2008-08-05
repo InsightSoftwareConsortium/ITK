@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMeanImageFilter.h
+  Module:    itkOptMeanImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,20 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMeanImageFilter_h
-#define __itkMeanImageFilter_h
+#ifndef __itkOptMeanImageFilter_h
+#define __itkOptMeanImageFilter_h
 
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptMeanImageFilter.h"
-#else
-
-#include "itkImageToImageFilter.h"
+#include "itkBoxImageFilter.h"
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 
@@ -50,7 +40,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT MeanImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+    public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -60,44 +50,30 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                                      InputImageType;
+  typedef TOutputImage                                     OutputImageType;
 
   /** Standard class typedefs. */
-  typedef MeanImageFilter Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MeanImageFilter                                  Self;
+  typedef BoxImageFilter< InputImageType, OutputImageType> Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeanImageFilter, ImageToImageFilter);
+  itkTypeMacro(MeanImageFilter, BoxImageFilter);
   
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType               InputPixelType;
+  typedef typename OutputImageType::PixelType              OutputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
   
-  typedef typename InputImageType::RegionType InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename InputImageType::RegionType              InputImageRegionType;
+  typedef typename OutputImageType::RegionType             OutputImageRegionType;
 
-  typedef typename InputImageType::SizeType InputSizeType;
-
-  /** Set the radius of the neighborhood used to compute the mean. */
-  itkSetMacro(Radius, InputSizeType);
-
-  /** Get the radius of the neighborhood used to compute the mean */
-  itkGetConstReferenceMacro(Radius, InputSizeType);
-  
-  /** MeanImageFilter needs a larger input requested region than
-   * the output requested region.  As such, MeanImageFilter needs
-   * to provide an implementation for GenerateInputRequestedRegion()
-   * in order to inform the pipeline execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  typedef typename InputImageType::SizeType                InputSizeType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -109,7 +85,6 @@ public:
 protected:
   MeanImageFilter();
   virtual ~MeanImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** MeanImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -119,24 +94,20 @@ protected:
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() */
+   * \sa BoxImageFilter::ThreadedGenerateData(),
+   *     BoxImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             int threadId );
 
 private:
   MeanImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  InputSizeType m_Radius;
 };
   
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeanImageFilter.txx"
-#endif
-
+#include "itkOptMeanImageFilter.txx"
 #endif
 
 #endif
