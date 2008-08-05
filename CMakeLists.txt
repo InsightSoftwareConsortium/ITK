@@ -234,6 +234,23 @@ MESSAGE("${msg}")
 ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
 
 #-----------------------------------------------------------------------------
+# ITK turn on experimental version of accelerated image registration
+OPTION(ITK_USE_CONSOLIDATED_MORPHOLOGY "Turn on the experimental consolidated morphology." OFF)
+MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
+
+IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
+  IF(NOT ITK_USE_REVIEW)
+    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental consolidated morphology.")
+  ENDIF(NOT ITK_USE_REVIEW)
+  # Warn the user about the implications of turning consolidated morphology ON
+  SET(msg "Warning: You have chosen to enable the use of consolidated morphology.")
+  # TODO: warn more than that
+  # display the message during the setup
+  MESSAGE("${msg}")
+ENDIF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
+
+
+#-----------------------------------------------------------------------------
 # ITK turn on the use of experimental IO factories for the TransformFileReader and TransformFileWriter
 OPTION(ITK_USE_TRANSFORM_IO_FACTORIES "Turn on the experimental IO factories for reading and writing transforms." OFF)
 MARK_AS_ADVANCED(ITK_USE_TRANSFORM_IO_FACTORIES)
