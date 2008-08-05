@@ -145,6 +145,12 @@ public:
   void StopOptimization() 
     { m_Stop = true; }
 
+  itkGetMacro(CatchGetValueException, bool);
+  itkSetMacro(CatchGetValueException, bool);
+
+  itkGetMacro(MetricWorstPossibleValue, double);
+  itkSetMacro(MetricWorstPossibleValue, double);
+
 protected:
   OnePlusOneEvolutionaryOptimizer();
   OnePlusOneEvolutionaryOptimizer(const OnePlusOneEvolutionaryOptimizer&);
@@ -161,6 +167,9 @@ private:
 
   /** Current iteration */
   unsigned int m_CurrentIteration;
+
+  bool               m_CatchGetValueException;
+  double             m_MetricWorstPossibleValue;
 
   /** Set if the Metric should be maximized: Default = False */
   bool m_Maximize;

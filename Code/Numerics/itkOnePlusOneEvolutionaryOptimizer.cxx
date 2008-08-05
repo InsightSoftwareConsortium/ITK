@@ -26,6 +26,10 @@ namespace itk
 OnePlusOneEvolutionaryOptimizer
 ::OnePlusOneEvolutionaryOptimizer()
 {
+  m_CatchGetValueException = false;
+  m_MetricWorstPossibleValue = 0;
+
+
   m_Maximize = false;
   m_Epsilon = (double) 1.5e-4; 
   m_RandomGenerator = 0;
@@ -109,7 +113,23 @@ OnePlusOneEvolutionaryOptimizer
     parentPosition[i] = parent[i];
     }
 
-  double pvalue = m_CostFunction->GetValue(parentPosition);
+  double pvalue = m_MetricWorstPossibleValue;
+  try
+    {
+    pvalue = m_CostFunction->GetValue(parentPosition);
+    }
+  catch( ... )
+    {
+    if(m_CatchGetValueException)
+      {
+      pvalue = m_MetricWorstPossibleValue;
+      }
+    else
+      {
+      throw;
+      }
+    }
+
   itkDebugMacro(<< ": initial position: " << parentPosition); 
   itkDebugMacro(<< ": initial fitness: " << pvalue); 
 
@@ -159,7 +179,22 @@ OnePlusOneEvolutionaryOptimizer
       childPosition[i] = child[i];
       }
 
-    double cvalue = m_CostFunction->GetValue(childPosition);
+    double cvalue = m_MetricWorstPossibleValue;
+    try
+      {
+      cvalue = m_CostFunction->GetValue(childPosition);
+      }
+    catch( ... )
+      {
+      if(m_CatchGetValueException)
+        {
+        cvalue = m_MetricWorstPossibleValue;
+        }
+      else
+        {
+        throw;
+        }
+      }
 
     itkDebugMacro(<< "iter: " << iter << ": parent position: " 
                   << parentPosition);
