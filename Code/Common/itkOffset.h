@@ -32,6 +32,12 @@
 namespace itk
 {
 
+namespace Functor
+{
+template<unsigned int VOffsetDimension> class OffsetLexicographicCompare;
+}
+
+
 /** 
  * \class Offset
  * \brief Represent the offset between two n-dimensional indexes
@@ -62,6 +68,9 @@ public:
   typedef   Offset<VOffsetDimension>  OffsetType;
   typedef   long OffsetValueType;
     
+  /** Lexicographic ordering functor type.  */
+  typedef Functor::OffsetLexicographicCompare<VOffsetDimension> LexicographicCompare;
+
   /** Add an offset to an offset. */
   const Self
   operator+(const Self &offset) const
@@ -197,6 +206,38 @@ public:
 
 };
 
+
+namespace Functor
+{
+/** \class OffsetLexicographicCompare
+ * \brief Order Offset instances lexicographically.
+ *
+ * This is a comparison functor suitable for storing Offset instances
+ * in an STL container.  The ordering is total and unique but has
+ * little geometric meaning.
+ */
+template<unsigned int VOffsetDimension>
+class OffsetLexicographicCompare
+{
+public:
+  bool operator()(Offset<VOffsetDimension> const& l,
+                  Offset<VOffsetDimension> const& r) const
+    {
+    for(unsigned int i=0; i < VOffsetDimension; ++i)
+      {
+      if(l.m_Offset[i] < r.m_Offset[i])
+        {
+        return true;
+        }
+      else if(l.m_Offset[i] > r.m_Offset[i])
+        {
+        return false;
+        }
+      }
+    return false;
+    }
+};
+}
 
 template<unsigned int VOffsetDimension>
 Offset<VOffsetDimension> 

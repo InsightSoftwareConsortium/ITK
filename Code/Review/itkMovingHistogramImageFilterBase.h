@@ -21,7 +21,6 @@
 #include <list>
 #include <map>
 #include <set>
-#include "itkOffsetLexicographicCompare.h"
 
 namespace itk {
 
