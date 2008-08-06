@@ -17,6 +17,16 @@
 #ifndef __itkGrayscaleDilateImageFilter_txx
 #define __itkGrayscaleDilateImageFilter_txx
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
+#include "itkOptGrayscaleDilateImageFilter.txx"
+#else
+
+
 #include "itkGrayscaleDilateImageFilter.h"
 
 namespace itk {
@@ -62,4 +72,6 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
 
 
 }// end namespace itk
+#endif
+
 #endif

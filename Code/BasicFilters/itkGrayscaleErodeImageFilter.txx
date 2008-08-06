@@ -17,6 +17,16 @@
 #ifndef __itkGrayscaleErodeImageFilter_txx
 #define __itkGrayscaleErodeImageFilter_txx
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
+#include "itkOptGrayscaleErodeImageFilter.txx"
+#else
+
+
 #include "itkGrayscaleErodeImageFilter.h"
 
 namespace itk {
@@ -61,4 +71,6 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
 } 
   
 }// end namespace itk
+#endif
+
 #endif
