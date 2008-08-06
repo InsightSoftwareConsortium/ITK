@@ -75,10 +75,11 @@ class BSplineScatteredDataPointSetToImageFilter
 : public PointSetToImageFilter<TInputPointSet, TOutputImage>
 {
 public:
-  typedef BSplineScatteredDataPointSetToImageFilter           Self;
-  typedef PointSetToImageFilter<TInputPointSet, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  typedef BSplineScatteredDataPointSetToImageFilter  Self;
+  typedef PointSetToImageFilter
+    <TInputPointSet, TOutputImage>                   Superclass;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,35 +88,36 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int,
                        TOutputImage::ImageDimension );
 
-  typedef TOutputImage                                        ImageType;
-  typedef TInputPointSet                                      PointSetType;
+  typedef TOutputImage                               ImageType;
+  typedef TInputPointSet                             PointSetType;
 
   /** Image typedef support. */
-  typedef typename ImageType::PixelType                       PixelType;
-  typedef typename ImageType::RegionType                      RegionType;
-  typedef typename ImageType::SizeType                        SizeType;
-  typedef typename ImageType::IndexType                       IndexType;
-  typedef typename ImageType::PointType                       ContinuousIndexType;
+  typedef typename ImageType::PixelType              PixelType;
+  typedef typename ImageType::RegionType             RegionType;
+  typedef typename ImageType::SizeType               SizeType;
+  typedef typename ImageType::IndexType              IndexType;
+  typedef typename ImageType::PointType              ContinuousIndexType;
 
   /** PointSet typedef support. */
-  typedef typename PointSetType::PointType                    PointType;
-  typedef typename PointSetType::PixelType                    PointDataType;
-  typedef typename PointSetType::PointDataContainer           PointDataContainerType;
+  typedef typename PointSetType::PointType           PointType;
+  typedef typename PointSetType::PixelType           PointDataType;
+  typedef typename PointSetType::PointDataContainer  PointDataContainerType;
 
   /** Other typedef */
-  typedef float                                               RealType;
-  typedef VectorContainer<unsigned, RealType>                 WeightsContainerType;
+  typedef float                                      RealType;
+  typedef VectorContainer<unsigned, RealType>        WeightsContainerType;
   typedef Image<PointDataType,
-    itkGetStaticConstMacro( ImageDimension )>                 PointDataImageType;
+    itkGetStaticConstMacro( ImageDimension )>        PointDataImageType;
   typedef Image<RealType,
-    itkGetStaticConstMacro( ImageDimension )>                 RealImageType;
+    itkGetStaticConstMacro( ImageDimension )>        RealImageType;
   typedef FixedArray<unsigned,
-    itkGetStaticConstMacro( ImageDimension )>                 ArrayType;
-  typedef VariableSizeMatrix<RealType>                        GradientType;
-  typedef RealImageType                                       HessianType;
+    itkGetStaticConstMacro( ImageDimension )>        ArrayType;
+  typedef VariableSizeMatrix<RealType>               GradientType;
 
-  /** Interpolation kernel type (default spline order = 3) */
-  typedef CoxDeBoorBSplineKernelFunction<3>                            KernelType;
+  /**
+   * Interpolation kernel type (default spline order = 3)
+   */
+  typedef CoxDeBoorBSplineKernelFunction<3>          KernelType;
 
   /** Helper functions */
 
@@ -157,7 +159,7 @@ public:
   /**
    * Evaluate the resulting B-spline object at a specified
    * parameteric point.  Note that the parameterization over
-   * each dimension of the B-spline object is [0, 1).
+   * each dimension of the B-spline object is [0, 1].
    */
   void Evaluate( PointType, PointDataType & );
 
@@ -173,7 +175,7 @@ public:
    * Evaluate the gradient of the resulting B-spline object
    * at a specified parameteric point.  Note that the
    * parameterization over each dimension of the B-spline
-   * object is [0, 1).
+   * object is [0, 1].
    */
   void EvaluateGradient( PointType, GradientType & );
 
@@ -185,8 +187,10 @@ protected:
   void GenerateData();
 
 private:
-  BSplineScatteredDataPointSetToImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+
+  //purposely not implemented
+  BSplineScatteredDataPointSetToImageFilter(const Self&);
+  void operator=(const Self&);
 
   void GenerateControlLattice();
   void RefineControlLattice();
@@ -198,23 +202,25 @@ private:
                            RealType, unsigned int );
 
 
-  bool                                                        m_DoMultilevel;
-  bool                                                        m_GenerateOutputImage;
-  bool                                                        m_UsePointWeights;
-  unsigned int                                                m_MaximumNumberOfLevels;
-  unsigned int                                                m_CurrentLevel;
-  ArrayType                                                   m_NumberOfControlPoints;
-  ArrayType                                                   m_CurrentNumberOfControlPoints;
-  ArrayType                                                   m_CloseDimension;
-  ArrayType                                                   m_SplineOrder;
-  ArrayType                                                   m_NumberOfLevels;
-  typename WeightsContainerType::Pointer                      m_PointWeights;
-  typename KernelType::Pointer                                m_Kernel[ImageDimension];
-  vnl_matrix<RealType>                                        m_RefinedLatticeCoefficients[ImageDimension];
-  typename PointDataImageType::Pointer                        m_PhiLattice;
-  typename PointDataImageType::Pointer                        m_PsiLattice;
-  typename PointDataContainerType::Pointer                    m_InputPointData;
-  typename PointDataContainerType::Pointer                    m_OutputPointData;
+  bool                                           m_DoMultilevel;
+  bool                                           m_GenerateOutputImage;
+  bool                                           m_UsePointWeights;
+  unsigned int                                   m_MaximumNumberOfLevels;
+  unsigned int                                   m_CurrentLevel;
+  ArrayType                                      m_NumberOfControlPoints;
+  ArrayType                                      m_CurrentNumberOfControlPoints;
+  ArrayType                                      m_CloseDimension;
+  ArrayType                                      m_SplineOrder;
+  ArrayType                                      m_NumberOfLevels;
+  typename WeightsContainerType::Pointer         m_PointWeights;
+  typename KernelType::Pointer                   m_Kernel[ImageDimension];
+  typename PointDataImageType::Pointer           m_PhiLattice;
+  typename PointDataImageType::Pointer           m_PsiLattice;
+  typename PointDataContainerType::Pointer       m_InputPointData;
+  typename PointDataContainerType::Pointer       m_OutputPointData;
+
+  vnl_matrix<RealType>
+    m_RefinedLatticeCoefficients[ImageDimension];
 
   inline typename RealImageType::IndexType
   NumberToIndex( unsigned int number, typename RealImageType::SizeType size )
@@ -229,7 +235,8 @@ private:
     typename RealImageType::IndexType index;
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      index[ImageDimension-i-1] = static_cast<unsigned int>( number/k[ImageDimension-i-1] );
+      index[ImageDimension-i-1]
+        = static_cast<unsigned int>( number/k[ImageDimension-i-1] );
       number %= k[ImageDimension-i-1];
       }
     return index;
