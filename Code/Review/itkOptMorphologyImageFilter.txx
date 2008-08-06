@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMorphologyImageFilter.txx
+  Module:    itkOptMorphologyImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,18 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMorphologyImageFilter_txx
-#define __itkMorphologyImageFilter_txx
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptMorphologyImageFilter.txx"
-#else
-
+#ifndef __itkOptMorphologyImageFilter_txx
+#define __itkOptMorphologyImageFilter_txx
 
 #include <limits.h>
 
@@ -40,61 +30,11 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 ::MorphologyImageFilter()
-  : m_Kernel()
 {
   m_DefaultBoundaryCondition.SetConstant( NumericTraits<PixelType>::Zero );
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
   
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-  
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr = 
-    const_cast< TInputImage * >( this->GetInput() );
-  
-  if ( !inputPtr )
-    {
-    return;
-    }
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
-    {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
-}
-
-
 template<class TInputImage, class TOutputImage, class TKernel>
 void
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
@@ -107,7 +47,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   // Find the boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
-  faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
+  faceList = fC(this->GetInput(), outputRegionForThread, this->GetKernel().GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
@@ -118,12 +58,12 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   // Process the boundary faces, these are N-d regions which border the
   // edge of the buffer
 
-  const KernelIteratorType kernelBegin = m_Kernel.Begin();
-  const KernelIteratorType kernelEnd = m_Kernel.End();
+  const KernelIteratorType kernelBegin = this->GetKernel().Begin();
+  const KernelIteratorType kernelEnd = this->GetKernel().End();
   
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    b_iter = NeighborhoodIteratorType(m_Kernel.GetRadius(),
+    b_iter = NeighborhoodIteratorType(this->GetKernel().GetRadius(),
                                       this->GetInput(), *fit);
     
     o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
@@ -142,7 +82,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 
-
 template<class TInputImage, class TOutputImage, class TKernel>
 void
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
@@ -150,11 +89,8 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << m_Kernel << std::endl;
   os << indent << "Boundary condition: " << typeid( *m_BoundaryCondition ).name() << std::endl;
 }
 
 }// end namespace itk
-#endif
-
 #endif
