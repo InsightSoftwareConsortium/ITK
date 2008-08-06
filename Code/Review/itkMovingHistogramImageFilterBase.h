@@ -156,7 +156,7 @@ protected:
   // store the offset of the kernel to initialize the histogram
   OffsetListType m_KernelOffsets;
 
-  typename itk::FixedArray< int, ImageDimension > m_Axes;
+  FixedArray< int, itkGetStaticConstMacro(ImageDimension) > m_Axes;
 
   unsigned long m_PixelsPerTranslation;
 
