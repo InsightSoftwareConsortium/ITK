@@ -81,6 +81,12 @@
 #include "itkKernelImageFilter.h"
 #include "itkMovingHistogramImageFilterBase.h"
 #include "itkMovingHistogramImageFilter.h"
+#include "itkMovingHistogramMorphologyImageFilter.h"
+#include "itkMovingHistogramDilateImageFilter.h"
+#include "itkMovingHistogramErodeImageFilter.h"
+#include "itkMovingHistogramMorphologicalGradientImageFilter.h"
+#include "itkBasicDilateImageFilter.h"
+#include "itkBasicErodeImageFilter.h"
 
 int main ( int , char * [] )
 {
