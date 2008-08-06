@@ -25,6 +25,5 @@
 void RegisterTests()
 {
   REGISTER_TEST(itkImageMaskSpatialObjectTest);
-  REGISTER_TEST(itkImageMaskSpatialObjectTest2);
   REGISTER_TEST(itkImageSpatialObjectTest);
 }
