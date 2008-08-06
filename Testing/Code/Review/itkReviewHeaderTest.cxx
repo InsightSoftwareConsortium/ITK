@@ -87,6 +87,26 @@
 #include "itkMovingHistogramMorphologicalGradientImageFilter.h"
 #include "itkBasicDilateImageFilter.h"
 #include "itkBasicErodeImageFilter.h"
+#include "itkAnchorCloseImageFilter.h"
+#include "itkAnchorDilateImageFilter.h"
+#include "itkAnchorErodeDilateImageFilter.h"
+#include "itkAnchorErodeDilateImageFilter.txx"
+#include "itkAnchorErodeDilateLine.h"
+#include "itkAnchorErodeDilateLine.txx"
+#include "itkAnchorErodeImageFilter.h"
+#include "itkAnchorHistogram.h"
+#include "itkAnchorOpenCloseImageFilter.h"
+#include "itkAnchorOpenCloseImageFilter.txx"
+#include "itkAnchorOpenCloseLine.h"
+#include "itkAnchorOpenCloseLine.txx"
+#include "itkAnchorOpenImageFilter.h"
+#include "itkAnchorUtilities.h"
+#include "itkAnchorUtilities.txx"
+#include "itkBresenhamLine.h"
+#include "itkBresenhamLine.txx"
+#include "itkSharedMorphologyUtilities.h"
+#include "itkSharedMorphologyUtilities.txx"
+
 
 int main ( int , char * [] )
 {
