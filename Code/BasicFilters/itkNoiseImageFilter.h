@@ -36,13 +36,13 @@ namespace itk
 /** \class NoiseImageFilter
  * \brief Calculate the local noise in an image.
  *
- * Computes an image where a given pixel is the standard deviation of
- * the pixels in a neighborhood about the corresponding input pixel.
- * This serves as an estimate of the local noise (or texture) in an
- * image. Currently, this noise estimate assume a piecewise constant
- * image.  This filter should be extended to fitting a (hyper) plane
- * to the neighborhood and calculating the standard deviation of the
- * residuals to this (hyper) plane.
+ * Computes an image where a given output pixel is computed as the standard
+ * deviation of the input pixels in a neighborhood about the corresponding
+ * input pixel.  This serves as an estimate of the local noise (or texture) in
+ * an image. Currently, this noise estimate assume a piecewise constant image.
+ * This filter should be extended to fitting a (hyper) plane to the
+ * neighborhood and calculating the standard deviation of the residuals to this
+ * (hyper) plane.
  *
  * \sa Image
  * \sa Neighborhood
