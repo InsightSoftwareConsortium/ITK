@@ -29,7 +29,6 @@ OnePlusOneEvolutionaryOptimizer
   m_CatchGetValueException = false;
   m_MetricWorstPossibleValue = 0;
 
-
   m_Maximize = false;
   m_Epsilon = (double) 1.5e-4; 
   m_RandomGenerator = 0;
@@ -318,7 +317,10 @@ OnePlusOneEvolutionaryOptimizer
   os << indent << "Current Iteration " << m_CurrentIteration << std::endl;
   os << indent << "Frobenius Norm    " << m_FrobeniusNorm    << std::endl;
   os << indent << "Maximize On/Off   " << m_Maximize         << std::endl;
-
+  os << indent << "CatchGetValueException   " << m_CatchGetValueException 
+               << std::endl;
+  os << indent << "MetricWorstPossibleValue " << m_MetricWorstPossibleValue 
+               << std::endl;
 }
 
 } // end of namespace itk
