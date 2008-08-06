@@ -106,6 +106,12 @@
 #include "itkBresenhamLine.txx"
 #include "itkSharedMorphologyUtilities.h"
 #include "itkSharedMorphologyUtilities.txx"
+#include "itkVanHerkGilWermanDilateImageFilter.h"
+#include "itkVanHerkGilWermanErodeDilateImageFilter.h"
+#include "itkVanHerkGilWermanErodeDilateImageFilter.txx"
+#include "itkVanHerkGilWermanErodeImageFilter.h"
+#include "itkVanHerkGilWermanUtilities.h"
+#include "itkVanHerkGilWermanUtilities.txx"
 
 
 int main ( int , char * [] )

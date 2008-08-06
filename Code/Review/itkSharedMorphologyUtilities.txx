@@ -28,7 +28,7 @@ namespace itk {
 
 /**
  * \class SharedMorphUtilities 
- * \brief functionality in common for anchor and vHGW openings/closings and
+ * \brief functionality in common for anchor and VanHerkGilWerman openings/closings and
  * erosions/dilation
  *
  */
