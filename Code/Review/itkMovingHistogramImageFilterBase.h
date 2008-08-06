@@ -131,7 +131,7 @@ public:
 
   typedef typename std::list< OffsetType >                       OffsetListType;
 
-  typedef typename std::map< OffsetType, OffsetListType, typename Functor::OffsetLexicographicCompare<ImageDimension> >          OffsetMapType;
+  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >          OffsetMapType;
 
   /** Set kernel (structuring element). */
   void SetKernel( const KernelType& kernel );

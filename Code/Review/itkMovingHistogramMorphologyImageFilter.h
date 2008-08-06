@@ -268,9 +268,7 @@ public:
 
   typedef typename std::list< OffsetType >                 OffsetListType;
 
-  typedef typename std::map< OffsetType, OffsetListType, 
-    typename Functor::OffsetLexicographicCompare<ImageDimension> >
-                                                           OffsetMapType;
+  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >          OffsetMapType;
 
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, PixelType);
