@@ -80,7 +80,9 @@ public:
                                                                 HistogramFilterType;
   typedef BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
                                                                 BasicFilterType;
-  typedef FlatStructuringElement< ImageDimension >              FlatKernelType;
+
+  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >              FlatKernelType;
+
   typedef AnchorErodeImageFilter< TInputImage, FlatKernelType > AnchorFilterType;
   typedef VanHerkGilWermanErodeImageFilter< TInputImage, FlatKernelType > 
                                                                 VHGWFilterType;

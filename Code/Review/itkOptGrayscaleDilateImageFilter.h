@@ -80,7 +80,9 @@ public:
                                                                 HistogramFilterType;
   typedef BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
                                                                 BasicFilterType;
-  typedef FlatStructuringElement< ImageDimension >              FlatKernelType;
+
+  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >              FlatKernelType;
+
   typedef AnchorDilateImageFilter< TInputImage, FlatKernelType > 
                                                                 AnchorFilterType;
   typedef VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >
