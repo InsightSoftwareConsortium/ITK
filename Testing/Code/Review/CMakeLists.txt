@@ -138,6 +138,7 @@ SET(ReviewTest_SRCS
   itkBoxMeanImageFilterTest.cxx
   itkBoxSigmaImageFilterTest.cxx
   itkRankImageFilterTest.cxx
+  itkMaskedRankImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
