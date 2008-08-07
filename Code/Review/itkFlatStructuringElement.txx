@@ -40,7 +40,7 @@ template<unsigned int VDimension>
 FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 ::Poly(RadiusType radius, unsigned lines)
 {
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res = res.PolySub(Dispatch<VDimension>(), radius, lines);
   res.SetRadius( radius );
 #if 0
@@ -79,7 +79,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
   //std::cout << "2 dimensions" << std::endl;
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res.m_Decomposable = true;
   
   unsigned int rr = 0;
@@ -138,7 +138,7 @@ template<unsigned int VDimension>
 FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 ::PolySub(const Dispatch<3> &, RadiusType radius, unsigned lines) const
 {
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res.m_Decomposable = true;
   // std::cout << "3 dimensions" << std::endl;
   unsigned int rr = 0;
@@ -626,7 +626,7 @@ template<unsigned int VDimension>
 FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 ::PolySub(const DispatchBase &, RadiusType radius, unsigned lines) const
 {
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res.m_Decomposable = true;
   std::cout << "Don't know how to deal with this many dimensions" << std::endl;
   return(res);
@@ -638,7 +638,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 ::Box(RadiusType radius)
 {
   // this should work for any number of dimensions
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res.m_Decomposable = true;
   res.SetRadius( radius );
   for (unsigned i = 0;i<VDimension;i++)
@@ -669,7 +669,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 ::Cross(RadiusType radius)
 {
   // this should work for any number of dimensions
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res.m_Decomposable = false;
   res.SetRadius( radius );
   Iterator kernel_it;
@@ -696,7 +696,7 @@ template<unsigned int VDimension>
 FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 ::Ball(RadiusType radius)
 {
-  FlatStructuringElement res = FlatStructuringElement();
+  Self res = Self();
   res.SetRadius( radius );
   res.m_Decomposable = false;
 
