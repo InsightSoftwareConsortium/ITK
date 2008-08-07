@@ -113,6 +113,9 @@
 #include "itkVanHerkGilWermanUtilities.h"
 #include "itkVanHerkGilWermanUtilities.txx"
 
+#include "itkBoxUtilities.txx"
+#include "itkBoxMeanImageFilter.h"
+#include "itkBoxMeanImageFilter.txx"
 
 int main ( int , char * [] )
 {
