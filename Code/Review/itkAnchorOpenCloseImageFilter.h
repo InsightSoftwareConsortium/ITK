@@ -113,7 +113,7 @@ private:
 
   TKernel m_Kernel;
   bool    m_KernelSet;
-  typedef BresenhamLine<TImage::ImageDimension> BresType;
+  typedef BresenhamLine<itkGetStaticConstMacro(InputImageDimension)> BresType;
 
   // the class that operates on lines -- does the opening in one
   // operation. The classes following are named on the assumption that

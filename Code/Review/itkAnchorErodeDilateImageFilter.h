@@ -106,7 +106,7 @@ private:
 
   TKernel m_Kernel;
   bool    m_KernelSet;
-  typedef BresenhamLine<TImage::ImageDimension> BresType;
+  typedef BresenhamLine<itkGetStaticConstMacro(InputImageDimension)> BresType;
 
   // the class that operates on lines
   typedef AnchorErodeDilateLine<InputImagePixelType, TFunction1, TFunction2> AnchorLineType;
