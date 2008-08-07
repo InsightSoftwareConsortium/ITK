@@ -122,6 +122,9 @@
 #include "itkRankHistogram.h"
 #include "itkRankImageFilter.h"
 #include "itkRankImageFilter.txx"
+#include "itkMaskedRankHistogram.h"
+#include "itkMaskedRankImageFilter.h"
+#include "itkMaskedRankImageFilter.txx"
 
 int main ( int , char * [] )
 {

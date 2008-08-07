@@ -137,6 +137,7 @@ SET(ReviewTest_SRCS
   
   itkBoxMeanImageFilterTest.cxx
   itkBoxSigmaImageFilterTest.cxx
+  itkRankImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -782,6 +783,25 @@ ADD_TEST(itkBoxSigmaImageFilterTest10 ${REVIEW_TESTS}
   itkBoxSigmaImageFilterTest
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkBoxSigmaImageFilter10.png
+  10
+)
+
+
+ADD_TEST(itkRankImageFilterTest3 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkRankImageFilter3.png
+            ${TEMP}/itkRankImageFilter3.png
+  itkRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkRankImageFilter3.png
+  3
+)
+
+ADD_TEST(itkRankImageFilterTest10 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkRankImageFilter10.png
+            ${TEMP}/itkRankImageFilter10.png
+  itkRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkRankImageFilter10.png
   10
 )
 
