@@ -141,5 +141,6 @@ void RegisterTests()
 
   REGISTER_TEST( itkBoxMeanImageFilterTest );
   REGISTER_TEST( itkBoxSigmaImageFilterTest );
+  REGISTER_TEST( itkRankImageFilterTest );
 
 }

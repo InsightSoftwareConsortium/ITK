@@ -119,6 +119,10 @@
 #include "itkBoxSigmaImageFilter.h"
 #include "itkBoxSigmaImageFilter.txx"
 
+#include "itkRankHistogram.h"
+#include "itkRankImageFilter.h"
+#include "itkRankImageFilter.txx"
+
 int main ( int , char * [] )
 {
   
