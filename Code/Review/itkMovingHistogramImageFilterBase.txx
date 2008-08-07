@@ -181,7 +181,6 @@ void
 MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
 ::GetDirAndOffset(const IndexType LineStart, 
       const IndexType PrevLineStart,
-      const int ImageDimension,
       OffsetType &LineOffset,
       OffsetType &Changes,
       int &LineDirection)

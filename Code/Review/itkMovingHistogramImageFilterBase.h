@@ -144,7 +144,6 @@ protected:
   
   void GetDirAndOffset(const IndexType LineStart, 
                       const IndexType PrevLineStart,
-                      const int ImageDimension,
                       OffsetType &LineOffset,
                       OffsetType &Changes,
                       int &LineDirection);
