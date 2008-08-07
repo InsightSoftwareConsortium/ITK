@@ -216,9 +216,10 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
   stRegion.PadByRadius( 1 ); // must pad the region by one because of the translation
 
   OffsetType centerOffset;
-  for( unsigned int axis=0; axis<ImageDimension; axis++)
+  unsigned int i;
+  for( i=0; i<ImageDimension; i++)
     {
-    centerOffset[axis] = stRegion.GetSize()[axis] / 2;
+    centerOffset[i] = stRegion.GetSize()[i] / 2;
     }
 
   int BestDirection = this->m_Axes[axis];
@@ -252,7 +253,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
   // iterator passes over the various dimensions.
   int *Steps = new int[ImageDimension];
 
-  for (unsigned int i=0;i<ImageDimension;i++)
+  for( i=0; i<ImageDimension; i++ )
     {
     HistVec[i] = histogram->Clone();
     PrevLineStartVec[i] = InLineIt.GetIndex();
@@ -307,7 +308,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
     // copy the updated histogram and line start entries to the
     // relevant directions. When updating direction 2, for example,
     // new copies of directions 0 and 1 should be made.
-    for (unsigned int i=0;i<ImageDimension;i++) 
+    for( i=0; i<ImageDimension; i++) 
       {
       if (Steps[i] > Steps[LineDirection])
         {
