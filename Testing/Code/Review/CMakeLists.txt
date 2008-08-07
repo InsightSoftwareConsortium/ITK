@@ -807,6 +807,27 @@ ADD_TEST(itkRankImageFilterTest10 ${REVIEW_TESTS}
 )
 
 
+ADD_TEST(itkMaskedRankImageFilterTest3 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkMaskedRankImageFilter3.png
+            ${TEMP}/itkMaskedRankImageFilter3.png
+  itkMaskedRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${INPUTDATA}/cthead1-mask.png
+  ${TEMP}/itkMaskedRankImageFilter3.png
+  3
+)
+
+ADD_TEST(itkMaskedRankImageFilterTest10 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkMaskedRankImageFilter10.png
+            ${TEMP}/itkMaskedRankImageFilter10.png
+  itkMaskedRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${INPUTDATA}/cthead1-mask.png
+  ${TEMP}/itkMaskedRankImageFilter10.png
+  10
+)
+
+
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKAlgorithms
