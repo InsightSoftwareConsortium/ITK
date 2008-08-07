@@ -288,20 +288,43 @@ ImageSpatialObject< TDimension,  PixelType >
   m_Image = image;
   typename TransformType::OffsetType offset; 
   typename TransformType::OutputVectorType scaling; 
+  typename TransformType::MatrixType matrix; 
   typename ImageType::PointType      origin; 
   typename ImageType::SpacingType    spacing; 
+  typename ImageType::DirectionType  direction; 
   
   origin.Fill( 0 );
   spacing.Fill( 1.0 );
 
   origin = m_Image->GetOrigin(); 
   spacing = m_Image->GetSpacing(); 
-  for( unsigned int d=0; d<TDimension; d++) 
+  direction= m_Image->GetDirection();
+
+ for( unsigned int d=0; d<TDimension; d++) 
     { 
     scaling[d] = spacing[d]; 
     offset[d]  = origin[d]; 
+    for(unsigned int d2=0; d2<TDimension;d2++)
+       {
+           matrix[d][d2]=direction[d][d2]*spacing[d2];
+       }
     } 
-  this->GetIndexToObjectTransform()->SetScale( scaling ); 
+     // itk::Image can store the directions, but does not use them
+    // to be consistent with this behavior, we explicitly test
+     // for an itk::Image - it would be better to test how the coordinates
+     // are computed - but this is not possible because these functions are not
+     // virtual.
+    bool DoesImageUseDirection=true;
+     if(typeid(*m_Image)==typeid(Image< PixelType, TDimension >)) {
+          DoesImageUseDirection=false;
+     }
+
+
+    if(DoesImageUseDirection) {
+        this->GetIndexToObjectTransform()->SetMatrix( matrix ); 
+     } else {     
+          this->GetIndexToObjectTransform()->SetScale( scaling ); 
+     }
   this->GetIndexToObjectTransform()->SetOffset( offset ); 
   this->ComputeObjectToParentTransform(); 
   this->Modified(); 
