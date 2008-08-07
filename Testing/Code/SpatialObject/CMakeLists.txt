@@ -60,6 +60,7 @@ SET(SpatialObject_SRCS5
 
 SET(SpatialObject_SRCS4
   itkImageMaskSpatialObjectTest.cxx
+  itkImageMaskSpatialObjectTest2.cxx
   itkImageSpatialObjectTest.cxx
 )
 
