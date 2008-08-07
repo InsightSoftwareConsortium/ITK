@@ -713,7 +713,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
   typename ImageType::Pointer sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = radius;
-  for( int i=0; i<(int)VDimension; i++ )
+  for( i=0; i<(int)VDimension; i++ )
     {
     size[i] = 2*size[i] + 1;
     }
