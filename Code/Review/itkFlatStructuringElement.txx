@@ -158,7 +158,8 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       float c = 2.0 - phi;
       unsigned facets = 12;
       typedef std::vector<FacetType> FacetArrayType;
-      FacetArrayType FacetArray = FacetArrayType(facets);
+      FacetArrayType FacetArray;
+      FacetArray.resize( facets );
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
@@ -329,7 +330,8 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       float b = 1.0/(2.0*phi);
       unsigned facets = 20;
       typedef std::vector<FacetType> FacetArrayType;
-      FacetArrayType FacetArray = FacetArrayType(facets);
+      FacetArrayType FacetArray;
+      FacetArray.resize( facets );
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
@@ -529,7 +531,8 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       float sqrt2 = sqrt(2.0);
       // std::cout << facets << " facets" << std::endl;
       typedef std::vector<FacetType> FacetArrayType;
-      FacetArrayType FacetArray = FacetArrayType(facets);
+      FacetArrayType FacetArray;
+      FacetArray.resize( facets );
       
       // original corners of octahedron
       LType P0, P1, P2, P3, P4, P5; 
