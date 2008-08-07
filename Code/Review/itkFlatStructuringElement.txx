@@ -627,7 +627,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
 
 template<unsigned int VDimension>
 FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
-::PolySub(const DispatchBase &, RadiusType radius, unsigned lines) const
+::PolySub(const DispatchBase &, RadiusType , unsigned) const
 {
   Self res = Self();
   res.m_Decomposable = true;

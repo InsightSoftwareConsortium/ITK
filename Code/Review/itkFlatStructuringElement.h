@@ -157,11 +157,12 @@ private:
 
   bool checkParallel(LType NewVec, DecompType Lines);
 
-  typedef struct 
+  template<unsigned int VDimension3>
+  struct StructuringElementFacet
     {
     LType P1, P2, P3;
-    } FacetType;
-
+    };
+  typedef StructuringElementFacet<VDimension> FacetType;
 };
 } // namespace itk
 
