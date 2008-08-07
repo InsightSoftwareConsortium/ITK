@@ -134,6 +134,9 @@ SET(ReviewTest_SRCS
   itkComposeRGBAImageFilterTest.cxx
 
   itkTransformToDeformationFieldSourceTest.cxx
+  
+  itkBoxMeanImageFilterTest.cxx
+  itkBoxSigmaImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -743,6 +746,43 @@ ADD_TEST(itkTransformToDeformationFieldSourceTest02 ${REVIEW_TESTS}
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha
     ${INPUTDATA}/parametersBSpline.txt
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha
+)
+
+ADD_TEST(itkBoxMeanImageFilterTest3 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkBoxMeanImageFilter3.png
+            ${TEMP}/itkBoxMeanImageFilter3.png
+  itkBoxMeanImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkBoxMeanImageFilter3.png
+  3
+)
+
+ADD_TEST(itkBoxMeanImageFilterTest10 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkBoxMeanImageFilter10.png
+            ${TEMP}/itkBoxMeanImageFilter10.png
+  itkBoxMeanImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkBoxMeanImageFilter10.png
+  10
+)
+
+
+ADD_TEST(itkBoxSigmaImageFilterTest3 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkBoxSigmaImageFilter3.png
+            ${TEMP}/itkBoxSigmaImageFilter3.png
+  itkBoxSigmaImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkBoxSigmaImageFilter3.png
+  3
+)
+
+ADD_TEST(itkBoxSigmaImageFilterTest10 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkBoxSigmaImageFilter10.png
+            ${TEMP}/itkBoxSigmaImageFilter10.png
+  itkBoxSigmaImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkBoxSigmaImageFilter10.png
+  10
 )
 
 

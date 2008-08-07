@@ -139,4 +139,7 @@ void RegisterTests()
   REGISTER_TEST(itkTransformFileReaderWriterTest);
 #endif
 
+  REGISTER_TEST( itkBoxMeanImageFilterTest );
+  REGISTER_TEST( itkBoxSigmaImageFilterTest );
+
 }

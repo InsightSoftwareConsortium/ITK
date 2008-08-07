@@ -398,7 +398,7 @@ BoxSigmaCalculatorFunction(typename TInputImage::ConstPointer accImage,
 
   // this process is actually slightly asymmetric because we need to
   // subtract rectangles that are next to our kernel, not overlapping it
-  SizeType kernelSize, internalRadius, BoxSize, RegionLimit;
+  SizeType kernelSize, internalRadius, RegionLimit;
   IndexType RegionStart = inputRegion.GetIndex();
   for( int i=0; i<TInputImage::ImageDimension; i++ )
     {
@@ -489,7 +489,6 @@ BoxSigmaCalculatorFunction(typename TInputImage::ConstPointer accImage,
       // now we need to deal with the border regions
       typedef typename itk::ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
       OutputIteratorType oIt(outputImage, *fit);
-      OffsetType HighCorner, LowCorner;
       // now do the work
       for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
         {
