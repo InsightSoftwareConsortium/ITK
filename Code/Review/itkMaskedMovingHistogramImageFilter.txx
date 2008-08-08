@@ -167,7 +167,6 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   // now move the histogram
   itk::FixedArray<short, ImageDimension> direction;
   direction.Fill(1);
-  IndexType currentIdx = outputRegionForThread.GetIndex();
   int axis = ImageDimension - 1;
   OffsetType offset;
   offset.Fill( 0 );
