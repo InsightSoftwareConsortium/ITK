@@ -40,9 +40,7 @@ MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>
   
   m_Cast = CastType::New();
   m_Cast->SetInput( m_Filters[ImageDimension-1]->GetOutput() );
-  // it seems that there are bad interaction with in place filtering and graft output
-  // m_Cast->SetInPlace( false );
-  m_Cast->SetInPlace( false );
+  m_Cast->SetInPlace( true );
 }
 
 

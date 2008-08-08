@@ -107,7 +107,8 @@ protected:
     if( this->GetInPlace() && this->CanRunInPlace() )
       {
       // nothing to do, so avoid iterating over all the pixels
-      // for nothing! Generate a fake progress and exit
+      // for nothing! Allocate the output, generate a fake progress and exit
+      this->AllocateOutputs();
       ProgressReporter progress(this, 0, 1);
       return;
       }
