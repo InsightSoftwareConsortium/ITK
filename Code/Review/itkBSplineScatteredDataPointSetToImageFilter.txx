@@ -935,7 +935,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     if( params[i] == NumericTraits<RealType>::One )
       {
       params[i] = NumericTraits<RealType>::One - 
-        vcl_numeric_limits<RealType>::epsilon();
+        10.0 * vcl_numeric_limits<RealType>::epsilon();
       }
     if( params[i] < 0.0 || params[i] >= 1.0 )
       {
@@ -1036,7 +1036,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     if( params[i] == NumericTraits<RealType>::One )
       {
       params[i] = NumericTraits<RealType>::One - 
-        vcl_numeric_limits<RealType>::epsilon();
+        10.0 * vcl_numeric_limits<RealType>::epsilon();
       }
     if( params[i] < 0.0 || params[i] >= 1.0 )
       {
