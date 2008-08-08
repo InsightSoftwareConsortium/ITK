@@ -245,9 +245,6 @@ void
 DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::ApplyUpdate(TimeStepType dt)
 {
-  // This is a workaround for ITK bug 0003972
-  this->GetUpdateBuffer()->Modified();
-   
   // If we smooth the update buffer before applying it, then the are
   // approximating a viscuous problem as opposed to an elastic problem
   if ( this->GetSmoothUpdateField() )
