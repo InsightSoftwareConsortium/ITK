@@ -53,9 +53,9 @@ namespace itk {
  * \author Richard Beare
  */
 
-template<class TInputImage, class TOutputImage, class TKernel=FlatStructuringElement< TInputImage::ImageDimension > >
+template<class TInputImage, class TOutputImage, class TKernel /*= FlatStructuringElement< TInputImage::ImageDimension >*/ >
 class ITK_EXPORT RankImageFilter : 
-    public MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, RankHistogram< typename TInputImage::PixelType > >
+    public MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, RankHistogram< ITK_TYPENAME TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */

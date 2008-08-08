@@ -53,9 +53,9 @@ namespace itk {
  * \author Richard Beare
  */
 
-template<class TInputImage, class TMaskImage, class TOutputImage, class TKernel=FlatStructuringElement< TInputImage::ImageDimension > >
+template<class TInputImage, class TMaskImage, class TOutputImage, class TKernel/*=FlatStructuringElement< TInputImage::ImageDimension >*/ >
 class ITK_EXPORT MaskedRankImageFilter : 
-    public MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel, MaskedRankHistogram< typename TInputImage::PixelType > >
+    public MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel, MaskedRankHistogram< ITK_TYPENAME TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
