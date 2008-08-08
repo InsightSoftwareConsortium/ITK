@@ -107,7 +107,7 @@ public:
 
   typedef typename std::list< OffsetType > OffsetListType;
 
-  typedef typename std::map< OffsetType, OffsetListType, typename Functor::OffsetLexicographicCompare<ImageDimension> > OffsetMapType;
+  typedef typename std::map< OffsetType, OffsetListType, typename Functor::OffsetLexicographicCompare<itkGetStaticConstMacro(ImageDimension)> > OffsetMapType;
 
   /** Get the modified mask image */
   MaskImageType * GetOutputMask();
