@@ -46,7 +46,6 @@ BoxSigmaImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId) 
 {
 
-  ProgressReporter progress(this, 0, 2*outputRegionForThread.GetNumberOfPixels());
   // Accumulate type is too small
   typedef typename itk::NumericTraits<PixelType>::RealType             AccValueType;
   typedef typename itk::Vector<AccValueType, 2>                        AccPixType;
@@ -64,6 +63,8 @@ BoxSigmaImageFilter<TInputImage, TOutputImage>
   RegionType accumRegion = outputRegionForThread;
   accumRegion.PadByRadius(internalRadius);
   accumRegion.Crop(inputImage->GetRequestedRegion());
+
+  ProgressReporter progress(this, threadId, 2*accumRegion.GetNumberOfPixels());
 
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
