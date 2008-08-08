@@ -31,7 +31,7 @@ template <class TInputImage, class TOutputImage, class TKernel>
 BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
 ::BlackTopHatImageFilter()
 {
-  m_SafeBorder = true;
+  m_SafeBorder = false;
   m_Algorithm = HISTO;
   m_ForceAlgorithm = false;
 }

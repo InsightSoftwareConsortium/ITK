@@ -31,7 +31,7 @@ template <class TInputImage, class TOutputImage, class TKernel>
 WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
 ::WhiteTopHatImageFilter()
 {
-  m_SafeBorder = true;
+  m_SafeBorder = false;
   m_Algorithm = HISTO;
   m_ForceAlgorithm = false;
 }
