@@ -318,7 +318,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
       }
     progress.CompletedPixel();
     }
-  for (unsigned i=0;i<ImageDimension;i++) 
+  for( i=0; i<ImageDimension; i++ ) 
     {
     delete(HistVec[i]);
     }
