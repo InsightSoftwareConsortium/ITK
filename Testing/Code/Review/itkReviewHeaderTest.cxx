@@ -125,6 +125,9 @@
 #include "itkMaskedRankHistogram.h"
 #include "itkMaskedRankImageFilter.h"
 #include "itkMaskedRankImageFilter.txx"
+#include "itkMiniPipelineSeparableImageFilter.h"
+#include "itkMiniPipelineSeparableImageFilter.txx"
+#include "itkFastApproximateRankImageFilter.h"
 
 int main ( int , char * [] )
 {

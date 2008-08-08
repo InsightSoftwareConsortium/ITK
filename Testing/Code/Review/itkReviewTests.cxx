@@ -145,5 +145,6 @@ void RegisterTests()
   REGISTER_TEST( itkMapRankImageFilterTest );
   REGISTER_TEST( itkMaskedRankImageFilterTest );
   REGISTER_TEST( itkMapMaskedRankImageFilterTest );
+  REGISTER_TEST( itkFastApproximateRankImageFilterTest );
 
 }
