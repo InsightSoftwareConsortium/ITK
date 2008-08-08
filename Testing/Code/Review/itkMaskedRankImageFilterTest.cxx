@@ -67,6 +67,21 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
     std::cerr << "Wrong default Rank." << std::endl;
     return EXIT_FAILURE;
     }
+  if ( filter->GetMaskValue() != 255 )
+    {
+    std::cerr << "Wrong default mask value." << std::endl;
+    return EXIT_FAILURE;
+    }
+  if ( filter->GetFillValue() != 0 )
+    {
+    std::cerr << "Wrong default fill value." << std::endl;
+    return EXIT_FAILURE;
+    }
+  if ( filter->GetBackgroundMaskValue() != 0 )
+    {
+    std::cerr << "Wrong default background mask value." << std::endl;
+    return EXIT_FAILURE;
+    }
     
   // set radius with a radius type
   RadiusType r5;
@@ -93,6 +108,27 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
+  filter->SetMaskValue( 1 );
+  if ( filter->GetMaskValue() != 1 )
+    {
+    std::cerr << "Mask value value is not the expected one: " << filter->GetMaskValue() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  filter->SetFillValue( 1 );
+  if ( filter->GetFillValue() != 1 )
+    {
+    std::cerr << "Fill value value is not the expected one: " << filter->GetFillValue() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  filter->SetBackgroundMaskValue( 1 );
+  if ( filter->GetBackgroundMaskValue() != 1 )
+    {
+    std::cerr << "Background mask value value is not the expected one: " << filter->GetBackgroundMaskValue() << std::endl;
+    return EXIT_FAILURE;
+    }
+
   try
     {
     int r = atoi( av[4] );
@@ -100,6 +136,9 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
     filter->SetMaskImage(input2->GetOutput());
     filter->SetRadius( r );
     filter->SetRank( 0.5 );
+    filter->SetMaskValue( 255 );
+    filter->SetFillValue( 1 );
+    filter->SetBackgroundMaskValue( 0 );
     filter->Update();
     }
   catch (itk::ExceptionObject& e)
