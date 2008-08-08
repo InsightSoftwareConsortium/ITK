@@ -138,6 +138,7 @@ SET(ReviewTest_SRCS
   itkBoxMeanImageFilterTest.cxx
   itkBoxSigmaImageFilterTest.cxx
   itkRankImageFilterTest.cxx
+  itkMapRankImageFilterTest.cxx
   itkMaskedRankImageFilterTest.cxx
 )
 
@@ -803,6 +804,25 @@ ADD_TEST(itkRankImageFilterTest10 ${REVIEW_TESTS}
   itkRankImageFilterTest
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkRankImageFilter10.png
+  10
+)
+
+
+ADD_TEST(itkMapRankImageFilterTest3 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkRankImageFilter3.png
+            ${TEMP}/itkMapRankImageFilter3.png
+  itkMapRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkMapRankImageFilter3.png
+  3
+)
+
+ADD_TEST(itkMapRankImageFilterTest10 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkRankImageFilter10.png
+            ${TEMP}/itkMapRankImageFilter10.png
+  itkMapRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkMapRankImageFilter10.png
   10
 )
 
