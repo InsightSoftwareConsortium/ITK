@@ -17,6 +17,16 @@
 #ifndef __itkMorphologicalGradientImageFilter_txx
 #define __itkMorphologicalGradientImageFilter_txx
 
+
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
+#include "itkOptMorphologicalGradientImageFilter.h"
+#else
+
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkMorphologicalGradientImageFilter.h"
@@ -151,4 +161,6 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 }// end namespace itk
+#endif
+
 #endif

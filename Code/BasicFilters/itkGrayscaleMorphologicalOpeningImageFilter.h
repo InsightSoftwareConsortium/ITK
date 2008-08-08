@@ -15,6 +15,16 @@
 #ifndef __itkGrayscaleMorphologicalOpeningImageFilter_h
 #define __itkGrayscaleMorphologicalOpeningImageFilter_h
 
+// First make sure that the configuration is available.
+// This line can be removed once the optimized versions
+// gets integrated into the main directories.
+#include "itkConfigure.h"
+
+#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
+#include "itkOptGrayscaleMorphologicalOpeningImageFilter.h"
+#else
+
+
 #include "itkImageToImageFilter.h"
 
 namespace itk {
@@ -135,4 +145,4 @@ private:
 
 #endif
 
-
+#endif
