@@ -46,9 +46,9 @@ public:
   
   virtual void Reset(){}
     
-  virtual void AddPixel(const TInputPixel &p){}
+  virtual void AddPixel(const TInputPixel & itkNotUsed(p)){}
 
-  virtual void RemovePixel(const TInputPixel &p){}
+  virtual void RemovePixel(const TInputPixel & itkNotUsed(p)){}
  
   // For the map based version - to be called after there is some data
   // included. Meant to be an optimization so that the rank value
