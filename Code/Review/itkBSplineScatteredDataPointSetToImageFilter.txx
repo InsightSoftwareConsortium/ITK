@@ -588,13 +588,21 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
+      unsigned int totalNumberOfSpans 
+        = this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
+
       p[i] = ( point[i] - this->m_Origin[i] ) * r[i];
-      if ( p[i] ==
-        static_cast<RealType>( this->m_CurrentNumberOfControlPoints[i] -
-          this->m_SplineOrder[i] ) )
+      if( p[i] == static_cast<RealType>( totalNumberOfSpans ) )
         {
-        p[i] -= vcl_numeric_limits<RealType>::epsilon();
+        p[i] = static_cast<RealType>( totalNumberOfSpans ) - 
+          10.0 * vcl_numeric_limits<RealType>::epsilon();
         }
+      if( p[i] >= static_cast<RealType>( totalNumberOfSpans ) )
+        {
+        itkExceptionMacro( "The reparameterized point component " << p[i] 
+          << " is outside the corresponding parametric domain of [0, " 
+          << totalNumberOfSpans << "]." );   
+        }  
       }
 
     RealType w2_sum = 0.0;
@@ -723,8 +731,15 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
       if( U[i] == static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
-        U[i] -= vcl_numeric_limits<RealType>::epsilon();
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
+          10.0 * vcl_numeric_limits<RealType>::epsilon();
         }
+      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
+        {
+        itkExceptionMacro( "The collapse point component " << U[i] 
+          << " is outside the corresponding parametric domain of [0, " 
+          << totalNumberOfSpans[i] << "]." );   
+        }  
       }
     for( int i = ImageDimension-1; i >= 0; i-- )
       {
@@ -817,8 +832,15 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
              static_cast<RealType>( this->m_Size[i] - 1 );
       if( U[i] == static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
-        U[i] -= vcl_numeric_limits<RealType>::epsilon();
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
+          10.0 * vcl_numeric_limits<RealType>::epsilon();
         }
+      if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
+        {
+        itkExceptionMacro( "The collapse point component " << U[i] 
+          << " is outside the corresponding parametric domain of [0, " 
+          << totalNumberOfSpans[i] << "]." );   
+        }  
       }
     for( int i = ImageDimension-1; i >= 0; i-- )
       {
@@ -910,14 +932,15 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   vnl_vector<RealType> p( ImageDimension );
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if( params[i] < 0.0 || params[i] > 1.0 )
+    if( params[i] == NumericTraits<RealType>::One )
+      {
+      params[i] = NumericTraits<RealType>::One - 
+        vcl_numeric_limits<RealType>::epsilon();
+      }
+    if( params[i] < 0.0 || params[i] >= 1.0 )
       {
       itkExceptionMacro( "The specified point " << params
         << " is outside the reparameterized domain [0, 1]." );
-      }
-    if( params[i] == NumericTraits<RealType>::One )
-      {
-      params[i] -= vcl_numeric_limits<RealType>::epsilon();
       }
     p[i] = static_cast<RealType>( params[i] )
          * static_cast<RealType>( this->m_CurrentNumberOfControlPoints[i]
@@ -1010,14 +1033,15 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   vnl_vector<RealType> p( ImageDimension );
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    if( params[i] < 0.0 || params[i] > 1.0 )
+    if( params[i] == NumericTraits<RealType>::One )
+      {
+      params[i] = NumericTraits<RealType>::One - 
+        vcl_numeric_limits<RealType>::epsilon();
+      }
+    if( params[i] < 0.0 || params[i] >= 1.0 )
       {
       itkExceptionMacro( "The specified point " << params
         << " is outside the reparameterized domain [0, 1]." );
-      }
-    if( params[i] == NumericTraits<RealType>::One )
-      {
-      params[i] -= vcl_numeric_limits<RealType>::epsilon();
       }
     p[i] = static_cast<RealType>( params[i] )
       * static_cast<RealType>( this->m_CurrentNumberOfControlPoints[i]
