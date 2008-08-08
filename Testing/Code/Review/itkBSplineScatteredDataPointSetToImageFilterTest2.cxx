@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,9 +27,11 @@
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 
 /**
- * In this test, we approximate a sequence of 3D points with a parametric curve described by B-Splines
+ * In this test, we approximate a sequence of 3D points with a
+ * parametric curve described by B-Splines
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv [] )
+int
+itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv [] )
 {
 
   if( argc < 2 )
@@ -45,11 +47,11 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv []
 
   typedef double                                         RealType;
   typedef itk::Vector<RealType, DataDimension>           VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>    ImageType;  
+  typedef itk::Image<VectorType, ParametricDimension>    ImageType;
 
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
-  PointSetType::Pointer pointSet = PointSetType::New();  
+  PointSetType::Pointer pointSet = PointSetType::New();
 
   std::cout << "Input Data" << std::endl;
 
@@ -60,7 +62,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv []
 
     PointSetType::PointType point;
     point[0] = t;
-    pointSet->SetPoint( i, point );        
+    pointSet->SetPoint( i, point );
 
     VectorType V;
     V[0] = 0.25*cos(t*6.0*3.141);
@@ -73,15 +75,16 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv []
     }
 
   // Instantiate the filter and set the parameters
-  typedef itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, ImageType>  FilterType;
+  typedef itk::BSplineScatteredDataPointSetToImageFilter
+    <PointSetType, ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  
+
   // Define the parametric domain
-  ImageType::SpacingType spacing;  
+  ImageType::SpacingType spacing;
   spacing.Fill( 0.001 );
-  ImageType::SizeType size;  
-  size.Fill( static_cast<unsigned int>( 1.0/spacing[0] ) + 1 );
-  ImageType::PointType origin;  
+  ImageType::SizeType size;
+  size.Fill( 1001 );
+  ImageType::PointType origin;
   origin.Fill( 0.0 );
 
   filter->SetSize( size );
@@ -89,23 +92,23 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv []
   filter->SetSpacing( spacing );
   filter->SetInput( pointSet );
 
-  filter->SetSplineOrder( 3 );  
+  filter->SetSplineOrder( 3 );
   FilterType::ArrayType ncps;
-  ncps.Fill( 4 );  
+  ncps.Fill( 4 );
   filter->SetNumberOfControlPoints( ncps );
   filter->SetNumberOfLevels( 5 );
   filter->SetGenerateOutputImage( false );
 
-  try 
+  try
     {
     filter->Update();
-  
+
     std::ofstream outputFile;
 
     outputFile.open( argv[1] );
-    
+
     PointSetType::PointType parameterPosition;
-    VectorType V; 
+    VectorType V;
     FilterType::GradientType G;
 
     for ( RealType t = 0.0; t <= 1.0+1e-10; t += 0.01 )
@@ -124,11 +127,11 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv []
     outputFile.close();
 
     }
-  catch ( itk::ExceptionObject & excp ) 
+  catch ( itk::ExceptionObject & excp )
     {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
-};
+}
