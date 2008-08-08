@@ -74,7 +74,11 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
   unsigned long count = 0;
   while( !kernelImageIt.IsAtEnd() )
     {
-    kernelImageIt.Set( *kernel_it > 0 );
+    // TODO: be sure that removing that comparison doesn't break backward compatibility
+    // only to fix msvc warning C4804: '>' : unsafe use of type 'bool' in operation
+    // kernelImageIt.Set( *kernel_it > 0 );
+    //
+    kernelImageIt.Set( *kernel_it );
     if( *kernel_it > 0 )
       {
       kernelImageIt.Set( true );
