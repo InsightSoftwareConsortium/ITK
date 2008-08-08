@@ -140,6 +140,7 @@ SET(ReviewTest_SRCS
   itkRankImageFilterTest.cxx
   itkMapRankImageFilterTest.cxx
   itkMaskedRankImageFilterTest.cxx
+  itkMapMaskedRankImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -844,6 +845,27 @@ ADD_TEST(itkMaskedRankImageFilterTest10 ${REVIEW_TESTS}
   ${INPUTDATA}/cthead1.png
   ${INPUTDATA}/cthead1-mask.png
   ${TEMP}/itkMaskedRankImageFilter10.png
+  10
+)
+
+
+ADD_TEST(itkMapMaskedRankImageFilterTest3 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkMaskedRankImageFilter3.png
+            ${TEMP}/itkMapMaskedRankImageFilter3.png
+  itkMapMaskedRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${INPUTDATA}/cthead1-mask.png
+  ${TEMP}/itkMapMaskedRankImageFilter3.png
+  3
+)
+
+ADD_TEST(itkMapMaskedRankImageFilterTest10 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkMaskedRankImageFilter10.png
+            ${TEMP}/itkMapMaskedRankImageFilter10.png
+  itkMapMaskedRankImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${INPUTDATA}/cthead1-mask.png
+  ${TEMP}/itkMapMaskedRankImageFilter10.png
   10
 )
 
