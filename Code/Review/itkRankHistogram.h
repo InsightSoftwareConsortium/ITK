@@ -44,9 +44,9 @@ public:
 
   virtual RankHistogram *Clone(){return 0;}
   
-  virtual void AddPixel(const TInputPixel &p){}
+  virtual void AddPixel(const TInputPixel &itkNotUsed(p)){}
 
-  virtual void RemovePixel(const TInputPixel &p){}
+  virtual void RemovePixel(const TInputPixel &itkNotUsed(p)){}
  
   void AddBoundary(){}
 
