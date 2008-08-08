@@ -29,6 +29,7 @@ ADD_TEST( itkCylinderSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkCylinderSpati
 ADD_TEST( itkEllipseSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkEllipseSpatialObjectTest)
 ADD_TEST( itkGaussianSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkGaussianSpatialObjectTest)
 ADD_TEST( itkImageMaskSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageMaskSpatialObjectTest )
+ADD_TEST( itkImageMaskSpatialObjectTest2 ${SPATIAL_OBJECT_TESTS4} itkImageMaskSpatialObjectTest2 )
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageSpatialObjectTest )
 
 ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkMeshSpatialObjectTest )
