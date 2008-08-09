@@ -81,8 +81,6 @@ void
 VTKPolyDataWriter<TInputMesh>
 ::GenerateData()
 {
-  std::cout << __LINE__ << " GenerateData" << std::endl;
-
   this->m_Input->SetCellsAllocationMethod(
       InputMeshType::CellsAllocatedDynamicallyCellByCell );
 
@@ -150,11 +148,6 @@ VTKPolyDataWriter<TInputMesh>
       }
     cellIterator++;
     }
-
-  std::cout << numberOfVertices << std::endl;
-  std::cout << numberOfEdges << std::endl;
-  std::cout << numberOfPolygons << std::endl;
-
 
   // VERTICES should go here
   if( numberOfVertices )
