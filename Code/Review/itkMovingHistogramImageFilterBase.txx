@@ -207,5 +207,17 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
     }
 }
 
+
+template<class TInputImage, class TOutputImage, class TKernel>
+void
+MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
+::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PixelsPerTranslation: " << m_PixelsPerTranslation << std::endl;
+}
+
+
 }// end namespace itk
 #endif

@@ -144,6 +144,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Boundary: " << m_Boundary << std::endl;
 }
 
 
