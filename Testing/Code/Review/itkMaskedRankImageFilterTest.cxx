@@ -47,8 +47,7 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
   input2->SetFileName(av[2]);
   
   // Create a filter
-  typedef itk::FlatStructuringElement<2> SEType;
-  typedef itk::MaskedRankImageFilter<ImageType,ImageType,ImageType,SEType> FilterType;
+  typedef itk::MaskedRankImageFilter<ImageType,ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher filterWatch(filter);
 
