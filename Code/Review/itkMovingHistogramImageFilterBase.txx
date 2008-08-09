@@ -79,14 +79,17 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
     // kernelImageIt.Set( *kernel_it > 0 );
     //
     kernelImageIt.Set( *kernel_it );
-    if( *kernel_it > 0 )
+    // if( *kernel_it > 0 )
+    if( *kernel_it )
       {
       kernelImageIt.Set( true );
       kernelOffsets.push_front( kernelImageIt.GetIndex() - centerIndex );
       count++;
       }
     else
-      { kernelImageIt.Set( false ); }
+      { 
+      kernelImageIt.Set( false );
+      }
     ++kernelImageIt;
     ++kernel_it;
     }
