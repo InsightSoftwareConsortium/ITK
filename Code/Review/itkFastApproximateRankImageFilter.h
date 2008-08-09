@@ -36,7 +36,9 @@ namespace itk {
 
 template<class TInputImage, class TOutputImage>
 class ITK_EXPORT FastApproximateRankImageFilter : 
-public MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, RankImageFilter<TInputImage, TInputImage> >
+public MiniPipelineSeparableImageFilter<TInputImage, TOutputImage,
+  RankImageFilter<TInputImage, TInputImage,
+    FlatStructuringElement< ::itk::GetImageDimension<TInputImage>::ImageDimension > > >
 {
 public:
   /** Standard class typedefs. */
