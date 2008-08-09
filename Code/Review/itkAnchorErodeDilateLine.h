@@ -46,10 +46,6 @@ public:
     {
     m_Size = size;
     }
-  //itkGetConstReferenceMacro(Size, unsigned int);
-
-  //itkSetMacro(Direction, unsigned int);
-  //itkGetConstReferenceMacro(Direction, unsigned int);
 
   void PrintSelf(std::ostream &os, Indent indent) const;
   AnchorErodeDilateLine();
