@@ -98,7 +98,6 @@ WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   os << indent << "Algorithm: " << m_Algorithm << std::endl;
   os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
   os << indent << "ForceAlgorithm: " << m_ForceAlgorithm << std::endl;
-  os << indent << "Kernel: " << this->m_Kernel << std::endl;
 }
 
 }// end namespace itk

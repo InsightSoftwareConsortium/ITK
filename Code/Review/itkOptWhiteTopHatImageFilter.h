@@ -71,9 +71,6 @@ public:
   itkTypeMacro(WhiteTopHatImageFilter, 
                KernelImageFilter);
 
-  /** Set kernel (structuring element). */
-  itkSetMacro(Kernel, KernelType);
-  
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
   itkSetMacro(SafeBorder, bool);
