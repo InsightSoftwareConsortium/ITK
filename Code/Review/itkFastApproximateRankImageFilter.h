@@ -43,7 +43,7 @@ public MiniPipelineSeparableImageFilter<TInputImage, TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef FastApproximateRankImageFilter                    Self;
-  typedef MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, RankImageFilter<TInputImage, TInputImage, Neighborhood<bool, TInputImage::ImageDimension> > >
+  typedef MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, RankImageFilter<TInputImage, TInputImage, FlatStructuringElement< ::itk::GetImageDimension<TInputImage>::ImageDimension > > >
                                                        Superclass;
   typedef SmartPointer<Self>                           Pointer;
   typedef SmartPointer<const Self>                     ConstPointer;
@@ -90,8 +90,15 @@ protected:
     this->SetRank( 0.5 );
     }
 
-  ~FastApproximateRankImageFilter() {};
+  ~FastApproximateRankImageFilter() {}
 
+  void PrintSelf(std::ostream &os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+    os << indent << "Rank: " << m_Rank << std::endl;
+    }
+
+  
 private:
   FastApproximateRankImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
