@@ -186,8 +186,8 @@ std::vector<typename ImType::OffsetType> CornerOffsets(typename ImType::ConstPoi
 
 template <class TInputImage, class TOutputImage>
 void
-BoxMeanCalculatorFunction(typename TInputImage::ConstPointer accImage, 
-                          typename TOutputImage::Pointer outputImage, 
+BoxMeanCalculatorFunction(const TInputImage * accImage, 
+                          TOutputImage * outputImage, 
                           typename TInputImage::RegionType inputRegion,
                           typename TOutputImage::RegionType outputRegion,
                           typename TInputImage::SizeType Radius,
@@ -367,8 +367,8 @@ BoxMeanCalculatorFunction(typename TInputImage::ConstPointer accImage,
 
 template <class TInputImage, class TOutputImage>
 void
-BoxSigmaCalculatorFunction(typename TInputImage::ConstPointer accImage, 
-                          typename TOutputImage::Pointer outputImage, 
+BoxSigmaCalculatorFunction(const TInputImage * accImage, 
+                          TOutputImage * outputImage, 
                           typename TInputImage::RegionType inputRegion,
                           typename TOutputImage::RegionType outputRegion,
                           typename TInputImage::SizeType Radius,

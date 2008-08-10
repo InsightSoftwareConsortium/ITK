@@ -69,13 +69,12 @@ BoxSigmaImageFilter<TInputImage, TOutputImage>
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
-  typename AccumImageType::ConstPointer accImageConst = static_cast<typename AccumImageType::ConstPointer>(accImage);
 
   BoxSquareAccumulateFunction<TInputImage, AccumImageType >(inputImage, accImage, 
                                                      accumRegion,
                                                      accumRegion,
                                                      progress);
-  BoxSigmaCalculatorFunction<AccumImageType, TOutputImage>(accImageConst, outputImage,
+  BoxSigmaCalculatorFunction<AccumImageType, TOutputImage>(accImage, outputImage,
                                                           accumRegion,
                                                           outputRegionForThread,
                                                           this->GetRadius(),

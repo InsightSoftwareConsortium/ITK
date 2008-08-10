@@ -68,13 +68,12 @@ BoxMeanImageFilter<TInputImage, TOutputImage>
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
-  typename AccumImageType::ConstPointer accImageConst = static_cast<typename AccumImageType::ConstPointer>(accImage);
 
   BoxAccumulateFunction<TInputImage, AccumImageType>(inputImage, accImage, 
                                                      accumRegion,
                                                      accumRegion,
                                                      progress);
-  BoxMeanCalculatorFunction<AccumImageType, TOutputImage>(accImageConst, outputImage,
+  BoxMeanCalculatorFunction<AccumImageType, TOutputImage>(accImage.GetPointer(), outputImage,
                                                           accumRegion,
                                                           outputRegionForThread,
                                                           this->GetRadius(),
