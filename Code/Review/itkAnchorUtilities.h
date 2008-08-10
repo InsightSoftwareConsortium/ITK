@@ -53,16 +53,16 @@ int computeStartEnd(const typename TImage::IndexType StartIndex,
                     unsigned &start,
                     unsigned &end);
 template <class TImage, class TBres, class TAnchor, class TLine>
-void doFace(typename TImage::ConstPointer input,
-            typename TImage::Pointer output,
-            typename TImage::PixelType border,
-            TLine line,
-            TAnchor &AnchorLine,
-            const typename TBres::OffsetArray LineOffsets,
-            typename TImage::PixelType * inbuffer,
-            typename TImage::PixelType * outbuffer,
-            const typename TImage::RegionType AllImage, 
-            const typename TImage::RegionType face);
+void DoAnchorFace(typename TImage::ConstPointer input,
+                  typename TImage::Pointer output,
+                  typename TImage::PixelType border,
+                  TLine line,
+                  TAnchor &AnchorLine,
+                  typename TBres::OffsetArray LineOffsets,
+                  typename TImage::PixelType * inbuffer,
+                  typename TImage::PixelType * outbuffer,
+                  const typename TImage::RegionType AllImage, 
+                  const typename TImage::RegionType face);
 
 // This creates a list of non overlapping faces that need to be
 // processed for this particular line orientation. We are doing this

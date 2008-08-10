@@ -86,7 +86,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
 #endif
 
 template <class TImage, class TBres, class TAnchor, class TLine>
-void doFace(typename TImage::ConstPointer input,
+void DoAnchorFace(typename TImage::ConstPointer input,
             typename TImage::Pointer output,
             typename TImage::PixelType border,
             TLine line,

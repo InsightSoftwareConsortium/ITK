@@ -116,8 +116,18 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 
     AnchorLine.SetSize(SELength);
 
-    doFace<TImage, BresType, AnchorLineType, typename KernelType::LType>(input, output, m_Boundary, ThisLine, AnchorLine, 
-                                                                           TheseOffsets, inbuffer, buffer, IReg, BigFace);
+    DoAnchorFace<TImage, BresType, AnchorLineType, typename KernelType::LType>(
+      input,
+      output,
+      m_Boundary,
+      ThisLine,
+      AnchorLine,
+      TheseOffsets,
+      inbuffer,
+      buffer,
+      IReg,
+      BigFace
+      );
     // after the first pass the input will be taken from the output
     input = internalbuffer;
     progress.CompletedPixel();

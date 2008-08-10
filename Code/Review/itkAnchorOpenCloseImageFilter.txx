@@ -111,7 +111,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     AnchorLineErode.SetSize(SELength);
 
     InputImageRegionType BigFace = mkEnlargedFace<InputImageType, typename KernelType::LType>(input, IReg, ThisLine);
-    doFace<TImage, BresType, 
+    DoAnchorFace<TImage, BresType, 
       AnchorLineErodeType, 
       typename KernelType::LType>(input, output, m_Boundary1, ThisLine, AnchorLineErode, 
                                   TheseOffsets, inbuffer, buffer, IReg, BigFace);
@@ -157,7 +157,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     AnchorLineDilate.SetSize(SELength);
 
     InputImageRegionType BigFace = mkEnlargedFace<InputImageType, typename KernelType::LType>(input, IReg, ThisLine);
-    doFace<TImage, BresType, 
+    DoAnchorFace<TImage, BresType, 
       AnchorLineDilateType, 
       typename KernelType::LType>(input, output, m_Boundary2, ThisLine, AnchorLineDilate, 
                                   TheseOffsets, inbuffer, buffer, IReg, BigFace);

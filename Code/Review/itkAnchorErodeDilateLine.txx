@@ -203,10 +203,11 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
             InputImagePixelType &Extreme,
             Histogram &histo,
             int &outLeftP,
-            int &outRightP,
+            int &itkNotUsed(outRightP),
             int &inLeftP,
             int &inRightP,
-            int middle, unsigned bufflength)
+            int itkNotUsed(middle),
+            unsigned itkNotUsed(bufflength))
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
@@ -341,9 +342,9 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
              Histogram &histo,
              int &outLeftP,
              int &outRightP,
-             int &inLeftP,
+             int &itkNotUsed(inLeftP),
              int &inRightP,
-             int middle, unsigned bufflength)
+             int middle, unsigned itkNotUsed(bufflength))
 {
   // Handles the right border.
   // First half of the structuring element
