@@ -86,7 +86,8 @@ IF(ITK_USE_LIBXML2)
             )
       # Result should be 0 on success
       IF(NOT svnResult)
-        ADD_SUBDIRECTORY( "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
+        ADD_SUBDIRECTORY( "${ITK_BINARY_DIR}/Utilities/itklibxml2" 
+                          "${ITK_BINARY_DIR}/Utilities/itklibxml2" )
       ELSE(NOT svnResult)
         MESSAGE(FATAL_ERROR "SVN checkout of itklibxml2 failed with error = ${svnError}")
       ENDIF(NOT svnResult)
