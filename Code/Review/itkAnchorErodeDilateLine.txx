@@ -207,7 +207,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
             int &inLeftP,
             int &inRightP,
             int itkNotUsed(middle),
-            unsigned itkNotUsed(bufflength))
+            unsigned bufflength)
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
@@ -344,7 +344,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
              int &outRightP,
              int &itkNotUsed(inLeftP),
              int &inRightP,
-             int middle, unsigned itkNotUsed(bufflength))
+             int middle, unsigned bufflength)
 {
   // Handles the right border.
   // First half of the structuring element
