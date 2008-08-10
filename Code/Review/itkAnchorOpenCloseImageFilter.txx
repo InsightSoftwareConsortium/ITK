@@ -188,7 +188,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
              typename TImage::PixelType border,
              typename KernelType::LType line,
              AnchorLineOpenType &AnchorLineOpen,
-             typename BresType::OffsetArray LineOffsets,
+             const typename BresType::OffsetArray LineOffsets,
              InputImagePixelType * outbuffer,
              const InputImageRegionType AllImage, 
              const InputImageRegionType face)
