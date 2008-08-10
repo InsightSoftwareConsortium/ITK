@@ -79,7 +79,8 @@ public:
   typedef typename TInputImage::OffsetType                      OffsetType;
   typedef typename Superclass::OutputImageRegionType            OutputImageRegionType;
 
-  typedef FlatStructuringElement< ImageDimension >              FlatKernelType;
+  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
+                                                                FlatKernelType;
   typedef MovingHistogramDilateImageFilter< TInputImage, TOutputImage, TKernel >
                                                                 HistogramDilateFilterType;
   typedef MovingHistogramErodeImageFilter< TInputImage, TOutputImage, TKernel >
