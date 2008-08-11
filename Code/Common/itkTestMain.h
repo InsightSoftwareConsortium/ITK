@@ -75,11 +75,12 @@ void PrintAvailableTests()
 
 int main(int ac, char* av[] )
 {
-  char *baselineFilename = NULL;
-  char *testFilename = NULL;
   double intensityTolerance  = 2.0;
   unsigned int numberOfPixelsTolerance = 0;
   unsigned int radiusTolerance = 0;
+
+  typedef std::pair< char *, char *> ComparePairType;
+  std::vector< ComparePairType > compareList;
 
   RegisterTests();
   std::string testToRun;
@@ -105,47 +106,50 @@ int main(int ac, char* av[] )
     }
   else
     {
-    if (strcmp(av[1], "--with-threads") == 0)
+    while( ac > 0 && testToRun.empty() )
       {
-      int numThreads = atoi(av[2]);
-      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numThreads);
-      av += 2;
-      ac -= 2;
-      }
-    else if (strcmp(av[1], "--without-threads") == 0)
-      {
-      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
-      av += 1;
-      ac -= 1;
-      }
-    if (ac > 3 && strcmp(av[1], "--compare") == 0)
-      {
-      baselineFilename = av[2];
-      testFilename = av[3];
-      av += 3;
-      ac -= 3;
-      // Advanced options for image comparison (The options must appear in 
-      // this order in the command line because this parser code is not that smart)
-      if (ac > 2 && strcmp(av[1], "--compareNumberOfPixelsTolerance") == 0)
+      if (strcmp(av[1], "--with-threads") == 0)
+        {
+        int numThreads = atoi(av[2]);
+        itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numThreads);
+        av += 2;
+        ac -= 2;
+        }
+      else if (strcmp(av[1], "--without-threads") == 0)
+        {
+        itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
+        av += 1;
+        ac -= 1;
+        }
+      else if (ac > 3 && strcmp(av[1], "--compare") == 0)
+        {
+        compareList.push_back( ComparePairType( av[2], av[3] ) );
+        av += 3;
+        ac -= 3;
+        }
+      else if (ac > 2 && strcmp(av[1], "--compareNumberOfPixelsTolerance") == 0)
         {
         numberOfPixelsTolerance = atoi( av[2] );
         av += 2;
         ac -= 2;
         }
-      if (ac > 2 && strcmp(av[1], "--compareRadiusTolerance") == 0)
+      else if (ac > 2 && strcmp(av[1], "--compareRadiusTolerance") == 0)
         {
         radiusTolerance = atoi( av[2] );
         av += 2;
         ac -= 2;
         }
-      if (ac > 2 && strcmp(av[1], "--compareIntensityTolerance") == 0)
+      else if (ac > 2 && strcmp(av[1], "--compareIntensityTolerance") == 0)
         {
         intensityTolerance = atof( av[2] );
         av += 2;
         ac -= 2;
         }
+      else
+        {
+        testToRun = av[1];
+        }
       }
-    testToRun = av[1];
     }
   std::map<std::string, MainFuncPointer>::iterator j = StringToTestFunctionMap.find(testToRun);
   if(j != StringToTestFunctionMap.end())
@@ -158,8 +162,10 @@ int main(int ac, char* av[] )
       result = (*f)(ac-1, av+1);
 
       // Make a list of possible baselines
-      if (baselineFilename && testFilename)
+      for( int i=0; i<static_cast<int>(compareList.size()); i++)
         {
+        char * testFilename = compareList[i].first;
+        char * baselineFilename = compareList[i].second;
         std::map<std::string,int> baselines = RegressionTestBaselines(baselineFilename);
         std::map<std::string,int>::iterator baseline = baselines.begin();
         std::string bestBaseline;
