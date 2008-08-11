@@ -20,7 +20,7 @@
 
 #include "itkBoxImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkNeighborhood.h"
+#include "itkFlatStructuringElement.h"
 
 
 namespace itk {
@@ -68,6 +68,10 @@ public:
   typedef typename TOutputImage::PixelType          OutputPixelType;
 
   typedef TKernel KernelType;
+
+  /** Kernel type used to create box kernel, in SetRadius() method */
+  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
+                                                    FlatKernelType;
 
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,

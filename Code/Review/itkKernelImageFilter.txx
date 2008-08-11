@@ -20,6 +20,7 @@
 
 #include "itkKernelImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkFlatStructuringElement.h"
 
 namespace itk {
 
@@ -35,16 +36,37 @@ template <class TInputImage, class TOutputImage, class TKernel>
 void
 KernelImageFilter<TInputImage, TOutputImage, TKernel>
 ::SetRadius( const RadiusType & radius )
-{
-  // Superclass::SetRadius() is called in SetKenel() - no need to call it here
-  // Superclass::SetRadius( radius );
-  KernelType kernel;
-  kernel.SetRadius( radius );
-  for( typename KernelType::Iterator kit=kernel.Begin(); kit != kernel.End(); kit++ )
+{  
+  // Try to use a FlatStructuringElement if possible, because it is
+  // much efficient with van Herk / Gil Werman filters
+  // check that the type is exactly FlatKernelType, to be sure to
+  // not replace m_Kernel data with the data of a FlatKernelType
+  // if KernelType is a subclass of FlatKernelType.
+  if( typeid(KernelType) == typeid(FlatKernelType) )
     {
-    *kit = 1;
+    FlatKernelType * flatKernel = dynamic_cast< FlatKernelType* >( & m_Kernel );
+    assert( flatKernel != NULL );
+    FlatKernelType kernel = FlatKernelType::Box( radius );
+    if( *flatKernel != kernel )
+      {
+      *flatKernel = kernel;
+      this->Modified();
+      }
+    // set the radius of the super class to be the same than the kernel one
+    Superclass::SetRadius( kernel.GetRadius() );
     }
-  this->SetKernel( kernel );
+  else
+    {
+    // Superclass::SetRadius() is called in SetKenel() - no need to call it here
+    // Superclass::SetRadius( radius );
+    KernelType kernel;
+    kernel.SetRadius( radius );
+    for( typename KernelType::Iterator kit=kernel.Begin(); kit != kernel.End(); kit++ )
+      {
+      *kit = 1;
+      }
+    this->SetKernel( kernel );
+    }
 }
 
 
