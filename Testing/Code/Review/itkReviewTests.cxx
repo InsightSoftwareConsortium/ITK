@@ -147,4 +147,6 @@ void RegisterTests()
   REGISTER_TEST( itkMapMaskedRankImageFilterTest );
   REGISTER_TEST( itkFastApproximateRankImageFilterTest );
 
+  REGISTER_TEST( itkOptGrayscaleMorphologicalClosingImageFilterTest );
+
 }

@@ -142,6 +142,8 @@ SET(ReviewTest_SRCS
   itkMaskedRankImageFilterTest.cxx
   itkMapMaskedRankImageFilterTest.cxx
   itkFastApproximateRankImageFilterTest.cxx
+
+  itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -887,6 +889,21 @@ ADD_TEST(itkFastApproximateRankImageFilterTest10 ${REVIEW_TESTS}
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkFastApproximateRankImageFilter10.png
   10
+)
+
+ADD_TEST(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
+  --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+            ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
+  --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+            ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+  --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+            ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+  itkOptGrayscaleMorphologicalClosingImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
+  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
 )
 
 
