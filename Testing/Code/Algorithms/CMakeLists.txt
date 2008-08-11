@@ -86,6 +86,11 @@ ADD_TEST(itkIsoContourDistanceImageFilterTest ${ALGORITHMS_TESTS} itkIsoContourD
 ADD_TEST(itkIsotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkIsotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
+ADD_TEST(itkScalarImageKmeansImageFilter3DTest ${ALGORITHMS_TESTS4} 
+    --compare ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1KmeansPrelimSegmentation.nii.gz 
+            ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
+  itkScalarImageKmeansImageFilter3DTest ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1UCharRaw.nii.gz
+  ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1RawSkullStrip.nii.gz ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz )
 ADD_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest ${ALGORITHMS_TESTS2} itkKullbackLeiblerCompareHistogramImageToImageMetricTest)
 ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkLevelSetNeighborhoodExtractorTest ${ALGORITHMS_TESTS} itkLevelSetNeighborhoodExtractorTest)
@@ -336,6 +341,7 @@ IF(USE_FFTWD)
   SET(CURVATUREREGISTRATION_SRCS itkCurvatureRegistrationFilterTest.cxx)
 ENDIF(USE_FFTWD)
 SET(AlgorithmsTest4_SRCS
+itkScalarImageKmeansImageFilter3DTest.cxx
 itkFastMarchingUpwindGradientTest.cxx
 itkCollidingFrontsImageFilterTest.cxx
 itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
