@@ -71,7 +71,7 @@ public:
 
     this->m_Constant = ct;
     }
-  const TConstant GetConstant() const { return m_Constant; }
+  const TConstant & GetConstant() const { return m_Constant; }
    
   TConstant m_Constant;
 };
@@ -103,10 +103,17 @@ public:
 
   /** Set the constant value that will be used for dividing all the image
    * pixels */
-  void SetConstant( TConstant ct )
+  void SetConstant(TConstant ct)
     {
-    this->GetFunctor().SetConstant(ct);
-    this->Modified();
+    if( ct != this->GetFunctor().GetConstant() )
+      {
+      this->GetFunctor().SetConstant(ct);
+      this->Modified();
+      }
+    }
+  const TConstant & GetConstant() const
+    {
+    return this->GetFunctor().GetConstant();
     }
   
 
@@ -127,6 +134,15 @@ protected:
   DivideByConstantImageFilter() {};
   virtual ~DivideByConstantImageFilter() {};
    
+  void PrintSelf(std::ostream &os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+    os << indent << "Constant: " 
+       << static_cast<typename NumericTraits<TConstant>::PrintType>(this->GetConstant())
+       << std::endl;
+    }
+
+private:
   DivideByConstantImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

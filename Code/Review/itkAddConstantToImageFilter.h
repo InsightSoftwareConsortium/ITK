@@ -62,7 +62,7 @@ public:
     return static_cast<TOutput>( A + m_Constant );
     }
   void SetConstant(TConstant ct) {this->m_Constant = ct; }
-  const TConstant GetConstant() const { return m_Constant; }
+  const TConstant & GetConstant() const { return m_Constant; }
   
   TConstant m_Constant;
 };
@@ -97,10 +97,16 @@ public:
   /** Set the constant that will be used to multiply all the image pixels */
   void SetConstant(TConstant ct)
     {
-    this->GetFunctor().SetConstant(ct);
-    this->Modified();
+    if( ct != this->GetFunctor().GetConstant() )
+      {
+      this->GetFunctor().SetConstant(ct);
+      this->Modified();
+      }
     }
-  
+  const TConstant & GetConstant() const
+    {
+    return this->GetFunctor().GetConstant();
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -118,6 +124,15 @@ protected:
   AddConstantToImageFilter() {};
   virtual ~AddConstantToImageFilter() {};
    
+  void PrintSelf(std::ostream &os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+    os << indent << "Constant: " 
+       << static_cast<typename NumericTraits<TConstant>::PrintType>(this->GetConstant())
+       << std::endl;
+    }
+
+private:
   AddConstantToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
