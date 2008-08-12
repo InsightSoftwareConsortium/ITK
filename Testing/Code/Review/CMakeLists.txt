@@ -891,20 +891,27 @@ ADD_TEST(itkFastApproximateRankImageFilterTest10 ${REVIEW_TESTS}
   10
 )
 
-ADD_TEST(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
-  --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-            ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
-  --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-            ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
-  --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-            ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
-  itkOptGrayscaleMorphologicalClosingImageFilterTest
-  ${INPUTDATA}/cthead1.png
-  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
-  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
-  ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
-)
+IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
+  SET(ReviewTest_SRCS
+    ${ReviewTest_SRCS}
+    itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
+  )
+  ADD_TEST(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    itkOptGrayscaleMorphologicalClosingImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+  )
+ENDIF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
+
 
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
