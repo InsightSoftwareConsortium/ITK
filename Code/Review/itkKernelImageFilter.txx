@@ -36,7 +36,7 @@ template <class TInputImage, class TOutputImage, class TKernel>
 void
 KernelImageFilter<TInputImage, TOutputImage, TKernel>
 ::SetRadius( const RadiusType & radius )
-{  
+{
   // Try to use a FlatStructuringElement if possible, because it is
   // much efficient with van Herk / Gil Werman filters
   // check that the type is exactly FlatKernelType, to be sure to
@@ -44,16 +44,11 @@ KernelImageFilter<TInputImage, TOutputImage, TKernel>
   // if KernelType is a subclass of FlatKernelType.
   if( typeid(KernelType) == typeid(FlatKernelType) )
     {
-    FlatKernelType * flatKernel = dynamic_cast< FlatKernelType* >( & m_Kernel );
-    assert( flatKernel != NULL );
-    FlatKernelType kernel = FlatKernelType::Box( radius );
-    if( *flatKernel != kernel )
-      {
-      *flatKernel = kernel;
-      this->Modified();
-      }
-    // set the radius of the super class to be the same than the kernel one
-    Superclass::SetRadius( kernel.GetRadius() );
+    // SetKernel() must be called, because it can be overloaded in a subclass
+    // - MovingHistogramImageFilterBase for example.
+    FlatKernelType flatKernel = FlatKernelType::Box( radius );
+    KernelType * kernel = reinterpret_cast< KernelType* >( & flatKernel );
+    this->SetKernel( *kernel );
     }
   else
     {
