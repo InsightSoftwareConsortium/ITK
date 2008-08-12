@@ -69,13 +69,12 @@ public:
 
   typedef TKernel KernelType;
 
-  /** Kernel type used to create box kernel, in SetRadius() method */
-  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
-                                                    FlatKernelType;
-
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+  /** Kernel type used to create box kernel, in SetRadius() method */
+  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
+                                                    FlatKernelType;
   /** n-dimensional Kernel radius. */
   typedef typename TInputImage::SizeType RadiusType;
 
