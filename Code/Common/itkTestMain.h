@@ -164,8 +164,8 @@ int main(int ac, char* av[] )
       // Make a list of possible baselines
       for( int i=0; i<static_cast<int>(compareList.size()); i++)
         {
-        char * testFilename = compareList[i].first;
-        char * baselineFilename = compareList[i].second;
+        char * baselineFilename = compareList[i].first;
+        char * testFilename = compareList[i].second;
         std::map<std::string,int> baselines = RegressionTestBaselines(baselineFilename);
         std::map<std::string,int>::iterator baseline = baselines.begin();
         std::string bestBaseline;
