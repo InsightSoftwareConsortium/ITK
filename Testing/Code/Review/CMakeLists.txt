@@ -9,6 +9,7 @@ ENDIF(ITK_BINARY_DIR)
 
 
 SET(REVIEW_TESTS ${CXX_TEST_PATH}/itkReviewTests)
+SET(REVIEW_TESTS2 ${CXX_TEST_PATH}/itkReviewTests2)
 SET(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
 SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
@@ -32,38 +33,6 @@ SET(ReviewTest_SRCS
 
   itkLabelToRGBImageFilterTest.cxx
   itkLabelOverlayImageFilterTest.cxx
-
-  itkQuadEdgeTest1.cxx
-  itkGeometricalQuadEdgeTest1.cxx
-  itkQuadEdgeMeshAddFaceTest1.cxx
-  itkQuadEdgeMeshAddFaceTest2.cxx
-  itkQuadEdgeMeshBasicLayerTest.cxx
-  itkQuadEdgeMeshDeleteEdgeTest.cxx
-  itkQuadEdgeMeshFrontIteratorTest.cxx
-  itkQuadEdgeMeshPointTest1.cxx
-  itkQuadEdgeMeshTest1.cxx
-  itkQuadEdgeMeshTest2.cxx
-  itkQuadEdgeMeshTest3.cxx
-  itkQuadEdgeMeshEulerOperatorFlipTest.cxx
-  itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
-  itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
-  itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-  itkQuadEdgeMeshCellInterfaceTest.cxx
-  itkQuadEdgeMeshIteratorTest.cxx
-  itkQuadEdgeMeshPolygonCellTest.cxx
-  itkDynamicQuadEdgeMeshTest.cxx
-  itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
-  itkRegularSphereQuadEdgeMeshSourceTest.cxx
-  itkQuadEdgeMeshCountingCellsTest.cxx
-  itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
-  itkQuadEdgem_NoPointTest.cxx
-
-  itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
-  itkContourExtractor2DImageFilterTest.cxx
 
   itkValuedRegionalMinimaImageFilterTest.cxx
   itkValuedRegionalMaximaImageFilterTest.cxx
@@ -144,6 +113,39 @@ SET(ReviewTest_SRCS
   itkFastApproximateRankImageFilterTest.cxx
 )
 
+SET(ReviewTest2_SRCS
+  itkQuadEdgem_NoPointTest.cxx
+  itkQuadEdgeTest1.cxx
+  itkGeometricalQuadEdgeTest1.cxx
+  itkQuadEdgeMeshAddFaceTest1.cxx
+  itkQuadEdgeMeshAddFaceTest2.cxx
+  itkQuadEdgeMeshBasicLayerTest.cxx
+  itkQuadEdgeMeshDeleteEdgeTest.cxx
+  itkQuadEdgeMeshFrontIteratorTest.cxx
+  itkQuadEdgeMeshIteratorTest.cxx
+  itkQuadEdgeMeshPointTest1.cxx
+  itkQuadEdgeMeshTest1.cxx
+  itkQuadEdgeMeshTest2.cxx
+  itkQuadEdgeMeshTest3.cxx
+  itkQuadEdgeMeshEulerOperatorFlipTest.cxx
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
+  itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
+  itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
+  itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
+  itkQuadEdgeMeshCellInterfaceTest.cxx
+  itkQuadEdgeMeshPolygonCellTest.cxx
+  itkDynamicQuadEdgeMeshTest.cxx
+  itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
+  itkRegularSphereQuadEdgeMeshSourceTest.cxx
+  itkQuadEdgeMeshCountingCellsTest.cxx
+  itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
+  itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
+  itkContourExtractor2DImageFilterTest.cxx
+)
+
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
   SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkTransformFileReaderWriterTest.cxx)
 
@@ -190,53 +192,53 @@ ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
   )
-ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS} itkQuadEdgem_NoPointTest)
-ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS} itkQuadEdgeTest1)
-ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS}
+
+ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS2} itkQuadEdgem_NoPointTest)
+ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS2} itkQuadEdgeTest1)
+ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS2}
   itkGeometricalQuadEdgeTest1)
-ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshPointTest1)
-ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshAddFaceTest1)
-ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS2}
   itkQuadEdgeMeshAddFaceTest2)
-ADD_TEST(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeleteEdgeTest)
-ADD_TEST(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshFrontIteratorTest)
-ADD_TEST(itkQuadEdgeMeshTest1 ${REVIEW_TESTS} itkQuadEdgeMeshTest1)
-ADD_TEST(itkQuadEdgeMeshTest2 ${REVIEW_TESTS} itkQuadEdgeMeshTest2)
-ADD_TEST(itkQuadEdgeMeshTest3 ${REVIEW_TESTS} itkQuadEdgeMeshTest3)
-ADD_TEST(itkQuadEdgeMeshEulerOperatorFlipTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshTest1 ${REVIEW_TESTS2} itkQuadEdgeMeshTest1)
+ADD_TEST(itkQuadEdgeMeshTest2 ${REVIEW_TESTS2} itkQuadEdgeMeshTest2)
+ADD_TEST(itkQuadEdgeMeshTest3 ${REVIEW_TESTS2} itkQuadEdgeMeshTest3)
+ADD_TEST(itkQuadEdgeMeshEulerOperatorFlipTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshEulerOperatorFlipTest)
-ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${REVIEW_TESTS} 
+ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${REVIEW_TESTS2} 
   itkQuadEdgeMeshEulerOperatorJoinFacetTest)
-ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinVertexTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinVertexTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshEulerOperatorJoinVertexTest)
-ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
-ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS}
-  itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS})
-##ADD_TEST(itkQuadEdgeMeshEulerOperatorsTest ${REVIEW_TESTS}
-##  itkQuadEdgeMeshEulerOperatorsTest)
-ADD_TEST(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS2}
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS2})
+ADD_TEST(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCellInterfaceTest)
-ADD_TEST(itkQuadEdgeMeshIteratorTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshIteratorTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshIteratorTest)
-ADD_TEST(itkQuadEdgeMeshPolygonCellTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshPolygonCellTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshPolygonCellTest)
-ADD_TEST(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS}
+ADD_TEST(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS2}
   itkDynamicQuadEdgeMeshTest)
-ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest ${REVIEW_TESTS}
+ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkAutomaticTopologyQuadEdgeMeshSourceTest)
-ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest ${REVIEW_TESTS}
+ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkRegularSphereQuadEdgeMeshSourceTest)
-ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS}
+ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
-ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS}
+ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkBinaryMask3DQuadEdgeMeshSourceTest)
-ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS}
+ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
+
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
   ADD_TEST(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS}
@@ -256,7 +258,7 @@ ADD_TEST(itkLabelToRGBImageFilterTest ${REVIEW_TESTS}
                 ${INPUTDATA}/cthead1Label.png
                 ${TEMP}/cthead1Label-color.png)
 
-ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS}
+ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS2}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
@@ -938,6 +940,18 @@ SET(ReviewTest_LIBS
   ITKIOReview
   ITKIO
   )
+
+ADD_EXECUTABLE(itkReviewTests2 itkReviewTests2.cxx ${ReviewTest2_SRCS})
+
+SET(ReviewTest2_LIBS
+  ITKAlgorithms
+  ITKFEM
+  ITKStatistics
+  ITKQuadEdgeMesh
+  ITKIOReview
+  ITKIO
+  )
+TARGET_LINK_LIBRARIES(itkReviewTests2 ${ReviewTest2_LIBS})
 
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
