@@ -142,8 +142,6 @@ SET(ReviewTest_SRCS
   itkMaskedRankImageFilterTest.cxx
   itkMapMaskedRankImageFilterTest.cxx
   itkFastApproximateRankImageFilterTest.cxx
-
-  itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
