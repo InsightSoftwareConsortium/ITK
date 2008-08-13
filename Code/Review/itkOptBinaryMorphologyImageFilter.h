@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkBinaryMorphologyImageFilter.h
+  Module:    itkOptBinaryMorphologyImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,22 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBinaryMorphologyImageFilter_h
-#define __itkBinaryMorphologyImageFilter_h
-
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptBinaryMorphologyImageFilter.h"
-#else
+#ifndef __itkOptBinaryMorphologyImageFilter_h
+#define __itkOptBinaryMorphologyImageFilter_h
 
 #include <vector>
 #include <queue>
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodIterator.h"
@@ -113,7 +103,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologyImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+    public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -132,7 +122,8 @@ public:
 
   /** Standard class typedefs. */
   typedef BinaryMorphologyImageFilter                          Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
+  typedef KernelImageFilter< InputImageType, OutputImageType, TKernel>
+                                                               Superclass;
   typedef SmartPointer<Self>                                   Pointer;
   typedef SmartPointer<const Self>                             ConstPointer;
 
@@ -172,12 +163,6 @@ public:
                               itkGetStaticConstMacro(InputImageDimension)>));
 #endif
 
-  /** Set kernel (structuring element).*/
-  void SetKernel( const KernelType& kernel );
-
-  /** Get the kernel (structuring element). */
-  itkGetConstReferenceMacro(Kernel, KernelType);
-
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
    * DilateValue or ErodeValue.*/
@@ -205,6 +190,9 @@ public:
   itkGetConstReferenceMacro(BoundaryToForeground, bool);
   itkBooleanMacro(BoundaryToForeground);
 
+  /** Set kernel (structuring element).*/
+  void SetKernel( const KernelType& kernel );
+
 protected:
   BinaryMorphologyImageFilter();
   virtual ~BinaryMorphologyImageFilter(){}
@@ -215,16 +203,6 @@ protected:
    */
   void AnalyzeKernel();
 
-  /**
-   * BinaryMorphologyImageFilter needs to request enough of
-   * an input image to account for the structuring element and
-   * connectivity element size.  The input requested region is
-   * expanded by the maximum of the radius of the structuring element
-   * and the radius used to determine connectivity (typically one).
-   * If the request extends past the LargestPossibleRegion for the
-   * input, the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
-  
   // type definition of container of neighbourhood index
   typedef std::vector< OffsetType > NeighborIndexContainer;
 
@@ -256,24 +234,11 @@ protected:
   ComponentVectorConstIterator KernelCCVectorEnd()
     { return m_KernelCCVector.end(); }
 
-  /**
-   * Get the connectivity radius
-   */
-  InputSizeType GetRadius() const
-    { return m_Radius; }
-
   bool m_BoundaryToForeground;
 
 private:
   BinaryMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** radius of neighborhood used in order to define connectivity
-    * neighborhood */
-  InputSizeType m_Radius;
-
-  /** kernel or structuring element to use. */
-  KernelType m_Kernel;
 
   /** Pixel value to dilate */
   InputPixelType m_ForegroundValue;
@@ -293,9 +258,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBinaryMorphologyImageFilter.txx"
-#endif
-
+#include "itkOptBinaryMorphologyImageFilter.txx"
 #endif
 
 #endif

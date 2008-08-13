@@ -57,7 +57,8 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel>
   InputPixelType foregroundValue = this->GetForegroundValue();
   InputPixelType backgroundValue = this->GetBackgroundValue();
   KernelType kernel = this->GetKernel();
-  InputSizeType radius = this->GetRadius();
+  InputSizeType radius;
+  radius.Fill(1);
   typename TInputImage::RegionType inputRegion = input->GetBufferedRegion();
   typename TOutputImage::RegionType outputRegion = output->GetBufferedRegion();
   
