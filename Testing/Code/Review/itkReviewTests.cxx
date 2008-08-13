@@ -119,6 +119,10 @@ void RegisterTests()
   REGISTER_TEST( itkOptGrayscaleMorphologicalOpeningImageFilterTest );
   REGISTER_TEST( itkOptGrayscaleDilateImageFilterTest );
   REGISTER_TEST( itkOptGrayscaleErodeImageFilterTest );
+  REGISTER_TEST( itkMapOptGrayscaleMorphologicalClosingImageFilterTest );
+  REGISTER_TEST( itkMapOptGrayscaleMorphologicalOpeningImageFilterTest );
+  REGISTER_TEST( itkMapOptGrayscaleDilateImageFilterTest );
+  REGISTER_TEST( itkMapOptGrayscaleErodeImageFilterTest );
 #endif
 
 }
