@@ -116,6 +116,7 @@ void RegisterTests()
 
 #ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
   REGISTER_TEST( itkOptGrayscaleMorphologicalClosingImageFilterTest );
+  REGISTER_TEST( itkOptGrayscaleMorphologicalOpeningImageFilterTest );
 #endif
 
 }

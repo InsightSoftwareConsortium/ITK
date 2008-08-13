@@ -895,6 +895,7 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
   SET(ReviewTest_SRCS
     ${ReviewTest_SRCS}
     itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
+    itkOptGrayscaleMorphologicalOpeningImageFilterTest.cxx
   )
   ADD_TEST(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
     --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
@@ -909,6 +910,20 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
     ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
     ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+  )
+  ADD_TEST(itkOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    itkOptGrayscaleMorphologicalOpeningImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
   )
 ENDIF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
 
