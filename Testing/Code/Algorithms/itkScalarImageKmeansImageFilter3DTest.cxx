@@ -34,7 +34,7 @@
 #include <itkScalarImageKmeansImageFilter.h>
 #include <itkImageRegionIterator.h>
 
-int itkScalarImageKmeansImageFilter3DTest (int argc, char **argv)
+int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 {
 
   if( argc < 4 )
