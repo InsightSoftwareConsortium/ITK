@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSimpleContourExtractorImageFilter.h
+  Module:    itkOptSimpleContourExtractorImageFilter.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,20 +14,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSimpleContourExtractorImageFilter_h
-#define __itkSimpleContourExtractorImageFilter_h
+#ifndef __itkOptSimpleContourExtractorImageFilter_h
+#define __itkOptSimpleContourExtractorImageFilter_h
 
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptSimpleContourExtractorImageFilter.h"
-#else
-
-#include "itkImageToImageFilter.h"
+#include "itkBoxImageFilter.h"
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 
@@ -55,7 +45,7 @@ namespace itk
   */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SimpleContourExtractorImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+    public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -70,7 +60,7 @@ public:
   
   /** Standard class typedefs. */
   typedef SimpleContourExtractorImageFilter Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
+  typedef BoxImageFilter< InputImageType, OutputImageType> Superclass;
   typedef SmartPointer<Self> Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
@@ -90,14 +80,6 @@ public:
   
   typedef typename InputImageType::SizeType InputSizeType;
   
-  /** Set the radius of the neighborhood used to identify border
-   * pixel. */
-  itkSetMacro(Radius, InputSizeType);
-  
-  /** Get the radius of the neighborhood used to identify border
-   * pixel. */
-  itkGetConstReferenceMacro(Radius, InputSizeType);
-
   /** Set the foreground value used in order to identify a foreground
    * pixel in the input image. */
   itkSetMacro(InputForegroundValue, InputPixelType);
@@ -130,15 +112,6 @@ public:
    * pixel in the output image. */
   itkGetConstReferenceMacro(OutputBackgroundValue, OutputPixelType);
   
-  /** SimpleContourExtractorImageFilter needs a larger input requested
-  * region than the output requested region.  As such,
-  * SimpleContourExtractorImageFilter needs to provide an
-  * implementation for GenerateInputRequestedRegion() in order to
-  * inform the pipeline execution model. 
-  *
-  * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck,
@@ -171,7 +144,6 @@ private:
   SimpleContourExtractorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  InputSizeType m_Radius;
   InputPixelType m_InputForegroundValue;
   InputPixelType m_InputBackgroundValue;
   OutputPixelType m_OutputForegroundValue;
@@ -181,9 +153,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSimpleContourExtractorImageFilter.txx"
-#endif
-
+#include "itkOptSimpleContourExtractorImageFilter.txx"
 #endif
 
 #endif

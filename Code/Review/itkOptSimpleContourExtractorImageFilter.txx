@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkSimpleContourExtractorImageFilter.txx
+  Module:    itkOptSimpleContourExtractorImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -16,16 +16,6 @@
 =========================================================================*/
 #ifndef _itkSimpleContourExtractorImageFilter_txx
 #define _itkSimpleContourExtractorImageFilter_txx
-
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptSimpleContourExtractorImageFilter.h"
-#else
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
@@ -43,60 +33,10 @@ template <class TInputImage, class TOutputImage>
 SimpleContourExtractorImageFilter<TInputImage, TOutputImage>
 ::SimpleContourExtractorImageFilter()
 {
-  m_Radius.Fill(1);
   m_InputBackgroundValue  = NumericTraits<InputPixelType>::Zero;
   m_InputForegroundValue  = NumericTraits<InputPixelType>::max();
   m_OutputBackgroundValue  = NumericTraits<OutputPixelType>::Zero;
   m_OutputForegroundValue  = NumericTraits<OutputPixelType>::max();
-}
-  
-template <class TInputImage, class TOutputImage>
-void 
-SimpleContourExtractorImageFilter<TInputImage, TOutputImage>
-::GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-    
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = 
-    const_cast< TInputImage * >( this->GetInput() );
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-    
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-    
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-    
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Radius );
-    
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
-    {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-      
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-      
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
 }
   
 template< class TInputImage, class TOutputImage>
@@ -118,7 +58,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage>
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
-  faceList = bC(input, outputRegionForThread, m_Radius);
+  faceList = bC(input, outputRegionForThread, this->GetRadius());
     
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
     
@@ -130,7 +70,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage>
   // the edge of the buffer.
   for (fit=faceList.begin(); fit != faceList.end(); ++fit)
     { 
-    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius,
+    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(),
                                                     input, *fit);
     unsigned int neighborhoodSize = bit.Size();
     it = ImageRegionIterator<OutputImageType>(output, *fit);
@@ -196,7 +136,6 @@ SimpleContourExtractorImageFilter<TInputImage, TOutput>
   Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
-  os << indent << "Radius: " << m_Radius << std::endl;
   os << indent << "Input Foreground Value: " 
      << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputForegroundValue) << std::endl;
   os << indent << "Input Background Value: "
@@ -208,7 +147,5 @@ SimpleContourExtractorImageFilter<TInputImage, TOutput>
 }
   
 } // end namespace itk
-
-#endif
 
 #endif
