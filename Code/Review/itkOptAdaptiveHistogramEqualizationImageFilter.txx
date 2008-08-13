@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAdaptiveHistogramEqualizationImageFilter.txx
+  Module:    itkOptAdaptiveHistogramEqualizationImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,18 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAdaptiveHistogramEqualizationImageFilter_txx
-#define _itkAdaptiveHistogramEqualizationImageFilter_txx
-
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptAdaptiveHistogramEqualizationImageFilter.h"
-#else
+#ifndef _itkOptAdaptiveHistogramEqualizationImageFilter_txx
+#define _itkOptAdaptiveHistogramEqualizationImageFilter_txx
 
 #include <map>
 #include <set>
@@ -74,7 +64,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   float kernel = 1;
   for (i = 0; i < ImageDimension; i++)
     {
-    kernel = kernel * (2*m_Radius[i]+1);
+    kernel = kernel * (2*this->GetRadius()[i]+1);
     }
   kernel = 1/kernel;
 
@@ -194,7 +184,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageFloatType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageFloatType> bC;
-  faceList = bC(inputFloat, output->GetRequestedRegion(), m_Radius);
+  faceList = bC(inputFloat, output->GetRequestedRegion(), this->GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageFloatType>::FaceListType::iterator fit;
 
@@ -211,7 +201,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
     {
     // Create a neighborhood iterator for the normalized image for the
     // region for this face
-    bit = ConstNeighborhoodIterator<ImageFloatType>(m_Radius,
+    bit = ConstNeighborhoodIterator<ImageFloatType>(this->GetRadius(),
                                                     inputFloat, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
@@ -291,67 +281,15 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
 template <class TImageType>
 void
 AdaptiveHistogramEqualizationImageFilter<TImageType>
-::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-  
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = 
-    const_cast< TImageType * >( this->GetInput() );
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-  
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TImageType::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Radius );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
-    {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
-}
-
-
-template <class TImageType>
-void
-AdaptiveHistogramEqualizationImageFilter<TImageType>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 
-  os << "Radius: " << m_Radius << std::endl;
   os << "Alpha: " << m_Alpha << std::endl;
   os << "Beta: " << m_Beta << std::endl;
   os << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
 }
 } // end namespace
 
-#endif
 
 #endif
