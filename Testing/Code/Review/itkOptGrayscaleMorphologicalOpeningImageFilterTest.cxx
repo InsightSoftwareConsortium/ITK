@@ -32,9 +32,9 @@ int itkOptGrayscaleMorphologicalOpeningImageFilterTest(int ac, char* av[] )
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if(ac < 6)
+  if(ac < 7)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
+    std::cerr << "Usage: " << av[0] << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder" << std::endl;
     return -1;
     }
 
@@ -70,9 +70,16 @@ int itkOptGrayscaleMorphologicalOpeningImageFilterTest(int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
+  if ( filter->GetSafeBorder() != false )
+    {
+    std::cerr << "Wrong default safe border." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   try
     {
-    filter->SetRadius( 4 );
+    filter->SetRadius( 20 );
+    filter->SetSafeBorder( atoi(av[6]) );
 
     typedef itk::ImageFileWriter< ImageType > WriterType;
     WriterType::Pointer writer = WriterType::New();
