@@ -896,6 +896,8 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     ${ReviewTest_SRCS}
     itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
     itkOptGrayscaleMorphologicalOpeningImageFilterTest.cxx
+    itkOptGrayscaleDilateImageFilterTest.cxx
+    itkOptGrayscaleErodeImageFilterTest.cxx
   )
   ADD_TEST(itkOptGrayscaleMorphologicalClosingImageFilterTest ${REVIEW_TESTS}
     --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
@@ -924,6 +926,34 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
     ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
     ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+  )
+  ADD_TEST(itkOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
+    --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleDilateImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleDilateImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleDilateImageFilterTestAnchor.png
+    itkOptGrayscaleDilateImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleDilateImageFilterTestAnchor.png
+  )
+  ADD_TEST(itkOptGrayscaleErodeImageFilterTest ${REVIEW_TESTS}
+    --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleErodeImageFilterTestHisto.png
+    --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleErodeImageFilterTestVHGW.png
+    --compare ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+              ${TEMP}/itkOptGrayscaleErodeImageFilterTestAnchor.png
+    itkOptGrayscaleErodeImageFilterTest
+    ${INPUTDATA}/cthead1.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestBasic.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestHisto.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestVHGW.png
+    ${TEMP}/itkOptGrayscaleErodeImageFilterTestAnchor.png
   )
 ENDIF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
 
