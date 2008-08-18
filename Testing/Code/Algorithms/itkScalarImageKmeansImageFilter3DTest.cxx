@@ -61,11 +61,22 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
     }
 
   bool violated=false;
-  if (inputVolume.size() == 0) { violated = true; std::cout << "  --inputVolume Required! "  << std::endl; }
-  if (input3DSkullStripVolume.size() == 0) { violated = true; std::cout << "  --input3DSkullStripVolume Required! "  << std::endl; }
-  if (outputLabelMapVolume.size() == 0) { violated = true; std::cout << "  --outputLabelMapVolume Required! "  << std::endl; }
-  if (violated) exit(1);
-
+  if (inputVolume.size() == 0)
+    {
+    violated = true; std::cout << "  --inputVolume Required! "  << std::endl;
+    }
+  if (input3DSkullStripVolume.size() == 0)
+    {
+    violated = true; std::cout << "  --input3DSkullStripVolume Required! "  << std::endl;
+    }
+  if (outputLabelMapVolume.size() == 0)
+    {
+    violated = true; std::cout << "  --outputLabelMapVolume Required! "  << std::endl;
+    }
+  if (violated)
+    {
+    exit(1);
+    }
 
   typedef signed short       PixelType;
   const unsigned int          Dimension = 3;
@@ -146,17 +157,20 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 
   ImageType::Pointer clippedBrainT1Pointer;
 
-  if (numberOfStdDeviations > 0.0 ) {
+  if (numberOfStdDeviations > 0.0 )
+    {
     ThresholdFilterType::Pointer clipArterialBloodFilter = ThresholdFilterType::New();
     clipArterialBloodFilter->SetInput( clippedBrainT1Filter->GetOutput() );
-    clipArterialBloodFilter->ThresholdAbove( imageMean+numberOfStdDeviations*imageSigma );
+    clipArterialBloodFilter->ThresholdAbove( static_cast<PixelType>(imageMean+numberOfStdDeviations*imageSigma ));
     clipArterialBloodFilter->SetOutsideValue( imageExclusion );
     std::cout << "clipArterialBloodFilter->Update " << std::endl;
     clipArterialBloodFilter->Update();
     clippedBrainT1Pointer = clipArterialBloodFilter->GetOutput();
-  } else {
+    }
+  else
+    {
     clippedBrainT1Pointer = clippedBrainT1Filter->GetOutput();
-  }
+    }
 
   /* The Mask Image Filter applies the clipping mask by stepping
      on the excluded region with the imageExclusion value. */
@@ -174,7 +188,6 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput( clippedBrainT1Pointer );
 
-  unsigned int numberOfInitialClasses = 4;
   const unsigned int useNonContiguousLabels = 1;
 
   RealPixelType backgroundInitialMean = imageExclusion;
@@ -220,8 +233,6 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
      for the interior of the mask, plus a code for the exterior of the mask. */
   KMeansFilterType::Pointer kmeansNonBrainFilter = KMeansFilterType::New();
   kmeansNonBrainFilter->SetInput( clippedNonBrainT1Filter->GetOutput() );
-
-  numberOfInitialClasses = 4;
 
   backgroundInitialMean = imageExclusion;
   const RealPixelType airInitialMean = imageMin;
@@ -280,25 +291,25 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   /* Background Tissues are Lower Label values */
   unsigned char currentLabel = 0;
   for (unsigned int i=1; i<256; i++)
-  {
-    if ( statisticsNonBrainFilter->HasLabel( static_cast<unsigned char> ( i ) ) )
     {
+    if ( statisticsNonBrainFilter->HasLabel( static_cast<unsigned char> ( i ) ) )
+      {
       currentLabel++;
       LabelImageType::RegionType labelRegion = statisticsNonBrainFilter->GetRegion( static_cast<unsigned char> ( i ) );
       itk::ImageRegionIterator<LabelImageType> it( kmeansNonBrainFilter->GetOutput(), labelRegion );
 
       it.GoToBegin();
       while( !it.IsAtEnd() )
-      {
-        if ( it.Get() == static_cast<unsigned char> ( i ) )
         {
+        if ( it.Get() == static_cast<unsigned char> ( i ) )
+          {
           // Set Output Image
           kmeansLabelImage->SetPixel(it.GetIndex(), currentLabel);
-        }
+          }
         ++it;
+        }
       }
     }
-  }
 
   /* Brain Tissues are Higher Label values */
   LabelMapStatisticsFilterType::Pointer statisticsBrainFilter = LabelMapStatisticsFilterType::New();
@@ -308,25 +319,25 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   statisticsBrainFilter->Update();
 
   for (unsigned int i=1; i<256; i++)
-  {
-    if ( statisticsBrainFilter->HasLabel( static_cast<unsigned char> ( i ) ) )
     {
+    if ( statisticsBrainFilter->HasLabel( static_cast<unsigned char> ( i ) ) )
+      {
       currentLabel++;
       LabelImageType::RegionType labelRegion = statisticsBrainFilter->GetRegion( static_cast<unsigned char> ( i ) );
       itk::ImageRegionIterator<LabelImageType> it( kmeansFilter->GetOutput(), labelRegion );
 
       it.GoToBegin();
       while( !it.IsAtEnd() )
-      {
-        if ( it.Get() == static_cast<unsigned char> ( i ) )
         {
+        if ( it.Get() == static_cast<unsigned char> ( i ) )
+          {
           // Set Output Image
           kmeansLabelImage->SetPixel(it.GetIndex(), currentLabel);
-        }
+          }
         ++it;
+        }
       }
     }
-  }
 
   /* Write out the resulting Label Image */
   typedef itk::ImageFileWriter<LabelImageType> WriterType;
