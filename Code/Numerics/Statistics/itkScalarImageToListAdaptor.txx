@@ -35,13 +35,13 @@ ScalarImageToListAdaptor< TImage >
 {
   if( this->GetUseBuffer() )
     {
-    m_TempVector[0] = (*this->GetPixelContainer())[id] ;
+    m_TempVector[0] = (*this->GetPixelContainer())[id];
     }
   else
     {
-    m_TempVector[0] = this->GetImage()->GetPixel( this->GetImage()->ComputeIndex( id ) )  ;
+    m_TempVector[0] = this->GetImage()->GetPixel( this->GetImage()->ComputeIndex( id ) );
     }
-  return m_TempVector  ;
+  return m_TempVector;
 }
 
 } // end of namespace Statistics 

@@ -24,9 +24,9 @@ template < class TImage, class TMeasurementVector >
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::ImageToListAdaptor()
 {
-  m_UseBuffer = true ;
-  m_Image = 0 ;
-  m_PixelContainer = 0 ;
+  m_UseBuffer = true;
+  m_Image = 0;
+  m_PixelContainer = 0;
   Superclass::SetMeasurementVectorSize( MeasurementVectorSize );
 }
 
@@ -37,24 +37,24 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Image: " ;
+  os << indent << "Image: ";
   if ( m_Image.IsNotNull() )
     {
     os << m_Image << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
    
-  os << indent << "PixelContainer: " ;
+  os << indent << "PixelContainer: ";
   if ( m_PixelContainer.IsNotNull() )
     {
     os << m_PixelContainer << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
   
   os << indent << "Use buffer: " << m_UseBuffer << std::endl;
@@ -65,23 +65,23 @@ void
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::SetImage(const TImage* image) 
 { 
-  m_Image = image ; 
-  m_PixelContainer = image->GetPixelContainer() ;
-  m_ImageBeginIndex = image->GetLargestPossibleRegion().GetIndex() ;
+  m_Image = image; 
+  m_PixelContainer = image->GetPixelContainer();
+  m_ImageBeginIndex = image->GetLargestPossibleRegion().GetIndex();
 
-  for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
     m_ImageEndIndex[i] = 
-      m_ImageBeginIndex[i] + image->GetLargestPossibleRegion().GetSize()[i] - 1 ;
+      m_ImageBeginIndex[i] + image->GetLargestPossibleRegion().GetSize()[i] - 1;
     }
 
   if ( strcmp( m_Image->GetNameOfClass(), "Image" ) != 0 )
     {
-    m_UseBuffer = false ;
+    m_UseBuffer = false;
     }
   else
     {
-    m_UseBuffer = true ;
+    m_UseBuffer = true;
     }
 }
 
@@ -90,7 +90,7 @@ const TImage*
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetImage() const
 {
-  return m_Image.GetPointer() ; 
+  return m_Image.GetPointer(); 
 }  
 
 template < class TImage, class TMeasurementVector >
@@ -98,7 +98,7 @@ typename ImageToListAdaptor< TImage, TMeasurementVector >::TotalFrequencyType
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetTotalFrequency() const
 { 
-  return this->Size() ; 
+  return this->Size(); 
 }
 
 } // end of namespace Statistics 

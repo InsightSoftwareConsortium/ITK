@@ -73,30 +73,30 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToListAdaptor, ListSampleBase) ;
+  itkTypeMacro(ImageToListAdaptor, ListSampleBase);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Image typedefs */
   typedef TImage ImageType;
-  typedef typename ImageType::Pointer ImagePointer ;
-  typedef typename ImageType::ConstPointer ImageConstPointer ;
-  typedef typename ImageType::IndexType IndexType ;
-  typedef typename ImageType::PixelType PixelType ;
-  typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer ;
+  typedef typename ImageType::Pointer ImagePointer;
+  typedef typename ImageType::ConstPointer ImageConstPointer;
+  typedef typename ImageType::IndexType IndexType;
+  typedef typename ImageType::PixelType PixelType;
+  typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer;
   typedef typename ImageType::PixelContainer::ElementIdentifier 
   InstanceIdentifier;
   
   /** Image Iterator typedef support */
-  typedef ImageRegionIterator< ImageType > IteratorType ; 
-  typedef PixelTraits< typename TImage::PixelType > PixelTraitsType ;
+  typedef ImageRegionIterator< ImageType > IteratorType; 
+  typedef PixelTraits< typename TImage::PixelType > PixelTraitsType;
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename PixelTraitsType::ValueType MeasurementType ;
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
+  typedef typename PixelTraitsType::ValueType MeasurementType;
+  typedef typename Superclass::FrequencyType FrequencyType;
+  typedef typename Superclass::TotalFrequencyType TotalFrequencyType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** the number of components in a measurement vector */
@@ -123,23 +123,23 @@ public:
     
   
 
-  typedef TMeasurementVector MeasurementVectorType ;
-  typedef MeasurementVectorType ValueType ;
+  typedef TMeasurementVector MeasurementVectorType;
+  typedef MeasurementVectorType ValueType;
 
   /** Method to set the image */
-  void SetImage(const TImage* image) ;
+  void SetImage(const TImage* image);
 
   /** Method to get the image */
   const TImage* GetImage() const;
 
   /** returns the number of measurement vectors in this container*/
-  unsigned int Size() const ;
+  unsigned int Size() const;
 
   inline virtual const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
 
-  inline FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
+  inline FrequencyType GetFrequency(const InstanceIdentifier &id) const;
 
-  TotalFrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const;
   
  
   class Iterator
@@ -153,35 +153,35 @@ public:
     {}
     
     FrequencyType GetFrequency() const
-    { return 1 ;}
+    { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return m_Container->GetMeasurementVector(m_Id) ;} 
+    { return m_Container->GetMeasurementVector(m_Id);} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Id ;}
+    { return m_Id;}
 
     Iterator& operator++()
-    { ++m_Id ; return *this ;}
+    { ++m_Id; return *this;}
     
     /*Iterator& operator+()
-    { m_Id += n; return *this ;}*/
+    { m_Id += n; return *this;}*/
 
     Iterator& operator+(int n)
-    { m_Id += n; return *this ;}
+    { m_Id += n; return *this;}
     
     Iterator& operator-(int n)
-    { m_Id -= n; return *this ;}
+    { m_Id -= n; return *this;}
 
     bool operator!=(const Iterator &it)
     {
       if (m_Id != it.m_Id)
-        {return true ;}
+        {return true;}
 
       if (m_Container != it.m_Container)
-        { return true ;}
+        { return true;}
 
-      return false ;
+      return false;
     }
     
     bool operator==(const Iterator &it)
@@ -190,20 +190,20 @@ public:
     Iterator& operator = (const Iterator &iter)
     { 
       m_Id = iter.m_Id; 
-      m_Container = iter.m_Container ; 
-      return *this ;
+      m_Container = iter.m_Container; 
+      return *this;
     }
 
     Iterator(const Iterator &iter)
     { 
       m_Id = iter.m_Id; 
-      m_Container = iter.m_Container ; 
+      m_Container = iter.m_Container; 
     }
     
   private:
     InstanceIdentifier m_Id;  // Current id 
-    Pointer m_Container ;
-  } ;
+    Pointer m_Container;
+  };
 
 
   class ConstIterator
@@ -217,35 +217,35 @@ public:
     {}
     
     FrequencyType GetFrequency() const
-    { return 1 ;}
+    { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return m_Container->GetMeasurementVector(m_Id) ;} 
+    { return m_Container->GetMeasurementVector(m_Id);} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Id ;}
+    { return m_Id;}
 
     ConstIterator& operator++()
-    { ++m_Id ; return *this ;}
+    { ++m_Id; return *this;}
     
     /*ConstIterator& operator+()
-    { m_Id += n; return *this ;}*/
+    { m_Id += n; return *this;}*/
 
     ConstIterator& operator+(int n)
-    { m_Id += n; return *this ;}
+    { m_Id += n; return *this;}
     
     ConstIterator& operator-(int n)
-    { m_Id -= n; return *this ;}
+    { m_Id -= n; return *this;}
 
     bool operator!=(const ConstIterator &it)
     {
       if (m_Id != it.m_Id)
-        {return true ;}
+        {return true;}
 
       if (m_Container != it.m_Container)
-        { return true ;}
+        { return true;}
 
-      return false ;
+      return false;
     }
     
     bool operator==(const ConstIterator &it)
@@ -254,20 +254,20 @@ public:
     ConstIterator& operator = (const ConstIterator &iter)
     { 
       m_Id = iter.m_Id; 
-      m_Container = iter.m_Container ; 
-      return *this ;
+      m_Container = iter.m_Container; 
+      return *this;
     }
 
     ConstIterator(const ConstIterator &iter)
     { 
       m_Id = iter.m_Id; 
-      m_Container = iter.m_Container ; 
+      m_Container = iter.m_Container; 
     }
     
   private:
     InstanceIdentifier m_Id;  // Current id 
-    ConstPointer m_Container ;
-  } ;
+    ConstPointer m_Container;
+  };
 
 
 
@@ -296,7 +296,7 @@ public:
   }
  
 protected:
-  ImageToListAdaptor() ;
+  ImageToListAdaptor();
   virtual ~ImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
@@ -307,16 +307,16 @@ protected:
 
 
 private:
-  ImageToListAdaptor(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  ImageToListAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  PixelContainerConstPointer m_PixelContainer ;
-  bool m_UseBuffer ;
-  IndexType m_ImageBeginIndex ;
-  IndexType m_ImageEndIndex ;
+  PixelContainerConstPointer m_PixelContainer;
+  bool m_UseBuffer;
+  IndexType m_ImageBeginIndex;
+  IndexType m_ImageEndIndex;
 
-  ImageConstPointer m_Image ;
-} ; // end of class ImageToListAdaptor
+  ImageConstPointer m_Image;
+}; // end of class ImageToListAdaptor
 
 template < class TImage, class TMeasurementVector >
 inline const TMeasurementVector &
@@ -325,12 +325,12 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 {
   if ( m_UseBuffer )
     {
-    return *( reinterpret_cast< const MeasurementVectorType* >(&(*m_PixelContainer)[id]) ) ;
+    return *( reinterpret_cast< const MeasurementVectorType* >(&(*m_PixelContainer)[id]) );
     }
   else
     {
     return *(reinterpret_cast< const MeasurementVectorType* >
-             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) ) ;
+             ( &(m_Image->GetPixel( m_Image->ComputeIndex( id ) ) ) ) );
     }
 }
 
@@ -340,7 +340,7 @@ inline unsigned int
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::Size() const
 {
-  return m_PixelContainer->Size() ;
+  return m_PixelContainer->Size();
 }
 
 template < class TImage, class TMeasurementVector >
@@ -348,7 +348,7 @@ inline typename ImageToListAdaptor< TImage, TMeasurementVector >::FrequencyType
 ImageToListAdaptor< TImage, TMeasurementVector >
 ::GetFrequency(const InstanceIdentifier &) const 
 {
-  return NumericTraits< FrequencyType >::One ;
+  return NumericTraits< FrequencyType >::One;
 }
 
 

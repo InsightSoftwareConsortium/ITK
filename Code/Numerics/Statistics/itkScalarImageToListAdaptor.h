@@ -66,7 +66,7 @@ class ITK_EXPORT ScalarImageToListAdaptor
   FixedArray< typename TImage::PixelType, 1 > >
 {
 public:
-  typedef FixedArray< typename TImage::PixelType, 1 > MeasurementVectorType ;
+  typedef FixedArray< typename TImage::PixelType, 1 > MeasurementVectorType;
 
   /** Standard class typedefs */
   typedef ScalarImageToListAdaptor Self;
@@ -75,10 +75,10 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarImageToListAdaptor, ListSampleBase) ;
+  itkTypeMacro(ScalarImageToListAdaptor, ListSampleBase);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int, 1);
@@ -86,11 +86,11 @@ public:
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
+  typedef typename Superclass::FrequencyType FrequencyType;
+  typedef typename Superclass::MeasurementType MeasurementType;
+  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-  typedef MeasurementVectorType ValueType ;
+  typedef MeasurementVectorType ValueType;
 
   virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s ) 
     {
@@ -121,10 +121,10 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
 private:
-  ScalarImageToListAdaptor(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
-  mutable MeasurementVectorType m_TempVector ;
-} ; // end of class ScalarImageToListAdaptor
+  ScalarImageToListAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  mutable MeasurementVectorType m_TempVector;
+}; // end of class ScalarImageToListAdaptor
 
 } // end of namespace Statistics
 } // end of namespace itk
