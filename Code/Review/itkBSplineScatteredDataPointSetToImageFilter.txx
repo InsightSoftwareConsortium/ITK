@@ -25,7 +25,6 @@
 #include "itkImageDuplicator.h"
 #include "itkCastImageFilter.h"
 #include "itkNumericTraits.h"
-#include "itkTimeProbe.h"
 
 #include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
@@ -67,6 +66,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
   this->m_PointWeights = WeightsContainerType::New();
   this->m_UsePointWeights = false;
+
+  this->m_BSplineEpsilon = vcl_numeric_limits<RealType>::epsilon();
 }
 
 template <class TInputPointSet, class TOutputImage>
@@ -204,7 +205,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   /**
    *  Create the output image
    */
-
   itkDebugMacro( "Origin: " << this->m_Origin );
   itkDebugMacro( "Size: " << this->m_Size );
   itkDebugMacro( "Spacing: " << this->m_Spacing );
@@ -221,6 +221,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->GetOutput()->SetRegions( this->m_Size );
   this->GetOutput()->Allocate();
 
+  /**
+   * Perform some error checking on the input
+   */
   if( this->m_UsePointWeights &&
       ( this->m_PointWeights->Size() != this->GetInput()->GetNumberOfPoints() ) )
     {
@@ -237,6 +240,26 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     }
 
+  /**
+   * Calculate the appropriate epsilon value.
+   */
+  unsigned int maximumNumberOfSpans = 0;
+  for( unsigned int d = 0; d < ImageDimension; d++ )
+    {
+    unsigned int numberOfSpans = this->m_NumberOfControlPoints[d]
+      - this->m_SplineOrder[d];
+    numberOfSpans <<= ( this->m_NumberOfLevels[d] - 1 );
+    if( numberOfSpans > maximumNumberOfSpans )
+      {
+      maximumNumberOfSpans = numberOfSpans;
+      }
+    }
+  this->m_BSplineEpsilon = vcl_numeric_limits<RealType>::epsilon();
+  while( static_cast<RealType>( maximumNumberOfSpans ) ==
+    static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
+    {
+    this->m_BSplineEpsilon *= 10.0;
+    }
 
   this->m_InputPointData->Initialize();
   this->m_OutputPointData->Initialize();
@@ -521,7 +544,6 @@ void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::GenerateControlLattice()
 {
-
   typename RealImageType::RegionType::SizeType size;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -588,21 +610,21 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      unsigned int totalNumberOfSpans 
+      unsigned int totalNumberOfSpans
         = this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
 
       p[i] = ( point[i] - this->m_Origin[i] ) * r[i];
       if( p[i] == static_cast<RealType>( totalNumberOfSpans ) )
         {
-        p[i] = static_cast<RealType>( totalNumberOfSpans ) - 
-          10.0 * vcl_numeric_limits<RealType>::epsilon();
+        p[i] = static_cast<RealType>( totalNumberOfSpans )
+          - this->m_BSplineEpsilon;
         }
       if( p[i] >= static_cast<RealType>( totalNumberOfSpans ) )
         {
-        itkExceptionMacro( "The reparameterized point component " << p[i] 
-          << " is outside the corresponding parametric domain of [0, " 
-          << totalNumberOfSpans << "]." );   
-        }  
+        itkExceptionMacro( "The reparameterized point component " << p[i]
+          << " is outside the corresponding parametric domain of [0, "
+          << totalNumberOfSpans << "]." );
+        }
       }
 
     RealType w2_sum = 0.0;
@@ -731,15 +753,15 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
       if( U[i] == static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
-        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
-          10.0 * vcl_numeric_limits<RealType>::epsilon();
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] )
+          - this->m_BSplineEpsilon;
         }
       if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
-        itkExceptionMacro( "The collapse point component " << U[i] 
-          << " is outside the corresponding parametric domain of [0, " 
-          << totalNumberOfSpans[i] << "]." );   
-        }  
+        itkExceptionMacro( "The collapse point component " << U[i]
+          << " is outside the corresponding parametric domain of [0, "
+          << totalNumberOfSpans[i] << "]." );
+        }
       }
     for( int i = ImageDimension-1; i >= 0; i-- )
       {
@@ -832,15 +854,15 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
              static_cast<RealType>( this->m_Size[i] - 1 );
       if( U[i] == static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
-        U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) -
-          10.0 * vcl_numeric_limits<RealType>::epsilon();
+        U[i] = static_cast<RealType>( totalNumberOfSpans[i] )
+          - this->m_BSplineEpsilon;
         }
       if( U[i] >= static_cast<RealType>( totalNumberOfSpans[i] ) )
         {
-        itkExceptionMacro( "The collapse point component " << U[i] 
-          << " is outside the corresponding parametric domain of [0, " 
-          << totalNumberOfSpans[i] << "]." );   
-        }  
+        itkExceptionMacro( "The collapse point component " << U[i]
+          << " is outside the corresponding parametric domain of [0, "
+          << totalNumberOfSpans[i] << "]." );
+        }
       }
     for( int i = ImageDimension-1; i >= 0; i-- )
       {
@@ -934,8 +956,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     {
     if( params[i] == NumericTraits<RealType>::One )
       {
-      params[i] = NumericTraits<RealType>::One - 
-        10.0 * vcl_numeric_limits<RealType>::epsilon();
+      params[i] = NumericTraits<RealType>::One - this->m_BSplineEpsilon;
       }
     if( params[i] < 0.0 || params[i] >= 1.0 )
       {
@@ -1035,8 +1056,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     {
     if( params[i] == NumericTraits<RealType>::One )
       {
-      params[i] = NumericTraits<RealType>::One - 
-        10.0 * vcl_numeric_limits<RealType>::epsilon();
+      params[i] = NumericTraits<RealType>::One - this->m_BSplineEpsilon;
       }
     if( params[i] < 0.0 || params[i] >= 1.0 )
       {

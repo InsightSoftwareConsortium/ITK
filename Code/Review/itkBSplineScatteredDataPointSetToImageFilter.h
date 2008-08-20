@@ -219,6 +219,8 @@ private:
   typename PointDataContainerType::Pointer       m_InputPointData;
   typename PointDataContainerType::Pointer       m_OutputPointData;
 
+  RealType                                       m_BSplineEpsilon;
+
   vnl_matrix<RealType>
     m_RefinedLatticeCoefficients[ImageDimension];
 
