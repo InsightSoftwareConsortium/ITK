@@ -254,7 +254,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       maximumNumberOfSpans = numberOfSpans;
       }
     }
-  this->m_BSplineEpsilon = vcl_numeric_limits<RealType>::epsilon();
+  this->m_BSplineEpsilon = 10.0 * vcl_numeric_limits<RealType>::epsilon();
   while( static_cast<RealType>( maximumNumberOfSpans ) ==
     static_cast<RealType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
     {
