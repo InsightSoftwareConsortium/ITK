@@ -99,16 +99,14 @@ WeightedCentroidKdTreeGenerator< TSample >
   medianIndex = (endIndex - beginIndex) / 2;
 
   //
-  // Find the medial element by using the QuickSelect algorithm
-  // based on its description on the Wikipedia:
-  // http://en.wikipedia.org/wiki/Selection_algorithm
+  // Find the medial element by using the NthElement function
+  // based on the STL implementation of the QuickSelect algorithm.
   //
   partitionValue =
-    QuickSelect< SubsampleType >(this->GetSubsample(),
+    NthElement< SubsampleType >(this->GetSubsample(),
                                  partitionDimension,
                                  beginIndex, endIndex, 
-                                 medianIndex,
-                                 m_TempMean[partitionDimension]);
+                                 medianIndex);
              
   medianIndex += beginIndex;
 
