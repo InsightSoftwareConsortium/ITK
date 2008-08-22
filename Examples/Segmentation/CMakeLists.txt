@@ -58,6 +58,9 @@ TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
 ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKIO)
 
+ADD_EXECUTABLE(WatershedSegmentation2 WatershedSegmentation2.cxx )
+TARGET_LINK_LIBRARIES(WatershedSegmentation2 ITKAlgorithms ITKIO)
+
 ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 
