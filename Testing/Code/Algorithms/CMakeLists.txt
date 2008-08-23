@@ -86,21 +86,11 @@ ADD_TEST(itkIsoContourDistanceImageFilterTest ${ALGORITHMS_TESTS} itkIsoContourD
 ADD_TEST(itkIsotropicFourthOrderLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkIsotropicFourthOrderLevelSetImageFilterTest)
 ADD_TEST(itkKalmanLinearEstimatorTest ${ALGORITHMS_TESTS} itkKalmanLinearEstimatorTest)
 ADD_TEST(itkKmeansModelEstimatorTest ${ALGORITHMS_TESTS} itkKmeansModelEstimatorTest)
-
-#
-# This test is timing out everywhere. Here we just report it on one machine
-#
-IF(${SITE} STREQUAL "dash16.kitware")
 ADD_TEST(itkScalarImageKmeansImageFilter3DTest ${ALGORITHMS_TESTS4} 
     --compare ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1KmeansPrelimSegmentation.nii.gz 
             ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
   itkScalarImageKmeansImageFilter3DTest ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1UCharRaw.nii.gz
   ${ITK_SOURCE_DIR}/Examples/Data/KmeansTest_T1RawSkullStrip.nii.gz ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz )
-
-SET_TESTS_PROPERTIES(itkScalarImageKmeansImageFilter3DTest PROPERTIES TIMEOUT 60)
-
-ENDIF(${SITE} STREQUAL "dash16.kitware")
-
 ADD_TEST(itkKullbackLeiblerCompareHistogramImageToImageMetricTest ${ALGORITHMS_TESTS2} itkKullbackLeiblerCompareHistogramImageToImageMetricTest)
 ADD_TEST(itkLaplacianSegmentationLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkLaplacianSegmentationLevelSetImageFilterTest)
 ADD_TEST(itkLevelSetNeighborhoodExtractorTest ${ALGORITHMS_TESTS} itkLevelSetNeighborhoodExtractorTest)
