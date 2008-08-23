@@ -132,26 +132,26 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
 /**
  *      Define some common ITK events
  */
-itkEventMacro( NoEvent            , EventObject );
-itkEventMacro( AnyEvent           , EventObject );
-itkEventMacro( DeleteEvent        , AnyEvent );
-itkEventMacro( StartEvent         , AnyEvent );
-itkEventMacro( EndEvent           , AnyEvent );
-itkEventMacro( ProgressEvent      , AnyEvent );
-itkEventMacro( ExitEvent          , AnyEvent );
-itkEventMacro( AbortEvent         , AnyEvent );
-itkEventMacro( ModifiedEvent      , AnyEvent );
-itkEventMacro( InitializeEvent     , AnyEvent );
-itkEventMacro( IterationEvent     , AnyEvent );
-itkEventMacro( PickEvent          , AnyEvent );
-itkEventMacro( StartPickEvent     , PickEvent   );
-itkEventMacro( EndPickEvent       , PickEvent   );
-itkEventMacro( AbortCheckEvent    , PickEvent   );
-itkEventMacro( FunctionEvaluationIterationEvent, IterationEvent );
-itkEventMacro( GradientEvaluationIterationEvent, IterationEvent );
-itkEventMacro( FunctionAndGradientEvaluationIterationEvent, IterationEvent );
+itkEventMacro( NoEvent            , EventObject )
+itkEventMacro( AnyEvent           , EventObject )
+itkEventMacro( DeleteEvent        , AnyEvent )
+itkEventMacro( StartEvent         , AnyEvent )
+itkEventMacro( EndEvent           , AnyEvent )
+itkEventMacro( ProgressEvent      , AnyEvent )
+itkEventMacro( ExitEvent          , AnyEvent )
+itkEventMacro( AbortEvent         , AnyEvent )
+itkEventMacro( ModifiedEvent      , AnyEvent )
+itkEventMacro( InitializeEvent     , AnyEvent )
+itkEventMacro( IterationEvent     , AnyEvent )
+itkEventMacro( PickEvent          , AnyEvent )
+itkEventMacro( StartPickEvent     , PickEvent   )
+itkEventMacro( EndPickEvent       , PickEvent   )
+itkEventMacro( AbortCheckEvent    , PickEvent   )
+itkEventMacro( FunctionEvaluationIterationEvent, IterationEvent )
+itkEventMacro( GradientEvaluationIterationEvent, IterationEvent )
+itkEventMacro( FunctionAndGradientEvaluationIterationEvent, IterationEvent )
 
-itkEventMacro( UserEvent          , AnyEvent );
+itkEventMacro( UserEvent          , AnyEvent )
 
    
 } // end namespace itk
