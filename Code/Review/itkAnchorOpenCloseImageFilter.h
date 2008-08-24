@@ -63,6 +63,7 @@ public:
   /** Some convenient typedefs. */
   /** Kernel typedef. */
   typedef TKernel                                  KernelType;
+  typedef typename KernelType::LType               KernelLType;
 
   typedef TImage                                   InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
@@ -113,7 +114,8 @@ private:
 
   TKernel m_Kernel;
   bool    m_KernelSet;
-  typedef BresenhamLine<itkGetStaticConstMacro(InputImageDimension)> BresType;
+  typedef BresenhamLine<itkGetStaticConstMacro(InputImageDimension)>  BresType;
+  typedef typename BresType::OffsetArray                              BresOffsetArray;
 
   // the class that operates on lines -- does the opening in one
   // operation. The classes following are named on the assumption that
@@ -129,10 +131,10 @@ private:
 
   void doFaceOpen(InputImageConstPointer input,
                   InputImagePointer output,
-                  typename TImage::PixelType border,
-                  typename KernelType::LType line,
+                  InputImagePixelType border,
+                  KernelLType line,
                   AnchorLineOpenType &AnchorLineOpen,
-                  const typename BresType::OffsetArray LineOffsets,
+                  const BresOffsetArray LineOffsets,
                   InputImagePixelType * outbuffer,
                   const InputImageRegionType AllImage, 
                   const InputImageRegionType face);
