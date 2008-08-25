@@ -82,10 +82,12 @@ public:
   itkBooleanMacro(SafeBorder);
 
   /** define values used to determine which algorithm to use */
-  static const int BASIC = 0;
-  static const int HISTO = 1;
-  static const int ANCHOR = 2;
-  static const int VHGW = 3;
+  enum {
+   BASIC = 0,
+   HISTO = 1,
+   ANCHOR = 2,
+   VHGW = 3
+  } AlgorithmChoice;
 
   /** Set/Get the backend filter class. */
   itkSetMacro(Algorithm, int);
