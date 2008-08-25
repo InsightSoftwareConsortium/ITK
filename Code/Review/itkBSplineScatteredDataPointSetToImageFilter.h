@@ -140,7 +140,7 @@ public:
   itkGetConstReferenceMacro( GenerateOutputImage, bool );
   itkBooleanMacro( GenerateOutputImage );
 
-  void SetPointWeights( const WeightsContainerType * weights );
+  void SetPointWeights( WeightsContainerType * weights );
 
   /**
    * Get the control point lattice.
