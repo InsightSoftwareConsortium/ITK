@@ -83,8 +83,8 @@ setConnectivityEarlyBox( TIterator* it, bool fullyConnected=false )
 
 template <class TInputImage, class TOutputImage>
 void
-BoxAccumulateFunction(typename TInputImage::ConstPointer inputImage, 
-                      typename TOutputImage::Pointer outputImage, 
+BoxAccumulateFunction(const TInputImage * inputImage, 
+                      const TOutputImage * outputImage, 
                       typename TInputImage::RegionType inputRegion,
                       typename TOutputImage::RegionType outputRegion,
                       ProgressReporter &progress)
@@ -556,8 +556,8 @@ BoxSigmaCalculatorFunction(const TInputImage * accImage,
 
 template <class TInputImage, class TOutputImage>
 void
-BoxSquareAccumulateFunction(typename TInputImage::ConstPointer inputImage, 
-                      typename TOutputImage::Pointer outputImage, 
+BoxSquareAccumulateFunction(const TInputImage * inputImage, 
+                      TOutputImage * outputImage, 
                       typename TInputImage::RegionType inputRegion,
                       typename TOutputImage::RegionType outputRegion,
                       ProgressReporter &progress)
