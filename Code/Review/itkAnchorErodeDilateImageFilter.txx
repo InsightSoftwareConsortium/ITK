@@ -120,7 +120,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 
     AnchorLine.SetSize(SELength);
 
-    DoAnchorFace<TImage, BresType, AnchorLineType, KerneLType>(
+    DoAnchorFace<TImage, BresType, AnchorLineType, KernelLType>(
       input,
       output,
       m_Boundary,

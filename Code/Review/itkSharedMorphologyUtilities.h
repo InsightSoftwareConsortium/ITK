@@ -64,7 +64,7 @@ void copyLineToImage(const typename TImage::Pointer output,
 // does not have overlap between them.
 template <class TInputImage, class TLine>
 typename TInputImage::RegionType
-mkEnlargedFace(const typename TInputImage::ConstPointer input,
+mkEnlargedFace(const TInputImage * input,
                const typename TInputImage::RegionType AllImage,
                const TLine line);
 

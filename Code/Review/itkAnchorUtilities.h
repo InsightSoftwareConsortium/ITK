@@ -52,9 +52,10 @@ int computeStartEnd(const typename TImage::IndexType StartIndex,
                     const typename TImage::RegionType AllImage, 
                     unsigned &start,
                     unsigned &end);
+
 template <class TImage, class TBres, class TAnchor, class TLine>
-void DoAnchorFace(typename TImage::ConstPointer input,
-                  typename TImage::Pointer output,
+void DoAnchorFace(const TImage * input,
+                  TImage * output,
                   typename TImage::PixelType border,
                   TLine line,
                   TAnchor &AnchorLine,
