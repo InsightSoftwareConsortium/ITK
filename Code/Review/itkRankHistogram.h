@@ -42,8 +42,9 @@ public:
     }
   virtual ~RankHistogram(){}
 
-  virtual RankHistogram *Clone(){return 0;}
-  
+  virtual RankHistogram * Clone() const 
+   { return 0; }
+   
   virtual void AddPixel(const TInputPixel &itkNotUsed(p)){}
 
   virtual void RemovePixel(const TInputPixel &itkNotUsed(p)){}
@@ -66,18 +67,9 @@ protected:
 template <class TInputPixel, class TCompare>
 class RankHistogramMap : public RankHistogram<TInputPixel>
 {
-private:
-  typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
-  
-  MapType       m_Map;
-  unsigned long m_Below;
-  unsigned long m_Entries;
-  TInputPixel   m_RankValue;
-  TInputPixel   m_InitVal;
-  TCompare      m_Compare;
-  bool          m_Initialized;
-  // This iterator will point at the desired rank value
-  typename MapType::iterator m_RankIt;
+public:
+
+  typedef RankHistogram<TInputPixel>       Superclass;
 
 public:
   RankHistogramMap() 
@@ -208,7 +200,7 @@ public:
 
     }
 
-  RankHistogramMap * Clone()
+  Superclass * Clone() const
     {
     RankHistogramMap *result = new RankHistogramMap();
     result->m_Map = this->m_Map;
@@ -223,23 +215,25 @@ public:
     return(result);
     }
 
+private:
+  typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
+  
+  MapType       m_Map;
+  unsigned long m_Below;
+  unsigned long m_Entries;
+  TInputPixel   m_RankValue;
+  TInputPixel   m_InitVal;
+  TCompare      m_Compare;
+  bool          m_Initialized;
+  // This iterator will point at the desired rank value
+  typename MapType::iterator m_RankIt;
 };
 
 template <class TInputPixel, class TCompare>
 class RankHistogramVec : public RankHistogram<TInputPixel>
 {
-private:
-  typedef typename std::vector<unsigned long> VecType;
-  
-  VecType      m_Vec;
-  unsigned int m_Size;
-  TCompare     m_Compare;
-  //unsigned int m_CurrentValue;
-  //TInputPixel m_CurrentValue;
-  TInputPixel  m_RankValue;
-  TInputPixel  m_InitVal;
-  int          m_Below;
-  int          m_Entries;
+public:
+  typedef RankHistogram<TInputPixel>       Superclass;
 
 public:
   RankHistogramVec() 
@@ -341,7 +335,7 @@ public:
       }
     }
  
-  RankHistogramVec * Clone()
+  Superclass * Clone() const
     {
     RankHistogramVec *result = new RankHistogramVec(true);
     result->m_Vec = this->m_Vec;
@@ -355,6 +349,18 @@ public:
     return(result);
     }
 
+private:
+  typedef typename std::vector<unsigned long> VecType;
+  
+  VecType      m_Vec;
+  unsigned int m_Size;
+  TCompare     m_Compare;
+  //unsigned int m_CurrentValue;
+  //TInputPixel m_CurrentValue;
+  TInputPixel  m_RankValue;
+  TInputPixel  m_InitVal;
+  int          m_Below;
+  int          m_Entries;
 };
 
 } // end namespace itk
