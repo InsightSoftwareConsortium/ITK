@@ -55,10 +55,14 @@ public:
 
   virtual ~VanHerkGilWermanErodeImageFilter() {}
 protected:
+
+  typedef typename TImage::PixelType   PixelType;
+
   VanHerkGilWermanErodeImageFilter()
     {
-    this->m_Boundary = itk::NumericTraits< typename TImage::PixelType >::max();
+    this->m_Boundary = itk::NumericTraits< PixelType >::max();
     }
+
   void PrintSelf(std::ostream& os, Indent indent) const
     {
     os << indent << "VanHerkGilWerman erosion: " << std::endl;

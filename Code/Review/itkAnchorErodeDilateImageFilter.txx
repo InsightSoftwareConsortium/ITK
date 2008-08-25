@@ -107,16 +107,20 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
     {
     typename KernelType::LType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
-    unsigned int SELength = getLinePixels<typename KernelType::LType>(ThisLine);
+
+    typedef typename KernelType::LType KernelLType;
+
+    unsigned int SELength = getLinePixels< KernelLType >(ThisLine);
+
     // want lines to be odd
     if (!(SELength%2))
       ++SELength;
 
-    InputImageRegionType BigFace = mkEnlargedFace<InputImageType, typename KernelType::LType>(input, IReg, ThisLine);
+    InputImageRegionType BigFace = mkEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
 
     AnchorLine.SetSize(SELength);
 
-    DoAnchorFace<TImage, BresType, AnchorLineType, typename KernelType::LType>(
+    DoAnchorFace<TImage, BresType, AnchorLineType, KerneLType>(
       input,
       output,
       m_Boundary,

@@ -54,11 +54,16 @@ public:
   itkNewMacro(Self);
 
   virtual ~VanHerkGilWermanDilateImageFilter() {}
+
 protected:
+
+  typedef typename TImage::PixelType  PixelType;
+
   VanHerkGilWermanDilateImageFilter()
     {
-    this->m_Boundary = itk::NumericTraits< typename TImage::PixelType >::NonpositiveMin();
+    this->m_Boundary = itk::NumericTraits< PixelType >::NonpositiveMin();
     }
+
   void PrintSelf(std::ostream& os, Indent indent) const
     {
     os << indent << "VanHerkGilWerman erosion: " << std::endl;

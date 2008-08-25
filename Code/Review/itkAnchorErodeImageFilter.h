@@ -43,9 +43,12 @@ public:
 
   virtual ~AnchorErodeImageFilter() {}
 protected:
+
+  typedef typename TImage::PixelType  PixelType;
+
   AnchorErodeImageFilter()
     {
-    this->m_Boundary = itk::NumericTraits< typename TImage::PixelType >::max();
+    this->m_Boundary = itk::NumericTraits< PixelType >::max();
     }
   void PrintSelf(std::ostream& os, Indent indent) const
     {
