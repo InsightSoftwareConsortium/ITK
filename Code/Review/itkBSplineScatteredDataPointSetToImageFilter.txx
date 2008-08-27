@@ -614,7 +614,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         = this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
 
       p[i] = ( point[i] - this->m_Origin[i] ) * r[i];
-      if( p[i] == static_cast<RealType>( totalNumberOfSpans ) )
+      if( vnl_math_abs( p[i] - static_cast<RealType>( totalNumberOfSpans ) )
+            <= this->m_BSplineEpsilon )
         {
         p[i] = static_cast<RealType>( totalNumberOfSpans )
           - this->m_BSplineEpsilon;
@@ -751,7 +752,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
         static_cast<RealType>( point[i] - this->m_Origin[i] ) /
         ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
-      if( U[i] == static_cast<RealType>( totalNumberOfSpans[i] ) )
+      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
+            <= this->m_BSplineEpsilon )
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] )
           - this->m_BSplineEpsilon;
@@ -852,7 +854,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       U[i] = static_cast<RealType>( totalNumberOfSpans[i] ) *
              static_cast<RealType>( idx[i] - startIndex[i] ) /
              static_cast<RealType>( this->m_Size[i] - 1 );
-      if( U[i] == static_cast<RealType>( totalNumberOfSpans[i] ) )
+      if( vnl_math_abs( U[i] - static_cast<RealType>( totalNumberOfSpans[i] ) )
+            <= this->m_BSplineEpsilon )
         {
         U[i] = static_cast<RealType>( totalNumberOfSpans[i] )
           - this->m_BSplineEpsilon;
