@@ -35,7 +35,7 @@ public:
     }
   ~MorphologyHistogram(){}
 
-  MorphologyHistogram * Clone()
+  MorphologyHistogram * Clone() const
     {
     MorphologyHistogram * result = new MorphologyHistogram();
     result->m_Map = this->m_Map;

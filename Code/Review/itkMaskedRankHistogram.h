@@ -42,7 +42,7 @@ public:
     }
   virtual ~MaskedRankHistogram(){}
 
-  virtual MaskedRankHistogram *Clone(){return 0;}
+  virtual MaskedRankHistogram * Clone() const { return 0; }
   
   virtual void Reset(){}
     
@@ -82,18 +82,10 @@ protected:
 template <class TInputPixel, class TCompare>
 class MaskedRankHistogramMap : public MaskedRankHistogram<TInputPixel>
 {
-private:
-  typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
-  
-  MapType       m_Map;
-  unsigned long m_Below;
-  unsigned long m_Entries;
-  TInputPixel   m_RankValue;
-  TInputPixel   m_InitVal;
-  TCompare      m_Compare;
-  bool          m_Initialized;
-  // This iterator will point at the desired rank value
-  typename MapType::iterator m_RankIt;
+public:
+
+  typedef MaskedRankHistogram<TInputPixel>  Superclass;
+
 public:
   MaskedRankHistogramMap() 
     {
@@ -116,7 +108,7 @@ public:
     {
     }
 
-  MaskedRankHistogramMap *Clone()
+  Superclass * Clone() const
     {
     MaskedRankHistogramMap *result = new MaskedRankHistogramMap();
     result->m_Map = this->m_Map;
@@ -281,23 +273,31 @@ public:
     return m_Map.begin()->first;
     }
 #endif
+
+private:
+  typedef typename std::map< TInputPixel, unsigned long, TCompare > MapType;
+  
+  MapType       m_Map;
+  unsigned long m_Below;
+  unsigned long m_Entries;
+  TInputPixel   m_RankValue;
+  TInputPixel   m_InitVal;
+  TCompare      m_Compare;
+  bool          m_Initialized;
+  // This iterator will point at the desired rank value
+  typename MapType::iterator m_RankIt;
+
 };
 
 template <class TInputPixel, class TCompare>
 class MaskedRankHistogramVec : public MaskedRankHistogram<TInputPixel>
 {
-private:
-  typedef typename std::vector<unsigned long> VecType;
-  
-  VecType      m_Vec;
-  unsigned int m_Size;
-  TCompare     m_Compare;
-  TInputPixel  m_RankValue;
-  TInputPixel  m_InitVal;
-  int          m_Below;
-  int          m_Entries;
+public:
+
+  typedef MaskedRankHistogram<TInputPixel>  Superclass;
 
 public:
+
   MaskedRankHistogramVec() 
     {
     m_Size = static_cast<unsigned int>( NumericTraits< TInputPixel >::max() - 
@@ -339,7 +339,7 @@ public:
     {
     }
 
-  MaskedRankHistogramVec *Clone()
+  Superclass * Clone() const
     {
     MaskedRankHistogramVec *result = new MaskedRankHistogramVec(true);
     result->m_Vec = this->m_Vec;
@@ -423,7 +423,17 @@ public:
       --m_Below;
       }
     }
- 
+
+ private:
+  typedef typename std::vector<unsigned long> VecType;
+  
+  VecType      m_Vec;
+  unsigned int m_Size;
+  TCompare     m_Compare;
+  TInputPixel  m_RankValue;
+  TInputPixel  m_InitVal;
+  int          m_Below;
+  int          m_Entries;
 };
 
 } // end namespace itk

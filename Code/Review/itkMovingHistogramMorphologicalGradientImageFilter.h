@@ -34,7 +34,7 @@ public:
     }
   ~MorphologicalGradientHistogram(){}
 
-  MorphologicalGradientHistogram * Clone()
+  MorphologicalGradientHistogram * Clone() const
     {
     MorphologicalGradientHistogram * result = new MorphologicalGradientHistogram();
     result->m_Map = this->m_Map;
