@@ -156,7 +156,7 @@ BoxAccumulateFunction(const TInputImage * inputImage,
 
 // a function to generate corners of arbitary dimension box
 template <class ImType>
-std::vector<typename ImType::OffsetType> CornerOffsets(typename ImType::ConstPointer im)
+std::vector<typename ImType::OffsetType> CornerOffsets(const ImType * im)
 {
   typedef typename itk::ShapedNeighborhoodIterator<ImType> NIterator;
   typename ImType::SizeType unitradius;
@@ -339,7 +339,7 @@ BoxMeanCalculatorFunction(const TInputImage * accImage,
             if (UnitCorners[k][j] > 0)
               {
               // leading edge - crop it
-              ThisCorner[j] = std::min(ThisCorner[j], (long)RegionLimit[j]);
+              ThisCorner[j] = vnl_math_min(ThisCorner[j], (long)RegionLimit[j]);
               }
             else
               {
@@ -526,7 +526,7 @@ BoxSigmaCalculatorFunction(const TInputImage * accImage,
             if (UnitCorners[k][j] > 0)
               {
               // leading edge - crop it
-              ThisCorner[j] = std::min(ThisCorner[j], (long)RegionLimit[j]);
+              ThisCorner[j] = vnl_math_min(ThisCorner[j], (long)RegionLimit[j]);
               }
             else
               {
