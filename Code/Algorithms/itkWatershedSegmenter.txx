@@ -800,7 +800,9 @@ void Segmenter<TInputImage>
           // If the following is encountered, it means that there is a
           // logic flaw in the first pass of this algorithm where flat
           // regions are initially detected and linked.
+#ifndef NDEBUG
           else itkDebugMacro("An unexpected but non-fatal error has occurred.");
+#endif
           }
               
         }
