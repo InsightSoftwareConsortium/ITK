@@ -176,9 +176,18 @@ typename ImageRegion<VImageDimension>::SliceRegion
 ImageRegion<VImageDimension>
 ::Slice(const unsigned long dim) const
 {
+  if (dim >= VImageDimension)
+    {
+    itkGenericExceptionMacro(
+      << "The dimension to remove: " << dim
+      << " is greater than the dimension of the image: " << VImageDimension);
+    }
+
   Index<SliceDimension> sliceIndex;
   Size<SliceDimension> sliceSize;
 
+  sliceIndex.Fill(0);
+  sliceSize.Fill(0);
   unsigned int ii = 0;
   for (unsigned int i=0; i < VImageDimension; i++)
     {
