@@ -21,8 +21,6 @@
 #include <iostream>
 #include "itkImageRegion.h"
 
-
-
 int itkImageRegionTest(int, char* [] )
 {
 
@@ -31,6 +29,7 @@ int itkImageRegionTest(int, char* [] )
   typedef itk::ImageRegion< dimension >  RegionType;
   typedef RegionType::IndexType          IndexType;
   typedef RegionType::SizeType           SizeType;
+  typedef RegionType::SliceRegion        SliceRegionType;
 
   bool passed;
 
@@ -45,6 +44,56 @@ int itkImageRegionTest(int, char* [] )
 
   regionA.SetSize(  sizeA  );
   regionA.SetIndex( startA );
+
+  // Take slices of a region
+  try
+    {
+    SliceRegionType sliceA;
+    sliceA = regionA.Slice(0);
+    std::cout << "regionA.Slice(0): " << sliceA;
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    std::cout << "Caught unexpected exception" << err;
+    return EXIT_FAILURE;
+    }
+
+  try
+    {
+    SliceRegionType sliceA;
+    sliceA = regionA.Slice(1);
+    std::cout << "regionA.Slice(1): " << sliceA;
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    std::cout << "Caught unexpected exception" << err;
+    return EXIT_FAILURE;
+    }
+
+  try
+    {
+    SliceRegionType sliceA;
+    sliceA = regionA.Slice(2);
+    std::cout << "regionA.Slice(2): " << sliceA;
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    std::cout << "Caught unexpected exception" << err;
+    return EXIT_FAILURE;
+    }
+
+  try
+    {
+    SliceRegionType sliceA;
+    sliceA = regionA.Slice(20);
+    std::cout << "regionA.Slice(20): " << sliceA;
+    std::cout << "Failed to catch expected exception" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch (itk::ExceptionObject &err)
+    {
+    std::cout << "Caught expected exception" << err;
+    }
 
   regionB.SetSize(  sizeB  );
   regionB.SetIndex( startB );
