@@ -39,6 +39,10 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
 ::MovingHistogramImageFilterBase()
 {
   m_PixelsPerTranslation = 0;
+  // call again SetKernel in that class, to have the offsets computed for
+  // the default kernel. An AnalyzeKernel() method as in the binary
+  // morphology class may be a better way to go.
+  this->SetKernel( this->GetKernel() );
 }
 
 
