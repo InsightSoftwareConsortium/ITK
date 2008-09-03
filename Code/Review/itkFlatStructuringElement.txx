@@ -680,7 +680,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
     {
     *kernel_it= false;
     }
-  for( int d = 0; d<VDimension; d++ )
+  for( int d = 0; d<(int)VDimension; d++ )
     {
     OffsetType o;
     o.Fill( 0 );
