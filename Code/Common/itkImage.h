@@ -282,6 +282,13 @@ public:
     { return NeighborhoodAccessorFunctorType(); }
   
 
+//The following template functions are invalid if ImageOrientation is forced to be
+//respected and defined as in the OrientedImage case.
+#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
+  //This is a pure abstract member function that is only defined in itkOrientedImage.
+  //  It is here to force a compiler error when trying to instantiate an itkImage.
+  virtual void RespectsImageOrientationImplicitly(void) const =0;
+#endif
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
@@ -291,6 +298,9 @@ public:
               const Point<TCoordRep, VImageDimension>& point,
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
+#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
+    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
+#endif
     // Update the output index
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
@@ -313,6 +323,9 @@ public:
             const Point<TCoordRep, VImageDimension>& point,
             IndexType & index                                ) const
     {
+#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
+    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
+#endif
     // Update the output index
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
@@ -335,6 +348,9 @@ public:
             const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const
     {
+#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
+    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
+#endif
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
       point[i] = static_cast<TCoordRep>( this->m_Spacing[i] * index[i] + this->m_Origin[i] );
@@ -351,6 +367,9 @@ public:
                       const IndexType & index,
                       Point<TCoordRep, VImageDimension>& point ) const
     {
+#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
+    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
+#endif
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
       point[i] = static_cast<TCoordRep>( this->m_Spacing[i] *
@@ -375,6 +394,9 @@ public:
     const FixedArray<TCoordRep, VImageDimension> & inputGradient,
           FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
     {
+#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
+    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
+#endif
     for( unsigned int i = 0; i < VImageDimension; i++ )
       {
       outputGradient[i] = inputGradient[i];
