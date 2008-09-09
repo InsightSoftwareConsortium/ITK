@@ -3,6 +3,7 @@ PROJECT(parabolicMorpholgy)
 
 #set the name of the input image used to run the test
 SET(INPUT_IMAGE ${ CMAKE_CURRENT_SOURCE_DIR } / images / cthead1.png)
+SET(INPUT_IMAGE3D ${ CMAKE_CURRENT_SOURCE_DIR } / images / bunnyPadded.nrrd)
 
 #include some macros from another file...
 INCLUDE(IJMacros.txt)
@@ -99,3 +100,5 @@ ADD_TEST(Dist2 ${ TEST_COMMAND } testDT $ { INPUT_IMAGE } 100 255 mask.png dist2
 ADD_TEST(Perf ${ TEST_COMMAND } perfDT $ {
   INPUT_IMAGE
 } 100 255 mask.png dist3.mha dist4.mha-- compare dist3.mha dist4.mha)
+
+ADD_TEST(Perf3D ${ TEST_COMMAND } perfDT3D $ { INPUT_IMAGE3D } 100 255 bmask.nii.gz distA.nii.gz distB.nii.gz)
