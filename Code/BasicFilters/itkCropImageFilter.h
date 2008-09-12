@@ -78,6 +78,12 @@ public:
   itkSetMacro(LowerBoundaryCropSize, SizeType);
   itkGetMacro(LowerBoundaryCropSize, SizeType);
 
+  void SetBoundaryCropSize(const SizeType & s)
+    {
+    this->SetUpperBoundaryCropSize( s );
+    this->SetLowerBoundaryCropSize( s );
+    }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,

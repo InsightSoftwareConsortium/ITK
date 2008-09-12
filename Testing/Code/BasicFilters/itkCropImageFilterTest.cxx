@@ -76,6 +76,7 @@ int itkCropImageFilterTest(int, char* [] )
   
   ShortImage::SizeType   extractSize = {{8, 12}};  
   extractSize[0] = 1; extractSize[1] = 1;
+  extract->SetBoundaryCropSize(extractSize);
   extract->SetUpperBoundaryCropSize(extractSize);
   extract->SetLowerBoundaryCropSize(extractSize);
   extract->UpdateLargestPossibleRegion();

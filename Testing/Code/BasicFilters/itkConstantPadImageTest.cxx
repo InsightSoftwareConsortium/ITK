@@ -73,8 +73,12 @@ int itkConstantPadImageTest(int, char* [] )
   unsigned long upperfactors[2] = { 0, 0};
   unsigned long lowerfactors[2] = { 0, 0};
   constantPad->SetConstant(13);
-  constantPad->SetPadLowerBound(lowerfactors);
-  constantPad->SetPadUpperBound(upperfactors);
+  // check the method using the SizeType rather than the simple table type.
+  ShortImage::SizeType stfactors;
+  stfactors.Fill( 0 );
+  constantPad->SetPadLowerBound(stfactors);
+  constantPad->SetPadUpperBound(stfactors);
+  constantPad->SetPadBound(stfactors);
   constantPad->UpdateLargestPossibleRegion();
 
   std::cout << constantPad << std::endl;

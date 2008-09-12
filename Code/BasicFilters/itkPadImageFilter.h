@@ -18,6 +18,7 @@
 #define __itkPadImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkSize.h"
 
 namespace itk
 {
@@ -79,6 +80,23 @@ public:
   itkGetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
   itkGetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
                  
+  
+  void SetPadLowerBound(const InputImageSizeType & bound)
+    {
+    this->SetPadLowerBound( bound.m_Size );
+    }
+    
+  void SetPadUpperBound(const InputImageSizeType & bound)
+    {
+    this->SetPadUpperBound( bound.m_Size );
+    }
+    
+  void SetPadBound(const InputImageSizeType & bound)
+    {
+    this->SetPadLowerBound( bound );
+    this->SetPadUpperBound( bound );    
+    }
+
   /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in order
