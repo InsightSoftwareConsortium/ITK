@@ -59,6 +59,9 @@ BioRadImageIO::BioRadImageIO()
   m_ByteOrder = LittleEndian;
   m_FileType = Binary;
   m_NumberOfComponents = 1; // default
+  this->AddSupportedWriteExtension(".pic");
+  this->AddSupportedReadExtension(".PIC");
+  this->AddSupportedReadExtension(".pic");
 }
 
 BioRadImageIO::~BioRadImageIO()

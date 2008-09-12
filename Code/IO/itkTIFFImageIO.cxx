@@ -1,4 +1,4 @@
-/*=========================================================================
+F/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkTIFFImageIO.cxx
@@ -1376,6 +1376,17 @@ TIFFImageIO::TIFFImageIO()
   m_Origin[1] = 0.0;
 
   m_Compression = TIFFImageIO::PackBits;
+
+  this->AddSupportedWriteExtension(".tif");
+  this->AddSupportedWriteExtension(".tif");
+  this->AddSupportedWriteExtension(".TIFF");
+  this->AddSupportedWriteExtension(".TIFF");
+
+  this->AddSupportedReadExtension(".tif");
+  this->AddSupportedReadExtension(".tiff");
+  this->AddSupportedReadExtension(".TIF");
+  this->AddSupportedReadExtension(".TIF ");
+
 }
 
 TIFFImageIO::~TIFFImageIO()

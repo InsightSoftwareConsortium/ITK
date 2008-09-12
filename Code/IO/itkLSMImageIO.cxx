@@ -88,6 +88,12 @@ LSMImageIO::LSMImageIO()
 {
   m_ByteOrder = LittleEndian;
   m_FileType = Binary;
+
+  this->AddSupportedWriteExtension(".lsm");
+  this->AddSupportedWriteExtension(".LSM");
+
+  this->AddSupportedReadExtension(".lsm");
+  this->AddSupportedReadExtension(".LSM");
 }
 
 LSMImageIO::~LSMImageIO()

@@ -297,9 +297,13 @@ JPEGImageIO::JPEGImageIO()
 
   this->AddSupportedWriteExtension(".jpg");
   this->AddSupportedWriteExtension(".JPG");
+  this->AddSupportedWriteExtension(".jpeg");
+  this->AddSupportedWriteExtension(".JPEG");
 
   this->AddSupportedReadExtension(".jpg");
   this->AddSupportedReadExtension(".JPG");
+  this->AddSupportedReadExtension(".jpeg");
+  this->AddSupportedReadExtension(".JPEG");
 }
 
 JPEGImageIO::~JPEGImageIO()
