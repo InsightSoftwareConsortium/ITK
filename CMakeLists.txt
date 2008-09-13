@@ -240,7 +240,7 @@ ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
 #-----------------------------------------------------------------------------
 # ITK turn on experimental version of accelerated image registration
 OPTION(ITK_USE_CONSOLIDATED_MORPHOLOGY "Turn on the experimental consolidated morphology." OFF)
-MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
+MARK_AS_ADVANCED(ITK_USE_CONSOLIDATED_MORPHOLOGY)
 
 IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
   IF(NOT ITK_USE_REVIEW)
