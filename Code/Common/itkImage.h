@@ -351,21 +351,18 @@ public:
               const Point<TCoordRep, VImageDimension>& point,
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
-    Vector<double, VImageDimension> cvector;
-
-    for( unsigned int k = 0; k < VImageDimension; k++ )
+    for( unsigned int r=0; r<VImageDimension; r++) 
       {
-      cvector[k] = point[k] - this->m_Origin[k];
-      }
-    cvector = m_PhysicalPointToIndex * cvector;
-    for( unsigned int i = 0; i < VImageDimension; i++ )
-      {
-      index[i] = static_cast<TCoordRep>(cvector[i]);
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;   
+      for( unsigned int c=0; c<VImageDimension; c++ ) 
+        {
+        sum += this->m_PhysicalPointToIndex(r,c) * ( point[c] - this->m_Origin[c] );
+        }
+      index[r] = sum;
       }
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside =
-      this->GetLargestPossibleRegion().IsInside( index );
+    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
 
     return isInside;
     }
@@ -384,8 +381,7 @@ public:
         this->m_PhysicalPointToIndex, this->m_Origin, point, index);
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside =
-      this->GetLargestPossibleRegion().IsInside( index );
+    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
     return isInside;
     }
 #else
@@ -397,17 +393,16 @@ public:
     typedef typename IndexType::IndexValueType IndexValueType;
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
-      index[i] = 0.0;
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;   
       for (unsigned int j = 0; j < VImageDimension; j++)
         {
-        index[i] += 
-          m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
+        sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
         }
+      index[i] = sum;
       }
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside =
-      this->GetLargestPossibleRegion().IsInside( index );
+    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
 
     return isInside;
     }
@@ -421,15 +416,14 @@ public:
             const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const
     {
-    Vector<double,VImageDimension> cvector;
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for( unsigned int r=0; r<VImageDimension; r++) 
       {
-      cvector[i] = index[i];
-      }
-    cvector = m_IndexToPhysicalPoint * cvector;
-    for (unsigned int k = 0 ; k < VImageDimension ; k++)
-      {
-      point[k] = this->m_Origin[k] + cvector[k];
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;   
+      for( unsigned int c=0; c<VImageDimension; c++ ) 
+        {
+        sum += this->m_IndexToPhysicalPoint(r,c) * index[c];
+        }
+      point[r] = sum + this->m_Origin[r];
       }
     }
 
