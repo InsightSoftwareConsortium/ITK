@@ -353,8 +353,12 @@ public:
     {
     Vector<double, VImageDimension> cvector;
 
-    cvector = m_PhysicalPointToIndex * (point - this->m_Origin);
-    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+    for( unsigned int k = 0; k < VImageDimension; k++ )
+      {
+      cvector[k] = point[k] - this->m_Origin[k];
+      }
+    cvector = m_PhysicalPointToIndex * cvector;
+    for( unsigned int i = 0; i < VImageDimension; i++ )
       {
       index[i] = static_cast<TCoordRep>(cvector[i]);
       }
@@ -422,8 +426,11 @@ public:
       {
       cvector[i] = index[i];
       }
-
-    point = this->m_Origin + m_IndexToPhysicalPoint * cvector;
+    cvector = m_IndexToPhysicalPoint * cvector;
+    for (unsigned int k = 0 ; k < VImageDimension ; k++)
+      {
+      point[k] = this->m_Origin[k] + cvector[k];
+      }
     }
 
   /** Get a physical point (in the space which
