@@ -1378,14 +1378,14 @@ TIFFImageIO::TIFFImageIO()
   m_Compression = TIFFImageIO::PackBits;
 
   this->AddSupportedWriteExtension(".tif");
-  this->AddSupportedWriteExtension(".tif");
-  this->AddSupportedWriteExtension(".TIFF");
+  this->AddSupportedWriteExtension(".TIF");
+  this->AddSupportedWriteExtension(".tiff");
   this->AddSupportedWriteExtension(".TIFF");
 
   this->AddSupportedReadExtension(".tif");
-  this->AddSupportedReadExtension(".tiff");
   this->AddSupportedReadExtension(".TIF");
-  this->AddSupportedReadExtension(".TIF ");
+  this->AddSupportedReadExtension(".tiff");
+  this->AddSupportedReadExtension(".TIFF");
 
 }
 
