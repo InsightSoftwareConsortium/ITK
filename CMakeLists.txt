@@ -213,12 +213,10 @@ ELSE( NOT BORLAND )
 ENDIF( NOT BORLAND )
 
 #-----------------------------------------------------------------------------
-# TURN OFF itk::Image as a valid type to ensure that itkOrientedImages can be used everywhere
-MARK_AS_ADVANCED(ITK_DISABLE_UNORIENTED_IMAGE)
-OPTION(ITK_DISABLE_UNORIENTED_IMAGE "Disallow instantiation of itk::Image to determine where itk::OrientedImage is not properly implemented" OFF)
-IF( ITK_DISABLE_UNORIENTED_IMAGE )
-          ADD_DEFINITIONS( -DITK_DISABLE_UNORIENTED_IMAGE )
-ENDIF( ITK_DISABLE_UNORIENTED_IMAGE )
+# Make the itk::Image assume the behavior of the itk::OrientedImage
+MARK_AS_ADVANCED(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
+OPTION(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE "Makes itk::Image behave like itk::OrientedImage" OFF)
+
 # ITK turn on experimental version of accelerated image registration
 OPTION(ITK_USE_OPTIMIZED_REGISTRATION_METHODS "Turn on the experimental version of accelerated registration methods." OFF)
 MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)

@@ -133,11 +133,6 @@ public:
     m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
     }
 
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-  //This is a pure abstract member function that is only defined in itkOrientedImage.
-  //  It is here to force a compiler error when trying to instantiate an itkImage.
-  virtual void RespectsImageOrientationImplicitly(void) const { return; }
-#endif
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.

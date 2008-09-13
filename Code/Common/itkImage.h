@@ -28,6 +28,10 @@
 #include "itkWeakPointer.h"
 #include "itkNeighborhoodAccessorFunctor.h"
 
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+#include "itkImageTransformHelper.h"
+#endif
+
 namespace itk
 {
 /** \class Image
@@ -281,14 +285,63 @@ public:
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
     { return NeighborhoodAccessorFunctorType(); }
   
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+  /** Set the spacing of the image and precompute the transforms for
+   * the image. */
+  virtual void SetSpacing (const SpacingType spacing)
+    {
+    Superclass::SetSpacing(spacing);
 
-//The following template functions are invalid if ImageOrientation is forced to be
-//respected and defined as in the OrientedImage case.
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-  //This is a pure abstract member function that is only defined in itkOrientedImage.
-  //  It is here to force a compiler error when trying to instantiate an itkImage.
-  virtual void RespectsImageOrientationImplicitly(void) const =0;
-#endif
+    DirectionType scale;
+    for (unsigned int i=0; i < VImageDimension; i++)
+      {
+      scale[i][i] = this->m_Spacing[i];
+      }
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
+    m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+    }
+
+  virtual void SetSpacing (const double spacing[VImageDimension])
+    {
+    Superclass::SetSpacing(spacing);
+
+    DirectionType scale;
+    for (unsigned int i=0; i < VImageDimension; i++)
+      {
+      scale[i][i] = this->m_Spacing[i];
+      }
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
+    m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+    }
+
+  virtual void SetSpacing (const float spacing[VImageDimension])
+    {
+    Superclass::SetSpacing(spacing);
+
+    DirectionType scale;
+    for (unsigned int i=0; i < VImageDimension; i++)
+      {
+      scale[i][i] = this->m_Spacing[i];
+      }
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
+    m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+    }
+
+  /** Set the direction of the image and precompute the transforms for
+   * the image. */
+  virtual void SetDirection (const DirectionType direction)
+    {
+    Superclass::SetDirection(direction);
+
+    DirectionType scale;
+    for (unsigned int i=0; i < VImageDimension; i++)
+      {
+      scale[i][i] = this->m_Spacing[i];
+      }
+    m_IndexToPhysicalPoint = this->m_Direction * scale;
+    m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+    }
+
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
@@ -298,9 +351,124 @@ public:
               const Point<TCoordRep, VImageDimension>& point,
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
+    Vector<double, VImageDimension> cvector;
+
+    cvector = m_PhysicalPointToIndex * (point - this->m_Origin);
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      index[i] = static_cast<TCoordRep>(cvector[i]);
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+
+  /** Get the index (discrete) from a physical point.
+   * Floating point index results are truncated to integers.
+   * Returns true if the resulting index is within the image, false otherwise
+   * \sa Transform */
+#if 1
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+    const Point<TCoordRep, VImageDimension>& point,
+    IndexType & index ) const
+    {
+      ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformPhysicalPointToIndex(
+        this->m_PhysicalPointToIndex, this->m_Origin, point, index);
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+    return isInside;
+    }
+#else
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+            const Point<TCoordRep, VImageDimension>& point,
+            IndexType & index                                ) const
+    {
+    typedef typename IndexType::IndexValueType IndexValueType;
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      index[i] = 0.0;
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        index[i] += 
+          m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
+        }
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
 #endif
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a continuous index (in the index space)
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformContinuousIndexToPhysicalPoint(
+            const ContinuousIndex<TCoordRep, VImageDimension>& index,
+            Point<TCoordRep, VImageDimension>& point        ) const
+    {
+    Vector<double,VImageDimension> cvector;
+    for (unsigned int i = 0 ; i < VImageDimension ; i++)
+      {
+      cvector[i] = index[i];
+      }
+
+    point = this->m_Origin + m_IndexToPhysicalPoint * cvector;
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+#if 1
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
+    {
+      ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformIndexToPhysicalPoint(
+        this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
+    }
+#else
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
+    {
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      point[i] = this->m_Origin[i];
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
+        }
+      }
+    }
+#endif
+
+
+#else
+
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToContinuousIndex(
+              const Point<TCoordRep, VImageDimension>& point,
+              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
+    {
     // Update the output index
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
@@ -323,9 +491,6 @@ public:
             const Point<TCoordRep, VImageDimension>& point,
             IndexType & index                                ) const
     {
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
-#endif
     // Update the output index
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
@@ -348,9 +513,6 @@ public:
             const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const
     {
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
-#endif
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
       point[i] = static_cast<TCoordRep>( this->m_Spacing[i] * index[i] + this->m_Origin[i] );
@@ -367,15 +529,13 @@ public:
                       const IndexType & index,
                       Point<TCoordRep, VImageDimension>& point ) const
     {
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
-#endif
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
       point[i] = static_cast<TCoordRep>( this->m_Spacing[i] *
         static_cast<double>( index[i] ) + this->m_Origin[i] );
       }
     }
+#endif
 
   /** Take a vector or covariant vector that has been computed in the
    * coordinate system parallel to the image grid and rotate it by the
@@ -394,9 +554,6 @@ public:
     const FixedArray<TCoordRep, VImageDimension> & inputGradient,
           FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
     {
-#if defined(ITK_DISABLE_UNORIENTED_IMAGE)
-    this->RespectsImageOrientationImplicitly();  //This does nothing, and will hopefully be compiled away.
-#endif
     for( unsigned int i = 0; i < VImageDimension; i++ )
       {
       outputGradient[i] = inputGradient[i];
@@ -413,6 +570,11 @@ private:
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
+
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+  DirectionType m_IndexToPhysicalPoint;
+  DirectionType m_PhysicalPointToIndex;
+#endif
 };
 
 } // end namespace itk
