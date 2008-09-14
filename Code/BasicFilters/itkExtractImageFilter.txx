@@ -183,6 +183,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
     else
       {
       // copy the non-collapsed part of the input spacing and origing to the output
+      outputDirection.SetIdentity();
       int nonZeroCount = 0;
       for (i=0; i < InputImageDimension; ++i)
         {
@@ -206,6 +207,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
       }
 
     // set the spacing and origin
+    std::cout << "Output direction: " << outputDirection << std::endl;
     outputPtr->SetSpacing( outputSpacing );
     outputPtr->SetDirection( outputDirection );
     outputPtr->SetOrigin( outputOrigin );
