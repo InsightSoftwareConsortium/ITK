@@ -34,6 +34,10 @@ Image<TPixel, VImageDimension>
 ::Image()
 {
   m_Buffer = PixelContainer::New();
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+  m_IndexToPhysicalPoint.SetIdentity();
+  m_PhysicalPointToIndex.SetIdentity();
+#endif
 }
 
 
