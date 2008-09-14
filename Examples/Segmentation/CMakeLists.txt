@@ -8,6 +8,9 @@ INCLUDE_REGULAR_EXPRESSION("^.*$")
 ADD_EXECUTABLE(ConfidenceConnected ConfidenceConnected.cxx )
 TARGET_LINK_LIBRARIES(ConfidenceConnected ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(ConfidenceConnected3D ConfidenceConnected3D.cxx )
+TARGET_LINK_LIBRARIES(ConfidenceConnected3D ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
 TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
 
