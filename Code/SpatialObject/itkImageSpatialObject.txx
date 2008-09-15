@@ -196,8 +196,8 @@ ImageSpatialObject< TDimension,  PixelType >
       }
     
     value = static_cast<double>(
-            DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-                            m_Interpolator->EvaluateAtContinuousIndex(index)));
+      DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+        m_Interpolator->EvaluateAtContinuousIndex(index)));
   
     return true;
     }
@@ -226,11 +226,11 @@ ImageSpatialObject< TDimension,  PixelType >
 ::ComputeLocalBoundingBox() const
 {
   if( this->GetBoundingBoxChildrenName().empty() 
-        || strstr(typeid(Self).name(), 
-                  this->GetBoundingBoxChildrenName().c_str()) )
+      || strstr(typeid(Self).name(), 
+                this->GetBoundingBoxChildrenName().c_str()) )
     {
     typename ImageType::RegionType region =
-        m_Image->GetLargestPossibleRegion();
+      m_Image->GetLargestPossibleRegion();
     itk::Size<TDimension> size = region.GetSize();
     PointType pointLow,pointHigh;
   
@@ -300,36 +300,41 @@ ImageSpatialObject< TDimension,  PixelType >
   spacing = m_Image->GetSpacing(); 
   direction= m_Image->GetDirection();
 
- for( unsigned int d=0; d<TDimension; d++) 
+  for( unsigned int d=0; d<TDimension; d++) 
     { 
     scaling[d] = spacing[d]; 
     offset[d]  = origin[d]; 
     for(unsigned int d2=0; d2<TDimension;d2++)
-       {
-           matrix[d][d2]=direction[d][d2]*spacing[d2];
-       }
+      {
+      matrix[d][d2]=direction[d][d2]*spacing[d2];
+      }
     } 
-     // itk::Image can store the directions, but does not use them
-    // to be consistent with this behavior, we explicitly test
-     // for an itk::Image - it would be better to test how the coordinates
-     // are computed - but this is not possible because these functions are not
-     // virtual.
-    bool DoesImageUseDirection=true;
-     if(typeid(*m_Image)==typeid(Image< PixelType, TDimension >)) {
-          DoesImageUseDirection=false;
-     }
+  // itk::Image can store the directions, but does not use them
+  // to be consistent with this behavior, we explicitly test
+  // for an itk::Image - it would be better to test how the coordinates
+  // are computed - but this is not possible because these functions are not
+  // virtual.
+  bool DoesImageUseDirection=true;
+#ifndef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+  if(typeid(*m_Image)==typeid(Image< PixelType, TDimension >))
+    {
+    DoesImageUseDirection=false;
+    }
+#endif
 
-
-    if(DoesImageUseDirection) {
-        this->GetIndexToObjectTransform()->SetMatrix( matrix ); 
-     } else {     
-          this->GetIndexToObjectTransform()->SetScale( scaling ); 
-     }
+  if(DoesImageUseDirection)
+    {
+    this->GetIndexToObjectTransform()->SetMatrix( matrix ); 
+    }
+  else
+    {     
+    this->GetIndexToObjectTransform()->SetScale( scaling ); 
+    }
   this->GetIndexToObjectTransform()->SetOffset( offset ); 
   this->ComputeObjectToParentTransform(); 
   this->Modified(); 
   this->ComputeBoundingBox();
-
+  
   m_Interpolator->SetInputImage(m_Image);
 }
 
