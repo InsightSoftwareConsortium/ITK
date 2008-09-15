@@ -568,6 +568,8 @@ void ImageIOBase::SetNumberOfDimensions(unsigned int dim)
           }
         }
       this->SetDirection(i, axis);
+      this->SetOrigin(i, 0.0);
+      this->SetSpacing(i, 1.0);
       }
     this->Modified();
     }
