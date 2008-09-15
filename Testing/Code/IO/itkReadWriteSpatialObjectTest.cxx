@@ -265,7 +265,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   for(unsigned int i=0;i<dim;i++)
     {
     size[i] = 10;
-    spacing[i] = i;
+    spacing[i] = i + 1;
     }
 
   RegionType region;
