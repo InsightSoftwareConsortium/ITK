@@ -268,9 +268,9 @@ public:
    * and then copies over the pixel container. */
   virtual void Graft(const DataObject *data);
 
-  
+
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor( void ) 
+  AccessorType GetPixelAccessor( void )
     { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
@@ -278,13 +278,13 @@ public:
     { return AccessorType(); }
 
   /** Return the NeighborhoodAccessor functor */
-  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() 
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor()
     { return NeighborhoodAccessorFunctorType(); }
-  
+
   /** Return the NeighborhoodAccessor functor */
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
     { return NeighborhoodAccessorFunctorType(); }
-  
+
 #ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
   /** Set the spacing of the image and precompute the transforms for
    * the image. */
@@ -295,6 +295,11 @@ public:
     DirectionType scale;
     for (unsigned int i=0; i < VImageDimension; i++)
       {
+      if (this->m_Spacing[i] == 0.0)
+        {
+        itkExceptionMacro("A spacing of 0 is not allowed: Spacing is "
+                          << this->m_Spacing);
+        }
       scale[i][i] = this->m_Spacing[i];
       }
     m_IndexToPhysicalPoint = this->m_Direction * scale;
@@ -308,6 +313,11 @@ public:
     DirectionType scale;
     for (unsigned int i=0; i < VImageDimension; i++)
       {
+      if (this->m_Spacing[i] == 0.0)
+        {
+        itkExceptionMacro("A spacing of 0 is not allowed: Spacing is "
+                          << this->m_Spacing);
+        }
       scale[i][i] = this->m_Spacing[i];
       }
     m_IndexToPhysicalPoint = this->m_Direction * scale;
@@ -321,6 +331,11 @@ public:
     DirectionType scale;
     for (unsigned int i=0; i < VImageDimension; i++)
       {
+      if (this->m_Spacing[i] == 0.0)
+        {
+        itkExceptionMacro("A spacing of 0 is not allowed: Spacing is "
+                          << this->m_Spacing);
+        }
       scale[i][i] = this->m_Spacing[i];
       }
     m_IndexToPhysicalPoint = this->m_Direction * scale;
@@ -336,7 +351,17 @@ public:
     DirectionType scale;
     for (unsigned int i=0; i < VImageDimension; i++)
       {
+      if (this->m_Spacing[i] == 0.0)
+        {
+        itkExceptionMacro("A spacing of 0 is not allowed: Spacing is "
+                          << this->m_Spacing);
+        }
       scale[i][i] = this->m_Spacing[i];
+      }
+    if (vnl_determinant(this->m_Direction.GetVnlMatrix()) == 0.0)
+      {
+      itkExceptionMacro(<< "Bad direction, determinant is 0. Direction is "
+                               << this->m_Direction);
       }
     m_IndexToPhysicalPoint = this->m_Direction * scale;
     m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
@@ -351,10 +376,10 @@ public:
               const Point<TCoordRep, VImageDimension>& point,
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
     {
-    for( unsigned int r=0; r<VImageDimension; r++) 
+    for( unsigned int r=0; r<VImageDimension; r++)
       {
-      TCoordRep sum = NumericTraits<TCoordRep>::Zero;   
-      for( unsigned int c=0; c<VImageDimension; c++ ) 
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
+      for( unsigned int c=0; c<VImageDimension; c++ )
         {
         sum += this->m_PhysicalPointToIndex(r,c) * ( point[c] - this->m_Origin[c] );
         }
@@ -393,7 +418,7 @@ public:
     typedef typename IndexType::IndexValueType IndexValueType;
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
-      TCoordRep sum = NumericTraits<TCoordRep>::Zero;   
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
       for (unsigned int j = 0; j < VImageDimension; j++)
         {
         sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
@@ -416,10 +441,10 @@ public:
             const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const
     {
-    for( unsigned int r=0; r<VImageDimension; r++) 
+    for( unsigned int r=0; r<VImageDimension; r++)
       {
-      TCoordRep sum = NumericTraits<TCoordRep>::Zero;   
-      for( unsigned int c=0; c<VImageDimension; c++ ) 
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
+      for( unsigned int c=0; c<VImageDimension; c++ )
         {
         sum += this->m_IndexToPhysicalPoint(r,c) * index[c];
         }
@@ -546,10 +571,10 @@ public:
    * implicitly has an Identity Matrix as direction cosines. The arguments of
    * the method are of type FixedArray to make possible to use this method with
    * both Vector and CovariantVector. The Method is implemented differently in
-   * the itk::OrientedImage. 
+   * the itk::OrientedImage.
    *
    * \sa OrientedImage
-   */ 
+   */
   template<class TCoordRep>
   void TransformLocalVectorToPhysicalVector(
     const FixedArray<TCoordRep, VImageDimension> & inputGradient,
