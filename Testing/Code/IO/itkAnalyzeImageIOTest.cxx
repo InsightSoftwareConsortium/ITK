@@ -231,6 +231,10 @@ MakeImage(const std::string & AugmentName)
       dir[i][j] = CORdir[i][j];
       }
     }
+  if(Dimension)
+    {
+    dir[1][1] = 1.0;
+    }
   img->SetDirection(dir);
   img->Allocate();
 

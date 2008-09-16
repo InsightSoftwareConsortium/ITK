@@ -1043,6 +1043,39 @@ void AnalyzeImageIO::ReadImageInformation()
         {
         this->SetDirection(2,dirz);
         }
+      else
+        {
+        //
+        // don't allow degenerate direction cosines
+        // This is a pure punt; it will prevent the exception being
+        // thrown, but doesn't do the right thing at all -- replacing e.g
+        // [0, 0, -1] with [0, 1] doesn't make any real sense.
+        // On the other hand, programs that depend on 2D Direction Cosines
+        // are pretty much guaranteed to be disappointed if they expect anything
+        // meaningful in the direction cosines anyway.
+        if(dirx[0] == 0.0 && dirx[1] == 0.0)
+          {
+          if(diry[0] != 0)
+            {
+            dirx[1] = 1.0;
+            }
+          else
+            {
+            dirx[0] = 1.0;
+            }
+          }
+        else if(diry[0] == 0.0 && diry[1] == 0.0)
+          {
+          if(dirx[0] != 0)
+            {
+            diry[1] = 1.0;
+            }
+          else
+            {
+            diry[0] = 1.0;
+            }
+          }
+        }
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
       itk::EncapsulateMetaData
         <itk::SpatialOrientation::ValidCoordinateOrientationFlags>
