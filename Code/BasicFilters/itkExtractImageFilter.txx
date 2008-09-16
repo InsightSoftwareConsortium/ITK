@@ -207,7 +207,6 @@ ExtractImageFilter<TInputImage,TOutputImage>
       }
 
     // set the spacing and origin
-    std::cout << "Output direction: " << outputDirection << std::endl;
     outputPtr->SetSpacing( outputSpacing );
     outputPtr->SetDirection( outputDirection );
     outputPtr->SetOrigin( outputOrigin );
