@@ -189,7 +189,7 @@ static int TestByteSwap(const std::string & AugmentName)
     }
   catch ( itk::ExceptionObject & ex )
     {
-      std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
+      std::cerr << "Error filling array" << ex << std::endl;
       rval= -1;
     }
   RemoveByteSwapTestFiles(AugmentName);
@@ -246,7 +246,7 @@ MakeImage(const std::string & AugmentName)
     }
   catch ( itk::ExceptionObject & ex )
     {
-    std::cerr << "Error filling array" << ex.GetDescription() << std::endl;
+    std::cerr << "Error filling array" << ex << std::endl;
     return EXIT_FAILURE;
     }
   }

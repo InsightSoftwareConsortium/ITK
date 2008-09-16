@@ -50,8 +50,7 @@ int itkGiplImageIOTest( int ac, char* av[] )
   catch (itk::ExceptionObject & e)
     {
     std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
   

@@ -203,11 +203,10 @@ int main(int argc, char **argv)
       }
     
     }
-  catch(const itk::ExceptionObject& e)
+  catch(itk::ExceptionObject& e)
     {
     std::cerr << "ITK test driver caught an ITK exception:\n";
-    std::cerr << e.GetFile() << ":" << e.GetLine() << ":\n"
-              << e.GetDescription() << "\n";
+    std::cerr << e << "\n";
     bestBaselineStatus = -1;
     }
   catch(const std::exception& e)
@@ -246,7 +245,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected while reading " << baselineImageFilename << " : "  << e.GetDescription();
+    std::cerr << "Exception detected while reading " << baselineImageFilename << " : "  << e;
     return 1000;
     }
 
@@ -259,7 +258,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected while reading " << testImageFilename << " : "  << e.GetDescription() << std::endl;
+    std::cerr << "Exception detected while reading " << testImageFilename << " : "  << e << std::endl;
     return 1000;
     }
 

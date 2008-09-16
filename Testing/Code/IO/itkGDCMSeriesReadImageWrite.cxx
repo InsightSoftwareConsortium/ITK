@@ -166,8 +166,7 @@ int main( int argc, char* argv[] )
   catch (itk::ExceptionObject & e)
     {
     std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
 

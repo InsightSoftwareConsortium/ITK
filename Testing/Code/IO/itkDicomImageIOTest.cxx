@@ -29,10 +29,10 @@ int itkDicomImageIOTest(int ac, char* av[])
 {
 
   if(ac < 3)
-  {
+    {
     std::cerr << "Usage: " << av[0] << " DicomImage OutputImage\n";
     return EXIT_FAILURE;
-  }
+    }
 
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR 
@@ -48,16 +48,15 @@ int itkDicomImageIOTest(int ac, char* av[])
   reader->SetFileName(av[1]);
   
   try
-  {
+    {
     reader->Update();
-  }
+    }
   catch (itk::ExceptionObject & e)
-  {
+    {
     std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   
   typedef unsigned char WritePixelType;
 
