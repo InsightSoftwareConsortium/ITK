@@ -58,7 +58,7 @@ class MaskInput
 public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
 
-  MaskInput(): m_OutsideValue(NumericTraits< TOutput >::ZeroValue()) {};
+  MaskInput(): m_OutsideValue(NumericTraits< TOutput >::Zero) {};
   ~MaskInput() {};
   bool operator!=( const MaskInput & ) const
   {
