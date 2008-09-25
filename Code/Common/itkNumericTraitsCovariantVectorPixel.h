@@ -124,7 +124,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 2> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 2> PrlongType;
+  typedef CovariantVector<unsigned long, 2> PrintType;
   typedef CovariantVector<unsigned long, 2> AbsType;
   typedef CovariantVector<unsigned long, 2> AccumulateType;
   typedef CovariantVector<double, 2> RealType;
@@ -268,7 +268,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 3> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 3> PrlongType;
+  typedef CovariantVector<unsigned long, 3> PrintType;
   typedef CovariantVector<unsigned long, 3> AbsType;
   typedef CovariantVector<unsigned long, 3> AccumulateType;
   typedef CovariantVector<double, 3> RealType;
@@ -412,7 +412,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 4> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 4> PrlongType;
+  typedef CovariantVector<unsigned long, 4> PrintType;
   typedef CovariantVector<unsigned long, 4> AbsType;
   typedef CovariantVector<unsigned long, 4> AccumulateType;
   typedef CovariantVector<double, 4> RealType;
@@ -556,7 +556,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 5> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 5> PrlongType;
+  typedef CovariantVector<unsigned long, 5> PrintType;
   typedef CovariantVector<unsigned long, 5> AbsType;
   typedef CovariantVector<unsigned long, 5> AccumulateType;
   typedef CovariantVector<double, 5> RealType;
@@ -700,7 +700,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 6> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 6> PrlongType;
+  typedef CovariantVector<unsigned long, 6> PrintType;
   typedef CovariantVector<unsigned long, 6> AbsType;
   typedef CovariantVector<unsigned long, 6> AccumulateType;
   typedef CovariantVector<double, 6> RealType;
@@ -844,7 +844,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 7> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 7> PrlongType;
+  typedef CovariantVector<unsigned long, 7> PrintType;
   typedef CovariantVector<unsigned long, 7> AbsType;
   typedef CovariantVector<unsigned long, 7> AccumulateType;
   typedef CovariantVector<double, 7> RealType;
@@ -988,7 +988,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 8> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 8> PrlongType;
+  typedef CovariantVector<unsigned long, 8> PrintType;
   typedef CovariantVector<unsigned long, 8> AbsType;
   typedef CovariantVector<unsigned long, 8> AccumulateType;
   typedef CovariantVector<double, 8> RealType;
@@ -1132,7 +1132,7 @@ public:
 template <> class NumericTraits<CovariantVector<unsigned long, 9> > {
 public:
   typedef unsigned long ValueType;
-  typedef CovariantVector<unsigned long, 9> PrlongType;
+  typedef CovariantVector<unsigned long, 9> PrintType;
   typedef CovariantVector<unsigned long, 9> AbsType;
   typedef CovariantVector<unsigned long, 9> AccumulateType;
   typedef CovariantVector<double, 9> RealType;

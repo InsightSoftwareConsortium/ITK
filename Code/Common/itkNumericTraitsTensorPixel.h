@@ -100,7 +100,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 1> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 1> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 1> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 1> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 1> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 1> RealType;
@@ -208,7 +208,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 2> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 2> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 2> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 2> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 2> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 2> RealType;
@@ -318,7 +318,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 3> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 3> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 3> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 3> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 3> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 3> RealType;
@@ -426,7 +426,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 4> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 4> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 4> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 4> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 4> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 4> RealType;
@@ -534,7 +534,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 5> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 5> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 5> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 5> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 5> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 5> RealType;
@@ -642,7 +642,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 6> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 6> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 6> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 6> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 6> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 6> RealType;
@@ -750,7 +750,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 7> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 7> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 7> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 7> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 7> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 7> RealType;
@@ -858,7 +858,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 8> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 8> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 8> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 8> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 8> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 8> RealType;
@@ -966,7 +966,7 @@ public:
 template <> class NumericTraits<SymmetricSecondRankTensor<unsigned long, 9> > {
 public:
   typedef unsigned long ValueType;
-  typedef SymmetricSecondRankTensor<unsigned long, 9> PrlongType;
+  typedef SymmetricSecondRankTensor<unsigned long, 9> PrintType;
   typedef SymmetricSecondRankTensor<unsigned long, 9> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 9> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 9> RealType;
