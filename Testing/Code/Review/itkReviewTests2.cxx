@@ -41,7 +41,6 @@ void RegisterTests()
   REGISTER_TEST(itkDynamicQuadEdgeMeshTest);
   REGISTER_TEST(itkQuadEdgeMeshPolygonCellTest);
   REGISTER_TEST(itkQuadEdgeMeshCellInterfaceTest);
-  // REGISTER_TEST(itkQuadEdgeMeshEulerOperatorsTest);
   REGISTER_TEST(itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest);
   REGISTER_TEST(itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest);
   REGISTER_TEST(itkQuadEdgeMeshEulerOperatorFlipTest);
@@ -56,5 +55,5 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
-
+  REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
 }

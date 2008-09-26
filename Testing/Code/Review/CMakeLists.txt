@@ -144,6 +144,7 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
   itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
+  itkQuadEdgeMeshLinearParameterizationTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -238,6 +239,17 @@ ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkBinaryMask3DQuadEdgeMeshSourceTest)
 ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
+FOREACH( border 0 1 )
+  FOREACH( coeff 0 1 2 3 4 )
+    ADD_TEST( itkQuadEdgeMeshLinearParameterizationTest${border}_${coeff}
+    ${REVIEW_TESTS2}
+    itkQuadEdgeMeshLinearParameterizationTest 
+    ${INPUTDATA}/mushroom.vtk ${border} ${coeff}
+    ${TEMP}/param_border${border}_coeff${coeff}.vtk
+    )
+  ENDFOREACH( coeff )
+ENDFOREACH( border )
+
 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
