@@ -137,17 +137,18 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   // find the split axis
   IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
   IndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
+  SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
+  SizeType outputRegionForThreadSize = outputRegionForThread.GetSize();
   int splitAxis = 0;
   for( int i=0; i<ImageDimension; i++ )
     {
-    if( outputRegionIdx[i] != outputRegionForThreadIdx[i] )
+    if( outputRegionSize[i] != outputRegionForThreadSize[i] )
       {
       splitAxis = i;
       }
     }
 
   // compute the number of pixels before that threads
-  SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
   long firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
   long lineId = firstLineIdForThread;
@@ -166,7 +167,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
       {
       InputPixelType PVal = inLineIt.Get();
       //std::cout << inLineIt.GetIndex() << std::endl;
-      if (PVal != NumericTraits<InputPixelType>::Zero)
+      if (PVal != m_BackgroundValue)
         {
         // We've hit the start of a run
         runLength thisRun;
@@ -177,7 +178,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
         ++length;
         ++inLineIt;
         while( !inLineIt.IsAtEndOfLine()
-          && inLineIt.Get() != NumericTraits<InputPixelType>::Zero )
+          && inLineIt.Get() != m_BackgroundValue )
           {
           ++length;
           ++inLineIt;
@@ -598,6 +599,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   m_Consecutive = UnionFindType(m_UnionFind.size());
   m_Consecutive[m_BackgroundValue] = m_BackgroundValue;
   unsigned long int CLab = 0;
+  unsigned long int count = 0;
   for (unsigned long int I = 1; I < m_UnionFind.size(); I++)
     {
     unsigned long int L = m_UnionFind[I];
@@ -609,9 +611,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
         }
       m_Consecutive[L] = CLab;
       ++CLab;
+      ++count;
       }
     }
-  return(CLab);
+  return count;
 }
 
 template< class TInputImage, class TOutputImage, class TMaskImage >
