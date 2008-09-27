@@ -237,7 +237,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
     InputPointType center = GetMeshBarycentre( );
 
-    InputCoordRepType oRmax( 0.), r( 0. );
+    InputCoordRepType oRmax( 0.), r;
 
     for( MapPointIdentifierIterator
           BoundaryPtIterator = m_BoundaryPtMap.begin( );
@@ -278,7 +278,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     InputPointsContainer* points = input->GetPoints( );
 
     InputPointType pt;
-    unsigned int i(0);
+    unsigned int i;
     
     for( InputPointsContainerConstIterator PointIterator = points->Begin( );
          PointIterator != points->End( );
@@ -343,7 +343,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     size_t NbBoundaryPt = m_BoundaryPtMap.size( );
     std::vector< InputCoordRepType > Length( NbBoundaryPt + 1, 0. );
 
-    InputCoordRepType TotalLength( 0. ), distance( 0. );
+    InputCoordRepType TotalLength( 0. ), distance;
 
     InputPointIdentifier i(0), org(0), dest(0);
     InputPointType PtOrg, PtDest;

@@ -88,8 +88,7 @@ template< typename TInputMesh,
 
    SolverTraits traits;
 
-   InputCoordRepType value( 0. );
-   InputCoordRepType diagonal( 0. );
+   InputCoordRepType value;
 
    InputMapPoinIdentifierIterator it;
 
@@ -113,8 +112,6 @@ template< typename TInputMesh,
 
       InputQEType* edge = input->FindEdge( id1 );
       InputQEType* temp = edge;
-
-      diagonal = 0.;
 
       do
       {
