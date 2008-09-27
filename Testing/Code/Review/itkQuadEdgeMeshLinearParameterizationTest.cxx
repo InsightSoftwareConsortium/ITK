@@ -75,7 +75,7 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char** argv )
     MeshType::Pointer mesh = reader->GetOutput( );
 
     // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-    clock_t start = clock( );
+    // clock_t start = clock( );
     BorderTransformType::Pointer border_transform = BorderTransformType::New( );
     border_transform->SetInput( mesh );
 
@@ -143,10 +143,10 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char** argv )
     MeshType::Pointer output = param->GetOutput( );
 
     // ** TIMING **
-    clock_t end = clock( );
-    std::cout <<"Time: ";
-    std::cout <<static_cast< double >( end - start ) /
-            static_cast< double >( CLOCKS_PER_SEC ) <<" s" <<std::endl;
+    // clock_t end = clock( );
+    // std::cout <<"Time: ";
+    // std::cout <<static_cast< double >( end - start ) /
+    //        static_cast< double >( CLOCKS_PER_SEC ) <<" s" <<std::endl;
 
     // ** WRITE OUTPUT **
     WriterType::Pointer writer = WriterType::New( );
