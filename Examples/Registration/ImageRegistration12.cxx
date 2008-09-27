@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use SpatialObjects as masks for selecting the
@@ -31,7 +27,6 @@
 //
 //
 // Software Guide : EndLatex 
-
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -49,8 +44,6 @@
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
 
-
-
 //  Software Guide : BeginLatex
 //  
 //  The most important header in this example is the one corresponding to the 
@@ -64,9 +57,6 @@
 #include "itkImageMaskSpatialObject.h"
 // Software Guide : EndCodeSnippet
 
-
-
-
 //
 //  The following section of code implements a command observer
 //  that will monitor the evolution of the registration process.
@@ -77,34 +67,32 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
+  typedef const OptimizerType *                    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
-
-
 
 int main( int argc, char *argv[] )
 {
@@ -210,8 +198,6 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  Here we instantiate the type of the \doxygen{ImageMaskSpatialObject}
@@ -224,8 +210,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageMaskSpatialObject< Dimension >   MaskType;
   // Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -255,8 +239,6 @@ int main( int argc, char *argv[] )
 
   typedef itk::ImageFileReader< ImageMaskType >    MaskReaderType;
   // Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -474,4 +456,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
