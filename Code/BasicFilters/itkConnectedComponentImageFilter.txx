@@ -249,7 +249,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
   long nbOfLineIdToJoin = 0;
   if( threadId != nbOfThreads - 1 )
     {
-    SizeType outputRegionForThreadSize = outputRegionForThread.GetSize();
+    outputRegionForThreadSize = outputRegionForThread.GetSize();
     outputRegionForThreadSize[splitAxis] -= 1;
     lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
     m_FirstLineIdToJoin[threadId] = lastLineIdForThread;
