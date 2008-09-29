@@ -20,7 +20,7 @@
 
 using namespace itk;
 
-int itkQuadEdgeMeshLinearParameterizationTest( int argc, char** argv )
+int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
 {
     // ** ERROR MESSAGE AND HELP ** //
     if( argc < 5 )
