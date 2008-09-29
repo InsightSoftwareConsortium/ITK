@@ -24,17 +24,17 @@
 namespace itk 
 {
  
-  /** \class Probe 
-   * 
-   *  \brief Class for computing the change of a value between two points in the code.
-   *   
-   *   This class is the base class of all the probes (time, memory, etc.) between 
-   *   the execution of two pieces of code. It can be started and stopped 
-   *   in order to evaluate the execution over multiple passes.
-   *
-   *   \sa TimeProbe, MemoryProbe
-   *
-   */
+/** \class Probe 
+  * 
+  *  \brief Class for computing the change of a value between two points in the code.
+  *   
+  *   This class is the base class of all the probes (time, memory, etc.) between 
+  *   the execution of two pieces of code. It can be started and stopped 
+  *   in order to evaluate the execution over multiple passes.
+  *
+  *   \sa TimeProbe, MemoryProbe
+  *
+  */
 template<class ValueType, class MeanType>
 class ITK_EXPORT Probe
 {

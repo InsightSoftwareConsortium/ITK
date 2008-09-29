@@ -23,8 +23,9 @@
 
 namespace itk
 {
-/** /class AdaptiveHistogramEqualizationImageFilter
- * /brief Power Law Adaptive Histogram Equalization
+/**
+ * \class tAdaptiveHistogramEqualizationImageFilter
+ * \brief Power Law Adaptive Histogram Equalization
  *
  * Histogram equalization modifies the contrast in an image. The
  * AdaptiveHistogramEqualizationImageFilter is a superset of many
@@ -61,11 +62,13 @@ class ITK_EXPORT AdaptiveHistogramEqualizationImageFilter :
     public BoxImageFilter< TImageType, TImageType >
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef AdaptiveHistogramEqualizationImageFilter Self;
+  /**
+   * Standard class typedefs
+   */ 
+  typedef AdaptiveHistogramEqualizationImageFilter     Self;
   typedef ImageToImageFilter< TImageType, TImageType > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     constPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImageType::ImageDimension );
@@ -77,7 +80,7 @@ public:
   itkTypeMacro(AdaptiveHistogramEqualizationImageFilter, ImageToImageFilter);
 
   /** Image type typedef support. */
-  typedef TImageType ImageType;
+  typedef TImageType                   ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   /** Set/Get the value of alpha.  Alpha=0 produces the adaptive
@@ -101,16 +104,18 @@ public:
 
 protected:
   AdaptiveHistogramEqualizationImageFilter()
-  {
+    {
     m_Alpha = .3;
     m_Beta = .3;
     this->SetRadius( 5 );
     m_UseLookupTable = false;
-  }
+    }
   virtual ~AdaptiveHistogramEqualizationImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Standard pipeline method.*/
+  /**
+   * Standard pipeline method
+   */
   void GenerateData();
 
 private:

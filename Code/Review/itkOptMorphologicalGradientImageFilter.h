@@ -114,10 +114,10 @@ public:
 
   /** define values used to determine which algorithm to use */
   enum {
-   BASIC = 0,
-   HISTO = 1,
-   ANCHOR = 2,
-   VHGW = 3
+    BASIC = 0,
+    HISTO = 1,
+    ANCHOR = 2,
+    VHGW = 3
   } AlgorithmChoice;
   
 

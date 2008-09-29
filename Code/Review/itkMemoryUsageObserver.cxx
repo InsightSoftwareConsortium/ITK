@@ -64,11 +64,11 @@ WindowsMemoryUsageObserver::WindowsMemoryUsageObserver()
 #if defined(SUPPORT_TOOLHELP32)
   m_hNTLib = ::LoadLibraryA("ntdll.dll");
   if(m_hNTLib)
-  {
+    {
     // load the support function from the kernel
     ZwQuerySystemInformation = (PZwQuerySystemInformation)::GetProcAddress(m_hNTLib, 
-                                                        "ZwQuerySystemInformation");
-  }
+                                                                           "ZwQuerySystemInformation");
+    }
 #endif
 }
 
@@ -76,7 +76,9 @@ WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
 {
 #if defined (SUPPORT_TOOLHELP32)
   if(m_hNTLib)
+    {
     FreeLibrary(m_hNTLib);
+    }
 #endif
 }
 
@@ -195,8 +197,8 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   GetProcessMemoryInfo( hProcess, &memoryCounters, sizeof(memoryCounters));
 
   mem = static_cast<MemoryLoadType>( 
-                          static_cast<double>( memoryCounters.PagefileUsage )
-                                                                          / 1024.0 ); 
+    static_cast<double>( memoryCounters.PagefileUsage )
+    / 1024.0 ); 
 #elif defined(SUPPORT_TOOLHELP32)
 
   /* Retrieve memory usage using Windows Native API. For more information, 
@@ -204,40 +206,40 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   */
 
   if(!m_hNTLib)
-  {
+    {
     itkGenericExceptionMacro( << "Can't find ntdll.dll. "
                               << "You should probably disable SUPPORT_TOOLHELP32" );
-  }
+    }
   // the ntdll.dll library could not have been opened (file not found?)
   if ( !ZwQuerySystemInformation )
-  {
+    {
     itkGenericExceptionMacro( << "The file ntdll.dll is not supported. "
                               << "You should probably disable SUPPORT_TOOLHELP32" );
     return mem;
-  }
+    }
 
   DWORD pid = GetCurrentProcessId();
   ULONG n = 50;
   PSYSTEM_PROCESSES sp = new SYSTEM_PROCESSES[n];
   // as we can't know how many processes running, we loop and test a new size everytime.
   while (ZwQuerySystemInformation(SystemProcessesAndThreadsInformation,
-                                      sp, n * sizeof *sp, 0)
-                                      == STATUS_INFO_LENGTH_MISMATCH)
-    {                                    
+                                  sp, n * sizeof *sp, 0)
+         == STATUS_INFO_LENGTH_MISMATCH)
+    {
     delete [] sp;
     n = n * 2;
     sp = new SYSTEM_PROCESSES[n];
     }
   bool done = false;
   for ( PSYSTEM_PROCESSES spp = sp; 
-        !done ; 
+        !done; 
         spp = PSYSTEM_PROCESSES(PCHAR(spp) + spp->NextEntryDelta))
     {
     // only the current process is interesting here
     if (spp->ProcessId == pid)
       {
       mem = static_cast<MemoryLoadType>( 
-                          static_cast<double>( spp->VmCounters.PagefileUsage - sizeof(*sp)) / 1024);
+        static_cast<double>( spp->VmCounters.PagefileUsage - sizeof(*sp)) / 1024);
       break;
       }
     done = (spp->NextEntryDelta == 0);
@@ -257,7 +259,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   GlobalMemoryStatusEx (&statex);
 
   mem   = static_cast<MemoryLoadType>( 
-                          static_cast<double>( statex.ullTotalPhys - statex.ullAvailPhys) / 1024);
+    static_cast<double>( statex.ullTotalPhys - statex.ullAvailPhys) / 1024);
 #endif
   return mem;
 }
@@ -320,7 +322,7 @@ SunSolarisMemoryUsageObserver::~SunSolarisMemoryUsageObserver()
  *  FF3F6000      8K rwx--  /usr/lib/ld.so.1
  *  FFBFC000     16K rw---    [ stack ]
  *   total     1880K
-*/
+ */
 MemoryUsageObserverBase::MemoryLoadType 
 SunSolarisMemoryUsageObserver::GetMemoryUsage()
 {
@@ -341,7 +343,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
   //the first word shall be the process ID
   if ( pmappid != pid)
     {
-      itkGenericExceptionMacro( << "Error using pmap. 1st line output shall be PID: name" );
+    itkGenericExceptionMacro( << "Error using pmap. 1st line output shall be PID: name" );
     }
   bool heapNotFound = true;
   char address[64],perms[32];
@@ -420,7 +422,7 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
   struct mallinfo minfo = mallinfo(); 
 
   MemoryLoadType mem = static_cast<MemoryLoadType>( 
-                          static_cast<double>( minfo.uordblks ) / 1024.0 );
+    static_cast<double>( minfo.uordblks ) / 1024.0 );
   return mem;
 }
 

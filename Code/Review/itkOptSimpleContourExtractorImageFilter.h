@@ -55,14 +55,14 @@ public:
     TOutputImage::ImageDimension);
   
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   
   /** Standard class typedefs. */
-  typedef SimpleContourExtractorImageFilter Self;
+  typedef SimpleContourExtractorImageFilter                Self;
   typedef BoxImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,11 +71,11 @@ public:
   itkTypeMacro(SimpleContourExtractorImageFilter, ImageToImageFilter);
   
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  typedef typename InputImageType::PixelType               InputPixelType;
+  typedef typename OutputImageType::PixelType              OutputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
   
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   
   typedef typename InputImageType::SizeType InputSizeType;
@@ -144,8 +144,8 @@ private:
   SimpleContourExtractorImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  InputPixelType m_InputForegroundValue;
-  InputPixelType m_InputBackgroundValue;
+  InputPixelType  m_InputForegroundValue;
+  InputPixelType  m_InputBackgroundValue;
   OutputPixelType m_OutputForegroundValue;
   OutputPixelType m_OutputBackgroundValue;
 };

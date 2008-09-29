@@ -27,7 +27,7 @@
   #include <windows.h>
   #define SUPPORT_TOOLHELP32
   #if defined(SUPPORT_TOOLHELP32) 
-    typedef LONG    NTSTATUS;
+typedef LONG    NTSTATUS;
   #endif
 #endif
 
@@ -35,12 +35,12 @@ namespace itk
 {
 
 /** \class MemoryUsageObserver
-* \brief The MemoryUsageObserver provides the memory usage of the process
-*
-* This class represents a memory load analyser object
-* and provides a memory usage in platform-independent format.
-*
-*/
+ * \brief The MemoryUsageObserver provides the memory usage of the process
+ *
+ * This class represents a memory load analyser object
+ * and provides a memory usage in platform-independent format.
+ *
+ */
 
 class ITKCommon_EXPORT MemoryUsageObserverBase
 {
@@ -117,6 +117,9 @@ public:
   virtual MemoryLoadType GetMemoryUsage();
 };
 #if !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
+/** \class MallinfoMemoryUsageObserver
+ * \brief The MallinfoMemoryUsageObserver
+ */
 class ITKCommon_EXPORT MallinfoMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
