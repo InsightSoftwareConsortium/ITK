@@ -25,6 +25,7 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
 
+  REGISTER_TEST(itkQuadEdgeMeshCleanFilterTest);
   REGISTER_TEST(itkQuadEdgem_NoPointTest);
   REGISTER_TEST(itkQuadEdgeTest1);
   REGISTER_TEST(itkGeometricalQuadEdgeTest1);
@@ -56,4 +57,7 @@ void RegisterTests()
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
   REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
+  REGISTER_TEST(itkPriorityQueueTest);
+  REGISTER_TEST(itkQuadEdgeMeshSquaredEdgeLengthDecimationTest);
+  REGISTER_TEST(itkQuadEdgeMeshQuadricDecimationTest);
 }

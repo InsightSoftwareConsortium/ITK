@@ -54,6 +54,8 @@ public:
     InputCoordRepType operator ( ) ( InputMeshType* iMesh,
                                     InputQEType* iEdge ) const
     {
+        (void)iMesh;
+        (void)iEdge;
         return 1.;
     };
 };

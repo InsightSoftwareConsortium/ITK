@@ -145,6 +145,10 @@ SET(ReviewTest2_SRCS
   itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
   itkQuadEdgeMeshLinearParameterizationTest.cxx
+  itkPriorityQueueTest.cxx
+  itkQuadEdgeMeshSquaredEdgeLengthDecimationTest.cxx
+  itkQuadEdgeMeshQuadricDecimationTest.cxx
+  itkQuadEdgeMeshCleanFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -200,6 +204,8 @@ ADD_TEST(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS2}
   itkGeometricalQuadEdgeTest1)
 ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshPointTest1)
+ADD_TEST(itkPriorityQueueTest ${REVIEW_TESTS2}
+  itkPriorityQueueTest)
 ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshAddFaceTest1)
 ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS2}
@@ -239,6 +245,26 @@ ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkBinaryMask3DQuadEdgeMeshSourceTest)
 ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
+ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TEST2}
+  itkQuadEdgeMeshQuadricDecimationTest
+  ${INPUTDATA}/mushroom.vtk
+  20
+  ${TEMP}/temp_QuadricDecimationResult1.vtk
+  )
+ADD_TEST( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TEST2}
+  itkQuadEdgeMeshSquaredEdgeLengthDecimationTest
+  ${INPUTDATA}/mushroom.vtk
+  20
+  ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
+  )
+ADD_TEST( itkQuadEdgeMeshCleanFilterTest
+  ${REVIEW_TEST2}
+  itkQuadEdgeMeshCleanFilterTest
+  #${INPUTDATA}/mushroom.vtk
+  #1 
+  #${TEMP}/temp_CleanResult1.vtk
+  )
+
 FOREACH( border 0 1 )
   FOREACH( coeff 0 1 2 3 4 )
     ADD_TEST( itkQuadEdgeMeshLinearParameterizationTest${border}_${coeff}
