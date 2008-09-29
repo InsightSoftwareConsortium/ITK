@@ -1,4 +1,4 @@
-0#ifndef __itkQuadEdgeMeshEdgeMergeDecimationFilter_txx
+#ifndef __itkQuadEdgeMeshEdgeMergeDecimationFilter_txx
 #define __itkQuadEdgeMeshEdgeMergeDecimationFilter_txx
 
 #include "itkQuadEdgeMeshEdgeMergeDecimationFilter.h"
