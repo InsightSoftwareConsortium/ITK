@@ -178,7 +178,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
     std::vector< InputCoordRepType > tetas( NbBoundaryPt, 0. );
     tetas[0] = static_cast< InputCoordRepType >(
-            acos( ( two_r - dist ) * inv_two_r ) );
+            vcl_acos( ( two_r - dist ) * inv_two_r ) );
 
     MapPointIdentifierIterator
         BoundaryPtIterator = m_BoundaryPtMap.begin( );
@@ -197,14 +197,14 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
         dist = pt1.SquaredEuclideanDistanceTo( pt2 );
 
-        tetas[j] = tetas[j-1] + acos( ( two_r - dist ) * inv_two_r );
+        tetas[j] = tetas[j-1] + vcl_acos( ( two_r - dist ) * inv_two_r );
 
         j++;
     }
 
     InputCoordRepType a = ( 2. * vnl_math::pi ) / tetas[NbBoundaryPt-1];
 
-    m_Radius = std::pow( std::sqrt( r ), a );
+    m_Radius = vcl_pow( vcl_sqrt( r ), a );
 
     for( MapPointIdentifierIterator
           BoundaryPtMapIterator = m_BoundaryPtMap.begin( );
@@ -215,9 +215,9 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
         j = BoundaryPtMapIterator->second;
 
         pt1[0] =  m_Radius *
-          static_cast< InputCoordRepType >( std::cos( a * tetas[j] ) );
+          static_cast< InputCoordRepType >( vcl_cos( a * tetas[j] ) );
         pt1[1] =  m_Radius *
-          static_cast< InputCoordRepType >( std::sin( a * tetas[j] ) );
+          static_cast< InputCoordRepType >( vcl_sin( a * tetas[j] ) );
         pt1[2] = 0.;
 
         m_Border[j] = pt1;
