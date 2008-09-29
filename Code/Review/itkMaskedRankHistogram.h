@@ -424,7 +424,7 @@ public:
       }
     }
 
- private:
+private:
   typedef typename std::vector<unsigned long> VecType;
   
   VecType      m_Vec;

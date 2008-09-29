@@ -40,7 +40,7 @@ class ITK_EXPORT KappaSigmaThresholdImageCalculator : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef KappaSigmaThresholdImageCalculator         Self;
+  typedef KappaSigmaThresholdImageCalculator    Self;
   typedef Object                                Superclass;
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;

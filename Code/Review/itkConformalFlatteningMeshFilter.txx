@@ -616,4 +616,3 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 } // end namespace itk
 
 #endif
-

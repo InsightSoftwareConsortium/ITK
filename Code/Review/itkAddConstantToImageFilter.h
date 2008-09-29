@@ -84,6 +84,7 @@ public:
     Functor::AddConstantTo< 
       typename TInputImage::PixelType, TConstant,
       typename TOutputImage::PixelType>   >             Superclass;
+
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 

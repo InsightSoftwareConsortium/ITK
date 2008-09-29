@@ -267,7 +267,7 @@ BoxMeanCalculatorFunction(const TInputImage * accImage,
         pixelscount *= (AccPixType)(2*Radius[i] + 1);
         }
       
-      typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
+      typedef ImageRegionIterator<OutputImageType>     OutputIteratorType;
       typedef ImageRegionConstIterator<InputImageType> InputIteratorType;
 
       typedef std::vector<InputIteratorType> CornerItVecType;
@@ -449,7 +449,7 @@ BoxSigmaCalculatorFunction(const TInputImage * accImage,
         pixelscount *= (AccPixType)(2*Radius[i] + 1);
         }
       
-      typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
+      typedef ImageRegionIterator<OutputImageType>     OutputIteratorType;
       typedef ImageRegionConstIterator<InputImageType> InputIteratorType;
 
       typedef std::vector<InputIteratorType> CornerItVecType;
