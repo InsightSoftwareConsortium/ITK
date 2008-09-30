@@ -57,7 +57,7 @@ public:
                        InputMeshType::PointDimension );
 
   typedef TOutput OutputMeshType;
-  typedef typename Superclass::OutputMeshPointer OutputMeshPointer;
+  typedef typename Superclass::OutputMeshPointer     OutputMeshPointer;
   typedef typename Superclass::OutputCoordRepType    OutputCoordRepType;
   typedef typename Superclass::OutputPointType       OutputPointType;
   typedef typename Superclass::OutputPointIdentifier OutputPointIdentifier;
@@ -66,16 +66,19 @@ public:
   typedef typename OutputMeshType::QEType            OutputQEType;
 
   typedef typename OutputMeshType::PointsContainer OutputPointsContainer;
+
   typedef typename OutputMeshType::PointsContainerPointer
     OutputPointsContainerPointer;
+
   typedef typename OutputMeshType::PointsContainerIterator
     OutputPointsContainerIterator;
 
   typedef typename OutputMeshType::CellsContainerIterator
       OutputCellsContainerIterator;
 
-  typedef BoundingBox< InputPointIdentifier, PointDimension,
+  typedef BoundingBox< InputPointIdentifier, itkGetStaticConstMacro(PointDimension),
     InputCoordRepType, InputPointsContainer > BoundingBoxType;
+
   typedef typename BoundingBoxType::Pointer BoundingBoxPointer;
 
   typedef MaxMeasureBoundCriterion< OutputMeshType > CriterionType;
@@ -148,14 +151,12 @@ protected:
     // Copy cells
   InputCellsContainerIterator c_it = temp->GetCells()->Begin();
   InputCellsContainerIterator c_end = temp->GetCells()->End();
-  InputEdgeCellType* qe = 0;
-  InputPolygonCellType* pe = 0;
-  InputQEPrimal* QEGeom = 0;
+  InputEdgeCellType* qe;
+  InputPolygonCellType* pe;
+  InputQEPrimal* QEGeom;
 
   for( ; c_it != c_end; ++c_it )
     {
-    qe = (InputEdgeCellType*)0;
-    pe = (InputPolygonCellType*)0;
     if( ( qe = dynamic_cast< InputEdgeCellType* >( c_it.Value() ) ) )
       {
       QEGeom = qe->GetQEGeom( );
