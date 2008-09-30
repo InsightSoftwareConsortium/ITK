@@ -154,6 +154,7 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshMeanCurvatureTest.cxx
   itkQuadEdgeMeshMinCurvatureTest.cxx
   itkQuadEdgeMeshDelaunayConformingFilterTest.cxx
+  itkQuadEdgeMeshNormalFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -269,7 +270,11 @@ ADD_TEST( itkQuadEdgeMeshCleanFilterTest
   0.1 
   ${TEMP}/temp_CleanResult1.vtk
   )
-
+ADD_TEST( itkQuadEdgeMeshNormalFilterTest ${REVIEW_TESTS2}
+  itkQuadEdgeMeshNormalFilterTest
+  ${INPUTDATA}/mushroom.vtk
+  )
+ 
 SET( CURV_TESTS Gaussian Max Mean Min )
 FOREACH( loop_var ${CURV_TESTS} )
   ADD_TEST( itkQuadEdgeMesh${loop_var}CurvatureTest
