@@ -5,13 +5,15 @@ using namespace itk;
 
 int itkPriorityQueueTest( int argc, char* argv[] )
 {
+  (void) argc;
+  (void) argv;
   typedef MinPriorityQueueElementWrapper< int, double, int > PQElementType;
   typedef PriorityQueueContainer< PQElementType, PQElementType, double, int >
     PQType;
   PQType::Pointer priority_queue = PQType::New( );
 
   vnl_random random( 12 );
-  int i( 0 ), element( 0 );
+  int i( 0 ), element;
   double value = random.drand32( -1000., 1000. );
 
   std::cout <<"{" <<i <<", " <<value <<"}" <<std::endl;

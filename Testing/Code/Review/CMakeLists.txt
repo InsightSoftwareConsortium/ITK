@@ -248,7 +248,7 @@ ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
 ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshQuadricDecimationTest
   ${INPUTDATA}/mushroom.vtk
-  20
+  100
   ${TEMP}/temp_QuadricDecimationResult1.vtk
   )
 ADD_TEST( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TESTS2}
