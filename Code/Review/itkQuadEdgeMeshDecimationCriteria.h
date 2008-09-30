@@ -216,6 +216,8 @@ public:
     const ElementType& iElement,
     const MeasureType& iValue ) const
   {
+    (void) iMesh;
+    (void) iElement;
     return ( iValue <= this->m_MeasureBound );
   }
 
