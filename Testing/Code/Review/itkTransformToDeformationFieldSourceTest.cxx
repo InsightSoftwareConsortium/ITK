@@ -69,13 +69,14 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   typedef itk::TransformToDeformationFieldSource<
     DeformationFieldImageType,
     CoordRepresentationType >             DeformationFieldGeneratorType;
+  
   typedef DeformationFieldGeneratorType::SizeType       SizeType;
   typedef DeformationFieldGeneratorType::SpacingType    SpacingType;
   typedef DeformationFieldGeneratorType::OriginType     OriginType;
   typedef DeformationFieldGeneratorType::IndexType      IndexType;
   typedef DeformationFieldGeneratorType::RegionType     RegionType;
   typedef itk::ImageFileWriter<
-    DeformationFieldImageType >           WriterType;
+    DeformationFieldImageType >                         WriterType;
 
   /** Create output information. */
   SizeType size;        size.Fill( 20 );
@@ -183,4 +184,3 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   return EXIT_SUCCESS;
 
 } // end main
-

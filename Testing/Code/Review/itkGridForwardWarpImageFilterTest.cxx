@@ -36,7 +36,7 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   typedef itk::Image<DeformationPixelType, ImageDimension>  DeformationFieldType;
   typedef itk::Image<OutputPixelType, ImageDimension>       OutputImageType;
   
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex< DeformationFieldType >  DeformationIteratorType;
   typedef itk::ImageRegionIteratorWithIndex< OutputImageType >  OutputIteratorType;
 
@@ -44,7 +44,7 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<ImageDimension>          SizeType;
 
   // Declare the type of the Region
@@ -75,14 +75,15 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   inputDeformationField->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  DeformationIteratorType it( inputDeformationField, inputDeformationField->GetBufferedRegion() );
+  DeformationIteratorType it( inputDeformationField,
+                              inputDeformationField->GetBufferedRegion() );
 
   // Initialize the content of Image A
   DeformationPixelType vectorValue;
   vectorValue.Fill( 5.0 ); // FIXME: replace with something more interesting...
   
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
     {
     it.Set( vectorValue );
     std::cout << it.Get() << std::endl;
@@ -90,21 +91,21 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the Log filter
-  typedef itk::GridForwardWarpImageFilter< 
+  typedef itk::GridForwardWarpImageFilter<
     DeformationFieldType, OutputImageType  >   FilterType;
-            
 
-  // Create one Filter                                
+
+  // Create one Filter
   FilterType::Pointer filter = FilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputDeformationField ); 
+  filter->SetInput( inputDeformationField );
 
   // Execute the filter
   filter->Update();
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
@@ -115,12 +116,12 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
 
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
     {
     DeformationPixelType input  = it.Get();
     OutputPixelType output = ot.Get();
     std::cout << input << " => ";
-    std::cout << output  << std::endl; 
+    std::cout << output  << std::endl;
     ++ot;
     ++it;
     }

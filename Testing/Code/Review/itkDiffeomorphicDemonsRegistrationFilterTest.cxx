@@ -69,7 +69,7 @@ typename TImage::PixelType backgnd )
   typename TImage::IndexType index;
   double r2 = vnl_math_sqr( radius );
 
-  for( ; !it.IsAtEnd(); ++it )
+  for(; !it.IsAtEnd(); ++it)
     {
     index = it.GetIndex();
     double distance = 0;
@@ -94,7 +94,7 @@ TImage *output )
   typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
   Iterator inIt( input, output->GetBufferedRegion() );
   Iterator outIt( output, output->GetBufferedRegion() );
-  for( ; !inIt.IsAtEnd(); ++inIt, ++outIt )
+  for(; !inIt.IsAtEnd(); ++inIt, ++outIt)
     {
     outIt.Set( inIt.Get() );
     }
@@ -120,15 +120,16 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char PixelType;
+  typedef unsigned char                         PixelType;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension> ImageType;  
-  typedef itk::Vector<float,ImageDimension> VectorType;
+  typedef itk::Image<PixelType,ImageDimension>  ImageType;  
+  typedef itk::Vector<float,ImageDimension>     VectorType;
   typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef itk::Image<VectorType::ValueType,ImageDimension> FloatImageType;
-  typedef ImageType::IndexType  IndexType;
-  typedef ImageType::SizeType   SizeType;
-  typedef ImageType::RegionType RegionType;
+  typedef itk::Image<VectorType::ValueType,
+      ImageDimension>                           FloatImageType;
+  typedef ImageType::IndexType                  IndexType;
+  typedef ImageType::SizeType                   SizeType;
+  typedef ImageType::RegionType                 RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -423,4 +424,3 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   
 
 }
-

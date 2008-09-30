@@ -114,18 +114,18 @@ public:
     }
 
   /** Evaluate the function at a ContinuousIndex position
-  *
-  * Returns the linearly interpolated image intensity at a
-  * specified point position. If the point does not lie within the
-  * image buffer a nearest neighbor interpolation is done. */
+   *
+   * Returns the linearly interpolated image intensity at a
+   * specified point position. If the point does not lie within the
+   * image buffer a nearest neighbor interpolation is done. */
   virtual OutputType EvaluateAtContinuousIndex(
      const ContinuousIndexType & index ) const;
 
   /** Evaluate the function at an index position
-  *
-  * Simply returns the image value at the
-  * specified index position. If the index does not lie within the
-  * image buffer a nearest neighbor interpolation is done. */
+   *
+   * Simply returns the image value at the
+   * specified index position. If the index does not lie within the
+   * image buffer a nearest neighbor interpolation is done. */
   virtual OutputType EvaluateAtIndex( const IndexType & index ) const;
 
 protected:

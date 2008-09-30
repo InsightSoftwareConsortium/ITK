@@ -79,7 +79,7 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef SubtractConstantFromImageFilter                 Self;
+  typedef SubtractConstantFromImageFilter               Self;
   typedef UnaryFunctorImageFilter<
     TInputImage,TOutputImage, 
     Functor::SubtractConstantFrom< 

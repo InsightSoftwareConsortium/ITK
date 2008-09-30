@@ -27,16 +27,16 @@
 enum{ VectorDimension = 3 };
 enum{ ImageDimension = 3 };
 typedef itk::Vector<unsigned short,VectorDimension> PixelType;
-typedef itk::Image<PixelType,ImageDimension> ImageType;
-typedef double CoordRepType;
+typedef itk::Image<PixelType,ImageDimension>        ImageType;
+typedef double                                      CoordRepType;
 
 typedef itk::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
   ImageType,CoordRepType> InterpolatorType;
 
-typedef InterpolatorType::IndexType  IndexType;
-typedef InterpolatorType::PointType  PointType;
+typedef InterpolatorType::IndexType           IndexType;
+typedef InterpolatorType::PointType           PointType;
 typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType OutputType;
+typedef InterpolatorType::OutputType          OutputType;
 
 
 
@@ -189,7 +189,7 @@ int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, c
   unsigned short value;
   PixelType pixel;
 
-  for( ; !iter.IsAtEnd(); ++iter )
+  for(; !iter.IsAtEnd(); ++iter)
     {
     index = iter.GetIndex();
     value = 0;
@@ -271,12 +271,12 @@ int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, c
 
   // position near image border
   {
-  double epsilon = 1.0e-10;
-  double darray[3] = {19 - epsilon, 20, 40};
-  double temp[3] = {79, 158, 237};
-  output = OutputType( temp );
-  cindex = ContinuousIndexType(darray);
-  passed = TestContinuousIndex( interp, cindex, true, output );
+    double epsilon = 1.0e-10;
+    double darray[3] = {19 - epsilon, 20, 40};
+    double temp[3] = {79, 158, 237};
+    output = OutputType( temp );
+    cindex = ContinuousIndexType(darray);
+    passed = TestContinuousIndex( interp, cindex, true, output );
   }
 
   if( !passed ) flag = 1;
@@ -332,4 +332,3 @@ int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, c
 
   return EXIT_SUCCESS;
 }
-

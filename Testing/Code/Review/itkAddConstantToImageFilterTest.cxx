@@ -24,7 +24,7 @@
 #include "itkSubtractImageFilter.h"
 
 
-int itkAddConstantToImageFilterTest(int, char* [] ) 
+int itkAddConstantToImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
@@ -35,7 +35,7 @@ int itkAddConstantToImageFilterTest(int, char* [] )
   typedef itk::Image<float, ImageDimension>  OutputImageType;
   typedef float                              FactorType;
   
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
 
@@ -47,7 +47,7 @@ int itkAddConstantToImageFilterTest(int, char* [] )
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<ImageDimension>          SizeType;
 
   // Declare the type of the Region
@@ -84,7 +84,7 @@ int itkAddConstantToImageFilterTest(int, char* [] )
   const double value = pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
     {
     it.Set( value );
     std::cout << it.Get() << std::endl;
@@ -92,43 +92,43 @@ int itkAddConstantToImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the Log filter
-  typedef itk::AddConstantToImageFilter< 
+  typedef itk::AddConstantToImageFilter<
     InputImageType, FactorType, OutputImageType  >   FilterType;
-            
 
-  // Create an ADD Filter                                
+
+  // Create an ADD Filter
   FilterType::Pointer filter = FilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   const FactorType factor = 17.0;
 
   filter->SetConstant( factor );
-  
+
   // Execute the filter
   filter->Update();
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
-  
+
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
   const OutputImageType::PixelType epsilon = 1e-6;
 
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
     {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const float expectedValue = factor + input;
     std::cout << output << " = ";
-    std::cout << expectedValue  << std::endl; 
+    std::cout << expectedValue  << std::endl;
     if( fabs( expectedValue - output ) > epsilon )
       {
       std::cerr << "Error " << std::endl;

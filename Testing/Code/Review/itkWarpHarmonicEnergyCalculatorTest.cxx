@@ -39,7 +39,7 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex< DeformationFieldType >  DeformationIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >  OutputIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >       OutputIteratorType;
 
 
   // Declare the type of the index to access images
@@ -76,7 +76,8 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
   inputDeformationField->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)
-  DeformationIteratorType it( inputDeformationField, inputDeformationField->GetBufferedRegion() );
+  DeformationIteratorType it( inputDeformationField,
+                              inputDeformationField->GetBufferedRegion() );
 
   // Initialize the content of Image A
   DeformationPixelType vectorValue;
@@ -91,10 +92,10 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
     }
 
   // Declare the type for the calculator
-  typedef itk::WarpHarmonicEnergyCalculator< DeformationFieldType >   CalculatorType;
-          
+  typedef itk::WarpHarmonicEnergyCalculator< DeformationFieldType > CalculatorType;
 
-  // Create one Filter                              
+
+  // Create one Filter
   CalculatorType::Pointer calculator = CalculatorType::New();
 
 

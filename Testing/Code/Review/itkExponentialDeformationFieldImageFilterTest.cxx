@@ -34,14 +34,14 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   // Declare the types of the images
   typedef itk::Image<PixelType, ImageDimension>  ImageType;
   
-  // Declare Iterator types apropriated for each image 
+  // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex< ImageType>  IteratorType;
 
 
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
-  // Declare the type of the size 
+  // Declare the type of the size
   typedef itk::Size<ImageDimension>          SizeType;
 
   // Declare the type of the Region
@@ -79,7 +79,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   vectorValue.Fill( 5.0 ); // FIXME: replace with something more interesting...
   
   it.GoToBegin();
-  while( !it.IsAtEnd() ) 
+  while( !it.IsAtEnd() )
     {
     it.Set( vectorValue );
     std::cout << it.Get() << std::endl;
@@ -87,23 +87,23 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the Log filter
-  typedef itk::ExponentialDeformationFieldImageFilter< 
+  typedef itk::ExponentialDeformationFieldImageFilter<
                                   ImageType, ImageType  >   FilterType;
-            
 
-  // Create one Filter                                
+
+  // Create one Filter
   FilterType::Pointer filter = FilterType::New();
 
 
   // Connect the input images
-  filter->SetInput( inputImage ); 
+  filter->SetInput( inputImage );
 
   filter->SetMaximumNumberOfIterations( 20 );
   
   // Execute the filter
   filter->Update();
 
-  // Get the Smart Pointer to the Filter Output 
+  // Get the Smart Pointer to the Filter Output
   ImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
@@ -115,12 +115,12 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
 
   ot.GoToBegin();
   it.GoToBegin();
-  while( !ot.IsAtEnd() ) 
+  while( !ot.IsAtEnd() )
     {
     PixelType input  = it.Get();
     PixelType output = ot.Get();
     std::cout << input << " => ";
-    std::cout << output  << std::endl; 
+    std::cout << output  << std::endl;
     ++ot;
     ++it;
     }
