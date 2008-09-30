@@ -100,7 +100,7 @@ public:
     {
     SQUARE_BORDER_TRANSFORM = 0,
     DISK_BORDER_TRANSFORM
-    }
+    };
 
   itkSetMacro( TransformType, BorderTransformType );
   itkGetMacro( TransformType, BorderTransformType );
