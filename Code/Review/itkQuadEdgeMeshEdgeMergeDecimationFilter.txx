@@ -167,21 +167,19 @@ PushOrUpdateElement( OutputQEType* iEdge )
   if ( temp->GetOrigin() > temp->GetDestination() )
     temp = temp->GetSym();
 
-  MeasureType measure( 0. );
   QueueMapIterator map_it = m_QueueMapper.find( temp );
 
+  MeasureType measure = MeasureEdge( temp );
   if ( map_it != m_QueueMapper.end() )
     {
     if( !map_it->second->m_Priority.first )
       {
-      measure = MeasureEdge( temp );
       map_it->second->m_Priority.second = measure;
       m_PriorityQueue->Update( map_it->second );
       }
     }
   else
     {
-    measure = MeasureEdge( temp );
     PriorityQueueItemType* qi = new PriorityQueueItemType( temp,
       PriorityType( false, measure ) );
     m_QueueMapper[ temp ] = qi;
@@ -259,6 +257,7 @@ void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 DeletePoint( const OutputPointIdentifier& iIdToBeDeleted, 
   const OutputPointIdentifier& iRemaining )
 {
+  (void)iRemaining;
   this->GetOutput()->DeletePoint( iIdToBeDeleted );
 }
 

@@ -162,6 +162,8 @@ public:
     const ElementType& iElement,
     const MeasureType& iValue ) const
   {
+    (void)iElement;
+    (void)iValue;
     return ( iMesh->GetNumberOfFaces() <= this->m_NumberOfElements );
   }
 
