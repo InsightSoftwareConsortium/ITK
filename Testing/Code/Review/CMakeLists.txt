@@ -260,9 +260,9 @@ ADD_TEST( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TESTS2}
 ADD_TEST( itkQuadEdgeMeshCleanFilterTest
   ${REVIEW_TESTS2}
   itkQuadEdgeMeshCleanFilterTest
-  #${INPUTDATA}/mushroom.vtk
-  #1 
-  #${TEMP}/temp_CleanResult1.vtk
+  ${INPUTDATA}/mushroom.vtk
+  0.1 
+  ${TEMP}/temp_CleanResult1.vtk
   )
 
 FOREACH( border 0 1 )
