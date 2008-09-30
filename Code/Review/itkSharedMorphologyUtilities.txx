@@ -45,7 +45,6 @@ bool needToDoFace(const TRegion AllImage,
   // inside the image then we can ignore the face
   
   // find the small dimension of the face - should only be one
-  typename TRegion::SizeType ISz = AllImage.GetSize();
   typename TRegion::IndexType ISt = AllImage.GetIndex();
 
   typename TRegion::SizeType FSz = face.GetSize();
@@ -61,7 +60,6 @@ bool needToDoFace(const TRegion AllImage,
       }
     }
   long startI = ISt[smallDim];
-  //long endI = (ISt[smallDim] + ISz[smallDim] - 1);
   long facePos = FSt[smallDim] + FSz[smallDim] - 1;
   if (facePos == startI) 
     {
@@ -295,7 +293,7 @@ FaceCalculatorType;
   typedef typename TInputImage::RegionType RegionType;
   typedef typename TInputImage::SizeType   SizeType;
   typedef typename TInputImage::IndexType  IndexType;
-  typedef typename std::list<RegionType>   FaceListType;
+  typedef std::list<RegionType>   FaceListType;
   FaceListType faceList;
 
   for (unsigned i = 0; i < TInputImage::ImageDimension; i++)
@@ -351,7 +349,7 @@ FaceCalculatorType;
     if (FaceDir == DomDir) // within 1 degree 
       {
       // now check whether the line goes inside the image from this face
-      if ( needToDoFace<typename TInputImage::RegionType, TLine>(AllImage, *fit, line) ) 
+      if ( needToDoFace<ITK_TYPENAME TInputImage::RegionType, TLine>(AllImage, *fit, line) ) 
         {
 //        std::cout << "Using face: " << *fit << line << std::endl;
         RelevantRegion = *fit;
@@ -420,8 +418,8 @@ int fillLineBuffer(typename TImage::ConstPointer input,
                    const typename TBres::OffsetArray LineOffsets,
                    const typename TImage::RegionType AllImage, 
                    typename TImage::PixelType * inbuffer,
-                   unsigned &start,
-                   unsigned &end)
+                   unsigned int &start,
+                   unsigned int &end)
 {
 
 //   if (AllImage.IsInside(StartIndex))

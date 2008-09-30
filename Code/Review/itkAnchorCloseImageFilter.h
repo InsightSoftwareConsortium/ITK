@@ -45,8 +45,8 @@ public:
 protected:
   AnchorCloseImageFilter()
     {
-    this->m_Boundary1 = itk::NumericTraits< typename TImage::PixelType >::NonpositiveMin();
-    this->m_Boundary2 = itk::NumericTraits< typename TImage::PixelType >::max();
+    this->m_Boundary1 = NumericTraits< ITK_TYPENAME TImage::PixelType >::NonpositiveMin();
+    this->m_Boundary2 = NumericTraits< ITK_TYPENAME TImage::PixelType >::max();
     }
   void PrintSelf(std::ostream& os, Indent indent) const
     {

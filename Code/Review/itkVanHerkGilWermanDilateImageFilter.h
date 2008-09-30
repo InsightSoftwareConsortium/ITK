@@ -19,6 +19,7 @@
 #define __itkVanHerkGilWermanDilateImageFilter_h
 
 #include "itkVanHerkGilWermanErodeDilateImageFilter.h"
+#include "vnl/vnl_math.h"
 
 namespace itk {
 template <class TPixel>
@@ -29,7 +30,7 @@ public:
   ~MaxFunctor(){}
   inline TPixel operator()(const TPixel &A, const TPixel &B)
     {
-    return std::max(A, B);
+    return vnl_math_max(A, B);
     }
 };
 

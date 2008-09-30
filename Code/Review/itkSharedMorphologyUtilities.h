@@ -22,7 +22,7 @@
 
 
 namespace itk {
-
+#if defined(_MSC_VER) && _MSC_VER >= 1300
 template <class TRegion, class TLine>
 bool needToDoFace(const TRegion AllImage,
                   const TRegion face,
@@ -45,8 +45,8 @@ int fillLineBuffer(typename TImage::ConstPointer input,
                    const typename TBres::OffsetArray LineOffsets,
                    const typename TImage::RegionType AllImage, 
                    typename TImage::PixelType * inbuffer,
-                   unsigned &start,
-                   unsigned &end);
+                   unsigned int &start,
+                   unsigned int &end);
 
 template <class TImage, class TBres>
 void copyLineToImage(const typename TImage::Pointer output,
@@ -72,7 +72,7 @@ mkEnlargedFace(const TInputImage * input,
 // line angle
 template <class TLine>
 unsigned int getLinePixels(const TLine line);
-
+#endif
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -29,7 +29,7 @@ namespace itk {
 * erosions/dilation
 *
 **/
-
+#if defined(_MSC_VER) && _MSC_VER >= 1300
 #if 0
 // can be moved to SharedMorphUtilities if user control of border is permitted
 template <class TImage, class TBres, class TLine>
@@ -74,7 +74,7 @@ void DoAnchorFace(const TImage * input,
 //std::list<TRegion> mkFaceList(const TRegion AllImage,
 //                              const TLine line);
 
-
+#endif
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

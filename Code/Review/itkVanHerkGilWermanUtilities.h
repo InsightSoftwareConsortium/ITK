@@ -30,7 +30,7 @@ namespace itk {
  * erosions/dilation
  *
  */
-
+#if defined(_MSC_VER) && _MSC_VER >= 1300
 #if 0
 // version with no user access to border
 template <class TImage, class TBres, class TLine, class TFunction>
@@ -69,7 +69,7 @@ void doFace(typename TImage::ConstPointer input,
             const typename TImage::RegionType AllImage, 
             const typename TImage::RegionType face);
 
-
+#endif
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
