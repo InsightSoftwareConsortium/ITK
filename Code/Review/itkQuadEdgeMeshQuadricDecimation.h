@@ -83,8 +83,8 @@ namespace itk
         OutputPointsContainerPointer points = output->GetPoints();
         OutputPointsContainerIterator it = points->Begin();
         OutputPointIdentifier p_id( 0 );
-        OutputQEType* qe( 0 );
-        OutputQEType* qe_it( 0 );
+        OutputQEType* qe = 0;
+        OutputQEType* qe_it = 0;
         
         for( ; it != points->End(); it++ )
           {

@@ -18,15 +18,18 @@ namespace itk
     typedef TPoint PointType;
     typedef typename PointType::CoordRepType CoordType;
 
-    static const unsigned int PointDimension = PointType::PointDimension;
-    static const unsigned int NumberOfCoefficients = 
-      PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1;
+    itkStaticConstMacro(PointDimension, unsigned int, PointType::PointDimension);
+    itkStaticConstMacro(NumberOfCoefficients, unsigned int, PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1);
+
+//    static const unsigned int PointDimension = PointType::PointDimension;
+//    static const unsigned int NumberOfCoefficients = 
+//      PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1;
     
     typedef typename PointType::VectorType VectorType;
     typedef vnl_matrix< CoordType > VNLMatrixType;
-    typedef vnl_vector_fixed< CoordType, PointDimension > 
+    typedef vnl_vector_fixed< CoordType, itkGetStaticConstMacro(PointDimension) > 
       VNLVectorType;
-    typedef vnl_vector_fixed< CoordType, NumberOfCoefficients > 
+    typedef vnl_vector_fixed< CoordType, itkGetStaticConstMacro(NumberOfCoefficients) > 
       CoefficientVectorType;
     typedef TriangleHelper< PointType > TriangleType;
     

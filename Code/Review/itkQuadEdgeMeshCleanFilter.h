@@ -148,9 +148,9 @@ protected:
     // Copy cells
   InputCellsContainerIterator c_it = temp->GetCells()->Begin();
   InputCellsContainerIterator c_end = temp->GetCells()->End();
-  InputEdgeCellType* qe( 0 );
-  InputPolygonCellType* pe( 0 );
-  InputQEPrimal* QEGeom( 0 );
+  InputEdgeCellType* qe = 0;
+  InputPolygonCellType* pe = 0;
+  InputQEPrimal* QEGeom = 0;
 
   for( ; c_it != c_end; ++c_it )
     {
