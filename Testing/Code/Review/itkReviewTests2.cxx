@@ -60,4 +60,8 @@ void RegisterTests()
   REGISTER_TEST(itkPriorityQueueTest);
   REGISTER_TEST(itkQuadEdgeMeshSquaredEdgeLengthDecimationTest);
   REGISTER_TEST(itkQuadEdgeMeshQuadricDecimationTest);
+  REGISTER_TEST(itkQuadEdgeMeshGaussianCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshMeanCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshMaxCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshMinCurvatureTest);
 }
