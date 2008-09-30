@@ -245,20 +245,20 @@ ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkBinaryMask3DQuadEdgeMeshSourceTest)
 ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
-ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TEST2}
+ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshQuadricDecimationTest
   ${INPUTDATA}/mushroom.vtk
   20
   ${TEMP}/temp_QuadricDecimationResult1.vtk
   )
-ADD_TEST( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TEST2}
+ADD_TEST( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshSquaredEdgeLengthDecimationTest
   ${INPUTDATA}/mushroom.vtk
   20
   ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
   )
 ADD_TEST( itkQuadEdgeMeshCleanFilterTest
-  ${REVIEW_TEST2}
+  ${REVIEW_TESTS2}
   itkQuadEdgeMeshCleanFilterTest
   #${INPUTDATA}/mushroom.vtk
   #1 
