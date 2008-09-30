@@ -82,9 +82,9 @@ namespace itk
         OutputMeshPointer output = this->GetOutput();
         OutputPointsContainerPointer points = output->GetPoints();
         OutputPointsContainerIterator it = points->Begin();
-        OutputPointIdentifier p_id( 0 );
-        OutputQEType* qe = 0;
-        OutputQEType* qe_it = 0;
+        OutputPointIdentifier p_id;
+        OutputQEType* qe;
+        OutputQEType* qe_it;
         
         for( ; it != points->End(); it++ )
           {

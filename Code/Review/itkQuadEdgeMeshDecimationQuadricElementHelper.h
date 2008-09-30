@@ -81,15 +81,13 @@ namespace itk
       CoordType oError( 0. );
       
       std::vector< CoordType > pt( PointDimension + 1, 1. );
-      unsigned int dim1( 0 );
-      unsigned int dim2( 0 );
-      unsigned int k( 0 );
+      unsigned int dim1( 0 ), dim2, k( 0 );
       
       for(; dim1 < PointDimension; dim1++ )
         pt[dim1] = iP[dim1];
       
-      typename std::vector< CoordType >::iterator p_it1 = pt.begin();
-      typename std::vector< CoordType >::iterator p_it2 = p_it1;
+//       typename std::vector< CoordType >::iterator p_it1 = pt.begin();
+//       typename std::vector< CoordType >::iterator p_it2 = p_it1;
       
       for( dim1 = 0; dim1 < PointDimension + 1; dim1++ )
       {
@@ -160,7 +158,7 @@ namespace itk
                    const VectorType& iN, 
                    const CoordType& iWeight = static_cast< CoordType >( 1. ) )
     {
-      unsigned int dim1( 0 ), dim2( 0 ), k( 0 );
+      unsigned int dim1( 0 ), dim2, k( 0 );
       
       CoordType d = -iN * iP.GetVectorFromOrigin();
       
@@ -224,7 +222,7 @@ namespace itk
     
     void ComputeAMatrixAndBVector( )
     {
-      unsigned int dim1( 0 ), dim2( 0 ), k( 0 );
+      unsigned int dim1( 0 ), dim2, k( 0 );
       
       for( ; dim1 < PointDimension; dim1++ )
       {
