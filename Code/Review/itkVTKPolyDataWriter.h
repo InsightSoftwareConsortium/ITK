@@ -86,8 +86,8 @@ protected:
 
   virtual void GenerateData();
 
-  std::string m_FileName;
-  InputMeshPointer m_Input;
+  std::string         m_FileName;
+  InputMeshPointer    m_Input;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 

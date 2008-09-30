@@ -112,126 +112,142 @@ VTKPolyDataWriter<TInputMesh>
   unsigned int numberOfPoints = this->m_Input->GetNumberOfPoints();
   outputFile << "POINTS " << numberOfPoints << " float" << std::endl;
 
-  PointIterator pointIterator = this->m_Input->GetPoints()->Begin();
-  PointIterator pointEnd = this->m_Input->GetPoints()->End();
-  while( pointIterator != pointEnd )
+  const PointsContainer * points = this->m_Input->GetPoints();
+
+  if( points )
     {
-    PointType point = pointIterator.Value();
-    outputFile << point[0] << " " << point[1] << " " << point[2] << std::endl;
-    pointIterator++;
+
+    PointIterator pointIterator = points->Begin();
+    PointIterator pointEnd = points->End();
+
+    while( pointIterator != pointEnd )
+      {
+      PointType point = pointIterator.Value();
+      outputFile << point[0] << " " << point[1] << " " << point[2] << std::endl;
+      pointIterator++;
+      }
+
     }
 
   unsigned int numberOfVertices = 0;
   unsigned int numberOfEdges = 0;
   unsigned int numberOfPolygons = 0;
-  CellIterator cellIterator = this->m_Input->GetCells()->Begin();
-  CellIterator cellEnd = this->m_Input->GetCells()->End();
-  while( cellIterator != cellEnd )
-    {
-    switch( cellIterator.Value()->GetType() )
-      {
-      case 0: //VERTEX_CELL:
-        numberOfVertices++;
-        break;
-      case 1: //LINE_CELL:
-      case 7: //QUADRATIC_EDGE_CELL:
-        numberOfEdges++;
-        break;
-      case 2: //TRIANGLE_CELL:
-      case 3: //QUADRILATERAL_CELL:
-      case 4: //POLYGON_CELL:
-      case 8: //QUADRATIC_TRIANGLE_CELL: 
-        numberOfPolygons++;
-        break;
-      default:
-        std::cerr << "Unhandled cell (volumic?)." << std::endl; 
-      }
-    cellIterator++;
-    }
 
-  // VERTICES should go here
-  if( numberOfVertices )
-    {
-    }
+  const CellsContainer * cells = this->m_Input->GetCells();
 
-  // LINES
-  if( numberOfEdges )
+  if( cells )
     {
-    outputFile << "LINES " << numberOfEdges << " " << 3*numberOfEdges;
-    outputFile << std::endl;
-  
-    cellIterator = this->m_Input->GetCells()->Begin();
+    CellIterator cellIterator = cells->Begin();
+    CellIterator cellEnd = cells->End();
+
     while( cellIterator != cellEnd )
       {
-      CellType * cellPointer = cellIterator.Value();
       switch( cellIterator.Value()->GetType() )
         {
+        case 0: //VERTEX_CELL:
+          numberOfVertices++;
+          break;
         case 1: //LINE_CELL:
         case 7: //QUADRATIC_EDGE_CELL:
-          {
-          PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
-          PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
-          outputFile << cellPointer->GetNumberOfPoints();
-          while( pointIdIterator != pointIdEnd )
-            {
-            outputFile << " " << *pointIdIterator;
-            pointIdIterator++;
-            }
-          outputFile << std::endl;
+          numberOfEdges++;
           break;
-          }
-        default:
-          break;
-        }
-      cellIterator++;
-      }
-    }
-
-  // POLYGONS
-  if( numberOfPolygons )
-    {
-    // This could be optimized but at least now any polygonal
-    // mesh can be saved. 
-    cellIterator = this->m_Input->GetCells()->Begin();
-
-    unsigned long n( 0 );
-    for( ; cellIterator != this->m_Input->GetCells()->End(); cellIterator++ )
-      {
-      CellType * cellPointer = cellIterator.Value();
-      if( cellPointer->GetType() != 1 )
-        {
-          n += cellPointer->GetNumberOfPoints();
-        }
-      }
-    outputFile << "POLYGONS " << numberOfPolygons << " " << n+numberOfPolygons;
-    outputFile << std::endl;
-  
-    cellIterator = this->m_Input->GetCells()->Begin();
-    while( cellIterator != cellEnd )
-      {
-      CellType * cellPointer = cellIterator.Value();
-      switch( cellIterator.Value()->GetType() )
-        {
         case 2: //TRIANGLE_CELL:
         case 3: //QUADRILATERAL_CELL:
         case 4: //POLYGON_CELL:
         case 8: //QUADRATIC_TRIANGLE_CELL: 
-          {
-          PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
-          PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
-          outputFile << cellPointer->GetNumberOfPoints();
-          while( pointIdIterator != pointIdEnd )
-            {
-            outputFile << " " << *pointIdIterator;
-            pointIdIterator++;
-            }
-          outputFile << std::endl;
+          numberOfPolygons++;
           break;
-          }
         default:
-          break;
+          std::cerr << "Unhandled cell (volumic?)." << std::endl; 
         }
       cellIterator++;
+      }
+
+    // VERTICES should go here
+    if( numberOfVertices )
+      {
+      }
+
+    // LINES
+    if( numberOfEdges )
+      {
+      outputFile << "LINES " << numberOfEdges << " " << 3*numberOfEdges;
+      outputFile << std::endl;
+    
+      cellIterator = cells->Begin();
+      while( cellIterator != cellEnd )
+        {
+        CellType * cellPointer = cellIterator.Value();
+        switch( cellIterator.Value()->GetType() )
+          {
+          case 1: //LINE_CELL:
+          case 7: //QUADRATIC_EDGE_CELL:
+              {
+              PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
+              PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
+              outputFile << cellPointer->GetNumberOfPoints();
+              while( pointIdIterator != pointIdEnd )
+                {
+                outputFile << " " << *pointIdIterator;
+                pointIdIterator++;
+                }
+              outputFile << std::endl;
+              break;
+              }
+          default:
+            break;
+          }
+        cellIterator++;
+        }
+      }
+
+    // POLYGONS
+    if( numberOfPolygons )
+      {
+      // This could be optimized but at least now any polygonal
+      // mesh can be saved. 
+      cellIterator = cells->Begin();
+
+      unsigned long n( 0 );
+      while( cellIterator != cells->End() )
+        {
+        CellType * cellPointer = cellIterator.Value();
+        if( cellPointer->GetType() != 1 )
+          {
+            n += cellPointer->GetNumberOfPoints();
+          }
+        cellIterator++;
+        }
+      outputFile << "POLYGONS " << numberOfPolygons << " " << n+numberOfPolygons;
+      outputFile << std::endl;
+    
+      cellIterator = cells->Begin();
+      while( cellIterator != cellEnd )
+        {
+        CellType * cellPointer = cellIterator.Value();
+        switch( cellIterator.Value()->GetType() )
+          {
+          case 2: //TRIANGLE_CELL:
+          case 3: //QUADRILATERAL_CELL:
+          case 4: //POLYGON_CELL:
+          case 8: //QUADRATIC_TRIANGLE_CELL: 
+              {
+              PointIdIterator pointIdIterator = cellPointer->PointIdsBegin();
+              PointIdIterator pointIdEnd = cellPointer->PointIdsEnd();
+              outputFile << cellPointer->GetNumberOfPoints();
+              while( pointIdIterator != pointIdEnd )
+                {
+                outputFile << " " << *pointIdIterator;
+                pointIdIterator++;
+                }
+              outputFile << std::endl;
+              break;
+              }
+          default:
+            break;
+          }
+        cellIterator++;
+        }
       }
     }
 
