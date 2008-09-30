@@ -122,7 +122,7 @@ public:
   * a subclass of ImageBoundaryCondition. */
   void OverrideBoundaryCondition(const DefaultBoundaryConditionType* i)
     {
-    itkLegacyBodyMacro(itk::GrayscaleDilateImageFilter::OverrideBoundaryCondition, 2.8);
+    itkLegacyBodyMacro(GrayscaleDilateImageFilter::OverrideBoundaryCondition, 2.8);
     SetBoundary( i->GetConstant() );
     }
 
@@ -131,7 +131,7 @@ public:
    */
   const DefaultBoundaryConditionType* GetBoundaryCondition()
     {
-    itkLegacyBodyMacro(itk::GrayscaleDilateImageFilter::GetBoundaryCondition, 2.8);
+    itkLegacyBodyMacro(GrayscaleDilateImageFilter::GetBoundaryCondition, 2.8);
     return &m_BoundaryCondition;
     }
 
@@ -140,8 +140,8 @@ public:
    */
   void ResetBoundaryCondition()
     {
-    itkLegacyBodyMacro(itk::GrayscaleDilateImageFilter::ResetBoundaryCondition, 2.8);
-    SetBoundary( itk::NumericTraits< PixelType >::NonpositiveMin() );
+    itkLegacyBodyMacro(GrayscaleDilateImageFilter::ResetBoundaryCondition, 2.8);
+    SetBoundary( NumericTraits< PixelType >::NonpositiveMin() );
     }
 
   /** define values used to determine which algorithm to use */

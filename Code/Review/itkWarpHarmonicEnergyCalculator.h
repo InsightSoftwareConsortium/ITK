@@ -113,7 +113,7 @@ public:
   /** Directly Set/Get the array of weights used in the gradient calculations.
    *  Note that calling UseImageSpacingOn will clobber these values. */
   void SetDerivativeWeights(double data[]);
-  itkGetVectorMacro(DerivativeWeights, const double, itk::GetImageDimension<TInputImage>::ImageDimension);
+  itkGetVectorMacro(DerivativeWeights, const double, ::itk::GetImageDimension<TInputImage>::ImageDimension);
 
   /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);
@@ -151,7 +151,7 @@ private:
   bool m_UseImageSpacing;
 
   /** The weights used to scale partial derivatives during processing */
-  double m_DerivativeWeights[itk::GetImageDimension<TInputImage>::ImageDimension];
+  double m_DerivativeWeights[::itk::GetImageDimension<TInputImage>::ImageDimension];
 
   RadiusType    m_NeighborhoodRadius;
 };

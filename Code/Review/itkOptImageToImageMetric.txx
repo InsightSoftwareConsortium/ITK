@@ -251,7 +251,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   for( unsigned int ithread=0; ithread < m_NumberOfThreads-1; ++ithread)
     {
     // Create a copy of the main transform to be used in this thread.
-    itk::LightObject::Pointer anotherTransform = this->m_Transform->CreateAnother();
+    LightObject::Pointer anotherTransform = this->m_Transform->CreateAnother();
     // This static_cast should always work since the pointer was created by
     // CreateAnother() called from the transform itself.
     TransformType * transformCopy = static_cast< TransformType * >( anotherTransform.GetPointer() );
@@ -994,7 +994,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     {
     if ( m_ComputeGradient )
       {
-      itk::ContinuousIndex<double, MovingImageDimension> tempIndex;
+      ContinuousIndex<double, MovingImageDimension> tempIndex;
       m_MovingImage->TransformPhysicalPointToContinuousIndex( mappedPoint,
                                                               tempIndex );
       MovingImageIndexType mappedIndex;

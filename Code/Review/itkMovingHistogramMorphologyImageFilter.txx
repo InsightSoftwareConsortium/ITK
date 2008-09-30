@@ -29,7 +29,7 @@ MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistog
 {
   // default m_boundary should be set by subclasses. Just provide a default
   // value to always get the same behavior if it is not done
-  m_Boundary = itk::NumericTraits< PixelType >::Zero;
+  m_Boundary = NumericTraits< PixelType >::Zero;
 }
 
 

@@ -139,7 +139,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 
 
   // copy internal buffer to output
-  typedef typename itk::ImageRegionIterator<InputImageType> IterType;
+  typedef ImageRegionIterator<InputImageType> IterType;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)

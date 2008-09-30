@@ -79,7 +79,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
   progress.CompletedPixel();
   
   // now move the histogram
-  itk::FixedArray<short, ImageDimension> direction;
+  FixedArray<short, ImageDimension> direction;
   direction.Fill(1);
   IndexType currentIdx = outputRegionForThread.GetIndex();
   int axis = ImageDimension - 1;
@@ -205,7 +205,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
     }
 
   // now move the histogram
-  itk::FixedArray<short, ImageDimension> direction;
+  FixedArray<short, ImageDimension> direction;
   direction.Fill(1);
   int axis = ImageDimension - 1;
   OffsetType offset;
@@ -232,11 +232,11 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
   const OffsetListType* addedList = &this->m_AddedOffsets[offset];
   const OffsetListType* removedList = &this->m_RemovedOffsets[offset];
 
-  typedef typename itk::ImageLinearConstIteratorWithIndex<InputImageType> InputLineIteratorType;
+  typedef ImageLinearConstIteratorWithIndex<InputImageType> InputLineIteratorType;
   InputLineIteratorType InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
   
-  typedef typename itk::ImageRegionIterator<OutputImageType> OutputIteratorType;
+  typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
   //OutputIteratorType oit(outputImage, outputRegionForThread);
   InLineIt.GoToBegin();
   IndexType LineStart;

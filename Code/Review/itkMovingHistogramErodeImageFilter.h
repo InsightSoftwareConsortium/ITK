@@ -76,7 +76,7 @@ public:
 protected:
   MovingHistogramErodeImageFilter()
     {
-    this->m_Boundary = itk::NumericTraits< PixelType >::max();
+    this->m_Boundary = NumericTraits< PixelType >::max();
     }
   ~MovingHistogramErodeImageFilter() {};
 

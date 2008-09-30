@@ -1008,7 +1008,7 @@ ComputeBufferFromLines()
     }
 
   // dilate the pixel
-  typedef itk::VanHerkGilWermanDilateImageFilter<ImageType, Self> DilateType;
+  typedef VanHerkGilWermanDilateImageFilter<ImageType, Self> DilateType;
   typename DilateType::Pointer dilate = DilateType::New();
   dilate->SetInput( sourceImage );
   dilate->SetKernel( *this );

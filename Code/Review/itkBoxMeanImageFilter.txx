@@ -47,8 +47,8 @@ BoxMeanImageFilter<TInputImage, TOutputImage>
 {
 
   // Accumulate type is too small
-  typedef typename itk::NumericTraits<PixelType>::RealType AccPixType;
-  typedef typename itk::Image<AccPixType, TInputImage::ImageDimension> AccumImageType;
+  typedef typename NumericTraits<PixelType>::RealType AccPixType;
+  typedef Image<AccPixType, TInputImage::ImageDimension> AccumImageType;
 
   typename TInputImage::SizeType internalRadius;
   for( int i=0; i<TInputImage::ImageDimension; i++ )

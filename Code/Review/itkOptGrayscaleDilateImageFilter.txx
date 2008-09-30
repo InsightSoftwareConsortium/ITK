@@ -35,7 +35,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
   m_VHGWFilter = VHGWFilterType::New();
   m_Algorithm = HISTO;
 
-  this->SetBoundary( itk::NumericTraits< PixelType >::NonpositiveMin() );
+  this->SetBoundary( NumericTraits< PixelType >::NonpositiveMin() );
 }
 
 template< class TInputImage, class TOutputImage, class TKernel>

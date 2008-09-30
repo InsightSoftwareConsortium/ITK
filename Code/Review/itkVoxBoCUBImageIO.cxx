@@ -572,7 +572,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
         OrientationMap::const_iterator it = m_OrientationMap.find(code);
         if(it != m_OrientationMap.end())
           {
-          itk::MetaDataDictionary &dic =this->GetMetaDataDictionary();
+          MetaDataDictionary &dic =this->GetMetaDataDictionary();
           EncapsulateMetaData<OrientationFlags>(
             dic, ITK_CoordinateOrientation, it->second);
           }
@@ -591,7 +591,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
             }
           oss << word;
           }
-        itk::MetaDataDictionary &dic =this->GetMetaDataDictionary();
+        MetaDataDictionary &dic =this->GetMetaDataDictionary();
         EncapsulateMetaData<std::string>(dic, key, oss.str());
        }
       }

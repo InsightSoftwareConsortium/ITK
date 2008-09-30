@@ -82,7 +82,7 @@ namespace itk
       typedef typename SolverTraits::MatrixType         MatrixType;
       typedef typename SolverTraits::VectorType         VectorType;
 
-      typedef itk::QuadEdgeMeshBorderTransform< InputMeshType, InputMeshType >
+      typedef QuadEdgeMeshBorderTransform< InputMeshType, InputMeshType >
                                                         MeshBorderTransform;
       typedef typename MeshBorderTransform::Pointer MeshBorderTransformPointer;
 

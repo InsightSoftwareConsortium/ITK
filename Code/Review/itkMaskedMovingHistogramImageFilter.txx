@@ -166,7 +166,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     }
 
   // now move the histogram
-  itk::FixedArray<short, ImageDimension> direction;
+  FixedArray<short, ImageDimension> direction;
   direction.Fill(1);
   int axis = ImageDimension - 1;
   OffsetType offset;
@@ -193,11 +193,11 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   const OffsetListType* addedList = &this->m_AddedOffsets[offset];
   const OffsetListType* removedList = &this->m_RemovedOffsets[offset];
   
-  typedef typename itk::ImageLinearConstIteratorWithIndex<InputImageType> InputLineIteratorType;
+  typedef ImageLinearConstIteratorWithIndex<InputImageType> InputLineIteratorType;
   InputLineIteratorType InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
   
-  typedef typename itk::ImageRegionIterator<OutputImageType> OutputIteratorType;
+  typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
   InLineIt.GoToBegin();
   IndexType LineStart;
   InLineIt.GoToBegin();

@@ -35,7 +35,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
   m_VHGWFilter = VHGWFilterType::New();
   m_Algorithm = HISTO;
 
-  this->SetBoundary( itk::NumericTraits< PixelType >::max() );
+  this->SetBoundary( NumericTraits< PixelType >::max() );
 }
 
 template< class TInputImage, class TOutputImage, class TKernel>

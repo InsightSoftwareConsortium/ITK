@@ -154,7 +154,7 @@ public:
   /** Directly Set/Get the array of weights used in the gradient calculations.
    *  Note that calling UseImageSpacingOn will clobber these values. */
   void SetDerivativeWeights( double data[] );
-  itkGetVectorMacro(DerivativeWeights, const double, itk::GetImageDimension<TInputImage>::ImageDimension);
+  itkGetVectorMacro(DerivativeWeights, const double, ::itk::GetImageDimension<TInputImage>::ImageDimension);
 
 protected:
   WarpJacobianDeterminantFilter();
@@ -209,7 +209,7 @@ protected:
      (ConstNeighborhoodIteratorType &it) const;
 
   /** The weights used to scale partial derivatives during processing */
-  double m_DerivativeWeights[itk::GetImageDimension<TInputImage>::ImageDimension];
+  double m_DerivativeWeights[::itk::GetImageDimension<TInputImage>::ImageDimension];
 
 private:
   WarpJacobianDeterminantFilter(const Self&); //purposely not implemented

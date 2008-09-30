@@ -117,7 +117,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
   // store the kernel offset list
   m_KernelOffsets = kernelOffsets;
 
-  typename itk::FixedArray< unsigned long, ImageDimension > axisCount;
+  FixedArray< unsigned long, ImageDimension > axisCount;
   axisCount.Fill( 0 );
 
   for( unsigned axis=0; axis<ImageDimension; axis++)

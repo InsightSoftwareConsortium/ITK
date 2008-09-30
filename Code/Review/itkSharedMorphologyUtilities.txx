@@ -275,7 +275,7 @@ mkEnlargedFace(const typename TInputImage::ConstPointer input,
 {
 #if 0
   // use the face calculator to produce a face list
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>
 FaceCalculatorType;
   FaceCalculatorType faceCalculator;
   typename TInputImage::SizeType radius;

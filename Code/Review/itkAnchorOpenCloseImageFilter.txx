@@ -167,7 +167,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     }
 
   // copy internal buffer to output
-  typedef itk::ImageRegionIterator<InputImageType> IterType;
+  typedef ImageRegionIterator<InputImageType> IterType;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
