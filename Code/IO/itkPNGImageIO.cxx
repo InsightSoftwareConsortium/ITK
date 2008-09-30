@@ -179,7 +179,7 @@ void PNGImageIO::Read(void* buffer)
     return;
     }
   
-//  VS 7.1 has problems with setjmp/longjmp in C++ code
+   //  VS 7.1 has problems with setjmp/longjmp in C++ code
 #if !defined(MSC_VER) || _MSC_VER != 1310
   if( setjmp( png_jmpbuf( png_ptr ) ) )
     {
