@@ -153,6 +153,7 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshMaxCurvatureTest.cxx
   itkQuadEdgeMeshMeanCurvatureTest.cxx
   itkQuadEdgeMeshMinCurvatureTest.cxx
+  itkQuadEdgeMeshDelaunayConformingFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -289,7 +290,12 @@ FOREACH( border 0 1 )
   ENDFOREACH( coeff )
 ENDFOREACH( border )
 
-
+ADD_TEST( itkQuadEdgeMeshDelaunayConformingFilterTest ${REVIEW_TESTS2}
+  itkQuadEdgeMeshDelaunayConformingFilterTest
+  ${INPUTDATA}/mushroom.vtk 
+  ${TEMP}/mushrom_delaunay.vtk
+  )
+ 
 FOREACH(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
   STRING(REGEX REPLACE "\\." "_" op ${opacity})
   ADD_TEST(itkLabelOverlayImageFilterTest-Opacity-${op} ${REVIEW_TESTS}
