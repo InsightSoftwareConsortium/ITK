@@ -51,7 +51,10 @@ public:
   {
     CrossVectorType cross;
     VectorType w = cross ( iB - iA, iC - iA );
-    w.Normalize( );
+    CoordRepType l2 = w.GetSquaredNorm();
+
+    if( l2 != 0. )
+      w /= vcl_sqrt( l2 );
 
     return w;
   }
