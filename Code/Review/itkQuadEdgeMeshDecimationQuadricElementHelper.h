@@ -15,11 +15,13 @@ namespace itk
   class QuadEdgeMeshDecimationQuadricElementHelper
   {
   public:
+    typedef QuadEdgeMeshDecimationQuadricElementHelper Self;
     typedef TPoint PointType;
     typedef typename PointType::CoordRepType CoordType;
 
     itkStaticConstMacro(PointDimension, unsigned int, PointType::PointDimension);
-    itkStaticConstMacro(NumberOfCoefficients, unsigned int, PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1);
+    itkStaticConstMacro(NumberOfCoefficients, unsigned int,
+      PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1);
 
 //    static const unsigned int PointDimension = PointType::PointDimension;
 //    static const unsigned int NumberOfCoefficients = 
@@ -27,21 +29,20 @@ namespace itk
     
     typedef typename PointType::VectorType VectorType;
     typedef vnl_matrix< CoordType > VNLMatrixType;
-    typedef vnl_vector_fixed< CoordType, itkGetStaticConstMacro(PointDimension) > 
-      VNLVectorType;
-    typedef vnl_vector_fixed< CoordType, itkGetStaticConstMacro(NumberOfCoefficients) > 
-      CoefficientVectorType;
+    typedef vnl_vector_fixed< CoordType,
+      itkGetStaticConstMacro(PointDimension) >  VNLVectorType;
+    typedef vnl_vector_fixed< CoordType,
+      itkGetStaticConstMacro(NumberOfCoefficients) > CoefficientVectorType;
     typedef TriangleHelper< PointType > TriangleType;
     
-    typedef QuadEdgeMeshDecimationQuadricElementHelper Self;
-
     // *****************************************************************
     QuadEdgeMeshDecimationQuadricElementHelper() : m_Coefficients( 0. ),
       m_A( PointDimension, PointDimension, 0. ),
       m_b( 0. ),
       m_Rank( PointDimension ) {}
       
-    QuadEdgeMeshDecimationQuadricElementHelper( const CoefficientVectorType& iCoefficients ) : 
+    QuadEdgeMeshDecimationQuadricElementHelper(
+      const CoefficientVectorType& iCoefficients ) : 
       m_Coefficients( iCoefficients ), 
       m_A( PointDimension, PointDimension, 0. ),
       m_b( 0. ),
