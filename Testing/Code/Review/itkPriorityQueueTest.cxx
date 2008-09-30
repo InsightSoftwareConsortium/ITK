@@ -3,7 +3,7 @@
 
 using namespace itk;
 
-int itkPriorityQueueTest( int argc, char** argv )
+int itkPriorityQueueTest( int argc, char* argv[] )
 {
   typedef MinPriorityQueueElementWrapper< int, double, int > PQElementType;
   typedef PriorityQueueContainer< PQElementType, PQElementType, double, int >
