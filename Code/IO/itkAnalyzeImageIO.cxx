@@ -79,7 +79,7 @@ GetExtension( const std::string& filename )
   if(fileExt == std::string(".gz"))
     {
     fileExt=itksys::SystemTools::GetFilenameLastExtension(itksys::SystemTools::GetFilenameWithoutLastExtension(filename) );
-    fileExt+=".gz";
+    fileExt += ".gz";
     }
   //Check that a valid extension was found.
   if(fileExt != ".img.gz" && fileExt != ".img" && fileExt != ".hdr")
@@ -1289,38 +1289,38 @@ AnalyzeImageIO
 #endif
       typedef itk::SpatialOrientationAdapter::DirectionType DirectionType;
       DirectionType dir;
-      {
-      unsigned int dims = this->GetNumberOfDimensions();
-      std::vector<double> dirx = this->GetDirection(0),
-        diry = this->GetDirection(1);
-      std::vector<double> dirz;
-      if(dims > 2)
         {
-        dirz = this->GetDirection(2);
-        }
-      else
-        {
-        for(unsigned i = 0; i < 3; i++)
+        unsigned int dims = this->GetNumberOfDimensions();
+        std::vector<double> dirx = this->GetDirection(0),
+          diry = this->GetDirection(1);
+        std::vector<double> dirz;
+        if(dims > 2)
           {
-          dirz.push_back(0.0);
+          dirz = this->GetDirection(2);
+          }
+        else
+          {
+          for(unsigned i = 0; i < 3; i++)
+            {
+            dirz.push_back(0.0);
+            }
+          }
+        unsigned int i;
+        for(i = 0; i < dims; i++)
+          {
+          dir[i][0] = dirx[i];
+          dir[i][1] = diry[i];
+          dir[i][2] = dirz[i];
+          }
+        for(; i < 3; i++)
+          {
+          dir[i][0] = 
+            dir[i][1] = 
+            dir[i][2] = 0;
           }
         }
-      unsigned int i;
-      for(i = 0; i < dims; i++)
-        {
-        dir[i][0] = dirx[i];
-        dir[i][1] = diry[i];
-        dir[i][2] = dirz[i];
-        }
-      for(; i < 3; i++)
-        {
-        dir[i][0] = 
-          dir[i][1] = 
-          dir[i][2] = 0;
-        }
-      }
-      coord_orient =
-        itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
+        coord_orient =
+          itk::SpatialOrientationAdapter().FromDirectionCosines(dir);
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
       }
 #endif
