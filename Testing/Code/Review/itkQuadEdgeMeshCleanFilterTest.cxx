@@ -8,7 +8,7 @@
 
 using namespace itk;
 
-int itkQuadEdgeMeshCleanFilterTest( int argc, char** argv )
+int itkQuadEdgeMeshCleanFilterTest( int argc, char* argv[] )
 {
     // ** ERROR MESSAGE AND HELP ** //
     if( argc < 3 )

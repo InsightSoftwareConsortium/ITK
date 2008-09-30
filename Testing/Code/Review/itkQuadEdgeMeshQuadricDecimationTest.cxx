@@ -9,7 +9,7 @@
 
 using namespace itk;
 
-int itkQuadEdgeMeshQuadricDecimationTest( int argc, char** argv )
+int itkQuadEdgeMeshQuadricDecimationTest( int argc, char* argv[] )
 {
     // ** ERROR MESSAGE AND HELP ** //
     if( argc < 3 )
