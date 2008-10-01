@@ -58,7 +58,7 @@ int main( int argc, char* argv[] )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " DicomImage OutputDicomImage ";
-    std::cerr << " OutputImage RescalDicomImage\n";
+    std::cerr << " OutputImage RescaleDicomImage\n";
     return EXIT_FAILURE;
     }
 

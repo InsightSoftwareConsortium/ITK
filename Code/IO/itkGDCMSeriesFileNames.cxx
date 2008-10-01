@@ -18,10 +18,10 @@
 #define _itkGDCMSeriesFileNames_h
 
 #include "itkGDCMSeriesFileNames.h"
+#include <itksys/SystemTools.hxx>
+
 #include "gdcmSerieHelper.h"
 #include "gdcmFile.h"
-#include "gdcmUtil.h"
-#include <itksys/SystemTools.hxx>
 
 #include <vector>
 #include <string>
@@ -152,6 +152,7 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
     for(it = flist->begin(); 
         it != flist->end(); ++it )
       {
+#if GDCM_MAJOR_VERSION < 2
       gdcm::File * header = *it;
       if( !header )
         {
@@ -166,6 +167,10 @@ const FilenamesContainer &GDCMSeriesFileNames::GetFileNames(const std::string se
         continue;
         }
       m_InputFileNames.push_back( header->GetFileName() );
+#else
+      gdcm::FileWithName * header = *it;
+      m_InputFileNames.push_back( header->filename );
+#endif
       }
     }
   else
