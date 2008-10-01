@@ -162,7 +162,7 @@ namespace itk
           static_cast< CriterionValueType >( sq_norm1A * sq_norm2A );
 
         if( den != 0. )
-          dotA /= std::sqrt( den );
+          dotA /= vcl_sqrt( den );
 
         if( dotA > 1. )
           dotA = 1.;
@@ -172,14 +172,14 @@ namespace itk
         den = static_cast< CriterionValueType >( sq_norm1B * sq_norm2B );
 
         if( den != 0. )
-          dotB /= std::sqrt( den );
+          dotB /= vcl_sqrt( den );
 
         if( dotB > 1. )
           dotB = 1.;
         if( dotB < -1. )
           dotB = -1.;
 
-        return ( std::acos( dotA ) + std::acos( dotB ) - vnl_math::pi );
+        return ( vcl_acos( dotA ) + vcl_acos( dotB ) - vnl_math::pi );
         }
 
     private:

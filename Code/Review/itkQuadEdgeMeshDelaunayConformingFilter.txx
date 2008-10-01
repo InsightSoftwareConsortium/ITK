@@ -22,7 +22,7 @@ namespace itk
       
     CriterionValueType value( 0 );
 
-    OutputEdgeCellType* edge( 0 );
+    OutputEdgeCellType* edge = 0;
 
     for( OutputCellsContainerIterator
           outCellIterator = output->GetCells( )->Begin( );
@@ -75,9 +75,9 @@ namespace itk
     typename std::vector< OutputQEType* > list_qe( 5 );
     typename std::vector< OutputQEType* >::iterator it;
 
-    OutputEdgeCellType* edge( 0 );
-    OutputQEType* qe( 0 );
-    OutputQEType* e_it( 0 );
+    OutputEdgeCellType* edge = 0;
+    OutputQEType* qe = 0;
+    OutputQEType* e_it = 0;
 
     CriterionValueType value( 0 );
 
