@@ -90,7 +90,7 @@ public:
   // the map based algorithm
   //
 
-  typedef typename std::map< TInputPixel, unsigned long > MapType;
+  typedef std::map< TInputPixel, unsigned long > MapType;
 
   inline void AddPixelMap( const TInputPixel &p )
     { m_Map[ p ]++; }
@@ -188,11 +188,12 @@ public:
 
 /**
  * \class MovingHistogramMorphologicalGradientImageFilter
- * \brief Morphological gradients enhance the variation of pixel intensity in a given neighborhood.
+ * \brief Morphological gradients enhance the variation of pixel
+ * intensity in a given neighborhood.
  *
- * Morphological gradient is described in Chapter 3.8.1 of Pierre Soille's book 
- * "Morphological Image Analysis: Principles and Applications", 
- * Second Edition, Springer, 2003.
+ * Morphological gradient is described in Chapter 3.8.1 of Pierre
+ * Soille's book  "Morphological Image Analysis: Principles and
+ * Applications", Second Edition, Springer, 2003.
  * 
  * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -231,7 +232,7 @@ public:
   typedef typename Superclass::OutputImageRegionType  OutputImageRegionType;
   typedef typename TOutputImage::PixelType            OutputPixelType;
 
-  typedef typename Function::MorphologicalGradientHistogram< PixelType > HistogramType;
+  typedef Function::MorphologicalGradientHistogram< PixelType > HistogramType;
 
 
   /** Image related typedefs. */
@@ -242,7 +243,7 @@ public:
   /** Return true if the vector based algorithm is used, and
    * false if the map based algorithm is used */
   static bool GetUseVectorBasedAlgorithm()
-    { return Function::MorphologicalGradientHistogram< typename TInputImage::PixelType >::useVectorBasedAlgorithm(); }
+    { return Function::MorphologicalGradientHistogram< ITK_TYPENAME TInputImage::PixelType >::useVectorBasedAlgorithm(); }
   
 protected:
   MovingHistogramMorphologicalGradientImageFilter() {};
