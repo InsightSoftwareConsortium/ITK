@@ -151,7 +151,7 @@ DeleteElement( OutputQEType* iEdge )
       {
       if( !map_it->second->m_Priority.first )
         {
-        m_PriorityQueue->Delete( map_it->second );
+        m_PriorityQueue->DeleteElement( map_it->second );
         m_QueueMapper.erase( map_it );
         }
       }

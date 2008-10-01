@@ -293,7 +293,7 @@ public:
     UpdateUpTree( location );
     }
 
-  void Delete( Element element )
+  void DeleteElement( Element element )
     {
     ElementIdentifier location = m_Interface.GetLocation( element );
     m_Interface.SetLocation( element, -1);
