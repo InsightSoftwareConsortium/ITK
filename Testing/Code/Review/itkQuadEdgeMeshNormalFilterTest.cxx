@@ -10,6 +10,13 @@ using namespace std;
 
 int itkQuadEdgeMeshNormalFilterTest( int argc, char* argv[] )
 {
+    if( argc < 2 )
+      {
+      std::cout <<"This program requires at least 1 argument" <<std::endl;
+      std::cout <<"1- Input filename" <<std::endl;
+      return EXIT_FAILURE;
+      }
+    
     const unsigned int Dimension = 3;
     typedef double CoordType;
     typedef QuadEdgeMesh< CoordType, Dimension > InputMeshType;

@@ -130,7 +130,6 @@ namespace itk
 
           OutputQEType* edge = poly->GetEdgeRingEntry( );
           OutputQEType* temp = edge;
-          k = 0;
           do
           {
             pt[k] = output->GetPoint( temp->GetOrigin( ) );
