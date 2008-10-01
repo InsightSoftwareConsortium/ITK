@@ -63,20 +63,17 @@ protected:
   {
     OutputMeshPointer output = this->GetOutput();
 
-    OutputCurvatureType sum_theta;
-    OutputCurvatureType area;
-
     OutputQEType* qe = iP.GetEdge( );
-    OutputQEType* qe_it;
-    OutputQEType* qe_it2;
-
-    OutputPointType q0, q1;
 
     if( qe != 0 )
       {
-      qe_it = qe;
-      sum_theta = 0.;
-      area = 0.;
+      OutputQEType* qe_it = qe;
+      OutputQEType* qe_it2;
+
+      OutputPointType q0, q1;
+
+      OutputCurvatureType sum_theta = 0.;
+      OutputCurvatureType area = 0.;
       do
         {
         // cell_id = qe_it->GetLeft();
@@ -90,8 +87,11 @@ protected:
         area += ComputeMixedArea( qe_it, qe_it2 );
         qe_it = qe_it2;
         } while( qe_it != qe );
-    }
-  return ( 2. * vnl_math::pi - sum_theta ) / area;
+      return ( 2. * vnl_math::pi - sum_theta ) / area;
+      }
+   else
+      return 0.;
+  
   }
 
 private:
