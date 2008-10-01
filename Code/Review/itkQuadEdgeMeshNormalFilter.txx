@@ -92,8 +92,11 @@ namespace itk
     do
     {
       cell_id = temp->GetLeft( );
-      output->GetCellData( cell_id, &face_normal );
-      n += face_normal * Weight( iId, cell_id );
+      if( cell_id != OutputMeshType::m_NoFace )
+        {
+        output->GetCellData( cell_id, &face_normal );
+        n += face_normal * Weight( iId, cell_id );
+        }
       temp = temp->GetOnext( );
     } while( temp != edge );
 

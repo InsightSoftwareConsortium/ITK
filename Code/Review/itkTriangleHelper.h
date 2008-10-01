@@ -14,6 +14,7 @@ template< typename TPoint >
 class TriangleHelper
 {
 public:
+  typedef TriangleHelper Self;
   typedef TPoint PointType;
   typedef typename PointType::CoordRepType CoordRepType;
   typedef typename PointType::VectorType VectorType;
@@ -96,8 +97,13 @@ public:
     VectorType v21 = iP1 - iP2;
     VectorType v23 = iP3 - iP2;
 
-    v21.Normalize();
-    v23.Normalize();
+    CoordRepType v21_l2 = v21.GetSquaredNorm();
+    CoordRepType v23_l2 = v23.GetSquaredNorm();
+
+    if( v21_l2 != 0. )
+      v21 /= v21_l2;
+    if( v23_l2 != 0. )
+      v23 /= v23_l2;
 
     return vcl_acos( v21 * v23 );
   }
@@ -202,10 +208,9 @@ protected:
 
 
 private:
-  TriangleHelper( const TriangleHelper& );
-  void operator = ( const TriangleHelper& );
+  TriangleHelper( const Self& );
+  void operator = ( const Self& );
 };
 }
 
-//#include "itkTriangle.txx"
 #endif

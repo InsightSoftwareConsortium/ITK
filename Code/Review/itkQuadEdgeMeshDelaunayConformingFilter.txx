@@ -20,9 +20,9 @@ namespace itk
   {
     OutputMeshType* output = this->GetOutput( );
       
-    CriterionValueType value( 0 );
+    CriterionValueType value;
 
-    OutputEdgeCellType* edge = 0;
+    OutputEdgeCellType* edge;
 
     for( OutputCellsContainerIterator
           outCellIterator = output->GetCells( )->Begin( );
@@ -75,11 +75,11 @@ namespace itk
     typename std::vector< OutputQEType* > list_qe( 5 );
     typename std::vector< OutputQEType* >::iterator it;
 
-    OutputEdgeCellType* edge = 0;
-    OutputQEType* qe = 0;
-    OutputQEType* e_it = 0;
+    OutputEdgeCellType* edge;
+    OutputQEType* qe;
+    OutputQEType* e_it;
 
-    CriterionValueType value( 0 );
+    CriterionValueType value;
 
     while( !m_PriorityQueue->Empty( ) )
       {
