@@ -343,4 +343,3 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   return EXIT_SUCCESS;
   
 }
-

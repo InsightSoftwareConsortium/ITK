@@ -43,7 +43,6 @@ int itkAddConstantToImageFilterTest(int, char* [] )
                                   OutputImageType>  OutputIteratorType;
 
 
-
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
 
