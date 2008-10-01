@@ -75,7 +75,7 @@ public:
     CoordRepType cos_theta = vnl_math_max( -bound, 
       vnl_math_min( bound, v21 * v23 ) );
             
-    return 1. / tan( acos( cos_theta ) );
+    return 1. / vcl_tan( vcl_acos( cos_theta ) );
   }
 
   static PointType ComputeBarycenter (
@@ -105,7 +105,12 @@ public:
     if( v23_l2 != 0. )
       v23 /= v23_l2;
 
-    return vcl_acos( v21 * v23 );
+    CoordRepType bound( 0.999999 );
+
+    CoordRepType cos_theta = vnl_math_max( -bound, 
+      vnl_math_min( bound, v21 * v23 ) );
+ 
+    return vcl_acos( cos_theta );
   }
 
   static PointType ComputeGravityCenter (
