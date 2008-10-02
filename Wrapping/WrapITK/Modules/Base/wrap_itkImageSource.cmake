@@ -1,6 +1,6 @@
 WRAP_CLASS("itk::ImageSource" POINTER)
   # Force uchar and ulong image sources for saving in 8 bits and watershed filter
-  UNIQUE(image_types "UC;RGBUC;UL;${WRAP_ITK_ALL_TYPES}")
+  UNIQUE(image_types "UC;RGBUC;RGBAUC;UL;${WRAP_ITK_ALL_TYPES}")
   WRAP_IMAGE_FILTER("${image_types}" 1)
 
   UNIQUE(to_types "${WRAP_ITK_SCALAR};UC")
