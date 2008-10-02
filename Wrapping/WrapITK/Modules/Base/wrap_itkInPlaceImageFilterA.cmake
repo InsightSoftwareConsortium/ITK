@@ -35,4 +35,23 @@ WRAP_CLASS("itk::InPlaceImageFilter" POINTER)
     WRAP_IMAGE_FILTER_COMBINATIONS("${types}" "RGBUS")
   ENDIF(WRAP_rgb_unsigned_short)
 
+  # int <-> RGBA
+  IF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+    WRAP_IMAGE_FILTER_TYPES(RGBAUC UC)
+  ENDIF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+
+  IF(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
+    WRAP_IMAGE_FILTER_TYPES(RGBAUS US)
+  ENDIF(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
+
+  IF(WRAP_rgba_unsigned_char)
+    UNIQUE(types "UL;${WRAP_ITK_SCALAR}")
+    WRAP_IMAGE_FILTER_COMBINATIONS("${types}" "RGBAUC")
+  ENDIF(WRAP_rgba_unsigned_char)
+
+  IF(WRAP_rgba_unsigned_short)
+    UNIQUE(types "UL;${WRAP_ITK_SCALAR}")
+    WRAP_IMAGE_FILTER_COMBINATIONS("${types}" "RGBAUS")
+  ENDIF(WRAP_rgba_unsigned_short)
+
 END_WRAP_CLASS()

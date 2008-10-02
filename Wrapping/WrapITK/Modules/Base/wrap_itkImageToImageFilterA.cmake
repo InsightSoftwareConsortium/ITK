@@ -18,4 +18,8 @@ WRAP_CLASS("itk::ImageToImageFilter" POINTER)
   UNIQUE(rgb "RGBUC;${WRAP_ITK_RGB}")
   WRAP_IMAGE_FILTER_COMBINATIONS("${rgb}" "${rgb}")
 
+  # RGBA types
+  UNIQUE(rgba "RGBAUC;${WRAP_ITK_RGBA}")
+  WRAP_IMAGE_FILTER_COMBINATIONS("${rgba}" "${rgba}")
+
 END_WRAP_CLASS()

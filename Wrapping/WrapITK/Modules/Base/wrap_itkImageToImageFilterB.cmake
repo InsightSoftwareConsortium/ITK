@@ -7,6 +7,11 @@ WRAP_CLASS("itk::ImageToImageFilter" POINTER)
   WRAP_IMAGE_FILTER_COMBINATIONS("${stypes}" "${WRAP_ITK_RGB}")
   WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_RGB}" "${stypes}")
  
+  # scalar <-> RGBA
+  UNIQUE(stypes "UL;${WRAP_ITK_SCALAR}")
+  WRAP_IMAGE_FILTER_COMBINATIONS("${stypes}" "${WRAP_ITK_RGBA}")
+  WRAP_IMAGE_FILTER_COMBINATIONS("${WRAP_ITK_RGBA}" "${stypes}")
+ 
   # VectorImage <-> scalar
   UNIQUE(to_types "UC;${WRAP_ITK_SCALAR}")
     FOREACH(d ${WRAP_ITK_DIMS})
