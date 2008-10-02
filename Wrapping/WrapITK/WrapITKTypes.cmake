@@ -120,7 +120,7 @@ WRAP_TYPE("itk::RGBAPixel" "RGBA")
     WRAP_TEMPLATE("${ITKM_US}" "${ITKT_US}")
   ENDIF(WRAP_rgba_unsigned_short)
 END_WRAP_TYPE()
-SET(itk_Wrap_RGBAPixel ${WRAP_TEMPLATE_LIST})
+SET(itk_Wrap_RGBAPixel ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("std::complex" "C")
   IF(WRAP_complex_float)
