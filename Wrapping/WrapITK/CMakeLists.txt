@@ -64,6 +64,9 @@ OPTION(WRAP_covariant_vector_double "Wrap covariant vector double type" OFF)
 OPTION(WRAP_rgb_unsigned_char "Wrap RGB< unsigned char > type" OFF)
 OPTION(WRAP_rgb_unsigned_short "Wrap RGB< unsigned short > type" ON)
 
+OPTION(WRAP_rgba_unsigned_char "Wrap RGBA< unsigned char > type" OFF)
+OPTION(WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" ON)
+
 OPTION(WRAP_complex_float "Wrap complex<float> type" ON)
 OPTION(WRAP_complex_double "Wrap complex<double> type" OFF)
 

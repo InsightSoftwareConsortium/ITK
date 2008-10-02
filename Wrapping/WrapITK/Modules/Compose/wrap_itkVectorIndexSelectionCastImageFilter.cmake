@@ -24,4 +24,13 @@ WRAP_CLASS("itk::VectorIndexSelectionCastImageFilter" POINTER_WITH_SUPERCLASS)
   IF(WRAP_vector_float AND WRAP_float)
     WRAP_IMAGE_FILTER_TYPES(VF F)
   ENDIF(WRAP_vector_float AND WRAP_float)
+
+  # Wrap RGBA image types
+  IF(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
+    WRAP_IMAGE_FILTER_TYPES(RGBAUS US)
+  ENDIF(WRAP_rgba_unsigned_short AND WRAP_unsigned_short)
+  IF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+    WRAP_IMAGE_FILTER_TYPES(RGBAUC UC)
+  ENDIF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
+
 END_WRAP_CLASS()
