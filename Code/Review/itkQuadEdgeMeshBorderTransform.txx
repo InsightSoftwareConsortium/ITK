@@ -26,7 +26,7 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
-::QuadEdgeMeshBorderTransform( ) :  m_Radius( 10000. )
+::QuadEdgeMeshBorderTransform( ) :  m_TransformType( SQUARE_BORDER_TRANSFORM ), m_Radius( 10000. )
 {
 }
 
