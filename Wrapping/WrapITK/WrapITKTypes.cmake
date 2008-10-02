@@ -114,9 +114,7 @@ END_WRAP_TYPE()
 SET(itk_Wrap_RGBPixel ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::RGBAPixel" "RGBA")
-  IF(WRAP_rgba_unsigned_char)
-    WRAP_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
-  ENDIF(WRAP_rgba_unsigned_char)
+  WRAP_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
 
   IF(WRAP_rgba_unsigned_short)
     WRAP_TEMPLATE("${ITKM_US}" "${ITKT_US}")
