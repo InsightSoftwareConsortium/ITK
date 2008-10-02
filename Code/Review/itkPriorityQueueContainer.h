@@ -28,9 +28,9 @@ public:
   virtual TElementIdentifier GetLocation( const ElementType& element) = 0;
   virtual void SetLocation( ElementType& element,
     const ElementIdentifierType& identifier) = 0;
-  virtual bool less( const ElementType& element1,
+  virtual bool is_less( const ElementType& element1,
     const ElementType& element2 ) = 0;
-  virtual bool greater( const ElementType& element1,
+  virtual bool is_greater( const ElementType& element1,
     const ElementType& element2 ) = 0;
 };
 
@@ -58,15 +58,15 @@ public:
     {
     (*element).SetLocation(*element, identifier);
     }
-  bool less( const ElementWrapperPointerType& element1,
+  bool is_less( const ElementWrapperPointerType& element1,
     const ElementWrapperPointerType& element2 )
     {
-    return( (*element1).less( (*element1), (*element2) ) );
+    return( (*element1).is_less( (*element1), (*element2) ) );
     }
-  bool greater( const ElementWrapperPointerType& element1,
+  bool is_greater( const ElementWrapperPointerType& element1,
     const ElementWrapperPointerType& element2 )
     {
-    return( (*element1).greater( (*element1), (*element2) ) );
+    return( (*element1).is_greater( (*element1), (*element2) ) );
     }
 };
 
@@ -144,13 +144,13 @@ public:
     }
 
   // still virtual to be able to overload it in the Max flavor
-  virtual bool less( const MinPriorityQueueElementWrapper& element1,
+  virtual bool is_less( const MinPriorityQueueElementWrapper& element1,
                      const MinPriorityQueueElementWrapper& element2 )
     {
     return( element1 < element2 );
     }
 
-  virtual bool greater( const MinPriorityQueueElementWrapper& element1,
+  virtual bool is_greater( const MinPriorityQueueElementWrapper& element1,
                         const MinPriorityQueueElementWrapper& element2 )
     {
     return( element1 > element2 );
@@ -191,13 +191,13 @@ public:
   
   virtual ~MaxPriorityQueueElementWrapper() {}
 
-  bool less( const MaxPriorityQueueElementWrapper& element1,
+  bool is_less( const MaxPriorityQueueElementWrapper& element1,
              const MaxPriorityQueueElementWrapper& element2 )
     {
     return( element1 > element2 );
     }
 
-  bool greater( const MaxPriorityQueueElementWrapper& element1,
+  bool is_greater( const MaxPriorityQueueElementWrapper& element1,
                 const MaxPriorityQueueElementWrapper& element2 )
     {
     return( element1 < element2 );
@@ -357,7 +357,7 @@ protected:
       ElementIdentifier parentIdentifier = GetParent( id );
       Element parent_element = GetElementAtLocation( parentIdentifier );
 
-      while( ( id > 0 ) && m_Interface.less( element, parent_element ) )
+      while( ( id > 0 ) && m_Interface.is_less( element, parent_element ) )
         {
         parent_element = GetElementAtLocation( parentIdentifier );
         SetElementAtLocation( id,
@@ -383,13 +383,13 @@ protected:
     while( ( id < queueSize ) && ( childIdentifier < queueSize ) )
       {
       if( ( childIdentifier + 1 < queueSize ) &&
-          ( m_Interface.less( GetElementAtLocation( childIdentifier + 1 ),
+          ( m_Interface.is_less( GetElementAtLocation( childIdentifier + 1 ),
                               GetElementAtLocation( childIdentifier ) ) ) )
         {
         ++childIdentifier;
         }
       temp = GetElementAtLocation( childIdentifier );
-      if( m_Interface.less( element, temp ) )
+      if( m_Interface.is_less( element, temp ) )
         {
         break;
         }

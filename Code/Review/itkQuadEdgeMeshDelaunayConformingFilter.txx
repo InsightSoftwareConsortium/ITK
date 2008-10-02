@@ -38,9 +38,9 @@ InitializePriorityQueue()
 {
   OutputMeshType* output = this->GetOutput( );
     
-  CriterionValueType value;
+  OutputEdgeCellType* edge = 0;
 
-  OutputEdgeCellType* edge;
+  CriterionValueType value = 0.; 
 
   for( OutputCellsContainerIterator
         outCellIterator = output->GetCells( )->Begin( );
