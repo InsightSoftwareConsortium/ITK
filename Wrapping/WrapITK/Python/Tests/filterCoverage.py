@@ -62,6 +62,9 @@ excluded = set([
   "BasicErodeImageFilter",
   "BasicErodeImageFilter",
   "AdaptImageFilter",
+  "DeformationFieldJacobianDeterminantFilter",
+  "WarpJacobianDeterminantFilter",
+  "GetAverageSliceImageFilter",
   ])
 
 
