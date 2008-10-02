@@ -13,6 +13,7 @@ SET(WRAPPER_LIBRARY_GROUPS
   itkCovariantVector
   itkVector
   itkRGBPixel
+  itkRGBAPixel
   itkVariableLengthVector
   itkImage
   itkVectorImage
