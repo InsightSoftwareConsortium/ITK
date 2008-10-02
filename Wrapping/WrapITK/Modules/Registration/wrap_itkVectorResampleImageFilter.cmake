@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::VectorResampleImageFilter" POINTER)
+  WRAP_IMAGE_FILTER_VECTOR_REAL(2)
+END_WRAP_CLASS()
