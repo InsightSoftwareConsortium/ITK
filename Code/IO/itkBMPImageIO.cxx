@@ -43,8 +43,9 @@ BMPImageIO::BMPImageIO()
   m_Origin[1] = 0.0;
   m_FileLowerLeft = 0;
   m_Depth = 8;
-  m_Allow8BitBMP = true;
+  m_Allow8BitBMP = false;
   m_NumberOfColors = 0;
+  m_ColorTableSize = 0;
   m_BMPCompression = 0;
   m_BMPDataSize = 0;
 
@@ -264,11 +265,12 @@ void BMPImageIO::Read(void* buffer)
       }
     else
       {
+      // File is not compressed
+      // Read one row at a time
       for(unsigned int id=0;id<m_Dimensions[1];id++)
         {
         m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead*(m_Dimensions[1] - id - 1),std::ios::beg);
         m_Ifstream.read((char *)value, paddedStreamRead);
-
         for(long i=0;i<streamRead;i++)
           {
           if(this->GetNumberOfComponents() == 1)
@@ -277,7 +279,7 @@ void BMPImageIO::Read(void* buffer)
             }
           else
             {
-            if(m_NumberOfColors == 0)
+            if(m_ColorTableSize == 0)
               {
               if(this->GetNumberOfComponents() == 3 )
                 {
@@ -318,6 +320,7 @@ void BMPImageIO::Read(void* buffer)
       }
     }
   else
+    // File not lower left
     {
     m_Ifstream.seekg(m_BitMapOffset,std::ios::beg);
     for(unsigned int id=0;id<m_Dimensions[1];id++)
@@ -406,7 +409,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.read((char*)&infoSize,4);
     ByteSwapper<long>::SwapFromSystemToLittleEndian(&infoSize);
-                       
     // error checking
     if ((infoSize != 40)&&(infoSize != 12))
       {
@@ -544,10 +546,24 @@ void BMPImageIO::ReadImageInformation()
       m_Ifstream.read((char*)&itmp,4);
       }
     }
-
-  // Read the color palette
+  // Read the color palette. Only used for 1,4 and 8 bit images.
+  if (m_Depth <= 8)
+    {
+    if (m_NumberOfColors)
+      {
+      m_ColorTableSize = ((1 << m_Depth) < m_NumberOfColors) ? (1 << m_Depth) : m_NumberOfColors;
+      }
+    else
+      {
+      m_ColorTableSize = (1 << m_Depth);
+      }
+    }
+  else
+    {
+    m_ColorTableSize = 0;
+    }
   unsigned char uctmp;
-  for(unsigned long i=0;i<m_NumberOfColors;i++)
+  for(unsigned long i=0;i<m_ColorTableSize;i++)
     {
     RGBPixelType p;
     m_Ifstream.read((char*)&uctmp,1);
@@ -562,12 +578,19 @@ void BMPImageIO::ReadImageInformation()
 
   switch( m_Depth )
     {
+    case 1:
+    case 4:
     case 8:
       {
       if( m_Allow8BitBMP )
         {
         this->SetNumberOfComponents(1);
         m_PixelType = SCALAR;
+        }
+      else
+        {
+        this->SetNumberOfComponents(3);
+        m_PixelType = RGB;
         }
       break;
       }

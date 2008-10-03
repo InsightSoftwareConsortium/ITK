@@ -98,6 +98,7 @@ private:
   short                     m_Depth;
   bool                      m_Allow8BitBMP;
   unsigned short            m_NumberOfColors;
+  unsigned int              m_ColorTableSize;
   long                      m_BMPCompression;
   unsigned long             m_BMPDataSize;
   std::vector<RGBPixelType> m_ColorPalette;
