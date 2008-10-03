@@ -175,10 +175,11 @@ public:
     m_PointIds[1] = GetQEGeom()->GetDestination();
     }
 
-  /** QuadEdge internal flavor of cell API **/
+  /** QuadEdge internal flavor of cell API */
   virtual void InternalSetPointIds( PointIdInternalConstIterator first );
-  virtual void InternalSetPointIds( PointIdInternalConstIterator first,
-                            PointIdInternalConstIterator last );
+  virtual void InternalSetPointIds( 
+    PointIdInternalConstIterator first,
+    PointIdInternalConstIterator last );
 
   virtual PointIdInternalIterator InternalPointIdsBegin();
   virtual PointIdInternalIterator InternalPointIdsEnd();
