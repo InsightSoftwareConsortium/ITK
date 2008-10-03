@@ -1808,14 +1808,6 @@ void GDCMImageIO::Write(const void* buffer)
     de.SetVR( gdcm::Attribute<0x0020, 0x000e>::GetVR() );
     header.Insert( de );
     }
-
-    //header->InsertValEntry( uid, 0x0008, 0x0018); //[SOP Instance UID]
-    //header->InsertValEntry( uid, 0x0002, 0x0003); //[Media Stored SOP Instance UID]
-    //header->InsertValEntry( m_StudyInstanceUID, 0x0020, 0x000d); //[Study Instance UID]
-    //header->InsertValEntry( m_SeriesInstanceUID, 0x0020, 0x000e); //[Series Instance UID]
-    //header->InsertValEntry( m_FrameOfReferenceInstanceUID, 0x0020, 0x0052); //[Frame of Reference UID] 
-    // Secondary Capture Image Storage SOP Class
-    //header->InsertValEntry( "1.2.840.10008.5.1.4.1.1.7", 0x0002, 0x0012); //[Implementation Class UID]
     }
 
   const char *filename = m_FileName.c_str();
