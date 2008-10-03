@@ -37,6 +37,9 @@
 namespace itk
 {
 
+#if defined(USE_FFTWD) || defined(USE_FFTWF)
+template <class TPixel,unsigned int Dimension> class FFTWComplexToComplexImageFilter;
+#endif
 
 template < class TPixel, unsigned int NDimension >
 typename FFTComplexToComplexImageFilter< TPixel, NDimension >::Pointer
