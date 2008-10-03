@@ -61,7 +61,7 @@ PrintSelf( std::ostream& os, Indent indent ) const
     case EXISTING_OPPOSITE_EDGE: 
       os << "EXISTING_OPPOSITE_EDGE" <<std::endl;
       break;
-  }
+    }
 }
 
 template < class TMesh, class TQEType >
@@ -130,7 +130,7 @@ Evaluate( QEType* h )
   CheckStatus( h );
 
   switch( m_EdgeStatus )
-  {
+    {
     default:
     case STANDARD_CONFIG:
       return Process( h );
@@ -152,7 +152,7 @@ Evaluate( QEType* h )
     case EXISTING_OPPOSITE_EDGE:
       itkDebugMacro( "The opposite edge already exists." );
       return( (QEType*) 0 );
-  }
+    }
 }
 
 template < class TMesh, class TQEType >
