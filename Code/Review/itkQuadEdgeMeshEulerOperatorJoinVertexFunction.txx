@@ -39,10 +39,12 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
+  
   os << indent << "m_OldPointID: " << m_OldPointID <<std::endl;
   os << indent << "m_EdgeStatus: ";
+
   switch( m_EdgeStatus )
-  {
+    {
     default:
     case STANDARD_CONFIG:
       os << "STANDARD_CONFIG" <<std::endl;
@@ -77,7 +79,7 @@ PrintSelf( std::ostream& os, Indent indent ) const
     case EDGE_JOINING_DIFFERENT_BORDERS:
       os << "EDGE_JOINING_DIFFERENT_BORDERS" <<std::endl;
       break;
-  }
+    }
 }
 
 //--------------------------------------------------------------------------
@@ -87,10 +89,11 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
 Evaluate( QEType* e )
 {
   std::stack< QEType* > edges_to_be_deleted;
+
   m_EdgeStatus = CheckStatus( e, edges_to_be_deleted );
 
   switch( m_EdgeStatus )
-  {
+    {
     default:
     case STANDARD_CONFIG:
       return Process( e );
@@ -123,7 +126,7 @@ Evaluate( QEType* e )
       return( (QEType*) 0 );
     case EDGE_JOINING_DIFFERENT_BORDERS:
       return( (QEType*) 0 );
-  }
+    }
 }
 
 
@@ -456,15 +459,15 @@ IsTetraedron( QEType* e )
   
           if( left_triangle && right_triangle )
             {
-              CellIdentifier id_left_right_triangle;
-              if( e->GetLprev()->IsRightSet() )
-                {
-                id_left_right_triangle = e->GetLprev()->GetRight();
-                }
-              else
-                {
-                return false;
-                }
+            CellIdentifier id_left_right_triangle;
+            if( e->GetLprev()->IsRightSet() )
+              {
+              id_left_right_triangle = e->GetLprev()->GetRight();
+              }
+            else
+              {
+              return false;
+              }
 
             CellIdentifier id_left_left_triangle;
             if( e->GetLnext()->IsRightSet() )
@@ -547,21 +550,21 @@ CommonVertexNeighboor( QEType* e )
 
   PointIdentifier id;
   do
-  {
+    {
     id = e_it->GetDestination();
     dir_list.push_back( id );
     e_it = e_it->GetOnext();
-  } while( e_it != qe );
+    } while( e_it != qe );
 
   qe = qe->GetSym();
   e_it = qe;
 
   do
-  {
+    {
     id = e_it->GetDestination();
     sym_list.push_back( id );
     e_it = e_it->GetOnext();
-  } while( e_it != qe );
+    } while( e_it != qe );
 
   dir_list.sort();
   sym_list.sort();
@@ -572,6 +575,7 @@ CommonVertexNeighboor( QEType* e )
 
   return intersection_list.size();
 }
+
 //--------------------------------------------------------------------------
 template < class TMesh, class TQEType >
 bool
@@ -603,9 +607,13 @@ IsEdgeLinkingTwoDifferentBorders( QEType* e )
       } while( ( e_it != t ) && ( !dest_border ) );
       
     if( !dest_border )
+      {
       return false;
+      }
     else
+      {
       return true;
+      }
     }
 }
 
