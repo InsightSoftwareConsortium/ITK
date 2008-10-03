@@ -92,7 +92,15 @@ excluded = set([
   "VanHerkGilWermanDilateImageFilter",
   "VanHerkGilWermanErodeDilateImageFilter",
   "VanHerkGilWermanErodeImageFilter",
-  ])
+  "GradientImageToBloxBoundaryPointImageFilter",
+  "JoinImageFilter",
+  "MaskedMovingHistogramImageFilter",
+  "SimpleFuzzyConnectednessRGBImageFilter",
+  "SimpleFuzzyConnectednessScalarImageFilter",
+  "MeshToMeshFilter",
+  "VectorFuzzyConnectednessImageFilter",
+  "WarpJacobianDeterminantFilter",
+])
 
 
 # get filters from sources
