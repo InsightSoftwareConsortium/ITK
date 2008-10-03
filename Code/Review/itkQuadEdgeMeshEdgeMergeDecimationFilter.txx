@@ -1,3 +1,20 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkQuadEdgeMeshEdgeMergeDecimationFilter.txx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
 #ifndef __itkQuadEdgeMeshEdgeMergeDecimationFilter_txx
 #define __itkQuadEdgeMeshEdgeMergeDecimationFilter_txx
 
@@ -33,12 +50,13 @@ FillPriorityQueue()
 
   OutputEdgeCellType* edge;
 
-  for ( ; it != end; ++it )
+  while( it != end )
     {
     if ( ( edge = dynamic_cast< OutputEdgeCellType* >( it.Value( ) ) ) )
       {
       PushElement( edge->GetQEGeom( ) );
       }
+    ++it;
     }
 }
 
@@ -195,61 +213,70 @@ JoinVertexFailed( )
   typename OperatorType::EdgeStatusType
     status = m_JoinVertexFunction->GetEdgeStatus();
   switch( status )
-  {
-  default:
-  case OperatorType::EDGE_NULL:
-  case OperatorType::MESH_NULL:
-  case OperatorType::FACE_ISOLATED:
-    break;
-  case OperatorType::EDGE_ISOLATED:
-    if( m_Verbose )
-      std::cout <<"** EDGE_ISOLATED: " <<this->m_Iteration <<std::endl;
-    TagElementOut( m_Element );
-    break;
+    {
+    default:
+    case OperatorType::EDGE_NULL:
+    case OperatorType::MESH_NULL:
+    case OperatorType::FACE_ISOLATED:
+      break;
+    case OperatorType::EDGE_ISOLATED:
+      if( m_Verbose )
+        {
+        std::cout <<"** EDGE_ISOLATED: " <<this->m_Iteration <<std::endl;
+        }
+      TagElementOut( m_Element );
+      break;
     // more than 2 common vertices in 0-ring of org and dest respectively
     case OperatorType::TOO_MANY_COMMON_VERTICES:
       if( m_Verbose )
         {
-        std::cout <<"** TOO_MANY_COMMON_VERTICES: " <<this->m_Iteration;
-        std::cout <<" ** " <<m_Element->GetOrigin() <<" -> "
+        std::cout << "** TOO_MANY_COMMON_VERTICES: " << this->m_Iteration;
+        std::cout << " ** " <<m_Element->GetOrigin() << " -> "
           <<m_Element->GetDestination() <<std::endl;
         }
-      TagElementOut( m_Element );
+      this->TagElementOut( m_Element );
       break;
     // ******************************************************************
     // Tetraedron case
     case OperatorType::TETRAEDRON_CONFIG:
       if( m_Verbose )
-        std::cout <<"** TETRAEDRON_CONFIG: " <<this->m_Iteration <<std::endl;
-        TagElementOut( m_Element );
-        TagElementOut( m_Element->GetOnext() );
-      TagElementOut( m_Element->GetOprev() );
-      TagElementOut( m_Element->GetSym() );
-        TagElementOut( m_Element->GetSym()->GetOnext() );
-      TagElementOut( m_Element->GetSym()->GetOprev() );
-      TagElementOut( m_Element->GetOnext()->GetLnext() );
+        {
+        std::cout << "** TETRAEDRON_CONFIG: " << this->m_Iteration << std::endl;
+        }
+      this->TagElementOut( m_Element );
+      this->TagElementOut( m_Element->GetOnext() );
+      this->TagElementOut( m_Element->GetOprev() );
+      this->TagElementOut( m_Element->GetSym() );
+      this->TagElementOut( m_Element->GetSym()->GetOnext() );
+      this->TagElementOut( m_Element->GetSym()->GetOprev() );
+      this->TagElementOut( m_Element->GetOnext()->GetLnext() );
       break;
     // ******************************************************************
     // Samosa case
     case OperatorType::SAMOSA_CONFIG:
       if( m_Verbose )
-        std::cout <<"** SAMOSA_CONFIG: " <<this->m_Iteration <<std::endl;
-      RemoveSamosa();
+        {
+        std::cout << "** SAMOSA_CONFIG: " <<this->m_Iteration << std::endl;
+        }
+      this->RemoveSamosa();
       break;
     // ******************************************************************
     // Eye case
     case OperatorType::EYE_CONFIG:
       if( m_Verbose )
-        std::cout <<"** EYE_CONFIG: " <<this->m_Iteration <<std::endl;    
-      RemoveEye();
+        {
+        std::cout << "** EYE_CONFIG: " << this->m_Iteration << std::endl;
+        }
+      this->RemoveEye();
       break;
     case OperatorType::EDGE_JOINING_DIFFERENT_BORDERS:
       if( m_Verbose )
-        std::cout <<"** EDGE_JOINING_DIFFERENT_BORDERS: "
-          <<this->m_Iteration <<std::endl;
-      TagElementOut( m_Element );
+        {
+        std::cout << "** EDGE_JOINING_DIFFERENT_BORDERS: " << this->m_Iteration <<std::endl;
+        }
+      this->TagElementOut( m_Element );
       break;
-  }
+    }
 }
 
 template< class TInput, class TOutput, class TCriterion >
@@ -380,7 +407,9 @@ CheckQEProcessingStatus( )
           // sharing same points but with opposite orientation
           // looks like a samosa
           if( m_Verbose )
+            {
             std::cout <<"RemoveSamosa" <<std::endl;
+            }
           return 1;
           } // end if( OriginOrderIsTwo && DestinationOrderIsTwo )
         else
@@ -391,7 +420,9 @@ CheckQEProcessingStatus( )
           // but you have to decimate it the right way.
           // from the top the drawing of that case looks like an Eye
           if( m_Verbose )
+            {
             std::cout <<"RemoveEye" <<std::endl;
+            }
           return 2;
           } // end else if( OriginOrderIsTwo && DestinationOrderIsTwo )
        } // end if( OriginOrderIsTwo || DestinationOrderIsTwo )
@@ -401,11 +432,15 @@ CheckQEProcessingStatus( )
           {
           // both points have more than 2 edges on their O-ring
           if( m_Verbose )
+            {
             std::cout <<"NumberOfCommonVerticesIn0Ring( ) > 2" <<std::endl;
+            }
           return 3;
           } //end if( NumberOfCommonVerticesIn0Ring( ) > 2 )
         else
+          {
           return 0;
+          }
         } // end else if( OriginOrderIsTwo || DestinationOrderIsTwo )
       } // end if( LeftIsTriangle && RightIsTriangle )
     else // if( LeftIsTriangle && RightIsTriangle )
@@ -413,24 +448,34 @@ CheckQEProcessingStatus( )
       if( NumberOfCommonVerticesIn0Ring( ) > 1 )
         {
         if( m_Verbose )
+          {
           std::cout <<"NumberOfCommonVerticesIn0Ring( ) > 1" <<std::endl;
+          }
         return 4;
         } // end if( NumberOfCommonVerticesIn0Ring( ) > 1 )
       else // if( NumberOfCommonVerticesIn0Ring( ) > 1 )
         {
         if( RightIsTriangle )
+          {
           return 5;
+          }
         else
+          {
           return 6;
+          }
         } // end else if( NumberOfCommonVerticesIn0Ring( ) > 1 )
       } // end else if( LeftIsTriangle && RightIsTriangle )
     } // end if( LeftIsTriangle || RightIsTriangle )
   else // if( LeftIsTriangle || RightIsTriangle )
     {
     if( NumberOfCommonVerticesIn0Ring( ) > 0 )
+      {
       return 7;
+      }
     else
+      {
       return 0;
+      }
     } // end if( LeftIsTriangle || RightIsTriangle )
 
 //   return 0;
@@ -521,7 +566,9 @@ RemoveEye()
   OutputQEType* qe_sym = m_Element->GetSym( );
 
   if( qe->GetSym( )->GetOrder( ) == 2 )
+    {
     qe = qe_sym;
+    }
 
   TagElementOut( qe );
   TagElementOut( qe->GetOnext( ) );
@@ -533,11 +580,14 @@ template< class TInput, class TOutput, class TCriterion >
 bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 IsCriterionSatisfied()
 {
-  if ( m_PriorityQueue->Empty() )
+  if( m_PriorityQueue->Empty() )
+    {
     return true;
+    }
   else
-    return this->m_Criterion->is_satisfied( this->GetOutput(), 0,
-      m_Priority.second );
+    {
+    return this->m_Criterion->is_satisfied( this->GetOutput(), 0, m_Priority.second );
+    }
 }
 
 }
