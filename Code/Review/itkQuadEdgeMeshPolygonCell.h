@@ -143,7 +143,7 @@ public:
     }
 
   
-  /** ITK Cell API - Iterator-related methods.*/
+  /** ITK Cell API - Iterator-related methods. */
   virtual void SetPointIds( PointIdConstIterator first );
   virtual void SetPointIds( PointIdConstIterator first,
                             PointIdConstIterator last );
