@@ -119,6 +119,7 @@ namespace itk
        {                                                                     \
        /* Users code comes here: */
 
+
 /** \def itkQEMeshForAllCellsEndMacro
  * \brief Terminates a block of code started with the macro
  *        itkQE::itkQEMeshForAllCellsMacro
