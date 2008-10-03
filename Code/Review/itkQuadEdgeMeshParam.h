@@ -122,7 +122,7 @@ protected:
   QuadEdgeMeshParam( );
   virtual ~QuadEdgeMeshParam( ) {};
 
-  CoefficientsComputation* m_CoefficientsMethod;
+  CoefficientsComputation * m_CoefficientsMethod;
 
   MeshBorderTransformPointer m_BorderTransform;
 
