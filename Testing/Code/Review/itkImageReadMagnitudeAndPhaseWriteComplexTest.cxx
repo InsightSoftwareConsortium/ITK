@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2006 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even
@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -55,10 +56,12 @@ int itkImageReadMagnitudeAndPhaseWriteComplexTest( int argc, char * argv[] )
 
   typedef float InputPixelType;
   typedef float OutputPixelType;
-  typedef itk::Image< InputPixelType  ,  Dimension > InputImageType;
-  typedef itk::Image< std::complex<OutputPixelType> ,  Dimension > OutputImageType;
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+
+  typedef itk::Image< InputPixelType  ,  Dimension >                    InputImageType;
+  typedef itk::Image< std::complex<OutputPixelType> ,  Dimension >      OutputImageType;
+
+  typedef itk::ImageFileReader< InputImageType >      ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType >     WriterType;
 
   typedef itk::MagnitudeAndPhaseToComplexImageFilter <
     InputPixelType, InputPixelType, OutputPixelType, Dimension > MagnitudeAndPhase2ComplexFilterType;
@@ -95,4 +98,3 @@ int itkImageReadMagnitudeAndPhaseWriteComplexTest( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-
