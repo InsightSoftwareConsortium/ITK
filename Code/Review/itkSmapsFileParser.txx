@@ -35,8 +35,6 @@ namespace itk
 {  
   
 
-/**              ---            MapFileParser               ---              **/
-
 template<class TMapDataType>
 MapFileParser<TMapDataType>
 ::~MapFileParser()
@@ -70,7 +68,7 @@ MapFileParser<TMapDataType>
 {
   if ( m_MapData.Empty() )
     {
-    std::cerr<< "Read a map file before quering memory usage" ;
+    std::cerr<< "Read a map file before quering memory usage";
     }
   return m_MapData.GetStackUsage();
 }
@@ -83,7 +81,7 @@ MapFileParser<TMapDataType>
 { 
   if ( m_MapData.Empty() )
     {
-    std::cerr<< "Read a map file before quering memory usage" ;
+    std::cerr<< "Read a map file before quering memory usage";
     }
   return m_MapData.GetTotalMemoryUsage();
 }
@@ -95,12 +93,16 @@ MapFileParser<TMapDataType>
 {
   if ( m_MapData.Empty() )
     {
-    std::cerr << "Read a map file before quering memory usage" ;
+    std::cerr << "Read a map file before quering memory usage";
     }
   return m_MapData.GetMemoryUsage(filter,token);
 }
 
-/**              ---            SmapsFileParser               ---              **/
+
+//---------------------------------
+//      SmapsFileParser
+//---------------------------------
+
 
 template<class TSmapsDataType>
 SmapsFileParser<TSmapsDataType>
@@ -112,8 +114,8 @@ SmapsFileParser<TSmapsDataType>
 template<class TSmapsDataType>
 void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &mapFileLocation)
 {
-   std::stringstream filename;
-   filename << mapFileLocation;
+  std::stringstream filename;
+  filename << mapFileLocation;
 
   // if location is empty (default parameter), use the regular linux smaps file.
   if ( filename.str().empty() )
@@ -148,7 +150,6 @@ void SmapsFileParser<TSmapsDataType>::ReadFile( const std::string &mapFileLocati
     }
   this->m_MapFilePath = filename.str();
 }
-
 
 
 template<class TVMMapDataType>
@@ -213,7 +214,6 @@ void VMMapFileParser<TVMMapDataType>::ReadFile( const std::string &mapFileLocati
     itkGenericExceptionMacro( << "The vmmap file is an invalid file or contains errors" );
     }
 }
-
 
 
 } //end namespace itk
