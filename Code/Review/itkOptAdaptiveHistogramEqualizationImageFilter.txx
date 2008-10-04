@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOptAdaptiveHistogramEqualizationImageFilter_txx
-#define _itkOptAdaptiveHistogramEqualizationImageFilter_txx
+#ifndef __itkOptAdaptiveHistogramEqualizationImageFilter_txx
+#define __itkOptAdaptiveHistogramEqualizationImageFilter_txx
 
 #include <map>
 #include <set>
@@ -236,7 +236,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
           }
         }
         
-      typedef typename ImageType::PixelType PixelType;    
+      typedef typename ImageType::PixelType PixelType;
         
       // if we cached the cumulative array
       // if not, use CumulativeFunction()
