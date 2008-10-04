@@ -43,7 +43,9 @@ public:
   virtual ~RankHistogram(){}
 
   virtual RankHistogram * Clone() const 
-   { return 0; }
+    {
+    return 0;
+    }
    
   virtual void AddPixel(const TInputPixel &itkNotUsed(p)){}
 
