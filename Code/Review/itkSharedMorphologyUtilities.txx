@@ -290,10 +290,10 @@ FaceCalculatorType;
   // with 1D kernels
   // because it doesn't return faces of the sub-blocks if they don't
   // fall along the edge of the image
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef std::list<RegionType>   FaceListType;
+  typedef typename TInputImage::RegionType      RegionType;
+  typedef typename TInputImage::SizeType        SizeType;
+  typedef typename TInputImage::IndexType       IndexType;
+  typedef std::list<RegionType>                 FaceListType;
   FaceListType faceList;
 
   for (unsigned i = 0; i < TInputImage::ImageDimension; i++)
