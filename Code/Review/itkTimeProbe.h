@@ -24,17 +24,17 @@
 namespace itk 
 {
  
-  /** \class TimeProbe 
-   * 
-   *  \brief Class for computing the time passed between two points in the code.
-   *   
-   *   This class allows the user to trace the time passed between the execution of two pieces of code.
-   *   It can be started and stopped in order to evaluate the execution over multiple passes.
-   *   The values of time are taken from the RealTimeClock.
-   *
-   *   \sa RealTimeClock
-   *
-   */
+/** \class TimeProbe 
+ * 
+ *  \brief Class for computing the time passed between two points in the code.
+ *   
+ *   This class allows the user to trace the time passed between the execution of two pieces of code.
+ *   It can be started and stopped in order to evaluate the execution over multiple passes.
+ *   The values of time are taken from the RealTimeClock.
+ *
+ *   \sa RealTimeClock
+ *
+ */
 class ITKCommon_EXPORT TimeProbe: public Probe<RealTimeClock::TimeStampType,RealTimeClock::TimeStampType>
 {
 
