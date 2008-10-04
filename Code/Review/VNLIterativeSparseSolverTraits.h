@@ -1,5 +1,22 @@
-#ifndef VNLSolverTraits_h
-#define VNLSolverTraits_h
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    VNLIterativeSparseSolverTraits.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+
+#ifndef __VNLIterativeSparseSolverTraits_h
+#define __VNLIterativeSparseSolverTraits_h
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_sparse_matrix.h>
@@ -10,70 +27,71 @@ template< typename T = double >
 class VNLIterativeSparseSolverTraits
 {
 public:
-    typedef T ValueType;
-    typedef vnl_sparse_matrix< ValueType > MatrixType;
-    typedef vnl_vector< ValueType > VectorType;
-    typedef vnl_lsqr SolverType;
+  typedef T                                   ValueType;
+  typedef vnl_sparse_matrix< ValueType >      MatrixType;
+  typedef vnl_vector< ValueType >             VectorType;
+  typedef vnl_lsqr                            SolverType;
 
-    VNLIterativeSparseSolverTraits( ) {}
-    ~VNLIterativeSparseSolverTraits( ){}
+  VNLIterativeSparseSolverTraits() {}
+  ~VNLIterativeSparseSolverTraits() {}
 
-    bool IsDirectSolver( ) const
-    {   return false; }
-
-    MatrixType InitializeSparseMatrix( const unsigned int& iN ) const
+  bool IsDirectSolver() const
     {
-        return MatrixType( iN, iN );
+    return false; 
     }
 
-    VectorType InitializeVector( const unsigned int& iN ) const
+  MatrixType InitializeSparseMatrix( const unsigned int& iN ) const
     {
-        return VectorType( iN );
+    return MatrixType( iN, iN );
     }
 
-    void FillMatrix( MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV ) const
+  VectorType InitializeVector( const unsigned int& iN ) const
     {
-        iA( iR, iC ) = iV;
+    return VectorType( iN );
     }
 
-    void AddToMatrix(  MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV ) const
+  void FillMatrix( MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV ) const
     {
-        iA( iR, iC ) += iV;
+    iA( iR, iC ) = iV;
     }
 
-    bool Solve( const MatrixType& iA,
-                const VectorType& iB,
-                VectorType& oX ) const
+  void AddToMatrix(  MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV ) const
     {
-        typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
-        SparseLinearSystemType system( iA, iB );
-
-        SolverType solver( system );
-        return solver.minimize( oX );
+    iA( iR, iC ) += iV;
     }
 
-    // no interest to use this method...
-    bool Solve( const MatrixType& iA,
-                const VectorType& iBx, const VectorType& iBy,
-                VectorType& oX, VectorType& oY ) const
+  bool Solve( const MatrixType& iA, const VectorType& iB, VectorType& oX ) const
     {
-        bool result1 = Solve( iA, iBx, oX );
-        bool result2 = Solve( iA, iBy, oY );
-        return( result1 && result2 );
+    typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
+    SparseLinearSystemType system( iA, iB );
+
+    SolverType solver( system );
+    return solver.minimize( oX );
     }
 
-    bool Solve( const MatrixType& iA,
-                const VectorType& iB,
-                const long& iNbIter,
-                VectorType& oX ) const
+  // no interest to use this method...
+  bool Solve( const MatrixType& iA,
+              const VectorType& iBx, const VectorType& iBy,
+              VectorType& oX, VectorType& oY ) const
     {
-        typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
-        SparseLinearSystemType system( iA, iB );
+    bool result1 = Solve( iA, iBx, oX );
+    bool result2 = Solve( iA, iBy, oY );
+    return( result1 && result2 );
+    }
 
-        SolverType solver( system );
-        solver.set_max_iterations( iNbIter );
-        return solver.minimize( oX );
+  bool Solve( const MatrixType& iA,
+              const VectorType& iB,
+              const long& iNbIter,
+              VectorType& oX ) const
+    {
+    typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
+    SparseLinearSystemType system( iA, iB );
+
+    SolverType solver( system );
+    solver.set_max_iterations( iNbIter );
+    return solver.minimize( oX );
     }
 
 };
+
 #endif
