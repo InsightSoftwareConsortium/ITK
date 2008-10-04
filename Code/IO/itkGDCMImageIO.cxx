@@ -41,6 +41,11 @@
 #include "gdcmGlobal.h"   // access to dictionary
 #include "gdcmDictSet.h"  // access to dictionary
 #else
+#include "gdcmImageHelper.h"
+#include "gdcmImageApplyLookupTable.h"
+#include "gdcmImageChangePlanarConfiguration.h"
+#include "gdcmUnpacker12Bits.h"
+#include "gdcmRescaler.h"
 #include "gdcmFileMetaInformation.h"
 #include "gdcmImageReader.h"
 #include "gdcmImageWriter.h"
@@ -657,24 +662,79 @@ void GDCMImageIO::Read(void* buffer)
 }
 #else
 // GDCM 2.x version
-void GDCMImageIO::Read(void* buffer)
+void GDCMImageIO::Read(void* pointer)
 {
   const char *filename = m_FileName.c_str();
+  assert( gdcm::ImageHelper::GetForceRescaleInterceptSlope() );
   gdcm::ImageReader reader;
   reader.SetFileName( filename );
   if( !reader.Read() )
     {
     itkExceptionMacro(<< "Cannot read requested file");
+    return;
     }
 
-  const gdcm::Image &image = reader.GetImage();
+  gdcm::Image &image = reader.GetImage();
+  assert( image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3 );
   unsigned long len = image.GetBufferLength();
 
   const unsigned long numberOfBytesToBeRead = 
     static_cast< unsigned long>( this->GetImageSizeInBytes() );
-  assert( numberOfBytesToBeRead == len );
 
-  image.GetBuffer((char*)buffer);
+  // I think ITK only allow RGB image by pixel (and not by plane)
+  if( image.GetPlanarConfiguration() == 1 )
+    {
+    gdcm::ImageChangePlanarConfiguration icpc;
+    icpc.SetInput( image );
+    icpc.SetPlanarConfiguration( 0 );
+    icpc.Change();
+    image = icpc.GetOutput();
+    }
+
+  if( image.GetPhotometricInterpretation() == gdcm::PhotometricInterpretation::PALETTE_COLOR )
+    {
+    gdcm::ImageApplyLookupTable ialut;
+    ialut.SetInput( image );
+    ialut.Apply();
+    image = ialut.GetOutput();
+    len *= 3;
+    }
+
+  image.GetBuffer((char*)pointer);
+
+  const gdcm::PixelFormat &pixeltype = image.GetPixelFormat();
+  if( pixeltype == gdcm::PixelFormat::UINT12 || pixeltype == gdcm::PixelFormat::INT12 )
+    {
+    assert( m_RescaleSlope == 1.0 && m_RescaleIntercept == 0.0 );
+    assert( pixeltype.GetSamplesPerPixel() == 1 );
+    // FIXME: I could avoid this extra copy:
+    char * copy = new char[len];
+    memcpy(copy, pointer, len);
+    gdcm::Unpacker12Bits u12;
+    u12.Unpack((char*)pointer, copy, len);
+    // update len just in case:
+    len = 16 * len / 12;
+    delete[] copy;
+    }
+  if( m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0 )
+    {
+    gdcm::Rescaler r;
+    r.SetIntercept( m_RescaleIntercept );
+    r.SetSlope( m_RescaleSlope );
+    r.SetPixelFormat( pixeltype );
+    gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
+    char * copy = new char[len];
+    memcpy(copy, (char*)pointer, len);
+    r.Rescale((char*)pointer,copy,len);
+    delete[] copy;
+    // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
+    len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
+    }
+
+  // \postcondition
+  // Now that len was updated (after unpacker 12bits -> 16bits, rescale...) , can now check compat: 
+  assert( numberOfBytesToBeRead == len ); // programmer error
+
 }
 #endif
 
@@ -948,6 +1008,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
+  // In general this should be relatively safe to assume
+  gdcm::ImageHelper::SetForceRescaleInterceptSlope(true);
+
   const char *filename = m_FileName.c_str();
   gdcm::ImageReader reader;
   reader.SetFileName( filename );
@@ -960,22 +1023,32 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   const unsigned int *dims = image.GetDimensions();
 
   const gdcm::PixelFormat &pixeltype = image.GetPixelFormat();
+
+  m_RescaleIntercept = image.GetIntercept();
+  m_RescaleSlope = image.GetSlope();
+  gdcm::Rescaler r;
+  r.SetIntercept( m_RescaleIntercept );
+  r.SetSlope( m_RescaleSlope );
+  r.SetPixelFormat( pixeltype );
+  gdcm::PixelFormat::ScalarType outputpt = r.ComputeInterceptSlopePixelType();
+
+  assert( pixeltype <= outputpt );
+
   m_ComponentType = UNKNOWNCOMPONENTTYPE;
-  switch( pixeltype )
+  switch( outputpt )
     {
   case gdcm::PixelFormat::INT8:
-    m_ComponentType = ImageIOBase::CHAR;
+    m_ComponentType = ImageIOBase::CHAR; // Is it signed char ?
     break;
   case gdcm::PixelFormat::UINT8:
     m_ComponentType = ImageIOBase::UCHAR;
     break;
+  /* INT12 / UINT12 should not happen anymore in any modern DICOM */
   case gdcm::PixelFormat::INT12:
     m_ComponentType = ImageIOBase::SHORT;
-    itkExceptionMacro( "Not handled for now" );
     break;
   case gdcm::PixelFormat::UINT12:
     m_ComponentType = ImageIOBase::USHORT;
-    itkExceptionMacro( "Not handled for now" );
     break;
   case gdcm::PixelFormat::INT16:
     m_ComponentType = ImageIOBase::SHORT;
@@ -983,8 +1056,19 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   case gdcm::PixelFormat::UINT16:
     m_ComponentType = ImageIOBase::USHORT;
     break;
+  // RT / SC have 32bits
+  case gdcm::PixelFormat::INT32:
+    m_ComponentType = ImageIOBase::INT;
+    break;
+  case gdcm::PixelFormat::UINT32:
+    m_ComponentType = ImageIOBase::UINT;
+    break;
+  //case gdcm::PixelFormat::FLOAT16: // TODO
+  case gdcm::PixelFormat::FLOAT32:
+    m_ComponentType = ImageIOBase::FLOAT;
+    break;
   default:
-    ;
+    itkExceptionMacro( "Unhandled PixelFormat: " << outputpt ); 
     }
 
   m_NumberOfComponents = pixeltype.GetSamplesPerPixel();
@@ -993,7 +1077,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     {
     assert( m_NumberOfComponents == 1 );
     // TODO: need to do the LUT ourself...
-    itkExceptionMacro(<< "PALETTE_COLOR is not implemented yet");
+    //itkExceptionMacro(<< "PALETTE_COLOR is not implemented yet");
+    // AFAIK ITK user don't care about the palette so always apply it and fake a RGB image for them
+    m_NumberOfComponents = 3;
     }
   if (m_NumberOfComponents == 1)
     {
@@ -1001,7 +1087,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     }
   else
     {
-    this->SetPixelType(RGB);
+    this->SetPixelType(RGB); // What if image is YBR ? This is a problem since integer conversion is lossy
     }
 
   // set values in case we don't find them
