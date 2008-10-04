@@ -77,7 +77,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
     std::cout << P << std::endl;
 
-    pointSet->SetPoint( pointCounter, parameterPosition );        
+    pointSet->SetPoint( pointCounter, parameterPosition );
     pointSet->SetPointData( pointCounter, P );
 
     pointCounter++;
@@ -145,4 +145,4 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
     }
 
   return EXIT_SUCCESS;
-};
+}
