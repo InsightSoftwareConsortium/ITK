@@ -39,13 +39,14 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 1;
 
-  typedef int PixelType;
-  typedef itk::Image<PixelType, ParametricDimension> InputImageType;
-  typedef float RealType;
-  typedef itk::Vector<RealType, DataDimension> VectorType;
-  typedef itk::Image<VectorType, ParametricDimension> VectorImageType;
+  typedef int                                           PixelType;
+  typedef itk::Image<PixelType, ParametricDimension>    InputImageType;
+  typedef float                                         RealType;
+  typedef itk::Vector<RealType, DataDimension>          VectorType;
+  typedef itk::Image<VectorType, ParametricDimension>   VectorImageType;
   typedef itk::PointSet
-    <VectorImageType::PixelType, ParametricDimension> PointSetType;
+    <VectorImageType::PixelType, ParametricDimension>   PointSetType;
+
   PointSetType::Pointer pointSet = PointSetType::New();  
 
   typedef itk::ImageFileReader<InputImageType> ReaderType;
@@ -71,7 +72,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
       reader->GetOutput()->TransformIndexToPhysicalPoint( It.GetIndex(), point );
 
       unsigned long i = pointSet->GetNumberOfPoints();
-      pointSet->SetPoint( i, point );        
+      pointSet->SetPoint( i, point );
 
       PointSetType::PixelType V( DataDimension );
       V[0] = static_cast<RealType>( It.Get() );
@@ -128,4 +129,4 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   writer->Update();
 
   return EXIT_SUCCESS; 
-};
+}
