@@ -35,6 +35,10 @@ WRAP_CLASS("itk::InPlaceImageFilter" POINTER)
     WRAP_IMAGE_FILTER_COMBINATIONS("${types}" "RGBUS")
   ENDIF(WRAP_rgb_unsigned_short)
 
+  # RGBA types                          
+  UNIQUE(rgba "RGBAUC;${WRAP_ITK_RGBA}")
+  WRAP_IMAGE_FILTER_COMBINATIONS("${rgba}" "${rgba}")
+
   # int <-> RGBA
   IF(WRAP_rgba_unsigned_char AND WRAP_unsigned_char)
     WRAP_IMAGE_FILTER_TYPES(RGBAUC UC)
