@@ -30,9 +30,11 @@
 namespace itk {
 
 
-/** MAP RECORD **/
-
-
+/** \class MapRecord
+ * \brief MapRecord class.
+ *
+ * FIXME: Add documentation
+ */
 class ITKCommon_EXPORT MapRecord
 {
 public:
@@ -46,20 +48,21 @@ public:
   */
   std::string  m_RecordName;
 
- /** Contains a list of token with the associated memory allocated, tokens 
+  /** Contains a list of token with the associated memory allocated, tokens 
    *  could be typically: Size, Rss, Shared_Clean, Shared_Dirty, Private_Clean, 
    *  Private_Dirty, Referenced.
-  */
+   */
   std::map<std::string, MemoryLoadType> m_Tokens;
 
 };
 
-/** This struct contains an entry in a smaps file. 
+/** \class SmapsRecord 
+ * This struct contains an entry in a smaps file. 
  *  It is filled by operator>>(istream&,SmapsRecord&).
-*/
+ */
 class ITKCommon_EXPORT SmapsRecord : public MapRecord
 {
-    /** Input operator to fill a SmapsRecord 
+  /** Input operator to fill a SmapsRecord 
    *  The format has to be the following:
    *  "address permissions offset device inode optional_name
    *   Token1:      number kB
@@ -74,43 +77,47 @@ class ITKCommon_EXPORT SmapsRecord : public MapRecord
    *  Shared_Dirty:         0 kB
    *  Private_Clean:        0 kB
    *  Private_Dirty:        0 kB
-  */
+   */
   friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, SmapsRecord &record);
 };
 
-/** This struct contains an entry in a smaps file. 
+/** \class VMMapSummaryRecord
+ *  This struct contains an entry in a smaps file. 
  *  It is filled by operator>>(istream&,VMMapRecord&).
-*/
+ */
 class ITKCommon_EXPORT VMMapSummaryRecord : public MapRecord
 {
   /** Input operator to fill a VMMapRecord 
    *  recordName             [ numberK]
    *  Example
    *  MALLOC                  [  18536K]
-  */
+   */
   friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, VMMapSummaryRecord &record);
 };
 
-/** This struct contains an entry in a smaps file. 
+/** \class VMMapRecord
+ *  This struct contains an entry in a smaps file. 
  *  It is filled by operator>>(istream&,SmapsRecord&).
-*/
+ */
 class ITKCommon_EXPORT VMMapRecord : public MapRecord
 {
   /** Input operator to fill a VMMapRecord 
    *  recordName address [ numberK] permissions mode
    *  Example
    *  __DATA                         8fe51000 [   4K] rw-/rwx SM=COW /usr/lib/dyld
-  */
+   */
   friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, VMMapRecord &record);
 };
 
 /** MAP DATA **/
 
 
-/** Base class for the ?map data container. 
+/** \class MapData
+ *  Base class for the ?map data container. 
  *  Inherited classes must implement their own 
-*/
-class ITKCommon_EXPORT MapData{
+ */
+class ITKCommon_EXPORT MapData
+{
 public:
   /** need an unsigned long type to be able to accumulate the SmapsRecord */
   typedef unsigned long             MemoryLoadType;
@@ -141,7 +148,7 @@ protected:
 /** \class SmapsData_2_6 
  *  \brief Read a smaps stream and return the memory usage information.
  *  Smaps files have been added since the linux kernel 2.6 
-*/
+ */
 class ITKCommon_EXPORT SmapsData_2_6:public MapData
 {
 public:
@@ -162,11 +169,11 @@ protected:
   bool                m_HeapRecordFound;
 };
 
-/**  
+/** \class VMMapData_10_2
  *  Apparently the vmmap command exists since at least Mac OS X v10.2
  *  On Tiger, /usr/bin/vmmap used to be installed by the Essentials.pkg, 
  *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg, 
-*/
+ */
 class ITKCommon_EXPORT VMMapData_10_2:public MapData
 {
 public:
@@ -187,9 +194,11 @@ protected:
 };
 
 
-/** MAP FILE PARSER **/
-
-
+/** \class MapFileParser
+ *
+ * FIXME: Add documentation
+ *
+ */
 template<class TMapData>
 class ITK_EXPORT MapFileParser
 {
@@ -233,7 +242,7 @@ protected:
  *  \brief Read a smap file (typically located in /proc/PID/smaps) and extract the 
  *  memory usage information. Any smaps data reader can be used in template as 
  *  long as they implement a operator>>(istream&) and have GetXXXUsage() methods.
-*/
+ */
 template<class TSmapsDataType>
 class ITK_EXPORT SmapsFileParser: public MapFileParser<TSmapsDataType>
 {
@@ -251,7 +260,7 @@ public:
 /** \class VMMapFileParser 
  *  \brief Read the output of a vmmap command and extract the 
  *  memory usage information. Used for MAC OS X machines.
-*/
+ */
 template<class TVMMapDataType>
 class ITK_EXPORT VMMapFileParser: public MapFileParser<TVMMapDataType>
 {
