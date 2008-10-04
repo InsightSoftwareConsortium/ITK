@@ -30,14 +30,13 @@
 #include "itkImageFileWriter.h"
 
 
-namespace{
 // The following class is used to support callbacks
 // on the filter in the pipeline that follows later
 template<typename TRegistration>
-class ShowProgressObject
+class DiffeomorphicDemonsShowProgressObject
 {
 public:
-  ShowProgressObject(TRegistration* o)
+  DiffeomorphicDemonsShowProgressObject(TRegistration* o)
     {m_Process = o;}
   void ShowProgress()
     {
@@ -49,7 +48,7 @@ public:
     }
   typename TRegistration::Pointer m_Process;
 };
-}
+
 
 // Template function to fill in an image with a circle.
 template <class TImage>
@@ -267,7 +266,8 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     }
   registrator->SetStandardDeviations( v );
 
-  typedef ShowProgressObject<RegistrationType> ProgressType;
+  typedef DiffeomorphicDemonsShowProgressObject<RegistrationType> ProgressType;
+
   ProgressType progressWatch(registrator);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
   command = itk::SimpleMemberCommand<ProgressType>::New();
