@@ -6,14 +6,15 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2006 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
@@ -61,14 +62,14 @@ int itkImageReadComplexWriteMagnitudeAndPhaseTest( int argc, char * argv [] )
   typedef float  InputPixelType;
   typedef float  OutputPixelType;
 
-  typedef itk::Image< std::complex<InputPixelType>, Dimension > InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  typedef itk::Image< std::complex<InputPixelType>, Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >                OutputImageType;
+  typedef itk::ImageFileReader< InputImageType >                  ReaderType;
   typedef itk::ComplexToModulusImageFilter< 
-                 InputImageType, OutputImageType > ModulusFilterType;
+                 InputImageType, OutputImageType >                ModulusFilterType;
   typedef itk::ComplexToPhaseImageFilter< 
-                 InputImageType, OutputImageType > PhaseFilterType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+                 InputImageType, OutputImageType >                PhaseFilterType;
+  typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -107,9 +108,7 @@ int itkImageReadComplexWriteMagnitudeAndPhaseTest( int argc, char * argv [] )
     std::cerr << "Error writing the phase image: " << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-  }
-
+    }
 
   return EXIT_SUCCESS;
 }
-
