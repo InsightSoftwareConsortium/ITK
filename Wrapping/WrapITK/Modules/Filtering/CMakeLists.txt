@@ -2,6 +2,7 @@ BEGIN_WRAPPER_LIBRARY(Filtering)
 
 SET(WRAPPER_LIBRARY_GROUPS
   itkRecursiveSeparableImageFilter
+  itkHessianRecursiveGaussianImageFilter
 )
 
 SET(WRAPPER_LIBRARY_DEPENDS Base)

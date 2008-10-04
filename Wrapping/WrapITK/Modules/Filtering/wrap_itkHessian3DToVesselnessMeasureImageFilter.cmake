@@ -1,0 +1,5 @@
+WRAP_CLASS("itk::Hessian3DToVesselnessMeasureImageFilter" POINTER)
+  FOREACH(t ${WRAP_ITK_SCALAR})
+  WRAP_TEMPLATE("${ITKM_${t}}" "${ITKT_${t}}")
+  ENDFOREACH(t)
+END_WRAP_CLASS()
