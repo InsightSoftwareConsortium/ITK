@@ -163,10 +163,10 @@ public:
     size_t bwritten = ::gzwrite(m_GzFile, const_cast<void *>(data), bytes);
     if( bwritten != bytes )
       {
-        ExceptionObject exception;
-        exception.SetDescription("Could not write all bytes to file");
-        std::cout<<"Could not write all bytes to file"<<std::endl;
-        throw exception;
+      ExceptionObject exception;
+      exception.SetDescription("Could not write all bytes to file");
+      std::cout << "Could not write all bytes to file" << std::endl;
+      throw exception;
       }
      ::gzflush(m_GzFile,Z_SYNC_FLUSH);
     }
