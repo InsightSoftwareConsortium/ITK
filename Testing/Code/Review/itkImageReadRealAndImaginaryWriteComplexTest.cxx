@@ -51,19 +51,20 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef float InputPixelType;
-  typedef float OutputPixelType;
-  typedef itk::Image< InputPixelType,Dimension >                InputImageType;
-  typedef itk::Image< std::complex<OutputPixelType>,Dimension > OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  typedef float                                                   InputPixelType;
+  typedef float                                                   OutputPixelType;
+  typedef itk::Image< InputPixelType,Dimension >                  InputImageType;
+  typedef itk::Image< std::complex<OutputPixelType>,Dimension >   OutputImageType;
+  typedef itk::ImageFileReader< InputImageType >                  ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
 
   typedef itk::RealAndImaginaryToComplexImageFilter <
-    InputPixelType, InputPixelType, OutputPixelType, Dimension > RealAndImaginary2ComplexFilterType;
+    InputPixelType, InputPixelType, OutputPixelType, Dimension >  RealAndImaginary2ComplexFilterType;
 
   ReaderType::Pointer readerReal = ReaderType::New();
   ReaderType::Pointer readerImag = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
+
   RealAndImaginary2ComplexFilterType::Pointer RealAndImaginary2Complex = RealAndImaginary2ComplexFilterType::New();
 
   readerReal->SetFileName( argv[1] );
