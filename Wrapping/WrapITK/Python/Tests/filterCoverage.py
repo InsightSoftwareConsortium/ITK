@@ -100,6 +100,7 @@ excluded = set([
   "MeshToMeshFilter",
   "VectorFuzzyConnectednessImageFilter",
   "WarpJacobianDeterminantFilter",
+  "MatrixIndexSelectionImageFilter",
 ])
 
 
