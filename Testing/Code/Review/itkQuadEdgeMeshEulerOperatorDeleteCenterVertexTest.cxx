@@ -273,5 +273,3 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   std::cout << ".OK" << std::endl;
   return EXIT_SUCCESS;
 }
-
-

@@ -37,7 +37,7 @@ int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
  
   typedef itk::ConformalFlatteningMeshFilter<MeshType, MeshType>  FilterType;
 
-  typedef itk::VTKPolyDataReader<MeshType>   ReaderType;
+  typedef itk::VTKPolyDataReader<MeshType>  ReaderType;
   typedef itk::VTKPolyDataWriter<MeshType>  WriterType;
 
   typedef MeshType::CellIdentifier  CellIdentifier;

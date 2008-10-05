@@ -121,7 +121,3 @@ int itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   return EXIT_SUCCESS;
 
 }
-
-
-
-

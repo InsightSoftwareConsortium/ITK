@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2006 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -53,9 +53,9 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
 
   typedef float InputPixelType;
   typedef float OutputPixelType;
-  typedef itk::Image< InputPixelType  ,  Dimension > InputImageType;
-  typedef itk::Image< std::complex<OutputPixelType> ,  Dimension > OutputImageType;
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  typedef itk::Image< InputPixelType,Dimension >                InputImageType;
+  typedef itk::Image< std::complex<OutputPixelType>,Dimension > OutputImageType;
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   typedef itk::RealAndImaginaryToComplexImageFilter <
@@ -93,4 +93,3 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

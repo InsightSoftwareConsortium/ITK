@@ -1,21 +1,19 @@
 /*=========================================================================
-  
-  Filter:    ComposeRGBA
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    ComposeRGBATests.cxx
-  Language:  C++
-  Date:      200/05/11
-  Version:   1.0
 
-  Portions of this code are covered under the ITK and VTK copyright.
-  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkComposeRGBAImageFilterTest.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the above copyright notices for more information.
-=========================================================================*/
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
 
+=========================================================================*/
 #if defined(_MSC_VER)
 //Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
 #pragma warning( disable : 4786 )

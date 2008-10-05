@@ -99,4 +99,4 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
     }
 
   return EXIT_SUCCESS;
-};
+}

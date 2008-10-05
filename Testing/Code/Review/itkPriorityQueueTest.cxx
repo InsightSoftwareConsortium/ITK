@@ -46,13 +46,13 @@ int itkPriorityQueueTest( int argc, char* argv[] )
   i = 0;
 
   while( !priority_queue->Empty() )
-  {
+    {
     element = priority_queue->Peek( ).m_Element;
     value = priority_queue->Peek( ).m_Priority;
     std::cout <<i++ <<" ** element: " <<element <<" priority: " <<value;
     std::cout <<" ** size: " <<priority_queue->Size( )<<std::endl;
     priority_queue->Pop( );
-  }
+    }
 
   return EXIT_SUCCESS;
 }

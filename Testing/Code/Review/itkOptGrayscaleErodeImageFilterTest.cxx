@@ -46,8 +46,8 @@ int itkOptGrayscaleErodeImageFilterTest(int ac, char* av[] )
   reader->SetFileName(av[1]);
   
   // Create a filter
-  typedef itk::FlatStructuringElement<dim> SRType;
-  typedef itk::GrayscaleErodeImageFilter< ImageType, ImageType, SRType > FilterType;
+  typedef itk::FlatStructuringElement<dim>                            SRType;
+  typedef itk::GrayscaleErodeImageFilter< ImageType,ImageType,SRType> FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
