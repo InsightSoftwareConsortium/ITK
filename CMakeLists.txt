@@ -167,36 +167,7 @@ MARK_AS_ADVANCED(ITK_USE_REVIEW)
 
 #-----------------------------------------------------------------------------
 # ITK uses KWStyle for checking the coding style
-OPTION(ITK_USE_KWSTYLE "Run KWStyle in order to check for violations of the coding standard." OFF)
-MARK_AS_ADVANCED(ITK_USE_KWSTYLE)
-
-IF(ITK_USE_KWSTYLE)
-  FIND_PROGRAM(KWSTYLE_EXECUTABLE
-  NAMES KWStyle 
-  PATHS
-  /usr/local/bin
-  )
-  
-  OPTION(KWSTYLE_USE_VIM_FORMAT "Set KWStyle to generate errors with a VIM-compatible format." OFF)
-  OPTION(KWSTYLE_USE_MSVC_FORMAT "Set KWStyle to generate errors with a VisualStudio-compatible format." OFF)
-
-  IF(KWSTYLE_USE_VIM_FORMAT)
-    SET(KWSTYLE_ARGUMENTS -vim ${KWSTYLE_ARGUMENTS})
-  ENDIF(KWSTYLE_USE_VIM_FORMAT)
-
-  IF(KWSTYLE_USE_MSVC_FORMAT)
-    SET(KWSTYLE_ARGUMENTS -msvc ${KWSTYLE_ARGUMENTS})
-  ENDIF(KWSTYLE_USE_MSVC_FORMAT)
-
-  MARK_AS_ADVANCED(KWSTYLE_EXECUTABLE)
-  ADD_CUSTOM_COMMAND(
-    OUTPUT ${ITK_BINARY_DIR}/KWStyleReport.txt
-    COMMAND ${KWSTYLE_EXECUTABLE}
-    ARGS    -xml ${ITK_BINARY_DIR}/ITK.kws.xml -o ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt ${KWSTYLE_ARGUMENTS} -D ${ITK_BINARY_DIR}/ITKFiles.txt  
-    COMMENT "Coding Style Checker"
-    )
-  ADD_CUSTOM_TARGET(StyleCheck DEPENDS ${ITK_BINARY_DIR}/KWStyleReport.txt)
-ENDIF(ITK_USE_KWSTYLE)
+INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK turn on concept checking
