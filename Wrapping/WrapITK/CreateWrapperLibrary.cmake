@@ -465,6 +465,10 @@ SET(LINK_LIBRARIES_Python ${PYTHON_LIBRARY})
 SET(LINK_LIBRARIES_Java )
   
 MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_library_prefix)
+  IF(COMMAND cmake_policy)
+    CMAKE_POLICY(SET CMP0003 NEW)
+  ENDIF(COMMAND cmake_policy)
+
   ADD_LIBRARY(${library_name} ${library_type}
     ${sources} ${WRAPPER_LIBRARY_CXX_SOURCES})
     
