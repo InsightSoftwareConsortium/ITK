@@ -1,6 +1,6 @@
-@ITK_SOURCE_DIR@/Code/Review/*.h*
+@ITK_SOURCE_DIR@/Code/Review/*.h
 @ITK_SOURCE_DIR@/Code/Review/*.txx
 @ITK_SOURCE_DIR@/Code/Review/*.cxx
-@ITK_SOURCE_DIR@/Testing/Code/Review/*.h*
+@ITK_SOURCE_DIR@/Testing/Code/Review/*.h
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.txx
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.cxx
