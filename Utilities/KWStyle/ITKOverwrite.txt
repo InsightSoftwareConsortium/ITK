@@ -20,4 +20,5 @@ itkBSplineInterpolationWeightFunction.txx Namespace Disable
 itkWindowedSincInterpolateImageFunction.h DeclarationOrder Disable
 itkCommand.h Typedefs Disable
 itkQuadEdgeMeshMacro.h Indent Disable
+VNLIterativeSparseSolverTraits.h Namespace Disable
 itk.*\Test.*\.cxx Namespace Disable
