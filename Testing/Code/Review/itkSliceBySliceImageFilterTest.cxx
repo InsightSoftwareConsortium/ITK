@@ -35,27 +35,35 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     exit(1);
     }
 
-  const int dim = 3;
-  typedef unsigned char PType;
-  typedef itk::Image< PType, dim > IType;
+  const int                 Dimension = 3;
+  typedef unsigned char     PixelType;
+
+  typedef itk::Image< PixelType, Dimension >      ImageType;
  
- typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType >       ReaderType;
+
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::SliceBySliceImageFilter< IType, IType > FilterType;
+  typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
+
   FilterType::Pointer filter = FilterType::New();
+
   filter->SetInput( reader->GetOutput() );
+
   typedef itk::MedianImageFilter< FilterType::InternalInputImageType,
                                   FilterType::InternalOutputImageType > MedianType;
+
   MedianType::Pointer median = MedianType::New();
-  MedianType::InputSizeType rad;
-  rad.Fill( 5 );
-  median->SetRadius( rad );
+  MedianType::InputSizeType radius;
+  radius.Fill( 5 );
+  median->SetRadius( radius );
+
   filter->SetFilter( median );
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -77,5 +85,3 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-
-
