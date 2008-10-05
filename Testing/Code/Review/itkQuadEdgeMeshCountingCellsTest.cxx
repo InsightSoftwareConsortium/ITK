@@ -14,6 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
 #include "itkQuadEdgeMesh.h"
 #include "itkQuadEdgeMeshLineCell.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
@@ -185,4 +186,3 @@ int itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-
