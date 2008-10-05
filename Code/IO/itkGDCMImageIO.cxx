@@ -1037,38 +1037,38 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   m_ComponentType = UNKNOWNCOMPONENTTYPE;
   switch( outputpt )
     {
-  case gdcm::PixelFormat::INT8:
-    m_ComponentType = ImageIOBase::CHAR; // Is it signed char ?
-    break;
-  case gdcm::PixelFormat::UINT8:
-    m_ComponentType = ImageIOBase::UCHAR;
-    break;
-  /* INT12 / UINT12 should not happen anymore in any modern DICOM */
-  case gdcm::PixelFormat::INT12:
-    m_ComponentType = ImageIOBase::SHORT;
-    break;
-  case gdcm::PixelFormat::UINT12:
-    m_ComponentType = ImageIOBase::USHORT;
-    break;
-  case gdcm::PixelFormat::INT16:
-    m_ComponentType = ImageIOBase::SHORT;
-    break;
-  case gdcm::PixelFormat::UINT16:
-    m_ComponentType = ImageIOBase::USHORT;
-    break;
-  // RT / SC have 32bits
-  case gdcm::PixelFormat::INT32:
-    m_ComponentType = ImageIOBase::INT;
-    break;
-  case gdcm::PixelFormat::UINT32:
-    m_ComponentType = ImageIOBase::UINT;
-    break;
-  //case gdcm::PixelFormat::FLOAT16: // TODO
-  case gdcm::PixelFormat::FLOAT32:
-    m_ComponentType = ImageIOBase::FLOAT;
-    break;
-  default:
-    itkExceptionMacro( "Unhandled PixelFormat: " << outputpt ); 
+    case gdcm::PixelFormat::INT8:
+      m_ComponentType = ImageIOBase::CHAR; // Is it signed char ?
+      break;
+    case gdcm::PixelFormat::UINT8:
+      m_ComponentType = ImageIOBase::UCHAR;
+      break;
+      /* INT12 / UINT12 should not happen anymore in any modern DICOM */
+    case gdcm::PixelFormat::INT12:
+      m_ComponentType = ImageIOBase::SHORT;
+      break;
+    case gdcm::PixelFormat::UINT12:
+      m_ComponentType = ImageIOBase::USHORT;
+      break;
+    case gdcm::PixelFormat::INT16:
+      m_ComponentType = ImageIOBase::SHORT;
+      break;
+    case gdcm::PixelFormat::UINT16:
+      m_ComponentType = ImageIOBase::USHORT;
+      break;
+      // RT / SC have 32bits
+    case gdcm::PixelFormat::INT32:
+      m_ComponentType = ImageIOBase::INT;
+      break;
+    case gdcm::PixelFormat::UINT32:
+      m_ComponentType = ImageIOBase::UINT;
+      break;
+      //case gdcm::PixelFormat::FLOAT16: // TODO
+    case gdcm::PixelFormat::FLOAT32:
+      m_ComponentType = ImageIOBase::FLOAT;
+      break;
+    default:
+      itkExceptionMacro( "Unhandled PixelFormat: " << outputpt ); 
     }
 
   m_NumberOfComponents = pixeltype.GetSamplesPerPixel();
@@ -2106,4 +2106,3 @@ void GDCMImageIO::PrintSelf(std::ostream& os, Indent indent) const
 
 
 } // end namespace itk
-
