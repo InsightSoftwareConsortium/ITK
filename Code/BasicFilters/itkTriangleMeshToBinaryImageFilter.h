@@ -173,6 +173,15 @@ public:
   /** Set the mesh input of this process object.  */
   void SetInput(InputMeshType *input);
 
+  void SetInfoImage(OutputImageType *InfoImage)
+    {
+    if (InfoImage != m_InfoImage)
+      {
+      this->Modified();
+      m_InfoImage = InfoImage;
+      }
+    }
+
   /** Get the mesh input of this process object.  */
   InputMeshType * GetInput(void);
   InputMeshType * GetInput(unsigned int idx);
@@ -191,7 +200,7 @@ protected:
   virtual void RasterizeTriangles();
   static int PolygonToImageRaster( PointVector coords, Point1DArray & zymatrix, int extent[6]);
   
-  
+  OutputImageType *m_InfoImage;
   IndexType    m_Index;
   SizeType     m_Size;
   SpacingType  m_Spacing;
@@ -210,6 +219,7 @@ private:
 
   static bool ComparePoints2D(Point2DType a, Point2DType b);
   static bool ComparePoints1D(Point1D a, Point1D b);
+
 };
 
 } // end namespace itk
