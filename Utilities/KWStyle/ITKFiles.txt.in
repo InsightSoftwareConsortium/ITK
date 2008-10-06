@@ -7,3 +7,7 @@
 @ITK_SOURCE_DIR@/Code/IO/*.h
 @ITK_SOURCE_DIR@/Code/IO/*.txx
 @ITK_SOURCE_DIR@/Code/IO/*.cxx
+@ITK_SOURCE_DIR@/Testing/Code/IO/*.h
+@ITK_SOURCE_DIR@/Testing/Code/IO/*.txx
+@ITK_SOURCE_DIR@/Testing/Code/IO/*.cxx
+
