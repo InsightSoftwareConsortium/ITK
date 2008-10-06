@@ -11,7 +11,7 @@ WRAP_CLASS("itk::MagnitudeAndPhaseToComplexImageFilter" POINTER_WITH_SUPERCLASS)
       
       IF(WRAP_complex_double)
          WRAP_TEMPLATE("${ITKM_${t}}${ITKM_${t}}${ITKM_D}${d}" "${ITKT_${t}},${ITKT_${t}},${ITKT_L},${d}")
-      ENDIF(WRAP_complex_float)
+      ENDIF(WRAP_complex_double)
     ENDFOREACH(t)
   ENDFOREACH(d)
 END_WRAP_CLASS()
