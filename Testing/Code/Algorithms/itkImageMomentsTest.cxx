@@ -275,11 +275,17 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
 
     moments->SetRegionOfInterest( regionOfInterestCorner1, regionOfInterestCorner2 );
 
+    moments->Compute();
+
     ctm = moments->GetTotalMass();
     ccg = moments->GetCenterOfGravity();
     cpm = moments->GetPrincipalMoments();
     cpa = moments->GetPrincipalAxes();
 
+    std::cout << "Moment results when restricted to the Region" << std::endl;
+    std::cout << regionOfInterestCorner1 << std::endl;
+    std::cout << regionOfInterestCorner2 << std::endl;
+    std::cout << std::endl;
     std::cout << "Region total mass " << ctm << std::endl;
     std::cout << "Region center of gravity " << ccg << std::endl;
     std::cout << "Region principal moments " << cpm << std::endl;
