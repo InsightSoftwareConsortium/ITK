@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef  VNLSparseLUSolverTraits_h
-#define  VNLSparseLUSolverTraits_h
+#ifndef  __VNLSparseLUSolverTraits_h
+#define  __VNLSparseLUSolverTraits_h
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_sparse_matrix.h>
