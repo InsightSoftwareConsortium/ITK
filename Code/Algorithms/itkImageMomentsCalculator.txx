@@ -74,6 +74,20 @@ ImageMomentsCalculator<TImage>::
 template<class TInputImage>
 void
 ImageMomentsCalculator<TInputImage>
+::SetRegionOfInterest( const PointType & point1, const PointType & point2 )
+{
+if( m_RegionOfInterestPoint1 != point1 || m_RegionOfInterestPoint2 != point2 )
+  {
+  this->m_RegionOfInterestPoint1 = point1;
+  this->m_RegionOfInterestPoint2 = point2;
+  this->Modified();
+  this->m_Valid = false;
+  }
+}
+
+template<class TInputImage>
+void
+ImageMomentsCalculator<TInputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
@@ -128,10 +142,10 @@ Compute()
       {
       for(unsigned int i=0; i<ImageDimension; i++)
         {
-        if(! ( (physicalPosition[i]<=m_RegionOfInterestPoint1[i] 
-               && physicalPosition[i]>=m_RegionOfInterestPoint2[i])
-              || (physicalPosition[i]<=m_RegionOfInterestPoint2[i] 
-                  && physicalPosition[i]>=m_RegionOfInterestPoint1[i]) ) )
+        if(! ( (  physicalPosition[i] <= m_RegionOfInterestPoint1[i] 
+               && physicalPosition[i] >= m_RegionOfInterestPoint2[i])
+              || (physicalPosition[i] <= m_RegionOfInterestPoint2[i] 
+               && physicalPosition[i] >= m_RegionOfInterestPoint1[i]) ) )
           {
           isInsideRegionOfInterest = false;
           break;

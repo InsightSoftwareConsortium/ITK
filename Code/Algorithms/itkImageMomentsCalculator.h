@@ -130,21 +130,17 @@ public:
     }
 
   /** Method for controlling the region of interest that optionally limits the
-   *   spatial extent of the computations */
+   * spatial extent of the computations. Please note that contrary to the
+   * standard of the toolkit, the points here define a rectangular region in
+   * Physical space, not in Index space. This means that if the image has a
+   * particular Direction, the rectangular region will be aligned with the
+   * coordinate axis, not with the image borders. */
   itkSetMacro(UseRegionOfInterest, bool);
   itkGetMacro(UseRegionOfInterest, bool);
-  virtual void SetRegionOfInterest( const PointType & point1, const PointType & point2 )
-    {
-    if( m_RegionOfInterestPoint1 != point1 || m_RegionOfInterestPoint2 != point2 )
-      {
-      m_RegionOfInterestPoint1 = point1;
-      m_RegionOfInterestPoint2 = point2;
-      this->Modified();
-      m_Valid = false;
-      }
-    }
-  itkGetMacro(RegionOfInterestPoint1, PointType);
-  itkGetMacro(RegionOfInterestPoint2, PointType);
+  itkBooleanMacro(UseRegionOfInterest);
+  virtual void SetRegionOfInterest( const PointType & point1, const PointType & point2 );
+  itkGetConstReferenceMacro(RegionOfInterestPoint1, PointType);
+  itkGetConstReferenceMacro(RegionOfInterestPoint2, PointType);
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a
