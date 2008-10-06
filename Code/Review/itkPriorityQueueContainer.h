@@ -17,9 +17,10 @@
 #ifndef __itkPriorityQueueContainer_h
 #define __itkPriorityQueueContainer_h
 
-#include <itkObject.h>
-#include <itkObjectFactory.h>
-#include <itkVectorContainer.h>
+#include "itkObject.h"
+#include "itkObjectFactory.h"
+#include "itkVectorContainer.h"
+
 #include <functional>
 #include <queue>
 #include <assert.h>
@@ -36,51 +37,51 @@ template< typename TElement, typename TElementIdentifier >
 class ElementWrapperInterface
 {
 public:
-  typedef TElement ElementType;
-  typedef TElementIdentifier ElementIdentifierType;
+  typedef TElement                ElementType;
+  typedef TElementIdentifier      ElementIdentifierType;
   
   ElementWrapperInterface() {}
   virtual ~ElementWrapperInterface() {}
+
   virtual TElementIdentifier GetLocation( const ElementType& element) = 0;
-  virtual void SetLocation( ElementType& element,
-    const ElementIdentifierType& identifier) = 0;
-  virtual bool is_less( const ElementType& element1,
-    const ElementType& element2 ) = 0;
-  virtual bool is_greater( const ElementType& element1,
-    const ElementType& element2 ) = 0;
+  virtual void SetLocation( ElementType& element, const ElementIdentifierType& identifier) = 0;
+  virtual bool is_less( const ElementType& element1, const ElementType& element2 ) = 0;
+  virtual bool is_greater( const ElementType& element1, const ElementType& element2 ) = 0;
 };
 
-// if you want to manage the items outside the queue
-// i.e. you don;t want the queue to manage the items memory
-// you can use this wrapper around pointers to items.
-// it follows the ElementWrapperInterface and thus
+
+//
+// If you want to manage the items outside the queue for example, if you don't
+// want the queue to manage the items memory, then you can use this wrapper
+// around pointers to items.  It follows the ElementWrapperInterface and thus
 // can be used in the queue.
+//
 template< typename TElementWrapperPointer, typename TElementIdentifier = int >
 class ElementWrapperPointerInterface
 {
 public:
-  typedef TElementWrapperPointer ElementWrapperPointerType;
-  typedef TElementIdentifier ElementIdentifierType;
+  typedef TElementWrapperPointer      ElementWrapperPointerType;
+  typedef TElementIdentifier          ElementIdentifierType;
   
-  ElementWrapperPointerInterface( ) { }
-  ~ElementWrapperPointerInterface( ) { }
+  ElementWrapperPointerInterface() { }
+  ~ElementWrapperPointerInterface() { }
 
   TElementIdentifier GetLocation( const ElementWrapperPointerType& element)
     {
     return( (*element).GetLocation(*element) );
     }
-  void SetLocation( ElementWrapperPointerType element,
-    const ElementIdentifierType& identifier)
+
+  void SetLocation( ElementWrapperPointerType element, const ElementIdentifierType& identifier)
     {
     (*element).SetLocation(*element, identifier);
     }
-  bool is_less( const ElementWrapperPointerType& element1,
-    const ElementWrapperPointerType& element2 )
+
+  bool is_less( const ElementWrapperPointerType& element1, const ElementWrapperPointerType& element2 )
     {
     return( (*element1).is_less( (*element1), (*element2) ) );
     }
-  bool is_greater( const ElementWrapperPointerType& element1,
-    const ElementWrapperPointerType& element2 )
+
+  bool is_greater( const ElementWrapperPointerType& element1, const ElementWrapperPointerType& element2 )
     {
     return( (*element1).is_greater( (*element1), (*element2) ) );
     }
@@ -109,26 +110,26 @@ class MinPriorityQueueElementWrapper :
     >
 {
 public:
-  typedef TElement ElementType;
-  typedef TElementPriority ElementPriorityType;
-  typedef TElementIdentifier ElementIdentifierType;
+  typedef TElement                ElementType;
+  typedef TElementPriority        ElementPriorityType;
+  typedef TElementIdentifier      ElementIdentifierType;
   
-  ElementType           m_Element;
-  ElementPriorityType   m_Priority;
-  ElementIdentifierType m_Location;
+  ElementType                     m_Element;
+  ElementPriorityType             m_Priority;
+  ElementIdentifierType           m_Location;
 
-  MinPriorityQueueElementWrapper( ):
-    m_Element(),
-    m_Priority( 0 ),
-    m_Location( -1 )
-  {}
+  MinPriorityQueueElementWrapper()
+    {
+    this->m_Priority = 0;
+    this->m_Location = -1;
+    }
 
-  MinPriorityQueueElementWrapper( ElementType element,
-    ElementPriorityType priority ) :
-    m_Element( element ),
-    m_Priority( priority ),
-    m_Location( -1 )
-  {}
+  MinPriorityQueueElementWrapper( ElementType element, ElementPriorityType priority ) :
+    m_Element( element )
+    {
+    this->m_Priority = priority;
+    this->m_Location = -1;
+    }
 
   virtual ~MinPriorityQueueElementWrapper() {}
 
@@ -147,27 +148,23 @@ public:
     return this->m_Priority == other.m_Priority;
     }
 
-  ElementIdentifierType GetLocation(
-    const MinPriorityQueueElementWrapper& element)
+  ElementIdentifierType GetLocation( const MinPriorityQueueElementWrapper& element)
     {
     return element.m_Location;
     }
 
-  void SetLocation( MinPriorityQueueElementWrapper& element,
-    const TElementIdentifier& identifier)
+  void SetLocation( MinPriorityQueueElementWrapper& element, const TElementIdentifier& identifier)
     {
     element.m_Location = identifier;
     }
 
   // still virtual to be able to overload it in the Max flavor
-  virtual bool is_less( const MinPriorityQueueElementWrapper& element1,
-                     const MinPriorityQueueElementWrapper& element2 )
+  virtual bool is_less( const MinPriorityQueueElementWrapper& element1, const MinPriorityQueueElementWrapper& element2 )
     {
     return( element1 < element2 );
     }
 
-  virtual bool is_greater( const MinPriorityQueueElementWrapper& element1,
-                        const MinPriorityQueueElementWrapper& element2 )
+  virtual bool is_greater( const MinPriorityQueueElementWrapper& element1, const MinPriorityQueueElementWrapper& element2 )
     {
     return( element1 > element2 );
     }
@@ -188,22 +185,20 @@ class MaxPriorityQueueElementWrapper :
                                          TElementIdentifier >
 {
 public:
-  typedef TElement ElementType;
-  typedef TElementPriority ElementPriorityType;
-  typedef TElementIdentifier ElementIdentifierType;
+  typedef TElement                          ElementType;
+  typedef TElementPriority                  ElementPriorityType;
+  typedef TElementIdentifier                ElementIdentifierType;
   
   MaxPriorityQueueElementWrapper( ) :
     MinPriorityQueueElementWrapper< ElementType,
                                     ElementPriorityType,
-                                    ElementIdentifierType >( )
-  {}
+                                    ElementIdentifierType >( ) {}
 
   MaxPriorityQueueElementWrapper( ElementType element,
     ElementPriorityType priority ) :
     MinPriorityQueueElementWrapper< ElementType,
                                     ElementPriorityType,
-                                    ElementIdentifierType >( element, priority )
-  {}
+                                    ElementIdentifierType >( element, priority ) {}
   
   virtual ~MaxPriorityQueueElementWrapper() {}
 
@@ -221,7 +216,6 @@ public:
 };
 
 
-
 // finally, implement the priority queue itself on top of an itk::VectorContainer
 template<
   typename TElementWrapper,
@@ -234,10 +228,10 @@ class PriorityQueueContainer :
 {
 
 public:
-  typedef PriorityQueueContainer                                Self;
-  typedef VectorContainer< TElementIdentifier, TElementWrapper > Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef PriorityQueueContainer                                    Self;
+  typedef VectorContainer< TElementIdentifier, TElementWrapper >    Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   typedef TElementIdentifier          ElementIdentifier;
   typedef TElementWrapper             Element;
@@ -256,10 +250,10 @@ public:
  //   VectorType(n) {}
  //PriorityQueueContainer(size_type n, const Element& x):
  //  VectorType(n, x) {}
- PriorityQueueContainer(const Self& r):
-   VectorType(r) {}
- template <typename InputIterator>
- PriorityQueueContainer(InputIterator first, InputIterator last):
+ PriorityQueueContainer(const Self& r): VectorType(r) {}
+
+ template <class TInputIterator>
+ PriorityQueueContainer(TInputIterator first, TInputIterator last):
    VectorType(first, last) {}
 
 public:
@@ -422,4 +416,3 @@ protected:
 }
 
 #endif
-

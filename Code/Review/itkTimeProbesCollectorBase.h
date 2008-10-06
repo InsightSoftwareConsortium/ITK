@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTimeProbesCollectorBase_h_Review
+#ifndef __itkTimeProbesCollectorBase_h_Review // Style violation required until moved to Code/Common
 #define __itkTimeProbesCollectorBase_h_Review
 
 

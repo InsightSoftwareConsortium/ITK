@@ -103,32 +103,46 @@ ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, SmapsRecord &record
 ITKCommon_EXPORT std::istream& operator>>(std::istream &in, VMMapSummaryRecord &record)
 {
   record.Reset();
+
   try 
     {
     // the record name can have spaces.
-    in>>record.m_RecordName;
+    in >> record.m_RecordName;
+
     if (in.eof() && record.m_RecordName.empty())
+      {
       return in;
+      }
+
     if (!in.good()) 
       {
       itkGenericExceptionMacro( << "Bad record name: " << record.m_RecordName );
       }
+
     std::string bracket;
+
     while ( (in>>bracket).good() && bracket.find("[",0) == std::string::npos )
+      {
       record.m_RecordName += std::string(" ") + bracket;  
+      }
+
     if (!in.good() || bracket.find("[",0) == std::string::npos ) 
       {
       itkGenericExceptionMacro( << "For record: " << record.m_RecordName
                                << ", bad left bracket: " << bracket );
       }
-    in>>record.m_Tokens["Size"];
-    if (!in.good()) 
+
+    in >> record.m_Tokens["Size"];
+
+    if( !in.good() ) 
       {
       itkGenericExceptionMacro( << "For record: " << record.m_RecordName
                                << ", bad size: " << record.m_Tokens["Size"] );
       }
-    in>>bracket;
-    if (!in.good()) 
+
+    in >> bracket;
+
+    if( !in.good() ) 
       {
       itkGenericExceptionMacro( << "For record: " << record.m_RecordName
                                << ", bad right bracket: " << bracket );
@@ -172,30 +186,36 @@ ITKCommon_EXPORT std::istream& operator>>(std::istream &in, VMMapRecord &record)
     do
       {
       // the record name can have spaces.
-      in>>record.m_RecordName;
-      if (in.eof() || record.m_RecordName.empty())
+      in >> record.m_RecordName;
+      if( in.eof() || record.m_RecordName.empty() )
+        {
         return in;
+        }
+
       if (!in.good())
         {
         itkGenericExceptionMacro( << "Bad record name: " << record.m_RecordName );
         }
+
       //skip Submap entries
       if ( record.m_RecordName == "Submap" )
         {
         in.getline(line,256);
         submapFound = true;
         }
+
       // all the records have been parsed, this is a new section
       else if ( record.m_RecordName == "====" )
         {
         record.Reset();
-        return in ;
+        return in;
         }
       else
         {
-        // the name is folowed by an address    
-        in>>address;
-        if (!in.good())
+        // the name is folowed by an address
+        in >> address;
+
+        if( !in.good() )
           {
           itkGenericExceptionMacro( << "For record: " << record.m_RecordName
                                     << ", bad address: " << address );
@@ -208,13 +228,15 @@ ITKCommon_EXPORT std::istream& operator>>(std::istream &in, VMMapRecord &record)
           recordHasNoName = true;
           }
         else
+          {
           recordHasNoName = false;
+          }
         submapFound = false;
         }
-      }
-    while (submapFound || recordHasNoName)
-      ;
+      } while(submapFound || recordHasNoName);
+
     std::string bracket;
+
     while ( (in>>bracket).good() && bracket.find("[",0) == std::string::npos )
       {
       // the string is not a bracket yet, but probably the address. So the previous
@@ -451,8 +473,10 @@ ITK_EXPORT std::istream& operator>>( std::istream & stream, VMMapData_10_2 & dat
       // parse each line of the Smaps file and fill the record vector.
       while( stream >> *dynamic_cast<VMMapSummaryRecord *>(record) )
         {
-        if ( record->m_RecordName.empty() )
-            break;
+        if( record->m_RecordName.empty() )
+          {
+          break;
+          }
         data.m_Records.push_back( record );
         record = new VMMapSummaryRecord;
         }
@@ -463,8 +487,10 @@ ITK_EXPORT std::istream& operator>>( std::istream & stream, VMMapData_10_2 & dat
       // parse each line of the Smaps file and fill the record vector.
       while( stream >> *dynamic_cast<VMMapRecord* >(record) )
         {
-        if ( record->m_RecordName.empty() )
-            break;
+        if( record->m_RecordName.empty() )
+          {
+          break;
+          }
         data.m_Records.push_back( record );
         record = new VMMapRecord;
         }

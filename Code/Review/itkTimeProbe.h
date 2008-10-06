@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTimeProbe_h_Review
+#ifndef __itkTimeProbe_h_Review  // Style violation required until moved to Code/Common
 #define __itkTimeProbe_h_Review
 
 #include "itkConfigure.h"

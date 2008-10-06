@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef VNLSparseLUSolverTraits_h
-#define VNLSparseLUSolverTraits_h
+#ifndef  VNLSparseLUSolverTraits_h
+#define  VNLSparseLUSolverTraits_h
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_sparse_matrix.h>
@@ -26,38 +26,34 @@ class VNLSparseLUSolverTraits
 {
 public:
 
-    typedef double ValueType;
-    typedef vnl_sparse_matrix< ValueType > MatrixType;
-    typedef vnl_vector< ValueType > VectorType;
-    typedef vnl_sparse_lu SolverType;
-    
-    VNLSparseLUSolverTraits( );
+  typedef double                            ValueType;
+  typedef vnl_sparse_matrix< ValueType >    MatrixType;
+  typedef vnl_vector< ValueType >           VectorType;
+  typedef vnl_sparse_lu                     SolverType;
+  
+  VNLSparseLUSolverTraits();
 
-    MatrixType InitializeSparseMatrix( const unsigned int& iN )
+  MatrixType InitializeSparseMatrix( const unsigned int& iN )
     {
-        return MatrixType( iN, iN );
+    return MatrixType( iN, iN );
     }
 
-    VectorType InitializeVector( const unsigned int& iN )
+  VectorType InitializeVector( const unsigned int& iN )
     {
-        return VectorType( iN );
+    return VectorType( iN );
     }
-    
-    void FillMatrix( MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV )
+  
+  void FillMatrix( MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV )
     {
-        iA( iR, iC ) = iV;
+    iA( iR, iC ) = iV;
     }
-    
-    bool Solve( const MatrixType& iA,
-                const VectorType& iB,
-                VectorType& oX )
+  
+  bool Solve( const MatrixType& iA, const VectorType& iB, VectorType& oX )
     {
-        typedef vnl_sparse_lu lu_solver( iA );
-        return lu_solver.solve( iB );
+    vnl_sparse_lu lu_solver( iA );
+    return lu_solver.solve( iB );
     }
-    
+  
 private:
-    MatrixType m_Matrix;
+  MatrixType m_Matrix;
 };
-
-
