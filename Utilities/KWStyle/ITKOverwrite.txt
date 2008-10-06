@@ -22,3 +22,4 @@ itkCommand.h Typedefs Disable
 itkQuadEdgeMeshMacro.h Indent Disable
 VNLIterativeSparseSolverTraits.h Namespace Disable
 itk.*\Test.*\.cxx Namespace Disable
+itk.*\Test.*\.h Namespace Disable

@@ -1,6 +1,7 @@
 OPTION(ITK_USE_KWSTYLE "Enable the use of KWStyle for checking coding style." OFF)
 
 IF( ITK_USE_KWSTYLE )
+
 OPTION(KWSTYLE_USE_VIM_FORMAT "Set KWStyle to generate errors with a VIM-compatible format." OFF)
 OPTION(KWSTYLE_USE_MSVC_FORMAT "Set KWStyle to generate errors with a VisualStudio-compatible format." OFF)
 
@@ -15,30 +16,50 @@ CONFIGURE_FILE(
   ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITKFiles.txt)
 
 CONFIGURE_FILE(
+  Utilities/KWStyle/ITKReviewFiles.txt.in
+  ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITKReviewFiles.txt)
+
+CONFIGURE_FILE(
   Utilities/KWStyle/ITK.kws.xml.in
   ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITK.kws.xml)
 
-SET(KWSTYLE_ARGUMENTS
-  -xml ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITK.kws.xml -v -D ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITKFiles.txt  
-  -o ${PROJECT_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt
-  )
+SET(KWSTYLE_EDITOR_FORMAT " ")
 
 IF(KWSTYLE_USE_VIM_FORMAT)
-  SET(KWSTYLE_ARGUMENTS -vim ${KWSTYLE_ARGUMENTS})
+  SET(KWSTYLE_EDITOR_FORMAT -vim)
 ENDIF(KWSTYLE_USE_VIM_FORMAT)
 
 IF(KWSTYLE_USE_MSVC_FORMAT)
-  SET(KWSTYLE_ARGUMENTS -msvc ${KWSTYLE_ARGUMENTS})
+  SET(KWSTYLE_EDITOR_FORMAT -msvc)
 ENDIF(KWSTYLE_USE_MSVC_FORMAT)
 
+SET(KWSTYLE_ARGUMENTS_REVIEW
+  -xml ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITK.kws.xml -v -D ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITKReviewFiles.txt  
+  -o ${PROJECT_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt ${KWSTYLE_EDITOR_FORMAT}
+  )
+
+SET(KWSTYLE_ARGUMENTS_CODE
+  -xml ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITK.kws.xml -v -D ${PROJECT_BINARY_DIR}/Utilities/KWStyle/ITKFiles.txt  
+  -o ${PROJECT_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt ${KWSTYLE_EDITOR_FORMAT}
+  )
+
 ADD_CUSTOM_COMMAND(
-  OUTPUT ${ITK_BINARY_DIR}/KWStyleReport.txt
+  OUTPUT ${ITK_BINARY_DIR}/KWStyleReviewReport.txt
   COMMAND ${KWSTYLE_EXECUTABLE}
-  ARGS    ${KWSTYLE_ARGUMENTS}
+  ARGS    ${KWSTYLE_ARGUMENTS_REVIEW}
   COMMENT "Coding Style Checker"
   )
-ADD_CUSTOM_TARGET(StyleCheck DEPENDS ${ITK_BINARY_DIR}/KWStyleReport.txt)
-ADD_TEST(KWStyleTest ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS})
+ADD_CUSTOM_COMMAND(
+  OUTPUT ${ITK_BINARY_DIR}/KWStyleCodeReport.txt
+  COMMAND ${KWSTYLE_EXECUTABLE}
+  ARGS    ${KWSTYLE_ARGUMENTS_CODE}
+  COMMENT "Coding Style Checker"
+  )
+
+ADD_CUSTOM_TARGET(StyleCheckReview DEPENDS ${ITK_BINARY_DIR}/KWStyleReviewReport.txt)
+ADD_CUSTOM_TARGET(StyleCheckCode DEPENDS ${ITK_BINARY_DIR}/KWStyleCodeReport.txt)
+
+ADD_TEST(KWStyleReviewTest ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS_REVIEW})
+ADD_TEST(KWStyleCodeTest   ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS_CODE})
 
 ENDIF( ITK_USE_KWSTYLE )
-
