@@ -46,7 +46,7 @@
 // #include "itkFFTWComplexToComplexImageFilter.h"
 
 #if !defined(USE_FFTWF)
-//#error "This example only works when single precision FFTW is used
+//#error "This example only works when single precision FFTW is used"
 //Changing WorkPixeltype to double and changing this conditional to USE_FFTWD
 //will also work.
 #endif
