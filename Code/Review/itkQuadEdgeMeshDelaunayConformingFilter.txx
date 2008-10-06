@@ -43,8 +43,8 @@ InitializePriorityQueue()
   CriterionValueType value = 0.; 
 
   for( OutputCellsContainerIterator
-        outCellIterator = output->GetCells( )->Begin( );
-      outCellIterator != output->GetCells( )->End( );
+        outCellIterator = output->GetEdgeCells( )->Begin( );
+      outCellIterator != output->GetEdgeCells( )->End( );
       ++outCellIterator )
     {
     if( ( edge = dynamic_cast< OutputEdgeCellType* >(
@@ -62,7 +62,8 @@ InitializePriorityQueue()
       }
     }
 
-  OutputEdgeCellListIterator const_edge_it = m_ListOfConstrainedEdges.begin();
+  OutputEdgeCellListIterator const_edge_it = 
+    m_ListOfConstrainedEdges.begin();
 
   while( const_edge_it != m_ListOfConstrainedEdges.end() )
     {
@@ -75,7 +76,8 @@ InitializePriorityQueue()
       }
     else
       {
-      PriorityQueueItemType* qi = new PriorityQueueItemType( edge, PriorityType( false, 0.0 ) );
+      PriorityQueueItemType* qi = 
+        new PriorityQueueItemType( edge, PriorityType( false, 0.0 ) );
       m_QueueMapper[ edge ] = qi;
       m_PriorityQueue->Push( qi );
       }
