@@ -131,11 +131,12 @@ static void RemoveByteSwapTestFiles(const std::string & itkNotUsed(AugmentName) 
 static int TestByteSwap(const std::string & AugmentName)
 {
   int rval;
-  typedef itk::Image<double, 3> ImageType ;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  typedef itk::Image<double, 3>               ImageType;
+  typedef itk::ImageFileReader< ImageType >   ImageReaderType;
+
   if(WriteTestFiles(AugmentName) == -1)
     {
-      return EXIT_FAILURE;
+    return EXIT_FAILURE;
     }
 
   ImageType::Pointer little;
@@ -144,53 +145,58 @@ static int TestByteSwap(const std::string & AugmentName)
 
   itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
+
   try
-  {
-    imageReader->SetFileName(AugmentName+"LittleEndian.hdr") ;
-    imageReader->Update() ;
-    little = imageReader->GetOutput() ;
+    {
+    imageReader->SetFileName(AugmentName+"LittleEndian.hdr");
+    imageReader->Update();
+    little = imageReader->GetOutput();
 
-    imageReader->SetFileName(AugmentName+"LittleEndianZ.hdr") ;
-    imageReader->Update() ;
-    littlez = imageReader->GetOutput() ;
+    imageReader->SetFileName(AugmentName+"LittleEndianZ.hdr");
+    imageReader->Update();
+    littlez = imageReader->GetOutput();
 
-    imageReader->SetFileName(AugmentName+"BigEndian.hdr") ;
-    imageReader->Update() ;
+    imageReader->SetFileName(AugmentName+"BigEndian.hdr");
+    imageReader->Update();
     big = imageReader->GetOutput();
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
-  }
+    }
   catch (itk::ExceptionObject &e)
     {
-      e.Print(std::cerr) ;
-      RemoveByteSwapTestFiles(AugmentName);
-      return EXIT_FAILURE;
+    e.Print(std::cerr);
+    RemoveByteSwapTestFiles(AugmentName);
+    return EXIT_FAILURE;
     }
+
   rval = 0;
+
   try
     {
-      itk::ImageRegionConstIterator<ImageType> littleIter(little,
-                                                          little->GetLargestPossibleRegion());
-      itk::ImageRegionConstIterator<ImageType> littlezIter(littlez,
-                                                          littlez->GetLargestPossibleRegion());
-      itk::ImageRegionConstIterator<ImageType> bigIter(big,
-                                                       big->GetLargestPossibleRegion());
-      while(!littleIter.IsAtEnd())
+    itk::ImageRegionConstIterator<ImageType> littleIter(little, little->GetLargestPossibleRegion());
+    itk::ImageRegionConstIterator<ImageType> littlezIter(littlez, littlez->GetLargestPossibleRegion());
+    itk::ImageRegionConstIterator<ImageType> bigIter(big, big->GetLargestPossibleRegion());
+
+    while(!littleIter.IsAtEnd())
+      {
+      if( littleIter.Get() != bigIter.Get() || littlezIter.Get() != bigIter.Get())
         {
-        if(littleIter.Get() != bigIter.Get() || 
-           littlezIter.Get() != bigIter.Get())
-            break;
-          ++littleIter;
-          ++littlezIter;
-          ++bigIter;
+        break;
         }
-      if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd() || !littlezIter.IsAtEnd())
-        rval = -1;
+      ++littleIter;
+      ++littlezIter;
+      ++bigIter;
+      }
+
+    if(!littleIter.IsAtEnd() || !bigIter.IsAtEnd() || !littlezIter.IsAtEnd())
+      {
+      rval = -1;
+      }
     }
   catch ( itk::ExceptionObject & ex )
     {
-      std::cerr << "Error filling array" << ex << std::endl;
-      rval= -1;
+    std::cerr << "Error filling array" << ex << std::endl;
+    rval= -1;
     }
   RemoveByteSwapTestFiles(AugmentName);
   return rval;
@@ -200,19 +206,23 @@ template <typename T, unsigned Dimension>
 int 
 MakeImage(const std::string & AugmentName)
 {
-  typedef itk::Image<T, Dimension> ImageType ;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  typedef itk::Image<T, Dimension>                ImageType;
+  typedef itk::ImageFileReader< ImageType >       ImageReaderType;
+
   const std::string filename=std::string(typeid(T).name()) +"_"+AugmentName+"_" +std::string("test.hdr");
+
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
   typename ImageType::Pointer img;
   typename ImageType::SizeType size; // = {{10,10,10}};
   typename ImageType::IndexType index; // = {{0,0,0}};
+
   for(unsigned i = 0; i < Dimension; i++)
     {
     size[i] = 10;
     index[i] = 0;
     }
+
   typename ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
@@ -221,9 +231,12 @@ MakeImage(const std::string & AugmentName)
   img->SetLargestPossibleRegion( region );
   img->SetBufferedRegion( region );
   img->SetRequestedRegion( region );
+
   typename itk::SpatialOrientationAdapter::DirectionType CORdir=
     itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+
   typename ImageType::DirectionType dir;
+
   for(unsigned i = 0; i < Dimension; i++)
     {
     for(unsigned j = 0; j < Dimension; j++)
@@ -254,6 +267,7 @@ MakeImage(const std::string & AugmentName)
     return EXIT_FAILURE;
     }
   }
+
   { //Fill in left half
   typename ImageType::IndexType RPIindex; // = {{0,0,0}};
   typename ImageType::SizeType RPIsize; // = {{5,10,10}};
@@ -273,6 +287,7 @@ MakeImage(const std::string & AugmentName)
     ++RPIiterator;
     }
   }
+
   { //Fill in anterior half
   typename ImageType::IndexType RPIindex;// = {{0,5,0}};
   typename ImageType::SizeType RPIsize; // = {{10,5,10}};
@@ -293,6 +308,7 @@ MakeImage(const std::string & AugmentName)
     ++RPIiterator;
     }
   }
+
   if(Dimension > 2)
     {  //Fill in superior half
     typename ImageType::IndexType RPIindex; //= {{0,0,5}};
@@ -314,6 +330,7 @@ MakeImage(const std::string & AugmentName)
       ++RPIiterator;
       }
     }
+
   typedef itk::ImageFileWriter< ImageType >      ImageWriterType;
   typename ImageWriterType::Pointer ImageWriterPointer =
     ImageWriterType::New();
@@ -325,38 +342,39 @@ MakeImage(const std::string & AugmentName)
   ImageWriterPointer->SetInput( img );
   //Determine file type and instantiate appropriate ImageIO class if not
   //explicitly stated with SetImageIO, then write to disk.
-  try {
+  try 
+    {
     ImageWriterPointer->Write();
-  }
+    }
   catch ( itk::ExceptionObject & ex )
     {
-      std::string message;
-      message = "Problem found while writing image ";
-      message += filename;
-      message += "\n";
-      message += ex.GetLocation();
-      message += "\n";
-      message += ex.GetDescription();
-      std::cerr << message << std::endl;
+    std::string message;
+    message = "Problem found while writing image ";
+    message += filename;
+    message += "\n";
+    message += ex.GetLocation();
+    message += "\n";
+    message += ex.GetDescription();
+    std::cerr << message << std::endl;
 //--//      Remove(filename);
-      return EXIT_FAILURE;
+    return EXIT_FAILURE;
     }
 
-  //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   typename ImageType::Pointer input;
   typename itk::ImageFileReader<ImageType>::Pointer imageReader =
     itk::ImageFileReader<ImageType>::New();
+
   try
     {
-      imageReader->SetFileName(filename) ;
-      imageReader->Update() ;
-      input = imageReader->GetOutput() ;
+    imageReader->SetFileName(filename);
+    imageReader->Update();
+    input = imageReader->GetOutput();
     }
   catch (itk::ExceptionObject &e)
     {
-      e.Print(std::cerr) ;
+    e.Print(std::cerr);
 //--//      Remove(filename);
-      return EXIT_FAILURE;
+    return EXIT_FAILURE;
     }
 //--//  Remove(filename);
   return EXIT_SUCCESS;
@@ -392,14 +410,16 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
 
     //
     // first argument is passing in the writable directory to do all testing
-    if(ac > 1) {
-    char *testdir = *++av;
-    --ac;
-    itksys::SystemTools::ChangeDirectory(testdir);
-    }
+    if(ac > 1)
+      {
+      char *testdir = *++av;
+      --ac;
+      itksys::SystemTools::ChangeDirectory(testdir);
+      }
+
     if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
       {
-      typedef itk::Image<unsigned char, 3> ImageType ;
+      typedef itk::Image<unsigned char, 3> ImageType;
       ImageType::Pointer input;
       itk::ImageFileReader<ImageType>::Pointer imageReader =
         itk::ImageFileReader<ImageType>::New();
@@ -408,13 +428,13 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         //std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
         try
           {
-          imageReader->SetFileName(av[imagenameindex]) ;
-          imageReader->Update() ;
-          input=imageReader->GetOutput() ;
+          imageReader->SetFileName(av[imagenameindex]);
+          imageReader->Update();
+          input=imageReader->GetOutput();
           }
         catch (itk::ExceptionObject &e)
           {
-          e.Print(std::cerr) ;
+          e.Print(std::cerr);
           rval = 1;
           }
         }
@@ -519,41 +539,47 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if(ac > 1) {
+  if(ac > 1)
+    {
     char *testdir = *++av;
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
-  }
+    }
+
   if(ac != 3)
+    {
     return EXIT_FAILURE;
+    }
+
   char *arg1 = av[1];
   char *arg2 = av[2];
   int test_success = 0;
-  typedef itk::Image<signed short, 3> ImageType ;
-  typedef ImageType::Pointer ImagePointer ;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
+  typedef itk::Image<signed short, 3>         ImageType;
+  typedef ImageType::Pointer                  ImagePointer;
+  typedef itk::ImageFileReader< ImageType >   ImageReaderType;
 
   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
   ImageReaderType::Pointer imageReader = ImageReaderType::New();
   ImagePointer input;
+
   try 
     {
-      imageReader->SetImageIO(io);
-      imageReader->SetFileName(arg2);
-      imageReader->Update();
-      input = imageReader->GetOutput();
+    imageReader->SetImageIO(io);
+    imageReader->SetFileName(arg2);
+    imageReader->Update();
+    input = imageReader->GetOutput();
     }
   catch (itk::ExceptionObject &)
     {
-      test_success = 1;
+    test_success = 1;
     }
 
   if(strcmp(arg1, "true") == 0)
     {
-      return test_success;
+    return test_success;
     }
   else
     {
-      return !test_success;
+    return !test_success;
     }
 }

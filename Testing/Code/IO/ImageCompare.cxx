@@ -104,10 +104,10 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
                          int reportErrors, bool differences)
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
-  typedef itk::Image<double,ITK_TEST_DIMENSION_MAX> ImageType;
-  typedef itk::Image<unsigned char,ITK_TEST_DIMENSION_MAX> OutputType;
-  typedef itk::Image<unsigned char,2> DiffOutputType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  typedef itk::Image<double,ITK_TEST_DIMENSION_MAX>           ImageType;
+  typedef itk::Image<unsigned char,ITK_TEST_DIMENSION_MAX>    OutputType;
+  typedef itk::Image<unsigned char,2>                         DiffOutputType;
+  typedef itk::ImageFileReader<ImageType>                     ReaderType;
 
   // Read the baseline file
   ReaderType::Pointer baselineReader = ReaderType::New();
@@ -164,18 +164,20 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
   
   if (reportErrors)
     {
-    typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
-    typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
-    typedef itk::ImageFileWriter<DiffOutputType> WriterType;
-    typedef itk::ImageRegion<ITK_TEST_DIMENSION_MAX> RegionType;
+    typedef itk::RescaleIntensityImageFilter<ImageType,OutputType>    RescaleType;
+    typedef itk::ExtractImageFilter<OutputType,DiffOutputType>        ExtractType;
+    typedef itk::ImageFileWriter<DiffOutputType>                      WriterType;
+    typedef itk::ImageRegion<ITK_TEST_DIMENSION_MAX>                  RegionType;
+
     OutputType::IndexType index; index.Fill(0);
     OutputType::SizeType size; size.Fill(0);
 
     RescaleType::Pointer rescale = RescaleType::New();
-      rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
-      rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
-      rescale->SetInput(diff->GetOutput());
-      rescale->UpdateLargestPossibleRegion();
+
+    rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
+    rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
+    rescale->SetInput(diff->GetOutput());
+    rescale->UpdateLargestPossibleRegion();
 
     RegionType region;
     region.SetIndex(index);
@@ -188,11 +190,13 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     region.SetSize(size);
 
     ExtractType::Pointer extract = ExtractType::New();
-      extract->SetInput(rescale->GetOutput());
-      extract->SetExtractionRegion(region);
+
+    extract->SetInput(rescale->GetOutput());
+    extract->SetExtractionRegion(region);
 
     WriterType::Pointer writer = WriterType::New();
-      writer->SetInput(extract->GetOutput());
+    writer->SetInput(extract->GetOutput());
+
     if(differences)
       {
       // if there are discrepencies, create an diff image
