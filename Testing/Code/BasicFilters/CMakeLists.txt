@@ -945,6 +945,16 @@ ADD_TEST(itkBinaryThresholdProjectionImageFilterTest ${BASIC_FILTERS_TESTS5}
                   100
                   255
                   0)
+
+ADD_TEST(itkImageToVectorImageFilterTest ${BASIC_FILTERS_TESTS5}
+        --compare ${BASELINE}/ImageToVectorImageFilterTest.png
+                  ${TEMP}/ImageToVectorImageFilterTest.png
+                  itkImageToVectorImageFilterTest
+                  ${INPUTDATA}/Spots.png
+                  ${INPUTDATA}/SpotsInverted.png
+                  ${INPUTDATA}/SpotsInverted.png
+                  ${TEMP}/ImageToVectorImageFilterTest.png
+                  )
 ENDIF(ITK_DATA_ROOT)
 
 SET(BasicFilters_SRCS
@@ -1226,6 +1236,7 @@ SET(BasicFilters5_SRCS
   itkBinaryProjectionImageFilterTest.cxx  
   itkBinaryThresholdProjectionImageFilterTest.cxx  
   itkProjectionImageFilterTest.cxx  
+  itkImageToVectorImageFilterTest.cxx
 )
 
 IF(ITK_OBJCXX_COMPILER_WORKS)

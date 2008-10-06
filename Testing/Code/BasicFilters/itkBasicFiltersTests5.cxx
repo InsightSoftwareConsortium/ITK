@@ -35,4 +35,5 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryProjectionImageFilterTest);
   REGISTER_TEST(itkBinaryThresholdProjectionImageFilterTest);
   REGISTER_TEST(itkProjectionImageFilterTest);
+  REGISTER_TEST(itkImageToVectorImageFilterTest);
 }
