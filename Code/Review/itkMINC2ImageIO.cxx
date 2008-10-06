@@ -366,7 +366,7 @@ void MINC2ImageIO::ReadImageInformation()
   //fill out dimension size, step and start
   // note : rotate origin as itk will *NOT* do it
   // ITK ADPOTED DICOM conversions which do *NOT* rotate origin
-  double transformed_starts[3];
+  //double transformed_starts[3];
   j=2;
   for (i=0; i < this->m_NDims; i++)
     {
@@ -377,7 +377,7 @@ void MINC2ImageIO::ReadImageInformation()
     m_OriginalStart[i] = starts[this->m_DimensionIndices[j]];
     j--;
     }
-
+  /*
   transformed_starts[0] = m_DirectionCosines[0][0]*this->GetOrigin(0) +
                           m_DirectionCosines[0][1]*this->GetOrigin(1) +
                           m_DirectionCosines[0][2]*this->GetOrigin(2);
@@ -394,7 +394,7 @@ void MINC2ImageIO::ReadImageInformation()
   this->SetOrigin(0, transformed_starts[0]);
   this->SetOrigin(1, transformed_starts[1]);
   this->SetOrigin(2, transformed_starts[2]);
-
+  */
   // pass direction cosines to ITK
   vnl_vector<double> row(3),column(3), slice(3);
 
@@ -702,6 +702,7 @@ void MINC2ImageIO::Write(const void* buffer)
       }
     }
   vnl_matrix<double> inverseDirectionCosines=vnl_matrix_inverse<double>(dircosmatrix);
+  /*
   for( i = 0; i < 3; i++ )
     {
     m_OriginalStart[i]=0;
@@ -710,7 +711,11 @@ void MINC2ImageIO::Write(const void* buffer)
       m_OriginalStart[i] += inverseDirectionCosines[i][j] * this->GetOrigin(j);
       }
     }
-
+  */
+  for( i = 0; i < 3; i++ )
+    {
+      m_OriginalStart[i] = this->GetOrigin(i);
+    }
   ncomp = this->GetNumberOfComponents();
 
   // ensure that the type is valid
@@ -1172,9 +1177,13 @@ void MINC2ImageIO::Write(const void* buffer)
     Strides[1] = m_Strides[1];
     Strides[2] = m_Strides[2];
     int Sizes[3];
+    /* returns empty !?? 
     Sizes[0] = this->m_DimensionSize[0];
     Sizes[1] = this->m_DimensionSize[1];
-    Sizes[2] = this->m_DimensionSize[2];
+    Sizes[2] = this->m_DimensionSize[2];*/
+    Sizes[0] = this->GetDimensions(0);
+    Sizes[1] = this->GetDimensions(1);
+    Sizes[2] = this->GetDimensions(2);
     switch (minctype)
       {
       case MI_TYPE_BYTE:
