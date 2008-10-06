@@ -1,4 +1,4 @@
-OPTION(ITK_USE_KWSTYLE "Enable the use of KWStyle for checking coding style." ON)
+OPTION(ITK_USE_KWSTYLE "Enable the use of KWStyle for checking coding style." OFF)
 
 IF( ITK_USE_KWSTYLE )
 OPTION(KWSTYLE_USE_VIM_FORMAT "Set KWStyle to generate errors with a VIM-compatible format." OFF)
