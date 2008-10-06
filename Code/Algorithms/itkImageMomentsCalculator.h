@@ -79,8 +79,10 @@ public:
   /** Standard scalar type within this class. */
   typedef double                       ScalarType;
 
+  typedef typename TImage::PointType   PointType;
+
   /** Standard vector type within this class. */
-  typedef Vector<ScalarType,itkGetStaticConstMacro(ImageDimension)> VectorType;
+  typedef Vector<ScalarType, itkGetStaticConstMacro(ImageDimension)> VectorType;
 
   /** Spatial Object type within this class. */
   typedef SpatialObject< itkGetStaticConstMacro(ImageDimension) > SpatialObjectType;
@@ -116,7 +118,6 @@ public:
       }
     }
 
-
   /** Set the spatial object mask. */
   virtual void SetSpatialObjectMask( const SpatialObject< itkGetStaticConstMacro( ImageDimension ) > * so )
     {
@@ -127,6 +128,23 @@ public:
       m_Valid = false;
       }
     }
+
+  /** Method for controlling the region of interest that optionally limits the
+   *   spatial extent of the computations */
+  itkSetMacro(UseRegionOfInterest, bool);
+  itkGetMacro(UseRegionOfInterest, bool);
+  virtual void SetRegionOfInterest( const PointType & point1, const PointType & point2 )
+    {
+    if( m_RegionOfInterestPoint1 != point1 || m_RegionOfInterestPoint2 != point2 )
+      {
+      m_RegionOfInterestPoint1 = point1;
+      m_RegionOfInterestPoint2 = point2;
+      this->Modified();
+      m_Valid = false;
+      }
+    }
+  itkGetMacro(RegionOfInterestPoint1, PointType);
+  itkGetMacro(RegionOfInterestPoint2, PointType);
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a
@@ -217,6 +235,10 @@ private:
   MatrixType m_Cm;                   // Second central moments (physical)
   VectorType m_Pm;                   // Principal moments (physical)
   MatrixType m_Pa;                   // Principal axes (physical)
+
+  bool       m_UseRegionOfInterest;
+  PointType  m_RegionOfInterestPoint1;
+  PointType  m_RegionOfInterestPoint2;
 
   ImageConstPointer m_Image;
   SpatialObjectConstPointer m_SpatialObjectMask;

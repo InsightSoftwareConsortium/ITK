@@ -58,6 +58,9 @@ ImageMomentsCalculator<TImage>::ImageMomentsCalculator(void)
   m_Cm.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
   m_Pm.Fill(NumericTraits<ITK_TYPENAME VectorType::ValueType>::Zero);
   m_Pa.Fill(NumericTraits<ITK_TYPENAME MatrixType::ValueType>::Zero);
+  m_UseRegionOfInterest = false;
+  m_RegionOfInterestPoint1.Fill(0);
+  m_RegionOfInterestPoint2.Fill(0);
 }
 
 //----------------------------------------------------------------------
@@ -83,6 +86,9 @@ ImageMomentsCalculator<TInputImage>
   os << indent << "Second central moments: " << m_Cm << std::endl;
   os << indent << "Principal Moments: " << m_Pm << std::endl;
   os << indent << "Principal axes: " << m_Pa << std::endl;
+  os << indent << "Use RegionOfInterest : " << m_UseRegionOfInterest << std::endl;
+  os << indent << "RegionOfInterest Point1: " << m_RegionOfInterestPoint1 << std::endl;
+  os << indent << "RegionOfInterest Point2: " << m_RegionOfInterestPoint2 << std::endl;
 }
 
 //----------------------------------------------------------------------
@@ -117,8 +123,25 @@ Compute()
     Point<double, ImageDimension> physicalPosition;
     m_Image->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);  
 
-    if(m_SpatialObjectMask.IsNull()
-       || m_SpatialObjectMask->IsInside(physicalPosition))
+    bool isInsideRegionOfInterest = true;
+    if(m_UseRegionOfInterest)
+      {
+      for(unsigned int i=0; i<ImageDimension; i++)
+        {
+        if(! ( (physicalPosition[i]<=m_RegionOfInterestPoint1[i] 
+               && physicalPosition[i]>=m_RegionOfInterestPoint2[i])
+              || (physicalPosition[i]<=m_RegionOfInterestPoint2[i] 
+                  && physicalPosition[i]>=m_RegionOfInterestPoint1[i]) ) )
+          {
+          isInsideRegionOfInterest = false;
+          break;
+          }
+        }
+      }
+
+    if( isInsideRegionOfInterest &&
+        (m_SpatialObjectMask.IsNull()
+         || m_SpatialObjectMask->IsInside(physicalPosition)) )
       {
       m_M0 += value;
 
