@@ -99,7 +99,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- **/
+ */
 
 template <
  class TScalarType=double,         // Data type for scalars 
@@ -240,7 +240,7 @@ public:
    * self.  If no such point exists, an exception is thrown.   
    *
    * \deprecated Please use GetInverseTransform and then call the
-   *   forward transform function **/
+   *   forward transform function */
   inline InputPointType   BackTransform(const OutputPointType  &point ) const;
   inline InputVectorType  BackTransform(const OutputVectorType &vector) const;
   inline InputVnlVectorType BackTransform(
@@ -256,7 +256,7 @@ public:
    * pointer to) a brand new point created with new. 
    *
    * \deprecated Please use GetInverseTransform and then call the
-   *   forward transform function **/
+   *   forward transform function */
   inline InputPointType BackTransformPoint(const OutputPointType  &point) const;
 
   /** Compute distance between two affine transformations
@@ -274,7 +274,7 @@ public:
 
   /** This method computes the distance from self to the identity
    * transformation, using the same metric as the one-argument form
-   * of the Metric() method. **/
+   * of the Metric() method. */
   ScalarType Metric(void) const;
 
 protected:
@@ -284,14 +284,14 @@ protected:
    * initializes the matrix and offset parts of the transformation
    * to values specified by the caller.  If the arguments are
    * omitted, then the AffineTransform is initialized to an identity
-   * transformation in the appropriate number of dimensions.   **/
+   * transformation in the appropriate number of dimensions.   */
   AffineTransform(const MatrixType &matrix,
                   const OutputVectorType &offset);
   AffineTransform(unsigned int outputDims,
                   unsigned int paramDims);
   AffineTransform();
   
-  /** Destroy an AffineTransform object   **/
+  /** Destroy an AffineTransform object   */
   virtual ~AffineTransform();
 
   /** Print contents of an AffineTransform */
