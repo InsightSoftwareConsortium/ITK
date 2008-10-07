@@ -30,7 +30,7 @@ namespace itk
  *
  * This filter produces an output image whose pixels
  * are either one of two values ( OutsideValue or InsideValue ), 
- * depending on whether of not the corresponding input image pixel
+ * depending on whether the corresponding input image pixels
  * lie between the two thresholds ( LowerThreshold and UpperThreshold ).
  * Values equal to either threshold is considered to be between the thresholds.
  *
@@ -47,6 +47,12 @@ namespace itk
  * 
  * The filter expect both images to have the same number of dimensions.
  *
+ * The default values for LowerThreshold and UpperThreshold are:
+ * LowerThreshold = NumericTraits<TInput>::NonpositiveMin();
+ * UpperThreshold = NumericTraits<TInput>::max();
+ * Therefore, generally only one of these needs to be set, depending
+ * on whether the user wants to threshold above or below the desired threshold.
+ * 
  * \ingroup IntensityImageFilters  Multithreaded
  */
 namespace Functor {  

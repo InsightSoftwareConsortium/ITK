@@ -25,7 +25,7 @@ namespace itk
 {
   
 /** \class WeightedAddImageFilter
- * \brief Implements an operator for computed a weighted sum of two images pixel-wise.
+ * \brief Implements an operator for computing a weighted sum of two images pixel-wise.
  *
  * This class is parametrized over the types of the two 
  * input images and the type of the output image. 
@@ -37,7 +37,7 @@ namespace itk
  *
  *        pixel_from_image_1 * alpha +  pixel_from_image_2 * (1.0 - alpha)
  *
- * Additionally the type resulting from the sum, will be cast to
+ * Additionally the type resulting from the sum will be cast to
  * the pixel type of the output image.
  * 
  * The total operation over one pixel will be
@@ -45,7 +45,8 @@ namespace itk
  *  output_pixel = static_cast<OutputPixelType>( 
  *      input1_pixel * alpha + input2_pixel * (1-alpha) )
  *
- *
+ * The alpha parameter is set using SetAlpha.
+ * 
  * \warning No numeric overflow checking is performed in this filter.
  *
  * \ingroup IntensityImageFilters  Multithreaded
@@ -123,7 +124,7 @@ public:
   itkTypeMacro(WeightedAddImageFilter, 
                BinaryFunctorImageFilter);
 
-  /** Set the weigth for the first operand of the weighted addition */
+  /** Set the weight for the first operand of the weighted addition */
   void SetAlpha( RealType alpha ) 
     {
     this->GetFunctor().SetAlpha( alpha );

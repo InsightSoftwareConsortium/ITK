@@ -35,7 +35,7 @@ namespace itk {
  * the difference above a small value), you'll obtain a map of the
  * local minima.
  *
- * This filter uses the GrayscaleGeodesicErodeImageFilter.  It
+ * This filter uses the ReconstructionByErosionImageFilter.  It
  * provides its own input as the "mask" input to the geodesic
  * erosion.  The "marker" image for the geodesic erosion is
  * constructed such that boundary pixels match the boundary pixels of
@@ -46,7 +46,7 @@ namespace itk {
  * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
  * Principles and Applications", Second Edition, Springer, 2003.
  *
- * \sa GrayscaleGeodesicErodeImageFilter
+ * \sa ReconstructionByErosionImageFilter
  * \sa MorphologyImageFilter, GrayscaleErodeImageFilter, GrayscaleFunctionErodeImageFilter, BinaryErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
@@ -128,7 +128,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
   
   /** Single-threaded version of GenerateData.  This filter delegates
-   * to GrayscaleGeodesicErodeImageFilter. */
+   * to ReconstructionByErosionImageFilter. */
   void GenerateData();
   
 

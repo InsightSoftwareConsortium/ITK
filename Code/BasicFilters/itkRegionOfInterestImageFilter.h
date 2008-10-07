@@ -38,6 +38,8 @@ namespace itk
  *  to consider the ExtractImageFilter. For example for extracting a 2D image
  *  from a slice of a 3D image.
  *
+ *  The region to extract is set using the method SetRegionOfInterest.
+ * 
  * \sa ExtractImageFilter
  * 
  * \ingroup GeometricTransforms

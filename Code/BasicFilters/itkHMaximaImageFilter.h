@@ -36,7 +36,7 @@ namespace itk {
  * image, the signicant "peaks" in the image can be identified.  This
  * is what the HConvexImageFilter provides.
  *
- * This filter uses the GrayscaleGeodesicDilateImageFilter.  It
+ * This filter uses the ReconstructionByDilationImageFilter.  It
  * provides its own input as the "mask" input to the geodesic
  * dilation.  The "marker" image for the geodesic dilation is
  * the input image minus the height parameter h.
@@ -45,7 +45,9 @@ namespace itk {
  * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
  * Principles and Applications", Second Edition, Springer, 2003.
  *
- * \sa GrayscaleGeodesicDilateImageFilter, HMinimaImageFilter, HConvexImageFilter
+ * The height parameter is set using SetHeight.
+ *
+ * \sa ReconstructionByDilationImageFilter, HMinimaImageFilter, HConvexImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
@@ -137,8 +139,7 @@ protected:
   /** HMaximaImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
   
-  /** Single-threaded version of GenerateData.  This filter delegates
-   * to GrayscaleGeodesicErodeImageFilter. */
+  /** Single-threaded version of GenerateData. */
   void GenerateData();
   
 
