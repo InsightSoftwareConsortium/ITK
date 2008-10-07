@@ -48,6 +48,10 @@ namespace itk
  * pixels are vectors of the same dimension, and to store the resulting vector
  * in an output image of vector pixels.
  *
+ * The images to be added are set using the methods:
+ * SetInput1( image1 );
+ * SetInput2( image2 );
+ * 
  * \warning No numeric overflow checking is performed in this filter.
  *
  * \ingroup IntensityImageFilters  Multithreaded
