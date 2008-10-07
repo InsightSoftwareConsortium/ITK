@@ -37,15 +37,17 @@ public:
   Abs() {}
   ~Abs() {}
   bool operator!=( const Abs & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Abs & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)( ( A > 0 ) ? A : -A ); }
+    {
+    return (TOutput)( ( A > 0 ) ? A : -A );
+    }
 }; 
 }
 
@@ -63,7 +65,7 @@ public:
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
                                   Function::Abs< typename TInputImage::PixelType, 
                                                  typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

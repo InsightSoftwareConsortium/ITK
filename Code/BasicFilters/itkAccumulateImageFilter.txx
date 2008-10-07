@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkAccumulateImageFilter_txx
-#define _itkAccumulateImageFilter_txx
+#ifndef __itkAccumulateImageFilter_txx
+#define __itkAccumulateImageFilter_txx
 
 #include "itkAccumulateImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -208,7 +208,7 @@ AccumulateImageFilter<TInputImage,TOutputImage>
     AccumulateType Value=NumericTraits<AccumulateType>::ZeroValue();
     while(!inputIter.IsAtEnd())
       {
-      Value+=static_cast<AccumulateType>(inputIter.Get());
+      Value += static_cast<AccumulateType>(inputIter.Get());
       ++inputIter;
       }
     if (m_Average)

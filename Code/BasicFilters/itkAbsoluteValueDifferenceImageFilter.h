@@ -55,22 +55,22 @@ public:
   AbsoluteValueDifference2() {};
   ~AbsoluteValueDifference2() {};
   bool operator!=( const AbsoluteValueDifference2 & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const AbsoluteValueDifference2 & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B)
-  {
+    {
     const double dA = static_cast<double>( A );
     const double dB = static_cast<double>( B );
     const double diff = dA - dB;
     const double absdiff = ( diff > 0.0 ) ? diff : -diff; 
     return static_cast<TOutput>( absdiff );
-  }
+    }
 }; 
 }
 
@@ -92,7 +92,8 @@ public:
     typename TInputImage2::PixelType,
     typename TOutputImage::PixelType>   
   >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

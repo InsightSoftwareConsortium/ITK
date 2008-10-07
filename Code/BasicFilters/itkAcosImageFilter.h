@@ -52,17 +52,17 @@ public:
   Acos() {};
   ~Acos() {};
   bool operator!=( const Acos & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Acos & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( vcl_acos(static_cast<double>(A) ) );
-  }
+    }
 }; 
 }
 
@@ -80,7 +80,8 @@ public:
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
                                   Functor::Acos< typename TInputImage::PixelType, 
                                                  typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

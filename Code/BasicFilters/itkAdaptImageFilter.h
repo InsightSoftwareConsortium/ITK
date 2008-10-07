@@ -39,7 +39,7 @@ class AccessorFunctor
 public:
   /** Standard class typedefs. */
   typedef AccessorFunctor Self;
-  typedef TAccessor AccessorType;
+  typedef TAccessor       AccessorType;
 
   /** Constructor and destructor. */
   AccessorFunctor(): m_Accessor() {}
@@ -48,34 +48,42 @@ public:
   /** operator().  This is the "call" method of the functor. */
   typedef typename TAccessor::ExternalType OutputType;
   inline OutputType operator()( const TInput & A )
-  { return m_Accessor.Get( A ); }
+    {
+    return m_Accessor.Get( A );
+    }
 
   /** Get the accessor. The accessor is returned by reference. */
   AccessorType& GetAccessor() 
-  { return m_Accessor; }
+    {
+    return m_Accessor;
+    }
 
   /** Assignment operator */
   AccessorFunctor & operator=( const AccessorFunctor & functor )
-  { m_Accessor = functor.m_Accessor; 
-  return *this;}
+    {
+    m_Accessor = functor.m_Accessor; 
+    return *this;
+    }
 
   /** Set the accessor object. This replaces the current accessor with
-     * a copy of the specified accessor.  This allows the user to
-     * specify an accessor that has ivars set differently that the default
-     * accessor.
-     */
+   * a copy of the specified accessor.  This allows the user to
+   * specify an accessor that has ivars set differently that the default
+   * accessor.
+   */
   void SetAccessor(AccessorType& accessor) 
-  { m_Accessor = accessor; };
+    {
+    m_Accessor = accessor;
+    }
 
   /** operator!=.  Needed to determine if two accessors are the same. */
   bool operator!=( const Self& functor ) const
-  {
+    {
     return (m_Accessor != functor.m_Accessor);
-  }
+    }
   bool operator==( const Self& other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
     
 private:
   AccessorType m_Accessor;
@@ -115,14 +123,15 @@ class ITK_EXPORT AdaptImageFilter:
 public:
   /** Standard class typedefs. */
   typedef AdaptImageFilter  Self;
+
   typedef UnaryFunctorImageFilter< TInputImage,
                                    TOutputImage,
                                    Functor::AccessorFunctor<
     ITK_TYPENAME TInputImage::PixelType, 
     TAccessor> >  Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
   typedef typename Superclass::FunctorType FunctorType;
 
   /** Method for creation through the object factory. */
@@ -139,7 +148,7 @@ public:
 
   /** Set the accessor. This is a convenience method so the user does */
   void SetAccessor(AccessorType& accessor)
-  {
+    {
     FunctorType functor;
     functor = this->GetFunctor();
     if (accessor != functor.GetAccessor())
@@ -148,7 +157,7 @@ public:
       this->SetFunctor( functor );
       this->Modified();
       }
-  }
+    }
 
 protected:
   AdaptImageFilter() {}

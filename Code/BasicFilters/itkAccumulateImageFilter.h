@@ -55,10 +55,10 @@ class ITK_EXPORT AccumulateImageFilter : public ImageToImageFilter<TInputImage,T
 {
 public:
   /** Standard class typedefs. */
-  typedef AccumulateImageFilter  Self;
+  typedef AccumulateImageFilter                         Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,14 +67,15 @@ public:
   itkTypeMacro(AccumulateImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                            InputImageType;
   typedef typename    InputImageType::Pointer    InputImagePointer;
   typedef typename    InputImageType::RegionType InputImageRegionType;
   typedef typename    InputImageType::PixelType  InputImagePixelType;
-  typedef TOutputImage OutputImageType;
-  typedef typename     OutputImageType::Pointer    OutputImagePointer;
-  typedef typename     OutputImageType::RegionType OutputImageRegionType;
-  typedef typename     OutputImageType::PixelType  OutputImagePixelType;
+
+  typedef TOutputImage                              OutputImageType;
+  typedef typename     OutputImageType::Pointer     OutputImagePointer;
+  typedef typename     OutputImageType::RegionType  OutputImageRegionType;
+  typedef typename     OutputImageType::PixelType   OutputImagePixelType;
 
 
   /** ImageDimension enumeration */
@@ -103,7 +104,7 @@ public:
    * after the accumulation is done. If true, the output image is the
    * average of the accumulated dimension, if false the output is the
    * sum of the pixels along the selected direction.  The default
-   * value is false.**/
+   * value is false. */
   itkSetMacro( Average, bool );
   itkGetMacro( Average, bool );
   itkBooleanMacro(Average);
@@ -132,7 +133,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   unsigned int m_AccumulateDimension;
-  bool m_Average;
+  bool         m_Average;
 
 };
 
@@ -143,5 +144,3 @@ private:
 #endif
 
 #endif
-
-
