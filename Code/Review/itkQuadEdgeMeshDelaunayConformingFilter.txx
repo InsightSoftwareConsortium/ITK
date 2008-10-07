@@ -31,6 +31,23 @@ QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::
   m_FlipEdge = FlipEdgeFunctionType::New( );
   m_PriorityQueue = PriorityQueueType::New( );
 }
+
+// ---------------------------------------------------------------------
+template< typename TInputMesh, typename TOutputMesh >
+QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::
+~QuadEdgeMeshDelaunayConformingFilter( )
+{
+  OutputEdgeCellType* edge;
+
+  while( !m_PriorityQueue->Empty() )
+   {
+   edge = m_PriorityQueue->Peek( )->m_Element;
+
+   m_PriorityQueue->Pop( );
+   delete m_QueueMapper[edge];
+   m_QueueMapper.erase( edge );
+   }
+}
 // ---------------------------------------------------------------------
 template< typename TInputMesh, typename TOutputMesh >
 void QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::
@@ -120,6 +137,7 @@ Process( )
     list_qe[3] = qe->GetRprev( );
 
     m_PriorityQueue->Pop( );
+    delete m_QueueMapper[edge];
     m_QueueMapper.erase( edge );
 
     qe = m_FlipEdge->Evaluate( qe );

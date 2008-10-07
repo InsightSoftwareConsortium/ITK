@@ -121,7 +121,7 @@ public:
 
 protected:
   QuadEdgeMeshDelaunayConformingFilter( );
-  virtual ~QuadEdgeMeshDelaunayConformingFilter( ) {}
+  virtual ~QuadEdgeMeshDelaunayConformingFilter( );
 
   OutputEdgeCellListType            m_ListOfConstrainedEdges;
   PriorityQueuePointer              m_PriorityQueue;
