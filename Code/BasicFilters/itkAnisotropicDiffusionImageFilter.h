@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAnisotropicDiffusionImageFilter_h_
-#define __itkAnisotropicDiffusionImageFilter_h_
+#ifndef __itkAnisotropicDiffusionImageFilter_h
+#define __itkAnisotropicDiffusionImageFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkAnisotropicDiffusionFunction.h"
@@ -76,9 +76,9 @@ public:
   /** Standard class typedefs. */
   typedef AnisotropicDiffusionImageFilter Self;
   typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-  Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                                          Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
 
   /** Run-time type information. */
   itkTypeMacro(AnisotropicDiffusionImageFilter,
@@ -95,7 +95,7 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType    PixelType;
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Set/Get the time step for each iteration */
@@ -125,11 +125,11 @@ public:
       block artifacts by overriding the normal gradient magnitude calculation
       (i.e. all image chunks are scaled uniformly). */
   void SetFixedAverageGradientMagnitude(double a)
-  {
+    {
     m_FixedAverageGradientMagnitude= a;
     this->Modified();
     m_GradientMagnitudeIsFixed = true;
-  }
+    }
   itkGetMacro(FixedAverageGradientMagnitude, double);
   
 protected:

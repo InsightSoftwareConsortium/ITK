@@ -52,17 +52,17 @@ public:
   Atan() {};
   ~Atan() {};
   bool operator!=( const Atan & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Atan & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( vcl_atan(static_cast<double>(A) ) );
-  }
+    }
 }; 
 
 }
@@ -76,13 +76,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef AtanImageFilter  Self;
+  typedef AtanImageFilter           Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
                                   Functor::Atan< 
     typename TInputImage::PixelType, 
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  >                                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

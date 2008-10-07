@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAnisotropicDiffusionImageFilter_txx_
-#define __itkAnisotropicDiffusionImageFilter_txx_
+#ifndef __itkAnisotropicDiffusionImageFilter_txx
+#define __itkAnisotropicDiffusionImageFilter_txx
 
 #include "itkAnisotropicDiffusionImageFilter.h"
 
@@ -75,12 +75,15 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
   if ( m_TimeStep >  (minSpacing / vcl_pow(2.0, static_cast<double>(ImageDimension) + 1))  )
     {
     //    f->SetTimeStep(1.0 / vcl_pow(2.0, static_cast<double>(ImageDimension))); 
-    itkWarningMacro(<< std::endl << "Anisotropic diffusion unstable time step: " << m_TimeStep << std::endl << "Minimum stable time step for this image is " << minSpacing / vcl_pow(2.0, static_cast<double>(ImageDimension+1)));
+    itkWarningMacro( << "Anisotropic diffusion unstable time step: "
+                     << m_TimeStep << std::endl
+                     << "Minimum stable time step for this image is "
+                     << minSpacing / vcl_pow(2.0, static_cast<double>(ImageDimension+1)));
     }
   
   if (m_GradientMagnitudeIsFixed == false)
     {
-    if ((this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval)==0 )
+    if ((this->GetElapsedIterations() % m_ConductanceScalingUpdateInterval) == 0 )
       {
       f->CalculateAverageGradientMagnitudeSquared(this->GetOutput());
       }

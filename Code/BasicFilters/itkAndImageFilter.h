@@ -52,17 +52,17 @@ public:
   AND() {};
   ~AND() {};
   bool operator!=( const AND & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const AND & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-  {
+    {
     return static_cast<TOutput>( A & B );
-  }
+    }
 }; 
 
 }
@@ -79,15 +79,14 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef AndImageFilter  Self;
+  typedef AndImageFilter                Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
                                    Functor::AND< 
     typename TInputImage1::PixelType, 
     typename TInputImage2::PixelType,
-    typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+    typename TOutputImage::PixelType> > Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
