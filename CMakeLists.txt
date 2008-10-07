@@ -672,12 +672,6 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     COMPONENT Development)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml.in
-               ${ITK_BINARY_DIR}/ITK.kws.xml)
-
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKFiles.txt.in
-               ${ITK_BINARY_DIR}/ITKFiles.txt)
-
 #-----------------------------------------------------------------------------
 # The entire ITK tree should use the same include path, except for the
 # Wrapping directory.
