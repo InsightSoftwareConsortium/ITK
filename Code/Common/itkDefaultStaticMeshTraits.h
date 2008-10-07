@@ -65,10 +65,10 @@ public:
   typedef DefaultStaticMeshTraits  Self;
   
   /** Just save all the template parameters. */
-  typedef TPixelType      PixelType;
-  typedef TCellPixelType  CellPixelType;
-  typedef TCoordRep  CoordRepType;
-  typedef TInterpolationWeight  InterpolationWeightType;
+  typedef TPixelType              PixelType;
+  typedef TCellPixelType          CellPixelType;
+  typedef TCoordRep               CoordRepType;
+  typedef TInterpolationWeight    InterpolationWeightType;
     
   /** Just save all the template parameters. */
   itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
@@ -105,18 +105,17 @@ public:
   
   /** The information needed for a cell type is now defined, so we can
    * define the cell type. We use a macro defined in itkCellInterface. */
-  typedef itkMakeCellTraitsMacro                     CellTraits;
+  typedef itkMakeCellTraitsMacro                        CellTraits;
   
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */
-  typedef CellInterface< CellPixelType , CellTraits >  CellType;
-  typedef typename CellType::CellRawPointer                CellRawPointer;
-  typedef typename CellType::CellAutoPointer               CellAutoPointer;
+  typedef CellInterface< CellPixelType , CellTraits >   CellType;
+  typedef typename CellType::CellRawPointer             CellRawPointer;
+  typedef typename CellType::CellAutoPointer            CellAutoPointer;
     
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< CellIdentifier , CellType *  >
-        CellsContainer;
+  typedef VectorContainer< CellIdentifier , CellType *  >     CellsContainer;
   
   /** The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface. */
@@ -129,13 +128,11 @@ public:
 
   /** The container type for use in storing point data.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< PointIdentifier , PixelType >
-        PointDataContainer;
+  typedef VectorContainer< PointIdentifier , PixelType > PointDataContainer;
 
   /** The container type for use in storing cell data.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< CellIdentifier , CellPixelType >
-        CellDataContainer;
+  typedef VectorContainer< CellIdentifier , CellPixelType > CellDataContainer;
 
 };
 

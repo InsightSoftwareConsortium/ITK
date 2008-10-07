@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDiffusionTensor3D_txx
-#define _itkDiffusionTensor3D_txx
+#ifndef __itkDiffusionTensor3D_txx
+#define __itkDiffusionTensor3D_txx
 
 #include "itkDiffusionTensor3D.h"
 #include "itkNumericTraits.h"
@@ -24,7 +24,7 @@ namespace itk
 {
 
 
-/*
+/**
  * Default Constructor 
  */
 template<class T>
@@ -34,7 +34,7 @@ DiffusionTensor3D<T>
 }
 
 
-/*
+/**
  * Constructor with initialization
  */
 template<class T>
@@ -44,8 +44,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-/*
+/**
  * Constructor with initialization
  */
 template<class T>
@@ -55,8 +54,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-/*
+/**
  * Constructor with initialization
  */
 template<class T>
@@ -66,9 +64,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-
-/*
+/**
  * Constructor with initialization
  */
 template<class T>
@@ -78,7 +74,7 @@ DiffusionTensor3D<T>
 }
 
 
-/*
+/**
  * Assignment Operator
  */
 template<class T>
@@ -91,8 +87,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-/*
+/**
  * Assignment Operator
  */
 template<class T>
@@ -105,8 +100,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-/*
+/**
  * Assignment Operator
  */
 template<class T>
@@ -119,8 +113,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-/*
+/**
  * Assignment Operator
  */
 template<class T>
@@ -133,8 +126,7 @@ DiffusionTensor3D<T>
 }
 
 
-
-/*
+/**
  * Get the Trace, specialized version for 3D.
  * 
  * Note that the indices are related to the fact 
@@ -183,36 +175,8 @@ DiffusionTensor3D<T>
         static_cast< RealValueType >( vcl_sqrt(anisotropy / ( 2.0 * isp ) ) );
     return fractionalAnisotropy;
     }
- 
-   return 0.0 ;
 
-   /*
-   // Computed as 
-   // FA = vcl_sqrt(1.5 * ( \sum_i ( lambda_i - lambda_mean )^2 ) / \sum_i ( lambda_i^2 ) )
-   // as in http://splweb.bwh.harvard.edu:8000/pages/papers/martha/DTI_Tech354.pdf
-   // [lambda = eig(A)].
-   EigenValuesArrayType eigenValues;
-   ComputeEigenValues( eigenValues );
-   eigenValues[0] = vnl_math_abs(eigenValues[0]);
-   eigenValues[1] = vnl_math_abs(eigenValues[1]);
-   eigenValues[2] = vnl_math_abs(eigenValues[2]);
-   const RealValueType norm_E = vnl_math_sqr(eigenValues[0]) 
-                              + vnl_math_sqr(eigenValues[1]) 
-                              + vnl_math_sqr(eigenValues[2]);
-
-   if( norm_E > 0.0 )
-     {
-     const RealValueType anisotropy = 
-                      vnl_math_sqr(eigenValues[0] - eigenValues[1]) +
-                      vnl_math_sqr(eigenValues[1] - eigenValues[2]) +
-                      vnl_math_sqr(eigenValues[2] - eigenValues[0]);
-     const RealValueType fractionalAnisotropy = vcl_sqrt( 0.5 * anisotropy/norm_E);
-     return fractionalAnisotropy;
-     }
-
-   return 0.0;
-   */                 
-   
+  return 0.0;
 }
 
 
@@ -251,7 +215,6 @@ DiffusionTensor3D<T>
 }
 
 
-
 /**
  *  Compute the inner scalar product
  */
@@ -271,7 +234,6 @@ DiffusionTensor3D<T>
   return ( xx*xx + yy*yy + zz*zz + 2.0*(xy*xy + xz*xz + yz*yz) );
 
 }
-
 
 
 } // end namespace itk

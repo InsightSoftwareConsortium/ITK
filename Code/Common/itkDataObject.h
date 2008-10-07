@@ -33,7 +33,8 @@ class DataObject;
   
 /*--------------------Data Object Exceptions---------------------------*/
 
-/** \brief Exception object for DataObject exceptions */
+/** \class DataObjectError
+ * \brief Exception object for DataObject exceptions */
 class ITKCommon_EXPORT DataObjectError : public ExceptionObject
 {
 public:
@@ -77,12 +78,12 @@ private:
 };
 
   
-/**
+/** \class InvalidRequestRegionError
  * Exception object for invalid requested region
  */
 class ITKCommon_EXPORT InvalidRequestedRegionError : public DataObjectError
 {
- public:
+public:
   /** Default constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError();
   
@@ -262,10 +263,10 @@ class ITKCommon_EXPORT DataObject : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef DataObject          Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DataObject                    Self;
+  typedef Object                        Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(DataObject,Object);
@@ -495,7 +496,7 @@ private:
   /** Friends of DataObject */
   friend class ProcessObject;
   friend class DataObjectError;
-  };
+};
 
 } // end namespace itk
   

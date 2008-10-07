@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDifferenceImageFilter_txx
-#define _itkDifferenceImageFilter_txx
+#ifndef __itkDifferenceImageFilter_txx
+#define __itkDifferenceImageFilter_txx
 
 #include "itkDifferenceImageFilter.h"
 
@@ -115,18 +115,19 @@ void
 DifferenceImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData(const OutputImageRegionType &threadRegion, int threadId)
 {
-  typedef ConstNeighborhoodIterator<InputImageType> SmartIterator;
-  typedef ImageRegionConstIterator<InputImageType> InputIterator;
-  typedef ImageRegionIterator<OutputImageType> OutputIterator;
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> FacesCalculator;
-  typedef typename FacesCalculator::RadiusType RadiusType;
-  typedef typename FacesCalculator::FaceListType FaceListType;
-  typedef typename FaceListType::iterator FaceListIterator;
-  typedef typename InputImageType::PixelType InputPixelType;
-  
+  typedef ConstNeighborhoodIterator<InputImageType>   SmartIterator;
+  typedef ImageRegionConstIterator<InputImageType>    InputIterator;
+  typedef ImageRegionIterator<OutputImageType>        OutputIterator;
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> 
+                                                      FacesCalculator;
+  typedef typename FacesCalculator::RadiusType        RadiusType;
+  typedef typename FacesCalculator::FaceListType      FaceListType;
+  typedef typename FaceListType::iterator             FaceListIterator;
+  typedef typename InputImageType::PixelType          InputPixelType;
+ 
   // Prepare standard boundary condition.
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
-  
+
   // Get a pointer to each image.
   const InputImageType* validImage = this->GetInput(0);
   const InputImageType* testImage = this->GetInput(1);

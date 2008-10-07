@@ -80,8 +80,8 @@ class DiffusionTensor3D: public SymmetricSecondRankTensor<TComponent,3>
 {
 public:
   /** Standard class typedefs. */
-  typedef DiffusionTensor3D  Self;
-  typedef SymmetricSecondRankTensor<TComponent, 3> Superclass;
+  typedef DiffusionTensor3D                           Self;
+  typedef SymmetricSecondRankTensor<TComponent, 3>    Superclass;
   
   /** Propagating some typedef from the superclass */
   typedef typename Superclass::ValueType             ValueType;

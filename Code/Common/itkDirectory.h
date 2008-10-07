@@ -39,15 +39,15 @@ class ITKCommon_EXPORT Directory : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef Directory           Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-    
+  typedef Directory                   Self;
+  typedef Object                      Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
+
   /** Method for creation through the object factory. */
   static Pointer New()
     { Pointer n = new Self; n->UnRegister(); return n; }
-  
+
   /** Return the class name as a string. */
   itkTypeMacro(Directory,Object);
 
@@ -64,7 +64,7 @@ public:
 
 protected:
   Directory();
-  ~Directory() ;
+  ~Directory();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
@@ -75,5 +75,5 @@ private:
 }; // End Class: Directory
 
 } // end namespace itk
-  
+
 #endif

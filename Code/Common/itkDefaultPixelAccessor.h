@@ -57,13 +57,13 @@ public:
   DefaultPixelAccessor() {}
   virtual ~DefaultPixelAccessor() {}
 
- /** External typedef. It defines the external aspect
+  /** External typedef. It defines the external aspect
    * that this class will exhibit. */
-  typedef TType ExternalType ;
+  typedef TType ExternalType;
 
   /** Internal typedef. It defines the internal real
    * representation of data. */
-  typedef TType InternalType ;
+  typedef TType InternalType;
 
   /** Set the pixel. */
   inline void Set(TType & output, const TType & input) const
@@ -84,4 +84,3 @@ public:
   
 
 #endif
-

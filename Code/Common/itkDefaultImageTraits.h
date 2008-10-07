@@ -24,8 +24,9 @@ namespace itk
 {
 
 
-/**
- * Default ImageTraits for any PixelType.
+/** \class DefaultImageTraits
+ *
+ * \brief Default ImageTraits for any PixelType.
  *
  * \sa Image
  * \ingroup ImageObjects

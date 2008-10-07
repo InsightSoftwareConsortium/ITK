@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDerivativeOperator_txx
-#define _itkDerivativeOperator_txx
+#ifndef __itkDerivativeOperator_txx
+#define __itkDerivativeOperator_txx
 #include "itkDerivativeOperator.h"
 
 #include "itkNumericTraits.h"
@@ -48,9 +48,9 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
       }
     next = coeff[j - 1] - 2*coeff[j];
     coeff[j-1] = previous;
-    coeff[j] = next;      
+    coeff[j] = next;
     }
-  for (i = 0; i < m_Order%2; i++)    
+  for (i = 0; i < m_Order%2; i++)
     {
     previous =  0.5 * coeff[1];
     for (j = 1; j < w - 1; j++)
@@ -61,7 +61,7 @@ DerivativeOperator<TPixel, VDimension, TAllocator>
       }
     next = -0.5 * coeff[j - 1];
     coeff[j-1] = previous;
-    coeff[j] = next;      
+    coeff[j] = next;
     }
 
   return coeff;

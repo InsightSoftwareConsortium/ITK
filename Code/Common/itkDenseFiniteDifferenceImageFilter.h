@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkDenseFiniteDifferenceImageFilter_h_
-#define __itkDenseFiniteDifferenceImageFilter_h_
+#ifndef __itkDenseFiniteDifferenceImageFilter_h
+#define __itkDenseFiniteDifferenceImageFilter_h
 
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
@@ -68,10 +68,11 @@ class ITK_EXPORT DenseFiniteDifferenceImageFilter
 {
 public:
   /** Standard class typedefs */
-  typedef DenseFiniteDifferenceImageFilter Self;
-  typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DenseFiniteDifferenceImageFilter     Self;
+  typedef FiniteDifferenceImageFilter<
+    TInputImage, TOutputImage>                 Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter );
@@ -164,17 +165,17 @@ private:
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
   struct DenseFDThreadStruct
-  {
+    {
     DenseFiniteDifferenceImageFilter *Filter;
     TimeStepType TimeStep;
     TimeStepType *TimeStepList;
     bool *ValidTimeStepList;
-  };
-    
+    };
+
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ThreadedApplyUpdate for processing. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
-  
+
   /** This callback method uses SplitUpdateContainer to acquire a region
    * which it then passes to ThreadedCalculateChange for processing. */
   static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
@@ -182,7 +183,7 @@ private:
   /** The buffer that holds the updates for an iteration of the algorithm. */
   typename UpdateBufferType::Pointer m_UpdateBuffer;
 };
-  
+
 
 }// end namespace itk
 

@@ -41,25 +41,25 @@ class ITK_EXPORT DifferenceImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef DifferenceImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DifferenceImageFilter                           Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>    Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(DifferenceImageFilter, ImageToImageFilter);
-  
+
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename NumericTraits<OutputPixelType>::RealType RealType;
-  typedef typename NumericTraits<RealType>::AccumulateType AccumulateType;  
-  
+  typedef TInputImage                                         InputImageType;
+  typedef TOutputImage                                        OutputImageType;
+  typedef typename OutputImageType::PixelType                 OutputPixelType;
+  typedef typename OutputImageType::RegionType                OutputImageRegionType;
+  typedef typename NumericTraits<OutputPixelType>::RealType   RealType;
+  typedef typename NumericTraits<RealType>::AccumulateType    AccumulateType;
+ 
   /** Set the valid image input.  This will be input 0.  */
   virtual void SetValidInput(const InputImageType* validImage);
   
@@ -106,19 +106,19 @@ protected:
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType& threadRegion,
                             int threadId);
-  
+
   void BeforeThreadedGenerateData();
   void AfterThreadedGenerateData();
-  
-  OutputPixelType m_DifferenceThreshold;
-  RealType m_MeanDifference;
-  AccumulateType m_TotalDifference;
-  unsigned long  m_NumberOfPixelsWithDifferences;
-  int m_ToleranceRadius;
-  
-  Array<AccumulateType> m_ThreadDifferenceSum;
-  Array<unsigned long>  m_ThreadNumberOfPixels;
-  
+ 
+  OutputPixelType          m_DifferenceThreshold;
+  RealType                 m_MeanDifference;
+  AccumulateType           m_TotalDifference;
+  unsigned long            m_NumberOfPixelsWithDifferences;
+  int                      m_ToleranceRadius;
+
+  Array<AccumulateType>    m_ThreadDifferenceSum;
+  Array<unsigned long>     m_ThreadNumberOfPixels;
+
 private:
   DifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

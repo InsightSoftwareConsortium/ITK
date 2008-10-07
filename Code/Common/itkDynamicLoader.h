@@ -43,10 +43,10 @@ class ITKCommon_EXPORT DynamicLoader : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef DynamicLoader       Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DynamicLoader               Self;
+  typedef Object                      Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

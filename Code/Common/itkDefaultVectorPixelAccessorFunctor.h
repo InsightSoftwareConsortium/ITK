@@ -85,10 +85,10 @@ public:
     }
 
 private:
-  PixelAccessorType m_PixelAccessor; // The pixel accessor
-  InternalPixelType *m_Begin; // Begin of the buffer
+  PixelAccessorType     m_PixelAccessor; // The pixel accessor
+  InternalPixelType *   m_Begin;         // Begin of the buffer
 };
 
 }
 
-#endif    
+#endif

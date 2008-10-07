@@ -75,4 +75,3 @@ const char* Directory::GetFile(unsigned int index)
 }
 
 } // end namespace itk
-

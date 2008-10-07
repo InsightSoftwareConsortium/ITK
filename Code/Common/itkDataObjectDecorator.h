@@ -60,13 +60,13 @@ class ITK_EXPORT DataObjectDecorator : public DataObject
 public:
   /** Standard typedefs. */
   typedef DataObjectDecorator           Self;
-  typedef DataObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DataObject                    Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Typedef for the component type (object being decorated) */
-  typedef T ComponentType;
-  typedef typename T::ConstPointer ComponentConstPointer;
+  typedef T                             ComponentType;
+  typedef typename T::ConstPointer      ComponentConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,4 +101,3 @@ private:
 #endif
 
 #endif
-
