@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkWarpMeshFilter_txx
-#define _itkWarpMeshFilter_txx
+#ifndef __itkWarpMeshFilter_txx
+#define __itkWarpMeshFilter_txx
 
 #include "itkWarpMeshFilter.h"
 #include "itkExceptionObject.h"
@@ -109,8 +109,8 @@ WarpMeshFilter<TInputMesh,TOutputMesh,TDeformationField>
   typename InputPointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
   typename OutputPointsContainer::Iterator      outputPoint = outPoints->Begin();
 
-  typedef typename InputMeshType::PointType InputPointType;
-  typedef typename OutputMeshType::PointType OutputPointType;
+  typedef typename InputMeshType::PointType        InputPointType;
+  typedef typename OutputMeshType::PointType       OutputPointType;
   typedef typename DeformationFieldType::IndexType IndexType;
   IndexType index;
   

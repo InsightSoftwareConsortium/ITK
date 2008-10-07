@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkZeroCrossingBasedEdgeDetectionImageFilter_txx
-#define _itkZeroCrossingBasedEdgeDetectionImageFilter_txx
+#ifndef __itkZeroCrossingBasedEdgeDetectionImageFilter_txx
+#define __itkZeroCrossingBasedEdgeDetectionImageFilter_txx
 
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
@@ -25,62 +25,6 @@
 
 namespace itk
 {
-/*
-template <class TInputImage, class TOutputImage>
-void 
-ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage,TOutputImage>
-::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-  
-  // get pointers to the input and output
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
-  
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  // Build an operator so that we can determine the kernel size
-
-    unsigned long radius = 1;
-
-   
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( radius );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
-    {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
-}
-
-*/
-
 template< class TInputImage, class TOutputImage >
 void
 ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
@@ -144,7 +88,5 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 }
 
 }//end of itk namespace
-
-
 
 #endif

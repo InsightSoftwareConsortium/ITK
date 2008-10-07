@@ -72,19 +72,19 @@ class ITK_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter
 {
 public:
   /** Standard "Self" & Superclass typedef.   */
-  typedef ZeroCrossingBasedEdgeDetectionImageFilter    Self;
+  typedef ZeroCrossingBasedEdgeDetectionImageFilter     Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   
   /** Image typedef support   */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   
-  /** SmartPointer typedef support  */    
-  typedef SmartPointer<Self>  Pointer;
+  /** SmartPointer typedef support  */
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Define pixel type  */
-  typedef typename TInputImage::PixelType  InputImagePixelType;
+  typedef typename TInputImage::PixelType   InputImagePixelType;
   typedef typename TOutputImage::PixelType  OutputImagePixelType;
   
   /** Method for creation through the object factory.   */
@@ -119,9 +119,9 @@ public:
   
   /** Set the variance parameter needed by the embedded gaussian filter  */ 
   void SetVariance(const typename ArrayType::ValueType v)
-  {
+    {
     m_Variance.Fill(v);
-  }
+    }
   
   /** Set the MaximumError parameter needed by the embedded gaussian filter
  * This value is used to set the desired maximum error of the gaussian
@@ -130,9 +130,9 @@ public:
  * error affects the Gaussian operator size. The value must be between 0.0 and
  * 1.0. */
   void SetMaximumError(const typename ArrayType::ValueType v)
-  {
+    {
     m_MaximumError.Fill(v);
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -151,12 +151,12 @@ public:
 
 protected:
   ZeroCrossingBasedEdgeDetectionImageFilter()
-  {
+    {
     m_Variance.Fill(1.0);
     m_MaximumError.Fill(0.01);
     m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
     m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
-  }
+    }
   ~ZeroCrossingBasedEdgeDetectionImageFilter(){}
   ZeroCrossingBasedEdgeDetectionImageFilter(const Self&) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -188,4 +188,3 @@ private:
 #endif
   
 #endif
-

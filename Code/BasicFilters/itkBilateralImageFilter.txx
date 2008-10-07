@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBilateralImageFilter_txx
-#define _itkBilateralImageFilter_txx
+#ifndef __itkBilateralImageFilter_txx
+#define __itkBilateralImageFilter_txx
 
 #include "itkBilateralImageFilter.h"
 #include "itkImageRegionIterator.h"

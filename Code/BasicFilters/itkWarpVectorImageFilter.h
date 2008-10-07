@@ -91,10 +91,10 @@ class ITK_EXPORT WarpVectorImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef WarpVectorImageFilter      Self;
+  typedef WarpVectorImageFilter                        Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -106,16 +106,17 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::InputImageType        InputImageType;
-  typedef typename Superclass::InputImagePointer     InputImagePointer;
-  typedef typename Superclass::OutputImageType       OutputImageType;
-  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::OutputImageType        OutputImageType;
+  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename OutputImageType::IndexType        IndexType;
-  typedef typename OutputImageType::SizeType         SizeType;
-  typedef typename OutputImageType::PixelType        PixelType;
-  typedef typename OutputImageType::SpacingType      SpacingType;
-  typedef typename OutputImageType::PixelType::ValueType        ValueType;
+
+  typedef typename OutputImageType::IndexType            IndexType;
+  typedef typename OutputImageType::SizeType             SizeType;
+  typedef typename OutputImageType::PixelType            PixelType;
+  typedef typename OutputImageType::SpacingType          SpacingType;
+  typedef typename OutputImageType::PixelType::ValueType ValueType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -126,8 +127,8 @@ public:
                       PixelType::Dimension );
 
   /** Deformation field typedef support. */
-  typedef TDeformationField    DeformationFieldType;
-  typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
+  typedef TDeformationField                        DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer   DeformationFieldPointer;
   typedef typename DeformationFieldType::PixelType DisplacementType;
 
   /** Interpolator typedef support. */

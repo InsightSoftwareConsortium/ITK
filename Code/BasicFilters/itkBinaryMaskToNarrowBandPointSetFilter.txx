@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryMaskToNarrowBandPointSetFilter_txx
-#define _itkBinaryMaskToNarrowBandPointSetFilter_txx
+#ifndef __itkBinaryMaskToNarrowBandPointSetFilter_txx
+#define __itkBinaryMaskToNarrowBandPointSetFilter_txx
 
 
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
@@ -58,8 +58,6 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage,TOutputMesh>
 
 }
 
-
-
 /**
  *
  */
@@ -94,9 +92,6 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage,TOutputMesh>
 {
 }
 
-
-
-
 /**
  *
  */
@@ -112,9 +107,6 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage,TOutputMesh>
             const_cast< InputImageType * >( inputImage ) );
 
 }
-
-
-
 
 /**
  *

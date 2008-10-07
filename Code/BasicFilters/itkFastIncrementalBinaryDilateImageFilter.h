@@ -69,15 +69,16 @@ public:
                       TKernel::NeighborhoodDimension);
   
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef TKernel KernelType;
+  typedef TKernel      KernelType;
 
   /** Standard class typedefs. */
   typedef FastIncrementalBinaryDilateImageFilter Self;
-  typedef BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType>
+                                                 Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

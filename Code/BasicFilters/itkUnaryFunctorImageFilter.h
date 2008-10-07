@@ -44,10 +44,10 @@ class ITK_EXPORT UnaryFunctorImageFilter : public InPlaceImageFilter<TInputImage
 {
 public:
   /** Standard class typedefs. */
-  typedef UnaryFunctorImageFilter  Self;
+  typedef UnaryFunctorImageFilter                       Self;
   typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,12 +56,14 @@ public:
   itkTypeMacro(UnaryFunctorImageFilter, InPlaceImageFilter);
 
   /** Some typedefs. */
-  typedef TFunction   FunctorType;
-  typedef TInputImage InputImageType;
-  typedef typename    InputImageType::ConstPointer    InputImagePointer;
-  typedef typename    InputImageType::RegionType InputImageRegionType; 
-  typedef typename    InputImageType::PixelType  InputImagePixelType; 
-  typedef TOutputImage OutputImageType;
+  typedef TFunction                                   FunctorType;
+
+  typedef TInputImage                              InputImageType;
+  typedef typename    InputImageType::ConstPointer InputImagePointer;
+  typedef typename    InputImageType::RegionType   InputImageRegionType; 
+  typedef typename    InputImageType::PixelType    InputImagePixelType; 
+
+  typedef TOutputImage                             OutputImageType;
   typedef typename     OutputImageType::Pointer    OutputImagePointer;
   typedef typename     OutputImageType::RegionType OutputImageRegionType;
   typedef typename     OutputImageType::PixelType  OutputImagePixelType;
@@ -71,7 +73,7 @@ public:
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
   FunctorType& GetFunctor() { return m_Functor; };
-  const FunctorType& GetFunctor() const { return m_Functor; };
+  const FunctorType& GetFunctor() const { return m_Functor; }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -80,13 +82,13 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
-  {
+    {
     if (m_Functor != functor)
       {
       m_Functor = functor;
       this->Modified();
       }
-  }
+    }
   
 protected:
   UnaryFunctorImageFilter();

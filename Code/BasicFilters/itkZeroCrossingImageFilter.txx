@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkZeroCrossingImageFilter_txx
-#define _itkZeroCrossingImageFilter_txx
+#ifndef __itkZeroCrossingImageFilter_txx
+#define __itkZeroCrossingImageFilter_txx
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkZeroCrossingImageFilter.h"
@@ -122,7 +122,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
                                                   input,
                                                   *faceList.begin());
   //Set the offset of the neighbors to the center pixel.
-  for ( i = 0 ; i < ImageDimension; i++)
+  for ( i = 0; i < ImageDimension; i++)
     {
     offset[i] = -1 * static_cast<long>( bit.GetStride(i));
     offset[i+ImageDimension] =  bit.GetStride(i);
@@ -168,7 +168,7 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
       ++bit;
       ++it;
       progress.CompletedPixel();
-      }    
+      }
     }
 }
 
@@ -188,7 +188,5 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
 }
 
 }//end of itk namespace
-
-
 
 #endif

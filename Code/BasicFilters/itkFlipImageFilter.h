@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFlipImageFilter_h
-#define _itkFlipImageFilter_h
+#ifndef __itkFlipImageFilter_h
+#define __itkFlipImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"
@@ -51,10 +51,10 @@ class ITK_EXPORT FlipImageFilter :
 
 public:
   /** Standard class typedefs. */
-  typedef FlipImageFilter         Self;
+  typedef FlipImageFilter                    Self;
   typedef ImageToImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -66,13 +66,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Inherited types */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
+  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
+  typedef typename Superclass::OutputImageRegionType  OutputImageRegionType;
 
   /** Index related types */
-  typedef typename TImage::IndexType IndexType;
+  typedef typename TImage::IndexType         IndexType;
   typedef typename IndexType::IndexValueType IndexValueType;
 
   /** FlipAxesArray type */
@@ -139,4 +139,3 @@ private:
 #endif
   
 #endif
-

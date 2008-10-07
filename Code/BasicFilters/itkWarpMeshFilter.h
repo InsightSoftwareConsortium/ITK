@@ -43,23 +43,24 @@ class ITK_EXPORT WarpMeshFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef WarpMeshFilter  Self;
+  typedef WarpMeshFilter                           Self;
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
   
-  typedef TInputMesh InputMeshType;
-  typedef TOutputMesh OutputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef TInputMesh                       InputMeshType;
+  typedef typename InputMeshType::Pointer  InputMeshPointer;
+
+  typedef TOutputMesh                      OutputMeshType;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   
   /** Type for representing coordinates. */
   typedef typename TInputMesh::CoordRepType  CoordRepType;
 
   /** Deformation field typedef support. */
-  typedef TDeformationField    DeformationFieldType;
+  typedef TDeformationField                            DeformationFieldType;
   typedef typename DeformationFieldType::ConstPointer  DeformationFieldPointer;
-  typedef typename DeformationFieldType::PixelType DisplacementType;
+  typedef typename DeformationFieldType::PixelType     DisplacementType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

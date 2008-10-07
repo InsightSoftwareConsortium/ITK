@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFlipImageFilter_txx
-#define _itkFlipImageFilter_txx
+#ifndef __itkFlipImageFilter_txx
+#define __itkFlipImageFilter_txx
 
 #include "itkFlipImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

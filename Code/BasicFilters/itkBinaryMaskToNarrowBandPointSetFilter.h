@@ -57,9 +57,9 @@ class ITK_EXPORT BinaryMaskToNarrowBandPointSetFilter :
 public:
   /** Standard class typedefs. */
   typedef BinaryMaskToNarrowBandPointSetFilter  Self;
-  typedef ProcessObject                Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef ProcessObject                         Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,22 +72,21 @@ public:
   typedef typename InputImageType::ConstPointer     InputImageConstPointer;
   typedef typename InputImageType::RegionType       InputImageRegionType; 
   typedef typename InputImageType::PixelType        InputImagePixelType; 
-  typedef ImageRegionConstIteratorWithIndex<InputImageType> 
-                                                    InputImageIterator;
 
+  typedef ImageRegionConstIteratorWithIndex<InputImageType> InputImageIterator;
 
   /** Some typedefs associated with the output mesh. */
-  typedef TOutputMesh OutputMeshType;
-  typedef typename OutputMeshType::PointType        PointType;
-  typedef typename OutputMeshType::Pointer          OutputMeshPointer;
-  typedef typename OutputMeshType::ConstPointer     OutputMeshConstPointer;
-  typedef typename OutputMeshType::PointsContainer  PointsContainer; 
-  typedef typename OutputMeshType::PointIdentifier  PointIdentifier; 
-  typedef typename PointsContainer::Pointer         PointsContainerPointer;
-  typedef typename PointsContainer::Iterator        PointsContainerIterator;
+  typedef TOutputMesh                                 OutputMeshType;
+  typedef typename OutputMeshType::PointType          PointType;
+  typedef typename OutputMeshType::Pointer            OutputMeshPointer;
+  typedef typename OutputMeshType::ConstPointer       OutputMeshConstPointer;
+  typedef typename OutputMeshType::PointsContainer    PointsContainer; 
+  typedef typename OutputMeshType::PointIdentifier    PointIdentifier; 
+  typedef typename PointsContainer::Pointer           PointsContainerPointer;
+  typedef typename PointsContainer::Iterator          PointsContainerIterator;
   typedef typename OutputMeshType::PointDataContainer PointDataContainer; 
-  typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
-  typedef typename PointDataContainer::Iterator     PointDataContainerIterator;
+  typedef typename PointDataContainer::Pointer        PointDataContainerPointer;
+  typedef typename PointDataContainer::Iterator       PointDataContainerIterator;
 
 
   /** Image dimension. */
@@ -103,14 +102,11 @@ public:
       every pixel to the border of the binary mask. It uses internally a 
       FastMarching filter for propagating a from from the edges of the binary
       mask.  */
-  typedef ReinitializeLevelSetImageFilter< RealImageType >
-                                                    DistanceFilterType;
- 
-  typedef typename DistanceFilterType::Pointer                  DistanceFilterPointer; 
-  typedef typename DistanceFilterType::NodeContainerPointer     NodeContainerPointer;
-  typedef typename DistanceFilterType::NodeContainer            NodeContainer;
-  typedef typename NodeContainer::Element                       NodeType;
-
+  typedef ReinitializeLevelSetImageFilter< RealImageType >  DistanceFilterType;
+  typedef typename DistanceFilterType::Pointer              DistanceFilterPointer; 
+  typedef typename DistanceFilterType::NodeContainerPointer NodeContainerPointer;
+  typedef typename DistanceFilterType::NodeContainer        NodeContainer;
+  typedef typename NodeContainer::Element                   NodeType;
 
 
   /** The ReinitializeLevelSetImageFilter expect the input to be binary

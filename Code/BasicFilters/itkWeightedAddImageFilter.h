@@ -62,29 +62,33 @@ public:
   WeightedAdd2() {};
   ~WeightedAdd2() {};
   bool operator!=( const WeightedAdd2 & other ) const
-  {
+    {
     if( m_Alpha != other.m_Alpha)
       {
       return true;
       }
     return false;
-   }
+    }
   bool operator==( const WeightedAdd2 & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-  {
+    {
     const RealType sum1 = A * m_Alpha;
     const RealType sum2 = B * m_Beta;
     return static_cast<TOutput>( sum1 + sum2 );
-  }
-  void SetAlpha( RealType alpha ) { 
-       m_Alpha = alpha; 
-       m_Beta  = NumericTraits< RealType >::One - m_Alpha;
-       }
-  RealType GetAlpha() const { return m_Alpha; }
+    }
+  void SetAlpha( RealType alpha )
+    { 
+    m_Alpha = alpha; 
+    m_Beta  = NumericTraits< RealType >::One - m_Alpha;
+    }
+  RealType GetAlpha() const
+    {
+    return m_Alpha;
+    }
 private:
   RealType  m_Alpha;
   RealType  m_Beta;    // auxiliary var to avoid a subtraction at every pixel
@@ -104,14 +108,14 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef WeightedAddImageFilter  Self;
+  typedef WeightedAddImageFilter    Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
                                    Functor::WeightedAdd2< 
     typename TInputImage1::PixelType, 
     typename TInputImage2::PixelType,
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  >                                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef typename Superclass::FunctorType    FunctorType;
