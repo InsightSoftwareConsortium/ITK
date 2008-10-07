@@ -24,15 +24,15 @@ namespace itk
 {
 
 /**
-* Default Constructor.  Initializes outputs for the process object.
-*/
+ * Default Constructor.  Initializes outputs for the process object.
+ */
 template< typename TSourceImage >
 CoreAtomImageToDistanceMatrixProcess< TSourceImage >
 ::CoreAtomImageToDistanceMatrixProcess()
 {
   itkDebugMacro(<< "itkCoreAtomImageToDistanceMatrixProcess::itkCoreAtomImageToDistanceMatrixProcess() called");
 
-  // Setting the output.
+  /** Setting the output */
   DistanceMatrixPointer output;
   output = static_cast<typename CoreAtomImageToDistanceMatrixProcess::DistanceMatrixType*>(this->MakeOutput(0).GetPointer()); 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
@@ -147,15 +147,17 @@ CoreAtomImageToDistanceMatrixProcess< TSourceImage >
     pPixel1 = &bloxIt.Value();
 
     if( pPixel1->empty() )
+      {
       continue;
-
+      }
     for ( bloxIt2.GoToBegin(); !bloxIt2.IsAtEnd(); ++bloxIt2)
       {
       pPixel2 = &bloxIt2.Value();
 
       if( pPixel2->empty() )
+        {
         continue;
-
+        }
       // Get distance between pPixel1 and pPixel2.
       Location1 = pPixel1->GetVotedLocation();
       Location2 = pPixel2->GetVotedLocation();

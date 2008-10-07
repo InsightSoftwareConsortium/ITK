@@ -57,10 +57,4 @@ ITKCommon_EXPORT CrossProduct( CovariantVector<int,3> & c, const Vector<int,3> &
   c[2] = a[0] * b[1] - a[1] * b[0];
 }
 
-
-
-
-
 } // end namespace itk
-
-

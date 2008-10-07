@@ -77,11 +77,11 @@ public:
   
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
-  typedef typename Superclass::InputVectorType InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
+  typedef typename Superclass::InputPointType            InputPointType;
+  typedef typename Superclass::OutputPointType           OutputPointType;
+  typedef typename Superclass::InputVectorType           InputVectorType;
+  typedef typename Superclass::OutputVectorType          OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
     
 
@@ -113,7 +113,7 @@ protected:
   /** alpha, Poisson's ratio */
   TScalarType m_Alpha;
 
-  private:
+private:
   ElasticBodyReciprocalSplineKernelTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

@@ -26,8 +26,8 @@ namespace itk
 {
 
 /**
-   * Constructor
-   */
+ * Constructor
+ */
 template <class TInputImage, class TCoordRep>
 CovarianceImageFunction<TInputImage,TCoordRep>
 ::CovarianceImageFunction()
@@ -37,8 +37,8 @@ CovarianceImageFunction<TInputImage,TCoordRep>
 
 
 /**
-   *
-   */
+ *
+ */
 template <class TInputImage, class TCoordRep>
 void
 CovarianceImageFunction<TInputImage,TCoordRep>

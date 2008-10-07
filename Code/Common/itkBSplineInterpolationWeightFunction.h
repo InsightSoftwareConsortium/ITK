@@ -59,7 +59,7 @@ public:
   typedef SmartPointer<Self>                 Pointer;
   typedef SmartPointer<const Self>           ConstPointer;
 
-  /** New macro for creation of through the object factory.*/
+  /** New macro for creation of through the object factory. */
   itkNewMacro( Self );
   
   /** Run-time type information (and related methods). */

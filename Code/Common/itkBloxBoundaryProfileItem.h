@@ -100,10 +100,10 @@ private:
   /** Length of sampling profile */
   unsigned int m_ProfileLength;
 
-  /** Mean location of the boundary along sampling profile*/
+  /** Mean location of the boundary along sampling profile */
   double m_Mean;
 
-  /** Mean normalized by the profile length*/
+  /** Mean normalized by the profile length */
   double m_MeanNormalized;
 
   /** Width of blurred boundary */

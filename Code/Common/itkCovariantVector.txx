@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCovariantVector_txx
-#define _itkCovariantVector_txx
+#ifndef __itkCovariantVector_txx
+#define __itkCovariantVector_txx
 
 #include "itkCovariantVector.h" 
 #include <vnl/vnl_math.h>
@@ -105,8 +105,6 @@ CovariantVector<T, NVectorDimension>
   return result;
 }
 
-
-
 /**
  * Returns a temporary copy of a vector
  */
@@ -122,8 +120,6 @@ CovariantVector<T, NVectorDimension>
     }
   return result;
 }
-
-
 
 /**
  * Returns a temporary copy of a vector
@@ -192,8 +188,6 @@ CovariantVector<T, NVectorDimension>
     }
   return sum;
 }
-
-
 
 /**
  * Returns vector's Euclidean Norm
@@ -309,10 +303,7 @@ CovariantVector<T, NVectorDimension>
   return vnl_vector_ref<T>( NVectorDimension,
                             const_cast<T*>(this->GetDataPointer()));
 }
- 
-
 
 } // end namespace itk
-
 
 #endif

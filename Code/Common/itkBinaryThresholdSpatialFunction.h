@@ -36,7 +36,7 @@ namespace itk
  * \sa SpatialFunction
  * 
  * 
-*/
+ */
 template <typename TFunction>
 class ITK_EXPORT BinaryThresholdSpatialFunction : 
   public SpatialFunction< bool, 
@@ -55,7 +55,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryThresholdSpatialFunction, SpatialFunction);
 
-  /** New macro for creation of through the object factory.*/
+  /** New macro for creation of through the object factory. */
   itkNewMacro( Self );
 
   /** OutputType typedef support. */

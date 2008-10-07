@@ -105,7 +105,7 @@ protected:
 
   /**
    * Print contents of an CenteredEuler3DTransform
-   **/
+   */
   void PrintSelf(std::ostream &os, Indent indent) const;
 
 private:
@@ -117,7 +117,7 @@ private:
 
 }  // namespace itk
 
-// Define instantiation macro for this template.
+/** Define instantiation macro for this template. */
 #define ITK_TEMPLATE_CenteredEuler3DTransform(_, EXPORT, x, y) namespace itk { \
   _(1(class EXPORT CenteredEuler3DTransform< ITK_TEMPLATE_1 x >)) \
   namespace Templates { typedef CenteredEuler3DTransform< ITK_TEMPLATE_1 x > \

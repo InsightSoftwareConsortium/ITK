@@ -144,14 +144,12 @@ public:
 
   /**
    * This method creates and returns a new Rigid2DTransform object
-   * which is the inverse of self.
-   **/
+   * which is the inverse of self. */
   void CloneInverseTo( Pointer & newinverse ) const;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
-   * which has the same parameters.
-   **/
+   * which has the same parameters. */
   void CloneTo( Pointer & clone ) const;
 
 protected:
@@ -171,7 +169,7 @@ private:
 
 }  // namespace itk
 
-// Define instantiation macro for this template.
+/* Define instantiation macro for this template. */
 #define ITK_TEMPLATE_CenteredSimilarity2DTransform(_, EXPORT, x, y) namespace itk { \
   _(1(class EXPORT CenteredSimilarity2DTransform< ITK_TEMPLATE_1 x >)) \
   namespace Templates { typedef CenteredSimilarity2DTransform< ITK_TEMPLATE_1 x > \

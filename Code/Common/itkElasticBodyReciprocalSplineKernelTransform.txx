@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkElasticBodyReciprocalSplineKernelTransform_txx
-#define _itkElasticBodyReciprocalSplineKernelTransform_txx
+#ifndef __itkElasticBodyReciprocalSplineKernelTransform_txx
+#define __itkElasticBodyReciprocalSplineKernelTransform_txx
 #include "itkElasticBodyReciprocalSplineKernelTransform.h"
 
 namespace itk

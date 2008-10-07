@@ -99,7 +99,7 @@ public:
                                                    NeighborhoodType;
 
   /** An stl storage container type that can be sorted.  The type used for
-   *  the list of active offsets in the neighborhood.*/
+   *  the list of active offsets in the neighborhood. */
   typedef std::list<unsigned int> IndexListType;
 
   /** Typedef for boundary condition type. */
@@ -304,11 +304,11 @@ public:
     { return m_ActiveIndexList.size(); }
 
   /** Reimplements the operator++ method so that only active pixel locations
-   * are updataed.*/
+   * are updated. */
   Self &operator++();
 
   /** Reimplements the operator-- method so that only active pixel locations
-   * are updataed.*/
+   * are updated. */
   Self &operator--();
 
   /** Addition of an itk::Offset.  Note that this method does not do any bounds

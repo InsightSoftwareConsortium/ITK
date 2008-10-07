@@ -97,10 +97,10 @@ public:
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
 
 protected:
-  /** Construct an CenteredAffineTransform object **/
+  /** Construct an CenteredAffineTransform object */
   CenteredAffineTransform();
   
-  /** Destroy an CenteredAffineTransform object   **/
+  /** Destroy an CenteredAffineTransform object */
   virtual ~CenteredAffineTransform();
 
 private:
@@ -111,7 +111,7 @@ private:
 
 }  // namespace itk
 
-// Define instantiation macro for this template.
+/** Define instantiation macro for this template. */
 #define ITK_TEMPLATE_CenteredAffineTransform(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT CenteredAffineTransform< ITK_TEMPLATE_2 x >)) \
   namespace Templates { typedef CenteredAffineTransform< ITK_TEMPLATE_2 x > \

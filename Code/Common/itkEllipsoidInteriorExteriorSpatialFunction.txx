@@ -67,14 +67,14 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
   for(unsigned int i = 0; i < VDimension; i++)
     {  
     for(unsigned int j = 0; j < VDimension; j++)
-      {      
+      {
       orientationVector[j] = m_Orientations[i][j];
       }
     distanceSquared += vcl_pow(static_cast<double>((orientationVector * pointVector)/(.5*m_Axes[i])),static_cast<double>(2));
-    }        
+    }
 
   if(distanceSquared <= 1)
-    {    
+    {
     return 1; // Inside the ellipsoid.
     }
   //Default return value assumes outside the ellipsoid  

@@ -27,13 +27,13 @@ namespace itk
  * \class EllipsoidSpatialFunction
  * \brief Function implementation of an ellipsoid
  *
- * Implements a function that returns 1 for points inside or on the surface
- * of a ellipsoid and 0 for points outside the ellipsoid. The orientation of the 
- * n-dimensional ellipsoid axes are defined by n orthogonal vectors.
- * See Examples/EllipsoidInteriorExteriorSpatialFunction/README for an example
- * of creating an Ellipsoid in an image.
- *
- **/
+ * Implements a function that returns 1 for points inside or on the
+ * surface of a ellipsoid and 0 for points outside the ellipsoid. The
+ * orientation of the  n-dimensional ellipsoid axes are defined by n
+ * orthogonal vectors. See
+ * Examples/EllipsoidInteriorExteriorSpatialFunction/README for an
+ * example of creating an Ellipsoid in an image.
+ */
 template <unsigned int VDimension = 3,
           typename TInput = Point<double, VDimension> >
 class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction
@@ -41,10 +41,10 @@ class ITK_EXPORT EllipsoidInteriorExteriorSpatialFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef EllipsoidInteriorExteriorSpatialFunction Self;
+  typedef EllipsoidInteriorExteriorSpatialFunction            Self;
   typedef InteriorExteriorSpatialFunction<VDimension, TInput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer; 
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer; 
       
   /** Run-time type information (and related methods). */
   itkTypeMacro(EllipsoidInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);

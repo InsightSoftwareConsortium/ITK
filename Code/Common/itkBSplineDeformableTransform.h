@@ -118,7 +118,7 @@ public:
   typedef SmartPointer<Self>                                 Pointer;
   typedef SmartPointer<const Self>                           ConstPointer;
       
-  /** New macro for creation of through the object factory.*/
+  /** New macro for creation of through the object factory. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
@@ -265,11 +265,11 @@ public:
   /** Typedefs for specifying the extend to the grid. */
   typedef ImageRegion<itkGetStaticConstMacro(SpaceDimension)>    RegionType;
   
-  typedef typename RegionType::IndexType  IndexType;
-  typedef typename RegionType::SizeType   SizeType;
-  typedef typename ImageType::SpacingType SpacingType;
+  typedef typename RegionType::IndexType    IndexType;
+  typedef typename RegionType::SizeType     SizeType;
+  typedef typename ImageType::SpacingType   SpacingType;
   typedef typename ImageType::DirectionType DirectionType;
-  typedef typename ImageType::PointType   OriginType;
+  typedef typename ImageType::PointType     OriginType;
 
   /** This method specifies the region over which the grid resides. */
   virtual void SetGridRegion( const RegionType& region );

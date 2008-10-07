@@ -46,7 +46,7 @@ namespace itk {
  * \ingroup ImageIterators
  *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
- **/
+ */
 template<class TImage,  class TBoundaryCondition
                        = ZeroFluxNeumannBoundaryCondition<TImage> >
 class ITK_EXPORT ConstNeighborhoodIterator
@@ -501,7 +501,7 @@ protected:
   /** Default boundary condition. */
   TBoundaryCondition m_InternalBoundaryCondition;
 
-  /** Does the specified region need to worry about boundary conditions? **/
+  /** Does the specified region need to worry about boundary conditions? */
   bool m_NeedToUseBoundaryCondition;
 
   /** Functor type used to access neighborhoods of pixel pointers */

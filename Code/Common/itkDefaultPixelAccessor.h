@@ -81,6 +81,5 @@ public:
 
   
 } // end namespace itk
-  
 
 #endif

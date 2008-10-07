@@ -76,7 +76,7 @@ public:
   typedef Index<2>    IndexType;
 
   /** ChainCodeType is a usless relic of the parent class */
-  typedef Superclass::ChainCodeType ChainCodeType;
+  typedef Superclass::ChainCodeType     ChainCodeType;
   typedef Superclass::ChainCodeSizeType ChainCodeSizeType;
 
   /** ChainCodePath2D stores its data as a Freeman-encoded chain code */
