@@ -36,6 +36,15 @@ template< class TInput, class TOutput, class TCriterion >
 QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 ~QuadEdgeMeshEdgeMergeDecimationFilter()
 {
+  OutputQEType* edge;
+
+  while( !m_PriorityQueue->Empty() )
+    {
+    edge = m_PriorityQueue->Peek()->m_Element;
+    m_PriorityQueue->Pop();
+    delete m_QueueMapper[edge];
+    m_QueueMapper.erase( edge );
+    }
 }
 
 template< class TInput, class TOutput, class TCriterion >
