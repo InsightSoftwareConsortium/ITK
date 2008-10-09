@@ -65,96 +65,96 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     {
   
     case 0 :
-      m_gSize = 1; 
-      m_hSize = 1;
+      m_GSize = 1; 
+      m_HSize = 1;
       break;
       
     case 1 :
-      m_gSize = 9;
-      m_hSize = 2;
-      m_g.resize(m_gSize);
-      m_h.resize(m_hSize);
-      m_g[0]  =  0.707107; 
-      m_g[1]  =  0.292893; 
-      m_g[2]  = -0.12132; 
-      m_g[3]  = -0.0502525;
-      m_g[4]  =  0.0208153; 
-      m_g[5]  =  0.00862197; 
-      m_g[6]  = -0.00357134;
-      m_g[7]  = -0.0014793; 
-      m_g[8]  =  0.000612745;
-      m_h[0]  = 1.; 
-      m_h[1]  = 0.5;
+      m_GSize = 9;
+      m_HSize = 2;
+      m_G.resize(m_GSize);
+      m_H.resize(m_HSize);
+      m_G[0]  =  0.707107; 
+      m_G[1]  =  0.292893; 
+      m_G[2]  = -0.12132; 
+      m_G[3]  = -0.0502525;
+      m_G[4]  =  0.0208153; 
+      m_G[5]  =  0.00862197; 
+      m_G[6]  = -0.00357134;
+      m_G[7]  = -0.0014793; 
+      m_G[8]  =  0.000612745;
+      m_H[0]  = 1.; 
+      m_H[1]  = 0.5;
       break;
     case 2 :
-      m_gSize = 16;
-      m_hSize = 10;
-      m_g.resize(m_gSize);
-      m_h.resize(m_hSize);
-      m_g[0]  =  0.617317; 
-      m_g[1]  =  0.310754; 
-      m_g[2]  = -0.0949641; 
-      m_g[3]  = -0.0858654;
-      m_g[4]  =  0.0529153; 
-      m_g[5]  =  0.0362437; 
-      m_g[6]  = -0.0240408;
-      m_g[7]  = -0.0160987; 
-      m_g[8]  =  0.0107498; 
-      m_g[9]  =  0.00718418;
-      m_g[10] = -0.00480004; 
-      m_g[11] = -0.00320734; 
-      m_g[12] =  0.00214306;
-      m_g[13] =  0.00143195; 
-      m_g[14] = -0.0009568; 
-      m_g[15] = -0.000639312;
-      m_h[0]  =  1.; 
-      m_h[1]  =  0.585786; 
-      m_h[2]  =  0; 
-      m_h[3]  = -0.100505; 
-      m_h[4]  =  0;
-      m_h[5]  =  0.0172439; 
-      m_h[6]  =  0; 
-      m_h[7]  = -0.00295859; 
-      m_h[8]  =  0;
-      m_h[9]  =  0.000507614;
+      m_GSize = 16;
+      m_HSize = 10;
+      m_G.resize(m_GSize);
+      m_H.resize(m_HSize);
+      m_G[0]  =  0.617317; 
+      m_G[1]  =  0.310754; 
+      m_G[2]  = -0.0949641; 
+      m_G[3]  = -0.0858654;
+      m_G[4]  =  0.0529153; 
+      m_G[5]  =  0.0362437; 
+      m_G[6]  = -0.0240408;
+      m_G[7]  = -0.0160987; 
+      m_G[8]  =  0.0107498; 
+      m_G[9]  =  0.00718418;
+      m_G[10] = -0.00480004; 
+      m_G[11] = -0.00320734; 
+      m_G[12] =  0.00214306;
+      m_G[13] =  0.00143195; 
+      m_G[14] = -0.0009568; 
+      m_G[15] = -0.000639312;
+      m_H[0]  =  1.; 
+      m_H[1]  =  0.585786; 
+      m_H[2]  =  0; 
+      m_H[3]  = -0.100505; 
+      m_H[4]  =  0;
+      m_H[5]  =  0.0172439; 
+      m_H[6]  =  0; 
+      m_H[7]  = -0.00295859; 
+      m_H[8]  =  0;
+      m_H[9]  =  0.000507614;
       break;
     case 3 :
-      m_gSize = 20;
-      m_hSize = 12;
-      m_g.resize(m_gSize);
-      m_h.resize(m_hSize);
-      m_g[0]  =  0.596797; 
-      m_g[1]  =  0.313287; 
-      m_g[2]  = -0.0827691; 
-      m_g[3]  = -0.0921993;
-      m_g[4]  =  0.0540288; 
-      m_g[5]  =  0.0436996; 
-      m_g[6]  = -0.0302508;
-      m_g[7]  = -0.0225552; 
-      m_g[8]  =  0.0162251; 
-      m_g[9]  =  0.0118738;
-      m_g[10] = -0.00861788; 
-      m_g[11] = -0.00627964; 
-      m_g[12] =  0.00456713;
-      m_g[13] =  0.00332464; 
-      m_g[14] = -0.00241916; 
-      m_g[15] = -0.00176059;
-      m_g[16] =  0.00128128; 
-      m_g[17] =  0.000932349; 
-      m_g[18] = -0.000678643;
-      m_g[19] = -0.000493682;
-      m_h[0]  =  1.; 
-      m_h[1]  =  0.600481; 
-      m_h[2]  =  0; 
-      m_h[3]  = -0.127405; 
-      m_h[4]  =  0;
-      m_h[5]  =  0.034138; 
-      m_h[6]  =  0; 
-      m_h[7]  = -0.00914725; 
-      m_h[8]  =  0;
-      m_h[9]  =  0.002451; 
-      m_h[10] =  0; 
-      m_h[11] = -0.000656743;
+      m_GSize = 20;
+      m_HSize = 12;
+      m_G.resize(m_GSize);
+      m_H.resize(m_HSize);
+      m_G[0]  =  0.596797; 
+      m_G[1]  =  0.313287; 
+      m_G[2]  = -0.0827691; 
+      m_G[3]  = -0.0921993;
+      m_G[4]  =  0.0540288; 
+      m_G[5]  =  0.0436996; 
+      m_G[6]  = -0.0302508;
+      m_G[7]  = -0.0225552; 
+      m_G[8]  =  0.0162251; 
+      m_G[9]  =  0.0118738;
+      m_G[10] = -0.00861788; 
+      m_G[11] = -0.00627964; 
+      m_G[12] =  0.00456713;
+      m_G[13] =  0.00332464; 
+      m_G[14] = -0.00241916; 
+      m_G[15] = -0.00176059;
+      m_G[16] =  0.00128128; 
+      m_G[17] =  0.000932349; 
+      m_G[18] = -0.000678643;
+      m_G[19] = -0.000493682;
+      m_H[0]  =  1.; 
+      m_H[1]  =  0.600481; 
+      m_H[2]  =  0; 
+      m_H[3]  = -0.127405; 
+      m_H[4]  =  0;
+      m_H[5]  =  0.034138; 
+      m_H[6]  =  0; 
+      m_H[7]  = -0.00914725; 
+      m_H[8]  =  0;
+      m_H[9]  =  0.002451; 
+      m_H[10] =  0; 
+      m_H[11] = -0.000656743;
       break;
     default :
       // Throw an exception
@@ -204,8 +204,8 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   double outVal;
 
 
-  //TODO:  m_gSize < 2 has not been tested.
-  if (m_gSize < 2)
+  //TODO:  m_GSize < 2 has not been tested.
+  if (m_GSize < 2)
     {   
     for (outK = 0; outK < outTraverseSize; outK++)
       {
@@ -230,9 +230,9 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
       {
       inK = 2L * outK;
 
-      outVal = in[inK] * m_g[0];
+      outVal = in[inK] * m_G[0];
       
-      for (int i = 1; i < m_gSize; i++) 
+      for (int i = 1; i < m_GSize; i++) 
         {
         // Calculate indicies for left and right of symmetrical filter.
         i1 = inK - i;
@@ -252,7 +252,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
           //if (i2 > inModK) 
           //i2=inModK-i2;  //TODO: I don't think this is correct.
           }
-        outVal = outVal + m_g[i]*(in[i1] + in[i2]);
+        outVal = outVal + m_G[i]*(in[i1] + in[i2]);
         }
       out.Set( static_cast<OutputImagePixelType> (outVal) );
       ++out;
@@ -283,8 +283,8 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   double outVal;
 
 
-  //TODO:  m_gSize < 2 has not been tested.
-  if (m_hSize < 2)
+  //TODO:  m_GSize < 2 has not been tested.
+  if (m_HSize < 2)
     {   
     for (inK = 0; inK < inTraverseSize; inK++)
       {
@@ -301,7 +301,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
     for (outK = 0; outK < (int) outTraverseSize; outK++) 
       {
       outVal = 0.0;
-      for (int k = (outK % 2); k < (int)  m_hSize; k += 2)
+      for (int k = (outK % 2); k < (int)  m_HSize; k += 2)
         {
         i1 = ( outK - k ) / 2;
         if ( i1 < 0 )
@@ -311,9 +311,9 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
           //if (i1 > inModK)
           //i1 - inModK - i1;
           }
-        outVal = outVal + m_h[k] * in[i1];
+        outVal = outVal + m_H[k] * in[i1];
         }
-      for (int k = 2 - ( outK % 2); k < (int) m_hSize; k +=2)
+      for (int k = 2 - ( outK % 2); k < (int) m_HSize; k +=2)
         {
         i2 = (outK + k)/ 2;
         if ( i2 > inModK )
@@ -324,7 +324,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
           //if (i2 > inModK)
           //i2 - inModK - i2;
           }
-        outVal += m_h[k] * in[i2];
+        outVal += m_H[k] * in[i2];
         }
     
       out.Set( static_cast<OutputImagePixelType> (outVal) );

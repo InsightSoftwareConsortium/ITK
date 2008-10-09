@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineUpsampleImageFilter_txx
-#define _itkBSplineUpsampleImageFilter_txx
+#ifndef __itkBSplineUpsampleImageFilter_txx
+#define __itkBSplineUpsampleImageFilter_txx
 #include "itkBSplineUpsampleImageFilter.h"
 
 namespace itk
@@ -98,7 +98,7 @@ BSplineUpsampleImageFilter<TInputImage,TOutputImage, ResamplerType>
   
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
-// we need to compute the input requested region (size and start index)
+  // Compute the input requested region (size and start index)
   unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();

@@ -83,10 +83,10 @@ class ITK_EXPORT BSplineInterpolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineInterpolateImageFunction       Self;
+  typedef BSplineInterpolateImageFunction                 Self;
   typedef InterpolateImageFunction<TImageType,TCoordRep>  Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineInterpolateImageFunction, InterpolateImageFunction);
@@ -120,11 +120,12 @@ public:
   typedef TCoefficientType CoefficientDataType;
   typedef Image<CoefficientDataType, 
                      itkGetStaticConstMacro(ImageDimension)
-    > CoefficientImageType;
+    >                      CoefficientImageType;
 
   /** Define filter for calculating the BSpline coefficients */
   typedef BSplineDecompositionImageFilter<TImageType, CoefficientImageType> 
   CoefficientFilter;
+
   typedef typename CoefficientFilter::Pointer CoefficientFilterPointer;
 
   /** Evaluate the function at a ContinuousIndex position.
@@ -144,11 +145,11 @@ public:
     > CovariantVectorType;
 
   CovariantVectorType EvaluateDerivative( const PointType & point ) const
-  {    
+    {
     ContinuousIndexType index;
     this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, index );
     return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
-  } 
+    }
 
   CovariantVectorType EvaluateDerivativeAtContinuousIndex( 
     const ContinuousIndexType & x ) const;
@@ -171,7 +172,7 @@ public:
    * into account the image Direction or not. The flag ON will take into
    * account the image direction and will result in an extra matrix
    * multiplication compared to the amount of computation performed when the
-   * flag is OFF.  This flag is OFF by default.*/
+   * flag is OFF.  This flag is OFF by default. */
   itkSetMacro( UseImageDirection, bool );
   itkGetMacro( UseImageDirection, bool );
   itkBooleanMacro( UseImageDirection );

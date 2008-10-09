@@ -61,10 +61,10 @@ class ITK_EXPORT BSplineCenteredResampleImageFilterBase :
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineCenteredResampleImageFilterBase       Self;
+  typedef BSplineCenteredResampleImageFilterBase                     Self;
   typedef BSplineResampleImageFilterBase<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef SmartPointer<Self>                                         Pointer;
+  typedef SmartPointer<const Self>                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineCenteredResampleImageFilterBase, BSplineResampleImageFilterBase);

@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineDownsampleImageFilter_txx
-#define _itkBSplineDownsampleImageFilter_txx
+#ifndef __itkBSplineDownsampleImageFilter_txx
+#define __itkBSplineDownsampleImageFilter_txx
 #include "itkBSplineDownsampleImageFilter.h"
 
 namespace itk

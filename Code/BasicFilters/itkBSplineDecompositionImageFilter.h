@@ -68,10 +68,10 @@ class ITK_EXPORT BSplineDecompositionImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineDecompositionImageFilter       Self;
+  typedef BSplineDecompositionImageFilter               Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDecompositionImageFilter, ImageToImageFilter);
@@ -80,10 +80,10 @@ public:
   itkNewMacro( Self );
 
   /** Inherit input and output image types from Superclass. */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,TInputImage::ImageDimension);
@@ -128,8 +128,9 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject *output ); 
 
   /** These are needed by the smoothing spline routine. */
-  std::vector<double>       m_Scratch;       // temp storage for processing of Coefficients
+  std::vector<double>              m_Scratch;       // temp storage for processing of Coefficients
   typename TInputImage::SizeType   m_DataLength;  // Image size
+
   unsigned int              m_SplineOrder;   // User specified spline order (3rd or cubic is the default)
   double                    m_SplinePoles[3];// Poles calculated for a given spline order
   int                       m_NumberOfPoles; // number of poles
@@ -176,4 +177,3 @@ private:
 #endif
 
 #endif
-

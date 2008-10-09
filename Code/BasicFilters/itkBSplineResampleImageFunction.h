@@ -51,11 +51,11 @@ class ITK_EXPORT BSplineResampleImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineResampleImageFunction       Self;
+  typedef BSplineResampleImageFunction                          Self;
   typedef BSplineInterpolateImageFunction<
     TImageType,TCoordRep, ITK_TYPENAME TImageType::PixelType >  Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineResampleImageFunction, 
@@ -66,23 +66,19 @@ public:
 
   /** Set the input image representing the BSplineCoefficients */
   virtual void SetInputImage(const TImageType * inputData)
-  {
+    {
     // bypass my superclass
     this->InterpolateImageFunction<TImageType,TCoordRep>::SetInputImage(inputData);
     this->m_Coefficients = inputData;
     if ( this->m_Coefficients.IsNotNull() )
       {
       this->m_DataLength = this->m_Coefficients->GetBufferedRegion().GetSize();
+      }
     }
-  }
 
 protected:
   BSplineResampleImageFunction() {};
   virtual ~BSplineResampleImageFunction() {};
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {
-    this->Superclass::PrintSelf( os, indent );
-  }
 
 private:
   BSplineResampleImageFunction(const Self&);//purposely not implemented
@@ -92,4 +88,3 @@ private:
 
 
 #endif
-

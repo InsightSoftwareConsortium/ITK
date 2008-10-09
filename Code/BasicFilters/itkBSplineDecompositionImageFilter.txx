@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineDecompositionImageFilter_txx
-#define _itkBSplineDecompositionImageFilter_txx
+#ifndef __itkBSplineDecompositionImageFilter_txx
+#define __itkBSplineDecompositionImageFilter_txx
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
@@ -290,8 +290,8 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 {
 
   typedef ImageRegionConstIteratorWithIndex< TInputImage > InputIterator;
-  typedef ImageRegionIterator< TOutputImage > OutputIterator;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef ImageRegionIterator< TOutputImage >              OutputIterator;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
 
   InputIterator inIt( this->GetInput(), this->GetInput()->GetBufferedRegion() );
   OutputIterator outIt( this->GetOutput(), this->GetOutput()->GetBufferedRegion() );
@@ -340,7 +340,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   unsigned long j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
-    m_Scratch[j] = static_cast<double>( Iter.Get() ) ;
+    m_Scratch[j] = static_cast<double>( Iter.Get() );
     ++Iter;
     ++j;
     }

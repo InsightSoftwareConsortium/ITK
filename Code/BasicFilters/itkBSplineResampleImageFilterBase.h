@@ -77,10 +77,10 @@ class ITK_EXPORT BSplineResampleImageFilterBase :
 
 public:
   /** Standard class typedefs. */
-  typedef BSplineResampleImageFilterBase       Self;
+  typedef BSplineResampleImageFilterBase                Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineResampleImageFilterBase, ImageToImageFilter);
@@ -157,10 +157,10 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   int                       m_SplineOrder;// User specified spline order 
-  int                       m_gSize;      // downsampling filter size
-  int                       m_hSize;      // upsampling filter size
-  std::vector<double>       m_g;          // downsampling filter coefficients
-  std::vector<double>       m_h;          // upsampling filter coefficients
+  int                       m_GSize;      // downsampling filter size
+  int                       m_HSize;      // upsampling filter size
+  std::vector<double>       m_G;          // downsampling filter coefficients
+  std::vector<double>       m_H;          // upsampling filter coefficients
 
 private:
 
