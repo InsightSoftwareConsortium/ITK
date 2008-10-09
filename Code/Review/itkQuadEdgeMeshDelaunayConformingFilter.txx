@@ -40,13 +40,13 @@ QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::
   OutputEdgeCellType* edge;
 
   while( !m_PriorityQueue->Empty() )
-   {
-   edge = m_PriorityQueue->Peek( )->m_Element;
+    {
+    edge = m_PriorityQueue->Peek( )->m_Element;
 
-   m_PriorityQueue->Pop( );
-   delete m_QueueMapper[edge];
-   m_QueueMapper.erase( edge );
-   }
+    m_PriorityQueue->Pop( );
+    delete m_QueueMapper[edge];
+    m_QueueMapper.erase( edge );
+    }
 }
 // ---------------------------------------------------------------------
 template< typename TInputMesh, typename TOutputMesh >
