@@ -36,9 +36,9 @@ class ITK_EXPORT VTKImageExportBase: public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageExportBase Self;
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef VTKImageExportBase        Self;
+  typedef ProcessObject             Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
@@ -64,9 +64,9 @@ public:
   typedef float* (*FloatSpacingCallbackType)(void*);
   typedef float* (*FloatOriginCallbackType)(void*);
 
-  /** Provide compatibility between VTK 4.4 and earlier versions.  */
+  /** \class Provide compatibility between VTK 4.4 and earlier versions.  */
   class CallbackTypeProxy
-  {
+    {
   public:
     typedef double* (*DoubleCallbackType)(void*);
     typedef float* (*FloatCallbackType)(void*);
@@ -81,8 +81,8 @@ public:
     CallbackTypeProxy(DoubleCallbackType d, FloatCallbackType f):
       m_DoubleCallback(d), m_FloatCallback(f) {}
   private:
-    DoubleCallbackType m_DoubleCallback;
-    FloatCallbackType m_FloatCallback;
+      DoubleCallbackType m_DoubleCallback;
+      FloatCallbackType m_FloatCallback;
   };
   
   /** Get a pointer to function to set as a callback in vtkImageImport. */

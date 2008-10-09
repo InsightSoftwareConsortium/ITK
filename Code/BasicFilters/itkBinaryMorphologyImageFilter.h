@@ -164,15 +164,7 @@ public:
       (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
                               itkGetStaticConstMacro(OutputImageDimension)>));
 
-// Cannot get this to work with gcc compiler
-#if 0
-  /** Input and structuring element must be the same dimnesion. */
-  itkConceptMacro(KernelDimensionCheck,
-      (Concept::SameDimension<itkGetStaticConstMacro(KernelDimension),
-                              itkGetStaticConstMacro(InputImageDimension)>));
-#endif
-
-  /** Set kernel (structuring element).*/
+  /** Set kernel (structuring element). */
   void SetKernel( const KernelType& kernel );
 
   /** Get the kernel (structuring element). */
@@ -180,7 +172,7 @@ public:
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
-   * DilateValue or ErodeValue.*/
+   * DilateValue or ErodeValue. */
   itkSetMacro(ForegroundValue, InputPixelType);
 
   /** Get the value in the image considered as "foreground". Defaults to
@@ -199,8 +191,7 @@ public:
    */
   itkGetConstMacro(BackgroundValue, OutputPixelType);
   
-  /** Get/Set the borders as foreground (true) or background (false).
-   */
+  /** Get/Set the borders as foreground (true) or background (false). */
   itkSetMacro(BoundaryToForeground, bool);
   itkGetConstReferenceMacro(BoundaryToForeground, bool);
   itkBooleanMacro(BoundaryToForeground);

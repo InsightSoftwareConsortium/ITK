@@ -89,7 +89,7 @@ public:
   itkGetConstReferenceMacro(Kernel, KernelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+/** Begin concept checking */
   itkConceptMacro(InputAdditiveOperatorsCheck,
     (Concept::AdditiveOperators<InputImagePixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck,
@@ -98,7 +98,7 @@ public:
     (Concept::GreaterThanComparable<InputImagePixelType>));
   itkConceptMacro(KernelGreaterThanIntCheck,
     (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
-  /** End concept checking */
+/** End concept checking */
 #endif
 
 protected:

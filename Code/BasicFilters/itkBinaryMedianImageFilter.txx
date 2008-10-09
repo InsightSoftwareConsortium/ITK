@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryMedianImageFilter_txx
-#define _itkBinaryMedianImageFilter_txx
+#ifndef __itkBinaryMedianImageFilter_txx
+#define __itkBinaryMedianImageFilter_txx
 #include "itkBinaryMedianImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"

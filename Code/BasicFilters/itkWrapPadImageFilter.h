@@ -47,10 +47,10 @@ class ITK_EXPORT WrapPadImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef WrapPadImageFilter         Self;
+  typedef WrapPadImageFilter                        Self;
   typedef PadImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self); 
@@ -58,25 +58,25 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(WrapPadImageFilter, PadImageFilter);
 
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::OutputImageType        OutputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   
   /** Typedef to describe the output image region type. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::InputImageRegionType InputImageRegionType;
+  typedef typename Superclass::InputImageRegionType  InputImageRegionType;
   
   /** Typedef to describe the type of pixel. */
   typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
-  typedef typename Superclass::InputImagePixelType InputImagePixelType;
+  typedef typename Superclass::InputImagePixelType  InputImagePixelType;
   
   /** Typedef to describe the output and input image index and size types. */
   typedef typename Superclass::OutputImageIndexType OutputImageIndexType;
-  typedef typename Superclass::InputImageIndexType InputImageIndexType;
-  typedef typename Superclass::OutputImageSizeType OutputImageSizeType;
-  typedef typename Superclass::InputImageSizeType InputImageSizeType;
+  typedef typename Superclass::InputImageIndexType  InputImageIndexType;
+  typedef typename Superclass::OutputImageSizeType  OutputImageSizeType;
+  typedef typename Superclass::InputImageSizeType   InputImageSizeType;
   
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,

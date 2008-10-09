@@ -62,48 +62,47 @@ class BinaryThreshold
 {
 public:
   BinaryThreshold()
-  {
+    {
     m_LowerThreshold = NumericTraits<TInput>::NonpositiveMin();
     m_UpperThreshold = NumericTraits<TInput>::max();
     m_OutsideValue   = NumericTraits<TOutput>::Zero;
     m_InsideValue    = NumericTraits<TOutput>::max();
-  };
+    }
   ~BinaryThreshold() {};
 
   void SetLowerThreshold( const TInput & thresh )
-  { m_LowerThreshold = thresh; }
+    { m_LowerThreshold = thresh; }
   void SetUpperThreshold( const TInput & thresh )
-  { m_UpperThreshold = thresh; }
+    { m_UpperThreshold = thresh; }
   void SetInsideValue( const TOutput & value )
-  { m_InsideValue = value; }
+    { m_InsideValue = value; }
   void SetOutsideValue( const TOutput & value )
-  { m_OutsideValue = value; }
+    { m_OutsideValue = value; }
 
   bool operator!=( const BinaryThreshold & other ) const
-  {
+    {
     if( m_LowerThreshold != other.m_LowerThreshold ||
         m_UpperThreshold != other.m_UpperThreshold ||
         m_InsideValue    != other.m_InsideValue    ||
         m_OutsideValue   != other.m_OutsideValue  )
-        {
-        return true;
-        }
+      {
+      return true;
+      }
     return false;
-   }
+    }
   bool operator==( const BinaryThreshold & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
   inline TOutput operator()( const TInput & A )
-  {
+    {
     if ( m_LowerThreshold <= A && A <= m_UpperThreshold )
       {
       return m_InsideValue;
       }
     return m_OutsideValue;
-  }
-
+    }
 private:
   TInput      m_LowerThreshold;
   TInput      m_UpperThreshold;
@@ -128,9 +127,9 @@ public:
                                   Functor::BinaryThreshold< 
     typename TInputImage::PixelType, 
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  >                                   Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

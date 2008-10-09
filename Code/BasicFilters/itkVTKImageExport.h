@@ -53,9 +53,9 @@ class ITK_EXPORT VTKImageExport: public VTKImageExportBase
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageExport Self;
-  typedef VTKImageExportBase Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef VTKImageExport            Self;
+  typedef VTKImageExportBase        Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
@@ -75,9 +75,9 @@ protected:
   ~VTKImageExport() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputRegionType;
-  typedef typename InputRegionType::SizeType InputSizeType;
+  typedef typename InputRegionType::SizeType  InputSizeType;
   typedef typename InputRegionType::IndexType InputIndexType;
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension );

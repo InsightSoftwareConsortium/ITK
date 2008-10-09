@@ -122,7 +122,7 @@ public:
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
-   * DilateValue or ErodeValue.*/
+   * DilateValue or ErodeValue. */
   itkSetMacro(ForegroundValue, InputPixelType);
 
   /** Get the value in the image considered as "foreground". Defaults to

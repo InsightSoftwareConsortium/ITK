@@ -425,4 +425,3 @@ BinaryMorphologyImageFilter<TInputImage, TOutput, TKernel>
 #endif
 
 #endif
-

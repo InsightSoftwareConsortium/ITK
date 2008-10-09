@@ -122,7 +122,7 @@ public:
   typedef typename Superclass::AccumulatorType AccumulatorType;
 
   /** Set/Get the value in the image to consider as "foreground". Defaults to
-   * maximum value of PixelType .*/
+   * maximum value of PixelType. */
   itkSetMacro(ForegroundValue, InputPixelType);
   itkGetConstMacro(ForegroundValue, InputPixelType);
 

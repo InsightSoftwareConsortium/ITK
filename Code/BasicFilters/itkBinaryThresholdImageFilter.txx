@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryThresholdImageFilter_txx
-#define _itkBinaryThresholdImageFilter_txx
+#ifndef __itkBinaryThresholdImageFilter_txx
+#define __itkBinaryThresholdImageFilter_txx
 
 #include "itkBinaryThresholdImageFilter.h"
 
@@ -230,8 +230,6 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>
     
   return upper;
 }
-
-
 
 /**
  *

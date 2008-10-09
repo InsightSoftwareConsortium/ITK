@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkWrapPadImageFilter_txx
-#define _itkWrapPadImageFilter_txx
+#ifndef __itkWrapPadImageFilter_txx
+#define __itkWrapPadImageFilter_txx
 
 #include "itkWrapPadImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -373,13 +373,14 @@ WrapPadImageFilter<TInputImage,TOutputImage>
   
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  OutputImageIndexType outputIndex
-    = outputPtr->GetRequestedRegion().GetIndex();
-  InputImageIndexType inputIndex 
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
-  OutputImageSizeType outputSize = outputPtr->GetRequestedRegion().GetSize();
-  InputImageSizeType inputSize 
-    = inputPtr->GetLargestPossibleRegion().GetSize();
+  OutputImageIndexType outputIndex =
+    outputPtr->GetRequestedRegion().GetIndex();
+  InputImageIndexType inputIndex =
+    inputPtr->GetLargestPossibleRegion().GetIndex();
+  OutputImageSizeType outputSize =
+    outputPtr->GetRequestedRegion().GetSize();
+  InputImageSizeType inputSize =
+    inputPtr->GetLargestPossibleRegion().GetSize();
   
   OutputImageRegionType outputRegion; 
   InputImageRegionType inputRegion;
@@ -654,7 +655,7 @@ WrapPadImageFilter<TInputImage,TOutputImage>
     
   // Define/declare iterators that will walk the input and output regions
   // for this thread.  
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionIterator<TOutputImage>     OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
   
   // Now walk the regions.

@@ -40,10 +40,10 @@ class ITK_EXPORT BinomialBlurImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef BinomialBlurImageFilter Self;
+  typedef BinomialBlurImageFilter                       Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
