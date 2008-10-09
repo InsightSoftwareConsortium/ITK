@@ -42,17 +42,17 @@ public:
   BoundedReciprocal() {};
   ~BoundedReciprocal() {};
   bool operator!=( const BoundedReciprocal & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const BoundedReciprocal & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( 1.0 / ( 1.0 +  static_cast<double>(A) ) );
-  }
+    }
 };
 }
 
@@ -71,9 +71,9 @@ public:
                                   Functor::BoundedReciprocal< 
     typename TInputImage::PixelType, 
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  >                                     Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -32,8 +32,8 @@
 namespace itk
 {
 
-/**
- * Converts a blox boundary profile image to an image of core atoms.
+/** \class BloxBoundaryProfileImageToBloxCoreAtomImageFilter
+ * \brief Converts a blox boundary profile image to an image of core atoms.
  */
 template< typename TInputImage, typename TOutputImage, typename TSourceImage >
 class ITK_EXPORT BloxBoundaryProfileImageToBloxCoreAtomImageFilter :
@@ -42,9 +42,9 @@ public ImageToImageFilter< TInputImage, TOutputImage >
 public:
   /** Standard class typedefs. */
   typedef BloxBoundaryProfileImageToBloxCoreAtomImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ImageToImageFilter<TInputImage, TOutputImage>     Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,25 +56,25 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
 
   /** Typedefs */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType; 
+  typedef typename InputImageType::PixelType    InputImagePixelType; 
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType; 
+  typedef typename OutputImageType::PixelType    OutputImagePixelType; 
   typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::IndexType OutputImageIndexType;
+  typedef typename OutputImageType::IndexType    OutputImageIndexType;
 
-  typedef TSourceImage SourceImageType;
-  typedef typename SourceImageType::Pointer SourceImagePointer;
-  typedef typename SourceImageType::RegionType SourceImageRegionType; 
-  typedef typename SourceImageType::PixelType SourceImagePixelType; 
+  typedef TSourceImage                           SourceImageType;
+  typedef typename SourceImageType::Pointer      SourceImagePointer;
+  typedef typename SourceImageType::RegionType   SourceImageRegionType; 
+  typedef typename SourceImageType::PixelType    SourceImagePixelType; 
   typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
-  typedef typename SourceImageType::IndexType SourceImageIndexType;
+  typedef typename SourceImageType::IndexType    SourceImageIndexType;
 
   /** Image size typedef */
   typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
@@ -104,7 +104,7 @@ public:
   /** Overload of base class function to generate input region */
   void GenerateInputRequestedRegion();
 
-  /** Set the two input images **/
+  /** Set the two input images */
   void SetInput1(const SourceImageType * image1);
   void SetInput2(const InputImageType * image2);
 
@@ -128,14 +128,14 @@ private:
   /** Parameters used to establish conic shell iterator regions.
    * See the documentation for itkConicShellInteriorExteriorSpatialFunction
    * for how these affect the iterator. */
-  double m_DistanceMin;
-  double m_DistanceMax;
-  double m_Epsilon;
-  bool m_Polarity;
-  bool m_IntensityFlag;
+  double       m_DistanceMin;
+  double       m_DistanceMax;
+  double       m_Epsilon;
+  bool         m_Polarity;
+  bool         m_IntensityFlag;
   unsigned int m_IntensityThreshold;
-  bool m_CreateCoreAtom;
-  int m_CoreAtomsCreated;
+  bool         m_CreateCoreAtom;
+  int          m_CoreAtomsCreated;
 };
 
 } // end namespace itk

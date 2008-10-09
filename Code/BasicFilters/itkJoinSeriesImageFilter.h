@@ -51,10 +51,10 @@ class ITK_EXPORT JoinSeriesImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef JoinSeriesImageFilter  Self;
+  typedef JoinSeriesImageFilter                         Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,11 +63,11 @@ public:
   itkTypeMacro(JoinSeriesImageFilter, ImageToImageFilter);
 
   /** Compiler can't inherit typedef? */
-  typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::Pointer     InputImagePointer;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** Compiler can't inherit ImageDimension enumeration? */

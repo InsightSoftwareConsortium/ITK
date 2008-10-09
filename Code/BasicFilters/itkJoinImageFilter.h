@@ -53,8 +53,8 @@ public:
   typedef JoinFunctor Self;
   
   /** Typedefs for the output join type. */
-  typedef typename PixelTraits<TPixel1>::ValueType ValueType1;
-  typedef typename PixelTraits<TPixel2>::ValueType ValueType2;
+  typedef typename PixelTraits<TPixel1>::ValueType               ValueType1;
+  typedef typename PixelTraits<TPixel2>::ValueType               ValueType2;
   typedef typename JoinTraits<ValueType1, ValueType2>::ValueType JoinValueType;
 
   /** Capture the dimensions of the image. */
@@ -69,17 +69,17 @@ public:
   typedef Vector<JoinValueType, itkGetStaticConstMacro(JoinDimension)> JoinType;
 
   bool operator!=( const JoinFunctor & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const JoinFunctor & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
   /** operator().  This is the "call" method of the functor. */
   inline JoinType operator()( const TPixel1 & A, const TPixel2 & B)
-  {
+    {
     JoinType out;
 
     // Copy A into the output, casting as necessary
@@ -89,7 +89,7 @@ public:
     this->SecondCopier(out, Dimension1, B);
 
     return out;
-  }
+    }
 
 private:
   /** Helper class to choose the right Copier method for each pixel
@@ -113,22 +113,24 @@ private:
    * "already declared/defined" errors for the case where TPixel1
    * and TPixel2 are the same types. */
   void FirstCopier(JoinType& out, unsigned int idx, const TPixel1& A)
-  {
+    {
     FirstCopier(CopierDispatch<Dimension1>(), out, idx, A);
-  }
+    }
 
   /** Copier function specific to a vector type first pixel. */
   void FirstCopier(CopierDispatchBase,
                    JoinType& out, unsigned int idx, const TPixel1& A)
-  {
+    {
     for (unsigned int i=0; i < Dimension1; i++, idx++)
-      { out[idx] = static_cast<JoinValueType>(A[i]); }
-  }
+      {
+      out[idx] = static_cast<JoinValueType>(A[i]);
+      }
+    }
 
   /** Copier function specific to a scalar first pixel. */
   void FirstCopier(CopierDispatch<1>,
                    JoinType& out, unsigned int idx, const TPixel1& A)
-  { out[idx] = static_cast<JoinValueType>(A); }
+    { out[idx] = static_cast<JoinValueType>(A); }
 
   /** Copier function to copy the second pixel to the output pixel casting
    * as necessary. The contents of the source pixel are placed in the
@@ -136,24 +138,26 @@ private:
    * one of two overloaded implementations based on the dimension
    * (or number of components) of the second pixel. */
   void SecondCopier(JoinType& out, unsigned int idx, const TPixel2& B)
-  {
+    {
     SecondCopier(CopierDispatch<Dimension2>(), out, idx, B);
-  }
+    }
 
   /** Copier function specific to a vector type second pixel. */
   void SecondCopier(CopierDispatchBase,
                     JoinType& out, unsigned int idx, const TPixel2& B)
-  {
+    {
     for (unsigned int i=0; i < Dimension2; i++, idx++)
-      { out[idx] = static_cast<JoinValueType>(B[i]); }
-  }
+      {
+      out[idx] = static_cast<JoinValueType>(B[i]);
+      }
+    }
 
   /** Copier function specific to a scalar second pixel. */
   void SecondCopier(CopierDispatch<1>,
                     JoinType& out, unsigned int idx, const TPixel2& B)
-  {
+    {
     out[idx] = static_cast<JoinValueType>(B);
-  }
+    }
 }; //class JoinFunction
 
 template <typename TImage1, typename TImage2>
@@ -219,8 +223,8 @@ public:
   /** Standard class typedefs. */
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2, OutputImageType,
                                    FunctorType > Superclass; 
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

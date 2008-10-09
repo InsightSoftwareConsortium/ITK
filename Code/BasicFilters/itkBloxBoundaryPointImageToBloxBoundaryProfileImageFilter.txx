@@ -88,7 +88,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   if(binNumber >= 0 && static_cast<unsigned int>(binNumber) < m_NumberOfBins)
     {
     m_Accumulator[binNumber] += weight * sourcePixelValue;
-    m_Normalizer[binNumber]  += weight;
+    m_Normalizer[binNumber] += weight;
     return(1);
     }
   else
@@ -196,21 +196,14 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
   int retval;
   if(optimizer->GetFitError() < 1e-3)
-  {
+    {
     m_FinalParameters[0] = optimizer->GetLowerAsymptote();
     m_FinalParameters[1] = optimizer->GetUpperAsymptote();
     m_FinalParameters[2] = optimizer->GetComputedMean();
     m_FinalParameters[3] = optimizer->GetComputedStandardDeviation();
 
-    // Print out the resulting paramters.
-//    std::cerr  << "Test Failed with a Fit Error of " << optimizer->GetFitError() << std::endl;
-//    std::cerr << "Fitted mean = " << m_FinalParameters[2] << std::endl;
-//    std::cerr << "Fitted standard deviation = " << m_FinalParameters[3] << std::endl;
-//    std::cerr << "Fitted upper asymptote = " << m_FinalParameters[1] << std::endl;
-//    std::cerr << "Fitted lower asymptote = " << m_FinalParameters[0] << std::endl;
-
     retval = EXIT_SUCCESS;
-  }
+    }
   else
     {
     retval =  EXIT_FAILURE;
@@ -332,7 +325,7 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
         }
 
       // Walk the spatial function
-      for( ; !( sfi.IsAtEnd() ); ++sfi)
+      for(; !( sfi.IsAtEnd() ); ++sfi)
         {
 
         VectorType deltaPoint;
@@ -393,53 +386,53 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           }
         }
 
-        // Normalize the splat accumulator with the normalizer
-        this->NormalizeSplatAccumulator();
+      // Normalize the splat accumulator with the normalizer
+      this->NormalizeSplatAccumulator();
 
-        // Fit the profile with the Cumulative Gaussian Optimizer
-        if(this->FitProfile() == EXIT_SUCCESS)
+      // Fit the profile with the Cumulative Gaussian Optimizer
+      if(this->FitProfile() == EXIT_SUCCESS)
+        {
+
+        // Create a new boundary profile if within constraints of imaging modality
+        if(m_FinalParameters[0] >= 0 && m_FinalParameters[0] <= 255 &&
+           m_FinalParameters[1] >= 0 && m_FinalParameters[1] <= 255 &&
+           m_FinalParameters[2] >= 0 && m_FinalParameters[2] <= m_UniqueAxis &&
+           m_FinalParameters[3] >= 0 && m_FinalParameters[3] <= m_UniqueAxis)
           {
 
-          // Create a new boundary profile if within constraints of imaging modality
-          if(m_FinalParameters[0] >= 0 && m_FinalParameters[0] <= 255 &&
-             m_FinalParameters[1] >= 0 && m_FinalParameters[1] <= 255 &&
-             m_FinalParameters[2] >= 0 && m_FinalParameters[2] <= m_UniqueAxis &&
-             m_FinalParameters[3] >= 0 && m_FinalParameters[3] <= m_UniqueAxis)
-            {
+          BloxBoundaryProfileItem<NDimensions>* boundaryProfile = new BloxBoundaryProfileItem<NDimensions>;
 
-            BloxBoundaryProfileItem<NDimensions>* boundaryProfile = new BloxBoundaryProfileItem<NDimensions>;
+          // Set boundary profile parameters
+          boundaryProfile->SetProfileLength(static_cast<unsigned int>(m_UniqueAxis));
+          boundaryProfile->SetLowerIntensity(m_FinalParameters[0]);
+          boundaryProfile->SetUpperIntensity(m_FinalParameters[1]);
+          boundaryProfile->SetMean(m_FinalParameters[2]);
+          boundaryProfile->SetStandardDeviation(m_FinalParameters[3]);
+          boundaryProfile->SetMeanNormalized();
+          boundaryProfile->SetStandardDeviationNormalized();
+          boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.GetVnlVector(), orientationVNL.GetVnlVector());
+          boundaryProfile->SetBoundaryPoint( (*bpiterator) );
+          boundaryProfile->SetGradient2((*bpiterator)->GetGradient());
 
-            // Set boundary profile parameters
-            boundaryProfile->SetProfileLength(static_cast<unsigned int>(m_UniqueAxis));
-            boundaryProfile->SetLowerIntensity(m_FinalParameters[0]);
-            boundaryProfile->SetUpperIntensity(m_FinalParameters[1]);
-            boundaryProfile->SetMean(m_FinalParameters[2]);
-            boundaryProfile->SetStandardDeviation(m_FinalParameters[3]);
-            boundaryProfile->SetMeanNormalized();
-            boundaryProfile->SetStandardDeviationNormalized();
-            boundaryProfile->SetOptimalBoundaryLocation(spatialFunctionOriginVector.GetVnlVector(), orientationVNL.GetVnlVector());
-            boundaryProfile->SetBoundaryPoint( (*bpiterator) );
-            boundaryProfile->SetGradient2((*bpiterator)->GetGradient());
-
-            PositionType optimalBoundaryLocation;
-            for(unsigned int i = 0; i < NDimensions; i++)
-              optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i];
+          PositionType optimalBoundaryLocation;
+          for(unsigned int i = 0; i < NDimensions; i++)
+            optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i];
   
-            // Figure out the data space coordinates of the optimal boundary location
-            IndexType boundaryProfilePosition;
+          // Figure out the data space coordinates of the optimal boundary location
+          IndexType boundaryProfilePosition;
 
-            // Transform optimal boundary location to an index
-            outputPtr->TransformPhysicalPointToIndex(optimalBoundaryLocation, boundaryProfilePosition);
+          // Transform optimal boundary location to an index
+          outputPtr->TransformPhysicalPointToIndex(optimalBoundaryLocation, boundaryProfilePosition);
 
-            // Store the new boundary profile in the correct spot in output image
-            outputPtr->GetPixel(boundaryProfilePosition).push_back(boundaryProfile);
+          // Store the new boundary profile in the correct spot in output image
+          outputPtr->GetPixel(boundaryProfilePosition).push_back(boundaryProfile);
 
-            m_NumBoundaryProfiles++;
-            }
-          bpCount++;
+          m_NumBoundaryProfiles++;
           }
+        bpCount++;
         }
       }
+    }
   itkDebugMacro(<< "Finished constructing for boundary profiles\n"
                 << "I made " << m_NumBoundaryProfiles << " boundary profiles\n");
 }
@@ -469,11 +462,15 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 ::NormalizeSplatAccumulator()
 {  
   for(unsigned int i = 0; i < m_NumberOfBins; ++i)
-    {      
+    {
     if(m_Normalizer[i] == 0)
+      {
       m_NormalizedAccumulator[i] = 0;
+      }
     else
+      {
       m_NormalizedAccumulator[i] = m_Accumulator[i] / m_Normalizer[i];
+      }
     }
 }
 

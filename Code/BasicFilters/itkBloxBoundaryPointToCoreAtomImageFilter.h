@@ -46,11 +46,11 @@ class ITK_EXPORT BloxBoundaryPointToCoreAtomImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef BloxBoundaryPointToCoreAtomImageFilter Self;
+  typedef BloxBoundaryPointToCoreAtomImageFilter      Self;
   typedef ImageToImageFilter<BloxBoundaryPointImage<dim>,
                              BloxCoreAtomImage<dim> > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -128,10 +128,10 @@ private:
   double m_DistanceMin;
   double m_DistanceMax;
   double m_Epsilon;
-  bool m_Polarity;
+  bool   m_Polarity;
 
   /**Parameters for progress update*/
-  float m_InverseNumberOfBoundaryPoints;
+  float         m_InverseNumberOfBoundaryPoints;
   unsigned long m_CurrentBoundaryPoint;
   unsigned long m_BoundaryPointsPerUpdate;
   unsigned long m_BoundaryPointsBeforeUpdate;
