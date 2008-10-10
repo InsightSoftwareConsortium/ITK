@@ -80,7 +80,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToBigEndian(T *, unsigned long )
+::SwapRangeFromSystemToBigEndian(T *, BufferSizeType )
 {  
   // nothing needs to be done here...
 }
@@ -88,7 +88,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToBigEndian(T *p, unsigned long num)
+::SwapRangeFromSystemToBigEndian(T *p, BufferSizeType num)
 {
   switch ( sizeof(T) )
     {
@@ -181,7 +181,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToLittleEndian(T *p, unsigned long num) 
+::SwapRangeFromSystemToLittleEndian(T *p, BufferSizeType num) 
 {
   switch ( sizeof(T) )
     {
@@ -204,7 +204,7 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapRangeFromSystemToLittleEndian(T *, unsigned long) {}
+::SwapRangeFromSystemToLittleEndian(T *, BufferSizeType) {}
 #endif  
 
 #ifdef CMAKE_WORDS_BIGENDIAN
@@ -264,11 +264,11 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::Swap2Range(void *ptr, unsigned long num)
+::Swap2Range(void *ptr, BufferSizeType num)
 {
   char one_byte;
   char *pos = reinterpret_cast<char *>(ptr);
-  unsigned long i;
+  BufferSizeType i;
   
   for (i = 0; i < num; i++)
     {
@@ -283,13 +283,13 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWrite2Range(void *ptr, unsigned long num, OStreamType *fp)
+::SwapWrite2Range(void *ptr, BufferSizeType num, OStreamType *fp)
 {
   char one_byte;
   char *pos;
-  unsigned long i;
+  BufferSizeType i;
   char *cpy;
-  unsigned long chunkSize = 1000000;
+  BufferSizeType chunkSize = 1000000;
 
   if (num < chunkSize)
     {
@@ -344,11 +344,11 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::Swap4Range(void *ptr, unsigned long num)
+::Swap4Range(void *ptr, BufferSizeType num)
 {
   char one_byte;
   char *pos = reinterpret_cast<char *>(ptr);
-  unsigned long i;
+  BufferSizeType i;
 
   for (i = 0; i < num; i++)
     {
@@ -367,13 +367,13 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWrite4Range(void *ptr, unsigned long num, OStreamType *fp)
+::SwapWrite4Range(void *ptr, BufferSizeType num, OStreamType *fp)
 {
   char one_byte;
   char *pos;
-  unsigned long i;
+  BufferSizeType i;
   char *cpy;
-  unsigned long chunkSize = 1000000;
+  BufferSizeType chunkSize = 1000000;
 
   if (num < chunkSize)
     {
@@ -440,11 +440,11 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::Swap8Range(void *ptr, unsigned long num)
+::Swap8Range(void *ptr, BufferSizeType num)
 {
   char one_byte;
   char *pos = reinterpret_cast<char *>(ptr);
-  unsigned long i;
+  BufferSizeType i;
 
   for (i = 0; i < num; i++)
     {
@@ -471,13 +471,13 @@ ByteSwapper<T>
 template <class T>
 void 
 ByteSwapper<T>
-::SwapWrite8Range(void *ptr, unsigned long num, OStreamType *fp)
+::SwapWrite8Range(void *ptr, BufferSizeType num, OStreamType *fp)
 {
   char one_byte;
   char *pos;
-  unsigned long i;
+  BufferSizeType i;
   char *cpy;
-  unsigned long chunkSize = 1000000;
+  BufferSizeType chunkSize = 1000000;
 
   if (num < chunkSize)
     {

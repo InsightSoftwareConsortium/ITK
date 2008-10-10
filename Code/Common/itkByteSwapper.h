@@ -66,12 +66,16 @@ public:
    * swap to and from Big Endian. */
   static void SwapFromSystemToBigEndian(T *p);
   
+  /** Type for representing large buffers, including those in 64bits
+   * architectures */
+  typedef  ::size_t      BufferSizeType;
+
   /** Generic swap method handles type T. The swapping is
    * done in-place. Either 2-byte or 4-byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
-  static void SwapRangeFromSystemToBigEndian(T *p, unsigned long num);
+  static void SwapRangeFromSystemToBigEndian(T *p, BufferSizeType num);
   
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
@@ -95,7 +99,7 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
-  static void SwapRangeFromSystemToLittleEndian(T *p, unsigned long num);
+  static void SwapRangeFromSystemToLittleEndian(T *p, BufferSizeType num);
 
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
@@ -116,33 +120,33 @@ protected:
 
   /** Swap a range of two-byte words. Num is the number of two-byte 
    * words to swap. */
-  static void Swap2Range(void *p, unsigned long num);
+  static void Swap2Range(void *p, BufferSizeType num);
 
   /** Swap and write a range of two-byte words. Num is the number of two-byte 
    * words to swap and write. */
-  static void SwapWrite2Range(void *p, unsigned long num, OStreamType *fp);
+  static void SwapWrite2Range(void *p, BufferSizeType num, OStreamType *fp);
 
   /** Swap four bytes. */
   static void Swap4(void *p);
 
   /** Swap a range of four-byte words. Num is the number of four-byte words 
    * to swap. */
-  static void Swap4Range(void *p, unsigned long num);
+  static void Swap4Range(void *p, BufferSizeType num);
 
   /** Swap and write a range of four-byte words. Num is the number of four-byte 
    * words to swap and write. */
-  static void SwapWrite4Range(void *p, unsigned long num, OStreamType *fp);
+  static void SwapWrite4Range(void *p, BufferSizeType num, OStreamType *fp);
 
   /** Swap 8 bytes. */
   static void Swap8(void *p);
 
   /** Swap a range of four-byte words. Num is the number of four-byte words 
    * to swap. */
-  static void Swap8Range(void *p, unsigned long num);
+  static void Swap8Range(void *p, BufferSizeType num);
 
   /** Swap and write a range of 8-byte words. Num is the number of four-byte 
    * words to swap and write. */
-  static void SwapWrite8Range(void *p, unsigned long num, OStreamType *fp);
+  static void SwapWrite8Range(void *p, BufferSizeType num, OStreamType *fp);
 
 private:
   ByteSwapper(const ByteSwapper&); //purposely not implemented
