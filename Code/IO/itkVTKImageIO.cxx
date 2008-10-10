@@ -366,6 +366,8 @@ void VTKImageIO::Read(void* buffer)
 {
   std::ifstream file;
 
+  typedef ::size_t   BufferSizeType;
+
   this->InternalReadImageInformation(file);
   
   //We are positioned at the data. The data is read depending on whether 
@@ -382,13 +384,13 @@ void VTKImageIO::Read(void* buffer)
     switch( size )
       {
       case 2:
-        ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
         break;
       case 4:
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
         break;
       case 8:
-        ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
         break;
       }
     }
@@ -503,24 +505,25 @@ void VTKImageIO::Write(const void* buffer)
   else //binary
     {
     int size = this->GetComponentSize();
-    const unsigned long int numbytes = static_cast<unsigned long int>(this->GetImageSizeInBytes());
+    typedef ::size_t   BufferSizeType;
+    const BufferSizeType numbytes = static_cast<BufferSizeType>( this->GetImageSizeInBytes() );
     char * tempmemory=new char[numbytes];
     memcpy(tempmemory,buffer,numbytes);
     switch( size )
       {
       case 2:
         {
-        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
         }
         break;
       case 4:
         {
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
         }
         break;
       case 8:
         {
-        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
         }
         break;
       }
