@@ -33,7 +33,7 @@ namespace itk
  * \brief Image filter which provides a B-spline output approximation.
  *
  * Given an n-D image with scattered data, this filter finds
- * a fast approximation to that irregulary spaced data using uniform
+ * a fast approximation to that irregularly spaced data using uniform
  * B-splines.  The traditional method of inverting the observation
  * matrix to find a least-squares fit is made obsolete.  Therefore,
  * memory issues are not a concern and inverting large matrices are
@@ -44,7 +44,7 @@ namespace itk
  * In addition to specifying the input point set, one must specify the number
  * of control points.  If one wishes to use the multilevel component of
  * this algorithm, one must also specify the number of levels in the
- * hieararchy.  If this is desired, the number of control points becomes
+ * hierarchy.  If this is desired, the number of control points becomes
  * the number of control points for the coarsest level.  The algorithm
  * then increases the number of control points at each level so that
  * the B-spline n-D grid is refined to twice the previous level.  The
@@ -158,7 +158,7 @@ public:
 
   /**
    * Evaluate the resulting B-spline object at a specified
-   * parameteric point.  Note that the parameterization over
+   * parametric point.  Note that the parameterization over
    * each dimension of the B-spline object is [0, 1].
    */
   void Evaluate( PointType, PointDataType & );
@@ -173,7 +173,7 @@ public:
 
   /**
    * Evaluate the gradient of the resulting B-spline object
-   * at a specified parameteric point.  Note that the
+   * at a specified parametric point.  Note that the
    * parameterization over each dimension of the B-spline
    * object is [0, 1].
    */
