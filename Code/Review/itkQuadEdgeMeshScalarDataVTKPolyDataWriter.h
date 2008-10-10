@@ -49,8 +49,9 @@ public:
   typedef typename MeshType::PointsContainerPointer       PointsContainerPointer;
   typedef typename MeshType::PointsContainerIterator      PointsContainerIterator;
 
-  typedef typename MeshType::PointDataContainerPointer    PointDataContainerPointer;
-  typedef typename MeshType::PointDataContainerIterator   PointDataContainerIterator;
+  typedef typename MeshType::PointDataContainerPointer          PointDataContainerPointer;
+  typedef typename MeshType::PointDataContainerConstPointer     PointDataContainerConstPointer;
+  typedef typename MeshType::PointDataContainerIterator         PointDataContainerIterator;
 
   typedef typename MeshType::CellsContainerPointer        CellsContainerPointer;
   typedef typename MeshType::CellsContainerIterator       CellsContainerIterator;
@@ -135,7 +136,7 @@ protected:
 
   void WritePointData()
     {
-    PointDataContainerPointer pointdata = this->m_Input->GetPointData();
+    PointDataContainerConstPointer pointdata = this->m_Input->GetPointData();
 
     if( pointdata )
       {

@@ -58,8 +58,8 @@ public:
   typedef typename InputMeshType::CellType    CellType;
 
   /** Some convenient typedefs. */
-  typedef typename InputMeshType::Pointer     InputMeshPointer;
-  typedef typename InputMeshType::CellTraits  CellTraits;
+  typedef typename InputMeshType::ConstPointer  InputMeshPointer;
+  typedef typename InputMeshType::CellTraits    CellTraits;
 
   /** Define the triangular cell types which form the surface  */
   typedef CellInterface<PixelType, CellTraits> CellInterfaceType;
@@ -74,7 +74,7 @@ public:
   typedef typename CellType::PointIdIterator         PointIdIterator;
 
   /** Set the Input */
-  void SetInput(InputMeshType * input);
+  void SetInput(const InputMeshType * input);
 
   /** Set/Get the name of the file where data are written. */
   itkSetStringMacro(FileName);

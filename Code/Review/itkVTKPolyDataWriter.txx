@@ -51,7 +51,7 @@ VTKPolyDataWriter<TInputMesh>
 template<class TInputMesh>
 void
 VTKPolyDataWriter<TInputMesh>
-::SetInput(InputMeshType * input)
+::SetInput(const InputMeshType * input)
 {
   this->m_Input = input;
 }
@@ -81,8 +81,8 @@ void
 VTKPolyDataWriter<TInputMesh>
 ::GenerateData()
 {
-  this->m_Input->SetCellsAllocationMethod(
-      InputMeshType::CellsAllocatedDynamicallyCellByCell );
+ // FIXME this->m_Input->SetCellsAllocationMethod(
+ // FIXME      InputMeshType::CellsAllocatedDynamicallyCellByCell );
 
   if( this->m_FileName == "" )
     {
