@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBSplineInterpolateImageFunction_txx
-#define _itkBSplineInterpolateImageFunction_txx
+#ifndef __itkBSplineInterpolateImageFunction_txx
+#define __itkBSplineInterpolateImageFunction_txx
 
 // First, make sure that we include the configuration file.
 // This line may be removed once the ThreadSafeTransform gets
