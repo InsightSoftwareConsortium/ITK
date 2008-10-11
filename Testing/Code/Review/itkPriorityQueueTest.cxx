@@ -23,36 +23,85 @@ int itkPriorityQueueTest( int argc, char* argv[] )
 {
   (void) argc;
   (void) argv;
-  typedef MinPriorityQueueElementWrapper< int, double, int > PQElementType;
-  typedef PriorityQueueContainer< PQElementType, PQElementType, double, int >
-    PQType;
-  PQType::Pointer priority_queue = PQType::New( );
+  typedef MinPriorityQueueElementWrapper< int, double, int > MinPQElementType;
+  typedef MaxPriorityQueueElementWrapper< int, double, int > MaxPQElementType;
 
-  vnl_random random( 12 );
-  int i( 0 ), element;
-  double value = random.drand32( -1000., 1000. );
+  typedef PriorityQueueContainer< MinPQElementType, MinPQElementType, double, int >
+    MinPQType;
+  MinPQType::Pointer min_priority_queue = MinPQType::New( );
 
-  std::cout <<"{" <<i <<", " <<value <<"}" <<std::endl;
-  PQElementType to_be_erased( i, value );
-  priority_queue->Push( to_be_erased );
+  typedef PriorityQueueContainer< MaxPQElementType, MaxPQElementType, double, int >
+      MaxPQType;
+  MaxPQType::Pointer max_priority_queue = MaxPQType::New( );
 
-  for( i = 1; i < 10; i++ )
-  {
-    value = random.drand32( -1000., 1000. );
-    std::cout <<"{" <<i <<", " <<value <<"}" <<std::endl;
-    priority_queue->Push( PQElementType( i, value ) );
-  }
+  std::list< double > sequence;
+  sequence.push_back( -0.1 );
+  sequence.push_back( 0.1 );
+  sequence.push_back( 0.4 );
+  sequence.push_back( -0.2 );
+  sequence.push_back( -0.3 );
+  sequence.push_back( 0.3 );
+  sequence.push_back( 0.2 );
+  sequence.push_back( 0.5 );
+  sequence.push_back( -0.6 );
+  sequence.push_back( -0.5 );
+  sequence.push_back( 0.6 );
+  sequence.push_back( 1. );
+  sequence.push_back( -1. );
 
-  i = 0;
-
-  while( !priority_queue->Empty() )
+  std::list< double >::const_iterator it = sequence.begin();
+  unsigned int i = 0;
+  for(; it != sequence.end(); ++it, i++ )
     {
-    element = priority_queue->Peek( ).m_Element;
-    value = priority_queue->Peek( ).m_Priority;
-    std::cout <<i++ <<" ** element: " <<element <<" priority: " <<value;
-    std::cout <<" ** size: " <<priority_queue->Size( )<<std::endl;
-    priority_queue->Pop( );
+    min_priority_queue->Push( MinPQElementType( i, *it ) );
+    max_priority_queue->Push( MaxPQElementType( i, *it ) );
     }
+
+  sequence.sort();
+  it = sequence.begin();
+  i = sequence.size();
+
+  std::cout <<"Min Priority Queue   ";
+  while( !min_priority_queue->Empty() )
+    {
+    if( min_priority_queue->Peek().m_Priority != *it )
+      {
+      std::cout <<min_priority_queue->Peek().m_Priority <<" " <<*it <<std::endl;
+      return EXIT_FAILURE;
+      }
+    if( min_priority_queue->Size() != i )
+      {
+      std::cout <<"Size " <<min_priority_queue->Size() <<" " <<i <<std::endl;
+      return EXIT_FAILURE;
+      }
+    min_priority_queue->Pop();
+    it++;
+    i--;
+    }
+  std::cout <<"OK" <<std::endl;
+
+  sequence.sort( std::greater< double >() );
+  it = sequence.begin();
+  i = sequence.size();
+
+  std::cout <<"Max Priority Queue   ";
+  while( !max_priority_queue->Empty() )
+    {
+    if( max_priority_queue->Peek().m_Priority != *it )
+      {
+      std::cout <<max_priority_queue->Peek().m_Priority <<" " <<*it <<std::endl;
+      return EXIT_FAILURE;
+      }
+    if( max_priority_queue->Size() != i )
+      {
+      std::cout <<"Size " <<max_priority_queue->Size() <<" " <<i <<std::endl;
+      return EXIT_FAILURE;
+      }
+    max_priority_queue->Pop();
+    it++;
+    i--;
+    }
+  std::cout <<"OK" <<std::endl;
 
   return EXIT_SUCCESS;
 }

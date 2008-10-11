@@ -33,13 +33,13 @@ namespace itk
 // this will let us define our own wrapper with different behavior.
 // As an exemple we define below a wrapper for a min sorted or max sorted
 // queue.
-template< typename TElement, typename TElementIdentifier >
+template< typename TElement, typename TElementIdentifier = int >
 class ElementWrapperInterface
 {
 public:
   typedef TElement                ElementType;
   typedef TElementIdentifier      ElementIdentifierType;
-  
+
   ElementWrapperInterface() {}
   virtual ~ElementWrapperInterface() {}
 
@@ -62,7 +62,7 @@ class ElementWrapperPointerInterface
 public:
   typedef TElementWrapperPointer      ElementWrapperPointerType;
   typedef TElementIdentifier          ElementIdentifierType;
-  
+
   ElementWrapperPointerInterface() { }
   ~ElementWrapperPointerInterface() { }
 
@@ -113,23 +113,17 @@ public:
   typedef TElement                ElementType;
   typedef TElementPriority        ElementPriorityType;
   typedef TElementIdentifier      ElementIdentifierType;
-  
+
   ElementType                     m_Element;
   ElementPriorityType             m_Priority;
   ElementIdentifierType           m_Location;
 
-  MinPriorityQueueElementWrapper()
-    {
-    this->m_Priority = 0;
-    this->m_Location = -1;
-    }
+  MinPriorityQueueElementWrapper() : m_Priority( 0 ), m_Location( -1 )
+    {}
 
   MinPriorityQueueElementWrapper( ElementType element, ElementPriorityType priority ) :
-    m_Element( element )
-    {
-    this->m_Priority = priority;
-    this->m_Location = -1;
-    }
+    m_Element( element ), m_Priority( priority ), m_Location( -1 )
+    {}
 
   virtual ~MinPriorityQueueElementWrapper() {}
 
@@ -188,7 +182,7 @@ public:
   typedef TElement                          ElementType;
   typedef TElementPriority                  ElementPriorityType;
   typedef TElementIdentifier                ElementIdentifierType;
-  
+
   MaxPriorityQueueElementWrapper( ) :
     MinPriorityQueueElementWrapper< ElementType,
                                     ElementPriorityType,
@@ -199,7 +193,7 @@ public:
     MinPriorityQueueElementWrapper< ElementType,
                                     ElementPriorityType,
                                     ElementIdentifierType >( element, priority ) {}
-  
+
   virtual ~MaxPriorityQueueElementWrapper() {}
 
   bool is_less( const MaxPriorityQueueElementWrapper& element1,
@@ -285,12 +279,13 @@ public:
       SetElementAtLocation( 0,
         GetElementAtLocation(
           static_cast< ElementIdentifier >( this->Size( ) - 1 ) ) );
-      this->resize( this->Size( ) - 1 );
+      this->pop_back();
       UpdateDownTree( 0 );
       }
     else
       {
-      this->resize( this->Size( ) - 1 );
+      if( this->Size() == 1 )
+        this->pop_back();
       }
     }
 
@@ -311,15 +306,15 @@ public:
     assert( location != -1 );
     assert( location < static_cast< ElementIdentifier >( this->Size( ) ) );
 
-    if ( location == static_cast< ElementIdentifier >( this->Size( ) ) - 1 )
+    if( location == static_cast< ElementIdentifier >( this->Size( ) ) - 1 )
       {
-      this->resize( this->Size( ) - 1 );
+      this->pop_back();
       }
     else
       {
       SetElementAtLocation( location,
         GetElementAtLocation( this->Size( ) - 1 ) );
-      this->resize( this->Size( ) - 1 );
+      this->pop_back();
       UpdateDownTree( location );
       UpdateUpTree( location );
       }
@@ -359,46 +354,47 @@ protected:
 
   void UpdateUpTree( const ElementIdentifier& identifier )
     {
-    ElementIdentifier id( identifier );
-    Element element = GetElementAtLocation( id );
-
-    if( id > 0 )
+    if( identifier > 0 )
       {
+      ElementIdentifier id( identifier );
+      Element element = GetElementAtLocation( id );
       ElementIdentifier parentIdentifier = GetParent( id );
       Element parent_element = GetElementAtLocation( parentIdentifier );
 
-      while( ( id > 0 ) && m_Interface.is_less( element, parent_element ) )
+      while( ( id > 0 ) &&
+          m_Interface.is_less( element, parent_element ) )
         {
-        parent_element = GetElementAtLocation( parentIdentifier );
-        SetElementAtLocation( id,
-          GetElementAtLocation( parentIdentifier ) );
+        SetElementAtLocation( id, parent_element );
         id = parentIdentifier;
         parentIdentifier = GetParent( id );
+        parent_element = GetElementAtLocation( parentIdentifier );
         }
+      SetElementAtLocation( id, element );
       }
-
-    SetElementAtLocation( id, element );
     }
 
   void UpdateDownTree( const ElementIdentifier& identifier )
     {
     ElementIdentifier id( identifier );
-    ElementIdentifier childIdentifier = GetLeft( id );
+    Element element = GetElementAtLocation( id );
+
     ElementIdentifier queueSize =
       static_cast< ElementIdentifier >( this->Size( ) );
 
-    Element element = GetElementAtLocation( id );
-    Element temp;
-
-    while( ( id < queueSize ) && ( childIdentifier < queueSize ) )
+    while( id < queueSize )
       {
+      ElementIdentifier childIdentifier = GetLeft( id );
+      if( childIdentifier >= queueSize )
+        {
+        break;
+        }
       if( ( childIdentifier + 1 < queueSize ) &&
           ( m_Interface.is_less( GetElementAtLocation( childIdentifier + 1 ),
                               GetElementAtLocation( childIdentifier ) ) ) )
         {
         ++childIdentifier;
         }
-      temp = GetElementAtLocation( childIdentifier );
+      Element temp = GetElementAtLocation( childIdentifier );
       if( m_Interface.is_less( element, temp ) )
         {
         break;
@@ -406,7 +402,6 @@ protected:
 
       SetElementAtLocation( id, temp );
       id = childIdentifier;
-      childIdentifier = GetLeft( id );
       }
 
     SetElementAtLocation( id, element );
