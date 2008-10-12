@@ -183,6 +183,9 @@ public:
   typedef TElementPriority                  ElementPriorityType;
   typedef TElementIdentifier                ElementIdentifierType;
 
+  typedef MinPriorityQueueElementWrapper<ElementType,
+                                         ElementPriorityType,
+                                         ElementIdentifierType > Superclass;
   MaxPriorityQueueElementWrapper( ) :
     MinPriorityQueueElementWrapper< ElementType,
                                     ElementPriorityType,
@@ -197,15 +200,25 @@ public:
   virtual ~MaxPriorityQueueElementWrapper() {}
 
   bool is_less( const MaxPriorityQueueElementWrapper& element1,
-             const MaxPriorityQueueElementWrapper& element2 )
+                const MaxPriorityQueueElementWrapper& element2 )
     {
     return( element1 > element2 );
+    }
+  bool is_less( const Superclass& element1,
+                const Superclass& element2 )
+    {
+    return Superclass::is_less(element1, element2);
     }
 
   bool is_greater( const MaxPriorityQueueElementWrapper& element1,
                 const MaxPriorityQueueElementWrapper& element2 )
     {
     return( element1 < element2 );
+    }
+  bool is_greater( const Superclass& element1,
+                   const Superclass& element2 )
+    {
+    return Superclass::is_greater(element1, element2);
     }
 };
 
