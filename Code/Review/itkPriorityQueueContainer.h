@@ -379,8 +379,11 @@ protected:
         {
         SetElementAtLocation( id, parent_element );
         id = parentIdentifier;
-        parentIdentifier = GetParent( id );
-        parent_element = GetElementAtLocation( parentIdentifier );
+        if( id > 0 )
+          {
+          parentIdentifier = GetParent( id );
+          parent_element = GetElementAtLocation( parentIdentifier );
+          }
         }
       SetElementAtLocation( id, element );
       }
