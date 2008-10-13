@@ -46,8 +46,9 @@ public:
   typedef ImageToImageFilter<TImage,TImage>  Superclass;
   typedef SmartPointer<Self>                 Pointer;
   typedef SmartPointer<const Self>           ConstPointer;
-  typedef TImage InputImageType;
-  typedef TImage OutputImageType;
+
+  typedef TImage                                InputImageType;
+  typedef TImage                                OutputImageType;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::RegionType  ImageRegionType;

@@ -37,15 +37,17 @@ public:
   ComplexToPhase() {}
   ~ComplexToPhase() {}
   bool operator!=( const ComplexToPhase & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const ComplexToPhase & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)( vcl_atan2(A.imag(), A.real() ) );}
+    {
+    return (TOutput)( vcl_atan2(A.imag(), A.real() ) );
+    }
 }; 
 }
 
@@ -59,11 +61,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef ComplexToPhaseImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::ComplexToPhase< typename TInputImage::PixelType, 
-                                                 typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef ComplexToPhaseImageFilter Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::ComplexToPhase< typename TInputImage::PixelType, 
+                              typename TOutputImage::PixelType> >
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -73,8 +77,8 @@ public:
   itkTypeMacro(ComplexToPhaseImageFilter, 
                UnaryFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType   InputPixelType;
-  typedef typename TOutputImage::PixelType  OutputPixelType;
+  typedef typename TInputImage::PixelType                     InputPixelType;
+  typedef typename TOutputImage::PixelType                    OutputPixelType;
   typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING

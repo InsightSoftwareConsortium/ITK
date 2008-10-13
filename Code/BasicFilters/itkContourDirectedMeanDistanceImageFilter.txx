@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkContourDirectedMeanDistanceImageFilter_txx
-#define _itkContourDirectedMeanDistanceImageFilter_txx
+#ifndef __itkContourDirectedMeanDistanceImageFilter_txx
+#define __itkContourDirectedMeanDistanceImageFilter_txx
 
 #include "itkContourDirectedMeanDistanceImageFilter.h"
 
@@ -43,7 +43,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   this->SetNumberOfRequiredInputs( 2 );
 
   m_DistanceMap = NULL;
-  m_ContourDirectedMeanDistance = NumericTraits<RealType>::Zero;      
+  m_ContourDirectedMeanDistance = NumericTraits<RealType>::Zero;
 }
 
 
@@ -52,7 +52,7 @@ void
 ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
 ::SetInput2( const TInputImage2 * image )
 {
-  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );      
+  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );
 }
 
 
@@ -65,8 +65,6 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   return static_cast< const TInputImage2 * >
     (this->ProcessObject::GetInput(1));
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void
@@ -134,7 +132,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
   m_Count.Fill(0);
 
   // Compute SignedDanielsson distance from non-zero pixels in the second image
-  typedef itk::SignedDanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
+  typedef SignedDanielssonDistanceMapImageFilter<InputImage2Type,DistanceMapType>
     FilterType;
 
   typename FilterType::Pointer filter = FilterType::New();
@@ -173,8 +171,6 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
     m_ContourDirectedMeanDistance = NumericTraits<RealType>::Zero;
     }
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void
@@ -224,7 +220,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
         
       // first test
       // if current pixel is not on, let's continue
-      if( bit.GetCenterPixel() != itk::NumericTraits< InputPixelType >::Zero )
+      if( bit.GetCenterPixel() != NumericTraits< InputPixelType >::Zero )
         {
           
         bIsOnContour = false;
@@ -233,7 +229,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>
           {
           // second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
-          if( bit.GetPixel(i) ==  itk::NumericTraits< InputPixelType >::Zero )
+          if( bit.GetPixel(i) == NumericTraits< InputPixelType >::Zero )
             {
             bIsOnContour = true;
             break;

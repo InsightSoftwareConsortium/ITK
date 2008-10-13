@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkChangeInformationImageFilter_txx
-#define _itkChangeInformationImageFilter_txx
+#ifndef __itkChangeInformationImageFilter_txx
+#define __itkChangeInformationImageFilter_txx
 
 #include "itkChangeInformationImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -146,7 +146,7 @@ ChangeInformationImageFilter<TInputImage>
     for (i = 0; i < ImageDimension; i++)
       {
       centerIndex[i] = static_cast<double>((outputSize[i]-1)/2.0);
-      }    
+      }
     output->TransformContinuousIndexToPhysicalPoint(centerIndex, centerPoint);
     for (i = 0; i < ImageDimension; i++)
       {
@@ -254,7 +254,7 @@ ChangeInformationImageFilter<TInputImage>
     } 
   os << "]" << std::endl;
 
-  os << indent << "OutputDirection:" << std::endl;;
+  os << indent << "OutputDirection:" << std::endl;
   os << m_OutputDirection << std::endl;
 
   os << indent << "OutputOffset: [";

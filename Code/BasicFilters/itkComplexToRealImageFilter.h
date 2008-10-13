@@ -37,15 +37,17 @@ public:
   ComplexToReal() {}
   ~ComplexToReal() {}
   bool operator!=( const ComplexToReal & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const ComplexToReal & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)( A.real() ); }
+    {
+    return (TOutput)( A.real() );
+    }
 }; 
 }
 
@@ -60,10 +62,12 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef ComplexToRealImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::ComplexToReal< typename TInputImage::PixelType, 
-                                                 typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::ComplexToReal< typename TInputImage::PixelType, 
+                             typename TOutputImage::PixelType> >
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -73,8 +77,8 @@ public:
   itkTypeMacro(ComplexToRealImageFilter, 
                UnaryFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType   InputPixelType;
-  typedef typename TOutputImage::PixelType  OutputPixelType;
+  typedef typename TInputImage::PixelType                     InputPixelType;
+  typedef typename TOutputImage::PixelType                    OutputPixelType;
   typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING

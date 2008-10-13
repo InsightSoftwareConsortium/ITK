@@ -21,9 +21,9 @@
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk{
+namespace itk {
 
-/** /class ConnectedThresholdImageFilter
+/** \class ConnectedThresholdImageFilter
  * \brief Label pixels that are connected to a seed and lie within a range of values
  * 
  * ConnectedThresholdImageFilter labels pixels with ReplaceValue that are
@@ -38,10 +38,10 @@ class ITK_EXPORT ConnectedThresholdImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ConnectedThresholdImageFilter Self;
+  typedef ConnectedThresholdImageFilter                Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,43 +50,43 @@ public:
   itkTypeMacro(ConnectedThresholdImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef typename InputImageType::IndexType IndexType;
-  typedef typename InputImageType::SizeType SizeType;
+  typedef typename InputImageType::RegionType   InputImageRegionType; 
+  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef typename InputImageType::IndexType    IndexType;
+  typedef typename InputImageType::SizeType     SizeType;
   
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType; 
+  typedef typename OutputImageType::PixelType   OutputImagePixelType; 
   
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   
   /** Set seed point. */
   void SetSeed ( const IndexType & seed )
-  {
+    {
     this->ClearSeeds();
     this->AddSeed ( seed );
-  }
+    }
   void AddSeed(const IndexType & seed)
-  {
+    {
     m_SeedList.push_back ( seed );
     this->Modified();
-  };
+    }
 
   /** Clear the seed list. */
   void ClearSeeds ()
-  {
+    {
     if (m_SeedList.size() > 0)
       {
       m_SeedList.clear();
       this->Modified();
       }
-  };
+    }
 
   
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
@@ -141,9 +141,9 @@ protected:
   ConnectedThresholdImageFilter();
   ~ConnectedThresholdImageFilter(){};
   std::vector<IndexType> m_SeedList;
-  InputImagePixelType m_Lower;
-  InputImagePixelType m_Upper;
-  OutputImagePixelType m_ReplaceValue;
+  InputImagePixelType    m_Lower;
+  InputImagePixelType    m_Upper;
+  OutputImagePixelType   m_ReplaceValue;
   
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();

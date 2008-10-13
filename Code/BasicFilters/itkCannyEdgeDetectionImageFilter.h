@@ -39,8 +39,9 @@ class ListNode
 {
 public:
   TValueType m_Value;
-  ListNode *Next;
-  ListNode *Previous;
+
+  ListNode   *Next;
+  ListNode   *Previous;
 };
 
 
@@ -91,19 +92,19 @@ class ITK_EXPORT CannyEdgeDetectionImageFilter
 {
 public:
   /** Standard "Self" & Superclass typedef.  */
-  typedef CannyEdgeDetectionImageFilter    Self;
+  typedef CannyEdgeDetectionImageFilter                 Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
    
   /** Image typedef support   */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
       
-  /** SmartPointer typedef support  */    
-  typedef SmartPointer<Self>  Pointer;
+  /** SmartPointer typedef support  */
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Define pixel types. */
-  typedef typename TInputImage::PixelType  InputImagePixelType;
+  typedef typename TInputImage::PixelType   InputImagePixelType;
   typedef typename TOutputImage::PixelType  OutputImagePixelType;
   typedef typename TInputImage::IndexType   IndexType;
 
@@ -118,15 +119,15 @@ public:
   typedef ConstNeighborhoodIterator<OutputImageType,
                                     DefaultBoundaryConditionType> NeighborhoodType;
 
-  typedef ListNode<IndexType> ListNodeType;
-  typedef ObjectStore<ListNodeType> ListNodeStorageType;
+  typedef ListNode<IndexType>            ListNodeType;
+  typedef ObjectStore<ListNodeType>      ListNodeStorageType;
   typedef SparseFieldLayer<ListNodeType> ListType;
-  typedef typename ListType::Pointer ListPointerType;
+  typedef typename ListType::Pointer     ListPointerType;
 
-  /** Method for creation through the object factory.  */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);  
     
-  /** Typedef to describe the output image region type.*/
+  /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
     
   /** Run-time type information (and related methods). */
@@ -150,7 +151,7 @@ public:
   /** Set/Get the Variance parameter used by the Gaussian smoothing
       filter in this algorithm */
   void SetVariance(const typename ArrayType::ValueType v)
-  {
+    {
     for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
       {
       if (m_Variance[i] != v)
@@ -160,12 +161,12 @@ public:
         break;
         }
       }
-  }
+    }
   
   /** Set/Get the MaximumError paramter used by the Gaussian smoothing filter
       in this algorithm */
   void SetMaximumError(const typename ArrayType::ValueType v)
-  {
+    {
     for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
       {
       if (m_Variance[i] != v)
@@ -175,22 +176,22 @@ public:
         break;
         }
       }
-  }
+    }
   
   /* Set the Threshold value for detected edges. */
   void SetThreshold(const OutputImagePixelType th)
-  {
+    {
     this->m_Threshold = th;
     this->m_UpperThreshold = m_Threshold;
     this->m_LowerThreshold = m_Threshold/2.0;
     itkLegacyReplaceBodyMacro(SetThreshold, 2.2, SetUpperThreshold);
-  }
+    }
   
   OutputImagePixelType GetThreshold(OutputImagePixelType th) 
-  {
+    {
     itkLegacyReplaceBodyMacro(GetThreshold, 2.2, GetUpperThreshold);
     return this->m_Threshold; 
-  }
+    }
 
   ///* Set the Threshold value for detected edges. */
   itkSetMacro(UpperThreshold, OutputImagePixelType );
@@ -205,7 +206,7 @@ public:
   
   OutputImageType * GetNonMaximumSuppressionImage()
     {
-      return this->m_MultiplyImageFilter->GetOutput();
+    return this->m_MultiplyImageFilter->GetOutput();
     }
 
   /** CannyEdgeDetectionImageFilter needs a larger input requested
@@ -249,9 +250,9 @@ private:
 
   /** Thread-Data Structure   */
   struct CannyThreadStruct
-  {
+    {
     CannyEdgeDetectionImageFilter *Filter;
-  };
+    };
 
   /** This allocate storage for m_UpdateBuffer, m_UpdateBuffer1 */
   void AllocateUpdateBuffer();
@@ -364,7 +365,7 @@ private:
   unsigned long m_Center;
 
   typename ListNodeStorageType::Pointer m_NodeStore;
-  ListPointerType m_NodeList;
+  ListPointerType                       m_NodeList;
 
 };
 
@@ -375,4 +376,3 @@ private:
 #endif
   
 #endif
-

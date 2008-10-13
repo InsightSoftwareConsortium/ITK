@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCannyEdgeDetectionImageFilter_txx
-#define _itkCannyEdgeDetectionImageFilter_txx
+#ifndef __itkCannyEdgeDetectionImageFilter_txx
+#define __itkCannyEdgeDetectionImageFilter_txx
 #include "itkCannyEdgeDetectionImageFilter.h"
 
 #include "itkZeroCrossingImageFilter.h"
@@ -238,7 +238,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   //Calculate the 2nd derivative
   for(i = 0; i < ImageDimension-1; i++)
     {
-    for(j = i+1; j < ImageDimension ; j++)
+    for(j = i+1; j < ImageDimension; j++)
       {
       dxy[k] = 0.25 * it.GetPixel(m_Center - m_Stride[i] - m_Stride[j])
         - 0.25 * it.GetPixel(m_Center - m_Stride[i]+ m_Stride[j])
@@ -340,7 +340,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   // derivative.
   this->Compute2ndDerivative();
 
-  this->Compute2ndDerivativePos();      
+  this->Compute2ndDerivativePos();
   
   // 3. Non-maximum suppression----------
   
@@ -469,52 +469,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/*  
-template< class TInputImage, class TOutputImage >
-void
-CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::FollowEdge(IndexType index)
-{
-
-  typename OutputImageType::Pointer output = this->GetOutput();
-  float value;
-  IndexType nIndex;
-
-  
-  //assign iterator radius
-  Size<ImageDimension> radius; radius.Fill(1);
-  
-  ConstNeighborhoodIterator<TOutputImage> oit(radius, output, output->GetRequestedRegion());
-  
-  ImageRegionIteratorWithIndex<TOutputImage> uit(m_UpdateBuffer,
-                                                 m_UpdateBuffer->GetRequestedRegion());
-  
-  uit.SetIndex(index);
-  
-  if(uit.Get() ==1) return;
-  
-  uit.Value() = 1;
-  
-  int nSize = m_Center * 2 +1;
-  
-  oit.SetLocation(index);
-  
-  for(int i = 0; i < nSize; i++)
-    {
-    nIndex = oit.GetIndex(i);
-    uit.SetIndex(nIndex);
-    if(InBounds(nIndex))
-      if(oit.GetPixel(i) > m_LowerThreshold && uit.Value() != 1  )
-        {
-        uit.Value() = 1;
-        oit.SetLocation(nIndex);
-        i = -1;
-        }
-    }
-  
-}
-*/
-
 template< class TInputImage, class TOutputImage >
 bool
 CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
@@ -615,7 +569,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
                     m_ComputeCannyEdge1stDerivativeOper);
         }
       
-      gradMag = vcl_sqrt((double)gradMag);          
+      gradMag = vcl_sqrt((double)gradMag);
       derivPos = zero;
       for ( unsigned int i = 0; i < ImageDimension; i++)
         {
@@ -629,7 +583,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
         derivPos += dx1[i] * directional[i];
         }
           
-      it.Value() = ((derivPos <= zero)) ;
+      it.Value() = ((derivPos <= zero));
       it.Value() = it.Get() * gradMag;
       ++bit;
       ++bit1;
@@ -695,16 +649,13 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
   os << "Variance: " << m_Variance << std::endl;
   os << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "Threshold: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
-    (m_Threshold)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Threshold)
      << std::endl;
   os << indent << "UpperThreshold: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
-    (m_UpperThreshold)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_UpperThreshold)
      << std::endl;
   os << indent << "LowerThreshold: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>
-    (m_LowerThreshold)
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_LowerThreshold)
      << std::endl;
   os << indent << "OutsideValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutsideValue)

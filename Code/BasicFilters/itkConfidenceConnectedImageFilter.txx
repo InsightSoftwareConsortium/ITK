@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkConfidenceConnectedImageFilter_txx_
-#define __itkConfidenceConnectedImageFilter_txx_
+#ifndef __itkConfidenceConnectedImageFilter_txx
+#define __itkConfidenceConnectedImageFilter_txx
 
 #include "itkConfidenceConnectedImageFilter.h"
 #include "itkExceptionObject.h"
@@ -153,14 +153,14 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
     while( si != li )
       {
-      m_Mean     += meanFunction->EvaluateAtIndex( *si );
+      m_Mean += meanFunction->EvaluateAtIndex( *si );
       sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex( *si );
       si++;
       }
     const unsigned int num = m_Seeds.size();
     const unsigned int totalNum = num * sumOfSquaresFunction->GetNeighborhoodSize();
-    m_Mean     /= num;
-    m_Variance  = (sumOfSquares - (m_Mean * m_Mean * double(totalNum))) / (double(totalNum) - 1.0);
+    m_Mean /= num;
+    m_Variance = (sumOfSquares - (m_Mean * m_Mean * double(totalNum))) / (double(totalNum) - 1.0);
     }
   else 
     {
@@ -288,8 +288,15 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     // if the variance is zero, there is no point in continuing
     if ( m_Variance == 0 )
       {
-      itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << ", variance = " << m_Variance << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance));
-      itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnumberOfSamples = " << numberOfSamples);
+      itkDebugMacro(<< "\nLower intensity = " << lower 
+                    << ", Upper intensity = " << upper
+                    << "\nmean = " << m_Mean 
+                    << ", variance = " << m_Variance 
+                    << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance));
+      itkDebugMacro(<< "\nsum = " << sum 
+                    << ", sumOfSquares = "
+                    << sumOfSquares << "\nnumberOfSamples = "
+                    << numberOfSamples);
       break;
       }
     lower = m_Mean - m_Multiplier * vcl_sqrt(m_Variance );
@@ -319,7 +326,11 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
                                static_cast<InputImagePixelType>(upper));
     
-    itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << ", variance = " << m_Variance << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance ));
+    itkDebugMacro(<< "\nLower intensity = " << lower
+                  << ", Upper intensity = " << upper
+                  << "\nmean = " << m_Mean
+                  << ", variance = " << m_Variance
+                  << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance ));
     itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << numberOfSamples);
     
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCheckerBoardImageFilter_txx
-#define _itkCheckerBoardImageFilter_txx
+#ifndef __itkCheckerBoardImageFilter_txx
+#define __itkCheckerBoardImageFilter_txx
 
 #include "itkCheckerBoardImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -95,7 +95,7 @@ CheckerBoardImageFilter<TImage>
   InputImageConstPointer  input2Ptr = this->GetInput(1);
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex< OutputImageType > OutputIterator;
+  typedef ImageRegionIteratorWithIndex< OutputImageType >     OutputIterator;
   typedef ImageRegionConstIteratorWithIndex< InputImageType > InputIterator;
 
   OutputIterator outItr( outputPtr, outputRegionForThread );
@@ -146,7 +146,7 @@ CheckerBoardImageFilter<TImage>
       pixval = in1Itr.Get();
       }
 
-    outItr.Set( pixval );      
+    outItr.Set( pixval );
 
     progress.CompletedPixel();
 

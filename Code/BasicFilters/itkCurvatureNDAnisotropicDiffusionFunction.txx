@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvatureNDAnisotropicDiffusionFunction_txx_
-#define __itkCurvatureNDAnisotropicDiffusionFunction_txx_
+#ifndef __itkCurvatureNDAnisotropicDiffusionFunction_txx
+#define __itkCurvatureNDAnisotropicDiffusionFunction_txx
 
 namespace itk {
 
@@ -94,13 +94,13 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
       - it.GetPixel(m_Center);
     dx_forward[i] *= this->m_ScaleCoefficients[i];
-    dx_backward[i]= it.GetPixel(m_Center)
+    dx_backward[i] = it.GetPixel(m_Center)
       - it.GetPixel(m_Center - m_Stride[i]);
-    dx_backward[i]*= this->m_ScaleCoefficients[i];
+    dx_backward[i] *= this->m_ScaleCoefficients[i];
 
     // Centralized differences
-    dx[i]         = m_InnerProduct(x_slice[i], it, dx_op);
-    dx[i]         *= this->m_ScaleCoefficients[i];
+    dx[i] = m_InnerProduct(x_slice[i], it, dx_op);
+    dx[i] *= this->m_ScaleCoefficients[i];
     }
 
   speed = 0.0;
@@ -113,20 +113,20 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
       {
       if (j != i)
         {
-        dx_aug     = m_InnerProduct(xa_slice[j][i], it, dx_op);
-        dx_aug     *= this->m_ScaleCoefficients[j];
-        dx_dim     = m_InnerProduct(xd_slice[j][i], it, dx_op);
-        dx_dim     *= this->m_ScaleCoefficients[j];
-        grad_mag_sq   += 0.25f * (dx[j]+dx_aug) * (dx[j]+dx_aug);
+        dx_aug = m_InnerProduct(xa_slice[j][i], it, dx_op);
+        dx_aug *= this->m_ScaleCoefficients[j];
+        dx_dim = m_InnerProduct(xd_slice[j][i], it, dx_op);
+        dx_dim *= this->m_ScaleCoefficients[j];
+        grad_mag_sq += 0.25f * (dx[j]+dx_aug) * (dx[j]+dx_aug);
         grad_mag_sq_d += 0.25f * (dx[j]+dx_dim) * (dx[j]+dx_dim);
         }
       }
-    grad_mag   = ::sqrt(m_MIN_NORM + grad_mag_sq);
+    grad_mag = ::sqrt(m_MIN_NORM + grad_mag_sq);
     grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
     // Conductance Terms
     if (m_K == 0.0)
-      {       
+      {
       Cx = 0.0;
       Cxd = 0.0;
       }

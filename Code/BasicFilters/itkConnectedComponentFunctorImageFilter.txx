@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConnectedComponentFunctorImageFilter_txx
-#define _itkConnectedComponentFunctorImageFilter_txx
+#ifndef __itkConnectedComponentFunctorImageFilter_txx
+#define __itkConnectedComponentFunctorImageFilter_txx
 
 #include "itkConnectedComponentFunctorImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -193,7 +193,9 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
         // create a new entry label
         if (maxLabel == maxPossibleLabel)
           {
-          itkWarningMacro(<< "ConnectedComponentFunctorImageFilter::GenerateData: Number of labels " << (long) maxLabel << " exceeds number of available labels " << (long) maxPossibleLabel << " for the output type." );
+          itkWarningMacro(
+            << "ConnectedComponentFunctorImageFilter::GenerateData: Number of labels " << (long) maxLabel
+            << " exceeds number of available labels " << (long) maxPossibleLabel << " for the output type." );
           }
         else
           {

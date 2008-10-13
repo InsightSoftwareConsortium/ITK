@@ -40,10 +40,10 @@ class ITK_EXPORT CropImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef CropImageFilter         Self;
+  typedef CropImageFilter                               Self;
   typedef ExtractImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -53,7 +53,7 @@ public:
 
   /** Typedef to describe the output and input image region types. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::InputImageRegionType InputImageRegionType;
+  typedef typename Superclass::InputImageRegionType  InputImageRegionType;
 
   /** Typedef to describe the type of pixel. */
   typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
@@ -64,7 +64,7 @@ public:
   typedef typename Superclass::InputImageIndexType  InputImageIndexType;
   typedef typename Superclass::OutputImageSizeType  OutputImageSizeType;
   typedef typename Superclass::InputImageSizeType   InputImageSizeType;
-  typedef InputImageSizeType SizeType;
+  typedef InputImageSizeType                        SizeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -95,11 +95,11 @@ public:
 
 protected:
   CropImageFilter()
-  {
+    {
     m_UpperBoundaryCropSize.Fill(0);
     m_LowerBoundaryCropSize.Fill(0);
-  };
-  ~CropImageFilter() {};
+    }
+  ~CropImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 

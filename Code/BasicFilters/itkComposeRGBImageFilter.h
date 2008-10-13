@@ -44,21 +44,21 @@ public:
   ComposeRGB() {}
   ~ComposeRGB() {}
   bool operator!=( const ComposeRGB & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const ComposeRGB & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline OutputType operator()(  const TInput & R, 
                                  const TInput & G,
                                  const TInput & B)
-  {
+    {
     OutputType rgbPixel;
     rgbPixel.Set( R, G, B);
     return rgbPixel;
-  }
+    }
 }; 
 }
 
@@ -74,13 +74,14 @@ TernaryFunctorImageFilter<TInputImage,TInputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef ComposeRGBImageFilter  Self;
-  typedef TernaryFunctorImageFilter<TInputImage,TInputImage,
-                                    TInputImage,TOutputImage, 
-                                    Function::ComposeRGB< 
-    ITK_TYPENAME TInputImage::PixelType > 
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef ComposeRGBImageFilter     Self;
+  typedef TernaryFunctorImageFilter<
+    TInputImage,TInputImage,
+    TInputImage,TOutputImage, 
+    Function::ComposeRGB< 
+      ITK_TYPENAME TInputImage::PixelType > >
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef typename Superclass::OutputImageType OutputImageType;

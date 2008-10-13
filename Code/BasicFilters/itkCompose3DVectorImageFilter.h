@@ -45,23 +45,23 @@ public:
   Compose3DVector() {}
   ~Compose3DVector() {}
   bool operator!=( const Compose3DVector & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Compose3DVector & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline OutputType operator()(  const TInput & s1, 
                                  const TInput & s2,
                                  const TInput & s3)
-  {
+    {
     OutputType v;
     v[0] = s1;
     v[1] = s2;
     v[2] = s3;
     return v;
-  }
+    }
 }; 
 }
 
@@ -78,13 +78,14 @@ TernaryFunctorImageFilter<TInputImage,TInputImage,
 public:
   /** Standard class typedefs. */
   typedef Compose3DVectorImageFilter  Self;
-  typedef TernaryFunctorImageFilter<TInputImage,TInputImage,TInputImage,
-                                    TOutputImage, 
-                                    Function::Compose3DVector< 
-    ITK_TYPENAME TInputImage::PixelType > 
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef TernaryFunctorImageFilter<
+    TInputImage,TInputImage,TInputImage,
+    TOutputImage, 
+    Function::Compose3DVector< 
+      ITK_TYPENAME TInputImage::PixelType > >
+                                      Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   typedef typename Superclass::OutputImageType OutputImageType;
   

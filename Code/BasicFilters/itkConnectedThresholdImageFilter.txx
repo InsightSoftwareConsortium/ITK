@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkConnectedThresholdImageFilter_txx_
-#define __itkConnectedThresholdImageFilter_txx_
+#ifndef __itkConnectedThresholdImageFilter_txx
+#define __itkConnectedThresholdImageFilter_txx
 
 #include "itkConnectedThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"
@@ -217,8 +217,6 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   return lower->Get();
 }
 
-
-
 template <class TInputImage, class TOutputImage>
 typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputImagePixelType
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>
@@ -229,8 +227,6 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
 
   return upper->Get();
 }
-
-
 
 template <class TInputImage, class TOutputImage>
 void 

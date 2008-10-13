@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvatureAnisotropicDiffusionImageFilter_h_
-#define __itkCurvatureAnisotropicDiffusionImageFilter_h_
+#ifndef __itkCurvatureAnisotropicDiffusionImageFilter_h
+#define __itkCurvatureAnisotropicDiffusionImageFilter_h
 
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.h"
@@ -59,9 +59,9 @@ public:
   /** Standard class typedefs. */
   typedef CurvatureAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-  Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
@@ -86,21 +86,21 @@ public:
 
 protected:
   CurvatureAnisotropicDiffusionImageFilter()
-  {
+    {
     typename CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
       = CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(q);
-  }
+    }
   ~CurvatureAnisotropicDiffusionImageFilter() {}
 
   virtual void InitializeIteration()
-  {
+    {
     Superclass::InitializeIteration();
     if (this->GetTimeStep() >  0.5 / vcl_pow(2.0, static_cast<double>(ImageDimension))  )
       {
       itkWarningMacro(<< "Anisotropic diffusion is using a time step which may introduce instability into the solution." );
       }
-  }
+    }
   
 private:
   CurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented

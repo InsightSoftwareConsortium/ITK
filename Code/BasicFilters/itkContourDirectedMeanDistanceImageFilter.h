@@ -58,7 +58,7 @@ namespace itk {
  * \ingroup MultiThreaded
  * 
  * \author Teo Popa, ISIS Center, Georgetown University
- *                   
+ *
  */
 template<class TInputImage1, class TInputImage2>
 class ITK_EXPORT ContourDirectedMeanDistanceImageFilter : 
@@ -66,10 +66,10 @@ class ITK_EXPORT ContourDirectedMeanDistanceImageFilter :
 {
 public:
   /** Standard Self typedef */
-  typedef ContourDirectedMeanDistanceImageFilter Self;
+  typedef ContourDirectedMeanDistanceImageFilter         Self;
   typedef ImageToImageFilter<TInputImage1,TInputImage1>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -78,16 +78,16 @@ public:
   itkTypeMacro(ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
   
   /** Image related typedefs. */
-  typedef TInputImage1 InputImage1Type;
-  typedef TInputImage2 InputImage2Type;
-  typedef typename TInputImage1::Pointer InputImage1Pointer;
-  typedef typename TInputImage2::Pointer InputImage2Pointer;
+  typedef TInputImage1                        InputImage1Type;
+  typedef TInputImage2                        InputImage2Type;
+  typedef typename TInputImage1::Pointer      InputImage1Pointer;
+  typedef typename TInputImage2::Pointer      InputImage2Pointer;
   typedef typename TInputImage1::ConstPointer InputImage1ConstPointer;
   typedef typename TInputImage2::ConstPointer InputImage2ConstPointer;
 
-  typedef typename TInputImage1::RegionType RegionType ;
-  typedef typename TInputImage1::SizeType SizeType ;
-  typedef typename TInputImage1::IndexType IndexType ;
+  typedef typename TInputImage1::RegionType RegionType;
+  typedef typename TInputImage1::SizeType   SizeType;
+  typedef typename TInputImage1::IndexType  IndexType;
 
   typedef typename TInputImage1::PixelType InputImage1PixelType;
   typedef typename TInputImage2::PixelType InputImage2PixelType;
@@ -101,14 +101,18 @@ public:
 
   /** Set the first input. */
   void SetInput1( const InputImage1Type * image )
-  { this->SetInput( image ); }
+    {
+    this->SetInput( image );
+    }
 
   /** Set the second input. */
   void SetInput2( const InputImage2Type * image );
 
   /** Get the first input. */
   const InputImage1Type * GetInput1(void)
-  { return this->GetInput(); }
+    {
+    return this->GetInput();
+    }
   
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
@@ -129,7 +133,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
-  void AllocateOutputs();      
+  void AllocateOutputs();
 
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData ();
@@ -140,7 +144,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const RegionType& 
                               outputRegionForThread,
-                              int threadId) ;
+                              int threadId);
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
@@ -159,7 +163,7 @@ private:
   Array<int>                          m_Count;
   RealType                            m_ContourDirectedMeanDistance;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCropImageFilter_txx
-#define _itkCropImageFilter_txx
+#ifndef __itkCropImageFilter_txx
+#define __itkCropImageFilter_txx
 
 #include "itkCropImageFilter.h"
 
@@ -71,9 +71,6 @@ CropImageFilter<TInputImage,TOutputImage>
   os << indent << "LowerBoundaryCropSize: " << m_LowerBoundaryCropSize <<
     std::endl;
 }
-
- 
-
   
 } // end namespace itk
 

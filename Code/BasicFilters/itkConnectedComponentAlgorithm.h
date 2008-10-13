@@ -76,8 +76,6 @@ setConnectivityPrevious( TIterator* it, bool fullyConnected=false )
       {
       offset[d] = -1;
       it->ActivateOffset( offset );
-//       offset[d] = 1;
-//       it->ActivateOffset( offset );
       offset[d] = 0;
       }
     }
@@ -111,9 +109,9 @@ setConnectivityLater( TIterator* it, bool fullyConnected=false )
     offset.Fill( 0 );
     for( unsigned int d=0; d < TIterator::Dimension; ++d )
       {
-       offset[d] = 1;
-       it->ActivateOffset( offset );
-       offset[d] = 0;
+      offset[d] = 1;
+      it->ActivateOffset( offset );
+      offset[d] = 0;
       }
     }
   else

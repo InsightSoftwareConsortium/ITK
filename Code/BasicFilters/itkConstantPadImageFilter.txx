@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkConstantPadImageFilter_txx
-#define _itkConstantPadImageFilter_txx
+#ifndef __itkConstantPadImageFilter_txx
+#define __itkConstantPadImageFilter_txx
 
 #include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -71,27 +71,30 @@ ConstantPadImageFilter<TInputImage,TOutputImage>
   OutputImageIndexType nextIndex = outputRegion.GetIndex();
   OutputImageSizeType nextSize = outputRegion.GetSize();
 
-  for (ctr=0; (ctr<ImageDimension) && !done; ctr++) {
-  regIndices[ctr]++;
-  done = 1;
-  if (regIndices[ctr] >= regLimit[ctr]) 
+  for (ctr=0; (ctr<ImageDimension) && !done; ctr++)
     {
-    regIndices[ctr] = 0;
-    done = 0;
+    regIndices[ctr]++;
+    done = 1;
+    if (regIndices[ctr] >= regLimit[ctr]) 
+      {
+      regIndices[ctr] = 0;
+      done = 0;
+      }
+    nextIndex[ctr] = indices[regIndices[ctr]][ctr];
+    nextSize[ctr] = sizes[regIndices[ctr]][ctr];
     }
-  nextIndex[ctr] = indices[regIndices[ctr]][ctr];
-  nextSize[ctr] = sizes[regIndices[ctr]][ctr];
-  }
 
   outputRegion.SetIndex(nextIndex);
   outputRegion.SetSize(nextSize);
 
-  for (ctr=0; ctr<ImageDimension; ctr++) {
-  if (nextSize[ctr] == 0) {
-  return 0;
-  }
-  }
-
+  for (ctr=0; ctr<ImageDimension; ctr++)
+    {
+    if (nextSize[ctr] == 0)
+      {
+      return 0;
+      }
+    }
+  
   return 1;
 }
 
@@ -207,10 +210,8 @@ ConstantPadImageFilter<TInputImage,TOutputImage> // support progress methods/cal
   inputRegion.SetSize(sizes[0]);
   inputRegion.SetIndex(indices[0]);
 
-  typedef
-    ImageRegionIterator<TOutputImage> OutputIterator;
-  typedef 
-    ImageRegionConstIterator<TInputImage> InputIterator;
+  typedef ImageRegionIterator<TOutputImage>     OutputIterator;
+  typedef ImageRegionConstIterator<TInputImage> InputIterator;
 
   // Walk the first region which is defined as the between for everyone.
   if (GenerateNextRegion(regIndices, regLimit, indices, sizes, outputRegion))

@@ -44,21 +44,21 @@ public:
   Compose2DVector() {}
   ~Compose2DVector() {}
   bool operator!=( const Compose2DVector & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Compose2DVector & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline OutputType operator()(  const TInput & s1, 
                                  const TInput & s2 )
-  {
+    {
     OutputType v;
     v[0] = s1;
     v[1] = s2;
     return v;
-  }
+    }
 }; 
 }
 
@@ -75,13 +75,14 @@ BinaryFunctorImageFilter<TInputImage,TInputImage,
 public:
   /** Standard class typedefs. */
   typedef Compose2DVectorImageFilter  Self;
-  typedef BinaryFunctorImageFilter<TInputImage,TInputImage,
-                                    TOutputImage, 
-                                    Function::Compose2DVector< 
-    ITK_TYPENAME TInputImage::PixelType > 
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BinaryFunctorImageFilter<
+    TInputImage,TInputImage,
+    TOutputImage, 
+    Function::Compose2DVector< 
+      ITK_TYPENAME TInputImage::PixelType > >
+                                      Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   typedef typename Superclass::OutputImageType OutputImageType;
   

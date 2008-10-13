@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkChainCodeToFourierSeriesPathFilter_txx
-#define _itkChainCodeToFourierSeriesPathFilter_txx
+#ifndef __itkChainCodeToFourierSeriesPathFilter_txx
+#define __itkChainCodeToFourierSeriesPathFilter_txx
 
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 #include "itkOffset.h"
@@ -96,8 +96,6 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath,TOutputFourierSeriesPath>
     outputPtr->AddHarmonic( cosCoefficient, sinCoefficient );
     }
 }
-
-
 
 template <class TInputChainCodePath, class TOutputFourierSeriesPath>
 void

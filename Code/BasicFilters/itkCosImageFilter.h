@@ -50,17 +50,17 @@ public:
   Cos() {};
   ~Cos() {};
   bool operator!=( const Cos & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Cos & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>(cos( static_cast<double>(A)) );
-  }
+    }
 }; 
 
 }
@@ -74,11 +74,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef CosImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::Cos< typename TInputImage::PixelType, 
-                                                typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef CosImageFilter            Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::Cos< typename TInputImage::PixelType, 
+                  typename TOutputImage::PixelType> >
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

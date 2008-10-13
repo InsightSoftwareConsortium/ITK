@@ -50,10 +50,10 @@ class ITK_EXPORT ChangeInformationImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ChangeInformationImageFilter         Self;
+  typedef ChangeInformationImageFilter                 Self;
   typedef ImageToImageFilter<TInputImage,TInputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -70,12 +70,12 @@ public:
   typedef typename TInputImage::PixelType InputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TInputImage::IndexType OutputImageIndexType;
-  typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TInputImage::SizeType OutputImageSizeType;
-  typedef typename TInputImage::SizeType InputImageSizeType;
-  typedef typename TInputImage::OffsetType OutputImageOffsetType;
-  typedef typename TInputImage::OffsetType InputImageOffsetType;
+  typedef typename TInputImage::IndexType     OutputImageIndexType;
+  typedef typename TInputImage::IndexType     InputImageIndexType;
+  typedef typename TInputImage::SizeType      OutputImageSizeType;
+  typedef typename TInputImage::SizeType      InputImageSizeType;
+  typedef typename TInputImage::OffsetType    OutputImageOffsetType;
+  typedef typename TInputImage::OffsetType    InputImageOffsetType;
   typedef typename TInputImage::DirectionType OutputImageDirectionType;
   typedef typename TInputImage::DirectionType InputImageDirectionType;
 
@@ -84,8 +84,8 @@ public:
                       TInputImage::ImageDimension);
 
   /** Image spacing, origin and direction typedefs */
-  typedef typename TInputImage::SpacingType SpacingType;
-  typedef typename TInputImage::PointType   PointType;
+  typedef typename TInputImage::SpacingType   SpacingType;
+  typedef typename TInputImage::PointType     PointType;
   typedef typename TInputImage::DirectionType DirectionType;
 
   /** Run-time type information (and related methods). */
@@ -94,14 +94,14 @@ public:
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
   void SetReferenceImage (TInputImage *image)
-  {
+    {
     if (image != m_ReferenceImage)
       {
       m_ReferenceImage = image;
       this->ProcessObject::SetNthInput(1, image);
       this->Modified();
       }
-  }
+    }
   itkGetObjectMacro(ReferenceImage, TInputImage);
 
   itkSetMacro(UseReferenceImage, bool);
@@ -139,22 +139,22 @@ public:
 
   /** Change the origin, spacing and region of the output image. */
   void ChangeAll()
-  {
+    {
     this->ChangeSpacingOn();
     this->ChangeOriginOn();
     this->ChangeDirectionOn();
     this->ChangeRegionOn();
-  }
+    }
 
   /** Do not change the origin, spacing, direction or region of the
    * output image. */
   void ChangeNone()
-  {
+    {
     this->ChangeSpacingOff();
     this->ChangeOriginOff();
     this->ChangeDirectionOff();
     this->ChangeRegionOff();
-  }
+    }
 
   /** Change the Spacing of the output image. If false, the output
    *  image spacing will be set to the input image spacing. If true, the
@@ -226,11 +226,11 @@ private:
   bool m_ChangeRegion;
   bool m_UseReferenceImage;
   
-  SpacingType m_OutputSpacing;
-  PointType m_OutputOrigin;
+  SpacingType   m_OutputSpacing;
+  PointType     m_OutputOrigin;
   DirectionType m_OutputDirection;
 
-  long m_OutputOffset[ImageDimension];
+  long                  m_OutputOffset[ImageDimension];
   OutputImageOffsetType m_Shift;
 };
 

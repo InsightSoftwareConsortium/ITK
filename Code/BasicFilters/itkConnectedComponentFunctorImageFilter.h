@@ -70,11 +70,11 @@ public:
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
-  typedef typename TMaskImage::PixelType MaskPixelType;
+  typedef typename TOutputImage::PixelType          OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType  OutputInternalPixelType;
+  typedef typename TInputImage::PixelType           InputPixelType;
+  typedef typename TInputImage::InternalPixelType   InputInternalPixelType;
+  typedef typename TMaskImage::PixelType            MaskPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -83,10 +83,11 @@ public:
   /**
    * Image typedef support
    */
-  typedef TFunctor    FunctorType;
+  typedef TFunctor     FunctorType;
   typedef TInputImage  InputImageType;
   typedef TMaskImage   MaskImageType;
   typedef TOutputImage OutputImageType;
+
   typedef   typename TInputImage::IndexType       IndexType;
   typedef   typename TInputImage::SizeType        SizeType;
   typedef   typename TOutputImage::RegionType     RegionType;
@@ -97,7 +98,7 @@ public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /**
@@ -115,7 +116,7 @@ public:
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
   FunctorType& GetFunctor() { return m_Functor; };
-  const FunctorType& GetFunctor() const { return m_Functor; };
+  const FunctorType& GetFunctor() const { return m_Functor; }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -124,10 +125,10 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(const FunctorType& functor)
-  {
+    {
     m_Functor = functor;
     this->Modified();
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
