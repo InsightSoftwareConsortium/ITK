@@ -23,7 +23,9 @@
 namespace itk
 {
 
-/** \brief Euler3DTransform of a vector space (e.g. space coordinates)
+/** \class Euler3DTransform
+ *
+ * \brief Euler3DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rotation and translation to the space given 3 euler
  * angles and a 3D translation. Rotation is about a user specified center.
@@ -69,10 +71,8 @@ public:
   typedef typename Superclass::ScalarType                 ScalarType;
   typedef typename Superclass::InputVectorType            InputVectorType;
   typedef typename Superclass::OutputVectorType           OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType  
-                                                     InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  
-                                                     OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
   typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
   typedef typename Superclass::InputPointType             InputPointType;
@@ -82,7 +82,6 @@ public:
   typedef typename Superclass::CenterType                 CenterType;
   typedef typename Superclass::TranslationType            TranslationType;
   typedef typename Superclass::OffsetType                 OffsetType;
-
   typedef typename Superclass::ScalarType                 AngleType;
   
   /** Set/Get the transformation from a container of parameters
@@ -122,8 +121,8 @@ protected:
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
-  void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
-    { m_AngleX = angleX; m_AngleY = angleY; m_AngleZ = angleZ; };
+  /** Set values of angles directly without recomputing other parameters. */
+  void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
   /** Compute the components of the rotation matrix in the superclass. */
   void ComputeMatrix(void);

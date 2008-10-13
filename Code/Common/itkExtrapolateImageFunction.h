@@ -44,10 +44,10 @@ class ITK_EXPORT ExtrapolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef ExtrapolateImageFunction Self;
-  typedef ImageFunction<TInputImage,double,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ExtrapolateImageFunction                        Self;
+  typedef ImageFunction<TInputImage,double,TCoordRep>     Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtrapolateImageFunction, ImageFunction);

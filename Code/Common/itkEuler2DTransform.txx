@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkEuler2DTransform_txx
-#define _itkEuler2DTransform_txx
+#ifndef __itkEuler2DTransform_txx
+#define __itkEuler2DTransform_txx
 
 #include "itkEuler2DTransform.h"
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkEuler3DTransform_txx
-#define _itkEuler3DTransform_txx
+#ifndef __itkEuler3DTransform_txx
+#define __itkEuler3DTransform_txx
 
 #include "itkEuler3DTransform.h"
 
@@ -59,6 +59,17 @@ Euler3DTransform<TScalarType>
 {
   m_ComputeZYX = false;
   m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::Zero;
+}
+
+// Set Angles
+template <class TScalarType>
+void
+Euler3DTransform<TScalarType>
+::SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
+{
+  this->m_AngleX = angleX;
+  this->m_AngleY = angleY;
+  this->m_AngleZ = angleZ;
 }
 
 // Set Parameters

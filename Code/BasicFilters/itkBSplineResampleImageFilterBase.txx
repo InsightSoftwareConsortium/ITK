@@ -216,7 +216,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
         //Original was 
         //i2=inModK-i2;
         //I don't think this is correct since this would be negative
-        i2 = inModK - (i2 % inModK)  ;  // Should I use this always instead of the if statement?
+        i2 = inModK - (i2 % inModK);  // Should I use this always instead of the if statement?
         }
       out.Set( static_cast<OutputImagePixelType> ( ( in[inK] + in[i2] ) / 2.0 ) );
       ++out;
@@ -313,7 +313,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
           }
         outVal = outVal + m_H[k] * in[i1];
         }
-      for (int k = 2 - ( outK % 2); k < (int) m_HSize; k +=2)
+      for( int k = 2 - ( outK % 2); k < (int) m_HSize; k += 2 )
         {
         i2 = (outK + k)/ 2;
         if ( i2 > inModK )

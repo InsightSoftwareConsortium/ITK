@@ -104,17 +104,15 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
 }
 
 
-
-
-/*
+/**
  *  Macro for creating new Events
  */
 #define itkEventMacro( classname , super ) \
  /** \class classname */  \
  class  classname : public super { \
    public: \
-     typedef classname Self; \
-     typedef super Superclass; \
+     typedef classname    Self; \
+     typedef super        Superclass; \
      classname() {} \
      virtual ~classname() {} \
      virtual const char * GetEventName() const { return #classname; } \
@@ -126,7 +124,6 @@ inline std::ostream& operator<<(std::ostream& os, EventObject &e)
    private: \
      void operator=(const Self&); \
  };
-
 
 
 /**
@@ -157,4 +154,3 @@ itkEventMacro( UserEvent          , AnyEvent )
 } // end namespace itk
 
 #endif
-

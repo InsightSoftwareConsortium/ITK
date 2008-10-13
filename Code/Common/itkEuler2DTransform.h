@@ -24,7 +24,9 @@
 namespace itk
 {
 
-/** \brief Euler2DTransform of a vector space (e.g. space coordinates)
+/** \class Euler2DTransform
+ *
+ * \brief Euler2DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rigid transformation is 2D space.
  * The transform is specified as a rotation around arbitrary center
@@ -42,10 +44,10 @@ class ITK_EXPORT Euler2DTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef Euler2DTransform Self;
+  typedef Euler2DTransform                  Self;
   typedef Rigid2DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );

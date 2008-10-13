@@ -38,8 +38,8 @@ template <class TInternalType, class TExternalType >
 class ITK_EXPORT ExpNegativePixelAccessor  
 {
 public:
- /** External typedef. It defines the external aspect
-   * that this class will exhibit. */
+  /** External typedef. It defines the external aspect
+    * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
   /** Internal typedef. It defines the internal real
@@ -72,12 +72,12 @@ class ITK_EXPORT ExpNegativeImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef ExpNegativeImageAdaptor  Self;
-  typedef ImageAdaptor<TImage,Accessor::ExpNegativePixelAccessor<
-                                       typename TImage::PixelType,
-                                       TOutputPixelType> > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ExpNegativeImageAdaptor                         Self;
+  typedef ImageAdaptor<
+    TImage,Accessor::ExpNegativePixelAccessor<
+      typename TImage::PixelType, TOutputPixelType> >     Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  

@@ -133,13 +133,13 @@ template <typename T>
 struct DefaultConstructible
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       T a;
       Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -149,7 +149,7 @@ template <typename T>
 struct CopyConstructible
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       T a(b);
@@ -165,7 +165,7 @@ struct CopyConstructible
       Detail::IgnoreUnusedVariable(p);
       }
     T b;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -175,14 +175,14 @@ template <typename T1, typename T2>
 struct Convertible
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       T2 b = static_cast<T2>(a);
       Detail::IgnoreUnusedVariable(b);
       }
     T1 a;
-  };
+    };
   itkConceptConstraintsMacro();
 };
 
@@ -191,7 +191,7 @@ template <typename T>
 struct Assignable
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a = a;
@@ -202,7 +202,7 @@ struct Assignable
       a = b;
       }
     T a;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -312,18 +312,17 @@ struct AdditiveOperators
     T3 a;
     T1 b;
     T2 c;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operator * in the form
-    T1 op T2 = T3. */
+/** Concept requiring T to have operator * in the form T1 op T2 = T3. */
 template <typename T1, typename T2=T1, typename T3=T1>
 struct MultiplyOperator
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a = static_cast<T3>(b * c);
@@ -336,18 +335,16 @@ struct MultiplyOperator
     T3 a;
     T1 b;
     T2 c;
-  };
-  
+    }; 
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operator  *= in the form
-    T2 op= T1. */
+/** Concept requiring T to have operator  *= in the form T2 op= T1. */
 template <typename T1, typename T2=T1>
 struct MultiplyAndAssignOperator
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a *= static_cast<T2>(b);
@@ -359,18 +356,17 @@ struct MultiplyAndAssignOperator
       }
     T2 a;
     T1 b;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T to have operators / and /= in the form
-    T1 op T2 = T3. */
+/** Concept requiring T to have operators / and /= in the form T1 op T2 = T3. */
 template <typename T1, typename T2=T1, typename T3=T1>
 struct DivisionOperators
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a = static_cast<T3>(b / c);
@@ -385,7 +381,7 @@ struct DivisionOperators
     T3 a;
     T1 b;
     T2 c;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -396,7 +392,7 @@ template <typename T1, typename T2=T1, typename T3=T1>
 struct LogicalOperators
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a = static_cast<T3>(b & c);
@@ -419,18 +415,17 @@ struct LogicalOperators
     T3 a;
     T1 b;
     T2 c;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring T1 to have operators []  in the form 
-    T1 [] T2 = T3.  */
+/** Concept requiring T1 to have operators []  in the form T1 [] T2 = T3.  */
 template <typename T1, typename T2=T1, typename T3=T1>
 struct BracketOperator
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a = static_cast<T3>(b [ c ]);
@@ -443,7 +438,7 @@ struct BracketOperator
     T3 a;
     T1 b;
     T2 c;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -454,13 +449,13 @@ template <typename T>
 struct NotOperator
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
       a = !a;
       }
     T a;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -470,16 +465,16 @@ template <typename T>
 struct IncrementDecrementOperators
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
-        a++;
-        a--;
-        ++a;
-        --a;
+      a++;
+      a--;
+      ++a;
+      --a;
       }
     T a;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -489,13 +484,13 @@ template <typename T>
 struct OStreamWritable
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
-        std::cout << a;
+      std::cout << a;
       }
     T a;
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -507,15 +502,15 @@ struct Signed
   typedef Signed Self;
   itkStaticConstMacro(IsSigned, bool, NumericTraits<T>::is_signed);
   struct Constraints
-  {
+    {
     typedef Detail::UniqueType_bool<true> TrueT;
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsSigned)> SignedT;
     void constraints()
       {
-        SignedT a = TrueT();
-        Detail::IgnoreUnusedVariable(a);
+      SignedT a = TrueT();
+      Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -525,13 +520,13 @@ template <typename T1, typename T2>
 struct SameType
 {
   struct Constraints
-  {
+    {
     void constraints()
       {
-        Detail::UniqueType<T1> a = Detail::UniqueType<T2>();
-        Detail::IgnoreUnusedVariable(a);
+      Detail::UniqueType<T1> a = Detail::UniqueType<T2>();
+      Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   itkConceptConstraintsMacro();
 };
 
@@ -540,15 +535,15 @@ template <unsigned int D1, unsigned int D2>
 struct SameDimension
 {
   struct Constraints
-  {
+    {
     typedef Detail::UniqueType_unsigned_int<D1> DT1;
     typedef Detail::UniqueType_unsigned_int<D2> DT2;
     void constraints()
       {
-        DT1 a = DT2();
-        Detail::IgnoreUnusedVariable(a);
+      DT1 a = DT2();
+      Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   itkConceptConstraintsMacro();
 };
 
@@ -557,30 +552,30 @@ template <typename T>
 struct HasNumericTraits
 {
   struct Constraints
-  {
+    {
     void constraints()
       { 
-        typedef typename NumericTraits<T>::ValueType ValueType;
-        typedef typename NumericTraits<T>::PrintType PrintType;
-        typedef typename NumericTraits<T>::AbsType AbsType;
-        typedef typename NumericTraits<T>::AccumulateType AccumulateType;
-        typedef typename NumericTraits<T>::RealType RealType;
-        typedef typename NumericTraits<T>::ScalarRealType ScalarRealType;
-        typedef typename NumericTraits<T>::FloatType FloatType;
-        T a;
-        bool b;
-        a = NumericTraits<T>::Zero;
-        a = NumericTraits<T>::One;
-        a = NumericTraits<T>::NonpositiveMin();
-        a = NumericTraits<T>::ZeroValue();
-        b = NumericTraits<T>::IsPositive(a);
-        b = NumericTraits<T>::IsNonpositive(a);
-        b = NumericTraits<T>::IsNegative(a);
-        b = NumericTraits<T>::IsNonnegative(a);
-        Detail::IgnoreUnusedVariable(a);
-        Detail::IgnoreUnusedVariable(b);
+      typedef typename NumericTraits<T>::ValueType        ValueType;
+      typedef typename NumericTraits<T>::PrintType        PrintType;
+      typedef typename NumericTraits<T>::AbsType          AbsType;
+      typedef typename NumericTraits<T>::AccumulateType   AccumulateType;
+      typedef typename NumericTraits<T>::RealType         RealType;
+      typedef typename NumericTraits<T>::ScalarRealType   ScalarRealType;
+      typedef typename NumericTraits<T>::FloatType        FloatType;
+      T a;
+      bool b;
+      a = NumericTraits<T>::Zero;
+      a = NumericTraits<T>::One;
+      a = NumericTraits<T>::NonpositiveMin();
+      a = NumericTraits<T>::ZeroValue();
+      b = NumericTraits<T>::IsPositive(a);
+      b = NumericTraits<T>::IsNonpositive(a);
+      b = NumericTraits<T>::IsNegative(a);
+      b = NumericTraits<T>::IsNonnegative(a);
+      Detail::IgnoreUnusedVariable(a);
+      Detail::IgnoreUnusedVariable(b);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -590,14 +585,14 @@ template <typename T>
 struct HasPixelTraits
 {
   struct Constraints
-  {
+    {
     void constraints()
       { 
       typedef typename PixelTraits<T>::ValueType ValueType;
       unsigned int a = PixelTraits<T>::Dimension;
       Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -607,12 +602,12 @@ template <typename T>
 struct HasValueType
 {
   struct Constraints
-  {
+    {
     void constraints()
       { 
       typedef typename T::ValueType ValueType;
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -623,14 +618,14 @@ template <typename T>
 struct HasZero
 {
   struct Constraints
-  {
+    {
     void constraints()
       { 
       T a;
       a = NumericTraits<T>::Zero;
       Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
 
   itkConceptConstraintsMacro();
 };
@@ -640,12 +635,12 @@ template <typename T1, typename T2>
 struct HasJoinTraits
 {
   struct Constraints
-  {
+    {
     void constraints()
       { 
-        typedef typename JoinTraits<T1, T2>::ValueType ValueType;
+      typedef typename JoinTraits<T1, T2>::ValueType ValueType;
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -655,9 +650,9 @@ template <unsigned int D1, unsigned int D2>
 struct SameDimensionOrMinusOne
 {
   struct Constraints
-  {
-    typedef Detail::UniqueType_unsigned_int< D1 > Type1;
-    typedef Detail::UniqueType_unsigned_int< D1-1 > Type2;
+    {
+    typedef Detail::UniqueType_unsigned_int< D1 >       Type1;
+    typedef Detail::UniqueType_unsigned_int< D1-1 >     Type2;
 
     void f( Type1 ) {}
     void f( Type2, int = 0 ) {}
@@ -667,7 +662,7 @@ struct SameDimensionOrMinusOne
       Detail::UniqueType_unsigned_int< D2 > tt;
       this->f( tt );
       }
-  };
+    };
   itkConceptConstraintsMacro();
 };
 
@@ -678,15 +673,15 @@ struct IsInteger
   typedef IsInteger Self;
   itkStaticConstMacro(Integral, bool, NumericTraits<T>::is_integer);
   struct Constraints
-  {
+    {
     typedef Detail::UniqueType_bool<true> TrueT;
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(Integral)> IntegralT;
     void constraints()
       {
-        IntegralT a = TrueT();
-        Detail::IgnoreUnusedVariable(a);
+      IntegralT a = TrueT();
+      Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -698,15 +693,15 @@ struct IsNonInteger
   typedef IsNonInteger Self;
   itkStaticConstMacro(NonIntegral, bool, NumericTraits<T>::is_integer);
   struct Constraints
-  {
+    {
     typedef Detail::UniqueType_bool<false> FalseT;
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(NonIntegral)> NonIntegralT;
     void constraints()
       {
-        NonIntegralT a = FalseT();
-        Detail::IgnoreUnusedVariable(a);
+      NonIntegralT a = FalseT();
+      Detail::IgnoreUnusedVariable(a);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -719,18 +714,18 @@ struct IsFloatingPoint
   itkStaticConstMacro(Integral, bool, NumericTraits<T>::is_integer);
   itkStaticConstMacro(IsExact, bool, NumericTraits<T>::is_exact);
   struct Constraints
-  {
+    {
     typedef Detail::UniqueType_bool<false> FalseT;
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(Integral)> IntegralT;
     typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsExact)> ExactT;
     void constraints()
       {
-        IntegralT a = FalseT();
-        ExactT b = FalseT();
-        Detail::IgnoreUnusedVariable(a);
-        Detail::IgnoreUnusedVariable(b);
+      IntegralT a = FalseT();
+      ExactT b = FalseT();
+      Detail::IgnoreUnusedVariable(a);
+      Detail::IgnoreUnusedVariable(b);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };
@@ -743,19 +738,19 @@ struct IsFixedPoint
   itkStaticConstMacro(Integral, bool, NumericTraits<T>::is_integer);
   itkStaticConstMacro(IsExact, bool, NumericTraits<T>::is_exact);
   struct Constraints
-  {
-    typedef Detail::UniqueType_bool<true> TrueT;
-    typedef Detail::UniqueType_bool<false> FalseT;
-    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(Integral)> IntegralT;
-    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsExact)> ExactT;
+    {
+    typedef Detail::UniqueType_bool<true>                               TrueT;
+    typedef Detail::UniqueType_bool<false>                              FalseT;
+    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(Integral)>   IntegralT;
+    typedef Detail::UniqueType_bool<itkGetStaticConstMacro(IsExact)>    ExactT;
     void constraints()
       {
-        IntegralT a = FalseT();
-        ExactT b = TrueT();
-        Detail::IgnoreUnusedVariable(a);
-        Detail::IgnoreUnusedVariable(b);
+      IntegralT a = FalseT();
+      ExactT b = TrueT();
+      Detail::IgnoreUnusedVariable(a);
+      Detail::IgnoreUnusedVariable(b);
       }
-  };
+    };
   
   itkConceptConstraintsMacro();
 };

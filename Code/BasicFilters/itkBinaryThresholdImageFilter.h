@@ -38,9 +38,7 @@ namespace itk
  * \f[ Output(x_i) =
        \begin{cases}
          InsideValue & \text{if $LowerThreshold \leq x_i \leq UpperThreshold$} \     \
-         OutsideValue & \text{otherwise}
-       \end{cases}
-   \f]
+         OutsideValue & \text{otherwise} \end{cases} \f]
  * 
  * This filter is templated over the input image type
  * and the output image type.
