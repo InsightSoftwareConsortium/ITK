@@ -81,9 +81,6 @@ void
 VTKPolyDataWriter<TInputMesh>
 ::GenerateData()
 {
- // FIXME this->m_Input->SetCellsAllocationMethod(
- // FIXME      InputMeshType::CellsAllocatedDynamicallyCellByCell );
-
   if( this->m_FileName == "" )
     {
     itkExceptionMacro("No FileName");
