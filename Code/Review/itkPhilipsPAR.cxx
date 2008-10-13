@@ -2540,7 +2540,7 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   if( index != std::string::npos )
     {
     struct image_info_defV41 tempInfo;
-    PARDiffusionValues direction(0.0);
+    int gradientOrientationNumber = -1;
     int lineIncrement = 99;
 
     if( !ReadPAR(parFile, &tempPar) )
@@ -2560,20 +2560,19 @@ bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
     while( !tempInfo.problemreading && tempInfo.slice
       && (gradientDirectionCount < tempPar.max_num_grad_orient) )
       {
-      PARDiffusionValues tempDirection;
-      tempDirection[0] = tempInfo.diffusion_ap;
-      tempDirection[1] = tempInfo.diffusion_fh;
-      tempDirection[2] = tempInfo.diffusion_rl;
-      if( tempDirection != direction )
+      int tempGradientOrientationNumber = tempInfo.gradient_orientation_number;
+      if( gradientOrientationNumber != tempGradientOrientationNumber )
         {
+        PARDiffusionValues direction;
         direction[0] = tempInfo.diffusion_ap;
         direction[1] = tempInfo.diffusion_fh;
         direction[2] = tempInfo.diffusion_rl;
         (*gradientValues)[gradientDirectionCount] = direction;
         (*bValues)[gradientDirectionCount] = tempInfo.diffusion_b_factor;
+        ++gradientDirectionCount;
+        gradientOrientationNumber = tempGradientOrientationNumber;
         }
       ++lineIncrement;
-      ++gradientDirectionCount;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement);
       }
     }
