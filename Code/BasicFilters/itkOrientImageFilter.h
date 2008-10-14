@@ -87,7 +87,7 @@ namespace itk {
  * #include "itkOrientImageFilter.h"
  * #include "itkIOCommon.h"
  * typedef itk::Image<unsigned char,3> ImageType;
- * typedef itk::ImageFileReader< TstImageType > ImageReaderType ;
+ * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)
  * {
  *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
@@ -119,7 +119,7 @@ namespace itk {
  * #include "itkImage.h"
  * #include "itkOrientImageFilter.h"
  * typedef itk::Image<unsigned char,3> ImageType;
- * typedef itk::ImageFileReader< TstImageType > ImageReaderType ;
+ * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)
  * {
  *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
@@ -146,31 +146,31 @@ class ITK_EXPORT OrientImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef OrientImageFilter Self;
+  typedef OrientImageFilter         Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
-  Superclass;
+                                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
   typedef typename InputImageType::RegionType      InputImageRegionType;
   typedef typename InputImageType::PixelType       InputImagePixelType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename OutputImageType::Pointer        OutputImagePointer;
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
   typedef typename OutputImageType::PixelType      OutputImagePixelType;
   typedef SpatialOrientation::ValidCoordinateOrientationFlags
-  CoordinateOrientationCode;
+                                                   CoordinateOrientationCode;
   /** Axes permuter type. */
-  typedef PermuteAxesImageFilter< TInputImage > PermuterType;
+  typedef PermuteAxesImageFilter< TInputImage >        PermuterType;
   typedef typename PermuterType::PermuteOrderArrayType PermuteOrderArrayType;
 
   /** Axes flipper type. */
-  typedef FlipImageFilter< TInputImage > FlipperType;
+  typedef FlipImageFilter< TInputImage >           FlipperType;
   typedef typename FlipperType::FlipAxesArrayType  FlipAxesArrayType;
 
   
@@ -273,7 +273,7 @@ protected:
   /** OrientImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion();
 
   /** OrientImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
@@ -306,7 +306,7 @@ private:
   std::map<std::string,CoordinateOrientationCode> m_StringToCode;
   std::map<CoordinateOrientationCode,std::string> m_CodeToString;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
 
@@ -315,5 +315,3 @@ private:
 #endif
 
 #endif
-
-

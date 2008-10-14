@@ -158,8 +158,8 @@ OrientImageFilter<TInputImage, TOutputImage>
     }
 
 
-  typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;
-  typedef FlipImageFilter < InputImageType > FlipFilterType;
+  typedef PermuteAxesImageFilter< InputImageType >            PermuteFilterType;
+  typedef FlipImageFilter < InputImageType >                  FlipFilterType;
   typedef CastImageFilter < InputImageType, OutputImageType > CastToOutputFilterType;
 
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
@@ -500,8 +500,8 @@ OrientImageFilter<TInputImage, TOutputImage>
   // No need to allocate the output since the minipipeline does it
   // this->AllocateOutputs();
 
-  typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;
-  typedef FlipImageFilter < InputImageType > FlipFilterType;
+  typedef PermuteAxesImageFilter< InputImageType >            PermuteFilterType;
+  typedef FlipImageFilter < InputImageType >                  FlipFilterType;
   typedef CastImageFilter < InputImageType, OutputImageType > CastToOutputFilterType;
 
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
@@ -519,10 +519,8 @@ OrientImageFilter<TInputImage, TOutputImage>
   // Only run those filters that will do something
   if (NeedToPermute())
     {
-    DEBUG_EXECUTE(
-                  DumpDirections<TInputImage>("before permute",permuteInput);
-                  )
-      permute->SetInput(permuteInput);
+    DEBUG_EXECUTE( DumpDirections<TInputImage>("before permute",permuteInput);)
+    permute->SetInput(permuteInput);
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
     DEBUG_EXECUTE(
@@ -534,7 +532,7 @@ OrientImageFilter<TInputImage, TOutputImage>
                   std::cerr << std::endl;
                   permute->Update();
                   DumpDirections<TInputImage>("after permute",permute->GetOutput());
-                  )    
+                  )
       flipInput = permute->GetOutput();
     castInput = permute->GetOutput();
     }
@@ -557,7 +555,7 @@ OrientImageFilter<TInputImage, TOutputImage>
                   std::cerr << std::endl;
                   flip->Update();
                   DumpDirections<TInputImage>("after flip",flip->GetOutput());
-                  )    
+                  )
       castInput = flip->GetOutput();
     }
   else
@@ -661,8 +659,8 @@ OrientImageFilter<TInputImage,TOutputImage>
       (SpatialOrientationAdapter().FromDirectionCosines(inputPtr->GetDirection()));
     }
 
-  typedef PermuteAxesImageFilter< InputImageType >  PermuteFilterType;
-  typedef FlipImageFilter < InputImageType > FlipFilterType;
+  typedef PermuteAxesImageFilter< InputImageType >            PermuteFilterType;
+  typedef FlipImageFilter < InputImageType >                  FlipFilterType;
   typedef CastImageFilter < InputImageType, OutputImageType > CastToOutputFilterType;
 
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();

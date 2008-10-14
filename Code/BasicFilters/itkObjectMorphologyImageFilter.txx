@@ -105,8 +105,6 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
 }
 
-
-
 template<class TInputImage, class TOutputImage, class TKernel>
 void
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
@@ -126,7 +124,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   oRegIter.GoToBegin();
   while(!oRegIter.IsAtEnd())
     {
-    if(oRegIter.Get()!=m_ObjectValue)
+    if(oRegIter.Get() != m_ObjectValue)
       {
        oRegIter.Set(iRegIter.Get());
       }
@@ -172,7 +170,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
         {
         if(this->IsObjectPixelOnBoundary(iSNIter))
           {
-          this->Evaluate(oSNIter, m_Kernel);    
+          this->Evaluate(oSNIter, m_Kernel);
           }
         }
       ++iSNIter;
