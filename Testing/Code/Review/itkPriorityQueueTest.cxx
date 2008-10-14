@@ -80,15 +80,15 @@ int itkPriorityQueueTest( int argc, char* argv[] )
     }
   std::cout <<"OK" <<std::endl;
 
-  std::list< double >::const_reverse_iterator r_it = sequence.rbegin();
+  it--;
   i = sequence.size();
 
   std::cout <<"Max Priority Queue   ";
   while( !max_priority_queue->Empty() )
     {
-    if( max_priority_queue->Peek().m_Priority != *r_it )
+    if( max_priority_queue->Peek().m_Priority != *it )
       {
-      std::cout <<max_priority_queue->Peek().m_Priority <<" " <<*r_it <<std::endl;
+      std::cout <<max_priority_queue->Peek().m_Priority <<" " <<*it <<std::endl;
       return EXIT_FAILURE;
       }
     if( max_priority_queue->Size() != i )
@@ -97,7 +97,7 @@ int itkPriorityQueueTest( int argc, char* argv[] )
       return EXIT_FAILURE;
       }
     max_priority_queue->Pop();
-    r_it++;
+    it--;
     i--;
     }
   std::cout <<"OK" <<std::endl;
