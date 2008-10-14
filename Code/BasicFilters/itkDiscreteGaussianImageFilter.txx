@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDiscreteGaussianImageFilter_txx
-#define _itkDiscreteGaussianImageFilter_txx
+#ifndef __itkDiscreteGaussianImageFilter_txx
+#define __itkDiscreteGaussianImageFilter_txx
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkGaussianOperator.h"
@@ -152,7 +152,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   
   // Type of the pixel to use for intermediate results
   typedef typename NumericTraits<OutputPixelType>::RealType RealOutputPixelType;
-  typedef Image<OutputPixelType, ImageDimension> RealOutputImageType;
+  typedef Image<OutputPixelType, ImageDimension>            RealOutputImageType;
   
   // Type definition for the internal neighborhood filter
   //
@@ -171,11 +171,11 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   typedef StreamingImageFilter<OutputImageType, OutputImageType>
     StreamingFilterType;
   
-  typedef typename FirstFilterType::Pointer FirstFilterPointer;
+  typedef typename FirstFilterType::Pointer        FirstFilterPointer;
   typedef typename IntermediateFilterType::Pointer IntermediateFilterPointer;
-  typedef typename LastFilterType::Pointer LastFilterPointer;
-  typedef typename SingleFilterType::Pointer SingleFilterPointer;
-  typedef typename StreamingFilterType::Pointer StreamingFilterPointer;
+  typedef typename LastFilterType::Pointer         LastFilterPointer;
+  typedef typename SingleFilterType::Pointer       SingleFilterPointer;
+  typedef typename StreamingFilterType::Pointer    StreamingFilterPointer;
 
   // Create a series of operators
   typedef GaussianOperator<RealOutputPixelType, ImageDimension> OperatorType;

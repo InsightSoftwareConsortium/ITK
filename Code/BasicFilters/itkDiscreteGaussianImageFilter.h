@@ -58,10 +58,10 @@ class ITK_EXPORT DiscreteGaussianImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef DiscreteGaussianImageFilter Self;
+  typedef DiscreteGaussianImageFilter                     Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,10 +75,10 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename TInputImage::PixelType          InputPixelType;
+  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -92,7 +92,8 @@ public:
    * independently for each dimension, but 
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
-   * of your image.  If UseImageSpacing is false then the units are pixels.*/
+   * of your image.  If UseImageSpacing is false then the units are
+   * pixels. */
   itkSetMacro(Variance, ArrayType);
   itkGetMacro(Variance, const ArrayType);
 
@@ -119,64 +120,64 @@ public:
    *  to the same values. */
   void SetVariance (const typename ArrayType::ValueType v)
     {
-      m_Variance.Fill(v);
+    m_Variance.Fill(v);
     }
 
   void SetMaximumError (const typename ArrayType::ValueType v)
     {
-      m_MaximumError.Fill(v);
+    m_MaximumError.Fill(v);
     }
 
   void SetVariance (const double *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetVariance(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetVariance(dv);
     }
 
   void SetVariance (const float *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetVariance(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetVariance(dv);
     }
 
   void SetMaximumError (const double *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetMaximumError(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetMaximumError(dv);
     }
 
   void SetMaximumError (const float *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetMaximumError(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetMaximumError(dv);
     }
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *   ImageSpacingOn. */
   void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+    { this->SetUseImageSpacing(true); }
   
   /** Ignore the image spacing. Use this option if you want to specify Gaussian
       variance in pixels.  Default is ImageSpacingOn. */
   void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+    { this->SetUseImageSpacing(false); }
   
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -200,13 +201,13 @@ public:
 
 protected:
   DiscreteGaussianImageFilter()
-  {
+    {
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
-  }
+    }
   virtual ~DiscreteGaussianImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkExtractOrthogonalSwath2DImageFilter_txx
-#define _itkExtractOrthogonalSwath2DImageFilter_txx
+#ifndef __itkExtractOrthogonalSwath2DImageFilter_txx
+#define __itkExtractOrthogonalSwath2DImageFilter_txx
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -169,13 +169,14 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
   // support progress methods/callbacks
   ProgressReporter progress(this, 0,  outputRegion.GetNumberOfPixels() );
   
-  typedef ImageRegionIteratorWithIndex<ImageType> OutputIterator;
+  typedef ImageRegionIteratorWithIndex<ImageType>          OutputIterator;
   typedef LinearInterpolateImageFunction<ImageType,double> InterpolatorType;
-  ImageIndexType                        index;                     
-  double                                orthogonalOffset;          
-  PathInputType                         pathInput;                 
-  PathContinuousIndexType               continousIndex;            
-  PathVectorType                        pathDerivative;              
+
+  ImageIndexType                        index;
+  double                                orthogonalOffset;
+  PathInputType                         pathInput;
+  PathContinuousIndexType               continousIndex;
+  PathVectorType                        pathDerivative;
   typename InterpolatorType::Pointer    interpolator = InterpolatorType::New();
   interpolator->SetInputImage( inputImagePtr );
   

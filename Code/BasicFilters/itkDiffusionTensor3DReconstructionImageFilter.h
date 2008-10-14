@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkDiffusionTensor3DReconstructionImageFilter_h_
-#define __itkDiffusionTensor3DReconstructionImageFilter_h_
+#ifndef __itkDiffusionTensor3DReconstructionImageFilter_h
+#define __itkDiffusionTensor3DReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkDiffusionTensor3D.h"
@@ -26,7 +26,7 @@
 #include "itkVectorContainer.h"
 #include "itkVectorImage.h"
 
-namespace itk{
+namespace itk {
 /** \class DiffusionTensor3DReconstructionImageFilter
  * \brief This class takes as input one or more reference image (acquired in the 
  * absence of diffusion sensitizing gradients) and 'n' diffusion
@@ -126,12 +126,12 @@ class ITK_EXPORT DiffusionTensor3DReconstructionImageFilter :
 
 public:
 
-  typedef DiffusionTensor3DReconstructionImageFilter Self;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  typedef DiffusionTensor3DReconstructionImageFilter  Self;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
   typedef ImageToImageFilter< Image< TReferenceImagePixelType, 3>, 
           Image< DiffusionTensor3D< TTensorPixelType >, 3 > >
-                          Superclass;
+                                                      Superclass;
   
    /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -163,7 +163,7 @@ public:
   /** An alternative typedef defining one (of the many) gradient images. 
    * It will be assumed that the vectorImage has the same dimension as the 
    * Reference image and a vector length parameter of \c n (number of
-   * gradient directions)*/
+   * gradient directions) */
   typedef VectorImage< GradientPixelType, 3 >      GradientImagesType;
 
   /** Holds the tensor basis coefficients G_k */
@@ -187,7 +187,7 @@ public:
    * gradient directions in a container. The ith element of the container 
    * corresponds to the gradient direction of the ith component image the 
    * VectorImage.  For the baseline image, a vector of all zeros
-   * should be set.*/
+   * should be set. */
   void SetGradientImage( GradientDirectionContainerType *, 
                                              const GradientImagesType *image);
   
@@ -311,4 +311,3 @@ private:
 #endif
 
 #endif
-

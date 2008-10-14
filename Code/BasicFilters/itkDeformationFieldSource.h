@@ -55,7 +55,7 @@ public:
   typedef SmartPointer<Self>             Pointer;
   typedef SmartPointer<const Self>       ConstPointer;
   
-  typedef TOutputImage OutputImageType;
+  typedef TOutputImage                          OutputImageType;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
 

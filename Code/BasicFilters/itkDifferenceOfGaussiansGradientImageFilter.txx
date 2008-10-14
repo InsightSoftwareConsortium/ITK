@@ -78,7 +78,7 @@ DifferenceOfGaussiansGradientImageFilter< TInputImage, TDataType >
   typename TOutputImage::IndexType lowerIndex;
 
   // walk the output image, and sample the input image
-  for ( ; !outIt.IsAtEnd(); ++outIt)
+  for (; !outIt.IsAtEnd(); ++outIt)
     {
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();

@@ -29,8 +29,8 @@ namespace ImageToImageFilterDetail
 {
  
 /**
-   *  Call the base class version: ImageToImageFilterDefaultCopyRegion
-   */
+ *  Call the base class version: ImageToImageFilterDefaultCopyRegion
+ */
 template <unsigned int D1, unsigned int D2>
 void ExtractImageFilterCopyRegion(const typename
                                   BinaryUnsignedIntDispatch<D1, D2>::FirstEqualsSecondType &firstEqualsSecond,
@@ -44,8 +44,8 @@ void ExtractImageFilterCopyRegion(const typename
   
 
 /**
-   *  Call the base class version: ImageToImageFilterDefaultCopyRegion
-   */
+ *  Call the base class version: ImageToImageFilterDefaultCopyRegion
+ */
 template <unsigned int D1, unsigned int D2>
 void ExtractImageFilterCopyRegion(const typename
                                   BinaryUnsignedIntDispatch<D1, D2>::FirstLessThanSecondType &firstLessThanSecond,
@@ -59,21 +59,21 @@ void ExtractImageFilterCopyRegion(const typename
 
 
 /**
-   * Copy an image region (start index and size) for the case where
-   * the source region has a lesser dimension than the destination
-   * region.  This version is "smart" in that it looks at what 
-   * dimensions should be collapsed.  This information is passed in
-   * the parameter totalInputExtractionRegion.  Any values within
-   * totalInputExtractionRegion.Size that are zero correspond to the 
-   * dimension to be collapsed.
-   *
-   * Note that the use of source and destination reflect where
-   * where is information is coming from and going to.  When used
-   * in the pipeline mechanism, the region requested by the output
-   * of a filter is used to define the region required on the input.
-   * In this case the output of the filter is the source and the
-   * input of the filter is the destination.
-   */
+ * Copy an image region (start index and size) for the case where
+ * the source region has a lesser dimension than the destination
+ * region.  This version is "smart" in that it looks at what 
+ * dimensions should be collapsed.  This information is passed in
+ * the parameter totalInputExtractionRegion.  Any values within
+ * totalInputExtractionRegion.Size that are zero correspond to the 
+ * dimension to be collapsed.
+ *
+ * Note that the use of source and destination reflect where
+ * where is information is coming from and going to.  When used
+ * in the pipeline mechanism, the region requested by the output
+ * of a filter is used to define the region required on the input.
+ * In this case the output of the filter is the source and the
+ * input of the filter is the destination.
+ */
 template <unsigned int D1, unsigned int D2>
 void ExtractImageFilterCopyRegion(const typename
                                   BinaryUnsignedIntDispatch<D1, D2>::FirstGreaterThanSecondType &,
@@ -110,9 +110,7 @@ void ExtractImageFilterCopyRegion(const typename
   destRegion.SetSize(destSize);
 }
 
-
-
-/**
+/** \class ExtractImageFilterRegionCopier
    *  ExtractImageFilterRegionCopier is a special variation on ImageRegionCopier.
    *  The difference in this version is when the D1 > D2.  In this case, the 
    *  output image has fewer dimension than the input image.  This only works correctly
@@ -146,12 +144,10 @@ public:
   /** Duplicate the superclass method to avoid warnings. */
   virtual void operator() (ImageRegion<D1> &destRegion,
                            const ImageRegion<D2> &srcRegion) const
-  {
+    {
     ImageRegionCopier<D1,D2>::operator()(destRegion, srcRegion);
-  }
+    }
 };
-
-
 
 } //end namespace ImageToImageFilterDetail
 } //end namespace itk

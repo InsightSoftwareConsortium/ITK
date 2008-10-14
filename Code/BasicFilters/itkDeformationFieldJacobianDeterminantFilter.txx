@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDeformationFieldJacobianDeterminantFilter_txx
-#define _itkDeformationFieldJacobianDeterminantFilter_txx
+#ifndef __itkDeformationFieldJacobianDeterminantFilter_txx
+#define __itkDeformationFieldJacobianDeterminantFilter_txx
 
 #include "itkDeformationFieldJacobianDeterminantFilter.h"
 

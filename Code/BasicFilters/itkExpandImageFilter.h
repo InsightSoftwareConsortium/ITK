@@ -68,19 +68,16 @@ namespace itk
  *
  * \ingroup GeometricTransform
  */
-template <
-  class TInputImage, 
-  class TOutputImage 
-  >
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ExpandImageFilter:
     public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ExpandImageFilter         Self;
+  typedef ExpandImageFilter                             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -99,16 +96,16 @@ public:
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef typename OutputImageType::Pointer  OutputImagePointer;
+  typedef typename InputImageType::Pointer     InputImagePointer;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
 
   /** Typedef support for the interpolation function. */
-  typedef double CoordRepType;
+  typedef double                             CoordRepType;
   typedef InterpolateImageFunction<InputImageType,CoordRepType> 
-  InterpolatorType;
+                                             InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef LinearInterpolateImageFunction<InputImageType,CoordRepType> 
-  DefaultInterpolatorType;
+                                             DefaultInterpolatorType;
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );

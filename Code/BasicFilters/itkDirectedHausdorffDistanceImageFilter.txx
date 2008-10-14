@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDirectedHausdorffDistanceImageFilter_txx
-#define _itkDirectedHausdorffDistanceImageFilter_txx
+#ifndef __itkDirectedHausdorffDistanceImageFilter_txx
+#define __itkDirectedHausdorffDistanceImageFilter_txx
 #include "itkDirectedHausdorffDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -36,8 +36,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   this->SetNumberOfRequiredInputs( 2 );
 
   m_DistanceMap = NULL;
-  m_DirectedHausdorffDistance = NumericTraits<RealType>::Zero;      
-  m_AverageHausdorffDistance = NumericTraits<RealType>::Zero;      
+  m_DirectedHausdorffDistance = NumericTraits<RealType>::Zero;
+  m_AverageHausdorffDistance = NumericTraits<RealType>::Zero;
 }
 
 
@@ -46,7 +46,7 @@ void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::SetInput2( const TInputImage2 * image )
 {
-  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );      
+  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );
 }
 
 
@@ -59,8 +59,6 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   return static_cast< const TInputImage2 * >
     (this->ProcessObject::GetInput(1));
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void
@@ -173,8 +171,6 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   m_DistanceMap = NULL;
 
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void

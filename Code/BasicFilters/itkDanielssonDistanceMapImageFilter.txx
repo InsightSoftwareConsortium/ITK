@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDanielssonDistanceMapImageFilter_txx
-#define _itkDanielssonDistanceMapImageFilter_txx
+#ifndef __itkDanielssonDistanceMapImageFilter_txx
+#define __itkDanielssonDistanceMapImageFilter_txx
 
 #include <iostream>
 
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 
 /**
  *    Constructor
@@ -51,8 +50,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   m_UseImageSpacing     = false;
 }
 
-
-
 /**
  *  Return the distance map Image pointer
  */
@@ -65,10 +62,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   return  dynamic_cast< OutputImageType * >(
     this->ProcessObject::GetOutput(0) );
 }
-
-
-
-
 
 /**
  *  Return Closest Points Map
@@ -83,11 +76,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     this->ProcessObject::GetOutput(1) );
 }
 
-
-
-
-
-
 /**
  *  Return the distance vectors
  */
@@ -100,11 +88,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   return  dynamic_cast< VectorImageType * >(
     this->ProcessObject::GetOutput(2) );
 }
-
-
-
-
-
 
 /**
  *  Prepare data for computation
@@ -159,8 +142,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       maxLength = size[ dim ];
       }
     }
-
-
 
   ImageRegionConstIteratorWithIndex< TInputImage >  it( inputImage,  region );
   ImageRegionIteratorWithIndex< TOutputImage > ot( voronoiMap,  region );
@@ -237,11 +218,8 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
     ++ot;
     ++ct;
     }
-  itkDebugMacro(<< "PrepareData End");    
+  itkDebugMacro(<< "PrepareData End");
 }
-
-
-
 
 /**
  *  Post processing for computing the Voronoi Map
@@ -340,8 +318,8 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage>
       v2 *= spacingComponent;
       }
 
-    norm1 +=  v1 * v1;
-    norm2 +=  v2 * v2;
+    norm1 += v1 * v1;
+    norm2 += v2 * v2;
     }
   
   if( norm1 > norm2 ) 
@@ -450,9 +428,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 
 } // end GenerateData()
 
-
-
-
 /**
  *  Print Self
  */
@@ -469,8 +444,6 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   os << indent << "Squared Distance  : " << m_SquaredDistance << std::endl;
 
 }
-
-
 
 } // end namespace itk
 

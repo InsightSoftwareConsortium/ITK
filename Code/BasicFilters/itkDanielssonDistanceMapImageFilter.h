@@ -24,36 +24,36 @@ namespace itk
 {
 
 /** \class DanielssonDistanceMapImageFilter
-*
-* This class is parametrized over the type of the input image
-* and the type of the output image.
-*
-* This filter computes the distance map of the input image 
-* as an approximation with pixel accuracy to the Euclidean distance.
-*
-* The input is assumed to contain numeric codes defining objects.
-* The filter will produce as output the following images:
-*
-* - A voronoi partition using the same numeric codes as the input.
-* - A distance map with the approximation to the euclidean distance.
-*   from a particular pixel to the nearest object to this pixel
-*   in the input image.
-* - A vector map containing the component of the vector relating
-*   the current pixel with the closest point of the closest object
-*   to this pixel. Given that the components of the distance are
-*   computed in "pixels", the vector is represented by an
-*   itk::Offset.  That is, physical coordinates are not used.
-*
-* This filter is N-dimensional and known to be efficient
-* in computational time.  The algorithm is the N-dimensional version
-* of the 4SED algorithm given for two dimensions in:
-* 
-* Danielsson, Per-Erik.  Euclidean Distance Mapping.  Computer
-* Graphics and Image Processing 14, 227-248 (1980).
-*
-* \ingroup ImageFeatureExtraction 
-*
-*/
+ *
+ * This class is parametrized over the type of the input image
+ * and the type of the output image.
+ *
+ * This filter computes the distance map of the input image 
+ * as an approximation with pixel accuracy to the Euclidean distance.
+ *
+ * The input is assumed to contain numeric codes defining objects.
+ * The filter will produce as output the following images:
+ *
+ * - A voronoi partition using the same numeric codes as the input.
+ * - A distance map with the approximation to the euclidean distance.
+ *   from a particular pixel to the nearest object to this pixel
+ *   in the input image.
+ * - A vector map containing the component of the vector relating
+ *   the current pixel with the closest point of the closest object
+ *   to this pixel. Given that the components of the distance are
+ *   computed in "pixels", the vector is represented by an
+ *   itk::Offset.  That is, physical coordinates are not used.
+ *
+ * This filter is N-dimensional and known to be efficient
+ * in computational time.  The algorithm is the N-dimensional version
+ * of the 4SED algorithm given for two dimensions in:
+ * 
+ * Danielsson, Per-Erik.  Euclidean Distance Mapping.  Computer
+ * Graphics and Image Processing 14, 227-248 (1980).
+ *
+ * \ingroup ImageFeatureExtraction 
+ *
+ */
 
 template <class TInputImage,class TOutputImage>
 class ITK_EXPORT DanielssonDistanceMapImageFilter :
@@ -61,10 +61,10 @@ class ITK_EXPORT DanielssonDistanceMapImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef DanielssonDistanceMapImageFilter    Self;
+  typedef DanielssonDistanceMapImageFilter             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

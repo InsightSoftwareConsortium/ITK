@@ -68,10 +68,10 @@ public:
   typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef NeighborhoodIterator<TOutputImage> OutputNeighborhoodIteratorType ;
+  typedef NeighborhoodIterator<TOutputImage> OutputNeighborhoodIteratorType;
 
   typedef typename Superclass::DefaultBoundaryConditionType 
-                                             DefaultBoundaryConditionType ;
+                                             DefaultBoundaryConditionType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -101,7 +101,7 @@ private:
   DefaultBoundaryConditionType m_DilateBoundaryCondition;
 
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
@@ -110,5 +110,3 @@ private:
 #endif
 
 #endif
-
-

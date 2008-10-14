@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkExtractImageFilter_txx
-#define _itkExtractImageFilter_txx
+#ifndef __itkExtractImageFilter_txx
+#define __itkExtractImageFilter_txx
 
 #include "itkExtractImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -79,12 +79,12 @@ ExtractImageFilter<TInputImage,TOutputImage>
   /**
    * check to see if the number of non-zero entries in the extraction region
    * matches the number of dimensions in the output image.  
-   **/
+   */
   for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
     if (inputSize[i])
       { 
-      outputSize[nonzeroSizeCount] = inputSize[i];    
+      outputSize[nonzeroSizeCount] = inputSize[i];
       outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
       nonzeroSizeCount++;
       }
@@ -99,8 +99,6 @@ ExtractImageFilter<TInputImage,TOutputImage>
   m_OutputImageRegion.SetIndex(outputIndex);
   this->Modified();
 }
-
-
 
 /** 
  * ExtractImageFilter can produce an image which is a different resolution
@@ -223,17 +221,17 @@ ExtractImageFilter<TInputImage,TOutputImage>
 }
 
 /** 
-   * ExtractImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
-   * routine which is called for each processing thread. The output
-   * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
-   * write to the portion of the output image specified by the
-   * parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() 
-   */
+ * ExtractImageFilter can be implemented as a multithreaded filter.
+ * Therefore, this implementation provides a ThreadedGenerateData()
+ * routine which is called for each processing thread. The output
+ * image data is allocated automatically by the superclass prior to
+ * calling ThreadedGenerateData().  ThreadedGenerateData can only
+ * write to the portion of the output image specified by the
+ * parameter "outputRegionForThread"
+ *
+ * \sa ImageToImageFilter::ThreadedGenerateData(),
+ *     ImageToImageFilter::GenerateData() 
+ */
 template <class TInputImage, class TOutputImage>
 void 
 ExtractImageFilter<TInputImage,TOutputImage>
@@ -254,7 +252,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
   
   // Define the iterators.
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionIterator<TOutputImage>     OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkExpandImageFilter_txx
-#define _itkExpandImageFilter_txx
+#ifndef __itkExpandImageFilter_txx
+#define __itkExpandImageFilter_txx
 
 #include "itkExpandImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -65,7 +65,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
   Superclass::PrintSelf( os, indent );
 
   unsigned int j;
-  os << indent << "ExpandFactors: [" ;
+  os << indent << "ExpandFactors: [";
   for( j = 0; j < ImageDimension - 1; j++ )
     {
     os << m_ExpandFactors[j] << ", ";
@@ -175,8 +175,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Iterator for walking the output
-  typedef
-    ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
+  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
 
   OutputIterator outIt( outputPtr, outputRegionForThread );
 

@@ -81,9 +81,11 @@ class ITK_EXPORT DeformationFieldJacobianDeterminantFilter :
 public:
   /** Standard class typedefs. */
   typedef DeformationFieldJacobianDeterminantFilter Self;
-  typedef DisplacementFieldJacobianDeterminantFilter<TInputImage,TRealType,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DisplacementFieldJacobianDeterminantFilter<
+    TInputImage,TRealType,TOutputImage>
+                                                    Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -97,8 +99,8 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
 
   /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                       InputImageType;
+  typedef TOutputImage                      OutputImageType;
   typedef typename InputImageType::Pointer  InputImagePointer;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
@@ -112,9 +114,12 @@ public:
 
   /** Define the data type and the vector of data type used in calculations. */
   typedef TRealType RealType;
-  typedef Vector<TRealType, ::itk::GetVectorDimension<InputPixelType>::VectorDimension> RealVectorType;
-  typedef Image<RealVectorType, ::itk::GetImageDimension<TInputImage>::ImageDimension>  RealVectorImageType;
-
+  typedef Vector<
+    TRealType, ::itk::GetVectorDimension<InputPixelType>::VectorDimension>
+                    RealVectorType;
+  typedef Image<
+    RealVectorType, ::itk::GetImageDimension<TInputImage>::ImageDimension>
+                    RealVectorImageType;
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */

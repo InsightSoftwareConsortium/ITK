@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkEigenAnalysis2DImageFilter_txx
-#define _itkEigenAnalysis2DImageFilter_txx
+#ifndef __itkEigenAnalysis2DImageFilter_txx
+#define __itkEigenAnalysis2DImageFilter_txx
 
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -41,8 +41,6 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
   this->SetNthOutput( 2, this->MakeOutput( 2 ) );
   
 }
-
-
 
 /**
  * Connect one the image containing the [0,0] elements of the input matrix
@@ -125,7 +123,9 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
     }
   else
     {
-    itkWarningMacro(<<"EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being attempted." << std::endl << "Type name is: " << typeid( *this->GetOutput( 2 )).name());
+    itkWarningMacro(<<"EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being attempted."
+                    << std::endl << "Type name is: "
+                    << typeid( *this->GetOutput( 2 )).name());
     return  reinterpret_cast<EigenVectorImageType *>(
       this->ProcessObject::GetOutput( 2 ) );
     }
@@ -259,4 +259,3 @@ EigenAnalysis2DImageFilter<TInputImage,TEigenValueImage,TEigenVectorImage>
 } // end namespace itk
 
 #endif
-

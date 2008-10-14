@@ -45,10 +45,10 @@ class ITK_EXPORT EigenAnalysis2DImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef EigenAnalysis2DImageFilter  Self;
+  typedef EigenAnalysis2DImageFilter                       Self;
   typedef ImageToImageFilter<TInputImage,TEigenValueImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
   
   /** Run-time type information (and related methods).   */
   itkTypeMacro( EigenAnalysis2DImageFilter, ImageToImageFilter );
@@ -58,13 +58,13 @@ public:
 
   /** Typedef for the vector type representing the eigen vectors */
   typedef typename TEigenVectorImage::PixelType     EigenVectorType;
-  typedef typename EigenVectorType::ValueType   VectorComponentType;
+  typedef typename EigenVectorType::ValueType       VectorComponentType;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Some convenient typedefs. */
-  typedef TEigenValueImage EigenValueImageType;
+  typedef TEigenValueImage                          EigenValueImageType;
   typedef typename EigenValueImageType::Pointer     EigenValueImagePointer;
   typedef typename EigenValueImageType::RegionType  EigenValueImageRegionType; 
   typedef typename EigenValueImageType::PixelType   EigenValueImagePixelType; 
@@ -130,7 +130,3 @@ private:
 #endif
 
 #endif
-
-
-
-

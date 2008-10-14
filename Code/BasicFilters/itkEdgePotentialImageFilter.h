@@ -42,17 +42,17 @@ public:
   EdgePotential() {};
   ~EdgePotential() {};
   bool operator!=( const EdgePotential & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const EdgePotential & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( vcl_exp(-1.0 * A.GetNorm() ) );
-  }
+    }
 };
 }
 
@@ -71,8 +71,8 @@ public:
                                   Functor::EdgePotential< 
     typename TInputImage::PixelType, 
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  >                                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

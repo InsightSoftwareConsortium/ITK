@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDerivativeImageFilter_txx
-#define _itkDerivativeImageFilter_txx
+#ifndef __itkDerivativeImageFilter_txx
+#define __itkDerivativeImageFilter_txx
 #include "itkDerivativeImageFilter.h"
 
 #include "itkNumericTraits.h"
