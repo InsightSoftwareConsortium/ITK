@@ -97,6 +97,10 @@ int itkPriorityQueueTest( int argc, char* argv[] )
       return EXIT_FAILURE;
       }
     max_priority_queue->Pop();
+    if (max_priority_queue->Empty())
+      {
+      break;
+      }
     it--;
     i--;
     }
