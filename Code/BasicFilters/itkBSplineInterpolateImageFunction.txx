@@ -167,25 +167,6 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
     }
     
-/*  double interpolated = 0.0;
-  IndexType coefficientIndex;
-  // Step through eachpoint in the N-dimensional interpolation cube.
-  for (unsigned int sp = 0; sp <= m_SplineOrder; sp++)
-    {
-    for (unsigned int sp1=0; sp1 <= m_SplineOrder; sp1++)
-      {
-
-      double w = 1.0;
-      for (unsigned int n1 = 0; n1 < ImageDimension; n1++ )
-        {
-        w *= weights[n1][ sp1 ];
-        coefficientIndex[n1] = EvaluateIndex[n1][sp];  // Build up ND index for coefficients.
-        }
-
-        interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
-      }  
-    }
-*/
   return(interpolated);
     
 }
