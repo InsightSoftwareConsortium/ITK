@@ -55,8 +55,8 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 }
 
 /**
-* Intializes the Pyramid Spline Filter parameters for an "l2" filter
-*/
+ * Intializes the Pyramid Spline Filter parameters for an "l2" filter
+ */
 template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::InitializePyramidSplineFilter(int SplineOrder)
@@ -372,15 +372,15 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   validRegion.SetSize( currentSize );
   validRegion.SetIndex ( inputPtr->GetLargestPossibleRegion().GetIndex() );
 
-  /** The data is handled in this routine to minimize data copying.  Alternative
-      methods could be used which may permit the use of streaming. On the first 
-      dimension the inIterator points to the TInputImage and the outIterator 
-      points to the ScratchImage.  After the first dimension the inIterator points
-      to the ScratchImage (the outIterator points to ScratchImage also).  The
-      variable m_Scratch is used to pass a single line for processing so that 
-      overwriting does not occur.  On the final iteration outIterator points to
-      the OutputImage for direct writing into the final variable. 
-  **/
+  /** The data is handled in this routine to minimize data copying.
+   * Alternative methods could be used which may permit the use of
+   * streaming. On the first dimension the inIterator points to the
+   * TInputImage and the outIterator points to the ScratchImage.  After
+   * the first dimension the inIterator points to the ScratchImage (the
+   * outIterator points to ScratchImage also).  The variable m_Scratch is
+   * used to pass a single line for processing so that overwriting does
+   * not occur.  On the final iteration outIterator points to the
+   * OutputImage for direct writing into the final variable. */
 
   // The first time through the loop our input image is inputPtr
   typename TInputImage::ConstPointer workingImage;
