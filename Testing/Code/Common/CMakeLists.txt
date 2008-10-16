@@ -238,6 +238,8 @@ IF(ITK_DATA_ROOT)
 
 ENDIF(ITK_DATA_ROOT)
 
+ADD_TEST(itkOrientedImageProfileTest1 ${COMMON_TESTS2} itkOrientedImageProfileTest1)
+
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
 ADD_TEST(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespondencesTest)
 
@@ -486,6 +488,7 @@ itkOctreeTest.cxx
 itkOrthogonallyCorrected2DParametricPathTest.cxx
 itkOrientedImage2DTest.cxx
 itkOrientedImage3DTest.cxx
+itkOrientedImageProfileTest1.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx
