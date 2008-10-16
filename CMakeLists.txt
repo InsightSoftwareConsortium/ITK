@@ -186,7 +186,7 @@ ENDIF( NOT BORLAND )
 #-----------------------------------------------------------------------------
 # Make the itk::Image assume the behavior of the itk::OrientedImage
 MARK_AS_ADVANCED(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
-OPTION(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE "Makes itk::Image behave like itk::OrientedImage" OFF)
+OPTION(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE "Makes itk::Image behave like itk::OrientedImage" ON)
 
 # ITK turn on experimental version of accelerated image registration
 OPTION(ITK_USE_OPTIMIZED_REGISTRATION_METHODS "Turn on the experimental version of accelerated registration methods." OFF)
