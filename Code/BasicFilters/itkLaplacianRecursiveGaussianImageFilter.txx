@@ -14,15 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLaplacianRecursiveGaussianImageFilter_txx
-#define _itkLaplacianRecursiveGaussianImageFilter_txx
+#ifndef __itkLaplacianRecursiveGaussianImageFilter_txx
+#define __itkLaplacianRecursiveGaussianImageFilter_txx
 
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
-
 
 /**
  * Constructor
@@ -68,8 +67,6 @@ LaplacianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 }
 
-
-
 /**
  *  Report progress by weigthing contributions of internal filters
  */
@@ -90,8 +87,6 @@ LaplacianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
-
 /**
  * Set value of Sigma
  */
@@ -110,9 +105,6 @@ LaplacianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   this->Modified();
 
 }
-
-
-
 
 /**
  * Set Normalize Across Scale Space
@@ -172,7 +164,6 @@ LaplacianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     out->SetRequestedRegion( out->GetLargestPossibleRegion() );
     }
 }
-
 
 /**
  * Compute filter for Gaussian kernel

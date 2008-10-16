@@ -57,10 +57,10 @@ class ITK_EXPORT LabelStatisticsImageFilter :
 {
 public:
   /** Standard Self typedef */
-  typedef LabelStatisticsImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,TInputImage>  Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef LabelStatisticsImageFilter                  Self;
+  typedef ImageToImageFilter<TInputImage,TInputImage> Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -69,23 +69,23 @@ public:
   itkTypeMacro(LabelStatisticsImageFilter, ImageToImageFilter);
   
   /** Image related typedefs. */
-  typedef typename TInputImage::Pointer InputImagePointer;
-  typedef typename TInputImage::RegionType RegionType ;
-  typedef typename TInputImage::SizeType SizeType ;
-  typedef typename TInputImage::IndexType IndexType ;
-  typedef typename TInputImage::PixelType PixelType ;
+  typedef typename TInputImage::Pointer    InputImagePointer;
+  typedef typename TInputImage::RegionType RegionType;
+  typedef typename TInputImage::SizeType   SizeType;
+  typedef typename TInputImage::IndexType  IndexType;
+  typedef typename TInputImage::PixelType  PixelType;
 
   /** Label image related typedefs. */
-  typedef TLabelImage LabelImageType;
-  typedef typename TLabelImage::Pointer LabelImagePointer;
-  typedef typename TLabelImage::RegionType LabelRegionType ;
-  typedef typename TLabelImage::SizeType LabelSizeType ;
-  typedef typename TLabelImage::IndexType LabelIndexType ;
-  typedef typename TLabelImage::PixelType LabelPixelType ;
+  typedef TLabelImage                      LabelImageType;
+  typedef typename TLabelImage::Pointer    LabelImagePointer;
+  typedef typename TLabelImage::RegionType LabelRegionType;
+  typedef typename TLabelImage::SizeType   LabelSizeType;
+  typedef typename TLabelImage::IndexType  LabelIndexType;
+  typedef typename TLabelImage::PixelType  LabelPixelType;
   
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-        TInputImage::ImageDimension ) ;
+        TInputImage::ImageDimension );
 
   /** Type to use for computations. */
   typedef typename NumericTraits<PixelType>::RealType RealType;
@@ -101,12 +101,13 @@ public:
 
   /** Histogram-related typedefs */
   typedef itk::Statistics::Histogram<RealType,1> HistogramType;
-  typedef typename HistogramType::Pointer HistogramPointer;
+  typedef typename HistogramType::Pointer        HistogramPointer;
 
-  /** Statistics stored per label */
+  /** \class LabelStatistics
+   * \brief Statistics stored per label */
   class LabelStatistics
-  {
-  public:
+    {
+    public:
 
     // default constructor
     LabelStatistics()
@@ -124,16 +125,16 @@ public:
       m_Mean = NumericTraits<RealType>::Zero;
       m_Sigma = NumericTraits<RealType>::Zero;
       m_Variance = NumericTraits<RealType>::Zero;
-
+        
       unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
       m_BoundingBox.resize(imageDimension*2);
-        for (unsigned int i = 0; i < imageDimension * 2; i += 2)
-          {
-          m_BoundingBox[i] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::max();
-          m_BoundingBox[i+1] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::NonpositiveMin();
-          }
+      for (unsigned int i = 0; i < imageDimension * 2; i += 2)
+        {
+        m_BoundingBox[i] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::max();
+        m_BoundingBox[i+1] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::NonpositiveMin();
+        }
       m_Histogram = 0;
-
+      
       }
 
       // constructor with histogram enabled
@@ -242,17 +243,17 @@ public:
    * a call to Update(). */
   bool HasLabel(LabelPixelType label) const
     {
-      return m_LabelStatistics.find(label) != m_LabelStatistics.end();
+    return m_LabelStatistics.find(label) != m_LabelStatistics.end();
     }
 
   /** Get the number of labels used */
   unsigned long GetNumberOfObjects() const
     {
-      return m_LabelStatistics.size();
+    return m_LabelStatistics.size();
     }
   unsigned long GetNumberOfLabels() const
     {
-      return this->GetNumberOfObjects();
+    return this->GetNumberOfObjects();
     }
 
   
@@ -291,7 +292,7 @@ public:
 
   /** specify Histogram parameters  */
   void SetHistogramParameters(const int numBins, RealType lowerBound,
-    RealType upperBound) ;
+    RealType upperBound);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -306,7 +307,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
-  void AllocateOutputs();      
+  void AllocateOutputs();
 
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData ();
@@ -317,7 +318,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const RegionType& 
          outputRegionForThread,
-         int threadId) ;
+         int threadId);
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
@@ -331,15 +332,15 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   std::vector<MapType>  m_LabelStatisticsPerThread;
-  MapType        m_LabelStatistics;
+  MapType               m_LabelStatistics;
 
-  bool m_UseHistograms;
-  typename HistogramType::SizeType  m_NumBins;
-  RealType m_LowerBound;
-  RealType m_UpperBound;
-  SimpleFastMutexLock m_Mutex;
+  bool                             m_UseHistograms;
+  typename HistogramType::SizeType m_NumBins;
+  RealType                         m_LowerBound;
+  RealType                         m_UpperBound;
+  SimpleFastMutexLock              m_Mutex;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

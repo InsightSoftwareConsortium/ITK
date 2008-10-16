@@ -46,10 +46,10 @@ class ITK_EXPORT LaplacianRecursiveGaussianImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef LaplacianRecursiveGaussianImageFilter  Self;
+  typedef LaplacianRecursiveGaussianImageFilter        Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
   
   
   /** Pixel Type of the input image */
@@ -67,7 +67,7 @@ public:
       RealType is usually 'double' in NumericTraits. 
       Here we prefer float in order to save memory.  */
 
-  typedef float                                            InternalRealType;
+  typedef float                                           InternalRealType;
   typedef Image<InternalRealType, 
                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
@@ -93,8 +93,8 @@ public:
   typedef typename TOutputImage::Pointer           OutputImagePointer;
 
   /** Type of the output Image */
-  typedef TOutputImage      OutputImageType;
-  typedef typename          OutputImageType::PixelType      OutputPixelType;
+  typedef TOutputImage                                 OutputImageType;
+  typedef typename          OutputImageType::PixelType OutputPixelType;
 
   /**  Auxiliary image for holding the values of the squared gradient components */
   typedef Image< InternalRealType, 
@@ -165,7 +165,3 @@ private:
 #endif
 
 #endif
-
-
-
-

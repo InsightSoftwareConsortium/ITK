@@ -36,17 +36,17 @@ public:
   Log10() {}
   ~Log10() {}
   bool operator!=( const Log10 & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Log10 & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( vcl_log10( static_cast<double>( A ) ) );
-  }
+    }
 }; 
 }
 template <class TInputImage, class TOutputImage>
@@ -59,12 +59,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef Log10ImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::Log10< typename TInputImage::PixelType, 
-                                                   typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Log10ImageFilter                                Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::Log10< typename TInputImage::PixelType, 
+                     typename TOutputImage::PixelType> >  Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

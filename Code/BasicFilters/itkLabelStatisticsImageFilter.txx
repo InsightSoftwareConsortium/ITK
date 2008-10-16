@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLabelStatisticsImageFilter_txx
-#define _itkLabelStatisticsImageFilter_txx
+#ifndef __itkLabelStatisticsImageFilter_txx
+#define __itkLabelStatisticsImageFilter_txx
 #include "itkLabelStatisticsImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -177,7 +177,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 
       //bounding box is min,max pairs
       int dimension = (*mapIt).second.m_BoundingBox.size() / 2;
-      for (int ii = 0; ii < (dimension * 2) ; ii += 2 ) 
+      for (int ii = 0; ii < (dimension * 2); ii += 2 ) 
          {
          if ((*mapIt).second.m_BoundingBox[ii] > (*threadIt).second.m_BoundingBox[ii])
            {
@@ -288,7 +288,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       }
 
     // bounding box is min,max pairs
-    for (unsigned int i = 0; i < ( 2 * it.GetImageDimension()) ; i+=2 ) 
+    for (unsigned int i = 0; i < ( 2 * it.GetImageDimension()); i+=2 ) 
       {
       typename ImageRegionConstIteratorWithIndex<TInputImage>::IndexType index = it.GetIndex();
       if ((*mapIt).second.m_BoundingBox[i] > index[i/2])

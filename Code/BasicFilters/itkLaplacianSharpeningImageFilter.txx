@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLaplacianSharpeningImageFilter_txx
-#define _itkLaplacianSharpeningImageFilter_txx
+#ifndef __itkLaplacianSharpeningImageFilter_txx
+#define __itkLaplacianSharpeningImageFilter_txx
 #include "itkLaplacianSharpeningImageFilter.h"
 
 #include "itkNeighborhoodOperatorImageFilter.h"

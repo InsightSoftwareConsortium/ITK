@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkLevelSetFunctionWithRefitTerm_h_
-#define __itkLevelSetFunctionWithRefitTerm_h_
+#ifndef __itkLevelSetFunctionWithRefitTerm_h
+#define __itkLevelSetFunctionWithRefitTerm_h
 
 #include "itkLevelSetFunction.h"
 #include "itkSparseImage.h"
@@ -53,9 +53,9 @@ class ITK_EXPORT LevelSetFunctionWithRefitTerm
 public:
   /** Standard class typedefs. */
   typedef LevelSetFunctionWithRefitTerm Self;
-  typedef LevelSetFunction<TImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef LevelSetFunction<TImageType>  Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( LevelSetFunctionWithRefitTerm, LevelSetFunction );
@@ -64,13 +64,13 @@ public:
   itkNewMacro (Self);
   
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
+  typedef typename Superclass::ScalarValueType        ScalarValueType;
+  typedef typename Superclass::GlobalDataStruct       GlobalDataStruct;
+  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
   typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::TimeStepType           TimeStepType;
 
   /** Index type derived from the ImageType. */
   typedef typename ImageType::IndexType IndexType;
@@ -86,25 +86,25 @@ public:
 
   /** Set the relative weight of the refitting term. */
   void SetRefitWeight( const ScalarValueType w )
-  {
+    {
     m_RefitWeight = w;
-  }
+    }
 
   /** This is the weight for propagation terms (other than refitting)
    * that can be defined by subclasses. */
   void SetOtherPropagationWeight( const ScalarValueType w )
-  {
+    {
     m_OtherPropagationWeight = w;
-  }
+    }
 
   /** Sets the sparse image which has nodes containing the member variable
       m_Curvature used in refitting. */
   void SetSparseTargetImage( SparseImageType *im )
-  { m_SparseTargetImage = im; }
+    { m_SparseTargetImage = im; }
 
   /** Returns the sparse image. */ 
   SparseImageType* GetSparseTargetImage() const
-  { return m_SparseTargetImage; }
+    { return m_SparseTargetImage; }
 
   /** Computes the time step for an update given a global data structure.
    * This calls the ComputeGlobalTimeStep method defined in LevelSetFunction
@@ -140,22 +140,22 @@ protected:
   virtual ScalarValueType OtherPropagationSpeed(const NeighborhoodType& ,
                                                 const FloatOffsetType &,
                                                 GlobalDataStruct * = 0) const
-  {
+    {
     return NumericTraits<ScalarValueType>::Zero;
-  }
+    }
   
 private:
-  LevelSetFunctionWithRefitTerm(const Self&); //purposely not implemented                                                                                                            
-  void operator=(const Self&);   //purposely not implemented                                                                                                            
+  LevelSetFunctionWithRefitTerm(const Self&); //purposely not implemented
+  void operator=(const Self&);   //purposely not implemented
    
-   /** The sparse image that contains the target curvature information. */
+  /** The sparse image that contains the target curvature information. */
   typename SparseImageType::Pointer m_SparseTargetImage;
 
   /** The minimum vector norm parameter. */
   ScalarValueType m_MinVectorNorm;
 
   /** Constants used in computations. */
-  static const unsigned long m_NumVertex;
+  static const unsigned long   m_NumVertex;
   static const ScalarValueType m_DimConst;
 };
 

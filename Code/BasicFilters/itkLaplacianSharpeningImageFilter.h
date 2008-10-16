@@ -50,26 +50,26 @@ class ITK_EXPORT LaplacianSharpeningImageFilter :
 {
 public:
   /** Standard "Self" & Superclass typedef.   */
-  typedef LaplacianSharpeningImageFilter Self;
+  typedef LaplacianSharpeningImageFilter                  Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
+  typedef typename TOutputImage::PixelType                  OutputPixelType;
+  typedef typename TOutputImage::InternalPixelType          OutputInternalPixelType;
   typedef typename NumericTraits<OutputPixelType>::RealType RealType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename TInputImage::PixelType                   InputPixelType;
+  typedef typename TInputImage::InternalPixelType           InputInternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   
   /** Image typedef support. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                      InputImageType;
+  typedef TOutputImage                     OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
 
   /** Smart pointer typedef support.   */
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods)  */
@@ -91,12 +91,12 @@ public:
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+    { this->SetUseImageSpacing(true); }
   
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
   void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+    { this->SetUseImageSpacing(false); }
   
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -106,9 +106,9 @@ public:
   
 protected:
   LaplacianSharpeningImageFilter()
-  {
+    {
     m_UseImageSpacing = true;
-  }
+    }
   virtual ~LaplacianSharpeningImageFilter()  {}
 
   /** Standard pipeline method. While this class does not implement a

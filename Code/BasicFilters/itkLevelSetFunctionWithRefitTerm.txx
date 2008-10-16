@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkLevelSetFunctionWithRefitTerm_txx_
-#define __itkLevelSetFunctionWithRefitTerm_txx_
+#ifndef __itkLevelSetFunctionWithRefitTerm_txx
+#define __itkLevelSetFunctionWithRefitTerm_txx
 
 #include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseImage.h"
