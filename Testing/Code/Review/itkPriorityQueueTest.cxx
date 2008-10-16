@@ -80,20 +80,17 @@ int itkPriorityQueueTest( int argc, char* argv[] )
     }
   std::cout <<"OK" <<std::endl;
 
-  it--;
-  i = sequence.size();
-
   std::cout <<"Max Priority Queue   ";
   while( !max_priority_queue->Empty() )
     {
-    if( max_priority_queue->Peek().m_Priority != *it )
+    if( max_priority_queue->Peek().m_Priority != sequence.back() )
       {
-      std::cout <<max_priority_queue->Peek().m_Priority <<" " <<*it <<std::endl;
+      std::cout <<max_priority_queue->Peek().m_Priority <<" " <<sequence.back() <<std::endl;
       return EXIT_FAILURE;
       }
-    if( max_priority_queue->Size() != i )
+    if( max_priority_queue->Size() != sequence.size() )
       {
-      std::cout <<"Size " <<max_priority_queue->Size() <<" " <<i <<std::endl;
+      std::cout <<"Size " <<max_priority_queue->Size() <<" " <<sequence.size() <<std::endl;
       return EXIT_FAILURE;
       }
     max_priority_queue->Pop();
@@ -101,8 +98,7 @@ int itkPriorityQueueTest( int argc, char* argv[] )
       {
       break;
       }
-    it--;
-    i--;
+    sequence.pop_back();
     }
   std::cout <<"OK" <<std::endl;
 
