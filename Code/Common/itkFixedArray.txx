@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFixedArray_txx
-#define _itkFixedArray_txx
+#ifndef __itkFixedArray_txx
+#define __itkFixedArray_txx
 
 #include "itkFixedArray.h"
 #include "itkNumericTraitsFixedArrayPixel.h"
@@ -43,7 +43,11 @@ FixedArray<TValueType, VLength>
 ::FixedArray(const ValueType r[VLength])
 {
   ConstIterator input = r;
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+  Iterator i = this->Begin();
+  while( i != this->End() )
+    {
+    *i++ = *input++;
+    }
 }
 
 
@@ -59,7 +63,11 @@ FixedArray<TValueType, VLength>
 {
   if(r == m_InternalArray) return *this;
   ConstIterator input = r;
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = *input++;
+  Iterator i = this->Begin();
+  while( i != this->End() )
+    {
+    *i++ = *input++;
+    }
   return *this;
 }
 
@@ -75,9 +83,14 @@ FixedArray<TValueType, VLength>
   ConstIterator i = this->Begin();
   ConstIterator j = r.Begin();
   
-  for( ; i != this->End(); ++i, ++j )
+  while( i != this->End() )
     {
-    if ( *i != *j ) {return false;}
+    if ( *i != *j )
+      {
+      return false;
+      }
+    ++j;
+    ++i;
     }
 
   return true;
@@ -199,7 +212,11 @@ void
 FixedArray<TValueType, VLength>
 ::Fill(const ValueType& value)
 {
-  for(Iterator i = this->Begin() ; i != this->End() ;) *i++ = value;
+  Iterator i = this->Begin();
+  while( i != this->End() )
+    {
+    *i++ = value;
+    }
 }
 
 
@@ -222,7 +239,7 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
   os << "[";
   if ( VLength == 1 )
     {
-    os << arr[0] ;
+    os << arr[0];
     }
   else
     {

@@ -82,42 +82,44 @@ public:
   /** A const iterator through the array. */
   typedef const ValueType*  ConstIterator;
 
-  /** \brief A reverse iterator through the array. */
+  /** \class ReverseIterator 
+   * \brief A reverse iterator through the array. */
   class ReverseIterator
-  {
-  public:
-    explicit ReverseIterator(Iterator i): m_Iterator(i) {}
-    Iterator operator++()        { return --m_Iterator; }
-    Iterator operator++(int)     { return m_Iterator--; }
-    Iterator operator--()        { return ++m_Iterator; }
-    Iterator operator--(int)     { return m_Iterator++; }
-    Iterator operator->() const  { return (m_Iterator-1); }
-    ValueType& operator*() const { return *(m_Iterator-1); }
-    bool operator!=(const ReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;};
-    bool operator==(const ReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;};
-  private:
-    Iterator m_Iterator;
-  };
+    {
+    public:
+      explicit ReverseIterator(Iterator i): m_Iterator(i) {}
+      Iterator operator++()        { return --m_Iterator; }
+      Iterator operator++(int)     { return m_Iterator--; }
+      Iterator operator--()        { return ++m_Iterator; }
+      Iterator operator--(int)     { return m_Iterator++; }
+      Iterator operator->() const  { return (m_Iterator-1); }
+      ValueType& operator*() const { return *(m_Iterator-1); }
+      bool operator!=(const ReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;}
+      bool operator==(const ReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;}
+    private:
+      Iterator m_Iterator;
+    };
   
-  /** \brief A const reverse iterator through the array. */
+  /** \class ConstReverseIterator 
+   * \brief A const reverse iterator through the array. */
   class ConstReverseIterator
-  {
-  public:
-    explicit ConstReverseIterator(ConstIterator i): m_Iterator(i) {}
-    ConstIterator operator++()         { return --m_Iterator; }
-    ConstIterator operator++(int)      { return m_Iterator--; }
-    ConstIterator operator--()         { return ++m_Iterator; }
-    ConstIterator operator--(int)      { return m_Iterator++; }
-    ConstIterator operator->() const   { return (m_Iterator-1); }
-    const ValueType& operator*() const { return *(m_Iterator-1); }
-    bool operator!=(const ConstReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;};
-    bool operator==(const ConstReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;};
-  private:
-    ConstIterator m_Iterator;
-  };  
+    {
+    public:
+      explicit ConstReverseIterator(ConstIterator i): m_Iterator(i) {}
+      ConstIterator operator++()         { return --m_Iterator; }
+      ConstIterator operator++(int)      { return m_Iterator--; }
+      ConstIterator operator--()         { return ++m_Iterator; }
+      ConstIterator operator--(int)      { return m_Iterator++; }
+      ConstIterator operator->() const   { return (m_Iterator-1); }
+      const ValueType& operator*() const { return *(m_Iterator-1); }
+      bool operator!=(const ConstReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;}
+      bool operator==(const ConstReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;}
+    private:
+      ConstIterator m_Iterator;
+    };  
   
   /** A pointer to the ValueType. */
-  typedef ValueType*        pointer;
+  typedef ValueType *        pointer;
 
   /** A const pointer to the ValueType. */
   typedef const ValueType*  const_pointer;
@@ -140,8 +142,11 @@ public:
   FixedArray(const FixedArray< TFixedArrayValueType, VLength >& r)
     {
     typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-    for(Iterator i = this->Begin() ; i != this->End() ;) 
+    Iterator i = this->Begin();
+    while( i != this->End() ) 
+      {
       *i++ = static_cast< TValueType >(*input++);
+      }
     }
   
 
@@ -164,8 +169,11 @@ public:
     {
     if((void *)r.Begin() == (void *)m_InternalArray) return *this;
     typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-    for(Iterator i = this->Begin() ; i != this->End() ;) 
+    Iterator i = this->Begin();
+    while( i != this->End() ) 
+      {
       *i++ = static_cast< TValueType >(*input++);
+      }
     return *this;
     }
 
