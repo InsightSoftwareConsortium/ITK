@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFiniteDifferenceImageFilter_txx_
-#define __itkFiniteDifferenceImageFilter_txx_
+#ifndef __itkFiniteDifferenceImageFilter_txx
+#define __itkFiniteDifferenceImageFilter_txx
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"

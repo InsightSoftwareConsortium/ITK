@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFiniteCylinderSpatialFunction_cpp
-#define __itkFiniteCylinderSpatialFunction_cpp
+#ifndef __itkFiniteCylinderSpatialFunction_txx
+#define __itkFiniteCylinderSpatialFunction_txx
 
 #include "itkFiniteCylinderSpatialFunction.h"
 #include <math.h>

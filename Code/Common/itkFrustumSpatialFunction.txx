@@ -50,8 +50,8 @@ FrustumSpatialFunction<VImageDimension,TInput>
 ::Evaluate(const InputType& position) const
 {
   
-  typedef InputType PointType;
-  typedef typename PointType::VectorType VectorType;
+  typedef InputType                           PointType;
+  typedef typename PointType::VectorType      VectorType;
 
   VectorType relativePosition = position - m_Apex;
   const double distanceToApex = relativePosition.GetNorm();
@@ -67,7 +67,7 @@ FrustumSpatialFunction<VImageDimension,TInput>
       }
     }
   else
-  {
+    {
     if( distanceToApex > m_TopPlane ||
         distanceToApex < m_BottomPlane )
       {

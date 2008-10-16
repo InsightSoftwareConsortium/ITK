@@ -42,8 +42,8 @@ class ITK_EXPORT ForwardDifferenceOperator
 {
 public:
   /** Standard class typedefs. */
-  typedef ForwardDifferenceOperator Self;
-  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator> Superclass;
+  typedef ForwardDifferenceOperator                               Self;
+  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>    Superclass;
   
   typedef typename Superclass::PixelType PixelType;
 
@@ -52,8 +52,7 @@ public:
 
   /** Copy constructor */
   ForwardDifferenceOperator(const Self& other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {  }
+    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) { }
 
   /** Assignment operator */
   Self &operator=(const Self& other)
@@ -84,5 +83,3 @@ protected:
 #endif
 
 #endif
-
-

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFiniteDifferenceImageFilter_h_
-#define __itkFiniteDifferenceImageFilter_h_
+#ifndef __itkFiniteDifferenceImageFilter_h
+#define __itkFiniteDifferenceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
@@ -87,7 +87,7 @@ namespace itk {
  * AnisotropicDiffusionImageFilter.  The leaves of the anisotropic diffusion
  * filter tree only define the function object they use for their particular
  * flavor of diffusion.  See CurvatureAnisotropicDiffusionImageFilter and
- * GradientAnisotropicDiffusionImageFilter for details.    
+ * GradientAnisotropicDiffusionImageFilter for details.
  *
  * \par FiniteDifferenceImageFilter
  * This class defines the generic solver API at the top level of the FDS
@@ -124,10 +124,10 @@ class ITK_EXPORT FiniteDifferenceImageFilter
 {
 public:
   /** Standard class typedefs. */
-  typedef FiniteDifferenceImageFilter Self;
-  typedef InPlaceImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef FiniteDifferenceImageFilter                     Self;
+  typedef InPlaceImageFilter<TInputImage, TOutputImage>   Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceImageFilter, InPlaceImageFilter );
@@ -137,8 +137,7 @@ public:
   typedef TOutputImage OutputImageType;
   
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** The pixel type of the output image will be used in computations. */
   typedef typename TOutputImage::PixelType    OutputPixelType;
@@ -175,7 +174,7 @@ public:
   itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType );
 
 
- /** Set/Get the number of iterations that the filter will run. */
+  /** Set/Get the number of iterations that the filter will run. */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
 
@@ -197,15 +196,15 @@ public:
 
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
-  {
+    {
     this->SetState(INITIALIZED);
-  }
+    }
 
   /** Set the state of the filter to UNINITIALIZED */
   void SetStateToUninitialized()
-  {
+    {
     this->SetState(UNINITIALIZED);
-  }
+    }
   
   /** Set/Get the state of the filter. */
 #if !defined(CABLE_CONFIGURATION)
@@ -228,7 +227,7 @@ public:
 
 protected:
   FiniteDifferenceImageFilter()
-  {
+    {
     m_UseImageSpacing    = false;
     m_ElapsedIterations  = 0;
     m_DifferenceFunction = 0;
@@ -238,7 +237,7 @@ protected:
     m_State = UNINITIALIZED;
     m_ManualReinitialization = false;
     this->InPlaceOff();
-  }
+    }
   ~FiniteDifferenceImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

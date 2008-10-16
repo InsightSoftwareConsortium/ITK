@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFiniteDifferenceSparseImageFunction_txx_
-#define __itkFiniteDifferenceSparseImageFunction_txx_
+#ifndef __itkFiniteDifferenceSparseImageFunction_txx
+#define __itkFiniteDifferenceSparseImageFunction_txx
 
 #include "itkFiniteDifferenceSparseImageFunction.h"
 

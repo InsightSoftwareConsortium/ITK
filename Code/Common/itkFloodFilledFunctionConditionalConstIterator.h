@@ -137,22 +137,22 @@ public:
  
   /** Is the iterator at the end of the region? */
   bool IsAtEnd()
-    { return this->m_IsAtEnd; };
+    { return this->m_IsAtEnd; }
 
   /** Put more seeds on the list */
   void AddSeed ( const IndexType seed )
     {
     m_StartIndices.push_back ( seed );
-    };
+    }
 
   /** Clear all the seeds */
   void ClearSeeds ()
     {
     m_StartIndices.clear();
-    };
+    }
   
- /** Move an iterator to the beginning of the region. "Begin" is
-  * defined as the first pixel in the region. */
+  /** Move an iterator to the beginning of the region. "Begin" is
+   * defined as the first pixel in the region. */
   void GoToBegin()
     {
     // Clear the queue
@@ -163,7 +163,7 @@ public:
 
     this->m_IsAtEnd = true;
     // Initialize the temporary image
-    tempPtr->FillBuffer(
+    m_TemporaryPointer->FillBuffer(
       NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero
       );
     
@@ -180,10 +180,10 @@ public:
         
         // Mark the start index in the temp image as inside the
         // function, neighbor check incomplete
-        tempPtr->SetPixel(m_StartIndices[i], 2);
+        m_TemporaryPointer->SetPixel(m_StartIndices[i], 2);
         }
       }
-    };
+    }
 
   /** Walk forward one index */
   void operator++()
@@ -207,7 +207,7 @@ protected: //made protected so other iterators can access
    * 2 = pixel is inside the function, neighbor check incomplete
    * 3 = pixel is inside the function, neighbor check complete */
   typedef Image<unsigned char, itkGetStaticConstMacro(NDimensions)> TTempImage;
-  typename TTempImage::Pointer tempPtr;
+  typename TTempImage::Pointer m_TemporaryPointer;
   
   /** A list of locations to start the recursive fill */
   std::vector<IndexType> m_StartIndices;

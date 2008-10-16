@@ -52,10 +52,10 @@ class ITKCommon_EXPORT FastMutexLock : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef FastMutexLock       Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef FastMutexLock                 Self;
+  typedef Object                        Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
   
   /** Method for creation. */
   itkNewMacro(Self);
@@ -95,4 +95,3 @@ inline void FastMutexLock::Unlock( void )
 
 }//end itk namespace
 #endif
-

@@ -77,14 +77,14 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
   m_ImageRegion  = this->m_Image->GetBufferedRegion();
 
   // Build a temporary image of chars for use in the flood algorithm
-  tempPtr = TTempImage::New();
+  m_TemporaryPointer = TTempImage::New();
   typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
 
-  tempPtr->SetLargestPossibleRegion( tempRegion );
-  tempPtr->SetBufferedRegion( tempRegion );
-  tempPtr->SetRequestedRegion( tempRegion );
-  tempPtr->Allocate();
-  tempPtr->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
+  m_TemporaryPointer->SetLargestPossibleRegion( tempRegion );
+  m_TemporaryPointer->SetBufferedRegion( tempRegion );
+  m_TemporaryPointer->SetRequestedRegion( tempRegion );
+  m_TemporaryPointer->Allocate();
+  m_TemporaryPointer->FillBuffer(NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero);
 
   // Initialize the queue by adding the start index assuming one of
   // the m_StartIndices is "inside" This might not be true, in which
@@ -196,18 +196,18 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
       // then test it.
       if( m_ImageRegion.IsInside( tempIndex ) )
         {
-        if( tempPtr->GetPixel( tempIndex ) == 0 )
+        if( m_TemporaryPointer->GetPixel( tempIndex ) == 0 )
           {
           // if it is inside, push it into the queue  
           if(  this->IsPixelIncluded( tempIndex ) )
             {
             m_IndexStack.push( tempIndex );
-            tempPtr->SetPixel( tempIndex, 2); 
+            m_TemporaryPointer->SetPixel( tempIndex, 2); 
             }
           else  // If the pixel is outside
             {
             // Mark the pixel as outside and remove it from the queue.
-            tempPtr->SetPixel( tempIndex, 1);
+            m_TemporaryPointer->SetPixel( tempIndex, 1);
             }
           }
         }

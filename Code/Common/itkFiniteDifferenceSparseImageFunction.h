@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFiniteDifferenceSparseImageFunction_h_
-#define __itkFiniteDifferenceSparseImageFunction_h_
+#ifndef __itkFiniteDifferenceSparseImageFunction_h
+#define __itkFiniteDifferenceSparseImageFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 
@@ -47,10 +47,10 @@ class ITK_EXPORT FiniteDifferenceSparseImageFunction
 {
 public:
   /** Standard class typedef. */
-  typedef FiniteDifferenceSparseImageFunction Self;
-  typedef FiniteDifferenceFunction<TSparseImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef FiniteDifferenceSparseImageFunction           Self;
+  typedef FiniteDifferenceFunction<TSparseImageType>    Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction );
@@ -82,9 +82,9 @@ public:
   virtual PixelType ComputeUpdate(const NeighborhoodType&,
                                   void*,
                                   const FloatOffsetType&)
-  {
+    {
     return static_cast<PixelType>(0);
-  }
+    }
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This
       function replaces the ComputeUpdate function. */

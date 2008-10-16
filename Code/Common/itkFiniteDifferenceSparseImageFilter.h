@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkFiniteDifferenceSparseImageFilter_h_
-#define __itkFiniteDifferenceSparseImageFilter_h_ 
+#ifndef __itkFiniteDifferenceSparseImageFilter_h
+#define __itkFiniteDifferenceSparseImageFilter_h 
 
 #include "itkFiniteDifferenceSparseImageFunction.h"
 #include "itkFiniteDifferenceImageFilter.h"
@@ -64,22 +64,21 @@ class FiniteDifferenceSparseImageFilter
 {
 public:
   /** Standard class typedef */
-  typedef FiniteDifferenceSparseImageFilter Self;
-  typedef FiniteDifferenceImageFilter<TInputImageType,
-                                      TSparseOutputImageType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef FiniteDifferenceSparseImageFilter       Self;
+  typedef FiniteDifferenceImageFilter<
+    TInputImageType, TSparseOutputImageType>      Superclass;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceSparseImageFilter, FiniteDifferenceImageFilter);
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType SparseOutputImageType;
-  typedef typename Superclass::PixelType       PixelType; 
-  typedef typename Superclass::TimeStepType    TimeStepType;
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  typedef typename Superclass::InputImageType                  InputImageType;
+  typedef typename Superclass::OutputImageType                 SparseOutputImageType;
+  typedef typename Superclass::PixelType                       PixelType; 
+  typedef typename Superclass::TimeStepType                    TimeStepType;
+  typedef typename Superclass::FiniteDifferenceFunctionType    FiniteDifferenceFunctionType;
   // the PixelType is from output image; therefore, it is a pointer
   
   /** Dimensionality of input and output data is assumed to be the same.
@@ -132,12 +131,12 @@ protected:
 private:
   /** The type of region used in multithreading. */
   struct ThreadRegionType 
-  {
+    {
     // this is the first element
     typename NodeListType::Iterator first;
     // this is one past the last element
     typename NodeListType::Iterator last;  
-  };
+    };
 
 protected:
   /** This function returns a single region for use in multi-threading. */
@@ -175,12 +174,12 @@ protected:
   /** Structure for passing information into static callback methods.
    *  Used in  the subclasses' threading mechanisms. */
   struct FDThreadStruct
-  {
+    {
     FiniteDifferenceSparseImageFilter *Filter;
     TimeStepType TimeStep;
     TimeStepType *TimeStepList;
     bool *ValidTimeStepList;
-  };
+    };
   
 private:
   /** Flag to let the class know whether or not to call PrecalculateChange. */

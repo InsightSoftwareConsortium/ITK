@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkForwardDifferenceOperator_txx
-#define _itkForwardDifferenceOperator_txx
+#ifndef __itkForwardDifferenceOperator_txx
+#define __itkForwardDifferenceOperator_txx
 #include "itkForwardDifferenceOperator.h"
 
 #include "itkNumericTraits.h"

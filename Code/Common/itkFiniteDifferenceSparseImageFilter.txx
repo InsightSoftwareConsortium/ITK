@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkFiniteDifferenceSparseImageFilter_txx_
-#define __itkFiniteDifferenceSparseImageFilter_txx_ 
+#ifndef __itkFiniteDifferenceSparseImageFilter_txx
+#define __itkFiniteDifferenceSparseImageFilter_txx 
 
 #include "itkFiniteDifferenceSparseImageFilter.h"
 
@@ -180,7 +180,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
   // so this data structure is thread-safe.  All of the time steps calculated
   // in each thread will be combined in the ResolveTimeStepMethod.
   threadCount = this->GetMultiThreader()->GetNumberOfThreads();  
-  str.TimeStepList = new TimeStepType[threadCount];                 
+  str.TimeStepList = new TimeStepType[threadCount];
   str.ValidTimeStepList = new bool[threadCount];
   for (int i =0; i < threadCount; ++i)
     {
@@ -223,11 +223,11 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>
   ThreadRegionType splitRegion;
   total = str->Filter->GetSplitRegion(threadId, threadCount, splitRegion);
   
-  if (threadId < total)
+  if( threadId < total )
     { 
-      str->TimeStepList[threadId]
+    str->TimeStepList[threadId]
         = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
-      str->ValidTimeStepList[threadId] = true;
+    str->ValidTimeStepList[threadId] = true;
     }
 
   return ITK_THREAD_RETURN_VALUE;  

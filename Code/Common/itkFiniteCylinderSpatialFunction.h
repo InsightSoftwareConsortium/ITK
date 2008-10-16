@@ -39,10 +39,10 @@ class ITK_EXPORT FiniteCylinderSpatialFunction
 public:
 
   /** Standard class typedefs. */
-  typedef FiniteCylinderSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VDimension, TInput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer; 
+  typedef FiniteCylinderSpatialFunction                           Self;
+  typedef InteriorExteriorSpatialFunction<VDimension, TInput>     Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer; 
       
   /** Run-time type information (and related methods). */
   itkTypeMacro(FiniteCylinderSpatialFunction,InteriorExteriorSpatialFunction);

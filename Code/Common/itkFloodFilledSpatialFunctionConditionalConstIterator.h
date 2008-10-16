@@ -34,8 +34,8 @@ class ITK_EXPORT FloodFilledSpatialFunctionConditionalConstIterator: public Floo
 {
 public:
   /** Standard class typedefs. */
-  typedef FloodFilledSpatialFunctionConditionalConstIterator Self;
-  typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction> Superclass;
+  typedef FloodFilledSpatialFunctionConditionalConstIterator              Self;
+  typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction>  Superclass;
 
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;

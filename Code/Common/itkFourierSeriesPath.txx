@@ -52,7 +52,6 @@ FourierSeriesPath<VDimension>
 }
 
 
-
 template<unsigned int VDimension>
 typename FourierSeriesPath<VDimension>::VectorType
 FourierSeriesPath<VDimension>
@@ -79,7 +78,6 @@ FourierSeriesPath<VDimension>
 }
 
 
-
 template<unsigned int VDimension>
 void
 FourierSeriesPath<VDimension>
@@ -94,7 +92,6 @@ FourierSeriesPath<VDimension>
 }
 
 
-
 /**
  * Constructor
  */
@@ -106,7 +103,6 @@ FourierSeriesPath<VDimension>
   m_CosCoefficients = CoefficientsType::New();
   m_SinCoefficients = CoefficientsType::New();
 }
-
 
 
 /**

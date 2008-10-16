@@ -37,10 +37,10 @@ class ITKCommon_EXPORT FileOutputWindow : public OutputWindow
 {
 public:
   /** Standard class typedefs. */
-  typedef FileOutputWindow        Self;
-  typedef OutputWindow  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef FileOutputWindow            Self;
+  typedef OutputWindow                Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,10 +76,10 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
   void Initialize();
   
-  std::ofstream *m_Stream;
-  std::string m_FileName;
-  bool m_Flush;
-  bool m_Append;
+  std::ofstream *   m_Stream;
+  std::string       m_FileName;
+  bool              m_Flush;
+  bool              m_Append;
 
 private:
   FileOutputWindow(const Self&); //purposely not implemented

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFiniteDifferenceFunction_txx_
-#define __itkFiniteDifferenceFunction_txx_
+#ifndef __itkFiniteDifferenceFunction_txx
+#define __itkFiniteDifferenceFunction_txx
 
 #include "itkFiniteDifferenceFunction.h"
 

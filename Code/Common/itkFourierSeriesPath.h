@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,7 +33,7 @@ namespace itk
  *
  * This class is intended to represent closed parametric paths through an image
  * which are defined by their Fourier coeficients (frequency components).  The
- * paths must be closed and defined over the interval [0,1], where the paths' 
+ * paths must be closed and defined over the interval [0,1], where the paths'
  * values at input 0 and input 1 are identical.  The user can control how many
  * harmonics (how high of frequency components) are represented by a given
  * instantiation of this class.  Classic applications of this class include
@@ -67,37 +67,37 @@ public:
   typedef ParametricPath<VDimension>  Superclass;
   typedef SmartPointer<Self>          Pointer;
   typedef SmartPointer<const Self>    ConstPointer;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(FourierSeriesPath, ParametricPath);
-  
+
   /** Input type */
   typedef typename Superclass::InputType  InputType;
-  
+
   /** Output type */
   typedef typename Superclass::OutputType OutputType;
-  
-  
+
+
   /** Basic data-structure types used */
-  typedef ContinuousIndex<double,VDimension>    ContinuousIndexType; 
-  typedef Index<  VDimension >                  IndexType;           
-  typedef Offset< VDimension >                  OffsetType;          
-  typedef Vector<double,VDimension>             VectorType;          
+  typedef ContinuousIndex<double,VDimension>    ContinuousIndexType;
+  typedef Index<  VDimension >                  IndexType;
+  typedef Offset< VDimension >                  OffsetType;
+  typedef Vector<double,VDimension>             VectorType;
   typedef VectorContainer<unsigned, VectorType> CoefficientsType;
   typedef typename CoefficientsType::Pointer    CoefficientsPointer;
 
 
   /** Return the location of the parametric path at the specified location. */
   virtual OutputType Evaluate( const InputType & input ) const;
-  
+
   /** Evaluate the first derivative of the ND output with respect to the 1D
     * input.  This is an exact, algebraic function. */
   virtual VectorType EvaluateDerivative(const InputType & input) const;
-  
+
   /** Add another harmonic's frequency coefficients. */
   void AddHarmonic( const VectorType & CosCoefficients,
                     const VectorType & SinCoefficients );
-  
+
   /** Clear all frequency coefficients (including the "DC" coefficients). */
   void Clear()
     {
@@ -105,25 +105,25 @@ public:
     m_SinCoefficients->Initialize();
     this->Modified();
     }
-  
+
   /** New() method for dynamic construction */
   itkNewMacro( Self );
-  
-    /** Needed for Pipelining */
+
+  /** Needed for Pipelining */
   virtual void Initialize(void)
     {
     this->Clear();
     }
-  
+
 protected:
   FourierSeriesPath();
   ~FourierSeriesPath(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
-  
+
 private:
   FourierSeriesPath(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   CoefficientsPointer m_CosCoefficients;
   CoefficientsPointer m_SinCoefficients;
 };

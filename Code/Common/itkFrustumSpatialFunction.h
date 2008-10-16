@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,23 +28,23 @@ namespace itk
  *
  * Implements a function that returns 0 for points inside or on the surface
  * of a truncated pyrami, 1 for points outside the truncated pyramid
- * 
+ *
  * \ingroup SpatialFunctions
  *
  * */
 
 template <unsigned int VImageDimension=3,typename TInput=Point<double,3> >
-class ITK_EXPORT FrustumSpatialFunction : 
+class ITK_EXPORT FrustumSpatialFunction :
             public InteriorExteriorSpatialFunction<VImageDimension,TInput>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef FrustumSpatialFunction<VImageDimension,TInput> Self;
-  typedef InteriorExteriorSpatialFunction<VImageDimension,TInput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-    
+  typedef FrustumSpatialFunction<VImageDimension,TInput>            Self;
+  typedef InteriorExteriorSpatialFunction<VImageDimension,TInput>   Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(FrustumSpatialFunction,InteriorExteriorSpatialFunction);
 
@@ -56,44 +56,44 @@ public:
 
   /** Output type for the function */
   typedef typename Superclass::OutputType OutputType;
-  
+
   /** Rotate the frustum in the XZ or the YZ plane */
-  typedef enum{ 
+  typedef enum{
     RotateInXZPlane=1,
     RotateInYZPlane
   } FrustumRotationPlaneType;
- 
+
   /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType& position) const;
 
   /** Get and set the center of the sphere */
   itkGetMacro( Apex, InputType);
   itkSetMacro( Apex, InputType);
-  
-  /** Get and set the angle of the pyramid axis 
+
+  /** Get and set the angle of the pyramid axis
    * with respect to the Z axis */
   itkGetMacro( AngleZ, double);
   itkSetMacro( AngleZ, double);
-       
+
   /** Get and set the aperture angle in X */
   itkGetMacro( ApertureAngleX, double);
   itkSetMacro( ApertureAngleX, double);
-       
+
   /** Get and set the aperture angle in Y */
   itkGetMacro( ApertureAngleY, double);
   itkSetMacro( ApertureAngleY, double);
-       
+
   /** Get and set the top plane distance to the Apex */
   itkGetMacro( TopPlane, double);
   itkSetMacro( TopPlane, double);
-       
+
   /** Get and set the bottom plane distance to the Apex */
   itkGetMacro( BottomPlane, double);
   itkSetMacro( BottomPlane, double);
-  
- /** Set macro to set the plane in which the frustum should rotate */
+
+  /** Set macro to set the plane in which the frustum should rotate */
   itkSetMacro( RotationPlane, FrustumRotationPlaneType );
-     
+
 protected:
   FrustumSpatialFunction();
   virtual ~FrustumSpatialFunction();
@@ -144,7 +144,3 @@ private:
 #endif
 
 #endif
-
-
-
-
