@@ -46,7 +46,6 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 
-
 template<class TInputImage, class TLabelImage>
 void
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
@@ -216,11 +215,11 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     if ((*mapIt).second.m_Count > 1)
       {
       // unbiased estimate of variance
-      (*mapIt).second.m_Variance
-        = ((*mapIt).second.m_SumOfSquares
-           - ((*mapIt).second.m_Sum*(*mapIt).second.m_Sum
-              / static_cast<RealType>((*mapIt).second.m_Count)))
-        / (static_cast<RealType>((*mapIt).second.m_Count) - 1);
+      const LabelStatistics & ls = mapIt->second;
+      const RealType sumSquared  = ls.m_Sum * ls.m_Sum;
+      const RealType count       = static_cast< RealType >( ls.m_Count );
+
+      ls.m_Variance = ( ls.m_SumOfSquares - sumSquared / count ) / ( count - 1.0 );
       }
     else
       {
@@ -288,7 +287,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       }
 
     // bounding box is min,max pairs
-    for (unsigned int i = 0; i < ( 2 * it.GetImageDimension()); i+=2 ) 
+    for( unsigned int i = 0; i < ( 2 * it.GetImageDimension()); i += 2 ) 
       {
       typename ImageRegionConstIteratorWithIndex<TInputImage>::IndexType index = it.GetIndex();
       if ((*mapIt).second.m_BoundingBox[i] > index[i/2])

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMinimumMaximumImageCalculator_txx
-#define _itkMinimumMaximumImageCalculator_txx
+#ifndef __itkMinimumMaximumImageCalculator_txx
+#define __itkMinimumMaximumImageCalculator_txx
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

@@ -84,31 +84,30 @@ class ITK_EXPORT MorphologyImageFilter :
 {
 public:
   /** Standard Self typedef */
-  typedef MorphologyImageFilter                        Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef MorphologyImageFilter                         Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
   
   /** Runtime information support. */
   itkTypeMacro(MorphologyImageFilter, ImageToImageFilter);
   
   /** Image related typedefs. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  typedef TInputImage                                   InputImageType;
+  typedef TOutputImage                                  OutputImageType;
+  typedef typename TInputImage::RegionType              RegionType;
+  typedef typename TInputImage::SizeType                SizeType;
+  typedef typename TInputImage::IndexType               IndexType;
+  typedef typename TInputImage::PixelType               PixelType;
+  typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
   
   /** Image related typedefs. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Typedef for boundary conditions. */
-  typedef ImageBoundaryCondition<InputImageType> *ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition<InputImageType> const *ImageBoundaryConditionConstPointerType;
-  typedef ConstantBoundaryCondition<InputImageType> DefaultBoundaryConditionType;
+  typedef ImageBoundaryCondition<InputImageType> *       ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<InputImageType> const * ImageBoundaryConditionConstPointerType;
+  typedef ConstantBoundaryCondition<InputImageType>      DefaultBoundaryConditionType;
   
 
 /** Neighborhood iterator type. */
