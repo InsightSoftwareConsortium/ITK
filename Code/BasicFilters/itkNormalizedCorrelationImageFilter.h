@@ -46,10 +46,11 @@ class ITK_EXPORT NormalizedCorrelationImageFilter :
 {
 public:
   /** Standard "Self" & Superclass typedef. */
-  typedef NormalizedCorrelationImageFilter Self;
-  typedef NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef NormalizedCorrelationImageFilter          Self;
+  typedef NeighborhoodOperatorImageFilter<
+    TInputImage, TOutputImage, TOperatorValueType > Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,19 +77,18 @@ public:
                       TMaskImage::ImageDimension);
   
   /** Image typedef support. */
-  typedef TInputImage  InputImageType;
-  typedef TMaskImage   MaskImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                      InputImageType;
+  typedef TMaskImage                       MaskImageType;
+  typedef TOutputImage                     OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename MaskImageType::Pointer MaskImagePointer;
+  typedef typename MaskImageType::Pointer  MaskImagePointer;
   
   /** Typedef for generic boundary condition pointer. */
-  typedef ImageBoundaryCondition<OutputImageType> *
-  ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<OutputImageType> *ImageBoundaryConditionPointerType;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OperatorValueType         OperatorValueType;
+  typedef typename Superclass::OperatorValueType     OperatorValueType;
 
   /** Neighborhood types */
   typedef typename Superclass::OutputNeighborhoodType OutputNeighborhoodType;
@@ -107,9 +107,9 @@ public:
    * correlation. The elements of the template must be set prior to
    * calling SetTemplate(). */
   void SetTemplate(const OutputNeighborhoodType &t)
-  {
+    {
     this->SetOperator(t);
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -164,4 +164,3 @@ private:
 #endif
 
 #endif
-

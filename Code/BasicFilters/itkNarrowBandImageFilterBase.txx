@@ -6,17 +6,16 @@
   Date:      $Date$
   Version:   $Revision$
 
-
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNarrowBandImageFilterBase_txx_
-#define __itkNarrowBandImageFilterBase_txx_
+#ifndef __itkNarrowBandImageFilterBase_txx
+#define __itkNarrowBandImageFilterBase_txx
 
 #include "itkNarrowBandImageFilterBase.h"
 #include "itkShiftScaleImageFilter.h"
@@ -154,9 +153,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
   int threadCount;
   ThreadRegionType splitRegion;
 
-//Implement iterative loop in thread function
-//ThreadedApplyUpdate and ThreadedCalculateChanged
-// is called instead of ApplyUpdate and CalculateChange
+  //Implement iterative loop in thread function
+  //ThreadedApplyUpdate and ThreadedCalculateChanged
+  // is called instead of ApplyUpdate and CalculateChange
   NarrowBandImageFilterBaseThreadStruct * str
     = (NarrowBandImageFilterBaseThreadStruct *)
     (((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
@@ -185,19 +184,18 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     //Threaded Calculate Change
     str->ValidTimeStepList[threadId] = false;
     str->TimeStepList[threadId]
-      = this->ThreadedCalculateChange(splitRegion, threadId);    
+      = this->ThreadedCalculateChange(splitRegion, threadId);
     str->ValidTimeStepList[threadId]=true;
     
     this->WaitForAll();
     
     //Calculate the time step
      //Check how is done in itkParallell
-      if (threadId == 0)
-        {      
-
-            str->TimeStep = this->ResolveTimeStep(str->TimeStepList,
-                       str->ValidTimeStepList, threadCount);
-        }       
+    if (threadId == 0)
+      {
+      str->TimeStep = this->ResolveTimeStep(str->TimeStepList,
+                                            str->ValidTimeStepList, threadCount);
+      }
      
     this->WaitForAll(); 
         
@@ -231,7 +229,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
         throw e;
         }
       }
-   this->WaitForAll();
+    this->WaitForAll();
     }
 }   
   
@@ -318,8 +316,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>
     oldvalue = image->GetPixel(it->m_Index);
     newvalue = oldvalue + dt * it->m_Data;
     //Check whether solution is out the inner band or not
-    m_TouchedForThread[threadId] = ( m_TouchedForThread[threadId] || ( !(it->m_NodeState & INNER_MASK)
-                                  && ( (oldvalue>0)!=(newvalue>0))));
+    m_TouchedForThread[threadId] = ( m_TouchedForThread[threadId] ||
+                                     ( !(it->m_NodeState & INNER_MASK)
+                                       && ( (oldvalue>0) != (newvalue>0))));
     image->SetPixel(it->m_Index, newvalue);
     
     }

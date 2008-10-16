@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkNormalVectorFunctionBase_txx_
-#define __itkNormalVectorFunctionBase_txx_
+#ifndef __itkNormalVectorFunctionBase_txx
+#define __itkNormalVectorFunctionBase_txx
 
 #include "itkNormalVectorFunctionBase.h"
 #include "itkNumericTraits.h"

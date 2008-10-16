@@ -43,26 +43,26 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
-namespace Functor {  
+namespace Functor { 
   
 template< class TInput, class TOutput=TInput >
 class NOT
 {
 public:
   NOT() {};
- ~NOT() {};
+  ~NOT() {};
   bool operator!=( const NOT & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const NOT & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( !A );
-  }
+    }
 }; 
 
 }
@@ -78,13 +78,14 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef NotImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                   Functor::NOT< 
-    typename TInputImage::PixelType, 
-    typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef NotImageFilter            Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::NOT< 
+      typename TInputImage::PixelType, 
+      typename TOutputImage::PixelType>   
+    >                               Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

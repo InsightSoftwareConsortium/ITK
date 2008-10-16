@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMirrorPadImageFilter_txx
-#define _itkMirrorPadImageFilter_txx
+#ifndef __itkMirrorPadImageFilter_txx
+#define __itkMirrorPadImageFilter_txx
 
 #include "itkMirrorPadImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -49,17 +49,18 @@ int MirrorPadImageFilter<TInputImage,TOutputImage>
   // value for the region parameters.  If we wrap on a region, then we 
   // also increment to the next region for the next higher dimension.
   //
-  for (ctr=0; (ctr<ImageDimension) && !done; ctr++) {
-  regIndices[ctr]++;
-  done = 1;
-  if (regIndices[ctr] >= regLimit[ctr]) 
+  for (ctr=0; (ctr<ImageDimension) && !done; ctr++)
     {
-    regIndices[ctr] = 0;
-    done = 0;
+    regIndices[ctr]++;
+    done = 1;
+    if (regIndices[ctr] >= regLimit[ctr]) 
+      {
+      regIndices[ctr] = 0;
+      done = 0;
+      }
+    nextIndex[ctr] = indices[ctr][regIndices[ctr]];
+    nextSize[ctr] = sizes[ctr][regIndices[ctr]];
     }
-  nextIndex[ctr] = indices[ctr][regIndices[ctr]];
-  nextSize[ctr] = sizes[ctr][regIndices[ctr]];
-  }
     
   //
   // Set what we have learned into the image region.
@@ -463,13 +464,10 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
   
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
-  OutputImageIndexType outputIndex
-    = outputPtr->GetRequestedRegion().GetIndex();
-  InputImageIndexType inputIndex 
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
+  OutputImageIndexType outputIndex = outputPtr->GetRequestedRegion().GetIndex();
+  InputImageIndexType inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
   OutputImageSizeType outputSize = outputPtr->GetRequestedRegion().GetSize();
-  InputImageSizeType inputSize 
-    = inputPtr->GetLargestPossibleRegion().GetSize();
+  InputImageSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   
   OutputImageRegionType outputRegion; 
   InputImageRegionType inputRegion;
@@ -744,7 +742,7 @@ MirrorPadImageFilter<TInputImage,TOutputImage>
     
   // Define/declare iterators that will walk the input and output regions
   // for this thread.  
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
+  typedef ImageRegionIterator<TOutputImage>     OutputIterator;
   typedef ImageRegionConstIterator<TInputImage> InputIterator;
   
 

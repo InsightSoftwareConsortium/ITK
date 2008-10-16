@@ -8,14 +8,14 @@
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-eplace
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMinimumMaximumImageFilter_txx
-#define _itkMinimumMaximumImageFilter_txx
+#ifndef __itkMinimumMaximumImageFilter_txx
+#define __itkMinimumMaximumImageFilter_txx
 #include "itkMinimumMaximumImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -56,7 +56,7 @@ MinimumMaximumImageFilter<TInputImage>
 {
   switch (output)
     {
-   case 0:
+    case 0:
       return static_cast<DataObject*>(TInputImage::New().GetPointer());
       break;
     case 1:

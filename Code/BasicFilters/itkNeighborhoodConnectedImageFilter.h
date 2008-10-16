@@ -20,7 +20,7 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
-namespace itk{
+namespace itk {
 
 /** \class NeighborhoodConnectedImageFilter
  * \brief Label pixels that are connected to a seed and lie within a neighborhood
@@ -37,10 +37,10 @@ class ITK_EXPORT NeighborhoodConnectedImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef NeighborhoodConnectedImageFilter Self;
+  typedef NeighborhoodConnectedImageFilter             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -49,38 +49,38 @@ public:
   itkTypeMacro(NeighborhoodConnectedImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                         InputImageType;
+  typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef typename InputImageType::IndexType IndexType;
-  typedef typename InputImageType::SizeType InputImageSizeType;
+  typedef typename InputImageType::PixelType  InputImagePixelType; 
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::SizeType   InputImageSizeType;
   
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef typename OutputImageType::PixelType  OutputImagePixelType; 
   
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Clear the seeds */
   void ClearSeeds()
-  {
+    {
     m_Seeds.clear();
     this->Modified();
-  }
+    }
   /** Set seed point. */
   void SetSeed(const IndexType & seed)
-  {
+    {
     this->ClearSeeds();
     this->AddSeed ( seed );
-  }
+    }
   /** Add a seed point */
   void AddSeed ( const IndexType & seed )
-  {
+    {
     m_Seeds.push_back ( seed );
     this->Modified();
-  };
+    }
 
   /** Set/Get the lower threshold. The default is 0. */
   itkSetMacro(Lower, InputImagePixelType);
@@ -128,10 +128,10 @@ protected:
   NeighborhoodConnectedImageFilter();
   ~NeighborhoodConnectedImageFilter(){};
   std::vector<IndexType> m_Seeds;
-  InputImagePixelType m_Lower;
-  InputImagePixelType m_Upper;
-  OutputImagePixelType m_ReplaceValue;
-  InputImageSizeType m_Radius;
+  InputImagePixelType    m_Lower;
+  InputImagePixelType    m_Upper;
+  OutputImagePixelType   m_ReplaceValue;
+  InputImageSizeType     m_Radius;
 
   
   // Override since the filter needs all the data for the algorithm

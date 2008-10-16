@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNormalizeImageFilter_txx
-#define _itkNormalizeImageFilter_txx
+#ifndef __itkNormalizeImageFilter_txx
+#define __itkNormalizeImageFilter_txx
 
 #include "itkNormalizeImageFilter.h"
 #include "itkImageRegionIterator.h"

@@ -78,17 +78,17 @@ public:
         A = static_cast< OutputValueType > (B[i]);
         }
       }
-      return A;
+    return A;
     }
   
   bool operator== (const Maximum1&) const
-  {
+    {
     return true;
-  }
+    }
   bool operator!= (const Maximum1&) const
-  {
+    {
     return false;
-  }
+    }
 };
 
 }
@@ -101,11 +101,13 @@ NaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef NaryMaximumImageFilter  Self;
-  typedef NaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                 Functor::Maximum1< typename TInputImage::PixelType, 
-                                   typename TInputImage::PixelType > >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef NaryMaximumImageFilter    Self;
+  typedef NaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::Maximum1< typename TInputImage::PixelType, 
+                       typename TInputImage::PixelType > >
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

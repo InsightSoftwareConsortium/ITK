@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNeighborhoodConnectedImageFilter_txx_
-#define __itkNeighborhoodConnectedImageFilter_txx_
+#ifndef __itkNeighborhoodConnectedImageFilter_txx
+#define __itkNeighborhoodConnectedImageFilter_txx
 
 #include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"

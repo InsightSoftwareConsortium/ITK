@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkNormalVectorDiffusionFunction_txx_
-#define __itkNormalVectorDiffusionFunction_txx_
+#ifndef __itkNormalVectorDiffusionFunction_txx
+#define __itkNormalVectorDiffusionFunction_txx
 
 #include "itkNormalVectorDiffusionFunction.h"
 #include "itkNumericTraits.h"

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNoiseImageFilter_txx
-#define _itkNoiseImageFilter_txx
+#ifndef __itkNoiseImageFilter_txx
+#define __itkNoiseImageFilter_txx
 
 
 // First make sure that the configuration is available.

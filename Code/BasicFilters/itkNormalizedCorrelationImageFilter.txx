@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNormalizedCorrelationImageFilter_txx
-#define _itkNormalizedCorrelationImageFilter_txx
+#ifndef __itkNormalizedCorrelationImageFilter_txx
+#define __itkNormalizedCorrelationImageFilter_txx
 
 #include "itkNormalizedCorrelationImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -157,6 +157,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   // pixels that correspond to output pixels.
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
     BFC;
+
   typedef typename BFC::FaceListType FaceListType;
   BFC faceCalculator;
   FaceListType faceList;
@@ -254,7 +255,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
             }
           denominator = vcl_sqrt(sumOfSquares - (sum*sum/realTemplateSize) );
 
-          it.Value() = numerator / denominator ;
+          it.Value() = numerator / denominator;
           }
         else
           {
@@ -273,5 +274,3 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
 } // end namespace itk
 
 #endif
-
-

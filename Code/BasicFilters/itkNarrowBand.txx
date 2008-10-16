@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNarrowBand_txx
-#define _itkNarrowBand_txx
+#ifndef __itkNarrowBand_txx
+#define __itkNarrowBand_txx
 #include "itkNarrowBand.h"
 #include "math.h"
 

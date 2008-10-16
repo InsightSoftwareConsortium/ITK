@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkModulusImageFilter_txx
-#define _itkModulusImageFilter_txx
+#ifndef __itkModulusImageFilter_txx
+#define __itkModulusImageFilter_txx
 
 #include "itkModulusImageFilter.h"
 

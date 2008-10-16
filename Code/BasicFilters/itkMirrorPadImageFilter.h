@@ -47,10 +47,10 @@ class ITK_EXPORT MirrorPadImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef MirrorPadImageFilter         Self;
-  typedef PadImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MirrorPadImageFilter                     Self;
+  typedef PadImageFilter<TInputImage,TOutputImage> Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self); 
@@ -58,22 +58,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MirrorPadImageFilter, PadImageFilter);
   
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   
   /** Typedef to describe the output image region type. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::InputImageRegionType InputImageRegionType;
+  typedef typename Superclass::InputImageRegionType  InputImageRegionType;
   
   /** Typedef to describe the type of pixel. */
   typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
-  typedef typename Superclass::InputImagePixelType InputImagePixelType;
+  typedef typename Superclass::InputImagePixelType  InputImagePixelType;
   
   /** Typedef to describe the output and input image index and size types. */
   typedef typename Superclass::OutputImageIndexType OutputImageIndexType;
-  typedef typename Superclass::InputImageIndexType InputImageIndexType;
-  typedef typename Superclass::OutputImageSizeType OutputImageSizeType;
-  typedef typename Superclass::InputImageSizeType InputImageSizeType;
+  typedef typename Superclass::InputImageIndexType  InputImageIndexType;
+  typedef typename Superclass::OutputImageSizeType  OutputImageSizeType;
+  typedef typename Superclass::InputImageSizeType   InputImageSizeType;
   
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,

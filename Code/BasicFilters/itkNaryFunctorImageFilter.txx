@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNaryFunctorImageFilter_txx
-#define _itkNaryFunctorImageFilter_txx
+#ifndef __itkNaryFunctorImageFilter_txx
+#define __itkNaryFunctorImageFilter_txx
 
 #include "itkNaryFunctorImageFilter.h"
 #include "itkImageRegionIterator.h"

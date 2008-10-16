@@ -84,10 +84,10 @@ class ITK_EXPORT MorphologyImageFilter :
 {
 public:
   /** Standard Self typedef */
-  typedef MorphologyImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MorphologyImageFilter                        Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
   
   /** Runtime information support. */
   itkTypeMacro(MorphologyImageFilter, ImageToImageFilter);
@@ -95,10 +95,10 @@ public:
   /** Image related typedefs. */
   typedef TInputImage InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef typename TInputImage::RegionType RegionType ;
-  typedef typename TInputImage::SizeType SizeType ;
-  typedef typename TInputImage::IndexType IndexType ;
-  typedef typename TInputImage::PixelType PixelType ;
+  typedef typename TInputImage::RegionType           RegionType;
+  typedef typename TInputImage::SizeType             SizeType;
+  typedef typename TInputImage::IndexType            IndexType;
+  typedef typename TInputImage::PixelType            PixelType;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   
   /** Image related typedefs. */
@@ -113,16 +113,16 @@ public:
 
 /** Neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<TInputImage> 
-  NeighborhoodIteratorType ;
+  NeighborhoodIteratorType;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
   
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType ;
+  typedef typename KernelType::ConstIterator KernelIteratorType;
   
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType RadiusType ;
+  typedef typename KernelType::SizeType RadiusType;
 
   /** Set kernel (structuring element). */
   itkSetMacro(Kernel, KernelType);
@@ -135,7 +135,7 @@ public:
    * requested region is expanded by the radius of the structuring element.
    * If the request extends past the LargestPossibleRegion for the input,
    * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion();
 
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
@@ -160,7 +160,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const OutputImageRegionType& 
                               outputRegionForThread,
-                              int threadId) ;
+                              int threadId);
 
   /** Evaluate image neighborhood with kernel to find the new value 
    * for the center pixel value. */
@@ -173,7 +173,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** kernel or structuring element to use. */
-  KernelType m_Kernel ;
+  KernelType m_Kernel;
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
@@ -182,7 +182,7 @@ private:
   /** Default boundary condition */
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;
   
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

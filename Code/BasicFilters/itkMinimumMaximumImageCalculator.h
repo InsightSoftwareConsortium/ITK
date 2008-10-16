@@ -23,22 +23,23 @@
 namespace itk
 {
 
-/** This calculator computes the minimum and the maximum intensity values of
+/** \class MinimumMaximumImageCalculator
+ * This calculator computes the minimum and the maximum intensity values of
  * an image.  It is templated over input image type.  If only Maximum or
  * Minimum value is needed, just call ComputeMaximum() (ComputeMinimum())
  * otherwise Compute() will compute both.
  *
  * \ingroup Operators
  */
-template <class TInputImage>            
+template <class TInputImage>
 class ITK_EXPORT MinimumMaximumImageCalculator : public Object 
 {
 public:
   /** Standard class typedefs. */
   typedef MinimumMaximumImageCalculator Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                        Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

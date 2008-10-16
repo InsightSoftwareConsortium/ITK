@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNarrowBandImageFilterBase_h_
-#define __itkNarrowBandImageFilterBase_h_
+#ifndef __itkNarrowBandImageFilterBase_h
+#define __itkNarrowBandImageFilterBase_h
 
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
@@ -68,17 +68,17 @@ class NarrowBandImageFilterBase
 {
 public:
   /** Standard class typedefs */
-  typedef NarrowBandImageFilterBase Self;
+  typedef NarrowBandImageFilterBase                              Self;
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                     Pointer;
+  typedef SmartPointer<const Self>                               ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(NarrowBandImageFilterBase, ImageToImageFilter );
   
   /**Typedefs from the superclass */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::InputImageType               InputImageType;
+  typedef typename Superclass::OutputImageType              OutputImageType;
   typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
   
   /** Dimensionality of input and output data is assumed to be the same.
@@ -92,19 +92,19 @@ public:
   /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** The index type for the output image*/
+  /** The index type for the output image. */
   typedef typename OutputImageType::IndexType IndexType;
   
   /** The data type used in numerical computations.  Derived from the output
    *  image type. */
   typedef typename OutputImageType::ValueType ValueType;
 
-  /** This is the storage type for the nodes on the narrow band */
+  /** This is the storage type for the nodes on the narrow band. */
   typedef BandNode<IndexType,PixelType> BandNodeType;
 
   /** The list type for storing the narrow band. */
-  typedef NarrowBand<BandNodeType> NarrowBandType;
-  typedef typename NarrowBandType::Pointer NarrowBandPointer;
+  typedef NarrowBand<BandNodeType>            NarrowBandType;
+  typedef typename NarrowBandType::Pointer    NarrowBandPointer;
   typedef typename NarrowBandType::RegionType RegionType;
 
   /** Set/Get IsoSurfaceValue to use in the input image */
@@ -117,21 +117,21 @@ public:
   /** This function is used to insert a pixel index into the narrow band  The
    *   entire narrow band can be constructed using this method.  Usually,
    *   however, the narrow band is initialized and reinitialized automatically
-   *   by the subclass.*/
+   *   by the subclass. */
   void InsertNarrowBandNode (BandNodeType &node) 
-  {
+    {
     m_NarrowBand->PushBack(node); // add new node 
     this->Modified();
-  };
+    }
   void InsertNarrowBandNode (IndexType &index)
-  {
+    {
     BandNodeType tmpnode;
     tmpnode.m_Index = index;
     m_NarrowBand->PushBack(tmpnode);
     this->Modified();
-  };
+    }
   void InsertNarrowBandNode (IndexType &index, PixelType &value, signed char &nodestate)
-  {
+    {
     BandNodeType tmpnode;
     tmpnode.m_Data = value;
     tmpnode.m_Index = index;
@@ -139,45 +139,42 @@ public:
     
     m_NarrowBand->PushBack(tmpnode);
     this->Modified();
-  }; 
+    } 
   
-  /** Set the narrow band total radius. The narrow band width will be twice
-      this value (positive and negative distance to the zero level set).
-      The default value is 3.
-  */
+  /** Set the narrow band total radius. The narrow band width will be
+   * twice this value (positive and negative distance to the zero level
+   * set). The default value is 3. */
   void SetNarrowBandTotalRadius (float val)
-  {
+    {
     if (m_NarrowBand->GetTotalRadius() != val)
       {
-      m_NarrowBand->SetTotalRadius(val);    
+      m_NarrowBand->SetTotalRadius(val);
       this->Modified();
       }
-  }
+    }
   
   /** Get the narrow band total radius. */
   float GetNarrowBandTotalRadius()
-  {
+    {
     return m_NarrowBand->GetTotalRadius();
-  }
+    }
   
-  /** Set the narrow band inner radius. The inner radius is the safe are
-      where the level set can be computed.
-      The default value is 1.
-  */
+  /** Set the narrow band inner radius. The inner radius is the safe
+   * are where the level set can be computed. The default value is 1. */
   void SetNarrowBandInnerRadius (float val)
-  {
+    {
     if (m_NarrowBand->GetInnerRadius() != val)
       {
       m_NarrowBand->SetInnerRadius(val);
       this->Modified();
       }
-  }
+    }
 
   /** Get the narrow band inner radius. */
   float GetNarrowBandInnerRadius()
-  {
+    {
     return m_NarrowBand->GetInnerRadius();
-  }
+    }
   
   /** This is the virtual method called by Initialize to set the band of operation.
    *  It is left to the subclasses to define this functionality. 
@@ -187,21 +184,20 @@ public:
   virtual void CreateNarrowBand (){};
   
   virtual void SetNarrowBand(NarrowBandType * ptr)
-  {
-    
+    {
     if ( m_NarrowBand != ptr )
       {
       m_NarrowBand = ptr;
       this->Modified();
       }   
-  };
+    }
   
   virtual void CopyInputToOutput ();
   
 protected:
   typename NarrowBandType::Pointer m_NarrowBand;
   NarrowBandImageFilterBase() 
-  {
+    {
     m_NarrowBand = NarrowBandType::New();
     m_NarrowBand->SetTotalRadius(4);
     m_NarrowBand->SetInnerRadius(2);
@@ -210,7 +206,7 @@ protected:
     m_Step    = 0;
     m_Touched = false;
     m_Barrier = Barrier::New();
-  }
+    }
   
   virtual ~NarrowBandImageFilterBase() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -218,10 +214,10 @@ protected:
   /** The type of region used in multithreading.  Defines a subregion of the
       narrowband. */
   struct ThreadRegionType 
-  {
+    {
     typename NarrowBandType::Iterator first; // this is the actual first element
     typename NarrowBandType::Iterator last;  // this is one past the actual last //element
-  };
+    };
   
   /** A list of subregions of the narrowband which are passed to each thread
    * for parallel processing. */
@@ -261,9 +257,9 @@ protected:
   /* Variables to control reinitialization */
   unsigned int m_ReinitializationFrequency;
   unsigned int m_Step;
-  bool m_Touched;
-  bool * m_TouchedForThread;
-  ValueType m_IsoSurfaceValue;
+  bool         m_Touched;
+  bool *       m_TouchedForThread;
+  ValueType    m_IsoSurfaceValue;
   
   typename Barrier::Pointer m_Barrier;
 
@@ -274,12 +270,12 @@ private:
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
   struct NarrowBandImageFilterBaseThreadStruct
-  {
+    {
     NarrowBandImageFilterBase *Filter;
     TimeStepType TimeStep;
     TimeStepType *TimeStepList;
     bool *ValidTimeStepList;
-  };
+    };
   
   /* This class does not use AllocateUpdateBuffer to allocate memory for its 
    * narrow band. This is taken care of in SetNarrowBand, and InsertNarrowBandNode
@@ -297,7 +293,7 @@ private:
    * and ThreadedCalculateChange to update the solution at every iteration. */ 
   virtual void ThreadedIterate(void *arg, int threadId);
 
- /** This method applies changes from the m_NarrowBand to the output using
+  /** This method applies changes from the m_NarrowBand to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */  
   virtual void ThreadedApplyUpdate(TimeStepType dt,

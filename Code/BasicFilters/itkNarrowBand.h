@@ -22,32 +22,32 @@
 #include <vector>
 
 namespace itk {
-  /** 
-   * A data structure used with NarrowBand to store a list of indices 
-   * (m_Index) that define the band, and an accompanying list of update values 
-   * (m_Data) computed by CalculateChange 
-   */
+/** 
+ * A data structure used with NarrowBand to store a list of indices 
+ * (m_Index) that define the band, and an accompanying list of update values 
+ * (m_Data) computed by CalculateChange 
+ */
       
 template <class TIndexType, class TDataType>
 class BandNode
 {
 public:
-  TDataType m_Data;
-  TIndexType m_Index;
+  TDataType   m_Data;
+  TIndexType  m_Index;
   signed char m_NodeState;
   BandNode() { m_NodeState = 0; }
 };  
 
 
-/** */
+/** \class NarrowBand */
 template <class NodeType>
 class ITK_EXPORT NarrowBand : public LightObject
 {
 public:
   /** Standard class typedefs */
-  typedef NarrowBand   Self;
-  typedef LightObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef NarrowBand                Self;
+  typedef LightObject               Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -56,87 +56,81 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NarrowBand, LightObject);
 
-  typedef std::vector<NodeType> NodeContainerType;
-  typedef typename NodeContainerType::size_type SizeType;
+  typedef std::vector<NodeType>                      NodeContainerType;
+  typedef typename NodeContainerType::size_type      SizeType;
   typedef typename NodeContainerType::const_iterator ConstIterator;
-  typedef typename NodeContainerType::iterator Iterator;
+  typedef typename NodeContainerType::iterator       Iterator;
 
   /** Begin is the first valid iterator position within the region.  End is ONE
       PAST the last valid iterator position in the region. */
   typedef struct RegionStruct
-  {
+    {
     Iterator Begin;
     Iterator End;
-  } RegionType;
+    } RegionType;
 
-  //typedef struct RegionStruct
-  //{
-  //  ConstIterator Begin;
-  //  ConstIterator End;
- // } ConstRegionType;
-
-  /** Returns an array of RegionStructs which represent contiguous arrays
-      of nodes within the narrow band. */
+  /** Returns an array of RegionStructs which represent contiguous
+   * arrays of nodes within the narrow band. */
 #if !defined(CABLE_CONFIGURATION)
  std::vector<struct RegionStruct> SplitBand( unsigned int );
 #endif
 
   Iterator Begin()
-  {
+    {
     return m_NodeContainer.begin();
-  }
+    }
   ConstIterator Begin() const
-  {
+    {
     return m_NodeContainer.begin();
-  }
+    }
   Iterator End()
-  {
+    {
     return m_NodeContainer.end();
-  }
+    }
   ConstIterator End() const
-  {
+    {
     return m_NodeContainer.end();
-  }
+    }
 
   SizeType Size() const
-  {
+    {
     return m_NodeContainer.size();
-  }
+    }
   bool Empty() const
-  {
+    {
     return m_NodeContainer.empty();
-  }
+    }
   
   /** Clear the narrow band container. */
   void Clear()
-  {
+    {
     m_NodeContainer.clear();
-  }
+    }
   void Reserve( SizeType n)
-  {
+    {
     m_NodeContainer.reserve( n );
-  }
+    }
   void PushBack( const NodeType &n)
-  {
+    {
     m_NodeContainer.push_back(n);
-  }
+    }
   void PopBack()
-  {
+    {
     m_NodeContainer.pop_back();
-  }
+    }
   void Resize( SizeType n )
-  {
+    {
     m_NodeContainer.resize(n);
-  }
+    }
   
   NodeType &operator[]( SizeType n )
-  {
+    {
     return m_NodeContainer[n];
-  }
+    }
   const NodeType& operator[](SizeType n) const
-  {
+    {
     return m_NodeContainer[n];
-  }
+    }
 
   /** Set/Get the narrow band total radius. The narrow band width will be twice
   this value (positive and negative distance to the zero level set).
@@ -153,7 +147,7 @@ public:
 
   
 protected:
-  NarrowBand() {m_TotalRadius = 0.0; m_InnerRadius = 0.0;};
+  NarrowBand() {m_TotalRadius = 0.0; m_InnerRadius = 0.0;}
   float m_TotalRadius;
   float m_InnerRadius;
   

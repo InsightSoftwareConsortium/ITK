@@ -141,8 +141,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   
 }
 
-
-
 template<class TInputImage, class TOutputImage, class TKernel>
 void
 MorphologyImageFilter<TInputImage, TOutputImage, TKernel>

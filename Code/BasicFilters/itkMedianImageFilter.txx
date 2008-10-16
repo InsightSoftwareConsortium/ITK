@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMedianImageFilter_txx
-#define _itkMedianImageFilter_txx
+#ifndef __itkMedianImageFilter_txx
+#define __itkMedianImageFilter_txx
 
 // First make sure that the configuration is available.
 // This line can be removed once the optimized versions

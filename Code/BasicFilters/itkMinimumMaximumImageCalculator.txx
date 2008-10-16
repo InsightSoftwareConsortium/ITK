@@ -24,7 +24,7 @@
 namespace itk
 { 
     
-/*
+/**
  * Constructor
  */
 template<class TInputImage>
@@ -32,15 +32,15 @@ MinimumMaximumImageCalculator<TInputImage>
 ::MinimumMaximumImageCalculator()
 {
   m_Image = TInputImage::New();
-  m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
-  m_Minimum = NumericTraits<PixelType>::max() ;
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
+  m_Minimum = NumericTraits<PixelType>::max();
   m_IndexOfMinimum.Fill(0);
   m_IndexOfMaximum.Fill(0);
   m_RegionSetByUser = false;
 }
 
 
-/*
+/**
  * Compute Min and Max of m_Image
  */
 template<class TInputImage>
@@ -54,8 +54,8 @@ MinimumMaximumImageCalculator<TInputImage>
     }
 
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image, m_Region );
-  m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
-  m_Minimum = NumericTraits<PixelType>::max() ;
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
+  m_Minimum = NumericTraits<PixelType>::max();
 
 
   while( !it.IsAtEnd() )
@@ -76,7 +76,7 @@ MinimumMaximumImageCalculator<TInputImage>
 
 }
 
-/*
+/**
  * Compute the minimum intensity value of the image
  */
 template<class TInputImage>
@@ -89,7 +89,7 @@ MinimumMaximumImageCalculator<TInputImage>
     m_Region = m_Image->GetRequestedRegion();
     }
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Region );
-  m_Minimum = NumericTraits<PixelType>::max() ;
+  m_Minimum = NumericTraits<PixelType>::max();
 
   while( !it.IsAtEnd() )
     {
@@ -104,7 +104,7 @@ MinimumMaximumImageCalculator<TInputImage>
 
 }
 
-/*
+/**
  * Compute the maximum intensity value of the image
  */
 template<class TInputImage>
@@ -117,7 +117,7 @@ MinimumMaximumImageCalculator<TInputImage>
     m_Region = m_Image->GetRequestedRegion();
     }
   ImageRegionConstIteratorWithIndex< TInputImage >  it( m_Image,  m_Region );
-  m_Maximum = NumericTraits<PixelType>::NonpositiveMin() ;
+  m_Maximum = NumericTraits<PixelType>::NonpositiveMin();
 
   while( !it.IsAtEnd() )
     {
@@ -131,8 +131,6 @@ MinimumMaximumImageCalculator<TInputImage>
     }
 
 }
-
-
 
 template<class TInputImage>
 void
@@ -161,9 +159,9 @@ MinimumMaximumImageCalculator<TInputImage>
   os << indent << "Index of Minimum: " << m_IndexOfMinimum << std::endl;
   os << indent << "Index of Maximum: " << m_IndexOfMaximum << std::endl;
   os << indent << "Image: " << std::endl;
-    m_Image->Print(os, indent.GetNextIndent());
+  m_Image->Print(os, indent.GetNextIndent());
   os << indent << "Region: " << std::endl;
-    m_Region.Print(os,indent.GetNextIndent());
+  m_Region.Print(os,indent.GetNextIndent());
   os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
 }
 

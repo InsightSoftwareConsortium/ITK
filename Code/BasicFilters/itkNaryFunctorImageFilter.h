@@ -44,10 +44,10 @@ class ITK_EXPORT NaryFunctorImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef NaryFunctorImageFilter  Self;
+  typedef NaryFunctorImageFilter                        Self;
   typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
@@ -55,12 +55,12 @@ public:
   itkTypeMacro(NaryFunctorImageFilter, InPlaceImageFilter);
 
   /** Some typedefs. */
-  typedef TFunction   FunctorType;
-  typedef TInputImage InputImageType;
+  typedef TFunction                             FunctorType;
+  typedef TInputImage                           InputImageType;
   typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::RegionType   InputImageRegionType; 
   typedef typename InputImageType::PixelType    InputImagePixelType; 
-  typedef TOutputImage OutputImageType;
+  typedef TOutputImage                          OutputImageType;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
   typedef typename OutputImageType::PixelType   OutputImagePixelType;
@@ -79,13 +79,13 @@ public:
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
   void SetFunctor(FunctorType& functor)
-  {
+    {
     if ( m_Functor != functor )
       {
       m_Functor = functor;
       this->Modified();
       }
-  }
+    }
   
   /** ImageDimension constants */
   itkStaticConstMacro(

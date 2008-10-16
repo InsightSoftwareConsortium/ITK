@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNonThreadedShrinkImageFilter_txx
-#define _itkNonThreadedShrinkImageFilter_txx
+#ifndef __itkNonThreadedShrinkImageFilter_txx
+#define __itkNonThreadedShrinkImageFilter_txx
 
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -170,8 +170,6 @@ NonThreadedShrinkImageFilter<TInputImage,TOutputImage>
     progress.CompletedPixel();
     }
 }
-
-
 
 /** 
  *
