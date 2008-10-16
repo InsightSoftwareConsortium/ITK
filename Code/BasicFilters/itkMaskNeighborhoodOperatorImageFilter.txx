@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMaskNeighborhoodOperatorImageFilter_txx
-#define _itkMaskNeighborhoodOperatorImageFilter_txx
+#ifndef __itkMaskNeighborhoodOperatorImageFilter_txx
+#define __itkMaskNeighborhoodOperatorImageFilter_txx
 
 #include "itkMaskNeighborhoodOperatorImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -120,6 +120,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   // pixels that correspond to output pixels.
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
     BFC;
+
   typedef typename BFC::FaceListType FaceListType;
   BFC faceCalculator;
   FaceListType faceList;
@@ -185,5 +186,3 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 } // end namespace itk
 
 #endif
-
-

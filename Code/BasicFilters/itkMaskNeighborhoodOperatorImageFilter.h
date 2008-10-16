@@ -47,9 +47,11 @@ class ITK_EXPORT MaskNeighborhoodOperatorImageFilter :
 public:
   /** Standard "Self" & Superclass typedef. */
   typedef MaskNeighborhoodOperatorImageFilter Self;
-  typedef NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef NeighborhoodOperatorImageFilter<
+    TInputImage, TOutputImage, TOperatorValueType >
+                                              Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,11 +78,11 @@ public:
                       TMaskImage::ImageDimension);
   
   /** Image typedef support. */
-  typedef TInputImage  InputImageType;
-  typedef TMaskImage   MaskImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                      InputImageType;
+  typedef TMaskImage                       MaskImageType;
+  typedef TOutputImage                     OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename MaskImageType::Pointer MaskImagePointer;
+  typedef typename MaskImageType::Pointer  MaskImagePointer;
   
   /** Typedef for generic boundary condition pointer. */
   typedef ImageBoundaryCondition<OutputImageType> *
@@ -88,7 +90,7 @@ public:
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OperatorValueType         OperatorValueType;
+  typedef typename Superclass::OperatorValueType     OperatorValueType;
 
   /** Neighborhood types */
   typedef typename Superclass::OutputNeighborhoodType OutputNeighborhoodType;
@@ -171,7 +173,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   OutputPixelType m_DefaultValue;
-  bool m_UseDefaultValue;
+  bool            m_UseDefaultValue;
 };
   
 } // end namespace itk
@@ -181,4 +183,3 @@ private:
 #endif
 
 #endif
-

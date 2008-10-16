@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanImageFilter_txx
-#define _itkMeanImageFilter_txx
+#ifndef __itkMeanImageFilter_txx
+#define __itkMeanImageFilter_txx
 
 
 // First make sure that the configuration is available.

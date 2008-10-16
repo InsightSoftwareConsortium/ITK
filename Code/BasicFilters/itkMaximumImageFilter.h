@@ -43,24 +43,24 @@ public:
   Maximum() {}
   ~Maximum() {}
   bool operator!=( const Maximum & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Maximum & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput1 & A, const TInput2 & B)
-  { 
-   if(A > B)
-     {
-     return static_cast<TOutput>(A);
-     }
-   else
-     {
-     return static_cast<TOutput>(B);
-     }
-  } 
+    { 
+    if(A > B)
+      {
+      return static_cast<TOutput>(A);
+      }
+    else
+      {
+      return static_cast<TOutput>(B);
+      }
+    } 
 };
 }
 
@@ -75,14 +75,14 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef MaximumImageFilter  Self;
+  typedef MaximumImageFilter        Self;
   typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
                                    Function::Maximum< 
     typename TInputImage1::PixelType, 
     typename TInputImage2::PixelType,
     typename TOutputImage::PixelType>   
-  > Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  >                                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

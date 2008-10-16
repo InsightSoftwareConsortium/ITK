@@ -61,15 +61,15 @@ public:
   MaskNegatedInput() {};
   ~MaskNegatedInput() {};
   bool operator!=( const MaskNegatedInput & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const MaskNegatedInput & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A, const TMask & B)
-  {
+    {
     if (B != NumericTraits< TMask >::Zero ) 
       {
       return NumericTraits< TOutput >::Zero;
@@ -78,7 +78,7 @@ public:
       {
       return static_cast<TOutput>( A );
       }
-  }
+    }
 }; 
 
 }
@@ -95,14 +95,14 @@ BinaryFunctorImageFilter<TInputImage,TMaskImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef MaskNegatedImageFilter  Self;
+  typedef MaskNegatedImageFilter    Self;
   typedef BinaryFunctorImageFilter<TInputImage,TMaskImage,TOutputImage, 
                                    Functor::MaskNegatedInput< 
     typename TInputImage::PixelType, 
     typename TMaskImage::PixelType,
     typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  >                                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

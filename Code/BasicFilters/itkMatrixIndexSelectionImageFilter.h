@@ -35,30 +35,31 @@ public:
   void SetIndices(unsigned int i,unsigned int j) {m_I= i; m_J =j;}
 
   bool operator!=( const MatrixIndexSelection & other ) const
-  {
+    {
     if( m_I != other.m_I ||
         m_J != other.m_J  )
-        {
-        return true;
-        }
+      {
+      return true;
+      }
     return false;
-   }
+    }
   bool operator==( const MatrixIndexSelection & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( A[m_I][m_J] );
-  }
+    }
       
 private:
-  unsigned int m_I, m_J;   
+  unsigned int m_I;
+  unsigned int m_J;
 }; 
 }
 
- /** \class MatrixIndexSelectionImageFilter
+/** \class MatrixIndexSelectionImageFilter
  *
  * \brief Extracts the selected indices of a matrix image that is the input
  * pixel type
@@ -83,7 +84,7 @@ public:
   /** Standard class typedefs. */
   typedef MatrixIndexSelectionImageFilter Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage,Functor::MatrixIndexSelection<typename TInputImage::PixelType,typename TOutputImage::PixelType> > Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
     
   /** Run-time type information (and related methods).   */
