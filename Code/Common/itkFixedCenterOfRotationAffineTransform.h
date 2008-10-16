@@ -67,10 +67,8 @@ public:
   typedef typename Superclass::ScalarType                ScalarType;
   typedef typename Superclass::InputVectorType           InputVectorType;
   typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType     
-                                            InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType    
-                                            OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
   typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
   typedef typename Superclass::InputPointType            InputPointType;
@@ -83,23 +81,23 @@ public:
     
   /** Set and Get the center of rotation */
   void SetCenterOfRotationComponent(const InputPointType &cor)
-    { this->SetCenter( cor ); };
+    { this->SetCenter( cor ); }
   InputPointType GetCenterOfRotationComponent(void) const
-    { return this->GetCenter(); };
+    { return this->GetCenter(); }
    
   /** Set the matrix of the transform. The matrix should not include
    *  scale */
   void SetMatrixComponent(const MatrixType &matrix)
-    { this->SetMatrix( matrix ); };
+    { this->SetMatrix( matrix ); }
   /** Get matrix of the transform  */
   const MatrixType & GetMatrixComponent() const 
     { return this->GetMatrix(); }
 
-  /** Set offset (origin) of the Transform.*/
+  /** Set offset (origin) of the Transform. */
   void SetOffsetComponent(const OffsetType &offset)
-    { this->SetTranslation( offset ); };
+    { this->SetTranslation( offset ); }
 
-  /** Get offset of the transform*/
+  /** Get offset of the transform. */
   const OffsetType & GetOffsetComponent(void) const 
     { return this->GetTranslation(); }
 
@@ -109,7 +107,7 @@ protected:
                                        const OutputVectorType &offset);
   FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDimension,
                                        unsigned int parametersDimension);
-  FixedCenterOfRotationAffineTransform();      
+  FixedCenterOfRotationAffineTransform();
    
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
   virtual ~FixedCenterOfRotationAffineTransform();
@@ -138,8 +136,3 @@ private:
 #endif
 
 #endif /* __itkFixedCenterOfRotationAffineTransform_h */
-
-
-
-
-

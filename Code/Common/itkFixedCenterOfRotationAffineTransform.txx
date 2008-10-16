@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFixedCenterOfRotationAffineTransform_txx
-#define _itkFixedCenterOfRotationAffineTransform_txx
+#ifndef __itkFixedCenterOfRotationAffineTransform_txx
+#define __itkFixedCenterOfRotationAffineTransform_txx
 
 #include "itkNumericTraits.h"
 #include "itkFixedCenterOfRotationAffineTransform.h"
