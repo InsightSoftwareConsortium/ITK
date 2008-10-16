@@ -67,22 +67,22 @@ public:
   /** Standard class typedefs. */
   typedef GrayscaleGeodesicErodeImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
-  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                            Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage MarkerImageType;
-  typedef TInputImage MaskImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              MarkerImageType;
   typedef typename MarkerImageType::Pointer        MarkerImagePointer;
   typedef typename MarkerImageType::ConstPointer   MarkerImageConstPointer;
   typedef typename MarkerImageType::RegionType     MarkerImageRegionType;
   typedef typename MarkerImageType::PixelType      MarkerImagePixelType;
+  typedef TInputImage                              MaskImageType;
   typedef typename MaskImageType::Pointer          MaskImagePointer;
   typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
   typedef typename MaskImageType::RegionType       MaskImageRegionType;
   typedef typename MaskImageType::PixelType        MaskImagePixelType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename OutputImageType::Pointer        OutputImagePointer;
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
@@ -180,17 +180,17 @@ protected:
    * called. */
   void ThreadedGenerateData (const OutputImageRegionType& 
                              outputRegionForThread,
-                             int threadId) ;
+                             int threadId);
 
 private:
   GrayscaleGeodesicErodeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool m_RunOneIteration;
+  bool          m_RunOneIteration;
   unsigned long m_NumberOfIterationsUsed;
-  bool m_FullyConnected;
+  bool          m_FullyConnected;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
@@ -199,5 +199,3 @@ private:
 #endif
 
 #endif
-
-

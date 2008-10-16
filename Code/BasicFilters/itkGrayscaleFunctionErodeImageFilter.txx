@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGrayscaleFunctionErodeImage_txx
-#define __itkGrayscaleFunctionErodeImage_txx
+#ifndef __itkGrayscaleFunctionErodeImageFilter_txx
+#define __itkGrayscaleFunctionErodeImageFilter_txx
 
 #include "itkGrayscaleFunctionErodeImageFilter.h"
 
@@ -54,7 +54,9 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
       temp = nit.GetPixel(i) - (PixelType) *kernel_it;
 
       if (temp < min)
-        min = temp ;
+        {
+        min = temp;
+        }
       }
     }
   

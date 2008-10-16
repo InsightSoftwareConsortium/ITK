@@ -44,10 +44,10 @@ class ITK_EXPORT GaussianImageSource : public ImageSource<TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianImageSource   Self;
+  typedef GaussianImageSource        Self;
   typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Typedef for the output image PixelType. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkInteriorExteriorMeshFilter_txx
-#define _itkInteriorExteriorMeshFilter_txx
+#ifndef __itkInteriorExteriorMeshFilter_txx
+#define __itkInteriorExteriorMeshFilter_txx
 
 #include "itkInteriorExteriorMeshFilter.h"
 #include "itkExceptionObject.h"

@@ -55,17 +55,17 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef HardConnectedComponentImageFilter Self;
+  typedef HardConnectedComponentImageFilter               Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename TInputImage::PixelType          InputPixelType;
+  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -74,8 +74,8 @@ public:
   /**
    * Image typedef support
    */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                             InputImageType;
+  typedef TOutputImage                            OutputImageType;
   typedef   typename TInputImage::IndexType       IndexType;
   typedef   typename TInputImage::SizeType        SizeType;
   typedef   typename TOutputImage::RegionType     RegionType;
@@ -83,7 +83,7 @@ public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /**
@@ -98,7 +98,7 @@ public:
 
   /** Setting the seed points for specified object. */
   void SetObjectSeed( const IndexType &seed)
-  {m_Seeds.push_front(seed);} 
+    {m_Seeds.push_front(seed);} 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

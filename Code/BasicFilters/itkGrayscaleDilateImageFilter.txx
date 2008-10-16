@@ -63,11 +63,13 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>
       temp = nit.GetPixel(i);
 
       if (temp > max)
-        max = temp ;
+        {
+        max = temp;
+        }
       }
     }
   
-  return max ;
+  return max;
 } 
 
 

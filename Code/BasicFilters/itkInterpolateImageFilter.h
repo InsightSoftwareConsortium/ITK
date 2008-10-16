@@ -47,10 +47,10 @@ class ITK_EXPORT InterpolateImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef InterpolateImageFilter         Self;
+  typedef InterpolateImageFilter                        Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -59,10 +59,10 @@ public:
   itkTypeMacro(InterpolateImageFilter, ImageToImageFilter);
 
   /** Inherit typedefs from Superclass */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageType        InputImageType;
+  typedef typename Superclass::InputImagePointer     InputImagePointer;
+  typedef typename Superclass::OutputImageType       OutputImageType;
+  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Number of dimensions. */
@@ -78,9 +78,9 @@ public:
 
   /** Set/Get the first image */
   void SetInput1( const InputImageType * image)
-  { this->SetInput( image ); }
+    { this->SetInput( image ); }
   const InputImageType * GetInput1()
-  { return this->GetInput(); }
+    { return this->GetInput(); }
 
   /** Set/Get the second image */
   void SetInput2( const InputImageType * image);
@@ -94,8 +94,8 @@ public:
   /** Set the interpolator function */
   itkSetObjectMacro( Interpolator, InterpolatorType ) 
 
-    /** Get a pointer to the interpolator function. */
-    itkGetObjectMacro( Interpolator, InterpolatorType );
+  /** Get a pointer to the interpolator function. */
+  itkGetObjectMacro( Interpolator, InterpolatorType );
 
   /** This method is used to set the state of the filter before 
    * multi-threading. */

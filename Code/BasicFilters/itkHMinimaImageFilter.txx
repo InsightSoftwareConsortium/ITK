@@ -73,8 +73,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>
   // construct a marker image to manipulate using reconstruction by
   // erosion. the marker image is the input image minus the height
   // parameter.
-  typedef ShiftScaleImageFilter<TInputImage, TInputImage>
-    ShiftFilterType;
+  typedef ShiftScaleImageFilter<TInputImage, TInputImage> ShiftFilterType;
   typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
   shift->SetInput( this->GetInput() );
   shift->SetShift( static_cast<typename ShiftFilterType::RealType>(m_Height) );

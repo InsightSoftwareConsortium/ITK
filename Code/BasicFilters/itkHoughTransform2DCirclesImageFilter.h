@@ -59,18 +59,19 @@ public:
   typedef HoughTransform2DCirclesImageFilter Self;
 
   /** Input Image typedef */ 
-  typedef Image<TInputPixelType,2> InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef Image<TInputPixelType,2>              InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /** Output Image typedef */
-  typedef Image<TOutputPixelType,2> OutputImageType;
+  typedef Image<TOutputPixelType,2>         OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
 
   /** Standard "Superclass" typedef. */
-  typedef ImageToImageFilter< Image<TInputPixelType,2>
-                              , Image<TOutputPixelType,2> >  Superclass;
+  typedef ImageToImageFilter<
+    Image<TInputPixelType,2>
+    , Image<TOutputPixelType,2> >  Superclass;
 
   /** Smart pointer typedef support. */
   typedef SmartPointer<Self>        Pointer;
@@ -86,7 +87,7 @@ public:
   typedef typename InputImageType::RegionType OutputImageRegionType;
 
   /** Circle typedef */
-  typedef EllipseSpatialObject<2>       CircleType;
+  typedef EllipseSpatialObject<2>      CircleType;
   typedef typename CircleType::Pointer CirclePointer;
   typedef std::list<CirclePointer>     CirclesListType;
 
@@ -185,13 +186,14 @@ private:
   double m_MaximumRadius;
   double m_Threshold;
   double m_SigmaGradient;
+
   OutputImagePointer m_RadiusImage;
-  CirclesListType m_CirclesList;
-  unsigned int  m_NumberOfCircles;
-  float         m_DiscRadiusRatio;
-  float         m_Variance;
-  unsigned long m_OldModifiedTime;
-  unsigned long m_OldNumberOfCircles;
+  CirclesListType    m_CirclesList;
+  unsigned int       m_NumberOfCircles;
+  float              m_DiscRadiusRatio;
+  float              m_Variance;
+  unsigned long      m_OldModifiedTime;
+  unsigned long      m_OldNumberOfCircles;
 
 };
 

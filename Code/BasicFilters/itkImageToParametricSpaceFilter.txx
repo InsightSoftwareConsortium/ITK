@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToParametricSpaceFilter_txx
-#define _itkImageToParametricSpaceFilter_txx
+#ifndef __itkImageToParametricSpaceFilter_txx
+#define __itkImageToParametricSpaceFilter_txx
 
 
 #include "itkImageToParametricSpaceFilter.h"
@@ -98,9 +98,6 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
 
 }
 
-
-
-
 /**
  *
  */
@@ -165,8 +162,6 @@ ImageToParametricSpaceFilter<TInputImage,TOutputMesh>
     }
   
 }
-
-
 
 } // end namespace itk
 

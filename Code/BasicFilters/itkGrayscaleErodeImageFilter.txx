@@ -47,7 +47,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
            const KernelIteratorType kernelEnd)
 {
   unsigned int i;
-  PixelType min = NumericTraits<PixelType>::max() ;
+  PixelType min = NumericTraits<PixelType>::max();
   PixelType temp;
 
   KernelIteratorType kernel_it;
@@ -63,11 +63,13 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
       temp = nit.GetPixel(i);
 
       if (temp < min)
-        min = temp ;
+        {
+        min = temp;
+        }
       }
     }
   
-  return min ;
+  return min;
 } 
   
 }// end namespace itk

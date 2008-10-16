@@ -14,14 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkImageToVectorImageFilter_h_
-#define __itkImageToVectorImageFilter_h_
+#ifndef __itkImageToVectorImageFilter_h
+#define __itkImageToVectorImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorContainer.h"
 #include "itkVectorImage.h"
 
-namespace itk{
+namespace itk {
 /** \class ImageToVectorImageFilter 
  * \brief This class takes as input 'n' itk::Image's and composes them into
  * a single itk::VectorImage. 
@@ -90,4 +90,3 @@ protected:
 #endif
 
 #endif
-

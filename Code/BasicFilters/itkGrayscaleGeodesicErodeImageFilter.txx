@@ -35,7 +35,7 @@ namespace itk {
 
 template <class TInputImage, class TOutputImage>
 GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
-::GrayscaleGeodesicErodeImageFilter()    
+::GrayscaleGeodesicErodeImageFilter()
 {
   m_RunOneIteration =  false;
   m_NumberOfIterationsUsed =  0; // run to convergence
@@ -225,12 +225,12 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
 
     // Check for convergence.  Compare the output of the single
     // iteration of the algorithm with the current marker image.
-    ImageRegionConstIterator<TInputImage>
-      singleInIt(singleIteration->GetMarkerImage(),
-                 singleIteration->GetOutput()->GetRequestedRegion() );
-    ImageRegionIterator<TInputImage>
-      singleOutIt(singleIteration->GetOutput(),
-                  singleIteration->GetOutput()->GetRequestedRegion() );
+    ImageRegionConstIterator<TInputImage> singleInIt(
+      singleIteration->GetMarkerImage(),
+      singleIteration->GetOutput()->GetRequestedRegion() );
+    ImageRegionIterator<TInputImage> singleOutIt(
+      singleIteration->GetOutput(),
+      singleIteration->GetOutput()->GetRequestedRegion() );
 
     done = true;
     while ( !singleOutIt.IsAtEnd() )
@@ -286,8 +286,6 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
     ++singleIt;
     }
 }
-
-
 
 template<class TInputImage, class TOutputImage>
 void
@@ -407,8 +405,6 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>
       }
     }
 }
-
-
 
 template<class TInputImage, class TOutputImage>
 void

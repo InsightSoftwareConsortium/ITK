@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkInterpolateImagePointsFilter_txx
-#define _itkInterpolateImagePointsFilter_txx
+#ifndef __itkInterpolateImagePointsFilter_txx
+#define __itkInterpolateImagePointsFilter_txx
 
 #include "itkInterpolateImagePointsFilter.h"
 #include "itkProgressReporter.h"
@@ -53,8 +53,6 @@ InterpolateImagePointsFilter<TInputImage,TOutputImage, TCoordType, InterpolatorT
 
 }
 
-
-
 template <class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType> 
 void 
 InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, InterpolatorType>
@@ -78,8 +76,6 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
   this->SetInput(setDimension+1, coordinate); // This is a data filter input
 
 }
-
-
 
 template <class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType> 
 void
@@ -213,21 +209,15 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
     = xCoordPtr->GetLargestPossibleRegion().GetSize();
   const typename TOutputImage::IndexType&  outputStartIndex
     = xCoordPtr->GetLargestPossibleRegion().GetIndex();
-
+  
   outputPtr->SetSpacing( outputSpacing );
-
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
 
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
-  //***TODO:  We have set the LargestPossibleRegion should we also set the requested 
-    //  region at this stage?
-    }
-
-
-
+}
 
 } // namespace itk
 

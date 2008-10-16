@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHausdorffDistanceImageFilter_txx
-#define _itkHausdorffDistanceImageFilter_txx
+#ifndef __itkHausdorffDistanceImageFilter_txx
+#define __itkHausdorffDistanceImageFilter_txx
 #include "itkHausdorffDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -35,8 +35,8 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   // this filter requires two input images
   this->SetNumberOfRequiredInputs( 2 );
 
-  m_HausdorffDistance = NumericTraits<RealType>::Zero;      
-  m_AverageHausdorffDistance = NumericTraits<RealType>::Zero;      
+  m_HausdorffDistance = NumericTraits<RealType>::Zero;
+  m_AverageHausdorffDistance = NumericTraits<RealType>::Zero;
 }
 
 
@@ -45,7 +45,7 @@ void
 HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
 ::SetInput2( const TInputImage2 * image )
 {
-  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );      
+  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );
 }
 
 
@@ -58,8 +58,6 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
   return static_cast< const TInputImage2 * >
     (this->ProcessObject::GetInput(1));
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void
@@ -152,8 +150,6 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>
     }
   m_AverageHausdorffDistance = ( filter12->GetAverageHausdorffDistance() + filter21->GetAverageHausdorffDistance() ) / 2.0;
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void 

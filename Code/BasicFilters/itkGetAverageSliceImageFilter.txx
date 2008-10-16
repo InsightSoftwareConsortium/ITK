@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGetAverageSliceImageFilter_txx
-#define _itkGetAverageSliceImageFilter_txx
+#ifndef __itkGetAverageSliceImageFilter_txx
+#define __itkGetAverageSliceImageFilter_txx
 
 #include "itkGetAverageSliceImageFilter.h"
 

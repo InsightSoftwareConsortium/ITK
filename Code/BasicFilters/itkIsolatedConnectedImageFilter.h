@@ -20,9 +20,9 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
-namespace itk{
+namespace itk {
 
-/** /class IsolatedConnectedImageFilter
+/** \class IsolatedConnectedImageFilter
  * \brief Label pixels that are connected to one set of seeds but not
  * another.
  *
@@ -72,10 +72,10 @@ class ITK_EXPORT IsolatedConnectedImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef IsolatedConnectedImageFilter Self;
+  typedef IsolatedConnectedImageFilter                 Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,18 +84,18 @@ public:
   itkTypeMacro(IsolatedConnectedImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef typename InputImageType::IndexType IndexType;
-  typedef typename InputImageType::SizeType SizeType;
+  typedef typename InputImageType::RegionType   InputImageRegionType; 
+  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef typename InputImageType::IndexType    IndexType;
+  typedef typename InputImageType::SizeType     SizeType;
   
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType; 
+  typedef typename OutputImageType::PixelType   OutputImagePixelType; 
 
   typedef std::vector< IndexType > SeedsContainerType;
 
@@ -109,54 +109,54 @@ public:
    *  All pixels connected to this seed will be replaced with ReplaceValue.
    *  This method is deprecated, please use AddSeed() */
   void SetSeed1(const IndexType & seed)
-  {
+    {
     this->ClearSeeds1();
     this->AddSeed1( seed );
-  };
+    }
 
   
   /** Clear all the seeds1. */
   void ClearSeeds1()
-  {
+    {
     m_Seeds1.clear();
-  };
+    }
 
 
   /** Add seed point 1. */
   void AddSeed1(const IndexType & seed)
-  {
+    {
     m_Seeds1.push_back( seed );
     this->Modified();
-  };
+    }
 
   /** Set seed point 2. This seed will be isolated from Seed1 (if possible).
    *  This method is deprecated, please use AddSeed() */
   void SetSeed2(const IndexType & seed)
-  {
+    {
     this->ClearSeeds2();
     this->AddSeed2( seed );
-  };
-
+    }
   
   /** Clear all the seeds2. */
   void ClearSeeds2()
-  {
+    {
     m_Seeds2.clear();
-  };
-
+    }
 
   /** Add seed point 2. */
   void AddSeed2(const IndexType & seed)
-  {
+    {
     m_Seeds2.push_back( seed );
     this->Modified();
-  };
+    }
 
-  /** Set/Get the limit on the lower threshold value. The default is the NonpositiveMin() for the InputPixelType. */
+  /** Set/Get the limit on the lower threshold value. The default is
+   * the NonpositiveMin() for the InputPixelType. */
   itkSetMacro(Lower, InputImagePixelType);
   itkGetConstReferenceMacro(Lower, InputImagePixelType);
 
-  /** Set/Get the limit on the upper threshold value. The default is the max() for the InputPixelType. */
+  /** Set/Get the limit on the upper threshold value. The default is
+   * the max() for the InputPixelType. */
   itkSetMacro(Upper, InputImagePixelType);
   itkGetConstReferenceMacro(Upper, InputImagePixelType);
 
@@ -165,14 +165,15 @@ public:
       deprecated.  Please use Set/Get Upper instead. */
   void SetUpperValueLimit( InputImagePixelType upperValue)
     {
-      this->SetUpper( upperValue );
-    };
+    this->SetUpper( upperValue );
+    }
   InputImagePixelType GetUpperValueLimit()
     {
-      return this->GetUpper();
-    };
+    return this->GetUpper();
+    }
 
-  /** Set/Get the precision required for the intensity threshold value. The default is 1. */
+  /** Set/Get the precision required for the intensity threshold
+   * value. The default is 1. */
   itkSetMacro(IsolatedValueTolerance, InputImagePixelType);
   itkGetConstReferenceMacro(IsolatedValueTolerance, InputImagePixelType);
 
@@ -205,15 +206,15 @@ public:
 protected:
   IsolatedConnectedImageFilter();
   ~IsolatedConnectedImageFilter(){};
-  SeedsContainerType m_Seeds1;
-  SeedsContainerType m_Seeds2;
-  InputImagePixelType m_Lower;
-  InputImagePixelType m_Upper;
+  SeedsContainerType   m_Seeds1;
+  SeedsContainerType   m_Seeds2;
+  InputImagePixelType  m_Lower;
+  InputImagePixelType  m_Upper;
   OutputImagePixelType m_ReplaceValue;
-  InputImagePixelType m_IsolatedValue;
-  InputImagePixelType m_IsolatedValueTolerance;
-  bool m_FindUpperThreshold;
-  bool m_ThresholdingFailed;
+  InputImagePixelType  m_IsolatedValue;
+  InputImagePixelType  m_IsolatedValueTolerance;
+  bool                 m_FindUpperThreshold;
+  bool                 m_ThresholdingFailed;
   
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();

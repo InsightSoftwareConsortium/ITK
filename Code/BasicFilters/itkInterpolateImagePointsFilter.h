@@ -76,10 +76,10 @@ class ITK_EXPORT InterpolateImagePointsFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef InterpolateImagePointsFilter       Self;
+  typedef InterpolateImagePointsFilter                  Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImagePointsFilter, ImageToImageFilter);
@@ -92,23 +92,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension );
 
   /** Typedefs from the Superclass */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::InputImageType    InputImageType;
+  typedef typename Superclass::OutputImageType   OutputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
 
   /** Typedefs to describe and access output image. */
-  typedef typename TOutputImage::Pointer OutputImagePointer;
-  typedef ImageRegionIterator<InputImageType> OutputImageIterator;
-  typedef typename OutputImageType::RegionType             OutputImageRegionType;
+  typedef typename TOutputImage::Pointer       OutputImagePointer;
+  typedef ImageRegionIterator<InputImageType>  OutputImageIterator;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** Image pixel value typedef. */
   typedef typename TOutputImage::PixelType   PixelType;
 
-
-
   /** Typedefs to describe and access Interpolator */
-  typedef typename InterpolatorType::Pointer InterpolatorPointer;
-  typedef typename InterpolatorType::ContinuousIndexType    ContinuousIndexType;
+  typedef typename InterpolatorType::Pointer              InterpolatorPointer;
+  typedef typename InterpolatorType::ContinuousIndexType  ContinuousIndexType;
 
   /** Typedefs to describe and access coordinate images */
   typedef Image< TCoordType, itkGetStaticConstMacro(ImageDimension) > CoordImageType;
@@ -134,7 +132,7 @@ public:
 
   /** Returns a pointer to the  interpolator. */
   InterpolatorPointer GetInterpolator()
-  {  return m_Interpolator;  }
+    { return m_Interpolator; }
    
   /** Overloaded to ensure that output is sized the same as the coordinate inputs
     * and not the size of the input image. */
@@ -153,7 +151,6 @@ public:
 protected:
   /** Main function for calculating interpolated values at each coordinate 
     * set.  Access is through the update() call. */
-//  void EvaluateAtContinuousIndex( OutputImagePointer );
 
   /** TODO:  This needs to be modified for a threaded implementation.
     */
@@ -168,9 +165,9 @@ protected:
 private:
 
   /** Typedefs to describe and access coordinate images */
-  typedef typename CoordImageType::Pointer CoordImageTypePointer;
-  typedef ImageRegionConstIterator<CoordImageType>   CoordImageIterator;
-  typedef typename CoordImageType::RegionType              CoordImageRegionType;
+  typedef typename CoordImageType::Pointer         CoordImageTypePointer;
+  typedef ImageRegionConstIterator<CoordImageType> CoordImageIterator;
+  typedef typename CoordImageType::RegionType      CoordImageRegionType;
 
   InterpolateImagePointsFilter( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented

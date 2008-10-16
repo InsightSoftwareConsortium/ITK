@@ -76,7 +76,7 @@ public:
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
   /** Neighborhood iterator type. */
-  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType ;
+  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
   /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
@@ -129,7 +129,7 @@ private:
   // NumericTraits<PixelType>::max()
   DefaultBoundaryConditionType m_ErodeBoundaryCondition;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

@@ -35,24 +35,24 @@ public:
   void SetMaximum( TOutput max ) { m_Maximum = max; }
 
   bool operator!=( const InvertIntensityTransform & other ) const
-  {
+    {
     if( m_Maximum != other.m_Maximum )
       {
       return true;
       }
     return false;
-  }
+    }
 
   bool operator==( const InvertIntensityTransform & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
   inline TOutput operator()( const TInput & x )
-  {
+    {
     TOutput  result = static_cast<TOutput>( m_Maximum - x );
     return result;
-  }
+    }
 private:
   TInput  m_Maximum;
 }; 
@@ -85,16 +85,16 @@ class ITK_EXPORT InvertIntensityImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef InvertIntensityImageFilter  Self;
+  typedef InvertIntensityImageFilter    Self;
   typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
                                   Functor::InvertIntensityTransform< 
     typename TInputImage::PixelType, 
-    typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+    typename TOutputImage::PixelType> > Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
+  typedef typename TInputImage::PixelType                  InputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType RealType;
 
   /** Method for creation through the object factory. */

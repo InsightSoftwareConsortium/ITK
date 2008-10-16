@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImportImageFilter_txx
-#define _itkImportImageFilter_txx
+#ifndef __itkImportImageFilter_txx
+#define __itkImportImageFilter_txx
 
 #include "itkImportImageFilter.h"
 #include "itkObjectFactory.h"

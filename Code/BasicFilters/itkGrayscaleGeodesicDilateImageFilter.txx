@@ -37,7 +37,7 @@ template <class TInputImage, class TOutputImage>
 GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 ::GrayscaleGeodesicDilateImageFilter()
 {
-  m_RunOneIteration = false ;  // run to convergence
+  m_RunOneIteration = false;  // run to convergence
   m_NumberOfIterationsUsed = 0;
   this->SetNumberOfRequiredInputs(2);
   m_FullyConnected = false;
@@ -225,12 +225,12 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
 
     // Check for convergence.  Compare the output of the single
     // iteration of the algorithm with the current marker image.
-    ImageRegionConstIterator<TInputImage>
-      singleInIt(singleIteration->GetMarkerImage(),
-                 singleIteration->GetOutput()->GetRequestedRegion() );
-    ImageRegionIterator<TInputImage>
-      singleOutIt(singleIteration->GetOutput(),
-                  singleIteration->GetOutput()->GetRequestedRegion() );
+    ImageRegionConstIterator<TInputImage> singleInIt(
+      singleIteration->GetMarkerImage(),
+      singleIteration->GetOutput()->GetRequestedRegion() );
+    ImageRegionIterator<TInputImage> singleOutIt(
+      singleIteration->GetOutput(),
+      singleIteration->GetOutput()->GetRequestedRegion() );
 
     done = true;
     while ( !singleOutIt.IsAtEnd() )
@@ -286,8 +286,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
     ++singleIt;
     }
 }
-
-
 
 template<class TInputImage, class TOutputImage>
 void
@@ -414,8 +412,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>
       }
     }
 }
-
-
 
 template<class TInputImage, class TOutputImage>
 void

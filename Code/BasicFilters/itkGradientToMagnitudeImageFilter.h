@@ -46,17 +46,17 @@ public:
   ~GradientMagnitude() {}
 
   bool operator!=( const GradientMagnitude & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const GradientMagnitude & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( A.GetNorm() );
-  }
+    }
 }; 
 }
  
@@ -70,11 +70,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef GradientToMagnitudeImageFilter Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::GradientMagnitude< typename TInputImage::PixelType, 
-                                                              typename TOutputImage::PixelType> > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::GradientMagnitude< typename TInputImage::PixelType,
+                                typename TOutputImage::PixelType> >
+                                         Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
     
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

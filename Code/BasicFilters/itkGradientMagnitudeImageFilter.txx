@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGradientMagnitudeImageFilter_txx
-#define _itkGradientMagnitudeImageFilter_txx
+#ifndef __itkGradientMagnitudeImageFilter_txx
+#define __itkGradientMagnitudeImageFilter_txx
 #include "itkGradientMagnitudeImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"

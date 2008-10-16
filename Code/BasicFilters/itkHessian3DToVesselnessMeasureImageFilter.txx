@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHessian3DToVesselnessMeasureImageFilter_txx
-#define _itkHessian3DToVesselnessMeasureImageFilter_txx
+#ifndef __itkHessian3DToVesselnessMeasureImageFilter_txx
+#define __itkHessian3DToVesselnessMeasureImageFilter_txx
 
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -103,8 +103,7 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
     else
       {
       oit.Set( NumericTraits< OutputPixelType >::Zero );
-      }    
-    
+      }
 
     ++it;
     ++oit;

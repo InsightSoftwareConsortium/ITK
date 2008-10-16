@@ -14,29 +14,29 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkIterativeInverseDeformationFieldImageFilter_cxx
-#define _itkIterativeInverseDeformationFieldImageFilter_cxx
+#ifndef __itkIterativeInverseDeformationFieldImageFilter_txx
+#define __itkIterativeInverseDeformationFieldImageFilter_txx
 
 #include "itkIterativeInverseDeformationFieldImageFilter.h"
 #include "itkProgressReporter.h"
 
 
-namespace itk{
+namespace itk {
 //----------------------------------------------------------------------------
 // Constructor
 template < class TInputImage, class TOutputImage >
-IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::IterativeInverseDeformationFieldImageFilter(){
+IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::IterativeInverseDeformationFieldImageFilter()
+{
   m_NumberOfIterations = 5;
   m_StopValue = 0;
   m_Time = 0;
 }
 
-
-
 //----------------------------------------------------------------------------
 template < class TInputImage, class TOutputImage >
 void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
-::GenerateData(){
+::GenerateData()
+{
 
   const unsigned int ImageDimension = InputImageType::ImageDimension;
   TimeType time;

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkIsolatedConnectedImageFilter_txx_
-#define __itkIsolatedConnectedImageFilter_txx_
+#ifndef __itkIsolatedConnectedImageFilter_txx
+#define __itkIsolatedConnectedImageFilter_txx
 
 #include "itkIsolatedConnectedImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"
@@ -109,7 +109,7 @@ IsolatedConnectedImageFilter<TInputImage,TOutputImage>
   typedef typename NumericTraits<InputImagePixelType>::AccumulateType AccumulateType;
 
   // Zero the output
-  OutputImageRegionType region = outputImage->GetRequestedRegion() ;
+  OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion( region );
   outputImage->Allocate();
   outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );

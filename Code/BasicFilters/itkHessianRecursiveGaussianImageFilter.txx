@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHessianRecursiveGaussianImageFilter_txx
-#define _itkHessianRecursiveGaussianImageFilter_txx
+#ifndef __itkHessianRecursiveGaussianImageFilter_txx
+#define __itkHessianRecursiveGaussianImageFilter_txx
 
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -74,8 +74,6 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
 }
 
-
-
 /**
  * Set value of Sigma
  */
@@ -95,8 +93,6 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   this->Modified();
 
 }
-
-
 
 /**
  * Set Normalize Across Scale Space

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkInterpolateImageFilter_txx
-#define _itkInterpolateImageFilter_txx
+#ifndef __itkInterpolateImageFilter_txx
+#define __itkInterpolateImageFilter_txx
 
 #include "itkInterpolateImageFilter.h"
 
@@ -103,8 +103,6 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 
 }
 
-
-
 /**
  * Setup state of filter before multi-threading.
  * InterpolatorType::SetInputImage is not thread-safe and hence
@@ -123,7 +121,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 
   // Create intermediate image
   typedef typename IntermediateImageType::RegionType IntermediateImageRegionType;
-  typedef typename TOutputImage::RegionType ImageRegionType;
+  typedef typename TOutputImage::RegionType          ImageRegionType;
 
   ImageRegionType outputRegion = this->GetOutput()->GetRequestedRegion();
 
@@ -207,13 +205,12 @@ InterpolateImageFilter<TInputImage,TOutputImage>
   OutputImagePointer      outputPtr = this->GetOutput();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef
-    ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
+  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TOutputImage::IndexType IndexType;
+  typedef typename TOutputImage::PixelType               OutputPixelType;
+  typedef typename TOutputImage::IndexType               IndexType;
   typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
 
   IndexType outputIndex;                         // Index to current output pixel
@@ -237,7 +234,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
     if( m_Interpolator->IsInsideBuffer(intermediateIndex) )
       {
       outIt.Set( static_cast<OutputPixelType>( 
-                   m_Interpolator->EvaluateAtContinuousIndex( intermediateIndex ) ) );      
+                   m_Interpolator->EvaluateAtContinuousIndex( intermediateIndex)));
       }
     else
       {

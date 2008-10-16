@@ -70,7 +70,7 @@ public:
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
  
   /** Neighborhood iterator type. */
-  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType ;
+  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
   /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
@@ -128,7 +128,7 @@ private:
   // NumericTraits<PixelType>::NonpositiveMin()
   DefaultBoundaryConditionType m_DilateBoundaryCondition;
   
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
@@ -137,5 +137,3 @@ private:
 #endif
 
 #endif
-
-

@@ -66,15 +66,16 @@ class ITK_EXPORT InverseDeformationFieldImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef InverseDeformationFieldImageFilter         Self;
+  typedef InverseDeformationFieldImageFilter            Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
+
+  typedef TInputImage                           InputImageType;
   typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef TOutputImage                          OutputImageType;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
 
   /** Method for creation through the object factory. */
@@ -91,8 +92,9 @@ public:
    *
    * \todo Check that input and output images have the same number of 
      * dimensions; this is required for consistency.  */
-  typedef KernelTransform<double, itkGetStaticConstMacro(ImageDimension)> KernelTransformType;
-  typedef typename KernelTransformType::Pointer KernelTransformPointerType;
+  typedef KernelTransform<
+    double, itkGetStaticConstMacro(ImageDimension)> KernelTransformType;
+  typedef typename KernelTransformType::Pointer     KernelTransformPointerType;
 
   /** Image size typedef. */
   typedef typename OutputImageType::SizeType SizeType;

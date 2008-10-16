@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef __itkImplicitManifoldNormalVectorFilter_txx_
-#define __itkImplicitManifoldNormalVectorFilter_txx_
+#ifndef __itkImplicitManifoldNormalVectorFilter_txx
+#define __itkImplicitManifoldNormalVectorFilter_txx
 
 #include "itkNormalVectorFunctionBase.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"

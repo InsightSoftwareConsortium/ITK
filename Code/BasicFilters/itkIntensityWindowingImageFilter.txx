@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkIntensityWindowingImageFilter_txx
-#define _itkIntensityWindowingImageFilter_txx
+#ifndef __itkIntensityWindowingImageFilter_txx
+#define __itkIntensityWindowingImageFilter_txx
 
 #include "itkIntensityWindowingImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

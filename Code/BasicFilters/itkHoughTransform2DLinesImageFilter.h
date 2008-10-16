@@ -67,12 +67,12 @@ public:
   typedef HoughTransform2DLinesImageFilter Self;
 
   /** Input Image typedef */
-  typedef Image<TInputPixelType,2> InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef Image<TInputPixelType,2>              InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
   
   /** Output Image typedef */
-  typedef Image<TOutputPixelType,2> OutputImageType;
+  typedef Image<TOutputPixelType,2>         OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** Smart pointer typedef support. */
@@ -182,15 +182,15 @@ protected:
   
 private:
 
-  float m_AngleResolution;
-  float m_Threshold;
+  float              m_AngleResolution;
+  float              m_Threshold;
   OutputImagePointer m_SimplifyAccumulator;
-  LinesListType m_LinesList;
-  unsigned int  m_NumberOfLines;
-  float         m_DiscRadius;
-  float         m_Variance;
-  unsigned long m_OldModifiedTime;
-  unsigned long m_OldNumberOfLines;
+  LinesListType      m_LinesList;
+  unsigned int       m_NumberOfLines;
+  float              m_DiscRadius;
+  float              m_Variance;
+  unsigned long      m_OldModifiedTime;
+  unsigned long      m_OldNumberOfLines;
 };
 
 } // end namespace itk

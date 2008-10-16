@@ -48,10 +48,10 @@ class ITK_EXPORT GetAverageSliceImageFilter : public AccumulateImageFilter<TInpu
 {
 public:
   /** Standard class typedefs. */
-  typedef GetAverageSliceImageFilter  Self;
+  typedef GetAverageSliceImageFilter                       Self;
   typedef AccumulateImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,5 +83,3 @@ private:
 #endif
 
 #endif
-
-

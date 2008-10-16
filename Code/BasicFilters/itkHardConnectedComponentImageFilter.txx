@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHardConnectedComponentImageFilter_txx
-#define _itkHardConnectedComponentImageFilter_txx
+#ifndef __itkHardConnectedComponentImageFilter_txx
+#define __itkHardConnectedComponentImageFilter_txx
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -76,7 +76,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     if(ot.Get()) 
       {
       for(i = 0;i<ImageDimension;i++)
-        {          
+        {
         current = ot.GetIndex();
         current[i] = current[i]-1;
         if(current[i]<0)
@@ -160,7 +160,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     }
 
   memset(flags,0,max_label+1);
-  for(iter = m_Seeds.begin();iter!=m_Seeds.end();iter++)
+  for(iter = m_Seeds.begin();iter != m_Seeds.end();iter++)
     {
     current = *iter;
     m = eq_tab[static_cast<unsigned short>(output->GetPixel(current))];
@@ -174,7 +174,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     }
 
   ot.GoToBegin();
-  if(m_Seeds.size()==0)
+  if(m_Seeds.size() == 0)
     {
     for(;!ot.IsAtEnd(); ++ot)
       {

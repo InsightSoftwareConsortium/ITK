@@ -39,10 +39,10 @@ class ITK_EXPORT GradientMagnitudeImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientMagnitudeImageFilter Self;
+  typedef GradientMagnitudeImageFilter                    Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,8 +52,8 @@ public:
   
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
+  typedef typename TInputImage::PixelType                  InputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType RealType;
 
   /** Extract some information from the image types.  Dimensionality
@@ -62,9 +62,9 @@ public:
                       TOutputImage::ImageDimension);
   
   /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                       InputImageType;
+  typedef TOutputImage                      OutputImageType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Superclass typedefs. */
@@ -83,12 +83,12 @@ public:
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+    { this->SetUseImageSpacing(true); }
   
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
   void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+    { this->SetUseImageSpacing(false); }
   
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -104,9 +104,9 @@ public:
 
 protected:
   GradientMagnitudeImageFilter()
-  {
+    {
     m_UseImageSpacing = true;
-  }
+    }
   virtual ~GradientMagnitudeImageFilter() {}
 
   /** GradientMagnitudeImageFilter can be implemented as a

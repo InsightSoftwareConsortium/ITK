@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGradientNDAnisotropicDiffusionFunction_h_
-#define __itkGradientNDAnisotropicDiffusionFunction_h_
+#ifndef __itkGradientNDAnisotropicDiffusionFunction_h
+#define __itkGradientNDAnisotropicDiffusionFunction_h
 
 #include "itkScalarAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -61,10 +61,10 @@ class ITK_EXPORT GradientNDAnisotropicDiffusionFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientNDAnisotropicDiffusionFunction Self;
+  typedef GradientNDAnisotropicDiffusionFunction     Self;
   typedef ScalarAnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -93,18 +93,15 @@ public:
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-  {
+    {
     m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() *
                                  this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f);
-  }
+    }
   
 protected:
   GradientNDAnisotropicDiffusionFunction();
   ~GradientNDAnisotropicDiffusionFunction() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {      Superclass::PrintSelf(os,indent);    }
-  
   /** Inner product function. */
   NeighborhoodInnerProduct<ImageType> m_InnerProduct;
 

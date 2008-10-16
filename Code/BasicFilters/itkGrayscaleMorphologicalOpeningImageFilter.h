@@ -3,12 +3,14 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkGrayscaleMorphologicalOpeningImageFilter.h
   Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -57,10 +59,10 @@ class ITK_EXPORT GrayscaleMorphologicalOpeningImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef GrayscaleMorphologicalOpeningImageFilter Self;
+  typedef GrayscaleMorphologicalOpeningImageFilter      Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
   
   /** Standard New method. */
   itkNewMacro(Self);  
@@ -69,13 +71,13 @@ public:
   itkTypeMacro(GrayscaleMorphologicalOpeningImageFilter, 
                ImageToImageFilter);
 
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
 
   /** Declaration of pixel type. */
-  typedef typename TInputImage::PixelType PixelType ;
+  typedef typename TInputImage::PixelType PixelType;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
@@ -119,7 +121,7 @@ protected:
   /** GrayscaleMorphologicalOpeningImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion();
 
   /** GrayscaleMorphologicalOpeningImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
@@ -133,9 +135,9 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** kernel or structuring element to use. */
-  KernelType m_Kernel ;
+  KernelType m_Kernel;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

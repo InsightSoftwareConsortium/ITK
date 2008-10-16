@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGradientImageFilter_txx
-#define _itkGradientImageFilter_txx
+#ifndef __itkGradientImageFilter_txx
+#define __itkGradientImageFilter_txx
 #include "itkGradientImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
@@ -210,10 +210,10 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
         }
       else
         {
-        it.Value() = gradient;          
+        it.Value() = gradient;
         }
 #else
-      it.Value() = gradient;          
+      it.Value() = gradient;
 #endif
 
       ++nit;

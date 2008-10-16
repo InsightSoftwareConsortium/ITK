@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGradientNDAnisotropicDiffusionFunction_txx_
-#define __itkGradientNDAnisotropicDiffusionFunction_txx_
+#ifndef __itkGradientNDAnisotropicDiffusionFunction_txx
+#define __itkGradientNDAnisotropicDiffusionFunction_txx
 
 #include "itkNumericTraits.h"
 
@@ -96,7 +96,9 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   
   // Calculate the centralized derivatives for each dimension.
   for (i = 0; i < ImageDimension; i++)
-    {      dx[i]  =  (it.GetPixel(m_Center + m_Stride[i])-it.GetPixel(m_Center - m_Stride[i]))/2.0f;    }
+    {
+    dx[i]  =  (it.GetPixel(m_Center + m_Stride[i])-it.GetPixel(m_Center - m_Stride[i]))/2.0f;
+    }
 
   for (i = 0; i < ImageDimension; i++)
     {
@@ -104,11 +106,11 @@ GradientNDAnisotropicDiffusionFunction<TImage>
     dx_forward = it.GetPixel(m_Center + m_Stride[i])
       - it.GetPixel(m_Center);
     dx_backward =  it.GetPixel(m_Center)
-      - it.GetPixel(m_Center - m_Stride[i]);      
+      - it.GetPixel(m_Center - m_Stride[i]);
 
     // Calculate the conductance terms.  Conductance varies with each
     // dimension because the gradient magnitude approximation is different
-    // along each  dimension.      
+    // along each  dimension.
     accum   = 0.0;
     accum_d = 0.0;
     for (j = 0; j < ImageDimension; j++)
@@ -119,13 +121,13 @@ GradientNDAnisotropicDiffusionFunction<TImage>
                   it.GetPixel(m_Center + m_Stride[i] - m_Stride[j]) ) / 2.0f;
         dx_dim = (it.GetPixel(m_Center - m_Stride[i] + m_Stride[j]) -
                   it.GetPixel(m_Center - m_Stride[i] - m_Stride[j]) ) /2.0f;
-        accum   += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
+        accum += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
         accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
         }
       }
       
     if (m_K == 0.0)
-      {       
+      {
       Cx = 0.0;
       Cxd = 0.0;
       }

@@ -60,9 +60,9 @@ public:
   /** Standard class typedefs. */
   typedef GrayscaleDilateImageFilter Self;
   typedef MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                     Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
   
   /** Standard New method. */
   itkNewMacro(Self);  
@@ -78,7 +78,7 @@ public:
   typedef typename Superclass::KernelIteratorType  KernelIteratorType;
 
   /** Neighborhood iterator type. */
-  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType ;
+  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
   /** Kernel typedef. */
   typedef typename Superclass::KernelType KernelType;
@@ -131,7 +131,7 @@ private:
   // NumericTraits<PixelType>::NonpositiveMin()
   DefaultBoundaryConditionType m_DilateBoundaryCondition;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

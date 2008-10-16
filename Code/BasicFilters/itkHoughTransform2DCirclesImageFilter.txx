@@ -144,7 +144,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
             if(outputImage->GetRequestedRegion().IsInside( index ))
               {
               outputImage->SetPixel(index, outputImage->GetPixel(index)+1);
-              m_RadiusImage->SetPixel(index, (m_RadiusImage->GetPixel(index)+distance));       
+              m_RadiusImage->SetPixel(index, (m_RadiusImage->GetPixel(index)+distance));
               }
             
             i=i+1;
@@ -258,8 +258,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
         m_CirclesList.push_back(Circle);
        
         // Remove a black disc from the hough space domain
-        for(double angle = 0; angle <= 2*nPI ; angle += nPI/1000)
-          {     
+        for(double angle = 0; angle <= 2*nPI; angle += nPI/1000)
+          {
           for(double length = 0; length < m_DiscRadiusRatio*Circle->GetRadius()[0];length += 1)
             {
             index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
@@ -304,7 +304,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
   os << "Disc Radius: " << m_DiscRadiusRatio << std::endl;
   os << "Accumulator blur variance: " << m_Variance << std::endl;
   os << "Sweep angle : " << m_SweepAngle << std::endl;
-  }
+}
+
 } // end namespace
 
 #endif

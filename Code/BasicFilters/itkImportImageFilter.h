@@ -40,17 +40,17 @@ class ITK_EXPORT ImportImageFilter:
 {
 public:
   /** Typedef for the output image.   */
-  typedef Image<TPixel,VImageDimension> OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef Image<TPixel,VImageDimension>         OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::SpacingType SpacingType;
   typedef typename OutputImageType::PointType   OriginType;
 
   
   /** Standard class typedefs. */
-  typedef ImportImageFilter   Self;
+  typedef ImportImageFilter             Self;
   typedef ImageSource<OutputImageType>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,14 +89,14 @@ public:
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion */
   void SetRegion(const RegionType &region)
-  { if (m_Region != region) {m_Region = region; this->Modified();} };
+    { if (m_Region != region) {m_Region = region; this->Modified();} };
   
   /** Get the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion */
   const RegionType& GetRegion() const
-  { return m_Region;};
+    { return m_Region;}
   
   /** Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing() */
@@ -154,13 +154,13 @@ private:
   ImportImageFilter(const ImportImageFilter &); //purposely not implemented
   void operator=(const ImportImageFilter&); //purposely not implemented
 
-  RegionType  m_Region;
-  double   m_Spacing[VImageDimension];
-  double   m_Origin[VImageDimension];
+  RegionType    m_Region;
+  double        m_Spacing[VImageDimension];
+  double        m_Origin[VImageDimension];
   DirectionType m_Direction;
 
-  TPixel*  m_ImportPointer;
-  bool     m_FilterManageMemory;
+  TPixel*       m_ImportPointer;
+  bool          m_FilterManageMemory;
   unsigned long m_Size;
 };
 
@@ -171,7 +171,3 @@ private:
 #endif
 
 #endif
-
-
-
-

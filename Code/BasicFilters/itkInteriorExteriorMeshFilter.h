@@ -49,14 +49,14 @@ class ITK_EXPORT InteriorExteriorMeshFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef InteriorExteriorMeshFilter  Self;
+  typedef InteriorExteriorMeshFilter               Self;
   typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
   
-  typedef TInputMesh InputMeshType;
-  typedef TOutputMesh OutputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef TInputMesh                       InputMeshType;
+  typedef TOutputMesh                      OutputMeshType;
+  typedef typename InputMeshType::Pointer  InputMeshPointer;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   
   /** Type for representing coordinates. */

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToMeshFilter_txx
-#define _itkImageToMeshFilter_txx
+#ifndef __itkImageToMeshFilter_txx
+#define __itkImageToMeshFilter_txx
 #include "itkImageToMeshFilter.h"
 
 
@@ -61,9 +61,6 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
   return dynamic_cast< DataObject *>( outputMesh.GetPointer() );
 }
 
-
-
-
 /**
  *
  */
@@ -104,20 +101,6 @@ ImageToMeshFilter<TInputImage,TOutputMesh>
   return dynamic_cast<OutputMeshType*>
     (this->ProcessObject::GetOutput(0));
 }
-
-
-/**
- *
- */
-template <class TInputImage, class TOutputMesh>
-void 
-ImageToMeshFilter<TInputImage,TOutputMesh>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
-
-
 
 /**
  * copy information from first input to all outputs

@@ -131,7 +131,11 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         index[0]=(long unsigned int)(image_it.GetIndex()[0]*vcl_cos(angle)+image_it.GetIndex()[1]*vcl_sin(angle)); // m_R
         index[1]= (long unsigned int)((m_AngleResolution/2)+m_AngleResolution*angle/(2*nPI)); // m_Theta
   
-        if ( (index[0]>0) && (index[0]<=(long)outputImage->GetBufferedRegion().GetSize()[0])) // the preceeding "if" should be replacable with "if ( outputImage->GetBufferedRegion().IsInside(index) )" but the algorithm fails if it is
+        if ( (index[0] > 0) &&
+             (index[0] <= (long)outputImage->GetBufferedRegion().GetSize()[0]))
+          // the preceeding "if" should be replacable with "if (
+          // outputImage->GetBufferedRegion().IsInside(index) )" but
+          // the algorithm fails if it is 
           {
           outputImage->SetPixel(index, outputImage->GetPixel(index)+1);  
           }
@@ -140,9 +144,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
     ++image_it;
     }
 }
-
-
-
 
 /** Simplify the accumulator 
  * Do the same iteration process as the Update() method but find the maximum 
@@ -230,7 +231,8 @@ typename HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>::L
 HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
 ::GetLines(unsigned int n)
 {
-  if((this->GetMTime() == m_OldModifiedTime) && (n == m_OldNumberOfLines)) // if the filter has not been updated
+  // if the filter has not been updated
+  if((this->GetMTime() == m_OldModifiedTime) && (n == m_OldNumberOfLines))
     {
     return m_LinesList;
     }
@@ -238,7 +240,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
   m_LinesList.clear();
 
   /** Blur the accumulator in order to find the maximum */
-  typedef float          InternalImagePixelType;
+  typedef float                             InternalImagePixelType;
   typedef Image< InternalImagePixelType,2 > InternalImageType;
 
   OutputImagePointer outputImage = this->GetOutput(0); 
@@ -248,7 +250,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
     itkExceptionMacro("Update() must be called before GetLines().");
     } 
 
-  /** Convert the accumulator output image type to internal image type*/
+  /** xxxConvert the accumulator output image type to internal image type */
   typedef CastImageFilter< OutputImageType, InternalImageType> CastImageFilterType;
 
   typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
@@ -293,7 +295,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         LineType::PointListType list; // insert two points per line
 
         double radius = it_input.GetIndex()[0]; 
-        double teta   = ((it_input.GetIndex()[1])*2*nPI/this->GetAngleResolution())-nPI ;
+        double teta   = ((it_input.GetIndex()[1])*2*nPI/this->GetAngleResolution())-nPI;
         double Vx = radius*vcl_cos(teta );
         double Vy = radius*vcl_sin(teta );
         double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
@@ -333,8 +335,8 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType>
         m_LinesList.push_back(Line);
        
         // Remove a black disc from the hough space domain
-        for(double angle = 0; angle <= 2*nPI ; angle += nPI/1000)
-          {     
+        for(double angle = 0; angle <= 2*nPI; angle += nPI/1000)
+          {
           for(double length = 0; length < m_DiscRadius;length += 1)
             {
             index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));

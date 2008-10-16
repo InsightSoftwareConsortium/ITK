@@ -60,15 +60,18 @@ public:
   typedef GradientImageFilter Self;
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,  itkGetStaticConstMacro(OutputImageDimension)> OutputImageType;
+  typedef TInputImage                       InputImageType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
+  typedef Image<CovariantVector<
+    TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,
+                itkGetStaticConstMacro(OutputImageDimension)>
+                                            OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** Standard class typedefs. */
   typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,10 +80,12 @@ public:
   itkTypeMacro(GradientImageFilter, ImageToImageFilter);
   
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef TOperatorValueType OperatorValueType;
-  typedef TOutputValueType OutputValueType;
-  typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)> OutputPixelType;
+  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef TOperatorValueType                   OperatorValueType;
+  typedef TOutputValueType                     OutputValueType;
+  typedef CovariantVector<
+    OutputValueType, itkGetStaticConstMacro(OutputImageDimension)>
+                                               OutputPixelType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   
   /** GradientImageFilter needs a larger input requested region than
@@ -94,12 +99,12 @@ public:
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+    { this->SetUseImageSpacing(true); }
   
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
   void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+    { this->SetUseImageSpacing(false); }
   
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
@@ -122,7 +127,7 @@ public:
    * into account the image Direction or not. The flag ON will take into
    * account the image direction and will result in an extra matrix
    * multiplication compared to the amount of computation performed when the
-   * flag is OFF.  This flag is OFF by default.*/
+   * flag is OFF.  This flag is OFF by default. */
   itkSetMacro( UseImageDirection, bool );
   itkGetMacro( UseImageDirection, bool );
   itkBooleanMacro( UseImageDirection );

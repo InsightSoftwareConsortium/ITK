@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkInvertIntensityImageFilter_txx
-#define _itkInvertIntensityImageFilter_txx
+#ifndef __itkInvertIntensityImageFilter_txx
+#define __itkInvertIntensityImageFilter_txx
 
 #include "itkInvertIntensityImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

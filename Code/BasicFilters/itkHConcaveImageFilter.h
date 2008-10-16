@@ -45,19 +45,19 @@ class ITK_EXPORT HConcaveImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef HConcaveImageFilter Self;
+  typedef HConcaveImageFilter       Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>
-  Superclass;
+                                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
   typedef typename InputImageType::RegionType      InputImageRegionType;
   typedef typename InputImageType::PixelType       InputImagePixelType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename OutputImageType::Pointer        OutputImagePointer;
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
@@ -122,7 +122,7 @@ protected:
   /** HConcaveImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ;
+  void GenerateInputRequestedRegion();
 
   /** HConcaveImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
@@ -137,9 +137,9 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   InputImagePixelType m_Height;
-  unsigned long m_NumberOfIterationsUsed;
+  unsigned long       m_NumberOfIterationsUsed;
   bool                m_FullyConnected;
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
@@ -148,5 +148,3 @@ private:
 #endif
 
 #endif
-
-

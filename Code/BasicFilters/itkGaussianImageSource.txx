@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkGaussianImageSource_txx
-#define _itkGaussianImageSource_txx
+#ifndef __itkGaussianImageSource_txx
+#define __itkGaussianImageSource_txx
 
 #include "itkGaussianImageSource.h"
 #include "itkGaussianSpatialFunction.h"
@@ -154,7 +154,7 @@ GaussianImageSource<TOutputImage>
                             outputPtr->GetRequestedRegion()
                                          .GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
-  for ( ; !outIt.IsAtEnd(); ++outIt)
+  for (; !outIt.IsAtEnd(); ++outIt)
     {
     typename TOutputImage::IndexType index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint );
