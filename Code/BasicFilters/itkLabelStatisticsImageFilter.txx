@@ -215,7 +215,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     if ((*mapIt).second.m_Count > 1)
       {
       // unbiased estimate of variance
-      const LabelStatistics & ls = mapIt->second;
+      LabelStatistics & ls = mapIt->second;
       const RealType sumSquared  = ls.m_Sum * ls.m_Sum;
       const RealType count       = static_cast< RealType >( ls.m_Count );
 
