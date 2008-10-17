@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRandomNonRepeatingConstIteratorWithIndex_txx
-#define _itkImageRandomNonRepeatingConstIteratorWithIndex_txx
+#ifndef __itkImageRandomNonRepeatingConstIteratorWithIndex_txx
+#define __itkImageRandomNonRepeatingConstIteratorWithIndex_txx
 
 #include "itkImageRandomNonRepeatingConstIteratorWithIndex.h"
 
@@ -89,14 +89,14 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
 template<class TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
-::SetPriorityImage(const PriorityImageType* priorityImage) 
+::SetPriorityImage(const PriorityImageType* priorityImage)
 {
   // should probably do error checking to be sure that the priority
   // image is the right size
   IndexType positionIndex;
   unsigned long position,pixel;
   unsigned long residual;
-  for(pixel=0;pixel<m_NumberOfPixelsInRegion;pixel++) 
+  for(pixel=0;pixel<m_NumberOfPixelsInRegion;pixel++)
     {
     position=pixel;
     for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )

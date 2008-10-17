@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,10 +29,10 @@
 namespace itk
 {
 // Forward declaration of ImageBase so it can be declared a friend
-// (needed for PrintSelf mechanism)  
+// (needed for PrintSelf mechanism)
 template <unsigned int VImageDimension> class ImageBase;
 
-  
+
 /** \class ImageRegion
  * \brief An image region represents a structured region of data.
  *
@@ -55,9 +55,9 @@ class ITK_EXPORT ImageRegion: public Region
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegion              Self;
-  typedef Region  Superclass;
-  
+  typedef ImageRegion             Self;
+  typedef Region                  Superclass;
+
   /** Standard part of all itk objects. */
   itkTypeMacro(ImageRegion, Region);
 
@@ -68,22 +68,22 @@ public:
       in which case the SliceDimension is also one dimensional. */
   itkStaticConstMacro(SliceDimension, unsigned int,
                       (VImageDimension - (VImageDimension > 1)));
-  
+
   /** Dimension of the image available at run time. */
-  static unsigned int GetImageDimension() 
+  static unsigned int GetImageDimension()
     { return VImageDimension; }
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>  IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
-  
+  typedef Index<VImageDimension>                  IndexType;
+  typedef typename IndexType::IndexValueType      IndexValueType;
+
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>  SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  typedef Size<VImageDimension>                   SizeType;
+  typedef typename SizeType::SizeValueType        SizeValueType;
 
   /** Slice region typedef. SliceRegion is one dimension less than Self. */
   typedef ImageRegion<itkGetStaticConstMacro(SliceDimension)> SliceRegion;
-  
+
   /** Return the region type. Images are described with structured regions. */
   virtual typename Superclass::RegionType GetRegionType() const
     {return Superclass::ITK_STRUCTURED_REGION;}
@@ -109,21 +109,21 @@ public:
    * is lightweight object that is not reference counted so this constructor
    * is public. */
   ImageRegion(const SizeType &size)
-    { m_Size = size; m_Index.Fill(0); } ;
-  
+    { m_Size = size; m_Index.Fill(0); }
+
   /** operator=. ImageRegion is a lightweight object that is not reference
    * counted, so operator= is public. */
-  void operator=(const Self& region) 
+  void operator=(const Self& region)
     { m_Index = region.m_Index;  m_Size = region.m_Size; };
 
   /** Set the index defining the corner of the region. */
-  void SetIndex(const IndexType &index) 
+  void SetIndex(const IndexType &index)
     { m_Index = index; };
 
   /** Get index defining the corner of the region. */
   const IndexType& GetIndex() const
     { return m_Index; };
-  
+
   /** Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region. */
   void SetSize(const SizeType &size)
@@ -134,13 +134,13 @@ public:
     { return m_Size; }
 
   /** Convenience methods to get and set the size of the particular dimension i. */
-  void SetSize(unsigned long i, SizeValueType sze) 
+  void SetSize(unsigned long i, SizeValueType sze)
     { m_Size[i] = sze; }
   SizeValueType GetSize(unsigned long i) const
     { return m_Size[i]; }
 
   /** Convenience methods to get and set the index of the particular dimension i. */
-  void SetIndex(unsigned long i, IndexValueType sze) 
+  void SetIndex(unsigned long i, IndexValueType sze)
     { m_Index[i] = sze; }
   IndexValueType GetIndex(unsigned long i) const
     { return m_Index[i]; }
@@ -149,64 +149,64 @@ public:
   bool
   operator==(const Self &region) const
     {
-      bool same = 1;
-      same = (m_Index == region.m_Index);
-      same = same && (m_Size == region.m_Size);
-      return same;
+    bool same = 1;
+    same = (m_Index == region.m_Index);
+    same = same && (m_Size == region.m_Size);
+    return same;
     }
 
   /** Compare two regions. */
   bool
   operator!=(const Self &region) const
     {
-      bool same = 1;
-      same = (m_Index == region.m_Index);
-      same = same && (m_Size == region.m_Size);
-      return !same;
+    bool same = 1;
+    same = (m_Index == region.m_Index);
+    same = same && (m_Size == region.m_Size);
+    return !same;
     }
-  
-  
+
+
   /** Test if an index is inside */
   bool
   IsInside(const IndexType &index) const
     {
-      for(unsigned int i=0; i<ImageDimension; i++)
+    for(unsigned int i=0; i<ImageDimension; i++)
+      {
+      if( index[i] < m_Index[i] )
         {
-        if( index[i] < m_Index[i] ) 
-          {
-          return false;
-          }
-        if( index[i] >= m_Index[i] + static_cast<long>(m_Size[i]) ) 
-          {
-          return false;
-          }
+        return false;
         }
-      return true;
+      if( index[i] >= m_Index[i] + static_cast<long>(m_Size[i]) )
+        {
+        return false;
+        }
+      }
+    return true;
     }
-  
+
   /** Test if an index is inside */
   template <typename TCoordRepType>
   bool
   IsInside(const ContinuousIndex<TCoordRepType,VImageDimension> &index) const
     {
-      for(unsigned int i=0; i<ImageDimension; i++)
+    for(unsigned int i=0; i<ImageDimension; i++)
+      {
+      if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) )
         {
-        if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) ) 
-          {
-          return false;
-          }
-        // bound is the last valid pixel location
-        const TCoordRepType bound = static_cast<TCoordRepType>(
-                              m_Index[i] + static_cast<long>(m_Size[i]) - 1);
-
-        if( index[i] > bound )
-          {
-          return false;
-          }
+        return false;
         }
-      return true;
+      // bound is the last valid pixel location
+      const TCoordRepType bound = static_cast<TCoordRepType>(
+                            m_Index[i] + static_cast<long>(m_Size[i]) - 1);
+
+      if( index[i] > bound )
+        {
+        return false;
+        }
+      }
+    return true;
     }
- 
+
 
   /** Test if a region (the argument) is completly inside of this region */
   bool
@@ -219,7 +219,7 @@ public:
         }
       IndexType endCorner;
       SizeType  size = region.GetSize();
-      for(unsigned int i=0; i<ImageDimension; i++) 
+      for(unsigned int i=0; i<ImageDimension; i++)
         {
         endCorner[i] = beginCorner[i] + size[i] - 1;
         }
@@ -229,7 +229,7 @@ public:
         }
       return true;
     }
- 
+
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
   unsigned long GetNumberOfPixels() const;
@@ -240,7 +240,7 @@ public:
   void PadByRadius(unsigned long radius);
   void PadByRadius(const unsigned long radius[VImageDimension]);
   void PadByRadius(const SizeType &radius);
-  
+
   /** Crop a region by another region. If this region is outside of the
    * crop, this method returns false and does not modify the
    * region. Otherwise, this method returns true and the region is
@@ -251,7 +251,7 @@ public:
    * than the current region. Parameter "dim" specifies which dimension
    * to remove. */
   SliceRegion Slice(const unsigned long dim) const;
-                   
+
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
@@ -290,4 +290,3 @@ std::ostream & operator<<(std::ostream &os, const ImageRegion<VImageDimension> &
 #endif
 
 #endif
-

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,7 @@
 
 namespace itk
 {
-  
+
 /** \class ImageAndPathToImageFilter
  * \brief Base class for filters that take both a path and an image as input and produce a path as output.
  *
@@ -30,32 +30,32 @@ namespace itk
  * the methods SetPathInput() and SetImageInput().  (It also establishes the
  * precedent of having image inputs preceed path inputs for functions producing
  * images as outputs, according to the underlying DataObject implementation.)
- * 
+ *
  * \ingroup ImageFilters
  * \ingroup PathFilters
  */
 template <class TInputImage, class TInputPath, class TOutputImage>
 class ITK_EXPORT ImageAndPathToImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage> 
+    public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageAndPathToImageFilter  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageAndPathToImageFilter                       Self;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>    Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageAndPathToImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef          TInputImage                    InputImageType;
   typedef typename InputImageType::ConstPointer   InputImagePointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType; 
-  typedef typename InputImageType::PixelType      InputImagePixelType; 
+  typedef typename InputImageType::RegionType     InputImageRegionType;
+  typedef typename InputImageType::PixelType      InputImagePixelType;
   typedef          TInputPath                     InputPathType;
   typedef typename InputPathType::Pointer         InputPathPointer;
   typedef typename InputPathType::ConstPointer    InputPathConstPointer;
@@ -65,19 +65,19 @@ public:
   typedef typename InputPathType::OffsetType      InputPathOffsetType;
   typedef          TOutputImage                   OutputImageType;
   typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::RegionType    OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType     OutputImagePixelType; 
+  typedef typename OutputImageType::RegionType    OutputImageRegionType;
+  typedef typename OutputImageType::PixelType     OutputImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Set/Get the image input of this process object. */
   virtual void SetImageInput( const TInputImage * image);
   const InputImageType * GetImageInput(void);
-  
+
   /** Set/Get the path input of this process object. */
   virtual void SetPathInput( const TInputPath * path);
   const InputPathType * GetPathInput(void);
@@ -87,7 +87,7 @@ protected:
   virtual ~ImageAndPathToImageFilter() {};
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  
+
 private:
   ImageAndPathToImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

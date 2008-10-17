@@ -9,19 +9,18 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageConstIteratorWithIndex_txx
-#define _itkImageConstIteratorWithIndex_txx
+#ifndef __itkImageConstIteratorWithIndex_txx
+#define __itkImageConstIteratorWithIndex_txx
 
 #include "itkImageConstIteratorWithIndex.h"
 
 namespace itk
 {
-
 
 
 //----------------------------------------------------------------------
@@ -38,7 +37,6 @@ ImageConstIteratorWithIndex<TImage>
 }
 
 
-
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
@@ -53,9 +51,9 @@ ImageConstIteratorWithIndex<TImage>
   m_EndIndex          = it.m_EndIndex;
   m_Region            = it.m_Region;
 
-  memcpy(m_OffsetTable, it.m_OffsetTable, 
+  memcpy(m_OffsetTable, it.m_OffsetTable,
          (ImageDimension+1)*sizeof(unsigned long));
-  
+
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
   m_End         = it.m_End;
@@ -65,7 +63,6 @@ ImageConstIteratorWithIndex<TImage>
   m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
   m_PixelAccessorFunctor.SetBegin( m_Image->GetBufferPointer() );
 }
-
 
 
 //----------------------------------------------------------------------
@@ -84,14 +81,14 @@ ImageConstIteratorWithIndex<TImage>
   m_PositionIndex     = m_BeginIndex;
   m_Region            = region;
 
-  memcpy(m_OffsetTable, m_Image->GetOffsetTable(), 
+  memcpy(m_OffsetTable, m_Image->GetOffsetTable(),
          (ImageDimension+1)*sizeof(unsigned long));
 
   // Compute the start position
   long offs =  m_Image->ComputeOffset( m_BeginIndex );
   m_Begin = buffer + offs;
   m_Position = m_Begin;
-  
+
   // Compute the end offset
   m_Remaining = false;
   IndexType pastEnd;
@@ -114,7 +111,7 @@ ImageConstIteratorWithIndex<TImage>
   GoToBegin();
 
 }
- 
+
 
 //----------------------------------------------------------------------
 //    Assignment Operator
@@ -131,9 +128,9 @@ ImageConstIteratorWithIndex<TImage>
   m_PositionIndex     = it.m_PositionIndex;
   m_Region            = it.m_Region;
 
-  memcpy(m_OffsetTable, it.m_OffsetTable, 
+  memcpy(m_OffsetTable, it.m_OffsetTable,
          (ImageDimension+1)*sizeof(unsigned long));
-  
+
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
   m_End         = it.m_End;
@@ -144,15 +141,14 @@ ImageConstIteratorWithIndex<TImage>
   m_PixelAccessorFunctor.SetBegin( m_Image->GetBufferPointer() );
 
   return *this;
-} 
-  
+}
 
 
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 //----------------------------------------------------------------------------
 template<class TImage>
-ImageConstIteratorWithIndex<TImage> 
+ImageConstIteratorWithIndex<TImage>
 ImageConstIteratorWithIndex<TImage>
 ::Begin() const
 {
@@ -174,7 +170,7 @@ ImageConstIteratorWithIndex<TImage>
 
   m_Position       = m_Begin;
   m_PositionIndex  = m_BeginIndex;
- 
+
   if( m_Region.GetNumberOfPixels() > 0 )
     {
     m_Remaining = true;
@@ -191,7 +187,7 @@ ImageConstIteratorWithIndex<TImage>
 // End() is the last pixel in the region.  DEPRECATED
 //----------------------------------------------------------------------------
 template<class TImage>
-ImageConstIteratorWithIndex<TImage> 
+ImageConstIteratorWithIndex<TImage>
 ImageConstIteratorWithIndex<TImage>
 ::End() const
 {
@@ -214,7 +210,7 @@ ImageConstIteratorWithIndex<TImage>
     {
     m_PositionIndex[i]  = m_EndIndex[i]-1;
     }
- 
+
   if( m_Region.GetNumberOfPixels() > 0 )
     {
     m_Remaining = true;
@@ -232,10 +228,6 @@ ImageConstIteratorWithIndex<TImage>
 
 }
 
-
 } // end namespace itk
-
-
-
 
 #endif

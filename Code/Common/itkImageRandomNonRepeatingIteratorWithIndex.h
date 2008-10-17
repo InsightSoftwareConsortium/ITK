@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
   Contributed by Rupert Brooks
@@ -31,9 +31,9 @@ namespace itk
  *
  *  This class was contributed by Rupert Brooks, McGill Centre for Intelligent
  *  Machines, Montreal, Canada.  It is heavily based on the
- *  ImageRandomIterator class. 
+ *  ImageRandomIterator class.
  *
- *  This iterator is a subclass of 
+ *  This iterator is a subclass of
  *  itk::ImageRandomNonRepeatingConstIteratorWithIndex that
  *  adds write-access functionality.  Please see
  *  itk::ImageRandomNonRepeatingConstIteratorWithIndex for more information.
@@ -49,25 +49,25 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageRandomNonRepeatingConstIteratorWithIndex  \sa ImageRandomNonRepeatingIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageRandomNonRepeatingConstIteratorWithIndex  \sa ImageRandomNonRepeatingIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
  */
@@ -78,7 +78,7 @@ public:
   /** Standard class typedefs. */
   typedef ImageRandomNonRepeatingIteratorWithIndex Self;
   typedef ImageRandomNonRepeatingConstIteratorWithIndex<TImage>  Superclass;
-  
+
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
   typedef typename Superclass::IndexValueType         IndexValueType;
@@ -97,7 +97,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingIteratorWithIndex();
-  
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageRandomNonRepeatingIteratorWithIndex(ImageType *ptr, const RegionType& region);
@@ -109,23 +109,23 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomNonRepeatingIteratorWithIndex. */
   ImageRandomNonRepeatingIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it);
-  
+
   /** Set the pixel value */
-  void Set( const PixelType & value) const  
+  void Set( const PixelType & value) const
     { this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)),value); }
 
-  /** Return a reference to the pixel 
+  /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
+  PixelType & Value(void)
     { return *(const_cast<InternalPixelType *>(this->m_Position)); }
- 
+
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
   ImageRandomNonRepeatingIteratorWithIndex( const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> &it);
   Self & operator=(const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> & it);
- 
+
 
 };
 
@@ -135,4 +135,4 @@ protected:
 #include "itkImageRandomNonRepeatingIteratorWithIndex.txx"
 #endif
 
-#endif 
+#endif

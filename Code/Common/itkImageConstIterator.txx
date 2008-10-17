@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageConstIterator_txx
-#define _itkImageConstIterator_txx
+#ifndef __itkImageConstIterator_txx
+#define __itkImageConstIterator_txx
 
 #include "itkImageConstIterator.h"
 

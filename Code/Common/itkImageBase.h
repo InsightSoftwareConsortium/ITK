@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -49,8 +49,8 @@ template <typename TImage>
 struct GetImageDimension
 {
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
-}; 
-  
+};
+
 /** \class ImageBase
  * \brief Base class for templated image classes.
  *
@@ -62,14 +62,14 @@ struct GetImageDimension
  * subclasses of ImageBase, namely Image and ImageAdaptor.
  *
  * There are three sets of meta-data describing an image. These are "Region"
- * objects that define a portion of an image via a starting index for the 
- * image array and a size. The ivar LargestPossibleRegion defines the size 
+ * objects that define a portion of an image via a starting index for the
+ * image array and a size. The ivar LargestPossibleRegion defines the size
  * and starting index of the image dataset. The entire image dataset, however,
  * may not be resident in memory. The region of the image that is resident in
  * memory is defined by the "BufferedRegion". The Buffer is a contiguous block
  * of memory.  The third set of meta-data defines a region of interest, called
  * the "RequestedRegion". The RequestedRegion is used by the pipeline
- * execution model to define what a filter is requested to produce. 
+ * execution model to define what a filter is requested to produce.
  *
  * [RegionIndex, RegionSize] C [BufferIndex, BufferSize]
  *                           C [ImageIndex, ImageSize]
@@ -83,11 +83,11 @@ class ITK_EXPORT ImageBase : public DataObject
 {
 public:
   /** Standard typedefs. */
-  typedef ImageBase           Self;
-  typedef DataObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef ImageBase                     Self;
+  typedef DataObject                    Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -101,26 +101,26 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension );
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>  IndexType;
-  typedef typename IndexType::IndexValueType  IndexValueType;
-  
+  typedef Index<VImageDimension>                  IndexType;
+  typedef typename IndexType::IndexValueType      IndexValueType;
+
   /** Offset typedef support. An offset represent relative position
    * between indices. */
-  typedef Offset<VImageDimension>  OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  typedef Offset<VImageDimension>                 OffsetType;
+  typedef typename OffsetType::OffsetValueType    OffsetValueType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>  SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
-    
+  typedef Size<VImageDimension>                   SizeType;
+  typedef typename SizeType::SizeValueType        SizeValueType;
+
   /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<VImageDimension>  RegionType;
+  typedef ImageRegion<VImageDimension>            RegionType;
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. ITK only
    * supports positive spacing value: negative values may cause
    * undesirable results.*/
-  typedef Vector<double, VImageDimension> SpacingType;
+  typedef Vector<double, VImageDimension>         SpacingType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
    * of the index (0,0). */
@@ -135,7 +135,7 @@ public:
   void Initialize();
 
   /** Image dimension. The dimension of an image is fixed at construction. */
-  static unsigned int GetImageDimension() 
+  static unsigned int GetImageDimension()
     { return VImageDimension; }
 
   /** Set the origin of the image. The origin is the geometric
@@ -148,10 +148,10 @@ public:
 
   /** Set the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
-   * 
+   *
    * One row of the matrix indicates the direction cosines of the unit vector
    * that is parallel to the lines of the image grid corresponding to that
-   * dimension. For example, and image with Direction matrix 
+   * dimension. For example, and image with Direction matrix
    *
    *    0.866   0.500
    *   -0.500   0.866
@@ -195,7 +195,7 @@ public:
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer
-   * to a double array.  For ImageBase and Image, the default origin is 
+   * to a double array.  For ImageBase and Image, the default origin is
    * 0. */
   itkGetConstReferenceMacro(Origin, PointType);
 
@@ -217,16 +217,16 @@ public:
     { return m_LargestPossibleRegion;};
 
   /** Set the region object that defines the size and starting index
-   * of the region of the image currently loaded in memory. 
+   * of the region of the image currently loaded in memory.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion() */
   virtual void SetBufferedRegion(const RegionType &region);
 
   /** Get the region object that defines the size and starting index
-   * of the region of the image currently loaded in memory. 
+   * of the region of the image currently loaded in memory.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion() */
   virtual const RegionType& GetBufferedRegion() const
   { return m_BufferedRegion;};
-  
+
   /** Set the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
    * image to be operated on by a filter). Setting the RequestedRegion
@@ -237,7 +237,7 @@ public:
   virtual void SetRequestedRegion(const RegionType &region);
 
   /** Set the requested region from this data object to match the requested
-   * region of the data object passed in as a parameter.  This method 
+   * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to an ImageBase. Setting the RequestedRegion does not cause
    * the object to be modified. This method is called internally by
@@ -263,7 +263,7 @@ public:
    * some data accessing algorithms. The entries in the offset table
    * are only valid after the BufferedRegion is set. */
   const OffsetValueType *GetOffsetTable() const { return m_OffsetTable; };
-  
+
   /** Compute an offset from the beginning of the buffer for a pixel
    * at the specified index. The index is not checked as to whether it
    * is inside the current buffer, so the computed offset could
@@ -274,21 +274,21 @@ public:
 
 #if 1
   inline OffsetValueType ComputeOffset(const IndexType &ind) const
-  {
+    {
     OffsetValueType offset = 0;
     ImageHelper<VImageDimension,VImageDimension>::ComputeOffset(this->GetBufferedRegion().GetIndex(),
                                                                 ind,
                                                                 m_OffsetTable,
                                                                 offset);
     return offset;
-  }
+    }
 #else
   OffsetValueType ComputeOffset(const IndexType &ind) const
-  {
+    {
     // need to add bounds checking for the region/buffer?
     OffsetValueType offset=0;
     const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
-  
+
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
     for (int i=VImageDimension-1; i > 0; i--)
@@ -297,8 +297,8 @@ public:
       }
     offset += (ind[0] - bufferedRegionIndex[0]);
 
-    return offset;    
-  }
+    return offset;
+    }
 #endif
   /** Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region. Bounds checking is not
@@ -309,7 +309,7 @@ public:
    * ImageRegion::GetNumberOfPixels()). */
 #if 1
   inline IndexType ComputeIndex(OffsetValueType offset) const
-  {
+    {
     IndexType index;
     const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
     ImageHelper<VImageDimension,VImageDimension>::ComputeIndex(bufferedRegionIndex,
@@ -317,13 +317,13 @@ public:
                                                                m_OffsetTable,
                                                                index);
     return index;
-  }
+    }
 #else
   IndexType ComputeIndex(OffsetValueType offset) const
-  {
+    {
     IndexType index;
     const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
-    
+
     for (int i=VImageDimension-1; i > 0; i--)
       {
       index[i] = static_cast<IndexValueType>(offset / m_OffsetTable[i]);
@@ -332,8 +332,8 @@ public:
       }
     index[0] = bufferedRegionIndex[0] + static_cast<IndexValueType>(offset);
 
-    return index;    
-  }
+    return index;
+    }
 #endif
 
   /** Copy information from the specified data set.  This method is
@@ -393,7 +393,7 @@ public:
    * throws a InvalidRequestedRegionError exception is the requested
    * region is not within the LargestPossibleRegion. */
   virtual bool VerifyRequestedRegion();
-  
+
   /** INTERNAL This method is used internally by filters to copy meta-data from
    * the output to the input. Users should not have a need to use this method.
    *
@@ -406,12 +406,12 @@ public:
    * \endcode
    *
    * \sa ImageBase, VectorImage
-   * 
-   * Returns/Sets the number of components in the image. Note that for all 
+   *
+   * Returns/Sets the number of components in the image. Note that for all
    * images this is 1. Even for Image< RGBPixel< T >, 3 >.
    * This is >= 1 only for time-series images such as itk::VectorImage. */
   virtual unsigned int GetNumberOfComponentsPerPixel() const;
-  virtual void SetNumberOfComponentsPerPixel( unsigned int ); 
+  virtual void SetNumberOfComponentsPerPixel( unsigned int );
 
 protected:
   ImageBase();
@@ -428,9 +428,9 @@ protected:
   /** Origin and spacing of physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
-  SpacingType  m_Spacing;
-  PointType   m_Origin;
-  DirectionType m_Direction;
+  SpacingType         m_Spacing;
+  PointType           m_Origin;
+  DirectionType       m_Direction;
 
 private:
   ImageBase(const Self&); //purposely not implemented
