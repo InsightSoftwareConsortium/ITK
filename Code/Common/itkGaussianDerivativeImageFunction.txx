@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -55,15 +55,15 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 
   os << indent << "Sigma: " << m_Sigma << std::endl;
   os << indent << "Extent: " << m_Extent << std::endl;
-  
+
   os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
-  os << indent << "ContinuousOperatorArray: " 
+  os << indent << "ContinuousOperatorArray: "
      << m_ContinuousOperatorArray << std::endl;
-  os << indent << "OperatorImageFunction: " 
+  os << indent << "OperatorImageFunction: "
      << m_OperatorImageFunction << std::endl;
-  os << indent << "GaussianDerivativeFunction: " 
+  os << indent << "GaussianDerivativeFunction: "
      << m_GaussianDerivativeFunction << std::endl;
-  os << indent << "GaussianFunction: " 
+  os << indent << "GaussianFunction: "
      << m_GaussianFunction << std::endl;
 }
 
@@ -83,16 +83,16 @@ void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::SetSigma( const double* sigma)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
     {
     if ( sigma[i] != m_Sigma[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension2) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
       {
       m_Sigma[i] = sigma[i];
@@ -108,16 +108,16 @@ void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::SetSigma (const double sigma)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
     {
     if ( sigma != m_Sigma[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension2) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
       {
       m_Sigma[i] = sigma;
@@ -132,16 +132,16 @@ void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::SetExtent( const double* extent)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
     {
     if ( extent[i] != m_Extent[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension2) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
       {
       m_Extent[i] = extent[i];
@@ -157,16 +157,16 @@ void
 GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::SetExtent( const double extent)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
     {
     if ( extent != m_Extent[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension2) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension2) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
       {
       m_Extent[i] = extent;
@@ -184,8 +184,8 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 {
   unsigned int direction = 0;
   for(unsigned int op = 0; op<itkGetStaticConstMacro(ImageDimension2)*2; op++)
-    {  
-    
+    {
+
     // Set the derivative of the gaussian first
     OperatorNeighborhoodType dogNeighborhood;
     typename GaussianDerivativeFunctionType::InputType pt;
@@ -205,7 +205,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     while(it != dogNeighborhood.End() )
       {
       pt[0]= dogNeighborhood.GetOffset(i)[direction];
-      
+
       if( (m_UseImageSpacing == true) && (this->GetInputImage()) )
         {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
@@ -238,7 +238,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     while(it != gaussianNeighborhood.End() )
       {
       pt[0]= gaussianNeighborhood.GetOffset(i)[direction];
-      
+
       if( (m_UseImageSpacing == true) && (this->GetInputImage()) )
         {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
@@ -250,7 +250,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
           pt[0] *= this->GetInputImage()->GetSpacing()[direction];
           }
         }
-      
+
       (*it)= m_GaussianFunction->Evaluate(pt);
       sum += (*it);
       i++;
@@ -279,12 +279,12 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
   OutputType gradient;
 
   for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension2);i++)
-    { 
+    {
     // Apply each gaussian kernel to a subset of the image
     InputPixelType pixel = this->GetInputImage()->GetPixel(index);
     double value = pixel;
 
-    // gaussian blurring first 
+    // gaussian blurring first
     for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension2);direction++)
       {
       if(i != direction)
@@ -297,21 +297,21 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
         value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
         }
       }
-    
+
     // then derivative in the direction
     signed int center = (unsigned int)((m_OperatorArray[2*i].GetSize()[i]-1)/2);
     TOutput centerval = m_OperatorArray[2*i].GetCenterValue();
     m_OperatorArray[2*i][center] = 0;
-    m_OperatorImageFunction->SetOperator(m_OperatorArray[2*i]);      
+    m_OperatorImageFunction->SetOperator(m_OperatorArray[2*i]);
     value = m_OperatorImageFunction->EvaluateAtIndex(index)+centerval*value;
 
     gradient[i] = value;
     }
-  
+
   return gradient;
 }
 
-/** Recompute the gaussian kernel used to evaluate indexes 
+/** Recompute the gaussian kernel used to evaluate indexes
  *  The variance should be uniform */
 template <class TInputImage, class TOutput>
 void
@@ -319,10 +319,10 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::RecomputeContinuousGaussianKernel(
   const double* offset) const
 {
-  
+
   unsigned int direction = 0;
   for(unsigned int op = 0; op<itkGetStaticConstMacro(ImageDimension2)*2; op++)
-    {    
+    {
     // Set the derivative of the gaussian first
     OperatorNeighborhoodType dogNeighborhood;
     typename GaussianDerivativeFunctionType::InputType pt;
@@ -342,7 +342,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     while(it != dogNeighborhood.End() )
       {
       pt[0]= dogNeighborhood.GetOffset(i)[direction]-offset[direction];
-      
+
       if( (m_UseImageSpacing == true) && (this->GetInputImage()) )
         {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
@@ -375,7 +375,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
     while(it != gaussianNeighborhood.End() )
       {
       pt[0]= gaussianNeighborhood.GetOffset(i)[direction]-offset[direction];
-      
+
       if( (m_UseImageSpacing == true) && (this->GetInputImage()) )
         {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
@@ -387,7 +387,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
           pt[0] *= this->GetInputImage()->GetSpacing()[direction];
           }
         }
-      
+
       (*it)= m_GaussianFunction->Evaluate(pt);
       sum += (*it);
       i++;
@@ -425,7 +425,7 @@ GaussianDerivativeImageFunction<TInputImage,TOutput>
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex ) const
 {
   IndexType index;
-  this->ConvertContinuousIndexToNearestIndex( cindex, index  ); 
+  this->ConvertContinuousIndexToNearestIndex( cindex, index  );
   return this->EvaluateAtIndex( index );
 }
 

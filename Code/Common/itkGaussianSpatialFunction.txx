@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -41,7 +41,7 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 }
 
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
-typename GaussianSpatialFunction<TOutput, VImageDimension, TInput>::OutputType 
+typename GaussianSpatialFunction<TOutput, VImageDimension, TInput>::OutputType
 GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 ::Evaluate(const TInput& position) const
 {
@@ -73,7 +73,7 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 
   for(unsigned int i = 0; i < VImageDimension; i++)
     {
-    suffixExp += (position[i] - m_Mean[i])*(position[i] - m_Mean[i]) 
+    suffixExp += (position[i] - m_Mean[i])*(position[i] - m_Mean[i])
                  / (2 * m_Sigma[i] * m_Sigma[i]);
     }
 
@@ -91,14 +91,14 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>
 
   unsigned int i;
   os << indent << "Sigma: [";
-  for (i=0; i+1 < VImageDimension ; i++)
+  for( i=0; i+1 < VImageDimension; i++ )
     {
     os << m_Sigma[i] << ", ";
     }
   os << "]" << std::endl;
 
   os << indent << "Mean: [";
-  for (i=0; i+1 < VImageDimension ; i++)
+  for( i=0; i+1 < VImageDimension; i++ )
     {
     os << m_Mean[i] << ", ";
     }

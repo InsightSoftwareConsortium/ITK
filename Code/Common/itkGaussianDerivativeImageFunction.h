@@ -51,8 +51,8 @@ public:
     TOutput > Superclass;
 
   /** Smart pointer typedef support. */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory.*/
   itkNewMacro(Self);
@@ -63,7 +63,7 @@ public:
   /** InputImageType typedef support.*/
   typedef TInputImage                                 InputImageType;
   typedef typename InputImageType::PixelType          InputPixelType;
-  typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::IndexType          IndexType;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension2, unsigned int,
@@ -86,8 +86,8 @@ public:
   typedef GaussianDerivativeSpatialFunction<TOutput,1>  GaussianDerivativeFunctionType;
   typedef typename GaussianDerivativeFunctionType::Pointer GaussianDerivativeFunctionPointer;
 
-  typedef GaussianSpatialFunction<TOutput,1>  GaussianFunctionType;
-  typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
+  typedef GaussianSpatialFunction<TOutput,1>        GaussianFunctionType;
+  typedef typename GaussianFunctionType::Pointer    GaussianFunctionPointer;
 
   /** Point typedef support. */
   typedef Point<TOutput,itkGetStaticConstMacro(ImageDimension2)> PointType;
@@ -177,4 +177,3 @@ private:
 #endif
 
 #endif
-

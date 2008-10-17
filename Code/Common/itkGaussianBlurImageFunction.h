@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -48,8 +48,8 @@ public:
   typedef ImageFunction<TInputImage, TOutput> Superclass;
 
   /** Smart pointer typedef support. */
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Method for creation through the object factory.*/
   itkNewMacro(Self);
@@ -65,39 +65,31 @@ public:
 
 
   /** Dimension of the underlying image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
-  
-  typedef GaussianOperator<TOutput,
-                           itkGetStaticConstMacro(ImageDimension)> 
-                                                      GaussianOperatorType;
-  typedef Neighborhood<TOutput, itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
-  typedef FixedArray<NeighborhoodType,itkGetStaticConstMacro(ImageDimension)> OperatorArrayType;
-  
-  typedef GaussianSpatialFunction<TOutput,1>  GaussianFunctionType;
-  typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
-  typedef itk::Image<double,itkGetStaticConstMacro(ImageDimension)> InternalImageType;
-  typedef typename InternalImageType::Pointer InternalImagePointer;
+  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
-  typedef NeighborhoodOperatorImageFunction<InternalImageType,
-                                             TOutput> OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
+  typedef GaussianOperator<
+    TOutput, itkGetStaticConstMacro(ImageDimension)>                            GaussianOperatorType;
+  typedef Neighborhood<TOutput, itkGetStaticConstMacro(ImageDimension)>         NeighborhoodType;
+  typedef FixedArray<NeighborhoodType,itkGetStaticConstMacro(ImageDimension)>   OperatorArrayType;
 
-  typedef itk::CastImageFilter<InputImageType,InternalImageType> CastImageFilterType;
-  typedef typename CastImageFilterType::Pointer CastImageFilterPointer;
+  typedef GaussianSpatialFunction<TOutput,1>                                    GaussianFunctionType;
+  typedef typename GaussianFunctionType::Pointer                                GaussianFunctionPointer;
+  typedef itk::Image<double,itkGetStaticConstMacro(ImageDimension)>             InternalImageType;
+  typedef typename InternalImageType::Pointer                                   InternalImagePointer;
 
-  typedef itk::FixedArray< double, 
-                  itkGetStaticConstMacro(ImageDimension) >   ErrorArrayType;
+  typedef NeighborhoodOperatorImageFunction< InternalImageType, TOutput>        OperatorImageFunctionType;
+  typedef typename OperatorImageFunctionType::Pointer                           OperatorImageFunctionPointer;
 
-  typedef itk::FixedArray< double, 
-                  itkGetStaticConstMacro(ImageDimension) >   ExtentArrayType;
+  typedef itk::CastImageFilter<InputImageType,InternalImageType>                CastImageFilterType;
+  typedef typename CastImageFilterType::Pointer                                 CastImageFilterPointer;
 
-  typedef itk::FixedArray< double, 
-                  itkGetStaticConstMacro(ImageDimension) >   SigmaArrayType;
+  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >     ErrorArrayType;
+  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >     ExtentArrayType;
+  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >     SigmaArrayType;
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
-  
+
   /** Evalutate the  in the given dimension at specified point */
    virtual TOutput Evaluate(const PointType& point) const;
 
@@ -106,12 +98,12 @@ public:
   virtual TOutput EvaluateAtIndex( const IndexType & index ) const;
 
   /** Evaluate the function at specified ContinousIndex position.*/
-  virtual TOutput EvaluateAtContinuousIndex( 
+  virtual TOutput EvaluateAtContinuousIndex(
     const ContinuousIndexType & index ) const;
 
   /** The standard deviation for the discrete Gaussian kernel.  Sets the
    * standard deviation independently for each dimension.
-   * The default is 1.0 in each dimension. 
+   * The default is 1.0 in each dimension.
    * If UseImageSpacing is true (default), the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.
    */
@@ -120,7 +112,7 @@ public:
   void SetSigma( const double sigma);
   itkSetMacro( Sigma, SigmaArrayType );
   itkGetConstReferenceMacro( Sigma, SigmaArrayType );
-  
+
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
@@ -141,16 +133,16 @@ public:
   itkSetMacro( MaximumError, ErrorArrayType );
   itkGetConstReferenceMacro( MaximumError, ErrorArrayType );
 
-  /** Set/GetMaximumKernelWidth() This value is used by the underling 
-   *  GaussianOperator for computing the number of coefficients to be 
-   *  used in the Gaussian kernel  
+  /** Set/GetMaximumKernelWidth() This value is used by the underling
+   *  GaussianOperator for computing the number of coefficients to be
+   *  used in the Gaussian kernel
    */
   itkSetMacro( MaximumKernelWidth, int );
   itkGetMacro( MaximumKernelWidth, int );
 
-  /** Set/GetUseImageSpacing() This flag is used by the underling 
+  /** Set/GetUseImageSpacing() This flag is used by the underling
    *  GaussianOperator to decide if the image spacing should be used
-   *  to scale the value of sigma or not. The methods UseImageSpacingOn() 
+   *  to scale the value of sigma or not. The methods UseImageSpacingOn()
    *  and UseImageSpacingOff() provide a similar functionality.
    */
   itkSetMacro( UseImageSpacing, bool );
@@ -171,7 +163,7 @@ protected:
   void RecomputeContinuousGaussianKernel(const double* offset) const;
 
 private:
-  
+
   SigmaArrayType                m_Sigma;
   OperatorImageFunctionPointer  m_OperatorImageFunction;
   mutable OperatorArrayType     m_OperatorArray;
@@ -217,4 +209,3 @@ private:
 #endif
 
 #endif
-

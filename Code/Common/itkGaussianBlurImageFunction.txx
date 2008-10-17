@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -68,7 +68,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
- 
+
   for(unsigned int i=0;i<itkGetStaticConstMacro(ImageDimension);i++)
     {
     os << indent << "Sigma["<< i << "] : " <<  m_Sigma[i] << std::endl;
@@ -78,8 +78,8 @@ GaussianBlurImageFunction<TInputImage,TOutput>
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 
-  os << indent << "Internal Image : " << m_InternalImage << std::endl; 
-  os << indent << "Image Caster : " << m_Caster << std::endl; 
+  os << indent << "Internal Image : " << m_InternalImage << std::endl;
+  os << indent << "Image Caster : " << m_Caster << std::endl;
 
 }
 
@@ -89,16 +89,16 @@ void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::SetSigma(const double* sigma)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
     {
     if ( sigma[i] != m_Sigma[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
       {
       m_Sigma[i] = sigma[i];
@@ -114,16 +114,16 @@ void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::SetSigma( const double sigma)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
     {
     if ( sigma != m_Sigma[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
       {
       m_Sigma[i] = sigma;
@@ -138,16 +138,16 @@ void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::SetExtent(const double* extent)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
     {
     if ( extent[i] != m_Extent[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
       {
       m_Extent[i] = extent[i];
@@ -163,16 +163,16 @@ void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::SetExtent( const double extent)
 {
-  unsigned int i; 
+  unsigned int i;
   for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
     {
     if ( extent != m_Extent[i] )
       {
       break;
       }
-    } 
-  if ( i < itkGetStaticConstMacro(ImageDimension) ) 
-    { 
+    }
+  if ( i < itkGetStaticConstMacro(ImageDimension) )
+    {
     for (i=0; i<itkGetStaticConstMacro(ImageDimension); i++)
       {
       m_Extent[i] = extent;
@@ -182,20 +182,20 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 }
 
 /** Recompute the gaussian kernel used to evaluate indexes
- *  And allocate the internal image for processing depending on 
+ *  And allocate the internal image for processing depending on
  *  the size of the operator */
 template <class TInputImage,class TOutput>
 void
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::RecomputeGaussianKernel()
 {
-  
+
   typename InternalImageType::SizeType size;
   // Compute the convolution of each kernel in each direction
   for(unsigned int direction=0;direction<itkGetStaticConstMacro(ImageDimension);direction++)
     {
     GaussianOperatorType gaussianOperator;
- 
+
     gaussianOperator.SetDirection(direction);
     gaussianOperator.SetMaximumError(m_MaximumError[direction]);
     gaussianOperator.SetMaximumKernelWidth(m_MaximumKernelWidth);
@@ -326,7 +326,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     m_OperatorImageFunction->SetOperator(m_OperatorArray[direction]);
 
     itk::ImageLinearIteratorWithIndex<InternalImageType> itr(m_InternalImage,region);
-      
+
     unsigned int dir = direction +1;
     if(dir == itkGetStaticConstMacro(ImageDimension))
       {
@@ -351,7 +351,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
 }
 
 
-/** Recompute the gaussian kernel used to evaluate indexes 
+/** Recompute the gaussian kernel used to evaluate indexes
  *  The variance should be uniform */
 template <class TInputImage,class TOutput>
 void
@@ -366,7 +366,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     size.Fill(0);
     size[direction] = (unsigned long)(m_Sigma[direction]*m_Extent[direction]);
 
-    gaussianNeighborhood.SetRadius(size); 
+    gaussianNeighborhood.SetRadius(size);
 
     typename NeighborhoodType::Iterator it = gaussianNeighborhood.Begin();
 
@@ -390,7 +390,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
           pt[0] *= this->GetInputImage()->GetSpacing()[direction];
           }
         }
-       
+
       (*it)= m_GaussianFunction->Evaluate(pt);
       sum += (*it);
       i++;
@@ -400,7 +400,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     // Make the filter DC-Constant
     it = gaussianNeighborhood.Begin();
     while(it != gaussianNeighborhood.End() )
-      {    
+      {
       (*it) /= sum;
       it++;
       }
@@ -516,7 +516,7 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     m_OperatorImageFunction->SetOperator(m_ContinuousOperatorArray[direction]);
 
     itk::ImageLinearIteratorWithIndex<InternalImageType> itr(m_InternalImage,region);
-      
+
     unsigned int dir = direction +1;
     if(dir == itkGetStaticConstMacro(ImageDimension))
       {

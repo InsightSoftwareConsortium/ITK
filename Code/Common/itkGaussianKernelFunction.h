@@ -40,9 +40,9 @@ class ITKCommon_EXPORT GaussianKernelFunction : public KernelFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianKernelFunction Self;
-  typedef KernelFunction Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef GaussianKernelFunction      Self;
+  typedef KernelFunction              Superclass;
+  typedef SmartPointer<Self>          Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self); 

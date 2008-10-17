@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -34,9 +34,9 @@ namespace itk {
  * efficient, N-D Gaussian blurring of an image region.
  *
  * GaussianOperator takes two parameters:
- 
+
  * (1) The floating-point variance of the desired Gaussian function.
- 
+
  * (2) The "maximum error" allowed in the discrete Gaussian
  * function.  "Maximum errror" is defined as the difference between the area
  * under the discrete Gaussian curve and the area under the continuous
@@ -63,20 +63,20 @@ class ITK_EXPORT GaussianOperator
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianOperator Self;
-  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
-  
+  typedef GaussianOperator                                        Self;
+  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>    Superclass;
+
   /** Constructor. */
   GaussianOperator() : m_Variance(1), m_MaximumError(.01), m_MaximumKernelWidth(30) { }
 
   /** Copy constructor */
   GaussianOperator(const Self &other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
-  {
+    {
     m_Variance = other.m_Variance;
     m_MaximumError = other.m_MaximumError;
     m_MaximumKernelWidth = other.m_MaximumKernelWidth;
-  }
+    }
 
   /** Assignment operator */
   Self &operator=(const Self &other)
@@ -87,30 +87,32 @@ public:
     m_MaximumKernelWidth = other.m_MaximumKernelWidth;
     return *this;
   }
-  
+
   /** Sets the desired variance of the Gaussian kernel. */
   void SetVariance(const double &variance)
-  {  m_Variance = variance;  }
+    {
+    m_Variance = variance;
+    }
 
   /** Sets the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value must be between 0.0 and 1.0. */
   void SetMaximumError(const double &max_error)
-  {
+    {
     if (max_error >= 1 || max_error <= 0)
       {
       itkExceptionMacro("Maximum Error Must be in the range [ 0.0 , 1.0 ]");
       }
-    
+
     m_MaximumError = max_error;
-  }
-  
+    }
+
   /** Returns the variance of the Gaussian (scale) for the operator. */
   double GetVariance()
     {  return m_Variance;  }
 
-  /** Returns the maximum error of the gaussian approximation.  Maximum error is 
+  /** Returns the maximum error of the gaussian approximation.  Maximum error is
    * the difference between the area under the discrete Gaussian curve and the
    * area under the continuous Gaussian. Maximum error affects the Gaussian
    * operator size. */
@@ -127,7 +129,7 @@ public:
   /** Returns the maximum allowed kernel width. */
   unsigned int GetMaximumKernelWidth() const
     {   return m_MaximumKernelWidth; }
-  
+
   /** Prints some debugging information. */
   virtual void PrintSelf(std::ostream &os, Indent i) const
   {
@@ -137,7 +139,7 @@ public:
        << "} "  << std::endl;
     Superclass::PrintSelf(os, i.GetNextIndent());
   }
-  
+
 protected:
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
@@ -162,12 +164,12 @@ protected:
 private:
   /** Desired variance of the discrete Gaussian function. */
   double m_Variance;
-  
+
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
   double m_MaximumError;
 
-  /** Maximum kernel size allowed.  This value is used to truncate a kernel 
+  /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
   unsigned int m_MaximumKernelWidth;
@@ -175,7 +177,7 @@ private:
   /** For compatibility with itkWarningMacro */
   const char *GetNameOfClass()
     { return "itkGaussianOperator"; }
-  
+
 };
 
 } // namespace itk

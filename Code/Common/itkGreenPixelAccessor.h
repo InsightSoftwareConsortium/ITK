@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,9 +26,9 @@ namespace itk
 
 /**
  * \class GreenPixelAccessor
- * \brief Give access to the Green component of a RGBPixel type 
+ * \brief Give access to the Green component of a RGBPixel type
  *
- * This class is intended to be used as parameter of 
+ * This class is intended to be used as parameter of
  * an ImageAdaptor to make an RGBPixel image appear as being
  * of scalar type T, showing only the Green component.
  *
@@ -44,7 +44,7 @@ class ITK_EXPORT GreenPixelAccessor
 public:
   /** Standard class typedefs. */
   typedef   GreenPixelAccessor        Self;
-  
+
   /** External typedef. It defines the external aspect
    * that this class will exhibit */
   typedef T ExternalType;
@@ -62,18 +62,17 @@ public:
     { return input.GetGreen(); }
 
   bool operator!=( const Self & other ) const
-  {
+    {
     return false;
-  }
+    }
 
   bool operator==( const Self & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 };
 
-  
+
 } // end namespace itk
 
 #endif
-

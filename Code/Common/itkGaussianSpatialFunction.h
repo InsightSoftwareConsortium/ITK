@@ -45,10 +45,10 @@ class ITK_EXPORT GaussianSpatialFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianSpatialFunction Self;
-  typedef SpatialFunction<TOutput, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef GaussianSpatialFunction                                 Self;
+  typedef SpatialFunction<TOutput, VImageDimension, TInput>       Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
