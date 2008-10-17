@@ -46,7 +46,7 @@ class ITK_EXPORT ReflectiveImageRegionIterator : public ReflectiveImageRegionCon
 {
 public:
   /** Standard class typedefs. */
-  typedef ReflectiveImageRegionIterator Self;
+  typedef ReflectiveImageRegionIterator               Self;
   typedef ReflectiveImageRegionConstIterator<TImage>  Superclass;
   
   /** Types inherited from the Superclass */
@@ -106,6 +106,3 @@ protected:
 #endif
 
 #endif 
-
-
-

@@ -78,7 +78,7 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef RelabelComponentImageFilter Self;
+  typedef RelabelComponentImageFilter                     Self;
   typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
@@ -90,10 +90,10 @@ public:
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename TInputImage::PixelType          InputPixelType;
+  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension); 
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -102,8 +102,8 @@ public:
   /**
    * Image typedef support
    */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                             InputImageType;
+  typedef TOutputImage                            OutputImageType;
   typedef   typename TInputImage::IndexType       IndexType;
   typedef   typename TInputImage::SizeType        SizeType;
   typedef   typename TOutputImage::RegionType     RegionType;
@@ -111,7 +111,7 @@ public:
   /** 
    * Smart pointer typedef support 
    */
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /**
@@ -176,29 +176,29 @@ public:
    * (object #0) is not calculated.  */
   unsigned long GetSizeOfObjectInPixels(unsigned long obj) const
     {
-      if (obj > 0 && obj <= m_NumberOfObjects)
-        {
-        return m_SizeOfObjectsInPixels[obj-1];
-        }
-      else
-        {
-        return 0;
-        }
+    if (obj > 0 && obj <= m_NumberOfObjects)
+      {
+      return m_SizeOfObjectsInPixels[obj-1];
+      }
+    else
+      {
+      return 0;
+      }
     }
-
+  
   /** Get the size of a particular object in physical space (in units of pixel
    * size). This information is only valid after the filter has
    * executed. Size of the background (object #0) is not calculated.  */
   float GetSizeOfObjectInPhysicalUnits(unsigned long obj) const
     { 
-      if (obj > 0 && obj <= m_NumberOfObjects)
-        {
-        return m_SizeOfObjectsInPhysicalUnits[obj-1];
-        }
-      else
-        {
-        return 0;
-        }
+    if (obj > 0 && obj <= m_NumberOfObjects)
+      {
+      return m_SizeOfObjectsInPhysicalUnits[obj-1];
+      }
+    else
+      {
+      return 0;
+      }
     }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -239,40 +239,40 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   struct RelabelComponentObjectType
-  {
+    {
     unsigned long m_ObjectNumber;
     unsigned long m_SizeInPixels;
     float m_SizeInPhysicalUnits;
-  };
+    };
 
   // put the function objects here for sorting in descending order
   class RelabelComponentSizeInPixelsComparator
-  {
-  public:
-    bool operator()(const RelabelComponentObjectType&a, 
-                    const RelabelComponentObjectType &b)
+    {
+    public:
+      bool operator()(const RelabelComponentObjectType&a, 
+                      const RelabelComponentObjectType &b)
       {
-        if (a.m_SizeInPixels > b.m_SizeInPixels)
-          {
-          return true;
-          }
-        else if (a.m_SizeInPixels < b.m_SizeInPixels)
-          {
-          return false;
-          }
-        // size in pixels and physical units are the same, sort based on
-        // original object number
-        else if (a.m_ObjectNumber < b.m_ObjectNumber)
-          {
-          return true;
-          }
-        else
-          {
-          return false;
-          }
+      if (a.m_SizeInPixels > b.m_SizeInPixels)
+        {
+        return true;
+        }
+      else if (a.m_SizeInPixels < b.m_SizeInPixels)
+        {
+        return false;
+        }
+      // size in pixels and physical units are the same, sort based on
+      // original object number
+      else if (a.m_ObjectNumber < b.m_ObjectNumber)
+        {
+        return true;
+        }
+      else
+        {
+        return false;
+        }
       }
   };
-
+  
 
 private:
 
@@ -280,8 +280,9 @@ private:
   unsigned long m_NumberOfObjectsToPrint;
   unsigned long m_OriginalNumberOfObjects;
   unsigned long m_MinimumObjectSize;
+
   std::vector<unsigned long> m_SizeOfObjectsInPixels;
-  std::vector<float> m_SizeOfObjectsInPhysicalUnits;
+  std::vector<float>         m_SizeOfObjectsInPhysicalUnits;
 
 };
   

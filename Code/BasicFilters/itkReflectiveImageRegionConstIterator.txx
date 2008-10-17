@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkReflectiveImageRegionConstIterator_txx
-#define _itkReflectiveImageRegionConstIterator_txx
+#ifndef __itkReflectiveImageRegionConstIterator_txx
+#define __itkReflectiveImageRegionConstIterator_txx
 
 
 #include "itkReflectiveImageRegionConstIterator.h"
@@ -32,8 +32,6 @@ ReflectiveImageRegionConstIterator<TImage>
   m_EndOffset.Fill( 0 );
   this->GoToBegin();
 }
-
-
 
 template<class TImage>
 ReflectiveImageRegionConstIterator<TImage>
@@ -98,8 +96,6 @@ ReflectiveImageRegionConstIterator<TImage>
 
 }
 
-
-
 template<class TImage>
 bool
 ReflectiveImageRegionConstIterator<TImage>
@@ -130,7 +126,7 @@ ReflectiveImageRegionConstIterator<TImage>
   
   this->m_Remaining = false;
   for( unsigned int in=0; in<TImage::ImageDimension; in++ )
-    {    
+    {
     if( m_IsFirstPass[ in ] ) 
       {
       this->m_PositionIndex[ in  ]++;

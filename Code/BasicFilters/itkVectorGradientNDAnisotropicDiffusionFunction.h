@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_h_
-#define __itkVectorGradientNDAnisotropicDiffusionFunction_h_
+#ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_h
+#define __itkVectorGradientNDAnisotropicDiffusionFunction_h
 
 #include "itkVectorAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -45,9 +45,9 @@ class ITK_EXPORT VectorGradientNDAnisotropicDiffusionFunction :
 public:
   /** Standard class typedefs. */
   typedef VectorGradientNDAnisotropicDiffusionFunction Self;
-  typedef VectorAnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef VectorAnisotropicDiffusionFunction<TImage>   Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,7 +62,7 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
   typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Extract vector and image dimension from superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -81,10 +81,10 @@ public:
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-  {
+    {
     m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter() *
       this->GetConductanceParameter() * -2.0f;
-  }
+    }
   
 protected:
   VectorGradientNDAnisotropicDiffusionFunction();

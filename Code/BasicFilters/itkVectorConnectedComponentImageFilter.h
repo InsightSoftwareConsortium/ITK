@@ -43,30 +43,30 @@ class SimilarVectorsFunctor
 {
 public:
   SimilarVectorsFunctor()
-    {threshold = itk::NumericTraits<ITK_TYPENAME TInput::ValueType>::Zero;};
+    {m_Threshold = itk::NumericTraits<ITK_TYPENAME TInput::ValueType>::Zero;}
 
   ~SimilarVectorsFunctor() {};
 
   void SetDistanceThreshold(const typename TInput::ValueType &thresh)
-    {threshold = thresh;};
-  typename TInput::ValueType GetDistanceThreshold() {return (threshold);};
+    {m_Threshold = thresh;}
+  typename TInput::ValueType GetDistanceThreshold() {return (m_Threshold);}
   
   bool operator!=( const SimilarVectorsFunctor & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const SimilarVectorsFunctor & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   bool operator()(const TInput &a, const TInput &b)
     {
     typename TInput::ValueType dotProduct = vnl_math_abs(a * b);
-    return (1.0 - dotProduct <= threshold);
-    };
+    return (1.0 - dotProduct <= m_Threshold);
+    }
 
 protected:
-  typename TInput::ValueType threshold;
+  typename TInput::ValueType m_Threshold;
                             
 };
 
@@ -83,9 +83,9 @@ public:
   typedef VectorConnectedComponentImageFilter Self;
   typedef ConnectedComponentFunctorImageFilter<TInputImage,TOutputImage, 
              Functor::SimilarVectorsFunctor<typename TInputImage::ValueType>,
-             TMaskImage> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+             TMaskImage>                      Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

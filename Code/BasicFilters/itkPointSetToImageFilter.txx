@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointSetToImageFilter_txx
-#define _itkPointSetToImageFilter_txx
+#ifndef __itkPointSetToImageFilter_txx
+#define __itkPointSetToImageFilter_txx
 
 #include "itkPointSetToImageFilter.h"
 #include <itkImageRegionIteratorWithIndex.h>
@@ -67,8 +67,6 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   this->ProcessObject::SetNthInput(index, 
                                    const_cast< TInputPointSet *>( pointset ) );
 }
-
-
 
 /** Get the input point-set */
 template <class TInputPointSet, class TOutputImage>
@@ -270,9 +268,6 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
      << std::endl;
 
 }
-
-
-
 } // end namespace itk
 
 #endif

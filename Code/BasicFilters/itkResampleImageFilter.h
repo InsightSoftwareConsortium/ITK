@@ -106,9 +106,7 @@ public:
                       TInputImage::ImageDimension);
 
 
-  /** Transform typedef.
-   *
-   **/
+  /** Transform typedef. */
   typedef Transform<TInterpolatorPrecisionType, 
     itkGetStaticConstMacro(ImageDimension), 
     itkGetStaticConstMacro(ImageDimension)> TransformType;
@@ -323,4 +321,3 @@ private:
 #endif
   
 #endif
-

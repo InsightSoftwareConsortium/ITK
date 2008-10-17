@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorConfidenceConnectedImageFilter_txx_
-#define __itkVectorConfidenceConnectedImageFilter_txx_
+#ifndef __itkVectorConfidenceConnectedImageFilter_txx
+#define __itkVectorConfidenceConnectedImageFilter_txx
 
 #include "itkVectorConfidenceConnectedImageFilter.h"
 #include "itkExceptionObject.h"
@@ -154,7 +154,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     const CovarianceFunctionMatrixType covarianceContribution = varianceFunction->EvaluateAtIndex( *si );
     for(unsigned int ii=0; ii < dimension; ii++)
       {
-      mean[ ii ]     += meanContribution[ ii ];
+      mean[ ii ] += meanContribution[ ii ];
       for(unsigned int jj=0; jj < dimension; jj++)
         {
         covariance[ ii ][ jj ] += covarianceContribution[ ii ][ jj ];
@@ -164,7 +164,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     }
   for(unsigned int ik=0; ik < dimension; ik++)
     {
-    mean[ ik ]     /= m_Seeds.size();
+    mean[ ik ] /= m_Seeds.size();
     for(unsigned int jk=0; jk < dimension; jk++)
       {
       covariance[ ik ][ jk ] /= m_Seeds.size();
@@ -199,8 +199,6 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   m_ThresholdFunction->SetThreshold( m_Multiplier );
 
   itkDebugMacro(<< "\nMultiplier after verifying seeds inclusion = " << m_Multiplier );
-
-
 
   // Segment the image, the iterator walks the output image (so Set()
   // writes into the output image), starting at the seed point.  As
@@ -249,7 +247,7 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
         {
         const ComponentRealType pixelValueI = static_cast<ComponentRealType>( pixelValue[i] );
         covariance[i][i] += pixelValueI * pixelValueI;
-        mean[i]          += pixelValueI;
+        mean[i] += pixelValueI;
         for(unsigned int j=i+1; j<dimension; j++)
           {
           const ComponentRealType pixelValueJ = static_cast<ComponentRealType>( pixelValue[j] );
@@ -327,9 +325,6 @@ VectorConfidenceConnectedImageFilter<TInputImage,TOutputImage>
 {
   return m_ThresholdFunction->GetCovariance();
 }
-
-
-
 
 template <class TInputImage, class TOutputImage>
 const typename 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorCurvatureNDAnisotropicDiffusionFunction_txx_
-#define __itkVectorCurvatureNDAnisotropicDiffusionFunction_txx_
+#ifndef __itkVectorCurvatureNDAnisotropicDiffusionFunction_txx
+#define __itkVectorCurvatureNDAnisotropicDiffusionFunction_txx
 
 namespace itk {
 
@@ -116,15 +116,15 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
     for (i = 0; i < ImageDimension; i++)
       {
       // Gradient magnitude approximations
-      grad_mag_sq[k]   += dx_forward[i][k]  * dx_forward[i][k];
+      grad_mag_sq[k] += dx_forward[i][k]  * dx_forward[i][k];
       grad_mag_sq_d[k] += dx_backward[i][k] * dx_backward[i][k];
       for (j = 0; j < ImageDimension; j++)
         {
         if (j != i)
           {
-          dx_aug     = m_InnerProduct(xa_slice[j][i],it, dx_op);
-          dx_dim     = m_InnerProduct(xd_slice[j][i],it, dx_op);
-          grad_mag_sq[k]   += 0.25f * (dx[j][k]+dx_aug[k]) * (dx[j][k]+dx_aug[k]);
+          dx_aug = m_InnerProduct(xa_slice[j][i],it, dx_op);
+          dx_dim = m_InnerProduct(xd_slice[j][i],it, dx_op);
+          grad_mag_sq[k] += 0.25f * (dx[j][k]+dx_aug[k]) * (dx[j][k]+dx_aug[k]);
           grad_mag_sq_d[k] += 0.25f * (dx[j][k]+dx_dim[k]) * (dx[j][k]+dx_dim[k]);
           }
         }
@@ -172,7 +172,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
     speed = 0.0;
     for (i = 0; i < ImageDimension; i++)
       {
-      dx_forward_Cn[i][k]  *= Cx[i];
+      dx_forward_Cn[i][k] *= Cx[i];
       dx_backward_Cn[i][k] *= Cxd[i];
       
       // Second order conductance-modified curvature
@@ -204,7 +204,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
     ans[k] = ::sqrt(propagation_gradient) * speed;
     }
   
-  return ans;    
+  return ans;
 }
 
 } // end namespace itk

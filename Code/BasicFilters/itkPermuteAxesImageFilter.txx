@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPermuteAxesImageFilter_txx
-#define _itkPermuteAxesImageFilter_txx
+#ifndef __itkPermuteAxesImageFilter_txx
+#define __itkPermuteAxesImageFilter_txx
 
 #include "itkPermuteAxesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

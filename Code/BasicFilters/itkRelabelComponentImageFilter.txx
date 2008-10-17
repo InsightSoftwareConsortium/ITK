@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRelabelComponentImageFilter_txx
-#define _itkRelabelComponentImageFilter_txx
+#ifndef __itkRelabelComponentImageFilter_txx
+#define __itkRelabelComponentImageFilter_txx
 
 #include "itkRelabelComponentImageFilter.h"
 #include "itkImageRegionIterator.h"

@@ -38,21 +38,21 @@ template< class TInput, class TOutput>
 class RGBToLuminance
 {
 public:
-  typedef typename TInput::ComponentType      ComponentType;
-  typedef typename itk::NumericTraits< ComponentType >::RealType  RealType;
+  typedef typename TInput::ComponentType                         ComponentType;
+  typedef typename itk::NumericTraits< ComponentType >::RealType RealType;
 
   RGBToLuminance() {}
   ~RGBToLuminance() {}
   bool operator!=( const RGBToLuminance & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const RGBToLuminance & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  { return static_cast<TOutput>( A.GetLuminance() ); }
+    { return static_cast<TOutput>( A.GetLuminance() ); }
 }; 
 }
 
@@ -66,12 +66,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef RGBToLuminanceImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::RGBToLuminance< typename TInputImage::PixelType, 
-                                                 typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef RGBToLuminanceImageFilter                               Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::RGBToLuminance<typename TInputImage::PixelType, 
+                             typename TOutputImage::PixelType> >  Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

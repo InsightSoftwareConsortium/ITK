@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkParametricSpaceToImageSpaceMeshFilter_txx
-#define _itkParametricSpaceToImageSpaceMeshFilter_txx
+#ifndef __itkParametricSpaceToImageSpaceMeshFilter_txx
+#define __itkParametricSpaceToImageSpaceMeshFilter_txx
 
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkExceptionObject.h"
@@ -139,8 +139,6 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
     }
 
 }
-
-
 
 /**
  * copy information from first input to all outputs

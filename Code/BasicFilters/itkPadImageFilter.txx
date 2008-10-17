@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPadImageFilter_txx
-#define _itkPadImageFilter_txx
+#ifndef __itkPadImageFilter_txx
+#define __itkPadImageFilter_txx
 
 #include "itkPadImageFilter.h"
 #include "itkImageRegionIterator.h"

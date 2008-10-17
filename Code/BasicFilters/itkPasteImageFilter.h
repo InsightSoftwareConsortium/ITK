@@ -45,10 +45,10 @@ class ITK_EXPORT PasteImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef PasteImageFilter         Self;
+  typedef PasteImageFilter                              Self;
   typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -57,29 +57,29 @@ public:
   itkTypeMacro(PasteImageFilter, InPlaceImageFilter);
 
   /** Typedefs from Superclass */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputImagePointer  InputImagePointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
-  typedef typename TSourceImage::Pointer SourceImagePointer;
+  typedef typename TSourceImage::Pointer      SourceImagePointer;
   typedef typename TSourceImage::ConstPointer SourceImageConstPointer;
 
   /** Typedef to describe the output and input image region types. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
-  typedef typename TInputImage::RegionType InputImageRegionType;
+  typedef typename TInputImage::RegionType  InputImageRegionType;
   typedef typename TSourceImage::RegionType SourceImageRegionType;
 
   /** Typedef to describe the type of pixel. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  typedef typename TInputImage::PixelType  InputImagePixelType;
   typedef typename TSourceImage::PixelType SourceImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
   typedef typename TOutputImage::IndexType OutputImageIndexType;
-  typedef typename TOutputImage::SizeType OutputImageSizeType;
-  typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TInputImage::SizeType InputImageSizeType;
+  typedef typename TOutputImage::SizeType  OutputImageSizeType;
+  typedef typename TInputImage::IndexType  InputImageIndexType;
+  typedef typename TInputImage::SizeType   InputImageSizeType;
   typedef typename TSourceImage::IndexType SourceImageIndexType;
-  typedef typename TSourceImage::SizeType SourceImageSizeType;
+  typedef typename TSourceImage::SizeType  SourceImageSizeType;
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -102,12 +102,12 @@ public:
   /** Set/Get the "destination" image.  This is the image that will be
    * obscured by the paste operation. */
   void SetDestinationImage(TInputImage *dest) { this->SetNthInput(0, dest); }
-  const TInputImage* GetDestinationImage() { return this->GetInput(0); };
+  const TInputImage* GetDestinationImage() { return this->GetInput(0); }
 
   /** Set/Get the "source" image.  This is the image that will be
    * pasted over the destination image. */
   void SetSourceImage(TSourceImage *src) { this->SetNthInput(1, src); }
-  const TSourceImage* GetSourceImage() { return this->GetInput(1); };
+  const TSourceImage* GetSourceImage() { return this->GetInput(1); }
   
   /** PasteImageFilter needs to set the input requested regions for its
    * inputs.  The first input's requested region will be set to match
@@ -139,7 +139,7 @@ protected:
                             int threadId );
 
   SourceImageRegionType m_SourceRegion;
-  InputImageIndexType m_DestinationIndex;
+  InputImageIndexType   m_DestinationIndex;
 
 private:
   PasteImageFilter(const Self&); //purposely not implemented

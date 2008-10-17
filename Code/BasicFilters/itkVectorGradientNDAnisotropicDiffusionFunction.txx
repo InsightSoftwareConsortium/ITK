@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_txx_
-#define __itkVectorGradientNDAnisotropicDiffusionFunction_txx_
+#ifndef __itkVectorGradientNDAnisotropicDiffusionFunction_txx
+#define __itkVectorGradientNDAnisotropicDiffusionFunction_txx
 
 namespace itk {
 
@@ -109,8 +109,8 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
     GradMag_d = 0.0;
     for (k =0; k < VectorDimension; k++)
       {
-      GradMag   +=  vnl_math_sqr( dx_forward[i][k] );
-      GradMag_d +=  vnl_math_sqr( dx_backward[i][k] );
+      GradMag += vnl_math_sqr( dx_forward[i][k] );
+      GradMag_d += vnl_math_sqr( dx_backward[i][k] );
 
       for (j = 0; j < ImageDimension; j++)
         {
@@ -118,14 +118,14 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
           {
           dx_aug  = m_InnerProduct(xa_slice[j][i], it, dx_op);
           dx_dim  = m_InnerProduct(xd_slice[j][i], it, dx_op);
-          GradMag   += 0.25f * vnl_math_sqr( dx[j][k]+dx_aug[k] );
+          GradMag += 0.25f * vnl_math_sqr( dx[j][k]+dx_aug[k] );
           GradMag_d += 0.25f * vnl_math_sqr( dx[j][k]+dx_dim[k] );
           }
         }
       }
       
     if (m_K == 0.0)
-      {       
+      {
       Cx[i] = 0.0;
       Cxd[i] = 0.0;
       }
@@ -143,7 +143,7 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>
       
     for (i = 0; i < ImageDimension; ++i)
       {
-      dx_forward[i][k]  *= Cx[i];
+      dx_forward[i][k] *= Cx[i];
       dx_backward[i][k] *= Cxd[i];
       delta[k] += dx_forward[i][k] - dx_backward[i][k];
       }

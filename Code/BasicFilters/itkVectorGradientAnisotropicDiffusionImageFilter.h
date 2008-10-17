@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorGradientAnisotropicDiffusionImageFilter_h_
-#define __itkVectorGradientAnisotropicDiffusionImageFilter_h_
+#ifndef __itkVectorGradientAnisotropicDiffusionImageFilter_h
+#define __itkVectorGradientAnisotropicDiffusionImageFilter_h
 
 #include "itkExceptionObject.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
@@ -59,9 +59,9 @@ public:
   /** Standard class typedefs. */
   typedef VectorGradientAnisotropicDiffusionImageFilter Self;
   typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-  Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                                                        Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Instantiation through the object factory. */
   itkNewMacro(Self);
@@ -88,11 +88,11 @@ public:
 
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
-  {
-    typename VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p        
+    {
+    typename VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p
       = VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
     this->SetDifferenceFunction(p);
-  }
+    }
   ~VectorGradientAnisotropicDiffusionImageFilter() {}
 
 private:

@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkReconstructionByDilationImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkReconstructionByDilationImageFilter_h
 #define __itkReconstructionByDilationImageFilter_h
 
@@ -45,23 +61,25 @@ class ITK_EXPORT ReconstructionByDilationImageFilter :
 {
 public:
   typedef ReconstructionByDilationImageFilter Self;
-  typedef ReconstructionImageFilter<TInputImage, TOutputImage, std::greater<typename TOutputImage::PixelType> > Superclass;
+  typedef ReconstructionImageFilter<
+    TInputImage, TOutputImage, std::greater<typename TOutputImage::PixelType> >
+                                              Superclass;
 
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage MarkerImageType;
-  typedef TInputImage MaskImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                              MarkerImageType;
   typedef typename MarkerImageType::Pointer        MarkerImagePointer;
   typedef typename MarkerImageType::ConstPointer   MarkerImageConstPointer;
   typedef typename MarkerImageType::RegionType     MarkerImageRegionType;
   typedef typename MarkerImageType::PixelType      MarkerImagePixelType;
+  typedef TInputImage                              MaskImageType;
   typedef typename MaskImageType::Pointer          MaskImagePointer;
   typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
   typedef typename MaskImageType::RegionType       MaskImageRegionType;
   typedef typename MaskImageType::PixelType        MaskImagePixelType;
+  typedef TOutputImage                             OutputImageType;
   typedef typename OutputImageType::Pointer        OutputImagePointer;
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
@@ -94,11 +112,7 @@ private:
   ReconstructionByDilationImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-
-
 }; // end ReconstructionByDilationImageFilter
-
-
 
 }
 

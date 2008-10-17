@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkResampleImageFilter_txx
-#define _itkResampleImageFilter_txx
+#ifndef __itkResampleImageFilter_txx
+#define __itkResampleImageFilter_txx
 
 // First make sure that the configuration is available.
 // This line can be removed once the optimized versions
@@ -86,8 +86,6 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
   os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
   return;
 }
-
-
 
 /**
  * Set the output image spacing.
@@ -275,7 +273,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       double inputIndexFrac = inputIndex[i] - roundedInputIndex;
       double newInputIndexFrac = vcl_floor(precisionConstant * inputIndexFrac)/precisionConstant;
       inputIndex[i] = roundedInputIndex + newInputIndexFrac;
-      }    
+      }
     
     // Evaluate input at right position and copy to the output
     if( m_Interpolator->IsInsideBuffer(inputIndex) )
@@ -295,7 +293,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
         {
         pixval = static_cast<PixelType>( value );
         }
-      outIt.Set( pixval );      
+      outIt.Set( pixval );
       }
     else
       {
@@ -451,7 +449,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       double inputIndexFrac = inputIndex[i] - roundedInputIndex;
       double newInputIndexFrac = vcl_floor(precisionConstant * inputIndexFrac)/precisionConstant;
       inputIndex[i] = roundedInputIndex + newInputIndexFrac;
-      }    
+      }
 
 
     while( !outIt.IsAtEndOfLine() )
@@ -474,7 +472,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
           {
           pixval = static_cast<PixelType>( value );
           }
-        outIt.Set( pixval );      
+        outIt.Set( pixval );
         }
       else
         {
@@ -607,8 +605,6 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   return;
 }
 
-
-
 /** 
  * Verify if any of the components has been modified.
  */
@@ -638,11 +634,8 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   return latestTime;
 }
 
-
-
 } // end namespace itk
 
 #endif
 
 #endif
-

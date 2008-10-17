@@ -53,7 +53,7 @@ class ITK_EXPORT ReflectiveImageRegionConstIterator : public ImageConstIteratorW
 {
 public:
   /** Standard class typedefs. */
-  typedef ReflectiveImageRegionConstIterator Self;
+  typedef ReflectiveImageRegionConstIterator   Self;
   typedef ImageConstIteratorWithIndex<TImage>  Superclass;
 
   /** Index typedef support. While this was already typdef'ed in the superclass
@@ -72,7 +72,7 @@ public:
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly 
    * with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
+  typedef typename TImage::PixelContainer  PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
   /** Region typedef support. While this was already typdef'ed in the
@@ -88,7 +88,7 @@ public:
   typedef typename OffsetType::OffsetValueType  OffsetValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ReflectiveImageRegionConstIterator() ;
+  ReflectiveImageRegionConstIterator();
   
   /** Default destructor.  */
   ~ReflectiveImageRegionConstIterator() {};
@@ -131,35 +131,35 @@ public:
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
-  {
+    {
     return !this->m_Remaining;
-  }
+    }
 
   /** Set the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
   void SetBeginOffset(const OffsetType& offset)
-  { m_BeginOffset = offset; }
+    { m_BeginOffset = offset; }
 
   /** Set the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
   void SetEndOffset(const OffsetType& offset)
-  { m_EndOffset = offset; }
+    { m_EndOffset = offset; }
 
   /** Get the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
   OffsetType GetBeginOffset(const OffsetType& offset)
-  { return m_BeginOffset; }
+    { return m_BeginOffset; }
 
   /** Get the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
   OffsetType GetEndOffset(const OffsetType& offset)
-  { return m_EndOffset; }
+    { return m_EndOffset; }
 
   /** Fill both offsets with a single value.  */
   void FillOffsets(const OffsetValueType &value);
 
 private:
-  bool m_IsFirstPass[TImage::ImageDimension];
+  bool       m_IsFirstPass[TImage::ImageDimension];
   OffsetType m_BeginOffset;
   OffsetType m_EndOffset;
   

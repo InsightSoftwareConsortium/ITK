@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkReflectImageFilter_txx
-#define _itkReflectImageFilter_txx
+#ifndef __itkReflectImageFilter_txx
+#define __itkReflectImageFilter_txx
 
 #include "itkReflectImageFilter.h"
 #include "itkImageLinearIteratorWithIndex.h"
@@ -54,7 +54,7 @@ ReflectImageFilter<TInputImage,TOutputImage>
   outputPtr->Allocate();
 
   typedef ImageLinearConstIteratorWithIndex<TInputImage>  InputIterator;
-  typedef ImageLinearIteratorWithIndex<TOutputImage> OutputIterator;
+  typedef ImageLinearIteratorWithIndex<TOutputImage>      OutputIterator;
 
   InputIterator  inputIt(  inputPtr,  inputPtr->GetRequestedRegion() );
   OutputIterator outputIt( outputPtr, outputPtr->GetRequestedRegion() );

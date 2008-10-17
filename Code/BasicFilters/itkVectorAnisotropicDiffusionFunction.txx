@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorAnisotropicDiffusionFunction_txx_
-#define __itkVectorAnisotropicDiffusionFunction_txx_
+#ifndef __itkVectorAnisotropicDiffusionFunction_txx
+#define __itkVectorAnisotropicDiffusionFunction_txx
 #include "itkVectorAnisotropicDiffusionFunction.h"
 
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -31,8 +31,8 @@ void
 VectorAnisotropicDiffusionFunction<TImage>
 ::CalculateAverageGradientMagnitudeSquared(TImage *ip)
 {
-  typedef ConstNeighborhoodIterator<TImage>      RNI_type;
-  typedef ConstNeighborhoodIterator<TImage> SNI_type;
+  typedef ConstNeighborhoodIterator<TImage>                           RNI_type;
+  typedef ConstNeighborhoodIterator<TImage>                           SNI_type;
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage> BFC_type;
 
   unsigned int i, j;

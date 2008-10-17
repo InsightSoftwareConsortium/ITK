@@ -73,26 +73,23 @@ namespace itk
  *
  * \ingroup GeometricTransform
  */
-template <
-class TInputImage, 
-class TOutputImage 
->
+template <class TInputImage, class TOutputImage>
 class ITK_EXPORT VectorExpandImageFilter:
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorExpandImageFilter         Self;
+  typedef VectorExpandImageFilter                       Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
   /** Typedef to describe the output image region type. */
-  typedef typename TInputImage::Pointer InputImagePointer;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  typedef typename TInputImage::Pointer     InputImagePointer;
+  typedef typename TOutputImage::Pointer    OutputImagePointer;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Run-time type information (and related methods). */
@@ -109,7 +106,7 @@ public:
   /** Input/output vector types. */
   typedef typename OutputImageType::PixelType  OutputPixelType;
   typedef typename OutputPixelType::ValueType  OutputValueType;
-  typedef typename InputImageType::PixelType  InputPixelType;
+  typedef typename InputImageType::PixelType   InputPixelType;
   typedef typename InputPixelType::ValueType   InputValueType;
 
   /** Determine the vector dimension. */
@@ -119,12 +116,12 @@ public:
   typedef float  ExpandFactorsType;
 
   /** Typedef support for the interpolation function */
-  typedef double CoordRepType;
+  typedef double                             CoordRepType;
   typedef VectorInterpolateImageFunction<InputImageType,CoordRepType> 
-    InterpolatorType;
+                                             InterpolatorType;
   typedef typename InterpolatorType::Pointer InterpolatorPointer;
   typedef VectorLinearInterpolateImageFunction<InputImageType,CoordRepType> 
-    DefaultInterpolatorType;
+                                             DefaultInterpolatorType;
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );

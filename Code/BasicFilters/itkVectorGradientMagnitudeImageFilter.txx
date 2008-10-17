@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVectorGradientMagnitudeImageFilter_txx
-#define _itkVectorGradientMagnitudeImageFilter_txx
+#ifndef __itkVectorGradientMagnitudeImageFilter_txx
+#define __itkVectorGradientMagnitudeImageFilter_txx
 
 #include "itkVectorGradientMagnitudeImageFilter.h"
 

@@ -140,10 +140,10 @@ class ITK_EXPORT VectorGradientMagnitudeImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorGradientMagnitudeImageFilter Self;
+  typedef VectorGradientMagnitudeImageFilter              Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -157,8 +157,8 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
 
   /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                       InputImageType;
+  typedef TOutputImage                      OutputImageType;
   typedef typename InputImageType::Pointer  InputImagePointer;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   
@@ -196,23 +196,23 @@ public:
 
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the gradient in the
-      space in which the data was acquired.*/
+      space in which the data was acquired. */
   void SetUseImageSpacingOn()
-  { this->SetUseImageSpacing(true); }
+    { this->SetUseImageSpacing(true); }
 
   /** Reset the derivative weights to ignore image spacing.  Use this option if
       you want to calculate the gradient in the image space.  Default is
       ImageSpacingOff. */
   void SetUseImageSpacingOff()
-  { this->SetUseImageSpacing(false); }
+    { this->SetUseImageSpacing(false); }
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
-  void SetUseImageSpacing(bool);                         
+  void SetUseImageSpacing(bool);
   itkGetMacro(UseImageSpacing, bool);
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
-      Note that calling UseImageSpacingOn will clobber these values.*/
+      Note that calling UseImageSpacingOn will clobber these values. */
   void SetDerivativeWeights(TRealType data[]);
   itkGetVectorMacro(DerivativeWeights, const TRealType, itk::GetImageDimension<TInputImage>::ImageDimension);
 
@@ -229,13 +229,13 @@ public:
   itkSetMacro(UsePrincipleComponents, bool);
   itkGetMacro(UsePrincipleComponents, bool);
   void SetUsePrincipleComponentsOn()
-  {
+    {
     this->SetUsePrincipleComponents(true);
-  }
+    }
   void SetUsePrincipleComponentsOff()
-  {
+    {
     this->SetUsePrincipleComponents(false);
-  }
+    }
 
   /** A specialized solver for finding the roots of a cubic polynomial.
    *  Necessary to multi-thread the 3D case */
@@ -256,7 +256,7 @@ protected:
 
   /** Do any necessary casting/copying of the input data.  Input pixel types
      whose value types are not real number types must be cast to real number
-     types.*/
+     types. */
   void BeforeThreadedGenerateData ();
 
   /** VectorGradientMagnitudeImageFilter can be implemented as a
@@ -346,9 +346,6 @@ protected:
       g[1][0] * (  g[2][2]*g[0][1] - g[0][2]*g[2][1] ) +
       g[2][0] * ( g[1][1]*g[0][2] - g[0][1]*g[1][2] );
 
-    //(g[0][0]*g[1][2]*g[2][1] + g[1][1]*g[0][2]*g[2][0] + g[2][2]*g[0][1]*g[1][0])
-    //      - (g[0][0]*g[1][1]*g[2][2] + g[0][1]*g[2][0]*g[1][2] + g[0][2]*g[1][0]*g[2][1]);
-    
     // Find the eigenvalues of g
     int numberOfDistinctRoots =  this->CubicSolver(CharEqn, Lambda);
 
@@ -358,35 +355,51 @@ protected:
       {
       if (Lambda[0] > Lambda[1])
         {
-        if ( Lambda[1] > Lambda[2] )
-          {  ans = Lambda[0] - Lambda[1]; } // Most common, guaranteed?
+        if ( Lambda[1] > Lambda[2] )  // Most common, guaranteed?
+          {
+          ans = Lambda[0] - Lambda[1];
+          }
         else
           {
           if ( Lambda[0] > Lambda[2] )
-            { ans = Lambda[0] - Lambda[2]; }
+            {
+            ans = Lambda[0] - Lambda[2];
+            }
           else
-            { ans = Lambda[2] - Lambda[0]; }
+            {
+            ans = Lambda[2] - Lambda[0];
+            }
           }
         }
       else
         {
         if ( Lambda[0] > Lambda[2] )
-          { ans = Lambda[1] - Lambda[0]; }
+          {
+          ans = Lambda[1] - Lambda[0];
+          }
         else
           {
           if ( Lambda[1] > Lambda[2] )
-            { ans = Lambda[1] - Lambda[2]; }
+            {
+            ans = Lambda[1] - Lambda[2];
+            }
           else
-            { ans = Lambda[2] - Lambda[1]; }
-          }            
+            {
+            ans = Lambda[2] - Lambda[1];
+            }
+          }
         }
       }
     else if (numberOfDistinctRoots == 2)
       {
       if ( Lambda[0] > Lambda[1] )
-        { ans = Lambda[0] - Lambda[1]; }
+        {
+        ans = Lambda[0] - Lambda[1];
+        }
       else
-        { ans = Lambda[1] - Lambda[0]; }
+        {
+        ans = Lambda[1] - Lambda[0];
+        }
       }
     else if (numberOfDistinctRoots == 1)
       {
@@ -404,7 +417,7 @@ protected:
   // Function is defined here because the templating confuses gcc 2.96 when defined
   // in .txx file.  jc 1/29/03
   TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const
-  {
+    {
     unsigned int i, j;
     vnl_matrix<TRealType> g(ImageDimension, ImageDimension);
     vnl_vector_fixed<TRealType, VectorDimension>
@@ -415,8 +428,10 @@ protected:
     for (i = 0; i < ImageDimension; i++)
       {
       for (j = 0; j < VectorDimension; j++)
-        {  d_phi_du[i][j] = m_DerivativeWeights[i] * m_SqrtComponentWeights[j]
-             * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j] ); }
+        {
+        d_phi_du[i][j] = m_DerivativeWeights[i] * m_SqrtComponentWeights[j]
+          * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j] );
+        }
       }
     
     // Calculate the symmetric metric tensor g
@@ -434,22 +449,21 @@ protected:
     // Return the difference in length between the first two principle axes.
     // Note that other edge strength metrics may be appropriate here instead..
     return ( E.get_eigenvalue(ImageDimension - 1) - E.get_eigenvalue(ImageDimension - 2) );
-  }
+    }
   
   /** The weights used to scale derivatives during processing */
   TRealType m_DerivativeWeights[itk::GetImageDimension<TInputImage>::ImageDimension];
 
   /** These weights are used to scale
       vector component values when they are combined to produce  a scalar.  The
-      square roon*/
+      square root */
   TRealType m_ComponentWeights[itk::GetVectorDimension<InputPixelType>::VectorDimension];
   TRealType m_SqrtComponentWeights[itk::GetVectorDimension<InputPixelType>::VectorDimension];
 
 private:
   bool m_UseImageSpacing;
   bool m_UsePrincipleComponents;
-  int m_RequestedNumberOfThreads;
-
+  int  m_RequestedNumberOfThreads;
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
   

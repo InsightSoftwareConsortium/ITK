@@ -53,7 +53,7 @@ public:
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Some convenient typedefs. */
-  typedef TInputPointSet InputPointSetType;
+  typedef TInputPointSet                             InputPointSetType;
   typedef typename InputPointSetType::Pointer        InputPointSetPointer;
   typedef typename InputPointSetType::ConstPointer   InputPointSetConstPointer;
 

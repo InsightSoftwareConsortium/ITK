@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkPathToChainCodePathFilter_h
-#define _itkPathToChainCodePathFilter_h
+#ifndef __itkPathToChainCodePathFilter_h
+#define __itkPathToChainCodePathFilter_h
 
 #include "itkPathToPathFilter.h"
 #include "itkOffset.h"
@@ -40,10 +40,10 @@ class ITK_EXPORT PathToChainCodePathFilter : public
 {
 public:
   /** Standard class typedefs. */
-  typedef PathToChainCodePathFilter  Self;
+  typedef PathToChainCodePathFilter                             Self;
   typedef PathToPathFilter< TInputPath, TOutputChainCodePath >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

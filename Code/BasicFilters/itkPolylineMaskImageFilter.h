@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPolylineMaskImageFilter_h
-#define _itkPolylineMaskImageFilter_h
+#ifndef __itkPolylineMaskImageFilter_h
+#define __itkPolylineMaskImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -38,10 +38,10 @@ class ITK_EXPORT PolylineMaskImageFilter:public ImageToImageFilter<TInputImage, 
 {
 public:
   /** Standard class typedefs. */
-  typedef PolylineMaskImageFilter  Self;
+  typedef PolylineMaskImageFilter                       Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,12 +56,12 @@ public:
   itkStaticConstMacro(InputDimension, unsigned int, 3);
 
   /** Some convenient typedefs for input image */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                           InputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef Point<double,3>            PointType;
-  typedef Point<double,2> ProjPlanePointType;      
+  typedef typename InputImageType::RegionType   InputImageRegionType; 
+  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef Point<double,3>                       PointType;
+  typedef Point<double,2>                       ProjPlanePointType;
 
   /** Standard matrix type for this class. */
   typedef Matrix<double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension)> MatrixType;
@@ -73,10 +73,10 @@ public:
   typedef TPolyline    PolylineType;
   
   /* typedef for the output image */
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
   /** Read in image and polyline inputs */
   void SetInput1( const InputImageType * image);

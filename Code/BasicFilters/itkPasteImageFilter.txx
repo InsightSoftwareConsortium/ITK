@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPasteImageFilter_txx
-#define _itkPasteImageFilter_txx
+#ifndef __itkPasteImageFilter_txx
+#define __itkPasteImageFilter_txx
 
 #include "itkPasteImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -85,8 +85,6 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
   // first input must match the output requested region
   destPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
-
-
 
 /** 
    * PasteImageFilter can be implemented as a multithreaded filter.
@@ -176,8 +174,8 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
   
   
   // Define iterators types
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
-  typedef ImageRegionConstIterator<TInputImage> InputIterator;
+  typedef ImageRegionIterator<TOutputImage>      OutputIterator;
+  typedef ImageRegionConstIterator<TInputImage>  InputIterator;
   typedef ImageRegionConstIterator<TSourceImage> SourceIterator;
 
   // There are three cases that we need to consider:

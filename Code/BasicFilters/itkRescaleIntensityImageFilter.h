@@ -32,19 +32,19 @@ class IntensityLinearTransform
 public:
   typedef typename NumericTraits< TInput >::RealType RealType;
   IntensityLinearTransform()
-  {
+    {
     m_Factor = 1.0;
     m_Offset = 0.0;
     m_Minimum = NumericTraits<TOutput>::NonpositiveMin();
     m_Maximum = NumericTraits<TOutput>::max();
-  }
+    }
   ~IntensityLinearTransform() {}
   void SetFactor( RealType a ) { m_Factor = a; }
   void SetOffset( RealType b ) { m_Offset = b; }
   void SetMinimum( TOutput min ) { m_Minimum = min; }
   void SetMaximum( TOutput max ) { m_Maximum = max; }
   bool operator!=( const IntensityLinearTransform & other ) const
-  {
+    {
     if( m_Factor != other.m_Factor ||
         m_Offset != other.m_Offset ||
         m_Maximum != other.m_Maximum    ||
@@ -53,19 +53,19 @@ public:
       return true;
       }
     return false;
-   }
+    }
   bool operator==( const IntensityLinearTransform & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & x )
-  {
+    {
     RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;
     TOutput  result = static_cast<TOutput>( value );
     result = ( result > m_Maximum ) ? m_Maximum : result;
     result = ( result < m_Minimum ) ? m_Minimum : result;
     return result;
-  }
+    }
 private:
   RealType m_Factor;
   RealType m_Offset;
@@ -111,16 +111,17 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef RescaleIntensityImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::IntensityLinearTransform< 
-    typename TInputImage::PixelType, 
-    typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef RescaleIntensityImageFilter      Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::IntensityLinearTransform< 
+      typename TInputImage::PixelType, 
+      typename TOutputImage::PixelType> >  Superclass;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
+  typedef typename TInputImage::PixelType                  InputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType RealType;
 
   /** Method for creation through the object factory. */

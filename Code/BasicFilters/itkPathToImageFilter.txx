@@ -73,8 +73,6 @@ PathToImageFilter<TInputPath,TOutputImage>
   this->ProcessObject::SetNthInput(index, const_cast< InputPathType *>(path) );
 }
 
-
-
 /** Get the input Path */
 template <class TInputPath, class TOutputImage>
 const typename PathToImageFilter<TInputPath,TOutputImage>::InputPathType *
@@ -264,7 +262,7 @@ PathToImageFilter<TInputPath,TOutputImage>
   
   OutputImage->SetLargestPossibleRegion( region);     // 
   OutputImage->SetBufferedRegion( region );           // set the region 
-  OutputImage->SetRequestedRegion( region );          //                                                                       
+  OutputImage->SetRequestedRegion( region );          //
   
   // If the spacing has been explicitly specified, the filter
   // will set the output spacing to that explicit spacing, otherwise the spacing from
@@ -290,7 +288,7 @@ PathToImageFilter<TInputPath,TOutputImage>
     //OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());   // set spacing
     }
   OutputImage->SetOrigin(origin);   //   and origin
-  OutputImage->Allocate();   // allocate the image                            
+  OutputImage->Allocate();   // allocate the image
   
   ImageRegionIteratorWithIndex<OutputImageType> imageIt(OutputImage,region);
   for( imageIt.GoToBegin(); !imageIt.IsAtEnd(); ++imageIt )
@@ -319,8 +317,6 @@ PathToImageFilter<TInputPath,TOutputImage>
   os << indent << "Path Value : " << m_PathValue << std::endl;
   os << indent << "Background Value : " << m_BackgroundValue << std::endl;
 }
-
-
 
 } // end namespace itk
 

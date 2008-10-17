@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorAnisotropicDiffusionFunction_h_
-#define __itkVectorAnisotropicDiffusionFunction_h_
+#ifndef __itkVectorAnisotropicDiffusionFunction_h
+#define __itkVectorAnisotropicDiffusionFunction_h
 
 #include "itkAnisotropicDiffusionFunction.h"
 #include "itkVector.h"
@@ -54,8 +54,8 @@ public:
   /** Standard class typedefs. */
   typedef VectorAnisotropicDiffusionFunction   Self;
   typedef AnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(VectorAnisotropicDiffusionFunction,

@@ -175,8 +175,6 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     markerImageP = output;
     }
 
-
-
   // declare our queue type
   typedef typename std::queue<OutputImageIndexType> FifoType;
   FifoType IndexFifo;
@@ -225,7 +223,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     CNInputIterator tttt(kernelRadius,
                          maskImageP,
                          output->GetRequestedRegion());
-    mskNIt = tttt;    
+    mskNIt = tttt;
     }
 
   setConnectivityPrevious( &outNIt, m_FullyConnected );
@@ -375,7 +373,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
           }
          IndexFifo.push(outNIt.GetIndex(*oLIt));
         }
-      }     
+      }
     progress.CompletedPixel();
     }
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRecursiveGaussianImageFilter_txx
-#define _itkRecursiveGaussianImageFilter_txx
+#ifndef __itkRecursiveGaussianImageFilter_txx
+#define __itkRecursiveGaussianImageFilter_txx
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkObjectFactory.h"
@@ -25,7 +25,7 @@
 
 namespace itk
 {
-  
+
 template <typename TInputImage, typename TOutputImage>
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::RecursiveGaussianImageFilter()
@@ -130,20 +130,20 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
   ScalarRealType SD, DD, ED;
   this->ComputeDCoefficients(sigmad, W1, L1, W2, L2, SD, DD, ED);
   ScalarRealType SN, DN, EN;
-  
-  
+    
   switch( m_Order ) 
     {
-    case ZeroOrder: // Approximation of convolution with a gaussian.
+    case ZeroOrder:
       {
+      // Approximation of convolution with a gaussian.
       ComputeNCoefficients(sigmad,
-         A1[0], B1[0], W1, L1,
-         A2[0], B2[0], W2, L2,
-         this->m_N0, 
-         this->m_N1, 
-         this->m_N2, 
-         this->m_N3,
-         SN, DN, EN);
+                           A1[0], B1[0], W1, L1,
+                           A2[0], B2[0], W2, L2,
+                           this->m_N0, 
+                           this->m_N1, 
+                           this->m_N2, 
+                           this->m_N3,
+                           SN, DN, EN);
 
       ScalarRealType alpha0 = 2 * SN / SD - this->m_N0;
       this->m_N0 *= across_scale_normalization / alpha0;
@@ -154,14 +154,14 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       this->ComputeRemainingCoefficients(symmetric);
       break;
       }
-    case FirstOrder: // Approximation of convolution with 
-                     // the first derivative of a Gaussian.
+    case FirstOrder:
       {
+      // Approximation of convolution with the first derivative of a  Gaussian
       ComputeNCoefficients(sigmad,
-         A1[1], B1[1], W1, L1,
-         A2[1], B2[1], W2, L2,
-         this->m_N0, this->m_N1, this->m_N2, this->m_N3,
-         SN, DN, EN);
+                           A1[1], B1[1], W1, L1,
+                           A2[1], B2[1], W2, L2,
+                           this->m_N0, this->m_N1, this->m_N2, this->m_N3,
+                           SN, DN, EN);
 
       ScalarRealType alpha1 = 2 * (SN*DD - DN*SD) / (SD*SD);
       // If negative spacing, negate the first derivative response.
@@ -176,23 +176,24 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
       this->ComputeRemainingCoefficients(symmetric);
       break;
       }
-    case SecondOrder: // Approximation of convolution with 
-                      // the second derivative of a Gaussian.
+    case SecondOrder:
       {
+      // Approximation of convolution with the second derivative of a
+      // Gaussian.
       ScalarRealType N0_0, N1_0, N2_0, N3_0;
       ScalarRealType N0_2, N1_2, N2_2, N3_2;
       ScalarRealType SN0, DN0, EN0;
       ScalarRealType SN2, DN2, EN2;
       ComputeNCoefficients(sigmad,
-         A1[0], B1[0], W1, L1,
-         A2[0], B2[0], W2, L2,
-         N0_0, N1_0, N2_0, N3_0,
-         SN0, DN0, EN0);
+                           A1[0], B1[0], W1, L1,
+                           A2[0], B2[0], W2, L2,
+                           N0_0, N1_0, N2_0, N3_0,
+                           SN0, DN0, EN0);
       ComputeNCoefficients(sigmad,
-         A1[2], B1[2], W1, L1,
-         A2[2], B2[2], W2, L2,
-         N0_2, N1_2, N2_2, N3_2,
-         SN2, DN2, EN2);
+                           A1[2], B1[2], W1, L1,
+                           A2[2], B2[2], W2, L2,
+                           N0_2, N1_2, N2_2, N3_2,
+                           SN2, DN2, EN2);
 
       ScalarRealType beta = -(2*SN2 - SD*N0_2) / (2*SN0 - SD*N0_0);
       this->m_N0 = N0_2 + beta * N0_0;
@@ -232,10 +233,10 @@ template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::ComputeNCoefficients(ScalarRealType sigmad,
-           ScalarRealType A1, ScalarRealType B1, ScalarRealType W1, ScalarRealType L1,
-           ScalarRealType A2, ScalarRealType B2, ScalarRealType W2, ScalarRealType L2,
-           ScalarRealType& N0, ScalarRealType& N1, ScalarRealType& N2, ScalarRealType& N3,
-           ScalarRealType& SN, ScalarRealType& DN, ScalarRealType& EN)
+                       ScalarRealType A1, ScalarRealType B1, ScalarRealType W1, ScalarRealType L1,
+                       ScalarRealType A2, ScalarRealType B2, ScalarRealType W2, ScalarRealType L2,
+                       ScalarRealType& N0, ScalarRealType& N1, ScalarRealType& N2, ScalarRealType& N3,
+                       ScalarRealType& SN, ScalarRealType& DN, ScalarRealType& EN)
 {
   ScalarRealType Sin1 = vcl_sin(W1 / sigmad);
   ScalarRealType Sin2 = vcl_sin(W2 / sigmad);
@@ -267,8 +268,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::ComputeDCoefficients(ScalarRealType sigmad,
-           ScalarRealType W1, ScalarRealType L1, ScalarRealType W2, ScalarRealType L2,
-           ScalarRealType& SD, ScalarRealType& DD, ScalarRealType& ED) 
+                       ScalarRealType W1, ScalarRealType L1, ScalarRealType W2, ScalarRealType L2,
+                       ScalarRealType& SD, ScalarRealType& DD, ScalarRealType& ED) 
 {
   //  const ScalarRealType Sin1 = vcl_sin(W1 / sigmad);
   //  const ScalarRealType Sin2 = vcl_sin(W2 / sigmad);
@@ -277,12 +278,12 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
   const ScalarRealType Exp1 = vcl_exp(L1 / sigmad);
   const ScalarRealType Exp2 = vcl_exp(L2 / sigmad);
   
-  this->m_D4  =     Exp1*Exp1*Exp2*Exp2;
-  this->m_D3  =  -2*Cos1*Exp1*Exp2*Exp2;
-  this->m_D3 +=  -2*Cos2*Exp2*Exp1*Exp1;
-  this->m_D2  =   4*Cos2*Cos1*Exp1*Exp2;
-  this->m_D2 +=     Exp1*Exp1 + Exp2*Exp2;
-  this->m_D1  = -2*(Exp2*Cos2 + Exp1*Cos1);
+  this->m_D4 = Exp1*Exp1*Exp2*Exp2;
+  this->m_D3 = -2*Cos1*Exp1*Exp2*Exp2;
+  this->m_D3 += -2*Cos2*Exp2*Exp1*Exp1;
+  this->m_D2 = 4*Cos2*Cos1*Exp1*Exp2;
+  this->m_D2 += Exp1*Exp1 + Exp2*Exp2;
+  this->m_D1 = -2*(Exp2*Cos2 + Exp1*Cos1);
 
   SD = 1.0 + this->m_D1 + this->m_D2 + this->m_D3 + this->m_D4;
   DD = this->m_D1 + 2*this->m_D2 + 3*this->m_D3 + 4*this->m_D4;
@@ -346,4 +347,3 @@ RecursiveGaussianImageFilter<TInputImage,TOutputImage>
 } // end namespace itk
 
 #endif
-

@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkParallelSparseFieldLevelSetImageFilter_h_
-#define __itkParallelSparseFieldLevelSetImageFilter_h_
+#ifndef __itkParallelSparseFieldLevelSetImageFilter_h
+#define __itkParallelSparseFieldLevelSetImageFilter_h
 
 #include <vector>
 #include "itkFiniteDifferenceImageFilter.h"
@@ -30,7 +30,7 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-/**
+/** \class ParallelSparseFieldLevelSetNode
  * A data structure used in the ParallelSparsefieldlevelsetimagefilter to construct
  * lists of indicies and other values.
  */
@@ -38,8 +38,8 @@ template <class TNodeIndexType>
 class ParallelSparseFieldLevelSetNode
 {
 public:
-  TNodeIndexType m_Index;
-  float          m_Value;
+  TNodeIndexType                   m_Index;
+  float                            m_Value;
   ParallelSparseFieldLevelSetNode *Next;
   ParallelSparseFieldLevelSetNode *Previous;
 };
@@ -74,58 +74,58 @@ template <class TNeighborhoodType>
 class ParallelSparseFieldCityBlockNeighborList
 {
 public:
-  typedef TNeighborhoodType NeighborhoodType;
+  typedef TNeighborhoodType                     NeighborhoodType;
   typedef typename NeighborhoodType::OffsetType OffsetType;
   typedef typename NeighborhoodType::RadiusType RadiusType;
   
   itkStaticConstMacro(Dimension, unsigned int, NeighborhoodType::Dimension);
   
   const RadiusType &GetRadius() const
-  {
+    {
     return m_Radius;
-  }
+    }
   
   const unsigned int &GetArrayIndex(unsigned int i) const
-  {
+    {
     return m_ArrayIndex[i];
-  }
+    }
 
   const OffsetType &GetNeighborhoodOffset(unsigned int i) const
-  {
+    {
     return m_NeighborhoodOffset[i];
-  }
+    }
   
   const unsigned int &GetSize() const
-  {
+    {
     return m_Size;
-  }
+    }
   
   unsigned int GetStride(unsigned int i)
-  {
+    {
     return m_StrideTable[i];
-  }
+    }
   
   ParallelSparseFieldCityBlockNeighborList();
   
   ~ParallelSparseFieldCityBlockNeighborList()
-  {
+    {
     m_ArrayIndex.clear();
     m_NeighborhoodOffset.clear();
-  }
+    }
   
   void Print(std::ostream &os) const;
   
 private:
-  char pad1[128];
-  unsigned int m_Size;
-  RadiusType m_Radius;
+  char                      m_Pad1[128];
+  unsigned int              m_Size;
+  RadiusType                m_Radius;
   std::vector<unsigned int> m_ArrayIndex;
   std::vector<OffsetType>   m_NeighborhoodOffset;
   
   /** An internal table for keeping track of stride lengths in a neighborhood,
    *  i.e. the memory offsets between pixels along each dimensional axis. */
   unsigned int m_StrideTable[Dimension];
-  char pad2[128];
+  char         m_Pad2[128];
 };
 
 /**
@@ -249,16 +249,16 @@ class ITK_EXPORT ParallelSparseFieldLevelSetImageFilter :
 {
 public:
   /** Standard class typedefs */
-  typedef ParallelSparseFieldLevelSetImageFilter  Self;
+  typedef ParallelSparseFieldLevelSetImageFilter                 Self;
   typedef FiniteDifferenceImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                     Pointer;
+  typedef SmartPointer<const Self>                               ConstPointer;
   
   /**Typedefs from the superclass */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::TimeStepType                 TimeStepType;
   typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
+  typedef typename Superclass::RadiusType                   RadiusType;
+  typedef typename Superclass::NeighborhoodScalesType       NeighborhoodScalesType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -267,8 +267,8 @@ public:
   itkTypeMacro(ParallelSparseFieldLevelSetImageFilter, FiniteDifferenceImageFilter);
   
   /** Information derived from the image types. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                         InputImageType;
+  typedef TOutputImage                        OutputImageType;
   typedef typename OutputImageType::IndexType IndexType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
@@ -286,7 +286,7 @@ public:
   
   /** A list type used in the algorithm. */
   typedef SparseFieldLayer<LayerNodeType> LayerType;
-  typedef typename LayerType::Pointer LayerPointerType;
+  typedef typename LayerType::Pointer     LayerPointerType;
   
   /** A type for a list of LayerPointerTypes */
   typedef std::vector<LayerPointerType> LayerListType;
@@ -315,14 +315,14 @@ public:
   itkGetMacro(IsoSurfaceValue, ValueType);
   
   LayerPointerType GetActiveListForIndex (const IndexType index)
-  {
-  // get the 'z' value for the index
-  const unsigned int indexZ= index[m_SplitAxis];
-  // get the thread in whose region the index lies
-  const unsigned int ThreadNum= this->GetThreadNumber (indexZ);
-  // get the active list for that thread
-  return m_Data[ThreadNum].m_Layers[0];
-  }
+    {
+    // get the 'z' value for the index
+    const unsigned int indexZ= index[m_SplitAxis];
+    // get the thread in whose region the index lies
+    const unsigned int ThreadNum= this->GetThreadNumber (indexZ);
+    // get the active list for that thread
+    return m_Data[ThreadNum].m_Layers[0];
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -388,7 +388,8 @@ protected:
   
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
-   * This active layer is the interface of interest, i.e. the zero level set.*/
+   * This active layer is the interface of interest, i.e. the zero
+   * level set. */
   StatusType m_NumberOfLayers;
   
   /** An image of status values used internally by the algorithm. */
@@ -448,7 +449,7 @@ protected:
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
    * method also takes care of deleting nodes from the layers which have been
-   * marked in the status image as having been moved to other layers.*/
+   * marked in the status image as having been moved to other layers. */
   void PropagateAllLayerValues();
   
   /** Adjusts the values in a single layer "to" using values in a neighboring
@@ -469,7 +470,7 @@ protected:
   
   /** Each thread allocates and initializes the data it will use by itself.
    *  This maintains the memory locality of data w.r.t. the thread in a shared
-   *  memory environment.*/
+   *  memory environment. */
   void ThreadedAllocateData(unsigned int ThreadId);
   void ThreadedInitializeData(unsigned int ThreadId, const ThreadRegionType & ThreadRegion);
   
@@ -496,12 +497,12 @@ protected:
 
   /** Structure for managing thread-specific data */
   struct ParallelSparseFieldLevelSetThreadStruct
-  {
+    {
     ParallelSparseFieldLevelSetImageFilter* Filter;
     TimeStepType* TimeStepList;
     bool* ValidTimeStepList;
     TimeStepType TimeStep;
-  };
+    };
   
   /** This method calculates the change and does the update, i.e. one iteration
    *  of this iterative solver.  A barrier class is used to synchronize
@@ -513,19 +514,20 @@ protected:
   /** This method allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
    * follows the standard finite difference scheme of scaling the change by the
-   * timestep and adding to the value of the previous iteration.*/
+   * timestep and adding to the value of the previous iteration. */
   inline virtual ValueType ThreadedCalculateUpdateValue(const unsigned int itkNotUsed(ThreadId),
                                                         const IndexType itkNotUsed(index),
                                                         const TimeStepType &dt,
                                                         const ValueType &value,
                                                         const ValueType &change)
-  {
+    {
     return (value + dt * change);
-  }
+    }
   
   // This method can be overridden in derived classes.
   // The pixel at 'index' is entering the active layer for thread 'ThreadId'.
-  // The outputimage at 'index' will have the value as given by the 'value' parameter.
+  // The outputimage at 'index' will have the value as given by the
+  // 'value' parameter.
   virtual void ThreadedProcessPixelEnteringActiveLayer (const IndexType itkNotUsed(index),
                                                         const ValueType itkNotUsed(value),
                                                         const unsigned int itkNotUsed(ThreadId));
@@ -539,9 +541,9 @@ protected:
   
   /** This method is not implemented or necessary for this solver */
   TimeStepType CalculateChange()
-  {
+    {
     return NumericTraits<TimeStepType>::Zero;
-  }
+    }
   
   /** This method does the actual work of calculating change over a region
    *  supplied by the multithreading mechanism.  */
@@ -680,7 +682,7 @@ protected:
 
   /** Local data for each individual thread. */
   struct ThreadData
-  {
+    {
     char pad1 [128];
     
     TimeStepType TimeStep;
@@ -719,8 +721,8 @@ protected:
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for signalling/waiting */
     unsigned int m_SemaphoreArrayNumber;
     
-    char pad2 [128];
-  };
+    char m_Pad2 [128];
+    };
   
   /** An array storing the individual (local) data structures for each thread. */
   ThreadData *m_Data;
