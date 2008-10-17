@@ -58,10 +58,10 @@ class ITK_EXPORT VectorNeighborhoodOperatorImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorNeighborhoodOperatorImageFilter Self;
+  typedef VectorNeighborhoodOperatorImageFilter           Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef       SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef       SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,7 +71,7 @@ public:
   
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TInputImage::Pointer           InputImagePointer;
+  typedef typename TInputImage::Pointer            InputImagePointer;
   typedef typename TOutputImage::Pointer           OutputImagePointer;
   typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
@@ -88,8 +88,7 @@ public:
   typedef TOutputImage OutputImageType;
 
   /** Typedef for generic boundary condition pointer */
-  typedef ImageBoundaryCondition<OutputImageType> *
-  ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition<OutputImageType> *ImageBoundaryConditionPointerType;
   
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -99,10 +98,10 @@ public:
    * is not part of the pipeline). */
   void SetOperator(const Neighborhood<ScalarValueType,
                    itkGetStaticConstMacro(ImageDimension)> &p)
-  {
+    {
     m_Operator = p;
     this->Modified();
-  }
+    }
 
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
@@ -110,7 +109,7 @@ public:
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
-  { m_BoundsCondition = i; }
+    { m_BoundsCondition = i; }
 
   /** VectorNeighborhoodOperatorImageFilter needs a larger input requested
    * region than the output requested region.  As such,

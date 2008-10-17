@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVectorRescaleIntensityImageFilter_txx
-#define _itkVectorRescaleIntensityImageFilter_txx
+#ifndef __itkVectorRescaleIntensityImageFilter_txx
+#define __itkVectorRescaleIntensityImageFilter_txx
 
 #include "itkVectorRescaleIntensityImageFilter.h"
 
@@ -98,7 +98,7 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>
   m_InputMaximumMagnitude = vcl_sqrt(maximumSquaredMagnitude );
 
   m_Scale = static_cast<InputRealType>( m_OutputMaximumMagnitude ) /
-            static_cast<InputRealType>( m_InputMaximumMagnitude  ) ;
+            static_cast<InputRealType>( m_InputMaximumMagnitude  );
   
   // set up the functor values
   this->GetFunctor().SetFactor( m_Scale );

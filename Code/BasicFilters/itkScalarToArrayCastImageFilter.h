@@ -44,17 +44,17 @@ class ITK_EXPORT ScalarToArrayCastImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef ScalarToArrayCastImageFilter  Self;
+  typedef ScalarToArrayCastImageFilter                     Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Standard class macros */
   itkNewMacro(Self);
-  itkTypeMacro(ScalarToArrayCastImageFilter, ImageToImageFilter) ;
+  itkTypeMacro(ScalarToArrayCastImageFilter, ImageToImageFilter);
 
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType ;
-  typedef typename TOutputImage::PixelType OutputImagePixelType ;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  typedef typename TOutputImage::PixelType           OutputImagePixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -66,11 +66,11 @@ public:
 #endif
 
 protected:
-  ScalarToArrayCastImageFilter() ;
+  ScalarToArrayCastImageFilter();
   virtual ~ScalarToArrayCastImageFilter() {}
   
   void ThreadedGenerateData(const OutputImageRegionType &outputRegionForThread,
-                            int threadId) ;
+                            int threadId);
  
 private:
   ScalarToArrayCastImageFilter(const Self&); //purposely not implemented

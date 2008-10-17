@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkScalarAnisotropicDiffusionFunction_h_
-#define __itkScalarAnisotropicDiffusionFunction_h_
+#ifndef __itkScalarAnisotropicDiffusionFunction_h
+#define __itkScalarAnisotropicDiffusionFunction_h
 
 
 #include "itkAnisotropicDiffusionFunction.h"
@@ -23,7 +23,7 @@
 namespace itk {
 
 /**
- * \class ScalarAnisotropicDiffusionFunction    
+ * \class ScalarAnisotropicDiffusionFunction
  * This class forms the base for any anisotropic diffusion function that
  * operates on scalar data (see itkAnisotropicDiffusionFunction).  It provides
  * some common functionality used in classes like
@@ -41,10 +41,10 @@ class ITK_EXPORT ScalarAnisotropicDiffusionFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef ScalarAnisotropicDiffusionFunction Self;
+  typedef ScalarAnisotropicDiffusionFunction   Self;
   typedef AnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Inherit some parameters from the superclass type. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -67,8 +67,7 @@ public:
 protected:
   ScalarAnisotropicDiffusionFunction() {}
   ~ScalarAnisotropicDiffusionFunction() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf(os,indent); }
+
 private:
   ScalarAnisotropicDiffusionFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

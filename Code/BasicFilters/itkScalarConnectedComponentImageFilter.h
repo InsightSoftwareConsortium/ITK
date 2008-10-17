@@ -42,27 +42,28 @@ class SimilarPixelsFunctor
 {
 public:
   SimilarPixelsFunctor()
-    {m_Threshold = itk::NumericTraits<TInput>::Zero;};
-  ~SimilarPixelsFunctor() {};
+    {m_Threshold = itk::NumericTraits<TInput>::Zero;}
+  ~SimilarPixelsFunctor() {}
   bool operator!=( const SimilarPixelsFunctor & other ) const
-  {
+    {
     if( m_Threshold != other.m_Threshold )
-        {
-        return true;
-        }
+      {
+      return true;
+      }
     return false;
-   }
+    }
   bool operator==( const SimilarPixelsFunctor & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
-  void SetDistanceThreshold(const TInput &thresh) {m_Threshold = thresh;};
-  TInput GetDistanceThreshold() {return (m_Threshold);};
+  void SetDistanceThreshold(const TInput &thresh) {m_Threshold = thresh;}
+  TInput GetDistanceThreshold() {return (m_Threshold);}
   
-  bool operator()(const TInput &a, const TInput &b) {
+  bool operator()(const TInput &a, const TInput &b)
+    {
     return (vnl_math_abs(a-b) <= m_Threshold);
-  };
+    }
 
 protected:
   TInput m_Threshold;
@@ -80,11 +81,12 @@ class ITK_EXPORT ScalarConnectedComponentImageFilter :
 public:
   /** Standard class typedefs. */
   typedef ScalarConnectedComponentImageFilter Self;
-  typedef ConnectedComponentFunctorImageFilter<TInputImage,TOutputImage, 
-             Functor::SimilarPixelsFunctor<typename TInputImage::ValueType>,
-             TMaskImage> Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ConnectedComponentFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::SimilarPixelsFunctor<typename TInputImage::ValueType>,
+    TMaskImage>                               Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

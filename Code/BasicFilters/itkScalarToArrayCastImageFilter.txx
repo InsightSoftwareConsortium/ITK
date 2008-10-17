@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScalarToArrayCastImageFilter_txx
-#define _itkScalarToArrayCastImageFilter_txx
+#ifndef __itkScalarToArrayCastImageFilter_txx
+#define __itkScalarToArrayCastImageFilter_txx
 
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -48,16 +48,16 @@ ScalarToArrayCastImageFilter<TInputImage,TOutputImage>
                         int threadId)
 {
   unsigned int length = 
-    PixelTraits< OutputImagePixelType >::Dimension ;
-  std::vector< const TInputImage* > inputs ;
-  std::vector< ImageRegionConstIterator< TInputImage > > i_iters ;
+    PixelTraits< OutputImagePixelType >::Dimension;
+  std::vector< const TInputImage* > inputs;
+  std::vector< ImageRegionConstIterator< TInputImage > > i_iters;
 
-  for ( unsigned int i = 0 ; i < length ; i++ )
+  for ( unsigned int i = 0; i < length; i++ )
     {
-    inputs.push_back(this->GetInput(i)) ;
-    i_iters.push_back
-      ( ImageRegionConstIterator< TInputImage >
-        (inputs[i], outputRegionForThread) );
+    inputs.push_back(this->GetInput(i));
+    i_iters.push_back(
+      ImageRegionConstIterator< TInputImage >
+      (inputs[i], outputRegionForThread) );
     (i_iters[i]).GoToBegin();
     }
 
@@ -69,13 +69,13 @@ ScalarToArrayCastImageFilter<TInputImage,TOutputImage>
                             threadId, 
                             outputRegionForThread.GetNumberOfPixels());
   outputIt.GoToBegin();
-  typename TOutputImage::PixelType arrayPixel ;
+  typename TOutputImage::PixelType arrayPixel;
 
   while( !outputIt.IsAtEnd() ) 
     {
-    for ( unsigned int j = 0 ; j < length ; j++ )
+    for ( unsigned int j = 0; j < length; j++ )
       {
-      arrayPixel[j] = (i_iters[j]).Get() ;
+      arrayPixel[j] = (i_iters[j]).Get();
       ++(i_iters[j]);
       }
     outputIt.Set( arrayPixel );

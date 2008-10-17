@@ -35,28 +35,26 @@ public:
   void SetIndex(unsigned int i) { m_Index = i; }
 
   bool operator!=( const VectorIndexSelectionCast & other ) const
-  {
+    {
     if( m_Index != other.m_Index )
       {
       return true;
       }
     return false;
-  }
+    }
   bool operator==( const VectorIndexSelectionCast & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return static_cast<TOutput>( A[m_Index] );
-  }
+    }
       
 private:
   unsigned int m_Index;   
 }; 
 }
-
-
 
  /** \class VectorIndexSelectionCastImageFilter
  *
@@ -85,11 +83,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef VectorIndexSelectionCastImageFilter Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::VectorIndexSelectionCast< typename TInputImage::PixelType, 
-                                                                     typename TOutputImage::PixelType> > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::VectorIndexSelectionCast< typename TInputImage::PixelType, 
+                                       typename TOutputImage::PixelType> >
+                                              Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
     
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,11 +101,11 @@ public:
   /** Get/Set methods for the index */
   void SetIndex(unsigned int i)
     {
-      if (i != this->GetFunctor().GetIndex())
-        {
-        this->GetFunctor().SetIndex(i);
-        this->Modified();
-        }
+    if (i != this->GetFunctor().GetIndex())
+      {
+      this->GetFunctor().SetIndex(i);
+      this->Modified();
+      }
     }
   unsigned int GetIndex(void) const 
     { 
@@ -165,6 +165,5 @@ private:
 };
  
 } // end namespace itk
-
 
 #endif

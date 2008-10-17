@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVotingBinaryImageFilter_txx
-#define _itkVotingBinaryImageFilter_txx
+#ifndef __itkVotingBinaryImageFilter_txx
+#define __itkVotingBinaryImageFilter_txx
 #include "itkVotingBinaryImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"

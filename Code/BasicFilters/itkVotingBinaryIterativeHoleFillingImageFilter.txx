@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVotingBinaryIterativeHoleFillingImageFilter_txx
-#define _itkVotingBinaryIterativeHoleFillingImageFilter_txx
+#ifndef __itkVotingBinaryIterativeHoleFillingImageFilter_txx
+#define __itkVotingBinaryIterativeHoleFillingImageFilter_txx
 #include "itkVotingBinaryIterativeHoleFillingImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
@@ -93,8 +93,6 @@ VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
     }
   this->GraftOutput( output );
 }
-
-
 
 /**
  * Standard "PrintSelf" method

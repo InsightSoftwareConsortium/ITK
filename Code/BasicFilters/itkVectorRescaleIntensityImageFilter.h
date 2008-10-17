@@ -36,19 +36,19 @@ public:
   void SetFactor( RealType a ) { m_Factor = a; }
   itkStaticConstMacro(VectorDimension,unsigned int,TInput::Dimension);
   bool operator!=( const VectorMagnitudeLinearTransform & other ) const
-  {
+    {
     if( m_Factor != other.m_Factor )
       {
       return true;
       }
     return false;
-   }
+    }
   bool operator==( const VectorMagnitudeLinearTransform & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & x )
-  {
+    {
     TOutput  result;
     for(unsigned int i=0; i<VectorDimension; i++)
       {
@@ -56,7 +56,7 @@ public:
       result[i]= static_cast< typename TOutput::ValueType >( scaledComponent );
       }
     return result;
-  }
+    }
 private:
   RealType m_Factor;
 }; 
@@ -92,12 +92,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef VectorRescaleIntensityImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::VectorMagnitudeLinearTransform< 
-    typename TInputImage::PixelType, 
-    typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::VectorMagnitudeLinearTransform< 
+      typename TInputImage::PixelType, 
+      typename TOutputImage::PixelType> >    Superclass;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   typedef typename TOutputImage::PixelType                  OutputPixelType;
   typedef typename TInputImage::PixelType                   InputPixelType;

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSobelEdgeDetectionImageFilter_txx
-#define _itkSobelEdgeDetectionImageFilter_txx
+#ifndef __itkSobelEdgeDetectionImageFilter_txx
+#define __itkSobelEdgeDetectionImageFilter_txx
 #include "itkSobelEdgeDetectionImageFilter.h"
 
 #include "itkNeighborhoodOperatorImageFilter.h"
@@ -97,12 +97,12 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
 
   // Define the filter types used.
   typedef NeighborhoodOperatorImageFilter<InputImageType,
-    OutputImageType> OpFilter;
+    OutputImageType>                                           OpFilter;
   typedef MultiplyImageFilter<OutputImageType,
     OutputImageType,
-    OutputImageType> MultFilter;
+    OutputImageType>                                           MultFilter;
   typedef NaryAddImageFilter<OutputImageType, OutputImageType> AddFilter;
-  typedef SqrtImageFilter<OutputImageType, OutputImageType> SqrtFilter;
+  typedef SqrtImageFilter<OutputImageType, OutputImageType>    SqrtFilter;
   
   unsigned int i;  
   

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVectorNeighborhoodOperatorImageFilter_txx
-#define _itkVectorNeighborhoodOperatorImageFilter_txx
+#ifndef __itkVectorNeighborhoodOperatorImageFilter_txx
+#define __itkVectorNeighborhoodOperatorImageFilter_txx
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 
 #include "itkNeighborhoodAlgorithm.h"
@@ -84,7 +84,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>
                        int threadId)
 {
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
-    BFC;
+                                     BFC;
   typedef typename BFC::FaceListType FaceListType;
 
   VectorNeighborhoodInnerProduct<InputImageType> smartInnerProduct;

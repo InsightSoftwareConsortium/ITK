@@ -58,16 +58,17 @@ class ITK_EXPORT VectorResampleImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorResampleImageFilter         Self;
+  typedef VectorResampleImageFilter                     Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef TInputImage InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
+
+  typedef TInputImage                           InputImageType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -108,8 +109,8 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Image spacing,origin and direction typedef */
-  typedef typename TOutputImage::SpacingType SpacingType;
-  typedef typename TOutputImage::PointType   OriginPointType;
+  typedef typename TOutputImage::SpacingType   SpacingType;
+  typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
   
   /** Set the coordinate transformation.

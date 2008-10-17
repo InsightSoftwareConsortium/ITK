@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVotingBinaryHoleFillingImageFilter_txx
-#define _itkVotingBinaryHoleFillingImageFilter_txx
+#ifndef __itkVotingBinaryHoleFillingImageFilter_txx
+#define __itkVotingBinaryHoleFillingImageFilter_txx
 #include "itkVotingBinaryHoleFillingImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
@@ -157,8 +157,6 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
   this->m_Count[threadId] = numberOfPixelsChanged;
 }
 
-
-
 template< class TInputImage, class TOutputImage>
 void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
@@ -172,8 +170,6 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage>
     this->m_NumberOfPixelsChanged += this->m_Count[t];
     }
 }
-
-
 
 /**
  * Standard "PrintSelf" method

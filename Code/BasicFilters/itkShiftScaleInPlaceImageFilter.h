@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShiftScaleImageInPlaceFilter_h
-#define __itkShiftScaleImageInPlaceFilter_h
+#ifndef __itkShiftScaleInPlaceImageFilter_h
+#define __itkShiftScaleInPlaceImageFilter_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkArray.h"
@@ -47,10 +47,10 @@ class ITK_EXPORT ShiftScaleInPlaceImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ShiftScaleInPlaceImageFilter         Self;
+  typedef ShiftScaleInPlaceImageFilter     Self;
   typedef InPlaceImageFilter<TInputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -68,11 +68,11 @@ public:
   typedef typename TInputImage::PixelType OutputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TInputImage::SizeType InputImageSizeType;
+  typedef typename TInputImage::IndexType  InputImageIndexType;
+  typedef typename TInputImage::SizeType   InputImageSizeType;
   typedef typename TInputImage::OffsetType InputImageOffsetType;
-  typedef typename TInputImage::IndexType OutputImageIndexType;
-  typedef typename TInputImage::SizeType OutputImageSizeType;
+  typedef typename TInputImage::IndexType  OutputImageIndexType;
+  typedef typename TInputImage::SizeType   OutputImageSizeType;
   typedef typename TInputImage::OffsetType OutputImageOffsetType;
 
   /** Type to use form computations. */
@@ -80,7 +80,7 @@ public:
       
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension ) ;
+                      TInputImage::ImageDimension );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShiftScaleInPlaceImageFilter, InPlaceImageFilter);
@@ -122,7 +122,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const OutputImageRegionType& 
                               outputRegionForThread,
-                              int threadId) ;
+                              int threadId);
 
 private:
   ShiftScaleInPlaceImageFilter(const Self&); //purposely not implemented
@@ -133,6 +133,7 @@ private:
 
   long m_UnderflowCount;
   long m_OverflowCount;
+
   Array<long> m_ThreadUnderflow;
   Array<long> m_ThreadOverflow;
 };

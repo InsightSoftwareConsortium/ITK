@@ -54,10 +54,10 @@ class ITK_EXPORT ShrinkImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ShrinkImageFilter         Self;
+  typedef ShrinkImageFilter                             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -86,13 +86,13 @@ public:
   void SetShrinkFactors( unsigned int factors[] );
   void SetShrinkFactors( unsigned int factor );
   void SetShrinkFactor( unsigned int i, unsigned int factor )
-  {
+    {
     m_ShrinkFactors[i] = factor;
-  }
+    }
   
   /** Get the shrink factors. */
   const unsigned int * GetShrinkFactors() const
-  { return m_ShrinkFactors; }
+    { return m_ShrinkFactors; }
                  
   /** ShrinkImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input

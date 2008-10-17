@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkShiftScaleImageFilter_txx
-#define _itkShiftScaleImageFilter_txx
+#ifndef __itkShiftScaleImageFilter_txx
+#define __itkShiftScaleImageFilter_txx
 #include "itkShiftScaleImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -100,7 +100,7 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>
       }
     else if (value > NumericTraits<OutputImagePixelType>::max())
       {
-      ot.Set (NumericTraits<OutputImagePixelType>::max());      
+      ot.Set (NumericTraits<OutputImagePixelType>::max());
       m_ThreadOverflow[threadId]++;
       }
     else

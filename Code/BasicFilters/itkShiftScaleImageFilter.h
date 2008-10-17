@@ -40,32 +40,32 @@ class ITK_EXPORT ShiftScaleImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ShiftScaleImageFilter         Self;
+  typedef ShiftScaleImageFilter                         Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
 
   /** Typedef to describe the output and input image region types. */
-  typedef typename TInputImage::RegionType InputImageRegionType;
+  typedef typename TInputImage::RegionType  InputImageRegionType;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Typedef to describe the pointer to the input/output. */  
-  typedef typename TInputImage::Pointer InputImagePointer;
+  typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  typedef typename TInputImage::PixelType  InputImagePixelType;
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TInputImage::SizeType InputImageSizeType;
-  typedef typename TInputImage::OffsetType InputImageOffsetType;
-  typedef typename TOutputImage::IndexType OutputImageIndexType;
-  typedef typename TOutputImage::SizeType OutputImageSizeType;
+  typedef typename TInputImage::IndexType   InputImageIndexType;
+  typedef typename TInputImage::SizeType    InputImageSizeType;
+  typedef typename TInputImage::OffsetType  InputImageOffsetType;
+  typedef typename TOutputImage::IndexType  OutputImageIndexType;
+  typedef typename TOutputImage::SizeType   OutputImageSizeType;
   typedef typename TOutputImage::OffsetType OutputImageOffsetType;
 
   /** Type to use form computations. */
@@ -73,7 +73,7 @@ public:
       
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension ) ;
+                      TInputImage::ImageDimension );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShiftScaleImageFilter, ImageToImageFilter);
@@ -115,7 +115,7 @@ protected:
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData (const OutputImageRegionType& 
                               outputRegionForThread,
-                              int threadId) ;
+                              int threadId);
 private:
   ShiftScaleImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -125,6 +125,7 @@ private:
 
   long m_UnderflowCount;
   long m_OverflowCount;
+
   Array<long> m_ThreadUnderflow;
   Array<long> m_ThreadOverflow;
 };

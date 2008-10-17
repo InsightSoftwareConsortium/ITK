@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __SimplexMeshToTriangleMeshFilter_txx
-#define __SimplexMeshToTriangleMeshFilter_txx
+#ifndef __itkSimplexMeshToTriangleMeshFilter_txx
+#define __itkSimplexMeshToTriangleMeshFilter_txx
 
 #include "itkSimplexMeshToTriangleMeshFilter.h"
 
@@ -129,7 +129,7 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "ToDo: implement PrinSelf!!!";    
+  os << indent << "ToDo: implement PrinSelf!!!";
 }
 
 

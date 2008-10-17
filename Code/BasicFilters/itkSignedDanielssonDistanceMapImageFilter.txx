@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSignedDanielssonDistanceMapImageFilter_txx
-#define _itkSignedDanielssonDistanceMapImageFilter_txx
+#ifndef __itkSignedDanielssonDistanceMapImageFilter_txx
+#define __itkSignedDanielssonDistanceMapImageFilter_txx
 
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkProgressAccumulator.h"
@@ -50,8 +50,6 @@ SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   this->m_UseImageSpacing     = false;
   this->m_InsideIsPositive    = false;
 }
-
-
 
 /**
  *  Return the distance map Image pointer
@@ -120,12 +118,11 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
   filter2->SetSquaredDistance( m_SquaredDistance );
     
   //Invert input image for second Danielsson filter
-  typedef typename InputImageType::PixelType InputPixelType;
+  typedef typename InputImageType::PixelType                 InputPixelType;
   typedef Functor::InvertIntensityFunctor< InputPixelType >  FunctorType;
-  
   typedef UnaryFunctorImageFilter< InputImageType, 
                                    InputImageType,
-                                   FunctorType >    InverterType;
+                                   FunctorType >             InverterType;
 
   typename InverterType::Pointer inverter = InverterType::New();
 
@@ -187,8 +184,6 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 } 
 // end GenerateData()
 
-
-
 /**
  *  Print Self
  */
@@ -207,4 +202,3 @@ void SignedDanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
 } // end namespace itk
 
 #endif
-

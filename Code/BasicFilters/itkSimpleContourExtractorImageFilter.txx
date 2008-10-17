@@ -14,8 +14,8 @@
     PURPOSE.  See the above copyright notices for more information.
     
 =========================================================================*/
-#ifndef _itkSimpleContourExtractorImageFilter_txx
-#define _itkSimpleContourExtractorImageFilter_txx
+#ifndef __itkSimpleContourExtractorImageFilter_txx
+#define __itkSimpleContourExtractorImageFilter_txx
 
 
 // First make sure that the configuration is available.
@@ -169,7 +169,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage>
         else
           {
           it.Set( m_OutputBackgroundValue );  
-          }          
+          }
         }
       else
         {
@@ -200,11 +200,11 @@ SimpleContourExtractorImageFilter<TInputImage, TOutput>
   os << indent << "Input Foreground Value: " 
      << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputForegroundValue) << std::endl;
   os << indent << "Input Background Value: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputBackgroundValue) << std::endl;    
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputBackgroundValue) << std::endl;
   os << indent << "Output Foreground Value: "
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputForegroundValue) << std::endl;
   os << indent << "Output Background Value: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;    
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
 }
   
 } // end namespace itk

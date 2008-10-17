@@ -25,24 +25,24 @@
 //Simple functor to invert an image for Outside Danielsson distance map
 namespace itk
 {
-  namespace Functor
+namespace Functor
+{
+template <class InputPixelType> class InvertIntensityFunctor
+{
+public:
+  InputPixelType operator()( InputPixelType input )
     {
-    template <class InputPixelType> class InvertIntensityFunctor
-    {
-    public:
-      InputPixelType operator()( InputPixelType input )
-        {
-        if (input)
-          {
-          return NumericTraits<InputPixelType>::Zero;
-          }
-        else
-          {
-          return NumericTraits<InputPixelType>::One;
-          }
-        }
-    };
-  }
+    if (input)
+      {
+      return NumericTraits<InputPixelType>::Zero;
+      }
+    else
+      {
+      return NumericTraits<InputPixelType>::One;
+      }
+    }
+};
+}
 }
 
 
@@ -50,40 +50,40 @@ namespace itk
 {
 
 /** \class SignedDanielssonDistanceMapImageFilter
-*
-* This class is parametrized over the type of the input image
-* and the type of the output image.
-*
-* This filter computes the distance map of the input image 
-* as an approximation with pixel accuracy to the Euclidean distance.
-*
-* For purposes of evaluating the signed distance map, the input is assumed 
-* to be binary composed of pixels with value 0 and non-zero. 
-*
-* The inside is considered as having negative distances. Outside is treated
-* as having positive distances. To change the convention, 
-* use the InsideIsPositive(bool) function.
-*
-* As a convention, the distance is evaluated from the boundary of the ON pixels.
-*
-* The filter returns
-* - A signed distance map with the approximation to the euclidean distance.
-* - A voronoi partition. (See itkDanielssonDistanceMapImageFilter) 
-* - A vector map containing the component of the vector relating
-*   the current pixel with the closest point of the closest object
-*   to this pixel. Given that the components of the distance are
-*   computed in "pixels", the vector is represented by an
-*   itk::Offset.  That is, physical coordinates are not used.
-*   (See itkDanielssonDistanceMapImageFilter)
-*   
-* This filter internally uses the DanielssonDistanceMap filter.
-* This filter is N-dimensional.
-* 
-* \sa itkDanielssonDistanceMapImageFilter
-*
-* \ingroup ImageFeatureExtraction 
-*
-*/
+ *
+ * This class is parametrized over the type of the input image
+ * and the type of the output image.
+ *
+ * This filter computes the distance map of the input image 
+ * as an approximation with pixel accuracy to the Euclidean distance.
+ *
+ * For purposes of evaluating the signed distance map, the input is assumed 
+ * to be binary composed of pixels with value 0 and non-zero. 
+ *
+ * The inside is considered as having negative distances. Outside is treated
+ * as having positive distances. To change the convention, 
+ * use the InsideIsPositive(bool) function.
+ *
+ * As a convention, the distance is evaluated from the boundary of the ON pixels.
+ *
+ * The filter returns
+ * - A signed distance map with the approximation to the euclidean distance.
+ * - A voronoi partition. (See itkDanielssonDistanceMapImageFilter) 
+ * - A vector map containing the component of the vector relating
+ *   the current pixel with the closest point of the closest object
+ *   to this pixel. Given that the components of the distance are
+ *   computed in "pixels", the vector is represented by an
+ *   itk::Offset.  That is, physical coordinates are not used.
+ *   (See itkDanielssonDistanceMapImageFilter)
+ *   
+ * This filter internally uses the DanielssonDistanceMap filter.
+ * This filter is N-dimensional.
+ * 
+ * \sa itkDanielssonDistanceMapImageFilter
+ *
+ * \ingroup ImageFeatureExtraction 
+ *
+ */
 
 template <class TInputImage,class TOutputImage>
 class ITK_EXPORT SignedDanielssonDistanceMapImageFilter :
@@ -91,10 +91,10 @@ class ITK_EXPORT SignedDanielssonDistanceMapImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef SignedDanielssonDistanceMapImageFilter    Self;
+  typedef SignedDanielssonDistanceMapImageFilter       Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

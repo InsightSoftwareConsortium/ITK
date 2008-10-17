@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSimilarityIndexImageFilter_txx
-#define _itkSimilarityIndexImageFilter_txx
+#ifndef __itkSimilarityIndexImageFilter_txx
+#define __itkSimilarityIndexImageFilter_txx
 #include "itkSimilarityIndexImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -34,7 +34,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
   // this filter requires two input images
   this->SetNumberOfRequiredInputs( 2 );
 
-  m_SimilarityIndex = NumericTraits<RealType>::Zero;      
+  m_SimilarityIndex = NumericTraits<RealType>::Zero;
 }
 
 
@@ -43,7 +43,7 @@ void
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>
 ::SetInput2( const TInputImage2 * image )
 {
-  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );      
+  this->SetNthInput(1, const_cast<TInputImage2 *>( image ) );
 }
 
 
@@ -56,8 +56,6 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
   return static_cast< const TInputImage2 * >
     (this->ProcessObject::GetInput(1));
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void
@@ -161,8 +159,6 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>
     ( static_cast<RealType>( countImage1 ) + static_cast<RealType>( countImage2 ) );
 
 }
-
-
 
 template<class TInputImage1, class TInputImage2>
 void

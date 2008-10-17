@@ -14,10 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
-#ifndef _itkVectorResampleImageFilter_txx
-#define _itkVectorResampleImageFilter_txx
+#ifndef __itkVectorResampleImageFilter_txx
+#define __itkVectorResampleImageFilter_txx
 
 #include "itkVectorResampleImageFilter.h"
 #include "itkObjectFactory.h"
@@ -79,8 +77,6 @@ VectorResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
   return;
 }
 
-
-
 /**
  * Set the output image spacing.
  */
@@ -93,7 +89,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   this->SetOutputSpacing( s );
 }
 
-
 /**
  * Set the output image origin.
  */
@@ -105,7 +100,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   PointType p(origin);
   this->SetOutputOrigin( p );
 }
-
 
 /**
  * Set up state of filter before multi-threading.
@@ -201,7 +195,7 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
         {
         pixval[i] = static_cast<PixelComponentType>( value[i] );
         }
-      outIt.Set( pixval );      
+      outIt.Set( pixval );
       }
     else
       {
@@ -213,7 +207,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     }
   return;
 }
-
 
 /** 
  * Inform pipeline of necessary input image region
@@ -247,7 +240,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   return;
 }
 
-
 /** 
  * Inform pipeline of required output region
  */
@@ -280,8 +272,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   return;
 }
 
-
-
 /** 
  * Verify if any of the components has been modified.
  */
@@ -310,8 +300,6 @@ VectorResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 
   return latestTime;
 }
-
-
 
 } // end namespace itk
 
