@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHexahedronCell_txx
-#define _itkHexahedronCell_txx
+#ifndef __itkHexahedronCell_txx
+#define __itkHexahedronCell_txx
 #include "itkHexahedronCell.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/algo/vnl_determinant.h"
@@ -92,55 +92,55 @@ HexahedronCell< TCellInterface >
   switch (dimension)
     {
     case 0:
-    {
-    VertexAutoPointer vertexPointer;
-    if( this->GetVertex(featureId,vertexPointer) )
       {
-      TransferAutoPointer(cellPointer,vertexPointer);
-      return true;
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
-      {
-      cellPointer.Reset();
-      return false;
-      }
-    break;
-    }
     case 1:
-    {
-    EdgeAutoPointer edgePointer;
-    if( this->GetEdge(featureId,edgePointer) )
       {
-      TransferAutoPointer(cellPointer,edgePointer);
-      return true;
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
-      {
-      cellPointer.Reset();
-      return false;
-      }
-    break;
-    }
     case 2:
-    {
-    FaceAutoPointer facePointer;
-    if( this->GetFace(featureId,facePointer) )
       {
-      TransferAutoPointer(cellPointer,facePointer);
-      return true;
+      FaceAutoPointer facePointer;
+      if( this->GetFace(featureId,facePointer) )
+        {
+        TransferAutoPointer(cellPointer,facePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
+    default:
       {
       cellPointer.Reset();
       return false;
       }
-    break;
-    }
-    default:
-    {
-    cellPointer.Reset();
-    return false;
-    }
     }
   return false;
 }
@@ -157,7 +157,7 @@ HexahedronCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < Self::NumberOfPoints ; ++i)
+  for( int i=0; i < Self::NumberOfPoints; ++i )
     {
     m_PointIds[i] = *ii++;
     }

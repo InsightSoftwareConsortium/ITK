@@ -34,16 +34,15 @@ namespace itk
 
 class ITKCommon_EXPORT HexahedronCellTopology
 {
+public:
+  HexahedronCellTopology();
+  ~HexahedronCellTopology();
+ 
 protected:
    
   /** Hexahedron topology data. */
   static const int m_Edges[12][2];
   static const int m_Faces[6][4];
-    
-public:
-  HexahedronCellTopology();
-  ~HexahedronCellTopology();
-  
 };
 
 } // end namespace itk
