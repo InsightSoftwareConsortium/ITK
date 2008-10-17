@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -32,7 +32,7 @@ namespace itk
  *
  * ImageFunction is a baseclass for all objects that evaluates
  * a function of an image at index, continuous index or point.
- * This class is templated over the input image type, the type 
+ * This class is templated over the input image type, the type
  * of the function output and the coordinate representation type
  * (e.g. float or double).
  *
@@ -43,7 +43,7 @@ namespace itk
  *
  * \warning Image BufferedRegion information is cached during
  * in SetInputImage( image ). If the image BufferedRegion has changed
- * one must call SetInputImage( image ) again to update the cache 
+ * one must call SetInputImage( image ) again to update the cache
  * to the current values.
  *
  * \sa Point
@@ -53,14 +53,14 @@ namespace itk
  * \ingroup ImageFunctions
  */
 template <
-class TInputImage, 
+class TInputImage,
 class TOutput,
-class TCoordRep = float 
+class TCoordRep = float
 >
-class ITK_EXPORT ImageFunction : 
+class ITK_EXPORT ImageFunction :
     public FunctionBase< Point<TCoordRep,
-                               ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
-                       TOutput > 
+                               ::itk::GetImageDimension<TInputImage>::ImageDimension>,
+                       TOutput >
 {
 public:
   /** Dimension underlying input image. */
@@ -68,13 +68,13 @@ public:
                       TInputImage::ImageDimension);
 
   /** Standard class typedefs. */
-  typedef ImageFunction Self;
-  typedef FunctionBase< Point<TCoordRep,
-                              itkGetStaticConstMacro(ImageDimension)>,
-                        TOutput > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef ImageFunction                                         Self;
+  typedef FunctionBase<
+    Point<TCoordRep, itkGetStaticConstMacro(ImageDimension)>,
+    TOutput >                                                   Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFunction, FunctionBase);
 
@@ -84,7 +84,7 @@ public:
   /** InputPixel typedef support */
   typedef typename InputImageType::PixelType InputPixelType;
 
-  /** InputImagePointer typedef support */ 
+  /** InputImagePointer typedef support */
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /** OutputType typedef support. */
@@ -123,40 +123,52 @@ public:
 
   /** Evaluate the function at specified ContinuousIndex position.
    * Subclasses must provide this method. */
-  virtual TOutput EvaluateAtContinuousIndex( 
+  virtual TOutput EvaluateAtContinuousIndex(
     const ContinuousIndexType & index ) const = 0;
-    
+
   /** Check if an index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
   virtual bool IsInsideBuffer( const IndexType & index ) const
-    { 
-      for ( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    for( unsigned int j = 0; j < ImageDimension; j++ )
+      {
+      if( index[j] < m_StartIndex[j] )
         {
-        if ( index[j] < m_StartIndex[j] ) { return false; };
-        if ( index[j] > m_EndIndex[j] ) { return false; };
+        return false;
         }
-      return true;
+      if( index[j] > m_EndIndex[j] )
+        {
+        return false;
+        }
+      }
+    return true;
     }
-            
+
   /** Check if a continuous index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
   virtual bool IsInsideBuffer( const ContinuousIndexType & index ) const
-    { 
-      for ( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    for( unsigned int j = 0; j < ImageDimension; j++ )
+      {
+      if( index[j] < m_StartContinuousIndex[j] )
         {
-        if ( index[j] < m_StartContinuousIndex[j] ) { return false; };
-        if ( index[j] > m_EndContinuousIndex[j] ) { return false; };
+        return false;
         }
-      return true;
+      if( index[j] > m_EndContinuousIndex[j] )
+        {
+        return false;
+        }
+      }
+    return true;
     }
 
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
   virtual bool IsInsideBuffer( const PointType & point ) const
-    { 
+    {
     ContinuousIndexType index;
     m_Image->TransformPhysicalPointToContinuousIndex( point, index );
     return this->IsInsideBuffer( index );
@@ -172,15 +184,18 @@ public:
     }
 
   /** Convert point to continuous index */
-   void ConvertPointToContinousIndex( const PointType & point,
+  void ConvertPointToContinousIndex( const PointType & point,
     ContinuousIndexType & cindex ) const
     {
-    itkWarningMacro("Please change your code to use ConvertPointToContinuousIndex rather than ConvertPointToContinousIndex. The latter method name was mispelled and the ITK developers failed to correct it before it was released. The mispelled method name is retained in order to maintain backward compatibility.");
+    itkWarningMacro("Please change your code to use ConvertPointToContinuousIndex "
+      << "rather than ConvertPointToContinousIndex. The latter method name was "
+      << "mispelled and the ITK developers failed to correct it before it was released."
+      << "The mispelled method name is retained in order to maintain backward compatibility.");
     this->ConvertPointToContinuousIndex( point, cindex );
     }
 
   /** Convert point to continuous index */
-   void ConvertPointToContinuousIndex( const PointType & point,
+  void ConvertPointToContinuousIndex( const PointType & point,
     ContinuousIndexType & cindex ) const
     {
     m_Image->TransformPhysicalPointToContinuousIndex( point, cindex );
@@ -192,7 +207,7 @@ public:
     {
     index.CopyWithRound( cindex );
     }
-  
+
   itkGetConstReferenceMacro(StartIndex, IndexType);
   itkGetConstReferenceMacro(EndIndex, IndexType);
 
@@ -216,7 +231,7 @@ protected:
 private:
   ImageFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
 };
 
 } // end namespace itk

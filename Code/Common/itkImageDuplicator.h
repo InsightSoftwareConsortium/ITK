@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,7 @@ namespace itk
 
 /** \class ImageDuplicator
  * \brief This helper class create an image which is perfect copy of the input image.
- * 
+ *
  * This class is NOT a filter. Although it has an API similar to a filter, this class
  * is not intended to be used in a pipeline. Instead, the typical use will be like
  * it is illustrated in the following code:
@@ -43,15 +43,15 @@ namespace itk
  * because the ImageDuplicator is not a pipeline filter.
  *
  */
-template <class TInputImage>            
-class ITK_EXPORT ImageDuplicator : public Object 
+template <class TInputImage>
+class ITK_EXPORT ImageDuplicator : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageDuplicator Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageDuplicator               Self;
+  typedef Object                        Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,18 +60,17 @@ public:
   itkTypeMacro(ImageDuplicator, Object);
 
   /** Type definitions for the input image. */
-  typedef TInputImage  ImageType;
-  typedef typename TInputImage::Pointer  ImagePointer;
-  typedef typename TInputImage::ConstPointer ImageConstPointer;
-  typedef typename TInputImage::PixelType PixelType;
-  typedef typename TInputImage::IndexType IndexType;
+  typedef TInputImage                           ImageType;
+  typedef typename TInputImage::Pointer         ImagePointer;
+  typedef typename TInputImage::ConstPointer    ImageConstPointer;
+  typedef typename TInputImage::PixelType       PixelType;
+  typedef typename TInputImage::IndexType       IndexType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      ImageType::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Set the input image. */
   itkSetConstObjectMacro(InputImage,ImageType);
-  
+
   /** Get the output image. */
   itkGetObjectMacro(Output,ImageType);
 
@@ -86,11 +85,11 @@ protected:
 private:
   ImageDuplicator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   ImageConstPointer       m_InputImage;
   ImagePointer            m_Output;
   unsigned long           m_InternalImageTime;
-  
+
 };
 
 } // end namespace itk

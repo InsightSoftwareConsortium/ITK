@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -44,7 +44,7 @@ template <class TInputImage, class TOutput, class TCoordRep>
 void
 ImageFunction<TInputImage, TOutput, TCoordRep>
 ::PrintSelf(
-  std::ostream& os, 
+  std::ostream& os,
   Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
@@ -76,8 +76,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      m_EndIndex[j] = m_StartIndex[j] + 
-        static_cast<IndexValueType>( size[j] ) - 1;
+      m_EndIndex[j] = m_StartIndex[j] + static_cast<IndexValueType>( size[j] ) - 1;
       m_StartContinuousIndex[j] = static_cast<CoordRepType>( m_StartIndex[j] );
       m_EndContinuousIndex[j]   = static_cast<CoordRepType>( m_EndIndex[j] );
       }
@@ -86,8 +85,6 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 }
 
 
-
 } // end namespace itk
 
 #endif
-

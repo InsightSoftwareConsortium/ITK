@@ -9,20 +9,20 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageDuplicator_txx
-#define _itkImageDuplicator_txx
+#ifndef __itkImageDuplicator_txx
+#define __itkImageDuplicator_txx
 
 #include "itkImageDuplicator.h"
 
 
 namespace itk
-{ 
-    
+{
+
 /** Constructor */
 template<class TInputImage>
 ImageDuplicator<TInputImage>
@@ -51,7 +51,7 @@ ImageDuplicator<TInputImage>
   t2 = m_InputImage->GetMTime();
   t = (t1 > t2 ? t1 : t2);
 
-  if(t == m_InternalImageTime) 
+  if(t == m_InternalImageTime)
     {
     return; // No need to update
     }
