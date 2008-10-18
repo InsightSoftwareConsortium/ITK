@@ -34,20 +34,20 @@ namespace itk
  * factor of 2 speed improvement with the recursive templates. Usually
  * recursive templates use partial specialization to terminate
  * loops. Here we use a technique used by Brad King in the itk Concept
- * Checking code. 
+ * Checking code.
  *
  * \note This work is part of the National Alliance for Medical Image
  * Computing (NAMIC), funded by the National Institutes of Health
  * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
  * Information on the National Centers for Biomedical Computing
- * can be obtained from http://nihroadmap.nih.gov/bioinformatics. 
+ * can be obtained from http://nihroadmap.nih.gov/bioinformatics.
  *
  */
 
 // Forward reference ImageBase
 template <
   unsigned int NImageDimension
-  > class ImageBase; 
+  > class ImageBase;
 
 template <unsigned int NImageDimension, unsigned int NLoop>
 class ImageHelper
@@ -67,41 +67,41 @@ public:
                                   const OffsetValueType offsetTable[],
                                   IndexType &index)
     {
-      ImageHelper<NImageDimension,NLoop-1>::        
-      ComputeIndexInner(bufferedRegionIndex,
-                        offset,
-                        offsetTable,
-                        index,
-                        Concept::Detail::UniqueType_bool<(NLoop==1)>());
+    ImageHelper<NImageDimension,NLoop-1>::
+    ComputeIndexInner(bufferedRegionIndex,
+                      offset,
+                      offsetTable,
+                      index,
+                      Concept::Detail::UniqueType_bool<(NLoop==1)>());
     }
 
-  inline static void ComputeIndexInner(const IndexType &bufferedRegionIndex,    
+  inline static void ComputeIndexInner(const IndexType &bufferedRegionIndex,
                                        OffsetValueType &offset,
                                        const OffsetValueType offsetTable[],
                                        IndexType &index,
                                        const UniqueTypeBoolFalse& )
-  {
+    {
     index[NLoop] = static_cast<IndexValueType>(offset / offsetTable[NLoop]);
     offset = offset - (index[NLoop] * offsetTable[NLoop]);
     index[NLoop] = index[NLoop] + bufferedRegionIndex[NLoop];
-    ImageHelper<NImageDimension, NLoop-1>::        
+    ImageHelper<NImageDimension, NLoop-1>::
       ComputeIndexInner(bufferedRegionIndex,
                         offset,
                         offsetTable,
                         index,
                         Concept::Detail::UniqueType_bool<(NLoop==1)>());
-    
-  }
+
+    }
 
   inline static void ComputeIndexInner(const IndexType &bufferedRegionIndex,
                                        OffsetValueType &offset,
                                        const OffsetValueType [],
                                        IndexType &index,
                                        const UniqueTypeBoolTrue& )
-  {
-    // Do last 
+    {
+    // Do last
     index[0] = bufferedRegionIndex[0] + static_cast<IndexValueType>(offset);
-  }
+    }
 
   // ComputeOffset
   //
@@ -110,44 +110,41 @@ public:
                                    const OffsetValueType offsetTable[],
                                    OffsetValueType &offset)
     {
-      ImageHelper<NImageDimension,NLoop-1>::        
-        ComputeOffsetInner(bufferedRegionIndex,
-                           index,
-                           offsetTable,
-                           offset,
-                           Concept::Detail::UniqueType_bool<(NLoop==1)>());
+    ImageHelper<NImageDimension,NLoop-1>::
+      ComputeOffsetInner(bufferedRegionIndex,
+                         index,
+                         offsetTable,
+                         offset,
+                         Concept::Detail::UniqueType_bool<(NLoop==1)>());
     }
 
-  inline static void ComputeOffsetInner(const IndexType &bufferedRegionIndex,    
+  inline static void ComputeOffsetInner(const IndexType &bufferedRegionIndex,
                                        const IndexType &index,
                                        const OffsetValueType offsetTable[],
                                        OffsetValueType &offset,
                                        const UniqueTypeBoolFalse& )
-  {
+    {
     offset = offset + (index[NLoop] - bufferedRegionIndex[NLoop])*offsetTable[NLoop];
-//    std::cout << "    offset += (index[" << NLoop << "] - bufferedRegionIndex[" << NLoop << "])*offsetTable[" << NLoop << "];" << std::endl;
-    ImageHelper<NImageDimension, NLoop-1>::        
+    ImageHelper<NImageDimension, NLoop-1>::
       ComputeOffsetInner(bufferedRegionIndex,
                         index,
                         offsetTable,
                         offset,
                         Concept::Detail::UniqueType_bool<(NLoop==1)>());
-    
-  }
+
+    }
 
   inline static void ComputeOffsetInner(const IndexType &bufferedRegionIndex,
                                         const IndexType &index,
                                         const OffsetValueType [],
                                         OffsetValueType &offset,
                                         const UniqueTypeBoolTrue& )
-  {
-    // Do last 
+    {
+    // Do last
     offset = offset + index[0] - bufferedRegionIndex[0];
-//    std::cout << "    offset += (index[0] - bufferedRegionIndex[0]);" << std::endl;
-  }
+    }
 
 };
 } // end namespace itk
 
 #endif
-
