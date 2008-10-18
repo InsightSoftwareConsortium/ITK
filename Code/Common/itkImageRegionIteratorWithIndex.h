@@ -66,8 +66,8 @@ class ITK_EXPORT ImageRegionIteratorWithIndex : public ImageRegionConstIteratorW
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionIteratorWithIndex Self;
-  typedef ImageRegionConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRegionIteratorWithIndex                Self;
+  typedef ImageRegionConstIteratorWithIndex<TImage>   Superclass;
   
   /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;

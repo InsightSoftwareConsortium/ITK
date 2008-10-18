@@ -76,8 +76,8 @@ class ITK_EXPORT ImageRandomNonRepeatingIteratorWithIndex : public ImageRandomNo
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRandomNonRepeatingIteratorWithIndex Self;
-  typedef ImageRandomNonRepeatingConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRandomNonRepeatingIteratorWithIndex                Self;
+  typedef ImageRandomNonRepeatingConstIteratorWithIndex<TImage>   Superclass;
 
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;

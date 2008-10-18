@@ -73,8 +73,8 @@ class ITK_EXPORT ImageRegionIterator : public ImageRegionConstIterator<TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionIterator Self;
-  typedef ImageRegionConstIterator<TImage>  Superclass;
+  typedef ImageRegionIterator                         Self;
+  typedef ImageRegionConstIterator<TImage>            Superclass;
   
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
@@ -120,12 +120,12 @@ public:
   PixelType & Value(void) 
     { return *(const_cast<InternalPixelType *>(this->m_Buffer+this->m_Offset)); }
 
-   /** Return an iterator for the beginning of the region. "Begin"
+  /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
    * \deprecated Use GoToBegin() instead */
   Self Begin(void) const;
 
-   /** Return an iterator for the end of the region. "End" is defined
+  /** Return an iterator for the end of the region. "End" is defined
    * as one pixel past the last pixel of the region. 
    * \deprecated Use GoToEnd() instead */
   Self End(void) const;
@@ -158,6 +158,3 @@ protected:
 #endif
 
 #endif 
-
-
-

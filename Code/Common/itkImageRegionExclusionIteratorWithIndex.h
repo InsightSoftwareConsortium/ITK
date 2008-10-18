@@ -65,7 +65,7 @@ class ITK_EXPORT ImageRegionExclusionIteratorWithIndex : public ImageRegionExclu
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionExclusionIteratorWithIndex Self;
+  typedef ImageRegionExclusionIteratorWithIndex               Self;
   typedef ImageRegionExclusionConstIteratorWithIndex<TImage>  Superclass;
   
    /** Types inherited from the Superclass */
@@ -125,6 +125,3 @@ protected:
 #endif
 
 #endif 
-
-
-

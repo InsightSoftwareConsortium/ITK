@@ -44,7 +44,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
   m_NumberOfPixelsInRegion   = region.GetNumberOfPixels();
   m_NumberOfSamplesRequested = 0L;
   m_NumberOfSamplesDone      = 0L;
-  m_Permutation=new randomPermutation(m_NumberOfPixelsInRegion);
+  m_Permutation=new RandomPermutation(m_NumberOfPixelsInRegion);
 }
 
 /**  Set the number of samples to extract from the region */

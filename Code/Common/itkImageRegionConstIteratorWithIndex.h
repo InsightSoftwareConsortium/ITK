@@ -124,8 +124,8 @@ class ITK_EXPORT ImageRegionConstIteratorWithIndex : public ImageConstIteratorWi
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionConstIteratorWithIndex Self;
-  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRegionConstIteratorWithIndex       Self;
+  typedef ImageConstIteratorWithIndex<TImage>     Superclass;
   
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -142,8 +142,8 @@ public:
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename TImage::PixelContainer       PixelContainer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
   
   /** Region typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -208,4 +208,3 @@ public:
 #endif
 
 #endif 
-

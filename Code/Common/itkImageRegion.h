@@ -212,22 +212,22 @@ public:
   bool
   IsInside(const Self &region) const
     {
-      IndexType beginCorner = region.GetIndex();
-      if( ! this->IsInside( beginCorner ) )
-        {
-        return false;
-        }
-      IndexType endCorner;
-      SizeType  size = region.GetSize();
-      for(unsigned int i=0; i<ImageDimension; i++)
-        {
-        endCorner[i] = beginCorner[i] + size[i] - 1;
-        }
-      if( ! this->IsInside( endCorner ) )
-        {
-        return false;
-        }
-      return true;
+    IndexType beginCorner = region.GetIndex();
+    if( ! this->IsInside( beginCorner ) )
+      {
+      return false;
+      }
+    IndexType endCorner;
+    SizeType  size = region.GetSize();
+    for(unsigned int i=0; i<ImageDimension; i++)
+      {
+      endCorner[i] = beginCorner[i] + size[i] - 1;
+      }
+    if( ! this->IsInside( endCorner ) )
+      {
+      return false;
+      }
+    return true;
     }
 
   /** Get the number of pixels contained in this region. This just

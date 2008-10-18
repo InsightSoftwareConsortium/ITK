@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionIteratorWithIndex_txx
-#define _itkImageRegionIteratorWithIndex_txx
+#ifndef __itkImageRegionIteratorWithIndex_txx
+#define __itkImageRegionIteratorWithIndex_txx
 
 #include "itkImageRegionIteratorWithIndex.h"
 
@@ -31,7 +31,6 @@ ImageRegionIteratorWithIndex<TImage>
 
 
 }
-
 
 
 template< typename TImage >
@@ -69,7 +68,6 @@ ImageRegionIteratorWithIndex<TImage>
   this->ImageRegionConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
-
 
 
 } // end namespace itk

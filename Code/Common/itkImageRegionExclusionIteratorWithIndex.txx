@@ -14,14 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionExclusionIteratorWithIndex_txx
-#define _itkImageRegionExclusionIteratorWithIndex_txx
+#ifndef __itkImageRegionExclusionIteratorWithIndex_txx
+#define __itkImageRegionExclusionIteratorWithIndex_txx
 
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
 namespace itk
 {
-
 
 
 template< typename TImage >
@@ -32,7 +31,6 @@ ImageRegionExclusionIteratorWithIndex<TImage>
 
 
 }
-
 
 
 template< typename TImage >
@@ -70,7 +68,6 @@ ImageRegionExclusionIteratorWithIndex<TImage>
   this->ImageRegionExclusionConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
-
 
 
 } // end namespace itk

@@ -102,8 +102,8 @@ class ITK_EXPORT ImageRegionReverseConstIterator : public ImageReverseConstItera
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionReverseConstIterator Self;
-  typedef ImageReverseConstIterator<TImage>  Superclass;
+  typedef ImageRegionReverseConstIterator       Self;
+  typedef ImageReverseConstIterator<TImage>     Superclass;
   
   /** Dimension of the image the iterator walks.  This enum is needed so that
    * functions that are templated over image iterator type (as opposed to
@@ -113,21 +113,21 @@ public:
 
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::IndexValueType   IndexValueType;
   
   /** Size typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::SizeType SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
+  typedef typename Superclass::SizeType         SizeType;
+  typedef typename Superclass::SizeValueType    SizeValueType;
   
   /** Offset typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename Superclass::OffsetValueType OffsetValueType;
+  typedef typename Superclass::OffsetType       OffsetType;
+  typedef typename Superclass::OffsetValueType  OffsetValueType;
   
   /** Region typedef support. */
-  typedef typename Superclass::RegionType   RegionType;
+  typedef typename Superclass::RegionType       RegionType;
 
   /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
@@ -136,8 +136,8 @@ public:
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename Superclass::PixelContainer   PixelContainer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
   
   /** Internal Pixel Type */
   typedef typename Superclass::InternalPixelType   InternalPixelType;
@@ -154,20 +154,19 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionReverseConstIterator() : Superclass()
-  {
+    {
     m_SpanBeginOffset = 0;
     m_SpanEndOffset = 0;
-  }
+    }
   
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRegionReverseConstIterator(ImageType *ptr,
-                      const RegionType &region)
+  ImageRegionReverseConstIterator(ImageType *ptr, const RegionType &region)
     : Superclass(ptr, region)
-  {
+    {
     m_SpanBeginOffset = this->m_BeginOffset;
     m_SpanEndOffset = this->m_BeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-  }
+    }
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionReverseConstIterator. Many routines return an ImageIterator
@@ -177,56 +176,54 @@ public:
    * ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionReverseConstIterator. */
   ImageRegionReverseConstIterator( const ImageConstIterator<TImage> &it):Superclass(it)
-  {
+    {
     IndexType ind = this->GetIndex();
     m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
       - (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-  }
+    }
 
   /** Constructor that takes in a reverse image iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
   ImageRegionReverseConstIterator( const ImageReverseConstIterator<TImage> &it):Superclass(it)
-  {
+    {
     IndexType ind = this->GetIndex();
     m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
       - (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-  }
+    }
 
    /** Constructor that takes in an image region iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
   ImageRegionReverseConstIterator( const ImageRegionIterator<TImage> &it):Superclass(it)
-  {
+    {
     IndexType ind = this->GetIndex();
     m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
       - (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-  }
+    }
 
  /** Move an iterator to the beginning of the region. "Begin" for a reverse
   * iterator is the last pixel in the region. */
   void GoToBegin()
-  {
+    {
     Superclass::GoToBegin();
 
     // reset the span offsets
     m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset   = this->m_BeginOffset
-      - static_cast<long>(this->m_Region.GetSize()[0]);
-  };
+    m_SpanEndOffset   = this->m_BeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
+    }
   
  /** Move an iterator to the end of the region. "End" for a reverse iterator
   * is defined as one pixel before the first pixel in the region. */
   void GoToEnd()
-  {
+    {
     Superclass::GoToEnd();
     
     // reset the span offsets
     m_SpanEndOffset = this->m_EndOffset;
-    m_SpanBeginOffset = m_SpanEndOffset
-      + static_cast<long>(this->m_Region.GetSize()[0]);
-  };
+    m_SpanBeginOffset = m_SpanEndOffset + static_cast<long>(this->m_Region.GetSize()[0]);
+    }
 
   /** Return an iterator for the beginning of the region. "Begin" for a reverse
    * iterator is the last pixel in the region.
@@ -244,11 +241,12 @@ public:
    * from the parent because we have an extra ivar.
    * \sa GetIndex */
   void SetIndex(const IndexType &ind)
-  { Superclass::SetIndex(ind);
+    {
+    Superclass::SetIndex(ind);
     m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
       - (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-  }
+    }
   
   /** iterator's index.  For a reverse iterator, this moves backwards
    * through the region.  This operator will constrain the iterator
@@ -260,7 +258,7 @@ public:
    * \sa operator++(int). */
   Self &
   operator++()
-  {
+    {
     if (--this->m_Offset <= m_SpanEndOffset)
       {
       // We have past the beginning of the span (row), need to wrap around.
@@ -307,7 +305,7 @@ public:
       m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(size[0]);
       }
     return *this;
-  }
+    }
 
   /** Decrement (prefix) the fastest moving dimension of the iterator's index.
    * For a reverse iterator, this moves forward through the region.
@@ -318,7 +316,7 @@ public:
    * will be set to be one pixel past the end of the region.
    * \sa operator--(int) */
   Self & operator--()
-  {
+    {
     if (++this->m_Offset >= m_SpanBeginOffset)
       {
       // We have reached the end of the span (row), need to wrap around.
@@ -365,7 +363,7 @@ public:
       m_SpanEndOffset = this->m_Offset - static_cast<long>(size[0]);
       }
     return *this;
-  }
+    }
 
 protected:
   unsigned long m_SpanBeginOffset;  // offset to last pixel in the row

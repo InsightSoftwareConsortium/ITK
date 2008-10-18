@@ -68,8 +68,8 @@ class ITK_EXPORT ImageRegionReverseIterator : public ImageRegionReverseConstIter
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionReverseIterator Self;
-  typedef ImageRegionReverseConstIterator<TImage>  Superclass;
+  typedef ImageRegionReverseIterator                  Self;
+  typedef ImageRegionReverseConstIterator<TImage>     Superclass;
   
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
@@ -117,7 +117,7 @@ public:
    * \deprecated Use GoToBegin() instead */
   Self Begin(void) const;
 
-   /** Return an iterator for the end of the region. "End" is defined
+  /** Return an iterator for the end of the region. "End" is defined
    * as one pixel past the last pixel of the region. 
    * \deprecated Use GoToEnd() instead */
   Self End(void) const;
@@ -149,6 +149,3 @@ protected:
 #endif
 
 #endif 
-
-
-

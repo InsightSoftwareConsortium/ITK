@@ -14,14 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionExclusionConstIteratorWithIndex_txx
-#define _itkImageRegionExclusionConstIteratorWithIndex_txx
+#ifndef __itkImageRegionExclusionConstIteratorWithIndex_txx
+#define __itkImageRegionExclusionConstIteratorWithIndex_txx
 
 #include "itkImageRegionExclusionConstIteratorWithIndex.h"
 
 namespace itk
 {
-  
 
    
 //----------------------------------------------------------------------
@@ -96,8 +95,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
     if( m_ExclusionRegion.IsInside( this->m_PositionIndex ) )
       {
       this->m_PositionIndex[ in ]  = m_ExclusionEnd[ in ];
-      this->m_Position      += this->m_OffsetTable[in] * 
-        m_ExclusionRegion.GetSize()[ in ];
+      this->m_Position += this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
       }
 
     if( this->m_PositionIndex[ in ] < this->m_EndIndex[ in ] )
@@ -145,7 +143,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>
       if( m_ExclusionRegion.IsInside( this->m_PositionIndex ) )
         {
         this->m_PositionIndex[ in ]  = m_ExclusionBegin[ in ]-1;
-        this->m_Position      -= this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
+        this->m_Position -= this->m_OffsetTable[in] * m_ExclusionRegion.GetSize()[ in ];
         }
 
       this->m_Remaining = true;

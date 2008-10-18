@@ -126,27 +126,27 @@ class ITK_EXPORT ImageRegionExclusionConstIteratorWithIndex : public ImageConstI
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionExclusionConstIteratorWithIndex Self;
-  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRegionExclusionConstIteratorWithIndex    Self;
+  typedef ImageConstIteratorWithIndex<TImage>           Superclass;
   
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType  IndexType;
-  typedef typename TImage::SizeType SizeType;
+  typedef typename TImage::IndexType            IndexType;
+  typedef typename TImage::SizeType             SizeType;
 
   /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image. */
-  typedef TImage ImageType;
+  typedef TImage                                ImageType;
 
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename TImage::PixelContainer       PixelContainer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
   
   /** Region typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.

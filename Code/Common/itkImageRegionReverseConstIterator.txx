@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionReverseConstIterator_txx
-#define _itkImageRegionReverseConstIterator_txx
+#ifndef __itkImageRegionReverseConstIterator_txx
+#define __itkImageRegionReverseConstIterator_txx
 
 #include "itkImageRegionReverseConstIterator.h"
 
@@ -35,7 +35,6 @@ ImageRegionReverseConstIterator<TImage>
   
   return it;
 }
-
 
 
 template< typename TImage >

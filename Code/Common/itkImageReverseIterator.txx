@@ -14,14 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageReverseIterator_txx
-#define _itkImageReverseIterator_txx
+#ifndef __itkImageReverseIterator_txx
+#define __itkImageReverseIterator_txx
 
 #include "itkImageReverseIterator.h"
 
 namespace itk
 {
-
 
 
 template< typename TImage >
@@ -32,7 +31,6 @@ ImageReverseIterator<TImage>
 
 
 }
-
 
 
 template< typename TImage >
@@ -70,7 +68,6 @@ ImageReverseIterator<TImage>
   this->ImageRegionReverseConstIterator<TImage>::operator=(it);
   return *this;
 }
-
 
 
 } // end namespace itk

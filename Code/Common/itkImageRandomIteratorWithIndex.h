@@ -65,8 +65,8 @@ class ITK_EXPORT ImageRandomIteratorWithIndex : public ImageRandomConstIteratorW
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRandomIteratorWithIndex Self;
-  typedef ImageRandomConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageRandomIteratorWithIndex                Self;
+  typedef ImageRandomConstIteratorWithIndex<TImage>   Superclass;
   
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
@@ -125,6 +125,3 @@ protected:
 #endif
 
 #endif 
-
-
-

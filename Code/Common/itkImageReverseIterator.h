@@ -64,8 +64,8 @@ class ITK_EXPORT ImageReverseIterator : public ImageRegionReverseConstIterator<T
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageReverseIterator Self;
-  typedef ImageRegionReverseConstIterator<TImage>  Superclass;
+  typedef ImageReverseIterator                        Self;
+  typedef ImageRegionReverseConstIterator<TImage>     Superclass;
   
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
@@ -125,6 +125,3 @@ protected:
 #endif
 
 #endif 
-
-
-

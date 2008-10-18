@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRandomConstIteratorWithIndex_txx
-#define _itkImageRandomConstIteratorWithIndex_txx
+#ifndef __itkImageRandomConstIteratorWithIndex_txx
+#define __itkImageRandomConstIteratorWithIndex_txx
 
 #include "itkImageRandomConstIteratorWithIndex.h"
 

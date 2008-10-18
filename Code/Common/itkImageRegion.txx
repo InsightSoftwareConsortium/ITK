@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegion_txx
-#define _itkImageRegion_txx
+#ifndef __itkImageRegion_txx
+#define __itkImageRegion_txx
 
 #include "itkImageRegion.h"
 

@@ -61,10 +61,10 @@ class ITK_EXPORT ImageRegionMultidimensionalSplitter: public ImageRegionSplitter
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionMultidimensionalSplitter              Self;
-  typedef ImageRegionSplitter<VImageDimension>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageRegionMultidimensionalSplitter             Self;
+  typedef ImageRegionSplitter<VImageDimension>            Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -129,4 +129,3 @@ private:
 #endif
 
 #endif
-

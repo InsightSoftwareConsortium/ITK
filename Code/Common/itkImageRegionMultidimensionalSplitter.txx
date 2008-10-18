@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionMultidimensionalSplitter_txx
-#define _itkImageRegionMultidimensionalSplitter_txx
+#ifndef __itkImageRegionMultidimensionalSplitter_txx
+#define __itkImageRegionMultidimensionalSplitter_txx
 #include "itkImageRegionMultidimensionalSplitter.h"
 #include <math.h>
 

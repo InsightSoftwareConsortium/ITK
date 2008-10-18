@@ -14,14 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionIterator_txx
-#define _itkImageRegionIterator_txx
+#ifndef __itkImageRegionIterator_txx
+#define __itkImageRegionIterator_txx
 
 #include "itkImageRegionIterator.h"
 
 namespace itk
 {
-
 
 
 template< typename TImage >
@@ -32,7 +31,6 @@ ImageRegionIterator<TImage>
 
 
 }
-
 
 
 template< typename TImage >
@@ -82,8 +80,6 @@ ImageRegionIterator<TImage>
 }
 
 
-
- 
 template< typename TImage >
 ImageRegionIterator<TImage> 
 ImageRegionIterator<TImage>
@@ -91,8 +87,6 @@ ImageRegionIterator<TImage>
 { 
   return this->Superclass::End();
 }
-
-
 
 
 } // end namespace itk

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegionConstIteratorWithIndex_txx
-#define _itkImageRegionConstIteratorWithIndex_txx
+#ifndef __itkImageRegionConstIteratorWithIndex_txx
+#define __itkImageRegionConstIteratorWithIndex_txx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 
