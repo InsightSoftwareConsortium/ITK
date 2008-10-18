@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSparseFieldLevelSetImageFilter_txx_
-#define __itkSparseFieldLevelSetImageFilter_txx_
+#ifndef __itkSparseFieldLevelSetImageFilter_txx
+#define __itkSparseFieldLevelSetImageFilter_txx
 
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
@@ -194,13 +194,13 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     else            up_to += 2;
     down_to += 2;
 
-    up_search   += 2;
+    up_search += 2;
     down_search += 2;
 
     // Swap the lists so we can re-use the empty one.
     t = j;
     j = k;
-    k = t;      
+    k = t;
     }
 
   // Process the outermost inside/outside layers in the sparse field.
@@ -408,7 +408,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
       // Now remove this index from the active list.
       release_node = layerIt.GetPointer();
-      ++layerIt;          
+      ++layerIt;
       m_Layers[0]->Unlink(release_node);
       m_LayerNodeStore->Return( release_node );
       }
@@ -432,7 +432,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
         {
         ++layerIt;
         ++updateIt;
-        continue;              
+        continue;
         }
       
       rms_change_accumulator += vnl_math_sqr(new_value - outputIt.GetCenterPixel());
@@ -1010,7 +1010,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
   df->ReleaseGlobalDataPointer(globalData);
   
-  return timeStep;                            
+  return timeStep;
 }
 
 

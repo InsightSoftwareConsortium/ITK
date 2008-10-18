@@ -44,10 +44,10 @@ class ITK_EXPORT ThresholdImageFilter : public InPlaceImageFilter<TImage,TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ThresholdImageFilter         Self;
+  typedef ThresholdImageFilter               Self;
   typedef InPlaceImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -93,16 +93,16 @@ public:
   itkGetMacro(Upper, PixelType);
 
   /** Some additional typedefs.  */
-  typedef TImage InputImageType;
+  typedef TImage                                InputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
   /** Some additional typedefs.  */
-  typedef TImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef TImage                                OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+  typedef typename OutputImageType::PixelType   OutputImagePixelType;
 
 protected:
   ThresholdImageFilter();

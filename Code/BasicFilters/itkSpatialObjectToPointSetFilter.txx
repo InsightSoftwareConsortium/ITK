@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSpatialObjectToPointSetFilter_txx
-#define _itkSpatialObjectToPointSetFilter_txx
+#ifndef __itkSpatialObjectToPointSetFilter_txx
+#define __itkSpatialObjectToPointSetFilter_txx
 
 #include "itkSpatialObjectToPointSetFilter.h"
 
@@ -100,7 +100,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
 
   // Get the input and output pointers 
   const InputSpatialObjectType * inputObject  = this->GetInput();
-  typename OutputPointSetType::Pointer  outputPointSet = this->GetOutput();                                             
+  typename OutputPointSetType::Pointer  outputPointSet = this->GetOutput();
  
   // Look for the number of points to allocate
   unsigned long numberOfPoints = 0;
@@ -140,7 +140,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
         =  inputObject->GetIndexToWorldTransform()->TransformPoint(
             dynamic_cast<const PointBasedSpatialObjectType*>(inputObject)->GetPoint(i)->GetPosition());
 
-      for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
+      for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension); j++)
         {
         point[j] = transformedPoint[j];
         }
@@ -161,7 +161,7 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
         typename InputSpatialObjectType::PointType transformedPoint
         =  inputObject->GetIndexToWorldTransform()->TransformPoint(dynamic_cast<const PointBasedSpatialObjectType*>((*it).GetPointer())->GetPoint(i)->GetPosition());
 
-        for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension) ;j++)
+        for(unsigned int j=0;j< itkGetStaticConstMacro(ObjectDimension); j++)
           {
           point[j] = transformedPoint[j];
           }
@@ -186,8 +186,6 @@ SpatialObjectToPointSetFilter<TInputSpatialObject,TOutputPointSet>
   os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
   os << indent << "Sampling Factor : " << m_SamplingFactor << std::endl;
 }
-
-
 
 } // end namespace itk
 

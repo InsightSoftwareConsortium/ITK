@@ -28,19 +28,20 @@
 namespace itk
 {
 
-/** This calculator computes the mean and the covariance matrice of a certain
+/** \class SpatialObjectToImageStatisticsCalculator
+ * This calculator computes the mean and the covariance matrice of a certain
  *  region of an image specified by a spatial object.
  * \ingroup Operators
  */
-template <class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension=1>            
+template <class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension=1>
 class ITK_EXPORT SpatialObjectToImageStatisticsCalculator : public Object 
 {
 public:
   /** Standard class typedefs. */
   typedef SpatialObjectToImageStatisticsCalculator Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -49,11 +50,12 @@ public:
   itkTypeMacro(SpatialObjectToImageStatisticsCalculator, Object);
 
   /** Type definitions for the input image. */
-  typedef TInputImage  ImageType;
-  typedef typename TInputImage::Pointer  ImagePointer;
-  typedef typename TInputImage::ConstPointer ImageConstPointer;
-  typedef typename TInputImage::PixelType PixelType;
-  typedef typename TInputImage::IndexType IndexType;
+  typedef TInputImage                                  ImageType;
+  typedef typename TInputImage::Pointer                ImagePointer;
+  typedef typename TInputImage::ConstPointer           ImageConstPointer;
+  typedef typename TInputImage::PixelType              PixelType;
+  typedef typename TInputImage::IndexType              IndexType;
+
   typedef  typename NumericTraits< PixelType >::AccumulateType AccumulateType;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -76,8 +78,8 @@ public:
                                                  SpatialObjectType> IteratorType;
  
   /** Vector and Matrix Type */
-  typedef Vector< double, TSampleDimension> VectorType;
-  typedef Matrix< double, TSampleDimension, TSampleDimension > MatrixType ;
+  typedef Vector< double, TSampleDimension>                    VectorType;
+  typedef Matrix< double, TSampleDimension, TSampleDimension > MatrixType;
 
   /** Type definitions for the samples */
   typedef itk::Statistics::ListSample< VectorType > SampleType;

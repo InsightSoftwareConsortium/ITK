@@ -37,15 +37,15 @@ public:
   Tan() {}
   ~Tan() {}
   bool operator!=( const Tan & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Tan & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  { return (TOutput)vcl_tan((double)A); }
+    { return (TOutput)vcl_tan((double)A); }
 }; 
 }
 template <class TInputImage, class TOutputImage>
@@ -57,12 +57,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef TanImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::Tan< typename TInputImage::PixelType, 
-                                                 typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef TanImageFilter                                Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::Tan< typename TInputImage::PixelType, 
+                   typename TOutputImage::PixelType> >  Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

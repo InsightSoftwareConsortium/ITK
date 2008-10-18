@@ -201,13 +201,13 @@ protected:
   static int PolygonToImageRaster( PointVector coords, Point1DArray & zymatrix, int extent[6]);
   
   OutputImageType *m_InfoImage;
-  IndexType    m_Index;
-  SizeType     m_Size;
-  SpacingType  m_Spacing;
-  PointType    m_Origin; //start value
-  double       m_Tolerance;
-  ValueType    m_InsideValue;
-  ValueType    m_OutsideValue;
+  IndexType        m_Index;
+  SizeType         m_Size;
+  SpacingType      m_Spacing;
+  PointType        m_Origin; //start value
+  double           m_Tolerance;
+  ValueType        m_InsideValue;
+  ValueType        m_OutsideValue;
 
   StencilIndexVector m_StencilIndex;
 

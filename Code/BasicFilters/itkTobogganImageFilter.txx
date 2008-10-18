@@ -78,7 +78,7 @@ TobogganImageFilter<TInputImage>
   outputImage->Allocate();
   outputImage->FillBuffer ( z );
 
-  typedef ImageRegionConstIterator<InputImageType> InputIterator;
+  typedef ImageRegionConstIterator<InputImageType>  InputIterator;
   typedef ImageRegionConstIterator<OutputImageType> OutputIterator;
   
   InputIterator  inIt(inputImage, inputImage->GetRequestedRegion() );
@@ -250,7 +250,7 @@ TobogganImageFilter<TInputImage>
         outputImage->SetPixel ( Visited[i], LabelForRegion );
         }
       }
-    // On to the next pixel      
+    // On to the next pixel
     ++inIt;
     ++outIt;
     }

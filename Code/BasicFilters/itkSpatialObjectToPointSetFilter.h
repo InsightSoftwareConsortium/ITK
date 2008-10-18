@@ -34,11 +34,12 @@ class ITK_EXPORT SpatialObjectToPointSetFilter : public MeshSource<TOutputPointS
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialObjectToPointSetFilter  Self;
-  typedef MeshSource<TOutputPointSet>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef TOutputPointSet  OutputPointSetType;
+  typedef SpatialObjectToPointSetFilter Self;
+  typedef MeshSource<TOutputPointSet>   Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
+
+  typedef TOutputPointSet                      OutputPointSetType;
   typedef typename OutputPointSetType::Pointer OutputPointSetPointer;
 
   /** Smart Pointer type to a DataObject. */
@@ -51,10 +52,10 @@ public:
   itkTypeMacro(SpatialObjectToPointSetFilter,ProcessObject);
 
   /** Some convenient typedefs. */
-  typedef TInputSpatialObject InputSpatialObjectType;
-  typedef typename InputSpatialObjectType::Pointer        InputSpatialObjectPointer;
-  typedef typename InputSpatialObjectType::ConstPointer   InputSpatialObjectConstPointer;
-  typedef typename TInputSpatialObject::ChildrenListType  ChildrenListType;
+  typedef TInputSpatialObject                            InputSpatialObjectType;
+  typedef typename InputSpatialObjectType::Pointer       InputSpatialObjectPointer;
+  typedef typename InputSpatialObjectType::ConstPointer  InputSpatialObjectConstPointer;
+  typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
 
 
   /** Dimension constants */

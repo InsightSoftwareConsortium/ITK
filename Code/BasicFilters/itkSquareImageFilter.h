@@ -38,18 +38,18 @@ public:
   Square() {}
   ~Square() {}
   bool operator!=( const Square & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Square & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     const RealType ra = static_cast<RealType>( A );
     return static_cast<TOutput>( ra * ra );
-  }
+    }
 }; 
 }
 template <class TInputImage, class TOutputImage>
@@ -61,12 +61,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef SquareImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::Square< typename TInputImage::PixelType, 
-                                                    typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SquareImageFilter                                Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::Square< typename TInputImage::PixelType, 
+                      typename TOutputImage::PixelType> >  Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

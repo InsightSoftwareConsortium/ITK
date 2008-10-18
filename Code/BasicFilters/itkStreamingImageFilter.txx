@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkStreamingImageFilter_txx
-#define _itkStreamingImageFilter_txx
+#ifndef __itkStreamingImageFilter_txx
+#define __itkStreamingImageFilter_txx
 #include "itkStreamingImageFilter.h"
 #include "itkCommand.h"
 #include "itkImageRegionIterator.h"
@@ -133,8 +133,8 @@ StreamingImageFilter<TInputImage,TOutputImage>
   unsigned int numDivisions, numDivisionsFromSplitter;
 
   numDivisions = m_NumberOfStreamDivisions;
-  numDivisionsFromSplitter
-    = m_RegionSplitter
+  numDivisionsFromSplitter =
+    m_RegionSplitter
     ->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
   if (numDivisionsFromSplitter < numDivisions)
     {

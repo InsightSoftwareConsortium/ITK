@@ -45,10 +45,10 @@ class ITK_EXPORT TwoOutputExampleImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef TwoOutputExampleImageFilter         Self;
+  typedef TwoOutputExampleImageFilter        Self;
   typedef ImageToImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -78,18 +78,18 @@ public:
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   
   /** Some typedefs to handle the second output. */
-  typedef TImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef TImage                               OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
   
   /** Get the image output of this process object.  */
   OutputImagePointer GetInverseOutput()
-  { return static_cast<TImage *>(this->ProcessObject::GetOutput(1)); }
+    { return static_cast<TImage *>(this->ProcessObject::GetOutput(1)); }
 
   /** Set the image output of this process object.  */
   void SetInverseOutput(OutputImageType *output)
-  { this->SetNthOutput(1, output); };
+    { this->SetNthOutput(1, output); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTwoOutputExampleImageFilter_txx
-#define _itkTwoOutputExampleImageFilter_txx
+#ifndef __itkTwoOutputExampleImageFilter_txx
+#define __itkTwoOutputExampleImageFilter_txx
 
 #include "itkTwoOutputExampleImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -81,8 +81,6 @@ TwoOutputExampleImageFilter<TImage>
     this->Modified();
     }
 }
-
-
 
 /**
  * The values less than or equal to the value are set to OutsideValue

@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSpatialObjectToImageStatisticsCalculator_txx
-#define _itkSpatialObjectToImageStatisticsCalculator_txx
+#ifndef __itkSpatialObjectToImageStatisticsCalculator_txx
+#define __itkSpatialObjectToImageStatisticsCalculator_txx
 
 #include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -51,11 +51,11 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 ::ComputeStatistics()
 {
   typedef itk::Statistics::MeanCalculator< SampleType >
-    MeanAlgorithmType ;
+    MeanAlgorithmType;
   
-  typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New() ;
-  meanAlgorithm->SetInputSample( m_Sample ) ;
-  meanAlgorithm->Update() ;
+  typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
+  meanAlgorithm->SetInputSample( m_Sample );
+  meanAlgorithm->Update();
 
   typename MeanAlgorithmType::OutputType mean = 
                                 *(meanAlgorithm->GetOutput());
@@ -65,13 +65,13 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     }
 
   typedef itk::Statistics::CovarianceCalculator< SampleType >
-    CovarianceAlgorithmType ;
+    CovarianceAlgorithmType;
   
   typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
-    CovarianceAlgorithmType::New() ;
+    CovarianceAlgorithmType::New();
 
-  covarianceAlgorithm->SetInputSample( m_Sample ) ;
-  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() ) ;
+  covarianceAlgorithm->SetInputSample( m_Sample );
+  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() );
   covarianceAlgorithm->Update();
   
   typename CovarianceAlgorithmType::OutputType covarianceMatrix
@@ -184,7 +184,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     while(!it.IsAtEnd())
       {
       IndexType ind = it.GetIndex();
-      VectorType mv ;
+      VectorType mv;
       mv[0] = it.Get();
       m_Sum += static_cast< AccumulateType >(mv[0]);
       for(unsigned int i=1;i<itkGetStaticConstMacro(SampleDimension);i++)

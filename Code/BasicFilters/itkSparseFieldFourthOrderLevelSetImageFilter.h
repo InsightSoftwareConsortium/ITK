@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSparseFieldFourthOrderLevelSetImageFilter_h_
-#define _itkSparseFieldFourthOrderLevelSetImageFilter_h_
+#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_h
+#define __itkSparseFieldFourthOrderLevelSetImageFilter_h
 
 #include "itkSparseImage.h"
 #include "itkNormalVectorDiffusionFunction.h"
@@ -154,12 +154,12 @@ template <class TInputImage, class TOutputImage>
 class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   : public SparseFieldLevelSetImageFilter <TInputImage, TOutputImage>
 {
-  public:
+public:
   /** Standard class typedefs */
-  typedef SparseFieldFourthOrderLevelSetImageFilter Self;
+  typedef SparseFieldFourthOrderLevelSetImageFilter                 Self;
   typedef SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SparseFieldFourthOrderLevelSetImageFilter,
@@ -169,11 +169,11 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Typedefs derived from the superclass. */
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::LayerType LayerType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::OutputImageType        OutputImageType;
+  typedef typename Superclass::ValueType              ValueType;
+  typedef typename Superclass::IndexType              IndexType;
+  typedef typename Superclass::LayerType              LayerType;
+  typedef typename Superclass::RadiusType             RadiusType;
   typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
 
   /** The storage class used as the node type for the sparse normal vector
@@ -230,31 +230,31 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
       SparseFieldLevelSetImageFilter to accomodate the desired normal
       processing band. */
   unsigned int GetMinimumNumberOfLayers() const
-  {
+    {
     return (int)vcl_ceil(m_CurvatureBandWidth+
                      itkGetStaticConstMacro(ImageDimension));
-  }
+    }
 
   /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make
       sure we have enough layers to do what we need. */
   virtual void SetNumberOfLayers( const unsigned int n )
-  {
+    {
     unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n );
     if (nm != this->GetNumberOfLayers())
       {
       Superclass::SetNumberOfLayers (nm);
       this->Modified();
       }
-  }
+    }
   
   /** This method first calls the Superclass InitializeIteration method. Then
       it determines whether ProcessNormals should be called. */
   virtual void InitializeIteration()
-  {
+    {
     Superclass::InitializeIteration();
     ValueType rmschange = this->GetRMSChange();
 
-    if ( ( this->GetElapsedIterations()==0 ) ||
+    if ( ( this->GetElapsedIterations() == 0 ) ||
          ( m_RefitIteration == m_MaxRefitIteration ) ||
          ( rmschange <= m_RMSChangeNormalProcessTrigger ) ||
          ( this->ActiveLayerCheckBand() ) )
@@ -271,7 +271,7 @@ class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
       }
     
     m_RefitIteration++;
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -357,7 +357,7 @@ private:
   
   /** Constants used in the computations. */
   static const unsigned long m_NumVertex;
-  static const ValueType m_DimConst;
+  static const ValueType     m_DimConst;
 
   SparseFieldFourthOrderLevelSetImageFilter(const Self&);
   //purposely not implemented

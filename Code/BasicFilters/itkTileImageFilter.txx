@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTileImageFilter_txx
-#define _itkTileImageFilter_txx
+#ifndef __itkTileImageFilter_txx
+#define __itkTileImageFilter_txx
 #include "itkTileImageFilter.h"
 
 #include "itkExceptionObject.h"
@@ -211,7 +211,7 @@ TileImageFilter<TInputImage, TOutputImage>
       }
     ++input;
     ++it;
-  }
+    }
 
   // Find the size of the largest cell for each "row" in each dimension.
   ImageLinearConstIteratorWithIndex<TileImageType> tit( m_TileImage, m_TileImage->GetRequestedRegion() );

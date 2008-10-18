@@ -62,12 +62,12 @@ public:
   enum {ImageDimension = InputImageType::ImageDimension };
   
   /** Other convenient typedefs   */
-  typedef typename InputImageType::RegionType RegionType;
-  typedef typename InputImageType::SizeType   SizeType;
-  typedef typename InputImageType::IndexType  IndexType;
-  typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename OutputImageType::Pointer   OutputImagePointer;
+  typedef typename InputImageType::RegionType   RegionType;
+  typedef typename InputImageType::SizeType     SizeType;
+  typedef typename InputImageType::IndexType    IndexType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
   
   /** Standard super class typedef support. */
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
@@ -90,7 +90,7 @@ public:
   void EnlargeOutputRequestedRegion ( DataObject* );
   /** Neighborhood iterator type */
   typedef ConstNeighborhoodIterator<TInputImage> 
-  NeighborhoodIteratorType ;
+  NeighborhoodIteratorType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -110,7 +110,7 @@ private:
   TobogganImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
@@ -119,5 +119,3 @@ private:
 #endif
 
 #endif
-
-

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTernaryFunctorImageFilter_txx
-#define _itkTernaryFunctorImageFilter_txx
+#ifndef __itkTernaryFunctorImageFilter_txx
+#define __itkTernaryFunctorImageFilter_txx
 
 #include "itkTernaryFunctorImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -36,7 +36,6 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TF
   this->InPlaceOff();
 }
 
-
 /**
  * Connect one of the operands for pixel-wise addition
  */
@@ -49,7 +48,6 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TF
   // The ProcessObject is not const-correct so the const_cast is required here
   SetNthInput( 0, const_cast<TInputImage1 *>( image1 ) );
 }
-
 
 /**
  * Connect one of the operands for pixel-wise addition
@@ -64,8 +62,6 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TF
   SetNthInput( 1, const_cast<TInputImage2 *>( image2 ) );
 }
 
-
-
 /**
  * Connect one of the operands for pixel-wise addition
  */
@@ -78,7 +74,6 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,TInputImage3,TOutputImage,TF
   // The ProcessObject is not const-correct so the const_cast is required here
   SetNthInput( 2, const_cast<TInputImage3 *>( image3 ) );
 }
-
 
 /**
  * BeforeThreadedGenerateData function. Validate inputs
@@ -148,10 +143,6 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
     progress.CompletedPixel(); // potential exception thrown here
     }
 }
-
-
-
-
 
 } // end namespace itk
 

@@ -45,10 +45,10 @@ class ITK_EXPORT StreamingImageFilter : public ImageToImageFilter<TInputImage, T
 {
 public:
   /** Standard class typedefs. */
-  typedef StreamingImageFilter  Self;
+  typedef StreamingImageFilter                           Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,14 +57,15 @@ public:
   itkTypeMacro(StreamingImageFilter,ImageToImageFilter);
 
   /** Some typedefs for the input and output. */
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                         InputImageType;
+  typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef typename InputImageType::PixelType  InputImagePixelType; 
+
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType; 
+  typedef typename OutputImageType::PixelType    OutputImagePixelType; 
   typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
   /** Dimension of input image. */
@@ -117,7 +118,7 @@ private:
   StreamingImageFilter(const StreamingImageFilter&); //purposely not implemented
   void operator=(const StreamingImageFilter&); //purposely not implemented
 
-  unsigned int m_NumberOfStreamDivisions;
+  unsigned int          m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;
 };
 

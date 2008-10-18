@@ -40,17 +40,17 @@ public:
   Add3() {}
   ~Add3() {}
   bool operator!=( const Add3 & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Add3 & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B,
                              const TInput3 & C)
-  { return (TOutput)(A + B + C); }
+    { return (TOutput)(A + B + C); }
 }; 
 }
 
@@ -67,15 +67,16 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,
 {
 public:
   /** Standard class typedefs. */
-  typedef TernaryAddImageFilter  Self;
-  typedef TernaryFunctorImageFilter<TInputImage1,TInputImage2,
-                                    TInputImage3,TOutputImage, 
-                                    Function::Add3< typename TInputImage1::PixelType,
-                                                    typename TInputImage2::PixelType,
-                                                    typename TInputImage3::PixelType,
-                                                    typename TOutputImage::PixelType>   >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef TernaryAddImageFilter                            Self;
+  typedef TernaryFunctorImageFilter<
+    TInputImage1,TInputImage2,
+    TInputImage3,TOutputImage, 
+    Function::Add3< typename TInputImage1::PixelType,
+                    typename TInputImage2::PixelType,
+                    typename TInputImage3::PixelType,
+                    typename TOutputImage::PixelType>   >  Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -37,17 +37,17 @@ public:
   Sqrt() {}
   ~Sqrt() {}
   bool operator!=( const Sqrt & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Sqrt & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput & A )
-  {
+    {
     return (TOutput)vcl_sqrt((double)A);
-  }
+    }
 }; 
 }
 template <class TInputImage, class TOutputImage>
@@ -59,12 +59,13 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 {
 public:
   /** Standard class typedefs. */
-  typedef SqrtImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Function::Sqrt< typename TInputImage::PixelType, 
-                                                  typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SqrtImageFilter                                Self;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Function::Sqrt< typename TInputImage::PixelType, 
+                    typename TOutputImage::PixelType> >  Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

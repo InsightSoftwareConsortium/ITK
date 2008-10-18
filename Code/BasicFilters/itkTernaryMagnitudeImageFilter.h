@@ -40,17 +40,17 @@ public:
   Modulus3() {}
   ~Modulus3() {}
   bool operator!=( const Modulus3 & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const Modulus3 & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B,
                              const TInput3 & C)
-  { return (TOutput) vcl_sqrt((double)(A*A + B*B + C*C) ); }
+    { return (TOutput) vcl_sqrt((double)(A*A + B*B + C*C) ); }
 }; 
 }
 
@@ -68,17 +68,18 @@ TernaryFunctorImageFilter<TInputImage1,TInputImage2,
 {
 public:
   /** Standard class typedefs. */
-  typedef TernaryMagnitudeImageFilter  Self;
-  typedef TernaryFunctorImageFilter<TInputImage1,TInputImage2,
-                                    TInputImage3,TOutputImage, 
-                                    Function::Modulus3< 
-    typename TInputImage1::PixelType, 
-    typename TInputImage2::PixelType,
-    typename TInputImage3::PixelType,
-    typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef TernaryMagnitudeImageFilter   Self;
+  typedef TernaryFunctorImageFilter<
+    TInputImage1,TInputImage2,
+    TInputImage3,TOutputImage, 
+    Function::Modulus3< 
+      typename TInputImage1::PixelType, 
+      typename TInputImage2::PixelType,
+      typename TInputImage3::PixelType,
+      typename TOutputImage::PixelType>   
+    >                                   Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

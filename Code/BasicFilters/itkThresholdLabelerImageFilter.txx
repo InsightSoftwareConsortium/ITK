@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkThresholdLabelerImageFilter_txx
-#define _itkThresholdLabelerImageFilter_txx
+#ifndef __itkThresholdLabelerImageFilter_txx
+#define __itkThresholdLabelerImageFilter_txx
 
 #include "itkThresholdLabelerImageFilter.h"
 

@@ -34,13 +34,13 @@ public:
   TensorFractionalAnisotropyFunction() {}
   ~TensorFractionalAnisotropyFunction() {}
   bool operator!=( const TensorFractionalAnisotropyFunction & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const TensorFractionalAnisotropyFunction & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline RealValueType operator()( const TInput & x )
     {
     return x.GetFractionalAnisotropy();
@@ -74,12 +74,12 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef TensorFractionalAnisotropyImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::TensorFractionalAnisotropyFunction< 
-                                    typename TInputImage::PixelType> >  Superclass;
-
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::TensorFractionalAnisotropyFunction< 
+      typename TInputImage::PixelType> >         Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   typedef typename Superclass::OutputImageType    OutputImageType;
   typedef typename TOutputImage::PixelType        OutputPixelType;

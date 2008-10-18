@@ -59,7 +59,7 @@ public:
   typedef typename Superclass::OutputImageRegionType      OutputImageRegionType;
 
   /** Some convenient typedefs. */
-  typedef TInputSpatialObject InputSpatialObjectType;
+  typedef TInputSpatialObject                             InputSpatialObjectType;
   typedef typename InputSpatialObjectType::Pointer        InputSpatialObjectPointer;
   typedef typename InputSpatialObjectType::ConstPointer   InputSpatialObjectConstPointer;
   typedef typename TInputSpatialObject::ChildrenListType  ChildrenListType;

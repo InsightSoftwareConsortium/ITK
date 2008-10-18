@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkThresholdImageFilter_txx
-#define _itkThresholdImageFilter_txx
+#ifndef __itkThresholdImageFilter_txx
+#define __itkThresholdImageFilter_txx
 
 #include "itkThresholdImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -82,8 +82,6 @@ ThresholdImageFilter<TImage>
     }
 }
 
-
-
 /**
  * The values less than or equal to the value are set to OutsideValue
  */
@@ -141,10 +139,8 @@ ThresholdImageFilter<TImage>
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef
-    ImageRegionConstIterator<TImage> InputIterator;
-  typedef
-    ImageRegionIterator<TImage> OutputIterator;
+  typedef ImageRegionConstIterator<TImage> InputIterator;
+  typedef ImageRegionIterator<TImage>      OutputIterator;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);

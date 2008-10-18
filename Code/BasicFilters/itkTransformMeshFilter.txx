@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTransformMeshFilter_txx
-#define _itkTransformMeshFilter_txx
+#ifndef __itkTransformMeshFilter_txx
+#define __itkTransformMeshFilter_txx
 
 #include "itkTransformMeshFilter.h"
 #include "itkExceptionObject.h"

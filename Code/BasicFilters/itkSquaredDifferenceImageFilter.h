@@ -54,21 +54,21 @@ public:
   SquaredDifference2() {};
   ~SquaredDifference2() {};
   bool operator!=( const SquaredDifference2 & ) const
-  {
+    {
     return false;
-  }
+    }
   bool operator==( const SquaredDifference2 & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
   inline TOutput operator()( const TInput1 & A, 
                              const TInput2 & B)
-  {
+    {
     const double dA = static_cast<double>( A );
     const double dB = static_cast<double>( B );
     const double diff = dA - dB;
     return static_cast<TOutput>( diff * diff );
-  }
+    }
 }; 
 }
 
@@ -84,14 +84,15 @@ BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef SquaredDifferenceImageFilter  Self;
-  typedef BinaryFunctorImageFilter<TInputImage1,TInputImage2,TOutputImage, 
-                                   Functor::SquaredDifference2< 
-    typename TInputImage1::PixelType, 
-    typename TInputImage2::PixelType,
-    typename TOutputImage::PixelType>   
-  >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BinaryFunctorImageFilter<
+    TInputImage1,TInputImage2,TOutputImage, 
+    Functor::SquaredDifference2< 
+      typename TInputImage1::PixelType, 
+      typename TInputImage2::PixelType,
+      typename TOutputImage::PixelType>   
+    >                                   Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

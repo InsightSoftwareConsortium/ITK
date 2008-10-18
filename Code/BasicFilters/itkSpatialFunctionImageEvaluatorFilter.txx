@@ -62,7 +62,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   typename TSpatialFunction::InputType evalPoint;
 
   // Walk the output image, evaluating the spatial function at each pixel
-  for ( ; !outIt.IsAtEnd(); ++outIt)
+  for (; !outIt.IsAtEnd(); ++outIt)
     {
     typename TOutputImage::IndexType index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint );

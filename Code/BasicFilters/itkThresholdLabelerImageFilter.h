@@ -49,7 +49,7 @@ public:
   ~ThresholdLabeler() {};
 
   typedef typename NumericTraits< TInput >::RealType RealThresholdType;
-  typedef std::vector<RealThresholdType> RealThresholdVector;
+  typedef std::vector<RealThresholdType>             RealThresholdVector;
 
   /** Set the vector of thresholds. */
   void SetThresholds( const RealThresholdVector & thresholds )
@@ -60,18 +60,18 @@ public:
     { m_LabelOffset = labelOffset; }
 
   bool operator!=( const ThresholdLabeler & other ) const
-  {
+    {
     if( m_Thresholds != other.m_Thresholds ||
         m_LabelOffset != other.m_LabelOffset )
-        {
-        return true;
-        }
+      {
+      return true;
+      }
     return false;
-   }
+    }
   bool operator==( const ThresholdLabeler & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 
   inline TOutput operator()( const TInput & A )
     {
@@ -98,7 +98,7 @@ public:
 private:
 
   RealThresholdVector m_Thresholds;
-  TOutput m_LabelOffset;
+  TOutput             m_LabelOffset;
 };
 }
 
@@ -113,13 +113,14 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,
 public:
   /** Standard class typedefs. */
   typedef ThresholdLabelerImageFilter  Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::ThresholdLabeler< 
-                                  typename TInputImage::PixelType,
-                                  typename TOutputImage::PixelType>   
-                                                        >  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef UnaryFunctorImageFilter<
+    TInputImage,TOutputImage, 
+    Functor::ThresholdLabeler< 
+      typename TInputImage::PixelType,
+      typename TOutputImage::PixelType>   
+    >                                  Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -128,14 +129,13 @@ public:
   itkTypeMacro(ThresholdLabelerImageFilter, UnaryFunctorImageFilter);
 
   /** Pixel types. */
-  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef typename TInputImage::PixelType   InputPixelType;
   typedef typename TOutputImage::PixelType  OutputPixelType;
 
   /** Threshold vector types. */
-  typedef std::vector<InputPixelType> ThresholdVector;
-  typedef typename NumericTraits< InputPixelType >::RealType 
-                                                    RealThresholdType;
-  typedef std::vector<RealThresholdType> RealThresholdVector;
+  typedef std::vector<InputPixelType>                        ThresholdVector;
+  typedef typename NumericTraits< InputPixelType >::RealType RealThresholdType;
+  typedef std::vector<RealThresholdType>                     RealThresholdVector;
 
 
   /** The input and output pixel types must support comparison operators. */
@@ -152,7 +152,7 @@ public:
 
   /** Set the vector of thresholds. */
   void SetThresholds( const ThresholdVector & thresholds )
-  { 
+    { 
     m_Thresholds = thresholds;
     m_RealThresholds.clear();
     typename ThresholdVector::const_iterator itr = m_Thresholds.begin();
@@ -162,7 +162,7 @@ public:
       ++itr;
       }
     this->Modified();
-  }
+    }
 
   /** Get the vector of thresholds. */
   const ThresholdVector & GetThresholds() const
@@ -170,7 +170,7 @@ public:
 
   /** Set the vector of real type thresholds. */
   void SetRealThresholds( const RealThresholdVector & thresholds )
-  { 
+    { 
     m_RealThresholds = thresholds;
     m_Thresholds.clear();
     typename RealThresholdVector::const_iterator itr = m_RealThresholds.begin();
@@ -180,13 +180,11 @@ public:
       ++itr;
       }
     this->Modified();
-  }
+    }
 
   /** Get the vector of real thresholds. */
   const RealThresholdVector & GetRealThresholds() const
     { return m_RealThresholds; }
-
-
 
   /** Set the offset which labels have to start from. */
   itkSetClampMacro(LabelOffset,OutputPixelType, NumericTraits<OutputPixelType>::Zero,NumericTraits<OutputPixelType>::max() );

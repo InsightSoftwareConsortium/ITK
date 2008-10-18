@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  ModUle:    itkSparseFieldLayer.txx
+  Module:    itkSparseFieldLayer.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -71,17 +71,17 @@ SparseFieldLayer<TNodeType>
   
   for (int i=0;i<num;i++) 
     {
-      unsigned int j=0;
-      RegionType region;
-      region.first=position;
-      while ((j<regionsize)&&(position!=last)) 
-        {
-          j++;
-          ++position;
-        }
-      region.last=position;
-      regionlist.push_back(region);
-   }
+    unsigned int j=0;
+    RegionType region;
+    region.first=position;
+    while ((j<regionsize)&&(position!=last)) 
+      {
+      j++;
+      ++position;
+      }
+    region.last=position;
+    regionlist.push_back(region);
+    }
   
   return regionlist;
 }

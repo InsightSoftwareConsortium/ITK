@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkStatisticsImageFilter_txx
-#define _itkStatisticsImageFilter_txx
+#ifndef __itkStatisticsImageFilter_txx
+#define __itkStatisticsImageFilter_txx
 #include "itkStatisticsImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -65,7 +65,7 @@ StatisticsImageFilter<TInputImage>
 {
   switch (output)
     {
-   case 0:
+    case 0:
       return static_cast<DataObject*>(TInputImage::New().GetPointer());
       break;
     case 1:

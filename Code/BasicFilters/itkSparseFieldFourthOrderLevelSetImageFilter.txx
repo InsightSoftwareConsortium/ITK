@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_txx_
-#define __itkSparseFieldFourthOrderLevelSetImageFilter_txx_
+#ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_txx
+#define __itkSparseFieldFourthOrderLevelSetImageFilter_txx
 
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
@@ -124,7 +124,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
         position -= stride[k];
         }
       }
-    if (it.GetPixel (position)==0)
+    if (it.GetPixel (position) == 0)
       {
       flag = true;
       }
@@ -158,9 +158,9 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
   typedef ImageRegionConstIterator <OutputImageType> DistanceImageIteratorType;
   
-  DistanceImageIteratorType
-    distanceImageIterator (distanceImage,
-                           distanceImage->GetRequestedRegion());
+  DistanceImageIteratorType distanceImageIterator (
+    distanceImage,
+    distanceImage->GetRequestedRegion());
   unsigned int j;
   typename SparseImageIteratorType::RadiusType radius;
   for( j = 0; j < ImageDimension; j++ )

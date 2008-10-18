@@ -46,10 +46,10 @@ class ITK_EXPORT TileImageFilter :
 {
 public:
   /** Standard Self typedef */
-  typedef TileImageFilter Self;
+  typedef TileImageFilter                               Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -58,33 +58,35 @@ public:
   itkTypeMacro(TileImageFilter, ImageToImageFilter);
   
   /** Image pixel value typedef. */
-  typedef typename TInputImage::PixelType   InputPixelType;
+  typedef typename TInputImage::PixelType    InputPixelType;
   typedef typename TOutputImage::PixelType   OutputPixelType;
   
   /** Image related typedefs. */
-  typedef typename TInputImage::Pointer InputImagePointer;
+  typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
-  typedef typename TInputImage::SizeType  InputSizeType;
-  typedef typename TInputImage::IndexType  InputIndexType;
-  typedef typename TInputImage::RegionType InputImageRegionType;
-  typedef typename TOutputImage::SizeType  OutputSizeType;
+  typedef typename TInputImage::SizeType    InputSizeType;
+  typedef typename TInputImage::IndexType   InputIndexType;
+  typedef typename TInputImage::RegionType  InputImageRegionType;
+  typedef typename TOutputImage::SizeType   OutputSizeType;
   typedef typename TOutputImage::IndexType  OutputIndexType;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
 
   /** Image related typedefs. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension ) ;
+                      TInputImage::ImageDimension );
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension ) ;
-  // Define a tile structure 
-  class TileInfo {
-  public:
-    int m_ImageNumber;
-    OutputImageRegionType m_Region;
-    TileInfo() : m_ImageNumber(-1) {}
-  };
+                      TOutputImage::ImageDimension );
+  /** \class TileInfo
+   * Define a tile structure  */
+  class TileInfo
+    {
+    public:
+      int m_ImageNumber;
+      OutputImageRegionType m_Region;
+      TileInfo() : m_ImageNumber(-1) {}
+    };
 
   typedef Image<TileInfo,itkGetStaticConstMacro(OutputImageDimension)> TileImageType;
 
@@ -132,10 +134,10 @@ private:
 
 
   typename TileImageType::Pointer m_TileImage;
-  OutputPixelType m_DefaultPixelValue;
-  LayoutArrayType m_Layout;
+  OutputPixelType                 m_DefaultPixelValue;
+  LayoutArrayType                 m_Layout;
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   
