@@ -378,7 +378,7 @@ public:
         {
         sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
         }
-      index[i] = sum;
+      index[i] = static_cast< IndexValueType>( sum );
       }
 
     // Now, check to see if the index is within allowed bounds
