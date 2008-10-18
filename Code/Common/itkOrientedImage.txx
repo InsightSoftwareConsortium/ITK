@@ -31,8 +31,6 @@ template<class TPixel, unsigned int VImageDimension>
 OrientedImage<TPixel, VImageDimension>
 ::OrientedImage()
 {
-  m_IndexToPhysicalPoint.SetIdentity();
-  m_PhysicalPointToIndex.SetIdentity();
 }
 } // end namespace itk
 

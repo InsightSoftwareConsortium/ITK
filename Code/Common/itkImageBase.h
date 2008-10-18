@@ -31,10 +31,17 @@
 #include "itkFixedArray.h"
 #include "itkPoint.h"
 #include "itkMatrix.h"
+#include "itkContinuousIndex.h"
 #include "itkImageHelper.h"
 #include <vnl/vnl_matrix_fixed.txx>
 
 #include "itkImageRegion.h"
+
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+#include "itkImageTransformHelper.h"
+#endif
+#endif
 
 namespace itk
 {
@@ -119,7 +126,7 @@ public:
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. ITK only
    * supports positive spacing value: negative values may cause
-   * undesirable results.*/
+   * undesirable results.  */
   typedef Vector<double, VImageDimension>         SpacingType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
@@ -178,14 +185,6 @@ public:
    * are vectors that point from one pixel to the next.
    * For ImageBase and Image, the default direction is identity. */
   itkGetConstReferenceMacro(Direction, DirectionType);
-
-  /** Set the spacing (size of a pixel) of the image. The
-   * spacing is the geometric distance between image samples.
-   * It is stored internally as double, but may be set from
-   * float. \sa GetSpacing() */
-  itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing( const double spacing[VImageDimension] );
-  virtual void SetSpacing( const float spacing[VImageDimension] );
 
   /** Get the spacing (size of a pixel) `of the image. The
    * spacing is the geometric distance between image samples.
@@ -272,7 +271,7 @@ public:
    * prior to calling ComputeOffset. */
 
 
-#if 1
+#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline OffsetValueType ComputeOffset(const IndexType &ind) const
     {
     OffsetValueType offset = 0;
@@ -307,7 +306,7 @@ public:
    * should be between 0 and the number of pixels in the
    * BufferedRegion (the latter can be found using
    * ImageRegion::GetNumberOfPixels()). */
-#if 1
+#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline IndexType ComputeIndex(OffsetValueType offset) const
     {
     IndexType index;
@@ -335,6 +334,264 @@ public:
     return index;
     }
 #endif
+
+  /** Set the spacing (size of a pixel) of the image. The
+   * spacing is the geometric distance between image samples.
+   * It is stored internally as double, but may be set from
+   * float. These methods also pre-compute the Index to Physical
+   * point transforms of the image.
+   * \sa GetSpacing() */
+  virtual void SetSpacing (const SpacingType & spacing);
+  virtual void SetSpacing (const double spacing[VImageDimension]);
+  virtual void SetSpacing (const float spacing[VImageDimension]);
+
+
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+  /** Get the index (discrete) from a physical point.
+   * Floating point index results are truncated to integers.
+   * Returns true if the resulting index is within the image, false otherwise
+   * \sa Transform */
+#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+    const Point<TCoordRep, VImageDimension>& point,
+    IndexType & index ) const
+    {
+      ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformPhysicalPointToIndex(
+        this->m_PhysicalPointToIndex, this->m_Origin, point, index);
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
+    return isInside;
+    }
+#else
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+            const Point<TCoordRep, VImageDimension>& point,
+            IndexType & index                                ) const
+    {
+    typedef typename IndexType::IndexValueType IndexValueType;
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
+        }
+      index[i] = sum;
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+#endif
+
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToContinuousIndex(
+              const Point<TCoordRep, VImageDimension>& point,
+              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
+    {
+    Vector<double, VImageDimension> cvector;
+
+    for( unsigned int k = 0; k < VImageDimension; k++ )
+      {
+      cvector[k] = point[k] - this->m_Origin[k];
+      }
+    cvector = m_PhysicalPointToIndex * cvector;
+    for( unsigned int i = 0; i < VImageDimension; i++ )
+      {
+      index[i] = static_cast<TCoordRep>(cvector[i]);
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a continuous index (in the index space)
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformContinuousIndexToPhysicalPoint(
+            const ContinuousIndex<TCoordRep, VImageDimension>& index,
+            Point<TCoordRep, VImageDimension>& point        ) const
+    {
+    for( unsigned int r=0; r<VImageDimension; r++)
+      {
+      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
+      for( unsigned int c=0; c<VImageDimension; c++ )
+        {
+        sum += this->m_IndexToPhysicalPoint(r,c) * index[c];
+        }
+      point[r] = sum + this->m_Origin[r];
+      }
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
+    {
+      ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformIndexToPhysicalPoint(
+        this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
+    }
+#else
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
+    {
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      point[i] = this->m_Origin[i];
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
+        }
+      }
+    }
+#endif
+
+
+#else
+
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToContinuousIndex(
+              const Point<TCoordRep, VImageDimension>& point,
+              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
+    {
+    // Update the output index
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      index[i] = static_cast<TCoordRep>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+
+  /** Get the index (discrete) from a physical point.
+   * Floating point index results are truncated to integers.
+   * Returns true if the resulting index is within the image, false otherwise
+   * \sa Transform */
+  template<class TCoordRep>
+  bool TransformPhysicalPointToIndex(
+            const Point<TCoordRep, VImageDimension>& point,
+            IndexType & index                                ) const
+    {
+    // Update the output index
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      index[i] = static_cast<IndexValueType>( (point[i]- this->m_Origin[i]) / this->m_Spacing[i] );
+      }
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside =
+      this->GetLargestPossibleRegion().IsInside( index );
+
+    return isInside;
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a continuous index (in the index space)
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformContinuousIndexToPhysicalPoint(
+            const ContinuousIndex<TCoordRep, VImageDimension>& index,
+            Point<TCoordRep, VImageDimension>& point        ) const
+    {
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      point[i] = static_cast<TCoordRep>( this->m_Spacing[i] * index[i] + this->m_Origin[i] );
+      }
+    }
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+  template<class TCoordRep>
+  void TransformIndexToPhysicalPoint(
+                      const IndexType & index,
+                      Point<TCoordRep, VImageDimension>& point ) const
+    {
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      point[i] = static_cast<TCoordRep>( this->m_Spacing[i] *
+        static_cast<double>( index[i] ) + this->m_Origin[i] );
+      }
+    }
+#endif
+
+
+  /** Get a physical point (in the space which
+   * the origin and spacing infomation comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+
+  /** Take a vector or covariant vector that has been computed in the
+   * coordinate system parallel to the image grid and rotate it by the
+   * direction cosines in order to get it in terms of the coordinate system of
+   * the image acquisition device.  This implementation in the OrientedImage
+   * multiply the array (vector or covariant vector) by the matrix of Direction
+   * Cosines. The arguments of the method are of type FixedArray to make
+   * possible to use this method with both Vector and CovariantVector.
+   * The Method is implemented differently in the itk::Image.
+   *
+   * \sa Image
+   */ 
+  template<class TCoordRep>
+  void TransformLocalVectorToPhysicalVector(
+    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
+          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
+    {
+    //
+    // This temporary implementation should be replaced with Template MetaProgramming.
+    // 
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+    const DirectionType & direction = this->GetDirection();
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      typedef typename NumericTraits<TCoordRep>::AccumulateType CoordSumType;
+      CoordSumType sum = NumericTraits<CoordSumType>::Zero;
+      for (unsigned int j = 0; j < VImageDimension; j++)
+        {
+        sum += direction[i][j] * inputGradient[j];
+        }
+      outputGradient[i] = static_cast<TCoordRep>( sum );
+      }
+#else
+    for (unsigned int i = 0; i < VImageDimension; i++)
+      {
+      outputGradient[i] = inputGradient[i];
+      }
+#endif
+    }
 
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
@@ -424,6 +681,13 @@ protected:
    * the BufferedRegion is set. */
   void ComputeOffsetTable();
 
+  /** Compute helper matrices used to transform Index coordinates to
+   * PhysicalPoint coordinates and back. This method is virtual and will be
+   * overloaded in derived classes in order to provide backward compatibility
+   * behavior in classes that did not used to take image orientation into
+   * account.  */ 
+  virtual void ComputeIndexToPhysicalPointMatrices();
+
 protected:
   /** Origin and spacing of physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
@@ -431,6 +695,11 @@ protected:
   SpacingType         m_Spacing;
   PointType           m_Origin;
   DirectionType       m_Direction;
+
+  /** Matrices intended to help with the conversion of Index coordinates
+   *  to PhysicalPoint coordinates */
+  DirectionType       m_IndexToPhysicalPoint;
+  DirectionType       m_PhysicalPointToIndex;
 
 private:
   ImageBase(const Self&); //purposely not implemented
@@ -441,6 +710,7 @@ private:
   RegionType          m_LargestPossibleRegion;
   RegionType          m_RequestedRegion;
   RegionType          m_BufferedRegion;
+
 };
 
 } // end namespace itk

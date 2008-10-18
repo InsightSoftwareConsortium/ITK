@@ -40,6 +40,8 @@ ImageBase<VImageDimension>
   m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
   m_Direction.SetIdentity();
+  m_IndexToPhysicalPoint.SetIdentity();
+  m_PhysicalPointToIndex.SetIdentity();
 }
 
 
@@ -74,6 +76,22 @@ template<unsigned int VImageDimension>
 ImageBase<VImageDimension>
 ::~ImageBase()
 {
+}
+
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void
+ImageBase<VImageDimension>
+::SetSpacing(const SpacingType & spacing )
+{
+  itkDebugMacro("setting Spacing to " << spacing);
+  if( this->m_Spacing != spacing )
+    {
+    this->m_Spacing = spacing;
+    this->ComputeIndexToPhysicalPointMatrices();
+    this->Modified();
+    }
 }
 
 
@@ -141,10 +159,39 @@ ImageBase<VImageDimension>
         }
       }
     }
+
   if (modified)
     {
-    this->Modified();
+    this->ComputeIndexToPhysicalPointMatrices();
     }
+}
+
+//----------------------------------------------------------------------------
+template<unsigned int VImageDimension>
+void
+ImageBase<VImageDimension>
+::ComputeIndexToPhysicalPointMatrices()
+{
+  DirectionType scale;
+
+  for (unsigned int i=0; i < VImageDimension; i++)
+    {
+    if (this->m_Spacing[i] == 0.0)
+      {
+      itkExceptionMacro("A spacing of 0 is not allowed: Spacing is " << this->m_Spacing);
+      }
+    scale[i][i] = this->m_Spacing[i];
+    }
+
+  if (vnl_determinant(this->m_Direction.GetVnlMatrix()) == 0.0)
+    {
+    itkExceptionMacro(<< "Bad direction, determinant is 0. Direction is " << this->m_Direction);
+    }
+
+  this->m_IndexToPhysicalPoint = this->m_Direction * scale;
+  this->m_PhysicalPointToIndex = m_IndexToPhysicalPoint.GetInverse();
+
+  this->Modified();
 }
 
 //----------------------------------------------------------------------------
