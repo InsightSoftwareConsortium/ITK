@@ -271,7 +271,7 @@ public:
    * prior to calling ComputeOffset. */
 
 
-#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline OffsetValueType ComputeOffset(const IndexType &ind) const
     {
     OffsetValueType offset = 0;
@@ -306,7 +306,7 @@ public:
    * should be between 0 and the number of pixels in the
    * BufferedRegion (the latter can be found using
    * ImageRegion::GetNumberOfPixels()). */
-#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline IndexType ComputeIndex(OffsetValueType offset) const
     {
     IndexType index;
@@ -351,7 +351,7 @@ public:
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   template<class TCoordRep>
   bool TransformPhysicalPointToIndex(
     const Point<TCoordRep, VImageDimension>& point,
@@ -441,7 +441,7 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-#if ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
+#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   template<class TCoordRep>
   void TransformIndexToPhysicalPoint(
                       const IndexType & index,
