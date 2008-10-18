@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -48,9 +48,9 @@ namespace itk
  * This is the typical use of this iterator in a loop:
  *
  * \code
- *  
+ *
  * ImageLinearConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- * 
+ *
  * it.SetDirection(2);
  * it.GoToBegin();
  * while( !it.IsAtEnd() )
@@ -61,7 +61,7 @@ namespace itk
  *      ++it;
  *   }
  *   it.NextLine();
- *  } 
+ *  }
  *
  *  \endcode
  *
@@ -76,25 +76,25 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
  */
@@ -103,9 +103,9 @@ class ITK_EXPORT ImageLinearConstIteratorWithIndex : public ImageConstIteratorWi
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageLinearConstIteratorWithIndex Self;
-  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
-  
+  typedef ImageLinearConstIteratorWithIndex       Self;
+  typedef ImageConstIteratorWithIndex<TImage>     Superclass;
+
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
@@ -117,7 +117,7 @@ public:
    * Note that we have to rescope Region back to itk::ImageRegion so that is
    * it not confused with ImageIterator::Index. */
   typedef typename TImage::RegionType RegionType;
-  
+
   /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
@@ -127,12 +127,12 @@ public:
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
-  
+  typedef typename TImage::PixelContainer     PixelContainer;
+  typedef typename PixelContainer::Pointer    PixelContainerPointer;
+
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearConstIteratorWithIndex() : ImageConstIteratorWithIndex<TImage>() {}
-  
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageLinearConstIteratorWithIndex(const ImageType *ptr, const RegionType& region);
@@ -168,132 +168,131 @@ public:
 
   /** Test if the index is at the end of line */
   inline bool IsAtEndOfLine(void)
-  {
+    {
     return this->m_PositionIndex[m_Direction] >= this->m_EndIndex[m_Direction];
-  }
+    }
 
   /** Test if the index is at the begin of line */
   inline bool IsAtReverseEndOfLine(void)
-  {
+    {
     return this->m_PositionIndex[m_Direction] < this->m_BeginIndex[m_Direction];
-  }
+    }
 
   /** Set the direction of movement */
   inline void SetDirection(unsigned int direction)
-  {
+    {
     if( direction >= TImage::ImageDimension )
       {
       itkGenericExceptionMacro(<<"In image of dimension " << TImage::ImageDimension <<" Direction " << direction << " sas selected");
       }
     m_Direction = direction;
     m_Jump = this->m_OffsetTable[ m_Direction ];
-  }
+    }
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
   inline Self & operator++()
-  {
+    {
     this->m_PositionIndex[m_Direction]++;
     this->m_Position += m_Jump;
     return *this;
-  }
+    }
 
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed.  \sa GetIndex \sa operator++ */
   inline Self & operator--()
-  {
+    {
     this->m_PositionIndex[m_Direction]--;
     this->m_Position -= m_Jump;
     return *this;
-  }
+    }
 
 private:
     unsigned long  m_Jump;
     unsigned int   m_Direction;
 };
 
-  //----------------------------------------------------------------------
-  //  Go to next line
-  //----------------------------------------------------------------------
-  template<class TImage>
-  inline
-  void 
-  ImageLinearConstIteratorWithIndex<TImage>
-  ::NextLine(void)
-  {
+//----------------------------------------------------------------------
+//  Go to next line
+//----------------------------------------------------------------------
+template<class TImage>
+inline
+void
+ImageLinearConstIteratorWithIndex<TImage>
+::NextLine(void)
+{
 
-    this->m_Position -=   this->m_OffsetTable[ m_Direction ] * 
-      ( this->m_PositionIndex[ m_Direction ] - this->m_BeginIndex[ m_Direction ] ); 
-  
-    this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];     
+  this->m_Position -= this->m_OffsetTable[ m_Direction ] *
+    ( this->m_PositionIndex[ m_Direction ] - this->m_BeginIndex[ m_Direction ] );
 
-    for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+  this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];
+
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+    {
+
+    this->m_Remaining = false;
+
+    if( n == m_Direction )
       {
-
-      this->m_Remaining = false;
-    
-      if( n == m_Direction ) 
-        {
-        continue;
-        }
-    
-      this->m_PositionIndex[ n  ]++;
-      if( this->m_PositionIndex[n] <  this->m_EndIndex[n] )
-        {
-        this->m_Position += this->m_OffsetTable[ n ];
-        this->m_Remaining = true;
-        break;
-        }
-      else 
-        {
-        this->m_Position -= this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
-        this->m_PositionIndex[ n ] = this->m_BeginIndex[ n ]; 
-        }
+      continue;
       }
-  }
 
-
-
-  //----------------------------------------------------------------------
-  //  Pass to the last pixel on the previous line
-  //----------------------------------------------------------------------
-  template<class TImage>
-  inline
-  void 
-  ImageLinearConstIteratorWithIndex<TImage>
-  ::PreviousLine(void)
-  {
-
-    this->m_Position +=   this->m_OffsetTable[ m_Direction ] * 
-      ( this->m_EndIndex[ m_Direction ] - 1 - this->m_PositionIndex[ m_Direction ] ); 
-  
-    this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction]-1;   
-
-
-    for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+    this->m_PositionIndex[ n  ]++;
+    if( this->m_PositionIndex[n] <  this->m_EndIndex[n] )
       {
-
-      this->m_Remaining = false;
-    
-      if( n == m_Direction ) 
-        {
-        continue;
-        }
-    
-      this->m_PositionIndex[ n  ]--;
-      if( this->m_PositionIndex[ n ] >=  this->m_BeginIndex[ n ] )
-        {
-        this->m_Position -= this->m_OffsetTable[ n ];
-        this->m_Remaining = true;
-        break;
-        }
-      else 
-        {
-        this->m_Position += this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
-        this->m_PositionIndex[ n ] = this->m_EndIndex[ n ] - 1; 
-        }
+      this->m_Position += this->m_OffsetTable[ n ];
+      this->m_Remaining = true;
+      break;
       }
-  }
+    else
+      {
+      this->m_Position -= this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
+      this->m_PositionIndex[ n ] = this->m_BeginIndex[ n ];
+      }
+    }
+}
+
+
+//----------------------------------------------------------------------
+//  Pass to the last pixel on the previous line
+//----------------------------------------------------------------------
+template<class TImage>
+inline
+void
+ImageLinearConstIteratorWithIndex<TImage>
+::PreviousLine(void)
+{
+
+  this->m_Position += this->m_OffsetTable[ m_Direction ] *
+    ( this->m_EndIndex[ m_Direction ] - 1 - this->m_PositionIndex[ m_Direction ] );
+
+  this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction]-1;
+
+
+  for( unsigned int n=0; n<TImage::ImageDimension; n++ )
+    {
+
+    this->m_Remaining = false;
+
+    if( n == m_Direction )
+      {
+      continue;
+      }
+
+    this->m_PositionIndex[ n  ]--;
+    if( this->m_PositionIndex[ n ] >=  this->m_BeginIndex[ n ] )
+      {
+      this->m_Position -= this->m_OffsetTable[ n ];
+      this->m_Remaining = true;
+      break;
+      }
+    else
+      {
+      this->m_Position += this->m_OffsetTable[ n ] * ( this->m_Region.GetSize()[n]-1 );
+      this->m_PositionIndex[ n ] = this->m_EndIndex[ n ] - 1;
+      }
+    }
+}
 } // end namespace itk
 
 // Define instantiation macro for this template.
@@ -311,4 +310,4 @@ private:
 # include "itkImageLinearConstIteratorWithIndex.txx"
 #endif
 
-#endif 
+#endif

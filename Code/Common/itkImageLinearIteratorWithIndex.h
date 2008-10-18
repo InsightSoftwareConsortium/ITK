@@ -67,8 +67,8 @@ class ITK_EXPORT ImageLinearIteratorWithIndex : public ImageLinearConstIteratorW
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageLinearIteratorWithIndex Self;
-  typedef ImageLinearConstIteratorWithIndex<TImage>  Superclass;
+  typedef ImageLinearIteratorWithIndex                Self;
+  typedef ImageLinearConstIteratorWithIndex<TImage>   Superclass;
   
    /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType              IndexType;
@@ -138,6 +138,3 @@ protected:
 #endif
 
 #endif 
-
-
-

@@ -14,14 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageLinearIteratorWithIndex_txx
-#define _itkImageLinearIteratorWithIndex_txx
+#ifndef __itkImageLinearIteratorWithIndex_txx
+#define __itkImageLinearIteratorWithIndex_txx
 
 #include "itkImageLinearIteratorWithIndex.h"
 
 namespace itk
 {
-
 
 
 template< typename TImage >
@@ -32,7 +31,6 @@ ImageLinearIteratorWithIndex<TImage>
 
 
 }
-
 
 
 template< typename TImage >
@@ -70,7 +68,6 @@ ImageLinearIteratorWithIndex<TImage>
   this->ImageLinearConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
-
 
 
 } // end namespace itk

@@ -14,14 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageIterator_txx
-#define _itkImageIterator_txx
+#ifndef __itkImageIterator_txx
+#define __itkImageIterator_txx
 
 #include "itkImageIterator.h"
 
 namespace itk
 {
-
 
 
 //----------------------------------------------------------------------
@@ -34,7 +33,6 @@ ImageIterator<TImage>
 }
 
 
-
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
@@ -44,7 +42,6 @@ ImageIterator<TImage>
   ImageConstIterator<TImage>(it)
 {
 }
-
 
 
 //----------------------------------------------------------------------
@@ -125,11 +122,6 @@ ImageIterator<TImage>
 }
 
 
-
-
 } // end namespace itk
-
-
-
 
 #endif

@@ -147,7 +147,7 @@ public:
     // const_cast is needed here because m_Image is declared as a const pointer
     // in the base class which is the ConstIterator.
     return const_cast<ImageType *>( this->m_Image.GetPointer() );
-    };
+    }
 
 
 protected:

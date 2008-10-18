@@ -14,15 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageLinearConstIteratorWithIndex_txx
-#define _itkImageLinearConstIteratorWithIndex_txx
+#ifndef __itkImageLinearConstIteratorWithIndex_txx
+#define __itkImageLinearConstIteratorWithIndex_txx
 
 #include "itkImageLinearConstIteratorWithIndex.h"
 
 
 namespace itk
 {
-
 
 
 //----------------------------------------------------------------------
@@ -54,7 +53,6 @@ ImageLinearConstIteratorWithIndex<TImage>
 }
 
 
-
 //----------------------------------------------------------------------
 //  Go to the first pixel of the current line
 //----------------------------------------------------------------------
@@ -72,8 +70,6 @@ ImageLinearConstIteratorWithIndex<TImage>
   this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];   
   
 }
-
-
 
 
 //----------------------------------------------------------------------
