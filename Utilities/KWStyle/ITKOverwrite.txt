@@ -19,6 +19,8 @@ itkWeakPointer.h Template Disable
 itkBSplineInterpolationWeightFunction.txx Namespace Disable
 itkCannyEdgeDetectionImageFilter.h InternalVariables Disable
 itkParallelSparseFieldLevelSetImageFilter.h InternalVariables Disable
+itkSparseFieldFourthOrderLevelSetImageFilter.h InternalVariables Disable
+itkSparseFieldLevelSetImageFilter.h InternalVariables Disable
 itkWindowedSincInterpolateImageFunction.h DeclarationOrder Disable
 itkCommand.h Typedefs Disable
 itkQuadEdgeMeshMacro.h Indent Disable
