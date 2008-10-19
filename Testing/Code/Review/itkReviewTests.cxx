@@ -98,6 +98,13 @@ void RegisterTests()
 
   REGISTER_TEST( itkTransformToDeformationFieldSourceTest );
 
+  REGISTER_TEST( itkDiscreteGaussianDerivativeImageFunctionTest2D );
+  REGISTER_TEST( itkDiscreteGaussianDerivativeImageFunctionTest3D );
+  REGISTER_TEST( itkDiscreteGradientMagnitudeGaussianImageFunctionTest2D );
+  REGISTER_TEST( itkDiscreteGradientMagnitudeGaussianImageFunctionTest3D );
+  REGISTER_TEST( itkDiscreteHessianGaussianImageFunctionTest2D );
+  REGISTER_TEST( itkDiscreteHessianGaussianImageFunctionTest3D );
+
 #ifdef ITK_USE_MINC2
   REGISTER_TEST(itkMINC2ImageIOTest);
 #endif
