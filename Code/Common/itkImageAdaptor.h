@@ -233,7 +233,7 @@ public:
   const InternalPixelType *GetBufferPointer() const;
   
   /** Set the spacing (size of a pixel) of the image. */
-  virtual void SetSpacing( const SpacingType values );
+  virtual void SetSpacing( const SpacingType &values );
   virtual void SetSpacing( const double* values /*[ImageDimension]*/ );
   virtual void SetSpacing( const float* values /*[ImageDimension]*/ );
   

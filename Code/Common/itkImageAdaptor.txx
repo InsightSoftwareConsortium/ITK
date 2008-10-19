@@ -229,7 +229,7 @@ ImageAdaptor<TImage , TAccessor>
 template <class TImage, class TAccessor >
 void 
 ImageAdaptor<TImage , TAccessor>
-::SetSpacing(const SpacingType spacing )
+::SetSpacing(const SpacingType &spacing )
 {
   // delegation to internal image
   m_Image->SetSpacing( spacing );

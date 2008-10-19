@@ -274,7 +274,7 @@ public:
    * to the output of a normal filter which is being used to output a
    * special-coordinates image.  Filters designed to produce a particular kind
    * of special-coordinates image should do this automatically. */
-  virtual void SetSpacing( const SpacingType ) {}
+  virtual void SetSpacing( const SpacingType &) {}
   virtual void SetSpacing( const double [VImageDimension] ) {}
   virtual void SetSpacing( const float [VImageDimension] ) {}
   virtual void SetOrigin( const PointType ) {}
