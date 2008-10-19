@@ -3,4 +3,5 @@
 
 nifti_tool -disp_hdr -infiles anat0
 nifti_tool -disp_nim -infiles anat0
+nifti_tool -disp_ana -infiles anat0
 nifti_tool -disp_ext -infiles anat0

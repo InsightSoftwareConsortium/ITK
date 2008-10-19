@@ -31,11 +31,13 @@
  *   nifti_tool -help
  *   nifti_tool -help_hdr
  *   nifti_tool -help_nim
+ *   nifti_tool -help_ana
  *   nifti_tool -help_datatypes
  *   nifti_tool -hist
  *   nifti_tool -ver
  *   nifti_tool -nifti_hist
  *   nifti_tool -nifti_ver
+ *   nifti_tool -with_zlib
  *
  *   nifti_tool -check_hdr -infiles f1 ...
  *   nifti_tool -check_nim -infiles f1 ...
@@ -43,6 +45,7 @@
  *   nifti_tool -disp_exts -infiles f1 ...
  *   nifti_tool -disp_hdr [-field fieldname] [...] -infiles f1 ...
  *   nifti_tool -disp_nim [-field fieldname] [...] -infiles f1 ...
+ *   nifti_tool -disp_ana [-field fieldname] [...] -infiles f1 ...
  *   nifti_tool -disp_ts I J K [-dci_lines] -infiles f1 ...
  *   nifti_tool -disp_ci I J K T U V W [-dci_lines] -infiles f1 ...
  *
@@ -143,9 +146,16 @@ static char * g_history[] =
   "1.17 13 Jun 2007 [rickr] - added help for -copy_im, enumerate examples\n",
   "1.18 23 Jun 2007 [rickr] - main returns 0 on -help, -hist, -ver\n"
   "1.19 28 Nov 2007 [rickr] - added -help_datatypes\n",
+  "1.20 13 Jun 2008 [rickr]\n"
+  "   - added -with_zlib\n"
+  "   - added ability to create extension from text file (for J. Gunter)\n",
+  "1.21 03 Aug 2008 [rickr] - ANALYZE 7.5 support\n"
+  "   - added -help_ana, -disp_ana,\n"
+  "    -swap_as_analyze, -swap_as_nifti, -swap_as_old\n"
+  "1.22 08 Oct 2008 [rickr] - allow cbl with indices in 0..nt*nu*nv*nw-1\n"
   "----------------------------------------------------------------------\n"
 };
-static char g_version[] = "version 1.19 (Nov 28, 2007)";
+static char g_version[] = "version 1.22 (Oct 8, 2008)";
 static int  g_debug = 1;
 
 #define _NIFTI_TOOL_C_
@@ -153,7 +163,9 @@ static int  g_debug = 1;
 #include "nifti_tool.h"
 
 /* local prototypes */
-static int free_opts_mem( nt_opts * nopt );
+static int free_opts_mem(nt_opts * nopt);
+static int num_volumes(nifti_image * nim);
+static char * read_file_text(char * filename, int * length);
 
 #define NTL_FERR(func,msg,file)                                      \
             fprintf(stderr,"** ERROR (%s): %s '%s'\n",func,msg,file)
@@ -164,6 +176,7 @@ static int free_opts_mem( nt_opts * nopt );
 
 /* these are effectively constant, and are built only for verification */
 field_s g_hdr_fields[NT_HDR_NUM_FIELDS];    /* nifti_1_header fields */
+field_s g_ana_fields[NT_ANA_NUM_FIELDS];    /* nifti_analyze75       */
 field_s g_nim_fields[NT_NIM_NUM_FIELDS];    /* nifti_image fields    */
 
 int main( int argc, char * argv[] )
@@ -188,6 +201,9 @@ int main( int argc, char * argv[] )
    if( (rv = fill_nim_field_array(g_nim_fields)) != 0 )
       FREE_RETURN(rv);
 
+   if( (rv = fill_ana_field_array(g_ana_fields)) != 0 )
+      FREE_RETURN(rv);
+
    /* 'check' functions, first */
    if( opts.check_hdr || opts.check_nim ) /* allow for both */
       FREE_RETURN( act_check_hdrs(&opts) );
@@ -206,6 +222,9 @@ int main( int argc, char * argv[] )
    if( opts.mod_hdr   && ((rv = act_mod_hdrs (&opts)) != 0) ) FREE_RETURN(rv);
    if( opts.mod_nim   && ((rv = act_mod_nims (&opts)) != 0) ) FREE_RETURN(rv);
 
+   if((opts.swap_hdr  || opts.swap_ana || opts.swap_old )
+                      && ((rv = act_swap_hdrs (&opts)) != 0) ) FREE_RETURN(rv);
+
    /* if a diff, return wither a difference exists (like the UNIX command) */
    if( opts.diff_hdr  && ((rv = act_diff_hdrs(&opts)) != 0) ) FREE_RETURN(rv);
    if( opts.diff_nim  && ((rv = act_diff_nims(&opts)) != 0) ) FREE_RETURN(rv);
@@ -214,6 +233,7 @@ int main( int argc, char * argv[] )
    if( opts.disp_exts && ((rv = act_disp_exts(&opts)) != 0) ) FREE_RETURN(rv);
    if( opts.disp_hdr  && ((rv = act_disp_hdrs(&opts)) != 0) ) FREE_RETURN(rv);
    if( opts.disp_nim  && ((rv = act_disp_nims(&opts)) != 0) ) FREE_RETURN(rv);
+   if( opts.disp_ana  && ((rv = act_disp_anas(&opts)) != 0) ) FREE_RETURN(rv);
 
    FREE_RETURN(0);
 }
@@ -257,6 +277,8 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
          return usage(argv[0], USE_FIELD_HDR);
       else if( ! strncmp(argv[ac], "-help_nim", 9) )
          return usage(argv[0], USE_FIELD_NIM);
+      else if( ! strncmp(argv[ac], "-help_ana", 9) )
+         return usage(argv[0], USE_FIELD_ANA);
       else if( ! strncmp(argv[ac], "-help", 5) )
          return usage(argv[0], USE_FULL);
       else if( ! strncmp(argv[ac], "-hist", 5) )
@@ -271,6 +293,11 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
       else if( ! strncmp(argv[ac], "-nifti_ver", 10) )
       {
          nifti_disp_lib_version();
+         return 1;
+      }
+      else if( ! strncmp(argv[ac], "-with_zlib", 5) ) {
+         printf("Was NIfTI library compiled with zlib?  %s\n",
+                nifti_compiled_with_zlib() ? "YES" : "NO");
          return 1;
       }
 
@@ -337,6 +364,8 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
          opts->disp_hdr = 1;
       else if( ! strncmp(argv[ac], "-disp_nim", 8) )
          opts->disp_nim = 1;
+      else if( ! strncmp(argv[ac], "-disp_ana", 8) )
+         opts->disp_ana = 1;
       else if( ! strncmp(argv[ac], "-dci_lines", 6) ||   /* before -dts */ 
                ! strncmp(argv[ac], "-dts_lines", 6) ) 
       {
@@ -475,6 +504,12 @@ int process_opts( int argc, char * argv[], nt_opts * opts )
       }
       else if( ! strncmp(argv[ac], "-strip_extras", 6) )
          opts->strip = 1;
+      else if( ! strncmp(argv[ac], "-swap_as_analyze", 12) )
+         opts->swap_ana = 1;
+      else if( ! strncmp(argv[ac], "-swap_as_nifti", 12) )
+         opts->swap_hdr = 1;
+      else if( ! strncmp(argv[ac], "-swap_as_old", 12) )
+         opts->swap_old = 1;
       else
       {
          fprintf(stderr,"** unknown option: '%s'\n", argv[ac]);
@@ -523,8 +558,10 @@ int verify_opts( nt_opts * opts, char * prog )
    /* check that only one of disp, diff, mod or add_*_ext is used */
    ac  = (opts->check_hdr || opts->check_nim                   ) ? 1 : 0;
    ac += (opts->diff_hdr  || opts->diff_nim                    ) ? 1 : 0;
-   ac += (opts->disp_hdr  || opts->disp_nim  || opts->disp_exts) ? 1 : 0;
+   ac += (opts->disp_hdr  || opts->disp_nim  ||
+          opts->disp_ana  || opts->disp_exts                   ) ? 1 : 0;
    ac += (opts->mod_hdr   || opts->mod_nim                     ) ? 1 : 0;
+   ac += (opts->swap_hdr  || opts->swap_ana  || opts->swap_old ) ? 1 : 0;
    ac += (opts->add_exts  || opts->rm_exts                     ) ? 1 : 0;
    ac += (opts->strip                                          ) ? 1 : 0;
    ac += (opts->cbl                                            ) ? 1 : 0;
@@ -596,7 +633,8 @@ int verify_opts( nt_opts * opts, char * prog )
      }
    }
    /* if we are making changes, but not overwriting... */
-   else if( (opts->elist.len > 0 || opts->mod_hdr || opts->mod_nim) &&
+   else if( (opts->elist.len > 0 || opts->mod_hdr || opts->mod_nim ||
+             opts->swap_hdr || opts->swap_ana || opts->swap_old ) &&
             !opts->overwrite )
    {
       if( opts->infiles.len > 1 )
@@ -605,7 +643,7 @@ int verify_opts( nt_opts * opts, char * prog )
                           " modified at a time\n");
          errs++;
       }
-      if( ! opts->prefix )
+      else if( ! opts->prefix )
       {
          fprintf(stderr,"** missing -prefix for output file\n");
          errs++;
@@ -766,6 +804,13 @@ int usage(char * prog, int level)
       fill_hdr_field_array(nhdr_fields);
       disp_field_s_list("nifti_1_header: ", nhdr_fields, NT_HDR_NUM_FIELDS);
    }
+   else if( level == USE_FIELD_ANA )
+   {
+      field_s nhdr_fields[NT_ANA_NUM_FIELDS];  /* just do it all here */
+
+      fill_ana_field_array(nhdr_fields);
+      disp_field_s_list("nifti_analyze75: ",nhdr_fields,NT_ANA_NUM_FIELDS);
+   }
    else if( level == USE_FIELD_NIM )
    {
       field_s nim_fields[NT_NIM_NUM_FIELDS];
@@ -812,6 +857,7 @@ int use_full(char * prog)
    printf(
    "  one can display - any or all fields in the nifti_1_header structure\n"
    "                  - any or all fields in the nifti_image structure\n"
+   "                  - any or all fields in the nifti_analyze75 structure\n"
    "                  - the extensions in the nifti_image structure\n"
    "                  - the time series from a 4-D dataset, given i,j,k\n"
    "                  - the data from any collapsed image, given dims. list\n"
@@ -825,6 +871,7 @@ int use_full(char * prog)
    printf(
    "  one can modify  - any or all fields in the nifti_1_header structure\n"
    "                  - any or all fields in the nifti_image structure\n"
+   "                  - swap all fields in NIFTI or ANALYZE header structure\n"
    "          add/rm  - any or all extensions in the nifti_image structure\n"
    "          remove  - all extensions and descriptions from the datasets\n"
    "\n");
@@ -851,6 +898,7 @@ int use_full(char * prog)
    "    nifti_tool -help                 : show this help\n"
    "    nifti_tool -help_hdr             : show nifti_1_header field info\n"
    "    nifti_tool -help_nim             : show nifti_image field info\n"
+   "    nifti_tool -help_ana             : show nifti_analyze75 field info\n"
    "    nifti_tool -help_datatypes       : show datatype table\n"
    "\n");
    printf(
@@ -858,6 +906,7 @@ int use_full(char * prog)
    "    nifti_tool -hist                 : show the modification history\n"
    "    nifti_tool -nifti_ver            : show the nifti library version\n"
    "    nifti_tool -nifti_hist           : show the nifti library history\n"
+   "    nifti_tool -with_zlib            : was library compiled with zlib\n"
    "\n"
    "\n");
    printf(
@@ -875,6 +924,7 @@ int use_full(char * prog)
    printf(
    "    nifti_tool -disp_hdr [-field FIELDNAME] [...] -infiles f1 ...\n"
    "    nifti_tool -disp_nim [-field FIELDNAME] [...] -infiles f1 ...\n"
+   "    nifti_tool -disp_ana [-field FIELDNAME] [...] -infiles f1 ...\n"
    "    nifti_tool -disp_exts -infiles f1 ...\n"
    "    nifti_tool -disp_ts I J K [-dci_lines] -infiles f1 ...\n"
    "    nifti_tool -disp_ci I J K T U V W [-dci_lines] -infiles f1 ...\n"
@@ -883,8 +933,14 @@ int use_full(char * prog)
    "    nifti_tool -mod_hdr  [-mod_field FIELDNAME NEW_VAL] [...] -infiles f1\n"
    "    nifti_tool -mod_nim  [-mod_field FIELDNAME NEW_VAL] [...] -infiles f1\n"
    "\n"
+   "    nifti_tool -swap_as_nifti   -overwrite -infiles f1\n"
+   "    nifti_tool -swap_as_analyze -overwrite -infiles f1\n"
+   "    nifti_tool -swap_as_old     -overwrite -infiles f1\n"
+   "\n");
+   printf(
    "    nifti_tool -add_afni_ext    'extension in quotes' [...] -infiles f1\n"
    "    nifti_tool -add_comment_ext 'extension in quotes' [...] -infiles f1\n"
+   "    nifti_tool -add_comment_ext 'file:FILENAME' [...] -infiles f1\n"
    "    nifti_tool -rm_ext INDEX [...] -infiles f1 ...\n"
    "    nifti_tool -strip_extras -infiles f1 ...\n"
    "\n");
@@ -922,6 +978,10 @@ int use_full(char * prog)
    "      5. nifti_tool -disp_ci 23 0 172 -1 0 0 0 -infiles dset1_time.nii\n"
    "\n");
    printf(
+   "      6. nifti_tool -disp_ana -infiles analyze.hdr\n"
+   "      7. nifti_tool -disp_nim -infiles nifti.nii\n"
+   "\n");
+   printf(
    "    D. create a new dataset from nothing:\n"
    "\n"
    "      1. nifti_tool -make_im -prefix new_im.nii \n"
@@ -945,23 +1005,35 @@ int use_full(char * prog)
    "                    -prefix new_5_0_17_2.nii\n"
    "\n");
    printf(
-   "    F. modify the header:\n"
+   "    F. modify the header (modify fields or swap entire header):\n"
    "\n"
    "      1. nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
    "                    -mod_field dim '4 64 64 20 30 1 1 1 1'\n"
    "      2. nifti_tool -mod_hdr -prefix dnew -infiles dset0.nii  \\\n"
    "                    -mod_field descrip 'beer, brats and cheese, mmmmm...'\n"
+   );
+   printf(
+ "      3. cp old_dset.hdr nifti_swap.hdr \n"
+ "         nifti_tool -swap_as_nifti -overwrite -infiles nifti_swap.hdr\n"
+ "      4. cp old_dset.hdr analyze_swap.hdr \n"
+ "         nifti_tool -swap_as_analyze -overwrite -infiles analyze_swap.hdr\n"
+ "      5. nifti_tool -swap_as_old -prefix old_swap.hdr -infiles old_dset.hdr\n"
+ "         nifti_tool -diff_hdr -infiles nifti_swap.hdr old_swap.hdr\n"
    "\n");
    printf(
    "    G. strip, add or remove extensions:\n"
+   "       (in example #3, the extension is copied from a text file)\n"
+   "\n"
    "\n"
    "      1. nifti_tool -strip -overwrite -infiles *.nii\n"
    "      2. nifti_tool -add_comment 'converted from MY_AFNI_DSET+orig' \\\n"
    "                    -prefix dnew -infiles dset0.nii\n"
-   "\n");
+   );
    printf(
-   "      3. nifti_tool -rm_ext ALL -prefix dset1 -infiles dset0.nii\n"
-   "      4. nifti_tool -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrite \\\n"
+   "      3. nifti_tool -add_comment 'file:my.extension.txt' \\\n"
+   "                    -prefix dnew -infiles dset0.nii\n"
+   "      4. nifti_tool -rm_ext ALL -prefix dset1 -infiles dset0.nii\n"
+   "      5. nifti_tool -rm_ext 2 -rm_ext 3 -rm_ext 5 -overwrite \\\n"
    "                    -infiles dset0.nii\n"
    "\n"
    "  ------------------------------\n");
@@ -1186,6 +1258,13 @@ int use_full(char * prog)
    "       structure.\n"
    "\n");
    printf(
+   "    -disp_ana          : display nifti_analyze75 fields for datasets\n"
+   "\n"
+   "       This flag option works the same way as the '-disp_hdr' option,\n"
+   "       except that the fields in question are from the nifti_analyze75\n"
+   "       structure.\n"
+   "\n");
+   printf(
    "    -disp_exts         : display all AFNI-type extensions\n"
    "\n"
    "       This flag option is used to display all nifti_1_extension data,\n"
@@ -1308,8 +1387,49 @@ int use_full(char * prog)
    printf(
    "       e.g. to strip all *.nii datasets in this directory:\n"
    "       nifti_tool -strip -overwrite -infiles *.nii\n"
+   "\n");
+   printf(
+   "    -swap_as_nifti    : swap the header according to nifti_1_header\n"
    "\n"
-   "  ------------------------------\n");
+   "       Perhaps a NIfTI header is mal-formed, and the user explicitly\n"
+   "       wants to swap it before performing other operations.  This action\n"
+   "       will swap the field bytes under the assumption that the header is\n"
+   "       in the NIfTI format.\n"
+   "\n");
+   printf(
+   "       ** The recommended course of action is to make a copy of the\n"
+   "          dataset and overwrite the header via -overwrite.  If the header\n"
+   "          needs such an operation, it is likely that the data would not\n"
+   "          otherwise be read in correctly.\n"
+   "\n");
+   printf(
+   "    -swap_as_analyze  : swap the header according to nifti_analyze75\n"
+   "\n"
+   "       Perhaps an ANALYZE header is mal-formed, and the user explicitly\n"
+   "       wants to swap it before performing other operations.  This action\n"
+   "       will swap the field bytes under the assumption that the header is\n"
+   "       in the ANALYZE 7.5 format.\n"
+   "\n");
+   printf(
+   "       ** The recommended course of action is to make a copy of the\n"
+   "          dataset and overwrite the header via -overwrite.  If the header\n"
+   "          needs such an operation, it is likely that the data would not\n"
+   "          otherwise be read in correctly.\n"
+   "\n");
+   printf(
+   "    -swap_as_old      : swap the header using the old method\n"
+   "\n"
+   "       As of library version 1.35 (3 Aug, 2008), nifticlib now swaps all\n"
+   "       fields of a NIfTI dataset (including UNUSED ones), and it swaps\n"
+   "       ANALYZE datasets according to the nifti_analyze75 structure.\n"
+   "       This is a significant different in the case of ANALYZE datasets.\n"
+   "\n");
+   printf(
+   "       The -swap_as_old option was added to compare the results of the\n"
+   "       swapping methods, or to undo one swapping method and replace it\n"
+   "       with another (such as to undo the old method and apply the new).\n"
+   "\n");
+   printf("  ------------------------------\n");
    printf(
    "\n"
    "  options for adding/removing extensions:\n"
@@ -1319,6 +1439,9 @@ int use_full(char * prog)
    "       This option is used to add AFNI-type extensions to one or more\n"
    "       datasets.  This option may be used more than once to add more than\n"
    "       one extension.\n"
+   "\n"
+   "       If EXT is of the form 'file:FILENAME', then the extension will\n"
+   "       be read from the file, FILENAME.\n"
    "\n");
    printf(
    "       The '-prefix' option is recommended, to create a new dataset.\n"
@@ -1347,6 +1470,9 @@ int use_full(char * prog)
    "       This option is used to add COMMENT-type extensions to one or more\n"
    "       datasets.  This option may be used more than once to add more than\n"
    "       one extension.  This option may also be used with '-add_afni_ext'.\n"
+   "\n"
+   "       If EXT is of the form 'file:FILENAME', then the extension will\n"
+   "       be read from the file, FILENAME.\n"
    "\n");
    printf(
    "       The '-prefix' option is recommended, to create a new dataset.\n"
@@ -1553,7 +1679,12 @@ int use_full(char * prog)
    "\n"
    "    -help_nim         : show nifti_image field info\n"
    "\n"
-   "       e.g.  nifti_tool -help_nim\n");
+   "       e.g.  nifti_tool -help_nim\n"
+   "\n"
+   "    -help_ana         : show nifti_analyze75 field info\n"
+   "\n"
+   "       e.g.  nifti_tool -help_ana\n"
+   );
 
    printf(
    "\n"
@@ -1585,6 +1716,10 @@ int use_full(char * prog)
    "\n"
    "       e.g.  nifti_tool -nifti_hist\n"
    "\n"
+   "    -with_zlib        : print whether library was compiled with zlib\n"
+   "\n"
+   "       e.g.  nifti_tool -with_zlib\n"
+   "\n"
    "  ------------------------------\n"
    "\n"
    "  R. Reynolds\n"
@@ -1614,17 +1749,21 @@ int disp_nt_opts(char * mesg, nt_opts * opts)
                   "   check_hdr, check_nim = %d, %d\n"
                   "   diff_hdr, diff_nim   = %d, %d\n"
                   "   disp_hdr, disp_nim   = %d, %d\n"
-                  "   disp_exts            = %d\n"
+                  "   disp_ana, disp_exts  = %d, %d\n"
                   "   add_exts, rm_exts    = %d, %d\n"
                   "   mod_hdr,  mod_nim    = %d, %d\n"
+                  "   swap_hdr, swap_ana   = %d, %d\n"
+                  "   swap_old             = %d\n"
                   "   cbl, cci             = %d, %d\n"
                   "   dts, dci_lines       = %d, %d\n"
                   "   make_im              = %d\n",
             (void *)opts,
             opts->check_hdr, opts->check_nim,
             opts->diff_hdr, opts->diff_nim, opts->disp_hdr, opts->disp_nim,
-            opts->disp_exts, opts->add_exts, opts->rm_exts,
-            opts->mod_hdr, opts->mod_nim, opts->cbl, opts->cci,
+            opts->disp_ana, opts->disp_exts, opts->add_exts, opts->rm_exts,
+            opts->mod_hdr, opts->mod_nim,
+            opts->swap_hdr, opts->swap_ana, opts->swap_old,
+            opts->cbl, opts->cci,
             opts->dts, opts->dci_lines, opts->make_im );
 
    fprintf(stderr,"   ci_dims[8]          = ");
@@ -1673,7 +1812,8 @@ int disp_nt_opts(char * mesg, nt_opts * opts)
 int act_add_exts( nt_opts * opts )
 {
    nifti_image      * nim;
-   int                fc, ec;
+   char             * ext, * edata = NULL;
+   int                fc, ec, elen;
 
    if( g_debug > 2 ){
       fprintf(stderr,"+d adding %d extensions to %d files...\n"
@@ -1696,11 +1836,25 @@ int act_add_exts( nt_opts * opts )
       if( !nim ) return 1;  /* errors come from the library */
 
       for( ec = 0; ec < opts->elist.len; ec++ ){
-         if( nifti_add_extension(nim, opts->elist.list[ec],
-                   strlen(opts->elist.list[ec]), opts->etypes.list[ec]) ){
+         ext = opts->elist.list[ec];
+         elen = strlen(ext);
+         if( !strncmp(ext,"file:",5) ){
+            edata = read_file_text(ext+5, &elen);
+            if( !edata || elen <= 0 ) {
+               fprintf(stderr,"** failed to read extension data from '%s'\n",
+                       ext+5);
+               continue;
+            }
+            ext = edata;
+         }
+
+         if( nifti_add_extension(nim, ext, elen, opts->etypes.list[ec]) ){
             nifti_image_free(nim);
             return 1;
          }
+
+         /* if extension came from file, free the data */
+         if( edata ){ free(edata); edata = NULL; }
       }
 
       if( opts->keep_hist && nifti_add_extension(nim, opts->command,
@@ -1729,6 +1883,64 @@ int act_add_exts( nt_opts * opts )
    return 0;
 }
 
+/*----------------------------------------------------------------------
+ * Return the allocated file contents.
+ *----------------------------------------------------------------------*/
+static char * read_file_text(char * filename, int * length)
+{
+   FILE * fp;
+   char * text;
+   int    len, bytes;
+
+   if( !filename || !length ) {
+      fprintf(stderr,"** bad params to read_file_text\n");
+      return NULL;
+   }
+
+   len = nifti_get_filesize(filename);
+   if( len <= 0 ) {
+      fprintf(stderr,"** RFT: file '%s' appears empty\n", filename);
+      return NULL;
+   }
+
+   fp = fopen(filename, "r");
+   if( !fp ) {
+      fprintf(stderr,"** RFT: failed to open '%s' for reading\n", filename);
+      return NULL;
+   }
+
+   /* allocate the bytes, and fill them with the file contents */
+
+   text = (char *)malloc(len * sizeof(char));
+   if( !text ) {
+      fprintf(stderr,"** RFT: failed to allocate %d bytes\n", len);
+      fclose(fp);
+      return NULL;
+   }
+
+   bytes = fread(text, sizeof(char), len, fp);
+   fclose(fp); /* in any case */
+
+   if( bytes != len ) {
+      fprintf(stderr,"** RFT: read only %d of %d bytes from %s\n",
+                     bytes, len, filename);
+      free(text);
+      return NULL;
+   }
+
+   /* success */
+
+   if( g_debug > 1 ) {
+      fprintf(stderr,"++ found extension of length %d in file %s\n",
+              len, filename);
+      if( g_debug > 2 )
+         fprintf(stderr,"++ text is:\n%s\n", text);
+   }
+
+   *length = len;
+
+   return text;
+}
 
 /*----------------------------------------------------------------------
  * For each file, strip the extra fields.
@@ -1824,6 +2036,9 @@ int act_rm_ext( nt_opts * opts )
    {
       nim = nt_image_read( opts, opts->infiles.list[fc], 1 );
       if( !nim ) return 1;  /* errors come from the library */
+
+      /* note the number of extensions for later */
+      num_ext = nim->num_ext;
 
       /* now remove the extensions */
       if( remove_ext_list(nim, opts->elist.list, opts->elist.len) )
@@ -2199,6 +2414,59 @@ int act_disp_hdrs( nt_opts * opts )
 
 
 /*----------------------------------------------------------------------
+ * for each file, read nifti_analyze75 and display all fields
+ *----------------------------------------------------------------------*/
+int act_disp_anas( nt_opts * opts )
+{
+   nifti_analyze75  * nhdr;
+   field_s          * fnhdr;
+   char            ** sptr;
+   int                nfields, filenum, fc;
+
+   /* set the number of fields to display */
+   nfields = opts->flist.len > 0 ? opts->flist.len : NT_ANA_NUM_FIELDS;
+
+   if( g_debug > 2 )
+      fprintf(stderr,"-d displaying %d fields for %d ANALYZE datasets...\n",
+              nfields, opts->infiles.len);
+
+   for( filenum = 0; filenum < opts->infiles.len; filenum++ )
+   {
+      /* do not validate the header structure */
+      nhdr = (nifti_analyze75 *)nt_read_header(opts,
+                                        opts->infiles.list[filenum], NULL, 0);
+      if( !nhdr ) return 1;  /* errors are printed from library */
+
+      if( g_debug > 0 )
+         fprintf(stdout,"\nanalyze header file '%s', num_fields = %d\n",
+                 opts->infiles.list[filenum], nfields);
+      if( g_debug > 1 )
+         fprintf(stderr,"-d analyze header is: %s\n",
+                 nifti_hdr_looks_good((nifti_1_header *)nhdr) ?
+                 "valid" : "invalid");
+
+      if( opts->flist.len <= 0 ) /* then display all fields */
+         disp_field("\nall fields:\n", g_ana_fields, nhdr, nfields, g_debug>0);
+      else  /* print only the requested fields... */
+      {
+         /* must locate each field before printing it */
+         sptr = opts->flist.list;
+         for( fc = 0; fc < opts->flist.len; fc++ )
+         {
+            fnhdr = get_hdr_field(*sptr, filenum == 0);
+            if( fnhdr ) disp_field(NULL, fnhdr, nhdr, 1, g_debug>0 && fc == 0);
+            sptr++;
+         }
+      }
+
+      free(nhdr);
+   }
+
+   return 0;
+}
+
+
+/*----------------------------------------------------------------------
  * for each file, get nifti_image and display all fields
  *----------------------------------------------------------------------*/
 int act_disp_nims( nt_opts * opts )
@@ -2270,7 +2538,7 @@ int act_mod_hdrs( nt_opts * opts )
       fname = opts->infiles.list[filec];  /* for convenience and mod file */
 
       if( nifti_is_gzfile(fname) ){
-         fprintf(stderr,"** sorry, cannot modify a zipped file: %s\n", fname);
+         fprintf(stderr,"** sorry, cannot modify a gzipped file: %s\n", fname);
          continue;
       }
 
@@ -2323,6 +2591,118 @@ int act_mod_hdrs( nt_opts * opts )
       }
       else if ( swap )
          swap_nifti_header(nhdr, NIFTI_VERSION(*nhdr));
+
+      /* if all is well, overwrite header in fname dataset */
+      (void)write_hdr_to_file(nhdr, fname); /* errors printed in function */
+
+      if( dupname ) free(dupname);
+      free(nhdr);
+   }
+
+   return 0;
+}
+
+
+/*----------------------------------------------------------------------
+ * - read header
+ * - swap header
+ * - if -prefix duplicate file
+ * - overwrite file header      (allows (danger-of) no evaluation of data)
+ *----------------------------------------------------------------------*/
+int act_swap_hdrs( nt_opts * opts )
+{
+   nifti_1_header * nhdr;
+   nifti_image    * nim;         /* for reading/writing entire datasets */
+   int              filec, swap;
+   char           * fname, * dupname;
+   char             func[] = { "act_mod_hdrs" };
+ 
+   /* count requested operations: "there can be only one", and not Sean */
+   swap = opts->swap_hdr + opts->swap_ana + opts->swap_old;
+   if( swap > 1 ) {
+      fprintf(stderr,"** can perform only one swap method\n");
+      return 1;
+   } else if( ! swap )
+      return 0; /* probably shouldn't be here */
+
+   if( g_debug > 2 )
+      fprintf(stderr,"-d swapping headers of %d files...\n",opts->infiles.len);
+
+   for( filec = 0; filec < opts->infiles.len; filec++ )
+   {
+      fname = opts->infiles.list[filec];  /* for convenience and mod file */
+
+      if( nifti_is_gzfile(fname) ){
+         fprintf(stderr,"** sorry, cannot swap a gzipped header: %s\n", fname);
+         continue;
+      }
+
+      /* do not validate the header structure */
+      nhdr = nt_read_header(opts, fname, &swap, 0);
+      if( !nhdr ) return 1;
+
+      if( g_debug > 1 ) {
+         char * str = "NIfTI";
+         if( opts->swap_ana || (opts->swap_old && !NIFTI_VERSION(*nhdr)) )
+            str = "ANALYZE";
+         fprintf(stderr,"-d %sswapping %s header of file %s\n",
+                 opts->swap_old ? "OLD " : "", str, fname);
+      }
+
+      if( ! swap ) {    /* if not yet swapped, do as the user requested */
+
+         if( opts->swap_old ) old_swap_nifti_header(nhdr, NIFTI_VERSION(*nhdr));
+         else                 swap_nifti_header(nhdr, opts->swap_ana ? 0 : 1);
+
+      } else {          /* swapped already: if not correct, need to undo */
+
+         /* if swapped the wrong way, undo and swap as the user requested */
+         if ( opts->swap_ana && NIFTI_VERSION(*nhdr) ) {
+            /* want swapped as ANALYZE, but was swapped as NIFTI */
+            swap_nifti_header(nhdr, 1);  /* undo NIFTI */
+            swap_nifti_header(nhdr, 0);  /* swap ANALYZE */
+         } else if( opts->swap_hdr && !NIFTI_VERSION(*nhdr) ) {
+            /* want swapped as NIFTI, but was swapped as ANALYZE */
+            swap_nifti_header(nhdr, 0);  /* undo ANALYZE */
+            swap_nifti_header(nhdr, 1);  /* swap NIFTI */
+         } else if ( opts->swap_old ) {
+            /* undo whichever was done and apply the old way */
+            swap_nifti_header(nhdr, NIFTI_VERSION(*nhdr));
+            old_swap_nifti_header(nhdr, NIFTI_VERSION(*nhdr));
+         }
+
+         /* else it was swapped the right way to begin with */
+
+      }
+
+      dupname = NULL;                     /* unless we duplicate file   */
+
+      /* possibly duplicate the current dataset before writing new header */
+      if( opts->prefix )
+      {
+         nim = nt_image_read(opts, fname, 1); /* get data */
+         if( !nim ) {
+            fprintf(stderr,"** failed to dup file '%s' before modifying\n",
+                    fname);
+            return 1;
+         }
+         if( opts->keep_hist && nifti_add_extension(nim, opts->command,
+                                strlen(opts->command), NIFTI_ECODE_COMMENT) )
+               fprintf(stderr,"** failed to add command to image as exten\n");
+         if( nifti_set_filenames(nim, opts->prefix, 1, 1) )
+         {
+            NTL_FERR(func,"failed to set prefix for new file: ",opts->prefix);
+            nifti_image_free(nim);
+            return 1;
+         }
+         dupname = nifti_strdup(nim->fname);  /* so we know to free it */
+         fname = dupname;
+         nifti_image_write(nim);  /* create the duplicate file */
+         /* if we added a history note, get the new offset into the header */
+         /* mod: if the new offset is valid, use it    31 Jan 2006 [rickr] */
+         if( nim->iname_offset >= 348 ) nhdr->vox_offset = nim->iname_offset;
+         nifti_image_free(nim);
+      }
 
       /* if all is well, overwrite header in fname dataset */
       (void)write_hdr_to_file(nhdr, fname); /* errors printed in function */
@@ -2769,6 +3149,95 @@ int fill_nim_field_array( field_s * nim_fields )
 
    if( g_debug > 3 )
       disp_field_s_list("nim_fields: ", nim_fields, NT_NIM_NUM_FIELDS);
+
+   return 0;
+}
+
+
+/*----------------------------------------------------------------------
+ * fill the nifti_analyze75 field list
+ *----------------------------------------------------------------------*/
+int fill_ana_field_array( field_s * ah_fields )
+{
+   nifti_analyze75   nhdr;
+   field_s         * ahf = ah_fields;
+   int               rv, errs;
+
+   memset(ahf, 0, NT_ANA_NUM_FIELDS*sizeof(field_s));
+
+   /* this macro takes (TYPE, NAME, NUM) and does:
+         fill_field(nhdr, TYPE, NT_OFF(nhdr,NAME), NUM, "NAME");
+         nhf++;
+   */
+   errs = 0;
+   NT_SFILL(nhdr, ahf, DT_INT32,     sizeof_hdr,     1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, data_type,     10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, db_name,       18, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     extents,        1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     session_error,  1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, regular,        1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT8,      hkey_un0,       1, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_INT16,     dim,            8, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused8,        1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused9,        1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused10,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused11,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused12,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused13,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     unused14,       1, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_INT16,     datatype,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     bitpix,         1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT16,     dim_un0,        1, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   pixdim,         8, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   vox_offset,     1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   funused1,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   funused2,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   funused3,       1, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   cal_max,        1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   cal_min,        1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   compressed,     1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_FLOAT32,   verified,       1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     glmax,          1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     glmin,          1, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, descrip,       80, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, aux_file,      24, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_INT8,      orient,         1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, originator,    10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, generated,     10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, scannum,       10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, patient_id,    10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, exp_date,      10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, exp_time,      10, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, NT_DT_STRING, hist_un0,       3, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_INT32,     views     ,     1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     vols_added,     1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     start_field,    1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     field_skip,     1, rv);  errs += rv;
+
+   NT_SFILL(nhdr, ahf, DT_INT32,     omax,           1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     omin,           1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     smax,           1, rv);  errs += rv;
+   NT_SFILL(nhdr, ahf, DT_INT32,     smin,           1, rv);  errs += rv;
+
+   if( errs > 0 ){
+      fprintf(stderr, "** %d ana fill_fields errors!\n", errs);
+      return 1;
+   }
+
+   /* failure here is a serious problem */
+   if( check_total_size("nifti_analyze75 test: ", ah_fields, NT_ANA_NUM_FIELDS,
+                        sizeof(nhdr)) )
+      return 1;
+
+   if( g_debug > 3 )
+      disp_field_s_list("ah_fields: ", ah_fields, NT_ANA_NUM_FIELDS);
 
    return 0;
 }
@@ -3392,6 +3861,19 @@ int clear_float_zeros( char * str )
    return 0;
 }
 
+/* return the number of volumes in the nifti_image */
+static int num_volumes(nifti_image * nim)
+{
+   int ind, nvols = 1;
+
+   if( nim->dim[0] < 1 ) return 0;
+
+   for( ind = 4; ind <= nim->dim[0]; ind++ )
+        nvols *= nim->dim[ind];
+
+   return nvols;
+}
+
 
 /*----------------------------------------------------------------------
  * create a new dataset using sub-brick selection
@@ -3437,7 +3919,7 @@ int act_cbl( nt_opts * opts )
    if( !nim ) return 1;
       
    /* since nt can be zero now (sigh), check for it   02 Mar 2006 [rickr] */
-   blist = nifti_get_intlist(nim->nt > 0 ? nim->nt : 1, selstr);
+   blist = nifti_get_intlist(nim->nt > 0 ? num_volumes(nim) : 1, selstr);
    nifti_image_free(nim);             /* throw away, will re-load */
    if( !blist ){
       fprintf(stderr,"** failed sub-brick selection using '%s'\n",selstr);

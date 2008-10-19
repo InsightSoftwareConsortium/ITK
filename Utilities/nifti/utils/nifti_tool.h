@@ -17,9 +17,10 @@ typedef struct{
             /* action options (flags) */
    int      check_hdr,  check_nim;
    int      diff_hdr,   diff_nim;
-   int      disp_hdr,   disp_nim;
+   int      disp_hdr,   disp_nim, disp_ana;
    int      disp_exts,  add_exts, rm_exts;
    int      mod_hdr,    mod_nim;
+   int      swap_hdr,   swap_ana, swap_old;
 
    int      strip;               /* strip extras from dataset(s)  */
    int      cbl, cci;            /* -copy_XXX option flags        */
@@ -44,8 +45,9 @@ typedef struct{
 #define USE_HIST       3
 #define USE_FIELD_HDR  4
 #define USE_FIELD_NIM  5
-#define USE_DTYPES     6
-#define USE_VERSION    7
+#define USE_FIELD_ANA  6
+#define USE_DTYPES     7
+#define USE_VERSION    8
 
 #define CHECK_NEXT_OPT(n,m,str)                                       \
    do { if ( (n) >= (m) ) {                                           \
@@ -68,6 +70,7 @@ typedef struct{
 
 #define NT_FIELD_NAME_LEN  20       /* more than length of longest name */
 #define NT_HDR_NUM_FIELDS  43       /* in the nifti_1_header struct     */
+#define NT_ANA_NUM_FIELDS  47       /* in the  nifti_analyze75 struct   */
 #define NT_NIM_NUM_FIELDS  63       /* in the nifti_image struct        */
 #define NT_DT_STRING      -0xfff    /* some strange number to abuse...  */
 #define NT_DT_POINTER     -0xfef    /* some strange number to abuse...  */
@@ -106,9 +109,11 @@ int    act_disp_ci    ( nt_opts * opts );  /* display general collapsed data */
 int    act_disp_exts  ( nt_opts * opts );
 int    act_disp_hdrs  ( nt_opts * opts );
 int    act_disp_nims  ( nt_opts * opts );
+int    act_disp_anas  ( nt_opts * opts );
 int    act_disp_ts    ( nt_opts * opts );  /* display time series */
 int    act_mod_hdrs   ( nt_opts * opts );
 int    act_mod_nims   ( nt_opts * opts );
+int    act_swap_hdrs  ( nt_opts * opts );
 int    act_rm_ext     ( nt_opts * opts );
 int    act_strip      ( nt_opts * opts );  /* strip extras from datasets */
 
@@ -137,6 +142,7 @@ int fill_cmd_string  (nt_opts * opts, int argc, char * argv[]);
 int fill_field       (field_s *fp, int type, int offset, int num, char *name);
 int fill_hdr_field_array(field_s * nh_fields);
 int fill_nim_field_array(field_s * nim_fields);
+int fill_ana_field_array(field_s * ah_fields);
 int modify_all_fields(void *basep, nt_opts *opts, field_s *fields, int flen);
 int modify_field     (void * basep, field_s * field, char * data);
 int process_opts     (int argc, char * argv[], nt_opts * opts);

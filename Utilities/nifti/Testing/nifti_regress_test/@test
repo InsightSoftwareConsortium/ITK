@@ -62,6 +62,8 @@ cd $odir
 
 # now begin the work
 
+echo "++ using `which $prog` ..."
+
 if ( $grind ) then
     alias $prog "valgrind --leak-resolution=high --leak-check=full $prog"
 endif

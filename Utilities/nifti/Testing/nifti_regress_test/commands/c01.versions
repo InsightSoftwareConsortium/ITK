@@ -3,3 +3,8 @@
 
 nifti_tool -nifti_ver
 nifti_tool -ver
+
+# also, check whether the library was compiled with zlib support
+
+nifti_tool -with_zlib
+

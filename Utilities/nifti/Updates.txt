@@ -74,7 +74,19 @@ Updated in version 1.0 December 6, 2007
          to all libraries.
 
 -----------------------------------------------------------------
-Updated in version UNRELEASED
+Updated in version 1.1.0 August 28, 2008
 
     - RR allowed ANALYZE headers in nifti_hdr_looks_good
+    - RR added nifti_compiled_with_zlib()
+    - RR added nifti_tool ability to add extensions via 'file:FILENAME'
+    - RR added new tests to nifti_regress_test/commands
+    - RR added ANALYZE 7.5 support for swapping
+    - HJ addressed CMake bug listed by ITK at
+         http://www.itk.org/Bug/view.php?id=7530
+         having to do with ITK version numbers for znzlib.
+
+-----------------------------------------------------------------
+Recent Updates
+
+    - RR added nifti_NBL_matches_nim() check for write_bricks()
 

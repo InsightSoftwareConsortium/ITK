@@ -1,3 +1,4 @@
+#!/bin/tcsh
 
 #  - add junk extensions to the new anat, overwriting it
 #  - display extensions for the two files 
@@ -8,3 +9,14 @@ nifti_tool -add_afni_ext 'wow, my first extension :)'    \
            -overwrite -infiles anat1.nii
 nifti_tool -disp_exts -infiles anat0.nii anat1.nii
 nifti_tool -diff_hdr -infiles anat0.nii anat1.nii
+
+# add one more, via a file
+
+cat > my.extension << EOF
+here is some formatted
+  extension, added via
+  a text file
+EOF
+
+nifti_tool -add_comment_ext 'file:my.extension' -overwrite -infiles anat1.nii
+nifti_tool -disp_exts -infiles anat1.nii

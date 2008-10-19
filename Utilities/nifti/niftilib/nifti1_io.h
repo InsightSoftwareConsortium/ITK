@@ -180,6 +180,68 @@ typedef struct {
 
 
 /*****************************************************************************/
+/*------------------ NIfTI version of ANALYZE 7.5 structure -----------------*/
+
+/* (based on fsliolib/dbh.h, but updated for version 7.5) */
+
+typedef struct {
+       /* header info fields - describes the header    overlap with NIfTI */
+       /*                                              ------------------ */
+       int sizeof_hdr;                  /* 0 + 4        same              */
+       char data_type[10];              /* 4 + 10       same              */
+       char db_name[18];                /* 14 + 18      same              */
+       int extents;                     /* 32 + 4       same              */
+       short int session_error;         /* 36 + 2       same              */
+       char regular;                    /* 38 + 1       same              */
+       char hkey_un0;                   /* 39 + 1                40 bytes */
+
+       /* image dimension fields - describes image sizes */
+       short int dim[8];                /* 0 + 16       same              */
+       short int unused8;               /* 16 + 2       intent_p1...      */
+       short int unused9;               /* 18 + 2         ...             */
+       short int unused10;              /* 20 + 2       intent_p2...      */
+       short int unused11;              /* 22 + 2         ...             */
+       short int unused12;              /* 24 + 2       intent_p3...      */
+       short int unused13;              /* 26 + 2         ...             */
+       short int unused14;              /* 28 + 2       intent_code       */
+       short int datatype;              /* 30 + 2       same              */
+       short int bitpix;                /* 32 + 2       same              */
+       short int dim_un0;               /* 34 + 2       slice_start       */
+       float pixdim[8];                 /* 36 + 32      same              */
+
+       float vox_offset;                /* 68 + 4       same              */
+       float funused1;                  /* 72 + 4       scl_slope         */
+       float funused2;                  /* 76 + 4       scl_inter         */
+       float funused3;                  /* 80 + 4       slice_end,        */
+                                                     /* slice_code,       */
+                                                     /* xyzt_units        */
+       float cal_max;                   /* 84 + 4       same              */
+       float cal_min;                   /* 88 + 4       same              */
+       float compressed;                /* 92 + 4       slice_duration    */
+       float verified;                  /* 96 + 4       toffset           */
+       int glmax,glmin;                 /* 100 + 8              108 bytes */
+
+       /* data history fields - optional */
+       char descrip[80];                /* 0 + 80       same              */
+       char aux_file[24];               /* 80 + 24      same              */
+       char orient;                     /* 104 + 1      NO GOOD OVERLAP   */
+       char originator[10];             /* 105 + 10     FROM HERE DOWN... */
+       char generated[10];              /* 115 + 10                       */
+       char scannum[10];                /* 125 + 10                       */
+       char patient_id[10];             /* 135 + 10                       */
+       char exp_date[10];               /* 145 + 10                       */
+       char exp_time[10];               /* 155 + 10                       */
+       char hist_un0[3];                /* 165 + 3                        */
+       int views;                       /* 168 + 4                        */
+       int vols_added;                  /* 172 + 4                        */
+       int start_field;                 /* 176 + 4                        */
+       int field_skip;                  /* 180 + 4                        */
+       int omax, omin;                  /* 184 + 8                        */
+       int smax, smin;                  /* 192 + 8              200 bytes */
+} nifti_analyze75;                                   /* total:  348 bytes */
+
+
+/*****************************************************************************/
 /*--------------- Prototypes of functions defined in this file --------------*/
 
 char *nifti_datatype_string   ( int dt ) ;
@@ -210,8 +272,11 @@ int    nifti_datatype_is_valid   (int dtype, int for_nifti);
 int    nifti_datatype_from_string(const char * name);
 char * nifti_datatype_to_string  (int dtype);
 
-void  swap_nifti_header ( struct nifti_1_header *h , int is_nifti ) ;
 int   nifti_get_filesize( const char *pathname ) ;
+void  swap_nifti_header ( struct nifti_1_header *h , int is_nifti ) ;
+void  old_swap_nifti_header( struct nifti_1_header *h , int is_nifti );
+int   nifti_swap_as_analyze( nifti_analyze75 *h );
+
 
 /* main read/write routines */
 
@@ -347,6 +412,7 @@ void   nifti_set_iname_offset      (nifti_image *nim);
 int    nifti_set_type_from_names   (nifti_image * nim);
 int    nifti_add_extension(nifti_image * nim, const char * data, int len,
                            int ecode );
+int    nifti_compiled_with_zlib    (void);
 int    nifti_copy_extensions (nifti_image *nim_dest,const nifti_image *nim_src);
 int    nifti_free_extensions (nifti_image *nim);
 int  * nifti_get_intlist     (int nvals , const char *str);
