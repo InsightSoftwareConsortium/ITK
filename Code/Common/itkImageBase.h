@@ -370,7 +370,6 @@ public:
             const Point<TCoordRep, VImageDimension>& point,
             IndexType & index                                ) const
     {
-    typedef typename IndexType::IndexValueType IndexValueType;
     for (unsigned int i = 0; i < VImageDimension; i++)
       {
       TCoordRep sum = NumericTraits<TCoordRep>::Zero;
