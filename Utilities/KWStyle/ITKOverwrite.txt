@@ -29,3 +29,4 @@ VNLIterativeSparseSolverTraits.h Namespace Disable
 itk.*\Test.*\.cxx Namespace Disable
 itk.*\Test.*\.h Namespace Disable
 itkBilateralImageFilter.txx Namespace Disable
+itkConceptChecking.h Template Disable
