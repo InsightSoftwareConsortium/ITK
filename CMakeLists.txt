@@ -242,7 +242,7 @@ MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
 #-----------------------------------------------------------------------------
 # ITK turn on the use of Template Meta Programming techniques for unrolling loops of array-like operations
-OPTION(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." OFF)
+OPTION(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." ON)
 MARK_AS_ADVANCED(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING)
 
 OPTION(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION "Turn on the use of a sparse field level set surface interpolation method that has been deprecated since ITK 3.6. Turn this flag ON to exactly replicate the behavior of ITK<=3.4." OFF)
