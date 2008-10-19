@@ -30,8 +30,8 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
 ::DiscreteGradientMagnitudeGaussianImageFunction() :
   m_MaximumError(.005),
   m_MaximumKernelWidth(30),
-  m_UseImageSpacing( true ),
   m_NormalizeAcrossScale( true ),
+  m_UseImageSpacing( true ),
   m_InterpolationMode( NearestNeighbourInterpolation )
 {
   m_Variance.Fill(1.0);
@@ -272,9 +272,13 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
     m_OperatorImageFunction->SetOperator( m_KernelArray[i] );
     temp = m_OperatorImageFunction->EvaluateAtIndex( index );
     if( m_UseImageSpacing )
+      {
       gradientMagnitude += vnl_math_sqr( temp / this->GetInputImage()->GetSpacing()[i] );
+      }
     else
+      {
       gradientMagnitude += vnl_math_sqr( temp );
+      } 
     }
 
   gradientMagnitude = vcl_sqrt( gradientMagnitude );
@@ -289,13 +293,13 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
 ::Evaluate(const PointType& point) const
 {
   if( m_InterpolationMode == NearestNeighbourInterpolation )
-  {
+    {
     IndexType index;
     this->ConvertPointToNearestIndex( point , index );
     return this->EvaluateAtIndex ( index );
-  }
+    }
   else
-  {
+    {
     ContinuousIndexType cindex;
 #if ( ITK_VERSION_MAJOR < 3 ) || ( ITK_VERSION_MAJOR == 3 && ITK_VERSION_MINOR < 6 )
     this->ConvertPointToContinousIndex( point, cindex );
@@ -303,7 +307,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
     this->ConvertPointToContinuousIndex( point, cindex );
 #endif
     return this->EvaluateAtContinuousIndex( cindex );
-  }
+    }
 }
 
 

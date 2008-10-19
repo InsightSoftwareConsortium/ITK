@@ -137,7 +137,7 @@ public:
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
   void SetMaximumError( const double maxerror )
-  {
+    {
     const double Min = 0.00001;
     const double Max = 1.0 - Min;
     if ( m_MaximumError != (maxerror<Min?Min:(maxerror>Max?Max:maxerror)) )
@@ -146,32 +146,32 @@ public:
       this->RecomputeGaussianKernel();
       this->Modified();
       }
-  }
+    }
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
     * Normalized derivatives are obtained multiplying by the scale parameter t. */
   void SetNormalizeAcrossScale( bool flag )
-  {
+    {
     if ( m_NormalizeAcrossScale != flag )
       {
-        m_NormalizeAcrossScale = flag;
-        this->RecomputeGaussianKernel();
-        this->Modified();
+      m_NormalizeAcrossScale = flag;
+      this->RecomputeGaussianKernel();
+      this->Modified();
       }
-  }
+    }
   bool GetNormalizeAcrossScale() const { return m_NormalizeAcrossScale; }
   itkBooleanMacro(NormalizeAcrossScale);
 
   /** Set/Get the flag for using image spacing when calculating derivatives. */
   void SetUseImageSpacing( bool flag )
-  {
+    {
     if ( m_UseImageSpacing != flag )
       {
-        m_UseImageSpacing = flag;
-        this->RecomputeGaussianKernel();
-        this->Modified();
+      m_UseImageSpacing = flag;
+      this->RecomputeGaussianKernel();
+      this->Modified();
       }
-  }
+    }
   bool GetUseImageSpacing() const { return m_UseImageSpacing; }
   itkBooleanMacro(UseImageSpacing);
 
@@ -186,14 +186,14 @@ public:
    *  used to truncate a kernel in such instances.  A warning will be given on
    *  truncation of the kernel. */
   void SetMaximumKernelWidth( unsigned int n )
-  {
+    {
     if ( m_MaximumKernelWidth != n )
       {
       m_MaximumKernelWidth = n;
       this->RecomputeGaussianKernel();
       this->Modified();
       }
-  }
+    }
 
   /** Returns the maximum allowed kernel width. */
   unsigned int GetMaximumKernelWidth() const { return m_MaximumKernelWidth; }
@@ -202,7 +202,7 @@ public:
   itkSetMacro( InterpolationMode, InterpolationModeType );
   itkGetMacro( InterpolationMode, InterpolationModeType );
 
-   /** Set the input image.
+  /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */

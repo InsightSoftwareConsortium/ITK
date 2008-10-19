@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkGaussianDerivativeOperator_txx
-#define _itkGaussianDerivativeOperator_txx
+#ifndef __itkGaussianDerivativeOperator_txx
+#define __itkGaussianDerivativeOperator_txx
 
 #include "itkGaussianDerivativeOperator.h"
 #include "itkOutputWindow.h"
@@ -80,7 +80,7 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
         {
         if( i%2 == 0 ) // even order
           {
-          for( j=1; j < polyCoeffs.size(); j+=2 )
+          for( j = 1; j < polyCoeffs.size(); j += 2 )
             {
             polyCoeffs[j-1] += j*polyCoeffs[j];
             if( j < polyCoeffs.size()-1 )
@@ -93,7 +93,7 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
           {
           polyCoeffs[1] = -polyCoeffs[0];
           polyCoeffs[0] = 0;
-          for( j=2; j < polyCoeffs.size(); j+=2 )
+          for( j = 2; j < polyCoeffs.size(); j += 2 )
             {
             polyCoeffs[j-1] += j*polyCoeffs[j];
             polyCoeffs[j+1] -= polyCoeffs[j];
@@ -117,14 +117,14 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
     // Create the kernel coefficients as a std::vector
     sum = 0.0;
     coeff.push_back(et * ModifiedBesselI0(m_Variance));
-    sum  += coeff[0];
+    sum += coeff[0];
     coeff.push_back(et * ModifiedBesselI1(m_Variance));
-    sum  += coeff[1] * 2.0;
+    sum += coeff[1] * 2.0;
 
-    for (i=2; sum < cap; i++)
+    for (i = 2; sum < cap; i++ )
       {
       coeff.push_back(et* ModifiedBesselI(i, m_Variance));
-      sum  += coeff[i] * 2.0;
+      sum += coeff[i] * 2.0;
       if (coeff[i] <= 0.0) break;  // failsafe
       if (coeff.size() > m_MaximumKernelWidth )
         {
@@ -162,14 +162,14 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
       sum = 0.0;
       if( m_Order%2 == 0 ) // even
         {
-        for( j=0, k = (int)m_Order/2; j<(int)polyCoeffs.size(); j+=2, k-- )
+        for( j = 0, k = (int)m_Order/2; j < (int)polyCoeffs.size(); j += 2, k-- )
           {
           sum += polyCoeffs[j] * vcl_pow( m_Variance,(double)k ) * vcl_pow( i*m_Spacing,(double)j );
           }
         }
       else // odd
         {
-        for( j=1, k = (int)(m_Order-1)/2; j<(int)polyCoeffs.size(); j+=2, k-- )
+        for( j = 1, k = (int)(m_Order-1)/2; j < (int)polyCoeffs.size(); j += 2, k-- )
           {
           sum += polyCoeffs[j] * vcl_pow( m_Variance,(double)k ) * vcl_pow( i*m_Spacing,(double)j );
           }
@@ -227,7 +227,7 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
   if ((d=vcl_fabs(y)) < 3.75)
     {
     m=y/3.75;
-    m*=m;
+    m *= m;
     accumulator = 1.0 + m *(3.5156229+m*(3.0899424+m*(1.2067492
                                                       + m*(0.2659732+m*(0.360768e-1 +m*0.45813e-2)))));
     }
@@ -254,7 +254,7 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
   if ((d=vcl_fabs(y)) < 3.75)
     {
     m=y/3.75;
-    m*=m;
+    m *= m;
     accumulator = d*(0.5+m*(0.87890594+m*(0.51498869+m*(0.15084934
                                                         +m*(0.2658733e-1+m*(0.301532e-2+m*0.32411e-3))))));
     }
@@ -294,16 +294,16 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
     toy=2.0/vcl_fabs(y);
     qip=accumulator=0.0;
     qi=1.0;
-    for (j=2*(n+(int)::sqrt(ACCURACY*n)); j>0 ; j--)
+    for (j=2*(n+(int)::sqrt(ACCURACY*n)); j>0; j--)
       {
       qim=qip+j*toy*qi;
       qip=qi;
       qi=qim;
       if (fabs(qi) > 1.0e10)
         {
-        accumulator*=1.0e-10;
-        qi *=1.0e-10;
-        qip*=1.0e-10;
+        accumulator *= 1.0e-10;
+        qi *= 1.0e-10;
+        qip *= 1.0e-10;
         }
       if (j==n) accumulator=qip;
       }

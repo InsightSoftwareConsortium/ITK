@@ -39,8 +39,8 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
 
   // Define the dimension of the images
   const unsigned int Dimension = VDimension;
-  typedef float PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  typedef float                             PixelType;
+  typedef itk::Image<PixelType, Dimension>  ImageType;
 
   // Read input
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -105,7 +105,7 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
 
   // Step over input and output images
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
-  typedef itk::ImageRegionIterator< ImageType > IteratorType;
+  typedef itk::ImageRegionIterator< ImageType >      IteratorType;
 
   ConstIteratorType it ( reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
   it.GoToBegin();

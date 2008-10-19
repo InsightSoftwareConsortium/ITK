@@ -62,10 +62,10 @@ class ITK_EXPORT DiscreteGaussianDerivativeImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef DiscreteGaussianDerivativeImageFilter Self;
+  typedef DiscreteGaussianDerivativeImageFilter           Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,10 +79,10 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType         OutputPixelType;
   typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TInputImage::InternalPixelType InputInternalPixelType;
+  typedef typename TInputImage::PixelType          InputPixelType;
+  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -124,67 +124,67 @@ public:
    *  to the same values. */
   void SetOrder (const typename OrderArrayType::ValueType v)
     {
-      m_Order.Fill(v);
+    m_Order.Fill(v);
     }
 
   void SetVariance (const typename ArrayType::ValueType v)
     {
-      m_Variance.Fill(v);
+    m_Variance.Fill(v);
     }
 
   void SetMaximumError (const typename ArrayType::ValueType v)
     {
-      m_MaximumError.Fill(v);
+    m_MaximumError.Fill(v);
     }
 
   void SetOrder (const unsigned int *v)
     {
-      OrderArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetOrder(dv);
+    OrderArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetOrder(dv);
     }
 
   void SetVariance (const double *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetVariance(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetVariance(dv);
     }
 
   void SetVariance (const float *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetVariance(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetVariance(dv);
     }
 
   void SetMaximumError (const double *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetMaximumError(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetMaximumError(dv);
     }
 
   void SetMaximumError (const float *v)
     {
-      ArrayType dv;
-      for (unsigned int i = 0; i < ImageDimension; i++)
-        {
-        dv[i] = v[i];
-        }
-      this->SetMaximumError(dv);
+    ArrayType dv;
+    for (unsigned int i = 0; i < ImageDimension; i++)
+      {
+      dv[i] = v[i];
+      }
+    this->SetMaximumError(dv);
     }
 
   /** Use the image spacing information in calculations. Use this option if you
@@ -219,13 +219,13 @@ public:
 protected:
 
   DiscreteGaussianDerivativeImageFilter()
-  {
+    {
     m_Order.Fill(1);
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
-  }
+    }
   virtual ~DiscreteGaussianDerivativeImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 

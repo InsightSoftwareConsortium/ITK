@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkDiscreteGaussianDerivativeImageFilter_txx
-#define _itkDiscreteGaussianDerivativeImageFilter_txx
+#ifndef __itkDiscreteGaussianDerivativeImageFilter_txx
+#define __itkDiscreteGaussianDerivativeImageFilter_txx
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkGaussianDerivativeOperator.h"
@@ -125,7 +125,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
 
   // Type of the pixel to use for intermediate results
   typedef typename NumericTraits<OutputPixelType>::RealType RealOutputPixelType;
-  typedef Image<OutputPixelType, ImageDimension> RealOutputImageType;
+  typedef Image<OutputPixelType, ImageDimension>            RealOutputImageType;
 
   // Type definition for the internal neighborhood filter
   //
@@ -144,11 +144,11 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
   typedef StreamingImageFilter<OutputImageType, OutputImageType>
     StreamingFilterType;
 
-  typedef typename FirstFilterType::Pointer FirstFilterPointer;
+  typedef typename FirstFilterType::Pointer        FirstFilterPointer;
   typedef typename IntermediateFilterType::Pointer IntermediateFilterPointer;
-  typedef typename LastFilterType::Pointer LastFilterPointer;
-  typedef typename SingleFilterType::Pointer SingleFilterPointer;
-  typedef typename StreamingFilterType::Pointer StreamingFilterPointer;
+  typedef typename LastFilterType::Pointer         LastFilterPointer;
+  typedef typename SingleFilterType::Pointer       SingleFilterPointer;
+  typedef typename StreamingFilterType::Pointer    StreamingFilterPointer;
 
   // Create a series of operators
   typedef GaussianDerivativeOperator<RealOutputPixelType, ImageDimension> OperatorType;

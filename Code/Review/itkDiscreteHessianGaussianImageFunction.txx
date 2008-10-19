@@ -31,8 +31,8 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
 ::DiscreteHessianGaussianImageFunction() :
   m_MaximumError(.005),
   m_MaximumKernelWidth(30),
-  m_UseImageSpacing( true ),
   m_NormalizeAcrossScale( true ),
+  m_UseImageSpacing( true ),
   m_InterpolationMode( NearestNeighbourInterpolation )
 {
   m_Variance.Fill(1.0);
@@ -297,17 +297,17 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
 ::Evaluate(const PointType& point) const
 {
   if( m_InterpolationMode == NearestNeighbourInterpolation )
-  {
+    {
     IndexType index;
     this->ConvertPointToNearestIndex( point , index );
     return this->EvaluateAtIndex ( index );
-  }
+    }
   else
-  {
+    {
     ContinuousIndexType cindex;
     this->ConvertPointToContinuousIndex( point, cindex );
     return this->EvaluateAtContinuousIndex( cindex );
-  }
+    }
 }
 
 
@@ -323,7 +323,7 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
     this->ConvertContinuousIndexToNearestIndex( cindex, index  );
     return this->EvaluateAtIndex( index );
     }
-    else
+  else
     {
     unsigned int dim;  // index over dimension
     unsigned long neighbors = 1 << ImageDimension2;

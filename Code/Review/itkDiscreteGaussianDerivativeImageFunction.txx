@@ -30,8 +30,8 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
 ::DiscreteGaussianDerivativeImageFunction() :
   m_MaximumError(.005),
   m_MaximumKernelWidth(30),
-  m_UseImageSpacing( true ),
   m_NormalizeAcrossScale( true ),
+  m_UseImageSpacing( true ),
   m_InterpolationMode( NearestNeighbourInterpolation )
 {
   m_Variance.Fill(1.0);
@@ -189,11 +189,11 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
 ::RecomputeGaussianKernel()
 {
   // Create N operators (N=ImageDimension) with the order specified in m_Order
-
   unsigned int idx;
 
-  for(unsigned int direction = 0; direction <
-    itkGetStaticConstMacro(ImageDimension2); direction++ )
+  for(unsigned int direction = 0; 
+   direction < itkGetStaticConstMacro(ImageDimension2); 
+   direction++ )
     {
     m_OperatorArray[direction].SetDirection( direction );
     m_OperatorArray[direction].SetMaximumKernelWidth( m_MaximumKernelWidth );
@@ -299,13 +299,13 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
 ::Evaluate(const PointType& point) const
 {
   if( m_InterpolationMode == NearestNeighbourInterpolation )
-  {
+    {
     IndexType index;
     this->ConvertPointToNearestIndex( point , index );
     return this->EvaluateAtIndex ( index );
-  }
+    }
   else
-  {
+    {
     ContinuousIndexType cindex;
 #if ( ITK_VERSION_MAJOR < 3 ) || ( ITK_VERSION_MAJOR == 3 && ITK_VERSION_MINOR < 6 )
     this->ConvertPointToContinousIndex( point, cindex );
@@ -313,7 +313,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
     this->ConvertPointToContinuousIndex( point, cindex );
 #endif
     return this->EvaluateAtContinuousIndex( cindex );
-  }
+    }
 }
 
 
