@@ -19,6 +19,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include <stdio.h>
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
