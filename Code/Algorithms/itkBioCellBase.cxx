@@ -6,16 +6,14 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #include "itkBioCellBase.h"
 #include <new>
 
@@ -25,8 +23,6 @@
 namespace itk {
 
 namespace bio {
-
-
   
 CellBase::ColorType    CellBase::DefaultColor;
 
@@ -61,8 +57,6 @@ double             CellBase::ChemoAttractantHighThreshold = 255.0f;
 CellBase::ColorType    CellBase::WellNourishedColor;
 CellBase::ColorType    CellBase::HopefullColor;
 CellBase::ColorType    CellBase::StarvingColor;
-
-
 
 /**
  *    Constructor Lonely Cell
@@ -108,9 +102,6 @@ CellBase
 
 }
 
-
-
-
 /**
  *    Destructor   
  */ 
@@ -129,10 +120,6 @@ CellBase
     }
 }
 
-
-
-
-
 /**
  *    DNA Replication 
  */ 
@@ -143,9 +130,6 @@ CellBase
   m_GenomeCopy = new GenomeType;
   m_GenomeCopy->Copy( *m_Genome );
 }
-
-
-
 
 /**
  *    Programmed Cell Death 
@@ -167,8 +151,6 @@ CellBase
     }
 }
 
-
-
 /**
  *    Check point after division
  *    This check point will control
@@ -182,7 +164,6 @@ CellBase
 {
   return true;
 }
-
 
 /**
  *    Check point before initiating DNA replication.
@@ -235,8 +216,6 @@ CellBase
           !tooEarlyToReplicate && goodCellMatrix);
 }
 
-
-
 /**
  *    Check point before dividing the cell in two daughter cells
  *    at this point DNA replication has already been performed
@@ -255,9 +234,6 @@ CellBase
   }
   return DNAProofRead;
 }
-
-
-
 
 /**
  *    Check point before apoptosis
@@ -282,10 +258,6 @@ CellBase
     }
   return executeApoptosis;
 }
-
-
-
-
 
 /**
  *    Initialize common variables
@@ -312,9 +284,6 @@ CellBase
 
 }
 
-
-
-
 /**
  *  Mark this cell for removal
  *  The cellular aggregate with remove
@@ -327,8 +296,6 @@ CellBase
   m_MarkedForRemoval = true;
 }
 
-
-
 /**
  *  Mark this cell for removal
  *  The cellular aggregate with remove
@@ -340,9 +307,6 @@ CellBase
 {
   return m_MarkedForRemoval;
 }
-
-
-
 
 /**
  *   Cell Growth
@@ -374,8 +338,6 @@ CellBase
     }
 }
 
-
-
 /**
  *    Set Growth Latency Time
  */ 
@@ -385,9 +347,6 @@ CellBase
 {
   CellBase::GrowthMaximumLatencyTime = latency;
 }
-
-
-
 
 /**
  *    Get Growth Latency Time
@@ -399,10 +358,6 @@ CellBase
   return CellBase::GrowthMaximumLatencyTime;
 }
 
-
-
-
-
 /**
  *    Return the ID  of this cell
  */ 
@@ -412,8 +367,6 @@ CellBase
 {
   return m_SelfIdentifier;
 }
-
-
 
 /**
  *    Return the ID  of the parent cell
@@ -425,8 +378,6 @@ CellBase
   return m_ParentIdentifier;
 }
 
-
-
 /**
  *    Return the radius 
  */ 
@@ -436,7 +387,6 @@ CellBase
 {
   return m_Radius;
 }
-
 
 /**
  *    Return the Color 
@@ -448,8 +398,6 @@ CellBase
   return m_Color;
 }
 
-
-
 /**
  *    Set the value of the initial cell radius.
  */ 
@@ -459,8 +407,6 @@ CellBase
 {
   DefaultRadius = value;
 }
-
-
 
 /**
  *    Set the value of the limiting cell radius
@@ -474,7 +420,6 @@ CellBase
   GrowthRadiusLimit = value;
 }
 
-
 /**
  *    Set the amount of Energy that is needed for Self-repair.
  *    Cells that go below this level will degrade and enter
@@ -487,7 +432,6 @@ CellBase
   EnergySelfRepairLevel = value;
 }
 
-
 /**
  *    Set the amount of Nutrients that are needed for Self-repair.
  *    Cells that go below this level will degrade and enter
@@ -499,7 +443,6 @@ CellBase
 {
   NutrientSelfRepairLevel = value;
 }
-
 
 /**
  *    Set the value of the limit of cell generation.
@@ -515,8 +458,6 @@ CellBase
   MaximumGenerationLimit = generationLimit;
 }
 
-
-
 /**
  *    Get the value of the limiting cell radius
  *    this is a static value used for the whole
@@ -528,7 +469,6 @@ CellBase
 {
   return GrowthRadiusLimit;
 }
-
 
 /**
  *    Set the value of the increment in cellular
@@ -543,9 +483,6 @@ CellBase
   GrowthRadiusIncrement = value;
 }
 
-
-
-
 /**
  *    Ingestion of nutrients
  */
@@ -556,8 +493,6 @@ CellBase
   m_NutrientsReserveLevel += DefaultNutrientsIntake;
 }
 
-
-
 /**
  *    Acquisition of energy
  */
@@ -567,8 +502,6 @@ CellBase
 {
   m_EnergyReserveLevel += DefaultEnergyIntake;
 }
-
-
 
 /**
  *   Compute the Gene Network
@@ -633,7 +566,6 @@ CellBase
 
 }
 
-
 /**
  *   Secrete synthetized products resulting from 
  *   the gene network update
@@ -647,9 +579,6 @@ CellBase
   m_Color.SetBlue(   m_Genome->GetExpressionLevel( BlueGene  ) );
 }
 
-
-
-
 /**
  *    Set default Color
  */
@@ -659,8 +588,6 @@ CellBase
 {
   DefaultColor = color;
 }
-
-
 
 /**
  *    Reset the counter 
@@ -672,8 +599,6 @@ CellBase
   Counter = 0;
 }
 
- 
-
 /**
  *    Set Division Latency Time
  */ 
@@ -683,9 +608,6 @@ CellBase
 {
   CellBase::DivisionMaximumLatencyTime = latency;
 }
-
-
-
 
 /**
  *    Get Division Latency Time
@@ -697,8 +619,6 @@ CellBase
   return CellBase::DivisionMaximumLatencyTime;
 }
 
-
-
 /**
  *    Set ChemoAttractantLowThreshold
  */ 
@@ -708,8 +628,6 @@ CellBase
 {
   CellBase::ChemoAttractantLowThreshold = lowvalue;
 }
-
-
 
 /**
  *    Set ChemoAttractantHighThreshold
@@ -721,12 +639,6 @@ CellBase
   CellBase::ChemoAttractantHighThreshold = highvalue;
 }
 
-
-
-
-
 }  // end namespace bio
 
 }  // end namespace itk
-
-
