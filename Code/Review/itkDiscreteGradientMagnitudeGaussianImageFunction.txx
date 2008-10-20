@@ -145,8 +145,8 @@ void
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
 ::RecomputeGaussianKernel()
 {
-  // Create 2*N operators (N=ImageDimension) where the
-  // first N are zero-order and the second N are first-order
+  /** Create 2*N operators (N=ImageDimension) where the
+   * first N are zero-order and the second N are first-order */
 
   unsigned int idx;
   unsigned int maxRadius = 0;

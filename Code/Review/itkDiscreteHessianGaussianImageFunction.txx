@@ -146,9 +146,9 @@ void
 DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
 ::RecomputeGaussianKernel()
 {
-  // Create 3*N operators (N=ImageDimension) where the
-  // first N are zero-order, the second N are first-order
-  // and the third N are second order
+  /* Create 3*N operators (N=ImageDimension) where the
+   * first N are zero-order, the second N are first-order
+   * and the third N are second order */
   unsigned int idx;
   unsigned int maxRadius = 0;
 
@@ -174,7 +174,8 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
           }
         }
 
-      // NOTE: GaussianDerivativeOperator modifies the variance when setting image spacing
+      // NOTE: GaussianDerivativeOperator modifies the variance when
+      // setting image spacing
       m_OperatorArray[idx].SetVariance(m_Variance[direction]);
       m_OperatorArray[idx].SetOrder(order);
       m_OperatorArray[idx].SetNormalizeAcrossScale( m_NormalizeAcrossScale );
@@ -190,8 +191,9 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
       
     }
 
-  // Now precompute the N-dimensional kernel. This fastest as we don't have to perform
-  // N convolutions for each point we calculate but only one.
+  // Now precompute the N-dimensional kernel. This fastest as we don't
+  // have to perform N convolutions for each point we calculate but
+  // only one.
 
   typedef itk::Image<TOutput,itkGetStaticConstMacro(ImageDimension2)>  KernelImageType;
   typename KernelImageType::Pointer kernelImage = KernelImageType::New();
@@ -229,7 +231,8 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
   OrderArrayType orderArray;
 
   // Precalculate compound derivative kernels (n-dimensional)
-  // The order of calculation in the 3D case is: dxx, dxy, dxz, dyy, dyz, dzz
+  // The order of calculation in the 3D case is: dxx, dxy, dxz, dyy,
+  // dyz, dzz
 
   unsigned int opidx; // current operator index in m_OperatorArray
 

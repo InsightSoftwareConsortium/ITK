@@ -201,7 +201,7 @@ public:
   itkSetMacro( InterpolationMode, InterpolationModeType );
   itkGetMacro( InterpolationMode, InterpolationModeType );
 
-   /** Set the input image.
+  /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
@@ -277,4 +277,3 @@ private:
 #endif
 
 #endif
-
