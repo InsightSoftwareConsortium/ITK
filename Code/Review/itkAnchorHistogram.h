@@ -39,9 +39,9 @@ public:
 
   virtual void RemoveBoundary(){}
   
-  virtual void AddPixel(const TInputPixel &p){}
+  virtual void AddPixel(const TInputPixel &){}
 
-  virtual void RemovePixel(const TInputPixel &p){}
+  virtual void RemovePixel(const TInputPixel &){}
  
   virtual TInputPixel GetValue()
     {

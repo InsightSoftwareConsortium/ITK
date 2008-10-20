@@ -47,7 +47,7 @@ public:
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void doLine(InputImagePixelType * buffer, unsigned bufflength);
+  void DoLine(InputImagePixelType * buffer, unsigned bufflength);
 
   void SetSize(unsigned int size)
     {
@@ -63,20 +63,20 @@ private:
   typedef MorphologyHistogramVec<InputImagePixelType,THistogramCompare> VHistogram;
   typedef MorphologyHistogramMap<InputImagePixelType,THistogramCompare> MHistogram;
 
-  bool startLine(InputImagePixelType * buffer,
+  bool StartLine(InputImagePixelType * buffer,
                  InputImagePixelType &Extreme,
                  Histogram &histo,
                  unsigned &outLeftP,
                  unsigned &outRightP, 
                  unsigned bufflength);
 
-  void finishLine(InputImagePixelType * buffer,
+  void FinishLine(InputImagePixelType * buffer,
                   InputImagePixelType &Extreme,
                   unsigned &outLeftP,
                   unsigned &outRightP, 
                   unsigned bufflength);
 
-  bool useVectorBasedHistogram()
+  bool UseVectorBasedHistogram()
     {
     // bool, short and char are acceptable for vector based algorithm: they do not require
     // too much memory. Other types are not usable with that algorithm

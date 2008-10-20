@@ -27,7 +27,7 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
 ::AnchorOpenCloseLine()
 {
   m_Size=2;
-  if (useVectorBasedHistogram())
+  if (UseVectorBasedHistogram())
     {
     m_Histo = new VHistogram;
     } 
@@ -40,7 +40,7 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
 template <class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
 void
 AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
-::doLine(InputImagePixelType * buffer, unsigned bufflength)
+::DoLine(InputImagePixelType * buffer, unsigned bufflength)
 {
   // TFunction1 will be >= for openings
   // TFunction2 will be <=
@@ -86,9 +86,11 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     --outRightP;
     }
   InputImagePixelType Extreme;
-  while (startLine(buffer, Extreme, *m_Histo, outLeftP, outRightP, bufflength)){}
+  while (StartLine(buffer, Extreme, *m_Histo, outLeftP, outRightP, bufflength))
+    {
+    }
   
-  finishLine(buffer, Extreme, outLeftP, outRightP, bufflength);
+  FinishLine(buffer, Extreme, outLeftP, outRightP, bufflength);
   // this section if to make the edge behaviour the same as the more
   // traditional approaches. It isn't part of the core anchor method.
   // Note that the index calculations include some extra factors that
@@ -125,12 +127,16 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
 template<class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
 bool
 AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
-::startLine(InputImagePixelType * buffer,
+::StartLine(InputImagePixelType * buffer,
             InputImagePixelType &Extreme,
             Histogram &histo,
             unsigned &outLeftP,
             unsigned &outRightP,
-            unsigned bufflength)
+            unsigned
+#ifndef NDEBUG
+ bufflength
+#endif
+)
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
@@ -287,11 +293,15 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
 template<class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
 void
 AnchorOpenCloseLine<TInputPix,  THistogramCompare, TFunction1, TFunction2>
-::finishLine(InputImagePixelType * buffer,
+::FinishLine(InputImagePixelType * buffer,
              InputImagePixelType &Extreme,
              unsigned &outLeftP,
              unsigned &outRightP,
-             unsigned bufflength)
+             unsigned
+#ifndef NDEBUG
+bufflength
+#endif
+)
 {
   while (outLeftP < outRightP)
     {

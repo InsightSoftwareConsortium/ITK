@@ -28,7 +28,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
 {
   m_Size=2;
   // create a histogram
-  if (useVectorBasedHistogram())
+  if (UseVectorBasedHistogram())
     {
     m_Histo = new VHistogram;
     } 
@@ -41,7 +41,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
 template <class TInputPix, class TFunction1, class TFunction2>
 void
 AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::doLine(InputImagePixelType * buffer, InputImagePixelType * inbuffer, unsigned bufflength)
+::DoLine(InputImagePixelType * buffer, InputImagePixelType * inbuffer, unsigned bufflength)
 {
   // TFunction1 will be < for erosions
   // TFunction2 will be <=
@@ -190,15 +190,35 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   assert(outLeftP < (int)bufflength);
   Extreme = buffer[outLeftP];
 
-  while (startLine(buffer, inbuffer, Extreme, *m_Histo, outLeftP, outRightP, inLeftP, inRightP, middle, bufflength)){}
+  while (StartLine(buffer,
+                   inbuffer,
+                   Extreme,
+                   *m_Histo,
+                   outLeftP,
+                   outRightP,
+                   inLeftP,
+                   inRightP,
+                   middle,
+                   bufflength))
+    {
+    }
 
-  finishLine(buffer, inbuffer, Extreme, *m_Histo, outLeftP, outRightP, inLeftP, inRightP, middle, bufflength);
+  FinishLine(buffer,
+             inbuffer,
+             Extreme,
+             *m_Histo,
+             outLeftP,
+             outRightP,
+             inLeftP,
+             inRightP,
+             middle,
+             bufflength);
 }
 
 template<class TInputPix, class TFunction1, class TFunction2>
 bool
 AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::startLine(InputImagePixelType * buffer,
+::StartLine(InputImagePixelType * buffer,
             InputImagePixelType * inbuffer,
             InputImagePixelType &Extreme,
             Histogram &histo,
@@ -207,7 +227,11 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
             int &inLeftP,
             int &inRightP,
             int itkNotUsed(middle),
-            unsigned bufflength)
+            unsigned
+#ifndef NDEBUG
+ bufflength
+#endif
+)
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
@@ -336,7 +360,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
 template<class TInputPix, class TFunction1, class TFunction2>
 void
 AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::finishLine(InputImagePixelType * buffer,
+::FinishLine(InputImagePixelType * buffer,
              InputImagePixelType * inbuffer,
              InputImagePixelType &Extreme,
              Histogram &histo,
@@ -344,7 +368,12 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
              int &outRightP,
              int &itkNotUsed(inLeftP),
              int &inRightP,
-             int middle, unsigned bufflength)
+             int middle,
+             unsigned
+#ifndef NDEBUG
+ bufflength
+#endif
+)
 {
   // Handles the right border.
   // First half of the structuring element

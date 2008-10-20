@@ -34,7 +34,7 @@ namespace itk {
 #if 0
 // version with no user access to border
 template <class TImage, class TBres, class TLine, class TFunction>
-int fillLineBuffer(typename TImage::ConstPointer input,
+int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    typename TImage::PixelType border,
                    const TLine line,  // unit vector
@@ -48,16 +48,16 @@ int fillLineBuffer(typename TImage::ConstPointer input,
                    unsigned &end);
 #else
 template <class PixelType, class TFunction>
-void fillReverseExt(PixelType *pixbuffer, PixelType *rExtBuffer, 
+void FillReverseExt(PixelType *pixbuffer, PixelType *rExtBuffer, 
                     const unsigned int KernLen, unsigned len);
 
 template <class PixelType, class TFunction>
-void fillForwardExt(PixelType *pixbuffer, PixelType *fExtBuffer, 
+void FillForwardExt(PixelType *pixbuffer, PixelType *fExtBuffer, 
                     const unsigned int KernLen, unsigned len);
 #endif
 
 template <class TImage, class TBres, class TFunction, class TLine>
-void doFace(typename TImage::ConstPointer input,
+void DoFace(typename TImage::ConstPointer input,
             typename TImage::Pointer output,
             typename TImage::PixelType border,
             TLine line,

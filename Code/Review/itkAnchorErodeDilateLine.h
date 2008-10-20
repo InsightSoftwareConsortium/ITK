@@ -39,7 +39,7 @@ public:
   /** Some convenient typedefs. */
   typedef TInputPix InputImagePixelType;
 
-  void doLine(InputImagePixelType * buffer, InputImagePixelType * inbuffer, 
+  void DoLine(InputImagePixelType * buffer, InputImagePixelType * inbuffer, 
               unsigned bufflength);
 
   void SetSize(unsigned int size)
@@ -66,7 +66,7 @@ private:
   typedef MorphologyHistogramVec<InputImagePixelType,TFunction1> VHistogram;
   typedef MorphologyHistogramMap<InputImagePixelType,TFunction1> MHistogram;
 
-  bool startLine(InputImagePixelType * buffer,
+  bool StartLine(InputImagePixelType * buffer,
                  InputImagePixelType * inbuffer,
                  InputImagePixelType &Extreme,
                  Histogram &histo,
@@ -76,7 +76,7 @@ private:
                  int &inRightP,
                  int middle, unsigned bufflength);
 
-  void finishLine(InputImagePixelType * buffer,
+  void FinishLine(InputImagePixelType * buffer,
                   InputImagePixelType * inbuffer,
                   InputImagePixelType &Extreme,
                   Histogram &histo,
@@ -86,7 +86,7 @@ private:
                   int &inRightP,
                   int middle, unsigned bufflength);
 
-  bool useVectorBasedHistogram()
+  bool UseVectorBasedHistogram()
     {
     // bool, short and char are acceptable for vector based algorithm: they do not require
     // too much memory. Other types are not usable with that algorithm

@@ -24,12 +24,12 @@
 namespace itk {
 #if defined(_MSC_VER) && _MSC_VER >= 1300
 template <class TRegion, class TLine>
-bool needToDoFace(const TRegion AllImage,
+bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
                   const TLine line);
 
 template <class TImage, class TBres, class TLine>
-int computeStartEnd(const typename TImage::IndexType StartIndex,
+int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
                     const typename TBres::OffsetArray LineOffsets,
@@ -38,7 +38,7 @@ int computeStartEnd(const typename TImage::IndexType StartIndex,
                     unsigned &end);
 
 template <class TImage, class TBres, class TLine>
-int fillLineBuffer(typename TImage::ConstPointer input,
+int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,
                    const float tol,
@@ -49,7 +49,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
                    unsigned int &end);
 
 template <class TImage, class TBres>
-void copyLineToImage(const typename TImage::Pointer output,
+void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
                      const typename TImage::PixelType * outbuffer,
@@ -64,14 +64,14 @@ void copyLineToImage(const typename TImage::Pointer output,
 // does not have overlap between them.
 template <class TInputImage, class TLine>
 typename TInputImage::RegionType
-mkEnlargedFace(const TInputImage * input,
+MakeEnlargedFace(const TInputImage * input,
                const typename TInputImage::RegionType AllImage,
                const TLine line);
 
 // figure out the correction factor for length->pixel count based on
 // line angle
 template <class TLine>
-unsigned int getLinePixels(const TLine line);
+unsigned int GetLinePixels(const TLine line);
 #endif
 } // namespace itk
 

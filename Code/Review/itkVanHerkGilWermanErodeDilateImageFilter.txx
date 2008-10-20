@@ -107,14 +107,14 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>
     {
     typename KernelType::LType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
-    unsigned int SELength = getLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength%2))
       ++SELength;
 
-    InputImageRegionType BigFace = mkEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
 
-    doFace<TImage, BresType, TFunction1, KernelLType>(input, output, m_Boundary, ThisLine,  
+    DoFace<TImage, BresType, TFunction1, KernelLType>(input, output, m_Boundary, ThisLine,  
                                   TheseOffsets, SELength,
                                   buffer, forward, 
                                   reverse, IReg, BigFace);

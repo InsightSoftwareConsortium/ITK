@@ -33,7 +33,7 @@ namespace itk {
 #if 0
 // can be moved to SharedMorphUtilities if user control of border is permitted
 template <class TImage, class TBres, class TLine>
-int fillLineBuffer(typename TImage::ConstPointer input,
+int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,
                    const float tol,
@@ -45,7 +45,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
 #endif
 
 template <class TImage, class TBres, class TLine>
-int computeStartEnd(const typename TImage::IndexType StartIndex,
+int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
                     const typename TBres::OffsetArray LineOffsets,

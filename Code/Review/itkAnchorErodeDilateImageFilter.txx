@@ -110,13 +110,13 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 
     typedef typename KernelType::LType KernelLType;
 
-    unsigned int SELength = getLinePixels< KernelLType >(ThisLine);
+    unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
 
     // want lines to be odd
     if (!(SELength%2))
       ++SELength;
 
-    InputImageRegionType BigFace = mkEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
 
     AnchorLine.SetSize(SELength);
 

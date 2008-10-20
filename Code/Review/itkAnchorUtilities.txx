@@ -33,7 +33,7 @@ namespace itk {
 **/
 #if 0
 template <class TImage, class TBres, class TLine>
-int fillLineBuffer(typename TImage::ConstPointer input,
+int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,  // unit vector
                    const float tol,
@@ -58,7 +58,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
     if (AllImage.IsInside(StartIndex + LineOffsets[start])) break;
     }
 #else
-  int status = computeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
+  int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
                                                      start, end);
   if (!status) return(status);
 #endif
@@ -109,7 +109,7 @@ void DoAnchorFace(const TImage * input,
     {
     typename TImage::IndexType Ind = it.GetIndex();
     unsigned start, end, len;
-    if (fillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, 
+    if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, 
                                              AllImage, inbuffer, start, end))
       {
       len = end - start + 1;
@@ -118,11 +118,11 @@ void DoAnchorFace(const TImage * input,
       inbuffer[len+1]=border;
 
 #if 1
-      AnchorLine.doLine(outbuffer, inbuffer, len + 2);  // compat
-      copyLineToImage<TImage, TBres>(output, Ind, LineOffsets, outbuffer, start, end);
+      AnchorLine.DoLine(outbuffer, inbuffer, len + 2);  // compat
+      CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, outbuffer, start, end);
 #else
       // test the decomposition
-      copyLineToImage<TImage, TBres>(output, Ind, LineOffsets, inbuffer, start, end);
+      CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, inbuffer, start, end);
 #endif
       }
     ++it;

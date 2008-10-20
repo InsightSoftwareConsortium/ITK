@@ -129,7 +129,7 @@ private:
   // the class that does the dilation
   typedef AnchorErodeDilateLine<InputImagePixelType, GreaterThan, GreaterEqual> AnchorLineDilateType;
 
-  void doFaceOpen(InputImageConstPointer input,
+  void DoFaceOpen(InputImageConstPointer input,
                   InputImagePointer output,
                   InputImagePixelType border,
                   KernelLType line,

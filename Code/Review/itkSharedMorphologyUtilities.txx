@@ -34,7 +34,7 @@ namespace itk {
  */
 
 template <class TRegion, class TLine>
-bool needToDoFace(const TRegion AllImage,
+bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
                   const TLine line)
 {
@@ -76,7 +76,7 @@ bool needToDoFace(const TRegion AllImage,
   
 }
 template <class TImage, class TBres, class TLine>
-int computeStartEnd(const typename TImage::IndexType StartIndex,
+int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
                     const typename TBres::OffsetArray LineOffsets,
@@ -110,18 +110,15 @@ int computeStartEnd(const typename TImage::IndexType StartIndex,
         {
         // T1 is meant to be the near face
         std::swap(T1, T2);
-        std::swap(P1, P2);
         }
       // want the farthest Tnear and nearest TFar
       if (T1 > Tnear) 
         {
         Tnear = T1;  
-        sPos = abs(P1);
         }
       if (T2 < Tfar) 
         {
         Tfar = T2;
-        ePos = abs(P2);
         }
       }
     else
@@ -130,7 +127,6 @@ int computeStartEnd(const typename TImage::IndexType StartIndex,
       if ((StartIndex[i] < ImStart[i]) || (StartIndex[i] > ImStart[i] + (int)ImSize[i] - 1))
         {
         // no intersection
-//        std::cout << StartIndex << "No intersection - parallel" << std::endl;
         start=end=0;
         return(0);
         }
@@ -245,7 +241,7 @@ int computeStartEnd(const typename TImage::IndexType StartIndex,
 
 
 template <class TImage, class TBres>
-void copyLineToImage(const typename TImage::Pointer output,
+void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
                      const typename TImage::PixelType * outbuffer,
@@ -269,7 +265,7 @@ void copyLineToImage(const typename TImage::Pointer output,
 
 template <class TInputImage, class TLine>
 typename TInputImage::RegionType
-mkEnlargedFace(const typename TInputImage::ConstPointer input,
+MakeEnlargedFace(const typename TInputImage::ConstPointer input,
                const typename TInputImage::RegionType AllImage,
                const TLine line)
 {
@@ -349,7 +345,7 @@ FaceCalculatorType;
     if (FaceDir == DomDir) // within 1 degree 
       {
       // now check whether the line goes inside the image from this face
-      if ( needToDoFace<ITK_TYPENAME TInputImage::RegionType, TLine>(AllImage, *fit, line) ) 
+      if ( NeedToDoFace<ITK_TYPENAME TInputImage::RegionType, TLine>(AllImage, *fit, line) ) 
         {
 //        std::cout << "Using face: " << *fit << line << std::endl;
         RelevantRegion = *fit;
@@ -411,7 +407,7 @@ FaceCalculatorType;
 }
 
 template <class TImage, class TBres, class TLine>
-int fillLineBuffer(typename TImage::ConstPointer input,
+int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,  // unit vector
                    const float tol,
@@ -436,7 +432,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
     if (AllImage.IsInside(StartIndex + LineOffsets[start])) break;
     }
 #else
-  int status = computeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
+  int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
                                                      start, end);
   if (!status) return(status);
 #endif
@@ -467,7 +463,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
 }
 
 template <class TLine>
-unsigned int getLinePixels(const TLine line)
+unsigned int GetLinePixels(const TLine line)
 {
   float N = line.GetNorm();
   float correction = 0.0;

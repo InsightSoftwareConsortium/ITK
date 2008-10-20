@@ -37,7 +37,7 @@ namespace itk {
 // this version doesn't allow the user to set border values
 
 template <class TImage, class TBres, class TLine, class TFunction>
-int fillLineBuffer(typename TImage::ConstPointer input,
+int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,  // unit vector
                    const float tol,
@@ -50,7 +50,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
                    unsigned &end)
 {
 
- int status = computeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
+ int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
                                                      start, end);
   if (!status) return(status);
 
@@ -94,7 +94,7 @@ int fillLineBuffer(typename TImage::ConstPointer input,
 
 
 template <class TImage, class TBres, class TFunction, class TLine>
-void doFace(typename TImage::ConstPointer input,
+void DoFace(typename TImage::ConstPointer input,
             typename TImage::Pointer output,
             TLine line,
             const typename TBres::OffsetArray LineOffsets,
@@ -119,7 +119,7 @@ void doFace(typename TImage::ConstPointer input,
     {
     typename TImage::IndexType Ind = it.GetIndex();
     unsigned start, end, len;
-    if (fillLineBuffer<TImage, TBres, TLine, TFunction>(input, Ind, NormLine, tol, LineOffsets, 
+    if (FillLineBuffer<TImage, TBres, TLine, TFunction>(input, Ind, NormLine, tol, LineOffsets, 
                                                         AllImage, KernLen, pixbuffer, fExtBuffer, 
                                                         start, end))
       {
@@ -240,7 +240,7 @@ void doFace(typename TImage::ConstPointer input,
           pixbuffer[j]=rExtBuffer[j-KernLen/2];
           }
         }
-      copyLineToImage<TImage, TBres>(output, Ind, LineOffsets, pixbuffer, start, end);
+      CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, pixbuffer, start, end);
       }
     ++it;
     }
@@ -253,7 +253,7 @@ void doFace(typename TImage::ConstPointer input,
 // loop - it is too messy.
 
 template <class PixelType, class TFunction>
-void fillForwardExt(PixelType *pixbuffer, PixelType *fExtBuffer, 
+void FillForwardExt(PixelType *pixbuffer, PixelType *fExtBuffer, 
                     const unsigned int KernLen, unsigned len)
 {
   unsigned size = len;
@@ -297,7 +297,7 @@ void fillForwardExt(PixelType *pixbuffer, PixelType *fExtBuffer,
 }
 
 template <class PixelType, class TFunction>
-void fillReverseExt(PixelType *pixbuffer, PixelType *rExtBuffer, 
+void FillReverseExt(PixelType *pixbuffer, PixelType *rExtBuffer, 
                     const unsigned int KernLen, unsigned len)
 {
   long size = (long)(len);
@@ -339,7 +339,7 @@ void fillReverseExt(PixelType *pixbuffer, PixelType *rExtBuffer,
 }
 
 template <class TImage, class TBres, class TFunction, class TLine>
-void doFace(typename TImage::ConstPointer input,
+void DoFace(typename TImage::ConstPointer input,
             typename TImage::Pointer output,
             typename TImage::PixelType border,
             TLine line,
@@ -364,15 +364,15 @@ void doFace(typename TImage::ConstPointer input,
     {
     typename TImage::IndexType Ind = it.GetIndex();
     unsigned start, end, len;
-    if (fillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, 
+    if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, 
                                              AllImage, pixbuffer, start, end))
       {
       len = end - start + 1;
       // compat
       pixbuffer[0]=border;
       pixbuffer[len+1]=border;
-      fillForwardExt<ITK_TYPENAME TImage::PixelType, TFunction>(pixbuffer, fExtBuffer, KernLen, len+2);
-      fillReverseExt<ITK_TYPENAME TImage::PixelType, TFunction>(pixbuffer, rExtBuffer, KernLen, len+2);
+      FillForwardExt<ITK_TYPENAME TImage::PixelType, TFunction>(pixbuffer, fExtBuffer, KernLen, len+2);
+      FillReverseExt<ITK_TYPENAME TImage::PixelType, TFunction>(pixbuffer, rExtBuffer, KernLen, len+2);
       // now compute result
       unsigned int size = len+2;
       if (size <= KernLen/2)
@@ -438,7 +438,7 @@ void doFace(typename TImage::ConstPointer input,
           pixbuffer[j]=rExtBuffer[j-KernLen/2];
           }
         }
-      copyLineToImage<TImage, TBres>(output, Ind, LineOffsets, pixbuffer, start, end);
+      CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, pixbuffer, start, end);
       
       }
     ++it;

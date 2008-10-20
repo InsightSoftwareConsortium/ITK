@@ -104,13 +104,13 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     {
     KernelLType ThisLine = decomposition[i];
     BresOffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
-    unsigned int SELength = getLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength%2))
       ++SELength;
     AnchorLineErode.SetSize(SELength);
 
-    InputImageRegionType BigFace = mkEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
     DoAnchorFace<TImage, BresType, 
       AnchorLineErodeType, 
       KernelLType>(input, output, m_Boundary1, ThisLine, AnchorLineErode, 
@@ -126,17 +126,17 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   unsigned i = decomposition.size() - 1;
   KernelLType ThisLine = decomposition[i];
   typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
-  unsigned int SELength = getLinePixels<KernelLType>(ThisLine);
+  unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
   // want lines to be odd
   if (!(SELength%2))
     ++SELength;
 
   AnchorLineOpen.SetSize(SELength);
-  InputImageRegionType BigFace = mkEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+  InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
 
   // Now figure out which faces of the image we should be starting
   // from with this line
-  doFaceOpen(input, output, m_Boundary1, ThisLine, AnchorLineOpen,
+  DoFaceOpen(input, output, m_Boundary1, ThisLine, AnchorLineOpen,
              TheseOffsets, buffer, 
              IReg, BigFace);
   // equivalent to two passes
@@ -149,14 +149,14 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     {
     KernelLType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
-    unsigned int SELength = getLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength%2))
       ++SELength;
   
     AnchorLineDilate.SetSize(SELength);
 
-    InputImageRegionType BigFace = mkEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
     DoAnchorFace<TImage, BresType, 
       AnchorLineDilateType, 
       KernelLType>(input, output, m_Boundary2, ThisLine, AnchorLineDilate, 
@@ -183,7 +183,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
 template<class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual>
 void
 AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual>
-::doFaceOpen(InputImageConstPointer input,
+::DoFaceOpen(InputImageConstPointer input,
              InputImagePointer output,
              InputImagePixelType border,
              KernelLType line,
@@ -205,18 +205,23 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     {
     typename TImage::IndexType Ind = it.GetIndex();
     unsigned start, end, len;
-    if (fillLineBuffer<TImage, BresType, KernelLType>(input, Ind, NormLine, 
-                                                                     tol, LineOffsets, 
-                                                                     AllImage, outbuffer, 
-                                                                     start, end))
+    if (FillLineBuffer<TImage, BresType, KernelLType>(input,
+                                                      Ind,
+                                                      NormLine,
+                                                      tol,
+                                                      LineOffsets, 
+                                                      AllImage,
+                                                      outbuffer,
+                                                      start,
+                                                      end))
       {
       
       len = end - start + 1;
       // compat
       outbuffer[0]=border;
       outbuffer[len+1]=border;
-      AnchorLineOpen.doLine(outbuffer,len+2);  // compat
-      copyLineToImage<TImage, BresType>(output, Ind, LineOffsets, outbuffer, start, end);
+      AnchorLineOpen.DoLine(outbuffer,len+2);  // compat
+      CopyLineToImage<TImage, BresType>(output, Ind, LineOffsets, outbuffer, start, end);
       }
     ++it;
     }
