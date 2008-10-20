@@ -56,6 +56,7 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
   os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
   os << indent << "KernelArray: " << m_KernelArray << std::endl;
   os << indent << "OperatorImageFunction: " << m_OperatorImageFunction << std::endl;
+  os << indent << "InterpolationMode: " << m_InterpolationMode << std::endl;
 }
 
 
