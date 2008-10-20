@@ -261,7 +261,7 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
       // Copy kernel image to neighborhood. Do not copy boundaries.
       ImageRegionConstIterator<KernelImageType> it( kernelImage, kernelRegion );
       it.GoToBegin();
-      unsigned int idx = 0;
+      idx = 0;
 
       while( !it.IsAtEnd() )
         {
