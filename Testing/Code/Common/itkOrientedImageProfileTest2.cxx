@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTimeProbesCollectorBase.h"
 
-int itkOrientedImageProfileTest2( int ac, char * av[] )
+int itkOrientedImageProfileTest2( int, char *[] )
 {
 
   const unsigned int Dimension = 3;
