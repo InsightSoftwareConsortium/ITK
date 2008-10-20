@@ -14,18 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #include "itkBioGene.h"
 #include <algorithm>
 
-
-
 namespace itk {
 
-
 namespace bio {
-
 
 /**
  *    Constructor 
@@ -36,9 +30,6 @@ Gene
   m_Name = "Unknown";
 }
 
-
-
-
 /**
  *    Destructor   
  */ 
@@ -46,8 +37,6 @@ Gene
 ::~Gene()
 {
 }
-
-
 
 /**
  *    Copy from another genome
@@ -78,8 +67,6 @@ Gene
     }  
 }
 
-
-
 /**
  *    Set the name of the gene
  */ 
@@ -89,8 +76,6 @@ Gene
 {
   m_Name = name;
 }
- 
-
 
 /**
  *    Set the name of the gene
@@ -102,10 +87,6 @@ Gene
   m_Name = name;
 }
 
-
- 
-
-
 /**
  *    Get the name of the gene
  */ 
@@ -115,12 +96,6 @@ Gene
 {
   return m_Name.c_str();
 }
- 
-
-
-
-
-
 
 /**
  *    Add a protein domain
@@ -131,9 +106,6 @@ Gene
 {
   m_ProteinDomains[ domain ] = affinity;
 }
- 
-
-
 
 /**
  *    Add a protein domain
@@ -152,5 +124,3 @@ Gene
 }  // end namespace bio
 
 }  // end namespace itk
-
-

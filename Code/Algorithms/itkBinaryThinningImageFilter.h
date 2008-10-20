@@ -25,32 +25,32 @@ namespace itk
 {
 
 /** \class BinaryThinningImageFilter
-*
-* \brief This filter computes one-pixel-wide edges of the input image.
-*
-* This class is parametrized over the type of the input image
-* and the type of the output image.
-* 
-* The input is assumed to be a binary image.  If the foreground pixels
-* of the input image do not have a value of 1, they are rescaled to 1
-* internally to simplify the computation.
-* 
-* The filter will produce a skeleton of the object.  The output
-* background values are 0, and the foreground values are 1.
-*
-* This filter is a sequential thinning algorithm and known to be computational time
-* dependable on the image size.  The algorithm corresponds with the 2D
-* implementation described in:
-* 
-* Rafael C. Gonzales and Richard E. Woods. 
-* Digital Image Processing. 
-* Addison Wesley, 491-494, (1993).
-*
-* To do: Make this filter ND.
-*
-* \sa MorphologyImageFilter
-* \ingroup ImageEnhancement MathematicalMorphologyImageFilters
-*/
+ *
+ * \brief This filter computes one-pixel-wide edges of the input image.
+ *
+ * This class is parametrized over the type of the input image
+ * and the type of the output image.
+ * 
+ * The input is assumed to be a binary image.  If the foreground pixels
+ * of the input image do not have a value of 1, they are rescaled to 1
+ * internally to simplify the computation.
+ * 
+ * The filter will produce a skeleton of the object.  The output
+ * background values are 0, and the foreground values are 1.
+ *
+ * This filter is a sequential thinning algorithm and known to be computational time
+ * dependable on the image size.  The algorithm corresponds with the 2D
+ * implementation described in:
+ * 
+ * Rafael C. Gonzales and Richard E. Woods. 
+ * Digital Image Processing. 
+ * Addison Wesley, 491-494, (1993).
+ *
+ * To do: Make this filter ND.
+ *
+ * \sa MorphologyImageFilter
+ * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
+ */
 
 template <class TInputImage,class TOutputImage>
 class ITK_EXPORT BinaryThinningImageFilter :
@@ -58,10 +58,10 @@ class ITK_EXPORT BinaryThinningImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryThinningImageFilter    Self;
+  typedef BinaryThinningImageFilter                    Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -82,7 +82,7 @@ public:
   typedef typename RegionType::IndexType  IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::PixelType PixelType ;
+  typedef typename InputImageType::PixelType PixelType;
 
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
@@ -97,7 +97,7 @@ public:
   typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
   
   /** Neighborhood iterator type */
-  typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType ;
+  typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType;
   
   /** Get Skelenton by thinning image. */
   OutputImageType * GetThinning(void);

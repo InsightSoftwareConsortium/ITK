@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBioGeneNetwork_h_
-#define __itkBioGeneNetwork_h_
+#ifndef __itkBioGeneNetwork_h
+#define __itkBioGeneNetwork_h
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -71,5 +71,3 @@ private:
 } // end namespace itk
 
 #endif
-
-

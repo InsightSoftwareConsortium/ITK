@@ -611,7 +611,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   typename IPixelType::VectorType u[3];
 
   unsigned long i = 0; // arnaud: I guess i an InputCellIdentifier?
-  for( ; cells_it != myCells->End(); ++cells_it, i++ )
+  for(; cells_it != myCells->End(); ++cells_it, i++ )
     {
     tp = cells_it.Value()->GetPointIds();
     for( unsigned int j = 0; j < 3; j++ )
@@ -643,7 +643,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer  myDerives  = m_Derives->GetPoints();
   InputPointsContainerIterator derives_it = myDerives->Begin();
 
-  for ( ; derives_it != myDerives->End(); ++derives_it, ++forces_it )
+  for (; derives_it != myDerives->End(); ++derives_it, ++forces_it )
     {
     derives_it.Value() = forces_it.Value();
     }

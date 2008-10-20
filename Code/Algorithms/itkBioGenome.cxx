@@ -6,25 +6,19 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #include "itkBioGenome.h"
-
 
 namespace itk {
 
 namespace bio {
-
-
-
 
 /**
  *    Constructor 
@@ -32,11 +26,7 @@ namespace bio {
 Genome
 ::Genome()
 {
-
 }
-
-
-
 
 /**
  *    Destructor   
@@ -45,8 +35,6 @@ Genome
 ::~Genome()
 {
 }
-
-
 
 /**
  *    Copy from another genome
@@ -71,9 +59,6 @@ Genome
 
 }
 
-
-
-
 /**
  *    Inset a gene in the genome   
  */ 
@@ -87,8 +72,6 @@ Genome
   m_Map[ geneId ] = 0.0;
 }
 
-
-
 /**
  *    Knockout a gene in the genome   
  */ 
@@ -98,8 +81,6 @@ Genome
 {
   m_Map.erase( geneId );
 }
-
-
 
 /**
  *    Return the level of expression of a particular gene
@@ -111,10 +92,6 @@ Genome
   return m_Map[ geneId ];
 }
 
-
-
-
-
 /**
  *    Set the level of expression of a particular gene
  */ 
@@ -124,13 +101,7 @@ Genome
 {
   m_Map[ geneId ] = level;
 }
-
-
-
-
-
  
 }  // end namespace bio
 
 }  // end namespace itk
-

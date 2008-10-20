@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,9 +24,6 @@
 namespace itk {
 
 namespace bio {
-
-
-
 
 /** \class Cell
  * \brief This class implement the minimal behavior 
@@ -62,11 +59,11 @@ public:
   virtual       CellularAggregateBase * GetCellularAggregate( void );
   virtual const CellularAggregateBase * GetCellularAggregate( void ) const;
   static  const char * GetSpeciesName(void) 
-                              { return "Primitive Cell"; }
+    { return "Primitive Cell"; }
   static  Cell * CreateEgg(void);
 
   static  unsigned int GetDimension() 
-                              { return NSpaceDimension; }
+    { return NSpaceDimension; }
 
 protected:
   Cell(); // Users should create cell with the CreateEgg() method
@@ -77,9 +74,9 @@ public:
 
  
 protected:
-   VectorType               m_Force;
+  VectorType               m_Force;
 
-   CellularAggregateBase  * m_Aggregate;
+  CellularAggregateBase  * m_Aggregate;
 
 };
 

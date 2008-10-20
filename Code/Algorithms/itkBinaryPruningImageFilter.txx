@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkBinaryPruningImageFilter_txx
-#define _itkBinaryPruningImageFilter_txx
+#ifndef __itkBinaryPruningImageFilter_txx
+#define __itkBinaryPruningImageFilter_txx
 
 #include <iostream>
 
@@ -94,7 +94,7 @@ BinaryPruningImageFilter<TInputImage,TOutputImage>
       ++it;
       ++ot;
       }
-  itkDebugMacro(<< "PrepareData End");    
+  itkDebugMacro(<< "PrepareData End");
 }
 
 /**
@@ -185,8 +185,6 @@ BinaryPruningImageFilter<TInputImage,TOutputImage>
   os << indent << "Iteration: " << m_Iteration << std::endl;
 
 }
-
-
 
 } // end namespace itk
 

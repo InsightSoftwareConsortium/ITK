@@ -54,10 +54,10 @@ class ITK_EXPORT BinaryPruningImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryPruningImageFilter    Self;
+  typedef BinaryPruningImageFilter                     Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -78,7 +78,7 @@ public:
   typedef typename RegionType::IndexType  IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::PixelType PixelType ;
+  typedef typename InputImageType::PixelType PixelType;
 
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
@@ -90,7 +90,7 @@ public:
   typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Neighborhood iterator type */
-  typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType ;
+  typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType;
   
   /** Get Skelenton by thinning image. */
   OutputImageType * GetPruning(void);

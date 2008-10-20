@@ -6,15 +6,14 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkBioCell_txx
 #define __itkBioCell_txx
 
@@ -27,8 +26,6 @@
 namespace itk {
 
 namespace bio {
-
-
   
 /**
  *    Constructor Lonely Cell
@@ -43,9 +40,6 @@ Cell<NSpaceDimension>
   // Genome pointers are set to NULL in the superclass.
 }
 
-
-
-
 /**
  *    Destructor   
  */ 
@@ -55,8 +49,6 @@ Cell<NSpaceDimension>
 {
   // Genomes are released in the destructor of the superclass.
 }
-
-
 
 /**
  *    Cell Division
@@ -106,7 +98,6 @@ Cell<NSpaceDimension>
 
 }
 
-
 /**
  *    Create a New Egg Cell
  *    this method behave like a factory, it is 
@@ -131,10 +122,6 @@ Cell<NSpaceDimension>
   return cell;
 }
 
-
-
-
-
 /**
  *    Clear the cumulator for applied forces
  */ 
@@ -147,7 +134,6 @@ Cell<NSpaceDimension>
   m_Pressure  = 0.0f;
 }
 
-
 /**
  *    Return the cumulated force
  */ 
@@ -158,8 +144,6 @@ Cell<NSpaceDimension>
 {
   return m_Force;
 }
-
-
 
 /**
  *    Return a pointer to the Cellular Aggregate
@@ -172,8 +156,6 @@ Cell<NSpaceDimension>
   return m_Aggregate;
 }
 
-
-
 /**
  *    Return a const pointer to the Cellular Aggregate
  */ 
@@ -185,11 +167,6 @@ Cell<NSpaceDimension>
   return m_Aggregate;
 }
 
-
-
-
-
-
 /**
  *   Set Cellular Aggregate
  */ 
@@ -200,9 +177,6 @@ Cell<NSpaceDimension>
 {
   m_Aggregate = cells;
 }
-
-
-
 
 /**
  *    Add a force to the cumulator
@@ -216,7 +190,7 @@ Cell<NSpaceDimension>
       m_ChemoAttractantLevel < ChemoAttractantHighThreshold   )
     {
     double factor = 1.0 / vcl_pow(m_Radius, (double)(NSpaceDimension) );
-    m_Force    += force;
+    m_Force += force;
     m_Pressure += force.GetNorm() * factor;
     }
   else
@@ -224,7 +198,6 @@ Cell<NSpaceDimension>
     // no force so it is fixed in place....
     }
 }
-
 
 /**
  *    Programmed Cell Death 
@@ -244,9 +217,6 @@ Cell<NSpaceDimension>
   aggregate->Remove( this ); 
 
 }
-
-
-
 
 /**
  *    Execute a time step in the life of the cell.
@@ -285,67 +255,65 @@ Cell<NSpaceDimension>
 
 
   switch( m_CycleState )
-  {
-  case M: // Mitosis
-    m_CycleState = Gap1;
-    break;
-  case Gap1: // Gap 1 : growing
     {
-    if( this->CheckPointDNAReplication() )
+    case M: // Mitosis
+      m_CycleState = Gap1;
+      break;
+    case Gap1: 
       {
-      m_CycleState = S;
+      // Gap 1 : growing
+      if( this->CheckPointDNAReplication() )
+        {
+        m_CycleState = S;
+        }
+      break;
       }
-
-    break;
+    case S:
+      m_CycleState = Gap2;
+      break;
+    case Gap2:
+      if( this->CheckPointMitosis() )
+        {
+        m_CycleState = M;
+        }
+      break;
+    case Gap0:
+      // The cell is in cell cycle arrest
+      m_CycleState = Gap0;
+      break;
+    case Apop:
+      m_CycleState = Apop;
+      break;
     }
-  case S:
-    m_CycleState = Gap2;
-    break;
-  case Gap2:
-    if( this->CheckPointMitosis() )
-      {
-      m_CycleState = M;
-      }
-    break;
-  case Gap0:
-    // The cell is in cell cycle arrest
-    m_CycleState = Gap0;
-    break;
-  case Apop:
-    m_CycleState = Apop;
-    break;
-  }
-
-
 
   // Atomaton : Execute action
   switch( m_CycleState )
-  {
-  case M:  // Mitosis
-    // This is a terminal action. The implementation of the cell 
-    // is destroyed after division. Our abstraction assumes that 
-    // the cell disapears and two new cell are created.
-    this->Mitosis();
-    break;
-  case Gap1:
-    // Eat and grow
-    this->NutrientsIntake();
-    this->EnergyIntake();
-    this->Grow();
-    break;
-  case Gap0:
-    this->NutrientsIntake();
-    this->EnergyIntake();
-    break;
-  case S:
-    this->DNAReplication();
-    break; 
-  case Gap2:
-    break;
-  case Apop:
-    this->Apoptosis();
-    break;
-  }
+    {
+    case M:  // Mitosis
+      // This is a terminal action. The implementation of the cell 
+      // is destroyed after division. Our abstraction assumes that 
+      // the cell disapears and two new cell are created.
+      this->Mitosis();
+      break;
+    case Gap1:
+      // Eat and grow
+      this->NutrientsIntake();
+      this->EnergyIntake();
+      this->Grow();
+      break;
+    case Gap0:
+      this->NutrientsIntake();
+      this->EnergyIntake();
+      break;
+    case S:
+      this->DNAReplication();
+      break; 
+    case Gap2:
+      break;
+    case Apop:
+      this->Apoptosis();
+      break;
+    }
 }
 
 /**
@@ -364,12 +332,8 @@ Cell<NSpaceDimension>
 
 }
 
-
-
-
 }  // end namespace bio
 
 }  // end namespace itk
 
 #endif
-

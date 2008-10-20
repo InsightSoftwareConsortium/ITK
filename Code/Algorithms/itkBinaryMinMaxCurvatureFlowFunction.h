@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkBinaryMinMaxCurvatureFlowFunction_h_
-#define __itkBinaryMinMaxCurvatureFlowFunction_h_
+#ifndef __itkBinaryMinMaxCurvatureFlowFunction_h
+#define __itkBinaryMinMaxCurvatureFlowFunction_h
 
 #include "itkMinMaxCurvatureFlowFunction.h"
 #include "itkMacro.h"
@@ -36,17 +36,17 @@ namespace itk {
  * \sa BinaryMinMaxCurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition 
  * \ingroup FiniteDifferenceFunctions
-*/
+ */
 template <class TImage>
 class ITK_EXPORT BinaryMinMaxCurvatureFlowFunction :
     public MinMaxCurvatureFlowFunction<TImage>
 {
 public:
   /**  Standard class typedefs. */
-  typedef BinaryMinMaxCurvatureFlowFunction Self;
+  typedef BinaryMinMaxCurvatureFlowFunction   Self;
   typedef MinMaxCurvatureFlowFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,20 +56,20 @@ public:
                 MinMaxCurvatureFlowFunction );
   
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
-  typedef typename Superclass::ImageType  ImageType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  typedef typename Superclass::ImageType        ImageType;
 
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);  
 
   /** Set/Get the threshold value. */
   void SetThreshold( const double thresh )
-  { m_Threshold = thresh; }
+    { m_Threshold = thresh; }
   const double & GetThreshold() const
-  { return m_Threshold; }
+    { return m_Threshold; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
@@ -87,7 +87,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   double           m_Threshold;
-
 };
 
 }// end namespace itk

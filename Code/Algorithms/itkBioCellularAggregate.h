@@ -44,8 +44,8 @@ public:
   /** Standard class typedefs. */
   typedef CellularAggregate              Self;
   typedef CellularAggregateBase          Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   /*** Run-time type information (and related methods). */
   itkTypeMacro(BioCellularAggregate, CellularAggregateBase);
@@ -99,12 +99,12 @@ public:
   typedef CellInterface<  
                      typename MeshType::CellPixelType, 
                      typename MeshType::CellTraits >      CellInterfaceType;
-  typedef PolygonCell<  CellInterfaceType >          VoronoiRegionType;
+  typedef PolygonCell<  CellInterfaceType >               VoronoiRegionType;
   typedef typename VoronoiRegionType::SelfAutoPointer     VoronoiRegionAutoPointer;
 
   /** Convenient typedefs. */
   typedef float                                        ImagePixelType;
-  typedef Image<ImagePixelType, NSpaceDimension > SubstrateType;
+  typedef Image<ImagePixelType, NSpaceDimension >      SubstrateType;
   typedef typename SubstrateType::Pointer              SubstratePointer;
   typedef ImagePixelType                               SubstrateValueType;
   typedef std::vector< SubstratePointer >              SubstratesVector;

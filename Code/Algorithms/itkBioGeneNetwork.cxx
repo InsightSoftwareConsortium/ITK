@@ -14,17 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-
 #include "itkBioGeneNetwork.h"
-
-
 
 namespace itk {
 
-
 namespace bio {
-
 
 /**
  *    Constructor 
@@ -34,9 +28,6 @@ GeneNetwork
 {
 }
 
-
-
-
 /**
  *    Destructor   
  */ 
@@ -44,8 +35,6 @@ GeneNetwork
 ::~GeneNetwork()
 {
 }
-
-
 
 /**
  *    Copy from another genome
@@ -66,15 +55,8 @@ GeneNetwork
     m_DomainConcentration.begin(),
     geneNetwork.m_DomainConcentration.begin(),
     geneNetwork.m_DomainConcentration.end()    );
-
-
-
 }
-
-
  
 }  // end namespace bio
 
 }  // end namespace itk
-
-
