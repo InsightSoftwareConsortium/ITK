@@ -18,6 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkImage.h"
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.h"
 #include "itkPCAShapeSignedDistanceFunction.h"
 #include "itkShapePriorMAPCostFunction.h"
@@ -362,7 +363,8 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   thresholder->SetUpperThreshold( 0.0 );
   thresholder->SetOutsideValue( 0 );
   thresholder->SetInsideValue( 255 );
-
+  thresholder->Update();
+#ifndef __BORLANDC__
   /**
    * Compute overlap between the true shape and the segmented shape
    */
@@ -448,7 +450,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
     return EXIT_FAILURE;
     }
 
-
+#endif
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
