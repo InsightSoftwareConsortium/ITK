@@ -18,6 +18,7 @@
 #define _itkMultiResolutionPDEDeformableRegistration_txx
 #include "itkMultiResolutionPDEDeformableRegistration.h"
 
+#include "itkRecursiveGaussianImageFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "vnl/vnl_math.h"
@@ -219,8 +220,6 @@ void
 MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationField,TRealType>
 ::GenerateData()
 {
-  //DeformationFieldPointer NullDeformationFieldPointer = DeformationFieldType::New();
-  
   // Check for NULL images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
@@ -238,6 +237,14 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   if( !m_RegistrationFilter )
     {
     itkExceptionMacro( << "Registration filter not set" );
+    }
+
+  if( this->m_InitialDeformationField && this->GetInput(0) )
+    {
+    itkExceptionMacro( << "Only one initial deformation can be given. "
+                       << "SetInitialDeformationField should not be used in "
+                       << "cunjunction with SetArbitraryInitialDeformationField "
+                       << "or SetInput.");
     }
   
   // Create the image pyramids.
@@ -257,7 +264,67 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
   unsigned int fixedLevel = vnl_math_min( (int) m_CurrentLevel, 
     (int) m_FixedImagePyramid->GetNumberOfLevels() );
 
-  DeformationFieldPointer tempField = this->m_InitialDeformationField;
+  DeformationFieldPointer tempField = NULL;
+
+  DeformationFieldPointer inputPtr =
+     const_cast< DeformationFieldType * >( this->GetInput(0) );
+  
+  if ( this->m_InitialDeformationField )
+    {
+    tempField = this->m_InitialDeformationField;
+    }
+  else if( inputPtr )
+    {
+    // Arbitrary initial deformation field is set.
+    // smooth it and resample
+
+    // First smooth it
+    tempField = inputPtr;
+      
+    typedef RecursiveGaussianImageFilter< DeformationFieldType,
+          DeformationFieldType> GaussianFilterType;
+    typename GaussianFilterType::Pointer smoother
+       = GaussianFilterType::New();
+      
+    for (unsigned int dim=0; dim<DeformationFieldType::ImageDimension; ++dim)
+      {
+      // sigma accounts for the subsampling of the pyramid
+      double sigma = 0.5 * static_cast<float>(
+         m_FixedImagePyramid->GetSchedule()[fixedLevel][dim] );
+
+      // but also for a possible discrepancy in the spacing
+      sigma *= fixedImage->GetSpacing()[dim]
+         / inputPtr->GetSpacing()[dim];
+      
+      smoother->SetInput( tempField );
+      smoother->SetSigma( sigma );
+      smoother->SetDirection( dim );
+      
+      smoother->Update();
+      
+      tempField = smoother->GetOutput();
+      tempField->DisconnectPipeline();
+      }
+      
+      
+    // Now resample
+    m_FieldExpander->SetInput( tempField );
+    
+    typename FloatImageType::Pointer fi = 
+       m_FixedImagePyramid->GetOutput( fixedLevel );
+    m_FieldExpander->SetSize( 
+       fi->GetLargestPossibleRegion().GetSize() );
+    m_FieldExpander->SetOutputStartIndex(
+       fi->GetLargestPossibleRegion().GetIndex() );
+    m_FieldExpander->SetOutputOrigin( fi->GetOrigin() );
+    m_FieldExpander->SetOutputSpacing( fi->GetSpacing());
+    
+    m_FieldExpander->UpdateLargestPossibleRegion();
+    m_FieldExpander->SetInput( NULL );
+    tempField = m_FieldExpander->GetOutput();
+    tempField->DisconnectPipeline();
+    }
+  
   bool lastShrinkFactorsAllOnes = false;
 
   while ( !this->Halt() )
