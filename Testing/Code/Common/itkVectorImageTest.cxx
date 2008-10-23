@@ -51,8 +51,8 @@ int itkVectorImageTest( int, char* argv[] )
 {
   bool failed = false;
 
-  const unsigned int VectorLength = 6;
   const unsigned int Dimension    = 3;
+  const unsigned int VectorLength = 2 * Dimension;
   typedef float PixelType;
 
   {
@@ -80,14 +80,10 @@ int itkVectorImageTest( int, char* argv[] )
   VariableLengthVectorImageType::Pointer image = VariableLengthVectorImageType::New();
   VariableLengthVectorImageType::IndexType start;
   InternalPixelType f( VectorLength );
-  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
   VariableLengthVectorImageType::SizeType  size;
-  size[0]  = 50;  // size along X
-  size[1]  = 50;  // size along Y
-  size[2]  = 50;  // size along Z
+  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
+  start.Fill(0);
+  size.Fill(50);
   VariableLengthVectorImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
@@ -128,14 +124,10 @@ int itkVectorImageTest( int, char* argv[] )
   FixedArrayImageType::Pointer image = FixedArrayImageType::New();
   FixedArrayImageType::IndexType start;
   InternalPixelType f;
-  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
   FixedArrayImageType::SizeType  size;
-  size[0]  = 50;  // size along X
-  size[1]  = 50;  // size along Y
-  size[2]  = 50;  // size along Z
+  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
+  start.Fill(0);
+  size.Fill(50);
   FixedArrayImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
@@ -154,7 +146,11 @@ int itkVectorImageTest( int, char* argv[] )
     // First set some pixel
     for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i*0.1; }
     FixedArrayImageType::IndexType idx;
-    idx[0]=4; idx[1]=4;idx[2]=12; 
+    for (unsigned int i = 0; i < Dimension; i++)
+      {
+      idx[i] = 4;
+      }
+    idx[Dimension-1] = 12;
     image->SetPixel( idx, f );
     }
 
@@ -182,14 +178,10 @@ int itkVectorImageTest( int, char* argv[] )
   VectorImageType::Pointer vectorImage = VectorImageType::New();
   VectorImageType::IndexType start;
   itk::VariableLengthVector< PixelType > f( VectorLength );
-  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
   VectorImageType::SizeType  size;
-  size[0]  = 50;  // size along X
-  size[1]  = 50;  // size along Y
-  size[2]  = 50;  // size along Z
+  for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
+  start.Fill(0);
+  size.Fill(50);
   VectorImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( start );
@@ -228,14 +220,13 @@ int itkVectorImageTest( int, char* argv[] )
   std::cout << "Testing VectorImageToImageAdaptor to extract a component from the vector image" << std::endl;
 
 
-  const unsigned int componentToExtract = 4;
+  const unsigned int componentToExtract = 2 * (Dimension -1);
   typedef itk::VectorImageToImageAdaptor< PixelType, Dimension > AdaptorType;
   AdaptorType::Pointer vectorImageToImageAdaptor = AdaptorType::New();
   vectorImageToImageAdaptor->SetExtractComponentIndex( componentToExtract );
   if( vectorImageToImageAdaptor->GetExtractComponentIndex() != componentToExtract )
     {
     std::cerr << "[FAILED]" << std::endl;
-    
     } 
     
   vectorImageToImageAdaptor->SetImage( vectorImage );
@@ -243,9 +234,7 @@ int itkVectorImageTest( int, char* argv[] )
  
   typedef itk::Image< PixelType , Dimension > AdaptedImageType;
   AdaptedImageType::IndexType index;
-  index[0]=10;
-  index[1]=10;
-  index[2]=10;
+  index.Fill(10);
 
   if(   (vectorImageToImageAdaptor->GetPixel(index) !=  vectorImage->GetPixel( index )[componentToExtract]) 
      || (vectorImage->GetPixel( index )[componentToExtract] != componentToExtract ))
@@ -268,21 +257,20 @@ int itkVectorImageTest( int, char* argv[] )
     itk::VariableLengthVector< PixelType > ZeroPixel( VectorLength );
     ZeroPixel.Fill( itk::NumericTraits< PixelType >::Zero );
     for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
-    start[0] =   0;  // first index on X
-    start[1] =   0;  // first index on Y
-    start[2] =   0;  // first index on Z
+    start.Fill(0);
     VectorImageType::SizeType  size;
-    size[0]  = 10;  // size along X
-    size[1]  = 10;  // size along Y
-    size[2]  = 5;  // size along Z
+    size.Fill(10);
+    size[Dimension-1] = 5;
     VectorImageType::RegionType region( start, size );
     vectorImage->SetVectorLength( VectorLength );
     vectorImage->SetRegions( region );
     vectorImage->Allocate();
     vectorImage->FillBuffer( ZeroPixel );
 
-    start[0]=3; start[1]=3;start[2]=2;
-    size[0]=4;size[1]=4;size[2]=2;
+    start.Fill(3);
+    start[Dimension-1] = 2;
+    size.Fill(4);
+    size[Dimension-1] = 2;
     VectorImageType::RegionType subRegion( start, size );
     typedef itk::ImageRegionIterator< VectorImageType > ImageRegionIteratorType;
     ImageRegionIteratorType rit( vectorImage, subRegion );
@@ -298,11 +286,17 @@ int itkVectorImageTest( int, char* argv[] )
     ConstIteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
     unsigned long ctr = 0;
     cit.Begin();
+    unsigned long midCtr = 1;
+    for (unsigned int i = 0; i < Dimension; i++)
+      {
+      midCtr *= size[i];
+      }
+    midCtr /= 2;
     while( !cit.IsAtEnd() )
       {
       itk::VariableLengthVector< PixelType > value = cit.Get();
       ++cit;
-      if( ctr == (3*10*10 + 5*10 + 5) )
+      if( ctr == midCtr )
         {
         if( value != f )
           { 
@@ -322,7 +316,7 @@ int itkVectorImageTest( int, char* argv[] )
     typedef itk::ImageLinearIteratorWithIndex< VectorImageType > LinearIteratorType;
     
     LinearConstIteratorType lcit( vectorImage, vectorImage->GetBufferedRegion() );
-    lcit.SetDirection( 2 );
+    lcit.SetDirection( Dimension-1 );
     lcit.GoToBegin();
     itk::VariableLengthVector< PixelType > value;
     while( !lcit.IsAtEnd() )
@@ -354,7 +348,7 @@ int itkVectorImageTest( int, char* argv[] )
       } 
 
     VectorImageType::IndexType idx;
-    idx[0]=1;idx[1]=1;idx[2]=1;
+    idx.Fill(1);
     LinearIteratorType lit( vectorImage, vectorImage->GetBufferedRegion() );
     lit.SetIndex( idx );
     lit.Set( f );
@@ -385,9 +379,9 @@ int itkVectorImageTest( int, char* argv[] )
                                       Dimension > VectorImageType;
   VectorImageType::Pointer image = VectorImageType::New();
   VectorImageType::IndexType start;
-  start[0]=0; start[1]=0; start[2]=0;
+  start.Fill(0);
   VectorImageType::SizeType size;
-  size[0]=5; size[1]=5; size[2]=5;
+  size.Fill(5);
   VectorImageType::RegionType region( start, size );
   image->SetRegions( region );
   image->Allocate();
@@ -399,12 +393,11 @@ int itkVectorImageTest( int, char* argv[] )
   while( !it.IsAtEnd() )
     {
     VectorPixelType f;
-    f[0] = it.GetIndex()[0];
-    f[1] = it.GetIndex()[1];
-    f[2] = it.GetIndex()[2];
-    f[3] = it.GetIndex()[0];
-    f[4] = it.GetIndex()[1];
-    f[5] = it.GetIndex()[2];
+    for (unsigned int i = 0; i < Dimension; i++)
+      {
+      f[i] = it.GetIndex()[i];
+      f[Dimension+i] = it.GetIndex()[i];
+      }
     it.Set( f );
     ++it;
     }
@@ -436,14 +429,13 @@ int itkVectorImageTest( int, char* argv[] )
   bool failed1 = false;
   while( !cit.IsAtEnd() )
     {
-    if(   (cit.Get()[0] != cit.GetIndex()[0])
-       || (cit.Get()[1] != cit.GetIndex()[1])
-       || (cit.Get()[2] != cit.GetIndex()[2])
-       || (cit.Get()[3] != cit.GetIndex()[0])
-       || (cit.Get()[4] != cit.GetIndex()[1])
-       || (cit.Get()[5] != cit.GetIndex()[2]))
+    for (unsigned int i = 0; i < Dimension; i++)
       {
-      failed1 = true;
+      if (cit.Get()[i] != cit.GetIndex()[i] || 
+          cit.Get()[i+Dimension] != cit.GetIndex()[i])
+        {
+        failed1 = true;
+        }
       }
     ++cit;
     }
@@ -485,14 +477,13 @@ int itkVectorImageTest( int, char* argv[] )
   bool failed1 = false;
   while( !cit.IsAtEnd() )
     {
-    if(   (cit.Get()[0] != cit.GetIndex()[0])
-       || (cit.Get()[1] != cit.GetIndex()[1])
-       || (cit.Get()[2] != cit.GetIndex()[2])
-       || (cit.Get()[3] != cit.GetIndex()[0])
-       || (cit.Get()[4] != cit.GetIndex()[1])
-       || (cit.Get()[5] != cit.GetIndex()[2]))
+    for (unsigned int i = 0; i < Dimension; i++)
       {
-      failed1 = true;
+      if (cit.Get()[i] != cit.GetIndex()[i] || 
+          cit.Get()[i+Dimension] != cit.GetIndex()[i])
+        {
+        failed1 = true;
+        }
       }
     ++cit;
     }
@@ -518,14 +509,14 @@ int itkVectorImageTest( int, char* argv[] )
     typedef itk::ConstNeighborhoodIterator< VectorImageType > 
                                          ConstNeighborhoodIteratorType;
     ConstNeighborhoodIteratorType::RadiusType radius;
-    radius[0] = radius[1] = radius[2] = 1;
+    radius.Fill(1);
 
     ConstNeighborhoodIteratorType::RegionType region 
                             = vectorImage->GetBufferedRegion();
     ConstNeighborhoodIteratorType::SizeType size;
-    size[0]= size[1] = size[2] = 4;
+    size.Fill(4);
     ConstNeighborhoodIteratorType::IndexType index;
-    index[0] = index[1] = index[2] = 1; 
+    index.Fill(1);
     region.SetIndex(index); 
     region.SetSize( size );
     
@@ -533,11 +524,16 @@ int itkVectorImageTest( int, char* argv[] )
 
     // Move Iterator to a point and see if it reads out the right value
     //
-    const unsigned int centerIndex = static_cast< unsigned int >(
-                ((radius[0]*2+1)*(radius[1]*2+1)*(radius[2]*2+1))/2);
+    unsigned int centerIndex = 1;
+    for (unsigned int i = 0; i < Dimension; i++)
+      { centerIndex *= (radius[i]*2+1); }
+    centerIndex /= 2;
 
     ConstNeighborhoodIteratorType::IndexType location;
-    location[0] = 1; location[1] = 2;  location[2] = 3;
+    for (unsigned int i = 0; i < Dimension; i++)
+      {
+      location[i] = i+1;
+      }
     cNit.SetLocation( location );
     
     if( cNit.GetPixel(centerIndex) != vectorImage->GetPixel( location ) )
@@ -558,7 +554,7 @@ int itkVectorImageTest( int, char* argv[] )
     cNit.GoToEnd(); 
     --cNit;
     ConstNeighborhoodIteratorType::IndexType endIndex;
-    endIndex[0] = endIndex[1] = endIndex[2] = 4;
+    endIndex.Fill(4);
     if( cNit.GetPixel(centerIndex) != vectorImage->GetPixel( endIndex ) )
       {
       std::cerr << "  GoToEnd [FAILED]" << std::endl;
@@ -572,7 +568,9 @@ int itkVectorImageTest( int, char* argv[] )
       failed = true;
       }
     cNit.GoToBegin();
-    unsigned int numPixelsTraversed = size[0]*size[1]*size[2];
+    unsigned int numPixelsTraversed = 1;
+    for (unsigned int i = 0 ; i < Dimension; i++)
+      { numPixelsTraversed *= size[i]; }
     while (! cNit.IsAtEnd())
       {
       ++cNit;
@@ -583,7 +581,7 @@ int itkVectorImageTest( int, char* argv[] )
     // Test operator-
     --cNit;
     ConstNeighborhoodIteratorType::OffsetType offset;
-    offset[0] = offset[1] = offset[2] = 1;
+    offset.Fill(1);
     cNit -= offset;
     itk::VariableLengthVector< PixelType > pixel = cNit.GetCenterPixel();
     itk::VariableLengthVector< PixelType > correctAnswer( VectorLength );
@@ -601,7 +599,7 @@ int itkVectorImageTest( int, char* argv[] )
     //const unsigned int neighborhoodSize = neighborhood.Size();
     //for( unsigned int i=0; i< neighborhoodSize; i++)
     //  { std::cout << neighborhood[i] << std::endl; }
-    if( (neighborhood[0][0] != 0) || (neighborhood[0][5] != 2))
+    if( (neighborhood[0][0] != 0) || (neighborhood[0][2*Dimension-1] != (Dimension-1)))
       {
       std::cerr << "  GetNeighborhood() on ConstNeighborhoodIterator [FAILED]" << std::endl;
       failed = true;
@@ -632,9 +630,10 @@ int itkVectorImageTest( int, char* argv[] )
       std::cerr << "  SetNext() [FAILED]" << std::endl;
       failed = true;
       }
-    p[0] = p[3] = (float)index1[0];  
-    p[1] = p[4] = (float)index1[1]; 
-    p[2] = p[5] = (float)index1[2]; 
+    for (unsigned i = 0; i < Dimension; i++)
+      {
+      p[i] = p[Dimension + i] = (float)index1[i];  
+      }
     nit.SetCenterPixel( p );
     if( nit.GetCenterPixel() != p )
       {
@@ -645,127 +644,134 @@ int itkVectorImageTest( int, char* argv[] )
     // Test SetNeighborhood() and GetPrevious()
     nit.SetLocation( index1 );
     nit.SetNeighborhood( neighborhood );
-    p[0] = p[3] = 1; p[1] = p[4] = 2; p[2] = p[5] = 2;
-    if( nit.GetPrevious( 2, 1 ) != p )
+    for (unsigned i = 0; i < Dimension; i++)
+      {
+      p[i] = p[Dimension + i] = i + 1;  
+      }
+    p[Dimension-1] = p[2*Dimension - 1] = Dimension - 1;
+    if( nit.GetPrevious( Dimension-1, 1 ) != p )
       {
       std::cerr << "  SetNeighborhood() or GetPrevious() [FAILED]" << std::endl;
       failed = true;
       }
     
-
-    // 
-    // 3. Testing ConstShapedNeighborhoodIterator on VectorImage
-    //
-
-    // Go back to original image, where pixel values tell us the indices
-    std::cout << "Testing ConstShapedNeighborhoodIterator on VectorImage..." 
-                                                                  << std::endl;
-    reader->SetFileName( "dummy.nrrd");
-    reader->SetFileName( argv[1] );
-    reader->Update();
-    vectorImage = reader->GetOutput(); 
-
-    typedef itk::ConstShapedNeighborhoodIterator< VectorImageType > 
-                                   ConstShapedNeighborhoodIteratorType;
-    ConstShapedNeighborhoodIteratorType cSnit( radius, vectorImage, region );
-    cSnit.SetLocation( location );
-    ConstShapedNeighborhoodIteratorType::OffsetType offset1;
-    offset1[0] = 0; offset1[1] = 0; offset1[2] = 0;
-    cSnit.ActivateOffset( offset1 ); //activate the center
-    // activate the top plane
-    offset1[0] = 0; offset1[1] = 0; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = 0; offset1[1] = 1; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = 0; offset1[1] = -1; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = 1; offset1[1] = 0; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = 1; offset1[1] = 1; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = 1; offset1[1] = -1; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = -1; offset1[1] = 0; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = -1; offset1[1] = 1; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
-    offset1[0] = -1; offset1[1] = -1; offset1[2] = -1;
-    cSnit.ActivateOffset( offset1 ); 
- 
-    ConstShapedNeighborhoodIteratorType::IndexListType l
-                                  = cSnit.GetActiveIndexList();
-    ConstShapedNeighborhoodIteratorType::IndexListType::const_iterator 
-                                                        ali = l.begin();
-    while (ali != l.end())
+    if (Dimension == 3)
       {
-      std::cout << *ali << " ";
-      ++ali;
-      }
-    std::cout << std::endl;
 
-    ConstShapedNeighborhoodIteratorType::ConstIterator ci = cSnit.Begin();
-    while (! ci.IsAtEnd())
-      {
-      ConstShapedNeighborhoodIteratorType::OffsetType offset2 = ci.GetNeighborhoodOffset();
-      if( (offset2[0] == -1) && (offset2[1]== -1) && (offset2[2]== -1) )
-        { 
-        if( ci.GetNeighborhoodIndex() != 0 )
-          {
-          failed = true;
-          std::cerr << "GetNeighborhoodOffset() on ConstShapedNeighborhoodIterato [FAILED]" 
-                                                                              << std::endl;
-          }
-        if( (ci.Get()[0]!=0) || (ci.Get()[1]!=1) || (ci.Get()[2]!=2) )
-          {
-          failed=true;
-          std::cerr 
-            << "ConstShapedNeighborhoodIterator returned incorrect index [FAILED]" 
-                                                                        << std::endl;
-          }
+      // 
+      // 3. Testing ConstShapedNeighborhoodIterator on VectorImage
+      //
+
+      // Go back to original image, where pixel values tell us the indices
+      std::cout << "Testing ConstShapedNeighborhoodIterator on VectorImage..." 
+                                                                    << std::endl;
+      reader->SetFileName( "dummy.nrrd");
+      reader->SetFileName( argv[1] );
+      reader->Update();
+      vectorImage = reader->GetOutput(); 
+
+      typedef itk::ConstShapedNeighborhoodIterator< VectorImageType > 
+                                     ConstShapedNeighborhoodIteratorType;
+      ConstShapedNeighborhoodIteratorType cSnit( radius, vectorImage, region );
+      cSnit.SetLocation( location );
+      ConstShapedNeighborhoodIteratorType::OffsetType offset1;
+      offset1[0] = 0; offset1[1] = 0; offset1[2] = 0;
+      cSnit.ActivateOffset( offset1 ); //activate the center
+      // activate the top plane
+      offset1[0] = 0; offset1[1] = 0; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = 0; offset1[1] = 1; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = 0; offset1[1] = -1; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = 1; offset1[1] = 0; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = 1; offset1[1] = 1; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = 1; offset1[1] = -1; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = -1; offset1[1] = 0; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = -1; offset1[1] = 1; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+      offset1[0] = -1; offset1[1] = -1; offset1[2] = -1;
+      cSnit.ActivateOffset( offset1 ); 
+   
+      ConstShapedNeighborhoodIteratorType::IndexListType l
+                                    = cSnit.GetActiveIndexList();
+      ConstShapedNeighborhoodIteratorType::IndexListType::const_iterator 
+                                                          ali = l.begin();
+      while (ali != l.end())
+        {
+        std::cout << *ali << " ";
+        ++ali;
         }
-      ci++;
-      }
+      std::cout << std::endl;
 
-    //
-    // 4. Test ShapedNeighborhoodIterator 
-    //
-    typedef itk::ShapedNeighborhoodIterator< VectorImageType > 
-                                      ShapedNeighborhoodIteratorType;
-    ShapedNeighborhoodIteratorType sNit( radius, vectorImage, region );
-    
-    offset1[0] = 0; offset1[1] = 0; offset1[2] = 0;
-    sNit.ActivateOffset( offset1 ); //activate the center
-    // activate the top plane
-    offset1[0] = 0; offset1[1] = 0; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = 0; offset1[1] = 1; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = 0; offset1[1] = -1; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = 1; offset1[1] = 0; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = 1; offset1[1] = 1; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = 1; offset1[1] = -1; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = -1; offset1[1] = 0; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = -1; offset1[1] = 1; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    offset1[0] = -1; offset1[1] = -1; offset1[2] = -1;
-    sNit.ActivateOffset( offset1 ); 
-    
-    sNit.SetLocation( location );
-    ShapedNeighborhoodIteratorType::Iterator shit = sNit.Begin();
-    shit = sNit.Begin(); 
-    p[0] = p[3] = 10; p[1] = p[4] = 20; p[2] = p[5] = 30;
-    shit.Set( p );
-    index[0]=location[0]-1; index[1]=location[1]-1; index[2]=location[2]-1;
-    cNit.SetLocation( index );
-    if( cNit.GetCenterPixel() != p )
-      {
-      std::cerr << "ShapedNeighborhoodIterator Set() [FAILED]" << std::endl;
-      failed=true;
+      ConstShapedNeighborhoodIteratorType::ConstIterator ci = cSnit.Begin();
+      while (! ci.IsAtEnd())
+        {
+        ConstShapedNeighborhoodIteratorType::OffsetType offset2 = ci.GetNeighborhoodOffset();
+        if( (offset2[0] == -1) && (offset2[1]== -1) && (offset2[2]== -1) )
+          { 
+          if( ci.GetNeighborhoodIndex() != 0 )
+            {
+            failed = true;
+            std::cerr << "GetNeighborhoodOffset() on ConstShapedNeighborhoodIterato [FAILED]" 
+                                                                                << std::endl;
+            }
+          if( (ci.Get()[0]!=0) || (ci.Get()[1]!=1) || (ci.Get()[2]!=2) )
+            {
+            failed=true;
+            std::cerr 
+              << "ConstShapedNeighborhoodIterator returned incorrect index [FAILED]" 
+                                                                          << std::endl;
+            }
+          }
+        ci++;
+        }
+
+      //
+      // 4. Test ShapedNeighborhoodIterator 
+      //
+      typedef itk::ShapedNeighborhoodIterator< VectorImageType > 
+                                        ShapedNeighborhoodIteratorType;
+      ShapedNeighborhoodIteratorType sNit( radius, vectorImage, region );
+      
+      offset1[0] = 0; offset1[1] = 0; offset1[2] = 0;
+      sNit.ActivateOffset( offset1 ); //activate the center
+      // activate the top plane
+      offset1[0] = 0; offset1[1] = 0; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = 0; offset1[1] = 1; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = 0; offset1[1] = -1; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = 1; offset1[1] = 0; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = 1; offset1[1] = 1; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = 1; offset1[1] = -1; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = -1; offset1[1] = 0; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = -1; offset1[1] = 1; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      offset1[0] = -1; offset1[1] = -1; offset1[2] = -1;
+      sNit.ActivateOffset( offset1 ); 
+      
+      sNit.SetLocation( location );
+      ShapedNeighborhoodIteratorType::Iterator shit = sNit.Begin();
+      shit = sNit.Begin(); 
+      p[0] = p[3] = 10; p[1] = p[4] = 20; p[2] = p[5] = 30;
+      shit.Set( p );
+      index[0]=location[0]-1; index[1]=location[1]-1; index[2]=location[2]-1;
+      cNit.SetLocation( index );
+      if( cNit.GetCenterPixel() != p )
+        {
+        std::cerr << "ShapedNeighborhoodIterator Set() [FAILED]" << std::endl;
+        failed=true;
+        }
       }
 
     
