@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvesLevelSetFunction_txx_
-#define __itkCurvesLevelSetFunction_txx_
+#ifndef __itkCurvesLevelSetFunction_txx
+#define __itkCurvesLevelSetFunction_txx
 
 #include "itkCurvesLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

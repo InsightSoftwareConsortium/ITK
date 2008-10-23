@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkCurvatureRegistrationFilter_h_
-#define _itkCurvatureRegistrationFilter_h_
+#ifndef __itkCurvatureRegistrationFilter_h
+#define __itkCurvatureRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"
@@ -101,11 +101,11 @@ class ITK_EXPORT CurvatureRegistrationFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvatureRegistrationFilter    Self;
+  typedef CurvatureRegistrationFilter             Self;
   typedef PDEDeformableRegistrationFilter<
-    TFixedImage, TMovingImage,TDeformationField>    Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+    TFixedImage, TMovingImage,TDeformationField>  Superclass;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,21 +118,21 @@ public:
   typedef typename Superclass::TimeStepType  TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType   FixedImageType;
+  typedef typename Superclass::FixedImageType     FixedImageType;
   typedef typename Superclass::FixedImagePointer  FixedImagePointer;
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension );
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
+  typedef typename Superclass::MovingImageType     MovingImageType;
   typedef typename Superclass::MovingImagePointer  MovingImagePointer;
   
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType 
-  DeformationFieldType;
+                                                   DeformationFieldType;
   typedef typename Superclass::DeformationFieldPointer  
-  DeformationFieldPointer;
+                                                   DeformationFieldPointer;
 
-  typedef typename TDeformationField::PixelType DeformationFieldPixelType;
+  typedef typename TDeformationField::PixelType         DeformationFieldPixelType;
   typedef typename DeformationFieldPixelType::ValueType DeformationFieldComponentType;
   itkStaticConstMacro(DeformationVectorDimension, unsigned int, DeformationFieldPixelType::Dimension );
 

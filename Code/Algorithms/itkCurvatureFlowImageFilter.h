@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvatureFlowImageFilter_h_
-#define __itkCurvatureFlowImageFilter_h_
+#ifndef __itkCurvatureFlowImageFilter_h
+#define __itkCurvatureFlowImageFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
@@ -92,9 +92,9 @@ public:
   /** Standard class typedefs. */
   typedef CurvatureFlowImageFilter Self;
   typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-  Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -108,15 +108,15 @@ public:
 
   /** OutputImage type. */
   typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+                                                FiniteDifferenceFunctionType;
 
   /** CurvatureFlowFunction type. */
   typedef CurvatureFlowFunction<OutputImageType>
-  CurvatureFlowFunctionType;
+                                                CurvatureFlowFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -124,7 +124,7 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType    PixelType;
 
   /** The time step type. Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
@@ -162,10 +162,16 @@ protected:
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
-  {
-    if (this->GetElapsedIterations() == this->GetNumberOfIterations()) return true;
-    else return false;
-  }
+    {
+    if (this->GetElapsedIterations() == this->GetNumberOfIterations())
+      {
+      return true;
+      }
+    else
+      {
+      return false;
+      }
+    }
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
@@ -186,7 +192,6 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   TimeStepType    m_TimeStep;
-
 };
 
 } // end namspace itk

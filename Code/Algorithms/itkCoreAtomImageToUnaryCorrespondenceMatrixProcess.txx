@@ -204,7 +204,9 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
     MedialNodeType* pPixelA = &bloxItA.Value();
 
     if( pPixelA->empty() )
+      {
       continue;
+      }
 
     // Iterate through nodes in m_CoreAtomImageB (columns)
     for ( bloxItB.GoToBegin(); !bloxItB.IsAtEnd(); ++bloxItB) //iterate through nodes in m_MedialWindowA
@@ -212,7 +214,9 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
       MedialNodeType* pPixelB = &bloxItB.Value();
 
       if( pPixelB->empty() )
+        {
         continue;
+        }
 
       m_Metric->SetMedialNodes(pPixelA, pPixelB);
       m_Metric->Initialize();

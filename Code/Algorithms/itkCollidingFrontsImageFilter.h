@@ -58,10 +58,10 @@ class CollidingFrontsImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef CollidingFrontsImageFilter Self;
+  typedef CollidingFrontsImageFilter                      Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,8 +71,8 @@ public:
   
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
+  typedef typename TInputImage::PixelType                  InputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType RealType;
 
   /** Extract some information from the image types.  Dimensionality
@@ -81,9 +81,9 @@ public:
                       TOutputImage::ImageDimension);
   
   /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                       InputImageType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
+  typedef TOutputImage                      OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Superclass typedefs. */
@@ -93,11 +93,16 @@ public:
   typedef itk::FastMarchingUpwindGradientImageFilter<TInputImage,TOutputImage> FastMarchingUpwindGradientImageFilterType;
 
   /** Typedef support of level set method types. */
-  typedef typename FastMarchingUpwindGradientImageFilterType::PixelType  PixelType;
-  typedef typename FastMarchingUpwindGradientImageFilterType::NodeType NodeType;
-  typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainer NodeContainer;
-  typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainerPointer NodeContainerPointer;
-  typedef typename FastMarchingUpwindGradientImageFilterType::GradientImageType GradientImageType;
+  typedef typename FastMarchingUpwindGradientImageFilterType::PixelType
+                                                   PixelType;
+  typedef typename FastMarchingUpwindGradientImageFilterType::NodeType
+                                                   NodeType;
+  typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainer
+                                                   NodeContainer;
+  typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainerPointer
+                                                   NodeContainerPointer;
+  typedef typename FastMarchingUpwindGradientImageFilterType::GradientImageType
+                                                   GradientImageType;
   typedef typename FastMarchingUpwindGradientImageFilterType::IndexType  IndexType;
 
   /** Set the container of Seed Points representing the first initial front.
@@ -106,11 +111,11 @@ public:
     {
     m_SeedPoints1 = points;
     this->Modified();
-    };
+    }
   
   /** Get the container of Seed Points representing the first initial front. */
   NodeContainerPointer GetSeedPoints1( )
-    { return m_SeedPoints1; };
+    { return m_SeedPoints1; }
 
   /** Set the container of Seed Points representing the second initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
@@ -118,11 +123,11 @@ public:
     {
     m_SeedPoints2 = points;
     this->Modified();
-    };
+    }
   
   /** Get the container of Seed Points representing the second initial front. */
   NodeContainerPointer GetSeedPoints2( )
-    { return m_SeedPoints2; };
+    { return m_SeedPoints2; }
   
   itkSetMacro(NegativeEpsilon, double);
   itkGetMacro(NegativeEpsilon, double);

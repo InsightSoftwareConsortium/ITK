@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkClassifierBase_txx
-#define _itkClassifierBase_txx
+#ifndef __itkClassifierBase_txx
+#define __itkClassifierBase_txx
 
 #include "itkClassifierBase.h"
 #include "itkCommand.h"
@@ -27,8 +27,8 @@ template <class TDataContainer>
 ClassifierBase<TDataContainer>
 ::ClassifierBase()
 {
-  m_NumberOfClasses = 0 ;
-  m_DecisionRule = 0 ;
+  m_NumberOfClasses = 0;
+  m_DecisionRule = 0;
   m_MembershipFunctions.resize(0);
 }
 
@@ -46,20 +46,20 @@ ClassifierBase<TDataContainer>
   Superclass::PrintSelf(os,indent);
 
   os << indent << "Number of classes: " << m_NumberOfClasses << std::endl;
-  os << indent << "DecisionRule: " ;
+  os << indent << "DecisionRule: ";
   if ( m_DecisionRule.IsNotNull() )
     {
-    os << m_DecisionRule << std::endl ;
+    os << m_DecisionRule << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "MembershipFunctions: " << std::endl ;
-  for ( unsigned int i = 0 ; i < m_MembershipFunctions.size() ; ++i )
+  os << indent << "MembershipFunctions: " << std::endl;
+  for ( unsigned int i = 0; i < m_MembershipFunctions.size(); ++i )
     {
-    os << indent << m_MembershipFunctions[i] << std::endl ;
+    os << indent << m_MembershipFunctions[i] << std::endl;
     }
 }
 
@@ -70,23 +70,23 @@ ClassifierBase<TDataContainer>
 {
   if( m_NumberOfClasses == 0 )
     {
-    itkExceptionMacro( "Zero class" ) ;
-    return ;
+    itkExceptionMacro( "Zero class" );
+    return;
     }
     
   if ( m_MembershipFunctions.size() == 0 )
     {
-    itkExceptionMacro( "No membership function" ) ;
-    return ;
+    itkExceptionMacro( "No membership function" );
+    return;
     }
   
   if( m_NumberOfClasses != m_MembershipFunctions.size() )
     {
-    itkExceptionMacro( "The number of classes and the number of membership mismatch." ) ;
-    return ;
+    itkExceptionMacro( "The number of classes and the number of membership mismatch." );
+    return;
     }
 
-  this->GenerateData() ;
+  this->GenerateData();
 }
 
 template<class TDataContainer>
@@ -94,7 +94,7 @@ unsigned int
 ClassifierBase< TDataContainer >
 ::AddMembershipFunction(MembershipFunctionType * function)
 {
-  m_MembershipFunctions.push_back(function) ;
+  m_MembershipFunctions.push_back(function);
   return static_cast<unsigned int>( m_MembershipFunctions.size() );
 }
 

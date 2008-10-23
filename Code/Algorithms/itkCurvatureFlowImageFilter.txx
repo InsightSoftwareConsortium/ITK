@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvatureFlowImageFilter_txx_
-#define __itkCurvatureFlowImageFilter_txx_
+#ifndef __itkCurvatureFlowImageFilter_txx
+#define __itkCurvatureFlowImageFilter_txx
 
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkExceptionObject.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -43,7 +43,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * Standard PrintSelf method.
  */
 template <class TInputImage, class TOutputImage>
@@ -52,13 +52,12 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << std::endl;
   os << indent << "Time step: " << m_TimeStep;
   os << std::endl;
 }
 
 
-/*
+/**
  * Initialize the state of filter and equation before each iteration.
  */
 template <class TInputImage, class TOutputImage>
@@ -80,7 +79,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
   f->SetTimeStep( m_TimeStep );
 
   // call superclass's version
-  this->Superclass::InitializeIteration();           
+  this->Superclass::InitializeIteration();
 
   // progress feedback
   if ( this->GetNumberOfIterations() != 0 )
@@ -92,7 +91,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * GenerateInputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -121,7 +120,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * EnlargeOutputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -153,7 +152,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
     radius[j] *= this->GetNumberOfIterations();
     }
 
-  /*
+  /**
    * NewOutputRequestedRegion = OldOutputRequestedRegion +
    * radius * m_NumberOfIterations padding on each edge
    */
@@ -164,10 +163,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>
   outputRequestedRegion.Crop( outputPtr->GetLargestPossibleRegion() );
   
   outputPtr->SetRequestedRegion( outputRequestedRegion );
-
-  
 }
-
 
 } // end namespace itk
 

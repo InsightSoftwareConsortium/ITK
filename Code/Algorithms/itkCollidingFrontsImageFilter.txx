@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkCollidingFrontsImageFilter_txx
-#define _itkCollidingFrontsImageFilter_txx
+#ifndef __itkCollidingFrontsImageFilter_txx
+#define __itkCollidingFrontsImageFilter_txx
 #include "itkCollidingFrontsImageFilter.h"
 
 #include "itkMultiplyImageFilter.h"
@@ -69,14 +69,14 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
   OutputImagePointer multipliedImage = multiplyFilter->GetOutput();
   typename NodeContainer::ConstIterator pointsIter1 = m_SeedPoints1->Begin();
   typename NodeContainer::ConstIterator pointsEnd1 = m_SeedPoints1->End();
-  for ( ; pointsIter1 != pointsEnd1; ++pointsIter1 )
+  for (; pointsIter1 != pointsEnd1; ++pointsIter1 )
     {
     multipliedImage->SetPixel(pointsIter1.Value().GetIndex(),m_NegativeEpsilon);
     }
       
   typename NodeContainer::ConstIterator pointsIter2 = m_SeedPoints2->Begin();
   typename NodeContainer::ConstIterator pointsEnd2 = m_SeedPoints2->End();
-  for ( ; pointsIter2 != pointsEnd2; ++pointsIter2 )
+  for (; pointsIter2 != pointsEnd2; ++pointsIter2 )
     {
     multipliedImage->SetPixel(pointsIter2.Value().GetIndex(),m_NegativeEpsilon);
     }
@@ -100,7 +100,7 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
     std::vector<IndexType> seedList;
     
     pointsIter1 = m_SeedPoints1->Begin();
-    for ( ; pointsIter1 != pointsEnd1; ++pointsIter1 )
+    for (; pointsIter1 != pointsEnd1; ++pointsIter1 )
       {
       seedList.push_back( pointsIter1.Value().GetIndex() );
       }

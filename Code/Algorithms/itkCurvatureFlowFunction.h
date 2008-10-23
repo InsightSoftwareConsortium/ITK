@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvatureFlowFunction_h_
-#define __itkCurvatureFlowFunction_h_
+#ifndef __itkCurvatureFlowFunction_h
+#define __itkCurvatureFlowFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 #include "itkMacro.h"
@@ -36,17 +36,17 @@ namespace itk {
  * \sa CurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition 
  * \ingroup FiniteDifferenceFunctions
-*/
+ */
 template <class TImage>
 class ITK_EXPORT CurvatureFlowFunction :
     public FiniteDifferenceFunction<TImage>
 {
 public:
   /**  Standard class typedefs. */
-  typedef CurvatureFlowFunction Self;
+  typedef CurvatureFlowFunction            Self;
   typedef FiniteDifferenceFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,15 +56,15 @@ public:
                 FiniteDifferenceFunction );
   
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType  ImageType;
-  typedef typename Superclass::PixelType  PixelType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef PixelType  ScalarValueType;
-  typedef typename Superclass::PixelRealType PixelRealType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::PixelType              PixelType;
+  typedef typename Superclass::RadiusType             RadiusType;
+  typedef PixelType                                   ScalarValueType;
+  typedef typename Superclass::PixelRealType          PixelRealType;
+  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
   typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
+  typedef typename Superclass::TimeStepType           TimeStepType;
 
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
@@ -78,7 +78,7 @@ public:
    *
    * Currently, this function returns the user specified constant time step. 
    * \todo compute timestep based on CFL condition.
-   **/
+   */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
   /** Returns a pointer to a global data structure that is passed to this
@@ -87,26 +87,26 @@ public:
    * while the equation object performs the actual calculations.  The global
    * data should also be initialized in this method. */
   virtual void *GetGlobalDataPointer() const
-  {  
+    {  
     GlobalDataStruct *ans = new GlobalDataStruct();
     ans->m_MaxChange   = NumericTraits<ScalarValueType>::Zero;
     return ans; 
-  }
+    }
 
   /** When the finite difference solver filter has finished using a global
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-  { delete (GlobalDataStruct *) GlobalData; }
+    { delete (GlobalDataStruct *) GlobalData; }
 
   /** Set the time step parameter */
   void SetTimeStep( const TimeStepType & t )
-  { m_TimeStep = t; }
+    { m_TimeStep = t; }
 
   /** Get the time step parameter */
   const TimeStepType &GetTimeStep() const
-  { return m_TimeStep; }
+    { return m_TimeStep; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
@@ -121,15 +121,15 @@ protected:
    * values that are needed in calculating the time step. */
   /// @cond 
   struct GlobalDataStruct
-  {
-    GlobalDataStruct()
     {
+    GlobalDataStruct()
+      {
       m_MaxChange = NumericTraits<ScalarValueType>::Zero;
-    }
+      }
     ~GlobalDataStruct() {}
     
     ScalarValueType m_MaxChange;
-  };
+    };
   /// @endcond 
 
   CurvatureFlowFunction();

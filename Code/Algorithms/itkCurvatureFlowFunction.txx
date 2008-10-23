@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvatureFlowFunction_txx_
-#define __itkCurvatureFlowFunction_txx_
+#ifndef __itkCurvatureFlowFunction_txx
+#define __itkCurvatureFlowFunction_txx
 #include "itkCurvatureFlowFunction.h"
 
 #include "vnl/vnl_math.h"

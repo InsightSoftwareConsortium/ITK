@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCannySegmentationLevelSetImageFilter_h_
-#define __itkCannySegmentationLevelSetImageFilter_h_
+#ifndef __itkCannySegmentationLevelSetImageFilter_h
+#define __itkCannySegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkCannySegmentationLevelSetFunction.h"
@@ -132,16 +132,17 @@ class ITK_EXPORT CannySegmentationLevelSetImageFilter
 public:
   /** Standard class typedefs */
   typedef CannySegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType >   Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType >
+                                               Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
-  typedef typename Superclass::VectorImageType VectorImageType;
-  typedef typename Superclass::SpeedImageType  SpeedImageType;
+  typedef typename Superclass::VectorImageType  VectorImageType;
+  typedef typename Superclass::SpeedImageType   SpeedImageType;
   
   /** Type of the segmentation function */
   typedef ::itk::CannySegmentationLevelSetFunction<OutputImageType,
@@ -155,19 +156,19 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  /** Set the Threshold parameter of the CannyEdgeDetectionImageFilter used by the
-      underlying level set function. */
+  /** Set the Threshold parameter of the CannyEdgeDetectionImageFilter
+   * used by the underlying level set function. */
   void SetThreshold(ScalarValueType v)
-  { this->m_CannyFunction->SetThreshold(v); }
+    { this->m_CannyFunction->SetThreshold(v); }
   ScalarValueType GetThreshold() const
-  { return this->m_CannyFunction->GetThreshold(); }
+    { return this->m_CannyFunction->GetThreshold(); }
 
-  /** Set the Variance parameter of the CannyEdgeDetectionImageFilter used by the
-      underlying level set function. */
+  /** Set the Variance parameter of the CannyEdgeDetectionImageFilter
+   * used by the underlying level set function. */
   void SetVariance(double v)
-  { this->m_CannyFunction->SetVariance(v); }
+    { this->m_CannyFunction->SetVariance(v); }
   double GetVariance() const
-  { return this->m_CannyFunction->GetVariance(); }
+    { return this->m_CannyFunction->GetVariance(); }
 
   /** Get the Canny image that was used to create the speed and
       advection images */
@@ -193,8 +194,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCannySegmentationLevelSetImageFilter.txx"

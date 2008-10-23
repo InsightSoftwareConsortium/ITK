@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCannySegmentationLevelSetImageFilter_txx_
-#define __itkCannySegmentationLevelSetImageFilter_txx_
+#ifndef __itkCannySegmentationLevelSetImageFilter_txx
+#define __itkCannySegmentationLevelSetImageFilter_txx
 
 #include "itkCannySegmentationLevelSetImageFilter.h"
 
@@ -32,8 +32,5 @@ CannySegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
 }
   
 }// end namespace itk
-
-
-
 
 #endif

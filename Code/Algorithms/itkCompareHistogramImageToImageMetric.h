@@ -21,41 +21,41 @@
 
 namespace itk
 {
-  /** \class CompareHistogramImageToImageMetric
-    *  \brief Compares Histograms between two images to be registered to
-    *   a Training Histogram.
-    *
-    *  This class is templated over the type of the fixed and moving
-    *  images to be compared. 
-    *
-    *  This metric computes the similarity between the histogram produced
-    *  by two images overlapping and a training histogram.
-    *
-    *  It is to be sub-classed by the method of comparing the
-    *  histograms.
-    *
-    *  Generally, the histogram from the training data is to be
-    *  computed in exactly the same way as the histogram from the
-    *  images to be compared are computed. Thus, the user can set the
-    *  interpolator, region, two training images and the transfrom and
-    *  the training histogram will be formed. OR, the user can simply
-    *  calculate the training histogram seperately and set it.
-    *
-    * \warning The Initialize function does nothing if the training
-    * histogram already exists. Thus repeated calls to the Initialize
-    * function do nothing after the first call. If you wish the
-    * training histogram to be re-calculated, you should set it to 0.
-    *
-    *  \author Samson Timoner.
-    *
-    *  \ingroup RegistrationMetrics */
+/** \class CompareHistogramImageToImageMetric
+ *  \brief Compares Histograms between two images to be registered to
+ *   a Training Histogram.
+ *
+ *  This class is templated over the type of the fixed and moving
+ *  images to be compared. 
+ *
+ *  This metric computes the similarity between the histogram produced
+ *  by two images overlapping and a training histogram.
+ *
+ *  It is to be sub-classed by the method of comparing the
+ *  histograms.
+ *
+ *  Generally, the histogram from the training data is to be
+ *  computed in exactly the same way as the histogram from the
+ *  images to be compared are computed. Thus, the user can set the
+ *  interpolator, region, two training images and the transfrom and
+ *  the training histogram will be formed. OR, the user can simply
+ *  calculate the training histogram seperately and set it.
+ *
+ * \warning The Initialize function does nothing if the training
+ * histogram already exists. Thus repeated calls to the Initialize
+ * function do nothing after the first call. If you wish the
+ * training histogram to be re-calculated, you should set it to 0.
+ *
+ *  \author Samson Timoner.
+ *
+ *  \ingroup RegistrationMetrics */
 template <class TFixedImage, class TMovingImage>
 class ITK_EXPORT CompareHistogramImageToImageMetric :
 public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
- public:
+public:
   /** Standard class typedefs. */
-  typedef CompareHistogramImageToImageMetric Self;
+  typedef CompareHistogramImageToImageMetric                     Self;
   typedef HistogramImageToImageMetric<TFixedImage, TMovingImage> Superclass;
   typedef SmartPointer<Self>                                     Pointer;
   typedef SmartPointer<const Self>                               ConstPointer;
@@ -71,7 +71,7 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
   typedef typename TransformType::ConstPointer          TransformConstPointer;
 
   typedef typename Superclass::TransformParametersType
-    TransformParametersType;
+                                                        TransformParametersType;
   typedef typename Superclass::TransformJacobianType    TransformJacobianType;
   typedef typename Superclass::GradientPixelType        GradientPixelType;
 
@@ -81,22 +81,21 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
   typedef typename Superclass::MovingImageType          MovingImageType;
   typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer
-    MovingImageConstPointer;
+                                                        MovingImageConstPointer;
 
   typedef typename Superclass::HistogramType            HistogramType;
   typedef typename Superclass::HistogramSizeType        HistogramSizeType;
   typedef typename HistogramType::MeasurementVectorType
-    HistogramMeasurementVectorType;
+                                                        HistogramMeasurementVectorType;
   typedef typename HistogramType::FrequencyType         HistogramFrequencyType;
   typedef typename HistogramType::Iterator              HistogramIteratorType;
   typedef typename HistogramType::Pointer               HistogramPointerType;
 
-  typedef typename Superclass::InterpolatorType InterpolatorType;
-  typedef typename Superclass::InterpolatorPointer 
-    InterpolatorPointer;
+  typedef typename Superclass::InterpolatorType    InterpolatorType;
+  typedef typename Superclass::InterpolatorPointer InterpolatorPointer;
 
   typedef typename Superclass::FixedImageRegionType 
-    FixedImageRegionType;
+                                                         FixedImageRegionType;
 
   /** Set the histogram to be used in the metric calculation */
   itkSetMacro( TrainingHistogram, HistogramPointerType );
@@ -138,8 +137,8 @@ public HistogramImageToImageMetric<TFixedImage, TMovingImage>
   unsigned int GetNumberOfParameters(void) const 
   { return this->GetTransform()->GetNumberOfParameters(); }
  
-  /** Forms the histogram of the training images to prepare to evaluate the */
-  /** metric. Must set all parameters first. */
+  /** Forms the histogram of the training images to prepare to evaluate the
+   * metric. Must set all parameters first. */
   void Initialize() throw (ExceptionObject);
 
 protected:

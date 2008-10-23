@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCannySegmentationLevelSetFunction_txx_
-#define __itkCannySegmentationLevelSetFunction_txx_
+#ifndef __itkCannySegmentationLevelSetFunction_txx
+#define __itkCannySegmentationLevelSetFunction_txx
 
 #include "itkCannySegmentationLevelSetFunction.h"
 #include "itkGradientImageFilter.h"

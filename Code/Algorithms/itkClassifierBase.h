@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkClassifierBase_h
-#define _itkClassifierBase_h
+#ifndef __itkClassifierBase_h
+#define __itkClassifierBase_h
 
 #include "itkLightProcessObject.h"
 #include "itkMembershipFunctionBase.h"
@@ -36,7 +36,7 @@ namespace itk
  * abstract class defining an interface for all the classification objects 
  * available through the classifier framework in the ITK toolkit.
  *
- * The basic functionality of the classifier framework base class is to    
+ * The basic functionality of the classifier framework base class is to
  * classify each data point in given a data set to one of the N classes where 
  * N is either specified by the user or automatically determined using methods 
  * such as k-means clustering techniques. 
@@ -87,7 +87,7 @@ class ITK_EXPORT ClassifierBase : public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ClassifierBase   Self;
+  typedef ClassifierBase     Self;
   typedef LightProcessObject Superclass;
 
   /** Run-time type information (and related methods). */
@@ -100,12 +100,12 @@ public:
   itkGetConstReferenceMacro(NumberOfClasses, unsigned int);
 
   /**Sets the decision rule */
-  typedef typename TDataContainer::ValueType MeasurementVectorType ;
+  typedef typename TDataContainer::ValueType MeasurementVectorType;
   
   /** Typedefs for membership funciton */
   typedef Statistics::MembershipFunctionBase< MeasurementVectorType > 
-  MembershipFunctionType;
-  typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer ;
+                                                   MembershipFunctionType;
+  typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer;
 
   typedef std::vector< MembershipFunctionPointer > 
   MembershipFunctionPointerVector;
@@ -117,58 +117,58 @@ public:
    * Stores the decision rule that makes the real decision using 
    * informations from MembershipFunctions and other prior knowledge */
   void SetDecisionRule( DecisionRuleType* ptrToDecisionRule )
-  {
+    {
     m_DecisionRule = ptrToDecisionRule;
-  }
+    }
 
   /** Gets the pointer to the decision rule being used. */
   DecisionRuleType* GetDecisionRule(void)
-  {
-    return m_DecisionRule.GetPointer() ;
-  }
+    {
+    return m_DecisionRule.GetPointer();
+    }
   
   /** Gets the MembershipFunction that are plugged in by
    * the AddMembershipFunction method. The index is assigned according
    * to the order each membership function has been added using the
    * AddMemberShipFunction method */
   const MembershipFunctionType* GetMembershipFunction(unsigned int index)const
-  {
-    return m_MembershipFunctions[index].GetPointer() ;
-  }
+    {
+    return m_MembershipFunctions[index].GetPointer();
+    }
 
   /** Gets the number of membership functions */
   unsigned int GetNumberOfMembershipFunctions() 
-  {
+    {
     return static_cast<unsigned int>( m_MembershipFunctions.size() );
-  }
+    }
 
   /** Stores a membership function of a class in its internal vector */
   unsigned int AddMembershipFunction(MembershipFunctionType* function);
 
   /** Starts the classification process */
-  void Update() ;
+  void Update();
   
 protected:
-  ClassifierBase() ;
-  ~ClassifierBase() ;
+  ClassifierBase();
+  ~ClassifierBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** The real classification logic implementaion. All the subclasses
    * of this class should implement this method. */
-  virtual void GenerateData() = 0 ;
+  virtual void GenerateData() = 0;
 
 private:
   ClassifierBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   /** Number of classes */
-  unsigned int                       m_NumberOfClasses ;
+  unsigned int                       m_NumberOfClasses;
 
   /** Pointer to the decision rule to be used for classification. */
-  typename DecisionRuleType::Pointer m_DecisionRule ;
+  typename DecisionRuleType::Pointer m_DecisionRule;
 
   /** Container to hold the membership functions */
-  MembershipFunctionPointerVector    m_MembershipFunctions ;
+  MembershipFunctionPointerVector    m_MembershipFunctions;
 
 }; // class Classifier
 
@@ -180,4 +180,3 @@ private:
 #endif
 
 #endif
-

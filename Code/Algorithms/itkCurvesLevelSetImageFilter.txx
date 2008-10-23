@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvesLevelSetImageFilter_txx_
-#define __itkCurvesLevelSetImageFilter_txx_
+#ifndef __itkCurvesLevelSetImageFilter_txx
+#define __itkCurvesLevelSetImageFilter_txx
 
 #include "itkCurvesLevelSetImageFilter.h"
 
@@ -69,8 +69,5 @@ CurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 }
 
 }// end namespace itk
-
-
-
 
 #endif

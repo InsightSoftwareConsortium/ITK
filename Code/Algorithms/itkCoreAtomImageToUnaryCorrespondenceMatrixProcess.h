@@ -48,9 +48,9 @@ public:
 
   /** Standard class typedefs. */
   typedef CoreAtomImageToUnaryCorrespondenceMatrixProcess  Self;
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ProcessObject                                    Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -66,22 +66,24 @@ public:
   itkGetMacro(Columns, int);
 
   /** Typedef for core atom image. */
-  typedef TSourceImage CoreAtomImageType;
-  typedef typename CoreAtomImageType::Pointer CoreAtomImagePointer;
-  typedef typename CoreAtomImageType::RegionType CoreAtomImageRegionType; 
-  typedef typename CoreAtomImageType::PixelType CoreAtomImagePixelType; 
+  typedef TSourceImage                             CoreAtomImageType;
+  typedef typename CoreAtomImageType::Pointer      CoreAtomImagePointer;
+  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType; 
+  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType; 
   typedef typename CoreAtomImageType::ConstPointer CoreAtomImageConstPointer;
 
   /** Typedef for correspondence matrix. */
-  typedef MatrixResizeableDataObject<double> CorrespondenceMatrixType;
+  typedef MatrixResizeableDataObject<double>         CorrespondenceMatrixType;
   typedef typename CorrespondenceMatrixType::Pointer CorrespondenceMatrixPointer;
 
   /** MedialNode typedef. */
   typedef BloxCoreAtomPixel<itkGetStaticConstMacro(NDimensions)> MedialNodeType;
 
   /** UnaryMetric typedef. */
-  typedef UnaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)> UnaryMetricType;
-  typedef typename UnaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)>::Pointer UnaryMetricPointer;
+  typedef UnaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)>
+                                           UnaryMetricType;
+  typedef typename UnaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)>::Pointer
+                                           UnaryMetricPointer;
 
   /** Get the image output of this process object. */
   CorrespondenceMatrixType * GetOutput(void);
@@ -122,8 +124,7 @@ private:
   int m_Columns;
 
   CorrespondenceMatrixPointer m_CorrespondenceMatrix;
-
-  UnaryMetricPointer m_Metric;
+  UnaryMetricPointer          m_Metric;
 
   /** Flag to output test png files. Off by default. */
   bool m_OutputPNG;

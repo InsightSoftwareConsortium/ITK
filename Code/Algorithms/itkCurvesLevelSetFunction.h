@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -15,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkCurvesLevelSetFunction_h_
-#define __itkCurvesLevelSetFunction_h_
+#ifndef __itkCurvesLevelSetFunction_h
+#define __itkCurvesLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 
 namespace itk {
 
 /** \class CurvesLevelSetFunction
- *    
+ *
  * \brief This function is used in CurvesLevelSetImageFilter to
  * segment structures in images based on user supplied edge potential map.
  *
@@ -63,12 +62,12 @@ class ITK_EXPORT CurvesLevelSetFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvesLevelSetFunction Self;
+  typedef CurvesLevelSetFunction                   Self;
   typedef SegmentationLevelSetFunction<TImageType> Superclass;
-  typedef LevelSetFunction<TImageType> SuperSuperclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef TFeatureImageType FeatureImageType;
+  typedef LevelSetFunction<TImageType>             SuperSuperclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
+  typedef TFeatureImageType                        FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,15 +76,15 @@ public:
   itkTypeMacro( CurvesLevelSetFunction, SegmentationLevelSetFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename SuperSuperclass::PixelType    PixelType;
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::NeighborhoodType  NeighborhoodType;
-  typedef typename Superclass::ScalarValueType   ScalarValueType;
-  typedef typename Superclass::FeatureScalarType FeatureScalarType;
-  typedef typename Superclass::RadiusType        RadiusType;
-  typedef typename SuperSuperclass::FloatOffsetType   FloatOffsetType;
+  typedef typename SuperSuperclass::PixelType        PixelType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::NeighborhoodType      NeighborhoodType;
+  typedef typename Superclass::ScalarValueType       ScalarValueType;
+  typedef typename Superclass::FeatureScalarType     FeatureScalarType;
+  typedef typename Superclass::RadiusType            RadiusType;
+  typedef typename SuperSuperclass::FloatOffsetType  FloatOffsetType;
   typedef typename SuperSuperclass::GlobalDataStruct GlobalDataStruct;
-  typedef typename Superclass::VectorImageType   VectorImageType;
+  typedef typename Superclass::VectorImageType       VectorImageType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -107,32 +106,31 @@ public:
   void SetDerivativeSigma( const double v )
     { m_DerivativeSigma = v; }
   double GetDerivativeSigma()
-    { return m_DerivativeSigma; };
+    { return m_DerivativeSigma; }
 
   virtual void Initialize(const RadiusType &r);
   
 protected:
   CurvesLevelSetFunction()
-  {
+    {
     //Curvature term is the minimal curvature.
     this->UseMinimalCurvatureOn();
     this->SetAdvectionWeight( NumericTraits<ScalarValueType>::One );
     this->SetPropagationWeight( NumericTraits<ScalarValueType>::One );
     this->SetCurvatureWeight( NumericTraits<ScalarValueType>::One );
     
-
     m_DerivativeSigma = 1.0;
-  }
+    }
   virtual ~CurvesLevelSetFunction() {}
 
   CurvesLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os, indent );
     os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
-  }
+    }
 
 private:
   
