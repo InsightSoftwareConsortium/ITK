@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/*
+/**
  * Constructor
  */
 template<class TImage>
@@ -44,7 +44,7 @@ CurvatureFlowFunction<TImage>
 }
 
 
-/*
+/**
  * Compute the global time step
  */
 template<class TImage>
@@ -57,7 +57,7 @@ CurvatureFlowFunction<TImage>
 
 
   // \todo compute timestep based on CFL condition
-/*
+#if 0
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
   TimeStepType dt;
 
@@ -71,12 +71,11 @@ CurvatureFlowFunction<TImage>
     }
 
   return dt;
-*/
-
+#endif
 }
 
 
-/*
+/**
  * Update the solution at pixels which lies on the data boundary.
  */
 template<class TImage>
@@ -166,11 +165,11 @@ CurvatureFlowFunction<TImage>
   update /= magnitudeSqr;
 
   // \todo compute timestep based on CFL condition
-/*
+#if 0
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
   globalData->m_MaxChange =
     vnl_math_max( globalData->m_MaxChange, vnl_math_abs(update) );
-*/
+#endif
   return update;
 
 }
