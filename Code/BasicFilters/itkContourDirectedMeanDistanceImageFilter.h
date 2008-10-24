@@ -30,7 +30,7 @@ namespace itk {
  *
  * ContourDirectedMeanDistanceImageFilter computes the distance between the set
  * non-zero pixels of two images using the following formula:
- * \f[ h(A,B) = \mean_{a \in A} \min_{b \in B} \| a - b\| \f]
+ * \f[ h(A,B) = \mathrm{mean}_{a \in A} \min_{b \in B} \| a - b\| \f]
  * where \f$A\f$ and \f$B\f$ are respectively the set of non-zero pixels
  * in the first and second input images. It identifies the point \f$ a \in A \f$
  * that is farthest from any point of \f$B\f$ and measures the distance from \f$a\f$

@@ -29,7 +29,7 @@ namespace itk
  * the sigmoid fuction. The resulting total transfrom is given by
  *
  * \f[
- * f(x) = (Max-Min) \cdot \frac{1}{\left(1+e^{-(\frac{ x - \beta }{\alpha}\right)}} + Min
+ * f(x) = (Max-Min) \cdot \frac{1}{\left(1+e^{- \frac{ x - \beta }{\alpha}}\right)} + Min
  * \f]
  *
  * Every output pixel is equal to f(x). Where x is the intensity of the

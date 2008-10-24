@@ -60,7 +60,7 @@ namespace itk {
  * An advection term \f$ \mathbf{A}(\mathbf{x}) \f$ is constructed
  * from the negative gradient of the edge potential image. 
  *
- * \f[ \mathbf{A}(\matbf{x}) = -\nabla g(\mathbf{x}) \f]
+ * \f[ \mathbf{A}(\mathbf{x}) = -\nabla g(\mathbf{x}) \f]
  *
  * This term behaves like a doublet attracting the contour to the edges.
  *

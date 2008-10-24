@@ -29,9 +29,9 @@ namespace Statistics{
  * histogram. 
  *
  * The statistics is
- *    \f$ \sum^{k}_{i=1}x_{i}\log(x_{i}/n\pi_{0i}\f$
+ *    \f$ \sum^{k}_{i=1}x_{i}\log(x_{i}/n\pi_{0i})\f$
  *  
- *  where \f$ x_{i] \f$ is the observed frequency of the \f$i\f$th bin, and
+ *  where \f$ x_{i} \f$ is the observed frequency of the \f$i\f$th bin, and
  * \f$n\pi_{0i}\f$ is the expected frequency.
  * 
  *

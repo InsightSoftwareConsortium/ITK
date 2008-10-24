@@ -67,7 +67,7 @@ namespace itk
  *  \end{tabular}\f]
  *
  * Region borders are shown as ``E''.
- * \f[\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+ * \f[\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
  * \hline
  *   C & C & C &   & C & C & C &   & C & C & C \\ \hline
  *   C & C & C & E & C & C & C & E & C & C & C \\ \hline
