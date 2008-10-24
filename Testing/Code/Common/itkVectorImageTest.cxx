@@ -259,8 +259,10 @@ int itkVectorImageTest( int, char* argv[] )
     for( unsigned int i=0; i<VectorLength; i++ ) { f[i] = i; }
     start.Fill(0);
     VectorImageType::SizeType  size;
-    size.Fill(10);
+    size.Fill(11);
     size[Dimension-1] = 5;
+    unsigned long midCtr = 1;
+    for (unsigned int i = 0; i < Dimension; i++) { midCtr *= size[i]; }    
     VectorImageType::RegionType region( start, size );
     vectorImage->SetVectorLength( VectorLength );
     vectorImage->SetRegions( region );
@@ -286,11 +288,6 @@ int itkVectorImageTest( int, char* argv[] )
     ConstIteratorType cit( vectorImage, vectorImage->GetBufferedRegion() );
     unsigned long ctr = 0;
     cit.Begin();
-    unsigned long midCtr = 1;
-    for (unsigned int i = 0; i < Dimension; i++)
-      {
-      midCtr *= size[i];
-      }
     midCtr /= 2;
     while( !cit.IsAtEnd() )
       {
