@@ -211,8 +211,7 @@ int main(int ac, char* av[] )
     catch(const itk::ExceptionObject& e)
       {
       std::cerr << "ITK test driver caught an ITK exception:\n";
-      std::cerr << e.GetFile() << ":" << e.GetLine() << ":\n"
-                << e.GetDescription() << "\n";
+      e.Print(std::cerr);
       result = -1;
       }
     catch(const std::exception& e)

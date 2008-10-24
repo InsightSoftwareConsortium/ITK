@@ -24,6 +24,7 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include <stdio.h>
+#include <itksys/SystemTools.hxx>
 
 extern "C"
 {
@@ -212,7 +213,10 @@ void JPEGImageIO::Read(void* buffer)
   if(!fp)
     {
     itkExceptionMacro("Error JPEGImageIO could not open file: " 
-                      << this->GetFileName());
+                      << this->GetFileName()
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     return;
     }
  
@@ -333,7 +337,10 @@ void JPEGImageIO::ReadImageInformation()
   if(!fp)
     {
     itkExceptionMacro("Error JPEGImageIO could not open file: " 
-                      << this->GetFileName());
+                      << this->GetFileName()
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     return;
     }
 
@@ -466,7 +473,12 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   FILE* fp = JPEGfp.m_FilePointer;
   if(!fp)
     {
-    itkExceptionMacro("Unable to open file " << fileName);
+    itkExceptionMacro("Unable to open file "
+                      << fileName
+                      <<" for writing."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   // Call the correct templated function for the output
