@@ -35,7 +35,7 @@ ProbesCollectorBase<TProbe>
 ::Start(const char * id)
 {
   // if the probe does not exist yet, it is created.
-  m_Probes[ id ].Start(); 
+  this->m_Probes[ id ].Start(); 
 }
 
 template <class TProbe>
@@ -44,8 +44,8 @@ ProbesCollectorBase<TProbe>
 ::Stop(const char * id)
 {
   IdType tid = id;
-  typename MapType::iterator  pos = m_Probes.find( tid );
-  if ( pos == m_Probes.end() )
+  typename MapType::iterator  pos = this->m_Probes.find( tid );
+  if ( pos == this->m_Probes.end() )
     {
     itkGenericExceptionMacro( << "The probe \""<< id<< "\" does not exist. It can not be stopped." );
     return;
@@ -59,11 +59,14 @@ void
 ProbesCollectorBase<TProbe>
 ::Report( std::ostream & os ) const
 {
-  typename MapType::const_iterator probe = m_Probes.begin();
-  typename MapType::const_iterator end   = m_Probes.end();
+  typename MapType::const_iterator probe = this->m_Probes.begin();
+  typename MapType::const_iterator end   = this->m_Probes.end();
 
   if ( probe == end )
+    {
+    os << "No probes have been created" << std::endl;
     return;
+    }
 
   os.width(20);
   os <<  " Probe Tag ";
@@ -98,7 +101,7 @@ void
 ProbesCollectorBase<TProbe>
 ::Clear(void) 
 {
-  m_Probes.clear();
+  this->m_Probes.clear();
 }
 
 

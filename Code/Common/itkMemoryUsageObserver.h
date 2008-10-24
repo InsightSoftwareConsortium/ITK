@@ -19,9 +19,9 @@
 #define __itkMemoryUsageObserver_h
 
 #include "itkConfigure.h"
-#include <itkMacro.h>
-#include <itkObject.h>
-#include <itkObjectFactory.h>
+#include "itkMacro.h"
+#include "itkObject.h"
+#include "itkObjectFactory.h"
 
 #if defined(WIN32) || defined(_WIN32)
   #include <windows.h>

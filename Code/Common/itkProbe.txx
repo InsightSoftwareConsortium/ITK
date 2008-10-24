@@ -29,13 +29,13 @@ namespace itk
 /** Constructor */
 template<class ValueType, class MeanType>
 Probe<ValueType,MeanType>
-::Probe(const std::string & type, const std::string unit)
+::Probe(const std::string & type, const std::string & unit)
 :m_TypeString(type),m_UnitString(unit)
 {
-  m_TotalValue      = NumericTraits< ValueType >::ZeroValue();
-  m_StartValue      = NumericTraits< ValueType >::ZeroValue();
-  m_NumberOfStarts  = NumericTraits< CountType >::ZeroValue();
-  m_NumberOfStops   = NumericTraits< CountType >::ZeroValue();
+  this->m_TotalValue      = NumericTraits< ValueType >::ZeroValue();
+  this->m_StartValue      = NumericTraits< ValueType >::ZeroValue();
+  this->m_NumberOfStarts  = NumericTraits< CountType >::ZeroValue();
+  this->m_NumberOfStops   = NumericTraits< CountType >::ZeroValue();
 }
 
 /** Destructor */
@@ -51,7 +51,7 @@ std::string
 Probe<ValueType,MeanType>
 ::GetType(void)const
 {
-  return m_TypeString;
+  return this->m_TypeString;
 }
 
 /** Returns the unit probed value */
@@ -60,7 +60,7 @@ std::string
 Probe<ValueType,MeanType>
 ::GetUnit(void)const
 {
-  return m_UnitString;
+  return this->m_UnitString;
 }
 
 /** Start counting */
@@ -69,8 +69,8 @@ void
 Probe<ValueType,MeanType>
 ::Start(void)
 {
-  ++m_NumberOfStarts;
-  m_StartValue = this->GetInstantValue();
+  this->m_NumberOfStarts++;
+  this->m_StartValue = this->GetInstantValue();
 }
  
 /** Stop the probe */
@@ -79,12 +79,12 @@ void
 Probe<ValueType,MeanType>
 ::Stop(void)
 {
-  if( m_NumberOfStops == m_NumberOfStarts )
+  if( this->m_NumberOfStops == this->m_NumberOfStarts )
     {
     itkGenericExceptionMacro( << "Can't stop a probe that has not been started." );
     }
-  m_TotalValue += this->GetInstantValue() - m_StartValue;
-  ++m_NumberOfStops;
+  this->m_TotalValue += this->GetInstantValue() - this->m_StartValue;
+  this->m_NumberOfStops++;
 }
 
 /** Get Number of Starts */
@@ -93,7 +93,7 @@ typename Probe<ValueType,MeanType>::CountType
 Probe<ValueType,MeanType>
 ::GetNumberOfStarts(void) const
 {
-  return m_NumberOfStarts;
+  return this->m_NumberOfStarts;
 }
 
 /** Get Number of Stops */
@@ -102,7 +102,7 @@ typename Probe<ValueType,MeanType>::CountType
 Probe<ValueType,MeanType>
 ::GetNumberOfStops(void) const
 {
-  return m_NumberOfStops;
+  return this->m_NumberOfStops;
 }
 
 /** Get Total */
@@ -111,7 +111,7 @@ ValueType
 Probe<ValueType,MeanType>
 ::GetTotal(void) const
 {
-  return m_TotalValue;
+  return this->m_TotalValue;
 }
 
 /** Get Mean */
@@ -122,9 +122,9 @@ Probe<ValueType,MeanType>
 {
   MeanType meanValue = NumericTraits< MeanType >::ZeroValue();
   
-  if( m_NumberOfStops)
+  if( this->m_NumberOfStops)
     {
-    meanValue = static_cast<MeanType>(m_TotalValue) / static_cast<MeanType>(m_NumberOfStops);
+    meanValue = static_cast<MeanType>(this->m_TotalValue) / static_cast<MeanType>(this->m_NumberOfStops);
     }
 
   return meanValue;

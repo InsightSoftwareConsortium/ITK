@@ -137,24 +137,24 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
    * Set up and run the shape detection filter
    */
   typedef itk::GeodesicActiveContourLevelSetImageFilter<
-    InternalImageType, InternalImageType > ShapeDetectionFilterType;
+    InternalImageType, InternalImageType > GeodesicActiveContourFilterType;
   
-  ShapeDetectionFilterType::Pointer shapeDetection = ShapeDetectionFilterType::New();
+  GeodesicActiveContourFilterType::Pointer geodesicActiveContour = GeodesicActiveContourFilterType::New();
   
   // set the initial level set
-  shapeDetection->SetInput( fastMarching->GetOutput() );
+  geodesicActiveContour->SetInput( fastMarching->GetOutput() );
 
   // set the edge potential image
-  shapeDetection->SetFeatureImage( sigmoid->GetOutput() );
+  geodesicActiveContour->SetFeatureImage( sigmoid->GetOutput() );
 
   // set the weights between the propagation, curvature and advection terms
-  shapeDetection->SetPropagationScaling( 1.0 );
-  shapeDetection->SetCurvatureScaling( 0.1 );
-  shapeDetection->SetAdvectionScaling( 0.5 );
+  geodesicActiveContour->SetPropagationScaling( 1.0 );
+  geodesicActiveContour->SetCurvatureScaling( 0.1 );
+  geodesicActiveContour->SetAdvectionScaling( 0.5 );
 
   // set the convergence criteria
-  shapeDetection->SetMaximumRMSError( 0.03 );
-  shapeDetection->SetNumberOfIterations( 200 );
+  geodesicActiveContour->SetMaximumRMSError( 0.03 );
+  geodesicActiveContour->SetNumberOfIterations( 200 );
 
   /**
    * Threshold the output level set to display the final contour.
@@ -163,7 +163,7 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
     ThresholdFilterType;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
 
-  thresholder->SetInput( shapeDetection->GetOutput() );
+  thresholder->SetInput( geodesicActiveContour->GetOutput() );
   thresholder->SetLowerThreshold( -1e+10 );
   thresholder->SetUpperThreshold( 0.0 );
   thresholder->SetOutsideValue( 0 );
@@ -181,10 +181,10 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
   overlap->Update();
   
   /** Printout useful information from the shape detection filter. */
-  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
-  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
+  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError() << std::endl;
+  std::cout << "No. elpased iterations: " << geodesicActiveContour->GetElapsedIterations() << std::endl;
+  std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
   /** 
@@ -236,10 +236,10 @@ int itkGeodesicActiveContourLevelSetImageFilterTest(int, char* [] )
     }
 
   // Test case when PropagationScaling is zero
-  shapeDetection->SetPropagationScaling( 0.0 );
-  shapeDetection->SetCurvatureScaling( 1.0 );
-  shapeDetection->SetAdvectionScaling( 0.0 );
-  shapeDetection->Update();
+  geodesicActiveContour->SetPropagationScaling( 0.0 );
+  geodesicActiveContour->SetCurvatureScaling( 1.0 );
+  geodesicActiveContour->SetAdvectionScaling( 0.0 );
+  geodesicActiveContour->Update();
 
   std::cout << "Test Passed. " << std::endl;
   return EXIT_SUCCESS;

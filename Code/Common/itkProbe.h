@@ -47,7 +47,7 @@ public:
 public:
 
   /** Constructor */
-  Probe(const std::string & type, const std::string unit);
+  Probe(const std::string & type, const std::string & unit);
 
   /** Destructor */
   virtual ~Probe();
