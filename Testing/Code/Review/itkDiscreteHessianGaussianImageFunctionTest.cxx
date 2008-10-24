@@ -59,10 +59,11 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
     }
 
   // Create images for storing result
-  std::vector<typename ImageType::Pointer> outputs;
+  typedef typename ImageType::Pointer ImageTypePointer;
+  std::vector<ImageTypePointer> outputs;
   for( unsigned int i=0; i<Dimension; i++ )
     {
-    typename ImageType::Pointer output = ImageType::New();
+    ImageTypePointer output = ImageType::New();
     output->SetSpacing( reader->GetOutput()->GetSpacing() );
     output->SetOrigin( reader->GetOutput()->GetOrigin() );
     output->SetDirection( reader->GetOutput()->GetDirection() );
