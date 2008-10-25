@@ -28,15 +28,14 @@ namespace itk
 template <class TInputImage, class TOutput>
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
 ::DiscreteGradientMagnitudeGaussianImageFunction() :
-  m_MaximumError(.005),
-  m_MaximumKernelWidth(30),
+  m_MaximumError( 0.005 ),
+  m_MaximumKernelWidth( 30 ),
   m_NormalizeAcrossScale( true ),
   m_UseImageSpacing( true ),
   m_InterpolationMode( NearestNeighbourInterpolation )
 {
-  m_Variance.Fill(1.0);
+  m_Variance.Fill( 1.0 );
   m_OperatorImageFunction = OperatorImageFunctionType::New();
-  this->RecomputeGaussianKernel();
 }
 
 
@@ -67,74 +66,6 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
 {
   Superclass::SetInputImage(ptr);
   m_OperatorImageFunction->SetInputImage(ptr);
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
-::SetVariance( const double* variance )
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = variance[i];
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
-::SetVariance (const double variance)
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = variance;
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
-::SetSigma( const double* sigma )
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = sigma[i] * sigma[i];
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
-::SetSigma (const double sigma)
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = sigma * sigma;
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
 }
 
 
@@ -174,7 +105,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
         }
 
       // GaussianDerivativeOperator modifies the variance when setting image spacing
-      m_OperatorArray[idx].SetVariance(m_Variance[direction]);
+      m_OperatorArray[idx].SetVariance( m_Variance[direction] );
       m_OperatorArray[idx].SetOrder(order);
       m_OperatorArray[idx].SetNormalizeAcrossScale( m_NormalizeAcrossScale );
       m_OperatorArray[idx].CreateDirectional();
@@ -328,10 +259,8 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
     unsigned int dim;  // index over dimension
     unsigned long neighbors = 1 << ImageDimension2;
 
-    /**
-     * Compute base index = closet index below point
-     * Compute distance from point to base index
-     */
+    // Compute base index = closet index below point
+    // Compute distance from point to base index
     signed long baseIndex[ImageDimension2];
     double distance[ImageDimension2];
     long tIndex;
@@ -357,11 +286,9 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage,TOutput>
       distance[dim] = cindex[dim] - double( baseIndex[dim] );
       }
 
-    /**
-     * Interpolated value is the weighted sum of each of the surrounding
-     * neighbors. The weight for each neighbor is the fraction overlap
-     * of the neighbor pixel with respect to a pixel centered on point.
-     */
+    // Interpolated value is the weighted sum of each of the surrounding
+    // neighbors. The weight for each neighbor is the fraction overlap
+    // of the neighbor pixel with respect to a pixel centered on point.
     TOutput value = NumericTraits<TOutput>::Zero;
     TOutput totalOverlap = NumericTraits<TOutput>::Zero;
 

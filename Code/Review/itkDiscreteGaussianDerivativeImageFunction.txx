@@ -28,8 +28,8 @@ namespace itk
 template <class TInputImage, class TOutput>
 DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
 ::DiscreteGaussianDerivativeImageFunction() :
-  m_MaximumError(.005),
-  m_MaximumKernelWidth(30),
+  m_MaximumError( 0.005 ),
+  m_MaximumKernelWidth( 30 ),
   m_NormalizeAcrossScale( true ),
   m_UseImageSpacing( true ),
   m_InterpolationMode( NearestNeighbourInterpolation )
@@ -38,7 +38,6 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
   m_Order.Fill(0);
   m_Order[0] = 1; // by default calculate derivative in x
   m_OperatorImageFunction = OperatorImageFunctionType::New();
-  this->RecomputeGaussianKernel();
 }
 
 
@@ -73,114 +72,6 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
 }
 
 
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetVariance( const double* variance )
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = variance[i];
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetVariance (const double variance)
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = variance;
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetSigma( const double* sigma )
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = sigma[i] * sigma[i];
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-/** Set the variance of the gaussian in each direction */
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetSigma (const double sigma)
-{
-  unsigned int i;
-
-  for (i=0; i<itkGetStaticConstMacro(ImageDimension2); i++)
-    {
-    m_Variance[i] = sigma * sigma;
-    }
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetOrder( const unsigned int* order )
-{
-  m_Order = order;
-
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetOrder( const unsigned int order )
-{
-  for(unsigned int direction = 0; direction <
-   itkGetStaticConstMacro(ImageDimension2); direction++ )
-   {
-   m_Order[direction] = order;
-   }
-
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
-template <class TInputImage, class TOutput>
-void
-DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
-::SetOrder( unsigned int direction, const unsigned int order )
-{
-  m_Order[direction] = order;
-
-  this->RecomputeGaussianKernel();
-  this->Modified();
-}
-
-
 /** Recompute the gaussian kernel used to evaluate indexes
  *  This should use a fastest Derivative Gaussian operator*/
 template <class TInputImage, class TOutput>
@@ -212,7 +103,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage,TOutput>
       }
 
     // GaussianDerivativeOperator modifies the variance when setting image spacing
-    m_OperatorArray[direction].SetVariance(m_Variance[direction]);
+    m_OperatorArray[direction].SetVariance( m_Variance[direction] );
     m_OperatorArray[direction].SetOrder( m_Order[direction] );
     m_OperatorArray[direction].SetNormalizeAcrossScale( m_NormalizeAcrossScale );
     m_OperatorArray[direction].CreateDirectional();

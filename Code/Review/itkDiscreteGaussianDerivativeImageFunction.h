@@ -34,6 +34,9 @@ namespace itk
  *        each direction (by default zero).
  * This class is templated over the input image type.
  *
+ * The Initialize() method must be called after setting the parameters and before
+ * evaluating the function.
+ *
  * \author Iván Macía, VICOMTech, Spain, http://www.vicomtech.es
  *
  * This implementation was taken from the Insight Journal paper:
@@ -112,90 +115,63 @@ public:
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index ) const;
 
-  /** The variance for the discrete Gaussian kernel.  Sets the variance
-   * independently for each dimension, but see also SetVariance(const double v).
-   * The default is 0.0 in each dimension. If UseImageSpacing is true,
-   * the units are the physical units of your image.  If UseImageSpacing
-   * is false then the units are pixels.*/
-  void SetVariance( const double* variance );
-  void SetVariance( const double variance );
-  const VarianceArrayType& GetVariance() const { return m_Variance; }
+  /** Set/Get the variance for the discrete Gaussian kernel.
+   * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
+   * If UseImageSpacing is true, the units are the physical units of your image.
+   * If UseImageSpacing is false then the units are pixels.*/
+  itkSetMacro( Variance, VarianceArrayType );
+  itkGetMacro( Variance, const VarianceArrayType );
+  itkSetVectorMacro( Variance, double, VarianceArrayType::Length );
+
+  /** Convenience method for setting the variance for all dimensions. */
+  virtual void SetVariance( double variance )
+  {
+    m_Variance.Fill( variance );
+    this->Modified();
+  }
 
   /** Convenience method for setting the variance through the standard deviation. */
-  void SetSigma( const double* sigma );
-  void SetSigma( const double sigma );
+  void SetSigma( const double sigma )
+  {
+    SetVariance( sigma * sigma );
+  }
 
-  /** Set/Get the derivative order. */
-  void SetOrder( const unsigned int* order );
-  void SetOrder( const unsigned int order );
-  void SetOrder( unsigned int direction, const unsigned int order );
-  const OrderArrayType& GetOrder() const { return m_Order; }
-
-  /** Sets the desired maximum error of the gaussian approximation.  Maximum
+  /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
-  void SetMaximumError( const double maxerror )
-    {
-    const double Min = 0.00001;
-    const double Max = 1.0 - Min;
-    if ( m_MaximumError != (maxerror<Min?Min:(maxerror>Max?Max:maxerror)) )
-      {
-      m_MaximumError = (maxerror<Min?Min:(maxerror>Max?Max:maxerror));
-      this->RecomputeGaussianKernel();
-      this->Modified();
-      }
-    }
+  itkSetClampMacro( MaximumError, double, 0.00001, 0.99999 );
+  itkGetMacro( MaximumError, double );
+
+  /** Set/Get the derivative order for an individual dimension. */
+  itkSetMacro( Order, OrderArrayType );
+  itkGetMacro( Order, const OrderArrayType );
+  itkSetVectorMacro( Order, double, OrderArrayType::Length );
+
+  /** Convenience method for setting the order for all dimensions. */
+  virtual void SetOrder( unsigned int order )
+  {
+    m_Order.Fill( order );
+    this->Modified();
+  }
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
     * Normalized derivatives are obtained multiplying by the scale parameter t. */
-  void SetNormalizeAcrossScale( bool flag )
-    {
-    if( m_NormalizeAcrossScale != flag )
-      {
-      m_NormalizeAcrossScale = flag;
-      this->RecomputeGaussianKernel();
-      this->Modified();
-      }
-    }
-  bool GetNormalizeAcrossScale() const { return m_NormalizeAcrossScale; }
-  itkBooleanMacro(NormalizeAcrossScale);
+  itkSetMacro( NormalizeAcrossScale, bool );
+  itkGetMacro( NormalizeAcrossScale, bool );
+  itkBooleanMacro( NormalizeAcrossScale );
 
   /** Set/Get the flag for using image spacing when calculating derivatives. */
-  void SetUseImageSpacing( bool flag )
-    {
-    if( m_UseImageSpacing != flag )
-      {
-      m_UseImageSpacing = flag;
-      this->RecomputeGaussianKernel();
-      this->Modified();
-      }
-    }
-  bool GetUseImageSpacing() const { return m_UseImageSpacing; }
-  itkBooleanMacro(UseImageSpacing);
+  itkSetMacro( UseImageSpacing, bool );
+  itkGetMacro( UseImageSpacing, bool );
+  itkBooleanMacro( UseImageSpacing );
 
-  /** Returns the maximum error of the gaussian approximation.  Maximum error is
-   * the difference between the area under the discrete Gaussian curve and the
-   * area under the continuous Gaussian. Maximum error affects the Gaussian
-   * operator size. */
-  double GetMaximumError() { return m_MaximumError; }
-
-  /** Sets a limit for growth of the kernel.  Small maximum error values with
-   *  large variances will yield very large kernel sizes.  This value can be
-   *  used to truncate a kernel in such instances.  A warning will be given on
+  /** Set/Get a limit for growth of the kernel. Small maximum error values with
+   *  large variances will yield very large kernel sizes. This value can be
+   *  used to truncate a kernel in such instances. A warning will be given on
    *  truncation of the kernel. */
-  void SetMaximumKernelWidth( unsigned int n )
-    {
-    if ( m_MaximumKernelWidth != n )
-      {
-      m_MaximumKernelWidth = n;
-      this->RecomputeGaussianKernel();
-      this->Modified();
-      }
-    }
-
-  /** Returns the maximum allowed kernel width. */
-  unsigned int GetMaximumKernelWidth() const { return m_MaximumKernelWidth; }
+  itkSetMacro( MaximumKernelWidth, unsigned int );
+  itkGetMacro( MaximumKernelWidth, unsigned int );
 
   /** Set/Get the interpolation mode. */
   itkSetMacro( InterpolationMode, InterpolationModeType );
@@ -206,6 +182,10 @@ public:
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
   virtual void SetInputImage( const InputImageType * ptr );
+
+  /** Initialize the Gaussian kernel. Call this method before evaluating the function.
+   * This method MUST be called after any changes to function parameters. */
+  virtual void Initialize( ) { RecomputeGaussianKernel(); }
 
 protected:
 
@@ -227,7 +207,7 @@ private:
   VarianceArrayType m_Variance;
 
   /** Order of the derivatives in each dimension. */
-  OrderArrayType    m_Order;
+  OrderArrayType m_Order;
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
@@ -239,14 +219,14 @@ private:
   unsigned int m_MaximumKernelWidth;
 
   /** Array of derivative operators, one for each dimension. */
-  GaussianDerivativeOperatorArrayType   m_OperatorArray;
+  GaussianDerivativeOperatorArrayType m_OperatorArray;
 
   /** N-dimensional kernel which is the result of convolving the operators
     * for calculating derivatives. */
-  KernelType  m_DerivativeKernel;
+  KernelType m_DerivativeKernel;
 
   /** OperatorImageFunction */
-  OperatorImageFunctionPointer  m_OperatorImageFunction;
+  OperatorImageFunctionPointer m_OperatorImageFunction;
 
   /** Flag for scale-space normalization of derivatives. */
   bool m_NormalizeAcrossScale;
@@ -255,7 +235,7 @@ private:
   bool m_UseImageSpacing;
 
   /** Interpolation mode. */
-  InterpolationModeType  m_InterpolationMode;
+  InterpolationModeType m_InterpolationMode;
 
 };
 
