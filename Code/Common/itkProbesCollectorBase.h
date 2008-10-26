@@ -19,7 +19,7 @@
 
 #include "itkConfigure.h"
 
-#include "itkProbe.h"
+#include "itkResourceProbe.h"
 #include "itkMemoryUsageObserver.h"
 
 namespace itk
@@ -28,10 +28,10 @@ namespace itk
 /** \class ProbesCollectorBase
  *  \brief Class for aggregating a set of probes. 
  *
- *  This class defines a set of Probes and assign names to them.
+ *  This class defines a set of ResourceProbes and assign names to them.
  *  The user can start and stop each one of the probes by addressing them by name.
  *  
- *  \sa Probe
+ *  \sa ResourceProbe
  *
  */
 template <class TProbe>

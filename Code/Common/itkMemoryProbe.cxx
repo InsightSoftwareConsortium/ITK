@@ -22,7 +22,7 @@ namespace itk
 
 MemoryProbe
 ::MemoryProbe()
-:Probe<MemoryProbe::MemoryLoadType, double>("Memory","kB")
+:ResourceProbe<MemoryProbe::MemoryLoadType, double>("Memory","kB")
 {
 }
 MemoryProbe

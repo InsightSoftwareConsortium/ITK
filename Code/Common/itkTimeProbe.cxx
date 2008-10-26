@@ -21,7 +21,7 @@ namespace itk
 {
 
 TimeProbe
-::TimeProbe():Probe<TimeStampType,TimeStampType>("Time","s") 
+::TimeProbe():ResourceProbe<TimeStampType,TimeStampType>("Time","s") 
 {
   m_RealTimeClock   = RealTimeClock::New();
 }

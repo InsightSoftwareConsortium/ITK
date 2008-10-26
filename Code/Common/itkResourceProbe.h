@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProbe.h
+  Module:    itkResourceProbe.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkProbe_h
-#define __itkProbe_h
+#ifndef __itkResourceProbe_h
+#define __itkResourceProbe_h
 
 #include "itkConfigure.h"
 #include "itkWin32Header.h"
@@ -24,7 +24,7 @@
 namespace itk 
 {
  
-/** \class Probe 
+/** \class ResourceProbe 
   * 
   *  \brief Class for computing the change of a value between two points in the code.
   *   
@@ -32,11 +32,11 @@ namespace itk
   *   the execution of two pieces of code. It can be started and stopped 
   *   in order to evaluate the execution over multiple passes.
   *
-  *   \sa TimeProbe, MemoryProbe
+  *   \sa TimeResourceProbe, MemoryResourceProbe
   *
   */
 template<class ValueType, class MeanType>
-class ITK_EXPORT Probe
+class ITK_EXPORT ResourceProbe
 {
 
 public:
@@ -47,10 +47,10 @@ public:
 public:
 
   /** Constructor */
-  Probe(const std::string & type, const std::string & unit);
+  ResourceProbe(const std::string & type, const std::string & unit);
 
   /** Destructor */
-  virtual ~Probe();
+  virtual ~ResourceProbe();
 
   /** Returns the type probed value */
   std::string GetType(void)const;
@@ -98,7 +98,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkProbe.txx"
+#include "itkResourceProbe.txx"
 #endif
 
-#endif //__itkProbe_h
+#endif //__itkResourceProbe_h

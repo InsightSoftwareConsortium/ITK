@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProbe.txx
+  Module:    itkResourceProbe.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -17,10 +17,10 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkProbe_txx
-#define __itkProbe_txx
+#ifndef __itkResourceProbe_txx
+#define __itkResourceProbe_txx
 
-#include "itkProbe.h"
+#include "itkResourceProbe.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -28,8 +28,8 @@ namespace itk
 
 /** Constructor */
 template<class ValueType, class MeanType>
-Probe<ValueType,MeanType>
-::Probe(const std::string & type, const std::string & unit)
+ResourceProbe<ValueType,MeanType>
+::ResourceProbe(const std::string & type, const std::string & unit)
 :m_TypeString(type),m_UnitString(unit)
 {
   this->m_TotalValue      = NumericTraits< ValueType >::ZeroValue();
@@ -40,15 +40,15 @@ Probe<ValueType,MeanType>
 
 /** Destructor */
 template<class ValueType, class MeanType>
-Probe<ValueType,MeanType>
-::~Probe()
+ResourceProbe<ValueType,MeanType>
+::~ResourceProbe()
 {
 }
 
 /** Returns the type probed value */
 template<class ValueType, class MeanType>
 std::string 
-Probe<ValueType,MeanType>
+ResourceProbe<ValueType,MeanType>
 ::GetType(void)const
 {
   return this->m_TypeString;
@@ -57,7 +57,7 @@ Probe<ValueType,MeanType>
 /** Returns the unit probed value */
 template<class ValueType, class MeanType>
 std::string 
-Probe<ValueType,MeanType>
+ResourceProbe<ValueType,MeanType>
 ::GetUnit(void)const
 {
   return this->m_UnitString;
@@ -66,7 +66,7 @@ Probe<ValueType,MeanType>
 /** Start counting */
 template<class ValueType, class MeanType>
 void 
-Probe<ValueType,MeanType>
+ResourceProbe<ValueType,MeanType>
 ::Start(void)
 {
   this->m_NumberOfStarts++;
@@ -76,7 +76,7 @@ Probe<ValueType,MeanType>
 /** Stop the probe */
 template<class ValueType, class MeanType>
 void 
-Probe<ValueType,MeanType>
+ResourceProbe<ValueType,MeanType>
 ::Stop(void)
 {
   if( this->m_NumberOfStops == this->m_NumberOfStarts )
@@ -89,8 +89,8 @@ Probe<ValueType,MeanType>
 
 /** Get Number of Starts */
 template<class ValueType, class MeanType>
-typename Probe<ValueType,MeanType>::CountType 
-Probe<ValueType,MeanType>
+typename ResourceProbe<ValueType,MeanType>::CountType 
+ResourceProbe<ValueType,MeanType>
 ::GetNumberOfStarts(void) const
 {
   return this->m_NumberOfStarts;
@@ -98,8 +98,8 @@ Probe<ValueType,MeanType>
 
 /** Get Number of Stops */
 template<class ValueType, class MeanType>
-typename Probe<ValueType,MeanType>::CountType 
-Probe<ValueType,MeanType>
+typename ResourceProbe<ValueType,MeanType>::CountType 
+ResourceProbe<ValueType,MeanType>
 ::GetNumberOfStops(void) const
 {
   return this->m_NumberOfStops;
@@ -108,7 +108,7 @@ Probe<ValueType,MeanType>
 /** Get Total */
 template<class ValueType, class MeanType>
 ValueType 
-Probe<ValueType,MeanType>
+ResourceProbe<ValueType,MeanType>
 ::GetTotal(void) const
 {
   return this->m_TotalValue;
@@ -117,7 +117,7 @@ Probe<ValueType,MeanType>
 /** Get Mean */
 template<class ValueType, class MeanType>
 MeanType 
-Probe<ValueType,MeanType>
+ResourceProbe<ValueType,MeanType>
 ::GetMean(void) const
 {
   MeanType meanValue = NumericTraits< MeanType >::ZeroValue();

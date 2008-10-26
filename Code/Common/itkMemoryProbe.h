@@ -18,7 +18,7 @@
 #define __itkMemoryProbe_h
 
 #include "itkConfigure.h"
-#include "itkProbe.h"
+#include "itkResourceProbe.h"
 #include "itkMemoryUsageObserver.h"
 
 namespace itk 
@@ -36,7 +36,7 @@ namespace itk
  *
  */
 class ITKCommon_EXPORT MemoryProbe
-  : public Probe<long, double>
+  : public ResourceProbe<long, double>
 {
 public:
   
