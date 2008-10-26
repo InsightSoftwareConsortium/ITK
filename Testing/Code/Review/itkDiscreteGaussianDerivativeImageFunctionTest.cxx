@@ -102,6 +102,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
   function->SetOrder( order );
   function->SetNormalizeAcrossScale( true );
   function->SetUseImageSpacing( true );
+  function->Initialize( );
 
   // Step over input and output images
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
