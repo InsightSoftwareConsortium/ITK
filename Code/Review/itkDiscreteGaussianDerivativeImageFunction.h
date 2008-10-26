@@ -125,16 +125,16 @@ public:
 
   /** Convenience method for setting the variance for all dimensions. */
   virtual void SetVariance( double variance )
-  {
+    {
     m_Variance.Fill( variance );
     this->Modified();
-  }
+    }
 
   /** Convenience method for setting the variance through the standard deviation. */
   void SetSigma( const double sigma )
-  {
+    {
     SetVariance( sigma * sigma );
-  }
+    }
 
   /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
@@ -150,10 +150,10 @@ public:
 
   /** Convenience method for setting the order for all dimensions. */
   virtual void SetOrder( unsigned int order )
-  {
+    {
     m_Order.Fill( order );
     this->Modified();
-  }
+    }
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
     * Normalized derivatives are obtained multiplying by the scale parameter t. */
