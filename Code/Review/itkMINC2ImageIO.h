@@ -34,11 +34,9 @@
 #include "itkMatrix.h"
 
 extern "C" {
-#include <netcdf.h>
-#include <hdf5.h>
 #include <minc2.h>
-
 }
+
 namespace itk
 {
 
