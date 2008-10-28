@@ -15,6 +15,7 @@
 
 =========================================================================*/
 #include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "wrap_VXLNumerics.h"
