@@ -883,8 +883,8 @@ void MINC2ImageIO::Write(const void* buffer)
       {
       userdimorder[i++] = dimchar;
       }
-    else if (dimchar == tname[0] && tsize != 0 ||
-             dimchar == vname[0] && vsize != 0)
+    else if ((dimchar == tname[0] && tsize != 0) ||
+             (dimchar == vname[0] && vsize != 0))
       {
       userdimorder[i++] = dimchar;
       }
