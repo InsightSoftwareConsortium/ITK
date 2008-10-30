@@ -479,7 +479,7 @@ private:
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 3 )
+  if( argc < 8 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
