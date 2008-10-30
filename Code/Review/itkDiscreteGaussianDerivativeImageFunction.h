@@ -116,9 +116,11 @@ public:
     const ContinuousIndexType & index ) const;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
-   * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
-   * If UseImageSpacing is true, the units are the physical units of your image.
-   * If UseImageSpacing is false then the units are pixels.*/
+   * Sets the variance for individual dimensions. The default is 0.0
+   * in each dimension. If UseImageSpacing is true, the units are the
+   * physical units of your image. If UseImageSpacing is false then
+   * the units are pixels.
+   */
   itkSetMacro( Variance, VarianceArrayType );
   itkGetMacro( Variance, const VarianceArrayType );
   itkSetVectorMacro( Variance, double, VarianceArrayType::Length );
@@ -130,7 +132,9 @@ public:
     this->Modified();
     }
 
-  /** Convenience method for setting the variance through the standard deviation. */
+  /** Convenience method for setting the variance through the standard
+   * deviation.
+   */
   void SetSigma( const double sigma )
     {
     SetVariance( sigma * sigma );
@@ -139,14 +143,16 @@ public:
   /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
-   * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
+   * Gaussian operator size. The value is clamped between 0.00001 and
+   * 0.99999.
+   */
   itkSetClampMacro( MaximumError, double, 0.00001, 0.99999 );
   itkGetMacro( MaximumError, double );
 
   /** Set/Get the derivative order for an individual dimension. */
   itkSetMacro( Order, OrderArrayType );
   itkGetMacro( Order, const OrderArrayType );
-  itkSetVectorMacro( Order, double, OrderArrayType::Length );
+  itkSetVectorMacro( Order, unsigned int, OrderArrayType::Length );
 
   /** Convenience method for setting the order for all dimensions. */
   virtual void SetOrder( unsigned int order )
