@@ -196,7 +196,7 @@ IF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
     MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental optimized registration methods.")
   ENDIF(NOT ITK_USE_REVIEW)
   # Warn the user about the implications of turning optimized registration methods ON
-  SET(msg "Warning: You have chosen to enable the use of Optimizer Registration Methods.")
+  SET(msg "Attention: You have chosen to enable the use of Optimizer Registration Methods.")
   SET(msg "${msg} These methods add multi-threading capabilities to several image metrics")
   SET(msg "${msg} as well as some Transforms and Interpolators. In order to take full advantage")
   SET(msg "${msg} of these new features you will have to also add some new calls to these components.")
@@ -218,7 +218,7 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental consolidated morphology.")
   ENDIF(NOT ITK_USE_REVIEW)
   # Warn the user about the implications of turning consolidated morphology ON
-  SET(msg "Warning: You have chosen to enable the use of consolidated morphology.")
+  SET(msg "Attention: You have chosen to enable the use of consolidated morphology.")
   # TODO: warn more than that
   # display the message during the setup
   MESSAGE("${msg}")
