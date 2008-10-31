@@ -8,7 +8,13 @@
 
 #include <vcl_cassert.h>
 #include <vnl/vnl_math.h>
+// #define __USE_OLD_BRENT_MINIZER__ /*  This version was deprecated, and the refactoring to the new minimizer was not done correctly with respect to initizliaztion. */
+#ifdef __USE_OLD_BRENT_MINIZER__
 #include <vnl/algo/vnl_brent.h>
+#else
+#include <vnl/algo/vnl_brent_minimizer.h>
+#include <vnl/algo/vnl_bracket_minimum.h>
+#endif
 #ifdef DEBUG
 #include <vnl/vnl_matlab_print.h>
 #include <vcl_iostream.h>
@@ -78,12 +84,27 @@ vnl_powell::minimize(vnl_vector<double>& p)
 
       // 1D minimization along xi
       f1d.init(p, xit);
+#ifdef __USE_OLD_BRENT_MINIZER__
       vnl_brent brent(&f1d);
+      double ax;
+      double xx = initial_step_;
+      double bx = 0.0;
+      brent.bracket_minimum(&ax, &xx, &bx);
+      fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+#else
+      vnl_brent_minimizer brent(f1d);
       double ax = 0.0;
       double xx = initial_step_;
       double bx;
-      brent.bracket_minimum(&ax, &xx, &bx);
-      fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+        {
+        double fa, fxx, fb;
+        vnl_bracket_minimum(f1d,ax,xx,bx,fa,fxx,fb);
+        }
+      brent.set_x_tolerance (linmin_xtol_);
+      xx=brent.minimize_given_bounds(ax,xx,bx);
+      fret=brent.f_at_last_minimum();
+#endif
+
       f1d.uninit(xx, p);
       // Now p is minimizer along xi
 
@@ -119,12 +140,26 @@ vnl_powell::minimize(vnl_vector<double>& p)
       if (t < 0.0)
       {
         f1d.init(p, xit);
+#ifdef __USE_OLD_BRENT_MINIZER__
         vnl_brent brent(&f1d);
+        double ax;
+        double xx = 1.0;
+        double bx = 0.0;
+        brent.bracket_minimum(&ax, &xx, &bx);
+        fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+#else
+        vnl_brent_minimizer brent(f1d);
         double ax = 0.0;
         double xx = 1.0;
         double bx;
-        brent.bracket_minimum(&ax, &xx, &bx);
-        fret = brent.minimize_given_bounds(bx, xx, ax, linmin_xtol_, &xx);
+        {
+        double fa, fxx, fb;
+        vnl_bracket_minimum(f1d,ax,xx,bx,fa,fxx,fb);
+        }
+      brent.set_x_tolerance (linmin_xtol_);
+      xx=brent.minimize_given_bounds(ax,xx,bx);
+      fret=brent.f_at_last_minimum();
+#endif
         f1d.uninit(xx, p);
 
         for (int j=0;j<n;j++) {
