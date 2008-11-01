@@ -135,12 +135,16 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     }
 
   // Write outputs
-  typedef unsigned char OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  typedef unsigned char                                  OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension >       OutputImageType;
+  typedef itk::ImageFileWriter< OutputImageType >        WriterType;
+
   typename WriterType::Pointer writer = WriterType::New();
+
   typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType > RescaleType;
+
   typename RescaleType::Pointer rescaler = RescaleType::New();
+
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
 
@@ -175,4 +179,3 @@ int itkDiscreteHessianGaussianImageFunctionTest(int argc, char* argv[] )
 {
   return itkDiscreteHessianGaussianImageFunctionTestND< 3 >( argc, argv );
 }
-

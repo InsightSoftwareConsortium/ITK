@@ -115,9 +115,9 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
     }
 
   // Rescale output
-  typedef unsigned char OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType > RescaleType;
+  typedef unsigned char                                                     OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension >                          OutputImageType;
+  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType >    RescaleType;
   typename RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( output );
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
@@ -146,4 +146,3 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTest(int argc, char* argv[]
 {
   return itkDiscreteGradientMagnitudeGaussianImageFunctionTestND< 2 >( argc, argv );
 }
-

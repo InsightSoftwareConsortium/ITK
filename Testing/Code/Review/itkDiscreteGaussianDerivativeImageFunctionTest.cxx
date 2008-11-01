@@ -122,9 +122,10 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     }
 
   // Rescale output
-  typedef unsigned char OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType > RescaleType;
+  typedef unsigned char                                                   OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension >                        OutputImageType;
+  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType >  RescaleType;
+
   typename RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( output );
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
@@ -153,4 +154,3 @@ int itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char* argv[] )
 {
   return itkDiscreteGaussianDerivativeImageFunctionTestND< 2 >( argc, argv );
 }
-
