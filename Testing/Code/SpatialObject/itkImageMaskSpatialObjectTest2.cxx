@@ -62,169 +62,177 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   // Also explicitly uses nonzero origin, non identity scales
   // just to see
 
-         {
-          ImageType::Pointer image = ImageType::New();
-          ImageType::SizeType size = {{ 50, 50, 50 }};
-          ImageType::PointType origin;
-          origin[0]=1.5;
-          origin[1]=2.1;
-          origin[2]=-3;
-          image->SetOrigin(origin);
+  {
+  ImageType::Pointer image = ImageType::New();
+  ImageType::SizeType size = {{ 50, 50, 50 }};
+  ImageType::PointType origin;
+  origin[0]=1.5;
+  origin[1]=2.1;
+  origin[2]=-3;
+  image->SetOrigin(origin);
 
-          ImageType::SpacingType spacing;
-          spacing[0]=0.5;
-          spacing[1]=0.7;
-          spacing[2]=1.1;
-        image->SetSpacing( spacing );
-          ImageType::IndexType index = {{ 0, 0, 0 }};
+  ImageType::SpacingType spacing;
+  spacing[0]=0.5;
+  spacing[1]=0.7;
+  spacing[2]=1.1;
+  image->SetSpacing( spacing );
+  ImageType::IndexType index = {{ 0, 0, 0 }};
 
-          // Does it make sense to set the direction for a non-oriented image
-        // well it happens frequently enough, so better test it
-          ImageType::DirectionType direction;
-          direction.Fill(0.0);
-          direction[0][1]=-1;
-          direction[1][0]=1;
-          direction[2][2]=1;
-          image->SetDirection(direction);
+  // Does it make sense to set the direction for a non-oriented image
+  // well it happens frequently enough, so better test it
+  ImageType::DirectionType direction;
+  direction.Fill(0.0);
+  direction[0][1]=-1;
+  direction[1][0]=1;
+  direction[2][2]=1;
+  image->SetDirection(direction);
 
-          ImageType::RegionType region;
+  ImageType::RegionType region;
 
-          region.SetSize(size);
-          region.SetIndex(index);
-            image->SetRegions( region );
-          image->Allocate();
+  region.SetSize(size);
+  region.SetIndex(index);
+  image->SetRegions( region );
+  image->Allocate();
 
-          PixelType p = itk::NumericTraits< PixelType >::Zero;
+  PixelType p = itk::NumericTraits< PixelType >::Zero;
 
-          image->FillBuffer( p );
+  image->FillBuffer( p );
 
-          ImageType::RegionType insideRegion;
-          ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
-          ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
-          insideRegion.SetSize( insideSize );
-          insideRegion.SetIndex( insideIndex );
-
-
-          Iterator it( image, insideRegion );
-          it.GoToBegin();
-
-          while( !it.IsAtEnd() )
-          {
-               it.Set( itk::NumericTraits< PixelType >::max() );
-               ++it;
-          }
-
-          ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
-
-          maskSO->SetImage(image);
-
-          maskSO->ComputeObjectToWorldTransform();
-
-          Iterator itr( image, region );
-          itr.GoToBegin();
-          while( !itr.IsAtEnd() )
-          {
-               const ImageType::IndexType constIndex =  itr.GetIndex();
-               const bool reference = insideRegion.IsInside( constIndex );
-               ImageType::PointType point;
-               image->TransformIndexToPhysicalPoint( constIndex, point );
-               const bool test      = maskSO->IsInside( point );
-               if( test != reference )
-               {
-                    std::cerr << "Error in the evaluation of IsInside() " << std::endl;
-                    std::cerr << "Index failed = " << constIndex << std::endl;
-                    std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
-                    std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
-                    retval=EXIT_FAILURE;
-                    break;
-               }
-               ++itr;
-          }
-        if(retval==EXIT_SUCCESS) {
-            std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
-        }
-     }
-     {
-          ImageType2::Pointer image = ImageType2::New();
-          ImageType2::SizeType size = {{ 50, 50, 50 }};
-          ImageType::PointType origin;
-          origin[0]=1.5;
-          origin[1]=2.1;
-          origin[2]=-3;
-          image->SetOrigin(origin);
-          ImageType::SpacingType spacing;
-          spacing[0]=0.5;
-          spacing[1]=0.7;
-          spacing[2]=1.1;
-        image->SetSpacing( spacing );
-          ImageType2::IndexType index = {{ 0, 0, 0 }};
-          ImageType2::DirectionType direction;
-          direction.Fill(0.0);
-          direction[0][1]=-1;
-          direction[1][0]=1;
-          direction[2][2]=1;
-          image->SetDirection(direction);
-
-          ImageType::RegionType region;
-
-          region.SetSize(size);
-          region.SetIndex(index);
-
-          image->SetRegions( region );
-          image->Allocate();
-
-          PixelType p = itk::NumericTraits< PixelType >::Zero;
-
-          image->FillBuffer( p );
-
-          ImageType::RegionType insideRegion;
-          ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
-          ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
-          insideRegion.SetSize( insideSize );
-          insideRegion.SetIndex( insideIndex );
+  ImageType::RegionType insideRegion;
+  ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
+  ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
+  insideRegion.SetSize( insideSize );
+  insideRegion.SetIndex( insideIndex );
 
 
-          Iterator2 it( image, insideRegion );
-          it.GoToBegin();
+  Iterator it( image, insideRegion );
+  it.GoToBegin();
 
-          while( !it.IsAtEnd() )
-          {
-               it.Set( itk::NumericTraits< PixelType >::max() );
-               ++it;
-          }
+  while( !it.IsAtEnd() )
+    {
+    it.Set( itk::NumericTraits< PixelType >::max() );
+    ++it;
+    }
 
-          ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
+  ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
 
-          maskSO->SetImage(image);
+  maskSO->SetImage(image);
 
-          maskSO->ComputeObjectToWorldTransform();
+  maskSO->ComputeObjectToWorldTransform();
 
-          Iterator2 itr( image, region );
-          itr.GoToBegin();
+  Iterator itr( image, region );
+  itr.GoToBegin();
 
-          while( !itr.IsAtEnd() )
-          {
-               const ImageType::IndexType constIndex =  itr.GetIndex();
-               const bool reference = insideRegion.IsInside( constIndex );
-               ImageType::PointType point;
-               image->TransformIndexToPhysicalPoint( constIndex, point );
-               const bool test      = maskSO->IsInside( point );
-               if( test != reference )
-               {
-                    std::cerr << "Error in the evaluation of IsInside() " << std::endl;
-                    std::cerr << "Index failed = " << constIndex << std::endl;
-                    std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
-                    std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
-                    retval= EXIT_FAILURE;
-                    break;
-               }
-               ++itr;
-          }
-        if(retval==EXIT_SUCCESS) {
-            std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
-        }
-     }
+  while( !itr.IsAtEnd() )
+    {
+    const ImageType::IndexType constIndex =  itr.GetIndex();
+    const bool reference = insideRegion.IsInside( constIndex );
+    ImageType::PointType point;
+    image->TransformIndexToPhysicalPoint( constIndex, point );
+    const bool test      = maskSO->IsInside( point );
+    if( test != reference )
+      {
+      std::cerr << "Error in the evaluation of IsInside() " << std::endl;
+      std::cerr << "Index failed = " << constIndex << std::endl;
+      std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
+      std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
+      retval=EXIT_FAILURE;
+      break;
+      }
+    ++itr;
+    }
 
-    return retval;
+  if(retval==EXIT_SUCCESS) 
+    {
+    std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
+    }
+  }
+
+  {
+  ImageType2::Pointer image = ImageType2::New();
+  ImageType2::SizeType size = {{ 50, 50, 50 }};
+  ImageType::PointType origin;
+  origin[0]=1.5;
+  origin[1]=2.1;
+  origin[2]=-3;
+  image->SetOrigin(origin);
+
+  ImageType::SpacingType spacing;
+  spacing[0]=0.5;
+  spacing[1]=0.7;
+  spacing[2]=1.1;
+  image->SetSpacing( spacing );
+
+  ImageType2::IndexType index = {{ 0, 0, 0 }};
+  ImageType2::DirectionType direction;
+  direction.Fill(0.0);
+  direction[0][1]=-1;
+  direction[1][0]=1;
+  direction[2][2]=1;
+  image->SetDirection(direction);
+
+  ImageType::RegionType region;
+
+  region.SetSize(size);
+  region.SetIndex(index);
+
+  image->SetRegions( region );
+  image->Allocate();
+
+  PixelType p = itk::NumericTraits< PixelType >::Zero;
+
+  image->FillBuffer( p );
+
+  ImageType::RegionType insideRegion;
+  ImageType::SizeType insideSize   = {{ 30, 30, 30 }};
+  ImageType::IndexType insideIndex = {{ 10, 10, 10 }};
+  insideRegion.SetSize( insideSize );
+  insideRegion.SetIndex( insideIndex );
+
+
+  Iterator2 it( image, insideRegion );
+  it.GoToBegin();
+
+  while( !it.IsAtEnd() )
+    {
+    it.Set( itk::NumericTraits< PixelType >::max() );
+    ++it;
+    }
+
+  ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
+
+  maskSO->SetImage(image);
+
+  maskSO->ComputeObjectToWorldTransform();
+
+  Iterator2 itr( image, region );
+  itr.GoToBegin();
+
+  while( !itr.IsAtEnd() )
+    {
+    const ImageType::IndexType constIndex =  itr.GetIndex();
+    const bool reference = insideRegion.IsInside( constIndex );
+    ImageType::PointType point;
+    image->TransformIndexToPhysicalPoint( constIndex, point );
+    const bool test      = maskSO->IsInside( point );
+    if( test != reference )
+      {
+      std::cerr << "Error in the evaluation of IsInside() " << std::endl;
+      std::cerr << "Index failed = " << constIndex << std::endl;
+      std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
+      std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
+      retval= EXIT_FAILURE;
+      break;
+      }
+      ++itr;
+    }
+
+  if(retval==EXIT_SUCCESS)
+    {
+    std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
+    }
+  }
+
+  return retval;
 }
 
