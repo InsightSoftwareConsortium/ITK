@@ -127,6 +127,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
     {
     const ImageType::IndexType constIndex =  itr.GetIndex();
     const bool reference = insideRegion.IsInside( constIndex );
+
     ImageType::PointType point;
     image->TransformIndexToPhysicalPoint( constIndex, point );
     const bool test      = maskSO->IsInside( point );
@@ -134,11 +135,13 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
       {
       std::cerr << "Error in the evaluation of IsInside() " << std::endl;
       std::cerr << "Index failed = " << constIndex << std::endl;
+      std::cerr << "Point failed = " << point << std::endl;
       std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
       std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
       retval=EXIT_FAILURE;
       break;
       }
+
     ++itr;
     }
 
@@ -219,6 +222,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
       {
       std::cerr << "Error in the evaluation of IsInside() " << std::endl;
       std::cerr << "Index failed = " << constIndex << std::endl;
+      std::cerr << "Point failed = " << point << std::endl;
       std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
       std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
       retval= EXIT_FAILURE;
