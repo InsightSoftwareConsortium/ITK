@@ -497,6 +497,12 @@ ImageBase<VImageDimension>
   os << indent << "Origin: " << this->GetOrigin() << std::endl;\
 
   os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
+
+  os << indent << "IndexToPointMatrix: " << std::endl;
+  os << indent << this->m_IndexToPhysicalPoint << std::endl;
+
+  os << indent << "PointToIndexMatrix: " << std::endl;
+  os << indent << this->m_PhysicalPointToIndex << std::endl;
 }
 
 } // end namespace itk
