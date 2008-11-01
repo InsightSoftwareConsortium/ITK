@@ -81,6 +81,13 @@ protected:
   OrientedImage();
   virtual ~OrientedImage() {};
 
+  /** Compute helper matrices used to transform Index coordinates to
+   * PhysicalPoint coordinates and back. This method is virtual and will be
+   * overloaded in derived classes in order to provide backward compatibility
+   * behavior in classes that did not used to take image orientation into
+   * account.  */ 
+  virtual void ComputeIndexToPhysicalPointMatrices();
+
 private:
   OrientedImage(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
