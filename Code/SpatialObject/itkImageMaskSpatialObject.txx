@@ -49,7 +49,8 @@ bool
 ImageMaskSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
-  if(this->GetBounds()->IsInside(point))
+   this->ComputeLocalBoundingBox();
+//  if(this->GetBounds()->IsInside(point))
     {
 
     if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
@@ -65,16 +66,14 @@ ImageMaskSpatialObject< TDimension >
       index[i] = static_cast<int>( p[i] );
       }
 
-    const bool insideBuffer = 
-            this->GetImage()->GetBufferedRegion().IsInside( index );
-      
+    const bool insideBuffer = this->GetImage()->GetBufferedRegion().IsInside( index );
+       
     if( !insideBuffer )
       {
       return false;
       }
 
-    const bool insideMask = 
-      (this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero);
+    const bool insideMask = (this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero);
 
     return insideMask;
     }
