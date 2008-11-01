@@ -25,9 +25,10 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkDiscreteHessianGaussianImageFunction.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 template < int VDimension >
-int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
+int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 {
 
   // Verify the number of parameters in the command line
@@ -134,17 +135,29 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
     }
 
   // Write outputs
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typedef unsigned char OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
-  for( unsigned int i=0; i<Dimension; i++ )
+  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType > RescaleType;
+  typename RescaleType::Pointer rescaler = RescaleType::New();
+  rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
+  rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
+
+      for( unsigned int i=0; i<Dimension; i++ )
     {
     try
       {
+      // Rescale
+      rescaler->SetInput( outputs[i] );
+
+      // Write
       char filename[255];
       sprintf( filename, argv[2], i );
       writer->SetFileName( filename );
-      writer->SetInput( outputs[i] );
+      writer->SetInput( rescaler->GetOutput() );
       writer->Update();
+      rescaler->GetOutput()->DisconnectPipeline( );
       outputs[i]->DisconnectPipeline( );
       }
     catch ( itk::ExceptionObject &err)
@@ -158,12 +171,8 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkDiscreteHessianGaussianImageFunctionTest2D(int argc, char* argv[] )
+int itkDiscreteHessianGaussianImageFunctionTest(int argc, char* argv[] )
 {
-  return itkDiscreteHessianGaussianImageFunctionTest< 2 >( argc, argv );
+  return itkDiscreteHessianGaussianImageFunctionTestND< 3 >( argc, argv );
 }
 
-int itkDiscreteHessianGaussianImageFunctionTest3D(int argc, char* argv[] )
-{
-  return itkDiscreteHessianGaussianImageFunctionTest< 3 >( argc, argv );
-}

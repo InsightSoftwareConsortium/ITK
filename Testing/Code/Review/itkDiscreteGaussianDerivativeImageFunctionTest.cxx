@@ -24,9 +24,10 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
 #include "itkDiscreteGaussianDerivativeImageFunction.h"
+#include "itkRescaleIntensityImageFilter.h"
 
 template < int VDimension >
-int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
+int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 {
 
   // Verify the number of parameters in the command line
@@ -120,11 +121,20 @@ int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
     ++out;
     }
 
+  // Rescale output
+  typedef unsigned char OutputPixelType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType > RescaleType;
+  typename RescaleType::Pointer rescaler = RescaleType::New();
+  rescaler->SetInput( output );
+  rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
+  rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
+
   // Write output
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
-  writer->SetInput( output );
+  writer->SetInput( rescaler->GetOutput() );
   try
     {
     writer->Update();
@@ -139,12 +149,8 @@ int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkDiscreteGaussianDerivativeImageFunctionTest2D(int argc, char* argv[] )
+int itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char* argv[] )
 {
-  return itkDiscreteGaussianDerivativeImageFunctionTest< 2 >( argc, argv );
+  return itkDiscreteGaussianDerivativeImageFunctionTestND< 2 >( argc, argv );
 }
 
-int itkDiscreteGaussianDerivativeImageFunctionTest3D(int argc, char* argv[] )
-{
-  return itkDiscreteGaussianDerivativeImageFunctionTest< 3 >( argc, argv );
-}

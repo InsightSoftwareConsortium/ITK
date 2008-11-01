@@ -1149,23 +1149,11 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
 ENDIF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
 
 ADD_TEST(itkDiscreteGaussianDerivativeImageFunctionTest01 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFunctionTest01.mhd
-            ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest01.mhd
-  itkDiscreteGaussianDerivativeImageFunctionTest2D
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
+  itkDiscreteGaussianDerivativeImageFunctionTest
   ${INPUTDATA}/cthead1.png
-  ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest01.mhd
-  1
-  2.0
-  0.01
-  32
-)
-
-ADD_TEST(itkDiscreteGaussianDerivativeImageFunctionTest02 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFunctionTest02.mhd
-            ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest02.mhd
-  itkDiscreteGaussianDerivativeImageFunctionTest3D
-  ${INPUTDATA}/HeadMRVolume.mhd
-  ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest02.mhd
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
   1
   2.0
   0.01
@@ -1173,55 +1161,30 @@ ADD_TEST(itkDiscreteGaussianDerivativeImageFunctionTest02 ${REVIEW_TESTS}
 )
 
 ADD_TEST(itkDiscreteGradientMagnitudeGaussianImageFunctionTest01 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.mhd
-            ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.mhd
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest2D
+  --compare ${BASELINE}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
+            ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
+  itkDiscreteGradientMagnitudeGaussianImageFunctionTest
   ${INPUTDATA}/cthead1.png
-  ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.mhd
-  2.0
-  0.01
-  32
-)
-
-ADD_TEST(itkDiscreteGradientMagnitudeGaussianImageFunctionTest02 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.mhd
-            ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.mhd
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest3D
-  ${INPUTDATA}/HeadMRVolume.mhd
-  ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.mhd
+  ${TEMP}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
   2.0
   0.01
   32
 )
 
 ADD_TEST(itkDiscreteHessianGaussianImageFunctionTest01 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_0.mhd
-            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_0.mhd
-  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_1.mhd
-            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_1.mhd
-  itkDiscreteHessianGaussianImageFunctionTest2D
-  ${INPUTDATA}/cthead1.png
-  ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_%i.mhd
-  2.0
-  0.01
-  20
-)
-
-ADD_TEST(itkDiscreteHessianGaussianImageFunctionTest02 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest02_0.mhd
-            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest02_0.mhd
-  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest02_1.mhd
-            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest02_1.mhd
-  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest02_2.mhd
-            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest02_2.mhd
-  itkDiscreteHessianGaussianImageFunctionTest3D
+  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_0.mha
+            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_0.mha
+  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_1.mha
+            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_1.mha
+  --compare ${BASELINE}/itkDiscreteHessianGaussianImageFunctionTest01_2.mha
+            ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_2.mha
+  itkDiscreteHessianGaussianImageFunctionTest
   ${INPUTDATA}/HeadMRVolume.mhd
-  ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest02_%i.mhd
+  ${TEMP}/itkDiscreteHessianGaussianImageFunctionTest01_%i.mha
   2.0
   0.01
   20
 )
-
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
