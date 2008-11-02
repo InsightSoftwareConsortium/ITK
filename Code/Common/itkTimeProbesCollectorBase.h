@@ -20,7 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkTimeProbe.h"
-#include "itkProbesCollectorBase.h"
+#include "itkResourceProbesCollectorBase.h"
 
 namespace itk
 {
@@ -35,7 +35,7 @@ namespace itk
  *  \sa RealTimeClock
  *
  */
-class ITKCommon_EXPORT TimeProbesCollectorBase : public ProbesCollectorBase<TimeProbe>
+class ITKCommon_EXPORT TimeProbesCollectorBase : public ResourceProbesCollectorBase<TimeProbe>
 {
 public:
   /** Constructor */

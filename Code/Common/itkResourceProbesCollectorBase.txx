@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProbesCollectorBase.txx
+  Module:    itkResourceProbesCollectorBase.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,24 +14,24 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkProbesCollectorBase_txx
-#define __itkProbesCollectorBase_txx
+#ifndef __itkResourceProbesCollectorBase_txx
+#define __itkResourceProbesCollectorBase_txx
 
-#include "itkProbesCollectorBase.h"
+#include "itkResourceProbesCollectorBase.h"
 #include <iostream>
 
 namespace itk
 {
 
 template <class TProbe>
-ProbesCollectorBase<TProbe>
-::~ProbesCollectorBase()
+ResourceProbesCollectorBase<TProbe>
+::~ResourceProbesCollectorBase()
 {
 }
 
 template <class TProbe>
 void 
-ProbesCollectorBase<TProbe>
+ResourceProbesCollectorBase<TProbe>
 ::Start(const char * id)
 {
   // if the probe does not exist yet, it is created.
@@ -40,7 +40,7 @@ ProbesCollectorBase<TProbe>
 
 template <class TProbe>
 void 
-ProbesCollectorBase<TProbe>
+ResourceProbesCollectorBase<TProbe>
 ::Stop(const char * id)
 {
   IdType tid = id;
@@ -56,7 +56,7 @@ ProbesCollectorBase<TProbe>
 
 template <class TProbe>
 void 
-ProbesCollectorBase<TProbe>
+ResourceProbesCollectorBase<TProbe>
 ::Report( std::ostream & os ) const
 {
   typename MapType::const_iterator probe = this->m_Probes.begin();
@@ -98,7 +98,7 @@ ProbesCollectorBase<TProbe>
 
 template <class TProbe>
 void 
-ProbesCollectorBase<TProbe>
+ResourceProbesCollectorBase<TProbe>
 ::Clear(void) 
 {
   this->m_Probes.clear();
@@ -107,4 +107,4 @@ ProbesCollectorBase<TProbe>
 
 } // end namespace itk
 
-#endif //__itkProbesCollectorBase_txx
+#endif //__itkResourceProbesCollectorBase_txx

@@ -19,7 +19,7 @@
 
 #include "itkMacro.h"
 #include "itkMemoryProbe.h"
-#include "itkProbesCollectorBase.h"
+#include "itkResourceProbesCollectorBase.h"
 
 namespace itk
 {
@@ -33,7 +33,7 @@ namespace itk
  *  \sa MemoryProbe
  *
  */
-class ITK_EXPORT MemoryProbesCollectorBase :public ProbesCollectorBase<MemoryProbe>
+class ITK_EXPORT MemoryProbesCollectorBase :public ResourceProbesCollectorBase<MemoryProbe>
 {
 public: 
   virtual ~MemoryProbesCollectorBase(){}

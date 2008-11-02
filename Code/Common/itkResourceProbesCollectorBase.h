@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkProbesCollectorBase.h
+  Module:    itkResourceProbesCollectorBase.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkProbesCollectorBase_h
-#define __itkProbesCollectorBase_h
+#ifndef __itkResourceProbesCollectorBase_h
+#define __itkResourceProbesCollectorBase_h
 
 #include "itkConfigure.h"
 
@@ -25,7 +25,7 @@
 namespace itk
 {
   
-/** \class ProbesCollectorBase
+/** \class ResourceProbesCollectorBase
  *  \brief Class for aggregating a set of probes. 
  *
  *  This class defines a set of ResourceProbes and assign names to them.
@@ -35,14 +35,14 @@ namespace itk
  *
  */
 template <class TProbe>
-class ITK_EXPORT ProbesCollectorBase 
+class ITK_EXPORT ResourceProbesCollectorBase 
 {
 public:
   typedef std::string               IdType;
   typedef std::map<IdType,TProbe>   MapType;
   
   /** destructor */
-  virtual ~ProbesCollectorBase();
+  virtual ~ResourceProbesCollectorBase();
 
   /** Start a probe with a particular name. If the time probe does not
    * exist, it will be created */
@@ -64,7 +64,7 @@ protected:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkProbesCollectorBase.txx"
+#include "itkResourceProbesCollectorBase.txx"
 #endif
 
-#endif //__itkProbesCollectorBase_h
+#endif //__itkResourceProbesCollectorBase_h
