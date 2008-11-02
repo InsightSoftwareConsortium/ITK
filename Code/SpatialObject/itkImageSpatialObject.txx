@@ -107,11 +107,10 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside( const PointType & point) const
 {
-  this->ComputeLocalBoundingBox();
-//  if( !this->GetBounds()->IsInside(point) )
-//    {
-//    return false;
-//    }
+  if( !this->GetBounds()->IsInside(point) )
+    {
+    return false;
+    }
 
   if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
