@@ -166,7 +166,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
   ProgressReporter progress( this, 0, requestedSize[m_Dimension] );
 
   const int sliceRange = 
-    static_cast< int >( requestedSize[m_Dimension] ) - requestedIndex[m_Dimension];
+    static_cast< int >( requestedSize[m_Dimension] ) + requestedIndex[m_Dimension];
 
   for( int slice = requestedIndex[m_Dimension]; slice < sliceRange; slice++ )
     {
