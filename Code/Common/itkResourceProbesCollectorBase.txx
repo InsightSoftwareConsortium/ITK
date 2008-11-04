@@ -44,7 +44,7 @@ ResourceProbesCollectorBase<TProbe>
 ::Stop(const char * id)
 {
   IdType tid = id;
-  typename MapType::iterator  pos = this->m_Probes.find( tid );
+  typename ResourceProbesMapType::iterator  pos = this->m_Probes.find( tid );
   if ( pos == this->m_Probes.end() )
     {
     itkGenericExceptionMacro( << "The probe \""<< id<< "\" does not exist. It can not be stopped." );
@@ -59,8 +59,8 @@ void
 ResourceProbesCollectorBase<TProbe>
 ::Report( std::ostream & os ) const
 {
-  typename MapType::const_iterator probe = this->m_Probes.begin();
-  typename MapType::const_iterator end   = this->m_Probes.end();
+  typename ResourceProbesMapType::const_iterator probe = this->m_Probes.begin();
+  typename ResourceProbesMapType::const_iterator end   = this->m_Probes.end();
 
   if ( probe == end )
     {

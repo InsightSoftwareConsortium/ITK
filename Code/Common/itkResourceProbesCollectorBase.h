@@ -39,8 +39,8 @@ class ITK_EXPORT ResourceProbesCollectorBase
 {
 public:
   typedef std::string               IdType;
-  typedef std::map<IdType,TProbe>   MapType;
-  
+
+
   /** destructor */
   virtual ~ResourceProbesCollectorBase();
 
@@ -57,8 +57,15 @@ public:
   /** Destroy the set of probes. New probes can be created after invoking this method. */
   virtual void Clear(void);
 
-protected:
-  MapType   m_Probes;
+private:
+
+  // Declare the datastructure that will be used to hold the
+  // list of probes. 
+  class ResourceProbesMapType : public std::map<IdType,TProbe>
+    {
+    };
+
+  ResourceProbesMapType   m_Probes;
 };
 
 } // end namespace itk
