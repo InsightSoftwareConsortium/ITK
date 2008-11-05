@@ -12,6 +12,7 @@ WRAP_CLASS("itk::FunctionBase" POINTER)
     WRAP_TEMPLATE("${ITKM_PD${d}}${ITKM_D}"   "${ITKT_PD${d}} ,${ITKT_D}")
     WRAP_TEMPLATE("${ITKM_CIF${d}}${ITKM_AD}" "${ITKT_CIF${d}} ,${ITKT_AD}")
     WRAP_TEMPLATE("${ITKM_CID${d}}${ITKM_AD}" "${ITKT_CID${d}} ,${ITKT_AD}")
+    WRAP_TEMPLATE("${ITKM_PD${d}}${ITKM_VD${d}}"   "${ITKT_PD${d}}, ${ITKT_VD${d}}")
   ENDFOREACH(d)
 
   WRAP_TEMPLATE("${ITKM_D}${ITKM_D}"     "${ITKT_D},${ITKT_D}")
