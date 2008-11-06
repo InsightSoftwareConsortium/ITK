@@ -271,7 +271,7 @@ public:
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
   void SetSplineOrder(unsigned int SplineOrder);
-  itkGetMacro(SplineOrder, int);
+  itkGetConstMacro(SplineOrder, int);
 
   void SetNumberOfThreads(unsigned int numThreads);
   itkGetMacro(NumberOfThreads, int);
