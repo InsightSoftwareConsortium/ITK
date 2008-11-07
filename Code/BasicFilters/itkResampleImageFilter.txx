@@ -78,8 +78,8 @@ ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
      << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
   os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
+  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
@@ -592,14 +592,14 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Set spacing and origin
   if (m_UseReferenceImage && referenceImage)
     {
-    outputPtr->SetSpacing( referenceImage->GetSpacing() );
     outputPtr->SetOrigin( referenceImage->GetOrigin() );
+    outputPtr->SetSpacing( referenceImage->GetSpacing() );
     outputPtr->SetDirection( referenceImage->GetDirection() );
     }
   else
     {
-    outputPtr->SetSpacing( m_OutputSpacing );
     outputPtr->SetOrigin( m_OutputOrigin );
+    outputPtr->SetSpacing( m_OutputSpacing );
     outputPtr->SetDirection( m_OutputDirection );
     }
   return;

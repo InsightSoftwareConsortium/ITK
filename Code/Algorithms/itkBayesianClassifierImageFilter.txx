@@ -126,8 +126,9 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
   const InputImageType * membershipImage = this->GetInput();
 
   this->GetOutput()->SetRegions( membershipImage->GetBufferedRegion() );
-  this->GetOutput()->SetSpacing( membershipImage->GetSpacing() );
   this->GetOutput()->SetOrigin(  membershipImage->GetOrigin() );
+  this->GetOutput()->SetSpacing( membershipImage->GetSpacing() );
+  this->GetOutput()->SetDirection( membershipImage->GetDirection() );
   this->GetOutput()->Allocate();
 
   // The first output is the Image of Labels, 
@@ -136,8 +137,9 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
   // be 2.
 
   this->GetPosteriorImage()->SetRegions( membershipImage->GetBufferedRegion() );
-  this->GetPosteriorImage()->SetSpacing( membershipImage->GetSpacing() );
   this->GetPosteriorImage()->SetOrigin(  membershipImage->GetOrigin() );
+  this->GetPosteriorImage()->SetSpacing( membershipImage->GetSpacing() );
+  this->GetPosteriorImage()->SetDirection( membershipImage->GetDirection() );
   this->GetPosteriorImage()->SetVectorLength( this->GetInput()->GetVectorLength() );
   this->GetPosteriorImage()->Allocate();
 

@@ -49,6 +49,7 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
+  m_FixedImageDirection.SetIdentity();
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
   m_MappedMovingImageGradientCalculator = MovingImageGradientCalculatorType::New();
@@ -150,8 +151,9 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
 
   // cache fixed image information
-  m_FixedImageSpacing = this->GetFixedImage()->GetSpacing();
   m_FixedImageOrigin  = this->GetFixedImage()->GetOrigin();
+  m_FixedImageSpacing = this->GetFixedImage()->GetSpacing();
+  m_FixedImageDirection = this->GetFixedImage()->GetDirection();
 
   // compute the normalizer
   if( m_MaximumUpdateStepLength > 0.0 )
@@ -176,8 +178,8 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_MappedMovingImageGradientCalculator->SetInputImage( this->GetMovingImage() );
 
   // Compute warped moving image
-  m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
   m_MovingImageWarper->SetOutputOrigin( this->GetFixedImage()->GetOrigin() );
+  m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
   m_MovingImageWarper->SetOutputDirection( this->GetFixedImage()->GetDirection() );
   m_MovingImageWarper->SetInput( this->GetMovingImage() );
   m_MovingImageWarper->SetDeformationField( this->GetDeformationField() );
@@ -372,6 +374,16 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     // FIXME: This will not work with OrientedImages.  Conversions of index to
     // physical points should be delegated to the image class.
     //
+#ifndef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
+    itkExceptionMacro(<<__FILE__ << __LINE__ << "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on");
+#endif
     for( unsigned int j = 0; j < ImageDimension; j++ )
       {
       mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 

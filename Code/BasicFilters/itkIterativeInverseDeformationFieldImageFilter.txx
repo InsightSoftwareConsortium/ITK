@@ -61,8 +61,9 @@ void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
   // (calculate negative deformation field and apply it to itself)
   InputImagePointer negField = InputImageType::New();
   negField->SetRegions(inputPtr->GetLargestPossibleRegion());
-  negField->SetSpacing(inputPtr->GetSpacing());
   negField->SetOrigin(inputPtr->GetOrigin());
+  negField->SetSpacing(inputPtr->GetSpacing());
+  negField->SetDirection(inputPtr->GetDirection());
   negField->Allocate();
 
   InputConstIterator InputIt = InputConstIterator(inputPtr, inputPtr->GetRequestedRegion());
@@ -75,16 +76,18 @@ void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
     }
 
   outputPtr->SetRegions(inputPtr->GetRequestedRegion());
-  outputPtr->SetSpacing(inputPtr->GetSpacing());
   outputPtr->SetOrigin(inputPtr->GetOrigin());
+  outputPtr->SetSpacing(inputPtr->GetSpacing());
+  outputPtr->SetDirection(inputPtr->GetDirection());
   outputPtr->Allocate();
 
   typename VectorWarperType::Pointer vectorWarper = VectorWarperType::New();
   typename FieldInterpolatorType::Pointer VectorInterpolator = FieldInterpolatorType::New();
   vectorWarper->SetInput(negField);
   vectorWarper->SetInterpolator(VectorInterpolator);
-  vectorWarper->SetOutputSpacing(inputPtr->GetSpacing());
   vectorWarper->SetOutputOrigin(inputPtr->GetOrigin());
+  vectorWarper->SetOutputSpacing(inputPtr->GetSpacing());
+  vectorWarper->SetOutputDirection(inputPtr->GetDirection());
   vectorWarper->SetDeformationField(negField);
   vectorWarper->GraftOutput(outputPtr);
   vectorWarper->UpdateLargestPossibleRegion();

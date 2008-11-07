@@ -231,8 +231,9 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
   upbuf->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
   upbuf->SetRequestedRegion(output->GetRequestedRegion());
   upbuf->SetBufferedRegion(output->GetBufferedRegion());
-  upbuf->SetSpacing(output->GetSpacing());
   upbuf->SetOrigin(output->GetOrigin());
+  upbuf->SetSpacing(output->GetSpacing());
+  upbuf->SetDirection(output->GetDirection());
   upbuf->Allocate();
 }
 
@@ -273,8 +274,8 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
     // use s <- s o (Id +u)
     
     // skip exponential and compose the vector fields
-    m_Warper->SetOutputSpacing( this->GetUpdateBuffer()->GetSpacing() );
     m_Warper->SetOutputOrigin( this->GetUpdateBuffer()->GetOrigin() );
+    m_Warper->SetOutputSpacing( this->GetUpdateBuffer()->GetSpacing() );
     m_Warper->SetOutputDirection( this->GetUpdateBuffer()->GetDirection() );
     m_Warper->SetInput( this->GetOutput() );
     m_Warper->SetDeformationField( this->GetUpdateBuffer() );
@@ -320,8 +321,8 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
     m_Exponentiator->Update();
 
     // compose the vector fields
-    m_Warper->SetOutputSpacing( this->GetUpdateBuffer()->GetSpacing() );
     m_Warper->SetOutputOrigin( this->GetUpdateBuffer()->GetOrigin() );
+    m_Warper->SetOutputSpacing( this->GetUpdateBuffer()->GetSpacing() );
     m_Warper->SetOutputDirection( this->GetUpdateBuffer()->GetDirection() );
     m_Warper->SetInput( this->GetOutput() );
     m_Warper->SetDeformationField( m_Exponentiator->GetOutput() );

@@ -318,13 +318,14 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
        fi->GetLargestPossibleRegion().GetIndex() );
     m_FieldExpander->SetOutputOrigin( fi->GetOrigin() );
     m_FieldExpander->SetOutputSpacing( fi->GetSpacing());
-    
+    m_FieldExpander->SetOutputDirection( fi->GetDirection());
+
     m_FieldExpander->UpdateLargestPossibleRegion();
     m_FieldExpander->SetInput( NULL );
     tempField = m_FieldExpander->GetOutput();
     tempField->DisconnectPipeline();
     }
-  
+
   bool lastShrinkFactorsAllOnes = false;
 
   while ( !this->Halt() )
@@ -348,6 +349,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
         fi->GetLargestPossibleRegion().GetIndex() );
       m_FieldExpander->SetOutputOrigin( fi->GetOrigin() );
       m_FieldExpander->SetOutputSpacing( fi->GetSpacing());
+      m_FieldExpander->SetOutputDirection( fi->GetDirection());
 
       m_FieldExpander->UpdateLargestPossibleRegion();
       m_FieldExpander->SetInput( NULL );
@@ -417,6 +419,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,TMovingImage,TDeformationFi
         fixedImage->GetLargestPossibleRegion().GetIndex() );
       m_FieldExpander->SetOutputOrigin( fixedImage->GetOrigin() );
       m_FieldExpander->SetOutputSpacing( fixedImage->GetSpacing());
+      m_FieldExpander->SetOutputDirection( fixedImage->GetDirection());
 
       m_FieldExpander->UpdateLargestPossibleRegion();
       this->GraftOutput( m_FieldExpander->GetOutput() );

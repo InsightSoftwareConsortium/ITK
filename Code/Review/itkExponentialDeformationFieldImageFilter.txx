@@ -166,8 +166,8 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
 
 
   // Do the iterative composition of the vector field
-  m_Warper->SetOutputSpacing(inputPtr->GetSpacing());
   m_Warper->SetOutputOrigin(inputPtr->GetOrigin());
+  m_Warper->SetOutputSpacing(inputPtr->GetSpacing());
   m_Warper->SetOutputDirection(inputPtr->GetDirection());
 
 

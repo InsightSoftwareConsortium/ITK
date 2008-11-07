@@ -79,7 +79,7 @@ namespace itk
  * The output information is computed as follows.
  * If the speed image is NULL or if the OverrideOutputInformation is set to
  * true, the output information is set from user specified parameters. These 
- * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing()
+ * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing(), SetOutputDirection(),
  * and SetOutputOrigin(). Else if the speed image is not NULL, the output information
  * is copied from the input speed image.
  *
@@ -128,6 +128,7 @@ public:
   typedef typename LevelSetImageType::SizeType        OutputSizeType;
   typedef typename LevelSetImageType::RegionType      OutputRegionType;
   typedef typename LevelSetImageType::SpacingType     OutputSpacingType;
+  typedef typename LevelSetImageType::DirectionType   OutputDirectionType;
   typedef typename LevelSetImageType::PointType       OutputPointType;
 
   class AxisNodeType : public NodeType
@@ -246,7 +247,7 @@ public:
   /** The output largeset possible, spacing and origin is computed as follows.
    * If the speed image is NULL or if the OverrideOutputInformation is true, 
    * the output information is set from user specified parameters. These 
-   * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing()
+   * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing(), SetOutputDirection(),
    * and SetOutputOrigin(). Else if the speed image is not NULL, the output information
    * is copied from the input speed image. */
   virtual void SetOutputSize( const OutputSizeType& size )
@@ -257,6 +258,8 @@ public:
   itkGetConstReferenceMacro( OutputRegion, OutputRegionType );
   itkSetMacro( OutputSpacing, OutputSpacingType );
   itkGetConstReferenceMacro( OutputSpacing, OutputSpacingType );
+  itkSetMacro( OutputDirection, OutputDirectionType );
+  itkGetConstReferenceMacro( OutputDirection, OutputDirectionType );
   itkSetMacro( OutputOrigin, OutputPointType );
   itkGetConstReferenceMacro( OutputOrigin, OutputPointType );
   itkSetMacro( OverrideOutputInformation, bool );
@@ -328,8 +331,9 @@ private:
   NodeContainerPointer                          m_ProcessedPoints;
 
   OutputRegionType                              m_OutputRegion;
-  OutputSpacingType                             m_OutputSpacing;
   OutputPointType                               m_OutputOrigin;
+  OutputSpacingType                             m_OutputSpacing;
+  OutputDirectionType                           m_OutputDirection;
   bool                                          m_OverrideOutputInformation;
 
 

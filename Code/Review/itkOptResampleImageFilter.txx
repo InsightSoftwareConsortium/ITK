@@ -40,8 +40,8 @@ template <class TInputImage,
 ResampleImageFilter<TInputImage, TOutputImage,TInterpolatorPrecisionType>
 ::ResampleImageFilter()
 {
-  m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputSpacing.Fill(1.0);
   m_OutputDirection.SetIdentity();
 
   m_UseReferenceImage = false;

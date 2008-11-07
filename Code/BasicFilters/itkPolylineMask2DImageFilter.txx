@@ -99,8 +99,9 @@ void PolylineMask2DImageFilter<TInputImage,TPolyline,TOutputImage>
       this->ProcessObject::GetOutput(0)));  
 
 
-  outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());
   outputImagePtr->SetOrigin(inputImagePtr->GetOrigin());
+  outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());
+  outputImagePtr->SetDirection(inputImagePtr->GetDirection());
   outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
   outputImagePtr->SetBufferedRegion(  inputImagePtr->GetBufferedRegion() );
   outputImagePtr->SetLargestPossibleRegion( inputImagePtr->GetLargestPossibleRegion() );

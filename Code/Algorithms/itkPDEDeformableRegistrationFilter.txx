@@ -417,8 +417,9 @@ PDEDeformableRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   DeformationFieldPointer field = this->GetOutput();
 
   // copy field to TempField
-  m_TempField->SetSpacing( field->GetSpacing() );
   m_TempField->SetOrigin( field->GetOrigin() );
+  m_TempField->SetSpacing( field->GetSpacing() );
+  m_TempField->SetDirection( field->GetDirection() );
   m_TempField->SetLargestPossibleRegion( 
     field->GetLargestPossibleRegion() );
   m_TempField->SetRequestedRegion(

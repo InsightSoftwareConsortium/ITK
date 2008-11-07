@@ -65,6 +65,7 @@ public:
 
   /** Image spacing and origin typedefs */
   typedef typename TOutputImage::SpacingType SpacingType;
+  typedef typename TOutputImage::DirectionType DirectionType;
   typedef typename TOutputImage::PointType   PointType;
 
   /** Set/Get the input point-set of this process object.  */
@@ -86,6 +87,12 @@ public:
    * The value returned is a pointer to a double array.
    * For ImageBase and Image, the default data spacing is unity. */
   itkGetConstReferenceMacro(Spacing,SpacingType);
+
+  /** Get/Set the direction of the image. The
+   * direction is the relationship of the grid to physical
+   * coordinates. */
+  itkSetMacro(Direction,DirectionType);
+  itkGetConstReferenceMacro(Direction,DirectionType);
 
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
@@ -131,8 +138,9 @@ protected:
   virtual void GenerateData();
 
   SizeType     m_Size;
-  SpacingType  m_Spacing;
   PointType    m_Origin;
+  SpacingType  m_Spacing;
+  DirectionType  m_Direction;
   ValueType    m_InsideValue;
   ValueType    m_OutsideValue;
 
