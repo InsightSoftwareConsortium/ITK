@@ -23,6 +23,7 @@
 namespace itk
 {
 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200)) 
 template <class TProbe>
 ResourceProbesCollectorBase<TProbe>
 ::~ResourceProbesCollectorBase()
@@ -103,7 +104,42 @@ ResourceProbesCollectorBase<TProbe>
 {
   this->m_Probes.clear();
 }
+#else
+template <class TProbe>
+ResourceProbesCollectorBase<TProbe>
+::~ResourceProbesCollectorBase()
+{
+}
 
+template <class TProbe>
+void 
+ResourceProbesCollectorBase<TProbe>
+::Start(const char * id)
+{
+}
+
+template <class TProbe>
+void 
+ResourceProbesCollectorBase<TProbe>
+::Stop(const char * id)
+{
+}
+
+template <class TProbe>
+void 
+ResourceProbesCollectorBase<TProbe>
+::Report( std::ostream & os ) const
+{
+  os << "Warning: ResourceProbesCollector's are not supported by the Visual Stuio 6 and earlier compilers." << std::endl;
+}
+
+template <class TProbe>
+void 
+ResourceProbesCollectorBase<TProbe>
+::Clear(void) 
+{
+}
+#endif
 
 } // end namespace itk
 
