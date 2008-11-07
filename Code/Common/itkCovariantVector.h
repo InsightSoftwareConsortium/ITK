@@ -114,8 +114,11 @@ public:
   CovariantVector(): BaseArray() {}
   CovariantVector(const ValueType& r);
 
-  /** Pass-through constructor for the Array base class. */
-  CovariantVector(const Self& r): BaseArray(r) {}
+  /** Pass-through constructor for the Array base class. Implicit casting is
+   * performed to initialize constructor from any another one of datatype. */
+  template< class TVectorValueType >
+  CovariantVector(const CovariantVector< TVectorValueType, 
+                        NVectorDimension>& r): BaseArray(r) {}
   CovariantVector(const ValueType r[Dimension]): BaseArray(r) {}  
     
   /** Assignment operator with implicit casting from another data type */
