@@ -374,15 +374,33 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     // FIXME: This will not work with OrientedImages.  Conversions of index to
     // physical points should be delegated to the image class.
     //
-#ifndef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on"
-    itkExceptionMacro(<<__FILE__ << __LINE__ << "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on");
+#ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
+#warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on and the FixedImage Direction is not identity"
+    bool directionIsIdentity = true;
+    for( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      for( unsigned int j = 0; j < ImageDimension; j++ )    
+        {
+        if (i == j)
+          {
+          if (m_FixedImageDirection[i][j] != 1.0)
+            {
+            directionIsIdentity = false;
+            }
+          }
+        else
+          {
+          if (m_FixedImageDirection[i][j] != 0.0)
+            {
+            directionIsIdentity = false;
+            }
+          }
+        }
+      }
+    if (!directionIsIdentity)
+      {
+      itkExceptionMacro("This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on");
+      }
 #endif
     for( unsigned int j = 0; j < ImageDimension; j++ )
       {
