@@ -64,9 +64,9 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Image spacing and origin typedefs */
-  typedef typename TOutputImage::SpacingType SpacingType;
-  typedef typename TOutputImage::DirectionType DirectionType;
-  typedef typename TOutputImage::PointType   PointType;
+  typedef typename TOutputImage::SpacingType        SpacingType;
+  typedef typename TOutputImage::DirectionType      DirectionType;
+  typedef typename TOutputImage::PointType          PointType;
 
   /** Set/Get the input point-set of this process object.  */
   virtual void SetInput( const InputPointSetType *pointset);
@@ -137,12 +137,12 @@ protected:
   virtual void GenerateOutputInformation(){}; // do nothing
   virtual void GenerateData();
 
-  SizeType     m_Size;
-  PointType    m_Origin;
-  SpacingType  m_Spacing;
-  DirectionType  m_Direction;
-  ValueType    m_InsideValue;
-  ValueType    m_OutsideValue;
+  SizeType            m_Size;
+  PointType           m_Origin;
+  SpacingType         m_Spacing;
+  DirectionType       m_Direction;
+  ValueType           m_InsideValue;
+  ValueType           m_OutsideValue;
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
