@@ -379,7 +379,7 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     bool directionIsIdentity = true;
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      for( unsigned int j = 0; j < ImageDimension; j++ )    
+      for( unsigned int j = 0; j < ImageDimension; j++ )
         {
         if (i == j)
           {
