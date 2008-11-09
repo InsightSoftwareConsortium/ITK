@@ -190,7 +190,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
           outputSpacing[nonZeroCount] = inputSpacing[i];
           outputOrigin[nonZeroCount] = inputOrigin[i];
           int nonZeroCount2 = 0;
-          for (unsigned int dim = 0; dim < OutputImageDimension; ++dim)
+          for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
             {
             if (m_ExtractionRegion.GetSize()[dim])
               {
@@ -203,13 +203,20 @@ ExtractImageFilter<TInputImage,TOutputImage>
           }
         }
       }
+    // This is a temporary fix to get over the problems with using OrientedImages to
+    // a non-degenerate extracted image to be created.  It still needs to be determined
+    // how to compute the correct outputDirection from all possible input directions.
+    if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
+      {
+      outputDirection.SetIdentity();
+      }
 
     // set the spacing and origin
     outputPtr->SetSpacing( outputSpacing );
     outputPtr->SetDirection( outputDirection );
     outputPtr->SetOrigin( outputOrigin );
     outputPtr->SetNumberOfComponentsPerPixel(
-       inputPtr->GetNumberOfComponentsPerPixel() );
+    inputPtr->GetNumberOfComponentsPerPixel() );
     }
   else
     {
