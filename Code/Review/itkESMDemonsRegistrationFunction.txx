@@ -375,7 +375,7 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     // physical points should be delegated to the image class.
     //
 #ifdef ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE
-#ifndef _WIN32
+#if defined(__GNUC__)
 #warning "This class does not work when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is turned on and the FixedImage Direction is not identity"
 #endif
     bool directionIsIdentity = true;
