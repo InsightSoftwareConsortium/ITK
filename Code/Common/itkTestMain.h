@@ -308,7 +308,6 @@ int RegressionTestImage (const char *testImageFilename,
     typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
     typedef itk::ImageFileWriter<DiffOutputType> WriterType;
     typedef itk::ImageRegion<ITK_TEST_DIMENSION_MAX> RegionType;
-    OutputType::IndexType index; index.Fill(0);
     OutputType::SizeType size; size.Fill(0);
 
     RescaleType::Pointer rescale = RescaleType::New();
@@ -316,15 +315,20 @@ int RegressionTestImage (const char *testImageFilename,
       rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
       rescale->SetInput(diff->GetOutput());
       rescale->UpdateLargestPossibleRegion();
+    size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
+
+    //Get the center slice of the image,  In 3D, the first slice
+    //is often a black slice with little debugging information.
+    OutputType::IndexType index; index.Fill(0);
+    for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
+      {
+      index[i]=size[i]/2;//NOTE: Integer Divide used to get approximately the center slice
+      size[i] = 0;
+      }
 
     RegionType region;
     region.SetIndex(index);
-    
-    size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
-    for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
-      {
-      size[i] = 0;
-      }
+
     region.SetSize(size);
 
     ExtractType::Pointer extract = ExtractType::New();
@@ -345,6 +349,11 @@ int RegressionTestImage (const char *testImageFilename,
       rescale->SetInput(diff->GetOutput());
       rescale->Update();
       }
+    catch(const std::exception& e)
+      {
+      std::cerr << "Error during rescale of " << diffName.str() << std::endl;
+      std::cerr << e.what() << "\n";
+      }
     catch (...)
       {
       std::cerr << "Error during rescale of " << diffName.str() << std::endl;
@@ -353,6 +362,11 @@ int RegressionTestImage (const char *testImageFilename,
     try
       {
       writer->Update();
+      }
+    catch(const std::exception& e)
+      {
+      std::cerr << "Error during write of " << diffName.str() << std::endl;
+      std::cerr << e.what() << "\n";
       }
     catch (...)
       {
@@ -370,6 +384,11 @@ int RegressionTestImage (const char *testImageFilename,
       rescale->SetInput(baselineReader->GetOutput());
       rescale->Update();
       }
+    catch(const std::exception& e)
+      {
+      std::cerr << "Error during rescale of " << baseName.str() << std::endl;
+      std::cerr << e.what() << "\n";
+      }
     catch (...)
       {
       std::cerr << "Error during rescale of " << baseName.str() << std::endl;
@@ -378,6 +397,11 @@ int RegressionTestImage (const char *testImageFilename,
       {
       writer->SetFileName(baseName.str().c_str());
       writer->Update();
+      }
+    catch(const std::exception& e)
+      {
+      std::cerr << "Error during write of " << baseName.str() << std::endl;
+      std::cerr << e.what() << "\n";
       }
     catch (...)
       {
@@ -395,15 +419,24 @@ int RegressionTestImage (const char *testImageFilename,
       rescale->SetInput(testReader->GetOutput());
       rescale->Update();
       }
+    catch(const std::exception& e)
+      {
+      std::cerr << "Error during rescale of " << testName.str() << std::endl;
+      std::cerr << e.what() << "\n";
+      }
     catch (...)
       {
-      std::cerr << "Error during rescale of " << testName.str()
-                << std::endl;
+      std::cerr << "Error during rescale of " << testName.str() << std::endl;
       }
     try
       {
       writer->SetFileName(testName.str().c_str());
       writer->Update();
+      }
+    catch(const std::exception& e)
+      {
+      std::cerr << "Error during write of " << testName.str() << std::endl;
+      std::cerr << e.what() << "\n";
       }
     catch (...)
       {

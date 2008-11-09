@@ -68,6 +68,11 @@ int main(int argc, char *argv[])
     writer->SetFileName( baseName.str().c_str() );
     writer->Update();
     }
+  catch(const std::exception& e)
+    {
+    std::cerr << "Error during write of " << baseName.str() << std::endl;
+    std::cerr << e.what() << "\n";
+    }
   catch (...)
     {
     std::cerr << "Error during write of " << baseName.str() << std::endl;

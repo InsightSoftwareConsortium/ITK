@@ -211,18 +211,28 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
         rescale->SetInput(diff->GetOutput());
         rescale->Update();
         }
-      catch (...)
+      catch(const itk::ExceptionObject& e)
         {
         std::cerr << "Error during rescale of " << diffName.str() << std::endl;
+        e.Print(std::cerr);
+        }
+      catch (...)
+        {
+        std::cerr << "Non-ITK Error during rescale of " << diffName.str() << std::endl;
         }
       writer->SetFileName(diffName.str().c_str());
       try
         {
         writer->Update();
         }
-      catch (...)
+      catch(const itk::ExceptionObject& e)
         {
         std::cerr << "Error during write of " << diffName.str() << std::endl;
+        e.Print(std::cerr);
+        }
+      catch (...)
+        {
+        std::cerr << "Non-ITK Error during write of " << diffName.str() << std::endl;
         }
 
       std::cout << "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">";
@@ -236,18 +246,28 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
       rescale->SetInput(baselineReader->GetOutput());
       rescale->Update();
       }
-    catch (...)
+    catch(const itk::ExceptionObject& e)
       {
       std::cerr << "Error during rescale of " << baseName.str() << std::endl;
+      e.Print(std::cerr);
+      }
+    catch (...)
+      {
+      std::cerr << "Non-ITK Error during rescale of " << baseName.str() << std::endl;
       }
     try
       {
       writer->SetFileName(baseName.str().c_str());
       writer->Update();
       }
-    catch (...)
+    catch(const itk::ExceptionObject& e)
       {
       std::cerr << "Error during write of " << baseName.str() << std::endl;
+      e.Print(std::cerr);
+      }
+    catch (...)
+      {
+      std::cerr << "Non-ITK Error during write of " << baseName.str() << std::endl;
       }
 
     std::cout << "<DartMeasurementFile name=\"BaselineImage\" type=\"image/png\">";
@@ -261,9 +281,15 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
       rescale->SetInput(testReader->GetOutput());
       rescale->Update();
       }
-    catch (...)
+    catch(const itk::ExceptionObject& e)
       {
       std::cerr << "Error during rescale of " << testName.str()
+                << std::endl;
+      e.Print(std::cerr);
+      }
+    catch (...)
+      {
+      std::cerr << "Non-ITK Error during rescale of " << testName.str()
                 << std::endl;
       }
     try
@@ -271,9 +297,14 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
       writer->SetFileName(testName.str().c_str());
       writer->Update();
       }
-    catch (...)
+    catch(const itk::ExceptionObject& e)
       {
       std::cerr << "Error during write of " << testName.str() << std::endl;
+      e.Print(std::cerr);
+      }
+    catch (...)
+      {
+      std::cerr << "Non-ITK Error during write of " << testName.str() << std::endl;
       }
 
     std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
