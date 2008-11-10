@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkESMDemonsRegistrationFunction.h
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkESMDemonsRegistrationFunction.h
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -28,42 +28,42 @@
 
 namespace itk {
 
-/**
- * \class ESMDemonsRegistrationFunction
- *
- * \brief Fast implementation of the symmetric demons registration force
- *
- * This class provides a substantially faster implementation of the
- * symmetric demons registration force. Speed is improved by keeping
- * a deformed copy of the moving image for gradient evaluation.
- *
- * Symmetric forces simply means using the mean of the gradient
- * of the fixed image and the gradient of the warped moving
- * image.
- *
- * Note that this class also enables the use of fixed, mapped moving
- * and warped moving images forces by using a call to SetUseGradientType
- *
- * The moving image should not be saturated. We indeed use
- * NumericTraits<MovingPixelType>::Max() as a special value.
- *
- * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
- *
- * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/510
- *
- * \sa SymmetricForcesDemonsRegistrationFunction
- * \sa SymmetricForcesDemonsRegistrationFilter
- * \sa DemonsRegistrationFilter
- * \sa DemonsRegistrationFunction
- * \ingroup FiniteDifferenceFunctions
- *
- */
-template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT ESMDemonsRegistrationFunction :
-    public PDEDeformableRegistrationFunction< TFixedImage,
-                                              TMovingImage, TDeformationField>
-{
+  /**
+   * \class ESMDemonsRegistrationFunction
+   *
+   * \brief Fast implementation of the symmetric demons registration force
+   *
+   * This class provides a substantially faster implementation of the
+   * symmetric demons registration force. Speed is improved by keeping
+   * a deformed copy of the moving image for gradient evaluation.
+   *
+   * Symmetric forces simply means using the mean of the gradient
+   * of the fixed image and the gradient of the warped moving
+   * image.
+   *
+   * Note that this class also enables the use of fixed, mapped moving
+   * and warped moving images forces by using a call to SetUseGradientType
+   *
+   * The moving image should not be saturated. We indeed use
+   * NumericTraits<MovingPixelType>::Max() as a special value.
+   *
+   * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
+   *
+   * This implementation was taken from the Insight Journal paper:
+   * http://hdl.handle.net/1926/510
+   *
+   * \sa SymmetricForcesDemonsRegistrationFunction
+   * \sa SymmetricForcesDemonsRegistrationFilter
+   * \sa DemonsRegistrationFilter
+   * \sa DemonsRegistrationFunction
+   * \ingroup FiniteDifferenceFunctions
+   *
+   */
+  template<class TFixedImage, class TMovingImage, class TDeformationField>
+    class ITK_EXPORT ESMDemonsRegistrationFunction :
+      public PDEDeformableRegistrationFunction< TFixedImage,
+      TMovingImage, TDeformationField>
+  {
 public:
   /** Standard class typedefs. */
   typedef ESMDemonsRegistrationFunction               Self;
@@ -77,7 +77,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( ESMDemonsRegistrationFunction,
-                PDEDeformableRegistrationFunction );
+    PDEDeformableRegistrationFunction );
 
   /** MovingImage image type. */
   typedef typename Superclass::MovingImageType      MovingImageType;
@@ -88,11 +88,14 @@ public:
   typedef typename Superclass::FixedImageType       FixedImageType;
   typedef typename Superclass::FixedImagePointer    FixedImagePointer;
   typedef typename FixedImageType::IndexType        IndexType;
+  typedef typename FixedImageType::SizeType         SizeType;
+  typedef typename FixedImageType::SpacingType      SpacingType;
+  typedef typename FixedImageType::DirectionType    DirectionType;
 
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
   typedef typename Superclass::DeformationFieldTypePointer
-  DeformationFieldTypePointer;
+    DeformationFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
@@ -128,21 +131,21 @@ public:
 
   /** Moving image gradient (unwarped) calculator type. */
   typedef CentralDifferenceImageFunction<MovingImageType,CoordRepType>
-      MovingImageGradientCalculatorType;
+    MovingImageGradientCalculatorType;
   typedef typename MovingImageGradientCalculatorType::Pointer
-      MovingImageGradientCalculatorPointer;
+    MovingImageGradientCalculatorPointer;
 
   /** Set the moving image interpolator. */
   void SetMovingImageInterpolator( InterpolatorType * ptr )
-  { m_MovingImageInterpolator = ptr; m_MovingImageWarper->SetInterpolator( ptr ); }
+    { m_MovingImageInterpolator = ptr; m_MovingImageWarper->SetInterpolator( ptr ); }
 
   /** Get the moving image interpolator. */
   InterpolatorType * GetMovingImageInterpolator(void)
-  { return m_MovingImageInterpolator; }
+    { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
   virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
-  { return m_TimeStep; }
+    { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
@@ -164,8 +167,8 @@ public:
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
   virtual PixelType  ComputeUpdate(const NeighborhoodType &neighborhood,
-                                   void *globalData,
-                                   const FloatOffsetType &offset = FloatOffsetType(0.0));
+    void *globalData,
+    const FloatOffsetType &offset = FloatOffsetType(0.0));
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -198,10 +201,10 @@ public:
 
   /** Type of available image forces */
   enum GradientType {
-     Symmetric=0,
-     Fixed=1,
-     WarpedMoving=2,
-     MappedMoving=3
+    Symmetric=0,
+    Fixed=1,
+    WarpedMoving=2,
+    MappedMoving=3
   };
 
   /** Set/Get the type of used image forces */
@@ -232,6 +235,9 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Cache fixed image information. */
+  PointType                       m_FixedImageOrigin;
+  SpacingType                     m_FixedImageSpacing;
+  DirectionType                   m_FixedImageDirection;
   double                          m_Normalizer;
 
   /** Function to compute derivatives of the fixed image. */
@@ -272,7 +278,7 @@ private:
   /** Mutex lock to protect modification to metric. */
   mutable SimpleFastMutexLock     m_MetricCalculationLock;
 
-};
+  };
 
 
 } // end namespace itk
