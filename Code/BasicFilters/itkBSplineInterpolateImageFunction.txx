@@ -55,7 +55,11 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   // ***TODO: Should we store coefficients in a variable or retrieve from filter?
   m_Coefficients = CoefficientImageType::New();
   this->SetSplineOrder(SplineOrder);
+#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
+  this->m_UseImageDirection = true;
+#else
   this->m_UseImageDirection = false;
+#endif
 }
 
 /**

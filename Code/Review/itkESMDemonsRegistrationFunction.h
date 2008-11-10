@@ -60,14 +60,14 @@ namespace itk {
  *
  */
 template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT ESMDemonsRegistrationFunction : 
+class ITK_EXPORT ESMDemonsRegistrationFunction :
     public PDEDeformableRegistrationFunction< TFixedImage,
                                               TMovingImage, TDeformationField>
 {
 public:
   /** Standard class typedefs. */
   typedef ESMDemonsRegistrationFunction               Self;
-  typedef PDEDeformableRegistrationFunction< 
+  typedef PDEDeformableRegistrationFunction<
     TFixedImage, TMovingImage, TDeformationField >    Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ESMDemonsRegistrationFunction, 
+  itkTypeMacro( ESMDemonsRegistrationFunction,
                 PDEDeformableRegistrationFunction );
 
   /** MovingImage image type. */
@@ -88,13 +88,10 @@ public:
   typedef typename Superclass::FixedImageType       FixedImageType;
   typedef typename Superclass::FixedImagePointer    FixedImagePointer;
   typedef typename FixedImageType::IndexType        IndexType;
-  typedef typename FixedImageType::SizeType         SizeType;
-  typedef typename FixedImageType::SpacingType      SpacingType;
-  typedef typename FixedImageType::DirectionType    DirectionType;
-  
+
   /** Deformation field type. */
   typedef typename Superclass::DeformationFieldType    DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer   
+  typedef typename Superclass::DeformationFieldTypePointer
   DeformationFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
@@ -134,11 +131,11 @@ public:
       MovingImageGradientCalculatorType;
   typedef typename MovingImageGradientCalculatorType::Pointer
       MovingImageGradientCalculatorPointer;
-  
+
   /** Set the moving image interpolator. */
   void SetMovingImageInterpolator( InterpolatorType * ptr )
   { m_MovingImageInterpolator = ptr; m_MovingImageWarper->SetInterpolator( ptr ); }
-   
+
   /** Get the moving image interpolator. */
   InterpolatorType * GetMovingImageInterpolator(void)
   { return m_MovingImageInterpolator; }
@@ -170,8 +167,8 @@ public:
                                    void *globalData,
                                    const FloatOffsetType &offset = FloatOffsetType(0.0));
 
-  /** Get the metric value. The metric value is the mean square difference 
-   * in intensity between the fixed image and transforming moving image 
+  /** Get the metric value. The metric value is the mean square difference
+   * in intensity between the fixed image and transforming moving image
    * computed over the the overlapping region between the two images. */
   virtual double GetMetric() const
     { return m_Metric; }
@@ -194,7 +191,7 @@ public:
     {
     this->m_MaximumUpdateStepLength =sm;
     }
-  virtual double GetMaximumUpdateStepLength() const 
+  virtual double GetMaximumUpdateStepLength() const
     {
     return this->m_MaximumUpdateStepLength;
     }
@@ -202,9 +199,9 @@ public:
   /** Type of available image forces */
   enum GradientType {
      Symmetric=0,
-     Fixed,
-     WarpedMoving,
-     MappedMoving
+     Fixed=1,
+     WarpedMoving=2,
+     MappedMoving=3
   };
 
   /** Set/Get the type of used image forces */
@@ -233,11 +230,8 @@ protected:
 private:
   ESMDemonsRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   /** Cache fixed image information. */
-  PointType                       m_FixedImageOrigin;
-  SpacingType                     m_FixedImageSpacing;
-  DirectionType                   m_FixedImageDirection;
   double                          m_Normalizer;
 
   /** Function to compute derivatives of the fixed image. */
@@ -267,7 +261,7 @@ private:
   double                          m_MaximumUpdateStepLength;
 
   /** The metric value is the mean square difference in intensity between
-   * the fixed image and transforming moving image computed over the 
+   * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
   mutable double                  m_Metric;
   mutable double                  m_SumOfSquaredDifference;
