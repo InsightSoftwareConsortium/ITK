@@ -129,6 +129,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   typedef ImageType::IndexType                  IndexType;
   typedef ImageType::SizeType                   SizeType;
   typedef ImageType::RegionType                 RegionType;
+  typedef ImageType::DirectionType              DirectionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -144,6 +145,12 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
+
+  DirectionType direction;
+  direction.SetIdentity();
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  direction(1,1)=-1;
+#endif
   
   ImageType::Pointer moving = ImageType::New();
   ImageType::Pointer fixed = ImageType::New();
@@ -152,14 +159,17 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   moving->SetLargestPossibleRegion( region );
   moving->SetBufferedRegion( region );
   moving->Allocate();
+  moving->SetDirection(direction);
 
   fixed->SetLargestPossibleRegion( region );
   fixed->SetBufferedRegion( region );
   fixed->Allocate();
+  fixed->SetDirection(direction);
   
   initField->SetLargestPossibleRegion( region );
   initField->SetBufferedRegion( region );
   initField->Allocate();
+  initField->SetDirection(direction);
 
   double center[ImageDimension];
   double radius;
@@ -290,6 +300,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );
+  warper->SetOutputDirection( fixed->GetDirection() );
 
   warper->Print( std::cout );
 
