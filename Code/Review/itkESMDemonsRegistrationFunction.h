@@ -27,43 +27,42 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkWarpImageFilter.h"
 
 namespace itk {
-
-  /**
-   * \class ESMDemonsRegistrationFunction
-   *
-   * \brief Fast implementation of the symmetric demons registration force
-   *
-   * This class provides a substantially faster implementation of the
-   * symmetric demons registration force. Speed is improved by keeping
-   * a deformed copy of the moving image for gradient evaluation.
-   *
-   * Symmetric forces simply means using the mean of the gradient
-   * of the fixed image and the gradient of the warped moving
-   * image.
-   *
-   * Note that this class also enables the use of fixed, mapped moving
-   * and warped moving images forces by using a call to SetUseGradientType
-   *
-   * The moving image should not be saturated. We indeed use
-   * NumericTraits<MovingPixelType>::Max() as a special value.
-   *
-   * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
-   *
-   * This implementation was taken from the Insight Journal paper:
-   * http://hdl.handle.net/1926/510
-   *
-   * \sa SymmetricForcesDemonsRegistrationFunction
-   * \sa SymmetricForcesDemonsRegistrationFilter
-   * \sa DemonsRegistrationFilter
-   * \sa DemonsRegistrationFunction
-   * \ingroup FiniteDifferenceFunctions
-   *
-   */
-  template<class TFixedImage, class TMovingImage, class TDeformationField>
-    class ITK_EXPORT ESMDemonsRegistrationFunction :
+/**
+ * \class ESMDemonsRegistrationFunction
+ *
+ * \brief Fast implementation of the symmetric demons registration force
+ *
+ * This class provides a substantially faster implementation of the
+ * symmetric demons registration force. Speed is improved by keeping
+ * a deformed copy of the moving image for gradient evaluation.
+ *
+ * Symmetric forces simply means using the mean of the gradient
+ * of the fixed image and the gradient of the warped moving
+ * image.
+ *
+ * Note that this class also enables the use of fixed, mapped moving
+ * and warped moving images forces by using a call to SetUseGradientType
+ *
+ * The moving image should not be saturated. We indeed use
+ * NumericTraits<MovingPixelType>::Max() as a special value.
+ *
+ * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
+ *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/1926/510
+ *
+ * \sa SymmetricForcesDemonsRegistrationFunction
+ * \sa SymmetricForcesDemonsRegistrationFilter
+ * \sa DemonsRegistrationFilter
+ * \sa DemonsRegistrationFunction
+ * \ingroup FiniteDifferenceFunctions
+ *
+ */
+template<class TFixedImage, class TMovingImage, class TDeformationField>
+class ITK_EXPORT ESMDemonsRegistrationFunction :
       public PDEDeformableRegistrationFunction< TFixedImage,
-      TMovingImage, TDeformationField>
-  {
+                                                TMovingImage, TDeformationField>
+{
 public:
   /** Standard class typedefs. */
   typedef ESMDemonsRegistrationFunction               Self;
@@ -277,9 +276,7 @@ private:
 
   /** Mutex lock to protect modification to metric. */
   mutable SimpleFastMutexLock     m_MetricCalculationLock;
-
-  };
-
+};
 
 } // end namespace itk
 
