@@ -60,7 +60,7 @@ public:
   itkStaticConstMacro(PointDimension, unsigned int, NPointDimension);
 
   /** The Array type from which this Vector is derived. */
-  typedef FixedArray<TCoordRep, NPointDimension>         BaseArray;
+  typedef FixedArray<TCoordRep, NPointDimension>    BaseArray;
   typedef typename BaseArray::Iterator              Iterator;
   typedef typename BaseArray::ConstIterator         ConstIterator;
     
@@ -74,9 +74,11 @@ public:
   /** Default constructor has nothing to do. */
   Point() {}
 
-  /** Pass-through constructor for the Array base class. */
+  /** Pass-through constructors for the Array base class. */
   Point(const Self& r): BaseArray(r) {}
   Point(const ValueType r[PointDimension]): BaseArray(r) {}  
+  template< class TPointValueType >
+  Point(const Point< TPointValueType, NPointDimension>& r): BaseArray(r) {}
     
   /** Pass-through assignment operator for the Array base class. */
   Point& operator= (const Self& r);

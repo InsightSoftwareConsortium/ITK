@@ -957,6 +957,8 @@ ADD_TEST(itkImageToVectorImageFilterTest ${BASIC_FILTERS_TESTS5}
                   )
 ENDIF(ITK_DATA_ROOT)
 
+ADD_TEST(itkSimplexMeshWithFloatCoordRepTest ${BASIC_FILTERS_TESTS5} itkSimplexMeshWithFloatCoordRepTest)
+
 SET(BasicFilters_SRCS
 itkAcosImageFilterAndAdaptorTest.cxx
 itkAbsImageFilterAndAdaptorTest.cxx
@@ -1237,6 +1239,7 @@ SET(BasicFilters5_SRCS
   itkBinaryThresholdProjectionImageFilterTest.cxx  
   itkProjectionImageFilterTest.cxx  
   itkImageToVectorImageFilterTest.cxx
+  itkSimplexMeshWithFloatCoordRepTest.cxx
 )
 
 IF(ITK_OBJCXX_COMPILER_WORKS)

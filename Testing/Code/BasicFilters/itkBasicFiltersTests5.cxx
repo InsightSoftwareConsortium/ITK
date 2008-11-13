@@ -36,4 +36,5 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryThresholdProjectionImageFilterTest);
   REGISTER_TEST(itkProjectionImageFilterTest);
   REGISTER_TEST(itkImageToVectorImageFilterTest);
+  REGISTER_TEST(itkSimplexMeshWithFloatCoordRepTest);
 }

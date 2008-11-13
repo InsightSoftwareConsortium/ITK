@@ -110,7 +110,7 @@ public:
   vnl_vector<T> Get_vnl_vector( void ) const;
 
 
-  /** Default constructor has nothing to do. */
+  /** Default constructor and copy constructors. */
   CovariantVector(): BaseArray() {}
   CovariantVector(const ValueType& r);
 
@@ -121,6 +121,13 @@ public:
                         NVectorDimension>& r): BaseArray(r) {}
   CovariantVector(const ValueType r[Dimension]): BaseArray(r) {}  
     
+  /** Pass-through assignment operator for the Array base class. */
+  template< class TVectorValueType >
+  CovariantVector& operator= (const CovariantVector< TVectorValueType, NVectorDimension> & r)
+    {
+    BaseArray::operator=(r);
+    return *this;
+    }
   /** Assignment operator with implicit casting from another data type */
   template< class Tt >
   Self & operator= (const Tt & v )

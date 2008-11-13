@@ -92,16 +92,16 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     typedef TInputMesh InputMeshType;
     typedef TOutputMesh OutputMeshType;
 
-    typedef typename InputMeshType::PointsContainerPointer  InputPointsContainerPointer;
-    typedef typename InputMeshType::PointsContainer  InputPointsContainer;
+    typedef typename InputMeshType::PointsContainerPointer     InputPointsContainerPointer;
+    typedef typename InputMeshType::PointsContainer            InputPointsContainer;
     typedef typename InputMeshType::PointsContainer::Iterator  InputPointsContainerIterator;
 
     /** Other definitions. */
-    typedef typename InputMeshType::PointType             PointType;
-    typedef typename PointType::VectorType                VectorType;
+    typedef typename SimplexMeshGeometry::PointType     PointType;
+    typedef typename PointType::VectorType              VectorType;
     typedef CovariantVector< 
-                    typename VectorType::ValueType, 3 >   CovariantVectorType;
-    typedef typename InputMeshType::PixelType             PixelType;
+                    typename VectorType::ValueType, 3 > CovariantVectorType;
+    typedef typename InputMeshType::PixelType           PixelType;
 
     /** Image and Image iterator definition. */
     typedef CovariantVector<PixelType, 3>                   GradientType;
@@ -114,13 +114,6 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     typedef typename GradientImageType::PixelType           GradientPixelType;
     typedef typename GradientIndexType::IndexValueType      GradientIndexValueType;
     typedef typename GradientImageType::SizeType            GradientImageSizeType;
-
-
-    //typedef Image<PixelType, 3>                                   GradientIntensityImageType;
-    //typedef typename GradientIntensityImageType::Pointer          GradientIntensityImagePointer;
-
-    //typedef typename itk::MapContainer<unsigned long, PointType> ForceOriginMapType;
-    //typedef typename itk::MapContainer<unsigned long, VectorType> ForceMapType;
 
     /* Mesh pointer definition. */
     typedef typename InputMeshType::Pointer     InputMeshPointer;
@@ -160,8 +153,8 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     itkGetMacro(Gradient, GradientImagePointer);
 
     /** 
-    *Set number of iterations for deformation process  
-    */
+     * Set number of iterations for deformation process  
+     */
     itkSetMacro(Iterations, int);
     itkGetMacro(Iterations, int);
 
@@ -198,7 +191,7 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     itkSetObjectMacro(Data, GeometryMapType );
     itkGetObjectMacro(Data, GeometryMapType );
      
-    /** Width, height and depth opf image */
+    /** Width, height and depth of image */
     itkGetMacro(ImageWidth,int);
     itkGetMacro(ImageHeight,int);
     itkGetMacro(ImageDepth,int);
@@ -214,10 +207,8 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
 
     void PrintSelf(std::ostream& os, Indent indent) const;
 
-
     /** */
     virtual void GenerateData();
-
 
     /**
     * Initializes the datastructures necessary for mesh 
@@ -227,82 +218,82 @@ class DeformableSimplexMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutpu
     virtual void Initialize();
 
     /**
-    * Compute geometric properties like curvature and 
-    * normals, which are necessary for the computation 
-    * of the internal force components for each point of the mesh.
-    */
+     * Compute geometric properties like curvature and 
+     * normals, which are necessary for the computation 
+     * of the internal force components for each point of the mesh.
+     */
     virtual void ComputeGeometry();
 
     /**
-    * Computes the displacement of each point. Therefore 
-    * internal and external forces are computed and multiplied 
-    * by the constants (alpha and beta) set by the user.
-    */
+     * Computes the displacement of each point. Therefore 
+     * internal and external forces are computed and multiplied 
+     * by the constants (alpha and beta) set by the user.
+     */
     virtual void ComputeDisplacement();
 
     /**
-    * Compute the internal force component
-    */
+     * Compute the internal force component
+     */
     virtual void ComputeInternalForce(SimplexMeshGeometry* data);
 
     /**
-    * Compute the external force component
-    */
+     * Compute the external force component
+     */
     virtual void ComputeExternalForce(SimplexMeshGeometry* data);  
 
     /**
-    * At the and of the deformation the output mesh is created
-    * by creating a new mesh
-    */
+     * At the and of the deformation the output mesh is created
+     * by creating a new mesh
+     */
     virtual void ComputeOutput();
 
     /**
-    * Method updates the reference metrics for each mesh point
-    */ 
+     * Method updates the reference metrics for each mesh point
+     */ 
     virtual void UpdateReferenceMetrics();
 
     /**
-    *  L function implemented follwoing the paper of Delingette
-    */
+     *  L function implemented follwoing the paper of Delingette
+     */
     double L_Func(double r,double d, double phi);
 
     /**
-    *  Method computes the barycentric coordinates of the passed point 
-    */
+     *  Method computes the barycentric coordinates of the passed point 
+     */
     PointType ComputeBarycentricCoordinates(PointType p, SimplexMeshGeometry* data);
 
 
     /** Parameters definitions. */
 
     /**
-    * Scalar defining the influence of the internal forces
-    * Values should lie between 0.001 and 0.3. Higher values
-    * increase the stiffness of the mesh
-    */
+     * Scalar defining the influence of the internal forces
+     * Values should lie between 0.001 and 0.3. Higher values
+     * increase the stiffness of the mesh
+     */
     double    m_Alpha;
 
     /**
-    * Scalar defining the influence of the external force components
-    * The choice for this parameter strongly depends on the underlying 
-    * data. Typical value range from 0.00001 to 0.3
-    * 
-    */
+     * Scalar defining the influence of the external force components
+     * The choice for this parameter strongly depends on the underlying 
+     * data. Typical value range from 0.00001 to 0.3
+     * 
+     */
     double    m_Beta;
 
     /**
-    * Gamma influneces the distribution of the mesh points. It should 
-    * lie between 0.01 and 0.2. Smaller values force the mesh to be 
-    * more regular. When increasing gamma, mesh points will have higher
-    * density in places of high curvature.
-    */
+     * Gamma influneces the distribution of the mesh points. It should 
+     * lie between 0.01 and 0.2. Smaller values force the mesh to be 
+     * more regular. When increasing gamma, mesh points will have higher
+     * density in places of high curvature.
+     */
     double    m_Gamma;      
     double    m_Damping;
     /**
-    * This scalar determines the smoothness of the surface model. Values
-    * should range from 0 to 10. It determines the radius of the neighborhood
-    * during internal force computation using the curvature shape contraint. 
-    * The higher the rigidity the higher the smoothness.
-    */
+     * This scalar determines the smoothness of the surface model. Values
+     * should range from 0 to 10. It determines the radius of the neighborhood
+     * during internal force computation using the curvature shape contraint. 
+     * The higher the rigidity the higher the smoothness.
+     */
     unsigned int m_Rigidity;
 
     // definition of internal parameters
