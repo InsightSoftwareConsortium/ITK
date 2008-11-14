@@ -129,7 +129,6 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
 
   // Get moving image related information
-  double movingValue=0.0;
   const DeformationFieldPixelType itvec = this->GetDeformationField()->GetPixel(index);
   PointType mappedPoint;
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
@@ -137,13 +136,10 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     {
       mappedPoint[j] += itvec[j];
     }
+  double movingValue=0.0;
   if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
     {
     movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
-    }
-  else
-    {
-    movingValue = 0.0;
     }
 
   // Compute update
