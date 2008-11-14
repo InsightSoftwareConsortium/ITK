@@ -18,15 +18,17 @@
 #include "itkSimplexMesh.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
 
-int itkSimplexMeshWithFloatCoordRepTest(int argc, char* argv[]) {
+int itkSimplexMeshWithFloatCoordRepTest(int, char* []) {
    const unsigned int Dimension = 3;
-   typedef float PixelType;
-   //typedef double CoordRepType; // This one works!
-   typedef float CoordRepType; // This one doesn't work :(
+
+   typedef float                                                    PixelType;
+   typedef float                                                    CoordRepType;
    typedef itk::DefaultDynamicMeshTraits<
-PixelType,Dimension,Dimension,CoordRepType > MeshTraits;
-   typedef itk::SimplexMesh< PixelType,Dimension,MeshTraits > MeshType;
+     PixelType,Dimension,Dimension,CoordRepType >                   MeshTraits;
+   typedef itk::SimplexMesh< PixelType,Dimension,MeshTraits >       MeshType;
    typedef itk::DeformableSimplexMesh3DFilter < MeshType,MeshType > DeformType;
+
    DeformType::Pointer deform = DeformType::New();
+   deform->Print(std::cout);
    return EXIT_SUCCESS;
 }
