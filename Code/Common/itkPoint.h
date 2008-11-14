@@ -75,10 +75,9 @@ public:
   Point() {}
 
   /** Pass-through constructors for the Array base class. */
-  Point(const Self& r): BaseArray(r) {}
-  Point(const ValueType r[PointDimension]): BaseArray(r) {}  
   template< class TPointValueType >
   Point(const Point< TPointValueType, NPointDimension>& r): BaseArray(r) {}
+  Point(const ValueType r[PointDimension]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
   Point& operator= (const Self& r);
