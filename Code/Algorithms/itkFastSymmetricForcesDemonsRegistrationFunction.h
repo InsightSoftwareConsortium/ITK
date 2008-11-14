@@ -182,10 +182,8 @@ protected:
 private:
   FastSymmetricForcesDemonsRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   /** Cache fixed image information. */
-  SpacingType                     m_FixedImageSpacing;
-  PointType                       m_FixedImageOrigin;
   double                          m_Normalizer;
 
   /** Function to compute derivatives of the fixed image. */

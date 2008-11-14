@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -45,8 +45,6 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_IntensityDifferenceThreshold = 0.001;
   this->SetMovingImage(NULL);
   this->SetFixedImage(NULL);
-  m_FixedImageSpacing.Fill( 1.0 );
-  m_FixedImageOrigin.Fill( 0.0 );
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
 
@@ -97,14 +95,13 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // cache fixed image information
   m_FixedImageSpacing    = this->GetFixedImage()->GetSpacing();
-  m_FixedImageOrigin     = this->GetFixedImage()->GetOrigin();
 
   // setup gradient calculator
   m_FixedImageGradientCalculator->SetInputImage( this->GetFixedImage() );
 
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
-  
+
   this->SetEnergy(0.0);
 }
 
@@ -117,39 +114,27 @@ typename MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationFie
 ::PixelType
 MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 ::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(globalData),
-                const FloatOffsetType& itkNotUsed(offset)) 
+                const FloatOffsetType& itkNotUsed(offset))
 {
-
-//std::cout << " Update " << std::endl;
-  PixelType update;
-  unsigned int j;
-
-  IndexType index = it.GetIndex();
-
   // Get fixed image related information
-  double fixedValue;
-  CovariantVectorType fixedGradient;
-  double fixedGradientSquaredMagnitude = 0;
-
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  fixedValue = (double) this->GetFixedImage()->GetPixel( index );
-  fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
-  for( j = 0; j < ImageDimension; j++ )
+  const IndexType index = it.GetIndex();
+  const double fixedValue = (double) this->GetFixedImage()->GetPixel( index );
+  const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
+  double fixedGradientSquaredMagnitude = 0;
+  for(unsigned int j = 0; j < ImageDimension; j++ )
     {
     fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
-    } 
+    }
 
   // Get moving image related information
-  double movingValue;
-  PointType mappedPoint;
+  double movingValue=0.0;
   const DeformationFieldPixelType itvec = this->GetDeformationField()->GetPixel(index);
-
-  for( j = 0; j < ImageDimension; j++ )
+  PointType mappedPoint;
+  this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
+  for(unsigned int j = 0; j < ImageDimension; j++ )
     {
-     mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
-      m_FixedImageOrigin[j];
-//     mappedPoint[j] += it.GetCenterPixel()[j];
       mappedPoint[j] += itvec[j];
     }
   if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
@@ -162,41 +147,33 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
 
   // Compute update
-  double speedValue = fixedValue - movingValue;
+  const double speedValue = fixedValue - movingValue;
   this->m_Energy+=speedValue*speedValue;
 
-  bool normalizemetric=this->GetNormalizeGradient();  
+  const bool normalizemetric=this->GetNormalizeGradient();
   double denominator = 1.0;
-  if (normalizemetric) 
-  {  
+  if (normalizemetric)
+  {
     denominator = speedValue*speedValue *fixedGradientSquaredMagnitude;
     denominator = vcl_sqrt(denominator);
   }
   if (denominator == 0) denominator=1.0;
- 
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || 
+
+  PixelType update;
+  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold ||
     denominator < m_DenominatorThreshold )
     {
-    for( j = 0; j < ImageDimension; j++ )
-      {
-      update[j] = 0.0;
-      }
+    update.Fill(0.0);
     return update;
     }
 
-  for( j = 0; j < ImageDimension; j++ )
+  for(unsigned int j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j]) / 
+    update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j]) /
       denominator*this->m_GradientStep;
     }
-
   return update;
-
 }
-
- 
-
-
 
 } // end namespace itk
 
