@@ -836,7 +836,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 ::SetReferenceImage( const TOutputImage *image )
 {
   itkDebugMacro("setting input ReferenceImage to " << image);
-  if( image != static_cast<const TOutputImage *>(this->GetInput( 1 )) )
+  if( image != static_cast<const TOutputImage *>(this->ProcessObject::GetInput( 1 )) )
     {
     this->ProcessObject::SetNthInput(1, const_cast< TOutputImage *>( image ) );
     this->Modified();
