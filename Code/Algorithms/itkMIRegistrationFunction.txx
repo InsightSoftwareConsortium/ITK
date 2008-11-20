@@ -394,7 +394,7 @@ MIRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       const typename DeformationFieldType::PixelType hooditvec=this->m_DeformationField->GetPixel(index);
       PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-      for(unsigned int j = 0; j < ImageDimension; j++ )
+      for(j = 0; j < ImageDimension; j++ )
         {
         mappedPoint[j] += hooditvec[j];
         }
