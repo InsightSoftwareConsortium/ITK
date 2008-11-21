@@ -31,7 +31,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
 ::SymmetricForcesDemonsRegistrationFunction()
 {
   RadiusType r;
-  r.Fill(0.0);
+  r.Fill(0);
   this->SetRadius(r);
 
   m_TimeStep = 1.0;
