@@ -65,8 +65,6 @@ public:
    
   typedef typename Superclass::InputImageRegionType RegionType;
 
-  virtual void SetNthInput(unsigned int idx, const InputImageType *);
-  
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   // Check if the pixeltype is a scalar, (native pixel type).
@@ -75,8 +73,6 @@ public:
 
 protected:
   ImageToVectorImageFilter();
-  ~ImageToVectorImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual void AllocateOutputs();
   virtual void BeforeThreadedGenerateData();

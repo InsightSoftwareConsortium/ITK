@@ -37,16 +37,6 @@ ImageToVectorImageFilter< TInputImage >
 template< class TInputImage > 
 void 
 ImageToVectorImageFilter< TInputImage >
-::SetNthInput(unsigned int idx, const InputImageType *image)
-{
-  this->ProcessObject::SetNthInput(idx, const_cast< InputImageType* >(image));
-  this->Modified();
-}
-
-//----------------------------------------------------------------------------
-template< class TInputImage > 
-void 
-ImageToVectorImageFilter< TInputImage >
 ::AllocateOutputs()
 {
   // Override the method in itkImageSource, so we can set the vector length of
@@ -129,15 +119,6 @@ ImageToVectorImageFilter< TInputImage >
     {
     delete inputItContainer[i];
     }
-}
-
-//----------------------------------------------------------------------------
-template< class TInputImage > 
-void
-ImageToVectorImageFilter< TInputImage >
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
 }
 
 } // end namespace itk
