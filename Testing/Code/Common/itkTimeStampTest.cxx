@@ -48,6 +48,19 @@ int itkTimeStampTest(int, char*[])
     for (unsigned int i = 0; i < num_exp; i++)
       {
       multithreader->SingleMethodExecute();
+
+      const unsigned long current_mtime = ts.GetMTime();
+
+      if ( (current_mtime-init_mtime)!=num_threads*(i+1) )
+        {
+        std::cout << "[TEST FAILED]" << std::endl;
+        std::cout << "init_mtime: "<<init_mtime<< std::endl;
+        std::cout << "current_mtime: "<<current_mtime<< std::endl;
+        std::cout << "num_threads: "<<num_threads<< std::endl;
+        std::cout << "current_exp: "<<i+1<< std::endl;
+        std::cout << "num_threads*current_exp: "<<num_threads*(i+1)<< std::endl;
+        return EXIT_FAILURE;
+        }
       }
 
     const unsigned long final_mtime = ts.GetMTime();
