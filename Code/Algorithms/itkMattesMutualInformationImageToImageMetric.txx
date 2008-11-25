@@ -1173,7 +1173,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   linearIter.SetDirection( 1 );
   linearIter.GoToBegin();
-  unsigned int movingIndex = 0;
+  unsigned int movingIndex1 = 0;
 
   while( !linearIter.IsAtEnd() )
     {
@@ -1186,10 +1186,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       ++linearIter;
       }
 
-    m_MovingImageMarginalPDF[movingIndex] = static_cast<PDFValueType>(sum);
+    m_MovingImageMarginalPDF[movingIndex1] = static_cast<PDFValueType>(sum);
 
     linearIter.NextLine();
-    ++movingIndex;
+    ++movingIndex1;
 
     }
 
