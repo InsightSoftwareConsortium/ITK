@@ -28,8 +28,8 @@ namespace itk {
  *
  * \par Inputs and Usage
  * \code
- *    filter->SetNthInput( 0, image0 );
- *    filter->SetNthInput( 1, image1 );
+ *    filter->SetInput( 0, image0 );
+ *    filter->SetInput( 1, image1 );
  *    ...
  *    filter->Update();
  *    itk::VectorImage< PixelType, dimension >::Pointer = filter->GetOutput();
@@ -64,6 +64,9 @@ public:
   typedef typename Superclass::InputImageType       InputImageType;
    
   typedef typename Superclass::InputImageRegionType RegionType;
+
+  virtual void SetNthInput(unsigned int idx, const InputImageType * inputImage) 
+  { this->SetInput(idx, inputImage); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
