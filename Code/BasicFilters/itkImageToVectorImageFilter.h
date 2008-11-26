@@ -65,7 +65,7 @@ public:
    
   typedef typename Superclass::InputImageRegionType RegionType;
 
-  virtual void SetNthInput(unsigned int idx, const InputImageType * inputImage) 
+  virtual void SetNthInput(unsigned int idx, const InputImageType * inputImage)
   { this->SetInput(idx, inputImage); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -80,8 +80,11 @@ protected:
   virtual void AllocateOutputs();
   virtual void BeforeThreadedGenerateData();
   virtual void ThreadedGenerateData( const RegionType &outputRegionForThread, int);
+  virtual void SetNthInput(unsigned int num, DataObject *input)
+    {
+    Superclass::SetNthInput(num, input);
+    }
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
