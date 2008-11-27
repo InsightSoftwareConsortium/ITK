@@ -24,62 +24,76 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
   itk::TimeStamp *tsp = static_cast<itk::TimeStamp *>(
      ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
-  tsp-> Modified();
+  tsp->Modified();
  
   return ITK_THREAD_RETURN_VALUE;
 }
 
 int itkTimeStampTest(int, char*[])
 {
+  bool success = true;
+  
   try
-    {  
+    {
     itk::TimeStamp ts;
-
-    const unsigned int num_threads = ITK_MAX_THREADS;
-    const unsigned int num_exp = 2000;
-    
+       
     itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
-    multithreader->SetNumberOfThreads(num_threads);
+    multithreader->SetNumberOfThreads(ITK_MAX_THREADS+10);// this will be clamped
     multithreader->SetSingleMethod( modified_function, &ts);
-    multithreader->SingleMethodExecute();
+
+    // call modified once to make it up-to-date;
+    ts.Modified();
 
     const unsigned long init_mtime = ts.GetMTime();
-    
+    std::cout << "init_mtime: "<<init_mtime<< std::endl;
+
+    unsigned long prev_mtime = init_mtime;
+
+    const unsigned int num_exp = 2000;
     for (unsigned int i = 0; i < num_exp; i++)
       {
       multithreader->SingleMethodExecute();
 
       const unsigned long current_mtime = ts.GetMTime();
 
-      if ( (current_mtime-init_mtime)!=num_threads*(i+1) )
+      if ( (current_mtime-prev_mtime)>static_cast<unsigned long>(multithreader->GetNumberOfThreads()) )
         {
-        std::cout << "[TEST FAILED]" << std::endl;
-        std::cout << "init_mtime: "<<init_mtime<< std::endl;
-        std::cout << "current_mtime: "<<current_mtime<< std::endl;
-        std::cout << "num_threads: "<<num_threads<< std::endl;
-        std::cout << "current_exp: "<<i+1<< std::endl;
-        std::cout << "num_threads*current_exp: "<<num_threads*(i+1)<< std::endl;
-        return EXIT_FAILURE;
+        // This might be a normal case since the modified time of a time stamp
+        // is global If a new itk object is created this will also increment
+        // the time
+        std::cout << "[Iteration " << i << "]" << std::endl;
+        std::cout << "current_mtime   : " << current_mtime << std::endl;
+        std::cout << "prev_mtime      : " << prev_mtime << std::endl;
+        std::cout << "num_threads     : " << multithreader->GetNumberOfThreads() << std::endl;
+        std::cout << "cur - prev mtime: " << current_mtime-prev_mtime << std::endl;
+        std::cout << std::endl;
         }
-      }
+      else if ( (current_mtime-prev_mtime)<static_cast<unsigned long>(multithreader->GetNumberOfThreads()) )
+        {
+        // This is a failure
+        std::cout << "[Iteration " << i << " FAILED]" << std::endl;
+        std::cout << "current_mtime   : " << current_mtime << std::endl;
+        std::cout << "prev_mtime      : " << prev_mtime << std::endl;
+        std::cout << "num_threads     : " << multithreader->GetNumberOfThreads() << std::endl;
+        std::cout << "cur - prev mtime: " << current_mtime-prev_mtime << std::endl;
+        std::cout << std::endl;
+        success = false;
+        }
 
-    const unsigned long final_mtime = ts.GetMTime();
-
-    if ( (final_mtime-init_mtime)!=num_threads*num_exp )
-      {
-      std::cout << "[TEST FAILED]" << std::endl;
-      std::cout << "init_mtime: "<<init_mtime<< std::endl;
-      std::cout << "final_mtime: "<<final_mtime<< std::endl;
-      std::cout << "num_threads: "<<num_threads<< std::endl;
-      std::cout << "num_exp: "<<num_exp<< std::endl;
-      std::cout << "num_threads*num_exp: "<<num_threads*num_exp<< std::endl;
-      return EXIT_FAILURE;
+      prev_mtime = current_mtime;
       }
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cerr << e << std::endl;
-    return 2;
+    std::cout << "[TEST FAILED]" << std::endl;
+    std::cerr << "Exception caught: "<< e << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if (!success)
+    {
+    std::cout << "[TEST FAILED]" << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "[TEST PASSED]" << std::endl;
