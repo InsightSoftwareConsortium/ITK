@@ -95,6 +95,7 @@ bool ElementSet::RemoveEntry( DocEntry *entryToRemove)
       return true;
    }
 
+   delete entryToRemove;
    gdcmWarningMacro( "Key not present : " << key);
    return false ;
 }
