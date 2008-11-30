@@ -1479,6 +1479,7 @@ void FileHelper::CheckMandatoryElements()
 
    // 'Media Storage SOP Instance UID'
    CopyMandatoryEntry(0x0002,0x0003,sop);
+   CheckMandatoryEntry(0x0008,0x0018,sop);
 
    // 'Implementation Class UID'
    // $ echo "gdcm" | od -b
@@ -1649,12 +1650,6 @@ void FileHelper::CheckMandatoryElements()
        e_0008_0016  =  new ValEntry(
          Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0016) );
        e_0008_0016 ->SetValue( e_0002_0002->GetValue() );
-       ValEntry *e_0008_0018 = FileInternal->GetValEntry(0x0008, 0x0018);
-       if( e_0008_0018 )
-         {
-         e_0008_0018->SetValue(
-           FileInternal->GetValEntry(0x0002,0x0003)->GetValue() );
-         }
        Archive->Push(e_0008_0016);
        }
      else
@@ -1678,7 +1673,6 @@ void FileHelper::CheckMandatoryElements()
    //      Global::GetDicts()->GetDefaultPubDict()->GetEntry(0x0008, 0x0018) );
    //e_0008_0018->SetValue( Util::CreateUniqueUID() );
    //Archive->Push(e_0008_0018);
-   CheckMandatoryEntry(0x0008,0x0018,sop);
 
    // Instance Creation Date
    const std::string &date = Util::GetCurrentDate();
