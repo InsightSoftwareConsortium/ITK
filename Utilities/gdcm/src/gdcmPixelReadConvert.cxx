@@ -44,7 +44,7 @@ bool gdcm_read_JPEG2000_file (void* raw,
 //-----------------------------------------------------------------------------
 // Constructor / Destructor
 /// Constructor
-PixelReadConvert::PixelReadConvert()
+PixelReadConvert::PixelReadConvert() 
 {
    RGB          = 0;
    RGBSize      = 0;
@@ -163,7 +163,8 @@ void PixelReadConvert::GrabInformationsFromFile( File *file )
 
    /////////////////////////////////////////////////////////////////
    // LUT section:
-   HasLUT = file->HasLUT();
+   HasLUT = false;
+   if( IsPaletteColor ) HasLUT = file->HasLUT();
    if ( HasLUT )
    {
       // Just in case some access to a File element requires disk access.
@@ -565,7 +566,8 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
      int length = XSize * YSize * SamplesPerPixel;
      int numberBytes = BitsAllocated / 8;
 
-     JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
+     //JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
+     JPEGInfo->DecompressFromFile(fp, Raw, BitsAllocated, numberBytes, length );
      return true;
    }
    //else (not sure how get there...), must be one of those crazy DICOM file
@@ -1057,7 +1059,7 @@ bool PixelReadConvert::ConvertReArrangeBits() throw ( FormatError )
             // nmask : to propagate sign bit on negative values
             int16_t nmask = (int16_t)0x8000;  
             nmask = nmask >> ( BitsAllocated - BitsStored - 1 );
-
+ 
             for(int i = 0; i<l; i++)
             {
                *deb = *deb >> (BitsStored - HighBitPosition - 1);
@@ -1159,9 +1161,9 @@ void PixelReadConvert::ConvertYcBcRPlanesToRGBPixels()
   // except for the few patches of color on the image.
   // On such images, RLE achieves a compression ratio that is much better 
   // than the compression ratio on an equivalent RGB image. 
-
+ 
    gdcmWarningMacro("--> ConvertYcBcRPlanesToRGBPixels");
-
+   
    uint8_t *localRaw = Raw;
    uint8_t *copyRaw = new uint8_t[ RawSize ];
    memmove( copyRaw, localRaw, RawSize );

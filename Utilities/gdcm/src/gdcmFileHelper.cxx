@@ -396,7 +396,7 @@ uint8_t *FileHelper::GetImageData()
       return 0;
    }
 
-   if ( FileInternal->HasLUT() && PixelReadConverter->BuildRGBImage() )
+   if ( (FileInternal->IsPaletteColor() && FileInternal->HasLUT()) && PixelReadConverter->BuildRGBImage() )
    {
       return PixelReadConverter->GetRGB();
    }
@@ -458,7 +458,7 @@ size_t FileHelper::GetImageDataIntoVector (void *destination, size_t maxSize)
       return 0;
    }
 
-   if ( FileInternal->HasLUT() && PixelReadConverter->BuildRGBImage() )
+   if ( (FileInternal->IsPaletteColor() && FileInternal->HasLUT()) && PixelReadConverter->BuildRGBImage() )
    {
       if ( PixelReadConverter->GetRGBSize() > maxSize )
       {
@@ -892,7 +892,7 @@ void FileHelper::SetWriteToRaw()
    else
    {
       ValEntry *photInt = CopyValEntry(0x0028,0x0004);
-      if (FileInternal->HasLUT() )
+      if (FileInternal->IsPaletteColor() && FileInternal->HasLUT() )
       {
          photInt->SetValue("PALETTE COLOR ");
       }

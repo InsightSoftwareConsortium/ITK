@@ -1165,7 +1165,7 @@ bool File::IsMonochrome1()
 bool File::IsPaletteColor()
 {
    std::string PhotometricInterp = GetEntryValue( 0x0028, 0x0004 );
-   if (   PhotometricInterp == "PALETTE COLOR " )
+   if ( Util::DicomStringEqual(PhotometricInterp, "PALETTE COLOR") )
    {
       return true;
    }
@@ -1205,6 +1205,9 @@ bool File::IsYBRFull()
   */
 bool File::HasLUT()
 {
+   // Some SIEMENS MOSAIC have a RGB LUT but are declared as MONOCHROME2 ...
+   if( !IsPaletteColor() ) return false;
+
    // Check the presence of the LUT Descriptors, and LUT Tables    
    // LutDescriptorRed    
    if ( !GetDocEntry(0x0028,0x1101) )
@@ -1422,9 +1425,7 @@ int File::GetNumberOfScalarComponents()
       return 3;
    }
 
-   std::string strPhotometricInterpretation = GetEntryValue(0x0028,0x0004);
-
-   if ( Util::DicomStringEqual(strPhotometricInterpretation, "PALETTE COLOR") )
+   if( IsPaletteColor() )
    {
       if ( HasLUT() )// PALETTE COLOR is NOT enough
       {
@@ -1436,6 +1437,7 @@ int File::GetNumberOfScalarComponents()
       }
    }
 
+   std::string strPhotometricInterpretation = GetEntryValue( 0x0028, 0x0004 );
    // beware of trailing space at end of string      
    // DICOM tags are never of odd length
    if ( strPhotometricInterpretation == GDCM_UNFOUND   || 
@@ -1708,7 +1710,7 @@ bool File::Write(std::string fileName, FileType writetype)
    ValEntry *e0000 = GetValEntry(0x0002,0x0000);
    if ( e0000 )
    {
-      itksys_ios::ostringstream sLen;
+      std::ostringstream sLen;
       sLen << ComputeGroup0002Length( );
       e0000->SetValue(sLen.str());
    }

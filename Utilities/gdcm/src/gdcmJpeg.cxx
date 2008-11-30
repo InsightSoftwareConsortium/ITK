@@ -351,7 +351,7 @@ bool JPEGFragment::ReadJPEGFile (std::ifstream *fp, void *image_buffer, int &sta
       }
 
       // JSAMPLEs per row in output buffer
-      row_stride = cinfo.output_width * cinfo.output_components*2;
+      row_stride = cinfo.output_width * cinfo.output_components*sizeof(JSAMPLE);
   
       // Make a one-row-high sample array that will go away when done with image
       buffer = (*cinfo.mem->alloc_sarray)
@@ -402,6 +402,8 @@ bool JPEGFragment::ReadJPEGFile (std::ifstream *fp, void *image_buffer, int &sta
 
    // At this point you may want to check to see whether any corrupt-data
    // warnings occurred (test whether jerr.pub.num_warnings is nonzero).
+  /* In any case make sure the we reset the internal state suspension */
+  statesuspension = 0;
 
    return true;
 }
