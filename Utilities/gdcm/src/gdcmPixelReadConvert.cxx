@@ -566,8 +566,14 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
      int length = XSize * YSize * SamplesPerPixel;
      int numberBytes = BitsAllocated / 8;
 
-     //JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length );
-     JPEGInfo->DecompressFromFile(fp, Raw, BitsAllocated, numberBytes, length );
+     if( !JPEGInfo->DecompressFromFile(fp, Raw, BitsStored, numberBytes, length ) )
+       {
+       gdcmWarningMacro( "JPEG encapsulated does not match" );
+       if(!JPEGInfo->DecompressFromFile(fp, Raw, BitsAllocated, numberBytes, length ))
+         {
+         return false;
+         }
+       }
      return true;
    }
    //else (not sure how get there...), must be one of those crazy DICOM file

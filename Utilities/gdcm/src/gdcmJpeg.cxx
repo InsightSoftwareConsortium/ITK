@@ -294,6 +294,9 @@ bool JPEGFragment::ReadJPEGFile (std::ifstream *fp, void *image_buffer, int &sta
 
    int row_stride;// physical row width in output buffer
   
+  // Now we can initialize the JPEG decompression object.
+  if ( statesuspension == 0 )
+    {
   // We set up the normal JPEG error routines, then override error_exit.
   
   cinfo.err = jpeg_std_error(&jerr.pub);
@@ -310,11 +313,8 @@ bool JPEGFragment::ReadJPEGFile (std::ifstream *fp, void *image_buffer, int &sta
 
     gdcmErrorMacro( "Serious Problem !" );
     jpeg_destroy_decompress(&cinfo);
-    return 0;
+    return false;
   }
-  // Now we can initialize the JPEG decompression object.
-  if ( statesuspension == 0 )
-    {
     jpeg_create_decompress(&cinfo);
     jpeg_stdio_src(&cinfo, fp, this, 1);
     }
@@ -330,6 +330,15 @@ bool JPEGFragment::ReadJPEGFile (std::ifstream *fp, void *image_buffer, int &sta
       {
       // Suspension in jpeg_read_header
       statesuspension = 2; 
+      }
+    // First of all are we using the proper JPEG decoder (correct bit sample):
+    if( jerr.pub.num_warnings )
+      {
+      if ( jerr.pub.msg_code == 130 )
+        {
+        jpeg_destroy_decompress(&cinfo);
+        return false;
+        }
       }
  
       // Step 4: set parameters for decompression

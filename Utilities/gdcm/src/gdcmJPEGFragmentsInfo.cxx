@@ -46,8 +46,9 @@ JPEGFragmentsInfo::~JPEGFragmentsInfo()
 
 //-----------------------------------------------------------------------------
 // Public
-void JPEGFragmentsInfo::DecompressFromFile(std::ifstream *fp, uint8_t *buffer, int nBits, int , int )
+bool JPEGFragmentsInfo::DecompressFromFile(std::ifstream *fp, uint8_t *buffer, int nBits, int , int )
 {
+   bool b = true;
    // Pointer to the Raw image
    uint8_t *localRaw = buffer;
 
@@ -57,10 +58,11 @@ void JPEGFragmentsInfo::DecompressFromFile(std::ifstream *fp, uint8_t *buffer, i
         it != Fragments.end();
         ++it )
    {
-     (*it)->DecompressJPEGFramesFromFile(fp, localRaw, nBits, StateSuspension);
+     b = b && (*it)->DecompressJPEGFramesFromFile(fp, localRaw, nBits, StateSuspension);
      // update pointer to image after some scanlines read:
      localRaw = (*it)->GetImage();
    }
+   return b;
 }
 
 void JPEGFragmentsInfo::AddFragment(JPEGFragment *fragment)
