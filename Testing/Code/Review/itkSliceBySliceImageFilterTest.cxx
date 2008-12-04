@@ -24,6 +24,32 @@
 
 #include "itkMedianImageFilter.h"
 #include "itkSliceBySliceImageFilter.h"
+#include "itkCommand.h"
+
+
+void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
+{
+  // the same typedefs than in the main function - should be done in a nicer way
+  const int                 Dimension = 3;
+  typedef unsigned char     PixelType;
+  typedef itk::Image< PixelType, Dimension >      ImageType;
+  typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
+  typedef itk::MedianImageFilter< FilterType::InternalInputImageType,
+    FilterType::InternalOutputImageType > MedianType;
+  
+  // real stuff begins here
+  // get the slice by slice filter and the median filter
+  FilterType * filter = dynamic_cast< FilterType * >( object );
+  MedianType * median = dynamic_cast< MedianType * >( filter->GetInputFilter() );
+
+  // std::cout << "callback! slice: " << filter->GetSliceIndex() << std::endl;
+  
+  // set half of the slice number as radius
+  MedianType::InputSizeType radius;
+  radius.Fill( filter->GetSliceIndex() / 2 );
+  median->SetRadius( radius );
+}
+
 
 
 int itkSliceBySliceImageFilterTest(int argc, char * argv[])
@@ -55,11 +81,13 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
                                   FilterType::InternalOutputImageType > MedianType;
 
   MedianType::Pointer median = MedianType::New();
-  MedianType::InputSizeType radius;
-  radius.Fill( 5 );
-  median->SetRadius( radius );
-
   filter->SetFilter( median );
+   
+  itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
+  command->SetCallback( *sliceCallBack );
+  
+  filter->AddObserver( itk::IterationEvent(), command );
+
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
