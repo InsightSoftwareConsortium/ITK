@@ -147,6 +147,12 @@ public:
   void SetOutputFilter( OutputFilterType * filter );
   itkGetObjectMacro( OutputFilter, OutputFilterType );
 
+  /** The index of the slice currently processed by the filter. This is intended to be
+   * used with the IterationEvent sent before the processing of each object. It contains
+   * a relevant value only during the filter update.
+   */
+  itkGetMacro(SliceIndex, long);
+
 protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() {};
@@ -165,7 +171,7 @@ private:
   unsigned int                            m_Dimension;
   typename InputFilterType::Pointer       m_InputFilter;
   typename OutputFilterType::Pointer      m_OutputFilter;
-
+  long                                    m_SliceIndex;
 };
 
 }

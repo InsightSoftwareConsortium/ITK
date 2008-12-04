@@ -31,6 +31,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
   m_InputFilter = NULL;
   m_OutputFilter = NULL;
   this->m_Dimension = ImageDimension - 1;
+  m_SliceIndex = 0;
 }
 
 
@@ -171,6 +172,10 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
   for( int slice = requestedIndex[m_Dimension]; slice < sliceRange; slice++ )
     {
 
+    // say to the user that we are begining a new slice
+    m_SliceIndex = slice;
+    this->InvokeEvent( IterationEvent() );
+
     // reallocate the internal input at each slice, so the slice by slice filter can work
     // even if the pipeline is run in place
     typedef typename InternalInputImageType::Pointer InternalInputImagePointer;
@@ -265,7 +270,6 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
 
       }
 
-    this->InvokeEvent( IterationEvent() );
     }
 }
 
@@ -282,6 +286,7 @@ SliceBySliceImageFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, 
      << " " << this->m_InputFilter.GetPointer() << std::endl;
   os << indent << "OutputFilter: " << this->m_OutputFilter->GetNameOfClass() 
      << " " << this->m_OutputFilter.GetPointer() << std::endl;
+  os << indent << "SliceIndex: " << m_SliceIndex << std::endl;
 }
 
 }
