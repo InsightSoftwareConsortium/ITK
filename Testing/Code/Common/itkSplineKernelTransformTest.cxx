@@ -183,6 +183,32 @@ int itkSplineKernelTransformTest(int , char* [] )
     }
   std::cout << std::endl;
 
+  std::cout << "TPR2LR 2D Test:" << std::endl;
+  tpr2lrs2D->SetSourceLandmarks( sourceLandmarks2D );
+  tpr2lrs2D->SetTargetLandmarks( targetLandmarks2D );
+
+  tpr2lrs2D->ComputeWMatrix();
+
+  source2Dit = sourceLandmarks2D->GetPoints()->Begin();
+  target2Dit = targetLandmarks2D->GetPoints()->Begin();
+  
+  source2Dend = sourceLandmarks2D->GetPoints()->End();
+  while( source2Dit != source2Dend )
+    {
+    sourcePoint2D = source2Dit.Value();
+    targetPoint2D = target2Dit.Value();
+    mappedPoint2D = tpr2lrs2D->TransformPoint(sourcePoint2D);
+    std::cout << sourcePoint2D << " : " << targetPoint2D;
+    std::cout << " warps to: " << mappedPoint2D << std::endl;
+    if( mappedPoint2D.EuclideanDistanceTo( targetPoint2D ) > epsilon )
+      {
+      return EXIT_FAILURE;
+      }
+    source2Dit++;
+    target2Dit++;
+    }
+  std::cout << std::endl;
+
 
 
    // 3-D case
