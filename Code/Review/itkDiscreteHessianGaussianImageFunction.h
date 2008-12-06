@@ -55,33 +55,33 @@ public:
   /**Standard "Self" typedef */
   typedef DiscreteHessianGaussianImageFunction   Self;
 
-  /** Standard "Superclass" typedef*/
+  /** Standard "Superclass" typedef */
   typedef ImageFunction<TInputImage,
     SymmetricSecondRankTensor<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension>,
     TOutput > Superclass;
 
-  /** Smart pointer typedef support. */
+  /** Smart pointer typedef support */
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  /** Method for creation through the object factory.*/
+  /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
+  /** Run-time type information (and related methods) */
   itkTypeMacro( DiscreteHessianGaussianImageFunction, ImageFunction );
 
-  /** Image dependent types.*/
+  /** Image dependent types */
   typedef typename Superclass::InputImageType       InputImageType;
   typedef typename Superclass::InputPixelType       InputPixelType;
   typedef typename Superclass::IndexType            IndexType;
   typedef typename Superclass::ContinuousIndexType  ContinuousIndexType;
   typedef typename Superclass::PointType            PointType;
 
-  /** Dimension of the underlying image. */
+  /** Dimension of the underlying image */
   itkStaticConstMacro(ImageDimension2, unsigned int,
                       InputImageType::ImageDimension);
 
-  /** Output type. */
+  /** Output type */
   typedef SymmetricSecondRankTensor<TOutput,
     ::itk::GetImageDimension<TInputImage>::ImageDimension>  TensorType;
   typedef typename Superclass::OutputType                   OutputType;
@@ -92,22 +92,24 @@ public:
     itkGetStaticConstMacro(ImageDimension2)>            GaussianDerivativeOperatorType;
 
   /** Array to store gaussian derivative operators from zero to second order
-    * (3*ImageDimension operators). */
+    * (3*ImageDimension operators) */
   typedef FixedArray<GaussianDerivativeOperatorType,
     3*itkGetStaticConstMacro(ImageDimension2)>          GaussianDerivativeOperatorArrayType;
 
   typedef Neighborhood<TOutput,itkGetStaticConstMacro(ImageDimension2)>  KernelType;
 
-  /** Array to store precomputed N-dimensional kernels for the hessian components. */
+  /** Array to store precomputed N-dimensional kernels for the hessian
+   * components  */
   typedef FixedArray<KernelType,itkGetStaticConstMacro(ImageDimension2)*
     (itkGetStaticConstMacro(ImageDimension2)+1)/2>      KernelArrayType;
 
-  /** Image function that performs convolution with the neighborhood operator. */
+  /** Image function that performs convolution with the neighborhood
+   * operator  */
   typedef NeighborhoodOperatorImageFunction
     <InputImageType, TOutput>                           OperatorImageFunctionType;
   typedef typename OperatorImageFunctionType::Pointer   OperatorImageFunctionPointer;
 
-  /** Interpolation modes. */
+  /** Interpolation modes */
   enum InterpolationModeType { NearestNeighbourInterpolation, LinearInterpolation };
 
 public:
@@ -115,29 +117,29 @@ public:
   /** Evalutate the  in the given dimension at specified point */
   virtual OutputType Evaluate(const PointType& point) const;
 
-  /** Evaluate the function at specified Index position*/
+  /** Evaluate the function at specified Index position */
   virtual OutputType EvaluateAtIndex( const IndexType & index ) const;
 
-  /** Evaluate the function at specified ContinousIndex position.*/
+  /** Evaluate the function at specified ContinousIndex position */
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index ) const;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
    * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
    * If UseImageSpacing is true, the units are the physical units of your image.
-   * If UseImageSpacing is false then the units are pixels.*/
+   * If UseImageSpacing is false then the units are pixels. */
   itkSetMacro( Variance, VarianceArrayType );
   itkGetMacro( Variance, const VarianceArrayType );
   itkSetVectorMacro( Variance, double, VarianceArrayType::Length );
 
-  /** Convenience method for setting the variance for all dimensions. */
+  /** Convenience method for setting the variance for all dimensions */
   virtual void SetVariance( double variance )
     {
     m_Variance.Fill( variance );
     this->Modified();
     }
 
-  /** Convenience method for setting the variance through the standard deviation. */
+  /** Convenience method for setting the variance through the standard deviation */
   void SetSigma( const double sigma )
     {
     SetVariance( sigma * sigma );
@@ -146,12 +148,14 @@ public:
   /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
-   * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
+   * Gaussian operator size. The value is clamped between 0.00001 and
+   * 0.99999. */
   itkSetClampMacro( MaximumError, double, 0.00001, 0.99999 );
   itkGetMacro( MaximumError, double );
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
-   * Normalized derivatives are obtained multiplying by the scale parameter t. */
+   * Normalized derivatives are obtained multiplying by the scale
+   * parameter t. */
   itkSetMacro( NormalizeAcrossScale, bool );
   itkGetMacro( NormalizeAcrossScale, bool );
   itkBooleanMacro( NormalizeAcrossScale );
@@ -196,37 +200,39 @@ protected:
 
 private:
 
-  /** Desired variance of the discrete Gaussian function. */
+  /** Desired variance of the discrete Gaussian function */
   VarianceArrayType m_Variance;
 
   /** Difference between the areas under the curves of the continuous and
-   * discrete Gaussian functions. */
+   * discrete Gaussian functions */
   double m_MaximumError;
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
-   *  error causes the kernel to exceed this size. */
+   *  error causes the kernel to exceed this size */
   unsigned int m_MaximumKernelWidth;
 
   /** Array of derivative operators, one for each dimension and order.
     * First N zero-order operators are stored, then N first-order and
-    * then N second-order making 3*N operators altogether where N=ImageDimension. */
+    * then N second-order making 3*N operators altogether where
+    * N=ImageDimension. */
   mutable GaussianDerivativeOperatorArrayType m_OperatorArray;
 
-  /** Array of N-dimensional kernels which are the result of convolving the operators
-    * for calculating hessian matrix derivatives. */
+  /** Array of N-dimensional kernels which are the result of
+   * convolving the operators for calculating hessian matrix
+   * derivatives */
   KernelArrayType m_KernelArray;
 
   /** OperatorImageFunction */
   OperatorImageFunctionPointer m_OperatorImageFunction;
 
-  /** Flag for scale-space normalization of derivatives. */
+  /** Flag for scale-space normalization of derivatives */
   bool m_NormalizeAcrossScale;
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
 
-  /** Interpolation mode. */
+  /** Interpolation mode */
   InterpolationModeType m_InterpolationMode;
 
 };

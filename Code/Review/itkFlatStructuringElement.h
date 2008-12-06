@@ -27,16 +27,16 @@
 namespace itk {
 
 /** \class FlatStructuringElement
-* \brief A class to support a variety of flat structuring elements, 
-* including versions created by decomposition of lines.
-* 
-* FlatStructuringElement provides several static methods, which can
-* be used to create a structuring element with a particular shape,
-* size, etc. Currently, those methods allow to create a ball, a box,
-* a cross structuring element, and let create a structuring element
-* based on an image.
-*
-*/
+ * \brief A class to support a variety of flat structuring elements, 
+ * including versions created by decomposition of lines.
+ * 
+ * FlatStructuringElement provides several static methods, which can
+ * be used to create a structuring element with a particular shape,
+ * size, etc. Currently, those methods allow to create a ball, a box,
+ * a cross structuring element, and let create a structuring element
+ * based on an image.
+ *
+ */
 
 template<unsigned int VDimension>
 class ITK_EXPORT FlatStructuringElement : public Neighborhood <bool, VDimension>

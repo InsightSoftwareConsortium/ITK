@@ -165,7 +165,7 @@ public:
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
-   * DilateValue or ErodeValue.*/
+   * DilateValue or ErodeValue. */
   itkSetMacro(ForegroundValue, InputPixelType);
 
   /** Get the value in the image considered as "foreground". Defaults to
@@ -190,7 +190,7 @@ public:
   itkGetConstReferenceMacro(BoundaryToForeground, bool);
   itkBooleanMacro(BoundaryToForeground);
 
-  /** Set kernel (structuring element).*/
+  /** Set kernel (structuring element). */
   void SetKernel( const KernelType& kernel );
 
 protected:
@@ -199,38 +199,34 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
-   * Analyze kernel and prepare data for GenerateData() function
-   */
+   * Analyze kernel and prepare data for GenerateData() function */
   void AnalyzeKernel();
 
-  // type definition of container of neighbourhood index
+  /** Type definition of container of neighbourhood index */
   typedef std::vector< OffsetType > NeighborIndexContainer;
 
-  // type definition of container of container of neighbourhood index
+  /** Type definition of container of container of neighbourhood index */
   typedef std::vector<NeighborIndexContainer> NeighborIndexContainerContainer;
 
-  // type definition of the container for indices
+  /** Type definition of the container for indices */
   typedef std::vector< OffsetType > ComponentVectorType;
 
-  // iterator for ComponentVectorType
+  /** Iterator for ComponentVectorType */
   typedef typename ComponentVectorType::const_iterator
     ComponentVectorConstIterator;
 
   /**
-   * Get the difference set for a particular offset
-   */
+   * Get the difference set for a particular offset */
   NeighborIndexContainer& GetDifferenceSet(unsigned int code)
     { return m_KernelDifferenceSets[code]; }
 
   /**
-   * Get an iterator to the start of the connected component vector
-   */
+   * Get an iterator to the start of the connected component vector */
   ComponentVectorConstIterator KernelCCVectorBegin()
     { return m_KernelCCVector.begin(); }
 
   /**
-   * Get an iterator to the end of the connected component vector
-   */
+   * Get an iterator to the end of the connected component vector */
   ComponentVectorConstIterator KernelCCVectorEnd()
     { return m_KernelCCVector.end(); }
 
@@ -246,12 +242,12 @@ private:
   /** Pixel value for background */
   OutputPixelType m_BackgroundValue;
   
-  // Difference sets definition
+  /** Difference sets definition */
   NeighborIndexContainerContainer m_KernelDifferenceSets;
 
-  // For each Connected Component ( CC ) of structuring element we
-  // store the position of one element, arbitrary chosen, which
-  // belongs to the CC
+  /** For each Connected Component ( CC ) of structuring element we
+   * store the position of one element, arbitrary chosen, which belongs
+   * to the CC */
   std::vector< OffsetType > m_KernelCCVector;
 };
 

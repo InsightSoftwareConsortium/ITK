@@ -105,7 +105,8 @@ public:
    * independently for each dimension, but
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
-   * of your image.  If UseImageSpacing is false then the units are pixels.*/
+   * of your image.  If UseImageSpacing is false then the units are
+   * pixels. */
   itkSetMacro(Variance, ArrayType);
   itkGetMacro(Variance, const ArrayType);
 

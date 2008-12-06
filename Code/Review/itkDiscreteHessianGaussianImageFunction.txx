@@ -71,7 +71,7 @@ DiscreteHessianGaussianImageFunction<TInputImage,TOutput>
 
 
 /** Recompute the gaussian kernel used to evaluate indexes
- *  This should use a fastest Derivative Gaussian operator*/
+ *  This should use a fastest Derivative Gaussian operator */
 template <class TInputImage, class TOutput>
 void
 DiscreteHessianGaussianImageFunction<TInputImage,TOutput>

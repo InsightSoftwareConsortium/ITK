@@ -29,65 +29,65 @@
 namespace itk
 {
 /** \class ContourExtractor2DImageFilter
-* \brief Computes a list of PolyLineParametricPath objects from the contours in
-* a 2D image.
-*
-* Uses the "marching squares" method to compute a the iso-valued contours of
-* the input 2D image for a given intensity value. Multiple outputs may be
-* produced because an image can have multiple contours at a given level, so it
-* is advised to call GetNumberOfOutputs() and GetOutput(n) to retrieve all of
-* the contours. The contour value to be extracted can be set with
-* SetContourValue(). Image intensities will be linearly interpolated to provide
-* sub-pixel resolution for the output contours.
-*
-* The marching squares algorithm is a special case of the marching cubes
-* algorithm (Lorensen, William and Harvey E. Cline. Marching Cubes: A High
-* Resolution 3D Surface Construction Algorithm. Computer Graphics (SIGGRAPH 87
-* Proceedings) 21(4) July 1987, p. 163-170). A simple explanation is available
-* here: http://www.essi.fr/~lingrand/MarchingCubes/algo.html
-*
-* There is a single ambiguous case in the marching squares algorithm: if a
-* given 2x2-pixel square has two high-valued and two low-valued pixels, each
-* pair diagonally adjacent. (Where high- and low-valued is with respect to the
-* contour value sought.) In this case, either the high-valued pixels can be
-* connected into the same "object" (where groups of pixels encircled by a given
-* contour are considered an object), or the low-valued pixels can be connected.
-* This is the "face connected" versus "face + vertex connected" (or 4- versus
-* 4-connected) distinction: high-valued pixels most be treated as one, and
-* low-valued as the other. By default, high-valued pixels are treated as
-* "face-connected" and low-valued pixels are treated as "face + vertex"
-* connected. To reverse this, call VertexConnectHighPixelsOn();
-*
-* Outputs are not guaranteed to be closed paths: contours which intersect the
-* image edge will be left open. All other paths will be closed. (The
-* closed-ness of a path can be tested by checking whether the beginning point
-* is the same as the end point.)
-*
-* Produced paths are oriented. Following the path from beginning to end, image
-* intensity values lower than the contour value are to the left of the path and
-* intensity values grater than the contour value are to the right. In other
-* words, the image gradient at a path segment is (approximately) in the direct
-* of that segment rotated right by 90 degrees, because the image intensity
-* values increase from left-to-right across the segment. This means that the
-* generated contours will circle clockwise around "hills" of
-* above-contour-value intensity, and counter-clockwise around "depressions" of
-* below-contour-value intensity. This convention can be reversed by calling
-* ReverseContourOrientationOn().
-*
-* By default the input image's largest possible region will be processed; call
-* SetRequestedRegion() to process a different region, or ClearRequestedRegion()
-* to revert to the default value. Note that the requested regions are usually
-* set on the output; however since paths have no notion of a "region", this
-* must be set at the filter level.
-*
-* This class was contributed to the Insight Journal by Zachary Pincus. 
-*       http://insight-journal.org/midas/handle.php?handle=1926/165 
-*
-* \sa Image
-* \sa Path
-* \sa PolyLineParametricPath
-* 
-*/
+ * \brief Computes a list of PolyLineParametricPath objects from the contours in
+ * a 2D image.
+ *
+ * Uses the "marching squares" method to compute a the iso-valued contours of
+ * the input 2D image for a given intensity value. Multiple outputs may be
+ * produced because an image can have multiple contours at a given level, so it
+ * is advised to call GetNumberOfOutputs() and GetOutput(n) to retrieve all of
+ * the contours. The contour value to be extracted can be set with
+ * SetContourValue(). Image intensities will be linearly interpolated to provide
+ * sub-pixel resolution for the output contours.
+ *
+ * The marching squares algorithm is a special case of the marching cubes
+ * algorithm (Lorensen, William and Harvey E. Cline. Marching Cubes: A High
+ * Resolution 3D Surface Construction Algorithm. Computer Graphics (SIGGRAPH 87
+ * Proceedings) 21(4) July 1987, p. 163-170). A simple explanation is available
+ * here: http://www.essi.fr/~lingrand/MarchingCubes/algo.html
+ *
+ * There is a single ambiguous case in the marching squares algorithm: if a
+ * given 2x2-pixel square has two high-valued and two low-valued pixels, each
+ * pair diagonally adjacent. (Where high- and low-valued is with respect to the
+ * contour value sought.) In this case, either the high-valued pixels can be
+ * connected into the same "object" (where groups of pixels encircled by a given
+ * contour are considered an object), or the low-valued pixels can be connected.
+ * This is the "face connected" versus "face + vertex connected" (or 4- versus
+ * 4-connected) distinction: high-valued pixels most be treated as one, and
+ * low-valued as the other. By default, high-valued pixels are treated as
+ * "face-connected" and low-valued pixels are treated as "face + vertex"
+ * connected. To reverse this, call VertexConnectHighPixelsOn();
+ *
+ * Outputs are not guaranteed to be closed paths: contours which intersect the
+ * image edge will be left open. All other paths will be closed. (The
+ * closed-ness of a path can be tested by checking whether the beginning point
+ * is the same as the end point.)
+ *
+ * Produced paths are oriented. Following the path from beginning to end, image
+ * intensity values lower than the contour value are to the left of the path and
+ * intensity values grater than the contour value are to the right. In other
+ * words, the image gradient at a path segment is (approximately) in the direct
+ * of that segment rotated right by 90 degrees, because the image intensity
+ * values increase from left-to-right across the segment. This means that the
+ * generated contours will circle clockwise around "hills" of
+ * above-contour-value intensity, and counter-clockwise around "depressions" of
+ * below-contour-value intensity. This convention can be reversed by calling
+ * ReverseContourOrientationOn().
+ *
+ * By default the input image's largest possible region will be processed; call
+ * SetRequestedRegion() to process a different region, or ClearRequestedRegion()
+ * to revert to the default value. Note that the requested regions are usually
+ * set on the output; however since paths have no notion of a "region", this
+ * must be set at the filter level.
+ *
+ * This class was contributed to the Insight Journal by Zachary Pincus. 
+ *       http://insight-journal.org/midas/handle.php?handle=1926/165 
+ *
+ * \sa Image
+ * \sa Path
+ * \sa PolyLineParametricPath
+ * 
+ */
 template <class TInputImage>
 class ITK_EXPORT ContourExtractor2DImageFilter :
     public ImageToPathFilter< TInputImage, PolyLineParametricPath<2> >
