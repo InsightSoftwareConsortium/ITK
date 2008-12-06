@@ -32,10 +32,11 @@ void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
   // the same typedefs than in the main function - should be done in a nicer way
   const int                 Dimension = 3;
   typedef unsigned char     PixelType;
-  typedef itk::Image< PixelType, Dimension >      ImageType;
+
+  typedef itk::Image< PixelType, Dimension >                   ImageType;
   typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
   typedef itk::MedianImageFilter< FilterType::InternalInputImageType,
-    FilterType::InternalOutputImageType > MedianType;
+    FilterType::InternalOutputImageType >                      MedianType;
   
   // real stuff begins here
   // get the slice by slice filter and the median filter
@@ -49,8 +50,6 @@ void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
   radius.Fill( filter->GetSliceIndex() / 2 );
   median->SetRadius( radius );
 }
-
-
 
 int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 {
@@ -110,6 +109,49 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   // Exercise PrintSelf()
   //
   filter->Print( std::cout );
+
+  //
+  // Exercise exceptions
+  //
+  bool caughtException;
+  FilterType::Pointer badFilter = FilterType::New();
+
+  std::cout << "Testing with no filter set..." << std::endl;
+  badFilter->SetInput( reader->GetOutput() );
+  caughtException = false;
+  try
+    {
+    badFilter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << "Caught expected exception" << std::endl;
+    std::cout << excp << std::endl;
+    caughtException = true;
+    }
+  if (!caughtException)
+    {
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Testing with no output filter set..." << std::endl;
+  badFilter->SetInput( reader->GetOutput() );
+  badFilter->SetInputFilter( median );
+  caughtException = false;
+  try
+    {
+    badFilter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << "Caught expected exception" << std::endl;
+    std::cout << excp << std::endl;
+    caughtException = true;
+    }
+  if (!caughtException)
+    {
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
