@@ -354,7 +354,9 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
   region.SetIndex(index);
 
   m_FilterImage->SetRegions( region );
+  m_FilterImage->SetOrigin(m_InputImage->GetOrigin());
   m_FilterImage->SetSpacing(m_InputImage->GetSpacing());
+  m_FilterImage->SetDirection(m_InputImage->GetDirection());
   m_FilterImage->Allocate();
 
   ImageRegionConstIterator <InputImageType> it(m_InputImage,m_InputImage->GetRequestedRegion());

@@ -48,6 +48,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
   m_OutputOrigin.Fill( 0.0 );
   m_OutputSpacing.Fill( 1.0 );
+  m_OutputDirection.SetIdentity();
   m_OverrideOutputInformation = false;
 
   m_AlivePoints = NULL;
@@ -87,8 +88,9 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   os << indent << "OverrideOutputInformation: ";
   os << m_OverrideOutputInformation << std::endl;
   os << indent << "OutputRegion: " << m_OutputRegion << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin:  " << m_OutputOrigin << std::endl;
+  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
 }
 
 /*
@@ -108,10 +110,10 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     {
     LevelSetPointer output = this->GetOutput();
     output->SetLargestPossibleRegion( m_OutputRegion );
-    output->SetSpacing( m_OutputSpacing );
     output->SetOrigin( m_OutputOrigin );
+    output->SetSpacing( m_OutputSpacing );
+    output->SetDirection( m_OutputDirection );
     }
-    
 }
 
 

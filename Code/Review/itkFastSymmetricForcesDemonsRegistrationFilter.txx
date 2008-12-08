@@ -217,8 +217,9 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformatio
   upbuf->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
   upbuf->SetRequestedRegion(output->GetRequestedRegion());
   upbuf->SetBufferedRegion(output->GetBufferedRegion());
-  upbuf->SetSpacing(output->GetSpacing());
   upbuf->SetOrigin(output->GetOrigin());
+  upbuf->SetSpacing(output->GetSpacing());
+  upbuf->SetDirection(output->GetDirection());
   upbuf->Allocate();
 }
 

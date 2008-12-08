@@ -38,7 +38,11 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
 ::GradientImageFilter()
 {
   this->m_UseImageSpacing   = true;
+#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
+  this->m_UseImageDirection = true;
+#else
   this->m_UseImageDirection = false;
+#endif
 }
 
 

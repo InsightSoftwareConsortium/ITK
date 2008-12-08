@@ -46,7 +46,9 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
   fastMarchingFilter1->SetTrialPoints(m_SeedPoints1);
   fastMarchingFilter1->SetTargetPoints(m_SeedPoints2);
   fastMarchingFilter1->SetOutputSize(this->GetInput()->GetBufferedRegion().GetSize()); 
+  fastMarchingFilter1->SetOutputOrigin(this->GetInput()->GetOrigin());
   fastMarchingFilter1->SetOutputSpacing(this->GetInput()->GetSpacing());
+  fastMarchingFilter1->SetOutputDirection(this->GetInput()->GetDirection());
   fastMarchingFilter1->GenerateGradientImageOn();
   fastMarchingFilter1->Update();
 
@@ -55,7 +57,9 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
   fastMarchingFilter2->SetTrialPoints(m_SeedPoints2);
   fastMarchingFilter2->SetTargetPoints(m_SeedPoints1);
   fastMarchingFilter2->SetOutputSize(this->GetInput()->GetBufferedRegion().GetSize());
+  fastMarchingFilter2->SetOutputOrigin(this->GetInput()->GetOrigin());
   fastMarchingFilter2->SetOutputSpacing(this->GetInput()->GetSpacing());
+  fastMarchingFilter2->SetOutputDirection(this->GetInput()->GetDirection());
   fastMarchingFilter2->GenerateGradientImageOn();
   fastMarchingFilter2->Update();
 

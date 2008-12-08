@@ -213,21 +213,18 @@ void PolylineMaskImageFilter<TInputImage,TPolyline,TVector,TOutputImage>
       this->ProcessObject::GetOutput(0)));
 
 
-  outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());
-
   OriginType originInput;
-
-  originInput[0] = 0.0;
-  originInput[1] = 0.0;
-  originInput[2] = 0.0;
-  
+  originInput.Fill(0.0);
   //outputImagePtr->SetOrigin(inputImagePtr->GetOrigin());
   outputImagePtr->SetOrigin(originInput);
+  outputImagePtr->SetSpacing(inputImagePtr->GetSpacing());
+  outputImagePtr->SetDirection(inputImagePtr->GetDirection());
+
   outputImagePtr->SetRequestedRegion( inputImagePtr->GetRequestedRegion() );
   outputImagePtr->SetBufferedRegion(  inputImagePtr->GetBufferedRegion() );
   outputImagePtr->SetLargestPossibleRegion( inputImagePtr->GetLargestPossibleRegion() );
-  outputImagePtr->Allocate();   
-  outputImagePtr->FillBuffer(0);   
+  outputImagePtr->Allocate(); 
+  outputImagePtr->FillBuffer(0);
 
   InputImageConstIteratorType  inputIt(inputImagePtr,inputImagePtr->GetLargestPossibleRegion());
   OutputImageIteratorType outputIt(outputImagePtr,outputImagePtr->GetLargestPossibleRegion());

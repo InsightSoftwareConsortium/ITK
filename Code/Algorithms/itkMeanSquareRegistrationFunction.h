@@ -165,10 +165,9 @@ protected:
 private:
   MeanSquareRegistrationFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  
+
   /** Cache fixed image information. */
   SpacingType                     m_FixedImageSpacing;
-  PointType                       m_FixedImageOrigin;
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer       m_FixedImageGradientCalculator;
@@ -184,8 +183,6 @@ private:
 
   /** Threshold below which two intensity value are assumed to match. */
   double                          m_IntensityDifferenceThreshold;
-
-
 };
 
 

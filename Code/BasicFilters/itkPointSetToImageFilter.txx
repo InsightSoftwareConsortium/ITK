@@ -31,8 +31,9 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
 {
   this->SetNumberOfRequiredInputs(1);
   m_Size.Fill(0);
-  m_Spacing.Fill(1.0);
   m_Origin.Fill(0.0);
+  m_Spacing.Fill(1.0);
+  m_Direction.SetIdentity();
   m_InsideValue = NumericTraits< ValueType >::OneValue();
   m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
 }
@@ -228,6 +229,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
     }
 
   OutputImage->SetOrigin(origin);   //   and origin
+  OutputImage->SetDirection(m_Direction);   //   and Direction
   OutputImage->Allocate();   // allocate the image   
   OutputImage->FillBuffer(m_OutsideValue);
 
@@ -260,6 +262,7 @@ PointSetToImageFilter<TInputPointSet,TOutputImage>
   os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Direction: " << m_Direction << std::endl;
   os << indent << "Inside Value : "
      << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
      << std::endl;

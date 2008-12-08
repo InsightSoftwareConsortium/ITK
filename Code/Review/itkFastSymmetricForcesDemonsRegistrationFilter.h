@@ -114,7 +114,7 @@ public:
    * 
    *  FIXME: Why is this the only permissible function ?
    *
-   **/
+   */
   typedef ESMDemonsRegistrationFunction<
     FixedImageType, 
     MovingImageType, DeformationFieldType>                DemonsRegistrationFunctionType;

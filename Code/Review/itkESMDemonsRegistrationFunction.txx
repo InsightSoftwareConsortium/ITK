@@ -49,9 +49,14 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   this->SetFixedImage(NULL);
   m_FixedImageSpacing.Fill( 1.0 );
   m_FixedImageOrigin.Fill( 0.0 );
+  m_FixedImageDirection.SetIdentity();
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
+  // Gradient orientation will be taken care of explicitely
+  m_FixedImageGradientCalculator->UseImageDirectionOff();
   m_MappedMovingImageGradientCalculator = MovingImageGradientCalculatorType::New();
+  // Gradient orientation will be taken care of explicitely
+  m_MappedMovingImageGradientCalculator->UseImageDirectionOff();
 
   this->m_UseGradientType = Symmetric;
 
@@ -150,8 +155,9 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
 
   // cache fixed image information
-  m_FixedImageSpacing = this->GetFixedImage()->GetSpacing();
   m_FixedImageOrigin  = this->GetFixedImage()->GetOrigin();
+  m_FixedImageSpacing = this->GetFixedImage()->GetSpacing();
+  m_FixedImageDirection = this->GetFixedImage()->GetDirection();
 
   // compute the normalizer
   if( m_MaximumUpdateStepLength > 0.0 )
@@ -176,9 +182,9 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_MappedMovingImageGradientCalculator->SetInputImage( this->GetMovingImage() );
 
   // Compute warped moving image
-  m_MovingImageWarper->SetOutputSpacing( this->GetFixedImage()->GetSpacing() );
-  m_MovingImageWarper->SetOutputOrigin( this->GetFixedImage()->GetOrigin() );
-  m_MovingImageWarper->SetOutputDirection( this->GetFixedImage()->GetDirection() );
+  m_MovingImageWarper->SetOutputOrigin( this->m_FixedImageOrigin );
+  m_MovingImageWarper->SetOutputSpacing( this->m_FixedImageSpacing );
+  m_MovingImageWarper->SetOutputDirection( this->m_FixedImageDirection );
   m_MovingImageWarper->SetInput( this->GetMovingImage() );
   m_MovingImageWarper->SetDeformationField( this->GetDeformationField() );
   m_MovingImageWarper->GetOutput()->SetRequestedRegion( this->GetDeformationField()->GetRequestedRegion() );
@@ -236,7 +242,9 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   
   const double movingValue = static_cast<double>( movingPixValue );
 
-  CovariantVectorType usedGradientTimes2;
+  // We compute the gradient more or less by hand.
+  // We first start by ignoring the image orientation and introduce it afterwards 
+  CovariantVectorType usedOrientFreeGradientTimes2;
   
   if( (this->m_UseGradientType==Symmetric) || 
       (this->m_UseGradientType==WarpedMoving) )
@@ -344,14 +352,15 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
     if( this->m_UseGradientType == Symmetric )
       {
+      // Compute orientation-free gradient with calculator
       const CovariantVectorType fixedGradient
         = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
        
-      usedGradientTimes2 = fixedGradient + warpedMovingGradient;
+      usedOrientFreeGradientTimes2 = fixedGradient + warpedMovingGradient;
       }
     else if (this->m_UseGradientType==WarpedMoving)
       {
-      usedGradientTimes2 = warpedMovingGradient + warpedMovingGradient;
+      usedOrientFreeGradientTimes2 = warpedMovingGradient + warpedMovingGradient;
       }
     else
       {
@@ -360,35 +369,38 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
   else if (this->m_UseGradientType==Fixed)
     {
+    // Compute orientation-free gradient with calculator
     const CovariantVectorType fixedGradient
       = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
      
-    usedGradientTimes2 = fixedGradient + fixedGradient;
+    usedOrientFreeGradientTimes2 = fixedGradient + fixedGradient;
     }
   else if (this->m_UseGradientType==MappedMoving)
     {
     PointType mappedPoint;
-    //
-    // FIXME: This will not work with OrientedImages.  Conversions of index to
-    // physical points should be delegated to the image class.
-    //
+    this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
     for( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      mappedPoint[j] = double( index[j] ) * m_FixedImageSpacing[j] + 
-         m_FixedImageOrigin[j];
       mappedPoint[j] += it.GetCenterPixel()[j];
       }
      
     const CovariantVectorType mappedMovingGradient
       = m_MappedMovingImageGradientCalculator->Evaluate( mappedPoint );
      
-    usedGradientTimes2 = mappedMovingGradient + mappedMovingGradient;
+    usedOrientFreeGradientTimes2 = mappedMovingGradient + mappedMovingGradient;
     }
   else
     {
     itkExceptionMacro(<<"Unknown gradient type");
     }
 
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  CovariantVectorType usedGradientTimes2;
+  this->GetFixedImage()->TransformLocalVectorToPhysicalVector(
+     usedOrientFreeGradientTimes2, usedGradientTimes2);
+#else
+  CovariantVectorType usedGradientTimes2=usedOrientFreeGradientTimes2;
+#endif
 
   
   /**

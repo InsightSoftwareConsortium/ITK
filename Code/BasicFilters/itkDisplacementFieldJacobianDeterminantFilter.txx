@@ -83,6 +83,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
     }
 
   m_UseImageSpacing = f;
+  this->Modified();
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>

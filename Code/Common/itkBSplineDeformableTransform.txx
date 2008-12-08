@@ -589,9 +589,9 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   if ( images[0] )
     {
     this->SetGridRegion( images[0]->GetBufferedRegion() );
+    this->SetGridOrigin( images[0]->GetOrigin() );
     this->SetGridSpacing( images[0]->GetSpacing() );
     this->SetGridDirection( images[0]->GetDirection() );
-    this->SetGridOrigin( images[0]->GetOrigin() );
 
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {

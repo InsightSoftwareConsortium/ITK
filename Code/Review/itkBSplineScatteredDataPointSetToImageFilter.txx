@@ -205,9 +205,10 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   /**
    *  Create the output image
    */
-  itkDebugMacro( "Origin: " << this->m_Origin );
   itkDebugMacro( "Size: " << this->m_Size );
+  itkDebugMacro( "Origin: " << this->m_Origin );
   itkDebugMacro( "Spacing: " << this->m_Spacing );
+  itkDebugMacro( "Direction: " << this->m_Direction );
   for( unsigned int i = 0; i < ImageDimension; i++)
     {
     if( this->m_Size[i] == 0 )
@@ -218,6 +219,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
   this->GetOutput()->SetOrigin( this->m_Origin );
   this->GetOutput()->SetSpacing( this->m_Spacing );
+  this->GetOutput()->SetDirection( this->m_Direction );
   this->GetOutput()->SetRegions( this->m_Size );
   this->GetOutput()->Allocate();
 
@@ -706,6 +708,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     collapsedPhiLattices[i] = PointDataImageType::New();
     collapsedPhiLattices[i]->SetOrigin( this->m_PhiLattice->GetOrigin() );
     collapsedPhiLattices[i]->SetSpacing( this->m_PhiLattice->GetSpacing() );
+    collapsedPhiLattices[i]->SetDirection( this->m_PhiLattice->GetDirection() );
     typename PointDataImageType::SizeType size;
     size.Fill( 1 );
     for( unsigned int j = 0; j < i; j++ )
@@ -811,6 +814,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     collapsedPhiLattices[i] = PointDataImageType::New();
     collapsedPhiLattices[i]->SetOrigin( this->m_PhiLattice->GetOrigin() );
     collapsedPhiLattices[i]->SetSpacing( this->m_PhiLattice->GetSpacing() );
+    collapsedPhiLattices[i]->SetDirection( this->m_PhiLattice->GetDirection() );
     typename PointDataImageType::SizeType size;
     size.Fill( 1 );
     for( unsigned int j = 0; j < i; j++ )
