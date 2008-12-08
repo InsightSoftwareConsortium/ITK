@@ -14,16 +14,17 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDemonsRegistrationFunction_txx_
-#define _itkDemonsRegistrationFunction_txx_
+#ifndef __itkDemonsRegistrationFunction_txx
+#define __itkDemonsRegistrationFunction_txx
 
 #include "itkDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"
 #include "vnl/vnl_math.h"
 
-namespace itk {
+namespace itk
+{
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -68,7 +69,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
-/*
+/**
  * Standard "PrintSelf" method.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -127,7 +128,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
-/*
+/**
  * Set the function state values before each iteration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -142,7 +143,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // cache fixed image information
   SpacingType fixedImageSpacing    = this->GetFixedImage()->GetSpacing();
-   m_ZeroUpdateReturn.Fill(0.0);
+  m_ZeroUpdateReturn.Fill(0.0);
 
   // compute the normalizer
   m_Normalizer      = 0.0;
@@ -168,7 +169,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
-/*
+/**
  * Compute update at a specify neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -245,7 +246,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     gradientSquaredMagnitude;
 
   if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold ||
-    denominator < m_DenominatorThreshold )
+       denominator < m_DenominatorThreshold )
     {
     return m_ZeroUpdateReturn;
     }
@@ -262,7 +263,7 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   return update;
 }
 
-/*
+/**
  * Update the metric and release the per-thread-global data.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -273,22 +274,20 @@ DemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
 
   m_MetricCalculationLock.Lock();
-  m_SumOfSquaredDifference  += globalData->m_SumOfSquaredDifference;
+  m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
   if ( m_NumberOfPixelsProcessed )
     {
     m_Metric = m_SumOfSquaredDifference / 
-               static_cast<double>( m_NumberOfPixelsProcessed ); 
+      static_cast<double>( m_NumberOfPixelsProcessed ); 
     m_RMSChange = vcl_sqrt( m_SumOfSquaredChange / 
-               static_cast<double>( m_NumberOfPixelsProcessed ) ); 
+                            static_cast<double>( m_NumberOfPixelsProcessed ) ); 
     }
   m_MetricCalculationLock.Unlock();
 
   delete globalData;
 }
-
-
 
 } // end namespace itk
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDemonsRegistrationFilter_h_
-#define _itkDemonsRegistrationFilter_h_
+#ifndef __itkDemonsRegistrationFilter_h
+#define __itkDemonsRegistrationFilter_h
 
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkDemonsRegistrationFunction.h"
@@ -64,11 +64,11 @@ class ITK_EXPORT DemonsRegistrationFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef DemonsRegistrationFilter    Self;
+  typedef DemonsRegistrationFilter                  Self;
   typedef PDEDeformableRegistrationFilter<
     TFixedImage, TMovingImage,TDeformationField>    Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,11 +81,11 @@ public:
   typedef typename Superclass::TimeStepType  TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType   FixedImageType;
+  typedef typename Superclass::FixedImageType     FixedImageType;
   typedef typename Superclass::FixedImagePointer  FixedImagePointer;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
+  typedef typename Superclass::MovingImageType     MovingImageType;
   typedef typename Superclass::MovingImagePointer  MovingImagePointer;
   
   /** Deformation field type. */

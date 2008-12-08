@@ -14,13 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDemonsRegistrationFilter_txx
-#define _itkDemonsRegistrationFilter_txx
+#ifndef __itkDemonsRegistrationFilter_txx
+#define __itkDemonsRegistrationFilter_txx
 #include "itkDemonsRegistrationFilter.h"
 
-namespace itk {
+namespace itk
+{
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -67,18 +68,18 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   // set the gradient selection flag
   DemonsRegistrationFunctionType *drfp = 
     dynamic_cast<DemonsRegistrationFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+    (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to DemonsRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro( << 
+                       "Could not cast difference function to DemonsRegistrationFunction" );
+    }
    
   drfp->SetUseMovingImageGradient( m_UseMovingImageGradient );
 
 
-  /*
+  /**
    * Smooth the deformation field
    */
   if ( this->GetSmoothDeformationField() )
@@ -89,7 +90,7 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
-/*
+/**
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -100,20 +101,20 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
  
   DemonsRegistrationFunctionType *drfp = 
     dynamic_cast<DemonsRegistrationFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+    (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to DemonsRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro( << 
+                       "Could not cast difference function to DemonsRegistrationFunction" );
+    }
    
   return drfp->GetMetric();
 
 }
 
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -124,19 +125,19 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
  
   DemonsRegistrationFunctionType *drfp = 
     dynamic_cast<DemonsRegistrationFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+    (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to DemonsRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro( << 
+                       "Could not cast difference function to DemonsRegistrationFunction" );
+    }
    
   return drfp->GetIntensityDifferenceThreshold();
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -147,19 +148,19 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
  
   DemonsRegistrationFunctionType *drfp = 
     dynamic_cast<DemonsRegistrationFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+    (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to DemonsRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro( << 
+                       "Could not cast difference function to DemonsRegistrationFunction" );
+    }
    
   drfp->SetIntensityDifferenceThreshold(threshold);
 
 }
 
-/*
+/**
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -178,19 +179,17 @@ DemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 
   DemonsRegistrationFunctionType *drfp = 
     dynamic_cast<DemonsRegistrationFunctionType *>
-      (this->GetDifferenceFunction().GetPointer());
+    (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to DemonsRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro( << 
+                       "Could not cast difference function to DemonsRegistrationFunction" );
+    }
 
   this->SetRMSChange( drfp->GetRMSChange() );
    
 }
-
-
 
 } // end namespace itk
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkDeformableMesh3DFilter_txx
-#define _itkDeformableMesh3DFilter_txx
+#ifndef __itkDeformableMesh3DFilter_txx
+#define __itkDeformableMesh3DFilter_txx
 
 #ifdef _MSC_VER
 #pragma warning ( disable : 4786 )
@@ -160,36 +160,41 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointType d; d.Fill(0.0);
 
   int j = 0;
-  while( points != myPoints->End() ) {
-  for (int i=0; i<3; i++ ) locations.Value()[i] = m_Scale[i] * points.Value()[i];
-  ++points;
-  ++locations;
-  forces.Value() = d;
-  ++forces;
-  normals.Value() = d;
-  ++normals;
-  derives.Value() = d;
-  ++derives;
-  displacements.Value() = d;
-  ++displacements;
-  m_Forces->SetPointData(j, 0.0);
-  j++;
-  }
+  while( points != myPoints->End() )
+    {
+    for (int i=0; i<3; i++ )
+      {
+      locations.Value()[i] = m_Scale[i] * points.Value()[i];
+      }
+    ++points;
+    ++locations;
+    forces.Value() = d;
+    ++forces;
+    normals.Value() = d;
+    ++normals;
+    derives.Value() = d;
+    ++derives;
+    displacements.Value() = d;
+    ++displacements;
+    m_Forces->SetPointData(j, 0.0);
+    j++;
+    }
 
   const unsigned long *tp;
   PixelType x = 0.0;
   PixelType* x_pt;
   x_pt = &x;
-  while( cells != myCells->End() ) {
-  typename InputMeshType::CellType * cellPtr = cells.Value();
-  tp = cellPtr->GetPointIds();
-  for ( int i=0; i<3; i++ ) {
-  m_Forces->GetPointData((int)(tp[i]), x_pt);
-  x = x + 1.0;
-  m_Forces->SetPointData((int)(tp[i]), x);
-  }
-  ++cells;
-  }
+  while( cells != myCells->End() )
+    {
+    typename InputMeshType::CellType * cellPtr = cells.Value();
+    tp = cellPtr->GetPointIds();
+    for ( int i=0; i<3; i++ ) {
+    m_Forces->GetPointData((int)(tp[i]), x_pt);
+    x = x + 1.0;
+    m_Forces->SetPointData((int)(tp[i]), x);
+    }
+    ++cells;
+    }
 
   this->SetDefaultStiffnessMatrix();
 
@@ -381,11 +386,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++i;
     } 
 
-  while ( derives != myDerives->End() ) {
-  derives.Value() = forces.Value();
-  ++derives; 
-  ++forces;
-  }   
+  while ( derives != myDerives->End() )
+    {
+    derives.Value() = forces.Value();
+    ++derives; 
+    ++forces;
+    }   
 }
 
 /** Update the displacements using d_{new} = d_{old} + timestep*d'. */
@@ -403,28 +409,30 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
   InputPointsContainerIterator points = myPoints->Begin();
 
-  while( derives != myDerives->End() ) {
-  ds = derives.Value();
-  s = points.Value();
-  d = displacements.Value();
-  s[0] += m_TimeStep*ds[0]; 
-  s[1] += m_TimeStep*ds[1]; 
-  s[2] += m_TimeStep*ds[2]; 
-  d[0] += m_TimeStep*ds[0]; 
-  d[1] += m_TimeStep*ds[1]; 
-  d[2] += m_TimeStep*ds[2]; 
+  while( derives != myDerives->End() )
+    {
+    ds = derives.Value();
+    s = points.Value();
+    d = displacements.Value();
+    s[0] += m_TimeStep*ds[0]; 
+    s[1] += m_TimeStep*ds[1]; 
+    s[2] += m_TimeStep*ds[2]; 
+    d[0] += m_TimeStep*ds[0]; 
+    d[1] += m_TimeStep*ds[1]; 
+    d[2] += m_TimeStep*ds[2]; 
 
-  /** do not update the displacements if the nodes is moving out of the image region. */
-  if ( (s[0] > 0) && (s[1] > 0) && (s[2] > 0) && 
-       (s[2] < m_ImageDepth) && (s[0] < m_ImageWidth) && (s[1] < m_ImageHeight) ) {
-  points.Value() = s;
-  displacements.Value() = d;
-  }
+    /** do not update the displacements if the nodes is moving out of the image region. */
+    if ( (s[0] > 0) && (s[1] > 0) && (s[2] > 0) && 
+         (s[2] < m_ImageDepth) && (s[0] < m_ImageWidth) && (s[1] < m_ImageHeight) )
+      {
+      points.Value() = s;
+      displacements.Value() = d;
+      }
 
-  ++derives; 
-  ++points;
-  ++displacements;
-  } 
+    ++derives; 
+    ++points;
+    ++displacements;
+    } 
 
 }
 
@@ -502,8 +510,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     {
 
     const float progress = 
-                  static_cast<float>( m_Step ) / 
-                  static_cast<float>( m_StepThreshold );
+      static_cast<float>( m_Step ) / 
+      static_cast<float>( m_StepThreshold );
                   
     this->UpdateProgress( progress );
     this->ComputeNormals();
@@ -557,63 +565,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     coord[1] = (int) vec_p[1];
     coord[2] = (int) vec_p[2];
 
-    if ( m_Potential->GetPixel(coord) != m_ObjectLabel )  {
-    xs = ys = zs = -1.0;
-    flag = 1;
-    }
-    //---------------------------------------------------------------------
-    // The following part should be added if the input potential are only 
-    // estimation of edges
-    //---------------------------------------------------------------------  
-/*
-  coord[0] = (int) (x[0]+1);
-  coord[1] = (int) (x[1]+1);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]+1);
-  coord[1] = (int) (x[1]);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]+1);
-  coord[1] = (int) (x[1]-1);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]);
-  coord[1] = (int) (x[1]+1);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]);
-  coord[1] = (int) (x[1]-1);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]-1);
-  coord[1] = (int) (x[1]+1);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]-1);
-  coord[1] = (int) (x[1]);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-
-  coord[0] = (int) (x[0]-1);
-  coord[1] = (int) (x[1]-1);
-  if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) {
-    xs = ys = zs = 0.0;
-  }
-*/
+    if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) 
+      {
+      xs = ys = zs = -1.0;
+      flag = 1;
+      }
     extends[0] = vec_p[0];
     extends[1] = vec_p[1];
     extends[2] = vec_p[2];
@@ -630,41 +586,46 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     //---------------------------------------------------------------------  
     if ( vcl_abs(vec_nor[1]) > max ) max = vcl_abs(vec_nor[1]);
     if ( vcl_abs(vec_nor[2]) > max ) max = vcl_abs(vec_nor[2]);
-    if ( flag ) {
-    vec_1[0] = -1*vec_nor[0]/max;
-    vec_1[1] = -1*vec_nor[1]/max;
-    vec_1[2] = -1*vec_nor[2]/max;
-    } else {
-    vec_1[0] = vec_nor[0]/max;
-    vec_1[1] = vec_nor[1]/max;
-    vec_1[2] = vec_nor[2]/max;
-    }
+    if ( flag )
+      {
+      vec_1[0] = -1*vec_nor[0]/max;
+      vec_1[1] = -1*vec_nor[1]/max;
+      vec_1[2] = -1*vec_nor[2]/max;
+      }
+    else
+      {
+      vec_1[0] = vec_nor[0]/max;
+      vec_1[1] = vec_nor[1]/max;
+      vec_1[2] = vec_nor[2]/max;
+      }
 
     t = 0.0;
 
-    while (t < 5.0){
-    extends[0] += vec_1[0];
-    extends[1] += vec_1[1];
-    extends[2] += vec_1[2];
-    extend[0] = (int) (extends[0]+1);
-    extend[1] = (int) (extends[1]+1);
-    extend[2] = (int) (extends[2]+1);
-    if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) break;
+    while (t < 5.0)
+      {
+      extends[0] += vec_1[0];
+      extends[1] += vec_1[1];
+      extends[2] += vec_1[2];
+      extend[0] = (int) (extends[0]+1);
+      extend[1] = (int) (extends[1]+1);
+      extend[2] = (int) (extends[2]+1);
+      if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) break;
 
-    extend[0] = (int) (extends[0]);
-    extend[1] = (int) (extends[1]);
-    extend[2] = (int) (extends[2]);
-    if ((extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) || 
-        (extend[2] >= m_ImageDepth)) break;
+      extend[0] = (int) (extends[0]);
+      extend[1] = (int) (extends[1]);
+      extend[2] = (int) (extends[2]);
+      if ((extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) || 
+          (extend[2] >= m_ImageDepth)) break;
 
-    label = m_Potential->GetPixel(extend);
-    if ( !flag ) {
-    if ( label != m_ObjectLabel ) break;
-    }
-    else if ( label == m_ObjectLabel ) break;
+      label = m_Potential->GetPixel(extend);
+      if ( !flag )
+        {
+        if ( label != m_ObjectLabel ) break;
+        }
+      else if ( label == m_ObjectLabel ) break;
 
-    t += 1.0;
-    }
+      t += 1.0;
+      }
 
     vec_2[0] = t*m_PotentialMagnitude*vec_nor[0]*xs; 
     vec_2[1] = t*m_PotentialMagnitude*vec_nor[1]*ys;
@@ -711,74 +672,83 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerIterator      normals = myNormals->Begin();
 
   /* New gradient fit method testing. */
-  while( forces != myForces->End() ) {
-  vec_loc = locations.Value();
-  vec_nor = normals.Value();
+  while( forces != myForces->End() )
+    {
+    vec_loc = locations.Value();
+    vec_nor = normals.Value();
 
-  coord[0] = static_cast<IndexValueType>(vec_loc[0]);
-  coord[1] = static_cast<IndexValueType>(vec_loc[1]);
-  coord[2] = static_cast<IndexValueType>(vec_loc[2]);
+    coord[0] = static_cast<IndexValueType>(vec_loc[0]);
+    coord[1] = static_cast<IndexValueType>(vec_loc[1]);
+    coord[2] = static_cast<IndexValueType>(vec_loc[2]);
 
-  coord2[0] = static_cast<IndexValueType>( vcl_ceil(vec_loc[0]) );
-  coord2[1] = static_cast<IndexValueType>( vcl_ceil(vec_loc[1]) );
-  coord2[2] = static_cast<IndexValueType>( vcl_ceil(vec_loc[2]) );
+    coord2[0] = static_cast<IndexValueType>( vcl_ceil(vec_loc[0]) );
+    coord2[1] = static_cast<IndexValueType>( vcl_ceil(vec_loc[1]) );
+    coord2[2] = static_cast<IndexValueType>( vcl_ceil(vec_loc[2]) );
 
-  tmp_co_1[0] = coord2[0];
-  tmp_co_1[1] = coord[1];
-  tmp_co_1[2] = coord[2];
+    tmp_co_1[0] = coord2[0];
+    tmp_co_1[1] = coord[1];
+    tmp_co_1[2] = coord[2];
 
-  tmp_co_2[0] = coord[0];
-  tmp_co_2[1] = coord2[1];
-  tmp_co_2[2] = coord[2];
+    tmp_co_2[0] = coord[0];
+    tmp_co_2[1] = coord2[1];
+    tmp_co_2[2] = coord[2];
 
-  tmp_co_3[0] = coord[0];
-  tmp_co_3[1] = coord[1];
-  tmp_co_3[2] = coord2[2];
+    tmp_co_3[0] = coord[0];
+    tmp_co_3[1] = coord[1];
+    tmp_co_3[2] = coord2[2];
 
-  if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
-       (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) ) {      
-  vec_for[0] = m_Gradient->GetPixel(coord)[0];
-  vec_for[1] = m_Gradient->GetPixel(coord)[1];
-  vec_for[2] = m_Gradient->GetPixel(coord)[2];
+    if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
+         (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) )
+      {
+      vec_for[0] = m_Gradient->GetPixel(coord)[0];
+      vec_for[1] = m_Gradient->GetPixel(coord)[1];
+      vec_for[2] = m_Gradient->GetPixel(coord)[2];
 
-  tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
-  tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
-  tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
-  tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
-  tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
-  tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
-  tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
-  tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
-  tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
+      tmp_vec_1[0] = m_Gradient->GetPixel(tmp_co_1)[0] - m_Gradient->GetPixel(coord)[0];
+      tmp_vec_1[1] = m_Gradient->GetPixel(tmp_co_1)[1] - m_Gradient->GetPixel(coord)[1];
+      tmp_vec_1[2] = m_Gradient->GetPixel(tmp_co_1)[2] - m_Gradient->GetPixel(coord)[2];
+      tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
+      tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
+      tmp_vec_2[2] = m_Gradient->GetPixel(tmp_co_2)[2] - m_Gradient->GetPixel(coord)[2];
+      tmp_vec_3[0] = m_Gradient->GetPixel(tmp_co_3)[0] - m_Gradient->GetPixel(coord)[0];
+      tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
+      tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
 
-  vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] 
-    + (vec_loc[1]-coord[1])*tmp_vec_2[0] + (vec_loc[2]-coord[2])*tmp_vec_3[0];
-  vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1]
-    + (vec_loc[0]-coord[0])*tmp_vec_1[1] + (vec_loc[2]-coord[2])*tmp_vec_3[1];
-  vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2]
-    + (vec_loc[1]-coord[1])*tmp_vec_2[2] + (vec_loc[0]-coord[0])*tmp_vec_1[2];
-  } else {
-  vec_for[0] = 0;
-  vec_for[1] = 0;
-  vec_for[2] = 0;
-  }
+      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] 
+        + (vec_loc[1]-coord[1])*tmp_vec_2[0] + (vec_loc[2]-coord[2])*tmp_vec_3[0];
+      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1]
+        + (vec_loc[0]-coord[0])*tmp_vec_1[1] + (vec_loc[2]-coord[2])*tmp_vec_3[1];
+      vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2]
+        + (vec_loc[1]-coord[1])*tmp_vec_2[2] + (vec_loc[0]-coord[0])*tmp_vec_1[2];
+      }
+    else
+      {
+      vec_for[0] = 0;
+      vec_for[1] = 0;
+      vec_for[2] = 0;
+      }
 
-  mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
+    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
 
-  vec_for[0] = m_GradientMagnitude*mag*vec_nor[0]/*num_for*/;
-  vec_for[1] = m_GradientMagnitude*mag*vec_nor[1]/*num_for*/; 
-  vec_for[2] = m_GradientMagnitude*mag*vec_nor[2]/*num_for*/; 
+    vec_for[0] = m_GradientMagnitude*mag*vec_nor[0]/*num_for*/;
+    vec_for[1] = m_GradientMagnitude*mag*vec_nor[1]/*num_for*/; 
+    vec_for[2] = m_GradientMagnitude*mag*vec_nor[2]/*num_for*/; 
 
-  mag = vcl_sqrt(vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
-  if (mag > 0.5) 
-    for (int i=0; i<3; i++) vec_for[i] = (0.5 * vec_for[i])/mag;
-  forces.Value() = vec_for;
+    mag = vcl_sqrt(vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
+    if (mag > 0.5) 
+      {
+      for (int i=0; i<3; i++)
+        {
+        vec_for[i] = (0.5 * vec_for[i])/mag;
+        }
+      }
+    forces.Value() = vec_for;
 
-  ++forces;
-  ++forcedata;
-  ++locations;
-  ++normals;
-  }
+    ++forces;
+    ++forcedata;
+    ++locations;
+    ++normals;
+    }
 }
 
 /* Compute normals. */
@@ -794,8 +764,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   v3.Fill(0.);
   d.Fill(0.);
   
-  double coa, cob, coc ;
-  double absvec ;
+  double coa, cob, coc;
+  double absvec;
 
   InputCellsContainerPointer    myCells = this->GetInput(0)->GetCells();
   InputCellsContainerIterator   cells = myCells->Begin();
@@ -803,71 +773,74 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator  normals = myNormals->Begin();
 
-  while( normals != myNormals->End() ) {
-  normals.Value() = d;
-  ++normals;
-  }
+  while( normals != myNormals->End() )
+    {
+    normals.Value() = d;
+    ++normals;
+    }
 
-  while ( cells != myCells->End() ) {
-  tp = cells.Value()->GetPointIds();
-  ++cells;
+  while ( cells != myCells->End() )
+    {
+    tp = cells.Value()->GetPointIds();
+    ++cells;
 
-  m_Locations->GetPoint (tp[0], &v1);
-  m_Locations->GetPoint (tp[1], &v2);
-  m_Locations->GetPoint (tp[2], &v3);
+    m_Locations->GetPoint (tp[0], &v1);
+    m_Locations->GetPoint (tp[1], &v2);
+    m_Locations->GetPoint (tp[2], &v3);
 
-  coa = -(v1[1]*(v2[2]-v3[2]) + 
-          v2[1]*(v3[2]-v1[2]) +
-          v3[1]*(v1[2]-v2[2])) ;
-  cob = -(v1[2] * (v2[0]-v3[0]) +
-          v2[2]*(v3[0]-v1[0]) +
-          v3[2]*(v1[0]-v2[0])) ;
-  coc = -(v1[0] * (v2[1]-v3[1]) +
-          v2[0]*(v3[1]-v1[1]) +
-          v3[0]*(v1[1]-v2[1])) ;
+    coa = -(v1[1]*(v2[2]-v3[2]) + 
+            v2[1]*(v3[2]-v1[2]) +
+            v3[1]*(v1[2]-v2[2]));
+    cob = -(v1[2] * (v2[0]-v3[0]) +
+            v2[2]*(v3[0]-v1[0]) +
+            v3[2]*(v1[0]-v2[0]));
+    coc = -(v1[0] * (v2[1]-v3[1]) +
+            v2[0]*(v3[1]-v1[1]) +
+            v3[0]*(v1[1]-v2[1]));
 
-  absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc))) ;
+    absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc)));
   
-  assert (absvec != 0);
+    assert (absvec != 0);
   
-  v4[0] = coa/absvec;
-  v4[1] = cob/absvec;
-  v4[2] = coc/absvec;
-  m_Normals->GetPoint (tp[0], &v1);
-  m_Normals->GetPoint (tp[1], &v2);
-  m_Normals->GetPoint (tp[2], &v3);
+    v4[0] = coa/absvec;
+    v4[1] = cob/absvec;
+    v4[2] = coc/absvec;
+    m_Normals->GetPoint (tp[0], &v1);
+    m_Normals->GetPoint (tp[1], &v2);
+    m_Normals->GetPoint (tp[2], &v3);
 
-  v1[0] += v4[0];
-  v1[1] += v4[1];
-  v1[2] += v4[2];
+    v1[0] += v4[0];
+    v1[1] += v4[1];
+    v1[2] += v4[2];
 
-  v2[0] += v4[0];
-  v2[1] += v4[1];
-  v2[2] += v4[2];
+    v2[0] += v4[0];
+    v2[1] += v4[1];
+    v2[2] += v4[2];
   
-  v3[0] += v4[0];
-  v3[1] += v4[1];
-  v3[2] += v4[2];
+    v3[0] += v4[0];
+    v3[1] += v4[1];
+    v3[2] += v4[2];
 
-  m_Normals->SetPoint (tp[0], v1);
-  m_Normals->SetPoint (tp[1], v2);
-  m_Normals->SetPoint (tp[2], v3);
+    m_Normals->SetPoint (tp[0], v1);
+    m_Normals->SetPoint (tp[1], v2);
+    m_Normals->SetPoint (tp[2], v3);
 
-  }
+    }
 
   normals = myNormals->Begin();
-  while( normals != myNormals->End() ) {
-  v1 = normals.Value();
+  while( normals != myNormals->End() )
+    {
+    v1 = normals.Value();
 
-  absvec = vcl_sqrt((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + 
-                           (v1[2]*v1[2])));
-  v1[0] = v1[0]/absvec;
-  v1[1] = v1[1]/absvec;
-  v1[2] = v1[2]/absvec;
+    absvec = vcl_sqrt((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + 
+                                (v1[2]*v1[2])));
+    v1[0] = v1[0]/absvec;
+    v1[1] = v1[1]/absvec;
+    v1[2] = v1[2]/absvec;
 
-  normals.Value() = v1;
-  ++normals;
-  }
+    normals.Value() = v1;
+    ++normals;
+    }
 }
 
 } /* end namespace itk. */

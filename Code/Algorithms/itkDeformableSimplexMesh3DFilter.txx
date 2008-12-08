@@ -272,7 +272,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
     this->ComputeInternalForce( data );
     
-    this->ComputeExternalForce( data );      
+    this->ComputeExternalForce( data );
       
     displacement.Set_vnl_vector( m_Alpha * (data->internalForce).Get_vnl_vector() +
                                            (data->externalForce).Get_vnl_vector() );
@@ -377,7 +377,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
   if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
        (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) )
-    {      
+    {
     vec_for[0] = m_Gradient->GetPixel(coord)[0];
     vec_for[1] = m_Gradient->GetPixel(coord)[1];
     vec_for[2] = m_Gradient->GetPixel(coord)[2];
@@ -424,8 +424,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   data->externalForce[2] = m_Beta * vec_for[2];
 
 }
-
-
 
 /* Copy the content of m_Location into the Output. */
 template <typename TInputMesh, typename TOutputMesh>
@@ -489,9 +487,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
     eps = data->referenceMetrics;
 
-    eps[0] = eps[0] + 0.5 * (eps_opt[0] - eps[0]) ;
-    eps[1] = eps[1] + 0.5 * (eps_opt[1] - eps[1]) ;
-    eps[2] = eps[2] + 0.5 * (eps_opt[2] - eps[2]) ;
+    eps[0] = eps[0] + 0.5 * (eps_opt[0] - eps[0]);
+    eps[1] = eps[1] + 0.5 * (eps_opt[1] - eps[1]);
+    eps[2] = eps[2] + 0.5 * (eps_opt[2] - eps[2]);
 
     // set current reference metrics
     data->referenceMetrics = eps;
@@ -534,7 +532,7 @@ double DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     }
   else 
     {
-    L = (double) NumericTraits<unsigned long>::max();      
+    L = (double) NumericTraits<unsigned long>::max();
     }
   return L;
 }

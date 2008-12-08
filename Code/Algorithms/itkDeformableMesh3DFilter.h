@@ -58,7 +58,7 @@ public:
   typedef MeshToMeshFilter<TInputMesh, TOutputMesh> Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method of creation through the object factory. */
@@ -68,32 +68,33 @@ public:
   itkTypeMacro(DeformableMesh3DFilter,MeshToMeshFilter);
 
   /** Some typedefs. */
-  typedef TInputMesh InputMeshType;
-  typedef TOutputMesh OutputMeshType;
+  typedef TInputMesh                          InputMeshType;
   typedef typename InputMeshType::PointsContainerPointer
-  InputPointsContainerPointer;
+                                              InputPointsContainerPointer;
   typedef typename InputMeshType::PointsContainer::Iterator
-  InputPointsContainerIterator;
+                                              InputPointsContainerIterator;
   typedef typename InputMeshType::PointDataContainerPointer
-  InputPointDataContainerPointer;
+                                              InputPointDataContainerPointer;
   typedef typename InputMeshType::PointDataContainer::Iterator
-  InputPointDataContainerIterator;
+                                              InputPointDataContainerIterator;
   typedef typename InputMeshType::CellsContainerPointer
-  InputCellsContainerPointer;
+                                              InputCellsContainerPointer;
   typedef typename InputMeshType::CellsContainer::Iterator
-  InputCellsContainerIterator;
+                                              InputCellsContainerIterator;
   typedef typename InputMeshType::CellDataContainerPointer
-  InputCellDataContainerPointer;
+                                              InputCellDataContainerPointer;
   typedef typename InputMeshType::CellDataContainer::Iterator
-  InputCellDataContainerIterator;
+                                              InputCellDataContainerIterator;
+
+  typedef TOutputMesh                         OutputMeshType;
   typedef typename OutputMeshType::PointsContainerPointer
-  OutputPointsContainerPointer;
+                                              OutputPointsContainerPointer;
   typedef typename OutputMeshType::CellsContainer
-  OutputCellsContainer;
+                                              OutputCellsContainer;
   typedef typename OutputMeshType::CellsContainerPointer
-  OutputCellsContainerPointer;
+                                              OutputCellsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
-  OutputPointsContainerIterator;
+                                              OutputPointsContainerIterator;
 
   /** Other definitions. */
   typedef typename InputMeshType::CellType          CellType;
@@ -110,8 +111,8 @@ public:
   typedef typename GradientImageType::SizeType         ImageSizeType;
   typedef typename GradientImageType::IndexType        ImageIndexType;
 
-  typedef itk::CellInterface<PixelType, CellTraits>     TCellInterface;
-  typedef itk::TriangleCell<TCellInterface>          TriCell;
+  typedef itk::CellInterface<PixelType, CellTraits>    TCellInterface;
+  typedef itk::TriangleCell<TCellInterface>            TriCell;
 
   typedef CovariantVector<int, 3>                      int3DVector;
   typedef CovariantVector<double, 2>                   double2DVector;
@@ -124,7 +125,7 @@ public:
 
   /* Stiffness Matrix Type definition */
   typedef vnl_matrix_fixed<double, 4, 4>  StiffnessMatrixType;
-  typedef StiffnessMatrixType * StiffnessMatrixRawPointer; 
+  typedef StiffnessMatrixType *           StiffnessMatrixRawPointer; 
 
   /** Routines. */
   void SetStiffnessMatrix( StiffnessMatrixType *stiff, int i );
@@ -186,6 +187,7 @@ private:
   double2DVector    m_Stiffness;
   double            m_TimeStep;      /** Time step of each iteration */
   double3DVector    m_Scale;
+
   int       m_Step;          /** Number of iterations */
   int       m_NumberOfNodes;
   int       m_NumberOfCells;
@@ -193,6 +195,7 @@ private:
   int       m_ImageHeight;
   int       m_ImageDepth;
   int       m_StepThreshold;/** This threshold decides when to stop the model. */
+
   unsigned short m_ModelXUpLimit;
   unsigned short m_ModelXDownLimit;
   unsigned short m_ModelYUpLimit;
@@ -205,7 +208,7 @@ private:
   PixelType      m_PotentialMagnitude;
 
   /** To compute force derived from gradient data. */
-  GradientImagePointer  m_Gradient; 
+  GradientImagePointer        m_Gradient; 
   PotentialImageType::Pointer m_Potential;  
 };
 
