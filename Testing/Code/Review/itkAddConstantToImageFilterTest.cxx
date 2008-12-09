@@ -33,7 +33,7 @@ int itkAddConstantToImageFilterTest(int, char* [] )
   // Declare the types of the images
   typedef itk::Image<float, ImageDimension>  InputImageType;
   typedef itk::Image<float, ImageDimension>  OutputImageType;
-  typedef float                             FactorType;
+  typedef float                              FactorType;
   
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
