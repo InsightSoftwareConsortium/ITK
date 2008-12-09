@@ -95,7 +95,8 @@ public:
   itkTypeMacro(AddConstantToImageFilter, UnaryFunctorImageFilter);
 
   
-  /** Set the constant that will be used to multiply all the image pixels.*/
+  /** Set the constant that will be used to multiply all the image
+    * pixels */
   void SetConstant(TConstant ct)
     {
     if( ct != this->GetFunctor().GetConstant() )
