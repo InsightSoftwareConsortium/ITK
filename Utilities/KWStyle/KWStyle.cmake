@@ -24,7 +24,7 @@ IF(KWSTYLE_EXECUTABLE)
 
 string(STRIP ${KWSTYLE_VERSION_TEXT} KWSTYLE_VERSION_TEXT)
 
-IF(${KWSTYLE_VERSION_TEXT} STREQUAL "Version: Not defined")
+IF(KWSTYLE_VERSION_TEXT STREQUAL "Version: Not defined")
   MESSAGE("This project requires a newer version of KWStyle. Please upgrade the KWStyle executable.")
 ELSE(${KWSTYLE_VERSION_TEXT} STREQUAL "Version: Not defined")
 
