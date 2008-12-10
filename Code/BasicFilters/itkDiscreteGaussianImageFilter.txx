@@ -121,7 +121,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
 
   // Create an internal image to protect the input image's metdata
   // (e.g. RequestedRegion). The StreamingImageFilter changes the
-  // requested region as poart of its normal provessing.
+  // requested region as part of its normal processing.
   typename TInputImage::Pointer localInput = TInputImage::New();
   localInput->Graft(this->GetInput());
 
