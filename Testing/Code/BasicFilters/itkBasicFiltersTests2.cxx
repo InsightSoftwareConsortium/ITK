@@ -46,6 +46,7 @@ void RegisterTests()
   REGISTER_TEST(itkPushPopTileImageFilterTest );
   REGISTER_TEST(itkShiftScaleInPlaceImageFilterTest );
   REGISTER_TEST(itkShrinkImageTest );
+  REGISTER_TEST(itkShrinkImagePreserveObjectPhysicalLocations);
   REGISTER_TEST(itkSigmoidImageFilterTest );
   REGISTER_TEST(itkSignedDanielssonDistanceMapImageFilterTest );
   REGISTER_TEST(itkSimilarityIndexImageFilterTest );

@@ -282,6 +282,7 @@ ADD_TEST(itkRescaleIntensityImageFilterTest ${BASIC_FILTERS_TESTS1} itkRescaleIn
 ADD_TEST(itkShiftScaleImageFilterTest ${BASIC_FILTERS_TESTS2} itkShiftScaleImageFilterTest)
 ADD_TEST(itkShiftScaleInPlaceImageFilterTest ${BASIC_FILTERS_TESTS2} itkShiftScaleInPlaceImageFilterTest)
 ADD_TEST(itkShrinkImageTest ${BASIC_FILTERS_TESTS2} itkShrinkImageTest)
+ADD_TEST(itkShrinkImagePreserveObjectPhysicalLocations ${BASIC_FILTERS_TESTS2} itkShrinkImagePreserveObjectPhysicalLocations)
 ADD_TEST(itkSigmoidImageFilterTest ${BASIC_FILTERS_TESTS2} itkSigmoidImageFilterTest)
 ADD_TEST(itkSimilarityIndexImageFilterTest ${BASIC_FILTERS_TESTS2} itkSimilarityIndexImageFilterTest)
 ADD_TEST(itkSimplexMeshToTriangleMeshFilterTest ${BASIC_FILTERS_TESTS2} itkSimplexMeshToTriangleMeshFilterTest)
@@ -1137,6 +1138,7 @@ itkSimpleContourExtractorImageFilterTest.cxx
 itkShiftScaleImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx
 itkShrinkImageTest.cxx
+itkShrinkImagePreserveObjectPhysicalLocations.cxx
 itkSigmoidImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSimplexMeshToTriangleMeshFilterTest.cxx
