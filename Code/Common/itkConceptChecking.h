@@ -433,8 +433,7 @@ struct BracketOperator
       }
     void const_constraints(const T1& d, const T2& e)
       {
-      Detail::IgnoreUnusedVariable(d);
-      a = static_cast<T3>(b [ c ]);
+      a = static_cast<T3>(d [ e ]);
       }
     T3 a;
     T1 b;
