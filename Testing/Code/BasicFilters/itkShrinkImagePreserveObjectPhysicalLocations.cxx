@@ -35,6 +35,7 @@ PyramidFilterType::Pointer MakeTwoLevelPyramid(TImageType::Pointer refImage)
   PyramidFilterType::Pointer MyPyramid=PyramidFilterType::New();
   MyPyramid->SetInput(refImage);
   MyPyramid->SetNumberOfLevels(2);
+  MyPyramid->SetMaximumError(1.e-5);
   pyramidSchedule.SetSize(2,2);
   for( unsigned int c=0;c<pyramidSchedule.cols();c++ )
     {
@@ -128,7 +129,6 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   for( int i =0; i < TImageType::ImageDimension; i++ )
     {
     newSize[i]=32;
-    //newSpacing[i]=1.0;
     newSpacing[i]=(1.0+3.0*i);
     newOrigin[i]=-1.0*(newSize[i]-1)*(newSpacing[i])*0.5;
     }
@@ -146,6 +146,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   image->SetRegions( newSize );
   image->SetDirection( newDirection );
   image->Allocate();
+  image->FillBuffer(0.0);
 
   TImageType::IndexType Index;
   for( int u=12;u<20;u++ )
@@ -154,7 +155,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
     for( int v=12;v<20;v++ )
       {
       Index[1]=v;
-      image->SetPixel(Index,vcl_numeric_limits<TImageType::PixelType>::max());
+      image->SetPixel(Index,255.0);
       }
     }
 
@@ -171,16 +172,16 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   itk::DiscreteGaussianImageFilter< TImageType,  TImageType>::Pointer smoother= itk::DiscreteGaussianImageFilter< TImageType,  TImageType>::New();
   smoother->SetInput( image );
   smoother->SetUseImageSpacing( true );
-  double m_MaximumError=1e-1;
-  smoother->SetMaximumError( m_MaximumError );
+  smoother->SetMaximumError( MyPyramid->GetMaximumError() );
   // compute shrink factors and variances
-  float variance[2];
+  double variance[2];
   for(int idim = 0; idim < TImageType::ImageDimension; idim++ )
     {
     variance[idim] = vnl_math_sqr( 0.5 * static_cast<float>( 4 ) );
     }
   smoother->SetVariance( variance );
   smoother->Update();
+
   TImageType::Pointer GaussianImage=smoother->GetOutput();
 
   itk::ShrinkImageFilter< TImageType, TImageType >::Pointer smootherShrinkfilter= itk::ShrinkImageFilter< TImageType, TImageType >::New();
@@ -189,7 +190,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   smootherShrinkfilter->Update();
   TImageType::Pointer GaussianShrinkSmallImage=smootherShrinkfilter->GetOutput();
 
-  //#define __WRITE_DEBUG_IMAGING__
+//#define __WRITE_DEBUG_IMAGING__
 #ifdef __WRITE_DEBUG_IMAGING__
   typedef itk::ImageFileWriter< WImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -238,36 +239,84 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   int errorCount=0;
     {
     TImageType::Pointer test=image;
-    std::cout << "\nFullSizeImage" << std::endl;
+    std::cout << "\nFullSizeImage...";
     testCG=ComputeCG( test );
-    errorCount+=(testCG.GetVectorFromOrigin().GetNorm() > 1e-4)?1:0;
+    if (testCG.GetVectorFromOrigin().GetNorm() > 1e-4)
+      {
+      errorCount++;
+      std::cout << "FAILED" << std::endl;
+      }
+    else
+      {
+      std::cout << "PASSED" << std::endl;
+      }
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
-    std::cout << "\nQuarterSizeImage" << std::endl;
+    std::cout << "\nQuarterSizeImage...";
     test=SmallImage;
     testCG=ComputeCG( test );
-    errorCount+=(testCG.GetVectorFromOrigin().GetNorm() > 1e-4)?1:0;
+    if (testCG.GetVectorFromOrigin().GetNorm() > (newSpacing[1] * 4.0 / 2.0))
+      {
+      errorCount++;
+      std::cout << "FAILED" << std::endl;
+      }
+    else
+      {
+      std::cout << "PASSED" << std::endl;
+      }
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
-    std::cout << "\nEighthSizeImage" << std::endl;
+    std::cout << "\nEighthSizeImage...";
     test=ReallySmallImage;
     testCG=ComputeCG( test );
-    errorCount+=(testCG.GetVectorFromOrigin().GetNorm() > 1e-4)?1:0;
+    if (testCG.GetVectorFromOrigin().GetNorm() > (newSpacing[1] * 8.0 / 2.0))
+      {
+      errorCount++;
+      std::cout << "FAILED" << std::endl;
+      }
+    else
+      {
+      std::cout << "PASSED" << std::endl;
+      }
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
-    std::cout << "\nShrinkSmallSizeImage" << std::endl;
+    std::cout << "\nShrinkSmallSizeImage...";
     test=ShrinkSmallImage;
     testCG=ComputeCG( test );
-    errorCount+=(testCG.GetVectorFromOrigin().GetNorm() > 1e-4)?1:0;
+    if (testCG.GetVectorFromOrigin().GetNorm() > 1e-4)
+      {
+      errorCount++;
+      std::cout << "FAILED" << std::endl;
+      }
+    else
+      {
+      std::cout << "PASSED" << std::endl;
+      }
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
 
-    std::cout << "\nGaussianFullSizeImage" << std::endl;
+    std::cout << "\nGaussianFullSizeImage...";
     test=GaussianImage;
     testCG=ComputeCG( test );
-    errorCount+=(testCG.GetVectorFromOrigin().GetNorm() > 1e-4)?1:0;
+    if (testCG.GetVectorFromOrigin().GetNorm() > 1e-4)
+      {
+      errorCount++;
+      std::cout << "FAILED" << std::endl;
+      }
+    else
+      {
+      std::cout << "PASSED" << std::endl;
+      }
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
 
-    std::cout << "\nGaussianQuarterSizeImage" << std::endl;
+    std::cout << "\nGaussianQuarterSizeImage...";
     test=GaussianShrinkSmallImage;
     testCG=ComputeCG( test );
-    errorCount+=(testCG.GetVectorFromOrigin().GetNorm() > 1e-4)?1:0;
+    if (testCG.GetVectorFromOrigin().GetNorm() > (newSpacing[1] * 4.0 / 2.0))
+      {
+      errorCount++;
+      std::cout << "FAILED" << std::endl;
+      }
+    else
+      {
+      std::cout << "PASSED" << std::endl;
+      }
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
     }
   std::cout << "Found " << errorCount << " errors." << std::endl;
