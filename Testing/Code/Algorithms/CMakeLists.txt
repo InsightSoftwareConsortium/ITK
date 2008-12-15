@@ -116,7 +116,11 @@ ADD_TEST(itkMRIBiasFieldCorrectionFilterTest ${ALGORITHMS_TESTS3} itkMRIBiasFiel
 ADD_TEST(itkMultiResolutionPyramidImageFilterTest ${ALGORITHMS_TESTS3} itkMultiResolutionPyramidImageFilterTest)
 ADD_TEST(itkMutualInformationHistogramImageToImageMetricTest ${ALGORITHMS_TESTS3} itkMutualInformationHistogramImageToImageMetricTest)
 ADD_TEST(itkRecursiveMultiResolutionPyramidImageFilterTest ${ALGORITHMS_TESTS3} itkRecursiveMultiResolutionPyramidImageFilterTest)
-ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3} itkMultiResolutionPDEDeformableRegistrationTest)
+ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3}
+  --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTest.png
+            ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png
+  itkMultiResolutionPDEDeformableRegistrationTest
+            ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png)
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest ${ALGORITHMS_TESTS3}   
 itkMultiResolutionImageRegistrationMethodTest  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_1 ${ALGORITHMS_TESTS3}   

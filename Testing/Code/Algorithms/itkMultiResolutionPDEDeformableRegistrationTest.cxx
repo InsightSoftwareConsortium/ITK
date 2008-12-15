@@ -140,7 +140,7 @@ TImage *output )
 
 }
 
-int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
+int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 {
 
   typedef unsigned char PixelType;
@@ -152,6 +152,12 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
   typedef ImageType::IndexType  IndexType;
   typedef ImageType::SizeType   SizeType;
   typedef ImageType::RegionType RegionType;
+
+  if(argc < 2)
+    {
+    std::cerr << "Usage: " << argv[0] << " WarpedImage\n";
+    return -1;
+    }
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial field";
@@ -293,27 +299,12 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
 
   warper->Update();
 
- //-------------------------------------------------------
-
-// uncomment to write out images
-/*
-  std::cout << "Write images to file " << std::endl;
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
-  
-  writer->SetInput( moving );
-  writer->SetFileName( "moving.png" );
-  writer->Write();
-
-  writer->SetInput( fixed );
-  writer->SetFileName( "fixed.png" );
-  writer->Write();
-
   writer->SetInput( warper->GetOutput() );
-  writer->SetFileName( "warp.png" );
-  writer->Write();
-*/
- 
+  writer->SetFileName( argv[1] );
+  writer->Update();
+  
   // ---------------------------------------------------------
   std::cout << "Compare warped moving and fixed." << std::endl;
 
@@ -337,15 +328,6 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int, char* [] )
 
   std::cout << "Number of pixels different: " << numPixelsDifferent; 
   std::cout << std::endl;
-
-
-  if( numPixelsDifferent > 20 )
-    {
-    std::cout << "Test failed - too many pixels different." << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
 
   //-------------------------------------------------------------
   std::cout << "Test when last shrink factors are not ones." << std::endl;
