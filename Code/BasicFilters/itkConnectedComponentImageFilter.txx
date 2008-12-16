@@ -605,7 +605,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
     unsigned long int L = m_UnionFind[I];
     if (L == I) 
       {
-      if( CLab == m_BackgroundValue )
+      if( CLab == static_cast<unsigned long int>(m_BackgroundValue) )
         {
         ++CLab;
         }
