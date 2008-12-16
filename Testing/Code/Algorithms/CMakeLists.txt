@@ -119,6 +119,7 @@ ADD_TEST(itkRecursiveMultiResolutionPyramidImageFilterTest ${ALGORITHMS_TESTS3} 
 ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3}
   --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTest.png
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png
+  --compareNumberOfPixelsTolerance 20
   itkMultiResolutionPDEDeformableRegistrationTest
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png)
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest ${ALGORITHMS_TESTS3}   
