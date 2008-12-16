@@ -106,7 +106,7 @@ public:
   
 
    /** Set the marker image */
-  void SetMarkerImage(TLabelImage *input)
+  void SetMarkerImage(const TLabelImage *input)
     {
     // Process object is not const-correct so the const casting is required.
     this->SetNthInput( 1, const_cast<TLabelImage *>(input) );
@@ -120,13 +120,13 @@ public:
     }
 
   /** Set the input image */
-  void SetInput1(TInputImage *input)
+  void SetInput1(const TInputImage *input)
     {
     this->SetInput( input );
     }
 
   /** Set the marker image */
-  void SetInput2(TLabelImage *input)
+  void SetInput2(const TLabelImage *input)
     {
     this->SetMarkerImage( input );
     }
