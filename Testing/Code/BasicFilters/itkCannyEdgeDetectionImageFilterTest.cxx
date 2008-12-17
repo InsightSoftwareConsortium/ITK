@@ -77,5 +77,18 @@ int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
       (&err)->Print(std::cerr);
       return EXIT_FAILURE;
     } 
+
+  // test for correct setting of non-macro methods
+  if (filter->GetVariance()[0] != 1.0f || filter->GetMaximumError()[0] != .01f) 
+    {
+      return EXIT_FAILURE;
+    }
+  filter->SetVariance(0.5f);
+  filter->SetMaximumError(0.5f);
+  if (filter->GetVariance()[0] != 0.5f || filter->GetMaximumError()[0] != 0.5f) 
+    {
+      return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;   
 }
