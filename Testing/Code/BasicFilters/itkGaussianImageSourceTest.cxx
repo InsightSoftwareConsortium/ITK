@@ -59,6 +59,7 @@ int itkGaussianImageSourceTest(int, char* [] )
   pSource->GetSize();
   pSource->GetSpacing();
   pSource->GetOrigin();
+  pSource->GetDirection();
   pSource->GetScale();
   pSource->GetNormalized();
   pSource->GetSigma();
