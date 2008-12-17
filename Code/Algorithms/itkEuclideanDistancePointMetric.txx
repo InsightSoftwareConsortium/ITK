@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkEuclideanDistancePointMetric_txx
-#define _itkEuclideanDistancePointMetric_txx
+#ifndef __itkEuclideanDistancePointMetric_txx
+#define __itkEuclideanDistancePointMetric_txx
 
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -41,14 +41,14 @@ unsigned int
 EuclideanDistancePointMetric<TFixedPointSet,TMovingPointSet,TDistanceMap>  
 ::GetNumberOfValues() const
 {
- MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
+  MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
 
- if( !movingPointSet ) 
+  if( !movingPointSet ) 
     {
     itkExceptionMacro( << "Moving point set has not been assigned" );
     }
 
- return  movingPointSet->GetPoints()->Size();
+  return  movingPointSet->GetPoints()->Size();
 }
 
 

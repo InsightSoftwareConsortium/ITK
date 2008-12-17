@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkExtensionVelocitiesImageFilter_txx
-#define _itkExtensionVelocitiesImageFilter_txx
+#ifndef __itkExtensionVelocitiesImageFilter_txx
+#define __itkExtensionVelocitiesImageFilter_txx
 
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -49,7 +49,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
 }
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -69,7 +69,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/*
+/**
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
@@ -90,7 +90,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/*
+/**
  * 
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension>
@@ -111,7 +111,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -132,7 +132,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
 
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -157,7 +157,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 
 }
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -173,9 +173,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   double levelSetValue = this->GetLevelSetValue();
 
   // define iterators
-  typedef typename LevelSetType::LevelSetImageType LocalLevelSetImageType;
+  typedef typename LevelSetType::LevelSetImageType   LocalLevelSetImageType;
   typedef 
-    ImageRegionIterator<LocalLevelSetImageType> IteratorType;
+    ImageRegionIterator<LocalLevelSetImageType>      IteratorType;
   typedef 
     ImageRegionConstIterator<LocalLevelSetImageType> ConstIteratorType;
 
@@ -307,7 +307,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
 }
   
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, unsigned int VAuxDimension >
@@ -325,9 +325,9 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   double inputBandwidth = this->GetInputNarrowBandwidth();
 
   // define iterators
-  typedef typename LevelSetType::LevelSetImageType LocalLevelSetImageType;
+  typedef typename LevelSetType::LevelSetImageType   LocalLevelSetImageType;
   typedef 
-    ImageRegionIterator<LocalLevelSetImageType> IteratorType;
+    ImageRegionIterator<LocalLevelSetImageType>      IteratorType;
   typedef 
     ImageRegionConstIterator<LocalLevelSetImageType> ConstIteratorType;
 
@@ -449,7 +449,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   NodeType node;
   PixelType inPixel;
 
-  for( ; pointsIt != pointsEnd; ++pointsIt )
+  for(; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.GetIndex() );
@@ -482,7 +482,7 @@ ExtensionVelocitiesImageFilter<TLevelSet,TAuxValue,VAuxDimension>
   pointsIt = procPoints->Begin();
   pointsEnd = procPoints->End();
 
-  for( ; pointsIt != pointsEnd; ++pointsIt )
+  for(; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.GetIndex() );

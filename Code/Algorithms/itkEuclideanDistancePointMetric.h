@@ -48,7 +48,7 @@ class ITK_EXPORT EuclideanDistancePointMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef EuclideanDistancePointMetric    Self;
+  typedef EuclideanDistancePointMetric                                Self;
   typedef PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet >  Superclass;
 
   typedef SmartPointer<Self>         Pointer;

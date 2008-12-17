@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkExtensionVelocitiesImageFilter_h
-#define _itkExtensionVelocitiesImageFilter_h
+#ifndef __itkExtensionVelocitiesImageFilter_h
+#define __itkExtensionVelocitiesImageFilter_h
 
 #include "itkLevelSetVelocityNeighborhoodExtractor.h"
 #include "itkFastMarchingExtensionImageFilter.h"
@@ -55,10 +55,10 @@ class ITK_EXPORT ExtensionVelocitiesImageFilter :
 public:
 
   /** Standard class typedefs. */
-  typedef ExtensionVelocitiesImageFilter Self;
+  typedef ExtensionVelocitiesImageFilter             Self;
   typedef ReinitializeLevelSetImageFilter<TLevelSet> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,26 +67,27 @@ public:
   itkTypeMacro(ExtensionVelocitiesImageFilter, ReinitializeLevelSetImageFilter);
 
   /** The type of level set and the pointer type. */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
-  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
+  typedef LevelSetTypeDefault<TLevelSet>               LevelSetType;
+  typedef typename LevelSetType::LevelSetPointer       LevelSetPointer;
   typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
-  typedef typename LevelSetType::PixelType  PixelType;
-  typedef typename LevelSetType::NodeType NodeType;
-  typedef typename LevelSetType::NodeContainer NodeContainer;
-  typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
+  typedef typename LevelSetType::PixelType             PixelType;
+  typedef typename LevelSetType::NodeType              NodeType;
+  typedef typename LevelSetType::NodeContainer         NodeContainer;
+  typedef typename LevelSetType::NodeContainerPointer  NodeContainerPointer;
 
   /** The dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int,LevelSetType::SetDimension);
 
   /** AuxVarType typedef support. */
   typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,
-                            itkGetStaticConstMacro(SetDimension)> AuxVarType;
-  typedef typename AuxVarType::AuxValueType AuxValueType;
-  typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
-  typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
-  typedef typename AuxVarType::AuxImageType AuxImageType;
-  typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
-  typedef typename AuxVarType::AuxImageConstPointer AuxImageConstPointer;
+                            itkGetStaticConstMacro(SetDimension)>
+                                                     AuxVarType;
+  typedef typename AuxVarType::AuxValueType          AuxValueType;
+  typedef typename AuxVarType::AuxValueVectorType    AuxValueVectorType;
+  typedef typename AuxVarType::AuxValueContainer     AuxValueContainer;
+  typedef typename AuxVarType::AuxImageType          AuxImageType;
+  typedef typename AuxVarType::AuxImagePointer       AuxImagePointer;
+  typedef typename AuxVarType::AuxImageConstPointer  AuxImageConstPointer;
 
   /** Number of velocity images to be extended. */
   itkStaticConstMacro(AuxDimension, unsigned int,VAuxDimension);
@@ -125,10 +126,11 @@ private:
    * compiler's improper handling of default template parameters that use
    * dependent non-type templates. */
   typedef Image<float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
+  
   typedef LevelSetVelocityNeighborhoodExtractor<TLevelSet,TAuxValue,VAuxDimension> 
-  LocatorType;
+                                                  LocatorType;
   typedef FastMarchingExtensionImageFilter<TLevelSet,TAuxValue,VAuxDimension,SpeedImageType> 
-  FastMarchingImageFilterType;
+                                                  FastMarchingImageFilterType;
 
   typename LocatorType::Pointer                    m_Locator;
   typename FastMarchingImageFilterType::Pointer    m_Marcher;
