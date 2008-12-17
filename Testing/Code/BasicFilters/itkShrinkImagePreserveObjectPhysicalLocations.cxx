@@ -23,7 +23,7 @@
 //typedef itk::Image<signed short, 2> TImageType;
 typedef itk::Image<signed short, 2> WImageType;
 //typedef itk::Image<signed short, 2> TImageType;
-typedef itk::Image<float, 2> TImageType;
+typedef itk::Image<double, 2> TImageType;
 //typedef itk::Image<double, 2> TImageType;
 
 //Need to use a Pyramid filter here instead of just downsampling to a 32x32 image
