@@ -23,7 +23,7 @@
 //typedef itk::Image<signed short, 2> TImageType;
 typedef itk::Image<signed short, 2> WImageType;
 //typedef itk::Image<signed short, 2> TImageType;
-typedef itk::Image<double, 2> TImageType;
+typedef itk::Image<float, 2> TImageType;
 //typedef itk::Image<double, 2> TImageType;
 
 //Need to use a Pyramid filter here instead of just downsampling to a 32x32 image
@@ -148,6 +148,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   image->SetDirection( newDirection );
   image->Allocate();
   image->FillBuffer(0.0);
+  image->Print(std::cout);
 
   TImageType::IndexType Index;
   for( int u=12;u<20;u++ )
