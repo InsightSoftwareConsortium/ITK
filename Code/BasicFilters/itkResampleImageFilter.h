@@ -198,6 +198,7 @@ public:
     this->SetOutputOrigin ( Image->GetOrigin() );
     this->SetOutputSpacing ( Image->GetSpacing() );
     this->SetOutputDirection ( Image->GetDirection() );
+    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
     this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
     }
 
@@ -207,7 +208,7 @@ public:
     this->SetOutputOrigin ( Image->GetOrigin() );
     this->SetOutputSpacing ( Image->GetSpacing() );
     this->SetOutputDirection ( Image->GetDirection() );
-    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
     }
 
   /** Set the start index of the output largest possible region. 
