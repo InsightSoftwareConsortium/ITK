@@ -320,7 +320,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
     // force to always update in case shrink factors are the same
     resampleShrinker->Modified();
-    resampleShrinker->Update();
+    resampleShrinker->UpdateLargestPossibleRegion();
 /*
     // ensure only the requested region is updated
     resampleShrinker->GetOutput()->UpdateOutputInformation();
