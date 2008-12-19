@@ -6,6 +6,12 @@ MACRO(CREATE_SWIG_RUNTIME lang_option lang_postfix lang_link_libs)
   
   ADD_LIBRARY(${lib_name} SHARED "${source_file}")
   TARGET_LINK_LIBRARIES(${lib_name} "${lang_link_libs}")
+
+  # work around linkage problem on some solaris systems
+  IF(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+    TARGET_LINK_LIBRARIES(${lib_name} stdc++)
+  ENDIF(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+
   INSTALL_TARGETS("${WRAP_ITK_INSTALL_PREFIX}/lib" ${lib_name})
   SET_TARGET_PROPERTIES(${lib_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
 
