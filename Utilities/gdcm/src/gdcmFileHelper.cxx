@@ -1483,7 +1483,7 @@ void FileHelper::CheckMandatoryElements()
 
    // 'Implementation Class UID'
    // $ echo "gdcm" | od -b
-   CopyMandatoryEntry(0x0002,0x0012,"147.144.143.155");
+   CopyMandatoryEntry(0x0002,0x0012, Util::GetRootUID() + ".147.144.143.155." GDCM_VERSION);
 
    // 'Implementation Version Name'
    std::string version = "ITK/GDCM ";
