@@ -26,10 +26,8 @@
  *
  */
 
-
 #include "itkVersor.h"
 #include <iostream>
-
 
 itk::Matrix<double,3,3> TestCreateRotationMatrixFromAngles(const double alpha, const double beta, const double gamma)
 {
@@ -80,53 +78,51 @@ itk::Versor<double> TestCreateRotationVersorFromAngles(const double alpha, const
 
   itk::Versor<double> v;
   v.Set(q[1],q[2],q[3],q[0]);
+  std::cout << "versor: " << v << std::endl;
   return v;
 }
-
-
 
 /**
  * This test that the conversion to and from Rotaion Matrix and 
  * Versor produces consistent results. 
  */
 int RotationMatrixToVersorTest(void)
-  {
-    int errorCount=0;
-    //const double onedegree=1e-10*vnl_math::pi/180.0;
-    const double onedegree=1e-2*vnl_math::pi/180.0;
-    //const double td=180.0/vnl_math::pi;
-    double centers[6];
-    centers[0]=0;
-    centers[1]=vnl_math::pi*0.25;
-    centers[2]=vnl_math::pi*0.5;
-    centers[3]=vnl_math::pi;
-    centers[4]=vnl_math::pi*1.5;
-    centers[5]=vnl_math::pi*2.0;
+{
+  int errorCount=0;
+  //const double onedegree=1e-10*vnl_math::pi/180.0;
+  const double onedegree=vnl_math::pi/180.0;
+  //const double td=180.0/vnl_math::pi;
+  double centers[6];
+  centers[0]=0;
+  centers[1]=vnl_math::pi*0.25;
+  centers[2]=vnl_math::pi*0.5;
+  centers[3]=vnl_math::pi;
+  centers[4]=vnl_math::pi*1.5;
+  centers[5]=vnl_math::pi*2.0;
 
-    const double steps=5;
-    const double small_degree_steps=onedegree/1000.0; //1/1000 of a degree
-    for(int j = 0; j < 6; j++)
-      {
+  const double steps=0;
+  const double small_degree_steps=onedegree/1000.0; //1/1000 of a degree
+  for(int j = 0; j < 6; j++)
+    {
     for(double alpha=centers[j]-steps*small_degree_steps; alpha <= centers[j]+steps*small_degree_steps; alpha += small_degree_steps)
       {
       for(double beta=centers[j]-steps*small_degree_steps; beta <= centers[j]+steps*small_degree_steps; beta += small_degree_steps)
-      //double beta=0.0;
         {
         for(double gamma=centers[j]-steps*small_degree_steps; gamma <= centers[j]+steps*small_degree_steps; gamma += small_degree_steps)
-        //double gamma=vnl_math::pi;
           {
           itk::Matrix<double,3,3> MR=TestCreateRotationMatrixFromAngles(alpha, beta, gamma);
           itk::Versor<double> VR=TestCreateRotationVersorFromAngles(alpha, beta, gamma);
 
           itk::Point<double,3> testPoint;
           testPoint[0]=-1020.27;
-          testPoint[2]=3.21;
-          testPoint[3]=1000.786432;
+          testPoint[1]=3.21;
+          testPoint[2]=1000.786432;
 
           itk::Versor<double> VFROMMR;
           VFROMMR.Set(MR);
+          itk::Matrix<double,3,3> VRMatrix = VR.GetMatrix();
           const itk::Point<double,3> newMRtestPoint=(MR)*testPoint;
-          const itk::Point<double,3> newVRtestPoint=(VR.GetMatrix())*testPoint;
+          const itk::Point<double,3> newVRtestPoint=(VRMatrix)*testPoint;
 
           const itk::Point<double,3> newVRFROMMRPoint=(VFROMMR.GetMatrix())*testPoint;
           const itk::Point<double,3> newVRFROMMRTransformPoint=VFROMMR.Transform(testPoint);
@@ -138,21 +134,22 @@ int RotationMatrixToVersorTest(void)
           const double maxAllowedPointError=1e-5;
           if( ( error_newMRtestPoint_newVRtestPoint + error_newMRtestPoint_newVRFROMMRPoint 
                 + error_newVRFROMMRPoint_newVRFROMMRTransformPoint) > maxAllowedPointError)
-          {
-          std::cout << "(alpha,beta,gamma)= (" << alpha << ","<< beta << "," << gamma << ")" << std::endl;
-          std::cout << newMRtestPoint << " " << newVRtestPoint << " " << newVRFROMMRPoint << " " << newVRFROMMRTransformPoint << std::endl;
-          std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << " " 
-            << error_newMRtestPoint_newVRFROMMRPoint << " " 
-            << error_newVRFROMMRPoint_newVRFROMMRTransformPoint << std::endl;
-          std::cout << "MR=\n"<< MR << "\nVR=\n" << VR.GetMatrix() << "\nVFROMMR=\n" << VFROMMR.GetMatrix() << std::endl;
-          errorCount++;
-          }
+            {
+            std::cout << "(alpha,beta,gamma)= (" << alpha << ","<< beta << "," << gamma << ")" << std::endl;
 
+            std::cout << newMRtestPoint << " " << newVRtestPoint << " " << newVRFROMMRPoint << " " << newVRFROMMRTransformPoint << std::endl;
+            std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << " " 
+                      << error_newMRtestPoint_newVRFROMMRPoint << " " 
+                      << error_newVRFROMMRPoint_newVRFROMMRTransformPoint << std::endl;
+            std::cout << "MR=\n"<< MR << "\nVR=\n" << VR.GetMatrix() << "\nVFROMMR=\n" << VFROMMR.GetMatrix() << std::endl;
+            errorCount++;
+            }
+          
           }
         }
       }
-      }
-    return errorCount;
+    }
+  return errorCount;
 }
 
 
@@ -676,7 +673,7 @@ int itkVersorTest(int, char* [] )
     std::cout << " PASSED !" << std::endl;
   }
   {
-  std::cout << "Test for Set( MatrixType ) method with rotations that are suceptable to errors in conversion to/from the rotation matrix...";
+  std::cout << "Test for Set( MatrixType ) method with rotations that are susceptible to errors in conversion to/from the rotation matrix...";
 
   const int RotationMatrixStabilityTestErrors=RotationMatrixToVersorTest();
   if( RotationMatrixStabilityTestErrors > 0 )
