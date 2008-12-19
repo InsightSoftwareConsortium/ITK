@@ -155,9 +155,9 @@ void
 Rigid3DTransform<TScalarType>::
 Translate(const OffsetType &offset, bool)
 {
-  OutputVectorType newOffset = this->GetOffset();
+  OutputVectorType newOffset = this->GetTranslation();
   newOffset += offset;
-  this->SetVarOffset(newOffset);
+  this->SetTranslation(newOffset);
 }
 
 

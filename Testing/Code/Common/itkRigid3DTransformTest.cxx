@@ -46,6 +46,64 @@ bool CheckEqual(
 }
 }
 
+bool TestSettingTranslation(void)
+{
+
+    itk::Matrix<double, 3, 3> R;
+    R.SetIdentity();
+    const double alpha = vnl_math::pi / 180.0;
+    R[0][0] =        cos( alpha );
+    R[0][1] =        sin( alpha );
+    R[1][0] = -1.0 * sin( alpha ); 
+    R[1][1] =        cos( alpha );
+
+
+    itk::Vector< double, 3> T; T[0]=100;T[1]=200;T[2]=300;
+    itk::Rigid3DTransform<double>::Pointer r1=itk::Rigid3DTransform<double>::New();
+    //r1->SetIdentity();
+    r1->SetRotationMatrix( R );
+    r1->Translate( T );
+    itk::Rigid3DTransform<double>::ParametersType p1;
+    p1.set_size(12);
+    p1=r1->GetParameters();
+
+    itk::Rigid3DTransform<double>::Pointer r2=itk::Rigid3DTransform<double>::New();
+    itk::Rigid3DTransform<double>::ParametersType p2;
+    p2.set_size(12);
+    for(int r=0;r<3;r++)
+      {
+      for(int c=0;c<3;c++)
+        { 
+        p2[r*3+c]=R[r][c];
+        }
+      }
+    p2[ 9]=T[0];
+    p2[10]=T[1];
+    p2[11]=T[2];
+    r2->SetParameters( p2 );
+    itk::Rigid3DTransform<double>::Pointer r3=itk::Rigid3DTransform<double>::New();
+    r3->SetFixedParameters( r1->GetFixedParameters() );
+    r3->SetParameters( r1->GetParameters() );
+
+    itk::Rigid3DTransform<double>::ParametersType p3;
+    p3.set_size(12);
+    p3=r3->GetParameters();
+    if( (p1 == p2)  && (p1 == p3))
+    {
+      return true;
+    }
+    else
+    {
+      std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+      std::cout << "r1\n" << r1 << std::endl;
+      std::cout << "r2\n" << r2 << std::endl;
+      std::cout << "r3\n" << r3 << std::endl;
+      std::cout << p1 << "\n" << p2 << "\n" << p3 << std::endl;
+      std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    }
+
+  return false;
+}
 
 int itkRigid3DTransformTest(int ,char * [] )
 {
@@ -649,13 +707,19 @@ int itkRigid3DTransformTest(int ,char * [] )
       std::cerr << "Error: caught unexpected exception" << std::endl;
       return EXIT_FAILURE;
       }
+     bool TranslationSettingOK=TestSettingTranslation();
+     if( !TranslationSettingOK )
+     {
+       std::cerr << "Error:  SetTranslation() did not result in consisent internal state for Rigid3DTransform." << std::endl;
+       return EXIT_FAILURE;
+     }
 
     std::cout << "done." << std::endl;
     }
 
   }
-
- 
   return EXIT_SUCCESS;
 
 }
+
+

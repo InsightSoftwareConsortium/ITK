@@ -125,9 +125,9 @@ void
 Rigid2DTransform<TScalarType>::
 Translate(const OffsetType &offset, bool)
 {
-  OutputVectorType newOffset = this->GetOffset();
+  OutputVectorType newOffset = this->GetTranslation();
   newOffset += offset;
-  this->SetOffset(newOffset);
+  this->SetTranslation(newOffset);
 }
 
 
