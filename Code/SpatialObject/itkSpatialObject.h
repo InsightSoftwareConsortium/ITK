@@ -615,9 +615,11 @@ private:
 }; 
 
 } // end of namespace itk
- 
+
+#if !defined(CABLE_CONFIGURATION) 
 #ifndef ITK_MANUAL_INSTANTIATION 
 #include "itkSpatialObject.txx" 
+#endif 
 #endif 
  
 #endif // __itkSpatialObject_h
