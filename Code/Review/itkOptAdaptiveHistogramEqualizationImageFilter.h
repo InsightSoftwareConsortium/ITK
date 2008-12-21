@@ -68,7 +68,7 @@ public:
   typedef AdaptiveHistogramEqualizationImageFilter     Self;
   typedef ImageToImageFilter< TImageType, TImageType > Superclass;
   typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     constPointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImageType::ImageDimension );

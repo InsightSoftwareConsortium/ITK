@@ -55,10 +55,10 @@ public:
   typedef Image< std::complex< TPixel > , NDimension > OutputImageType;
 
   /** Standard class typedefs. */
-  typedef FFTComplexToComplexImageFilter                            Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType >     Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  constPointer;
+  typedef FFTComplexToComplexImageFilter                        Self;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension );
