@@ -1,22 +1,29 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit (ITK)
+  Program:   Insight Segmentation & Registration Toolkit
   Module:    itkFEMFiniteDifferenceFunctionLoad.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
 
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
 =========================================================================*/
-#ifndef _itkFEMFiniteDifferenceFunctionLoad_txx_
-#define _itkFEMFiniteDifferenceFunctionLoad_txx_
+#ifndef __itkFEMFiniteDifferenceFunctionLoad_txx
+#define __itkFEMFiniteDifferenceFunctionLoad_txx
 
 #include "itkFEMFiniteDifferenceFunctionLoad.h"
 
 
-namespace itk {
-namespace fem {
-
-
+namespace itk
+{
+namespace fem
+{
 
 template<class TMoving,class TFixed>
 FiniteDifferenceFunctionLoad<TMoving , TFixed>::FiniteDifferenceFunctionLoad()
@@ -26,9 +33,9 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::FiniteDifferenceFunctionLoad()
   m_Sign=1.0;
 
   for (unsigned int i=0; i<ImageDimension; i++)
-  {
+    {
     m_MetricRadius[i] = 1;
-  }
+    }
   
   m_DifferenceFunction=NULL;
   m_DeformationField=NULL;
@@ -44,13 +51,13 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::InitializeIteration()
   typedef   MeanSquareRegistrationFunctionType  defaultRegistrationFunctionType;
 
   if (!m_DifferenceFunction)
-  {
+    {
     typename defaultRegistrationFunctionType::Pointer drfp 
       = defaultRegistrationFunctionType::New();
     this->SetMetric(static_cast<FiniteDifferenceFunctionType *>(drfp));
-  }
+    }
   std::cout << " load sizes " << m_DeformationField->GetLargestPossibleRegion().GetSize() 
-      << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
+            << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
 
   m_DifferenceFunction->InitializeIteration();
 
@@ -122,10 +129,10 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
 
   solmat.set_size(Nnodes*ImageDimension,1);
 
-  for(  ; elt!=el->end(); elt++) 
-  {
-    for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
+  for(; elt!=el->end(); elt++) 
     {
+    for(unsigned int i=0; i<m_NumberOfIntegrationPoints; i++)
+      {
       dynamic_cast<Element*>(&*(*elt))->GetIntegrationPointAndWeight(i,ip,w,m_NumberOfIntegrationPoints); // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 
@@ -133,51 +140,49 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
       Float detJ=(*elt)->JacobianDeterminant(ip);
         
       for(unsigned int f=0; f<ImageDimension; f++)
-      {
+        {
         solval=0.0;
         posval=0.0;
         for(unsigned int n=0; n<Nnodes; n++)
-        {
-          posval+=shapef[n]*(((*elt)->GetNodeCoordinates(n))[f]);
+          {
+          posval += shapef[n]*(((*elt)->GetNodeCoordinates(n))[f]);
           float nodeval=( (m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex)
-            +(m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex2)*step);
+                          +(m_Solution)->GetSolutionValue( (*elt)->GetNode(n)->GetDegreeOfFreedom(f) , m_SolutionIndex2)*step);
       
-          solval+=shapef[n] * nodeval;   
+          solval += shapef[n] * nodeval;   
           solmat[(n*ImageDimension)+f][0]=nodeval;
-        }
+          }
         InVec[f]=posval;
         Gpos[f]=posval;
         InVec[f+ImageDimension]=solval;
         Gsol[f]=solval;
-      }
+        }
 
       float tempe=0.0;
       try
-      {
+        {
         this->Fe(Gpos,Gsol); // FIXME
         tempe=vcl_fabs(0.0);
-      }
+        }
       catch( ... )
-      { 
-      // do nothing we dont care if the metric region is outside the image
-      //std::cerr << e << std::endl;
-      }
+        { 
+        // do nothing we dont care if the metric region is outside the image
+        //std::cerr << e << std::endl;
+        }
       for(unsigned int n=0; n<Nnodes; n++)
-      {
+        {
         itk::fem::Element::Float temp=shapef[n]*tempe*w*detJ;
-        energy+=temp;
-      }
-    }  
+        energy += temp;
+        }
+      }  
     
-    defe+=0.0;//(double)(*elt)->GetElementDeformationEnergy( solmat );
-  }
+    defe += 0.0;//(double)(*elt)->GetElementDeformationEnergy( solmat );
+    }
    
   //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
   return vcl_fabs((double)energy*(double)m_Gamma-(double)defe);
 }
 #endif
-
-
 
 template<class TMoving,class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving , TFixed>::FEMVectorType 
@@ -186,15 +191,15 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
   FEMVectorType  Gsol) 
 {
 
-// We assume the vector input is of size 2*ImageDimension.
-// The 0 to ImageDimension-1 elements contain the position, p,
-// in the reference image.  The next ImageDimension to 2*ImageDimension-1
-// elements contain the value of the vector field at that point, v(p).
-//
-// Thus, we evaluate the derivative at the point p+v(p) with respect to
-// some region of the target (fixed) image by calling the metric with 
-// the translation parameters as provided by the vector field at p.
-//------------------------------------------------------------
+  // We assume the vector input is of size 2*ImageDimension.
+  // The 0 to ImageDimension-1 elements contain the position, p,
+  // in the reference image.  The next ImageDimension to 2*ImageDimension-1
+  // elements contain the value of the vector field at that point, v(p).
+  //
+  // Thus, we evaluate the derivative at the point p+v(p) with respect to
+  // some region of the target (fixed) image by calling the metric with 
+  // the translation parameters as provided by the vector field at p.
+  //------------------------------------------------------------
 
   VectorType OutVec;
   FEMVectorType femVec;
@@ -202,18 +207,18 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
   femVec.fill(0.0);
 
   if (!m_DifferenceFunction || !m_DeformationField || !m_FixedImage || !m_MovingImage)
-  { 
+    { 
     std::cout << " initializing FE() ";
     this->InitializeIteration();   
     std::cout << " done " << std::endl;
     if (!m_DeformationField || !m_FixedImage || !m_MovingImage )
-    {
+      {
       std::cout << " input data {field,fixed/moving image} are not set ";
       return femVec;
-    }
+      }
     std::cout << " sizes " << m_DeformationField->GetLargestPossibleRegion().GetSize() 
-      << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
-  }
+              << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
+    }
 
   typedef typename TMoving::IndexType::IndexValueType OIndexValueType;
   typename TMoving::IndexType oindex;
@@ -221,24 +226,24 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
   unsigned int k;
   bool inimage=true;
   for(k = 0; k < ImageDimension; k++ ) 
-  {
+    {
     
     if ( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) ||
-        vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
+         vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k]) ||
          vcl_fabs(Gpos[k]) > 1.e33  || vcl_fabs(Gsol[k]) > 1.e33  ) 
-    {
+      {
       return femVec;
-    }
+      }
     else oindex[k]=(long) (Gpos[k]+0.5);
     if (oindex[k] > static_cast<OIndexValueType>(m_FixedSize[k]-1) || oindex[k] < 0) inimage=false; 
     // FIXME : resized images not same as vect field from expand image filter
     //  expandimagefilter does only dyadic size!!!
 
-  }
+    }
   if (!inimage) 
-  {
+    {
     return femVec;
-  }
+    }
 
 //  std::cout << " index " << oindex << std::endl;
   
@@ -249,14 +254,12 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
   OutVec = m_DifferenceFunction->ComputeUpdate(nD, globalData);
 
   for (k=0;k<ImageDimension;k++) 
-  {
+    {
     if ( vnl_math_isnan(OutVec[k])  || vnl_math_isinf(OutVec[k] )) femVec[k]=0.0;
     else femVec[k]=OutVec[k];
-  }
+    }
   return femVec;
 }
-
-
 
 template<class TMoving,class TFixed> 
 int FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID()
@@ -270,7 +273,7 @@ int FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID()
 
 
 template<class TMoving,class TFixed> 
-const int FiniteDifferenceFunctionLoad<TMoving,TFixed>::DummyCLID=FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID();
+const int FiniteDifferenceFunctionLoad<TMoving,TFixed>::m_DummyCLID=FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID();
 
 
 } // end namespace fem

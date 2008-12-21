@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFastSymmetricForcesDemonsRegistrationFunction_txx_
-#define _itkFastSymmetricForcesDemonsRegistrationFunction_txx_
+#ifndef __itkFastSymmetricForcesDemonsRegistrationFunction_txx
+#define __itkFastSymmetricForcesDemonsRegistrationFunction_txx
 
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"
@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -66,7 +66,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
 }
 
 
-/*
+/**
  * Standard "PrintSelf" method.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -120,7 +120,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
   return m_IntensityDifferenceThreshold;
 }
 
-/*
+/**
  * Set the function state values before each iteration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -167,7 +167,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
 }
 
 
-/*
+/**
  * Compute update at a non boundary neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -180,7 +180,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
   const IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   const IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
-                        this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
+    this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
 
   const IndexType index = it.GetIndex();
 
@@ -271,15 +271,15 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
         {
         newMovingValue = 0;
         }
-        globalData->m_SumOfSquaredDifference += vnl_math_sqr( fixedValue - newMovingValue );
-        globalData->m_NumberOfPixelsProcessed += 1;
+      globalData->m_SumOfSquaredDifference += vnl_math_sqr( fixedValue - newMovingValue );
+      globalData->m_NumberOfPixelsProcessed += 1;
       }
     }
   return update;
 }
 
 
-/*
+/**
  * Update the metric and release the per-thread-global data.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -290,15 +290,15 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformat
   GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
 
   m_MetricCalculationLock.Lock();
-  m_SumOfSquaredDifference  += globalData->m_SumOfSquaredDifference;
+  m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
   if ( m_NumberOfPixelsProcessed )
     {
     m_Metric = m_SumOfSquaredDifference / 
-               static_cast<double>( m_NumberOfPixelsProcessed ); 
+      static_cast<double>( m_NumberOfPixelsProcessed ); 
     m_RMSChange = vcl_sqrt( m_SumOfSquaredChange / 
-               static_cast<double>( m_NumberOfPixelsProcessed ) ); 
+                            static_cast<double>( m_NumberOfPixelsProcessed ) ); 
     }
   m_MetricCalculationLock.Unlock();
 

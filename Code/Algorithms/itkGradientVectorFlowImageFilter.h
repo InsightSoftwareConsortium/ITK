@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkGradientVectorFlowImageFilter.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 #ifndef __itkGradientVectorFlowImageFilter_h
 #define __itkGradientVectorFlowImageFilter_h
 
@@ -9,7 +25,6 @@
 #include "itkLaplacianImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-//#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -34,7 +49,7 @@ public:
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>  Pointer;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method of creation through the object factory. */
@@ -44,20 +59,20 @@ public:
   itkTypeMacro(GradientVectorFlowImageFilter, ImageToImageFilter);
 
   /** Some typedefs. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
-  typedef typename TInputImage::IndexType IndexType;
-  typedef typename TInputImage::SizeType SizeType;
-  typedef typename TInputImage::PixelType PixelType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef typename TInputImage::IndexType      IndexType;
+  typedef typename TInputImage::SizeType       SizeType;
+  typedef typename TInputImage::PixelType      PixelType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType RegionType;
 
   /** Image and Image iterator definition. */
 //  typedef ImageRegionConstIterator<InputImageType> InputImageConstIterator;
-  typedef ImageRegionIterator<InputImageType>      InputImageIterator;
+  typedef ImageRegionIterator<InputImageType>                InputImageIterator;
   typedef ImageRegionConstIteratorWithIndex<InputImageType>  InputImageConstIterator;
-  typedef ImageRegionIterator<OutputImageType>     OutputImageIterator;
+  typedef ImageRegionIterator<OutputImageType>               OutputImageIterator;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -65,12 +80,14 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  typedef itk::Image<double, itkGetStaticConstMacro(ImageDimension)>  InternalImageType;
-  typedef typename InternalImageType::Pointer InternalImagePointer;
+  typedef itk::Image<double, itkGetStaticConstMacro(ImageDimension)>
+                                                 InternalImageType;
+  typedef typename InternalImageType::Pointer    InternalImagePointer;
   typedef ImageRegionIterator<InternalImageType> InternalImageIterator;
 
-  typedef LaplacianImageFilter<InternalImageType, InternalImageType> LaplacianFilterType;
-  typedef typename LaplacianFilterType::Pointer LaplacianFilterPointer;
+  typedef LaplacianImageFilter<InternalImageType, InternalImageType>
+                                                 LaplacianFilterType;
+  typedef typename LaplacianFilterType::Pointer  LaplacianFilterPointer;
 
   /** Routines. */
 
@@ -114,12 +131,14 @@ private:
   double m_TimeStep; //the timestep of each iteration
   double m_Steps[Superclass::InputImageDimension]; // set to be 1 in all directions in most cases
   double m_NoiseLevel; // the noise level of the image
-  int m_IterationNum;  // the iteration number
+  int    m_IterationNum;  // the iteration number
 
-  LaplacianFilterPointer m_LaplacianFilter;
+  LaplacianFilterPointer                 m_LaplacianFilter;
   typename Superclass::InputImagePointer m_IntermediateImage;
+
   InternalImagePointer m_InternalImages[Superclass::InputImageDimension];
   InternalImagePointer m_BImage;  // store the "b" value for every pixel
+
   typename Superclass::InputImagePointer m_CImage; // store the $c_i$ value for every pixel
 };
 

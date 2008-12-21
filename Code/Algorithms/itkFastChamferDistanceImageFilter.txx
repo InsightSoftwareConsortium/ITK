@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFastChamferDistanceImageFilter_txx
-#define _itkFastChamferDistanceImageFilter_txx
+#ifndef __itkFastChamferDistanceImageFilter_txx
+#define __itkFastChamferDistanceImageFilter_txx
 
 #include <iostream>
 
@@ -87,11 +87,11 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
 
   for ( i = neighbor_start; i <= neighbor_end; i++)
     {
-      neighbor_type[i] = -1;
-      for( n = 0; n < ImageDimension; n++ ) 
-        {
-        neighbor_type[i] += (it.GetOffset(i)[n] != 0);
-        }
+    neighbor_type[i] = -1;
+    for( n = 0; n < ImageDimension; n++ ) 
+      {
+      neighbor_type[i] += (it.GetOffset(i)[n] != 0);
+      }
     }
   
   /** Scan the image */
@@ -139,7 +139,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
           }
         }
       }
-    }          
+    }
   
   /** 2nd Scan , using neighbors from 0 to center_voxel-1 */
 
@@ -177,23 +177,24 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
       }
     
     // Update the narrow band 
-    if (m_NarrowBand.IsNotNull()) {
-    if (fabs((float)center_value) <= m_NarrowBand->GetTotalRadius()) 
+    if (m_NarrowBand.IsNotNull())
       {
-      node.m_Index = it.GetIndex();
-      //Check node state.
-      node.m_NodeState = 0;         
-      if (center_value>0)
+      if (fabs((float)center_value) <= m_NarrowBand->GetTotalRadius()) 
         {
-        node.m_NodeState += SIGN_MASK;
+        node.m_Index = it.GetIndex();
+        //Check node state.
+        node.m_NodeState = 0;
+        if (center_value>0)
+          {
+          node.m_NodeState += SIGN_MASK;
+          }
+        if (fabs((float)center_value) < m_NarrowBand->GetInnerRadius())  
+          {
+          node.m_NodeState += INNER_MASK;
+          }
+        m_NarrowBand->PushBack(node);
         }
-      if (fabs((float)center_value) < m_NarrowBand->GetInnerRadius())  
-        {
-        node.m_NodeState += INNER_MASK;
-        }
-      m_NarrowBand->PushBack(node);
       }
-    }
     
     /** Update Positive Distance */
     if (center_value>-m_Weights[0])

@@ -114,17 +114,19 @@ class ITK_EXPORT GeodesicActiveContourShapePriorLevelSetImageFilter
 {
 public:
   /** Standard class typedefs */
-  typedef GeodesicActiveContourShapePriorLevelSetImageFilter Self;
+  typedef GeodesicActiveContourShapePriorLevelSetImageFilter
+                                    Self;
   typedef ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                           TOutputPixelType > Superclass;
-  typedef SmartPointer<Self>  Pointer;
+                                           TOutputPixelType >
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
-  typedef typename Superclass::OutputPixelType OutputPixelType;
+  typedef typename Superclass::OutputPixelType  OutputPixelType;
   
   /** Type of the segmentation function */
   typedef GeodesicActiveContourShapePriorLevelSetFunction< OutputImageType,
@@ -143,17 +145,17 @@ public:
      
   /** Set the value of sigma used to compute the edge potential map derivatives */
   void SetDerivativeSigma( float value )
-  { 
+    { 
     if ( value != m_GeodesicActiveContourFunction->GetDerivativeSigma() )
       {
       m_GeodesicActiveContourFunction->SetDerivativeSigma( value );
       this->Modified();
       }
-  }
+    }
 
   /** Get the value of sigma used to compute the edge potential map derivatives. */
   float GetDerivativeSigma() const
-  { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
+    { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
     
 protected:
   ~GeodesicActiveContourShapePriorLevelSetImageFilter() {}

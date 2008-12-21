@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourLevelSetFunction_txx_
-#define __itkGeodesicActiveContourLevelSetFunction_txx_
+#ifndef __itkGeodesicActiveContourLevelSetFunction_txx
+#define __itkGeodesicActiveContourLevelSetFunction_txx
 
 #include "itkGeodesicActiveContourLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

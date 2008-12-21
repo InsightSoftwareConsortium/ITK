@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFastMarchingImageFilter_txx
-#define _itkFastMarchingImageFilter_txx
+#ifndef __itkFastMarchingImageFilter_txx
+#define __itkFastMarchingImageFilter_txx
 
 #include "itkFastMarchingImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -27,9 +27,6 @@
 namespace itk
 {
 
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
 ::FastMarchingImageFilter()
@@ -66,10 +63,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   m_NormalizationFactor = 1.0;
 }
 
-
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -93,9 +86,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
 }
 
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -116,10 +106,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     }
 }
 
-
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -141,16 +127,11 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     itkWarningMacro(<< "itk::FastMarchingImageFilter" <<
                     "::EnlargeOutputRequestedRegion cannot cast "
                     << typeid(output).name() << " to "
-                    << typeid(TLevelSet*).name() );    
+                    << typeid(TLevelSet*).name() );
     }
 
 }
 
-
-
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -191,8 +172,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
 
   // set all points type to FarPoint
-  typedef ImageRegionIterator< LabelImageType > 
-    LabelIterator;
+  typedef ImageRegionIterator< LabelImageType > LabelIterator;
 
   LabelIterator typeIt( m_LabelImage,
                         m_LabelImage->GetBufferedRegion() );
@@ -211,7 +191,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     typename NodeContainer::ConstIterator pointsIter = m_AlivePoints->Begin();
     typename NodeContainer::ConstIterator pointsEnd = m_AlivePoints->End();
 
-    for ( ; pointsIter != pointsEnd; ++pointsIter )
+    for (; pointsIter != pointsEnd; ++pointsIter )
       {
 
       // get node from alive points container
@@ -246,7 +226,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
     typename NodeContainer::ConstIterator pointsIter = m_TrialPoints->Begin();
     typename NodeContainer::ConstIterator pointsEnd = m_TrialPoints->End();
 
-    for ( ; pointsIter != pointsEnd; ++pointsIter )
+    for (; pointsIter != pointsEnd; ++pointsIter )
       {
       
       // get node from trial points container
@@ -271,10 +251,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       
 }
 
-
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -356,9 +332,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
   
 }
 
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 void
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -398,10 +371,6 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
 }
 
-
-/*
- *
- */
 template <class TLevelSet, class TSpeedImage>
 double
 FastMarchingImageFilter<TLevelSet,TSpeedImage>
@@ -434,7 +403,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       if ( m_LabelImage->GetPixel( neighIndex ) == AlivePoint )
         {
         outputPixel = output->GetPixel( neighIndex );
-        neighValue = outputPixel ;
+        neighValue = outputPixel;
 
         if( node.GetValue() > neighValue )
           {

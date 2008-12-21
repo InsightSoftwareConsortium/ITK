@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFastMarchingExtensionImageFilter_h
-#define _itkFastMarchingExtensionImageFilter_h
+#ifndef __itkFastMarchingExtensionImageFilter_h
+#define __itkFastMarchingExtensionImageFilter_h
 
 #include "itkFastMarchingImageFilter.h"
 #include "itkImage.h"
@@ -60,10 +60,10 @@ class ITK_EXPORT FastMarchingExtensionImageFilter :
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingExtensionImageFilter Self;
+  typedef FastMarchingExtensionImageFilter               Self;
   typedef FastMarchingImageFilter<TLevelSet,TSpeedImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,8 +72,8 @@ public:
   itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
 
   /** Inherited typedefs. */
-  typedef typename Superclass::LevelSetType  LevelSetType;
-  typedef typename Superclass::SpeedImageType SpeedImageType;
+  typedef typename Superclass::LevelSetType       LevelSetType;
+  typedef typename Superclass::SpeedImageType     SpeedImageType;
   typedef typename Superclass::LevelSetImageType  LevelSetImageType;
 
   /** The dimension of the level set. */
@@ -85,12 +85,13 @@ public:
   /** AuxVarType typedef support. */
   typedef AuxVarTypeDefault<TAuxValue,
                             itkGetStaticConstMacro(AuxDimension),
-                            itkGetStaticConstMacro(SetDimension)> AuxVarType;
-  typedef typename AuxVarType::AuxValueType AuxValueType;
+                            itkGetStaticConstMacro(SetDimension)>
+                                                  AuxVarType;
+  typedef typename AuxVarType::AuxValueType       AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
-  typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
-  typedef typename AuxVarType::AuxImageType AuxImageType;
-  typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
+  typedef typename AuxVarType::AuxValueContainer  AuxValueContainer;
+  typedef typename AuxVarType::AuxImageType       AuxImageType;
+  typedef typename AuxVarType::AuxImagePointer    AuxImagePointer;
 
   /** Index typedef support. */
   typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
@@ -100,19 +101,27 @@ public:
 
   /** Set the container auxiliary values at the initial alive points. */
   void SetAuxiliaryAliveValues( AuxValueContainer * values )
-  { m_AuxAliveValues = values; }
+    {
+    m_AuxAliveValues = values;
+    }
 
   /** Get the container of auxiliary values at the initial alive points. */
   AuxValueContainer * GetAuxiliaryAliveValues(void)
-  { return m_AuxAliveValues.GetPointer(); }
+    {
+    return m_AuxAliveValues.GetPointer();
+    }
 
   /** Set the container of auxiliary values at the initial trial points. */
   void SetAuxiliaryTrialValues( AuxValueContainer * values )
-  { m_AuxTrialValues = values; }
+    {
+    m_AuxTrialValues = values;
+    }
 
   /** Get the container of auxiliary values at the initial trial points. */
   typename AuxValueContainer::Pointer GetAuxiliaryTrialValues()
-  { return m_AuxTrialValues; }
+    {
+    return m_AuxTrialValues;
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

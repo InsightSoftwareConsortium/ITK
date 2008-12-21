@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourLevelSetFunction_h_
-#define __itkGeodesicActiveContourLevelSetFunction_h_
+#ifndef __itkGeodesicActiveContourLevelSetFunction_h
+#define __itkGeodesicActiveContourLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 
 namespace itk {
 
 /** \class GeodesicActiveContourLevelSetFunction
- *    
+ *
  * \brief This function is used in GeodesicActiveContourLevelSetImageFilter to
  * segment structures in an image based on a user supplied edge potential map.
  *
@@ -78,10 +78,11 @@ class ITK_EXPORT GeodesicActiveContourLevelSetFunction
 public:
   /** Standard class typedefs. */
   typedef GeodesicActiveContourLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef TFeatureImageType FeatureImageType;
+  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+                                                Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
+  typedef TFeatureImageType                     FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,14 +91,14 @@ public:
   itkTypeMacro( GeodesicActiveContourLevelSetFunction, SegmentationLevelSetFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
+  typedef typename Superclass::ImageType         ImageType;
+  typedef typename Superclass::NeighborhoodType  NeighborhoodType;
+  typedef typename Superclass::ScalarValueType   ScalarValueType;
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
-  typedef typename Superclass::VectorImageType VectorImageType;
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  typedef typename Superclass::RadiusType        RadiusType;
+  typedef typename Superclass::FloatOffsetType   FloatOffsetType;
+  typedef typename Superclass::VectorImageType   VectorImageType;
+  typedef typename Superclass::GlobalDataStruct  GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -112,46 +113,47 @@ public:
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
                                          const FloatOffsetType & offset, GlobalDataStruct *gd ) const
-  { return PropagationSpeed( neighborhood, offset, gd ); }
+    { 
+    return PropagationSpeed( neighborhood, offset, gd );
+    }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */
   void SetDerivativeSigma( const double v )
-  { m_DerivativeSigma = v; }
+    { m_DerivativeSigma = v; }
   double GetDerivativeSigma()
-  { return m_DerivativeSigma; };
+    { return m_DerivativeSigma; }
 
   virtual void Initialize(const RadiusType &r)
-  {
+    {
     Superclass::Initialize(r);
     
     this->SetAdvectionWeight( NumericTraits<ScalarValueType>::One );
     this->SetPropagationWeight( NumericTraits<ScalarValueType>::One );
     this->SetCurvatureWeight( NumericTraits<ScalarValueType>::One );
-  }
+    }
   
 protected:
   GeodesicActiveContourLevelSetFunction()
-  {
+    {
     this->SetAdvectionWeight( NumericTraits<ScalarValueType>::One );
     this->SetPropagationWeight( NumericTraits<ScalarValueType>::One );
     this->SetCurvatureWeight( NumericTraits<ScalarValueType>::One );
 
     m_DerivativeSigma = 1.0;
-  }
+    }
   virtual ~GeodesicActiveContourLevelSetFunction() {}
 
   GeodesicActiveContourLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os, indent );
     os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
-  }
+    }
 
 private:
-  
   double m_DerivativeSigma;
   
 };

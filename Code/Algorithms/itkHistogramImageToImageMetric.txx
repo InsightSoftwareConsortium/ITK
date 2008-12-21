@@ -47,9 +47,9 @@ template <class TFixedImage, class TMovingImage>
 void HistogramImageToImageMetric<TFixedImage, TMovingImage>
 ::SetUpperBound( const MeasurementVectorType & bounds )
 {
-   m_UpperBound = bounds;
-   m_UpperBoundSetByUser = true;
-   this->Modified();
+  m_UpperBound = bounds;
+  m_UpperBoundSetByUser = true;
+  this->Modified();
 }
 
 
@@ -57,11 +57,10 @@ template <class TFixedImage, class TMovingImage>
 void HistogramImageToImageMetric<TFixedImage, TMovingImage>
 ::SetLowerBound( const MeasurementVectorType & bounds )
 {
-   m_LowerBound = bounds;
-   m_LowerBoundSetByUser = true;
-   this->Modified();
+  m_LowerBound = bounds;
+  m_LowerBoundSetByUser = true;
+  this->Modified();
 }
-
 
 template <class TFixedImage, class TMovingImage>
 void HistogramImageToImageMetric<TFixedImage, TMovingImage>

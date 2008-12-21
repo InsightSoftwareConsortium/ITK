@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFastSymmetricForcesDemonsRegistrationFunction_h_
-#define _itkFastSymmetricForcesDemonsRegistrationFunction_h_
+#ifndef __itkFastSymmetricForcesDemonsRegistrationFunction_h
+#define __itkFastSymmetricForcesDemonsRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"
@@ -49,11 +49,12 @@ class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef FastSymmetricForcesDemonsRegistrationFunction    Self;
+  typedef FastSymmetricForcesDemonsRegistrationFunction  Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
-                                             TMovingImage, TDeformationField >    Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                                             TMovingImage, TDeformationField >
+                                                         Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,64 +75,73 @@ public:
   typedef typename FixedImageType::SpacingType    SpacingType;
   
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType    DeformationFieldType;
+  typedef typename Superclass::DeformationFieldType  DeformationFieldType;
   typedef typename Superclass::DeformationFieldTypePointer   
-  DeformationFieldTypePointer;
+                                                     DeformationFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Inherit some enums from the superclass. */
-  typedef typename Superclass::PixelType     PixelType;
-  typedef typename Superclass::RadiusType    RadiusType;
+  typedef typename Superclass::PixelType           PixelType;
+  typedef typename Superclass::RadiusType          RadiusType;
   typedef typename Superclass::NeighborhoodType    NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::FloatOffsetType     FloatOffsetType;
+  typedef typename Superclass::TimeStepType        TimeStepType;
 
   /** Interpolator type. */
-  typedef double CoordRepType;
-  typedef InterpolateImageFunction<MovingImageType,CoordRepType> InterpolatorType;
-  typedef typename InterpolatorType::Pointer         InterpolatorPointer;
-  typedef typename InterpolatorType::PointType       PointType;
+  typedef double                                   CoordRepType;
+  typedef InterpolateImageFunction<MovingImageType,CoordRepType>
+                                                   InterpolatorType;
+  typedef typename InterpolatorType::Pointer       InterpolatorPointer;
+  typedef typename InterpolatorType::PointType     PointType;
   typedef LinearInterpolateImageFunction<MovingImageType,CoordRepType>
-  DefaultInterpolatorType;
+                                                   DefaultInterpolatorType;
 
   /** Warper type */
-  typedef WarpImageFilter<MovingImageType,MovingImageType,DeformationFieldType> WarperType;
+  typedef WarpImageFilter<MovingImageType,MovingImageType,DeformationFieldType>
+                                       WarperType;
   typedef typename WarperType::Pointer WarperPointer;
 
   /** Covariant vector type. */
-  typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)> CovariantVectorType;
+  typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)>
+                                       CovariantVectorType;
 
   /** Gradient calculator types. */
-  typedef CentralDifferenceImageFunction<FixedImageType> GradientCalculatorType;
-  typedef typename GradientCalculatorType::Pointer   GradientCalculatorPointer;
+  typedef CentralDifferenceImageFunction<FixedImageType>  GradientCalculatorType;
+  typedef typename GradientCalculatorType::Pointer        GradientCalculatorPointer;
 
   typedef CentralDifferenceImageFunction<MovingImageType> MovingGradientCalculatorType;
   typedef typename MovingGradientCalculatorType::Pointer   MovingGradientCalculatorPointer;
 
   /** Set the moving image interpolator. */
   void SetMovingImageInterpolator( InterpolatorType * ptr )
-  { m_MovingImageInterpolator = ptr; m_MovingImageWarper->SetInterpolator( ptr ); }
+    {
+    m_MovingImageInterpolator = ptr; m_MovingImageWarper->SetInterpolator( ptr );
+    }
 
   /** Get the moving image interpolator. */
   InterpolatorType * GetMovingImageInterpolator(void)
-  { return m_MovingImageInterpolator; }
+    {
+    return m_MovingImageInterpolator;
+    }
 
   /** This class uses a constant timestep of 1. */
   virtual TimeStepType ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
-  { return m_TimeStep; }
+    {
+    return m_TimeStep;
+    }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
   virtual void *GetGlobalDataPointer() const
-  {
+    {
     GlobalDataStruct *global = new GlobalDataStruct();
     global->m_SumOfSquaredDifference  = 0.0;
     global->m_NumberOfPixelsProcessed = 0L;
     global->m_SumOfSquaredChange      = 0;
     return global;
-  }
+    }
 
   /** Release memory for global data structure. */
   virtual void ReleaseGlobalDataPointer( void *GlobalData ) const;
@@ -145,15 +155,19 @@ public:
                                    void *globalData,
                                    const FloatOffsetType &offset = FloatOffsetType(0.0));
 
-   /** Get the metric value. The metric value is the mean square difference 
+  /** Get the metric value. The metric value is the mean square difference 
    * in intensity between the fixed image and transforming moving image 
    * computed over the the overlapping region between the two images. */
   virtual double GetMetric() const
-    { return m_Metric; }
+    {
+    return m_Metric;
+    }
 
   /** Get the rms change in deformation field. */
   virtual const double &GetRMSChange() const
-    { return m_RMSChange; }
+    {
+    return m_RMSChange;
+    }
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
@@ -173,11 +187,11 @@ protected:
   /** A global data type for this class of equation. Used to store
    * iterators for the fixed image. */
   struct GlobalDataStruct
-  {
+    {
     double          m_SumOfSquaredDifference;
     unsigned long   m_NumberOfPixelsProcessed;
     double          m_SumOfSquaredChange;
-  };
+    };
 
 private:
   FastSymmetricForcesDemonsRegistrationFunction(const Self&); //purposely not implemented

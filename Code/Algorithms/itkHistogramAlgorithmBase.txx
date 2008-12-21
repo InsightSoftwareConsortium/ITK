@@ -36,14 +36,14 @@ HistogramAlgorithmBase< TInputHistogram >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Input Histogram: " ;
+  os << indent << "Input Histogram: ";
   if ( m_InputHistogram.IsNotNull() )
     {
     os << m_InputHistogram << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 }
 
@@ -51,4 +51,3 @@ HistogramAlgorithmBase< TInputHistogram >
 } // end of namespace itk
 
 #endif
-

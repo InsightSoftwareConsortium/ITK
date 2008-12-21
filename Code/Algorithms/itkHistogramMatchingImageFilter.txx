@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHistogramMatchingImageFilter_txx
-#define _itkHistogramMatchingImageFilter_txx
+#ifndef __itkHistogramMatchingImageFilter_txx
+#define __itkHistogramMatchingImageFilter_txx
 
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/*
+/**
  *
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
@@ -151,7 +151,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 }
 
 
-/*
+/**
  * 
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
@@ -159,7 +159,6 @@ void
 HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 ::BeforeThreadedGenerateData()
 {
-
   unsigned int j;
 
   InputImageConstPointer  source    = this->GetSourceImage();
@@ -185,7 +184,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
                             m_SourceIntensityThreshold, m_SourceMaxValue );
   this->ConstructHistogram( reference, m_ReferenceHistogram, 
                             m_ReferenceIntensityThreshold,
-                            m_ReferenceMaxValue );    
+                            m_ReferenceMaxValue );
    
   // Fill in the quantile table.
   m_QuantileTable.set_size( 3, m_NumberOfMatchPoints + 2 );
@@ -250,7 +249,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 }
 
 
-/*
+/**
  * 
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
@@ -291,7 +290,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 }
 
 
-/*
+/**
  *
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
@@ -311,7 +310,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
   // Transform the source image and write to output.
   typedef ImageRegionConstIterator<InputImageType> InputConstIterator;
-  typedef ImageRegionIterator<OutputImageType> OutputIterator;
+  typedef ImageRegionIterator<OutputImageType>     OutputIterator;
 
   InputConstIterator inIter(  input, outputRegionForThread );
   OutputIterator     outIter( output, outputRegionForThread );
@@ -374,7 +373,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 }
 
 
-/*
+/**
  * Compute min, max and mean of an image.
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
@@ -412,7 +411,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
 }
 
-/*
+/**
  * Construct a histogram from an image.
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
@@ -424,19 +423,19 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
   const THistogramMeasurement minValue,
   const THistogramMeasurement maxValue )
 {
-  {
-  // allocate memory for the histogram
-  typename HistogramType::SizeType size;
-  size[0] = m_NumberOfHistogramLevels;
-  typename HistogramType::MeasurementVectorType lowerBound ;
-  lowerBound.Fill(minValue) ;
-  typename HistogramType::MeasurementVectorType upperBound ;
-  upperBound.Fill(maxValue) ;
+    {
+    // allocate memory for the histogram
+    typename HistogramType::SizeType size;
+    size[0] = m_NumberOfHistogramLevels;
+    typename HistogramType::MeasurementVectorType lowerBound;
+    lowerBound.Fill(minValue);
+    typename HistogramType::MeasurementVectorType upperBound;
+    upperBound.Fill(maxValue);
 
-  //Initialize with equally spaced bins.
-  histogram->Initialize( size , lowerBound, upperBound );
-  histogram->SetToZero();
-  }
+    //Initialize with equally spaced bins.
+    histogram->Initialize( size , lowerBound, upperBound );
+    histogram->SetToZero();
+    }
 
   typename HistogramType::MeasurementVectorType measurement;
   typedef typename HistogramType::MeasurementType MeasurementType;

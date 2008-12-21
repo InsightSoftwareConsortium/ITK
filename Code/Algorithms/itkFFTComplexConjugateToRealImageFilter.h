@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
@@ -30,21 +30,21 @@ namespace itk
  * \ingroup 
  */
 
-template < class TPixel,unsigned int Dimension = 3 >
+template < class TPixel,unsigned int VDimension = 3 >
 class FFTComplexConjugateToRealImageFilter :
-    public ImageToImageFilter< Image< std::complex< TPixel > , Dimension >,
-                               Image< TPixel,Dimension > >
+    public ImageToImageFilter< Image< std::complex< TPixel > , VDimension >,
+                               Image< TPixel,VDimension > >
 
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef Image< std::complex< TPixel > ,Dimension> TInputImageType;
-  typedef Image<TPixel,Dimension> TOutputImageType;
+  /** Standard class typedefs. */ 
+  typedef Image< std::complex< TPixel > ,VDimension> TInputImageType;
+  typedef Image<TPixel,VDimension>                   TOutputImageType;
 
-  typedef FFTComplexConjugateToRealImageFilter Self;
+  typedef FFTComplexConjugateToRealImageFilter                    Self;
   typedef ImageToImageFilter< TInputImageType, TOutputImageType > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImageType::ImageDimension );
@@ -60,22 +60,27 @@ public:
   static Pointer New(void);
 
   /** Image type typedef support. */
-  typedef TInputImageType ImageType;
+  typedef TInputImageType              ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
   virtual void GenerateOutputInformation(); // figure out allocation for output image
   virtual void GenerateInputRequestedRegion();
   virtual bool FullMatrix() = 0; // must be implemented in child  
   void SetActualXDimensionIsOdd(bool isodd) 
-  { 
+    { 
     m_ActualXDimensionIsOdd = isodd; 
-  }
-  void SetActualXDimensionIsOddOn() { 
+    }
+  void SetActualXDimensionIsOddOn()
+    { 
     this->SetActualXDimensionIsOdd(true);
-  }
-  void SetActualXDimensionIsOddOff() { 
+    }
+  void SetActualXDimensionIsOddOff()
+    { 
     this->SetActualXDimensionIsOdd(false);
-  }
-  bool ActualXDimensionIsOdd() { return m_ActualXDimensionIsOdd; }
+    }
+  bool ActualXDimensionIsOdd()
+    {
+    return m_ActualXDimensionIsOdd;
+    }
 protected:
   FFTComplexConjugateToRealImageFilter() : m_ActualXDimensionIsOdd(false) {}
   virtual ~FFTComplexConjugateToRealImageFilter(){}

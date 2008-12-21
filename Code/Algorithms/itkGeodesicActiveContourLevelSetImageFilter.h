@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourLevelSetImageFilter_h_
-#define __itkGeodesicActiveContourLevelSetImageFilter_h_
+#ifndef __itkGeodesicActiveContourLevelSetImageFilter_h
+#define __itkGeodesicActiveContourLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkGeodesicActiveContourLevelSetFunction.h"
@@ -108,15 +108,17 @@ class ITK_EXPORT GeodesicActiveContourLevelSetImageFilter
 {
 public:
   /** Standard class typedefs */
-  typedef GeodesicActiveContourLevelSetImageFilter Self;
+  typedef GeodesicActiveContourLevelSetImageFilter
+                                    Self;
   typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                           TOutputPixelType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
+                                           TOutputPixelType>
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   
   /** Type of the segmentation function */
@@ -131,19 +133,20 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
      
-  /** Set the value of sigma used to compute the edge potential map derivatives */
+  /** Set the value of sigma used to compute the edge potential map
+   * derivatives  */
   void SetDerivativeSigma( float value )
-  { 
+    { 
     if ( value != m_GeodesicActiveContourFunction->GetDerivativeSigma() )
       {
       m_GeodesicActiveContourFunction->SetDerivativeSigma( value );
       this->Modified();
       }
-  }
+    }
 
   /** Get the value of sigma used to compute the edge potential map derivatives. */
   float GetDerivativeSigma() const
-  { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
+    { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
     
 protected:
   ~GeodesicActiveContourLevelSetImageFilter() {}
@@ -162,8 +165,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGeodesicActiveContourLevelSetImageFilter.txx"

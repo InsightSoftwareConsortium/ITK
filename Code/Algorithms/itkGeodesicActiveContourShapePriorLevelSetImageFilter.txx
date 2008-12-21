@@ -14,13 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourShapePriorLevelSetImageFilter_txx_
-#define __itkGeodesicActiveContourShapePriorLevelSetImageFilter_txx_
+#ifndef __itkGeodesicActiveContourShapePriorLevelSetImageFilter_txx
+#define __itkGeodesicActiveContourShapePriorLevelSetImageFilter_txx
 
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.h"
 
 namespace itk {
-
 
 template <class TInputImage, class TFeatureImage, class TOutputType>
 GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
@@ -65,8 +64,5 @@ GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, T
 }
 
 }// end namespace itk
-
-
-
 
 #endif

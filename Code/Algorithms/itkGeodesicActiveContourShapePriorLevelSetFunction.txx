@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourShapePriorLevelSetFunction_txx_
-#define __itkGeodesicActiveContourShapePriorLevelSetFunction_txx_
+#ifndef __itkGeodesicActiveContourShapePriorLevelSetFunction_txx
+#define __itkGeodesicActiveContourShapePriorLevelSetFunction_txx
 
 #include "itkGeodesicActiveContourShapePriorLevelSetFunction.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"

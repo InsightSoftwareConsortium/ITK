@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
@@ -24,25 +24,25 @@
 
 namespace itk
 {
-/** /class FFTRealToComplexConjugateImageFilter
- * /brief 
+/** \class FFTRealToComplexConjugateImageFilter
+ * \brief 
  *
  * \ingroup 
  */
-template <class TPixel,unsigned int Dimension = 3>
+template <class TPixel,unsigned int VDimension = 3>
 class ITK_EXPORT FFTRealToComplexConjugateImageFilter :
-    public ImageToImageFilter< Image< TPixel , Dimension >,
-                               Image< std::complex< TPixel > , Dimension > >
+    public ImageToImageFilter< Image< TPixel , VDimension >,
+                               Image< std::complex< TPixel > , VDimension > >
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef Image<TPixel,Dimension> TInputImageType;
-  typedef Image< std::complex< TPixel > , Dimension> TOutputImageType;
+  /** Standard class typedefs. */ 
+  typedef Image<TPixel,VDimension>                    TInputImageType;
+  typedef Image< std::complex< TPixel > , VDimension> TOutputImageType;
 
-  typedef FFTRealToComplexConjugateImageFilter Self;
+  typedef FFTRealToComplexConjugateImageFilter                    Self;
   typedef ImageToImageFilter< TInputImageType, TOutputImageType > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTRealToComplexConjugateImageFilter, ImageToImageFilter);

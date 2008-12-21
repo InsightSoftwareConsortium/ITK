@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,9 +27,9 @@
 namespace itk
 {
 
-template <typename TPixel, unsigned int Dimension>
+template <typename TPixel, unsigned int VDimension>
 void
-FFTWComplexConjugateToRealImageFilter<TPixel,Dimension>::
+FFTWComplexConjugateToRealImageFilter<TPixel,VDimension>::
 GenerateData()
 {
   // get pointers to the input and output
@@ -57,7 +57,7 @@ GenerateData()
   unsigned int total_outputSize = 1;
   unsigned int total_inputSize = 1;
 
-  for(unsigned i = 0; i < Dimension; i++)
+  for(unsigned i = 0; i < VDimension; i++)
     {
     total_outputSize *= outputSize[i];
     total_inputSize *= inputSize[i];
@@ -83,7 +83,7 @@ GenerateData()
     this->m_OutputBuffer = new TPixel[total_outputSize];
     this->m_LastImageSize = total_outputSize;
 
-    switch(Dimension)
+    switch(VDimension)
       {
       case 1:
         this->m_Plan = FFTWProxyType::Plan_dft_c2r_1d(outputSize[0],
@@ -101,12 +101,12 @@ GenerateData()
                                        FFTW_ESTIMATE);
         break;
       default:
-        int *sizes = new int[Dimension];
-        for(unsigned int i = 0; i < Dimension; i++)
+        int *sizes = new int[VDimension];
+        for(unsigned int i = 0; i < VDimension; i++)
           {
-          sizes[(Dimension - 1) - i] = outputSize[i];
+          sizes[(VDimension - 1) - i] = outputSize[i];
           }
-        this->m_Plan = FFTWProxyType::Plan_dft_c2r(Dimension,sizes,
+        this->m_Plan = FFTWProxyType::Plan_dft_c2r(VDimension,sizes,
                                     this->m_InputBuffer,
                                     this->m_OutputBuffer,FFTW_ESTIMATE);
         delete [] sizes;
@@ -133,9 +133,9 @@ GenerateData()
     ++it;
     }
 }
-template <typename TPixel,unsigned int Dimension>
+template <typename TPixel,unsigned int VDimension>
 bool
-FFTWComplexConjugateToRealImageFilter<TPixel,Dimension>::
+FFTWComplexConjugateToRealImageFilter<TPixel,VDimension>::
 FullMatrix()
 {
   return false;

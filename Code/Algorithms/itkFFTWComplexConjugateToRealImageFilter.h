@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,15 +27,15 @@
 namespace itk
 {
 
-template <typename TPixel,unsigned int Dimension>
+template <typename TPixel,unsigned int VDimension>
 class FFTWComplexConjugateToRealImageFilter :
-    public FFTComplexConjugateToRealImageFilter<TPixel,Dimension>
+    public FFTComplexConjugateToRealImageFilter<TPixel,VDimension>
 {
 public:
-  typedef FFTWComplexConjugateToRealImageFilter Self;
-  typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
+  typedef FFTWComplexConjugateToRealImageFilter                   Self;
+  typedef FFTComplexConjugateToRealImageFilter<TPixel,VDimension> Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
   //
   // the proxy type is a wrapper for the fftw API
   // since the proxy is only defined over double and float,
@@ -45,8 +45,8 @@ public:
   //
   typedef typename fftw::Proxy<TPixel> FFTWProxyType;
 
-  /** Standard class typedefs.*/
-  typedef typename Superclass::TInputImageType TInputImageType;
+  /** Standard class typedefs. */
+  typedef typename Superclass::TInputImageType  TInputImageType;
   typedef typename Superclass::TOutputImageType TOutputImageType;
 
   /** Method for creation through the object factory. */
@@ -57,7 +57,7 @@ public:
                FFTComplexConjugateToRealImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType ImageType;
+  typedef TInputImageType              ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   //
@@ -69,26 +69,27 @@ protected:
                                             m_LastImageSize(0),
                                             m_InputBuffer(0),
                                             m_OutputBuffer(0)
-  {
-  }
-  virtual ~FFTWComplexConjugateToRealImageFilter(){
+    {
+    }
+  virtual ~FFTWComplexConjugateToRealImageFilter()
+    {
     if(m_PlanComputed)
       {
       FFTWProxyType::DestroyPlan(m_Plan);
       delete [] m_InputBuffer;
       delete [] m_OutputBuffer;
       }
-  }
+    }
 
 private:
   FFTWComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  bool m_PlanComputed;
+  bool                             m_PlanComputed;
   typename FFTWProxyType::PlanType m_Plan;
-  unsigned int m_LastImageSize;
+  unsigned int                     m_LastImageSize;
   // local storage needed to keep fftw from scribbling on
   typename FFTWProxyType::ComplexType *m_InputBuffer;
-  TPixel *m_OutputBuffer;
+  TPixel                              *m_OutputBuffer;
 };
 
 

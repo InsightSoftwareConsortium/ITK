@@ -36,7 +36,7 @@ public:
   typedef SCSLComplexConjugateToRealImageFilter Self;
   typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
   typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> constPointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

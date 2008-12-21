@@ -6,13 +6,12 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
      PURPOSE.  See the above copyright notices for more information.
-
 
 =========================================================================*/
 #ifndef __itkFFTComplexConjugateToRealImageFilter_txx
@@ -30,9 +29,9 @@
 namespace itk
 {
 
-template < class TPixel , unsigned int Dimension >
-typename FFTComplexConjugateToRealImageFilter < TPixel , Dimension >::Pointer
-FFTComplexConjugateToRealImageFilter < TPixel , Dimension >
+template < class TPixel , unsigned int VDimension >
+typename FFTComplexConjugateToRealImageFilter < TPixel , VDimension >::Pointer
+FFTComplexConjugateToRealImageFilter < TPixel , VDimension >
 ::New(void)
 { 
   Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
@@ -43,7 +42,7 @@ FFTComplexConjugateToRealImageFilter < TPixel , Dimension >
     if (typeid(TPixel) == typeid(double))
       {
       smartPtr = dynamic_cast<Self *>(
-        FFTWComplexConjugateToRealImageFilter< double, Dimension >
+        FFTWComplexConjugateToRealImageFilter< double, VDimension >
           ::New().GetPointer() );
       }
     }
@@ -54,7 +53,7 @@ FFTComplexConjugateToRealImageFilter < TPixel , Dimension >
     if (typeid(TPixel) == typeid(float))
       {
       smartPtr = dynamic_cast<Self *>(
-        FFTWComplexConjugateToRealImageFilter< float, Dimension >
+        FFTWComplexConjugateToRealImageFilter< float, VDimension >
           ::New().GetPointer());
       }
     }
@@ -62,16 +61,16 @@ FFTComplexConjugateToRealImageFilter < TPixel , Dimension >
 
   if(smartPtr.IsNull())
     {
-    smartPtr = VnlFFTComplexConjugateToRealImageFilter< TPixel, Dimension >
+    smartPtr = VnlFFTComplexConjugateToRealImageFilter< TPixel, VDimension >
                   ::New().GetPointer();
     }
 
   return smartPtr;
 }
 
-template <class TPixel, unsigned int Dimension>
+template <class TPixel, unsigned int VDimension>
 void
-FFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
+FFTComplexConjugateToRealImageFilter<TPixel,VDimension>::
 GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -149,9 +148,9 @@ GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
-template <class TPixel, unsigned int Dimension>
+template <class TPixel, unsigned int VDimension>
 void
-FFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
+FFTComplexConjugateToRealImageFilter<TPixel,VDimension>::
 GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();

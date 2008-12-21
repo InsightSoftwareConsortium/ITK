@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFastMarchingImageFilter_h
-#define _itkFastMarchingImageFilter_h
+#ifndef __itkFastMarchingImageFilter_h
+#define __itkFastMarchingImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkLevelSet.h"
@@ -106,9 +106,9 @@ class ITK_EXPORT FastMarchingImageFilter :
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingImageFilter Self;
-  typedef ImageSource<TLevelSet> Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef FastMarchingImageFilter   Self;
+  typedef ImageSource<TLevelSet>    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -132,14 +132,14 @@ public:
   typedef typename LevelSetImageType::PointType       OutputPointType;
 
   class AxisNodeType : public NodeType
-  {
-  public:
-    int GetAxis() const { return m_Axis; }
-    void SetAxis( int axis ) { m_Axis = axis; }
-    const AxisNodeType & operator=(const NodeType & node)
-                          { this->NodeType::operator=(node); return *this; }
-  private:
-    int m_Axis;
+    {
+    public:
+      int GetAxis() const { return m_Axis; }
+      void SetAxis( int axis ) { m_Axis = axis; }
+      const AxisNodeType & operator=(const NodeType & node)
+      { this->NodeType::operator=(node); return *this; }
+    private:
+      int m_Axis;
   };
 
   /** SpeedImage typedef support. */
@@ -173,40 +173,46 @@ public:
   /** Set the container of Alive Points representing the initial front.
    * Alive points are represented as a VectorContainer of LevelSetNodes. */
   void SetAlivePoints( NodeContainer * points )
-  { 
+    { 
     m_AlivePoints = points; 
     this->Modified(); 
-  };
+    }
 
   /** Get the container of Alive Points representing the initial front. */
   NodeContainerPointer GetAlivePoints( )
-  { return m_AlivePoints; };
+    {
+    return m_AlivePoints;
+    }
 
   /** Set the container of Trial Points representing the initial front.
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
   void SetTrialPoints( NodeContainer * points )
-  { 
+    { 
     m_TrialPoints = points;
     this->Modified();
-  };
+    }
 
   /** Get the container of Trial Points representing the initial front. */
   NodeContainerPointer GetTrialPoints( )
-  { return m_TrialPoints; };
+    {
+    return m_TrialPoints;
+    }
 
   /** Get the point type label image. */
   LabelImagePointer GetLabelImage() const
-  { return m_LabelImage; };
+    {
+    return m_LabelImage;
+    }
 
   /** Set the Speed Constant. If the Speed Image is NULL,
    * the SpeedConstant value is used for the whole level set.
    * By default, the SpeedConstant is set to 1.0. */
   void SetSpeedConstant( double value )
-  {
+    {
     m_SpeedConstant = value;
     m_InverseSpeed = -1.0 * vnl_math_sqr( 1.0 / m_SpeedConstant );
     this->Modified();
-  }
+    }
 
   /** Get the Speed Constant. */
   itkGetConstReferenceMacro( SpeedConstant, double );
@@ -241,8 +247,9 @@ public:
    * This is useful for defining creating Narrowbands for level
    * set algorithms that supports narrow banding. */
   NodeContainerPointer GetProcessedPoints() const
-  { return m_ProcessedPoints; }
-
+    {
+    return m_ProcessedPoints;
+    }
 
   /** The output largeset possible, spacing and origin is computed as follows.
    * If the speed image is NULL or if the OverrideOutputInformation is true, 
@@ -343,9 +350,10 @@ private:
   /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point
    * the algorithm processes. */
-  typedef std::vector<AxisNodeType> HeapContainer;
+  typedef std::vector<AxisNodeType>  HeapContainer;
   typedef std::greater<AxisNodeType> NodeComparer;
-  typedef std::priority_queue< AxisNodeType, HeapContainer, NodeComparer > HeapType;
+  typedef std::priority_queue< AxisNodeType, HeapContainer, NodeComparer >
+                                     HeapType;
 
   HeapType    m_TrialHeap;
 

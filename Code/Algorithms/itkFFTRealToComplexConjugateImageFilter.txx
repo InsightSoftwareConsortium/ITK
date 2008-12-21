@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even 
@@ -28,9 +28,9 @@
 namespace itk
 {
 
-template < class TPixel , unsigned int Dimension >
-typename FFTRealToComplexConjugateImageFilter < TPixel , Dimension >::Pointer
-FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
+template < class TPixel , unsigned int VDimension >
+typename FFTRealToComplexConjugateImageFilter < TPixel , VDimension >::Pointer
+FFTRealToComplexConjugateImageFilter < TPixel , VDimension >
 ::New(void)
 {
   Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
@@ -41,7 +41,7 @@ FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
     if (typeid(TPixel) == typeid(double))
       {
       smartPtr = dynamic_cast<Self *>(
-        FFTWRealToComplexConjugateImageFilter< double, Dimension >
+        FFTWRealToComplexConjugateImageFilter< double, VDimension >
           ::New().GetPointer() );
       }
     }
@@ -52,7 +52,7 @@ FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
     if (typeid(TPixel) == typeid(float))
       {
       smartPtr = dynamic_cast<Self *>(
-        FFTWRealToComplexConjugateImageFilter< float, Dimension >
+        FFTWRealToComplexConjugateImageFilter< float, VDimension >
           ::New().GetPointer());
       }
     }
@@ -60,16 +60,16 @@ FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
 
   if(smartPtr.IsNull())
     {
-    smartPtr = VnlFFTRealToComplexConjugateImageFilter< TPixel, Dimension >
+    smartPtr = VnlFFTRealToComplexConjugateImageFilter< TPixel, VDimension >
                   ::New().GetPointer();
     }
 
   return smartPtr;
 }
 
-template < class TPixel , unsigned int Dimension >
+template < class TPixel , unsigned int VDimension >
 void
-FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
+FFTRealToComplexConjugateImageFilter < TPixel , VDimension >
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -134,9 +134,9 @@ FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
-template < class TPixel , unsigned int Dimension >
+template < class TPixel , unsigned int VDimension >
 void
-FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
+FFTRealToComplexConjugateImageFilter < TPixel , VDimension >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -155,9 +155,9 @@ FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
 }
 
  
-template < class TPixel , unsigned int Dimension >
+template < class TPixel , unsigned int VDimension >
 void
-FFTRealToComplexConjugateImageFilter < TPixel , Dimension >
+FFTRealToComplexConjugateImageFilter < TPixel , VDimension >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);

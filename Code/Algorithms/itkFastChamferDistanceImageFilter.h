@@ -25,31 +25,31 @@ namespace itk
 {
 
 /** \class FastChamferDistanceImageFilter
-*   \brief This class compute the signed (positive and negative) chamfer distance in a narrow band
-* 
-*   \par OVERVIEW  
-*   This filter computes a Signed Chamfer Distance Map of the input image
-*   specialy designed to work within the Level Set framework,
-*   in the Narrow Band Reinitialization (generally applied after
-*   IsoContourDistanceImageFilter ).
-*   It can however be used for other purposes.
-*
-*   The input is assumed to contain voxels with values higher than
-*   the Maximal Computed Distance, 
-*   or values between -1 and 1 for voxels close to the 0-isosurface
-*   from which we compute the distance.
-*
-*   This filter is N-dimensional.
-*
-*   \par REFERENCES
-*   Fast and Accurate Redistancing for Level Set Methods
-*  `Krissian K. and Westin C.F.',
-*   EUROCAST NeuroImaging Workshop Las Palmas Spain,
-*   Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
-*
-* \ingroup ImageFeatureExtraction 
-*
-*/
+ *   \brief This class compute the signed (positive and negative) chamfer distance in a narrow band
+ * 
+ *   \par OVERVIEW  
+ *   This filter computes a Signed Chamfer Distance Map of the input image
+ *   specialy designed to work within the Level Set framework,
+ *   in the Narrow Band Reinitialization (generally applied after
+ *   IsoContourDistanceImageFilter ).
+ *   It can however be used for other purposes.
+ *
+ *   The input is assumed to contain voxels with values higher than
+ *   the Maximal Computed Distance, 
+ *   or values between -1 and 1 for voxels close to the 0-isosurface
+ *   from which we compute the distance.
+ *
+ *   This filter is N-dimensional.
+ *
+ *   \par REFERENCES
+ *   Fast and Accurate Redistancing for Level Set Methods
+ *  `Krissian K. and Westin C.F.',
+ *   EUROCAST NeuroImaging Workshop Las Palmas Spain,
+ *   Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
+ *
+ * \ingroup ImageFeatureExtraction 
+ *
+ */
 
 template < class TInputImage, class TOutputImage >
 class ITK_EXPORT FastChamferDistanceImageFilter :
@@ -57,10 +57,10 @@ class ITK_EXPORT FastChamferDistanceImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef FastChamferDistanceImageFilter    Self;
+  typedef FastChamferDistanceImageFilter               Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
   
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -99,8 +99,8 @@ public:
   typedef typename InputImageType::ConstPointer InputImagePointer;
   
   /** NarrowBand container */
-  typedef BandNode<IndexType,PixelType> BandNodeType;
-  typedef NarrowBand<BandNodeType> NarrowBandType;
+  typedef BandNode<IndexType,PixelType>    BandNodeType;
+  typedef NarrowBand<BandNodeType>         NarrowBandType;
   typedef typename NarrowBandType::Pointer NarrowBandPointer;
   
   
@@ -115,30 +115,31 @@ public:
 
   /** */
   void SetRegionToProcess( const RegionType &r)
-  {
+    {
     if ( m_RegionToProcess != r)
       {
       m_RegionToProcess = r;
       this->Modified();
-      }      
-  }
+      }
+    }
   RegionType GetRegionToProcess() const
-  {
+    {
     return m_RegionToProcess;
-  }
-  
+    }
   
   void SetNarrowBand( NarrowBandType * ptr)
-  {  
+    {  
     if ( m_NarrowBand != ptr )
       {
       m_NarrowBand = ptr;
       this->Modified();
       }
-  }
+    }
   
   NarrowBandPointer GetNarrowBand() const
-  { return m_NarrowBand; }
+    {
+    return m_NarrowBand;
+    }
   
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

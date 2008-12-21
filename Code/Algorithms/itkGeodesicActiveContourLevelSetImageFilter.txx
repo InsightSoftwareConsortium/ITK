@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourLevelSetImageFilter_txx_
-#define __itkGeodesicActiveContourLevelSetImageFilter_txx_
+#ifndef __itkGeodesicActiveContourLevelSetImageFilter_txx
+#define __itkGeodesicActiveContourLevelSetImageFilter_txx
 
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
 
@@ -66,8 +66,5 @@ GeodesicActiveContourLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType
 }
 
 }// end namespace itk
-
-
-
 
 #endif
