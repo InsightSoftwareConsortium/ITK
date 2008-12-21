@@ -7,9 +7,9 @@
 @ITK_SOURCE_DIR@/Code/BasicFilters/itk[A-Z]*.h
 @ITK_SOURCE_DIR@/Code/BasicFilters/itk[A-Z]*.txx
 @ITK_SOURCE_DIR@/Code/BasicFilters/itk[A-Z]*.cxx
-@ITK_SOURCE_DIR@/Code/Algorithms/itk[A-E]*.h
-@ITK_SOURCE_DIR@/Code/Algorithms/itk[A-E]*.txx
-@ITK_SOURCE_DIR@/Code/Algorithms/itk[A-E]*.cxx
+@ITK_SOURCE_DIR@/Code/Algorithms/itk[A-H]*.h
+@ITK_SOURCE_DIR@/Code/Algorithms/itk[A-H]*.txx
+@ITK_SOURCE_DIR@/Code/Algorithms/itk[A-H]*.cxx
 @ITK_SOURCE_DIR@/Code/IO/*.h
 @ITK_SOURCE_DIR@/Code/IO/*.txx
 @ITK_SOURCE_DIR@/Code/IO/*.cxx
