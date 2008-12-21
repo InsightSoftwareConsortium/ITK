@@ -2,25 +2,29 @@
 #
 # Usage: @ITK_BINARY_DIR@/doAllStyle.csh
 #        Run KWStyle on all files in a directory.
-#          Creates a subdirectory kwstyle. This subdirectoryhas a file called
-#          'all' that contains a list of files that show the style defects for
-#          files in thedirectory.
+#          Creates a subdirectory kwstyle. This subdirectory has a
+#          file called 'all' that contains a list of files that show
+#          the style defects for files in the directory. For each file
+#          that has style defects, there is a corresponding file in
+#          kwstyle with a suffix .txt that contains a description of
+#          the defects.
 rm -rf kwstyle
 mkdir kwstyle
 unalias -a
 set files=`ls -1 itk*.h itk*.txx itk*.cxx`
 foreach file ( $files )
 @KWSTYLE_EXECUTABLE@ -v -xml @ITK_BINARY_DIR@/ITK.kws.xml -o @ITK_SOURCE_DIR@/Utilities/KWStyle/ITKOverwrite.txt $file >kwstyle/$file.txt
+echo -n .
 end
+echo .
 cd kwstyle
 rm -f all
 set files=`ls -1 *.txt`
 foreach file ( $files )
 set n=`grep "Error #" $file | wc -l`
-echo $file : $n
 if ( $n > 0 ) then
+echo `basename $file .txt` has $n style defects
 echo $file >>all
-echo $file
 endif
 end
 cd ..
