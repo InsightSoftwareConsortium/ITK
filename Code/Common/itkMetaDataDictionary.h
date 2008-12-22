@@ -73,7 +73,7 @@ public:
   // API. The implementation will be in the DLL.
   MetaDataObjectBase::Pointer &operator [](const std::string &);
   const MetaDataObjectBase   * operator [](const std::string &) const;
-  bool HasKey (const std::string &);
+  bool HasKey (const std::string &) const;
 
 
   /** \warning the following functions SHOULD NOT be used with 

@@ -80,7 +80,7 @@ MetaDataDictionary
 
 bool
 MetaDataDictionary
-::HasKey(const std::string &key)
+::HasKey(const std::string &key) const
 {
   return m_Dictionary->find(key) != m_Dictionary->end();
 }
