@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkGeodesicActiveContourShapePriorLevelSetImageFilter_h_
-#define __itkGeodesicActiveContourShapePriorLevelSetImageFilter_h_
+#ifndef __itkGeodesicActiveContourShapePriorLevelSetImageFilter_h
+#define __itkGeodesicActiveContourShapePriorLevelSetImageFilter_h
 
 #include "itkShapePriorSegmentationLevelSetImageFilter.h"
 #include "itkGeodesicActiveContourShapePriorLevelSetFunction.h"
@@ -176,8 +176,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.txx"
