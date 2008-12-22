@@ -106,17 +106,29 @@ public:
   GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const;
 
   /** Determine if the ImageIO can stream reading from this
-   *  file. Default is false. */
+   *  file. Only time cannot stream read/write is if compression is used.
+   *  CanRead must be called prior to this function. */
   virtual bool CanStreamRead()
     {
+    if( m_MetaImage.CompressedData() )
+      {
+      return false;
+      }
     return true;
     }
 
   /** Determine if the ImageIO can stream writing to this
-      file. Default is false. */
+   *  file. Only time cannot stream read/write is if compression is used.
+   *  Assumes file passes a CanRead call and its pixels are of the same
+   *  type as the template of the writer. Can verify by first calling
+   *  CanRead and then CanStreamRead prior to calling CanStreamWrite. */
   virtual bool CanStreamWrite()
     {
-    return false;
+    if( this->GetUseCompression() )
+      {
+      return false;
+      }
+    return true;
     }
 
   /** Determing the subsampling factor in case
