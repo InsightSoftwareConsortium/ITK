@@ -356,7 +356,7 @@ void MINC2ImageIO::ReadImageInformation()
   //fill out dimension size, step and start
   // note : rotate origin as itk will *NOT* do it
   // ITK ADPOTED DICOM conversions which do *NOT* rotate origin
-  int j=2;
+  int j=this->m_NDims;
   for (i=0; i < this->m_NDims; i++)
     {
     this->SetDimensions(i,this->m_DimensionSize[this->m_DimensionIndices[j]]);
@@ -377,10 +377,14 @@ void MINC2ImageIO::ReadImageInformation()
   column[1] = m_DirectionCosines[1][1];
   column[2] = m_DirectionCosines[2][1];
   this->SetDirection(1,column);
-  slice[0] = m_DirectionCosines[0][2];
-  slice[1] = m_DirectionCosines[1][2];
-  slice[2] = m_DirectionCosines[2][2];
-  this->SetDirection(2,slice);
+
+  if ( this->m_NDims > 2 )
+  {
+    slice[0] = m_DirectionCosines[0][2];
+    slice[1] = m_DirectionCosines[1][2];
+    slice[2] = m_DirectionCosines[2][2];
+    this->SetDirection(2,slice);
+  }
 
   mitype_t volume_data_type;
   if(miget_data_type(volume,&volume_data_type) < 0)
