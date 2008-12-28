@@ -74,14 +74,11 @@ public:
    * file specified. */
   virtual bool CanReadFile(const char*);
   
-  /** Set the spacing and diemention information for the set filename. */
+  /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
   
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void* buffer);
-
-  /** Reads 3D data from multiple files assuming one slice per file. */
-  virtual void ReadVolume(void* buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 

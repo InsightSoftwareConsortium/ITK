@@ -25,14 +25,14 @@ namespace itk
 
 bool MINC2ImageIO::CanReadFile(const char* file)
 {
-  mihandle_t volume;
-  const std::string sfile = file;
-
-  if(sfile == "")
+  if( *file == 0)
     {
     itkDebugMacro(<<"No filename specified.");
     return false;
     }
+
+  mihandle_t volume;
+
   if (miopen_volume(file,MI2_OPEN_READ,&volume)< 0)
     {
     itkDebugMacro(<<" Can not open File:" << file << "\n");
@@ -44,12 +44,6 @@ bool MINC2ImageIO::CanReadFile(const char* file)
     return false;
     }
   return true;
-}
-
-
-void MINC2ImageIO::ReadVolume(void*)
-{
-  std::cerr << "Read Volume" << std::endl;
 }
 
 
@@ -543,6 +537,7 @@ void MINC2ImageIO::SetDimensionName(unsigned int i,char *name)
     return;
     }
 }
+
 bool MINC2ImageIO::CanWriteFile( const char * name )
 {
   std::string filename = name;
@@ -588,7 +583,7 @@ bool MINC2ImageIO::CanWriteFile( const char * name )
 void MINC2ImageIO::WriteImageInformation(void)
 {
   std::cout << "WriteImageInformation" << std::endl;
-
+  // FIXME: implement this!
 }
 
 template <class TBuffer>
