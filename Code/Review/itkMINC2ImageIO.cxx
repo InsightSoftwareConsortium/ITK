@@ -279,40 +279,39 @@ void MINC2ImageIO::ReadImageInformation()
     itkDebugMacro("Could not open file \"" << m_FileName.c_str() << "\".");
     return;
     }
+
   // find out how many dimensions are there regularly sampled
   // dimensions only
-  int numberOfDimensions = static_cast<int>( m_NDims );
+  int numberOfDimensions;
   if(miget_volume_dimension_count(volume, MI_DIMCLASS_ANY, MI_DIMATTR_REGULARLY_SAMPLED, &numberOfDimensions) < 0)
     {
     itkDebugMacro("Could not get the number of dimensions in the volume!");
     return;
     }
   m_NDims = static_cast<unsigned int>( numberOfDimensions );
+  this->SetNumberOfDimensions(m_NDims);
   if (m_NDims > MINC2_MAXDIM)
     {
     // Error TOO MANY dimensions
     itkDebugMacro("Number of dimensions exceeds expectation!");
     }
-  // set number of dimensions for ITK
-  this->SetNumberOfDimensions(m_NDims);
-  // allocate an array of length number of dimensions of dimension handles
-  midimhandle_t *hdims = new midimhandle_t[m_NDims];
+
   // get dimension handles in FILE ORDER (i.e, the order as they are
   // submitted to file)
+  midimhandle_t *hdims = new midimhandle_t[m_NDims];
   if(miget_volume_dimensions(volume,MI_DIMCLASS_ANY, MI_DIMATTR_REGULARLY_SAMPLED,MI_DIMORDER_FILE, m_NDims, hdims) < 0)
     {
      itkDebugMacro("Could not get dimension handles!");
      return;
     }
+
   // fill the DimensionOrder (string containing the first letter of all dimensions
   // in FILE_ORDER) and DimensionName
-  char *name;
-  char *text = new char[ m_NDims + 1];
+  m_DimensionOrder = new char[ m_NDims + 1];
   unsigned int i;
-  unsigned int j;
   for (i=0; i < m_NDims; i++)
     {
-
+    char *name;
     if (miget_dimension_name(hdims[i],&name) < 0 )
       {
       // Error getting dimension name
@@ -321,22 +320,19 @@ void MINC2ImageIO::ReadImageInformation()
       }
 
     this->m_DimensionName[i] = name;
-    text[i]=name[0];
-
+    this->m_DimensionOrder[i] = name[0];
     }
-  text[i]='\0';
-  m_DimensionOrder = text;
+  this->m_DimensionOrder[i]='\0';
 
   // fill the DimensionSize by calling the following MINC2.0 function
-  // FIXME: unsigned long  *sizes;
   unsigned int *sizes = new unsigned int[m_NDims];
   if (miget_dimension_sizes(hdims, m_NDims, sizes) < 0 )
     {
     // Error getting dimension sizes
     itkDebugMacro("Could not get dimension sizes!");
     return;
-
     }
+
   // correct this part first
   for ( i=0; i < m_NDims; i++)
     {
@@ -360,8 +356,7 @@ void MINC2ImageIO::ReadImageInformation()
   //fill out dimension size, step and start
   // note : rotate origin as itk will *NOT* do it
   // ITK ADPOTED DICOM conversions which do *NOT* rotate origin
-  //double transformed_starts[3];
-  j=2;
+  int j=2;
   for (i=0; i < this->m_NDims; i++)
     {
     this->SetDimensions(i,this->m_DimensionSize[this->m_DimensionIndices[j]]);
@@ -371,24 +366,6 @@ void MINC2ImageIO::ReadImageInformation()
     m_OriginalStart[i] = starts[this->m_DimensionIndices[j]];
     j--;
     }
-  /*
-  transformed_starts[0] = m_DirectionCosines[0][0]*this->GetOrigin(0) +
-                          m_DirectionCosines[0][1]*this->GetOrigin(1) +
-                          m_DirectionCosines[0][2]*this->GetOrigin(2);
-
-  transformed_starts[1] = m_DirectionCosines[1][0]*this->GetOrigin(0) +
-                          m_DirectionCosines[1][1]*this->GetOrigin(1) +
-                          m_DirectionCosines[1][2]*this->GetOrigin(2);
-
-  transformed_starts[2] = m_DirectionCosines[2][0]*this->GetOrigin(0) +
-                          m_DirectionCosines[2][1]*this->GetOrigin(1) +
-                          m_DirectionCosines[2][2]*this->GetOrigin(2);
-
-
-  this->SetOrigin(0, transformed_starts[0]);
-  this->SetOrigin(1, transformed_starts[1]);
-  this->SetOrigin(2, transformed_starts[2]);
-  */
   // pass direction cosines to ITK
   vnl_vector<double> row(3),column(3), slice(3);
 

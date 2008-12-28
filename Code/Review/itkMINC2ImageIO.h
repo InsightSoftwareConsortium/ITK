@@ -106,6 +106,7 @@ protected:
 
   void WriteSlice(std::string& fileName, const void* buffer);
 
+  // Num. dimensions in base class (c.f. GetNumberOfDimensions); why keep a second copy here?
   unsigned int m_NDims;
 
   char **m_DimensionName;
@@ -138,6 +139,7 @@ protected:
 private:
   MINC2ImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
   // Description
   // Get slice scaling from local slice scaling
   void SetSliceScalingFromLocalScaling(mihandle_t volume);
