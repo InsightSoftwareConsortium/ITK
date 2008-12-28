@@ -266,6 +266,9 @@ MINC2ImageIO::~MINC2ImageIO()
 void MINC2ImageIO::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "NDims: " << m_NDims << std::endl;
+  os << indent << "Dimension Order: " << m_DimensionOrder << std::endl;
 }
 
 void MINC2ImageIO::ReadImageInformation()
@@ -356,7 +359,7 @@ void MINC2ImageIO::ReadImageInformation()
   //fill out dimension size, step and start
   // note : rotate origin as itk will *NOT* do it
   // ITK ADPOTED DICOM conversions which do *NOT* rotate origin
-  int j=this->m_NDims;
+  int j=this->m_NDims - 1;
   for (i=0; i < this->m_NDims; i++)
     {
     this->SetDimensions(i,this->m_DimensionSize[this->m_DimensionIndices[j]]);
