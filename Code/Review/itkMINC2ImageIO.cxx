@@ -542,6 +542,9 @@ bool MINC2ImageIO::CanWriteFile( const char * name )
 {
   std::string filename = name;
 
+  // transform filename to lower case to make checks case-insensitive
+  std::transform( filename.begin(), filename.end(), filename.begin(), (int(*)(int)) std::tolower );
+
   if(  filename == "" )
     {
     itkDebugMacro(<<"No filename specified.");
@@ -550,30 +553,20 @@ bool MINC2ImageIO::CanWriteFile( const char * name )
 
   std::string::size_type mncPos = filename.rfind(".mnc");
   if ( (mncPos != std::string::npos)
+       && (mncPos > 0)
        && (mncPos == filename.length() - 4) )
     {
     return true;
     }
 
-  mncPos = filename.rfind(".MNC");
+  mncPos = filename.rfind(".mnc2");
   if ( (mncPos != std::string::npos)
-       && (mncPos == filename.length() - 4) )
+       && (mncPos > 0)
+       && (mncPos == filename.length() - 5) )
     {
     return true;
     }
 
-  std::string::size_type mincPos = filename.rfind(".mnc2");
-  if ( (mincPos != std::string::npos)
-       && (mincPos == filename.length() - 5) )
-    {
-    return true;
-    }
-  mincPos = filename.rfind(".MNC2");
-  if ( (mincPos != std::string::npos)
-       && (mincPos == filename.length() - 5) )
-    {
-    return true;
-    }
   return false;
 }
 
