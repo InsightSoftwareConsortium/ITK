@@ -69,7 +69,6 @@ bool DICOMImageIO2::CanReadFile( const char* filename )
   bool open = m_Parser->OpenFile( filename);
   if (!open)
     {
-    std::cerr << "Couldn't open file: " << filename << std::endl;
     return false;
     }
   bool magic = m_Parser->IsDICOMFile();
@@ -103,7 +102,6 @@ void DICOMImageIO2::Read(void* buffer)
   bool open = m_Parser->OpenFile(m_FileName.c_str());
   if (!open)
     {
-    std::cerr << "Couldn't open file: " << m_FileName << std::endl;
     return;
     }
 
@@ -143,7 +141,6 @@ void DICOMImageIO2::ReadImageInformation()
   bool open = m_Parser->OpenFile(m_FileName.c_str());
   if (!open)
     {
-    std::cerr << "Couldn't open file: " << m_FileName << std::endl;
     return;
     }
 
