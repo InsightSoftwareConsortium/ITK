@@ -59,7 +59,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
   output1.resize( input.size() );
   output2.resize( input.size() );
 
-  for(unsigned int tours=0; tours < 4; tours++)
+  for(unsigned int tours=0; tours < 100; tours++)
     {
     //
     // Count the time of simply assigning values in an std::vector
