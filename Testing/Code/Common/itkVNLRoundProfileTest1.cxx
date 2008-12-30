@@ -59,71 +59,76 @@ int itkVNLRoundProfileTest1( int, char *[] )
   output1.resize( input.size() );
   output2.resize( input.size() );
 
-  //
-  // Count the time of simply assigning values in an std::vector
-  //
-  //
-  ArrayType::const_iterator  outItr1src = output1.begin();
-  ArrayType::iterator        outItr2dst = output2.begin();
-
-  ArrayType::const_iterator  outEnd1 = output1.end();
-
-  chronometer.Start("std::vector");
-
-  while( outItr1src != outEnd1 )
+  for(unsigned int tours=0; tours < 4; tours++)
     {
-    *outItr2dst = *outItr1src;
-    ++outItr1src;
-    ++outItr2dst;
+    //
+    // Count the time of simply assigning values in an std::vector
+    //
+    //
+    ArrayType::const_iterator  outItr1src = output1.begin();
+    ArrayType::iterator        outItr2dst = output2.begin();
+
+    ArrayType::const_iterator  outEnd1 = output1.end();
+
+    chronometer.Start("std::vector");
+
+    while( outItr1src != outEnd1 )
+      {
+      *outItr2dst = *outItr1src;
+      ++outItr1src;
+      ++outItr2dst;
+      }
+
+    chronometer.Stop("std::vector");
+
+    ArrayType::const_iterator  inpItr   = input.begin();
+    ArrayType::const_iterator  inputEnd = input.end();
+
+    ArrayType::iterator        outItr1nc = output1.begin();
+
+    //
+    //  Count the time of rounding plus storing in container
+    //
+    chronometer.Start("if-round");
+
+    while( inpItr != inputEnd )
+      {
+      *outItr1nc = itkRoundTestHelperFunction( *inpItr ); 
+      ++outItr1nc;
+      ++inpItr;
+      }
+
+    chronometer.Stop("if-round");
+
+
+    inpItr   = input.begin();
+    inputEnd = input.end();
+
+    ArrayType::iterator        outItr = output2.begin();
+
+    //
+    //  Count the time of rounding plus storing in container
+    //
+    chronometer.Start("vnl_math_rnd");
+
+    while( inpItr != inputEnd )
+      {
+      *outItr = vnl_math_rnd( *inpItr ); 
+      ++outItr;
+      ++inpItr;
+      }
+
+    chronometer.Stop("vnl_math_rnd");
+
     }
-
-  chronometer.Stop("std::vector");
-
-  ArrayType::const_iterator  inpItr   = input.begin();
-  ArrayType::const_iterator  inputEnd = input.end();
-
-  ArrayType::iterator        outItr1nc = output1.begin();
-
-  //
-  //  Count the time of rounding plus storing in container
-  //
-  chronometer.Start("if-round");
-
-  while( inpItr != inputEnd )
-    {
-    *outItr1nc = itkRoundTestHelperFunction( *inpItr ); 
-    ++outItr1nc;
-    ++inpItr;
-    }
-
-  chronometer.Stop("if-round");
-
-
-  inpItr   = input.begin();
-  inputEnd = input.end();
-
-  ArrayType::iterator        outItr = output2.begin();
-
-  //
-  //  Count the time of rounding plus storing in container
-  //
-  chronometer.Start("vnl_math_rnd");
-
-  while( inpItr != inputEnd )
-    {
-    *outItr = vnl_math_rnd( *inpItr ); 
-    ++outItr;
-    ++inpItr;
-    }
-
-  chronometer.Stop("vnl_math_rnd");
 
   chronometer.Report( std::cout );
 
   //
   // Now test the correctness of the output
   //
-  inpItr   = input.begin();
+  ArrayType::const_iterator inpItr   = input.begin();
+  ArrayType::const_iterator inputEnd = input.end();
 
   ArrayType::const_iterator outItr1 = output1.begin();
   ArrayType::const_iterator outItr2 = output2.begin();
