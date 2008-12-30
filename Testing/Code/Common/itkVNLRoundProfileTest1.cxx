@@ -47,6 +47,17 @@ public:
     }
 };
 
+#define itkRoundMacro( x, y )                 \
+    if( x >= 0.0 )                            \
+      {                                       \
+      y = static_cast< int >( x + 0.5f );     \
+      }                                       \
+    else                                      \
+      {                                       \
+      y = static_cast< int >( x - 0.5f );     \
+      }
+
+
 int itkVNLRoundProfileTest1( int, char *[] )
 {
   itk::TimeProbesCollectorBase  chronometer;
@@ -57,6 +68,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
   ArrayType output1;
   ArrayType output2;
   ArrayType output3;
+  ArrayType output4;
 
   const unsigned long numberOfValues = 1000000L;
 
@@ -76,6 +88,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
   output1.resize( input.size() );
   output2.resize( input.size() );
   output3.resize( input.size() );
+  output4.resize( input.size() );
 
   for(unsigned int tours=0; tours < 100; tours++)
     {
@@ -131,12 +144,38 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
     while( inpItr != inputEnd )
       {
-      *outItr3nc = itkMathFunctor<double>::Round( *inpItr ); 
+//      *outItr3nc = itkMathFunctor<double>::Round( *inpItr ); 
+      if( *inpItr >= 0.0 )
+        {
+        *outItr3nc =  static_cast< int >( *inpItr + 0.5f );
+        }
+    
+      *outItr3nc = static_cast< int >( *inpItr - 0.5f );
+
       ++outItr3nc;
       ++inpItr;
       }
 
     chronometer.Stop("Functor");
+
+    inpItr   = input.begin();
+    inputEnd = input.end();
+
+    ArrayType::iterator        outItr4nc = output4.begin();
+
+    //
+    //  Count the time of rounding plus storing in container
+    //
+    chronometer.Start("Macro");
+
+    while( inpItr != inputEnd )
+      {
+      itkRoundMacro(*inpItr, *outItr4nc );
+      ++outItr4nc;
+      ++inpItr;
+      }
+
+    chronometer.Stop("Macro");
 
 
     inpItr   = input.begin();
