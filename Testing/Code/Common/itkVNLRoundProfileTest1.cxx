@@ -41,11 +41,14 @@ int itkVNLRoundProfileTest1( int, char *[] )
   ArrayType output1;
   ArrayType output2;
 
-  const unsigned long numberOfValues = 100000L;
+  const unsigned long numberOfValues = 1000000L;
 
-  const double initialValue = -5.0;
+  const double initialValue = -10.0;
 
   const double valueIncrement = (-initialValue-initialValue) / numberOfValues;
+
+  std::cout << "Initial Value   = " << initialValue << std::endl;
+  std::cout << "Value Increment = " << valueIncrement << std::endl;
 
   for( unsigned long i=0; i<numberOfValues; i++)
     {
