@@ -21,6 +21,16 @@
 #include "vnl/vnl_math.h"
 #include "itkTimeProbesCollectorBase.h"
 
+double itkRoundTestHelperFunction( double x )
+{
+  if( x >= 0.0 )
+    {
+    return static_cast< int >( x + 0.5f );
+    }
+  
+ return static_cast< int >( x - 0.5f );
+}
+
 int itkVNLRoundProfileTest1( int, char *[] )
 {
   itk::TimeProbesCollectorBase  chronometer;
@@ -40,22 +50,11 @@ int itkVNLRoundProfileTest1( int, char *[] )
   for( unsigned long i=0; i<numberOfValues; i++)
     {
     const double inputValue = initialValue + i * valueIncrement;
-    double outputValue;
-
-    if( inputValue >= 0.0 )
-      {
-      outputValue = static_cast< int >( inputValue + 0.5f );
-      }
-    else
-      {
-      outputValue = static_cast< int >( inputValue - 0.5f );
-      } 
-
     input.push_back( inputValue );
-    output1.push_back( outputValue );
     }
 
-  output2.resize( output1.size() );
+  output1.resize( input.size() );
+  output2.resize( input.size() );
 
   //
   // Count the time of simply assigning values in an std::vector
@@ -77,9 +76,28 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
   chronometer.Stop("std::vector");
 
-
   ArrayType::const_iterator  inpItr   = input.begin();
   ArrayType::const_iterator  inputEnd = input.end();
+
+  ArrayType::iterator        outItr1nc = output1.begin();
+
+  //
+  //  Count the time of rounding plus storing in container
+  //
+  chronometer.Start("if-round");
+
+  while( inpItr != inputEnd )
+    {
+    *outItr1nc = itkRoundTestHelperFunction( *inpItr ); 
+    ++outItr1nc;
+    ++inpItr;
+    }
+
+  chronometer.Stop("if-round");
+
+
+  inpItr   = input.begin();
+  inputEnd = input.end();
 
   ArrayType::iterator        outItr = output2.begin();
 
