@@ -31,6 +31,22 @@ double itkRoundTestHelperFunction( double x )
  return static_cast< int >( x - 0.5f );
 }
 
+template <class T>
+class itkMathFunctor
+{
+public:
+  static inline T Round(T x )
+    {
+    if( x >= 0.0 )
+      {
+      return static_cast< int >( x + 0.5f );
+      }
+    
+   return static_cast< int >( x - 0.5f );
+
+    }
+};
+
 int itkVNLRoundProfileTest1( int, char *[] )
 {
   itk::TimeProbesCollectorBase  chronometer;
@@ -40,6 +56,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
   ArrayType input;
   ArrayType output1;
   ArrayType output2;
+  ArrayType output3;
 
   const unsigned long numberOfValues = 1000000L;
 
@@ -58,6 +75,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
   output1.resize( input.size() );
   output2.resize( input.size() );
+  output3.resize( input.size() );
 
   for(unsigned int tours=0; tours < 100; tours++)
     {
@@ -99,6 +117,26 @@ int itkVNLRoundProfileTest1( int, char *[] )
       }
 
     chronometer.Stop("if-round");
+
+
+    inpItr   = input.begin();
+    inputEnd = input.end();
+
+    ArrayType::iterator        outItr3nc = output3.begin();
+
+    //
+    //  Count the time of rounding plus storing in container
+    //
+    chronometer.Start("Functor");
+
+    while( inpItr != inputEnd )
+      {
+      *outItr3nc = itkMathFunctor<double>::Round( *inpItr ); 
+      ++outItr3nc;
+      ++inpItr;
+      }
+
+    chronometer.Stop("Functor");
 
 
     inpItr   = input.begin();
