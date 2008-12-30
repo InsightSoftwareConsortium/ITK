@@ -27,16 +27,16 @@ int itkVNLRoundProfileTest1( int, char *[] )
   typedef std::vector< double >   ArrayType;
 
   ArrayType input;
-  ArrayType output;
+  ArrayType output1;
   ArrayType output2;
 
-  const unsigned int numberOfValues = 1000;
+  const unsigned long numberOfValues = 100000L;
 
   const double initialValue = -5.0;
 
   const double valueIncrement = (-initialValue-initialValue) / numberOfValues;
 
-  for( unsigned int i=0; i<numberOfValues; i++)
+  for( unsigned long i=0; i<numberOfValues; i++)
     {
     const double inputValue = initialValue + i * valueIncrement;
     double outputValue;
@@ -51,10 +51,10 @@ int itkVNLRoundProfileTest1( int, char *[] )
       } 
 
     input.push_back( inputValue );
-    output.push_back( outputValue );
+    output1.push_back( outputValue );
     }
 
-  output2.resize( output.size() );
+  output2.resize( output1.size() );
 
 
   ArrayType::const_iterator  inpItr   = input.begin();
@@ -75,6 +75,28 @@ int itkVNLRoundProfileTest1( int, char *[] )
   chronometer.Stop("vnl_round");
 
   chronometer.Report( std::cout );
+
+  //
+  // Now test the correctness of the output
+  //
+  inpItr   = input.begin();
+
+  ArrayType::const_iterator  outItr1 = output1.begin();
+  ArrayType::const_iterator  outItr2 = output2.begin();
+
+  const double tolerance = 1e-5;
+
+  while( inpItr != inputEnd )
+    {
+    if( vnl_math_abs( *outItr1 - *outItr2 ) > tolerance )
+      {
+      std::cerr << "Error in : " << *inpItr << " : " << *outItr1 << " : " << *outItr2 << std::endl;
+        return EXIT_FAILURE;
+      }
+    ++inpItr;
+    ++outItr1;
+    ++outItr2;
+    }
   
   return EXIT_SUCCESS;
 }
