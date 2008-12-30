@@ -23,6 +23,7 @@
 
 int itkVNLRoundProfileTest1( int, char *[] )
 {
+  itk::TimeProbesCollectorBase  chronometer;
 
   typedef std::vector< double >   ArrayType;
 
@@ -56,14 +57,36 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
   output2.resize( output1.size() );
 
+  //
+  // Count the time of simply assigning values in an std::vector
+  //
+  //
+  ArrayType::const_iterator  outItr1src = output1.begin();
+  ArrayType::iterator        outItr2dst = output2.begin();
+
+  ArrayType::const_iterator  outEnd1 = output1.end();
+
+  chronometer.Start("std::vector");
+
+  while( outItr1src != outEnd1 )
+    {
+    *outItr2dst = *outItr1src;
+    ++outItr1src;
+    ++outItr2dst;
+    }
+
+  chronometer.Stop("std::vector");
+
 
   ArrayType::const_iterator  inpItr   = input.begin();
   ArrayType::const_iterator  inputEnd = input.end();
 
   ArrayType::iterator        outItr = output2.begin();
 
-  itk::TimeProbesCollectorBase  chronometer;
-  chronometer.Start("vnl_round");
+  //
+  //  Count the time of rounding plus storing in container
+  //
+  chronometer.Start("vnl_math_rnd");
 
   while( inpItr != inputEnd )
     {
@@ -72,7 +95,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
     ++inpItr;
     }
 
-  chronometer.Stop("vnl_round");
+  chronometer.Stop("vnl_math_rnd");
 
   chronometer.Report( std::cout );
 
@@ -81,22 +104,36 @@ int itkVNLRoundProfileTest1( int, char *[] )
   //
   inpItr   = input.begin();
 
-  ArrayType::const_iterator  outItr1 = output1.begin();
-  ArrayType::const_iterator  outItr2 = output2.begin();
+  ArrayType::const_iterator outItr1 = output1.begin();
+  ArrayType::const_iterator outItr2 = output2.begin();
 
   const double tolerance = 1e-5;
+
+  bool testFailed = false;
+
+  std::cout << std::endl;
+  std::cout << std::endl;
 
   while( inpItr != inputEnd )
     {
     if( vnl_math_abs( *outItr1 - *outItr2 ) > tolerance )
       {
       std::cerr << "Error in : " << *inpItr << " : " << *outItr1 << " : " << *outItr2 << std::endl;
-        return EXIT_FAILURE;
+      testFailed = true;
       }
     ++inpItr;
     ++outItr1;
     ++outItr2;
     }
   
+  std::cout << std::endl;
+  std::cout << "Tested " << output1.size() << " entries " << std::endl;
+  std::cout << std::endl;
+
+  if( testFailed )
+    {
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
