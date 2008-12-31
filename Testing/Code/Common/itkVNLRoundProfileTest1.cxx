@@ -85,6 +85,17 @@ int itkVNLRoundProfileTest1( int, char *[] )
     input.push_back( inputValue );
     }
 
+
+  //
+  // Make sure that entries in the .5 locations are included
+  //
+  for( signed int k = -10; k <= 10; k++ )
+    {
+    const double value = k + 0.5;    
+    input.push_back( value );
+    }
+
+
   output1.resize( input.size() );
   output2.resize( input.size() );
   output3.resize( input.size() );
