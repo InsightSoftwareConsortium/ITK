@@ -1308,7 +1308,7 @@ MetaImageIO
 
   if(m_UseCompression && m_UseStreamedWriting)
     {
-    std::cout << "Cannot use compression while stream reading" << std::endl;
+    std::cout << "Compression in use: cannot stream the file writing" << std::endl;
     }
   else if(m_UseStreamedWriting)
     {
