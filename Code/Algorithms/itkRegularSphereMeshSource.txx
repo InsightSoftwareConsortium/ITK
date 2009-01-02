@@ -299,6 +299,7 @@ RegularSphereMeshSource<TOutputMesh>
     outputMesh->SetPoints(   result->GetPoints()   );
     outputMesh->SetCells(    result->GetCells()    );
     outputMesh->SetCellData( result->GetCellData() );
+    outputMesh->SetPointData( result->GetPointData() );
     }
 }
 
