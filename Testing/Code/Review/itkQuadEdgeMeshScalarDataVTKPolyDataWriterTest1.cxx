@@ -78,11 +78,31 @@ int itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1( int argc, char * argv [] )
   std::cout << "Testing itk::RegularSphereMeshSource "<< std::endl;
 
   myMesh->Print( std::cout );
+  unsigned int i;
 
-  for( unsigned int i=0; i < myMesh->GetNumberOfPoints(); i++ )
+  for( i=0; i < myMesh->GetNumberOfPoints(); i++ )
     {
     myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;
+    }
+
+  typedef MeshType::CellsContainerPointer  CellsContainerPointer;
+  typedef MeshType::CellsContainerIterator CellsContainerIterator;
+  typedef MeshType::CellType               CellType;
+
+  CellsContainerPointer cells = myMesh->GetCells();
+  i=0;
+
+  for( MeshType::CellsContainerIterator cells_it = cells->Begin();
+       cells_it != cells->End();
+       ++cells_it, i++ )
+    {
+    CellType* cellPointer = cells_it.Value();
+    if( cellPointer->GetType() != 1 )
+      {
+      std::cout <<"Face " <<i <<" has " <<cellPointer->GetNumberOfPoints() 
+                <<" points" <<std::endl;
+      }
     }
 
   std::cout << "Test End "<< std::endl;
