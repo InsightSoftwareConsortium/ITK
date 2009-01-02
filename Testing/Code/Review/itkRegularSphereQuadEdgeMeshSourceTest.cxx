@@ -58,6 +58,7 @@ int itkRegularSphereQuadEdgeMeshSourceTest(int, char* [] )
     {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "mySphereMeshSource: " << mySphereMeshSource;
