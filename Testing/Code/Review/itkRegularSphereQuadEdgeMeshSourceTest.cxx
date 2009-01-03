@@ -23,11 +23,17 @@
 #include "itkQuadEdgeMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultStaticMeshTraits.h"
+#include "itkVTKPolyDataWriter.h"
 
 #include <iostream>
 
-int itkRegularSphereQuadEdgeMeshSourceTest(int, char* [] )
+int itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv [] )
 {
+  if( argc != 2 )
+    {
+    std::cerr << "Usage: " << argv[0] << " outputFileName.vtk" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   typedef itk::QuadEdgeMesh<float, 3>   MeshType;
 
@@ -74,6 +80,13 @@ int itkRegularSphereQuadEdgeMeshSourceTest(int, char* [] )
     myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;
     }
+
+  typedef itk::VTKPolyDataWriter<MeshType>   WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( myMesh );
+  writer->SetFileName( argv[1] );
+  writer->Write();
 
   std::cout << "Test End "<< std::endl;
 

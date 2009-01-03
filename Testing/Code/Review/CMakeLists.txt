@@ -249,7 +249,8 @@ ADD_TEST(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS2}
 ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkAutomaticTopologyQuadEdgeMeshSourceTest)
 ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
-  itkRegularSphereQuadEdgeMeshSourceTest)
+  itkRegularSphereQuadEdgeMeshSourceTest
+  ${TEMP}/itkRegularSphereQuadEdgeMeshSourceTest.vtk)
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
 ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
