@@ -74,6 +74,30 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
     std::cout << "Point[" << i << "]: " << pt << std::endl;
     }
 
+  typedef MeshType::CellsContainerPointer  CellsContainerPointer;
+  typedef MeshType::CellsContainerIterator CellsContainerIterator;
+  typedef MeshType::CellType               CellType;
+
+  CellsContainerPointer cells = myMesh->GetCells();
+
+  unsigned faceId = 0;
+
+  MeshType::CellsContainerIterator cellsItr = cells->Begin();
+
+  while( cellsItr != cells->End() )
+    {
+    CellType * cellPointer = cellsItr.Value();
+    if( cellPointer->GetType() != 1 )
+      {
+      std::cout <<"Face " << faceId << " has " << cellPointer->GetNumberOfPoints() 
+                <<" points" << std::endl;
+      }
+
+    ++cellsItr;
+    ++faceId;
+    }
+
+
   std::cout << "Test End "<< std::endl;
 
   return EXIT_SUCCESS;
