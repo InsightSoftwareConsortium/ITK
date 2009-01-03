@@ -50,6 +50,7 @@ SET(ReviewTest_SRCS
   itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
   itkVTKPolyDataReaderTest.cxx
   itkVTKPolyDataWriterTest.cxx
+  itkVTKPolyDataWriterTest2.cxx
 
   itkMorphologicalWatershedImageFilterTest.cxx
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
@@ -478,6 +479,12 @@ ADD_TEST(itkVTKPolyDataWriterTest01 ${REVIEW_TESTS}
   itkVTKPolyDataWriterTest
   ${TEMP}/VTKPolyDataWriterTest01.vtk
   )
+
+ADD_TEST(itkVTKPolyDataWriterTest02 ${REVIEW_TESTS}
+  itkVTKPolyDataWriterTest2
+  ${TEMP}/VTKPolyDataWriterTest02.vtk
+  )
+
 
 FOREACH(M 0 1)
   FOREACH(F 0 1)
