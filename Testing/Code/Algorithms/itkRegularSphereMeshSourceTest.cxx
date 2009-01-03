@@ -39,10 +39,13 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
   typedef SphereMeshSourceType::VectorType  VectorType;
 
   PointType center; 
-  center.Fill( 0.0 );
+  center.Fill( 7.4 );
+
+  const double radius = 1.5;
+  const double tolerance = 1e-5;
 
   VectorType scale;
-  scale.Fill( 1.0 );
+  scale.Fill( radius );
   
   mySphereMeshSource->SetCenter( center );
   mySphereMeshSource->SetResolution( 1 );
@@ -66,12 +69,23 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
 
   PointType  pt;
 
+  bool testPassed = true;
+
   std::cout << "Testing itk::RegularSphereMeshSource "<< std::endl;
 
   for(unsigned int i=0; i<myMesh->GetNumberOfPoints(); i++) 
     {
     myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;
+
+    const double distanceToCenter = pt.EuclideanDistanceTo( center );
+ 
+    if( vnl_math_abs( distanceToCenter - radius ) > tolerance )
+      {
+      std::cerr << "Distance to center " << distanceToCenter;
+      std::cerr << " is too different from radius " << radius << std::endl;
+      testPassed = false;
+      }
     }
 
   typedef MeshType::CellsContainerPointer  CellsContainerPointer;
@@ -84,21 +98,35 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
 
   MeshType::CellsContainerIterator cellsItr = cells->Begin();
 
+
   while( cellsItr != cells->End() )
     {
     CellType * cellPointer = cellsItr.Value();
+
     if( cellPointer->GetType() != 1 )
       {
-      std::cout <<"Face " << faceId << " has " << cellPointer->GetNumberOfPoints() 
-                <<" points" << std::endl;
+      const unsigned int numberOfPoints = cellPointer->GetNumberOfPoints();
+
+      std::cout <<"Face " << faceId << " has " << numberOfPoints <<" points" << std::endl;
+
+      if( numberOfPoints != 3 )
+        {
+        std::cerr << "Face with wrong number of points" << std::endl;
+        testPassed = false;
+        }
       }
 
     ++cellsItr;
     ++faceId;
     }
 
+  if( !testPassed )
+    {
+    std::cout << "Test FAILED! "<< std::endl;
+    return EXIT_FAILURE;
+    }
 
-  std::cout << "Test End "<< std::endl;
+  std::cout << "Test PASSED! "<< std::endl;
 
   return EXIT_SUCCESS;
 
