@@ -60,6 +60,7 @@ itkImageIOFileNameExtensionsTests.cxx
 itkIOCommonTest.cxx
 itkIOPrintTest.cxx
 itkImageFileWriterTest.cxx
+itkImageFileWriterPastingTest1.cxx
 itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
 itkImageReadDICOMSeriesWriteTest.cxx
@@ -235,6 +236,13 @@ IF(ITK_DATA_ROOT)
 
 ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
          ${ITK_DATA_ROOT}/Input/VHFColor.raw)
+
+ADD_TEST(itkImageFileWriterPastingTest1 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha
+  itkImageFileWriterPastingTest1
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
 
 ADD_TEST(itkMetaImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd

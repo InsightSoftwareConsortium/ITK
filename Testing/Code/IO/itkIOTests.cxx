@@ -39,6 +39,7 @@ void RegisterTests()
   REGISTER_TEST(itkDICOMImageSeriesTest);
   REGISTER_TEST(itkAnalyzeImageIOTest);
   REGISTER_TEST(itkGiplImageIOTest);
+  REGISTER_TEST(itkImageFileWriterPastingTest1);
   REGISTER_TEST(itkImageSeriesWriterTest);
   REGISTER_TEST(itkImageReadDICOMSeriesWriteTest);
   REGISTER_TEST(itkImageIOBaseTest);
