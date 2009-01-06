@@ -108,6 +108,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   this->m_FreePointIndexes = mesh->m_FreePointIndexes;
   this->m_FreeCellIndexes = mesh->m_FreeCellIndexes;
+  this->m_EdgeCellsContainer = mesh->m_EdgeCellsContainer;
+  this->m_NumberOfFaces = mesh->m_NumberOfFaces;
+  this->m_NumberOfEdges = mesh->m_NumberOfEdges;
 }
 
 /**
