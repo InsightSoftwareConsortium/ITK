@@ -76,10 +76,10 @@ int itkKdTreeGeneratorTest(int, char* [])
   std::cout << "Split point on the partition dimension = "
             << partitionValue << std::endl ;
 
-  std::cout << "Address of the left chile of the root node = "
+  std::cout << "Address of the left child of the root node = "
             << root->Left() << std::endl ;
   
-  std::cout << "Address of the right chile of the root node = "
+  std::cout << "Address of the right child of the root node = "
             << root->Right() << std::endl ;
 
   MeasurementVectorType queryPoint( measurementVectorSize ) ;
@@ -174,10 +174,10 @@ int itkKdTreeGeneratorTest(int, char* [])
   std::cout << "Split point on the partition dimension = "
             << partitionValue << std::endl ;
 
-  std::cout << "Address of the left chile of the root node = "
+  std::cout << "Address of the left child of the root node = "
             << root->Left() << std::endl ;
   
-  std::cout << "Address of the right chile of the root node = "
+  std::cout << "Address of the right child of the root node = "
             << root->Right() << std::endl ;
 
   MeasurementVectorType queryPoint ;
