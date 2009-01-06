@@ -27,15 +27,16 @@
 #include "itkImageFileWriter.h"
 #include "itkMetaImageIO.h"
 
-int itkMetaImageStreamingWriterIOTest(int ac, char* av[])
+int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
 {
-  if(ac<3)
+  if( argc < 3)
     {
-    std::cerr << "Usage: " << av[0] << " input output" << std::endl;
+    std::cerr << "Usage: " <<  argv[0] << " input output" << std::endl;
+    return EXIT_FAILURE;
     }
       
   // We remove the output file
-  itksys::SystemTools::RemoveFile(av[2]);
+  itksys::SystemTools::RemoveFile( argv[2]);
     
   typedef unsigned char            PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
@@ -47,7 +48,7 @@ int itkMetaImageStreamingWriterIOTest(int ac, char* av[])
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetImageIO(metaImageIO);
-  reader->SetFileName(av[1]);
+  reader->SetFileName( argv[1]);
   reader->SetUseStreaming(true);
   metaImageIO->SetUseStreamedReading(true);
 
@@ -72,7 +73,7 @@ int itkMetaImageStreamingWriterIOTest(int ac, char* av[])
 
   // Setup the writer
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(av[2]);
+  writer->SetFileName( argv[2]);
   
   for(unsigned int i=0;i<m_NumberOfPieces;i++)
     {
