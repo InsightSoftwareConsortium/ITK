@@ -74,7 +74,7 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
   std::cout << "Checking CreateCenterVertex." << std::endl;
 
   MeshPointer mesh = MeshType::New();
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
 
   CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New( );
   std::cout << "     " << "Test No Mesh Input";
@@ -154,7 +154,7 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
   //    | /          | /          | /          | /          |
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   
   std::cout << "     ";
   std::cout << "Create a center vertex of a Polygon (possible).";

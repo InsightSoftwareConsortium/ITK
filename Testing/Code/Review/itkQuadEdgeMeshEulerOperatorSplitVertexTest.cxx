@@ -53,7 +53,7 @@ int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
   /////////////////////////////////////////
   std::cout << "Checking SplitVertex." << std::endl;
   MeshPointer mesh = MeshType::New();
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
  
   SplitVertex::Pointer splitVertex = SplitVertex::New( );
   std::cout << "     " << "Test No Mesh Input";
@@ -110,7 +110,7 @@ int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
     }
   std::cout << ".OK" << std::endl;
   //test antenna
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   std::cout << "     ";
   std::cout << "Try to split antenna (impossible).";
   
@@ -123,7 +123,7 @@ int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
     }
   std::cout << ".OK" << std::endl;
   //test different dest( )
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   std::cout << "     ";
   std::cout << "Test with args with different Dest( ) (Impossible).";
      
@@ -152,7 +152,7 @@ int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
   
   std::cout << "Checking JoinVertex( SplitVertex()) Invariance.";
    
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
 
   splitVertex->SetInput( mesh );
 

@@ -233,8 +233,11 @@ ADD_TEST(itkQuadEdgeMeshEulerOperatorFlipTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshEulerOperatorFlipTest)
 ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${REVIEW_TESTS2} 
   itkQuadEdgeMeshEulerOperatorJoinFacetTest)
-ADD_TEST(itkQuadEdgeMeshEulerOperatorJoinVertexTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorJoinVertexTest)
+FOREACH( arguments 0 1 2 3 4 )
+  ADD_TEST( itkQuadEdgeMeshEulerOperatorJoinVertexTest${arguments}
+    ${REVIEW_TESTS2}
+    itkQuadEdgeMeshEulerOperatorJoinVertexTest ${arguments} )
+ENDFOREACH( arguments )
 ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
 ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS2}

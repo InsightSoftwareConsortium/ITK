@@ -47,7 +47,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   // EULER OPERATOR TESTS
   QEType * dummy;
   MeshPointer  mesh = MeshType::New();
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
 
   // The initial configuration and numbering of simpleSquare.vtk:
   //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1

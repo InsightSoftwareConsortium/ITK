@@ -29,8 +29,37 @@
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
-int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
+int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
 {
+  if( argc < 2 )
+  {
+    std::cout <<"*** ERROR ***" <<std::endl;
+    std::cout <<"Requires one argument: " <<std::endl;
+    std::cout <<" 0-Test with a square mesh with only triangles." <<std::endl;
+    std::cout <<" 1-Test with a square mesh with only quads." <<std::endl;
+    std::cout <<" 2-Test with a tetraedron mesh with triangles." <<std::endl;
+    std::cout <<" 3-Test with a samosa." <<std::endl;
+    std::cout <<" 4-Test with an isolated edge." <<std::endl;
+    std::cout <<" 5-Test with a square mesh with one centered hole" <<std::endl;
+    return EXIT_FAILURE;
+  }
+
+  int InputType;
+  std::stringstream ssout( argv[1] );
+  ssout >>InputType;
+
+  if( ( InputType > 5 ) || ( InputType < 0 ) )
+  {
+    std::cout <<"*** ERROR ***" <<std::endl;
+    std::cout <<"Requires one argument: " <<std::endl;
+    std::cout <<" 0-Test with a square mesh with only triangles." <<std::endl;
+    std::cout <<" 1-Test with a square mesh with only quads." <<std::endl;
+    std::cout <<" 2-Test with a tetraedron mesh with triangles." <<std::endl;
+    std::cout <<" 3-Test with a samosa." <<std::endl;
+    std::cout <<" 4-Test with an isolated edge." <<std::endl;
+    std::cout <<" 5-Test with a square mesh with one centered hole" <<std::endl;
+    return EXIT_FAILURE;
+  }
   
   typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
   typedef MeshType::Pointer                                   MeshPointer;
@@ -41,17 +70,146 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
   typedef itk::QuadEdgeMeshLineCell< CellType >               LineCellType;
 
   typedef itk::QuadEdgeMeshEulerOperatorJoinVertexFunction< MeshType, QEType>
-    JoinVertex;
-  /////////////////////////////////////////
-  //
-  //          Join Vertex
-  //
-  /////////////////////////////////////////
-  std::cout << "Checking JoinVertex." << std::endl;
+    JoinVertexType;
+
   MeshPointer mesh = MeshType::New();
-  PopulateMesh<MeshType>( mesh );
- 
-  JoinVertex::Pointer joinVertex = JoinVertex::New( );
+  PointIdentifier start_id( 12 );
+  unsigned int iter;
+
+  switch( InputType )
+    {
+    default:
+    case 0:
+      // The initial configuration and numbering of simpleSquare.vtk:
+      //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
+      //
+      //   20 --------- 21 --------- 22 --------- 23 --------- 24
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //   15 --------- 16 --------- 17 --------- 18 --------- 19
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //   10 --------- 11 --------- 12 --------- 13 --------- 14
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //    5 ---------- 6 ---------- 7 ---------- 8 ---------  9
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
+      CreateSquareTriangularMesh< MeshType >( mesh );
+      iter = 9;
+      break;
+    case 1:
+      // The initial configuration and numbering of simpleSquare.vtk:
+      //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
+      //
+      //   20 --------- 21 --------- 22 --------- 23 --------- 24
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //   15 --------- 16 --------- 17 --------- 18 --------- 19
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //   10 --------- 11 --------- 12 --------- 13 --------- 14
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    5 ---------- 6 ---------- 7 ---------- 8 ---------  9
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    |            |            |            |            |
+      //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
+      CreateSquareQuadMesh< MeshType >( mesh );
+      break;
+    case 2:
+      CreateTetraedronMesh< MeshType >( mesh );
+      start_id = 0;
+      iter = 7;
+      break;
+    case 3:
+      CreateSamosa< MeshType >( mesh );
+      start_id = 0;
+      break;
+    case 4:
+      //   20 --------- 21 --------- 22 --------- 23 --------- 24
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //   15 --------- 16 --------- 17 --------- 18 --------- 19
+      //    |        __/ |        __/ |            |        __/ |
+      //    |     __/    |     __/    |            |     __/    |
+      //    |  __/       |  __/       |            |  __/       |
+      //    | /          | /          |            | /          |
+      //   10 --------- 11           12           13 --------- 14
+      //    |        __/ |                         |        __/ |
+      //    |     __/    |                         |     __/    |
+      //    |  __/       |                         |  __/       |
+      //    | /          |                         | /          |
+      //    5 ---------- 6 ---------- 7 ---------- 8 ---------  9
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
+      CreateSquareTriangularMesh< MeshType >( mesh );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 12 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 12 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 13 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 13 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
+      mesh->AddFace( mesh->FindEdge( 7, 8 ) );
+      break;
+    case 5:
+      //   20 --------- 21 --------- 22 --------- 23 --------- 24
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //   15 --------- 16 --------- 17 --------- 18 --------- 19
+      //    |        __/ |                         |        __/ |
+      //    |     __/    |                         |     __/    |
+      //    |  __/       |                         |  __/       |
+      //    | /          |                         | /          |
+      //   10 --------- 11                        13 --------- 14
+      //    |        __/ |                         |        __/ |
+      //    |     __/    |                         |     __/    |
+      //    |  __/       |                         |  __/       |
+      //    | /          |                         | /          |
+      //    5 ---------- 6 ---------- 7 ---------- 8 ---------  9
+      //    |        __/ |        __/ |        __/ |        __/ |
+      //    |     __/    |     __/    |     __/    |     __/    |
+      //    |  __/       |  __/       |  __/       |  __/       |
+      //    | /          | /          | /          | /          |
+      //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
+      CreateSquareTriangularMesh< MeshType >( mesh );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 12 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 11, 17 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 12 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge(  7, 13 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 13 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
+      mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 17 ) );
+      start_id = 17;
+      break;
+    }
+
+  JoinVertexType::Pointer joinVertex = JoinVertexType::New( );
 
 #ifndef NDEBUG
   std::cout << "     " << "Test No Mesh Input.";
@@ -86,8 +244,66 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
   std::cout << "OK" << std::endl;
 #endif
 
+  QEType* qe = mesh->FindEdge( start_id );
+  int kk( 0 );
+
+  typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
+  CheckerType::Pointer check = CheckerType::New();
+
+  while( qe != 0 )
+    {
+    joinVertex->SetInput( mesh );
+    PointIdentifier id_org = qe->GetOrigin();
+    PointIdentifier id_dest = qe->GetDestination();
+    
+    QEType* qe_output = joinVertex->Evaluate( qe );
+    JoinVertexType::EdgeStatusType status = joinVertex->GetEdgeStatus();
+    
+    std::cout <<"*** " <<kk <<" ***" <<std::endl;
+    std::cout <<"org: " <<id_org <<" " <<"dest: " <<id_dest <<" " <<status <<std::endl;
+    
+    if( ( status == JoinVertexType::EDGE_JOINING_DIFFERENT_BORDERS ) ||
+        ( status == JoinVertexType::SAMOSA_CONFIG ) ||
+        ( status == JoinVertexType::TETRAEDRON_CONFIG ) )
+      {
+      break;
+      }
+      
+    if( !qe_output )
+      {
+      std::cout <<"Number of Edges: " <<mesh->GetNumberOfEdges() <<" " <<std::endl;
+      std::cout <<"Number of Faces: " <<mesh->GetNumberOfFaces() <<std::endl;
+      std::cout <<"FAILED." <<std::endl;
+      return EXIT_FAILURE;
+      }
+      
+    PointIdentifier old_id = joinVertex->GetOldPointID();
+
+    mesh->DeletePoint( old_id );
+    
+    check->SetMesh( mesh );
+    
+    if( check->ValidateEulerCharacteristic( ) )
+      {
+      std::cout <<"OK" <<std::endl;
+      }
+    else
+      {
+      std::cout <<"EULER FALSE" <<std::endl;
+      return EXIT_FAILURE;
+      }
+
+    mesh->SqueezePointsIds();
+    qe = qe_output;
+    kk++;
+    }
+
+  /*
+
+  
+
   std::cout << "     " << "Test Topological Changes";
-  MeshType::Pointer topotest = MeshType::New( );
+  MeshType::Pointer topoTest = MeshType::New( );
   MeshType::PointType pts2[4];
   pts2[ 0][0] = 0.0;  pts2[ 0][1] = 0.0;  pts2[ 0][2] = 0.0;
   pts2[ 1][0] = 1.0;  pts2[ 1][1] = 0.0;  pts2[ 1][2] = 0.0;
@@ -95,36 +311,36 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
   pts2[ 3][0] = 0.0;  pts2[ 3][1] = 0.0;  pts2[ 3][2] = 1.0;
   for(int ii=0; ii<4; ii++)
     {
-    topotest->SetPoint( ii, pts2[ii] );
+    topoTest->SetPoint( ii, pts2[ii] );
     }
-  MeshType::PointIdList topotestpoints;
+  MeshType::PointIdList topoTestpoints;
 
-  topotestpoints.push_back( 3 );
-  topotestpoints.push_back( 0 );
-  topotestpoints.push_back( 1 );
-  topotest->AddFace( topotestpoints );
-  topotestpoints.clear( );
+  topoTestpoints.push_back( 3 );
+  topoTestpoints.push_back( 0 );
+  topoTestpoints.push_back( 1 );
+  topoTest->AddFace( topoTestpoints );
+  topoTestpoints.clear( );
 
-  topotestpoints.push_back( 3 );
-  topotestpoints.push_back( 2 );
-  topotestpoints.push_back( 0 );
-  topotest->AddFace( topotestpoints );
-  topotestpoints.clear( );
+  topoTestpoints.push_back( 3 );
+  topoTestpoints.push_back( 2 );
+  topoTestpoints.push_back( 0 );
+  topoTest->AddFace( topoTestpoints );
+  topoTestpoints.clear( );
 
-  topotestpoints.push_back( 3 );
-  topotestpoints.push_back( 1 );
-  topotestpoints.push_back( 2 );
-  topotest->AddFace( topotestpoints );
-  topotestpoints.clear( );
+  topoTestpoints.push_back( 3 );
+  topoTestpoints.push_back( 1 );
+  topoTestpoints.push_back( 2 );
+  topoTest->AddFace( topoTestpoints );
+  topoTestpoints.clear( );
 
-  topotestpoints.push_back( 0 );
-  topotestpoints.push_back( 2 );
-  topotestpoints.push_back( 1 );
-  topotest->AddFace( topotestpoints );
-  topotestpoints.clear( );
+  topoTestpoints.push_back( 0 );
+  topoTestpoints.push_back( 2 );
+  topoTestpoints.push_back( 1 );
+  topoTest->AddFace( topoTestpoints );
+  topoTestpoints.clear( );
 
-  joinVertex->SetInput( topotest );
-  if( joinVertex->Evaluate( topotest->FindEdge( 0, 1 ) ) )
+  joinVertex->SetInput( topoTest );
+  if( joinVertex->Evaluate( topoTest->FindEdge( 0, 1 ) ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
@@ -132,7 +348,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
   std::cout << "OK" << std::endl;
   joinVertex->SetInput( mesh );
 
-  // First test the case were the argument is an internal edge (here
+  // First Test the case were the argument is an internal edge (here
   // we consider [12, 11]) whose adjacent faces are both internal (i.e.
   // not adjacent to the boundary). Notice that on topological grounds
   // and in this context applying JoinVertex( [12, 11] ) or
@@ -184,7 +400,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
-  // Second test with an internal edge (here we consider [0, 6]) whose
+  // Second Test with an internal edge (here we consider [0, 6]) whose
   // both adjacent faces are themselves adjacent to the boundary of the
   // surface. Here is the result:
   //
@@ -363,33 +579,8 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
 
   ///NOTE temporary
   std::cout <<std::endl;
-  std::cout <<"NOTE: this test is not performed for the time being.";
-  std::cout <<"Discussion with Alex regarding this test" <<std::endl;
-
-  ///NOTE commented out on 07/06/2008
-  /*joinVertex->SetInput( mesh );
-  mesh->DeleteFace( mesh->FindEdge( 12, 13 )->GetLeft( ) );
-  mesh->DeleteFace( mesh->FindEdge( 12, 13 )->GetRight( ) );
-  if( !joinVertex->Evaluate( mesh->FindEdge( 12, 13 ) ) )
-    {
-    std::cout << "FAILED." << std::endl;
-    return EXIT_FAILURE;
-    }
-  mesh->DeletePoint( joinVertex->GetOldPointID( ) );
-  if( ! AssertTopologicalInvariants< MeshType >
-          ( mesh, 24, 53, 30, 1, 0 ) )
-    {
-    std::cout << "FAILED (for [ 12, 13 ] )." << std::endl;
-    return EXIT_FAILURE;
-    }
-  if ( mesh->GetPoint( 13 ).GetValence( ) != 8 )
-    {
-    std::cout << "FAILED (for [ 12, 13 ], wrong valence of "
-              <<  mesh->GetPoint( 13 ).GetValence( ) 
-              << " for vertex 13 )." << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "OK" << std::endl;*/
+  std::cout <<"NOTE: this Test is not performed for the time being.";
+  std::cout <<"Discussion with Alex regarding this Test" <<std::endl;
 
   // Instead of adjacent triangular faces we now consider bigger
   // faces. Here is the initial situation:
@@ -505,7 +696,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
     }
   
   std::cout << ".OK" << std::endl;
-  // Consider a last pathological test of an edge with an isolated
+  // Consider a last pathological Test of an edge with an isolated
   // end potientaly immersed in a face. Here is the initial situation:
   //
   //   20 --------- 21 --------- 22 --------- 23 --------- 24
@@ -581,9 +772,9 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int, char * [] )
     std::cout << "FAILED (for antenna - version 2)." << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << std::endl; */
 
-  std::cout << "Checking JoinVertex." << "OK" << std::endl << std::endl;
+  std::cout << "Checking JoinVertex." << "OK" << std::endl << std::endl; 
 
   return EXIT_SUCCESS;  
 }

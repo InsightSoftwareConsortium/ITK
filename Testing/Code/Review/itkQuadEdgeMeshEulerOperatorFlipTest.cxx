@@ -44,7 +44,7 @@ int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
     FlipEdge;
   
   MeshPointer  mesh = MeshType::New();
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   FlipEdge::Pointer flipEdge = FlipEdge::New( );
   if( flipEdge->Evaluate( (QEType*)1 ) )
     {
@@ -83,7 +83,7 @@ int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
     return EXIT_FAILURE;
     }
   
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   std::cout << "     " << "Flip an edge (possible)";
   tempFlippedEdge = flipEdge->Evaluate( mesh->FindEdge( 12 , 6 ) ); 
   if( !tempFlippedEdge )

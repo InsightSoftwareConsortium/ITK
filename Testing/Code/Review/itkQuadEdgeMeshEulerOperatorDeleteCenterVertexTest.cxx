@@ -82,7 +82,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   std::cout << "Checking DeleteCenterVertex." << std::endl;
 
   MeshPointer mesh = MeshType::New();
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
 
   DeleteCenterVertex::Pointer deleteCenterVertex = DeleteCenterVertex::New( );
   std::cout << "     " << "Test No Mesh Input";
@@ -193,7 +193,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   //    | /          | /          | /          | /          |
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   //
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   std::cout << "     ";
   std::cout << "Delete center vertex with border 1-ring (possible).";
   deleteCenterVertex->SetInput( mesh );
@@ -211,7 +211,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
     }
   std::cout << ".OK" << std::endl;
   // test that border points can not be deleted.
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   std::cout << "     ";
   std::cout << "Check deleting a border vertex (impossible).";
 
@@ -231,7 +231,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   
   // test that points including an hole in the 1-ring
   // can not be deleted.
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   std::cout << "     ";
   std::cout << "Check deleting a vertex around an hole (impossible).";
   mesh->LightWeightDeleteEdge( mesh->FindEdge(  6, 12 ) );
@@ -256,7 +256,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New();
   createCenterVertex->SetInput( mesh );
 
-  PopulateMesh<MeshType>( mesh );
+  CreateSquareTriangularMesh<MeshType>( mesh );
   if( !deleteCenterVertex->Evaluate(
     createCenterVertex->Evaluate( mesh->FindEdge( 0, 1 ) ) ) )
     {
