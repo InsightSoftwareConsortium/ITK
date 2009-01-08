@@ -33,62 +33,11 @@ namespace itk {
 template<class TInputImage, class TOutputImage, class TKernel>
 BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 ::BinaryMorphologicalClosingImageFilter()
-  : m_Kernel()
 {
   m_ForegroundValue = NumericTraits<InputPixelType>::max();
   m_SafeBorder = true;
 }
 
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
-::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-  
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr = 
-    const_cast< TInputImage * >( this->GetInput() );
-  
-  if ( !inputPtr )
-    {
-    return;
-    }
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
-    {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << static_cast<const char *>(this->GetNameOfClass())
-        << "::GenerateInputRequestedRegion()";
-    e.SetLocation(msg.str().c_str());
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
-}
 
 template<class TInputImage, class TOutputImage, class TKernel>
 void
@@ -135,8 +84,8 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
     {
     typedef ConstantPadImageFilter<InputImageType, InputImageType> PadType;
     typename PadType::Pointer pad = PadType::New();
-    pad->SetPadLowerBound( m_Kernel.GetRadius().m_Size );
-    pad->SetPadUpperBound( m_Kernel.GetRadius().m_Size );
+    pad->SetPadLowerBound( this->GetKernel().GetRadius().m_Size );
+    pad->SetPadUpperBound( this->GetKernel().GetRadius().m_Size );
     pad->SetConstant( backgroundValue );
     pad->SetInput( this->GetInput() );
 
@@ -145,8 +94,8 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
     typedef CropImageFilter<TOutputImage, TOutputImage> CropType;
     typename CropType::Pointer crop = CropType::New();
     crop->SetInput( erode->GetOutput() );
-    crop->SetUpperBoundaryCropSize( m_Kernel.GetRadius() );
-    crop->SetLowerBoundaryCropSize( m_Kernel.GetRadius() );
+    crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
+    crop->SetLowerBoundaryCropSize( this->GetKernel().GetRadius() );
     
     ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
     progress->SetMiniPipelineFilter(this);
@@ -215,7 +164,6 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << m_Kernel << std::endl;
   os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue) << std::endl;
   os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
 }

@@ -18,7 +18,7 @@
 #ifndef __itkBinaryMorphologicalOpeningImageFilter_h
 #define __itkBinaryMorphologicalOpeningImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 
 namespace itk {
 
@@ -45,21 +45,21 @@ namespace itk {
 
 template<class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologicalOpeningImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+    public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryMorphologicalOpeningImageFilter         Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef BinaryMorphologicalOpeningImageFilter                 Self;
+  typedef KernelImageFilter<TInputImage, TOutputImage, TKernel> Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
   
   /** Standard New method. */
   itkNewMacro(Self);  
 
   /** Runtime information support. */
   itkTypeMacro(BinaryMorphologicalOpeningImageFilter, 
-               ImageToImageFilter);
+               KernelImageFilter);
 
   typedef TInputImage                              InputImageType;
   typedef TOutputImage                             OutputImageType;
@@ -71,12 +71,6 @@ public:
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
-
-  /** Set kernel (structuring element). */
-  itkSetMacro(Kernel, KernelType);
-
-  /** Get the kernel (structuring element). */
-  itkGetConstReferenceMacro(Kernel, KernelType);
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. */
@@ -97,13 +91,6 @@ protected:
   ~BinaryMorphologicalOpeningImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** BinaryMorphologicalOpeningImageFilter need to make sure they request enough of an
-   * input image to account for the structuring element size.  The input
-   * requested region is expanded by the radius of the structuring element.
-   * If the request extends past the LargestPossibleRegion for the input,
-   * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion();
-
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
   void  GenerateData ();
@@ -112,9 +99,6 @@ private:
   BinaryMorphologicalOpeningImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** kernel or structuring element to use. */
-  KernelType m_Kernel;
-   
   PixelType m_ForegroundValue;
   
   PixelType m_BackgroundValue;
