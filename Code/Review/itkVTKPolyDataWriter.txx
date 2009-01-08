@@ -110,6 +110,9 @@ VTKPolyDataWriter<TInputMesh>
   outputFile << "POINTS " << numberOfPoints << " float" << std::endl;
 
   const PointsContainer * points = this->m_Input->GetPoints();
+  
+  std::map< PointIdentifier, PointIdentifier > IdMap;
+  PointIdentifier k = 0;
 
   if( points )
     {
@@ -121,6 +124,7 @@ VTKPolyDataWriter<TInputMesh>
       {
       PointType point = pointIterator.Value();
       outputFile << point[0] << " " << point[1] << " " << point[2] << std::endl;
+      IdMap[ pointIterator.Index() ] = k++;
       pointIterator++;
       }
 
@@ -185,7 +189,7 @@ VTKPolyDataWriter<TInputMesh>
               outputFile << cellPointer->GetNumberOfPoints();
               while( pointIdIterator != pointIdEnd )
                 {
-                outputFile << " " << *pointIdIterator;
+                outputFile << " " << IdMap[ *pointIdIterator ];
                 pointIdIterator++;
                 }
               outputFile << std::endl;
@@ -234,7 +238,7 @@ VTKPolyDataWriter<TInputMesh>
               outputFile << cellPointer->GetNumberOfPoints();
               while( pointIdIterator != pointIdEnd )
                 {
-                outputFile << " " << *pointIdIterator;
+                outputFile << " " << IdMap[ *pointIdIterator ];
                 pointIdIterator++;
                 }
               outputFile << std::endl;

@@ -52,10 +52,11 @@ public:
 
   /** Hold on to the type information specified by the template parameters.
    */
-  typedef TInputMesh                          InputMeshType;
-  typedef typename InputMeshType::PixelType   PixelType;
-  typedef typename InputMeshType::PointType   PointType;
-  typedef typename InputMeshType::CellType    CellType;
+  typedef TInputMesh                              InputMeshType;
+  typedef typename InputMeshType::PixelType       PixelType;
+  typedef typename InputMeshType::PointType       PointType;
+  typedef typename InputMeshType::CellType        CellType;
+  typedef typename InputMeshType::PointIdentifier PointIdentifier;
 
   /** Some convenient typedefs. */
   typedef typename InputMeshType::ConstPointer  InputMeshPointer;
