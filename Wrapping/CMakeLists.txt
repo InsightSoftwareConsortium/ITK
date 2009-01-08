@@ -79,6 +79,12 @@ IF(ITK_CSWIG_DIR)
 ENDIF(ITK_CSWIG_DIR)
 
 IF(USE_WRAP_ITK)
-  SUBDIRS(WrapITK)
+  add_subdirectory(WrapITK)
+  # be sure that wrapitk is not used with the older system
+  FOREACH(lang TCL PYTHON JAVA)
+    IF(ITK_CSWIG_${lang} AND WRAP_ITK_${lang})
+      MESSAGE(FATAL_ERROR "ITK_CSWIG_${lang} and WRAP_ITK_${lang} can't be used together. Please disable one of them.")
+    ENDIF(ITK_CSWIG_${lang} AND WRAP_ITK_${lang})
+  ENDFOREACH(lang)
 ENDIF(USE_WRAP_ITK)
 
