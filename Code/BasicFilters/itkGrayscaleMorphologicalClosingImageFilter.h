@@ -95,6 +95,12 @@ public:
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
 
+  /** A safe border is added to input image to avoid borders effects
+   * and remove it once the closing is done */
+  itkSetMacro(SafeBorder, bool);
+  itkGetConstReferenceMacro(SafeBorder, bool);
+  itkBooleanMacro(SafeBorder);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameTypeCheck,
@@ -135,6 +141,9 @@ private:
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel;
+
+  bool m_SafeBorder;
+
 }; // end of class
 
 } // end namespace itk

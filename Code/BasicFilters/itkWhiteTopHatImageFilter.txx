@@ -42,6 +42,7 @@ WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
 ::WhiteTopHatImageFilter()
   : m_Kernel()
 {
+  m_SafeBorder = true;
 }
 
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -88,7 +89,8 @@ WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
     open = GrayscaleMorphologicalOpeningImageFilter<TInputImage, TInputImage, TKernel>::New();
 
   open->SetInput( this->GetInput() );
-  open->SetKernel(this->m_Kernel);
+  open->SetKernel( this->GetKernel() );
+  open->SetSafeBorder( m_SafeBorder );
   
   // Need to subtract the opened image from the input
   typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer
@@ -122,6 +124,7 @@ WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Kernel: " << m_Kernel << std::endl;
+  os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
 }
 
 }// end namespace itk

@@ -39,7 +39,7 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
   m_VanHerkGilWermanErodeFilter = VanHerkGilWermanErodeFilterType::New();
   m_AnchorFilter = AnchorFilterType::New();
   m_Algorithm = HISTO;
-  m_SafeBorder = false;
+  m_SafeBorder = true;
 }
 
 template< class TInputImage, class TOutputImage, class TKernel>
