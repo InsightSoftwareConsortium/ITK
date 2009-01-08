@@ -838,7 +838,7 @@ void MetaImageIO::Read(void* buffer)
     for(unsigned int i=0;i<nDims;i++)
       {
       indexMin[i] = m_IORegion.GetIndex()[i];
-      indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] -1;
+      indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] - 1;
       }
 
     m_MetaImage.ReadROI(indexMin, indexMax, 
@@ -1293,34 +1293,34 @@ MetaImageIO
   double *transformMatrix = 
   static_cast< double *>(malloc(this->GetNumberOfDimensions() * 
                   this->GetNumberOfDimensions() * sizeof(double)));
-  for( unsigned int ii=0; ii < this->GetNumberOfDimensions(); ii++)
+  for( unsigned int ii=0; ii < this->GetNumberOfDimensions(); ii++ )
     {
-    for( unsigned int jj=0; jj < this->GetNumberOfDimensions(); jj++)
+    for( unsigned int jj=0; jj < this->GetNumberOfDimensions(); jj++ )
       {
-      transformMatrix[ii*this->GetNumberOfDimensions() +jj ] =
-                                         this->GetDirection(ii)[jj];
+      transformMatrix[ ii*this->GetNumberOfDimensions() + jj ] =
+                                         this->GetDirection( ii )[ jj ];
       }
     }
   m_MetaImage.TransformMatrix( transformMatrix );
-  free(transformMatrix);
+  free( transformMatrix );
   
-  m_MetaImage.CompressedData(m_UseCompression);
+  m_MetaImage.CompressedData( m_UseCompression );
 
-  if(m_UseCompression && m_UseStreamedWriting)
+  if( m_UseCompression && m_UseStreamedWriting )
     {
     std::cout << "Compression in use: cannot stream the file writing" << std::endl;
     }
-  else if(m_UseStreamedWriting)
+  else if( m_UseStreamedWriting )
     {
     int* indexMin = new int[nDims];
     int* indexMax = new int[nDims];
-    for(unsigned int k=0;k<nDims;k++)
+    for( unsigned int k=0; k<nDims; k++ )
       {
       indexMin[k] = m_IORegion.GetIndex()[k];
-      indexMax[k] = m_IORegion.GetIndex()[k]+m_IORegion.GetSize()[k];
+      indexMax[k] = m_IORegion.GetIndex()[k] + m_IORegion.GetSize()[k] - 1;
       }
       
-    m_MetaImage.WriteROI(indexMin,indexMax,m_FileName.c_str());
+    m_MetaImage.WriteROI( indexMin, indexMax, m_FileName.c_str() );
     
     delete [] indexMin;
     delete [] indexMax;
