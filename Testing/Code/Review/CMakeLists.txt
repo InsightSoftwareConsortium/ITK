@@ -241,7 +241,11 @@ ENDFOREACH( arguments )
 ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
 ADD_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS2})
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest)
+ADD_TEST( itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest ${REVIEW_TESTS2}
+  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest) 
+ADD_TEST( itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest ${REVIEW_TESTS2}
+  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest)
 ADD_TEST(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCellInterfaceTest)
 ADD_TEST(itkQuadEdgeMeshIteratorTest ${REVIEW_TESTS2}
