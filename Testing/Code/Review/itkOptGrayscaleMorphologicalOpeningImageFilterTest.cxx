@@ -70,7 +70,7 @@ int itkOptGrayscaleMorphologicalOpeningImageFilterTest(int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  if ( filter->GetSafeBorder() != false )
+  if ( filter->GetSafeBorder() != true )
     {
     std::cerr << "Wrong default safe border." << std::endl;
     return EXIT_FAILURE;
