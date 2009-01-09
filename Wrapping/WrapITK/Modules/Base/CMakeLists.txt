@@ -27,6 +27,9 @@ SET(WRAPPER_LIBRARY_GROUPS
   itkInPlaceImageFilterA
   itkInPlaceImageFilterB
   itkFiniteDifferenceImageFilter
+  itkPath
+  itkParametricPath
+  itkPolyLineParametricPath
 )
 
 SET(WRAPPER_LIBRARY_DEPENDS VXLNumerics)
