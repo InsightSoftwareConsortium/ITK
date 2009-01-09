@@ -61,6 +61,7 @@ itkIOCommonTest.cxx
 itkIOPrintTest.cxx
 itkImageFileWriterTest.cxx
 itkImageFileWriterPastingTest1.cxx
+itkImageFileWriterStreamingPastingCompressingTest1.cxx
 itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
 itkImageReadDICOMSeriesWriteTest.cxx
@@ -239,10 +240,20 @@ ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
 
 ADD_TEST(itkImageFileWriterPastingTest1 ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha
   itkImageFileWriterPastingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest1 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1_01.mha
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1_01.mha
+            1
+            1
+            )
 
 ADD_TEST(itkMetaImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
