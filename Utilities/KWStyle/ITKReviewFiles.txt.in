@@ -3,4 +3,3 @@
 @ITK_SOURCE_DIR@/Code/Review/itk*.cxx
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.h
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.txx
-@ITK_SOURCE_DIR@/Testing/Code/Review/*.cxx
