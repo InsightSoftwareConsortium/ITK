@@ -1,0 +1,7 @@
+WRAP_CLASS("itk::FastMarchingExtensionImageFilter" POINTER)
+  FOREACH(d ${WRAP_ITK_DIMS})
+    FOREACH(t ${WRAP_ITK_REAL})
+      WRAP_TEMPLATE("${ITKM_I${t}${d}}${ITKM_UC}1${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}, ${ITKT_UC}, 1, ${ITKT_I${t}${d}}")
+    ENDFOREACH(t)
+  ENDFOREACH(d)
+END_WRAP_CLASS()

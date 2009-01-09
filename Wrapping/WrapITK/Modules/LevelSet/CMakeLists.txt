@@ -5,6 +5,7 @@ SET(WRAPPER_LIBRARY_GROUPS
   itkSparseFieldFourthOrderLevelSetImageFilter
   itkSegmentationLevelSetImageFilter
   itkShapePriorSegmentationLevelSetImageFilter
+  itkFastMarchingImageFilter
 )
 SET(WRAPPER_LIBRARY_DEPENDS Base BaseNumerics)
 
