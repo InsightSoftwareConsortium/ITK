@@ -24,8 +24,8 @@
 
 namespace itk
 {
-template <class TInputImage, class TOutputImage>
-GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel>
+GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>
 ::GradientVectorFlowImageFilter()
 {
   m_TimeStep = 0.001;
@@ -38,9 +38,9 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel>
 void
-GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>
 ::GenerateData()
 {
 
@@ -66,9 +66,9 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel>
 void
-GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>
 ::InitInterImage()
 {
   unsigned int i;
@@ -159,9 +159,9 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
 
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel>
 void
-GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>
 ::UpdateInterImage()
 {
   unsigned int i;
@@ -185,9 +185,9 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel>
 void
-GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>
 ::UpdatePixels()
 {
 
@@ -263,9 +263,9 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel>
 void
-GradientVectorFlowImageFilter<TInputImage, TOutputImage>
+GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os, indent);

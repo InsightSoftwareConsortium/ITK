@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \ingroup ImageSegmentation */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TInternalPixel=double>
 class ITK_EXPORT GradientVectorFlowImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -80,7 +80,8 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  typedef itk::Image<double, itkGetStaticConstMacro(ImageDimension)>
+  typedef TInternalPixel                         InternalPixelType;
+  typedef itk::Image<InternalPixelType, itkGetStaticConstMacro(ImageDimension)>
                                                  InternalImageType;
   typedef typename InternalImageType::Pointer    InternalImagePointer;
   typedef ImageRegionIterator<InternalImageType> InternalImageIterator;
