@@ -106,6 +106,11 @@ public:
   
   /** Standard class typedefs. */
   typedef HistogramToEntropyImageFilter Self;
+
+  /** Standard "Superclass" typedef. */
+  typedef HistogramToImageFilter< THistogram, 
+    Function::HistogramEntropyFunction< unsigned long> > Superclass;
+
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;
   

@@ -100,6 +100,11 @@ public:
   
   /** Standard class typedefs. */
   typedef HistogramToLogProbabilityImageFilter Self;
+
+  /** Standard "Superclass" typedef. */
+  typedef HistogramToImageFilter< THistogram, 
+    Function::HistogramLogProbabilityFunction< unsigned long> > Superclass;
+
   typedef SmartPointer<Self>                   Pointer;
   typedef SmartPointer<const Self>             ConstPointer;
   

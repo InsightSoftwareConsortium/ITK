@@ -79,6 +79,11 @@ public:
   
   /** Standard class typedefs. */
   typedef HistogramToIntensityImageFilter                  Self;
+
+  /** Standard "Superclass" typedef. */
+  typedef HistogramToImageFilter< THistogram, 
+    Function::HistogramIntensityFunction< unsigned long> > Superclass;
+
   //typedef typename Function::HistogramIntensityFunction  FunctorType;
   typedef SmartPointer<Self>                               Pointer;
   typedef SmartPointer<const Self>                         ConstPointer;
