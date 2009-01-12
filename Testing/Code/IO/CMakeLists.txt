@@ -251,8 +251,10 @@ ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest1 ${IO_TESTS}
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1_01.mha
-            1
-            1
+            1   # Boolean indicating if Streaming will be used
+            1   # Boolean indicating if Pasting mode will be used
+            1   # Boolean indicating if compression should be used
+            0   # Boolean indicating we expect an exception
             )
 
 ADD_TEST(itkMetaImageIOTest ${IO_TESTS} 
