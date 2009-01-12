@@ -27,6 +27,7 @@
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
 #include "itkFixedArray.h"
+#include "itkImageRegionSplitter.h"
 
 namespace itk
 {
@@ -940,6 +941,126 @@ void ImageIOBase::ReadBufferAsASCII(std::istream& is, void *buffer,
 
 }
 
+
+unsigned int 
+ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int numberOfRequestedSplits,
+                                                             const ImageIORegion &pasteRegion) const
+{  
+  // Code from ImageRegionSplitter:GetNumberOfSplits
+  int splitAxis;
+  const ImageIORegion::SizeType &regionSize = pasteRegion.GetSize();
+  
+  
+  // split on the outermost dimension available
+  splitAxis = pasteRegion.GetImageDimension() - 1;
+  while (regionSize[splitAxis] == 1)
+    {
+    --splitAxis;
+    if (splitAxis < 0)
+      { // cannot split
+      itkDebugMacro("  Cannot Split");
+      return 1;
+      }
+    }
+  
+  // determine the actual number of pieces that will be generated
+  ImageIORegion::SizeType::value_type range = regionSize[splitAxis];
+  int valuesPerPiece = (int)::ceil(range/double(numberOfRequestedSplits));
+  int maxPieceUsed = (int)::ceil(range/double(valuesPerPiece)) - 1;
+  
+  return maxPieceUsed+1;
+}
+
+unsigned int 
+ImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
+                                               const ImageIORegion &pasteRegion,
+                                               const ImageIORegion &largestPossibleRegion)
+{
+  if (this->CanStreamWrite()) 
+    {
+      return GetActualNumberOfSplitsForWritingCanStreamWrite(numberOfRequestedSplits, pasteRegion);
+    }
+  if (pasteRegion != largestPossibleRegion) 
+    {
+      itkExceptionMacro("Pasting is not supported! Can't write:" << this->GetFileName());
+    }
+  if (numberOfRequestedSplits != 1) 
+    {
+    itkDebugMacro("Requested more then 1 splits for streaming");
+    itkDebugMacro("This IO class does not support streaming!");
+    }
+  return 1;
+}
+
+ImageIORegion 
+ImageIOBase::GetSplitRegionForWritingCanStreamWrite(unsigned int ithPiece, 
+                                                               unsigned int numberOfActualSplits,
+                                                               const ImageIORegion &pasteRegion) const 
+{
+    // Code from ImageRegionSplitter:GetSplit
+  int splitAxis;
+  ImageIORegion splitRegion;
+  ImageIORegion::IndexType splitIndex;
+  ImageIORegion::SizeType splitSize, regionSize;
+  
+  // Initialize the splitRegion to the requested region
+  splitRegion = pasteRegion;
+  splitIndex = splitRegion.GetIndex();
+  splitSize = splitRegion.GetSize();
+
+  regionSize = pasteRegion.GetSize();
+  
+  // split on the outermost dimension available
+  splitAxis = pasteRegion.GetImageDimension() - 1;
+  while (regionSize[splitAxis] == 1)
+    {
+    --splitAxis;
+    if (splitAxis < 0)
+      { // cannot split
+      itkDebugMacro("  Cannot Split");
+      return splitRegion;
+      }
+    }
+
+  // determine the actual number of pieces that will be generated
+  ImageIORegion::SizeType::value_type range = regionSize[splitAxis];
+  int valuesPerPiece = (int)::ceil(range/(double)numberOfActualSplits);
+  int maxPieceUsed = (int)::ceil(range/(double)valuesPerPiece) - 1;
+
+  // Split the region
+  if ((int) ithPiece < maxPieceUsed)
+    {
+    splitIndex[splitAxis] += ithPiece*valuesPerPiece;
+    splitSize[splitAxis] = valuesPerPiece;
+    }
+  if ((int) ithPiece == maxPieceUsed)
+    {
+    splitIndex[splitAxis] += ithPiece*valuesPerPiece;
+    // last piece needs to process the "rest" dimension being split
+    splitSize[splitAxis] = splitSize[splitAxis] - ithPiece*valuesPerPiece;
+    }
+  
+  // set the split region ivars
+  splitRegion.SetIndex( splitIndex );
+  splitRegion.SetSize( splitSize );
+
+  itkDebugMacro("  Split Piece: " << splitRegion );
+
+  return splitRegion;
+}
+
+ImageIORegion 
+ImageIOBase::GetSplitRegionForWriting(unsigned int ithPiece, 
+                                      unsigned int numberOfActualSplits,
+                                      const ImageIORegion &pasteRegion,
+                                      const ImageIORegion &largestPossibleRegion)
+{
+   if (this->CanStreamWrite()) 
+    {
+      return GetSplitRegionForWritingCanStreamWrite(ithPiece, numberOfActualSplits, pasteRegion);
+    }
+  return largestPossibleRegion;  
+}
 
 /** Given a requested region, determine what could be the region that we can
  * read from the file. This is called the streamable region, which will be

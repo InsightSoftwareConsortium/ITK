@@ -139,7 +139,17 @@ public:
   /** Specify the region to write. If left NULL, then the whole image
    * is written. */
   void SetIORegion(const ImageIORegion & region);
-  itkGetConstReferenceMacro( IORegion, ImageIORegion );
+  const ImageIORegion &GetIORegion(void) const 
+    {
+    return m_PasteIORegion;
+    }
+
+
+  /** Set/Get the number of pieces to divide the input.  The upstream pipeline
+   * will try to be executed this many times. */
+  itkSetMacro(NumberOfStreamDivisions,unsigned int);
+  itkGetConstReferenceMacro(NumberOfStreamDivisions,unsigned int);
+
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
@@ -182,7 +192,8 @@ private:
   bool                 m_UserSpecifiedImageIO; // track whether the ImageIO
                                                 // is user specified
   
-  ImageIORegion m_IORegion;
+  ImageIORegion m_PasteIORegion;
+  unsigned int  m_NumberOfStreamDivisions;
   bool          m_UserSpecifiedIORegion;    // track whether the region
                                             // is user specified
   bool          m_FactorySpecifiedImageIO;  //track whether the factory
