@@ -369,7 +369,7 @@ IF( ITK_BRAINWEB_DATA_ROOT )
 ADD_TEST(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation2Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
-        81 113 96 200 255 3000
+        81 113 96 220 255 2000
         ${TEMP}/CellularSegmentation2Test.vtk
 )
 
