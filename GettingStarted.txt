@@ -13,7 +13,7 @@ http://www.itk.org for more information. Another document, found in
 Insight/Documentation/InsightStart.pdf is highly recommended.
 
 1) Get the software. We strongly suggest that you obtain the pre-packaged
-   source code distributions (binaries/executables are not yet available).  
+   source code distributions (binaries/executables are not yet available).
 
      http://www.itk.org/HTML/Download.htm
 
