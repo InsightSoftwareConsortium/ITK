@@ -89,29 +89,12 @@ int itkImageFileWriterPastingTest1(int argc, char* argv[])
 
     region.SetIndex(index);
     region.SetSize(size);
-    reader->GetOutput()->SetRequestedRegion(region);
-    try
-      {
-      reader->Update();
-      }
-    catch (itk::ExceptionObject &ex)
-      {
-      std::cout << "ERROR : " << ex << std::endl;
-      return EXIT_FAILURE;
-      }
    
     // Write the image     
     itk::ImageIORegion  ioregion(3);
-    itk::ImageIORegion::IndexType index2;
-    index2.push_back(region.GetIndex()[0]);
-    index2.push_back(region.GetIndex()[1]);
-    index2.push_back(region.GetIndex()[2]);
-    ioregion.SetIndex(index2);
-    itk::ImageIORegion::SizeType size2;
-    size2.push_back(region.GetSize()[0]);
-    size2.push_back(region.GetSize()[1]);
-    size2.push_back(region.GetSize()[2]);
-    ioregion.SetSize(size2);
+    itk::ImageIORegionAdaptor<ImageType::ImageDimension>::
+        Convert( region, ioregion);
+
     writer->SetIORegion(ioregion);
     writer->SetInput(reader->GetOutput());
     
