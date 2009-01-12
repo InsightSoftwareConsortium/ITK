@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    CellularSegmentation1.cxx
+  Module:    CellularSegmentation2.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -51,11 +51,11 @@
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 8 )
+  if( argc < 9 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  seedX seedY lowThreshold highThreshold iterations outputMesh.vtk" << std::endl;
+    std::cerr << " inputImage  seedX seedY seedZ lowThreshold highThreshold iterations outputMesh.vtk" << std::endl;
     return 1;
     }
 
@@ -70,7 +70,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef   float           InternalPixelType;
-  const     unsigned int    Dimension = 2;
+  const     unsigned int    Dimension = 3;
   typedef itk::Image< InternalPixelType, Dimension >  ImageType;
   // Software Guide : EndCodeSnippet
 
@@ -157,6 +157,7 @@ int main( int argc, char *argv[] )
   
   index[0] = atoi( argv[2] );
   index[1] = atoi( argv[3] );
+  index[2] = atoi( argv[4] );
 
   CellType::PointType  position;
 
@@ -202,8 +203,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  CellType::SetChemoAttractantLowThreshold(  atof( argv[4] ) );
-  CellType::SetChemoAttractantHighThreshold( atof( argv[5] ) );
+  CellType::SetChemoAttractantLowThreshold(  atof( argv[5] ) );
+  CellType::SetChemoAttractantHighThreshold( atof( argv[6] ) );
   // Software Guide : EndCodeSnippet
  
 
@@ -236,7 +237,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  unsigned int numberOfIterations = atoi( argv[6] );
+  unsigned int numberOfIterations = atoi( argv[7] );
 
   std::cout << "numberOfIterations " << numberOfIterations << std::endl;
 
@@ -257,7 +258,7 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer = WriterType::New();
  
   writer->SetInput( cellularAggregate->GetMesh() );
-  writer->SetFileName( argv[7] );
+  writer->SetFileName( argv[8] );
 
   try
     {

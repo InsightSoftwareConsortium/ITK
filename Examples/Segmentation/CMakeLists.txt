@@ -67,6 +67,9 @@ TARGET_LINK_LIBRARIES(WatershedSegmentation2 ITKAlgorithms ITKIO)
 ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
 TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 
+ADD_EXECUTABLE(CellularSegmentation2 CellularSegmentation2.cxx )
+TARGET_LINK_LIBRARIES(CellularSegmentation2 ITKAlgorithms ITKNumerics ITKIO)
+
 ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
 TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 
@@ -358,7 +361,19 @@ ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         100 115 200 255 3000
+        ${TEMP}/CellularSegmentation1Test.vtk
 )
+
+IF( ITK_BRAINWEB_DATA_ROOT )
+
+ADD_TEST(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
+  CellularSegmentation2Test
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        81 113 96 200 255 3000
+        ${TEMP}/CellularSegmentation2Test.vtk
+)
+
+ENDIF( ITK_BRAINWEB_DATA_ROOT )
 
 ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected1.png

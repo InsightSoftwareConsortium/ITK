@@ -14,9 +14,14 @@
 void RegisterTests()
 {
 REGISTER_TEST(CellularSegmentation1Test);
+REGISTER_TEST(CellularSegmentation2Test);
 }
 
 #undef main
 #define main CellularSegmentation1Test
 #include "CellularSegmentation1.cxx"
+
+#undef main
+#define main CellularSegmentation2Test
+#include "CellularSegmentation2.cxx"
 
