@@ -37,14 +37,15 @@ ImageToVectorImageFilter< TInputImage >
 template< class TInputImage > 
 void 
 ImageToVectorImageFilter< TInputImage >
-::AllocateOutputs()
+::GenerateOutputInformation(void)
 {
   // Override the method in itkImageSource, so we can set the vector length of
   // the output itk::VectorImage
+  
+  this->Superclass::GenerateOutputInformation();
 
   OutputImageType * output = this->GetOutput();
   output->SetVectorLength(this->GetNumberOfInputs());
-  this->Superclass::AllocateOutputs();
 }
 
 //----------------------------------------------------------------------------

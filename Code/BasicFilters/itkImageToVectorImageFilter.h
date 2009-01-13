@@ -77,7 +77,7 @@ public:
 protected:
   ImageToVectorImageFilter();
 
-  virtual void AllocateOutputs();
+  virtual void GenerateOutputInformation(void);
   virtual void BeforeThreadedGenerateData();
   virtual void ThreadedGenerateData( const RegionType &outputRegionForThread, int);
   virtual void SetNthInput(unsigned int num, DataObject *input)
