@@ -46,7 +46,10 @@
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
+
+#ifdef ITK_USE_REVIEW
 #include "itkVTKPolyDataWriter.h"
+#endif
 
 
 int main( int argc, char *argv[] )
