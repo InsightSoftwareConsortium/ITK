@@ -156,7 +156,10 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     { 
     oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(),
                                              this->GetOutput(), *fit);
-    oSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
+    // No need to overwrite on output...and m_BoundaryCondition is 
+    // templated over inputImageType - and cannot be applied to the
+    // output image
+    //oSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
     oSNIter.GoToBegin();
 
     iSNIter = InputNeighborhoodIteratorType(bKernelSize,
