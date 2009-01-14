@@ -29,7 +29,7 @@
 
 namespace itk
 {
-/** \class BSplineUpsampleImageFilterBase
+/** \class BSplineUpsampleImageFilter
  * \brief Uses B-Spline interpolation to upsample an image by a factor of 2. 
  * This class is the public interface for spline upsampling as defined by the
  * ResamplerType.
@@ -55,25 +55,24 @@ namespace itk
  * 
  * Limitations:  This class requires specification of a resampler type which may 
  *                      be one of:
- *                        itkBSplineResampleImageFilterBase,
- *                        itkBSplineL2ResampleImageFilterBase
- *                        itkBSplineSplineCenteredResampleImageFilterBase,
- *                        itkBSplineCenteredL2ResampleImageFilterBase
+ *                        BSplineResampleImageFilterBase,
+ *                        BSplineL2ResampleImageFilterBase
+ *                        BSplineSplineCenteredResampleImageFilterBase,
+ *                        BSplineCenteredL2ResampleImageFilterBase
  *               The limitations of these resampler types will apply to this filter.
  *               Upsamples only by a factor of 2.
  *
- * \sa itkBSplineDownsampleImageFilter
- * \sa itkBSplineL2ResampleImageFilter
- * \sa itkBSplineResampleImageFilterBase
- * \sa itkBSplineCenteredResampleImageFilterBase
- * \sa itkBSplineCenteredL2ResampleImageFilterBase
+ * \sa BSplineDownsampleImageFilter
+ * \sa BSplineL2ResampleImageFilter
+ * \sa BSplineResampleImageFilterBase
+ * \sa BSplineCenteredResampleImageFilterBase
+ * \sa BSplineCenteredL2ResampleImageFilterBase
  *
  * \ingroup GeometricTransformationFilters
  * \ingroup SingleThreaded
  * \ingroup CannotBeStreamed 
  */
 
-//= ITK_TYPENAME BSplineResampleImageFilterBase<TInputImage, TOutputImage> 
 template <class TInputImage, class TOutputImage, class ResamplerType = BSplineResampleImageFilterBase<TInputImage, TOutputImage> >
 class ITK_EXPORT BSplineUpsampleImageFilter : 
     public ResamplerType 

@@ -20,6 +20,9 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
+namespace itk
+{
+
 /** \class SignedMaurerDistanceMapImageFilter
  *
  *  \brief This filter calculates the squared Euclidean distance transform 
@@ -55,9 +58,6 @@
  * \ingroup ImageFeatureExtraction 
  *
  */
-
-namespace itk
-{
 
 template <class TInputImage, class TOutputImage>
 class SignedMaurerDistanceMapImageFilter :

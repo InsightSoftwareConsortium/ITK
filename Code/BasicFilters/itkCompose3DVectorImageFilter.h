@@ -20,18 +20,6 @@
 #include "itkTernaryFunctorImageFilter.h"
 #include "itkVector.h"
 
-/** \class Compose3DVectorImageFilter
- * \brief Implements pixel-wise composition of an 3D vector pixel from three scalar images.
- *
- * This filter receives three scalar images as input. Each image
- * containing one of the 3D vector components. The filter produces as
- * output a 3D vector image in which the three components have been
- * unified. The Component type is preserved from the PixelType of the
- * input images.
- *
- * \ingroup IntensityImageFilters
- */
-
 namespace itk
 {
   
@@ -64,6 +52,18 @@ public:
     }
 }; 
 }
+
+/** \class Compose3DVectorImageFilter
+ * \brief Implements pixel-wise composition of an 3D vector pixel from three scalar images.
+ *
+ * This filter receives three scalar images as input. Each image
+ * containing one of the 3D vector components. The filter produces as
+ * output a 3D vector image in which the three components have been
+ * unified. The Component type is preserved from the PixelType of the
+ * input images.
+ *
+ * \ingroup IntensityImageFilters
+ */
 
 template <typename TInputImage, 
           typename TOutputImage= 

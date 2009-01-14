@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** \class Rigig2DTransform 
+/** \class Rigid2DTransform 
  * \brief Rigid2DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rigid transformation in 2D space.

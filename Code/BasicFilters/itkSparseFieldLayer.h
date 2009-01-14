@@ -122,7 +122,7 @@ public:
 };
 
 
-/** \class itkSparseFieldLayer
+/** \class SparseFieldLayer
  *
  *  \par
  *  This class implements a *very* simple linked list that is used to manage

@@ -20,17 +20,6 @@
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkCovariantVector.h"
 
-/** \class Compose2DCovariantVectorImageFilter
- * \brief Implements pixel-wise composition of an 2D covariant vector pixel from two scalar images.
- *
- * This filter receives two scalar images as input. Each image containing
- * one of the 2D covariant vector components. The filter produces as output a
- * 2D covariant vector image in which the two components have been unified. The Component
- * type is preserved from the PixelType of the input images.
- *
- * \ingroup IntensityImageFilters
- */
-
 namespace itk
 {
   
@@ -61,6 +50,17 @@ public:
     }
 }; 
 }
+
+/** \class Compose2DCovariantVectorImageFilter
+ * \brief Implements pixel-wise composition of an 2D covariant vector pixel from two scalar images.
+ *
+ * This filter receives two scalar images as input. Each image containing
+ * one of the 2D covariant vector components. The filter produces as output a
+ * 2D covariant vector image in which the two components have been unified. The Component
+ * type is preserved from the PixelType of the input images.
+ *
+ * \ingroup IntensityImageFilters
+ */
 
 template <typename TInputImage, 
           typename TOutputImage= 
