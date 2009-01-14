@@ -46,13 +46,9 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
       itksys::SystemTools::CopyAFile(argv[3], argv[2]);
     } 
 
-  // By default we decide to use 4 pieces, but this value can
-  // be changed from the command line.
+  
   unsigned int numberOfDataPieces = 4;
-  if( argc > 3 )
-    {
-      numberOfDataPieces = atoi( argv[3] );
-    }
+ 
 
   bool forceNoStreamingInput = false;
   if (argc > 4) 
@@ -76,8 +72,8 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
-//   if (forceNoStreamingInput)
-//     monitor->UpdateLargestPossibleRegion();
+  if (forceNoStreamingInput)
+    monitor->UpdateLargestPossibleRegion();
 
   // Setup the writer
   WriterType::Pointer writer = WriterType::New();
