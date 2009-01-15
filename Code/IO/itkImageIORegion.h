@@ -128,7 +128,7 @@ public:
   /** Set the index defining the corner of the region. */
   void SetIndex(const IndexType &index) 
     {
-    m_Index = index;\
+    m_Index = index;
     }
 
   /** Get index defining the corner of the region. */
