@@ -26,6 +26,10 @@
 namespace itk {
 namespace Statistics {
 
+/** \class ScalarImageToHistogramGenerator
+ * 
+ * \brief TODO
+ */
 template< class TImageType >
 class ScalarImageToHistogramGenerator : public Object
 {

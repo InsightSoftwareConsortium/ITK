@@ -27,7 +27,7 @@ namespace itk
 
 /** \class EllipseSpatialObject
  * 
- * \brief 
+ * \brief TODO
  */
 
 template < unsigned int TDimension = 3 >

@@ -34,6 +34,10 @@
 namespace itk
 {
 
+/** \class TransformFileWriter
+ * 
+ * \brief TODO
+ */
 class TransformFileWriter : public LightProcessObject
 {
 public:

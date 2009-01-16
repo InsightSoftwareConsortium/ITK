@@ -26,6 +26,9 @@ namespace itk
 
 template <unsigned int TDimension> class SpatialObject;
 
+/** \class SpatialObjectTreeNode
+ * \brief TODO
+ */
 template <unsigned int TDimension>
 class SpatialObjectTreeNode : public TreeNode< SpatialObject<TDimension> * >
 {

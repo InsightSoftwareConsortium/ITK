@@ -22,6 +22,9 @@
 namespace itk 
 {
 
+/** \class MetaEvent
+ * \brief Event abstract class
+ */
 class MetaEvent : public ::MetaEvent
 {
 

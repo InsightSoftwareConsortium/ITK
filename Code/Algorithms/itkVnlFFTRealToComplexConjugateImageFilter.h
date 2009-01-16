@@ -20,6 +20,11 @@
 #include <complex>
 namespace itk
 {
+
+/** \class VnlFFTRealToComplexConjugateImageFilter
+ * 
+ * \brief TODO
+ */
 template <class TPixel, unsigned int Dimension = 3>
 class VnlFFTRealToComplexConjugateImageFilter :
     public FFTRealToComplexConjugateImageFilter<TPixel,Dimension>

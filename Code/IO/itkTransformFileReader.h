@@ -33,6 +33,10 @@
 namespace itk
 {
 
+/** \class TransformFileReader
+ * 
+ * \brief TODO
+ */
 class TransformFileReader : public LightProcessObject
 {
 public:

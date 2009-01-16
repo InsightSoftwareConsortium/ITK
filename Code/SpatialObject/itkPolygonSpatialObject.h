@@ -21,6 +21,11 @@
 
 namespace itk
 {
+
+/** \class PolygonSpatialObject
+ * 
+ * \brief TODO
+ */
 template <unsigned int TDimension = 3> class 
 PolygonSpatialObject
   :public BlobSpatialObject<TDimension>

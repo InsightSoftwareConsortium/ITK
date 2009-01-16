@@ -28,6 +28,10 @@
 namespace itk
 {
 
+/** \class SpatialObjectReader
+ * 
+ * \brief TODO
+ */
 template <unsigned int NDimensions = 3, 
           typename PixelType = unsigned char,
           typename TMeshTraits = DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >

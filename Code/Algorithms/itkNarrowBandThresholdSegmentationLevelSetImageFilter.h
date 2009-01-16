@@ -22,7 +22,7 @@
 
 namespace itk {
 
-/** \class ThresholdSegmentationLevelSetImageFilter
+/** \class NarrowBandThresholdSegmentationLevelSetImageFilter
  *    \brief Segments structures in images based on intensity values.
  *
  *  \par IMPORTANT
@@ -76,7 +76,8 @@ namespace itk {
  *
  * \sa SegmentationLevelSetImageFilter
  * \sa ThresholdSegmentationLevelSetFunction,
- * \sa SparseFieldLevelSetImageFilter */
+ * \sa SparseFieldLevelSetImageFilter
+ */
 template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
