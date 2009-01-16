@@ -69,6 +69,10 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
   size[1] = fullsize[1];
   size[2] = 0;
 
+  if (m_NumberOfPieces > fullsize[2])
+    {
+    m_NumberOfPieces = fullsize[2];
+    }
   unsigned int zsize = fullsize[2]/m_NumberOfPieces;
 
   // Setup the writer
@@ -111,11 +115,11 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
     index2.push_back(region.GetIndex()[0]);
     index2.push_back(region.GetIndex()[1]);
     index2.push_back(region.GetIndex()[2]);
-    ioregion.SetIndex(index2);
     itk::ImageIORegion::SizeType size2;
     size2.push_back(region.GetSize()[0]);
     size2.push_back(region.GetSize()[1]);
     size2.push_back(region.GetSize()[2]);
+    ioregion.SetIndex(index2);
     ioregion.SetSize(size2);
     writer->SetIORegion(ioregion);
     writer->SetInput(reader->GetOutput());
