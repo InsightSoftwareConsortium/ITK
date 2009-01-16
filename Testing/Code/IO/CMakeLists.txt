@@ -323,10 +323,10 @@ ADD_TEST(itkMetaImageCompressedStreamingIOTest ${IO_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha)
 ADD_TEST(itkMetaImageStreamingWriterIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha
+            ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
   itkMetaImageStreamingWriterIOTest
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWriteStreamed.mha)
+            ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
 # This test is failing to produce correct output
 ADD_TEST(itkMetaImageStreamingWriterIOTest2 ${IO_TESTS} 
 #  --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd
