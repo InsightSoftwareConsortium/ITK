@@ -49,7 +49,7 @@ namespace itk
  */
 
 namespace Function {  
-template< class TInput>
+template< class TInput, class TOutput=double >
 class HistogramEntropyFunction
 {
 public:
@@ -58,7 +58,7 @@ public:
   //   Total Number of occurances. 
   //
   // Returns pixels of float.. 
-  typedef  double  OutputPixelType;
+  typedef  TOutput  OutputPixelType;
   
   
   HistogramEntropyFunction(): 
@@ -97,10 +97,10 @@ private:
 }; 
 }
 
-template <class THistogram >
+template <class THistogram, class TOutputPixel=double >
 class ITK_EXPORT HistogramToEntropyImageFilter :
   public HistogramToImageFilter< THistogram, 
-  Function::HistogramEntropyFunction< unsigned long> > 
+  Function::HistogramEntropyFunction< unsigned long, TOutputPixel > > 
 {
 public:
   
@@ -109,7 +109,8 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, 
-    Function::HistogramEntropyFunction< unsigned long> > Superclass;
+    Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
+                                        Superclass;
 
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;

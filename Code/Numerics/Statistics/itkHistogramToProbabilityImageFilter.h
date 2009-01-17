@@ -44,7 +44,7 @@ namespace itk
  */
 
 namespace Function {  
-template< class TInput>
+template< class TInput, class TOutput=float >
 class HistogramProbabilityFunction
 {
 public:
@@ -53,7 +53,7 @@ public:
   //   Total Number of occurances. 
   //
   // Returns pixels of float.. 
-  typedef  float  OutputPixelType;
+  typedef  TOutput  OutputPixelType;
   
   
   HistogramProbabilityFunction(): 
@@ -82,10 +82,10 @@ private:
 }; 
 }
 
-template <class THistogram >
+template <class THistogram, class TOutputPixel=float >
 class ITK_EXPORT HistogramToProbabilityImageFilter :
   public HistogramToImageFilter< THistogram, 
-  Function::HistogramProbabilityFunction< unsigned long> > 
+  Function::HistogramProbabilityFunction< unsigned long, TOutputPixel > > 
 {
 public:
   
@@ -94,7 +94,8 @@ public:
   
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, 
-    Function::HistogramProbabilityFunction< unsigned long> > Superclass;
+    Function::HistogramProbabilityFunction< unsigned long, TOutputPixel> >
+                                            Superclass;
 
   typedef SmartPointer<Self>                Pointer;
   typedef SmartPointer<const Self>          ConstPointer;

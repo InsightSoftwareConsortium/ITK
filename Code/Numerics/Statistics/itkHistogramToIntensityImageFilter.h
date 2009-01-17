@@ -36,13 +36,13 @@ namespace itk
  */
 
 namespace Function {  
-template< class TInput>
+template< class TInput, class TOutput=unsigned long >
 class HistogramIntensityFunction
 {
 public:
   
   //Intensity function returns pixels of unsigned long.. 
-  typedef unsigned long  OutputPixelType   ;
+  typedef TOutput  OutputPixelType   ;
   
   
   HistogramIntensityFunction(): 
@@ -70,10 +70,10 @@ private:
 }; 
 }
 
-template <class THistogram >
+template <class THistogram, class TOutputPixel=unsigned long >
 class ITK_EXPORT HistogramToIntensityImageFilter :
   public HistogramToImageFilter< THistogram, 
-  Function::HistogramIntensityFunction< unsigned long> > 
+  Function::HistogramIntensityFunction< unsigned long, TOutputPixel > > 
 {
 public:
   
@@ -82,7 +82,8 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, 
-    Function::HistogramIntensityFunction< unsigned long> > Superclass;
+    Function::HistogramIntensityFunction< unsigned long, TOutputPixel > >
+                                                           Superclass;
 
   //typedef typename Function::HistogramIntensityFunction  FunctorType;
   typedef SmartPointer<Self>                               Pointer;
