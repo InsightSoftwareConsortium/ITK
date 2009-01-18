@@ -48,19 +48,21 @@ Evaluate( const InputType& mesh )
   typedef typename MeshType::CellsContainerConstIterator
     CellsContainerConstIterator; 
   EdgeListType boundaryList;
+
   CellsContainerConstIterator cellIterator = mesh.GetEdgeCells()->Begin();
   CellsContainerConstIterator cellEnd      = mesh.GetEdgeCells()->End();
-  while( cellIterator != cellEnd )
+
+  for(; cellIterator != cellEnd; ++cellIterator )
     {
-       if( EdgeCellType* cell = dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
+    if( EdgeCellType* cell =
+        dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
       {
-           QEPrimal* edge = cell->GetQEGeom( );
+      QEPrimal* edge = cell->GetQEGeom( );
       if( !edge->IsInternal( ) )
         {
         boundaryList.push_front( edge );
         }
       }
-    ++cellIterator;
     } 
 
   OutputType ResultList = new EdgeListType;

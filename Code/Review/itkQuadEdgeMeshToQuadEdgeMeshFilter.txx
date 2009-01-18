@@ -56,27 +56,18 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   InputCellsContainerConstIterator cIt = in->GetCells()->Begin();
   while( cIt != in->GetCells()->End() )
     {
-    InputEdgeCellType* qe;// = (InputEdgeCellType*)0;
-    InputPolygonCellType* pe;// = (InputPolygonCellType*)0;
-    if( ( qe = dynamic_cast< InputEdgeCellType* >( cIt.Value() ) ) )
+    InputPolygonCellType* pe = 
+      dynamic_cast< InputPolygonCellType* >( cIt.Value());
+    if( pe )
       {
-      InputQEPrimal* QEGeom = qe->GetQEGeom( );
-      out->AddEdgeWithSecurePointList( QEGeom->GetOrigin(), QEGeom->GetDestination() );
-      }
-    else
-      {
-      pe = dynamic_cast< InputPolygonCellType* >( cIt.Value());
-      if( pe )
+      InputPointIdList points;
+      InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
+      while( pit != pe->InternalPointIdsEnd( ) )
         {
-        InputPointIdList points;
-        InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
-        while( pit != pe->InternalPointIdsEnd( ) )
-          {
-          points.push_back( ( *pit ) );
-          pit++;
-          }
-        out->AddFaceWithSecurePointList( points );
-        } 
+        points.push_back( ( *pit ) );
+        ++pit;
+        }
+      out->AddFaceWithSecurePointList( points );
       }
     cIt++;
     }

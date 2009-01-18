@@ -211,7 +211,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
     tetas[j] = tetas[j-1] + vcl_acos( ( two_r - dist ) * inv_two_r );
 
-    j++;
+    ++j;
     ++BoundaryPtIterator;
     }
 
@@ -297,7 +297,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     {
     pt = PointIterator.Value( );
 
-    for( i = 0; i < PointDimension; i++ )
+    for( i = 0; i < PointDimension; ++i )
       {
       oCenter[i] += pt[i];
       }
@@ -306,7 +306,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
   InputCoordRepType invNbOfPoints = 1. /
           static_cast< InputCoordRepType >( input->GetNumberOfPoints( ) );
 
-  for( i = 0; i < PointDimension; i++ )
+  for( i = 0; i < PointDimension; ++i )
     {
     oCenter[i] *= invNbOfPoints;
     }
@@ -360,7 +360,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
   for( InputIteratorGeom it = bdryEdge->BeginGeomLnext( );
        it != bdryEdge->EndGeomLnext( );
-       ++it, i++ )
+       ++it, ++i )
     {
     org = it.Value( )->GetOrigin( );
     dest = it.Value( )->GetDestination( );
@@ -376,7 +376,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
   InputCoordRepType EdgeLength = 2. * m_Radius;
   InputCoordRepType ratio = 4. * EdgeLength / TotalLength;
 
-  for( i = 0; i < NbBoundaryPt + 1; i++ )
+  for( i = 0; i < NbBoundaryPt + 1; ++i )
     {
     Length[i] *= ratio;
     }
@@ -392,45 +392,37 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
   while( Length[i] < EdgeLength )
     {
     pt[0] = -m_Radius + Length[i];
-    m_Border[i] = pt;
-    i++;
+    m_Border[ i++ ] = pt;
     }
 
   pt[0] = m_Radius;
   pt[1] = m_Radius;
-
-  m_Border[i] = pt;
-  i++;
+  m_Border[ i++ ] = pt;
 
   while( Length[i] < ( 2. * EdgeLength ) )
     {
     pt[1] = m_Radius - ( Length[i] - EdgeLength );
-    m_Border[i] = pt;
-    i++;
+    m_Border[ i++ ] = pt;
     }
 
   pt[0] = m_Radius;
   pt[1] = - m_Radius;
-  m_Border[i] = pt;
-  i++;
+  m_Border[ i++ ] = pt;
 
   while( Length[i] < ( 3. * EdgeLength ) )
     {
     pt[0] = m_Radius - ( Length[i] - 2. * EdgeLength );
-    m_Border[i] = pt;
-    i++;
+    m_Border[ i++ ] = pt;
     }
 
   pt[0] = - m_Radius;
   pt[1] = - m_Radius;
-  m_Border[i] = pt;
-  i++;
+  m_Border[ i++ ] = pt;
 
   while( i < NbBoundaryPt )
     {
     pt[1] = -m_Radius + ( Length[i] - 3. * EdgeLength );
-    m_Border[i] = pt;
-    i++;
+    m_Border[ i++ ] = pt;
     }
 }
 

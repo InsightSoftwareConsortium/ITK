@@ -1202,7 +1202,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   QEList FaceQEList;
 
   // Now create edges as needed.
-  for(unsigned int i=0; i < points.size(); i++)
+  for( size_t i = 0; i < points.size(); i++)
     {
     PointIdentifier pid0 = points[i];
     PointIdentifier pid1 = points[ (i+1) % points.size() ];
@@ -1225,17 +1225,19 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   // Reorder all Onext rings
   QEPrimal* e1;
-  QEPrimal* e0 = FaceQEList[points.size()-1];
-  for(unsigned int i=0; i < points.size(); i++)
+  QEPrimal* e0 = FaceQEList.back();
+  for( typename QEList::iterator it = FaceQEList.begin();
+      it != FaceQEList.end();
+      ++it )
     {
     e1 = e0->GetSym();
-    e0 = FaceQEList[i];
+    e0 = *it;
 
     e0->ReorderOnextRingBeforeAddFace( e1 );
     }
 
   // all edges are ready to receive a face on the left
-  QEPrimal* entry = FaceQEList[0];
+  QEPrimal* entry = FaceQEList.front();
 
   if( !entry )
     {
