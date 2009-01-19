@@ -74,7 +74,6 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
 
   MeshPointer mesh = MeshType::New();
   PointIdentifier start_id( 12 );
-  unsigned int iter;
 
   switch( InputType )
     {
@@ -105,7 +104,6 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
       //    | /          | /          | /          | /          |
       //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
       CreateSquareTriangularMesh< MeshType >( mesh );
-      iter = 9;
       break;
     case 1:
       // The initial configuration and numbering of simpleSquare.vtk:
@@ -137,7 +135,6 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
     case 2:
       CreateTetraedronMesh< MeshType >( mesh );
       start_id = 0;
-      iter = 7;
       break;
     case 3:
       CreateSamosa< MeshType >( mesh );
