@@ -54,15 +54,31 @@ public: \
  \
   static const RealType max( const Self & a ) \
     {  \
-      RealType b(a.Size());  \
+      RealType b;  \
       b.Fill( NumericTraits< T >::max() ); \
       return b; \
     } \
   static const RealType min( const Self & a ) \
     {  \
-      RealType b(a.Size());  \
+      RealType b;  \
       b.Fill( NumericTraits< T >::min() ); \
       return b; \
+    } \
+  static const Self max() \
+    {  \
+      Self b;  \
+      b.Fill( NumericTraits< T >::max() ); \
+      return b; \
+    } \
+  static const Self min() \
+    {  \
+      Self b;  \
+      b.Fill( NumericTraits< T >::min() ); \
+      return b; \
+    } \
+  static const Self NonpositiveMin() \
+    {  \
+      return NumericTraits< Self >::min(); \
     } \
   static const Self ZeroValue() \
   {  \
