@@ -21,22 +21,6 @@
 #include "itkRGBAPixel.h"
 #include "itkNumericTraitsRGBAPixel.h"
 
-/** \class ComposeRGBAImageFilter
- * \brief Implements pixel-wise composition of an RGBA pixel from four scalar images.
- *
- * This filter receives four scalar images as input. Each image containing
- * one of the RGBA components of a color image. The filter produces as output an
- * RGBA image in which the four components have been unified. The Component
- * type is preserved from the PixelType of the input images.
- *
- *  \author Dan Mueller, Queensland University of Technology, Brisbane, Australia
- *
- * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/153
- *
- * \ingroup IntensityImageFilters
- */
-
 namespace itk
 {
   
@@ -65,6 +49,23 @@ public:
     }
 }; 
 }
+
+
+/** \class ComposeRGBAImageFilter
+ * \brief Implements pixel-wise composition of an RGBA pixel from four scalar images.
+ *
+ * This filter receives four scalar images as input. Each image containing
+ * one of the RGBA components of a color image. The filter produces as output an
+ * RGBA image in which the four components have been unified. The Component
+ * type is preserved from the PixelType of the input images.
+ *
+ *  \author Dan Mueller, Queensland University of Technology, Brisbane, Australia
+ *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/1926/153
+ *
+ * \ingroup IntensityImageFilters
+ */
 
 template <typename TInputImage, 
           typename TOutputImage= 
