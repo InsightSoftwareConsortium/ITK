@@ -112,6 +112,7 @@ public:
   typedef FixedArray<unsigned long, 1> AbsType;
   typedef FixedArray<unsigned long, 1> AccumulateType;
   typedef FixedArray<double, 1> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 1> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 1> > {
@@ -233,6 +234,7 @@ public:
   typedef FixedArray<unsigned long, 2> AbsType;
   typedef FixedArray<unsigned long, 2> AccumulateType;
   typedef FixedArray<double, 2> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 2> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 2> > {
@@ -353,6 +355,7 @@ public:
   typedef FixedArray<unsigned long, 3> AbsType;
   typedef FixedArray<unsigned long, 3> AccumulateType;
   typedef FixedArray<double, 3> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 3> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 3> > {
@@ -473,6 +476,7 @@ public:
   typedef FixedArray<unsigned long, 4> AbsType;
   typedef FixedArray<unsigned long, 4> AccumulateType;
   typedef FixedArray<double, 4> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 4> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 4> > {
@@ -593,6 +597,7 @@ public:
   typedef FixedArray<unsigned long, 5> AbsType;
   typedef FixedArray<unsigned long, 5> AccumulateType;
   typedef FixedArray<double, 5> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 5> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 5> > {
@@ -713,6 +718,7 @@ public:
   typedef FixedArray<unsigned long, 6> AbsType;
   typedef FixedArray<unsigned long, 6> AccumulateType;
   typedef FixedArray<double, 6> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 6> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 6> > {
@@ -833,6 +839,7 @@ public:
   typedef FixedArray<unsigned long, 7> AbsType;
   typedef FixedArray<unsigned long, 7> AccumulateType;
   typedef FixedArray<double, 7> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 7> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 7> > {
@@ -953,6 +960,7 @@ public:
   typedef FixedArray<unsigned long, 8> AbsType;
   typedef FixedArray<unsigned long, 8> AccumulateType;
   typedef FixedArray<double, 8> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 8> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 8> > {
@@ -1073,6 +1081,7 @@ public:
   typedef FixedArray<unsigned long, 9> AbsType;
   typedef FixedArray<unsigned long, 9> AccumulateType;
   typedef FixedArray<double, 9> RealType;
+  typedef double ScalarRealType;
   typedef FixedArray<float, 9> FloatType;
 };
 template <> class NumericTraits<FixedArray<float, 9> > {

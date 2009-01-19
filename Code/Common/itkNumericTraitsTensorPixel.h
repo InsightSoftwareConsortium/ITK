@@ -104,6 +104,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 1> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 1> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 1> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 1> > {
 public:
@@ -212,6 +213,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 2> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 2> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 2> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 2> > {
 public:
@@ -322,6 +324,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 3> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 3> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 3> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 3> > {
 public:
@@ -430,6 +433,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 4> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 4> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 4> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 4> > {
 public:
@@ -538,6 +542,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 5> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 5> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 5> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 5> > {
 public:
@@ -646,6 +651,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 6> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 6> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 6> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 6> > {
 public:
@@ -754,6 +760,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 7> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 7> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 7> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 7> > {
 public:
@@ -862,6 +869,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 8> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 8> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 8> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 8> > {
 public:
@@ -970,6 +978,7 @@ public:
   typedef SymmetricSecondRankTensor<unsigned long, 9> AbsType;
   typedef SymmetricSecondRankTensor<unsigned long, 9> AccumulateType;
   typedef SymmetricSecondRankTensor<double, 9> RealType;
+  typedef double ScalarRealType;
 };
 template <> class NumericTraits<SymmetricSecondRankTensor<float, 9> > {
 public:

@@ -144,6 +144,7 @@ public:
   typedef Vector<unsigned long, 1> AbsType;
   typedef Vector<unsigned long, 1> AccumulateType;
   typedef Vector<double, 1> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 1> FloatType;
   static const Vector<unsigned long, 1> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 1> ITKCommon_EXPORT One;
@@ -312,6 +313,7 @@ public:
   typedef Vector<unsigned long, 2> AbsType;
   typedef Vector<unsigned long, 2> AccumulateType;
   typedef Vector<double, 2> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 2> FloatType;
   static const Vector<unsigned long, 2> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 2> ITKCommon_EXPORT One;
@@ -480,6 +482,7 @@ public:
   typedef Vector<unsigned long, 3> AbsType;
   typedef Vector<unsigned long, 3> AccumulateType;
   typedef Vector<double, 3> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 3> FloatType;
   static const Vector<unsigned long, 3> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 3> ITKCommon_EXPORT One;
@@ -648,6 +651,7 @@ public:
   typedef Vector<unsigned long, 4> AbsType;
   typedef Vector<unsigned long, 4> AccumulateType;
   typedef Vector<double, 4> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 4> FloatType;
   static const Vector<unsigned long, 4> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 4> ITKCommon_EXPORT One;
@@ -816,6 +820,7 @@ public:
   typedef Vector<unsigned long, 5> AbsType;
   typedef Vector<unsigned long, 5> AccumulateType;
   typedef Vector<double, 5> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 5> FloatType;
   static const Vector<unsigned long, 5> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 5> ITKCommon_EXPORT One;
@@ -984,6 +989,7 @@ public:
   typedef Vector<unsigned long, 6> AbsType;
   typedef Vector<unsigned long, 6> AccumulateType;
   typedef Vector<double, 6> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 6> FloatType;
   static const Vector<unsigned long, 6> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 6> ITKCommon_EXPORT One;
@@ -1152,6 +1158,7 @@ public:
   typedef Vector<unsigned long, 7> AbsType;
   typedef Vector<unsigned long, 7> AccumulateType;
   typedef Vector<double, 7> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 7> FloatType;
   static const Vector<unsigned long, 7> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 7> ITKCommon_EXPORT One;
@@ -1320,6 +1327,7 @@ public:
   typedef Vector<unsigned long, 8> AbsType;
   typedef Vector<unsigned long, 8> AccumulateType;
   typedef Vector<double, 8> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 8> FloatType;
   static const Vector<unsigned long, 8> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 8> ITKCommon_EXPORT One;
@@ -1488,6 +1496,7 @@ public:
   typedef Vector<unsigned long, 9> AbsType;
   typedef Vector<unsigned long, 9> AccumulateType;
   typedef Vector<double, 9> RealType;
+  typedef double ScalarRealType;
   typedef Vector<float, 9> FloatType;
   static const Vector<unsigned long, 9> ITKCommon_EXPORT Zero;
   static const Vector<unsigned long, 9> ITKCommon_EXPORT One;

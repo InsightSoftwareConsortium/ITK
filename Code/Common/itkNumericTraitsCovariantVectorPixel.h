@@ -128,6 +128,7 @@ public:
   typedef CovariantVector<unsigned long, 2> AbsType;
   typedef CovariantVector<unsigned long, 2> AccumulateType;
   typedef CovariantVector<double, 2> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 2> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 2> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long,2>  ZeroValue() { return Zero; }
@@ -272,6 +273,7 @@ public:
   typedef CovariantVector<unsigned long, 3> AbsType;
   typedef CovariantVector<unsigned long, 3> AccumulateType;
   typedef CovariantVector<double, 3> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 3> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 3> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 3>  ZeroValue() { return Zero; }
@@ -416,6 +418,7 @@ public:
   typedef CovariantVector<unsigned long, 4> AbsType;
   typedef CovariantVector<unsigned long, 4> AccumulateType;
   typedef CovariantVector<double, 4> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 4> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 4> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 4>  ZeroValue() { return Zero; }
@@ -560,6 +563,7 @@ public:
   typedef CovariantVector<unsigned long, 5> AbsType;
   typedef CovariantVector<unsigned long, 5> AccumulateType;
   typedef CovariantVector<double, 5> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 5> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 5> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 5>  ZeroValue() { return Zero; }
@@ -704,6 +708,7 @@ public:
   typedef CovariantVector<unsigned long, 6> AbsType;
   typedef CovariantVector<unsigned long, 6> AccumulateType;
   typedef CovariantVector<double, 6> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 6> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 6> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 6>  ZeroValue() { return Zero; }
@@ -848,6 +853,7 @@ public:
   typedef CovariantVector<unsigned long, 7> AbsType;
   typedef CovariantVector<unsigned long, 7> AccumulateType;
   typedef CovariantVector<double, 7> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 7> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 7> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 7>  ZeroValue() { return Zero; }
@@ -992,6 +998,7 @@ public:
   typedef CovariantVector<unsigned long, 8> AbsType;
   typedef CovariantVector<unsigned long, 8> AccumulateType;
   typedef CovariantVector<double, 8> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 8> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 8> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 8>  ZeroValue() { return Zero; }
@@ -1136,6 +1143,7 @@ public:
   typedef CovariantVector<unsigned long, 9> AbsType;
   typedef CovariantVector<unsigned long, 9> AccumulateType;
   typedef CovariantVector<double, 9> RealType;
+  typedef double ScalarRealType;
   static const CovariantVector<unsigned long, 9> ITKCommon_EXPORT Zero;
   static const CovariantVector<unsigned long, 9> ITKCommon_EXPORT One;
   static CovariantVector<unsigned long, 9>  ZeroValue() { return Zero; }
