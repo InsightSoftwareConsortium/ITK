@@ -105,6 +105,9 @@ public:
   itkSetMacro( TransformType, BorderTransformType );
   itkGetMacro( TransformType, BorderTransformType );
 
+  itkSetMacro( Radius, InputCoordRepType );
+  itkGetMacro( Radius, InputCoordRepType );
+
   void ComputeTransform( );
   MapPointIdentifier GetBoundaryPtMap( );
   InputVectorPointType GetBorder( );

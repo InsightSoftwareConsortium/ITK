@@ -26,7 +26,8 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
-::QuadEdgeMeshBorderTransform( ) :  m_TransformType( SQUARE_BORDER_TRANSFORM ), m_Radius( 10000. )
+::QuadEdgeMeshBorderTransform( ) :  m_TransformType( SQUARE_BORDER_TRANSFORM ),
+m_Radius( 0. )
 {
 }
 
@@ -217,7 +218,8 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
   InputCoordRepType a = ( 2. * vnl_math::pi ) / tetas[NbBoundaryPt-1];
 
-  m_Radius = vcl_pow( vcl_sqrt( r ), a );
+  if( m_Radius == 0. )
+    m_Radius = vcl_pow( vcl_sqrt( r ), a );
 
   for( MapPointIdentifierIterator
         BoundaryPtMapIterator = m_BoundaryPtMap.begin( );
@@ -372,6 +374,9 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     TotalLength += distance;
     Length[i] = TotalLength;
     }
+
+  if( m_Radius == 0. )
+    m_Radius = 1000.;
 
   InputCoordRepType EdgeLength = 2. * m_Radius;
   InputCoordRepType ratio = 4. * EdgeLength / TotalLength;
