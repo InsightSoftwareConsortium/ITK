@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageClassifierBase_txx
-#define _itkImageClassifierBase_txx
+#ifndef __itkImageClassifierBase_txx
+#define __itkImageClassifierBase_txx
 #include "itkImageClassifierBase.h"
 
 namespace itk
@@ -58,7 +58,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
   const unsigned int length = static_cast<unsigned int>( m_PixelMembershipValue.size() );
   const signed int last = static_cast<int>( length ) - 1;
 
-  os << indent << "Pixel membership: [" ;
+  os << indent << "Pixel membership: [";
   for ( i = 0; i < last; i++)
     {
     os << m_PixelMembershipValue[i] << ", ";
@@ -153,14 +153,14 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
 
     //Read the input vector
     inputImagePixel = inIt.Get();
-    for (classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
+    for (classIndex = 0; classIndex < numberOfClasses; classIndex++)
       {
       discriminantScores[classIndex] = 
-        (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel) ;
+        (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
       }
 
     
-    classLabel = this->GetDecisionRule()->Evaluate(discriminantScores) ;
+    classLabel = this->GetDecisionRule()->Evaluate(discriminantScores);
   
     outputClassifiedLabel = ClassifiedImagePixelType ( classLabel );
     classifiedIt.Set( outputClassifiedLabel );
@@ -212,10 +212,10 @@ ImageClassifierBase<TInputImage, TClassifiedImage>
     m_PixelMembershipValue.resize( numberOfClasses );
     }
   
-  for (unsigned int classIndex = 0 ; classIndex < numberOfClasses ; classIndex++)
+  for (unsigned int classIndex = 0; classIndex < numberOfClasses; classIndex++)
     {
     m_PixelMembershipValue[classIndex] = 
-      (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel) ;
+      (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
     }
  
   //Return the membership value of the 

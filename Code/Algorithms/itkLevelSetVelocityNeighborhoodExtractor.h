@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetVelocityNeighborhoodExtractor_h
-#define _itkLevelSetVelocityNeighborhoodExtractor_h
+#ifndef __itkLevelSetVelocityNeighborhoodExtractor_h
+#define __itkLevelSetVelocityNeighborhoodExtractor_h
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkLevelSet.h"
@@ -61,10 +61,10 @@ class ITK_EXPORT LevelSetVelocityNeighborhoodExtractor :
 {
 public:
   /** Standard class typdedefs. */
-  typedef LevelSetVelocityNeighborhoodExtractor Self;
+  typedef LevelSetVelocityNeighborhoodExtractor    Self;
   typedef LevelSetNeighborhoodExtractor<TLevelSet> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,27 +84,28 @@ public:
   typedef ::itk::Index<itkGetStaticConstMacro(SetDimension)> Index;
 
   /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,itkGetStaticConstMacro(SetDimension)> AuxVarType;
-  typedef typename AuxVarType::AuxValueType AuxValueType;
-  typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
-  typedef typename AuxVarType::AuxValueContainer AuxValueContainer;
-  typedef typename AuxVarType::AuxImageType AuxImageType;
-  typedef typename AuxVarType::AuxImagePointer AuxImagePointer;
+  typedef AuxVarTypeDefault<TAuxValue,VAuxDimension,itkGetStaticConstMacro(SetDimension)>
+                                                    AuxVarType;
+  typedef typename AuxVarType::AuxValueType         AuxValueType;
+  typedef typename AuxVarType::AuxValueVectorType   AuxValueVectorType;
+  typedef typename AuxVarType::AuxValueContainer    AuxValueContainer;
+  typedef typename AuxVarType::AuxImageType         AuxImageType;
+  typedef typename AuxVarType::AuxImagePointer      AuxImagePointer;
   typedef typename AuxVarType::AuxImageConstPointer AuxImageConstPointer;
 
   /** Set the auxiliary images. */
   void SetAuxImage( const AuxImageType * ptr, unsigned int idx = 0 )
-  { 
+    { 
     if ( idx < VAuxDimension && m_AuxImage[idx] != ptr )
       {
       m_AuxImage[idx] = ptr;
       }
     this->Modified();
-  }
+    }
 
   /** Get the auxiliary images. */
   AuxImageConstPointer GetAuxImage( unsigned int idx = 0 )
-  {
+    {
     if ( idx >= VAuxDimension ) 
       { 
       return NULL; 
@@ -113,7 +114,7 @@ public:
       { 
       return m_AuxImage[idx]; 
       }
-  }
+    }
 
   /** Get the container of auxiliary values associated with the inside
    *  points. */
@@ -148,5 +149,3 @@ private:
 #endif
 
 #endif
-
-

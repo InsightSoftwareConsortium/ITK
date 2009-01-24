@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMinMaxCurvatureFlowFunction_h_
-#define __itkMinMaxCurvatureFlowFunction_h_
+#ifndef __itkMinMaxCurvatureFlowFunction_h
+#define __itkMinMaxCurvatureFlowFunction_h
 
 #include "itkCurvatureFlowFunction.h"
 #include "itkMacro.h"
@@ -36,17 +36,17 @@ namespace itk {
  * \sa MinMaxCurvatureFlowImageFilter
  * \sa ZeroFluxNeumannBoundaryCondition 
  * \ingroup FiniteDifferenceFunctions
-*/
+ */
 template <class TImage>
 class ITK_EXPORT MinMaxCurvatureFlowFunction :
     public CurvatureFlowFunction<TImage>
 {
 public:
   /**  Standard class typedefs. */
-  typedef MinMaxCurvatureFlowFunction Self;
+  typedef MinMaxCurvatureFlowFunction   Self;
   typedef CurvatureFlowFunction<TImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,11 +56,11 @@ public:
                 CurvatureFlowFunction );
   
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::RadiusType       RadiusType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -72,7 +72,7 @@ public:
   /** Set/Get the stencil radius. */
   void SetStencilRadius( const RadiusValueType radius );
   const RadiusValueType &GetRadiusValueType() const
-  { return m_StencilRadius; }
+    { return m_StencilRadius; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */

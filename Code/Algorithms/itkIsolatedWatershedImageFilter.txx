@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkIsolatedWatershedImageFilter_txx_
-#define __itkIsolatedWatershedImageFilter_txx_
+#ifndef __itkIsolatedWatershedImageFilter_txx
+#define __itkIsolatedWatershedImageFilter_txx
 
 #include "itkIsolatedWatershedImageFilter.h"
 #include "itkWatershedImageFilter.h"
@@ -105,7 +105,7 @@ IsolatedWatershedImageFilter<TInputImage,TOutputImage>
 {
   InputImageConstPointer inputImage = this->GetInput();
   OutputImagePointer outputImage = this->GetOutput();
-  OutputImageRegionType region = outputImage->GetRequestedRegion() ;
+  OutputImageRegionType region = outputImage->GetRequestedRegion();
 
   // Set up the pipeline
   m_GradientMagnitude->SetInput (inputImage);

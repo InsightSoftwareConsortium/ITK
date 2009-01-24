@@ -55,11 +55,10 @@ class ITK_EXPORT MeanSquaresImageToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef MeanSquaresImageToImageMetric    Self;
-  typedef ImageToImageMetric<TFixedImage, TMovingImage >  Superclass;
-
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef MeanSquaresImageToImageMetric                  Self;
+  typedef ImageToImageMetric<TFixedImage, TMovingImage > Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -131,5 +130,3 @@ private:
 #endif
 
 #endif
-
-

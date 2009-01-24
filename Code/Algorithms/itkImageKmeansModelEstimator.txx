@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageKmeansModelEstimator_txx
-#define _itkImageKmeansModelEstimator_txx
+#ifndef __itkImageKmeansModelEstimator_txx
+#define __itkImageKmeansModelEstimator_txx
 
 #include "itkImageKmeansModelEstimator.h"
 
@@ -142,7 +142,7 @@ void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 ::Allocate()
 {
-  unsigned long initCodebookSize, finalCodebookSize;;
+  unsigned long initCodebookSize, finalCodebookSize;
 
   m_VectorDimension = InputImagePixelType::GetVectorDimension();
 
@@ -271,19 +271,12 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
     this->DeleteAllMembershipFunctions();
     }
 
-  for (unsigned int classIndex = 0 ; classIndex < numberOfModels ; classIndex++)
+  for (unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++)
     {
-   
-    membershipFunction = TMembershipFunction::New() ;
-
-    membershipFunction->
-      SetNumberOfSamples( 0 ) ;     
-
-    membershipFunction->
-      SetCentroid(m_Centroid.get_row( classIndex) ) ;
-
+    membershipFunction = TMembershipFunction::New();
+    membershipFunction->SetNumberOfSamples( 0 );
+    membershipFunction->SetCentroid(m_Centroid.get_row( classIndex) );
     this->AddMembershipFunction( membershipFunction ); 
-
     }  
 
 }// end EstimateModels 
@@ -331,7 +324,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
   // Do the Lloyd iteration.  Use the nearest neighbor condition to
   // find the cells.  Then find the centroid of each cell.
 
-// First pass requires very large distortion
+  // First pass requires very large distortion
 
   double olddistortion = m_DoubleMaximum;
   double distortion, tempdistortion;
@@ -499,7 +492,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 
     // keep convention that ties go to lower index 
     bestdistortion = m_DoubleMaximum;
-    bestcodeword = 0;    
+    bestcodeword = 0;
 
     for ( unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++ ) 
       { 
@@ -608,7 +601,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
   unsigned int  i;
   double        addoffset;
   double        muloffset;
-  double        rand_num ;
+  double        rand_num;
 
   addoffset = m_OffsetAdd / vcl_pow(2.0, ( double ) scale );
   muloffset = m_OffsetMultiply / vcl_pow(2.0, ( double ) scale );
@@ -629,11 +622,11 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
 
       if ( oldCodeword[i] < 0 ) 
         {
-        newCodeword[i] -=  addoffset * rand_num;
+        newCodeword[i] -= addoffset * rand_num;
         }
       else 
         {
-        newCodeword[i] +=  addoffset * rand_num;
+        newCodeword[i] += addoffset * rand_num;
         }
       }
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLaplacianSegmentationLevelSetImageFilter_h_
-#define __itkLaplacianSegmentationLevelSetImageFilter_h_
+#ifndef __itkLaplacianSegmentationLevelSetImageFilter_h
+#define __itkLaplacianSegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkLaplacianSegmentationLevelSetFunction.h"
@@ -104,13 +104,14 @@ class ITK_EXPORT LaplacianSegmentationLevelSetImageFilter
 public:
   /** Standard class typedefs */
   typedef LaplacianSegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+                                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
 
   
@@ -139,8 +140,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLaplacianSegmentationLevelSetImageFilter.txx"

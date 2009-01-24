@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKLMRegionGrowImageFilter_txx
-#define _itkKLMRegionGrowImageFilter_txx
+#ifndef __itkKLMRegionGrowImageFilter_txx
+#define __itkKLMRegionGrowImageFilter_txx
 #include "itkKLMRegionGrowImageFilter.h"
 
 namespace itk
@@ -44,8 +44,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 {
 }
 
-
-/*
+/**
  * PrintSelf
  */
 template <class TInputImage, class TOutputImage>
@@ -83,7 +82,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
 }
 
 
-/*
+/**
  * EnlargeOutputRequestedRegion method.
  */
 template<class TInputImage, class TOutputImage>
@@ -467,7 +466,7 @@ KLMRegionGrowImageFilter<TInputImage,TOutputImage>
     for ( unsigned int jdim = 0; jdim < InputImageDimension; jdim++ )
       {
       numBorderThisDim *= numBordersAlongDim[jdim];
-      borderLengthTmp  *= ( jdim == idim ? 1 : gridSize[ jdim ] * spacing[ jdim ] );
+      borderLengthTmp *= ( jdim == idim ? 1 : gridSize[ jdim ] * spacing[ jdim ] );
       }
 
     // index to atomic region1 and atomic region2

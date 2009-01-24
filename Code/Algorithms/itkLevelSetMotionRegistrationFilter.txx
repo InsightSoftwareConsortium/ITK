@@ -14,13 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetMotionRegistrationFilter_txx
-#define _itkLevelSetMotionRegistrationFilter_txx
+#ifndef __itkLevelSetMotionRegistrationFilter_txx
+#define __itkLevelSetMotionRegistrationFilter_txx
 #include "itkLevelSetMotionRegistrationFilter.h"
 
 namespace itk {
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -74,11 +74,11 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
-   
+    {
+    itkExceptionMacro( 
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
+  
   /*
    * Smooth the deformation field
    */
@@ -89,7 +89,7 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
   
 }
 
-/*
+/**
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -109,7 +109,7 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
-/*
+/**
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -123,17 +123,17 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   return drfp->GetMetric();
 
 }
 
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -147,16 +147,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   return drfp->GetAlpha();
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -170,16 +170,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   drfp->SetAlpha(alpha);
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -193,16 +193,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   return drfp->GetIntensityDifferenceThreshold();
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -216,16 +216,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   drfp->SetIntensityDifferenceThreshold(threshold);
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -239,16 +239,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   return drfp->GetGradientMagnitudeThreshold();
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -262,17 +262,17 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   drfp->SetGradientMagnitudeThreshold(threshold);
 
 }
 
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -286,16 +286,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   return drfp->GetGradientSmoothingStandardDeviations();
 
 }
 
-/*
+/**
  * 
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -309,16 +309,16 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
    
   drfp->SetGradientSmoothingStandardDeviations(sigma);
 
 }
 
-/*
+/**
  * Get the metric value from the difference function
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -340,10 +340,10 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       (this->GetDifferenceFunction().GetPointer());
  
   if( !drfp )
-   {
-   itkExceptionMacro( << 
-     "Could not cast difference function to LevelSetMotionRegistrationFunction" );
-   }
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
+    }
 
   this->SetRMSChange( drfp->GetRMSChange() );
    

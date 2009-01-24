@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanSquaresPointSetToImageMetric_txx
-#define _itkMeanSquaresPointSetToImageMetric_txx
+#ifndef __itkMeanSquaresPointSetToImageMetric_txx
+#define __itkMeanSquaresPointSetToImageMetric_txx
 
 #include "itkMeanSquaresPointSetToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedPointSet, class TMovingImage> 
@@ -32,7 +32,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
 {
 }
 
-/*
+/**
  * Get the match Measure
  */
 template <class TFixedPointSet, class TMovingImage> 
@@ -96,11 +96,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet,TMovingImage>
 
 }
 
-
-
-
-
-/*
+/**
  * Get the Derivative Measure
  */
 template < class TFixedPointSet, class TMovingImage> 

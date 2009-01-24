@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanSquaresImageToImageMetric_txx
-#define _itkMeanSquaresImageToImageMetric_txx
+#ifndef __itkMeanSquaresImageToImageMetric_txx
+#define __itkMeanSquaresImageToImageMetric_txx
 
 // First make sure that the configuration is available.
 // This line can be removed once the optimized versions
@@ -32,7 +32,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -42,7 +42,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
   itkDebugMacro("Constructor");
 }
 
-/*
+/**
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
@@ -120,11 +120,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
-
-
-
-
-/*
+/**
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
@@ -386,4 +382,3 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 #endif
 
 #endif
-

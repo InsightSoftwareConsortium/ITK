@@ -22,7 +22,8 @@
 #include "itkWatershedImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 
-namespace itk{
+namespace itk
+{
 
 /** /class IsolatedWatershedImageFilter
  * \brief Isolate watershed basins using two seeds
@@ -43,10 +44,10 @@ class ITK_EXPORT IsolatedWatershedImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef IsolatedWatershedImageFilter Self;
+  typedef IsolatedWatershedImageFilter                 Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,20 +56,20 @@ public:
   itkTypeMacro(IsolatedWatershedImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage InputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType InputImagePixelType; 
-  typedef typename InputImageType::IndexType IndexType;
-  typedef typename InputImageType::SizeType SizeType;
+  typedef typename InputImageType::RegionType   InputImageRegionType; 
+  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef typename InputImageType::IndexType    IndexType;
+  typedef typename InputImageType::SizeType     SizeType;
   
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType OutputImagePixelType; 
+  typedef typename OutputImageType::PixelType  OutputImagePixelType; 
   
-  typedef WatershedImageFilter<InputImageType> WatershedType;
+  typedef WatershedImageFilter<InputImageType>                         WatershedType;
   typedef GradientMagnitudeImageFilter<InputImageType,OutputImageType> GradientMagnitudeType;
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
@@ -111,13 +112,13 @@ public:
 protected:
   IsolatedWatershedImageFilter();
   ~IsolatedWatershedImageFilter(){};
-  IndexType m_Seed1;
-  IndexType m_Seed2;
+  IndexType            m_Seed1;
+  IndexType            m_Seed2;
   OutputImagePixelType m_ReplaceValue1;
   OutputImagePixelType m_ReplaceValue2;
 
   typename GradientMagnitudeType::Pointer m_GradientMagnitude;
-  typename WatershedType::Pointer m_Watershed;
+  typename WatershedType::Pointer         m_Watershed;
 
   double m_Threshold;
   double m_IsolatedValue;

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _ImageToSpatialObjectMetric_txx
-#define _ImageToSpatialObjectMetric_txx
+#ifndef __itkImageToSpatialObjectMetric_txx
+#define __itkImageToSpatialObjectMetric_txx
 
 #include "itkImageToSpatialObjectMetric.h"
 
@@ -36,7 +36,7 @@ ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
 }
 
 
-/*
+/**
  * Initialize
  */
 

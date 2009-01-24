@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetNeighborhoodExtractor_txx
-#define _itkLevelSetNeighborhoodExtractor_txx
+#ifndef __itkLevelSetNeighborhoodExtractor_txx
+#define __itkLevelSetNeighborhoodExtractor_txx
 
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkImageRegionConstIterator.h"
@@ -28,7 +28,7 @@
 namespace itk
 {
 
-/*
+/**
  *
  */
 template <class TLevelSet>
@@ -87,7 +87,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 }
 
 
-/*
+/**
  *
  */
 template <class TLevelSet>
@@ -99,7 +99,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 }
 
 
-/*
+/**
  *
  */
 template <class TLevelSet>
@@ -189,7 +189,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
 }
 
-/*
+/**
  *
  */
 template <class TLevelSet>
@@ -235,7 +235,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
 }
 
-/*
+/**
  *
  */
 template <class TLevelSet>
@@ -251,7 +251,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   PixelType inputPixel;
 
   inputPixel = m_InputLevelSet->GetPixel( index );
-  centerValue = (double) inputPixel ;
+  centerValue = (double) inputPixel;
   centerValue -= m_LevelSetValue;
 
   NodeType centerNode;

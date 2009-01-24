@@ -50,10 +50,10 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
 
   /** Standard class typedefs */
-  typedef MedialNodePairCorrespondenceProcess  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MedialNodePairCorrespondenceProcess Self;
+  typedef ProcessObject                       Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -65,18 +65,18 @@ public:
   itkTypeMacro(MedialNodePairCorrespondenceProcess, ProcessObject);
 
   /** Typedef for core atom image. */
-  typedef TSourceImage CoreAtomImageType;
-  typedef typename CoreAtomImageType::Pointer CoreAtomImagePointer;
-  typedef typename CoreAtomImageType::RegionType CoreAtomImageRegionType; 
-  typedef typename CoreAtomImageType::PixelType CoreAtomImagePixelType; 
+  typedef TSourceImage                             CoreAtomImageType;
+  typedef typename CoreAtomImageType::Pointer      CoreAtomImagePointer;
+  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType; 
+  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType; 
   typedef typename CoreAtomImageType::ConstPointer CoreAtomImageConstPointer;
 
   /** Typedef for distance matrix. */
-  typedef MatrixResizeableDataObject<double> DistanceMatrixType;
+  typedef MatrixResizeableDataObject<double>   DistanceMatrixType;
   typedef typename DistanceMatrixType::Pointer DistanceMatrixPointer;
 
   /** Typedef for correspondence matrix */
-  typedef MatrixResizeableDataObject<double> CorrespondenceMatrixType;
+  typedef MatrixResizeableDataObject<double>         CorrespondenceMatrixType;
   typedef typename CorrespondenceMatrixType::Pointer CorrespondenceMatrixPointer;
 
   /** Typedef for correspondence data structure. (output) */

@@ -16,8 +16,8 @@
 =========================================================================*/
 
 
-#ifndef _itkImagePCADecompositionCalculator_txx
-#define _itkImagePCADecompositionCalculator_txx
+#ifndef __itkImagePCADecompositionCalculator_txx
+#define __itkImagePCADecompositionCalculator_txx
 #ifdef _MSC_VER
 #pragma warning( disable : 4288 )
 #endif
@@ -28,9 +28,9 @@
 namespace itk
 { 
     
-/*
+/**
  * Constructor
-  */
+ */
 template<class TInputImage, class TBasisImage>
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
 ::ImagePCADecompositionCalculator()
@@ -57,9 +57,9 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   this->Modified();
 } 
 
-/*
+/**
  * Compute the projection
-  */
+ */
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
@@ -72,8 +72,6 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   this->CalculateRecenteredImageAsVector();
   m_Projection = m_BasisMatrix * m_ImageAsVector;
 }
-
-
 
 /*
  * Convert a vector of basis images into a matrix. Each image is flattened into 1-D.
@@ -95,27 +93,27 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   for(typename BasisImagePointerVector::const_iterator basis_it = m_BasisImages.begin();
       basis_it != m_BasisImages.end(); ++basis_it) 
     {
-      if( (*basis_it)->GetRequestedRegion().GetSize() != m_Size)
-        {
-        itkExceptionMacro("All basis images must be the same size!");
-        }
+    if( (*basis_it)->GetRequestedRegion().GetSize() != m_Size)
+      {
+      itkExceptionMacro("All basis images must be the same size!");
+      }
     
-      ImageRegionConstIterator<BasisImageType> image_it(*basis_it,
-                                                        (*basis_it)->GetRequestedRegion());
-      int j = 0;
-      for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
-        {
-        m_BasisMatrix(i, j++) = image_it.Get();
-        }
-      i++;
+    ImageRegionConstIterator<BasisImageType> image_it(*basis_it,
+                                                      (*basis_it)->GetRequestedRegion());
+    int j = 0;
+    for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
+      {
+      m_BasisMatrix(i, j++) = image_it.Get();
+      }
+    i++;
     }
-m_BasisMatrixCalculated = true;
-m_ImageAsVector.set_size(m_NumPixels);
+  m_BasisMatrixCalculated = true;
+  m_ImageAsVector.set_size(m_NumPixels);
 }
 
-/*
+/**
  * Convert an image into a 1-D vector, changing the pixel type if necessary.
-  */
+ */
 template<class TInputImage, class TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>
@@ -131,7 +129,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>
   for (image_it.GoToBegin(), vector_it = m_ImageAsVector.begin();
        !image_it.IsAtEnd(); ++image_it, ++vector_it)
     {
-      *vector_it = static_cast<BasisPixelType> (image_it.Get());
+    *vector_it = static_cast<BasisPixelType> (image_it.Get());
     }
   
   if (m_MeanImage) 

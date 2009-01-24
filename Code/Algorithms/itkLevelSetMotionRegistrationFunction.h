@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetMotionRegistrationFunction_h_
-#define _itkLevelSetMotionRegistrationFunction_h_
+#ifndef __itkLevelSetMotionRegistrationFunction_h
+#define __itkLevelSetMotionRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"
@@ -28,28 +28,28 @@
 namespace itk {
 
 /**
-* \class LevelSetMotionRegistrationFunction
-*
-* This class encapsulate the PDE which drives the demons registration
-* algorithm. It is used by LevelSetMotionRegistrationFilter to compute the
-* output deformation field which will map a moving image onto a
-* a fixed image.
-*
-* Non-integer moving image values are obtained by using
-* interpolation. The default interpolator is of type
-* LinearInterpolateImageFunction. The user may set other
-* interpolators via method SetMovingImageInterpolator. Note that the input
-* interpolator must derive from baseclass InterpolateImageFunction.
-*
-* This class is templated over the fixed image type, moving image type,
-* and the deformation field type.
-*
-* \warning This filter assumes that the fixed image type, moving image type
-* and deformation field type all have the same number of dimensions.
-*
-* \sa LevelSetMotionRegistrationFilter
-* \ingroup FiniteDifferenceFunctions
-*/
+ * \class LevelSetMotionRegistrationFunction
+ *
+ * This class encapsulate the PDE which drives the demons registration
+ * algorithm. It is used by LevelSetMotionRegistrationFilter to compute the
+ * output deformation field which will map a moving image onto a
+ * a fixed image.
+ *
+ * Non-integer moving image values are obtained by using
+ * interpolation. The default interpolator is of type
+ * LinearInterpolateImageFunction. The user may set other
+ * interpolators via method SetMovingImageInterpolator. Note that the input
+ * interpolator must derive from baseclass InterpolateImageFunction.
+ *
+ * This class is templated over the fixed image type, moving image type,
+ * and the deformation field type.
+ *
+ * \warning This filter assumes that the fixed image type, moving image type
+ * and deformation field type all have the same number of dimensions.
+ *
+ * \sa LevelSetMotionRegistrationFilter
+ * \ingroup FiniteDifferenceFunctions
+ */
 template<class TFixedImage, class TMovingImage, class TDeformationField>
 class ITK_EXPORT LevelSetMotionRegistrationFunction :
     public PDEDeformableRegistrationFunction< TFixedImage,
@@ -61,9 +61,10 @@ public:
   typedef LevelSetMotionRegistrationFunction    Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
                                              TMovingImage, TDeformationField 
- >    Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+ >
+                                                Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,21 +95,20 @@ public:
 int,Superclass::ImageDimension);
 
   /** Inherit some enums from the superclass. */
-  typedef typename Superclass::PixelType     PixelType;
-  typedef typename Superclass::RadiusType    RadiusType;
-  typedef typename Superclass::NeighborhoodType    NeighborhoodType;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::RadiusType       RadiusType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::TimeStepType     TimeStepType;
 
   /** Interpolator type. */
-  typedef double CoordRepType;
+  typedef double                                     CoordRepType;
   typedef InterpolateImageFunction<MovingImageType,CoordRepType> 
-InterpolatorType;
+                                                     InterpolatorType;
   typedef typename InterpolatorType::Pointer         InterpolatorPointer;
   typedef typename InterpolatorType::PointType       PointType;
   typedef LinearInterpolateImageFunction<MovingImageType,CoordRepType>
-      DefaultInterpolatorType;
-
+                                                     DefaultInterpolatorType;
   
   /** Vector types. */
   typedef Vector<double,itkGetStaticConstMacro(ImageDimension)> VectorType;
@@ -136,14 +136,14 @@ InterpolatorType;
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
   virtual void *GetGlobalDataPointer() const
-  {
+    {
     GlobalDataStruct *global = new GlobalDataStruct();
     global->m_SumOfSquaredDifference  = 0.0;
     global->m_NumberOfPixelsProcessed = 0L;
     global->m_SumOfSquaredChange      = 0;
     global->m_MaxL1Norm            = NumericTraits<double>::NonpositiveMin();
     return global;
-  }
+    }
 
   /** Release memory for global data structure. */
   virtual void ReleaseGlobalDataPointer( void *GlobalData ) const;
@@ -206,12 +206,12 @@ protected:
   /** A global data type for this class of equation. Used to store
    * information for computing the metric. */
   struct GlobalDataStruct
-  {
+    {
     double          m_SumOfSquaredDifference;
     unsigned long   m_NumberOfPixelsProcessed;
     double          m_SumOfSquaredChange;
     double          m_MaxL1Norm;
-  };
+    };
 
 private:
   LevelSetMotionRegistrationFunction(const Self&); //purposely not implemented
@@ -263,4 +263,3 @@ private:
 #endif
 
 #endif
-

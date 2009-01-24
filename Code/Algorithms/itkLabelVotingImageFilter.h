@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -76,10 +76,10 @@ class ITK_EXPORT LabelVotingImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef LabelVotingImageFilter Self;
+  typedef LabelVotingImageFilter                          Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,7 +90,7 @@ public:
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TInputImage::PixelType  InputPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -100,8 +100,8 @@ public:
                       TOutputImage::ImageDimension);
   
   /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  typedef TInputImage                           InputImageType;
+  typedef TOutputImage                          OutputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   
@@ -111,33 +111,33 @@ public:
   /** Set label value for undecided pixels.
     */
   void SetLabelForUndecidedPixels( const OutputPixelType l )
-  {
+    {
     this->m_LabelForUndecidedPixels = l;
     this->m_HasLabelForUndecidedPixels = true;
     this->Modified();
-  }
+    }
   
   /** Get label value used for undecided pixels.
-    * After updating the filter, this function returns the actual label value
-    * used for undecided pixels in the current output. Note that this value
-    * is overwritten when SetLabelForUndecidedPixels is called and the new
-    * value only becomes effective upon the next filter update.
-    */
+   * After updating the filter, this function returns the actual label value
+   * used for undecided pixels in the current output. Note that this value
+   * is overwritten when SetLabelForUndecidedPixels is called and the new
+   * value only becomes effective upon the next filter update.
+   */
   OutputPixelType GetLabelForUndecidedPixels() const
-  {
+    {
     return this->m_LabelForUndecidedPixels;
-  }
+    }
   
   /** Unset label value for undecided pixels and turn on automatic selection.
     */
   void UnsetLabelForUndecidedPixels()
-  {
+    {
     if ( this->m_HasLabelForUndecidedPixels )
       {
       this->m_HasLabelForUndecidedPixels = false;
       this->Modified();
       }
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -164,10 +164,11 @@ protected:
   LabelVotingImageFilter() { this->m_HasLabelForUndecidedPixels = false; }
   virtual ~LabelVotingImageFilter() {}  
 
-  /** Determine maximum label value in all input images and initialize global data.*/
+  /** Determine maximum label value in all input images and initialize
+   * global data. */
   void BeforeThreadedGenerateData ();
   void ThreadedGenerateData
-  ( const OutputImageRegionType &outputRegionForThread, int threadId);
+    ( const OutputImageRegionType &outputRegionForThread, int threadId);
   
   void PrintSelf(std::ostream&, Indent) const;
 
@@ -179,8 +180,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   OutputPixelType m_LabelForUndecidedPixels;
-  bool m_HasLabelForUndecidedPixels;
-  InputPixelType m_TotalLabelCount;
+  bool            m_HasLabelForUndecidedPixels;
+  InputPixelType  m_TotalLabelCount;
 };
   
 } // end namespace itk

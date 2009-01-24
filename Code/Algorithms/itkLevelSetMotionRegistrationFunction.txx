@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetMotionRegistrationFunction_txx_
-#define _itkLevelSetMotionRegistrationFunction_txx_
+#ifndef __itkLevelSetMotionRegistrationFunction_txx
+#define __itkLevelSetMotionRegistrationFunction_txx
 
 #include "itkLevelSetMotionRegistrationFunction.h"
 #include "itkExceptionObject.h"
@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -192,8 +192,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   return m_GradientSmoothingStandardDeviations;
 }
 
-
-/*
+/**
  * Set the function state values before each iteration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -228,8 +227,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
 }
 
-
-/*
+/**
  * Compute update at a specify neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -419,7 +417,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
 
   m_MetricCalculationLock.Lock();
-  m_SumOfSquaredDifference  += globalData->m_SumOfSquaredDifference;
+  m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
   if ( m_NumberOfPixelsProcessed )
@@ -433,8 +431,6 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   delete globalData;
 }
-
-
 
 } // end namespace itk
 

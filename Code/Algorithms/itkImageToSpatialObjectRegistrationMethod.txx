@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToSpatialObjectRegistrationMethod_txx
-#define _itkImageToSpatialObjectRegistrationMethod_txx
+#ifndef __itkImageToSpatialObjectRegistrationMethod_txx
+#define __itkImageToSpatialObjectRegistrationMethod_txx
 
 #include "itkImageToSpatialObjectRegistrationMethod.h"
 
@@ -212,9 +212,7 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
   this->StartRegistration();
 }
 
-
-
-/*
+/**
  *  Get Output
  */
 template < typename TFixedImage, typename TMovingSpatialObject >
@@ -224,8 +222,6 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage,TMovingSpatialObject>
 {
   return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 }
-
-
 
 template < typename TFixedImage, typename TMovingSpatialObject >
 DataObject::Pointer

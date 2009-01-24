@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageShapeModelEstimatorBase_txx
-#define _itkImageShapeModelEstimatorBase_txx
+#ifndef __itkImageShapeModelEstimatorBase_txx
+#define __itkImageShapeModelEstimatorBase_txx
 
 #include "itkImageShapeModelEstimatorBase.h"
 #include "itkCommand.h"
@@ -45,7 +45,7 @@ ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
   this->EstimateShapeModels();
 }
 
-/*
+/**
  * PrintSelf
  */
 template <class TInputImage, class TOutputImage>

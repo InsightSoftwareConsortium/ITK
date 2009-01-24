@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetVelocityNeighborhoodExtractor_txx
-#define _itkLevelSetVelocityNeighborhoodExtractor_txx
+#ifndef __itkLevelSetVelocityNeighborhoodExtractor_txx
+#define __itkLevelSetVelocityNeighborhoodExtractor_txx
 
 #include "itkLevelSetVelocityNeighborhoodExtractor.h"
 #include "vnl/vnl_math.h"
@@ -24,7 +24,7 @@ namespace itk
 {
 
 
-/*
+/**
  *
  */
 template <class TLevelSet, class TAuxValue, 

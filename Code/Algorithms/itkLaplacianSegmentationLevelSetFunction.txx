@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLaplacianSegmentationLevelSetFunction_txx_
-#define __itkLaplacianSegmentationLevelSetFunction_txx_
+#ifndef __itkLaplacianSegmentationLevelSetFunction_txx
+#define __itkLaplacianSegmentationLevelSetFunction_txx
 
 #include "itkLaplacianSegmentationLevelSetFunction.h"
 #include "itkLaplacianImageFilter.h"

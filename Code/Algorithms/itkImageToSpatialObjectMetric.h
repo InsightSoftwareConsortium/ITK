@@ -60,13 +60,10 @@ class ITK_EXPORT ImageToSpatialObjectMetric
   : public SingleValuedCostFunction
 {
 public:
-  /** Standard "Self" typedef. */
   typedef ImageToSpatialObjectMetric  Self;
-  /** Standard "Superclass" typedef. */
-  typedef SingleValuedCostFunction  Superclass;
-  /** Smart pointer typedef support   */
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SingleValuedCostFunction    Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Type of the fixed image */
   typedef TFixedImage          FixedImageType;
@@ -124,14 +121,13 @@ public:
   typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
   
   /** Const pointer type for the MovingSpatialObject */
-  typedef typename MovingSpatialObjectType::ConstPointer    
-  MovingSpatialObjectConstPointer;
+  typedef typename MovingSpatialObjectType::ConstPointer MovingSpatialObjectConstPointer;
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
   typedef Superclass::ParametersType         ParametersType;
 
-  /** Run-time type information (and related methods).*/
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToSpatialObjectMetric, Object);
 
   /** Connect the FixedImage. */
@@ -200,5 +196,3 @@ protected:
 #endif
 
 #endif
-
-

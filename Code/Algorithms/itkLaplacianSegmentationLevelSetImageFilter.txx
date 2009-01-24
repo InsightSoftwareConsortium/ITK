@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLaplacianSegmentationLevelSetImageFilter_txx_
-#define __itkLaplacianSegmentationLevelSetImageFilter_txx_
+#ifndef __itkLaplacianSegmentationLevelSetImageFilter_txx
+#define __itkLaplacianSegmentationLevelSetImageFilter_txx
 
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
 
@@ -42,8 +42,5 @@ LaplacianSegmentationLevelSetImageFilter<TInputImage, TFeatureImage,
 
 
 }// end namespace itk
-
-
-
 
 #endif

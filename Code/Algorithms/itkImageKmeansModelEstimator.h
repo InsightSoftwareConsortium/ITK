@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageKmeansModelEstimator_h
-#define _itkImageKmeansModelEstimator_h
+#ifndef __itkImageKmeansModelEstimator_h
+#define __itkImageKmeansModelEstimator_h
 
 #include <time.h>
 #include <math.h>
@@ -130,10 +130,11 @@ class ITK_EXPORT ImageKmeansModelEstimator:
 public:
   /** Standard class typedefs. */
   typedef ImageKmeansModelEstimator   Self;
-  typedef ImageModelEstimatorBase<TInputImage, TMembershipFunction> Superclass;
+  typedef ImageModelEstimatorBase<TInputImage, TMembershipFunction>
+                                      Superclass;
 
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -147,22 +148,19 @@ public:
   typedef typename TInputImage::ConstPointer    InputImageConstPointer;
 
   /** Type definition for the vector associated with
-   * input image pixel type. */     
-  typedef typename TInputImage::PixelType::VectorType    
-  InputImageVectorType;
+   * input image pixel type. */
+  typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType     InputImagePixelType;
 
   /** Type definition for the input image iterator type. */
-  typedef 
-  ImageRegionIterator<TInputImage> InputImageIterator;
+  typedef ImageRegionIterator<TInputImage> InputImageIterator;
 
-  typedef 
-  ImageRegionConstIterator<TInputImage> InputImageConstIterator;     
+  typedef ImageRegionConstIterator<TInputImage> InputImageConstIterator;
 
   /** Type definitions for the membership function . */
-  typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;
+  typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
   /** Type definition for a double matrix. */
   typedef vnl_matrix<double> CodebookMatrixOfDoubleType; 
@@ -178,7 +176,7 @@ public:
 
   /** Get the optimized codebook or the centroids of the clusters. */
   CodebookMatrixOfDoubleType GetOutCodebook()
-  { return m_Codebook; }
+    { return m_Codebook; }
 
   /** Set the threshold parameter. */
   itkSetMacro(Threshold,double);
@@ -206,7 +204,7 @@ public:
 
   /** Return the codebook/cluster centers. */
   CodebookMatrixOfDoubleType GetKmeansResults(void)
-  { return m_Centroid; }
+    { return m_Centroid; }
 
 protected: 
   ImageKmeansModelEstimator();
@@ -214,7 +212,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Starts the image modelling process */
-  void GenerateData() ;
+  void GenerateData();
 
   /** Allocate memory for the output model. */
   void Allocate();
@@ -277,7 +275,7 @@ private:
   unsigned long       m_CurrentNumberOfCodewords;
   
   CodebookMatrixOfIntegerType  m_CodewordHistogram;
-  CodebookMatrixOfDoubleType  m_CodewordDistortion;
+  CodebookMatrixOfDoubleType   m_CodewordDistortion;
 
 }; // class ImageKmeansModelEstimator
 
@@ -287,7 +285,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageKmeansModelEstimator.txx"
 #endif
-
-
 
 #endif

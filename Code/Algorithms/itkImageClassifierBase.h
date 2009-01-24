@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageClassifierBase_h
-#define _itkImageClassifierBase_h
+#ifndef __itkImageClassifierBase_h
+#define __itkImageClassifierBase_h
 
 #include "itkClassifierBase.h"
 #include "itkExceptionObject.h"
@@ -73,10 +73,10 @@ class ITK_EXPORT ImageClassifierBase:
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageClassifierBase   Self;
+  typedef ImageClassifierBase         Self;
   typedef ClassifierBase<TInputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,7 +95,7 @@ public:
   /** Type definitions from the Superclass */
 
   /**Set the decision rule */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
   
   /** Typedefs for membership funciton */
   typedef typename Superclass::MembershipFunctionType MembershipFunctionType;
@@ -122,8 +122,8 @@ public:
   itkGetMacro(ClassifiedImage,ClassifiedImagePointer); 
 
   /** Type definition for the vector associated with
-   * input image pixel type. */     
-  typedef typename TInputImage::PixelType      InputImagePixelType;        
+    * input image pixel type. */
+  typedef typename TInputImage::PixelType      InputImagePixelType;
 
   /** Type definitions for the vector holding
    * training image pixel type. */
@@ -149,7 +149,7 @@ protected:
   void Allocate();
 
   /** Starts the classification process */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
   ImageClassifierBase(const Self&); //purposely not implemented
@@ -158,8 +158,8 @@ private:
   typedef typename TInputImage::SizeType InputImageSizeType;
 
   InputImageConstPointer      m_InputImage;
-  ClassifiedImagePointer m_ClassifiedImage;
-  std::vector< double >   m_PixelMembershipValue;
+  ClassifiedImagePointer      m_ClassifiedImage;
+  std::vector< double >       m_PixelMembershipValue;
 
   /** Define a virtual Classifier function to classify the whole image. */
   virtual void Classify();
@@ -171,7 +171,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageClassifierBase.txx"
 #endif
-
-
 
 #endif

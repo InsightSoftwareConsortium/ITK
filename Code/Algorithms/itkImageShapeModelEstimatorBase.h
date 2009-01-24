@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageShapeModelEstimatorBase_h
-#define _itkImageShapeModelEstimatorBase_h
+#ifndef __itkImageShapeModelEstimatorBase_h
+#define __itkImageShapeModelEstimatorBase_h
 
 #include "itkImageToImageFilter.h"
 
@@ -25,20 +25,20 @@ namespace itk
 /** \class ImageShapeModelEstimatorBase
  * \brief Base class for statistical shape model estimation.
  * 
- * itkImageShapeModelEstimatorBase is the base class for the ImageShapeModelEstimator 
- * objects. It provides the basic function definitions that are inherent to
- *  a ImageShapeModelEstimator objects.
+ * itkImageShapeModelEstimatorBase is the base class for the
+ * ImageShapeModelEstimator objects. It provides the basic function
+ * definitions that are inherent to a ImageShapeModelEstimator objects.
  *
- * This is the SuperClass for the ImageShapeModelEstimator framework. This is an
- * abstract class defining an interface for all such objects 
- * available through the ImageShapeModelEstimator framework in the ITK toolkit.
+ * This is the SuperClass for the ImageShapeModelEstimator
+ * framework. This is an abstract class defining an interface for all
+ * such objects available through the ImageShapeModelEstimator
+ * framework in the ITK toolkit.
  *
- * The basic functionality of the ImageShapeModelEstimator framework base class is to    
- * generate the ShapeModels. It requires input image to be provided by the user.
- *
- * EstimateShapeModels() is a pure virtual function making this an abstract class. 
- * Classes deriving from this class are required to implement the EstimateShapeModels
- * function.
+ * The basic functionality of the ImageShapeModelEstimator framework
+ * base class is to generate the ShapeModels. It requires input image
+ * to be provided by the user. EstimateShapeModels() is a pure virtual
+ * function making this an abstract class. Classes deriving from this
+ * class are required to implement the EstimateShapeModels function.
  *
  *  \ingroup ImageFeatureExtraction */
 
@@ -49,10 +49,10 @@ class ITK_EXPORT ImageShapeModelEstimatorBase:
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageShapeModelEstimatorBase   Self;
+  typedef ImageShapeModelEstimatorBase                  Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageShapeModelEstimatorBase,ImageToImageFilter);
@@ -88,7 +88,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageShapeModelEstimatorBase.txx"
 #endif
-
-
 
 #endif

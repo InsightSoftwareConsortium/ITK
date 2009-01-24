@@ -219,7 +219,7 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 
   // Get node pointer lists.
   typedef BloxCoreAtomPixel<NDimensions> PixelType;
-  typedef std::vector<PixelType*> NodePointerListType;
+  typedef std::vector<PixelType*>        NodePointerListType;
 
   NodePointerListType NodePointerListA;
   NodePointerListType NodePointerListB;
@@ -280,9 +280,11 @@ MedialNodeTripletCorrespondenceProcess< TSourceImage >
 
           // Iterate through the two corresponding pair lists simultaneously
           // finding every possible pair, and testing for triplet correspondence.
-          for(CorrespondingListIterator1 = SecondaryListIterator1->begin();CorrespondingListIterator1 != SecondaryListIterator1->end();CorrespondingListIterator1++)//iterate through CorrPairList of SecondaryListIterator1
+          //iterate through CorrPairList of SecondaryListIterator1
+          for(CorrespondingListIterator1 = SecondaryListIterator1->begin();CorrespondingListIterator1 != SecondaryListIterator1->end();CorrespondingListIterator1++)
             {
-            for(CorrespondingListIterator2 = SecondaryListIterator2->begin();CorrespondingListIterator2 != SecondaryListIterator2->end();CorrespondingListIterator2++)//iterate through CorrPairList of SecondaryListIterator2
+          //iterate through CorrPairList of SecondaryListIterator2
+            for(CorrespondingListIterator2 = SecondaryListIterator2->begin();CorrespondingListIterator2 != SecondaryListIterator2->end();CorrespondingListIterator2++)
               {
               // Check NodeIndex[0] (base node correspondence) in the corresponding pairs to make sure they are the
               // same node in the corresponding image.

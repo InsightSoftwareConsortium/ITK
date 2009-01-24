@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageMomentsCalculator_txx
-#define _itkImageMomentsCalculator_txx
+#ifndef __itkImageMomentsCalculator_txx
+#define __itkImageMomentsCalculator_txx
 #include "itkImageMomentsCalculator.h"
 
 #include "vnl/algo/vnl_real_eigensystem.h"
@@ -29,12 +29,12 @@ namespace itk
 class ITK_EXPORT InvalidImageMomentsError : public ExceptionObject
 {
 public:
-  /*
+  /**
    * Constructor. Needed to ensure the exception object can be copied.
    */
   InvalidImageMomentsError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid image moments are availble.");}
 
-  /*
+  /**
    * Constructor. Needed to ensure the exception object can be copied.
    */
   InvalidImageMomentsError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid image moments are availble.");}  
@@ -242,7 +242,7 @@ typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetSecondMoments() const
 {
-  if (!m_Valid)        
+  if (!m_Valid)
     {
     itkExceptionMacro( << "GetSecondMoments() invoked, but the moments have not been computed. Call Compute() first.");
     }
@@ -256,7 +256,7 @@ typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetCenterOfGravity() const
 {
-  if (!m_Valid)        
+  if (!m_Valid)
     {
     itkExceptionMacro( << "GetCenterOfGravity() invoked, but the moments have not been computed. Call Compute() first.");
     }
@@ -270,7 +270,7 @@ typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetCentralMoments() const
 {
-  if (!m_Valid)        
+  if (!m_Valid)
     {
     itkExceptionMacro( << "GetCentralMoments() invoked, but the moments have not been computed. Call Compute() first.");
     }
@@ -284,14 +284,12 @@ typename ImageMomentsCalculator<TImage>::VectorType
 ImageMomentsCalculator<TImage>::
 GetPrincipalMoments() const
 {
-  if (!m_Valid)        
+  if (!m_Valid)
     {
     itkExceptionMacro( << "GetPrincipalMoments() invoked, but the moments have not been computed. Call Compute() first.");
     }
   return m_Pm;
 }
-
-
 
 //--------------------------------------------------------------------
 // Get principal axes, in physical coordinates
@@ -300,13 +298,12 @@ typename ImageMomentsCalculator<TImage>::MatrixType
 ImageMomentsCalculator<TImage>::
 GetPrincipalAxes() const
 {
-  if (!m_Valid)        
+  if (!m_Valid)
     {
     itkExceptionMacro( << "GetPrincipalAxes() invoked, but the moments have not been computed. Call Compute() first.");
     }
   return m_Pa;
 }
-
 
 
 //--------------------------------------------------------------------
@@ -366,7 +363,5 @@ GetPhysicalAxesToPrincipalAxesTransform(void) const
 }
 
 } // end namespace itk
-
-
 
 #endif

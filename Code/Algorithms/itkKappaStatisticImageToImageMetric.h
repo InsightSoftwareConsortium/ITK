@@ -55,11 +55,10 @@ class ITK_EXPORT KappaStatisticImageToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef KappaStatisticImageToImageMetric    Self;
+  typedef KappaStatisticImageToImageMetric                Self;
   typedef ImageToImageMetric<TFixedImage, TMovingImage >  Superclass;
-
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -142,6 +141,3 @@ private:
 #endif
 
 #endif
-
-
-

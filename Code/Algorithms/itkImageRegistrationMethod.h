@@ -65,9 +65,9 @@ class ITK_EXPORT ImageRegistrationMethod : public ProcessObject
 public:
   /** Standard class typedefs. */
   typedef ImageRegistrationMethod  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ProcessObject            Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,9 +95,9 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  typedef  DataObjectDecorator< TransformType >    TransformOutputType;
-  typedef typename TransformOutputType::Pointer    TransformOutputPointer;
-  typedef typename TransformOutputType::ConstPointer    TransformOutputConstPointer;
+  typedef  DataObjectDecorator< TransformType >      TransformOutputType;
+  typedef typename TransformOutputType::Pointer      TransformOutputPointer;
+  typedef typename TransformOutputType::ConstPointer TransformOutputConstPointer;
   
   /**  Type of the Interpolator. */
   typedef  typename MetricType::InterpolatorType   InterpolatorType;
@@ -237,6 +237,3 @@ private:
 #endif
 
 #endif
-
-
-

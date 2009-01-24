@@ -158,11 +158,11 @@ public:
   CoordinateRepresentationType;
 
   /** Index and Point typedef support. */
-  typedef typename FixedImageType::IndexType            FixedImageIndexType;
+  typedef typename FixedImageType::IndexType           FixedImageIndexType;
   typedef typename FixedImageIndexType::IndexValueType FixedImageIndexValueType;
-  typedef typename MovingImageType::IndexType           MovingImageIndexType;
-  typedef typename TransformType::InputPointType        FixedImagePointType;
-  typedef typename TransformType::OutputPointType       MovingImagePointType;
+  typedef typename MovingImageType::IndexType          MovingImageIndexType;
+  typedef typename TransformType::InputPointType       FixedImagePointType;
+  typedef typename TransformType::OutputPointType      MovingImagePointType;
 
   /** The moving image dimension. */
   itkStaticConstMacro( MovingImageDimension, unsigned int,
@@ -271,23 +271,23 @@ protected:
   virtual ~MattesMutualInformationImageToImageMetric() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /**
+  /** \class FixedImageSpatialSample
    * A fixed image spatial sample consists of the fixed domain point 
    * and the fixed image value at that point. */
   /// @cond 
   class FixedImageSpatialSample
-    {
-    public:
-      FixedImageSpatialSample():FixedImageValue(0.0)
-      { FixedImagePointValue.Fill(0.0); }
-      ~FixedImageSpatialSample() {};
+  {
+  public:
+    FixedImageSpatialSample():FixedImageValue(0.0)
+    { FixedImagePointValue.Fill(0.0); }
+    ~FixedImageSpatialSample() {};
   
-      FixedImagePointType           FixedImagePointValue;
-      double                        FixedImageValue;
-      unsigned int                  FixedImageParzenWindowIndex;
-    };
+    FixedImagePointType           FixedImagePointValue;
+    double                        FixedImageValue;
+    unsigned int                  FixedImageParzenWindowIndex;
+  };
   /// @endcond 
-
+  
   /** FixedImageSpatialSample typedef support. */
   typedef std::vector<FixedImageSpatialSample>  
   FixedImageSpatialSampleContainer;
@@ -470,12 +470,12 @@ private:
    * Cache pre-transformed points, weights, indices and 
    * within support region flag.
    */
-  typedef typename BSplineTransformWeightsType::ValueType WeightsValueType;
-  typedef          Array2D<WeightsValueType> BSplineTransformWeightsArrayType;
+  typedef typename BSplineTransformWeightsType::ValueType    WeightsValueType;
+  typedef          Array2D<WeightsValueType>                 BSplineTransformWeightsArrayType;
   typedef typename BSplineTransformIndexArrayType::ValueType IndexValueType;
-  typedef          Array2D<IndexValueType> BSplineTransformIndicesArrayType;
-  typedef          std::vector<MovingImagePointType> MovingImagePointArrayType;
-  typedef          std::vector<bool> BooleanArrayType;
+  typedef          Array2D<IndexValueType>                   BSplineTransformIndicesArrayType;
+  typedef          std::vector<MovingImagePointType>         MovingImagePointArrayType;
+  typedef          std::vector<bool>                         BooleanArrayType;
 
   BSplineTransformWeightsArrayType      m_BSplineTransformWeightsArray;
   BSplineTransformIndicesArrayType      m_BSplineTransformIndicesArray;
@@ -514,4 +514,3 @@ private:
 #endif
 
 #endif
-

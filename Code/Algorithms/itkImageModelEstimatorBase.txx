@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageModelEstimatorBase_txx
-#define _itkImageModelEstimatorBase_txx
+#ifndef __itkImageModelEstimatorBase_txx
+#define __itkImageModelEstimatorBase_txx
 
 #include "itkImageModelEstimatorBase.h"
 #include "itkCommand.h"
@@ -45,7 +45,7 @@ void
 ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::Update()
 {
-  GenerateData() ;
+  GenerateData();
 }
 
 template <class TInputImage, 
@@ -55,19 +55,10 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::GenerateData()
 {
 
-/*
-  if( ( m_NumberOfModels == 0 ) ||
-      ( m_MembershipFunctions.size() == 0 ) ||
-      ( m_NumberOfClasses != m_MembershipFunctions.size() ) )
-    {
-      throw ExceptionObject(__FILE__, __LINE__);
-    }
-*/
-
   this->EstimateModels();
 }
 
-/*
+/**
  * PrintSelf
  */
 template <class TInputImage, 
@@ -83,10 +74,10 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>
   os << indent <<"Results of the model estimator."<<std::endl;
   os << indent <<"===================================="<<std::endl;
 
-  for (unsigned int classIndex = 0 ; classIndex < m_NumberOfModels ; classIndex++)
-    {    
+  for (unsigned int classIndex = 0; classIndex < m_NumberOfModels; classIndex++)
+    {
     os << indent << "Statistics for " << classIndex << std::endl;
-    (m_MembershipFunctions[classIndex])->Print(os);    
+    (m_MembershipFunctions[classIndex])->Print(os);
 
     os << indent <<"===================================="<<std::endl;
     }
@@ -109,31 +100,10 @@ unsigned int
 ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 ::AddMembershipFunction(MembershipFunctionPointer function)
 {
-  m_MembershipFunctions.push_back(function) ;
+  m_MembershipFunctions.push_back(function);
   return static_cast<unsigned int>( m_MembershipFunctions.size() );
 }
 
 } // namespace itk
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

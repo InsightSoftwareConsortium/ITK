@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKLMRegionGrowImageFilter_h
-#define _itkKLMRegionGrowImageFilter_h
+#ifndef __itkKLMRegionGrowImageFilter_h
+#define __itkKLMRegionGrowImageFilter_h
 
 #include "itkImage.h"
 #include "itkObject.h"
@@ -169,10 +169,10 @@ class ITK_EXPORT KLMRegionGrowImageFilter : public RegionGrowImageFilter<TInputI
 {
 public:
   /** Standard class typedefs. */
-  typedef KLMRegionGrowImageFilter              Self;
+  typedef KLMRegionGrowImageFilter                           Self;
   typedef RegionGrowImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -295,8 +295,7 @@ public:
     (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
                             itkGetStaticConstMacro(OutputImageDimension)>));
 #if THIS_CONCEPT_FAILS_ON_GCC
-  /** The input pixel type must be the same as that of the output
-      image. */
+  /** The input pixel type must be the same as that of the output image. */
   itkConceptMacro(SameVectorDimension,
     (Concept::SameDimension<itkGetStaticConstMacro(InputImageVectorDimension),
                             itkGetStaticConstMacro(OutputImageVectorDimension)>));

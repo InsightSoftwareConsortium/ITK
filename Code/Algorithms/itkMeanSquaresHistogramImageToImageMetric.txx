@@ -21,34 +21,34 @@
 
 namespace itk
 {
-  template <class TFixedImage, class TMovingImage>
-  typename MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>
-  ::MeasureType
-  MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>
-  ::EvaluateMeasure(HistogramType& histogram) const
-  {
-    MeasureType measure = NumericTraits<MeasureType>::Zero;
-    HistogramIteratorType it = histogram.Begin();
-    HistogramIteratorType end = histogram.End();
-    HistogramFrequencyType totalNumberOfSamples =
-      NumericTraits<HistogramFrequencyType>::Zero;
+template <class TFixedImage, class TMovingImage>
+typename MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>
+::MeasureType
+MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>
+::EvaluateMeasure(HistogramType& histogram) const
+{
+  MeasureType measure = NumericTraits<MeasureType>::Zero;
+  HistogramIteratorType it = histogram.Begin();
+  HistogramIteratorType end = histogram.End();
+  HistogramFrequencyType totalNumberOfSamples =
+    NumericTraits<HistogramFrequencyType>::Zero;
 
-    while (it != end)
+  while (it != end)
+    {
+    HistogramFrequencyType freq = it.GetFrequency();
+    if (freq > 0)
       {
-      HistogramFrequencyType freq = it.GetFrequency();
-      if (freq > 0)
-        {
-        HistogramMeasurementVectorType value = it.GetMeasurementVector();
-        measure += (value[0] - value[1])*(value[0] - value[1])*freq;
-        totalNumberOfSamples += freq;
-        }
-      ++it;
+      HistogramMeasurementVectorType value = it.GetMeasurementVector();
+      measure += (value[0] - value[1])*(value[0] - value[1])*freq;
+      totalNumberOfSamples += freq;
       }
-
-    measure /= totalNumberOfSamples;
-
-    return measure;
-  }
+    ++it;
+    }
+  
+  measure /= totalNumberOfSamples;
+  
+  return measure;
+}
 } // End namespace itk
 
 #endif // itkMeanSquaresHistogramImageToImageMetric_txx

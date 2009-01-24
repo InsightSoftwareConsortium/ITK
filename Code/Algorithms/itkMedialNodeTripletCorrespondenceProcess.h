@@ -50,10 +50,10 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
 
   /** Standard class typedefs. */
-  typedef MedialNodeTripletCorrespondenceProcess  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MedialNodeTripletCorrespondenceProcess Self;
+  typedef ProcessObject                          Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -65,10 +65,10 @@ public:
   itkTypeMacro(MedialNodeTripletCorrespondenceProcess, ProcessObject);
 
   /** Typedef for core atom image. */
-  typedef TSourceImage CoreAtomImageType;
-  typedef typename CoreAtomImageType::Pointer CoreAtomImagePointer;
-  typedef typename CoreAtomImageType::RegionType CoreAtomImageRegionType; 
-  typedef typename CoreAtomImageType::PixelType CoreAtomImagePixelType; 
+  typedef TSourceImage                             CoreAtomImageType;
+  typedef typename CoreAtomImageType::Pointer      CoreAtomImagePointer;
+  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType; 
+  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType; 
   typedef typename CoreAtomImageType::ConstPointer CoreAtomImageConstPointer;
 
   /** Typedef for pair correspondence data structure. (input) */
@@ -84,7 +84,7 @@ public:
   typedef CorrespondenceDataStructureIterator<OutputDataStructureType> OutputIteratorType;
 
   /** Typedef for distance matrix. */
-  typedef MatrixResizeableDataObject<double> DistanceMatrixType;
+  typedef MatrixResizeableDataObject<double>   DistanceMatrixType;
   typedef typename DistanceMatrixType::Pointer DistanceMatrixPointer;
 
   /** Get the image output of this process object.  */
@@ -143,7 +143,7 @@ private:
   DistanceMatrixPointer m_DistanceMatrixA;
   DistanceMatrixPointer m_DistanceMatrixB;
 
-  InputDataStructurePointerType m_InputDataStructure;
+  InputDataStructurePointerType  m_InputDataStructure;
   OutputDataStructurePointerType m_OutputDataStructure;
 
   int m_NumberOfTriplets;

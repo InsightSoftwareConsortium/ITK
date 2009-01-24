@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanReciprocalSquareDifferenceImageToImageMetric_txx
-#define _itkMeanReciprocalSquareDifferenceImageToImageMetric_txx
+#ifndef __itkMeanReciprocalSquareDifferenceImageToImageMetric_txx
+#define __itkMeanReciprocalSquareDifferenceImageToImageMetric_txx
 
 #include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -35,7 +35,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 
@@ -122,11 +122,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
-
-
-
-
-/*
+/**
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
@@ -156,8 +152,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
-
-/*
+/**
  * Get both the match Measure and theDerivative Measure 
  */
 template <class TFixedImage, class TMovingImage> 

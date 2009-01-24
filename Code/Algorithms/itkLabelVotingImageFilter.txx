@@ -6,16 +6,16 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLabelVotingImageFilter_txx
-#define _itkLabelVotingImageFilter_txx
+#ifndef __itkLabelVotingImageFilter_txx
+#define __itkLabelVotingImageFilter_txx
 
 #include "itkLabelVotingImageFilter.h"
 
@@ -93,7 +93,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
                         int itkNotUsed(threadId))
 {
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
-  typedef ImageRegionIterator< TOutputImage> OutIteratorType;
+  typedef ImageRegionIterator< TOutputImage>      OutIteratorType;
 
   typename TOutputImage::Pointer output = this->GetOutput();
   

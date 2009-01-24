@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageGaussianModelEstimator_h
-#define _itkImageGaussianModelEstimator_h
+#ifndef __itkImageGaussianModelEstimator_h
+#define __itkImageGaussianModelEstimator_h
 
 #include <math.h>
 #include <float.h>
@@ -83,11 +83,10 @@ class ITK_EXPORT ImageGaussianModelEstimator:
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageGaussianModelEstimator   Self;
+  typedef ImageGaussianModelEstimator                              Self;
   typedef ImageModelEstimatorBase<TInputImage,TMembershipFunction> Superclass;
-
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                       Pointer;
+  typedef SmartPointer<const Self>                                 ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -102,21 +101,19 @@ public:
   typedef typename TTrainingImage::Pointer TrainingImagePointer;
     
   /** Type definition for the vector associated with
-   * input image pixel type. */     
-  typedef typename TInputImage::PixelType InputImagePixelType;        
+   * input image pixel type. */
+  typedef typename TInputImage::PixelType InputImagePixelType;
 
   /** Type definitions for the vector holding
    * training image pixel type. */
   typedef typename TTrainingImage::PixelType TrainingImagePixelType;
 
   /** Type definitions for the iterators for the input and training images. */
-  typedef
-  ImageRegionIterator< TInputImage >  InputImageIterator;
-  typedef
-  ImageRegionIterator< TTrainingImage > TrainingImageIterator;
+  typedef ImageRegionIterator< TInputImage >    InputImageIterator;
+  typedef ImageRegionIterator< TTrainingImage > TrainingImageIterator;
 
   /** Type definitions for the membership function . */
-  typedef typename TMembershipFunction::Pointer MembershipFunctionPointer ;
+  typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
   /** Set the training image. */
   itkSetMacro(TrainingImage,TrainingImagePointer);
@@ -124,15 +121,13 @@ public:
   /** Get the training image. */
   itkGetMacro(TrainingImage,TrainingImagePointer);
 
-
-
 protected: 
   ImageGaussianModelEstimator();
   ~ImageGaussianModelEstimator();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Starts the image modelling process */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
   ImageGaussianModelEstimator(const Self&); //purposely not implemented
@@ -150,7 +145,7 @@ private:
 
   MatrixType            m_NumberOfSamples;
   MatrixType            m_Means;
-  MatrixType            *m_Covariance;  
+  MatrixType           *m_Covariance;  
 
   TrainingImagePointer  m_TrainingImage;
 
@@ -168,7 +163,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageGaussianModelEstimator.txx"
 #endif
-
-
 
 #endif

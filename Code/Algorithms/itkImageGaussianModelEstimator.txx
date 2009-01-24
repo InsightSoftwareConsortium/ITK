@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageGaussianModelEstimator_txx
-#define _itkImageGaussianModelEstimator_txx
+#ifndef __itkImageGaussianModelEstimator_txx
+#define __itkImageGaussianModelEstimator_txx
 
 #include "itkImageGaussianModelEstimator.h"
 namespace itk
@@ -40,7 +40,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
   if ( m_Covariance )    delete [] m_Covariance;
 }
 
-/*
+/**
  * PrintSelf
  */
 template<class TInputImage, 
@@ -53,7 +53,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 
   os << indent << "                   " << std::endl;
   os << indent << "Gaussian Models generated from the training data." << std::endl;
-  os << indent << "TrainingImage: " ;
+  os << indent << "TrainingImage: ";
   os << m_TrainingImage.GetPointer() << std::endl;
   os << indent << "Results printed in the superclass " << std::endl;
   os << indent << "                   " << std::endl;
@@ -134,20 +134,19 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
   //-------------------------------------------------------------------
   MembershipFunctionPointer membershipFunction;
 
-  for (unsigned int classIndex = 0 ; classIndex < numberOfModels ; classIndex++)
+  for (unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++)
     {
    
-    membershipFunction = TMembershipFunction::New() ;
-
-
-    membershipFunction->
-      SetNumberOfSamples( m_NumberOfSamples(classIndex, 0) ) ;     
+    membershipFunction = TMembershipFunction::New();
 
     membershipFunction->
-      SetMean(m_Means.get_row( classIndex) ) ;
+      SetNumberOfSamples( m_NumberOfSamples(classIndex, 0) );
 
     membershipFunction->
-      SetCovariance( m_Covariance[classIndex] ) ;
+      SetMean(m_Means.get_row( classIndex) );
+
+    membershipFunction->
+      SetCovariance( m_Covariance[classIndex] );
 
     this->AddMembershipFunction( membershipFunction ); 
 
@@ -218,7 +217,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
 
     if(classIndex > 0)
       {
-      m_NumberOfSamples[classIndex][0] +=1;
+      m_NumberOfSamples[classIndex][0] += 1;
       InputImagePixelType inImgVec = inIt.Get();
 
       for(unsigned int band_x = 0; band_x < VectorDimension; band_x++)
@@ -243,7 +242,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
        
     else 
       {
-      for( unsigned int i = 0; i < VectorDimension ; i++ ) 
+      for( unsigned int i = 0; i < VectorDimension; i++ ) 
         m_Means[classIndex][i] = 0;
       }// end else
     
@@ -284,7 +283,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>
       tempMeanSq *= ( m_NumberOfSamples[classIndex][0] 
                       / (m_NumberOfSamples[classIndex][0] - 1 ) );
       }
-    m_Covariance[classIndex] -=  tempMeanSq;
+    m_Covariance[classIndex] -= tempMeanSq;
 
     // Fill the rest of the covairance matrix and make it symmetric
     if(m_NumberOfSamples[classIndex][0] > 0)

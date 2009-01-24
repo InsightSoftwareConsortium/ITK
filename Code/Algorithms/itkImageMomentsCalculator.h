@@ -62,9 +62,9 @@ class ITK_EXPORT ImageMomentsCalculator : public Object
 public:
   /** Standard class typedefs. */
   typedef ImageMomentsCalculator<TImage>   Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Object                           Superclass;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,7 +86,7 @@ public:
   typedef SpatialObject< itkGetStaticConstMacro(ImageDimension) > SpatialObjectType;
 
   /** Spatial Object member types used within this class. */
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef typename SpatialObjectType::Pointer      SpatialObjectPointer;
   typedef typename SpatialObjectType::ConstPointer SpatialObjectConstPointer;
 
   /** Standard matrix type within this class. */
@@ -98,7 +98,7 @@ public:
   typedef TImage ImageType;
 
   /** Standard image type pointer within this class. */
-  typedef typename ImageType::Pointer ImagePointer;
+  typedef typename ImageType::Pointer      ImagePointer;
   typedef typename ImageType::ConstPointer ImageConstPointer;
 
   /** Affine transform for mapping to and from principal axis */
@@ -209,7 +209,7 @@ private:
   ImageMomentsCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool m_Valid;                      // Have moments been computed yet?
+  bool       m_Valid;                // Have moments been computed yet?
   ScalarType m_M0;                   // Zeroth moment
   VectorType m_M1;                   // First moments about origin
   MatrixType m_M2;                   // Second moments about origin
@@ -218,7 +218,7 @@ private:
   VectorType m_Pm;                   // Principal moments (physical)
   MatrixType m_Pa;                   // Principal axes (physical)
 
-  ImageConstPointer m_Image;
+  ImageConstPointer         m_Image;
   SpatialObjectConstPointer m_SpatialObjectMask;
 
 };  // class ImageMomentsCalculator

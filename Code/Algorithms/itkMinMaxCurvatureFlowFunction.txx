@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkMinMaxCurvatureFlowFunction_txx_
-#define __itkMinMaxCurvatureFlowFunction_txx_
+#ifndef __itkMinMaxCurvatureFlowFunction_txx
+#define __itkMinMaxCurvatureFlowFunction_txx
 #include "itkMinMaxCurvatureFlowFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/*
+/**
  * Constructor
  */
 template<class TImage>
@@ -36,7 +36,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/*
+/**
  * Set the stencil radius.
  */
 template<class TImage>
@@ -61,7 +61,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/*
+/**
  * Initialize the stencil operator.
  */
 template<class TImage>
@@ -129,9 +129,7 @@ MinMaxCurvatureFlowFunction<TImage>
 
 }
 
-
-
-/*
+/**
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */
@@ -237,7 +235,7 @@ MinMaxCurvatureFlowFunction<TImage>
 }
 
 
-/*
+/**
  * Compute the threshold by averaging the image intensity in 
  * the direction perpendicular to the image gradient.
  */

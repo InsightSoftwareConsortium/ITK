@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMattesMutualInformationImageToImageMetric_txx
-#define _itkMattesMutualInformationImageToImageMetric_txx
+#ifndef __itkMattesMutualInformationImageToImageMetric_txx
+#define __itkMattesMutualInformationImageToImageMetric_txx
 
 
 // First make sure that the configuration is available.
@@ -345,7 +345,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    * Setup the kernels used for the Parzen windows.
    */
   m_CubicBSplineKernel = CubicBSplineFunctionType::New();
-  m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();    
+  m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();
 
 
   if( m_UseAllPixels )
@@ -744,7 +744,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
        *
        */
 
-      // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).    
+      // Determine parzen window arguments (see eqn 6 of Mattes paper [2])
       double movingImageParzenWindowTerm =
         movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
       unsigned int movingImageParzenWindowIndex = 
@@ -768,17 +768,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         static_cast<PDFValueType>( 1 );
         
       /**
-        * The region of support of the parzen window determines which bins
-        * of the joint PDF are effected by the pair of image values.
-        * Since we are using a cubic spline for the moving image parzen
-        * window, four bins are affected.  The fixed image parzen window is
-        * a zero-order spline (box car) and thus effects only one bin.
-        *
-        *  The PDF is arranged so that moving image bins corresponds to the 
-        * zero-th (column) dimension and the fixed image bins corresponds
-        * to the first (row) dimension.
-        *
-        */
+       * The region of support of the parzen window determines which bins
+       * of the joint PDF are effected by the pair of image values.
+       * Since we are using a cubic spline for the moving image parzen
+       * window, four bins are affected.  The fixed image parzen window is
+       * a zero-order spline (box car) and thus effects only one bin.
+       *
+       *  The PDF is arranged so that moving image bins corresponds to the 
+       * zero-th (column) dimension and the fixed image bins corresponds
+       * to the first (row) dimension.
+       *
+       */
       
       // Pointer to affected bin to be updated
       JointPDFValueType *pdfPtr = m_JointPDF->GetBufferPointer() +
@@ -918,7 +918,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
     for( unsigned int movingIndex = 0;
          movingIndex < m_NumberOfHistogramBins; 
-         ++movingIndex, jointPDFPtr++ )      
+         ++movingIndex, jointPDFPtr++ )
       {
 
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
@@ -1021,13 +1021,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
        *
        */
 
-      // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).    
+      // Determine parzen window arguments (see eqn 6 of Mattes paper [2])
       double movingImageParzenWindowTerm =
         movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
       unsigned int movingImageParzenWindowIndex = 
         static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
 
-     // Make sure the extreme values are in valid bins     
+     // Make sure the extreme values are in valid bins
       if ( movingImageParzenWindowIndex < 2 )
         {
         movingImageParzenWindowIndex = 2;
@@ -1045,17 +1045,17 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         static_cast<PDFValueType>( 1 );
         
       /**
-        * The region of support of the parzen window determines which bins
-        * of the joint PDF are effected by the pair of image values.
-        * Since we are using a cubic spline for the moving image parzen
-        * window, four bins are effected.  The fixed image parzen window is
-        * a zero-order spline (box car) and thus effects only one bin.
-        *
-        *  The PDF is arranged so that moving image bins corresponds to the 
-        * zero-th (column) dimension and the fixed image bins corresponds
-        * to the first (row) dimension.
-        *
-        */
+       * The region of support of the parzen window determines which bins
+       * of the joint PDF are effected by the pair of image values.
+       * Since we are using a cubic spline for the moving image parzen
+       * window, four bins are effected.  The fixed image parzen window is
+       * a zero-order spline (box car) and thus effects only one bin.
+       *
+       *  The PDF is arranged so that moving image bins corresponds to the 
+       * zero-th (column) dimension and the fixed image bins corresponds
+       * to the first (row) dimension.
+       *
+       */
 
       // Pointer to affected bin to be updated
       JointPDFValueType *pdfPtr = m_JointPDF->GetBufferPointer() +
@@ -1232,7 +1232,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     double fixedImagePDFValue = m_FixedImageMarginalPDF[fixedIndex];
 
     for( unsigned int movingIndex = 0; movingIndex < m_NumberOfHistogramBins; 
-        ++movingIndex, jointPDFPtr++ )      
+        ++movingIndex, jointPDFPtr++ )
       {
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
       double jointPDFValue = *(jointPDFPtr);
@@ -1300,13 +1300,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
          *
          */
 
-        // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).    
+        // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
         double movingImageParzenWindowTerm =
           movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
         unsigned int movingImageParzenWindowIndex = 
           static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
 
-       // Make sure the extreme values are in valid bins     
+       // Make sure the extreme values are in valid bins
         if ( movingImageParzenWindowIndex < 2 )
           {
           movingImageParzenWindowIndex = 2;
@@ -1574,12 +1574,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     if( this->m_UseCachingOfBSplineWeights )
       {
       /**
-      * If the transform is of type BSplineDeformableTransform,
-      * we can obtain a speed up by only processing the affected parameters.
-      * Note that these pointers are just pointing to pre-allocated rows
-      * of the caching arrays. There is therefore, no need to free this
-      * memory.
-      */
+       * If the transform is of type BSplineDeformableTransform,
+       * we can obtain a speed up by only processing the affected parameters.
+       * Note that these pointers are just pointing to pre-allocated rows
+       * of the caching arrays. There is therefore, no need to free this
+       * memory.
+       */
       weights = m_BSplineTransformWeightsArray[sampleNumber];
       indices = m_BSplineTransformIndicesArray[sampleNumber];
       }
@@ -1703,4 +1703,3 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 #endif
 
 #endif
-

@@ -21,27 +21,27 @@
 
 namespace itk
 {
-  /** \class MeanSquaresHistogramImageToImageMetric
-      \brief Computes mean squared difference similarity measure between two
-      images to be registered.
-
-      This class is templated over the type of the fixed and moving
-      images to be compared.
-
-      This metric computes the similarity measure between pixels in the
-      moving image and pixels in the fixed images using a histogram.
-
-      \ingroup RegistrationMetrics */
+/** \class MeanSquaresHistogramImageToImageMetric
+ * \brief Computes mean squared difference similarity measure between
+ * two images to be registered.
+ *
+ * This class is templated over the type of the fixed and moving
+ * images to be compared.
+ *
+ * This metric computes the similarity measure between pixels in the
+ * moving image and pixels in the fixed images using a histogram. 
+ *
+ *    \ingroup RegistrationMetrics */
 template <class TFixedImage, class TMovingImage>
 class ITK_EXPORT MeanSquaresHistogramImageToImageMetric :
 public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
- public:
+public:
   /** Standard class typedefs. */
-  typedef MeanSquaresHistogramImageToImageMetric Self;
+  typedef MeanSquaresHistogramImageToImageMetric                 Self;
   typedef HistogramImageToImageMetric<TFixedImage, TMovingImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                                     Pointer;
+  typedef SmartPointer<const Self>                               ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

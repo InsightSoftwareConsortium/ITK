@@ -49,11 +49,10 @@ class ITK_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef  MeanReciprocalSquareDifferencePointSetToImageMetric    Self;
+  typedef  MeanReciprocalSquareDifferencePointSetToImageMetric  Self;
   typedef PointSetToImageMetric<TFixedPointSet, TMovingImage >  Superclass;
-
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -120,6 +119,3 @@ private:
 #endif
 
 #endif
-
-
-

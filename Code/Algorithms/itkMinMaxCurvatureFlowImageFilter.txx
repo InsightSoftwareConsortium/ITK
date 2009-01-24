@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -76,8 +76,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>
     }
 
   f->SetStencilRadius( m_StencilRadius );
-
-  this->Superclass::InitializeIteration();           
+  this->Superclass::InitializeIteration();
   
 }
 

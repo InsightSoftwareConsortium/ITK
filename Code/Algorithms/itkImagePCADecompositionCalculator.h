@@ -62,9 +62,9 @@ class ITK_EXPORT ImagePCADecompositionCalculator : public Object
 public:
   /** Standard class typedefs. */
   typedef ImagePCADecompositionCalculator Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                          Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,15 +140,15 @@ private:
   ImagePCADecompositionCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  BasisVectorType m_Projection;
-  BasisVectorType m_ImageAsVector;
+  BasisVectorType          m_Projection;
+  BasisVectorType          m_ImageAsVector;
   BasisImagePointerVector  m_BasisImages;
-  BasisImageConstPointer m_MeanImage;
-  BasisSizeType m_Size;
-  InputImageConstPointer  m_Image;
-  BasisMatrixType  m_BasisMatrix;
-  bool m_BasisMatrixCalculated;
-  unsigned long m_NumPixels;
+  BasisImageConstPointer   m_MeanImage;
+  BasisSizeType            m_Size;
+  InputImageConstPointer   m_Image;
+  BasisMatrixType          m_BasisMatrix;
+  bool                     m_BasisMatrixCalculated;
+  unsigned long            m_NumPixels;
 };
 
 } // end namespace itk

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanSquareRegistrationFunction_txx_
-#define _itkMeanSquareRegistrationFunction_txx_
+#ifndef __itkMeanSquareRegistrationFunction_txx
+#define __itkMeanSquareRegistrationFunction_txx
 
 #include "itkMeanSquareRegistrationFunction.h"
 #include "itkExceptionObject.h"
@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -106,7 +106,7 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 }
 
 
-/*
+/**
  * Compute update at a non boundary neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -144,17 +144,19 @@ MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   // Compute update
   const double speedValue = fixedValue - movingValue;
-  this->m_Energy+=speedValue*speedValue;
+  this->m_Energy += speedValue * speedValue;
 
   const bool normalizemetric=this->GetNormalizeGradient();
   double denominator = 1.0;
   if (normalizemetric)
-  {
+    {
     denominator = speedValue*speedValue *fixedGradientSquaredMagnitude;
     denominator = vcl_sqrt(denominator);
-  }
-  if (denominator == 0) denominator=1.0;
-
+    }
+  if (denominator == 0)
+    {
+    denominator=1.0;
+    }
   PixelType update;
   if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold ||
     denominator < m_DenominatorThreshold )

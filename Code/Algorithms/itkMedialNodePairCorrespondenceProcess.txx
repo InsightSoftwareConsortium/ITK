@@ -214,7 +214,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
   m_Columns = m_CoreAtomImageB->GetMedialNodeCount();
 
   typedef BloxCoreAtomPixel<NDimensions> PixelType;
-  typedef std::vector<PixelType*> NodePointerListType;
+  typedef std::vector<PixelType*>        NodePointerListType;
 
   NodePointerListType NodePointerList1;
   NodePointerListType NodePointerList2;
@@ -425,7 +425,7 @@ MedialNodePairCorrespondenceProcess< TSourceImage >
                     }
                   }
                 }
-              }              
+              }
             }// End dist matrix B for loop
           }// End dist matrix A for loop
         // Add a node (corresponding pair list) to the node pair list

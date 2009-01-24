@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef _itkIsotropicFourthOrderLevelSetImageFilter_txx_
-#define _itkIsotropicFourthOrderLevelSetImageFilter_txx_
+#ifndef __itkIsotropicFourthOrderLevelSetImageFilter_txx
+#define __itkIsotropicFourthOrderLevelSetImageFilter_txx
 
 #include "itkIsotropicFourthOrderLevelSetImageFilter.h"
 
@@ -47,8 +47,8 @@ void
 IsotropicFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);     
-  os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;      
+  Superclass::PrintSelf(os, indent);
+  os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;
 }
 
 } // end namespace itk

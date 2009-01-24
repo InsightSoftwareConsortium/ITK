@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeanReciprocalSquareDifferencePointSetToImageMetric_txx
-#define _itkMeanReciprocalSquareDifferencePointSetToImageMetric_txx
+#ifndef __itkMeanReciprocalSquareDifferencePointSetToImageMetric_txx
+#define __itkMeanReciprocalSquareDifferencePointSetToImageMetric_txx
 
 #include "itkMeanReciprocalSquareDifferencePointSetToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -33,7 +33,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,TMovingImage>
   m_Lambda = 1.0;
 }
 
-/*
+/**
  * Get the match Measure
  */
 template <class TFixedPointSet, class TMovingImage> 
@@ -181,7 +181,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,TMovingImage>
           {
           //Will it be computationally more efficient to instead calculate the
           //derivative using finite differences ?
-          sum -=  jacobian( dim, par ) * 
+          sum -= jacobian( dim, par ) * 
             gradient[dim] / (pow( lambdaSquared + diffSquared , 2));
           }
         derivative[par] += diff * sum;
@@ -315,9 +315,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,TMovingImage>
   value = measure;
 }
 
-
-
-/*
+/**
  * PrintSelf
  */
 template <class TFixedPointSet, class TMovingImage> 

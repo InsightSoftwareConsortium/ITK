@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef _itkIsotropicFourthOrderLevelSetImageFilter_h_
-#define _itkIsotropicFourthOrderLevelSetImageFilter_h_
+#ifndef __itkIsotropicFourthOrderLevelSetImageFilter_h
+#define __itkIsotropicFourthOrderLevelSetImageFilter_h
 
 #include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
@@ -76,10 +76,10 @@ class ITK_EXPORT IsotropicFourthOrderLevelSetImageFilter
 public:
   /** Standard class typedefs */
   typedef IsotropicFourthOrderLevelSetImageFilter Self;
-  typedef SparseFieldFourthOrderLevelSetImageFilter <TInputImage,
-                                                     TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SparseFieldFourthOrderLevelSetImageFilter <TInputImage,TOutputImage>
+                                                  Superclass;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(IsotropicFourthOrderLevelSetImageFilter,
@@ -114,10 +114,10 @@ protected:
 
   /** This filter halts when the iteration count reaches the specified count. */
   virtual bool Halt()
-  {
-    if (this->GetElapsedIterations()==m_MaxFilterIteration) return true;
+    {
+    if (this->GetElapsedIterations() == m_MaxFilterIteration) return true;
     else return false;
-  }
+    }
 
 private:
   IsotropicFourthOrderLevelSetImageFilter(const Self&);

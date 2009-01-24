@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKappaStatisticImageToImageMetric_txx
-#define _itkKappaStatisticImageToImageMetric_txx
+#ifndef __itkKappaStatisticImageToImageMetric_txx
+#define __itkKappaStatisticImageToImageMetric_txx
 
 #include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -39,7 +39,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Get the match Measure 
  */
 template <class TFixedImage, class TMovingImage> 
@@ -137,14 +137,14 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
       {
       const RealType movingValue = this->m_Interpolator->Evaluate( transformedPoint );
       if (movingValue==m_ForegroundValue)
-        {        
+        {
         movingForegroundArea++;
         }
       if ((movingValue==m_ForegroundValue)&&(fixedValue==m_ForegroundValue))
-        {        
+        {
         intersection++;
         }
-      }    
+      }
     ++fi;
     }
 
@@ -164,7 +164,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
@@ -216,7 +216,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 
   ti.GoToBegin();
   while(!ti.IsAtEnd())
-    {    
+    {
     index = ti.GetIndex();
     
     InputPointType inputPoint;
@@ -228,7 +228,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    const RealType fixedValue = ti.Value();       
+    const RealType fixedValue = ti.Value();
     if ( fixedValue == m_ForegroundValue )
       {
       fixedArea++;
@@ -283,7 +283,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
           if ( fixedValue == m_ForegroundValue )
             {
             sum1[par] += 2.0*jacobian( dim, par )*gradient[dim];
-            }            
+            }
           }
         }
       }
@@ -341,8 +341,8 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
     plusIndex = mit.GetIndex();
     for ( unsigned int i=0; i<dim; i++ )
       {
-      if ((currIndex[i] == 0)||
-          (static_cast<typename MovingImageType::SizeType::SizeValueType>(currIndex[i])==(movingSize[i]-1)))
+      if ((currIndex[i] == 0) ||
+          (static_cast<typename MovingImageType::SizeType::SizeValueType>(currIndex[i]) == (movingSize[i]-1)))
         {
         tempGradPixel[i] = 0;
         }
@@ -376,7 +376,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
   this->m_GradientImage = tempGradientImage;
 }
 
-/*
+/**
  * Get both the match Measure and theDerivative Measure 
  */
 template <class TFixedImage, class TMovingImage> 
@@ -390,7 +390,7 @@ KappaStatisticImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * PrintSelf
  */
 template <class TFixedImage, class TMovingImage> 

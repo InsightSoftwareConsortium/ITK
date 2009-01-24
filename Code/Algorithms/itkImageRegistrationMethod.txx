@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageRegistrationMethod_txx
-#define _itkImageRegistrationMethod_txx
+#ifndef __itkImageRegistrationMethod_txx
+#define __itkImageRegistrationMethod_txx
 
 #include "itkImageRegistrationMethod.h"
 
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -120,8 +120,6 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   
 }
 
-
-
 /*
  * Set the initial transform parameters
  */
@@ -135,7 +133,8 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
+
  * Set the region of the fixed image to be considered for registration
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -149,7 +148,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Initialize by setting the interconnects between components. 
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -235,7 +234,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Starts the Registration Process
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -281,7 +280,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * Starts the Optimization process
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -311,7 +310,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  * PrintSelf
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -332,8 +331,6 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
 }
 
-
-
 /*
  * Generate Data
  */
@@ -346,7 +343,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
+/**
  *  Get Output
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -356,8 +353,6 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 {
   return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 }
-
-
 
 template < typename TFixedImage, typename TMovingImage >
 DataObject::Pointer
@@ -395,8 +390,6 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     } 
 }
 
-
-
 template < typename TFixedImage, typename TMovingImage >
 void 
 ImageRegistrationMethod<TFixedImage,TMovingImage>
@@ -415,8 +408,6 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     this->Modified(); 
     } 
 }
-
-
 
 } // end namespace itk
 

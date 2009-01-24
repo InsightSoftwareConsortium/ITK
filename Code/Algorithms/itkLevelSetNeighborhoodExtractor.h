@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLevelSetNeighborhoodExtractor_h
-#define _itkLevelSetNeighborhoodExtractor_h
+#ifndef __itkLevelSetNeighborhoodExtractor_h
+#define __itkLevelSetNeighborhoodExtractor_h
 
 #include "itkLightProcessObject.h"
 #include "itkLevelSet.h"
@@ -59,9 +59,9 @@ class ITK_EXPORT LevelSetNeighborhoodExtractor :
 public:
   /** Standard class typdedefs. */
   typedef LevelSetNeighborhoodExtractor Self;
-  typedef LightProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef LightProcessObject            Superclass;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,13 +70,13 @@ public:
   itkTypeMacro(LevelSetNeighborhoodExtractor, Object);
 
   /** LevelSetType typedef support. */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
-  typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
-  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
-  typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
-  typedef typename LevelSetType::PixelType  PixelType;
-  typedef typename LevelSetType::NodeType NodeType;
-  typedef typename LevelSetType::NodeContainer NodeContainer;
+  typedef LevelSetTypeDefault<TLevelSet>              LevelSetType;
+  typedef typename LevelSetType::LevelSetImageType    LevelSetImageType;
+  typedef typename LevelSetType::LevelSetPointer      LevelSetPointer;
+  typedef typename LevelSetType::LevelSetConstPointer LevelSetConstPointer;
+  typedef typename LevelSetType::PixelType            PixelType;
+  typedef typename LevelSetType::NodeType             NodeType;
+  typedef typename LevelSetType::NodeContainer        NodeContainer;
   typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
 
   /** SetDimension enumeration. */
@@ -120,12 +120,12 @@ public:
   /** Get the container of inside points. The inside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetInsidePoints()
-  { return m_InsidePoints; }
+    { return m_InsidePoints; }
 
   /** Get the container of outside points. The outside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetOutsidePoints(void)
-  { return m_OutsidePoints; }
+    { return m_OutsidePoints; }
 
   /** Locate the level set. This method evokes the level set
    * location algorithm. */
@@ -148,7 +148,7 @@ protected:
   void GenerateData();
 
   bool GetLastPointIsInside() const
-  { return m_LastPointIsInside; }
+    { return m_LastPointIsInside; }
 
 private:
   LevelSetNeighborhoodExtractor(const Self&); //purposely not implemented
