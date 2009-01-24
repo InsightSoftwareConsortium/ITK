@@ -106,7 +106,8 @@ public:
    *  This number is computed from the degree of the polynomial 
    *  the SetCoefficients() method expects an array of this 
    *  size, an exception is thrown otherwise
-   *  \sa SetCoefficients                                   */
+   *  \sa SetCoefficients
+   */
   unsigned int GetNumberOfCoefficients(void) const
     { return m_NumberOfCoefficients; }
 
@@ -114,9 +115,9 @@ public:
   const DomainSizeType & GetDomainSize( void ) const 
     { return m_DomainSize; }
 
-  /** Exception object. */
+  /** \class CoefficientVectorSizeMismatch Exception object. */
   class CoefficientVectorSizeMismatch 
-  {
+    {
   public:
     CoefficientVectorSizeMismatch(int given, int required)
       {
@@ -126,7 +127,7 @@ public:
     
     int m_Required;
     int m_Given;
-  };
+    };
 
   /** Sets the Legendre polynomials' parameters. 
    * \warning The number of coefficients provided should
@@ -144,7 +145,7 @@ public:
   /** In the case which the bias field is 2D, it returns bias value at
    * the point which is specified by the index */
   double Evaluate(IndexType& index) 
-  {
+    {
     if (m_Dimension == 2)
       {
       if (index[1] != m_PrevY)
@@ -188,7 +189,7 @@ public:
       return this->LegendreSum(norm_x, m_Degree, m_CachedXCoef);
       }
     return 0;
-  }
+    }
 
   /** Gets the number of coefficients. */
   unsigned int GetNumberOfCoefficients();
@@ -196,34 +197,37 @@ public:
   /** Gets the number of coefficients. */
   unsigned int GetNumberOfCoefficients(unsigned int dimension, unsigned int degree);
 
-  /** Iterator which only supports forward iteration and Begin(), IsAtEnd(), 
-   *  and Get() method which work just like as SimpleImageRegionIterator. */
+  /** \class SimpleForwardIterator
+   * \brief Iterator which only supports forward iteration and
+   * Begin(), IsAtEnd(), and Get() method which work just like as
+   * SimpleImageRegionIterator.
+   */
   class SimpleForwardIterator
-  {
-  public:
-    SimpleForwardIterator (MultivariateLegendrePolynomial* polynomial) 
     {
+    public:
+      SimpleForwardIterator (MultivariateLegendrePolynomial* polynomial) 
+      {
       m_MultivariateLegendrePolynomial = polynomial;
       m_Dimension   = m_MultivariateLegendrePolynomial->GetDimension();
       m_DomainSize  = m_MultivariateLegendrePolynomial->GetDomainSize();
       m_Index.resize(m_Dimension);
       std::fill(m_Index.begin(), m_Index.end(), 0);
-    }
+      }
     
     void Begin( void ) 
-    { 
+      { 
       m_IsAtEnd = false;
       for (unsigned int dim = 0; dim < m_Dimension; dim++)
-   {
-          m_Index[dim] = 0;
-   }
-    }
-    
+        {
+        m_Index[dim] = 0;
+        }
+      }
+      
     bool IsAtEnd()
-    { return m_IsAtEnd; }
+      { return m_IsAtEnd; }
     
     SimpleForwardIterator& operator++()
-    {
+      {
       for (unsigned int dim = 0; dim < m_Dimension; dim++)
         {
         if (m_Index[dim] < static_cast<int>(m_DomainSize[dim] - 1))
@@ -235,7 +239,7 @@ public:
           {
           if (dim == m_Dimension - 1 )
             {
-         m_IsAtEnd = true;
+            m_IsAtEnd = true;
             break;
             }
           else
@@ -245,10 +249,10 @@ public:
           }
         }
       return *this;
-    }
-    
+      }
+      
     double Get()
-    { return m_MultivariateLegendrePolynomial->Evaluate(m_Index); }
+      { return m_MultivariateLegendrePolynomial->Evaluate(m_Index); }
     
   private:
     MultivariateLegendrePolynomial* m_MultivariateLegendrePolynomial;
@@ -256,7 +260,7 @@ public:
     DomainSizeType    m_DomainSize;
     IndexType         m_Index;
     bool              m_IsAtEnd;
-  }; // end of class Iterator 
+    }; // end of class Iterator 
   
   void Print(std::ostream& os);
 

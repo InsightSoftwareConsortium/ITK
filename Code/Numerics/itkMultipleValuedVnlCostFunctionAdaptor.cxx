@@ -70,7 +70,7 @@ MultipleValuedVnlCostFunctionAdaptor
     parameters.SetData(const_cast<double*>(inparameters.data_block()));
     }
 
-   measures = this->m_CostFunction->GetValue( parameters );
+  measures = this->m_CostFunction->GetValue( parameters );
 
   // Notify observers. This is used for overcoming the limitaion of VNL
   // optimizers of not providing callbacks per iteration.

@@ -47,7 +47,7 @@ public:
   virtual bool report_iter();
 
 private:
-  LBFGSBOptimizer* m_itkObj;
+  LBFGSBOptimizer* m_ItkObj;
 };
 
   
@@ -409,15 +409,12 @@ LBFGSBOptimizer
  *-------------------------------------------------------------------------
  */
 
-
-
-
 /** Create with a reference to the ITK object */
 LBFGSBOptimizerHelper
 ::LBFGSBOptimizerHelper( vnl_cost_function& f,
                          LBFGSBOptimizer* itkObj )
   : vnl_lbfgsb( f ),
-    m_itkObj( itkObj )
+    m_ItkObj( itkObj )
 {
 }
 
@@ -429,15 +426,15 @@ LBFGSBOptimizerHelper
 {
   Superclass::report_iter();
 
-  m_itkObj->m_InfinityNormOfProjectedGradient =
+  m_ItkObj->m_InfinityNormOfProjectedGradient =
     this->get_inf_norm_projected_gradient();
 
-  m_itkObj->InvokeEvent( IterationEvent() );
+  m_ItkObj->InvokeEvent( IterationEvent() );
 
-  m_itkObj->m_CurrentIteration = this->num_iterations_;
+  m_ItkObj->m_CurrentIteration = this->num_iterations_;
 
   // Return true to terminate the optimization loop.
-  if( this->num_iterations_ > m_itkObj->m_MaximumNumberOfIterations )
+  if( this->num_iterations_ > m_ItkObj->m_MaximumNumberOfIterations )
     {
     return true;
     }

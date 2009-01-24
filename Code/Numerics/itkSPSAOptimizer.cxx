@@ -47,8 +47,8 @@ SPSAOptimizer
   m_GradientMagnitude = 0.0;
   m_NumberOfPerturbations = 1;
   m_LearningRate = 0.0;
-  m_a = 1.0;
-  m_c = 1.0;
+  m_Sa = 1.0;
+  m_Sc = 1.0;
   m_A = m_MaximumNumberOfIterations / 10;
   m_Alpha = 0.602;
   m_Gamma = 0.101;
@@ -65,10 +65,10 @@ SPSAOptimizer
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "a: " << m_a << std::endl;
+  os << indent << "a: " << m_Sa << std::endl;
   os << indent << "A: " << m_A << std::endl;
   os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "c: " << m_c << std::endl;
+  os << indent << "c: " << m_Sc << std::endl;
   os << indent << "Gamma: " << m_Gamma << std::endl;
 
   os << indent << "NumberOfPerturbations: " << m_NumberOfPerturbations << std::endl;
@@ -297,7 +297,7 @@ double SPSAOptimizer
 ::Compute_a( unsigned long k ) const
 {
   return static_cast<double>(
-    m_a / vcl_pow( m_A + k + 1, m_Alpha ) );
+    m_Sa / vcl_pow( m_A + k + 1, m_Alpha ) );
 
 } // end Compute_a
 
@@ -312,7 +312,7 @@ double SPSAOptimizer
 ::Compute_c( unsigned long k ) const
 {
   return static_cast<double>(
-    m_c / vcl_pow( k + 1, m_Gamma ) );
+    m_Sc / vcl_pow( k + 1, m_Gamma ) );
 
 } // end Compute_c
 
@@ -505,7 +505,7 @@ GuessParameters(
   averageAbsoluteGradient /= static_cast<double>(numberOfGradientEstimates);
 
   /** Set a in order to make the first steps approximately have an initialStepSize */
-  this->Seta( initialStepSize * vcl_pow(m_A + 1.0, m_Alpha) /
+  this->SetSa( initialStepSize * vcl_pow(m_A + 1.0, m_Alpha) /
               averageAbsoluteGradient.max_value() );
 
 } //end GuessParameters

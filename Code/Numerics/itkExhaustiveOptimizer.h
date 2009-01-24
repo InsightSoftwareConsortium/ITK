@@ -123,10 +123,6 @@ protected:
   void IncrementIndex( ParametersType & param );
 
   
-private:  
-  ExhaustiveOptimizer(const Self&); //purposely not implemented
-  void operator=(const Self&);//purposely not implemented
-
 protected:
   MeasureType          m_CurrentValue;
   StepsType            m_NumberOfSteps;
@@ -141,6 +137,10 @@ protected:
   ParametersType       m_MinimumMetricValuePosition;
   ParametersType       m_MaximumMetricValuePosition;
   
+private:  
+  ExhaustiveOptimizer(const Self&); //purposely not implemented
+  void operator=(const Self&);//purposely not implemented
+
 };
 
 } // end namespace itk
