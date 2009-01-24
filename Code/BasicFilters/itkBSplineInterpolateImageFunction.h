@@ -175,7 +175,8 @@ public:
    * flag is OFF.
    * The default value of this flag is the same as the CMAKE option
    * ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE (i.e ON by default when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is ON,
-   * and  OFF by default when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is OFF).*/
+   * and  OFF by default when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is
+   * OFF). */
   itkSetMacro( UseImageDirection, bool );
   itkGetMacro( UseImageDirection, bool );
   itkBooleanMacro( UseImageDirection );
