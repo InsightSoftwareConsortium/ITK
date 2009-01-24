@@ -29,10 +29,11 @@ class BatchSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTa
 {
 public:
 
-  typedef BatchSupervisedTrainingFunction Self;
-  typedef TrainingFunctionBase<TSample, TTargetVector, ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef BatchSupervisedTrainingFunction  Self;
+  typedef TrainingFunctionBase<TSample, TTargetVector, ScalarType>
+                                           Superclass;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkTypeMacro(BatchSupervisedTrainingFunction, TrainingFunctionBase);
@@ -40,7 +41,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef typename Superclass::NetworkType NetworkType;
+  typedef typename Superclass::NetworkType        NetworkType;
   typedef typename Superclass::InternalVectorType InternalVectorType;
 
   /** Set the number of iterations */

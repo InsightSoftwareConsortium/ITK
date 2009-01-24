@@ -39,11 +39,12 @@ class ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<typ
 {
 public:
   typedef ErrorBackPropagationLearningFunctionBase Self;
-  typedef LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
+                                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
-  typedef typename Superclass::ValueType ValueType;
+  typedef typename Superclass::ValueType         ValueType;
   typedef typename LayerType::LayerInterfaceType LayerInterfaceType;
 
   /** Method for creation through the object factory. */

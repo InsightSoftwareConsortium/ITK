@@ -32,7 +32,7 @@ MeanSquaredErrorFunction<TMeasurementVector,ScalarType>
 {
 }
 
-/** Destructor*/
+/** Destructor */
 template<class TMeasurementVector, class ScalarType>
 MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
 ::~MeanSquaredErrorFunction()
@@ -46,10 +46,10 @@ MeanSquaredErrorFunction <TMeasurementVector,ScalarType>
 ::Evaluate(const TMeasurementVector& errors)  const
 {
   vnl_vector <ScalarType> temp(errors.Size());
- for(unsigned int i=0; i<errors.Size(); i++)
- {
+  for(unsigned int i=0; i<errors.Size(); i++)
+    {
     temp[i]=errors[i];
- }
+    }
   return (temp.squared_magnitude() / temp.size());
 }
 

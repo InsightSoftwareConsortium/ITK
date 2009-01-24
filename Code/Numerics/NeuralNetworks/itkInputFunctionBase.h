@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkInputFunctionBase_h
-#define _itkInputFunctionBase_h
+#ifndef __itkInputFunctionBase_h
+#define __itkInputFunctionBase_h
 
 #include "itkFunctionBase.h"
 
@@ -31,10 +31,10 @@ class InputFunctionBase : public FunctionBase<TMeasurementVector, TTargetVector>
 public:
 
   /** Standard class typedefs. */
-  typedef InputFunctionBase Self;
+  typedef InputFunctionBase                               Self;
   typedef FunctionBase<TMeasurementVector, TTargetVector> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(InputFunctionBase, FunctionBase);
@@ -73,4 +73,3 @@ private:
 } // end namespace itk
 
 #endif
-

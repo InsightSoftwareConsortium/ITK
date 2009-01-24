@@ -32,33 +32,33 @@ namespace itk
 namespace Statistics
 {
 
-  template<class TMeasurementVector, class TTargetVector>
+template<class TMeasurementVector, class TTargetVector>
 class LayerBase : public LightProcessObject
 {
 
 public:
-  typedef LayerBase Self;
-  typedef LightProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef LayerBase                Self;
+  typedef LightProcessObject       Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkTypeMacro(LayerBase, LightProcessObject);
 
   typedef TMeasurementVector InputVectorType;
-  typedef TTargetVector OutputVectorType;
+  typedef TTargetVector      OutputVectorType;
 
   typedef typename TMeasurementVector::ValueType ValueType;
-  typedef ValueType* ValuePointer;
-  typedef const ValueType* ValueConstPointer;
-  typedef vnl_vector<ValueType> NodeVectorType;
-  typedef Array<ValueType> InternalVectorType;
+  typedef ValueType*                             ValuePointer;
+  typedef const ValueType*                       ValueConstPointer;
+  typedef vnl_vector<ValueType>                  NodeVectorType;
+  typedef Array<ValueType>                       InternalVectorType;
 
-  typedef LayerBase  LayerInterfaceType;
+  typedef LayerBase                                       LayerInterfaceType;
   typedef WeightSetBase<TMeasurementVector,TTargetVector> WeightSetType;
   typedef WeightSetBase<TMeasurementVector,TTargetVector> WeightSetInterfaceType;
-  typedef InputFunctionBase<ValueType*, ValueType> InputFunctionInterfaceType;
-  typedef TransferFunctionBase<ValueType>  TransferFunctionInterfaceType;
+  typedef InputFunctionBase<ValueType*, ValueType>        InputFunctionInterfaceType;
+  typedef TransferFunctionBase<ValueType>                 TransferFunctionInterfaceType;
 
   //The only valid layer types
   typedef enum {  INVALIDLAYER=0, INPUTLAYER=1, HIDDENLAYER=2, OUTPUTLAYER=3 } LayerTypeCode;
@@ -107,7 +107,7 @@ public:
   itkSetEnumMacro(LayerTypeCode, LayerTypeCode);
   itkGetEnumMacro(LayerTypeCode, LayerTypeCode);
 
-//#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
+  //#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
 #ifdef __USE_OLD_INTERFACE
   void SetLayerType(const LayerTypeCode value) { SetLayerTypeCode(value); }
   LayerTypeCode GetLayerType(void) { return GetLayerTypeCode(); }
@@ -116,21 +116,21 @@ public:
     {
     switch(value)
       {
-    case 0:
-      SetLayerType(INVALIDLAYER);
-      break;
-    case 1:
-      SetLayerType(INPUTLAYER);
-      break;
-    case 2:
-      SetLayerType(HIDDENLAYER);
-      break;
-    case 3:
-      SetLayerType(OUTPUTLAYER);
-      break;
-    default:
-      //Throw Exception Here
-      break;
+      case 0:
+        SetLayerType(INVALIDLAYER);
+        break;
+      case 1:
+        SetLayerType(INPUTLAYER);
+        break;
+      case 2:
+        SetLayerType(HIDDENLAYER);
+        break;
+      case 3:
+        SetLayerType(OUTPUTLAYER);
+        break;
+      default:
+        //Throw Exception Here
+        break;
       }
     }
 #endif
@@ -148,8 +148,8 @@ protected:
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
   LayerTypeCode m_LayerTypeCode; //input, hidden, output
-  unsigned int m_LayerId;
-  unsigned int m_NumberOfNodes;
+  unsigned int  m_LayerId;
+  unsigned int  m_NumberOfNodes;
 
   typename WeightSetInterfaceType::Pointer m_InputWeightSet;
   typename WeightSetInterfaceType::Pointer m_OutputWeightSet;

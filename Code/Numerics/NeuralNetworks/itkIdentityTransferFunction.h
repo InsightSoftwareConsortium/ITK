@@ -31,16 +31,16 @@ class IdentityTransferFunction : public TransferFunctionBase<ScalarType>
 public:
 
   /** Standard class typedefs. */
-  typedef IdentityTransferFunction Self;
+  typedef IdentityTransferFunction         Self;
   typedef TransferFunctionBase<ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(IdentityTransferFunction, TransferFunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
 
   /** Evaluate at the specified input position */
@@ -54,7 +54,7 @@ protected:
   IdentityTransferFunction();
   virtual ~IdentityTransferFunction();
 
- /** Method to print the object. */
+  /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
 };//class

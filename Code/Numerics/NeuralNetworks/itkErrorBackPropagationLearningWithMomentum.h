@@ -41,9 +41,10 @@ class ErrorBackPropagationLearningWithMomentum : public LearningFunctionBase<typ
 public:
 
   typedef ErrorBackPropagationLearningWithMomentum Self;
-  typedef LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
+                                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Method for creation through the object factory. */
   itkTypeMacro(ErrorBackPropagationLearningWithMomentum, LearningFunctionBase);

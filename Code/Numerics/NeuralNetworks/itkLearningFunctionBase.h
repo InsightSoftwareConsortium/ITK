@@ -27,40 +27,40 @@
 
 namespace itk
 {
-  namespace Statistics
+namespace Statistics
+{
+
+template<class LayerType, class TTargetVector>
+class LearningFunctionBase : public LightProcessObject
+{
+public:
+  
+  typedef LearningFunctionBase     Self;
+  typedef LightProcessObject       Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkTypeMacro(LearningFunctionBase, LightProcessObject);
+
+  typedef typename LayerType::ValueType ValueType;
+
+  virtual void Learn(LayerType* layer, ValueType) = 0;
+  virtual void Learn(LayerType* layer, TTargetVector error,ValueType) = 0;
+
+protected:
+  LearningFunctionBase() {};
+  ~LearningFunctionBase() {};
+
+  /** Method to print the object. */
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const
     {
+    Superclass::PrintSelf( os, indent );
+    os << indent << "LearningFunctionBase(" << this << ")" << std::endl;
+    }
+};
 
-    template<class LayerType, class TTargetVector>
-      class LearningFunctionBase : public LightProcessObject
-        {
-      public:
-
-        typedef LearningFunctionBase Self;
-        typedef LightProcessObject Superclass;
-        typedef SmartPointer<Self> Pointer;
-        typedef SmartPointer<const Self> ConstPointer;
-
-        /** Method for creation through the object factory. */
-        itkTypeMacro(LearningFunctionBase, LightProcessObject);
-
-        typedef typename LayerType::ValueType ValueType;
-
-        virtual void Learn(LayerType* layer, ValueType) = 0;
-        virtual void Learn(LayerType* layer, TTargetVector error,ValueType) = 0;
-
-      protected:
-        LearningFunctionBase() {};
-        ~LearningFunctionBase() {};
-
-        /** Method to print the object. */
-        virtual void PrintSelf( std::ostream& os, Indent indent ) const
-          {
-          os << indent << "LearningFunctionBase(" << this << ")" << std::endl;
-          Superclass::PrintSelf( os, indent );
-          }
-        };
-
-    } // end namespace Statistics
+} // end namespace Statistics
 } // end namespace itk
 
 #endif

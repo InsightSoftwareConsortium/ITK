@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkErrorBackPropagationLearningingFunction_txx
-#define __itkErrorBackPropagationLearningingFunction_txx
+#ifndef __itkErrorBackPropagationLearningFunctionBase_txx
+#define __itkErrorBackPropagationLearningFunctionBase_txx
 
 #include "itkErrorBackPropagationLearningFunctionBase.h"
 
@@ -43,14 +43,14 @@ ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
   vnl_matrix<ValueType> DW_temp(currentdeltavalues,inputweightset->GetNumberOfOutputNodes(),
                                            inputweightset->GetNumberOfInputNodes());
 
-  DW_temp*=lr;
+  DW_temp *= lr;
   inputweightset->SetDWValues(DW_temp.data_block());
   typename LayerType::LayerInterfaceType::ValuePointer DBValues = inputweightset->GetDeltaBValues();
   vnl_vector<ValueType> DB;
   DB.set_size(inputweightset->GetNumberOfOutputNodes());
   DB.fill(0);
   DB.copy_in(DBValues);
-  DB*=lr;
+  DB *= lr;
   inputweightset->SetDBValues(DB.data_block());
 }
 

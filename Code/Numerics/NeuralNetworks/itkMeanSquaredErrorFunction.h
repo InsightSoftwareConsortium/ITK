@@ -32,18 +32,18 @@ class MeanSquaredErrorFunction : public ErrorFunctionBase<TMeasurementVector, Sc
 public:
 
   /** Standard class typedefs. */
-  typedef MeanSquaredErrorFunction Self;
+  typedef MeanSquaredErrorFunction                          Self;
   typedef ErrorFunctionBase<TMeasurementVector, ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef typename Superclass::ErrorVectorType ErrorVectorType;
-  typedef typename Superclass::InternalVectorType InternalVectorType;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef typename Superclass::ErrorVectorType              ErrorVectorType;
+  typedef typename Superclass::InternalVectorType           InternalVectorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanSquaredErrorFunction, FunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Evaluate at the specified Error position */
   virtual ScalarType Evaluate(const TMeasurementVector& Errors) const;

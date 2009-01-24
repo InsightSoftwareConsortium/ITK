@@ -1,16 +1,17 @@
-/*
-Program:   Insight Segmentation & Registration Toolkit
-Module:    itkMultilayerNeuralNetworkBase.h
-Language:  C++
-Date:      $Date$
-Version:   $Revision$
+/*=========================================================================
 
-Copyright (c) Insight Software Consortium. All rights reserved.
-See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkMultilayerNeuralNetworkBase.h
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
 
-This software is distributed WITHOUT ANY WARRANTY; without even
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the above copyright notices for more information.
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __MultiLayerNeuralNetworkBase_h
@@ -30,22 +31,26 @@ namespace itk
       public:
 
         typedef MultilayerNeuralNetworkBase Self;
-        typedef NeuralNetworkObject<TMeasurementVector, TTargetVector> Superclass;
-        typedef SmartPointer<Self> Pointer;
-        typedef SmartPointer<const Self> ConstPointer;
+        typedef NeuralNetworkObject<TMeasurementVector, TTargetVector>
+                                            Superclass;
+        typedef SmartPointer<Self>          Pointer;
+        typedef SmartPointer<const Self>    ConstPointer;
+
         itkTypeMacro(MultilayerNeuralNetworkBase, NeuralNetworkObject);
 
         /** New macro for creation of through a Smart Pointer. */
         itkNewMacro( Self );
 
-        typedef typename Superclass::ValueType ValueType;
+        typedef typename Superclass::ValueType             ValueType;
         typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
-        typedef typename Superclass::TargetVectorType TargetVectorType;
-        typedef typename Superclass::NetworkOutputType NetworkOutputType;
+        typedef typename Superclass::TargetVectorType      TargetVectorType;
+        typedef typename Superclass::NetworkOutputType     NetworkOutputType;
 
-        typedef typename Superclass::LayerInterfaceType LayerInterfaceType;
-        typedef TLearningLayer LearningLayerType;
-        typedef LearningFunctionBase<typename TLearningLayer::LayerInterfaceType, TTargetVector> LearningFunctionInterfaceType;
+        typedef typename Superclass::LayerInterfaceType    LayerInterfaceType;
+
+        typedef TLearningLayer                             LearningLayerType;
+        typedef LearningFunctionBase<typename TLearningLayer::LayerInterfaceType, TTargetVector>
+                                                           LearningFunctionInterfaceType;
 
         typedef std::vector<typename LayerInterfaceType::WeightSetInterfaceType::Pointer> WeightVectorType;
         typedef std::vector<typename LayerInterfaceType::Pointer> LayerVectorType;

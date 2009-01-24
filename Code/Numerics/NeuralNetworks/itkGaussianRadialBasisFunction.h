@@ -31,11 +31,11 @@ class GaussianRadialBasisFunction : public RadialBasisFunctionBase<ScalarType>
 public:
 
   /** Standard class typedefs. */
-  typedef GaussianRadialBasisFunction Self;
+  typedef GaussianRadialBasisFunction         Self;
   typedef RadialBasisFunctionBase<ScalarType> Superclass;
-  typedef typename Superclass::ArrayType ArrayType;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef typename Superclass::ArrayType      ArrayType;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianRadialBasisFunction,RadialBasisFunctionBase);

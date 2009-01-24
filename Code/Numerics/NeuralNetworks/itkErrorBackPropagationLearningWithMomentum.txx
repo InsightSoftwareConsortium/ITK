@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkErrorBackPropagationLearningingWithMomentum_txx
-#define __itkErrorBackPropagationLearningingWithMomentum_txx
+#ifndef __itkErrorBackPropagationLearningWithMomentum_txx
+#define __itkErrorBackPropagationLearningWithMomentum_txx
 
 #include "itkErrorBackPropagationLearningWithMomentum.h"
 #include <fstream>

@@ -31,16 +31,16 @@ class GaussianTransferFunction : public TransferFunctionBase<ScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianTransferFunction Self;
+  typedef GaussianTransferFunction         Self;
   typedef TransferFunctionBase<ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianTransferFunction, TransferFunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   /** Evaluate at the specified input position */
   virtual ScalarType Evaluate(const ScalarType& input) const;
 
