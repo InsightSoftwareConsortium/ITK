@@ -28,22 +28,23 @@ namespace itk {
  *
  * In 2D, 
  * \f[
- *  f(x_vector, parameter_vector) 
- * = sum_i (sum_j (parameter_{ i j } * P_i(x) *P_j(y)) 
- * over j from 0 to l - i)) over i from 0 to l 
+ *  f(x_{vector}, parameter_{vector}) =
+ * \sum_i^l \left( 
+ * \sum_j^{l-i} \left( parameter_ {ij} * P_i(x) *P_j(y)) \right) \right)  
  * \f]
  * where P_i() denoting a Legendre polynomial of degree i
  * and l it the degree of the polynomial
  *
  * In 3D,
  * \f[
- * f(x_vector, parameter_vecter)
- * = sum_i (sum_j (sum_k (parameter_{i j k} * P_i(x) * P_j(y) * P_k(z)) 
- * over k from 0 to l - i - j) over j from 0 to l - i) over i from 0 to l
+ * f(x_{vector}, parameter_{vector}) =
+ * \sum_i^l \left( \sum_j^{l-i} \left( \sum_k^{l-i-j} \left( 
+ * parameter_{ijk} * P_i(x) * P_j(y) * P_k(z) \right) \right) \right) 
  * \f]
  *
- * The size of the parameter vector for 2D is \f$ (l + 1) * (l + 2) / 2 \f$,
- * and for 3D is \f$ (l + 1) * (l + 2) / 2 * (l + 3) / 3 \f$
+ * The size of the parameter vector for 2D is 
+ * \f$\frac{(l+1)\cdot(1+2)}{2}\f$,
+ * and for 3D is \f$\frac{(l+1)*(l+2)*(l+3){3!}\f$
  *
  * To get the size of the parameter vector, users can use one of the 
  * two GetNumberOfCoefficients() member functions
@@ -56,7 +57,7 @@ namespace itk {
  * by Martin Styner, Univ. of North Carolina at Chapel Hill, and his
  * colleagues.
  *
- * For more details. refer to the following articles.
+ * \note For more details. refer to the following articles.
  * "Parametric estimate of intensity inhomogeneities applied to MRI" 
  * Martin Styner, G. Gerig, Christian Brechbuehler, Gabor Szekely,  
  * IEEE TRANSACTIONS ON MEDICAL IMAGING; 19(3), pp. 153-165, 2000, 
@@ -129,7 +130,7 @@ public:
     int m_Given;
     };
 
-  /** Sets the Legendre polynomials' parameters. 
+  /** \brief Sets the Legendre polynomials' parameters. 
    * \warning The number of coefficients provided should
    * match the number returned by GetNumberOfCoefficients()
    * otherwise an exception is thrown.  */
@@ -139,7 +140,7 @@ public:
   void SetCoefficients(const ParametersType& coef) 
     throw (CoefficientVectorSizeMismatch);
 
-  /** Gets Legendre polynomials' coefficients. */
+  /** \brief Gets Legendre polynomials' coefficients. */
   const CoefficientArrayType& GetCoefficients(void) const;
  
   /** In the case which the bias field is 2D, it returns bias value at
@@ -266,7 +267,8 @@ public:
 
 protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
-  double LegendreSum(const double x, int n, const CoefficientArrayType& coef,
+  double LegendreSum(const double x, int n, 
+                     const CoefficientArrayType& coef,
                      int offset = 0); 
   void CalculateXCoef(double norm_y, const CoefficientArrayType& coef);
   void CalculateYCoef(double norm_z, const CoefficientArrayType& coef);
