@@ -120,7 +120,7 @@ public:
   itkSetMacro( Sa, double );
   itkGetConstMacro( Sa, double );
   // For backward compatibility
-  void Seta (double a) { SetSa(a);};
+  void Seta (double a) { SetSa(a);}
   double Geta () {return GetSa();};
 
   /** Set/Get c. */
