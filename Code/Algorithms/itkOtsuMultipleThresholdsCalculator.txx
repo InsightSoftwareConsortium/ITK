@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOtsuMultipleThresholdsCalculator_txx
-#define _itkOtsuMultipleThresholdsCalculator_txx
+#ifndef __itkOtsuMultipleThresholdsCalculator_txx
+#define __itkOtsuMultipleThresholdsCalculator_txx
 
 #include "itkOtsuMultipleThresholdsCalculator.h"
 
@@ -36,10 +36,10 @@ const typename OtsuMultipleThresholdsCalculator<TInputHistogram>::OutputType&
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::GetOutput()
 {
-  return m_Output ;
+  return m_Output;
 }
 
-/*
+/**
  * Increment the thresholds of one position along the histogram
  */
 template<class TInputHistogram>
@@ -74,7 +74,10 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
       
       if (NumericTraits<FrequencyType>::IsPositive(classFrequency[j]))
         {
-        classMean[j] = (meanOld * static_cast<MeanType>(freqOld) + static_cast<MeanType>(histogram->GetMeasurementVector(thresholdIndexes[j])[0]) * static_cast<MeanType>(histogram->GetFrequency(thresholdIndexes[j]))) / static_cast<MeanType>(classFrequency[j]);
+        classMean[j] = (meanOld * static_cast<MeanType>(freqOld)
+                        + static_cast<MeanType>(histogram->GetMeasurementVector(thresholdIndexes[j])[0])
+                        * static_cast<MeanType>(histogram->GetFrequency(thresholdIndexes[j])))
+          / static_cast<MeanType>(classFrequency[j]);
         }
       else
         {
@@ -132,9 +135,9 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
   return true;
 }
 
-/*
+/**
  * Compute Otsu's thresholds
- */                    
+ */
 template<class TInputHistogram>
 void
 OtsuMultipleThresholdsCalculator<TInputHistogram>
@@ -150,15 +153,15 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
     }
 
   // compute global mean
-  typename TInputHistogram::ConstIterator iter = histogram->Begin() ;
-  typename TInputHistogram::ConstIterator end = histogram->End() ;
+  typename TInputHistogram::ConstIterator iter = histogram->Begin();
+  typename TInputHistogram::ConstIterator end = histogram->End();
 
   MeanType globalMean = NumericTraits<MeanType>::Zero;
   FrequencyType globalFrequency = histogram->GetTotalFrequency();
   while (iter != end)
     {
     globalMean += static_cast<MeanType>(iter.GetMeasurementVector()[0]) * static_cast<MeanType>(iter.GetFrequency());
-    ++iter ;
+    ++iter;
     }
   globalMean /= static_cast<MeanType>(globalFrequency);
 

@@ -61,15 +61,15 @@ namespace itk
  *    If the sign of the subtraction result changes, then it assumes that a 
  *    slab ends and another slab begins.
  */
-template <class TInputImage>            
+template <class TInputImage>
 class ITK_EXPORT MRASlabIdentifier : public Object 
 {
 public:
   /** Standard class typedefs. */
-  typedef MRASlabIdentifier      Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MRASlabIdentifier        Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MRASlabIdentifier, Object);
@@ -87,11 +87,11 @@ public:
   typedef typename TInputImage::ConstPointer ImageConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType ImagePixelType;
-  typedef typename TInputImage::IndexType ImageIndexType;
-  typedef typename TInputImage::SizeType ImageSizeType;
-  typedef typename TInputImage::RegionType ImageRegionType ;
-  typedef std::vector<ImageRegionType> SlabRegionVectorType ; 
+  typedef typename TInputImage::PixelType  ImagePixelType;
+  typedef typename TInputImage::IndexType  ImageIndexType;
+  typedef typename TInputImage::SizeType   ImageSizeType;
+  typedef typename TInputImage::RegionType ImageRegionType;
+  typedef std::vector<ImageRegionType>     SlabRegionVectorType; 
 
   /** Set/Get the input image. */
   itkSetConstObjectMacro( Image, ImageType );
@@ -119,10 +119,10 @@ public:
   void GenerateSlabRegions(void);
 
   /** Get slab regions. */
-  SlabRegionVectorType GetSlabRegionVector(void) ;
+  SlabRegionVectorType GetSlabRegionVector(void);
 
 protected:
-  MRASlabIdentifier() ;
+  MRASlabIdentifier();
   virtual ~MRASlabIdentifier() {} 
   void PrintSelf(std::ostream& os, Indent indent) const;
   
@@ -131,16 +131,16 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   /** Target image pointer that MRASlabIdentifier will use. */
-  ImageConstPointer m_Image ;
+  ImageConstPointer m_Image;
 
   /** The number of pixels per slice which will be included 
    * for average calculation. In a sense, it's sampling size per slice. */
-  unsigned int m_NumberOfSamples ;
+  unsigned int m_NumberOfSamples;
   
-  int m_SlicingDirection ;
-  ImagePixelType m_BackgroundMinimumThreshold ;
-  double m_Tolerance ;
-  SlabRegionVectorType m_Slabs ;
+  int                  m_SlicingDirection;
+  ImagePixelType       m_BackgroundMinimumThreshold;
+  double               m_Tolerance;
+  SlabRegionVectorType m_Slabs;
 };
 
 } // end namespace itk

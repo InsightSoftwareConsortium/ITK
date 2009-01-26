@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -15,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNarrowBandCurvesLevelSetImageFilter_txx_
-#define __itkNarrowBandCurvesLevelSetImageFilter_txx_
+#ifndef __itkNarrowBandCurvesLevelSetImageFilter_txx
+#define __itkNarrowBandCurvesLevelSetImageFilter_txx
 
 #include "itkNarrowBandCurvesLevelSetImageFilter.h"
 
@@ -67,8 +66,5 @@ NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 }
 
 }// end namespace itk
-
-
-
 
 #endif

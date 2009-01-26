@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNarrowBandThresholdSegmentationLevelSetImageFilter_h_
-#define __itkNarrowBandThresholdSegmentationLevelSetImageFilter_h_
+#ifndef __itkNarrowBandThresholdSegmentationLevelSetImageFilter_h
+#define __itkNarrowBandThresholdSegmentationLevelSetImageFilter_h
 
 #include "itkNarrowBandLevelSetImageFilter.h"
 #include "itkThresholdSegmentationLevelSetFunction.h"
@@ -90,13 +90,13 @@ public:
   /** Standard class typedefs */
   typedef NarrowBandThresholdSegmentationLevelSetImageFilter Self;
   typedef  NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType,
-   Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+   Image<TOutputPixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> >                                                         Superclass;
+  typedef SmartPointer<Self>                                 Pointer;
+  typedef SmartPointer<const Self>                           ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   
   /** Type of the segmentation function */
@@ -112,74 +112,74 @@ public:
   
   /** Get/Set the threshold values that will be used to calculate the speed function. */
   void SetUpperThreshold(ValueType v)
-  {
+    {
     this->m_ThresholdFunction->SetUpperThreshold(v);
     this->Modified();
-  }
+    }
   void SetLowerThreshold(ValueType v)
-  {
+    {
     this->m_ThresholdFunction->SetLowerThreshold(v);
     this->Modified();
-  }
+    }
   ValueType GetUpperThreshold() const
-  {
+    {
     return m_ThresholdFunction->GetUpperThreshold();
-  }
+    }
   ValueType GetLowerThreshold() const
-  {
+    {
     return m_ThresholdFunction->GetLowerThreshold();
-  }
+    }
 
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
   void SetEdgeWeight(ValueType v)
-  {
+    {
     this->m_ThresholdFunction->SetEdgeWeight(v);
     this->Modified();
-  }
+    }
   ValueType GetEdgeWeight() const
-  {
+    {
     return m_ThresholdFunction->GetEdgeWeight();
-  }
+    }
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
    * iterations. */
   void SetSmoothingIterations(int v)
-  {
+    {
     this->m_ThresholdFunction->SetSmoothingIterations(v);
     this->Modified();
-  }
+    }
   int GetSmoothingIterations() const
-  {
+    {
     return m_ThresholdFunction->GetSmoothingIterations();
-  }
+    }
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
    * step. */
   void SetSmoothingTimeStep(ValueType v)
-  {
+    {
     this->m_ThresholdFunction->SetSmoothingTimeStep(v);
     this->Modified();
-  }
+    }
   ValueType GetSmoothingTimeStep() const
-  {
+    {
     return m_ThresholdFunction->GetSmoothingTimeStep();
-  }
+    }
   
   /** Anisotropic diffusion is applied to the FeatureImage before calculatign
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
   void SetSmoothingConductance(ValueType v)
-  {
+    {
     this->m_ThresholdFunction->SetSmoothingConductance(v);
     this->Modified();
-  }
+    }
   ValueType GetSmoothingConductance() const
-  {
+    {
     return m_ThresholdFunction->GetSmoothingConductance();
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -201,8 +201,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNarrowBandThresholdSegmentationLevelSetImageFilter.txx"

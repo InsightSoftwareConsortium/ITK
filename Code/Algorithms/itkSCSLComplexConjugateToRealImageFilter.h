@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,19 +24,18 @@
 namespace itk
 {
 
-template <typename TPixel, unsigned int Dimension = 3>
+template <typename TPixel, unsigned int VDimension = 3>
 class SCSLComplexConjugateToRealImageFilter :
-    public FFTComplexConjugateToRealImageFilter<TPixel,Dimension>
+    public FFTComplexConjugateToRealImageFilter<TPixel,VDimension>
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef Image< std::complex<TPixel>,Dimension> TInputImageType;
-  typedef Image<TPixel,Dimension> TOutputImageType;
-
-  typedef SCSLComplexConjugateToRealImageFilter Self;
-  typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class typedefs. */ 
+  typedef Image< std::complex<TPixel>,VDimension>                 TInputImageType;
+  typedef Image<TPixel,VDimension>                                TOutputImageType;
+  typedef SCSLComplexConjugateToRealImageFilter                   Self;
+  typedef FFTComplexConjugateToRealImageFilter<TPixel,VDimension> Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -46,7 +45,7 @@ public:
                FFTComplexConjugateToRealImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType ImageType;
+  typedef TInputImageType              ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   //
@@ -54,12 +53,8 @@ public:
   virtual void GenerateData();  // generates output from input
   virtual bool FullMatrix(); // must be implemented in child
 protected:
-  SCSLComplexConjugateToRealImageFilter()  
-  { 
-  }
-  virtual ~SCSLComplexConjugateToRealImageFilter()
-  {
-  }
+  SCSLComplexConjugateToRealImageFilter() {}
+  virtual ~SCSLComplexConjugateToRealImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:

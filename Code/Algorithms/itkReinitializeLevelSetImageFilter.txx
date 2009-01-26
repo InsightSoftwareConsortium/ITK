@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkReinitializeLevelSetImageFilter_txx
-#define _itkReinitializeLevelSetImageFilter_txx
+#ifndef __itkReinitializeLevelSetImageFilter_txx
+#define __itkReinitializeLevelSetImageFilter_txx
 
 #include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"
@@ -25,7 +25,7 @@
 namespace itk
 {
 
-/*
+/**
  * Default constructor.
  */
 template <class TLevelSet>
@@ -64,7 +64,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
 }
 
 
-/*
+/**
  * PrintSelf method.
  */
 template <class TLevelSet>
@@ -189,10 +189,8 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
-  typedef 
-    ImageRegionIterator<LevelSetImageType> IteratorType;
-  typedef 
-    ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
+  typedef ImageRegionIterator<LevelSetImageType>      IteratorType;
+  typedef ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
                              inputPtr->GetBufferedRegion() );
@@ -272,10 +270,8 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
-  typedef 
-    ImageRegionIterator<LevelSetImageType> IteratorType;
-  typedef 
-    ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
+  typedef ImageRegionIterator<LevelSetImageType>      IteratorType;
+  typedef ImageRegionConstIterator<LevelSetImageType> ConstIteratorType;
 
   ConstIteratorType inputIt( inputPtr,
                              inputPtr->GetBufferedRegion() );
@@ -352,7 +348,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   NodeType node;
   PixelType inPixel;
 
-  for( ; pointsIt != pointsEnd; ++pointsIt )
+  for(; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.GetIndex() );
@@ -378,12 +374,12 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   pointsIt = procPoints->Begin();
   pointsEnd = procPoints->End();
 
-  for( ; pointsIt != pointsEnd; ++pointsIt )
+  for(; pointsIt != pointsEnd; ++pointsIt )
     {
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel( node.GetIndex() );
     
-    value = (double) inPixel ;
+    value = (double) inPixel;
     if( value - m_LevelSetValue <= 0 )
       {
       inPixel = tempLevelSet->GetPixel( node.GetIndex() );

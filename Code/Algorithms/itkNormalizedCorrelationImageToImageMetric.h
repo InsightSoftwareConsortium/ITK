@@ -45,11 +45,10 @@ class ITK_EXPORT NormalizedCorrelationImageToImageMetric :
 public:
 
   /** Standard class typedefs. */
-  typedef NormalizedCorrelationImageToImageMetric    Self;
+  typedef NormalizedCorrelationImageToImageMetric         Self;
   typedef ImageToImageMetric<TFixedImage, TMovingImage >  Superclass;
-
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -115,6 +114,3 @@ private:
 #endif
 
 #endif
-
-
-

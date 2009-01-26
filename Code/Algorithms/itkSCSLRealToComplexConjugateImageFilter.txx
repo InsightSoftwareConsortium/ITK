@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even
@@ -59,33 +59,33 @@ GenerateData()
 #define MAX2(a,b) ((a) > (b) ? (a) : (b))
 #define MAX3(a,b,c)  MAX2(MAX2(a,b),c)
   unsigned dims[32];
+    {
+    int i;
+    for(i = 0; i < Dimension; i++)
       {
-      int i;
-      for(i = 0; i < Dimension; i++)
-          {
-          dims[i] = inputSize[i];
-          }
-      for(; i < 32; i++)
-          {
-          dims[i] = 1;
-          }
+      dims[i] = inputSize[i];
       }
-
-  std::complex<TPixel> *out = outputPtr->GetBufferPointer();
-  /* return type valus are undocumented SCSL_INT_T rval;*/
-  SCSL_INT_T isys[2]={1,0};
+    for(; i < 32; i++)
+      {
+      dims[i] = 1;
+      }
+    }
+    
+    std::complex<TPixel> *out = outputPtr->GetBufferPointer();
+    /* return type valus are undocumented SCSL_INT_T rval. */
+    SCSL_INT_T isys[2]={1,0};
 #define NF 256
 #define NFR 256
-  if(typeid(TPixel) == typeid(double))
-    {
-    switch(num_dims)
+    if(typeid(TPixel) == typeid(double))
       {
-      case 1:
-      case 2:
+      switch(num_dims)
         {
-        double *table  = new double[(dims[0]+NFR) + (2 * dims[1] + NF)];
-        double *work = new double[dims[0] + 4 * dims[1]];
-        /*return type values are undocumented rval = */
+        case 1:
+        case 2:
+          {
+          double *table  = new double[(dims[0]+NFR) + (2 * dims[1] + NF)];
+          double *work = new double[dims[0] + 4 * dims[1]];
+          /*return type values are undocumented rval = */
           dzfft2d(0,            // sign
                   dims[0], // size of input x
                   dims[1], // size of input in y
@@ -99,7 +99,7 @@ GenerateData()
                   table,
                   work,
                   isys);
-        /*return type values are undocumented rval = */
+          /*return type values are undocumented rval = */
           dzfft2d(1,            // sign
                   dims[0], // size of input x
                   dims[1], //
@@ -113,63 +113,63 @@ GenerateData()
                   table,
                   work,
                   isys);
-        delete [] table;
-        delete [] work;
+          delete [] table;
+          delete [] work;
+          }
+          break;
+        case 3:
+         {
+         double *table  = new double[(dims[0] + NFR) + (2 * dims[1] + NF) +
+                                     (2 * dims[2] + NF)];
+         double *work = new double[dims[0] + 3 * dims[2]];
+         /*return type values are undocumented rval = */
+         dzfft3d(0,       // sign
+                 dims[0], // size of input
+                 dims[1], // ""
+                 dims[2], // ""
+                 1.0,     // scale
+                 const_cast<double *>
+                 (reinterpret_cast<const double *>
+                  (inputPtr->GetBufferPointer())), // input
+                 dims[0], // ldx
+                 dims[1], // ldx2
+                 reinterpret_cast<std::complex<double> *>(out), // output
+                 (dims[0]/2 + 1), // ldy
+                 dims[2],      // ldy2
+                 table,work,isys);
+         /*return type values are undocumented rval = */
+         dzfft3d(1,       // sign
+                 dims[0], // size of input
+                 dims[1], // ""
+                 dims[2], // ""
+                 1.0,     // scale
+                 const_cast<double *>
+                 (reinterpret_cast<const double *>
+                  (inputPtr->GetBufferPointer())), // input
+                 dims[0], // ldx
+                 dims[1], // ldx2
+                 reinterpret_cast<std::complex<double> *>(out), // output
+                 (dims[0]/2 + 1), // ldy
+                 dims[1],      // ldy2
+                 table,work,isys);
+         delete [] table;
+         delete [] work;
+         }
+         break;
+        default:
+          break;
         }
-        break;
-      case 3:
-        {
-        double *table  = new double[(dims[0] + NFR) + (2 * dims[1] + NF) +
-                                    (2 * dims[2] + NF)];
-        double *work = new double[dims[0] + 3 * dims[2]];
-        /*return type values are undocumented rval = */
-          dzfft3d(0,       // sign
-                  dims[0], // size of input
-                  dims[1], // ""
-                  dims[2], // ""
-                  1.0,     // scale
-                  const_cast<double *>
-                  (reinterpret_cast<const double *>
-                   (inputPtr->GetBufferPointer())), // input
-                  dims[0], // ldx
-                  dims[1], // ldx2
-                  reinterpret_cast<std::complex<double> *>(out), // output
-                  (dims[0]/2 + 1), // ldy
-                  dims[2],      // ldy2
-                  table,work,isys);
-        /*return type values are undocumented rval = */
-          dzfft3d(1,       // sign
-                  dims[0], // size of input
-                  dims[1], // ""
-                  dims[2], // ""
-                  1.0,     // scale
-                  const_cast<double *>
-                  (reinterpret_cast<const double *>
-                   (inputPtr->GetBufferPointer())), // input
-                  dims[0], // ldx
-                  dims[1], // ldx2
-                  reinterpret_cast<std::complex<double> *>(out), // output
-                  (dims[0]/2 + 1), // ldy
-                  dims[1],      // ldy2
-                  table,work,isys);
-        delete [] table;
-        delete [] work;
-        }
-        break;
-      default:
-        break;
       }
-    }
-  else if(typeid(TPixel) == typeid(float))
-    {
-    switch(num_dims)
+    else if(typeid(TPixel) == typeid(float))
       {
-      case 1:
-      case 2:
+      switch(num_dims)
         {
-        float *table  = new float[(dims[0]+NFR) + (2 * dims[1] + NF)];
-        float *work = new float[dims[0] + 4 * dims[1]];
-        /*return type values are undocumented rval = */
+        case 1:
+        case 2:
+          {
+          float *table  = new float[(dims[0]+NFR) + (2 * dims[1] + NF)];
+          float *work = new float[dims[0] + 4 * dims[1]];
+          /*return type values are undocumented rval = */
           scfft2d(0,            // sign
                   dims[0], // size of input x
                   dims[1], // size of input in y
@@ -183,7 +183,7 @@ GenerateData()
                   table,
                   work,
                   isys);
-        /*return type values are undocumented rval = */
+          /*return type values are undocumented rval = */
           scfft2d(1,            // sign
                   dims[0], // size of input x
                   dims[1], //
@@ -197,16 +197,16 @@ GenerateData()
                   table,
                   work,
                   isys);
-        delete [] table;
-        delete [] work;
-        }
-        break;
-      case 3:
-        {
-        float *table  = new float[(dims[0] + NFR) + (2 * dims[1] + NF) +
+          delete [] table;
+          delete [] work;
+          }
+          break;
+        case 3:
+          {
+          float *table  = new float[(dims[0] + NFR) + (2 * dims[1] + NF) +
                                     (2 * dims[2] + NF)];
-        float *work = new float[dims[0] + 3 * dims[2]];
-        /*return type values are undocumented rval = */
+          float *work = new float[dims[0] + 3 * dims[2]];
+          /*return type values are undocumented rval = */
           scfft3d(0,       // sign
                   dims[0], // size of input
                   dims[1], // ""
@@ -221,7 +221,7 @@ GenerateData()
                   (dims[0]/2 + 1), // ldy
                   dims[1],      // ldy2
                   table,work,isys);
-        /*return type values are undocumented rval = */
+          /*return type values are undocumented rval = */
           scfft3d(1,       // sign
                   dims[0], // size of input
                   dims[1], // ""
@@ -236,22 +236,22 @@ GenerateData()
                   (dims[0]/2 + 1), // ldy
                   dims[1],      // ldy2
                   table,work,isys);
-        delete [] table;
-        delete [] work;
+          delete [] table;
+          delete [] work;
+          }
+          break;
+        default:
+          break;
         }
-        break;
-      default:
-        break;
       }
-    }
 }
-  template <class TPixel, unsigned int Dimension>
-  bool
-  SCSLRealToComplexConjugateImageFilter<TPixel,Dimension>::
-  FullMatrix()
-  {
-    return false;
-  }
+template <class TPixel, unsigned int Dimension>
+bool
+SCSLRealToComplexConjugateImageFilter<TPixel,Dimension>::
+FullMatrix()
+{
+  return false;
+}
 
 template <class TPixel, unsigned int Dimension>
 void

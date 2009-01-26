@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRecursiveMultiResolutionPyramidImageFilter_txx
-#define _itkRecursiveMultiResolutionPyramidImageFilter_txx
+#ifndef __itkRecursiveMultiResolutionPyramidImageFilter_txx
+#define __itkRecursiveMultiResolutionPyramidImageFilter_txx
 
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkShrinkImageFilter.h"
@@ -29,8 +29,7 @@
 namespace itk
 {
 
-
-/*
+/**
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -39,8 +38,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 {
 }
 
-
-/*
+/**
  * GenerateData
  */
 template <class TInputImage, class TOutputImage>
@@ -60,10 +58,10 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   InputImageConstPointer  inputPtr = this->GetInput();
 
   // Create caster, smoother and shrinker filters
-  typedef CastImageFilter<TInputImage, TOutputImage> CasterType;
-  typedef CastImageFilter<TOutputImage, TOutputImage> CopierType;
+  typedef CastImageFilter<TInputImage, TOutputImage>              CasterType;
+  typedef CastImageFilter<TOutputImage, TOutputImage>             CopierType;
   typedef DiscreteGaussianImageFilter<TOutputImage, TOutputImage> SmootherType;
-  typedef ShrinkImageFilter<TOutputImage,TOutputImage> ShrinkerType;
+  typedef ShrinkImageFilter<TOutputImage,TOutputImage>            ShrinkerType;
 
   typename CasterType::Pointer   caster   = CasterType::New();
   typename CopierType::Pointer   copier   = CopierType::New();
@@ -193,8 +191,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
 }
 
-
-/*
+/**
  * PrintSelf method
  */
 template <class TInputImage, class TOutputImage>
@@ -228,7 +225,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   unsigned int refLevel;
   refLevel = refOutputPtr->GetSourceOutputIndex();
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
   typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
 
   OperatorType * oper = new OperatorType;
@@ -348,8 +345,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
 }
 
-
-/* 
+/** 
  * GenerateInputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -386,13 +382,13 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
     unsigned int factor = this->GetSchedule()[refLevel][idim];
     baseIndex[idim] *= static_cast<IndexValueType>( factor );
-    baseSize[idim]  *= static_cast<SizeValueType>( factor );    
+    baseSize[idim] *= static_cast<SizeValueType>( factor );
     }
   baseRegion.SetIndex( baseIndex );
   baseRegion.SetSize( baseSize );
 
   // compute requirements for the smoothing part
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
   typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
 
   OperatorType *oper = new OperatorType;

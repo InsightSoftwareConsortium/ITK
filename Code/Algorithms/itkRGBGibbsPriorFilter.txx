@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRGBGibbsPriorFilter_txx
-#define _itkRGBGibbsPriorFilter_txx
+#ifndef __itkRGBGibbsPriorFilter_txx
+#define __itkRGBGibbsPriorFilter_txx
 
 #include "itkRGBGibbsPriorFilter.h"
 #include <stdlib.h>
@@ -27,6 +27,7 @@
 
 namespace itk
 {
+
 /* Set intial value of some parameters in the constructor */
 template <typename TInputImage, typename TClassifiedImage>
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
@@ -99,7 +100,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 ::GenerateMediumImage()
 {
   InputImageConstPointer input = this->GetInput();
-  m_MediumImage = TInputImage::New() ;
+  m_MediumImage = TInputImage::New();
   m_MediumImage->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
   m_MediumImage->SetRequestedRegionToLargestPossibleRegion();
   m_MediumImage->SetBufferedRegion( m_MediumImage->GetRequestedRegion() );
@@ -270,33 +271,34 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   offsetIndex3D[0] = (i % frame) % rowsize;
 
   if ((i > rowsize - 1)&&((i%rowsize) != rowsize - 1)&&
-      (i < size - rowsize)&&((i%rowsize) != 0)) {
-  offsetIndex3D[0]--;
-  offsetIndex3D[1]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+      (i < size - rowsize)&&((i%rowsize) != 0))\
+    {
+    offsetIndex3D[0]--;
+    offsetIndex3D[1]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[1]++;  
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[1]++;  
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
    
-  offsetIndex3D[1]++;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[1]++;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[0]--;
-  f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    offsetIndex3D[0]--;
+    f[neighborcount++] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
   
-  offsetIndex3D[1]--;
-  f[neighborcount] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
-  }
-
+    offsetIndex3D[1]--;
+    f[neighborcount] = (int)m_LabelledImage->GetPixel( offsetIndex3D );
+    }
+  
   k = 0;
   for( j=0; j<8; j++ ) 
     {
@@ -346,14 +348,19 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     }
   
 
-  else {
-  if (changeflag) {
-  difenergy = energy[label]-energy[1-label];
-  double rand_num = (double) (rand()/32768.0);
-  double energy_num = (double) (exp((double) (difenergy*0.5*size/(2*size-m_Temp))));
-  if ( rand_num < energy_num ) m_LabelledImage->SetPixel(offsetIndex3D, 1-label);
-  }
-  }
+  else
+    {
+    if (changeflag)
+      {
+      difenergy = energy[label]-energy[1-label];
+      double rand_num = (double) (rand()/32768.0);
+      double energy_num = (double) (exp((double) (difenergy*0.5*size/(2*size-m_Temp))));
+      if ( rand_num < energy_num )
+        {
+        m_LabelledImage->SetPixel(offsetIndex3D, 1-label);
+        }
+      }
+    }
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -391,10 +398,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       ( LabelledImagePixelType ) m_LabelledImage->GetPixel( offsetIndex3D );
     }
 
-  if (     (      i       > rowsize - 1    )
-           && ( (i%rowsize) != rowsize - 1    )
-           && (      i       < size - rowsize )
-           && ( (i%rowsize) != 0              )  ) 
+  if ((      i       > rowsize - 1    )
+      && ( (i%rowsize) != rowsize - 1    )
+      && (      i       < size - rowsize )
+      && ( (i%rowsize) != 0              )  ) 
     {
 
     offsetIndex3D[0]--;
@@ -442,7 +449,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
 
   /* Assuming we are segmenting objects with smooth boundaries, we give 
     * weight to local characteristics */
-  for( j=0; j<8 ;j++ ) 
+  for( j=0; j<8; j++ ) 
     {
     if ( (f[j] == labelledPixel) != changeflag ) 
       {
@@ -476,8 +483,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
     {
     return res -= m_CliqueWeight_4;
     }
-  else return res -=m_CliqueWeight_6; 
-
+  else
+    {
+    return res -= m_CliqueWeight_6; 
+    }
 }
 
 template<class TInputImage, class TClassifiedImage>
@@ -512,10 +521,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   /* Set the output labelled image and allocate the memory. */
   LabelledImageType outputPtr = this->GetOutput();
 
-  if (m_RecursiveNumber == 0) {
-  outputPtr->SetLargestPossibleRegion( m_InputImage->GetLargestPossibleRegion() );
-  outputPtr->SetBufferedRegion( m_InputImage->GetLargestPossibleRegion() );
-  }
+  if (m_RecursiveNumber == 0)
+    {
+    outputPtr->SetLargestPossibleRegion( m_InputImage->GetLargestPossibleRegion() );
+    outputPtr->SetBufferedRegion( m_InputImage->GetLargestPossibleRegion() );
+    }
 
   /* Allocate the output buffer memory. */
   outputPtr->Allocate();
@@ -646,8 +656,14 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
       m_ClassifierPtr->GetPixelMembershipValue( ChangedPixelVec );
 
     LabelType pixLabel;
-    if (distValue[1] > m_ObjectThreshold) pixLabel = 0;
-    else pixLabel = 1;
+    if (distValue[1] > m_ObjectThreshold)
+      {
+      pixLabel = 0;
+      }
+    else
+      {
+      pixLabel = 1;
+      }
     labelledImageIt.Set( pixLabel );
     
     i++;
@@ -737,8 +753,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   delete []valid_region_counter;
 
 }
-
-
 
 template<class TInputImage, class TClassifiedImage>
 unsigned int

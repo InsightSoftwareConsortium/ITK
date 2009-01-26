@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRegionGrowImageFilter_txx
-#define _itkRegionGrowImageFilter_txx
+#ifndef __itkRegionGrowImageFilter_txx
+#define __itkRegionGrowImageFilter_txx
 
 #include "itkRegionGrowImageFilter.h"
 
@@ -37,7 +37,7 @@ RegionGrowImageFilter<TInputImage,TOutputImage>
 
 }
 
-/*
+/**
  * PrintSelf
  */
 template <class TInputImage, class TOutputImage>
@@ -54,8 +54,5 @@ RegionGrowImageFilter<TInputImage,TOutputImage>
 }// end PrintSelf
 
 } // namespace itk
-
-
-
 
 #endif

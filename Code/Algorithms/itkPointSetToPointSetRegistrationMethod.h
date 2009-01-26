@@ -64,9 +64,9 @@ class ITK_EXPORT PointSetToPointSetRegistrationMethod : public ProcessObject
 public:
   /** Standard class typedefs. */
   typedef PointSetToPointSetRegistrationMethod  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ProcessObject                         Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,11 +80,11 @@ public:
 
   /**  Type of the Moving PointSet. */
   typedef          TMovingPointSet                  MovingPointSetType;
-  typedef typename MovingPointSetType::ConstPointer    MovingPointSetConstPointer;
+  typedef typename MovingPointSetType::ConstPointer MovingPointSetConstPointer;
 
   /**  Type of the metric. */
   typedef PointSetToPointSetMetric< FixedPointSetType,
-                                 MovingPointSetType >    MetricType;
+                                 MovingPointSetType > MetricType;
   typedef typename MetricType::Pointer                MetricPointer;
 
   /**  Type of the Transform . */
@@ -93,9 +93,9 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  typedef  DataObjectDecorator< TransformType >    TransformOutputType;
-  typedef typename TransformOutputType::Pointer    TransformOutputPointer;
-  typedef typename TransformOutputType::ConstPointer    TransformOutputConstPointer;
+  typedef  DataObjectDecorator< TransformType >      TransformOutputType;
+  typedef typename TransformOutputType::Pointer      TransformOutputPointer;
+  typedef typename TransformOutputType::ConstPointer TransformOutputConstPointer;
   /**  Type of the optimizer. */
   typedef   MultipleValuedNonLinearOptimizer         OptimizerType;
 
@@ -186,6 +186,3 @@ private:
 #endif
 
 #endif
-
-
-

@@ -86,9 +86,9 @@ public:
   /** Standard class typedefs */
   typedef MultiResolutionPDEDeformableRegistration Self;
   typedef ImageToImageFilter<TDeformationField, TDeformationField>
-  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,17 +98,17 @@ public:
                 ImageToImageFilter );
 
   /** Fixed image type. */
-  typedef TFixedImage FixedImageType;
-  typedef typename FixedImageType::Pointer FixedImagePointer;
+  typedef TFixedImage                           FixedImageType;
+  typedef typename FixedImageType::Pointer      FixedImagePointer;
   typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
 
   /** Moving image type. */
-  typedef TMovingImage MovingImageType;
-  typedef typename MovingImageType::Pointer MovingImagePointer;
+  typedef TMovingImage                           MovingImageType;
+  typedef typename MovingImageType::Pointer      MovingImagePointer;
   typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
 
   /** Deformation field image type. */
-  typedef TDeformationField DeformationFieldType;
+  typedef TDeformationField                      DeformationFieldType;
   typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
 
   /** ImageDimension. */
@@ -119,8 +119,8 @@ public:
   typedef Image<TRealType,itkGetStaticConstMacro(ImageDimension)> FloatImageType;
 
   /** The internal registration type. */
-  typedef PDEDeformableRegistrationFilter<
-    FloatImageType, FloatImageType, DeformationFieldType > RegistrationType;
+  typedef PDEDeformableRegistrationFilter<FloatImageType, FloatImageType, DeformationFieldType >
+                                             RegistrationType;
   typedef typename RegistrationType::Pointer RegistrationPointer;
 
   /** The default registration type. */
@@ -128,18 +128,18 @@ public:
     FloatImageType, FloatImageType, DeformationFieldType > DefaultRegistrationType;
 
   /** The fixed multi-resolution image pyramid type. */
-  typedef MultiResolutionPyramidImageFilter<
-    FixedImageType, FloatImageType > FixedImagePyramidType;
+  typedef MultiResolutionPyramidImageFilter<FixedImageType, FloatImageType >
+                                                  FixedImagePyramidType;
   typedef typename FixedImagePyramidType::Pointer FixedImagePyramidPointer;
 
   /** The moving multi-resolution image pyramid type. */
-  typedef MultiResolutionPyramidImageFilter<
-    MovingImageType, FloatImageType > MovingImagePyramidType;
+  typedef MultiResolutionPyramidImageFilter<MovingImageType, FloatImageType >
+                                                   MovingImagePyramidType;
   typedef typename MovingImagePyramidType::Pointer MovingImagePyramidPointer;
    
   /** The deformation field expander type. */
-  typedef VectorResampleImageFilter<
-    DeformationFieldType, DeformationFieldType > FieldExpanderType;
+  typedef VectorResampleImageFilter<DeformationFieldType, DeformationFieldType >
+                                               FieldExpanderType;
   typedef typename FieldExpanderType::Pointer  FieldExpanderPointer;
 
   /** Set the fixed image. */
@@ -157,17 +157,17 @@ public:
   /** Set initial deformation field to be used as is (no smoothing, no
    *  subsampling at the coarsest level of the pyramid. */
   virtual void SetInitialDeformationField( DeformationFieldType * ptr )
-  {
+    {
     this->m_InitialDeformationField=ptr;
-  }
+    }
 
   /** Set initial deformation field. No assumption is made on the
    *  input. It will therefore be smoothed and resampled to match the
    *  images characteristics at the coarsest level of the pyramid. */
   virtual void SetArbitraryInitialDeformationField( DeformationFieldType * ptr )
-  {
+    {
     this->SetInput( ptr ); 
-  }
+    }
 
   /** Get output deformation field. */
   const DeformationFieldType * GetDeformationField(void)

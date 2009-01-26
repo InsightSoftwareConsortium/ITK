@@ -74,10 +74,10 @@ public:
              ::itk::GetImageDimension<TInputImage>::ImageDimension> OutputImageType;
 
   /** Standard class typedefs. */
-  typedef ScalarImageKmeansImageFilter Self;
+  typedef ScalarImageKmeansImageFilter                         Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -86,7 +86,7 @@ public:
   itkTypeMacro(ScalarImageKmeansImageFilter, ImageToImageFilter);
   
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType InputPixelType;
+  typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** Type used for representing the Mean values */
@@ -102,8 +102,8 @@ public:
   /** Create the K-d tree structure */
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
                                                       AdaptorType > 
-                                                              TreeGeneratorType;
-  typedef typename TreeGeneratorType::KdTreeType TreeType;
+                                                                TreeGeneratorType;
+  typedef typename TreeGeneratorType::KdTreeType                TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
 
   typedef typename EstimatorType::ParametersType ParametersType;
@@ -150,9 +150,9 @@ protected:
 
   /** This method runs the statistical methods that identify the means of the
    * classes and the use the distances to those means in order to label the
-   * image pixels.   *
+   * image pixels.
    * \sa ImageToImageFilter::GenerateData() 
-   **/
+   */
   void GenerateData();
 
 private:

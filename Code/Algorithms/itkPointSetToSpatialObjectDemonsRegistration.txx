@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointSetToSpatialObjectDemonsRegistration_txx
-#define _itkPointSetToSpatialObjectDemonsRegistration_txx
+#ifndef __itkPointSetToSpatialObjectDemonsRegistration_txx
+#define __itkPointSetToSpatialObjectDemonsRegistration_txx
 
 #include "itkPointSetToSpatialObjectDemonsRegistration.h"
 
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template < typename TFixedPointSet, typename TMovingSpatialObject >
@@ -36,11 +36,7 @@ PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,TMovingSpatialObject>
 
 }
 
-
-
-
-
-/*
+/**
  * Starts the Registration Process
  */
 template < typename TFixedPointSet, typename TMovingSpatialObject >
@@ -51,8 +47,7 @@ PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,TMovingSpatialObject>
   
 }
 
-
-/*
+/**
  * PrintSelf
  */
 template < typename TFixedPointSet, typename TMovingSpatialObject >
@@ -64,9 +59,6 @@ PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,TMovingSpatialObject>
   os << indent << "Fixed PointSet: " << m_FixedPointSet.GetPointer() << std::endl;
   os << indent << "Moving SpatialObject: " << m_MovingSpatialObject.GetPointer() << std::endl;
 }
-
-
-
 
 } // end namespace itk
 

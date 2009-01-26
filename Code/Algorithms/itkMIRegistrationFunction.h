@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMIRegistrationFunction_h_
-#define _itkMIRegistrationFunction_h_
+#ifndef __itkMIRegistrationFunction_h
+#define __itkMIRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"
@@ -56,11 +56,11 @@ class ITK_EXPORT MIRegistrationFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef MIRegistrationFunction    Self;
+  typedef MIRegistrationFunction         Self;
   typedef PDEDeformableRegistrationFunction< TFixedImage,
     TMovingImage, TDeformationField >    Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,20 +89,19 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Inherit some enums from the superclass. */
-  typedef typename Superclass::PixelType     PixelType;
-  typedef typename Superclass::RadiusType    RadiusType;
+  typedef typename Superclass::PixelType           PixelType;
+  typedef typename Superclass::RadiusType          RadiusType;
   typedef typename Superclass::NeighborhoodType    NeighborhoodType;
-//  typedef typename Superclass::NeighborhoodType    BoundaryNeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::FloatOffsetType     FloatOffsetType;
+  typedef typename Superclass::TimeStepType        TimeStepType;
 
   /** Interpolator type. */
-  typedef double CoordRepType;
+  typedef double                                                 CoordRepType;
   typedef InterpolateImageFunction<MovingImageType,CoordRepType> InterpolatorType;
-  typedef typename InterpolatorType::Pointer         InterpolatorPointer;
-  typedef typename InterpolatorType::PointType       PointType;
+  typedef typename InterpolatorType::Pointer                     InterpolatorPointer;
+  typedef typename InterpolatorType::PointType                   PointType;
   typedef LinearInterpolateImageFunction<MovingImageType,CoordRepType>
-    DefaultInterpolatorType;
+                                                                 DefaultInterpolatorType;
 
   /** Covariant vector type. */
   typedef CovariantVector<double,itkGetStaticConstMacro(ImageDimension)> CovariantVectorType;
@@ -144,9 +143,7 @@ public:
                      void *globalData,
                      const FloatOffsetType &offset = FloatOffsetType(0.0));
 
-
-
-  void SetMinNorm(float ts=1.0) { m_minnorm=ts;}
+  void SetMinNorm(float ts=1.0) { m_Minnorm=ts;}
 
 
   void SetDoInverse(bool b = false) { m_DoInverse=b;}
@@ -163,9 +160,9 @@ protected:
   /** A global data type for this class of equation. Used to store
    * iterators for the fixed image. */
   struct GlobalDataStruct
-   {
-   FixedImageNeighborhoodIteratorType   m_FixedImageIterator;
-   };
+    {
+    FixedImageNeighborhoodIteratorType   m_FixedImageIterator;
+    };
 
   /** The global timestep. */
   TimeStepType                    m_TimeStep;
@@ -199,7 +196,7 @@ private:
 
   unsigned int m_NumberOfSamples;
   unsigned int m_NumberOfBins;
-  float        m_minnorm;
+  float        m_Minnorm;
 
   bool         m_DoInverse;
 };

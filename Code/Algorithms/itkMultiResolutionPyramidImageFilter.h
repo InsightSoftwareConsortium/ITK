@@ -109,10 +109,10 @@ class ITK_EXPORT MultiResolutionPyramidImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiResolutionPyramidImageFilter  Self;
+  typedef MultiResolutionPyramidImageFilter             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -130,10 +130,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Inherit types from Superclass. */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::OutputImageType        OutputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
   /** Set the number of multi-resolution levels. The matrix containing the
@@ -232,5 +232,3 @@ private:
 #endif
 
 #endif
-
-

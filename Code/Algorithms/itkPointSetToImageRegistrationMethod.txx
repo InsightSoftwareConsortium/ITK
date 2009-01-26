@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointSetToImageRegistrationMethod_txx
-#define _itkPointSetToImageRegistrationMethod_txx
+#ifndef __itkPointSetToImageRegistrationMethod_txx
+#define __itkPointSetToImageRegistrationMethod_txx
 
 #include "itkPointSetToImageRegistrationMethod.h"
 
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template < typename TFixedPointSet, typename TMovingImage >
@@ -66,9 +66,7 @@ PointSetToImageRegistrationMethod<TFixedPointSet,TMovingImage>
   this->Modified();
 }
 
-
-
-/*
+/**
  * Initialize by setting the interconnects between components. 
  */
 template < typename TFixedPointSet, typename TMovingImage >
@@ -201,8 +199,7 @@ PointSetToImageRegistrationMethod<TFixedPointSet,TMovingImage>
     }
 }
 
-
-/*
+/**
  * PrintSelf
  */
 template < typename TFixedPointSet, typename TMovingImage >
@@ -233,8 +230,7 @@ PointSetToImageRegistrationMethod<TFixedPointSet,TMovingImage>
   this->StartRegistration();
 }
 
-
-/*
+/**
  *  Get Output
  */
 template < typename TFixedPointSet, typename TMovingImage >
@@ -244,8 +240,6 @@ PointSetToImageRegistrationMethod<TFixedPointSet,TMovingImage>
 {
   return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 }
-
-
 
 template < typename TFixedPointSet, typename TMovingImage >
 DataObject::Pointer

@@ -48,15 +48,11 @@ class ITK_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage,
                                                              TClassifiedImage>
 {
 public:
-  /** Standard "Self" typedef.*/
-  typedef RGBGibbsPriorFilter  Self;
-
-  /** Standard "Superclass" typedef.*/
+  /** Standard "Self" typedef. */
+  typedef RGBGibbsPriorFilter                           Self;
   typedef MRFImageFilter<TInputImage, TClassifiedImage> Superclass;
-
-  /** Smart pointer typedef support */
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,12 +61,12 @@ public:
   itkTypeMacro(RGBGibbsPriorFilter,MRFImageFilter);
 
   /** Types from superclass.  */
-  typedef typename Superclass::InputImagePixelType InputImagePixelType;
+  typedef typename Superclass::InputImagePixelType           InputImagePixelType;
   typedef typename Superclass::InputImageRegionConstIterator InputImageRegionConstIterator;
-  typedef typename Superclass::InputImageRegionIterator InputImageRegionIterator;
-  typedef typename Superclass::LabelledImageRegionIterator LabelledImageRegionIterator;
-  typedef typename Superclass::LabelledImagePixelType LabelledImagePixelType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  typedef typename Superclass::InputImageRegionIterator      InputImageRegionIterator;
+  typedef typename Superclass::LabelledImageRegionIterator   LabelledImageRegionIterator;
+  typedef typename Superclass::LabelledImagePixelType        LabelledImagePixelType;
+  typedef typename Superclass::IndexValueType                IndexValueType;
   
   /** A smart pointer to the input image type. */
   typedef TInputImage                                InputImageType;  
@@ -84,7 +80,7 @@ public:
   typedef typename TClassifiedImage::Pointer         TrainingImageType;
 
   /** Type definitions for the labelled image.
-   *  It is derived from the training image.*/
+   *  It is derived from the training image. */
   typedef typename TClassifiedImage::Pointer         LabelledImageType;
      
   /** Type definition for the classified image index type. */
@@ -105,12 +101,12 @@ public:
   /** Set the image required for training type classifiers. */
   void SetTrainingImage(TrainingImageType image);
 
-  /** Set the labelled image.*/
+  /** Set the labelled image. */
   void SetLabelledImage(LabelledImageType LabelledImage);
 
   /** Get the labelled image. */
   LabelledImageType GetLabelledImage()
-  { return m_LabelledImage; }
+    { return m_LabelledImage; }
 
   /** Set the pointer to the classifer being used. */
   void SetClassifier( typename ClassifierType::Pointer ptrToClassifier );
@@ -126,7 +122,7 @@ public:
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
 
   /** Get the number of iterations of the Iterated Conditional Mode
-   * (ICM) algorithm.*/
+   * (ICM) algorithm. */
   itkGetMacro(MaximumNumberOfIterations, unsigned int);
 
   /** Set the threshold for the object size. */
@@ -185,9 +181,11 @@ private:
   InputImageConstPointer  m_InputImage;    /** the input */
   TrainingImageType       m_TrainingImage; /** image to train the filter. */
   LabelledImageType       m_LabelledImage; /** output */
-  unsigned int        m_NumberOfClasses; /** the number of class need to be classified. */
-  unsigned int        m_MaximumNumberOfIterations; /** number of the iteration. */
+  unsigned int            m_NumberOfClasses; /** the number of class need to be classified. */
+  unsigned int            m_MaximumNumberOfIterations; /** number of the iteration. */
+
   typename ClassifierType::Pointer m_ClassifierPtr;
+
   unsigned int      m_BoundaryGradient; /** the threshold for the existence of a boundary. */
   double            m_BoundaryWeight; /** weight for H_1 */
   double            m_GibbsPriorWeight; /** weight for H_2 */
@@ -197,8 +195,8 @@ private:
 
   InputImagePointer  m_MediumImage;   /** the medium image to store intermedium result */
 
-  unsigned int      m_Temp;         /** for SA algo. */
-  IndexType m_StartPoint; /** the seed of object */
+  unsigned int      m_Temp;       /** for SA algo. */
+  IndexType         m_StartPoint; /** the seed of object */
 
   unsigned int      m_ImageWidth; /** image size. */
   unsigned int      m_ImageHeight;

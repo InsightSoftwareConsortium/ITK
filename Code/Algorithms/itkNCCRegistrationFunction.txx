@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNCCRegistrationFunction_txx_
-#define _itkNCCRegistrationFunction_txx_
+#ifndef __itkNCCRegistrationFunction_txx
+#define __itkNCCRegistrationFunction_txx
 
 #include "itkNCCRegistrationFunction.h"
 #include "itkExceptionObject.h"
@@ -23,7 +23,7 @@
 
 namespace itk {
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -135,22 +135,23 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 
   double derivativeF[ImageDimension];
   double derivativeM[ImageDimension];
-  for (unsigned int j=0; j<ImageDimension;j++){
+  for (unsigned int j=0; j<ImageDimension;j++)
+    {
     derivativeF[j]=0;
     derivativeM[j]=0;
-  }
+    }
 
   unsigned int hoodlen=hoodIt.Size();
   for(unsigned int indct=0; indct<hoodlen-1; indct++)
-  {
+    {
     const IndexType index=hoodIt.GetIndex(indct);
     bool inimage=true;
     for (unsigned int dd=0; dd<ImageDimension; dd++)
-    {
+      {
       if ( index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd]-1) ) inimage=false;
-    }
+      }
     if (inimage)
-    {
+      {
       // Get fixed image related information
       // Note: no need to check the index is within
       // fixed image buffer. This is done by the external filter.
@@ -158,10 +159,10 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex( index );
       double fixedGradientSquaredMagnitude = 0;
       for(unsigned int j = 0; j < ImageDimension; j++ )
-      {
+        {
         fixedGradientSquaredMagnitude += vnl_math_sqr( fixedGradient[j] ) * m_FixedImageSpacing[j];
-      }
-
+        }
+      
       // Get moving image related information
       typedef typename TDeformationField::PixelType  DeformationPixelType;
       const DeformationPixelType vec = this->GetDeformationField()->GetPixel(index);
@@ -177,45 +178,45 @@ NCCRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
         movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
         }
 
-      sff+=fixedValue*fixedValue;
-      smm+=movingValue*movingValue;
-      sfm+=fixedValue*movingValue;
+      sff += fixedValue*fixedValue;
+      smm += movingValue*movingValue;
+      sfm += fixedValue*movingValue;
 
       for(unsigned int dim=0; dim<ImageDimension; dim++)
-      {
+        {
         const double differential = fixedGradient[dim];
-        derivativeF[dim]+= fixedValue  * differential;
-        derivativeM[dim]+= movingValue * differential;
+        derivativeF[dim] += fixedValue  * differential;
+        derivativeM[dim] += movingValue * differential;
+        }
       }
     }
-  }
-
+  
   PixelType update;
   update.Fill(0.0);
   double updatenorm=0.0;
   if( (sff*smm) != 0.0)
-  {
+    {
     const double factor = 1.0 / vcl_sqrt(sff * smm );
     for(unsigned int i=0; i<ImageDimension; i++)
-    {
+      {
       update[i] = factor * ( derivativeF[i] - (sfm/smm)*derivativeM[i]);
-      updatenorm+=(update[i]*update[i]);
-    }
+      updatenorm += (update[i]*update[i]);
+      }
     updatenorm=vcl_sqrt(updatenorm);
-    m_MetricTotal+=sfm*factor;
-    this->m_Energy+=sfm*factor;
-  }
+    m_MetricTotal += sfm*factor;
+    this->m_Energy += sfm*factor;
+    }
   else
-  {
+    {
     update.Fill(0.0);
     updatenorm=1.0;
-  }
+    }
 
-  if (this->GetNormalizeGradient() && updatenorm !=0.0 )
-  {
-    update/=(updatenorm);
-  }
-  return update*this->m_GradientStep;
+  if (this->GetNormalizeGradient() && updatenorm != 0.0 )
+    {
+    update /= (updatenorm);
+    }
+  return update * this->m_GradientStep;
 }
 
 } // end namespace itk

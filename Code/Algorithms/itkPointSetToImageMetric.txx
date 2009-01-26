@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointSetToImageMetric_txx
-#define _itkPointSetToImageMetric_txx
+#ifndef __itkPointSetToImageMetric_txx
+#define __itkPointSetToImageMetric_txx
 
 
 #include "itkPointSetToImageMetric.h"
@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedPointSet, class TMovingImage> 
@@ -41,7 +41,7 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
 }
 
 
-/*
+/**
  * Set the parameters that define a unique transform
  */
 template <class TFixedPointSet, class TMovingImage> 
@@ -56,9 +56,7 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
   m_Transform->SetParameters( parameters );
 }
 
-
-
-/*
+/**
  * PrintSelf
  */
 template <class TFixedPointSet, class TMovingImage> 
@@ -131,8 +129,7 @@ PointSetToImageMetric<TFixedPointSet,TMovingImage>
 
 }
  
-
-/*
+/**
  * PrintSelf
  */
 template <class TFixedPointSet, class TMovingImage> 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOtsuMultipleThresholdsImageFilter_txx
-#define _itkOtsuMultipleThresholdsImageFilter_txx
+#ifndef __itkOtsuMultipleThresholdsImageFilter_txx
+#define __itkOtsuMultipleThresholdsImageFilter_txx
 
 #include "itkOtsuMultipleThresholdsImageFilter.h"
 #include "itkThresholdLabelerImageFilter.h"
@@ -58,7 +58,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>
   m_Thresholds = otsuThresholdCalculator->GetOutput();
 
   typename ThresholdLabelerImageFilter<TInputImage,TOutputImage>::Pointer threshold = 
-    ThresholdLabelerImageFilter<TInputImage,TOutputImage>::New();;
+    ThresholdLabelerImageFilter<TInputImage,TOutputImage>::New();
   
   progress->RegisterInternalFilter(threshold,.5f);
   threshold->GraftOutput (this->GetOutput());
@@ -91,7 +91,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage,TOutputImage>
 
   os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
   os << indent << "NumberOfThresholds: " << m_NumberOfThresholds << std::endl;
-  os << indent << "LabelOffset: " << m_LabelOffset << std::endl;;
+  os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
   os << indent << "Thresholds: " << std::endl;
   for (unsigned long j=0; j<m_Thresholds.size(); j++)
     {

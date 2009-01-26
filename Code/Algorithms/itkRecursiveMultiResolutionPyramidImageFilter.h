@@ -61,9 +61,9 @@ public:
   /** Standard class typedefs. */
   typedef RecursiveMultiResolutionPyramidImageFilter  Self;
   typedef MultiResolutionPyramidImageFilter<TInputImage,TOutputImage>  
-  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                                      Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,10 +77,10 @@ public:
                       Superclass::ImageDimension);
 
   /** Inherit types from the superclass.. */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::OutputImageType        OutputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
   /** Given one output whose requested region has been set, 
@@ -120,5 +120,3 @@ private:
 #endif
 
 #endif
-
-

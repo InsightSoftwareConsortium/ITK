@@ -42,9 +42,9 @@ class RegularSphereMeshSource : public MeshSource<TOutputMesh>
 public:
   /** Standard "Self" typedef. */
   typedef RegularSphereMeshSource         Self;
-  typedef itk::MeshSource<TOutputMesh>  Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef itk::MeshSource<TOutputMesh>    Superclass;
+  typedef itk::SmartPointer<Self>         Pointer;
+  typedef itk::SmartPointer<const Self>   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -53,26 +53,26 @@ public:
   itkTypeMacro(RegularSphereMeshSource, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh OutputMeshType;
+  typedef TOutputMesh                           OutputMeshType;
   typedef typename OutputMeshType::MeshTraits   MeshTraits;
   typedef typename OutputMeshType::PointType    PointType;
   typedef typename MeshTraits::PixelType        PixelType;  
 
   /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits CellTraits;
+  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
+  typedef typename OutputMeshType::CellTraits             CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer   PointsContainer;
+  typedef typename OutputMeshType::PointsContainer        PointsContainer;
   
   /** Define the triangular cell types which form the surface  */
   typedef itk::CellInterface<PixelType, CellTraits>   CellInterfaceType;
-  typedef itk::TriangleCell<CellInterfaceType>         TriCellType;
+  typedef itk::TriangleCell<CellInterfaceType>        TriCellType;
   typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
   typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
 
-  typedef std::pair<unsigned long,unsigned long> IndexPairType;
+  typedef std::pair<unsigned long,unsigned long>          IndexPairType;
   typedef itk::MapContainer<IndexPairType, unsigned long> PointMapType;
-  typedef typename PointType::VectorType VectorType;
+  typedef typename PointType::VectorType                  VectorType;
     
 
   /** Set the resolution level to be used for generating cells in the Sphere.
@@ -115,8 +115,6 @@ private:
   RegularSphereMeshSource(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
-
-
 
 } // end namespace itk
 

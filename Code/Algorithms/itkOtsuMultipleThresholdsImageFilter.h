@@ -48,10 +48,10 @@ class ITK_EXPORT OtsuMultipleThresholdsImageFilter :
 {
 public:
   /** Standard Self typedef */
-  typedef OtsuMultipleThresholdsImageFilter Self;
+  typedef OtsuMultipleThresholdsImageFilter             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -60,32 +60,32 @@ public:
   itkTypeMacro(OtsuMultipleThresholdsImageFilter, ImageToImageFilter);
   
   /** Image pixel value typedef. */
-  typedef typename TInputImage::PixelType   InputPixelType;
-  typedef typename TOutputImage::PixelType   OutputPixelType;
+  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
   
   /** Image related typedefs. */
-  typedef typename TInputImage::Pointer InputImagePointer;
+  typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
-  typedef typename TInputImage::SizeType  InputSizeType;
-  typedef typename TInputImage::IndexType  InputIndexType;
-  typedef typename TInputImage::RegionType InputImageRegionType;
-  typedef typename TOutputImage::SizeType  OutputSizeType;
+  typedef typename TInputImage::SizeType    InputSizeType;
+  typedef typename TInputImage::IndexType   InputIndexType;
+  typedef typename TInputImage::RegionType  InputImageRegionType;
+  typedef typename TOutputImage::SizeType   OutputSizeType;
   typedef typename TOutputImage::IndexType  OutputIndexType;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Threshold vector types. */
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< 
-                                           TInputImage > HistogramGeneratorType;
-  typedef typename HistogramGeneratorType::HistogramType HistogramType;
+  typedef itk::Statistics::ScalarImageToHistogramGenerator<TInputImage>
+                                                            HistogramGeneratorType;
+  typedef typename HistogramGeneratorType::HistogramType    HistogramType;
   typedef OtsuMultipleThresholdsCalculator< HistogramType > OtsuCalculatorType;
-  typedef typename OtsuCalculatorType::OutputType  ThresholdVectorType;
+  typedef typename OtsuCalculatorType::OutputType           ThresholdVectorType;
   
   /** Image related typedefs. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension ) ;
+                      TInputImage::ImageDimension );
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension ) ;
+                      TOutputImage::ImageDimension );
 
   /** Set/Get the number of histogram bins. Default is 128. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1, NumericTraits<unsigned long>::max() );
@@ -132,7 +132,7 @@ private:
   ThresholdVectorType     m_Thresholds;
 
 
-} ; // end of class
+}; // end of class
 
 } // end namespace itk
   

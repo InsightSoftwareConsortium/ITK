@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even
@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSCSLComplexConjugateToRealImageFilter_txx
-#define _itkSCSLComplexConjugateToRealImageFilter_txx
+#ifndef __itkSCSLComplexConjugateToRealImageFilter_txx
+#define __itkSCSLComplexConjugateToRealImageFilter_txx
 
 #ifdef USE_SCSL
 #include "itkSCSLComplexConjugateToRealImageFilter.h"
@@ -28,9 +28,9 @@ namespace itk
 #define SCSL_INT_T int
 #endif
 
-template <typename TPixel, unsigned int Dimension>
+template <typename TPixel, unsigned int VDimension>
 void
-SCSLComplexConjugateToRealImageFilter<TPixel,Dimension>::
+SCSLComplexConjugateToRealImageFilter<TPixel,VDimension>::
 GenerateData()
 {
   // get pointers to the input and output
@@ -52,20 +52,20 @@ GenerateData()
   unsigned int total_size  = 1;
   unsigned int tmp_size = 1;
   unsigned dims[32];
+    {
+    int i;
+    for(i = 0; i < VDimension; i++)
       {
-      int i;
-      for(i = 0; i < Dimension; i++)
-          {
-          dims[i] = outputSize[i];
-          total_size *= dims[i];
-          tmp_size *= (i == 0 ? (dims[i]+2) : dims[i]);
-          }
-      for(; i < 32; i++)
-          {
-          dims[i] = 1;
-          }
+      dims[i] = outputSize[i];
+      total_size *= dims[i];
+      tmp_size *= (i == 0 ? (dims[i]+2) : dims[i]);
       }
-
+    for(; i < 32; i++)
+      {
+      dims[i] = 1;
+      }
+    }
+    
   // allocate output buffer memory
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
@@ -89,31 +89,31 @@ GenerateData()
         {
         double *table  = new double[(dims[0]+NFR) + (2 * dims[1] + NF)];
         double *work = new double[dims[0] + 4 * dims[1]];
-
+        
         /*return type values are undocumented rval = */zdfft2d(0,       // sign
-                       dims[0], // size of input x
-                       dims[1], // "" y
-                       1.0,     // scale
-                       const_cast<std::complex<double> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<double> *>
-                        (inputPtr->GetBufferPointer())),
-                       dims[0]/2 + 1, // ldx
-                       tmp_buf, // output
-                       dims[0] + 2,
-                       table, work,isys);
+                                                               dims[0], // size of input x
+                                                               dims[1], // "" y
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<double> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<double> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               dims[0]/2 + 1, // ldx
+                                                               tmp_buf, // output
+                                                               dims[0] + 2,
+                                                               table, work,isys);
         /*return type values are undocumented rval = */zdfft2d(-1,       // sign
-                       dims[0], // size of input x
-                       dims[1], // "" y
-                       1.0,     // scale
-                       const_cast<std::complex<double> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<double> *>
-                        (inputPtr->GetBufferPointer())),
-                       dims[0]/2 + 1, // ldx
-                       tmp_buf, // output
-                       dims[0] + 2,
-                       table, work,isys);
+                                                               dims[0], // size of input x
+                                                               dims[1], // "" y
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<double> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<double> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               dims[0]/2 + 1, // ldx
+                                                               tmp_buf, // output
+                                                               dims[0] + 2,
+                                                               table, work,isys);
         delete [] table;
         delete [] work;
         }
@@ -125,35 +125,35 @@ GenerateData()
                                     (2 * dims[1] + 256) +
                                     (2 * dims[2] + 256)];
         /*return type values are undocumented rval = */zdfft3d(0,       // sign
-                       dims[0], // size of input
-                       dims[1], // ""
-                       dims[2], // ""
-                       1.0,     // scale
-                       const_cast<std::complex<double> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<double> *>
-                        (inputPtr->GetBufferPointer())),
-                       (dims[0]/2+1),
-                       dims[1],
-                       tmp_buf,
-                       dims[0]+2,
-                       dims[1],
-                       table,work,isys);
+                                                               dims[0], // size of input
+                                                               dims[1], // ""
+                                                               dims[2], // ""
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<double> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<double> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               (dims[0]/2+1),
+                                                               dims[1],
+                                                               tmp_buf,
+                                                               dims[0]+2,
+                                                               dims[1],
+                                                               table,work,isys);
         /*return type values are undocumented rval = */zdfft3d(-1,       // sign
-                       dims[0], // size of input
-                       dims[1], // ""
-                       dims[2], // ""
-                       1.0,     // scale
-                       const_cast<std::complex<double> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<double> *>
-                        (inputPtr->GetBufferPointer())),
-                       (dims[0]/2+1),
-                       dims[1],
-                       tmp_buf,
-                       dims[0]+2,
-                       dims[1],
-                       table,work,isys);
+                                                               dims[0], // size of input
+                                                               dims[1], // ""
+                                                               dims[2], // ""
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<double> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<double> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               (dims[0]/2+1),
+                                                               dims[1],
+                                                               tmp_buf,
+                                                               dims[0]+2,
+                                                               dims[1],
+                                                               table,work,isys);
         delete [] table;
         delete [] work;
         }
@@ -167,12 +167,7 @@ GenerateData()
         {
         for(int i = 0; i < dims[0]; i++)
           out[i + (dims[0] * j) + ((dims[0] * dims[1]) * k)] =
-#if 1
             tmp_buf[i + ((dims[0]+2)*j) + (((dims[0]+2) * dims[1]) * k)];
-#else
-            tmp_buf[i + (dims[0]*j) + ((dims[0] * dims[1]) * k)];
-
-#endif
         }
       }
     delete [] tmp_buf;
@@ -188,31 +183,31 @@ GenerateData()
         {
         float *table  = new float[(dims[0]+NFR) + (2 * dims[1] + NF)];
         float *work = new float[dims[0] + 4 * dims[1]];
-
+        
         /*return type values are undocumented rval = */csfft2d(0,       // sign
-                       dims[0], // size of input x
-                       dims[1], // "" y
-                       1.0,     // scale
-                       const_cast<std::complex<float> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<float> *>
-                        (inputPtr->GetBufferPointer())),
-                       dims[0]/2 + 1, // ldx
-                       tmp_buf, // output
-                       dims[0] + 2,
-                       table, work,isys);
+                                                               dims[0], // size of input x
+                                                               dims[1], // "" y
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<float> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<float> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               dims[0]/2 + 1, // ldx
+                                                               tmp_buf, // output
+                                                               dims[0] + 2,
+                                                               table, work,isys);
         /*return type values are undocumented rval = */csfft2d(-1,       // sign
-                       dims[0], // size of input x
-                       dims[1], // "" y
-                       1.0,     // scale
-                       const_cast<std::complex<float> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<float> *>
-                        (inputPtr->GetBufferPointer())),
-                       dims[0]/2 + 1, // ldx
-                       tmp_buf, // output
-                       dims[0] + 2,
-                       table, work,isys);
+                                                               dims[0], // size of input x
+                                                               dims[1], // "" y
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<float> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<float> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               dims[0]/2 + 1, // ldx
+                                                               tmp_buf, // output
+                                                               dims[0] + 2,
+                                                               table, work,isys);
         delete [] table;
         delete [] work;
         }
@@ -221,38 +216,38 @@ GenerateData()
         {
         float *work = new float[dims[1] + 4 * dims[2]];
         float *table  = new float[(dims[0] + 256) +
-                                    (2 * dims[1] + 256) +
-                                    (2 * dims[2] + 256)];
+                                  (2 * dims[1] + 256) +
+                                  (2 * dims[2] + 256)];
         /*return type values are undocumented rval = */csfft3d(0,       // sign
-                       dims[0], // size of input
-                       dims[1], // ""
-                       dims[2], // ""
-                       1.0,     // scale
-                       const_cast<std::complex<float> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<float> *>
-                        (inputPtr->GetBufferPointer())),
-                       (dims[0]/2+1),
-                       dims[1],
-                       tmp_buf,
-                       dims[0]+2,
-                       dims[1],
-                       table,work,isys);
+                                                               dims[0], // size of input
+                                                               dims[1], // ""
+                                                               dims[2], // ""
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<float> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<float> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               (dims[0]/2+1),
+                                                               dims[1],
+                                                               tmp_buf,
+                                                               dims[0]+2,
+                                                               dims[1],
+                                                               table,work,isys);
         /*return type values are undocumented rval = */csfft3d(-1,       // sign
-                       dims[0], // size of input
-                       dims[1], // ""
-                       dims[2], // ""
-                       1.0,     // scale
-                       const_cast<std::complex<float> *>
-                       (reinterpret_cast  // input
-                       <const std::complex<float> *>
-                        (inputPtr->GetBufferPointer())),
-                       (dims[0]/2+1),
-                       dims[1],
-                       tmp_buf,
-                       dims[0]+2,
-                       dims[1],
-                       table,work,isys);
+                                                               dims[0], // size of input
+                                                               dims[1], // ""
+                                                               dims[2], // ""
+                                                               1.0,     // scale
+                                                               const_cast<std::complex<float> *>
+                                                               (reinterpret_cast  // input
+                                                                <const std::complex<float> *>
+                                                                (inputPtr->GetBufferPointer())),
+                                                               (dims[0]/2+1),
+                                                               dims[1],
+                                                               tmp_buf,
+                                                               dims[0]+2,
+                                                               dims[1],
+                                                               table,work,isys);
         delete [] table;
         delete [] work;
         }
@@ -266,17 +261,12 @@ GenerateData()
         {
         for(int i = 0; i < dims[0]; i++)
           out[i + (dims[0] * j) + ((dims[0] * dims[1]) * k)] =
-#if 1
             tmp_buf[i + ((dims[0]+2)*j) + (((dims[0]+2) * dims[1]) * k)];
-#else
-            tmp_buf[i + (dims[0]*j) + ((dims[0] * dims[1]) * k)];
-
-#endif
         }
       }
     delete [] tmp_buf;
     }
-
+  
   ImageRegionIterator<TOutputImageType> it(outputPtr,
                                            outputPtr->GetLargestPossibleRegion());
   while(!it.IsAtEnd())
@@ -285,18 +275,19 @@ GenerateData()
     ++it;
     }
 }
-  template <class TPixel, unsigned int Dimension>
-  bool
-  SCSLComplexConjugateToRealImageFilter<TPixel,Dimension>::
-  FullMatrix()
-  {
-    return false;
-  }
+
+template <class TPixel, unsigned int VDimension>
+bool
+SCSLComplexConjugateToRealImageFilter<TPixel,VDimension>::
+FullMatrix()
+{
+  return false;
+}
 
 
-template <typename TPixel, unsigned int Dimension>
+template <typename TPixel, unsigned int VDimension>
 void
-SCSLComplexConjugateToRealImageFilter<TPixel,Dimension>::
+SCSLComplexConjugateToRealImageFilter<TPixel,VDimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
 }

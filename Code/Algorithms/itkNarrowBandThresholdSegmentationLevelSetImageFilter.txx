@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNarrowBandThresholdSegmentationLevelSetImageFilter_txx_
-#define __itkNarrowBandThresholdSegmentationLevelSetImageFilter_txx_
+#ifndef __itkNarrowBandThresholdSegmentationLevelSetImageFilter_txx
+#define __itkNarrowBandThresholdSegmentationLevelSetImageFilter_txx
 
 #include "itkNarrowBandThresholdSegmentationLevelSetImageFilter.h"
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNormalizedCorrelationImageToImageMetric_txx
-#define _itkNormalizedCorrelationImageToImageMetric_txx
+#ifndef __itkNormalizedCorrelationImageToImageMetric_txx
+#define __itkNormalizedCorrelationImageToImageMetric_txx
 
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template <class TFixedImage, class TMovingImage> 
@@ -33,7 +33,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
   m_SubtractMean = false;
 }
 
-/*
+/**
  * Get the match Measure
  */
 template <class TFixedImage, class TMovingImage> 
@@ -131,11 +131,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
-
-
-
-
-/*
+/**
  * Get the Derivative Measure
  */
 template < class TFixedImage, class TMovingImage> 
@@ -519,9 +515,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage,TMovingImage>
       }
     value = NumericTraits< MeasureType >::Zero;
     }
-
-
-
 }
 
 template < class TFixedImage, class TMovingImage> 

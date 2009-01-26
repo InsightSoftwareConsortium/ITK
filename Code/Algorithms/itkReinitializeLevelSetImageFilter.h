@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkReinitializeLevelSetImageFilter_h
-#define _itkReinitializeLevelSetImageFilter_h
+#ifndef __itkReinitializeLevelSetImageFilter_h
+#define __itkReinitializeLevelSetImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkLevelSet.h"
@@ -57,10 +57,10 @@ class ITK_EXPORT ReinitializeLevelSetImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef ReinitializeLevelSetImageFilter Self;
+  typedef ReinitializeLevelSetImageFilter         Self;
   typedef ImageToImageFilter<TLevelSet,TLevelSet> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,14 +69,14 @@ public:
   itkTypeMacro(ReinitializeLevelSetImageFilter, ImageToImageFilter);
 
   /** LevelSetType typedef support. */
-  typedef LevelSetTypeDefault<TLevelSet>  LevelSetType;
-  typedef typename LevelSetType::LevelSetImageType  LevelSetImageType;
-  typedef typename LevelSetType::LevelSetPointer  LevelSetPointer;
+  typedef LevelSetTypeDefault<TLevelSet>               LevelSetType;
+  typedef typename LevelSetType::LevelSetImageType     LevelSetImageType;
+  typedef typename LevelSetType::LevelSetPointer       LevelSetPointer;
   typedef typename LevelSetType::LevelSetConstPointer  LevelSetConstPointer;
-  typedef typename LevelSetType::PixelType  PixelType;
-  typedef typename LevelSetType::NodeType NodeType;
-  typedef typename LevelSetType::NodeContainer NodeContainer;
-  typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
+  typedef typename LevelSetType::PixelType             PixelType;
+  typedef typename LevelSetType::NodeType              NodeType;
+  typedef typename LevelSetType::NodeContainer         NodeContainer;
+  typedef typename LevelSetType::NodeContainerPointer  NodeContainerPointer;
 
   /** SetDimension enumeration. */
   itkStaticConstMacro(SetDimension, unsigned int,
@@ -106,15 +106,15 @@ public:
   /** Set the bandwidth for both the input and output narrowband,
    * By default, both the input and output are set to 12. */
   void SetNarrowBandwidth( double value )
-  {
+    {
     this->SetInputNarrowBandwidth(value);
     this->SetOutputNarrowBandwidth(value);
-  }
+    }
 
   /** Set/Get the input narrowband. */
   void SetInputNarrowBand( NodeContainer * ptr );
   NodeContainerPointer GetInputNarrowBand() const
-  { return m_InputNarrowBand; }
+    { return m_InputNarrowBand; }
 
   /** Get the output narrowband. */
   NodeContainerPointer GetOutputNarrowBand() const
@@ -138,8 +138,8 @@ protected:
    * compiler's improper handling of default template parameters that use
    * dependent non-type templates. */
   typedef Image<float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
-  typedef LevelSetNeighborhoodExtractor<TLevelSet> LocatorType;
-  typedef FastMarchingImageFilter<TLevelSet, SpeedImageType> FastMarchingImageFilterType;
+  typedef LevelSetNeighborhoodExtractor<TLevelSet>            LocatorType;
+  typedef FastMarchingImageFilter<TLevelSet, SpeedImageType>  FastMarchingImageFilterType;
 
   void GenerateData();
   virtual void GenerateDataFull();
@@ -150,7 +150,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
 
   void SetOutputNarrowBand( NodeContainer *ptr )
-  { m_OutputNarrowBand = ptr; }
+    { m_OutputNarrowBand = ptr; }
 
 private:
   ReinitializeLevelSetImageFilter(const Self&); //purposely not implemented

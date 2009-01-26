@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointSetToPointSetMetric_txx
-#define _itkPointSetToPointSetMetric_txx
+#ifndef __itkPointSetToPointSetMetric_txx
+#define __itkPointSetToPointSetMetric_txx
 
 #include "itkPointSetToPointSetMetric.h"
 
@@ -98,4 +98,3 @@ PointSetToPointSetMetric<TFixedPointSet,TMovingPointSet>
 } // end namespace itk
 
 #endif
-

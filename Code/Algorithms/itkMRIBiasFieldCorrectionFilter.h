@@ -61,21 +61,21 @@ public:
   itkNewMacro(Self);
   
   /** Image related type definitions. */
-  typedef TImage ImageType ;
-  typedef TImageMask MaskType ;
-  typedef typename ImageType::Pointer ImagePointer ;
-  typedef typename MaskType::Pointer MaskPointer ;
-  typedef typename ImageType::PixelType ImageElementType ;
-  typedef typename MaskType::PixelType MaskElementType ;
-  typedef typename ImageType::IndexType ImageIndexType ;
-  typedef typename ImageType::RegionType ImageRegionType ;
+  typedef TImage                         ImageType;
+  typedef typename ImageType::Pointer    ImagePointer;
+  typedef typename ImageType::PixelType  ImageElementType;
+  typedef typename ImageType::IndexType  ImageIndexType;
+  typedef typename ImageType::RegionType ImageRegionType;
+  typedef TImageMask                     MaskType;
+  typedef typename MaskType::Pointer     MaskPointer;
+  typedef typename MaskType::PixelType   MaskElementType;
 
   /** Bias field type definition. */
   typedef TBiasField                        BiasFieldType;
 
   /** Parameters type for optimizier (coefficients type for bias
    * field estimate). */
-  typedef typename Superclass::ParametersType    ParametersType ;
+  typedef typename Superclass::ParametersType    ParametersType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
   typedef Superclass::DerivativeType    DerivativeType;
@@ -86,7 +86,7 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
 
   /** The type of the internal energy function. */
-  typedef CompositeValleyFunction InternalEnergyFunction ;
+  typedef CompositeValleyFunction InternalEnergyFunction;
 
   /** The type of the sampling factors */
   typedef unsigned int SamplingFactorType[SpaceDimension];
@@ -102,7 +102,7 @@ public:
 
   /** Sets the BiasField object. */
   void SetBiasField(BiasFieldType* bias)
-  { m_BiasField = bias ; }
+    { m_BiasField = bias; }
 
   /** Sets the sampling factors of the energy function in each direction.
    *   Default is 1 in each dimension */
@@ -123,7 +123,7 @@ public:
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
-  MeasureType GetValue(const ParametersType & parameters ) const ;
+  MeasureType GetValue(const ParametersType & parameters ) const;
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction 
    * interfaces. It is pure virtual in the superclass */
@@ -140,26 +140,6 @@ public:
 
   unsigned int GetNumberOfParameters(void) const;
 
-private:
-  
-  /** Bias field object pointer. */
-  BiasFieldType        * m_BiasField ;
-
-  /** Input image smart pointer. */
-  ImagePointer           m_Image ;
-
-  /** Input mask image smart pointer. */
-  MaskPointer            m_Mask ;
-
-  /** Region of interest. */
-  ImageRegionType        m_Region ;
-
-  /** Internal energy function object pointer. */
-  InternalEnergyFunction* m_InternalEnergyFunction ;
-
-  /** Sampling factors */
-  SamplingFactorType m_SamplingFactor;
-  
 protected:
   /** Constructor: */
   MRIBiasEnergyFunction();
@@ -170,12 +150,28 @@ protected:
 
 private:
   
+  /** Bias field object pointer. */
+  BiasFieldType        * m_BiasField;
+
+  /** Input image smart pointer. */
+  ImagePointer           m_Image;
+
+  /** Input mask image smart pointer. */
+  MaskPointer            m_Mask;
+
+  /** Region of interest. */
+  ImageRegionType        m_Region;
+
+  /** Internal energy function object pointer. */
+  InternalEnergyFunction* m_InternalEnergyFunction;
+
+  /** Sampling factors */
+  SamplingFactorType m_SamplingFactor;
+  
   MRIBiasEnergyFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-} ; // end of class
-
-
+}; // end of class
 
 /** \class MRIBiasFieldCorrectionFilter
  * \brief corrects 3D MRI bias field 
@@ -232,10 +228,10 @@ class ITK_EXPORT MRIBiasFieldCorrectionFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef MRIBiasFieldCorrectionFilter Self;
+  typedef MRIBiasFieldCorrectionFilter                    Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -248,36 +244,37 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Input and output image related type definitions. */
-  typedef TOutputImage OutputImageType ;
-  typedef TInputImage InputImageType ;
-  typedef typename TOutputImage::Pointer OutputImagePointer ;
-  typedef typename TOutputImage::IndexType OutputImageIndexType ;
-  typedef typename TOutputImage::PixelType OutputImagePixelType ;
-  typedef typename TOutputImage::SizeType OutputImageSizeType;
+  typedef TOutputImage                      OutputImageType;
+  typedef typename TOutputImage::Pointer    OutputImagePointer;
+  typedef typename TOutputImage::IndexType  OutputImageIndexType;
+  typedef typename TOutputImage::PixelType  OutputImagePixelType;
+  typedef typename TOutputImage::SizeType   OutputImageSizeType;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
-  typedef typename TInputImage::Pointer InputImagePointer ;
-  typedef typename TInputImage::IndexType InputImageIndexType;
-  typedef typename TInputImage::PixelType InputImagePixelType;
-  typedef typename TInputImage::SizeType InputImageSizeType;
-  typedef typename TInputImage::RegionType InputImageRegionType;
+
+  typedef TInputImage                       InputImageType;
+  typedef typename TInputImage::Pointer     InputImagePointer;
+  typedef typename TInputImage::IndexType   InputImageIndexType;
+  typedef typename TInputImage::PixelType   InputImagePixelType;
+  typedef typename TInputImage::SizeType    InputImageSizeType;
+  typedef typename TInputImage::RegionType  InputImageRegionType;
 
   /** Mask image related type definitions. */
-  typedef TMaskImage ImageMaskType ;
-  typedef typename ImageMaskType::Pointer ImageMaskPointer ;
-  typedef typename ImageMaskType::RegionType ImageMaskRegionType ;
+  typedef TMaskImage                         ImageMaskType;
+  typedef typename ImageMaskType::Pointer    ImageMaskPointer;
+  typedef typename ImageMaskType::RegionType ImageMaskRegionType;
 
   /** Internal (temporary) image related type definitions. */
   typedef Image< float, itkGetStaticConstMacro(ImageDimension) >
-                                                           InternalImageType ;
-  typedef typename InternalImageType::PixelType       InternalImagePixelType ;
-  typedef typename InternalImageType::Pointer           InternalImagePointer ;
-  typedef typename InternalImageType::RegionType     InternalImageRegionType ;
+                                                     InternalImageType;
+  typedef typename InternalImageType::PixelType      InternalImagePixelType;
+  typedef typename InternalImageType::Pointer        InternalImagePointer;
+  typedef typename InternalImageType::RegionType     InternalImageRegionType;
 
   /** Regions of the MRI slab identifier return. */
-  typedef MRASlabIdentifier<InputImageType>            MRASlabIdentifierType ;
+  typedef MRASlabIdentifier<InputImageType>            MRASlabIdentifierType;
   typedef typename MRASlabIdentifierType::SlabRegionVectorType 
-                                                        SlabRegionVectorType ;
-  typedef typename SlabRegionVectorType::iterator SlabRegionVectorIteratorType ;
+                                                        SlabRegionVectorType;
+  typedef typename SlabRegionVectorType::iterator SlabRegionVectorIteratorType;
 
   /** Bias field object type defintion. */
   typedef MultivariateLegendrePolynomial                  BiasFieldType;
@@ -289,10 +286,10 @@ public:
   typedef typename EnergyFunctionType::Pointer            EnergyFunctionPointer;
 
   /** Normal variate Generator Type */
-  typedef Statistics::NormalVariateGenerator NormalVariateGeneratorType ;
+  typedef Statistics::NormalVariateGenerator NormalVariateGeneratorType;
 
   /** Optimizer type definition. */
-  typedef OnePlusOneEvolutionaryOptimizer OptimizerType ;
+  typedef OnePlusOneEvolutionaryOptimizer OptimizerType;
 
   /** ScheduleType typedef support. */
   typedef Array2D<unsigned int>  ScheduleType;
@@ -305,7 +302,7 @@ public:
 
   /** Sets the out mask image pointer.
    * Without this mask, this filter corrects every pixel in the input image. */
-  void SetOutputMask(ImageMaskType* outputMask) ;
+  void SetOutputMask(ImageMaskType* outputMask);
 
   /** Gets the output mask image pointer. */ 
   itkGetObjectMacro( OutputMask, ImageMaskType );
@@ -314,11 +311,11 @@ public:
    * multiplicative and internally uses log intensity values for
    * every calculation.  */
   void IsBiasFieldMultiplicative(bool flag) 
-    { m_BiasMultiplicative = flag ; }
+    { m_BiasMultiplicative = flag; }
 
   /** If the bias field is multiplicative, it returns true. */
   bool IsBiasFieldMultiplicative() 
-    { return m_BiasMultiplicative ; }
+    { return m_BiasMultiplicative; }
 
   /** Set/Gets the intensity correction flag. if the flag is true, inter-slice
    * intensity correction will be applied before bias field
@@ -370,20 +367,20 @@ public:
   void SetInitialBiasFieldCoefficients(const 
                                        BiasFieldType::CoefficientArrayType
                                           &coefficients)
-    { this->Modified() ; m_BiasFieldCoefficients = coefficients ; }
+    { this->Modified(); m_BiasFieldCoefficients = coefficients; }
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction) */
   BiasFieldType::CoefficientArrayType GetEstimatedBiasFieldCoefficients()
-    { return m_EstimatedBiasFieldCoefficients ; } 
+    { return m_EstimatedBiasFieldCoefficients; } 
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
    * it will throw exception    */
   void SetTissueClassStatistics(const Array<double> & means, 
                                 const Array<double> & sigmas) 
-    throw (ExceptionObject) ;
+    throw (ExceptionObject);
 
   /** Set/Get the maximum iteration termination condition parameter. */
   itkSetMacro( VolumeCorrectionMaximumIteration, int );
@@ -393,9 +390,9 @@ public:
 
   /** Set/Get the initial search radius. */
   void SetOptimizerInitialRadius(double initRadius) 
-    { m_OptimizerInitialRadius = initRadius ; }
+    { m_OptimizerInitialRadius = initRadius; }
   double GetOptimizerInitialRadius()
-  { return m_OptimizerInitialRadius ; }
+    { return m_OptimizerInitialRadius; }
 
   /** Set/Get the search radius grow factor. */
   itkSetMacro( OptimizerGrowthFactor, double );
@@ -451,44 +448,44 @@ public:
    * intensity values, tissue classes' statistics values and the optimizer's
    * initial radius NOTE: If the tissue class statistics values (mean and
    * sigma values) then it will throw exception. */
-  void Initialize() throw (ExceptionObject) ;
+  void Initialize() throw (ExceptionObject);
 
   /** Optimizes the bias field only using the image data that are in 
    * the specified region. */
   BiasFieldType EstimateBiasField(InputImageRegionType region,
                                   unsigned int degree,
-                                  int maximumIteration) ;
+                                  int maximumIteration);
 
   /** Correct the internal image using the bias field estimate 
    * created by EstimateBiasField() member function and the internal image
    * data that are in the specified region. */
   void CorrectImage(BiasFieldType& bias, 
-                    InputImageRegionType region) ;
+                    InputImageRegionType region);
 
   /** Internally calls EstimateBiasField() and CorrectImage() member functions
    * for each slice to correct inter-slice intensity inhomogeneities. */
-  void CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region) ;
+  void CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region);
 
 protected:
-  MRIBiasFieldCorrectionFilter() ;
-  virtual ~MRIBiasFieldCorrectionFilter() ;
+  MRIBiasFieldCorrectionFilter();
+  virtual ~MRIBiasFieldCorrectionFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Checks if the mask image's dimensionality and size matches with
    * those of the input image */
-  bool CheckMaskImage(ImageMaskType* mask) ;
+  bool CheckMaskImage(ImageMaskType* mask);
 
 protected:
   /** Converts image data from source to target applying vcl_log(pixel + 1)
    * to all pixels. If the source pixel has negative value, it sets 
    * the value of the corresponding pixel in the targe image as zero.  */
   void Log1PImage(InternalImageType* source, 
-                  InternalImageType* target) ;
+                  InternalImageType* target);
 
   /** Converts image data from source to target applying vcl_exp(pixel) - 1
    * to all pixels.  */
   void ExpImage(InternalImageType* source, 
-                InternalImageType* target) ;
+                InternalImageType* target);
 
   /** Converts pixel type, and
    *  copies image data from source to target. */
@@ -496,78 +493,78 @@ protected:
   void CopyAndConvertImage(const TSource * source,
                            TTarget * target,
                            typename TTarget::RegionType requestedRegion)
-  {
-    typedef ImageRegionConstIterator<TSource> SourceIterator ;
-    typedef ImageRegionIterator<TTarget> TargetIterator ;
-    typedef typename TTarget::PixelType  TargetPixelType ;
+    {
+    typedef ImageRegionConstIterator<TSource> SourceIterator;
+    typedef ImageRegionIterator<TTarget>      TargetIterator;
+    typedef typename TTarget::PixelType       TargetPixelType;
     
-    SourceIterator s_iter(source, requestedRegion) ;
-    TargetIterator t_iter(target, requestedRegion) ;
+    SourceIterator s_iter(source, requestedRegion);
+    TargetIterator t_iter(target, requestedRegion);
     
-    s_iter.GoToBegin() ;
-    t_iter.GoToBegin() ;
+    s_iter.GoToBegin();
+    t_iter.GoToBegin();
     while (!s_iter.IsAtEnd())
       {
-      t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) ) ;
-      ++s_iter ;
-      ++t_iter ;
+      t_iter.Set(static_cast<TargetPixelType>( s_iter.Get() ) );
+      ++s_iter;
+      ++t_iter;
       }
-  }
+    }
   
   /** Converts ImageRegion type (region) to DomainSize type (std::vector)
    * NOTE: if the size of the last dimension of the image region is one, then
    * the dimension of the resulting domain size will be one less than that of
    * he image region */
   void GetBiasFieldSize(InputImageRegionType region,
-                        BiasFieldType::DomainSizeType& domainSize) ;
+                        BiasFieldType::DomainSizeType& domainSize);
 
   /** Find overlapping regions between the slab regions and the output image's
    * requested region. And then replace the original slab regions with
    * the resulting overlapping regions. */
   void AdjustSlabRegions(SlabRegionVectorType& slabs, 
-                         OutputImageRegionType requestedRegion) ;
+                         OutputImageRegionType requestedRegion);
 
-  void GenerateData() ;
+  void GenerateData();
 
 private:
   MRIBiasFieldCorrectionFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   /** Energy function object pointer. */
-  EnergyFunctionPointer  m_EnergyFunction ;
+  EnergyFunctionPointer  m_EnergyFunction;
 
   /** Normal variate generator smart pointer */
-  NormalVariateGeneratorType::Pointer m_NormalVariateGenerator ;
+  NormalVariateGeneratorType::Pointer m_NormalVariateGenerator;
 
   /** Input mask image smart pointer. */
-  ImageMaskPointer m_InputMask ;
+  ImageMaskPointer m_InputMask;
 
   /** Output mask image smart pointer. */
-  ImageMaskPointer m_OutputMask ;
+  ImageMaskPointer m_OutputMask;
 
   /** Internal image smart pointer. */
-  InternalImagePointer m_InternalInput ;
+  InternalImagePointer m_InternalInput;
 
   /** Storage for the MRI slab identifier return. */
-  SlabRegionVectorType m_Slabs ;
+  SlabRegionVectorType m_Slabs;
 
   /** [0 - x, 1 - y, 2 - z]. */
-  int m_SlicingDirection ;
+  int m_SlicingDirection;
 
   /** Bias Field character if true, multiplicative.  if false, additive. */
-  bool m_BiasMultiplicative ;
+  bool m_BiasMultiplicative;
 
   /** operation selection flags. */
-  bool m_UsingInterSliceIntensityCorrection ;
-  bool m_UsingSlabIdentification ;
-  bool m_UsingBiasFieldCorrection ;
-  bool m_GeneratingOutput ;
+  bool m_UsingInterSliceIntensityCorrection;
+  bool m_UsingSlabIdentification;
+  bool m_UsingBiasFieldCorrection;
+  bool m_GeneratingOutput;
 
-  unsigned int m_SlabNumberOfSamples ;
-  InputImagePixelType m_SlabBackgroundMinimumThreshold ;
-  double m_SlabTolerance ;
+  unsigned int m_SlabNumberOfSamples;
+  InputImagePixelType m_SlabBackgroundMinimumThreshold;
+  double m_SlabTolerance;
   /** The degree of the bias field estimate. */
-  int m_BiasFieldDegree ;
+  int m_BiasFieldDegree;
 
   /** The number of levels for the multires schedule */
   unsigned int    m_NumberOfLevels;
@@ -576,32 +573,32 @@ private:
   
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  BiasFieldType::CoefficientArrayType m_BiasFieldCoefficients ;
+  BiasFieldType::CoefficientArrayType m_BiasFieldCoefficients;
 
   /** Storage for the resulting 3D bias field estimate coefficients 
    * after optimization. */
-  BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients ;
+  BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients;
 
   /** Storage for the optimizer's maximum iteration number. */
-  int m_VolumeCorrectionMaximumIteration ;
+  int m_VolumeCorrectionMaximumIteration;
   
   /** Storage for the optimizer's maximum iteration number. */
-  int m_InterSliceCorrectionMaximumIteration ;
+  int m_InterSliceCorrectionMaximumIteration;
 
   /** Storage for the optimizer's initial search radius. */
-  double m_OptimizerInitialRadius ;
+  double m_OptimizerInitialRadius;
 
   /** Storage for the optimizer's search radius grow factor. */
-  double m_OptimizerGrowthFactor ;
+  double m_OptimizerGrowthFactor;
 
   /** Storage for the optimizer's search radius shrink factor. */
-  double m_OptimizerShrinkFactor ;
+  double m_OptimizerShrinkFactor;
 
   /** Storage for tissue classes' mean values. */
-  Array<double> m_TissueClassMeans ;
+  Array<double> m_TissueClassMeans;
 
   /** Storage for tissue classes' variance values. */
-  Array<double> m_TissueClassSigmas ;
+  Array<double> m_TissueClassSigmas;
 };
 
   

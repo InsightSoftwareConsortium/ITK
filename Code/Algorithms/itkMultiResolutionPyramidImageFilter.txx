@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMultiResolutionPyramidImageFilter_txx
-#define _itkMultiResolutionPyramidImageFilter_txx
+#ifndef __itkMultiResolutionPyramidImageFilter_txx
+#define __itkMultiResolutionPyramidImageFilter_txx
 
 #include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkGaussianOperator.h"
@@ -30,8 +30,7 @@
 namespace itk
 {
 
-
-/*
+/**
  * Constructor
  */
 template <class TInputImage, class TOutputImage>
@@ -44,7 +43,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * Set the number of computation levels
  */
 template <class TInputImage, class TOutputImage>
@@ -127,7 +126,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * Set the starting shrink factors
  */
 template <class TInputImage, class TOutputImage>
@@ -252,8 +251,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   return true;
 }
 
-
-
 /*
  * GenerateData for non downward divisible schedules
  */
@@ -266,9 +263,9 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   InputImageConstPointer  inputPtr = this->GetInput();
 
   // Create caster, smoother and resampleShrinker filters
-  typedef CastImageFilter<TInputImage, TOutputImage> CasterType;
+  typedef CastImageFilter<TInputImage, TOutputImage>              CasterType;
   typedef DiscreteGaussianImageFilter<TOutputImage, TOutputImage> SmootherType;
-  typedef ResampleImageFilter<TOutputImage,TOutputImage> ResampleShrinkerType;
+  typedef ResampleImageFilter<TOutputImage,TOutputImage>          ResampleShrinkerType;
 
   typename CasterType::Pointer caster = CasterType::New();
   typename SmootherType::Pointer smoother = SmootherType::New();
@@ -321,19 +318,11 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     // force to always update in case shrink factors are the same
     resampleShrinker->Modified();
     resampleShrinker->UpdateLargestPossibleRegion();
-/*
-    // ensure only the requested region is updated
-    resampleShrinker->GetOutput()->UpdateOutputInformation();
-    resampleShrinker->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
-    resampleShrinker->GetOutput()->PropagateRequestedRegion();
-    resampleShrinker->GetOutput()->UpdateOutputData();
-*/
     this->GraftNthOutput( ilevel, resampleShrinker->GetOutput() );
     }
 }
 
-
-/*
+/**
  * PrintSelf method
  */
 template <class TInputImage, class TOutputImage>
@@ -486,7 +475,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
       {
       unsigned int factor = m_Schedule[refLevel][idim];
       baseIndex[idim] *= static_cast<IndexValueType>( factor );
-      baseSize[idim]  *= static_cast<SizeValueType>( factor );
+      baseSize[idim] *= static_cast<SizeValueType>( factor );
       }
 
     for( ilevel = 0; ilevel < m_NumberOfLevels; ilevel++ )
@@ -522,7 +511,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 }
 
 
-/*
+/**
  * GenerateInputRequestedRegion
  */
 template <class TInputImage, class TOutputImage>
@@ -558,13 +547,13 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     {
     unsigned int factor = m_Schedule[refLevel][idim];
     baseIndex[idim] *= static_cast<IndexValueType>( factor );
-    baseSize[idim]  *= static_cast<SizeValueType>( factor );
+    baseSize[idim] *= static_cast<SizeValueType>( factor );
     }
   baseRegion.SetIndex( baseIndex );
   baseRegion.SetSize( baseSize );
 
   // compute requirements for the smoothing part
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
   typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
 
   OperatorType *oper = new OperatorType;

@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,16 +25,16 @@
 
 namespace itk
 {
-template <class TPixel, unsigned int Dimension = 3>
+template <class TPixel, unsigned int VDimension = 3>
 class SCSLRealToComplexConjugateImageFilter :
-    public FFTRealToComplexConjugateImageFilter<TPixel,Dimension>
+    public FFTRealToComplexConjugateImageFilter<TPixel,VDimension>
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef SCSLRealToComplexConjugateImageFilter Self;
-  typedef FFTRealToComplexConjugateImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class typedefs. */ 
+  typedef SCSLRealToComplexConjugateImageFilter                   Self;
+  typedef FFTRealToComplexConjugateImageFilter<TPixel,VDimension> Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,12 +51,8 @@ public:
 
 
 protected:
-  SCSLRealToComplexConjugateImageFilter() 
-  {
-  }
-  ~SCSLRealToComplexConjugateImageFilter() 
-  { 
-  }
+  SCSLRealToComplexConjugateImageFilter() {}
+  ~SCSLRealToComplexConjugateImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:

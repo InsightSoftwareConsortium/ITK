@@ -22,14 +22,14 @@
 namespace itk
 {
 
-/*
+/**
  *
  */
 template<class TOutputMesh>
 RegularSphereMeshSource<TOutputMesh>
 ::RegularSphereMeshSource()
 {
-  /*
+  /**
    * Create the output
    */
   typename TOutputMesh::Pointer output = TOutputMesh::New();
@@ -111,7 +111,7 @@ RegularSphereMeshSource<TOutputMesh>
   tripoints[0] = ZMIN; tripoints[1] = YPLUS; tripoints[2] = XPLUS; 
   this->AddCell( outputMesh, tripoints, 4 );
 
-  tripoints[0] = YPLUS; tripoints[1] =ZMIN ; tripoints[2] = XMIN; 
+  tripoints[0] = YPLUS; tripoints[1] = ZMIN; tripoints[2] = XMIN; 
   this->AddCell( outputMesh, tripoints, 5 );
 
   tripoints[0] = ZMIN; tripoints[1] = YMIN; tripoints[2] = XMIN; 
@@ -153,14 +153,14 @@ RegularSphereMeshSource<TOutputMesh>
     // we ned to copy the old points first.
     for( unsigned long j = 0; j < pointIdxOffset; j++ )
       {
-       outputMesh->GetPoint( j,v_pt[0]);
-       // this is needed when the PointType is a QuadEdgeMeshPoint 
-       PointType localPt;
-       localPt[0] = v[0][0];
-       localPt[1] = v[0][1];
-       localPt[2] = v[0][2];
-       // copy the point in the output mesh
-       result->SetPoint(j, localPt);
+      outputMesh->GetPoint( j,v_pt[0]);
+      // this is needed when the PointType is a QuadEdgeMeshPoint 
+      PointType localPt;
+      localPt[0] = v[0][0];
+      localPt[1] = v[0][1];
+      localPt[2] = v[0][2];
+      // copy the point in the output mesh
+      result->SetPoint(j, localPt);
       }
 
     // subdivide each triangular cell
@@ -176,7 +176,7 @@ RegularSphereMeshSource<TOutputMesh>
         // for each point of the input triangle, create a copy in the output mesh
         for( unsigned int ii = 0; ii < 3; ii++ )
           {
-          // get the point's geometry from previous mesh      
+          // get the point's geometry from previous mesh
           outputMesh->GetPoint(tp[ii],v_pt[ii]);
 
           // This is a QE specific case
@@ -287,7 +287,7 @@ RegularSphereMeshSource<TOutputMesh>
       }
 
     // Release input memory
-    cells = myCells->Begin();     
+    cells = myCells->Begin();
     while( cells != myCells->End() )
       {
       const CellInterfaceType * cellToBeDeleted = cells->Value();
@@ -305,42 +305,42 @@ template<class TOutputMesh>
 typename RegularSphereMeshSource<TOutputMesh>::PointType
 RegularSphereMeshSource<TOutputMesh>
 ::Divide( const PointType & p1, const PointType & p2) const
-  {
-    PointType p;
-    PointType f;
-    PointType result;
+{
+  PointType p;
+  PointType f;
+  PointType result;
 
-    VectorType d;
-    VectorType c;
+  VectorType d;
+  VectorType c;
 
-    d = p2 - p1;
-    p = p1 + (d * 0.5);
-    c = p - m_Center;
+  d = p2 - p1;
+  p = p1 + (d * 0.5);
+  c = p - m_Center;
 
-    f[0] = m_Scale[0] / c.GetNorm();
-    f[1] = m_Scale[1] / c.GetNorm();
-    f[2] = m_Scale[2] / c.GetNorm();
+  f[0] = m_Scale[0] / c.GetNorm();
+  f[1] = m_Scale[1] / c.GetNorm();
+  f[2] = m_Scale[2] / c.GetNorm();
 
-    c[0] *= f[0];
-    c[1] *= f[1];
-    c[2] *= f[2];
+  c[0] *= f[0];
+  c[1] *= f[1];
+  c[2] *= f[2];
 
-    result[0] = m_Center[0] + c[0]; 
-    result[1] = m_Center[1] + c[1];
-    result[2] = m_Center[2] + c[2];
+  result[0] = m_Center[0] + c[0]; 
+  result[1] = m_Center[1] + c[1];
+  result[2] = m_Center[2] + c[2];
 
-    return (result);
+  return (result);
 }
 
 template<class TOutputMesh>
 void
 RegularSphereMeshSource<TOutputMesh>
 ::AddCell( OutputMeshType * mesh, const unsigned long * pointIds, unsigned long idx)
-  {
-    CellAutoPointer testCell(new TriCellType, true);
-    testCell->SetPointIds(pointIds);
-    mesh->SetCell(idx, testCell );
-  }
+{
+  CellAutoPointer testCell(new TriCellType, true);
+  testCell->SetPointIds(pointIds);
+  mesh->SetCell(idx, testCell );
+}
 
 
 template<class TOutputMesh>

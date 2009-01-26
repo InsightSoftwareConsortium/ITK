@@ -276,16 +276,16 @@ protected:
    * and the fixed image value at that point. */
   /// @cond 
   class FixedImageSpatialSample
-  {
-  public:
+    {
+    public:
     FixedImageSpatialSample():FixedImageValue(0.0)
-    { FixedImagePointValue.Fill(0.0); }
+      { FixedImagePointValue.Fill(0.0); }
     ~FixedImageSpatialSample() {};
   
     FixedImagePointType           FixedImagePointValue;
     double                        FixedImageValue;
     unsigned int                  FixedImageParzenWindowIndex;
-  };
+    };
   /// @endcond 
   
   /** FixedImageSpatialSample typedef support. */

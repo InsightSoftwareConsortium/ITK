@@ -73,9 +73,9 @@ class ITK_EXPORT MultiResolutionImageRegistrationMethod : public ProcessObject
 public:
   /** Standard class typedefs. */
   typedef MultiResolutionImageRegistrationMethod  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ProcessObject                           Superclass;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -103,9 +103,9 @@ public:
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  typedef  DataObjectDecorator< TransformType >    TransformOutputType;
-  typedef typename TransformOutputType::Pointer    TransformOutputPointer;
-  typedef typename TransformOutputType::ConstPointer    TransformOutputConstPointer;
+  typedef  DataObjectDecorator< TransformType >      TransformOutputType;
+  typedef typename TransformOutputType::Pointer      TransformOutputPointer;
+  typedef typename TransformOutputType::ConstPointer TransformOutputConstPointer;
   
   /**  Type of the Interpolator. */
   typedef typename MetricType::InterpolatorType    InterpolatorType;
@@ -117,16 +117,16 @@ public:
   /** Type of the Fixed image multiresolution pyramid. */
   typedef MultiResolutionPyramidImageFilter< FixedImageType,
                                              FixedImageType >
-  FixedImagePyramidType;
+                                                   FixedImagePyramidType;
   typedef typename FixedImagePyramidType::Pointer  FixedImagePyramidPointer;
 
   /** Type of pyramid schedule type */
-  typedef typename FixedImagePyramidType::ScheduleType              ScheduleType;
+  typedef typename FixedImagePyramidType::ScheduleType ScheduleType;
 
   /** Type of the moving image multiresolution pyramid. */
   typedef MultiResolutionPyramidImageFilter< MovingImageType,
                                              MovingImageType >
-  MovingImagePyramidType;
+                                                   MovingImagePyramidType;
   typedef typename MovingImagePyramidType::Pointer MovingImagePyramidPointer;
 
   /** Type of the Transformation parameters This is the same type used to
@@ -282,6 +282,3 @@ private:
 #endif
 
 #endif
-
-
-

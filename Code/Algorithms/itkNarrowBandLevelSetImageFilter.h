@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNarrowBandLevelSetImageFilter_h_
-#define __itkNarrowBandLevelSetImageFilter_h_
+#ifndef __itkNarrowBandLevelSetImageFilter_h
+#define __itkNarrowBandLevelSetImageFilter_h
 
 #include "itkNarrowBandImageFilterBase.h"
 #include "itkSegmentationLevelSetFunction.h"
@@ -135,7 +135,7 @@ namespace itk {
  * FeatureScaling.
  *
  * \par
- *  See LevelSetFunction for more information.*/
+ *  See LevelSetFunction for more information. */
 template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float,
@@ -146,20 +146,20 @@ class ITK_EXPORT NarrowBandLevelSetImageFilter
 {
 public:
   /** Standard class typedefs */
-  typedef NarrowBandLevelSetImageFilter Self;
+  typedef NarrowBandLevelSetImageFilter                        Self;
   typedef NarrowBandImageFilterBase<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::ValueType       ValueType;
+  typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::TimeStepType    TimeStepType;
   typedef typename Superclass::InputImageType  InputImageType;
 
   /** Local image typedefs */
   typedef TOutputImage   OutputImageType;
-  typedef TFeatureImage FeatureImageType;
+  typedef TFeatureImage  FeatureImageType;
 
   /** The generic level set function type */
   typedef SegmentationLevelSetFunction <OutputImageType, FeatureImageType>
@@ -174,21 +174,21 @@ public:
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
   virtual void SetFeatureImage(const FeatureImageType *f)
-  {
+    {
     this->ProcessObject::SetNthInput( 1, const_cast< FeatureImageType * >(f) );
     m_SegmentationFunction->SetFeatureImage(f);
-  }
+    }
   virtual FeatureImageType * GetFeatureImage()
-  {
+    {
     return ( static_cast< FeatureImageType *>(this->ProcessObject::GetInput(1)) );
-  }
+    }
 
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
       */
   virtual void SetInitialImage(InputImageType *f)
-  {
+    {
     this->SetInput(f);
-  }
+    }
   
   virtual const typename SegmentationFunctionType::ImageType *GetSpeedImage() const
   { return m_SegmentationFunction->GetSpeedImage(); }
@@ -200,20 +200,20 @@ public:
    * the speed function direction, effectively changing inside feature values to
    * outside feature values and vice versa. */
   void SetUseNegativeFeaturesOn()
-  {
+    {
     itkWarningMacro( << "SetUseNegativeFeaturesOn has been deprecated.  Please use ReverseExpansionDirectionOn() instead" );
     this->ReverseExpansionDirectionOn();
-  }
+    }
   void SetUseNegativeFeaturesOff()
-  {
+    {
     itkWarningMacro( << "SetUseNegativeFeaturesOff has been deprecated.  Please use ReverseExpansionDirectionOff() instead" );
     this->ReverseExpansionDirectionOff();
-  }
+    }
 
   /** Set/Get the value of the UseNegativeFeatures flag.  This method is
-   * deprecated.  Use Set/Get ReverseExpansionDirection instead.*/
+   * deprecated.  Use Set/Get ReverseExpansionDirection instead. */
   void SetUseNegativeFeatures( bool u )
-  {
+    {
     itkWarningMacro( << "SetUseNegativeFeatures has been deprecated.  Please use SetReverseExpansionDirection instead" );
     if (u == true)
       {
@@ -223,9 +223,9 @@ public:
       {
       this->SetReverseExpansionDirection(true);
       }
-  }
+    }
   bool GetUseNegativeFeatures() const
-  {
+    {
     itkWarningMacro( << "GetUseNegativeFeatures has been deprecated.  Please use GetReverseExpansionDirection() instead" );
     if ( this->GetReverseExpansionDirection() == false)
       {
@@ -235,7 +235,7 @@ public:
       {
       return false;
       }
-  }
+    }
 
   /** Turn On/Off the flag which determines whether Positive or Negative speed
    * terms will cause surface expansion.  If set to TRUE then negative speed
@@ -252,85 +252,86 @@ public:
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
       Get/SetAdvectionScaling (if appropriate).  See subclasses for details
-      on when and whether to set these parameters.*/
+      on when and whether to set these parameters. */
   void SetFeatureScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetPropagationWeight())
-      {        
+      {
       this->SetPropagationScaling(v);
       }
     if (v != m_SegmentationFunction->GetAdvectionWeight())
       {
       this->SetAdvectionScaling(v);
       }
-  }
+    }
 
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
   void SetPropagationScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetPropagationWeight())
-      {        
+      {
       m_SegmentationFunction->SetPropagationWeight(v);
       }
-  }
+    }
   ValueType GetPropagationScaling() const
-  {
+    {
     return m_SegmentationFunction->GetPropagationWeight();
-  }
+    }
 
   /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
       parameter will override any existing value for AdvectionScaling. */
   void SetAdvectionScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetAdvectionWeight())
-      {        
+      {
       m_SegmentationFunction->SetAdvectionWeight(v);
       }
-  }
+    }
   ValueType GetAdvectionScaling() const
-  {
+    {
     return m_SegmentationFunction->GetAdvectionWeight();
-  }
+    }
 
   /** Set/Get the scaling of the curvature. Use this parameter to increase the
-      influence of curvature on the movement of the surface.  Higher values
-      relative to Advection and Propagation values will give smoother surfaces. */
+    *  influence of curvature on the movement of the surface.  Higher
+    *  values relative to Advection and Propagation values will give
+    *  smoother surfaces. */
   void SetCurvatureScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetCurvatureWeight())
-      {        
+      {
       m_SegmentationFunction->SetCurvatureWeight(v);
       }
-  }
+    }
   ValueType GetCurvatureScaling() const
-  {
+    {
     return m_SegmentationFunction->GetCurvatureWeight();
-  }
+    }
 
   /** Set the segmentation function.  In general, this should only be called by a subclass
    *  of this object. It is made public to allow itk::Command objects access. */
   virtual void SetSegmentationFunction(SegmentationFunctionType *s);
   virtual SegmentationFunctionType *GetSegmentationFunction()
-  { return m_SegmentationFunction; }
+    { return m_SegmentationFunction; }
 
- /** Set/Get the maximum number of iterations allowed for the solver.  This
+  /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
   void SetMaximumIterations (unsigned int i)
-  {
+    {
     itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
     this->SetNumberOfIterations(i);
-  }
+    }
   unsigned int GetMaximumIterations()
-  {
+    {
     itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
     return this->GetNumberOfIterations();
-  }
+    }
 
   virtual void SetMaximumRMSError(const double)
-  {
+    {
     itkWarningMacro("The current implmentation of this solver does not compute maximum RMS change. The maximum RMS error value will not be set or used.");
-  }
+    }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -349,12 +350,12 @@ protected:
   
   /** Overrides parent implementation */
   virtual void InitializeIteration()
-  {
+    {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
     this->SetProgress( (float) ((float)this->GetElapsedIterations()
                                 / (float)this->GetNumberOfIterations()) );
-  }
+    }
   
   /** Tells the solver how to reinitialize the narrowband when the reinitialization
     * criterion meets */
@@ -390,4 +391,3 @@ private:
 #endif
 
 #endif
-

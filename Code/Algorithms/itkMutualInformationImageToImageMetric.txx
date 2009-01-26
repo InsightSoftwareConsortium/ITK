@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMutualInformationImageToImageMetric_txx
-#define _itkMutualInformationImageToImageMetric_txx
+#ifndef __itkMutualInformationImageToImageMetric_txx
+#define __itkMutualInformationImageToImageMetric_txx
 
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkCovariantVector.h"
@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template < class TFixedImage, class TMovingImage >
@@ -235,13 +235,13 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   typename SpatialSampleContainer::const_iterator biter;
   typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
 
-  for( biter = m_SampleB.begin() ; biter != bend; ++biter )
+  for( biter = m_SampleB.begin(); biter != bend; ++biter )
     {
     double dSumFixed  = m_MinProbability;
     double dSumMoving     = m_MinProbability;
     double dSumJoint   = m_MinProbability;
 
-    for( aiter = m_SampleA.begin() ; aiter != aend; ++aiter )
+    for( aiter = m_SampleA.begin(); aiter != aend; ++aiter )
       {
       double valueFixed;
       double valueMoving;
@@ -255,14 +255,14 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       valueMoving = m_KernelFunction->Evaluate( valueMoving );
 
       dSumFixed += valueFixed;
-      dSumMoving    += valueMoving;
-      dSumJoint  += valueFixed * valueMoving;
+      dSumMoving += valueMoving;
+      dSumJoint += valueFixed * valueMoving;
 
       } // end of sample A loop
 
-    dLogSumFixed  -= ( dSumFixed > 0.0 ) ? vcl_log(dSumFixed  ) : 0.0;
+    dLogSumFixed -= ( dSumFixed > 0.0 ) ? vcl_log(dSumFixed  ) : 0.0;
     dLogSumMoving -= ( dSumMoving> 0.0 ) ? vcl_log(dSumMoving ) : 0.0;
-    dLogSumJoint  -= ( dSumJoint > 0.0 ) ? vcl_log(dSumJoint  ) : 0.0;
+    dLogSumJoint -= ( dSumJoint > 0.0 ) ? vcl_log(dSumJoint  ) : 0.0;
 
     } // end of sample B loop
 
@@ -338,7 +338,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
        aiter != aend; ++aiter, ++aditer )
     {
-    /*** FIXME: is there a way to avoid the extra copying step? *****/
+    /** FIXME: is there a way to avoid the extra copying step? */
     this->CalculateDerivatives( (*aiter).FixedImagePointValue, tempDeriv );
     (*aditer) = tempDeriv;
     }
@@ -379,14 +379,14 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
     if( dDenominatorMoving > 0.0 )
       {
-      dLogSumMoving    -= vcl_log(dDenominatorMoving );
+      dLogSumMoving -= vcl_log(dDenominatorMoving );
       }
     if( dDenominatorJoint > 0.0 )
       {
-      dLogSumJoint  -= vcl_log(dDenominatorJoint );
+      dLogSumJoint -= vcl_log(dDenominatorJoint );
       }
 
-    // get the image derivative for this B sample
+    /** get the image derivative for this B sample */
     this->CalculateDerivatives( (*biter).FixedImagePointValue, derivB );
 
     double totalWeight = 0.0;
@@ -440,8 +440,8 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   value /= nsamp;
   value += vcl_log(nsamp );
 
-  derivative  /= nsamp;
-  derivative  /= vnl_math_sqr( m_MovingImageStandardDeviation );
+  derivative /= nsamp;
+  derivative /= vnl_math_sqr( m_MovingImageStandardDeviation );
 
 }
 
@@ -508,8 +508,6 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 }
 
-
-
 /*
  * Reinitialize the seed of the random number generator
  */
@@ -531,10 +529,6 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 {
   Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(seed);
 }
-
-  
-
-
 
 } // end namespace itk
 

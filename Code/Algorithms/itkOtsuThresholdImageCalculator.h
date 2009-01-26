@@ -39,15 +39,15 @@ namespace itk
  *
  * \ingroup Operators
  */
-template <class TInputImage>            
+template <class TInputImage>
 class ITK_EXPORT OtsuThresholdImageCalculator : public Object 
 {
 public:
   /** Standard class typedefs. */
   typedef OtsuThresholdImageCalculator Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                       Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

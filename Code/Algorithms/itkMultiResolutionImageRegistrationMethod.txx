@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMultiResolutionImageRegistrationMethod_txx
-#define _itkMultiResolutionImageRegistrationMethod_txx
+#ifndef __itkMultiResolutionImageRegistrationMethod_txx
+#define __itkMultiResolutionImageRegistrationMethod_txx
 
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Constructor
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -133,7 +133,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Stop = true;
 }
 
-/*
+/**
  * Set the schedules for the fixed and moving image pyramid
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -165,7 +165,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   this->Modified();
 }
 
-/*
+/**
  * Set the number of levels  
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -184,7 +184,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   this->Modified();
 }
 
-/*
+/**
  * Stop the Registration Process
  */
 template < typename TFixedImage, typename TMovingImage >
@@ -443,8 +443,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
   this->StartRegistration();
 }
 
-
-
 template < typename TFixedImage, typename TMovingImage >
 unsigned long
 MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
@@ -507,8 +505,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage,TMovingImage>
 {
   return static_cast< const TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 }
-
-
 
 template < typename TFixedImage, typename TMovingImage >
 DataObject::Pointer

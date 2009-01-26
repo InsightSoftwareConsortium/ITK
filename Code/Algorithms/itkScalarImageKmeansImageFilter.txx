@@ -14,203 +14,203 @@
        PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
-#ifndef _itkScalarImageKmeansImageFilter_txx
-#define _itkScalarImageKmeansImageFilter_txx
+#ifndef __itkScalarImageKmeansImageFilter_txx
+#define __itkScalarImageKmeansImageFilter_txx
 #include "itkScalarImageKmeansImageFilter.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
 #include "itkProgressReporter.h"
 
-  namespace itk
-  {
+namespace itk
+{
 
-  template <class TInputImage>
-  ScalarImageKmeansImageFilter<TInputImage>
-  ::ScalarImageKmeansImageFilter()
-  {
-    m_UseNonContiguousLabels = false;
-    m_ImageRegionDefined = false;
-  }
+template <class TInputImage>
+ScalarImageKmeansImageFilter<TInputImage>
+::ScalarImageKmeansImageFilter()
+{
+  m_UseNonContiguousLabels = false;
+  m_ImageRegionDefined = false;
+}
 
-  template <class TInputImage>
-  void ScalarImageKmeansImageFilter<TInputImage>
-  ::SetImageRegion( const ImageRegionType & region )
-  {
-    m_ImageRegion = region;
-    m_ImageRegionDefined = true;
-  }
+template <class TInputImage>
+void ScalarImageKmeansImageFilter<TInputImage>
+::SetImageRegion( const ImageRegionType & region )
+{
+  m_ImageRegion = region;
+  m_ImageRegionDefined = true;
+}
 
 
   
-  template< class TInputImage >
-  void
-  ScalarImageKmeansImageFilter< TInputImage >
-  ::GenerateData()
-  {
-    typename AdaptorType::Pointer adaptor = AdaptorType::New();
+template< class TInputImage >
+void
+ScalarImageKmeansImageFilter< TInputImage >
+::GenerateData()
+{
+  typename AdaptorType::Pointer adaptor = AdaptorType::New();
 
-    // Setup the regions here if a sub-region has been specified to restrict
-    // classification on.. Since this is not ThreadedGenenerateData, we are
-    // safe...
-    if( m_ImageRegionDefined )
-      {
-      typename RegionOfInterestFilterType::Pointer regionOfInterestFilter 
-                                  = RegionOfInterestFilterType::New();
-      regionOfInterestFilter->SetRegionOfInterest( m_ImageRegion );
-      regionOfInterestFilter->SetInput( this->GetInput() );
-      regionOfInterestFilter->Update();
-      adaptor->SetImage( regionOfInterestFilter->GetOutput() );
-      }
-    else
-      { 
-      adaptor->SetImage( this->GetInput() );
-      }
+  // Setup the regions here if a sub-region has been specified to restrict
+  // classification on.. Since this is not ThreadedGenenerateData, we are
+  // safe...
+  if( m_ImageRegionDefined )
+    {
+    typename RegionOfInterestFilterType::Pointer regionOfInterestFilter 
+      = RegionOfInterestFilterType::New();
+    regionOfInterestFilter->SetRegionOfInterest( m_ImageRegion );
+    regionOfInterestFilter->SetInput( this->GetInput() );
+    regionOfInterestFilter->Update();
+    adaptor->SetImage( regionOfInterestFilter->GetOutput() );
+    }
+  else
+    { 
+    adaptor->SetImage( this->GetInput() );
+    }
 
-    typename TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  typename TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
-    treeGenerator->SetSample( adaptor );
-    treeGenerator->SetBucketSize( 16 );
-    treeGenerator->Update();
+  treeGenerator->SetSample( adaptor );
+  treeGenerator->SetBucketSize( 16 );
+  treeGenerator->Update();
 
-    typename EstimatorType::Pointer estimator = EstimatorType::New();
+  typename EstimatorType::Pointer estimator = EstimatorType::New();
 
-    const unsigned int numberOfClasses = this->m_InitialMeans.size();
+  const unsigned int numberOfClasses = this->m_InitialMeans.size();
 
-    ParametersType  initialMeans( numberOfClasses );
-    for(unsigned int cl=0; cl<numberOfClasses; cl++)
-      {
-      initialMeans[cl] = this->m_InitialMeans[cl];
-      }
+  ParametersType  initialMeans( numberOfClasses );
+  for(unsigned int cl=0; cl<numberOfClasses; cl++)
+    {
+    initialMeans[cl] = this->m_InitialMeans[cl];
+    }
 
-    estimator->SetParameters( initialMeans );
+  estimator->SetParameters( initialMeans );
     
-    estimator->SetKdTree( treeGenerator->GetOutput() );
-    estimator->SetMaximumIteration( 200 );
-    estimator->SetCentroidPositionChangesThreshold(0.0);
-    estimator->StartOptimization();
+  estimator->SetKdTree( treeGenerator->GetOutput() );
+  estimator->SetMaximumIteration( 200 );
+  estimator->SetCentroidPositionChangesThreshold(0.0);
+  estimator->StartOptimization();
 
-    this->m_FinalMeans = estimator->GetParameters();
+  this->m_FinalMeans = estimator->GetParameters();
 
-    typedef typename InputImageType::RegionType RegionType;
-    typedef typename InputImageType::SizeType   SizeType;
+  typedef typename InputImageType::RegionType RegionType;
+  typedef typename InputImageType::SizeType   SizeType;
 
 
-    // Now classify the samples
-    //
-    typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
-                                                      MembershipFunctionType;
+  // Now classify the samples
+  //
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+    MembershipFunctionType;
 
-    typedef itk::MinimumDecisionRule DecisionRuleType;
-    DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  typedef itk::MinimumDecisionRule DecisionRuleType;
+  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
     
-    typedef itk::Statistics::SampleClassifier< AdaptorType > ClassifierType;
-    typename ClassifierType::Pointer classifier = ClassifierType::New();
+  typedef itk::Statistics::SampleClassifier< AdaptorType > ClassifierType;
+  typename ClassifierType::Pointer classifier = ClassifierType::New();
 
-    classifier->SetDecisionRule( decisionRule.GetPointer() );
-    classifier->SetSample( adaptor );
+  classifier->SetDecisionRule( decisionRule.GetPointer() );
+  classifier->SetSample( adaptor );
 
-    classifier->SetNumberOfClasses( numberOfClasses  );
+  classifier->SetNumberOfClasses( numberOfClasses  );
 
-    std::vector< unsigned int > classLabels;
-    classLabels.resize( numberOfClasses );
+  std::vector< unsigned int > classLabels;
+  classLabels.resize( numberOfClasses );
 
-    // Spread the labels over the intensity range 
-    unsigned int labelInterval = 1;
+  // Spread the labels over the intensity range 
+  unsigned int labelInterval = 1;
+  if( m_UseNonContiguousLabels )
+    {
+    labelInterval = ( NumericTraits<OutputPixelType>::max() / numberOfClasses ) - 1;
+    }
+
+  unsigned int label = 0;
+
+  typedef typename MembershipFunctionType::Pointer     MembershipFunctionPointer;
+  typedef typename MembershipFunctionType::OriginType  MembershipFunctionOriginType;
+
+  for(unsigned int k=0; k<numberOfClasses; k++)
+    {
+    classLabels[k] = label;
+    label += labelInterval;
+    MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionOriginType origin( adaptor->GetMeasurementVectorSize() );
+    origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector of dimension 1
+    membershipFunction->SetOrigin( origin );
+    classifier->AddMembershipFunction( membershipFunction.GetPointer() );
+    }
+
+  classifier->SetMembershipFunctionClassLabels( classLabels );
+
+  // Execute the actual classification
+
+  classifier->Update();
+
+  // Now classify the pixels
+  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+
+  typedef ImageRegionIterator< OutputImageType >  ImageIterator;
+
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->Allocate();
+
+  RegionType region = outputPtr->GetBufferedRegion();
+
+  // If we constrained the classification to a region, label only pixels within
+  // the region. Label outside pixels as numberOfClasses + 1
+  if( m_ImageRegionDefined )
+    {
+    region = m_ImageRegion;
+    }
+        
+  ImageIterator pixel( outputPtr, region );
+  pixel.GoToBegin();
+
+  typedef typename ClassifierType::OutputType  ClassifierOutputType;
+      
+  ClassifierOutputType  * membershipSample = classifier->GetOutput();
+
+  typedef typename ClassifierOutputType::ConstIterator LabelIterator;
+    
+  LabelIterator iter = membershipSample->Begin();
+  LabelIterator end  = membershipSample->End();
+
+  while ( iter != end )
+    {
+    pixel.Set( iter.GetClassLabel() );
+    ++iter;
+    ++pixel;
+    }
+
+  if( m_ImageRegionDefined )
+    {
+    // If a region is defined to constrain classification to, we need to label
+    // pixels outside with numberOfClasses + 1. 
+    typedef ImageRegionExclusionIteratorWithIndex< OutputImageType > 
+      ExclusionImageIteratorType;
+    ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
+    exIt.SetExclusionRegion( region );
+    exIt.GoToBegin();
     if( m_UseNonContiguousLabels )
       {
-      labelInterval = ( NumericTraits<OutputPixelType>::max() / numberOfClasses ) - 1;
-      }
-
-    unsigned int label = 0;
-
-    typedef typename MembershipFunctionType::Pointer     MembershipFunctionPointer;
-    typedef typename MembershipFunctionType::OriginType  MembershipFunctionOriginType;
-
-    for(unsigned int k=0; k<numberOfClasses; k++)
-      {
-      classLabels[k] = label;
-      label += labelInterval;
-      MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
-      MembershipFunctionOriginType origin( adaptor->GetMeasurementVectorSize() );
-      origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector of dimension 1
-      membershipFunction->SetOrigin( origin );
-      classifier->AddMembershipFunction( membershipFunction.GetPointer() );
-      }
-
-    classifier->SetMembershipFunctionClassLabels( classLabels );
-
-    // Execute the actual classification
-
-    classifier->Update();
-
-    // Now classify the pixels
-    typename OutputImageType::Pointer outputPtr = this->GetOutput();
-
-    typedef ImageRegionIterator< OutputImageType >  ImageIterator;
-
-    outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-    outputPtr->Allocate();
-
-    RegionType region = outputPtr->GetBufferedRegion();
-
-    // If we constrained the classification to a region, label only pixels within
-    // the region. Label outside pixels as numberOfClasses + 1
-    if( m_ImageRegionDefined )
-      {
-      region = m_ImageRegion;
-      }
-        
-    ImageIterator pixel( outputPtr, region );
-    pixel.GoToBegin();
-
-    typedef typename ClassifierType::OutputType  ClassifierOutputType;
-      
-    ClassifierOutputType  * membershipSample = classifier->GetOutput();
-
-    typedef typename ClassifierOutputType::ConstIterator LabelIterator;
-    
-    LabelIterator iter = membershipSample->Begin();
-    LabelIterator end  = membershipSample->End();
-
-    while ( iter != end )
-      {
-      pixel.Set( iter.GetClassLabel() );
-      ++iter;
-      ++pixel;
-      }
-
-    if( m_ImageRegionDefined )
-      {
-      // If a region is defined to constrain classification to, we need to label
-      // pixels outside with numberOfClasses + 1. 
-      typedef ImageRegionExclusionIteratorWithIndex< OutputImageType > 
-                                                    ExclusionImageIteratorType;
-      ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
-      exIt.SetExclusionRegion( region );
-      exIt.GoToBegin();
-      if( m_UseNonContiguousLabels )
+      OutputPixelType outsideLabel = labelInterval * numberOfClasses;
+      while( !exIt.IsAtEnd() )
         {
-        OutputPixelType outsideLabel = labelInterval * numberOfClasses;
-        while( !exIt.IsAtEnd() )
-          {
-          exIt.Set( outsideLabel );
-          ++exIt;
-          }
-        }
-      else
-        {
-        while( !exIt.IsAtEnd() )
-          {
-          exIt.Set( numberOfClasses );
-          ++exIt;
-          }
+        exIt.Set( outsideLabel );
+        ++exIt;
         }
       }
+    else
+      {
+      while( !exIt.IsAtEnd() )
+        {
+        exIt.Set( numberOfClasses );
+        ++exIt;
+        }
+      }
+    }
 
-  }
+}
 
-  /**
-   * Add a new class for the classifier. This requires to explicitly set the
+/**
+ * Add a new class for the classifier. This requires to explicitly set the
  * initial mean value for that class.
  */
 template <class TInputImage >

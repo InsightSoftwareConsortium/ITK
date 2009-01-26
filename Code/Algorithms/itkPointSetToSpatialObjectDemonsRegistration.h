@@ -54,9 +54,9 @@ class ITK_EXPORT PointSetToSpatialObjectDemonsRegistration : public ProcessObjec
 public:
   /** Standard class typedefs. */
   typedef PointSetToSpatialObjectDemonsRegistration  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ProcessObject                              Superclass;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -107,6 +107,3 @@ private:
 #endif
 
 #endif
-
-
-

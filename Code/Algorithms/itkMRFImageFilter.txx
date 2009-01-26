@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMRFImageFilter_txx
-#define _itkMRFImageFilter_txx
+#ifndef __itkMRFImageFilter_txx
+#define __itkMRFImageFilter_txx
 #include "itkMRFImageFilter.h"
 
 namespace itk
@@ -124,7 +124,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 }
 
 
-/*
+/**
  * EnlargeOutputRequestedRegion method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -142,7 +142,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
 }
 
-/*
+/**
  * GenerateOutputInformation method.
  */
 template <class TInputImage, class TClassifiedImage>
@@ -399,7 +399,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   
   //---------------------------------------------------------------------
   //Get the number of valid pixels in the output MRF image
-  //---------------------------------------------------------------------    
+  //---------------------------------------------------------------------
   int tmp;
   for( unsigned int i=0; i < InputImageDimension; i++ )
     {
@@ -453,7 +453,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   for( unsigned int i = 0; i < InputImageDimension; i++ )  
     {
-    totalNumberOfPixelsInInputImage *= static_cast<int>(inputImageSize[ i ]) ;
+    totalNumberOfPixelsInInputImage *= static_cast<int>(inputImageSize[ i ]);
     }
 
   int maxNumPixelError = (int) ( vnl_math_rnd (m_ErrorTolerance * 
@@ -478,7 +478,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
       if ( rIter.Get( ) == 1 ) m_ErrorCounter += 1;
       ++rIter;
       }  
-    }    
+    }
   while(( m_NumberOfIterations < m_MaximumNumberOfIterations ) && 
         ( m_ErrorCounter > maxNumPixelError ) ); 
 
@@ -628,7 +628,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
 
   //Reinitialize the neighborhood influence at the beginning of the 
   //neighborhood operation
-  for( index = 0; index < m_NeighborInfluence.size() ;index++ ) 
+  for( index = 0; index < m_NeighborInfluence.size(); index++ ) 
     {
     m_NeighborInfluence[index]= 0;
     }
@@ -649,7 +649,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>
   for( index = 0; index < m_NumberOfClasses; index++ )
     {
     m_MahalanobisDistance[index] = m_NeighborInfluence[index] - 
-      pixelMembershipValue[index] ;
+      pixelMembershipValue[index];
     }
 
   //Determine the maximum possible distance
@@ -678,8 +678,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     for( int i = 0; i < m_NeighborhoodSize; ++i )
       {
       labelStatusIter.SetPixel( i, 1 );
-      }//End neighborhood processing    
-    }//end if
+      } //End neighborhood processing
+    } //end if
   else
     {
     labelStatusIter.SetCenterPixel( 0 );

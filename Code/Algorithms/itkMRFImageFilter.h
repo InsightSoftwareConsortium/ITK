@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMRFImageFilter_h
-#define _itkMRFImageFilter_h
+#ifndef __itkMRFImageFilter_h
+#define __itkMRFImageFilter_h
 
 
 #include "vnl/vnl_vector.h"
@@ -31,8 +31,6 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkNeighborhood.h"
 #include "itkSize.h"
-
-
 
 namespace itk
 {
@@ -131,13 +129,13 @@ template <class TInputImage, class TClassifiedImage>
 class ITK_EXPORT MRFImageFilter : 
     public ImageToImageFilter<TInputImage,TClassifiedImage>
 {
-public:       
+public:
   /** Standard class typedefs. */
-  typedef MRFImageFilter   Self;
+  typedef MRFImageFilter                                   Self;
   typedef ImageToImageFilter<TInputImage,TClassifiedImage> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef typename Superclass::OutputImagePointer          OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -146,9 +144,9 @@ public:
   itkTypeMacro(MRFImageFilter,Object);
 
   /** Type definition for the input image. */
-  typedef TInputImage InputImageType;
-  typedef typename TInputImage::Pointer              InputImagePointer;
-  typedef typename TInputImage::ConstPointer         InputImageConstPointer;  
+  typedef TInputImage                        InputImageType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;  
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType            InputImagePixelType;
@@ -271,14 +269,15 @@ public:
 
   /** Get the neighborhood radius */
   const NeighborhoodRadiusType GetNeighborhoodRadius() const
-  { 
+    {
     NeighborhoodRadiusType radius;
       
     for(int i=0; i<InputImageDimension; ++i)
+      {
       radius[i] = m_InputImageNeighborhoodRadius[i];
-
+      }
     return radius;
-  }
+    }
     
   /** Set the weighting parameters (used in MRF algorithms). This is a
    * function allowing the users to set the weight matrix by providing a 
@@ -287,9 +286,9 @@ public:
    * kernel size. */
   virtual void SetMRFNeighborhoodWeight( std::vector<double> BetaMatrix );
   virtual std::vector<double> GetMRFNeighborhoodWeight()
-  {
+    {
     return m_MRFNeighborhoodWeight;
-  }
+    }
   
 //Enum to get the stopping condition of the MRF filter
   typedef enum{
@@ -337,11 +336,10 @@ protected:
   virtual void MinimizeFunctional();
 
   typedef Image<int,itkGetStaticConstMacro(InputImageDimension) > LabelStatusImageType;
-  typedef typename LabelStatusImageType::IndexType LabelStatusIndexType;
-  typedef typename LabelStatusImageType::RegionType LabelStatusRegionType;
-  typedef typename LabelStatusImageType::Pointer LabelStatusImagePointer;
-  typedef ImageRegionIterator< LabelStatusImageType > 
-  LabelStatusImageIterator;
+  typedef typename LabelStatusImageType::IndexType    LabelStatusIndexType;
+  typedef typename LabelStatusImageType::RegionType   LabelStatusRegionType;
+  typedef typename LabelStatusImageType::Pointer      LabelStatusImagePointer;
+  typedef ImageRegionIterator< LabelStatusImageType > LabelStatusImageIterator;
 
   /** Labelled status image neighborhood interator typedef */
   typedef NeighborhoodIterator< LabelStatusImageType >
@@ -357,7 +355,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion( DataObject * );
   virtual void GenerateOutputInformation();
   
-private:            
+private:
   MRFImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
@@ -389,7 +387,7 @@ private:
   int                       m_TotalNumberOfPixelsInInputImage;
   double                    m_ErrorTolerance;  
   double                    m_SmoothingFactor;
-  double                    *m_ClassProbability; //Class liklihood
+  double                   *m_ClassProbability; //Class liklihood
   unsigned int              m_NumberOfIterations;
   StopConditionType         m_StopCondition;
 
@@ -422,4 +420,3 @@ private:
 #endif
 
 #endif
-

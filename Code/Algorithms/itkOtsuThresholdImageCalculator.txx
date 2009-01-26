@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOtsuThresholdImageCalculator_txx
-#define _itkOtsuThresholdImageCalculator_txx
+#ifndef __itkOtsuThresholdImageCalculator_txx
+#define __itkOtsuThresholdImageCalculator_txx
 
 #include "itkOtsuThresholdImageCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -26,7 +26,7 @@
 namespace itk
 { 
     
-/*
+/**
  * Constructor
  */
 template<class TInputImage>
