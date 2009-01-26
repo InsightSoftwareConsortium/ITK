@@ -256,6 +256,17 @@ ImageFileWriter<TInputImage>
     pasteIORegion = largestIORegion;
     }
 
+  
+  // Check whether the paste region is fully contained inside the
+  // largest region or not.
+  if( !largestIORegion.IsInside( pasteIORegion ) )
+    {
+    itkExceptionMacro(
+      << "Largest possible region does not fully contain requested paste IO region"
+      << "Paste IO region: " << pasteIORegion 
+      << "Largest possible region: " << largestRegion);
+    }
+
   // Determin the actual number of divisions of the input. This is determined
   // by what the ImageIO can do
   unsigned int numDivisions;
@@ -281,6 +292,17 @@ ImageFileWriter<TInputImage>
     ImageIORegion streamIORegion = m_ImageIO->GetSplitRegionForWriting(piece, numDivisions,
                                                                        pasteIORegion, largestIORegion);
       
+    // Check whether the paste region is fully contained inside the
+    // largest region or not.
+    if( !pasteIORegion.IsInside( streamIORegion ) )
+      {
+      itkExceptionMacro(
+        << "ImageIO returns streamable region that is not fully contain in paste IO region"
+        << "Paste IO region: " << pasteIORegion 
+        << "Streamable region: " << streamIORegion);
+      }
+
+
     InputImageRegionType streamRegion;
     ImageIORegionAdaptor<TInputImage::ImageDimension>::
       Convert(streamIORegion, streamRegion);
