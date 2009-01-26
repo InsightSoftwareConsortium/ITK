@@ -127,8 +127,8 @@ public:
   itkSetMacro( Sc, double );
   itkGetConstMacro( Sc, double );
   // For backward compatibility
-  void Setc (double c) {SetSc(c);};
-  double Getc () {return GetSc();};
+  void Setc (double c) {SetSc(c);}
+  double Getc () {return GetSc();}
     
   /** Set/Get A. */
   itkSetMacro( A, double );
