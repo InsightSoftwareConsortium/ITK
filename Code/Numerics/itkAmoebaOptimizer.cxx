@@ -1,7 +1,6 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAmoebaOptimizer.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
