@@ -196,6 +196,8 @@ public:
   bool
   IsInside(const IndexType &index) const
     {
+    if (m_ImageDimension != index.size())
+        return false;
     for(unsigned int i=0; i<m_ImageDimension; i++)
       {
       if( index[i] < m_Index[i] ) 
@@ -210,6 +212,28 @@ public:
     return true;
     }
  
+  /** Test if a region (the argument) is completly inside of this region */
+  bool
+  IsInside(const Self &region) const
+    {
+    IndexType beginCorner = region.GetIndex();
+    if( ! this->IsInside( beginCorner ) )
+      {
+      return false;
+      }
+    IndexType endCorner(region.m_ImageDimension);
+    SizeType  size = region.GetSize();
+    for(unsigned int i=0; i<m_ImageDimension; i++)
+      {
+      endCorner[i] = beginCorner[i] + size[i] - 1;
+      }
+    if( ! this->IsInside( endCorner ) )
+      {
+      return false;
+      }
+    return true;
+    }
+
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
 //  unsigned long GetNumberOfPixels() const;
