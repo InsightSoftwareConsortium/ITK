@@ -33,3 +33,10 @@ itk.*\Test.*\.h Namespace Disable
 itkBilateralImageFilter.txx Namespace Disable
 itkConceptChecking.h Template Disable
 itkBioCellBase.h InternalVariables Disable
+itkRayCastInterpolateImageFunction.txx Namespace Disable
+itkWatershedBoundary.h Typedefs Disable
+itkWatershedSegmenter.h Typedefs Disable
+itkWatershedSegmenter.txx Typedefs Disable
+itkWatershedSegmentTable.h Typedefs Disable
+itkWatershedSegmenter.h InternalVariables Disable
+
