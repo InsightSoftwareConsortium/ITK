@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetImageFilter_txx_
-#define __itkVectorThresholdSegmentationLevelSetImageFilter_txx_
+#ifndef __itkVectorThresholdSegmentationLevelSetImageFilter_txx
+#define __itkVectorThresholdSegmentationLevelSetImageFilter_txx
 
 #include "itkVectorThresholdSegmentationLevelSetImageFilter.h"
 
@@ -43,8 +43,5 @@ VectorThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutp
 
 
 }// end namespace itk
-
-
-
 
 #endif

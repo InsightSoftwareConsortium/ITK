@@ -42,7 +42,7 @@ namespace itk
  * Notes in Computer Science (in press), 2003.
  *
  * \ingroup ImageFeatureSimilarityMetrics 
-*/
+ */
 
 template<int VDimensions = 3>
 class UnaryMedialNodeMetric : public LightObject 
@@ -62,9 +62,9 @@ public:
   itkTypeMacro(UnaryMedialNodeMetric, LightObject);
 
   /** Pixel typedef. */
-  typedef BloxCoreAtomPixel<VDimensions> MedialNodeType;
+  typedef BloxCoreAtomPixel<VDimensions>                   MedialNodeType;
   typedef typename BloxCoreAtomPixel<VDimensions>::Pointer MedialNodePointerType;
-  typedef typename MedialNodeType::EigenvalueType EigenvalueType;
+  typedef typename MedialNodeType::EigenvalueType          EigenvalueType;
 
   /** Initialize and compute the Unary Metric. */
   void Initialize(void);
@@ -105,6 +105,3 @@ private:
 #endif
 
 #endif
-
-
-

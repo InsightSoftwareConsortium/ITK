@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiPartitioningImageFilter_txx
-#define _itkVoronoiPartitioningImageFilter_txx
+#ifndef __itkVoronoiPartitioningImageFilter_txx
+#define __itkVoronoiPartitioningImageFilter_txx
 #include "itkVoronoiPartitioningImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
@@ -58,7 +58,7 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
     this->m_WorkingVD->GetCellId(i,currCell);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
-    for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
+    for(currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
       {
       this->m_WorkingVD->GetPoint((*currPit),&(currP));
       VertList.push_back(currP);
@@ -115,7 +115,7 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
   RegionType region = this->GetInput()->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(this->GetOutput(), region); 
   while( !oit.IsAtEnd())
-    {     
+    {
     oit.Set(0); 
     ++oit; 
     }
@@ -125,7 +125,7 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
   for(int i=0;i<this->GetNumberOfSeeds();i++)
     {
     nitend = this->m_WorkingVD->NeighborIdsEnd(i);
-    for(nit=this->m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit)
+    for(nit = this->m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
       {
       if ((*nit)>i) 
         {
@@ -144,7 +144,7 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
   RegionType region = this->GetInput()->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(this->GetOutput(), region); 
   while( !oit.IsAtEnd())
-    {     
+    {
     oit.Set(0); 
     ++oit; 
     }
@@ -158,7 +158,7 @@ VoronoiPartitioningImageFilter<TInputImage,TOutputImage>
     this->m_WorkingVD->GetCellId(i, currCell);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
-    for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
+    for(currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
       {
       this->m_WorkingVD->GetPoint((*currPit),&(currP));
       VertList.push_back(currP);
@@ -213,4 +213,3 @@ VoronoiPartitioningImageFilter <TInputImage,TOutputImage>
 } //end namespace
 
 #endif
-

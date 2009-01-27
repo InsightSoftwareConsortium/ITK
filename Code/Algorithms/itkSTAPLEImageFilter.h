@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -121,10 +121,10 @@ class ITK_EXPORT STAPLEImageFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef STAPLEImageFilter Self;
+  typedef STAPLEImageFilter                               Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -134,8 +134,8 @@ public:
   
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType InputPixelType;
+  typedef typename TOutputImage::PixelType                 OutputPixelType;
+  typedef typename TInputImage::PixelType                  InputPixelType;
   typedef typename NumericTraits<InputPixelType>::RealType RealType;
 
   /** Extract some information from the image types.  Dimensionality
@@ -144,9 +144,9 @@ public:
                       TOutputImage::ImageDimension);
   
   /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef TInputImage                       InputImageType;
+  typedef typename InputImageType::Pointer  InputImagePointer;
+  typedef TOutputImage                      OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
   
   /** Superclass typedefs. */
@@ -158,41 +158,41 @@ public:
 
   /** After the filter is updated, this method returns a std::vector<double> of
    *  all Specificity (true negative fraction, q) values for the expert
-   *  input volumes.*/
+   *  input volumes. */
   const std::vector<double> &GetSpecificity() const
-  {
+    {
     return m_Specificity;
-  }
+    }
 
   /** After the filter is updated, this method returns a std::vector<double> of
    * all Sensitivity (true positive fraction, p) values for the expert input
    * volumes. */
   const std::vector<double> &GetSensitivity() const
-  {
+    {
     return m_Sensitivity;
-  }
+    }
 
   /** After the filter is updated, this method returns the Sensitivity (true
    * positive fraction, p) value for the i-th expert input volume. */ 
   double GetSensitivity(unsigned int i)
-  {
+    {
     if (i > this->GetNumberOfInputs())
       {
       itkExceptionMacro(<< "Array reference out of bounds.");
       }
     return m_Sensitivity[i];
-  }
+    }
 
   /** After the filter is updated, this method returns the Specificity (true
    * negative fraction, q) value for the i-th expert input volume. */ 
   double GetSpecificity(unsigned int i)
-  {
+    {
     if (i > this->GetNumberOfInputs())
       {
       itkExceptionMacro(<< "Array reference out of bounds.");
       }
     return m_Specificity[i];
-  }
+    }
 
   /** Set/Get the maximum number of iterations after which the STAPLE algorithm
    *  will be considered to have converged.  In general this SHOULD NOT be set and
@@ -206,7 +206,7 @@ public:
    *  pixels to the total size of the volume (across all input volumes).
    *  ConfidenceWeight will scale this default value as g_t = g_t *
    *  ConfidenceWeight.  In general, ConfidenceWeight should be left to the
-   *  default of 1.0.*/
+   *  default of 1.0. */
   itkSetMacro(ConfidenceWeight, double);
   itkGetMacro(ConfidenceWeight, double);
 
@@ -222,12 +222,12 @@ public:
 
 protected:
   STAPLEImageFilter()
-  {
+    {
     m_ForegroundValue = NumericTraits<InputPixelType>::One;
     m_MaximumIterations = NumericTraits<unsigned int>::max();
     m_ElapsedIterations = 0;
     m_ConfidenceWeight = 1.0;
-  }
+    }
   virtual ~STAPLEImageFilter() {}  
   void GenerateData( );
   
@@ -238,8 +238,8 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   InputPixelType m_ForegroundValue;
-  unsigned int m_ElapsedIterations;
-  unsigned int m_MaximumIterations;
+  unsigned int   m_ElapsedIterations;
+  unsigned int   m_MaximumIterations;
 
   double m_ConfidenceWeight;
   

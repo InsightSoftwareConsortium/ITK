@@ -98,28 +98,31 @@ public:
   typedef TInputImage InputImageType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
-  typedef Image<unsigned long, itkGetStaticConstMacro(ImageDimension)> OutputImageType;
-  typedef typename InputImageType::RegionType ImageRegionType;
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef Boundary<InputPixelType, itkGetStaticConstMacro(ImageDimension)> BoundaryType;
-  typedef typename BoundaryType::IndexType BoundaryIndexType;
+
+  typedef Image<unsigned long, itkGetStaticConstMacro(ImageDimension)>
+                                                   OutputImageType;
+  typedef typename InputImageType::RegionType      ImageRegionType;
+  typedef typename InputImageType::PixelType       InputPixelType;
+  typedef Boundary<InputPixelType, itkGetStaticConstMacro(ImageDimension)>
+                                                   BoundaryType;
+  typedef typename BoundaryType::IndexType         BoundaryIndexType;
   typedef typename BoundaryType::FlatHashValueType BoundaryFlatHashValueType;
-  typedef SegmentTable<InputPixelType> SegmentTableType;
-  typedef DataObject::Pointer DataObjectPointer;
+  typedef SegmentTable<InputPixelType>             SegmentTableType;
+  typedef DataObject::Pointer                      DataObjectPointer;
   
   /** Methods to implement smart pointers and work with the itk object factory
    */
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef ProcessObject            Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmenter, ProcessObject);
 
   /** Typedefs necessary on microsoft VC++ to avoid internal compiler errors */
-  typedef typename InputImageType::Pointer InputImageTypePointer;
-  typedef typename OutputImageType::Pointer OutputImageTypePointer;
+  typedef typename InputImageType::Pointer   InputImageTypePointer;
+  typedef typename OutputImageType::Pointer  OutputImageTypePointer;
   typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
-  typedef typename BoundaryType::Pointer BoundaryTypePointer;
+  typedef typename BoundaryType::Pointer     BoundaryTypePointer;
     
   /** A constant used in the labeling algorithm.  */
   static unsigned long NULL_LABEL;
@@ -129,34 +132,42 @@ public:
  
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)
-  { return static_cast<InputImageType *>
-      (this->ProcessObject::GetInput(0));    }
+    {
+    return static_cast<InputImageType *>
+      (this->ProcessObject::GetInput(0));
+    }
   void SetInputImage(InputImageType *img)
-  {  this->ProcessObject::SetNthInput(0, img); }
+    {  this->ProcessObject::SetNthInput(0, img); }
 
   /** Get/Set the labeled output image.  The output image is always of
     unsigned long integers. */
   OutputImageType * GetOutputImage(void)
-  { return static_cast<OutputImageType *>
-      (this->ProcessObject::GetOutput(0)); }
+    {
+    return static_cast<OutputImageType *>
+      (this->ProcessObject::GetOutput(0));
+    }
   void SetOutputImage(OutputImageType *img)
-  { this->ProcessObject::SetNthOutput(0, img);    }
+    { this->ProcessObject::SetNthOutput(0, img);    }
   
   /** Get/Set the segment table.  The segment table is a table of segmentation
    * information identifying each region produced by the labeling algorithm. */ 
   SegmentTableType * GetSegmentTable(void)
-  { return static_cast<SegmentTableType *>
-      (this->ProcessObject::GetOutput(1)); }
+    {
+    return static_cast<SegmentTableType *>
+      (this->ProcessObject::GetOutput(1));
+    }
   void SetSegmentTable(SegmentTableType *s)
-  { this->ProcessObject::SetNthOutput(1, s); }
+    { this->ProcessObject::SetNthOutput(1, s); }
   
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
   BoundaryType * GetBoundary(void)
-  { return static_cast<BoundaryType *>
-      (this->ProcessObject::GetOutput(2)); }
+    {
+    return static_cast<BoundaryType *>
+      (this->ProcessObject::GetOutput(2));
+    }
   void SetBoundary(BoundaryType *b)
-  { this->ProcessObject::SetNthOutput(2,b); }
+    { this->ProcessObject::SetNthOutput(2,b); }
   
   /** Standard non-threaded pipeline execution method. */
   void GenerateData();
@@ -168,13 +179,13 @@ public:
    * this method will not be modified by the Itk pipeline and are necessary
    * for analysis of boundaries.   */
   void SetLargestPossibleRegion(ImageRegionType reg)
-  {
+    {
     if (reg == m_LargestPossibleRegion) return;
     m_LargestPossibleRegion = reg;
     this->Modified();
-  }
+    }
   ImageRegionType GetLargestPossibleRegion() const
-  {      return m_LargestPossibleRegion; }
+    { return m_LargestPossibleRegion; }
 
   /** Helper function.  Other classes may have occasion to use this. Relabels
       an image according to a table of equivalencies. */
@@ -198,7 +209,8 @@ public:
    * \f$ are raised to \f$ L \f$. Thresholding minimum values in the image
    * decreases the number of local minima in the image and produces an initial
    * segmentation with fewer segments.  The assumption is that the ``shallow''
-   * regions that this thresholding eliminates are generally not of interest.*/ 
+   * regions that this thresholding eliminates are generally not of
+   * interest. */ 
   itkSetClampMacro(Threshold, double, 0.0, 1.0);
   itkGetMacro(Threshold, double);
 
@@ -211,7 +223,7 @@ public:
   /** Determines whether the algorithm will sort the adjacencies in its
    * SegmentTable before returning.  Default is true.  This is an option only
    * useful for streaming applications where the sorting only needs to be done
-   * after all iterations have taken place.*/
+   * after all iterations have taken place. */
   itkGetMacro(SortEdgeLists, bool);
   itkSetMacro(SortEdgeLists, bool);
 
@@ -219,25 +231,25 @@ protected:
   /** Structure storing information about image flat regions.
    * Flat regions are connected pixels of the same value.  */
   struct flat_region_t
-  {
+    {
     unsigned long   *min_label_ptr;
     InputPixelType  bounds_min;
     //    InputPixelType  bounds_max; // <-- may not be necc.
     InputPixelType  value;
     bool            is_on_boundary;
     flat_region_t() : is_on_boundary(false) {}
-  };
+    };
 
   /** Table for storing flat region information.  */
   typedef itk::hash_map<unsigned long, flat_region_t, itk::hash<unsigned long> >
   flat_region_table_t;
 
   struct connectivity_t
-  {
+    {
     unsigned int size;
     unsigned int *index;
     typename InputImageType::OffsetType *direction;
-  };
+    };
 
   /** Table for storing tables of edges.  This is convenient in
    * generating the segment table,  even though the edge tables
@@ -352,10 +364,10 @@ private:
    *  streaming applications*/
   ImageRegionType m_LargestPossibleRegion;
 
-  bool m_SortEdgeLists;
-  bool m_DoBoundaryAnalysis;
-  double m_Threshold;
-  double m_MaximumFloodLevel;
+  bool          m_SortEdgeLists;
+  bool          m_DoBoundaryAnalysis;
+  double        m_Threshold;
+  double        m_MaximumFloodLevel;
   unsigned long m_CurrentLabel;
 };
   

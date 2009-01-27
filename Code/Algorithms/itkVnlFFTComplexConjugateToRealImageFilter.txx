@@ -27,83 +27,83 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 
-  template <class TPixel, unsigned int Dimension>
-  void
-  VnlFFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
-  GenerateData()
-  {
-    unsigned int i;
-    // get pointers to the input and output
-    typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-    typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
+template <class TPixel, unsigned int VDimension>
+void
+VnlFFTComplexConjugateToRealImageFilter<TPixel,VDimension>::
+GenerateData()
+{
+  unsigned int i;
+  // get pointers to the input and output
+  typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
+  typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
 
-    if ( !inputPtr || !outputPtr )
-      {
-      return;
-      }
+  if ( !inputPtr || !outputPtr )
+    {
+    return;
+    }
   
-    const typename TInputImageType::SizeType&   outputSize
-      = outputPtr->GetLargestPossibleRegion().GetSize();
-    unsigned int num_dims = outputPtr->GetImageDimension();
+  const typename TInputImageType::SizeType&   outputSize
+    = outputPtr->GetLargestPossibleRegion().GetSize();
+  unsigned int num_dims = outputPtr->GetImageDimension();
 
-    if(num_dims != outputPtr->GetImageDimension())
-      return;
+  if(num_dims != outputPtr->GetImageDimension())
+    return;
 
-    // allocate output buffer memory
-    outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-    outputPtr->Allocate();
+  // allocate output buffer memory
+  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->Allocate();
 
-    std::complex<TPixel> *in = const_cast<std::complex<TPixel> *>
-      (inputPtr->GetBufferPointer());
+  std::complex<TPixel> *in = const_cast<std::complex<TPixel> *>
+    (inputPtr->GetBufferPointer());
   
-    unsigned int vec_size = 1;
-    for(i = 0; i < num_dims; i++)
-      {
-      vec_size *= outputSize[i];
-      }
+  unsigned int vec_size = 1;
+  for(i = 0; i < num_dims; i++)
+    {
+    vec_size *= outputSize[i];
+    }
 
-    vnl_vector< vcl_complex<TPixel> > signal(vec_size);
-    for(i = 0; i < vec_size; i++)
-      signal[i] = in[i];
+  vnl_vector< vcl_complex<TPixel> > signal(vec_size);
+  for(i = 0; i < vec_size; i++)
+    signal[i] = in[i];
 
-    TPixel *out = outputPtr->GetBufferPointer();
+  TPixel *out = outputPtr->GetBufferPointer();
   
-    switch(num_dims)
+  switch(num_dims)
+    {
+    case 1:
       {
-      case 1:
-        {
-        vnl_fft_1d<TPixel> v1d(vec_size);
-        v1d.fwd_transform(signal);
-        }
-        break;
-      case 2:
-        {
-        vnl_fft_2d<TPixel> v2d(outputSize[1],outputSize[0]);
-        v2d.vnl_fft_2d<TPixel>::base::transform(signal.data_block(),+1);
-        }
-        break;
-      case 3:
-        {
-        vnl_fft_3d<TPixel> v3d(outputSize[2],outputSize[1],outputSize[0]);
-        v3d.vnl_fft_3d<TPixel>::base::transform(signal.data_block(),+1);
-        }
-        break;
-      default:
-        break;
+      vnl_fft_1d<TPixel> v1d(vec_size);
+      v1d.fwd_transform(signal);
       }
-    for(i = 0; i < vec_size; i++)
+      break;
+    case 2:
       {
-      out[i] = signal[i].real() / vec_size;
+      vnl_fft_2d<TPixel> v2d(outputSize[1],outputSize[0]);
+      v2d.vnl_fft_2d<TPixel>::base::transform(signal.data_block(),+1);
       }
-  }
+      break;
+    case 3:
+      {
+      vnl_fft_3d<TPixel> v3d(outputSize[2],outputSize[1],outputSize[0]);
+      v3d.vnl_fft_3d<TPixel>::base::transform(signal.data_block(),+1);
+      }
+      break;
+    default:
+      break;
+    }
+  for(i = 0; i < vec_size; i++)
+    {
+    out[i] = signal[i].real() / vec_size;
+    }
+}
 
-  template <class TPixel, unsigned int Dimension>
-  bool
-  VnlFFTComplexConjugateToRealImageFilter<TPixel,Dimension>::
-  FullMatrix()
-  {
-    return true;
-  }
+template <class TPixel, unsigned int VDimension>
+bool
+VnlFFTComplexConjugateToRealImageFilter<TPixel,VDimension>::
+FullMatrix()
+{
+  return true;
+}
 
 }
 #endif

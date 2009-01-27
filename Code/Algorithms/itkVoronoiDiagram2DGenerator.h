@@ -54,10 +54,10 @@ class ITK_EXPORT VoronoiDiagram2DGenerator:
     public MeshSource <VoronoiDiagram2D<TCoordType> >
 {
 public:
-  typedef VoronoiDiagram2DGenerator   Self;
-  typedef MeshSource <VoronoiDiagram2D<TCoordType> >    Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VoronoiDiagram2DGenerator                  Self;
+  typedef MeshSource <VoronoiDiagram2D<TCoordType> > Superclass;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,15 +66,15 @@ public:
   itkTypeMacro(VoronoiDiagram2DGenerator, MeshSource);
   
   /** Convenient typedefs. */
-  typedef VoronoiDiagram2D<TCoordType> VDMesh;
+  typedef VoronoiDiagram2D<TCoordType>   VDMesh;
   typedef typename VDMesh::SeedsIterator SeedsIterator;
-  typedef typename VDMesh::Pointer OutputType;
-  typedef typename VDMesh::PointType PointType;
-  typedef typename VDMesh::SeedsType SeedsType;
-  typedef typename VDMesh::EdgeInfo EdgeInfo;
-  typedef typename VDMesh::EdgeInfoDQ EdgeInfoDQ;
-  typedef typename VDMesh::CoordRepType CoordRepType;
-  typedef typename VDMesh::VoronoiEdge VoronoiEdge;
+  typedef typename VDMesh::Pointer       OutputType;
+  typedef typename VDMesh::PointType     PointType;
+  typedef typename VDMesh::SeedsType     SeedsType;
+  typedef typename VDMesh::EdgeInfo      EdgeInfo;
+  typedef typename VDMesh::EdgeInfoDQ    EdgeInfoDQ;
+  typedef typename VDMesh::CoordRepType  CoordRepType;
+  typedef typename VDMesh::VoronoiEdge   VoronoiEdge;
 
   /** Get the number of seed points. */
   itkGetMacro(NumberOfSeeds,unsigned int);
@@ -119,44 +119,54 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   unsigned int m_NumberOfSeeds;
-  PointType m_VorBoundary;
-  OutputType m_OutputVD;
-  SeedsType m_Seeds;
+  PointType    m_VorBoundary;
+  OutputType   m_OutputVD;
+  SeedsType    m_Seeds;
 
   static bool comp(PointType arg1,PointType arg2);
-  /** Small data structures for Fortune's Method
+  /** \class FortuneSite
+   * Small data structures for Fortune's Method
    * and some public variables/methods not for external access. */ 
-  class FortuneSite{
-  public:
-    PointType m_Coord;
-    int m_Sitenbr;
-    FortuneSite() : m_Sitenbr(NumericTraits<int>::max()) { m_Coord.Fill(NumericTraits<CoordRepType>::max()); };
-    ~FortuneSite(){};
-  };
+  class FortuneSite
+    {
+    public:
+      PointType m_Coord;
+      int       m_Sitenbr;
+      FortuneSite() : m_Sitenbr(NumericTraits<int>::max()) { m_Coord.Fill(NumericTraits<CoordRepType>::max()); }
+      ~FortuneSite(){}
+    };
 
-  class FortuneEdge{
-  public:
-    float m_A, m_B, m_C;  // explicit line function: Ax + By = C;
-    FortuneSite *m_Ep[2];
-    FortuneSite *m_Reg[2];
-    int m_Edgenbr;
-    FortuneEdge() : m_A(0.0), m_B(0.0), m_C(0.0) {m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = 0; };
-    ~FortuneEdge(){};
-  };
+  class FortuneEdge
+    {
+    public:
+      float        m_A, m_B, m_C;  // explicit line function: Ax + By = C;
+      FortuneSite *m_Ep[2];
+      FortuneSite *m_Reg[2];
+      int          m_Edgenbr;
+      FortuneEdge() : m_A(0.0), m_B(0.0), m_C(0.0) {m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = 0; }
+      ~FortuneEdge(){}
+    };
 
-  class FortuneHalfEdge{
-  public:
-    FortuneHalfEdge *m_Left;
-    FortuneHalfEdge *m_Right;
-    FortuneEdge *m_Edge;
-    bool m_RorL;
-    FortuneSite *m_Vert;
-    double m_Ystar;
-    FortuneHalfEdge *m_Next;
-    FortuneHalfEdge() : m_Left(0), m_Right(0), m_Edge(0), m_RorL( false ), m_Vert(0), m_Ystar(0.0), m_Next(0) {};
-    FortuneHalfEdge(const FortuneHalfEdge &edge) : m_Left(edge.m_Left), m_Right(edge.m_Right), m_Edge(edge.m_Edge), m_RorL( edge.m_RorL ), m_Vert( edge.m_Vert ), m_Ystar( edge.m_Ystar ), m_Next( edge.m_Next ) {};
-    ~FortuneHalfEdge(){};
-  };
+  class FortuneHalfEdge
+    {
+    public:
+      FortuneHalfEdge  *m_Left;
+      FortuneHalfEdge  *m_Right;
+      FortuneEdge      *m_Edge;
+      bool              m_RorL;
+      FortuneSite      *m_Vert;
+      double            m_Ystar;
+      FortuneHalfEdge  *m_Next;
+      FortuneHalfEdge() : m_Left(0), m_Right(0), m_Edge(0), m_RorL( false ), m_Vert(0), m_Ystar(0.0), m_Next(0) {}
+      FortuneHalfEdge(const FortuneHalfEdge &edge) : m_Left(edge.m_Left),
+                                                     m_Right(edge.m_Right),
+                                                     m_Edge(edge.m_Edge),
+                                                     m_RorL( edge.m_RorL ),
+                                                     m_Vert( edge.m_Vert ),
+                                                     m_Ystar( edge.m_Ystar ),
+                                                     m_Next( edge.m_Next ) {}
+      ~FortuneHalfEdge(){}
+    };
 
   double m_Pxmin;
   double m_Pxmax;
@@ -165,18 +175,21 @@ private:
   double m_Deltax;
   double m_Deltay;
   double m_SqrtNSites;
-  unsigned int m_PQcount;
-  int m_PQmin;
-  unsigned int m_PQhashsize;
-  unsigned int m_Nedges;
-  unsigned int m_Nvert;
-  FortuneSite *m_BottomSite;
+
+  unsigned int                 m_PQcount;
+  int                          m_PQmin;
+  unsigned int                 m_PQhashsize;
+  unsigned int                 m_Nedges;
+  unsigned int                 m_Nvert;
+  FortuneSite                 *m_BottomSite;
   std::vector<FortuneHalfEdge> m_PQHash;
-  unsigned int m_ELhashsize;
-  FortuneHalfEdge m_ELleftend;
-  FortuneHalfEdge m_ELrightend;
+
+  unsigned int                   m_ELhashsize;
+  FortuneHalfEdge                m_ELleftend;
+  FortuneHalfEdge                m_ELrightend;
   std::vector<FortuneHalfEdge *> m_ELHash;
-  FortuneEdge m_DELETED;
+
+  FortuneEdge              m_DELETED;
   std::vector<FortuneSite> m_SeedSites;
   
   bool differentPoint(PointType p1,PointType p2);
@@ -213,5 +226,3 @@ private:
 #endif
 
 #endif
-
-

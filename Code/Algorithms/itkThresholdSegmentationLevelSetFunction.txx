@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkThresholdSegmentationLevelSetFunction_txx_
-#define __itkThresholdSegmentationLevelSetFunction_txx_
+#ifndef __itkThresholdSegmentationLevelSetFunction_txx
+#define __itkThresholdSegmentationLevelSetFunction_txx
 
 #include "itkThresholdSegmentationLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

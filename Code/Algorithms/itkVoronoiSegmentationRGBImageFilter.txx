@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiSegmentationRGBImageFilter_txx
-#define _itkVoronoiSegmentationRGBImageFilter_txx
+#ifndef __itkVoronoiSegmentationRGBImageFilter_txx
+#define __itkVoronoiSegmentationRGBImageFilter_txx
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
@@ -129,7 +129,7 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
   double Z0 = m_MaxValueOfRGB*1.183;
 
   while( !iit.IsAtEnd()) 
-    {    
+    {
     ipixel = iit.Get();
     wpixel[0] = ipixel[0];
     wpixel[1] = ipixel[1];
@@ -251,8 +251,7 @@ TakeAPrior(const BinaryObjectImage* aprior)
         }  
       ++ait;
       }
-    }       
-
+    }
 
   int objnum = 0;
   int bkgnum = 0;
@@ -389,5 +388,3 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
 } //end namespace
 
 #endif
-
-

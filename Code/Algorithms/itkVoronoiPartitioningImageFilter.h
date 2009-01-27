@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkVoronoiPartitioningImageFilter_h
-#define _itkVoronoiPartitioningImageFilter_h
+#ifndef __itkVoronoiPartitioningImageFilter_h
+#define __itkVoronoiPartitioningImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
@@ -39,9 +39,9 @@ public:
   /** Standard class typedefs. */
   typedef VoronoiPartitioningImageFilter       Self;
   typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage> 
-  Superclass;
-  typedef SmartPointer <Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                               Superclass;
+  typedef SmartPointer <Self>                  Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,17 +52,18 @@ public:
 
   /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
-  typedef typename Superclass::IndexList IndexList;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::RegionType RegionType;
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::OutputPixelType OutputPixelType;
-  typedef typename Superclass::PointType PointType;
-  typedef typename Superclass::PointTypeDeque PointTypeDeque;
-  typedef typename Superclass::PointIdIterator PointIdIterator;
-  typedef typename Superclass::CellAutoPointer CellAutoPointer;
-  typedef typename Superclass::EdgeIterator EdgeIterator;
+  typedef typename Superclass::IndexList         IndexList;
+  typedef typename Superclass::IndexType         IndexType;
+  typedef typename Superclass::RegionType        RegionType;
+  typedef typename Superclass::InputImageType    InputImageType;
+  typedef typename Superclass::OutputImageType   OutputImageType;
+  typedef typename Superclass::OutputPixelType   OutputPixelType;
+
+  typedef typename Superclass::PointType          PointType;
+  typedef typename Superclass::PointTypeDeque     PointTypeDeque;
+  typedef typename Superclass::PointIdIterator    PointIdIterator;
+  typedef typename Superclass::CellAutoPointer    CellAutoPointer;
+  typedef typename Superclass::EdgeIterator       EdgeIterator;
   typedef typename Superclass::NeighborIdIterator NeighborIdIterator;
 
   /** Create the output results.  */
@@ -121,7 +122,3 @@ private:
 #endif
 
 #endif
-
-
-
-

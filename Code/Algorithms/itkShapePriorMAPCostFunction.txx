@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapePriorMAPCostFunction_txx_
-#define __itkShapePriorMAPCostFunction_txx_
+#ifndef __itkShapePriorMAPCostFunction_txx
+#define __itkShapePriorMAPCostFunction_txx
 
 #include "itkShapePriorMAPCostFunction.h"
 
@@ -94,10 +94,7 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
     ++iter;
     }
 
-   MeasureType output = counter * m_Weights[0];
-
-//  std::cout << output << " ";
-//  std::cout << std::endl;
+  MeasureType output = counter * m_Weights[0];
   return output;
 
 }
@@ -119,9 +116,6 @@ ShapePriorMAPCostFunction<TFeatureImage,TOutputPixel>
       m_ShapeParameterStandardDeviations[j] );
     }
   measure *= m_Weights[2];
-
-//  std::cout << parameters << ": ";
-//  std::cout << measure << " ";
   return measure;
 
 }

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetImageFilter_h_
-#define __itkVectorThresholdSegmentationLevelSetImageFilter_h_
+#ifndef __itkVectorThresholdSegmentationLevelSetImageFilter_h
+#define __itkVectorThresholdSegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkVectorThresholdSegmentationLevelSetFunction.h"
@@ -91,21 +91,23 @@ class ITK_EXPORT VectorThresholdSegmentationLevelSetImageFilter
 public:
   /** Standard class typedefs */
   typedef VectorThresholdSegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+                                                         Superclass;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   
   /** Type of the segmentation function */
-  typedef VectorThresholdSegmentationLevelSetFunction<OutputImageType,FeatureImageType> ThresholdFunctionType;
-  typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
-  typedef typename ThresholdFunctionType::MeanVectorType MeanVectorType;
+  typedef VectorThresholdSegmentationLevelSetFunction<OutputImageType,FeatureImageType>
+                                                               ThresholdFunctionType;
+  typedef typename ThresholdFunctionType::Pointer              ThresholdFunctionPointer;
+  typedef typename ThresholdFunctionType::MeanVectorType       MeanVectorType;
   typedef typename ThresholdFunctionType::CovarianceMatrixType CovarianceMatrixType;
-  typedef typename ThresholdFunctionType::ScalarValueType ScalarValueType;
+  typedef typename ThresholdFunctionType::ScalarValueType      ScalarValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
@@ -115,37 +117,35 @@ public:
   
   /** Set/Get mean and covariance that will be used to calculate the speed function */
   void SetMean(const MeanVectorType &mean) 
-  {  
+    {  
     m_ThresholdFunction->SetMean(mean);
     this->Modified();
-  }
+    }
   const MeanVectorType & GetMean() const 
-  {  
+    {  
     return m_ThresholdFunction->GetMean();
-  }
-
+    }
 
   void SetCovariance(const CovarianceMatrixType &cov) 
-  { 
+    { 
     m_ThresholdFunction->SetCovariance(cov);
     this->Modified();
-  }
+    }
   const CovarianceMatrixType & GetCovariance() const
-  { 
+    { 
     return m_ThresholdFunction->GetCovariance();
-  }
+    }
 
   /** Set/Get the threshold for the Mahanalobis Distance */
   void SetThreshold(ScalarValueType thr) 
-  {
-  m_ThresholdFunction->SetThreshold(thr);
-  this->Modified();
-  }
+    {
+    m_ThresholdFunction->SetThreshold(thr);
+    this->Modified();
+    }
   ScalarValueType GetThreshold ()
-  {
-  return m_ThresholdFunction->GetThreshold();
-  }
-
+    {
+    return m_ThresholdFunction->GetThreshold();
+    }
   
 protected:
   ~VectorThresholdSegmentationLevelSetImageFilter() {}
@@ -160,8 +160,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorThresholdSegmentationLevelSetImageFilter.txx"

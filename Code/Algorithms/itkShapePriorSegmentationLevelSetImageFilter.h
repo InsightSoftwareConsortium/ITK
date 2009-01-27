@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetImageFilter_h_
-#define __itkShapePriorSegmentationLevelSetImageFilter_h_
+#ifndef __itkShapePriorSegmentationLevelSetImageFilter_h
+#define __itkShapePriorSegmentationLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkShapePriorSegmentationLevelSetFunction.h"
@@ -81,16 +81,17 @@ public:
 
   /** Standard class typedefs */
   typedef ShapePriorSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+                                                    Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapePriorSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   
   /** Type of the output pixel. */
@@ -102,7 +103,7 @@ public:
 
   /** The shape signed distance function type. */
   typedef typename ShapePriorSegmentationFunctionType::ShapeFunctionType 
-      ShapeFunctionType;
+                                               ShapeFunctionType;
   typedef typename ShapeFunctionType::Pointer  ShapeFunctionPointer;
 
   /** The type of the MAP estimate cost function. */
@@ -134,23 +135,23 @@ public:
  /** Set/Get the initial parameters. These are the initial parameters applied
   * to the ShapeFunction. The user should refer to the documentation of
   * the particular type of ShapeSignedDistanceFunction used to determine
-  * the meaning of the parameters.*/
+  * the meaning of the parameters. */
  itkSetMacro( InitialParameters, ParametersType );
  itkGetMacro( InitialParameters, ParametersType );
 
   /** Set/Get the scaling of the shape prior term. */
   void SetShapePriorScaling( ValueType v )
-  {
-    if ( v != m_ShapePriorSegmentationFunction->GetShapePriorWeight() )
     {
-    m_ShapePriorSegmentationFunction->SetShapePriorWeight( v );
-    this->Modified();
+    if ( v != m_ShapePriorSegmentationFunction->GetShapePriorWeight() )
+      {
+      m_ShapePriorSegmentationFunction->SetShapePriorWeight( v );
+      this->Modified();
+      }
     }
-  }
   ValueType GetShapePriorScaling() const
-  {
+    {
     return m_ShapePriorSegmentationFunction->GetShapePriorWeight();
-  }
+    }
   
   /** Set the shape prior segmentation function. In general, this should only be called
    * by a subclass of this object. It is made public to allow itk::Command objects access. */
@@ -182,13 +183,13 @@ private:
   ShapePriorSegmentationLevelSetImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-   ShapeFunctionPointer     m_ShapeFunction;
-   CostFunctionPointer      m_CostFunction;
-   OptimizerPointer         m_Optimizer;
-   ParametersType           m_InitialParameters;
-   ParametersType           m_CurrentParameters;
+  ShapeFunctionPointer     m_ShapeFunction;
+  CostFunctionPointer      m_CostFunction;
+  OptimizerPointer         m_Optimizer;
+  ParametersType           m_InitialParameters;
+  ParametersType           m_CurrentParameters;
 
-   ShapePriorSegmentationFunctionType * m_ShapePriorSegmentationFunction;
+  ShapePriorSegmentationFunctionType * m_ShapePriorSegmentationFunction;
 
 };
 
@@ -199,4 +200,3 @@ private:
 #endif
 
 #endif
-

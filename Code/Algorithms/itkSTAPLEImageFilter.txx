@@ -6,16 +6,16 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSTAPLEImageFilter_txx
-#define _itkSTAPLEImageFilter_txx
+#ifndef __itkSTAPLEImageFilter_txx
+#define __itkSTAPLEImageFilter_txx
 #include "itkSTAPLEImageFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -44,7 +44,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
   const double epsilon = 1.0e-10;
   
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
-  typedef ImageRegionIterator< TOutputImage> FuzzyIteratorType;
+  typedef ImageRegionIterator< TOutputImage>      FuzzyIteratorType;
   
   const double min_rms_error = 1.0e-14; // 7 digits of precision
   
@@ -142,7 +142,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
         }
       
       p[i] = p_num / p_denom;
-      q[i] = q_num / q_denom;        
+      q[i] = q_num / q_denom;
       }
     
     // Now recreate W using the new p's and q's

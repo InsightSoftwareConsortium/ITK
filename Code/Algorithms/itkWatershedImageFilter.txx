@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkWatershedImageFilter_txx
-#define _itkWatershedImageFilter_txx
+#ifndef __itkWatershedImageFilter_txx
+#define __itkWatershedImageFilter_txx
 #include "itkWatershedImageFilter.h"
 
 namespace itk

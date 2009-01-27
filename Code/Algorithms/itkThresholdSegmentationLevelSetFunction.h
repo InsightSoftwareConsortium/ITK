@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkThresholdSegmentationLevelSetFunction_h_
-#define __itkThresholdSegmentationLevelSetFunction_h_
+#ifndef __itkThresholdSegmentationLevelSetFunction_h
+#define __itkThresholdSegmentationLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkNumericTraits.h"
 namespace itk {
 
 /** \class ThresholdSegmentationLevelSetFunction
- *    
+ *
  * \brief This function is used in ThresholdSegmentationLevelSetImageFilter to
  * segment structures in images based on intensity values.
  *
@@ -56,10 +56,11 @@ class ITK_EXPORT ThresholdSegmentationLevelSetFunction
 public:
   /** Standard class typedefs. */
   typedef ThresholdSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef TFeatureImageType FeatureImageType;
+  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+                                                Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
+  typedef TFeatureImageType                     FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,10 +69,10 @@ public:
   itkTypeMacro( ThresholdSegmentationLevelSetFunction, SegmentationLevelSetFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
+  typedef typename Superclass::ImageType         ImageType;
+  typedef typename Superclass::ScalarValueType   ScalarValueType;
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::RadiusType        RadiusType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -101,53 +102,53 @@ public:
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
   void SetEdgeWeight(const ScalarValueType p)
-  {
+    {
     m_EdgeWeight = p;
-  }
+    }
   ScalarValueType GetEdgeWeight() const
-  {
+    {
     return m_EdgeWeight;
-  }
+    }
   
   /** Anisotropic diffusion is applied to the FeatureImage before calculatign
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
   void SetSmoothingConductance(const ScalarValueType p)
-  {
+    {
     m_SmoothingConductance = p;
-  }
+    }
   ScalarValueType GetSmoothingConductance() const
-  {
+    {
     return m_SmoothingConductance;
-  }
+    }
   
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
    * iterations. */ 
   void SetSmoothingIterations(const int p)
-  {
+    {
     m_SmoothingIterations = p;
-  }
+    }
   int GetSmoothingIterations() const
-  {
+    {
     return m_SmoothingIterations;
-  }
+    }
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
    * step. */
   void SetSmoothingTimeStep(const ScalarValueType i)
-  {
+    {
     m_SmoothingTimeStep = i;
-  }
+    }
   ScalarValueType GetSmoothingTimeStep() const
-  {
+    {
     return m_SmoothingTimeStep;
-  }
+    }
 
 protected:
   ThresholdSegmentationLevelSetFunction()
-  {
+    {
     m_UpperThreshold = NumericTraits<FeatureScalarType>::max();
     m_LowerThreshold = NumericTraits<FeatureScalarType>::NonpositiveMin();
     this->SetAdvectionWeight(0.0);
@@ -157,14 +158,14 @@ protected:
     this->SetSmoothingConductance(0.8);
     this->SetSmoothingTimeStep(0.1);
     this->SetEdgeWeight(0.0);
-  }
+    }
   virtual ~ThresholdSegmentationLevelSetFunction(){}
 
   ThresholdSegmentationLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os, indent );
     os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;
     os << indent << "LowerThreshold: " << m_LowerThreshold << std::endl;
@@ -172,7 +173,7 @@ protected:
     os << indent << "SmoothingTimeStep: " << m_SmoothingTimeStep << std::endl;
     os << indent << "SmoothingIterations: " << m_SmoothingIterations << std::endl;
     os << indent << "SmoothingConductance: " << m_SmoothingConductance << std::endl;
-  }
+    }
   
   FeatureScalarType m_UpperThreshold;
   FeatureScalarType m_LowerThreshold;

@@ -67,8 +67,4 @@ Boundary<TScalarType, TDimension>
 
 }// end namespace watershed
 }// end namespace itk
-
-
-
-
 #endif

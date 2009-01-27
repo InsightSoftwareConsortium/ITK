@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,16 +25,16 @@ namespace itk
  * 
  * \brief TODO
  */
-template <class TPixel, unsigned int Dimension = 3>
+template <class TPixel, unsigned int VDimension = 3>
 class VnlFFTRealToComplexConjugateImageFilter :
-    public FFTRealToComplexConjugateImageFilter<TPixel,Dimension>
+    public FFTRealToComplexConjugateImageFilter<TPixel,VDimension>
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef VnlFFTRealToComplexConjugateImageFilter Self;
-  typedef FFTRealToComplexConjugateImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class typedefs. */ 
+  typedef VnlFFTRealToComplexConjugateImageFilter                 Self;
+  typedef FFTRealToComplexConjugateImageFilter<TPixel,VDimension> Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,9 +55,10 @@ protected:
 
 
 private:
-  inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z) {
+  inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z)
+    {
     return std::complex<TPixel>(__z.real(), -__z.imag());
-  }
+    }
 
   VnlFFTRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

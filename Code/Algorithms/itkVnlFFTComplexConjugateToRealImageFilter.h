@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,19 +25,19 @@ namespace itk
  * 
  * \brief TODO
  */
-template <class TPixel, unsigned int Dimension = 3>
+template <class TPixel, unsigned int VDimension = 3>
 class VnlFFTComplexConjugateToRealImageFilter :
-    public FFTComplexConjugateToRealImageFilter<TPixel,Dimension>
+    public FFTComplexConjugateToRealImageFilter<TPixel,VDimension>
 {
 public:
-  /** Standard class typedefs.*/ 
-  typedef Image< std::complex<TPixel>,Dimension> TInputImageType;
-  typedef Image<TPixel,Dimension> TOutputImageType;
+  /** Standard class typedefs. */ 
+  typedef Image< std::complex<TPixel>,VDimension> TInputImageType;
+  typedef Image<TPixel,VDimension>                TOutputImageType;
 
-  typedef VnlFFTComplexConjugateToRealImageFilter Self;
-  typedef FFTComplexConjugateToRealImageFilter<TPixel,Dimension> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef VnlFFTComplexConjugateToRealImageFilter                 Self;
+  typedef FFTComplexConjugateToRealImageFilter<TPixel,VDimension> Superclass;
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,7 +47,7 @@ public:
                FFTComplexConjugateToRealImageFilter);
 
   /** Image type typedef support. */
-  typedef TInputImageType ImageType;
+  typedef TInputImageType              ImageType;
   typedef typename ImageType::SizeType ImageSizeType;
 
   //
@@ -67,9 +67,10 @@ protected:
   virtual ~VnlFFTComplexConjugateToRealImageFilter(){ }
 
 private:
-  inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z) {
+  inline std::complex<TPixel> myConj(const std::complex<TPixel>& __z)
+    {
     return std::complex<TPixel>(__z.real(), -__z.imag());
-  }
+    }
   VnlFFTComplexConjugateToRealImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };

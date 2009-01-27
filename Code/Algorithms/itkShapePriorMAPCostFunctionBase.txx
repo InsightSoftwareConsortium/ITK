@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapePriorMAPCostFunctionBase_txx_
-#define __itkShapePriorMAPCostFunctionBase_txx_
+#ifndef __itkShapePriorMAPCostFunctionBase_txx
+#define __itkShapePriorMAPCostFunctionBase_txx
 
 #include "itkShapePriorMAPCostFunctionBase.h"
 
@@ -59,11 +59,10 @@ ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
 ::GetValue( const ParametersType & parameters ) const
 {
 
-   return ( this->ComputeLogInsideTerm( parameters ) + 
-            this->ComputeLogGradientTerm( parameters ) +  
-            this->ComputeLogShapePriorTerm( parameters ) + 
-            this->ComputeLogPosePriorTerm( parameters ) );
-
+  return ( this->ComputeLogInsideTerm( parameters ) + 
+           this->ComputeLogGradientTerm( parameters ) +  
+           this->ComputeLogShapePriorTerm( parameters ) + 
+           this->ComputeLogPosePriorTerm( parameters ) );
 }
 
 

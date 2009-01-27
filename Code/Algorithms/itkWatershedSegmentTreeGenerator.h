@@ -47,7 +47,7 @@ namespace watershed
  * segments may be joined across streamed chunk boundaries.  The flag
  * Merge must be set to true to enable this functionality.
  *
- * \par Outputs     
+ * \par Outputs
  * The output of this filter is a list of binary merges of segments at
  * increasing saliency.  This is the data structure
  * itk::watershed::WatershedSegmentTree referred to as a ``merge tree'' in the
@@ -78,15 +78,15 @@ class ITK_EXPORT SegmentTreeGenerator  : public ProcessObject
 {
 public:
   /**  Standard itk smart pointer declarations    */
-  typedef SegmentTreeGenerator Self;
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef SegmentTreeGenerator     Self;
+  typedef ProcessObject            Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTreeGenerator, ProcessObject);
 
   /** Convenient type definitions */
-  typedef TScalarType ScalarType;
+  typedef TScalarType              ScalarType;
   typedef SegmentTable<ScalarType> SegmentTableType;
   typedef SegmentTree<ScalarType>  SegmentTreeType;
   typedef EquivalencyTable         EquivalencyTableType;
@@ -96,24 +96,24 @@ public:
   /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
   typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
   typedef typename OneWayEquivalencyTableType::Pointer
-          OneWayEquivalencyTableTypePointer;
-  typedef typename SegmentTreeType::Pointer SegmentTreeTypePointer;
+                                             OneWayEquivalencyTableTypePointer;
+  typedef typename SegmentTreeType::Pointer  SegmentTreeTypePointer;
   
 
   /** Get/Set the input table of segments to process */
   SegmentTableType* GetInputSegmentTable()
     {
-      return static_cast<SegmentTableType *>(this->ProcessObject::GetInput(0));
+    return static_cast<SegmentTableType *>(this->ProcessObject::GetInput(0));
     }
   void SetInputSegmentTable(SegmentTableType *st)
     {
-      // Reset the highest calculated flood level if we are given a
-      // different input image.
-      if (st != this->GetInput(0))
-        {
-        m_HighestCalculatedFloodLevel = 0.0;
-        }
-      this->ProcessObject::SetNthInput(0, st);
+    // Reset the highest calculated flood level if we are given a
+    // different input image.
+    if (st != this->GetInput(0))
+      {
+      m_HighestCalculatedFloodLevel = 0.0;
+      }
+    this->ProcessObject::SetNthInput(0, st);
     }
 
   /** Get/Set input table of equivalencies to pre-merge before
@@ -121,18 +121,20 @@ public:
    * streaming applications */
   void SetInputEquivalencyTable(EquivalencyTableType *eq)
     {
-      this->ProcessObject::SetNthInput(1, eq);
+    this->ProcessObject::SetNthInput(1, eq);
     }
   EquivalencyTableType* GetInputEquivalencyTable()
     {
-      return
-        static_cast<EquivalencyTableType *>(this->ProcessObject::GetInput(1));
+    return
+      static_cast<EquivalencyTableType *>(this->ProcessObject::GetInput(1));
     }
 
   /** Get/Set the output data */
   SegmentTreeType * GetOutputSegmentTree()
-  { return static_cast<SegmentTreeType *>
-      (this->ProcessObject::GetOutput(0)); }
+    {
+    return static_cast<SegmentTreeType *>
+      (this->ProcessObject::GetOutput(0)); 
+    }
 
   /** Standard non-threaded itk pipeline method */
   void GenerateData();
@@ -162,7 +164,7 @@ public:
    * segment table before executing.  This can be enabled to conserve
    * memory, especially in streaming applications where memory is a
    * concern. If enabled, the input to this filter must always be
-   * re-executed on updates. Default is false.*/
+   * re-executed on updates. Default is false. */
   itkSetMacro(ConsumeInput, bool);
   itkGetMacro(ConsumeInput, bool);
 
@@ -206,9 +208,10 @@ protected:
   void GenerateInputRequestedRegion();
   
 private:
-  bool m_Merge;
+  bool   m_Merge;
   double m_FloodLevel;
-  bool m_ConsumeInput;
+  bool   m_ConsumeInput;
+
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
   
   /** This value keeps track of the highest level this filter has been
@@ -226,4 +229,3 @@ private:
 #endif
 
 #endif
-

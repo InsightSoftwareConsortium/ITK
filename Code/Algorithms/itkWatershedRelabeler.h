@@ -66,9 +66,9 @@ class ITK_EXPORT Relabeler
 {
 public:
   /** Define smart pointers for this object */
-  typedef Relabeler Self;
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef Relabeler                Self;
+  typedef ProcessObject            Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedRelabeler, ProcessObject);
@@ -77,45 +77,47 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,TImageDimension);
   
   /** Some convenient typedefs */
-  typedef TScalarType ScalarType;
-  typedef Image<unsigned long, TImageDimension> ImageType;
-  typedef SegmentTree<ScalarType> SegmentTreeType;
+  typedef TScalarType                                    ScalarType;
+  typedef Image<unsigned long, TImageDimension>          ImageType;
+  typedef SegmentTree<ScalarType>                        SegmentTreeType;
   typedef Segmenter<Image<ScalarType, TImageDimension> > SegmenterType;
-  typedef DataObject::Pointer DataObjectPointer;
+  typedef DataObject::Pointer                            DataObjectPointer;
 
   /** Standard itk::ProcessObject subclass method. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
   
   /** Set/Get the input image */
   void SetInputImage(ImageType *img)
-  {
+    {
     this->ProcessObject::SetNthInput(0, img);
-  }
+    }
   ImageType * GetInputImage(void)
-  {
+    {
     return static_cast<ImageType *>
       (this->ProcessObject::GetInput(0) );
-  }
+    }
 
   /** Set/Get the output image */
   void SetOutputImage(ImageType * img)
-  {
+    {
     this->ProcessObject::SetNthOutput(0,img);
-  }
+    }
   ImageType * GetOutputImage(void)
-  { return static_cast<ImageType *>
-      (this->ProcessObject::GetOutput(0) ); }
+    {
+    return static_cast<ImageType *>
+      (this->ProcessObject::GetOutput(0) );
+    }
 
   /** Set/Get the input tree that defines segment merges */
   void SetInputSegmentTree(SegmentTreeType *et)
-  {
+    {
     this->ProcessObject::SetNthInput(1, et);
-  }
+    }
   SegmentTreeType * GetInputSegmentTree(void)
-  {
+    {
     return static_cast<SegmentTreeType *>
       (this->ProcessObject::GetInput(1));
-  }
+    }
 
   /** Standard non-threaded pipeline method */
   void GenerateData();
@@ -149,4 +151,3 @@ protected:
 #endif
 
 #endif
-

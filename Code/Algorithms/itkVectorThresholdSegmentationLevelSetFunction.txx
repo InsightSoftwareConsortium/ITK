@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetFunction_txx_
-#define __itkVectorThresholdSegmentationLevelSetFunction_txx_
+#ifndef __itkVectorThresholdSegmentationLevelSetFunction_txx
+#define __itkVectorThresholdSegmentationLevelSetFunction_txx
 
 #include "itkVectorThresholdSegmentationLevelSetFunction.h"
 #include "itkImageRegionIterator.h"
@@ -41,7 +41,7 @@ void VectorThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>
   for ( fit.GoToBegin(), sit.GoToBegin(); ! fit.IsAtEnd(); ++sit, ++fit)
     {
     threshold = m_Threshold - vcl_sqrt(m_Mahalanobis->Evaluate(fit.Get()));
-      sit.Set( static_cast<ScalarValueType>(threshold) );
+    sit.Set( static_cast<ScalarValueType>(threshold) );
     
     }
  

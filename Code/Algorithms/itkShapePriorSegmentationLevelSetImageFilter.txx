@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetImageFilter_txx_
-#define __itkShapePriorSegmentationLevelSetImageFilter_txx_
+#ifndef __itkShapePriorSegmentationLevelSetImageFilter_txx
+#define __itkShapePriorSegmentationLevelSetImageFilter_txx
 
 #include "itkShapePriorSegmentationLevelSetImageFilter.h"
 
@@ -79,8 +79,8 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
   if ( this->GetShapePriorScaling() != 0.0 )
     {
     /**
-    * Estimate the shape and pose parameters. 
-    */
+     * Estimate the shape and pose parameters. 
+     */
 
     // Get the nodes of the active region and plug it into the cost function
     NodeContainerPointer nodes = NodeContainerType::New();
@@ -169,11 +169,11 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
     {
     for (layerIt = this->m_Layers[k]->Begin(); layerIt != this->m_Layers[k]->End(); ++layerIt)
       {
-        NodeType node;
-        outputIt.SetLocation(layerIt->m_Value);
-        node.SetIndex( outputIt.GetIndex() );
-        node.SetValue( outputIt.GetCenterPixel() );
-        ptr->InsertElement( counter++, node );
+      NodeType node;
+      outputIt.SetLocation(layerIt->m_Value);
+      node.SetIndex( outputIt.GetIndex() );
+      node.SetValue( outputIt.GetCenterPixel() );
+      ptr->InsertElement( counter++, node );
       }
     }
 

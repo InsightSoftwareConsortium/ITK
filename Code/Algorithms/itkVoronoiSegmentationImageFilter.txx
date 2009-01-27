@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiSegmentationImageFilter_txx
-#define _itkVoronoiSegmentationImageFilter_txx
+#ifndef __itkVoronoiSegmentationImageFilter_txx
+#define __itkVoronoiSegmentationImageFilter_txx
 #include "itkVoronoiSegmentationImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
@@ -90,11 +90,11 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
     saveSTD = -1;
     }
 
-//   // jvm - Mahalanobis distance
-//   if (savevar > 0 && vcl_fabs(savemean - m_Mean) / m_Var < 2.5)
-//     return true;
-//   else
-//     return false;
+  //   // jvm - Mahalanobis distance
+  //   if (savevar > 0 && vcl_fabs(savemean - m_Mean) / m_Var < 2.5)
+  //     return true;
+  //   else
+  //     return false;
   
   savemean -= m_Mean;
   saveSTD -= m_STD;
@@ -108,9 +108,6 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
     return 0;
     }
 }
-
-
-
 
 template <class TInputImage, class TOutputImage , class TBinaryPriorImage>
 void
@@ -151,7 +148,7 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
         }  
       ++ait;
       }
-    }       
+    }
   
   float addb=0;
   float addbb=0;
@@ -232,4 +229,3 @@ VoronoiSegmentationImageFilter <TInputImage,TOutputImage,TBinaryPriorImage>
 } //end namespace
 
 #endif
-

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiSegmentationRGBImageFilter_h
-#define _itkVoronoiSegmentationRGBImageFilter_h
+#ifndef __itkVoronoiSegmentationRGBImageFilter_h
+#define __itkVoronoiSegmentationRGBImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
@@ -59,9 +59,10 @@ class ITK_EXPORT VoronoiSegmentationRGBImageFilter:
 public:
   /** Standard class typedefs. */
   typedef VoronoiSegmentationRGBImageFilter       Self;
-  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer <Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage>
+                                                  Superclass;
+  typedef SmartPointer <Self>                     Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VoronoiSegmentationRGBImageFilter,
@@ -72,26 +73,26 @@ public:
 
   /** Convenient typedefs. */
   typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
-  typedef typename Superclass::IndexList IndexList;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::RegionType RegionType;
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::IndexList         IndexList;
+  typedef typename Superclass::IndexType         IndexType;
+  typedef typename Superclass::RegionType        RegionType;
+  typedef typename Superclass::PixelType         PixelType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef Vector<float,6> RGBHCVPixel;
-  typedef Image<RGBHCVPixel> RGBHCVImage;
+  typedef typename Superclass::InputImageType    InputImageType;
+  typedef Vector<float,6>                        RGBHCVPixel;
+  typedef Image<RGBHCVPixel>                     RGBHCVImage;
 
   /** \todo Document. */
   void SetMeanPercentError(double x[6]);
   void SetSTDPercentError(double x[6]);
-  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i];};
-  void GetSTDPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_STDPercentError[i];};
-  void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i];};
-  void GetSTD(double x[6]){for(int i=0;i<6;i++) x[i]=m_STD[i];};
-  void SetMean(double x[6]){for(int i=0;i<6;i++) m_Mean[i]=x[i];};
-  void SetSTD(double x[6]){for(int i=0;i<6;i++) m_STD[i]=x[i];};
-  void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i];};
-  void GetSTDTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_STDTolerance[i];};
+  void GetMeanPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanPercentError[i];}
+  void GetSTDPercentError(double x[6]){for(int i=0;i<6;i++) x[i]=m_STDPercentError[i];}
+  void GetMean(double x[6]){for(int i=0;i<6;i++) x[i]=m_Mean[i];}
+  void GetSTD(double x[6]){for(int i=0;i<6;i++) x[i]=m_STD[i];}
+  void SetMean(double x[6]){for(int i=0;i<6;i++) m_Mean[i]=x[i];}
+  void SetSTD(double x[6]){for(int i=0;i<6;i++) m_STD[i]=x[i];}
+  void GetMeanTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_MeanTolerance[i];}
+  void GetSTDTolerance(double x[6]){for(int i=0;i<6;i++) x[i]=m_STDTolerance[i];}
 
   /** Maximum value of the RGB, needed for color space coversions.
    * default as 8 bit per channel, if it is different, need to be
@@ -169,7 +170,3 @@ private:
 #endif
 
 #endif
-
-
-
-

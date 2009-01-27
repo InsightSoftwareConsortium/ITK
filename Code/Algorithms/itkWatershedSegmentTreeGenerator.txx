@@ -433,7 +433,8 @@ void SegmentTreeGenerator<TScalarType>
   if (from_seg == 0 || to_seg == 0)
     {
 
-    itkGenericExceptionMacro ( << "itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error has occurred. This is probably the result of overthresholding of the input image.");
+    itkGenericExceptionMacro ( <<
+                               "itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error has occurred. This is probably the result of overthresholding of the input image.");
     }
 
   // Compare the minimum values.

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapeDetectionLevelSetFunction_txx_
-#define __itkShapeDetectionLevelSetFunction_txx_
+#ifndef __itkShapeDetectionLevelSetFunction_txx
+#define __itkShapeDetectionLevelSetFunction_txx
 
 #include "itkShapeDetectionLevelSetFunction.h"
 #include "itkImageRegionIterator.h"

@@ -47,14 +47,4 @@ void WatershedMiniPipelineProgressCommand
     }
 }
 
-
-
-
-
-
-
-
-
-
 } // end namespace itk
-

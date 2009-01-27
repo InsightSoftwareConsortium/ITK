@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapeDetectionLevelSetImageFilter_txx_
-#define __itkShapeDetectionLevelSetImageFilter_txx_
+#ifndef __itkShapeDetectionLevelSetImageFilter_txx
+#define __itkShapeDetectionLevelSetImageFilter_txx
 
 #include "itkShapeDetectionLevelSetImageFilter.h"
 
@@ -66,8 +66,5 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 }
 
 }// end namespace itk
-
-
-
 
 #endif

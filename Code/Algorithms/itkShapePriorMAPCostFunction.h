@@ -52,7 +52,8 @@ class ITK_EXPORT ShapePriorMAPCostFunction :
 public:
   /** Standard class typedefs. */
   typedef ShapePriorMAPCostFunction    Self;
-  typedef ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>  Superclass;
+  typedef ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
+                                       Superclass;
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
 
@@ -101,7 +102,8 @@ public:
 
   /** Set/Get the weights for each term. Default is a vector of all ones. 
    * The weights are applied to terms in the following order:
-   * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and LogPosePriorTerm.*/
+   * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and
+   * LogPosePriorTerm. */
   typedef FixedArray<double,4> WeightsType;
   itkSetMacro( Weights, WeightsType );
   itkGetConstReferenceMacro( Weights, WeightsType );  
@@ -162,6 +164,3 @@ private:
 #endif
 
 #endif
-
-
-

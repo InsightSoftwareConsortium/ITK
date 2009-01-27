@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiDiagram2DGenerator_txx
-#define _itkVoronoiDiagram2DGenerator_txx
+#ifndef __itkVoronoiDiagram2DGenerator_txx
+#define __itkVoronoiDiagram2DGenerator_txx
 #include "itkVoronoiDiagram2DGenerator.h"
 
 
@@ -188,10 +188,8 @@ UpdateDiagram(void)
 }
 
 
-/************************************************************/
-/************************************************************/
-/* Methods to convert the result from Fortune Algorithm into 
-* itkMesh structure.*/
+/** Methods to convert the result from Fortune Algorithm into 
+ * itkMesh structure. */
 
 template <typename TCoordRepType>
 bool
@@ -203,10 +201,6 @@ differentPoint(PointType p1,PointType p2)
   return ( (diffx<-DIFF_TOLERENCE) || (diffx>DIFF_TOLERENCE) 
            || (diffy<-DIFF_TOLERENCE) || (diffy>DIFF_TOLERENCE) );   
 
-/*  if( ((int)(p1[0]) != (int)(p2[0])) || ((int)(p1[1]) != (int)(p2[1])) )
-  return 1;
-  return 0;
-*/
 }
 
 template <typename TCoordRepType>
@@ -441,10 +435,9 @@ ConstructDiagram(void)
   delete [] rawEdges;
 }
 
-/*************************************************************
-**************************************************************
-* Generate Voronoi Diagram using Fortune's Method. (Sweep Line)
-* Infomations are stored in m_VertexList, m_EdgeList and m_LineList.*/
+/**
+ * Generate Voronoi Diagram using Fortune's Method. (Sweep Line)
+ * Infomations are stored in m_VertexList, m_EdgeList and m_LineList. */
 
 template <typename TCoordRepType>
 bool 
@@ -656,16 +649,20 @@ findLeftHE(PointType *p)
 
   if( (he==(&m_ELleftend)) || ((he!=(&m_ELrightend)) && right_of(he,p)) )
     {
-    do {
-    he = he->m_Right;
-    } while ( (he!=(&m_ELrightend)) && (right_of(he,p)) );
+    do
+      {
+      he = he->m_Right;
+      }
+    while ( (he!=(&m_ELrightend)) && (right_of(he,p)) );
     he = he->m_Left;
     }
   else 
     {
-    do {
-    he = he->m_Left;
-    } while ( (he!=(&m_ELleftend)) && (!right_of(he,p)) );
+    do
+      {
+      he = he->m_Left;
+      }
+    while ( (he!=(&m_ELleftend)) && (!right_of(he,p)) );
     }
 
   if( (bucket>0) && (bucket<static_cast<int>(m_ELhashsize)-1) )
@@ -681,11 +678,17 @@ VoronoiDiagram2DGenerator<TCoordRepType>::
 getRightReg(FortuneHalfEdge *he)
 {
   if( (he->m_Edge) == NULL )
+    {
     return(m_BottomSite);
+    }
   else if(he->m_RorL)
+    {
     return(he->m_Edge->m_Reg[0]);
+    }
   else 
+    {
     return(he->m_Edge->m_Reg[1]);
+    }
 }
 
 template <typename TCoordRepType>
@@ -694,11 +697,17 @@ VoronoiDiagram2DGenerator<TCoordRepType>::
 getLeftReg(FortuneHalfEdge *he)
 {
   if( (he->m_Edge) == NULL )
+    {
     return(m_BottomSite);
+    }
   else if(he->m_RorL)
+    {
     return(he->m_Edge->m_Reg[1]);
+    }
   else 
+    {
     return(he->m_Edge->m_Reg[0]);
+    }
 }
 
 
@@ -733,13 +742,13 @@ bisect(FortuneEdge *answer, FortuneSite *s1, FortuneSite *s2)
     {
     answer->m_A = 1.0;
     answer->m_B = dy/dx;
-    answer->m_C /=dx;
+    answer->m_C /= dx;
     }
   else 
     {
     answer->m_A = dx/dy;
     answer->m_B = 1.0;
-    answer->m_C /=dy;
+    answer->m_C /= dy;
     }
   answer->m_Edgenbr = m_Nedges;
   m_Nedges++;
@@ -832,7 +841,7 @@ clip_line(FortuneEdge *task)
   FortuneSite *s1;  
   FortuneSite *s2;  
   double x1,y1,x2,y2;
-  if( ((task->m_A)==1.0) && ((task->m_B)>=0.0) )
+  if( ((task->m_A) == 1.0) && ((task->m_B) >= 0.0) )
     {
     s1 = task->m_Ep[1];
     s2 = task->m_Ep[0];
@@ -851,7 +860,9 @@ clip_line(FortuneEdge *task)
       {
       y1 = s1->m_Coord[1];
       if(y1 > m_Pymax)
+        {
         return;
+        }
       x1 = s1->m_Coord[0];
       id1 = s1->m_Sitenbr;
       }
@@ -878,10 +889,13 @@ clip_line(FortuneEdge *task)
       }
 
     if( (x1>m_Pxmax) && (x2>m_Pxmax) )
+      {
       return;
+      }
     if( (x1<m_Pxmin) && (x2<m_Pxmin) )
+      {
       return;
-
+      }
     if(x1 > m_Pxmax)
       {
       x1 = m_Pxmax;
@@ -913,7 +927,9 @@ clip_line(FortuneEdge *task)
       {
       x1 = s1->m_Coord[0];
       if(x1 > m_Pxmax)
+        {
         return;
+        }
       y1 = s1->m_Coord[1];
       id1 = s1->m_Sitenbr;
       }
@@ -938,7 +954,9 @@ clip_line(FortuneEdge *task)
       id2 = -1;
       }
     if( (y1>m_Pymax) && (y2>m_Pymax) )
+      {
       return;
+      }
     if( (y1<m_Pymin) && (y2<m_Pymin) )
       return;
     if(y1 > m_Pymax)
@@ -975,7 +993,9 @@ clip_line(FortuneEdge *task)
   newInfo.m_LineID = task->m_Edgenbr;
 
   if(id1>-1)
+    {
     newInfo.m_LeftID = id1;
+    }
   else
     {
     newInfo.m_LeftID = m_Nvert;
@@ -983,11 +1003,13 @@ clip_line(FortuneEdge *task)
     PointType newv;
     newv[0]=x1;
     newv[1]=y1;
-    m_OutputVD->AddVert(newv);     
+    m_OutputVD->AddVert(newv);
     }
 
   if(id2>-1)
+    {
     newInfo.m_RightID = id2;
+    }
   else
     {
     newInfo.m_RightID = m_Nvert;
@@ -995,7 +1017,7 @@ clip_line(FortuneEdge *task)
     PointType newv;
     newv[0]=x2;
     newv[1]=y2;
-    m_OutputVD->AddVert(newv);     
+    m_OutputVD->AddVert(newv);
     }
   m_OutputVD->AddEdge(newInfo);
 }
@@ -1023,7 +1045,7 @@ GenerateVDFortune(void)
 
   unsigned int i;
 
-/* Build SeedSites. */
+  /* Build SeedSites. */
   m_SeedSites.resize(m_NumberOfSeeds);
   for(i = 0; i < m_NumberOfSeeds; i++)
     {
@@ -1038,14 +1060,14 @@ GenerateVDFortune(void)
   m_Deltax = m_Pxmax - m_Pxmin;
   m_SqrtNSites = vcl_sqrt((float) (m_NumberOfSeeds + 4));
 
-/* Initialize outputLists. */
+  /* Initialize outputLists. */
   m_Nedges = 0;
   m_Nvert = 0;
   m_OutputVD->LineListClear();
   m_OutputVD->EdgeListClear();
   m_OutputVD->VertexListClear();
 
-/* Initialize the Hash Table for Circle Event and Point Event. */
+  /* Initialize the Hash Table for Circle Event and Point Event. */
   m_PQcount = 0;
   m_PQmin = 0;
   m_PQhashsize = (int)(4 * m_SqrtNSites);
@@ -1173,8 +1195,8 @@ GenerateVDFortune(void)
       makeEndPoint(leftHalfEdge->m_Edge, leftHalfEdge->m_RorL, newVert);
       makeEndPoint(rightHalfEdge->m_Edge, rightHalfEdge->m_RorL, newVert);
       deleteEdgeList(leftHalfEdge);
-      deletePQ(rightHalfEdge);      
-      deleteEdgeList(rightHalfEdge);      
+      deletePQ(rightHalfEdge);
+      deleteEdgeList(rightHalfEdge);
 
       saveBool = 0;
       if( (findSite->m_Coord[1]) > (topSite->m_Coord[1]) )
@@ -1215,7 +1237,9 @@ GenerateVDFortune(void)
         }
       }
     else
+      {
       ok = 0; 
+      }
     }
 
   for( (leftHalfEdge=m_ELleftend.m_Right); 

@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSymmetricForcesDemonsRegistrationFunction_txx_
-#define _itkSymmetricForcesDemonsRegistrationFunction_txx_
+#ifndef __itkSymmetricForcesDemonsRegistrationFunction_txx
+#define __itkSymmetricForcesDemonsRegistrationFunction_txx
 
 #include "itkSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"
@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk {
 
-/*
+/**
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -109,7 +109,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
   return m_IntensityDifferenceThreshold;
 }
 
-/*
+/**
  * Set the function state values before each iteration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -145,7 +145,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
   m_SumOfSquaredChange      = 0.0;
 }
 
-/*
+/**
  * Compute update at a non boundary neighbourhood
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -296,7 +296,7 @@ const FloatOffsetType& itkNotUsed(offset))
   return update;
 }
 
-/*
+/**
  * Update the metric and release the per-thread-global data.
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -307,7 +307,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationF
   GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
 
   m_MetricCalculationLock.Lock();
-  m_SumOfSquaredDifference  += globalData->m_SumOfSquaredDifference;
+  m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
   m_NumberOfPixelsProcessed += globalData->m_NumberOfPixelsProcessed;
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
   if ( m_NumberOfPixelsProcessed )

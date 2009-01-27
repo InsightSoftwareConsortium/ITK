@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiSegmentationImageFilterBase_txx
-#define _itkVoronoiSegmentationImageFilterBase_txx
+#ifndef __itkVoronoiSegmentationImageFilterBase_txx
+#define __itkVoronoiSegmentationImageFilterBase_txx
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkVoronoiDiagram2DGenerator.h"
@@ -199,19 +199,19 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     }
   else
     { //normal case some scanlines
-    offset=(double)intbeginy-beginy;
-    endx+=offset*rightDx;
-    beginx+=offset*leftDx;
-    while(idx[1]<=intendy)
+    offset = (double)intbeginy-beginy;
+    endx += offset * rightDx;
+    beginx += offset * leftDx;
+    while(idx[1] <= intendy)
       {
-      for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+      for(i=static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
         {
-        idx[0]=i;
+        idx[0] = i;
         (*PixelPool).push_back(idx);
         }
-      endx+=rightDx;
-      beginx+=leftDx;        
-      idx[1]=idx[1]+1;
+      endx += rightDx;
+      beginx += leftDx;
+      idx[1] = idx[1]+1;
       }
     beginy=endy;
     }
@@ -286,19 +286,19 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       }
     else
       { //normal case some scanlines
-      offset=(double)intbeginy-beginy;
-      endx+=offset*rightDx;
-      beginx+=offset*leftDx;
-      while(idx[1]<=intendy)
+      offset = (double)intbeginy-beginy;
+      endx += offset * rightDx;
+      beginx += offset * leftDx;
+      while(idx[1] <= intendy)
         {
-        for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+        for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
           {
-          idx[0]=i;
+          idx[0] = i;
           (*PixelPool).push_back(idx);
           }
-        endx+=rightDx;
-        beginx+=leftDx;        
-        idx[1]=idx[1]+1;
+        endx += rightDx;
+        beginx += leftDx;
+        idx[1] = idx[1] + 1;
         }
       beginy=idx[1];
       }
@@ -345,19 +345,19 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       beginx=leftP[0];
       endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
       }
-    offset=(double)intbeginy-beginy;
-    beginx+=offset*leftDx;
-    endx+=offset*rightDx;
-    while(idx[1]<=intendy)
+    offset = (double)intbeginy-beginy;
+    beginx += offset * leftDx;
+    endx += offset * rightDx;
+    while(idx[1] <= intendy)
       {
-      for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+      for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
         {
-        idx[0]=i;
+        idx[0] = i;
         (*PixelPool).push_back(idx);
         }
-      endx+=rightDx;
-      beginx+=leftDx;        
-      idx[1]=idx[1]+1;
+      endx += rightDx;
+      beginx += leftDx;
+      idx[1] = idx[1] + 1;
       }
     }
 }
@@ -378,7 +378,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     m_WorkingVD->GetCellId(i,currCell);
     currPitEnd = currCell->PointIdsEnd();
     VertList.clear();
-    for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
+    for(currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
       {
       m_WorkingVD->GetPoint((*currPit),&(currP));
       VertList.push_back(currP);
@@ -580,7 +580,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   RegionType region = this->GetInput()->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(this->GetOutput(), region); 
   while( !oit.IsAtEnd())
-    {     
+    {
     oit.Set(0); 
     ++oit; 
     }
@@ -592,7 +592,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     if(m_Label[i] == 2)
       {
       nitend = m_WorkingVD->NeighborIdsEnd(i);
-      for(nit=m_WorkingVD->NeighborIdsBegin(i);nit!=nitend;++nit)
+      for(nit=m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
         {
         if(((*nit)>i)&&(m_Label[*nit]==2))
           {
@@ -612,7 +612,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   RegionType region = this->GetInput()->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <OutputImageType> oit(this->GetOutput(), region); 
   while( !oit.IsAtEnd())
-    {     
+    {
     oit.Set(0); 
     ++oit; 
     }
@@ -628,7 +628,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       m_WorkingVD->GetCellId(i, currCell);
       currPitEnd = currCell->PointIdsEnd();
       VertList.clear();
-      for(currPit=currCell->PointIdsBegin();currPit!=currPitEnd;++currPit)
+      for(currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
         {
         m_WorkingVD->GetPoint((*currPit),&(currP));
         VertList.push_back(currP);
@@ -756,23 +756,23 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       idx[0]=i;
       this->GetOutput()->SetPixel(idx,color);  
       }
-    idx[1]=idx[1]+1;
+    idx[1] = idx[1] + 1;
     }
   else
     { //normal case some scanlines
-    offset=(double)intbeginy-beginy;
-    endx+=offset*rightDx;
-    beginx+=offset*leftDx;
-    while(idx[1]<=intendy)
+    offset = (double)intbeginy-beginy;
+    endx += offset * rightDx;
+    beginx += offset * leftDx;
+    while(idx[1] <= intendy)
       {
-      for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+      for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
         {
-        idx[0]=i;
+        idx[0] = i;
         this->GetOutput()->SetPixel(idx,color);  
         }
-      endx+=rightDx;
-      beginx+=leftDx;        
-      idx[1]=idx[1]+1;
+      endx += rightDx;
+      beginx += leftDx;
+      idx[1] = idx[1] + 1;
       }
     beginy=endy;
     }
@@ -847,21 +847,21 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       }
     else
       { //normal case some scanlines
-      offset=(double)intbeginy-beginy;
-      endx+=offset*rightDx;
-      beginx+=offset*leftDx;
-      while(idx[1]<=intendy)
+      offset = (double)intbeginy-beginy;
+      endx += offset * rightDx;
+      beginx += offset * leftDx;
+      while(idx[1] <= intendy)
         {
-        for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+        for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
           {
-          idx[0]=i;
+          idx[0] = i;
           this->GetOutput()->SetPixel(idx,color);  
           }
-        endx+=rightDx;
-        beginx+=leftDx;        
-        idx[1]=idx[1]+1;
+        endx += rightDx;
+        beginx += leftDx;
+        idx[1] = idx[1] + 1;
         }
-      beginy=idx[1];
+      beginy = idx[1];
       }
     }
   
@@ -906,19 +906,19 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       beginx=leftP[0];
       endx=rightP[0]+rightDx*(leftP[1]-rightP[1]);
       }
-    offset=(double)intbeginy-beginy;
-    beginx+=offset*leftDx;
-    endx+=offset*rightDx;
-    while(idx[1]<=intendy)
+    offset = (double)intbeginy-beginy;
+    beginx += offset * leftDx;
+    endx += offset * rightDx;
+    while(idx[1] <= intendy)
       {
-      for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+      for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
         {
-        idx[0]=i;
+        idx[0] = i;
         this->GetOutput()->SetPixel(idx,color);  
         }
-      endx+=rightDx;
-      beginx+=leftDx;        
-      idx[1]=idx[1]+1;
+      endx += rightDx;
+      beginx += leftDx;
+      idx[1] = idx[1] + 1;
       }
     }
   
@@ -1003,7 +1003,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   RegionType region = this->GetInput()->GetRequestedRegion(); 
   itk::ImageRegionIteratorWithIndex <VDImage> vdit(result, region); 
   while( !vdit.IsAtEnd())
-    {     
+    {
     vdit.Set(0); 
     ++vdit; 
     } 
@@ -1119,14 +1119,14 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   Superclass::GenerateInputRequestedRegion();
 
   // set the input requested region to the LargestPossibleRegion
-  {
-  InputImagePointer input =
-    const_cast< InputImageType * >( this->GetInput() );
-  if (input)
     {
-    input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+    InputImagePointer input =
+      const_cast< InputImageType * >( this->GetInput() );
+    if (input)
+      {
+      input->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
+      }
     }
-  }
 }
 
 template <class TInputImage, class TOutputImage, class TBinaryPriorImage> 
@@ -1141,8 +1141,6 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
   this->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
-
-
 
 } //end namespace
 

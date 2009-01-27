@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVoronoiSegmentationImageFilterBase_h
-#define _itkVoronoiSegmentationImageFilterBase_h
+#ifndef __itkVoronoiSegmentationImageFilterBase_h
+#define __itkVoronoiSegmentationImageFilterBase_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVoronoiDiagram2D.h"
@@ -61,10 +61,10 @@ class ITK_EXPORT VoronoiSegmentationImageFilterBase:
 {
 public:
   /** Standard class typedefs. */
-  typedef VoronoiSegmentationImageFilterBase       Self;
+  typedef VoronoiSegmentationImageFilterBase             Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-  typedef SmartPointer <Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer <Self>                            Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,35 +77,37 @@ public:
                       TInputImage::ImageDimension);
   
   /** Convenient typedefs. */
-  typedef TInputImage InputImageType;
-  typedef typename TInputImage::Pointer InputImagePointer;
+  typedef TInputImage                        InputImageType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
   typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  typedef TOutputImage OutputImageType;
-  typedef typename TInputImage::IndexType IndexType;
-  typedef typename TInputImage::SizeType SizeType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::PixelType PixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef VoronoiDiagram2D<double> VoronoiDiagram;
-  typedef VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
-  typedef typename VoronoiDiagram::PointType PointType;
-  typedef typename VoronoiDiagram::CellType CellType;
-  typedef typename VoronoiDiagram::CellAutoPointer CellAutoPointer;
-  typedef typename VoronoiDiagram::Pointer VoronoiPointer;
-  typedef typename CellType::PointIdIterator PointIdIterator;
-  typedef typename VoronoiDiagram::SeedsType SeedsType;
-  typedef typename VoronoiDiagram::SeedsIterator SeedsIterator;
-  typedef typename VoronoiDiagram::NeighborIdIterator NeighborIdIterator;
+  typedef typename TInputImage::IndexType    IndexType;
+  typedef typename TInputImage::SizeType     SizeType;
+  typedef typename TInputImage::RegionType   RegionType;
+  typedef typename TInputImage::PixelType    PixelType;
+
+  typedef TOutputImage                       OutputImageType;
+  typedef typename TOutputImage::PixelType   OutputPixelType;
+
+  typedef VoronoiDiagram2D<double>                     VoronoiDiagram;
+  typedef VoronoiDiagram2DGenerator<double>            VoronoiDiagramGenerator;
+  typedef typename VoronoiDiagram::PointType           PointType;
+  typedef typename VoronoiDiagram::CellType            CellType;
+  typedef typename VoronoiDiagram::CellAutoPointer     CellAutoPointer;
+  typedef typename VoronoiDiagram::Pointer             VoronoiPointer;
+  typedef typename CellType::PointIdIterator           PointIdIterator;
+  typedef typename VoronoiDiagram::SeedsType           SeedsType;
+  typedef typename VoronoiDiagram::SeedsIterator       SeedsIterator;
+  typedef typename VoronoiDiagram::NeighborIdIterator  NeighborIdIterator;
   typedef typename VoronoiDiagram::VoronoiEdgeIterator EdgeIterator;
-  typedef typename VoronoiDiagram::VoronoiEdge EdgeInfo;
-  typedef std::vector<PointType> PointTypeVector;
-  typedef std::deque<PointType> PointTypeDeque;
-  typedef TBinaryPriorImage     BinaryObjectImage;
-  typedef typename BinaryObjectImage::Pointer  BinaryObjectImagePointer;
-  typedef std::vector<IndexType> IndexList;
+  typedef typename VoronoiDiagram::VoronoiEdge         EdgeInfo;
+  typedef std::vector<PointType>                       PointTypeVector;
+  typedef std::deque<PointType>                        PointTypeDeque;
+  typedef TBinaryPriorImage                            BinaryObjectImage;
+  typedef typename BinaryObjectImage::Pointer          BinaryObjectImagePointer;
+  typedef std::vector<IndexType>                       IndexList;
 
   /** To output the drawing of Voronoi Diagram (VD) . */ 
-  typedef Image<unsigned char,2>  VDImage; 
+  typedef Image<unsigned char,2>     VDImage; 
   typedef typename VDImage::Pointer  VDImagePointer; 
     
   /** Set/Get the initial number of seeds for VD. */
@@ -151,7 +153,7 @@ public:
 
   /** Take a prior from other segmentation node. This should be a
    * binary object. */
-  virtual void TakeAPrior(const BinaryObjectImage*){};
+  virtual void TakeAPrior(const BinaryObjectImage*){}
   
   /** Perform the segmentation. */
   void RunSegment(void);
@@ -165,20 +167,20 @@ public:
 
   /** Return the Voroni Diagram structure. */
   VoronoiPointer GetVoronoiDiagram(void)
-  { return m_WorkingVD; }
+    { return m_WorkingVD; }
     
   /** Seeds positions are randomly set. 
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */ 
   void SetSeeds(int num, SeedsIterator begin)
-  { 
+    { 
     m_NumberOfSeeds = num; 
     m_WorkingVD->SetSeeds(num,begin); 
-  }; 
+    } 
     
   /** Get the point specified by the ID given. */
   PointType GetSeed(int SeedID)
-  { return m_WorkingVD->GetSeed(SeedID); } 
+    { return m_WorkingVD->GetSeed(SeedID); } 
       
   /** Draw the Voronoi Diagram structure. */
   void DrawDiagram(VDImagePointer result,unsigned char incolor, 
@@ -202,20 +204,22 @@ protected:
   void GenerateData(void); //general pipeline function.
 
   SizeType m_Size;
-  int m_NumberOfSeeds;
-  int m_MinRegion;
-  int m_Steps;
-  int m_LastStepSeeds;
-  int m_NumberOfSeedsToAdded;
-  int m_NumberOfBoundary;
-  std::vector<int> m_NumberOfPixels;
+  int      m_NumberOfSeeds;
+  int      m_MinRegion;
+  int      m_Steps;
+  int      m_LastStepSeeds;
+  int      m_NumberOfSeedsToAdded;
+  int      m_NumberOfBoundary;
+
+  std::vector<int>           m_NumberOfPixels;
   std::vector<unsigned char> m_Label;
+
   double m_MeanDeviation;
-  bool m_UseBackgroundInAPrior;
-  bool m_OutputBoundary; //if =1 then output the boundaries, if = 0 then output the object.
-  bool m_InteractiveSegmentation;
+  bool   m_UseBackgroundInAPrior;
+  bool   m_OutputBoundary; //if =1 then output the boundaries, if = 0 then output the object.
+  bool   m_InteractiveSegmentation;
   
-  typename VoronoiDiagram::Pointer m_WorkingVD;
+  typename VoronoiDiagram::Pointer          m_WorkingVD;
   typename VoronoiDiagramGenerator::Pointer m_VDGenerator;
 
   std::vector<PointType> m_SeedsToAdded;
@@ -229,7 +233,8 @@ protected:
   
   // Compute the statistics of the pixels inside the cell.
   void GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList *PixelPool);
-  virtual bool TestHomogeneity(IndexList&){return 1;}
+  virtual bool TestHomogeneity(IndexList&)
+    {return 1;}
   
   void FillPolygon(PointTypeDeque vertlist, OutputPixelType color=1);
   
@@ -253,7 +258,3 @@ private:
 #endif
 
 #endif
-
-
-
-

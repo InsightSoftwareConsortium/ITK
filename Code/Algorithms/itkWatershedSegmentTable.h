@@ -51,27 +51,26 @@ class ITK_EXPORT SegmentTable : public DataObject
 {
 public:
   /** Define smart pointers for this object */
-  typedef SegmentTable Self;
-  typedef DataObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef SegmentTable             Self;
+  typedef DataObject               Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-  typedef TScalarType ScalarType;
+  typedef TScalarType              ScalarType;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTable, DataObject);
 
   /** The value type for lists of adjacencies contained in each table
       entry */
   struct edge_pair_t
-  {
+    {
     edge_pair_t() {}
-    edge_pair_t(unsigned long l, ScalarType s)
-      : label(l), height(s) {}
+    edge_pair_t(unsigned long l, ScalarType s) : label(l), height(s) {}
     unsigned long label;
     ScalarType height;
 
     /** Necessary operator for sorting the adjacency lists */
     bool operator<( const edge_pair_t & o) const
-    {
+      {
       if ( this->height < o.height ) 
         {
         return true;
@@ -80,9 +79,9 @@ public:
         {
         return false;
         }
-    }
+      }
     
-  };
+    };
   
   /** Structure for storing lists of adjacencies (edges) and their
       saliencies. */
@@ -97,11 +96,11 @@ public:
 
   /** Define the container type for the table */
   typedef itk::hash_map<unsigned long, segment_t, itk::hash<unsigned long> >
-  HashMapType;
-  typedef typename HashMapType::iterator Iterator;
+                                               HashMapType;
+  typedef typename HashMapType::iterator       Iterator;
   typedef typename HashMapType::const_iterator ConstIterator;
-  typedef typename HashMapType::value_type ValueType;
-  typedef typename HashMapType::data_type  DataType;
+  typedef typename HashMapType::value_type     ValueType;
+  typedef typename HashMapType::data_type      DataType;
 
   /** Inserts a segment into the table  */
   bool Add(unsigned long a, const segment_t &t);
@@ -180,37 +179,36 @@ public:
 
   /** Convenience methods for debugging   */
   unsigned int GetSegmentMemorySize() const
-  {
+    {
     return sizeof(segment_t);
-  }
+    }
   //  void PrintHashTable() const;
   
   /** Set/Get the maximum depth of image on which this segment table is based.
    * (Should set really be calling modified? jc 11/16/01) */
   void SetMaximumDepth(ScalarType s)
-  {
+    {
     m_MaximumDepth = s;
     this->Modified();
-  }
+    }
   ScalarType GetMaximumDepth() const
-  { return m_MaximumDepth; }
+    { return m_MaximumDepth; }
 
   /** Copies the contents of another segment table into this segment table.
       This is really operator= in disguise, although superclass information is
       not copied. */
   void Copy(const Self& o)
-  {
+    {
     m_HashMap = o.m_HashMap;
     m_MaximumDepth = o.m_MaximumDepth;
-  }
+    }
 
 protected:
   SegmentTable() {}
   virtual ~SegmentTable() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   HashMapType m_HashMap;
-  ScalarType m_MaximumDepth;
+  ScalarType  m_MaximumDepth;
   
 private:
   void operator=(const Self&) {}
@@ -225,4 +223,3 @@ private:
 #endif
 
 #endif
-

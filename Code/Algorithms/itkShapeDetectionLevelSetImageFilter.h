@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapeDetectionLevelSetImageFilter_h_
-#define __itkShapeDetectionLevelSetImageFilter_h_
+#ifndef __itkShapeDetectionLevelSetImageFilter_h
+#define __itkShapeDetectionLevelSetImageFilter_h
 
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkShapeDetectionLevelSetFunction.h"
@@ -111,13 +111,14 @@ public:
   /** Standard class typedefs */
   typedef ShapeDetectionLevelSetImageFilter Self;
   typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                            TOutputPixelType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                            TOutputPixelType>
+                                            Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
   
   /** Type of the segmentation function */
@@ -149,8 +150,6 @@ private:
 };
 
 } // end namespace itk
-
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShapeDetectionLevelSetImageFilter.txx"

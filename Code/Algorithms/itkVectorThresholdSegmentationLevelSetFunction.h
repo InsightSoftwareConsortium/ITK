@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkVectorThresholdSegmentationLevelSetFunction_h_
-#define __itkVectorThresholdSegmentationLevelSetFunction_h_
+#ifndef __itkVectorThresholdSegmentationLevelSetFunction_h
+#define __itkVectorThresholdSegmentationLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkNumericTraits.h"
@@ -23,7 +23,7 @@
 namespace itk {
 
 /** \class VectorThresholdSegmentationLevelSetFunction
- *    
+ *
  * \brief This function is used in VectorThresholdSegmentationLevelSetImageFilter to
  * segment structures in images based on the Mahalanobis distance.
  *
@@ -50,7 +50,7 @@ namespace itk {
  *
  *  \sa SegmentationLevelSetImageFunction
  *  \sa ThresholdSegmentationLevelSetImageFilter
- *  \sa MahalanobisDistanceMembershipFunction*/
+ *  \sa MahalanobisDistanceMembershipFunction */
 template <class TImageType, class TFeatureImageType>
 class ITK_EXPORT VectorThresholdSegmentationLevelSetFunction
   : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
@@ -58,10 +58,11 @@ class ITK_EXPORT VectorThresholdSegmentationLevelSetFunction
 public:
   /** Standard class typedefs. */
   typedef VectorThresholdSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef TFeatureImageType FeatureImageType;
+  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+                                                      Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef TFeatureImageType                           FeatureImageType;
 
   
 
@@ -72,10 +73,10 @@ public:
   itkTypeMacro( VectorThresholdSegmentationLevelSetFunction, SegmentationLevelSetFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
+  typedef typename Superclass::ImageType         ImageType;
+  typedef typename Superclass::ScalarValueType   ScalarValueType;
   typedef typename Superclass::FeatureScalarType FeatureScalarType;
-  typedef typename Superclass::RadiusType RadiusType;
+  typedef typename Superclass::RadiusType        RadiusType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -87,16 +88,17 @@ public:
                         FeatureImagePixelType::Dimension);
 
 
-  typedef Statistics::MahalanobisDistanceMembershipFunction<FeatureScalarType> MahalanobisFunctionType;
-  typedef typename MahalanobisFunctionType::Pointer MahalanobisFunctionPointer;
-  typedef typename MahalanobisFunctionType::MeanVectorType MeanVectorType;
+  typedef Statistics::MahalanobisDistanceMembershipFunction<FeatureScalarType>
+                                                                 MahalanobisFunctionType;
+  typedef typename MahalanobisFunctionType::Pointer              MahalanobisFunctionPointer;
+  typedef typename MahalanobisFunctionType::MeanVectorType       MeanVectorType;
   typedef typename MahalanobisFunctionType::CovarianceMatrixType CovarianceMatrixType;
   
   /** Set/Get mean and covariance */
   void SetMean(const MeanVectorType &mean) 
-  {  m_Mahalanobis->SetMean(mean); }
+    {  m_Mahalanobis->SetMean(mean); }
   const MeanVectorType & GetMean() const 
-  {  return m_Mahalanobis->GetMean(); }
+    {  return m_Mahalanobis->GetMean(); }
 
   
   void SetCovariance(const CovarianceMatrixType &cov) 
@@ -106,32 +108,29 @@ public:
   
   /** Set/Get the threshold value for the MahanalobisDistance */
   void SetThreshold(ScalarValueType thr) 
-  {
-  m_Threshold = thr;
-  
-  }
+    {
+    m_Threshold = thr;
+    }
   ScalarValueType GetThreshold() 
-  {
-  return m_Threshold;
-  }
-  
-
+    {
+    return m_Threshold;
+    }
 
   virtual void CalculateSpeedImage();
 
   virtual void Initialize(const RadiusType &r)
-  {
+    {
     Superclass::Initialize(r);
     
     this->SetAdvectionWeight( NumericTraits<ScalarValueType>::Zero);
     this->SetPropagationWeight(-1.0 * NumericTraits<ScalarValueType>::One);
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::One);
-  }
+    }
 
   
 protected:
   VectorThresholdSegmentationLevelSetFunction()
-  {
+    {
     MeanVectorType mean( NumberOfComponents );
     CovarianceMatrixType covariance( NumberOfComponents, NumberOfComponents );
     
@@ -142,26 +141,25 @@ protected:
     m_Mahalanobis->SetMean(mean);
     m_Mahalanobis->SetCovariance(covariance);
     
-    
     this->SetAdvectionWeight(0.0);
     this->SetPropagationWeight(1.0);
     this->SetThreshold(1.8);
-  }
+    }
   virtual ~VectorThresholdSegmentationLevelSetFunction(){}
 
   VectorThresholdSegmentationLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os, indent );
     os << indent << "MahalanobisFunction: " << m_Mahalanobis << std::endl;
-  os << indent << "ThresholdValue: " << m_Threshold << std::endl;
-  }
+    os << indent << "ThresholdValue: " << m_Threshold << std::endl;
+    }
   
   
   MahalanobisFunctionPointer m_Mahalanobis;
-  ScalarValueType  m_Threshold;
+  ScalarValueType            m_Threshold;
   
 };
   

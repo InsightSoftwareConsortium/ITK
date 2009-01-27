@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSegmentationLevelSetImageFilter_h_
-#define __itkSegmentationLevelSetImageFilter_h_
+#ifndef __itkSegmentationLevelSetImageFilter_h
+#define __itkSegmentationLevelSetImageFilter_h
 
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkSegmentationLevelSetFunction.h"
@@ -135,7 +135,7 @@ namespace itk {
  * why the New() operator (itkNewMacro) is missing from the class API.
  * 
  * \par
- *  See LevelSetFunction for more information.*/
+ *  See LevelSetFunction for more information. */
 template <class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
@@ -156,14 +156,15 @@ public:
   typedef Image<TOutputPixelType, itkGetStaticConstMacro(InputImageDimension)> OutputImageType;
   
   /** Standard class typedefs */
-  typedef SparseFieldLevelSetImageFilter<TInputImage, OutputImageType> Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SparseFieldLevelSetImageFilter<TInputImage, OutputImageType>
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType ValueType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  typedef typename Superclass::ValueType       ValueType;
+  typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::TimeStepType    TimeStepType;
   typedef typename Superclass::InputImageType  InputImageType;
 
   /** Local image typedefs */
@@ -183,79 +184,79 @@ public:
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
   void SetMaximumIterations (unsigned int i)
-  {
+    {
     itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
     this->SetNumberOfIterations(i);
-  }
+    }
   unsigned int GetMaximumIterations()
-  {
+    {
     itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
     return this->GetNumberOfIterations();
-  }
+    }
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
   virtual void SetFeatureImage(const FeatureImageType *f)
-  {
+    {
     this->ProcessObject::SetNthInput( 1, const_cast< FeatureImageType * >(f) );
     m_SegmentationFunction->SetFeatureImage(f);
-  }
+    }
   virtual FeatureImageType * GetFeatureImage()
-  { return ( static_cast< FeatureImageType *>(this->ProcessObject::GetInput(1)) ); }
+    { return ( static_cast< FeatureImageType *>(this->ProcessObject::GetInput(1)) ); }
 
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
    */
   virtual void SetInitialImage(InputImageType *f)
-  {
+    {
     this->SetInput(f);
-  }
+    }
 
-   /** Set the feature image */
+  /** Set the feature image */
   void SetInput2(const FeatureImageType *input)
-     {
-     this->SetFeatureImage( input );
-     }
+    {
+    this->SetFeatureImage( input );
+    }
 
   /** This function is for advanced applications.  Set the image sampled as the
    * speed term of this segmentation method.  In  general, the speed image is 
    * generated automatically by a subclass of this filter. */
   void SetSpeedImage( SpeedImageType *s )
-  {  m_SegmentationFunction->SetSpeedImage( s ); }
+    {  m_SegmentationFunction->SetSpeedImage( s ); }
 
   /** This function is for advanced applications.  Set the image sampled as the
    * advection term of this segmentation method.  In general, the advection image
    * is generated automatically by a subclass of this filter. */
   void SetAdvectionImage( VectorImageType *v)
-  { m_SegmentationFunction->SetAdvectionImage( v ); }
+    { m_SegmentationFunction->SetAdvectionImage( v ); }
 
   /** Return a pointer to the image sampled as the speed term of the
    * segmentation algorithm. */
   virtual const SpeedImageType *GetSpeedImage() const
-  { return m_SegmentationFunction->GetSpeedImage(); }
+    { return m_SegmentationFunction->GetSpeedImage(); }
 
   /** Return a pointer to the image sampled as the advection term of the
    * segmentation algorithm. */
   virtual const VectorImageType *GetAdvectionImage() const
-  { return m_SegmentationFunction->GetAdvectionImage(); }
+    { return m_SegmentationFunction->GetAdvectionImage(); }
 
   /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED.  This method reverses
    * the speed function direction, effectively changing inside feature values to
    * outside feature values and vice versa. */
   void SetUseNegativeFeaturesOn()
-  {
+    {
     itkWarningMacro( << "SetUseNegativeFeaturesOn has been deprecated.  Please use ReverseExpansionDirectionOn() instead" );
     this->ReverseExpansionDirectionOn();
-  }
+    }
   void SetUseNegativeFeaturesOff()
-  {
+    {
     itkWarningMacro( << "SetUseNegativeFeaturesOff has been deprecated.  Please use ReverseExpansionDirectionOff() instead" );
     this->ReverseExpansionDirectionOff();
-  }
+    }
 
   /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED. Set/Get the value of the UseNegativeFeatures flag.  This method is
-   * deprecated.  Use Set/Get ReverseExpansionDirection instead.*/
+   * deprecated.  Use Set/Get ReverseExpansionDirection instead. */
   void SetUseNegativeFeatures( bool u )
-  {
+    {
     itkWarningMacro( << "SetUseNegativeFeatures has been deprecated.  Please use SetReverseExpansionDirection instead" );
     if (u == true)
       {
@@ -265,9 +266,9 @@ public:
       {
       this->SetReverseExpansionDirection(true);
       }
-  }
+    }
   bool GetUseNegativeFeatures() const
-  {
+    {
     itkWarningMacro( << "GetUseNegativeFeatures has been deprecated.  Please use GetReverseExpansionDirection() instead" );
     if ( m_ReverseExpansionDirection == false)
       {
@@ -277,7 +278,7 @@ public:
       {
       return false;
       }
-  }
+    }
 
   /** Turn On/Off the flag which determines whether Positive or Negative speed
    * terms will cause surface expansion.  If set to TRUE then negative speed
@@ -303,87 +304,87 @@ public:
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
       Get/SetAdvectionScaling (if appropriate).  See subclasses for details
-      on when and whether to set these parameters.*/
+      on when and whether to set these parameters. */
   void SetFeatureScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetPropagationWeight())
-      {        
+      {
       this->SetPropagationScaling(v);
       }
     if (v != m_SegmentationFunction->GetAdvectionWeight())
       {
       this->SetAdvectionScaling(v);
       }
-  }
+    }
 
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
   void SetPropagationScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetPropagationWeight())
-      {        
+      {
       m_SegmentationFunction->SetPropagationWeight(v);
       this->Modified();
       }
-  }
+    }
   ValueType GetPropagationScaling() const
-  {
+    {
     return m_SegmentationFunction->GetPropagationWeight();
-  }
+    }
 
   /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
       parameter will override any existing value for AdvectionScaling. */
   void SetAdvectionScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetAdvectionWeight())
-      {        
+      {
       m_SegmentationFunction->SetAdvectionWeight(v);
       this->Modified();
       }
-  }
+    }
   ValueType GetAdvectionScaling() const
-  {
+    {
     return m_SegmentationFunction->GetAdvectionWeight();
-  }
+    }
 
-  /** Set/Get the scaling of the curvature. Use this parameter to increase the
-      influence of curvature on the movement of the surface.  Higher values
-      relative to Advection and Propagation values will give smoother surfaces. */
+  /** Set/Get the scaling of the curvature. Use this parameter to
+   *  increase the influence of curvature on the movement of the
+   *  surface.  Higher values relative to Advection and Propagation
+   *  values will give smoother surfaces. */
   void SetCurvatureScaling(ValueType v)
-  {
+    {
     if (v != m_SegmentationFunction->GetCurvatureWeight())
-      {        
+      {
       m_SegmentationFunction->SetCurvatureWeight(v);
       this->Modified();
       }
-  }
+    }
   ValueType GetCurvatureScaling() const
-  {
+    {
     return m_SegmentationFunction->GetCurvatureWeight();
-  }
-
+    }
 
   /** */
   void SetUseMinimalCurvature( bool b )
-  {
+    {
     if ( m_SegmentationFunction->GetUseMinimalCurvature() != b)
       {
       m_SegmentationFunction->SetUseMinimalCurvature( b );
       this->Modified();
       }
-  }
+    }
   bool GetUseMinimalCurvature() const
-  {
+    {
     return m_SegmentationFunction->GetUseMinimalCurvature();
-  }
+    }
   void UseMinimalCurvatureOn()
-  {
+    {
     this->SetUseMinimalCurvature(true);
-  }
+    }
   void UseMinimalCurvatureOff()
-  {
+    {
     this->SetUseMinimalCurvature(false);
-  }
+    }
   
   
   /** Set the segmentation function.  In general, this should only be
@@ -392,7 +393,7 @@ public:
    *  problem with the gcc 2.95 compiler matching the declaration with 
    *  the definition. */
   virtual void SetSegmentationFunction(SegmentationFunctionType *s)
-  {
+    {
     m_SegmentationFunction = s; 
   
     typename SegmentationFunctionType::RadiusType r;
@@ -401,54 +402,54 @@ public:
     m_SegmentationFunction->Initialize(r);
     this->SetDifferenceFunction(m_SegmentationFunction);
     this->Modified();
-  }
+    }
 
   virtual SegmentationFunctionType *GetSegmentationFunction()
-  { return m_SegmentationFunction; }
+    { return m_SegmentationFunction; }
 
   
   /** Set/Get the maximum constraint for the curvature term factor in the time step
    *  calculation.  Changing this value from the default is not recommended or
    *   necessary but could be used to speed up the surface evolution at the risk
-   *   of creating an unstable solution.*/
+   *   of creating an unstable solution. */
   void SetMaximumCurvatureTimeStep(double n)
-  {
+    {
     if ( n != m_SegmentationFunction->GetMaximumCurvatureTimeStep() )
       {
       m_SegmentationFunction->SetMaximumCurvatureTimeStep(n);
       this->Modified();
       }
-  }
+    }
   double GetMaximumCurvatureTimeStep() const
-  {
+    {
     return m_SegmentationFunction->GetMaximumCurvatureTimeStep();
-  }
+    }
 
   /** Set/Get the maximum constraint for the scalar/vector term factor of the time step
    *  calculation.  Changing this value from the default is not recommended or
    *  necessary but could be used to speed up the surface evolution at the risk
-   *  of creating an unstable solution.*/
+   *  of creating an unstable solution. */
   void SetMaximumPropagationTimeStep(double n)
-  {
+    {
     if (n != m_SegmentationFunction->GetMaximumPropagationTimeStep() )
       {
       m_SegmentationFunction->SetMaximumPropagationTimeStep(n);
       this->Modified();
       }
-  }
+    }
   double GetMaximumPropagationTimeStep() const
-  {
+    {
     return m_SegmentationFunction->GetMaximumPropagationTimeStep();
-  }
+    }
 
   /** Allocate and calculate the speed term image in the SegmentationFunction
       object.  This method is called automatically on filter execution
-      unless AutoGenerateSpeedAdvection is set to Off.*/
+      unless AutoGenerateSpeedAdvection is set to Off. */
   void GenerateSpeedImage();
 
   /** Allocate and calculate the advection term image in the
-      SegmentationFunction object  This method is called automatically on
-      filter execution unless AutoGenerateSpeedAdvection is set to Off.*/
+   * SegmentationFunction object  This method is called automatically on
+   * filter execution unless AutoGenerateSpeedAdvection is set to Off. */
   void GenerateAdvectionImage();
   
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -466,12 +467,12 @@ protected:
 
   /** Overrides parent implementation */
   virtual void InitializeIteration()
-  {
+    {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
     this->SetProgress( (float) ((float)this->GetElapsedIterations()
                                 / (float)this->GetNumberOfIterations()) );
-  }
+    }
   
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
@@ -501,4 +502,3 @@ private:
 #endif
 
 #endif
-

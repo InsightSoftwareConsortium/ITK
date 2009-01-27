@@ -15,17 +15,17 @@
 
 =========================================================================*/
 
-#ifndef _itkUnaryMedialNodeMetric_txx
-#define _itkUnaryMedialNodeMetric_txx
+#ifndef __itkUnaryMedialNodeMetric_txx
+#define __itkUnaryMedialNodeMetric_txx
 
 #include "itkUnaryMedialNodeMetric.h"
 
 namespace itk
 {
 
-  /**
-   * Constructor.
-   */
+/**
+ * Constructor.
+ */
 template <int VDimensions>
 UnaryMedialNodeMetric<VDimensions>
 ::UnaryMedialNodeMetric()

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef itkStructHashFunction_h
-#define itkStructHashFunction_h
+#ifndef __itkStructHashFunction_h
+#define __itkStructHashFunction_h
 
 namespace itk
 {

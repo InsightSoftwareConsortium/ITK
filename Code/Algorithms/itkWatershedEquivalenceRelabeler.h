@@ -57,48 +57,50 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,TImageDimension);
   
   /**  Some convenient typedefs.   */
-  typedef Image<unsigned long, TImageDimension> ImageType;
-  typedef EquivalenceRelabeler Self;
-  typedef ProcessObject Superclass;
-  typedef TScalarType ScalarType;
-  typedef EquivalencyTable EquivalencyTableType;
+  typedef Image<unsigned long, TImageDimension>          ImageType;
+  typedef EquivalenceRelabeler                           Self;
+  typedef ProcessObject                                  Superclass;
+  typedef TScalarType                                    ScalarType;
+  typedef EquivalencyTable                               EquivalencyTableType;
   typedef Segmenter<Image<ScalarType, TImageDimension> > SegmenterType;
-  typedef DataObject::Pointer DataObjectPointer;
+  typedef DataObject::Pointer                            DataObjectPointer;
   
   /**  Define smart pointers for this object.   */
-  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedEquivalenceRelabeler, ProcessObject);
 
   /** Set/Get the image to relabel.   */
   void SetInputImage(ImageType *img)
-  {      this->ProcessObject::SetNthInput(0, img);    }
+    { this->ProcessObject::SetNthInput(0, img); }
   const ImageType * GetInputImage(void)
-  {
+    {
     return static_cast<ImageType *>
       (this->ProcessObject::GetInput(0));
-  }
+    }
 
   /** Set/Get the output image */
   void SetOutputImage(ImageType * img)
-  {
+    {
     this->ProcessObject::SetNthOutput(0,img);
-  }
+    }
   typename ImageType::Pointer GetOutputImage()
-  { return static_cast<ImageType *>
-      (this->ProcessObject::GetOutput(0)); }
+    {
+    return static_cast<ImageType *>
+      (this->ProcessObject::GetOutput(0));
+    }
   
   /** Set/Get the table to use in relabeling the input image.   */
   void SetEquivalencyTable(EquivalencyTableType *et)
-  {
+    {
     this->ProcessObject::SetNthInput(1, et);
-  }
+    }
   EquivalencyTableType::Pointer GetEquivalencyTable()
-  {
+    {
     return static_cast<EquivalencyTableType *>
       (this->ProcessObject::GetInput(1));
-  }
+    }
 
   /** Standard non-threaded pipeline method */
   void GenerateData();
@@ -108,12 +110,12 @@ public:
 
 protected:
   EquivalenceRelabeler()
-  {
+    {
     typename ImageType::Pointer img
       = static_cast<ImageType*>(this->MakeOutput(0).GetPointer());
     this->SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput(0, img.GetPointer());
-  }
+    }
   virtual ~EquivalenceRelabeler() {}
   EquivalenceRelabeler(const Self&) {}
   void operator=(const Self&) {}

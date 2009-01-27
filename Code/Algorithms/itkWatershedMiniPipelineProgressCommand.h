@@ -22,7 +22,8 @@
 
 namespace itk {
 
-/** A specialized Command object for updating the progress of a
+/** \class WatershedMiniPipelineProgressCommand
+ * A specialized Command object for updating the progress of a
  *  MiniPipeline.  Follows the progress of a series of filters
  *  and calls UpdateProgress on another filter (i.e. the filter
  * implementing the mini-pipeline). */
@@ -31,9 +32,9 @@ class WatershedMiniPipelineProgressCommand : public Command
 public:
   /** Smart pointer declaration methods */
   typedef WatershedMiniPipelineProgressCommand Self;
-  typedef Command Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef Command                              Superclass;
+  typedef itk::SmartPointer<Self>              Pointer;
+  typedef itk::SmartPointer<const Self>        ConstPointer;
   itkTypeMacro( WatershedMiniPipelineProgressCommand, Command );
   itkNewMacro(Self);
 
@@ -44,9 +45,9 @@ public:
   /** Set/Get the filter whose UpdateProgress will be set by this
    * command object */
   void SetFilter( ProcessObject *p)
-  { m_Filter = p; }
+    { m_Filter = p; }
   const ProcessObject *GetFilter()
-  { return m_Filter; }
+    { return m_Filter; }
 
   /** Set/Get the base count for stepping through filter progress values */
   itkSetMacro(Count, double);
@@ -63,9 +64,9 @@ protected:
   virtual ~WatershedMiniPipelineProgressCommand() {}
   
 private:
-  double m_Count;
+  double         m_Count;
   ProcessObject *m_Filter;
-  double m_NumberOfFilters;
+  double         m_NumberOfFilters;
 };
 
 } // end namespace itk

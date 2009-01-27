@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
-#ifndef _itkUnsharpMaskLevelSetImageFilter_txx_
-#define _itkUnsharpMaskLevelSetImageFilter_txx_
+#ifndef __itkUnsharpMaskLevelSetImageFilter_txx
+#define __itkUnsharpMaskLevelSetImageFilter_txx
 
 #include "itkUnsharpMaskLevelSetImageFilter.h"
 
@@ -49,8 +49,8 @@ void
 UnsharpMaskLevelSetImageFilter <TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);     
-  os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;      
+  Superclass::PrintSelf(os, indent);
+  os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;
 }
 
 } // end namespace itk

@@ -121,4 +121,3 @@ BoundaryResolver<TPixelType, TDimension>
 } // end namespace itk
 
 #endif
-

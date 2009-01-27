@@ -54,8 +54,8 @@ void EquivalenceRelabeler<TScalarType, TImageDimension>
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT); 
 }
 
-template <class TScalarType, unsigned int ImageDimension>
-void EquivalenceRelabeler<TScalarType, ImageDimension>
+template <class TScalarType, unsigned int VImageDimension>
+void EquivalenceRelabeler<TScalarType, VImageDimension>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -69,75 +69,6 @@ void EquivalenceRelabeler<TScalarType, ImageDimension>
     {
     return;
     }
-
-  /*
-    // we need to compute the input requested region (size and start index)
-    int i;
-    const typename OutputImageType::SizeType& outputRequestedRegionSize
-    = outputPtr->GetRequestedRegion().GetSize();
-    const typename OutputImageType::IndexType& outputRequestedRegionStartIndex
-    = outputPtr->GetRequestedRegion().GetIndex();
-    
-    typename InputImageType::SizeType  inputRequestedRegionSize;
-    typename InputImageType::IndexType inputRequestedRegionStartIndex;
-    
-    const typename InputImageType::SizeType  inputLargestPossibleRegionSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-    const typename InputImageType::IndexType inputLargestPossibleRegionStartIndex
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
-    
-    //  typename InputImageType::RegionType reg1 = inputPtr->GetRequestedRegion();
-    //  reg1.PadByRadius(1);
-    ///  
-    //  exit(0);
-    
-    long crop=0;
-    for (i = 0; i < TInputImage::ImageDimension; i++)
-    {
-    
-    // Calculate a new region that is padded by 1 on each face
-    inputRequestedRegionSize[i]
-    = outputRequestedRegionSize[i] + 2;
-    inputRequestedRegionStartIndex[i]
-    = outputRequestedRegionStartIndex[i] - 1;
-    
-    // crop the requested region to the largest possible region
-    
-    
-    // first check the start index
-    if (inputRequestedRegionStartIndex[i]
-    < inputLargestPossibleRegionStartIndex[i])
-    {
-    // how much do we need to adjust
-    crop = inputLargestPossibleRegionStartIndex[i]
-    - inputRequestedRegionStartIndex[i];
-    
-    // adjust the start index and the size of the requested region
-    inputRequestedRegionStartIndex[i] += crop;
-    inputRequestedRegionSize[i] -= crop;
-    }
-    // now check the final size
-    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
-    > inputLargestPossibleRegionStartIndex[i]
-    + inputLargestPossibleRegionSize[i])
-    {
-    // how much do we need to adjust
-    crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
-    - inputLargestPossibleRegionStartIndex[i]
-    - inputLargestPossibleRegionSize[i];
-    
-    // adjust the size
-    inputRequestedRegionSize[i] -= crop;
-    }
-    }
-    
-    typename TInputImage::RegionType inputRequestedRegion;
-    inputRequestedRegion.SetSize( inputRequestedRegionSize );
-    inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
-    
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-  */
 
   // 
   // FOR NOW WE'LL JUST SET THE INPUT REGION TO THE OUTPUT REGION

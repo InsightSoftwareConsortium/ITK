@@ -88,15 +88,15 @@ void Relabeler<TScalarType, TImageDimension>
   while ( it != tree->End() && (*it).saliency <= mergeLimit )
     {
     eqT->Add((*it).from, (*it).to);
-    it++;      
+    it++;
     } 
 
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
   this->UpdateProgress(1.0);
 }
 
-template <class TScalarType, unsigned int ImageDimension>
-void Relabeler<TScalarType, ImageDimension>
+template <class TScalarType, unsigned int VImageDimension>
+void Relabeler<TScalarType, VImageDimension>
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -111,76 +111,6 @@ void Relabeler<TScalarType, ImageDimension>
     return;
     }
 
-  /*
-    // we need to compute the input requested region (size and start index)
-    int i;
-    const typename ImageType::SizeType& outputRequestedRegionSize
-    = outputPtr->GetRequestedRegion().GetSize();
-    const typename ImageType::IndexType& outputRequestedRegionStartIndex
-    = outputPtr->GetRequestedRegion().GetIndex();
-    
-    typename InputImageType::SizeType  inputRequestedRegionSize;
-    typename InputImageType::IndexType inputRequestedRegionStartIndex;
-    
-    const typename InputImageType::SizeType  inputLargestPossibleRegionSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-    const typename InputImageType::IndexType inputLargestPossibleRegionStartIndex
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
-    
-    //  typename InputImageType::RegionType reg1 = inputPtr->GetRequestedRegion();
-    //  reg1.PadByRadius(1);
-    ///  
-    // std::cout << reg1 << std::endl;
-    
-    //  exit(0);
-    
-    long crop=0;
-    for (i = 0; i < TInputImage::ImageDimension; i++)
-    {
-    
-    // Calculate a new region that is padded by 1 on each face
-    inputRequestedRegionSize[i]
-    = outputRequestedRegionSize[i] + 2;
-    inputRequestedRegionStartIndex[i]
-    = outputRequestedRegionStartIndex[i] - 1;
-    
-    // crop the requested region to the largest possible region
-    
-    
-    // first check the start index
-    if (inputRequestedRegionStartIndex[i]
-    < inputLargestPossibleRegionStartIndex[i])
-    {
-    // how much do we need to adjust
-    crop = inputLargestPossibleRegionStartIndex[i]
-    - inputRequestedRegionStartIndex[i];
-    
-    // adjust the start index and the size of the requested region
-    inputRequestedRegionStartIndex[i] += crop;
-    inputRequestedRegionSize[i] -= crop;
-    }
-    // now check the final size
-    if (inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
-    > inputLargestPossibleRegionStartIndex[i]
-    + inputLargestPossibleRegionSize[i])
-    {
-    // how much do we need to adjust
-    crop = inputRequestedRegionStartIndex[i] + inputRequestedRegionSize[i] 
-    - inputLargestPossibleRegionStartIndex[i]
-    - inputLargestPossibleRegionSize[i];
-    
-    // adjust the size
-    inputRequestedRegionSize[i] -= crop;
-    }
-    }
-    
-    typename TInputImage::RegionType inputRequestedRegion;
-    inputRequestedRegion.SetSize( inputRequestedRegionSize );
-    inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
-    
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-  */  
   // 
   // FOR NOW WE'LL JUST SET THE INPUT REGION TO THE OUTPUT REGION
   //
@@ -213,9 +143,6 @@ void Relabeler<TScalarType, TImageDimension>
     }
 }
 
-/*
- * 
- */
 template <class TScalarType, unsigned int TImageDimension>
 void Relabeler<TScalarType, TImageDimension>
 ::GraftOutput(ImageType *graft)
@@ -223,9 +150,6 @@ void Relabeler<TScalarType, TImageDimension>
   this->GraftNthOutput(0, graft);
 }
 
-/*
- * 
- */
 template <class TScalarType, unsigned int TImageDimension>
 void Relabeler<TScalarType, TImageDimension>
 ::GraftNthOutput(unsigned int idx, ImageType *graft)

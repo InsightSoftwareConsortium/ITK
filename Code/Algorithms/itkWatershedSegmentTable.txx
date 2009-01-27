@@ -64,45 +64,6 @@ bool SegmentTable<TScalarType>
   if (result.second == false) return false;
   else return true;
 }
-
-//template <class TScalarType>
-//void SegmentTable<TScalarType>
-//::PrintHashTable() const
-//{
-//  std::cout << "This has table has " << m_HashMap.size() << " entries." <<
-//    std::endl;
-//  std::cout << "Maximum depth is " << m_MaximumDepth << std::endl;
-//  unsigned long i = 0;
-// 
-//  edge_list_t::const_iterator e;
-//  ConstIterator it = this->Begin();
-//  while (it != this->End() )
-//    {
-//          std::cout << "KEY: " << (*it).first << " = " << std::endl;
-//          std::cout << "         min " << (*it).second.min << std::endl;
-//         std::cout << "  edge_list = { ";
-//          e = (*it).second.edge_list.begin();
-//          while (e != (*it).second.edge_list.end() )
-//            {
-//              std::cout << "(" << (*e).label << ", " << (*e).height << ") ";
-//              e++;
-//            }
-//          std::cout << std::endl;
-//      it++;
-//      i++;
-//    }
-//  std::cout << "Verified " << i << " entries" << std::endl;
-//}
-  
-
-template <class TScalarType>
-void 
-SegmentTable<TScalarType>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-}
-  
 }// end namespace watershed
 }// end namespace itk
 

@@ -57,11 +57,11 @@ class ITK_EXPORT VoronoiDiagram2D:
 {
 public:
   /** Standard class typedefs. */
-  typedef VoronoiDiagram2D   Self;
+  typedef VoronoiDiagram2D          Self;
   typedef Mesh <TCoordType, 2,
                 DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType> >
-  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+                                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -122,20 +122,21 @@ public:
   CellDataContainer::ConstIterator      CellDataContainerIterator;
   typedef typename
   PointCellLinksContainer::const_iterator        PointCellLinksContainerIterator;
+
   typedef CellFeatureIdentifier                     CellFeatureCount;
   typedef CellInterface<PixelType,CellTraits>       CellInterfaceType;
   typedef PolygonCell<CellInterfaceType>            CellType;
   typedef typename CellType::CellAutoPointer        CellAutoPointer;
-  typedef Point<int,2> EdgeInfo;
-  typedef std::deque<EdgeInfo> EdgeInfoDQ;
-  typedef typename CellType::MultiVisitor CellMultiVisitorType;
-  typedef std::vector<PointType> SeedsType;
-  typedef typename SeedsType::iterator SeedsIterator;
-  typedef LineCell <CellInterfaceType> Edge;
-  typedef typename Edge::SelfAutoPointer EdgeAutoPointer;
-  typedef std::list<PointType> PointList;
-  typedef std::vector<int> INTvector;
-  typedef typename INTvector::iterator NeighborIdIterator;
+  typedef Point<int,2>                              EdgeInfo;
+  typedef std::deque<EdgeInfo>                      EdgeInfoDQ;
+  typedef typename CellType::MultiVisitor           CellMultiVisitorType;
+  typedef std::vector<PointType>                    SeedsType;
+  typedef typename SeedsType::iterator              SeedsIterator;
+  typedef LineCell <CellInterfaceType>              Edge;
+  typedef typename Edge::SelfAutoPointer            EdgeAutoPointer;
+  typedef std::list<PointType>                      PointList;
+  typedef std::vector<int>                          INTvector;
+  typedef typename INTvector::iterator              NeighborIdIterator;
   typedef typename std::vector<PointType>::iterator VertexIterator;
 
   /** Get the number of Voronoi seeds. */
@@ -170,12 +171,12 @@ public:
   public:
     PointType m_Left;
     PointType m_Right;
-    int m_LeftID;
-    int m_RightID;
-    int m_LineID;
-    VoronoiEdge(){};
-    ~VoronoiEdge(){};
-  };
+    int       m_LeftID;
+    int       m_RightID;
+    int       m_LineID;
+    VoronoiEdge(){}
+    ~VoronoiEdge(){}
+    };
   
   /** The iterator for Voronoi edges, */
   typedef typename std::vector<VoronoiEdge>::iterator VoronoiEdgeIterator;
@@ -191,32 +192,38 @@ public:
   void Reset();
   void InsertCells();
 
-  void AddCellNeighbor(EdgeInfo x){ 
+  void AddCellNeighbor(EdgeInfo x)
+    { 
     m_CellNeighborsID[x[0]].push_back(x[1]);
-    m_CellNeighborsID[x[1]].push_back(x[0]);};
-  void ClearRegion(int i){ m_VoronoiRegions[i]->ClearPoints();};  
-  void VoronoiRegionAddPointId(int id, int x){m_VoronoiRegions[id]->AddPointId(x);};
-  void BuildEdge(int id){ m_VoronoiRegions[id]->BuildEdges();};
+    m_CellNeighborsID[x[1]].push_back(x[0]);
+    }
+  void ClearRegion(int i)
+    { m_VoronoiRegions[i]->ClearPoints();}
+  void VoronoiRegionAddPointId(int id, int x)
+    { m_VoronoiRegions[id]->AddPointId(x);}
+  void BuildEdge(int id)
+    { m_VoronoiRegions[id]->BuildEdges();}
 
-  void LineListClear(){ f_LineList.clear();};
-  void EdgeListClear(){ f_EdgeList.clear();};
-  void VertexListClear(){ f_VertexList.clear();};
-  int LineListSize(){ return static_cast<int>( f_LineList.size() );}; 
-  int EdgeListSize(){ return static_cast<int>( f_EdgeList.size() );}; 
-  int VertexListSize(){ return static_cast<int>( f_VertexList.size() );}; 
-  void AddLine(EdgeInfo x){ f_LineList.push_back(x);};
-  void AddEdge(VoronoiEdge x){ f_EdgeList.push_back(x);};
-  void AddVert(PointType x){ f_VertexList.push_back(x);};
-  EdgeInfo GetLine(int id){ return f_LineList[id];}; 
-  VoronoiEdge GetEdge(int id){ return f_EdgeList[id];}; 
-  PointType GetVertex(int id){ return f_VertexList[id];}; 
-  EdgeInfo GetEdgeEnd(int id){
+  void LineListClear(){ m_LineList.clear();}
+  void EdgeListClear(){ m_EdgeList.clear();}
+  void VertexListClear(){ m_VertexList.clear();}
+  int LineListSize(){ return static_cast<int>( m_LineList.size() );} 
+  int EdgeListSize(){ return static_cast<int>( m_EdgeList.size() );} 
+  int VertexListSize(){ return static_cast<int>( m_VertexList.size() );} 
+  void AddLine(EdgeInfo x){ m_LineList.push_back(x);}
+  void AddEdge(VoronoiEdge x){ m_EdgeList.push_back(x);}
+  void AddVert(PointType x){ m_VertexList.push_back(x);}
+  EdgeInfo GetLine(int id){ return m_LineList[id];} 
+  VoronoiEdge GetEdge(int id){ return m_EdgeList[id];} 
+  PointType GetVertex(int id){ return m_VertexList[id];} 
+  EdgeInfo GetEdgeEnd(int id)
+    {
     EdgeInfo x;
-    x[0]=f_EdgeList[id].m_LeftID;
-    x[1]=f_EdgeList[id].m_RightID;
+    x[0]=m_EdgeList[id].m_LeftID;
+    x[1]=m_EdgeList[id].m_RightID;
     return x;
-  }
-  int GetEdgeLineID(int id){ return f_EdgeList[id].m_LineID; };
+    }
+  int GetEdgeLineID(int id){ return m_EdgeList[id].m_LineID; }
 
 protected:
   VoronoiDiagram2D();
@@ -228,16 +235,16 @@ private:
   VoronoiDiagram2D(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  SeedsType m_Seeds;
-  unsigned int m_NumberOfSeeds;
-  std::vector<CellType *> m_VoronoiRegions;
-  PointType m_VoronoiBoundary;
-  PointType m_VoronoiBoundaryOrigin;
+  SeedsType                       m_Seeds;
+  unsigned int                    m_NumberOfSeeds;
+  std::vector<CellType *>         m_VoronoiRegions;
+  PointType                       m_VoronoiBoundary;
+  PointType                       m_VoronoiBoundaryOrigin;
   std::vector< std::vector<int> > m_CellNeighborsID;
   
-  std::vector< EdgeInfo > f_LineList;
-  std::vector< PointType > f_VertexList;
-  std::vector< VoronoiEdge > f_EdgeList;
+  std::vector< EdgeInfo >    m_LineList;
+  std::vector< PointType >   m_VertexList;
+  std::vector< VoronoiEdge > m_EdgeList;
 
 }; // end class: VoronoiDiagram2D
 
@@ -248,5 +255,3 @@ private:
 #endif
 
 #endif
-
-

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetFunction_h_
-#define __itkShapePriorSegmentationLevelSetFunction_h_
+#ifndef __itkShapePriorSegmentationLevelSetFunction_h
+#define __itkShapePriorSegmentationLevelSetFunction_h
 
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkShapeSignedDistanceFunction.h"
@@ -23,7 +23,7 @@
 namespace itk {
 
 /** \class ShapePriorSegmentationLevelSetFunction
- *    
+ *
  * \brief This function is used in ShapePriorSegmentationLevelSetFilter to
  * segment structures in an image based on user supplied edge potential map and 
  * shape model.
@@ -56,10 +56,11 @@ class ITK_EXPORT ShapePriorSegmentationLevelSetFunction
 public:
   /** Standard class typedefs. */
   typedef ShapePriorSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType,TFeatureImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef TFeatureImageType FeatureImageType;
+  typedef SegmentationLevelSetFunction<TImageType,TFeatureImageType>
+                                                 Superclass;
+  typedef SmartPointer<Self>                     Pointer;
+  typedef SmartPointer<const Self>               ConstPointer;
+  typedef TFeatureImageType                      FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,16 +69,16 @@ public:
   itkTypeMacro( ShapePriorSegmentationLevelSetFunction, SegmentationLevelSetFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
-  typedef typename Superclass::FeatureScalarType FeatureScalarType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
-  typedef typename Superclass::VectorImageType VectorImageType;
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::TimeStepType TimeStepType;
-  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::ImageType           ImageType;
+  typedef typename Superclass::NeighborhoodType    NeighborhoodType;
+  typedef typename Superclass::ScalarValueType     ScalarValueType;
+  typedef typename Superclass::FeatureScalarType   FeatureScalarType;
+  typedef typename Superclass::RadiusType          RadiusType;
+  typedef typename Superclass::FloatOffsetType     FloatOffsetType;
+  typedef typename Superclass::VectorImageType     VectorImageType;
+  typedef typename Superclass::PixelType           PixelType;
+  typedef typename Superclass::TimeStepType        TimeStepType;
+  typedef typename Superclass::IndexType           IndexType;
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** Extract some parameters from the superclass. */
@@ -114,20 +115,20 @@ public:
   /** A global data type used to store values needed to compute the time step. */
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
   struct ShapePriorGlobalDataStruct : public GlobalDataStruct
-   {
-     ScalarValueType m_MaxShapePriorChange;
-   };
+    {
+    ScalarValueType m_MaxShapePriorChange;
+    };
 
   /** Returns a pointer to a global data structure for computing time step. */
   virtual void *GetGlobalDataPointer() const
     {
-      ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
-      ans->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
-      ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
-      ans->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
-      ans->m_MaxShapePriorChange  = NumericTraits<ScalarValueType>::Zero;
-      return ans; 
-   }
+    ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
+    ans->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
+    ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
+    ans->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
+    ans->m_MaxShapePriorChange  = NumericTraits<ScalarValueType>::Zero;
+    return ans; 
+    }
 
   /** Release the global data structure. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const

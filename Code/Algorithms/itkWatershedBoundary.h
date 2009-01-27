@@ -66,13 +66,13 @@ public:
    * The IndexType.first is the dimension of the face and IndexType.second is a
    * binary value 0 or 1 indicating the LOW face or the HIGH face,
    * respectively.    */
-  typedef std::pair<unsigned, unsigned> IndexType;
+  typedef std::pair<unsigned, unsigned>                        IndexType;
   typedef typename Image<unsigned long, TDimension>::IndexType ImageIndexType;
-  typedef TScalarType ScalarType;
+  typedef TScalarType                                          ScalarType;
 
   /** Data type stored at each pixel in a face.   */
   struct face_pixel_t
-  {
+    {
     /**Index of the direction of watershed flow through this pixel.
      * A negative value indicates that the flow does not move out
      * of the region.  A positive value is the index into the
@@ -91,11 +91,11 @@ public:
 
     /** The label associated with this pixel.     */
     unsigned long label;
-  };
+    };
 
   /**    */
   struct flat_region_t
-  {
+    {
     /** Indicies into the associated Face containing boundary pixels.  These
      * give access to spatial information, label and flow associated with
      * this boundary pixel connection.     */
@@ -111,22 +111,21 @@ public:
 
     /** The value of this flat region     */
     ScalarType value;
-  };
+    };
   
   /** The face data structure.  This is just an Image of face pixel
       types. */
   typedef Image<face_pixel_t, TDimension> face_t;
-
   /** A hash table holding flat region data structures.   */
-  typedef itk::hash_map<unsigned long, flat_region_t,
+  typedef itk::hash_map<unsigned long,             flat_region_t,
                         itk::hash<unsigned long> > flat_hash_t;
-  typedef typename flat_hash_t::value_type FlatHashValueType;
+  typedef typename flat_hash_t::value_type         FlatHashValueType;
   
   /** Itk typedefs and macros defining smart pointer and type identification.
    */
-  typedef Boundary Self;
-  typedef DataObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef Boundary                 Self;
+  typedef DataObject               Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedBoundary, DataObject);
@@ -143,59 +142,59 @@ public:
    * the number of the axial dimension and highlow is 0 for the LOW
    * face and 1 for the HIGH face.   */ 
   FacePointer GetFace(unsigned dimension, unsigned highlow)
-  {
+    {
     if (highlow == 0) return m_Faces[dimension].first;
     else return m_Faces[dimension].second;
-  }
+    }
 
   void SetFace(FacePointer f, const IndexType &idx)
-  { this->SetFace(f, idx.first, idx.second); }
+    { this->SetFace(f, idx.first, idx.second); }
   
   void SetFace(FacePointer f, unsigned dimension, unsigned highlow)
-  {
+    {
     if (highlow ==0 ) m_Faces[dimension].first = f;
     else m_Faces[dimension].second = f;
     this->Modified();
-  }
+    }
   
   /** Get/Set the table of flat region connections specified by the index. */
   flat_hash_t *GetFlatHash(const IndexType &idx)
-  { return this->GetFlatHash(idx.first, idx.second); }
+    { return this->GetFlatHash(idx.first, idx.second); }
   flat_hash_t *GetFlatHash(unsigned dimension, unsigned highlow)
-  {
+    {
     if (highlow == 0) return &(m_FlatHashes[dimension].first);
     else return &(m_FlatHashes[dimension].second);
-  }
+    }
   void SetFlatHash(flat_hash_t & l, const IndexType &idx)
-  { this->SetFlatHash(l, idx.first, idx.second); }  
+    { this->SetFlatHash(l, idx.first, idx.second); }  
   void SetFlatHash(flat_hash_t & l, unsigned dimension,
                    unsigned highlow)
-  {
+    {
     if (highlow ==0 ) m_FlatHashes[dimension].first = l;
     else m_FlatHashes[dimension].second = l;
     this->Modified();
-  }
+    }
 
   /** Marks a face in the boundary object as either valid (true) or
    * invalid (false).  A valid face is assumed to be initialized
    * and contain information.  No assumptions are made about an
    * invalid face.   */
   void SetValid(bool & l, const IndexType &idx)
-  { this->SetValid(l, idx.first, idx.second); }  
+    { this->SetValid(l, idx.first, idx.second); }  
   void SetValid(bool b, unsigned dimension,
                 unsigned highlow)
-  {
+    {
     if (highlow ==0 ) m_Valid[dimension].first = b;
     else m_Valid[dimension].second = b;
     this->Modified();
-  }
+    }
   bool GetValid(const IndexType &idx) const
-  { return this->GetValid(idx.first, idx.second); }
+    { return this->GetValid(idx.first, idx.second); }
   bool GetValid(unsigned dimension, unsigned highlow) const
-  {
+    {
     if (highlow == 0) return m_Valid[dimension].first;
     else return m_Valid[dimension].second;
-  }
+    }
 
 protected:
   Boundary();
@@ -224,4 +223,3 @@ protected:
 #endif
 
 #endif
-

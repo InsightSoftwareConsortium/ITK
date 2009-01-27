@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSegmentationLevelSetImageFilter_txx_
-#define __itkSegmentationLevelSetImageFilter_txx_
+#ifndef __itkSegmentationLevelSetImageFilter_txx
+#define __itkSegmentationLevelSetImageFilter_txx
 
 #include "itkSegmentationLevelSetImageFilter.h"
 
@@ -54,8 +54,8 @@ void
 SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 ::GenerateSpeedImage()
 {
-    m_SegmentationFunction->AllocateSpeedImage();
-    m_SegmentationFunction->CalculateSpeedImage();
+  m_SegmentationFunction->AllocateSpeedImage();
+  m_SegmentationFunction->CalculateSpeedImage();
 }
 
 template <class TInputImage, class TFeatureImage, class TOutputPixelType>
@@ -63,8 +63,8 @@ void
 SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 ::GenerateAdvectionImage()
 {
-    m_SegmentationFunction->AllocateAdvectionImage();
-    m_SegmentationFunction->CalculateAdvectionImage();
+  m_SegmentationFunction->AllocateAdvectionImage();
+  m_SegmentationFunction->CalculateAdvectionImage();
 }
 
 template <class TInputImage, class TFeatureImage, class TOutputPixelType>

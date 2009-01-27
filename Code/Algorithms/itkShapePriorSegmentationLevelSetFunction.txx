@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkShapePriorSegmentationLevelSetFunction_txx_
-#define __itkShapePriorSegmentationLevelSetFunction_txx_
+#ifndef __itkShapePriorSegmentationLevelSetFunction_txx
+#define __itkShapePriorSegmentationLevelSetFunction_txx
 
 #include "itkShapePriorSegmentationLevelSetFunction.h"
 

@@ -67,9 +67,9 @@ class ITK_EXPORT BoundaryResolver : public ProcessObject
 {
 public:
   /** Set up smart pointer and object factory definitions.   */
-  typedef BoundaryResolver Self;
-  typedef ProcessObject Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef BoundaryResolver         Self;
+  typedef ProcessObject            Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedBoundaryResolver, ProcessObject);
@@ -78,11 +78,11 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TDimension);
 
   /** Some convenient typedefs.   */
-  typedef TPixelType PixelType;
-  typedef Boundary<PixelType, TDimension> BoundaryType;
-  typedef EquivalencyTable EquivalencyTableType;
+  typedef TPixelType                                PixelType;
+  typedef Boundary<PixelType, TDimension>           BoundaryType;
+  typedef EquivalencyTable                          EquivalencyTableType;
   typedef Segmenter<Image<TPixelType, TDimension> > SegmenterType;
-  typedef DataObject::Pointer DataObjectPointer;
+  typedef DataObject::Pointer                       DataObjectPointer;
   
   /** Set/Get the first of two boundaries that are to be resolved.   */
   void SetBoundaryA(BoundaryType *bd)
@@ -97,7 +97,7 @@ public:
   { return static_cast<BoundaryType *>(this->GetInput(1));  }
   
   /**  Set/Get the face of the boundary object that we are going to
-       resolve. */
+   *  resolve. */
   itkSetMacro(Face, unsigned short);
   itkGetMacro(Face, unsigned short);
   
@@ -117,12 +117,12 @@ public:
   virtual DataObjectPointer MakeOutput(unsigned int idx);  
 protected:
   BoundaryResolver() : m_Face(0)
-  {
+    {
     EquivalencyTable::Pointer eq
       = static_cast<EquivalencyTable*>(this->MakeOutput(0).GetPointer());
     this->SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput(0, eq.GetPointer());
-  }
+    }
   virtual ~BoundaryResolver() {}
   BoundaryResolver(const Self&) {}
   void operator=(const Self&) {}

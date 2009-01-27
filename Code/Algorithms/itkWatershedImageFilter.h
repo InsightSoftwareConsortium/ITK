@@ -207,12 +207,12 @@ public:
     }
 
   virtual void SetInput( unsigned int i, const TInputImage * image)
-  {
+    {
     if (i != 0)
       { itkExceptionMacro(<< "Filter has only one input."); }
     else
       { this->SetInput(image); }
-  }
+    }
   /** Set/Get the input thresholding parameter.  Units are a percentage of
    * the maximum depth in the image. */
   void SetThreshold(double);
@@ -226,17 +226,17 @@ public:
   /** Get the basic segmentation from the Segmenter member filter. */
   typename watershed::Segmenter<InputImageType>::OutputImageType *
   GetBasicSegmentation()
-  {
+    {
     m_Segmenter->Update();
     return m_Segmenter->GetOutputImage();
-  }
+    }
 
   /** Get the segmentation tree from from the TreeGenerator member filter. */
   typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeType *
   GetSegmentTree()
-  {
+    {
     return m_TreeGenerator->GetOutputSegmentTree();
-  }
+    }
    
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion(DataObject *data);
@@ -273,22 +273,25 @@ private:
 
   /** The percentage of the maximum saliency value among adjacencies in the
    *  segments of the initial segmentation to which ``flooding'' of the image
-   *  should occur.  A tree of segment merges is calculated up to this level*/
+   *  should occur.  A tree of segment merges is calculated up to this
+   *  level. */
   double m_Level;
 
   /** The component parts of the segmentation algorithm.  These objects
    * must save state between calls to GenerateData() so that the
    * computationally expensive execution of segment tree generation is
    * not unneccessarily repeated. */
-  typename watershed::Segmenter<InputImageType>::Pointer m_Segmenter;
+  typename watershed::Segmenter<InputImageType>::Pointer        m_Segmenter;
   typename watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
-  typename watershed::Relabeler<ScalarType, itkGetStaticConstMacro(ImageDimension)>::Pointer m_Relabeler;
+  typename watershed::Relabeler<ScalarType, itkGetStaticConstMacro(ImageDimension)>::Pointer
+                                                                m_Relabeler;
 
   unsigned long m_ObserverTag;
 
   bool m_LevelChanged;
   bool m_ThresholdChanged;
   bool m_InputChanged;
+
   TimeStamp m_GenerateDataMTime;
 };
 

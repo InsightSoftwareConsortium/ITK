@@ -41,9 +41,9 @@ class ITK_EXPORT SphereMeshSource : public MeshSource<TOutputMesh>
 {
 public:
   /** Standard "Self" typedef. */
-  typedef SphereMeshSource         Self;
-  typedef MeshSource<TOutputMesh>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SphereMeshSource          Self;
+  typedef MeshSource<TOutputMesh>   Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -53,23 +53,23 @@ public:
   itkTypeMacro(SphereMeshSource, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh OutputMeshType;
+  typedef TOutputMesh                           OutputMeshType;
   typedef typename OutputMeshType::MeshTraits   OMeshTraits;
   typedef typename OutputMeshType::PointType    OPointType;
   typedef typename OMeshTraits::PixelType       OPixelType;  
 
   /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits CellTraits;
+  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
+  typedef typename OutputMeshType::CellTraits             CellTraits;
   typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer   PointsContainer;
+  typedef typename OutputMeshType::PointsContainer        PointsContainer;
   
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
   typedef CellInterface<OPixelType, CellTraits>   CellInterfaceType;
   typedef TriangleCell<CellInterfaceType>         TriCellType;
-  typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
-  typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
+  typedef typename TriCellType::SelfAutoPointer   TriCellAutoPointer;
+  typedef typename TriCellType::CellAutoPointer   CellAutoPointer;
 
   /** All these parameter setting function are public temporarily to make the
    * test easier */
