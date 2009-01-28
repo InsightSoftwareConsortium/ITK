@@ -32,16 +32,16 @@ class ProductInputFunction : public InputFunctionBase<TMeasurementVector, Scalar
 public:
 
   /** Standard class typedefs. */
-  typedef ProductInputFunction Self;
+  typedef ProductInputFunction                              Self;
   typedef InputFunctionBase<TMeasurementVector, ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ProductInputFunction, FunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
   virtual ScalarType Evaluate(const TMeasurementVector& input) const;

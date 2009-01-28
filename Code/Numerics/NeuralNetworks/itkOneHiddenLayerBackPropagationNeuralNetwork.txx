@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __OneHiddenLayerBackPropNeuralNetworkBase_txx
-#define __OneHiddenLayerBackPropNeuralNetworkBase_txx
+#ifndef __itkOneHiddenLayerBackPropagationNeuralNetwork_txx
+#define __itkOneHiddenLayerBackPropagationNeuralNetwork_txx
 
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 

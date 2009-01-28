@@ -109,46 +109,46 @@ QuickPropLearningRule<LayerType,TTargetVector>
     for(unsigned int j=0; j<input_cols; j++)
       {
       step_val=0;
-      DW_temp(i,j)+=m_Decay*weights(i,j);
+      DW_temp(i,j) += m_Decay*weights(i,j);
       if(DW_m_1(i,j)>m_Threshold)
         {
         if(DW_temp(i,j)>0.0)
           {
-          step_val+=(m_Epsilon *DW_temp(i,j));
+          step_val += (m_Epsilon *DW_temp(i,j));
           }
         if(DW_temp(i,j) >(shrink_factor*Del_m_1(i,j)))
           {
-          step_val+= (m_Max_Growth_Factor*DW_m_1(i,j));
+          step_val += (m_Max_Growth_Factor*DW_m_1(i,j));
           } 
         else
           {
-          step_val+=((DW_temp(i,j)/(Del_m_1(i,j)-DW_temp(i,j)))*DW_m_1(i,j));
+          step_val += ((DW_temp(i,j)/(Del_m_1(i,j)-DW_temp(i,j)))*DW_m_1(i,j));
           }
         }
       else if(DW_m_1(i,j)< -m_Threshold)
         {
         if(DW_temp(i,j)<0.0)
           {
-          step_val+=(m_Epsilon *DW_temp(i,j));            
+          step_val += (m_Epsilon *DW_temp(i,j));
           }
         if(DW_temp(i,j) <(shrink_factor *Del_m_1(i,j)))
           {
-          step_val+=(m_Max_Growth_Factor *DW_m_1(i,j));
+          step_val += (m_Max_Growth_Factor *DW_m_1(i,j));
           }
         else
           {
-          step_val+= ((DW_temp(i,j)/(Del_m_1(i,j)-DW_temp(i,j)))*DW_m_1(i,j));
+          step_val += ((DW_temp(i,j)/(Del_m_1(i,j)-DW_temp(i,j)))*DW_m_1(i,j));
           }
         }
       else
         {
-        step_val+=(m_Epsilon*DW_temp(i,j))+(m_Momentum *DW_m_1(i,j));
-        }    
+        step_val += (m_Epsilon*DW_temp(i,j))+(m_Momentum *DW_m_1(i,j));
+        }
       temp(i,j)=step_val;
       }// inner for
    }//outer for
   DB=temp.get_column(input_cols-1); 
-  inputweightset->SetDBValues(DB.data_block());    
+  inputweightset->SetDBValues(DB.data_block());
   inputweightset->SetDWValues(temp.data_block());
 }
 

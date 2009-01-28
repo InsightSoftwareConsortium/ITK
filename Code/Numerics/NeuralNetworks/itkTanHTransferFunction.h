@@ -30,16 +30,16 @@ class TanHTransferFunction : public TransferFunctionBase<ScalarType>
 public:
 
   /** Standard class typedefs. */
-  typedef TanHTransferFunction Self;
+  typedef TanHTransferFunction             Self;
   typedef TransferFunctionBase<ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TanHTransferFunction, TransferFunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
 
   /** Evaluate at the specified input position */

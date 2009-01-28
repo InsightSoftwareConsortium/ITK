@@ -32,18 +32,18 @@ class SigmoidTransferFunction : public TransferFunctionBase<ScalarType>
 public:
 
   /** Standard class typedefs. */
-  typedef SigmoidTransferFunction Self;
+  typedef SigmoidTransferFunction          Self;
   typedef TransferFunctionBase<ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SigmoidTransferFunction, TransferFunctionBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
-  /** Set/Get macros*/
+  /** Set/Get macros */
   itkSetMacro(Alpha,ScalarType);
   itkGetMacro(Alpha,ScalarType);
   itkSetMacro(Beta,ScalarType);

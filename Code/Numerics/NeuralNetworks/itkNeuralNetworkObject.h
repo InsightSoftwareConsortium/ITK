@@ -15,8 +15,8 @@ PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
-#ifndef __NeuralNetworkObject_h
-#define __NeuralNetworkObject_h
+#ifndef __itkNeuralNetworkObject_h
+#define __itkNeuralNetworkObject_h
 
 #include "itkDataObject.h"
 #include "itkLayerBase.h"
@@ -25,44 +25,45 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  namespace Statistics
-    {
-    template<class TMeasurementVector, class TTargetVector >
-      class NeuralNetworkObject : public DataObject
-        {
-      public:
+namespace Statistics
+{
+template<class TMeasurementVector, class TTargetVector >
+class NeuralNetworkObject : public DataObject
+{
+public:
+  
+  typedef NeuralNetworkObject      Self;
+  typedef DataObject               Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-        typedef NeuralNetworkObject Self;
-        typedef DataObject Superclass;
-        typedef SmartPointer<Self> Pointer;
-        typedef SmartPointer<const Self> ConstPointer;
-        itkTypeMacro(NeuralNetworkObject, DataObject);
+  itkTypeMacro(NeuralNetworkObject, DataObject);
 
-        typedef TMeasurementVector MeasurementVectorType;
-        typedef typename MeasurementVectorType::ValueType ValueType;
-        typedef Array<ValueType> NetworkOutputType;
-        typedef TTargetVector TargetVectorType;
+  typedef TMeasurementVector                        MeasurementVectorType;
+  typedef typename MeasurementVectorType::ValueType ValueType;
+  typedef Array<ValueType>                          NetworkOutputType;
+  typedef TTargetVector                             TargetVectorType;
+  
+  typedef LayerBase<TMeasurementVector, TTargetVector> LayerInterfaceType;
 
-        typedef LayerBase<TMeasurementVector, TTargetVector> LayerInterfaceType;
+  virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector)=0;
 
-        virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector)=0;
+  virtual void BackwardPropagate(NetworkOutputType errors) = 0;
+  virtual void UpdateWeights(ValueType) = 0;
+  
+protected:
 
-        virtual void BackwardPropagate(NetworkOutputType errors) = 0;
-        virtual void UpdateWeights(ValueType) = 0;
+  NeuralNetworkObject();
+  virtual ~NeuralNetworkObject();
 
-      protected:
+  /** Method to print the object. */
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-        NeuralNetworkObject();
-        virtual ~NeuralNetworkObject();
+  ValueType m_LearningRate;
+  
+};
 
-        /** Method to print the object. */
-        virtual void PrintSelf( std::ostream& os, Indent indent ) const;
-
-        ValueType m_LearningRate;
-
-        };
-
-    } // end namespace Statistics
+} // end namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

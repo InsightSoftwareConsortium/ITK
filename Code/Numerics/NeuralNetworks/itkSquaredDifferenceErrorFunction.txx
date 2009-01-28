@@ -73,7 +73,7 @@ SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
       }
     else
       {
-      diff[i]=errors[i];      
+      diff[i]=errors[i];
       }
     }
   return (diff); //(errors);

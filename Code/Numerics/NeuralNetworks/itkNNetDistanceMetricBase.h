@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkNNetDistanceMetricBase_h
-#define _itkNNetDistanceMetricBase_h
+#ifndef __itkNNetDistanceMetricBase_h
+#define __itkNNetDistanceMetricBase_h
 
 #include "itkFunctionBase.h"
 
@@ -31,10 +31,10 @@ class NNetDistanceMetricBase : public FunctionBase<TMeasurementVector, double>
 public:
 
   /** Standard class typedefs. */
-  typedef NNetDistanceMetricBase Self;
+  typedef NNetDistanceMetricBase                  Self;
   typedef FunctionBase<TMeasurementVector,double> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NNetDistanceMetricBase, FunctionBase);

@@ -39,10 +39,10 @@ class QuickPropLearningRule : public LearningFunctionBase<LayerType, TTargetVect
 {
 public:
 
-  typedef QuickPropLearningRule Self;
+  typedef QuickPropLearningRule                          Self;
   typedef LearningFunctionBase<LayerType, TTargetVector> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkTypeMacro(QuickPropLearningRule, LearningFunctionBase);

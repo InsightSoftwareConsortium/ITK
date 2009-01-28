@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkRadialBasisFunctionBase_txx
-#define _itkRadialBasisFunctionBase_txx
+#ifndef __itkRadialBasisFunctionBase_txx
+#define __itkRadialBasisFunctionBase_txx
 
 #include "itkFunctionBase.h"
 #include "itkArray.h"

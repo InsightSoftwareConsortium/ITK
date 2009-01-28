@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef _itkRadialBasisFunctionBase_h
-#define _itkRadialBasisFunctionBase_h
+#ifndef __itkRadialBasisFunctionBase_h
+#define __itkRadialBasisFunctionBase_h
 
 #include "itkFunctionBase.h"
 #include "itkArray.h"
@@ -32,15 +32,15 @@ class RadialBasisFunctionBase : public FunctionBase<ScalarType,ScalarType>
 public:
 
   /** Standard class typedefs. */
-  typedef RadialBasisFunctionBase Self;
+  typedef RadialBasisFunctionBase             Self;
   typedef FunctionBase<ScalarType,ScalarType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RadialBasisFunctionBase, FunctionBase);
 
-  /** Input/Output types*/
+  /** Input/Output types */
   typedef Array<ScalarType> ArrayType;
 
   ///** Evaluate at the specified input position */

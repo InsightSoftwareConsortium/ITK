@@ -43,12 +43,11 @@ RBFBackPropagationLearningFunction<LayerType,TTargetVector>
   outputweightset = layer->GetOutputWeightSet();
   inputweightset = layer->GetInputWeightSet();
  
-  typedef typename LayerType::InputVectorType InputVectorType;
+  typedef typename LayerType::InputVectorType  InputVectorType;
   typedef typename LayerType::OutputVectorType OutputVectorType;
 
-  typedef RBFLayer<InputVectorType,OutputVectorType>
-                                                            RbfLayerType;
-  typedef typename RbfLayerType::InternalVectorType ArrayType;
+  typedef RBFLayer<InputVectorType,OutputVectorType> RbfLayerType;
+  typedef typename RbfLayerType::InternalVectorType  ArrayType;
   typename LayerType::ValuePointer currentdeltavalues = inputweightset->GetTotalDeltaValues();
   vnl_matrix<ValueType> DW_temp(currentdeltavalues,inputweightset->GetNumberOfOutputNodes(),
                                            inputweightset->GetNumberOfInputNodes());
@@ -58,17 +57,17 @@ RBFBackPropagationLearningFunction<LayerType,TTargetVector>
   DB.fill(0);
   DB.copy_in(DBValues);
 
-  if(layer->GetLayerTypeCode()==LayerInterfaceType::OUTPUTLAYER) //If output layer do back propagation
+  if(layer->GetLayerTypeCode() == LayerInterfaceType::OUTPUTLAYER) //If output layer do back propagation
     {
-    DW_temp*=lr;
+    DW_temp *= lr;
     inputweightset->SetDWValues(DW_temp.data_block());
-    DB*=lr;
+    DB *= lr;
     inputweightset->SetDBValues(DB.data_block()); 
     }
   else //else update centers, widths using gradient descent
     { 
-    DW_temp*=m_LearningRate2;
-    DB*=m_LearningRate3;
+    DW_temp *= m_LearningRate2;
+    DB *= m_LearningRate3;
 
     inputweightset->SetDWValues(DW_temp.data_block());
     inputweightset->SetDBValues(DB.data_block());

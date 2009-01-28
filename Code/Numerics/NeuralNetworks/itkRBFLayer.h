@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkRBFLayerBase_h
-#define __itkRBFLayerBase_h
+#ifndef __itkRBFLayer_h
+#define __itkRBFLayer_h
 
 #include "itkCompletelyConnectedWeightSet.h"
 #include "itkLayerBase.h"
@@ -26,112 +26,116 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  namespace Statistics
-    {
-    template<class TMeasurementVector, class TTargetVector>
-      class RBFLayer : public LayerBase<TMeasurementVector, TTargetVector>
-        {
-      public:
-        typedef RBFLayer Self;
-        typedef LayerBase<TMeasurementVector, TTargetVector> Superclass;
-        typedef SmartPointer<Self> Pointer;
-        typedef SmartPointer<const Self> ConstPointer;
+namespace Statistics
+{
+template<class TMeasurementVector, class TTargetVector>
+class RBFLayer : public LayerBase<TMeasurementVector, TTargetVector>
+{
+public:
+  typedef RBFLayer                                     Self;
+  typedef LayerBase<TMeasurementVector, TTargetVector> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
-        /** Method for creation through the object factory. */
-        itkTypeMacro(RBFLayer, LayerBase);
-        itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkTypeMacro(RBFLayer, LayerBase);
+  itkNewMacro(Self);
 
-        typedef typename Superclass::ValueType ValueType;typedef typename Superclass::ValuePointer ValuePointer;
-        typedef vnl_vector<ValueType> NodeVectorType;
-        typedef typename Superclass::InternalVectorType InternalVectorType;
-        typedef typename Superclass::OutputVectorType OutputVectorType;
-        typedef typename Superclass::LayerInterfaceType LayerInterfaceType;
-        typedef CompletelyConnectedWeightSet<TMeasurementVector,TTargetVector> WeightSetType;
+  typedef typename Superclass::ValueType          ValueType;
+  typedef typename Superclass::ValuePointer       ValuePointer;
+  typedef vnl_vector<ValueType>                   NodeVectorType;
+  typedef typename Superclass::InternalVectorType InternalVectorType;
+  typedef typename Superclass::OutputVectorType   OutputVectorType;
+  typedef typename Superclass::LayerInterfaceType LayerInterfaceType;
+  typedef CompletelyConnectedWeightSet<TMeasurementVector,TTargetVector>
+                                                  WeightSetType;
 
-        typedef typename Superclass::WeightSetInterfaceType WeightSetInterfaceType;
-        typedef typename Superclass::InputFunctionInterfaceType InputFunctionInterfaceType;
-        typedef typename Superclass::TransferFunctionInterfaceType TransferFunctionInterfaceType;
-        //Distance Metric
-        typedef EuclideanDistance<InternalVectorType> DistanceMetricType;
-        typedef typename DistanceMetricType::Pointer DistanceMetricPointer;
-        typedef RadialBasisFunctionBase<ValueType> RBFType;
+  typedef typename Superclass::WeightSetInterfaceType        WeightSetInterfaceType;
+  typedef typename Superclass::InputFunctionInterfaceType    InputFunctionInterfaceType;
+  typedef typename Superclass::TransferFunctionInterfaceType TransferFunctionInterfaceType;
 
-        //Member Functions
-        itkGetConstReferenceMacro(RBF_Dim, unsigned int);
-        void SetRBF_Dim(unsigned int size);
-        virtual void SetNumberOfNodes(unsigned int numNodes);
-        virtual ValueType GetInputValue(unsigned int i) const;
-        void SetInputValue(unsigned int i, ValueType value);
+  //Distance Metric
+  typedef EuclideanDistance<InternalVectorType> DistanceMetricType;
+  typedef typename DistanceMetricType::Pointer  DistanceMetricPointer;
+  typedef RadialBasisFunctionBase<ValueType>    RBFType;
 
-        virtual ValueType GetOutputValue(unsigned int) const;
-        virtual void SetOutputValue(unsigned int, ValueType);
+  //Member Functions
+  itkGetConstReferenceMacro(RBF_Dim, unsigned int);
+  void SetRBF_Dim(unsigned int size);
+  virtual void SetNumberOfNodes(unsigned int numNodes);
+  virtual ValueType GetInputValue(unsigned int i) const;
+  void SetInputValue(unsigned int i, ValueType value);
 
-        virtual ValueType * GetOutputVector();
-        void SetOutputVector(TMeasurementVector value);
+  virtual ValueType GetOutputValue(unsigned int) const;
+  virtual void SetOutputValue(unsigned int, ValueType);
 
-        virtual void ForwardPropagate();
-        virtual void ForwardPropagate(TMeasurementVector input);
+  virtual ValueType * GetOutputVector();
+  void SetOutputVector(TMeasurementVector value);
 
-        virtual void BackwardPropagate();
-        virtual void BackwardPropagate(TTargetVector itkNotUsed(errors)){};
+  virtual void ForwardPropagate();
+  virtual void ForwardPropagate(TMeasurementVector input);
 
-        virtual void SetOutputErrorValues(TTargetVector);
-        virtual ValueType GetOutputErrorValue(unsigned int node_id) const;
+  virtual void BackwardPropagate();
+  virtual void BackwardPropagate(TTargetVector itkNotUsed(errors)){};
 
-        virtual ValueType GetInputErrorValue(unsigned int node_id) const;
-        virtual ValueType * GetInputErrorVector();
-        virtual void SetInputErrorValue(ValueType, unsigned int node_id);
+  virtual void SetOutputErrorValues(TTargetVector);
+  virtual ValueType GetOutputErrorValue(unsigned int node_id) const;
 
-        //TMeasurementVector GetCenter(int i);
-        InternalVectorType GetCenter(unsigned int i) const;
-        void SetCenter(TMeasurementVector c,unsigned int i);
+  virtual ValueType GetInputErrorValue(unsigned int node_id) const;
+  virtual ValueType * GetInputErrorVector();
+  virtual void SetInputErrorValue(ValueType, unsigned int node_id);
 
-        ValueType GetRadii(unsigned int i) const;
-        void SetRadii(ValueType c,unsigned int i);
+  //TMeasurementVector GetCenter(int i);
+  InternalVectorType GetCenter(unsigned int i) const;
+  void SetCenter(TMeasurementVector c,unsigned int i);
 
-        virtual ValueType Activation(ValueType);
-        virtual ValueType DActivation(ValueType);
+  ValueType GetRadii(unsigned int i) const;
+  void SetRadii(ValueType c,unsigned int i);
 
-        /** Set/Get the bias */
-        itkSetMacro( Bias, ValueType );
-        itkGetConstReferenceMacro( Bias, ValueType );
+  virtual ValueType Activation(ValueType);
+  virtual ValueType DActivation(ValueType);
 
-        void SetDistanceMetric(DistanceMetricType* f);
-        itkGetObjectMacro( DistanceMetric, DistanceMetricType );
-        itkGetConstObjectMacro( DistanceMetric, DistanceMetricType );
+  /** Set/Get the bias */
+  itkSetMacro( Bias, ValueType );
+  itkGetConstReferenceMacro( Bias, ValueType );
 
-        itkSetMacro(NumClasses,unsigned int);
-        itkGetConstReferenceMacro(NumClasses,unsigned int);
+  void SetDistanceMetric(DistanceMetricType* f);
+  itkGetObjectMacro( DistanceMetric, DistanceMetricType );
+  itkGetConstObjectMacro( DistanceMetric, DistanceMetricType );
 
-        void SetRBF(RBFType* f);
-        itkGetObjectMacro(RBF, RBFType);
-        itkGetConstObjectMacro(RBF, RBFType);
+  itkSetMacro(NumClasses,unsigned int);
+  itkGetConstReferenceMacro(NumClasses,unsigned int);
+  
+  void SetRBF(RBFType* f);
+  itkGetObjectMacro(RBF, RBFType);
+  itkGetConstObjectMacro(RBF, RBFType);
 
-      protected:
+protected:
 
-        RBFLayer();
-        virtual ~RBFLayer();
+  RBFLayer();
+  virtual ~RBFLayer();
 
-        /** Method to print the object. */
-        virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  /** Method to print the object. */
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
-      private:
+private:
 
-        NodeVectorType   m_NodeInputValues;
-        NodeVectorType   m_NodeOutputValues;
-        NodeVectorType   m_InputErrorValues;
-        NodeVectorType   m_OutputErrorValues;
-        typename DistanceMetricType::Pointer  m_DistanceMetric;
-        //std::vector<TMeasurementVector>                  m_Centers;  // ui....uc
-        std::vector<InternalVectorType>       m_Centers;  // ui....uc
-        InternalVectorType                    m_Radii;
-        unsigned int                          m_NumClasses;
-        ValueType                             m_Bias;
-        unsigned int                          m_RBF_Dim;
-        typename RBFType::Pointer             m_RBF;
-        };
+  NodeVectorType   m_NodeInputValues;
+  NodeVectorType   m_NodeOutputValues;
+  NodeVectorType   m_InputErrorValues;
+  NodeVectorType   m_OutputErrorValues;
+  
+  typename DistanceMetricType::Pointer  m_DistanceMetric;
 
-    } // end namespace Statistics
+  std::vector<InternalVectorType>       m_Centers;  // ui....uc
+  InternalVectorType                    m_Radii;
+  unsigned int                          m_NumClasses;
+  ValueType                             m_Bias;
+  unsigned int                          m_RBF_Dim;
+  typename RBFType::Pointer             m_RBF;
+};
+
+} // end namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
