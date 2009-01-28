@@ -63,7 +63,7 @@ private:
  *
  * The input pixel type must support the c++ modulus operator (%).
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup IntensityImageFilters  Multithreaded
  *

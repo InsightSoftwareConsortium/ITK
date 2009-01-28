@@ -44,7 +44,7 @@ namespace itk {
  * Soille's book "Morphological Image Analysis: Principles and
  * Applications", Second Edition, Springer, 2003.
  * 
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA of Jouy-en-Josas, France.
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa GrayscaleMorphologicalOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters

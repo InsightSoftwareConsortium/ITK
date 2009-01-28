@@ -42,7 +42,7 @@ namespace itk
  * When the Gaussian kernel is small, this filter tends to run faster than
  * itk::RecursiveGaussianImageFilter.
  *
- * \author Iván Macía, VICOMTech, Spain, http://www.vicomtech.es
+ * \author Ivan Macia, VICOMTech, Spain, http://www.vicomtech.es
  *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/1290

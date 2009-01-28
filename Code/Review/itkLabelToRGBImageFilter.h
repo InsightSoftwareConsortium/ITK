@@ -33,7 +33,7 @@ namespace itk
  * value. In that case, a gray pixel with the same intensity than the background
  * label is produced.
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  * \sa ScalarToRGBPixelFunctor LabelOverlayImageFilter

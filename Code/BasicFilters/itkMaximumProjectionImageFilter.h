@@ -29,7 +29,7 @@ namespace itk {
  * the original paper can be found at 
  *      http://insight-journal.org/midas/handle.php?handle=1926/164
  *
- * \author Gaetan Lehmann. Biologie du Développement et de la reproduction,
+ * \author Gaetan Lehmann. Biologie du Developpement et de la reproduction,
  *  inra de jouy-en-josas, France.
  *  
  * \sa ProjectionImageFilter

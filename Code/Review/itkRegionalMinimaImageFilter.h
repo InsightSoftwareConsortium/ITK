@@ -33,7 +33,7 @@ namespace itk {
  * behavior to use.
  * 
  * This class was contribtued to the Insight Journal by
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *      http://insight-journal.org/midas/handle.php?handle=1926/153
  *

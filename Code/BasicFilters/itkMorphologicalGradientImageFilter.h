@@ -49,7 +49,7 @@ namespace itk {
  * Note: This filter produces a scalar image that is the magnitude of
  * the gradient.
  * 
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa GradientMagnitudeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters

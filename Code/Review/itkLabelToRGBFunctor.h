@@ -28,7 +28,7 @@ namespace Functor {
  *
  * This functor class used internally by LabelToRGBImageFilter
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction,
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.  
  *
  * \author Richard Beare. Department of

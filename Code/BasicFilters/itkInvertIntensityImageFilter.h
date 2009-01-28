@@ -69,7 +69,7 @@ private:
  * type. This filter can be used to invert, for example, a binary
  * image, a distance map, etc.
  *
- * \author Gaëtan Lehmann. Biologie du Développement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \sa IntensityWindowingImageFilter ShiftScaleImageFilter
  * \ingroup IntensityImageFilters  Multithreaded
