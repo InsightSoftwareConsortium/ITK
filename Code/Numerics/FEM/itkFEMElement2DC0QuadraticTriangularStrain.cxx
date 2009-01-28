@@ -47,23 +47,17 @@ Element2DC0QuadraticTriangularStrain
   this->SetNode( 4, n5_ );
   this->SetNode( 5, n6_ );
 
-  /*
+  /**
    * Initialize the pointer to material object and check that
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
   if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0QuadraticTriangularStrain::Element2DC0QuadraticTriangularStrain()");
-  }
+    }
 }
 
-
-
-
 FEM_CLASS_REGISTER(Element2DC0QuadraticTriangularStrain)
-
-
-
 
 }} // end namespace itk::fem

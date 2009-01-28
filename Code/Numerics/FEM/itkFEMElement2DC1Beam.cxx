@@ -26,9 +26,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 Element2DC1Beam
 ::Element2DC1Beam() : Superclass(), m_mat(0)
 {
@@ -47,14 +44,10 @@ Element2DC1Beam
    * If the material class was incorrect an exception is thrown.
    */
   if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0LinearLineStress::Element2DC0LinearLineStress()");
-  }
+    }
 }
-
-
-
-
 
 void
 Element2DC1Beam
@@ -83,9 +76,6 @@ Element2DC1Beam
   return order;
 }
 
-
-
-
 Element2DC1Beam::VectorType
 Element2DC1Beam
 ::ShapeFunctions( const VectorType& pt ) const
@@ -101,9 +91,6 @@ Element2DC1Beam
   return shapeF;
 }
 
-
-
-
 void
 Element2DC1Beam
 ::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
@@ -113,9 +100,6 @@ Element2DC1Beam
   shapeD.set_size(1,2);
   shapeD.fill(0.0);
 }
-
-
-
 
 Element2DC1Beam::Float
 Element2DC1Beam
@@ -133,22 +117,19 @@ Element2DC1Beam
   return l/2;
 }
 
-
-
-
 void 
 Element2DC1Beam
 ::GetStiffnessMatrix( MatrixType& Ke ) const
 {
 
-const unsigned int NDOF=this->GetNumberOfDegreesOfFreedom();
+  const unsigned int NDOF=this->GetNumberOfDegreesOfFreedom();
 
-MatrixType k(NDOF,NDOF);
-MatrixType kb(NDOF,NDOF);
+  MatrixType k(NDOF,NDOF);
+  MatrixType kb(NDOF,NDOF);
 
-Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
-Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
-Float l=vcl_sqrt(x*x+y*y);
+  Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
+  Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
+  Float l=vcl_sqrt(x*x+y*y);
 
   k[0][0]= 1; k[0][1]= 0; k[0][2]= 0; k[0][3]=-1; k[0][4]= 0; k[0][5]= 0;
   k[1][0]= 0; k[1][1]= 0; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
@@ -166,38 +147,35 @@ Float l=vcl_sqrt(x*x+y*y);
   k[4][0]= 0; k[4][1]= -6;  k[4][2]= -3*l;  k[4][3]= 0; k[4][4]= 6;   k[4][5]=-3*l;
   k[5][0]= 0; k[5][1]= 3*l; k[5][2]= l*l;   k[5][3]= 0; k[5][4]=-3*l; k[5][5]= 2*l*l;
 
-  kb+=(2*m_mat->E*m_mat->I/(l*l*l))*k;
+  kb += (2*m_mat->E*m_mat->I/(l*l*l))*k;
 
-Float c=x/l;
-Float s=y/l;
+  Float c=x/l;
+  Float s=y/l;
 
-  k[0][0]= c; k[0][1]= s; k[0][2]= 0; k[0][3]= 0; k[0][4]= 0; k[0][5]= 0;
-  k[1][0]=-s; k[1][1]= c; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
-  k[2][0]= 0; k[2][1]= 0; k[2][2]= 1; k[2][3]= 0; k[2][4]= 0; k[2][5]= 0;
-  k[3][0]= 0; k[3][1]= 0; k[3][2]= 0; k[3][3]= c; k[3][4]= s; k[3][5]= 0;
-  k[4][0]= 0; k[4][1]= 0; k[4][2]= 0; k[4][3]=-s; k[4][4]= c; k[4][5]= 0;
-  k[5][0]= 0; k[5][1]= 0; k[5][2]= 0; k[5][3]= 0; k[5][4]= 0; k[5][5]= 1;
+  k[0][0] =  c; k[0][1]= s; k[0][2]= 0; k[0][3]= 0; k[0][4]= 0; k[0][5]= 0;
+  k[1][0] =- s; k[1][1]= c; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
+  k[2][0] =  0; k[2][1]= 0; k[2][2]= 1; k[2][3]= 0; k[2][4]= 0; k[2][5]= 0;
+  k[3][0] =  0; k[3][1]= 0; k[3][2]= 0; k[3][3]= c; k[3][4]= s; k[3][5]= 0;
+  k[4][0] =  0; k[4][1]= 0; k[4][2]= 0; k[4][3]=-s; k[4][4]= c; k[4][5]= 0;
+  k[5][0] =  0; k[5][1]= 0; k[5][2]= 0; k[5][3]= 0; k[5][4]= 0; k[5][5]= 1;
 
   Ke=k.transpose()*kb*k;
 
 }
-
-
-
 
 void
 Element2DC1Beam
 ::GetMassMatrix( MatrixType& Me ) const
 {
 
-const unsigned int NDOF=this->GetNumberOfDegreesOfFreedom();
-MatrixType m(NDOF,NDOF,0.0);
-MatrixType mb(NDOF,NDOF,0.0);
-MatrixType k(NDOF,NDOF,0.0);
+  const unsigned int NDOF=this->GetNumberOfDegreesOfFreedom();
+  MatrixType m(NDOF,NDOF,0.0);
+  MatrixType mb(NDOF,NDOF,0.0);
+  MatrixType k(NDOF,NDOF,0.0);
 
-Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
-Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
-Float l=vcl_sqrt(x*x+y*y);
+  Float x=m_node[1]->GetCoordinates()[0]-m_node[0]->GetCoordinates()[0];
+  Float y=m_node[1]->GetCoordinates()[1]-m_node[0]->GetCoordinates()[1];
+  Float l=vcl_sqrt(x*x+y*y);
 
   m[0][0]=2.0; m[0][3]=1.0;
   m[3][0]=1.0; m[3][3]=2.0;
@@ -216,26 +194,23 @@ Float l=vcl_sqrt(x*x+y*y);
   Float c=x/l;
   Float s=y/l;
 
-  k[0][0]= c; k[0][1]= s; k[0][2]= 0; k[0][3]= 0; k[0][4]= 0; k[0][5]= 0;
-  k[1][0]=-s; k[1][1]= c; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
-  k[2][0]= 0; k[2][1]= 0; k[2][2]= 1; k[2][3]= 0; k[2][4]= 0; k[2][5]= 0;
-  k[3][0]= 0; k[3][1]= 0; k[3][2]= 0; k[3][3]= c; k[3][4]= s; k[3][5]= 0;
-  k[4][0]= 0; k[4][1]= 0; k[4][2]= 0; k[4][3]=-s; k[4][4]= c; k[4][5]= 0;
-  k[5][0]= 0; k[5][1]= 0; k[5][2]= 0; k[5][3]= 0; k[5][4]= 0; k[5][5]= 1;
+  k[0][0] =  c; k[0][1]= s; k[0][2]= 0; k[0][3]= 0; k[0][4]= 0; k[0][5]= 0;
+  k[1][0] =- s; k[1][1]= c; k[1][2]= 0; k[1][3]= 0; k[1][4]= 0; k[1][5]= 0;
+  k[2][0] =  0; k[2][1]= 0; k[2][2]= 1; k[2][3]= 0; k[2][4]= 0; k[2][5]= 0;
+  k[3][0] =  0; k[3][1]= 0; k[3][2]= 0; k[3][3]= c; k[3][4]= s; k[3][5]= 0;
+  k[4][0] =  0; k[4][1]= 0; k[4][2]= 0; k[4][3]=-s; k[4][4]= c; k[4][5]= 0;
+  k[5][0] =  0; k[5][1]= 0; k[5][2]= 0; k[5][3]= 0; k[5][4]= 0; k[5][5]= 1;
 
   Me=k.transpose()*m*k;
 
 }
-
-
-
 
 void
 Element2DC1Beam
 ::Read( std::istream& f, void* info )
 {
   int n;
-  /*
+  /**
    * Convert the info pointer to a usable objects
    */
   ReadInfoType::MaterialArrayPointer mats=static_cast<ReadInfoType*>(info)->m_mat;
@@ -245,35 +220,32 @@ Element2DC1Beam
   Superclass::Read(f,info);
 
   try
-  {
-    /*
+    {
+    /**
      * Read and set the material pointer
      */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
 
-  }
+    }
   catch ( FEMExceptionObjectNotFound e )
-  {
+    {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element2DC1Beam::Read()",e.m_baseClassName,e.m_GN);
-  }
+    }
 
   // Check if the material object was of correct class
   if(!m_mat)
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC1Beam::Read()");
-  }
+    }
 
 out:
 
   if( !f )
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element2DC1Beam::Read()","Error reading FEM element!");
-  }
+    }
 }
-
-
-
 
 void
 Element2DC1Beam
@@ -290,13 +262,10 @@ Element2DC1Beam
 
   // check for errors
   if (!f)
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element1DStress::Write()","Error writing FEM element!");
-  }
+    }
 }
-
-
-
 
 #ifdef FEM_BUILD_VISUALIZATION
 void 
@@ -308,10 +277,10 @@ Element2DC1Beam
   int x2=GetNodeCoordinates(1)[0]*DC_Scale;
   int y2=GetNodeCoordinates(1)[1]*DC_Scale;
 
-  x1+=sol->GetSolutionValue(this->GetNode(0)->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->GetNode(0)->GetDegreeOfFreedom(1))*DC_Scale;
-  x2+=sol->GetSolutionValue(this->GetNode(1)->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->GetNode(1)->GetDegreeOfFreedom(1))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->GetNode(0)->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->GetNode(0)->GetDegreeOfFreedom(1))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->GetNode(1)->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->GetNode(1)->GetDegreeOfFreedom(1))*DC_Scale;
 
   CPen pen(PS_SOLID, 0.1*Node::DC_Scale, (COLORREF) 0);
   CPen* pOldPen=pDC->SelectObject(&pen);
@@ -323,12 +292,6 @@ Element2DC1Beam
 }
 #endif
 
-
-
-
 FEM_CLASS_REGISTER(Element2DC1Beam)
-
-
-
 
 }} // end namespace itk::fem
