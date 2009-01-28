@@ -28,13 +28,13 @@ namespace itk
 {
 
 /** 
-* \class ContourSpatialObject
-* \brief Representation of a Contour based on the spatial object classes.
-*
-* The Contour is basically defined by a set of points which are inside this blob
-*
-* \sa SpatialObjectPoint
-*/
+ * \class ContourSpatialObject
+ * \brief Representation of a Contour based on the spatial object classes.
+ *
+ * The Contour is basically defined by a set of points which are inside this blob
+ *
+ * \sa SpatialObjectPoint
+ */
 
 template < unsigned int TDimension = 3 >
 class ContourSpatialObject 
@@ -72,7 +72,7 @@ public:
   /** Returns a reference to the list of the control points. */
   const ControlPointListType & GetControlPoints( void ) const;
 
-  /** Set the list of control points.*/
+  /** Set the list of control points. */
   void SetControlPoints( ControlPointListType & newPoints );
 
   /** Return a control point in the list given the index */
@@ -93,7 +93,7 @@ public:
   /** Returns a reference to the list of the interpolated points. */
   const InterpolatedPointListType & GetInterpolatedPoints( void ) const;
 
-  /** Set the list of interpolated points.*/
+  /** Set the list of interpolated points. */
   void SetInterpolatedPoints( InterpolatedPointListType & newPoints );
 
   /** Return a interpolated point in the list given the index */
@@ -128,7 +128,7 @@ public:
   itkGetConstMacro(DisplayOrientation,int);
 
   /** Set/Get the slice attached to the contour if any
-   *  -1 is returned if no contour attached*/
+   *  -1 is returned if no contour attached. */
   itkSetMacro(AttachedToSlice,int);
   itkGetConstMacro(AttachedToSlice,int);
 

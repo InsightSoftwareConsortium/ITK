@@ -47,7 +47,7 @@ LineSpatialObject< TDimension >
 { 
 } 
  
-/** Returns a reference to the list of the Line points.*/ 
+/** Returns a reference to the list of the Line points. */ 
 template< unsigned int TDimension >
 typename LineSpatialObject< TDimension > ::PointListType &  
 LineSpatialObject< TDimension > 

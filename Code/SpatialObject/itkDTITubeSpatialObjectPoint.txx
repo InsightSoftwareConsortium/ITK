@@ -78,7 +78,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
   return "";
 }
 
-/** Add a field to the point list*/
+/** Add a field to the point list */
 template< unsigned int TPointDimension >
 void
 DTITubeSpatialObjectPoint< TPointDimension >
@@ -89,7 +89,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 }
 
 
-/** Set a field value to the point list*/
+/** Set a field value to the point list */
 template< unsigned int TPointDimension >
 void
 DTITubeSpatialObjectPoint< TPointDimension >
@@ -127,7 +127,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 
 }
 
-/** Add a field to the point list*/
+/** Add a field to the point list */
 template< unsigned int TPointDimension >
 void
 DTITubeSpatialObjectPoint< TPointDimension >

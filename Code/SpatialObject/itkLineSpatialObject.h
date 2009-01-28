@@ -27,13 +27,13 @@ namespace itk
 {
 
 /** 
-* \class LineSpatialObject
-* \brief Representation of a Line based on the spatial object classes.
-*
-* The Line is basically defined by a set of points. 
-*
-* \sa LineSpatialObjectPoint 
-*/
+ * \class LineSpatialObject
+ * \brief Representation of a Line based on the spatial object classes.
+ *
+ * The Line is basically defined by a set of points. 
+ *
+ * \sa LineSpatialObjectPoint 
+ */
 
 template < unsigned int TDimension = 3 >
 class LineSpatialObject 
@@ -62,7 +62,7 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro( LineSpatialObject, PointBasedSpatialObject );
   
-  /** Returns a reference to the list of the Line points.*/
+  /** Returns a reference to the list of the Line points. */
   PointListType & GetPoints( void );
 
   /** Set the list of line points. */
@@ -101,8 +101,7 @@ public:
    *  check the name of the class and the current depth */ 
   virtual bool IsInside( const PointType & point) const;
 
-
-  /** Compute the boundaries of the line.*/
+  /** Compute the boundaries of the line. */
   bool ComputeLocalBoundingBox() const;
 
 protected:

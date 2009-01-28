@@ -96,7 +96,7 @@ public:
    *  its constituent Polygons */
   double Volume();
 
-  /** Same as Volume, above.*/
+  /** Same as Volume, above. */
   double MeasureVolume();
 
   /** Test whether a point is inside or outside the object. */ 

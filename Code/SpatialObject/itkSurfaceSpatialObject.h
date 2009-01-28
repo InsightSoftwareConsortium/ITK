@@ -27,13 +27,13 @@ namespace itk
 {
 
 /** 
-* \class SurfaceSpatialObject
-* \brief Representation of a Surface based on the spatial object classes.
-*
-* The Surface is basically defined by a set of points. 
-*
-* \sa SurfaceSpatialObjectPoint
-*/
+ * \class SurfaceSpatialObject
+ * \brief Representation of a Surface based on the spatial object classes.
+ *
+ * The Surface is basically defined by a set of points. 
+ *
+ * \sa SurfaceSpatialObjectPoint
+ */
 
 template < unsigned int TDimension = 3 >
 class SurfaceSpatialObject 
@@ -57,7 +57,7 @@ public:
   typedef typename Superclass::BoundingBoxType          BoundingBoxType;
   typedef typename Superclass::CovariantVectorType      CovariantVectorType;
 
-  /** Method for creation through the object factory.*/
+  /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
   /** Method for creation through the object factory. */

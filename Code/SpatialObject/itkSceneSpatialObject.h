@@ -26,13 +26,13 @@ namespace itk
 { 
 
 /** \class SceneSpatialObject
-* \brief a SceneSpatialObject has a list of SpatialObjects
-*
-* This class represent a SceneSpatialObject object into which one can
-* plug any kind of spatial object.
-*
-* \sa SpatialObject
-*/ 
+ * \brief a SceneSpatialObject has a list of SpatialObjects
+ *
+ * This class represent a SceneSpatialObject object into which one can
+ * plug any kind of spatial object.
+ *
+ * \sa SpatialObject
+ */ 
  
 template <unsigned int TSpaceDimension = 3>
 class SceneSpatialObject 
@@ -76,11 +76,12 @@ public:
                                char * name=NULL );
 
   /** Returns the number of children currently assigned to 
-   *  the SceneSpatialObject object.*/ 
+   *  the SceneSpatialObject object. */ 
   unsigned int GetNumberOfObjects( unsigned int depth=MaximumDepth,
                                    char * name=NULL ); 
 
-  /** Set the list of pointers to children to the list passed as argument.*/ 
+  /** Set the list of pointers to children to the list passed as
+* argument. */ 
   void SetObjects( ObjectListType & children ); 
 
   /** Returns the latest modified time of all the objects contained 

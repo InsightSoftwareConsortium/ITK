@@ -27,16 +27,16 @@ namespace itk
 {
 
 /** 
-* \class TubeSpatialObject
-* \brief Representation of a tube based on the spatial object classes.
-*
-* The tube is basically defined by a set of points. Each tube can
-* be connected to a tube network, by using the AddSpatialObject() methods
-* of a TubeSpatialObject Object.
-* A tube is also identified by an id number when connected to a network.
-*
-* \sa TubeSpatialObjectPoint 
-*/
+ * \class TubeSpatialObject
+ * \brief Representation of a tube based on the spatial object classes.
+ *
+ * The tube is basically defined by a set of points. Each tube can
+ * be connected to a tube network, by using the AddSpatialObject() methods
+ * of a TubeSpatialObject Object.
+ * A tube is also identified by an id number when connected to a network.
+ *
+ * \sa TubeSpatialObjectPoint 
+ */
 
 template < unsigned int TDimension = 3, 
            typename TTubePointType = TubeSpatialObjectPoint<TDimension> >
@@ -69,16 +69,16 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro( TubeSpatialObject, PointBasedSpatialObject );
     
-  /** Returns a reference to the list of the tube points.*/
+  /** Returns a reference to the list of the tube points. */
   virtual PointListType & GetPoints( void );
 
-  /** Returns a reference to the list of the tube points.*/
+  /** Returns a reference to the list of the tube points. */
   virtual const PointListType & GetPoints( void ) const;
 
-  /** Set the list of tube points.*/
+  /** Set the list of tube points. */
   virtual void SetPoints( PointListType & newPoints );
 
-  /** Return a point in the list given the index */
+  /** Return a point in the list given the index. */
   virtual const SpatialObjectPointType* GetPoint(unsigned long ind) const 
     {return &(m_Points[ind]);}
   
@@ -165,7 +165,7 @@ protected:
   TubeSpatialObject();
   virtual ~TubeSpatialObject();
 
-  /** Method to print the object.*/
+  /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
   
   /** TimeStamps */

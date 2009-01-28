@@ -45,23 +45,23 @@ namespace itk
 { 
 
 /** 
-* \class SpatialObject
-* \brief Implementation of the composite pattern
-*
-* The purpose of this class is to implement the composite pattern [Design 
-* Patterns, Gamma, 1995] within itk, so that it becomes easy to create an 
-* environment containing objects within a scene, and to manipulate the 
-* environment as a whole or any of its component objects.  An
-* object has a list of transformations to transform index coordinates
-* to the corresponding coordinates in the real world coordinate
-* system, and a list of inverse transformation to go backward.  Any
-* spatial objects can be plugged to a spatial object as children.  To
-* implement your own spatial object, you need to derive from the
-* following class, which requires the definition of just a few pure
-* virtual functions.  Examples of such functions are ValueAt(),
-* IsEvaluableAt(), and IsInside(), each of which has a meaning
-* specific to each particular object type.
-*/ 
+ * \class SpatialObject
+ * \brief Implementation of the composite pattern
+ *
+ * The purpose of this class is to implement the composite pattern [Design 
+ * Patterns, Gamma, 1995] within itk, so that it becomes easy to create an 
+ * environment containing objects within a scene, and to manipulate the 
+ * environment as a whole or any of its component objects.  An
+ * object has a list of transformations to transform index coordinates
+ * to the corresponding coordinates in the real world coordinate
+ * system, and a list of inverse transformation to go backward.  Any
+ * spatial objects can be plugged to a spatial object as children.  To
+ * implement your own spatial object, you need to derive from the
+ * following class, which requires the definition of just a few pure
+ * virtual functions.  Examples of such functions are ValueAt(),
+ * IsEvaluableAt(), and IsInside(), each of which has a meaning
+ * specific to each particular object type.
+ */ 
 
 template <unsigned int TDimension> class SpatialObjectTreeNode;
 
@@ -382,7 +382,7 @@ public:
   itkGetConstReferenceMacro(Id,int);
   itkSetMacro(Id,int);
   
-  /** Set/Get the parent Identification number*/
+  /** Set/Get the parent Identification number */
   itkSetMacro(ParentId, int);
   itkGetConstReferenceMacro(ParentId, int);
 

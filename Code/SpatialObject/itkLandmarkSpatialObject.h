@@ -27,13 +27,13 @@ namespace itk
 {
 
 /** 
-* \class LandmarkSpatialObject
-* \brief Representation of a Landmark based on the spatial object classes.
-*
-* The Landmark is basically defined by a set of points with spatial locations.
-*
-* \sa SpatialObjectPoint
-*/
+ * \class LandmarkSpatialObject
+ * \brief Representation of a Landmark based on the spatial object classes.
+ *
+ * The Landmark is basically defined by a set of points with spatial locations.
+ *
+ * \sa SpatialObjectPoint
+ */
 
 template < unsigned int TDimension = 3 >
 class LandmarkSpatialObject 
@@ -68,7 +68,7 @@ public:
   /** Returns a reference to the list of the Landmark points. */
   const PointListType & GetPoints( void ) const;
 
-  /** Set the list of Landmark points.*/
+  /** Set the list of Landmark points. */
   void SetPoints( PointListType & newPoints );
 
   

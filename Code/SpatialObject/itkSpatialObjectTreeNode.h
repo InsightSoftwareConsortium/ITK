@@ -64,7 +64,7 @@ public:
   itkSetObjectMacro(NodeToWorldTransform,TransformType);
   itkGetConstReferenceObjectMacro(NodeToWorldTransform,TransformType);
 
-  /** Compute the NodeToWorld transform based on the parent*/
+  /** Compute the NodeToWorld transform based on the parent */
   void ComputeNodeToWorldTransform();
 
   /** Return a list of children (the list should be deleted by the user */

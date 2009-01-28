@@ -437,8 +437,7 @@ MetaSceneConverter<NDimensions,PixelType,TMeshTraits>
       }
     
     if(!strncmp((*it)->GetTypeName(),"ImageSpatialObject",17)
-      || !strncmp((*it)->GetTypeName(),"ImageMaskSpatialObject",21)
-      )
+       || !strncmp((*it)->GetTypeName(),"ImageMaskSpatialObject",21))
       {
       MetaImage* image;
       if(!strncmp((*it)->GetTypeName(),"ImageMaskSpatialObject",21))

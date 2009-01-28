@@ -39,9 +39,9 @@ public:
 
   typedef itk::ImageSpatialObject<NDimensions,PixelType >  SpatialObjectType;
   typedef typename SpatialObjectType::TransformType        TransformType;
-  typedef itk::ImageMaskSpatialObject<NDimensions>          MaskSpatialObjectType;
+  typedef itk::ImageMaskSpatialObject<NDimensions>         MaskSpatialObjectType;
 
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef typename SpatialObjectType::Pointer     SpatialObjectPointer;
   typedef typename MaskSpatialObjectType::Pointer MaskSpatialObjectPointer;
 
   SpatialObjectPointer ReadMeta(const char* name);

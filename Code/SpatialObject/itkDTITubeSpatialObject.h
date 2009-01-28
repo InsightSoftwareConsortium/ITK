@@ -26,16 +26,16 @@ namespace itk
 {
 
 /** 
-* \class DTITubeSpatialObject
-* \brief Representation of a tube based on the spatial object classes.
-*
-* The tube is basically defined by a set of points. Each tube can
-* be connected to a tube network, by using the AddSpatialObject() methods
-* of a DTITubeSpatialObject Object. 
-* A tube is also identified by an id number when connected to a network.
-*
-* \sa DTITubeSpatialObjectPoint 
-*/
+ * \class DTITubeSpatialObject
+ * \brief Representation of a tube based on the spatial object classes.
+ *
+ * The tube is basically defined by a set of points. Each tube can
+ * be connected to a tube network, by using the AddSpatialObject() methods
+ * of a DTITubeSpatialObject Object. 
+ * A tube is also identified by an id number when connected to a network.
+ *
+ * \sa DTITubeSpatialObjectPoint 
+ */
 
 template < unsigned int TDimension = 3 >
 class DTITubeSpatialObject : 

@@ -26,12 +26,13 @@ namespace itk
 {
 
 /** \class SpatialObjectPoint
-* \brief Point used for spatial objets
-*
-* This class contains all the functions necessary to define a point
-*
-* \sa TubeSpatialObjectPoint SurfaceSpatialObjectPoint
-*/ 
+ * \brief Point used for spatial objets
+ *
+ * This class contains all the functions necessary to define a point
+ *
+ * \sa TubeSpatialObjectPoint SurfaceSpatialObjectPoint
+ */ 
+
 template < unsigned int TPointDimension = 3 >
 class SpatialObjectPoint 
 {
@@ -54,10 +55,10 @@ public:
   /** Get the SpatialObjectPoint Id. */
   int GetID( void ) const;
 
-  /** Set the SpatialObjectPoint Id.*/
+  /** Set the SpatialObjectPoint Id. */
   void SetID(const int newID);
 
-  /** Return a pointer to the point object.*/
+  /** Return a pointer to the point object. */
   const PointType & GetPosition( void ) const;
 
   /** Set the point object. Couldn't use macros for these methods. */

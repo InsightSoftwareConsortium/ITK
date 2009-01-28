@@ -25,14 +25,14 @@ namespace itk
 {
 
 /** \class ContourSpatialObjectPoint
-* \brief Point used for a Contour definition
-*
-* This class contains all the functions necessary to define a point
-* that can be used to build surfaces.
-* A surface point has a position and only one normal
-*
-* \sa SpatialObjectPoint 
-*/ 
+ * \brief Point used for a Contour definition
+ *
+ * This class contains all the functions necessary to define a point
+ * that can be used to build surfaces.
+ * A surface point has a position and only one normal
+ *
+ * \sa SpatialObjectPoint 
+ */ 
 template < unsigned int TPointDimension = 3 >
 class ContourSpatialObjectPoint 
   : public SpatialObjectPoint<TPointDimension>

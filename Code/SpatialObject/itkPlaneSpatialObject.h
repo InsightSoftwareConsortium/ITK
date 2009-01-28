@@ -63,7 +63,7 @@ public:
                         unsigned int depth=0, char * name=NULL) const;
      
   /** return ture if the object provides a method to evaluate the value 
-   * at the specified point, else otherwise.*/
+   * at the specified point, else otherwise. */
   virtual bool IsEvaluableAt( const PointType & point,
                               unsigned int depth=0, char * name=NULL) const;
 

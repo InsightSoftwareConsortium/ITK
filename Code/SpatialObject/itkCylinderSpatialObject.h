@@ -69,7 +69,7 @@ public:
                         char * name=NULL) const;
      
   /** Return true if the object provides a method to evaluate the value 
-   * at the specified point, false otherwise.*/
+   * at the specified point, false otherwise. */
   virtual bool IsEvaluableAt( const PointType & point, 
                               unsigned int depth=0,
                               char * name=NULL) const;

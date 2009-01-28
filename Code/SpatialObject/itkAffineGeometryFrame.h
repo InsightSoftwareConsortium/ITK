@@ -25,9 +25,9 @@
 namespace itk 
 {
 
- /** \class AffineGeometryFrame
-  * \brief Describes the geometry of a data object  
-  */
+/** \class AffineGeometryFrame
+ * \brief Describes the geometry of a data object  
+ */
 template <class TScalarType = double, unsigned int NDimensions = 3>
 class AffineGeometryFrame : public itk::Object
 {
@@ -59,7 +59,7 @@ public:
 
   /** Set the bounding box Only possible via the BoundsArray 
    * to make clear that a copy of the bounding-box is stored, 
-   * not a reference to it.*/
+   * not a reference to it. */
   virtual void SetBounds(const BoundsArrayType& bounds);
 
   /** Get the extent of the bounding box */

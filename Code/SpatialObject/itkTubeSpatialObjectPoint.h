@@ -26,13 +26,14 @@ namespace itk
 {
 
 /** \class TubeSpatialObjectPoint
-* \brief Point used for a tube definition
-*
-* This class contains all the functions necessary to define a point
-* that can be used to build tubes.
-*
-* \sa TubeSpatialObject 
-*/ 
+ * \brief Point used for a tube definition
+ *
+ * This class contains all the functions necessary to define a point
+ * that can be used to build tubes.
+ *
+ * \sa TubeSpatialObject 
+ */ 
+
 template < unsigned int TPointDimension = 3 >
 class TubeSpatialObjectPoint 
   : public SpatialObjectPoint<TPointDimension>

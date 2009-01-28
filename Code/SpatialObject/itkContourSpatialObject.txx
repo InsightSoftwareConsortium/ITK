@@ -61,7 +61,7 @@ ContourSpatialObject< TDimension >
   return m_ControlPoints;
 } 
 
-/** Get the list of control points*/
+/** Get the list of control points */
 template< unsigned int TDimension >
 const typename ContourSpatialObject< TDimension > ::ControlPointListType &  
 ContourSpatialObject< TDimension > 
@@ -100,7 +100,7 @@ ContourSpatialObject< TDimension >
   return m_InterpolatedPoints;
 } 
 
-/** Get the list of interpolated points*/
+/** Get the list of interpolated points */
 template< unsigned int TDimension >
 const typename ContourSpatialObject< TDimension >::InterpolatedPointListType &
 ContourSpatialObject< TDimension > 

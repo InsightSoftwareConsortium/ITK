@@ -371,7 +371,7 @@ SpatialObject< TDimension >
   return m_AffineGeometryFrame->GetObjectToNodeTransform();
 }
 
-/** Get the local transformation (const)*/
+/** Get the local transformation (const) */
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
@@ -391,7 +391,7 @@ SpatialObject< TDimension >
   //return m_ObjectToNodeTransform.GetPointer();
 }
 
-/** Get the local transformation (const)*/
+/** Get the local transformation (const) */
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
@@ -410,7 +410,7 @@ SpatialObject< TDimension >
   return m_AffineGeometryFrame->GetIndexToObjectTransform();
 }
 
-/** Get the local transformation (const)*/
+/** Get the local transformation (const) */
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >

@@ -26,13 +26,13 @@ namespace itk
 {
 
 /** \class DTITubeSpatialObjectPoint
-* \brief Point used for a tube definition
-*
-* This class contains all the functions necessary to define a point
-* that can be used to build tubes.
-*
-* \sa DTITubeSpatialObject 
-*/ 
+ * \brief Point used for a tube definition
+ *
+ * This class contains all the functions necessary to define a point
+ * that can be used to build tubes.
+ *
+ * \sa DTITubeSpatialObject 
+ */ 
 template < unsigned int TPointDimension = 3 >
 class DTITubeSpatialObjectPoint 
   : public TubeSpatialObjectPoint<TPointDimension>
@@ -83,10 +83,10 @@ public:
   /** Copy one DTITubeSpatialObjectPoint to another */
   Self & operator=(const DTITubeSpatialObjectPoint & rhs);
 
-  /** Add a field to the point list*/
+  /** Add a field to the point list */
   void AddField(const char* name,float value);
 
-  /** Add a field to the point list*/
+  /** Add a field to the point list */
   void AddField(FieldEnumType name,float value);
 
   /** Set a field value */
