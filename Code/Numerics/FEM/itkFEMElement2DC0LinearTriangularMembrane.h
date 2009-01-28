@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element2DC0LinearTriangularMembrane
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
@@ -58,10 +55,6 @@ public:
 }; // class Element2DC0LinearTriangularMembrane 
 
 FEM_CLASS_INIT(Element2DC0LinearTriangularMembrane)
-
-
-
-
 }} // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearTriangularMembrane_h
