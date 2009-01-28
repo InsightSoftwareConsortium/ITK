@@ -26,9 +26,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 void
 Element2DC0LinearQuadrilateral
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
@@ -47,9 +44,6 @@ Element2DC0LinearQuadrilateral
 
 }
 
-
-
-
 unsigned int
 Element2DC0LinearQuadrilateral
 ::GetNumberOfIntegrationPoints(unsigned int order) const
@@ -62,9 +56,6 @@ Element2DC0LinearQuadrilateral
   return order*order;
 }
 
-
-
-
 Element2DC0LinearQuadrilateral::VectorType
 Element2DC0LinearQuadrilateral
 ::ShapeFunctions( const VectorType& pt ) const
@@ -72,7 +63,7 @@ Element2DC0LinearQuadrilateral
   /* Linear quadrilateral element has four shape functions  */
   VectorType shapeF(4);
 
-  /*
+  /**
    * Linear quadrilateral element has local coordinates
    * (-1,-1), (1,-1), (1,1), and (-1,1)
    */
@@ -93,9 +84,6 @@ Element2DC0LinearQuadrilateral
 
   return shapeF;
 }
-
-
-
 
 void
 Element2DC0LinearQuadrilateral
@@ -129,8 +117,6 @@ Element2DC0LinearQuadrilateral
   shapeD[1][3] = +(1 - pt[0]) * .25;
 
 }
-
-
 
 bool
 Element2DC0LinearQuadrilateral
@@ -178,17 +164,14 @@ Element2DC0LinearQuadrilateral
   bool isInside=true;
 
   if (localPt[0] < -1.0 || localPt[0] > 1.0 || localPt[1] < -1.0 || localPt[1] > 1.0 )
-  {
+    {
     isInside=false;
-  }
+    }
 
   return isInside;
 }
 
-
-
-
-/*
+/**
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
@@ -209,14 +192,14 @@ Element2DC0LinearQuadrilateral
   int x4=m_node[3]->GetCoordinates()[0]*DC_Scale;
   int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
 
-  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
+  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  x4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
+  y4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);
@@ -226,8 +209,5 @@ Element2DC0LinearQuadrilateral
 
 }
 #endif
-
-
-
 
 }} // end namespace itk::fem

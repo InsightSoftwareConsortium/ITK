@@ -23,18 +23,12 @@
 namespace itk {
 namespace fem {
 
-
-
-
 template<class TBaseClass>
 Element1DStress<TBaseClass>
 ::Element1DStress() : Superclass(), m_mat(0) {}
 
-
-
-
 //////////////////////////////////////////////////////////////////////////
-/*
+/**
  * Methods related to the physics of the problem.
  */
 
@@ -50,9 +44,6 @@ Element1DStress<TBaseClass>
   B[0][1] = shapeDgl[0][1];
 }
 
-
-
-
 template<class TBaseClass>
 void
 Element1DStress<TBaseClass>
@@ -64,8 +55,6 @@ Element1DStress<TBaseClass>
   // Material properties matrix is a scalar
   D[0][0] = (m_mat->E*m_mat->A);
 }
-
-
 
 template<class TBaseClass>
 void 
@@ -86,12 +75,12 @@ Element1DStress<TBaseClass>
   VectorType d=this->GetNodeCoordinates(1)-this->GetNodeCoordinates(0);
   d=d/d.magnitude();
   for(unsigned int i=0;i<Ndims;i++)
-  {
-    for(unsigned int n=0;n<Nn;n++)
     {
+    for(unsigned int n=0;n<Nn;n++)
+      {
       T[n][n*Ndims+i]=d[i];
+      }
     }
-  }
 
   // Apply the nodal displacement transformation matrix to original
   // element stiffness matrix to obtain the element stiffness
@@ -99,9 +88,6 @@ Element1DStress<TBaseClass>
   Ke=T.transpose()*Ke*T;
 
 }
-
-
-
 
 template<class TBaseClass>
 void
@@ -119,37 +105,35 @@ Element1DStress<TBaseClass>
   Superclass::Read(f,info);
 
   try
-  {
+    {
     /*
      * Read and set the material pointer
      */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
 
-  }
+    }
   catch ( FEMExceptionObjectNotFound e )
-  {
+    {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element1DStress::Read()",e.m_baseClassName,e.m_GN);
-  }
+    }
 
   // Check if the material object was of correct class
   if(!m_mat)
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element1DStress::Read()");
-  }
+    }
 
 out:
 
   if( !f )
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element1DStress::Read()","Error reading FEM element!");
-  }
+    }
 
 }
 
-
-
-/*
+/**
  * Write the element to the output stream.
  */
 template<class TBaseClass>
@@ -168,13 +152,10 @@ Element1DStress<TBaseClass>
 
   // check for errors
   if (!f)
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element1DStress::Write()","Error writing FEM element!");
-  }
+    }
 }
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

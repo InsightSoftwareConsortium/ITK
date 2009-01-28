@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 Element2DC0LinearLineStress
 ::Element2DC0LinearLineStress() : Superclass()
 {
@@ -54,9 +51,6 @@ Element2DC0LinearLineStress
   }
 }
 
-
-
-
 void
 Element2DC0LinearLineStress
 ::GetMassMatrix( MatrixType& Me ) const
@@ -79,12 +73,5 @@ Element2DC0LinearLineStress
 
 }
 
-
-
-
 FEM_CLASS_REGISTER(Element2DC0LinearLineStress)
-
-
-
-
 }} // end namespace itk::fem

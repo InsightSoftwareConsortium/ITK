@@ -24,16 +24,13 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element2DC0LinearLineStress
  * \brief 2-noded finite element class in 2D space for linear elasticity problem.
  */
 class Element2DC0LinearLineStress : public Element1DStress<Element2DC0LinearLine>
 {
-FEM_CLASS(Element2DC0LinearLineStress,Element1DStress<Element2DC0LinearLine>)
+  FEM_CLASS(Element2DC0LinearLineStress,Element1DStress<Element2DC0LinearLine>)
 public:
 
   HANDLE_ELEMENT_LOADS();
@@ -61,9 +58,6 @@ public:
 }; // class Element2DC0LinearLineStress
 
 FEM_CLASS_INIT(Element2DC0LinearLineStress)
-
-
-
 
 }} // end namespace itk::fem
 

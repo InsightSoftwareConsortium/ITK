@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element1DStress
  * \brief Class that is used to define linear elasticity problem in 1D space.
@@ -48,7 +45,7 @@ FEM_ABSTRACT_CLASS(Element1DStress,TBaseClass)
 public:
 
   // Repeat the required typedefs and enums from parent class
-  typedef typename Superclass::Float Float;
+  typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
 
@@ -66,9 +63,6 @@ public:
    * Default constructor only clears the internal storage
    */
   Element1DStress();
-
-
-
 
 //////////////////////////////////////////////////////////////////////////
   /*
@@ -100,9 +94,7 @@ public:
    * spatial dimensions.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-  { return 2; }
-
-
+    { return 2; }
 
 public:
 
@@ -112,12 +104,9 @@ public:
   MaterialLinearElasticity::ConstPointer m_mat;
   virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
   virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
-
+  
 
 }; // class Element1DStress
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

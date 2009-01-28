@@ -26,9 +26,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 void
 Element2DC0LinearLine
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
@@ -45,9 +42,6 @@ Element2DC0LinearLine
 
 }
 
-
-
-
 unsigned int
 Element2DC0LinearLine
 ::GetNumberOfIntegrationPoints(unsigned int order) const
@@ -59,9 +53,6 @@ Element2DC0LinearLine
 
   return order;
 }
-
-
-
 
 Element2DC0LinearLine::VectorType
 Element2DC0LinearLine
@@ -76,9 +67,6 @@ Element2DC0LinearLine
   return shapeF;
 }
 
-
-
-
 void
 Element2DC0LinearLine
 ::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
@@ -88,9 +76,6 @@ Element2DC0LinearLine
   shapeD[0][0] = -0.5;
   shapeD[0][1] =  0.5;
 }
-
-
-
 
 void
 Element2DC0LinearLine
@@ -108,9 +93,6 @@ Element2DC0LinearLine
   J[0][0]=l/2;
 }
 
-
-
-
 bool
 Element2DC0LinearLine
 ::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt ) const
@@ -122,10 +104,7 @@ Element2DC0LinearLine
   return false;
 }
 
-
-
-
-/*
+/**
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
@@ -139,19 +118,15 @@ Element2DC0LinearLine
   int x2=m_node[1]->GetCoordinates()[0]*DC_Scale;
   int y2=m_node[1]->GetCoordinates()[1]*DC_Scale;
   
-
-  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);
 
 }
 #endif
-
-
-
 
 }} // end namespace itk::fem
