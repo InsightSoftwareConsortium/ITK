@@ -47,17 +47,11 @@ Element2DC0LinearTriangularStress
    * If the material class was incorrect an exception is thrown.
    */
   if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0LinearTriangularStress::Element2DC0LinearTriangularStress()");
-  }
+    }
 }
 
-
-
-
 FEM_CLASS_REGISTER(Element2DC0LinearTriangularStress)
-
-
-
 
 }} // end namespace itk::fem

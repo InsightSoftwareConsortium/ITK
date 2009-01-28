@@ -21,9 +21,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 void
 Element2DC0QuadraticTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
@@ -35,7 +32,7 @@ Element2DC0QuadraticTriangular
 
   pt.set_size(3);
 
-  /*
+  /**
    * We provide implementation for 5 different integration rules
    * as defined in chapter 24 - Implementation of Iso-P Truangular
    * Elements, of http://titan.colorado.edu/courses.d/IFEM.d/.
@@ -55,9 +52,6 @@ Element2DC0QuadraticTriangular
   w=0.5*Element2DC0LinearTriangular::trigGaussRuleInfo[order][i][3];
 }
 
-
-
-
 unsigned int
 Element2DC0QuadraticTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
@@ -69,9 +63,6 @@ Element2DC0QuadraticTriangular
 
   return Element2DC0LinearTriangular::Nip[order];
 }
-
-
-
 
 Element2DC0QuadraticTriangular::VectorType
 Element2DC0QuadraticTriangular
@@ -91,9 +82,6 @@ Element2DC0QuadraticTriangular
 
   return shapeF;
 }
-
-
-
 
 void
 Element2DC0QuadraticTriangular
@@ -118,9 +106,6 @@ Element2DC0QuadraticTriangular
 
 }
 
-
-
-
 Element2DC0QuadraticTriangular::Float
 Element2DC0QuadraticTriangular
 ::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
@@ -133,11 +118,11 @@ Element2DC0QuadraticTriangular
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal );
     pJ=pJlocal;
-  }
+    }
 
   Float det=(((*pJ)[1][0]-(*pJ)[0][0]) * ((*pJ)[2][1]-(*pJ)[0][1])) -
             (((*pJ)[0][1]-(*pJ)[1][1]) * ((*pJ)[0][0]-(*pJ)[2][0]));
@@ -147,9 +132,6 @@ Element2DC0QuadraticTriangular
   return det;
 
 }
-
-
-
 
 void
 Element2DC0QuadraticTriangular
@@ -161,11 +143,11 @@ Element2DC0QuadraticTriangular
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal );
     pJ=pJlocal;
-  }
+    }
 
   // Note that inverse of Jacobian is not quadratic matrix
   invJ.set_size(2,3);
@@ -178,10 +160,7 @@ Element2DC0QuadraticTriangular
   delete pJlocal;
 }
 
-
-
-
-/*
+/**
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
@@ -207,21 +186,19 @@ Element2DC0QuadraticTriangular
   
   int x6=m_node[5]->GetCoordinates()[0]*DC_Scale;
   int y6=m_node[5]->GetCoordinates()[1]*DC_Scale;
-
   
-  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
-  x5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
-  y5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
-  x6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
-  y6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
-
+  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
+  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  x4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
+  y4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
+  x5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
+  y5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
+  x6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
+  y6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x4,y4);
@@ -233,8 +210,5 @@ Element2DC0QuadraticTriangular
 
 }
 #endif
-
-
-
 
 }} // end namespace itk::fem

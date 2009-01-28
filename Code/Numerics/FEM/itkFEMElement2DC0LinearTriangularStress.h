@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element2DC0LinearTriangularStress
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
@@ -58,9 +55,6 @@ public:
 }; // class Element2DC0LinearTriangularStress 
 
 FEM_CLASS_INIT(Element2DC0LinearTriangularStress)
-
-
-
 
 }} // end namespace itk::fem
 
