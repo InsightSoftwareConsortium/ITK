@@ -23,24 +23,18 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element2DC0LinearQuadrilateral
  * \brief 4-noded, linear, C0 continuous finite element in 2D space.
  */
 class Element2DC0LinearQuadrilateral : public ElementStd<4,2>
 {
-typedef ElementStd<4,2> TemplatedParentClass;
-FEM_ABSTRACT_CLASS( Element2DC0LinearQuadrilateral, TemplatedParentClass )
+  typedef ElementStd<4,2> TemplatedParentClass;
+  FEM_ABSTRACT_CLASS( Element2DC0LinearQuadrilateral, TemplatedParentClass )
 public:
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to numeric integration
    */
 
@@ -50,10 +44,8 @@ public:
 
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to the geometry of an element
    */
 
@@ -71,9 +63,6 @@ public:
 #endif
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element2DC0LinearQuadrilateralStrain
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
@@ -57,10 +54,6 @@ public:
 }; // class Element2DC0LinearQuadrilateralStrain
 
 FEM_CLASS_INIT(Element2DC0LinearQuadrilateralStrain)
-
-
-
-
 }} // end namespace itk::fem
 
 #endif  // #ifndef __itkFEMElement2DC0LinearQuadrilateralStrain_h

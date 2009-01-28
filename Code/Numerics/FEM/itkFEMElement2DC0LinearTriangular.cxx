@@ -26,9 +26,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 const double
 Element2DC0LinearTriangular
 ::trigGaussRuleInfo[6][7][4] = 
@@ -80,8 +77,6 @@ Element2DC0LinearTriangular
   0,1,3,3,6,7
 };
 
-
-
 void
 Element2DC0LinearTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
@@ -93,7 +88,7 @@ Element2DC0LinearTriangular
 
   pt.set_size(3);
 
-  /*
+  /**
    * We provide implementation for 5 different integration rules
    * as defined in chapter 24 - Implementation of Iso-P Truangular
    * Elements, of http://titan.colorado.edu/courses.d/IFEM.d/.
@@ -113,9 +108,6 @@ Element2DC0LinearTriangular
   w=0.5*trigGaussRuleInfo[order][i][3];
 }
 
-
-
-
 unsigned int
 Element2DC0LinearTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
@@ -127,9 +119,6 @@ Element2DC0LinearTriangular
 
   return Nip[order];
 }
-
-
-
 
 Element2DC0LinearTriangular::VectorType
 Element2DC0LinearTriangular
@@ -144,9 +133,6 @@ Element2DC0LinearTriangular
   return shapeF;
 }
 
-
-
-
 void
 Element2DC0LinearTriangular
 ::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
@@ -159,9 +145,6 @@ Element2DC0LinearTriangular
   shapeD[1][1]=1.0;
   shapeD[2][2]=1.0;
 }
-
-
-
 
 bool
 Element2DC0LinearTriangular
@@ -185,17 +168,14 @@ Element2DC0LinearTriangular
   localPt[2]=((y1 - y2)*x + (x2 - x1)*y + x1*y2 - x2*y1)/A;
 
   if (localPt[0] < 0.0 || localPt[0] > 1.0 || localPt[1] < 0.0 || localPt[1] > 1.0 || localPt[2] < 0.0 || localPt[2] > 1.0 )
-  {
+    {
     return false;
-  }
+    }
   else
-  {
+    {
     return true;
-  }
+    }
 }
-
-
-
 
 Element2DC0LinearTriangular::Float
 Element2DC0LinearTriangular
@@ -209,11 +189,11 @@ Element2DC0LinearTriangular
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal );
     pJ=pJlocal;
-  }
+    }
 
   Float det=(((*pJ)[1][0]-(*pJ)[0][0]) * ((*pJ)[2][1]-(*pJ)[0][1])) -
             (((*pJ)[0][1]-(*pJ)[1][1]) * ((*pJ)[0][0]-(*pJ)[2][0]));
@@ -223,9 +203,6 @@ Element2DC0LinearTriangular
   return det;
 
 }
-
-
-
 
 void
 Element2DC0LinearTriangular
@@ -237,11 +214,11 @@ Element2DC0LinearTriangular
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal );
     pJ=pJlocal;
-  }
+    }
 
   // Note that inverse of Jacobian is not quadratic matrix
   invJ.set_size(2,3);
@@ -254,10 +231,7 @@ Element2DC0LinearTriangular
   delete pJlocal;
 }
 
-
-
-
-/*
+/**
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
@@ -275,12 +249,12 @@ Element2DC0LinearTriangular
   int x3=m_node[2]->GetCoordinates()[0]*DC_Scale;
   int y3=m_node[2]->GetCoordinates()[1]*DC_Scale;
   
-  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
+  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
 
   pDC->MoveTo(x1,y1);
   pDC->LineTo(x2,y2);
@@ -289,8 +263,5 @@ Element2DC0LinearTriangular
 
 }
 #endif
-
-
-
 
 }} // end namespace itk::fem

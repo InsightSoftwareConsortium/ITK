@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 Element2DC0LinearQuadrilateralStress
 ::Element2DC0LinearQuadrilateralStress() : Superclass()
 {
@@ -53,17 +50,10 @@ Element2DC0LinearQuadrilateralStress
    * If the material class was incorrect an exception is thrown.
    */
   if( (m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*m_)) == 0 )
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DC0LinearQuadrilateralStress::Element2DC0LinearQuadrilateralStress()");
-  }
+    }
 }
 
-
-
-
 FEM_CLASS_REGISTER(Element2DC0LinearQuadrilateralStress)
-
-
-
-
 }} // end namespace itk::fem
