@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element2DStrain
  * \brief Class that is used to define linear elasticity problem in 2D space.
@@ -48,7 +45,7 @@ FEM_ABSTRACT_CLASS(Element2DStrain,TBaseClass)
 public:
 
   // Repeat the required typedefs and enums from parent class
-  typedef typename Superclass::Float Float;
+  typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
 
@@ -67,11 +64,8 @@ public:
    */
   Element2DStrain();
 
-
-
-
 //////////////////////////////////////////////////////////////////////////
-  /*
+  /**
    * Methods related to the physics of the problem.
    */
 
@@ -95,9 +89,7 @@ public:
    * 2D strain elements have 2 DOFs per node.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-  { return 2; }
-
-
+    { return 2; }
 
 public:
 
@@ -109,9 +101,6 @@ public:
   virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
 
 }; // class Element2DStrain
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
