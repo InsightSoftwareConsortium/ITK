@@ -39,4 +39,7 @@ itkWatershedSegmenter.h Typedefs Disable
 itkWatershedSegmenter.txx Typedefs Disable
 itkWatershedSegmentTable.h Typedefs Disable
 itkWatershedSegmenter.h InternalVariables Disable
-itkFEMElement1DStress.h InternalVariables Disable
+itkFEMElement1DStress.h InternalVariables Disable'
+itkFEMElement2DC1Beam.h InternalVariables Disable
+itkFEMElement2DMembrane.h InternalVariables Disable
+itkFEMElement2DStrain.h InternalVariables Disable
