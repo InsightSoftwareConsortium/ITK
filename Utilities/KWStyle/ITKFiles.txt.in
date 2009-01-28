@@ -19,3 +19,6 @@
 @ITK_SOURCE_DIR@/Code/Algorithms/itk[A-Z]*.h
 @ITK_SOURCE_DIR@/Code/Algorithms/itk[A-Z]*.txx
 @ITK_SOURCE_DIR@/Code/Algorithms/itk[A-Z]*.cxx
+@ITK_SOURCE_DIR@/Code/SpatialObject/itk[A-Z]*.h
+@ITK_SOURCE_DIR@/Code/SpatialObject/itk[A-Z]*.txx
+@ITK_SOURCE_DIR@/Code/SpatialObject/itk[A-Z]*.cxx
