@@ -46,3 +46,4 @@ itkFEMElement3DMembrane.h InternalVariables Disable
 itkFEMElement2DStrain.h InternalVariables Disable
 itkFEMElement3DStrain.h InternalVariables Disable
 itkFEMElement2DStress.h InternalVariables Disable
+itkFEMException.h InternalVariables Disable
