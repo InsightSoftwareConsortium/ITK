@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element3DMembrane
  * \brief Class that is used to define a membrane energy problem in 3D space.
@@ -48,7 +45,7 @@ FEM_ABSTRACT_CLASS(Element3DMembrane,TBaseClass)
 public:
 
   // Repeat the required typedefs and enums from parent class
-  typedef typename Superclass::Float Float;
+  typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
 
@@ -67,11 +64,8 @@ public:
    */
   Element3DMembrane();
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to the physics of the problem.
    */
 
@@ -95,9 +89,7 @@ public:
    * 3D membrane elements have 3 DOFs per node.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-  { return 3; }
-
-
+    { return 3; }
 
 public:
 
@@ -109,9 +101,6 @@ public:
   virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
 
 }; // class Element3DMembrane
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

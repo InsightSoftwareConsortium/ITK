@@ -23,18 +23,12 @@
 namespace itk {
 namespace fem {
 
-
-
-
 template<class TBaseClass>
 Element2DStress<TBaseClass>
 ::Element2DStress() : Superclass(), m_mat(0) {}
 
-
-
-
 //////////////////////////////////////////////////////////////////////////
-/*
+/**
  * Methods related to the physics of the problem.
  */
 
@@ -49,21 +43,18 @@ Element2DStress<TBaseClass>
   
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
-    // Compute B index
-    p = i << 1;
+  // Compute B index
+  p = i << 1;
 
-    // Compute B elements
-    B[0][p]   = shapeDgl[0][i];
-    B[0][p+1] = 0;
-    B[1][p]   = 0;
-    B[1][p+1] = shapeDgl[1][i];
-    B[2][p]   = shapeDgl[1][i];
-    B[2][p+1] = shapeDgl[0][i];
+  // Compute B elements
+  B[0][p]   = shapeDgl[0][i];
+  B[0][p+1] = 0;
+  B[1][p]   = 0;
+  B[1][p+1] = shapeDgl[1][i];
+  B[2][p]   = shapeDgl[1][i];
+  B[2][p+1] = shapeDgl[0][i];
   }
 }
-
-
-
 
 template<class TBaseClass>
 void
@@ -77,9 +68,6 @@ Element2DStress<TBaseClass>
   // we need to adjust Me matrix here for the density of the element.
   Me=Me*m_mat->RhoC;
 }
-
-
-
 
 template<class TBaseClass>
 void
@@ -104,15 +92,13 @@ Element2DStress<TBaseClass>
   D[2][2] = disot * (1.- m_mat->nu)/2.0;
 }
 
-
-
 template<class TBaseClass>
 void
 Element2DStress<TBaseClass>
 ::Read( std::istream& f, void* info )
 {
   int n;
-  /*
+  /**
    * Convert the info pointer to a usable objects
    */
   ReadInfoType::MaterialArrayPointer mats=static_cast<ReadInfoType*>(info)->m_mat;
@@ -122,35 +108,33 @@ Element2DStress<TBaseClass>
   Superclass::Read(f,info);
 
   try
-  {
-    /*
+    {
+    /**
      * Read and set the material pointer
      */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
 
-  }
+    }
   catch ( FEMExceptionObjectNotFound e )
-  {
+    {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element2DStress::Read()",e.m_baseClassName,e.m_GN);
-  }
-
+    }
+  
   // Check if the material object was of correct class
   if(!m_mat)
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element2DStress::Read()");
-  }
+    }
 
 out:
 
   if( !f )
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element2DStress::Read()","Error reading FEM element!");
-  }
+    }
 
 }
-
-
 
 /*
  * Write the element to the output stream.
@@ -171,13 +155,10 @@ Element2DStress<TBaseClass>
 
   // check for errors
   if (!f)
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element2DStress::Write()","Error writing FEM element!");
-  }
+    }
 }
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

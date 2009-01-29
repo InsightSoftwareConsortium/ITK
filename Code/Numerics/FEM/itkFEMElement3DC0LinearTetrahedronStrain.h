@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element3DC0LinearTetrahedronStrain
  * \brief 4-noded finite element class in 3D space for linear elasticity problem
@@ -54,9 +51,6 @@ public:
 }; // class Element3DC0LinearTetrahedronStrain
 
 FEM_CLASS_INIT(Element3DC0LinearTetrahedronStrain)
-
-
-
 
 }} // end namespace itk::fem
 

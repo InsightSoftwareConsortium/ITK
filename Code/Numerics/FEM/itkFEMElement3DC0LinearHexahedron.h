@@ -23,22 +23,19 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element3DC0LinearHexahedron
  * \brief 8-noded, linear, C0 continuous finite element in 3D space.
  */
 class Element3DC0LinearHexahedron : public ElementStd<8,3>
 {
-typedef ElementStd<8,3> TemplatedParentClass;
-FEM_ABSTRACT_CLASS( Element3DC0LinearHexahedron, TemplatedParentClass )
+  typedef ElementStd<8,3> TemplatedParentClass;
+  FEM_ABSTRACT_CLASS( Element3DC0LinearHexahedron, TemplatedParentClass )
 public:
 
 
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to numeric integration
    */
 
@@ -46,10 +43,8 @@ public:
 
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to the geometry of an element
    */
 
@@ -67,9 +62,6 @@ public:
 #endif
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

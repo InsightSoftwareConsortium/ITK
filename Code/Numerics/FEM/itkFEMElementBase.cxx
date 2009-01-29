@@ -24,13 +24,8 @@
 #include "vnl/algo/vnl_svd.h"
 #include "vnl/algo/vnl_qr.h"   
 
-
-
 namespace itk {
 namespace fem {
-
-
-
 
 #ifdef FEM_BUILD_VISUALIZATION
 
@@ -47,8 +42,10 @@ double &Element::Node::DC_Scale=Element::DC_Scale;
 void Element::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const 
 {
   // We can only draw 2D nodes here
-  if(m_coordinates.size()!=2) { return; }
-
+  if(m_coordinates.size() != 2)
+    {
+    return;
+    }
   
   // Normally we draw a white circle.
   CPen pen(PS_SOLID, 0, (COLORREF) RGB(0,0,0) );
@@ -59,8 +56,8 @@ void Element::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const
 
   int x1=m_coordinates[0]*DC_Scale;
   int y1=m_coordinates[1]*DC_Scale;
-  x1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->GetDegreeOfFreedom(1))*DC_Scale;
 
   CPoint r1=CPoint(0,0);
   CPoint r=CPoint(5,5);
@@ -78,17 +75,14 @@ void Element::Node::Draw(CDC* pDC, Solution::ConstPointer sol) const
 
 #endif
 
-
-
-
-/*
+/**
  * Read the Node from the input stream
  */
 void Element::Node::Read(  std::istream& f, void* info )
 {
   unsigned int n;
 
-  /*
+  /**
    * First call the parent's read function
    */
   Superclass::Read(f,info);
@@ -103,14 +97,10 @@ void Element::Node::Read(  std::istream& f, void* info )
 out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element::Node::Read()","Error reading FEM node!");
-  }
-
+    }
 }
-
-
-
 
 /*
  * Write the Node to the output stream
@@ -132,16 +122,13 @@ void Element::Node::Write( std::ostream& f ) const
 
   /** check for errors */
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"Element::Node::Write()","Error writing FEM node!");
-  }
+    }
 }
 
-
-
-
 //////////////////////////////////////////////////////////////////////////
-/*
+/**
  * Physics of a problem.
  */
 
@@ -192,7 +179,7 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
 
   // Add contributions of other int. points to the Ke
   for(unsigned int i=1; i<Nip; i++)
-  {
+    {
     this->GetIntegrationPointAndWeight(i,ip,w);
     this->ShapeFunctionDerivatives(ip,shapeD);
     this->Jacobian(ip,J,&shapeD);
@@ -200,12 +187,12 @@ void Element::GetStiffnessMatrix(MatrixType& Ke) const
 
     this->GetStrainDisplacementMatrix( B, shapeDgl );
     detJ=this->JacobianDeterminant( ip, &J );
-    Ke+=detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
-  }
+    Ke += detJ*w*B.transpose()*D*B; // FIXME: write a more efficient way of computing this.
+    }
 }
 
 Element::VectorType Element::GetStrainsAtPoint(const VectorType& pt, const Solution& sol, unsigned int index) const
-  // NOTE: pt should be in local coordinates already
+// NOTE: pt should be in local coordinates already
 {
   MatrixType B;
   VectorType e, u;
@@ -227,7 +214,7 @@ Element::VectorType Element::GetStressesAtPoint(const VectorType& itkNotUsed(pt)
                                                 const VectorType& e,
                                                 const Solution& itkNotUsed(sol),
                                                 unsigned int itkNotUsed(index)) const
-  // NOTE: pt should be in local coordinates already
+// NOTE: pt should be in local coordinates already
 {
   MatrixType D;
   VectorType sigma;
@@ -257,22 +244,22 @@ void Element::GetLandmarkContributionMatrix(float eta, MatrixType& Le) const
   VectorType ip, shape;
 
   for(unsigned int i=0; i<Nip; i++)
-  {
+    {
     this->GetIntegrationPointAndWeight(i,ip,w,0);
     shape=this->ShapeFunctions(ip);
     
     for(unsigned int ni=0; ni<Nnodes; ni++)
-    {
-      for(unsigned int nj=0; nj<Nnodes; nj++)
       {
+      for(unsigned int nj=0; nj<Nnodes; nj++)
+        {
         Float m=w*shape[ni]*shape[nj];
         for(unsigned int d=0; d<NnDOF; d++)
-        {
-          Le[ni*NnDOF+d][nj*NnDOF+d]+=m;
+          {
+          Le[ni*NnDOF+d][nj*NnDOF+d] += m;
+          }
         }
       }
     }
-  }
 
   Le = Le / (eta );
 }
@@ -314,7 +301,7 @@ void Element::GetMassMatrix( MatrixType& Me ) const
   MatrixType J, shapeD;
 
   for(unsigned int i=0; i<Nip; i++)
-  {
+    {
     this->GetIntegrationPointAndWeight(i,ip,w,0);
     shape=this->ShapeFunctions(ip);
     this->ShapeFunctionDerivatives(ip,shapeD);
@@ -322,22 +309,19 @@ void Element::GetMassMatrix( MatrixType& Me ) const
     Float detJ=this->JacobianDeterminant( ip, &J );
     
     for(unsigned int ni=0; ni<Nnodes; ni++)
-    {
-      for(unsigned int nj=0; nj<Nnodes; nj++)
       {
+      for(unsigned int nj=0; nj<Nnodes; nj++)
+        {
         Float m=detJ*w*shape[ni]*shape[nj];
         for(unsigned int d=0; d<NnDOF; d++)
-        {
-          Me[ni*NnDOF+d][nj*NnDOF+d]+=m;
+          {
+          Me[ni*NnDOF+d][nj*NnDOF+d] += m;
+          }
         }
       }
     }
-  }
 
 }
-
-
-
 
 Element::VectorType
 Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigned int solutionIndex  ) const
@@ -351,24 +335,21 @@ Element::InterpolateSolution( const VectorType& pt, const Solution& sol, unsigne
   const unsigned int Ndofs_per_node=this->GetNumberOfDegreesOfFreedomPerNode();
 
   for(unsigned int f=0; f<Ndofs_per_node; f++)
-  {
+    {
     value=0.0;
 
     for(unsigned int n=0; n<Nnodes; n++)
-    {
-      value+=shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f) , solutionIndex);
-    }
+      {
+      value += shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f) , solutionIndex);
+      }
 
     vec[f]=value;
 
-  }
+    }
 
   return vec;
 
 }
-
-
-
 
 Element::Float
 Element::InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsigned int f , unsigned int solutionIndex ) const
@@ -379,19 +360,15 @@ Element::InterpolateSolutionN( const VectorType& pt, const Solution& sol, unsign
   VectorType shapef = this->ShapeFunctions(pt);
   unsigned int Nnodes=this->GetNumberOfNodes();
   for(unsigned int n=0; n<Nnodes; n++)
-  {
-    value+=shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f), solutionIndex );
-  }
+    {
+    value += shapef[n] * sol.GetSolutionValue( this->GetNode(n)->GetDegreeOfFreedom(f), solutionIndex );
+    }
   return value;
 
 }
 
-
-
-
-
 //////////////////////////////////////////////////////////////////////////
-/*
+/**
  * Geometry of a problem.
  */
 
@@ -403,11 +380,11 @@ Element::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshape
   // If derivatives of shape functions were not provided, we
   // need to compute them here
   if(pshapeD==0)
-  {
+    {
     pshapeDlocal=new MatrixType();
     this->ShapeFunctionDerivatives( pt, *pshapeDlocal );
     pshapeD=pshapeDlocal;
-  }
+    }
 
   const unsigned int Nn=pshapeD->columns();
   const unsigned int Ndims=this->GetNumberOfSpatialDimensions();
@@ -415,10 +392,10 @@ Element::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshape
   MatrixType coords(Nn, Ndims);
 
   for( unsigned int n=0; n<Nn; n++ )
-  {
+    {
     VectorType p=this->GetNodeCoordinates(n);
     coords.set_row(n,p);
-  }
+    }
 
   J=(*pshapeD)*coords;
 
@@ -428,9 +405,6 @@ Element::Jacobian( const VectorType& pt, MatrixType& J, const MatrixType* pshape
 
 }
 
-
-
-
 Element::Float
 Element::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
 {
@@ -439,11 +413,11 @@ Element::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal );
     pJ=pJlocal;
-  }
+    }
 
   //  Float det=vnl_svd<Float>(*pJ).determinant_magnitude();
   Float det=vnl_qr<Float>(*pJ).determinant();
@@ -454,9 +428,6 @@ Element::JacobianDeterminant( const VectorType& pt, const MatrixType* pJ ) const
 
 }
 
-
-
-
 void
 Element::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixType* pJ ) const
 {
@@ -466,21 +437,18 @@ Element::JacobianInverse( const VectorType& pt, MatrixType& invJ, const MatrixTy
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal );
     pJ=pJlocal;
-  }
+    }
 
-//  invJ=vnl_svd_inverse<Float>(*pJ);
+  //  invJ=vnl_svd_inverse<Float>(*pJ);
   invJ=vnl_qr<Float>(*pJ).inverse();
 
   delete pJlocal;
 
 }
-
-
-
 
 void Element::ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& shapeDgl, const MatrixType* pJ, const MatrixType* pshapeD ) const
 {
@@ -491,20 +459,20 @@ void Element::ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& 
   // If derivatives of shape functions were not provided, we
   // need to compute them here
   if(pshapeD==0)
-  {
+    {
     pshapeDlocal=new MatrixType();
     this->ShapeFunctionDerivatives( pt, *pshapeDlocal );
     pshapeD=pshapeDlocal;
-  }
+    }
 
   // If Jacobian was not provided, we
   // need to compute it here
   if(pJ==0)
-  {
+    {
     pJlocal=new MatrixType();
     this->Jacobian( pt, *pJlocal, pshapeD );
     pJ=pJlocal;
-  }
+    }
 
   MatrixType invJ;
   this->JacobianInverse( pt, invJ, pJ );
@@ -516,27 +484,21 @@ void Element::ShapeFunctionGlobalDerivatives( const VectorType& pt, MatrixType& 
 
 }
 
-
-
-
 Element::VectorType
 Element::GetGlobalFromLocalCoordinates( const VectorType& pt ) const
 {
   unsigned int Nnodes=this->GetNumberOfNodes();
   MatrixType nc(this->GetNumberOfSpatialDimensions(),Nnodes);
   for(unsigned int n=0; n<Nnodes; n++)
-  {
+    {
     nc.set_column( n,this->GetNodeCoordinates(n) );
-  }
+    }
   
   VectorType shapeF = ShapeFunctions(pt);
 
   return nc*shapeF;
 
 }
-
-
-
 
 // Gauss-Legendre integration rule constants
 const Element::Float Element::gaussPoint[gaussMaxOrder+1][gaussMaxOrder]=
@@ -569,12 +531,7 @@ const Element::Float Element::gaussWeight[gaussMaxOrder+1][gaussMaxOrder]=
   { 0.066671344308688, 0.149451349150581, 0.219086362515982, 0.269266719309996, 0.295524224714753, 0.295524224714753, 0.269266719309996, 0.219086362515982, 0.149451349150581, 0.066671344308688 }
 };
 
-
-
 // Register Node class with FEMObjectFactory
 FEM_CLASS_REGISTER(Node);
-
-
-
 
 }} // end namespace itk::fem

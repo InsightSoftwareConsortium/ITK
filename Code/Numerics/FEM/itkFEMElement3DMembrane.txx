@@ -23,18 +23,12 @@
 namespace itk {
 namespace fem {
 
-
-
-
 template<class TBaseClass>
 Element3DMembrane<TBaseClass>
 ::Element3DMembrane() : Superclass(), m_mat(0) {}
 
-
-
-
 //////////////////////////////////////////////////////////////////////////
-/*
+/**
  * Methods related to the physics of the problem.
  */
 
@@ -49,56 +43,53 @@ Element3DMembrane<TBaseClass>
   
   // Copy the shape function derivatives to the B matrix.
   for (unsigned int i=0; i<Nn; i++) {
-    // Compute B index
-    p = i * 3;
+  // Compute B index
+  p = i * 3;
 
-    // Compute B elements   
-    // below are the dN/dx entries
-    B[0][p]   = shapeDgl[0][i];
-    B[0][p+1] = 0.0;
-    B[0][p+2] = 0.0;
+  // Compute B elements   
+  // below are the dN/dx entries
+  B[0][p]   = shapeDgl[0][i];
+  B[0][p+1] = 0.0;
+  B[0][p+2] = 0.0;
 
-    B[1][p]   = 0.0;
-    B[1][p+1] = shapeDgl[0][i];
-    B[1][p+2] = 0.0;
+  B[1][p]   = 0.0;
+  B[1][p+1] = shapeDgl[0][i];
+  B[1][p+2] = 0.0;
 
-    B[2][p]   = 0.0;
-    B[2][p+1] = 0.0;
-    B[2][p+2] = shapeDgl[0][i];
+  B[2][p]   = 0.0;
+  B[2][p+1] = 0.0;
+  B[2][p+2] = shapeDgl[0][i];
 
   
-    // below are the dN/dy entries 
-    B[3][p]   = shapeDgl[1][i];
-    B[3][p+1] = 0.0;
-    B[3][p+2] = 0.0;
+  // below are the dN/dy entries 
+  B[3][p]   = shapeDgl[1][i];
+  B[3][p+1] = 0.0;
+  B[3][p+2] = 0.0;
 
-    B[4][p]   = 0.0;
-    B[4][p+1] = shapeDgl[1][i];
-    B[4][p+2] = 0.0;
+  B[4][p]   = 0.0;
+  B[4][p+1] = shapeDgl[1][i];
+  B[4][p+2] = 0.0;
 
-    B[5][p]   = 0.0;
-    B[5][p+1] = 0.0;
-    B[5][p+2] = shapeDgl[1][i];
+  B[5][p]   = 0.0;
+  B[5][p+1] = 0.0;
+  B[5][p+2] = shapeDgl[1][i];
 
 
-    // below are the dN/dz entries
-    B[6][p]   = shapeDgl[2][i];
-    B[6][p+1] = 0.0;
-    B[6][p+2] = 0.0;
+  // below are the dN/dz entries
+  B[6][p]   = shapeDgl[2][i];
+  B[6][p+1] = 0.0;
+  B[6][p+2] = 0.0;
 
-    B[7][p]   = 0.0;
-    B[7][p+1] = shapeDgl[2][i];
-    B[7][p+2] = 0.0;
+  B[7][p]   = 0.0;
+  B[7][p+1] = shapeDgl[2][i];
+  B[7][p+2] = 0.0;
 
-    B[8][p]   = 0.0;
-    B[8][p+1] = 0.0;
-    B[8][p+2] = shapeDgl[2][i];
+  B[8][p]   = 0.0;
+  B[8][p+1] = 0.0;
+  B[8][p+2] = shapeDgl[2][i];
 
   }
 }
-
-
-
 
 template<class TBaseClass>
 void
@@ -112,9 +103,6 @@ Element3DMembrane<TBaseClass>
   // we need to adjust Me matrix here for the density of the element.
   Me=Me*m_mat->RhoC;
 }
-
-
-
 
 template<class TBaseClass>
 void
@@ -134,8 +122,6 @@ Element3DMembrane<TBaseClass>
 
 }
 
-
-
 template<class TBaseClass>
 void
 Element3DMembrane<TBaseClass>
@@ -152,35 +138,33 @@ Element3DMembrane<TBaseClass>
   Superclass::Read(f,info);
 
   try
-  {
-    /*
+    {
+    /**
      * Read and set the material pointer
      */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     m_mat=dynamic_cast<const MaterialLinearElasticity*>( &*mats->Find(n));
-
-  }
+    
+    }
   catch ( FEMExceptionObjectNotFound e )
-  {
+    {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"Element3DMembrane::Read()",e.m_baseClassName,e.m_GN);
-  }
+    }
 
   // Check if the material object was of correct class
   if(!m_mat)
-  {
+    {
     throw FEMExceptionWrongClass(__FILE__,__LINE__,"Element3DMembrane::Read()");
-  }
+    }
 
 out:
 
   if( !f )
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element3DMembrane::Read()","Error reading FEM element!");
-  }
+    }
 
 }
-
-
 
 /*
  * Write the element to the output stream.
@@ -201,13 +185,10 @@ Element3DMembrane<TBaseClass>
 
   // check for errors
   if (!f)
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"Element3DMembrane::Write()","Error writing FEM element!");
-  }
+    }
 }
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

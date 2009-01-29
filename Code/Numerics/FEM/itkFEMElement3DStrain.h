@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element3DStrain
  * \brief Class that is used to define linear elasticity problem in 3D space.
@@ -48,7 +45,7 @@ FEM_ABSTRACT_CLASS(Element3DStrain,TBaseClass)
 public:
 
   // Repeat the required typedefs and enums from parent class
-  typedef typename Superclass::Float Float;
+  typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
 
@@ -67,10 +64,8 @@ public:
    */
   Element3DStrain ();
 
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to the physics of the problem.
    */
 
@@ -100,9 +95,6 @@ public:
   virtual void SetMaterial(Material::ConstPointer mat_ ) { m_mat=dynamic_cast<const MaterialLinearElasticity*>(&*mat_); }
 
 }; // class Element3DStrain
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

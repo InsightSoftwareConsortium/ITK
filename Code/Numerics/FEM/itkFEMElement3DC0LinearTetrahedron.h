@@ -6,15 +6,14 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkFEMElement3DC0LinearTetrahedron_h
 #define __itkFEMElement3DC0LinearTetrahedron_h
 
@@ -27,22 +26,19 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element3DC0LinearTetrahedron
  * \brief 4-noded, linear, C0 continuous finite element in 3D space.
  */
 class Element3DC0LinearTetrahedron : public ElementStd<4,3>
 {
-typedef ElementStd<4,3> TemplatedParentClass;
-FEM_ABSTRACT_CLASS( Element3DC0LinearTetrahedron, TemplatedParentClass )
+  typedef ElementStd<4,3> TemplatedParentClass;
+  FEM_ABSTRACT_CLASS( Element3DC0LinearTetrahedron, TemplatedParentClass )
 public:
 
 
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to numeric integration
    */
 
@@ -50,10 +46,8 @@ public:
 
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
 
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to the geometry of an element
    */
 
@@ -72,9 +66,6 @@ public:
 
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Element3DC0LinearHexahedronMembrane
  * \brief 8-noded finite element class in 3D space for linear elasticity problem
@@ -54,9 +51,6 @@ public:
 }; // class Element3DC0LinearHexahedronMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearHexahedronMembrane)
-
-
-
 
 }} // end namespace itk::fem
 

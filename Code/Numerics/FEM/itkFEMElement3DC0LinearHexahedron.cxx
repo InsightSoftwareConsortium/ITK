@@ -26,9 +26,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 void
 Element3DC0LinearHexahedron
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType& pt, Float& w, unsigned int order) const
@@ -47,9 +44,6 @@ Element3DC0LinearHexahedron
 
 }
 
-
-
-
 unsigned int
 Element3DC0LinearHexahedron
 ::GetNumberOfIntegrationPoints(unsigned int order) const
@@ -62,9 +56,6 @@ Element3DC0LinearHexahedron
   return order*order*order;
 }
 
-
-
-
 Element3DC0LinearHexahedron::VectorType
 Element3DC0LinearHexahedron
 ::ShapeFunctions( const VectorType& pt ) const
@@ -72,7 +63,7 @@ Element3DC0LinearHexahedron
   /* Linear hexahedral element has eight shape functions  */
   VectorType shapeF(8);
 
-  /*
+  /**
    * Linear hexahedral element has local coordinates
    *  (-1,-1,-1), (1,-1,-1), (1,1,-1), (-1,1,-1), (-1,-1,1), (1,-1,1), (1,1,1), (-1,1,1)
    */
@@ -105,8 +96,6 @@ Element3DC0LinearHexahedron
 
   return shapeF;
 }
-
-
 
 void
 Element3DC0LinearHexahedron
@@ -204,37 +193,37 @@ Element3DC0LinearHexahedron
 
   // FIXME!
 
-//   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-//   x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-//   x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-//   x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
+  //   x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
+  //   x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
+  //   x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
+  //   x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
 
-//   xb = x1 - x2 + x3 - x4;
-//   yb = y1 - y2 + y3 - y4;
+  //   xb = x1 - x2 + x3 - x4;
+  //   yb = y1 - y2 + y3 - y4;
 
-//   xce = x1 + x2 - x3 - x4;
-//   yce = y1 + y2 - y3 - y4;
+  //   xce = x1 + x2 - x3 - x4;
+  //   yce = y1 + y2 - y3 - y4;
 
-//   xcn = x1 - x2 - x3 + x4;
-//   ycn = y1 - y2 - y3 + y4;
+  //   xcn = x1 - x2 - x3 + x4;
+  //   ycn = y1 - y2 - y3 + y4;
 
-//   A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
-//   J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
-//   J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
+  //   A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
+  //   J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
+  //   J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
 
-//   x0 = 0.25 * (x1 + x2 + x3 + x4);
-//   y0 = 0.25 * (y1 + y2 + y3 + y4);
+  //   x0 = 0.25 * (x1 + x2 + x3 + x4);
+  //   y0 = 0.25 * (y1 + y2 + y3 + y4);
 
-//   dx = globalPt[0] - x0;
-//   dy = globalPt[1] - y0;
+  //   dx = globalPt[0] - x0;
+  //   dy = globalPt[1] - y0;
 
-//   be =  A - (dx * yb) + (dy * xb);
-//   bn = -A - (dx * yb) + (dy * xb);
-//   ce = (dx * yce) - (dy * xce);
-//   cn = (dx * ycn) - (dy * xcn);
+  //   be =  A - (dx * yb) + (dy * xb);
+  //   bn = -A - (dx * yb) + (dy * xb);
+  //   ce = (dx * yce) - (dy * xce);
+  //   cn = (dx * ycn) - (dy * xcn);
 
-//   localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
-//   localPt[1] = (2 * cn) / ( vcl_sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+  //   localPt[0] = (2 * ce) / (-sqrt((be * be) - (2 * J1 * ce)) - be);
+  //   localPt[1] = (2 * cn) / ( vcl_sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
   // FIXME
   bool IsInside=false;
@@ -242,10 +231,7 @@ Element3DC0LinearHexahedron
   return IsInside;
 }
 
-
-
-
-/*
+/**
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
@@ -286,53 +272,39 @@ Element3DC0LinearHexahedron
   int y8=m_node[7]->GetCoordinates()[1]*DC_Scale;
   int z8=m_node[7]->GetCoordinates()[2]*DC_Scale;
 
-  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  z1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(2))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  z1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  z2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(2))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  z2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  z3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(2))*DC_Scale;
+  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
+  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  z3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
-  z4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(2))*DC_Scale;
+  x4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
+  y4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
+  z4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
-  y5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
-  z5+=sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(2))*DC_Scale;
+  x5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(0))*DC_Scale;
+  y5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(1))*DC_Scale;
+  z5 += sol->GetSolutionValue(this->m_node[4]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
-  y6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
-  z6+=sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(2))*DC_Scale;
+  x6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(0))*DC_Scale;
+  y6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(1))*DC_Scale;
+  z6 += sol->GetSolutionValue(this->m_node[5]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x7+=sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(0))*DC_Scale;
-  y7+=sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(1))*DC_Scale;
-  z7+=sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(2))*DC_Scale;
+  x7 += sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(0))*DC_Scale;
+  y7 += sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(1))*DC_Scale;
+  z7 += sol->GetSolutionValue(this->m_node[6]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x8+=sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(0))*DC_Scale;
-  y8+=sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(1))*DC_Scale;
-  z8+=sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(2))*DC_Scale;
-
-  // FIXME: this isn't the correct drawing scheme
-/*  pDC->MoveTo(x1,y1,z1);
-  pDC->LineTo(x2,y2,z2);
-  pDC->LineTo(x3,y3,z3);
-  pDC->LineTo(x4,y4,z4);
-  pDC->LineTo(x5,y5,z5);
-  pDC->LineTo(x6,y6,z6);
-  pDC->LineTo(x7,y7,z7);
-  pDC->LineTo(x8,y8,z8);
-  */
+  x8 += sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(0))*DC_Scale;
+  y8 += sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(1))*DC_Scale;
+  z8 += sol->GetSolutionValue(this->m_node[7]->GetDegreeOfFreedom(2))*DC_Scale;
 
 }
 #endif
-
-
-
 
 }} // end namespace itk::fem

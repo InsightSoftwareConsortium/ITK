@@ -6,15 +6,14 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 // disable debug warnings in MS compiler
 #ifdef _MSC_VER
 #pragma warning(disable: 4786)
@@ -25,9 +24,6 @@
 
 namespace itk {
 namespace fem {
-
-
-
 
 void
 Element3DC0LinearTetrahedron
@@ -46,18 +42,12 @@ Element3DC0LinearTetrahedron
 
 }
 
-
-
-
 unsigned int
 Element3DC0LinearTetrahedron
 ::GetNumberOfIntegrationPoints( unsigned int ) const
 {
   return 1;
 }
-
-
-
 
 Element3DC0LinearTetrahedron::VectorType
 Element3DC0LinearTetrahedron
@@ -88,9 +78,6 @@ Element3DC0LinearTetrahedron
   return shapeF;
 }
 
-
-
-
 void
 Element3DC0LinearTetrahedron
 ::ShapeFunctionDerivatives( const VectorType&, MatrixType& shapeD ) const
@@ -108,9 +95,6 @@ Element3DC0LinearTetrahedron
     shapeD[j-1][j] = 1;
 
 }
-
-
-
 
 bool
 Element3DC0LinearTetrahedron
@@ -150,24 +134,24 @@ Element3DC0LinearTetrahedron
 
   localPt[0] = 1/A *
     (
-       (x-x0)*((y2-y0)*(z3-z0)-(z2-z0)*(y3-y0))
-     - (y-y0)*((x2-x0)*(z3-z0)-(z2-z0)*(x3-x0))
-     + (z-z0)*((x2-x0)*(y3-y0)-(y2-y0)*(x3-x0))
-    );
+      (x-x0)*((y2-y0)*(z3-z0)-(z2-z0)*(y3-y0))
+      - (y-y0)*((x2-x0)*(z3-z0)-(z2-z0)*(x3-x0))
+      + (z-z0)*((x2-x0)*(y3-y0)-(y2-y0)*(x3-x0))
+      );
   
   localPt[1] = 1/A *
     (
-     - (x-x0)*((y1-y0)*(z3-z0)-(z1-z0)*(y3-y0))
-     + (y-y0)*((x1-x0)*(z3-z0)-(z1-z0)*(x3-x0))
-     - (z-z0)*((x1-x0)*(y3-y0)-(y1-y0)*(x3-x0))
-    );
+      - (x-x0)*((y1-y0)*(z3-z0)-(z1-z0)*(y3-y0))
+      + (y-y0)*((x1-x0)*(z3-z0)-(z1-z0)*(x3-x0))
+      - (z-z0)*((x1-x0)*(y3-y0)-(y1-y0)*(x3-x0))
+      );
   
   localPt[2] = 1/A *
     (
-       (x-x0)*((y1-y0)*(z2-z0)-(z1-z0)*(y2-y0))
-     - (y-y0)*((x1-x0)*(z2-z0)-(z1-z0)*(x2-x0))
-     + (z-z0)*((x1-x0)*(y2-y0)-(y1-y0)*(x2-x0))
-    );
+      (x-x0)*((y1-y0)*(z2-z0)-(z1-z0)*(y2-y0))
+      - (y-y0)*((x1-x0)*(z2-z0)-(z1-z0)*(x2-x0))
+      + (z-z0)*((x1-x0)*(y2-y0)-(y1-y0)*(x2-x0))
+      );
   
   const double FEM_TETRA_EPSILON = 1e-5;
 
@@ -177,22 +161,17 @@ Element3DC0LinearTetrahedron
       || localPt[1] > (1.0 + FEM_TETRA_EPSILON)
       || localPt[2] < (0.0 - FEM_TETRA_EPSILON)
       || localPt[2] > (1.0 + FEM_TETRA_EPSILON)
-      || ( (localPt[0]+localPt[1]+localPt[2]) > (1.0 + FEM_TETRA_EPSILON) ) 
-      )
-  {
+      || ( (localPt[0]+localPt[1]+localPt[2]) > (1.0 + FEM_TETRA_EPSILON) ))
+    {
     return false;
-  }
+    }
   else
-  {
+    {
     return true;
-  }
-  
+    }
 }
 
-
-
-
-/*
+/**
  * Draw the element on device context pDC.
  */
 #ifdef FEM_BUILD_VISUALIZATION
@@ -217,24 +196,24 @@ Element3DC0LinearTetrahedron
   int y4=m_node[3]->GetCoordinates()[1]*DC_Scale;
   int z4=m_node[3]->GetCoordinates()[2]*DC_Scale;
 
-  x1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
-  y1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
-  z1+=sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(2))*DC_Scale;
+  x1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(0))*DC_Scale;
+  y1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(1))*DC_Scale;
+  z1 += sol->GetSolutionValue(this->m_node[0]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
-  y2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
-  z2+=sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(2))*DC_Scale;
+  x2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(0))*DC_Scale;
+  y2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(1))*DC_Scale;
+  z2 += sol->GetSolutionValue(this->m_node[1]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
-  y3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
-  z3+=sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(2))*DC_Scale;
+  x3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(0))*DC_Scale;
+  y3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(1))*DC_Scale;
+  z3 += sol->GetSolutionValue(this->m_node[2]->GetDegreeOfFreedom(2))*DC_Scale;
 
-  x4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
-  y4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
-  z4+=sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(2))*DC_Scale;
+  x4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(0))*DC_Scale;
+  y4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(1))*DC_Scale;
+  z4 += sol->GetSolutionValue(this->m_node[3]->GetDegreeOfFreedom(2))*DC_Scale;
 
   // FIXME: this may not be the correct drawing scheme
-/*  pDC->MoveTo(x1,y1,z1);
+  /*  pDC->MoveTo(x1,y1,z1);
   pDC->LineTo(x2,y2,z2);
   pDC->LineTo(x3,y3,z3);
   pDC->LineTo(x4,y4,z4);
@@ -245,8 +224,5 @@ Element3DC0LinearTetrahedron
 
 }
 #endif
-
-
-
 
 }} // end namespace itk::fem
