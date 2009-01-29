@@ -23,18 +23,15 @@
 namespace itk {
 namespace fem {
 
-
-
-
 template<unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
 ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 ::ElementStd()
 {
   // Set all node ids to 0 (undefined).
   for(int i=0; i<NumberOfNodes; i++)
-  {
+    {
     this->m_node[i]=0;
-  }
+    }
 }
 
 
@@ -51,27 +48,27 @@ ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
   Superclass::Read(f,info);
 
   try
-  {
+    {
     // Read and set each of the expected global node numbers
     for(unsigned int p=0; p<NumberOfNodes; p++)
-    {
+      {
       this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
       m_node[p]=dynamic_cast<const Element::Node*>( &*nodes->Find(n));
-    }
+      }
 
-  }
+    }
   catch ( FEMExceptionObjectNotFound e )
-  {
+    {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"ElementStd::Read()",e.m_baseClassName,e.m_GN);
-  }
+    }
 
 
 out:
 
   if( !f )
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"ElementStd::Read()","Error reading FEM element!");
-  }
+    }
 
 }
 
@@ -87,20 +84,17 @@ ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
   // ... then write the actual data (node ids)
   // We also add some comments in the output file
   for(unsigned int p=0; p<NumberOfNodes; p++)
-  {
+    {
     f<<"\t"<<m_node[p]->GN<<"\t% Node #"<<(p+1)<<" ID\n";
-  }
+    }
 
   // check for errors
   if (!f)
-  { 
+    { 
     throw FEMExceptionIO(__FILE__,__LINE__,"ElementStd::Write()","Error writing FEM element!");
-  }
+    }
 
 }
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

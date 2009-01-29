@@ -31,8 +31,6 @@
 namespace itk {
 namespace fem {
 
-
-
 // FIXME: Write better documentation
 /**
  * \class Element
@@ -74,7 +72,7 @@ namespace fem {
 
 class Element : public FEMLightObject
 {
-FEM_ABSTRACT_CLASS(Element,FEMLightObject)
+  FEM_ABSTRACT_CLASS(Element,FEMLightObject)
 public:
 
   /**
@@ -108,7 +106,7 @@ public:
    * ALWAYS first convert the argument to Element::LoadPointer. See
    * code of function Solver::AssembleF(...) for more info.
    */
-  typedef FEMLightObject LoadType;
+  typedef FEMLightObject    LoadType;
   typedef LoadType::Pointer LoadPointer;
 
   /**
@@ -132,10 +130,10 @@ public:
    * are the elements, the node class is defined within an element base class.
    */
   class Node : public FEMLightObject
-  {
-  FEM_CLASS(Node,FEMLightObject)
-  public:
-
+    {
+    FEM_CLASS(Node,FEMLightObject)
+     public:
+    
     /**
      * Floating point precision type.
      */
@@ -169,43 +167,43 @@ public:
     /**
      * Create 3D node.
      */
-        Node(Float x, Float y, Float z) : m_coordinates(VectorType(3))
-    { m_coordinates[0]=x; m_coordinates[1]=y; m_coordinates[2]=z;}
+    Node(Float x, Float y, Float z) : m_coordinates(VectorType(3))
+      { m_coordinates[0]=x; m_coordinates[1]=y; m_coordinates[2]=z;}
     /**
      * Return a reference to a vector that contains coordinates
      * of this node.
      */
     const VectorType& GetCoordinates( void ) const
-    { return m_coordinates; }
+      { return m_coordinates; }
 
     /**
      * Set coordinates of a node.
      */
     void SetCoordinates( const VectorType& coords )
-    { m_coordinates=coords; }
+      { m_coordinates=coords; }
 
     /**
      * Get DOF IDs associated with this node.
      */
     DegreeOfFreedomIDType GetDegreeOfFreedom(unsigned int i) const
-    {
+      {
       if( i>=m_dof.size() ) { return InvalidDegreeOfFreedomID; }
       return m_dof[i];
-    }
+      }
 
     /**
      * Set DOF IDs associated with this node.
      */
     void SetDegreeOfFreedom(unsigned int i, DegreeOfFreedomIDType dof) const
-    {
+      {
       if( i>=m_dof.size() ) { m_dof.resize(i+1, InvalidDegreeOfFreedomID); }
       m_dof[i]=dof;
-    }
+      }
 
     virtual void ClearDegreesOfFreedom( void ) const
-    {
+      {
       m_dof.clear();
-    }
+      }
 
     virtual void Read(  std::istream& f, void* info );
     virtual void Write( std::ostream& f ) const;
@@ -231,9 +229,6 @@ public:
     mutable std::vector<DegreeOfFreedomIDType> m_dof;
 
   }; // end class Node
-
-
-
 
 //////////////////////////////////////////////////////////////////////////
   /*
@@ -271,7 +266,7 @@ public:
    *
    *      T
    * U = u  Ke u
-   *         
+   *
    * The matrix LocalSolution contains the solution to use in the energy
    * computation.  Usually, this is the solution at the nodes.
    */
@@ -385,10 +380,10 @@ public:
    * \param local_dof Local number of degree of freedom within an element.
    */
   DegreeOfFreedomIDType GetDegreeOfFreedom( unsigned int local_dof ) const
-  {
+    {
     if(local_dof>this->GetNumberOfDegreesOfFreedom()) { return InvalidDegreeOfFreedomID; }
     return this->GetNode(local_dof/this->GetNumberOfDegreesOfFreedomPerNode())->GetDegreeOfFreedom(local_dof%this->GetNumberOfDegreesOfFreedomPerNode());
-  }
+    }
 
   /**
    * Return the pointer to the Material object used by the element.
@@ -418,11 +413,8 @@ public:
    */
   virtual void SetMaterial(Material::ConstPointer) {} // FIXME: maybe we should throw an exception instead
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to numeric integration
    */
 
@@ -648,9 +640,9 @@ public:
    * multiplied by number of degrees of freedom at each point.
    */
   virtual unsigned int GetNumberOfDegreesOfFreedom( void ) const
-  {
+    {
     return this->GetNumberOfNodes() * this->GetNumberOfDegreesOfFreedomPerNode();
-  }
+    }
 
   /**
    * Return the number of degrees of freedom at each node. This is also
@@ -661,11 +653,8 @@ public:
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const = 0;
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods and classes related to IO and drawing
    */
 
@@ -686,9 +675,6 @@ static INITClass Initializer_ElementNode(Element::Node::CLID());
 // Alias for Element::Node class
 typedef Element::Node Node;
 
-
-
-
 /**
  * \class ReadInfoType
  * \brief Helper class for storing additional information that is required
@@ -704,8 +690,8 @@ class ReadInfoType
 {
 public:
 
-  typedef Node::ArrayType::ConstPointer NodeArrayPointer;
-  typedef Element::ArrayType::ConstPointer ElementArrayPointer;
+  typedef Node::ArrayType::ConstPointer     NodeArrayPointer;
+  typedef Element::ArrayType::ConstPointer  ElementArrayPointer;
   typedef Material::ArrayType::ConstPointer MaterialArrayPointer;
 
   /** Pointer to an array of nodes. */
@@ -721,9 +707,6 @@ public:
   ReadInfoType( NodeArrayPointer node_, ElementArrayPointer el_, MaterialArrayPointer mat_) :
     m_node(node_), m_el(el_), m_mat(mat_) {}
 };
-
-
-
 
 }} // end namespace itk::fem
 

@@ -20,19 +20,12 @@
 namespace itk {
 namespace fem {
 
-
-
-
 unsigned int FEMInitialization::count = 0;
-
-
 
 /**
  * \brief Register all Load implementations of all Element classes.
  */
 extern void LoadImplementationsRegister(void);
-
-
 
 /**
  * Constructor of the FEMInitialization class does all
@@ -51,9 +44,6 @@ FEMInitialization::FEMInitialization()
   }
 }
 
-
-
-
 /**
  * Destructor of the FEMInitialization class does all
  * the cleanup required by the FEM library.
@@ -61,12 +51,9 @@ FEMInitialization::FEMInitialization()
 FEMInitialization::~FEMInitialization()
 {
   if ( 0 == --count)
-  {
+    {
     // perform the cleanup and housekeeping
-  }
+    }
 }
-
-
-
 
 }} // end namespace itk::fem

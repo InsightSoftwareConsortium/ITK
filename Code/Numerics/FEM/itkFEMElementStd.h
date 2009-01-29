@@ -23,9 +23,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class ElementStd
  * \brief Implements standard node management in the element classes.
@@ -61,14 +58,14 @@ public:
 // FIXME: Add concept cheking for TBaseClass, and TPointClass
 
   // Repeat typedefs and enums from parent class
-  typedef typename Superclass::Float Float;
-  typedef typename Superclass::MatrixType MatrixType;
-  typedef typename Superclass::VectorType VectorType;
-  typedef typename Superclass::LoadType LoadType;
-  typedef typename Superclass::LoadPointer LoadPointer;
-  typedef typename Superclass::NodeIDType NodeIDType;
+  typedef typename Superclass::Float                 Float;
+  typedef typename Superclass::MatrixType            MatrixType;
+  typedef typename Superclass::VectorType            VectorType;
+  typedef typename Superclass::LoadType              LoadType;
+  typedef typename Superclass::LoadPointer           LoadPointer;
+  typedef typename Superclass::NodeIDType            NodeIDType;
   typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
-  typedef typename Superclass::Node Node;
+  typedef typename Superclass::Node                  Node;
   enum{ InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
   /**
@@ -81,53 +78,48 @@ public:
    */
   enum { NumberOfSpatialDimensions=VNumberOfSpatialDimensions };
 
-
-
-
   /**
    * Default constructor just clears the ivars
    */
   ElementStd();
 
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods that define the geometry of an element
    */
   virtual unsigned int GetNumberOfNodes( void ) const
-  { return NumberOfNodes; }
+    { return NumberOfNodes; }
 
   virtual NodeIDType GetNode(unsigned int n) const
-  {
-    if(n>=NumberOfNodes)
     {
+    if(n>=NumberOfNodes)
+      {
       return 0;
-    }
+      }
     return this->m_node[n];
-  }
+    }
 
   virtual void SetNode(unsigned int n, NodeIDType node)
-  {
-    if(n>=NumberOfNodes) { return; }
+    {
+    if(n>=NumberOfNodes)
+      {
+      return;
+      }
     this->m_node[n]=node;
-  }
+    }
 
   virtual const VectorType& GetNodeCoordinates( unsigned int n ) const
-  {
+    {
     return m_node[n]->GetCoordinates();
-  }
+    }
 
   virtual unsigned int GetNumberOfSpatialDimensions() const
-  {
+    {
     return NumberOfSpatialDimensions;
-  }
-
-
-
-
-//////////////////////////////////////////////////////////////////////////
-  /*
+    }
+ 
+  //////////////////////////////////////////////////////////////////////////
+  /**
    * Methods related to I/O
    */
 
@@ -141,9 +133,6 @@ public:
    */
   virtual void Write( std::ostream& f ) const;
 
-
-
-
 protected:
 
   /**
@@ -152,9 +141,6 @@ protected:
   NodeIDType m_node[NumberOfNodes];
 
 };
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

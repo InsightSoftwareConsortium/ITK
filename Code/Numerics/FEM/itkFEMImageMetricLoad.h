@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkFEMImageMetricLoad_h_
-#define _itkFEMImageMetricLoad_h_
+#ifndef __itkFEMImageMetricLoad_h
+#define __itkFEMImageMetricLoad_h
 
 #include "itkFEMLoadElementBase.h"
 
@@ -69,18 +69,18 @@ namespace fem
 template<class TMoving,class TFixed> 
 class ImageMetricLoad : public LoadElement
 {
-FEM_CLASS(ImageMetricLoad,LoadElement)
+  FEM_CLASS(ImageMetricLoad,LoadElement)
 public:
 
-// Necessary typedefs for dealing with images BEGIN
+  // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
 
-  typedef TMoving MovingType;
+  typedef TMoving                            MovingType;
   typedef typename MovingType::ConstPointer  MovingConstPointer;
-  typedef MovingType*  MovingPointer;
-  typedef TFixed       FixedType;
-  typedef FixedType*  FixedPointer;
-  typedef typename FixedType::ConstPointer  FixedConstPointer;
+  typedef MovingType*                        MovingPointer;
+  typedef TFixed                             FixedType;
+  typedef FixedType*                         FixedPointer;
+  typedef typename FixedType::ConstPointer   FixedConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -105,10 +105,10 @@ public:
 
 
 // IMAGE DATA
-  typedef   typename  MovingType::PixelType RefPixelType;
+  typedef   typename  MovingType::PixelType   RefPixelType;
   typedef   typename  FixedType::PixelType    TarPixelType;
-  typedef   Float PixelType;
-  typedef   Float ComputationType;
+  typedef   Float                             PixelType;
+  typedef   Float                             ComputationType;
   typedef   Image< RefPixelType, itkGetStaticConstMacro(ImageDimension) >       RefImageType;
   typedef   Image< TarPixelType, itkGetStaticConstMacro(ImageDimension) >       TarImageType;
   typedef   Image< PixelType, itkGetStaticConstMacro(ImageDimension) >            ImageType;
@@ -125,7 +125,7 @@ public:
 
  /**  Type of supported metrics. */
   typedef   ImageToImageMetric<FixedType,MovingType > MetricBaseType;
-  typedef typename MetricBaseType::Pointer             MetricBaseTypePointer;
+  typedef typename MetricBaseType::Pointer            MetricBaseTypePointer;
 
   typedef   MutualInformationImageToImageMetric<  MovingType, FixedType   > MutualInformationMetricType;
 
@@ -133,12 +133,7 @@ public:
 
   typedef   NormalizedCorrelationImageToImageMetric< MovingType, FixedType  > NormalizedCorrelationMetricType;
 
-//  typedef   MeanReciprocalSquareDifferenceImageToImageMetric<  ReferenceType, TargetType   > MeanReciprocalSquaresMetricType;
-
-//  typedef  MutualInformationMetricType             DefaultMetricType;
-//  typedef  NormalizedCorrelationMetricType             DefaultMetricType;
-//  typedef  MeanReciprocalSquaresMetricType             DefaultMetricType;
-  typedef  MeanSquaresMetricType             DefaultMetricType;
+  typedef  MeanSquaresMetricType                                DefaultMetricType;
   typedef typename DefaultTransformType::ParametersType         ParametersType;
   typedef typename DefaultTransformType::JacobianType           JacobianType;
 
@@ -164,63 +159,70 @@ public:
 // FUNCTIONS
 
   /** Set/Get the Metric.  */
-  void SetMetric(MetricBaseTypePointer MP) { m_Metric=MP; }; 
+  void SetMetric(MetricBaseTypePointer MP)
+    { m_Metric=MP; }
   
  /** Define the reference (moving) image. */
   void SetMovingImage(MovingType* R)
-  { 
+    { 
     m_RefImage = R; 
     m_RefSize=m_RefImage->GetLargestPossibleRegion().GetSize();
-  };
+    }
 
   void SetMetricMovingImage(MovingType* R)  
-  { 
+    { 
     m_Metric->SetMovingImage( R ); 
     m_RefSize=R->GetLargestPossibleRegion().GetSize(); 
-  };
+    }
 
   /** Define the target (fixed) image. */ 
   void SetFixedImage(FixedType* T)
-  { 
-     m_TarImage=T; 
-     m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
-  };
-  void SetMetricFixedImage(FixedType* T)  
-  { 
-    m_Metric->SetFixedImage( T ) ; 
+    { 
+    m_TarImage=T; 
     m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
-  };
+    }
+  void SetMetricFixedImage(FixedType* T)  
+    { 
+    m_Metric->SetFixedImage( T );
+    m_TarSize=T->GetLargestPossibleRegion().GetSize(); 
+    }
 
-
-  MovingPointer GetMovingImage() { return m_RefImage; };
-  FixedPointer GetFixedImage() { return m_TarImage; };
+  MovingPointer GetMovingImage()
+    { return m_RefImage; }
+  FixedPointer GetFixedImage() { return m_TarImage; }
 
   /** Define the metric region size. */ 
-  void SetMetricRadius(MovingRadiusType T) {m_MetricRadius  = T; };    
+  void SetMetricRadius(MovingRadiusType T) {m_MetricRadius  = T; }   
   /** Get the metric region size. */ 
-  MovingRadiusType GetMetricRadius() { return m_MetricRadius; };       
+  MovingRadiusType GetMetricRadius() { return m_MetricRadius; }
   
   /** Set/Get methods for the number of integration points to use 
-    * in each 1-dimensional line integral when evaluating the load.
-    * This value is passed to the load implementation.
-    */
-  void SetNumberOfIntegrationPoints(unsigned int i){ m_NumberOfIntegrationPoints=i;}
-  unsigned int GetNumberOfIntegrationPoints(){ return m_NumberOfIntegrationPoints;}
+   * in each 1-dimensional line integral when evaluating the load.
+   * This value is passed to the load implementation.
+   */
+  void SetNumberOfIntegrationPoints(unsigned int i)
+    { m_NumberOfIntegrationPoints=i;}
+  unsigned int GetNumberOfIntegrationPoints()
+    { return m_NumberOfIntegrationPoints;}
 
   /** Set the direction of the gradient (uphill or downhill). 
     * E.g. the mean squares metric should be minimized while NCC and PR should be maximized.
     */ 
-  void SetSign(Float s) {m_Sign=s;}
+  void SetSign(Float s)
+    {m_Sign=s;}
   
   /** Set the sigma in a gaussian measure. */
-  void SetTemp(Float s) {m_Temp=s;}
-
+  void SetTemp(Float s)
+    {m_Temp=s;}
 
   /** Scaling of the similarity energy term */
-  void SetGamma(Float s) {m_Gamma=s;}
+  void SetGamma(Float s)
+    {m_Gamma=s;}
 
-  void SetSolution(Solution::ConstPointer ptr) {  m_Solution=ptr; }
-  Solution::ConstPointer GetSolution() {  return m_Solution; }
+  void SetSolution(Solution::ConstPointer ptr)
+    {  m_Solution=ptr; }
+  Solution::ConstPointer GetSolution()
+    { return m_Solution; }
 
   /**
    *  This method returns the total metric evaluated over the image with respect to the current solution.
@@ -232,9 +234,9 @@ public:
 
   // FIXME - WE ASSUME THE 2ND VECTOR (INDEX 1) HAS THE INFORMATION WE WANT
   Float GetSolution(unsigned int i,unsigned int which=0)
-  {  
+    {  
     return m_Solution->GetSolutionValue(i,which); 
-  }
+    }
   
 // define the copy constructor 
 //  ImageMetricLoad(const ImageMetricLoad& LMS);
@@ -243,58 +245,59 @@ public:
   ImageMetricLoad(); // cannot be private until we always use smart pointers
   Float EvaluateMetricGivenSolution ( Element::ArrayType* el, Float step=1.0);
  
-/**
- * Compute the image based load - implemented with ITK metric derivatives.
- */
+  /**
+   * Compute the image based load - implemented with ITK metric derivatives.
+   */
   VectorType Fe1(VectorType);
   VectorType Fe(VectorType,VectorType);
  
   static Baseclass* NewImageMetricLoad(void)
-  { return new ImageMetricLoad; }
-
+    { return new ImageMetricLoad; }
 
   /** Set/Get the metric gradient image */
   //void InitializeGradientImage();
-  void SetMetricGradientImage(GradientImageType* g) { m_MetricGradientImage=g;}
-  GradientImageType* GetMetricGradientImage() { return  m_MetricGradientImage;}
+  void SetMetricGradientImage(GradientImageType* g)
+    { m_MetricGradientImage=g;}
+  GradientImageType* GetMetricGradientImage()
+    { return  m_MetricGradientImage;}
 
 
-  void PrintCurrentEnergy(){ std:: cout << " energy " << m_Energy << std::endl;}
-  double GetCurrentEnergy() { return m_Energy; }
-  void  SetCurrentEnergy( double e ) { m_Energy=e; }
+  void PrintCurrentEnergy()
+    { std:: cout << " energy " << m_Energy << std::endl;}
+  double GetCurrentEnergy()
+    { return m_Energy; }
+  void  SetCurrentEnergy( double e )
+    { m_Energy=e; }
 
 protected:
 
 
 private:
-  GradientImageType*                                  m_MetricGradientImage;
-  MovingPointer                                    m_RefImage;
-  FixedPointer                                       m_TarImage;
-  MovingRadiusType                                 m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
-  typename MovingType::SizeType                    m_RefSize;
-  typename FixedType::SizeType                       m_TarSize;
-  unsigned int                                        m_NumberOfIntegrationPoints;
-  unsigned int                                        m_SolutionIndex;
-  unsigned int                                        m_SolutionIndex2;
-  Float                                               m_Sign;
-  Float                                               m_Temp;
-  Float                                               m_Gamma;
+  GradientImageType*            m_MetricGradientImage;
+  MovingPointer                 m_RefImage;
+  FixedPointer                  m_TarImage;
+  MovingRadiusType              m_MetricRadius; /** used by the metric to set region size for fixed image*/ 
+  typename MovingType::SizeType m_RefSize;
+  typename FixedType::SizeType  m_TarSize;
+  unsigned int                  m_NumberOfIntegrationPoints;
+  unsigned int                  m_SolutionIndex;
+  unsigned int                  m_SolutionIndex2;
+  Float                         m_Sign;
+  Float                         m_Temp;
+  Float                         m_Gamma;
 
-  typename Solution::ConstPointer                     m_Solution;
-  MetricBaseTypePointer                               m_Metric;
-  typename TransformBaseType::Pointer                 m_Transform;
-  typename InterpolatorType::Pointer                  m_Interpolator;
+  typename Solution::ConstPointer     m_Solution;
+  MetricBaseTypePointer               m_Metric;
+  typename TransformBaseType::Pointer m_Transform;
+  typename InterpolatorType::Pointer  m_Interpolator;
 
-  mutable double                  m_Energy;
+  mutable double                       m_Energy;
 private:
   /** Dummy static int that enables automatic registration
       with FEMObjectFactory. */
-  static const int DummyCLID;
+  static const int m_DummyCLID;
 
 };
-
-
-
 
 }} // end namespace fem/itk
 

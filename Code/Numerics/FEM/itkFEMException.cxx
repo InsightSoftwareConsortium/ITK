@@ -25,18 +25,12 @@
 namespace itk {
 namespace fem {
 
-
-
-
 FEMException::FEMException(const char *file, unsigned int lineNumber, std::string location) :
     ExceptionObject(file,lineNumber)
 {
   SetDescription("Unhandled exception in FEM class!");
   SetLocation(location);
 }
-
-
-
 
 FEMExceptionIO::FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
     FEMException(file,lineNumber)
@@ -45,17 +39,11 @@ FEMExceptionIO::FEMExceptionIO(const char *file, unsigned int lineNumber, std::s
   SetLocation(location);
 }
 
-
-
-
 FEMExceptionWrongClass::FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location)
   : FEMException(file, lineNumber, location)
 {
   SetDescription("Object was of wrong class!");
 }
-
-
-
 
 FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigned int lineNumber, std::string location, std::string baseClassName, int GN)
   : FEMException(file, lineNumber, location)
@@ -67,17 +55,11 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigne
   SetDescription(buf.str().c_str());
 }
 
-
-
-
 FEMExceptionSolution::FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription) :
   FEMException(file,lineNumber)
 {
   SetDescription("Error when solving FEM problem: "+moreDescription);
   SetLocation(location);
 }
-
-
-
 
 }} // end namespace itk::fem

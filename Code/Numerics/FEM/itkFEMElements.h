@@ -14,7 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
+#ifndef __itkFEMElements_h
+#define __itkFEMElements_h
 
 /**
  * \file itkFEMElements.h
@@ -36,3 +37,5 @@
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 #include "itkFEMElement2DC0QuadraticTriangularStress.h"
 #include "itkFEMElement2DC0QuadraticTriangularStrain.h"
+
+#endif

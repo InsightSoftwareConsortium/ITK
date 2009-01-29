@@ -31,10 +31,8 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
+ * \class ImageMetricLoadImplementation
  * This is an example of how to define the implementation of a templated
  * Load class. Since the Load class is templated, its implementation must
  * also be templated. Due to limitations of MS compiler, we define this
@@ -57,7 +55,7 @@ public:
   
   template<class TElementClassConstPointer>
   static void ImplementImageMetricLoad(TElementClassConstPointer element, Element::LoadPointer load, Element::VectorType& Fe )
-  {
+    {
     // We must dynamically cast the given load pointer to the
     // correct templated load class, which is given as
     // template parameter.
@@ -65,14 +63,14 @@ public:
     if ( !l0 ) throw FEMException(__FILE__, __LINE__, "FEM error");
 
     Implementation(static_cast<Element::ConstPointer>(element),l0,Fe);
-  }
+    }
 
 private:
   
-  static const bool registered;
+  static const bool m_Registered;
   
   static void Implementation(typename Element::ConstPointer element, typename TLoadClass::Pointer l0, typename Element::VectorType& Fe)
-  {
+    {
     const unsigned int TotalSolutionIndex=1;/* Need to change if the index changes in CrankNicolsonSolver */
     typename Solution::ConstPointer   S=l0->GetSolution(); // has current solution state
 
@@ -87,9 +85,9 @@ private:
     unsigned int ImageDimension=Ndofs;
 
     Element::VectorType  force(Ndofs,0.0),
-                         ip,gip,gsol,force_tmp,shapef;
+      ip,gip,gsol,force_tmp,shapef;
     Element::Float w,detJ;
-
+    
     Fe.set_size(element->GetNumberOfDegreesOfFreedom());
     Fe.fill(0.0);
     shapef.set_size(Nnodes);
@@ -97,46 +95,44 @@ private:
     gip.set_size(Ndofs);
 
     for(unsigned int i=0; i<Nip; i++)
-    {
+      {
       element->GetIntegrationPointAndWeight(i,ip,w,order);
-/*      gip=element->GetGlobalFromLocalCoordinates(ip);
-      gsol=element->InterpolateSolution(ip,*S,TotalSolutionIndex);
-      //std::cout << gsol << std::endl;
-      shapeF=element->ShapeFunctions(ip);
-*/
-
-  if (ImageDimension == 3){
+      if (ImageDimension == 3)
+        {
 #define FASTHEX
 #ifdef FASTHEX
-  float r=ip[0]; float s=ip[1]; float t=ip[2];
-//FIXME temporarily using hexahedron shape f for speed
-  shapef[0] = (1 - r) * (1 - s) * (1 - t) * 0.125;
-  shapef[1] = (1 + r) * (1 - s) * (1 - t) * 0.125;
-  shapef[2] = (1 + r) * (1 + s) * (1 - t) * 0.125;
-  shapef[3] = (1 - r) * (1 + s) * (1 - t) * 0.125;
-  shapef[4] = (1 - r) * (1 - s) * (1 + t) * 0.125;
-  shapef[5] = (1 + r) * (1 - s) * (1 + t) * 0.125;
-  shapef[6] = (1 + r) * (1 + s) * (1 + t) * 0.125;
-  shapef[7] = (1 - r) * (1 + s) * (1 + t) * 0.125;
+        float r=ip[0]; float s=ip[1]; float t=ip[2];
+        //FIXME temporarily using hexahedron shape f for speed
+        shapef[0] = (1 - r) * (1 - s) * (1 - t) * 0.125;
+        shapef[1] = (1 + r) * (1 - s) * (1 - t) * 0.125;
+        shapef[2] = (1 + r) * (1 + s) * (1 - t) * 0.125;
+        shapef[3] = (1 - r) * (1 + s) * (1 - t) * 0.125;
+        shapef[4] = (1 - r) * (1 - s) * (1 + t) * 0.125;
+        shapef[5] = (1 + r) * (1 - s) * (1 + t) * 0.125;
+        shapef[6] = (1 + r) * (1 + s) * (1 + t) * 0.125;
+        shapef[7] = (1 - r) * (1 + s) * (1 + t) * 0.125;
 #else
         shapef = element->ShapeFunctions(ip);
 #endif
-}else if (ImageDimension==2) shapef = element->ShapeFunctions(ip);
-
-        float solval,posval;
-        detJ=element->JacobianDeterminant(ip);
-        
-        for(unsigned int f=0; f<ImageDimension; f++)
+        }
+      else if (ImageDimension==2)
         {
-          solval=0.0;
-          posval=0.0;
-          for(unsigned int n=0; n<Nnodes; n++)
+        shapef = element->ShapeFunctions(ip);
+        }
+      float solval,posval;
+      detJ=element->JacobianDeterminant(ip);
+        
+      for(unsigned int f=0; f<ImageDimension; f++)
+        {
+        solval=0.0;
+        posval=0.0;
+        for(unsigned int n=0; n<Nnodes; n++)
           {
-            posval+=shapef[n]*((element->GetNodeCoordinates(n))[f]);
-            solval+=shapef[n] * S->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f) , TotalSolutionIndex);
+          posval += shapef[n]*((element->GetNodeCoordinates(n))[f]);
+          solval += shapef[n] * S->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f) , TotalSolutionIndex);
           }
-          gsol[f]=solval;
-          gip[f]=posval;
+        gsol[f]=solval;
+        gip[f]=posval;
         }
 
       // Adjust the size of a force vector returned from the load object so
@@ -144,40 +140,27 @@ private:
       // a vector with less dimensions, we add zero elements. If the Fg
       // returned a vector with more dimensions, we remove the extra dimensions.
       force.fill(0.0);
-     
+      
       force=l0->Fe(gip,gsol);
       // Calculate the equivalent nodal loads
       for(unsigned int n=0; n<Nnodes; n++)
-      {
-        for(unsigned int d=0; d<Ndofs; d++)
         {
+        for(unsigned int d=0; d<Ndofs; d++)
+          {
           itk::fem::Element::Float temp=shapef[n]*force[d]*w*detJ;
-          Fe[n*Ndofs+d]+=temp;
+          Fe[n*Ndofs+d] += temp;
+          }
         }
+      
       }
-
+    
     }
-
-  }
-
+  
 };
 
 
 template<class TLoadClass>
-const bool ImageMetricLoadImplementation<TLoadClass>::registered = false;
-
-
-// When the templated load implementation function is instantiated,
-// it will automatically be registered with the VisitorDispatcher so 
-// that it is called as required.
-// Instantiating the implementation function will also instantiate the
-// corresponding Load class.
-/*template<class TLoadClass>
-const bool ImageMetricLoadImplementation<TLoadClass>::registered=
-VisitorDispatcher<Element2DC0LinearQuadrilateralMembrane,Element::LoadType, Element2DC0LinearQuadrilateralMembrane::LoadImplementationFunctionPointer>
-  ::RegisterVisitor((TLoadClass*)0, &ImageMetricLoadImplementation<TLoadClass>::ImplementImageMetricLoad);
-*/
-
+const bool ImageMetricLoadImplementation<TLoadClass>::m_Registered = false;
 
 
 }} // end namespace itk::fem

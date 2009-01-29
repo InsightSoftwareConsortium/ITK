@@ -29,9 +29,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class FEMInitialization
  * \brief FEM Library initialization and housekeeping.
@@ -49,16 +46,13 @@ public:
   ~FEMInitialization();
 };
 
-/*
+/**
  * Trigger constructor and destructor calls in each compilation unit.
  * Unnamed namespace are used to avoid name collisions.
  */
 namespace {
-  static FEMInitialization FEMInitialization_var; 
+static FEMInitialization FEMInitialization_var; 
 }
-
-
-
 
 }} // end namespace itk::fem
 

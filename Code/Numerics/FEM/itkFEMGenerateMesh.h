@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \function Generate2DRectilinearMesh
  * \brief Use this function to generate 2D meshes in Solver.

@@ -14,7 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
+#ifndef __itkFEM_h
+#define __itkFEM_h
 /**
  * \file itkFEM.h
  * \brief Master include file for FEM toolkit.
@@ -41,9 +42,9 @@
 // Perform the initialization of the library when this header is included
 #include "itkFEMInitialization.h"
 
-
-
 /**
  * \namespace itk::fem
  * \brief Contains finite element modeling (FEM) classes and support routines.
  */
+
+#endif
