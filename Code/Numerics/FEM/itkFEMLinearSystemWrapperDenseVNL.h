@@ -108,6 +108,4 @@ private:
 
 }} // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLinearSystemWrapperDenseVNL_h
-
-
+#endif

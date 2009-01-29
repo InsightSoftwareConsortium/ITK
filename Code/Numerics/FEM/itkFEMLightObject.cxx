@@ -26,10 +26,7 @@
 namespace itk {
 namespace fem {
 
-
-
-
-/*
+/**
  * Here we just read the global number from the stream.
  * This should be the first function called when reading object data.
  */
@@ -41,19 +38,15 @@ void FEMLightObject::Read( std::istream& f, void* )
   this->SkipWhiteSpace(f); f>>n; if(!f) { goto out; }
   this->GN=n;
 
-out:
+  out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Read","Error reading FEM object!");
-  }
-
+    }
 }
 
-
-
-
-/*
+/**
  * Here we just write the class name and GN.
  * This should be the first function called when writing object data, so
  * every derived class should first call the parent's write function.
@@ -71,15 +64,12 @@ void FEMLightObject::Write( std::ostream& f ) const
 
   // check for errors
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"FEMLightObject::Write","Error writing FEM object!");
-  }
+    }
 }
 
-
-
-
-/*
+/**
  * Read and create object of any derived class from stream
  */
 FEMLightObject::Pointer
@@ -88,13 +78,13 @@ CreateFromStream( std::istream& f, void *info )
 {
 
 // local variables
-std::streampos l(0);
-char buf[256];
-std::string s;
-std::string::size_type b,e;
-int clID;
-FEMLightObject::Pointer a=0;
-std::string errorMessage;
+  std::streampos l(0);
+  char buf[256];
+  std::string s;
+  std::string::size_type b,e;
+  int clID;
+  FEMLightObject::Pointer a=0;
+  std::string errorMessage;
 
 start:
 #ifndef __sgi
@@ -104,7 +94,7 @@ start:
   if ( f.eof() ) return 0; // end of stream. all was good
 
   char c;
-  if ( (c = f.get())!='<' )
+  if ( (c = f.get()) != '<' )
     {
     std::string rest;
     std::getline(f,rest);
@@ -120,19 +110,19 @@ start:
 
   // get rid of the whitespaces in front of and the back of token
   b=s.find_first_not_of(whitespaces); // end of whitespaces in the beginning 
-  if ( (e=s.find_first_of(whitespaces,b))==std::string::npos )  // beginning of whitespaces at the end
-  {
+  if ( (e=s.find_first_of(whitespaces,b)) == std::string::npos )  // beginning of whitespaces at the end
+    {
     e=s.size();
-  }
+    }
   s=s.substr(b,e-b);
 
   if ( s=="END" )
-  {
+    {
     /*
      * We can ignore this token. Start again by reading the next object.
      */
     goto start;
-  }
+    }
   clID=FEMOF::ClassName2ID(s);  // obtain the class ID from FEMObjectFactory
   if (clID<0)
     {
@@ -153,32 +143,32 @@ start:
    * specific to the class of object we just created
    */
   try
-  {
+    {
     a->Read(f,info);
-  }
-  /*
+    }
+  /**
    * Catch possible exceptions while 
    * reading object's data from stream
    */
   catch (...)
-  {
-    #ifndef FEM_USE_SMART_POINTERS
+    {
+#ifndef FEM_USE_SMART_POINTERS
     delete a;  // if something went wrong, we need to destroy the already created object
-    #endif
+#endif
     a=0;
     throw;     // rethrow the same exception
-  }
+    }
 
-  /*
+  /**
    * Return a pointer to a newly created object if all was OK
    * Technically everithing should be fine here (a!=0), but we
    * check again, just in case.
    */
   if (a) { return a; }
 
-out:
+  out:
 
-  /*
+  /**
    * Something went wrong.
    * Reset the stream position to where it was before reading the object.
    */
@@ -193,16 +183,13 @@ out:
 
 }
 
-
-
-
 // Helper function to skip all whitespaces and comments in input stream
 void
 FEMLightObject::
 SkipWhiteSpace(std::istream& f)
 {
   std::string skip;
-  while(f && !f.eof() && (std::ws(f).peek())=='%' )
+  while(f && !f.eof() && (std::ws(f).peek()) == '%' )
     {
     std::getline(f,skip);
     }
@@ -212,8 +199,5 @@ SkipWhiteSpace(std::istream& f)
 const std::string
 FEMLightObject
 ::whitespaces=" \t\n\r";
-
-
-
 
 }} // end namespace itk::fem

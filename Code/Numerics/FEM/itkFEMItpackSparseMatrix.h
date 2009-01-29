@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkItpackSparseMatrix_h
-#define __itkItpackSparseMatrix_h
+#ifndef __itkFEMItpackSparseMatrix_h
+#define __itkFEMItpackSparseMatrix_h
 
 #include "itkFEMException.h"
 
@@ -185,8 +185,6 @@ private:
   /** finalize matrix form */
   void Finalize();
 
-
-
   /** flag indicating whether the matrix representation has been finalized */
   integer m_MatrixFinalized;
 
@@ -301,4 +299,3 @@ public:
 }} // end namespace itk::fem
 
 #endif
-

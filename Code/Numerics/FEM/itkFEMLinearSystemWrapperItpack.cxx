@@ -23,8 +23,6 @@
 namespace itk {
 namespace fem {
 
-
-
 /**
  * constructor 
  */
@@ -69,23 +67,23 @@ void LinearSystemWrapperItpack::InitializeMatrix(unsigned int matrixIndex)
 {
   /* error checking */
   if (!m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeMatrix", "System order not set");
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeMatrix", "m_Matrices", matrixIndex);
-  }
+    }
   if (!m_MaximumNonZeroValues)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeMatrix", "Maximum number of non zeros not set");
-  }
+    }
 
   // allocate if necessay
   if (m_Matrices == 0)
-  {
+    {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-  }
+    }
 
   /* Set required variables */
   (*m_Matrices)[matrixIndex].Clear();
@@ -112,34 +110,34 @@ void LinearSystemWrapperItpack::InitializeVector(unsigned int vectorIndex)
 
   /* error checking */
   if (!m_Order)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeVector", "System order not set");
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeVector", "m_Vectors", vectorIndex);
-  }
+    }
 
   /* allocate if necessay */
   if (m_Vectors == 0)
-  {
+    {
     m_Vectors = new VectorHolder(m_NumberOfVectors);
-  }
+    }
   
   /* delete old vector */
   if ( (*m_Vectors)[vectorIndex] != 0 )
-  {
+    {
     delete [] (*m_Vectors)[vectorIndex];
-  }
+    }
 
   /* insert new vector */
   (*m_Vectors)[vectorIndex] = new doublereal [m_Order];
 
   /* fill with zeros */
   for (unsigned int i=0; i<m_Order; i++)
-  {
+    {
     (*m_Vectors)[vectorIndex][i] = 0.0;
-  }
+    }
 
   return;
 
@@ -160,35 +158,35 @@ void LinearSystemWrapperItpack::InitializeSolution(unsigned int solutionIndex)
 
   /* FIX ME: exceptions */
   if (!m_Order)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeSolution", "System order not set");
-  }
+    }
   if (solutionIndex >= m_NumberOfSolutions)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeSolution", "m_Solutions", solutionIndex);
-  }
+    }
   
 
   // allocate if necessay
   if (m_Solutions == 0)
-  {
+    {
     m_Solutions = new VectorHolder(m_NumberOfSolutions);
-  }
+    }
 
   /* delete old vector */
   if ( (*m_Solutions)[solutionIndex] != 0 )
-  {
+    {
     delete [] (*m_Solutions)[solutionIndex];
-  }
+    }
 
   /* insert new vector */
   (*m_Solutions)[solutionIndex] = new doublereal [m_Order];
 
   /* fill with zeros */
   for (unsigned int i=0; i<m_Order; i++)
-  {
+    {
     (*m_Solutions)[solutionIndex][i] = 0.0;
-  }
+    }
 
   return;
 
@@ -209,9 +207,9 @@ void LinearSystemWrapperItpack::DestroyMatrix(unsigned int matrixIndex)
   /* FIX ME: exceptions */
   if ( !m_Matrices ) return;
   if ( matrixIndex >= m_NumberOfMatrices )
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::DestroyMatrix", "m_Matrices", matrixIndex);
-  }
+    }
 
   (*m_Matrices)[matrixIndex].Clear();
 }
@@ -222,9 +220,9 @@ void LinearSystemWrapperItpack::DestroyVector(unsigned int vectorIndex)
   /* FIXME: exceptions */
   if (!m_Vectors) return;
   if (vectorIndex >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::DestroyVector", "m_Vectors", vectorIndex);
-  }
+    }
 
   if ( !(*m_Vectors)[vectorIndex] ) return;
 
@@ -240,9 +238,9 @@ void LinearSystemWrapperItpack::DestroySolution(unsigned int solutionIndex)
   // FIXME: exceptions
   if (!m_Solutions) return;
   if (solutionIndex >= m_NumberOfSolutions)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::DestroySolution", "m_Solutions", solutionIndex);
-  }
+    }
   if ( !(*m_Solutions)[solutionIndex] ) return;
 
   /* delete vector */
@@ -256,17 +254,17 @@ LinearSystemWrapperItpack::Float LinearSystemWrapperItpack::GetMatrixValue(unsig
 {
   /* error checking */
   if (!m_Matrices)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetMatrixValue", "No matrices have been allocated");
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetMatrixValue", "m_Matrices", matrixIndex);
-  }
+    }
   if ( (i >= m_Order) || (j >= m_Order) )
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetMatrixValue", "m_Matrices[]", i,j);
-  }
+    }
 
   /* return value */
   return (*m_Matrices)[matrixIndex].Get(i,j);
@@ -277,17 +275,17 @@ void LinearSystemWrapperItpack::SetMatrixValue(unsigned int i, unsigned int j, F
 {
   /* error checking */
   if (!m_Matrices) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetMatrixValue", "No matrices have been allocated");
-  }
+    }
   if ( (i >= m_Order) || (j >= m_Order) ) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetMatrixValue", "m_Matrices[]", i, j);
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetMatrixValue", "m_Matrices", matrixIndex);
-  }
+    }
 
   /* set value */
   ((*m_Matrices)[matrixIndex]).Set(i,j,value);
@@ -298,17 +296,17 @@ void LinearSystemWrapperItpack::AddMatrixValue(unsigned int i, unsigned int j, F
 {
   // FIXME: error checking
   if (!m_Matrices) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddMatrixValue", "No matrices have been allocated");
-  }
+    }
   if ( (i >= m_Order) || (j >= m_Order) ) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddMatrixValue", "m_Matrices[]", i, j);
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddMatrixValue", "m_Matrices", matrixIndex);
-  }
+    }
 
   ((*m_Matrices)[matrixIndex]).Add(i,j,value);
 }
@@ -319,17 +317,17 @@ void LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow( unsigned
 
   /* FIXME: error checking */
   if (!m_Matrices) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow", "No matrices have been allocated");
-  }
+    }
   if (row >= this->m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow", "m_Matrices[]", row);
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow", "m_Matrices", matrixIndex);
-  }
+    }
 
   cols.clear();
   
@@ -337,25 +335,25 @@ void LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow( unsigned
 
   /* Check if matrix is in readable form */
   if (mat->m_MatrixFinalized )
-  {
+    {
     /* get search bounds in appropriate row */
     unsigned int lower = mat->m_IA[row]-1;
     unsigned int upper = mat->m_IA[row+1]-1;
     
     for(unsigned int j=lower; j<upper; j++)
-    {
+      {
       cols.push_back(mat->m_JA[j]-1);
+      }
     }
-  }
   else /* Scan the linked list to obtain the correct indices. */
-  {
+    {
     int wrk=mat->m_IA[row]-1;
     while(wrk>0)
-    {
+      {
       cols.push_back(mat->m_JA[wrk]-1);
       wrk=mat->m_IWORK[wrk]-1;
+      }
     }
-  }
 
 }
 
@@ -364,20 +362,20 @@ void LinearSystemWrapperItpack::ScaleMatrix(Float scale, unsigned int matrixInde
 {
   /* error checking */
   if (!m_Matrices) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::ScaleMatrix", "No matrices have been allocated");
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::ScaleMatrix", "m_Matrices", matrixIndex);
-  }
+    }
 
   int i;
   doublereal *values = (*m_Matrices)[matrixIndex].GetA();
   for (i=0; i<(*m_Matrices)[matrixIndex].GetIA()[this->m_Order] - 1; i++) 
-  {
+    {
     values[i] = values[i]*scale;
-  }
+    }
   
 }
 
@@ -386,21 +384,21 @@ LinearSystemWrapperItpack::Float LinearSystemWrapperItpack::GetVectorValue(unsig
 {
   /* error checking */
   if (!m_Vectors) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetVectorValue", "No vectors have been allocated");
-  }
+    }
   if (i >= m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetVectorValue", "m_Vectors[]", i);
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetVectorValue", "m_Vectors", vectorIndex);
-  }
+    }
   if ( !(*m_Vectors)[vectorIndex] )
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::GetVectorValue", "Indexed vector not yet allocated");
-  }
+    }
 
   /* return value */
   return (*m_Vectors)[vectorIndex][i];
@@ -411,21 +409,21 @@ void LinearSystemWrapperItpack::SetVectorValue(unsigned int i, Float value, unsi
 {
   /* error checking */
   if (!m_Vectors) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetVectorValue", "No vectors have been allocated");
-  }
+    }
   if (i >= m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetVectorValue", "m_Vectors[]", i);
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetVectorValue", "m_Vectors", vectorIndex);
-  }
+    }
   if ( !(*m_Vectors)[vectorIndex] )
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetVectorValue", "Indexed vector not yet allocated");
-  }
+    }
 
   /* set value */
   (*m_Vectors)[vectorIndex][i] = value;
@@ -436,21 +434,21 @@ void LinearSystemWrapperItpack::AddVectorValue(unsigned int i, Float value, unsi
 {
   /*( error checking */
   if (!m_Vectors) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddVectorValue", "No vectors have been allocated");
-  }
+    }
   if (i >= m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddVectorValue", "m_Vectors[]", i);
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddVectorValue", "m_Vectors", vectorIndex);
-  }
+    }
   if ( !(*m_Vectors)[vectorIndex] )
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddVectorValue", "Indexed vector not yet allocated");
-  }
+    }
 
   /* add value */
   (*m_Vectors)[vectorIndex][i] += value;
@@ -461,9 +459,9 @@ LinearSystemWrapperItpack::Float LinearSystemWrapperItpack::GetSolutionValue(uns
 {
   // FIXME: error checking
   if ( (i >= m_Order) || !m_Solutions || (solutionIndex >= m_NumberOfSolutions) || !(*m_Solutions)[solutionIndex] )
-  {
+    {
     return 0.0;
-  }
+    }
   return (*m_Solutions)[solutionIndex][i];
 }
 
@@ -472,21 +470,21 @@ void LinearSystemWrapperItpack::SetSolutionValue(unsigned int i, Float value, un
 {
   /* error checking */
   if (!m_Solutions) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetSolutionValue", "No solutions have been allocated");
-  }
+    }
   if (i >= m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetSolutionValue", "m_Solutions[]", i);
-  }
+    }
   if (solutionIndex >= m_NumberOfSolutions) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetSolutionValue", "m_Solutions", solutionIndex);
-  }
+    }
   if ( !(*m_Solutions)[solutionIndex] )
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SetSolutionValue", "Indexed solution not yet allocated");
-  }
+    }
 
   /* set value */
   (*m_Solutions)[solutionIndex][i] = value;
@@ -498,21 +496,21 @@ void LinearSystemWrapperItpack::AddSolutionValue(unsigned int i, Float value, un
 {
   /* error checking */
   if (!m_Solutions) 
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddSolutionValue", "No solutions have been allocated");
-  }
+    }
   if (i >= m_Order) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddSolutionValue", "m_Solutions[]", i);
-  }
+    }
   if (solutionIndex >= m_NumberOfSolutions) 
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddSolutionValue", "m_Solutions", solutionIndex);
-  }
+    }
   if ( !(*m_Solutions)[solutionIndex] )
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddSolutionValue", "Indexed solution not yet allocated");
-  }
+    }
 
   (*m_Solutions)[solutionIndex][i] += value;
 }
@@ -523,11 +521,11 @@ void LinearSystemWrapperItpack::Solve(void)
 
   /* error checking */
   if (!m_Order || !m_Matrices || !m_Vectors || !m_Solutions)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::Solve", "Not all necessary data members have been allocated");
-  }
+    }
   if ( !(*m_Matrices)[0].GetOrder() ) {
-    throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddSolutionValue", "Primary matrix never filled");
+  throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::AddSolutionValue", "Primary matrix never filled");
   }
 
   /* itpack variables */
@@ -559,12 +557,12 @@ void LinearSystemWrapperItpack::Solve(void)
 
   /* Initialize solution values (set to zero) */
   if (!this->IsSolutionInitialized(0)) 
-  {
+    {
     this->InitializeSolution(0);
-  }
+    }
 
 
- /* Set up itpack workspace variables
+  /* Set up itpack workspace variables
   *
   * N -> Order of system
   *
@@ -584,49 +582,50 @@ void LinearSystemWrapperItpack::Solve(void)
   */
   N = m_Order;
   if (m_IPARM[4] == 1)
-  {
+    {
     NCG = 4 * m_IPARM[0];
-  }
+    }
   else 
-  {
+    {
     NCG = 2 * m_IPARM[0];
-  }
-  switch ( m_Method ) {
-  case 0:
-    NW = 4*N + NCG;
-    break;
-  case 1:
-    NW = 2*N;
-    break;
-  case 2:
-    NW = N;
-    break;
-  case 3:
-    NW = 6*N + NCG;
-    break;
-  case 4:
-    NW = 5*N;
-    break;
-  case 5:
-    NW = N + m_IPARM[8] + NCG;
-    break;
-  case 6:
-    NW = N + m_IPARM[8];
-    break;
-  }
+    }
+  switch ( m_Method )
+    {
+    case 0:
+      NW = 4*N + NCG;
+      break;
+    case 1:
+      NW = 2*N;
+      break;
+    case 2:
+      NW = N;
+      break;
+    case 3:
+      NW = 6*N + NCG;
+      break;
+    case 4:
+      NW = 5*N;
+      break;
+    case 5:
+      NW = N + m_IPARM[8] + NCG;
+      break;
+    case 6:
+      NW = N + m_IPARM[8];
+      break;
+    }
   m_IPARM[7] = NW;
   IWKSP = new integer [ 3*N ];
   WKSP = new doublereal [ NW+2 ];
 
   integer i;
   for (i=0; i<NW; i++) 
-  {
+    {
     WKSP[i] = 0.0;
-  }
+    }
   for (i=0; i<(3*N); i++) 
-  {
+    {
     IWKSP[i] = 0;
-  }
+    }
 
 
   // Save maximum number of iteration, since it will
@@ -635,18 +634,18 @@ void LinearSystemWrapperItpack::Solve(void)
 
   /* call to itpack solver routine */
   (*m_Methods[m_Method])( &N, (*m_Matrices)[0].GetIA(), (*m_Matrices)[0].GetJA(), (*m_Matrices)[0].GetA(), 
-    (*m_Vectors)[0], (*m_Solutions)[0], &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
+                          (*m_Vectors)[0], (*m_Solutions)[0], &(IWKSP[0]), &NW, &(WKSP[0]), &(m_IPARM[0]), &(m_RPARM[0]), &IERR);
 
   m_IPARM[0]=max_num_iterations;
 
   /* remove exception throw on convergence failure */
   if (IERR < 100) 
-  {
-    if ( (IERR % 10) == 3 )
     {
+    if ( (IERR % 10) == 3 )
+      {
       IERR = 0;
+      }
     }
-  }
 
   /* clean up */
   delete [] IWKSP;
@@ -654,9 +653,9 @@ void LinearSystemWrapperItpack::Solve(void)
 
   /* check for itpack error code */
   if (IERR > 0)
-  {
+    {
     throw FEMExceptionItpackSolver(__FILE__, __LINE__, "LinearSystemWrapperItpack::Solve", IERR);
-  }
+    }
   
 }
 
@@ -666,17 +665,17 @@ void LinearSystemWrapperItpack::SwapMatrices(unsigned int matrixIndex1, unsigned
 
   /* error checking */
   if (!m_Matrices)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapMatrices", "No matrices allocated");
-  }
+    }
   if (matrixIndex1 >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapMatrices", "m_Matrices", matrixIndex1);
-  }
+    }
   if (matrixIndex2 >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapMatrices", "m_Matrices", matrixIndex2);
-  }
+    }
 
   int n = (*m_Matrices)[matrixIndex2].GetOrder();
   int nz = (*m_Matrices)[matrixIndex2].GetMaxNonZeroValues();
@@ -687,7 +686,7 @@ void LinearSystemWrapperItpack::SwapMatrices(unsigned int matrixIndex1, unsigned
   (*m_Matrices)[matrixIndex2].SetOrder( (*m_Matrices)[matrixIndex1].GetOrder() );
   (*m_Matrices)[matrixIndex2].SetMaxNonZeroValues ( (*m_Matrices)[matrixIndex1].GetMaxNonZeroValues() );
   (*m_Matrices)[matrixIndex2].SetCompressedRow((*m_Matrices)[matrixIndex1].GetIA(), 
-    (*m_Matrices)[matrixIndex1].GetJA(), (*m_Matrices)[matrixIndex1].GetA() );
+                                               (*m_Matrices)[matrixIndex1].GetJA(), (*m_Matrices)[matrixIndex1].GetA() );
 
   (*m_Matrices)[matrixIndex1].SetOrder( n );
   (*m_Matrices)[matrixIndex1].SetMaxNonZeroValues ( nz );
@@ -701,17 +700,17 @@ void LinearSystemWrapperItpack::SwapVectors(unsigned int vectorIndex1, unsigned 
 {
   /* error checking */
   if (!m_Vectors)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapVectors", "No vectors allocated");
-  }
+    }
   if (vectorIndex1 >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapVectors", "m_Vectors", vectorIndex1);
-  }
+    }
   if (vectorIndex2 >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapVectors", "m_Vectors", vectorIndex2);
-  }
+    }
 
   VectorRepresentation temp = (*m_Vectors)[vectorIndex1];
 
@@ -724,17 +723,17 @@ void LinearSystemWrapperItpack::SwapSolutions(unsigned int solutionIndex1, unsig
 {
   /* error checking */
   if (!m_Solutions)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapSolutions", "No solutions allocated");
-  }
+    }
   if (solutionIndex1 >= m_NumberOfSolutions)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapSolutions", "m_Solutions", solutionIndex1);
-  }
+    }
   if (solutionIndex2 >= m_NumberOfSolutions)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::SwapSolutions", "m_Solutions", solutionIndex2);
-  }
+    }
 
   VectorRepresentation temp = (*m_Solutions)[solutionIndex1];
 
@@ -748,30 +747,30 @@ void LinearSystemWrapperItpack::CopySolution2Vector(unsigned solutionIndex, unsi
 
   /* error checking */
   if (!m_Vectors)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "No vectors allocated");
-  }
+    }
   if (!m_Solutions)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "No solutions allocated");
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "m_Vectors", vectorIndex);
-  }
+    }
   if (solutionIndex >= m_NumberOfSolutions)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "m_Solutions", solutionIndex);
-  }
+    }
 
 
   this->InitializeVector(vectorIndex);
 
   /* copy values */
   for (unsigned int i=0; i<m_Order; i++)
-  {
+    {
     (*m_Vectors)[vectorIndex][i] = (*m_Solutions)[solutionIndex][i];
-  }
+    }
 }
 
 
@@ -780,30 +779,30 @@ void LinearSystemWrapperItpack::CopyVector2Solution(unsigned vectorIndex, unsign
 
   /* error checking */
   if (!m_Vectors)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "No vectors allocated");
-  }
+    }
   if (!m_Solutions)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "No solutions allocated");
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "m_Vectors", vectorIndex);
-  }
+    }
   if (solutionIndex >= m_NumberOfSolutions)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::CopySolution2Vector", "m_Solutions", solutionIndex);
-  }
+    }
 
 
   this->InitializeSolution(solutionIndex);
 
   /* copy values */
   for (unsigned int i=0; i<m_Order; i++)
-  {
+    {
     (*m_Solutions)[solutionIndex][i] = (*m_Vectors)[vectorIndex][i];
-  }
+    }
 }
 
 
@@ -811,21 +810,21 @@ void LinearSystemWrapperItpack::MultiplyMatrixMatrix(unsigned int resultMatrixIn
 {
   /* error checking */
   if (!m_Matrices)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixMatrix", "No matrices allocated");
-  }
+    }
   if (resultMatrixIndex >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixMatrix", "m_Matrices", resultMatrixIndex);
-  }
+    }
   if (leftMatrixIndex >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixMatrix", "m_Matrices", leftMatrixIndex);
-  }
+    }
   if (rightMatrixIndex >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixMatrix", "m_Matrices", rightMatrixIndex);
-  }
+    }
 
   (*m_Matrices)[leftMatrixIndex].mult( &((*m_Matrices)[rightMatrixIndex]), &((*m_Matrices)[resultMatrixIndex]) );
 
@@ -837,25 +836,25 @@ void LinearSystemWrapperItpack::MultiplyMatrixVector(unsigned int resultVectorIn
 
   /* error checking */
   if (!m_Matrices)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixVector", "No matrices allocated");
-  }
+    }
   if (!m_Vectors)
-  {
+    {
     throw FEMExceptionLinearSystem(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixVector", "No vectors allocated");
-  }
+    }
   if (resultVectorIndex >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixVector", "m_Vectors", resultVectorIndex);
-  }
+    }
   if (matrixIndex >= m_NumberOfMatrices)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixVector", "m_Matrices", matrixIndex);
-  }
+    }
   if (vectorIndex >= m_NumberOfVectors)
-  {
+    {
     throw FEMExceptionLinearSystemBounds(__FILE__, __LINE__, "LinearSystemWrapperItpack::MultiplyMatrixVector", "m_Vectors", vectorIndex);
-  }
+    }
 
   /* perform mult */
   (*m_Matrices)[matrixIndex].mult( (*m_Vectors)[vectorIndex], (*m_Vectors)[resultVectorIndex] );
@@ -869,29 +868,29 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack(void)
 
   unsigned int i;
   if (m_Vectors != 0)
-  {
-    for (i=0; i<m_NumberOfVectors; i++)
     {
-      if ( (*m_Vectors)[i] != 0 )
+    for (i=0; i<m_NumberOfVectors; i++)
       {
+      if ( (*m_Vectors)[i] != 0 )
+        {
         delete [] (*m_Vectors)[i];
+        }
       }
-    }
     delete m_Vectors;
-  }
+    }
 
   
   if (m_Solutions != 0)
-  {
-    for (i=0; i<m_NumberOfSolutions; i++)
     {
-      if ( (*m_Solutions)[i] != 0 )
+    for (i=0; i<m_NumberOfSolutions; i++)
       {
+      if ( (*m_Solutions)[i] != 0 )
+        {
         delete [] (*m_Solutions)[i];
+        }
       }
-    }
     delete m_Solutions;
-  }
+    }
   
 
 
@@ -901,14 +900,14 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack(void)
 FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode) :
   FEMException(file,lineNumber)
 {
-    std::string solverError;
+  std::string solverError;
 
-    if (errorCode < 100) 
+  if (errorCode < 100) 
     {
-      errorCode = errorCode % 10;
+    errorCode = errorCode % 10;
     }
 
-    switch (errorCode) 
+  switch (errorCode) 
     {
     case 1 :
       solverError = "Invalid order of system";
@@ -968,6 +967,4 @@ FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned in
 
 }
 
-
 }}  // end namespace itk::fem
-

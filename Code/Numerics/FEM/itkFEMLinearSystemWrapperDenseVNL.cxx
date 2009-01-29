@@ -31,14 +31,14 @@ void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
 
   // allocate if necessary
   if (m_Matrices == 0)
-  {
+    {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices); }
 
   // out with old, in with new
   if ( (*m_Matrices)[matrixIndex] != 0 )
-  {
-   delete (*m_Matrices)[matrixIndex];
-  }
+    {
+    delete (*m_Matrices)[matrixIndex];
+    }
 
   (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder() );
   (*m_Matrices)[matrixIndex]->fill(0.0);
@@ -69,15 +69,15 @@ void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
 
   // allocate if necessary
   if (m_Vectors == 0)
-  {
+    {
     m_Vectors = new std::vector< vnl_vector<Float>* >(m_NumberOfVectors);
-  }
+    }
 
   // out with old, in with new
   if ( (*m_Vectors)[vectorIndex] != 0)
-  {
+    {
     delete (*m_Vectors)[vectorIndex];
-  }
+    }
 
   (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
   (*m_Vectors)[vectorIndex]->fill(0.0);
@@ -108,18 +108,18 @@ void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
 {
   // allocate if necessary
   if (m_Solutions == 0)
-  {
+    {
     m_Solutions = new std::vector< vnl_vector<Float>* >(m_NumberOfSolutions);
-  }
+    }
 
   // out with old, in with new
   if ( (*m_Solutions)[solutionIndex] != 0)
-  {
+    {
     delete (*m_Solutions)[solutionIndex];
-  }
+    }
 
   (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
- (*m_Solutions)[solutionIndex]->fill(0.0);
+  (*m_Solutions)[solutionIndex]->fill(0.0);
 
   return;
 }
@@ -164,26 +164,14 @@ void LinearSystemWrapperDenseVNL::Solve(void)
   */
 
 
-  /*
-   * Solve the system of linear equation and store the result in m_Solutions(0).
+  /**
+   * Solve the system of linear equation and store the result in
+   * m_Solutions(0).
    * Here we use the SVD method.
    */
-//  std::cout << "k=[" << (*((*m_Matrices)[0])) << "];" << std::endl;
-//  std::cout << "f=[" << (*((*m_Vectors)[0])) << "];" << std::endl;
 
   vnl_svd<Float> svd( (*((*m_Matrices)[0])) ); 
   (*((*m_Solutions)[0])) = svd.solve( (*((*m_Vectors)[0])) ); 
-
-//   vnl_sparse_matrix_linear_system<Float> ls( (*((*m_Matrices)[0])), (*((*m_Vectors)[0])) );
-//   vnl_lsqr lsq(ls);
-
-//   /*
-//    * Set max number of iterations to 3*size of the K matrix.
-//    * FIXME: There should be a better way to determine the number of iterations needed.
-//    */
-//   lsq.set_max_iterations(3*this->GetSystemOrder());
-//   lsq.minimize(*((*m_Solutions)[0]));
-
 }
 
 
@@ -269,17 +257,17 @@ LinearSystemWrapperDenseVNL::~LinearSystemWrapperDenseVNL()
 {
   unsigned int i;
   for (i=0; i<m_NumberOfMatrices; i++)
-  {
+    {
     this->DestroyMatrix(i);
-  }
+    }
   for (i=0; i<m_NumberOfVectors; i++)
-  {
+    {
     this->DestroyVector(i);
-  }
+    }
   for (i=0; i<m_NumberOfSolutions; i++)
-  {
+    {
     this->DestroySolution(i);
-  }
+    }
 
   delete m_Matrices;
   delete m_Vectors;

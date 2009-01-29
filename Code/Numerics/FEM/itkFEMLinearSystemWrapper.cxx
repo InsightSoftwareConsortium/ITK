@@ -28,8 +28,6 @@ namespace itk {
 namespace fem {
 
 
-
-
 void LinearSystemWrapper::Clean( void )
 {
   unsigned int i;
@@ -38,17 +36,17 @@ void LinearSystemWrapper::Clean( void )
 
   // clear all data
   for(i=0;i<m_NumberOfMatrices;i++)
-  {
+    {
     this->DestroyMatrix(i);
-  }
+    }
   for(i=0;i<m_NumberOfVectors;i++)
-  {
+    {
     this->DestroyVector(i);
-  }
+    }
   for(i=0;i<m_NumberOfSolutions;i++)
-  {
+    {
     this->DestroySolution(i);
-  }
+    }
 
   this->SetSystemOrder(0);
 
@@ -61,19 +59,19 @@ void LinearSystemWrapper::ScaleMatrix(Float scale, unsigned int matrixIndex)
 
   /* check for no scaling */
   if (scale == 1.0)
-  {
+    {
     return;
-  }
+    }
 
   unsigned int i;
   unsigned int j;
   for (i=0; i<m_Order; i++)
-  {
-    for (j=0; j<m_Order; j++)
     {
+    for (j=0; j<m_Order; j++)
+      {
       this->SetMatrixValue(i, j, scale*GetMatrixValue(i,j,matrixIndex), matrixIndex);
+      }
     }
-  }
 
   return;
 }
@@ -84,15 +82,15 @@ void LinearSystemWrapper::ScaleVector(Float scale, unsigned int vectorIndex)
 
   /* check for no scaling */
   if (scale == 1.0)
-  {
+    {
     return;
-  }
+    }
 
   unsigned int i;
   for (i=0; i<m_Order; i++)
-  {
+    {
     this->SetVectorValue(i, scale * GetVectorValue(i, vectorIndex), vectorIndex);
-  }
+    }
 
   return;
 }
@@ -103,16 +101,16 @@ void LinearSystemWrapper::ScaleSolution(Float scale, unsigned int solutionIndex)
 
   /* check for no scaling */
   if (scale == 1.0)
-  {
+    {
 
     return;
-  }
+    }
 
   unsigned int i;
   for (i=0; i<m_Order; i++)
-  {
+    {
     this->SetSolutionValue(i, scale * GetSolutionValue(i, solutionIndex), solutionIndex);
-  }
+    }
 
   return;
 }
@@ -144,12 +142,12 @@ void LinearSystemWrapper::MultiplyMatrixVector(unsigned int resultVector, unsign
 
   /* perform multiply */
   for (i=0; i<m_Order; i++) 
-  {
-    for (j=0; j<m_Order; j++)
     {
+    for (j=0; j<m_Order; j++)
+      {
       this->AddVectorValue(i, this->GetMatrixValue(i,j,matrixIndex) * this->GetVectorValue(j, vectorIndex), resultVector);
+      }
     }
-  }
 
 }
 
@@ -159,9 +157,9 @@ void LinearSystemWrapper::GetColumnsOfNonZeroMatrixElementsInRow( unsigned int, 
   // By default we assume full matrices and return indices of all columns
   cols=ColumnArray(m_Order);
   for(unsigned int i=0;i<m_Order;i++)
-  {
+    {
     cols[i]=i;
-  }
+    }
 }
 
 
@@ -179,20 +177,18 @@ void LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsign
   unsigned int i;
   unsigned int j;
   for (i=0; i<this->m_Order; i++)
-  {
+    {
     this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, tempMatrixIndex);
     for (j=0; j<currentRow.size(); j++)
-    {
+      {
       this->SetMatrixValue(i,currentRow[j],this->GetMatrixValue(i, currentRow[j], tempMatrixIndex), matrixIndex);
+      }
     }
-  }
       
   /* destroy temp matrix space */
   this->DestroyMatrix(tempMatrixIndex);
 
 }
-
-
 
 void
 LinearSystemWrapper
@@ -204,17 +200,14 @@ LinearSystemWrapper
   this->InitializeMatrix(matrixIndex2);
 
   for (r=0; r<this->m_Order; r++)
-  {
-    this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex1);
-    for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
     {
+    this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex1);
+    for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c != cols.end(); c++)
+      {
       this->SetMatrixValue(r,*c,this->GetMatrixValue(r, *c, matrixIndex1), matrixIndex2);
+      }
     }
-  }
 }
-
-
-
 
 void
 LinearSystemWrapper
@@ -224,17 +217,14 @@ LinearSystemWrapper
   unsigned int r;
 
   for (r=0; r<this->m_Order; r++)
-  {
-    this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex2);
-    for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c!=cols.end(); c++)
     {
+    this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex2);
+    for(LinearSystemWrapper::ColumnArray::iterator c=cols.begin(); c != cols.end(); c++)
+      {
       this->AddMatrixValue(r,*c,this->GetMatrixValue(r, *c, matrixIndex2), matrixIndex1);
+      }
     }
-  }
 }
-
-
-
 
 void
 LinearSystemWrapper
@@ -242,13 +232,10 @@ LinearSystemWrapper
 {
   unsigned int r;
   for (r=0; r<this->m_Order; r++)
-  {
+    {
     this->SetVectorValue(r,this->GetVectorValue(r, vectorSource), vectorDestination);
-  }
+    }
 }
-
-
-
 
 void
 LinearSystemWrapper
@@ -256,13 +243,10 @@ LinearSystemWrapper
 {
   unsigned int r;
   for (r=0; r<this->m_Order; r++)
-  {
+    {
     this->AddVectorValue(r,this->GetVectorValue(r, vectorIndex2), vectorIndex1);
-  }
+    }
 }
-
-
-
 
 /* FIXME - untested...do not use yet */
 void LinearSystemWrapper::ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex)
@@ -289,26 +273,26 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
   
   /* initialize variables */
   for (i=0; i<this->m_Order; i++)
-  {
+    {
     this->GetColumnsOfNonZeroMatrixElementsInRow(i, currentRow, matrixIndex);
     rowDegree[i] = static_cast<unsigned int>( currentRow.size() - 1 );     /* assuming non-zero diagonal */
     reverseMapping[i] = this->m_Order;        /* set to impossible value */
-  }
+    }
 
   /* choose starting row if not given - chooses row of lowest degree */
   if (startingRow < 0) 
-  {
+    {
     unsigned int lowestDegree = rowDegree[0];
     startingRow = 0;
     for (i=1; i<this->m_Order; i++) 
-    {
-      if (rowDegree[i] < lowestDegree)
       {
+      if (rowDegree[i] < lowestDegree)
+        {
         startingRow = i;
         lowestDegree = rowDegree[i];
+        }
       }
     }
-  }
 
   /* set first row */
   unsigned int nextRowNumber = 0;
@@ -318,9 +302,9 @@ void LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray& newNumbering, int st
   this->FollowConnectionsCuthillMckeeOrdering(startingRow, rowDegree, reverseMapping, nextRowNumber, matrixIndex);
 
   for (i=0; i<this->m_Order; i++)
-  {
+    {
     newNumbering[ reverseMapping[i] ] = i;
-  }
+    }
 
 }
 
@@ -348,13 +332,13 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
 
   /* remove diagonal element */
   for (nextRowsIt = nextRows.begin(); nextRowsIt != nextRows.end(); ++nextRowsIt)
-  {
-    if ( *nextRowsIt == rowNumber )
     {
+    if ( *nextRowsIt == rowNumber )
+      {
       nextRows.erase(nextRowsIt);
       --nextRowsIt;
+      }
     }
-  }
 
   /* order by degree */
   if (nextRows.size() > 1) 
@@ -375,7 +359,7 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
 
   /* while there are more rows to examine */
   while ( (nextRows.size() != 0 ) && (nextRowNumber < this->m_Order) ) 
-  {
+    {
     
 
     bufferArray.clear();
@@ -434,18 +418,18 @@ void LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int row
           }
 
         if (!repeatFlag)
-        {
+          {
           bufferArray.push_back(rowBuffer[k]);
+          }
         }
-      }
 
-    }
+      }
 
     nextRows.clear();
     nextRows = bufferArray;
 
 
-  }
+    }
 
   return;
 

@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class FEMLightObject
  * \brief Base class for all classes that define the FEM system.

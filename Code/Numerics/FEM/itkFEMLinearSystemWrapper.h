@@ -51,17 +51,10 @@ namespace fem {
 class LinearSystemWrapper : public Solution
 {
 public:
-  /** Standard "Self" typedef.*/
   typedef LinearSystemWrapper Self;
-
-  /** Standard "Superclass" typedef. */
-  typedef Solution Superclass;
-
-  /**  Pointer to an object. */
-  typedef Self* Pointer;
-
-  /**  Const pointer to an object. */
-  typedef const Self* ConstPointer;
+  typedef Solution            Superclass;
+  typedef Self*               Pointer;
+  typedef const Self*         ConstPointer;
 
   typedef std::vector<unsigned int> ColumnArray;
 
@@ -103,7 +96,7 @@ public:
    */
   void SetNumberOfMatrices(unsigned int nMatrices) { m_NumberOfMatrices = nMatrices; }
 
-  /*
+  /**
    * Set the maximum number of entries permitted in a matrix
    * \param matrixIndex index of matrix to set value for
    * \param maxNonZeros maximum number of entries allowed in matrix
@@ -412,43 +405,6 @@ public:
    */
   virtual void ReverseCuthillMckeeOrdering(ColumnArray& newNumbering, unsigned int matrixIndex = 0);
 
-  /*
-   * Sets the function used to prepare the primary system matrix for numerical solving
-   * \param SetupFunction pointer to function that stores the matrix to 
-   * solve in the 0 matrix of the linear system
-   */
-  /*
-  void SetPrimaryMatrixSetupFunction(void (*SetupFunction)(LinearSystemWrapper *lsw))
-  { 
-    m_PrimaryMatrixSetupFunction = SetupFunction; 
-  }
-  */
-
-
-  /*
-   * Sets the function used to prepare the primary system vector for numerical solving
-   * \param SetupFunction pointer to function that stores the vector to
-   * solve in the 0 vector of the linear system
-   */
-  /*
-  void SetPrimaryVectorSetupFunction(void (*SetupFunction)(LinearSystemWrapper *lsw))
-  { 
-    m_PrimaryVectorSetupFunction = SetupFunction; 
-  }
-  */
-
-  /*
-   * Sets the function used to prepare the primary system solution for numerical solving
-   * \param SetupFunction pointer to function that stores the solution 
-   * in the 0 solution vector of the linear system
-   */
-  /*
-  void SetPrimarySolutionSetupFunction(void (*SetupFunction)(LinearSystemWrapper *lsw))
-  { 
-    m_PrimarySolutionSetupFunction = SetupFunction; 
-  }
-  */
-
 protected:
 
   /** Order of linear system */
@@ -500,8 +456,6 @@ private:
   const LinearSystemWrapper& operator= (const LinearSystemWrapper&);
 
 };
-
-
 
 class FEMExceptionLinearSystem : public FEMException
 {
