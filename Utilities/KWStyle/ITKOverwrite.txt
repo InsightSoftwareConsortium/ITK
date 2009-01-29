@@ -50,4 +50,7 @@ itkFEMException.h InternalVariables Disable
 itkFEMInitialization.h InternalVariables Disable
 itkFEMItpackSparseMatrix.h Typedefs Disable
 itkFEMLightObject.h InternalVariables Disable
+itkFEMLinearSystemWrapperItpack.h Typedefs Disable
+itkFEMLoadBC.h InternalVariables Disable
+itkFEMLoadBCMFC.h InternalVariables Disable
 
