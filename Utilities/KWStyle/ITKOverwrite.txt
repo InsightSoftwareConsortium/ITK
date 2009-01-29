@@ -49,3 +49,5 @@ itkFEMElement2DStress.h InternalVariables Disable
 itkFEMException.h InternalVariables Disable
 itkFEMInitialization.h InternalVariables Disable
 itkFEMItpackSparseMatrix.h Typedefs Disable
+itkFEMLightObject.h InternalVariables Disable
+
