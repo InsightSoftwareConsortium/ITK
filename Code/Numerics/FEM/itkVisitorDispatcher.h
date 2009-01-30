@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __VisitorDispatcher_h
-#define __VisitorDispatcher_h
+#ifndef __itkVisitorDispatcher_h
+#define __itkVisitorDispatcher_h
 
 #include "itkFEMMacro.h"
 #include "itkFEMException.h"
@@ -33,9 +33,6 @@ class VisitorDispatcherTemplateHelper
 public:
   typedef void (*FunctionPointerType )(typename TVisitedClass::ConstPointer, typename TVisitorBase::Pointer);
 };
-  
-
-
 
 /**
  * \class VisitorDispatcher
@@ -149,11 +146,9 @@ public:
   /**
    *
    */
-  typedef typename VisitedClass::Pointer VisitedClassPointer;
+  typedef typename VisitedClass::Pointer      VisitedClassPointer;
   typedef typename VisitedClass::ConstPointer VisitedClassConstPointer;
-  typedef typename VisitorBase::Pointer VisitorBasePointer;
-
-
+  typedef typename VisitorBase::Pointer       VisitorBasePointer;
 
   /**
    * Type that holds pointers to visit functions
@@ -213,20 +208,18 @@ public:
     status=Instance().visitors.insert(VisitorsArray_value_type(VisitorClass::CLID(),visitor_function)).second;
     Instance().m_MutexLock.Unlock();
     if ( status )
-    {
+      {
       // Visitor class was successfully registered
-//      std::cout<<"Visitor "<<typeid(VisitorClass).name()<<" ("<<typeid(VisitedClass).name()<<") registered.\n";
-//      std::cout<<"Visitor registered:\n  Visitee:"<<typeid(TVisitedClass).name()<<"\n  Visitor:"<<typeid(TVisitorClass).name()<<"\n  Func   :"<<typeid(VisitFunctionPointerType).name()<<"\n\n";
-    }
+      }
     else
-    {
+      {
       // The visitor function was already registered.
       // FIXME: implement the proper error handler if required
       std::cout<<"Warning: Visitor "<<typeid(VisitorClass).name()<<" that operates on objects of "<<typeid(VisitedClass).name()<<" was already registered! Ignoring the re-registration.\n";
-    }
+      }
     return status;
   }
-
+  
   /**
    * Returns the pointer to the correct implementation of the visit function.
    * based on the class of object passed in l.
@@ -263,15 +256,10 @@ private:
 
 };
 
-
-
-
 template<class TVisitedClass, class TVisitorBase, class TVisitFunctionPointerType>
 VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>*
 VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 ::obj = 0;
-
-
 
 extern "C"
 {
@@ -285,21 +273,18 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
 {
   // Implementation of the singleton design pattern
   if (!obj) 
-  { 
+    { 
     // Create a new VisitorDispatcher object if we don't have it already.
     obj=new VisitorDispatcher;
 
     // Make sure that the object that we just created is also destroyed
     // when program finishes.
     atexit(reinterpret_cast<c_void_cast>(&CleanUP));
-  }
-
+    }
+  
   // Return the actual VisitorDispatcher object
   return *obj;
 }
-
-
-
 
 template<class TVisitedClass, class TVisitorBase, class TVisitFunctionPointerType>
 typename VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>::VisitFunctionPointerType
@@ -315,9 +300,6 @@ VisitorDispatcher<TVisitedClass, TVisitorBase, TVisitFunctionPointerType>
   }
   return i->second;
 }
-
-
-
 
 }} // end namespace itk::fem
 

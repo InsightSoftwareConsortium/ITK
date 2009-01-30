@@ -23,17 +23,11 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \file itkFEMUtility.h
  * \brief Includes various helper classes and functions used 
           througout the FEM code.
  */
-
-
-
 
 /**
  * \class GaussIntegrate
@@ -51,9 +45,6 @@ public:
   static const double w[110];
   double Integrate(double (*f)(double), double a, double b, int n=3);
 };
-
-
-
 
 }} /* end namespace itk */
 

@@ -64,15 +64,15 @@ class SolverCrankNicolson : public Solver
 {
 public:
 
-/*
- * helper initialization function before assembly but after generate GFN.
- */
+  /**
+   * helper initialization function before assembly but after generate GFN.
+   */
   void InitializeForSolution(); 
   /**
    * Assemble the master stiffness and mass matrix.  We actually assemble
    * the right hand side and left hand side of the implicit scheme equation.
    */  
-  void AssembleKandM();            
+  void AssembleKandM();
 
   /**
    * Assemble the master force vector at a given time.
@@ -114,9 +114,10 @@ public:
 
   /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
   void FindBracketingTriplet(Float* a,Float* b,Float* c);
+
   /** Finds the optimum value between the last two solutions 
-    * and sets the current solution to that value.  Uses Evaluate Residual;
-    */
+   * and sets the current solution to that value.  Uses Evaluate Residual;
+   */
   Float GoldenSection(Float tol=0.01,unsigned int MaxIters=25);
   /* Brents method from Numerical Recipes. */
   Float BrentsMethod(Float tol=0.01,unsigned int MaxIters=25);
@@ -130,14 +131,15 @@ public:
 
   Float GetCurrentMaxSolution() { return m_CurrentMaxSolution; }
 
-  /** Compute and print the minimum and maximum of the total solution and the last solution.*/
+  /** Compute and print the minimum and maximum of the total solution
+   * and the last solution. */
   void PrintMinMaxOfSolution();
    /**
    * Default constructor which sets the indices for the matrix and vector storage.
    * Time step and other parameters are also initialized.
    */
   SolverCrankNicolson() 
-  { 
+    { 
     m_deltaT=0.5; 
     m_rho=1.; 
     m_alpha=0.5;
@@ -153,7 +155,7 @@ public:
     SumMatrixIndex=0;                   // matrix
     DifferenceMatrixIndex=1;            // matrix
     m_CurrentMaxSolution=1.0;
-  }
+    }
 
  
   ~SolverCrankNicolson() { }
@@ -175,9 +177,6 @@ public:
   unsigned int DiffMatrixBySolutionTMinus1Index;
   
 };
-
-
-
 
 }} // end namespace itk::fem
 

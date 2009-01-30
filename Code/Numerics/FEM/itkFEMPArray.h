@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class FEMPArray
  * \brief Array for FEMP objects
@@ -53,14 +50,14 @@ public:
   /**
    * Dumb pointer typedef support.
    */
-  typedef Self* Pointer;
+  typedef Self*       Pointer;
   typedef const Self* ConstPointer;
 
   /**
    * Easy (and required on MSVC) access to the base class of objects inside the array.
    */
-  typedef T ClassType;
-  typedef typename ClassType::Pointer ClassTypePointer;
+  typedef T                                ClassType;
+  typedef typename ClassType::Pointer      ClassTypePointer;
   typedef typename ClassType::ConstPointer ClassTypeConstPointer;
 
   /**
@@ -73,18 +70,18 @@ public:
    * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    */
   ClassTypePointer operator() (int i) 
-  {
+    {
     return &(*this->operator[](i));
-  }
+    }
 
   /**
    * Returns a pointer to i-th object stored in an array (not a pointer to FEMP of that object).
    * This function works on the const arrays.
    */
   ClassTypeConstPointer operator() (int i) const 
-  {  
+    {  
     return &(*this->operator[](i));
-  }
+    }
 
 
   /**
@@ -95,8 +92,6 @@ public:
   int Renumber();
 
 };
-
-
 
 /**
  * Find function for for non-const objects
@@ -132,9 +127,7 @@ FEMPArray<T>::Find(int gn)
    */
   return &(*(*it));
 
-}
-
-
+} 
 
 
 /**
@@ -173,9 +166,6 @@ FEMPArray<T>::Find( int gn ) const
 
 }
 
-
-
-
 template<class T>
 int FEMPArray<T>::Renumber() 
 {
@@ -183,18 +173,15 @@ int FEMPArray<T>::Renumber()
   typename Superclass::iterator i;
   int j=0;
 
-  for(i=this->begin(); i!=this->end(); i++)
-  {
+  for(i = this->begin(); i != this->end(); i++)
+    {
     (*i)->GN=j;
     j++;
-  }
+    }
 
   return j;
 
 }
-
-
-
 
 }} // end namespace itk::fem
 

@@ -21,9 +21,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Solution
  * \brief Provides functions to access the values of the solution vector.
@@ -37,7 +34,7 @@ class Solution
 {
 public:
 
-  /** Standard "Self" typedef.*/
+  /** Standard "Self" typedef. */
   typedef Solution Self;
   /** Standard "Superclass" typedef. */
   typedef Solution Superclass;
@@ -71,9 +68,6 @@ public:
   virtual ~Solution() {};
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

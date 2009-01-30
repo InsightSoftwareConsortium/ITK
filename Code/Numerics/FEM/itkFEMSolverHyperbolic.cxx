@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 SolverHyperbolic::SolverHyperbolic()
 {
   this->InitializeLinearSystemWrapper();
@@ -35,9 +32,6 @@ SolverHyperbolic::SolverHyperbolic()
   m_gamma=0.5;
   m_deltaT=1.0;
 }
-
-
-
 
 void
 SolverHyperbolic
@@ -49,9 +43,6 @@ SolverHyperbolic
   m_ls->SetNumberOfVectors(6);
   m_ls->SetNumberOfSolutions(3);
 }
-
-
-
 
 void
 SolverHyperbolic
@@ -68,40 +59,37 @@ SolverHyperbolic
 
   // step over all rows in element matrix
   for(int j=0; j<Ne; j++)
-  {
+    {
     // step over all columns in element matrix
     for(int k=0; k<Ne; k++) 
-    {
+      {
       // error checking. all GFN should be =>0 and <NGFN
       if ( e->GetDegreeOfFreedom(j) >= NGFN ||
            e->GetDegreeOfFreedom(k) >= NGFN  )
-      {
+        {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleElementMatrix()","Illegal GFN!");
-      }
+        }
 
-      /*
+      /**
        * Here we finaly update the corresponding element
        * in the master stiffness matrix. We first check if 
        * element in Ke is zero, to prevent zeros from being 
        * allocated in sparse matrix.
        */
       if ( Ke[j][k]!=Float(0.0) )
-      {
+        {
         this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k], matrix_K );
-      }
+        }
       if ( Me[j][k]!=Float(0.0) )
-      {
+        {
         this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Me[j][k], matrix_M );
-      }
+        }
 
+      }
+    
     }
 
-  }
-
 }
-
-
-
 
 void
 SolverHyperbolic
@@ -113,13 +101,10 @@ SolverHyperbolic
   this->m_ls->InitializeMatrix(matrix_M);
   this->m_ls->InitializeMatrix(matrix_C);
   for(unsigned int i=0; i<N; i++)
-  {
+    {
     m_ls->SetMatrixValue(i,i,1.0,matrix_C);
-  }
+    }
 }
-
-
-
 
 void
 SolverHyperbolic
@@ -161,8 +146,6 @@ SolverHyperbolic
 
 }
 
-
-
 void
 SolverHyperbolic
 ::Solve()
@@ -179,13 +162,13 @@ SolverHyperbolic
 
   // Calculate the predictors
   for(unsigned int i=0; i<m_ls->GetSystemOrder(); i++)
-  {
+    {
     Float d0=m_ls->GetSolutionValue(i,solution_d);
     Float v0=m_ls->GetSolutionValue(i,solution_v);
     Float a0=m_ls->GetSolutionValue(i,solution_a);
     m_ls->SetVectorValue( i, -(d0+this->m_deltaT*v0+0.5*this->m_deltaT*this->m_deltaT*(1.0-2.0*this->m_beta)*a0), vector_dhat);
     m_ls->SetVectorValue( i, -(v0+this->m_deltaT*(1.0-this->m_gamma)*a0), vector_vhat);
-  }
+    }
 
   // Calculate the rhs of master equation
   m_ls->MultiplyMatrixVector(vector_tmp,matrix_C,vector_vhat);
@@ -202,19 +185,19 @@ SolverHyperbolic
 
   // Calculate displacements and velocities
   for(unsigned int i=0; i<m_ls->GetSystemOrder(); i++)
-  {
+    {
     Float dhat=-m_ls->GetVectorValue(i,vector_dhat);
     Float vhat=-m_ls->GetVectorValue(i,vector_vhat);
     Float a1=m_ls->GetSolutionValue(i,solution_a);
 
     m_ls->SetSolutionValue(i, dhat +
-                              this->m_beta*this->m_deltaT*this->m_deltaT*a1
-                            , solution_d);
+                           this->m_beta*this->m_deltaT*this->m_deltaT*a1
+                           , solution_d);
 
     m_ls->SetSolutionValue(i, vhat +
-                              this->m_gamma*this->m_deltaT*a1
-                            , solution_v);
-  }
+                           this->m_gamma*this->m_deltaT*a1
+                           , solution_v);
+    }
 
   m_ls->DestroyVector(vector_tmp);
   m_ls->DestroyVector(vector_dhat);
@@ -222,7 +205,5 @@ SolverHyperbolic
   m_ls->DestroyVector(vector_ahat);
 
 }
-
-
 
 }} // end namespace itk::fem

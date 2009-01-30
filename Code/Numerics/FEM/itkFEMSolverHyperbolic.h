@@ -23,9 +23,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class SolverHyperbolic
  * \brief Solver class suitable for hyperbolic problems.
@@ -88,9 +85,6 @@ public:
   Float m_deltaT;
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

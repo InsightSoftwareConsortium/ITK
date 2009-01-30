@@ -57,7 +57,7 @@ void Solver::Clear( void )
 }
 
 
-/*
+/**
  * Change the LinearSystemWrapper object used to solve
  * system of equations.
  */
@@ -78,10 +78,7 @@ void Solver::InitializeLinearSystemWrapper(void)
   m_ls->SetNumberOfSolutions(1);
 }
 
-
-
-
-/*
+/**
  * Reads the whole system (nodes, materials and elements) from input stream
  */
 void Solver::Read(std::istream& f) {
@@ -102,14 +99,14 @@ void Solver::Read(std::istream& f) {
   do
     {
     o=FEMLightObject::CreateFromStream(f,&info);
-    /*
+    /**
      * If CreateFromStream returned 0, we're ok. That was the signal
      * for the end of stream. Just continue reading... and consequently
      * exit the do loop.
      */
     if (!o) { continue; }
 
-    /*
+    /**
      * Find out what kind of object did we read from stream
      * and store it in the appropriate array
      */
@@ -134,7 +131,7 @@ void Solver::Read(std::istream& f) {
       continue;
       }
 
-    /*
+    /**
      * If we got here, something strange was in the file...
      */
 
@@ -152,30 +149,30 @@ void Solver::Read(std::istream& f) {
 }
 
 
-/*
+/**
  * Writes everything (nodes, materials and elements) to output stream
  */
 void Solver::Write( std::ostream& f ) {
 
-  for(NodeArray::iterator i=node.begin(); i!=node.end(); i++)
+  for(NodeArray::iterator i = node.begin(); i != node.end(); i++)
     {
     (*i)->Write(f);
     }
   f<<"\n<END>  % End of nodes\n\n";
 
-  for(MaterialArray::iterator i=mat.begin(); i!=mat.end(); i++)
+  for(MaterialArray::iterator i=mat.begin(); i != mat.end(); i++)
     {
     (*i)->Write(f);
     }
   f<<"\n<END>  % End of materials\n\n";
 
-  for(ElementArray::iterator i=el.begin(); i!=el.end(); i++)
+  for(ElementArray::iterator i=el.begin(); i != el.end(); i++)
     {
     (*i)->Write(f);
     }
   f<<"\n<END>  % End of elements\n\n";
 
-  for(LoadArray::iterator i=load.begin(); i!=load.end(); i++)
+  for(LoadArray::iterator i=load.begin(); i != load.end(); i++)
     {
     (*i)->Write(f);
     }
@@ -183,23 +180,20 @@ void Solver::Write( std::ostream& f ) {
 
 }
 
-
-
-
-/*
+/**
  * Assign a global freedom number to each DOF in a system.
  */
 void Solver::GenerateGFN() {
 
   // Clear the list of elements and global freedom numbers in nodes
   // FIXME: should be removed once Mesh is there
-  for(NodeArray::iterator n=node.begin(); n!=node.end(); n++)
+  for(NodeArray::iterator n=node.begin(); n != node.end(); n++)
     {
     (*n)->m_elements.clear();
     (*n)->ClearDegreesOfFreedom();
     }
 
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements
+  for(ElementArray::iterator e=el.begin(); e != el.end(); e++) // step over all elements
     {
 
     // Add the elemens in the nodes list of elements
@@ -212,7 +206,7 @@ void Solver::GenerateGFN() {
     }
 
 
-  /*
+  /**
    * Assign new ID to every DOF in a system
    */
 
@@ -220,14 +214,14 @@ void Solver::GenerateGFN() {
   NGFN=0;
 
   // Step over all elements
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
+  for(ElementArray::iterator e=el.begin(); e != el.end(); e++)
     {
     // FIXME: Write a code that checks if two elements are compatible, when they share a node
     for(unsigned int n=0; n<(*e)->GetNumberOfNodes(); n++)
       {
       for(unsigned int dof=0; dof<(*e)->GetNumberOfDegreesOfFreedomPerNode(); dof++)
         {
-        if( (*e)->GetNode(n)->GetDegreeOfFreedom(dof)==Element::InvalidDegreeOfFreedomID )
+        if( (*e)->GetNode(n)->GetDegreeOfFreedom(dof) == Element::InvalidDegreeOfFreedomID )
           {
           (*e)->GetNode(n)->SetDegreeOfFreedom(dof,NGFN);
           NGFN++;
@@ -236,15 +230,12 @@ void Solver::GenerateGFN() {
       }
     } // end for e
 
-//  NGFN=Element::GetGlobalDOFCounter()+1;
+  //  NGFN=Element::GetGlobalDOFCounter()+1;
   if (NGFN>0) return;  // if we got 0 DOF, somebody forgot to define the system...
 
 }
 
-
-
-
-/*
+/**
  * Assemble the master stiffness matrix (also apply the MFCs to K)
  */
 void Solver::AssembleK()
@@ -255,23 +246,24 @@ void Solver::AssembleK()
 
   NMFC=0;  // reset number of MFC in a system
 
-  /*
+  /**
    * Before we can start the assembly procedure, we need to know,
    * how many boundary conditions if form of MFCs are there in a system.
    */
 
   // search for MFC's in Loads array, because they affect the master stiffness matrix
-  for(LoadArray::iterator l=load.begin(); l!=load.end(); l++)
+  for(LoadArray::iterator l=load.begin(); l != load.end(); l++)
     {
-    if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>( &(*(*l))) ) {
-    // store the index of an LoadBCMFC object for later
-    l1->Index=NMFC;
-    // increase the number of MFC
-    NMFC++;
-    }
+    if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>( &(*(*l))) )
+      {
+      // store the index of an LoadBCMFC object for later
+      l1->Index=NMFC;
+      // increase the number of MFC
+      NMFC++;
+      }
     }
 
-  /*
+  /**
    * Now we can assemble the master stiffness matrix from
    * element stiffness matrices.
    *
@@ -280,21 +272,21 @@ void Solver::AssembleK()
    */
   this->InitializeMatrixForAssembly(NGFN+NMFC);
 
-  /*
+  /**
    * Step over all elements
    */
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
+  for(ElementArray::iterator e=el.begin(); e != el.end(); e++)
     {
     // Call the function that actually moves the element matrix
     // to the master matrix.
     this->AssembleElementMatrix(&**e);
     }
 
-  /*
+  /**
    * Step over all the loads again to add the landmark contributions
    * to the appropriate place in the stiffness matrix
    */
-  for(LoadArray::iterator l2=load.begin(); l2!=load.end(); l2++)
+  for(LoadArray::iterator l2=load.begin(); l2 != load.end(); l2++)
     {
     if ( LoadLandmark::Pointer l3=dynamic_cast<LoadLandmark*>( &(*(*l2))) )
       {
@@ -307,9 +299,6 @@ void Solver::AssembleK()
   this->FinalizeMatrixAfterAssembly();
 
 }
-
-
-
 
 void Solver::InitializeMatrixForAssembly(unsigned int N)
 {
@@ -341,21 +330,19 @@ void Solver::AssembleLandmarkContribution(Element::Pointer e, float eta)
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleLandmarkContribution()","Illegal GFN!");
         }
 
-      /*
+      /**
        * Here we finaly update the corresponding element
        * in the master stiffness matrix. We first check if
        * element in Le is zero, to prevent zeros from being
        * allocated in sparse matrix.
        */
-      if ( Le[j][k]!=Float(0.0) )
+      if ( Le[j][k] != Float(0.0) )
         {
         this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Le[j][k] );
         }
       }
     }
 }
-
-
 
 void Solver::AssembleElementMatrix(Element::Pointer e)
 {
@@ -379,13 +366,13 @@ void Solver::AssembleElementMatrix(Element::Pointer e)
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleElementMatrix()","Illegal GFN!");
         }
 
-      /*
+      /**
        * Here we finaly update the corresponding element
        * in the master stiffness matrix. We first check if
        * element in Ke is zero, to prevent zeros from being
        * allocated in sparse matrix.
        */
-      if ( Ke[j][k]!=Float(0.0) )
+      if ( Ke[j][k] != Float(0.0) )
         {
         this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k] );
         }
@@ -396,13 +383,11 @@ void Solver::AssembleElementMatrix(Element::Pointer e)
 
 }
 
-
-
-
-/*
+/**
  * Assemble the master force vector
  */
-void Solver::AssembleF(int dim) {
+void Solver::AssembleF(int dim)
+{
 
   // Vector that stores element nodal loads
   Element::VectorType Fe;
@@ -418,25 +403,25 @@ void Solver::AssembleF(int dim) {
   /* Initialize the master force vector */
   m_ls->InitializeVector();
 
-  /*
+  /**
    * Convert the external loads to the nodal loads and
    * add them to the master force vector F.
    */
-  for(LoadArray::iterator l=load.begin(); l!=load.end(); l++)
+  for(LoadArray::iterator l=load.begin(); l != load.end(); l++)
     {
 
-    /*
+    /**
      * Store a temporary pointer to load object for later,
      * so that we don't have to access it via the iterator
      */
     Load::Pointer l0=*l;
 
-    /*
+    /**
      * Pass the vector to the solution to the Load object.
      */
     l0->SetSolution(m_ls);
 
-    /*
+    /**
      * Here we only handle Nodal loads
      */
     if ( LoadNode::Pointer l1=dynamic_cast<LoadNode*>(&*l0) )
@@ -444,7 +429,7 @@ void Solver::AssembleF(int dim) {
       // yep, we have a nodal load
       
       // size of a force vector in load must match number of DOFs in node
-      if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerNode())!=0 )
+      if ( (l1->F.size() % l1->m_element->GetNumberOfDegreesOfFreedomPerNode()) != 0 )
         {
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal size of a force vector in LoadNode object!");
         }
@@ -459,7 +444,7 @@ void Solver::AssembleF(int dim) {
           throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleF()","Illegal GFN!");
           }
 
-        /*
+        /**
          * If using the extra dim parameter, we can apply the force to
          * different isotropic dimension.
          *
@@ -475,7 +460,7 @@ void Solver::AssembleF(int dim) {
       }
 
 
-    /*
+    /**
      * Element loads...
      */
     if ( LoadElement::Pointer l1=dynamic_cast<LoadElement*>(&*l0) )
@@ -483,11 +468,11 @@ void Solver::AssembleF(int dim) {
 
       if ( !(l1->el.empty()) )
         {
-        /*
+        /**
          * If array of element pointers is not empty,
          * we apply the load to all elements in that array
          */
-        for(LoadElement::ElementPointersVectorType::const_iterator i=l1->el.begin(); i!=l1->el.end(); i++)
+        for(LoadElement::ElementPointersVectorType::const_iterator i=l1->el.begin(); i != l1->el.end(); i++)
           {
 
           const Element* el0=(*i);
@@ -512,11 +497,11 @@ void Solver::AssembleF(int dim) {
       else
         {
 
-        /*
+        /**
          * If the list of element pointers in load object is empty,
          * we apply the load to all elements in a system.
          */
-        for(ElementArray::iterator e=el.begin(); e!=el.end(); e++) // step over all elements in a system
+        for(ElementArray::iterator e=el.begin(); e != el.end(); e++) // step over all elements in a system
           {
           (*e)->GetLoadVector(Element::LoadPointer(l1),Fe);  // ... element's force vector
           unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();    // ... element's number of DOF
@@ -539,7 +524,7 @@ void Solver::AssembleF(int dim) {
       continue;
       }
 
-    /*
+    /**
      * Handle boundary conditions in form of MFC loads are handled next.
      */
     if ( LoadBCMFC::Pointer l1=dynamic_cast<LoadBCMFC*>(&*l0) )
@@ -550,7 +535,7 @@ void Solver::AssembleF(int dim) {
       continue;
       }
 
-    /*
+    /**
      * Handle essential boundary conditions.
      */
     if ( LoadBC::Pointer l1=dynamic_cast<LoadBC*>(&*l0) )
@@ -564,7 +549,7 @@ void Solver::AssembleF(int dim) {
       continue;
       }
     
-    /*
+    /**
      * If we got here, we were unable to handle that class of Load object.
      * We do nothing...
      */
@@ -572,7 +557,7 @@ void Solver::AssembleF(int dim) {
 
     }  // for(LoadArray::iterator l ... )
 
-  /*
+  /**
    * Adjust the master force vector for essential boundary
    * conditions as required.
    */
@@ -588,14 +573,14 @@ void Solver::AssembleF(int dim) {
     }
 
   // Set the fixed DOFs to proper values
-  for( BCTermType::iterator q=bcterm.begin(); q!=bcterm.end(); q++)
+  for( BCTermType::iterator q=bcterm.begin(); q != bcterm.end(); q++)
     {
     m_ls->SetVectorValue(q->first,q->second);
     }
 
 }
 
-/*
+/**
  * Decompose matrix using svd, qr, whatever ... if needed
  */
 void Solver::DecomposeK()
@@ -603,7 +588,7 @@ void Solver::DecomposeK()
 }
 
 
-/*
+/**
  * Solve for the displacement vector u
  */
 void Solver::Solve()
@@ -624,7 +609,7 @@ void Solver::Solve()
   m_ls->Solve();
 }
 
-/*
+/**
  * Copy solution vector u to the corresponding nodal values, which are
  * stored in node objects). This is standard post processing of the solution.
  */
@@ -637,7 +622,7 @@ Solver::Float Solver::GetDeformationEnergy(unsigned int SolutionIndex)
   float U=0.0;
   Element::MatrixType LocalSolution;
 
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
+  for(ElementArray::iterator e=el.begin(); e != el.end(); e++)
     {
     unsigned int Ne=(*e)->GetNumberOfDegreesOfFreedom();
     LocalSolution.set_size(Ne,1);
@@ -647,12 +632,12 @@ Solver::Float Solver::GetDeformationEnergy(unsigned int SolutionIndex)
       LocalSolution[j][0]=m_ls->GetSolutionValue((*e)->GetDegreeOfFreedom(j),SolutionIndex);
       }
 
-    U+=(*e)->GetElementDeformationEnergy(LocalSolution);
+    U += (*e)->GetElementDeformationEnergy(LocalSolution);
     }
   return U;
 }
 
-/*
+/**
  * Apply the boundary conditions to the system.
  */
 void Solver::ApplyBC(int dim, unsigned int matrix)
@@ -662,17 +647,17 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
   m_ls->DestroyVector(1);
 
   /* Step over all Loads */
-  for(LoadArray::iterator l=load.begin(); l!=load.end(); l++)
+  for(LoadArray::iterator l=load.begin(); l != load.end(); l++)
     {
 
-    /*
+    /**
      * Store a temporary pointer to load object for later,
      * so that we don't have to access it via the iterator
      */
     Load::Pointer l0=*l;
 
 
-    /*
+    /**
      * Apply boundary conditions in form of MFC loads.
      *
      * We add the multi freedom constraints contribution to the master
@@ -683,7 +668,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
       {
       /* step over all DOFs in MFC */
       for(LoadBCMFC::LhsType::iterator q=c->lhs.begin();
-          q!=c->lhs.end();
+          q != c->lhs.end();
           q++) {
 
       /* obtain the GFN of DOF that is in the MFC */
@@ -706,7 +691,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
       continue;
       }
 
-    /*
+    /**
      * Apply essential boundary conditions
      */
     if ( LoadBC::Pointer c=dynamic_cast<LoadBC*>(&*l0) )
@@ -727,7 +712,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
       m_ls->GetColumnsOfNonZeroMatrixElementsInRow(fdof, cols, matrix);
 
       // Force vector needs updating only if DOF was not fixed to 0.0.
-      if( fixedvalue!=0.0 )
+      if( fixedvalue != 0.0 )
         {
         // Initialize the master force correction vector as required
         if ( !this->m_ls->IsVectorInitialized(1) )
@@ -736,7 +721,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
           }
 
         // Step over each nonzero matrix element in a row
-        for(LinearSystemWrapper::ColumnArray::iterator cc=cols.begin(); cc!=cols.end(); cc++)
+        for(LinearSystemWrapper::ColumnArray::iterator cc=cols.begin(); cc != cols.end(); cc++)
           {
           // Get value from the stiffness matrix
           Float d=this->m_ls->GetMatrixValue(fdof, *cc, matrix);
@@ -751,7 +736,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
 
 
       // Clear that row and column in master matrix
-      for(LinearSystemWrapper::ColumnArray::iterator cc=cols.begin(); cc!=cols.end(); cc++)
+      for(LinearSystemWrapper::ColumnArray::iterator cc=cols.begin(); cc != cols.end(); cc++)
         {
         this->m_ls->SetMatrixValue(fdof,*cc, 0.0, matrix);
         this->m_ls->SetMatrixValue(*cc,fdof, 0.0, matrix); // this is a symetric matrix
@@ -767,7 +752,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
     } // end for LoadArray::iterator l
 }
 
-/*
+/**
  * Initialize the interpolation grid
  */
 void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorType& bb1, const VectorType& bb2)
@@ -808,7 +793,7 @@ void Solver::InitializeInterpolationGrid(const VectorType& size, const VectorTyp
   VectorType v1,v2;
 
   // Fill the interpolation grid with proper pointers to elements
-  for(ElementArray::iterator e=el.begin(); e!=el.end(); e++)
+  for(ElementArray::iterator e=el.begin(); e != el.end(); e++)
     {
     // Get square boundary box of an element
     v1=(*e)->GetNodeCoordinates(0); // lower left corner
