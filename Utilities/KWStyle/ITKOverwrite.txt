@@ -53,4 +53,15 @@ itkFEMLightObject.h InternalVariables Disable
 itkFEMLinearSystemWrapperItpack.h Typedefs Disable
 itkFEMLoadBC.h InternalVariables Disable
 itkFEMLoadBCMFC.h InternalVariables Disable
+itkFEMLoadElementBase.h InternalVariables Disable
+itkFEMLoadGrav.h InternalVariables Disable
+itkFEMLoadLandmark.h InternalVariables Disable
+itkFEMLoadNode.h InternalVariables Disable
+itkFEMLoadPoint.h InternalVariables Disable
+itkFEMLoadTest.h InternalVariables Disable
+itkFEMMacro.h Indent Disable
+itkFEMObjectFactory.h InternalVariables Disable
+itkFEMObjectFactory.h Typedefs Disable
+itkFEMMaterialLinearElasticity.h InternalVariables Disable
+
 
