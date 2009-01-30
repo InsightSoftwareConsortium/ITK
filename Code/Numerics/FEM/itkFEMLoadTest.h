@@ -23,9 +23,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadTest
  * \brief Example to show how to define templated load classes.
@@ -37,7 +34,7 @@ namespace fem {
 template<class TClass>
 class LoadTest : public LoadElement
 {
-FEM_CLASS(LoadTest,LoadElement)
+  FEM_CLASS(LoadTest,LoadElement)
 public:
 
   /**
@@ -51,14 +48,14 @@ public:
   TClass data;
 
   virtual void Read( std::istream& f, void* info )
-  {
+    {
     Superclass::Read(f,info);
-  }
+    }
   void Write( std::ostream& f ) const
-  {
+    {
     // call the parent's write function
     Superclass::Write(f);
-  }
+    }
 
 private:
   /** Dummy static int that enables automatic registration
@@ -66,9 +63,6 @@ private:
   static const int DummyCLID;
 
 };
-
-
-
 
 // Provide the templated code for CLID function, that is 
 // otherwise generated automaticly with FEM_CLASS_REGISTER
@@ -86,11 +80,6 @@ int LoadTest<TClass>::CLID(void)
 // is instantiated for a specific template parameter TClass.
 template<class TClass>
 const int LoadTest<TClass>::DummyCLID=LoadTest<TClass>::CLID();
-
-
-
-
-
 
 }} // end namespace itk::fem
 

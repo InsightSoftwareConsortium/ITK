@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * Read the LoadGravConst object from input stream
  */
@@ -51,14 +48,11 @@ void LoadGravConst::Read( std::istream& f, void* info )
 out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadGravConst::Read()","Error reading FEM load!");
-  }
+    }
 
 }
-
-
-
 
 /**
  * Write the LoadGravConst to the output stream
@@ -74,14 +68,11 @@ void LoadGravConst::Write( std::ostream& f ) const
 
   /** check for errors */
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadGravConst::Write()","Error writing FEM load!");
-  }
+    }
 }
 
 FEM_CLASS_REGISTER(LoadGravConst)
-
-
-
 
 }} // end namespace itk::fem

@@ -68,12 +68,12 @@ void LoadLandmark::Read( std::istream& f, void*)
 
   this->el.resize(1);
 
-out:
+  out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadLandmark::Read()","Error reading landmark load!");
-  }
+    }
 }
 
 /**
@@ -87,17 +87,21 @@ void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
   // Compute & store the local coordinates of the undeformed point and
   // the pointer to the element
 
-  for (Element::ArrayType::const_iterator n = elements->begin(); n!=elements->end() && !isFound; n++) {
-    if ( (*n)->GetLocalFromGlobalCoordinates(m_source, this->m_pt) ) {
+  for (Element::ArrayType::const_iterator n = elements->begin();
+       n != elements->end() && !isFound; n++)
+    {
+    if ( (*n)->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
+      {
       isFound = true;
       std::cout << "Found: " << (&**n) << std::endl;
       this->el[0] = *n;
+      }
     }
-  }
 
-  if (!isFound) {
-      throw FEMException(__FILE__,__LINE__,"LoadLandmark::Read() - could not find element containing landmark!");
-  }
+  if (!isFound) 
+    {
+    throw FEMException(__FILE__,__LINE__,"LoadLandmark::Read() - could not find element containing landmark!");
+    }
 }
 
 /**
@@ -122,14 +126,12 @@ void LoadLandmark::Write( std::ostream& f ) const
 
   /** check for errors */
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Write()","Error writing FEM load!");
-  }
+    }
 
 }
 
 FEM_CLASS_REGISTER(LoadLandmark)
-
-
 
 }} // end namespace itk::fem

@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Load
  * \brief General abstract load base class.
@@ -38,7 +35,7 @@ namespace fem {
  */
 class Load : public FEMLightObject
 {
-FEM_ABSTRACT_CLASS(Load,FEMLightObject)
+  FEM_ABSTRACT_CLASS(Load,FEMLightObject)
 public:
 
   /** Array class that holds special pointers to the load objects */
@@ -60,9 +57,6 @@ public:
   virtual Solution::ConstPointer GetSolution( ) { return 0;}
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

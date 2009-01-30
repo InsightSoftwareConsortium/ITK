@@ -18,9 +18,6 @@
 #ifndef __itkFEMMacro_h
 #define __itkFEMMacro_h
 
-
-
-
 /**
  * \file itkFEMMacro.h
  * \brief Definitions of macros used in FEM code.
@@ -37,9 +34,6 @@
  * they use itk's SmartPointer object instead of standard c++ pointers.
  */
 //#define FEM_USE_SMART_POINTERS
-
-
-
 
 /**
  * \brief If defined, FEM classes will include routines for drawing
@@ -58,9 +52,6 @@
  */
 //#define FEM_BUILD_VISUALIZATION
 
-
-
-
 /** 
  * This must be included before itk includes windows.h, otherwise nobody
  * can ever use MFC again. Including it here also ensures that all
@@ -76,9 +67,6 @@
 
 #include "itkFEMObjectFactory.h"
 
-
-
-
 /* Required includes for itk's SmartPointer compatibility */
 #ifdef FEM_USE_SMART_POINTERS
 #include "itkMacro.h"
@@ -86,9 +74,6 @@
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"
 #endif
-
-
-
 
 /**
  * \def FEM_ABSTRACT_CLASS(thisClass,parentClass)
@@ -137,9 +122,6 @@ public:                                      \
 private:  // everything that follows from here is private by default (like in the beginning of class)
 
 #endif
-
-
-
 
 /**
  * \def FEM_CLASS(thisClass,parentClass)
@@ -202,8 +184,6 @@ private:  // everything that follows from here is private by default (like in th
   private:  // everything that follows from here is private by default (like in the beginning of class)
 #endif
 
-
-
 /**
  * \def FEM_CLASS_REGISTER(thisClass)
  * \brief Register the specified class with FEMObjectFactory.
@@ -229,9 +209,6 @@ private:  // everything that follows from here is private by default (like in th
   { static const int CLID_ = FEMObjectFactory<thisClass::Baseclass>::Register( thisClass::NewB, #thisClass); \
     return CLID_; }
 
-
-
-
 namespace itk {
 namespace fem {
 
@@ -254,8 +231,6 @@ struct INITClass {
 
 }} // end namespace itk::fem
 
-
-
 /**
  * \def FEM_CLASS_INIT(thisClass)
  * \brief Perform any initialization tasks for a class.
@@ -272,7 +247,5 @@ struct INITClass {
  */
 #define FEM_CLASS_INIT(thisClass) \
   static INITClass Initializer_##thisClass(thisClass::CLID());
-
-
 
 #endif // #ifndef __itkFEMMacro_h

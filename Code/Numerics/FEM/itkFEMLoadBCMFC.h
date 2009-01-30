@@ -22,9 +22,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadBCMFC
  * \brief Generic linear multi freedom displacement constraint in global coordinate system.
@@ -53,7 +50,7 @@ class Solver;
 
 class LoadBCMFC : public Load
 {
-FEM_CLASS(LoadBCMFC,Load)
+  FEM_CLASS(LoadBCMFC,Load)
 public:
 
   /**
@@ -61,29 +58,30 @@ public:
    * \brief Class that holds information about one term in MFC constraint equation.
    * \sa LoadBCMFC
    */
-  class MFCTerm {
-  public:
+  class MFCTerm 
+    {
+    public:
     /**
      * Pointer to element, which holds the DOF that is affected by MFC
      */
-    Element::ConstPointer m_element;
+      Element::ConstPointer m_element;
 
     /**
      * DOF number within the Element object
-     */    
-    unsigned int dof;
+     */
+      unsigned int dof;
 
     /**
      * Value with which this displacement is multiplied on the lhs of MFC equation
      */
-    Element::Float value;
+      Element::Float value;
 
     /**
      * Constructor for easy object creation.
      */
-    MFCTerm(Element::ConstPointer element_, int dof_, Element::Float value_) : m_element(element_), dof(dof_), value(value_) {}
-
-  };
+      MFCTerm(Element::ConstPointer element_, int dof_, Element::Float value_) : m_element(element_), dof(dof_), value(value_) {}
+      
+    };
   
   /**
    * Left hand side of the MFC constraint equation
@@ -113,23 +111,20 @@ public:
    */
   LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element::Float> val);
 
-  /** read a LoadBCMFC object from input stream.*/
+  /** read a LoadBCMFC object from input stream. */
   virtual void Read( std::istream& f, void* info );
 
-  /** write a LoadBCMFC object to the output stream*/
+  /** write a LoadBCMFC object to the output stream. */
   virtual void Write( std::ostream& f ) const;
 
 //private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver class also needs access to Index.
   /** used internally by the Solver class */
-  int Index;    
+  int Index;
   friend class Solver;
 
 };
 
 FEM_CLASS_INIT(LoadBCMFC)
-
-
-
 
 }} // end namespace itk::fem
 

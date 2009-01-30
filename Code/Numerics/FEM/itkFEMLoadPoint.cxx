@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
 FEM_CLASS_REGISTER(LoadPoint)
-
-
 
 }} // end namespace itk::fem

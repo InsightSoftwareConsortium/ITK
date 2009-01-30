@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkFEMMaterials_h
+#define __itkFEMMaterials_h
 
 /**
  * \file itkFEMMaterials.h
@@ -24,3 +26,4 @@
  */
 #include "itkFEMMaterialBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
+#endif

@@ -29,9 +29,9 @@ typedef long      integer;
 typedef double    doublereal;
 
 extern "C" {
-typedef  
+  typedef  
   int (*ItkItpackSolverFunction)(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, 
-       integer *, doublereal *, integer *);
+                                 integer *, doublereal *, integer *);
 }
 
 
@@ -378,7 +378,7 @@ public:
   void ReducedSystemSemiIteration() { m_Method = 6; }
 
 
-  /* -----------------------------------------------------------------
+  /** -----------------------------------------------------------------
    * 
    * Redefine methods defined in LinearSystemWrapper 
    *
@@ -396,7 +396,7 @@ public:
   void ScaleMatrix(Float scale, unsigned int matrixIndex);
 
 
-  /* -----------------------------------------------------------------
+  /** -----------------------------------------------------------------
    * 
    * Functions required by LinearSystemWrapper 
    *
@@ -527,11 +527,6 @@ public:
   itkTypeMacro(FEMExceptionItpackSolver,FEMException);
   
 };
-
-
-
 }} // end namespace itk::fem
 
 #endif // #ifndef __itkFEMLinearSystemWrapperItpack_h
-
-

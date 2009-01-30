@@ -32,7 +32,7 @@ namespace fem {
  * configuration to a deformed configuration.
  */
 class LoadLandmark : public LoadElement {
-FEM_CLASS(LoadLandmark,LoadElement)
+  FEM_CLASS(LoadLandmark,LoadElement)
 public:
 
   /**
@@ -88,12 +88,12 @@ public:
    */
   Element::VectorType& GetSource()
     {
-      return m_source;
+    return m_source;
     }
 
   Element::VectorType& GetForce()
     {
-      return m_force;
+    return m_force;
     }
 
   /**
@@ -101,12 +101,14 @@ public:
    */
   void SetForce( const  vnl_vector<Float>& force)
     {
-      if (m_force.size() != force.size())
-  {
-    m_force.set_size(force.size());
-  }
-      for (unsigned int i=0; i<force.size(); i++)
-  m_force[i]=force[i];
+    if (m_force.size() != force.size())
+      {
+      m_force.set_size(force.size());
+      }
+    for (unsigned int i=0; i<force.size(); i++)
+      {
+      m_force[i]=force[i];
+      }
     }
 
 
@@ -115,12 +117,14 @@ public:
    */
   void SetSource( const  vnl_vector<Float>& source)
     {
-      if (m_source.size() != source.size())
-  {
-    m_source.set_size(source.size());
-  }
-      for (unsigned int i=0; i<source.size(); i++)
-  m_source[i]=source[i];
+    if (m_source.size() != source.size())
+      {
+      m_source.set_size(source.size());
+      }
+    for (unsigned int i=0; i<source.size(); i++)
+      {
+      m_source[i]=source[i];
+      }
     }
 
   /**
@@ -128,7 +132,7 @@ public:
    */
   const Element::VectorType& GetTarget() const
     {
-      return m_target;
+    return m_target;
     }
 
   /**
@@ -136,22 +140,23 @@ public:
    */
   void SetTarget( const  vnl_vector<Float>& target)
     {
-      if (m_target.size() != target.size())
-  {
-    m_target.set_size(target.size());
-  }
-      for (unsigned int i=0; i<target.size(); i++)
-  m_target[i]=target[i];
+    if (m_target.size() != target.size())
+      {
+      m_target.set_size(target.size());
+      }
+    for (unsigned int i=0; i<target.size(); i++)
+      {
+      m_target[i]=target[i];
+      }
     }
-
 
   void ScalePointAndForce( double* spacing, double fwt)
     {
     for (unsigned int i=0; i<m_target.size(); i++)
       {
-      m_target[i]/=spacing[i];
-      m_source[i]/=spacing[i];
-      this->eta*=fwt;
+      m_target[i] /= spacing[i];
+      m_source[i] /= spacing[i];
+      this->eta *= fwt;
       }
     }
 
@@ -174,14 +179,9 @@ public:
    * Default constructors
    */
   LoadLandmark() {}
-  //LoadLandmark( Element::ConstPointer el_, vnl_vector<Float> pu_ ) : m_pt(pu_), m_element(el_) {}
-
 };
 
 FEM_CLASS_INIT(LoadLandmark)
-
-
-
 
 }} // end namespace itk::fem
 

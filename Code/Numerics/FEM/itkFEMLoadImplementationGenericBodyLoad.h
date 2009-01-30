@@ -24,8 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
 /**
  * \class LoadImplementationGenericBodyLoad
  * \brief Class that holds a templated generic body load implementation.
@@ -56,20 +54,20 @@ public:
    */
   template<class TElementClassConstPointer>
   static void HandleLoad(TElementClassConstPointer e, Element::LoadPointer l, Element::VectorType& Fe)
-  {
+    {
     // Check if we really got a LoadGrav object
     LoadGrav::Pointer l0=dynamic_cast<LoadGrav*>(&*l);
     if ( !l0 )
-    {
+      {
       // Passed load object was not of class LoadGrav!
       throw FEMException(__FILE__, __LINE__, "FEM error");
-    }
+      }
 
     // Statically cast the passed pointer to the element base class and
     // call the real load implementation with the correct pointer types.
     // If cast fails, the passed pointer was of incompatible class.
     Implementation(static_cast<Element::ConstPointer>(e),l0,Fe);
-  }
+    }
 
 private:
   /**
@@ -87,9 +85,6 @@ private:
    */
   LoadImplementationGenericBodyLoad();
 };
-
-
-
 
 #ifdef _MSC_VER 
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

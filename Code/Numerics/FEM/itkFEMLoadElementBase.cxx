@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * Read the LoadElement object from input stream
  */
@@ -61,7 +58,8 @@ void LoadElement::Read( std::istream& f, void* info )
      * otherwise we read all the element numbers.
      * there should be n of them
      */
-    for(int i=0;i<n;i++) {
+    for(int i=0;i<n;i++)
+      {
       int m;
       this->SkipWhiteSpace(f); f>>m; if(!f) goto out;
       Element::ConstPointer e;
@@ -73,25 +71,20 @@ void LoadElement::Read( std::istream& f, void* info )
         {
         throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadElementBase::Read()",exc.m_baseClassName,exc.m_GN);
         }
-
+      
       el.push_back(e);
       
+      }
+    
     }
-
-  }
-  
-  
-out:
+  out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadElementBase::Read()","Error reading FEM load!");
-  }
+    }
 
 }
-
-
-
 
 /**
  * Write the LoadElement to the output stream
@@ -107,28 +100,27 @@ void LoadElement::Write( std::ostream& f ) const
   if (!el.empty())
     {
     f << "\t" <<static_cast<int>((el.size()));
-  f << "\t% # of elements on which the load acts" << std::endl;
+    f << "\t% # of elements on which the load acts" << std::endl;
     f << "\t";
-    for(ElementPointersVectorType::const_iterator i=el.begin(); i!=el.end(); i++) {
+    for(ElementPointersVectorType::const_iterator i=el.begin(); i != el.end(); i++)
+      {
       f<<((*i)->GN)<<" ";
+      }
+    f << "\t% GNs of elements" << std::endl;
     }
-  f << "\t% GNs of elements" << std::endl;
-  }
-  else {
+  else
+    {
     f << "\t-1\t% Load acts on all elements" << std::endl;
-  }
+    }
 
   /** check for errors */
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadElement::Write()","Error writing FEM load!");
-  }
+    }
 
 }
 
 FEM_CLASS_REGISTER(LoadElement)
-
-
-
 
 }} // end namespace itk::fem

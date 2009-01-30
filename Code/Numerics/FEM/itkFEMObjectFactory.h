@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkFEMFEMObjectFactory_h
-#define __itkFEMFEMObjectFactory_h
+#ifndef __itkFEMObjectFactory_h
+#define __itkFEMObjectFactory_h
 
 #include "itkFastMutexLock.h"
 #include <string>
@@ -24,9 +24,6 @@
 
 namespace itk {
 namespace fem {
-
-
-
 
 /**
  * \class FEMObjectFactory
@@ -89,9 +86,10 @@ public:
   /**
    * Create a new object based on class identifier id and return a pointer to it.
    */  
-  static typename T::Pointer Create(int id) {
+  static typename T::Pointer Create(int id)
+    {
     return (Instance().cofs_[id].first)();
-  }
+    }
 
   /**
    * Register the class with the factory. A pointer to a 'create'
@@ -100,22 +98,22 @@ public:
    * used to create objects of that class.
    */
   static int Register(COF f, const char *str)
-  {
+    {
     int clid=-1;
     Instance().m_MutexLock.Lock();
     Instance().cofs_.push_back( COF_Array_value_type(f,str) );
     clid = static_cast<int>( Instance().cofs_.size()-1 );
     Instance().m_MutexLock.Unlock();
     return clid;
-  }
+    }
 
   /**
    * Return the name of the class (as a string) for the given ID.
    */
   static StrClassName ID2ClassName(int id)
-  {
+    {
     return Instance().cofs_[id].second;
-  }
+    }
 
   /**
    * Find the ID of the class with specified name (this is a slow function).
@@ -124,14 +122,15 @@ public:
    * function.
    */
   static int ClassName2ID(StrClassName str)
-  {
+    {
     int j=0;
-    for(typename COF_Array::const_iterator i=Instance().cofs_.begin(); i!=Instance().cofs_.end(); i++) {
+    for(typename COF_Array::const_iterator i=Instance().cofs_.begin(); i != Instance().cofs_.end(); i++)
+      {
       if (i->second==str) return j;
       j++;
-    }
+      }
     return -1;
-  }
+    }
 
 private:
 
@@ -213,7 +212,7 @@ extern "C"
 }
 template<class T>
 FEMObjectFactory<T>& FEMObjectFactory<T>::Instance() 
-  {
+{
   if (!obj) 
     { 
     /**
@@ -233,13 +232,10 @@ FEMObjectFactory<T>& FEMObjectFactory<T>::Instance()
    * Return the actual FEMObjectFactory object
    */
   return *obj;
-  }
+}
 
 template<class T>
 void FEMObjectFactory<T>::CleanUP() { delete obj; }
-
-
-
 
 }} // end namespace itk::fem
 

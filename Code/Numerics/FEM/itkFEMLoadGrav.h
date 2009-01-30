@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadGrav
  * \brief Abstract gravity load class.
@@ -38,15 +35,12 @@ namespace fem {
  */
 class LoadGrav : public LoadElement
 {
-FEM_ABSTRACT_CLASS(LoadGrav,LoadElement)
+  FEM_ABSTRACT_CLASS(LoadGrav,LoadElement)
 public:
 
   virtual vnl_vector<Float> Fg(vnl_vector<Float>) = 0;
 
 };
-
-
-
 
 /**
  * \class LoadGravConst
@@ -57,12 +51,13 @@ public:
  */
 class LoadGravConst : public LoadGrav
 {
-FEM_CLASS(LoadGravConst,LoadGrav)
+  FEM_CLASS(LoadGravConst,LoadGrav)
 public:
   vnl_vector<Float> Fg_value;
-  virtual vnl_vector<Float> Fg(vnl_vector<Float>) {
+  virtual vnl_vector<Float> Fg(vnl_vector<Float>)
+    {
     return Fg_value;
-  };
+    }
 
   /**
    * Read an object from input stream.
@@ -77,9 +72,6 @@ public:
 };
 
 FEM_CLASS_INIT(LoadGravConst)
-
-
-
 
 }} // end namespace itk::fem
 

@@ -25,10 +25,7 @@
 namespace itk {
 namespace fem {
 
-
-
-
-/*
+/**
  * Handles LandmarkLoad on 2D linear quad stress element
  */
 void
@@ -61,7 +58,7 @@ LoadImplementationGenericLandmarkLoad
    // Calculate the new force
   
   load->m_force =  disp;
-  force =  (load->m_target-new_source) / load->eta ;
+  force =  (load->m_target-new_source) / load->eta;
  
 //  std::cout << " disp " << disp <<  std::endl;
   //force /= vcl_sqrt(fmag);
@@ -77,19 +74,12 @@ LoadImplementationGenericLandmarkLoad
   
   // Calculate the equivalent nodal loads
   for(unsigned int n=0; n < Nnodes; n++)
-  {      
-    for(unsigned int d=0; d < NnDOF; d++)
     {
-        Fe[n*NnDOF+d] += shapeF[n] * force[d];
+    for(unsigned int d=0; d < NnDOF; d++)
+      {
+      Fe[n*NnDOF+d] += shapeF[n] * force[d];
+      }
     }
-  }
-
- 
-
-  
 }
-
-
-
 
 }} // end namespace itk::fem

@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadNode
  * \brief This load is applied on a specific point within the system.
@@ -38,7 +35,7 @@ namespace fem {
  * element->GetNumberOfDegreesOfFreedomPerNode() dimensions.
  */
 class LoadNode : public Load {
-FEM_CLASS(LoadNode,Load)
+  FEM_CLASS(LoadNode,Load)
 public:
 
   typedef Node::Float Float;
@@ -76,9 +73,6 @@ public:
 };
 
 FEM_CLASS_INIT(LoadNode)
-
-
-
 
 }} // end namespace itk::fem
 

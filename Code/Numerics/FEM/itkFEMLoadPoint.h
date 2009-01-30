@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadPoint
  * \brief This load is applied on a point in an element.
@@ -34,7 +31,7 @@ namespace fem {
  * FIXME: To be implemented. Nothing works yet
  */
 class LoadPoint : public LoadElement {
-FEM_CLASS(LoadPoint,LoadElement)
+  FEM_CLASS(LoadPoint,LoadElement)
 public:
 
   /**
@@ -56,9 +53,6 @@ public:
 };
 
 FEM_CLASS_INIT(LoadPoint)
-
-
-
 
 }} // end namespace itk::fem
 

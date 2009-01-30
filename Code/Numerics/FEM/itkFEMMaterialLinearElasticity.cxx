@@ -25,30 +25,25 @@
 namespace itk {
 namespace fem {
 
-
-
-
-/*
+/**
  * Default constructor
  */
 MaterialLinearElasticity::MaterialLinearElasticity() :
   E(100.0), A(1.0), I(1.0), nu(0.2), h(1.0), RhoC(1.0)
 {}
 
-
-
-
-/*
+/**
  * Read Linear elasticity material object form stream
  */
-void MaterialLinearElasticity::Read(std::istream& f, void* info) {
+void MaterialLinearElasticity::Read(std::istream& f, void* info)
+{
 
-double d;
+  double d;
 
-std::streampos l(0);
-char buf[256];
-std::string s;
-std::string::size_type b,e;
+  std::streampos l(0);
+  char buf[256];
+  std::string s;
+  std::string::size_type b,e;
   
   // first call the parent's read function
   Superclass::Read(f, info);
@@ -61,23 +56,27 @@ std::string::size_type b,e;
    * specify only constants which are actually required by elements in
    * a system. This makes creating input files a bit easier.
    */
-  while(f) {
+  while(f)
+    {
 #ifndef __sgi
     l=f.tellg();            // remember the stream position
 #endif
     this->SkipWhiteSpace(f);      // skip comments and whitespaces
 
-    /*
+    /**
      * All Constants are in the following format:
      *    constant_name : value
      */
     f.getline(buf,256,':');  // read up to 256 characters until ':' is reached. we read and discard the ':'
-    if (!f) { goto out; }    // no : was found
+    if (!f)
+      {
+      goto out;
+      }    // no : was found
     s=std::string(buf);
 
     // Get rid of the whitespaces in front of and the back of token
     b=s.find_first_not_of(whitespaces);    // end of whitespaces in the beginning 
-    if ( (e=s.find_first_of(whitespaces,b))==std::string::npos )  // beginning of whitespaces at the end
+    if ( (e=s.find_first_of(whitespaces,b)) == std::string::npos )  // beginning of whitespaces at the end
       e=s.size();
 
     /*
@@ -86,49 +85,55 @@ std::string::size_type b,e;
      */
     s=s.substr(b,e-b);
     
-    if (s=="E") {
+    if (s=="E")
+      {
       f>>d; if(!f) goto out;
       E=d;
       continue;
-    }
+      }
 
-    if (s=="A") {
+    if (s=="A")
+      {
       f>>d; if(!f) goto out;
       A=d;
       continue;
-    }
+      }
 
-    if (s=="I") {
+    if (s=="I")
+      {
       this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       I=d;
       continue;
-    }
+      }
 
-    if (s=="nu") {
+    if (s=="nu")
+      {
       this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       nu=d;
       continue;
-    }
+      }
 
-    if (s=="h") {
+    if (s=="h")
+      {
       this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       h=d;
       continue;
-    }
+      }
 
-    if (s=="RhoC") {
+    if (s=="RhoC")
+      {
       this->SkipWhiteSpace(f); f>>d; if(!f) goto out;
       RhoC=d;
       continue;
-    }
+      }
 
-    if (s=="END") {
+    if (s=="END")
+      {
       // End of constants in material definition
       goto out;
-    }
+      }
 
-
-    /*
+    /**
      * If we got here an unknown constant was reached.
      * We reset the stream position and set the stream error.
      */
@@ -136,21 +141,18 @@ std::string::size_type b,e;
     f.seekg(l);
     f.clear(std::ios::failbit);
 #endif
-  }
+    }
 
 out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"MaterialLinearElasticity::Read()","Error reading FEM material!");
-  }
+    }
 
 }
 
-
-
-
-/*
+/**
  * Write linear elasticity material object to stream
  */
 void MaterialLinearElasticity::Write( std::ostream& f ) const
@@ -169,15 +171,12 @@ void MaterialLinearElasticity::Write( std::ostream& f ) const
 
   // check for errors
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"MaterialLinearElasticity::Write()","Error writing FEM material!");
-  }
-
+    }
+  
 }
 
 FEM_CLASS_REGISTER(MaterialLinearElasticity)
-
-
-
 
 }} // end namespace itk::fem

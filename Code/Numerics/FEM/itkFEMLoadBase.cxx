@@ -25,7 +25,4 @@
 namespace itk {
 namespace fem {
 
-
-
-
 }} // end namespace itk::fem

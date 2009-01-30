@@ -25,14 +25,11 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /** Read the LoadBC object from input stream */
 void LoadBC::Read( std::istream& f, void* info )
 {
   unsigned int n;
-  /*
+  /**
    * Convert the info pointer to a usable objects
    */
   ReadInfoType::ElementArrayPointer elements=static_cast<ReadInfoType*>(info)->m_el;
@@ -44,14 +41,14 @@ void LoadBC::Read( std::istream& f, void* info )
   /* read and set pointer to element that we're applying the load to */
   this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
   try
-  {
+    {
     this->m_element=dynamic_cast<const Element*>( &*elements->Find(n) );
-  }
+    }
   catch ( FEMExceptionObjectNotFound e )
-  {
+    {
     throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadBC::Read()",e.m_baseClassName,e.m_GN);
-  }
-
+    }
+  
   /* read the local DOF number within that element */
   this->SkipWhiteSpace(f); f>>this->m_dof; if(!f) goto out;
 
@@ -60,12 +57,12 @@ void LoadBC::Read( std::istream& f, void* info )
   this->m_value.set_size(n);
   this->SkipWhiteSpace(f); f>>this->m_value; if(!f) goto out;
 
-out:
+  out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadBC::Read()","Error reading FEM load!");
-  }
+    }
 
 }
 
@@ -90,15 +87,12 @@ void LoadBC::Write( std::ostream& f ) const
 
   /* check for errors */
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadBC::Write()","Error writing FEM load!");
-  }
+    }
 
 }
 
 FEM_CLASS_REGISTER(LoadBC)
-
-
-
 
 }} // end namespace itk::fem

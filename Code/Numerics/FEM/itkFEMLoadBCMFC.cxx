@@ -25,9 +25,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * Fix a DOF to a prescribed value
  */
@@ -39,9 +36,6 @@ LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element:
   lhs.push_back( MFCTerm(element, dof, 1.0) );
   rhs=val;
 }
-
-
-
 
 /** Read the LoadBCMFC object from input stream */
 void LoadBCMFC::Read( std::istream& f, void* info )
@@ -62,18 +56,18 @@ void LoadBCMFC::Read( std::istream& f, void* info )
   
   lhs.clear();
   for(int i=0; i<nlhs; i++) 
-  {
+    {
     /** read and set pointer to element that we're applying the load to */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
     Element::ConstPointer element;
     try
-    {
+      {
       element=dynamic_cast<const Element*>( &*elements->Find(n));
-    }
+      }
     catch ( FEMExceptionObjectNotFound e )
-    {
+      {
       throw FEMExceptionObjectNotFound(__FILE__,__LINE__,"LoadBCMFC::Read()",e.m_baseClassName,e.m_GN);
-    }
+      }
 
     /** read the number of dof within that element */
     this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
@@ -83,7 +77,7 @@ void LoadBCMFC::Read( std::istream& f, void* info )
 
     /** add a new MFCTerm to the lhs */
     lhs.push_back( MFCTerm(element, n, d) );
-  }
+    }
 
   /** read the rhs */
   this->SkipWhiteSpace(f); f>>n; if(!f) goto out;
@@ -93,9 +87,9 @@ void LoadBCMFC::Read( std::istream& f, void* info )
 out:
 
   if( !f )
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Read()","Error reading FEM load!");
-  }
+    }
 
 }
 
@@ -117,13 +111,13 @@ void LoadBCMFC::Write( std::ostream& f ) const
 
   /** write each term */
   f << "\t  %==>\n";
-  for(LhsType::const_iterator q=lhs.begin(); q!=lhs.end(); q++) 
-  {
+  for(LhsType::const_iterator q=lhs.begin(); q != lhs.end(); q++) 
+    {
     f << "\t  "<<q->m_element->GN<<"\t% GN of element" << std::endl;
     f << "\t  "<<q->dof<<"\t% DOF# in element" << std::endl;
     f << "\t  "<<q->value<<"\t% weight" << std::endl;
     f << "\t  %==>\n";
-  }
+    }
 
   /** write the rhs */
   f << "\t" << static_cast<int>( rhs.size() );
@@ -131,15 +125,12 @@ void LoadBCMFC::Write( std::ostream& f ) const
 
   /** check for errors */
   if (!f)
-  {
+    {
     throw FEMExceptionIO(__FILE__,__LINE__,"LoadBCMFC::Write()","Error writing FEM load!");
-  }
+    }
 
 }
 
 FEM_CLASS_REGISTER(LoadBCMFC)
-
-
-
 
 }} // end namespace itk::fem

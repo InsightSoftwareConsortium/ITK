@@ -23,9 +23,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadElement
  * \brief Virtual element load base class.
@@ -43,7 +40,7 @@ namespace fem {
  */
 class LoadElement : public Load
 {
-FEM_CLASS(LoadElement,Load)
+  FEM_CLASS(LoadElement,Load)
 public:
   /**
    * Float type used in Element and derived classes
@@ -65,9 +62,6 @@ public:
 };
 
 FEM_CLASS_INIT(LoadElement)
-
-
-
 
 }} // end namespace itk::fem
 

@@ -24,8 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
 /**
  * \class LoadImplementationGenericLandmarkLoad
  * \brief Class that holds a templated generic landmark load implementation.
@@ -37,20 +35,20 @@ class LoadImplementationGenericLandmarkLoad
 public:
   template<class TElementClassConstPointer>
   static void HandleLoad(TElementClassConstPointer e, Element::LoadPointer l, Element::VectorType& Fe)
-  {
+    {
     // Check if we really got an object of correct class
     LoadLandmark::Pointer l0=dynamic_cast<LoadLandmark*>(&*l);
     if ( !l0 )
-    {
+      {
       // Class of passed load object was not compatible!
       throw FEMException(__FILE__, __LINE__, "FEM error");
-    }
+      }
 
     // Statically cast the passed pointer to the element base class and
     // call the real load implementation with the correct pointer types.
     // If cast fails, the passed pointer was of incompatible class.
     Implementation(static_cast<Element::ConstPointer>(e),l0,Fe);
-  }
+    }
 
 private:
   /**
@@ -68,9 +66,6 @@ private:
    */
   LoadImplementationGenericLandmarkLoad();
 };
-
-
-
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

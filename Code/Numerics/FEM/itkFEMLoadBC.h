@@ -22,9 +22,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadBC
  * \brief Generic essential (Dirichlet) boundary conditions.
@@ -33,18 +30,18 @@ namespace fem {
  */
 class LoadBC : public Load
 {
-FEM_CLASS(LoadBC,Load)
+  FEM_CLASS(LoadBC,Load)
 public:
 
   /**
    * Pointer to an element, which holds the DOF that is affected
    * by boundary condition.
    */
-  Element::ConstPointer m_element;
+Element::ConstPointer m_element;
 
   /**
    * Local DOF number within the Element object.
-   */    
+   */
   unsigned int m_dof;
 
   /**
@@ -69,9 +66,6 @@ public:
 };
 
 FEM_CLASS_INIT(LoadBC)
-
-
-
 
 }} // end namespace itk::fem
 

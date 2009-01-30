@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadEdge
  * \brief A generic load that can be applied to an edge of the element.
@@ -38,7 +35,7 @@ namespace fem {
  */
 class LoadEdge : public LoadElement
 {
-FEM_CLASS(LoadEdge,LoadElement)
+  FEM_CLASS(LoadEdge,LoadElement)
 public:
   /** 
    * Read a Load object from input stream.
@@ -79,9 +76,6 @@ public:
 };
 
 FEM_CLASS_INIT(LoadEdge)
-
-
-
 
 }} // end namespace itk::fem
 

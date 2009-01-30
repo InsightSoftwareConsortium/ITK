@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class LoadImplementationTest
  * \brief Example implementation of templated LoadTest class.
@@ -62,7 +59,7 @@ public:
     std::cout<<"Load object's data:"<<l0->data<<"\n";
   }
 private:
-  static const bool registered;
+  static const bool m_Registered;
 };
 
 // When the templated load implementation function is instantiated,
@@ -71,12 +68,9 @@ private:
 // Instantiating the implementation function will also instantiate the
 // corresponding Load class.
 template<class TLoadClass>
-const bool LoadImplementationTest<TLoadClass>::registered=
+const bool LoadImplementationTest<TLoadClass>::m_Registered=
   VisitorDispatcher<Element2DC0LinearLineStress,Element::LoadType,Element2DC0LinearLineStress::LoadImplementationFunctionPointer>
   ::RegisterVisitor((TLoadClass*)0, &LoadImplementationTest<TLoadClass>::impl);
-
-
-
 
 }} // end namespace itk::fem
 

@@ -46,9 +46,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /* This macro makes registering Load implementations easier. */
 #define REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName) \
   { ElementClass::LoadImplementationFunctionPointer fp=&FunctionName; \
@@ -59,9 +56,6 @@ namespace fem {
 #define REGISTER_LOAD(ElementClass,LoadClass,FunctionName) \
   extern void FunctionName(ElementClass::ConstPointer, ElementClass::LoadPointer, ElementClass::VectorType& ); \
   REGISTER_LOAD_EX(ElementClass,LoadClass,FunctionName)
-
-
-
 
 /**
  * Registers all Load classes in the FEM library with VisitorDispatcher.
@@ -118,8 +112,5 @@ void LoadImplementationsRegister(void)
   // Make sure that the pointer to the visit function is the correct one!!!
 
 }
-
-
-
 
 }} // end namespace itk::fem

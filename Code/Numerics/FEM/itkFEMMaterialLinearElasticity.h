@@ -23,9 +23,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class MaterialLinearElasticity
  * \brief Linear elasticity material class
@@ -84,9 +81,6 @@ public:
 };
 
 FEM_CLASS_INIT(MaterialLinearElasticity)
-
-
-
 
 }} // end namespace itk::fem
 

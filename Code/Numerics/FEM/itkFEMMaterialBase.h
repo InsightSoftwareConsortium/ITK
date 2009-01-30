@@ -24,9 +24,6 @@
 namespace itk {
 namespace fem {
 
-
-
-
 /**
  * \class Material
  * \brief Base class for storing all the implicit material and other properties
@@ -44,7 +41,7 @@ namespace fem {
  */
 class Material : public FEMLightObject
 {
-FEM_ABSTRACT_CLASS(Material,FEMLightObject)
+  FEM_ABSTRACT_CLASS(Material,FEMLightObject)
 public:
   /**
    * Array class that holds special pointers to objects of all Material classes
@@ -52,9 +49,6 @@ public:
   typedef FEMPArray<Self> ArrayType;
 
 };
-
-
-
 
 }} // end namespace itk::fem
 

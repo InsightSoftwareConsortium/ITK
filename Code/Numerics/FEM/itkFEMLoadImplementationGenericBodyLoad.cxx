@@ -25,10 +25,7 @@
 namespace itk {
 namespace fem {
 
-
-
-
-/*
+/**
  * Handle LoadGrav in element by integrating over the element domain.
  * This implementation requires that the element has the shape functions
  * and integration routines defined.
@@ -50,7 +47,7 @@ LoadImplementationGenericBodyLoad
   const unsigned int Nnodes=element->GetNumberOfNodes();
 
   Element::VectorType force(Ndofs,0.0),
-                      ip,gip,force_tmp,shapeF;
+    ip,gip,force_tmp,shapeF;
 
   Fe.set_size(element->GetNumberOfDegreesOfFreedom());
   Fe.fill(0.0);
@@ -58,7 +55,7 @@ LoadImplementationGenericBodyLoad
   Element::Float w,detJ;
 
   for(unsigned int i=0; i<Nip; i++)
-  {
+    {
     element->GetIntegrationPointAndWeight(i,ip,w,order);
     gip=element->GetGlobalFromLocalCoordinates(ip);
 
@@ -73,23 +70,25 @@ LoadImplementationGenericBodyLoad
     // FIXME: Maybe Fg function should be declared as const in LoadGrav.
     force_tmp=load->Fg(gip);
     unsigned int Nd=Ndofs;
-    if(force_tmp.size()<Nd) { Nd=force_tmp.size(); }
-    for(unsigned int d=0; d<Nd; d++) { force[d] = force_tmp[d]; }
+    if(force_tmp.size()<Nd)
+      {
+      Nd=force_tmp.size();
+      }
+    for(unsigned int d=0; d<Nd; d++)
+      {
+      force[d] = force_tmp[d];
+      }
 
     // Claculate the equivalent nodal loads
     for(unsigned int n=0; n<Nnodes; n++)
-    {
-      for(unsigned int d=0; d<Ndofs; d++)
       {
-        Fe[n*Ndofs+d]+=shapeF[n]*force[d]*w*detJ;
+      for(unsigned int d=0; d<Ndofs; d++)
+        {
+        Fe[n*Ndofs+d] += shapeF[n]*force[d]*w*detJ;
+        }
       }
     }
 
-  }
-
 }
-
-
-
 
 }} // end namespace itk::fem

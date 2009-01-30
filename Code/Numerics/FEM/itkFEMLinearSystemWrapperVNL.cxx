@@ -280,11 +280,10 @@ void LinearSystemWrapperVNL::MultiplyMatrixVector(unsigned int ResultVectorIndex
 void LinearSystemWrapperVNL::ScaleMatrix(Float scale, unsigned int matrixIndex)
 {
   for ( ((*m_Matrices)[matrixIndex])->reset(); ((*m_Matrices)[matrixIndex])->next(); )
-  {
+    {
     (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() ) 
       = scale * (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() );
-  }
-
+    }
 }
 
 
@@ -292,17 +291,17 @@ LinearSystemWrapperVNL::~LinearSystemWrapperVNL()
 {
   unsigned int i;
   for (i=0; i<m_NumberOfMatrices; i++)
-  {
+    {
     this->DestroyMatrix(i);
-  }
+    }
   for (i=0; i<m_NumberOfVectors; i++)
-  {
+    {
     this->DestroyVector(i);
-  }
+    }
   for (i=0; i<m_NumberOfSolutions; i++)
-  {
+    {
     this->DestroySolution(i);
-  }
+    }
 
   delete m_Matrices;
   delete m_Vectors;

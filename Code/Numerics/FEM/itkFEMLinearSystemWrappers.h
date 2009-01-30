@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkFEMLinearSystemWrappers_h
+#define __itkFEMLinearSystemWrappers_h
 
 /**
  * \file itkFEMLinearSystemWrappers.h
@@ -25,3 +27,4 @@
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
+#endif

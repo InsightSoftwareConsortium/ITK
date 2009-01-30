@@ -106,6 +106,4 @@ private:
 
 }} // end namespace itk::fem
 
-#endif // #ifndef __itkFEMLinearSystemWrapperVNL_h
-
-
+#endif
