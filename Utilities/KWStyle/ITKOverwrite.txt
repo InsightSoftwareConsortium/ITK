@@ -63,5 +63,8 @@ itkFEMMacro.h Indent Disable
 itkFEMObjectFactory.h InternalVariables Disable
 itkFEMObjectFactory.h Typedefs Disable
 itkFEMMaterialLinearElasticity.h InternalVariables Disable
-
+itkFEMSolverCrankNicolson.h InternalVariables Disable
+itkFEMSolver.h InternalVariables Disable
+itkFEMSolverHyperbolic.h InternalVariables Disable
+itkFEMUtility.h InternalVariables Disable
 
