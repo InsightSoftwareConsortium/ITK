@@ -830,8 +830,16 @@ void MetaImageIO::Read(void* buffer)
 { 
   // Pass the IO region to the MetaImage library
   unsigned int nDims = this->GetNumberOfDimensions();
-
-  if(m_UseStreamedReading)
+  
+  // this is a check to see if we are actually streaming
+  ImageIORegion largestRegion(nDims);
+  for(unsigned int i=0; i<nDims; i++)
+    {
+    largestRegion.SetIndex(i, 0);
+    largestRegion.SetSize(i, this->GetDimensions(i));
+    }
+  
+  if(largestRegion != m_IORegion)
     {
     int* indexMin = new int[nDims];
     int* indexMax = new int[nDims];
@@ -1306,11 +1314,19 @@ MetaImageIO
   
   m_MetaImage.CompressedData( m_UseCompression );
 
-  if( m_UseCompression && m_UseStreamedWriting )
+  // this is a check to see if we are actually streaming
+  ImageIORegion largestRegion(nDims);
+  for(i=0; i<nDims; i++)
+    {
+    largestRegion.SetIndex(i, 0);
+    largestRegion.SetSize(i, this->GetDimensions(i));
+    }
+  
+  if( m_UseCompression && (largestRegion != m_IORegion) )
     {
     std::cout << "Compression in use: cannot stream the file writing" << std::endl;
     }
-  else if( m_UseStreamedWriting )
+  else if(  largestRegion != m_IORegion )
     {
     int* indexMin = new int[nDims];
     int* indexMax = new int[nDims];
@@ -1364,6 +1380,127 @@ MetaImageIO
   return streamableRegion;
 }
  
+unsigned int 
+MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
+                                               const ImageIORegion &pasteRegion,
+                                               const ImageIORegion &largestPossibleRegion) 
+{ 
+  if (this->GetUseCompression()) 
+    {
+    // we can not stream or paste with compression
+    if (pasteRegion != largestPossibleRegion) 
+      {
+      itkExceptionMacro("Pasting and compression is not supported! Can't write:" << this->GetFileName());
+      }
+    else if (numberOfRequestedSplits != 1)  
+      {
+      itkDebugMacro("Requested streaming and compression");
+      itkDebugMacro("Meta IO is not streaming now!");
+      }
+     return 1;
+    }
 
+  if (!itksys::SystemTools::FileExists( m_FileName.c_str() )) 
+    {
+    // file doesn't exits so we don't have potential problems
+    }
+  else if (pasteRegion != largestPossibleRegion) 
+    {
+    // we are going to be pasting (may be streaming too)
+
+    // need to check to see if the file is compatible
+    std::string errorMessage;
+    Pointer headerImageIOReader = Self::New();
+
+    try 
+      {
+      headerImageIOReader->SetFileName(m_FileName.c_str());
+      headerImageIOReader->ReadImageInformation();
+      }
+    catch (...)
+      {
+      errorMessage = "Unable to read information from file: " + m_FileName;
+      }
+
+    
+    
+    // we now need to check that the following match:
+    // 1)file is not compressed
+    // 2)pixel type
+    // 3)dimensions
+    // 4)size/origin/spacing
+    // 5)direction cosines
+    // 
+
+    if (errorMessage.size()) 
+      {
+      // 0) Can't read file
+      }
+    // 1)file is not compressed
+    else if (headerImageIOReader->m_MetaImage.CompressedData()) 
+      {
+      errorMessage = "File is compressed: " + m_FileName;
+      }
+    // 2)pixel type
+    else if (headerImageIOReader->GetPixelType() != this->GetPixelType() ||
+             headerImageIOReader->GetNumberOfComponents() != this->GetNumberOfComponents() ||
+             headerImageIOReader->GetComponentType() != this->GetComponentType()) 
+      {
+      errorMessage = "Component type does not match in file: " + m_FileName;
+      }
+    // 3)dimensions/size
+    else if (headerImageIOReader->GetNumberOfDimensions() != this->GetNumberOfDimensions()) 
+      {
+      errorMessage = "Dimensions does not match in file: " + m_FileName;
+      }
+    else 
+      {
+      for (unsigned int i = 0; i < this->GetNumberOfDimensions(); ++i) 
+        {
+        // 4)size/origin/spacing
+        if (headerImageIOReader->GetDimensions(i) != this->GetDimensions(i) ||
+            headerImageIOReader->GetSpacing(i) != this->GetSpacing(i) ||
+            headerImageIOReader->GetOrigin(i) != this->GetOrigin(i))
+          {
+          errorMessage = "Size, spacing or origin does not match in file: " + m_FileName;
+          break;
+          }
+        // 5)direction cosines
+        if (headerImageIOReader->GetDirection(i) != this->GetDirection(i)) 
+          {
+          errorMessage = "Direction cosines does not match in file: " + m_FileName;
+          break;
+          }
+        }
+      }
+    
+    if (errorMessage.size()) 
+      {
+      itkExceptionMacro("Unable to paste because pasting file exists and is different. " << errorMessage);
+      }
+    }
+  else if (numberOfRequestedSplits != 1)  
+    {
+    // we are going be streaming
+    
+    // need to remove the file incase the file doesn't match out
+    // current header/meta data information
+    if (!itksys::SystemTools::RemoveFile(m_FileName.c_str()))
+      itkExceptionMacro("Unable to remove file for streaming: " << m_FileName);
+    }
+
+  return GetActualNumberOfSplitsForWritingCanStreamWrite(numberOfRequestedSplits, pasteRegion);
+}
+
+
+ImageIORegion 
+MetaImageIO::GetSplitRegionForWriting(unsigned int ithPiece, 
+                                      unsigned int numberOfActualSplits,
+                                      const ImageIORegion &pasteRegion,
+                                      const ImageIORegion &largestPossibleRegion)
+{
+
+  return GetSplitRegionForWritingCanStreamWrite(ithPiece, numberOfActualSplits, pasteRegion);
+}
 
 } // end namespace itk

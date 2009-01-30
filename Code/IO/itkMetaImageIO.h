@@ -105,6 +105,18 @@ public:
   virtual ImageIORegion 
   GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const;
 
+  
+  virtual unsigned int 
+  GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
+                                    const ImageIORegion &pasteRegion,
+                                    const ImageIORegion &largestPossibleRegion);
+   
+  virtual ImageIORegion 
+  GetSplitRegionForWriting(unsigned int ithPiece, 
+                           unsigned int numberOfActualSplits,
+                           const ImageIORegion &pasteRegion,
+                           const ImageIORegion &largestPossibleRegion);
+
   /** Determine if the ImageIO can stream reading from this
    *  file. Only time cannot stream read/write is if compression is used.
    *  CanRead must be called prior to this function. */
