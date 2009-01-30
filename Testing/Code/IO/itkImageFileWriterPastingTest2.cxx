@@ -25,7 +25,35 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkDifferenceImageFilter.h"
+#include "itkExtractImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
+
+
+typedef unsigned char            PixelType;
+typedef itk::Image<PixelType,3>   ImageType;
+
+bool SameImage(ImageType::Pointer testImage, ImageType::Pointer baselineImage) {
+  
+  double intensityTolerance = 0.0;
+  unsigned int radiusTolerance = 0.0;
+  unsigned int numberOfPixelTolerance = 0;
+    
+  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  DiffType::Pointer diff = DiffType::New();
+  diff->SetValidInput(baselineImage);
+  diff->SetTestInput(testImage);
+  diff->SetDifferenceThreshold( intensityTolerance );
+  diff->SetToleranceRadius( radiusTolerance );
+  diff->UpdateLargestPossibleRegion();
+
+   unsigned long status = 0;
+   status = diff->GetNumberOfPixelsWithDifferences();
+
+   if (status > numberOfPixelTolerance)
+     return false;
+   return true;
+}
 
 int itkImageFileWriterPastingTest2(int argc, char* argv[])
 {
@@ -46,8 +74,6 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
       itksys::SystemTools::CopyAFile(argv[3], argv[2]);
     } 
 
-  typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType,3>   ImageType;
 
   typedef itk::ImageFileReader<ImageType>         ReaderType;
   typedef itk::ImageFileWriter< ImageType >  WriterType;
@@ -72,7 +98,7 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
   pasteSize[0] = largestRegion.GetSize()[0]/3;
   pasteSize[1] = largestRegion.GetSize()[1]/3;
   pasteSize[2] = largestRegion.GetSize()[2]/3;
-
+  ImageType::RegionType pasteRegion(pasteIndex, pasteSize);
   
   typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
@@ -105,23 +131,40 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
     }
   catch( itk::ExceptionObject & err )
     {
-      if (argc >= 4 && strcmp(argv[4], "keep") )
-        {
-          // we expect this to fail
-          return EXIT_SUCCESS;
-        }
-      std::cerr << "ExceptionObject caught !" << std::endl;
+    
+      std::cerr << "ExceptionObject caught !" << std::endl;      
       std::cerr << err << std::endl;
+      if (argc > 3) 
+        {
+        return EXIT_SUCCESS;
+        }
       return EXIT_FAILURE;
     }
    
   //check that the pipeline executed as expected
   if (monitor->GetNumberOfUpdates() != 1) {
     std::cerr << "pipeline did not execute as expected" << std::endl;
+    
+    std::cout << monitor;
     return EXIT_FAILURE;
   }
   
-  std::cout << monitor;
+  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
+  ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
+  extractBaselineImage->SetInput(reader->GetOutput());
+  extractBaselineImage->SetExtractionRegion(pasteRegion);
+
+  ReaderType::Pointer readerTestImage = ReaderType::New();
+  readerTestImage->SetFileName( argv[2] );
+  ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();  
+  extractTestImage->SetInput(readerTestImage->GetOutput());
+  extractTestImage->SetExtractionRegion(pasteRegion);
+
+  if (!SameImage(extractTestImage->GetOutput(), extractBaselineImage->GetOutput())) 
+    {
+    std::cerr << "input paste and output paste regions don't match!\n";
+    return EXIT_FAILURE;
+    }
   
   return EXIT_SUCCESS;
 }
