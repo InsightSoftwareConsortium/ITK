@@ -35,9 +35,9 @@ typedef itk::Image<PixelType,3>   ImageType;
 
 bool SameImage(ImageType::Pointer testImage, ImageType::Pointer baselineImage) {
   
-  double intensityTolerance = 0.0;
-  unsigned int radiusTolerance = 0.0;
-  unsigned int numberOfPixelTolerance = 0;
+  PixelType intensityTolerance = 0;
+  int radiusTolerance = 0;
+  unsigned long numberOfPixelTolerance = 0;
     
   typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
   DiffType::Pointer diff = DiffType::New();
