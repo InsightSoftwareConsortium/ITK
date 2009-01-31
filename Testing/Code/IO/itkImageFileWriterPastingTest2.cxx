@@ -29,12 +29,12 @@
 #include "itkExtractImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
 
-
 typedef unsigned char            PixelType;
-typedef itk::Image<PixelType,3>   ImageType;
+typedef itk::Image<PixelType,3>  ImageType;
+typedef ImageType::Pointer       ImagePointer;
 
-bool SameImage(ImageType::Pointer testImage, ImageType::Pointer baselineImage) {
-  
+bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
+{
   PixelType intensityTolerance = 0;
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
@@ -47,12 +47,14 @@ bool SameImage(ImageType::Pointer testImage, ImageType::Pointer baselineImage) {
   diff->SetToleranceRadius( radiusTolerance );
   diff->UpdateLargestPossibleRegion();
 
-   unsigned long status = 0;
-   status = diff->GetNumberOfPixelsWithDifferences();
+  unsigned long status = diff->GetNumberOfPixelsWithDifferences();
 
-   if (status > numberOfPixelTolerance)
-     return false;
-   return true;
+  if (status > numberOfPixelTolerance)
+    {
+    return false;
+    }
+
+  return true;
 }
 
 int itkImageFileWriterPastingTest2(int argc, char* argv[])
@@ -66,12 +68,12 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
   // We remove the output file
   if (argc == 3)
     {
-      itksys::SystemTools::RemoveFile(argv[2]); 
+    itksys::SystemTools::RemoveFile(argv[2]); 
     } 
   else 
     {
-      // copy this file to over write
-      itksys::SystemTools::CopyAFile(argv[3], argv[2]);
+    // copy this file to over write
+    itksys::SystemTools::CopyAFile(argv[3], argv[2]);
     } 
 
 
@@ -88,7 +90,6 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
 
   ImageType::RegionType largestRegion;
   largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  
   
   ImageType::IndexType pasteIndex;
   pasteIndex[0] = largestRegion.GetIndex()[0]+largestRegion.GetSize()[0]/3;
@@ -123,31 +124,31 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
   size.push_back(pasteSize[2]);
   ioregion.SetSize(size);
   writer->SetIORegion(ioregion);
-  
     
   try
     {
-      writer->Update();
+    writer->Update();
     }
   catch( itk::ExceptionObject & err )
     {
     
-      std::cerr << "ExceptionObject caught !" << std::endl;      
-      std::cerr << err << std::endl;
-      if (argc > 3) 
-        {
-        return EXIT_SUCCESS;
-        }
-      return EXIT_FAILURE;
+    std::cerr << "ExceptionObject caught !" << std::endl;      
+    std::cerr << err << std::endl;
+    if (argc > 3) 
+      {
+      return EXIT_SUCCESS;
+      }
+    return EXIT_FAILURE;
     }
    
   //check that the pipeline executed as expected
-  if (monitor->GetNumberOfUpdates() != 1) {
+  if (monitor->GetNumberOfUpdates() != 1)
+    {
     std::cerr << "pipeline did not execute as expected" << std::endl;
     
     std::cout << monitor;
     return EXIT_FAILURE;
-  }
+    }
   
   typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
   ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
@@ -165,6 +166,6 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
     std::cerr << "input paste and output paste regions don't match!\n";
     return EXIT_FAILURE;
     }
-  
+
   return EXIT_SUCCESS;
 }
