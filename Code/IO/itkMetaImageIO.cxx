@@ -1497,7 +1497,7 @@ ImageIORegion
 MetaImageIO::GetSplitRegionForWriting(unsigned int ithPiece, 
                                       unsigned int numberOfActualSplits,
                                       const ImageIORegion &pasteRegion,
-                                      const ImageIORegion &largestPossibleRegion)
+                                      const ImageIORegion &itkNotUsed(largestPossibleRegion) )
 {
 
   return GetSplitRegionForWritingCanStreamWrite(ithPiece, numberOfActualSplits, pasteRegion);
