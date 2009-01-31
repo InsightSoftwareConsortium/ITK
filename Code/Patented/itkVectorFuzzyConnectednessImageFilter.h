@@ -27,10 +27,10 @@
 #define MAX_SCALE 8
 
 
-namespace itk{
+namespace itk {
 
 /** \class VectorFuzzyConnectednessImageFilter
- *    
+ *
  * The purpose of our program is to segment an object of interest in
  * vectorial images using fuzzy connectedness principles. Here is a very
  * brief description of these principles.
@@ -163,10 +163,10 @@ class ITK_EXPORT VectorFuzzyConnectednessImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorFuzzyConnectednessImageFilter       Self;
+  typedef VectorFuzzyConnectednessImageFilter            Self;
   typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-  typedef SmartPointer <Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer <Self>                            Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -175,8 +175,8 @@ public:
   itkTypeMacro(VectorFuzzyConnectednessImageFilter,ImageToImageFilter);
 
   /** Extract the image and vector types from the template parameters. */
-  typedef typename TInputImage::PixelType InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TInputImage::PixelType     InputPixelType;
+  typedef typename TOutputImage::PixelType    OutputPixelType;
   typedef typename InputPixelType::VectorType InputVectorType;
 
   /** Extract the image and vector dimension from the template parameters. */
@@ -191,7 +191,7 @@ public:
   /** Array of double matrics */
   typedef std::vector<DoubleMatrixType>            DoubleMatrixArrayType;
 
-  /** Vector of unsigned sStrong affinity type*/
+  /** Vector of unsigned sStrong affinity type */
   typedef   Vector<unsigned short,itkGetStaticConstMacro(ImageDimension)>  AffinityVector;
 
   /** Vector of double type */
@@ -212,7 +212,7 @@ public:
   typedef   typename TInputImage::SizeType         SizeType;
   typedef   typename TOutputImage::RegionType      OutRegionType;
 
-  /** List of Seeds type*/
+  /** List of Seeds type */
   typedef   std::list<IndexType>                   ListSeedType;
 
   /** Array of Lists */
@@ -238,17 +238,17 @@ public:
 
   /** Setting the flag to suppress background. */
   void SetSuppressBckgFlag(const int flag)
-  {
+    {
     m_SuppressBckgFlag = flag;
-  }
+    }
 
   /** Setting the threshold of strength of fuzzy connectedness 
-  *   if user selects absolute FC algorighm
-  */
+   *   if user selects absolute FC algorighm
+   */
   void SetThreshold(const float threshold)
-  {
+    {
     m_Threshold = threshold;
-  }
+    }
 
   /** Allocate the variate in terms of the number of Objects */
   void Initialization();
