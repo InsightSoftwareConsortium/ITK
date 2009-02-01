@@ -23,8 +23,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
-namespace itk{
-
+namespace itk {
 
 template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -37,15 +36,11 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_OutsideValue = NumericTraits< OutputPixelType >::min();
 }
 
-
-
 template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 ::~SimpleFuzzyConnectednessImageFilterBase()
 {
 }
-
-
 
 template <class TInputImage, class TOutputImage>
 void 
@@ -148,8 +143,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   return(tmp);
 }
 
-
-
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -165,7 +158,7 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   ImageRegionIteratorWithIndex < OutputImageType > ot( m_SegmentObject, regionOUT );
 
   while( !it.IsAtEnd())
-    {    
+    {
     if( it.Get() > activeThreshold )
       {
       ot.Set( m_InsideValue );
@@ -230,8 +223,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 }
 
 
-
-
 template <class TInputImage, class TOutputImage>
 void 
 SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
@@ -240,9 +231,6 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   this->SetThreshold(x);
   this->MakeSegmentObject();
 }
-
-
-
 
 template <class TInputImage, class TOutputImage>
 void 
@@ -264,13 +252,3 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
 } /* end namespace itk. */
 
 #endif
-
-
-
-
-
-  
-
-
-
-

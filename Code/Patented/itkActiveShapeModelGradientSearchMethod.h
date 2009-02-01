@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkActiveShapeModelGradientSearchMethod_h
-#define _itkActiveShapeModelGradientSearchMethod_h
+#ifndef __itkActiveShapeModelGradientSearchMethod_h
+#define __itkActiveShapeModelGradientSearchMethod_h
 
 #include <time.h>
 #include <math.h>
@@ -43,7 +43,7 @@
 #include <vector>
 #include <list>
 
-namespace itk{
+namespace itk {
 
 /** \class ActiveShapeModelGradientSearchMethod
  * \brief Base class for ActiveShapeModelGradientSearchMethod object
@@ -58,7 +58,7 @@ namespace itk{
  *
  * 
  *
- *\ingroup Operators*/ 
+ *\ingroup Operators */ 
 
 template < class TImage >
 class ITK_EXPORT ActiveShapeModelGradientSearchMethod : public Object
@@ -88,7 +88,7 @@ public:
   typedef typename RegionType::IndexType  IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::PixelType PixelType ;
+  typedef typename InputImageType::PixelType PixelType;
 
   /** Type for the size of the input image. */
   typedef typename RegionType::SizeType   SizeType;
@@ -124,23 +124,23 @@ public:
       }
     }
 
-  /** Set/Get the lenght of profile*/
+  /** Set/Get the lenght of profile */
   itkSetMacro( LenghtOfProfile, unsigned int );
   itkGetMacro( LenghtOfProfile, unsigned int );
 
-  /** Set/Get the number ofinteration*/
+  /** Set/Get the number ofinteration */
   itkSetMacro( NumberOfIteration, unsigned int );
   itkGetMacro( NumberOfIteration, unsigned int );
 
-  /** Set/Get the initial shape*/
+  /** Set/Get the initial shape */
   itkSetMacro( MeanShape, VectorOfDoubleType );
   itkGetMacro( MeanShape, VectorOfDoubleType );
 
-  /** Set/Get the eigen values*/
+  /** Set/Get the eigen values */
   itkSetMacro( EigenValues, VectorOfDoubleType );
   itkGetMacro( EigenValues, VectorOfDoubleType );
 
- /** Set/Get the eigen vectors*/
+  /** Set/Get the eigen vectors */
   itkSetMacro( EigenVectors, MatrixOfDoubleType );
   itkGetMacro( EigenVectors, MatrixOfDoubleType );
 
@@ -152,7 +152,8 @@ public:
    * other methods of this object. */
   void GenerateData( );
 
-  /** Return the mean Shape of the model (x1 y1 x2 y2 ... xn yn), where n = n. of landmarks*/
+  /** Return the mean Shape of the model (x1 y1 x2 y2 ... xn yn),
+   * where n = n. of landmarks */
   VectorOfDoubleType  GetNewShape();
 
 protected:

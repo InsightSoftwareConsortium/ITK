@@ -23,7 +23,7 @@
 
 #include <queue>
 
-namespace itk{
+namespace itk {
 
 /** \class SimpleFuzzyConnectednessImageFilterBase
  * \brief Base class for FuzzyConnectednessImageFilter object.
@@ -60,9 +60,9 @@ class ITK_EXPORT SimpleFuzzyConnectednessImageFilterBase:
 public:
   /** Standard class typedefs. */
   typedef SimpleFuzzyConnectednessImageFilterBase       Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-  typedef SmartPointer <Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
+  typedef SmartPointer <Self>                           Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,9 +75,11 @@ public:
                       TInputImage::ImageDimension);
 
   /** Convenient typedefs. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
+
   typedef Image <unsigned short, itkGetStaticConstMacro(ImageDimension)> UShortImage;
+
   typedef typename TInputImage::IndexType         IndexType;
   typedef typename TInputImage::SizeType          SizeType;
   typedef typename TInputImage::PixelType         PixelType;
@@ -120,7 +122,7 @@ public:
 
   /** Extract the FuzzyScene not thresholded. */
   const FuzzySceneType * GetFuzzyScene(void) const
-  { return m_FuzzyScene; };
+    { return m_FuzzyScene; };
 
   /** A simple combination of SetThreshold and MakeSegmentObject methods. */
   void UpdateThreshold(const double x);
@@ -130,7 +132,7 @@ protected:
   ~SimpleFuzzyConnectednessImageFilterBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Standard pipeline method.*/
+  /** Standard pipeline method. */
   void GenerateData();
 
   double            m_Weight;
@@ -148,7 +150,7 @@ protected:
 
   /** Define the fuzzy affinity function between two pixels. */
   virtual double FuzzyAffinity(const PixelType, const PixelType)
-  { return 0; }
+    { return 0; }
 
   double FindStrongPath(const IndexType &center);
 

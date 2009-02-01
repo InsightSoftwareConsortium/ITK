@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkActiveShapeModelGradientSearchMethod_txx
-#define _itkActiveShapeModelGradientSearchMethod_txx
+#ifndef __itkActiveShapeModelGradientSearchMethod_txx
+#define __itkActiveShapeModelGradientSearchMethod_txx
 
 #include "itkActiveShapeModelGradientSearchMethod.h"
 
@@ -81,7 +81,7 @@ ActiveShapeModelGradientSearchMethod<TImage>
   centerShape [ 1 ] = 0.0;
   
   
-  for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
+  for ( unsigned int j = 0; j < numberOfLandmarks; j++ )
     {
     mv [ 0 ] = (unsigned int) (m_NewShape [ 2*j ] + 0.5);
     mv [ 1 ] = (unsigned int) (m_NewShape [ 2*j+1 ] + 0.5);
@@ -116,9 +116,9 @@ ActiveShapeModelGradientSearchMethod<TImage>
   m_Blimit.fill(0);
 
 
-  for ( unsigned int i = 0 ; i < m_NumberOfIteration ; i++ )
+  for ( unsigned int i = 0; i < m_NumberOfIteration; i++ )
     {
-    for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
+    for ( unsigned int j = 0; j < numberOfLandmarks; j++ )
       {
       mv = sampleLandmarks->GetMeasurementVector(j);
       position2D [ 0 ] = mv [ 0 ];
@@ -281,7 +281,7 @@ ActiveShapeModelGradientSearchMethod<TImage>
     newCenterShape [ 0 ] = 0.0;
     newCenterShape [ 1 ] = 0.0;
   
-    for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
+    for ( unsigned int j = 0; j < numberOfLandmarks; j++ )
       {
       mv [ 0 ] = (unsigned int) (m_NewShape [ 2*j ] + 0.5);
       mv [ 1 ] = (unsigned int) (m_NewShape [ 2*j+1 ] + 0.5);
@@ -295,7 +295,7 @@ ActiveShapeModelGradientSearchMethod<TImage>
     deltaX = newCenterShape[ 0 ] - centerShape[ 0 ];
     deltaY = newCenterShape[ 1 ] - centerShape[ 1 ];
 
-    for ( unsigned int j = 0 ; j < numberOfLandmarks ; j++ )
+    for ( unsigned int j = 0; j < numberOfLandmarks; j++ )
       {
       m_MeanShape [ 2*j ]   = m_MeanShape [ 2*j ] + deltaX;
       m_MeanShape [ 2*j+1 ] = m_MeanShape [ 2*j+1 ] + deltaY;
@@ -331,8 +331,8 @@ GetNewShape()
 
 
 /**
-  * Print the current status
-  */
+ * Print the current status
+ */
 template<class TImage>
 void
 ActiveShapeModelGradientSearchMethod<TImage>::
@@ -368,7 +368,4 @@ PrintSelf(std::ostream& os, Indent indent) const
 
 } // end namespace itk
 
-
-
 #endif
-

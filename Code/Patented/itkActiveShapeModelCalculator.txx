@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkActiveShapeModelCalculator_txx
-#define _itkActiveShapeModelCalculator_txx
+#ifndef __itkActiveShapeModelCalculator_txx
+#define __itkActiveShapeModelCalculator_txx
 #include "itkActiveShapeModelCalculator.h"
 
 namespace itk
@@ -24,12 +24,12 @@ namespace itk
 class ITK_EXPORT InvalidActiveShapeModeError : public ExceptionObject
 {
 public:
-  /*
+  /**
    * Constructor. Needed to ensure the exception object can be copied.
    */
   InvalidActiveShapeModeError(const char *file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid training image are availble.");}
 
-  /*
+  /**
    * Constructor. Needed to ensure the exception object can be copied.
    */
   InvalidActiveShapeModeError(const std::string& file, unsigned int lineNumber) : ExceptionObject(file, lineNumber) { this->SetDescription("No valid training image are available.");}  
@@ -73,8 +73,8 @@ ActiveShapeModelCalculator<TImage>
   Size2DType    size;
   Index2DType   index;
 
-  typename Image3DType::ConstPointer inputImage;    
-  typename Image2DType::Pointer outputImage = Image2DType::New();
+  typename Image3DType::ConstPointer inputImage;
+  typename Image2DType::Pointer      outputImage = Image2DType::New();
 
   inputImage = distanceFilter->GetOutput();
   typename Image3DType::RegionType requestedRegion = inputImage->GetRequestedRegion();
@@ -473,7 +473,7 @@ ActiveShapeModelCalculator<TImage>
 
   for (i = 0; i < slices; i++)
     {
-    for ( j = 0 ; j < numberOfLandmarks ; j++ )
+    for ( j = 0; j < numberOfLandmarks; j++ )
       {
       mv = sampleLandmarks->GetMeasurementVector(j);
       position3D [ 0 ] = mv [ 0 ];
@@ -515,8 +515,8 @@ ActiveShapeModelCalculator<TImage>
           }
 
         /**
-              * Normal slope ****************
-              */
+         * Normal slope ****************
+         */
         dx = dxyRef2[ 1 ] - dxyRef1[ 1 ];
         dy = dxyRef1[ 0 ] - dxyRef2[ 0 ];
 
@@ -697,9 +697,9 @@ GetMeanShape()
   return m_Means;
 }
 
-/* *
-   * Get the largest t eigenvalues
-   */
+/**
+ * Get the largest t eigenvalues
+ */
 template<class TImage>
 typename ActiveShapeModelCalculator<TImage>::VectorOfDoubleType
 ActiveShapeModelCalculator<TImage>::
@@ -712,9 +712,9 @@ GetEigenvalues()
   return m_EigenValues;
 }
 
-/* *
-   * Get the eigen vectors
-   */
+/**
+ * Get the eigen vectors
+ */
 template<class TImage>
 typename ActiveShapeModelCalculator<TImage>::MatrixOfDoubleType
 ActiveShapeModelCalculator<TImage>::
@@ -728,7 +728,5 @@ GetEigenvector()
 }
 
 } // end namespace itk
-
-
 
 #endif

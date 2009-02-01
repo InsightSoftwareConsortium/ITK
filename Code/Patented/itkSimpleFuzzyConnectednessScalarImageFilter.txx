@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSimpleFuzzyConnectednessScalarImageFilter_txx
-#define _itkSimpleFuzzyConnectednessScalarImageFilter_txx
+#ifndef __itkSimpleFuzzyConnectednessScalarImageFilter_txx
+#define __itkSimpleFuzzyConnectednessScalarImageFilter_txx
 #include "itkSimpleFuzzyConnectednessScalarImageFilter.h"
 
 #include "vnl/vnl_math.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 
-namespace itk{
+namespace itk {
 
 template <class TInputImage, class TOutputImage>
 SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
@@ -32,7 +32,6 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
   m_Diff_Mean = 0.0;
   m_Variance = 0.0;
   m_Diff_Variance = 0.0;
-  ;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -79,12 +78,13 @@ SimpleFuzzyConnectednessScalarImageFilter<TInputImage,TOutputImage>
     return( (NumericTraits<unsigned short>::max())* 
             (exp(-0.5 * tmp1 * tmp1 / m_Variance)));
     }
-  else{
-  double tmp2 = vcl_fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
-  return( (NumericTraits<unsigned short>::max()) *
-          (this->GetWeight() * vcl_exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
-           (1 - this->GetWeight()) * vcl_exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
-  }
+  else
+    {
+    double tmp2 = vcl_fabs(static_cast<double>(f1) - static_cast<double>(f2)) - m_Diff_Mean;
+    return( (NumericTraits<unsigned short>::max()) *
+            (this->GetWeight() * vcl_exp(-0.5 * tmp1 * tmp1 / m_Variance) + 
+             (1 - this->GetWeight()) * vcl_exp(-0.5 * tmp2 * tmp2 / m_Diff_Variance)));
+    }
 }
 
 template <class TInputImage, class TOutputImage>

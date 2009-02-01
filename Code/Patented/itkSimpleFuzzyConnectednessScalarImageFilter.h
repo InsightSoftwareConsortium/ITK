@@ -23,7 +23,7 @@
 
 #include <queue>
 
-namespace itk{
+namespace itk {
 
 /** \class SimpleFuzzyConnectednessScalarImageFilter
  * \brief Perform segmentation on grayscale images using method of fuzzy connectedness.
@@ -78,9 +78,9 @@ public:
   /** Standard class typedefs. */
   typedef SimpleFuzzyConnectednessScalarImageFilter       Self;
   typedef SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>   
-  Superclass;
-  typedef SmartPointer <Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                                          Superclass;
+  typedef SmartPointer <Self>                             Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,7 +91,7 @@ public:
 
   /** Region, size, and pixel types. */
   typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeType  SizeType;
   typedef typename Superclass::PixelType PixelType;
 
   /** Set the Estimation of the mean difference between neighbor pixels for

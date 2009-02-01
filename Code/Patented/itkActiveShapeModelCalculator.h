@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkActiveShapeModelCalculator_h
-#define _itkActiveShapeModelCalculator_h
+#ifndef __itkActiveShapeModelCalculator_h
+#define __itkActiveShapeModelCalculator_h
 
 #include <time.h>
 #include <math.h>
@@ -46,7 +46,7 @@
 #include <vector>
 #include <list>
 
-namespace itk{
+namespace itk {
 
 /** \class ActiveShapeModelCalculator
  * \brief Base class for ActiveShapeModelCalculator object
@@ -71,7 +71,7 @@ namespace itk{
  *     to represent a digitized line or its caricature, Canadian Cartographer 10(2), pp. 112--122, 1973.
 
  *
- *\ingroup Operators*/ 
+ * \ingroup Operators */ 
 
 template < class TImage >
 class ITK_EXPORT ActiveShapeModelCalculator : public Object
@@ -100,7 +100,7 @@ public:
   /** Standard vector type within this class. */
   typedef Vector< double, 2 >                                             Vector2DType;
   typedef Vector< double, 3 >                                             Vector3DType;
-  typedef Vector< unsigned int, 2 >                                       MeasurementVectorType ;
+  typedef Vector< unsigned int, 2 >                                       MeasurementVectorType;
   typedef std::vector< unsigned int>                                      VectorType;
   typedef vnl_vector<double>                                              VectorOfDoubleType;
 
@@ -153,7 +153,7 @@ public:
   typedef BinaryThinningImageFilter< Image2D8bitsType, Image2D8bitsType > ThinFilterType;
   typedef BinaryPruningImageFilter< Image2D8bitsType, Image2D8bitsType >  PruneFilterType;
 
-  /** Set the input binary image (values in {0,255}) .*/
+  /** Set the input binary image (values in {0,255}) . */
   virtual void SetImage( const Image3DType * image )
     {
     if ( m_Image != image )
@@ -166,45 +166,43 @@ public:
 
   /** Set/Get the lower threshold for the binary filter applied on the gradient images.
       Changing this value from the default is not recommended or necessary but could be used to
-      get thinner contours at the risk of creating an unstable solution.*/
+      get thinner contours at the risk of creating an unstable solution. */
   void SetLowerThresholdGradient(const double &lt)
-  { m_LowerThreshold = lt; }
+    { m_LowerThreshold = lt; }
   const double &GetLowerThresholdGradient() const
-  { return m_LowerThreshold; }
+    { return m_LowerThreshold; }
 
   /** Set/Get the distance threshold for the binary filter applied on the mean of the
       distance images. Changing this value from the default is not recommended or necessary but
-      could be used to get thicker contours at the risk of creating an unstable solution.*/
+      could be used to get thicker contours at the risk of creating an unstable solution. */
   void SetUpperThresholdMeanDistance(const double &ut1)
-  { m_UpperThreshold1 = ut1; }
+    { m_UpperThreshold1 = ut1; }
   const double &GetUpperThresholdMeanDistance() const
-  { return m_UpperThreshold1; }
+    { return m_UpperThreshold1; }
 
   /** Set/Get the distance threshold for the binary filter applied on the distance images
       Changing this value from the default is not recommended or necessary but could be used to
-      get thicker contours at the risk of creating an unstable solution.*/
+      get thicker contours at the risk of creating an unstable solution. */
   void SetUpperThresholdDistance(const double &ut2)
-  { m_UpperThreshold2 = ut2; }
+    { m_UpperThreshold2 = ut2; }
   const double &GetUpperThresholdDistance() const
-  { return m_UpperThreshold2; }
+    { return m_UpperThreshold2; }
 
- /** Set/Get the tolerance threshold (in pixels unit) for the automatic landmarks.*/
+  /** Set/Get the tolerance threshold (in pixels unit) for the automatic landmarks. */
   void SetTolerance(const double &t)
-  { m_Tolerance = t; }
+    { m_Tolerance = t; }
   const double &GetTolerance() const
-  { return m_Tolerance; }
+    { return m_Tolerance; }
 
-  /** Set/Get the number of iteration for Prunig filter*/
+  /** Set/Get the number of iteration for Pruning filter */
   void SetPruneIteration(const unsigned int &t)
-  { m_PruneIteration = t; }
+    { m_PruneIteration = t; }
   const unsigned int &GetPruneIteration() const
-  { return m_PruneIteration; }
+    { return m_PruneIteration; }
 
- /** Get the number of training images.*/
+  /** Get the number of training images. */
   const unsigned int &GetNumberOfTrainingImages() const
-  { return m_NumberOfTrainingImages; }
-
-
+    { return m_NumberOfTrainingImages; }
 
   /** Compute mean, eigenvectors and eigenvalues of a new or modified training set.
    * This method computes the mean, eigenvectors and eigenvalues of the training set
@@ -225,7 +223,7 @@ public:
 protected:
 
   ActiveShapeModelCalculator(): m_NumberOfTrainingImages(0)
-  {
+    {
     m_LowerThreshold      = 10.0; // default value
     m_UpperThreshold1     = 1.0;  // default value
     m_UpperThreshold2     = 1.0;  // default value
@@ -237,12 +235,12 @@ protected:
     m_Means.set_size(0);
     m_Valid = false;
     m_Image = NULL;
-  }
+    }
 
   ~ActiveShapeModelCalculator() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os,indent);
     os << indent << "LowerThreshold: " << m_LowerThreshold << std::endl;
     os << indent << "UpperThreshold1: " << m_UpperThreshold1 << std::endl;
@@ -272,13 +270,13 @@ protected:
 
 
     for(unsigned int i = 0; i < m_Means.size(); i++) 
-    {
-    itkDebugMacro(<< m_EigenVectors.get_row(i));
-    }  
+      {
+      itkDebugMacro(<< m_EigenVectors.get_row(i));
+      }  
 
     itkDebugMacro(<< " ");
     itkDebugMacro(<< "+++++++++++++++++++++++++");
-  }// end PrintSelf
+    }// end PrintSelf
 
 
 private:
