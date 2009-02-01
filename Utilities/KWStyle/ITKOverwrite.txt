@@ -81,3 +81,4 @@ itkImageToImageFilterDetail.h Template Disable
 itkImageTransformHelper.h Template Disable
 itkKLMSegmentationRegion.h Indent Disable
 itkLaplacianOperator.h Indent Disable
+itkMacro.h Indent Disable
