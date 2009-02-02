@@ -97,12 +97,11 @@ private:
 
 
 /** \class SymmetricEigenAnalysisImageFilter
- * \brief Computes the Fractional Anisotropy for every pixel of a input tensor image.
+ * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
  * SymmetricEigenAnalysisImageFilter applies pixel-wise the invokation for
- * computing the fractional anisotropy of every pixel. The pixel type of the
- * input image is expected to implement a method GetFractionalAnisotropy(), and
- * to specify its return type as  RealValueType.
+ * computing the eigen-values and eigen-vectors of the symmetric matrix
+ * corresponding to every input pixel.
  * 
  * The OrderEigenValuesBy( .. ) method can be used to order eigen values 
  * in ascending order by value or magnitude or no ordering.
@@ -113,9 +112,6 @@ private:
  * The user of this class is explicitly supposed to set the dimension of the 
  * 2D matrix using the SetDimension() method.
  *
- * \sa TensorRelativeAnisotropyImageFilter
- * \sa DiffusionTensor3D
- * 
  * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
  *
  */
