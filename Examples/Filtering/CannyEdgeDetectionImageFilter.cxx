@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage outputImage [variance]" << std::endl;
+    std::cerr << argv[0] << " inputImage outputImage [variance upperThreshold lowerThreshold]" << std::endl;
     return EXIT_FAILURE;
     }
    
@@ -139,6 +139,10 @@ int main(int argc, char* argv[])
 
   cannyFilter->SetInput( toReal->GetOutput() );
   cannyFilter->SetVariance( variance );
+
+  cannyFilter->SetUpperThreshold( atof( argv[4] ) );
+  cannyFilter->SetLowerThreshold( atof( argv[5] ) );
+
   rescale->SetInput( cannyFilter->GetOutput() );
   writer->SetInput( rescale->GetOutput() );
 
