@@ -621,7 +621,19 @@ ADD_TEST( CannyEdgeDetectionImageFilterTest ${FILTERING_EXAMPLES3}
   CannyEdgeDetectionImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
         ${TEMP}/CannyEdgeDetectionImageFilter.png
-        9
+        9     # Sigma
+        0     # Upper Threshold
+        0     # Lower Threshold
+)
+ADD_TEST( CannyEdgeDetectionImageFilterTest2 ${FILTERING_EXAMPLES3}
+  --compare ${BASELINE}/CannyEdgeDetectionImageFilter2.png
+            ${TEMP}/CannyEdgeDetectionImageFilter2.png
+  CannyEdgeDetectionImageFilterTest
+        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+        ${TEMP}/CannyEdgeDetectionImageFilter2.png
+        9     # Sigma
+        5     # Upper Threshold
+        1     # Lower Threshold
 )
 ADD_TEST( FlipImageFilterTest1 ${FILTERING_EXAMPLES3}
   --compare ${BASELINE}/FlipImageFilterX.png

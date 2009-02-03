@@ -67,11 +67,27 @@ int main(int argc, char* argv[])
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
   float variance = 2.0;
+  float upperThreshold = 0.0;
+  float lowerThreshold = 0.0;
 
   if( argc > 3 )
     {
     variance = atof( argv[3] );
     }
+
+  if( argc > 4 )
+    {
+    upperThreshold = atof( argv[4] );
+    }
+
+  if( argc > 5 )
+    {
+    lowerThreshold = atof( argv[5] );
+    }
+
+  std::cout << "Variance = " << variance << std::endl;
+  std::cout << "UpperThreshold = " << upperThreshold << std::endl;
+  std::cout << "LowerThreshold = " << lowerThreshold << std::endl;
 
   typedef unsigned char    CharPixelType;  //  IO
   typedef double           RealPixelType;  //  Operations
@@ -139,15 +155,8 @@ int main(int argc, char* argv[])
 
   cannyFilter->SetInput( toReal->GetOutput() );
   cannyFilter->SetVariance( variance );
-
-  if (argc > 4)
-    {
-    cannyFilter->SetUpperThreshold( atof( argv[4] ) );
-    }
-  if (argc > 5)
-    {
-    cannyFilter->SetLowerThreshold( atof( argv[5] ) );
-    }
+  cannyFilter->SetUpperThreshold( upperThreshold );
+  cannyFilter->SetLowerThreshold( lowerThreshold );
 
   rescale->SetInput( cannyFilter->GetOutput() );
   writer->SetInput( rescale->GetOutput() );
