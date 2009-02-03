@@ -140,8 +140,14 @@ int main(int argc, char* argv[])
   cannyFilter->SetInput( toReal->GetOutput() );
   cannyFilter->SetVariance( variance );
 
-  cannyFilter->SetUpperThreshold( atof( argv[4] ) );
-  cannyFilter->SetLowerThreshold( atof( argv[5] ) );
+  if (argc > 4)
+    {
+    cannyFilter->SetUpperThreshold( atof( argv[4] ) );
+    }
+  if (argc > 5)
+    {
+    cannyFilter->SetLowerThreshold( atof( argv[5] ) );
+    }
 
   rescale->SetInput( cannyFilter->GetOutput() );
   writer->SetInput( rescale->GetOutput() );
