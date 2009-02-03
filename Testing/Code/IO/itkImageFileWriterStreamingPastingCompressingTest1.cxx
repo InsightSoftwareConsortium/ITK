@@ -25,108 +25,230 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkDifferenceImageFilter.h"
+#include "itkExtractImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 
-int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
+
+typedef unsigned char            PixelType;
+typedef itk::Image<PixelType,3>  ImageType;
+typedef ImageType::Pointer       ImagePointer;
+
+namespace {
+
+
+bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  if( argc < 6 )
-    {
-    std::cerr << "Usage: " << argv[0] << " input output stream paste compress expectException" << std::endl;
-    return EXIT_FAILURE;
-    }
-      
-  // We remove the output file
-  itksys::SystemTools::RemoveFile(argv[2]);
+  PixelType intensityTolerance = 5;  // need this for compression
+  int radiusTolerance = 0;
+  unsigned long numberOfPixelTolerance = 0;
     
+  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  DiffType::Pointer diff = DiffType::New();
+  diff->SetValidInput(baselineImage);
+  diff->SetTestInput(testImage);
+  diff->SetDifferenceThreshold( intensityTolerance );
+  diff->SetToleranceRadius( radiusTolerance );
+  diff->UpdateLargestPossibleRegion();
+
+  unsigned long status = diff->GetNumberOfPixelsWithDifferences();
+
+  if (status > numberOfPixelTolerance)
+    {
+    return false;
+    }
+
+  return true;
+}
+
+bool SameImage(std::string testImageFileName, ImagePointer baselineImage)
+{
+  PixelType intensityTolerance = 5; // need this for compression
+  int radiusTolerance = 0;
+  unsigned long numberOfPixelTolerance = 0;
+
+  
+  typedef itk::ImageFileReader<ImageType>    ReaderType;
+  ReaderType::Pointer readerTestImage = ReaderType::New();
+  readerTestImage->SetFileName( testImageFileName );
+    
+  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  DiffType::Pointer diff = DiffType::New();
+  diff->SetValidInput(baselineImage);
+  diff->SetTestInput(readerTestImage->GetOutput());
+  diff->SetDifferenceThreshold( intensityTolerance );
+  diff->SetToleranceRadius( radiusTolerance );
+  diff->UpdateLargestPossibleRegion();
+
+  unsigned long status = diff->GetNumberOfPixelsWithDifferences();
+
+  if (status > numberOfPixelTolerance)
+    {
+    std::cout << "NumberOfPixelsWithDifference: " << status << std::endl;
+    return false;
+    }
+
+  return true;
+}
+
+bool ActualTest(std::string inputFileName, std::string outputFileName, bool streamWriting, bool pasteWriting, bool compressWriting, int expectException = -1) 
+{
+  
+  std::cout << "Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
+  
+  unsigned int m_NumberOfPieces = 10;
+  
+  // We remove the output file
+  itksys::SystemTools::RemoveFile(outputFileName.c_str());
+  
   typedef unsigned char            PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
 
   typedef itk::ImageFileReader<ImageType>         ReaderType;
   typedef itk::ImageFileWriter< ImageType >  WriterType;
 
+  
+
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName( inputFileName.c_str() );
   reader->SetUseStreaming( true );
 
-  ImageType::RegionType region;
-  ImageType::SizeType size;
-  ImageType::SizeType fullsize;
-  ImageType::IndexType index;
-  
-  unsigned int m_NumberOfPieces = 10;
-  
-  // We decide how we want to read the image and we split accordingly
-  // The image is read slice by slice
+  // read the region info
   reader->GenerateOutputInformation();
-  fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-  index.Fill(0);
-  size[0] = fullsize[0];
-  size[1] = fullsize[1];
-  size[2] = 0;
+  ImageType::RegionType largestRegion;
+  largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  
+  ImageType::IndexType pasteIndex;
+  pasteIndex[0] = largestRegion.GetIndex()[0]+largestRegion.GetSize()[0]/3;
+  pasteIndex[1] = largestRegion.GetIndex()[1]+largestRegion.GetSize()[1]/3;
+  pasteIndex[2] = largestRegion.GetIndex()[2]+largestRegion.GetSize()[2]/3;
+  ImageType::SizeType pasteSize;
+  pasteSize[0] = largestRegion.GetSize()[0]/3;
+  pasteSize[1] = largestRegion.GetSize()[1]/3;
+  pasteSize[2] = 1;
+  ImageType::RegionType pasteRegion(pasteIndex, pasteSize);
 
-  unsigned int zsize = fullsize[2]/m_NumberOfPieces;
+  
+  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  monitor->SetInput(reader->GetOutput());
+  
 
+  
   // Setup the writer
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(argv[2]);
-  
-  for(unsigned int i=0;i<m_NumberOfPieces;i++)
+  writer->SetFileName(outputFileName);
+  writer->SetInput(monitor->GetOutput());
+
+  // create a vaild region from the largest
+  itk::ImageIORegion  ioregion(3);
+  itk::ImageIORegionAdaptor<3>::Convert(pasteRegion, ioregion);
+
+  if (streamWriting) 
     {
-    std::cout << "Reading piece " << i+1 << " of " << m_NumberOfPieces << std::endl;
-
-    index[2] += size[2];
-
-    // At the end we need to adjust the size to make sure
-    // we are reading everything
-    if(i == m_NumberOfPieces-1)
-      {
-      size[2] = fullsize[2]-index[2];
-      }
-    else
-      {
-      size[2] = zsize;
-      }
-
-    region.SetIndex(index);
-    region.SetSize(size);
-    reader->GetOutput()->SetRequestedRegion(region);
-    try
-      {
-      reader->Update();
-      }
-    catch (itk::ExceptionObject &ex)
-      {
-      std::cout << "ERROR : " << ex << std::endl;
-      return EXIT_FAILURE;
-      }
-   
-    // Write the image     
-    itk::ImageIORegion  ioregion(3);
-    itk::ImageIORegion::IndexType index2;
-    index2.push_back(region.GetIndex()[0]);
-    index2.push_back(region.GetIndex()[1]);
-    index2.push_back(region.GetIndex()[2]);
-    ioregion.SetIndex(index2);
-    itk::ImageIORegion::SizeType size2;
-    size2.push_back(region.GetSize()[0]);
-    size2.push_back(region.GetSize()[1]);
-    size2.push_back(region.GetSize()[2]);
-    ioregion.SetSize(size2);
+    writer->SetNumberOfStreamDivisions( m_NumberOfPieces );
+    }
+  
+  if (pasteWriting) 
+    {
     writer->SetIORegion(ioregion);
-    writer->SetInput(reader->GetOutput());
-    
-    try
-      {
-      writer->Update();
+    }
+
+  writer->SetUseCompression(compressWriting);
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << err;
+    if (expectException == -1 || expectException == 1)  
+      {      
+      std::cerr << "Expected ExceptionObject caught !" << std::endl;
+      return EXIT_SUCCESS;
       }
-    catch( itk::ExceptionObject & err )
+    else 
       {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
+      std::cerr << "UnExpected ExceptionObject caught !" << std::endl;
       return EXIT_FAILURE;
       }
-    } // end for pieces
+    }
+
+  if ( expectException == 1 ) 
+    {
+    std::cerr << "Did not get expected exception!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
    
-     
+  // if we didn't have an exception then we should have produced the
+  // correct image
+  if (pasteWriting) 
+    {
+    typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
+    ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
+    extractBaselineImage->SetInput(reader->GetOutput());
+    extractBaselineImage->SetExtractionRegion(pasteRegion);
+    
+    ReaderType::Pointer readerTestImage = ReaderType::New();
+    readerTestImage->SetFileName( outputFileName );
+    ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();  
+    extractTestImage->SetInput(readerTestImage->GetOutput());
+    extractTestImage->SetExtractionRegion(pasteRegion);
+    
+    if (!SameImage(extractTestImage->GetOutput(), extractBaselineImage->GetOutput())) 
+      {
+      std::cerr << "Paste regions of images differ" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    }
+  else if (!SameImage(outputFileName, reader->GetOutput())) 
+    {
+    std::cerr << "Images differ" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
+}
+
+}
+
+int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
+{
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << argv[0] << " input output [expect exception (0|1)] ..." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  int expectException[8];
+  
+  for ( int i = 0; i < 8; ++i) 
+    {
+    if (argc > i + 3) 
+      {
+      expectException[i] = 0;
+      if (atoi(argv[i+3]) == 1)         
+        expectException[i] = 1;
+      }
+    else 
+      expectException[i] = -1;
+    }
+
+  int retValue = EXIT_SUCCESS;
+  unsigned int i = 0;
+  retValue = (ActualTest(argv[1], argv[2], 0, 0, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 0, 0, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 0, 1, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 0, 1, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 1, 0, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 1, 0, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 1, 1, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  retValue = (ActualTest(argv[1], argv[2], 1, 1, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+  
+  
+  return retValue;
 }
