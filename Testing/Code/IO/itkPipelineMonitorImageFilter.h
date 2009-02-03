@@ -27,14 +27,16 @@ namespace itk {
    unsigned int GetNumberOfUpdates(void) const { return m_NumberOfUpdates; }      
    RegionVectorType GetOutputRequestedRegions(void) const {return m_OutputRequestedRegions;}
    RegionVectorType GetInputRequestedRegions(void) const {return m_InputRequestedRegions;}
-   RegionVectorType GetUpdatedRegions(void) const {return m_UpdatedRegions; }
+   RegionVectorType GetUpdatedBufferedRegions(void) const {return m_UpdatedBufferedRegions; }
+   RegionVectorType GetUpdatedRequestedRegions(void) const {return m_UpdatedRequestedRegions; }
 
    
    void ClearPipelineSavedInformation(void) {
      m_NumberOfUpdates = 0;
      m_OutputRequestedRegions.clear();
      m_InputRequestedRegions.clear();
-     m_UpdatedRegions.clear();
+     m_UpdatedBufferedRegions.clear();
+     m_UpdatedRequestedRegions.clear();
    }
 
 
@@ -67,7 +69,8 @@ namespace itk {
      output->SetPixelContainer(input->GetPixelContainer());
      output->SetBufferedRegion(this->GetInput()->GetBufferedRegion());
 
-     m_UpdatedRegions.push_back(this->GetInput()->GetBufferedRegion());
+     m_UpdatedBufferedRegions.push_back(this->GetInput()->GetBufferedRegion());
+     m_UpdatedRequestedRegions.push_back(this->GetInput()->GetRequestedRegion());
 
      ++m_NumberOfUpdates;
    }
@@ -83,14 +86,21 @@ namespace itk {
    void PrintSelf(std::ostream &os, Indent indent) const {     
      Superclass::PrintSelf(os,indent);
      os << indent << "m_NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
+
      os << indent << "m_OutputRequestedRegions:"<< std::endl;
      for (typename RegionVectorType::const_iterator i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i) 
        i->Print(os, indent.GetNextIndent());
+
      os << indent << "m_InputRequestedRegions:"<< std::endl;
      for (typename RegionVectorType::const_iterator i = m_InputRequestedRegions.begin(); i != m_InputRequestedRegions.end(); ++i) 
-       i->Print(os, indent.GetNextIndent());     
-     os << indent << "m_UpdatedRegions:"<< std::endl;
-     for (typename RegionVectorType::const_iterator i = m_UpdatedRegions.begin(); i != m_UpdatedRegions.end(); ++i) 
+       i->Print(os, indent.GetNextIndent()); 
+    
+     os << indent << "m_UpdatedBufferedRegions:"<< std::endl;
+     for (typename RegionVectorType::const_iterator i = m_UpdatedBufferedRegions.begin(); i != m_UpdatedBufferedRegions.end(); ++i) 
+       i->Print(os, indent.GetNextIndent());
+
+     os << indent << "m_UpdatedRequestedRegions:"<< std::endl;
+     for (typename RegionVectorType::const_iterator i = m_UpdatedRequestedRegions.begin(); i != m_UpdatedRequestedRegions.end(); ++i) 
        i->Print(os, indent.GetNextIndent());
    }
 
@@ -101,7 +111,8 @@ namespace itk {
    unsigned int m_NumberOfUpdates;
    RegionVectorType m_OutputRequestedRegions;
    RegionVectorType m_InputRequestedRegions;
-   RegionVectorType m_UpdatedRegions;
+   RegionVectorType m_UpdatedBufferedRegions;
+   RegionVectorType m_UpdatedRequestedRegions;
 
  };
 
