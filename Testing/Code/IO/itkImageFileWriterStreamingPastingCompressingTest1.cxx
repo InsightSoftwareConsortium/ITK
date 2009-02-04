@@ -226,7 +226,8 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
 
   int expectException[8];
   
-  for ( int i = 0; i < 8; ++i) 
+  int i;
+  for ( i = 0; i < 8; ++i) 
     {
     if (argc > i + 3) 
       {
@@ -239,7 +240,7 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
     }
 
   int retValue = EXIT_SUCCESS;
-  unsigned int i = 0;
+  i = 0;
   retValue = (ActualTest(argv[1], argv[2], 0, 0, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
   retValue = (ActualTest(argv[1], argv[2], 0, 0, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
   retValue = (ActualTest(argv[1], argv[2], 0, 1, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
