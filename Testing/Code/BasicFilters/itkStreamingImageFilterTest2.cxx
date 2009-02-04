@@ -25,9 +25,13 @@
 #include "itkStreamingImageFilter.h"
 #include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkXMLFileOutputWindow.h"
+#include "../IO/itkPipelineMonitorImageFilter.h"
+
 
 int itkStreamingImageFilterTest2(int, char* [] )
 {
+  
+  const unsigned int numberOfStreamDivisions = 25;
   itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);
   
@@ -69,11 +73,16 @@ int itkStreamingImageFilterTest2(int, char* [] )
   itk::ImageRegionMultidimensionalSplitter<2>::Pointer splitter;
   splitter = itk::ImageRegionMultidimensionalSplitter<2>::New();
   splitter->DebugOn();
-  
+    
+  // monitor what's going on
+  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor;
+  monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
+  monitor->SetInput( shrink->GetOutput() );
+
   itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
   streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
-  streamer->SetInput( shrink->GetOutput() );
-  streamer->SetNumberOfStreamDivisions( 25 );
+  streamer->SetInput( monitor->GetOutput() );
+  streamer->SetNumberOfStreamDivisions( numberOfStreamDivisions );
   streamer->SetRegionSplitter( splitter );
   streamer->Update();
 
@@ -82,6 +91,16 @@ int itkStreamingImageFilterTest2(int, char* [] )
   std::cout << "Output spacing: " << streamer->GetOutput()->GetSpacing()[0]
             << ", "
             << streamer->GetOutput()->GetSpacing()[1] << std::endl;
+
+  
+  // check if the pipeline executed as expected
+  if (monitor->GetNumberOfUpdates() != numberOfStreamDivisions ||
+      monitor->GetOutputRequestedRegions().size() != numberOfStreamDivisions) 
+    {    
+    std::cout << monitor;
+    std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << std::endl;
+    return EXIT_FAILURE;
+    }
 
 
   //

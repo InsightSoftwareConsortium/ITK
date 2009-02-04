@@ -22,9 +22,12 @@
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "../IO/itkPipelineMonitorImageFilter.h"
 
 int itkStreamingImageFilterTest(int, char* [] )
 {
+  const unsigned int numberOfStreamDivisions = 4;
+
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
 
@@ -50,7 +53,7 @@ int itkStreamingImageFilterTest(int, char* [] )
     scalar = i;
     iterator.Set( scalar );
     }
-  
+
   // Create a filter
   itk::ShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
   shrink = itk::ShrinkImageFilter< ShortImage, ShortImage >::New();
@@ -60,10 +63,15 @@ int itkStreamingImageFilterTest(int, char* [] )
   shrink->SetShrinkFactors(factors);
   // shrink->DebugOn();
 
+  // monitor what's going on
+  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor;
+  monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
+  monitor->SetInput( shrink->GetOutput() );
+
   itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
   streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
-  streamer->SetInput( shrink->GetOutput() );
-  streamer->SetNumberOfStreamDivisions( 4 );
+  streamer->SetInput( monitor->GetOutput() );
+  streamer->SetNumberOfStreamDivisions( numberOfStreamDivisions );
   streamer->Update();
 
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
@@ -78,6 +86,16 @@ int itkStreamingImageFilterTest(int, char* [] )
   std::cout << "streamer->GetNumberOfStreamDivisions(): " << value << std::endl;
   streamer->GetRegionSplitter();
   //SplitterType * streamer->GetRegionSplitter();
+  
+  // check if the pipeline executed as expected
+  if (monitor->GetNumberOfUpdates() != value ||
+      monitor->GetOutputRequestedRegions().size() != value) 
+    {    
+    std::cout << monitor;
+    std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   //
   // The rest of this code determines whether the shrink code produced
