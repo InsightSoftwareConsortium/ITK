@@ -99,6 +99,13 @@ public:
    * in UpdateOutputData() since it must update a little, execute a little,
    * update some more, execute some more, etc. */
   virtual void UpdateOutputData(DataObject *output);
+  
+  /** Override PropagateRequestedRegion from ProcessObject
+   *  Since inside UpdateOutputData we iterate over streaming pieces
+   *  we don't need to proapage up the pipeline
+   */
+  virtual void PropagateRequestedRegion(DataObject *output);
+
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
