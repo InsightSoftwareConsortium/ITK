@@ -22,6 +22,24 @@
 #include <itkImageRegionIteratorWithIndex.h>
 #include "itkSimpleFilterWatcher.h"
 
+template<class TImage1Type,class TImage2Type>
+bool ImageInformationIsEqual(TImage1Type::Pointer image1,
+                             TImage2Type::Pointer image2)
+{
+  if (image1->GetSpacing() != image2->GetSpacing())
+    {
+    return false;
+    }
+  if (image1->GetOrigin() != image2->GetOrigin())
+    {
+    return false;
+    }
+  if (image1->GetDirection() != image2->GetDirection())
+    {
+    return false;
+    }
+  return true;
+}
 
 int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] ) 
 {
@@ -63,6 +81,20 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
+
+  // Set the metadata for the image
+  myImageType::PointType origin;
+  myImageType::SpacingType spacing;
+  myImageType::DirectionType direction;
+
+  origin[0] = 1.0; origin[1] = 2.0; origin[2] = 3.0;
+  spacing[0] = .1; spacing[1] = .2; spacing[2] = .3;
+  direction.SetIdentity();
+  direction(1,1) = -1.0;
+
+  inputImage->SetSpacing(spacing);
+  inputImage->SetOrigin(origin);
+  inputImage->SetDirection(direction);
 
   // Declare Iterator type for the input image
   typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
@@ -151,7 +183,17 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
     ++itg;
   }
 
-
+  if (!ImageInformationIsEqual<myImageType,myImageType>(inputImage, outputImage))
+    {
+    std::cout << "ImageInformation mismatch!" << std::endl;
+    std::cout << "inputImage Origin:  " << inputImage->GetOrigin() << std::endl;
+    std::cout << "outputImage Origin: " << outputImage->GetOrigin() << std::endl;
+    std::cout << "inputImage Spacing:  " << inputImage->GetSpacing() << std::endl;
+    std::cout << "outputImage Spacing: " << outputImage->GetSpacing() << std::endl;
+    std::cout << "inputImage Direction:  " << inputImage->GetDirection() << std::endl;
+    std::cout << "outputImage Direction: " << outputImage->GetDirection() << std::endl;
+    return EXIT_FAILURE;
+    }
   // All objects should be automatically destroyed at this point
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
