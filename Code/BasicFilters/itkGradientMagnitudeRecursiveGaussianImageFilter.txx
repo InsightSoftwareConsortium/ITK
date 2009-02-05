@@ -213,6 +213,8 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   cumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
   cumulativeImage->Allocate();
   cumulativeImage->FillBuffer( NumericTraits< InternalRealType >::Zero );
+  // The output's information must match the input's information
+  cumulativeImage->CopyInformation(this->GetInput());
 
   m_DerivativeFilter->SetInput( inputImage );
 
@@ -253,7 +255,6 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
     }
-
   m_SqrtFilter->SetInput( cumulativeImage );
   m_SqrtFilter->GraftOutput( this->GetOutput() );
   m_SqrtFilter->Update();
