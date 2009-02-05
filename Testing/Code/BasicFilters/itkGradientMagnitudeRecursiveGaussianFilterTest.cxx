@@ -23,8 +23,10 @@
 #include "itkSimpleFilterWatcher.h"
 
 template<class TImage1Type,class TImage2Type>
-bool ImageInformationIsEqual(TImage1Type::Pointer image1,
-                             TImage2Type::Pointer image2)
+class ImageInformationIsEqual
+{
+public:
+static bool Check(const TImage1Type * image1, const TImage2Type * image2)
 {
   if (image1->GetSpacing() != image2->GetSpacing())
     {
@@ -40,6 +42,7 @@ bool ImageInformationIsEqual(TImage1Type::Pointer image1,
     }
   return true;
 }
+};
 
 int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] ) 
 {
@@ -183,7 +186,7 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
     ++itg;
   }
 
-  if (!ImageInformationIsEqual<myImageType,myImageType>(inputImage, outputImage))
+  if (!ImageInformationIsEqual<myImageType,myImageType>::Check(inputImage, outputImage))
     {
     std::cout << "ImageInformation mismatch!" << std::endl;
     std::cout << "inputImage Origin:  " << inputImage->GetOrigin() << std::endl;
