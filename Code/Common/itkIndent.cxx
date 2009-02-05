@@ -62,7 +62,7 @@ Indent
 std::ostream& 
 operator<<(std::ostream& os, const Indent& ind)
 {
-  os << blanks + (ITK_NUMBER_OF_BLANKS-ind.m_Indent) ;
+  os << blanks + (ITK_NUMBER_OF_BLANKS-ind.m_Indent);
   return os;
 }
 

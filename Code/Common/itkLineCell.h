@@ -60,7 +60,7 @@ public:
   
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const 
-  {return Superclass::LINE_CELL;}
+    {return Superclass::LINE_CELL;}
   virtual void MakeCopy( CellAutoPointer & ) const;
   virtual unsigned int GetDimension(void) const;
   virtual unsigned int GetNumberOfPoints(void) const;
@@ -95,7 +95,7 @@ protected:
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
- private:
+private:
   LineCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };

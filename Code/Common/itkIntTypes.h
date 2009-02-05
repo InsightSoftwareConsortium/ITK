@@ -21,36 +21,35 @@
 extern "C" {
 #endif
 
-/** Convenient and more descriptive integer types. */
-typedef char      ITK_INT8;
-typedef int       ITK_INT32;
+  /** Convenient and more descriptive integer types. */
+  typedef char      ITK_INT8;
+  typedef int       ITK_INT32;
 
 #ifndef _WIN32
-typedef long long   ITK_INT64;
+  typedef long long   ITK_INT64;
 #endif
 
 #ifdef _WIN32
-typedef long      ITK_INT64;
+  typedef long      ITK_INT64;
 #endif
 
-typedef unsigned char ITK_UINT8;
-typedef unsigned short  ITK_UINT16;
-typedef unsigned    ITK_UINT32;
+  typedef unsigned char   ITK_UINT8;
+  typedef unsigned short  ITK_UINT16;
+  typedef unsigned        ITK_UINT32;
 
 #ifndef _WIN32
-typedef unsigned long long  ITK_UINT64;
+  typedef unsigned long long  ITK_UINT64;
 #endif
 
 #ifdef _WIN32
-typedef unsigned long ITK_UINT64;
+  typedef unsigned long ITK_UINT64;
 #endif
 
-typedef int       ITK_INTPTR;
-typedef unsigned    ITK_UINTPTR;
+  typedef int       ITK_INTPTR;
+  typedef unsigned  ITK_UINTPTR;
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif  /* __itkIntTypes_h */
-

@@ -116,7 +116,7 @@ protected:
 
   /** This method splits the active pixels of the sparse image into equal size
    *  lists for multi-threading. These lists remain constant throughout the
-   *  operation of this filter.*/
+   *  operation of this filter. */
   virtual void Initialize();
   
   /** This class does not use AllocateUpdateBuffer to allocate memory for its 

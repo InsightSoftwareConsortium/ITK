@@ -31,15 +31,15 @@ template <unsigned int NImageDimension, unsigned int R, unsigned int C>
 class ImageTransformHelper
 {
 public:
-  typedef ImageBase<NImageDimension>         ImageType;
-  typedef typename ImageType::IndexType      IndexType;
-  typedef typename ImageType::SpacingType    SpacingType;
+  typedef ImageBase<NImageDimension>                       ImageType;
+  typedef typename ImageType::IndexType                    IndexType;
+  typedef typename ImageType::SpacingType                  SpacingType;
   typedef Matrix<double, NImageDimension, NImageDimension> MatrixType;
-  typedef typename ImageType::PointType      OriginType;
-  typedef Point<double, NImageDimension> DoublePoint;
-  typedef Point<float, NImageDimension> FloatPoint;
-  typedef Concept::Detail::UniqueType_bool<false> UniqueTypeBoolFalse;
-  typedef Concept::Detail::UniqueType_bool<true> UniqueTypeBoolTrue;
+  typedef typename ImageType::PointType                    OriginType;
+  typedef Point<double, NImageDimension>                   DoublePoint;
+  typedef Point<float, NImageDimension>                    FloatPoint;
+  typedef Concept::Detail::UniqueType_bool<false>          UniqueTypeBoolFalse;
+  typedef Concept::Detail::UniqueType_bool<true>           UniqueTypeBoolTrue;
 
   //
   // Methods with DoublePoint
@@ -52,11 +52,11 @@ public:
     const MatrixType & matrix, const OriginType  & origin,
     const IndexType & index, DoublePoint & point)
     {
-      ImageTransformHelper<NImageDimension, R, C>::
-        TransformIndexToPhysicalPointRow(
-          matrix, origin,
-          index, point,
-          Concept::Detail::UniqueType_bool<(R+1==0)>());
+    ImageTransformHelper<NImageDimension, R, C>::
+      TransformIndexToPhysicalPointRow(
+        matrix, origin,
+        index, point,
+        Concept::Detail::UniqueType_bool<(R+1==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
@@ -64,20 +64,20 @@ public:
     const IndexType & index, DoublePoint & point,
     const UniqueTypeBoolFalse& )
     {
-      point[R] = origin[R];
+    point[R] = origin[R];
 
-      // Start column
-      ImageTransformHelper<NImageDimension,R,C>
-        ::TransformIndexToPhysicalPointCol(
-          matrix,
-          index,point,
-          Concept::Detail::UniqueType_bool<(C+1==0)>());
-      // Do Next Row
-      ImageTransformHelper<NImageDimension,R-1,C>
-        ::TransformIndexToPhysicalPointRow(
-          matrix,origin,
-          index,point,
-          Concept::Detail::UniqueType_bool<(R==0)>());
+    // Start column
+    ImageTransformHelper<NImageDimension,R,C>
+      ::TransformIndexToPhysicalPointCol(
+        matrix,
+        index,point,
+        Concept::Detail::UniqueType_bool<(C+1==0)>());
+    // Do Next Row
+    ImageTransformHelper<NImageDimension,R-1,C>
+      ::TransformIndexToPhysicalPointRow(
+        matrix,origin,
+        index,point,
+        Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
@@ -85,7 +85,7 @@ public:
     const IndexType &, DoublePoint &,
     const UniqueTypeBoolTrue& )
     {
-      // Do last row
+    // Do last row
     }
 
   inline static void TransformIndexToPhysicalPointCol(
@@ -93,14 +93,14 @@ public:
     const IndexType & index, DoublePoint & point,
     const UniqueTypeBoolFalse& )
     {
-      point[R] = point[R] + matrix[R][C]*index[C];
+    point[R] = point[R] + matrix[R][C]*index[C];
 
-      // Do next dimension
-      ImageTransformHelper<NImageDimension,R,C-1>
-        ::TransformIndexToPhysicalPointCol(
-          matrix,
-          index,point,
-          Concept::Detail::UniqueType_bool<(C==0)>());
+    // Do next dimension
+    ImageTransformHelper<NImageDimension,R,C-1>
+      ::TransformIndexToPhysicalPointCol(
+        matrix,
+        index,point,
+        Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointCol(
@@ -117,12 +117,12 @@ public:
     const MatrixType & matrix, const OriginType  & origin,
     const DoublePoint & point, IndexType  & index)
     {
-      DoublePoint rindex;
-      ImageTransformHelper<NImageDimension, R, C>::
-        TransformPhysicalPointToIndexRow(
-          matrix, origin,
-          point, rindex, index,
-          Concept::Detail::UniqueType_bool<(R+1==0)>());
+    DoublePoint rindex;
+    ImageTransformHelper<NImageDimension, R, C>::
+      TransformPhysicalPointToIndexRow(
+        matrix, origin,
+        point, rindex, index,
+        Concept::Detail::UniqueType_bool<(R+1==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexRow(
@@ -130,19 +130,19 @@ public:
     const DoublePoint & point, DoublePoint & rindex, IndexType & index,
     const UniqueTypeBoolFalse& )
     {
-      rindex[R] = 0.0;
-      // Start column
-      ImageTransformHelper<NImageDimension,R,C>
-        ::TransformPhysicalPointToIndexCol(
-          matrix,origin,
-          point,rindex,index,
-          Concept::Detail::UniqueType_bool<(C+1==0)>());
-      // Do next row
-      ImageTransformHelper<NImageDimension,R-1,C>
-        ::TransformPhysicalPointToIndexRow(
-          matrix,origin,
-          point,rindex,index,
-          Concept::Detail::UniqueType_bool<(R==0)>());
+    rindex[R] = 0.0;
+    // Start column
+    ImageTransformHelper<NImageDimension,R,C>
+      ::TransformPhysicalPointToIndexCol(
+        matrix,origin,
+        point,rindex,index,
+        Concept::Detail::UniqueType_bool<(C+1==0)>());
+    // Do next row
+    ImageTransformHelper<NImageDimension,R-1,C>
+      ::TransformPhysicalPointToIndexRow(
+        matrix,origin,
+        point,rindex,index,
+        Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexRow(
@@ -150,7 +150,7 @@ public:
     const DoublePoint &, DoublePoint &, IndexType &,
     const UniqueTypeBoolTrue& )
     {
-      // Do last row
+    // Do last row
     }
 
   inline static void TransformPhysicalPointToIndexCol(
@@ -158,14 +158,14 @@ public:
     const DoublePoint & point, DoublePoint & rindex, IndexType & index,
     const UniqueTypeBoolFalse& )
     {
-      rindex[R] = rindex[R] + matrix[R][C]*(point[C] - origin[C]);
+    rindex[R] = rindex[R] + matrix[R][C]*(point[C] - origin[C]);
 
-      // Do next dimension
-      ImageTransformHelper<NImageDimension,R,C-1>
-        ::TransformPhysicalPointToIndexCol(
-          matrix,origin,
-          point,rindex,index,
-          Concept::Detail::UniqueType_bool<(C==0)>());
+    // Do next dimension
+    ImageTransformHelper<NImageDimension,R,C-1>
+      ::TransformPhysicalPointToIndexCol(
+        matrix,origin,
+        point,rindex,index,
+        Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexCol(
@@ -173,7 +173,7 @@ public:
     const DoublePoint &, DoublePoint &rindex, IndexType &index,
     const UniqueTypeBoolTrue& )
     {
-     index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
+    index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
     }
 
   //
@@ -187,11 +187,11 @@ public:
     const MatrixType & matrix, const OriginType  & origin,
     const IndexType & index, FloatPoint & point)
     {
-      ImageTransformHelper<NImageDimension, R, C>::
-        TransformIndexToPhysicalPointRow(
-          matrix, origin,
-          index, point,
-          Concept::Detail::UniqueType_bool<(R+1==0)>());
+    ImageTransformHelper<NImageDimension, R, C>::
+      TransformIndexToPhysicalPointRow(
+        matrix, origin,
+        index, point,
+        Concept::Detail::UniqueType_bool<(R+1==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
@@ -199,20 +199,20 @@ public:
     const IndexType & index, FloatPoint & point,
     const UniqueTypeBoolFalse& )
     {
-      point[R] = origin[R];
+    point[R] = origin[R];
 
-      // Start column
-      ImageTransformHelper<NImageDimension,R,C>
-        ::TransformIndexToPhysicalPointCol(
-          matrix,
-          index,point,
-          Concept::Detail::UniqueType_bool<(C+1==0)>());
-      // Do Next Row
-      ImageTransformHelper<NImageDimension,R-1,C>
-        ::TransformIndexToPhysicalPointRow(
-          matrix,origin,
-          index,point,
-          Concept::Detail::UniqueType_bool<(R==0)>());
+    // Start column
+    ImageTransformHelper<NImageDimension,R,C>
+      ::TransformIndexToPhysicalPointCol(
+        matrix,
+        index,point,
+        Concept::Detail::UniqueType_bool<(C+1==0)>());
+    // Do Next Row
+    ImageTransformHelper<NImageDimension,R-1,C>
+      ::TransformIndexToPhysicalPointRow(
+        matrix,origin,
+        index,point,
+        Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointRow(
@@ -220,7 +220,7 @@ public:
     const IndexType &, FloatPoint &,
     const UniqueTypeBoolTrue& )
     {
-      // Do last row
+    // Do last row
     }
 
   inline static void TransformIndexToPhysicalPointCol(
@@ -228,14 +228,14 @@ public:
     const IndexType & index, FloatPoint & point,
     const UniqueTypeBoolFalse& )
     {
-      point[R] = point[R] + matrix[R][C]*index[C];
-
-      // Do next dimension
-      ImageTransformHelper<NImageDimension,R,C-1>
-        ::TransformIndexToPhysicalPointCol(
-          matrix,
-          index,point,
-          Concept::Detail::UniqueType_bool<(C==0)>());
+    point[R] = point[R] + matrix[R][C]*index[C];
+    
+    // Do next dimension
+    ImageTransformHelper<NImageDimension,R,C-1>
+      ::TransformIndexToPhysicalPointCol(
+        matrix,
+        index,point,
+        Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformIndexToPhysicalPointCol(
@@ -252,32 +252,32 @@ public:
     const MatrixType & matrix, const OriginType  & origin,
     const FloatPoint & point, IndexType  & index)
     {
-      FloatPoint rindex;
-      ImageTransformHelper<NImageDimension, R, C>::
-        TransformPhysicalPointToIndexRow(
-          matrix, origin,
-          point, rindex, index,
-          Concept::Detail::UniqueType_bool<(R+1==0)>());
+    FloatPoint rindex;
+    ImageTransformHelper<NImageDimension, R, C>::
+      TransformPhysicalPointToIndexRow(
+        matrix, origin,
+        point, rindex, index,
+        Concept::Detail::UniqueType_bool<(R+1==0)>());
     }
-
+  
   inline static void TransformPhysicalPointToIndexRow(
     const MatrixType & matrix, const OriginType  & origin,
     const FloatPoint & point, FloatPoint & rindex, IndexType & index,
     const UniqueTypeBoolFalse& )
     {
-      rindex[R] = 0.0;
-      // Start column
-      ImageTransformHelper<NImageDimension,R,C>
-        ::TransformPhysicalPointToIndexCol(
-          matrix,origin,
-          point,rindex,index,
-          Concept::Detail::UniqueType_bool<(C+1==0)>());
-      // Do next row
-      ImageTransformHelper<NImageDimension,R-1,C>
-        ::TransformPhysicalPointToIndexRow(
-          matrix,origin,
-          point,rindex,index,
-          Concept::Detail::UniqueType_bool<(R==0)>());
+    rindex[R] = 0.0;
+    // Start column
+    ImageTransformHelper<NImageDimension,R,C>
+      ::TransformPhysicalPointToIndexCol(
+        matrix,origin,
+        point,rindex,index,
+        Concept::Detail::UniqueType_bool<(C+1==0)>());
+    // Do next row
+    ImageTransformHelper<NImageDimension,R-1,C>
+      ::TransformPhysicalPointToIndexRow(
+        matrix,origin,
+        point,rindex,index,
+        Concept::Detail::UniqueType_bool<(R==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexRow(
@@ -285,7 +285,7 @@ public:
     const FloatPoint &, FloatPoint &, IndexType &,
     const UniqueTypeBoolTrue& )
     {
-      // Do last row
+    // Do last row
     }
 
   inline static void TransformPhysicalPointToIndexCol(
@@ -293,14 +293,14 @@ public:
     const FloatPoint & point, FloatPoint & rindex, IndexType & index,
     const UniqueTypeBoolFalse& )
     {
-      rindex[R] = rindex[R] + matrix[R][C]*(point[C] - origin[C]);
+    rindex[R] = rindex[R] + matrix[R][C]*(point[C] - origin[C]);
 
-      // Do next dimension
-      ImageTransformHelper<NImageDimension,R,C-1>
-        ::TransformPhysicalPointToIndexCol(
-          matrix,origin,
-          point,rindex,index,
-          Concept::Detail::UniqueType_bool<(C==0)>());
+    // Do next dimension
+    ImageTransformHelper<NImageDimension,R,C-1>
+      ::TransformPhysicalPointToIndexCol(
+        matrix,origin,
+        point,rindex,index,
+        Concept::Detail::UniqueType_bool<(C==0)>());
     }
 
   inline static void TransformPhysicalPointToIndexCol(
@@ -308,11 +308,10 @@ public:
     const FloatPoint &, FloatPoint &rindex, IndexType &index,
     const UniqueTypeBoolTrue& )
     {
-     index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
+    index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
     }
 
 };
 } // end namespace itk
 
 #endif
-

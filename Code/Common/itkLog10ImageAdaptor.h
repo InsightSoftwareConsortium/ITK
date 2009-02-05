@@ -39,7 +39,7 @@ template <class TInternalType, class TExternalType >
 class ITK_EXPORT Log10PixelAccessor  
 {
 public:
- /** External typedef. It defines the external aspect
+  /** External typedef. It defines the external aspect
    * that this class will exhibit. */
   typedef TExternalType ExternalType;
 
@@ -76,12 +76,12 @@ class ITK_EXPORT Log10ImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef Log10ImageAdaptor  Self;
+  typedef Log10ImageAdaptor                          Self;
   typedef ImageAdaptor<TImage,Accessor::Log10PixelAccessor<
                                  typename TImage::PixelType,
                                  TOutputPixelType> > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                         Pointer;
+  typedef SmartPointer<const Self>                   ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  

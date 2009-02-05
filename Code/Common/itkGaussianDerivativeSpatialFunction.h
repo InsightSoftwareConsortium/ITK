@@ -70,7 +70,7 @@ public:
 
   /** Evaluate the function at a given position and return the 
    *  value in the specific direction. SetDirection() should be used
-   *  to set the direction.*/
+   *  to set the direction. */
   OutputType Evaluate(const TInput& position) const;
 
   /** Evaluate the function at a given position and return a vector */

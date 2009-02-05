@@ -27,10 +27,10 @@
 #include <typeinfo>
 
 #if defined(_WIN32)
-  // To get LONG defined
+// To get LONG defined
   #include "itkWindows.h"
 #elif defined(__APPLE__)
-  // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
+// To get MAC_OS_X_VERSION_MIN_REQUIRED defined
   #include <AvailabilityMacros.h>
 #endif
 
@@ -55,8 +55,8 @@ class ITKCommon_EXPORT LightObject
 {
 public:
   /** Standard clas typedefs. */
-  typedef LightObject         Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef LightObject               Self;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */

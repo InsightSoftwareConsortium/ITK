@@ -330,7 +330,7 @@ protected:
   itkSetMacro(ElapsedIterations, unsigned int);
 
   /** This method is called after the solution has been generated to allow
-   * subclasses to apply some further processing to the output.*/
+   * subclasses to apply some further processing to the output. */
   virtual void PostProcessOutput() {}
 
   /** The maximum number of iterations this filter will run */

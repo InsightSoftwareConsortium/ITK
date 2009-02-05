@@ -73,9 +73,9 @@ class ITKCommon_EXPORT LightProcessObject : public Object
 public:
   /** Standard class typedefs. */
   typedef LightProcessObject       Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -135,4 +135,3 @@ private:
 } // end namespace itk
 
 #endif
-

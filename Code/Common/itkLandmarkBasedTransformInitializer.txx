@@ -118,8 +118,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
                                                    this->m_Transform.GetPointer() );
       
       typedef typename VersorRigid3DTransformType::OutputVectorType VectorType;
-      typedef typename VersorRigid3DTransformType::OutputPointType PointType;
-      typedef typename VersorRigid3DTransformType::CenterType RotationCenterType;
+      typedef typename VersorRigid3DTransformType::OutputPointType  PointType;
+      typedef typename VersorRigid3DTransformType::CenterType       RotationCenterType;
       
 
       // Compute the centroids
@@ -201,7 +201,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
           ++ii;
           itkDebugMacro(<< "f_" << ii << " = " << fixedCentered );
           itkDebugMacro(<< "m_" << ii << " = " << movingCentered );
-#endif          
+#endif
           ++movingItr;
           ++fixedItr;
           }
@@ -291,7 +291,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
                  this->m_Transform.GetPointer() );
       
       typedef typename Rigid2DTransformType::OutputVectorType VectorType;
-      typedef typename Rigid2DTransformType::OutputPointType PointType;
+      typedef typename Rigid2DTransformType::OutputPointType  PointType;
 
       //Initialize the transform to identity
       transform->SetIdentity();
@@ -405,7 +405,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
       transform->SetTranslation( translation );
  
       break;
-      }      
+      }
 
 
         
@@ -441,7 +441,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
   else
     {
     os << indent << "None" << std::endl;
-    }      
+    }
 
   os << indent << "FixedImage   = " << std::endl;
   if (m_FixedImage)
@@ -451,7 +451,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
   else
     {
     os << indent << "None" << std::endl;
-    }      
+    }
 
   os << indent << "MovingImage   = " << std::endl;
   if (m_MovingImage)
@@ -461,7 +461,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage >
   else
     {
     os << indent << "None" << std::endl;
-    }      
+    }
 
   os << indent << "Fixed Landmarks: " << std::endl;
   PointsContainerConstIterator fitr = m_FixedLandmarks.begin();

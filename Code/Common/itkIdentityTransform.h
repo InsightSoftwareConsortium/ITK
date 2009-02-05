@@ -160,7 +160,7 @@ public:
       \end{array}\right] 
    *
    * \f]
-   * **/
+   */
   virtual const JacobianType & GetJacobian(const InputPointType  & ) const
     { 
     return this->m_Jacobian;

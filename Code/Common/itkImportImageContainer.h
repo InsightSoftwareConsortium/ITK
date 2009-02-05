@@ -46,9 +46,9 @@ class ImportImageContainer:  public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ImportImageContainer     Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ImportImageContainer      Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
   /** Save the template parameters. */
@@ -75,24 +75,24 @@ public:
 
   /** Index operator. This version can be an lvalue. */
   TElement & operator[](const ElementIdentifier id)
-    { return m_ImportPointer[id]; };
+    { return m_ImportPointer[id]; }
 
   /** Index operator. This version can only be an rvalue */
   const TElement & operator[](const ElementIdentifier id) const
-    { return m_ImportPointer[id]; };
+    { return m_ImportPointer[id]; }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
   TElement *GetBufferPointer()
-    { return m_ImportPointer; };
+    { return m_ImportPointer; }
   
   /** Get the capacity of the container. */
   unsigned long Capacity(void) const
-    { return (unsigned long) m_Capacity; };
+    { return (unsigned long) m_Capacity; }
 
   /** Get the number of elements currently stored in the container. */
   unsigned long Size(void) const
-    { return (unsigned long) m_Size; };
+    { return (unsigned long) m_Size; }
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  If new memory

@@ -163,7 +163,7 @@ LightObject
 #if (defined(WIN32) || defined(_WIN32))
   InterlockedIncrement(&m_ReferenceCount);
 
-// Mac optimization
+  // Mac optimization
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
  #if defined (__LP64__) && __LP64__
   OSAtomicIncrement64Barrier(&m_ReferenceCount);
@@ -171,11 +171,11 @@ LightObject
   OSAtomicIncrement32Barrier(&m_ReferenceCount);
  #endif
 
-// gcc optimization
+  // gcc optimization
 #elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
   __atomic_add(&m_ReferenceCount, 1);
 
-// General case
+  // General case
 #else
   m_ReferenceCountLock.Lock();
   m_ReferenceCount++;

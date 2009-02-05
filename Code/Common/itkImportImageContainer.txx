@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImportImageContainer_txx
-#define _itkImportImageContainer_txx
+#ifndef __itkImportImageContainer_txx
+#define __itkImportImageContainer_txx
 
 #include "itkImportImageContainer.h"
 #include <cstring>

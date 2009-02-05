@@ -66,10 +66,10 @@ class ITK_EXPORT KernelTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef KernelTransform Self;
-  typedef Transform<TScalarType, NDimensions, NDimensions >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef KernelTransform                                   Self;
+  typedef Transform<TScalarType, NDimensions, NDimensions > Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( KernelTransform, Transform );
@@ -112,7 +112,7 @@ public:
     
   /** VectorSet typedef. */
   typedef itk::VectorContainer<unsigned long,InputVectorType> VectorSetType;
-  typedef typename VectorSetType::Pointer        VectorSetPointer;
+  typedef typename VectorSetType::Pointer                     VectorSetPointer;
   
   /** Get the source landmarks list, which we will denote \f$ p \f$. */
   itkGetObjectMacro( SourceLandmarks, PointSetType);
@@ -328,7 +328,7 @@ protected:
   /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks;
 
- private:
+private:
   KernelTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

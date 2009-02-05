@@ -19,7 +19,7 @@
 
 #include <itkTreeIteratorBase.h>
 
-namespace itk{
+namespace itk {
 
 template <class TTreeType>
 class InOrderTreeIterator : public TreeIteratorBase<TTreeType> 

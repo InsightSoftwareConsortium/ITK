@@ -50,10 +50,10 @@ class ITK_EXPORT InteriorExteriorSpatialFunction : public
 {
 public:
   /** Standard class typedefs. */
-  typedef InteriorExteriorSpatialFunction Self;
+  typedef InteriorExteriorSpatialFunction          Self;
   typedef SpatialFunction<bool, VDimension,TInput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(InteriorExteriorSpatialFunction, SpatialFunction);

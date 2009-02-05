@@ -73,10 +73,10 @@ void LoggerManager::SetPriorityLevel( PriorityLevelType level )
 {
   ContainerType::iterator itr = this->m_LoggerSet.begin();
   while( itr != this->m_LoggerSet.end() )
-  {
+    {
     (*itr).second->SetPriorityLevel( level );
     ++itr;
-  }
+    }
 }
 
 
@@ -84,10 +84,10 @@ void LoggerManager::SetLevelForFlushing( PriorityLevelType level )
 {
   ContainerType::iterator itr = this->m_LoggerSet.begin();
   while( itr != this->m_LoggerSet.end() )
-  {
+    {
     (*itr).second->SetLevelForFlushing( level );
     ++itr;
-  }
+    }
 }
 
 
@@ -95,10 +95,10 @@ void LoggerManager::AddLogOutput( OutputType* output )
 {
   ContainerType::iterator itr = this->m_LoggerSet.begin();
   while( itr != this->m_LoggerSet.end() )
-  {
+    {
     (*itr).second->AddLogOutput( output );
     ++itr;
-  }
+    }
 }
 
 
@@ -106,10 +106,10 @@ void LoggerManager::Write( PriorityLevelType level, std::string const & content)
 {
   ContainerType::iterator itr = this->m_LoggerSet.begin();
   while( itr != this->m_LoggerSet.end() )
-  {
+    {
     (*itr).second->Write( level, content );
     ++itr;
-  }
+    }
 }
 
 
@@ -117,10 +117,10 @@ void LoggerManager::Flush()
 {
   ContainerType::iterator itr = this->m_LoggerSet.begin();
   while( itr != this->m_LoggerSet.end() )
-  {
+    {
     (*itr).second->Flush();
     ++itr;
-  }
+    }
 }
 
 /** Print contents of a LoggerManager */
@@ -132,5 +132,3 @@ void LoggerManager::PrintSelf(std::ostream &os, Indent indent) const
 }
 
 } // namespace itk
-
-

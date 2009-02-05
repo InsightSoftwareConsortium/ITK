@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef itk_alloc_h
-#define itk_alloc_h
+#ifndef __itk_alloc_h
+#define __itk_alloc_h
 
 // That is an adaptor for working with any alloc provided below
 template<class T, class Alloc>

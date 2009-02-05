@@ -45,93 +45,93 @@ namespace itk
 template < class SimpleLoggerType >
 class LoggerThreadWrapper : public SimpleLoggerType
 {
-  public:
+public:
   
-    typedef LoggerThreadWrapper  Self;
-    typedef SimpleLoggerType  Superclass;
-    typedef SmartPointer<Self>  Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
+  typedef LoggerThreadWrapper       Self;
+  typedef SimpleLoggerType          Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
   
-    /** Run-time type information (and related methods). */
-    itkTypeMacro( LoggerThreadWrapper, SimpleLoggerType );
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( LoggerThreadWrapper, SimpleLoggerType );
   
-    /** New macro for creation of through a Smart Pointer */
-    itkNewMacro( Self );
+  /** New macro for creation of through a Smart Pointer */
+  itkNewMacro( Self );
   
-    typedef  typename SimpleLoggerType::OutputType   OutputType;
-    typedef  typename SimpleLoggerType::PriorityLevelType  PriorityLevelType;
+  typedef  typename SimpleLoggerType::OutputType         OutputType;
+  typedef  typename SimpleLoggerType::PriorityLevelType  PriorityLevelType;
   
-    /** Definition of types of operations for LoggerThreadWrapper. */
-    typedef enum
-      {
-      SET_PRIORITY_LEVEL,
-      SET_LEVEL_FOR_FLUSHING,
-      ADD_LOG_OUTPUT,
-      WRITE,
-      FLUSH
-      } OperationType;
+  /** Definition of types of operations for LoggerThreadWrapper. */
+  typedef enum
+    {
+    SET_PRIORITY_LEVEL,
+    SET_LEVEL_FOR_FLUSHING,
+    ADD_LOG_OUTPUT,
+    WRITE,
+    FLUSH
+    } OperationType;
   
   
-    /** Set the priority level for the current logger. Only messages that have
-     * priorities equal or greater than the one set here will be posted to the
-     * current outputs */
-    virtual void SetPriorityLevel( PriorityLevelType level );
+  /** Set the priority level for the current logger. Only messages that have
+   * priorities equal or greater than the one set here will be posted to the
+   * current outputs */
+  virtual void SetPriorityLevel( PriorityLevelType level );
   
-    /** Get the priority level for the current logger. Only messages that have
-     * priorities equal or greater than the one set here will be posted to the
-     * current outputs */
-    virtual PriorityLevelType GetPriorityLevel() const;
+  /** Get the priority level for the current logger. Only messages that have
+   * priorities equal or greater than the one set here will be posted to the
+   * current outputs */
+  virtual PriorityLevelType GetPriorityLevel() const;
   
-    virtual void SetLevelForFlushing( PriorityLevelType level );
-    virtual PriorityLevelType GetLevelForFlushing() const;
+  virtual void SetLevelForFlushing( PriorityLevelType level );
+  virtual PriorityLevelType GetLevelForFlushing() const;
   
-    /** Registers another output stream with the multiple output. */
-    virtual void AddLogOutput( OutputType* output );
+  /** Registers another output stream with the multiple output. */
+  virtual void AddLogOutput( OutputType* output );
   
-    virtual void Write(PriorityLevelType level, std::string const & content);
+  virtual void Write(PriorityLevelType level, std::string const & content);
   
-    virtual void Flush();
+  virtual void Flush();
   
-  protected:
+protected:
   
-    /** Constructor */
-    LoggerThreadWrapper();
+  /** Constructor */
+  LoggerThreadWrapper();
   
-    /** Destructor */
-    virtual ~LoggerThreadWrapper();
+  /** Destructor */
+  virtual ~LoggerThreadWrapper();
   
-    /** Print contents of a LoggerThreadWrapper */
-    virtual void PrintSelf(std::ostream &os, Indent indent) const;
+  /** Print contents of a LoggerThreadWrapper */
+  virtual void PrintSelf(std::ostream &os, Indent indent) const;
   
-    static ITK_THREAD_RETURN_TYPE ThreadFunction(void*);
+  static ITK_THREAD_RETURN_TYPE ThreadFunction(void*);
   
-  private:
+private:
   
-    typedef std::queue<OperationType> OperationContainerType;
+  typedef std::queue<OperationType> OperationContainerType;
   
-    typedef std::queue<std::string>  MessageContainerType;
+  typedef std::queue<std::string>  MessageContainerType;
   
-    typedef std::queue<PriorityLevelType>  LevelContainerType;
+  typedef std::queue<PriorityLevelType>  LevelContainerType;
   
-    typedef std::queue<typename OutputType::Pointer>  OutputContainerType;
+  typedef std::queue<typename OutputType::Pointer>  OutputContainerType;
   
-    MultiThreader::Pointer  m_Threader;
+  MultiThreader::Pointer  m_Threader;
   
-    int m_ThreadID;
+  int m_ThreadID;
   
-    OperationContainerType  m_OperationQ;
+  OperationContainerType  m_OperationQ;
   
-    MessageContainerType  m_MessageQ;
+  MessageContainerType  m_MessageQ;
   
-    LevelContainerType  m_LevelQ;
+  LevelContainerType  m_LevelQ;
   
-    OutputContainerType m_OutputQ;
+  OutputContainerType m_OutputQ;
   
-    SimpleFastMutexLock m_Mutex;
+  SimpleFastMutexLock m_Mutex;
   
-    SimpleFastMutexLock m_WaitMutex;
+  SimpleFastMutexLock m_WaitMutex;
   
-  };  // class LoggerThreadWrapper
+};  // class LoggerThreadWrapper
 } // namespace itk
   
 #ifndef ITK_MANUAL_INSTANTIATION

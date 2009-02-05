@@ -40,10 +40,10 @@ class ITKCommon_EXPORT KernelFunction : public FunctionBase<double,double>
 {
 public:  
   /** Standard class typedefs. */
-  typedef KernelFunction Self;
+  typedef KernelFunction              Self;
   typedef FunctionBase<double,double> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(KernelFunction, FunctionBase);
@@ -63,4 +63,3 @@ protected:
 } // end namespace itk
 
 #endif
-

@@ -54,10 +54,10 @@ class ITK_EXPORT LinearInterpolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef LinearInterpolateImageFunction Self;
+  typedef LinearInterpolateImageFunction                  Self;
   typedef InterpolateImageFunction<TInputImage,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LinearInterpolateImageFunction, InterpolateImageFunction);

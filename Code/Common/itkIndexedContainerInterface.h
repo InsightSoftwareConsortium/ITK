@@ -56,9 +56,9 @@ class IndexedContainerInterface: public Object
 public:
   /** Standard class typedefs. */
   typedef IndexedContainerInterface      Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                         Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
   
   /** Standard part of every itk Object. */
   itkTypeMacro(IndexedContainerInterface, Object);
@@ -84,7 +84,7 @@ public:
   Element& CreateElementAt(ElementIdentifier);
   
   /** Get a copy of an element without range checking. */
-  Element GetElement(ElementIdentifier) const ;
+  Element GetElement(ElementIdentifier) const;
   
   /** Set the value of an element.
    * It is NOT guaranteed whether a spot for the element will be created
@@ -98,14 +98,14 @@ public:
   
   /** Test if there is an entry in the container corresponding to the given
    * index. */
-  bool IndexExists(ElementIdentifier) const ;
+  bool IndexExists(ElementIdentifier) const;
 
   /** Combine the GetElement and IndexExists into one method.
    * If false is returned, then no element with the given identifier was found.
    * If true is returned, then the identifier was found.  In this case,
    * if the element pointer given as input is not null, the element is filled
    * in with the value of the element found. */
-  bool GetElementIfIndexExists(ElementIdentifier, Element*) const ;
+  bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
   
   /** Create an entry in the container corresponding to the given index.
    * The entry will be initialized with the default element.
@@ -121,14 +121,16 @@ public:
    * value of the default element. */
   void DeleteIndex(ElementIdentifier);
   
-  /** Support iteration operations through a container.
+  /** \class Iterator
+   * \brief Support iteration operations through a container.
    * Dereferencing the iterator must provide an object with the following
    * methods:
    *   ElementIdentifier Index(void) const;
    *   Element&          Value(void); */
   class Iterator {}; 
 
-  /** Support const iteration operations through a container.
+  /** \class ConstIterator
+   * \brief Support const iteration operations through a container.
    * Dereferencing the iterator must provide an object with the following
    * methods:
    *   ElementIdentifier Index(void) const;
@@ -142,13 +144,13 @@ public:
   Iterator End();
 
   /** Get a begin const iterator for the container. */  
-  ConstIterator Begin() const ;
+  ConstIterator Begin() const;
   
   /** Get an end const iterator for the container. */
-  ConstIterator End() const ;
+  ConstIterator End() const;
 
   /** Get the number of elements currently stored in the container. */
-  unsigned long Size(void) const ;
+  unsigned long Size(void) const;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT

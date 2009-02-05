@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageSliceConstIteratorWithIndex_txx
-#define _itkImageSliceConstIteratorWithIndex_txx
+#ifndef __itkImageSliceConstIteratorWithIndex_txx
+#define __itkImageSliceConstIteratorWithIndex_txx
 
 #include "itkImageSliceConstIteratorWithIndex.h"
 
@@ -40,9 +40,6 @@ ImageSliceConstIteratorWithIndex<TImage>
     ( this->m_EndIndex[ m_Direction_A ] - this->m_BeginIndex[ m_Direction_A ] ); 
 }
 
-
-
-
 //----------------------------------------------------------------------
 //  Advance to Previous Line
 //----------------------------------------------------------------------
@@ -60,11 +57,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   this->m_Position += m_PixelJump *
     ( this->m_EndIndex[ m_Direction_A ] - this->m_BeginIndex[ m_Direction_A ] ); 
 }
-
-
-
-
-
 
 //----------------------------------------------------------------------
 //  Advance to next slice
@@ -106,9 +98,6 @@ ImageSliceConstIteratorWithIndex<TImage>
     }
 }
 
-
-
-
 //----------------------------------------------------------------------
 //  Go Back to previous slice
 //----------------------------------------------------------------------
@@ -149,10 +138,6 @@ ImageSliceConstIteratorWithIndex<TImage>
     }
 }
 
-
-
-
-
 //----------------------------------------------------------------------
 //  Test for end of line
 //----------------------------------------------------------------------
@@ -163,9 +148,6 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
   return this->m_PositionIndex[m_Direction_A] >= this->m_EndIndex[m_Direction_A];
 }
-
-
-
 
 //----------------------------------------------------------------------
 //  Test for end of slice
@@ -178,9 +160,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   return this->m_PositionIndex[m_Direction_B] >= this->m_EndIndex[m_Direction_B];
 }
 
-
-
-
 //----------------------------------------------------------------------
 //  Test for begin of line
 //----------------------------------------------------------------------
@@ -192,9 +171,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   return this->m_PositionIndex[m_Direction_A] < this->m_BeginIndex[m_Direction_A];
 }
 
-
-
-
 //----------------------------------------------------------------------
 //  Test for begin of slice
 //----------------------------------------------------------------------
@@ -205,11 +181,6 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
   return this->m_PositionIndex[m_Direction_B] < this->m_BeginIndex[m_Direction_B];
 }
-
-
-
-
-
 
 //----------------------------------------------------------------------
 //  Select the fastest changing direction
@@ -227,9 +198,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   m_PixelJump = this->m_OffsetTable[ m_Direction_A ];
 }
 
-
-
-
 //----------------------------------------------------------------------
 //  Select the second fastest changing direction
 //----------------------------------------------------------------------
@@ -246,8 +214,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   m_LineJump = this->m_OffsetTable[ m_Direction_B ];
 }
 
-
-
 //----------------------------------------------------------------------
 //  Advance along a line
 //----------------------------------------------------------------------
@@ -261,8 +227,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   return *this;
 }
 
-
-
 //----------------------------------------------------------------------
 //  Go back along a line
 //----------------------------------------------------------------------
@@ -275,11 +239,6 @@ ImageSliceConstIteratorWithIndex<TImage>
   this->m_Position -= m_PixelJump;
   return *this;
 }
-
-
-
-
-
 
 } // end namespace itk
 

@@ -53,9 +53,9 @@ class ITK_EXPORT ImageSource : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageSource         Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ImageSource               Self;
+  typedef ProcessObject             Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Smart Pointer type to a DataObject. */
@@ -65,10 +65,10 @@ public:
   itkTypeMacro(ImageSource,ProcessObject);
 
   /** Some convenient typedefs. */
-  typedef TOutputImage OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
@@ -225,7 +225,7 @@ protected:
    * outputs of a filter. Some filters may want to override this default
    * behavior. For example, a filter may have multiple outputs with
    * varying resolution. Or a filter may want to process data in place by
-   * grafting its input to its output.*/
+   * grafting its input to its output. */
   virtual void AllocateOutputs();
 
   /** If an imaging filter needs to perform processing after the buffer
@@ -267,9 +267,9 @@ protected:
 
   /** Internal structure used for passing image data into the threading library */
   struct ThreadStruct
-  {
-   Pointer Filter;
-  };
+    {
+    Pointer Filter;
+    };
   
 private:
   ImageSource(const Self&); //purposely not implemented
@@ -294,4 +294,3 @@ private:
 #endif
 
 #endif
-  

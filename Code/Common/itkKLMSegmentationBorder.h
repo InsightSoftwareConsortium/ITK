@@ -137,9 +137,9 @@ class ITKCommon_EXPORT KLMSegmentationBorder : public SegmentationBorder
 
 public:
   /** Standard class typedefs. */
-  typedef KLMSegmentationBorder   Self;
-  typedef SegmentationBorder Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef KLMSegmentationBorder     Self;
+  typedef SegmentationBorder        Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -185,7 +185,7 @@ private:
   KLMSegmentationBorder(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  double m_Lambda;
+  double                 m_Lambda;
   KLMSegmentationRegion *m_Region1;
   KLMSegmentationRegion *m_Region2;
 

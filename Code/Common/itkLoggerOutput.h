@@ -44,9 +44,9 @@ class ITKCommon_EXPORT LoggerOutput : public OutputWindow
 {
 public:
   /** Standard class typedefs. */
-  typedef LoggerOutput        Self;
-  typedef OutputWindow  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef LoggerOutput              Self;
+  typedef OutputWindow              Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
@@ -84,9 +84,9 @@ public:
   itkGetMacro(Logger, LoggerType);
 
   virtual void OverrideITKWindow() 
-  {
+    {
     itk::OutputWindow::SetInstance(this);
-  }
+    }
  
 protected:
   LoggerOutput():m_Logger(0) {}

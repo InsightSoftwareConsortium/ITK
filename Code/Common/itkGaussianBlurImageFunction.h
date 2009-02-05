@@ -44,20 +44,20 @@ public:
   /**Standard "Self" typedef */
   typedef GaussianBlurImageFunction Self;
 
-  /** Standard "Superclass" typedef*/
+  /** Standard "Superclass" typedef */
   typedef ImageFunction<TInputImage, TOutput> Superclass;
 
   /** Smart pointer typedef support. */
   typedef SmartPointer<Self>          Pointer;
   typedef SmartPointer<const Self>    ConstPointer;
 
-  /** Method for creation through the object factory.*/
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianBlurImageFunction, ImageFunction );
 
-  /** InputImageType typedef support.*/
+  /** InputImageType typedef support. */
   typedef TInputImage                                 InputImageType;
   typedef typename InputImageType::PixelType          InputPixelType;
   typedef typename Superclass::IndexType              IndexType;
@@ -94,10 +94,10 @@ public:
    virtual TOutput Evaluate(const PointType& point) const;
 
 
-  /** Evaluate the function at specified Index position*/
+  /** Evaluate the function at specified Index position */
   virtual TOutput EvaluateAtIndex( const IndexType & index ) const;
 
-  /** Evaluate the function at specified ContinousIndex position.*/
+  /** Evaluate the function at specified ContinousIndex position. */
   virtual TOutput EvaluateAtContinuousIndex(
     const ContinuousIndexType & index ) const;
 

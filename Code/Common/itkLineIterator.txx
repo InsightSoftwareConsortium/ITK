@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLineIterator_txx
-#define _itkLineIterator_txx
+#ifndef __itkLineIterator_txx
+#define __itkLineIterator_txx
 
 #include "itkLineIterator.h"
 

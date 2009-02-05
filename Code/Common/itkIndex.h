@@ -71,7 +71,7 @@ public:
 
   /** Compatible Index and value typedef */
   typedef   Index<VIndexDimension>  IndexType;
-  typedef   long  IndexValueType;
+  typedef   long                    IndexValueType;
     
   /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
@@ -80,7 +80,7 @@ public:
   typedef   Size<VIndexDimension>  SizeType;
 
   /** Compatible Offset and Offset value typedef. */
-  typedef   Offset<VIndexDimension>  OffsetType;
+  typedef   Offset<VIndexDimension>              OffsetType;
   typedef   typename OffsetType::OffsetValueType OffsetValueType;
 
   /** Lexicographic ordering functor type.  */
@@ -260,15 +260,15 @@ public:
    *    Index<3> index = {5, 2, 7}; */
   IndexValueType m_Index[VIndexDimension];
   
-// The Windows implementaton of vnl_math_rnd() does not round the
-// same way as other versions. It has an assembly "fast" implementation
-// but with the drawback of rounding to the closest even number.
-// See: http://www.musicdsp.org/showone.php?id=170
-// For example 0.5 is rounded down to 0.0.
-// This conditional code replaces the standard vnl implementation that uses
-// assembler code. The code below will be slower for windows but will
-// produce consistent results. This can be removed once vnl_math_rnd is
-// fixed in VXL.
+  // The Windows implementaton of vnl_math_rnd() does not round the
+  // same way as other versions. It has an assembly "fast" implementation
+  // but with the drawback of rounding to the closest even number.
+  // See: http://www.musicdsp.org/showone.php?id=170
+  // For example 0.5 is rounded down to 0.0.
+  // This conditional code replaces the standard vnl implementation that uses
+  // assembler code. The code below will be slower for windows but will
+  // produce consistent results. This can be removed once vnl_math_rnd is
+  // fixed in VXL.
 #if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
 #define vnl_math_rnd(x) ((x>=0.0)?(int)(x + 0.5):(int)(x - 0.5))
 #endif

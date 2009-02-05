@@ -63,23 +63,23 @@ class ITK_EXPORT InPlaceImageFilter : public ImageToImageFilter<TInputImage, TOu
 {
 public:
   /** Standard class typedefs. */
-  typedef InPlaceImageFilter  Self;
+  typedef InPlaceImageFilter                             Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                             Pointer;
+  typedef SmartPointer<const Self>                       ConstPointer;
   
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(InPlaceImageFilter,ImageToImageFilter);
 
   /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename Superclass::OutputImageType       OutputImageType;
+  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
+  typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
 
   /** Some convenient typedefs. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                             InputImageType;
   typedef typename InputImageType::Pointer        InputImagePointer;
   typedef typename InputImageType::ConstPointer   InputImageConstPointer;
   typedef typename InputImageType::RegionType     InputImageRegionType; 
@@ -103,12 +103,12 @@ public:
    * determine whether a particular use of the filter is really
    * running in place. Some filters may be able to optimize their
    * operation if the InPlace is true and CanRunInPlace is true. */
-   bool CanRunInPlace() const
-     {
-       return (typeid(TInputImage) == typeid(TOutputImage));
-     };
+  bool CanRunInPlace() const
+    {
+    return (typeid(TInputImage) == typeid(TOutputImage));
+    }
 
- protected:
+protected:
   InPlaceImageFilter();
   ~InPlaceImageFilter();
 

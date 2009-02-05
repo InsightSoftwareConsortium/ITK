@@ -36,4 +36,3 @@ const unsigned long prime<false>::list_[] =
 #endif 
 
 }// end namespace itk
-

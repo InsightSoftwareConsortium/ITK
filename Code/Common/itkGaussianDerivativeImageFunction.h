@@ -45,7 +45,7 @@ public:
   /**Standard "Self" typedef */
   typedef GaussianDerivativeImageFunction Self;
 
-  /** Standard "Superclass" typedef*/
+  /** Standard "Superclass" typedef */
   typedef ImageFunction<TInputImage,
     Vector<TOutput,::itk::GetImageDimension<TInputImage>::ImageDimension>,
     TOutput > Superclass;
@@ -54,13 +54,13 @@ public:
   typedef SmartPointer<Self>            Pointer;
   typedef SmartPointer<const Self>      ConstPointer;
 
-  /** Method for creation through the object factory.*/
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianDerivativeImageFunction, ImageFunction );
 
-  /** InputImageType typedef support.*/
+  /** InputImageType typedef support. */
   typedef TInputImage                                 InputImageType;
   typedef typename InputImageType::PixelType          InputPixelType;
   typedef typename InputImageType::IndexType          IndexType;
@@ -96,10 +96,10 @@ public:
   virtual OutputType Evaluate(const PointType& point) const;
 
 
-  /** Evaluate the function at specified Index position*/
+  /** Evaluate the function at specified Index position */
   virtual OutputType EvaluateAtIndex( const IndexType & index ) const;
 
-  /** Evaluate the function at specified ContinousIndex position.*/
+  /** Evaluate the function at specified ContinousIndex position. */
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const;
 
@@ -107,7 +107,8 @@ public:
    * independently for each dimension, but 
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
-   * of your image.  If UseImageSpacing is false then the units are pixels.*/
+   * of your image.  If UseImageSpacing is false then the units are
+   * pixels. */
   void SetSigma( const double* sigma);
   void SetSigma( const double sigma);
   const double* GetSigma() const {return m_Sigma;}

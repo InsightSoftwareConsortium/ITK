@@ -107,7 +107,7 @@ public:
   /** Type definition for vector container that stores the borders
    * associated with a current region. */
   typedef std::vector< KLMSegmentationBorder * > RegionBorderVectorType;
-  typedef RegionBorderVectorType::size_type RegionBorderVectorSizeType;
+  typedef RegionBorderVectorType::size_type      RegionBorderVectorSizeType;
 
   /** Type definition for the region border vector iterators to be used. */
   typedef RegionBorderVectorType::iterator RegionBorderVectorIterator;

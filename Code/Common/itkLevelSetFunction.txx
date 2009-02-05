@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLevelSetFunction_txx_
-#define __itkLevelSetFunction_txx_
+#ifndef __itkLevelSetFunction_txx
+#define __itkLevelSetFunction_txx
 
 #include "itkLevelSetFunction.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
@@ -83,7 +83,7 @@ LevelSetFunction< TImageType >
     for (j = i; j < ImageDimension; j++)
       {
       tmp_matrix[i][j]= ZERO;
-      for (n = 0 ; n < ImageDimension; n++)
+      for (n = 0; n < ImageDimension; n++)
         {
         tmp_matrix[i][j] += Pgrad[i][n] * gd->m_dxy[n][j];
         }
@@ -96,7 +96,7 @@ LevelSetFunction< TImageType >
     for (j = i; j < ImageDimension; j++)
       {
       Curve(i,j) = ZERO;
-      for (n = 0 ; n < ImageDimension; n++)
+      for (n = 0; n < ImageDimension; n++)
         {
         Curve(i,j) += tmp_matrix[i][n] * Pgrad[n][j];
         }
@@ -167,9 +167,9 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(
 
   
   for (i = 0; i < ImageDimension; i++)
-    {      
+    {
     for(j = 0; j < ImageDimension; j++)
-      {      
+      {
       if(j != i)
         {
         curvature_term -= gd->m_dx[i] * gd->m_dx[j] * gd->m_dxy[i][j];
@@ -312,18 +312,18 @@ LevelSetFunction< TImageType >
   // Compute the Hessian matrix and various other derivatives.  Some of these
   // derivatives may be used by overloaded virtual functions.
   gd->m_GradMagSqr = 1.0e-6;
-  for( i = 0 ; i < ImageDimension; i++)
+  for( i = 0; i < ImageDimension; i++)
     {
     const unsigned int positionA = 
-      static_cast<unsigned int>( m_Center + m_xStride[i]);    
+      static_cast<unsigned int>( m_Center + m_xStride[i]);
     const unsigned int positionB = 
-      static_cast<unsigned int>( m_Center - m_xStride[i]);    
+      static_cast<unsigned int>( m_Center - m_xStride[i]);
 
     gd->m_dx[i] = 0.5 * (it.GetPixel( positionA ) - 
                          it.GetPixel( positionB ) ) * neighborhoodScales[i]; 
     gd->m_dxy[i][i] = ( it.GetPixel( positionA )
                       + it.GetPixel( positionB ) - 2.0 * center_value ) *
-                                            vnl_math_sqr(neighborhoodScales[i]) ;
+                                            vnl_math_sqr(neighborhoodScales[i]);
 
     gd->m_dx_forward[i]  = ( it.GetPixel( positionA ) - center_value ) * neighborhoodScales[i];
     gd->m_dx_backward[i] = ( center_value - it.GetPixel( positionB ) ) * neighborhoodScales[i];
@@ -344,7 +344,7 @@ LevelSetFunction< TImageType >
                                                  - it.GetPixel( positionBa )
                                                  - it.GetPixel( positionCa )
                                                  + it.GetPixel( positionDa ) )
-                                          * neighborhoodScales[i] * neighborhoodScales[j] ;
+                                          * neighborhoodScales[i] * neighborhoodScales[j];
       }
     }
 
@@ -426,7 +426,7 @@ LevelSetFunction< TImageType >
         {
         propagation_gradient += vnl_math_sqr( vnl_math_min(gd->m_dx_backward[i], ZERO) )
           + vnl_math_sqr( vnl_math_max(gd->m_dx_forward[i],  ZERO) );
-        }        
+        }
       }
     
     // Collect energy change from propagation term.  This will be used in
@@ -454,8 +454,9 @@ LevelSetFunction< TImageType >
       laplacian * m_LaplacianSmoothingWeight * LaplacianSmoothingSpeed(it,offset, gd);
     }
   else 
+    {
     laplacian_term = ZERO;
-
+    }
   // Return the combination of all the terms.
   return ( PixelType ) ( curvature_term - propagation_term 
                          - advection_term - laplacian_term );

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLaplacianOperator_txx
-#define _itkLaplacianOperator_txx
+#ifndef __itkLaplacianOperator_txx
+#define __itkLaplacianOperator_txx
 #include "itkLaplacianOperator.h"
 
 namespace itk
@@ -94,7 +94,7 @@ LaplacianOperator<TPixel, VDimension, TAllocator>
   double sum = 0.0;
   double hsq;
   long stride;
-  for (i = 0 ; i < 2 * VDimension; i+=2)
+  for (i = 0; i < 2 * VDimension; i+=2)
     {
     stride = static_cast<long>( this->GetStride(i/2) );
 

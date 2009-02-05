@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageSource_txx
-#define _itkImageSource_txx
+#ifndef __itkImageSource_txx
+#define __itkImageSource_txx
 #include "itkImageSource.h"
 
 #include "vnl/vnl_math.h"
@@ -86,9 +86,6 @@ ImageSource<TOutputImage>
   return static_cast<TOutputImage*>
     (this->ProcessObject::GetOutput(idx));
 }
-
-
-
 
 /**
  * 

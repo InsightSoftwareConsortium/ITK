@@ -14,38 +14,28 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageSliceIteratorWithIndex_txx
-#define _itkImageSliceIteratorWithIndex_txx
+#ifndef __itkImageSliceIteratorWithIndex_txx
+#define __itkImageSliceIteratorWithIndex_txx
 
 #include "itkImageSliceIteratorWithIndex.h"
 
 namespace itk
 {
 
-
-
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex()
   : ImageSliceConstIteratorWithIndex<TImage>() 
 {
-
-
 }
-
-
 
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType& region) :
   ImageSliceConstIteratorWithIndex<TImage>(   ptr, region ) 
 {
-
-
 }
 
-
- 
 template< typename TImage >
 ImageSliceIteratorWithIndex<TImage>
 ::ImageSliceIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it):
@@ -70,8 +60,6 @@ ImageSliceIteratorWithIndex<TImage>
   this->ImageSliceConstIteratorWithIndex<TImage>::operator=(it);
   return *this;
 }
-
-
 
 } // end namespace itk
 

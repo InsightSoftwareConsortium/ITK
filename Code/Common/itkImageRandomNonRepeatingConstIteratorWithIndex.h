@@ -299,7 +299,7 @@ public:
       of the random selection.  Pixels of the same priority will be
       ordered randomly, but pixels of lower priority value will be
       selected first.
-   **/
+   */
   void SetPriorityImage(const PriorityImageType * priorityImage);
 
   /** Increment (prefix) the selected dimension.

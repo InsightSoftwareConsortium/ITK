@@ -235,8 +235,9 @@ namespace itk
   }
   
   /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
-  * This should be use when the type is an enum. It is use to avoid warnings on
-  * some compilers with non specified enum types passed to itkDebugMacro.*/
+   * This should be use when the type is an enum. It is use to avoid warnings on
+   * some compilers with non specified enum types passed to
+   * itkDebugMacro. */
 #define itkSetEnumMacro(name,type) \
   virtual void Set##name (const type _arg) \
   { \
@@ -250,7 +251,8 @@ namespace itk
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); 
   * This should be use when the type is an enum. It is use to avoid warnings on
-  * some compilers with non specified enum types passed to itkDebugMacro.*/
+  * some compilers with non specified enum types passed to
+  * itkDebugMacro. */
 #define itkGetEnumMacro(name,type) \
   virtual type Get##name () const \
   { \
@@ -612,8 +614,6 @@ private:
       ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());} \
 }
 #endif
-
-
 
 //----------------------------------------------------------------------------
 // Macros for simplifying the use of logging

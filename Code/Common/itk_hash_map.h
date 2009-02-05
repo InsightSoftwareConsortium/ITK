@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-/*
+/**
  * Copyright (c) 1996
  * Silicon Graphics Computer Systems, Inc.
  *
@@ -51,8 +51,8 @@
  *
  */
 
-#ifndef itk_emulation_hash_map_h
-#define itk_emulation_hash_map_h
+#ifndef __itk_hash_map_h
+#define __itk_hash_map_h
 
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
@@ -120,7 +120,8 @@ template <class Key, class T, class HashFcn, class EqualKey, class Alloc>
 bool operator==(const hash_multimap<Key, T, HashFcn, EqualKey, Alloc>&,
                 const hash_multimap<Key, T, HashFcn, EqualKey, Alloc>&);
 
-/** \brief Replacement for STL hash map because some systems do not support it,
+/** \class hash_map
+ * \brief Replacement for STL hash map because some systems do not support it,
  * or support it incorrectly.
  */
 template <class Key, class T,
@@ -197,16 +198,16 @@ public:
   void insert(const value_type* f, const value_type* l) { rep.insert_unique(f,l); }
   void insert(const_iterator f, const_iterator l) { rep.insert_unique(f, l); }
   std::pair<iterator, bool> insert_noresize(const value_type& obj)
-    { return rep.insert_unique_noresize(obj); }    
+    { return rep.insert_unique_noresize(obj); }
 
   iterator find(const key_type& key) { return rep.find(key); }
   const_iterator find(const key_type& key) const { return rep.find(key); }
 
   T& operator[](const key_type& key)
-  {
-      value_type val(key, T());
-      return rep.find_or_insert(val).second;
-  }
+    {
+    value_type val(key, T());
+    return rep.find_or_insert(val).second;
+    }
 
   size_type count(const key_type& key) const { return rep.count(key); }
   
@@ -300,7 +301,7 @@ public:
   void insert(const value_type* f, const value_type* l) { rep.insert_equal(f,l); }
   void insert(const_iterator f, const_iterator l) { rep.insert_equal(f, l); }
   iterator insert_noresize(const value_type& obj)
-    { return rep.insert_equal_noresize(obj); }    
+    { return rep.insert_equal_noresize(obj); }
 
   iterator find(const key_type& key) { return rep.find(key); }
   const_iterator find(const key_type& key) const { return rep.find(key); }

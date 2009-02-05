@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkLineCell_txx
-#define _itkLineCell_txx
+#ifndef __itkLineCell_txx
+#define __itkLineCell_txx
 #include "itkLineCell.h"
 
 namespace itk
@@ -92,25 +92,25 @@ LineCell< TCellInterface >
   switch (dimension)
     {
     case 0: 
-    {
-    VertexAutoPointer vertexPointer;
-    if( this->GetVertex(featureId,vertexPointer) )
       {
-      TransferAutoPointer(cellPointer,vertexPointer);
-      return true;
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
+    default: 
       {
       cellPointer.Reset();
       return false;
       }
-    break;
-    }
-    default: 
-    {
-    cellPointer.Reset();
-    return false;
-    }
     }
   return false;
 }
@@ -128,8 +128,10 @@ LineCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(int i=0; i < Self::NumberOfPoints ; ++i)
+  for(int i=0; i < Self::NumberOfPoints; ++i)
+    {
     m_PointIds[i] = *ii++;
+    }
 }
 
 

@@ -25,21 +25,21 @@
 namespace itk
 {
 /** \class Logger
-*   \brief Class Logger is meant for logging information during a run.
-*
-* \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
-*                     ISIS Center, Georgetown University.
-*
-*
+ *   \brief Class Logger is meant for logging information during a run.
+ *
+ * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
+ *                     ISIS Center, Georgetown University.
+ *
+ *
  *  \ingroup OSSystemObjects LoggingObjects
-*/
+ */
 
 class ITKCommon_EXPORT Logger : public LoggerBase
 {
 public:
-  typedef Logger  Self;
-  typedef LoggerBase  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Logger                    Self;
+  typedef LoggerBase                Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */

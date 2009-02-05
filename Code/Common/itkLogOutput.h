@@ -33,7 +33,7 @@ namespace itk
  *  \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                      ISIS Center, Georgetown University.
  *
- *  \ingroup OSSystemObjects LoggingObjects                    
+ *  \ingroup OSSystemObjects LoggingObjects
  */
 
 class ITKCommon_EXPORT LogOutput : public Object
@@ -41,9 +41,9 @@ class ITKCommon_EXPORT LogOutput : public Object
 
 public:
 
-  typedef LogOutput Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef LogOutput                 Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** flush a buffer */

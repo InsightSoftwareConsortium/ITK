@@ -37,7 +37,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  *
  *
- *  \ingroup OSSystemObjects LoggingObjects                    
+ *  \ingroup OSSystemObjects LoggingObjects
  *
  */
 
@@ -46,9 +46,9 @@ class ITKCommon_EXPORT LoggerManager : public Object
 
 public:
   
-  typedef LoggerManager  Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef LoggerManager             Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */

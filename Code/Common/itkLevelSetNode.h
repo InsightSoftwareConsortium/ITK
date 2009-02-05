@@ -76,20 +76,20 @@ public:
    * are the same. */
   Self& operator= ( const Self& rhs )
     {
-      if( this == &rhs ) {return *this;}
+    if( this == &rhs ) {return *this;}
   
-      m_Value = rhs.m_Value;
-      m_Index = rhs.m_Index;
-      return *this;
+    m_Value = rhs.m_Value;
+    m_Index = rhs.m_Index;
+    return *this;
     }
 
   /** Get/Set level set value. */
   PixelType& GetValue()
-    { return m_Value; };
+    { return m_Value; }
   const PixelType& GetValue() const
-    { return m_Value; };
+    { return m_Value; }
   void SetValue( const PixelType& input )
-    { m_Value = input; };
+    { m_Value = input; }
 
   /** Get/Set index. */
   IndexType& GetIndex()
@@ -97,12 +97,13 @@ public:
   const IndexType& GetIndex() const
     { return m_Index; }
   void SetIndex( const IndexType& input )
-    { m_Index = input; };
+    { m_Index = input; }
 
   /** Default constructor */
-  LevelSetNode() : m_Value( NumericTraits<PixelType>::Zero ) {
+  LevelSetNode() : m_Value( NumericTraits<PixelType>::Zero )
+    {
     m_Index.Fill( 0 );
-    };
+    }
 
   /** Copy constructor */
   LevelSetNode(const Self &node) : m_Value( node.m_Value ), m_Index( node.m_Index ) {};

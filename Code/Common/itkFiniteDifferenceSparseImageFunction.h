@@ -69,7 +69,7 @@ public:
   /** The index type for the sparse image. */
   typedef typename SparseImageType::IndexType   IndexType;
 
-  /** The actual type of nodes stored the sparse image.*/
+  /** The actual type of nodes stored the sparse image. */
   typedef typename SparseImageType::NodeType NodeType;
 
   /** The type for the variables of NodeType. Scalar or vector. */

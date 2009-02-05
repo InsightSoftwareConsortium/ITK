@@ -35,7 +35,7 @@ namespace itk {
  *              1  -4   1
  *              0   1   0
  *  \endcode
- *              
+ *
  *  \par
  *  The LaplacianOperator is a non-directional NeighborhoodOperator that
  *  should be applied to a Neighborhood or NeighborhoodIterator using an inner
@@ -65,26 +65,26 @@ public:
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
 
   typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::SizeType SizeType;
+  typedef typename Superclass::SizeType  SizeType;
 
  /**  Default constructor  */
   LaplacianOperator()
-  {
+    {
     for (unsigned i = 0; i < VDimension; ++i)
       {
       m_DerivativeScalings[i] = 1.0;
       }
-  }
+    }
 
   /** Copy constructor   */
   LaplacianOperator(const Self& other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) 
-  {
+    {
     for (unsigned i = 0; i < VDimension; ++i)
       {
       m_DerivativeScalings[i] = other.m_DerivativeScalings[i];
       }
-  }
+    }
   
   /** This function is called to create the operator  */ 
   void CreateOperator();  
@@ -146,5 +146,3 @@ private:
 #endif
 
 #endif
-
-

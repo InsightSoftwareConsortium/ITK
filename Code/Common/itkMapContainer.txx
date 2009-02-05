@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMapContainer_txx
-#define _itkMapContainer_txx
+#ifndef __itkMapContainer_txx
+#define __itkMapContainer_txx
 #include "itkMapContainer.h"
 
 namespace itk
@@ -48,8 +48,6 @@ MapContainer< TElementIdentifier , TElement >
 {
   return this->MapType::find(id)->second;
 }
-
-
 
 /**
  * Get a reference to the element at the given index.

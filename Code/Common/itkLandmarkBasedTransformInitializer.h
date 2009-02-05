@@ -28,7 +28,8 @@
 namespace itk
 {
 
-/** \brief LandmarkBasedTransformInitializer is a helper class intended to
+/** \class LandmarkBasedTransformInitializer
+ * \brief LandmarkBasedTransformInitializer is a helper class intended to
  * The class computes the transform that aligns the fixed and moving images
  * given a set of landmarks. The class is templated over the Transform type.
  *    The transform computed gives the best fit transform that maps the fixed
@@ -63,9 +64,9 @@ class ITK_EXPORT LandmarkBasedTransformInitializer :
 public:
   /** Standard class typedefs. */
   typedef LandmarkBasedTransformInitializer     Self;
-  typedef Object                           Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef Object                                Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -122,14 +123,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension );
       
   /** Convenience typedefs */
-  typedef typename TransformType::InputPointType   InputPointType;
-  typedef typename TransformType::OutputVectorType  OutputVectorType;
+  typedef typename TransformType::InputPointType                  InputPointType;
+  typedef typename TransformType::OutputVectorType                OutputVectorType;
   typedef Point< double, itkGetStaticConstMacro(ImageDimension) > LandmarkPointType;
-  typedef std::vector< LandmarkPointType >              LandmarkPointContainer;
+  typedef std::vector< LandmarkPointType >                        LandmarkPointContainer;
   typedef typename
-          LandmarkPointContainer::const_iterator        PointsContainerConstIterator;
-  typedef typename TransformType::ParametersType ParametersType;
-  typedef typename ParametersType::ValueType     ParameterValueType;
+          LandmarkPointContainer::const_iterator                  PointsContainerConstIterator;
+  typedef typename TransformType::ParametersType                  ParametersType;
+  typedef typename ParametersType::ValueType                      ParameterValueType;
 
 
     
@@ -148,11 +149,11 @@ public:
 
   /**  Supported Transform typedefs */
   typedef VersorRigid3DTransform< ParameterValueType >   
-                                        VersorRigid3DTransformType;
+                                                 VersorRigid3DTransformType;
   typedef Rigid2DTransform< ParameterValueType > Rigid2DTransformType;
   
   /** Initialize the transform from the landmarks */
-  virtual void InitializeTransform() ;
+  virtual void InitializeTransform();
   
 
 protected:

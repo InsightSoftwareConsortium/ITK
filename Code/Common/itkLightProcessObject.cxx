@@ -22,8 +22,8 @@ namespace itk
 {
 
 /**
-   * Instantiate object with no start, end, or progress methods.
-   */
+ * Instantiate object with no start, end, or progress methods.
+ */
 LightProcessObject
 ::LightProcessObject()
 {
@@ -33,19 +33,19 @@ LightProcessObject
 
 
 /**
-   * Destructor for the LightProcessObject class. We've got to
-   * UnRegister() the use of any input classes.
-   */
+ * Destructor for the LightProcessObject class. We've got to
+ * UnRegister() the use of any input classes.
+ */
 LightProcessObject
 ::~LightProcessObject()
 {}
 
 
 /**
-   * Update the progress of the process object. If a ProgressMethod exists, 
-   * executes it. Then set the Progress ivar to amount. The parameter amount 
-   * should range between (0,1).
-   */
+ * Update the progress of the process object. If a ProgressMethod exists, 
+ * executes it. Then set the Progress ivar to amount. The parameter amount 
+ * should range between (0,1).
+ */
 void 
 LightProcessObject
 ::UpdateProgress(float amount)
@@ -56,8 +56,8 @@ LightProcessObject
 
 
 /**
-   *
-   */
+ *
+ */
 void 
 LightProcessObject
 ::PrintSelf(std::ostream& os, Indent indent) const
@@ -80,18 +80,18 @@ LightProcessObject
   this->InvokeEvent( StartEvent() );
 
   /**
-     * GenerateData this object - we have not aborted yet, and our progress
-     * before we start to execute is 0.0.
-     */
+   * GenerateData this object - we have not aborted yet, and our progress
+   * before we start to execute is 0.0.
+   */
   m_AbortGenerateData = 0;
   m_Progress = 0.0;
 
   this->GenerateData();
 
   /**
-     * If we ended due to aborting, push the progress up to 1.0 (since
-     * it probably didn't end there)
-     */
+   * If we ended due to aborting, push the progress up to 1.0 (since
+   * it probably didn't end there)
+   */
   if ( !m_AbortGenerateData )
     {
     this->UpdateProgress(1.0);

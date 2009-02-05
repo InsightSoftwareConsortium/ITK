@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkKernelTransform_txx
-#define _itkKernelTransform_txx
+#ifndef __itkKernelTransform_txx
+#define __itkKernelTransform_txx
 #include "itkKernelTransform.h"
 
 namespace itk
@@ -288,8 +288,6 @@ ComputeK(void)
     }
 }
 
-
-
 /**
  *
  */
@@ -317,8 +315,6 @@ ComputeP()
     this->m_PMatrix.update(I, i*NDimensions, NDimensions*NDimensions);
     }
 }
-
-
 
 /**
  *
@@ -393,8 +389,6 @@ KernelTransform<TScalarType, NDimensions>
 
 }
 
-
-
 /**
  *
  */
@@ -432,9 +426,6 @@ KernelTransform<TScalarType, NDimensions>
   return result;
 
 }
-
-
-
 
 // Compute the Jacobian in one position 
 template <class TScalarType, unsigned int NDimensions>
@@ -557,9 +548,6 @@ UpdateParameters( void ) const
     }
 }
 
-
-
-
 // Get the parameters
 // They are the components of all the landmarks in the source space
 template <class TScalarType, unsigned int NDimensions>
@@ -598,11 +586,9 @@ GetFixedParameters( void ) const
     itr++;
     }
 
- return this->m_FixedParameters;
+  return this->m_FixedParameters;
 
 }
-
-
 
 template <class TScalarType, unsigned int NDimensions>
 void

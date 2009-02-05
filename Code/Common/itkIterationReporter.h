@@ -76,9 +76,9 @@ public:
     }
 protected:
   ProcessObject* m_Filter;
-  int m_ThreadId;
-  unsigned long m_StepsPerUpdate;
-  unsigned long m_StepsBeforeUpdate;
+  int            m_ThreadId;
+  unsigned long  m_StepsPerUpdate;
+  unsigned long  m_StepsBeforeUpdate;
 };
 
 } // end namespace itk

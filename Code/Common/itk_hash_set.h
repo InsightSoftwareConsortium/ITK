@@ -14,7 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-/*
+/**
  * Copyright (c) 1996
  * Silicon Graphics Computer Systems, Inc.
  *
@@ -51,8 +51,8 @@
  *
  */
 
-#ifndef itk_emulation_hash_set_h
-#define itk_emulation_hash_set_h
+#ifndef __itk_hash_set_h
+#define __itk_hash_set_h
 
 #if (defined(__GNUC__) && (((__GNUC__==3) && (__GNUC_MINOR__>=1) || (__GNUC__>3) ) || ( (__GNUC__==4) && defined(__INTEL_COMPILER) ) )) || (defined(__IBMCPP__) && __IBMCPP__ >= 600)
 // Use this hash_map for GNU_C versions >= 3.1, IBMCPP >=600, or Intel compilers with GCCv4
@@ -75,7 +75,8 @@ namespace itk
 namespace itk
 {
   
-/** \brief Replacement for STL hash set because some systems do not support it,
+/** \class hash_set
+ * \brief Replacement for STL hash set because some systems do not support it,
  * or support it incorrectly.
  */
 template <class Value, VCL_DFL_TMPL_PARAM_STLDECL(HashFcn,hash<Value>),
@@ -156,11 +157,11 @@ public:
   std::pair<iterator, bool> insert(const value_type& obj)
     {
 #ifdef _MSC_VER
-      std::pair< ht::iterator, bool> p = rep.insert_unique(obj);
+    std::pair< ht::iterator, bool> p = rep.insert_unique(obj);
 #else
-      std::pair<typename ht::iterator, bool> p = rep.insert_unique(obj);
+    std::pair<typename ht::iterator, bool> p = rep.insert_unique(obj);
 #endif
-      return std::pair<iterator, bool>(p.first, p.second);
+    return std::pair<iterator, bool>(p.first, p.second);
     }
   void insert(const value_type* f, const value_type* l) { rep.insert_unique(f,l); }
   void insert(const_iterator f, const_iterator l) { rep.insert_unique(f, l); }
@@ -271,7 +272,7 @@ public:
   void insert(const value_type* f, const value_type* l) { rep.insert_equal(f,l); }
   void insert(const_iterator f, const_iterator l) { rep.insert_equal(f, l); }
   iterator insert_noresize(const value_type& obj)
-    { return rep.insert_equal_noresize(obj); }    
+    { return rep.insert_equal_noresize(obj); }
 
   iterator find(const key_type& key) const { return rep.find(key); }
 

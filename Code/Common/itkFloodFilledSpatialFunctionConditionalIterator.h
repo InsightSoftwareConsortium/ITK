@@ -78,7 +78,7 @@ public:
   const PixelType & Get(void) const
     { return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front() ); }
 
-  /** Get the pixel value, non-const version is sometimes useful*/
+  /** Get the pixel value, non-const version is sometimes useful. */
   PixelType & Get(void)
     { return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front() ); }
 

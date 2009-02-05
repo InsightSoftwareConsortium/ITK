@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkLevelSetFunction_h_
-#define __itkLevelSetFunction_h_
+#ifndef __itkLevelSetFunction_h
+#define __itkLevelSetFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 #include "vnl/vnl_matrix_fixed.h"
@@ -66,10 +66,10 @@ class ITK_EXPORT LevelSetFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef LevelSetFunction Self;
+  typedef LevelSetFunction                     Self;
   typedef FiniteDifferenceFunction<TImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,15 +81,15 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Convenient typedefs. */
-  typedef double TimeStepType;
-  typedef typename Superclass::ImageType  ImageType;
-  typedef typename Superclass::PixelType  PixelType;
-  typedef                      PixelType  ScalarValueType;
-  typedef typename Superclass::PixelRealType  PixelRealType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef double                                      TimeStepType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::PixelType              PixelType;
+  typedef                      PixelType              ScalarValueType;
+  typedef typename Superclass::PixelRealType          PixelRealType;
+  typedef typename Superclass::RadiusType             RadiusType;
+  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
   typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
 
   /** The vector type that will be used in the calculations. */
   //  typedef
@@ -99,9 +99,9 @@ public:
    * values that are needed in calculating the time step and other intermediate
    * products such as derivatives that may be used by virtual functions called
    * from ComputeUpdate.  Caching these values here allows the ComputeUpdate
-   * function to be const and thread safe.*/
+   * function to be const and thread safe. */
   struct GlobalDataStruct
-  {
+    {
     ScalarValueType m_MaxAdvectionChange;
     ScalarValueType m_MaxPropagationChange;
     ScalarValueType m_MaxCurvatureChange;
@@ -111,14 +111,14 @@ public:
                      itkGetStaticConstMacro(ImageDimension),
                      itkGetStaticConstMacro(ImageDimension)> m_dxy;
     
-    /** Array of first derivatives*/
+    /** Array of first derivatives */
     ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
     
     ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
     ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
     
     ScalarValueType m_GradMagSqr;
-  };
+    };
 
   /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &,
@@ -146,7 +146,7 @@ public:
     const FloatOffsetType &, GlobalDataStruct * = 0) const
     { return NumericTraits<ScalarValueType>::One; }
 
-  /** Alpha.  Scales all advection term values.*/ 
+  /** Alpha.  Scales all advection term values. */ 
   virtual void SetAdvectionWeight(const ScalarValueType a)
     { m_AdvectionWeight = a; }
   ScalarValueType GetAdvectionWeight() const
@@ -181,7 +181,7 @@ public:
                                   void *globalData,
                                   const FloatOffsetType& = FloatOffsetType(0.0));
 
- /** Computes the time step for an update given a global data structure.
+  /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
    * the nature of the equations.  This global data cannot be kept in the
    * instance of the equation object itself since the equation object must
@@ -198,11 +198,11 @@ public:
    * should receive its own global data struct. */
   virtual void *GetGlobalDataPointer() const
     {
-      GlobalDataStruct *ans = new GlobalDataStruct();
-      ans->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
-      ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
-      ans->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
-      return ans; 
+    GlobalDataStruct *ans = new GlobalDataStruct();
+    ans->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
+    ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
+    ans->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
+    return ans; 
     }
 
   /** This method creates the appropriate member variable operators for the
@@ -239,57 +239,57 @@ public:
   
   /** */
   void SetUseMinimalCurvature( bool b )
-  {
+    {
     m_UseMinimalCurvature = b;
-  }
+    }
   bool GetUseMinimalCurvature() const
-  {
+    {
     return m_UseMinimalCurvature;
-  }
+    }
   void UseMinimalCurvatureOn()
-  {
+    {
     this->SetUseMinimalCurvature(true);
-  }
+    }
   void UseMinimalCurvatureOff()
-  {
+    {
     this->SetUseMinimalCurvature(false);
-  }
+    }
 
   /** Set/Get the maximum constraint for the curvature term factor in the time step
       calculation.  Changing this value from the default is not recommended or
       necessary, but can be used to speed up the surface evolution at the risk
-      of creating an unstable solution.*/
+      of creating an unstable solution. */
   static void SetMaximumCurvatureTimeStep(double n)
-  {
+    {
     m_DT = n;
-  }
+    }
   static double GetMaximumCurvatureTimeStep()
-  {
+    {
     return m_DT;
-  }
+    }
 
   /** Set/Get the maximum constraint for the scalar/vector term factor of the time step
       calculation.  Changing this value from the default is not recommended or
       necessary, but can be used to speed up the surface evolution at the risk
-      of creating an unstable solution.*/
+      of creating an unstable solution. */
   static void SetMaximumPropagationTimeStep(double n)
-  {
+    {
     m_WaveDT = n;
-  }
+    }
   static double GetMaximumPropagationTimeStep()
-  {
+    {
     return m_WaveDT;
-  }
+    }
 
 protected:
   LevelSetFunction()
-  {
+    {
     m_EpsilonMagnitude = 1.0e-5;
     m_AdvectionWeight = m_PropagationWeight 
       = m_CurvatureWeight = m_LaplacianSmoothingWeight 
       = NumericTraits<ScalarValueType>::Zero;
     m_UseMinimalCurvature = false;
-  }
+    }
   virtual ~LevelSetFunction() {}
   void PrintSelf(std::ostream &s, Indent indent) const;
   
@@ -353,4 +353,3 @@ private:
 #endif
 
 #endif
-

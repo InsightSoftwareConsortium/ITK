@@ -40,8 +40,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
   m_MahalanobisDistanceMembershipFunction->SetMean( mean );
 }
 
-
-
 template <class TInputImage, class TCoordRep>
 void
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
@@ -49,8 +47,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 {
   m_MahalanobisDistanceMembershipFunction->SetCovariance( covariance );
 }
-
-
 
 template <class TInputImage, class TCoordRep>
 const typename 
@@ -71,8 +67,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
   return m_MahalanobisDistanceMembershipFunction->GetCovariance();
 }
 
-
-
 template <class TInputImage, class TCoordRep>
 bool 
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
@@ -82,9 +76,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
   this->ConvertPointToNearestIndex( point, index );
   return ( this->EvaluateAtIndex( index ) );
 }
-
-
-
 
 template <class TInputImage, class TCoordRep>
 bool 
@@ -96,8 +87,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
   return this->EvaluateAtIndex(nindex);
 }
 
-
-
 template <class TInputImage, class TCoordRep>
 bool 
 MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
@@ -106,8 +95,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
   double mahalanobisDistance = this->EvaluateDistanceAtIndex( index );
   return ( mahalanobisDistance <= m_Threshold );
 }
-
-
 
 template <class TInputImage, class TCoordRep>
 double 
@@ -147,10 +134,6 @@ MahalanobisDistanceThresholdImageFunction<TInputImage,TCoordRep>
 
   return  mahalanobisDistance;
 }
-
-
-
-
 
 template <class TInputImage, class TCoordRep>
 void 

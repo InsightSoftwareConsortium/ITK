@@ -41,17 +41,17 @@ namespace itk
 template<class TLevelSet>
 class ITK_EXPORT LevelSetTypeDefault
 {
- public:
+public:
   /** LevelSetType typedef support. */
   typedef LevelSetTypeDefault Self;
-  typedef TLevelSet LevelSetImageType;
+  typedef TLevelSet           LevelSetImageType;
   
   
   /** SetDimension enumeration. */
   itkStaticConstMacro(SetDimension, unsigned int, TLevelSet::ImageDimension);
 
   /** LevelSetPointer typedef support. */
-  typedef typename TLevelSet::Pointer LevelSetPointer;
+  typedef typename TLevelSet::Pointer      LevelSetPointer;
   typedef typename TLevelSet::ConstPointer LevelSetConstPointer;
 
   /** PixelType typedef support. */
@@ -91,7 +91,7 @@ unsigned int VSetDimension = 2
 >
 class ITK_EXPORT AuxVarTypeDefault
 {
- public:
+public:
   /** Standard typedefs */
   typedef AuxVarTypeDefault Self;
   
@@ -114,7 +114,7 @@ class ITK_EXPORT AuxVarTypeDefault
   typedef Image<AuxValueType, VSetDimension> AuxImageType;
 
   /** AuxImagePointer typedef support. */
-  typedef typename AuxImageType::Pointer AuxImagePointer;
+  typedef typename AuxImageType::Pointer      AuxImagePointer;
   typedef typename AuxImageType::ConstPointer AuxImageConstPointer;
 };
 

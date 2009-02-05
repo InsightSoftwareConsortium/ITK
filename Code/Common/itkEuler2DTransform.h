@@ -88,13 +88,13 @@ public:
   /**
    * This method creates and returns a new Euler2DTransform object
    * which is the inverse of self.
-   **/
+   */
   void CloneInverseTo( Pointer & newinverse ) const;
 
   /**
    * This method creates and returns a new Euler2DTransform object
    * which has the same parameters as self.
-   **/
+   */
   void CloneTo( Pointer & clone ) const;
 
   /**

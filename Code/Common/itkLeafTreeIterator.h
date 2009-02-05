@@ -20,14 +20,14 @@
 #include <itkTreeIteratorBase.h>
 #include <itkPreOrderTreeIterator.h>
 
-namespace itk{
+namespace itk {
 
 template <class TTreeType>
 class LeafTreeIterator : public TreeIteratorBase<TTreeType> 
 {
 public:
 
-  /** Typedefs*/
+  /** Typedefs */
   typedef LeafTreeIterator                Self;
   typedef TreeIteratorBase<TTreeType>     Superclass;
   typedef TTreeType                       TreeType;

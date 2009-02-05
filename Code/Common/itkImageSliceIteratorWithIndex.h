@@ -63,13 +63,13 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
  * \sa ImageConstIteratorWithIndex
- **/
+ */
 template<typename TImage>
 class ITK_EXPORT ImageSliceIteratorWithIndex : public ImageSliceConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageSliceIteratorWithIndex Self;
+  typedef ImageSliceIteratorWithIndex               Self;
   typedef ImageSliceConstIteratorWithIndex<TImage>  Superclass;
   
    /** Types inherited from the Superclass */
@@ -129,6 +129,3 @@ protected:
 #endif
 
 #endif 
-
-
-

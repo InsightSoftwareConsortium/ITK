@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkInPlaceImageFilter_txx
-#define _itkInPlaceImageFilter_txx
+#ifndef __itkInPlaceImageFilter_txx
+#define __itkInPlaceImageFilter_txx
 
 #include "itkInPlaceImageFilter.h"
 

@@ -96,7 +96,7 @@ public:
   /** Automatically find a seed pixel and set m_StartIndex. Does nothing
    * if a seed pixel isn't found. A seed pixel is determined by
    * traversing the input image's LargestPossibleRegion and
-   * applying the IsPixelIncluded() test.*/
+   * applying the IsPixelIncluded() test. */
   void FindSeedPixel();
 
   /** Automatically find all seed pixels. */

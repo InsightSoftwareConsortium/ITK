@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToImageFilter_txx
-#define _itkImageToImageFilter_txx
+#ifndef __itkImageToImageFilter_txx
+#define __itkImageToImageFilter_txx
 #include "itkImageToImageFilter.h"
 
 
@@ -73,8 +73,6 @@ ImageToImageFilter<TInputImage,TOutputImage>
                                    const_cast< TInputImage *>( image ) );
 }
 
-
-
 /**
  *
  */
@@ -103,8 +101,6 @@ ImageToImageFilter<TInputImage,TOutputImage>
   return static_cast< const TInputImage * >
     (this->ProcessObject::GetInput(idx));
 }
-
-
 
 //-----------------------------------------------------------------------
 //

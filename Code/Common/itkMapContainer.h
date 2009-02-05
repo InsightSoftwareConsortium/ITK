@@ -49,9 +49,9 @@ class MapContainer:
 {
 public:
   /** Standard class typedefs. */
-  typedef MapContainer        Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MapContainer              Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Standard part of every itk Object. */
@@ -78,10 +78,10 @@ public:
   MapContainer():MapType() {}
   MapContainer(const MapKeyCompareType& comp):MapType(comp) {}
   //  MapContainer(const Self& r):MapType(r) {}
-  template <typename InputIterator>
-  MapContainer(InputIterator first, InputIterator last):MapType(first, last) {}
-  template <typename InputIterator>
-  MapContainer(InputIterator first, InputIterator last,const MapKeyCompareType& comp):
+  template <typename TInputIterator>
+  MapContainer(TInputIterator first, TInputIterator last):MapType(first, last) {}
+  template <typename TInputIterator>
+  MapContainer(TInputIterator first, TInputIterator last,const MapKeyCompareType& comp):
     MapType(first, last, comp) {}  
   
   /** Method for creation through the object factory. */
@@ -91,12 +91,14 @@ public:
   typedef MapType STLContainerType;
 
   /** Cast the container to a STL container type */
-  STLContainerType & CastToSTLContainer() {
-     return dynamic_cast<STLContainerType &>(*this); }
+  STLContainerType & CastToSTLContainer()
+    { return dynamic_cast<STLContainerType &>(*this); }
 
   /** Cast the container to a const STL container type */
-  const STLContainerType & CastToSTLConstContainer() const {
-     return dynamic_cast<const STLContainerType &>(*this); }
+  const STLContainerType & CastToSTLConstContainer() const
+    {
+    return dynamic_cast<const STLContainerType &>(*this);
+    }
 
   /** Declare iterators to container. */
   class Iterator;
@@ -104,7 +106,8 @@ public:
   friend class Iterator;
   friend class ConstIterator;
   
-  /** \brief The non-const iterator type for the map. */
+  /** \class Iterator
+   * \brief The non-const iterator type for the map. */
   class Iterator
   {
   public:
@@ -133,9 +136,9 @@ public:
     friend class     ConstIterator;
   };
   
-  /** \brief The const iterator type for the map. */
-  class ConstIterator
-  {
+  /** \class ConstIterator 
+   * \brief The const iterator type for the map. */
+  class ConstIterator {
   public:
     ConstIterator() {}
     ConstIterator(const MapConstIterator& ci): m_Iter(ci) {}
