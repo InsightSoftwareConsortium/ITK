@@ -130,11 +130,12 @@ public:
 #endif // Mallinfo
 #endif // !defined(WIN32) && !defined(_WIN32)
 
-/** The best MemoryUsageObserver has been chosen for each OS.
- *  However, SysResourceMemoryUsageObserver is far from being accurate. Other
- *  way of getting the Memory Usage shall be used.
- *  For FreeBSD, some alternatives would be to parse the output of 
- *  "sysctl vm.vmtotal" or "sysctl -a | grep -i memory"
+/* \class MemoryUsageObserver
+ * The best MemoryUsageObserver has been chosen for each OS.
+ * However, SysResourceMemoryUsageObserver is far from being accurate. Other
+ * way of getting the Memory Usage shall be used.
+ * For FreeBSD, some alternatives would be to parse the output of 
+ * "sysctl vm.vmtotal" or "sysctl -a | grep -i memory"
 */
 class ITKCommon_EXPORT MemoryUsageObserver:
 #if defined(WIN32) || defined(_WIN32)

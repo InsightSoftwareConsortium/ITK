@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMetaDataObject_txx
-#define _itkMetaDataObject_txx
+#ifndef __itkMetaDataObject_txx
+#define __itkMetaDataObject_txx
 
 #include "itkMetaDataObject.h"
 
@@ -91,7 +91,7 @@ void
 itk::MetaDataObject<MetaDataObjectType>
 ::Print(std::ostream& os) const
 {
-        //  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
-        Superclass::Print(os);
+  //  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
+  Superclass::Print(os);
 }
 #endif

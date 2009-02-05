@@ -25,59 +25,58 @@
 #include <iostream>
 
 namespace itk {
-  /** \class MetaDataObjectBase
-   * \brief
-   * The MetaDataObjectBase class is designed as the
-   * common interface for MetaDataObject's.
-   * This class is intended as the value part
-   * of the (key,value) pair to be stored in
-   * a MetaDataDictionary
-   * 
+/** \class MetaDataObjectBase
+ * \brief
+ * The MetaDataObjectBase class is designed as the
+ * common interface for MetaDataObject's.
+ * This class is intended as the value part
+ * of the (key,value) pair to be stored in
+ * a MetaDataDictionary
+ * 
+ * \author Hans J. Johnson
+ */
+class ITKCommon_EXPORT MetaDataObjectBase : public LightObject
+{
+public:
+  /** Smart pointer typedef support. */
+  typedef MetaDataObjectBase        Self;
+  typedef LightObject               Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
+
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaDataObjectBase, LightObject);
+
+  /**
    * \author Hans J. Johnson
+   * \return A pointer to a const char array containing the unique type name.
    */
-  class ITKCommon_EXPORT MetaDataObjectBase : public LightObject
-  {
-    public:
-      /** Smart pointer typedef support. */
-      typedef MetaDataObjectBase  Self;
-      typedef LightObject  Superclass;
-      typedef SmartPointer<Self>  Pointer;
-      typedef SmartPointer<const Self>  ConstPointer;
-
-
-      /** Run-time type information (and related methods). */
-      itkTypeMacro(MetaDataObjectBase, LightObject);
-
-      /**
-       * \author Hans J. Johnson
-       * \return A pointer to a const char array containing the unique type name.
-       */
-      virtual const char * GetMetaDataObjectTypeName(void) const;
-      /**
-       * \author Hans J. Johnson
-       * \return A constant reference to a std::type_info object
-       */
-      virtual const std::type_info & GetMetaDataObjectTypeInfo(void) const;
-      /**
-       * Defines the default behavior for printing out this element
-       * \param os An output stream
-       */
-      virtual void Print(std::ostream& os) const;
-    protected:
-      /** Method for creation through the object factory.   */
-      // Should not be able to construct a new MetaDataObjectBase
+  virtual const char * GetMetaDataObjectTypeName(void) const;
+  /**
+   * \author Hans J. Johnson
+   * \return A constant reference to a std::type_info object
+   */
+  virtual const std::type_info & GetMetaDataObjectTypeInfo(void) const;
+  /**
+   * Defines the default behavior for printing out this element
+   * \param os An output stream
+   */
+  virtual void Print(std::ostream& os) const;
+protected:
+  /** Method for creation through the object factory.   */
+  // Should not be able to construct a new MetaDataObjectBase
 //       static  Pointer New(void);
-      /**
-       * Default destructor
-       */
-      virtual ~MetaDataObjectBase();
-      MetaDataObjectBase();
-    private:
-      //void * operator new(size_t nothing) {};//purposefully not implemented
-      MetaDataObjectBase(const Self &);//purposely not implemented
-      void operator=(const Self&); //purposely not implemented
-  };
+  /**
+   * Default destructor
+   */
+  virtual ~MetaDataObjectBase();
+  MetaDataObjectBase();
+private:
+  //void * operator new(size_t nothing) {};//purposefully not implemented
+  MetaDataObjectBase(const Self &);//purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+};
 }
 
 #endif //__itkMetaDataObjectBase_h
-

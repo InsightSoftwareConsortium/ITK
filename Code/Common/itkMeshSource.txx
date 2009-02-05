@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeshSource_txx
-#define _itkMeshSource_txx
+#ifndef __itkMeshSource_txx
+#define __itkMeshSource_txx
 
 #include "itkMeshSource.h"
 

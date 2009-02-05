@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MinimumDecisionRule_h
-#define __MinimumDecisionRule_h
+#ifndef __itkMinimumDecisionRule_h
+#define __itkMinimumDecisionRule_h
 
 #include "itkWin32Header.h"
 
@@ -35,17 +35,17 @@ namespace itk
 class ITKCommon_EXPORT MinimumDecisionRule : 
   public DecisionRuleBase
 {
- public:
+public:
   /** Standard class typedefs */ 
-  typedef MinimumDecisionRule Self ;
-  typedef DecisionRuleBase Superclass;
+  typedef MinimumDecisionRule     Self;
+  typedef DecisionRuleBase        Superclass;
   typedef itk::SmartPointer<Self> Pointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(MinimumDecisionRule, DecisionRuleBase);
   
   /** Standard New() method support */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
 
   /** Types for the arguments that are acceptable in the Evaluate() method */
@@ -66,22 +66,13 @@ class ITKCommon_EXPORT MinimumDecisionRule :
   virtual unsigned int Evaluate( const ArrayType &discriminantScores) const;
 
 
- protected:
-  MinimumDecisionRule() ;
+protected:
+  MinimumDecisionRule();
   virtual ~MinimumDecisionRule() {}
   
- private:
-
-
-} ; // end of class
+}; // end of class
 
 } // namespace itk
 
 #endif
-
-
-
-
-
-
 

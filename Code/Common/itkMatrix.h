@@ -39,7 +39,8 @@ namespace itk
  */
 
 template<class T, unsigned int NRows=3, unsigned int NColumns=3>
-class Matrix {
+class Matrix
+{
 public:
   /** Standard class typedefs. */
   typedef Matrix  Self;
@@ -88,7 +89,7 @@ public:
   /** Matrix by vnl_vector multiplication.  */
   vnl_vector<T> operator*(const vnl_vector<T> & matrix) const;
 
-  /** Matrix by scalar multiplication.  */
+  /** Matrix by scalar multiplication. */
   void operator*=(const T & value)
     { m_Matrix *= value; }
 
@@ -100,12 +101,12 @@ public:
     return result;
     }
       
-  /** Matrix by scalar division.  */
+  /** Matrix by scalar division. */
   void operator/=(const T & value)
     { m_Matrix /= value; }
   
-  /** Matrix by scalar division.  */
-  Self operator/(const T & value)
+  /** Matrix by scalar division. */
+  Self operator/ (const T & value)
     {
     Self result( *this );
     result /= value;

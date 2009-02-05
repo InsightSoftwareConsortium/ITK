@@ -25,7 +25,7 @@
 namespace itk
 {
 
-/**
+/** \class MetaDataDictionary
  * \author Hans J. Johnson
  * The MetaDataDictionary, along with the MetaDataObject derived template
  * classes, is designed to provide a mechanism for storing a collection of
@@ -46,8 +46,8 @@ public:
   // dictionary. 
   class MetaDataDictionaryMapType 
     : public std::map<std::string, MetaDataObjectBase::Pointer>
-      {
-      };
+    {
+    };
 
   typedef MetaDataDictionaryMapType::iterator       Iterator;
   typedef MetaDataDictionaryMapType::const_iterator ConstIterator;
@@ -63,8 +63,8 @@ public:
   virtual ~MetaDataDictionary();
 
   /** Returns a vector of keys to the key/value entries in the
-    dictionary.  Iterate through the dictionary using these keys.
-    */
+   * dictionary.  Iterate through the dictionary using these keys.
+   */
   std::vector<std::string> GetKeys() const;
 
   // Implement map's api. On some Micorsoft compilers, stl containers
@@ -104,4 +104,3 @@ private:
 
 }
 #endif // __itkMetaDataDictionary_h
-

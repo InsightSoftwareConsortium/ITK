@@ -30,7 +30,7 @@ namespace itk
  * object with the flexibility of being resizable.
  *
  * \ingroup DataProcessing  
- **/
+ */
 
 template<typename TItemType>
 class MatrixResizeableDataObject : public DataObject, public vnl_matrix<TItemType> {
@@ -38,9 +38,9 @@ public:
 
   /** Standard class typedefs. */
   typedef MatrixResizeableDataObject Self;
-  typedef DataObject Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

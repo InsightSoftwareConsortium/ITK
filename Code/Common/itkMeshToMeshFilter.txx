@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMeshToMeshFilter_txx
-#define _itkMeshToMeshFilter_txx
+#ifndef __itkMeshToMeshFilter_txx
+#define __itkMeshToMeshFilter_txx
 
 #include "itkMeshToMeshFilter.h"
 

@@ -14,17 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMatrix_txx
-#define _itkMatrix_txx
+#ifndef __itkMatrix_txx
+#define __itkMatrix_txx
 
 #include "itkMatrix.h" 
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-
-
-
  
 /**
  *  Product by a Vector
@@ -46,9 +43,6 @@ Matrix<T, NRows, NColumns>
     }
   return result;
 }
-
-
-
  
 /**
  *  Product by a Point
@@ -70,8 +64,6 @@ Matrix<T, NRows, NColumns>
     }
   return result;
 }
-
-
 
  
 /**
@@ -149,9 +141,6 @@ Matrix<T, NRows, NColumns>
     }
   return *this;
 }
-
-
-
   
 /**
  *  Matrix Subtraction
@@ -172,8 +161,6 @@ Matrix<T, NRows, NColumns>
   return result;
 }
 
-
-
 /**
  *  Matrix subtraction in-place 
  */
@@ -191,10 +178,6 @@ Matrix<T, NRows, NColumns>
     }
   return *this;
 }
-
-
-
-
 
 /**
  *  Product by a vnl_matrix
@@ -231,8 +214,6 @@ Matrix<T, NRows, NColumns>
 {
   m_Matrix *= matrix;
 }
-
-
 
 /**
  *  Product by a vnl_vector

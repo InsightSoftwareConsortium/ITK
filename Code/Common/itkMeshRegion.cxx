@@ -38,4 +38,3 @@ MeshRegion
 }
 
 } // end namespace itk
-

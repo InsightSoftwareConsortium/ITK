@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkMatrixOffsetTransformBase_txx
-#define _itkMatrixOffsetTransformBase_txx
+#ifndef __itkMatrixOffsetTransformBase_txx
+#define __itkMatrixOffsetTransformBase_txx
 
 #include "itkNumericTraits.h"
 #include "itkMatrixOffsetTransformBase.h"
@@ -63,9 +63,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   m_InverseMatrixMTime = m_MatrixMTime;
 }
 
-
-
-
 // Constructor with explicit arguments
 template<class TScalarType, unsigned int NInputDimensions,
                             unsigned int NOutputDimensions>
@@ -85,9 +82,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   this->ComputeMatrixParameters();
 }
 
-
-
-
 // Destructor
 template<class TScalarType, unsigned int NInputDimensions,
                             unsigned int NOutputDimensions>
@@ -96,8 +90,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 {
   return;
 }
-
-
 
 // Print self
 template<class TScalarType, unsigned int NInputDimensions,
@@ -184,8 +176,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   return;
 }
 
-
-
 // Transform a point
 template<class TScalarType, unsigned int NInputDimensions,
                             unsigned int NOutputDimensions>
@@ -268,7 +258,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
       {
       m_Singular = true;
       }
-     m_InverseMatrixMTime = m_MatrixMTime;
+    m_InverseMatrixMTime = m_MatrixMTime;
     }
 
   return m_InverseMatrix;
@@ -334,8 +324,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
     }
   return this->m_FixedParameters;
 }
-
-
 
 // Get parameters
 template<class TScalarType, unsigned int NInputDimensions,
@@ -478,7 +466,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
       }
     }
 
-  m_Offset = offset ;
+  m_Offset = offset;
 }
 
 // Computes translation based on offset, matrix, and center
@@ -500,7 +488,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
       }
     }
 
-  m_Translation = translation ;
+  m_Translation = translation;
 }
 
 
@@ -535,4 +523,3 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 } // namespace
 
 #endif
-

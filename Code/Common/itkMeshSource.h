@@ -44,9 +44,9 @@ class ITK_EXPORT MeshSource : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef MeshSource         Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MeshSource                Self;
+  typedef ProcessObject             Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -56,8 +56,8 @@ public:
   itkTypeMacro(MeshSource,ProcessObject);
 
   /** Some convenient typedefs. */
-  typedef DataObject::Pointer DataObjectPointer;
-  typedef TOutputMesh OutputMeshType;
+  typedef DataObject::Pointer              DataObjectPointer;
+  typedef TOutputMesh                      OutputMeshType;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
   
   /** Get the mesh output of this process object.  */
@@ -139,7 +139,7 @@ private:
    * by the execute method. Set in the GenerateInputRequestedRegion method. */
   int m_GenerateDataRegion;
   int m_GenerateDataNumberOfRegions;
-  };
+};
 
 } // end namespace itk
 
@@ -148,4 +148,3 @@ private:
 #endif
 
 #endif
-  

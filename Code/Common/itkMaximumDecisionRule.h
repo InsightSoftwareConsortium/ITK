@@ -21,7 +21,7 @@
 
 #include "itkDecisionRuleBase.h"
 
-namespace itk{ 
+namespace itk { 
 
 /** \class MaximumDecisionRule
  *  \brief A Decision rule that choose the class of which discriminant
@@ -33,21 +33,21 @@ class ITKCommon_EXPORT MaximumDecisionRule :
 {
 public:
   /** Standard class typedefs */ 
-  typedef MaximumDecisionRule Self ;
-  typedef DecisionRuleBase Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef MaximumDecisionRule      Self;
+  typedef DecisionRuleBase         Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumDecisionRule, DecisionRuleBase);
 
   /** Standard New() method support */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef Superclass::VectorType  VectorType;
-  typedef Superclass::ArrayType   ArrayType;
-  typedef Superclass::VariableLengthVectorType   VariableLengthVectorType;
+  typedef Superclass::VectorType               VectorType;
+  typedef Superclass::ArrayType                ArrayType;
+  typedef Superclass::VariableLengthVectorType VariableLengthVectorType;
  
 
   /** The return value of this function is a class label.
@@ -62,18 +62,9 @@ public:
 protected:
   MaximumDecisionRule() {}
   virtual ~MaximumDecisionRule() {}
-  void PrintSelf(std::ostream& os, Indent indent) const ;
-} ; // end of class
-
-
+  void PrintSelf(std::ostream& os, Indent indent) const;
+}; // end of class
 
 } // end of namespace itk
 
 #endif
-
-
-
-
-
-
-

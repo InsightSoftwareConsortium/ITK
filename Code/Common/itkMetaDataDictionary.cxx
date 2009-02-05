@@ -56,7 +56,7 @@ MetaDataDictionary
       it != m_Dictionary->end();
       it++)
     {
-    os << (*it).first <<  "  " ;
+    os << (*it).first <<  "  ";
     (*it).second->Print(os);
     }
 }
@@ -132,8 +132,6 @@ MetaDataDictionary
   return m_Dictionary->end();
 }
 
-
-
 MetaDataDictionary::Iterator
 MetaDataDictionary
 ::Find( const std::string & key)
@@ -148,10 +146,4 @@ MetaDataDictionary
 {
   return m_Dictionary->find(key);
 }
-
-
-
-
-
-}; // namespace
-
+} // namespace

@@ -1,4 +1,4 @@
-/*
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkMatrixOffsetTransformBase.h
@@ -9,12 +9,11 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 #ifndef __itkMatrixOffsetTransformBase_h
 #define __itkMatrixOffsetTransformBase_h
 
@@ -174,9 +173,11 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   virtual void SetMatrix(const MatrixType &matrix)
-    { m_Matrix = matrix; this->ComputeOffset();
-      this->ComputeMatrixParameters();
-      m_MatrixMTime.Modified(); this->Modified(); return; }
+    {
+    m_Matrix = matrix; this->ComputeOffset();
+    this->ComputeMatrixParameters();
+    m_MatrixMTime.Modified(); this->Modified(); return;
+    }
 
   /** Get matrix of an MatrixOffsetTransformBase
    *
@@ -185,7 +186,7 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   const MatrixType & GetMatrix() const
-      { return m_Matrix; }
+    { return m_Matrix; }
 
   /** Set offset (origin) of an MatrixOffset TransformBase.
    *
@@ -196,8 +197,10 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetOffset(const OutputVectorType &offset)
-      { m_Offset = offset; this->ComputeTranslation();
-        this->Modified(); return; }
+    {
+    m_Offset = offset; this->ComputeTranslation();
+    this->Modified(); return;
+    }
 
   /** Get offset of an MatrixOffsetTransformBase
    *
@@ -205,7 +208,7 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   const OutputVectorType & GetOffset(void) const
-      { return m_Offset; }
+    { return m_Offset; }
 
   /** Set center of rotation of an MatrixOffsetTransformBase
    *
@@ -230,8 +233,10 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetCenter(const InputPointType & center)
-      { m_Center = center; this->ComputeOffset();
-        this->Modified(); return; }
+    {
+    m_Center = center; this->ComputeOffset();
+    this->Modified(); return;
+    }
 
   /** Get center of rotation of the MatrixOffsetTransformBase
    *
@@ -240,7 +245,7 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   const InputPointType & GetCenter() const
-      { return m_Center; }
+    { return m_Center; }
 
   /** Set translation of an MatrixOffsetTransformBase
    *
@@ -249,8 +254,10 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   void SetTranslation(const OutputVectorType & translation)
-      { m_Translation = translation; this->ComputeOffset();
-        this->Modified(); return; }
+    {
+    m_Translation = translation; this->ComputeOffset();
+    this->Modified(); return;
+    }
 
   /** Get translation component of the MatrixOffsetTransformBase
    *
@@ -259,8 +266,9 @@ public:
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
   const OutputVectorType & GetTranslation(void) const
-      { return m_Translation; }
-
+    {
+    return m_Translation;
+    }
 
   /** Set the transformation from a container of parameters.
    * The first (NOutputDimension x NInputDimension) parameters define the
@@ -313,23 +321,23 @@ public:
   const JacobianType & GetJacobian(const InputPointType & point ) const;
 
   /** Create inverse of an affine transformation   
-    *   
-    * This populates the parameters an affine transform such that
-    * the transform is the inverse of self. If self is not invertible,   
-    * an exception is thrown.
-    * Note that by default the inverese transform is centered at 
-    * the origin. If you need to compute the inverse centered at a point, p,
-    * 
-    * \code
-    * transform2->SetCenter( p );
-    * transform1->GetInverse( transform2 );
-    * \endcode
-    *
-    * transform2 will now contain the inverse of transform1 and will 
-    * with its center set to p. Flipping the two statements will produce an 
-    * incorrect transform. 
-    *
-    **/
+   *   
+   * This populates the parameters an affine transform such that
+   * the transform is the inverse of self. If self is not invertible,   
+   * an exception is thrown.
+   * Note that by default the inverese transform is centered at 
+   * the origin. If you need to compute the inverse centered at a point, p,
+   * 
+   * \code
+   * transform2->SetCenter( p );
+   * transform1->GetInverse( transform2 );
+   * \endcode
+   *
+   * transform2 will now contain the inverse of transform1 and will 
+   * with its center set to p. Flipping the two statements will produce an 
+   * incorrect transform. 
+   *
+   */
   bool GetInverse(Self * inverse) const;
 
 
@@ -352,43 +360,51 @@ protected:
    * initializes the matrix and offset parts of the transformation
    * to values specified by the caller.  If the arguments are
    * omitted, then the MatrixOffsetTransformBase is initialized to an identity
-   * transformation in the appropriate number of dimensions.   **/
+   * transformation in the appropriate number of dimensions. */
   MatrixOffsetTransformBase(const MatrixType &matrix,
                             const OutputVectorType &offset);
   MatrixOffsetTransformBase(unsigned int outputDims,
                             unsigned int paramDims);
-  MatrixOffsetTransformBase();      
+  MatrixOffsetTransformBase();
   
-  /** Destroy an MatrixOffsetTransformBase object   **/
+  /** Destroy an MatrixOffsetTransformBase object */
   virtual ~MatrixOffsetTransformBase();
 
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream &s, Indent indent) const;
 
   const InverseMatrixType & GetVarInverseMatrix( void ) const
-    { return m_InverseMatrix; };
+    { return m_InverseMatrix; }
   void SetVarInverseMatrix(const InverseMatrixType & matrix) const
-    { m_InverseMatrix = matrix; m_InverseMatrixMTime.Modified(); };
+    { m_InverseMatrix = matrix; m_InverseMatrixMTime.Modified(); }
   bool InverseMatrixIsOld(void) const
-    { if(m_MatrixMTime != m_InverseMatrixMTime)
-        { return true; } else { return false; } };
+    {
+    if(m_MatrixMTime != m_InverseMatrixMTime)
+      {
+      return true;
+      }
+    else
+      {
+      return false;
+      }
+    }
 
   virtual void ComputeMatrixParameters(void);
 
   virtual void ComputeMatrix(void);
   void SetVarMatrix(const MatrixType & matrix)
-    { m_Matrix = matrix; m_MatrixMTime.Modified(); };
+    { m_Matrix = matrix; m_MatrixMTime.Modified(); }
 
   virtual void ComputeTranslation(void);
   void SetVarTranslation(const OutputVectorType & translation)
-    { m_Translation = translation; };
+    { m_Translation = translation; }
 
   virtual void ComputeOffset(void);
   void SetVarOffset(const OutputVectorType & offset)
-    { m_Offset = offset; };
+    { m_Offset = offset; }
 
   void SetVarCenter(const InputPointType & center)
-    { m_Center = center; };
+    { m_Center = center; }
 
 private:
 
@@ -427,4 +443,3 @@ private:
 #endif
 
 #endif /* __itkMatrixOffsetTransformBase_h */
-

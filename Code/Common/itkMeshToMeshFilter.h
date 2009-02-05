@@ -40,9 +40,9 @@ class ITK_EXPORT MeshToMeshFilter : public MeshSource<TOutputMesh>
 {
 public:
   /** Standard class typedefs. */
-  typedef MeshToMeshFilter  Self;
-  typedef MeshSource<TOutputMesh> Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MeshToMeshFilter          Self;
+  typedef MeshSource<TOutputMesh>   Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -52,7 +52,7 @@ public:
   itkTypeMacro(MeshToMeshFilter,MeshSource);
 
   /** Some convenient typedefs. */
-  typedef TInputMesh InputMeshType;
+  typedef TInputMesh                      InputMeshType;
   typedef typename InputMeshType::Pointer InputMeshPointer;
   
   /** Set the mesh input of this process object.  */

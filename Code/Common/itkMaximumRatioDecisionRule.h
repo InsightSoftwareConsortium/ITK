@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __MaximumRatioDecisionRule_h
-#define __MaximumRatioDecisionRule_h
+#ifndef __itkMaximumRatioDecisionRule_h
+#define __itkMaximumRatioDecisionRule_h
 
 #include "itkWin32Header.h"
 
@@ -46,19 +46,19 @@ class ITKCommon_EXPORT MaximumRatioDecisionRule :
 {
 public:
   /** Standard class typedefs */ 
-  typedef MaximumRatioDecisionRule Self ;
-  typedef DecisionRuleBase Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef MaximumRatioDecisionRule Self;
+  typedef DecisionRuleBase         Superclass;
+  typedef SmartPointer<Self>       Pointer;
   
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumRatioDecisionRule, DecisionRuleBase);
   
   /** Standard New() method support */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
-  typedef float APrioriValueType ;
-  typedef std::vector< APrioriValueType > APrioriVectorType ;
-  typedef APrioriVectorType::size_type APrioriVectorSizeType ;
+  typedef float                           APrioriValueType;
+  typedef std::vector< APrioriValueType > APrioriVectorType;
+  typedef APrioriVectorType::size_type    APrioriVectorSizeType;
 
 
   /** Types for the arguments that are acceptable in the Evaluate() method */
@@ -80,10 +80,10 @@ public:
 
 
   /** Sets the a priori probabilities */
-  void SetAPriori(APrioriVectorType& values) ;
+  void SetAPriori(APrioriVectorType& values);
 
 protected:
-  MaximumRatioDecisionRule() ;
+  MaximumRatioDecisionRule();
   virtual ~MaximumRatioDecisionRule() {}
   
 private:
@@ -91,18 +91,11 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   /** Number of classes */
-  APrioriVectorSizeType m_NumberOfClasses ;
+  APrioriVectorSizeType m_NumberOfClasses;
 
   /** a priori probability ratio matrix: internal use */
-  vnl_matrix< double > m_APrioriRatioMatrix ;
-} ; // end of class
+  vnl_matrix< double > m_APrioriRatioMatrix;
+}; // end of class
 
 } // end of namespace
 #endif
-
-
-
-
-
-
-

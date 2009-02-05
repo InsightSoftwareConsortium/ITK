@@ -45,10 +45,10 @@ class ITK_EXPORT MedianImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef MedianImageFunction Self;
+  typedef MedianImageFunction       Self;
   typedef ImageFunction<TInputImage, ITK_TYPENAME TInputImage::PixelType,
-    TCoordRep > Superclass;
-  typedef SmartPointer<Self> Pointer;
+    TCoordRep >                     Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** InputImageType typedef support. */
-  typedef TInputImage InputImageType;
+  typedef TInputImage                         InputImageType;
   typedef typename Superclass::InputPixelType InputPixelType;
 
   /** OutputType typedef support. */
@@ -83,16 +83,16 @@ public:
   /** Evaluate the function at non-integer positions */
   virtual OutputType Evaluate( const PointType& point ) const
     { 
-      IndexType index;
-      this->ConvertPointToNearestIndex( point, index );
-      return this->EvaluateAtIndex( index ); 
+    IndexType index;
+    this->ConvertPointToNearestIndex( point, index );
+    return this->EvaluateAtIndex( index ); 
     }
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType& cindex ) const
     { 
-      IndexType index;
-      this->ConvertContinuousIndexToNearestIndex( cindex, index );
-      return this->EvaluateAtIndex( index ) ; 
+    IndexType index;
+    this->ConvertContinuousIndexToNearestIndex( cindex, index );
+    return this->EvaluateAtIndex( index ); 
     }
   
 protected:
@@ -124,4 +124,3 @@ private:
 #endif
 
 #endif
-
