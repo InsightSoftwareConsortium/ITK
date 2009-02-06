@@ -147,8 +147,6 @@ itkNumericTraitsRGBPixelMacro( T );
 
 #endif
 
-
-
 //
 // Finally, to avoid contamination of other files with the symbols defined
 // here, we undefine the helper macros
@@ -160,4 +158,3 @@ itkNumericTraitsRGBPixelMacro( T );
 } // end namespace itk
 
 #endif // __itkNumericTraitsRGBPixel_h
-

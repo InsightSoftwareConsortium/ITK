@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhood_txx
-#define _itkNeighborhood_txx
+#ifndef __itkNeighborhood_txx
+#define __itkNeighborhood_txx
 
 #include "itkNeighborhood.h"
 #include <cstring>
@@ -96,7 +96,7 @@ Neighborhood<TPixel, VDimension, TContainer>
   unsigned int cumul=1;
   for (unsigned int i = 0; i<VDimension; i++)
     {
-    cumul*=m_Size[i];
+    cumul *= m_Size[i];
     }
 
   this->Allocate(cumul);
@@ -129,8 +129,6 @@ Neighborhood<TPixel, VDimension, TContainer>
   return *this;
 }
 
-
-
 template<class TPixel, unsigned int VDimension, class TContainer>
 std::slice Neighborhood<TPixel, VDimension, TContainer>
 ::GetSlice(unsigned int d) const
@@ -150,7 +148,9 @@ unsigned int Neighborhood<TPixel, VDimension, TContainer>
 {
   unsigned int idx = (this->Size()/2);
   for (unsigned i = 0; i < VDimension; ++i)
-    {      idx+=o[i] * static_cast<long>(m_StrideTable[i]);    }
+    {
+    idx += o[i] * static_cast<long>(m_StrideTable[i]);
+    }
   return idx;
 }
 

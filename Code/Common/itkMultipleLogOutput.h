@@ -42,15 +42,14 @@ class ITKCommon_EXPORT MultipleLogOutput : public LogOutput
 
 public:
 
-  typedef MultipleLogOutput  Self;
-  typedef LogOutput   Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MultipleLogOutput         Self;
+  typedef LogOutput                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef LogOutput               OutputType;
+  typedef LogOutput                 OutputType;
 
   itkTypeMacro(MultipleLogOutput, LogOutput);
-
   itkNewMacro(MultipleLogOutput);
   
 public:

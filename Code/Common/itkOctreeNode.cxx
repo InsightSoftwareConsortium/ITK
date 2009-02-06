@@ -100,6 +100,4 @@ void OctreeNode::RemoveChildren(void)
     }
 }
 
-
-
 } //End of itk Namespace

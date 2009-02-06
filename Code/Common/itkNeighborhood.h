@@ -69,11 +69,11 @@ public:
   /** Iterator typedef support. Note the naming is intentional, i.e.,
   * ::iterator and ::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
-  typedef typename AllocatorType::iterator Iterator;
+  typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
   
   /** Size and value typedef support. */
-  typedef ::itk::Size<VDimension> SizeType;
+  typedef ::itk::Size<VDimension>          SizeType;
   typedef typename SizeType::SizeValueType SizeValueType;
   
   /** Radius typedef support. */
@@ -100,19 +100,19 @@ public:
   /** Comparison operator. */
   bool
   operator==(const Self& other) const
-  {
+    {
     return (m_Radius == other.m_Radius &&
             m_Size   == other.m_Size &&
             m_DataBuffer == other.m_DataBuffer);
-  }
+    }
 
   /** Not Equal operator. */
   bool operator!=(const Self& other) const
-  {
+    {
     return (m_Radius != other.m_Radius ||
             m_Size   != other.m_Size ||
             m_DataBuffer != other.m_DataBuffer);
-  }
+    }
 
   /** Returns the radius of the neighborhood. */
   const SizeType GetRadius() const
@@ -156,13 +156,13 @@ public:
   TPixel &operator[](unsigned int i)
     { return m_DataBuffer[i]; }
   const TPixel &operator[](unsigned int i) const
-  { return m_DataBuffer[i]; }
+    { return m_DataBuffer[i]; }
   TPixel &GetElement(unsigned int i) 
-  { return m_DataBuffer[i]; }
+    { return m_DataBuffer[i]; }
 
   /** Returns the element at the center of the neighborhood. */
   TPixel GetCenterValue() const
-  {    return (this->operator[]((this->Size())>>1)); }
+    { return (this->operator[]((this->Size())>>1)); }
 
   /** Sets the radius for the neighborhood, calculates size from the
    * radius, and allocates storage. */
@@ -171,11 +171,11 @@ public:
   /** Sets the radius for the neighborhood. Overloaded to support an unsigned
    * long array. */
   void SetRadius(const unsigned long *rad)
-  {
+    {
     SizeType s;
     memcpy(s.m_Size, rad, sizeof(unsigned long) * VDimension);
     this->SetRadius(s);
-  }
+    }
   
   /** Overloads SetRadius to allow a single long integer argument
    * that is used as the radius of all the dimensions of the
@@ -194,29 +194,31 @@ public:
 
   /** Get pixel value by offset */
   TPixel &operator[](const OffsetType &o)
-  {    return this->operator[](this->GetNeighborhoodIndex(o)); }
+    { return this->operator[](this->GetNeighborhoodIndex(o)); }
   const TPixel &operator[](const OffsetType &o) const
-  { return this->operator[](this->GetNeighborhoodIndex(o)); }
+    { return this->operator[](this->GetNeighborhoodIndex(o)); }
 
   /** Returns the itk::Offset from the center of the Neighborhood to
       the requested neighbor index. */
   OffsetType GetOffset(unsigned int i) const
-  {    return m_OffsetTable[i];  }
+    { return m_OffsetTable[i]; }
 
   virtual unsigned int GetNeighborhoodIndex(const OffsetType &) const;
 
   unsigned int GetCenterNeighborhoodIndex() const
-  { return  static_cast<unsigned int>(this->Size()/2); }
+    { return  static_cast<unsigned int>(this->Size()/2); }
     
   std::slice GetSlice(unsigned int) const;
-  
+
 protected:
   /** Sets the length along each dimension. */
   void SetSize()
-  {
+    {
     for (unsigned int i=0; i<VDimension; ++i)
-      { m_Size[i] = m_Radius[i]*2+1; }
-  }
+      {
+      m_Size[i] = m_Radius[i]*2+1;
+      }
+    }
 
   /** Allocates the neighborhood's memory buffer. */
   virtual void Allocate(unsigned int i)
@@ -255,14 +257,14 @@ private:
 
 template <class TPixel, unsigned int VDimension, class TContainer>
 std::ostream & operator<<(std::ostream &os, const Neighborhood<TPixel,VDimension,TContainer> &neighborhood)
-{
+  {
   os << "Neighborhood:" << std::endl;
   os << "    Radius:" << neighborhood.GetRadius() << std::endl;
   os << "    Size:" << neighborhood.GetSize() << std::endl;
   os << "    DataBuffer:" << neighborhood.GetBufferReference() << std::endl;
 
   return os;
-}
+  }
 
 } // namespace itk
 

@@ -213,31 +213,30 @@ class ITK_EXPORT NeighborhoodIterator
 {
 public:
   /** Standard class typedefs. */
-  typedef NeighborhoodIterator Self;
+  typedef NeighborhoodIterator                                 Self;
   typedef ConstNeighborhoodIterator<TImage,TBoundaryCondition> Superclass;
   
   /** Extract typedefs from superclass. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
-  typedef typename Superclass::PixelType  PixelType;
-  typedef typename Superclass::SizeType   SizeType;
-  typedef typename Superclass::ImageType  ImageType;
-  typedef typename Superclass::RegionType RegionType;
-  typedef typename Superclass::IndexType  IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::Iterator      Iterator;
-  typedef typename Superclass::ConstIterator ConstIterator;
+  typedef typename Superclass::PixelType         PixelType;
+  typedef typename Superclass::SizeType          SizeType;
+  typedef typename Superclass::ImageType         ImageType;
+  typedef typename Superclass::RegionType        RegionType;
+  typedef typename Superclass::IndexType         IndexType;
+  typedef typename Superclass::OffsetType        OffsetType;
+  typedef typename OffsetType::OffsetValueType   OffsetValueType;
+  typedef typename Superclass::RadiusType        RadiusType;
+  typedef typename Superclass::NeighborhoodType  NeighborhoodType;
+  typedef typename Superclass::Iterator          Iterator;
+  typedef typename Superclass::ConstIterator     ConstIterator;
   typedef typename Superclass::ImageBoundaryConditionPointerType
-   ImageBoundaryConditionPointerType;
+                                                 ImageBoundaryConditionPointerType;
     
   /** Default constructor. */
   NeighborhoodIterator(): Superclass() {}
   
   /** Copy constructor */
-  NeighborhoodIterator( const NeighborhoodIterator &n )
-    : Superclass(n) {}
+  NeighborhoodIterator( const NeighborhoodIterator &n ) : Superclass(n) {}
   
   /** Assignment operator */
   Self &operator=(const Self& orig)

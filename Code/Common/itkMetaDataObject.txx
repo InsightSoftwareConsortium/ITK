@@ -22,15 +22,17 @@
 
 #include "itkMetaDataObject.h"
 
+namespace itk
+{
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(void)
 {
   //Nothing to do, m_MetaDataObjectValue takes this types default value.
 }
 
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::~MetaDataObject(void)
 {
   //std::cout << "                            MetaDataObject Deleteing: " << this << std::endl;
@@ -39,7 +41,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObjectType InitializerValue)
   :m_MetaDataObjectValue(InitializerValue)
 {
@@ -47,7 +49,7 @@ itk::MetaDataObject<MetaDataObjectType>
 }
 
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObject<MetaDataObjectType> &TemplateObject)
   :m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
 {
@@ -56,7 +58,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 const char *
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::GetMetaDataObjectTypeName(void) const
 {
   return typeid(MetaDataObjectType).name();
@@ -64,7 +66,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 const std::type_info &
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::GetMetaDataObjectTypeInfo(void) const
 {
   return typeid(MetaDataObjectType);
@@ -72,7 +74,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 const MetaDataObjectType &
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::GetMetaDataObjectValue(void) const
 {
   return m_MetaDataObjectValue;
@@ -80,7 +82,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 void
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::SetMetaDataObjectValue(const MetaDataObjectType & NewValue )
 {
   m_MetaDataObjectValue=NewValue;
@@ -88,10 +90,11 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 void
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::Print(std::ostream& os) const
 {
   //  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
   Superclass::Print(os);
+}
 }
 #endif

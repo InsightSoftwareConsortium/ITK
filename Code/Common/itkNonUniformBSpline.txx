@@ -15,13 +15,12 @@
 
 =========================================================================*/
 
+#ifndef __itkNonUniformBSpline_txx
+#define __itkNonUniformBSpline_txx
 
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifndef __itkNonUniformBSpline_txx
-#define __itkNonUniformBSpline_txx
 
 #include "itkNonUniformBSpline.h" 
 
@@ -34,7 +33,6 @@
 
 namespace itk  
 { 
-
 
 /** Constructor */
 template< unsigned int TDimension >
@@ -64,25 +62,25 @@ NonUniformBSpline< TDimension >
 
   os << indent << "Chord lengths : " << std::endl;
   for (ChordLengthListType::const_iterator iter = m_CumulativeChordLength.begin();
-        iter != m_CumulativeChordLength.end();
-        iter++)
-      {
-      os << indent << indent << *iter << std::endl;
-      }
+       iter != m_CumulativeChordLength.end();
+       iter++)
+    {
+    os << indent << indent << *iter << std::endl;
+    }
   os << indent << "Knots : " << std::endl;
   for (KnotListType::const_iterator kiter = m_Knots.begin();
-        kiter != m_Knots.end();
-        kiter++)
-        {
-        os << indent << indent << *kiter << std::endl;
-        }
+       kiter != m_Knots.end();
+       kiter++)
+    {
+    os << indent << indent << *kiter << std::endl;
+    }
   os << indent << "Control Points : " << std::endl;
   for (typename ControlPointListType::const_iterator cpiter = m_ControlPoints.begin();
-        cpiter != m_ControlPoints.end();
-        cpiter++)
-       {
-       os << indent << indent << *cpiter << std::endl;
-       }
+       cpiter != m_ControlPoints.end();
+       cpiter++)
+    {
+    os << indent << indent << *cpiter << std::endl;
+    }
 } 
 
 
@@ -95,7 +93,7 @@ NonUniformBSpline< TDimension >
   m_Points.clear();
          
   typename PointListType::iterator it,end;
-  it = points.begin();    
+  it = points.begin();
   end = points.end();
   while(it != end)
     {
@@ -120,7 +118,7 @@ NonUniformBSpline< TDimension >
   typename KnotListType::iterator it;
   typename KnotListType::iterator end;
 
-  it = knots.begin();    
+  it = knots.begin();
   end = knots.end();
 
   while(it != end)
@@ -187,22 +185,22 @@ NonUniformBSpline< TDimension >
   ChordLengthListType temp;
 
   for (::size_t i = 0; i < m_Points.size()-1; i++)
-      {
-      PointType pt = m_Points[i];
-      PointType pt2 = m_Points[i+1];
+    {
+    PointType pt = m_Points[i];
+    PointType pt2 = m_Points[i+1];
 
-      double chord = pt.EuclideanDistanceTo(pt2);
-      m_ChordLength.push_back(chord);
-      total_chord_length = total_chord_length + chord;
-      temp.push_back(total_chord_length);
-      }
+    double chord = pt.EuclideanDistanceTo(pt2);
+    m_ChordLength.push_back(chord);
+    total_chord_length = total_chord_length + chord;
+    temp.push_back(total_chord_length);
+    }
 
   for (ChordLengthListType::iterator aiter = temp.begin();
-        aiter != temp.end();
-        aiter++)
-      {
-      m_CumulativeChordLength.push_back(*aiter/total_chord_length);
-      }
+       aiter != temp.end();
+       aiter++)
+    {
+    m_CumulativeChordLength.push_back(*aiter/total_chord_length);
+    }
 
   //
   // Debug printouts
@@ -212,19 +210,19 @@ NonUniformBSpline< TDimension >
 
   std::cout << "Chord length : " << std::endl;
   for (ChordLengthListType::iterator aiter2 = m_ChordLength.begin();
-        aiter2 != m_ChordLength.end();
-        aiter2++)
-      {
-      std::cout << *aiter2 << std::endl;
-      }
+       aiter2 != m_ChordLength.end();
+       aiter2++)
+    {
+    std::cout << *aiter2 << std::endl;
+    }
 
   std::cout << "Cumulative chord length : " << std::endl;
   for (ChordLengthListType::iterator aiter3 = m_CumulativeChordLength.begin();
-        aiter3 != m_CumulativeChordLength.end();
-        aiter3++)
-      {
-      std::cout << *aiter3 << std::endl;
-      }
+       aiter3 != m_CumulativeChordLength.end();
+       aiter3++)
+    {
+    std::cout << *aiter3 << std::endl;
+    }
   std::cout << std::endl;
 #endif
 }
@@ -234,14 +232,14 @@ void
 NonUniformBSpline< TDimension > 
 ::SetControlPoints( ControlPointListType& ctrlpts )
 {
- m_ControlPoints.clear();
- for (typename ControlPointListType::iterator iter = ctrlpts.begin();
-        iter != ctrlpts.end();
-        iter++)
-     {
-     m_ControlPoints.push_back(*iter);   
-     } 
- this->Modified();
+  m_ControlPoints.clear();
+  for (typename ControlPointListType::iterator iter = ctrlpts.begin();
+       iter != ctrlpts.end();
+       iter++)
+    {
+    m_ControlPoints.push_back(*iter);   
+    } 
+  this->Modified();
 }
 
 template< unsigned int TDimension >
@@ -264,16 +262,16 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
   //
   int rr = 0;
   for (typename PointListType::iterator iter = m_Points.begin();
-        iter != m_Points.end();
-        iter++)
+       iter != m_Points.end();
+       iter++)
+    {
+    PointType pt = (*iter);
+    for (int i = 0; i < dim; i++)
       {
-      PointType pt = (*iter);
-      for (int i = 0; i < dim; i++)
-        {
-        data_matrix(rr, i) = pt.GetVnlVector()[i];
-        }
-      rr++;
+      data_matrix(rr, i) = pt.GetVnlVector()[i];
       }
+    rr++;
+    }
 
 #ifdef DEBUG_SPLINE
   std::cout << std::endl << "Data matrix" << std::endl;
@@ -360,8 +358,8 @@ NonUniformBSpline< TDimension >
   result.fill(0);
 
   for (typename ControlPointListType::const_iterator cpiter = m_ControlPoints.begin();
-        cpiter != m_ControlPoints.end();
-        cpiter++)
+       cpiter != m_ControlPoints.end();
+       cpiter++)
     {
     ControlPointType pt = *cpiter;
     vnl_vector<double> v = pt.GetVnlVector();
@@ -373,7 +371,7 @@ NonUniformBSpline< TDimension >
     }
 
   double array[TDimension];
-  for (int d = 0; d < TDimension ; d++)
+  for (int d = 0; d < TDimension; d++)
     {
     array[d] = result[d];
     }
@@ -390,4 +388,3 @@ NonUniformBSpline< TDimension >
 } // end namespace itk 
 
 #endif
-

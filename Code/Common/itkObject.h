@@ -45,9 +45,9 @@ class ITKCommon_EXPORT Object: public LightObject
 {
 public:
   /** Smart pointer typedef support. */
-  typedef Object              Self;
-  typedef LightObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Object                    Self;
+  typedef LightObject               Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -179,17 +179,16 @@ private:
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
   SubjectImplementation* m_SubjectImplementation;
- /**
-  * Implementation for holding Object MetaData
-  * @see itk::MetaDataDictionary
-  * @see itk::MetaDataObjectBase
-  * @see itk::MetaDataObject
-  * This is only allocated if used.
-  */
+  /**
+   * Implementation for holding Object MetaData
+   * @see itk::MetaDataDictionary
+   * @see itk::MetaDataObjectBase
+   * @see itk::MetaDataObject
+   * This is only allocated if used.
+   */
   mutable MetaDataDictionary * m_MetaDataDictionary;
 };
 
 } // end namespace itk
 
 #endif
-

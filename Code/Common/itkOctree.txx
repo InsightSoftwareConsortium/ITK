@@ -46,7 +46,7 @@ SetTrueDims(const unsigned int Dim0, const unsigned int Dim1,
   this->m_TrueDims[2]=Dim2;
 }
 
-/*This is moving bits to get the values of the 8 octants
+/** This is moving bits to get the values of the 8 octants
     Possible values are the 3 bits to be set.
     0   000 Contains origin
     1   001
@@ -125,7 +125,7 @@ GetValue(const unsigned int Dim0,
   unsigned int halfwidth = this->m_Width; 
 
 
-  while ((CurrentOctreeNode->IsNodeColored())==false)
+  while ((CurrentOctreeNode->IsNodeColored()) == false)
     {
     //NOTE:  halfwidth=halfwidth/2 is the same as halfwidth >> 1
     halfwidth=halfwidth >> 1; 

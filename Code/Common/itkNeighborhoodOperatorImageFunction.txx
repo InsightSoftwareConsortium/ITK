@@ -55,8 +55,6 @@ NeighborhoodOperatorImageFunction<TInputImage,TOutput>
   return smartInnerProduct(bit, m_Operator);
 }
 
-
-
 } // end namespace itk
 
 #endif

@@ -42,7 +42,7 @@ namespace itk
 template <class TImage, class TOutputPixelType>
 class ITK_EXPORT NthElementImageAdaptorHelper
 {
- public:
+public:
   typedef  NthElementPixelAccessor<
     TOutputPixelType,
     typename TImage::PixelType> PixelAccessor;
@@ -58,10 +58,10 @@ template <class TImage, class TOutputPixelType>
 {
 public:
   /** Standard class typedefs. */
-  typedef NthElementImageAdaptor  Self;
+  typedef NthElementImageAdaptor                                                 Self;
   typedef typename NthElementImageAdaptorHelper<TImage, TOutputPixelType>::Super Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                                     Pointer;
+  typedef SmartPointer<const Self>                                               ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro( NthElementImageAdaptor, ImageAdaptor );

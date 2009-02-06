@@ -82,7 +82,7 @@ public:
   void Delete() {delete this;}
   
   /** Used for debugging and other run-time purposes. */
-  virtual const char *GetNameOfClass() {return "itkSimpleMutexLock";};
+  virtual const char *GetNameOfClass() {return "itkSimpleMutexLock";}
   
   /** Lock the MutexLock. */
   void Lock( void );
@@ -92,13 +92,13 @@ public:
 
   /** Access the MutexType member variable from outside this class */
   MutexType& GetMutexLock()
-  {
+    {
     return m_MutexLock;
-  }
+    }
   const MutexType GetMutexLock() const
-  {
+    {
     return m_MutexLock;
-  }
+    }
   
 protected:
   MutexType   m_MutexLock;
@@ -117,9 +117,9 @@ class ITKCommon_EXPORT MutexLock : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef MutexLock       Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MutexLock                 Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation. */

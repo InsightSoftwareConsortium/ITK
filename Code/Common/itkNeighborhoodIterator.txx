@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodIterator_txx
-#define _itkNeighborhoodIterator_txx
+#ifndef __itkNeighborhoodIterator_txx
+#define __itkNeighborhoodIterator_txx
 namespace itk {
 
 template<class TImage, class TBoundaryCondition>

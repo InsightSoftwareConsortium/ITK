@@ -61,9 +61,9 @@ class ITK_EXPORT ObjectStore : public Object
 {
 public:
    /** Standard typedefs. */
-  typedef ObjectStore Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ObjectStore               Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */
@@ -75,7 +75,7 @@ public:
   /** Type of the objects in storage. */
   typedef TObjectType ObjectType;
 
-  /** Type of list for storing pointers to free memory.*/
+  /** Type of list for storing pointers to free memory. */
   typedef std::vector<ObjectType *> FreeListType;
 
   /** Type of memory allocation strategy */
@@ -115,11 +115,11 @@ public:
 
   /** Set growth strategy to exponential */
   void SetGrowthStrategyToExponential()
-  { this->SetGrowthStrategy(EXPONENTIAL_GROWTH); }
+    { this->SetGrowthStrategy(EXPONENTIAL_GROWTH); }
 
   /** Set growth strategy to linear */
   void SetGrowthStrategyToLinear()
-  { this->SetGrowthStrategy(LINEAR_GROWTH); }
+    { this->SetGrowthStrategy(LINEAR_GROWTH); }
   
 protected:
   ObjectStore();
@@ -130,20 +130,20 @@ protected:
   ::size_t GetGrowthSize();
   
   struct MemoryBlock
-  {
+    {
     MemoryBlock(): Size(0), Begin(0) {}
 
     MemoryBlock(::size_t n) : Size(n)
-    { Begin = new ObjectType[n];  }
+      { Begin = new ObjectType[n];  }
 
     ~MemoryBlock()  {  } // Purposely does *not* free memory
 
     void Delete()
-    { if (Begin !=0) delete[] Begin; }
+      { if (Begin !=0) delete[] Begin; }
     
     ObjectType *Begin;
     ::size_t Size;
-  };
+    };
   
 private:
   ObjectStore(const Self&);    //purposely not implemented

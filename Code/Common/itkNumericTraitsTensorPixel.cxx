@@ -23,4 +23,3 @@ const SymmetricSecondRankTensor<double , 2>
   SymmetricSecondRankTensor<double , 2>( NumericTraits<double >::Zero ); 
 
 } // end namespace itk
-

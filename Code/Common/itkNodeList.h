@@ -28,7 +28,7 @@ namespace itk
  * the contained items. 
  *
  * \ingroup ImageObjects
- **/
+ */
 
 template <typename TItemType>
 class NodeList : public std::list< TItemType >

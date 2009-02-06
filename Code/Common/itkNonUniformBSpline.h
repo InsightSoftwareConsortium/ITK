@@ -15,13 +15,12 @@
 
 =========================================================================*/
 
+#ifndef __itkNonUniformBSpline_h
+#define __itkNonUniformBSpline_h
 
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
-#ifndef __itkNonUniformBSpline_h
-#define __itkNonUniformBSpline_h
 
 #include <vector>
 
@@ -32,23 +31,23 @@
 namespace itk {
 
 /** 
-* \class NonUniformBSpline
-* \brief BSpline with nonuniform knot spacing.
-*
-* This class is a bspline with nonuniform knot spacing. The 
-* use can specify a set of points and a set of knots and the 
-* spline will attempt to find the control points which will 
-* cause the spline to interpolate the points. 
-*
-* CAUTION: THIS CLASS IS STILL UNDER DEVELOPMENT.
-*
-*/
+ * \class NonUniformBSpline
+ * \brief BSpline with nonuniform knot spacing.
+ *
+ * This class is a bspline with nonuniform knot spacing. The 
+ * use can specify a set of points and a set of knots and the 
+ * spline will attempt to find the control points which will 
+ * cause the spline to interpolate the points. 
+ *
+ * CAUTION: THIS CLASS IS STILL UNDER DEVELOPMENT.
+ *
+ */
 
 template < unsigned int TDimension = 3 >
 class NonUniformBSpline 
   : public Object
 {
- public:
+public:
   /**
   Typedefs
   */
@@ -87,57 +86,57 @@ class NonUniformBSpline
     }
 
   /**
-  Set the knot vector. Knots may be nonuniformly spaced.
-  Knots will be rescaled to be between 0 and 1.
-  */
+   * Set the knot vector. Knots may be nonuniformly spaced.
+   * Knots will be rescaled to be between 0 and 1.
+   */
   void SetKnots( KnotListType & newKnots);
 
   /**
-  Get the knot vector.
-  */
+   * Get the knot vector.
+   */
   KnotListType& GetKnots();
 
   /**
-  Computes the chord lengths based on the points.
-  */
+   * Computes the chord lengths based on the points.
+   */
   void ComputeChordLengths();
 
   /**
-  Methods for evaluating the spline.
-  The parameterization is always between 0 and 1.
-  */
+   * Methods for evaluating the spline.
+   * The parameterization is always between 0 and 1.
+   */
   PointType  EvaluateSpline(const Array<double> & p) const;
   PointType  EvaluateSpline( double t ) const;
 
   /**
-  Compute the control points.
-  */
+   * Compute the control points.
+   */
   void ComputeControlPoints();
 
   /**
-  Set the control points for the spline.
-  */
+   * Set the control points for the spline.
+   */
   void SetControlPoints( ControlPointListType& ctrlpts );
 
   /**
-  Get the control points for the spline
-  */
+   * Get the control points for the spline
+   */
   ControlPointListType& GetControlPoints()
     { 
     return m_ControlPoints;
     }
 
   /**
-  Evaluate the basis functions directly. 
-  order - order of the basis function, i.e. 3 = cubic.
-  i - basis function number, zero based.
-  t - parameter of the spline.
-  */
+   * Evaluate the basis functions directly. 
+   * order - order of the basis function, i.e. 3 = cubic.
+   * i - basis function number, zero based.
+   * t - parameter of the spline.
+   */
   double NonUniformBSplineFunctionRecursive(unsigned int order, unsigned int i, double t) const;
 
   /**
-  Set the order of the spline.
-  */
+   * Set the order of the spline.
+   */
   void SetSplineOrder(unsigned int order)
     {
     m_SplineOrder = order;
@@ -145,63 +144,63 @@ class NonUniformBSpline
     }
 
   /**
-  Get the order of the spline.
-  */
+   * Get the order of the spline.
+   */
   unsigned int GetSplineOrder()
     {
     return m_SplineOrder;
     }
 
- protected:
+protected:
 
   /**
-  Constructor
-  */
+   * Constructor
+   */
   NonUniformBSpline();
 
   /**
-  Virtual destructor
-  */
+   * Virtual destructor
+   */
   virtual ~NonUniformBSpline();
 
   /** 
-    Method to print the object.
-  */
+   * Method to print the object.
+   */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /**
-  Points that the spline attempts to intepolate.
-  */
+   * Points that the spline attempts to intepolate.
+   */
   PointListType         m_Points;  
 
   /**
-  The knots of spline.
-  */
-  KnotListType          m_Knots;                 
+   * The knots of spline.
+   */
+  KnotListType          m_Knots;
 
   /**
-  The control points of the spline.
-  */
+   * The control points of the spline.
+   */
   ControlPointListType  m_ControlPoints;
 
   /**
-  The chord length computed from m_Points.
-  */
+   * The chord length computed from m_Points.
+   */
   ChordLengthListType   m_ChordLength;  
 
   /**
-  The cumulative chord length computed from m_Points
-  */
+   * The cumulative chord length computed from m_Points
+   */
   ChordLengthListType   m_CumulativeChordLength;
 
   /**
-  The order of the spline.
-  */
+   * The order of the spline.
+   */
   unsigned int          m_SplineOrder;
 
   /**
-  The spatial dimension. Saved from the template parameter.
-  */
+   * The spatial dimension. Saved from the template parameter.
+   */
   unsigned int          m_SpatialDimension;
 
 };

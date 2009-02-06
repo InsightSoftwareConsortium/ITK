@@ -121,7 +121,7 @@ typedef pthread_t ThreadProcessIDType;
 
 #ifdef ITK_USE_WIN32_THREADS
 typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
-typedef HANDLE ThreadProcessIDType;
+typedef HANDLE                 ThreadProcessIDType;
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE DWORD __stdcall
 #endif
@@ -137,9 +137,9 @@ class ITKCommon_EXPORT MultiThreader : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiThreader         Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef MultiThreader             Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -178,7 +178,7 @@ public:
   /** Execute the MultipleMethods (as define by calling SetMultipleMethod for
    * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
    * threads. As a side effect the m_NumberOfThreads will be checked against the
-   * current m_GlobalMaximumNumberOfThreads and clamped if necessary.*/
+   * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
   void MultipleMethodExecute();
   
   /** Set the SingleMethod to f() and the UserData field of the
@@ -225,7 +225,7 @@ public:
 #undef ThreadInfoStruct
 #endif
   struct ThreadInfoStruct
-  {
+    {
 #ifdef ITK_USE_SPROC
     char Pad1[128];
 #endif
@@ -239,7 +239,7 @@ public:
 #ifdef ITK_USE_SPROC
     char Pad2[128];
 #endif
-  };
+    };
   
 protected:
   MultiThreader();

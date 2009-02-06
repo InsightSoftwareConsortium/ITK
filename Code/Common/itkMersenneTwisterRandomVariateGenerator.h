@@ -14,12 +14,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkMersenneTwisterRandomVariateGenerator_h
+#define __itkMersenneTwisterRandomVariateGenerator_h
+
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4146 )
 #endif
-
-#ifndef __itkMersenneTwisterRandomVariateGenerator_h
-#define __itkMersenneTwisterRandomVariateGenerator_h
 
 #include "itkMacro.h"
 #include "itkObjectFactory.h"
@@ -58,7 +58,7 @@ namespace Statistics {
  *
  * Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
  * Copyright (C) 2000 - 2003, Richard J. Wagner
- * All rights reserved.                          
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -104,10 +104,11 @@ class ITKCommon_EXPORT MersenneTwisterRandomVariateGenerator :
 public:
   
   /** Standard class typedefs. */
-  typedef MersenneTwisterRandomVariateGenerator Self ;
-  typedef RandomVariateGeneratorBase Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MersenneTwisterRandomVariateGenerator Self;
+  typedef RandomVariateGeneratorBase            Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
+
   typedef ITK_UINT32 IntegerType;
 
   /** Run-time type information (and related methods). */
@@ -162,7 +163,7 @@ public:
   IntegerType GetIntegerVariate();
   
   /** Get an integer variate in [0, n] for n < 2^32 */
-  IntegerType GetIntegerVariate( const IntegerType& n );      
+  IntegerType GetIntegerVariate( const IntegerType& n );
   
   /** Access to 53-bit random numbers (capacity of IEEE double precision) 
    * in the range [0,1) */
@@ -199,7 +200,7 @@ public:
   void load( IntegerType *const loadArray );  // from such array
   */
 
- protected:
+protected:
   inline MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}; 
   virtual void PrintSelf(std::ostream& os, Indent indent) const {
@@ -210,7 +211,7 @@ public:
     os << indent;
     register const IntegerType *s = state;
     register int i = StateVectorLength;
-    for( ; i--; os << *s++ << "\t" ) {}
+    for(; i--; os << *s++ << "\t" ) {}
     os << std::endl;
     
     //Print next value to be gotten from state
@@ -244,17 +245,14 @@ public:
     }
   static IntegerType hash( vcl_time_t t, vcl_clock_t c );
   static Pointer m_Instance;
-} ;  // end of class
+};  // end of class
   
-
-
-
 // Declare inlined functions.... (must be declared in the header)
 // Declare then in order to keep SGI happy
 
 inline MersenneTwisterRandomVariateGenerator::IntegerType 
-  MersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t c )
-  {
+MersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t c )
+{
   // Get a IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk 
@@ -276,12 +274,12 @@ inline MersenneTwisterRandomVariateGenerator::IntegerType
     h2 += p[j];
     }
   return ( h1 + differ++ ) ^ h2;
-  }
+}
 
 
 inline void 
-  MersenneTwisterRandomVariateGenerator::Initialize( const IntegerType seed )
-  {
+MersenneTwisterRandomVariateGenerator::Initialize( const IntegerType seed )
+{
   // Initialize generator state with seed
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
   // In previous versions, most significant bits (MSBs) of the seed affect
@@ -295,11 +293,11 @@ inline void
     *s++ = ( 1812433253UL * ( *r ^ (*r >> 30) ) + i ) & 0xffffffffUL;
     r++;
     }
-  }
+}
 
 inline void 
-  MersenneTwisterRandomVariateGenerator::reload()
-  {
+MersenneTwisterRandomVariateGenerator::reload()
+{
   // Generate N new values in state
   // Made clearer and faster by Matthew Bellew 
   // matthew dot bellew at home dot com
@@ -321,15 +319,13 @@ inline void
   *p = twist( p[index], p[0], state[0] );
 
   left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
-  }
-
-
+}
 
 #define SVL 624
 inline void 
-  MersenneTwisterRandomVariateGenerator::SetSeed( 
-      IntegerType * const bigSeed, const IntegerType seedLength )
-  {
+MersenneTwisterRandomVariateGenerator::SetSeed( 
+  IntegerType * const bigSeed, const IntegerType seedLength )
+{
   // Seed the generator with an array of IntegerType's
   // There are 2^19937-1 possible initial states.  This function allows
   // all of those to be accessed by providing at least 19937 bits (with a
@@ -349,7 +345,7 @@ inline void
     {
     k = seedLength;
     }
-  for( ; k; --k )
+  for(; k; --k )
     {
     state[i] =
       state[i] ^ ( (state[i-1] ^ (state[i-1] >> 30)) * 1664525UL );
@@ -377,34 +373,32 @@ inline void
 
 
 inline void
-  MersenneTwisterRandomVariateGenerator::Initialize()
-  { 
+MersenneTwisterRandomVariateGenerator::Initialize()
+{ 
   SetSeed(); 
-  }
+}
 
 
 inline void 
-  MersenneTwisterRandomVariateGenerator::SetSeed( const IntegerType oneSeed )
-  {
+MersenneTwisterRandomVariateGenerator::SetSeed( const IntegerType oneSeed )
+{
   // Seed the generator with a simple IntegerType
   Initialize(oneSeed);
   reload();
-  }
+}
 
 
 inline void 
-  MersenneTwisterRandomVariateGenerator::SetSeed()
-  {
+MersenneTwisterRandomVariateGenerator::SetSeed()
+{
   // use time() and clock() to generate a unlikely-to-repeat seed.
   SetSeed( hash( vcl_time(0), vcl_clock() ) );
-  }
-
-
+}
 
 /** Get an integer variate in [0, 2^32-1] */
 inline MersenneTwisterRandomVariateGenerator::IntegerType 
-  MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
-  {
+MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
+{
   if( left == 0 ) reload();
   --left;
 
@@ -414,59 +408,59 @@ inline MersenneTwisterRandomVariateGenerator::IntegerType
   s1 ^= (s1 <<  7) & 0x9d2c5680UL;
   s1 ^= (s1 << 15) & 0xefc60000UL;
   return ( s1 ^ (s1 >> 18) );
-  }
+}
 
 
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange()
-  { 
+MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange()
+{ 
   return double(GetIntegerVariate()) * (1.0/4294967295.0); 
-  }
+}
 
 /** Get a random variate in the range [0, n] */
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange( 
+MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange( 
                                                     const double& n )
-  { 
+{ 
   return GetVariateWithClosedRange() * n; 
-  }
+}
 
 /** Get a range variate in the range [0, 1) */
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange()
-  { 
+MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange()
+{ 
   return double(GetIntegerVariate()) * (1.0/4294967296.0); 
-  }
+}
 
 /** Get a range variate in the range [0, n) */
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange( 
-                                                      const double& n )
-  { 
+MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange( 
+  const double& n )
+{ 
   return GetVariateWithOpenUpperRange() * n; 
-  }
+}
   
 /** Get a range variate in the range (0, 1) */
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange()
-  {
+MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange()
+{
   return ( double(GetIntegerVariate()) + 0.5 ) * (1.0/4294967296.0); 
-  }
+}
 
 
 /** Get a range variate in the range (0, n) */
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange( 
-                                                  const double& n )
-  { 
+MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange( 
+  const double& n )
+{ 
   return GetVariateWithOpenRange() * n; 
-  }
+}
 
 
 inline MersenneTwisterRandomVariateGenerator::IntegerType 
-  MersenneTwisterRandomVariateGenerator::GetIntegerVariate( 
+MersenneTwisterRandomVariateGenerator::GetIntegerVariate( 
                                         const IntegerType& n )
-  {
+{
   // Find which bits are used in n
   // Optimized by Magnus Jonsson magnus at smartelectronix dot com
   IntegerType used = n;
@@ -481,69 +475,68 @@ inline MersenneTwisterRandomVariateGenerator::IntegerType
   do
     {
     i = GetIntegerVariate() & used;  // toss unused bits to shorten search
-    }  while( i > n );
+    }
+  while( i > n );
   
   return i;
-  }
-
+}
 
 
 /** Access to 53-bit random numbers (capacity of IEEE double precision) 
  * in the range [0,1) */
 inline double 
-  MersenneTwisterRandomVariateGenerator::Get53BitVariate()  
-  {
+MersenneTwisterRandomVariateGenerator::Get53BitVariate()  
+{
   IntegerType a = GetIntegerVariate() >> 5, b = GetIntegerVariate() >> 6;
   return ( a * 67108864.0 + b ) * (1.0/9007199254740992.0);  // by Isaku Wada
-  }
+}
   
 
 /* Access to a normal random number distribution */
 // TODO: Compare with vnl_sample_normal
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetNormalVariate( 
-      const double& mean, const double& variance )
-  {
+MersenneTwisterRandomVariateGenerator::GetNormalVariate( 
+  const double& mean, const double& variance )
+{
   // Return a real number from a normal (Gaussian) distribution with given
   // mean and variance by Box-Muller method
   double r = vcl_sqrt( -2.0 * vcl_log( 1.0-GetVariateWithOpenRange()) * variance);
   double phi = 2.0 * 3.14159265358979323846264338328 
                           * GetVariateWithOpenUpperRange();
   return mean + r * vcl_cos(phi);
-  }
-
+}
 
 
 /* Access to a uniform random number distribution */
 // TODO: Compare with vnl_sample_uniform
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetUniformVariate( 
+MersenneTwisterRandomVariateGenerator::GetUniformVariate( 
                             const double& a, const double& b )
-  {
+{
   double u = GetVariateWithOpenUpperRange();
   return ((1.0 -u) * a + u * b); 
-  }
+}
 
 
 inline double 
-  MersenneTwisterRandomVariateGenerator::GetVariate() 
-  {
+MersenneTwisterRandomVariateGenerator::GetVariate() 
+{
   return GetVariateWithClosedRange();
-  }
+}
 
 
 inline double 
-  MersenneTwisterRandomVariateGenerator::operator()()
-  { 
+MersenneTwisterRandomVariateGenerator::operator()()
+{ 
   return GetVariate(); 
-  }  
+}  
  
 
 inline 
-  MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
-  {
-    SetSeed ( 121212 );
-  }
+MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
+{
+  SetSeed ( 121212 );
+}
   
 
 /* Change log from MTRand.h */
@@ -591,5 +584,3 @@ inline
 } // end of namespace itk
 
 #endif
-
-

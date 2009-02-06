@@ -48,15 +48,12 @@ class ObjectFactory : public ObjectFactoryBase
 {
 public:
   static typename T::Pointer Create()
-  {
+    {
     LightObject::Pointer ret = ObjectFactory::CreateInstance(typeid(T).name());
     return dynamic_cast<T*>(ret.GetPointer());
-  }
+    }
 };
 
 } // end namespace itk
 
 #endif
-
-        
-

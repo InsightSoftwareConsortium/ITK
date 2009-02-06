@@ -42,7 +42,7 @@ public:
   * itk::Neighborhood makes reference to the allocator, which because it may
   * be vnl or other type, uses the lower case/underscore forms iterator and
   * const_iterator. */
-  typedef TPixel * iterator;
+  typedef TPixel *       iterator;
   typedef const TPixel * const_iterator;
   
   /** Default constructor */
@@ -54,48 +54,52 @@ public:
 
   /** Allocates memory using new() */
   void Allocate(unsigned int n)
-  {
+    {
     m_Data = new TPixel[n];
-    m_ElementCount = n;    
-  }
+    m_ElementCount = n;
+    }
 
   /** Deallocates memory using delete[](). */
   void Deallocate()
-  {
+    {
     if (m_Data) delete[] m_Data;
     m_ElementCount = 0;
-  }
+    }
 
   /** Copy constructor. */
   NeighborhoodAllocator(const Self& other) : m_ElementCount(0), m_Data(0)
-  {
+    {
     this->set_size(other.m_ElementCount);
     for (unsigned int i = 0; i < other.m_ElementCount; ++i)
+      {
       this->operator[](i) = other[i];
+      }
     m_ElementCount = other.m_ElementCount;
-  }
+    } 
 
   /** Assignment operator. */
   const Self& operator=(const Self& other)
-  {
+    {
     this->set_size(other.m_ElementCount);
     for (unsigned int i = 0; i < other.m_ElementCount; ++i)
+      {
       this->operator[](i) = other[i];
+      }
     m_ElementCount = other.m_ElementCount;
     return *this;
-  }
+    }
 
   /** Comparison operator. */
   bool operator==(const Self& other) const
-  {
+    {
     return (m_Data == other.m_Data);
-  }
+    }
 
   /** Not Equal operator. */
   bool operator!=(const Self& other) const
-  {
+    {
     return (m_Data != other.m_Data);
-  }
+    }
 
   /** STL-style iterator support for the memory buffer. */
   iterator begin()
@@ -124,20 +128,18 @@ public:
 
 protected:
   unsigned int m_ElementCount;
-  TPixel *m_Data;
+  TPixel      *m_Data;
 };
 
 template<class TPixel>
 inline std::ostream& operator<<(std::ostream &o, const NeighborhoodAllocator<TPixel>
                                 & a)
 {
-    o << "NeighborhoodAllocator { this = " << &a << ", begin = "
-      << static_cast<const void *>(a.begin())
-      << ", size=" << a.size()
-      << " }";
-      //      << ", contents:{ ";
-      //    for (int i = 0; i < a.size(); ++i) o << a[i] << " ";
-    o << " } }";
+  o << "NeighborhoodAllocator { this = " << &a << ", begin = "
+    << static_cast<const void *>(a.begin())
+    << ", size=" << a.size()
+    << " }";
+  o << " } }";
   return o;
 }
   

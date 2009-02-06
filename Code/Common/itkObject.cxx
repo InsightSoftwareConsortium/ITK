@@ -36,12 +36,12 @@ public:
            unsigned long tag) :m_Command(c),
                                m_Event(event),
                                m_Tag(tag)
-  { }
+    {}
   virtual ~Observer()
-  { delete m_Event; }
-  Command::Pointer m_Command;
+    { delete m_Event; }
+  Command::Pointer    m_Command;
   const EventObject * m_Event;
-  unsigned long m_Tag;
+  unsigned long       m_Tag;
 };
 
 
@@ -462,9 +462,6 @@ Object
     }
 }
 
-
-
-
 bool
 Object
 ::HasObserver( const EventObject & event ) const
@@ -476,8 +473,6 @@ Object
   return false;
 }
 
-
-
 bool
 Object
 ::PrintObservers(std::ostream& os, Indent indent) const
@@ -488,8 +483,6 @@ Object
     }
   return false;
 }
-
-
 
 /**
  * Create an object with Debug turned off and modified time initialized 

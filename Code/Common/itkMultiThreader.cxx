@@ -327,7 +327,7 @@ void MultiThreader::SingleMethodExecute()
   // sproc needs special initialization logic prior to spawning
   // threads
 #ifdef ITK_USE_SPROC
-# define STACK_SIZE 8*1024*1024
+  # define STACK_SIZE 8*1024*1024
   // set up the arena by the parent process ONLY if going to use more
   // than 1 threads
   if (!MultiThreader::m_Initialized && m_NumberOfThreads > 1)
@@ -851,8 +851,7 @@ MultiThreader
   try
     {
     (*threadInfoStruct->ThreadFunction)(threadInfoStruct);
-    threadInfoStruct->ThreadExitCode
-      = MultiThreader::ThreadInfoStruct::SUCCESS;
+    threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::SUCCESS;
     }
   catch (ProcessAborted &)
     {
@@ -871,8 +870,7 @@ MultiThreader
     }
   catch (...)
     {
-    threadInfoStruct->ThreadExitCode
-      = MultiThreader::ThreadInfoStruct::UNKNOWN;
+    threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::UNKNOWN;
     }
 
   return ITK_THREAD_RETURN_VALUE;
@@ -900,7 +898,7 @@ MultiThreader
     {
     itkExceptionMacro(<< "Unable to join thread.");
     }
-#endif      
+#endif
 
 
 #ifndef ITK_USE_WIN32_THREADS
@@ -913,8 +911,6 @@ MultiThreader
 #endif
     
 }
-
-
 
 ThreadProcessIDType
 MultiThreader
@@ -936,49 +932,49 @@ MultiThreader
   
 #ifdef ITK_USE_SPROC
   // Using sproc() on an SGI
-    pid_t threadHandle = 
-      sproc( this->SingleMethodProxy, PR_SALL, 
-       reinterpret_cast<void *>(threadInfo));
-    if ( threadHandle == -1)
-      {
-      itkExceptionMacro("sproc call failed. Code: " << errno << std::endl);
-      }
-    return threadHandle;
+  pid_t threadHandle = 
+    sproc( this->SingleMethodProxy, PR_SALL, 
+           reinterpret_cast<void *>(threadInfo));
+  if ( threadHandle == -1)
+    {
+    itkExceptionMacro("sproc call failed. Code: " << errno << std::endl);
+    }
+  return threadHandle;
 #endif
 
 
     
 #ifdef ITK_USE_PTHREADS
   // Using POSIX threads
-    pthread_attr_t attr;
-    pthread_t threadHandle;
+  pthread_attr_t attr;
+  pthread_t threadHandle;
 
 #ifdef ITK_HP_PTHREADS
-    pthread_attr_create( &attr );
+  pthread_attr_create( &attr );
 #else  
-    pthread_attr_init(&attr);
+  pthread_attr_init(&attr);
 #if !defined(__CYGWIN__)
-    pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+  pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
 #endif
 #endif
 
 #ifdef ITK_HP_PTHREADS
-    pthread_create( &threadHandle,
-        attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy),  
-        reinterpret_cast<void *>(threadInfo));
+  pthread_create( &threadHandle,
+                  attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy),  
+                  reinterpret_cast<void *>(threadInfo));
 #else
-    int                threadError;
-    threadError =
-      pthread_create( &threadHandle, &attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy),  
-          reinterpret_cast<void *>(threadInfo));
-    if (threadError != 0)
-      {
-      itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
-                    << threadError);
-      }
+  int                threadError;
+  threadError =
+    pthread_create( &threadHandle, &attr, reinterpret_cast<c_void_cast>(this->SingleMethodProxy),  
+                    reinterpret_cast<void *>(threadInfo));
+  if (threadError != 0)
+    {
+    itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
+                      << threadError);
+    }
 #endif
-    return threadHandle;
-#endif      
+  return threadHandle;
+#endif
 
 
 #ifndef ITK_USE_WIN32_THREADS

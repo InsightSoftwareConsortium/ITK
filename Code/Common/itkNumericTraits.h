@@ -81,19 +81,19 @@ public:
   /** Multiplicative identity. */
   static const T One;
 
-  /** Smallest (most nonpositive) value **/
+  /** Smallest (most nonpositive) value */
   static T NonpositiveMin() { return TraitsType::min(); }
 
-  /** Is a given value positive? **/
+  /** Is a given value positive? */
   static bool IsPositive(T val) { return val > Zero; }
 
-  /** Is a given value nonpositive? **/
+  /** Is a given value nonpositive? */
   static bool IsNonpositive(T val) { return val <= Zero; }
 
-  /** Is a given value negative? **/
+  /** Is a given value negative? */
   static bool IsNegative(T val) { return val < Zero; }
 
-  /** Is a given value nonnegative? **/
+  /** Is a given value nonnegative? */
   static bool IsNonnegative(T val) { return val >= Zero; }
 
   /** Return zero value. This function should be used to support

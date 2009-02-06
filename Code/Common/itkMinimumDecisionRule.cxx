@@ -72,5 +72,3 @@ MinimumDecisionRule
 
 
 } // namespace itk
-
-

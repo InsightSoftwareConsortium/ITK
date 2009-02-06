@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodOperator_txx
-#define _itkNeighborhoodOperator_txx
+#ifndef __itkNeighborhoodOperator_txx
+#define __itkNeighborhoodOperator_txx
 
 #include "itkNeighborhoodOperator.h"
 

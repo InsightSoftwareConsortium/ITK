@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkNeighborhoodInnerProduct_txx
-#define _itkNeighborhoodInnerProduct_txx
+#ifndef __itkNeighborhoodInnerProduct_txx
+#define __itkNeighborhoodInnerProduct_txx
 #include "itkNeighborhoodInnerProduct.h"
 
 #include "itkNumericTraits.h"
@@ -73,8 +73,6 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>
 
   return sum;
 } 
-
-
 
 }// end namespace itk
 #endif

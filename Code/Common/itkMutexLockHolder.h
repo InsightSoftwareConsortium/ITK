@@ -48,4 +48,3 @@ protected:
 }//end itk namespace
 
 #endif
-

@@ -98,8 +98,6 @@ ObjectStore<TObjectType>
   // it?
 }
 
-
-
 template <class TObjectType>
 ::size_t
 ObjectStore<TObjectType>
@@ -164,9 +162,6 @@ ObjectStore<TObjectType>
   os << indent << "Free list capacity: " << static_cast<unsigned long>( m_FreeList.capacity() ) << std::endl;
   os << indent << "Number of blocks in store: " << static_cast<unsigned long>( m_Store.size() ) << std::endl;
 }
-
-
-
 
 } // end namespace itk
 
