@@ -1160,7 +1160,7 @@ struct itk_Select2nd : public std::unary_function<_Pair, typename _Pair::second_
 namespace std {
 template <class _Pair>
 struct select1st : public itk_Select1st<_Pair> {}
-  template <class _Pair> struct select2nd : public itk_Select2nd<_Pair> {}
+  template <class _Pair> struct select2nd : public itk_Select2nd<_Pair> {};
 }
 
 #endif
