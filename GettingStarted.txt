@@ -60,10 +60,19 @@ Insight/Documentation/InsightStart.pdf is highly recommended.
    you to configure the build process. First create a build directory
    in which to generate object code and executables. Cd into this
    directory and specify your C and C++ compilers with the environment
-   variables
+   variables CC and CXX.
+
+
+   Depending on the shell that you use, this will be done with the 
+   command:
 
         setenv CC your-c-compiler
         setenv CXX your-c++-compiler
+
+   or with the command
+
+        export CC=your-c-compiler
+        export CXX=your-c-compiler
 
    Next invoke "ccmake ../Insight" assuming that your build
    directory is a sibling directory to Insight/. While running
