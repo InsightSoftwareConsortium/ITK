@@ -43,6 +43,9 @@ QuadEdge *
 QuadEdge
 ::GetLnext() 
 {
+#ifdef NDEBUG
+  return this->GetInvRot()->GetOnext()->GetRot();
+#else
   Self * p1 = this->GetInvRot();
   if( p1 == NULL )
     {
@@ -62,6 +65,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -70,6 +74,9 @@ const QuadEdge *
 QuadEdge
 ::GetLnext() const
 {
+#ifdef NDEBUG
+  return this->GetInvRot()->GetOnext()->GetRot();
+#else
   const Self * p1 = this->GetInvRot();
   if( p1 == NULL )
     {
@@ -89,6 +96,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -97,6 +105,9 @@ QuadEdge *
 QuadEdge
 ::GetRnext() 
 {
+#ifdef NDEBUG
+  return this->GetRot()->GetOnext()->GetInvRot();
+#else
   Self * p1 = this->GetRot();
   if( p1 == NULL )
     {
@@ -116,6 +127,7 @@ QuadEdge
     }
   
   return p3;
+#endif
 }
 
 
@@ -124,6 +136,9 @@ const QuadEdge *
 QuadEdge
 ::GetRnext() const
 {
+#ifdef NDEBUG
+  return this->GetRot()->GetOnext()->GetInvRot();
+#else
   const Self * p1 = this->GetRot();
   if( p1 == NULL )
     {
@@ -143,6 +158,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -151,6 +167,9 @@ QuadEdge *
 QuadEdge
 ::GetDnext() 
 {
+#ifdef NDEBUG
+  return this->GetSym()->GetOnext()->GetSym();
+#else
   Self * p1 = this->GetSym();
   if( p1 == NULL )
     {
@@ -170,6 +189,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -178,6 +198,9 @@ const QuadEdge *
 QuadEdge
 ::GetDnext() const
 {
+#ifdef NDEBUG
+  return this->GetSym()->GetOnext()->GetSym();
+#else
   const Self * p1 = this->GetSym();
   if( p1 == NULL )
     {
@@ -197,6 +220,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -205,6 +229,9 @@ QuadEdge *
 QuadEdge
 ::GetOprev() 
 {
+#ifdef NDEBUG
+  return this->GetRot()->GetOnext()->GetRot();
+#else
   Self * p1 = this->GetRot();
   if( p1 == NULL )
     {
@@ -224,6 +251,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -232,6 +260,9 @@ const QuadEdge *
 QuadEdge
 ::GetOprev() const
 {
+#ifdef NDEBUG
+  return this->GetRot()->GetOnext()->GetRot();
+#else
   const Self * p1 = this->GetRot();
   if( p1 == NULL )
     {
@@ -251,6 +282,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -259,6 +291,9 @@ QuadEdge *
 QuadEdge
 ::GetLprev() 
 {
+#ifdef NDEBUG
+  return this->GetOnext()->GetSym();
+#else
   Self * p1 = this->GetOnext();
   if( p1 == NULL )
     {
@@ -272,6 +307,7 @@ QuadEdge
     }
 
   return p2;
+#endif
 }
 
 
@@ -280,6 +316,9 @@ const QuadEdge *
 QuadEdge
 ::GetLprev() const
 {
+#ifdef NDEBUG
+  return this->GetOnext()->GetSym();
+#else
   const Self * p1 = this->GetOnext();
   if( p1 == NULL )
     {
@@ -293,6 +332,7 @@ QuadEdge
     }
 
   return p2;
+#endif
 }
 
 
@@ -301,6 +341,9 @@ QuadEdge *
 QuadEdge
 ::GetRprev() 
 {
+#ifdef NDEBUG
+  return this->GetSym()->GetOnext();
+#else
   Self * p1 = this->GetSym();
   if( p1 == NULL )
     {
@@ -314,6 +357,7 @@ QuadEdge
     }
 
   return p2;
+#endif
 }
 
 
@@ -322,6 +366,9 @@ const QuadEdge *
 QuadEdge
 ::GetRprev() const
 {
+#ifdef NDEBUG
+  return this->GetSym()->GetOnext();
+#else
   const Self * p1 = this->GetSym();
   if( p1 == NULL )
     {
@@ -335,6 +382,7 @@ QuadEdge
     }
 
   return p2;
+#endif
 }
 
 
@@ -343,6 +391,9 @@ QuadEdge *
 QuadEdge
 ::GetDprev() 
 {
+#ifdef NDEBUG
+  return this->GetInvRot()->GetOnext()->GetInvRot();
+#else
   Self * p1 = this->GetInvRot();
   if( p1 == NULL )
     {
@@ -362,6 +413,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 }
 
 
@@ -370,6 +422,9 @@ const QuadEdge *
 QuadEdge
 ::GetDprev() const
 {
+#ifdef NDEBUG
+  return this->GetInvRot()->GetOnext()->GetInvRot();
+#else
   const Self * p1 = this->GetInvRot();
   if( p1 == NULL )
     {
@@ -389,6 +444,7 @@ QuadEdge
     }
 
   return p3;
+#endif
 } 
 
 bool

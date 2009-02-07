@@ -77,6 +77,7 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
   CreateSquareTriangularMesh<MeshType>( mesh );
 
   CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New( );
+#ifndef NDEBUG
   std::cout << "     " << "Test No Mesh Input";
   if( createCenterVertex->Evaluate( (QEType*)1 ) )
     {
@@ -84,10 +85,12 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
+#endif
   
   (void)createCenterVertex->GetNameOfClass(); 
 
   createCenterVertex->SetInput( mesh );
+#ifndef NDEBUG
   std::cout << "     " << "Test QE Input with no left face";
   QEType* dummy = new QEType;
   if( createCenterVertex->Evaluate( dummy ) ) 
@@ -105,6 +108,7 @@ int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
+#endif
 
   std::cout << "     ";
   std::cout << "Create a center vertex of a triangle (possible).";

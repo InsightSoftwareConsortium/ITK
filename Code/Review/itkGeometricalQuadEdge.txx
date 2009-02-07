@@ -54,11 +54,13 @@ template< typename TVRef, typename TFRef,
     SetLnextRingWithSameLeftFace( const DualOriginRefType faceGeom,
                                   int maxSize )
 {
+#ifndef NDEBUG
   if( !this->IsLnextSharingSameFace( maxSize ) )
     {
     itkQEDebugMacro( "Lnext() edges do NOT share the same Left()." );
     return( false );
     }
+#endif
 
   IteratorGeom it = this->BeginGeomLnext();
 

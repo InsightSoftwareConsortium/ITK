@@ -69,6 +69,7 @@ void
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::
 CheckStatus( QEType* h )
 {
+#ifndef NDEBUG
   if( h == (QEType*)0 )
     {
     m_EdgeStatus = EDGE_NULL;
@@ -80,6 +81,7 @@ CheckStatus( QEType* h )
     m_EdgeStatus = MESH_NULL;
     return;
     }
+#endif
    
   if( !h->IsInternal( ) )
     {

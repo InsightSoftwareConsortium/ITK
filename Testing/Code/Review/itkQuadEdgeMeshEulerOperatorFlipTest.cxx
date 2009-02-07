@@ -46,16 +46,20 @@ int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
   MeshPointer  mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>( mesh );
   FlipEdge::Pointer flipEdge = FlipEdge::New( );
+#ifndef NDEBUG
   if( flipEdge->Evaluate( (QEType*)1 ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
+#endif
   
-  (void)flipEdge->GetNameOfClass(); 
+  std::cout << flipEdge->GetNameOfClass() << std::endl; 
 
   flipEdge->SetInput( mesh );
+
+#ifndef NDEBUG
   std::cout << "     " << "Test QE Input not internal";
   QEType* dummy = new QEType;
   if( flipEdge->Evaluate( dummy ) )
@@ -72,6 +76,7 @@ int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
+#endif
 
   mesh->LightWeightDeleteEdge( mesh->FindEdge( 12, 18 ) );
   mesh->AddFace( mesh->FindEdge( 17 ,12 ) );

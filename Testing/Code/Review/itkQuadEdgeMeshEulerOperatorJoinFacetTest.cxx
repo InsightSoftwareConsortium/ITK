@@ -83,6 +83,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   std::cout << "Checking JointFacet." << std::endl;  
 
   JoinFacet::Pointer joinFacet = JoinFacet::New( );
+#ifndef NDEBUG
   std::cout << "     " << "Test No Mesh Input";
   if( joinFacet->Evaluate( (QEType*)1 ) )
     {
@@ -90,11 +91,13 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
+#endif
   
   (void)joinFacet->GetNameOfClass(); 
 
   joinFacet->SetInput( mesh );
   
+#ifndef NDEBUG
   std::cout << "     " << "Test QE Input not internal";
   dummy = new QEType;
   if( joinFacet->Evaluate( dummy ) )
@@ -112,6 +115,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
   std::cout << "OK" << std::endl;
+#endif
 
   //
   //   20 --------- 21 --------- 22 --------- 23 --------- 24

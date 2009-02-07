@@ -27,6 +27,7 @@ template < class TMesh, class TQEType >
   QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::
   Evaluate( QEType* e )
 {
+#ifndef NDEBUG
   if( !e )
     {
     itkDebugMacro( "Input is not an edge." );
@@ -38,6 +39,7 @@ template < class TMesh, class TQEType >
     itkDebugMacro( "No mesh present." );
     return( (QEType*) 0 );
     }
+#endif
 
   if(  !e->IsInternal( ) )
     {

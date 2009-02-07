@@ -27,7 +27,7 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< TMesh, TQEType >::
 Evaluate( QEType* e )
 {
   // Is there any input ?
-  
+#ifndef NDEBUG  
   if( !e )
     {
     itkDebugMacro( "Input is not an edge." );
@@ -46,7 +46,8 @@ Evaluate( QEType* e )
     itkDebugMacro( "Argument edge has no left face." );
     return( (OutputType) 0 );
     }
-   
+#endif
+ 
   // remove left face
   this->m_Mesh->DeleteFace( e->GetLeft( ) );
    
