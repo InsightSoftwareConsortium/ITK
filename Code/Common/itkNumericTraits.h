@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,7 @@
   static ValueType min( ValueType ) { return vcl_numeric_limits<ValueType>::min(); } \
   static ValueType max( ValueType ) { return vcl_numeric_limits<ValueType>::max(); } \
 
- 
+
 #include "vcl_limits.h" // for vcl_numeric_limits
 #include <complex>
 
@@ -51,24 +51,24 @@ public:
   typedef vcl_numeric_limits<T> TraitsType;
 
   /** Return the type of this native type. */
-  typedef T ValueType; 
+  typedef T ValueType;
 
   /** Return the type that can be printed. */
-  typedef T PrintType; 
+  typedef T PrintType;
 
   /** Return value of vcl_abs(). */
-  typedef T AbsType; 
+  typedef T AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef double AccumulateType; 
+  typedef double AccumulateType;
 
   // This primary template is never used but we need this definition
   // to avoid an ICE on VS 7.0.  This definition cannot be present for
   // VS 7.1 though or it generates bogus errors.
 #if defined(_MSC_VER) && _MSC_VER == 1300
   /** Type for real-valued operations.  */
-  typedef double RealType;
-  typedef RealType ScalarRealType;
+  typedef double    RealType;
+  typedef RealType  ScalarRealType;
 #endif
 
   /** Typedef for operations that use floating point instead of real precision
@@ -115,20 +115,21 @@ public:
 
 /** \class NumericTraits<bool>
  * \brief Define traits for type bool.
- * 
+ *
  * \ingroup DataRepresentation
  */
 
 template <>
 class NumericTraits<bool> : public vcl_numeric_limits<bool> {
 public:
-  typedef bool ValueType;
-  typedef bool PrintType;
-  typedef unsigned char AbsType;
-  typedef unsigned char AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef bool            ValueType;
+  typedef bool            PrintType;
+  typedef unsigned char   AbsType;
+  typedef unsigned char   AccumulateType;
+  typedef double          RealType;
+  typedef RealType        ScalarRealType;
+  typedef float           FloatType;
+
   static const bool ITKCommon_EXPORT Zero;
   static const bool ITKCommon_EXPORT One;
 
@@ -152,13 +153,14 @@ public:
 template <>
 class NumericTraits<char> : public vcl_numeric_limits<char> {
 public:
-  typedef char ValueType;
-  typedef int PrintType;
-  typedef unsigned char AbsType;
-  typedef short AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef char            ValueType;
+  typedef int             PrintType;
+  typedef unsigned char   AbsType;
+  typedef short           AccumulateType;
+  typedef double          RealType;
+  typedef RealType        ScalarRealType;
+  typedef float           FloatType;
+
   static const char ITKCommon_EXPORT Zero;
   static const char ITKCommon_EXPORT One;
 
@@ -190,13 +192,14 @@ public:
 template <>
 class NumericTraits<signed char> : public vcl_numeric_limits<signed char> {
 public:
-  typedef signed char ValueType;
-  typedef int PrintType;
-  typedef unsigned char AbsType;
-  typedef short AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef signed char         ValueType;
+  typedef int                 PrintType;
+  typedef unsigned char       AbsType;
+  typedef short               AccumulateType;
+  typedef double              RealType;
+  typedef RealType            ScalarRealType;
+  typedef float               FloatType;
+
   static const signed char ITKCommon_EXPORT Zero;
   static const signed char ITKCommon_EXPORT One;
 
@@ -220,13 +223,14 @@ public:
 template <>
 class NumericTraits<unsigned char> : public vcl_numeric_limits<unsigned char> {
 public:
-  typedef unsigned char ValueType;
-  typedef int PrintType;
-  typedef unsigned char AbsType;
-  typedef unsigned short AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef unsigned char     ValueType;
+  typedef int               PrintType;
+  typedef unsigned char     AbsType;
+  typedef unsigned short    AccumulateType;
+  typedef double            RealType;
+  typedef RealType          ScalarRealType;
+  typedef float             FloatType;
+
   static const unsigned char ITKCommon_EXPORT Zero;
   static const unsigned char ITKCommon_EXPORT One;
 
@@ -247,13 +251,14 @@ public:
 template <>
 class NumericTraits<short> : public vcl_numeric_limits<short> {
 public:
-  typedef short ValueType;
-  typedef short PrintType;
-  typedef unsigned short AbsType;
-  typedef int AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef short             ValueType;
+  typedef short             PrintType;
+  typedef unsigned short    AbsType;
+  typedef int               AccumulateType;
+  typedef double            RealType;
+  typedef RealType          ScalarRealType;
+  typedef float             FloatType;
+
   static const short ITKCommon_EXPORT Zero;
   static const short ITKCommon_EXPORT One;
 
@@ -274,13 +279,14 @@ public:
 template <>
 class NumericTraits<unsigned short> : public vcl_numeric_limits<unsigned short> {
 public:
-  typedef unsigned short ValueType;
-  typedef unsigned short PrintType;
-  typedef unsigned short AbsType;
-  typedef unsigned int AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef unsigned short    ValueType;
+  typedef unsigned short    PrintType;
+  typedef unsigned short    AbsType;
+  typedef unsigned int      AccumulateType;
+  typedef double            RealType;
+  typedef RealType          ScalarRealType;
+  typedef float             FloatType;
+
   static const unsigned short ITKCommon_EXPORT Zero;
   static const unsigned short ITKCommon_EXPORT One;
 
@@ -300,13 +306,14 @@ public:
 template <>
 class NumericTraits<int> : public vcl_numeric_limits<int> {
 public:
-  typedef int ValueType;
-  typedef int PrintType;
-  typedef unsigned int AbsType;
-  typedef long AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef int           ValueType;
+  typedef int           PrintType;
+  typedef unsigned int  AbsType;
+  typedef long          AccumulateType;
+  typedef double        RealType;
+  typedef RealType      ScalarRealType;
+  typedef float         FloatType;
+
   static const int ITKCommon_EXPORT Zero;
   static const int ITKCommon_EXPORT One;
 
@@ -327,13 +334,14 @@ public:
 template <>
 class NumericTraits<unsigned int> : public vcl_numeric_limits<unsigned int> {
 public:
-  typedef unsigned int ValueType;
-  typedef unsigned int PrintType;
-  typedef unsigned int AbsType;
-  typedef unsigned int AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef unsigned int    ValueType;
+  typedef unsigned int    PrintType;
+  typedef unsigned int    AbsType;
+  typedef unsigned int    AccumulateType;
+  typedef double          RealType;
+  typedef RealType        ScalarRealType;
+  typedef float           FloatType;
+
   static const unsigned int ITKCommon_EXPORT Zero;
   static const unsigned int ITKCommon_EXPORT One;
 
@@ -357,13 +365,14 @@ public:
 template <>
 class NumericTraits<long> : public vcl_numeric_limits<long> {
 public:
-  typedef long ValueType;
-  typedef long PrintType;
-  typedef unsigned long AbsType;
-  typedef long AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef long            ValueType;
+  typedef long            PrintType;
+  typedef unsigned long   AbsType;
+  typedef long            AccumulateType;
+  typedef double          RealType;
+  typedef RealType        ScalarRealType;
+  typedef float           FloatType;
+
   static const long ITKCommon_EXPORT Zero;
   static const long ITKCommon_EXPORT One;
 
@@ -379,18 +388,19 @@ public:
 
 /** \class NumericTraits<unsigned long>
  * \brief Define traits for type unsigned long.
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<unsigned long> : public vcl_numeric_limits<unsigned long> {
 public:
-  typedef unsigned long ValueType;
-  typedef unsigned long PrintType;
-  typedef unsigned long AbsType;
-  typedef unsigned long AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef unsigned long     ValueType;
+  typedef unsigned long     PrintType;
+  typedef unsigned long     AbsType;
+  typedef unsigned long     AccumulateType;
+  typedef double            RealType;
+  typedef RealType          ScalarRealType;
+  typedef float             FloatType;
+
   static const unsigned long ITKCommon_EXPORT Zero;
   static const unsigned long ITKCommon_EXPORT One;
 
@@ -411,13 +421,14 @@ public:
 template <>
 class NumericTraits<float> : public vcl_numeric_limits<float> {
 public:
-  typedef float ValueType;
-  typedef float PrintType;
-  typedef float AbsType;
-  typedef double AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef float       ValueType;
+  typedef float       PrintType;
+  typedef float       AbsType;
+  typedef double      AccumulateType;
+  typedef double      RealType;
+  typedef RealType    ScalarRealType;
+  typedef float       FloatType;
+
   static const float ITKCommon_EXPORT Zero;
   static const float ITKCommon_EXPORT One;
 
@@ -433,18 +444,19 @@ public:
 
 /** \class NumericTraits<double>
  * \brief Define traits for type double.
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<double> : public vcl_numeric_limits<double> {
 public:
-  typedef double ValueType;
-  typedef double PrintType;
-  typedef double AbsType;
-  typedef double AccumulateType;
-  typedef double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef double    ValueType;
+  typedef double    PrintType;
+  typedef double    AbsType;
+  typedef double    AccumulateType;
+  typedef double    RealType;
+  typedef RealType  ScalarRealType;
+  typedef float     FloatType;
+
   static const double ITKCommon_EXPORT Zero;
   static const double ITKCommon_EXPORT One;
 
@@ -460,18 +472,19 @@ public:
 
 /** \class NumericTraits<long double>
  * \brief Define traits for type long double.
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits<long double> : public vcl_numeric_limits<long double> {
 public:
-  typedef long double ValueType;
-  typedef long double PrintType;
-  typedef long double AbsType;
-  typedef long double AccumulateType;
-  typedef long double RealType;
-  typedef RealType ScalarRealType;
-  typedef float FloatType;
+  typedef long double     ValueType;
+  typedef long double     PrintType;
+  typedef long double     AbsType;
+  typedef long double     AccumulateType;
+  typedef long double     RealType;
+  typedef RealType        ScalarRealType;
+  typedef float           FloatType;
+
   static const long double ITKCommon_EXPORT Zero;
   static const long double ITKCommon_EXPORT One;
 
@@ -487,25 +500,26 @@ public:
 
 /** \class NumericTraits< std::complex<float> >
  * \brief Define traits for type std::complex<float>.
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits< std::complex<float> >  {
 public:
-  typedef std::complex<float> TheType;
-  typedef float ValueType;
-  typedef TheType PrintType;
-  typedef double AbsType;
-  typedef TheType AccumulateType;
-  typedef std::complex<double> RealType;
-  typedef double ScalarRealType;
-  typedef std::complex<float> FloatType;
+  typedef std::complex<float>   TheType;
+  typedef float                 ValueType;
+  typedef TheType               PrintType;
+  typedef double                AbsType;
+  typedef TheType               AccumulateType;
+  typedef std::complex<double>  RealType;
+  typedef double                ScalarRealType;
+  typedef std::complex<float>   FloatType;
+
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
 
   static TheType min( TheType ) { return vcl_numeric_limits<ValueType>::min(); }
   static TheType max( TheType ) { return vcl_numeric_limits<ValueType>::max(); }
-  static TheType NonpositiveMin() { 
+  static TheType NonpositiveMin() {
     return TheType(-NumericTraits<float>::NonpositiveMin(),0.0f); }
   static bool IsPositive(TheType val) { return val.real() > 0.0; }
   static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
@@ -518,25 +532,26 @@ public:
 
 /** \class NumericTraits< std::complex<double> >
  * \brief Define traits for type std::complex<double>.
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
 template <>
 class NumericTraits< std::complex<double> >  {
 public:
-  typedef std::complex<double> TheType;
-  typedef double ValueType;
-  typedef TheType PrintType;
-  typedef double AbsType;
-  typedef TheType AccumulateType;
-  typedef std::complex<double> RealType;
-  typedef double ScalarRealType;
-  typedef std::complex<float> FloatType;
+  typedef std::complex<double>  TheType;
+  typedef double                ValueType;
+  typedef TheType               PrintType;
+  typedef double                AbsType;
+  typedef TheType               AccumulateType;
+  typedef std::complex<double>  RealType;
+  typedef double                ScalarRealType;
+  typedef std::complex<float>   FloatType;
+
   static const TheType ITKCommon_EXPORT Zero;
   static const TheType ITKCommon_EXPORT One;
 
   static TheType min( TheType ) { return vcl_numeric_limits<ValueType>::min(); }
   static TheType max( TheType ) { return vcl_numeric_limits<ValueType>::max(); }
-  static TheType NonpositiveMin() { 
+  static TheType NonpositiveMin() {
     return TheType(-NumericTraits<double>::NonpositiveMin(),0.0); }
   static bool IsPositive(TheType val) { return val.real() > 0.0; }
   static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
