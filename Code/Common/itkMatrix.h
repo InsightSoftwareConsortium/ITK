@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -32,7 +32,7 @@ namespace itk
 
 /** \class Matrix
  * \brief A templated class holding a M x N size Matrix
- * This class contains a vnl_matrix_fixed in order 
+ * This class contains a vnl_matrix_fixed in order
  * to make all the vnl mathematical methods available.
  *
  * \ingroup DataRepresentation
@@ -58,31 +58,31 @@ public:
 
   /** Matrix by Vector multiplication.  */
   Vector<T,NRows> operator*(const Vector<T,NColumns> & vector) const;
- 
+
   /** Matrix by Point multiplication.  */
   Point<T,NRows> operator*(const Point<T,NColumns> & vector) const;
- 
+
   /** Matrix by CovariantVector multiplication.  */
-  CovariantVector<T,NRows> 
+  CovariantVector<T,NRows>
   operator*(const CovariantVector<T,NColumns> & vector) const;
-  
+
   /** Matrix by Matrix multiplication.  */
   Self operator*(const Self & matrix) const;
- 
+
   /** Matrix addition.  */
   Self operator+(const Self & matrix) const;
   const Self & operator+=(const Self & matrix );
- 
+
   /** Matrix addition.  */
   Self operator-(const Self & matrix) const;
   const Self & operator-=(const Self & matrix );
- 
+
   /** Matrix by vnl_matrix multiplication.  */
   vnl_matrix<T> operator*(const vnl_matrix<T> & matrix) const;
 
   /** Matrix by Matrix multiplication.  */
   void operator*=(const Self & matrix);
- 
+
   /** Matrix by vnl_matrix multiplication.  */
   void operator*=(const vnl_matrix<T> & matrix);
 
@@ -100,13 +100,15 @@ public:
     result *= value;
     return result;
     }
-      
+
   /** Matrix by scalar division. */
   void operator /= (const T & value)
-    { m_Matrix /= value; }
-  
+    {
+    m_Matrix /= value;
+    }
+
   /** Matrix by scalar division. */
-  Self operator / (const T & value)
+  Self operator/(const T & value)
     {
     Self result( *this );
     result /= value;
@@ -115,7 +117,9 @@ public:
 
   /** Return an element of the matrix. */
   inline T & operator()( unsigned int row, unsigned int col )
-    { return m_Matrix(row,col); }
+    {
+    return m_Matrix(row,col);
+    }
 
   /** Return an element of the matrix. */
   inline const T & operator()( unsigned int row, unsigned int col ) const
@@ -138,11 +142,11 @@ public:
     { return m_Matrix; }
 
   /** Set the matrix to identity. */
-  inline void SetIdentity( void ) 
+  inline void SetIdentity( void )
     { m_Matrix.set_identity(); }
 
   /** Fill the matrix with a value. */
-  inline void Fill( const T & value ) 
+  inline void Fill( const T & value )
     { m_Matrix.fill( value ); }
 
   /** Assignment operator. */
@@ -162,9 +166,9 @@ public:
   inline bool operator==( const Self & matrix) const
     {
     bool equal = true;
-    for( unsigned int r=0; r<NRows; r++) 
+    for( unsigned int r=0; r<NRows; r++)
       {
-      for( unsigned int c=0; c<NColumns; c++ ) 
+      for( unsigned int c=0; c<NColumns; c++ )
         {
         if (m_Matrix(r,c) != matrix.m_Matrix(r,c))
           {
@@ -186,7 +190,7 @@ public:
     this->m_Matrix = matrix;
     return *this;
     }
- 
+
   /**For every operator=, there should be an equivalent copy constructor. */
   inline explicit Matrix(const InternalMatrixType & matrix)
     {
@@ -221,19 +225,20 @@ public:
 
   /** Copy constructor. */
   Matrix(const Self & matrix) : m_Matrix( matrix.m_Matrix ) {};
- 
+
 private:
   InternalMatrixType     m_Matrix;
 
 };
 
-template< class T, unsigned int NRows, unsigned int NColumns >  
-ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
-                                    const Matrix<T,NRows,NColumns> & v) 
-                            { os << v.GetVnlMatrix(); return os; }
+template< class T, unsigned int NRows, unsigned int NColumns >
+ITK_EXPORT std::ostream& operator<<( std::ostream& os, const Matrix<T,NRows,NColumns> & v)
+{
+  os << v.GetVnlMatrix();
+  return os;
+}
 
 
-  
 } // end namespace itk
 
 // Define instantiation macro for this template.
@@ -250,4 +255,4 @@ ITK_EXPORT std::ostream& operator<<(std::ostream& os,
 # include "itkMatrix.txx"
 #endif
 
-#endif 
+#endif
