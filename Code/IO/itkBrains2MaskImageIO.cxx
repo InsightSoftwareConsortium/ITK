@@ -20,7 +20,9 @@
 #include "itkByteSwapper.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
+#if !defined(_MSC_VER) || (_MSC_VER > 1300) 
 #include "itkSpatialOrientationAdapter.h"
+#endif
 #include <stdio.h>
 #include "itk_zlib.h"
 #include <time.h>
@@ -83,7 +85,7 @@ bool Brains2MaskImageIO::CanWriteFile(const char * FileNameToWrite)
 }
 
 //The function that is used to read the octree stream to an octree.
-itk::OctreeNodeBranch * Brains2MaskImageIO::
+OctreeNodeBranch * Brains2MaskImageIO::
 readOctree (std::ifstream & octreestream,
             const ImageIOBase::ByteOrder machineByteOrder,
             const ImageIOBase::ByteOrder fileByteOrder)
@@ -105,7 +107,7 @@ readOctree (std::ifstream & octreestream,
       }
     }
   //Create child array of nodes.
-  itk::OctreeNodeBranch *CurrentNodeBranch = new itk::OctreeNodeBranch(m_Octree);
+  OctreeNodeBranch *CurrentNodeBranch = new OctreeNodeBranch(m_Octree);
   //7766554433221100  ChildID
   //1111110000000000  Bit
   //5432109876543210  Numbers
@@ -233,7 +235,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     this->m_IPLHeaderInfo.ClearHeader();
     this->m_IPLHeaderInfo.ReadBrains2Header(local_InputStream);
     }
-  catch (itk::ExceptionObject & itkNotUsed(e))
+  catch (ExceptionObject & itkNotUsed(e))
     {
     return false;
     }
@@ -257,31 +259,33 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     {
     // backwards compatibility -- no newly created mask file will
     // include this tag.
-    itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
-    itk::SpatialOrientation::ValidCoordinateOrientationFlags
-      coord_orient(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+    MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+    SpatialOrientation::ValidCoordinateOrientationFlags
+      coord_orient(SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
     std::string acqVal = this->m_IPLHeaderInfo.getString("MASK_ACQ_PLANE:");
     if(acqVal == "SAGITTAL")
       {
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
+      coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
       }
     else if(acqVal == "AXIAL")
       {
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
+      coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
       }
     else if(acqVal == "CORONAL")
       {
-      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+      coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       }
     else
       {
       itkExceptionMacro(<< "If MASK_ACQ_PLANE is specified, then it must be one of CORONAL, AXIAL, or SAGITAL flags.");
       }
-    itk::EncapsulateMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
+    EncapsulateMetaData<SpatialOrientation::ValidCoordinateOrientationFlags>
       (thisDic,ITK_CoordinateOrientation, coord_orient);
+#if !defined(_MSC_VER) || (_MSC_VER > 1300) 
     //An error was encountered in code that depends upon the valid coord_orientation.
     typedef SpatialOrientationAdapter OrientAdapterType;
-    SpatialOrientationAdapter::DirectionType dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
+    SpatialOrientationAdapter::DirectionType dir;
+    dir =  OrientAdapterType().ToDirectionCosines(coord_orient);
     dirx[0] = dir[0][0];
     dirx[1] = dir[1][0];
     dirx[2] = dir[2][0];
@@ -291,6 +295,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     dirz[0] = dir[0][2];
     dirz[1] = dir[1][2];
     dirz[2] = dir[2][2];
+#endif
     for(unsigned i = 3; i < dims; i++)
       {
       dirx[i] = diry[i] = dirz[i] = 0;
@@ -419,7 +424,7 @@ writeOctree (OctreeNode *branch,std::ofstream &output)
       colorCode |= Brains2_MASKFILE_GRAY << (i << 1);
       }
     }
-  itk::ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&colorCode);
+  ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&colorCode);
   output.write((const char *)&colorCode,sizeof(colorCode));
   for (i = 0; i < 8; i++)
     {
@@ -466,10 +471,10 @@ Brains2MaskImageIO
   const double yres = this->GetSpacing(1);
   const double zres = this->GetSpacing(2);
 
-  itk::MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
+  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   std::string temp;
   std::string patient_id("00000");
-  if(itk::ExposeMetaData<std::string>(thisDic,ITK_PatientID,temp))
+  if(ExposeMetaData<std::string>(thisDic,ITK_PatientID,temp))
     {
     patient_id = temp;
     }
@@ -504,8 +509,8 @@ Brains2MaskImageIO
   //
   // the old way of doing things...
 #if defined(OBSOLETE)
-  itk::SpatialOrientationAdapter::DirectionType dir;
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+  SpatialOrientationAdapter::DirectionType dir;
+  SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
   for(unsigned int i = 0; i < 3; i++)
     {
     dir[i][1] = dirx[i];
@@ -516,28 +521,28 @@ Brains2MaskImageIO
 
   switch (coord_orient)
     {
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-      // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
+    case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+      // AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE;
       orientation = "AXIAL";
       break;
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-      // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
+    case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+      // AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL;
       orientation = "SAGITTAL";
       break;
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-      // itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
+    case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+      // AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL;
       orientation = "CORONAL";
       break;
     default:
-      itk::SpatialOrientationAdapter::DirectionType AXIdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
-      itk::SpatialOrientationAdapter::DirectionType SAGdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
-      itk::SpatialOrientationAdapter::DirectionType CORdir=itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+      SpatialOrientationAdapter::DirectionType AXIdir=SpatialOrientationAdapter().ToDirectionCosines(SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
+      SpatialOrientationAdapter::DirectionType SAGdir=SpatialOrientationAdapter().ToDirectionCosines(SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
+      SpatialOrientationAdapter::DirectionType CORdir=SpatialOrientationAdapter().ToDirectionCosines(SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
       itkExceptionMacro(<< "Error: Invalid orientation specified for writing mask. \n"
                         << "\nGIVEN    " << coord_orient << "\n" << dir
                         << "\n Only Axial, Sagital, and Coronal orietations are supported in this file format."
-                        << "\nAXIAL    " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI << "\n" << AXIdir
-                        << "\nSAGITTAL " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR << "\n" << SAGdir
-                        << "\nCORONAL  " << itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP << "\n" << CORdir
+                        << "\nAXIAL    " << SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI << "\n" << AXIdir
+                        << "\nSAGITTAL " << SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR << "\n" << SAGdir
+                        << "\nCORONAL  " << SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP << "\n" << CORdir
         );
       break;
     }
@@ -633,7 +638,7 @@ Brains2MaskImageIO
     {
     octreeHdr[5] = Brains2_MASKFILE_GRAY;
     }
-  itk::ByteSwapper<unsigned>::SwapRangeFromSystemToBigEndian(octreeHdr,
+  ByteSwapper<unsigned>::SwapRangeFromSystemToBigEndian(octreeHdr,
                                                              6);
   output.write((const char *)octreeHdr,sizeof(unsigned)*6);
 
