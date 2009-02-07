@@ -338,7 +338,6 @@ protected:
 
   BSplineInterpolateImageFunction();
   ~BSplineInterpolateImageFunction();
-  void operator=( const Self& ); //purposely not implemented
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   // These are needed by the smoothing spline routine.
@@ -354,6 +353,8 @@ protected:
 
 private:
   BSplineInterpolateImageFunction( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
+
   /** Determines the weights for interpolation of the value x */
   void SetInterpolationWeights( const ContinuousIndexType & x,
                                 const vnl_matrix<long> & EvaluateIndex,
