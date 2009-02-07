@@ -85,7 +85,7 @@ namespace itk
  * 
  * To generate each output image, Gaussian smoothing is first performed 
  * using a DiscreteGaussianImageFilter with variance (shrink factor / 2)^2. 
- * The smoothed image is then downsampled using a ShrinkImageFiter.
+ * The smoothed image is then downsampled using a ResampleImageFilter.
  *
  * This class is templated over the input image type and the output image 
  * type.
