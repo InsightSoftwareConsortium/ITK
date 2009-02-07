@@ -94,11 +94,14 @@ ENDIF( USE_FFTWD )
 ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKFEM ITKIO ITKBasicFilters ITKNumerics)
-
 ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKIO ITKNumerics)
+
+ADD_EXECUTABLE(MultiResImageRegistration3 MultiResImageRegistration3.cxx )
+TARGET_LINK_LIBRARIES(MultiResImageRegistration3 ITKIO ITKNumerics)
+
+ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
+TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKFEM ITKIO ITKBasicFilters ITKNumerics)
 
 ADD_EXECUTABLE(DeformableRegistration1 DeformableRegistration1.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKFEM ITKIO
