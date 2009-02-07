@@ -1,9 +1,6 @@
-@ITK_SOURCE_DIR@/Code/Common/itk[A-H]*.h
-@ITK_SOURCE_DIR@/Code/Common/itk[A-H]*.txx
-@ITK_SOURCE_DIR@/Code/Common/itk[A-H]*.cxx
-@ITK_SOURCE_DIR@/Code/Common/itkImage[A-R]*.h
-@ITK_SOURCE_DIR@/Code/Common/itkImage[A-R]*.txx
-@ITK_SOURCE_DIR@/Code/Common/itkImage[A-R]*.cxx
+@ITK_SOURCE_DIR@/Code/Common/itk[A-M]*.h
+@ITK_SOURCE_DIR@/Code/Common/itk[A-M]*.txx
+@ITK_SOURCE_DIR@/Code/Common/itk[A-M]*.cxx
 @ITK_SOURCE_DIR@/Code/BasicFilters/itk[A-Z]*.h
 @ITK_SOURCE_DIR@/Code/BasicFilters/itk[A-Z]*.txx
 @ITK_SOURCE_DIR@/Code/BasicFilters/itk[A-Z]*.cxx
