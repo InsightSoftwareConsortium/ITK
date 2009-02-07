@@ -1137,6 +1137,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddFace( const PointIdList & points )
 {
+#ifndef NDEBUG
   // Check that there are no duplicate points
   for(unsigned int i=0; i < points.size(); i++)
     {
@@ -1168,6 +1169,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       return (QEPrimal*) NULL;
       }
     }
+#endif
 
   // Check if existing edges have no face on the left.
   for(unsigned int i=0; i < points.size(); i++)
@@ -1191,6 +1193,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return AddFaceWithSecurePointList( points );
 }
 
+
 /**
  */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
@@ -1198,17 +1201,28 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddFaceWithSecurePointList( const PointIdList& points )
 {
+   return AddFaceWithSecurePointList( points, true );
+}
+
+
+/**
+ */
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal*
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::AddFaceWithSecurePointList( const PointIdList& points, bool CheckEdges )
+{
   typedef std::vector< QEPrimal* >  QEList;
   QEList FaceQEList;
 
-  // Now create edges as needed.
+  // Now create edge list and create missing edges if needed.
   for( size_t i = 0; i < points.size(); i++)
     {
     PointIdentifier pid0 = points[i];
     PointIdentifier pid1 = points[ (i+1) % points.size() ];
     QEPrimal* edge = this->FindEdge( pid0, pid1 );
 
-    if( !edge )
+    if( !edge && CheckEdges )
       {
       QEPrimal* entry = this->AddEdgeWithSecurePointList( pid0, pid1 );
       if( entry == (QEPrimal*)0 )
@@ -1219,6 +1233,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       }
     else
       {
+      //FIXME throw exception here if !edge
       FaceQEList.push_back( edge );
       }
     }
@@ -1241,6 +1256,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   if( !entry )
     {
+    // FIXME throw exception here instead
     itkDebugMacro("entry == NULL");
     return (QEPrimal*) NULL;
     }

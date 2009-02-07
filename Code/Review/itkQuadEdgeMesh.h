@@ -413,6 +413,8 @@ public:
    * formed by consecutive points in this list. */
   virtual QEPrimal* AddFace( const PointIdList& points );
   virtual QEPrimal* AddFaceWithSecurePointList( const PointIdList& points );
+  virtual QEPrimal* AddFaceWithSecurePointList( const PointIdList& points,
+                                                bool CheckEdges );
 
   /** Adds a triangular face to the Mesh */
   virtual QEPrimal* AddFaceTriangle( const PointIdentifier& aPid,

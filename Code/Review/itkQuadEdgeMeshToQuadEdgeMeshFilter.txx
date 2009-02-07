@@ -52,13 +52,28 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     inIt++;
     } 
 
+  // Copy Edge Cells
+  InputCellsContainerConstIterator ecIt = in->GetEdgeCells()->Begin();
+  while( ecIt != in->GetEdgeCells()->End() )
+    {
+    InputEdgeCellType* pe = 
+      dynamic_cast< InputEdgeCellType* >( ecIt.Value());
+    //if( pe )
+      {
+      out->AddEdgeWithSecurePointList( pe->GetQEGeom()->GetOrigin(),
+                                       pe->GetQEGeom()->GetDestination() );
+      }
+    ecIt++;
+    }
+
+
   // Copy cells
   InputCellsContainerConstIterator cIt = in->GetCells()->Begin();
   while( cIt != in->GetCells()->End() )
     {
     InputPolygonCellType* pe = 
       dynamic_cast< InputPolygonCellType* >( cIt.Value());
-    if( pe )
+    //if( pe )
       {
       InputPointIdList points;
       InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
@@ -67,7 +82,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
         points.push_back( ( *pit ) );
         ++pit;
         }
-      out->AddFaceWithSecurePointList( points );
+      out->AddFaceWithSecurePointList( points, false );
       }
     cIt++;
     }

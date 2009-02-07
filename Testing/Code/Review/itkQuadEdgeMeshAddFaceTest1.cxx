@@ -77,6 +77,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     pid[i] = mesh->AddPoint( points[i] );
     }
 
+#ifndef NDEBUG
   /////////////////////////////////////////////////////////////
   std::cout << "Adding a degenerate triangle should return false"
     << std::endl;
@@ -90,6 +91,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
     std::cout << "Failed" << std::endl;
     return EXIT_FAILURE;
     }
+#endif
 
   /////////////////////////////////////////////////////////////////////
   std::cout << "Adding a triangle with three new edges" << std::endl;
