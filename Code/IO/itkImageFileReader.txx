@@ -38,7 +38,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   m_ImageIO = 0;
   m_FileName = "";
   m_UserSpecifiedImageIO = false;
-  m_UseStreaming = false;
+  m_UseStreaming = true;
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
@@ -306,6 +306,12 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   itkDebugMacro (<< "Starting EnlargeOutputRequestedRegion() ");
   typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
 
+  if (!m_UseStreaming) 
+    {
+    m_ImageIO->SetUseStreamedReading(m_UseStreaming);
+    out->SetRequestedRegionToLargestPossibleRegion();
+    }
+
   // Delegate to the ImageIO the computation of how much the 
   // requested region must be enlarged.
 
@@ -342,6 +348,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     }
     
   itkDebugMacro (<< "StreamableRegion set to =" << this->m_StreamableRegion );
+
+  out->SetRequestedRegion(this->m_StreamableRegion);
 }
 
 
