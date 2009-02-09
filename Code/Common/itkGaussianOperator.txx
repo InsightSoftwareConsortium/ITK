@@ -92,7 +92,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
     }
   else
     {
-    m=3.5/d;
+    m=3.75/d;
     accumulator =(::exp(d)/::sqrt(d))*(0.39894228+m*(0.1328592e-1
                                                      +m*(0.225319e-2+m*(-0.157565e-2+m*(0.916281e-2
                                                                                         +m*(-0.2057706e-1+m*(0.2635537e-1+m*(-0.1647633e-1
