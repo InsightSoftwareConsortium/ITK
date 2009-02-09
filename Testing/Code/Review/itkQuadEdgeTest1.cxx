@@ -287,10 +287,11 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge4 = new QuadEdgeType;
     QuadEdgeType * quadEdgeA = new QuadEdgeType;
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
-    const QuadEdgeType * quadEdge1c = quadEdge1;
     const QuadEdgeType * quadEdgeAc = quadEdgeA;
 
 #ifndef NDEBUG
+    const QuadEdgeType * quadEdge1c = quadEdge1;
+
     // testing first fail case
     if( quadEdge1->GetRnext() || quadEdge1c->GetRnext( ) )
       {

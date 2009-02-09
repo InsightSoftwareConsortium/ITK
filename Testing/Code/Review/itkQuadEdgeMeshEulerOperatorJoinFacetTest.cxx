@@ -45,7 +45,6 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
     JoinFacet;
     
   // EULER OPERATOR TESTS
-  QEType * dummy;
   MeshPointer  mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>( mesh );
 
@@ -99,7 +98,7 @@ int itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char* argv[] )
   
 #ifndef NDEBUG
   std::cout << "     " << "Test QE Input not internal";
-  dummy = new QEType;
+  QEType* dummy = new QEType;
   if( joinFacet->Evaluate( dummy ) )
     {
     std::cout << "FAILED." << std::endl;
