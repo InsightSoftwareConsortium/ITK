@@ -291,7 +291,7 @@ ADD_TEST( itkQuadEdgeMeshNormalFilterTest ${REVIEW_TESTS2}
  
 ADD_TEST( itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1
-  ${INPUTDATA}/sphere.vtk
+  ${TEMP}/sphere.vtk
   )
  
 SET( CURV_TESTS Gaussian Max Mean Min )
