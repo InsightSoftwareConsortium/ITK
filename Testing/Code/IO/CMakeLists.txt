@@ -59,10 +59,12 @@ itkImageIOBaseTest.cxx
 itkImageIOFileNameExtensionsTests.cxx
 itkIOCommonTest.cxx
 itkIOPrintTest.cxx
+itkImageFileReaderStreamingTest.cxx
 itkImageFileWriterTest.cxx
 itkImageFileWriterPastingTest1.cxx
 itkImageFileWriterPastingTest2.cxx
 itkImageFileWriterStreamingTest1.cxx
+itkImageFileWriterStreamingTest2.cxx
 itkImageFileWriterStreamingPastingCompressingTest1.cxx
 itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
@@ -208,6 +210,8 @@ ADD_TEST(itkSymmetricSecondRankTensorImageReadTest ${IO_TESTS}
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpatialObjectXMLFileTest ${TEMP})
 ADD_TEST(itkImageFileWriterTest ${IO_TESTS} itkImageFileWriterTest ${TEMP}/test.png)
+
+
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
 TARGET_LINK_LIBRARIES(itkIOHeaderTest ITKIO)
@@ -238,7 +242,62 @@ ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 5 )
 IF(ITK_DATA_ROOT)
 
 ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
-         ${ITK_DATA_ROOT}/Input/VHFColor.raw)
+         ${ITK_DATA_ROOT}/Input/VHFColor.raw) 
+
+ADD_TEST(itkImageFileReaderStreamingTest_1 ${IO_TESTS}
+  itkImageFileReaderStreamingTest 
+     ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd 1 0
+  )
+
+ADD_TEST(itkImageFileReaderStreamingTest_2 ${IO_TESTS}
+  itkImageFileReaderStreamingTest 
+     ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd 0 1
+  )
+
+ADD_TEST(itkImageFileReaderStreamingTest_3 ${IO_TESTS}
+  itkImageFileReaderStreamingTest 
+     ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd 0 0
+  )
+
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_MHA ${IO_TESTS} 
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.mha 0 0 0 1 0 0 0 1           
+            )
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_NRRD ${IO_TESTS} 
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.nrrd 0 0 1 1 0 0 1 1           
+            )
+
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_NHDR ${IO_TESTS} 
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.nhdr 0 0 1 1 0 0 1 1           
+            )
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_VTK ${IO_TESTS} 
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.vtk 0 0 1 1 0 0 1 1           
+            )
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_DCM ${IO_TESTS} 
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.dcm 0 0 1 1 0 0 1 1           
+            )
+
+
+ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_IMG ${IO_TESTS} 
+  itkImageFileWriterStreamingPastingCompressingTest1
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.img 0 0 1 1 0 0 1 1           
+            )
+
 
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_MHA ${IO_TESTS} 
@@ -287,45 +346,74 @@ ADD_TEST(itkImageFileWriterPastingTest1 ${IO_TESTS}
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
             ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
 
-# fixme should be re-implemented as macro so that other streaming ImageIO classes can use this test
-# we test 3 things, pasting to a new image, a matching image, and a different image
-ADD_TEST(itkImageFileWriterPastingTest2_01 ${IO_TESTS} 
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_01.mha
-  itkImageFileWriterPastingTest2
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_01.mha 
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha )
-# Remove this test until it produces correct results
-#ADD_TEST(itkImageFileWriterPastingTest2_02 ${IO_TESTS} 
-#  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-#            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_01.mha
-#  itkImageFileWriterPastingTest2
-#            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha
-#            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_01.mha )
 
-# fix me should be reimplemented as a macro so that other streaming ImageIO classes can use these test
-# we test 3 things, streaming to no file, existing file, and when input dosen't stream
-ADD_TEST(itkImageFileWriterStreamingTest1_01 ${IO_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_01.mha
-  itkImageFileWriterStreamingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_01.mha )
-ADD_TEST(itkImageFileWriterStreamingTest1_02 ${IO_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_02.mha
-  itkImageFileWriterStreamingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_02.mha 
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha 0)
-ADD_TEST(itkImageFileWriterStreamingTest1_03 ${IO_TESTS}
-  --compare ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_03.mha
-  itkImageFileWriterStreamingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_03.mha 
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha 1)
+SET(ITK_IOTEST_PASTINGSTREAMING_MACRO_I 0)
+MACRO(ITK_IOTEST_PASTINGSTREAMING_MACRO InputFileName BaselineFileName DifferentFileName)
+
+  # we test 3 things, streaming to no file, existing file, and when input dosen't stream
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterStreamingTest1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS}
+    --compare ${BaselineFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha
+    itkImageFileWriterStreamingTest1
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha )
+  
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterStreamingTest1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS}
+    --compare ${BaselineFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha
+    itkImageFileWriterStreamingTest1
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha 
+       ${DifferentFileName} 0)
+  
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterStreamingTest1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS}
+    --compare ${BaselineFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha
+    itkImageFileWriterStreamingTest1
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha 
+       ${InputFileName} 1)
+  
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterStreamingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS}
+    --compare ${BaselineFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha
+    itkImageFileWriterStreamingTest2
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha)
+
+  # we test 3 things, pasting to a new image, a matching image, and a different image
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS} 
+#    The output image is undefined outside of the paste region
+#    --compare ${BaselineFileName}
+#       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha
+    itkImageFileWriterPastingTest2
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha )        
+     
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS} 
+    --compare ${BaselineFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha
+    itkImageFileWriterPastingTest2
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha 
+       ${InputFileName} )
+
+  MATH(EXPR ITK_IOTEST_PASTINGSTREAMING_MACRO_I "${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}+1")
+  ADD_TEST(itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I} ${IO_TESTS} 
+    itkImageFileWriterPastingTest2
+       ${InputFileName}
+       ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_${ITK_IOTEST_PASTINGSTREAMING_MACRO_I}.mha 
+       ${DifferentFileName} )
+
+ENDMACRO(ITK_IOTEST_PASTINGSTREAMING_MACRO)
+
+ITK_IOTEST_PASTINGSTREAMING_MACRO( ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha ${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd ${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha)
 
 
 ADD_TEST(itkMetaImageIOTest ${IO_TESTS} 

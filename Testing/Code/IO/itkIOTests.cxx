@@ -33,15 +33,17 @@ void RegisterTests()
   REGISTER_TEST(itkBMPImageIOTest2);
   REGISTER_TEST(itkBioRadImageIOTest);
   REGISTER_TEST(itkLSMImageIOTest);
-  REGISTER_TEST(itkDicomImageIOTest);
   REGISTER_TEST(itkDICOMImageIO2Test);
+  REGISTER_TEST(itkDicomImageIOTest);
   REGISTER_TEST(itkDICOMSeriesFileNamesTest);
   REGISTER_TEST(itkDICOMImageSeriesTest);
   REGISTER_TEST(itkAnalyzeImageIOTest);
   REGISTER_TEST(itkGiplImageIOTest);
+  REGISTER_TEST(itkImageFileReaderStreamingTest);
   REGISTER_TEST(itkImageFileWriterPastingTest1);
   REGISTER_TEST(itkImageFileWriterPastingTest2);
   REGISTER_TEST(itkImageFileWriterStreamingTest1);
+  REGISTER_TEST(itkImageFileWriterStreamingTest2);
   REGISTER_TEST(itkImageFileWriterStreamingPastingCompressingTest1);
   REGISTER_TEST(itkImageSeriesWriterTest);
   REGISTER_TEST(itkImageReadDICOMSeriesWriteTest);
