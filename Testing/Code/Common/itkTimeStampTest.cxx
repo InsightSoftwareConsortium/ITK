@@ -19,10 +19,24 @@
 #include "itkTimeStamp.h"
 #include "itkMultiThreader.h"
 
+typedef struct {
+  itk::TimeStamp * m_TimeStamp;
+  unsigned int counters[ITK_MAX_THREADS];
+} TimeStampTestHelper;
+ 
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 {
-  itk::TimeStamp *tsp = static_cast<itk::TimeStamp *>(
-     ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
+  typedef itk::MultiThreader::ThreadInfoStruct  ThreadInfoType;
+
+  ThreadInfoType * infoStruct = static_cast< ThreadInfoType * >( ptr );
+
+  const unsigned int threadId = infoStruct->ThreadID;
+
+  TimeStampTestHelper * helper = 
+    static_cast< TimeStampTestHelper * >( infoStruct->UserData );
+
+  itk::TimeStamp *tsp = helper->m_TimeStamp;
+  helper->counters[threadId]++;
 
   tsp->Modified();
  
@@ -33,6 +47,13 @@ int itkTimeStampTest(int, char*[])
 {
   bool success = true;
   
+  TimeStampTestHelper helper;
+
+  for(unsigned int k=0; k < ITK_MAX_THREADS; k++)
+    {
+    helper.counters[k] = 0;
+    }
+
   try
     {
     itk::TimeStamp ts;
@@ -49,9 +70,16 @@ int itkTimeStampTest(int, char*[])
       return EXIT_FAILURE;
       }
 
-    std::cout << "Number of Threads = " << numberOfThreads << std::endl;
+    std::cout << "Global Maximum Number of Threads = " << 
+      multithreader->GetGlobalMaximumNumberOfThreads() << std::endl;
+    std::cout << "Global Default Number of Threads = " << 
+      multithreader->GetGlobalDefaultNumberOfThreads() << std::endl;
     
-    multithreader->SetSingleMethod( modified_function, &ts);
+    std::cout << "Number of Threads = " << numberOfThreads << std::endl;
+
+    helper.m_TimeStamp = &ts;
+
+    multithreader->SetSingleMethod( modified_function, &helper);
 
     // call modified once to make it up-to-date;
     ts.Modified();
@@ -68,6 +96,15 @@ int itkTimeStampTest(int, char*[])
       multithreader->SingleMethodExecute();
 
       const unsigned long current_mtime = ts.GetMTime();
+
+      for( unsigned int j = 0; j < numberOfThreads; j++ )
+        {
+        if( helper.counters[j] != i+1 )
+          {
+          std::cerr << "counter[" << j << "] = " << helper.counters[j];
+          std::cerr << " at iteration " << i << std::endl;
+          }
+        }
 
       if( ( current_mtime - prev_mtime ) > numberOfThreads )
         {
