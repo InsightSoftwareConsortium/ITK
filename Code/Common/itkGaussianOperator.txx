@@ -80,19 +80,19 @@ double
 GaussianOperator<TPixel,VDimension, TAllocator>
 ::ModifiedBesselI0(double y)
 {
-  double d, accumulator;
-  double m;
+  const double d = vcl_fabs(y);
+  double accumulator;
 
-  if ((d=vcl_fabs(y)) < 3.75)
+  if ( d < 3.75 )
     {
-    m=y/3.75;
+    double m = y / 3.75;
     m *= m;
     accumulator = 1.0 + m *(3.5156229+m*(3.0899424+m*(1.2067492
                                                       + m*(0.2659732+m*(0.360768e-1 +m*0.45813e-2)))));
     }
   else
     {
-    m=3.75/d;
+    const double m = 3.75 / d;
     accumulator =(::exp(d)/::sqrt(d))*(0.39894228+m*(0.1328592e-1
                                                      +m*(0.225319e-2+m*(-0.157565e-2+m*(0.916281e-2
                                                                                         +m*(-0.2057706e-1+m*(0.2635537e-1+m*(-0.1647633e-1
@@ -107,19 +107,19 @@ double
 GaussianOperator<TPixel,VDimension, TAllocator>
 ::ModifiedBesselI1(double y)
 {
-  double d, accumulator;
-  double m;
+  const double d = vcl_fabs(y);
+  double accumulator;
 
-  if ((d=vcl_fabs(y)) < 3.75)
+  if ( d < 3.75 )
     {
-    m = y / 3.75;
+    double m = y / 3.75;
     m *= m;
     accumulator = d*(0.5+m*(0.87890594+m*(0.51498869+m*(0.15084934
                                                         +m*(0.2658733e-1+m*(0.301532e-2+m*0.32411e-3))))));
     }
   else
     {
-    m=3.75/d;
+    const double m = 3.75 / d;
     accumulator = 0.2282967e-1+m*(-0.2895312e-1+m*(0.1787654e-1
                                                    -m*0.420059e-2));
     accumulator = 0.39894228+m*(-0.3988024e-1+m*(-0.362018e-2
