@@ -55,8 +55,7 @@ bool SameImage(std::string output, std::string baseline) {
   diff->SetToleranceRadius( radiusTolerance );
   diff->UpdateLargestPossibleRegion();
 
-   unsigned long status = 0;
-   status = diff->GetNumberOfPixelsWithDifferences();
+   unsigned long status = diff->GetNumberOfPixelsWithDifferences();
 
    if (status > numberOfPixelTolerance)
      return false;
