@@ -36,6 +36,11 @@ int itkQuadEdgeMeshTest1( int , char* [] )
   typedef itk::QuadEdgeMeshLineCell< CellType >     QELineCellType;
 
   MeshType::Pointer  mesh = MeshType::New();
+
+  mesh->GetCellBoundaryFeatureNeighbors( 0, 0, 0, 0 );
+  mesh->GetCellNeighbors( 0, 0 );
+
+
   
   // test ComputeNumberOfPoints( ) failsafe
     {

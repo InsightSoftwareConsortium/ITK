@@ -46,6 +46,8 @@ int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
   MeshPointer  mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>( mesh );
   FlipEdge::Pointer flipEdge = FlipEdge::New( );
+  std::cout << flipEdge << std::endl;
+
 #ifndef NDEBUG
   if( flipEdge->Evaluate( (QEType*)1 ) )
     {

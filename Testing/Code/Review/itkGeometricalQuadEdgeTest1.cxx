@@ -74,7 +74,20 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
     dummyQuadEdge1.SetRot( &dummyQuadEdge2 );  // Test SetRot()
     }
 
-  HelperType::MakeQuadEdges();
+  PrimalQuadEdgeType * qe = HelperType::MakeQuadEdges();
+  // this will only call the method
+  // a more rigorous test woul dbe needed
+  qe->SetRight( 1 );
+  qe->GetSym();
+  qe->GetOprev();
+  qe->GetLprev();
+  qe->GetRprev();
+  qe->GetDprev();
+  qe->GetInvOnext();
+  qe->GetInvLnext();
+  qe->GetInvRnext();
+  qe->GetInvDnext();
+  qe->IsInLnextRing( 0 );
  
   return EXIT_SUCCESS;
 }

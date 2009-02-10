@@ -89,6 +89,9 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
   BorderTransformType::Pointer border_transform = BorderTransformType::New( );
   border_transform->SetInput( mesh );
+  // two following line for coverage
+  border_transform->SetRadius( border_transform->GetRadius() );
+  border_transform->GetNameOfClass();
 
   int border;
   std::stringstream ssout( argv[2] );
@@ -107,6 +110,8 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
           << "1 for DISK BORDER TRANSFORM" << std::endl;
         return EXIT_FAILURE;
     }
+  std::cout << "Transform type is: " << border_transform->GetTransformType( );
+  std::cout << std::endl;
 
   // ** CHOOSE AND SET BARYCENTRIC WEIGHTS **
   OnesMatrixCoefficients< MeshType >                     coeff0;

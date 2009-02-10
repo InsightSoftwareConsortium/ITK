@@ -29,6 +29,11 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
   typedef MeshType::CellIdentifier       CellIdentifier;
   typedef std::vector< PointIdentifier > PointIdList;
 
+  typedef itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BEFunctionType;
+
+  BEFunctionType *BoundaryEdges = BEFunctionType::New();
+  std::cout << BoundaryEdges->GetNameOfClass() << std::endl;
+
   MeshType::Pointer mesh = MeshType::New();
 
   //                                                  //

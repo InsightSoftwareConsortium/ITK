@@ -30,6 +30,8 @@ int itkPriorityQueueTest( int argc, char* argv[] )
     MinPQType;
   MinPQType::Pointer min_priority_queue = MinPQType::New( );
 
+  std::cout << min_priority_queue->GetNameOfClass() << std::endl;
+
   typedef PriorityQueueContainer< MaxPQElementType, MaxPQElementType, double, int >
       MaxPQType;
   MaxPQType::Pointer max_priority_queue = MaxPQType::New( );

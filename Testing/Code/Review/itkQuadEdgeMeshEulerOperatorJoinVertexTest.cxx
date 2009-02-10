@@ -208,6 +208,10 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
 
   JoinVertexType::Pointer joinVertex = JoinVertexType::New( );
 
+  std::cout << joinVertex->GetNameOfClass() << std::endl;
+  std::cout << joinVertex << std::endl;
+
+
 #ifndef NDEBUG
   std::cout << "     " << "Test No Mesh Input.";
   if( joinVertex->Evaluate( (QEType*)1 ) )
