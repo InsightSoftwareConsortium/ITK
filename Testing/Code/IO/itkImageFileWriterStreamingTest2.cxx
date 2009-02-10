@@ -38,8 +38,8 @@ typedef itk::ImageFileWriter< ImageType >       WriterType;
 
 bool SameImage(std::string output, std::string baseline) {
   
-  double intensityTolerance = 0.0;
-  unsigned int radiusTolerance = 0.0;
+  PixelType intensityTolerance = 0;
+  unsigned int radiusTolerance = 0;
   unsigned int numberOfPixelTolerance = 0;
   
   ReaderType::Pointer testReader = ReaderType::New();
@@ -325,6 +325,8 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
   catch( itk::ExceptionObject & err )
     {    
+    std::cout << "Caught expected exception" << std:endl;
+    std::cout << err << endl;
     thrownException = true;
     }
   
@@ -352,6 +354,8 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
   catch( itk::ExceptionObject & err )
     {    
+    std::cout << "Caught expected exception" <<std:endl;
+    std::cout << err <<endl;
     thrownException = true;
     }
   
