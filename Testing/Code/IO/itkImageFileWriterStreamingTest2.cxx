@@ -325,8 +325,8 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
   catch( itk::ExceptionObject & err )
     {    
-    std::cout << "Caught expected exception" << std:endl;
-    std::cout << err << endl;
+    std::cout << "Caught expected exception" << std::endl;
+    std::cout << err << std::endl;
     thrownException = true;
     }
   
@@ -354,8 +354,8 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
   catch( itk::ExceptionObject & err )
     {    
-    std::cout << "Caught expected exception" <<std:endl;
-    std::cout << err <<endl;
+    std::cout << "Caught expected exception" << std::endl;
+    std::cout << err << std::endl;
     thrownException = true;
     }
   
