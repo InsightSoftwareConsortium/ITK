@@ -271,6 +271,12 @@ ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TESTS2}
   100
   ${TEMP}/temp_QuadricDecimationResult1.vtk
   )
+ADD_TEST( itkQuadEdgeMeshQuadricDecimationTetrahedronTest ${REVIEW_TESTS2}
+  itkQuadEdgeMeshQuadricDecimationTest
+  ${INPUTDATA}/tetrahedron.vtk
+  2
+  ${TEMP}/temp_QuadricDecimationTetrahedron.vtk 
+  )
 ADD_TEST( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshSquaredEdgeLengthDecimationTest
   ${INPUTDATA}/mushroom.vtk
