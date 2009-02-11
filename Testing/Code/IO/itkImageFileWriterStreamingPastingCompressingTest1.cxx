@@ -143,7 +143,7 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
 
   // create a vaild region from the largest
   itk::ImageIORegion  ioregion(3);
-  itk::ImageIORegionAdaptor<3>::Convert(pasteRegion, ioregion);
+  itk::ImageIORegionAdaptor<3>::Convert(pasteRegion, ioregion, largestRegion.GetIndex());
 
   if (streamWriting) 
     {

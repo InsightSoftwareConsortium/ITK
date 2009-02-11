@@ -93,7 +93,7 @@ int itkImageFileWriterPastingTest1(int argc, char* argv[])
     // Write the image     
     itk::ImageIORegion  ioregion(3);
     itk::ImageIORegionAdaptor<ImageType::ImageDimension>::
-        Convert( region, ioregion);
+      Convert( region, ioregion, reader->GetOutput()->GetLargestPossibleRegion().GetIndex());
 
     writer->SetIORegion(ioregion);
     writer->SetInput(reader->GetOutput());

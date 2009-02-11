@@ -305,6 +305,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 {
   itkDebugMacro (<< "Starting EnlargeOutputRequestedRegion() ");
   typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
+  typename TOutputImage::RegionType largestRegion = out->GetLargestPossibleRegion();
 
   if (!m_UseStreaming) 
     {
@@ -325,7 +326,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
   
-  ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion );
+  ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion, largestRegion.GetIndex() );
 
   // Tell the IO if we should use streaming while reading
   m_ImageIO->SetUseStreamedReading(m_UseStreaming);
@@ -334,7 +335,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     m_ImageIO->GenerateStreamableReadRegionFromRequestedRegion( ioRequestedRegion );
 
 
-  ImageIOAdaptor::Convert( ioStreamableRegion, this->m_StreamableRegion );
+  ImageIOAdaptor::Convert( ioStreamableRegion, this->m_StreamableRegion, largestRegion.GetIndex() );
 
   //
   // Check whether the imageRequestedRegion is fully contained inside the
@@ -358,7 +359,8 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::GenerateData()
 {
 
-  typename TOutputImage::Pointer output = this->GetOutput();
+  typename TOutputImage::Pointer output = this->GetOutput();  
+  typename TOutputImage::RegionType largestRegion = output->GetLargestPossibleRegion();
 
   itkDebugMacro ( << "ImageFileReader::GenerateData() \n" 
      << "Allocating the buffer with the StreamableRegion \n" 
@@ -390,7 +392,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
   
   // Convert the m_StreamableRegion from ImageRegion type to ImageIORegion type
-  ImageIOAdaptor::Convert( this->m_StreamableRegion, ioRegion );
+  ImageIOAdaptor::Convert( this->m_StreamableRegion, ioRegion, largestRegion.GetIndex() );
 
   itkDebugMacro (<< "ioRegion: " << ioRegion);
  
