@@ -110,7 +110,7 @@ int itkTimeStampTest(int, char*[])
           std::cerr << "counter[" << j << "] = " << helper.counters[j];
           std::cerr << " at iteration " << i << std::endl;
           }
-        if( helper.timeIncrement[j] != 1 )
+        if( helper.timeIncrement[j] < 1 ) // if Modified() didn't increment MTime.
           {
           std::cerr << "timeIncrement[" << j << "] = " << helper.timeIncrement[j];
           std::cerr << " at iteration " << i << std::endl;
