@@ -21,6 +21,8 @@
 #include "itkRegion.h"
 #include "itkObjectFactory.h"
 #include "itkImageRegion.h"
+#include "itkIndex.h"
+#include "itkSize.h"
 
 namespace itk
 {
@@ -34,6 +36,12 @@ namespace itk
  * corner of the image, the size is the lengths of the image in each of
  * the topological directions.)  ImageIORegion is not templated over
  * dimension, but uses dynamic arrays instead.
+ *
+ * The first pixel of an image always have a Zero index. Therefore the
+ * index values of ImageIORegion may not directly correspond to those
+ * of ImageRegion. When translation between the two is performed one
+ * much consider the largest possible region who has a non-zero
+ * starting index for the image.
  *
  * \sa Region
  * \sa ImageRegion
@@ -49,14 +57,24 @@ public:
   typedef ImageIORegion Self;
   typedef Region        Superclass;
 
+  /** these types correspond to those of itk::Size and itk::Index */
+  typedef unsigned long           SizeValueType;
+  typedef long                    IndexValueType;
+
+
+  /** Index typedef support. An index is used to access pixel values. */
+  typedef std::vector<IndexValueType>  IndexType;
+
+  /** Size typedef support. A size is used to define region bounds. */
+  typedef std::vector<SizeValueType>   SizeType;
+    
+
   /** Standard part of all itk objects. */
   itkTypeMacro(ImageIORegion, Region);
 
   /** Dimension of the image available at run time. */
   unsigned int GetImageDimension() const
-    {
-    return m_ImageDimension;
-    }
+    { return m_ImageDimension;  }
 
   /** Dimension of the region to be written. This differs from the
    * the image dimension and is calculated at run-time by examining
@@ -71,11 +89,6 @@ public:
     return dim;
     }
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef std::vector<long>  IndexType;
-
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef std::vector<long>  SizeType;
   
   /** Return the region type. Images are described with structured regions. */
   virtual Superclass::RegionType GetRegionType() const
@@ -153,19 +166,19 @@ public:
   /** Convenience methods to get the size of the image in a particular
    * coordinate direction i. Do not try to access image sizes beyond the
    * the ImageDimension. */
-  long GetSize(unsigned long i) const
+  SizeValueType GetSize(unsigned long i) const
     {
     return m_Size[i];
     }
-  long GetIndex(unsigned long i) const
+  IndexValueType GetIndex(unsigned long i) const
     {
     return m_Index[i];
     }
-  void SetSize(const unsigned long i, long size)
+  void SetSize(const unsigned long i, SizeValueType size)
     {
     m_Size[i] = size;
     }
-  void SetIndex(const unsigned long i, long idx)
+  void SetIndex(const unsigned long i, IndexValueType idx)
     {
     m_Index[i] = idx;
     }
@@ -204,7 +217,7 @@ public:
         {
         return false;
         }
-      if( index[i] >= m_Index[i] + m_Size[i] ) 
+      if( static_cast<SizeValueType>(index[i]-m_Index[i]) >= m_Size[i] ) 
         {
         return false;
         }
@@ -247,8 +260,8 @@ protected:
 
 private:
   unsigned int      m_ImageDimension;
-  std::vector<long> m_Index;
-  std::vector<long> m_Size;
+  IndexType         m_Index;
+  SizeType          m_Size;
 };
 
 
@@ -269,7 +282,9 @@ public:
   typedef typename ImageRegionType::SizeType  ImageSizeType;
   typedef typename ImageRegionType::IndexType ImageIndexType;
 
-  static void Convert( const ImageRegionType & inImageRegion, ImageIORegionType & outIORegion )
+  itkLegacyMacro(static void Convert( const ImageRegionType & outImageRegion, ImageIORegionType & inIORegion) );
+
+  static void Convert( const ImageRegionType & inImageRegion, ImageIORegionType & outIORegion, const ImageIndexType &largestRegionIndex)
     {
     //
     // The ImageRegion and ImageIORegion objects may have different dimensions.
@@ -289,7 +304,7 @@ public:
     for( unsigned int i = 0; i < minDimension; i++ )
       {
       outIORegion.SetSize(  i, size[i] );
-      outIORegion.SetIndex( i, index[i] );
+      outIORegion.SetIndex( i, index[i] - largestRegionIndex[i]);
       }
 
     //
@@ -302,7 +317,10 @@ public:
       }
     }
 
-  static void Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion )
+  itkLegacyMacro(static void Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion) );
+  
+
+  static void Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion, const ImageIndexType &largestRegionIndex )
     {
     ImageSizeType  size;
     ImageIndexType index;
@@ -325,13 +343,35 @@ public:
     for(unsigned int i=0; i<minDimension; i++)
       {
       size[i]  = inIORegion.GetSize(i);
-      index[i] = inIORegion.GetIndex(i);
+      index[i] = inIORegion.GetIndex(i) + largestRegionIndex[i];
       }
 
     outImageRegion.SetSize( size );
     outImageRegion.SetIndex( index );
     }
 };
+
+#if !defined(ITK_LEGACY_REMOVE)
+template< unsigned int VDimension >
+void ImageIORegionAdaptor<VDimension>::Convert( const ImageRegionType & inImageRegion, ImageIORegionType & outIORegion ) 
+{
+  itkGenericLegacyBodyMacro(ImageIORegionAdaptor::Convert, 4.0);
+  // the index argument is required
+  ImageIndexType index;
+  index.Fill(0);
+  ImageIORegionAdaptor<VDimension>::Convert(inImageRegion, outIORegion, index);
+}
+
+template< unsigned int VDimension >
+void ImageIORegionAdaptor<VDimension>::Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion )
+{
+  itkGenericLegacyBodyMacro(ImageIORegionAdaptor::Convert, 4.0);
+  // the index argument is required
+  ImageIndexType index;
+  index.Fill(0);
+  ImageIORegionAdaptor<VDimension>::Convert(inIORegion, outImageRegion, index);
+}
+#endif
 
 } // end namespace itk
 
