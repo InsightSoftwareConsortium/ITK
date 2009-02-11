@@ -1052,6 +1052,20 @@ ADD_TEST(itkImageIODirection3DTest06 ${IO_TESTS} itkImageIODirection3DTest
 
 ENDIF(ITK_DATA_ROOT)
 
+IF(ITK_OSIRIX_DATA_ROOT)
+
+SET(ITK_OSIRIX_CEREBRIX_AXIAL_T1 
+  "${ITK_OSIRIX_DATA_ROOT}/CEREBRIX/Neuro Crane/Axial_T1 - 5352")
+
+ADD_EXECUTABLE(itkGDCMSeriesStreamReadImageWrite itkGDCMSeriesStreamReadImageWrite.cxx)
+TARGET_LINK_LIBRARIES(itkGDCMSeriesStreamReadImageWrite ITKIO)
+
+ADD_TEST(itkGDCMSeriesStreamReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+  ${ITK_OSIRIX_CEREBRIX_AXIAL_T1}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite.mhd
+  )
+
+ENDIF(ITK_OSIRIX_DATA_ROOT)
 
 # Test for reading direction cosines
 # Note: Directions are transposed here with respect to the MetaImage header
