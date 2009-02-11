@@ -657,6 +657,14 @@ FIND_PATH(ITK_MRI_UNC_DATABASE_DATA_ROOT LICENSE.txt
 MARK_AS_ADVANCED(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 
 #-----------------------------------------------------------------------------
+# Configure the default ITK_OSIRIX_DATA_ROOT for the location of Data from the Osirix web site.
+# When this data is available, additional DICOM tests are enabled.
+FIND_PATH(ITK_OSIRIX_DATA_ROOT CEREBRIX
+  DOC "Directory with data taken from http://www.osirix-viewer.com/Downloads.html")
+MARK_AS_ADVANCED(ITK_OSIRIX_DATA_ROOT)
+
+
+#-----------------------------------------------------------------------------
 # This flag is used in particular, to enable some tests that require large memory to run.
 # This probably can be discovered at configuration time by CMake. (Check with CMake developers).
 SET(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes") 
