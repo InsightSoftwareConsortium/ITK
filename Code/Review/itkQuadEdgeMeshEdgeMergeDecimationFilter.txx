@@ -26,7 +26,7 @@ namespace itk
 template< class TInput, class TOutput, class TCriterion >
 QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 QuadEdgeMeshEdgeMergeDecimationFilter() : Superclass(),
-  m_Verbose( false ), m_Relocate( true ), m_CheckOrientation( false )
+  m_Relocate( true ), m_CheckOrientation( false )
 {
   m_JoinVertexFunction = OperatorType::New();
   m_PriorityQueue = PriorityQueueType::New();
@@ -88,62 +88,57 @@ PushElement( OutputQEType* iEdge )
 
 template< class TInput, class TOutput, class TCriterion >
 bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
-IsEdgeOKForPopping( OutputQEType* iEdge )
+IsEdgeOKToBeProcessed( OutputQEType* iEdge )
 {
+#ifdef NDEBUG
   if ( iEdge == 0 )
     {
-    if( m_Verbose )
-      std::cout <<"** iEdge == 0 ** " <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "iEdge == 0, at iteration: " <<this->m_Iteration );
     return false;
     }
 
   OutputPointIdentifier id_org = iEdge->GetOrigin();
   if ( id_org == iEdge->m_NoPoint )
     {
-    if( m_Verbose )
-      std::cout <<"** id_org == iEdge->m_NoPoint ** "
-        <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "id_org == iEdge->m_NoPoint, at iteration: "
+      <<this->m_Iteration );
     return false;
     }
 
   OutputMeshPointer output = this->GetOutput();
   if ( output->FindEdge( id_org ) == 0 )
     {
-    if( m_Verbose )
-      std::cout <<"** output->FindEdge( id_org ) == 0 ** "
-        <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "output->FindEdge( id_org ) == 0, at iteration: "
+      <<this->m_Iteration );
     return false;
     }
   if ( iEdge->GetSym() == 0 )
     {
-    if( m_Verbose )
-      std::cout <<"** iEdge->GetSym() == 0 ** "
-        <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "iEdge->GetSym() == 0, at iteration: "
+      <<this->m_Iteration );
     return false;
     }
 
   OutputPointIdentifier id_dest = iEdge->GetDestination();
   if ( id_dest == iEdge->m_NoPoint )
     {
-    if( m_Verbose )
-      std::cout <<"** id_dest == iEdge->m_NoPoint ** "
-        <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "id_dest == iEdge->m_NoPoint, at iteration: "
+      <<this->m_Iteration );
     return false;
     }
   if ( output->FindEdge( id_dest ) == 0 )
     {
-    if( m_Verbose )
-      std::cout <<"** output->FindEdge( id_dest ) == 0 ** "
-        <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "output->FindEdge( id_dest ) == 0, at iteration: "
+      <<this->m_Iteration );
     return false;
     }
   if ( output->FindEdge( id_org, id_dest ) == 0 )
     {
-    if( m_Verbose )
-      std::cout <<"** output->FindEdge( id_org, id_dest ) == 0 ** "
-        <<this->m_Iteration <<std::endl;
+    itkDebugMacro( "output->FindEdge( id_org, id_dest ) == 0, at iteration: "
+      <<this->m_Iteration );
     return false;
     }
+#endif
 
   return true;
 }
@@ -161,7 +156,7 @@ Extract()
 
     m_PriorityQueue->Pop();
     m_QueueMapper.erase( m_Element );
-    } while ( !IsEdgeOKForPopping( m_Element ) );
+    } while ( !IsEdgeOKToBeProcessed( m_Element ) );
 }
 
 template< class TInput, class TOutput, class TCriterion >
@@ -193,7 +188,9 @@ PushOrUpdateElement( OutputQEType* iEdge )
   OutputQEType* temp = iEdge;
 
   if ( temp->GetOrigin() > temp->GetDestination() )
+    {
     temp = temp->GetSym();
+    }
 
   QueueMapIterator map_it = m_QueueMapper.find( temp );
 
@@ -230,29 +227,22 @@ JoinVertexFailed( )
     case OperatorType::FACE_ISOLATED:
       break;
     case OperatorType::EDGE_ISOLATED:
-      if( m_Verbose )
-        {
-        std::cout <<"** EDGE_ISOLATED: " <<this->m_Iteration <<std::endl;
-        }
+      itkDebugMacro( "EDGE_ISOLATED, at iteration: " <<this->m_Iteration );
       TagElementOut( m_Element );
       break;
     // more than 2 common vertices in 0-ring of org and dest respectively
     case OperatorType::TOO_MANY_COMMON_VERTICES:
-      if( m_Verbose )
-        {
-        std::cout << "** TOO_MANY_COMMON_VERTICES: " << this->m_Iteration;
-        std::cout << " ** " <<m_Element->GetOrigin() << " -> "
-          <<m_Element->GetDestination() <<std::endl;
-        }
+      itkDebugMacro( "TOO_MANY_COMMON_VERTICES, at iteration "
+        <<this->m_Iteration );
+      itkDebugMacro( <<m_Element->GetOrigin() << " -> "
+          <<m_Element->GetDestination() );
       this->TagElementOut( m_Element );
       break;
     // ******************************************************************
     // Tetraedron case
     case OperatorType::TETRAEDRON_CONFIG:
-      if( m_Verbose )
-        {
-        std::cout << "** TETRAEDRON_CONFIG: " << this->m_Iteration << std::endl;
-        }
+      itkDebugMacro( "TETRAEDRON_CONFIG, at iteration " << this->m_Iteration );
+
       this->TagElementOut( m_Element );
       this->TagElementOut( m_Element->GetOnext() );
       this->TagElementOut( m_Element->GetOprev() );
@@ -264,26 +254,18 @@ JoinVertexFailed( )
     // ******************************************************************
     // Samosa case
     case OperatorType::SAMOSA_CONFIG:
-      if( m_Verbose )
-        {
-        std::cout << "** SAMOSA_CONFIG: " <<this->m_Iteration << std::endl;
-        }
+      itkDebugMacro( "SAMOSA_CONFIG, at iteration " << this->m_Iteration );
       this->RemoveSamosa();
       break;
     // ******************************************************************
     // Eye case
     case OperatorType::EYE_CONFIG:
-      if( m_Verbose )
-        {
-        std::cout << "** EYE_CONFIG: " << this->m_Iteration << std::endl;
-        }
+      itkDebugMacro( "EYE_CONFIG, at iteration " << this->m_Iteration );
       this->RemoveEye();
       break;
     case OperatorType::EDGE_JOINING_DIFFERENT_BORDERS:
-      if( m_Verbose )
-        {
-        std::cout << "** EDGE_JOINING_DIFFERENT_BORDERS: " << this->m_Iteration <<std::endl;
-        }
+      itkDebugMacro( "EDGE_JOINING_DIFFERENT_BORDERS, at iteration " <<
+this->m_Iteration );
       this->TagElementOut( m_Element );
       break;
     }
@@ -291,7 +273,7 @@ JoinVertexFailed( )
 
 template< class TInput, class TOutput, class TCriterion >
 void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
-DeletePoint( const OutputPointIdentifier& iIdToBeDeleted, 
+DeletePoint( const OutputPointIdentifier& iIdToBeDeleted,
   const OutputPointIdentifier& iRemaining )
 {
   (void)iRemaining;
@@ -325,34 +307,36 @@ ProcessWithoutAnyTopologicalGuarantee()
 
   std::list< OutputQEType* > list_qe_to_be_deleted;
   OutputQEType* temp = m_Element->GetOnext();
-  
+
   while( temp != m_Element )
     {
     list_qe_to_be_deleted.push_back( temp );
     temp = temp->GetOnext();
     }
-  
+
   temp = m_Element->GetSym()->GetOnext();
   while( temp != m_Element->GetSym() )
     {
     list_qe_to_be_deleted.push_back( temp );
     temp = temp->GetOnext();
     }
-  
-   for( typename std::list< OutputQEType* >::iterator 
+
+  for( typename std::list< OutputQEType* >::iterator
          it = list_qe_to_be_deleted.begin();
          it != list_qe_to_be_deleted.end();
          ++it )
-      DeleteElement( *it );
-    
+    {
+    DeleteElement( *it );
+    }
+
   if ( !m_JoinVertexFunction->Evaluate( m_Element ) )
     {
-    for( typename std::list< OutputQEType* >::iterator 
+    for( typename std::list< OutputQEType* >::iterator
          it = list_qe_to_be_deleted.begin();
          it != list_qe_to_be_deleted.end();
          ++it )
       PushOrUpdateElement( *it );
-      
+
     JoinVertexFailed();
     }
   else
@@ -365,9 +349,7 @@ ProcessWithoutAnyTopologicalGuarantee()
     OutputQEType* edge = output->FindEdge( new_id );
     if ( edge == 0 )
       {
-      if( m_Verbose )
-        std::cout <<"** edge == 0 ** " <<this->m_Iteration <<std::endl;
-
+      itkDebugMacro( "edge == 0, at iteration " <<this->m_Iteration );
       return false;
       }
 
@@ -416,10 +398,7 @@ CheckQEProcessingStatus( )
           // isolated component made of two triangles
           // sharing same points but with opposite orientation
           // looks like a samosa
-          if( m_Verbose )
-            {
-            std::cout <<"RemoveSamosa" <<std::endl;
-            }
+          itkDebugMacro( "RemoveSamosa" );
           return 1;
           } // end if( OriginOrderIsTwo && DestinationOrderIsTwo )
         else
@@ -429,10 +408,7 @@ CheckQEProcessingStatus( )
           // having the same points. It is a valid manifold case
           // but you have to decimate it the right way.
           // from the top the drawing of that case looks like an Eye
-          if( m_Verbose )
-            {
-            std::cout <<"RemoveEye" <<std::endl;
-            }
+          itkDebugMacro( "RemoveEye" );
           return 2;
           } // end else if( OriginOrderIsTwo && DestinationOrderIsTwo )
        } // end if( OriginOrderIsTwo || DestinationOrderIsTwo )
@@ -441,10 +417,7 @@ CheckQEProcessingStatus( )
         if( NumberOfCommonVerticesIn0Ring( ) > 2 )
           {
           // both points have more than 2 edges on their O-ring
-          if( m_Verbose )
-            {
-            std::cout <<"NumberOfCommonVerticesIn0Ring( ) > 2" <<std::endl;
-            }
+          itkDebugMacro( "NumberOfCommonVerticesIn0Ring( ) > 2" );
           return 3;
           } //end if( NumberOfCommonVerticesIn0Ring( ) > 2 )
         else
@@ -457,10 +430,7 @@ CheckQEProcessingStatus( )
       {
       if( NumberOfCommonVerticesIn0Ring( ) > 1 )
         {
-        if( m_Verbose )
-          {
-          std::cout <<"NumberOfCommonVerticesIn0Ring( ) > 1" <<std::endl;
-          }
+        itkDebugMacro( "NumberOfCommonVerticesIn0Ring( ) > 1" );
         return 4;
         } // end if( NumberOfCommonVerticesIn0Ring( ) > 1 )
       else // if( NumberOfCommonVerticesIn0Ring( ) > 1 )
@@ -488,7 +458,7 @@ CheckQEProcessingStatus( )
       }
     } // end if( LeftIsTriangle || RightIsTriangle )
 
-//   return 0;
+  //   return 0;
 }
 
 template< class TInput, class TOutput, class TCriterion >
@@ -496,7 +466,9 @@ bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 ProcessWithTopologicalGuarantee()
 {
   if( m_Priority.first )
+    {
     return true;
+    }
 
   ProcessWithoutAnyTopologicalGuarantee();
   return false;

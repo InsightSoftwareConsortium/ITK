@@ -89,7 +89,6 @@ protected:
   QuadEdgeMeshEdgeMergeDecimationFilter();
   virtual ~QuadEdgeMeshEdgeMergeDecimationFilter();
 
-  bool m_Verbose;
   bool m_Relocate;
   bool m_CheckOrientation;
 
@@ -122,7 +121,7 @@ protected:
   * \param[in] iEdge
   * \return 
   */
-  bool IsEdgeOKForPopping( OutputQEType* iEdge );
+  bool IsEdgeOKToBeProcessed( OutputQEType* iEdge );
 
   /**
   * \brief Extract the edge to be processed
