@@ -1063,6 +1063,7 @@ TARGET_LINK_LIBRARIES(itkGDCMSeriesStreamReadImageWrite ITKIO)
 ADD_TEST(itkGDCMSeriesStreamReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
   ${ITK_OSIRIX_CEREBRIX_AXIAL_T1}
   ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite.mhd
+  0 0
   )
 
 ENDIF(ITK_OSIRIX_DATA_ROOT)
