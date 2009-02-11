@@ -22,6 +22,7 @@
 typedef struct {
   itk::TimeStamp * m_TimeStamp;
   unsigned int counters[ITK_MAX_THREADS];
+  unsigned int timeIncrement[ITK_MAX_THREADS];
 } TimeStampTestHelper;
  
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
@@ -38,8 +39,12 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
   itk::TimeStamp *tsp = helper->m_TimeStamp;
   helper->counters[threadId]++;
 
+  const unsigned long time1 = tsp->GetMTime();
   tsp->Modified();
+  const unsigned long time2 = tsp->GetMTime();
  
+  helper->timeIncrement[threadId] = time2 - time1;
+
   return ITK_THREAD_RETURN_VALUE;
 }
 
@@ -52,6 +57,7 @@ int itkTimeStampTest(int, char*[])
   for(unsigned int k=0; k < ITK_MAX_THREADS; k++)
     {
     helper.counters[k] = 0;
+    helper.timeIncrement[k] = 0;
     }
 
   try
@@ -102,6 +108,11 @@ int itkTimeStampTest(int, char*[])
         if( helper.counters[j] != i+1 )
           {
           std::cerr << "counter[" << j << "] = " << helper.counters[j];
+          std::cerr << " at iteration " << i << std::endl;
+          }
+        if( helper.timeIncrement[j] != 1 )
+          {
+          std::cerr << "timeIncrement[" << j << "] = " << helper.timeIncrement[j];
           std::cerr << " at iteration " << i << std::endl;
           }
         }
