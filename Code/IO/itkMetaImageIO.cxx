@@ -363,6 +363,7 @@ void MetaImageIO::ReadImageInformation()
     this->SetOrigin(i, m_MetaImage.Position(i));
     } 
 
+
 #if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
   itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
 #endif
@@ -1021,17 +1022,11 @@ MetaImageIO
     dSize[i] = this->GetDimensions(i);
     eSpacing[i] = static_cast<float>(this->GetSpacing(i));
     eOrigin[i] = this->GetOrigin(i);
-    } 
-  ImageIORegion::IndexType indx = this->GetIORegion().GetIndex();
-  for(i=0; i<nDims; i++)
-    {
-    unsigned int j;
-    for(j=0; j<nDims; j++)
-      {
-      eOrigin[i] += indx[j] * eSpacing[j] * this->GetDirection(j)[i];
-      }
     }
 
+  for (unsigned k =  0; k < nDims; ++k)  
+    std::cout << "eOrigin["<<k<<"]: " << eOrigin[k] << std::endl;
+ 
   m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
                                   const_cast<void *>(buffer));
   m_MetaImage.Position(eOrigin);
