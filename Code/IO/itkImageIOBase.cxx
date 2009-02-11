@@ -1125,6 +1125,12 @@ void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
     os << m_Dimensions[i] << " ";
     }
   os << ")" << std::endl;
+  os << indent << "Origin: ( ";
+ for (unsigned int i=0; i < m_NumberOfDimensions; i++)
+    {
+    os << m_Origin[i] << " ";
+    }
+  os << ")" << std::endl;
 
   if (m_UseCompression)
     {
