@@ -40,6 +40,8 @@ void RegisterTests()
   REGISTER_TEST(itkAnalyzeImageIOTest);
   REGISTER_TEST(itkGiplImageIOTest);
   REGISTER_TEST(itkImageFileReaderStreamingTest);
+  REGISTER_TEST(itkImageFileWriterTest);
+  REGISTER_TEST(itkImageFileWriterTest2);
   REGISTER_TEST(itkImageFileWriterPastingTest1);
   REGISTER_TEST(itkImageFileWriterPastingTest2);
   REGISTER_TEST(itkImageFileWriterStreamingTest1);
@@ -106,7 +108,6 @@ void RegisterTests()
   REGISTER_TEST(itkGEImageIOFactoryTest);
   REGISTER_TEST(itkTIFFImageIOTest);
   REGISTER_TEST(itkTransformIOTest);
-  REGISTER_TEST(itkImageFileWriterTest);
   REGISTER_TEST(itkImageIODirection2DTest);
   REGISTER_TEST(itkImageIODirection3DTest);
   REGISTER_TEST(itkLargeImageWriteReadTest);

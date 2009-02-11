@@ -61,6 +61,7 @@ itkIOCommonTest.cxx
 itkIOPrintTest.cxx
 itkImageFileReaderStreamingTest.cxx
 itkImageFileWriterTest.cxx
+itkImageFileWriterTest2.cxx
 itkImageFileWriterPastingTest1.cxx
 itkImageFileWriterPastingTest2.cxx
 itkImageFileWriterStreamingTest1.cxx
@@ -243,6 +244,14 @@ IF(ITK_DATA_ROOT)
 
 ADD_TEST(itkRawImageIOTest2 ${IO_TESTS} itkRawImageIOTest2
          ${ITK_DATA_ROOT}/Input/VHFColor.raw) 
+
+
+ADD_TEST(itkImageFileWriterTest2_1 ${IO_TESTS} 
+  itkImageFileWriterTest2 ${ITK_TEST_OUTPUT_DIR}/test.nrrd)
+ADD_TEST(itkImageFileWriterTest2_2 ${IO_TESTS} 
+  itkImageFileWriterTest2 ${ITK_TEST_OUTPUT_DIR}/test.mha)
+ADD_TEST(itkImageFileWriterTest2_3 ${IO_TESTS} 
+  itkImageFileWriterTest2 ${ITK_TEST_OUTPUT_DIR}/test.vtk)
 
 ADD_TEST(itkImageFileReaderStreamingTest_1 ${IO_TESTS}
   itkImageFileReaderStreamingTest 
