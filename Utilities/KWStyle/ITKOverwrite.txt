@@ -82,6 +82,7 @@ itkImageTransformHelper.h Template Disable
 itkKLMSegmentationRegion.h Indent Disable
 itkLaplacianOperator.h Indent Disable
 itkMacro.h Indent Disable
+itkMetaDataObject.txx Namespace Disable
 itkMersenneTwisterRandomVariateGenerator.h InternalVariables Disable
 itkNeighborhoodAllocator.h Typedefs Disable
 itkNodeList.h InternalVariables Disable
