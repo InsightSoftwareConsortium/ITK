@@ -69,6 +69,7 @@ void RegisterTests()
   REGISTER_TEST(itkComposeRGBImageFilterTest );
   REGISTER_TEST(itkConfidenceConnectedImageFilterTest  );
   REGISTER_TEST(itkConnectedComponentImageFilterTest );
+  REGISTER_TEST(itkConnectedComponentImageFilterTestRGB );
   REGISTER_TEST(itkConnectedThresholdImageFilterTest  );
   REGISTER_TEST(itkConstantPadImageTest );
   REGISTER_TEST(itkCosImageFilterAndAdaptorTest );
