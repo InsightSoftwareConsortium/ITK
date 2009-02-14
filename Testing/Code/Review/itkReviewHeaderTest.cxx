@@ -132,6 +132,8 @@
 #include "itkBinaryContourImageFilter.h"
 #include "itkLabelContourImageFilter.h"
 
+#include "itkFFTShiftImageFilter.h"
+
 int main ( int , char * [] )
 {
   

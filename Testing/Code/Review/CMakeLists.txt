@@ -119,6 +119,8 @@ SET(ReviewTest_SRCS
   
   itkBinaryContourImageFilterTest.cxx
   itkLabelContourImageFilterTest.cxx
+  
+  itkFFTShiftImageFilterTest.cxx
 )
 
 SET(ReviewTest2_SRCS
@@ -1250,6 +1252,24 @@ ADD_TEST(itkLabelContourImageFilterTest1 ${REVIEW_TESTS}
    ${INPUTDATA}/2th_cthead1.png
    ${TEMP}/itkLabelContourImageFilterTest1.png
    1 0
+)
+
+ADD_TEST(itkFFTShiftImageFilterTest0 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkFFTShiftImageFilterTest0.png
+            ${TEMP}/itkFFTShiftImageFilterTest0.png
+   itkFFTShiftImageFilterTest
+   ${INPUTDATA}/BrainSliceBinary.png
+   ${TEMP}/itkFFTShiftImageFilterTest0.png
+   0
+)
+
+ADD_TEST(itkFFTShiftImageFilterTest1 ${REVIEW_TESTS}
+  --compare ${INPUTDATA}/BrainSliceBinary.png
+            ${TEMP}/itkFFTShiftImageFilterTest1.png
+   itkFFTShiftImageFilterTest
+   ${BASELINE}/itkFFTShiftImageFilterTest0.png
+   ${TEMP}/itkFFTShiftImageFilterTest1.png
+   1
 )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)

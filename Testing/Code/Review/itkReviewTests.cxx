@@ -132,4 +132,6 @@ void RegisterTests()
 
   REGISTER_TEST( itkBinaryContourImageFilterTest );
   REGISTER_TEST( itkLabelContourImageFilterTest );
+
+  REGISTER_TEST( itkFFTShiftImageFilterTest );
 }
