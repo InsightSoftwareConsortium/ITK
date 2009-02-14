@@ -129,6 +129,9 @@
 #include "itkMiniPipelineSeparableImageFilter.txx"
 #include "itkFastApproximateRankImageFilter.h"
 
+#include "itkBinaryContourImageFilter.h"
+#include "itkLabelContourImageFilter.h"
+
 int main ( int , char * [] )
 {
   

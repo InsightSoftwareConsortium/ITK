@@ -130,4 +130,6 @@ void RegisterTests()
   REGISTER_TEST( itkMapOptGrayscaleErodeImageFilterTest );
 #endif
 
+  REGISTER_TEST( itkBinaryContourImageFilterTest );
+  REGISTER_TEST( itkLabelContourImageFilterTest );
 }

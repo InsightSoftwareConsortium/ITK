@@ -116,6 +116,9 @@ SET(ReviewTest_SRCS
   itkDiscreteGaussianDerivativeImageFunctionTest.cxx
   itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
   itkDiscreteHessianGaussianImageFunctionTest.cxx
+  
+  itkBinaryContourImageFilterTest.cxx
+  itkLabelContourImageFilterTest.cxx
 )
 
 SET(ReviewTest2_SRCS
@@ -1211,6 +1214,42 @@ ADD_TEST(itkDiscreteHessianGaussianImageFunctionTest01 ${REVIEW_TESTS}
   2.0
   0.01
   20
+)
+
+ADD_TEST(itkBinaryContourImageFilterTest0 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkBinaryContourImageFilterTest0.png
+            ${TEMP}/itkBinaryContourImageFilterTest0.png
+   itkBinaryContourImageFilterTest
+   ${INPUTDATA}/2th_cthead1.png
+   ${TEMP}/itkBinaryContourImageFilterTest0.png
+   0 200 0
+)
+
+ADD_TEST(itkBinaryContourImageFilterTest1 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkBinaryContourImageFilterTest1.png
+            ${TEMP}/itkBinaryContourImageFilterTest1.png
+   itkBinaryContourImageFilterTest
+   ${INPUTDATA}/2th_cthead1.png
+   ${TEMP}/itkBinaryContourImageFilterTest1.png
+   1 200 0
+)
+
+ADD_TEST(itkLabelContourImageFilterTest0 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkLabelContourImageFilterTest0.png
+            ${TEMP}/itkLabelContourImageFilterTest0.png
+   itkLabelContourImageFilterTest
+   ${INPUTDATA}/2th_cthead1.png
+   ${TEMP}/itkLabelContourImageFilterTest0.png
+   0 0
+)
+
+ADD_TEST(itkLabelContourImageFilterTest1 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkLabelContourImageFilterTest1.png
+            ${TEMP}/itkLabelContourImageFilterTest1.png
+   itkLabelContourImageFilterTest
+   ${INPUTDATA}/2th_cthead1.png
+   ${TEMP}/itkLabelContourImageFilterTest1.png
+   1 0
 )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
