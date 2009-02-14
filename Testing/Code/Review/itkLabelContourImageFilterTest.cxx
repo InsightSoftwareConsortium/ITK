@@ -88,7 +88,7 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
 
   try
     {
-    filter->Update();
+    writer->Update();
     }
   catch ( itk::ExceptionObject & excp )
     {
