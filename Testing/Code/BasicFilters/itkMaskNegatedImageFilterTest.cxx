@@ -17,10 +17,10 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkImage.h>
+#include "itkImage.h"
 
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkMaskNegatedImageFilter.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkMaskNegatedImageFilter.h"
 
 int itkMaskNegatedImageFilterTest(int, char* [] ) 
 {
@@ -114,20 +114,21 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
     ++it2;
     }
 
-  // Declare the type for the ADD filter
+  // Declare the type for the MaskNegated filter
   typedef itk::MaskNegatedImageFilter<
                            myImageType1,
                            myImageType2,
                            myImageType3  >       myFilterType;
             
 
-  // Create an ADD Filter                                
+  // Create an MaskNegated Filter                                
   myFilterType::Pointer filter = myFilterType::New();
 
 
   // Connect the input images
   filter->SetInput1( inputImageA ); 
   filter->SetInput2( inputImageB );
+  filter->SetOutsideValue( 50 );
 
   // Get the Smart Pointer to the Filter Output 
   myImageType3::Pointer outputImage = filter->GetOutput();
@@ -143,11 +144,13 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   while( !it3.IsAtEnd() ) 
-  {
+    {
     std::cout << it3.Get() << std::endl;
     ++it3;
-  }
+    }
 
+
+  filter->Print( std::cout );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

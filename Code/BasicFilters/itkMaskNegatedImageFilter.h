@@ -33,11 +33,11 @@ namespace itk
  * Numeric conversions (castings) are done by the C++ defaults.
  *
  * The pixel type of the input 2 image must have a valid defintion of the
- * operator != with zero . This condition is required because internally this
+ * operator != with zero. This condition is required because internally this
  * filter will perform the operation
  *
  *        if pixel_from_mask_image != 0 
- *             pixel_output_image = 0
+ *             pixel_output_image = output_value
  *        else
  *             pixel_output_image = pixel_input_image
  *
@@ -58,7 +58,7 @@ class MaskNegatedInput
 public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
 
-  MaskNegatedInput() {};
+  MaskNegatedInput(): m_OutsideValue(NumericTraits< TOutput >::Zero) {};
   ~MaskNegatedInput() {};
   bool operator!=( const MaskNegatedInput & ) const
     {
@@ -68,17 +68,33 @@ public:
     {
     return !(*this != other);
     }
+
   inline TOutput operator()( const TInput & A, const TMask & B)
     {
-    if (B != NumericTraits< TMask >::Zero ) 
+    if (B != NumericTraits< TMask >::ZeroValue() ) 
       {
-      return NumericTraits< TOutput >::Zero;
+      return m_OutsideValue;
       }
     else
       {
       return static_cast<TOutput>( A );
       }
     }
+
+  /** Method to explicitly set the outside value of the mask */
+  void SetOutsideValue( const TOutput &outsideValue )
+    {
+    m_OutsideValue = outsideValue;
+    }
+  
+  /** Method to get the outside value of the mask */
+  const TOutput &GetOutsideValue() const
+    {
+    return m_OutsideValue;
+    }
+     
+private:
+  TOutput m_OutsideValue;
 }; 
 
 }
@@ -112,6 +128,21 @@ public:
   itkTypeMacro(MaskNegatedImageFilter, 
                BinaryFunctorImageFilter);
 
+  /** Method to explicitly set the outside value of the mask. Defaults to 0 */
+  void SetOutsideValue( const typename TOutputImage::PixelType & outsideValue ) 
+    {
+    if( this->GetOutsideValue() != outsideValue )
+      {
+      this->Modified();
+      this->GetFunctor().SetOutsideValue( outsideValue );
+      }
+    }
+
+  const typename TOutputImage::PixelType & GetOutsideValue() const
+    {
+    return this->GetFunctor().GetOutsideValue();
+    }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(MaskEqualityComparableCheck,
@@ -125,6 +156,12 @@ public:
 protected:
   MaskNegatedImageFilter() {}
   virtual ~MaskNegatedImageFilter() {}
+
+  void PrintSelf(std::ostream &os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+    os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;
+    }
 
 private:
   MaskNegatedImageFilter(const Self&); //purposely not implemented
