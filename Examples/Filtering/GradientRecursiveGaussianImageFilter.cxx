@@ -67,10 +67,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
+  const unsigned int  Dimension = 3;
   typedef    float    InputPixelType;
   typedef    float    OutputComponentPixelType;
 
-  typedef    itk::CovariantVector< OutputComponentPixelType > OutputPixelType;
+  typedef itk::CovariantVector< 
+    OutputComponentPixelType, Dimension > OutputPixelType;
   // Software Guide : EndCodeSnippet
 
 
@@ -81,8 +83,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  3 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
+  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
   // Software Guide : EndCodeSnippet
 
 
