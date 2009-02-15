@@ -311,8 +311,8 @@ ADD_TEST( GradientVectorFlowImageFilterTest ${FILTERING_EXAMPLES8}
   GradientVectorFlowImageFilterTest
         ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
         ${TEMP}/GradientVectorFlowImageFilterTest.mha
-        5      # number of iterations
-        8.0    # noise level
+        5        # number of iterations
+        2000.0   # noise level
 )
 SET_TESTS_PROPERTIES( GradientVectorFlowImageFilterTest 
   PROPERTIES DEPENDS GradientRecursiveGaussianImageFilterTest)

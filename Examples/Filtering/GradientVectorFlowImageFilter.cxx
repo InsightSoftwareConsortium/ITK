@@ -25,7 +25,7 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {GradientRecursiveGaussianImageFilterTest.mha}
 //    OUTPUTS: {GradientVectorFlowImageFilterOutput.mha}
-//    10 0.25 10.0
+//    5 2000.0
 //  Software Guide : EndCommandLineArgs
 
 //  Software Guide : BeginLatex
@@ -180,7 +180,8 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the noise level are ... FIXME
+  //  When using as input the result of a gradient filter, then the typical
+  //  values for the noise level will be around 2000.0.
   //
   //  Software Guide : EndLatex 
 
