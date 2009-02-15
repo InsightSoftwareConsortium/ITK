@@ -17,10 +17,10 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkImage.h>
+#include "itkImage.h"
 
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkMaskImageFilter.h>
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkMaskImageFilter.h"
 
 int itkMaskImageFilterTest(int, char* [] ) 
 {
@@ -144,11 +144,13 @@ int itkMaskImageFilterTest(int, char* [] )
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   while( !it3.IsAtEnd() ) 
-  {
+    {
     std::cout << it3.Get() << std::endl;
     ++it3;
-  }
+    }
 
+
+  filter->Print( std::cout );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
