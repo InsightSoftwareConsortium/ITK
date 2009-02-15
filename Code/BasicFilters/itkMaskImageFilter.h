@@ -39,7 +39,7 @@ namespace itk
  *        if pixel_from_mask_image != 0 
  *             pixel_output_image = pixel_input_image
  *        else
- *             pixel_output_image = 0
+ *             pixel_output_image = outside_value
  *
  * The pixel from the input 1 is cast to the pixel type of the output image.
  *
@@ -123,7 +123,7 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
- 
+
   /** Runtime information support. */
   itkTypeMacro(MaskImageFilter, 
                BinaryFunctorImageFilter);
