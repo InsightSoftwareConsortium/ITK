@@ -17,6 +17,8 @@ void RegisterTests()
 REGISTER_TEST(GradientAnisotropicDiffusionImageFilterTest);
 REGISTER_TEST(GradientMagnitudeImageFilterTest);
 REGISTER_TEST(GradientMagnitudeRecursiveGaussianImageFilterTest);
+REGISTER_TEST(GradientRecursiveGaussianImageFilterTest);
+REGISTER_TEST(GradientVectorFlowImageFilterTest);
 REGISTER_TEST(LaplacianImageFilterTest);
 REGISTER_TEST(MathematicalMorphologyBinaryFiltersTest);
 REGISTER_TEST(MathematicalMorphologyGrayscaleFiltersTest);
@@ -39,6 +41,14 @@ REGISTER_TEST(ZeroCrossingBasedEdgeDetectionImageFilterTest);
 #undef main
 #define main GradientMagnitudeRecursiveGaussianImageFilterTest
 #include "GradientMagnitudeRecursiveGaussianImageFilter.cxx"
+
+#undef main
+#define main GradientVectorFlowImageFilterTest
+#include "GradientVectorFlowImageFilter.cxx"
+
+#undef main
+#define main GradientRecursiveGaussianImageFilterTest
+#include "GradientRecursiveGaussianImageFilter.cxx"
 
 #undef main
 #define main LaplacianImageFilterTest

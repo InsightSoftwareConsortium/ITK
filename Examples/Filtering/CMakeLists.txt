@@ -70,6 +70,8 @@ ADD_EXECUTABLE(GradientAnisotropicDiffusionImageFilter GradientAnisotropicDiffus
 TARGET_LINK_LIBRARIES(GradientAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(CurvatureFlowImageFilter CurvatureFlowImageFilter.cxx )
 TARGET_LINK_LIBRARIES(CurvatureFlowImageFilter  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(GradientVectorFlowImageFilter GradientVectorFlowImageFilter.cxx )
+TARGET_LINK_LIBRARIES(GradientVectorFlowImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SigmoidImageFilter SigmoidImageFilter.cxx )
 TARGET_LINK_LIBRARIES(SigmoidImageFilter  ITKIO)
 ADD_EXECUTABLE(RGBCurvatureAnisotropicDiffusionImageFilter RGBCurvatureAnisotropicDiffusionImageFilter.cxx )
@@ -299,6 +301,22 @@ ADD_TEST( GradientMagnitudeRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES
         ${TEMP}/GradientMagnitudeRecursiveGaussianImageFilter.png
         5
 )
+ADD_TEST( GradientRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES8}
+  GradientRecursiveGaussianImageFilterTest
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/HeadMRVolume.mhd
+        ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
+        1.5  # Sigma
+)
+ADD_TEST( GradientVectorFlowImageFilterTest ${FILTERING_EXAMPLES8}
+  GradientVectorFlowImageFilterTest
+        ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
+        ${TEMP}/GradientVectorFlowImageFilterTest.mha
+        5      # number of iterations
+        0.125  # time step
+        1.0    # noise level
+)
+SET_TESTS_PROPERTIES( GradientVectorFlowImageFilterTest 
+  PROPERTIES DEPENDS GradientRecursiveGaussianImageFilterTest)
 ADD_TEST( DerivativeImageFilterTest ${FILTERING_EXAMPLES}
   --compare ${BASELINE}/DerivativeImageFilter.mha
             ${TEMP}/DerivativeImageFilter.mha
