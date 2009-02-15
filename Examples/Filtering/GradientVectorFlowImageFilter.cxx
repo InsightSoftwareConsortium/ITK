@@ -63,11 +63,11 @@
 
 int main( int argc, char * argv[] )
 {
-  if( argc < 6 ) 
+  if( argc < 5 ) 
     { 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile";
-    std::cerr << " numberOfIterations  timeStep noiseLevel" << std::endl;
+    std::cerr << " numberOfIterations  noiseLevel" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -150,29 +150,29 @@ int main( int argc, char * argv[] )
 
 
   const unsigned int numberOfIterations = atoi( argv[3] );
-  const double       timeStep = atof( argv[4] );
-  const double       noiseLevel = atof( argv[5] );
+  const double       noiseLevel = atof( argv[4] );
 
 
   //  Software Guide : BeginLatex
   //
   //  The GradientVectorFlow filter requires two parameters, the number of
-  //  iterations to be performed and the time step used in the computation of
-  //  the level set evolution. These two parameters are set using the methods
-  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
-  //  Then the filter can be executed by invoking \code{Update()}.
+  //  iterations to be performed and the noise level of the input image. The
+  //  noise level will be used to estimate the time step that should be used in
+  //  the computation of the diffusion. These two parameters are set using the
+  //  methods \code{SetNumberOfIterations()} and \code{SetNoiseLevel()}
+  //  respectively.  Then the filter can be executed by invoking
+  //  \code{Update()}.
   //
   //  \index{itk::GradientVectorFlowImageFilter!Update()}
-  //  \index{itk::GradientVectorFlowImageFilter!SetTimeStep()}
+  //  \index{itk::GradientVectorFlowImageFilter!SetNoiseLevel()}
   //  \index{itk::GradientVectorFlowImageFilter!SetNumberOfIterations()}
-  //  \index{SetTimeStep()!itk::GradientVectorFlowImageFilter}
+  //  \index{SetNoiseLevel()!itk::GradientVectorFlowImageFilter}
   //  \index{SetNumberOfIterations()!itk::GradientVectorFlowImageFilter}
   //
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   filter->SetIterationNum( numberOfIterations );
-  filter->SetTimeStep( timeStep );
   filter->SetNoiseLevel( noiseLevel );
   filter->Update();
   // Software Guide : EndCodeSnippet
@@ -180,12 +180,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.125$ in $2D$ images and
-  //  $0.0625$ in $3D$ images. The number of iterations can be usually around
-  //  $10$, more iterations will result in further smoothing and will
-  //  increase linearly the computing time. Edge-preserving behavior is not
-  //  guaranteed by this filter, some degradation will occur on the edges and
-  //  will increase as the number of iterations is increased.
+  //  Typical values for the noise level are ... FIXME
   //
   //  Software Guide : EndLatex 
 
