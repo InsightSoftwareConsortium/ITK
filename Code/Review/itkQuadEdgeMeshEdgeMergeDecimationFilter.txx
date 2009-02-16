@@ -239,9 +239,9 @@ JoinVertexFailed( )
       this->TagElementOut( m_Element );
       break;
     // ******************************************************************
-    // Tetraedron case
-    case OperatorType::TETRAEDRON_CONFIG:
-      itkDebugMacro( "TETRAEDRON_CONFIG, at iteration " << this->m_Iteration );
+    // Tetrahedron case
+    case OperatorType::TETRAHEDRON_CONFIG:
+      itkDebugMacro( "TETRAHEDRON_CONFIG, at iteration " << this->m_Iteration );
 
       this->TagElementOut( m_Element );
       this->TagElementOut( m_Element->GetOnext() );

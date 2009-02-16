@@ -265,7 +265,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
     
     if( ( status == JoinVertexType::EDGE_JOINING_DIFFERENT_BORDERS ) ||
         ( status == JoinVertexType::SAMOSA_CONFIG ) ||
-        ( status == JoinVertexType::TETRAEDRON_CONFIG ) )
+        ( status == JoinVertexType::TETRAHEDRON_CONFIG ) )
       {
       break;
       }

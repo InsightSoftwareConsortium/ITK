@@ -38,7 +38,7 @@ public:
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro( QuadEdgeMeshDecimationFilter, QuadEdgeMeshToQuadEdgeMeshFilter );
-    
+
   typedef TInput                                                InputMeshType;
   typedef typename InputMeshType::Pointer                       InputMeshPointer;
 
@@ -67,29 +67,32 @@ protected:
   void GenerateData()
     {
     Superclass::GenerateData();
-    
+
     Initialize();
     FillPriorityQueue();
     m_Iteration = 0;
-    bool topological_change = this->m_Criterion->GetTopologicalChange();
+//     bool topological_change = this->m_Criterion->GetTopologicalChange();
 
     do
       {
+//       std::cout <<m_Iteration <<std::endl;
       Extract();
-      if ( topological_change )
-        {
-        ProcessWithoutAnyTopologicalGuarantee();
-        }
-      else
-        {
+//       if ( topological_change )
+//         {
+//         std::cout <<"ProcessWithoutAnyTopologicalGuarantee" <<std::endl;
+//         ProcessWithoutAnyTopologicalGuarantee();
+//         }
+//       else
+//         {
         if ( ProcessWithTopologicalGuarantee() )
           {
+//           std::cout <<"ProcessWithTopologicalGuarantee" <<std::endl;
           return;
           }
-        }
+//         }
       ++m_Iteration;
       } while ( !IsCriterionSatisfied() );
-    
+
     this->GetOutput()->SqueezePointsIds( );
     }
 
