@@ -121,6 +121,10 @@ SET(ReviewTest_SRCS
   itkLabelContourImageFilterTest.cxx
   
   itkFFTShiftImageFilterTest.cxx
+
+  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1.cxx
+  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
+  itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
 )
 
 SET(ReviewTest2_SRCS
@@ -1271,6 +1275,16 @@ ADD_TEST(itkFFTShiftImageFilterTest1 ${REVIEW_TESTS}
    ${TEMP}/itkFFTShiftImageFilterTest1.png
    1
 )
+
+ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 ${REVIEW_TESTS}
+   itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1
+   ${INPUTDATA}/8ConnectedImage.bmp )
+ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2 
+          ${REVIEW_TESTS} 
+          itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2 )
+ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3
+          ${REVIEW_TESTS} 
+          itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3 )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

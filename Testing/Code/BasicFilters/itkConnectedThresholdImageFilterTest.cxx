@@ -28,9 +28,14 @@
 
 int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
 {
-  if(ac < 5)
+  if(ac < 7)
     {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed_x seed_y\n";
+    std::cerr << "Usage: " << av[0] 
+      << " InputImage OutputImage " 
+      << "seed_x seed_y "
+      << "LowerConnectedThreshold UpperConnectedThreshold "
+      << "Connectivity[1=Full,0=Face]\n"
+      << " ITK_USE_REVIEW must be on to be able to use full connectivity.\n";
     return -1;
     }
 
@@ -47,14 +52,22 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter);
 
-    filter->SetInput(input->GetOutput());
-
-    FilterType::IndexType seed; seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
-    filter->AddSeed(seed);
-
-    filter->SetLower(0);
-    filter->SetUpper(150);
-    filter->SetReplaceValue(255);
+  filter->SetInput(input->GetOutput());
+  FilterType::IndexType seed; seed[0] = atoi(av[3]); seed[1] = atoi(av[4]);
+  filter->AddSeed(seed);
+  filter->SetLower(atoi(av[5]));
+  filter->SetUpper(atoi(av[6]));
+  filter->SetReplaceValue(255);
+  
+#ifdef ITK_USE_REVIEW
+  // Test the use of full (8 connectivity in 2D) on this image. 
+  if (ac > 7)
+    {
+    filter->SetConnectivity( atoi(av[7]) ? 
+        FilterType::FullConnectivity : FilterType::FaceConnectivity );
+    }
+#endif
+  
   try
     {
     input->Update();
@@ -68,10 +81,10 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage>::New();
-    writer->SetInput( filter->GetOutput() );
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( av[2] );
+  writer->Update();
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

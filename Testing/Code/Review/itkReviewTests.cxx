@@ -134,4 +134,8 @@ void RegisterTests()
   REGISTER_TEST( itkLabelContourImageFilterTest );
 
   REGISTER_TEST( itkFFTShiftImageFilterTest );
+
+  REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 );
+  REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2 );
+  REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3 );
 }

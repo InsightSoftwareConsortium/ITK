@@ -137,6 +137,18 @@ public:
   /** End concept checking */
 #endif
 
+  /** Face connectivity is 4 connected in 2D, 6  connected in 3D, 2*n   in ND
+   *  Full connectivity is 8 connected in 2D, 26 connected in 3D, 3^n-1 in ND
+   *  Default is to use FaceConnectivity. */
+  typedef enum { FaceConnectivity, FullConnectivity } ConnectivityEnumType;
+
+#ifdef ITK_USE_REVIEW
+  /** Type of connectivity to use (fully connected OR 4(2D), 6(3D), 
+   * 2*N(ND) connectivity) */
+  itkSetMacro( Connectivity, ConnectivityEnumType );
+  itkGetMacro( Connectivity, ConnectivityEnumType );
+#endif
+
 protected:
   ConnectedThresholdImageFilter();
   ~ConnectedThresholdImageFilter(){};
@@ -152,6 +164,9 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output);
 
   void GenerateData();
+
+  // Type of connectivity to use.
+  ConnectivityEnumType m_Connectivity;
   
 private:
   ConnectedThresholdImageFilter(const Self&); //purposely not implemented
