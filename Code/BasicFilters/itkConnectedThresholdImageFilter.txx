@@ -275,6 +275,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
       }
     }
   
+#ifdef ITK_USE_REVIEW
   else if (this->m_Connectivity == FullConnectivity)
     {
     // use the fully connected iterator here. The fully connected iterator 
@@ -294,6 +295,7 @@ ConnectedThresholdImageFilter<TInputImage,TOutputImage>
       progress.CompletedPixel();  // potential exception thrown here
       }
     }
+#endif
 
 }
 
