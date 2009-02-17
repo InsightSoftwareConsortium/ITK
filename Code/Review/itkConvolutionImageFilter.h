@@ -45,6 +45,7 @@ public:
   typedef TOutputImage                                   OutputImageType;
   typedef typename InputImageType::PixelType             InputPixelType;
   typedef typename OutputImageType::PixelType            OutputPixelType;
+  typedef typename OutputImageType::RegionType           OutputRegionType;
 
   itkSetInputMacro( ImageKernel, InputImageType, 1 );
   itkGetInputMacro( ImageKernel, InputImageType, 1 );
@@ -70,7 +71,7 @@ protected:
   ~ConvolutionImageFilter();
 
   void PrintSelf( std::ostream& os, Indent indent ) const;
-  void GenerateData();
+  void ThreadedGenerateData(const OutputRegionType& outputRegionForThread, int threadId);
 
 private:
   ConvolutionImageFilter( const Self& ); //purposely not implemented

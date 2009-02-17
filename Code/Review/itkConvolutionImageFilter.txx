@@ -48,16 +48,11 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 ConvolutionImageFilter<TInputImage, TOutputImage>
-::GenerateData()
+::ThreadedGenerateData(const OutputRegionType& outputRegionForThread, int threadId) 
 {
-  this->GetOutput()->SetRegions( this->GetInput()->GetRequestedRegion() );
-  this->GetOutput()->SetOrigin( this->GetInput()->GetOrigin() );
-  this->GetOutput()->SetSpacing( this->GetInput()->GetSpacing() );
-  this->GetOutput()->SetDirection( this->GetInput()->GetDirection() );
-  this->GetOutput()->Allocate();
 
   // setup the progress reporter
-  ProgressReporter progress( this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() );
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   typedef ConstNeighborhoodIterator<InputImageType> NeighborhoodIteratorType;
   typename NeighborhoodIteratorType::RadiusType radius;
@@ -71,7 +66,7 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
   if( this->GetNormalize() )
     {
     double sum = 0.0;
-    ImageRegionConstIterator<InputImageType> It( this->GetImageKernelInput(),
+    ImageRegionConstIterator<InputImageType> It( this->GetImageKernelInput(), 
       this->GetImageKernelInput()->GetLargestPossibleRegion() );
     for( It.GoToBegin(); !It.IsAtEnd(); ++It )
       {
@@ -96,7 +91,7 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
   imageKernelOperator.CreateToRadius( radius );
 
   typename FaceCalculatorType::FaceListType faceList = faceCalculator(
-    this->GetInput( 0 ), this->GetInput( 0 )->GetRequestedRegion(), radius );
+    this->GetInput( 0 ), outputRegionForThread, radius );
   typename FaceCalculatorType::FaceListType::iterator fit;
 
   for( fit = faceList.begin(); fit != faceList.end(); ++fit )
