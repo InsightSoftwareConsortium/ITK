@@ -25,7 +25,7 @@
 
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.h"
 
-int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char **argv)
+int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int, char **argv)
 {
   try
     {
@@ -47,7 +47,6 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     reader->Update();
     
     IndexType index;
-
     index[0] = 29;
     index[1] = 47;
     
@@ -72,8 +71,8 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     
     for (; !shapedFloodIt.IsAtEnd(); ++shapedFloodIt)
       {
-      const IndexType& index = shapedFloodIt.GetIndex();
-      visitedImage->SetPixel(index, 255);
+      const IndexType& idx = shapedFloodIt.GetIndex();
+      visitedImage->SetPixel(idx, 255);
       }
     
     typedef itk::ImageRegionConstIterator<ImageType> ConstIteratorType;
