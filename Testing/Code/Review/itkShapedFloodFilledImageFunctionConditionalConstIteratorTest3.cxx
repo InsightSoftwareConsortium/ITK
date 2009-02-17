@@ -59,7 +59,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int argc, cha
     itk::ImageLinearIteratorWithIndex<ImageType> it( inputImage, region );
     
     // make sure that we create a 4-connected image!
-    for (int dir = 0; dir < ImageDimension; ++dir)
+    for( unsigned int dir = 0; dir < ImageDimension; ++dir )
       {
       it.SetDirection(dir);
       it.GoToBegin();
