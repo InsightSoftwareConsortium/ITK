@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- * \class MetaDataObjectType
+ * \class MetaDataObject
  * \author Hans J. Johnson
  * The MetaDataObject class is a templated class that
  * is a specialization of the MetaDataObjectBase type.
