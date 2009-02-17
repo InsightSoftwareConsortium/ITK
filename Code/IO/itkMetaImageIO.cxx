@@ -833,7 +833,8 @@ void MetaImageIO::Read(void* buffer)
   unsigned int nDims = this->GetNumberOfDimensions();
   
   // this is a check to see if we are actually streaming
-  ImageIORegion largestRegion(nDims);
+  // we initialize with m_IORegion to match dimensions
+  ImageIORegion largestRegion(m_IORegion);
   for(unsigned int i=0; i<nDims; i++)
     {
     largestRegion.SetIndex(i, 0);
@@ -850,9 +851,16 @@ void MetaImageIO::Read(void* buffer)
       indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] - 1;
       }
 
-    m_MetaImage.ReadROI(indexMin, indexMax, 
-                        m_FileName.c_str(), true, buffer,
-                        m_SubSamplingFactor);
+    if (!m_MetaImage.ReadROI(indexMin, indexMax, 
+                             m_FileName.c_str(), true, buffer,
+                             m_SubSamplingFactor))
+      {
+      delete [] indexMin;
+      delete [] indexMax;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File ROI cannot be read");
+      throw exception;
+      }
  
     delete [] indexMin;
     delete [] indexMax;
@@ -1023,9 +1031,6 @@ MetaImageIO
     eSpacing[i] = static_cast<float>(this->GetSpacing(i));
     eOrigin[i] = this->GetOrigin(i);
     }
-
-  for (unsigned k =  0; k < nDims; ++k)  
-    std::cout << "eOrigin["<<k<<"]: " << eOrigin[k] << std::endl;
  
   m_MetaImage.InitializeEssential(nDims, dSize, eSpacing, eType, nChannels,
                                   const_cast<void *>(buffer));
@@ -1310,7 +1315,8 @@ MetaImageIO
   m_MetaImage.CompressedData( m_UseCompression );
 
   // this is a check to see if we are actually streaming
-  ImageIORegion largestRegion(nDims);
+  // we initialize with m_IORegion to match dimensions
+  ImageIORegion largestRegion(m_IORegion);
   for(i=0; i<nDims; i++)
     {
     largestRegion.SetIndex(i, 0);
@@ -1331,16 +1337,29 @@ MetaImageIO
       indexMax[k] = m_IORegion.GetIndex()[k] + m_IORegion.GetSize()[k] - 1;
       }
       
-    m_MetaImage.WriteROI( indexMin, indexMax, m_FileName.c_str() );
-    
+    if (!m_MetaImage.WriteROI( indexMin, indexMax, m_FileName.c_str() ))
+      {
+      delete [] indexMin;
+      delete [] indexMax;
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File ROI cannot be written");
+      throw exception;
+      }
+
     delete [] indexMin;
     delete [] indexMax;
     }
   else
     {
-    m_MetaImage.Write(m_FileName.c_str());
+    if ( !m_MetaImage.Write(  m_FileName.c_str() ) ) 
+      {
+      ExceptionObject exception(__FILE__, __LINE__);
+      exception.SetDescription("File cannot be written");
+      throw exception;
+      }
     }
 
+  // we leak when exceptions are thrown :(
   delete []dSize;
   delete []eSpacing;
   delete []eOrigin;
