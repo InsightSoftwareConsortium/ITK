@@ -25,6 +25,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkConstNeighborhoodIterator.h"
+#include "itkProgressReporter.h"
 
 #include "vnl/vnl_math.h"
 
@@ -54,6 +55,9 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
   this->GetOutput()->SetSpacing( this->GetInput()->GetSpacing() );
   this->GetOutput()->SetDirection( this->GetInput()->GetDirection() );
   this->GetOutput()->Allocate();
+
+  // setup the progress reporter
+  ProgressReporter progress( this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() );
 
   typedef ConstNeighborhoodIterator<InputImageType> NeighborhoodIteratorType;
   typename NeighborhoodIteratorType::RadiusType radius;
@@ -105,6 +109,7 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
       {
       outIt.Set( static_cast<OutputPixelType>(
         scalingFactor * innerProduct( inIt, imageKernelOperator ) ) );
+      progress.CompletedPixel();
       }
     }
 }

@@ -54,7 +54,7 @@ int itkConvolutionImageFilterTestInt(int argc, char * argv[])
   convoluter->SetInput( reader1->GetOutput() );
   convoluter->SetImageKernelInput( reader2->GetOutput() );
 
-//   itk::SimpleFilterWatcher watcher(convoluter, "filter");
+  itk::SimpleFilterWatcher watcher(convoluter, "filter");
 
   if( argc > 5 )
     {
