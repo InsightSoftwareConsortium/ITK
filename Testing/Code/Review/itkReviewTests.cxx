@@ -135,7 +135,11 @@ void RegisterTests()
 
   REGISTER_TEST( itkFFTShiftImageFilterTest );
 
+  REGISTER_TEST( itkConvolutionImageFilterTest );
+  REGISTER_TEST( itkConvolutionImageFilterTestInt );
+
   REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 );
   REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2 );
   REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3 );
+
 }

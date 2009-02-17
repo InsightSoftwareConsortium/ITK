@@ -134,6 +134,8 @@
 
 #include "itkFFTShiftImageFilter.h"
 
+#include "itkConvolutionImageFilter.h"
+
 int main ( int , char * [] )
 {
   

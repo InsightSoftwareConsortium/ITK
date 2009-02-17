@@ -122,9 +122,13 @@ SET(ReviewTest_SRCS
   
   itkFFTShiftImageFilterTest.cxx
 
+  itkConvolutionImageFilterTest.cxx
+  itkConvolutionImageFilterTestInt.cxx
+
   itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1.cxx
   itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
   itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
+
 )
 
 SET(ReviewTest2_SRCS
@@ -1273,6 +1277,16 @@ ADD_TEST(itkFFTShiftImageFilterTest1 ${REVIEW_TESTS}
    itkFFTShiftImageFilterTest
    ${BASELINE}/itkFFTShiftImageFilterTest0.png
    ${TEMP}/itkFFTShiftImageFilterTest1.png
+   1
+)
+
+ADD_TEST(itkConvolutionImageFilterTest5x5Mean ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkConvolutionImageFilterTest5x5Mean.png
+            ${TEMP}/itkConvolutionImageFilterTest5x5Mean.png
+   itkConvolutionImageFilterTestInt
+   ${INPUTDATA}/cthead1.png
+   ${INPUTDATA}/5x5-constant.png
+   ${TEMP}/itkConvolutionImageFilterTest5x5Mean.png
    1
 )
 
