@@ -46,7 +46,10 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     reader->SetFileName(argv[1]);
     reader->Update();
     
-    const IndexType index = {29, 47};
+    IndexType index;
+
+    index[0] = 29;
+    index[1] = 47;
     
     std::vector<IndexType> seedList;
     seedList.push_back(index);
