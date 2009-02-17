@@ -87,7 +87,7 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
     ::ImageBoundaryFacesCalculator<InputImageType> FaceCalculatorType;
   FaceCalculatorType faceCalculator;
 
-  NeighborhoodInnerProduct<InputImageType> innerProduct;
+  NeighborhoodInnerProduct<InputImageType, InputPixelType, double> innerProduct;
 
   ImageKernelOperator<InputPixelType, ImageDimension> imageKernelOperator;
   imageKernelOperator.SetImageKernel( const_cast<InputImageType*>(

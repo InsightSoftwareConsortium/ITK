@@ -56,7 +56,7 @@ int itkConvolutionImageFilterTestInt(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(convoluter, "filter");
 
-  if( argc > 5 )
+  if( argc >= 5 )
     {
     convoluter->SetNormalize( static_cast<bool>( atoi( argv[4] ) ) );
     }
