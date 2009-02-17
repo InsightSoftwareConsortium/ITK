@@ -22,6 +22,7 @@
 #include "itkConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkConvolutionImageFilterTest(int argc, char * argv[])
 {
@@ -53,25 +54,27 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   convoluter->SetInput( reader1->GetOutput() );
   convoluter->SetImageKernelInput( reader2->GetOutput() );
 
-  if( argc > 5 && static_cast<bool>( atoi( argv[4] ) ) )
-    {
-    convoluter->NormalizeOn();
-    }
+  itk::SimpleFilterWatcher watcher(convoluter, "filter");
 
-  try
+  if( argc >= 5 )
     {
-    convoluter->Update();
-    }
-  catch( ... )
-    {
-    return EXIT_FAILURE;
+    convoluter->SetNormalize( static_cast<bool>( atoi( argv[4] ) ) );
     }
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( convoluter->GetOutput() );
-  writer->Update();
+
+  try
+    {
+    writer->Update();
+    }
+  catch ( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }

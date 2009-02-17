@@ -1290,6 +1290,24 @@ ADD_TEST(itkConvolutionImageFilterTest5x5Mean ${REVIEW_TESTS}
    1
 )
 
+ADD_TEST(itkConvolutionImageFilterTestSobelX ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkConvolutionImageFilterTestSobelX.nii.gz
+            ${TEMP}/itkConvolutionImageFilterTestSobelX.nii.gz
+   itkConvolutionImageFilterTest
+   ${INPUTDATA}/cthead1.png
+   ${INPUTDATA}/sobel_x.nii.gz
+   ${TEMP}/itkConvolutionImageFilterTestSobelX.nii.gz
+)
+
+ADD_TEST(itkConvolutionImageFilterTestSobelY ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkConvolutionImageFilterTestSobelY.nii.gz
+            ${TEMP}/itkConvolutionImageFilterTestSobelY.nii.gz
+   itkConvolutionImageFilterTest
+   ${INPUTDATA}/cthead1.png
+   ${INPUTDATA}/sobel_y.nii.gz
+   ${TEMP}/itkConvolutionImageFilterTestSobelY.nii.gz
+)
+
 ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 ${REVIEW_TESTS}
    itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1
    ${INPUTDATA}/8ConnectedImage.bmp )
