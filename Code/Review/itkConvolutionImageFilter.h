@@ -69,7 +69,7 @@ protected:
   ConvolutionImageFilter();
   ~ConvolutionImageFilter();
 
-  void PrintSelf( std::ostream& os, Indent indent ) const {}
+  void PrintSelf( std::ostream& os, Indent indent ) const;
   void GenerateData();
 
 private:

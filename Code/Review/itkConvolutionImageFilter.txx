@@ -176,5 +176,16 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
 }
 
 
+template <class TInputImage, class TOutputImage>
+void
+ConvolutionImageFilter<TInputImage, TOutputImage>
+::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Normalize: "  << m_Normalize << std::endl;
+}
+
+
 }
 #endif
