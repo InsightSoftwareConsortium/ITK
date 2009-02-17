@@ -20,6 +20,15 @@
 #include "itkImageToImageFilter.h"
 
 namespace itk {
+
+/** \class ConvolutionImageFilter
+ * \brief Convolve a given image with an arbitrary image kernel
+ *
+ * http://hdl.handle.net/1926/1323
+ *
+ * \author Nicholas J. Tustison
+ * \author James C. Gee
+ */
 template<class TInputImage, class TOutputImage = TInputImage>
 class ITK_EXPORT ConvolutionImageFilter
 : public ImageToImageFilter<TInputImage, TOutputImage>
