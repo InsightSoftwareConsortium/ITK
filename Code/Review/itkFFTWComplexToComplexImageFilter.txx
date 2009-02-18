@@ -81,8 +81,8 @@ GenerateData()
   unsigned int total_size=1;
 
     {
-    fftwf_complex *dptr = reinterpret_cast<fftwf_complex *>(in);
-    fftwf_complex *out = reinterpret_cast<fftwf_complex *>(outputPtr->GetBufferPointer());
+    fftwf_complex *dptr = dynamic_cast<fftwf_complex *>(in);
+    fftwf_complex *out = dynamic_cast<fftwf_complex *>(outputPtr->GetBufferPointer());
 
     int transformDirection = 1;
     if( this->GetTransformDirection() == Superclass::INVERSE )
@@ -198,8 +198,8 @@ GenerateData()
   unsigned int total_size=1;
 
     {
-    fftw_complex *dptr = reinterpret_cast<fftw_complex *>(in);
-    fftw_complex *out  = reinterpret_cast<fftw_complex *>(outputPtr->GetBufferPointer());
+    fftw_complex *dptr = dynamic_cast<fftw_complex *>(in);
+    fftw_complex *out  = dynamic_cast<fftw_complex *>(outputPtr->GetBufferPointer());
 
     int transformDirection = 1;
     if( this->GetTransformDirection() == Superclass::INVERSE )
