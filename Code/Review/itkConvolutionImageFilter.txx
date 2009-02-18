@@ -165,6 +165,8 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
           idx )->GetLargestPossibleRegion().GetSize();
         inputIndex = this->GetInput(
           idx )->GetLargestPossibleRegion().GetIndex();
+        inputRegion.SetSize(inputSize);
+        inputRegion.SetIndex(inputIndex);
         }
       input->SetRequestedRegion( inputRegion );
       }
