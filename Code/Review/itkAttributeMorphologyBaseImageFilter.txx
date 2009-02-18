@@ -100,7 +100,6 @@ FaceCalculatorType;
     {
     GreyAndPos P;
     P.Val = RegIt.Get();
-    P.Where = RegIt.GetIndex();
     P.Pos = pos;
     m_SortPixels[pos] = P;
     m_Raw[pos] = P.Val;
@@ -128,7 +127,7 @@ FaceCalculatorType;
   for (unsigned long k = 1; k < buffsize;k++)
     {
     long ThisPos = m_SortPixels[k].Pos;
-    IndexType ThisWhere = m_SortPixels[k].Where;
+    IndexType ThisWhere = input->ComputeIndex( ThisPos );
     InputPixelType ThisPix = m_SortPixels[k].Val;
     MakeSet(ThisPos);
     // Some optimization of bounds check
@@ -174,7 +173,7 @@ FaceCalculatorType;
     PrevPos = m_SortPixels[k-1].Pos;
     ThisPix = m_Raw[ThisPos];
     PrevPix = m_Raw[PrevPos];
-    IndexType ThisWhere = m_SortPixels[k].Where;
+    IndexType ThisWhere = input->ComputeIndex( ThisPos );
     if (ThisPix != PrevPix)
       {
       for (long QPos = k-1; QPos >= 0; --QPos)

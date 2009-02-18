@@ -176,7 +176,6 @@ private:
     public:
       InputPixelType Val;
       long Pos;
-      IndexType Where;     // For bounds checks
     };
 
   GreyAndPos *     m_SortPixels;
