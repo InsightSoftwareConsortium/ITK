@@ -48,14 +48,14 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  */
-template <class TInputImage, class TOutputImage>
+template <class TInputImage, class TOutputImage, class TAttribute=typename TInputImage::SpacingType::ValueType>
 class ITK_EXPORT AreaOpeningImageFilter :
-    public AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, unsigned long, std::greater<typename TInputImage::PixelType> >
+    public AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, std::greater<typename TInputImage::PixelType> >
 
 {
 public:
   typedef AreaOpeningImageFilter Self;
-  typedef AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, unsigned long, std::greater<typename TInputImage::PixelType> >
+  typedef AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, std::greater<typename TInputImage::PixelType> >
                                  Superclass;
 
   typedef SmartPointer<Self>        Pointer;
@@ -72,6 +72,7 @@ public:
   typedef typename TInputImage::IndexType          IndexType;
   typedef typename TInputImage::OffsetType         OffsetType;
   typedef typename TInputImage::SizeType           SizeType;
+  typedef TAttribute                               AttributeType;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
@@ -83,15 +84,50 @@ public:
   itkTypeMacro(AreaOpeningImageFilter, 
                AttributeMorphologyBaseImageFilter);
 
+  /**
+   * Set/Get whether the image spacing is used or not - defaults to true.
+   */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstReferenceMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
 protected:
-  AreaOpeningImageFilter(){}
+  AreaOpeningImageFilter()
+    {
+    m_UseImageSpacing = true;
+    }
   virtual ~AreaOpeningImageFilter() {}
+
+  void GenerateData()
+    {
+    this->m_AttributeValuePerPixel = 1;
+    if( m_UseImageSpacing )
+      {
+      // compute pixel size
+      double psize = 1.0;
+      for( unsigned i=0; i<ImageDimension; i++)
+        {
+        psize *= this->GetInput()->GetSpacing()[i];
+        }
+      this->m_AttributeValuePerPixel = static_cast<AttributeType>( psize );
+      // std::cout << "m_AttributeValuePerPixel: " << this->m_AttributeValuePerPixel << std::endl;
+      // and call superclass implementation of GenerateData()
+      }
+    Superclass::GenerateData();
+    }
+
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {
+    Superclass::PrintSelf(os,indent);
+    os << indent << "UseImageSpacing: "  << m_UseImageSpacing << std::endl;
+    }
 
 private:
 
   AreaOpeningImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  bool m_UseImageSpacing;
 
 };
 
