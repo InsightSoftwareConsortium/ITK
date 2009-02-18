@@ -22,7 +22,6 @@
 typedef struct {
   itk::TimeStamp * m_TimeStamp;
   signed long counters[ITK_MAX_THREADS];
-  signed long timeIncrement[ITK_MAX_THREADS];
 } TimeStampTestHelper;
  
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
@@ -39,16 +38,37 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
   itk::TimeStamp *tsp = helper->m_TimeStamp;
   helper->counters[threadId]++;
 
-  const signed long time1 = tsp->GetMTime();
   tsp->Modified();
-  const signed long time2 = tsp->GetMTime();
- 
-  helper->timeIncrement[threadId] = time2 - time1;
 
   return ITK_THREAD_RETURN_VALUE;
 }
 
-int itkTimeStampTest(int, char*[])
+// Fake the non-optimized timestamp by surrounding
+// the call to TimeStamp::Modified with a mutex
+static itk::SimpleFastMutexLock TimeStampTestMutex;
+
+ITK_THREAD_RETURN_TYPE modified_function_base( void *ptr )
+{
+  typedef itk::MultiThreader::ThreadInfoStruct  ThreadInfoType;
+
+  ThreadInfoType * infoStruct = static_cast< ThreadInfoType * >( ptr );
+
+  const unsigned int threadId = infoStruct->ThreadID;
+
+  TimeStampTestHelper * helper = 
+    static_cast< TimeStampTestHelper * >( infoStruct->UserData );
+
+  itk::TimeStamp *tsp = helper->m_TimeStamp;
+  helper->counters[threadId]++;
+
+  TimeStampTestMutex.Lock();
+  tsp->Modified();
+  TimeStampTestMutex.Unlock();
+
+  return ITK_THREAD_RETURN_VALUE;
+}
+
+bool TimeStampTest( ITK_THREAD_RETURN_TYPE (*modfunc)( void *ptr ), bool addmodifiedcall=false )
 {
   bool success = true;
   
@@ -57,7 +77,6 @@ int itkTimeStampTest(int, char*[])
   for(unsigned int k=0; k < ITK_MAX_THREADS; k++)
     {
     helper.counters[k] = 0;
-    helper.timeIncrement[k] = 0;
     }
 
   try
@@ -72,8 +91,9 @@ int itkTimeStampTest(int, char*[])
 
     if( numberOfThreads > ITK_MAX_THREADS )
       {
+      std::cerr << "[PARTIAL TEST FAILED]" << std::endl;
       std::cerr << "numberOfThreads > ITK_MAX_THREADS" << std::endl;
-      return EXIT_FAILURE;
+      return false;
       }
 
     std::cout << "Global Maximum Number of Threads = " << 
@@ -85,7 +105,7 @@ int itkTimeStampTest(int, char*[])
 
     helper.m_TimeStamp = &ts;
 
-    multithreader->SetSingleMethod( modified_function, &helper);
+    multithreader->SetSingleMethod( modfunc, &helper);
 
     // call modified once to make it up-to-date;
     ts.Modified();
@@ -101,18 +121,20 @@ int itkTimeStampTest(int, char*[])
       {
       multithreader->SingleMethodExecute();
 
-      const signed long current_mtime = ts.GetMTime();
+      // This is to check whether if we update the modified
+      // time in the main thread, we do get a good result or not
+      if ( addmodifiedcall ) ts.Modified();
+
+      signed long current_mtime = ts.GetMTime();
+
+      // This is to use the same tests as the standard test
+      if ( addmodifiedcall ) current_mtime-=1;
 
       for( signed int j = 0; j < numberOfThreads; j++ )
         {
         if( helper.counters[j] != i+1 )
           {
           std::cerr << "counter[" << j << "] = " << helper.counters[j];
-          std::cerr << " at iteration " << i << std::endl;
-          }
-        if( helper.timeIncrement[j] < 1 ) // if Modified() didn't increment MTime.
-          {
-          std::cerr << "timeIncrement[" << j << "] = " << helper.timeIncrement[j];
           std::cerr << " at iteration " << i << std::endl;
           }
         }
@@ -145,16 +167,55 @@ int itkTimeStampTest(int, char*[])
         }
 
       prev_mtime = current_mtime;
+
+      // This is to use the same tests as the standard test
+      if ( addmodifiedcall ) prev_mtime+=1;
       }
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cerr << "[TEST FAILED]" << std::endl;
+    std::cerr << "[PARTIAL TEST FAILED]" << std::endl;
     std::cerr << "Exception caught: "<< e << std::endl;
-    return EXIT_FAILURE;
+    return false;
     }
 
   if (!success)
+    {
+    std::cerr << "[PARTIAL TEST FAILED]" << std::endl;
+    return false;
+    }
+
+  std::cout << "[PARTIAL TEST PASSED]" << std::endl;
+  return true;
+}
+
+int itkTimeStampTest(int, char*[])
+{
+   const bool baseres = TimeStampTest( modified_function_base );
+  if ( !baseres )
+    {
+    std::cerr << "[BASE TEST FAILED]" << std::endl;
+    }
+  
+  const bool optres  = TimeStampTest( modified_function );
+  if ( !optres )
+    {
+    std::cerr << "[OPTIMIZED TEST FAILED]" << std::endl;
+    }
+  
+  const bool baseresadd = TimeStampTest( modified_function_base, true );
+  if ( !baseresadd )
+    {
+    std::cerr << "[BASE TEST 2 FAILED]" << std::endl;
+    }
+  
+  const bool optresadd  = TimeStampTest( modified_function, true );
+  if ( !optresadd )
+    {
+    std::cerr << "[OPTIMIZED TEST 2 FAILED]" << std::endl;
+    }
+  
+  if ( !(baseres && optres && baseresadd && optresadd) )
     {
     std::cerr << "[TEST FAILED]" << std::endl;
     return EXIT_FAILURE;
