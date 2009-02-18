@@ -66,6 +66,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->SetInput( convoluter->GetOutput() );
 
+
   try
     {
     writer->Update();
@@ -73,6 +74,53 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   catch ( itk::ExceptionObject & excp )
     {
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // 
+  // Tests for raising code coverage
+  //
+  convoluter->Print( std::cout );
+  
+  ImageType::Pointer emtpyImage = ImageType::New();
+  convoluter->SetInput( emtpyImage );
+  try
+    {
+    convoluter->Update();
+    std::cerr << "Failed to throw expected exception" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
+    }
+
+  convoluter->NormalizeOn();
+  if( !convoluter->GetNormalize() )
+    {
+    std::cerr << "Set/GetNormalize() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convoluter->NormalizeOff();
+  if( convoluter->GetNormalize() )
+    {
+    std::cerr << "Set/GetNormalize() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convoluter->SetNormalize( true );
+  if( !convoluter->GetNormalize() )
+    {
+    std::cerr << "Set/GetNormalize() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convoluter->SetNormalize( false );
+  if( convoluter->GetNormalize() )
+    {
+    std::cerr << "Set/GetNormalize() error" << std::endl;
     return EXIT_FAILURE;
     }
 
