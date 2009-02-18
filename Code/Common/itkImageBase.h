@@ -617,6 +617,12 @@ protected:
   DirectionType       m_IndexToPhysicalPoint;
   DirectionType       m_PhysicalPointToIndex;
 
+  /** Restores the buffered region to it's default state
+   *  This method does not call Modify because Initialization is
+   *  called by ReleaseData and can not modify the MTime 
+   * \sa  ReleaseData, Initialize, SetBufferedRegion */
+  virtual void InitializeBufferedRegion(void);
+
 private:
   ImageBase(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
