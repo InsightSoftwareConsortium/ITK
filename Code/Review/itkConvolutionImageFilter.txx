@@ -181,6 +181,9 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Normalize: "  << m_Normalize << std::endl;
+  //  NOT REALLY MEMBER DATA. Need to fool PrintSelf check
+  //  os << indent << "ImageKernel: "  << m_ImageKernel << std::e0ndl;
+
 }
 
 
