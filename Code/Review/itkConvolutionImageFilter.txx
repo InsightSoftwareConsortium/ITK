@@ -55,11 +55,13 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   typedef ConstNeighborhoodIterator<InputImageType> NeighborhoodIteratorType;
-  typename NeighborhoodIteratorType::RadiusType radius;
+  typedef typename NeighborhoodIteratorType::RadiusType   RadiusType;
+  typedef typename RadiusType::SizeValueType              SizeValueType;
+  RadiusType radius;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    radius[i] = vcl_floor( 0.5 *
-      this->GetImageKernelInput()->GetLargestPossibleRegion().GetSize()[i] );
+    radius[i] = static_cast< SizeValueType >( vcl_floor( 0.5 *
+      this->GetImageKernelInput()->GetLargestPossibleRegion().GetSize()[i] ) );
     }
 
   double scalingFactor = 1.0;
