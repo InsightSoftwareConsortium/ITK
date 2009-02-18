@@ -131,6 +131,8 @@ SET(ReviewTest_SRCS
 
   itkRobustAutomaticThresholdImageFilterTest.cxx
 
+  itkAreaOpeningImageFilterTest.cxx
+  itkAreaClosingImageFilterTest.cxx
 )
 
 SET(ReviewTest2_SRCS
@@ -1328,6 +1330,24 @@ ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2
 ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3
           ${REVIEW_TESTS} 
           itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3 )
+
+ADD_TEST(itkAreaOpeningImageFilterTest0 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkAreaOpeningImageFilterTest0.png
+            ${TEMP}/itkAreaOpeningImageFilterTest0.png
+  itkAreaOpeningImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkAreaOpeningImageFilterTest0.png
+  1000 0
+)
+
+ADD_TEST(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkAreaClosingImageFilterTest0.png
+            ${TEMP}/itkAreaClosingImageFilterTest0.png
+  itkAreaClosingImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkAreaClosingImageFilterTest0.png
+  1000 0
+)
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest

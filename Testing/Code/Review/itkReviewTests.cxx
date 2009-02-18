@@ -144,4 +144,7 @@ void RegisterTests()
 
   REGISTER_TEST( itkRobustAutomaticThresholdImageFilterTest );
 
+  REGISTER_TEST( itkAreaOpeningImageFilterTest );
+  REGISTER_TEST( itkAreaClosingImageFilterTest );
+
 }
