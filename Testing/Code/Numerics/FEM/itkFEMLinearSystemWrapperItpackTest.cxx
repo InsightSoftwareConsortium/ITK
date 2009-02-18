@@ -26,7 +26,7 @@
 
 
 /* Testing for linear system wrappers */
-int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
+int itkFEMLinearSystemWrapperItpackTest( int argc, char * argv [] )
 {
 
   /* loop vars for printing */
@@ -207,6 +207,34 @@ int itkFEMLinearSystemWrapperItpackTest( int , char * [] )
     }
   std::cout << std::endl;
 
+  if( argc > 1 )
+    {
+    int method = atoi( argv[1] );
+    switch( method )
+      {
+      case 0:
+        it.JacobianConjugateGradient();
+        break;
+      case 1:
+        it.JacobianSemiIterative();
+        break;
+      case 2:
+        it.SuccessiveOverrelaxation();
+        break;
+      case 3:
+        it.SymmetricSuccessiveOverrelaxationConjugateGradient();
+        break;
+      case 4:
+        it.SymmetricSuccessiveOverrelaxationSuccessiveOverrelaxation();
+        break;
+      case 5:
+        it.ReducedSystemConjugateGradient();
+        break;
+      case 6:
+        it.ReducedSystemSemiIteration();
+        break;
+      }
+    }
 
   /* solve system */
   std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << std::endl;

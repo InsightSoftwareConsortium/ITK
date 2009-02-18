@@ -46,7 +46,17 @@ ADD_TEST(itkFEMC0TriangularElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_
 ADD_TEST(itkFEMC0TriangularElement-Strain ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3-e.fem)
 ADD_TEST(itkFEMC0TriangularElement-Quadratic ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/tri3-q.fem)
 ADD_TEST(itkFEMTruss ${FEM_TESTS} itkFEMElementTest ${ITK_DATA_ROOT}/Input/FEM/truss.fem)
+
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest)
+
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest1  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 0 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest2  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 1 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest3  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 2 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest4  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 3 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest5  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 4 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest6  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 5 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest7  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 6 )
+
 ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperVNLTest)
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)
 ADD_TEST(itkFEMPArrayTest  ${FEM_TESTS} itkFEMPArrayTest)
