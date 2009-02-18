@@ -142,4 +142,6 @@ void RegisterTests()
   REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2 );
   REGISTER_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3 );
 
+  REGISTER_TEST( itkRobustAutomaticThresholdImageFilterTest );
+
 }

@@ -129,6 +129,8 @@ SET(ReviewTest_SRCS
   itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
   itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
 
+  itkRobustAutomaticThresholdImageFilterTest.cxx
+
 )
 
 SET(ReviewTest2_SRCS
@@ -1306,6 +1308,15 @@ ADD_TEST(itkConvolutionImageFilterTestSobelY ${REVIEW_TESTS}
    ${INPUTDATA}/cthead1.png
    ${INPUTDATA}/sobel_y.nii.gz
    ${TEMP}/itkConvolutionImageFilterTestSobelY.nii.gz
+)
+
+ADD_TEST(itkRobustAutomaticThresholdImageFilterTest ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkRobustAutomaticThresholdImageFilterTest.png
+            ${TEMP}/itkRobustAutomaticThresholdImageFilterTest.png
+  itkRobustAutomaticThresholdImageFilterTest
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkRobustAutomaticThresholdImageFilterTest.png
+  2
 )
 
 ADD_TEST( itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1 ${REVIEW_TESTS}
