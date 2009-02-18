@@ -1573,9 +1573,16 @@ void GDCMImageIO::Write(const void* buffer)
 
   // size is the size of the actual image in memory
   size_t size = static_cast< size_t >( this->GetImageSizeInBytes() );
+  
   // numberOfBytes is the number of bytes the image will hold on disk, most of the time
   // those two are equal
-  size_t numberOfBytes = gfile->ComputeExpectedImageDataSize();
+  size_t numberOfBytes;
+#if GDCM_MAJOR_VERSION <= 1 && GDCM_MINOR_VERSION <= 2
+  numberOfBytes = size;
+#else
+  numberOfBytes = gfile->ComputeExpectedImageDataSize();
+#endif
+
   //copy data from buffer to DICOM buffer
   uint8_t* imageData = new uint8_t[numberOfBytes];
 
