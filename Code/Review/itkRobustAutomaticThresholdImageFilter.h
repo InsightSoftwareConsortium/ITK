@@ -32,6 +32,10 @@ namespace itk {
  * The threshold computed that way should be the mean pixel value where the intensity
  * change the most.
  *
+ * http://hdl.handle.net/1926/370
+ *
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ *
  * \ingroup IntensityImageFilters
  */
 
