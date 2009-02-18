@@ -389,9 +389,10 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
   
   try
     {    
-    std::cout << "=== Updating mismatched IORegion ==" << std::endl;    
+    std::cout << "=== Preparing mismatched IORegion ==" << std::endl;    
     monitor->Update();
-    monitor->DebugOn();
+    monitor->VerifyAllInputCanStream(1);
+    std::cout << "=== Updating mismatched IORegion ==" << std::endl;    
     writer->Update();
     }
   catch( itk::ExceptionObject & err )
@@ -401,13 +402,12 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   
-  // todo find out why the pipeline is being executed and extra time
-//   if (!monitor->VerifyAllInputCanStream(1)) 
-//     {
-//     std::cout << monitor;
-//     return EXIT_FAILURE;
-//     }
-
+   if (!monitor->VerifyAllNoUpdate()) 
+     {
+     std::cout << monitor;
+     return EXIT_FAILURE;
+     }
+   
 
    if (!SameImage( argv[1], argv[2])) 
      return EXIT_FAILURE;
