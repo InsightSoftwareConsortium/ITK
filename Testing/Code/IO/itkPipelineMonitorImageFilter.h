@@ -44,7 +44,7 @@ namespace itk {
      return ret;
    }
 
-   bool VerifyInputFilerExecutedStreaming(int expectedNumber) 
+   bool VerifyInputFilterExecutedStreaming(int expectedNumber) 
    {
      if (expectedNumber == 0)
        {
@@ -58,7 +58,8 @@ namespace itk {
        {
        return true;
        }
-     itkWarningMacro(<<"Streamed pipeline was not executed the expected number of times");
+     itkWarningMacro(<<"Streamed pipeline was executed " << this->GetNumberOfUpdates() 
+                     << " times which was not the expected number of times.");
      return false;
    }
    
@@ -85,7 +86,7 @@ namespace itk {
        itkWarningMacro(<<"The input filter's LargestPossibleRegion does not match UpdateOutputInformation");
        return false;
        }
-     if(!m_UpdatedOutputLargestPossibleRegion.IsInside(m_UpdatedBufferedRegions.back()))
+     if(m_UpdatedBufferedRegions.size() && !m_UpdatedOutputLargestPossibleRegion.IsInside(m_UpdatedBufferedRegions.back()))
        {
        itkWarningMacro(<<"The input filter's BufferedRegion is not contained by LargestPossibleRegion");
        return false;
@@ -144,12 +145,12 @@ namespace itk {
    }
 
    bool VerifyAllInputCanStream(int expectedNumber) 
-   {          
-     return VerifyDownStreamFilterExecutedPropagation() &&
+   {   
+     return VerifyInputFilterExecutedStreaming(expectedNumber) &&
+       VerifyDownStreamFilterExecutedPropagation() &&
        VerifyInputFilterMatchedRequestedRegions() &&
        VerifyInputFilterBufferedRequestedRegions() &&
-       VerifyInputFilterMatchedUpdateOutputInformation() &&
-       VerifyInputFilerExecutedStreaming(expectedNumber);
+       VerifyInputFilterMatchedUpdateOutputInformation();
    }
 
    bool VerifyAllIputCanNotStream(void) 
@@ -159,6 +160,13 @@ namespace itk {
        VerifyInputFilterBufferedRequestedRegions() &&
        VerifyInputFilterMatchedUpdateOutputInformation();
    }
+
+   bool VerifyAllNoUpdate(void) 
+   {
+     return VerifyDownStreamFilterExecutedPropagation() &&
+       m_NumberOfUpdates == 0;
+   }
+
 
    unsigned int GetNumberOfUpdates(void) const { return m_NumberOfUpdates; }      
    RegionVectorType GetOutputRequestedRegions(void) const {return m_OutputRequestedRegions;}
@@ -178,6 +186,8 @@ namespace itk {
      m_UpdatedOutputOrigin.Fill(-1);
      m_UpdatedOutputDirection.Fill(-1);
      m_UpdatedOutputSpacing.Fill(-1);
+
+     ++m_NumberOfClearPipeline;
    }
 
    virtual void GenerateOutputInformation(void) 
@@ -191,6 +201,7 @@ namespace itk {
      m_UpdatedOutputDirection = input->GetDirection();
      m_UpdatedOutputSpacing = input->GetSpacing();
      m_UpdatedOutputLargestPossibleRegion = input->GetLargestPossibleRegion();
+     itkDebugMacro("GenerateOutputInformation called");
    }
 
    virtual void PropagateRequestedRegion(DataObject *output)
@@ -245,7 +256,8 @@ namespace itk {
  protected:
    PipelineMonitorImageFilter(void) 
    {
-     m_NumberOfUpdates = 0;
+     m_NumberOfClearPipeline = 0;
+     this->ClearPipelineSavedInformation();
    }
 
    ~PipelineMonitorImageFilter() 
@@ -256,6 +268,8 @@ namespace itk {
    {     
      Superclass::PrintSelf(os,indent);
      os << indent << "m_NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
+     
+     os << indent << "m_NumberOfClearPipeline: " << m_NumberOfClearPipeline << std::endl;
      
      os << indent << "m_OutputRequestedRegions:"<< std::endl;
      for (typename RegionVectorType::const_iterator i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i) 
@@ -288,6 +302,9 @@ namespace itk {
    void operator=(const PipelineMonitorImageFilter &); // not implemented
 
    unsigned int m_NumberOfUpdates;
+
+   unsigned int m_NumberOfClearPipeline;
+
    RegionVectorType m_OutputRequestedRegions;
    RegionVectorType m_InputRequestedRegions;
    RegionVectorType m_UpdatedBufferedRegions;
