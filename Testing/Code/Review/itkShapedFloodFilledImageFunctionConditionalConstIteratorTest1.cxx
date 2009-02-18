@@ -25,8 +25,15 @@
 
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.h"
 
-int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int, char *argv [] )
+int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char *argv [] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Error: missing arguments" << std::endl;
+    std::cerr << argv[0] << " filename " << std::endl;
+    return EXIT_FAILURE;
+    }
+
   try
     {
     const unsigned int ImageDimension = 2;
@@ -43,7 +50,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int, char *ar
     typedef itk::ImageFileReader<ImageType> ReaderType;
     
     ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(argv[1]);
+    reader->SetFileName( argv[1] );
     reader->Update();
     
     IndexType index;
