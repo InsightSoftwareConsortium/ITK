@@ -25,7 +25,7 @@
 
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.h"
 
-int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int, char **argv)
+int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int, char *argv [] )
 {
   try
     {
