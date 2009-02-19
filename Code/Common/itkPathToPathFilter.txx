@@ -59,8 +59,6 @@ PathToPathFilter<TInputPath,TOutputPath>
                                    const_cast< TInputPath *>( path ) );
 }
 
-
-
 /**
  *
  */

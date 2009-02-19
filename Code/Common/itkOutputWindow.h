@@ -36,9 +36,9 @@ class ITKCommon_EXPORT OutputWindow : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef OutputWindow        Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef OutputWindow              Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Run-time type information (and related methods). */
@@ -97,7 +97,7 @@ private:
   OutputWindow(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool m_PromptUser;
+  bool           m_PromptUser;
   static Pointer m_Instance;
 };
   

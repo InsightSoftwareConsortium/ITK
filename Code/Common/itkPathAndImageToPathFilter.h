@@ -39,10 +39,10 @@ class ITK_EXPORT PathAndImageToPathFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef PathAndImageToPathFilter  Self;
+  typedef PathAndImageToPathFilter                  Self;
   typedef PathToPathFilter<TInputPath,TOutputPath>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

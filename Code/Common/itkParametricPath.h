@@ -63,10 +63,10 @@ Path< double, ContinuousIndex<double,VDimension>, VDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef ParametricPath Self;
+  typedef ParametricPath                                             Self;
   typedef Path<double,ContinuousIndex<double,VDimension>,VDimension> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                         Pointer;
+  typedef SmartPointer<const Self>                                   ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ParametricPath, Path);
@@ -82,7 +82,7 @@ public:
   typedef ContinuousIndex<double,VDimension>  ContinuousIndexType;
   typedef Index<  VDimension >                IndexType;
   typedef Offset< VDimension >                OffsetType;
-  typedef Vector<double,VDimension>           VectorType;            
+  typedef Vector<double,VDimension>           VectorType;
 
 
   /** Return the nearest index to the parametric path at the specified location.

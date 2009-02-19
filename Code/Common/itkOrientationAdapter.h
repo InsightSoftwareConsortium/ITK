@@ -37,7 +37,7 @@ template<class OrientationType, unsigned int Dimension = 3>
 class OrientationAdapterBase
 {
 public:
-  /** typedef for matching ImageBase*/
+  /** typedef for matching ImageBase */
   typedef ImageBase<Dimension> ImageType;
   
   /** typedef for matching Direction Cosines type */

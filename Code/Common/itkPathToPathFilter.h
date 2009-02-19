@@ -38,10 +38,10 @@ class ITK_EXPORT PathToPathFilter : public PathSource<TOutputPath>
 {
 public:
   /** Standard class typedefs. */
-  typedef PathToPathFilter  Self;
+  typedef PathToPathFilter         Self;
   typedef PathSource<TOutputPath>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,8 +50,8 @@ public:
   itkTypeMacro(PathToPathFilter,PathSource);
 
   /** Some convenient typedefs. */
-  typedef TInputPath InputPathType;
-  typedef typename InputPathType::Pointer InputPathPointer;
+  typedef TInputPath                           InputPathType;
+  typedef typename InputPathType::Pointer      InputPathPointer;
   typedef typename InputPathType::ConstPointer InputPathConstPointer;
   
   /** Set/Get the path input of this process object.  */

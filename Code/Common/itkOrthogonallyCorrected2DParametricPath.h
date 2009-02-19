@@ -66,8 +66,8 @@ public:
   
   /** Basic data-structure types used */
   typedef ContinuousIndex<double,2>             ContinuousIndexType; 
-  typedef Index<2>                              IndexType;           
-  typedef Offset<2>                             OffsetType;          
+  typedef Index<2>                              IndexType;
+  typedef Offset<2>                             OffsetType;
   typedef Superclass::VectorType                VectorType;
   typedef ParametricPath<2>                     OriginalPathType;
   typedef OriginalPathType::ConstPointer        OriginalPathConstPointer;

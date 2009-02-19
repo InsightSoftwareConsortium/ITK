@@ -126,7 +126,7 @@ public:
   
   /** Accessor functor to choose between accessors: DefaultPixelAccessor for
    * the Image, and DefaultVectorPixelAccessor for the vector image. The 
-   * functor provides a generic API between the two accessors.*/
+   * functor provides a generic API between the two accessors. */
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
@@ -168,7 +168,7 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
   typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
 
   /** \brief Get the continuous index from a physical point
@@ -309,13 +309,13 @@ public:
     }
   
   
-  /**  Set the number of radians between each azimuth unit.   **/
+  /**  Set the number of radians between each azimuth unit.   */
   itkSetMacro(AzimuthAngularSeparation, double);
   
-  /**  Set the number of radians between each elevation unit.   **/
+  /**  Set the number of radians between each elevation unit.   */
   itkSetMacro(ElevationAngularSeparation, double);
   
-  /**  Set the number of cartesian units between each unit along the R .  **/
+  /**  Set the number of cartesian units between each unit along the R .  */
   itkSetMacro(RadiusSampleSize, double);
   
   /**  Set the distance to add to the radius. */

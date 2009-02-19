@@ -62,7 +62,8 @@ public:
   typedef typename Superclass::AccessorFunctorType AccessorFunctorType;
   typedef typename Superclass::IOPixelType         IOPixelType;
 
-  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  /** Typedef for the functor used to access a neighborhood of pixel
+   * pointers. */
   typedef NeighborhoodAccessorFunctor< Self >      NeighborhoodAccessorFunctorType;
 
   /** Return the NeighborhoodAccessor functor. This method is called by the 

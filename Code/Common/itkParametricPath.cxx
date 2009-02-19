@@ -28,4 +28,3 @@ namespace itk
   template class ITKCommon_EXPORT ParametricPath<2>;
 
 } // end namespace itk
-

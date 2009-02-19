@@ -64,7 +64,7 @@ namespace itk
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
  * \sa ImageConstIteratorWithIndex
  *
- * \ingroup PathObjects*/
+ * \ingroup PathObjects */
 template<class TImage, class TPath>
 class ITK_EXPORT PathIterator : public PathConstIterator<TImage, TPath>
 {

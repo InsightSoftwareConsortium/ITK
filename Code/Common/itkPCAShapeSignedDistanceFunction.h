@@ -197,7 +197,7 @@ private:
 
   /** shape and pose parameters */
   ParametersType                m_WeightOfPrincipalComponents;
-  ParametersType                m_TransformParameters;         
+  ParametersType                m_TransformParameters;
 
 };
 

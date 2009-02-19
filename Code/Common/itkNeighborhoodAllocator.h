@@ -132,8 +132,9 @@ protected:
 };
 
 template<class TPixel>
-inline std::ostream& operator<<(std::ostream &o, const NeighborhoodAllocator<TPixel>
-                                & a)
+inline std::ostream& operator<<(
+  std::ostream &o, const NeighborhoodAllocator<TPixel>
+  & a)
 {
   o << "NeighborhoodAllocator { this = " << &a << ", begin = "
     << static_cast<const void *>(a.begin())
@@ -142,8 +143,6 @@ inline std::ostream& operator<<(std::ostream &o, const NeighborhoodAllocator<TPi
   o << " } }";
   return o;
 }
-  
-
 
 } // end namespace itk
 #endif

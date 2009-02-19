@@ -16,8 +16,8 @@
 =========================================================================*/
 
 
-#ifndef _itkParametricPath_txx
-#define _itkParametricPath_txx
+#ifndef __itkParametricPath_txx
+#define __itkParametricPath_txx
 
 #include "itkParametricPath.h"
 
@@ -53,8 +53,6 @@ ParametricPath<VDimension>
   
   return index;
 }
-
-
 
 template<unsigned int VDimension>
 typename ParametricPath<VDimension>::OffsetType

@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkOrientedImage_txx
-#define _itkOrientedImage_txx
+#ifndef __itkOrientedImage_txx
+#define __itkOrientedImage_txx
 #include "itkOrientedImage.h"
 
 namespace itk

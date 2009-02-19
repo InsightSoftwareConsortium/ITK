@@ -218,7 +218,7 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension,TImage>
     {
     output += m_Selectors[i+1]->Evaluate(mappedPoint) *
       m_PrincipalComponentStandardDeviations[i] *
-      m_WeightOfPrincipalComponents[i] ;
+      m_WeightOfPrincipalComponents[i];
     }
 
   return output;

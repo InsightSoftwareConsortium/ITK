@@ -40,14 +40,14 @@ class ITK_EXPORT  PeriodicBoundaryCondition
 {
 public:
   /** Standard class typedefs. */ 
-  typedef PeriodicBoundaryCondition Self;
+  typedef PeriodicBoundaryCondition      Self;
   typedef ImageBoundaryCondition<TImage> Superclass;
   
   /** Extract information from the image type. */
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
-  typedef typename Superclass::IndexType IndexType;
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   
   typedef typename Superclass::NeighborhoodAccessorFunctorType 

@@ -26,9 +26,6 @@
 
 namespace itk
 {
-
-
-
 /** Make a chain code trace another path of same dimensionality.
  * If restrictMovement is true, then individual steps are allowed to move
  * through only one dimension at a time; for 2D paths this results in an
@@ -74,8 +71,6 @@ void MakeChainCodeTracePath( TChainCodePath & chainPath,
       }
     }
 }
-
-
 
 /** Make a Fourier series path trace a chain code path of same dimensionality.
  * numHarmonics is the number of harmonics (frequency coefficients, which
@@ -128,8 +123,9 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
       
       // turn the current index into a vector
       for( int d=0; d<dimension; d++ )
+        {
         indexVector[d] = index[d];
-      
+        }
       cosCoefficient += indexVector * (cos(theta)/numSteps);
       sinCoefficient += indexVector * (sin(theta)/numSteps);
       }
@@ -137,8 +133,6 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
     FSPath.AddHarmonic( cosCoefficient, sinCoefficient );
     }
 }
-
-
 
 } // end namespace itk
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPathConstIterator_txx
-#define _itkPathConstIterator_txx
+#ifndef __itkPathConstIterator_txx
+#define __itkPathConstIterator_txx
 
 #include "itkPathConstIterator.h"
 #include "itkOffset.h"        // for operator++

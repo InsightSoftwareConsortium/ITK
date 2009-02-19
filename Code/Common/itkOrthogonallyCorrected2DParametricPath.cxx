@@ -74,8 +74,6 @@ OrthogonallyCorrected2DParametricPath
   return output;
 }
 
-
-
 void
 OrthogonallyCorrected2DParametricPath
 ::SetOriginalPath( const OriginalPathType *originalPath )
@@ -90,8 +88,6 @@ OrthogonallyCorrected2DParametricPath
     }
 }
 
-
-
 /**
  * Constructor
  */
@@ -101,8 +97,6 @@ OrthogonallyCorrected2DParametricPath
   m_OriginalPath = NULL;
   m_OrthogonalCorrectionTable = OrthogonalCorrectionTableType::New();
 }
-
-
 
 /**
  * Standard "PrintSelf" method
@@ -115,7 +109,5 @@ OrthogonallyCorrected2DParametricPath
   os << indent << "Original Path:  " << m_OriginalPath << std::endl;
   os << indent << "Correction Table:  " << m_OrthogonalCorrectionTable << std::endl;
 }
-
-
 
 } // end namespaceitk
