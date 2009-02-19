@@ -303,7 +303,7 @@ public:
    * after being used by a filter.  */
   void SetReleaseDataFlag(bool flag)
     {
-      m_ReleaseDataFlag = flag;
+    m_ReleaseDataFlag = flag;
     }
   itkGetConstReferenceMacro(ReleaseDataFlag,bool);
   itkBooleanMacro(ReleaseDataFlag);
