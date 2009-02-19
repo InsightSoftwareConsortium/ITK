@@ -77,7 +77,7 @@ RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>
   
   while( !iIt.IsAtEnd() )
     {
-    double g = pow( gIt.Get(), m_Pow );
+    double g = vcl_pow( static_cast<double>(gIt.Get()), m_Pow );
     n += iIt.Get() * g;
     d += g;
     ++iIt;
