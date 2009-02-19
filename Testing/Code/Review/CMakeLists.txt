@@ -1337,7 +1337,7 @@ ADD_TEST(itkAreaOpeningImageFilterTest0 ${REVIEW_TESTS}
   itkAreaOpeningImageFilterTest
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkAreaOpeningImageFilterTest0.png
-  1000 0
+  1000 0 1
 )
 
 ADD_TEST(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
@@ -1346,7 +1346,7 @@ ADD_TEST(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
   itkAreaClosingImageFilterTest
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkAreaClosingImageFilterTest0.png
-  1000 0
+  1000 0 0
 )
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
