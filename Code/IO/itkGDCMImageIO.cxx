@@ -1577,7 +1577,7 @@ void GDCMImageIO::Write(const void* buffer)
   // numberOfBytes is the number of bytes the image will hold on disk, most of the time
   // those two are equal
   size_t numberOfBytes;
-#if GDCM_MAJOR_VERSION <= 1 && GDCM_MINOR_VERSION <= 2
+#if GDCM_MAJOR_VERSION <= 1 && GDCM_MINOR_VERSION <= 2 && GDCM_BUILD_VERSION <= 3
   numberOfBytes = size;
 #else
   numberOfBytes = gfile->ComputeExpectedImageDataSize();
