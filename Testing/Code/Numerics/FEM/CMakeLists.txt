@@ -20,6 +20,7 @@ itkFEMElement3DMembraneTest.cxx
 itkFEMElement2DStrainTest.cxx
 itkFEMElement2DQuadraticTriangularTest.cxx
 itkFEMLinearSystemWrapperItpackTest.cxx
+itkFEMLinearSystemWrapperItpackTest2.cxx
 itkFEMLinearSystemWrapperVNLTest.cxx
 itkFEMLinearSystemWrapperDenseVNLTest.cxx
 itkFEMPArrayTest.cxx
@@ -54,8 +55,8 @@ ADD_TEST(itkFEMLinearSystemWrapperItpackTest2  ${FEM_TESTS} itkFEMLinearSystemWr
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest3  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 2 )
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest4  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 3 )
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest5  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 4 )
-ADD_TEST(itkFEMLinearSystemWrapperItpackTest6  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 5 )
-ADD_TEST(itkFEMLinearSystemWrapperItpackTest7  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 6 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest6  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 5 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest7  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 6 )
 
 ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperVNLTest)
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)

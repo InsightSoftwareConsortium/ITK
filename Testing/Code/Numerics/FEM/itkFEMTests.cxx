@@ -23,6 +23,7 @@ void RegisterTests()
   REGISTER_TEST(itkFEMElement2DStrainTest);
   REGISTER_TEST(itkFEMElement2DQuadraticTriangularTest);
   REGISTER_TEST(itkFEMLinearSystemWrapperItpackTest);
+  REGISTER_TEST(itkFEMLinearSystemWrapperItpackTest2);
   REGISTER_TEST(itkFEMLinearSystemWrapperVNLTest);
   REGISTER_TEST(itkFEMLinearSystemWrapperDenseVNLTest);
   REGISTER_TEST(itkFEMPArrayTest);
