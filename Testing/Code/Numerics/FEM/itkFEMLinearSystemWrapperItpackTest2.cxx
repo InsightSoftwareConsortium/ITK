@@ -147,7 +147,7 @@ int itkFEMLinearSystemWrapperItpackTest2( int argc, char * argv [] )
   
   /* destroy matrix,vector,solution */
   it.DestroyMatrix(0);
-  it.DestroyVector(1);
+  it.DestroyVector(0);
   it.DestroySolution(0);
 
   std::cout << "Done." << std::endl;
