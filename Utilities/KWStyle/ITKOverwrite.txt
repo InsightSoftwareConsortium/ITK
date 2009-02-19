@@ -88,5 +88,6 @@ itkNeighborhoodAllocator.h Typedefs Disable
 itkNodeList.h InternalVariables Disable
 itkNumericTraitsCovariantVectorPixel.h InternalVariables Disable
 itkNumericTraitsTensorPixel.h InternalVariables Disable
+itkNumericTraitsvectorPixel.h InternalVariables Disable
 itkNumericTraits.cxx Typedefs Disable
 itkObjectFactoryBase.cxx Namespace Disable
