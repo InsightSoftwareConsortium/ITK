@@ -55,8 +55,16 @@ ADD_TEST(itkFEMLinearSystemWrapperItpackTest2  ${FEM_TESTS} itkFEMLinearSystemWr
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest3  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 2 )
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest4  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 3 )
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest5  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 4 )
-ADD_TEST(itkFEMLinearSystemWrapperItpackTest6  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 5 )
-ADD_TEST(itkFEMLinearSystemWrapperItpackTest7  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 6 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest6  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 5 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest7  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest 6 )
+
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest8   ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 0 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest9   ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 1 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest10  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 2 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest11  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 3 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest12  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 4 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest13  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 5 )
+ADD_TEST(itkFEMLinearSystemWrapperItpackTest14  ${FEM_TESTS} itkFEMLinearSystemWrapperItpackTest2 6 )
 
 ADD_TEST(itkFEMLinearSystemWrapperVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperVNLTest)
 ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS} itkFEMLinearSystemWrapperDenseVNLTest)
