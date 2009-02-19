@@ -530,6 +530,7 @@ void LinearSystemWrapperItpack::Solve(void)
 
   /* itpack variables */
   integer N;
+  integer NB;
   integer NW;
   integer NCG;
   integer *IWKSP;
@@ -589,6 +590,7 @@ void LinearSystemWrapperItpack::Solve(void)
     {
     NCG = 2 * m_IPARM[0];
     }
+  NB = m_IPARM[8] + N; // upper bound of what can be computed in prbndx_
   switch ( m_Method )
     {
     case 0:
@@ -607,10 +609,10 @@ void LinearSystemWrapperItpack::Solve(void)
       NW = 5*N;
       break;
     case 5:
-      NW = N + m_IPARM[8] + NCG;
+      NW = N + 3*NB + NCG;
       break;
     case 6:
-      NW = N + m_IPARM[8];
+      NW = N + NB;
       break;
     }
   m_IPARM[7] = NW;
