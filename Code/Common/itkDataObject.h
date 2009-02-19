@@ -313,10 +313,10 @@ public:
    * behavior of all DataObjects and ProcessObjects. */
   static void SetGlobalReleaseDataFlag(const bool val);
   static bool GetGlobalReleaseDataFlag();
-  void GlobalReleaseDataFlagOn() 
-    {this->SetGlobalReleaseDataFlag(true);}
-  void GlobalReleaseDataFlagOff() 
-    {this->SetGlobalReleaseDataFlag(false);}
+  static void GlobalReleaseDataFlagOn() 
+    {Self::SetGlobalReleaseDataFlag(true);}
+  static void GlobalReleaseDataFlagOff() 
+    {Self::SetGlobalReleaseDataFlag(false);}
   
   /** Release data back to system to conserve memory resource. Used during
    * pipeline execution.  Releasing this data does not make
