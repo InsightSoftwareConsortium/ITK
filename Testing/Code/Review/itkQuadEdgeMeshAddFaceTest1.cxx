@@ -31,7 +31,7 @@ int itkQuadEdgeMeshAddFaceTest1( int , char *[] )
 
   typedef itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BEFunctionType;
 
-  BEFunctionType *BoundaryEdges = BEFunctionType::New();
+  BEFunctionType::Pointer BoundaryEdges = BEFunctionType::New();
   std::cout << BoundaryEdges->GetNameOfClass() << std::endl;
 
   MeshType::Pointer mesh = MeshType::New();
