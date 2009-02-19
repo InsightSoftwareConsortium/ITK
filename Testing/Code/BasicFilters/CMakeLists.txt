@@ -1259,6 +1259,7 @@ SET(BasicFilters5_SRCS
   itkProjectionImageFilterTest.cxx  
   itkImageToVectorImageFilterTest.cxx
   itkSimplexMeshWithFloatCoordRepTest.cxx
+  itkReleaseDataFilterTest.cxx
 )
 
 IF(ITK_OBJCXX_COMPILER_WORKS)
