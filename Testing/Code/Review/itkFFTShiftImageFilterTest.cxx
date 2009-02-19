@@ -50,14 +50,46 @@ int itkFFTShiftImageFilterTest(int argc, char * argv[])
 
   typedef itk::FFTShiftImageFilter< IType, IType > FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
-
   // test default values
   if ( filter->GetInverse( ) != false )
     {
     std::cerr << "Wrong default Inverse." << std::endl;
     return EXIT_FAILURE;
     }
+
+  // 
+  // Tests for raising code coverage
+  //
+  try
+    {
+    filter->Update();
+    std::cerr << "Failed to throw expected exception" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << excp << std::endl;
+    std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
+    // TODO: should ResetPipeline() be required?
+    filter->ResetPipeline();
+    }
+
+  filter->InverseOn();
+  if( !filter->GetInverse() )
+    {
+    std::cerr << "Set/GetInverse() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  filter->InverseOff();
+  if( filter->GetInverse() )
+    {
+    std::cerr << "Set/GetInverse() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  filter->SetInput( reader->GetOutput() );
 
   filter->SetInverse( atoi( argv[3] ) );
   if ( filter->GetInverse( ) != (bool)atoi(argv[3]) )

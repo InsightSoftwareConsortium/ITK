@@ -1266,7 +1266,7 @@ ADD_TEST(itkLabelContourImageFilterTest1 ${REVIEW_TESTS}
    1 0
 )
 
-ADD_TEST(itkFFTShiftImageFilterTest0 ${REVIEW_TESTS}
+ADD_TEST(itkFFTShiftImageFilterTestOdd0 ${REVIEW_TESTS}
   --compare ${BASELINE}/itkFFTShiftImageFilterTest0.png
             ${TEMP}/itkFFTShiftImageFilterTest0.png
    itkFFTShiftImageFilterTest
@@ -1275,12 +1275,30 @@ ADD_TEST(itkFFTShiftImageFilterTest0 ${REVIEW_TESTS}
    0
 )
 
-ADD_TEST(itkFFTShiftImageFilterTest1 ${REVIEW_TESTS}
+ADD_TEST(itkFFTShiftImageFilterTestOdd1 ${REVIEW_TESTS}
   --compare ${INPUTDATA}/BrainSliceBinary.png
             ${TEMP}/itkFFTShiftImageFilterTest1.png
    itkFFTShiftImageFilterTest
    ${BASELINE}/itkFFTShiftImageFilterTest0.png
    ${TEMP}/itkFFTShiftImageFilterTest1.png
+   1
+)
+
+ADD_TEST(itkFFTShiftImageFilterTestEven0 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkFFTShiftImageFilterTestEven0.png
+            ${TEMP}/itkFFTShiftImageFilterTestEven0.png
+   itkFFTShiftImageFilterTest
+   ${INPUTDATA}/cthead1.png
+   ${TEMP}/itkFFTShiftImageFilterTestEven0.png
+   0
+)
+
+ADD_TEST(itkFFTShiftImageFilterTestEven1 ${REVIEW_TESTS}
+  --compare ${INPUTDATA}/cthead1.png
+            ${TEMP}/itkFFTShiftImageFilterTestEven1.png
+   itkFFTShiftImageFilterTest
+   ${BASELINE}/itkFFTShiftImageFilterTestEven0.png
+   ${TEMP}/itkFFTShiftImageFilterTestEven1.png
    1
 )
 
