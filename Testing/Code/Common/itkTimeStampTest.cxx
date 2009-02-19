@@ -68,7 +68,7 @@ ITK_THREAD_RETURN_TYPE modified_function_base( void *ptr )
   return ITK_THREAD_RETURN_VALUE;
 }
 
-bool TimeStampTest( ITK_THREAD_RETURN_TYPE (*modfunc)( void *ptr ), bool addmodifiedcall=false )
+bool TimeStampTest( itk::ThreadFunctionType modfunc, bool addmodifiedcall=false )
 {
   bool success = true;
   
