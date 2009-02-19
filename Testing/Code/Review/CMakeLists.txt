@@ -235,8 +235,12 @@ ADD_TEST(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshPointTest1)
 ADD_TEST(itkPriorityQueueTest ${REVIEW_TESTS2}
   itkPriorityQueueTest)
-ADD_TEST(itkQuadEdgeMeshAddFaceTest1 ${REVIEW_TESTS2}
-  itkQuadEdgeMeshAddFaceTest1)
+
+FOREACH( index 0 1 2 3 4 5 )
+  ADD_TEST(itkQuadEdgeMeshAddFaceTest1_${index} ${REVIEW_TESTS2}
+    itkQuadEdgeMeshAddFaceTest1 ${index} )
+ENDFOREACH( index )
+
 ADD_TEST(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS2}
   itkQuadEdgeMeshAddFaceTest2)
 ADD_TEST(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS2}
