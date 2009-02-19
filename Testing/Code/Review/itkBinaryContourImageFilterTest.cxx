@@ -49,7 +49,6 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
 
   typedef itk::BinaryContourImageFilter< IType, IType > FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
 
   // test default values
   if ( filter->GetFullyConnected( ) != false )
@@ -65,6 +64,42 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
   if ( filter->GetBackgroundValue( ) != 0 )
     {
     std::cerr << "Wrong default background value." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // 
+  // Tests for raising code coverage
+  //
+  try
+    {
+    filter->Update();
+    std::cerr << "Failed to throw expected exception" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << excp << std::endl;
+    std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
+    // TODO: should ResetPipeline() be required?
+    filter->ResetPipeline();
+    }
+
+  filter->FullyConnectedOn();
+  if( !filter->GetFullyConnected() )
+    {
+    std::cerr << "Set/GetFullyConnected() error" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // set the inputs
+
+  filter->SetInput( reader->GetOutput() );
+
+  filter->FullyConnectedOff();
+  if( filter->GetFullyConnected() )
+    {
+    std::cerr << "Set/GetFullyConnected() error" << std::endl;
     return EXIT_FAILURE;
     }
 
