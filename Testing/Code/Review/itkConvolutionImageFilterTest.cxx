@@ -93,6 +93,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
     }
   catch( itk::ExceptionObject & excp )
     {
+    std::cout << excp << std::endl;
     std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
     }
 
