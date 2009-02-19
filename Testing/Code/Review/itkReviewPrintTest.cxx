@@ -37,6 +37,8 @@
 #include "itkVTKPolyDataReader.h"
 #include "itkVTKPolyDataWriter.h"
 
+#include "itkImageKernelOperator.h"
+
 int main(int , char* [])
 {
   typedef itk::Image<float,2>           InputType;
@@ -132,6 +134,10 @@ int main(int , char* [])
     itk::VTKPolyDataWriter<MeshType>::New();
   std::cout << "--------------VTKPolyDataWriterObj "
             << VTKPolyDataWriterObj;
+
+  itk::ImageKernelOperator<float> kernelOperator;
+  std::cout << "--------------ImageKernelOperatorObj ";
+  kernelOperator.Print(std::cout);
 
   return EXIT_SUCCESS;
 }
