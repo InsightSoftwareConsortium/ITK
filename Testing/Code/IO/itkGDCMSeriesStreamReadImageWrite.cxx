@@ -25,13 +25,32 @@
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
+/// \brief is comparison with a percentage tollerance
+///
+/// returns true of  the current value is with in tol percentage of m);
+///
+///  | u - v | <= e * |u| or |  u - v | <= e * |v|
+/// defines a "close with tolerance e" relationship between u and v
+/// this is a symetric comparison
+///
+/// Also it is check to see if the u an v are both less then
+/// epsilon for the type
+static bool IsEqualTolerant(const float lm, const float rm, double tol) {
+  tol = fabs(tol);
+  float temp = fabs(lm - rm);    
+  return  temp <= tol*fabs(lm) ||
+    temp <= tol*fabs(rm) || 
+    (fabs(lm) < vcl_numeric_limits<float>::epsilon() &&
+     fabs(rm) < vcl_numeric_limits<float>::epsilon());
+ }
+
 int main( int argc, char* argv[] )
 {
-  if( argc < 3 )
+  if( argc < 6 )
     {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " DicomDirectory  outputFile ";
-    std::cerr << " [expected-to-stream 1|0 [ force-no-streaming 1|0] ]" << std::endl;
+    std::cerr << " spacingX spacingY spacingZ [ force-no-streaming 1|0]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -40,9 +59,29 @@ int main( int argc, char* argv[] )
   typedef itk::GDCMImageIO                        ImageIOType;
   typedef itk::GDCMSeriesFileNames                SeriesFileNames;
 
+
+  unsigned int numberOfDataPieces = 4;
+
+  ImageType::SpacingType expectedSpacing;
+
+  expectedSpacing[0] = atof(argv[3]);
+  expectedSpacing[1] = atof(argv[4]);
+  expectedSpacing[2] = atof(argv[5]);
+  
+
+  bool forceNoStreaming = true;
+  if( argc > 6 )
+    {
+    if( atoi(argv[6]) != 1 )
+      {
+      forceNoStreaming = false;
+      }
+    }
+
+  bool expectedToStream = !forceNoStreaming;
+
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
   SeriesFileNames::Pointer filenameGenerator = SeriesFileNames::New();
-
   filenameGenerator->SetInputDirectory( argv[1] );
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -50,36 +89,9 @@ int main( int argc, char* argv[] )
   const ReaderType::FileNamesContainer & filenames =
     filenameGenerator->GetInputFileNames();
 
-  unsigned int numberOfFilenames =  filenames.size();
-  std::cout << numberOfFilenames << std::endl;
-  for(unsigned int fni = 0; fni<numberOfFilenames; fni++)
-    {
-    std::cout << "filename # " << fni << " = ";
-    std::cout << filenames[fni] << std::endl;
-    }
-
   reader->SetFileNames( filenames );
   reader->SetImageIO( gdcmIO );
 
-  unsigned int numberOfDataPieces = 4;
-
-  bool expectedToStream = true;
-  if( argc > 3 )
-    {
-    if( atoi(argv[3]) != 1 )
-      {
-      expectedToStream = false;
-      }
-    }
-
-  bool forceNoStreamingInput = false;
-  if( argc > 4 )
-    {
-    if( atoi( argv[4] ) == 1 )
-      {
-      forceNoStreamingInput = true;
-      }
-    }
 
   typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
@@ -92,12 +104,19 @@ int main( int argc, char* argv[] )
 
   try
     {
-    if( forceNoStreamingInput )
+    if( forceNoStreaming )
       {
-      monitor->UpdateLargestPossibleRegion();
+      // no streaming
+      reader->UseStreamingOff();      
+      streamer->Update();
       }
     else
       {
+      // stream based on the number of z-slices
+      reader->UseStreamingOn();
+      reader->UpdateOutputInformation();
+      numberOfDataPieces = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[2];
+      streamer->SetNumberOfStreamDivisions( numberOfDataPieces );
       streamer->Update();
       }
     }
@@ -105,9 +124,11 @@ int main( int argc, char* argv[] )
     {
     std::cerr << "ExceptionObject caught !" << std::endl;
     std::cerr << err << std::endl;
+    std::cerr << monitor;
     return EXIT_FAILURE;
     }
 
+  // verify things executed as expected
   bool passed = true;
   if( expectedToStream )
     {
@@ -130,6 +151,26 @@ int main( int argc, char* argv[] )
     std::cerr << "pipeline did not execute as expected!" << std::endl;
     return EXIT_FAILURE;
     }
+
+  std::cout << "Origin: " << reader->GetOutput()->GetOrigin() << std::endl;
+  std::cout << "direction: " << reader->GetOutput()->GetDirection() << std::endl;  
+  std::cout << "Spacing: " << reader->GetOutput()->GetSpacing() << std::endl;
+  std::cout << "Expected Spacing: " << expectedSpacing << std::endl;
+
+
+  ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
+
+  // we only give 4 bits of tolerence, IEEE float a 24-bit mantissa 
+  const double percentTolerance = 1.0 / double ( (unsigned int)(1) << 18);  
+
+  if (!IsEqualTolerant(spacing[0], expectedSpacing[0], percentTolerance) ||
+      !IsEqualTolerant(spacing[1], expectedSpacing[1], percentTolerance) ||
+      !IsEqualTolerant(spacing[2], expectedSpacing[2], percentTolerance)) 
+    {
+    std::cerr << "Spacing does not match expected" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();

@@ -855,6 +855,19 @@ ADD_TEST(itkGDCMSeriesReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesReadImageWrit
         ${ITK_DATA_ROOT}/Input/DicomSeries
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk
         ${ITK_TEST_OUTPUT_DIR} )
+ADD_EXECUTABLE(itkGDCMSeriesStreamReadImageWrite itkGDCMSeriesStreamReadImageWrite.cxx)
+TARGET_LINK_LIBRARIES(itkGDCMSeriesStreamReadImageWrite ITKIO)
+ADD_TEST(itkGDCMSeriesStreamReadImageWrite1 ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+  ${ITK_DATA_ROOT}/Input/DicomSeries
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite1.mhd
+  0.859375 0.85939 1.60016
+  0 )
+ADD_TEST(itkGDCMSeriesStreamReadImageWrite2 ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+  ${ITK_DATA_ROOT}/Input/DicomSeries
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite2.mhd
+  0.859375 0.85939 1.60016
+  1 )
+
 ADD_TEST(itkNrrdImageReadWriteTest1 ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/NrrdImageReadWriteTest1.nrrd
             ${ITK_TEST_OUTPUT_DIR}/box.nrrd
@@ -1057,14 +1070,18 @@ IF(ITK_OSIRIX_DATA_ROOT)
 SET(ITK_OSIRIX_CEREBRIX_AXIAL_T1 
   "${ITK_OSIRIX_DATA_ROOT}/CEREBRIX/Neuro Crane/Axial_T1 - 5352")
 
-ADD_EXECUTABLE(itkGDCMSeriesStreamReadImageWrite itkGDCMSeriesStreamReadImageWrite.cxx)
-TARGET_LINK_LIBRARIES(itkGDCMSeriesStreamReadImageWrite ITKIO)
 
-ADD_TEST(itkGDCMSeriesStreamReadImageWrite ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+
+ADD_TEST(itkGDCMSeriesStreamReadImageWrite3 ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
   ${ITK_OSIRIX_CEREBRIX_AXIAL_T1}
-  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite.mhd
-  0 0
-  )
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite3.mhd
+  0.998321 0.998321 1.00005
+  0 )
+ADD_TEST(itkGDCMSeriesStreamReadImageWrite4 ${CXX_TEST_PATH}/itkGDCMSeriesStreamReadImageWrite
+  ${ITK_OSIRIX_CEREBRIX_AXIAL_T1}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite4.mhd
+  0.998321 0.998321 1.00005
+  1 )
 
 ENDIF(ITK_OSIRIX_DATA_ROOT)
 
