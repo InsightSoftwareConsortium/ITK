@@ -36,8 +36,12 @@ int itkReleaseDataFilterTest(int, char* [] )
 
   typedef itk::Image<float,2> ImageType;
   typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
-
-  ImageType::SetGlobalReleaseDataFlag(true);
+  
+  
+  // use all the static GlobalReleaseData methods
+  ImageType::SetGlobalReleaseDataFlag( ImageType::GetGlobalReleaseDataFlag() );
+  ImageType::GlobalReleaseDataFlagOff();
+  ImageType::GlobalReleaseDataFlagOn();
   
   typedef itk::RandomImageSource<ImageType> RandomImageSourceType;
   RandomImageSourceType::Pointer random = RandomImageSourceType::New();
