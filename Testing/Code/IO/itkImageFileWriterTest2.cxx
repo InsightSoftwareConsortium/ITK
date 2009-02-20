@@ -57,14 +57,16 @@ int itkImageFileWriterTest2(int ac, char* av[])
   std::cout << "Original Starting Index: " << index << std::endl;
   std::cout << "Original Starting Point (physical cooridents) : " << originalPoint << std::endl;
   std::cout << "Original Origin: " << image->GetOrigin() << std::endl;
+  
+  WriterType::Pointer writer = WriterType::New();
+  ReaderType::Pointer reader = ReaderType::New();
   try
     {
-    WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(av[1]);
     writer->Update();
 
-    ReaderType::Pointer reader = ReaderType::New();
+
     reader->SetFileName(av[1]);
     reader->Update();
     index = reader->GetOutput()->GetLargestPossibleRegion().GetIndex();
@@ -80,14 +82,14 @@ int itkImageFileWriterTest2(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-
-  
   if (readPoint != originalPoint) 
     {
     std::cout << "Image locations changed!" << std::endl;
     return EXIT_FAILURE;
     }
-  
+
+  // execute the PrintSelf methods
+  std::cout << writer;
 
   return EXIT_SUCCESS;
 
