@@ -121,6 +121,11 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
+  /**
+   * Set/Get the threshold value used to select the connected components.
+   * The connected components greater or equal to Lambda are kept, the others
+   * are removed. Lambda defaults to 0.
+   */
   itkSetMacro(Lambda, AttributeType);
   itkGetMacro(Lambda, AttributeType);
 
@@ -129,6 +134,7 @@ protected:
     {
     m_FullyConnected = false;
     m_AttributeValuePerPixel = 1;
+    m_Lambda = 0;
     }
   virtual ~AttributeMorphologyBaseImageFilter() {}
   AttributeMorphologyBaseImageFilter(const Self&) {}
