@@ -177,6 +177,7 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshMinCurvatureTest.cxx
   itkQuadEdgeMeshDelaunayConformingFilterTest.cxx
   itkQuadEdgeMeshNormalFilterTest.cxx
+  itkQuadEdgeMeshSmoothingTest.cxx
   itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
 )
 
@@ -315,7 +316,25 @@ ADD_TEST( itkQuadEdgeMeshNormalFilterTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshNormalFilterTest
   ${INPUTDATA}/mushroom.vtk
   )
- 
+
+ADD_TEST( itkQuadEdgeMeshSmoothingTest0 ${REVIEW_TESTS2}
+  itkQuadEdgeMeshSmoothingTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  10
+  0.1
+  0
+  ${TEMP}/temp_SmoothResult0.vtk
+  )
+
+ ADD_TEST( itkQuadEdgeMeshSmoothingTest1 ${REVIEW_TESTS2}
+  itkQuadEdgeMeshSmoothingTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  10
+  0.1
+  1
+  ${TEMP}/temp_SmoothResult1.vtk
+  )
+
 ADD_TEST( itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1 ${REVIEW_TESTS2}
   itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1
   ${TEMP}/sphere.vtk

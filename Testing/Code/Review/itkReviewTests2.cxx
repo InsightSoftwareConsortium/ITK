@@ -66,5 +66,6 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshMinCurvatureTest);
   REGISTER_TEST(itkQuadEdgeMeshDelaunayConformingFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshNormalFilterTest);
+  REGISTER_TEST(itkQuadEdgeMeshSmoothingTest);
   REGISTER_TEST(itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1);
 }
