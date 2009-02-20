@@ -422,13 +422,15 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The origin of the output image is maintained, since we decided to resample
-// the image in the same physical extent of the input anisotropic image.
+// The origin and orientation of the output image is maintained, since we
+// decided to resample the image in the same physical extent of the input
+// anisotropic image.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
+  resampler->SetOutputDirection( inputImage->GetDirection() );
 // Software Guide : EndCodeSnippet
 
 
