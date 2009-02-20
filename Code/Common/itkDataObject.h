@@ -311,7 +311,7 @@ public:
   /** Turn on/off a flag to control whether every object releases its data
    * after being used by a filter. Being a global flag, it controls the
    * behavior of all DataObjects and ProcessObjects. */
-  static void SetGlobalReleaseDataFlag(const bool val);
+  static void SetGlobalReleaseDataFlag(bool val);
   static bool GetGlobalReleaseDataFlag();
   static void GlobalReleaseDataFlagOn() 
     {Self::SetGlobalReleaseDataFlag(true);}
