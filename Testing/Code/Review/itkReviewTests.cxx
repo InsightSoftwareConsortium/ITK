@@ -82,7 +82,6 @@ void RegisterTests()
   REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
   REGISTER_TEST( itkFastSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST( itkGridForwardWarpImageFilterTest );
-  REGISTER_TEST( itkWarpJacobianDeterminantFilterTest );
   REGISTER_TEST( itkWarpHarmonicEnergyCalculatorTest );
   
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest );

@@ -87,6 +87,7 @@ OutputType trueValue )
          std::cout << trueValue[k] << ", ";
         } 
       std::cout << trueValue[k] << std::endl;
+      return false;
       }
 
     }
@@ -147,6 +148,7 @@ OutputType trueValue )
          std::cout << trueValue[k] << ", ";
         } 
       std::cout << trueValue[k] << std::endl;
+      return false;
       }
 
     }

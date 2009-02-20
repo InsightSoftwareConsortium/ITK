@@ -88,7 +88,6 @@ SET(ReviewTest_SRCS
   itkExponentialDeformationFieldImageFilterTest.cxx
   itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
   itkGridForwardWarpImageFilterTest.cxx
-  itkWarpJacobianDeterminantFilterTest.cxx
   itkWarpHarmonicEnergyCalculatorTest.cxx
 
   itkBSplineScatteredDataPointSetToImageFilterTest.cxx
@@ -762,6 +761,14 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest11 ${REVIEW_TESTS}
         ${ITK_SOURCE_DIR}/Examples/Data/RatLungSlice2.mha
         ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha
         0  1  0.001  0.1
+        )
+
+ADD_TEST(itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest ${REVIEW_TESTS}
+        itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
+        )
+
+ADD_TEST(itkExponentialDeformationFieldImageFilterTest ${REVIEW_TESTS}
+        itkExponentialDeformationFieldImageFilterTest
         )
 
 ADD_TEST(itkFastSymmetricForcesDemonsRegistrationFilterTest ${REVIEW_TESTS}

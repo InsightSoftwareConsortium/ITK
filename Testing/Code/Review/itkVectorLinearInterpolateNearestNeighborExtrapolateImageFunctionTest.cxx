@@ -57,13 +57,13 @@ OutputType trueValue )
   bool bvalue = interp->IsInsideBuffer( point );
   std::cout << " Inside: " << bvalue;
 
-  if( bvalue != isInside )
+  if( bvalue != true )
     {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should always be true for VectorLinearInterpolateNearestNeighborExtrapolateImageFunction" << std::endl;
     return false;
     }
 
-  if( isInside )
+  if( bvalue )
     {
     OutputType value = interp->Evaluate( point );
     std::cout << " Value: ";
@@ -89,6 +89,7 @@ OutputType trueValue )
          std::cout << trueValue[k] << ", ";
         }
       std::cout << trueValue[k] << std::endl;
+      return false;
       }
 
     }
@@ -117,9 +118,9 @@ OutputType trueValue )
   bool bvalue = interp->IsInsideBuffer( index );
   std::cout << " Inside: " << bvalue;
 
-  if( bvalue != isInside )
+  if( bvalue != true )
     {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should always be true for VectorLinearInterpolateNearestNeighborExtrapolateImageFunction" << std::endl;
     return false;
     }
 
@@ -149,6 +150,7 @@ OutputType trueValue )
          std::cout << trueValue[k] << ", ";
         }
       std::cout << trueValue[k] << std::endl;
+      return false;
       }
 
     }
@@ -288,7 +290,7 @@ int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, c
   // position outside the image
     {
     double darray[3] = {20, 20, 40};
-    double temp[3] = {1, 1, 1};
+    double temp[3] = {79, 158, 237};
     output = OutputType( temp );
     cindex = ContinuousIndexType(darray);
     passed = TestContinuousIndex( interp, cindex, false, output );
