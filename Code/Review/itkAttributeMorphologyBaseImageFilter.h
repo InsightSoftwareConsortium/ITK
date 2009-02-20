@@ -158,9 +158,9 @@ private:
   AttributeType m_Lambda;
 
   // some constants used several times in the code
-  static const long INACTIVE = -1;
-  static const long ACTIVE = -2;
-  static const long ROOT = -3;
+  itkStaticConstMacro(INACTIVE, long, -1);
+  itkStaticConstMacro(ACTIVE, long, -2);
+  itkStaticConstMacro(ROOT, long, -3);
 
   // Just used for area/volume openings at the moment
   AttributeType * m_AuxData;
