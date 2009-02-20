@@ -155,7 +155,7 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
       {
       // We only need the opposite. Here we use the
       // divider for simplicity. If a filter appears in ITK
-      // to comute the opposite, we should use it.
+      // to compute the opposite, we should use it.
       m_Divider->SetInput(inputPtr);
       m_Divider->SetConstant( static_cast<InputPixelRealValueType>(-1) );
       m_Divider->GraftOutput(this->GetOutput());
@@ -175,11 +175,11 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
   m_Divider->GraftOutput( this->GetOutput() );
   if ( !this->m_ComputeInverse )
     {
-       m_Divider->SetConstant( static_cast<InputPixelRealValueType>(1<<numiter) );
+    m_Divider->SetConstant( static_cast<InputPixelRealValueType>(1<<numiter) );
     }
   else
     {
-       m_Divider->SetConstant( -static_cast<InputPixelRealValueType>(1<<numiter) );
+    m_Divider->SetConstant( -static_cast<InputPixelRealValueType>(1<<numiter) );
     }
 
   m_Divider->Update();
