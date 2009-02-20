@@ -34,6 +34,7 @@ ExponentialDeformationFieldImageFilter<TInputImage, TOutputImage>
 {
   m_AutomaticNumberOfIterations = true;
   m_MaximumNumberOfIterations = 20;
+  m_ComputeInverse = false;
   m_Divider = DivideByConstantType::New();
   m_Caster = CasterType::New();
   m_Warper = VectorWarperType::New();
@@ -63,6 +64,8 @@ ExponentialDeformationFieldImageFilter<TInputImage, TOutputImage>
      << m_AutomaticNumberOfIterations << std::endl;
   os << indent << "MaximumNumberOfIterations:   "
      << m_MaximumNumberOfIterations << std::endl;
+  os << indent << "ComputeInverse:   "
+     << (m_ComputeInverse?"On":"Off") << std::endl;
 
   return;
 }
@@ -140,11 +143,27 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
 
   if( numiter == 0 )
     {
-    m_Caster->SetInput(inputPtr);
-    m_Caster->GraftOutput(this->GetOutput());
-    m_Caster->Update();
-    // Region passing stuff
-    this->GraftOutput( m_Caster->GetOutput() );
+    if ( !this->m_ComputeInverse )
+      {
+      m_Caster->SetInput(inputPtr);
+      m_Caster->GraftOutput(this->GetOutput());
+      m_Caster->Update();
+      // Region passing stuff
+      this->GraftOutput( m_Caster->GetOutput() );
+      }
+    else
+      {
+      // We only need the opposite. Here we use the
+      // divider for simplicity. If a filter appears in ITK
+      // to comute the opposite, we should use it.
+      m_Divider->SetInput(inputPtr);
+      m_Divider->SetConstant( static_cast<InputPixelRealValueType>(-1) );
+      m_Divider->GraftOutput(this->GetOutput());
+      m_Divider->Update();
+      // Region passing stuff
+      this->GraftOutput( m_Divider->GetOutput() );
+      }
+
     this->GetOutput()->Modified();
 
     progress.CompletedPixel();
@@ -154,7 +173,14 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
   // Get the first order approximation (division by 2^numiter)
   m_Divider->SetInput(inputPtr);
   m_Divider->GraftOutput( this->GetOutput() );
-  m_Divider->SetConstant( static_cast<InputPixelRealValueType>(1<<numiter) );
+  if ( !this->m_ComputeInverse )
+    {
+       m_Divider->SetConstant( static_cast<InputPixelRealValueType>(1<<numiter) );
+    }
+  else
+    {
+       m_Divider->SetConstant( -static_cast<InputPixelRealValueType>(1<<numiter) );
+    }
 
   m_Divider->Update();
 

@@ -25,7 +25,6 @@
 
 int itkExponentialDeformationFieldImageFilterTest(int, char* [] ) 
 {
-
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
@@ -86,12 +85,12 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     ++it;
     }
 
-  // Declare the type for the Log filter
+  // Declare the type for the filter
   typedef itk::ExponentialDeformationFieldImageFilter<
                                   ImageType, ImageType  >   FilterType;
 
 
-  // Create one Filter
+  // Create one filter
   FilterType::Pointer filter = FilterType::New();
 
 
@@ -111,7 +110,9 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
-  const ImageType::PixelType epsilon = 1e-6;
+  const PixelType::ValueType epsilon = 1e-6;
+
+  bool testpassed = true;
 
   ot.GoToBegin();
   it.GoToBegin();
@@ -119,11 +120,112 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     {
     PixelType input  = it.Get();
     PixelType output = ot.Get();
+    // The input is a constant field, its exponential
+    // should be exactly equal
+    testpassed &= ( (input-output).GetNorm() < epsilon );
     std::cout << input << " => ";
     std::cout << output  << std::endl;
     ++ot;
     ++it;
     }
+
+
+  // Ask for the inverse deformation
+  filter->ComputeInverseOn();
+  
+  // Execute the filter
+  filter->Update();
+
+  // Get the Smart Pointer to the Filter Output
+  ImageType::Pointer outputImage2 = filter->GetOutput();
+
+  // Create an iterator for going through the image output
+  IteratorType ot2(outputImage, outputImage->GetRequestedRegion());
+  
+  //  Check the content of the result image
+  std::cout << "Verification of the inverse output " << std::endl;
+
+  ot2.GoToBegin();
+  it.GoToBegin();
+  while( !ot2.IsAtEnd() )
+    {
+    PixelType input  = it.Get();
+    PixelType output = ot2.Get();
+    // The input is a constant field, its inverse exponential
+    // should be exactly equal to its opposite
+    testpassed &= ( (input+output).GetNorm() < epsilon );
+    std::cout << input << " => ";
+    std::cout << output  << std::endl;
+    ++ot2;
+    ++it;
+    }
+
+  
+  // Try with 0 iterations
+  filter->ComputeInverseOff();
+  filter->SetMaximumNumberOfIterations( 0 );
+  
+  // Execute the filter
+  filter->Update();
+
+  // Get the Smart Pointer to the Filter Output
+  ImageType::Pointer outputImage3 = filter->GetOutput();
+
+  // Create an iterator for going through the image output
+  IteratorType ot3(outputImage, outputImage->GetRequestedRegion());
+  
+  //  Check the content of the result image
+  std::cout << "Verification of the output with 0 iterations " << std::endl;
+
+  ot3.GoToBegin();
+  it.GoToBegin();
+  while( !ot3.IsAtEnd() )
+    {
+    PixelType input  = it.Get();
+    PixelType output = ot3.Get();
+    // The input is a constant field, its inverse exponential
+    // should be exactly equal to its opposite
+    testpassed &= ( (input-output).GetNorm() < epsilon );
+    std::cout << input << " => ";
+    std::cout << output  << std::endl;
+    ++ot3;
+    ++it;
+    }
+
+  
+  // Try inverse with 0 iterations
+  filter->ComputeInverseOn();
+  filter->SetMaximumNumberOfIterations( 0 );
+  
+  // Execute the filter
+  filter->Update();
+
+  // Get the Smart Pointer to the Filter Output
+  ImageType::Pointer outputImage4 = filter->GetOutput();
+
+  // Create an iterator for going through the image output
+  IteratorType ot4(outputImage, outputImage->GetRequestedRegion());
+  
+  //  Check the content of the result image
+  std::cout << "Verification of the inverse output with 0 iterations " << std::endl;
+
+  ot4.GoToBegin();
+  it.GoToBegin();
+  while( !ot4.IsAtEnd() )
+    {
+    PixelType input  = it.Get();
+    PixelType output = ot4.Get();
+    // The input is a constant field, its inverse exponential
+    // should be exactly equal to its opposite
+    testpassed &= ( (input+output).GetNorm() < epsilon );
+    std::cout << input << " => ";
+    std::cout << output  << std::endl;
+    ++ot4;
+    ++it;
+    }
+  
+
+  if (!testpassed) return EXIT_FAILURE;
 
   return EXIT_SUCCESS;
 }
