@@ -29,10 +29,10 @@
 int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 {
 
-  if( argc < 4 ) 
+  if( argc < 5 ) 
     { 
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile numberOfClasses [smoothingIterations]" << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile numberOfClasses smoothingIterations" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -67,18 +67,53 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   filter->SetInput( bayesianInitializer->GetOutput() );
 
-  if( argc > 4 )
+  //
+  //  Exercise Set/GetNumberOfSmoothingIterations()
+  // 
+  filter->SetNumberOfSmoothingIterations( 1 );
+  if( filter->GetNumberOfSmoothingIterations() != 1 )
     {
-    filter->SetNumberOfSmoothingIterations( atoi( argv[4] ));
-    typedef ClassifierFilterType::ExtractedComponentImageType ExtractedComponentImageType;
-    typedef itk::GradientAnisotropicDiffusionImageFilter<
-      ExtractedComponentImageType, ExtractedComponentImageType >  SmoothingFilterType;
-    SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
-    smoother->SetNumberOfIterations( 1 );
-    smoother->SetTimeStep( 0.125 );
-    smoother->SetConductanceParameter( 3 );  
-    filter->SetSmoothingFilter( smoother );
-    }
+    std::cerr << "Error in Set/GetNumberOfSmoothingIterations()" << std::endl;
+    return EXIT_FAILURE;
+    } 
+
+  filter->SetNumberOfSmoothingIterations( 19 );
+  if( filter->GetNumberOfSmoothingIterations() != 19 )
+    {
+    std::cerr << "Error in Set/GetNumberOfSmoothingIterations()" << std::endl;
+    return EXIT_FAILURE;
+    } 
+
+  filter->SetNumberOfSmoothingIterations( 0 );
+
+  filter->SetNumberOfSmoothingIterations( atoi( argv[4] ));
+  typedef ClassifierFilterType::ExtractedComponentImageType ExtractedComponentImageType;
+  typedef itk::GradientAnisotropicDiffusionImageFilter<
+    ExtractedComponentImageType, ExtractedComponentImageType >  SmoothingFilterType;
+  SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
+  smoother->SetNumberOfIterations( 1 );
+  smoother->SetTimeStep( 0.125 );
+  smoother->SetConductanceParameter( 3 );  
+  filter->SetSmoothingFilter( smoother );
+
+  //
+  //  Exercise Set/GetSmoothingFilter()
+  // 
+  if( filter->GetSmoothingFilter().GetPointer() != smoother.GetPointer() )
+    {
+    std::cerr << "Error in Set/GetSmoothingFilter()" << std::endl;
+    return EXIT_FAILURE;
+    } 
+
+  filter->SetSmoothingFilter( NULL );
+  if( filter->GetSmoothingFilter().GetPointer() != NULL )
+    {
+    std::cerr << "Error in Set/GetSmoothingFilter()" << std::endl;
+    return EXIT_FAILURE;
+    } 
+
+  filter->SetSmoothingFilter( smoother );
+  
     
   typedef ClassifierFilterType::OutputImageType      ClassifierOutputImageType;
   typedef itk::Image< unsigned char, Dimension >     OutputImageType;
