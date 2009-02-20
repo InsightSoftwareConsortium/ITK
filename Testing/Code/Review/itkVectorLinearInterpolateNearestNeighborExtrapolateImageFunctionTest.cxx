@@ -46,7 +46,7 @@ typedef InterpolatorType::OutputType          OutputType;
 bool TestGeometricPoint(
 const InterpolatorType * interp,
 const PointType& point,
-bool isInside,
+bool itkNotUsed( isInside ),
 OutputType trueValue )
 {
 
