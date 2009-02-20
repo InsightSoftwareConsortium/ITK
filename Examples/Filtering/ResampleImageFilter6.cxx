@@ -106,6 +106,14 @@ int main( int argc, char * argv[] )
   filter->SetOutputOrigin( origin );
   // Software Guide : EndCodeSnippet
 
+  
+  // Software Guide : BeginCodeSnippet
+  ImageType::DirectionType direction;
+  direction.SetIdentity();
+  filter->SetOutputDirection( direction );
+  // Software Guide : EndCodeSnippet
+
+
 
   ImageType::SizeType   size;
 

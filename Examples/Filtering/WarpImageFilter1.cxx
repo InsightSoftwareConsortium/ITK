@@ -136,6 +136,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   filter->SetOutputSpacing( deformationField->GetSpacing() );
   filter->SetOutputOrigin(  deformationField->GetOrigin() );
+  filter->SetOutputDirection(  deformationField->GetDirection() );
 
   filter->SetDeformationField( deformationField );
   // Software Guide : EndCodeSnippet

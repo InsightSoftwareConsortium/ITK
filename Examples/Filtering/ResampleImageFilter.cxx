@@ -263,6 +263,13 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
+  // Software Guide : BeginCodeSnippet
+  InputImageType::DirectionType direction;
+  direction.SetIdentity();
+  filter->SetOutputDirection( direction );
+  // Software Guide : EndCodeSnippet
+
+
   //  Software Guide : BeginLatex
   //
   //  The extent of the sampling grid on the output image is defined by a

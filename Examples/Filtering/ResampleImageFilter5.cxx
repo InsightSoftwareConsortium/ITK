@@ -136,11 +136,14 @@ int main( int argc, char * argv[] )
     spacing = reader->GetOutput()->GetSpacing();
   const InputImageType::PointType&
     origin  = reader->GetOutput()->GetOrigin();
+  const InputImageType::DirectionType&
+    direction  = reader->GetOutput()->GetDirection();
   InputImageType::SizeType size = 
       reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   filter->SetOutputOrigin( origin );
   filter->SetOutputSpacing( spacing );
+  filter->SetOutputDirection( direction );
   filter->SetSize( size );
 
 

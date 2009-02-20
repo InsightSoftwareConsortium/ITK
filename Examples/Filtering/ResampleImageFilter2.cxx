@@ -144,6 +144,19 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
+  //  We will preserve the orientation of the input image by using the following call.
+  //
+  //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
+  //
+  //  Software Guide : EndLatex 
+
+  // Software Guide : BeginCodeSnippet
+  filter->SetOutputDirection( reader->GetOutput()->GetDirection() );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
   //  Additionally, we will specify a non-zero origin. Note that the values
   //  provided here will be those of the space coordinates for the pixel of
   //  index $(0,0)$.

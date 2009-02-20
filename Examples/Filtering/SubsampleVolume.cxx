@@ -312,12 +312,14 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// The origin of the input image is preserved and passed to the output image.
+// The origin and direction of the input image is preserved and passed to the
+// output image.
 //
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
+  resampler->SetOutputDirection( inputImage->GetDirection() );
 // Software Guide : EndCodeSnippet
 
 
