@@ -26,7 +26,7 @@
 
 using namespace itk;
 
-int itkQuadEdgeMeshSmoothingTest( int argc, char** argv )
+int itkQuadEdgeMeshSmoothingTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
   if( argc < 4 )
