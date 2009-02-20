@@ -49,6 +49,19 @@ ADD_TEST(itkFastChamferDistanceImageFilterTest ${ALGORITHMS_TESTS} itkFastChamfe
 ADD_TEST(itkFastMarchingTest ${ALGORITHMS_TESTS} itkFastMarchingTest)
 ADD_TEST(itkFastMarchingExtensionImageFilterTest ${ALGORITHMS_TESTS} itkFastMarchingExtensionImageFilterTest)
 ADD_TEST(itkFastMarchingUpwindGradientTest ${ALGORITHMS_TESTS4} itkFastMarchingUpwindGradientTest)
+
+# This test uses inputs from BayesianClassifierInitializer.
+# If that output changes, a new file should be placed in Examples/Data.
+ADD_TEST(itkBayesianClassifierImageFilterTest ${ALGORITHMS_TESTS4} 
+  --compare ${BASELINE}/itkBayesianClassifierImageFilterTestLabelMap.png 
+            ${TEMP}/itkBayesianClassifierImageFilterTestLabelMap.png
+  itkBayesianClassifierImageFilterTest
+     ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+     ${TEMP}/itkBayesianClassifierImageFilterTestLabelMap.png
+     4  # Number of classes
+     2  # Number of smoothing iterations
+)
+
 ADD_TEST(itkCollidingFrontsImageFilterTest ${ALGORITHMS_TESTS4} itkCollidingFrontsImageFilterTest)
 ADD_TEST(itkCurvesLevelSetImageFilterZeroSigmaTest ${ALGORITHMS_TESTS4} itkCurvesLevelSetImageFilterZeroSigmaTest)
 ADD_TEST(itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest ${ALGORITHMS_TESTS4} itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest)
@@ -346,6 +359,7 @@ IF(USE_FFTWD)
   SET(CURVATUREREGISTRATION_SRCS itkCurvatureRegistrationFilterTest.cxx)
 ENDIF(USE_FFTWD)
 SET(AlgorithmsTest4_SRCS
+itkBayesianClassifierImageFilterTest.cxx
 itkScalarImageKmeansImageFilter3DTest.cxx
 itkFastMarchingUpwindGradientTest.cxx
 itkCollidingFrontsImageFilterTest.cxx
