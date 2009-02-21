@@ -56,6 +56,8 @@ void ImageSeriesReader<TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
+  os << indent << "UseStreaming: " << m_UseStreaming << std::endl;
+
   if (m_ImageIO)
     {
     os << indent << "ImageIO: \n";
