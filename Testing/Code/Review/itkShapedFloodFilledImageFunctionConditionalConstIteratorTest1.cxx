@@ -78,8 +78,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
     
     for (; !shapedFloodIt.IsAtEnd(); ++shapedFloodIt)
       {
-      const IndexType& idx = shapedFloodIt.GetIndex();
-      visitedImage->SetPixel(idx, 255);
+      visitedImage->SetPixel( shapedFloodIt.GetIndex(), 255);
       }
     
     typedef itk::ImageRegionConstIterator<ImageType> ConstIteratorType;
