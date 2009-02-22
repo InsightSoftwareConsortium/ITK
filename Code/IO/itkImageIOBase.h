@@ -94,7 +94,7 @@ public:
    * image being read or written. Note this is not necessarily what
    * is written, rather the IORegion controls that. */
   void SetNumberOfDimensions(unsigned int);
-  itkGetMacro(NumberOfDimensions, unsigned int);
+  itkGetConstMacro(NumberOfDimensions, unsigned int);
 
   /** Set/Get the image dimensions in the x, y, z, etc. directions.
    * GetDimensions() is typically used after reading the data; the
@@ -127,6 +127,10 @@ public:
     {
     return m_Direction[i];
     }
+
+  /** Return the directions to be assigned by default to recipient
+   *  images whose dimension is smaller than the image dimension in file.  */
+  virtual std::vector<double> GetDefaultDirection(unsigned int i) const;
 
   /** Specify the region of the image data to either read or
    * write. The IORegion specifies the part of the image to read or

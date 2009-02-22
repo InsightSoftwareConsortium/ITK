@@ -1105,6 +1105,26 @@ ImageIOBase
   return streamableRegion;
 }
 
+/** Return the directions that this particular ImageIO would use by default
+ *  in the case the recipient image dimension is smaller than the dimension
+ *  of the image in file. */
+std::vector<double> 
+ImageIOBase
+::GetDefaultDirection( unsigned int k ) const
+{
+  std::vector<double> axis;
+  axis.resize( this->GetNumberOfDimensions() );
+
+  // Fill up with the equivalent of a line from an Identity matrix
+  for( unsigned int r=0; r<axis.size(); r++ )
+    {
+    axis[r] = 0.0;
+    }
+
+  axis[k] = 1.0; 
+
+  return axis;
+}
 
 void ImageIOBase::PrintSelf(std::ostream& os, Indent indent) const
 {

@@ -156,11 +156,31 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   double spacing[ TOutputImage::ImageDimension ];
   double origin[ TOutputImage::ImageDimension ];
   typename TOutputImage::DirectionType direction;
+
+  std::vector<std::vector<double> > directionIO;
+
+  const unsigned int numberOfDimensionsIO = m_ImageIO->GetNumberOfDimensions();
+
+  if( numberOfDimensionsIO > TOutputImage::ImageDimension )
+    {
+    for( unsigned int k = 0; k < numberOfDimensionsIO; k++ )
+      {
+      directionIO.push_back( m_ImageIO->GetDefaultDirection(k) );
+      }
+    }
+  else
+    {
+    for( unsigned int k = 0; k < numberOfDimensionsIO; k++ )
+      {
+      directionIO.push_back( m_ImageIO->GetDirection(k) );
+      }
+    }
+
   std::vector<double> axis;
 
   for(unsigned int i=0; i<TOutputImage::ImageDimension; i++)
     {
-    if ( i < m_ImageIO->GetNumberOfDimensions() )
+    if( i < numberOfDimensionsIO )
       {
       dimSize[i] = m_ImageIO->GetDimensions(i);
       spacing[i] = m_ImageIO->GetSpacing(i);
@@ -168,10 +188,10 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
 
       // Please note: direction cosines are stored as columns of the
       // direction matrix
-      axis = m_ImageIO->GetDirection(i);
-      for (unsigned j=0; j<TOutputImage::ImageDimension; j++)
+      axis = directionIO[i];
+      for( unsigned j=0; j<TOutputImage::ImageDimension; j++ )
         {
-        if (j < m_ImageIO->GetNumberOfDimensions())
+        if (j < numberOfDimensionsIO )
           {
           direction[j][i] = axis[j];
           }
@@ -201,18 +221,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
           }
         }
       }
-    }
-
-  //
-  // When reading image of more than 2 dimensions into an image of 2 Dimensions
-  // the direction cosines can't be represented in the 2D space. Therefore we
-  // force them to identity here. 
-  //
-  if(TOutputImage::ImageDimension == 2 && m_ImageIO->GetNumberOfDimensions() > 2 )
-    {
-    direction.SetIdentity();
-    itkWarningMacro("Direction forced to identity because input image has dimension "
-      << m_ImageIO->GetNumberOfDimensions() << " while output image has dimension 2");
     }
 
   output->SetSpacing( spacing );     // Set the image spacing

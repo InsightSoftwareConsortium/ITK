@@ -1417,9 +1417,109 @@ AnalyzeImageIO
 }
 
 
+/** Return the directions that this particular ImageIO would use by default
+ *  in the case the recipient image dimension is smaller than the dimension
+ *  of the image in file. */
+std::vector<double> 
+AnalyzeImageIO
+::GetDirection( unsigned int k ) const
+{
+  std::vector<double> correctedDirection = this->ImageIOBase::GetDirection(k);
+
+  // Apply corrections for 2D cases
+  std::vector<double> direction0 = this->ImageIOBase::GetDirection(0);
+  std::vector<double> direction1 = this->ImageIOBase::GetDirection(1);
+
+  if( k == 0 )
+    {
+    if(direction0[0] == 0.0 && direction1[0] == 0)
+      {
+      if(direction0[1] == 0.0)
+        {
+        correctedDirection[0] = 1.0;
+        }
+      }
+    }
+
+  if( k == 1 )
+    {
+    if(direction0[0] == 0.0 && direction1[0] == 0)
+      {
+      if(direction1[1] == 0.0)
+        {
+        correctedDirection[0] = 1.0;
+        }
+      }
+    else if(direction0[1] == 0.0 && direction1[1] == 0)
+      {
+      if(direction0[0] == 0.0)
+        {
+        correctedDirection[0] = 1.0;
+        }
+      if(direction1[0] == 0.0)
+        {
+        correctedDirection[1] = 1.0;
+        }
+      }
+    }
+
+  return correctedDirection;
+}
+
+
+/** Return the directions that this particular ImageIO would use by default
+ *  in the case the recipient image dimension is smaller than the dimension
+ *  of the image in file. */
+std::vector<double> 
+AnalyzeImageIO
+::GetDefaultDirection( unsigned int k ) const
+{
+  std::vector<double> defaultDirection = this->ImageIOBase::GetDefaultDirection(k);
+
+  // Apply corrections for 2D cases
+  std::vector<double> direction0 = this->GetDirection(0);
+  std::vector<double> direction1 = this->GetDirection(1);
+
+  if( k == 0 )
+    {
+    if(direction0[0] == 0.0 && direction1[0] == 0)
+      {
+      if(direction0[1] == 0.0)
+        {
+        defaultDirection[0] = 1.0;
+        }
+      }
+    }
+
+  if( k == 1 )
+    {
+    if(direction0[0] == 0.0 && direction1[0] == 0)
+      {
+      if(direction1[1] == 0.0)
+        {
+        defaultDirection[0] = 1.0;
+        }
+      }
+    else if(direction0[1] == 0.0 && direction1[1] == 0)
+      {
+      if(direction0[0] == 0.0)
+        {
+        defaultDirection[0] = 1.0;
+        }
+      if(direction1[0] == 0.0)
+        {
+        defaultDirection[1] = 1.0;
+        }
+      }
+    }
+
+  return defaultDirection;
+}
+
+
 /**
-   *
-   */
+ * This method writes the content of the image buffer to disk.
+ */
 void
 AnalyzeImageIO
 ::Write( const void* buffer)

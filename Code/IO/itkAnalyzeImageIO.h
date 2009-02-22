@@ -137,6 +137,13 @@ public:
        * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
 
+  /** Return the directions with a correction for the 2D case. */
+  virtual std::vector<double> GetDirection(unsigned int i) const;
+
+  /** Return the directions to be assigned by default to recipient
+   *  images whose dimension is smaller than the image dimension in file.  */
+  virtual std::vector<double> GetDefaultDirection(unsigned int i) const;
+
 
 protected:
   AnalyzeImageIO();
