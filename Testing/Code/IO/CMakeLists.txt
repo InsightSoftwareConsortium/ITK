@@ -53,6 +53,7 @@ itkDICOMImageIO2Test.cxx
 itkDICOMImageSeriesTest.cxx
 itkDICOMSeriesFileNamesTest.cxx
 itkDicomImageIOTest.cxx
+itkDicomImageIODirection2DTest.cxx 
 itkGEImageIOTest.cxx
 itkGiplImageIOTest.cxx
 itkImageIOBaseTest.cxx
@@ -544,6 +545,12 @@ ADD_TEST(itkDICOMImageIO2Test ${IO_TESTS}
   itkDICOMImageIO2Test
             ${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm
             ${ITK_TEST_OUTPUT_DIR}/itkDICOMImageIO2Test.png)
+ADD_TEST(itkDicomImageIODirection2DTest ${IO_TESTS} 
+  itkDicomImageIODirection2DTest
+  ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.dcm
+  ${ITK_TEST_OUTPUT_DIR}/itkDicomImage3DIODirection2DTest.mhd
+  ${ITK_TEST_OUTPUT_DIR}/itkDicomImage2DIODirection2DTest.mhd
+  )
 ADD_TEST(itkStimulateImageIOTest2 ${IO_TESTS} 
   itkStimulateImageIOTest2
             ${ITK_DATA_ROOT}/Input/BigEndian.spr)

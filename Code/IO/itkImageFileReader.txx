@@ -202,40 +202,19 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         }
       }
     }
+
   //
-  // TODO: actually figure out what to do about dir cosines in 2d.
-  // don't allow degenerate direction cosines
-  // This is a pure punt; it will prevent the exception being
-  // thrown, but doesn't do the right thing at all -- replacing e.g
-  // [0, 0, -1] with [0, 1] doesn't make any real sense.
-  // On the other hand, programs that depend on 2D Direction Cosines
-  // are pretty much guaranteed to be disappointed if they expect anything
-  // meaningful in the direction cosines anyway.
-  if(TOutputImage::ImageDimension == 2)
+  // When reading image of more than 2 dimensions into an image of 2 Dimensions
+  // the direction cosines can't be represented in the 2D space. Therefore we
+  // force them to identity here. 
+  //
+  if(TOutputImage::ImageDimension == 2 && m_ImageIO->GetNumberOfDimensions() > 2 )
     {
-    if(direction[0][0] == 0.0 && direction[1][0] == 0)
-      {
-      if(direction[0][1] == 0.0)
-        {
-        direction[0][0] = 1.0;
-        }
-      if(direction[1][1] == 0.0)
-        {
-        direction[1][0] = 1.0;
-        }
-      }
-    else if(direction[0][1] == 0.0 && direction[1][1] == 0)
-      {
-      if(direction[0][0] == 0.0)
-        {
-        direction[1][0] = 1.0;
-        }
-      if(direction[1][0] == 0.0)
-        {
-        direction[1][1] = 1.0;
-        }
-      }
+    direction.SetIdentity();
+    itkWarningMacro("Direction forced to identity because input image has dimension "
+      << m_ImageIO->GetNumberOfDimensions() << " while output image has dimension 2");
     }
+
   output->SetSpacing( spacing );     // Set the image spacing
   output->SetOrigin( origin );       // Set the image origin
   output->SetDirection( direction ); // Set the image direction cosines
