@@ -36,7 +36,7 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
 ::ConvolutionImageFilter()
 {
   this->SetNumberOfRequiredInputs( 2 );
-  this->SetNormalize( false );
+  m_Normalize = false;
 }
 
 template<class TInputImage, class TOutputImage>
