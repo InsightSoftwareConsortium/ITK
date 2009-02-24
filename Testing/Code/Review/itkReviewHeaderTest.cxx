@@ -137,7 +137,7 @@
 #include "itkConvolutionImageFilter.h"
 
 #include "itkHessianToObjectnessMeasureImageFilter.h"
-#include "itkMultiScaleHessianBasedMeasureImageFilterTest.h"
+#include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 
 int main ( int , char * [] )
 {
