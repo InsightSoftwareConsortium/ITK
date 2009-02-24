@@ -829,13 +829,16 @@ void MetaImageIO::ReadImageInformation()
 
 void MetaImageIO::Read(void* buffer)
 { 
-  // Pass the IO region to the MetaImage library
-  unsigned int nDims = this->GetNumberOfDimensions();
+  const unsigned int nDims = this->GetNumberOfDimensions();
+  const unsigned int ioDims = this->m_IORegion.GetImageDimension();
+
+  const unsigned int minDimension = ( nDims > ioDims ) ? ioDims : nDims;
+
   
   // this is a check to see if we are actually streaming
   // we initialize with m_IORegion to match dimensions
-  ImageIORegion largestRegion(m_IORegion);
-  for(unsigned int i=0; i<nDims; i++)
+  ImageIORegion largestRegion(minDimension);
+  for(unsigned int i=0; i<minDimension; i++)
     {
     largestRegion.SetIndex(i, 0);
     largestRegion.SetSize(i, this->GetDimensions(i));
@@ -843,9 +846,9 @@ void MetaImageIO::Read(void* buffer)
   
   if(largestRegion != m_IORegion)
     {
-    int* indexMin = new int[nDims];
-    int* indexMax = new int[nDims];
-    for(unsigned int i=0;i<nDims;i++)
+    int* indexMin = new int[minDimension];
+    int* indexMax = new int[minDimension];
+    for(unsigned int i=0;i<minDimension;i++)
       {
       indexMin[i] = m_IORegion.GetIndex()[i];
       indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] - 1;
