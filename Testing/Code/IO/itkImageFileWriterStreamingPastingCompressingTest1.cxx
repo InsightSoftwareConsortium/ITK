@@ -163,22 +163,23 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
     }
   catch( itk::ExceptionObject & err )
     {
-    std::cerr << err;
     if (expectException == -1 || expectException == 1)  
       {      
-      std::cerr << "Expected ExceptionObject caught !" << std::endl;
+      std::cout << "Expected ExceptionObject caught !" << std::endl;      
+      std::cout << err << std::endl;
       return EXIT_SUCCESS;
       }
     else 
       {
-      std::cerr << "UnExpected ExceptionObject caught !" << std::endl;
+      std::cout << "UnExpected ExceptionObject caught !" << std::endl;
+      std::cout << err << std::endl;
       return EXIT_FAILURE;
       }
     }
 
   if ( expectException == 1 ) 
     {
-    std::cerr << "Did not get expected exception!" << std::endl;
+    std::cout << "Did not get expected exception!" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -200,14 +201,14 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
     
     if (!SameImage(extractTestImage->GetOutput(), extractBaselineImage->GetOutput())) 
       {
-      std::cerr << "Paste regions of images differ" << std::endl;
+      std::cout << "Paste regions of images differ" << std::endl;
       return EXIT_FAILURE;
       }
 
     }
   else if (!SameImage(outputFileName, reader->GetOutput())) 
     {
-    std::cerr << "Images differ" << std::endl;
+    std::cout << "Images differ" << std::endl;
     return EXIT_FAILURE;
     }
 
