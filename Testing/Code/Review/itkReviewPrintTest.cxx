@@ -40,6 +40,7 @@
 #include "itkImageKernelOperator.h"
 
 #include "itkHessianToObjectnessMeasureImageFilter.h"
+#include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 
 int main(int , char* [])
 {
@@ -62,7 +63,7 @@ int main(int , char* [])
 
   typedef itk::NumericTraits< PixelType >::RealType                 RealPixelType;
   typedef itk::SymmetricSecondRankTensor< RealPixelType, 3 >        HessianPixelType;
-  typedef itk::Image< HessianPixelType, Dimension >                 HessianImageType;
+  typedef itk::Image< HessianPixelType, 3         >                 HessianImageType;
   typedef itk::Image< PixelType, 3 >                                Input3DImageType;
   typedef itk::Image< PixelType, 3 >                                OutputImageType;
 
@@ -156,8 +157,7 @@ int main(int , char* [])
  
   itk::MultiScaleHessianBasedMeasureImageFilter< Input3DImageType ,HessianImageType, OutputImageType >::Pointer
                MultiScaleHessianFilter = 
-        itk::MultiScaleHessianBasedMeasureImageFilter< Input3DImageType ,HessianImageType, OutputImageType >::New()
-    
+        itk::MultiScaleHessianBasedMeasureImageFilter< Input3DImageType ,HessianImageType, OutputImageType >::New();
 
   return EXIT_SUCCESS;
 }
