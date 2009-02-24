@@ -41,7 +41,7 @@ public:
     {
     return !(*this != other);
     }
-  inline OutputType operator()(  const std::vector< TInput > & in )
+  inline OutputType operator()(  const std::vector< TInput > & in ) const
     {
     OutputType pixel;
     pixel.Set( in[0], in[1], in[2], in[3] );

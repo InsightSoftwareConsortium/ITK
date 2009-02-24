@@ -55,7 +55,7 @@ public:
     {
     return other.m_Constant == m_Constant;
     }
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     // Because the user has to specify the constant we don't
     // check if the cte is not 0;

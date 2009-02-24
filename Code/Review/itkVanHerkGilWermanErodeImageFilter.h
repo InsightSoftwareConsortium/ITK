@@ -27,7 +27,7 @@ class MinFunctor
 public:
   MinFunctor(){}
   ~MinFunctor(){}
-  inline TPixel operator()(const TPixel &A, const TPixel &B)
+  inline TPixel operator()(const TPixel &A, const TPixel &B) const
     {
     return vnl_math_min(A, B);
     }

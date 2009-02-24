@@ -28,7 +28,7 @@ class MaxFunctor
 public:
   MaxFunctor(){}
   ~MaxFunctor(){}
-  inline TPixel operator()(const TPixel &A, const TPixel &B)
+  inline TPixel operator()(const TPixel &A, const TPixel &B) const
     {
     return vnl_math_max(A, B);
     }

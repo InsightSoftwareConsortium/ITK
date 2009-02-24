@@ -49,7 +49,7 @@ public:
     m_BackgroundValue = NumericTraits<TLabel>::Zero;
     }
 
-  inline TRGBPixel operator()(  const TInputPixel & p1, const TLabel & p2)
+  inline TRGBPixel operator()(  const TInputPixel & p1, const TLabel & p2) const
     {
     TRGBPixel rgbPixel;
     if( p2 == m_BackgroundValue )

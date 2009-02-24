@@ -99,7 +99,7 @@ public:
     m_BackgroundValue = NumericTraits<TLabel>::Zero;
     }
 
-  inline TRGBPixel operator()( const TLabel & p)
+  inline TRGBPixel operator()( const TLabel & p) const
     {
     // value is background
     // return a gray pixel with the same intensity than the label pixel

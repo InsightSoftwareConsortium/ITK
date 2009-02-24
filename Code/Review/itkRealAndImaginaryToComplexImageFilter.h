@@ -67,7 +67,7 @@ public:
     {
     return !(*this != other);
     }
-  inline std::complex<TOutput> operator()( const TInput1 & A, const TInput2 & B)
+  inline std::complex<TOutput> operator()( const TInput1 & A, const TInput2 & B) const
     {
     return std::complex<TOutput>( static_cast<TOutput>(A), static_cast<TOutput>(B));
     }
