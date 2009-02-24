@@ -132,6 +132,9 @@ SET(ReviewTest_SRCS
 
   itkAreaOpeningImageFilterTest.cxx
   itkAreaClosingImageFilterTest.cxx
+
+  itkHessianToObjectnessMeasureImageFilterTest.cxx
+  itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 )
 
 SET(ReviewTest2_SRCS

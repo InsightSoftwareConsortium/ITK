@@ -146,4 +146,7 @@ void RegisterTests()
   REGISTER_TEST( itkAreaOpeningImageFilterTest );
   REGISTER_TEST( itkAreaClosingImageFilterTest );
 
+  REGISTER_TEST( itkHessianToObjectnessMeasureImageFilterTest );
+  REGISTER_TEST( itkMultiScaleHessianBasedMeasureImageFilterTest );
+
 }

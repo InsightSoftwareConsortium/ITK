@@ -39,9 +39,11 @@
 
 #include "itkImageKernelOperator.h"
 
+#include "itkHessianToObjectnessMeasureImageFilter.h"
+
 int main(int , char* [])
 {
-  typedef itk::Image<float,2>           InputType;
+  typedef itk::Image<float,2>           Input2DImageType;
   typedef itk::Image<float,2>           OutputType;
   typedef itk::Image<unsigned char,2>   CharType;
   typedef itk::RGBPixel<unsigned char>  RGBPixelType;
@@ -58,12 +60,18 @@ int main(int , char* [])
   typedef unsigned short         PixelType;
   typedef itk::Mesh< float, 3 >  MeshType;
 
+  typedef itk::NumericTraits< PixelType >::RealType                 RealPixelType;
+  typedef itk::SymmetricSecondRankTensor< RealPixelType, 3 >        HessianPixelType;
+  typedef itk::Image< HessianPixelType, Dimension >                 HessianImageType;
+  typedef itk::Image< PixelType, 3 >                                Input3DImageType;
+  typedef itk::Image< PixelType, 3 >                                OutputImageType;
+
   // Dummy variable just to force the full instantiation of the class
   CharType::Pointer dummyImage = CharType::New();
 
-  itk::ContourExtractor2DImageFilter<InputType>::Pointer
+  itk::ContourExtractor2DImageFilter<Input2DImageType>::Pointer
     ContourExtractor2DImageFilterObj =
-    itk::ContourExtractor2DImageFilter<InputType>::New();
+    itk::ContourExtractor2DImageFilter<Input2DImageType>::New();
   std:: cout << "-------------ContourExtractor2DImageFilter "
              << ContourExtractor2DImageFilterObj;
 
@@ -73,9 +81,9 @@ int main(int , char* [])
   std:: cout << "-------------LabelToRGBImageFilter "
              << LabelToRGBImageFilterObj;
 
-  itk::LabelOverlayImageFilter<InputType,CharType,RGBImageType>::Pointer
+  itk::LabelOverlayImageFilter<Input2DImageType,CharType,RGBImageType>::Pointer
     LabelOverlayImageFilterObj =
-    itk::LabelOverlayImageFilter<InputType,CharType,RGBImageType>::New();
+    itk::LabelOverlayImageFilter<Input2DImageType,CharType,RGBImageType>::New();
   std:: cout << "-------------LabelOverlayImageFilter "
              << LabelOverlayImageFilterObj;
 
@@ -83,27 +91,27 @@ int main(int , char* [])
   std:: cout << "-------------QuadEdgeMesh "
              << QuadEdgeMeshObj;
 
-  itk::ValuedRegionalMaximaImageFilter<InputType,InputType>::Pointer
+  itk::ValuedRegionalMaximaImageFilter<Input2DImageType,Input2DImageType>::Pointer
     ValuedRegionalMaximaImageFilterObj =
-    itk::ValuedRegionalMaximaImageFilter<InputType,InputType>::New();
+    itk::ValuedRegionalMaximaImageFilter<Input2DImageType,Input2DImageType>::New();
   std:: cout << "-------------ValuedRegionalMaximaImageFilterObj "
              << ValuedRegionalMaximaImageFilterObj;
 
-  itk::ValuedRegionalMinimaImageFilter<InputType,InputType>::Pointer
+  itk::ValuedRegionalMinimaImageFilter<Input2DImageType,Input2DImageType>::Pointer
     ValuedRegionalMinimaImageFilterObj =
-    itk::ValuedRegionalMinimaImageFilter<InputType,InputType>::New();
+    itk::ValuedRegionalMinimaImageFilter<Input2DImageType,Input2DImageType>::New();
   std:: cout << "-------------ValuedRegionalMinimaImageFilterObj "
              << ValuedRegionalMinimaImageFilterObj;
 
-  itk::RegionalMaximaImageFilter<InputType,InputType>::Pointer
+  itk::RegionalMaximaImageFilter<Input2DImageType,Input2DImageType>::Pointer
     RegionalMaximaImageFilterObj =
-    itk::RegionalMaximaImageFilter<InputType,InputType>::New();
+    itk::RegionalMaximaImageFilter<Input2DImageType,Input2DImageType>::New();
   std:: cout << "-------------RegionalMaximaImageFilterObj "
              << RegionalMaximaImageFilterObj;
 
-  itk::RegionalMinimaImageFilter<InputType,InputType>::Pointer
+  itk::RegionalMinimaImageFilter<Input2DImageType,Input2DImageType>::Pointer
     RegionalMinimaImageFilterObj =
-    itk::RegionalMinimaImageFilter<InputType,InputType>::New();
+    itk::RegionalMinimaImageFilter<Input2DImageType,Input2DImageType>::New();
   std:: cout << "-------------RegionalMinimaImageFilterObj "
              << RegionalMinimaImageFilterObj;
 
@@ -138,6 +146,18 @@ int main(int , char* [])
   itk::ImageKernelOperator<float> kernelOperator;
   std::cout << "--------------ImageKernelOperatorObj ";
   kernelOperator.Print(std::cout);
+
+  itk::HessianToObjectnessMeasureImageFilter< HessianImageType,OutputImageType >::Pointer 
+              ObjectnessFilterObject = 
+        itk::HessianToObjectnessMeasureImageFilter< HessianImageType,OutputImageType >::New(); 
+
+  std::cout << "---------------------------------ObjectnessFilterObject "
+                   << ObjectnessFilterObject;
+ 
+  itk::MultiScaleHessianBasedMeasureImageFilter< Input3DImageType ,HessianImageType, OutputImageType >::Pointer
+               MultiScaleHessianFilter = 
+        itk::MultiScaleHessianBasedMeasureImageFilter< Input3DImageType ,HessianImageType, OutputImageType >::New()
+    
 
   return EXIT_SUCCESS;
 }
