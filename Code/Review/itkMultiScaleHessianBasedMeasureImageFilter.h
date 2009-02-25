@@ -84,6 +84,7 @@ public:
  
   /** Update image buffer that holds the best objectness response */ 
   typedef Image< double, itkGetStaticConstMacro(ImageDimension) > UpdateBufferType;
+  typedef typename UpdateBufferType::ValueType                    BufferValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

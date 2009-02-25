@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,7 @@ namespace itk
  * Constructor
  */
 template <typename TInputImage,
-          typename THessianImage, 
+          typename THessianImage,
           typename TOutputImage>
 MultiScaleHessianBasedMeasureImageFilter
 <TInputImage,THessianImage,TOutputImage>
@@ -42,7 +42,7 @@ MultiScaleHessianBasedMeasureImageFilter
   m_SigmaStepMethod = Self::LogarithmicSigmaSteps;
 
   m_HessianFilter = HessianFilterType::New();
-  m_HessianToMeasureFilter = NULL; 
+  m_HessianToMeasureFilter = NULL;
 
   //Instantiate Update buffer
   m_UpdateBuffer = UpdateBufferType::New();
@@ -58,7 +58,7 @@ MultiScaleHessianBasedMeasureImageFilter
 }
 
 template <typename TInputImage,
-          typename THessianImage, 
+          typename THessianImage,
           typename TOutputImage>
 void
 MultiScaleHessianBasedMeasureImageFilter
@@ -67,7 +67,7 @@ MultiScaleHessianBasedMeasureImageFilter
 {
   /* The update buffer looks just like the output and holds the best response
      in the  objectness measure */
-  
+
   typename TOutputImage::Pointer output = this->GetOutput();
 
   m_UpdateBuffer->SetSpacing(output->GetSpacing());
@@ -77,12 +77,13 @@ MultiScaleHessianBasedMeasureImageFilter
   m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
   m_UpdateBuffer->Allocate();
 
-  // Update buffer is used for > comparisons so make it really really small, just to be sure. Thanks to Hauke Heibel. 
-  m_UpdateBuffer->FillBuffer(itk::NumericTraits<typename UpdateBufferType::ValueType>::NonpositiveMin());  
+  // Update buffer is used for > comparisons so make it really really small,
+  // just to be sure. Thanks to Hauke Heibel.
+  m_UpdateBuffer->FillBuffer( itk::NumericTraits< BufferValueType >::NonpositiveMin() );
 }
 
 template <typename TInputImage,
-          typename THessianImage, 
+          typename THessianImage,
           typename TOutputImage>
 void
 MultiScaleHessianBasedMeasureImageFilter
@@ -113,34 +114,34 @@ MultiScaleHessianBasedMeasureImageFilter
 
   // Allocate the buffer
   AllocateUpdateBuffer();
-  
+
   typename InputImageType::ConstPointer input = this->GetInput();
- 
+
   this->m_HessianFilter->SetInput(input);
 
   this->m_HessianFilter->SetNormalizeAcrossScale(true);
- 
+
   double sigma = m_SigmaMinimum;
 
   int scaleLevel = 1;
 
   while (sigma <= m_SigmaMaximum)
     {
-    std::cout << "Computing measure for scale with sigma = " 
+    std::cout << "Computing measure for scale with sigma = "
               << sigma << std::endl;
 
     m_HessianFilter->SetSigma( sigma );
 
-    m_HessianToMeasureFilter->SetInput ( m_HessianFilter->GetOutput() ); 
+    m_HessianToMeasureFilter->SetInput ( m_HessianFilter->GetOutput() );
 
     m_HessianToMeasureFilter->Update();
- 
+
     this->UpdateMaximumResponse(sigma);
 
     sigma  = this->ComputeSigmaValue( scaleLevel );
 
     scaleLevel++;
-    } 
+    }
 
   //Write out the best response to the output image
   ImageRegionIterator<UpdateBufferType> it(m_UpdateBuffer,m_UpdateBuffer->GetLargestPossibleRegion());
@@ -158,7 +159,7 @@ MultiScaleHessianBasedMeasureImageFilter
 }
 
 template <typename TInputImage,
-          typename THessianImage, 
+          typename THessianImage,
           typename TOutputImage>
 void
 MultiScaleHessianBasedMeasureImageFilter
@@ -221,7 +222,7 @@ MultiScaleHessianBasedMeasureImageFilter
     }
 }
 template <typename TInputImage,
-          typename THessianImage, 
+          typename THessianImage,
           typename TOutputImage>
 double
 MultiScaleHessianBasedMeasureImageFilter
@@ -258,7 +259,7 @@ MultiScaleHessianBasedMeasureImageFilter
 }
 
 template <typename TInputImage,
-          typename THessianImage, 
+          typename THessianImage,
           typename TOutputImage>
 void
 MultiScaleHessianBasedMeasureImageFilter
@@ -266,7 +267,7 @@ MultiScaleHessianBasedMeasureImageFilter
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  
+
   os << indent << "SigmaMinimum:  " << m_SigmaMinimum << std::endl;
   os << indent << "SigmaMaximum:  " << m_SigmaMaximum  << std::endl;
   os << indent << "NumberOfSigmaSteps:  " << m_NumberOfSigmaSteps  << std::endl;
@@ -278,5 +279,5 @@ MultiScaleHessianBasedMeasureImageFilter
 
 
 } // end namespace itk
-  
+
 #endif
