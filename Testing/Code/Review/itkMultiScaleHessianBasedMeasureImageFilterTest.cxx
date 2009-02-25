@@ -58,24 +58,24 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteOutputImageType> RescaleFilterType;
 
   typedef itk::NumericTraits< InputPixelType >::RealType RealPixelType;
- 
+
   typedef itk::SymmetricSecondRankTensor< RealPixelType, Dimension > HessianPixelType;
   typedef itk::Image< HessianPixelType, Dimension >                  HessianImageType;
 
   // Declare the type of enhancement filter
   typedef itk::HessianToObjectnessMeasureImageFilter< HessianImageType,OutputImageType > ObjectnessFilterType;
-  
+
   // Declare the type of multiscale enhancement filter
   typedef itk::MultiScaleHessianBasedMeasureImageFilter< InputImageType,HessianImageType, OutputImageType > MultiScaleEnhancementFilterType;
 
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName(argv[1]);
   try
-    { 
+    {
     imageReader->Update();
     }
   catch (itk::ExceptionObject &ex)
-    { 
+    {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
@@ -126,7 +126,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     {
     std::cerr << e << std::endl;
     }
- 
+
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
   rescale->SetInput(multiScaleEnhancementFilter->GetOutput());
   rescale->SetOutputMinimum(0);
@@ -134,7 +134,9 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
-  writer->SetInput(rescale->GetOutput());
+  writer->UseCompressionOn();
+  writer->SetInput( rescale->GetOutput() );
+
   try
     {
     writer->Update();

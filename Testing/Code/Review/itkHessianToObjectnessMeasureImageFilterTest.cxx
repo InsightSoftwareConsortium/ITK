@@ -49,7 +49,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   typedef itk::ImageFileWriter<ImageType> FileWriterType;
 
   typedef itk::RescaleIntensityImageFilter<ImageType> RescaleFilterType;
- 
+
   // Declare the type of the recursive Gaussian filter
   typedef itk::HessianRecursiveGaussianImageFilter<
                                             ImageType >  GaussianImageFilterType;
@@ -59,15 +59,15 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   // Delcare the type of objectness measure image filter
 
   typedef itk::HessianToObjectnessMeasureImageFilter<HessianImageType, ImageType > ObjectnessFilterType;
- 
+
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName(argv[1]);
   try
-    { 
+    {
     imageReader->Update();
     }
   catch (itk::ExceptionObject &ex)
-    { 
+    {
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
@@ -105,10 +105,12 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
     {
     std::cerr << e << std::endl;
     }
-   
+
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
+  writer->UseCompressionOn();
   writer->SetInput(objectnessFilter->GetOutput());
+
   try
     {
     writer->Update();
