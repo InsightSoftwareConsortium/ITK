@@ -1400,6 +1400,21 @@ ADD_TEST(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
   1000 0 0
 )
 
+ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
+  itkHessianToObjectnessMeasureImageFilterTest
+  ${INPUTDATA}/DSA.png
+  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+  1 0)
+
+
+ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
+  itkMultiScaleHessianBasedMeasureImageFilterTest
+  ${INPUTDATA}/DSA.png
+  ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestOutput.mha
+  5 10 10 1 0)
+
+
+
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
 TARGET_LINK_LIBRARIES(itkReviewPrintTest
   ITKAlgorithms

@@ -33,24 +33,29 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     std::cerr << "Missing Parameters: "
               << argv[0]
               << " Input_Image"
-              << " Enhanced_Output_Image [SigmaMin SigmaMax NumberOfScales ObjectDimension]" << std::endl;
+              << " Enhanced_Output_Image [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark]" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Define the dimension of the images
-  const unsigned int Dimension = 3;
+  const unsigned int Dimension = 2;
 
-  typedef signed short                         InputPixelType;
-  typedef itk::Image<InputPixelType,Dimension> InputImageType;
+  typedef float                                 InputPixelType;
+  typedef itk::Image<InputPixelType,Dimension>  InputImageType;
 
 
-  typedef  float                                OutputPixelType;
+  typedef float                                 OutputPixelType;
   typedef itk::Image<OutputPixelType,Dimension> OutputImageType;
 
   typedef itk::ImageFileReader<InputImageType>  FileReaderType;
-  typedef itk::ImageFileWriter<OutputImageType> FileWriterType;
 
-  typedef itk::RescaleIntensityImageFilter<OutputImageType> RescaleFilterType;
+
+  typedef float                                       WriteOutputPixelType;
+  typedef itk::Image<WriteOutputPixelType,Dimension>  WriteOutputImageType;
+
+  typedef itk::ImageFileWriter<WriteOutputImageType> FileWriterType;
+
+  typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteOutputImageType> RescaleFilterType;
 
   typedef itk::NumericTraits< InputPixelType >::RealType RealPixelType;
  
@@ -106,6 +111,11 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   if ( argc >= 7 )
     {
     objectnessFilter->SetObjectDimension( atoi(argv[6]) );
+    }
+
+  if ( argc >= 8 )
+    {
+    objectnessFilter->SetBrightObject( atoi(argv[7]) );
     }
 
   try

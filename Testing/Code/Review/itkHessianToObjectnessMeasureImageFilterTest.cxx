@@ -33,12 +33,12 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
     std::cerr << "Missing Parameters: "
               << argv[0]
               << " Input_Image"
-              << " Enhanced_Output_Image [ObjectDimension]" << std::endl;
+              << " Enhanced_Output_Image [ObjectDimension] [Bright/Dark]" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Define the dimension of the images
-  const unsigned char Dim = 3;
+  const unsigned char Dim = 2;
 
   typedef float PixelType;
 
@@ -63,14 +63,14 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName(argv[1]);
   try
-  { 
+    { 
     imageReader->Update();
-  }
+    }
   catch (itk::ExceptionObject &ex)
-  { 
+    { 
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
   // Create a Gaussian Filter
   GaussianImageFilterType::Pointer gaussianFilter = GaussianImageFilterType::New();
@@ -89,7 +89,12 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   if ( argc >= 3 )
     {
-    objectnessFilter->SetObjectDimension( atoi(argv[2]) );
+    objectnessFilter->SetObjectDimension( atoi(argv[3]) );
+    }
+
+  if ( argc >= 4 )
+    {
+    objectnessFilter->SetBrightObject( atoi(argv[4]) );
     }
 
   try
@@ -101,14 +106,9 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
     std::cerr << e << std::endl;
     }
    
-  RescaleFilterType::Pointer rescale = RescaleFilterType::New();
-  rescale->SetInput(objectnessFilter->GetOutput());
-  rescale->SetOutputMinimum(0);
-  rescale->SetOutputMaximum(255);
-
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
-  writer->SetInput(rescale->GetOutput());
+  writer->SetInput(objectnessFilter->GetOutput());
   try
     {
     writer->Update();
