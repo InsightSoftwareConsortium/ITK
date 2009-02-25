@@ -23,7 +23,6 @@
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkImage.h"
 
 int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
@@ -32,8 +31,9 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     {
     std::cerr << "Missing Parameters: "
               << argv[0]
-              << " Input_Image"
-              << " Enhanced_Output_Image [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark]" << std::endl;
+              << " InputImage"
+              << " EnhancedOutputImage ScalesOutputImage "
+              << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -49,13 +49,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   typedef itk::ImageFileReader<InputImageType>  FileReaderType;
 
-
-  typedef float                                       WriteOutputPixelType;
-  typedef itk::Image<WriteOutputPixelType,Dimension>  WriteOutputImageType;
-
-  typedef itk::ImageFileWriter<WriteOutputImageType> FileWriterType;
-
-  typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteOutputImageType> RescaleFilterType;
+  typedef itk::ImageFileWriter<OutputImageType> FileWriterType;
 
   typedef itk::NumericTraits< InputPixelType >::RealType RealPixelType;
 
@@ -93,30 +87,33 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   multiScaleEnhancementFilter->SetHessianToMeasureFilter( objectnessFilter );
   multiScaleEnhancementFilter->SetSigmaStepMethodToLogarithmic();
 
-   if ( argc >= 4 )
+   if ( argc > 4 )
     {
-    multiScaleEnhancementFilter->SetSigmaMinimum( atof(argv[3])  );
+    multiScaleEnhancementFilter->SetSigmaMinimum( atof(argv[4])  );
     }
 
-  if ( argc >= 5 )
+  if ( argc > 5 )
     {
-    multiScaleEnhancementFilter->SetSigmaMaximum( atof(argv[4]) );
+    multiScaleEnhancementFilter->SetSigmaMaximum( atof(argv[5]) );
     }
 
-  if ( argc >= 6 )
+  if ( argc > 6 )
     {
-    multiScaleEnhancementFilter->SetNumberOfSigmaSteps( atoi(argv[5]) );
+    multiScaleEnhancementFilter->SetNumberOfSigmaSteps( atoi(argv[6]) );
     }
 
-  if ( argc >= 7 )
+  if ( argc > 7 )
     {
-    objectnessFilter->SetObjectDimension( atoi(argv[6]) );
+    objectnessFilter->SetObjectDimension( atoi(argv[7]) );
     }
 
-  if ( argc >= 8 )
+  if ( argc > 8 )
     {
-    objectnessFilter->SetBrightObject( atoi(argv[7]) );
+    objectnessFilter->SetBrightObject( atoi(argv[8]) );
     }
+
+  multiScaleEnhancementFilter->GenerateScalesOutputOn();
+  multiScaleEnhancementFilter->GenerateHessianOutputOn();
 
   try
     {
@@ -127,15 +124,10 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     std::cerr << e << std::endl;
     }
 
-  RescaleFilterType::Pointer rescale = RescaleFilterType::New();
-  rescale->SetInput(multiScaleEnhancementFilter->GetOutput());
-  rescale->SetOutputMinimum(0);
-  rescale->SetOutputMaximum(255);
-
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
-  writer->SetInput( rescale->GetOutput() );
+  writer->SetInput( multiScaleEnhancementFilter->GetOutput() );
 
   try
     {
@@ -145,6 +137,25 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     {
     std::cerr << e << std::endl;
     }
+
+  writer->SetFileName(argv[3]);
+  writer->UseCompressionOn();
+  writer->SetInput( multiScaleEnhancementFilter->GetScalesOutput() );
+
+  try
+    {
+    writer->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
+
+  const HessianImageType * hessianImage = 
+    multiScaleEnhancementFilter->GetHessianOutput();
+
+  std::cout << "Hessian Image Buffered Region = " << std::endl;
+  std::cout << hessianImage->GetBufferedRegion() << std::endl;
 
   return EXIT_SUCCESS;
 }

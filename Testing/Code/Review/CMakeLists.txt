@@ -1410,8 +1410,14 @@ ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
 ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
   itkMultiScaleHessianBasedMeasureImageFilterTest
   ${INPUTDATA}/DSA.png
-  ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestOutput.mha
-  5 10 10 1 0)
+  ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha
+  ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestScalesOutput.mha
+   5  # Minimum Sigma
+  10  # Maximum Sigma
+  10  # Number of Sigma steps
+   1  # Object Dimension (search for tubes)
+   0  # Search for Dark objects over bright background
+  )
 
 
 
