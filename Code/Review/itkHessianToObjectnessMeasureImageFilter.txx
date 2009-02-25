@@ -63,8 +63,6 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage>
   
   typename OutputImageType::Pointer output = this->GetOutput();
 
-  typedef typename EigenAnalysisFilterType::OutputImageType EigenValueImageType;
-
   m_SymmetricEigenValueFilter->Update();
   
   const typename EigenValueImageType::ConstPointer eigenImage = m_SymmetricEigenValueFilter->GetOutput();
