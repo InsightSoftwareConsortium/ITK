@@ -76,8 +76,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension<InputImageType>::ImageDimension);
 
   typedef double                                                    EigenValueType;
-  typedef itk::FixedArray< EigenValueType, ImageDimension >         EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, ImageDimension >         EigenValueImageType;
+  typedef itk::FixedArray< EigenValueType, itkGetStaticConstMacro( ImageDimension ) > EigenValueArrayType;
+  typedef itk::Image< EigenValueArrayType, itkGetStaticConstMacro( ImageDimension ) > EigenValueImageType;
 
   typedef SymmetricEigenAnalysisImageFilter< 
     InputImageType, EigenValueImageType >                           EigenAnalysisFilterType;
