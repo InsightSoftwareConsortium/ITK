@@ -692,6 +692,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   std::vector<double> dirx(numberOfDimensions,0),
     diry(numberOfDimensions,0),dirz(numberOfDimensions,0),
     dirBlock(numberOfDimensions,0);
+  dirBlock[numberOfDimensions-1] = 1;
   dirx[0] = dir[0][0];
   dirx[1] = dir[1][0];
   dirx[2] = dir[2][0];
