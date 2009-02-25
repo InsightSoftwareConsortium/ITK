@@ -271,13 +271,9 @@ MultiScaleHessianBasedMeasureImageFilter
   os << indent << "SigmaMaximum:  " << m_SigmaMaximum  << std::endl;
   os << indent << "NumberOfSigmaSteps:  " << m_NumberOfSigmaSteps  << std::endl;
   os << indent << "SigmaStepMethod:  " << m_SigmaStepMethod  << std::endl;
-
-  os << indent << "HessianToMeasureFilter: " << m_HessianToMeasureFilter <<
-std::endl;
-  os << indent << "GenerateScalesOutput: " << m_GenerateHessianOutput <<
-std::endl;
-  os << indent << "GenerateHessianOutput: " << m_GenerateHessianOutput <<
-std::endl;
+  os << indent << "HessianToMeasureFilter: " << m_HessianToMeasureFilter << std::endl;
+  os << indent << "GenerateScalesOutput: " << m_GenerateScalesOutput << std::endl;
+  os << indent << "GenerateHessianOutput: " << m_GenerateHessianOutput << std::endl;
 }
 
 
