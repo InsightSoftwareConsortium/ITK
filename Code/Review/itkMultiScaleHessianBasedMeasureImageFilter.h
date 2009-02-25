@@ -111,7 +111,8 @@ public:
   typedef enum { EquispacedSigmaSteps = 0,
                  LogarithmicSigmaSteps = 1 } SigmaStepMethodType;
 
-  /** Set/Get the method used to generate scale sequence (Equispaced or Logarithmic)*/
+  /** Set/Get the method used to generate scale sequence (Equispaced
+   * or Logarithmic) */
   itkSetMacro(SigmaStepMethod, SigmaStepMethodType);
   itkGetMacro(SigmaStepMethod, SigmaStepMethodType);
   void SetSigmaStepMethodToEquispaced()
@@ -125,13 +126,15 @@ public:
     }
 
   /** FIX ME: MOVE this to implementation file */
-  /** Get the image containing the Hessian computed at the best response scale*/
+  /** Get the image containing the Hessian computed at the best
+   * response scale */
   const HessianImageType* GetHessianOutput() const
     {
     return static_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
     }
  
-  /** Get the image containing the scales at which each pixel gave the best response*/
+  /** Get the image containing the scales at which each pixel gave the
+   * best response */
   const OutputImageType* GetScalesOutput() const
     {
     return  this->GetOutput(1);

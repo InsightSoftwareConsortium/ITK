@@ -55,8 +55,8 @@ public:
   typedef typename MeshType::EdgeCellType EdgeCellType;
   typedef typename MeshType::EdgeListType EdgeListType;
 
-  itkNewMacro( Self );
   itkTypeMacro( QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase );
+  itkNewMacro( Self );
 
   virtual OutputType Evaluate( const InputType& mesh ) const;
 
