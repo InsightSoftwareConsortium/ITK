@@ -130,14 +130,14 @@ public:
    * response scale */
   const HessianImageType* GetHessianOutput() const
     {
-    return static_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
+    return static_cast<const HessianImageType*>(this->ProcessObject::GetOutput(2));
     }
  
   /** Get the image containing the scales at which each pixel gave the
    * best response */
   const OutputImageType* GetScalesOutput() const
     {
-    return  this->GetOutput(1);
+    return static_cast<const OutputImageType*>(this->ProcessObject::GetOutput(1));
     }
 
   /** FIX ME : ADD DOCUMENTATION */
