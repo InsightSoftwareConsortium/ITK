@@ -26,6 +26,8 @@
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 
+#include "../IO/itkPipelineMonitorImageFilter.h"
+
 int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 {
 
@@ -113,6 +115,11 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     } 
 
   filter->SetSmoothingFilter( smoother );
+
+  
+  typedef itk::PipelineMonitorImageFilter<InputImageType> MonitorFilterType;
+  MonitorFilterType::Pointer monitor =  MonitorFilterType::New();
+  monitor->SetInput(filter->GetOutput());
   
     
   typedef ClassifierFilterType::OutputImageType      ClassifierOutputImageType;
@@ -120,7 +127,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
   typedef itk::RescaleIntensityImageFilter< 
     ClassifierOutputImageType, OutputImageType >   RescalerType;
   RescalerType::Pointer rescaler = RescalerType::New();
-  rescaler->SetInput( filter->GetOutput() );
+  rescaler->SetInput( monitor->GetOutput() );
   rescaler->SetOutputMinimum( 0 );
   rescaler->SetOutputMaximum( 255 );
 
@@ -133,6 +140,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   try
     {
+    filter->Update();
     writer->Update();
     }
   catch( itk::ExceptionObject & excp )
@@ -142,6 +150,13 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+
+  if (!monitor->VerifyAllIputCanNotStream()) 
+    {
+    std::cout << "pipeline did not execute as expected!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
   filter->Print( std::cout );
   std::cout << "Test passed." << std::endl;
 
