@@ -201,7 +201,7 @@ MultiScaleHessianBasedMeasureImageFilter
       oit.Value() = it.Value();
       if (m_GenerateScalesOutput)
         {
-        osit.Value() = sigma;
+        osit.Value() = static_cast< OutputPixelType >( sigma );
         }
       if (m_GenerateHessianOutput)
         {
