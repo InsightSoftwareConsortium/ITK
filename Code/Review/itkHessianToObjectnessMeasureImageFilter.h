@@ -75,10 +75,12 @@ public:
   /** Image dimension */
   itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension<InputImageType>::ImageDimension);
 
-  typedef double                                                                    EigenValueType;
-  typedef itk::FixedArray< EigenValueType, InputPixelType::Dimension >              EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, InputImageType::ImageDimension >         EigenValueImageType;
-  typedef SymmetricEigenAnalysisImageFilter< InputImageType, EigenValueImageType >  EigenAnalysisFilterType;
+  typedef double                                                    EigenValueType;
+  typedef itk::FixedArray< EigenValueType, ImageDimension >         EigenValueArrayType;
+  typedef itk::Image< EigenValueArrayType, ImageDimension >         EigenValueImageType;
+
+  typedef SymmetricEigenAnalysisImageFilter< 
+    InputImageType, EigenValueImageType >                           EigenAnalysisFilterType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
