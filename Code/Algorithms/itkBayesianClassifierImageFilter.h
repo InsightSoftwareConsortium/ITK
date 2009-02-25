@@ -153,6 +153,8 @@ public:
   typedef MaximumDecisionRule                             DecisionRuleType;
   typedef DecisionRuleType::Pointer                       DecisionRulePointer;
 
+  typedef typename Superclass::DataObjectPointer          DataObjectPointer;
+
   /** An image from a single component of the Posterior */
   typedef itk::Image< TPosteriorsPrecisionType, 
        itkGetStaticConstMacro(Dimension) >                ExtractedComponentImageType;
@@ -171,6 +173,9 @@ public:
   /** Number of iterations to apply the smoothing filter */
   itkSetMacro( NumberOfSmoothingIterations, unsigned int );
   itkGetMacro( NumberOfSmoothingIterations, unsigned int );
+
+  /** This is overloaded to create the Posteriors output image */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -203,7 +208,7 @@ protected:
 
   /** Allocate Memory for the Output. */
   virtual void AllocateOutputs();
-
+  virtual void GenerateOutputInformation(void);
 
   /** Methods for computing the labeled map for all combinations of conditions */
   virtual void ComputeBayesRule();

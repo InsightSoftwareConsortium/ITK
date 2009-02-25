@@ -40,7 +40,8 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
   this->SetNumberOfRequiredOutputs( 2 );
   m_NumberOfSmoothingIterations = 0;
   m_SmoothingFilter = NULL;
-  PosteriorsImagePointer p = PosteriorsImageType::New();
+  PosteriorsImagePointer p =
+    static_cast<PosteriorsImageType*>(this->MakeOutput(1).GetPointer()); 
   this->SetNthOutput( 1 , p.GetPointer() );
 }
 
@@ -87,6 +88,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
 
   this->AllocateOutputs();
 
+
   this->ComputeBayesRule();
   
   if( m_UserProvidedSmoothingFilter )
@@ -108,14 +110,44 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
                               TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::GetPosteriorImage()
 {
-  return  dynamic_cast< PosteriorsImageType * >(
-    this->ProcessObject::GetOutput(1) );
+  PosteriorsImageType * ptr = dynamic_cast< PosteriorsImageType * >(
+    this->ProcessObject::GetOutput(1) ); 
+  return ptr;
 }
 
+template < class TInputVectorImage, class TLabelsType, 
+           class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+typename BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
+                                       TPosteriorsPrecisionType, TPriorsPrecisionType >
+::DataObjectPointer
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
+                              TPosteriorsPrecisionType, TPriorsPrecisionType >
+::MakeOutput(unsigned int idx)
+{
+  if  (idx == 1) 
+    {
+    return static_cast<DataObject*>(PosteriorsImageType::New().GetPointer());
+    }
+  return Superclass::MakeOutput(idx);
+}
 
-/**
- * Compute the labeled map with no priors and no smoothing
- */
+template < class TInputVectorImage, class TLabelsType, 
+           class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+void 
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
+                              TPosteriorsPrecisionType, TPriorsPrecisionType >
+::GenerateOutputInformation(void)
+{
+  Superclass::GenerateOutputInformation();
+
+  if ( !this->GetPosteriorImage() )
+    {
+    return;
+    }
+
+  this->GetPosteriorImage()->SetVectorLength( this->GetInput()->GetVectorLength() );
+}
+
 template < class TInputVectorImage, class TLabelsType, 
            class TPosteriorsPrecisionType, class TPriorsPrecisionType >
 void 
@@ -123,26 +155,14 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
                               TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::AllocateOutputs()
 {
-  const InputImageType * membershipImage = this->GetInput();
-
-  this->GetOutput()->SetRegions( membershipImage->GetBufferedRegion() );
-  this->GetOutput()->SetOrigin(  membershipImage->GetOrigin() );
-  this->GetOutput()->SetSpacing( membershipImage->GetSpacing() );
-  this->GetOutput()->SetDirection( membershipImage->GetDirection() );
+  // we overload this methods because outputs are of different types
+  // the the templated parameter to ImageSource<OutputImageType>
+  
+  this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
   this->GetOutput()->Allocate();
 
-  // The first output is the Image of Labels, 
-  // The second output is the image of Posteriors.
-  // TODO Make this optional.. RequiredNumberOfOutputs should not always
-  // be 2.
-
-  this->GetPosteriorImage()->SetRegions( membershipImage->GetBufferedRegion() );
-  this->GetPosteriorImage()->SetOrigin(  membershipImage->GetOrigin() );
-  this->GetPosteriorImage()->SetSpacing( membershipImage->GetSpacing() );
-  this->GetPosteriorImage()->SetDirection( membershipImage->GetDirection() );
-  this->GetPosteriorImage()->SetVectorLength( this->GetInput()->GetVectorLength() );
+  this->GetPosteriorImage()->SetBufferedRegion( this->GetPosteriorImage()->GetRequestedRegion() );
   this->GetPosteriorImage()->Allocate();
-
 }
 
 /**
@@ -150,7 +170,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
  * then the posteriors are just a copy of the memberships.  */
 template < class TInputVectorImage, class TLabelsType, 
            class TPosteriorsPrecisionType, class TPriorsPrecisionType >
-void 
+ void 
 BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
                               TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::ComputeBayesRule()
