@@ -35,7 +35,9 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = false;
 
-  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
+  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+
+  for( unsigned int i = 0; i<numberOfSmoothingFilters; i++ )
     {
     GaussianFilterPointer filter = GaussianFilterType::New();
     filter->SetOrder( GaussianFilterType::ZeroOrder );
@@ -57,12 +59,12 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   m_DerivativeFilterB->SetInput( m_DerivativeFilterA->GetOutput() );
 
   // Deal with the 2D case.
-  if( NumberOfSmoothingFilters > 0 )
+  if( numberOfSmoothingFilters > 0 )
     {
     m_SmoothingFilters[0]->SetInput( m_DerivativeFilterB->GetOutput() );
     }
 
-  for( unsigned int i = 1; i<NumberOfSmoothingFilters; i++ )
+  for( unsigned int i = 1; i<numberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[ i ]->SetInput( 
       m_SmoothingFilters[i-1]->GetOutput() );
@@ -83,7 +85,9 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetSigma( RealType sigma )
 {
 
-  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
+  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+
+  for( unsigned int i = 0; i<numberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[ i ]->SetSigma( sigma );
     }
@@ -105,7 +109,9 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = normalize;
 
-  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
+  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+
+  for( unsigned int i = 0; i<numberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
     }
@@ -176,7 +182,9 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   const double weight = 
      1.0 / ( ImageDimension * ( ImageDimension * ( ImageDimension+1 ) / 2 ));
 
-  for( unsigned int i = 0; i<NumberOfSmoothingFilters; i++ )
+  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+
+  for( unsigned int i = 0; i<numberOfSmoothingFilters; i++ )
     {
     progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
     }
@@ -230,7 +238,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
           j++;
           }
         // find the direction for all the other filters
-        while( i < NumberOfSmoothingFilters )
+        while( i < numberOfSmoothingFilters )
           {
           while( j < ImageDimension )
             {
@@ -254,7 +262,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
         unsigned int i=0; 
         unsigned int j=0;
-        while( i < NumberOfSmoothingFilters )
+        while( i < numberOfSmoothingFilters )
           {
           while( j < ImageDimension )
             {
@@ -277,7 +285,7 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       typename RealImageType::Pointer derivativeImage; 
 
       // Deal with the 2D case.
-      if( NumberOfSmoothingFilters > 0 )
+      if( numberOfSmoothingFilters > 0 )
         {
         GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension-3];
         lastFilter->Update();
