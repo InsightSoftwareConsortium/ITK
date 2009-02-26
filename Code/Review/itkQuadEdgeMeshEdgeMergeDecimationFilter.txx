@@ -88,7 +88,11 @@ PushElement( OutputQEType* iEdge )
 
 template< class TInput, class TOutput, class TCriterion >
 bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+#ifdef NDEBUG
 IsEdgeOKToBeProcessed( OutputQEType* iEdge )
+#else
+IsEdgeOKToBeProcessed( OutputQEType* )
+#endif
 {
 #ifdef NDEBUG
   if ( iEdge == 0 )
