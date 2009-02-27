@@ -80,9 +80,11 @@ void ImageSeriesReader<TOutputImage>
   Array<float> position2(TOutputImage::ImageDimension); position2.Fill(0.0f);
 
   ImageRegionType largestRegion;
-  typename TOutputImage::SpacingType spacing;
-  typename TOutputImage::PointType  origin;
+  typename TOutputImage::SpacingType   spacing;
+  typename TOutputImage::PointType     origin;
   typename TOutputImage::DirectionType direction;
+
+  origin.Fill(0.0);
 
   std::string key("ITK_ImageOrigin");
   // Clear the eventual previous content of the MetaDictionary array
