@@ -1,9 +1,4 @@
 PROJECT(GDCM)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.0)
-IF(COMMAND CMAKE_POLICY)
-  CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND CMAKE_POLICY)
-# okay in fact you need at least cmake 2.0.4 to get swig working properly
 
 #-----------------------------------------------------------------------------
 # GDCM version number, usefull for packaging and doxygen doc:

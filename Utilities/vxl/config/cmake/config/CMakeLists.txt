@@ -2,10 +2,6 @@
 #
 
 PROJECT(vxl_config)
-CMAKE_MINIMUM_REQUIRED(VERSION 1.8)
-IF(COMMAND CMAKE_POLICY)
-  CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND CMAKE_POLICY)
 
 # When adding new configuration tests that cache results, please make
 # sure they honour VXL_UPDATE_CONFIGURATION: if this variable is ON,
