@@ -237,7 +237,7 @@ bool
 ImageIORegion
 ::operator==(const Self &region) const
 {
-  bool same = 1;
+  bool same;
   same = (m_Index == region.m_Index);
   same = same && (m_Size == region.m_Size);
   same = same && (m_ImageDimension == region.m_ImageDimension);
@@ -249,7 +249,7 @@ bool
 ImageIORegion
 ::operator!=(const Self &region) const
 {
-  bool same = 1;
+  bool same;
   same = (m_Index == region.m_Index);
   same = same && (m_Size == region.m_Size);
   same = same && (m_ImageDimension == region.m_ImageDimension);
