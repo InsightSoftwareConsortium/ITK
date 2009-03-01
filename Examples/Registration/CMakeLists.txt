@@ -757,6 +757,9 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
 )
 
 SET(NUMBER_OF_BSPLINE_GRID_NODES 5)
+
+IF( DART_TESTING_TIMEOUT GREATER 3000 )
+
 ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test1.mhd
@@ -793,7 +796,6 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-IF( DART_TESTING_TIMEOUT GREATER 3000 )
 ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test3.mhd
