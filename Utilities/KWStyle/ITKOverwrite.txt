@@ -91,3 +91,11 @@ itkNumericTraitsTensorPixel.h InternalVariables Disable
 itkNumericTraitsVectorPixel.h InternalVariables Disable
 itkNumericTraits.cxx Typedefs Disable
 itkObjectFactoryBase.cxx Namespace Disable
+itkSecondaryNodeList.h InternalVariables Disable
+itkSimplexMeshGeometry.h InternalVariables Disable
+itkSmartPointerForwardReferenceProcessObject.cxx Namespace Disable
+itkValarrayImageContainer.h DeclarationOrder Disable
+itkVectorContainer.h DeclarationOrder Disable
+itkVectorContainer.h Typedefs Disable
+itkXMLFileOutputWindow.cxx Indent Disable
+itkKdTreeGenerator.h InternalVariables Disable
