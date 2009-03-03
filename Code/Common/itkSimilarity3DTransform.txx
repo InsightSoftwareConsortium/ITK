@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSimilarity3DTransform_txx
-#define _itkSimilarity3DTransform_txx
+#ifndef __itkSimilarity3DTransform_txx
+#define __itkSimilarity3DTransform_txx
 
 #include "itkSimilarity3DTransform.h"
 #include "vnl/vnl_math.h"
@@ -61,8 +61,8 @@ void
 Similarity3DTransform<TScalarType>
 ::SetScale( ScaleType scale )
 {
-   m_Scale = scale;
-   this->ComputeMatrix();
+  m_Scale = scale;
+  this->ComputeMatrix();
 }
 
 
@@ -105,7 +105,7 @@ Similarity3DTransform<TScalarType>
 
   const double tolerance = 1e-10;
   if( !this->MatrixIsOrthogonal( testForOrthogonal, tolerance ) ) 
-    {    
+    {
     itkExceptionMacro( << "Attempting to set a non-orthogonal matrix (after removing scaling)" );
     }
 
@@ -300,7 +300,7 @@ Similarity3DTransform<TScalarType>
 {
   MatrixType matrix = this->GetMatrix();
 
-  m_Scale = vnl_math_cuberoot( vnl_det( matrix.GetVnlMatrix() )  ) ;
+  m_Scale = vnl_math_cuberoot( vnl_det( matrix.GetVnlMatrix() )  );
   
   matrix /= m_Scale;
 

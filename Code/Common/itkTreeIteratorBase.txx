@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkTreeContainerBase_txx
-#define __itkTreeContainerBase_txx
+#ifndef __itkTreeIteratorBase_txx
+#define __itkTreeIteratorBase_txx
 
 #include <itkTreeIteratorBase.h>
 #include "itkTreeChangeEvent.h"
@@ -89,18 +89,18 @@ TreeIteratorBase<TTreeType>::Add(ValueType element)
     bool returnValue = false;  
     if ( m_Tree ) 
       {
-      returnValue = const_cast<TTreeType*>(m_Tree)->SetRoot( element );      
+      returnValue = const_cast<TTreeType*>(m_Tree)->SetRoot( element );
       }
-      // signal AddEvent for self
-      m_Root = dynamic_cast<const TreeNodeType*>(const_cast<TTreeType*>(m_Tree)->GetRoot());
-      m_Position =  const_cast<TreeNodeType*>(m_Root);
-      m_Tree->Modified();
-      m_Tree->InvokeEvent( TreeAddEvent<TTreeType>(*this) );
-      return returnValue;
+    // signal AddEvent for self
+    m_Root = dynamic_cast<const TreeNodeType*>(const_cast<TTreeType*>(m_Tree)->GetRoot());
+    m_Position =  const_cast<TreeNodeType*>(m_Root);
+    m_Tree->Modified();
+    m_Tree->InvokeEvent( TreeAddEvent<TTreeType>(*this) );
+    return returnValue;
     } 
-  else if ( m_Position == NULL )    
+  else if ( m_Position == NULL )
     {
-    return false;    
+    return false;
     }
   
   typename TreeNodeType::Pointer node = TreeNodeType::New();
@@ -126,7 +126,7 @@ TreeIteratorBase<TTreeType>::Add( int itkNotUsed(childPosition), ValueType eleme
     {
     typename TreeNodeType::Pointer node = TreeNodeType::New();
     node->Set(element);
-    m_Position->AddChild(node) ;
+    m_Position->AddChild(node);
     m_Tree->Modified();
     
     // signal AddEvent
@@ -215,10 +215,10 @@ TreeIteratorBase<TTreeType>::HasChild( int number ) const
     {
     return false;
     }
- if ( m_Position->GetChild( number ) != NULL )
-   {
-   return true;
-   }
+  if ( m_Position->GetChild( number ) != NULL )
+    {
+    return true;
+    }
   return false;
 }
 
@@ -247,15 +247,15 @@ TreeIteratorBase<TTreeType>::RemoveChild( int number )
 
   if( child != NULL ) 
     {
-      // signal PruneEvent (node plus all children are removed)
-      TreeIteratorBase<TTreeType>* childIterator = Clone();
-      childIterator->m_Position = child;
-      m_Tree->InvokeEvent( TreePruneEvent<TTreeType>(*childIterator) );         // signal "child has been added deleted"
-      delete childIterator;
+    // signal PruneEvent (node plus all children are removed)
+    TreeIteratorBase<TTreeType>* childIterator = Clone();
+    childIterator->m_Position = child;
+    m_Tree->InvokeEvent( TreePruneEvent<TTreeType>(*childIterator) );         // signal "child has been added deleted"
+    delete childIterator;
       
-      const_cast<TreeNodeType*>(m_Position)->Remove( child );     // and really remove child (and subitems)
-      m_Tree->Modified();
-      return true;
+    const_cast<TreeNodeType*>(m_Position)->Remove( child );     // and really remove child (and subitems)
+    m_Tree->Modified();
+    return true;
     }
   return false;
 }
@@ -416,7 +416,7 @@ int TreeIteratorBase<TTreeType>::Count()
     return 0;
     }
   while (this->Next() ) 
-    {    
+    {
     size++;
     }
   return size;
@@ -507,4 +507,3 @@ TreeIteratorBase<TTreeType>::GetTree() const
 } // namespace itk
 
 #endif
-

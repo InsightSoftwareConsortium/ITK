@@ -26,21 +26,21 @@ namespace itk
 {
 
 /** \class RealTimeClock
-* \brief The RealTimeClock provides a timestamp from a real-time clock
-*
-* This class represents a real-time clock object
-* and provides a timestamp in platform-independent format.
-*
-* \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
-*                     ISIS Center, Georgetown University.
-*/
+ * \brief The RealTimeClock provides a timestamp from a real-time clock
+ *
+ * This class represents a real-time clock object
+ * and provides a timestamp in platform-independent format.
+ *
+ * \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
+ *                     ISIS Center, Georgetown University.
+ */
 
 class ITKCommon_EXPORT RealTimeClock : public Object
 {
 public:
-  typedef RealTimeClock Self;
-  typedef Object Superclass;
-  typedef SmartPointer< Self > Pointer;
+  typedef RealTimeClock              Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for defining the name of the class */

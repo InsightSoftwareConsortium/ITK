@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkThinPlateSplineKernelTransform_txx
-#define _itkThinPlateSplineKernelTransform_txx
+#ifndef __itkThinPlateSplineKernelTransform_txx
+#define __itkThinPlateSplineKernelTransform_txx
 #include "itkThinPlateSplineKernelTransform.h"
 
 namespace itk
@@ -49,8 +49,6 @@ ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
     gmatrix[i][i] = r;
     }
 }
-
-
 
 template <class TScalarType, unsigned int NDimensions>
 void

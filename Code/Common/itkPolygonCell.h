@@ -65,7 +65,7 @@ public:
   typedef LineCell< TCellInterface >              EdgeType;
   typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
     
-  typedef FixedArray<int,2> EdgeInfo;
+  typedef FixedArray<int,2>    EdgeInfo;
   typedef std::deque<EdgeInfo> EdgeInfoDQ;
   
  /** Need to add POLYGON_CELL into CellInterface. */
@@ -116,7 +116,7 @@ public:
   ~PolygonCell() {}
 
 protected:
-  std::vector<EdgeInfo> m_Edges;
+  std::vector<EdgeInfo>        m_Edges;
   std::vector<PointIdentifier> m_PointIds;
 
 private:
@@ -132,5 +132,3 @@ private:
 #endif
 
 #endif
-
-

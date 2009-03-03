@@ -145,7 +145,7 @@ public:
 
   /** Get the size. This provides a read only reference to the size.
    * \sa SetSize */
-  const SizeValueType *GetSize() const { return m_Size; };
+  const SizeValueType *GetSize() const { return m_Size; }
 
   /** Set the size.
    * Try to prototype this function so that val has to point to a block of

@@ -70,10 +70,10 @@ class VariableLengthVector
 public:
  
   /** The element type stored at each location in the Array. */
-  typedef TValueType           ValueType;
-  typedef TValueType           ComponentType;
+  typedef TValueType                                    ValueType;
+  typedef TValueType                                    ComponentType;
   typedef typename NumericTraits< ValueType >::RealType RealValueType;
-  typedef VariableLengthVector Self;
+  typedef VariableLengthVector                          Self;
 
   /** Typedef used to indicate the number of elements in the vector */
   typedef unsigned int ElementIdentifier;
@@ -112,7 +112,7 @@ public:
    * VariableLengthVector< float > vF( vI );
    * or for instance vF = static_cast< VariableLengthVector< float > >( vI );
    * \endcode
-   **/
+   */
   template< class T >
   VariableLengthVector(const VariableLengthVector< T > & v)
     {
@@ -132,7 +132,7 @@ public:
   /** Set the all the elements of the array to the specified value */
   void Fill (TValueType const& v); 
 
-  /** Assignment operator  **/
+  /** Assignment operator  */
   template< class T >
   const VariableLengthVector< TValueType > & operator= 
                           (const VariableLengthVector< T > & v)
@@ -150,14 +150,14 @@ public:
     return *this;
     }
   
-  /** Assignment operator  **/
+  /** Assignment operator  */
   const Self & operator=(const Self & v);
      
   /** Return the number of elements in the Array  */
   inline unsigned int Size (void ) const 
-      { return m_NumElements; }
+    { return m_NumElements; }
   inline unsigned int GetNumberOfElements(void) const 
-      { return m_NumElements; }
+    { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
   TValueType       & operator[](unsigned int i) { return this->m_Data[i]; }
@@ -184,7 +184,7 @@ public:
    * The default is \c true. */
   void SetSize(unsigned int sz, bool destroyExistingData=true);
   inline unsigned int GetSize(void) const 
-      { return m_NumElements; }
+    { return m_NumElements; }
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains
@@ -234,7 +234,7 @@ public:
     //   { 
     //   itkGenericExceptionMacro( << "Cannot add VariableLengthVector of length " 
     //                             << m_NumElements " and " << v.GetSize() );
-    //   }      
+    //   }
     const ElementIdentifier length = v.Size();
     Self result( length );
     for( ElementIdentifier i=0; i< length; i++ )
@@ -250,7 +250,7 @@ public:
     //   { 
     //   itkGenericExceptionMacro( << "Cannot add VariableLengthVector of length " 
     //                             << m_NumElements " and " << v.GetSize() );
-    //   }      
+    //   }
     const ElementIdentifier length = v.Size();
     Self result( length );
     for( ElementIdentifier i=0; i< length; i++ )
@@ -315,18 +315,18 @@ public:
     }
   inline Self operator--(int) // postfix operator v--;
     {
-      Self tmp(*this);
-      --tmp;
-      return tmp;
+    Self tmp(*this);
+    --tmp;
+    return tmp;
     }
   inline Self operator++(int) // postfix operator v++;
     {
-      Self tmp(*this);
-      ++tmp;
-      return tmp;
+    Self tmp(*this);
+    ++tmp;
+    return tmp;
     }
-   template< class T > inline Self& operator-=
-                  ( const VariableLengthVector< T > &v )
+  template< class T > inline Self& operator-=
+  ( const VariableLengthVector< T > &v )
     {
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
@@ -338,7 +338,7 @@ public:
     {
     for( ElementIdentifier i=0; i< m_NumElements; i++ )
       {
-      m_Data[i] -= s ;
+      m_Data[i] -= s;
       }
     return *this;
     }
@@ -373,7 +373,7 @@ public:
       {
       m_Data[i] = static_cast< ValueType >(
                      static_cast< RealValueType >(m_Data[i]) / 
-                     static_cast< RealValueType >( s ));      
+                     static_cast< RealValueType >( s ));
       }
     return *this;
     }
@@ -389,9 +389,8 @@ public:
 
 private:
 
-  bool m_LetArrayManageMemory; // if true, the array is responsible for memory 
-                               // of data
-  TValueType *m_Data; // Array to hold data
+  bool              m_LetArrayManageMemory; // if true, the array is responsible for memory of data
+  TValueType *      m_Data; // Array to hold data
   ElementIdentifier m_NumElements;
 };
 

@@ -104,7 +104,7 @@ public:
     { m_Vector = vec; }
 
 private:
-  TScalar m_Scalar;
+  TScalar    m_Scalar;
   VectorType m_Vector;
 };
 

@@ -90,8 +90,8 @@ VarianceImageFunction<TInputImage,TCoordRep>
   for (unsigned int i = 0; i < size; ++i)
     {
     const RealType value = static_cast<RealType>( it.GetPixel(i) );
-    sum           += value;
-    sumOfSquares  += value * value;
+    sum += value;
+    sumOfSquares += value * value;
     }
 
   const double num = static_cast<double>( size );

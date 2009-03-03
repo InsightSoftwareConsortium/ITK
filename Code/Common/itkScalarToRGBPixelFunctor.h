@@ -52,13 +52,13 @@ public:
   RGBPixelType operator()( const TScalar &) const;
 
   void SetLittleEndian()
-  {
+    {
     m_IsBigEndian = false;
-  }
+    }
   void SetBigEndian()
-  {
+    {
     m_IsBigEndian = true;
-  }
+    }
   
 private:
   bool m_IsBigEndian;

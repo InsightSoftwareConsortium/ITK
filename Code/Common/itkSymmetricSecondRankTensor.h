@@ -95,8 +95,8 @@ public:
   typedef Matrix<TComponent, NDimension, NDimension> EigenVectorsMatrixType;
   
   /**  Define the component type. */
-  typedef TComponent ComponentType;
-  typedef typename Superclass::ValueType ValueType;
+  typedef TComponent                                  ComponentType;
+  typedef typename Superclass::ValueType              ValueType;
   typedef typename NumericTraits<ValueType>::RealType AccumulateValueType;
   typedef typename NumericTraits<ValueType>::RealType RealValueType;
   
@@ -112,7 +112,7 @@ public:
 
   /** Pass-through constructor for the Array base class. */
   SymmetricSecondRankTensor(const Self& r): BaseArray(r) {}
-  SymmetricSecondRankTensor(const ComponentArrayType r): BaseArray(r) {}    
+  SymmetricSecondRankTensor(const ComponentArrayType r): BaseArray(r) {}
   
   /** Pass-through assignment operator for the Array base class. */
   Self& operator= (const Self& r);

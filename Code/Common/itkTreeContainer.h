@@ -45,14 +45,14 @@ public:
 
   /** Standard typedefs */
   typedef TreeContainerBase<TValueType> Superclass;
-  typedef TreeContainer<TValueType> Self;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef TValueType ValueType;
-  typedef TreeNode<ValueType> TreeNodeType;
+  typedef TreeContainer<TValueType>     Self;
+  typedef SmartPointer<Self>            Pointer;
+  typedef SmartPointer<const Self>      ConstPointer;
+  typedef TValueType                    ValueType;
+  typedef TreeNode<ValueType>           TreeNodeType;
 
   /** Iterators typedef */ 
-  typedef TreeIteratorBase<Self> IteratorType;
+  typedef TreeIteratorBase<Self>     IteratorType;
   typedef PreOrderTreeIterator<Self> PreOrderIteratorType;
 
   /** Method for creation through the object factory. */
@@ -76,8 +76,8 @@ public:
   /** Set the root as a tree node */
   virtual bool SetRoot( TreeNode<TValueType>* node);
 
-  /** Return true if the element is in the tree*/
-  bool Contains( const TValueType element ) ;
+  /** Return true if the element is in the tree */
+  bool Contains( const TValueType element );
 
   /** Return the number of elements in the tree */
   int Count() const;
@@ -100,7 +100,7 @@ public:
   /** Get the root */
   const TreeNodeType* GetRoot() const {return m_Root.GetPointer();}
 
-  /** Add a child to a given parent using values*/
+  /** Add a child to a given parent using values */
   bool Add(const TValueType child, const TValueType parent);
 
   /** Get node given a value */
@@ -111,8 +111,8 @@ protected:
   TreeContainer(); 
   virtual ~TreeContainer();
 
-  typename TreeNodeType::Pointer    m_Root;
-  int   m_DefaultChildrenCount;
+  typename TreeNodeType::Pointer m_Root;
+  int                            m_DefaultChildrenCount;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 

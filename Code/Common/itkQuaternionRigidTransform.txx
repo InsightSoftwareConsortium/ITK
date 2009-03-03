@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkQuaternionRigidTransform_txx
-#define _itkQuaternionRigidTransform_txx
+#ifndef __itkQuaternionRigidTransform_txx
+#define __itkQuaternionRigidTransform_txx
 
 #include "itkQuaternionRigidTransform.h"
 
@@ -41,8 +41,6 @@ QuaternionRigidTransform( unsigned int outputSpaceDimension,
 {
   m_Rotation = VnlQuaternionType(0,0,0,1); // axis * vcl_sin(t/2), vcl_cos(t/2)
 }
-
-
 
 // Constructor with explicit arguments
 template<class TScalarType>
@@ -123,8 +121,6 @@ QuaternionRigidTransform<TScalarType>
   this->Modified();
 
 }
-
-
 
 // Set Parameters
 template <class TScalarType>

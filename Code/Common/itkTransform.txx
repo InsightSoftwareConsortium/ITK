@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTransform_txx
-#define _itkTransform_txx
+#ifndef __itkTransform_txx
+#define __itkTransform_txx
 
 #include "itkTransform.h"
 
@@ -37,8 +37,6 @@ Transform< TScalarType,NInputDimensions,NOutputDimensions>
 {
   itkWarningMacro(<< "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
 }
-
-
 
 /**
  * Constructor

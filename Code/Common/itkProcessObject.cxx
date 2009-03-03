@@ -289,8 +289,6 @@ ProcessObject
     }
 }
 
-
-
 void 
 ProcessObject
 ::RemoveOutput(DataObject *output)
@@ -598,8 +596,6 @@ ProcessObject
   os << indent << "Multithreader: " << std::endl;
   m_Threader->PrintSelf(os, indent.GetNextIndent());
 }
-
-
 
 /**
  * The following methods are used to coordinate the execution of the
@@ -1131,8 +1127,5 @@ ProcessObject
     this->GetOutput(0)->Update();
     }
 }
-
-
-
 
 } // end namespace itk

@@ -95,8 +95,6 @@ ResourceProbesCollectorBase<TProbe>
 
 }
 
-
-
 template <class TProbe>
 void
 ResourceProbesCollectorBase<TProbe>

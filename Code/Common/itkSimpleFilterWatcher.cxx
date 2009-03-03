@@ -267,4 +267,3 @@ SimpleFilterWatcher
 }
 
 } // end namespace itk
-

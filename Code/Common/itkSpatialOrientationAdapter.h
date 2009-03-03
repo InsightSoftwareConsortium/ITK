@@ -67,8 +67,6 @@ inline int Sign(double x)
 
 } // namespace Function
 
-
-
 /** \class SpatialOrientationAdapter
  *  \brief converts SpatialOrientation flags to/from direction cosines
  */

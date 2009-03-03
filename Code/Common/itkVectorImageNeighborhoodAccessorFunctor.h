@@ -123,10 +123,10 @@ public:
     }
    
 private:
-   VectorLengthType m_VectorLength; 
-   VectorLengthType m_OffsetMultiplier; // m_OffsetMultiplier = m_VectorLength-1
+  VectorLengthType m_VectorLength; 
+  VectorLengthType m_OffsetMultiplier; // m_OffsetMultiplier = m_VectorLength-1
                                         // (precomputed for speedup).
-   InternalPixelType *m_Begin; // Begin of the buffer. 
+  InternalPixelType *m_Begin; // Begin of the buffer. 
 };
 
 

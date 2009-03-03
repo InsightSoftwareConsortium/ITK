@@ -55,16 +55,12 @@ PolyLineParametricPath<VDimension>
   return output;
 }
 
-
-
 //template<unsigned int VDimension>
 //typename PolyLineParametricPath<VDimension>::VectorType
 //PolyLineParametricPath<VDimension>
 //::EvaluateDerivative(const InputType & input) const
 //{
 //}
-
-
 
 /**
  * Constructor
@@ -77,8 +73,6 @@ PolyLineParametricPath<VDimension>
   m_VertexList = VertexListType::New();
 }
 
-
-
 /**
  * Standard "PrintSelf" method
  */
@@ -90,8 +84,6 @@ PolyLineParametricPath<VDimension>
   Superclass::PrintSelf( os, indent );
   os << indent << "Verticies:  " << m_VertexList << std::endl;
 }
-
-
 
 } // end namespace itk
 

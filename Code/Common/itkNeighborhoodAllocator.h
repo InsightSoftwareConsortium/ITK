@@ -140,7 +140,6 @@ inline std::ostream& operator<<(
     << static_cast<const void *>(a.begin())
     << ", size=" << a.size()
     << " }";
-  o << " } }";
   return o;
 }
 

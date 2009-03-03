@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup
  *
-*/
+ */
 
 template<typename TItemType>
 class UnaryCorrespondenceMatrix : public DataObject, public vnl_matrix<TItemType> {
@@ -38,8 +38,8 @@ public:
 
   /** Standard class typedefs. */
   typedef UnaryCorrespondenceMatrix Self;
-  typedef DataObject Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef DataObject                Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

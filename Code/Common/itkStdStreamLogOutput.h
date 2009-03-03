@@ -39,7 +39,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  *
  *
- *  \ingroup OSSystemObjects LoggingObjects                    
+ *  \ingroup OSSystemObjects LoggingObjects
  */
 
 class ITKCommon_EXPORT StdStreamLogOutput : public LogOutput
@@ -47,9 +47,9 @@ class ITKCommon_EXPORT StdStreamLogOutput : public LogOutput
 
 public:
 
-  typedef StdStreamLogOutput Self;
-  typedef LogOutput  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef StdStreamLogOutput        Self;
+  typedef LogOutput                 Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef std::ostream  StreamType;

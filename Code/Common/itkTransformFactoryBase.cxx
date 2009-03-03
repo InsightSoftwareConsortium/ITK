@@ -44,10 +44,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-  TransformFactoryBase* TransformFactoryBase::m_Factory = 0;
-
-
-
+TransformFactoryBase* TransformFactoryBase::m_Factory = 0;
 
 TransformFactoryBase::TransformFactoryBase()
 {
@@ -135,4 +132,3 @@ TransformFactoryBase::GetDescription() const
 }
 
 } // end namespace itk
-

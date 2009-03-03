@@ -46,4 +46,3 @@ SegmentationBorder
 }
 
 } // end namespace itk
-

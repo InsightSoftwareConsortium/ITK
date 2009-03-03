@@ -17,6 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkTestMain_h
+#define __itkTestMain_h
 
 // This file is used to create TestDriver executables
 // These executables are able to register a function pointer to a string name
@@ -242,10 +244,10 @@ int RegressionTestImage (const char *testImageFilename,
                          unsigned int radiusTolerance )
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
-  typedef itk::Image<double,ITK_TEST_DIMENSION_MAX> ImageType;
+  typedef itk::Image<double,ITK_TEST_DIMENSION_MAX>        ImageType;
   typedef itk::Image<unsigned char,ITK_TEST_DIMENSION_MAX> OutputType;
-  typedef itk::Image<unsigned char,2> DiffOutputType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  typedef itk::Image<unsigned char,2>                      DiffOutputType;
+  typedef itk::ImageFileReader<ImageType>                  ReaderType;
 
   // Read the baseline file
   ReaderType::Pointer baselineReader = ReaderType::New();
@@ -305,9 +307,9 @@ int RegressionTestImage (const char *testImageFilename,
   if ( (status > numberOfPixelsTolerance) && reportErrors )
     {
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType> RescaleType;
-    typedef itk::ExtractImageFilter<OutputType,DiffOutputType> ExtractType;
-    typedef itk::ImageFileWriter<DiffOutputType> WriterType;
-    typedef itk::ImageRegion<ITK_TEST_DIMENSION_MAX> RegionType;
+    typedef itk::ExtractImageFilter<OutputType,DiffOutputType>     ExtractType;
+    typedef itk::ImageFileWriter<DiffOutputType>                   WriterType;
+    typedef itk::ImageRegion<ITK_TEST_DIMENSION_MAX>               RegionType;
     OutputType::SizeType size; size.Fill(0);
 
     RescaleType::Pointer rescale = RescaleType::New();
@@ -482,7 +484,7 @@ std::map<std::string,int> RegressionTestBaselines (char *baselineFilename)
     std::ifstream filestream(filename.str().c_str());
     if (!filestream)
       {
-        break;
+      break;
       }
     baselines[filename.str()] = 0;
     filestream.close();
@@ -492,3 +494,5 @@ std::map<std::string,int> RegressionTestBaselines (char *baselineFilename)
 
 // Needed for explicit instantiation
 #include "itkDifferenceImageFilter.txx"
+
+#endif

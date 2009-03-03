@@ -34,16 +34,14 @@ namespace itk
 
 class ITKCommon_EXPORT TetrahedronCellTopology
 {
-protected:
-   
-  /** Tetrahedron topology data. */
-  static const int m_Edges[6][2];
-  static const int m_Faces[4][3];
-    
 public:
   TetrahedronCellTopology();
   ~TetrahedronCellTopology();
   
+protected:
+  /** Tetrahedron topology data. */
+  static const int m_Edges[6][2];
+  static const int m_Faces[4][3];
 };
 
 } // end namespace itk

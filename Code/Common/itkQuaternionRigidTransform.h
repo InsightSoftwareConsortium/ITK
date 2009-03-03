@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \brief QuaternionRigidTransform of a vector space (e.g. space coordinates).
+/** \class QuaternionRigidTransform
+ * \brief QuaternionRigidTransform of a vector space (e.g. space coordinates).
  *
  * This transform applies a rotation and translation to the space given 
  * a quaternion and a 3D translation. Rotation is about a user specified center.
@@ -78,7 +79,7 @@ public:
   typedef typename Superclass::OutputVnlVectorType    OutputVnlVectorType;
   typedef typename Superclass::InputCovariantVectorType 
                                                       InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType      
+  typedef typename Superclass::OutputCovariantVectorType
                                                       OutputCovariantVectorType;
   typedef typename Superclass::MatrixType             MatrixType;
   typedef typename Superclass::InverseMatrixType      InverseMatrixType;
@@ -98,7 +99,7 @@ public:
 
   /** Get the rotation from an QuaternionRigidTransform.
    * This method returns the value of the rotation of the
-   * QuaternionRigidTransform.   **/
+   * QuaternionRigidTransform. */
   const VnlQuaternionType & GetRotation(void) const
     { return m_Rotation; }
 
@@ -133,7 +134,7 @@ protected:
   void ComputeMatrixParameters();
 
   void SetVarRotation(const VnlQuaternionType & rotation)
-    { m_Rotation = rotation; };
+    { m_Rotation = rotation; }
 
   const InverseMatrixType & GetInverseMatrix( void ) const;
 

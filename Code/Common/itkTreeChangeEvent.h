@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __TreeChangeEvent_h
-#define __TreeChangeEvent_h
+#ifndef __itkTreeChangeEvent_h
+#define __itkTreeChangeEvent_h
 
 #include "itkMacro.h"
 #include <itkEventObject.h>
@@ -35,7 +35,7 @@ public:
 
   /** Typedefs */
   typedef TreeChangeEvent Self; 
-  typedef ModifiedEvent Superclass; 
+  typedef ModifiedEvent   Superclass; 
 
   /** Constructor */
   TreeChangeEvent()
@@ -78,15 +78,18 @@ public:
 
   TreeChangeEvent(const Self&s) : itk::ModifiedEvent(s) {}; 
 
-private:
-  void operator=(const Self&); 
-
 protected:
 
   const TreeIteratorBase<TTreeType>* m_ChangePosition;
+
+private:
+  void operator=(const Self&); 
+
 };
 
-/**  Signals, that a node has been set to another value. Position of the changed node is provided */
+/**  \class TreeNodeChangeEvent
+ * Signals, that a node has been set to another value. Position of the
+ * changed node is provided  */
 template <class TTreeType>
 class TreeNodeChangeEvent : public TreeChangeEvent<TTreeType>
 {  
@@ -130,7 +133,7 @@ class TreeAddEvent : public TreeChangeEvent<TTreeType>
 public:
 
   /** Typedefs */
-  typedef TreeAddEvent Self; 
+  typedef TreeAddEvent               Self; 
   typedef TreeChangeEvent<TTreeType> Superclass; 
 
   /** Constructor */
@@ -152,7 +155,7 @@ public:
     return dynamic_cast<const Self*>(e); 
     } 
 
-  /** Make the event object */     
+  /** Make the event object */
   virtual ::itk::EventObject* MakeObject() const 
     { 
     return new Self( *this->m_ChangePosition ); 
@@ -197,19 +200,21 @@ public:
     return dynamic_cast<const Self*>(e); 
     } 
 
-  /** Make the event object */     
+  /** Make the event object */
   virtual ::itk::EventObject* MakeObject() const 
     { 
     return new Self( *this->m_ChangePosition ); 
     } 
 
-    TreeRemoveEvent(const Self&s) : TreeChangeEvent<TTreeType>(s) {}
+  TreeRemoveEvent(const Self&s) : TreeChangeEvent<TTreeType>(s) {}
 
 private:
     void operator=(const Self&);
 };
 
-/** Signals that a node and all its childs will shortly be removed. Position of the top-level removed node is provided */
+/** \class TreePruneEvent
+ * Signals that a node and all its childs will shortly be
+ * removed. Position of the top-level removed node is provided */
 template <class TTreeType>
 class TreePruneEvent : public TreeRemoveEvent<TTreeType>
 {
@@ -226,21 +231,21 @@ public:
 
   /** */
   virtual const char * GetEventName() const 
-  { 
+    { 
     return "TreePruneEvent"; 
-  } 
+    }
 
   /** */
   virtual bool CheckEvent(const ::itk::EventObject* e) const 
-  { 
+    { 
     return dynamic_cast<const Self*>(e); 
-  } 
+    }
 
-  /** */     
+  /** */
   virtual ::itk::EventObject* MakeObject() const 
-  { 
+    {
     return new Self( *this->m_ChangePosition ); 
-  } 
+    }
 
   TreePruneEvent(const Self& s) : TreeRemoveEvent<TTreeType>(s) {}
 private:

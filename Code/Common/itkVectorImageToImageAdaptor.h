@@ -87,8 +87,6 @@ private:
 
 } // end namespace Accessor
 
-
-
 /** \class VectorImageToImageAdaptor
  * \brief Presents a VectorImage and extracts a component from it into an image.
  *
@@ -113,12 +111,12 @@ class ITK_EXPORT VectorImageToImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorImageToImageAdaptor    Self;
-  typedef VectorImage< TPixelType, Dimension > VectorImageType;
+  typedef VectorImageToImageAdaptor                              Self;
+  typedef VectorImage< TPixelType, Dimension >                   VectorImageType;
   typedef ImageAdaptor< VectorImageType,
       Accessor::VectorImageToImagePixelAccessor< TPixelType >  > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                     Pointer;
+  typedef SmartPointer<const Self>                               ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -128,8 +126,8 @@ public:
 
   /** PixelContainer typedef support. Used to construct a container for
    * the pixel data. */
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::PixelContainer             PixelContainer;
+  typedef typename Superclass::PixelContainerPointer      PixelContainerPointer;
   typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
   typedef typename Superclass::IOPixelType                IOPixelType;
 
@@ -148,11 +146,11 @@ public:
     return this->GetPixelAccessor().GetExtractComponentIdx();
     }
   
- protected:
+protected:
   VectorImageToImageAdaptor() {}
   virtual ~VectorImageToImageAdaptor() {}
   
- private:
+private:
   VectorImageToImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

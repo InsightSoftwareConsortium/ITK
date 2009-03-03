@@ -117,7 +117,8 @@ public:
    * DefaultVectorPixelAccessor */
   typedef DefaultVectorPixelAccessorFunctor< Self >       AccessorFunctorType;
 
-  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  /** Typedef for the functor used to access a neighborhood of pixel
+   * pointers. */
   typedef VectorImageNeighborhoodAccessorFunctor< 
                           Self >              NeighborhoodAccessorFunctorType;
 
@@ -155,7 +156,7 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
   typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
 
   /** Offset typedef (relative position between indices) */
@@ -175,7 +176,7 @@ public:
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    };
+    }
 
   void SetRegions(SizeType size)
     {
@@ -183,7 +184,7 @@ public:
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    };
+    }
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
@@ -236,7 +237,7 @@ public:
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   PixelType operator[](const IndexType &index)
-     { return this->GetPixel(index); }
+    { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue because the
    * pixel is converted on the fly to a VariableLengthVector.
@@ -305,7 +306,7 @@ public:
 protected:
   VectorImage();
   void PrintSelf( std::ostream& os, Indent indent ) const;
-  virtual ~VectorImage() {};
+  virtual ~VectorImage() {}
   
 private:
   VectorImage( const Self & ); // purposely not implementated

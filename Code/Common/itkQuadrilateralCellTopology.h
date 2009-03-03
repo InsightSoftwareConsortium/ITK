@@ -33,15 +33,14 @@ namespace itk
 
 class  ITKCommon_EXPORT QuadrilateralCellTopology
 {
-protected:
-   
-  /** Quadrilateral topology data. */
-  static const int m_Edges[4][2];
-   
 public:
   QuadrilateralCellTopology();
   ~QuadrilateralCellTopology();
   
+protected:
+  /** Quadrilateral topology data. */
+  static const int m_Edges[4][2];
+   
 };
 
 } // end namespace itk

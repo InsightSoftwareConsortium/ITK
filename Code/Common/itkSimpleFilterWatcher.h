@@ -84,39 +84,39 @@ public:
    *  SimpleFilterWatcher */
   const char *GetNameOfClass ()
     {
-      return (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None");
+    return (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None");
     }
 
   /** Methods to control the verbosity of the messages. Quiet
    * reporting limits the information emitted at a ProgressEvent. */
-  void QuietOn() {m_Quiet = true;};
-  void QuietOff() {m_Quiet = false;};
+  void QuietOn() {m_Quiet = true;}
+  void QuietOff() {m_Quiet = false;}
 
   /** Methods to use to test the AbortEvent of the a filter. If
    * TestAbort is on, the filter being watched will be aborted when
-   * the progress reaches 30%.*/
-  void TestAbortOn() {m_TestAbort = true;};
-  void TestAbortOff() {m_TestAbort = false;};
+   * the progress reaches 30%. */
+  void TestAbortOn() {m_TestAbort = true;}
+  void TestAbortOff() {m_TestAbort = false;}
 
   /** Methods to access member data */
   /** Get a pointer to the process object being watched. */
-  ProcessObject *GetProcess () {return m_Process.GetPointer();};
+  ProcessObject *GetProcess () {return m_Process.GetPointer();}
 
   /** Set/Get the steps completed. */
-  void SetSteps(int val) {m_Steps=val;};
-  int GetSteps() {return m_Steps;};
+  void SetSteps(int val) {m_Steps=val;}
+  int GetSteps() {return m_Steps;}
 
   /** Set/Get the number of iterations completed. */
-  void SetIterations(int val) {m_Iterations=val;};
-  int GetIterations() {return m_Iterations;};
+  void SetIterations(int val) {m_Iterations=val;}
+  int GetIterations() {return m_Iterations;}
 
   /** Set/Get the quiet mode boolean. If true, verbose progess is
     * reported. */
-  void SetQuiet(bool val) {m_Quiet=val;};
-  bool GetQuiet() {return m_Quiet;};
+  void SetQuiet(bool val) {m_Quiet=val;}
+  bool GetQuiet() {return m_Quiet;}
 
   /** Get the comment for the watcher. */
-  std::string GetComment() {return m_Comment;};
+  std::string GetComment() {return m_Comment;}
 
   /** Get a reference to the TimeProbe */
   TimeProbe &GetTimeProbe() {return m_TimeProbe;}
@@ -125,7 +125,7 @@ protected:
 
   /** Callback method to show the ProgressEvent */
   virtual void ShowProgress()
-  {
+    {
     if (m_Process)
       {
       m_Steps++;
@@ -145,24 +145,24 @@ protected:
           }
         }
       }
-  }
+    }
 
   /** Callback method to show the AbortEvent */
   virtual void ShowAbort()
-  {
+    {
     std::cout << std::endl << "-------Aborted" << std::endl << std::flush;
-  }
+    }
 
   /** Callback method to show the IterationEvent */
   virtual void ShowIteration()
-  {
+    {
     std::cout << " # " << std::flush;
     m_Iterations++;
-  }
+    }
 
   /** Callback method to show the StartEvent */
   virtual void StartFilter()
-  {
+    {
     m_Steps = 0;
     m_Iterations = 0;
     m_TimeProbe.Start();
@@ -182,11 +182,11 @@ protected:
       }
     std::cout << (m_Quiet ? "Progress Quiet " : "Progress ")
               << std::flush;
-  }
+    }
 
   /** Callback method to show the EndEvent */
   virtual void EndFilter()
-  {
+    {
     m_TimeProbe.Stop();
     std::cout << std::endl << "Filter took "
               << m_TimeProbe.GetMeanTime()
@@ -214,12 +214,12 @@ protected:
     }
 
 private:
-  TimeProbe m_TimeProbe;
-  int m_Steps;
-  int m_Iterations;
-  bool m_Quiet;
-  bool m_TestAbort;
-  std::string m_Comment;
+  TimeProbe                   m_TimeProbe;
+  int                         m_Steps;
+  int                         m_Iterations;
+  bool                        m_Quiet;
+  bool                        m_TestAbort;
+  std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
 
   typedef SimpleMemberCommand<SimpleFilterWatcher> CommandType;

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkShapedNeighborhoodIterator_txx
-#define _itkShapedNeighborhoodIterator_txx
+#ifndef __itkShapedNeighborhoodIterator_txx
+#define __itkShapedNeighborhoodIterator_txx
 #include "itkShapedNeighborhoodIterator.h"
 namespace itk {
 
@@ -33,4 +33,3 @@ ShapedNeighborhoodIterator<TImage, TBoundaryCondition>
 } // namespace itk
 
 #endif
- 

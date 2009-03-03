@@ -44,10 +44,10 @@ class ITK_EXPORT VectorLinearInterpolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorLinearInterpolateImageFunction Self;
+  typedef VectorLinearInterpolateImageFunction                  Self;
   typedef VectorInterpolateImageFunction<TInputImage,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  

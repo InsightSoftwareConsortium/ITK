@@ -44,15 +44,15 @@ class ITK_EXPORT SphereSignedDistanceFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef SphereSignedDistanceFunction Self;
+  typedef SphereSignedDistanceFunction                              Self;
   typedef ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SphereSignedDistanceFunction, ShapeSignedDistancFunction);
 
-  /** New macro for creation of through the object factory.*/
+  /** New macro for creation of through the object factory. */
   itkNewMacro( Self );
 
   /** OutputType typedef support. */

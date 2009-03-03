@@ -45,9 +45,9 @@ class ITKCommon_EXPORT SegmentationBorder : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef SegmentationBorder   Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SegmentationBorder        Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Method for creation through the object factory. */

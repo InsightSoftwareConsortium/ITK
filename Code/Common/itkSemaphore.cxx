@@ -111,7 +111,7 @@ void Semaphore::Initialize(unsigned int value)
   m_Sema = usnewsema(MultiThreader::GetThreadArena(), static_cast<int>(value));
   if ( ! m_Sema )
     {
-      itkExceptionMacro( << " sem_init call failed with code " << m_Sema );
+    itkExceptionMacro( << " sem_init call failed with code " << m_Sema );
     }
   
 #endif
@@ -313,14 +313,14 @@ m_PThreadsSemaphoreRemoved = true;
 #else //Still need to close semaphore and delete the file descriptor on MacOSX, otherwise the shared memory space is eventually exhosted.
   //Eventually (i.e. after several days of ITK regresssion testing) the semaphore creation process was failing with errno=ENOSPC
   //This implementation detail was taken from http://developer.apple.com/macosx/multithreadedprogramming.html
-  if ( sem_close(this->m_Sema) !=0 )
-      {
-       itkExceptionMacro( << "sem_close call failed. " );
-      }
-  if ( sem_unlink(this->m_SemaphoreName.c_str()) !=0 )
-      {
-       itkExceptionMacro( << "sem_unlink call failed. " );
-      }
+  if ( sem_close(this->m_Sema) != 0 )
+    {
+    itkExceptionMacro( << "sem_close call failed. " );
+    }
+  if ( sem_unlink(this->m_SemaphoreName.c_str()) != 0 )
+    {
+    itkExceptionMacro( << "sem_unlink call failed. " );
+    }
 #endif
 #endif
 
@@ -358,10 +358,10 @@ int Semaphore::UnixIpcSemaphoreCreate(int unix_semaphore_key)
         s += "Semaphore already exists. - ";
         break;
       case ENOSPC:
-        s+= "System imposed limit on the number of semaphores is exceeded - ";
+        s += "System imposed limit on the number of semaphores is exceeded - ";
         break;
       case EACCES:
-        s+= "Permission is denied - ";
+        s += "Permission is denied - ";
         break;
       }
     itkExceptionMacro( << s.c_str() );
@@ -399,13 +399,13 @@ void Semaphore::UnixIpcSemaphoreRemove(int sid)
     switch (errno)
       {
       case EINVAL:
-        s +=  "Semaphore id# is not valid. - ";
+        s += "Semaphore id# is not valid. - ";
         break;
       case EACCES:
-        s+=  "Permission is denied - ";
+        s += "Permission is denied - ";
         break;
       case EPERM:
-        s+= "Permission is denied - ";
+        s += "Permission is denied - ";
         break;
       }
     itkExceptionMacro ( << s.c_str() );
@@ -436,10 +436,10 @@ void Semaphore::UnixIpcSemaphoreCall (int sid, int op)
     switch (errno)
       {
       case EINVAL:
-        s +=  "Semaphore id# is not valid. -";
+        s += "Semaphore id# is not valid. -";
         break;
       case EFBIG:
-        s +=  "Invalid sem_num for semaphore - ";
+        s += "Invalid sem_num for semaphore - ";
         break;
       case EACCES:
         s += "Permission denied for semaphore - ";
@@ -458,4 +458,3 @@ void Semaphore::UnixIpcSemaphoreCall (int sid, int op)
 #endif
 
 }//end if namespace itk
-

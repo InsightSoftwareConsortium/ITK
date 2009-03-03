@@ -40,13 +40,13 @@ class ITK_EXPORT VectorToRGBImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorToRGBImageAdaptor  Self;
+  typedef VectorToRGBImageAdaptor           Self;
   typedef ImageAdaptor<TImage,
               Accessor::VectorToRGBPixelAccessor<
                  typename TImage::PixelType::ValueType
                                        >  > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -56,15 +56,15 @@ public:
 
   /** PixelContainer typedef support. Used to construct a container for
    * the pixel data. */
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::PixelContainer             PixelContainer;
+  typedef typename Superclass::PixelContainerPointer      PixelContainerPointer;
   typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
   
- protected:
+protected:
   VectorToRGBImageAdaptor() {}
   virtual ~VectorToRGBImageAdaptor() {}
   
- private:
+private:
   VectorToRGBImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

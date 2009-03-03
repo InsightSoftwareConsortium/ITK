@@ -32,18 +32,18 @@ namespace itk
 {
 
 /**
-  * \class SimplexMeshGeometry
-  * \brief handle geometric properties for vertices of a simplx mesh
-  * 
-  * It stores and recomputes geometric properties of simplex mesh
-  * vertices, i.e. the normal vector, the barycentric coordinates of
-  * the point related to its three neighbor vertices, simplex angle
-  * circumsphere and circumcirlce radius and center.
-  *
-  *
-  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
-  *
-  */
+ * \class SimplexMeshGeometry
+ * \brief handle geometric properties for vertices of a simplx mesh
+ * 
+ * It stores and recomputes geometric properties of simplex mesh
+ * vertices, i.e. the normal vector, the barycentric coordinates of
+ * the point related to its three neighbor vertices, simplex angle
+ * circumsphere and circumcirlce radius and center.
+ *
+ *
+ * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
+ *
+ */
 class ITKCommon_EXPORT SimplexMeshGeometry
 {
   
@@ -61,8 +61,8 @@ public:
 
 
   /** Definition of some attributes for 
-    * faster deformable model computation
-    */
+   * faster deformable model computation
+   */
 
   /* stores the indices of the three direct neighbors */
   IndexArray neighborIndices;
@@ -79,12 +79,12 @@ public:
   /* coordinates of the corresponding point in previous iteration */
   PointType oldPos;
 
-  /* barycentric coordinates of corresponding point with respect 
+  /** barycentric coordinates of corresponding point with respect 
    * to its three direct neighbors
    */
   PointType eps;
 
-  /*
+  /**
    * reference metric params
    */
   PointType referenceMetrics;
@@ -92,22 +92,22 @@ public:
   /* normal vector of corresponding point */
   CovariantVectorType normal;
 
-  /* stores external force component for 
+  /** stores external force component for 
    * current deformable model iteration
    */
   VectorType externalForce;
 
-  /* stores internal force component for 
+  /** stores internal force component for 
    * current deformable model iteration
    */
   VectorType internalForce;
 
-  /*
+  /**
    * store the location of the closest attractor to this point
    */
   PointType closestAttractor;
 
-  /*
+  /**
    * stores the index of the closest attractor to this point
    */
   unsigned long closestAttractorIndex;
@@ -139,9 +139,9 @@ public:
   unsigned long forceIndex;
 
   /**
-    * Computes the center and radius of the circum circle of the
-    * three neighbor points and of the circum sphere 
-    */
+   * Computes the center and radius of the circum circle of the
+   * three neighbor points and of the circum sphere 
+   */
   void ComputeGeometry();
 
 protected:

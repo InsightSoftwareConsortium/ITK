@@ -22,15 +22,15 @@ namespace itk {
 
 
 /** \class STLContainerAdaptor
-* An adapter object that casts a itk::XxxContainer into std::xxx
-* and enables access to the underlying data structure. When the STLContainerAdaptor
-* is destroyed, it automatically calls XxxContainer::Modified().
-* Here's a usage example of STLContainerAdaptor
-*     itk::STLContainerAdaptor<itk::VectorContainer<unsigned long, ElementType>> vecAdaptor(aContainer);
-*     std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
-*     // do things with vec ...
-*     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
-*/
+ * An adapter object that casts a itk::XxxContainer into std::xxx
+ * and enables access to the underlying data structure. When the STLContainerAdaptor
+ * is destroyed, it automatically calls XxxContainer::Modified().
+ * Here's a usage example of STLContainerAdaptor
+ *     itk::STLContainerAdaptor<itk::VectorContainer<unsigned long, ElementType>> vecAdaptor(aContainer);
+ *     std::vector<ElementType> & vec = vecAdaptor.GetSTLContainerRef();
+ *     // do things with vec ...
+ *     // upon return from function, vecAdaptor is destroyed and aContainer is Modified()
+ */
 
 template<typename TContainer>
 class STLContainerAdaptor
@@ -54,23 +54,19 @@ private:
   
   
 public:
-  STLContainerAdaptor(AdapteeType & adaptee)
-    : m_AdapteeRef(adaptee)
-  {}
+  STLContainerAdaptor(AdapteeType & adaptee) : m_AdapteeRef(adaptee) {}
   
-  STLContainerAdaptor(AdapteeType * adaptee)
-    : m_AdapteeRef(*adaptee)
-  {}
+  STLContainerAdaptor(AdapteeType * adaptee) : m_AdapteeRef(*adaptee) {}
   
   ~STLContainerAdaptor()
-  {
+    {
     m_AdapteeRef.Modified();
-  }
+    }
   
   TargetType & GetSTLContainerRef()
-  {
+    {
     return m_AdapteeRef.CastToSTLContainer(); 
-  }
+    }
   
 };
 

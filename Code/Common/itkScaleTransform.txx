@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScaleTransform_txx
-#define _itkScaleTransform_txx
+#ifndef __itkScaleTransform_txx
+#define __itkScaleTransform_txx
 
 #include "itkScaleTransform.h"
 
@@ -80,8 +80,6 @@ ScaleTransform<TScalarType,NDimensions>
   return this->m_Parameters;
 }
 
-
-
 // Print self
 template<class ScalarType, unsigned int NDimensions>
 void
@@ -121,8 +119,6 @@ Scale(const ScaleType & scale, bool )
     }
   return;
 }
-
-
 
 // Transform a point
 template<class ScalarType, unsigned int NDimensions>
@@ -183,8 +179,6 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
     }
   return result;
 }
-
-
 
 // Create and return an inverse transformation
 template<class ScalarType, unsigned int NDimensions>

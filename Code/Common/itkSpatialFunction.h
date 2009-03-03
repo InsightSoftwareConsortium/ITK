@@ -47,10 +47,10 @@ class ITK_EXPORT SpatialFunction : public FunctionBase<TInput, TOutput>
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialFunction Self;
+  typedef SpatialFunction                Self;
   typedef FunctionBase< TInput, TOutput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialFunction, FunctionBase);

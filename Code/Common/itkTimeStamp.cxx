@@ -24,7 +24,7 @@
   #include "itkWindows.h"
 
 #elif defined(__APPLE__)
-  // OSAtomic.h optimizations only used in 10.5 and later
+// OSAtomic.h optimizations only used in 10.5 and later
   #include <AvailabilityMacros.h>
   #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
     #include <libkern/OSAtomic.h>
@@ -67,12 +67,12 @@ void
 TimeStamp
 ::Modified()
 {
-// Windows optimization
+  // Windows optimization
 #if defined(WIN32) || defined(_WIN32)
   static LONG itkTimeStampTime = 0;
   m_ModifiedTime = (unsigned long)InterlockedIncrement(&itkTimeStampTime);
 
-// Mac optimization
+  // Mac optimization
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
  #if __LP64__
   // "m_ModifiedTime" is "unsigned long", a type that changess sizes

@@ -38,6 +38,4 @@ TriangleCellTopology
 {
 }
 
-
 } // end namespace itk
-

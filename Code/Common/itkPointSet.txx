@@ -62,8 +62,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>
     }
 }
 
-
-
 /**
  * Access routine to get the points container.
  */
@@ -124,8 +122,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>
                 << m_PointDataContainer );
   return m_PointDataContainer;
 }
-
-
 
 /**
  * Access routine to get the point data container.
@@ -234,8 +230,10 @@ PointSet<TPixelType, VDimension, TMeshTraits>
    * either.
    */
   if( !m_PointDataContainer )
+    {
     return false;
-  
+    }
+
   /**
    * Ask the container if the point identifier exists.
    */

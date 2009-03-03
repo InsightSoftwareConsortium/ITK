@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSparseImage_h_
-#define __itkSparseImage_h_
+#ifndef __itkSparseImage_h
+#define __itkSparseImage_h
 
 #include "itkImage.h"
 #include "itkSparseFieldLayer.h"
@@ -50,13 +50,13 @@ namespace itk {
 template <class TNode, unsigned int VImageDimension=2>
 class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
 {
-  public:
+public:
   /** Standard typedefs. */
-  typedef SparseImage Self;
+  typedef SparseImage                     Self;
   typedef Image <TNode*, VImageDimension> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  typedef WeakPointer<const Self> ConstWeakPointer;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
+  typedef WeakPointer<const Self>         ConstWeakPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,13 +74,14 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   /** Types derived from the Superclass */
   typedef typename Superclass::IndexType IndexType;
 
-  /** Tyepdef for the functor used to access a neighborhood of pixel pointers.*/
+  /** Tyepdef for the functor used to access a neighborhood of pixel
+   * pointers. */
   typedef NeighborhoodAccessorFunctor< Self > 
                                             NeighborhoodAccessorFunctorType;
 
   typedef typename Superclass::IOPixelType  IOPixelType;
 
-  /** The list types for storing the active pixels.*/
+  /** The list types for storing the active pixels. */
   typedef SparseFieldLayer <NodeType> NodeListType;
   typedef ObjectStore      <NodeType> NodeStoreType;
 
@@ -97,20 +98,20 @@ class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
   /** This function should be used to allocate memory for a variable at the
       desired pixel location. */
   NodeType *AddNode(const IndexType &index)
-  {
+    {
     m_NodeList->PushFront(m_NodeStore->Borrow());
     NodeType *node = m_NodeList->Front();
     node->m_Index=index;
     this->SetPixel(index,node);
     return node;
-  }
+    }
 
   /** This function returns the allocated node list which can be used to
       iterate through the valid nodes. */
   NodeListType* GetNodeList() 
-  {
-   return m_NodeList;
-  }
+    {
+    return m_NodeList;
+    }
 
   /** This function initializes the m_NodeList and m_NodeStore variables, and
       calls the superclass Initialize method. */

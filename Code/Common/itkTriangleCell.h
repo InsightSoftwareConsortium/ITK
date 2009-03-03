@@ -110,17 +110,17 @@ public:
   PointType ComputeCenterOfGravity( PointsContainer* );
   PointType ComputeCircumCenter( PointsContainer* );
 
- public:
+public:
   TriangleCell() :
     m_PointIds( NumberOfPoints, NumericTraits<PointIdentifier>::max() )
     {}
   ~TriangleCell() {}
 
- protected:
+protected:
   /** Store the number of points needed for a triangle. */
   std::vector< PointIdentifier > m_PointIds;
 
- private:
+private:
   TriangleCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

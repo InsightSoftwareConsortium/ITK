@@ -40,4 +40,3 @@ QuadraticTriangleCellTopology
 
 
 } // end namespace itk
-

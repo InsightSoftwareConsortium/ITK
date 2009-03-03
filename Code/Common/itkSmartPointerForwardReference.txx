@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSmartPointerForwardReference_txx
-#define _itkSmartPointerForwardReference_txx
+#ifndef __itkSmartPointerForwardReference_txx
+#define __itkSmartPointerForwardReference_txx
 
 #include "itkSmartPointerForwardReference.h"
 
@@ -47,7 +47,7 @@ SmartPointerForwardReference<T>
 { 
   m_Pointer = p; 
   this->Register(); 
-}                             
+}
   
 //----------------------------------------------------------------------------
 template <class T>
@@ -142,7 +142,7 @@ template <class T>
 SmartPointerForwardReference<T> &
 SmartPointerForwardReference<T>
 ::operator = (T *r)
-{                                                              
+{
   if (m_Pointer != r)
     {
     T* tmp = m_Pointer; //avoid recursive unregisters by retaining temporarily

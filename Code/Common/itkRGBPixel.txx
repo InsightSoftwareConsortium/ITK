@@ -14,15 +14,15 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRGBPixel_txx
-#define _itkRGBPixel_txx
+#ifndef __itkRGBPixel_txx
+#define __itkRGBPixel_txx
 #include "itkRGBPixel.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
 
-/*
+/**
  * Assigment from a plain array
  */
 template<class T>
@@ -51,9 +51,6 @@ RGBPixel<T>
     }
   return result;
 }
-
-
-
 
 /**
  * Returns a temporary copy of a vector
@@ -87,9 +84,6 @@ RGBPixel<T>
     }
   return *this;
 }
-
-
-
  
 /**
  * Returns a temporary copy of a vector
@@ -105,10 +99,6 @@ RGBPixel<T>
     }
   return *this;
 }
-
-
-
-
 
 /**
  * Returns a temporary copy of a vector
@@ -163,9 +153,7 @@ RGBPixel<T>
   return true;
 }
 
-
-
-/*
+/**
  * Compute luminance
  */
 template<class T>
@@ -180,9 +168,6 @@ RGBPixel<T>
   return static_cast<ComponentType>( luminance );
 }
 
-
-
-
 /**
  * Print content to an ostream
  */
@@ -192,7 +177,7 @@ operator<<(std::ostream& os,const RGBPixel<TComponent> & c )
 {
   os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[0]) << "  ";
   os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[1]) << "  ";
-  os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[2]) ;
+  os <<  static_cast<typename NumericTraits<TComponent>::PrintType>(c[2]);
   return os;
 }
 

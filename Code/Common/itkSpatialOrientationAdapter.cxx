@@ -136,4 +136,3 @@ SpatialOrientationAdapter
 }
 
 } // end namespace itk
-

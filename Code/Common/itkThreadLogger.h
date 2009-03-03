@@ -37,7 +37,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  *
  *
- *  \ingroup OSSystemObjects LoggingObjects                    
+ *  \ingroup OSSystemObjects LoggingObjects
  */
 
 class ITKCommon_EXPORT ThreadLogger : public Logger
@@ -45,9 +45,9 @@ class ITKCommon_EXPORT ThreadLogger : public Logger
 
 public:
   
-  typedef ThreadLogger  Self;
-  typedef Logger  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef ThreadLogger              Self;
+  typedef Logger                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
@@ -61,16 +61,15 @@ public:
   typedef  Logger::PriorityLevelType  PriorityLevelType;
 
   /** Definition of types of operations for ThreadLogger. */
-  typedef enum 
-  { 
+  typedef enum
+    {
     SET_PRIORITY_LEVEL,
     SET_LEVEL_FOR_FLUSHING,
     ADD_LOG_OUTPUT,
     WRITE,
     FLUSH
-  } OperationType;
-
-
+    } OperationType;
+  
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */

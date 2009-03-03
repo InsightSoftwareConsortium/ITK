@@ -25,8 +25,8 @@ namespace itk
 {
 
 /**
-   * Constructor
-   */
+ * Constructor
+ */
 template <class TInputImage, class TCoordRep>
 ScatterMatrixImageFunction<TInputImage,TCoordRep>
 ::ScatterMatrixImageFunction()
@@ -34,10 +34,9 @@ ScatterMatrixImageFunction<TInputImage,TCoordRep>
   m_NeighborhoodRadius = 1;
 }
 
-
 /**
-   *
-   */
+ *
+ */
 template <class TInputImage, class TCoordRep>
 void
 ScatterMatrixImageFunction<TInputImage,TCoordRep>

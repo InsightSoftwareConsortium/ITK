@@ -24,7 +24,8 @@
 namespace itk
 {
 
-/** \brief Similarity2DTransform of a vector space (e.g. space coordinates)
+/** \class Similarity2DTransform
+ * \brief Similarity2DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a homogenous scale and rigid transform in
  * 2D space. The transform is specified as a scale and rotation around
@@ -64,10 +65,10 @@ class ITK_EXPORT Similarity2DTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef Similarity2DTransform Self;
+  typedef Similarity2DTransform             Self;
   typedef Rigid2DTransform< TScalarType >   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
     
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -151,13 +152,13 @@ public:
   /**
    * This method creates and returns a new Similarity2DTransform object
    * which is the inverse of self.
-   **/
+   */
   void CloneInverseTo( Pointer & newinverse ) const;
 
   /**
    * This method creates and returns a new Similarity2DTransform object
    * which has the same parameters.
-   **/
+   */
   void CloneTo( Pointer & clone ) const;
 
   /**
@@ -172,7 +173,7 @@ public:
    *
    * \sa MatrixOffsetTransformBase::SetMatrix()
    *
-   **/
+   */
   virtual void SetMatrix( const MatrixType & matrix );
 
 protected:

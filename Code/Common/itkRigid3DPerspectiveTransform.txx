@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRigid3DPerspectiveTransform_txx
-#define _itkRigid3DPerspectiveTransform_txx
+#ifndef __itkRigid3DPerspectiveTransform_txx
+#define __itkRigid3DPerspectiveTransform_txx
 
 #include "itkRigid3DPerspectiveTransform.h"
 
@@ -116,9 +116,6 @@ Rigid3DPerspectiveTransform<TScalarType>
 
 }
 
-
-
-
 // Set Parameters
 template <class TScalarType>
 const typename Rigid3DPerspectiveTransform<TScalarType>::ParametersType &
@@ -140,8 +137,6 @@ Rigid3DPerspectiveTransform<TScalarType>
 
   return this->m_Parameters;
 }
-
-
 
 // Set rotation
 template<class TScalarType>
@@ -212,8 +207,6 @@ TransformPoint(const InputPointType &point) const
 
   return result;
 }
-
-
 
 // Transform a point
 template<class TScalarType>

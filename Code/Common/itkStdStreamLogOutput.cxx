@@ -32,9 +32,9 @@ StdStreamLogOutput::StdStreamLogOutput()
 StdStreamLogOutput::~StdStreamLogOutput()
 {
   if( this->m_Stream )
-  {
+    {
     this->m_Stream->flush();
-  }
+    }
 }
 
 
@@ -51,9 +51,9 @@ void StdStreamLogOutput::Flush()
 {
   StdStreamLogOutput::m_Mutex.Lock();
   if( this->m_Stream )
-  {
+    {
     this->m_Stream->flush();
-  }
+    }
   StdStreamLogOutput::m_Mutex.Unlock();
 }
 
@@ -63,9 +63,9 @@ void StdStreamLogOutput::Write(double timestamp)
 {
   StdStreamLogOutput::m_Mutex.Lock();
   if( this->m_Stream )
-  {
+    {
     (*this->m_Stream) << timestamp;
-  }
+    }
   StdStreamLogOutput::m_Mutex.Unlock();
 }
 
@@ -96,8 +96,7 @@ void StdStreamLogOutput::Write(std::string const &content, double timestamp)
 void StdStreamLogOutput::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Stream: " << m_Stream << std::endl;;
+  os << indent << "Stream: " << m_Stream << std::endl;
 }
 
 }
-

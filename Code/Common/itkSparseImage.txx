@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSparseImage_txx_
-#define __itkSparseImage_txx_
+#ifndef __itkSparseImage_txx
+#define __itkSparseImage_txx
 
 #include "itkSparseImage.h"
 #include "itkSparseFieldLayer.h"

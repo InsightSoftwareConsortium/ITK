@@ -103,7 +103,7 @@ public:
                                 double *,
                                 InterpolationWeightType*);
 
- public:
+public:
   TetrahedronCell()
     {
     for (unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++)
@@ -113,15 +113,15 @@ public:
     }
   ~TetrahedronCell() {}
 
- protected:
+protected:
   /** Store the number of points needed for a tetrahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
   
- private:
+private:
   TetrahedronCell(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  };
+};
 
 } // end namespace itk
 

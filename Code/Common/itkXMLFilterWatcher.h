@@ -35,74 +35,73 @@ public:
 
 protected:
 
-/** Callback method to show the ProgressEvent */
-virtual void ShowProgress()
-{
-  if (this->GetProcess())
+  /** Callback method to show the ProgressEvent */
+  virtual void ShowProgress()
     {
-    int steps = this->GetSteps();
-    steps++;
-    this->SetSteps(steps);
+    if (this->GetProcess())
+      {
+      int steps = this->GetSteps();
+      steps++;
+      this->SetSteps(steps);
+      if (!this->GetQuiet())
+        {
+        std::cout << "<filter-progress>"
+                  << this->GetProcess()->GetProgress()
+                  << "</filter-progress>"
+                  << std::endl;
+        std::cout << std::flush;
+        }
+      }
+    }
+
+  /** Callback method to show the StartEvent */
+  virtual void StartFilter()
+    {
+    this->SetSteps(0);
+    this->SetIterations(0);
+    this->GetTimeProbe().Start();
     if (!this->GetQuiet())
       {
-      std::cout << "<filter-progress>"
-                << this->GetProcess()->GetProgress()
-                << "</filter-progress>"
+      std::cout << "<filter-start>"
+                << std::endl;
+      std::cout << "<filter-name>"
+                << (this->GetProcess()
+                    ? this->GetProcess()->GetNameOfClass() : "None")
+                << "</filter-name>"
+                << std::endl;
+      std::cout << "<filter-comment>"
+                << " \"" << this->GetComment() << "\" "
+                << "</filter-comment>"
+                << std::endl;
+      std::cout << "</filter-start>"
                 << std::endl;
       std::cout << std::flush;
       }
     }
-}
-
-/** Callback method to show the StartEvent */
-virtual void StartFilter()
-{
-  this->SetSteps(0);
-  this->SetIterations(0);
-  this->GetTimeProbe().Start();
-  if (!this->GetQuiet())
-    {
-    std::cout << "<filter-start>"
-              << std::endl;
-    std::cout << "<filter-name>"
-              << (this->GetProcess()
-                  ? this->GetProcess()->GetNameOfClass() : "None")
-              << "</filter-name>"
-              << std::endl;
-    std::cout << "<filter-comment>"
-              << " \"" << this->GetComment() << "\" "
-              << "</filter-comment>"
-              << std::endl;
-    std::cout << "</filter-start>"
-              << std::endl;
-    std::cout << std::flush;
-    }
-}
-
-/** Callback method to show the EndEvent */
-virtual void EndFilter()
-{
-#if 0
-  this-GetTimeProbe().Stop();
-  if (!this->GetQuiet())
-    {
-    std::cout << "<filter-end>"
-              << std::endl;
-    std::cout << "<filter-name>"
-              << (this->GetProcess()
-                  ? this->GetProcess()->GetNameOfClass() : "None")
-              << "</filter-name>"
-              << std::endl;
-    std::cout << "<filter-time>"
-              << this->GetTimeProbe().GetMeanTime()
-              << "</filter-time>"
-              << std::endl;
-    std::cout << "</filter-end>";
-    std::cout << std::flush;
-    }
-#endif
-}
   
+  /** Callback method to show the EndEvent */
+  virtual void EndFilter()
+    {
+#if 0
+    this-GetTimeProbe().Stop();
+    if (!this->GetQuiet())
+      {
+      std::cout << "<filter-end>"
+                << std::endl;
+      std::cout << "<filter-name>"
+                << (this->GetProcess()
+                    ? this->GetProcess()->GetNameOfClass() : "None")
+                << "</filter-name>"
+                << std::endl;
+      std::cout << "<filter-time>"
+                << this->GetTimeProbe().GetMeanTime()
+                << "</filter-time>"
+                << std::endl;
+      std::cout << "</filter-end>";
+      std::cout << std::flush;
+      }
+#endif
+    }
 };
 
 } // end namespace itk

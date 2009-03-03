@@ -44,7 +44,8 @@ public:
   typedef typename TPixelType::ValueType ValueType;
 };
 
-/** Specialization of PixelTraitss for scalar images. */
+/** \class PixelTraits<bool>
+ * Specialization of PixelTraits for scalar images. */
 template <> class PixelTraits<bool>
 {
 public:
@@ -153,7 +154,8 @@ public:
   typedef TValueType1 ValueType;
 };
 
-/** Specializations for bool. */
+/** \class JoinTraits
+ * Specializations for bool. */
 template<>
 class JoinTraits<bool, bool>
 {
@@ -231,7 +233,8 @@ public:
   typedef double ValueType;
 };
 
-/** Specializations for char. */
+/**  \class PixelTraits<char>
+ * Specializations for char. */
 template<>
 class JoinTraits<char, bool>
 {
@@ -310,7 +313,8 @@ public:
   typedef double ValueType;
 };
 
-/** Specializations for unsigned char. */
+/**  \class PixelTraits<unsigned char>
+ * Specializations for unsigned char. */
 template<>
 class JoinTraits<unsigned char, bool>
 {
@@ -388,7 +392,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for short. */
+/**  \class PixelTraits<short>
+ * Specializations for short. */
 template<>
 class JoinTraits<short, bool>
 {
@@ -467,7 +472,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for unsigned short. */
+/**  \class PixelTraits<unsigned short>
+ * Specializations for unsigned short. */
 template<>
 class JoinTraits<unsigned short, bool>
 {
@@ -545,7 +551,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for int. */
+/**  \class PixelTraits<int>
+ * Specializations for int. */
 template<>
 class JoinTraits<int, bool>
 {
@@ -624,7 +631,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for unsigned int. */
+/**  \class PixelTraits<unsigned int>
+ * Specializations for unsigned int. */
 template<>
 class JoinTraits<unsigned int, bool>
 {
@@ -705,7 +713,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for long. */
+/** \class PixelTraits<long>
+ * Specializations for long. */
 template<>
 class JoinTraits<long, bool>
 {
@@ -783,7 +792,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for unsigned long. */
+/** \class PixelTraits<unsigned long>
+ * Specializations for unsigned long. */
 template<>
 class JoinTraits<unsigned long, bool>
 {
@@ -861,7 +871,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for float. */
+/**  \class PixelTraits<float>
+ * Specializations for float. */
 template<>
 class JoinTraits<float, bool>
 {
@@ -939,7 +950,8 @@ public:
   typedef double ValueType;
 };
   
-/** Specializations for double. */
+/** \class PixelTraits<double>
+ * Specializations for double. */
 template<>
 class JoinTraits<double, bool>
 {

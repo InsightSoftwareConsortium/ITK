@@ -14,14 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScaleSkewVersor3DTransform_txx
-#define _itkScaleSkewVersor3DTransform_txx
+#ifndef __itkScaleSkewVersor3DTransform_txx
+#define __itkScaleSkewVersor3DTransform_txx
 
 #include "itkScaleSkewVersor3DTransform.h"
 
 
 namespace itk
-  {
+{
 
 // Constructor with default arguments
 template <class TScalarType>
@@ -129,9 +129,7 @@ ScaleSkewVersor3DTransform<TScalarType>
   this->Modified();
 
   itkDebugMacro(<<"After setting parameters ");
-  }
-
-
+}
 
 //
 // Get Parameters
@@ -148,7 +146,7 @@ template <class TScalarType>
 const typename ScaleSkewVersor3DTransform<TScalarType>::ParametersType &
 ScaleSkewVersor3DTransform<TScalarType>
 ::GetParameters( void ) const
-  {
+{
   itkDebugMacro( << "Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
@@ -173,18 +171,17 @@ ScaleSkewVersor3DTransform<TScalarType>
   itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
 
   return this->m_Parameters;
-  }
+}
 
 template <class TScalarType>
 void
 ScaleSkewVersor3DTransform<TScalarType>
 ::SetIdentity()
-  {
+{
   m_Scale.Fill( 1.0 );
   m_Skew.Fill( 0.0 );
   Superclass::SetIdentity();
-  }
-
+}
 
 template <class TScalarType>
 void
@@ -338,8 +335,6 @@ GetJacobian( const InputPointType & p ) const
   return this->m_Jacobian;
 
 }
-
-
 
 } // namespace
 

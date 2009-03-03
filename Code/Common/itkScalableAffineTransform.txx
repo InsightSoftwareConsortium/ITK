@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScalableAffineTransform_txx
-#define _itkScalableAffineTransform_txx
+#ifndef __itkScalableAffineTransform_txx
+#define __itkScalableAffineTransform_txx
 
 #include "itkNumericTraits.h"
 #include "itkScalableAffineTransform.h"

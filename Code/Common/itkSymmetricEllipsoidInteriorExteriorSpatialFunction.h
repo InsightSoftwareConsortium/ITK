@@ -42,10 +42,10 @@ class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction:
 public:
   /** Standard class typedefs. */
   typedef SymmetricEllipsoidInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef Vector<double,VDimension> VectorType;
+  typedef InteriorExteriorSpatialFunction<VDimension>       Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef Vector<double,VDimension>                         VectorType;
       
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

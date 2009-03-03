@@ -43,7 +43,7 @@ public:
                            t->GetTransformTypeAsString().c_str(),
                            1,
                            CreateObjectFunction<T>::New() );
-    };
+    }
 };
 } // end namespace itk
 

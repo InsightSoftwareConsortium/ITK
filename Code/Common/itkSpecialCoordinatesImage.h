@@ -99,9 +99,9 @@ public:
   /** Standard class typedefs */
   typedef SpecialCoordinatesImage     Self;
   typedef ImageBase<VImageDimension>  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  typedef WeakPointer<const Self>  ConstWeakPointer;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
+  typedef WeakPointer<const Self>     ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -114,7 +114,7 @@ public:
   typedef TPixel PixelType;
 
   /** Typedef alias for PixelType */
-  typedef TPixel ValueType ;
+  typedef TPixel ValueType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
@@ -130,7 +130,7 @@ public:
 
   /** Accessor functor to choose between accessors: DefaultPixelAccessor for
    * the Image, and DefaultVectorPixelAccessor for the vector image. The 
-   * functor provides a generic API between the two accessors.*/
+   * functor provides a generic API between the two accessors. */
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
@@ -165,7 +165,7 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
   typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
 
   /** Allocate the image memory. The size of the image must
@@ -188,7 +188,7 @@ public:
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    };
+    }
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
@@ -214,10 +214,10 @@ public:
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   const TPixel& GetPixel(const IndexType &index) const
-  {
+    {
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
     return ( (*m_Buffer)[offset] );
-  }
+    }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
    *
@@ -234,7 +234,7 @@ public:
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   TPixel & operator[](const IndexType &index)
-     { return this->GetPixel(index); }
+    { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
@@ -335,4 +335,3 @@ private:
 #endif
 
 #endif
-

@@ -95,14 +95,14 @@ public:
     }
 
 protected:
-  ProcessObject* m_Filter;
-  int m_ThreadId;
-  float m_InverseNumberOfPixels;
-  unsigned long m_CurrentPixel;
-  unsigned long m_PixelsPerUpdate;
-  unsigned long m_PixelsBeforeUpdate;
-  float  m_InitialProgress;
-  float  m_ProgressWeight;
+  ProcessObject*  m_Filter;
+  int             m_ThreadId;
+  float           m_InverseNumberOfPixels;
+  unsigned long   m_CurrentPixel;
+  unsigned long   m_PixelsPerUpdate;
+  unsigned long   m_PixelsBeforeUpdate;
+  float           m_InitialProgress;
+  float           m_ProgressWeight;
 
 private:
   ProgressReporter(); //purposely not implemented

@@ -44,10 +44,10 @@ class ITK_EXPORT VectorNearestNeighborInterpolateImageFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorNearestNeighborInterpolateImageFunction Self;
+  typedef VectorNearestNeighborInterpolateImageFunction         Self;
   typedef VectorInterpolateImageFunction<TInputImage,TCoordRep> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -88,11 +88,11 @@ public:
    * calling the method. */
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const
-  {
-   IndexType nindex;
-   this->ConvertContinuousIndexToNearestIndex(index, nindex);
-   return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
-  }
+    {
+    IndexType nindex;
+    this->ConvertContinuousIndexToNearestIndex(index, nindex);
+    return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
+    }
 
 protected:
   VectorNearestNeighborInterpolateImageFunction(){};

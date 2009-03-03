@@ -60,9 +60,9 @@ class ITK_EXPORT PointLocator : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef PointLocator   Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef PointLocator              Self;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
   /** Method for creation through the object factory. */
@@ -76,10 +76,10 @@ public:
 
   /** Hold on to the type information specified by the template parameters.
    * PointIdentifier is the type that the point handles are represented by. */
-  typedef TPointIdentifier   PointIdentifier;
-  typedef TCoordRep   CoordRepType;
-  typedef TPointsContainer PointsContainer;
-  typedef typename PointsContainer::Pointer PointsContainerPointer;
+  typedef TPointIdentifier                        PointIdentifier;
+  typedef TCoordRep                               CoordRepType;
+  typedef TPointsContainer                        PointsContainer;
+  typedef typename PointsContainer::Pointer       PointsContainerPointer;
   typedef Point< CoordRepType, VPointDimension >  PointType;
   
   /** Some convenience typedefs. */
@@ -179,14 +179,14 @@ protected:
   float Distance2ToBounds(float x[3], float bounds[6]);
 
 
-  float Bounds[6]; // bounds of points
-  itkIdList **HashTable; // lists of point ids in buckets
-  int NumberOfBuckets; // total size of hash table
-  float H[3]; // width of each bucket in x-y-z directions
-  itkNeighborPoints *Buckets;
+  float              m_Bounds[6]; // bounds of points
+  itkIdList        **m_HashTable; // lists of point ids in buckets
+  int                m_NumberOfBuckets; // total size of hash table
+  float              m_H[3]; // width of each bucket in x-y-z directions
+  itkNeighborPoints *m_Buckets;
 
-  float InsertionTol2;
-  float InsertionLevel; 
+  float              m_InsertionTol2;
+  float              m_InsertionLevel; 
 #endif
 
 private:
@@ -194,7 +194,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   unsigned long *m_Divisions;
-  unsigned long m_NumberOfPointsPerBucket;
+  unsigned long  m_NumberOfPointsPerBucket;
 
   PointsContainerPointer m_Points;
 
@@ -207,5 +207,3 @@ private:
 #endif
   
 #endif
-
-

@@ -33,15 +33,14 @@ namespace itk
 
 class ITKCommon_EXPORT TriangleCellTopology
 {
-protected:
-   
-   /** Triangle topology data. */
-  static const int m_Edges[3][2];
-
-  
 public:
   TriangleCellTopology();
   ~TriangleCellTopology();
+  
+protected:
+   
+  /** Triangle topology data. */
+  static const int m_Edges[3][2];
   
 };
 

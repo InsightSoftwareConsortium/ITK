@@ -61,9 +61,9 @@ class ITK_EXPORT SimpleDataObjectDecorator : public DataObject
 public:
   /** Standard typedefs. */
   typedef SimpleDataObjectDecorator           Self;
-  typedef DataObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef DataObject                          Superclass;
+  typedef SmartPointer<Self>                  Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
 
   /** Typedef for the component type (object being decorated) */
   typedef T ComponentType;
@@ -113,6 +113,4 @@ private:
 # include "itkSimpleDataObjectDecorator.txx"
 #endif
 
-
 #endif
-

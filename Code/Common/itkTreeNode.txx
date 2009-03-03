@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTreeNode_txx
-#define _itkTreeNode_txx
+#ifndef __itkTreeNode_txx
+#define __itkTreeNode_txx
 
 #include "itkTreeNode.h"
 #include <cstring>
@@ -38,10 +38,10 @@ TreeNode<TValueType>::~TreeNode()
     m_Parent->Remove(this);
     }
     
- for ( size_t i=m_Children.size() ; i > 0; i-- )
-   {
-   m_Children[i-1]->SetParent(NULL);
-   }
+  for ( size_t i=m_Children.size(); i > 0; i-- )
+    {
+    m_Children[i-1]->SetParent(NULL);
+    }
   m_Children.clear();
   m_Parent = NULL;
   m_Data = 0;
@@ -192,7 +192,7 @@ int TreeNode<TValueType>::ChildPosition( TValueType element ) const
 template <class TValueType>
 void TreeNode<TValueType>::AddChild( TreeNode<TValueType> *node ) 
 {
-  Pointer nodeKeepAlive = node;    
+  Pointer nodeKeepAlive = node;
   node->SetParent(this);
   m_Children.push_back(node);
 }

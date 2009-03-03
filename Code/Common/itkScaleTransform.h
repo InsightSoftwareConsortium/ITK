@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \brief Scale transformation of a vector space (e.g. space coordinates)
+/** \class ScaleTransform
+ * \brief Scale transformation of a vector space (e.g. space coordinates)
  *
  * The same functionality could be obtained by using the Affine tranform,
  * but with a large difference in performace since the affine transform will
@@ -43,10 +44,10 @@ class ITK_EXPORT ScaleTransform : public Transform< TScalarType,
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleTransform Self;
+  typedef ScaleTransform                                      Self;
   typedef Transform< TScalarType, NDimensions, NDimensions >  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
   
   /** New macro for creation of through a smart pointer. */
   itkNewMacro( Self );
@@ -108,7 +109,7 @@ public:
    * operator== defined. The array of scales correspond in order to the factors
    * to be applied to each one of the coordinaates. For example, in 3D,
    * scale[0] corresponds to X, scale[1] corresponds to Y and scale[2]
-   * corresponds to Z.*/
+   * corresponds to Z. */
   void SetScale( const ScaleType & scale )
     { this->Modified(); m_Scale = scale; }
 
@@ -203,9 +204,6 @@ BackTransform(const OutputPointType &point) const {
   return result;
 }
 
-
-
-
 // Back transform a vector
 template<class ScalarType, unsigned int NDimensions>
 inline
@@ -220,9 +218,6 @@ BackTransform(const OutputVectorType &vect ) const
     }
   return result;
 }
-
-
-
 
 // Back transform a vnl_vector
 template<class ScalarType, unsigned int NDimensions>

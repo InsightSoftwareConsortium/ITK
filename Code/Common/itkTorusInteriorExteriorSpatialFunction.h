@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -42,11 +41,11 @@ class ITK_EXPORT TorusInteriorExteriorSpatialFunction:
 public:
 
   /** Standard class typedefs. */
-  typedef TorusInteriorExteriorSpatialFunction Self;
+  typedef TorusInteriorExteriorSpatialFunction        Self;
   typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-    
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
+
   /** Run time information. */
   itkTypeMacro(TorusInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
 

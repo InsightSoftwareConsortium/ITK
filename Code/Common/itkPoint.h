@@ -46,7 +46,7 @@ class Point : public FixedArray< TCoordRep, NPointDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef Point  Self;
+  typedef Point                                  Self;
   typedef FixedArray<TCoordRep,NPointDimension>  Superclass;
   
   /** ValueType can be used to declare a variable that is the same type
@@ -211,20 +211,20 @@ public:
    *  Casting is done with C-Like rules  */
   template < typename TCoordRepB >
   void CastFrom( const Point<TCoordRepB,NPointDimension> & pa )
-  {
+    {
     for(unsigned int i=0; i<NPointDimension; i++ )
       {
       (*this)[i] = static_cast<TCoordRep>( pa[i] );
       }
-  }
-
+    }
 
   /** Compute the Squared Euclidean Distance from this point to another point
-    * with a different representation type.  Casting is done with C-Like rules  */
+    * with a different representation type.  Casting is done with
+    * C-Like rules */
 
   template < typename TCoordRepB >
   RealType SquaredEuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa ) const
-  {
+    {
     RealType sum = NumericTraits< RealType >::Zero;
     for(unsigned int i=0; i<NPointDimension; i++ )
       {
@@ -232,21 +232,19 @@ public:
       const ValueType difference = (*this)[i] - component;
       sum += difference * difference;
       }
-  return sum;
-  }
-
-
+    return sum;
+    }
 
   /** Compute the Euclidean Distance from this point to another point
-    * with a different representation type.  Casting is done with C-Like rules  */
+    * with a different representation type.  Casting is done with
+    * C-Like rules */
   template < typename TCoordRepB >
   RealType EuclideanDistanceTo( const Point<TCoordRepB,NPointDimension> & pa ) const
-  {
-  const double distance = vcl_sqrt(
-    static_cast<double>( this->SquaredEuclideanDistanceTo( pa ) ) ) ;
-  return static_cast<RealType>( distance );
-  }
-
+    {
+    const double distance = vcl_sqrt(
+      static_cast<double>( this->SquaredEuclideanDistanceTo( pa ) ) );
+    return static_cast<RealType>( distance );
+    }
 
 };
 
@@ -258,7 +256,8 @@ template< class T, unsigned int NPointDimension >
 ITK_EXPORT std::istream& operator>>(std::istream& is, 
                                     Point<T,NPointDimension> & v); 
 
-/** Class that computes the barycentric combination of an array of N points
+/** \class BarycentricCombination  
+ * Class that computes the barycentric combination of an array of N points
  *
  * An array of (N-1) values is expected to weight the contribution of the 
  * first (N-1) points, the weight of the Nth point is computed to ensure that 
@@ -284,10 +283,10 @@ ITK_EXPORT class BarycentricCombination
 {
 public:
   /** Convenient typedefs. */
-  typedef TPointContainer PointContainerType;
+  typedef TPointContainer                      PointContainerType;
   typedef typename PointContainerType::Pointer PointContainerPointer;
   typedef typename PointContainerType::Element PointType;
-  typedef TWeightContainer WeightContainerType;
+  typedef TWeightContainer                     WeightContainerType;
   
   BarycentricCombination() {}; 
   ~BarycentricCombination() {};

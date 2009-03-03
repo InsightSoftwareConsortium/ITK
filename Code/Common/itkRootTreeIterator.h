@@ -19,7 +19,7 @@
 
 #include <itkTreeIteratorBase.h>
 
-namespace itk{
+namespace itk {
 
 template <class TTreeType>
 class RootTreeIterator : public TreeIteratorBase<TTreeType> 
@@ -27,9 +27,9 @@ class RootTreeIterator : public TreeIteratorBase<TTreeType>
 public:
 
   /** Typedefs */
-  typedef TreeIteratorBase<TTreeType>  Superclass;
-  typedef TTreeType TreeType;
-  typedef typename TTreeType::ValueType ValueType;
+  typedef TreeIteratorBase<TTreeType>       Superclass;
+  typedef TTreeType                         TreeType;
+  typedef typename TTreeType::ValueType     ValueType;
   typedef typename Superclass::TreeNodeType TreeNodeType;
 
   /** Constructor */

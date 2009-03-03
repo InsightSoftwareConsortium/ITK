@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSegmentationLevelSetFunction_h_
-#define __itkSegmentationLevelSetFunction_h_
+#ifndef __itkSegmentationLevelSetFunction_h
+#define __itkSegmentationLevelSetFunction_h
 
 #include "itkLevelSetFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -39,7 +39,7 @@ namespace itk {
 
   \sa SegmentationLevelSetImageFilter
   \sa LevelSetFunction
-*/
+ */
   
 template <class TImageType, class TFeatureImageType = TImageType>
 class ITK_EXPORT SegmentationLevelSetFunction
@@ -49,23 +49,23 @@ public:
   /** Standard class typedefs. */
   typedef SegmentationLevelSetFunction Self;
   typedef LevelSetFunction<TImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( SegmentationLevelSetFunction, LevelSetFunction );
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType ImageType;
-  typedef typename Superclass::RadiusType RadiusType;
-  typedef typename Superclass::PixelRealType PixelRealType;
-  typedef TFeatureImageType FeatureImageType;
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
-  typedef typename Superclass::ScalarValueType ScalarValueType;
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::RadiusType       RadiusType;
+  typedef typename Superclass::PixelRealType    PixelRealType;
+  typedef TFeatureImageType                     FeatureImageType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  typedef typename Superclass::ScalarValueType  ScalarValueType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename FeatureImageType::PixelType FeatureScalarType;
-  typedef typename ImageType::IndexType IndexType;
-  typedef typename Superclass::VectorType VectorType;
+  typedef typename FeatureImageType::PixelType  FeatureScalarType;
+  typedef typename ImageType::IndexType         IndexType;
+  typedef typename Superclass::VectorType       VectorType;
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
@@ -92,7 +92,7 @@ public:
   
   /** Get/Set the image used as the speed function in the level set equation */
   virtual ImageType *GetSpeedImage() 
-  { return m_SpeedImage.GetPointer(); }
+    { return m_SpeedImage.GetPointer(); }
   void SetSpeedImage( ImageType *s );
   
   /** Get/Set the image used as the advection field in the level set equation */
@@ -163,14 +163,14 @@ protected:
   
   virtual ~SegmentationLevelSetFunction() {}
   SegmentationLevelSetFunction()
-  {
+    {
     m_SpeedImage = ImageType::New();
     m_AdvectionImage = VectorImageType::New();
     m_Interpolator = InterpolatorType::New();
     m_VectorInterpolator = VectorInterpolatorType::New();
-  }
+    }
 
-  typename InterpolatorType::Pointer m_Interpolator;
+  typename InterpolatorType::Pointer       m_Interpolator;
   typename VectorInterpolatorType::Pointer m_VectorInterpolator;
 
  

@@ -101,9 +101,6 @@ ComputeEigenValuesAndVectors(
   return eigenErrIndex; //index of eigen value that could not be computed
 }
 
-
-
-
 template< class TMatrix, class TVector, class TEigenMatrix >
 void
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::
@@ -220,8 +217,6 @@ ReduceToTridiagonalMatrix(double * a, VectorType &d,
       }
     }
 }
-
-
 
 template< class TMatrix, class TVector, class TEigenMatrix >
 void
@@ -387,8 +382,6 @@ ReduceToTridiagonalMatrixAndGetTransformation(double * a, VectorType &d,
 
 }
 
-
-
 template< class TMatrix, class TVector, class TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::
@@ -406,13 +399,15 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
   double tst1, tst2;
 
   unsigned int ierr = 0;
-  if (m_Order == 1) {
-       return 1;
-  }
+  if (m_Order == 1)
+    {
+    return 1;
+    }
 
-  for (i = 1; i < m_Order; ++i) {
-      e[i-1] = e[i];
-  }
+  for (i = 1; i < m_Order; ++i)
+    {
+    e[i-1] = e[i];
+    }
 
   f = 0.;
   tst1 = 0.;
@@ -440,7 +435,6 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
 
     if (m != l) 
       {
-    
       do
         {
         if (j == 30) 
@@ -531,8 +525,6 @@ ComputeEigenValuesUsingQL(VectorType &d, double *e) const
   return ierr;    //ierr'th eigen value that couldn't be computed
   
 }
-
-
 
 template< class TMatrix, class TVector, class TEigenMatrix >
 unsigned int
@@ -677,7 +669,7 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
           }
         k = j;
         p = d[j];
-      }
+        }
 
       if (k == i) 
         {
@@ -710,7 +702,7 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
           }
         k = j;
         p = d[j];
-      }
+        }
 
       if (k == i) 
         {
@@ -732,9 +724,6 @@ ComputeEigenValuesAndVectorsUsingQL(VectorType &d, double *e, double *z) const
   return ierr;
 }
 
-
-
 }  // end namespace itk
  
 #endif
- 

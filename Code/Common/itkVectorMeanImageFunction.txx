@@ -25,8 +25,8 @@ namespace itk
 {
 
 /**
-   * Constructor
-   */
+ * Constructor
+ */
 template <class TInputImage, class TCoordRep>
 VectorMeanImageFunction<TInputImage,TCoordRep>
 ::VectorMeanImageFunction()
@@ -36,8 +36,8 @@ VectorMeanImageFunction<TInputImage,TCoordRep>
 
 
 /**
-   *
-   */
+ *
+ */
 template <class TInputImage, class TCoordRep>
 void
 VectorMeanImageFunction<TInputImage,TCoordRep>

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkRigid3DTransform_txx
-#define _itkRigid3DTransform_txx
+#ifndef __itkRigid3DTransform_txx
+#define __itkRigid3DTransform_txx
 
 #include "itkRigid3DTransform.h"
 
@@ -79,7 +79,7 @@ Rigid3DTransform<TScalarType>
     matrix.GetVnlMatrix() * matrix.GetTranspose();
 
   if( !test.is_identity( tolerance ) ) 
-    {    
+    {
     return false;
     }
 
@@ -95,7 +95,7 @@ Rigid3DTransform<TScalarType>
 {
   const double tolerance = 1e-10;
   if( !this->MatrixIsOrthogonal( matrix, tolerance ) ) 
-    {    
+    {
     itkExceptionMacro( << "Attempting to set a non-orthogonal rotation matrix" );
     }
 
@@ -132,7 +132,7 @@ Rigid3DTransform<TScalarType>
   
   const double tolerance = 1e-10;
   if( !this->MatrixIsOrthogonal( matrix, tolerance ) ) 
-    {    
+    {
     itkExceptionMacro( << "Attempting to set a non-orthogonal rotation matrix" );
     }
 
@@ -168,7 +168,8 @@ typename Rigid3DTransform<TScalarType>::InputPointType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputPointType &point) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(<< "BackTransform(): This method is slated to be removed from ITK."
+                  << "Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return this->GetInverseMatrix() * (point - this->GetOffset());
 }
 
@@ -178,7 +179,8 @@ typename Rigid3DTransform<TScalarType>::InputVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVectorType &vect ) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK."
+                  <<  "Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return  this->GetInverseMatrix() * vect;
 }
 
@@ -188,7 +190,8 @@ typename Rigid3DTransform<TScalarType>::InputVnlVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputVnlVectorType &vect ) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK."
+                  << " Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return  this->GetInverseMatrix() * vect;
 }
 
@@ -199,7 +202,8 @@ typename Rigid3DTransform<TScalarType>::InputCovariantVectorType
 Rigid3DTransform<TScalarType>::
 BackTransform(const OutputCovariantVectorType &vect) const 
 {
-  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK.  Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
+  itkWarningMacro(<<"BackTransform(): This method is slated to be removed from ITK."
+                  << " Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
   return this->GetMatrix() * vect;
 }
 

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTranslationTransform_txx
-#define _itkTranslationTransform_txx
+#ifndef __itkTranslationTransform_txx
+#define __itkTranslationTransform_txx
 
 #include "itkTranslationTransform.h"
 
@@ -73,9 +73,6 @@ TranslationTransform<TScalarType, NDimensions>
     }
 }
 
-
-
-
 // Get the parameters
 template <class TScalarType, unsigned int NDimensions>
 const typename TranslationTransform<TScalarType, NDimensions>::ParametersType &
@@ -88,8 +85,6 @@ TranslationTransform<TScalarType, NDimensions>
     }  
   return this->m_Parameters;
 }
-
-
 
 // Print self
 template<class TScalarType, unsigned int NDimensions>
@@ -128,8 +123,6 @@ Translate(const OutputVectorType &offset, bool )
   this->SetParameters (newOffset);
   return;
 }
-
-
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions>
@@ -170,8 +163,6 @@ TransformCovariantVector(const InputCovariantVectorType &vect) const
   return  vect;
 }
 
-
-
 // return an inverse transformation
 template<class TScalarType, unsigned int NDimensions>
 bool
@@ -197,8 +188,6 @@ GetJacobian( const InputPointType & ) const
   // initialized in the constructor, so we just need to return it here.
   return this->m_Jacobian;
 }
-
-
 
 // Set the parameters for an Identity transform of this class
 template<class TScalarType, unsigned int NDimensions>

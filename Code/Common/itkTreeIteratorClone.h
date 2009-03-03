@@ -30,7 +30,7 @@ public:
   
   /** Typedefs */
   typedef TreeIteratorClone<TObjectType> Self;
-  typedef TObjectType ObjectType;
+  typedef TObjectType                    ObjectType;
   
   /** Constructor  */
   TreeIteratorClone () 
@@ -56,14 +56,14 @@ public:
       {
       m_Pointer=p->Clone();
       }
-    }                             
+    }
   
   /** Constructor to reference p  */
   TreeIteratorClone (const ObjectType &p)
     { 
     m_Pointer = 0;
     m_Pointer=const_cast<ObjectType*>(&p)->Clone();
-    }                             
+    }
   
   /** Destructor  */
   ~TreeIteratorClone ()
@@ -78,17 +78,17 @@ public:
 
   /** Test if the pointer has been initialized */
   bool IsNotNull() const
-  { return m_Pointer != 0; }
+    { return m_Pointer != 0; }
   bool IsNull() const
-  { return m_Pointer == 0; }
+    { return m_Pointer == 0; }
 
   /** Template comparison operators. */
-  template <typename R>
-  bool operator == ( R r ) const
+  template <typename TR>
+  bool operator == ( TR r ) const
     { return (m_Pointer == (ObjectType*)(r) ); }
 
-  template <typename R>
-  bool operator != ( R r ) const
+  template <typename TR>
+  bool operator != ( TR r ) const
     { return (m_Pointer != (ObjectType*)(r) ); }
     
   /** Access function to pointer. */
@@ -117,7 +117,7 @@ public:
   
   /** Overload operator assignment.  */
   TreeIteratorClone &operator = (const ObjectType *r)
-    {                                                              
+    {
     if (m_Pointer != r)
       {
       delete m_Pointer;
@@ -132,7 +132,9 @@ public:
   operator++()
     {
     if(m_Pointer)
+      {
       ++(*m_Pointer);
+      }
     return *this;
     }
 

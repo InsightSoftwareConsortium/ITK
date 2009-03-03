@@ -38,10 +38,10 @@ class ITK_EXPORT ThinPlateR2LogRSplineKernelTransform :
 {
 public:
   /** Standard class typedefs. */
-  typedef ThinPlateR2LogRSplineKernelTransform Self;
+  typedef ThinPlateR2LogRSplineKernelTransform            Self;
   typedef KernelTransform<    TScalarType, NDimensions>   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
@@ -63,13 +63,13 @@ public:
                               
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
-  typedef typename Superclass::InputVectorType InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;
+  typedef typename Superclass::InputPointType            InputPointType;
+  typedef typename Superclass::OutputPointType           OutputPointType;
+  typedef typename Superclass::InputVectorType           InputVectorType;
+  typedef typename Superclass::OutputVectorType          OutputVectorType;
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  typedef typename Superclass::PointsIterator PointsIterator;
+  typedef typename Superclass::PointsIterator            PointsIterator;
     
 
 protected:
@@ -100,7 +100,7 @@ protected:
   virtual void ComputeDeformationContribution( const InputPointType & inputPoint,
                                                      OutputPointType & result ) const;
 
- private:
+private:
   ThinPlateR2LogRSplineKernelTransform(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

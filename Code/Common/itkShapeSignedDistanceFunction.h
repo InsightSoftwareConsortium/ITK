@@ -54,9 +54,9 @@ public:
   /** Standard class typedefs. */
   typedef ShapeSignedDistanceFunction Self;
   typedef SpatialFunction< double, VSpaceDimension, 
-                                   Point<TCoordRep,VSpaceDimension> > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                      Point<TCoordRep,VSpaceDimension> > Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeSignedDistanceFunction, SpatialFunction);

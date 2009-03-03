@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \brief Logarithmic Scale transformation of a vector space (e.g. space coordinates)
+/** \class ScaleLogarithmicTransform
+ * \brief Logarithmic Scale transformation of a vector space (e.g. space coordinates)
  *
  * The only difference between this class and its superclass the ScaleTransform 
  * is that here the parameters of the transformation are the logarithms of the
@@ -40,10 +41,10 @@ class ITK_EXPORT ScaleLogarithmicTransform :
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleLogarithmicTransform Self;
+  typedef ScaleLogarithmicTransform                   Self;
   typedef ScaleTransform< TScalarType, NDimensions >  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
   
   /** New macro for creation of through a smart pointer. */
   itkNewMacro( Self );

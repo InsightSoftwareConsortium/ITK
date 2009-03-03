@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVariableLengthVector_txx
-#define _itkVariableLengthVector_txx
+#ifndef __itkVariableLengthVector_txx
+#define __itkVariableLengthVector_txx
 
 #include "itkVariableLengthVector.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
@@ -28,11 +28,10 @@ namespace itk
 /** Default constructor  */
 template < typename TValueType >
 VariableLengthVector<TValueType >
-::VariableLengthVector() : 
-  m_LetArrayManageMemory( true ),
-  m_Data( 0 ),
-  m_NumElements( 0 ) {}
-
+::VariableLengthVector() : m_LetArrayManageMemory( true ),
+                           m_Data( 0 ),
+                           m_NumElements( 0 )
+{}
 
 /** Constructor with size */
 template < typename TValueType >
@@ -50,7 +49,8 @@ VariableLengthVector<TValueType >
 ::VariableLengthVector( ValueType *datain, unsigned int sz, bool LetArrayManageMemory) :
   m_LetArrayManageMemory( LetArrayManageMemory ),
   m_Data( datain ),
-  m_NumElements( sz ) {}
+  m_NumElements( sz )
+{}
 
 /** Constructor with user specified data */
 template < typename TValueType >
@@ -78,7 +78,7 @@ VariableLengthVector<TValueType >
 }
 
 
-/** Destructor*/
+/** Destructor */
 template < typename TValueType >
 VariableLengthVector<TValueType >
 ::~VariableLengthVector()
@@ -148,14 +148,14 @@ TValueType * VariableLengthVector< TValueType >
  * the responsibility of freeing the memory for this data.  If
  * "LetArrayManageMemory" is true, then this class will free the
  * memory when this object is destroyed. Note that you need to explicitly
- * set the number of elements.*/
+ * set the number of elements. */
 template < typename TValueType >
 void 
 VariableLengthVector<TValueType >
 ::SetData(TValueType* datain,bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
-  if(m_LetArrayManageMemory && m_Data)   
+  if(m_LetArrayManageMemory && m_Data)
     {
     delete [] m_Data;
     }  
@@ -234,7 +234,7 @@ void VariableLengthVector<TValueType >
     }
 }
 
-/** Assignment operator  **/
+/** Assignment operator */
 template < typename TValueType > const VariableLengthVector< TValueType >& 
 VariableLengthVector<TValueType >
 ::operator=(const Self & v)
@@ -306,7 +306,7 @@ typename VariableLengthVector< TValueType >::RealValueType
 VariableLengthVector<TValueType >
 ::GetNorm( void ) const
 {
- return (RealValueType)( vcl_sqrt(double(this->GetSquaredNorm()) ));
+  return (RealValueType)( vcl_sqrt(double(this->GetSquaredNorm()) ));
 }
 
 /**

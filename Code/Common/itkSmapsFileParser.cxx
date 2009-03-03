@@ -282,7 +282,7 @@ ITKCommon_EXPORT std::istream& operator>>(std::istream &in, VMMapRecord &record)
 //bool ITKCommon_EXPORT ci_equal(char a, char b); // located in itkSmapsFileParser.cxx
 
 /** Binary functor to accumulate memory usage in kB
-*/
+ */
 template<class TFirstType>
 struct MapRecordPlusor{
   MapRecordPlusor<TFirstType>(const char * token = "Size")

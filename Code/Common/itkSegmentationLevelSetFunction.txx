@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSegmentationLevelSetFunction_txx_
-#define __itkSegmentationLevelSetFunction_txx_
+#ifndef __itkSegmentationLevelSetFunction_txx
+#define __itkSegmentationLevelSetFunction_txx
 
 #include "itkSegmentationLevelSetFunction.h"
 
@@ -113,7 +113,7 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>
     return ( m_VectorCast(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
     }
   //Just return the default else
-    return ( m_AdvectionImage->GetPixel(idx) );
+  return ( m_AdvectionImage->GetPixel(idx) );
   
 }
 

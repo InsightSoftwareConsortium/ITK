@@ -49,7 +49,7 @@ namespace itk {
  * \endverbatim
  * The Sobel Operator in horizonal direction is for 2 dimensions is
  * \verbatim
- *             -1   0   1      
+ *             -1   0   1
  *             -2   0   2 
  *             -1   0   1
  * \endverbatim
@@ -88,7 +88,7 @@ class ITK_EXPORT SobelOperator
 {
 public:
   /** Standard typedefs */
-  typedef SobelOperator Self;
+  typedef SobelOperator                                         Self;
   typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
@@ -96,7 +96,7 @@ public:
   SobelOperator() {}
   SobelOperator(const Self& other)
     : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) 
-  {  }
+    {}
 
   /** Creates the operator with length only in the specified direction.  For
    * the Sobel operator, this 
@@ -104,9 +104,9 @@ public:
    * the operator will work.
    * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
   virtual void CreateDirectional()
-  {
+    {
     this->CreateToRadius(1);
-  }
+    }
   
   /** Creates the operator with a specified radius ("square", same length
    * on each side). The spatial location of the coefficients within the
@@ -125,10 +125,10 @@ public:
    * Prints some debugging information
    */
   virtual void PrintSelf(std::ostream &os, Indent i) const  
-  { 
+    { 
     os << i << "SobelOperator { this=" << this  << "}" << std::endl;
     Superclass::PrintSelf(os, i.GetNextIndent());
-  }
+    }
 
 protected:
   /**
@@ -136,7 +136,7 @@ protected:
    * work around compiler bug on VC++.
    */
   typedef typename Superclass::CoefficientVector CoefficientVector;
-  typedef typename Superclass::PixelType PixelType;
+  typedef typename Superclass::PixelType         PixelType;
 
   /**
    * Calculates operator coefficients.
@@ -168,5 +168,3 @@ protected:
 #endif
 
 #endif
-
-

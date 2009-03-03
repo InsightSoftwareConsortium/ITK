@@ -1,4 +1,3 @@
-
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
@@ -37,11 +36,11 @@ class ITK_EXPORT SphereSpatialFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef SphereSpatialFunction<VImageDimension,TInput> Self;
+  typedef SphereSpatialFunction<VImageDimension,TInput>           Self;
   typedef InteriorExteriorSpatialFunction<VImageDimension,TInput> Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-    
+  typedef SmartPointer<Self>                                      Pointer;
+  typedef SmartPointer<const Self>                                ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

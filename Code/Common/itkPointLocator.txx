@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkPointLocator_txx
-#define _itkPointLocator_txx
+#ifndef __itkPointLocator_txx
+#define __itkPointLocator_txx
 #include "itkPointLocator.h"
 
 namespace itk
@@ -74,7 +74,7 @@ float hmin;
 int ndivs[3];
 float level;
 
-if ( this->HashTable )
+if ( this->m_HashTable )
 {
   this->FreeSearchStructure();
 }
@@ -92,11 +92,11 @@ this->Points->Register(this);
 
 for (i=0; i<3; i++)
 {
-  this->Bounds[2*i] = bounds[2*i];
-  this->Bounds[2*i+1] = bounds[2*i+1];
-  if ( this->Bounds[2*i+1] <= this->Bounds[2*i] )
+  this->m_Bounds[2*i] = bounds[2*i];
+  this->m_Bounds[2*i+1] = bounds[2*i+1];
+  if ( this->m_Bounds[2*i+1] <= this->m_Bounds[2*i] )
     {
-    this->Bounds[2*i+1] = this->Bounds[2*i] + 1.0;
+    this->m_Bounds[2*i+1] = this->m_Bounds[2*i] + 1.0;
     }
 }
 
@@ -123,34 +123,35 @@ for (i=0; i<3; i++)
   this->Divisions[i] = ndivs[i];
 }
 
-this->NumberOfBuckets = ndivs[0]*ndivs[1]*ndivs[2];
-this->HashTable = new vtkIdListPtr[this->NumberOfBuckets];
-memset (this->HashTable, 0, this->NumberOfBuckets*
+this->m_NumberOfBuckets = ndivs[0]*ndivs[1]*ndivs[2];
+this->m_HashTable = new vtkIdListPtr[this->m_NumberOfBuckets];
+memset (this->m_HashTable, 0, this->m_NumberOfBuckets*
         sizeof(vtkIdListPtr));
 //
 //  Compute width of bucket in three directions
 //
 for (i=0; i<3; i++) 
 {
-  this->H[i] = (this->Bounds[2*i+1] - this->Bounds[2*i]) / ndivs[i] ;
+  this->m_H[i] = (this->m_Bounds[2*i+1] - this->m_Bounds[2*i]) / ndivs[i];
 }
 
-this->InsertionTol2 = this->Tolerance * this->Tolerance;
+this->m_InsertionTol2 = this->Tolerance * this->Tolerance;
 
 for (maxDivs=0, hmin=VTK_LARGE_FLOAT, i=0; i<3; i++) 
 {
-  hmin = (this->H[i] < hmin ? this->H[i] : hmin);
+  hmin = (this->m_H[i] < hmin ? this->m_H[i] : hmin);
   maxDivs = (maxDivs > this->Divisions[i] ? maxDivs : this->Divisions[i]);
 }
-this->InsertionLevel = ::ceil ((double) this->Tolerance / hmin);
-this->InsertionLevel = (this->InsertionLevel > maxDivs ? maxDivs : this->InsertionLevel);
+this->m_InsertionLevel = ::ceil ((double) this->Tolerance / hmin);
+this->m_InsertionLevel = (this->m_InsertionLevel > maxDivs ? maxDivs : this->m_InsertionLevel);
 return 1;
 #endif
 
 
 /******************************************************************************
  * PROTECTED METHOD DEFINITIONS
- *****************************************************************************/
+ ******************************************************************************
+ */
 
 template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>

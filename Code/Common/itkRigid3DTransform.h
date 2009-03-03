@@ -26,7 +26,8 @@
 namespace itk
 {
 
-/** \brief Rigid3DTransform of a vector space (e.g. space coordinates)
+/** \class Rigid3DTransform
+ * \brief Rigid3DTransform of a vector space (e.g. space coordinates)
  *
  * This transform applies a rotation and translation in 3D space.
  * The transform is specified as a rotation matrix around a arbitrary center
@@ -74,9 +75,9 @@ public:
   typedef typename Superclass::InputVectorType            InputVectorType;
   typedef typename Superclass::OutputVectorType           OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType  
-                                                     InputCovariantVectorType;
+                                                          InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType  
-                                                     OutputCovariantVectorType;
+                                                          OutputCovariantVectorType;
   typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
   typedef typename Superclass::InputPointType             InputPointType;
@@ -113,9 +114,9 @@ public:
    * Rigid3DTransform.
    *
    * \deprecated Use GetMatrix instead
-   **/
-   const MatrixType & GetRotationMatrix()
-     { return this->GetMatrix(); }
+   */
+  const MatrixType & GetRotationMatrix()
+    { return this->GetMatrix(); }
 
   /**
    * Set the rotation Matrix of a Rigid3D Transform
@@ -126,7 +127,7 @@ public:
    *
    * \deprecated Use SetMatrix instead
    * 
-   **/
+   */
   virtual void SetRotationMatrix(const MatrixType & matrix)
       { this->SetMatrix(matrix); }
 
@@ -136,7 +137,7 @@ public:
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
    * true, and postcomposed otherwise.
-   **/
+   */
   void Translate(const OffsetType & offset, bool pre=false);
 
   /**
@@ -149,7 +150,7 @@ public:
    * \deprecated Please use GetInverseTransform and then call the forward
    *   transform using the result.
    *
-   **/
+   */
   InputPointType      BackTransform(const OutputPointType 
                                                    &point ) const;
   InputVectorType     BackTransform(const OutputVectorType 
@@ -159,10 +160,10 @@ public:
   InputCovariantVectorType BackTransform(const OutputCovariantVectorType
                                                    &vector) const;
 
-   /**
-    * Utility function to test if a matrix is orthogonal within a specified 
-    * tolerance
-    */
+  /**
+   * Utility function to test if a matrix is orthogonal within a specified 
+   * tolerance
+   */
   bool MatrixIsOrthogonal( const MatrixType & matrix, double tol = 1e-10 );
 
 protected:
@@ -175,7 +176,7 @@ protected:
   
   /**
    * Print contents of an Rigid3DTransform
-   **/
+   */
   void PrintSelf(std::ostream &os, Indent indent) const;
 
 private:

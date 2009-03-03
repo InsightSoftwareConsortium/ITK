@@ -89,12 +89,12 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
     static_cast< TimeStampType >( (__int64)tick.QuadPart ) / 
     this->m_Frequency;
     
-  this->m_Origin +=  this->m_Difference;
+  this->m_Origin += this->m_Difference;
 
 
 #else
 
-  this->m_Frequency = 1e6;;
+  this->m_Frequency = 1e6;
 
 #endif  // defined(WIN32) || defined(_WIN32)
 }

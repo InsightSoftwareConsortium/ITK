@@ -14,8 +14,8 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSimplexMesh_txx
-#define _itkSimplexMesh_txx
+#ifndef __itkSimplexMesh_txx
+#define __itkSimplexMesh_txx
 
 #include "itkSimplexMesh.h"
 
@@ -45,8 +45,6 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 {
   m_GeometryData = GeometryMapType::New();
 }
-
-
 
 /**
  * Mesh Destructor takes care of releasing the memory of Cells
@@ -236,7 +234,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 {
   this->SetCell( m_LastCellId , cellPointer );
   m_LastCellId++;
-  return m_LastCellId-1;      
+  return m_LastCellId-1;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -247,7 +245,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
   this->GetCells()->DeleteIndex( replaceIndex );
   this->SetCell( replaceIndex , cellPointer );
   this->SetCellData( replaceIndex , (PixelType) 1.0 );
-  return replaceIndex;      
+  return replaceIndex;
 }
 
 /* PrintSelf. */
@@ -268,7 +266,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
     {
     os << indent << "cell id: " << cellIt->Index() << ", point ids: ";
     CellType *nextCell = cellIt->Value();
-    typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin() ;
+    typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin();
     while (pointIt != nextCell->PointIdsEnd() ) { os << *pointIt++ << "-"; }
     os << std::endl;
     cellIt++;

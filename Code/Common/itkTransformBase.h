@@ -40,9 +40,9 @@ class ITK_EXPORT  TransformBase  : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef TransformBase  Self;
-  typedef Object Superclass;
-  typedef SmartPointer< Self >   Pointer;
+  typedef TransformBase               Self;
+  typedef Object                      Superclass;
+  typedef SmartPointer< Self >        Pointer;
   typedef SmartPointer< const Self >  ConstPointer;
 
   /** Type of the input parameters. */

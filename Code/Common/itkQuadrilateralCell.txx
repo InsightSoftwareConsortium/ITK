@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkQuadrilateralCell_txx
-#define _itkQuadrilateralCell_txx
+#ifndef __itkQuadrilateralCell_txx
+#define __itkQuadrilateralCell_txx
 #include "itkQuadrilateralCell.h"
 
 namespace itk
@@ -92,45 +92,44 @@ QuadrilateralCell< TCellInterface >
   switch (dimension)
     {
     case 0: 
-    {
-    VertexAutoPointer vertexPointer;
-    if( this->GetVertex(featureId,vertexPointer) )
       {
-      TransferAutoPointer(cellPointer,vertexPointer);
-      return true;
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
-      {
-      cellPointer.Reset();
-      return false;
-      }
-    break;
-    }
     case 1: 
-    {
-    EdgeAutoPointer edgePointer;
-    if( this->GetEdge(featureId,edgePointer) )
       {
-      TransferAutoPointer(cellPointer,edgePointer);
-      return true;
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
-      {
-      cellPointer.Reset();
-      return false;
-      }
-    break;
-    }
 
     default: 
-    {
-    cellPointer.Reset();
-    return false;
-    }
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
   return false;
 }
-
 
 /**
  * Standard CellInterface:
@@ -144,7 +143,7 @@ QuadrilateralCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(unsigned int i=0; i < Self::NumberOfPoints ; ++i)
+  for(unsigned int i=0; i < Self::NumberOfPoints; ++i)
     {
     m_PointIds[i] = *ii++;
     }

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTriangleCell_txx
-#define _itkTriangleCell_txx
+#ifndef __itkTriangleCell_txx
+#define __itkTriangleCell_txx
 #include "itkTriangleCell.h"
 #include "vnl/algo/vnl_determinant.h"
 
@@ -94,41 +94,41 @@ TriangleCell< TCellInterface >
   switch (dimension)
     {
     case 0: 
-    {
-    VertexAutoPointer vertexPointer;
-    if( this->GetVertex(featureId,vertexPointer) )
       {
-      TransferAutoPointer(cellPointer,vertexPointer);
-      return true;
+      VertexAutoPointer vertexPointer;
+      if( this->GetVertex(featureId,vertexPointer) )
+        {
+        TransferAutoPointer(cellPointer,vertexPointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
-      {
-      cellPointer.Reset();
-      return false;
-      }
-    break;
-    }
     case 1: 
-    {
-    EdgeAutoPointer edgePointer;
-    if( this->GetEdge(featureId,edgePointer) )
       {
-      TransferAutoPointer(cellPointer,edgePointer);
-      return true;
+      EdgeAutoPointer edgePointer;
+      if( this->GetEdge(featureId,edgePointer) )
+        {
+        TransferAutoPointer(cellPointer,edgePointer);
+        return true;
+        }
+      else
+        {
+        cellPointer.Reset();
+        return false;
+        }
+      break;
       }
-    else
-      {
-      cellPointer.Reset();
-      return false;
-      }
-    break;
-    }
 
     default: 
-    {
-    cellPointer.Reset();
-    return false;
-    }
+      {
+      cellPointer.Reset();
+      return false;
+      }
     }
   return false;
 }
@@ -146,7 +146,7 @@ TriangleCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
 {
   PointIdConstIterator ii(first);
-  for(unsigned int i=0; i < NumberOfPoints ; ++i, ++ii)
+  for(unsigned int i=0; i < NumberOfPoints; ++i, ++ii)
     {
     m_PointIds[i] = *ii;
     }
@@ -302,8 +302,6 @@ TriangleCell< TCellInterface >
   return true;
 }
 
-
-
 /** Compute distance to finite line. Returns parametric coordinate t 
  *  and point location on line. */
 template <typename TCellInterface>
@@ -375,17 +373,8 @@ TriangleCell< TCellInterface >
   else
     {
     closestPoint = p1 + v21 * t;
-//     for(i=0;i<PointDimension;i++)
-//       {
-//       closest[i] = p1[i] + t*p21[i];
-//       }
     }
     
-//   for(i=0;i<PointDimension;i++)
-//     {
-//     closestPoint[i] = closest[i]; 
-//     }
-
   return static_cast< double >( closestPoint.SquaredEuclideanDistanceTo(x) );
 }
 
@@ -415,7 +404,7 @@ TriangleCell< TCellInterface >::ComputeBarycenter(
   CoordRepType sum_weights(0.);
   unsigned int i(0);
 
-  for( ; i < 3; i++ )
+  for(; i < 3; i++ )
     {
     sum_weights += iWeights[i];
     p[i] = iPoints->GetElement( m_PointIds[i] );
@@ -608,7 +597,7 @@ TriangleCell< TCellInterface >
       }
 
     return true;
-    }    
+    }
   else
     {
     if (closestPoint)
@@ -723,7 +712,7 @@ TriangleCell< TCellInterface >
       }
     //Just fall through to default return false;
     }
-    return false; //Default case that should never be reached.
+  return false; //Default case that should never be reached.
 }
 
 

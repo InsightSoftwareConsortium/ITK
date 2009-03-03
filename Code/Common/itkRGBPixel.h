@@ -52,7 +52,7 @@ class RGBPixel: public FixedArray<TComponent,3>
 {
 public:
   /** Standard class typedefs. */
-  typedef RGBPixel  Self;
+  typedef RGBPixel                  Self;
   typedef FixedArray<TComponent, 3> Superclass;
   
   /** Dimension of the vector space. */
@@ -63,7 +63,7 @@ public:
   typedef FixedArray<TComponent, 3> BaseArray;
   
   /**  Define the component type. */
-  typedef TComponent ComponentType;
+  typedef TComponent                     ComponentType;
   typedef typename Superclass::ValueType ValueType;
   
   /** Default constructor has nothing to do */
@@ -106,10 +106,10 @@ public:
   /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
     {
-      return static_cast<ComponentType> (vcl_sqrt(
-        static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
-        static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
-        static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
+    return static_cast<ComponentType> (vcl_sqrt(
+                                         static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
+                                         static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
+                                         static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
     }
 
   /** Set the Nth component to v. */

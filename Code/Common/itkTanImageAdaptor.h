@@ -73,12 +73,12 @@ class ITK_EXPORT TanImageAdaptor : public
 {
 public:
   /** Standard class typedefs. */
-  typedef TanImageAdaptor  Self;
+  typedef TanImageAdaptor                                  Self;
   typedef ImageAdaptor<TImage,Accessor::TanPixelAccessor<
                                        typename TImage::PixelType,
                                        TOutputPixelType> > Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);  
@@ -86,11 +86,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( TanImageAdaptor, ImageAdaptor );
 
- protected:
+protected:
   TanImageAdaptor() {}
   virtual ~TanImageAdaptor() {}
   
- private:
+private:
   TanImageAdaptor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

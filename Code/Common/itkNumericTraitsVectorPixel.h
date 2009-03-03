@@ -1547,4 +1547,3 @@ public:
 } // end namespace itk
 
 #endif // __itkNumericTraitsVectorPixel_h  
-

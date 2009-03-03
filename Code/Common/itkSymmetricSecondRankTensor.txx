@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSymmetricSecondRankTensor_txx
-#define _itkSymmetricSecondRankTensor_txx
+#ifndef __itkSymmetricSecondRankTensor_txx
+#define __itkSymmetricSecondRankTensor_txx
 
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkNumericTraitsTensorPixel.h"
@@ -23,7 +23,7 @@
 namespace itk
 {
 
-/*
+/**
  * Assignment Operator
  */
 template<class T,unsigned int NDimension>
@@ -36,7 +36,7 @@ SymmetricSecondRankTensor<T,NDimension>
 }
 
 
-/*
+/**
  * Assignment Operator from a scalar constant
  */
 template<class T,unsigned int NDimension>
@@ -49,7 +49,7 @@ SymmetricSecondRankTensor<T,NDimension>
 }
 
 
-/*
+/**
  * Assigment from a plain array
  */
 template<class T,unsigned int NDimension>
@@ -61,8 +61,6 @@ SymmetricSecondRankTensor<T,NDimension>
   return *this;
 }
 
-
-  
 /**
  * Returns a temporary copy of a vector
  */
@@ -79,9 +77,6 @@ SymmetricSecondRankTensor<T,NDimension>
   return result;
 }
 
-
-
-
 /**
  * Returns a temporary copy of a vector
  */
@@ -97,8 +92,6 @@ SymmetricSecondRankTensor<T,NDimension>
     }
   return result;
 }
-
-
  
 /**
  * Performs addition in place
@@ -115,9 +108,6 @@ SymmetricSecondRankTensor<T,NDimension>
   return *this;
 }
 
-
-
- 
 /**
  * Performs subtraction in place 
  */
@@ -133,8 +123,6 @@ SymmetricSecondRankTensor<T,NDimension>
   return *this;
 }
 
-
- 
 /**
  * Performs multiplication by a scalar, in place
  */
@@ -150,8 +138,6 @@ SymmetricSecondRankTensor<T,NDimension>
   return *this;
 }
 
-
- 
 /**
  * Performs division by a scalar, in place
  */
@@ -166,9 +152,6 @@ SymmetricSecondRankTensor<T,NDimension>
     }
   return *this;
 }
-
-
-
 
 /**
  * Performs multiplication with a scalar
@@ -186,7 +169,6 @@ SymmetricSecondRankTensor<T,NDimension>
   return result;
 }
 
-
 /**
  * Performs division by a scalar
  */
@@ -203,8 +185,7 @@ SymmetricSecondRankTensor<T,NDimension>
   return result;
 }
 
-
-/*
+/**
  * Matrix notation access to elements
  */
 template<class T,unsigned int NDimension>
@@ -233,8 +214,7 @@ SymmetricSecondRankTensor<T,NDimension>
 }
 
 
-
-/*
+/**
  * Matrix notation access to elements
  */
 template<class T,unsigned int NDimension>
@@ -262,8 +242,7 @@ SymmetricSecondRankTensor<T,NDimension>
   return (*this)[k];
 }
 
-
-/*
+/**
  * Set the Tensor to an Identity.
  * Set ones in the diagonal and zeroes every where else.
  */
@@ -280,7 +259,7 @@ SymmetricSecondRankTensor<T,NDimension>
 }
 
 
-/*
+/**
  * Get the Trace
  */
 template<class T,unsigned int NDimension>
@@ -299,7 +278,7 @@ SymmetricSecondRankTensor<T,NDimension>
 }
 
 
-/*
+/**
  * Compute Eigen Values 
  */
 template<class T,unsigned int NDimension>
@@ -323,7 +302,7 @@ SymmetricSecondRankTensor<T,NDimension>
   
 }
 
-/*
+/**
  * Compute Eigen analysis, it returns an array with eigen values
  * and a Matrix with eigen vectors
  */
@@ -349,7 +328,7 @@ SymmetricSecondRankTensor<T,NDimension>
 
 }
 
-/*
+/**
  * Pre-multiply the Tensor by a Matrix
  */
 template<class T,unsigned int NDimension>
@@ -357,24 +336,24 @@ SymmetricSecondRankTensor<T,NDimension>
 SymmetricSecondRankTensor<T,NDimension>
 ::PreMultiply( const MatrixType & m ) const
 {
-Self result;
-typedef typename NumericTraits<T>::AccumulateType  AccumulateType;
-for(unsigned int r=0; r<NDimension; r++)
-  {
-  for(unsigned int c=0; c<NDimension; c++)
+  Self result;
+  typedef typename NumericTraits<T>::AccumulateType  AccumulateType;
+  for(unsigned int r=0; r<NDimension; r++)
     {
-    AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
-    for(unsigned int t=0; t<NDimension; t++)
+    for(unsigned int c=0; c<NDimension; c++)
       {
-      sum += m(r,t) * (*this)(t,c);
+      AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
+      for(unsigned int t=0; t<NDimension; t++)
+        {
+        sum += m(r,t) * (*this)(t,c);
+        }
+      result(r,c) = static_cast<T>( sum );
       }
-    result(r,c) = static_cast<T>( sum );
     }
-  }
-return result;
+  return result;
 }
 
-/*
+/**
  * Post-multiply the Tensor by a Matrix
  */
 template<class T,unsigned int NDimension>
@@ -382,25 +361,22 @@ SymmetricSecondRankTensor<T,NDimension>
 SymmetricSecondRankTensor<T,NDimension>
 ::PostMultiply( const MatrixType & m ) const
 {
-Self result;
-typedef typename NumericTraits<T>::AccumulateType  AccumulateType;
-for(unsigned int r=0; r<NDimension; r++)
-  {
-  for(unsigned int c=0; c<NDimension; c++)
+  Self result;
+  typedef typename NumericTraits<T>::AccumulateType  AccumulateType;
+  for(unsigned int r=0; r<NDimension; r++)
     {
-    AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
-    for(unsigned int t=0; t<NDimension; t++)
+    for(unsigned int c=0; c<NDimension; c++)
       {
-      sum += (*this)(r,t) * m(t,c);
+      AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
+      for(unsigned int t=0; t<NDimension; t++)
+        {
+        sum += (*this)(r,t) * m(t,c);
+        }
+      result(r,c) = static_cast<T>( sum );
       }
-    result(r,c) = static_cast<T>( sum );
     }
-  }
-return result;
+  return result;
 }
-
-
-
 
 /**
  * Print content to an ostream

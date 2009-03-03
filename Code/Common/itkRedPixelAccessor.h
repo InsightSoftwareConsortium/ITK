@@ -59,20 +59,16 @@ public:
     { return input.GetRed(); }
 
   bool operator!=( const Self &) const
-  {
+    {
     return false;
-  }
+    }
 
   bool operator==( const Self & other ) const
-  {
+    {
     return !(*this != other);
-  }
+    }
 };
 
-  
-  
 }  // end namespace itk
 
-
 #endif
-

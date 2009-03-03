@@ -62,10 +62,4 @@ ITKCommon_EXPORT CrossProduct( const Vector<int,3> & a, const Vector<int,3> & b 
   return c;  
 }
 
-
-
-
-
 } // end namespace itk
-
-

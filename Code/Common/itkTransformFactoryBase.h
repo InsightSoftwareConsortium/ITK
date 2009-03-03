@@ -32,9 +32,9 @@ class ITKCommon_EXPORT TransformFactoryBase : public ObjectFactoryBase
 {
 public:  
   /** Standard class typedefs. */
-  typedef TransformFactoryBase   Self;
-  typedef ObjectFactoryBase  Superclass;
-  typedef SmartPointer< Self >   Pointer;
+  typedef TransformFactoryBase        Self;
+  typedef ObjectFactoryBase           Superclass;
+  typedef SmartPointer< Self >        Pointer;
   typedef SmartPointer< const Self >  ConstPointer;
   
   /** Class methods used to interface with the registered factories. */
@@ -69,9 +69,9 @@ public:
       const char* description,
       bool enableFlag,
       CreateObjectFunctionBase* createFunction)
-  {
+    {
     this->RegisterOverride ( classOverride, overrideClassName, description, enableFlag, createFunction );
-  }
+    }
   
 protected:
   TransformFactoryBase();

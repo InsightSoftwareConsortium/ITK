@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSemaphore_h_
-#define __itkSemaphore_h_
+#ifndef __itkSemaphore_h
+#define __itkSemaphore_h
 
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"
@@ -52,7 +52,7 @@
 namespace itk {
   
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  typedef int SemaphoreType;
+typedef int SemaphoreType;
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
@@ -108,14 +108,14 @@ typedef int SemaphoreType;
  * IPC semaphores, and IRIX semaphores from the SGI Sproc library.  On Windows
  * systems, POSIX semaphores and WIN32 thread library semaphores are supported.
  *
-*/
+ */
 class ITKCommon_EXPORT Semaphore : public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef Semaphore Self;
-  typedef LightObject Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Semaphore                 Self;
+  typedef LightObject               Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
   
   /** Method for creation through the object factory. */
@@ -135,7 +135,7 @@ public:
       blocked until another thread calls the up() method.  The order in which
       threads will be unblocked is not defined, but implementors should give
       preference to those threads that have waited the longest.
-  */
+   */
   void Down();
   
   /** Remove the semaphore from the system. */
@@ -167,7 +167,7 @@ private:
 
 #ifdef __APPLE__
   std::string GetUniqueName();
-  static int m_SemaphoreCount;
+  static int  m_SemaphoreCount;
   std::string m_SemaphoreName;
 #endif
 

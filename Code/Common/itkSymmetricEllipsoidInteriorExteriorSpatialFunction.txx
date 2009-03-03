@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_cpp
-#define __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_cpp
+#ifndef __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_txx
+#define __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_txx
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
 #include <math.h>
@@ -45,8 +45,8 @@ typename SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::
 SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
 ::Evaluate(const InputType& position) const
 {
-  double uniqueTerm;     // Term in ellipsoid equation for unique axis    
-  double symmetricTerm;  // Term in ellipsoid equation for symmetric axes  
+  double uniqueTerm;     // Term in ellipsoid equation for unique axis
+  double symmetricTerm;  // Term in ellipsoid equation for symmetric axes
   Vector<double, VDimension> pointVector;
   Vector<double, VDimension> symmetricVector;
   
@@ -62,8 +62,8 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
   symmetricTerm = vcl_pow(static_cast<double>(((symmetricVector.GetNorm())/(.5*m_SymmetricAxes))),static_cast<double>(2));
 
   if((uniqueTerm + symmetricTerm) >= 0 && (uniqueTerm + symmetricTerm) <= 1)
-    {    
-    return 1; // Inside the ellipsoid.                                                                                                            
+    {
+    return 1; // Inside the ellipsoid.
     }
   //Default return value assumes outside the ellipsoid 
   return 0; // Outside the ellipsoid.

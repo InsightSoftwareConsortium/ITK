@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkScaleLogarithmicTransform_txx
-#define _itkScaleLogarithmicTransform_txx
+#ifndef __itkScaleLogarithmicTransform_txx
+#define __itkScaleLogarithmicTransform_txx
 
 #include "itkScaleLogarithmicTransform.h"
 
@@ -82,8 +82,6 @@ ScaleLogarithmicTransform<TScalarType,NDimensions>
 
   return this->m_Parameters;
 }
-
-
 
 // Print self
 template<class ScalarType, unsigned int NDimensions>

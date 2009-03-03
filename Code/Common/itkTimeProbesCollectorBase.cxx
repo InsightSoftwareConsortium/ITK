@@ -27,14 +27,9 @@ TimeProbesCollectorBase
 {
 }
 
-
-
 TimeProbesCollectorBase
 ::~TimeProbesCollectorBase()
 {
 }
 
-
 } // end namespace itk
-
-

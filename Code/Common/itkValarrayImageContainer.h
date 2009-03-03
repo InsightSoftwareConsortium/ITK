@@ -54,9 +54,9 @@ class ValarrayImageContainer:
 public:
   /** Standard class typedefs. */
   typedef ValarrayImageContainer     Self;
-  typedef Object  Superclass;
-  typedef SmartPointer<Self>  Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Object                     Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
     
   /** Save the template parameters. */
   typedef TElementIdentifier  ElementIdentifier;
@@ -111,35 +111,35 @@ public:
   
   /** Get the number of elements currently stored in the container. */
   unsigned long Size(void) const
-    { return static_cast<unsigned long>(this->ValarrayType::size()); };
+    { return static_cast<unsigned long>(this->ValarrayType::size()); }
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
    * guaranteed to actually allocate any memory, but is useful if the
    * implementation of the container allocates contiguous storage. */
   void Reserve(ElementIdentifier num)
-    { this->ValarrayType::resize(num); };
+    { this->ValarrayType::resize(num); }
   
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
   void Squeeze(void)
-    { this->ValarrayType::resize( this->ValarrayType::size() ); };
+    { this->ValarrayType::resize( this->ValarrayType::size() ); }
 
   /** Tell the container to release any of its allocated memory. */
   void Initialize(void)
-    { this->ValarrayType::resize( 0 ); };
+    { this->ValarrayType::resize( 0 ); }
 
    /** Tell the container to release any of its allocated memory. */
   void Fill(const TElement & value)
-    { this->ValarrayType::operator=( value ); };
+    { this->ValarrayType::operator=( value ); }
   
 public:
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not
    * call this method but should call Print() instead.  */
   virtual void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Object::PrintSelf(os, indent);
     // Print out the pointer to bulk data memory. We use const_cast<> to
     // cast away the constness so we can call GetBufferPointer()
@@ -148,7 +148,7 @@ public:
        << std::endl;
     
     os << indent << "Size: " << this->Size() << std::endl;
-  };
+    }
   
 };
 

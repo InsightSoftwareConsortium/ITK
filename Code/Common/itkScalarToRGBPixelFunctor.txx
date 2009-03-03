@@ -55,8 +55,10 @@ ScalarToRGBPixelFunctor<TScalar>
   if (this->m_IsBigEndian == true)
     { // swap bytes
     TScalar tmp;
-    for (j = sizeof(TScalar) - 1, i = 0; j >=0 ; j--, i++)
-      { ((unsigned char *)(&tmp))[i] = bytes[j];    }
+    for (j = sizeof(TScalar) - 1, i = 0; j >=0; j--, i++)
+      {
+      ((unsigned char *)(&tmp))[i] = bytes[j];
+      }
     buf = tmp;
     }
   

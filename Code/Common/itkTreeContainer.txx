@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkTreeContainer_txx
-#define _itkTreeContainer_txx
+#ifndef __itkTreeContainer_txx
+#define __itkTreeContainer_txx
 
 #include "itkTreeContainer.h"
 
@@ -95,7 +95,6 @@ TreeContainer<TValueType>::Count() const
     ++it;
     }
   return size;
-return 0;
 }
 
 /** Swap the iterators */
@@ -148,7 +147,7 @@ TreeContainer<TValueType>::Contains( const TValueType element )
   it.GoToBegin();
   while(!it.IsAtEnd())
     {
-    if(it.Get()== element)
+    if(it.Get() == element)
       {
       return true;
       }

@@ -80,7 +80,7 @@ public:
 
   /** Return this object's Modified time.  */
   unsigned long GetMTime() const
-    {return m_ModifiedTime;};
+    {return m_ModifiedTime;}
 
   /** Support comparisons of time stamp objects directly.  */
   bool operator>(TimeStamp& ts) 

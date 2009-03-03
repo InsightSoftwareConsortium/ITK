@@ -91,7 +91,7 @@ public:
   typedef vnl_quaternion<TScalarType>           VnlQuaternionType;
 
   /** Versor type. */
-  typedef Versor<TScalarType>             VersorType;
+  typedef Versor<TScalarType>              VersorType;
   typedef typename VersorType::VectorType  AxisType;
   typedef typename VersorType::ValueType   AngleType;
   
@@ -182,18 +182,14 @@ private:
 
   /** Matrix representation of the rotation. */
   MatrixType          m_RotationMatrix;   
-
   
-  /** Fixed offset*/
+  /** Fixed offset */
   OffsetType m_FixedOffset;
 
   /** Center of rotation */
   InputPointType m_CenterOfRotation;
 
-
 }; //class Rigid3DPerspectiveTransform:
-
-
 
 }  // namespace itk
 

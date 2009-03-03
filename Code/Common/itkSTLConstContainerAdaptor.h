@@ -58,21 +58,16 @@ private:
   
 public:
 
-  STLConstContainerAdaptor(AdapteeType & adaptee)
-    : m_AdapteeRef(adaptee)
-  {}
+  STLConstContainerAdaptor(AdapteeType & adaptee) : m_AdapteeRef(adaptee) {}
   
-  STLConstContainerAdaptor(AdapteeType * adaptee)
-    : m_AdapteeRef(*adaptee)
-  {}
+  STLConstContainerAdaptor(AdapteeType * adaptee) : m_AdapteeRef(*adaptee) {}
   
   TargetType & GetSTLConstContainerRef()
-  {
+    {
     return m_AdapteeRef.CastToSTLConstContainer(); 
-  }
+    }
   
 };
-
 
 }   // end namespace itk
 

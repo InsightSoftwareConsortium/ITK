@@ -19,7 +19,7 @@
 
 #include <itkTreeIteratorBase.h>
 
-namespace itk{
+namespace itk {
 
 template <class TTreeType>
 class PostOrderTreeIterator : public TreeIteratorBase<TTreeType> 
@@ -63,16 +63,15 @@ PostOrderTreeIterator<TTreeType>::PostOrderTreeIterator( TTreeType* tree)
   this->m_Position = const_cast<TreeNode<ValueType>*>(tree->GetRoot());
 
   if ( this->m_Position == NULL )
-  {
+    {
     this->m_Begin = NULL;
-  }
+    }
   else
-  {
+    {
     this->m_Position =const_cast<TreeNodeType* >(FindMostRightLeaf(this->m_Position));
     this->m_Begin = this->m_Position;
-  }  
+    }  
 }
-
 
 /** Return the type of the iterator */
 template <class TTreeType>
@@ -156,24 +155,25 @@ template <class TTreeType>
 const typename PostOrderTreeIterator<TTreeType>::TreeNodeType* 
 PostOrderTreeIterator<TTreeType>::FindMostRightLeaf(TreeNodeType* node) const
 {
- while ( node->HasChildren() ) 
-   {
-   TreeNodeType* helpNode;
-   int childCount = node->CountChildren();
-   int i = 0;
+  while ( node->HasChildren() ) 
+    {
+    TreeNodeType* helpNode;
+    int childCount = node->CountChildren();
+    int i = 0;
 
-   do 
-     {
-     helpNode = node->GetChild( i );
-     i++;
-     } while ( helpNode == NULL && i < childCount );
+    do 
+      {
+      helpNode = node->GetChild( i );
+      i++;
+      }
+    while ( helpNode == NULL && i < childCount );
 
-   if ( helpNode == NULL )
-     {
-     return node;
-     }
-   node = helpNode;
-   }
+    if ( helpNode == NULL )
+      {
+      return node;
+      }
+    node = helpNode;
+    }
   return node;
 }
 
@@ -189,4 +189,3 @@ TreeIteratorBase<TTreeType>* PostOrderTreeIterator<TTreeType>::Clone()
 } // end namespace itk
 
 #endif
-

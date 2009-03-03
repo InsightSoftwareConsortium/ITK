@@ -118,8 +118,8 @@ protected:
 
   TreeNode();
   virtual ~TreeNode();
-  TValueType m_Data;
-  Self* m_Parent;
+  TValueType       m_Data;
+  Self*            m_Parent;
   ChildrenListType m_Children;
 private:
   TreeNode(const Self&); //purposely not implemented

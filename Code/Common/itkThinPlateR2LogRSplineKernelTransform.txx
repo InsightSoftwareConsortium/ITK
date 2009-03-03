@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkThinPlateR2LogRSplineKernelTransform_txx
-#define _itkThinPlateR2LogRSplineKernelTransform_txx
+#ifndef __itkThinPlateR2LogRSplineKernelTransform_txx
+#define __itkThinPlateR2LogRSplineKernelTransform_txx
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 
 namespace itk

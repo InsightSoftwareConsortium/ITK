@@ -125,7 +125,8 @@ VertexCell< TCellInterface >
 
 
 /** Standard CellInterface:
- *  Get a begin iterator to the list of point identifiers used by the cell.*/
+ *  Get a begin iterator to the list of point identifiers used by the
+ *  cell. */
 template <typename TCellInterface>
 typename VertexCell< TCellInterface >::PointIdIterator
 VertexCell< TCellInterface >

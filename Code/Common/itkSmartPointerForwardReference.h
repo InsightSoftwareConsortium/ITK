@@ -106,12 +106,12 @@ private:
   
 };
   
-  template <typename T>
-  std::ostream& operator<< (std::ostream& os, SmartPointerForwardReference<T> p) 
-  {
-    p.Print(os); 
-    return os;
-  }
+template <typename T>
+std::ostream& operator<< (std::ostream& os, SmartPointerForwardReference<T> p) 
+{
+  p.Print(os); 
+  return os;
+}
 
 } // end namespace itk
   

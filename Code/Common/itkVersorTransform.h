@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/**
+/** \class VersorTransform
  *
  * VersorTransform of a vector space (e.g. space coordinates)
  *
@@ -44,7 +44,7 @@ namespace itk
  *
  * \ingroup Transforms
  *
- **/
+ */
 template < class TScalarType=double >//Data type for scalars (float or double)
 class ITK_EXPORT VersorTransform : public Rigid3DTransform< TScalarType > 
 {

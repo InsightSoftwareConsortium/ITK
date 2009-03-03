@@ -41,7 +41,7 @@ namespace itk
 template <typename TPointSet>
 struct GetPointSetDimension
 {
-itkStaticConstMacro(PointDimension, unsigned int,  TPointSet::PointDimension);
+  itkStaticConstMacro(PointDimension, unsigned int,  TPointSet::PointDimension);
 }; 
   
 /** \class PointSet
@@ -92,9 +92,9 @@ class ITK_EXPORT PointSet: public DataObject
 {
 public:
   /** Standard class typedefs. */
-  typedef PointSet                Self;
-  typedef DataObject  Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef PointSet                  Self;
+  typedef DataObject                Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
     
   /** Method for creation through the object factory. */
@@ -104,7 +104,7 @@ public:
   itkTypeMacro(PointSet, Object);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TMeshTraits   MeshTraits;
+  typedef TMeshTraits                                   MeshTraits;
   typedef typename MeshTraits::PixelType                PixelType;  
   
   /** Convenient typedefs obtained from TMeshTraits template parameter. */

@@ -17,8 +17,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkSimpleDataObjectDecorator_txx
-#define _itkSimpleDataObjectDecorator_txx
+#ifndef __itkSimpleDataObjectDecorator_txx
+#define __itkSimpleDataObjectDecorator_txx
 
 #include "itkSimpleDataObjectDecorator.h"
 

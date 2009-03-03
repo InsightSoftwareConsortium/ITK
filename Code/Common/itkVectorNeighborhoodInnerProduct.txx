@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkVectorNeighborhoodInnerProduct_txx
-#define _itkVectorNeighborhoodInnerProduct_txx
+#ifndef __itkVectorNeighborhoodInnerProduct_txx
+#define __itkVectorNeighborhoodInnerProduct_txx
 #include "itkVectorNeighborhoodInnerProduct.h"
 
 
@@ -79,8 +79,6 @@ VectorNeighborhoodInnerProduct<TImage>
   
   return sum;
 } 
-
-
 
 }// end namespace itk
 #endif

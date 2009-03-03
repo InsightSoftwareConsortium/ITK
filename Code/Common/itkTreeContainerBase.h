@@ -32,9 +32,9 @@ class TreeContainerBase : public Object
  
 public:
 
-  typedef Object Superclass;
-  typedef TreeContainerBase Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef Object                    Superclass;
+  typedef TreeContainerBase         Self;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   typedef TValueType ValueType;
@@ -78,9 +78,6 @@ protected:
 
 };
 
-
-
 } // namespace itk
 
 #endif
-

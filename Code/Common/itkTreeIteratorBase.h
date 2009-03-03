@@ -58,7 +58,7 @@ public:
   virtual bool Add(TTreeType& subTree);
 
   /** Get a value */
-  virtual const ValueType& Get() const ;
+  virtual const ValueType& Get() const;
 
   /** Get the subtree */
   virtual TTreeType* GetSubTree() const;
@@ -132,13 +132,13 @@ public:
   void GoToBegin()
     {
     m_Position = m_Begin;
-    };
+    }
 
   /** Move an iterator to the end of the tree. */
   void GoToEnd()
     {
     m_Position = m_End;
-    };
+    }
 
   /** Is the iterator at the beginning of the tree? */
   bool IsAtBegin(void) const
@@ -146,7 +146,8 @@ public:
     return (m_Position == m_Begin);
     }
 
-  /** Is the iterator at the end of the tree?. The iterator is at the end if it points to NULL*/
+  /** Is the iterator at the end of the tree?. The iterator is at the
+   * end if it points to NULL */
   bool IsAtEnd(void) const
     {
     return (m_Position == m_End);
@@ -203,8 +204,8 @@ protected:
   mutable TreeNodeType* m_Position; // Current position of the iterator
   mutable TreeNodeType* m_Begin;
   mutable TreeNodeType* m_End;
-  const TreeNodeType* m_Root;
-  TTreeType* m_Tree;
+  const TreeNodeType*   m_Root;
+  TTreeType*            m_Tree;
 
   virtual bool HasNext() const = 0;
   virtual const ValueType& Next() = 0;

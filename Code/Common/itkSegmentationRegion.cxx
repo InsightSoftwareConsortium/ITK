@@ -50,4 +50,3 @@ SegmentationRegion
 }
 
 } // end namespace itk
-
