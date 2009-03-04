@@ -110,15 +110,15 @@ class ScalarImageTextureCalculator : public Object
 public:
   /** Standard typedefs */
   typedef ScalarImageTextureCalculator Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Object                       Superclass;
+  typedef SmartPointer<Self>           Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
       
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageTextureCalculator, Object);
       
   /** standard New() method support */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   typedef THistogramFrequencyContainer                FrequencyContainerType;
   typedef TImageType                                  ImageType;
@@ -191,11 +191,12 @@ protected:
       
 private:
   typename GLCMGeneratorType::Pointer m_GLCMGenerator;
-  FeatureValueVectorPointer m_FeatureMeans, m_FeatureStandardDeviations;
-  FeatureNameVectorConstPointer m_RequestedFeatures;
-  OffsetVectorConstPointer m_Offsets;
-  bool m_FastCalculations;
-};    
+  FeatureValueVectorPointer           m_FeatureMeans;
+  FeatureValueVectorPointer           m_FeatureStandardDeviations;
+  FeatureNameVectorConstPointer       m_RequestedFeatures;
+  OffsetVectorConstPointer            m_Offsets;
+  bool                                m_FastCalculations;
+};
     
 } // end of namespace Statistics 
 } // end of namespace itk 

@@ -19,8 +19,8 @@
 
 #include "itkWeightedCovarianceCalculator.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 WeightedCovarianceCalculator< TSample >
@@ -169,8 +169,7 @@ WeightedCovarianceCalculator< TSample >
         {
         for ( col = 0; col < row + 1; col++)
           {
-          (*m_Output)(row,col) += 
-            weight * diff[row] * diff[col];
+          (*m_Output)(row,col) += weight * diff[row] * diff[col];
           }
         }
       ++iter;
@@ -193,8 +192,7 @@ WeightedCovarianceCalculator< TSample >
         {
         for ( col = 0; col < row + 1; col++)
           {
-          (*m_Output)(row,col) += 
-            weight * diff[row] * diff[col];
+          (*m_Output)(row,col) += weight * diff[row] * diff[col];
           }
         }
       ++measurementVectorIndex;
@@ -261,10 +259,10 @@ WeightedCovarianceCalculator< TSample >
         iter.GetFrequency() * m_WeightFunction->Evaluate(measurements);
 
       if ( weight == 0 )
-      {
+        {
         ++iter;
         continue;
-      }
+        }
 
       sumWeight += weight;
       sumSquaredWeight += weight * weight;
@@ -345,13 +343,13 @@ WeightedCovarianceCalculator< TSample >
 
   double denom = sumWeight - ( sumSquaredWeight / sumWeight );
   if ( denom > 1e-6 || denom < -1e-6 )
-  {
+    {
     (*m_Output) /= denom;
-  }
+    }
   else
-  {
+    {
     m_Output->Fill( 0.0 );
-  }
+    }
 
 }
 
@@ -418,4 +416,3 @@ WeightedCovarianceCalculator< TSample >
 } // end of namespace itk
 
 #endif
-

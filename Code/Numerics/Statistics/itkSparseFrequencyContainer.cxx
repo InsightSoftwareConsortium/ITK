@@ -22,7 +22,7 @@ namespace Statistics{
 SparseFrequencyContainer
 ::SparseFrequencyContainer()
 {
-  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero;
 }
 
 void
@@ -44,7 +44,7 @@ SparseFrequencyContainer
     iter->second = NumericTraits< FrequencyType >::Zero;
     ++iter;
     }
-  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero;
 }
 
 bool
@@ -53,9 +53,9 @@ SparseFrequencyContainer
 { 
   // No need to test for bounds because in a map container the
   // element is allocated if the key doesn't exist yet
-  FrequencyType frequency = this->GetFrequency(id) ;
-  m_FrequencyContainer[id] = value ; 
-  m_TotalFrequency += (value - frequency) ;
+  FrequencyType frequency = this->GetFrequency(id);
+  m_FrequencyContainer[id] = value; 
+  m_TotalFrequency += (value - frequency);
   return true;
 }
 
@@ -63,10 +63,10 @@ SparseFrequencyContainer::FrequencyType
 SparseFrequencyContainer
 ::GetFrequency(const InstanceIdentifier id) const
 {
-  FrequencyContainerType::const_iterator iter = m_FrequencyContainer.find(id) ;
+  FrequencyContainerType::const_iterator iter = m_FrequencyContainer.find(id);
   if ( iter != m_FrequencyContainer.end() )
     {
-    return iter->second ;
+    return iter->second;
     }
   else
     {
@@ -80,9 +80,9 @@ SparseFrequencyContainer
 {
   // No need to test for bounds because in a map container the
   // element is allocated if the key doesn't exist yet
-  FrequencyType frequency = this->GetFrequency(id) ;
-  m_FrequencyContainer[id] = frequency + value ; 
-  m_TotalFrequency += value ;
+  FrequencyType frequency = this->GetFrequency(id);
+  m_FrequencyContainer[id] = frequency + value; 
+  m_TotalFrequency += value;
   return true;
 }
 
@@ -95,4 +95,3 @@ SparseFrequencyContainer
 
 } // end of namespace Statistics
 } // end of namespace itk 
-

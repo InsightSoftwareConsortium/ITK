@@ -25,8 +25,8 @@
 #include "itkKdTreeGenerator.h"
 #include "itkStatisticsAlgorithm.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class WeightedCentroidKdTreeGenerator 
  *  \brief This class generates a KdTree object with centroid information.
@@ -68,34 +68,34 @@ class ITK_EXPORT WeightedCentroidKdTreeGenerator :
 {
 public:
   /** Standard class typedefs */
-  typedef WeightedCentroidKdTreeGenerator Self ;
-  typedef KdTreeGenerator< TSample > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef WeightedCentroidKdTreeGenerator Self;
+  typedef KdTreeGenerator< TSample >      Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(WeightedCentroidKdTreeGenerator, KdTreeGenerator);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** typedef alias for the source data container */ 
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
-  typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::SubsampleType SubsampleType ;
-  typedef typename Superclass::SubsamplePointer SubsamplePointer ;
-  typedef typename Superclass::KdTreeType KdTreeType ;
-  typedef typename Superclass::KdTreeNodeType KdTreeNodeType ;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::MeasurementType       MeasurementType;
+  typedef typename Superclass::SubsampleType         SubsampleType;
+  typedef typename Superclass::SubsamplePointer      SubsamplePointer;
+  typedef typename Superclass::KdTreeType            KdTreeType;
+  typedef typename Superclass::KdTreeNodeType        KdTreeNodeType;
 
 
 protected:
   /** Constructor */
-  WeightedCentroidKdTreeGenerator() ;
+  WeightedCentroidKdTreeGenerator();
 
   /** Destructor */
   virtual ~WeightedCentroidKdTreeGenerator() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const ;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Nonterminal node generation routine */
   virtual KdTreeNodeType* GenerateNonterminalNode(unsigned int beginIndex,
@@ -104,16 +104,16 @@ protected:
                                                   &lowerBound,
                                                   MeasurementVectorType 
                                                   &upperBound,
-                                                  unsigned int level) ;
+                                                  unsigned int level);
 
 private:
-  WeightedCentroidKdTreeGenerator(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  WeightedCentroidKdTreeGenerator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  MeasurementVectorType m_TempLowerBound ;
-  MeasurementVectorType m_TempUpperBound ;
-  MeasurementVectorType m_TempMean ;
-} ; // end of class
+  MeasurementVectorType m_TempLowerBound;
+  MeasurementVectorType m_TempUpperBound;
+  MeasurementVectorType m_TempMean;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -123,7 +123,3 @@ private:
 #endif
 
 #endif
-
-
-
-

@@ -19,15 +19,15 @@
 
 #include "itkSampleClassifierWithMask.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample, class TMaskSample >
 SampleClassifierWithMask< TSample, TMaskSample >
 ::SampleClassifierWithMask()
 {
-  m_OtherClassLabel = 0 ;
-  m_Mask = 0 ;
+  m_OtherClassLabel = 0;
+  m_Mask = 0;
 }
 
 template< class TSample, class TMaskSample >
@@ -37,23 +37,23 @@ SampleClassifierWithMask< TSample, TMaskSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Mask: " ;
+  os << indent << "Mask: ";
   if ( m_Mask.IsNotNull() )
     {
     os << m_Mask << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "SelectedClassLabels: " ;
-  for ( unsigned int i = 0 ; i < m_SelectedClassLabels.size() ; ++i )
+  os << indent << "SelectedClassLabels: ";
+  for ( unsigned int i = 0; i < m_SelectedClassLabels.size(); ++i )
     {
-    os << " " << m_SelectedClassLabels[i] ;
+    os << " " << m_SelectedClassLabels[i];
     }
-  os << std::endl ;
-  os << indent << "OtherClassLabel: " << m_OtherClassLabel << std::endl ;
+  os << std::endl;
+  os << indent << "OtherClassLabel: " << m_OtherClassLabel << std::endl;
 }
 
 template< class TSample, class TMaskSample >
@@ -63,7 +63,7 @@ SampleClassifierWithMask< TSample, TMaskSample >
 {
   if ( m_Mask != mask )
     {
-    m_Mask = mask ;
+    m_Mask = mask;
     }
 }
 
@@ -72,82 +72,82 @@ void
 SampleClassifierWithMask< TSample, TMaskSample >
 ::GenerateData()
 {
-  unsigned int i ;
-  typename TSample::ConstIterator iter = this->GetSample()->Begin() ;
-  typename TSample::ConstIterator end = this->GetSample()->End() ;
-  typename TSample::MeasurementVectorType measurements ;
+  unsigned int i;
+  typename TSample::ConstIterator iter = this->GetSample()->Begin();
+  typename TSample::ConstIterator end = this->GetSample()->End();
+  typename TSample::MeasurementVectorType measurements;
 
-  typename TMaskSample::Iterator m_iter = this->GetMask()->Begin() ;
+  typename TMaskSample::Iterator m_iter = this->GetMask()->Begin();
 
-  OutputType* output = this->GetOutput() ;
-  output->Resize(this->GetSample()->Size()) ;
-  std::vector< double > discriminantScores ;
-  unsigned int numberOfClasses = this->GetNumberOfClasses() ;
-  discriminantScores.resize(numberOfClasses) ;
-  output->SetNumberOfClasses(numberOfClasses + 1) ;
-  unsigned int classLabel ;
+  OutputType* output = this->GetOutput();
+  output->Resize(this->GetSample()->Size());
+  std::vector< double > discriminantScores;
+  unsigned int numberOfClasses = this->GetNumberOfClasses();
+  discriminantScores.resize(numberOfClasses);
+  output->SetNumberOfClasses(numberOfClasses + 1);
+  unsigned int classLabel;
   typename Superclass::DecisionRuleType::Pointer rule = 
-    this->GetDecisionRule() ;
+    this->GetDecisionRule();
   typename Superclass::ClassLabelVectorType classLabels = 
-    this->GetMembershipFunctionClassLabels() ;
+    this->GetMembershipFunctionClassLabels();
   
   if ( this->GetMask()->Size() != this->GetSample()->Size() )
     {
-    itkExceptionMacro("The sizes of the mask sample and the input sample do not match.") ;
+    itkExceptionMacro("The sizes of the mask sample and the input sample do not match.");
     }
 
   if ( classLabels.size() != this->GetNumberOfMembershipFunctions() )
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
+      measurements = iter.GetMeasurementVector();
       if ( std::find(m_SelectedClassLabels.begin(), 
                      m_SelectedClassLabels.end(), 
                      m_iter.GetMeasurementVector()[0]) != 
            m_SelectedClassLabels.end() )
         {
-        for (i = 0 ; i < numberOfClasses ; i++)
+        for (i = 0; i < numberOfClasses; i++)
           {
           discriminantScores[i] = 
-            (this->GetMembershipFunction(i))->Evaluate(measurements) ;
+            (this->GetMembershipFunction(i))->Evaluate(measurements);
           }
-        classLabel = rule->Evaluate(discriminantScores) ;
+        classLabel = rule->Evaluate(discriminantScores);
         }
       else
         {
-        classLabel = m_OtherClassLabel ;
+        classLabel = m_OtherClassLabel;
         }
-      output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
-      ++iter ;
-      ++m_iter ;
+      output->AddInstance(classLabel, iter.GetInstanceIdentifier());
+      ++iter;
+      ++m_iter;
       }
     }
   else
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
+      measurements = iter.GetMeasurementVector();
       if ( std::find(m_SelectedClassLabels.begin(), 
                      m_SelectedClassLabels.end(), 
                      m_iter.GetMeasurementVector()[0]) != 
            m_SelectedClassLabels.end() )
         {
-        for (i = 0 ; i < numberOfClasses ; i++)
+        for (i = 0; i < numberOfClasses; i++)
           {
           discriminantScores[i] =
-            (this->GetMembershipFunction(i))->Evaluate(measurements) ;
+            (this->GetMembershipFunction(i))->Evaluate(measurements);
           }
-        classLabel = rule->Evaluate(discriminantScores) ;
+        classLabel = rule->Evaluate(discriminantScores);
         output->AddInstance(classLabels[classLabel], 
-                            iter.GetInstanceIdentifier()) ;
+                            iter.GetInstanceIdentifier());
         }
       else
         {
         output->AddInstance(m_OtherClassLabel, 
-                            iter.GetInstanceIdentifier()) ;
+                            iter.GetInstanceIdentifier());
         }
-      ++iter ;
-      ++m_iter ;
+      ++iter;
+      ++m_iter;
       }
     }
 }
@@ -156,11 +156,3 @@ SampleClassifierWithMask< TSample, TMaskSample >
 } // end of namespace itk
 
 #endif
-
-
-
-
-
-
-
-

@@ -25,8 +25,8 @@
 #include "itkFunctionBase.h"
 #include "itkSampleAlgorithmBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class WeightedMeanCalculator
  * \brief calculates sample mean where each measurement vector has
@@ -52,59 +52,59 @@ class WeightedMeanCalculator :
 {
 public:
   /**Standard class typedefs. */
-  typedef WeightedMeanCalculator Self;
-  typedef SampleAlgorithmBase< TSample > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef WeightedMeanCalculator         Self;
+  typedef SampleAlgorithmBase< TSample > Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(WeightedMeanCalculator, SampleAlgorithmBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Length of a measurement vector */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
 
   /** Typedef for the mean output */
   typedef Array< double >           OutputType;
   
   /** Array typedef for weights */
-  typedef Array< double > WeightArrayType ;
+  typedef Array< double > WeightArrayType;
 
   /** Sets the weights using an array */
-  void SetWeights(WeightArrayType* array) ;
+  void SetWeights(WeightArrayType* array);
   
   /** Gets the weights array */
-  WeightArrayType* GetWeights() ;
+  WeightArrayType* GetWeights();
 
   /** Weight calculation function typedef */
-  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType ;
+  typedef FunctionBase< MeasurementVectorType, double > WeightFunctionType;
 
   /** Sets the wiehts using an function
    * the function should have a method, 
    * Evaluate(MeasurementVectorType&) */
-  void SetWeightFunction(WeightFunctionType* func) ;
+  void SetWeightFunction(WeightFunctionType* func);
 
   /** Gets the weight function */
-  WeightFunctionType* GetWeightFunction() ;
+  WeightFunctionType* GetWeightFunction();
 
   /** Returns the mean vector as the result */
-  OutputType* GetOutput() ;
+  OutputType* GetOutput();
 
 protected:
-  WeightedMeanCalculator() ;
+  WeightedMeanCalculator();
   virtual ~WeightedMeanCalculator() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the mean and save it */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  WeightArrayType* m_Weights ;
-  WeightFunctionType* m_WeightFunction ;
-  OutputType m_Output ;
-} ; // end of class
+  WeightArrayType*    m_Weights;
+  WeightFunctionType* m_WeightFunction;
+  OutputType          m_Output;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 
@@ -114,4 +114,3 @@ private:
 #endif
 
 #endif
-

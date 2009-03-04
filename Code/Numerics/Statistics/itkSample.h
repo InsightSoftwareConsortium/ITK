@@ -27,8 +27,8 @@
 #include "itkMeasurementVectorTraits.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class Sample 
  *  \brief A collection of measurements for statistical analysis
@@ -64,49 +64,49 @@ class ITK_EXPORT Sample : public Object
 {
 public:
   /** Standard class typedefs */
-  typedef Sample  Self;  
-  typedef Object Superclass ;
-  typedef SmartPointer< Self > Pointer ;
+  typedef Sample                   Self;  
+  typedef Object                   Superclass;
+  typedef SmartPointer< Self >     Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(Sample, Object);
 
   /** MeasurementVector typedef support */ 
-  typedef TMeasurementVector MeasurementVectorType ;
+  typedef TMeasurementVector MeasurementVectorType;
 
   /** ValueType of a measurement (ValueType of a component of the
    * MeasurementVector */ 
   typedef typename MeasurementVectorType::ValueType   MeasurementType;
 
-  /** Frequency value type*/
-  typedef float FrequencyType ;
+  /** Frequency value type */
+  typedef float FrequencyType;
   
-  /** Total frequency type*/
-  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType ;
+  /** Total frequency type */
+  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType;
 
   /** InstanceIdentifier typedef. This identifier is a unique
-   * sequential id for each measurement vector in a Sample subclass.*/ 
-  typedef unsigned long InstanceIdentifier ;
+   * sequential id for each measurement vector in a Sample subclass. */ 
+  typedef unsigned long InstanceIdentifier;
 
   /** Typedef for the length of each measurement vector */
   typedef unsigned int  MeasurementVectorSizeType;
 
   /** Get the size of the sample (number of measurements) */
-  virtual unsigned int Size() const = 0 ;
+  virtual unsigned int Size() const = 0;
 
   /** Get the measurement associated with a particular
    * InstanceIdentifier. */
   virtual const MeasurementVectorType & 
-    GetMeasurementVector(const InstanceIdentifier &id) const = 0 ;
+    GetMeasurementVector(const InstanceIdentifier &id) const = 0;
 
   /** Get the frequency of a measurement specified by instance
    * identifier. */
-  virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0 ;
+  virtual FrequencyType GetFrequency(const InstanceIdentifier &id) const = 0;
 
   /** Get the total frequency of the sample. */
   virtual TotalFrequencyType GetTotalFrequency() const 
-    = 0 ;
+    = 0;
 
   
   /** Set/Get macros for the length of the measurement vector */
@@ -134,20 +134,20 @@ protected:
 
   virtual ~Sample() {}
   void PrintSelf(std::ostream& os, Indent indent) const
-  {
+    {
     Superclass::PrintSelf(os,indent);
     os << indent << "Length of measurement vectors in the sample: " << 
       m_MeasurementVectorSize << std::endl;
-  }
+    }
 
 
   
 private:
-  Sample(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  Sample(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   MeasurementVectorSizeType m_MeasurementVectorSize;
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk

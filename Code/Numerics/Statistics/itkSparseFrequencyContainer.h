@@ -22,8 +22,8 @@
 #include "itkObject.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-  namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class SparseFrequencyContainer 
  *  \brief his class is a container for an histogram.
@@ -38,38 +38,38 @@ class ITK_EXPORT SparseFrequencyContainer : public Object
 public:
   /** Standard class typedefs. */
   typedef SparseFrequencyContainer  Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Object                    Superclass;
+  typedef SmartPointer<Self>        Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(SparseFrequencyContainer, Object);
   itkNewMacro(Self);
 
   /** instance idenfitifer alias */
-  typedef unsigned long InstanceIdentifier ;
+  typedef unsigned long InstanceIdentifier;
 
   /** frequency type alias */
-  typedef float FrequencyType ;
+  typedef float FrequencyType;
   
-  /** Total frequency type*/
-  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType ;
+  /** Total frequency type */
+  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType;
 
   /** Histogram typedef support */
-  typedef std::map< InstanceIdentifier, FrequencyType > FrequencyContainerType ;  
+  typedef std::map< InstanceIdentifier, FrequencyType > FrequencyContainerType;  
   typedef FrequencyContainerType::const_iterator 
-          FrequencyContainerConstIterator ;   
+          FrequencyContainerConstIterator;   
 
   /** prepares the frequency container */
-  void Initialize(unsigned long length) ;
+  void Initialize(unsigned long length);
 
   /** Calls the SetToZero method of superclass to initialize all the bins to Zero.
    *  This should be done before starting to call the IncreaseFrequency method. */
-  void SetToZero() ;
+  void SetToZero();
 
   /** Method to set the frequency of histogram using instance identifier. It
    * returns false when the Id is out of bounds */
-  bool SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
+  bool SetFrequency(const InstanceIdentifier id, const FrequencyType value);
 
   /** Method to increase the frequency by one.  This function is convinent
    * to create a histogram. It returns false when the id is out of bounds. */
@@ -78,26 +78,26 @@ public:
 
   /** Method to get the frequency of a bin from the histogram. It will return
    * zero when the Id is out of bounds.  */
-  FrequencyType GetFrequency(const InstanceIdentifier id) const ;
+  FrequencyType GetFrequency(const InstanceIdentifier id) const;
 
   TotalFrequencyType GetTotalFrequency()
-  { return m_TotalFrequency ; }
+    { return m_TotalFrequency; }
 
 protected:
-  SparseFrequencyContainer() ;
+  SparseFrequencyContainer();
   virtual ~SparseFrequencyContainer() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  SparseFrequencyContainer(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  SparseFrequencyContainer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   // Container of histogram
-  FrequencyContainerType m_FrequencyContainer ;
-  TotalFrequencyType  m_TotalFrequency ;
-} ; // end of class
+  FrequencyContainerType m_FrequencyContainer;
+  TotalFrequencyType     m_TotalFrequency;
+}; // end of class
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end of namespace itk
 
 #endif

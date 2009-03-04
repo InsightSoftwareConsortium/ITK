@@ -14,14 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHistogram_txx
-#define _itkHistogram_txx
+#ifndef __itkVariableDimensionHistogram_txx
+#define __itkVariableDimensionHistogram_txx
 
 #include "itkVariableDimensionHistogram.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TMeasurement, 
           class TFrequencyContainer>
@@ -29,7 +29,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
 ::VariableDimensionHistogram()
 {
   m_ClipBinsAtEnds = true;
-  m_FrequencyContainer = FrequencyContainerType::New() ;
+  m_FrequencyContainer = FrequencyContainerType::New();
 }
 
 template< class TMeasurement, 
@@ -42,9 +42,9 @@ void VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
     return;
     }
   
-  if( (m_OffsetTable.Size()           != 0) ||
-      (m_Size.Size()                  != 0) ||
-      (m_TempIndex.Size()             != 0) ||
+  if( (m_OffsetTable.Size() != 0) ||
+      (m_Size.Size() != 0) ||
+      (m_TempIndex.Size() != 0) ||
       (m_TempMeasurementVector.Size() != 0))
     { 
     itkWarningMacro( << "Destructively resizing paramters of the histogram" );
@@ -70,12 +70,12 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
     return 0;
     }
   
-  unsigned int size = 1 ;
-  for (unsigned int i = 0 ; i < this->GetMeasurementVectorSize() ; i++)
+  unsigned int size = 1;
+  for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++)
     {
-    size *= m_Size[i] ;
+    size *= m_Size[i];
     }
-  return size ;
+  return size;
 }
 
 template< class TMeasurement, 
@@ -92,20 +92,20 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
     this->SetMeasurementVectorSize( size.Size() );
     }
   
-  m_Size = size ;
+  m_Size = size;
   
   // creates offset table which will be used for generation of
   // instance identifiers.
-  InstanceIdentifier num = 1 ;
+  InstanceIdentifier num = 1;
   
-  m_OffsetTable[0] = num ;
-  for (unsigned int i = 0 ; i < this->GetMeasurementVectorSize() ; i++)
+  m_OffsetTable[0] = num;
+  for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++)
     {
-    num *= m_Size[i] ;
+    num *= m_Size[i];
     m_OffsetTable[i + 1] = num;
     }
 
-  m_NumberOfInstances = num ;
+  m_NumberOfInstances = num;
 
   // adjust the sizes of min max value containers 
   unsigned int dim;
@@ -122,7 +122,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
     } 
 
   // initialize the frequency container
-  m_FrequencyContainer->Initialize(m_OffsetTable[ this->GetMeasurementVectorSize() ]) ;
+  m_FrequencyContainer->Initialize(m_OffsetTable[ this->GetMeasurementVectorSize() ]);
   this->SetToZero();
 }
 
@@ -142,7 +142,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
 ::Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
              MeasurementVectorType& upperBound)
 {
-  this->Initialize(size) ;
+  this->Initialize(size);
 
   // Sanity check to see if size, lowerBound and upperBound are of the
   // same length.
@@ -154,24 +154,24 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
       "Length mismatch: VariableDimensionHistogram::Initialize( , )");
     
   float interval;
-  for ( unsigned int i = 0 ; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++)
     {
     interval = (float) (upperBound[i] - lowerBound[i]) 
-                       / static_cast< MeasurementType >(size[i]) ;
+                       / static_cast< MeasurementType >(size[i]);
 
     // Set the min vector and max vector
-    for (unsigned int j = 0; j < static_cast< unsigned int >(size[i] - 1) ; j++)
+    for (unsigned int j = 0; j < static_cast< unsigned int >(size[i] - 1); j++)
       {
       this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +  
-                                              ((float)j * interval))) ;
+                                              ((float)j * interval)));
       this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +  
                                               (((float)j + 1) * interval)));
       }
     this->SetBinMin(i, size[i] - 1, 
                     (MeasurementType)(lowerBound[i] + 
-                                      (((float) size[i] - 1) * interval))) ;
+                                      (((float) size[i] - 1) * interval)));
     this->SetBinMax(i, size[i] - 1, 
-                    (MeasurementType)(upperBound[i])) ;
+                    (MeasurementType)(upperBound[i]));
     }
 }
 
@@ -193,64 +193,62 @@ bool VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
   
   // now using something similar to binary search to find
   // index.
-  unsigned int dim ;
+  unsigned int dim;
   
-  int begin, mid, end ;
-  MeasurementType median ;
-  MeasurementType tempMeasurement ;
+  int begin, mid, end;
+  MeasurementType median;
+  MeasurementType tempMeasurement;
 
-  for (dim = 0 ; dim < measurementVectorSize ; dim++)
+  for (dim = 0; dim < measurementVectorSize; dim++)
     {
-    tempMeasurement = measurement[dim] ;
-    begin = 0 ;
+    tempMeasurement = measurement[dim];
+    begin = 0;
     if (tempMeasurement < m_Min[dim][begin])
       {
       // one of measurement is below the minimum
-      index[dim] = (long) m_Size[dim] ;
+      index[dim] = (long) m_Size[dim];
       return false;
       }
 
-    end = m_Min[dim].size() - 1 ;
+    end = m_Min[dim].size() - 1;
     if (tempMeasurement >= m_Max[dim][end])
       {
       // one of measurement is above the maximum
-      index[dim] = (long) m_Size[dim] ;
+      index[dim] = (long) m_Size[dim];
       return false;
       }
 
-    mid = (end + 1) / 2 ;
+    mid = (end + 1) / 2;
     median = m_Min[dim][mid];
 
     while(true)
       {
       if (tempMeasurement < median )
         {
-        end = mid - 1 ;
+        end = mid - 1;
         } 
       else if (tempMeasurement > median)
         {
         if (tempMeasurement < m_Max[dim][mid])
           {
-          index[dim] = mid ;
-          break ;
+          index[dim] = mid;
+          break;
           }
               
-        begin = mid + 1 ;
+        begin = mid + 1;
         }
       else
         {
         // measurement[dim] = m_Min[dim][med] 
-        index[dim] = mid ;
-        break ;
+        index[dim] = mid;
+        break;
         }
-      mid = begin + (end - begin) / 2 ;
-      median = m_Min[dim][mid] ;
+      mid = begin + (end - begin) / 2;
+      median = m_Min[dim][mid];
       } // end of while
     } // end of for()
   return true;
 }
-
-
 
 template< class TMeasurement, 
           class TFrequencyContainer>
@@ -258,9 +256,9 @@ inline const typename VariableDimensionHistogram<TMeasurement,  TFrequencyContai
 VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
 ::GetIndex(const InstanceIdentifier &id)  const
 {
-  InstanceIdentifier id2 = id ;
+  InstanceIdentifier id2 = id;
 
-  for (int i = this->GetMeasurementVectorSize() - 1 ; i > 0 ; i--)
+  for (int i = this->GetMeasurementVectorSize() - 1; i > 0; i--)
     {
     m_TempIndex[i] = static_cast<IndexValueType>(id2 / m_OffsetTable[i]);
     id2 -= (m_TempIndex[i] * m_OffsetTable[i]);
@@ -281,14 +279,14 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
   MeasurementVectorTraits::Assert( index, this->GetMeasurementVectorSize(),
   "Length mismatch: VariableDimensionHistogram::GetIndex(MeasurementVectorType, IndexType)");
   
-  for (unsigned int dim = 0 ; dim < this->GetMeasurementVectorSize() ; dim++)
+  for (unsigned int dim = 0; dim < this->GetMeasurementVectorSize(); dim++)
     {
     if (index[dim] < 0 || index[dim] >= static_cast<IndexValueType>(m_Size[dim]))
       {
-      return true ;
+      return true;
       }
     }
-  return false ;
+  return false;
 }
 
 template< class TMeasurement, 
@@ -302,15 +300,15 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
   MeasurementVectorTraits::Assert( index, this->GetMeasurementVectorSize(),
   "Length mismatch: VariableDimensionHistogram::GetIndex(MeasurementVectorType, IndexType)");
   
-  InstanceIdentifier id = 0 ;
-  for (int i= this->GetMeasurementVectorSize() - 1 ; i > 0 ; i-- )
+  InstanceIdentifier id = 0;
+  for (int i= this->GetMeasurementVectorSize() - 1; i > 0; i-- )
     {
     id += index[i] * m_OffsetTable[i];
     }
   
-  id += index[0] ;
+  id += index[0];
   
-  return id ;
+  return id;
 }
 
 
@@ -366,7 +364,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
     return m_Max[dimension][this->m_Size[dimension]-1];
     }
 
-  for ( int i = 0 ; i < this->m_Size[dimension]; i++ )
+  for ( int i = 0; i < this->m_Size[dimension]; i++ )
     {
     if (  (value >= this->m_Min[dimension][i])
           && (value <  this->m_Max[dimension][i])  )
@@ -393,7 +391,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
     {
     m_TempMeasurementVector[i] = this->GetDimensionMinByValue(i,measurement[i]);
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement, 
@@ -413,7 +411,7 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
     {
     m_TempMeasurementVector[i] = this->GetDimensionMaxByValue(i,measurement[i]);
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 
 }
 
@@ -430,9 +428,9 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   
   for ( int i=0; i < this->GetMeasurementVectorSize(); i++ )
     {
-    m_TempMeasurementVector[i] = this->GetBinMin(i, index[i]) ;
+    m_TempMeasurementVector[i] = this->GetBinMin(i, index[i]);
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement, 
@@ -448,9 +446,9 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   
   for ( int i=0; i < this->GetMeasurementVectorSize(); i++ )
     {
-    m_TempMeasurementVector[i] = this->GetBinMax(i, index[i]) ;
+    m_TempMeasurementVector[i] = this->GetBinMax(i, index[i]);
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement,  
@@ -469,7 +467,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
     MeasurementType value = (m_Min[i][index[i]] + m_Max[i][index[i]]);
     m_TempMeasurementVector[i] =  static_cast< MeasurementType >( value / 2.0 );
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement,  
@@ -479,7 +477,7 @@ inline const typename VariableDimensionHistogram< TMeasurement,
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::GetMeasurementVector(const InstanceIdentifier &id) const
 {
-  return this->GetMeasurementVector( this->GetIndex(id) ) ;
+  return this->GetMeasurementVector( this->GetIndex(id) );
 }
 
 template< class TMeasurement,  
@@ -488,13 +486,13 @@ inline void
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::SetFrequency(const FrequencyType value) 
 {
-  typename Self::Iterator iter = this->Begin() ;
-  typename Self::Iterator end = this->End() ;
+  typename Self::Iterator iter = this->Begin();
+  typename Self::Iterator end = this->End();
   
   while ( iter != end )
     {
-    iter.SetFrequency(value) ;
-    ++iter ;
+    iter.SetFrequency(value);
+    ++iter;
     }
 }
 
@@ -508,7 +506,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   MeasurementVectorTraits::Assert( index, this->GetMeasurementVectorSize(),
   "Length mismatch: VariableDimensionHistogram::GetIndex(MeasurementVectorType, IndexType)");
   
-  return this->SetFrequency( this->GetInstanceIdentifier(index), value) ;
+  return this->SetFrequency( this->GetInstanceIdentifier(index), value);
 }
   
 template< class TMeasurement,  
@@ -523,7 +521,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   MeasurementVectorTraits::Assert( measurement, this->GetMeasurementVectorSize(),
   "Length mismatch: VariableDimensionHistogram::SetFrequency");
 
-  return this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
+  return this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value);
 }
 
 template< class TMeasurement,  
@@ -537,7 +535,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   "Length mismatch: VariableDimensionHistogram::GetIndex(MeasurementVectorType, IndexType)");
   
   const bool result = 
-      this->IncreaseFrequency( this->GetInstanceIdentifier(index), value) ;
+      this->IncreaseFrequency( this->GetInstanceIdentifier(index), value);
   return result;
 }
   
@@ -558,8 +556,6 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   return this->IncreaseFrequency( this->GetInstanceIdentifier( index ), value );
 }
 
-
-
 template< class TMeasurement,  
           class TFrequencyContainer >
 inline typename VariableDimensionHistogram< TMeasurement, 
@@ -570,7 +566,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
   MeasurementVectorTraits::Assert( index, this->GetMeasurementVectorSize(),
   "Length mismatch: VariableDimensionHistogram::GetFrequency");
   
-  return ( this->GetFrequency( this->GetInstanceIdentifier(index)) ) ;
+  return ( this->GetFrequency( this->GetInstanceIdentifier(index)) );
 }
 
 template< class TMeasurement,  
@@ -581,7 +577,7 @@ VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::GetMeasurement(const unsigned long n, const unsigned int dimension) const
 {
   return static_cast< MeasurementType >((m_Min[dimension][n] + 
-                                         m_Max[dimension][n]) / 2) ; 
+                                         m_Max[dimension][n]) / 2); 
 }
 
 template< class TMeasurement,  
@@ -591,26 +587,26 @@ inline typename VariableDimensionHistogram< TMeasurement,
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::GetFrequency(const unsigned long n, const unsigned int dimension) const
 {
-  InstanceIdentifier nextOffset = m_OffsetTable[dimension + 1] ;
-  InstanceIdentifier current = m_OffsetTable[dimension] * n ;
-  InstanceIdentifier includeLength = m_OffsetTable[dimension] ;
-  InstanceIdentifier include ;
-  InstanceIdentifier includeEnd ;
-  InstanceIdentifier last = m_OffsetTable[this->GetMeasurementVectorSize()] ;
+  InstanceIdentifier nextOffset = m_OffsetTable[dimension + 1];
+  InstanceIdentifier current = m_OffsetTable[dimension] * n;
+  InstanceIdentifier includeLength = m_OffsetTable[dimension];
+  InstanceIdentifier include;
+  InstanceIdentifier includeEnd;
+  InstanceIdentifier last = m_OffsetTable[this->GetMeasurementVectorSize()];
 
-  FrequencyType frequency = 0 ;
+  FrequencyType frequency = 0;
   while (current < last)
     {
-    include = current ;
-    includeEnd = include + includeLength ;
+    include = current;
+    includeEnd = include + includeLength;
     while(include < includeEnd)
       {
-      frequency += GetFrequency(include) ;
-      include++ ;
+      frequency += GetFrequency(include);
+      include++;
       }
-    current += nextOffset ;
+    current += nextOffset;
     }
-  return frequency ;
+  return frequency;
 }
 
 template< class TMeasurement,  
@@ -620,7 +616,7 @@ inline typename VariableDimensionHistogram< TMeasurement,
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::GetTotalFrequency() const
 {
-  return m_FrequencyContainer->GetTotalFrequency() ;
+  return m_FrequencyContainer->GetTotalFrequency();
 }
 
 template< class TMeasurement,  
@@ -629,58 +625,58 @@ double
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
 ::Quantile(const unsigned int dimension, const double &p) const
 {
-  InstanceIdentifier n ;
-  const unsigned int size = this->GetSize(dimension) ;
-  double p_n_prev ;
-  double p_n ;
-  double f_n ;
-  double cumulated = 0 ;
-  double totalFrequency = double( this->GetTotalFrequency() ) ;
-  double binProportion ;
-  double min, max, interval ;
+  InstanceIdentifier n;
+  const unsigned int size = this->GetSize(dimension);
+  double p_n_prev;
+  double p_n;
+  double f_n;
+  double cumulated = 0;
+  double totalFrequency = double( this->GetTotalFrequency() );
+  double binProportion;
+  double min, max, interval;
 
   if ( p < 0.5 )
     {
-    n = 0 ;
-    p_n = NumericTraits< double >::Zero ;
+    n = 0;
+    p_n = NumericTraits< double >::Zero;
     do 
       {
-      f_n = this->GetFrequency(n, dimension) ;
-      cumulated += f_n ;
-      p_n_prev = p_n ;
-      p_n = cumulated / totalFrequency ;
-      n++ ;
+      f_n = this->GetFrequency(n, dimension);
+      cumulated += f_n;
+      p_n_prev = p_n;
+      p_n = cumulated / totalFrequency;
+      n++;
       } 
-    while( n < size && p_n < p) ;
+    while( n < size && p_n < p);
 
-    binProportion = f_n / totalFrequency ;
+    binProportion = f_n / totalFrequency;
 
-    min = double( this->GetBinMin(dimension, n - 1) ) ;
-    max = double( this->GetBinMax(dimension, n - 1) ) ;
-    interval = max - min ;
-    return min + ((p - p_n_prev) / binProportion) * interval ;
+    min = double( this->GetBinMin(dimension, n - 1) );
+    max = double( this->GetBinMax(dimension, n - 1) );
+    interval = max - min;
+    return min + ((p - p_n_prev) / binProportion) * interval;
     }
   else
     {
-    n = size - 1 ;
+    n = size - 1;
     InstanceIdentifier m = NumericTraits< InstanceIdentifier >::Zero;
-    p_n      = NumericTraits< double >::One ;
+    p_n      = NumericTraits< double >::One;
     do 
       {
-      f_n = this->GetFrequency(n, dimension) ;
-      cumulated += f_n ;
-      p_n_prev = p_n ;
-      p_n = NumericTraits< double >::One - cumulated / totalFrequency ;
+      f_n = this->GetFrequency(n, dimension);
+      cumulated += f_n;
+      p_n_prev = p_n;
+      p_n = NumericTraits< double >::One - cumulated / totalFrequency;
       n--;
       m++;
       } 
     while( m < size && p_n > p);
 
-    binProportion = f_n / totalFrequency ;
-    min = double( this->GetBinMin(dimension, n + 1) ) ;
-    max = double( this->GetBinMax(dimension, n + 1) ) ;
-    interval = max - min ;
-    return max - ((p_n_prev - p) / binProportion) * interval ;
+    binProportion = f_n / totalFrequency;
+    min = double( this->GetBinMin(dimension, n + 1) );
+    max = double( this->GetBinMax(dimension, n + 1) );
+    interval = max - min;
+    return max - ((p_n_prev - p) / binProportion) * interval;
     }
 }
 

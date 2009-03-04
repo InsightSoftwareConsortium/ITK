@@ -19,16 +19,16 @@
 
 #include "itkObject.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 Subsample< TSample >
 ::Subsample()
 {
-  m_Sample = 0 ;
-  m_TotalFrequency = NumericTraits< FrequencyType >::Zero ;
-  m_ActiveDimension = 0 ;
+  m_Sample = 0;
+  m_TotalFrequency = NumericTraits< FrequencyType >::Zero;
+  m_ActiveDimension = 0;
 }
 
 template< class TSample >
@@ -38,19 +38,19 @@ Subsample< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " ;
+  os << indent << "Sample: ";
   if ( m_Sample != 0 )
     {
-    os << m_Sample << std::endl ;
+    os << m_Sample << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "TotalFrequency: " << m_TotalFrequency << std::endl ;
-  os << indent << "ActiveDimension: " << m_ActiveDimension << std::endl ;
-  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl ;
+  os << indent << "TotalFrequency: " << m_TotalFrequency << std::endl;
+  os << indent << "ActiveDimension: " << m_ActiveDimension << std::endl;
+  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl;
 }
 
 template< class TSample >
@@ -58,7 +58,7 @@ inline typename Subsample< TSample >::MeasurementVectorType
 Subsample< TSample >
 ::GetMeasurementVectorByIndex(int index) const
 {
-  return m_Sample->GetMeasurementVector(m_IdHolder[index]) ;
+  return m_Sample->GetMeasurementVector(m_IdHolder[index]);
 }
 
 template< class TSample >
@@ -66,7 +66,7 @@ inline typename Subsample< TSample >::FrequencyType
 Subsample< TSample >
 ::GetFrequencyByIndex(int index) const
 {
-  return m_Sample->GetFrequency(m_IdHolder[index]) ;
+  return m_Sample->GetFrequency(m_IdHolder[index]);
 }
 
 template< class TSample >
@@ -74,7 +74,7 @@ inline typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
 ::GetInstanceIdentifier(int index) const
 {
-  return m_IdHolder[index] ;
+  return m_IdHolder[index];
 }
 
 template< class TSample >
@@ -82,19 +82,12 @@ inline void
 Subsample< TSample >
 ::Swap(int index1, int index2)
 {
-  InstanceIdentifier temp = m_IdHolder[index1] ;
-  m_IdHolder[index1] = m_IdHolder[index2] ;
-  m_IdHolder[index2] = temp ;
+  InstanceIdentifier temp = m_IdHolder[index1];
+  m_IdHolder[index1] = m_IdHolder[index2];
+  m_IdHolder[index2] = temp;
 }
 
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-
-
-
-
-
-
-

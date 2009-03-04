@@ -17,8 +17,8 @@
 #ifndef __itkWeightedCentroidKdTreeGenerator_txx
 #define __itkWeightedCentroidKdTreeGenerator_txx
 
-namespace itk{
-namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 template< class TSample >
 WeightedCentroidKdTreeGenerator< TSample >

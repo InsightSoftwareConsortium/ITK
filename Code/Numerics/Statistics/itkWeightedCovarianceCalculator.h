@@ -21,8 +21,8 @@
 #include "itkVariableSizeMatrix.h"
 #include "itkSampleAlgorithmBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class WeightedCovarianceCalculator
  * \brief Calculates the covariance matrix of the target sample data
@@ -44,10 +44,10 @@ class WeightedCovarianceCalculator :
 {
 public:
   /** Standard class typedefs. */
-  typedef WeightedCovarianceCalculator Self;
+  typedef WeightedCovarianceCalculator   Self;
   typedef SampleAlgorithmBase< TSample > Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(WeightedCovarianceCalculator, SampleAlgorithmBase);
@@ -106,14 +106,14 @@ protected:
   void ComputeCovarianceWithoutGivenMean( void );
 
 private:
-  OutputType* m_Output;
-  MeanType* m_Mean;
-  MeanType* m_InternalMean;
-  WeightArrayType* m_Weights;
+  OutputType*         m_Output;
+  MeanType*           m_Mean;
+  MeanType*           m_InternalMean;
+  WeightArrayType*    m_Weights;
   WeightFunctionType* m_WeightFunction;
 }; // end of class
     
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
@@ -121,4 +121,3 @@ private:
 #endif
 
 #endif
-

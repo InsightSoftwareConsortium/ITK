@@ -25,8 +25,8 @@
 #include "itkMembershipSample.h"
 #include "itkSampleClassifier.h"
 
-namespace itk{ 
-  namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class SampleClassifierWithMask 
  *  \brief Integration point for MembershipCalculator, DecisionRule, and 
@@ -61,58 +61,57 @@ class ITK_EXPORT SampleClassifierWithMask :
       public SampleClassifier< TSample >
 {
 public:
-  /** Standard class typedef*/
-  typedef SampleClassifierWithMask Self;
+  /** Standard class typedefs */
+  typedef SampleClassifierWithMask    Self;
   typedef SampleClassifier< TSample > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
  /** Standard macros */
   itkTypeMacro(SampleClassifierWithMask, SampleClassifier);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Superclass typedefs */
-  typedef typename Superclass::OutputType OutputType ;
-  typedef typename Superclass::ClassLabelType ClassLabelType ;
-  typedef typename Superclass::ClassLabelVectorType ClassLabelVectorType ;
+  typedef typename Superclass::OutputType           OutputType;
+  typedef typename Superclass::ClassLabelType       ClassLabelType;
+  typedef typename Superclass::ClassLabelVectorType ClassLabelVectorType;
 
   /** typedefs from TSample object */
-  typedef typename TSample::MeasurementType MeasurementType ;
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TSample::MeasurementType       MeasurementType;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
 
   
   /** typedefs from Superclass */
   typedef typename Superclass::MembershipFunctionPointerVector 
-    MembershipFunctionPointerVector ;
+    MembershipFunctionPointerVector;
 
-  void SetMask( TMaskSample* mask ) ;
+  void SetMask( TMaskSample* mask );
 
   TMaskSample* GetMask()
-  { return m_Mask.GetPointer() ; }
+    { return m_Mask.GetPointer(); }
 
   void SetSelectedClassLabels( ClassLabelVectorType& labels)
-  { m_SelectedClassLabels = labels ; }
+    { m_SelectedClassLabels = labels; }
 
   void SetOtherClassLabel( ClassLabelType label) 
-  { m_OtherClassLabel = label ; }
+    { m_OtherClassLabel = label; }
  
 protected:
-  SampleClassifierWithMask() ;
+  SampleClassifierWithMask();
   virtual ~SampleClassifierWithMask() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Starts the classification process */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
   /** Mask sample pointer*/
-  typename TMaskSample::Pointer m_Mask ;
-  ClassLabelVectorType m_SelectedClassLabels ;
-  ClassLabelType m_OtherClassLabel ;
-} ; // end of class
+  typename TMaskSample::Pointer m_Mask;
+  ClassLabelVectorType          m_SelectedClassLabels;
+  ClassLabelType                m_OtherClassLabel;
+}; // end of class
 
-
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 
@@ -121,10 +120,3 @@ private:
 #endif
 
 #endif
-
-
-
-
-
-
-

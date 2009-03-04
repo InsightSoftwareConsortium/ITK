@@ -19,15 +19,15 @@
 
 #include "itkSampleClassifier.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 SampleClassifier< TSample >
 ::SampleClassifier()
 {
-  m_Sample = 0 ;
-  m_Output = OutputType::New() ;
+  m_Sample = 0;
+  m_Output = OutputType::New();
 }
 
 template< class TSample >
@@ -37,14 +37,14 @@ SampleClassifier< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " ;
+  os << indent << "Sample: ";
   if ( m_Sample != 0 )
     {
     os << m_Sample << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
   os << indent << "Output: " << m_Output << std::endl;
@@ -57,8 +57,8 @@ SampleClassifier< TSample >
 {
   if ( m_Sample != sample )
     {
-    m_Sample = sample ;
-    m_Output->SetSample(sample) ;
+    m_Sample = sample;
+    m_Output->SetSample(sample);
     }
 }
 
@@ -67,7 +67,7 @@ const TSample*
 SampleClassifier< TSample >
 ::GetSample() const
 {
-  return m_Sample ;
+  return m_Sample;
 }
 
 template< class TSample >
@@ -75,7 +75,7 @@ void
 SampleClassifier< TSample >
 ::SetMembershipFunctionClassLabels(ClassLabelVectorType& labels)
 {
-  m_ClassLabels = labels ;
+  m_ClassLabels = labels;
 }
 
 template< class TSample >
@@ -83,49 +83,49 @@ void
 SampleClassifier< TSample >
 ::GenerateData()
 {
-  unsigned int i ;
-  typename TSample::ConstIterator iter = this->GetSample()->Begin() ;
-  typename TSample::ConstIterator end  = this->GetSample()->End() ;
-  typename TSample::MeasurementVectorType measurements ;
+  unsigned int i;
+  typename TSample::ConstIterator iter = this->GetSample()->Begin();
+  typename TSample::ConstIterator end  = this->GetSample()->End();
+  typename TSample::MeasurementVectorType measurements;
 
-  m_Output->Resize( this->GetSample()->Size() ) ;
-  std::vector< double > discriminantScores ;
-  unsigned int numberOfClasses = this->GetNumberOfClasses() ;
-  discriminantScores.resize(numberOfClasses) ;
-  unsigned int classLabel ;
-  m_Output->SetNumberOfClasses(numberOfClasses) ;
+  m_Output->Resize( this->GetSample()->Size() );
+  std::vector< double > discriminantScores;
+  unsigned int numberOfClasses = this->GetNumberOfClasses();
+  discriminantScores.resize(numberOfClasses);
+  unsigned int classLabel;
+  m_Output->SetNumberOfClasses(numberOfClasses);
   typename Superclass::DecisionRuleType::Pointer rule = 
-    this->GetDecisionRule() ;
+    this->GetDecisionRule();
 
   if ( m_ClassLabels.size() != this->GetNumberOfMembershipFunctions() )
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < numberOfClasses ; i++)
+      measurements = iter.GetMeasurementVector();
+      for (i = 0; i < numberOfClasses; i++)
         {
         discriminantScores[i] =
-          (this->GetMembershipFunction(i))->Evaluate(measurements) ;
+          (this->GetMembershipFunction(i))->Evaluate(measurements);
         }
-      classLabel = rule->Evaluate(discriminantScores) ;
-      m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier()) ;
-      ++iter ;
+      classLabel = rule->Evaluate(discriminantScores);
+      m_Output->AddInstance(classLabel, iter.GetInstanceIdentifier());
+      ++iter;
       }
     }
   else
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
-      for (i = 0 ; i < numberOfClasses ; i++)
+      measurements = iter.GetMeasurementVector();
+      for (i = 0; i < numberOfClasses; i++)
         {
         discriminantScores[i] = 
-          (this->GetMembershipFunction(i))->Evaluate(measurements) ;
+          (this->GetMembershipFunction(i))->Evaluate(measurements);
         }
-      classLabel = rule->Evaluate(discriminantScores) ;
+      classLabel = rule->Evaluate(discriminantScores);
       m_Output->AddInstance(m_ClassLabels[classLabel], 
-                            iter.GetInstanceIdentifier()) ;
-      ++iter ;
+                            iter.GetInstanceIdentifier());
+      ++iter;
       }
     }
 }
@@ -135,18 +135,10 @@ typename SampleClassifier< TSample >::OutputType*
 SampleClassifier< TSample >
 ::GetOutput() 
 {
-  return m_Output ;
+  return m_Output;
 }
 
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-
-
-
-
-
-
-
-

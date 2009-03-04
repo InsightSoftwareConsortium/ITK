@@ -17,8 +17,8 @@
 #ifndef __itkSampleSelectiveMeanShiftBlurringFilter_txx
 #define __itkSampleSelectiveMeanShiftBlurringFilter_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 SampleSelectiveMeanShiftBlurringFilter< TSample >
@@ -61,7 +61,7 @@ SampleSelectiveMeanShiftBlurringFilter< TSample >
   
   if ( m_ComponentSelections != selections )
     {
-    m_ComponentSelections = selections ;
+    m_ComponentSelections = selections;
     this->Modified();
     }
 }
@@ -90,34 +90,34 @@ SampleSelectiveMeanShiftBlurringFilter< TSample >
     }
   
   
-  MeasurementVectorType queryPoint ;
-  MeasurementVectorType modePoint ;
+  MeasurementVectorType queryPoint;
+  MeasurementVectorType modePoint;
   MeasurementVectorType finalPoint;
   MeasurementVectorTraits::SetLength( finalPoint, this->GetMeasurementVectorSize() );
 
-  typename Superclass::InputSampleType::ConstIterator iter = this->GetInputSample()->Begin() ;
-  typename Superclass::InputSampleType::ConstIterator end = this->GetInputSample()->End() ;
+  typename Superclass::InputSampleType::ConstIterator iter = this->GetInputSample()->Begin();
+  typename Superclass::InputSampleType::ConstIterator end = this->GetInputSample()->End();
 
-  OutputType* output = this->GetOutput() ;
-  output->Clear() ;
-  MeanShiftModeSeekerType* modeSeeker = this->GetMeanShiftModeSeeker() ;
+  OutputType* output = this->GetOutput();
+  output->Clear();
+  MeanShiftModeSeekerType* modeSeeker = this->GetMeanShiftModeSeeker();
   while ( iter != end )
     {
-    queryPoint = iter.GetMeasurementVector() ;
-    modePoint = modeSeeker->Evolve( queryPoint ) ;
-    for ( unsigned int i = 0 ; i < this->GetMeasurementVectorSize() ; ++i )
+    queryPoint = iter.GetMeasurementVector();
+    modePoint = modeSeeker->Evolve( queryPoint );
+    for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); ++i )
       {
       if ( m_ComponentSelections[i] )
         {
-        finalPoint[i] = modePoint[i] ;
+        finalPoint[i] = modePoint[i];
         }
       else
         {
-        finalPoint[i] = queryPoint[i] ; 
+        finalPoint[i] = queryPoint[i]; 
         }
       }
-    output->PushBack( finalPoint  ) ;
-    ++iter ;
+    output->PushBack( finalPoint  );
+    ++iter;
     }
 }
 
@@ -125,4 +125,3 @@ SampleSelectiveMeanShiftBlurringFilter< TSample >
 } // end of namespace itk
 
 #endif
-

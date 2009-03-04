@@ -22,8 +22,8 @@
 #include "itkArray.h"
 #include <vector>
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class SampleSelectiveMeanShiftBlurringFilter
  * \brief This filter blurs the input sample data using mean shift
@@ -57,20 +57,20 @@ class SampleSelectiveMeanShiftBlurringFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef SampleSelectiveMeanShiftBlurringFilter Self;
-  typedef SampleMeanShiftBlurringFilter< TSample > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SampleSelectiveMeanShiftBlurringFilter   Self;
+  typedef SampleMeanShiftBlurringFilter< TSample > Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(SampleSelectiveMeanShiftBlurringFilter, 
                SampleMeanShiftBlurringFilter);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
-  typedef typename Superclass::OutputType OutputType ;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::OutputType            OutputType;
   typedef typename Superclass::MeanShiftModeSeekerType 
-  MeanShiftModeSeekerType ;
+                                                     MeanShiftModeSeekerType;
   
 
   /** Typedef for selecting components to be blurred */
@@ -78,21 +78,21 @@ public:
 
   /** Set/Gets the vector of flags that indicate which components
    * are selected for blurring */
-  void SetComponentSelections(ComponentSelectionsType selections) ;
+  void SetComponentSelections(ComponentSelectionsType selections);
   void GetComponentSelections()
-  { return m_ComponentSelections ; }
+    { return m_ComponentSelections; }
 
 protected:
-  SampleSelectiveMeanShiftBlurringFilter() ;
-  virtual ~SampleSelectiveMeanShiftBlurringFilter() ;
+  SampleSelectiveMeanShiftBlurringFilter();
+  virtual ~SampleSelectiveMeanShiftBlurringFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Blurring the input sample and creates a ListSample with blurred data */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  ComponentSelectionsType m_ComponentSelections ;
-} ; // end of class
+  ComponentSelectionsType m_ComponentSelections;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 
@@ -102,4 +102,3 @@ private:
 #endif
 
 #endif
-

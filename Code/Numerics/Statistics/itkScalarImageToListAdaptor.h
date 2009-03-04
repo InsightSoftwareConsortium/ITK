@@ -27,8 +27,8 @@
 #include "itkFixedArray.h"
 #include "itkMacro.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ScalarImageToListAdaptor
  *  \brief This class provides ListSampleBase interfaces to ITK Image
@@ -69,10 +69,10 @@ public:
   typedef FixedArray< typename TImage::PixelType, 1 > MeasurementVectorType;
 
   /** Standard class typedefs */
-  typedef ScalarImageToListAdaptor Self;
+  typedef ScalarImageToListAdaptor                            Self;
   typedef ImageToListAdaptor< TImage, MeasurementVectorType > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToListAdaptor, ListSampleBase);
@@ -86,11 +86,11 @@ public:
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::FrequencyType FrequencyType;
-  typedef typename Superclass::MeasurementType MeasurementType;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  typedef typename Superclass::FrequencyType             FrequencyType;
+  typedef typename Superclass::MeasurementType           MeasurementType;
+  typedef typename Superclass::InstanceIdentifier        InstanceIdentifier;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-  typedef MeasurementVectorType ValueType;
+  typedef MeasurementVectorType                          ValueType;
 
   virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType s ) 
     {

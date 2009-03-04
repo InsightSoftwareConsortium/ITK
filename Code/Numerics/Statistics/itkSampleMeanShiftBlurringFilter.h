@@ -21,8 +21,8 @@
 #include "itkListSample.h"
 #include "itkMeanShiftModeSeekerBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class SampleMeanShiftBlurringFilter
  * \brief This filter blurs the input sample data using mean shift
@@ -49,41 +49,41 @@ class SampleMeanShiftBlurringFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef SampleMeanShiftBlurringFilter Self ;
-  typedef SampleAlgorithmBase< TSample > Superclass ;
-  typedef SmartPointer<Self> Pointer ;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SampleMeanShiftBlurringFilter  Self;
+  typedef SampleAlgorithmBase< TSample > Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(SampleMeanShiftBlurringFilter, SampleAlgorithmBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
 
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
-  typedef typename Superclass::InputSampleType InputSampleType ;
-  typedef ListSample< MeasurementVectorType > OutputType ;
-  typedef MeanShiftModeSeekerBase< TSample > MeanShiftModeSeekerType ;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::InputSampleType    InputSampleType;
+  typedef ListSample< MeasurementVectorType >     OutputType;
+  typedef MeanShiftModeSeekerBase< TSample >      MeanShiftModeSeekerType;
 
   /** Set/Gets the mean shift evolving function */
-  void SetMeanShiftModeSeeker(MeanShiftModeSeekerType* function) ;
+  void SetMeanShiftModeSeeker(MeanShiftModeSeekerType* function);
   MeanShiftModeSeekerType* GetMeanShiftModeSeeker()
-  { return m_ModeSeeker ; }
+    { return m_ModeSeeker; }
 
   /** Returns the blurred sample data in a ListSample object */
-  OutputType* GetOutput() ;
+  OutputType* GetOutput();
 
 protected:
-  SampleMeanShiftBlurringFilter() ;
-  virtual ~SampleMeanShiftBlurringFilter() ;
+  SampleMeanShiftBlurringFilter();
+  virtual ~SampleMeanShiftBlurringFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Blurring the input sample and creates a ListSample with blurred data */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  typename OutputType::Pointer m_Output ;
-  MeanShiftModeSeekerType* m_ModeSeeker ;
-} ; // end of class
+  typename OutputType::Pointer m_Output;
+  MeanShiftModeSeekerType*     m_ModeSeeker;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 
@@ -93,4 +93,3 @@ private:
 #endif
 
 #endif
-

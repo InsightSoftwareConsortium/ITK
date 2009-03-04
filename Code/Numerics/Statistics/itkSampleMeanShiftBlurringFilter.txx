@@ -17,15 +17,15 @@
 #ifndef __itkSampleMeanShiftBlurringFilter_txx
 #define __itkSampleMeanShiftBlurringFilter_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 SampleMeanShiftBlurringFilter< TSample >
 ::SampleMeanShiftBlurringFilter()
 {
-  m_Output = OutputType::New() ;
-  m_ModeSeeker = 0 ;
+  m_Output = OutputType::New();
+  m_ModeSeeker = 0;
 }
 
 template< class TSample >
@@ -51,8 +51,8 @@ SampleMeanShiftBlurringFilter< TSample >
 {
   if ( m_ModeSeeker != seeker )
     {
-    m_ModeSeeker = seeker ;
-    this->Modified() ;
+    m_ModeSeeker = seeker;
+    this->Modified();
     }
 }
 
@@ -61,7 +61,7 @@ typename SampleMeanShiftBlurringFilter< TSample >::OutputType*
 SampleMeanShiftBlurringFilter< TSample >
 ::GetOutput()
 {
-  return m_Output.GetPointer() ;
+  return m_Output.GetPointer();
 } 
 
 // VS6 cannot compile the following method without the following pragma
@@ -74,20 +74,20 @@ void
 SampleMeanShiftBlurringFilter< TSample >
 ::GenerateData() 
 {
-  typename InputSampleType::ConstIterator iter = this->GetInputSample()->Begin() ;
-  typename InputSampleType::ConstIterator end = this->GetInputSample()->End() ;
+  typename InputSampleType::ConstIterator iter = this->GetInputSample()->Begin();
+  typename InputSampleType::ConstIterator end = this->GetInputSample()->End();
 
   m_Output->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
 
-  m_Output->Clear() ;
+  m_Output->Clear();
   MeasurementVectorType finalPoint;
   MeasurementVectorType sample;
   while ( iter != end )
     {
     sample = iter.GetMeasurementVector();
-    finalPoint = m_ModeSeeker->Evolve( sample ) ;
-    m_Output->PushBack( finalPoint  ) ;
-    ++iter ;
+    finalPoint = m_ModeSeeker->Evolve( sample );
+    m_Output->PushBack( finalPoint  );
+    ++iter;
     }
 }
 
@@ -95,4 +95,3 @@ SampleMeanShiftBlurringFilter< TSample >
 } // end of namespace itk
 
 #endif
-

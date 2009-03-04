@@ -26,8 +26,8 @@
 #include "itkSampleAlgorithmBase.h"
 #include "itkArray.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class SampleToHistogramProjectionFilter 
  *  \brief projects measurement vectors on to an axis to generate an
@@ -56,26 +56,26 @@ class ITK_EXPORT SampleToHistogramProjectionFilter :
 {
 public:
   /** Standard class typedefs */
-  typedef SampleToHistogramProjectionFilter  Self;
-  typedef SampleAlgorithmBase< TInputSample > Superclass ;
-  typedef SmartPointer< Self > Pointer ;
-  typedef const SmartPointer< Self > ConstPointer ;
+  typedef SampleToHistogramProjectionFilter   Self;
+  typedef SampleAlgorithmBase< TInputSample > Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef const SmartPointer< Self >          ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SampleToHistogramProjectionFilter, SampleAlgorithmBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
 
   /** Enums and typedefs from the TInputSample */
-  typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
-  typedef typename TInputSample::MeasurementType MeasurementType ;
-  typedef typename TInputSample::FrequencyType FrequencyType ;
-  typedef typename TInputSample::InstanceIdentifier InstanceIdentifier ;
+  typedef typename TInputSample::MeasurementVectorType MeasurementVectorType;
+  typedef typename TInputSample::MeasurementType       MeasurementType;
+  typedef typename TInputSample::FrequencyType         FrequencyType;
+  typedef typename TInputSample::InstanceIdentifier    InstanceIdentifier;
 
   /** typedefs from the superclass */
-  typedef typename Superclass::InputSampleType InputSampleType ;
+  typedef typename Superclass::InputSampleType           InputSampleType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** 1D array typedef */ 
@@ -85,38 +85,38 @@ public:
   typedef Array< double > MeanType;
 
   /** Type of the output object */
-  typedef Histogram< THistogramMeasurement, 1 > HistogramType ;
+  typedef Histogram< THistogramMeasurement, 1 > HistogramType;
 
   /** Sets the output histogram */
-  virtual void SetHistogram(HistogramType* histogram) ;
+  virtual void SetHistogram(HistogramType* histogram);
 
   /** Sets the mean of the sample */
-  void SetMean(MeanType* center) ;
+  void SetMean(MeanType* center);
   
   /** Gets the mean of the sample */
-  MeanType* GetMean() ;
+  MeanType* GetMean();
 
   /** Sets the standard deviation of the sample */
-  void SetStandardDeviation(double* value) ;
+  void SetStandardDeviation(double* value);
 
   /** Gets the standard deviation of the sample */
-  double* GetStandardDeviation() ;
+  double* GetStandardDeviation();
 
   /** Sets the projection axis */
-  void SetProjectionAxis(ArrayType* axis) ;
+  void SetProjectionAxis(ArrayType* axis);
 
   /** Gets the projection axis */
-  ArrayType* GetProjectionAxis() ;
+  ArrayType* GetProjectionAxis();
 
   /** Sets the overlap between adjacent bins.
    * If this value is not set, then the overlap calculation
    * will be skipped */
-  void SetHistogramBinOverlap(double overlap) ;
+  void SetHistogramBinOverlap(double overlap);
 
 protected:
-  SampleToHistogramProjectionFilter() ;
+  SampleToHistogramProjectionFilter();
   virtual ~SampleToHistogramProjectionFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const ;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates overlap weight for the bin based on
    * closeness to the adjacent bins */
@@ -124,23 +124,23 @@ protected:
                          float dotProduct, 
                          float scale,
                          float marginalDistance,
-                         bool firstHalf) ;
+                         bool firstHalf);
   /** Runs this algorithm to fill the output histogram */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  SampleToHistogramProjectionFilter(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  SampleToHistogramProjectionFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  bool m_HistogramUseEquiProbableBins ;
-  double m_HistogramBinOverlap ;
+  bool   m_HistogramUseEquiProbableBins;
+  double m_HistogramBinOverlap;
 
-  MeanType* m_Mean ;
-  ArrayType* m_ProjectionAxis ;
-  double* m_StandardDeviation ;
-  HistogramType* m_Histogram ;
-  FrequencyType m_MinimumFrequency ;
-} ; // end of class
+  MeanType*      m_Mean;
+  ArrayType*     m_ProjectionAxis;
+  double*        m_StandardDeviation;
+  HistogramType* m_Histogram;
+  FrequencyType  m_MinimumFrequency;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk

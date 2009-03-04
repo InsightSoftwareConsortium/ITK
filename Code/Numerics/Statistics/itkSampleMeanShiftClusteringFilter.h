@@ -21,8 +21,8 @@
 #include <vector>
 #include "itkSampleAlgorithmBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class SampleMeanShiftClusteringFilter
  * \brief This filter create a cluster map from an input sample.
@@ -44,44 +44,44 @@ class SampleMeanShiftClusteringFilter :
 public:
   /** Standard class typedefs. */
   typedef SampleMeanShiftClusteringFilter Self;
-  typedef SampleAlgorithmBase< TSample > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SampleAlgorithmBase< TSample >  Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(SampleMeanShiftClusteringFilter, 
                SampleAlgorithmBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
-  typedef typename TSample::MeasurementType MeasurementType ;
-  typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
+  typedef typename TSample::MeasurementType       MeasurementType;
+  typedef typename TSample::InstanceIdentifier    InstanceIdentifier;
 
-  typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
-  typedef std::vector< int > ClusterLabelsType ;
+  typedef std::vector< InstanceIdentifier > SearchResultVectorType;
+  typedef std::vector< int >                ClusterLabelsType;
 
-  itkSetMacro(Threshold, double) ;
-  itkGetMacro(Threshold, double) ;
-  itkSetMacro(MinimumClusterSize, unsigned long) ;
-  itkGetMacro(MinimumClusterSize, unsigned long) ;
+  itkSetMacro(Threshold, double);
+  itkGetMacro(Threshold, double);
+  itkSetMacro(MinimumClusterSize, unsigned long);
+  itkGetMacro(MinimumClusterSize, unsigned long);
 
   ClusterLabelsType& GetOutput()
-  { return m_Output ; }
+    { return m_Output; }
 
 protected:
-  SampleMeanShiftClusteringFilter() ;
-  virtual ~SampleMeanShiftClusteringFilter() ;
+  SampleMeanShiftClusteringFilter();
+  virtual ~SampleMeanShiftClusteringFilter();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  double m_Threshold ;
-  ClusterLabelsType m_Output ;
-  MeasurementVectorType m_TempQueryPoint ;
-  SearchResultVectorType m_TempSearchResult ;
-  unsigned long m_MinimumClusterSize ;
-} ; // end of class
+  double                 m_Threshold;
+  ClusterLabelsType      m_Output;
+  MeasurementVectorType  m_TempQueryPoint;
+  SearchResultVectorType m_TempSearchResult;
+  unsigned long          m_MinimumClusterSize;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 
@@ -91,4 +91,3 @@ private:
 #endif
 
 #endif
-

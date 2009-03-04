@@ -19,16 +19,16 @@
 
 #include "itkSelectiveSubsampleGenerator.h"
 
-namespace itk{
-namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 template< class TInputSample, class TClassMaskSample >
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::SelectiveSubsampleGenerator()
 {
-  m_Input = 0 ;
-  m_ClassMask = 0 ;
-  m_Output = OutputType::New() ;
+  m_Input = 0;
+  m_ClassMask = 0;
+  m_Output = OutputType::New();
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -38,33 +38,33 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Input: " ;
+  os << indent << "Input: ";
   if ( m_Input != 0 )
     {
     os << m_Input << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "ClassMask: " ;
+  os << indent << "ClassMask: ";
   if ( m_ClassMask != 0 )
     {
-    os << m_ClassMask << std::endl ;
+    os << m_ClassMask << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
   os << indent << "Output: " << m_Output << std::endl;
-  os << indent << "SelectedClassLabels: " ;
-  for ( unsigned int i = 0 ; i < m_SelectedClassLabels.size() ; ++i )
+  os << indent << "SelectedClassLabels: ";
+  for ( unsigned int i = 0; i < m_SelectedClassLabels.size(); ++i )
     {
-    os << " " << m_SelectedClassLabels[i] ;
+    os << " " << m_SelectedClassLabels[i];
     }
-  os << std::endl ;
+  os << std::endl;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -78,7 +78,7 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
     itkExceptionMacro( << "Measurement vector length of input sample must be non-zero.");
     }
   
-  m_Input = sample ;
+  m_Input = sample;
 }
   
 template< class TInputSample, class TClassMaskSample >
@@ -86,7 +86,7 @@ TInputSample*
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GetInput()
 {
-  return m_Input ;
+  return m_Input;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -100,7 +100,7 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
     itkExceptionMacro( << "Class mask measurement vector length of input sample must be 1.");
     }
   
-  m_ClassMask = classMask ;
+  m_ClassMask = classMask;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -108,7 +108,7 @@ const TClassMaskSample*
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GetClassMask() const 
 {
-  return m_ClassMask ;
+  return m_ClassMask;
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -116,7 +116,7 @@ const typename SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >::Ou
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GetOutput() const
 {
-  return m_Output.GetPointer() ;
+  return m_Output.GetPointer();
 }
 
 template< class TInputSample, class TClassMaskSample >
@@ -124,8 +124,8 @@ void
 SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
 ::GenerateData()
 {
-  m_Output->SetSample(m_Input) ;
-  typename TClassMaskSample::ConstIterator iter = m_ClassMask->Begin() ;
+  m_Output->SetSample(m_Input);
+  typename TClassMaskSample::ConstIterator iter = m_ClassMask->Begin();
   while (iter != m_ClassMask->End())
     {
     if ( std::find(m_SelectedClassLabels.begin(), 
@@ -133,9 +133,9 @@ SelectiveSubsampleGenerator< TInputSample, TClassMaskSample >
                    iter.GetMeasurementVector()[0]) != 
          m_SelectedClassLabels.end() )
       {
-      m_Output->AddInstance(iter.GetInstanceIdentifier()) ;
+      m_Output->AddInstance(iter.GetInstanceIdentifier());
       }
-    ++iter ;
+    ++iter;
     }
 }
 

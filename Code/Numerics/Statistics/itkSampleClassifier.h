@@ -25,8 +25,8 @@
 #include "itkMembershipSample.h"
 #include "itkClassifierBase.h"
 
-namespace itk{ 
-  namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 /** \class SampleClassifier 
  *  \brief Integration point for MembershipCalculator, DecisionRule, and 
@@ -74,32 +74,32 @@ class ITK_EXPORT SampleClassifier :
       public ClassifierBase< TSample >
 {
 public:
-  /** Standard class typedef*/
-  typedef SampleClassifier Self;
+  /** Standard class typedefs */
+  typedef SampleClassifier          Self;
   typedef ClassifierBase< TSample > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >      Pointer;
+  typedef SmartPointer<const Self>  ConstPointer;
 
  /** Standard macros */
   itkTypeMacro(SampleClassifier, Object);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Output type for GetClassSample method */
-  typedef MembershipSample< TSample > OutputType ;
+  typedef MembershipSample< TSample > OutputType;
 
   /** typedefs from TSample object */
-  typedef typename TSample::MeasurementType MeasurementType ;
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TSample::MeasurementType       MeasurementType;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
 
   
   /** typedefs from Superclass */
   typedef typename Superclass::MembershipFunctionPointerVector 
-    MembershipFunctionPointerVector ;
+    MembershipFunctionPointerVector;
 
-  typedef unsigned int ClassLabelType ;
-  typedef std::vector< ClassLabelType > ClassLabelVectorType ;
+  typedef unsigned int                  ClassLabelType;
+  typedef std::vector< ClassLabelType > ClassLabelVectorType;
   /** Sets the target data that will be classified by this */
-  void SetSample(const TSample* sample) ;
+  void SetSample(const TSample* sample);
 
   /** Returns the target data */
   const TSample* GetSample() const;
@@ -109,36 +109,36 @@ public:
    * this function, then the index of the membership function vector for a
    * membership function will be used as class label of measurement vectors
    * belong to the membership function */ 
-  void SetMembershipFunctionClassLabels( ClassLabelVectorType& labels) ;
+  void SetMembershipFunctionClassLabels( ClassLabelVectorType& labels);
 
   /** Gets the user given class labels */
   ClassLabelVectorType& GetMembershipFunctionClassLabels() 
-  { return m_ClassLabels ; }
+  { return m_ClassLabels; }
 
   /** Returns the classification result */
-  OutputType* GetOutput() ;
+  OutputType* GetOutput();
 
 protected:
-  SampleClassifier() ;
+  SampleClassifier();
   virtual ~SampleClassifier() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Starts the classification process */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  /** Target data sample pointer*/
-  const TSample* m_Sample ;
+  /** Target data sample pointer */
+  const TSample* m_Sample;
 
   /** Output pointer (MembershipSample) */
-  typename OutputType::Pointer m_Output ;
+  typename OutputType::Pointer m_Output;
 
   /** User given class labels for membership functions */
-  ClassLabelVectorType m_ClassLabels ;
-} ; // end of class
+  ClassLabelVectorType m_ClassLabels;
+}; // end of class
 
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk
 
 
@@ -147,10 +147,3 @@ private:
 #endif
 
 #endif
-
-
-
-
-
-
-

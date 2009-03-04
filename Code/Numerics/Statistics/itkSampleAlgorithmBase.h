@@ -26,8 +26,8 @@
 #include "itkObject.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk{ 
-  namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class SampleAlgorithmBase
  * \brief This class is a base class for algorithms that operate on Sample
@@ -42,14 +42,14 @@ class ITK_EXPORT SampleAlgorithmBase : public Object
 {
 public:
   /**Standard class typedefs. */
-  typedef SampleAlgorithmBase Self;
-  typedef Object Superclass ;
-  typedef SmartPointer< Self > Pointer;
+  typedef SampleAlgorithmBase        Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(SampleAlgorithmBase, Object);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Length of a measurement vector */
   typedef unsigned int MeasurementVectorSizeType;
@@ -60,14 +60,14 @@ public:
 
   /** Stores the sample pointer */
   void SetInputSample( const TInputSample * sample ) 
-  {
+    {
     if ( m_InputSample != sample )
       {
-        m_InputSample = sample ;
-        m_MeasurementVectorSize = m_InputSample->GetMeasurementVectorSize();
-        this->Modified() ;
+      m_InputSample = sample;
+      m_MeasurementVectorSize = m_InputSample->GetMeasurementVectorSize();
+      this->Modified();
       }
-  }
+    }
 
 
   /** Get Macro to get the length of a measurement vector. This is equal to 
@@ -78,31 +78,31 @@ public:
   itkSetMacro( MeasurementVectorSize, MeasurementVectorSizeType )
 
   const TInputSample * GetInputSample() const
-  { return m_InputSample.GetPointer() ; }
+    { return m_InputSample.GetPointer(); }
 
   /** dummy function that calls the GenerateData() function to generate
    * output. It exists for future compatibility with ProcessObject 
    * without streaming */
   void Update()
-  { this->GenerateData() ; }
+    { this->GenerateData(); }
     
 protected:
-  SampleAlgorithmBase() ;
+  SampleAlgorithmBase();
   virtual ~SampleAlgorithmBase() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the mean and save it */
-  virtual void GenerateData() ;
+  virtual void GenerateData();
 
 private:
   /** Length of each measurement vector */
   MeasurementVectorSizeType m_MeasurementVectorSize;
   
   /** Target sample data pointer */
-  typename TInputSample::ConstPointer m_InputSample ;
-} ; // end of class
+  typename TInputSample::ConstPointer m_InputSample;
+}; // end of class
     
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
@@ -110,4 +110,3 @@ private:
 #endif
 
 #endif
-

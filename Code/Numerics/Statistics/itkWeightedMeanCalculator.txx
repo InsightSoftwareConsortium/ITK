@@ -17,16 +17,16 @@
 #ifndef __itkWeightedMeanCalculator_txx
 #define __itkWeightedMeanCalculator_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 WeightedMeanCalculator< TSample >
 ::WeightedMeanCalculator()
 {
-  m_WeightFunction = 0 ;
-  m_Weights = 0 ;
-  m_Output.Fill(0.0) ;
+  m_WeightFunction = 0;
+  m_Weights = 0;
+  m_Output.Fill(0.0);
 }
 
 template< class TSample >
@@ -36,26 +36,26 @@ WeightedMeanCalculator< TSample >
 {
   Superclass::PrintSelf(os,indent);
   
-  os << indent << "Output: " << m_Output << std::endl ;
+  os << indent << "Output: " << m_Output << std::endl;
 
-  os << indent << "WeightFunction: " ; 
+  os << indent << "WeightFunction: "; 
   if ( m_WeightFunction != 0 )
     {
-    os << m_WeightFunction << std::endl ;
+    os << m_WeightFunction << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "Weights: " ;
+  os << indent << "Weights: ";
   if ( m_Weights != 0 )
     {
-    os << m_Weights << std::endl ;
+    os << m_Weights << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 }
 
@@ -64,7 +64,7 @@ void
 WeightedMeanCalculator< TSample >
 ::SetWeights(WeightArrayType* array)
 {
-  m_Weights = array ;
+  m_Weights = array;
   this->Modified();
 }
 
@@ -73,7 +73,7 @@ typename WeightedMeanCalculator< TSample >::WeightArrayType*
 WeightedMeanCalculator< TSample >
 ::GetWeights()
 {
-  return m_Weights ;
+  return m_Weights;
 }
 
 template< class TSample >
@@ -81,7 +81,7 @@ void
 WeightedMeanCalculator< TSample >
 ::SetWeightFunction(WeightFunctionType* func)
 {
-  m_WeightFunction = func ;
+  m_WeightFunction = func;
 }
 
 template< class TSample >
@@ -89,7 +89,7 @@ typename WeightedMeanCalculator< TSample >::WeightFunctionType*
 WeightedMeanCalculator< TSample >
 ::GetWeightFunction()
 {
-  return m_WeightFunction ;
+  return m_WeightFunction;
 }
 
 
@@ -107,46 +107,46 @@ WeightedMeanCalculator< TSample >
   
   MeasurementVectorTraits::SetLength( m_Output, measurementVectorSize );
 
-  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ;
-  typename TSample::ConstIterator end = this->GetInputSample()->End() ;
-  double totalWeight = 0.0 ;
-  double weight ;
-  unsigned int dim ;
-  int measurementVectorIndex = 0 ;
-  typename TSample::MeasurementVectorType measurements ;
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin();
+  typename TSample::ConstIterator end = this->GetInputSample()->End();
+  double totalWeight = 0.0;
+  double weight;
+  unsigned int dim;
+  int measurementVectorIndex = 0;
+  typename TSample::MeasurementVectorType measurements;
 
   if (m_WeightFunction != 0) 
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
+      measurements = iter.GetMeasurementVector();
       weight = 
-        iter.GetFrequency() * m_WeightFunction->Evaluate(measurements) ;
-      totalWeight += weight ;
-      for (dim = 0 ; dim < measurementVectorSize ; dim++)
+        iter.GetFrequency() * m_WeightFunction->Evaluate(measurements);
+      totalWeight += weight;
+      for (dim = 0; dim < measurementVectorSize; dim++)
         {
-        m_Output[dim] += measurements[dim] * weight ;
+        m_Output[dim] += measurements[dim] * weight;
         }
-      ++iter ;
+      ++iter;
       }
-    m_Output /= totalWeight ;
+    m_Output /= totalWeight;
     }
   else
     {
     while (iter != end)
       {
-      measurements = iter.GetMeasurementVector() ;
-      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex] ;
-      totalWeight += weight ;
-      for (dim = 0 ; dim < measurementVectorSize ; dim++)
+      measurements = iter.GetMeasurementVector();
+      weight = iter.GetFrequency() * (*m_Weights)[measurementVectorIndex];
+      totalWeight += weight;
+      for (dim = 0; dim < measurementVectorSize; dim++)
         {
-        m_Output[dim] += measurements[dim] * weight ;
+        m_Output[dim] += measurements[dim] * weight;
         }
-      ++measurementVectorIndex ;
-      ++iter ;
+      ++measurementVectorIndex;
+      ++iter;
       }
 
-    m_Output /= totalWeight ;
+    m_Output /= totalWeight;
     }
 }
 
@@ -155,11 +155,10 @@ typename WeightedMeanCalculator< TSample >::OutputType*
 WeightedMeanCalculator< TSample >
 ::GetOutput()
 {
-  return &m_Output ;
+  return &m_Output;
 }
 
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-

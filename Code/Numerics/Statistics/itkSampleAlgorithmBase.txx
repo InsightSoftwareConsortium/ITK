@@ -19,8 +19,8 @@
 
 #include "itkSampleAlgorithmBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TInputSample >
 SampleAlgorithmBase< TInputSample >
@@ -37,7 +37,7 @@ SampleAlgorithmBase< TInputSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Input Sample: " ;
+  os << indent << "Input Sample: ";
   if ( m_InputSample.IsNotNull() )
     {
     os << m_InputSample << std::endl;
@@ -45,7 +45,7 @@ SampleAlgorithmBase< TInputSample >
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
 }
@@ -63,4 +63,3 @@ SampleAlgorithmBase< TInputSample >
 } // end of namespace itk
 
 #endif
-
