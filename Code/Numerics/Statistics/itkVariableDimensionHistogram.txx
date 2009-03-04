@@ -254,16 +254,16 @@ template< class TMeasurement,
           class TFrequencyContainer>
 inline const typename VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>::IndexType&
 VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
-::GetIndex(const InstanceIdentifier &id)  const
+::GetIndex(const InstanceIdentifier &ident)  const
 {
-  InstanceIdentifier id2 = id;
+  InstanceIdentifier ident2 = ident;
 
   for (int i = this->GetMeasurementVectorSize() - 1; i > 0; i--)
     {
-    m_TempIndex[i] = static_cast<IndexValueType>(id2 / m_OffsetTable[i]);
-    id2 -= (m_TempIndex[i] * m_OffsetTable[i]);
+    m_TempIndex[i] = static_cast<IndexValueType>(ident2 / m_OffsetTable[i]);
+    ident2 -= (m_TempIndex[i] * m_OffsetTable[i]);
     }
-  m_TempIndex[0] = static_cast<IndexValueType>(id2);
+  m_TempIndex[0] = static_cast<IndexValueType>(ident2);
   
   return m_TempIndex;
 }
@@ -300,15 +300,15 @@ VariableDimensionHistogram<TMeasurement,  TFrequencyContainer>
   MeasurementVectorTraits::Assert( index, this->GetMeasurementVectorSize(),
   "Length mismatch: VariableDimensionHistogram::GetIndex(MeasurementVectorType, IndexType)");
   
-  InstanceIdentifier id = 0;
+  InstanceIdentifier ident = 0;
   for (int i= this->GetMeasurementVectorSize() - 1; i > 0; i-- )
     {
-    id += index[i] * m_OffsetTable[i];
+    ident += index[i] * m_OffsetTable[i];
     }
   
-  id += index[0];
+  ident += index[0];
   
-  return id;
+  return ident;
 }
 
 
@@ -475,9 +475,9 @@ template< class TMeasurement,
 inline const typename VariableDimensionHistogram< TMeasurement,  
                            TFrequencyContainer >::MeasurementVectorType &
 VariableDimensionHistogram< TMeasurement,  TFrequencyContainer >
-::GetMeasurementVector(const InstanceIdentifier &id) const
+::GetMeasurementVector(const InstanceIdentifier &ident) const
 {
-  return this->GetMeasurementVector( this->GetIndex(id) );
+  return this->GetMeasurementVector( this->GetIndex(ident) );
 }
 
 template< class TMeasurement,  

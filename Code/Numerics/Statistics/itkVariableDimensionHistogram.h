@@ -137,7 +137,7 @@ public:
   /** Get the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index 
    * This method uses ImageBase::ComputeIndex() method */
-  const IndexType & GetIndex(const InstanceIdentifier &id) const;
+  const IndexType & GetIndex(const InstanceIdentifier &ident) const;
 
   /** Is set to false if the bins at edges of the histogram extend to
    *   +/- infinity. */
@@ -229,8 +229,8 @@ public:
   MeasurementVectorType& GetHistogramMaxFromIndex(const IndexType &index); 
   
   /** Get the frequency of an instance indentifier */
-  FrequencyType GetFrequency(const InstanceIdentifier &id) const
-  { return m_FrequencyContainer->GetFrequency(id); }
+  FrequencyType GetFrequency(const InstanceIdentifier &ident) const
+  { return m_FrequencyContainer->GetFrequency(ident); }
 
   /** Get the frequency of an index */
   FrequencyType GetFrequency(const IndexType &index) const;
@@ -240,8 +240,8 @@ public:
 
   /** Set the frequency of an instance identifier.  Returns false if the bin is
    * out of bounds. */
-  bool SetFrequency(const InstanceIdentifier &id, const FrequencyType value) 
-  { return m_FrequencyContainer->SetFrequency(id, value); }
+  bool SetFrequency(const InstanceIdentifier &ident, const FrequencyType value) 
+  { return m_FrequencyContainer->SetFrequency(ident, value); }
 
   /** Set the frequency of an index. Returns false if the bin is
    * out of bounds. */
@@ -257,9 +257,9 @@ public:
   /** Increase the frequency of an instance identifier.
    * Frequency is increased by the specified value. Returns false if
    * the bin is out of bounds. */
-  bool IncreaseFrequency(const InstanceIdentifier &id,
+  bool IncreaseFrequency(const InstanceIdentifier &ident,
                          const FrequencyType value) 
-  { return m_FrequencyContainer->IncreaseFrequency(id, value); }
+  { return m_FrequencyContainer->IncreaseFrequency(ident, value); }
 
   /** Increase the frequency of an index.  Frequency is
    * increased by the specified value. Returns false if the bin is out
@@ -276,7 +276,7 @@ public:
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.
    */
-  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
+  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &ident) const;
   
   /** Get the measurement of an index. This is the centroid of the bin. */
   const MeasurementVectorType & GetMeasurementVector(const IndexType &index) const;
@@ -327,8 +327,8 @@ public:
       m_Histogram = histogram; 
       } 
     
-    Iterator(InstanceIdentifier id, Self * histogram)
-      : m_Id(id), m_Histogram(histogram) {}
+    Iterator(InstanceIdentifier ident, Self * histogram)
+      : m_Id(ident), m_Histogram(histogram) {}
     
     FrequencyType GetFrequency() const
       { 
@@ -393,8 +393,8 @@ public:
       m_Histogram = histogram; 
       } 
     
-    ConstIterator(InstanceIdentifier id, const Self * histogram)
-      : m_Id(id), m_Histogram(histogram) {}
+    ConstIterator(InstanceIdentifier ident, const Self * histogram)
+      : m_Id(ident), m_Histogram(histogram) {}
     
     FrequencyType GetFrequency() const
       { 
