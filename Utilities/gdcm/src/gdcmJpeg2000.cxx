@@ -94,6 +94,14 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
   unsigned char *src = (unsigned char*)inputdata; 
   int file_length = static_cast< int >( inputlength );
 
+  while( file_length > 0 && src[file_length-1] != 0xd9 )
+    {
+    file_length--;
+    }
+  // what if 0xd9 is never found ?
+  assert( file_length > 0 && src[file_length-1] == 0xd9 );
+
+
   /* configure the event callbacks (not required) */
   memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
   event_mgr.error_handler = error_callback;
