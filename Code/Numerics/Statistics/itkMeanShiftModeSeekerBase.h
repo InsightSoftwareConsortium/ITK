@@ -24,8 +24,8 @@
 #include "itkNumericTraits.h"
 #include "itkMeanShiftModeCacheMethod.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class MeanShiftModeSeekerBase
  * \brief Evolves the mode. This is the base class for any mean shift
@@ -62,41 +62,41 @@ class MeanShiftModeSeekerBase :
 {
 public:
   /** Standard class typedefs. */
-  typedef MeanShiftModeSeekerBase Self;
-  typedef Object Superclass ;
-  typedef SmartPointer<Self> Pointer;
+  typedef MeanShiftModeSeekerBase  Self;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Standard Macros */
   itkTypeMacro(MeanShiftModeSeekerBase, Object);
   
   /** Typedefs from the TSample template argument */
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
-  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType ;
-  typedef typename TSample::MeasurementType MeasurementType ;
-  typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
+  typedef typename TSample::MeasurementVectorType     MeasurementVectorType;
+  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef typename TSample::MeasurementType           MeasurementType;
+  typedef typename TSample::InstanceIdentifier        InstanceIdentifier;
 
-  typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
-  typedef MeanShiftModeCacheMethod< MeasurementVectorType > CacheMethodType ;
+  typedef std::vector< InstanceIdentifier >                 SearchResultVectorType;
+  typedef MeanShiftModeCacheMethod< MeasurementVectorType > CacheMethodType;
 
-  void SetInputSample(const TSample* sample) ;
+  void SetInputSample(const TSample* sample);
 
   const TSample* GetInputSample() const
-  { return m_InputSample.GetPointer() ; }
+    { return m_InputSample.GetPointer(); }
 
   void SetMaximumIteration(unsigned int number)
-  { m_MaximumIteration = number ; }
+    { m_MaximumIteration = number; }
 
   unsigned int GetMaximumIteration()
-  { return m_MaximumIteration ; }
+    { return m_MaximumIteration; }
 
-  void SetCacheMethod(CacheMethodType* method) ;
+  void SetCacheMethod(CacheMethodType* method);
 
   CacheMethodType* GetCacheMethod()
-  { return m_CacheMethod.GetPointer() ; }
+    { return m_CacheMethod.GetPointer(); }
 
   /** Returns the covariance matrix of the target sample data */ 
-  MeasurementVectorType Evolve(MeasurementVectorType instance) ;
+  MeasurementVectorType Evolve(MeasurementVectorType instance);
 
   /** Get the length of a measurement vector */
   virtual MeasurementVectorSizeType GetMeasurementVectorSize() const
@@ -112,19 +112,18 @@ public:
     }
 
 protected:
-  MeanShiftModeSeekerBase() ;
-  virtual ~MeanShiftModeSeekerBase() ;
+  MeanShiftModeSeekerBase();
+  virtual ~MeanShiftModeSeekerBase();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual bool ComputeMode(MeasurementVectorType queryPoint,
-                           MeasurementVectorType& newPoint) = 0 ;
+                           MeasurementVectorType& newPoint) = 0;
 
-  
 private:
-  typename TSample::ConstPointer m_InputSample ;
-  unsigned int m_MaximumIteration ;
-  typename CacheMethodType::Pointer m_CacheMethod ;
-} ; // end of class
+  typename TSample::ConstPointer    m_InputSample;
+  unsigned int                      m_MaximumIteration;
+  typename CacheMethodType::Pointer m_CacheMethod;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 
@@ -134,4 +133,3 @@ private:
 #endif
 
 #endif
-

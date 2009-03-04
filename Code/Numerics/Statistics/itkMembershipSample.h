@@ -23,8 +23,8 @@
 
 #include "itkExceptionObject.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class MembershipSample
  * \brief Container for storing the instance-identifiers of other sample with 
@@ -59,78 +59,79 @@ class ITK_EXPORT MembershipSample :
 {
 public:
   /** Standard class typedefs. */
-  typedef MembershipSample Self;
-  typedef Sample< typename TSample::MeasurementVectorType > Superclass ;
-  typedef SmartPointer< Self > Pointer ;
-  typedef SmartPointer< const Self > ConstPointer ;
+  typedef MembershipSample                                  Self;
+  typedef Sample< typename TSample::MeasurementVectorType > Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
 
   /** Standard macros */ 
   itkTypeMacro(MembershipSample, Sample);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Typedefs for Measurement vector, measurement, Instance Identifier, 
-   * frequency, size, size element value from the template argument TSample*/
+   * frequency, size, size element value from the template argument
+   * TSample */
   typedef typename TSample::MeasurementVectorType MeasurementVectorType;
-  typedef typename TSample::MeasurementType MeasurementType;
-  typedef typename TSample::InstanceIdentifier InstanceIdentifier;
-  typedef typename TSample::FrequencyType FrequencyType ;
-  typedef typename TSample::TotalFrequencyType TotalFrequencyType ;
+  typedef typename TSample::MeasurementType       MeasurementType;
+  typedef typename TSample::InstanceIdentifier    InstanceIdentifier;
+  typedef typename TSample::FrequencyType         FrequencyType;
+  typedef typename TSample::TotalFrequencyType    TotalFrequencyType;
   
   
   /** vector of unique class labels that will be used for mapping internal
    * continuous class label with real class labels */
-  typedef std::vector< unsigned int > UniqueClassLabelsType ;
+  typedef std::vector< unsigned int > UniqueClassLabelsType;
 
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  typedef itk::hash_map< InstanceIdentifier, unsigned int> ClassLabelHolderType ;
+  typedef itk::hash_map< InstanceIdentifier, unsigned int> ClassLabelHolderType;
   
   /** Typedef for each subsample that stores instance identifers of instances
    * that belong to a class */
-  typedef Subsample< TSample > ClassSampleType ;
+  typedef Subsample< TSample >                      ClassSampleType;
   typedef typename ClassSampleType::Pointer         ClassSamplePointer;
   typedef typename ClassSampleType::ConstPointer    ClassSampleConstPointer;
   
   /** Plug in the actual sample data */
-  void SetSample(const TSample* sample) ;
+  void SetSample(const TSample* sample);
 
   /** Returns the source sample pointer */
   const TSample* GetSample() const;
   
   /** Sets the number of classes (class labels) */
-  void SetNumberOfClasses(unsigned int numberOfClasses) ;
+  void SetNumberOfClasses(unsigned int numberOfClasses);
   
   /** Gets the number of classes (class labels) */
-  unsigned int GetNumberOfClasses() const ;
+  unsigned int GetNumberOfClasses() const;
 
   /** Adds an instance from the source sample to this container. The
    * first argument is the class label for that instance. The second
    * argument is the instance identifier from the source identifier that
    * is going to be included this container. */
-  void AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) ;
+  void AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id);
   /** Gets the class label for the instance that has the instance
    *   identifier, id. */
-  unsigned int GetClassLabel(const InstanceIdentifier &id) const ;
+  unsigned int GetClassLabel(const InstanceIdentifier &id) const;
 
   /** Gets the internal continuous class label from the class labels that
    *   are used for AddInstance method. */ 
-  int GetInternalClassLabel(const unsigned int classLabel ) const ;
+  int GetInternalClassLabel(const unsigned int classLabel ) const;
 
   /** Gets the number of instances that belong to the class label in
    *   this container */
-  unsigned int GetClassSampleSize(const unsigned int &classLabel) const ;
+  unsigned int GetClassSampleSize(const unsigned int &classLabel) const;
 
   /** Gets the Subsample that includes only the instances that belongs
    *   to the classLabel */
-  const ClassSampleType* GetClassSample(const unsigned int &classLabel) const ;
+  const ClassSampleType* GetClassSample(const unsigned int &classLabel) const;
   
   /** Gets the class labels that corresponding to the each instance in
    *   this container. */
   ClassLabelHolderType* GetClassLabels()
-  { return &m_ClassLabelHolder ; }
+    { return &m_ClassLabelHolder; }
 
   /** returns the number of elements in each dimension */
-  unsigned int Size(void) const ;
+  unsigned int Size(void) const;
   
   /** retunrs the measurement of the instance which is identified 
    * by the 'id' */
@@ -139,129 +140,127 @@ public:
   /** returns the measurement element which is the 'n'-th element 
    * in the 'd' dimension of the measurement vector */
   MeasurementType GetMeasurement(const InstanceIdentifier &id, 
-                                  const unsigned int &dimension) ;
+                                  const unsigned int &dimension);
 
   /** returns the frequency of the instance which is identified by the 'id' */
-  FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
+  FrequencyType GetFrequency(const InstanceIdentifier &id) const;
   
   /** returns the total frequency for the 'd' dimension */
-  TotalFrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const;
 
   void Resize(unsigned int n) 
-  {
-    m_ClassLabelHolder.resize(n) ;
-  }
-
+    {
+    m_ClassLabelHolder.resize(n);
+    }
  
   class ConstIterator
-  {
-  public:
+    {
+    public:
     ConstIterator(InstanceIdentifier id, const Self* membershipSample)
       :m_Id(id), m_MembershipSample(membershipSample),
-       m_Sample(membershipSample->GetSample())
-    {}
+       m_Sample(membershipSample->GetSample()) {}
     
     FrequencyType GetFrequency() const
-    { return  m_Sample->GetFrequency(m_Id) ; }
+      { return  m_Sample->GetFrequency(m_Id); }
     
     const MeasurementVectorType & GetMeasurementVector() const
-    { return m_Sample->GetMeasurementVector(m_Id) ; } 
+      { return m_Sample->GetMeasurementVector(m_Id); } 
     
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Id ; }
+      { return m_Id; }
 
     void SetClassLabel(unsigned int classLabel)
-    { m_MembershipSample->AddInstance(classLabel, m_Id) ; }
+      { m_MembershipSample->AddInstance(classLabel, m_Id); }
 
     unsigned int GetClassLabel() const
-    { return m_MembershipSample->GetClassLabel(m_Id) ; }
+      { return m_MembershipSample->GetClassLabel(m_Id); }
 
     ConstIterator& operator++() 
-    { 
-      ++m_Id ;
-      return *this ;
-    }
+      { 
+      ++m_Id;
+      return *this;
+      }
     
     bool operator!=(const ConstIterator& it) 
-    { 
+      { 
       if (m_Id != it.m_Id || 
           m_MembershipSample != it.m_MembershipSample ||
           m_Sample != it.m_Sample)
         {
-        return true ;
+        return true;
         }
       else
         {
-        return false ;
+        return false;
         }
-    }
+      }
 
     bool operator==(const ConstIterator& it) 
-    { 
+      { 
       if (m_Id == it.m_Id && 
           m_MembershipSample == it.m_MembershipSample &&
           m_Sample == it.m_Sample)
         {
-        return true ;
+        return true;
         }
       else
         {
-        return false ;
+        return false;
         }
-    }
+      }
     
     ConstIterator& operator=(const ConstIterator& it)
-    {
+      {
       m_Id = it.m_Id;
-      m_MembershipSample = it.m_MembershipSample ;
-      m_Sample = it.m_Sample ;
-      return *this ;
-    }
+      m_MembershipSample = it.m_MembershipSample;
+      m_Sample = it.m_Sample;
+      return *this;
+      }
 
     ConstIterator(const ConstIterator& it)
-    {
+      {
       m_Id = it.m_Id;
-      m_MembershipSample = it.m_MembershipSample ;
-      m_Sample = it.m_Sample ;
-    }
+      m_MembershipSample = it.m_MembershipSample;
+      m_Sample = it.m_Sample;
+      }
     
   private:
     // identifier for the instance
-    InstanceIdentifier m_Id ;  
+    InstanceIdentifier m_Id;  
     // Pointer to MemebershipSample object
-    const Self* m_MembershipSample ;
-    const TSample* m_Sample ;
-  } ;
+    const Self* m_MembershipSample;
+    const TSample* m_Sample;
+  };
 
   ConstIterator Begin() const
-  { 
-    ConstIterator iter(0, this) ;
+    { 
+    ConstIterator iter(0, this);
     return iter; 
-  }
+    }
   
-  ConstIterator  End() const        
-  {
-    ConstIterator iter(this->Size(), this) ; 
+  ConstIterator  End() const
+    {
+    ConstIterator iter(this->Size(), this); 
     return iter; 
-  }
+    }
  
 protected:
-  MembershipSample() ;
+  MembershipSample();
   virtual ~MembershipSample() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
   
 private:
-  MembershipSample(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  MembershipSample(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  const TSample*                  m_Sample ;
-  unsigned int                    m_CurrentClassLabel ;
-  UniqueClassLabelsType           m_UniqueClassLabels ;
-  ClassLabelHolderType            m_ClassLabelHolder ;
-  unsigned int                    m_NumberOfClasses ;
-  std::vector< unsigned int >     m_ClassSampleSizes ;
-  std::vector< ClassSamplePointer > m_ClassSamples ;
-} ; // end of class
+  const TSample*                    m_Sample;
+  unsigned int                      m_CurrentClassLabel;
+  UniqueClassLabelsType             m_UniqueClassLabels;
+  ClassLabelHolderType              m_ClassLabelHolder;
+  unsigned int                      m_NumberOfClasses;
+  std::vector< unsigned int >       m_ClassSampleSizes;
+  std::vector< ClassSamplePointer > m_ClassSamples;
+}; // end of class
 
 
 } // end of namespace Statistics 
@@ -273,10 +272,3 @@ private:
 #endif
 
 #endif
-
-
-
-
-
-
-

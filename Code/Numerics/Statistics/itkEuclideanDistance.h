@@ -21,8 +21,8 @@
 #include "itkDistanceMetric.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class EuclideanDistance
  * \brief Euclidean distance function.
@@ -54,39 +54,40 @@ class ITK_EXPORT EuclideanDistance :
 {
 public:
   /** Standard "Self" typedef. */
-  typedef EuclideanDistance Self;
+  typedef EuclideanDistance         Self;
   typedef DistanceMetric< TVector > Superclass;
-  typedef SmartPointer< Self > Pointer ; 
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >      Pointer; 
+  typedef SmartPointer<const Self>  ConstPointer;
+
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EuclideanDistance, DistanceMetric);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Type of the component of a vector */
-  typedef typename TVector::ValueType ValueType ;
+  typedef typename TVector::ValueType ValueType;
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const TVector &x) const ;
+  double Evaluate(const TVector &x) const;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const TVector &x1, const TVector &x2) const ;
+  double Evaluate(const TVector &x1, const TVector &x2) const;
 
   /** Gets the cooridnate distance between a and b. NOTE: a and b
    * should be type of component */ 
-  double Evaluate(const ValueType &a, const ValueType &b) const ;
+  double Evaluate(const ValueType &a, const ValueType &b) const;
 
   /** Returns true if the distance between x and the origin is less
    * than radius */
-  bool IsWithinRange(const TVector &x, const double radius) const ;
+  bool IsWithinRange(const TVector &x, const double radius) const;
 
 protected:
   EuclideanDistance() {}
   virtual ~EuclideanDistance() {} 
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -96,10 +97,3 @@ protected:
 #endif
 
 #endif
-
-
-
-
-
-
-

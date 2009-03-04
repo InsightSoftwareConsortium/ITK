@@ -23,8 +23,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkListSampleBase.h"
 #include "itkSmartPointer.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class PointSetToListAdaptor
  *  \brief This class provides ListSampleBase interfaces to ITK PointSet
@@ -45,47 +45,47 @@ class ITK_EXPORT PointSetToListAdaptor :
 {
 public:
   /** Standard class typedefs */
-  typedef PointSetToListAdaptor Self;
-  typedef ListSampleBase< typename TPointSet::PointType > Superclass ;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef PointSetToListAdaptor                           Self;
+  typedef ListSampleBase< typename TPointSet::PointType > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToListAdaptor, ListSampleBase) ;
+  itkTypeMacro(PointSetToListAdaptor, ListSampleBase);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       TPointSet::PointDimension);
 
   /** PointSet typedefs */
-  typedef TPointSet PointSetType;
-  typedef typename TPointSet::Pointer PointSetPointer ;
-  typedef typename TPointSet::PointIdentifier InstanceIdentifier;
-  typedef typename TPointSet::PointsContainerPointer PointsContainerPointer ;
-  typedef typename TPointSet::PointsContainerIterator PointsContainerIterator ;
-  typedef typename TPointSet::PointType PointType ;
+  typedef TPointSet                                   PointSetType;
+  typedef typename TPointSet::Pointer                 PointSetPointer;
+  typedef typename TPointSet::PointIdentifier         InstanceIdentifier;
+  typedef typename TPointSet::PointsContainerPointer  PointsContainerPointer;
+  typedef typename TPointSet::PointsContainerIterator PointsContainerIterator;
+  typedef typename TPointSet::PointType               PointType;
 
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::MeasurementType MeasurementType ;
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
-  typedef MeasurementVectorType ValueType ;
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
+  typedef typename Superclass::MeasurementType           MeasurementType;
+  typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
+  typedef MeasurementVectorType                          ValueType;
+  typedef typename Superclass::FrequencyType             FrequencyType;
+  typedef typename Superclass::TotalFrequencyType        TotalFrequencyType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Method to set the point set */
-  void SetPointSet(TPointSet* pointSet) ;
+  void SetPointSet(TPointSet* pointSet);
 
   /** Method to get the point set */
-  TPointSet* GetPointSet() ;
+  TPointSet* GetPointSet();
 
-  /** returns the number of measurement vectors in this container*/
-  unsigned int Size() const ;
+  /** returns the number of measurement vectors in this container */
+  unsigned int Size() const;
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
@@ -95,13 +95,13 @@ public:
    * that is specified by "id". */
   void SetMeasurement(const InstanceIdentifier &id, 
                       const unsigned int &dim,
-                      const MeasurementType &value) ;
+                      const MeasurementType &value);
 
   /** returns 1 as other subclasses of ListSampleBase does */
-  FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
+  FrequencyType GetFrequency(const InstanceIdentifier &id) const;
 
   /** returns the size of this container */
-  TotalFrequencyType GetTotalFrequency() const ;
+  TotalFrequencyType GetTotalFrequency() const;
 
   void SetMeasurementVectorSize( const MeasurementVectorSizeType s )
     {
@@ -132,38 +132,38 @@ public:
     {}
     
     FrequencyType GetFrequency() const
-    { return 1 ;}
+    { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return (MeasurementVectorType&) m_Iter.Value() ;} 
+    { return (MeasurementVectorType&) m_Iter.Value();} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Iter.Index() ;}
+    { return m_Iter.Index();}
 
     Iterator& operator++()
-    { ++m_Iter ; return *this ;}
+    { ++m_Iter; return *this;}
     
     Iterator& operator--()
-    { --m_Iter ; return *this ;}
+    { --m_Iter; return *this;}
 
     bool operator!=(const Iterator &it)
-    { return (m_Iter != it.m_Iter) ;}
+    { return (m_Iter != it.m_Iter);}
     
     bool operator==(const Iterator &it)
-    { return (m_Iter == it.m_Iter) ;}
+    { return (m_Iter == it.m_Iter);}
     
     Iterator& operator = (const Iterator &iter)
     { 
       m_Iter = iter.m_Iter; 
-      return iter ;
+      return iter;
     }
 
     Iterator(const Iterator &iter)
     { m_Iter = iter.m_Iter; }
     
   private:
-    PointsContainerIterator m_Iter ;
-  } ;
+    PointsContainerIterator m_Iter;
+  };
    
  
   class ConstIterator
@@ -177,66 +177,66 @@ public:
     {}
     
     FrequencyType GetFrequency() const
-    { return 1 ;}
+    { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return (MeasurementVectorType&) m_Iter.Value() ;} 
+    { return (MeasurementVectorType&) m_Iter.Value();} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Iter.Index() ;}
+    { return m_Iter.Index();}
 
     ConstIterator& operator++()
-    { ++m_Iter ; return *this ;}
+    { ++m_Iter; return *this;}
     
     ConstIterator& operator--()
-    { --m_Iter ; return *this ;}
+    { --m_Iter; return *this;}
 
     bool operator!=(const ConstIterator &it)
-    { return (m_Iter != it.m_Iter) ;}
+    { return (m_Iter != it.m_Iter);}
     
     bool operator==(const ConstIterator &it)
-    { return (m_Iter == it.m_Iter) ;}
+    { return (m_Iter == it.m_Iter);}
     
     ConstIterator& operator = (const ConstIterator &iter)
     { 
       m_Iter = iter.m_Iter; 
-      return iter ;
+      return iter;
     }
 
     ConstIterator(const ConstIterator &iter)
     { m_Iter = iter.m_Iter; }
     
   private:
-    PointsContainerIterator m_Iter ;
-  } ;
+    PointsContainerIterator m_Iter;
+  };
    
   /** returns an iterator that points to the beginning of the container */
   Iterator Begin()
-  { 
+    { 
     Iterator iter(m_PointsContainer->Begin());
     return iter; 
-  }
+    }
   
   /** returns an iterator that points to the end of the container */
-  Iterator End()        
-  {
+  Iterator End()
+    {
     Iterator iter(m_PointsContainer->End()); 
     return iter; 
-  }
+    }
    
   /** returns a const iterator that points to the beginning of the container */
   ConstIterator Begin() const
-  { 
+    { 
     ConstIterator iter(m_PointsContainer->Begin());
     return iter; 
-  }
+    }
   
   /** returns an iterator that points to the end of the container */
   ConstIterator End() const
-  {
+    {
     ConstIterator iter(m_PointsContainer->End()); 
     return iter; 
-  }
+    }
   
 protected:
   PointSetToListAdaptor(); 
@@ -245,17 +245,17 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
 private:
-  PointSetToListAdaptor(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  PointSetToListAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /** the PointSet data source pointer */
-  mutable PointSetPointer m_PointSet ;
+  mutable PointSetPointer m_PointSet;
   /** the points container which will be actually used for storing
    * measurement vectors */
-  PointsContainerPointer m_PointsContainer ;
+  PointsContainerPointer m_PointsContainer;
   /** temporary points for conversions */
-  mutable PointType m_TempPoint ;
-} ; // end of class PointSetToListAdaptor
+  mutable PointType m_TempPoint;
+}; // end of class PointSetToListAdaptor
 
 } // end of namespace Statistics
 } // end of namespace itk

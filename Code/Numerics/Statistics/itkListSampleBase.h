@@ -21,8 +21,8 @@
 
 #include <vector>
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ListSampleBase 
  *  \brief This class is the base class for Samples that store measurements in a list
@@ -49,68 +49,68 @@ class ITK_EXPORT ListSampleBase : public Sample< TMeasurementVector >
 {
 public:
   /** Standard class typedef. */
-  typedef ListSampleBase  Self;
+  typedef ListSampleBase               Self;
   typedef Sample< TMeasurementVector > Superclass;
 
   /** Standard macros */
   itkTypeMacro(ListSampleBase, Sample);
 
   /** Typedefs inherited from the superclass */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-  typedef typename Superclass::MeasurementType MeasurementType;
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  typedef typename Superclass::MeasurementType           MeasurementType;
+  typedef typename Superclass::FrequencyType             FrequencyType;
+  typedef typename Superclass::InstanceIdentifier        InstanceIdentifier;
 
   /** Vector of InstanceIdentifiers used for returning search
    * results. */
-  typedef std::vector< InstanceIdentifier > SearchResultVectorType ;
+  typedef std::vector< InstanceIdentifier > SearchResultVectorType;
 
   /** Search for measurements within the specified radius of a search
    * point. A vector of InstanceIdentifiers is returned. */
   inline void Search(MeasurementVectorType center, double radius, 
                      SearchResultVectorType& result) const
-  {
+    {
     if (radius == 0.0)
       {
-      itkGenericExceptionMacro("Search radius should be greater than zero.") ;
+      itkGenericExceptionMacro("Search radius should be greater than zero.");
       }
     
-    unsigned int j ;
-    double squaredRadius ;
-    double distance ;
-    double coordinateDistance ;
+    unsigned int j;
+    double squaredRadius;
+    double distance;
+    double coordinateDistance;
     
-    MeasurementVectorType tempVector ;
+    MeasurementVectorType tempVector;
     
-    squaredRadius = radius * radius ;
+    squaredRadius = radius * radius;
     
-    result.clear() ;
-    for ( InstanceIdentifier identifier = 0 ; identifier < this->Size() ; ++identifier )
+    result.clear();
+    for ( InstanceIdentifier identifier = 0; identifier < this->Size(); ++identifier )
       {
-      distance = 0.0 ;
-      tempVector = this->GetMeasurementVector( identifier ) ;
-      for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
+      distance = 0.0;
+      tempVector = this->GetMeasurementVector( identifier );
+      for (j = 0; j < this->GetMeasurementVectorSize() && distance < squaredRadius; j++)
         {
-        coordinateDistance = (double)tempVector[j] - center[j] ;
+        coordinateDistance = (double)tempVector[j] - center[j];
         if (vnl_math_abs(coordinateDistance) > radius )
           {
-          distance = squaredRadius ;
+          distance = squaredRadius;
           }
         }
       
-      for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
+      for (j = 0; j < this->GetMeasurementVectorSize() && distance < squaredRadius; j++)
         {
-        coordinateDistance = (double)tempVector[j] - center[j] ;
-        distance += coordinateDistance * coordinateDistance ;
+        coordinateDistance = (double)tempVector[j] - center[j];
+        distance += coordinateDistance * coordinateDistance;
         }
       
       if (distance < squaredRadius)
         {
-        result.push_back( identifier ) ;
+        result.push_back( identifier );
         }
       }
-  }
+    }
   
 protected:
   ListSampleBase() {}
@@ -122,8 +122,8 @@ protected:
 
   
 private:
-  ListSampleBase(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  ListSampleBase(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

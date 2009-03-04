@@ -23,8 +23,8 @@
 #include "itkWeightedMeanCalculator.h"
 #include "itkWeightedCovarianceCalculator.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class GaussianMixtureModelComponent
  * \brief is a component (derived from MixtureModelComponentBase) for
@@ -50,63 +50,63 @@ class GaussianMixtureModelComponent :
 {
 public:
   /**Standard class typedefs. */
-  typedef GaussianMixtureModelComponent Self;
-  typedef MixtureModelComponentBase< TSample > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef GaussianMixtureModelComponent        Self;
+  typedef MixtureModelComponentBase< TSample > Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
 
   /** Typedefs from the superclass */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType ;
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType ;
-  typedef typename Superclass::MembershipFunctionType MembershipFunctionType ;
-  typedef typename Superclass::WeightArrayType WeightArrayType ;
-  typedef typename Superclass::ParametersType ParametersType ;
+  typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef typename Superclass::MembershipFunctionType    MembershipFunctionType;
+  typedef typename Superclass::WeightArrayType           WeightArrayType;
+  typedef typename Superclass::ParametersType            ParametersType;
 
   /** Type of the membership function. Gaussian density function */
   typedef GaussianDensityFunction< MeasurementVectorType > 
-  NativeMembershipFunctionType ;
+  NativeMembershipFunctionType;
   
   /** Types of the mean and the covariance calculator that will update
    *  this component's distribution parameters */
-  typedef WeightedMeanCalculator< TSample > MeanEstimatorType ;
-  typedef WeightedCovarianceCalculator< TSample > CovarianceEstimatorType ;
+  typedef WeightedMeanCalculator< TSample >       MeanEstimatorType;
+  typedef WeightedCovarianceCalculator< TSample > CovarianceEstimatorType;
 
   /** Type of the mean vector */
-  typedef typename MeanEstimatorType::OutputType MeanType ;
+  typedef typename MeanEstimatorType::OutputType MeanType;
 
   /** Type of the covariance matrix */
-  typedef typename CovarianceEstimatorType::OutputType CovarianceType ;
+  typedef typename CovarianceEstimatorType::OutputType CovarianceType;
 
   /** Sets the input sample */
-  void SetSample(const TSample* sample) ;
+  void SetSample(const TSample* sample);
 
   /** Sets the component's distribution parameters. */
-  void SetParameters(const ParametersType &parameters) ;
+  void SetParameters(const ParametersType &parameters);
   
 protected:
-  GaussianMixtureModelComponent() ;
+  GaussianMixtureModelComponent();
   virtual ~GaussianMixtureModelComponent() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Returns the sum of squared changes in parameters between
    * iterations */
-  double CalculateParametersChange() ;
+  double CalculateParametersChange();
 
   /** Computes the new distribution parameters */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  typename NativeMembershipFunctionType::Pointer m_GaussianDensityFunction ;
-  MeanType m_Mean ;
-  CovarianceType m_Covariance ;
-  typename MeanEstimatorType::Pointer m_MeanEstimator ;
-  typename CovarianceEstimatorType::Pointer m_CovarianceEstimator ;
-} ; // end of class
+  typename NativeMembershipFunctionType::Pointer m_GaussianDensityFunction;
+  MeanType                                       m_Mean;
+  CovarianceType                                 m_Covariance;
+  typename MeanEstimatorType::Pointer            m_MeanEstimator;
+  typename CovarianceEstimatorType::Pointer      m_CovarianceEstimator;
+}; // end of class
     
 } // end of namespace Statistics 
 } // end of namespace itk 
@@ -116,4 +116,3 @@ private:
 #endif
 
 #endif
-

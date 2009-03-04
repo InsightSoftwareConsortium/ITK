@@ -19,14 +19,14 @@
 
 #include "itkGoodnessOfFitMixtureModelCostFunction.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TInputSample >
 GoodnessOfFitMixtureModelCostFunction< TInputSample >
 ::GoodnessOfFitMixtureModelCostFunction()
 {
-  m_Function = 0 ;
+  m_Function = 0;
 }
 
 template< class TInputSample >
@@ -42,7 +42,7 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 {
   Superclass::PrintSelf(os,indent);
   os << indent << "Function  " << m_Function << std::endl;
-  for ( unsigned int i = 0 ; i < m_Components.size() ; i++)
+  for ( unsigned int i = 0; i < m_Components.size(); i++)
     {
     os << indent << "Components["<< i <<"]  "  << m_Components[i]  << std::endl;
     }
@@ -53,7 +53,7 @@ void
 GoodnessOfFitMixtureModelCostFunction< TInputSample >
 ::AddComponent(ComponentType* component)
 {
-  m_Components.push_back(component) ;
+  m_Components.push_back(component);
 }
 
 template< class TInputSample >
@@ -63,8 +63,8 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 {
   if ( m_Function != core )
     {
-    m_Function = core ;
-    this->Modified() ;
+    m_Function = core;
+    this->Modified();
     }
 }
 
@@ -73,16 +73,16 @@ unsigned int
 GoodnessOfFitMixtureModelCostFunction< TInputSample >
 ::GetNumberOfParameters() const 
 {
-  unsigned int size = 0 ;
-  ComponentType* component ;
-  for ( unsigned int componentIndex = 0 ; componentIndex < m_Components.size() ;
+  unsigned int size = 0;
+  ComponentType* component;
+  for ( unsigned int componentIndex = 0; componentIndex < m_Components.size();
         componentIndex++ )
     {
-    component = m_Components[componentIndex] ;
-    size += component->GetNumberOfParameters() ;
+    component = m_Components[componentIndex];
+    size += component->GetNumberOfParameters();
     }
 
-  return size ;
+  return size;
 }
 
 template< class TInputSample >
@@ -92,49 +92,47 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
 {
   unsigned int i;
 
-  double value = 0.0 ;
+  double value = 0.0;
  
-  unsigned int index = 0 ;
+  unsigned int index = 0;
   unsigned int paramSize;
-  ComponentType* component ;
-  for ( unsigned int  componentIndex = 0 ; componentIndex < m_Components.size() ;
+  ComponentType* component;
+  for ( unsigned int  componentIndex = 0; componentIndex < m_Components.size();
         componentIndex++ )
     {
-    component = m_Components[componentIndex] ;
-    paramSize = component->GetNumberOfParameters() ;
-    ParametersType params(paramSize) ;
-    for ( i = 0 ; i < paramSize ; i++)
+    component = m_Components[componentIndex];
+    paramSize = component->GetNumberOfParameters();
+    ParametersType params(paramSize);
+    for ( i = 0; i < paramSize; i++)
       {
-      params[i] = parameters[index] ;
-      index++ ;
+      params[i] = parameters[index];
+      index++;
       }
 
-    component->SetParameters(params) ;
-    component->
-      SetUseExpectedHistogram(m_Function->GetUseExpectedHistogram()) ;
+    component->SetParameters(params);
+    component->SetUseExpectedHistogram(m_Function->GetUseExpectedHistogram());
     if ( component->GetObservedHistogram() == 0 )
       {
-      component->CreateHistograms() ;
+      component->CreateHistograms();
       }
 
-    component->Resample() ;
+    component->Resample();
 
     if ( component->GetResampledSample()->GetTotalFrequency() == 0 ) 
       {
-      return NumericTraits< double >::max() ;
+      return NumericTraits< double >::max();
       }
 
-    component->CalculateProjectionAxes() ;
+    component->CalculateProjectionAxes();
       
     m_Function->
-      SetTotalObservedScale(component->GetTotalObservedScale()) ;
+      SetTotalObservedScale(component->GetTotalObservedScale());
       
-    m_Function->SetObservedHistogram(component->GetObservedHistogram()) ;
+    m_Function->SetObservedHistogram(component->GetObservedHistogram());
       
     if ( m_Function->GetUseExpectedHistogram() )
       {
-      m_Function->
-        SetExpectedHistogram(component->GetExpectedHistogram()) ;
+      m_Function->SetExpectedHistogram(component->GetExpectedHistogram());
       }
       
     MeasurementVectorSizeType measurementVectorSize = 
@@ -143,20 +141,20 @@ GoodnessOfFitMixtureModelCostFunction< TInputSample >
       { 
       itkExceptionMacro( << "Must set MeasurementVectorSize for the sample" );
       }
-    for (i = 0 ; i < measurementVectorSize ; i++)
+    for (i = 0; i < measurementVectorSize; i++)
       {
-      component->Project(i) ;
+      component->Project(i);
       if ( m_Function->GetUseExpectedHistogram() )
         {
-        component->UpdateExpectedHistogram() ;
+        component->UpdateExpectedHistogram();
         }
           
-      m_Function->Update() ;
-      value += m_Function->GetOutput() ;
+      m_Function->Update();
+      value += m_Function->GetOutput();
       }
     } // end of while ( iter ...
 
-  return value ;
+  return value;
 }
 
 } // end of namespace Statistics 

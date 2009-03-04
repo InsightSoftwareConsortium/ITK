@@ -27,8 +27,8 @@
 #include "itkFixedArray.h"
 #include "itkMacro.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ImageToListAdaptor
  *  \brief This class provides ListSampleBase interfaces to ITK Image
@@ -67,10 +67,10 @@ class ITK_EXPORT ImageToListAdaptor :
 {
 public:
   /** Standard class typedefs */
-  typedef ImageToListAdaptor Self;
+  typedef ImageToListAdaptor                   Self;
   typedef ListSampleBase< TMeasurementVector > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToListAdaptor, ListSampleBase);
@@ -79,14 +79,14 @@ public:
   itkNewMacro(Self);
   
   /** Image typedefs */
-  typedef TImage ImageType;
-  typedef typename ImageType::Pointer ImagePointer;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
-  typedef typename ImageType::IndexType IndexType;
-  typedef typename ImageType::PixelType PixelType;
+  typedef TImage                                         ImageType;
+  typedef typename ImageType::Pointer                    ImagePointer;
+  typedef typename ImageType::ConstPointer               ImageConstPointer;
+  typedef typename ImageType::IndexType                  IndexType;
+  typedef typename ImageType::PixelType                  PixelType;
   typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer;
   typedef typename ImageType::PixelContainer::ElementIdentifier 
-  InstanceIdentifier;
+                                                         InstanceIdentifier;
   
   /** Image Iterator typedef support */
   typedef ImageRegionIterator< ImageType > IteratorType; 
@@ -94,9 +94,9 @@ public:
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename PixelTraitsType::ValueType MeasurementType;
-  typedef typename Superclass::FrequencyType FrequencyType;
-  typedef typename Superclass::TotalFrequencyType TotalFrequencyType;
+  typedef typename PixelTraitsType::ValueType            MeasurementType;
+  typedef typename Superclass::FrequencyType             FrequencyType;
+  typedef typename Superclass::TotalFrequencyType        TotalFrequencyType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** the number of components in a measurement vector */
@@ -123,7 +123,7 @@ public:
     
   
 
-  typedef TMeasurementVector MeasurementVectorType;
+  typedef TMeasurementVector    MeasurementVectorType;
   typedef MeasurementVectorType ValueType;
 
   /** Method to set the image */
@@ -149,32 +149,28 @@ public:
     Iterator(){}
     
     Iterator(InstanceIdentifier id, Pointer pContainer)
-      :m_Id(id),m_Container(pContainer)
-    {}
+      :m_Id(id),m_Container(pContainer) {}
     
     FrequencyType GetFrequency() const
-    { return 1;}
+      { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return m_Container->GetMeasurementVector(m_Id);} 
+      { return m_Container->GetMeasurementVector(m_Id);} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Id;}
+      { return m_Id;}
 
     Iterator& operator++()
-    { ++m_Id; return *this;}
+      { ++m_Id; return *this;}
     
-    /*Iterator& operator+()
-    { m_Id += n; return *this;}*/
-
     Iterator& operator+(int n)
-    { m_Id += n; return *this;}
+      { m_Id += n; return *this;}
     
     Iterator& operator-(int n)
-    { m_Id -= n; return *this;}
+      { m_Id -= n; return *this;}
 
     bool operator!=(const Iterator &it)
-    {
+      {
       if (m_Id != it.m_Id)
         {return true;}
 
@@ -182,23 +178,23 @@ public:
         { return true;}
 
       return false;
-    }
+      } 
     
     bool operator==(const Iterator &it)
-    { return !(*this != it);}
+      { return !(*this != it);}
     
     Iterator& operator = (const Iterator &iter)
-    { 
+      { 
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container; 
       return *this;
-    }
+      }
 
     Iterator(const Iterator &iter)
-    { 
+      {   
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container; 
-    }
+      }
     
   private:
     InstanceIdentifier m_Id;  // Current id 
@@ -207,38 +203,34 @@ public:
 
 
   class ConstIterator
-  {
-  public:
+    {
+    public:
     
     ConstIterator(){}
     
     ConstIterator(InstanceIdentifier id, ConstPointer pContainer)
-      :m_Id(id),m_Container(pContainer)
-    {}
+      :m_Id(id),m_Container(pContainer) {}
     
     FrequencyType GetFrequency() const
-    { return 1;}
+      { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return m_Container->GetMeasurementVector(m_Id);} 
+      { return m_Container->GetMeasurementVector(m_Id);} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_Id;}
+      { return m_Id;}
 
     ConstIterator& operator++()
-    { ++m_Id; return *this;}
+      { ++m_Id; return *this;}
     
-    /*ConstIterator& operator+()
-    { m_Id += n; return *this;}*/
-
     ConstIterator& operator+(int n)
-    { m_Id += n; return *this;}
+      { m_Id += n; return *this;}
     
     ConstIterator& operator-(int n)
-    { m_Id -= n; return *this;}
+      { m_Id -= n; return *this;}
 
     bool operator!=(const ConstIterator &it)
-    {
+      {
       if (m_Id != it.m_Id)
         {return true;}
 
@@ -246,54 +238,52 @@ public:
         { return true;}
 
       return false;
-    }
+      }
     
     bool operator==(const ConstIterator &it)
-    { return !(*this != it);}
+      { return !(*this != it);}
     
     ConstIterator& operator = (const ConstIterator &iter)
-    { 
+      {
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container; 
       return *this;
-    }
+      }
 
     ConstIterator(const ConstIterator &iter)
-    { 
+      { 
       m_Id = iter.m_Id; 
       m_Container = iter.m_Container; 
-    }
+      }
     
   private:
     InstanceIdentifier m_Id;  // Current id 
     ConstPointer m_Container;
   };
 
-
-
   Iterator Begin()
-  { 
+    { 
     Iterator iter(0, this);
     return iter; 
-  }
+    }
   
-  Iterator End()        
-  {
+  Iterator End()
+    {
     Iterator iter(this->Size(), this); 
     return iter; 
-  }
+    }
 
   ConstIterator Begin() const
-  { 
+    { 
     ConstIterator iter(0, this);
     return iter; 
-  }
+    }
   
   ConstIterator End() const
-  {
+    {
     ConstIterator iter(this->Size(), this); 
     return iter; 
-  }
+    }
  
 protected:
   ImageToListAdaptor();
@@ -311,9 +301,9 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   PixelContainerConstPointer m_PixelContainer;
-  bool m_UseBuffer;
-  IndexType m_ImageBeginIndex;
-  IndexType m_ImageEndIndex;
+  bool                       m_UseBuffer;
+  IndexType                  m_ImageBeginIndex;
+  IndexType                  m_ImageEndIndex;
 
   ImageConstPointer m_Image;
 }; // end of class ImageToListAdaptor
@@ -350,8 +340,6 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 {
   return NumericTraits< FrequencyType >::One;
 }
-
-
 
 } // end of namespace Statistics
 } // end of namespace itk

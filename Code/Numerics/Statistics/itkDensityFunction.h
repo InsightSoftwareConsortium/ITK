@@ -20,8 +20,8 @@
 #include "itkMembershipFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class DensityFunction
  * \brief DensityFunction class defines common interfaces for 
@@ -38,10 +38,10 @@ class ITK_EXPORT DensityFunction :
 {
 public:
   /** Standard class typedefs */
-  typedef DensityFunction Self;
-  typedef MembershipFunctionBase< TMeasurementVector > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef DensityFunction                              Self;
+  typedef MembershipFunctionBase< TMeasurementVector > Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(DensityFunction, MembershipFunctionBase);
@@ -51,7 +51,7 @@ public:
   
   /** Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
-  virtual double Evaluate(const TMeasurementVector &measurement) const = 0 ;
+  virtual double Evaluate(const TMeasurementVector &measurement) const = 0;
   
 protected:
   DensityFunction() {}
@@ -63,14 +63,9 @@ protected:
     }
 
 private:
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics
 } // end namespace itk
 
 #endif
-
-
-
-
-

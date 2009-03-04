@@ -19,14 +19,14 @@
 
 #include "vnl/vnl_math.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 HypersphereKernelMeanShiftModeSeeker< TSample >
 ::HypersphereKernelMeanShiftModeSeeker()
 {
-  m_SearchRadius = 0.0 ;
+  m_SearchRadius = 0.0;
 }
 
 template< class TSample >
@@ -42,7 +42,7 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Search radius: " << m_SearchRadius << std::endl ;
+  os << indent << "Search radius: " << m_SearchRadius << std::endl;
 }
 
 template< class TSample >
@@ -52,8 +52,8 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
 {
   if ( m_SearchRadius != radius )
     {
-    m_SearchRadius = radius ;
-    this->Modified() ;
+    m_SearchRadius = radius;
+    this->Modified();
     }
 }
 
@@ -63,40 +63,40 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
 ::ComputeMode(MeasurementVectorType queryPoint, 
               MeasurementVectorType& newPoint)
 {
-  const TSample* inputSample = this->GetInputSample() ;
-  float frequencySum ;
+  const TSample* inputSample = this->GetInputSample();
+  float frequencySum;
 
-  SearchResultVectorType result ;
-  inputSample->Search( queryPoint, m_SearchRadius, result ) ;
+  SearchResultVectorType result;
+  inputSample->Search( queryPoint, m_SearchRadius, result );
   
-  frequencySum = 0.0f ;
+  frequencySum = 0.0f;
   MeasurementVectorTraits::SetLength( m_TempVectorSum, 
                             this->GetMeasurementVectorSize() );
-  m_TempVectorSum.Fill( NumericTraits< RealMeasurementType >::Zero ) ;
+  m_TempVectorSum.Fill( NumericTraits< RealMeasurementType >::Zero );
 
-  typename SearchResultVectorType::const_iterator iter =  result.begin() ;
+  typename SearchResultVectorType::const_iterator iter =  result.begin();
   while ( iter != result.end() )
     {
-    m_TempVector = inputSample->GetMeasurementVector(*iter) ;
-    for ( unsigned int i = 0 ; i < this->GetMeasurementVectorSize(); ++i )
+    m_TempVector = inputSample->GetMeasurementVector(*iter);
+    for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); ++i )
       {
-      m_TempVectorSum[i] += m_TempVector[i] ;
+      m_TempVectorSum[i] += m_TempVector[i];
       }
-    frequencySum += inputSample->GetFrequency(*iter) ;
-    ++iter ;
+    frequencySum += inputSample->GetFrequency(*iter);
+    ++iter;
     }
 
   if ( frequencySum == 0 )
     {
-    return false ;
+    return false;
     }
 
-  for ( unsigned int i = 0 ; i < this->GetMeasurementVectorSize() ; ++i )
+  for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); ++i )
     {
-    newPoint[i] =  (MeasurementType) (m_TempVectorSum[i] / frequencySum) ;
+    newPoint[i] =  (MeasurementType) (m_TempVectorSum[i] / frequencySum);
     }
   
-  return true ;
+  return true;
 }
 
 
@@ -104,4 +104,3 @@ HypersphereKernelMeanShiftModeSeeker< TSample >
 } // end of namespace itk
 
 #endif
-

@@ -22,8 +22,8 @@
 
 #include "itkArray.h"
 
-namespace itk{ 
-  namespace Statistics{
+namespace itk { 
+namespace Statistics {
   
 /** \class MeanCalculator
  * \brief calculates sample mean
@@ -49,14 +49,14 @@ class MeanCalculator :
 {
 public:
   /**Standard class typedefs. */
-  typedef MeanCalculator Self;
-  typedef SampleAlgorithmBase< TSample >  Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef MeanCalculator                  Self;
+  typedef SampleAlgorithmBase< TSample >  Superclass;
+  typedef SmartPointer<Self>              Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(MeanCalculator, SampleAlgorithmBase);
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** Length of a measurement vector */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
@@ -68,22 +68,22 @@ public:
   typedef Array< double >           OutputType;
 
   /** Returns the mean vector */
-  OutputType* GetOutput() ;
+  OutputType* GetOutput();
 
 protected:
-  MeanCalculator() ;
+  MeanCalculator();
   virtual ~MeanCalculator() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the mean and save it */
-  void GenerateData() ;
+  void GenerateData();
 
 private:
   /** Internal mean value storage */
-  OutputType m_Output ;
-} ; // end of class
-    
-  } // end of namespace Statistics 
+  OutputType m_Output;
+}; // end of class
+  
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION
@@ -91,4 +91,3 @@ private:
 #endif
 
 #endif
-

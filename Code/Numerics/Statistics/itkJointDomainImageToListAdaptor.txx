@@ -14,19 +14,19 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkJointDomainImageToListAdaptor_txx
-#define _itkJointDomainImageToListAdaptor_txx
+#ifndef __itkJointDomainImageToListAdaptor_txx
+#define __itkJointDomainImageToListAdaptor_txx
 
 #include "itkJointDomainImageToListAdaptor.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template < class TImage >
 JointDomainImageToListAdaptor< TImage >
 ::JointDomainImageToListAdaptor()
 {
-  m_NormalizationFactors.Fill( 1.0f ) ;
+  m_NormalizationFactors.Fill( 1.0f );
 }
 
 template < class TImage >
@@ -44,8 +44,8 @@ JointDomainImageToListAdaptor< TImage >
 {
   if ( m_NormalizationFactors != factors )
     {
-    m_NormalizationFactors = factors ;
-    this->Modified() ;
+    m_NormalizationFactors = factors;
+    this->Modified();
     }
 }
 
@@ -54,6 +54,3 @@ JointDomainImageToListAdaptor< TImage >
 } // end of namespace itk
 
 #endif
-
-
-

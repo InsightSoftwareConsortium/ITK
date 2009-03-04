@@ -23,8 +23,8 @@
 #include "itkWeightedCovarianceCalculator.h"
 #include "itkSymmetricEigenAnalysis.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class GaussianGoodnessOfFitComponent 
  *  \brief is a GoodnessOfFitComponent for Gaussian distribution.
@@ -53,112 +53,112 @@ class GaussianGoodnessOfFitComponent
 {
 public:
   /** Standard class typedefs */
-  typedef GaussianGoodnessOfFitComponent Self;
+  typedef GaussianGoodnessOfFitComponent             Self;
   typedef GoodnessOfFitComponentBase< TInputSample > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >                       Pointer;
+  typedef SmartPointer< const Self >                 ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianGoodnessOfFitComponent, 
-               GoodnessOfFitComponentBase) ;
+               GoodnessOfFitComponentBase);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   
   /** Typedefs from input sample */
-  typedef typename TInputSample::MeasurementType MeasurementType ;
-  typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
+  typedef typename TInputSample::MeasurementType       MeasurementType;
+  typedef typename TInputSample::MeasurementVectorType MeasurementVectorType;
 
   /** Typedefs from Superclass */
-  typedef typename Superclass::CenterType CenterType ;
-  typedef typename Superclass::RadiusType RadiusType ;
-  typedef typename Superclass::MeanType MeanType ;
-  typedef typename Superclass::StandardDeviationType StandardDeviationType ;
-  typedef typename Superclass::ResampledSampleType ResampledSampleType ;
-  typedef typename Superclass::ProjectionAxisArrayType ProjectionAxisArrayType;
+  typedef typename Superclass::CenterType                CenterType;
+  typedef typename Superclass::RadiusType                RadiusType;
+  typedef typename Superclass::MeanType                  MeanType;
+  typedef typename Superclass::StandardDeviationType     StandardDeviationType;
+  typedef typename Superclass::ResampledSampleType       ResampledSampleType;
+  typedef typename Superclass::ProjectionAxisArrayType   ProjectionAxisArrayType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-  typedef Array< double > ParametersType ;
+  typedef Array< double >                                ParametersType;
 
   /** Weight function type. The density values are used as weights of 
    * each instance (measurement vector) for the Covariance calulator */
   typedef GaussianDensityFunction< MeasurementVectorType > 
-  ProbabilityDensityFunctionType ;
+  ProbabilityDensityFunctionType;
 
-  typedef typename ProbabilityDensityFunctionType::CovarianceType CovarianceType ;
+  typedef typename ProbabilityDensityFunctionType::CovarianceType CovarianceType;
 
   /** Type of the covariance calculator. the output of this calculator is
    * a covariance matrix that is used as the input of the Projection 
    * calculator */
   typedef WeightedCovarianceCalculator< ResampledSampleType > 
-  CovarianceCalculatorType ;
+  CovarianceCalculatorType;
 
-  /** Default projection axis calculator type.*/
+  /** Default projection axis calculator type. */
   typedef Array< double > EigenValuesArrayType;
   typedef SymmetricEigenAnalysis< ProjectionAxisArrayType, EigenValuesArrayType >
-          ProjectionAxisCalculatorType;
+                          ProjectionAxisCalculatorType;
 
   /** Gets the size of parameters which consists of mean
    * and standard deviation */
   unsigned int GetNumberOfParameters() const
-  { return (unsigned int)(this->GetMeasurementVectorSize() + 1) ; }
+  { return (unsigned int)(this->GetMeasurementVectorSize() + 1); }
 
   /** Sets the component distribution parameters */
-  void SetParameters(const ParametersType &parameter) ;
+  void SetParameters(const ParametersType &parameter);
 
   /** Gets the center point for the neighborhood sampling */
-  CenterType* GetCenter() ;
+  CenterType* GetCenter();
 
   /** Gets the radius for the neighborhood sampling */
-  RadiusType* GetRadius() ;
+  RadiusType* GetRadius();
   
   /** Gets the mean of the distributon */
-  MeanType* GetMean() ;
+  MeanType* GetMean();
 
   /** Gets the standard deviation of the distribution */
-  StandardDeviationType* GetStandardDeviation() ;
+  StandardDeviationType* GetStandardDeviation();
 
   /** Univariate (standard) cumulative probability function */
-  double GetCumulativeProbability(double x) const ;
+  double GetCumulativeProbability(double x) const;
 
   /** Multivariate probability density function */
-  double GetProbabilityDensity(MeasurementVectorType &measurements) const ;
+  double GetProbabilityDensity(MeasurementVectorType &measurements) const;
 
   /** Prints all the parameters. Usually for debugging. */
-  void PrintParameters(std::ostream &os) const ;
+  void PrintParameters(std::ostream &os) const;
 
   /** Gets the full distribution parameters which consists of
    * mean vector and covariance matrix in a single array */
-  ParametersType GetFullParameters() const ;
+  ParametersType GetFullParameters() const;
 
   /** Set the input sample */
   virtual void SetInputSample( const TInputSample* sample );
 
 protected:
-  GaussianGoodnessOfFitComponent() ;
-  virtual ~GaussianGoodnessOfFitComponent() ;
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ;
+  GaussianGoodnessOfFitComponent();
+  virtual ~GaussianGoodnessOfFitComponent();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Calculates the base axes for projection */
-  virtual void CalculateProjectionAxes() ;
+  virtual void CalculateProjectionAxes();
 
 private:
   typename ProbabilityDensityFunctionType::Pointer 
-  m_ProbabilityDensityFunction ;
-  typename CovarianceCalculatorType::Pointer m_CovarianceCalculator ;
-  ProjectionAxisCalculatorType * m_ProjectionAxisCalculator ;
+                                             m_ProbabilityDensityFunction;
+  typename CovarianceCalculatorType::Pointer m_CovarianceCalculator;
+  ProjectionAxisCalculatorType *             m_ProjectionAxisCalculator;
 
-  MeanType m_Mean ;
-  CenterType m_Center ;
-  RadiusType m_Radius ;
-  StandardDeviationType m_StandardDeviation ;
-  CovarianceType m_Covariance ;
+  MeanType              m_Mean;
+  CenterType            m_Center;
+  RadiusType            m_Radius;
+  StandardDeviationType m_StandardDeviation;
+  CovarianceType        m_Covariance;
 
-  unsigned int m_NumberOfParameters ;
+  unsigned int m_NumberOfParameters;
 
-  int m_LongestAxisIndex ;
-  double m_LargestEigenValue ;
-} ; // end of class
+  int    m_LongestAxisIndex;
+  double m_LargestEigenValue;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -168,4 +168,3 @@ private:
 #endif
 
 #endif
-

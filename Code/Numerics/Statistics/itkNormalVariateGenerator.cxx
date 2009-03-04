@@ -24,59 +24,59 @@ namespace Statistics {
 
 NormalVariateGenerator::NormalVariateGenerator()
 {
-  Scale = ((double) 30000000.0) ;
-  Rscale = ((double) (1.0 / Scale)) ;
-  Rcons = ((double) (1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0))) ;
-  ELEN = 7 ;    /*  LEN must be 2 ** ELEN       */
-  LEN = 128 ;
-  LMASK = (4 * (LEN-1)) ;
-  TLEN  = (8*LEN) ;
-  vec1 = new int[TLEN] ;
+  Scale = ((double) 30000000.0);
+  Rscale = ((double) (1.0 / Scale));
+  Rcons = ((double) (1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0)));
+  ELEN = 7;    /*  LEN must be 2 ** ELEN       */
+  LEN = 128;
+  LMASK = (4 * (LEN-1));
+  TLEN  = (8*LEN);
+  vec1 = new int[TLEN];
 
-  gausssave = 0 ;
-  this->Initialize(0) ;
+  gausssave = 0;
+  this->Initialize(0);
 }
 
 NormalVariateGenerator::~NormalVariateGenerator()
 {
-  delete[] vec1 ;
+  delete[] vec1;
 }
 
 void NormalVariateGenerator::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent) ;
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << Scale << std::endl ;
-  os << indent << "Rscale: " << Rscale << std::endl ;
-  os << indent << "Rcons: " << Rcons << std::endl ;
-  os << indent << "ELEN: " << ELEN << std::endl ;
-  os << indent << "LEN: " << LEN << std::endl ;
-  os << indent << "LMASK: " << LMASK << std::endl ;
-  os << indent << "TLEN: " << TLEN << std::endl ;
+  os << indent << "Scale: " << Scale << std::endl;
+  os << indent << "Rscale: " << Rscale << std::endl;
+  os << indent << "Rcons: " << Rcons << std::endl;
+  os << indent << "ELEN: " << ELEN << std::endl;
+  os << indent << "LEN: " << LEN << std::endl;
+  os << indent << "LMASK: " << LMASK << std::endl;
+  os << indent << "TLEN: " << TLEN << std::endl;
     
-  os << indent << "gaussfaze: " << gaussfaze << std::endl ;
-  os << indent << "gausssave: " << gausssave << std::endl ;
-  os << indent << "GScale: " << GScale << std::endl ;
+  os << indent << "gaussfaze: " << gaussfaze << std::endl;
+  os << indent << "gausssave: " << gausssave << std::endl;
+  os << indent << "GScale: " << GScale << std::endl;
     
-  os << indent << "vec1: " << vec1 << std::endl ;
-  os << indent << "nslew: " << nslew << std::endl ;
-  os << indent << "irs: " << irs << std::endl ;
-  os << indent << "lseed: " << lseed << std::endl ;
-  os << indent << "chic1: " << chic1 << std::endl ;
-  os << indent << "chic2: " << chic2 << std::endl ;
-  os << indent << "actualRSD: " << actualRSD << std::endl ;
+  os << indent << "vec1: " << vec1 << std::endl;
+  os << indent << "nslew: " << nslew << std::endl;
+  os << indent << "irs: " << irs << std::endl;
+  os << indent << "lseed: " << lseed << std::endl;
+  os << indent << "chic1: " << chic1 << std::endl;
+  os << indent << "chic2: " << chic2 << std::endl;
+  os << indent << "actualRSD: " << actualRSD << std::endl;
 }
 
 void NormalVariateGenerator::Initialize(int randomSeed)
 {
   // m_Random Seed was originally getpid()
 
-  double fake ;
-  lseed = randomSeed ;
-  irs = randomSeed ;
-  gaussfaze = 1 ;
-  nslew = 0 ;
-  GScale = Rscale ;
+  double fake;
+  lseed = randomSeed;
+  irs = randomSeed;
+  gaussfaze = 1;
+  nslew = 0;
+  GScale = Rscale;
 //      At one stage, we need to generate a random variable Z such that
 //      (TLEN * Z*Z) has a Chi-squared-TLEN density. Now, a var with
 //      an approximate Chi-sq-K distn can be got as
@@ -93,7 +93,7 @@ void NormalVariateGenerator::Initialize(int randomSeed)
   chic2 = vcl_sqrt(2.0 * TLEN  -  fake*fake) /  fake;
   chic1 = fake * vcl_sqrt(0.5 / TLEN);
 
-  actualRSD = 0.0 ;
+  actualRSD = 0.0;
   return;
 }
 
@@ -101,9 +101,9 @@ void NormalVariateGenerator::Initialize(int randomSeed)
 double NormalVariateGenerator::GetVariate()
 {
   if (--gaussfaze)
-    return GScale * gausssave[gaussfaze] ;
+    return GScale * gausssave[gaussfaze];
   else
-    return FastNorm() ;
+    return FastNorm();
 }
 
 /*      -----------------------------------------------------   */
@@ -164,49 +164,51 @@ double NormalVariateGenerator::FastNorm(void)
 
   /*    Use last bits of nslew to determine scanning pattern   */
   stype = nslew & 3;
-  switch (stype)        {
-  case 0:               /*   From consecutive in top to scattered in bot  */
-    inc = 1;
-    mask = LMASK;
-    pa = vec1;  pb = pa + LEN;  pc = pb + LEN;  pd = pc + LEN;
-    p0 = vec1 + 4 * LEN;
-    goto scanset;
-  case 1:               /*   From consec in bot to scatt in top  */
-    inc = 1;
-    mask = LMASK;
-    pa = vec1 + 4 * LEN;  pb = pa + LEN;  pc = pb + LEN;  pd = pc + LEN;
-    p0 = vec1;
-    goto scanset;
-  case 2:               /*   From consec in even to scatt in odd  */
-    inc = 2;
-    mask = 2*LMASK;   skew *= 2;   stride *= 2;
-    pa = vec1 + 1;  pb = pa + 2*LEN;  pc = pb + 2*LEN;  pd = pc + 2*LEN;
-    p0 = vec1;
-    goto scanset;
-  case 3:               /*  From consec in odd to scatt in even  */
-    inc = 2;
-    mask = 2*LMASK;   skew *= 2;   stride *= 2;
-    pa = vec1;  pb = pa + 2*LEN;  pc = pb + 2*LEN;  pd = pc + 2*LEN;
-    p0 = vec1 + 1;
-    goto scanset;
-  }     /*   End of scan pattern cases */
+  switch (stype)
+    {
+    case 0:               /*   From consecutive in top to scattered in bot  */
+      inc = 1;
+      mask = LMASK;
+      pa = vec1;  pb = pa + LEN;  pc = pb + LEN;  pd = pc + LEN;
+      p0 = vec1 + 4 * LEN;
+      goto scanset;
+    case 1:               /*   From consec in bot to scatt in top  */
+      inc = 1;
+      mask = LMASK;
+      pa = vec1 + 4 * LEN;  pb = pa + LEN;  pc = pb + LEN;  pd = pc + LEN;
+      p0 = vec1;
+      goto scanset;
+    case 2:               /*   From consec in even to scatt in odd  */
+      inc = 2;
+      mask = 2*LMASK;   skew *= 2;   stride *= 2;
+      pa = vec1 + 1;  pb = pa + 2*LEN;  pc = pb + 2*LEN;  pd = pc + 2*LEN;
+      p0 = vec1;
+      goto scanset;
+    case 3:               /*  From consec in odd to scatt in even  */
+      inc = 2;
+      mask = 2*LMASK;   skew *= 2;   stride *= 2;
+      pa = vec1;  pb = pa + 2*LEN;  pc = pb + 2*LEN;  pd = pc + 2*LEN;
+      p0 = vec1 + 1;
+      goto scanset;
+    }     /*   End of scan pattern cases */
 
- scanset:
+scanset:
   gausssave = vec1;
   /*    Set loop count  */
   i = LEN;
 
   /*    Use mtype to select matrix   */
-  switch (mtype)        {
-  case 0:               goto matrix0;
-  case 1:               goto matrix1;
-  case 2:               goto matrix2;
-  case 3:               goto matrix3;
-  }
+  switch (mtype)
+    {
+    case 0:               goto matrix0;
+    case 1:               goto matrix1;
+    case 2:               goto matrix2;
+    case 3:               goto matrix3;
+    }
 
- matrix0:
+matrix0:
   pa += (inc * (LEN-1));
- mpass0:
+mpass0:
   skew = (skew + stride) & mask;
   pe = p0 + skew;
   p = -*pa;  q = -*pb;  r =  *pc;  s =  *pd;
@@ -327,25 +329,27 @@ double NormalVariateGenerator::FastNorm(void)
   tz = -2.0 * vcl_log((r + 0.5) * Rcons);   /* Sum of squares */
   ts += tz;
   tz = vcl_sqrt(tz / tr );
-  vec1 [p++] = (int) (Scale *  tx * tz) ;
-  vec1 [p++] = (int) (Scale *  ty * tz) ;
+  vec1 [p++] = (int) (Scale *  tx * tz);
+  vec1 [p++] = (int) (Scale *  ty * tz);
   if (p < TLEN) goto nextpair;
   /*    Horrid, but good enough */
   /*    Calc correction factor to make sum of squares = TLEN    */
   ts = TLEN / ts;  /* Should be close to 1.0  */
   tr = vcl_sqrt(ts);
-  for (p = 0; p < TLEN; p++)    {
-  tx = vec1 [p] * tr;
-  vec1 [p] = (int) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5)) ;
-  }
+  for (p = 0; p < TLEN; p++)
+    {
+    tx = vec1 [p] * tr;
+    vec1 [p] = (int) ((tx < 0.0) ? (tx - 0.5) : (tx + 0.5));
+    }
 
  recalcsumsq:
   /*    Calculate actual sum of squares for correction   */
   ts = 0.0;
-  for (p = 0; p < TLEN; p++)    {       
-  tx = vec1[p];
-  ts += (tx * tx);
-  }
+  for (p = 0; p < TLEN; p++)
+    {
+    tx = vec1[p];
+    ts += (tx * tx);
+    }
   /*    Now ts should be Scale*Scale*TLEN or thereabouts   */
   ts = vcl_sqrt(ts / (Scale * Scale * TLEN));
   actualRSD = 1.0 / ts;   /* Reciprocal of actual Standard Devtn */
@@ -355,4 +359,3 @@ double NormalVariateGenerator::FastNorm(void)
 
 } // end of name space Statistics
 } // end of name space itk
-

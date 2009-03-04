@@ -19,8 +19,8 @@
 
 #include "itkGoodnessOfFitFunctionBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class LogLikelihoodGoodnessOfFitFunction
  *  \brief calculates loglikelihood ratio statistics
@@ -44,34 +44,34 @@ class LogLikelihoodGoodnessOfFitFunction
 {
 public:
   /** Standard class typedefs */
-  typedef LogLikelihoodGoodnessOfFitFunction Self;
+  typedef LogLikelihoodGoodnessOfFitFunction           Self;
   typedef GoodnessOfFitFunctionBase< TInputHistogram > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LogLikelihoodGoodnessOfFitFunction, 
-               GoodnessOfFitFunctionBase) ;
+               GoodnessOfFitFunctionBase);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** typedefs from InputHistogram */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      TInputHistogram::MeasurementVectorSize) ;
-  typedef typename TInputHistogram::MeasurementType MeasurementType ;
-  typedef typename TInputHistogram::MeasurementVectorType MeasurementVectorType ;
+                      TInputHistogram::MeasurementVectorSize);
+  typedef typename TInputHistogram::MeasurementType       MeasurementType;
+  typedef typename TInputHistogram::MeasurementVectorType MeasurementVectorType;
 
 protected:
-  LogLikelihoodGoodnessOfFitFunction() ;
-  virtual ~LogLikelihoodGoodnessOfFitFunction(){} ;
+  LogLikelihoodGoodnessOfFitFunction();
+  virtual ~LogLikelihoodGoodnessOfFitFunction(){};
 
   /** calculates the loglikelihood ratio statistics */
-  virtual void GenerateData() ;
+  virtual void GenerateData();
 
 private:
-  bool m_Initialized ;
-} ; // end of class
+  bool m_Initialized;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -81,4 +81,3 @@ private:
 #endif
 
 #endif
-

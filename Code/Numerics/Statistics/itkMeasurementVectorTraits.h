@@ -256,7 +256,7 @@ public:
   static MeasurementVectorLength Assert( const Array< TValueType > &a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    if( ((l!=0) && (a.Size()!=l)) || (a.Size()==0) )
+    if( ((l != 0) && (a.Size() != l)) || (a.Size() == 0) )
       {
       itkGenericExceptionMacro( << errMsg );
       }
@@ -271,7 +271,7 @@ public:
   static MeasurementVectorLength Assert( const Array< TValueType > *a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    if( ((l!=0) && (a->Size()!=l)) || (a->Size()==0) )
+    if( ((l != 0) && (a->Size() != l)) || (a->Size() == 0) )
       {
       itkGenericExceptionMacro( << errMsg );
       }
@@ -286,7 +286,7 @@ public:
   static MeasurementVectorLength Assert( const VariableLengthVector< TValueType > &a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    if( ((l!=0) && (a.Size()!=l)) || (a.Size()==0) )
+    if( ((l !=0 ) && (a.Size() != l)) || (a.Size() == 0) )
       {
       itkGenericExceptionMacro( << errMsg );
       }
@@ -301,7 +301,7 @@ public:
   static MeasurementVectorLength Assert( const VariableLengthVector< TValueType > *a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    if( ((l!=0) && (a->Size()!=l)) || (a->Size()==0) )
+    if( ((l !=0 ) && (a->Size() != l)) || (a->Size() == 0) )
       {
       itkGenericExceptionMacro( << errMsg );
       }
@@ -311,11 +311,11 @@ public:
       }
     return 0;
     }
-   template< class TValueType >
+  template< class TValueType >
   static MeasurementVectorLength Assert( const std::vector< TValueType > &a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    if( ((l!=0) && (a.size()!=l)) || (a.size()==0) )
+    if( ((l != 0) && (a.size() != l)) || (a.size() == 0) )
       {
       itkGenericExceptionMacro( << errMsg );
       }
@@ -330,7 +330,7 @@ public:
   static MeasurementVectorLength Assert( const std::vector< TValueType > *a, 
               const MeasurementVectorLength l, const char *errMsg="Length Mismatch")
     {
-    if( ((l!=0) && (a->size()!=l)) || (a->size()==0) )
+    if( ((l != 0) && (a->size() != l)) || (a->size() == 0) )
       {
       itkGenericExceptionMacro( << errMsg );
       }
@@ -340,9 +340,8 @@ public:
       }
     return 0;
     }
- };
+};
 
 } // namespace itk
 
 #endif  // __itkMeasurementVectorTraits_h
-

@@ -21,8 +21,8 @@
 #include "itkFunctionBase.h"
 #include "itkGoodnessOfFitComponentBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class GoodnessOfFitFunctionBase
  *  \brief base class for classes calculates different types of goodness-of-fit 
@@ -41,64 +41,65 @@ class GoodnessOfFitFunctionBase
 {
 public:
   /** Standard class typedefs */
-  typedef GoodnessOfFitFunctionBase Self;
+  typedef GoodnessOfFitFunctionBase              Self;
   typedef SampleAlgorithmBase< TInputHistogram > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(GoodnessOfFitFunctionBase, 
-               SampleAlgorithimBase) ;
+               SampleAlgorithimBase);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** typedefs from Superclass */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int, 
-                      TInputHistogram::MeasurementVectorSize) ;
-  typedef typename TInputHistogram::MeasurementType MeasurementType ;
-  typedef typename TInputHistogram::MeasurementVectorType MeasurementVectorType ;
-  typedef TInputHistogram InputHistogramType ;
+                      TInputHistogram::MeasurementVectorSize);
+
+  typedef typename TInputHistogram::MeasurementType       MeasurementType;
+  typedef typename TInputHistogram::MeasurementVectorType MeasurementVectorType;
+  typedef TInputHistogram                                 InputHistogramType;
 
   /** Sets the observed histogram input */
-  void SetObservedHistogram(InputHistogramType* histogram) ;
+  void SetObservedHistogram(InputHistogramType* histogram);
 
   /** Gets the observed histogram */
   InputHistogramType* GetObservedHistogram() 
-  { return m_ObservedHistogram ; }
+    { return m_ObservedHistogram; }
 
   /** Sets the expected histogram input */
-  void SetExpectedHistogram(InputHistogramType* histogram) ;
+  void SetExpectedHistogram(InputHistogramType* histogram);
 
   /** Gets the expected histogram input */
   InputHistogramType* GetExpectedHistogram() 
-  { return m_ExpectedHistogram ; }
+    { return m_ExpectedHistogram; }
 
   /** Sets the flag that tells if a subclass needs
    * the expected histogram for goodness-of-fit statistics
    * calculation. This flag should be set only by a subclass */
-  itkGetMacro(UseExpectedHistogram, bool) ;
+  itkGetMacro(UseExpectedHistogram, bool);
 
   void SetTotalObservedScale(double* scale)
-  { 
+    { 
     if ( m_TotalObservedScale != scale )
       {
-        m_TotalObservedScale = scale ;
-        this->Modified() ;
+      m_TotalObservedScale = scale;
+      this->Modified();
       }
-  }
+    }
 
-  typedef double OutputType ;
+  typedef double OutputType;
 
   OutputType& GetOutput()
-  { return m_Output ; }
+    { return m_Output; }
 
 protected:
-  GoodnessOfFitFunctionBase() ;
-  virtual ~GoodnessOfFitFunctionBase(){} ;
+  GoodnessOfFitFunctionBase();
+  virtual ~GoodnessOfFitFunctionBase(){};
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
-  itkSetMacro(UseExpectedHistogram, bool) ;
+  itkSetMacro(UseExpectedHistogram, bool);
   
   virtual void GenerateData() {}
 
@@ -106,18 +107,18 @@ protected:
   itkGetConstReferenceMacro(LogEpsilon,float);
 
 private:
-  float m_Epsilon ;
-  float m_LogEpsilon ;
+  float m_Epsilon;
+  float m_LogEpsilon;
 
-  bool m_UseExpectedHistogram ;
+  bool m_UseExpectedHistogram;
 
-  InputHistogramType* m_ObservedHistogram ;
-  InputHistogramType* m_ExpectedHistogram ;
+  InputHistogramType* m_ObservedHistogram;
+  InputHistogramType* m_ExpectedHistogram;
   
-  double* m_TotalObservedScale ;
-  OutputType m_Output ;
+  double*    m_TotalObservedScale;
+  OutputType m_Output;
 
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -127,4 +128,3 @@ private:
 #endif
 
 #endif
-

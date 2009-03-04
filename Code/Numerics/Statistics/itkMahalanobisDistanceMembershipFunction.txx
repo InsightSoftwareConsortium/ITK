@@ -19,8 +19,8 @@
 
 #include "itkMahalanobisDistanceMembershipFunction.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template < class TVector >
 MahalanobisDistanceMembershipFunction< TVector >
@@ -73,7 +73,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     this->m_MeasurementVectorSize = mean.size();
     }
 
-  m_Mean = mean ;
+  m_Mean = mean;
 }
 
 
@@ -105,7 +105,7 @@ MahalanobisDistanceMembershipFunction< TVector >::MeanVectorType &
 MahalanobisDistanceMembershipFunction< TVector >
 ::GetMean() const
 {
-  return m_Mean ;
+  return m_Mean;
 }
 
 template < class TVector >
@@ -130,8 +130,6 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_Covariance = cov; 
   this->CalculateInverseCovariance();
 }
-
-
 
 template < class TVector >
 void 
@@ -158,8 +156,6 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_Covariance = m_InverseCovariance;
   m_InverseCovariance = invcov;
 }
-
-
 
 template < class TVector >
 void
@@ -223,7 +219,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   // Compute |y - mean | * inverse(cov) * |y - mean|^T 
   temp = dot_product( m_TempMat.as_ref(), m_TempVec.as_ref() ); 
   
-  return temp ;
+  return temp;
 }
   
 template < class TVector >
@@ -231,14 +227,14 @@ void
 MahalanobisDistanceMembershipFunction< TVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i ;
+  unsigned int i;
   Superclass::PrintSelf(os,indent);
 
   if ( this->m_MeasurementVectorSize &&
        m_Mean.size() == this->m_MeasurementVectorSize )
     {
-    os << indent << "Mean: [" ;
-    for (i=0 ; (i + 1) < this->m_MeasurementVectorSize; i++)
+    os << indent << "Mean: [";
+    for (i=0; (i + 1) < this->m_MeasurementVectorSize; i++)
       {
       os << m_Mean[i] << ", ";
       }
@@ -246,7 +242,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     }
   else
     {
-    os << indent << "Mean: not set or size does not match" << std::endl ;
+    os << indent << "Mean: not set or size does not match" << std::endl;
     }
 
   os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
@@ -257,7 +253,5 @@ MahalanobisDistanceMembershipFunction< TVector >
 }
 } // end namespace Statistics
 } // end of namespace itk
-
-
 
 #endif

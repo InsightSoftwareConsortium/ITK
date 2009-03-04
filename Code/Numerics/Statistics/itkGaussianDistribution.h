@@ -119,7 +119,7 @@ public:
   virtual void SetMean(double);
 
   /** Get the mean of the Gaussian distribution. Defaults to 0.0. The
-   * mean is stored in position 0 of the parameters vector.*/
+   * mean is stored in position 0 of the parameters vector. */
   virtual double GetMean() const;
 
   /** Does this distribution have a mean? */
@@ -159,7 +159,7 @@ public:
   /** Static method to evaluate the cumulative distribution function
    * (cdf) of a standardized (mean zero, unit variance) Gaussian. The
    * static method provides optimized access without requiring an
-   * instance of the class. Accuracy is approximately 10^-8.*/
+   * instance of the class. Accuracy is approximately 10^-8. */
   static double CDF(double x);
 
   /** Static method to evaluate the cumulative distribution function
@@ -204,7 +204,7 @@ public:
    *
    * This function has been modified to compute the inverse of P(x) instead
    * of Q(x).
-   **/
+   */
   static double InverseCDF(double p);
 
   /** Static method to evaluate the inverse cumulative distribution

@@ -20,16 +20,16 @@
 #include "itkNeighborhoodSampler.h"
 #include "vnl/vnl_math.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 NeighborhoodSampler< TSample >
 ::NeighborhoodSampler()
 {
-  m_Center = 0 ;
-  m_Radius = 0 ;
-  m_Subsample = SubsampleType::New() ;
+  m_Center = 0;
+  m_Radius = 0;
+  m_Subsample = SubsampleType::New();
 }
 
 template< class TSample >
@@ -37,30 +37,30 @@ void
 NeighborhoodSampler< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const 
 {
-  Superclass::PrintSelf(os,indent) ;
+  Superclass::PrintSelf(os,indent);
 
-  os << indent << "Center: " ;
+  os << indent << "Center: ";
   if ( m_Center != 0 )
     {
      os << (*m_Center) << std::endl;
     }
   else
     {
-    os << "not set. " << std::endl ;
+    os << "not set. " << std::endl;
     }
 
-  os << indent << "Radius: " ;
+  os << indent << "Radius: ";
   if ( m_Radius != 0 )
     {
     os << (*m_Radius) << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
   os << indent << "Output      " << m_Subsample << std::endl;
-  os << indent << "Output Size " << m_Subsample->Size() << std::endl ;
+  os << indent << "Output Size " << m_Subsample->Size() << std::endl;
 }
 
 template< class TSample >
@@ -68,7 +68,7 @@ typename NeighborhoodSampler< TSample >::OutputPointer
 NeighborhoodSampler< TSample >
 ::GetOutput()
 {
-  return m_Subsample ;
+  return m_Subsample;
 }
 
 template< class TSample >
@@ -78,7 +78,7 @@ NeighborhoodSampler< TSample >
 {
   if (m_Radius == 0 || m_Center == 0 || this->GetInputSample() == 0)
     {
-    itkExceptionMacro("Member variables have not been properly set.") ;
+    itkExceptionMacro("Member variables have not been properly set.");
     }
   
   // Assert at run time that the given center has the same length as 
@@ -91,44 +91,44 @@ NeighborhoodSampler< TSample >
          m_Center->Size() );
       }
   
-  m_Subsample->SetSample(this->GetInputSample()) ;
+  m_Subsample->SetSample(this->GetInputSample());
 
-  unsigned int j ;
-  double squaredRadius ;
-  double distance ;
-  double coordinateDistance ;
-  MeasurementVectorType tempVector ;
+  unsigned int j;
+  double squaredRadius;
+  double distance;
+  double coordinateDistance;
+  MeasurementVectorType tempVector;
 
-  squaredRadius = (*m_Radius) * (*m_Radius) ;
+  squaredRadius = (*m_Radius) * (*m_Radius);
 
-  m_Subsample->Clear() ;
-  typename TSample::ConstIterator iter = this->GetInputSample()->Begin() ;
-  typename TSample::ConstIterator last = this->GetInputSample()->End() ;
+  m_Subsample->Clear();
+  typename TSample::ConstIterator iter = this->GetInputSample()->Begin();
+  typename TSample::ConstIterator last = this->GetInputSample()->End();
   while (iter != last)
     {
-    distance = 0.0 ;
-    tempVector = iter.GetMeasurementVector() ;
-    for (j = 0 ; j < this->GetMeasurementVectorSize() && distance < squaredRadius ; j++)
+    distance = 0.0;
+    tempVector = iter.GetMeasurementVector();
+    for (j = 0; j < this->GetMeasurementVectorSize() && distance < squaredRadius; j++)
       {
-      coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
+      coordinateDistance = (double)tempVector[j] - (*m_Center)[j];
       if (vnl_math_abs(coordinateDistance) > (*m_Radius) )
         {
-        distance = squaredRadius ;
+        distance = squaredRadius;
         }
       }
       
-    for (j = 0 ; j < this->GetMeasurementVectorSize() 
-                        && distance < squaredRadius ; j++)
+    for (j = 0; j < this->GetMeasurementVectorSize() 
+                        && distance < squaredRadius; j++)
       {
-      coordinateDistance = (double)tempVector[j] - (*m_Center)[j] ;
-      distance += coordinateDistance * coordinateDistance ;
+      coordinateDistance = (double)tempVector[j] - (*m_Center)[j];
+      distance += coordinateDistance * coordinateDistance;
       }
       
     if (distance < squaredRadius)
       {
-      m_Subsample->AddInstance(iter.GetInstanceIdentifier()) ;
+      m_Subsample->AddInstance(iter.GetInstanceIdentifier());
       }
-    ++iter ;
+    ++iter;
     }
 }
 

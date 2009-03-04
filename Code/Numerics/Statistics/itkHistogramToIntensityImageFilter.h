@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkHistogramIntensityFunction_h
-#define __itkHistogramIntensityFunction_h
+#ifndef __itkHistogramToIntensityImageFilter_h
+#define __itkHistogramToIntensityImageFilter_h
 
 #include "itkHistogramToImageFilter.h"
 
@@ -42,8 +42,7 @@ class HistogramIntensityFunction
 public:
   
   //Intensity function returns pixels of unsigned long.. 
-  typedef TOutput  OutputPixelType   ;
-  
+  typedef TOutput  OutputPixelType;
   
   HistogramIntensityFunction(): 
       m_TotalFrequency(1) {}
@@ -51,9 +50,9 @@ public:
   ~HistogramIntensityFunction() {};
  
   inline OutputPixelType operator()( const TInput & A )
-  {
+    {
     return static_cast<OutputPixelType>( A );
-  }
+    }
 
   void SetTotalFrequency( unsigned long n ) 
     {
@@ -108,6 +107,3 @@ private:
 } // end namespace itk
 
 #endif
-
-
-

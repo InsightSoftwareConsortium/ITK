@@ -19,8 +19,8 @@
 
 #include <exception>
 
-namespace itk{
-namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 template< class TListSample, 
           class THistogramMeasurement, 
@@ -32,9 +32,9 @@ ListSampleToHistogramGenerator< TListSample,
                                 TMeasurementVectorLength >
 ::ListSampleToHistogramGenerator()
 {
-  m_Sizes.Fill(0) ;
-  m_Histogram = HistogramType::New() ;
-  m_MarginalScale = 100 ;
+  m_Sizes.Fill(0);
+  m_Histogram = HistogramType::New();
+  m_MarginalScale = 100;
   m_HistogramMin.Fill(0);
   m_HistogramMax.Fill(0);
   m_AutoMinMax = true;
@@ -64,19 +64,19 @@ ListSampleToHistogramGenerator< TListSample,
   if( m_AutoMinMax && m_List->Size() != 0 )
     {
     FindSampleBound(m_List, m_List->Begin(),
-                    m_List->End(), lower, upper) ;
+                    m_List->End(), lower, upper);
     
-    float margin ;
+    float margin;
 
-    for ( unsigned int i = 0 ; i < MeasurementVectorSize ; i++ )
+    for ( unsigned int i = 0; i < MeasurementVectorSize; i++ )
       {
       if ( !NumericTraits< THistogramMeasurement >::is_integer )
         {
         margin = 
             ( (THistogramMeasurement)(upper[i] - lower[i]) / 
               (THistogramMeasurement) m_Sizes[i] ) / 
-            (THistogramMeasurement) m_MarginalScale ;
-        h_upper[i] = (THistogramMeasurement) (upper[i] + margin) ;
+            (THistogramMeasurement) m_MarginalScale;
+        h_upper[i] = (THistogramMeasurement) (upper[i] + margin);
         if(h_upper[i] <= upper[i])
           { 
           // an overflow has occurred therefore set upper to upper
@@ -91,7 +91,7 @@ ListSampleToHistogramGenerator< TListSample,
       else
         {
         h_upper[i] = ((THistogramMeasurement) upper[i]) + 
-          NumericTraits< THistogramMeasurement >::One ;
+          NumericTraits< THistogramMeasurement >::One;
         if(h_upper[i] <= upper[i])
           { 
           // an overflow has occurred therefore set upper to upper
@@ -103,26 +103,26 @@ ListSampleToHistogramGenerator< TListSample,
           // computation and clearly the user intended to include min and max.
           }
         }
-      h_lower[i] = ( THistogramMeasurement) lower[i] ;
+      h_lower[i] = ( THistogramMeasurement) lower[i];
       }
     }
 
   // initialize the Histogram object using the sizes and
   // the upper and lower bound from the FindSampleBound function
-  m_Histogram->Initialize(m_Sizes, h_lower, h_upper) ;
+  m_Histogram->Initialize(m_Sizes, h_lower, h_upper);
 
-  typename TListSample::ConstIterator iter = m_List->Begin() ;
-  typename TListSample::ConstIterator last = m_List->End() ;
-  typename HistogramType::IndexType index ;
-  typename TListSample::MeasurementVectorType lvector ;
-  typename HistogramType::MeasurementVectorType hvector ;
+  typename TListSample::ConstIterator iter = m_List->Begin();
+  typename TListSample::ConstIterator last = m_List->End();
+  typename HistogramType::IndexType index;
+  typename TListSample::MeasurementVectorType lvector;
+  typename HistogramType::MeasurementVectorType hvector;
   unsigned int i;
   while (iter != last)
     {
-    lvector = iter.GetMeasurementVector() ;
-    for ( i = 0 ; i < HistogramType::MeasurementVectorSize ; i++)
+    lvector = iter.GetMeasurementVector();
+    for ( i = 0; i < HistogramType::MeasurementVectorSize; i++)
       {
-      hvector[i] = (THistogramMeasurement) lvector[i] ;
+      hvector[i] = (THistogramMeasurement) lvector[i];
       }
 
     m_Histogram->GetIndex(hvector,index);
@@ -134,9 +134,9 @@ ListSampleToHistogramGenerator< TListSample,
       // bin value.
       // If the index isn't valid, we don't increase the frequency.
       // See the comments in Histogram->GetIndex() for more info.
-      m_Histogram->IncreaseFrequency(index, 1) ;
+      m_Histogram->IncreaseFrequency(index, 1);
       }
-    ++iter ;
+    ++iter;
     }
 }
 
@@ -163,5 +163,3 @@ ListSampleToHistogramGenerator< TListSample,
 } // end of namespace itk 
 
 #endif
-
-

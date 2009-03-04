@@ -24,8 +24,8 @@
 #include "itkDenseFrequencyContainer.h"
 #include "itkNumericTraits.h"
 
-namespace itk{
-namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 /** \class ListSampleToHistogramGenerator
  *  \brief Generates a Histogram using the data from the ListSample object
@@ -74,15 +74,15 @@ class ITK_EXPORT ListSampleToHistogramGenerator :
 public:
   /** Standard typedefs */
   typedef ListSampleToHistogramGenerator Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Object                         Superclass;
+  typedef SmartPointer<Self>             Pointer;
+  typedef SmartPointer<const Self>       ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ListSampleToHistogramGenerator, Object) ;
+  itkTypeMacro(ListSampleToHistogramGenerator, Object);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
@@ -94,9 +94,9 @@ public:
 
   typedef Histogram< HistogramMeasurementRealType, 
                      itkGetStaticConstMacro(MeasurementVectorSize),
-                     TFrequencyContainer > HistogramType ;
+                     TFrequencyContainer > HistogramType;
 
-  typedef typename HistogramType::SizeType HistogramSizeType ;
+  typedef typename HistogramType::SizeType               HistogramSizeType;
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
 
   /** plug in the ListSample object */
@@ -110,20 +110,20 @@ public:
         << list->GetMeasurementVectorSize() << " but histogram dimension is "
         << MeasurementVectorSize);
       }
-    m_List = list ; 
+    m_List = list; 
     }
 
   void SetMarginalScale(float scale)
-  { m_MarginalScale = scale ; }
+  { m_MarginalScale = scale; }
 
   void SetNumberOfBins(HistogramSizeType sizes)
-  { m_Sizes = sizes ; }
+  { m_Sizes = sizes; }
 
   const HistogramType* GetOutput() const
-  { return m_Histogram ; }
+  { return m_Histogram; }
 
   void Update() 
-  { this->GenerateData() ; }
+  { this->GenerateData(); }
 
   itkSetMacro(AutoMinMax,bool);
   itkGetConstReferenceMacro(AutoMinMax,bool);
@@ -170,21 +170,21 @@ public:
 
 
 protected:
-  ListSampleToHistogramGenerator() ;
+  ListSampleToHistogramGenerator();
   virtual ~ListSampleToHistogramGenerator() {}
-  void GenerateData() ;
+  void GenerateData();
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  const TListSample* m_List ;
-  typename HistogramType::Pointer m_Histogram ;
-  HistogramSizeType m_Sizes ;
-  float m_MarginalScale ;
-  MeasurementVectorType m_HistogramMin;
-  MeasurementVectorType m_HistogramMax;
-  bool m_AutoMinMax;
+  const TListSample*              m_List;
+  typename HistogramType::Pointer m_Histogram;
+  HistogramSizeType               m_Sizes;
+  float                           m_MarginalScale;
+  MeasurementVectorType           m_HistogramMin;
+  MeasurementVectorType           m_HistogramMax;
+  bool                            m_AutoMinMax;
 
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk 

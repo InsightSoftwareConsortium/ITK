@@ -22,15 +22,15 @@ namespace Statistics{
 DenseFrequencyContainer
 ::DenseFrequencyContainer()
 {
-  m_FrequencyContainer = FrequencyContainerType::New() ;
-  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
+  m_FrequencyContainer = FrequencyContainerType::New();
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero;
 } 
 
 void
 DenseFrequencyContainer
 ::Initialize(unsigned long length) 
 {   
-  m_FrequencyContainer->Reserve(length) ;
+  m_FrequencyContainer->Reserve(length);
   this->SetToZero();
 }
 
@@ -39,7 +39,7 @@ DenseFrequencyContainer
 ::SetToZero() 
 {   
   m_FrequencyContainer->Fill( NumericTraits< FrequencyType >::Zero );
-  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero ;
+  m_TotalFrequency = NumericTraits< TotalFrequencyType >::Zero;
 }
 
 bool
@@ -50,9 +50,9 @@ DenseFrequencyContainer
     {
     return false;
     }
-  FrequencyType frequency = this->GetFrequency(id) ;
-  (*m_FrequencyContainer)[id] = value ; 
-  m_TotalFrequency += (value - frequency) ;
+  FrequencyType frequency = this->GetFrequency(id);
+  (*m_FrequencyContainer)[id] = value; 
+  m_TotalFrequency += (value - frequency);
   return true;
 }
 
@@ -75,9 +75,9 @@ DenseFrequencyContainer
     {
     return false;
     }
-  FrequencyType frequency = this->GetFrequency(id) ;
-  (*m_FrequencyContainer)[id] = frequency + value ; 
-  m_TotalFrequency += value ;
+  FrequencyType frequency = this->GetFrequency(id);
+  (*m_FrequencyContainer)[id] = frequency + value; 
+  m_TotalFrequency += value;
   return true;
 }
 
@@ -90,4 +90,3 @@ DenseFrequencyContainer
 
 } // end of namespace Statistics
 } // end of namespace itk 
-

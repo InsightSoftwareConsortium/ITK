@@ -290,14 +290,14 @@ GaussianDistribution
     }
   
   
-  /**  Step 1:  use 26.2.23 from Abramowitz and Stegun **/
+  /**  Step 1:  use 26.2.23 from Abramowitz and Stegun */
   
   dt = sqrt( -2.0 * log(dp) );
   dx = dt
     - ((.010328e+0*dt + .802853e+0)*dt + 2.515517e+0)
     /(((.001308e+0*dt + .189269e+0)*dt + 1.432788e+0)*dt + 1.e+0);
   
-  /**  Step 2:  do 3 Newton steps to improve this **/
+  /**  Step 2:  do 3 Newton steps to improve this */
   
   for( newt=0; newt < 3; newt++ )
     {

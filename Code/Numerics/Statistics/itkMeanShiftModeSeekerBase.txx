@@ -17,15 +17,15 @@
 #ifndef __itkMeanShiftModeSeekerBase_txx
 #define __itkMeanShiftModeSeekerBase_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 MeanShiftModeSeekerBase< TSample >
 ::MeanShiftModeSeekerBase()
 {
-  m_MaximumIteration = 0 ;
-  m_CacheMethod = 0 ;
+  m_MaximumIteration = 0;
+  m_CacheMethod = 0;
 }
 
 
@@ -42,27 +42,27 @@ MeanShiftModeSeekerBase< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "InputSample: " ;
+  os << indent << "InputSample: ";
   if ( m_InputSample.IsNotNull() )
     {
     os << m_InputSample << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "CacheMethod: " ;
+  os << indent << "CacheMethod: ";
   if ( m_CacheMethod.IsNotNull() )
     {
     os << m_CacheMethod << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "Maximum iterations: " << m_MaximumIteration << std::endl ;
+  os << indent << "Maximum iterations: " << m_MaximumIteration << std::endl;
 }
 
 template< class TSample >
@@ -72,8 +72,8 @@ MeanShiftModeSeekerBase< TSample >
 {
   if ( m_InputSample != sample )
     {
-    m_InputSample = sample ;
-    this->Modified() ;
+    m_InputSample = sample;
+    this->Modified();
     }
 }
 
@@ -84,8 +84,8 @@ MeanShiftModeSeekerBase< TSample >
 {
   if ( m_CacheMethod != method )
     {
-    m_CacheMethod = method ;
-    this->Modified() ;
+    m_CacheMethod = method;
+    this->Modified();
     }
 }
 
@@ -101,11 +101,11 @@ MeanShiftModeSeekerBase< TSample >
       "Length mismatch: MeanShiftModeSeekerBase::Evolve" );
     }
 
-  MeasurementVectorType queryPoint = instance ;
+  MeasurementVectorType queryPoint = instance;
   MeasurementVectorType newPoint;
-  MeasurementVectorType previousPoint = queryPoint ;
+  MeasurementVectorType previousPoint = queryPoint;
 
-  unsigned int currentIteration = 0 ;
+  unsigned int currentIteration = 0;
   bool retCode = false;
 
   while ( true )
@@ -114,49 +114,48 @@ MeanShiftModeSeekerBase< TSample >
       {
       if ( this->GetDebug() )
         {
-        std::cout << "DEBUG: max exceeded." << std::endl ;
+        std::cout << "DEBUG: max exceeded." << std::endl;
         }
 
-      return queryPoint ;
+      return queryPoint;
       }
 
     if ( m_CacheMethod.IsNotNull() )
       {
       if ( !m_CacheMethod->GetMeasurementVector(queryPoint, newPoint) )
         {
-        retCode = this->ComputeMode( queryPoint, newPoint ) ;
+        retCode = this->ComputeMode( queryPoint, newPoint );
         if ( retCode )
           {
-          m_CacheMethod->SetMeasurementVector( queryPoint, newPoint ) ;
+          m_CacheMethod->SetMeasurementVector( queryPoint, newPoint );
           }
         }
       }
     else
       {
-      retCode = this->ComputeMode( queryPoint, newPoint ) ;
+      retCode = this->ComputeMode( queryPoint, newPoint );
       }
     
     if ( !retCode )
       {
-      return queryPoint ;
+      return queryPoint;
       }
 
     if ( queryPoint != newPoint && newPoint != previousPoint )
       {
-      previousPoint = queryPoint ;
-      queryPoint = newPoint ;
+      previousPoint = queryPoint;
+      queryPoint = newPoint;
       }
     else
       {
-      return queryPoint ;
+      return queryPoint;
       }
-    ++currentIteration ;
+    ++currentIteration;
     } // end of while
-    return queryPoint ; //This is here to avoid compiler warning, but should never occur.
+    return queryPoint; //This is here to avoid compiler warning, but should never occur.
 }
 
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-

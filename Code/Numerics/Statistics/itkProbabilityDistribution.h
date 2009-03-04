@@ -154,7 +154,7 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
     os << indent << "Parameters: " << m_Parameters << std::endl;
-    };
+    }
 
   ParametersType m_Parameters;
 

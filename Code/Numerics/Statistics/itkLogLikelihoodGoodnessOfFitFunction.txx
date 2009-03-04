@@ -19,15 +19,15 @@
 
 #include "itkLogLikelihoodGoodnessOfFitFunction.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TInputHistogram >
 LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
 ::LogLikelihoodGoodnessOfFitFunction()
 {
-  this->SetUseExpectedHistogram(true) ;
-  m_Initialized = false ;
+  this->SetUseExpectedHistogram(true);
+  m_Initialized = false;
 }
 
 template< class TInputHistogram >
@@ -35,20 +35,20 @@ void
 LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
 ::GenerateData()
 {
-  const TInputHistogram* observedHistogram = this->GetObservedHistogram() ;
-  const TInputHistogram* expectedHistogram = this->GetExpectedHistogram() ;
+  const TInputHistogram* observedHistogram = this->GetObservedHistogram();
+  const TInputHistogram* expectedHistogram = this->GetExpectedHistogram();
 
-  float p, px, sum = 0.0f ;
+  float p, px, sum = 0.0f;
   double ratio;
-  typename TInputHistogram::ConstIterator e_iter = expectedHistogram->Begin() ;
-  typename TInputHistogram::ConstIterator e_last = expectedHistogram->End() ;
-  typename TInputHistogram::ConstIterator o_iter = observedHistogram->Begin() ;
+  typename TInputHistogram::ConstIterator e_iter = expectedHistogram->Begin();
+  typename TInputHistogram::ConstIterator e_last = expectedHistogram->End();
+  typename TInputHistogram::ConstIterator o_iter = observedHistogram->Begin();
   while ( e_iter != e_last )
     {
-    p = e_iter.GetFrequency() ;
-    px = o_iter.GetFrequency() ;
+    p = e_iter.GetFrequency();
+    px = o_iter.GetFrequency();
       
-    ratio = px / p ;
+    ratio = px / p;
 
     if ( ratio > this->GetEpsilon() && px > 0 )
       {
@@ -56,18 +56,17 @@ LogLikelihoodGoodnessOfFitFunction< TInputHistogram >
       }
     else
       {
-      sum += px * this->GetLogEpsilon() ;
+      sum += px * this->GetLogEpsilon();
       }
-    ++e_iter ;
-    ++o_iter ;
+    ++e_iter;
+    ++o_iter;
     }
 
   sum *= 2.0;
-  this->GetOutput() = sum ;
+  this->GetOutput() = sum;
 }
 
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-

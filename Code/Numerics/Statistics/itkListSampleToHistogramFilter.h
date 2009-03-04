@@ -21,8 +21,8 @@
 #include "itkListSampleBase.h"
 #include "itkHistogram.h"
 
-namespace itk{
-  namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 /** \class ListSampleToHistogramFilter
  *  \brief Imports data from ListSample object to Histogram object
@@ -40,40 +40,40 @@ class ITK_EXPORT ListSampleToHistogramFilter :
 public:
   /** Standard typedefs */
   typedef ListSampleToHistogramFilter Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Object                      Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ListSampleToHistogramFilter, Object) ;
+  itkTypeMacro(ListSampleToHistogramFilter, Object);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** plug in the ListSample object */
   void SetListSample(const TListSample* list)
-  { m_List = list ; }
+    { m_List = list; }
 
   /** plug in the Histogram object */
   void SetHistogram(THistogram* histogram)
-  { m_Histogram = histogram ;  }
+    { m_Histogram = histogram;  }
 
   /** starts import procedure */
   void Update()
-  { this->Run() ; } 
+    { this->Run(); } 
 
   /** starts import procedure */
-  void Run() ;
+  void Run();
 
 protected:
-  ListSampleToHistogramFilter() ;
+  ListSampleToHistogramFilter();
   virtual ~ListSampleToHistogramFilter() {}
 private:
-  const TListSample* m_List ;
-  THistogram* m_Histogram ;
-} ; // end of class
+  const TListSample* m_List;
+  THistogram*        m_Histogram;
+}; // end of class
 
-  } // end of namespace Statistics 
+} // end of namespace Statistics 
 } // end of namespace itk 
 
 #ifndef ITK_MANUAL_INSTANTIATION

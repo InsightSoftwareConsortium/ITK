@@ -20,8 +20,8 @@
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class MembershipFunctionBase
  * \brief MembershipFunctionBase class declares common interfaces 
@@ -40,10 +40,10 @@ class ITK_EXPORT MembershipFunctionBase :
 {
 public:
   /** Standard class typedefs */
-  typedef MembershipFunctionBase Self;
-  typedef FunctionBase< TVector, double > Superclass ;
-  typedef SmartPointer< Self > Pointer ;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef MembershipFunctionBase          Self;
+  typedef FunctionBase< TVector, double > Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer<const Self>        ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(MembershipFunctionBase, FunctionBase);
@@ -52,7 +52,7 @@ public:
   typedef unsigned int  MeasurementVectorSizeType;
 
   /** Method to get membership score (discriminant score) of an entity. */
-  virtual double Evaluate(const TVector &x) const = 0 ;
+  virtual double Evaluate(const TVector &x) const = 0;
   
   /** Set/Get Macros to set the length of each measurement vector. */
   itkSetMacro( MeasurementVectorSize, MeasurementVectorSizeType );
@@ -65,22 +65,15 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const
     { 
-    Superclass::PrintSelf(os,indent) ; 
+    Superclass::PrintSelf(os,indent); 
     os << indent << "Length of measurement vectors: " 
                 << m_MeasurementVectorSize << std::endl;
     }
 
   MeasurementVectorSizeType m_MeasurementVectorSize;
-} ; // end of class
+}; // end of class
 
 } // end of namespace Statistics
 } // end namespace itk
 
 #endif
-
-
-
-
-
-
-

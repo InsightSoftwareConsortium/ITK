@@ -23,8 +23,8 @@
 #include "itkGoodnessOfFitFunctionBase.h"
 #include "itkFunctionBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class GoodnessOfFitMixtureModelCostFunction 
  *  \brief calculates the goodness-of-fit statstics for multivarate 
@@ -49,7 +49,7 @@ namespace Statistics{
  *   5) calculates the discrepancy between the observed histogram and 
  *      the expected histogram using a goodness-of-fit statistics
  *   6) repeat step 3) - 5) and sum the goodness-of-fit values
- *    
+ *
  * For a mixture model, the above procedure is applied independently for each 
  * model (module). The sum of the goodness-of-fit values of models is the
  * goodness-of-fit statistics for the mixture model.
@@ -83,66 +83,65 @@ class ITK_EXPORT GoodnessOfFitMixtureModelCostFunction
 public:
   /** Standard class typedefs */
   typedef GoodnessOfFitMixtureModelCostFunction Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SingleValuedCostFunction              Superclass;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GoodnessOfFitMixtureModelCostFunction, SingleValuedCostFunction) ;
+  itkTypeMacro(GoodnessOfFitMixtureModelCostFunction, SingleValuedCostFunction);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
-  typedef TInputSample InputSampleType ;
-  typedef typename TInputSample::MeasurementType MeasurementType ;
-  typedef typename TInputSample::MeasurementVectorType MeasurementVectorType ;
+  typedef TInputSample                                     InputSampleType;
+  typedef typename TInputSample::MeasurementType           MeasurementType;
+  typedef typename TInputSample::MeasurementVectorType     MeasurementVectorType;
   typedef typename TInputSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef SingleValuedCostFunction::ParametersType ParamtersType ;
+  typedef SingleValuedCostFunction::ParametersType ParamtersType;
 
   /**  MeasureType typedef.
    *  It defines a type used to return the cost function value. */
-  typedef SingleValuedCostFunction::MeasureType MeasureType ;
+  typedef SingleValuedCostFunction::MeasureType MeasureType;
 
-  typedef GoodnessOfFitComponentBase< TInputSample > ComponentType ;
-  typedef std::vector< ComponentType* > ComponentVectorType ;
+  typedef GoodnessOfFitComponentBase< TInputSample > ComponentType;
+  typedef std::vector< ComponentType* >              ComponentVectorType;
 
   typedef GoodnessOfFitFunctionBase< typename ComponentType::HistogramType > 
-  FunctionType ;
+  FunctionType;
 
   /** aceesing methods for the sample manipulator */ 
-  void AddComponent(ComponentType* component) ;
+  void AddComponent(ComponentType* component);
   
   /** aceesing methods for the expected probability histogram */ 
-  void SetFunction(FunctionType* core) ;
+  void SetFunction(FunctionType* core);
 
   FunctionType* GetFunction()
-  { return m_Function ; }
+    { return m_Function; }
 
-  virtual unsigned int GetNumberOfParameters() const ;
+  virtual unsigned int GetNumberOfParameters() const;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters. */ 
-  virtual MeasureType GetValue( const ParametersType & parameters ) const ;
+  virtual MeasureType GetValue( const ParametersType & parameters ) const;
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */ 
   virtual void GetDerivative( const ParametersType &,
-                                    DerivativeType & ) const 
-  { /* not implemented */ }
+                                    DerivativeType & ) const {}
 
 protected:
-  GoodnessOfFitMixtureModelCostFunction() ;
-  virtual ~GoodnessOfFitMixtureModelCostFunction() ;
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ;
+  GoodnessOfFitMixtureModelCostFunction();
+  virtual ~GoodnessOfFitMixtureModelCostFunction();
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
   /** helper classes */
-  ComponentVectorType m_Components ;
-  FunctionType* m_Function ;
-} ; // end of class
+  ComponentVectorType m_Components;
+  FunctionType*       m_Function;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -152,4 +151,3 @@ private:
 #endif
 
 #endif
-

@@ -19,8 +19,8 @@
 
 #include "itkListSampleToHistogramFilter.h"
 
-namespace itk{
-namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 template< class TListSample, class THistogram >
 ListSampleToHistogramFilter< TListSample, THistogram >
@@ -33,11 +33,11 @@ void
 ListSampleToHistogramFilter< TListSample, THistogram >
 ::Run()
 {
-  typename TListSample::ConstIterator iter = m_List->Begin() ;
-  typename TListSample::ConstIterator last = m_List->End() ;
-  typename THistogram::IndexType index ;
-  typename TListSample::MeasurementVectorType lvector ;
-  typename THistogram::MeasurementVectorType hvector ;
+  typename TListSample::ConstIterator iter = m_List->Begin();
+  typename TListSample::ConstIterator last = m_List->End();
+  typename THistogram::IndexType index;
+  typename TListSample::MeasurementVectorType lvector;
+  typename THistogram::MeasurementVectorType hvector;
 
   // Sanity check to see if lengths of the vector passed in and the 
   // histogram's MV lengths are the same
@@ -48,14 +48,14 @@ ListSampleToHistogramFilter< TListSample, THistogram >
         THistogram::MeasurementVectorSize);
     }
 
-  unsigned int i ;
+  unsigned int i;
   while (iter != last)
     {
-    lvector = iter.GetMeasurementVector() ;
-    for ( i = 0 ; i < THistogram::MeasurementVectorSize ; i++)
+    lvector = iter.GetMeasurementVector();
+    for ( i = 0; i < THistogram::MeasurementVectorSize; i++)
       {
       hvector[i] = 
-        (typename THistogram::MeasurementType) lvector[i] ;
+        (typename THistogram::MeasurementType) lvector[i];
       }
 
     m_Histogram->GetIndex(hvector,index);
@@ -64,10 +64,10 @@ ListSampleToHistogramFilter< TListSample, THistogram >
       // if the measurement vector is out of bound then
       // the GetIndex method returns index with the sizes of each dimension
       // and doesn't increase the frequency
-      //          id = m_Histogram->GetInstanceIdentifier(index) ;
-      m_Histogram->IncreaseFrequency(index, 1) ;
+      //          id = m_Histogram->GetInstanceIdentifier(index);
+      m_Histogram->IncreaseFrequency(index, 1);
       }
-    ++iter ;
+    ++iter;
     }
 }
 
@@ -75,5 +75,3 @@ ListSampleToHistogramFilter< TListSample, THistogram >
 } // end of namespace itk 
 
 #endif
-
-

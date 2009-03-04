@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkHistogramLogProbabilityFunction_h
-#define __itkHistogramLogProbabilityFunction_h
+#ifndef __itkHistogramToLogProbabilityImageFilter_h
+#define __itkHistogramToLogProbabilityImageFilter_h
 
 #include "itkHistogramToImageFilter.h"
 
@@ -62,7 +62,7 @@ public:
   ~HistogramLogProbabilityFunction() {};
   
   inline OutputPixelType operator()( const TInput & A )
-  {
+    {
     if( A )
       {
       return static_cast<OutputPixelType>(log( static_cast<OutputPixelType>(A) / 
@@ -73,8 +73,7 @@ public:
       return static_cast<OutputPixelType>(log( static_cast<OutputPixelType>(A+1) / 
         static_cast<OutputPixelType>(m_TotalFrequency)) / vcl_log(2.0) );
       }
-       
-  }
+    }
 
   void SetTotalFrequency( unsigned long n ) 
     {
@@ -128,6 +127,3 @@ private:
 } // end namespace itk
 
 #endif
-
-
-

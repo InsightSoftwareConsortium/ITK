@@ -17,28 +17,28 @@
 #ifndef __itkMeanShiftModeCacheMethod_txx
 #define __itkMeanShiftModeCacheMethod_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TMeasurementVector >
 MeanShiftModeCacheMethod< TMeasurementVector >
 ::MeanShiftModeCacheMethod()
 {
-  m_MaximumEntries = 200 ;
-  m_MaximumConsecutiveFailures = 5 ;
-  m_HitRatioThreshold = 0.75 ;
+  m_MaximumEntries = 200;
+  m_MaximumConsecutiveFailures = 5;
+  m_HitRatioThreshold = 0.75;
 
-  m_HitsSuccess = 0 ;
-  m_NumberOfRequests = 0 ;
-  m_ConsecutiveFailures = 0 ;
+  m_HitsSuccess = 0;
+  m_NumberOfRequests = 0;
+  m_ConsecutiveFailures = 0;
 
-  m_TotalHitsSuccess = 0 ;
-  m_TotalHitsFailure = 0 ;
+  m_TotalHitsSuccess = 0;
+  m_TotalHitsFailure = 0;
 
-  m_TotalTableSize = 0 ;
-  m_TimesOfRebuilding = 0 ;
-  m_TimesOfRebuildingByHitRatio = 0 ;
-  m_TimesOfRebuildingByConsecutiveFailures = 0 ;
+  m_TotalTableSize = 0;
+  m_TimesOfRebuilding = 0;
+  m_TimesOfRebuildingByHitRatio = 0;
+  m_TimesOfRebuildingByConsecutiveFailures = 0;
 }
 
 template< class TMeasurementVector >
@@ -54,42 +54,42 @@ MeanShiftModeCacheMethod< TMeasurementVector >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Maximum entries: " << m_MaximumEntries << std::endl ;
+  os << indent << "Maximum entries: " << m_MaximumEntries << std::endl;
   os << indent << "Maximum consecutive failures: " 
-     << m_MaximumConsecutiveFailures << std::endl ;
+     << m_MaximumConsecutiveFailures << std::endl;
   os << indent << "Hit ratio threshold: " 
-     << m_HitRatioThreshold << std::endl ;
+     << m_HitRatioThreshold << std::endl;
 
   os << indent << "Last consecutive failures: " 
-     << m_ConsecutiveFailures << std::endl ;
+     << m_ConsecutiveFailures << std::endl;
   os << indent << "Last successful hits: " 
-     << m_HitsSuccess << std::endl ;
+     << m_HitsSuccess << std::endl;
   os << indent << "Last number of requests: " 
-     << m_NumberOfRequests << std::endl ;
+     << m_NumberOfRequests << std::endl;
 
-  os << indent << "Total successful hits: " << m_TotalHitsSuccess << std::endl ;
-  os << indent << "Total failed hits: " << m_TotalHitsFailure  << std::endl ;
+  os << indent << "Total successful hits: " << m_TotalHitsSuccess << std::endl;
+  os << indent << "Total failed hits: " << m_TotalHitsFailure  << std::endl;
 
   os << indent << "Total table size before destuction: " 
-     << m_TotalTableSize << std::endl ;
+     << m_TotalTableSize << std::endl;
   os << indent << "Number of cache rebuildings: " 
-     << m_TimesOfRebuilding << std::endl ;
-  os << indent << "Average cache table size: " ;
+     << m_TimesOfRebuilding << std::endl;
+  os << indent << "Average cache table size: ";
   if ( m_TimesOfRebuilding > 0 )
     {
-    os << (float)(m_TotalTableSize / m_TimesOfRebuilding) << std::endl ;
+    os << (float)(m_TotalTableSize / m_TimesOfRebuilding) << std::endl;
     }
   else
     {
-    os << m_TotalTableSize << std::endl ;
+    os << m_TotalTableSize << std::endl;
     }
 
   os << indent << "Number of cache rebuildings caused by hit ratio threshold: " 
-     << m_TimesOfRebuildingByHitRatio << std::endl ;
+     << m_TimesOfRebuildingByHitRatio << std::endl;
   os << indent << "Number of cache rebuildings caused by consecutive failures: " 
-     << m_TimesOfRebuildingByConsecutiveFailures << std::endl ;
+     << m_TimesOfRebuildingByConsecutiveFailures << std::endl;
 
-  os << indent << "Cache table: " << &m_CacheTable << std::endl ;
+  os << indent << "Cache table: " << &m_CacheTable << std::endl;
 }
 
 template< class TMeasurementVector >
@@ -104,12 +104,12 @@ MeanShiftModeCacheMethod< TMeasurementVector >
     
   if ( this->IsFull() )
     {
-    return false ;
+    return false;
     }
   else
     {
-    m_CacheTable[source] = target ;
-    return true ;
+    m_CacheTable[source] = target;
+    return true;
     }
 }
 
@@ -119,37 +119,37 @@ MeanShiftModeCacheMethod< TMeasurementVector >
 ::GetMeasurementVector(MeasurementVectorType& source,
                        MeasurementVectorType& target)
 {
-  typename CacheTableType::iterator iter = m_CacheTable.find( source ) ;
-  ++m_NumberOfRequests ;
+  typename CacheTableType::iterator iter = m_CacheTable.find( source );
+  ++m_NumberOfRequests;
   if ( iter != m_CacheTable.end() )
     {
-    target = iter->second ;
-    ++m_HitsSuccess ;
-    ++m_TotalHitsSuccess ;
-    m_ConsecutiveFailures = 0 ;
-    return true ;
+    target = iter->second;
+    ++m_HitsSuccess;
+    ++m_TotalHitsSuccess;
+    m_ConsecutiveFailures = 0;
+    return true;
     }
   else
     {
-    ++m_TotalHitsFailure ;
+    ++m_TotalHitsFailure;
     if ( this->IsFull() )
       {
-      ++m_ConsecutiveFailures ;
+      ++m_ConsecutiveFailures;
       if ( float(m_HitsSuccess / m_NumberOfRequests) < m_HitRatioThreshold )
         {
-        ++m_TimesOfRebuildingByHitRatio ;
-        this->DestroyCacheTable() ;
-        return false ;
+        ++m_TimesOfRebuildingByHitRatio;
+        this->DestroyCacheTable();
+        return false;
         }
       
       if ( m_ConsecutiveFailures > m_MaximumConsecutiveFailures )
         {
-        ++m_TimesOfRebuildingByConsecutiveFailures ;
-        this->DestroyCacheTable() ;
-        return false ;
+        ++m_TimesOfRebuildingByConsecutiveFailures;
+        this->DestroyCacheTable();
+        return false;
         }
       }
-    return false ;
+    return false;
     }
 }
 
@@ -160,11 +160,11 @@ MeanShiftModeCacheMethod< TMeasurementVector >
 {
   if ( m_CacheTable.size() < m_MaximumEntries )
     {
-    return false ;
+    return false;
     }
   else
     {
-    return true ;
+    return true;
     }
 }
 
@@ -173,12 +173,12 @@ void
 MeanShiftModeCacheMethod< TMeasurementVector >
 ::DestroyCacheTable()
 {
-  ++m_TimesOfRebuilding ;
-  m_TotalTableSize += m_CacheTable.size() ;
-  m_NumberOfRequests = 0 ;
-  m_HitsSuccess = 0 ;
-  m_ConsecutiveFailures = 0 ;
-  m_CacheTable.clear() ;
+  ++m_TimesOfRebuilding;
+  m_TotalTableSize += m_CacheTable.size();
+  m_NumberOfRequests = 0;
+  m_HitsSuccess = 0;
+  m_ConsecutiveFailures = 0;
+  m_CacheTable.clear();
 }
 
 
@@ -186,4 +186,3 @@ MeanShiftModeCacheMethod< TMeasurementVector >
 } // end of namespace itk
 
 #endif
-

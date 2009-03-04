@@ -14,14 +14,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkHistogram_txx
-#define _itkHistogram_txx
+#ifndef __itkHistogram_txx
+#define __itkHistogram_txx
 
 #include "itkHistogram.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
@@ -29,10 +29,10 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Histogram()
 {
   m_ClipBinsAtEnds = true;
-  m_FrequencyContainer = FrequencyContainerType::New() ;
-  for (unsigned int i = 0 ; i < (MeasurementVectorSize + 1) ; ++i )
+  m_FrequencyContainer = FrequencyContainerType::New();
+  for (unsigned int i = 0; i < (MeasurementVectorSize + 1); ++i )
     {
-    m_OffsetTable[i] = 0 ;
+    m_OffsetTable[i] = 0;
     } 
 }
 
@@ -42,12 +42,12 @@ unsigned int
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Size() const
 {
-  unsigned int size = 1 ;
-  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+  unsigned int size = 1;
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
-    size *= m_Size[i] ;
+    size *= m_Size[i];
     }
-  return size ;
+  return size;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
@@ -56,20 +56,20 @@ void
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Initialize(const SizeType &size)
 {
-  m_Size = size ;
+  m_Size = size;
   
   // creates offset table which will be used for generation of
   // instance identifiers.
-  InstanceIdentifier num = 1 ;
+  InstanceIdentifier num = 1;
   
-  m_OffsetTable[0] = num ;
-  for (unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+  m_OffsetTable[0] = num;
+  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
-    num *= m_Size[i] ;
-    m_OffsetTable[i + 1] = num ;
+    num *= m_Size[i];
+    m_OffsetTable[i + 1] = num;
     }
 
-  m_NumberOfInstances = num ;
+  m_NumberOfInstances = num;
 
   // adjust the sizes of min max value containers 
   unsigned int dim;
@@ -86,7 +86,7 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     } 
 
   // initialize the frequency container
-  m_FrequencyContainer->Initialize(m_OffsetTable[VMeasurementVectorSize]) ;
+  m_FrequencyContainer->Initialize(m_OffsetTable[VMeasurementVectorSize]);
   this->SetToZero();
 }
 
@@ -106,26 +106,26 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
              MeasurementVectorType& upperBound)
 {
-  this->Initialize(size) ;
-  for ( unsigned int i = 0 ; i < MeasurementVectorSize ; i++)
+  this->Initialize(size);
+  for ( unsigned int i = 0; i < MeasurementVectorSize; i++)
     {
     const double interval = static_cast<double>(upperBound[i] - lowerBound[i])
-      / static_cast< MeasurementType >(size[i]) ;
+      / static_cast< MeasurementType >(size[i]);
 
     // Set the min vector and max vector
-    for (unsigned int j = 0; j < (size[i] - 1) ; j++)
+    for (unsigned int j = 0; j < (size[i] - 1); j++)
       {
       this->SetBinMin(i, j, (MeasurementType)(lowerBound[i] +
-                                              (static_cast<double>(j) * interval))) ;
+                                              (static_cast<double>(j) * interval)));
       this->SetBinMax(i, j, (MeasurementType)(lowerBound[i] +
                                               ((static_cast<double>(j + 1)) * interval)));
       }
     // Set min vector and max vector for the final bin clipped at upperbound
     this->SetBinMin(i, size[i] - 1,
                     (MeasurementType)(lowerBound[i] +
-                                      ((static_cast<double>( size[i] - 1)) * interval))) ;
+                                      ((static_cast<double>( size[i] - 1)) * interval)));
     this->SetBinMax(i, size[i] - 1,
-                    (MeasurementType)(upperBound[i])) ;
+                    (MeasurementType)(upperBound[i]));
     }
 }
 
@@ -141,8 +141,6 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
   return m_TempIndex;
 }
 
-
-
 /** */
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
@@ -151,17 +149,17 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 {
   // now using something similar to binary search to find
   // index.
-  for (unsigned int dim = 0 ; dim < MeasurementVectorSize ; dim++)
+  for (unsigned int dim = 0; dim < MeasurementVectorSize; dim++)
     {
-    const MeasurementType tempMeasurement = measurement[dim] ;
-    int begin = 0 ;
+    const MeasurementType tempMeasurement = measurement[dim];
+    int begin = 0;
     if (tempMeasurement < m_Min[dim][begin])
       {
       // one of measurement is below the minimum
       // its ok if we extend the bins to infinity.. not ok if we don't
       if(!m_ClipBinsAtEnds)
         {
-        index[dim] = (long) 0 ;
+        index[dim] = (long) 0;
         continue;
         }
       else
@@ -171,7 +169,7 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
         }
       }
 
-    int end = m_Min[dim].size() - 1 ;
+    int end = m_Min[dim].size() - 1;
     if (tempMeasurement >= m_Max[dim][end])
       {
       // one of measurement is below the minimum
@@ -189,39 +187,37 @@ bool Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
         }
       }
 
-    int mid = (end + 1) / 2 ;
+    int mid = (end + 1) / 2;
     MeasurementType median = m_Min[dim][mid];
 
     while(true)
       {
       if (tempMeasurement < median )
         {
-        end = mid - 1 ;
+        end = mid - 1;
         }
       else if (tempMeasurement > median)
         {
         if( tempMeasurement <  m_Max[dim][mid] &&
             tempMeasurement >= m_Min[dim][mid] )
           {
-          index[dim] = mid ;
-          break ;
+          index[dim] = mid;
+          break;
           }
-        begin = mid + 1 ;
+        begin = mid + 1;
         }
       else
         {
         // measurement[dim] = m_Min[dim][med]
-        index[dim] = mid ;
-        break ;
+        index[dim] = mid;
+        break;
         }
-      mid = begin + (end - begin) / 2 ;
-      median = m_Min[dim][mid] ;
+      mid = begin + (end - begin) / 2;
+      median = m_Min[dim][mid];
       } // end of while
     } // end of for()
   return true;
 }
-
-
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer>
@@ -229,9 +225,9 @@ inline const typename Histogram<TMeasurement, VMeasurementVectorSize, TFrequency
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetIndex(const InstanceIdentifier &id)  const
 {
-  InstanceIdentifier id2 = id ;
+  InstanceIdentifier id2 = id;
 
-  for (int i = MeasurementVectorSize - 1 ; i > 0 ; i--)
+  for (int i = MeasurementVectorSize - 1; i > 0; i--)
     {
     m_TempIndex[i] = static_cast<IndexValueType>(id2 / m_OffsetTable[i]);
     id2 -= (m_TempIndex[i] * m_OffsetTable[i]);
@@ -248,14 +244,14 @@ inline bool
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::IsIndexOutOfBounds(const IndexType &index) const
 {
-  for (unsigned int dim = 0 ; dim < MeasurementVectorSize ; dim++)
+  for (unsigned int dim = 0; dim < MeasurementVectorSize; dim++)
     {
     if (index[dim] < 0 || index[dim] >= static_cast<IndexValueType>(m_Size[dim]))
       {
-      return true ;
+      return true;
       }
     }
-  return false ;
+  return false;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
@@ -265,15 +261,15 @@ inline typename Histogram<TMeasurement, VMeasurementVectorSize,
 Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
 ::GetInstanceIdentifier(const IndexType &index) const
 {
-  InstanceIdentifier identifier = 0 ;
-  for (int i= MeasurementVectorSize - 1 ; i > 0 ; i-- )
+  InstanceIdentifier identifier = 0;
+  for (int i= MeasurementVectorSize - 1; i > 0; i-- )
     {
     identifier += index[i] * m_OffsetTable[i];
     }
   
-  identifier += index[0] ;
+  identifier += index[0];
   
-  return identifier ;
+  return identifier;
 }
 
 
@@ -331,7 +327,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     return m_Max[dimension][this->m_Size[dimension]-1];
     }
 
-  for ( unsigned int i = 0 ; i < this->m_Size[dimension]; i++ )
+  for ( unsigned int i = 0; i < this->m_Size[dimension]; i++ )
     {
     if (  (value >= this->m_Min[dimension][i])
           && (value <  this->m_Max[dimension][i])  )
@@ -343,35 +339,6 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   return this->m_Max[dimension][0];
 }
 
-/*template< class TMeasurement, unsigned int VMeasurementVectorSize, 
-          class TFrequencyContainer >
-inline typename Histogram< TMeasurement, VMeasurementVectorSize, 
-                           TFrequencyContainer >::MeasurementVectorType&
-Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
-::GetHistogramMinFromValue(const MeasurementVectorType &measurement) 
-{
-  for ( int i = 0; i < MeasurementVectorSize; i++ )
-    {
-    m_TempMeasurementVector[i] = this->GetDimensionMinByValue(i,measurement[i]);
-    }
-  return m_TempMeasurementVector ;
-}
-
-template< class TMeasurement, unsigned int VMeasurementVectorSize,
-          class TFrequencyContainer >
-inline typename Histogram< TMeasurement, VMeasurementVectorSize,
-                           TFrequencyContainer >::MeasurementVectorType&
-Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
-::GetHistogramMaxFromValue(const MeasurementVectorType &measurement) 
-{
-  for ( int i=0; i < MeasurementVectorSize; i++ )
-    {
-    m_TempMeasurementVector[i] = this->GetDimensionMaxByValue(i,measurement[i]);
-    }
-  return m_TempMeasurementVector ;
-
-}
-*/
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize,
@@ -381,9 +348,9 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 {
   for ( int i=0; i < MeasurementVectorSize; i++ )
     {
-    m_TempMeasurementVector[i] = this->GetBinMin(i, index[i]) ;
+    m_TempMeasurementVector[i] = this->GetBinMin(i, index[i]);
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
@@ -395,9 +362,9 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 {
   for ( unsigned int i=0; i < MeasurementVectorSize; i++ )
     {
-    m_TempMeasurementVector[i] = this->GetBinMax(i, index[i]) ;
+    m_TempMeasurementVector[i] = this->GetBinMax(i, index[i]);
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -412,7 +379,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     MeasurementType value = (m_Min[i][index[i]] + m_Max[i][index[i]]);
     m_TempMeasurementVector[i] =  static_cast< MeasurementType >( value / 2.0 );
     }
-  return m_TempMeasurementVector ;
+  return m_TempMeasurementVector;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -422,7 +389,7 @@ inline const typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurementVector(const InstanceIdentifier &identifier) const
 {
-  return this->GetMeasurementVector( this->GetIndex(identifier) ) ;
+  return this->GetMeasurementVector( this->GetIndex(identifier) );
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -431,13 +398,13 @@ inline void
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const FrequencyType value) 
 {
-  typename Self::Iterator iter = this->Begin() ;
-  typename Self::Iterator end = this->End() ;
+  typename Self::Iterator iter = this->Begin();
+  typename Self::Iterator end = this->End();
   
   while ( iter != end )
     {
-    iter.SetFrequency(value) ;
-    ++iter ;
+    iter.SetFrequency(value);
+    ++iter;
     }
 }
 
@@ -447,7 +414,7 @@ inline bool
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const IndexType &index, const FrequencyType value) 
 {
-  return this->SetFrequency( this->GetInstanceIdentifier(index), value) ;
+  return this->SetFrequency( this->GetInstanceIdentifier(index), value);
 }
   
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -456,7 +423,7 @@ inline bool
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::SetFrequency(const MeasurementVectorType &measurement, const FrequencyType value) 
 {
-  return this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value) ;
+  return this->SetFrequency( this->GetInstanceIdentifier(GetIndex(measurement)), value);
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -466,7 +433,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::IncreaseFrequency(const IndexType &index, const FrequencyType value)
 {
   const bool result = 
-      this->IncreaseFrequency( this->GetInstanceIdentifier(index), value) ;
+      this->IncreaseFrequency( this->GetInstanceIdentifier(index), value);
   return result;
 }
   
@@ -481,8 +448,6 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
   return this->IncreaseFrequency( this->GetInstanceIdentifier( index ), value );
 }
 
-
-
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
           class TFrequencyContainer >
 inline typename Histogram< TMeasurement, VMeasurementVectorSize,
@@ -490,7 +455,7 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetFrequency(const IndexType &index) const
 {
-  return ( this->GetFrequency( this->GetInstanceIdentifier(index)) ) ;
+  return ( this->GetFrequency( this->GetInstanceIdentifier(index)) );
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -501,7 +466,7 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetMeasurement(const unsigned long n, const unsigned int dimension) const
 {
   return static_cast< MeasurementType >((m_Min[dimension][n] + 
-                                         m_Max[dimension][n]) / 2) ; 
+                                         m_Max[dimension][n]) / 2); 
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -511,26 +476,26 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetFrequency(const unsigned long n, const unsigned int dimension) const
 {
-  InstanceIdentifier nextOffset = m_OffsetTable[dimension + 1] ;
-  InstanceIdentifier current = m_OffsetTable[dimension] * n ;
-  InstanceIdentifier includeLength = m_OffsetTable[dimension] ;
-  InstanceIdentifier include ;
-  InstanceIdentifier includeEnd ;
-  InstanceIdentifier last = m_OffsetTable[VMeasurementVectorSize] ;
+  InstanceIdentifier nextOffset = m_OffsetTable[dimension + 1];
+  InstanceIdentifier current = m_OffsetTable[dimension] * n;
+  InstanceIdentifier includeLength = m_OffsetTable[dimension];
+  InstanceIdentifier include;
+  InstanceIdentifier includeEnd;
+  InstanceIdentifier last = m_OffsetTable[VMeasurementVectorSize];
 
-  FrequencyType frequency = 0 ;
+  FrequencyType frequency = 0;
   while (current < last)
     {
-    include = current ;
-    includeEnd = include + includeLength ;
+    include = current;
+    includeEnd = include + includeLength;
     while(include < includeEnd)
       {
-      frequency += GetFrequency(include) ;
-      include++ ;
+      frequency += GetFrequency(include);
+      include++;
       }
-    current += nextOffset ;
+    current += nextOffset;
     }
-  return frequency ;
+  return frequency;
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -540,7 +505,7 @@ inline typename Histogram< TMeasurement, VMeasurementVectorSize,
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::GetTotalFrequency() const
 {
-  return m_FrequencyContainer->GetTotalFrequency() ;
+  return m_FrequencyContainer->GetTotalFrequency();
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -549,58 +514,58 @@ double
 Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
 ::Quantile(const unsigned int dimension, const double &p) const
 {
-  InstanceIdentifier n ;
-  const unsigned int size = this->GetSize(dimension) ;
-  double p_n_prev ;
-  double p_n ;
-  double f_n ;
-  double cumulated = 0 ;
-  double totalFrequency = double( this->GetTotalFrequency() ) ;
-  double binProportion ;
-  double min, max, interval ;
+  InstanceIdentifier n;
+  const unsigned int size = this->GetSize(dimension);
+  double p_n_prev;
+  double p_n;
+  double f_n;
+  double cumulated = 0;
+  double totalFrequency = double( this->GetTotalFrequency() );
+  double binProportion;
+  double min, max, interval;
 
   if ( p < 0.5 )
     {
-    n = 0 ;
-    p_n = NumericTraits< double >::Zero ;
+    n = 0;
+    p_n = NumericTraits< double >::Zero;
     do 
       {
-      f_n = this->GetFrequency(n, dimension) ;
-      cumulated += f_n ;
-      p_n_prev = p_n ;
-      p_n = cumulated / totalFrequency ;
-      n++ ;
+      f_n = this->GetFrequency(n, dimension);
+      cumulated += f_n;
+      p_n_prev = p_n;
+      p_n = cumulated / totalFrequency;
+      n++;
       } 
-    while( n < size && p_n < p) ;
+    while( n < size && p_n < p);
 
-    binProportion = f_n / totalFrequency ;
+    binProportion = f_n / totalFrequency;
 
-    min = double( this->GetBinMin(dimension, n - 1) ) ;
-    max = double( this->GetBinMax(dimension, n - 1) ) ;
-    interval = max - min ;
-    return min + ((p - p_n_prev) / binProportion) * interval ;
+    min = double( this->GetBinMin(dimension, n - 1) );
+    max = double( this->GetBinMax(dimension, n - 1) );
+    interval = max - min;
+    return min + ((p - p_n_prev) / binProportion) * interval;
     }
   else
     {
-    n = size - 1 ;
+    n = size - 1;
     InstanceIdentifier m = NumericTraits< InstanceIdentifier >::Zero;
-    p_n      = NumericTraits< double >::One ;
+    p_n      = NumericTraits< double >::One;
     do 
       {
-      f_n = this->GetFrequency(n, dimension) ;
-      cumulated += f_n ;
-      p_n_prev = p_n ;
-      p_n = NumericTraits< double >::One - cumulated / totalFrequency ;
+      f_n = this->GetFrequency(n, dimension);
+      cumulated += f_n;
+      p_n_prev = p_n;
+      p_n = NumericTraits< double >::One - cumulated / totalFrequency;
       n--;
       m++;
       } 
     while( m < size && p_n > p);
 
-    binProportion = f_n / totalFrequency ;
-    min = double( this->GetBinMin(dimension, n + 1) ) ;
-    max = double( this->GetBinMax(dimension, n + 1) ) ;
-    interval = max - min ;
-    return max - ((p_n_prev - p) / binProportion) * interval ;
+    binProportion = f_n / totalFrequency;
+    min = double( this->GetBinMin(dimension, n + 1) );
+    max = double( this->GetBinMax(dimension, n + 1) );
+    interval = max - min;
+    return max - ((p_n_prev - p) / binProportion) * interval;
     }
 }
 

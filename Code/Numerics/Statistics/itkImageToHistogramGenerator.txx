@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToHistogramGenerator_txx
-#define _itkImageToHistogramGenerator_txx
+#ifndef __itkImageToHistogramGenerator_txx
+#define __itkImageToHistogramGenerator_txx
 
 #include "itkImageToHistogramGenerator.h"
 
@@ -39,8 +39,6 @@ ImageToHistogramGenerator< TImage >
 
 }
 
-
-
 template < class TImage >
 void
 ImageToHistogramGenerator< TImage >
@@ -58,8 +56,6 @@ ImageToHistogramGenerator< TImage >
   return m_HistogramGenerator->GetOutput();
 }
 
-
-
 template < class TImage >
 void
 ImageToHistogramGenerator< TImage >
@@ -68,8 +64,6 @@ ImageToHistogramGenerator< TImage >
   m_HistogramGenerator->Update();
 }
 
-
-
 template < class TImage >
 void
 ImageToHistogramGenerator< TImage >
@@ -77,8 +71,6 @@ ImageToHistogramGenerator< TImage >
 {
   m_HistogramGenerator->SetNumberOfBins( size );
 }
-
-
 
 template < class TImage >
 void
@@ -126,11 +118,7 @@ ImageToHistogramGenerator< TImage >
   os << "HistogramGenerator = " << m_HistogramGenerator << std::endl;
 }
 
-
-
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-
-

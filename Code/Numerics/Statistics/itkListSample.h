@@ -25,8 +25,8 @@
 
 #include <vector>
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ListSample 
  *  \brief This class is the native implementation of the ListSampleBase
@@ -47,33 +47,33 @@ class ITK_EXPORT ListSample : public ListSampleBase< TMeasurementVector >
 {
 public:
   /** Standard class typedef. */
-  typedef ListSample  Self;
+  typedef ListSample                           Self;
   typedef ListSampleBase< TMeasurementVector > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(ListSample, ListSampleBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** Typedefs inherited from the superclass */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-  typedef typename Superclass::MeasurementType MeasurementType;
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::TotalFrequencyType TotalFrequencyType ;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
-  typedef typename Superclass::SearchResultVectorType SearchResultVectorType ;
+  typedef typename Superclass::MeasurementType           MeasurementType;
+  typedef typename Superclass::FrequencyType             FrequencyType;
+  typedef typename Superclass::TotalFrequencyType        TotalFrequencyType;
+  typedef typename Superclass::InstanceIdentifier        InstanceIdentifier;
+  typedef typename Superclass::SearchResultVectorType    SearchResultVectorType;
 
   /** Value type of a measurement (component of the measurement
    * vector) */
-  typedef MeasurementVectorType ValueType ;
+  typedef MeasurementVectorType ValueType;
 
 
   /** internal data container type */
-  typedef std::vector< MeasurementVectorType > InternalDataContainerType ;
+  typedef std::vector< MeasurementVectorType > InternalDataContainerType;
 
   /** Resize the container. If this sample is connected to a Subsample or
    * MembershipSample, then this function won't change the size of 
@@ -81,19 +81,19 @@ public:
    * resize the container before using the sample in a Subsample or
    * MembershipSample. */
   void Resize( unsigned int n ) 
-  { m_InternalContainer.resize(n) ; }
+    { m_InternalContainer.resize(n); }
 
-  /** Removes all the elements in the Sample*/
+  /** Removes all the elements in the Sample */
   void Clear() 
-  { m_InternalContainer.clear() ; }
+    { m_InternalContainer.clear(); }
 
   /** Inserts a measurement at the end of the list */
   void PushBack( MeasurementVectorType mv )
-  { m_InternalContainer.push_back( mv ) ; }
+    { m_InternalContainer.push_back( mv ); }
 
-  /** Get the number of measurement vectors in the sample*/
+  /** Get the number of measurement vectors in the sample */
   unsigned int Size() const
-  { return static_cast<unsigned int>( m_InternalContainer.size() ); }
+    { return static_cast<unsigned int>( m_InternalContainer.size() ); }
 
   /** Get the measurement associated with the specified
    * InstanceIdentifier */
@@ -102,25 +102,25 @@ public:
   /** Set a component a measurement to a particular value. */
   void SetMeasurement(const InstanceIdentifier &id, 
                       const unsigned int &dim,
-                      const MeasurementType &value) ;
+                      const MeasurementType &value);
 
   /** Replace a measurement with a different measurement */
   void SetMeasurementVector(const InstanceIdentifier &id, 
-                            const MeasurementVectorType &mv) ;
+                            const MeasurementVectorType &mv);
 
   /** Get the frequency of a measurement. Returns 1 if the measurement
    * exist. */
-  FrequencyType GetFrequency(const InstanceIdentifier &id) const ;
+  FrequencyType GetFrequency(const InstanceIdentifier &id) const;
 
   /** Get the total frequency of the sample.  This is equivalent to
    * the size of the sample. */
   TotalFrequencyType GetTotalFrequency() const
-  { return static_cast<TotalFrequencyType>( m_InternalContainer.size() ); }
+    { return static_cast<TotalFrequencyType>( m_InternalContainer.size() ); }
 
   class ConstIterator;
  
   class Iterator
-  {
+    {
 
     friend class ConstIterator;
 
@@ -130,164 +130,161 @@ public:
     
     Iterator(typename InternalDataContainerType::iterator iter, 
              InstanceIdentifier iid)
-      :m_Iter(iter), m_InstanceIdentifier(iid)
-    {}
+      :m_Iter(iter), m_InstanceIdentifier(iid) {}
     
     FrequencyType GetFrequency() const
-    { return 1 ;}
+      { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return (MeasurementVectorType&) *m_Iter ;} 
+      { return (MeasurementVectorType&) *m_Iter;} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_InstanceIdentifier ;}
+      { return m_InstanceIdentifier;}
 
     Iterator& operator++()
-    { 
+      { 
       ++m_Iter; 
       ++m_InstanceIdentifier; 
       return *this;
-    }
+      }
     
     Iterator& operator--()
-    { 
-      --m_Iter ; 
+      { 
+      --m_Iter;
       --m_InstanceIdentifier;
-      return *this ;
-    }
+      return *this;
+      }
 
     bool operator!=(const Iterator &it)
-    { 
+      { 
       return (m_Iter != it.m_Iter);
-    }
+      }
     
     bool operator==(const Iterator &it)
-    { 
+      { 
       return (m_Iter == it.m_Iter);
-    }
+      }
     
     Iterator& operator =(const Iterator & iter)
-    { 
+      { 
       m_Iter = iter.m_Iter; 
-      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-      return *this ;
-    }
+      m_InstanceIdentifier = iter.m_InstanceIdentifier;
+      return *this;
+      }
 
     Iterator(const Iterator &iter)
-    {
+      {
       m_Iter = iter.m_Iter; 
-      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-    }
+      m_InstanceIdentifier = iter.m_InstanceIdentifier;
+      }
     
   private:
-    typename InternalDataContainerType::iterator m_Iter ;
-    InstanceIdentifier m_InstanceIdentifier ;
-  } ;
+    typename InternalDataContainerType::iterator m_Iter;
+    InstanceIdentifier m_InstanceIdentifier;
+  };
 
  
   class ConstIterator
-  {
-  public:
+    {
+    public:
     
     ConstIterator(){}
     
     ConstIterator(typename InternalDataContainerType::const_iterator iter, 
              InstanceIdentifier iid)
-      :m_Iter(iter), m_InstanceIdentifier(iid)
-    {}
+      :m_Iter(iter), m_InstanceIdentifier(iid) {}
     
     FrequencyType GetFrequency() const
-    { return 1 ;}
+      { return 1;}
 
     const MeasurementVectorType & GetMeasurementVector() const
-    { return static_cast<const MeasurementVectorType&>(*m_Iter) ;} 
+      { return static_cast<const MeasurementVectorType&>(*m_Iter);} 
 
     InstanceIdentifier GetInstanceIdentifier() const
-    { return m_InstanceIdentifier ;}
+      { return m_InstanceIdentifier;}
 
     ConstIterator& operator++()
-    { 
+      { 
       ++m_Iter; 
       ++m_InstanceIdentifier; 
       return *this;
-    }
+      }
     
     ConstIterator& operator--()
-    { 
+      { 
       --m_Iter; 
       --m_InstanceIdentifier; 
-      return *this ;
-    }
+      return *this;
+      }
 
     bool operator!=(const ConstIterator &it)
-    { 
+      { 
       return (m_Iter != it.m_Iter);
-    }
+      }
     
     bool operator==(const ConstIterator &it)
-    { 
+      { 
       return (m_Iter == it.m_Iter);
-    }
+      }
     
     ConstIterator& operator = (const ConstIterator iter)
-    { 
+      { 
       m_Iter = iter.m_Iter; 
-      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-      return *this ;
-    }
+      m_InstanceIdentifier = iter.m_InstanceIdentifier;
+      return *this;
+      }
 
     ConstIterator& operator = (const Iterator & iter)
-    { 
+      { 
       m_Iter = iter.m_Iter; 
-      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-      return *this ;
-    }
-
+      m_InstanceIdentifier = iter.m_InstanceIdentifier;
+      return *this;
+      }
 
     ConstIterator(const ConstIterator &iter)
-    {
+      {
       m_Iter = iter.m_Iter; 
-      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-    }
+      m_InstanceIdentifier = iter.m_InstanceIdentifier;
+      }
 
     ConstIterator(const Iterator &iter)
-    {
+      {
       m_Iter = iter.m_Iter; 
-      m_InstanceIdentifier = iter.m_InstanceIdentifier ;
-    }
+      m_InstanceIdentifier = iter.m_InstanceIdentifier;
+      }
     
   private:
-    typename InternalDataContainerType::const_iterator m_Iter ;
-    InstanceIdentifier m_InstanceIdentifier ;
-  } ;
+    typename InternalDataContainerType::const_iterator m_Iter;
+    InstanceIdentifier m_InstanceIdentifier;
+  };
 
   /** returns an iterator that points to the beginning of the container */
   Iterator Begin()
-  { 
+    { 
     Iterator iter(m_InternalContainer.begin(), 0);
     return iter; 
-  }
+    }
   
   /** returns an iterator that points to the end of the container */
-  Iterator End()        
-  {
+  Iterator End()
+    {
     Iterator iter(m_InternalContainer.end(), m_InternalContainer.size()); 
     return iter; 
-  }
+    }
 
   /** returns an iterator that points to the beginning of the container */
   ConstIterator Begin() const
-  { 
+    { 
     ConstIterator iter(m_InternalContainer.begin(), 0);
     return iter; 
-  }
+    }
   
   /** returns an iterator that points to the end of the container */
   ConstIterator End() const
-  {
+    {
     ConstIterator iter(m_InternalContainer.end(), m_InternalContainer.size()); 
     return iter; 
-  }
+    }
   
   virtual MeasurementVectorSizeType GetMeasurementVectorSize() const
     {
@@ -300,16 +297,16 @@ public:
     }
  
 protected:
-  ListSample() ;
+  ListSample();
   virtual ~ListSample() {}
   void PrintSelf(std::ostream& os, Indent indent) const; 
   
 
 private:
-  ListSample(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  ListSample(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  InternalDataContainerType m_InternalContainer ;
+  InternalDataContainerType m_InternalContainer;
 
 };
 

@@ -21,28 +21,28 @@
 
 #include "vnl/vnl_math.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TInputSample >
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GaussianGoodnessOfFitComponent()
 {
-  m_StandardDeviation = 0.0 ;
-  m_Radius = 0.0 ;
+  m_StandardDeviation = 0.0;
+  m_Radius = 0.0;
 
-  m_NumberOfParameters = (unsigned int)(this->GetMeasurementVectorSize() + 1) ;
+  m_NumberOfParameters = (unsigned int)(this->GetMeasurementVectorSize() + 1);
 
-  m_ProbabilityDensityFunction = ProbabilityDensityFunctionType::New() ;
+  m_ProbabilityDensityFunction = ProbabilityDensityFunctionType::New();
   
-  m_CovarianceCalculator = CovarianceCalculatorType::New() ;
+  m_CovarianceCalculator = CovarianceCalculatorType::New();
   m_CovarianceCalculator->
-    SetWeightFunction(m_ProbabilityDensityFunction.GetPointer()) ;
+    SetWeightFunction(m_ProbabilityDensityFunction.GetPointer());
 
-  m_ProjectionAxisCalculator = new ProjectionAxisCalculatorType() ;
+  m_ProjectionAxisCalculator = new ProjectionAxisCalculatorType();
   //m_ProjectionAxisCalculator->SetMatrix(&m_Covariance);
 
-  m_LargestEigenValue = 0.0 ;
+  m_LargestEigenValue = 0.0;
   m_LongestAxisIndex = 0;
 }
 
@@ -65,8 +65,8 @@ GaussianGoodnessOfFitComponent< TInputSample >
   MeasurementVectorTraits::SetLength( m_Center, measurementVectorLength );
   
   m_Covariance.SetSize( measurementVectorLength, measurementVectorLength );
-  m_Mean.Fill(0.0) ;
-  m_Covariance.Fill(0.0) ;
+  m_Mean.Fill(0.0);
+  m_Covariance.Fill(0.0);
   
   m_CovarianceCalculator->SetMean(&m_Mean);
   m_ProbabilityDensityFunction->SetMean(&m_Mean);
@@ -80,19 +80,19 @@ void
 GaussianGoodnessOfFitComponent< TInputSample >
 ::PrintSelf(std::ostream& os, Indent indent) const 
 {
-  Superclass::PrintSelf(os,indent) ;
+  Superclass::PrintSelf(os,indent);
 
-  os << indent << "Mean: " << m_Mean << std::endl ;
-  os << indent << "Covariance: " << m_Covariance << std::endl ;
-  os << indent << "StandardDeviation: " << m_StandardDeviation << std::endl ;
-  os << indent << "Center: " << m_Center << std::endl ;
-  os << indent << "Radius: " << m_Radius << std::endl ;
-  os << indent << "NumberOfParameters: " << m_NumberOfParameters << std::endl ;
-  os << indent << "ProbabilityDensityFunction: " << m_ProbabilityDensityFunction << std::endl ;
-  os << indent << "CovarianceCalculator: " << m_CovarianceCalculator << std::endl ;
-  os << indent << "ProjectionAxisCalculator: " << m_ProjectionAxisCalculator << std::endl ;
-  os << indent << "LongestAxisIndex: " << m_LongestAxisIndex << std::endl ;
-  os << indent << "LargestEigenValue: " << m_LargestEigenValue << std::endl ;
+  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "Covariance: " << m_Covariance << std::endl;
+  os << indent << "StandardDeviation: " << m_StandardDeviation << std::endl;
+  os << indent << "Center: " << m_Center << std::endl;
+  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "NumberOfParameters: " << m_NumberOfParameters << std::endl;
+  os << indent << "ProbabilityDensityFunction: " << m_ProbabilityDensityFunction << std::endl;
+  os << indent << "CovarianceCalculator: " << m_CovarianceCalculator << std::endl;
+  os << indent << "ProjectionAxisCalculator: " << m_ProjectionAxisCalculator << std::endl;
+  os << indent << "LongestAxisIndex: " << m_LongestAxisIndex << std::endl;
+  os << indent << "LargestEigenValue: " << m_LargestEigenValue << std::endl;
 }
 
 
@@ -101,31 +101,31 @@ void
 GaussianGoodnessOfFitComponent< TInputSample >
 ::SetParameters(const ParametersType &parameters)
 {
-  Superclass::SetParameters(parameters) ;
+  Superclass::SetParameters(parameters);
 
-  bool changed = false ;
+  bool changed = false;
 
-  unsigned int i = 0 ;
+  unsigned int i = 0;
   while ( i < this->GetMeasurementVectorSize() )
     {
     if ( m_Mean[i] != parameters[i] )
       {
-      m_Mean[i] = parameters[i] ;
-      m_Center[i] = m_Mean[i] ;
-      changed = true ;
+      m_Mean[i] = parameters[i];
+      m_Center[i] = m_Mean[i];
+      changed = true;
       }
-    i++ ;
+    i++;
     }
 
   if ( m_StandardDeviation != parameters[i] )
     {
-    m_StandardDeviation = parameters[i] ;
-    changed = true ;
+    m_StandardDeviation = parameters[i];
+    changed = true;
     }
 
   if ( changed )
     {
-    this->Modified() ;
+    this->Modified();
     }
 }
 
@@ -134,7 +134,7 @@ typename GaussianGoodnessOfFitComponent< TInputSample >::CenterType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetCenter()
 {
-  return &m_Center ;
+  return &m_Center;
 }
 
 template< class TInputSample >
@@ -142,8 +142,8 @@ typename GaussianGoodnessOfFitComponent< TInputSample >::RadiusType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetRadius() 
 {
-  m_Radius = m_StandardDeviation * this->GetHistogramExtent() ;
-  return &m_Radius ;
+  m_Radius = m_StandardDeviation * this->GetHistogramExtent();
+  return &m_Radius;
 }
   
 template< class TInputSample >
@@ -151,7 +151,7 @@ typename GaussianGoodnessOfFitComponent< TInputSample >::MeanType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetMean()
 {
-  return &m_Mean ;
+  return &m_Mean;
 }
 
 template< class TInputSample >
@@ -159,7 +159,7 @@ typename GaussianGoodnessOfFitComponent< TInputSample >::StandardDeviationType*
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetStandardDeviation() 
 {
-  return &m_StandardDeviation ;
+  return &m_StandardDeviation;
 }
 
 template< class TInputSample >
@@ -167,19 +167,19 @@ void
 GaussianGoodnessOfFitComponent< TInputSample >
 ::CalculateProjectionAxes()
 {
-  unsigned int i, j ;
+  unsigned int i, j;
 
-  m_CovarianceCalculator->SetInputSample(this->GetResampledSample()) ;
-  m_Covariance.Fill(0.0) ;
+  m_CovarianceCalculator->SetInputSample(this->GetResampledSample());
+  m_Covariance.Fill(0.0);
   m_Covariance.GetVnlMatrix().
-    fill_diagonal( m_StandardDeviation * m_StandardDeviation ) ;
+    fill_diagonal( m_StandardDeviation * m_StandardDeviation );
 
   if ( this->GetResampledSample()->GetTotalFrequency() > 0 )
     {
-    m_ProbabilityDensityFunction->SetCovariance(&m_Covariance) ;
-    m_CovarianceCalculator->Update() ;
+    m_ProbabilityDensityFunction->SetCovariance(&m_Covariance);
+    m_CovarianceCalculator->Update();
       
-    m_Covariance = (*m_CovarianceCalculator->GetOutput()) ;
+    m_Covariance = (*m_CovarianceCalculator->GetOutput());
     }
 
   m_ProjectionAxisCalculator->SetDimension( this->GetResampledSample(
@@ -188,32 +188,32 @@ GaussianGoodnessOfFitComponent< TInputSample >
   ProjectionAxisArrayType  from;
   from.SetSize( this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
 
-  ProjectionAxisArrayType* to = this->GetProjectionAxes() ;
+  ProjectionAxisArrayType* to = this->GetProjectionAxes();
 
   m_ProjectionAxisCalculator->ComputeEigenValuesAndVectors( 
       m_Covariance, eigenValues, from);
 
-  for ( i = 0 ; i < this->GetMeasurementVectorSize(); i++ )
+  for ( i = 0; i < this->GetMeasurementVectorSize(); i++ )
     {
-    for (j = 0 ; j < this->GetMeasurementVectorSize(); j++)
+    for (j = 0; j < this->GetMeasurementVectorSize(); j++)
       {
-      (*to)[i][j] = (from)[i][j] ;
+      (*to)[i][j] = (from)[i][j];
       }
     }
 
-  m_LongestAxisIndex = 0 ;
-  m_LargestEigenValue = NumericTraits< double >::NonpositiveMin() ;
-  for ( i = 0 ; i < this->GetMeasurementVectorSize(); i++ )
+  m_LongestAxisIndex = 0;
+  m_LargestEigenValue = NumericTraits< double >::NonpositiveMin();
+  for ( i = 0; i < this->GetMeasurementVectorSize(); i++ )
     {
     if ( eigenValues[i] > m_LargestEigenValue )
       {
-      m_LongestAxisIndex = i ;
-      m_LargestEigenValue = (eigenValues)[i] ;
+      m_LongestAxisIndex = i;
+      m_LargestEigenValue = (eigenValues)[i];
       }
     }
 
   m_Covariance *= 
-    (m_StandardDeviation * m_StandardDeviation / m_LargestEigenValue) ;
+    (m_StandardDeviation * m_StandardDeviation / m_LargestEigenValue);
 }
 
 template< class TInputSample >
@@ -223,10 +223,10 @@ GaussianGoodnessOfFitComponent< TInputSample >
 {
   /* |e(x)| < 7.5e-8 : From Handbook, p491 */
   
-  double mean = 0.0 ;
-  double standardDeviation = 1.0 ;
+  double mean = 0.0;
+  double standardDeviation = 1.0;
 
-  double nx = vcl_fabs(x - mean ) / standardDeviation ;
+  double nx = vcl_fabs(x - mean ) / standardDeviation;
   
   double t = 1 / (1 + 0.2316419 * nx);
   double tt = t*t;
@@ -253,7 +253,7 @@ double
 GaussianGoodnessOfFitComponent< TInputSample >
 ::GetProbabilityDensity(MeasurementVectorType &measurements) const
 {
-  return m_ProbabilityDensityFunction->Evaluate(measurements) ;
+  return m_ProbabilityDensityFunction->Evaluate(measurements);
 }
 
 template< class TInputSample >
@@ -261,16 +261,16 @@ void
 GaussianGoodnessOfFitComponent< TInputSample >
 ::PrintParameters(std::ostream &os) const
 {
-  unsigned int i, j ;
-  os << m_Mean ;
-  for( i = 0 ; i < this->GetMeasurementVectorSize() ; i++)
+  unsigned int i, j;
+  os << m_Mean;
+  for( i = 0; i < this->GetMeasurementVectorSize(); i++)
     {
-    for( j = 0 ; j < this->GetMeasurementVectorSize() ; j++)
+    for( j = 0; j < this->GetMeasurementVectorSize(); j++)
       {
-      os << " " << m_Covariance.GetVnlMatrix().get(i,j) ;
+      os << " " << m_Covariance.GetVnlMatrix().get(i,j);
       }
     }
-  os << std::endl ;
+  os << std::endl;
 }
 
 template< class TInputSample >
@@ -279,30 +279,29 @@ GaussianGoodnessOfFitComponent< TInputSample >
 ::GetFullParameters() const
 {
   ParametersType params(this->GetMeasurementVectorSize() + 
-                        this->GetMeasurementVectorSize() * this->GetMeasurementVectorSize()) ;
+                        this->GetMeasurementVectorSize() * this->GetMeasurementVectorSize());
 
-  unsigned int index = 0 ;
+  unsigned int index = 0;
   while ( index < this->GetMeasurementVectorSize() )
     {
-    params[index] = m_Mean[index] ;
-    ++index ;
+    params[index] = m_Mean[index];
+    ++index;
     }
 
-  unsigned int i, j ;
-  for( i = 0 ; i < this->GetMeasurementVectorSize() ; i++)
+  unsigned int i, j;
+  for( i = 0; i < this->GetMeasurementVectorSize(); i++)
     {
-    for( j = 0 ; j < this->GetMeasurementVectorSize() ; j++)
+    for( j = 0; j < this->GetMeasurementVectorSize(); j++)
       {
-      params[index] = m_Covariance.GetVnlMatrix().get(i,j) ;
-      ++index ;
+      params[index] = m_Covariance.GetVnlMatrix().get(i,j);
+      ++index;
       }
     }
 
-  return params ;
+  return params;
 }
 
 } // end of namespace Statistics 
 } // end of namespace itk
 
 #endif
-

@@ -37,8 +37,8 @@
 #include <algorithm>
 #include <iostream>
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ImageToCooccurrenceListAdaptor
  *  \brief Converts pixel data into a list of pairs in order to compute a cooccurrence Histogram.
@@ -59,16 +59,16 @@ class ITK_EXPORT ImageToCooccurrenceListAdaptor
 public:
   typedef TImage ImageType;
 
-  typedef FixedArray< typename TImage::PixelType, 2 > MeasurementVectorType ;
+  typedef FixedArray< typename TImage::PixelType, 2 > MeasurementVectorType;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  typedef typename SampleType::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  typedef typename SampleType::MeasurementVectorSizeType       MeasurementVectorSizeType;
 
   /** Standard class typedefs */
-  typedef ImageToCooccurrenceListAdaptor Self;
+  typedef ImageToCooccurrenceListAdaptor                      Self;
   typedef ImageToListAdaptor< TImage, MeasurementVectorType > Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
 
   /** Neighborhood iterator type. */
   typedef itk::ShapedNeighborhoodIterator< 
@@ -76,9 +76,9 @@ public:
                   ConstantBoundaryCondition<TImage> 
                                        > ShapedNeighborhoodIteratorType;
 
-  /** Offset type used for Neighborhoods **/
+  /** Offset type used for Neighborhoods */
   typedef typename ShapedNeighborhoodIteratorType::OffsetType OffsetType;
-  typedef std::vector<OffsetType> OffsetTable;
+  typedef std::vector<OffsetType>                             OffsetTable;
   
   void UseNeighbor(const OffsetType & offset);
 
@@ -102,19 +102,18 @@ public:
         << MeasurementVectorSize );
     }
 
- unsigned int GetMeasurementVectorSize() const
-   {
-   return Superclass::MeasurementVectorSize;
-   } 
-  
+  unsigned int GetMeasurementVectorSize() const
+    {
+    return Superclass::MeasurementVectorSize;
+    } 
 
   /** Superclass typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::PixelType          PixelType ;
-  typedef typename Superclass::FrequencyType      FrequencyType ;
-  typedef typename Superclass::MeasurementType    MeasurementType ;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
-  typedef MeasurementVectorType                   ValueType ;
+  typedef typename Superclass::PixelType          PixelType;
+  typedef typename Superclass::FrequencyType      FrequencyType;
+  typedef typename Superclass::MeasurementType    MeasurementType;
+  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  typedef MeasurementVectorType                   ValueType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -127,11 +126,11 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
 private:
-  ImageToCooccurrenceListAdaptor(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
-  OffsetTable m_OffsetTable;
-  typename SampleType::Pointer sample;
-} ; // end of class ScalarImageToListAdaptor
+  ImageToCooccurrenceListAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  OffsetTable                  m_OffsetTable;
+  typename SampleType::Pointer m_Sample;
+}; // end of class ScalarImageToListAdaptor
 
 } // end of namespace Statistics
 } // end of namespace itk

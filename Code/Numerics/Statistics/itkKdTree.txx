@@ -19,8 +19,8 @@
 
 #include "itkKdTree.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 KdTreeNonterminalNode< TSample >
@@ -500,7 +500,7 @@ KdTree< TSample >
   double temp;
   unsigned int dimension;
   double squaredSearchRadius = radius * radius;
-  for (dimension = 0 ; dimension < m_MeasurementVectorSize; dimension++)
+  for (dimension = 0; dimension < m_MeasurementVectorSize; dimension++)
     {
 
     if (query[dimension] <= lowerBound[dimension])
@@ -556,7 +556,7 @@ KdTree< TSample >
       }
 
     os << "Terminal: level = " << level
-              << " dim = " << activeDimension<< std::endl ;
+       << " dim = " << activeDimension<< std::endl;
     os << "          ";
     for (unsigned int i = 0; i < node->Size(); i++)
       {
@@ -648,18 +648,16 @@ KdTree< TSample >
 
   if( left &&  ( left != m_EmptyTerminalNode ) )
     { 
-    os << "\"" << node << "\" -> \"" << left << "\" ;" << std::endl;
+    os << "\"" << node << "\" -> \"" << left << "\";" << std::endl;
     this->PlotTree( left, os );
     }
 
   if( right && ( right != m_EmptyTerminalNode ) )
     {
-    os << "\"" << node << "\" -> \"" << right << "\" ;" << std::endl;
+    os << "\"" << node << "\" -> \"" << right << "\";" << std::endl;
     this->PlotTree( right, os );
     }
 }
-
-
 
 } // end of namespace Statistics 
 } // end of namespace itk

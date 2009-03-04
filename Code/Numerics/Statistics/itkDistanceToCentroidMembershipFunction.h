@@ -26,9 +26,8 @@
 
 #include "itkMembershipFunctionBase.h"
 
-
-namespace itk{ 
-  namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class DistanceToCentroidMembershipFunction
  * \brief class represents DistanceToCentroid Density Function.
@@ -46,9 +45,9 @@ class ITK_EXPORT DistanceToCentroidMembershipFunction :
 public:
   /** Standard class typedefs */
   typedef DistanceToCentroidMembershipFunction Self;
-  typedef MembershipFunctionBase< TVector > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef MembershipFunctionBase< TVector >    Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(DistanceToCentroidMembershipFunction,
@@ -56,7 +55,7 @@ public:
   itkNewMacro(Self);
   
   /** Typedef alias for the measurement vectors */
-  typedef TVector MeasurementVectorType ;
+  typedef TVector MeasurementVectorType;
 
   /** Typedef to represent the length of measurement vectors */
   typedef typename Superclass::MeasurementVectorSizeType 
@@ -66,7 +65,7 @@ public:
   virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
   
   /** Method to set mean */
-  void SetCentroid(const vnl_vector<double> &centroid) ;
+  void SetCentroid(const vnl_vector<double> &centroid);
   
   /** Method to get mean */
   const vnl_vector<double> & GetCentroid() const;
@@ -83,7 +82,7 @@ public:
   double Evaluate(const MeasurementVectorType &measurement) const;
   
 protected:
-  DistanceToCentroidMembershipFunction(void) ;
+  DistanceToCentroidMembershipFunction(void);
   virtual ~DistanceToCentroidMembershipFunction(void) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -94,7 +93,7 @@ private:
   int m_NumberOfSamples;
 };
 
-  } // end of namespace Statistics
+} // end of namespace Statistics
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

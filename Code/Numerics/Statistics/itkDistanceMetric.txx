@@ -19,8 +19,8 @@
 
 #include "itkDistanceMetric.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TVector >
 DistanceMetric< TVector >
@@ -42,7 +42,7 @@ DistanceMetric< TVector >
           << " each measurement vector.");
       }
     }
-  m_Origin = x ;
+  m_Origin = x;
   this->m_MeasurementVectorSize = x.Size();
   this->Modified();
 }
@@ -81,10 +81,3 @@ DistanceMetric< TVector >
 } // end of namespace itk
 
 #endif
-
-
-
-
-
-
-

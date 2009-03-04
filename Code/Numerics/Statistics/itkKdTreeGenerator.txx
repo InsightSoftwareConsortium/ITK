@@ -17,8 +17,8 @@
 #ifndef __itkKdTreeGenerator_txx
 #define __itkKdTreeGenerator_txx
 
-namespace itk{
-namespace Statistics{
+namespace itk {
+namespace Statistics {
 
 template< class TSample >
 KdTreeGenerator< TSample >

@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkHistogramEntropyFunction_h
-#define __itkHistogramEntropyFunction_h
+#ifndef __itkHistogramToEntropyImageFilter_h
+#define __itkHistogramToEntropyImageFilter_h
 
 #include "itkHistogramToImageFilter.h"
 
@@ -67,7 +67,7 @@ public:
   ~HistogramEntropyFunction() {};
   
   inline OutputPixelType operator()( const TInput & A )
-  {
+    {
     if( A ) 
       {
       const double p = static_cast<OutputPixelType>(A) / 
@@ -80,7 +80,7 @@ public:
         static_cast<OutputPixelType>(m_TotalFrequency);
       return static_cast<OutputPixelType>( (-1) * p * vcl_log(p) / vcl_log(2.0)); 
       }
-  }
+    }
 
   void SetTotalFrequency( const unsigned long n ) 
     {
@@ -134,6 +134,3 @@ private:
 } // end namespace itk
 
 #endif
-
-
-

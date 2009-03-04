@@ -24,8 +24,8 @@
 #include "itkArray.h"
 #include "itkSampleAlgorithmBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class NeighborhoodSampler 
  *  \brief generates a Subsample that is sampled from the input sample
@@ -49,42 +49,42 @@ class ITK_EXPORT NeighborhoodSampler : public SampleAlgorithmBase< TSample >
 {
 public:
   /** Standard class typedefs */
-  typedef NeighborhoodSampler  Self ;
-  typedef SampleAlgorithmBase< TSample > Superclass ;
-  typedef SmartPointer< Self > Pointer ;
-  typedef SmartPointer< const Self > ConstPointer ;
+  typedef NeighborhoodSampler            Self;
+  typedef SampleAlgorithmBase< TSample > Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(NeighborhoodSampler, SampleAlgorithmBase);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   /** MeasurementVector typedef support */ 
-  typedef TSample SampleType ;
+  typedef TSample SampleType;
 
 
   /** Enums and typedefs from the TSample */
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType ;
-  typedef typename TSample::MeasurementType MeasurementType ;
-  typedef typename TSample::FrequencyType FrequencyType ;
-  typedef typename TSample::InstanceIdentifier InstanceIdentifier ;
+  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
+  typedef typename TSample::MeasurementType       MeasurementType;
+  typedef typename TSample::FrequencyType         FrequencyType;
+  typedef typename TSample::InstanceIdentifier    InstanceIdentifier;
 
   /** typedefs from the superclass */
-  typedef typename Superclass::InputSampleType InputSampleType ;
+  typedef typename Superclass::InputSampleType InputSampleType;
 
   /** Type of the output subsample object */
-  typedef Subsample< TSample > SubsampleType ;
+  typedef Subsample< TSample > SubsampleType;
 
   /** Type of the array of the radii */ 
-  typedef double RadiusType ;
+  typedef double RadiusType;
 
   /** Type of the array of the radii */ 
   typedef Array< double > CenterType;
 
   /** Sets the center of the spherical kernel */
   void SetCenter(CenterType* center)
-  {
+    {
     if( this->GetMeasurementVectorSize() && 
       ( center->Size() != this->GetMeasurementVectorSize() ) )
       {
@@ -95,53 +95,53 @@ public:
     
     if ( m_Center != center )
       {
-      m_Center = center ;
-      this->Modified() ;
+      m_Center = center;
+      this->Modified();
       }
-  }
+    }
 
   /** Gets the center */
   CenterType* GetCenter() 
-  { return m_Center ; }
+    { return m_Center; }
 
   /** Sets the radius of the kernel */
   void SetRadius(RadiusType* radius)
-  { 
+    { 
     if ( m_Radius != radius )
       {
-        m_Radius = radius ;
-        this->Modified() ;
+      m_Radius = radius;
+      this->Modified();
       }
-  }
+    }
 
   /** Gets the radius */
   RadiusType* GetRadius()
-  { return m_Radius ; } 
+    { return m_Radius; } 
 
   /** Output of this algorithm */
-  typedef SubsampleType OutputType ;
+  typedef SubsampleType OutputType;
 
   /** Output of this algorithm */
-  typedef typename SubsampleType::Pointer OutputPointer ;
+  typedef typename SubsampleType::Pointer OutputPointer;
 
   /** Gets the Subsample */
-  OutputPointer GetOutput() ;
+  OutputPointer GetOutput();
 
 protected:
-  NeighborhoodSampler() ;
+  NeighborhoodSampler();
   virtual ~NeighborhoodSampler() {}
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void GenerateData() ;
+  void GenerateData();
 
 private:
-  NeighborhoodSampler(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  NeighborhoodSampler(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   
-  CenterType* m_Center ;
-  RadiusType* m_Radius ;
-  typename SubsampleType::Pointer m_Subsample ;
-} ; // end of class
+  CenterType*                     m_Center;
+  RadiusType*                     m_Radius;
+  typename SubsampleType::Pointer m_Subsample;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk

@@ -14,18 +14,18 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToCooccurrenceListAdaptor_txx
-#define _itkImageToCooccurrenceListAdaptor_txx
+#ifndef __itkImageToCooccurrenceListAdaptor_txx
+#define __itkImageToCooccurrenceListAdaptor_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template < class TImage >
 ImageToCooccurrenceListAdaptor< TImage >
 ::ImageToCooccurrenceListAdaptor()
 {
-  sample = SampleType::New();
-  sample->SetMeasurementVectorSize( MeasurementVectorSize );
+  m_Sample = SampleType::New();
+  m_Sample->SetMeasurementVectorSize( MeasurementVectorSize );
 }
 
 template < class TImage >
@@ -49,13 +49,13 @@ ImageToCooccurrenceListAdaptor< TImage >
   boundaryCondition.SetConstant( -1 );
 
   typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
-                                                ImageType > FaceCalculatorType;
+    ImageType > FaceCalculatorType;
                                                                                                                             
   FaceCalculatorType faceCalculator;
   typename FaceCalculatorType::FaceListType faceList;
   typename FaceCalculatorType::FaceListType::iterator fit;
 
-  typedef typename ShapedNeighborhoodIteratorType::ConstIterator ShapeNeighborhoodIterator;    
+  typedef typename ShapedNeighborhoodIteratorType::ConstIterator ShapeNeighborhoodIterator;
 
   typedef typename OffsetTable::iterator OffsetIterator;
 
@@ -65,7 +65,7 @@ ImageToCooccurrenceListAdaptor< TImage >
                              this->GetImage()->GetRequestedRegion(),
                              radius );
 
-  OffsetType center_offset ;
+  OffsetType center_offset;
   center_offset.Fill( 0 );
 
   for ( fit=faceList.begin(); fit != faceList.end(); ++fit) 
@@ -82,25 +82,25 @@ ImageToCooccurrenceListAdaptor< TImage >
       }
                                                                                                                             
     for ( it.GoToBegin(); !it.IsAtEnd(); ++it ) 
+      {
+
+      const PixelType center_pixel_intensity = it.GetPixel( center_offset );
+
+      ShapeNeighborhoodIterator ci = it.Begin(); 
+      while ( ci != it.End() ) 
         {
+        const PixelType pixel_intensity = ci.Get();
 
-        const PixelType center_pixel_intensity = it.GetPixel( center_offset );
+        // We have the intensity values for the center pixel and one of it's neighbours.
+        // We can now place these in the SampleList
+        coords[0] = center_pixel_intensity;
+        coords[1] = pixel_intensity;
 
-        ShapeNeighborhoodIterator ci = it.Begin(); 
-        while ( ci != it.End() ) 
-           {
-           const PixelType pixel_intensity = ci.Get();
-
-           // We have the intensity values for the center pixel and one of it's neighbours.
-           // We can now place these in the SampleList
-           coords[0] = center_pixel_intensity;
-           coords[1] = pixel_intensity;
-
-           sample->PushBack(coords) ;
-           ci++;
-           }
+        m_Sample->PushBack(coords);
+        ci++;
         }
-     }
+      }
+    }
 
 }
 
@@ -126,7 +126,6 @@ ImageToCooccurrenceListAdaptor< TImage >
     m_OffsetTable.push_back( offset );
     }
 }
-
 
 } // end of namespace Statistics 
 } // end of namespace itk

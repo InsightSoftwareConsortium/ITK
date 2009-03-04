@@ -20,8 +20,8 @@
 #include "itkMembershipFunctionBase.h"
 #include "itkArray.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class DistanceMetric
  * \brief this class declares common interfaces 
@@ -58,14 +58,15 @@ class ITK_EXPORT DistanceMetric : public MembershipFunctionBase< TVector >
 {
 public:
   /** Standard typedefs */
-  typedef DistanceMetric Self;
+  typedef DistanceMetric                    Self;
   typedef MembershipFunctionBase< TVector > Superclass;
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef typename Superclass::MeasurementVectorSizeType
+                                             MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, MembershipFunctionBase);
 
-  typedef Array< double > OriginType ;
+  typedef Array< double > OriginType;
 
   /**  Set the length of each measurement vector. */
   virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
@@ -73,23 +74,23 @@ public:
   /** Sets the origin point that will be used for the single point 
    * version Evaluate() function. This function is necessary part of
    * implementing MembershipFunctionBase's Evaluate() interface */ 
-  void SetOrigin(const OriginType& x) ;
-  itkGetConstReferenceMacro(Origin, OriginType) ;
+  void SetOrigin(const OriginType& x);
+  itkGetConstReferenceMacro(Origin, OriginType);
 
   /** Gets the distance between the origin point and x. This function
-   * work with SetOrigin() function*/
-  virtual double Evaluate(const TVector &x) const = 0 ;
+   * work with SetOrigin() function */
+  virtual double Evaluate(const TVector &x) const = 0;
   
   /** Gets the distance between x1 and x2 points */
-  virtual double Evaluate(const TVector &x1, const TVector &x2) const = 0 ;
+  virtual double Evaluate(const TVector &x1, const TVector &x2) const = 0;
   
 protected:
   DistanceMetric();
   virtual ~DistanceMetric() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  OriginType m_Origin ;
-} ; // end of class
+  OriginType m_Origin;
+}; // end of class
 
 } // end of namespace Statistics 
 } // end of namespace itk
@@ -99,10 +100,3 @@ protected:
 #endif
 
 #endif
-
-
-
-
-
-
-

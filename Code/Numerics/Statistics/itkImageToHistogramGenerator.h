@@ -48,16 +48,16 @@ class ImageToHistogramGenerator : public Object
 {
 public:
   /** Standard typedefs */
-  typedef ImageToHistogramGenerator  Self ;
-  typedef Object Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ImageToHistogramGenerator  Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer<Self>         Pointer;
+  typedef SmartPointer<const Self>   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToHistogramGenerator, Object) ;
+  itkTypeMacro(ImageToHistogramGenerator, Object);
 
   /** standard New() method support */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
 
   typedef TImageType                                      ImageType;
   typedef ImageToListAdaptor< ImageType >                 AdaptorType;

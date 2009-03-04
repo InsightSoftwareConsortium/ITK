@@ -26,8 +26,8 @@
 #include "itkMatrix.h"
 #include "itkDensityFunction.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class GaussianDensityFunction
  * \brief GaussianDensityFunction class represents Gaussian Density Function.
@@ -57,17 +57,17 @@ class ITK_EXPORT GaussianDensityFunction :
 {
 public:
   /** Standard class typedefs */
-  typedef GaussianDensityFunction Self;
-  typedef DensityFunction< TMeasurementVector > Superclass ;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef GaussianDensityFunction               Self;
+  typedef DensityFunction< TMeasurementVector > Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(GaussianDensityFunction, DensityFunction);
   itkNewMacro(Self);
   
   /** Typedef alias for the measurement vectors */
-  typedef TMeasurementVector MeasurementVectorType ;
+  typedef TMeasurementVector MeasurementVectorType;
 
   /** Length of each measurement vector */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
@@ -80,27 +80,27 @@ public:
 
   /** Sets the mean */
   void SetMean( const MeanType * mean )
-  {
-  if( this->GetMeasurementVectorSize() )
     {
-    MeasurementVectorTraits::Assert(mean, this->GetMeasurementVectorSize(),
-      "GaussianDensityFunction::SetMean Size of measurement vectors in the sample must the same as the size of the mean." );
-    }
-  else
-    {
-    this->SetMeasurementVectorSize( mean->Size() );
-    }
+    if( this->GetMeasurementVectorSize() )
+      {
+      MeasurementVectorTraits::Assert(mean, this->GetMeasurementVectorSize(),
+                                      "GaussianDensityFunction::SetMean Size of measurement vectors in the sample must the same as the size of the mean." );
+      }
+    else
+      {
+      this->SetMeasurementVectorSize( mean->Size() );
+      }
 
-  if ( m_Mean != mean) 
-    {
-    m_Mean = mean ;
-    this->Modified() ;
+    if ( m_Mean != mean) 
+      {
+      m_Mean = mean;
+      this->Modified();
+      }
     }
-  }
   
   /** Gets the mean */
   const MeanType * GetMean() const
-  { return m_Mean ; }
+    { return m_Mean; }
 
   /** Sets the covariance matrix.
    * Also, this function calculates inverse covariance and pre factor of 
@@ -108,13 +108,13 @@ public:
   void SetCovariance(const CovarianceType* cov); 
   
   /** Gets the covariance matrix */
-  const CovarianceType* GetCovariance() const ;
+  const CovarianceType* GetCovariance() const;
 
   /** Gets the probability density of a measurement vector. */
-  double Evaluate(const MeasurementVectorType &measurement) const ;
+  double Evaluate(const MeasurementVectorType &measurement) const;
   
 protected:
-  GaussianDensityFunction(void) ;
+  GaussianDensityFunction(void);
   virtual ~GaussianDensityFunction(void) {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -132,7 +132,7 @@ private:
 
   /** if the all element of the given covarinace is zero, then this
    * value set to true */
-  bool m_IsCovarianceZero ;
+  bool m_IsCovarianceZero;
 };
 
 } // end of namespace Statistics

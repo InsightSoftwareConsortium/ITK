@@ -19,8 +19,8 @@
 
 #include "itkListSample.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TMeasurementVector >
 ListSample< TMeasurementVector >
@@ -36,7 +36,7 @@ ListSample< TMeasurementVector >
 {
   if ( identifier < m_InternalContainer.size() )
     {
-    return m_InternalContainer[identifier] ;
+    return m_InternalContainer[identifier];
     }
   itkExceptionMacro("Identifier " << identifier 
     << " is out of range 0:" << m_InternalContainer.size() ); 
@@ -51,7 +51,7 @@ ListSample< TMeasurementVector >
 {
   if ( identifier < m_InternalContainer.size() )
     {
-    m_InternalContainer[identifier][dim] = value ;
+    m_InternalContainer[identifier][dim] = value;
     }
 }
 
@@ -63,7 +63,7 @@ ListSample< TMeasurementVector >
 {
   if ( identifier < m_InternalContainer.size() )
     {
-    m_InternalContainer[identifier] = mv ;
+    m_InternalContainer[identifier] = mv;
     }
 }
 
@@ -74,11 +74,11 @@ ListSample< TMeasurementVector >
 {
   if ( identifier < m_InternalContainer.size() )
     {
-    return 1.0 ;
+    return 1.0;
     }
   else
     {
-    return 0.0 ;
+    return 0.0;
     }
 }
 

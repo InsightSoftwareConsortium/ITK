@@ -19,18 +19,18 @@
 
 #include "itkMixtureModelComponentBase.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
 {
-  m_Sample = 0 ;
-  m_MembershipFunction = 0 ;
-  m_Weights = 0 ;
-  m_MinimalParametersChange = 1.0e-06 ;
-  m_ParametersModified = true ;
+  m_Sample = 0;
+  m_MembershipFunction = 0;
+  m_Weights = 0;
+  m_MinimalParametersChange = 1.0e-06;
+  m_ParametersModified = true;
 }
 
 template< class TSample >
@@ -39,8 +39,8 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-    delete m_Weights ;
-    m_Weights = 0 ;
+    delete m_Weights;
+    m_Weights = 0;
     }
 }
 
@@ -51,34 +51,34 @@ MixtureModelComponentBase< TSample >
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Sample: " ;
+  os << indent << "Sample: ";
   if ( m_Sample != 0 )
     {
     os << m_Sample << std::endl;
     }
   else
     {
-    os << "not set." << std::endl ;
+    os << "not set." << std::endl;
     }
 
-  os << indent << "Membership Function: " ;
+  os << indent << "Membership Function: ";
   if ( m_MembershipFunction != 0 )
     {
     os << m_MembershipFunction << std::endl;
     }
   else
     {
-    os << "not instantiated yet." << std::endl ;
+    os << "not instantiated yet." << std::endl;
     }
 
-  os << indent << "Weights Array: " ;
+  os << indent << "Weights Array: ";
   if ( m_Weights != 0 )
     {
     os << m_Weights << std::endl;
     }
   else
     {
-    os << "not allocated yet." << std::endl ;
+    os << "not allocated yet." << std::endl;
     }
   
   os << indent << "Parameters are modified: " << m_ParametersModified
@@ -90,8 +90,8 @@ void
 MixtureModelComponentBase< TSample >
 ::SetSample(const TSample* sample)
 {
-  m_Sample = sample ;
-  this->CreateWeightArray() ;
+  m_Sample = sample;
+  this->CreateWeightArray();
 } 
 
 template< class TSample >
@@ -99,7 +99,7 @@ const TSample*
 MixtureModelComponentBase< TSample >
 ::GetSample() const
 {
-  return m_Sample ;
+  return m_Sample;
 } 
 
 template< class TSample >
@@ -109,8 +109,8 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Parameters != parameters )
     {
-    m_Parameters = parameters ;
-    this->AreParametersModified(true) ;
+    m_Parameters = parameters;
+    this->AreParametersModified(true);
     }
 }
 
@@ -119,7 +119,7 @@ bool
 MixtureModelComponentBase< TSample >
 ::AreParametersModified()
 {
-  return m_ParametersModified ;
+  return m_ParametersModified;
 }
 
 template< class TSample >
@@ -135,7 +135,7 @@ typename MixtureModelComponentBase< TSample >::WeightArrayType*
 MixtureModelComponentBase< TSample >
 ::GetWeights()
 {
-  return m_Weights ;
+  return m_Weights;
 }
 
 template< class TSample >
@@ -145,8 +145,8 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-    delete m_Weights ;
-    m_Weights = 0 ;
+    delete m_Weights;
+    m_Weights = 0;
     }
 
   m_Weights = new WeightArrayType(m_Sample->Size());
@@ -159,7 +159,7 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-    delete m_Weights ;
+    delete m_Weights;
     }
 }
 
@@ -168,7 +168,7 @@ void
 MixtureModelComponentBase< TSample >
 ::SetMembershipFunction(MembershipFunctionType* function)
 {
-  m_MembershipFunction = function ;
+  m_MembershipFunction = function;
 }
 
 template< class TSample >
@@ -176,7 +176,7 @@ typename MixtureModelComponentBase< TSample >::MembershipFunctionType*
 MixtureModelComponentBase< TSample >
 ::GetMembershipFunction()
 {
-  return m_MembershipFunction ;
+  return m_MembershipFunction;
 }
 
 template< class TSample >
@@ -184,7 +184,7 @@ inline double
 MixtureModelComponentBase< TSample >
 ::Evaluate(MeasurementVectorType& measurements) 
 {
-  return m_MembershipFunction->Evaluate(measurements) ;
+  return m_MembershipFunction->Evaluate(measurements);
 }
 
 template< class TSample >
@@ -194,11 +194,11 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-    (*m_Weights)[index] = value ;
+    (*m_Weights)[index] = value;
     }
   else
     {
-    itkExceptionMacro("Weight array is not allocated.") ;
+    itkExceptionMacro("Weight array is not allocated.");
     }
 }
 
@@ -209,11 +209,11 @@ MixtureModelComponentBase< TSample >
 {
   if ( m_Weights != 0 )
     {
-    return (*m_Weights)[index] ;
+    return (*m_Weights)[index];
     }
   else
     {
-    itkExceptionMacro("Weight array is not allocated.") ;
+    itkExceptionMacro("Weight array is not allocated.");
     }
 }
 
@@ -222,7 +222,7 @@ void
 MixtureModelComponentBase< TSample >
 ::Update() 
 {
-  this->GenerateData() ;
+  this->GenerateData();
 }
 
 template< class TSample >
@@ -238,4 +238,3 @@ MixtureModelComponentBase< TSample >
 } // end of namespace itk
 
 #endif
-

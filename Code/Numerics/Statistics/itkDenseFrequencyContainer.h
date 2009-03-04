@@ -23,8 +23,8 @@
 #include "itkValarrayImageContainer.h"
 #include "itkNumericTraits.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class DenseFrequencyContainer 
  *  \brief his class is a container for frequencies of bins in an histogram.
@@ -43,8 +43,8 @@ class ITK_EXPORT DenseFrequencyContainer
 public:
   /** Standard class typedefs */
   typedef DenseFrequencyContainer  Self;
-  typedef Object Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef Object                   Superclass;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Run-time type information (and related methods). */
@@ -54,30 +54,30 @@ public:
   itkNewMacro(Self);
 
   /** InstanceIdenfitifer type alias */
-  typedef unsigned long InstanceIdentifier ;
+  typedef unsigned long InstanceIdentifier;
 
   /** Frequency type alias */
-  typedef float FrequencyType ;
+  typedef float FrequencyType;
   
-  /** Total frequency type*/
-  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType ;
+  /** Total frequency type */
+  typedef NumericTraits<FrequencyType>::AccumulateType TotalFrequencyType;
 
   /** Internal storage class typedefs */
   typedef ValarrayImageContainer< InstanceIdentifier, FrequencyType > 
-  FrequencyContainerType ;
-  typedef FrequencyContainerType::Pointer FrequencyContainerPointer ;
+                                          FrequencyContainerType;
+  typedef FrequencyContainerType::Pointer FrequencyContainerPointer;
 
   /** Calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */
-  void Initialize(unsigned long length) ;
+  void Initialize(unsigned long length);
 
   /** Calls the SetToZero method of superclass to initialize all the bins to Zero.
    *  This should be done before starting to call the IncreaseFrequency method. */
-  void SetToZero() ;
+  void SetToZero();
 
   /** Sets the frequency of histogram using instance identifier. It returns
    * false when the Id is out of bounds. */
-  bool SetFrequency(const InstanceIdentifier id, const FrequencyType value) ;
+  bool SetFrequency(const InstanceIdentifier id, const FrequencyType value);
 
   /** Increases the frequency of a bin specified by the InstanceIdentifier by
    * one.  This function is convinient to create a histogram. It returns false
@@ -87,30 +87,27 @@ public:
 
   /** Method to get the frequency of a bin from the histogram. It returns zero
    * when the Id is out of bounds. */
-  FrequencyType GetFrequency(const InstanceIdentifier id) const ;
+  FrequencyType GetFrequency(const InstanceIdentifier id) const;
 
   /** Gets the sum of the frequencies */
   TotalFrequencyType GetTotalFrequency()
-  { return m_TotalFrequency ; }
+    { return m_TotalFrequency; }
 
 protected:
-  DenseFrequencyContainer() ;
+  DenseFrequencyContainer();
   virtual ~DenseFrequencyContainer() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  DenseFrequencyContainer(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  DenseFrequencyContainer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   /** Internal storage */
-  FrequencyContainerPointer m_FrequencyContainer ;
-  TotalFrequencyType  m_TotalFrequency ;
-} ; // end of class
+  FrequencyContainerPointer m_FrequencyContainer;
+  TotalFrequencyType        m_TotalFrequency;
+}; // end of class
 
 } // end of namespace Statistics
 } // end of namespace itk
 
 #endif
-
-
-

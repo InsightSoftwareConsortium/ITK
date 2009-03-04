@@ -19,8 +19,8 @@
 
 #include "itkCovarianceCalculator.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template< class TSample >
 CovarianceCalculator< TSample >
@@ -36,8 +36,8 @@ CovarianceCalculator< TSample >
 {
   if ( m_InternalMean != 0 )
     {
-    delete m_InternalMean ;
-    m_InternalMean = 0 ;
+    delete m_InternalMean;
+    m_InternalMean = 0;
     }
 }
 
@@ -52,20 +52,20 @@ CovarianceCalculator< TSample >
 
   if ( m_Mean != 0)
     {
-    os << indent << "Mean: [" << *m_Mean << "]" << std::endl ;
+    os << indent << "Mean: [" << *m_Mean << "]" << std::endl;
     }
   else
     {
-    os << indent << "Mean: not set" << std::endl ;
+    os << indent << "Mean: not set" << std::endl;
     }
 
   if ( m_InternalMean != 0)
     {
-    os << indent << "Internal Mean: [" << *m_InternalMean << "]" << std::endl ;
+    os << indent << "Internal Mean: [" << *m_InternalMean << "]" << std::endl;
     }
   else
     {
-    os << indent << "Internal Mean: not used" << std::endl ;
+    os << indent << "Internal Mean: not used" << std::endl;
     }
 }
 
@@ -79,8 +79,8 @@ CovarianceCalculator< TSample >
 
   if ( m_InternalMean != mean && m_InternalMean != 0 )
     {
-    delete m_InternalMean ;
-    m_InternalMean = 0 ;
+    delete m_InternalMean;
+    m_InternalMean = 0;
     }
   
   if( mean )
@@ -92,7 +92,7 @@ CovarianceCalculator< TSample >
       { this->SetMeasurementVectorSize( measurementVectorLength ); }
     }
 
-  m_Mean = mean ;
+  m_Mean = mean;
 
 } 
 
@@ -103,11 +103,11 @@ CovarianceCalculator< TSample >
 {
   if ( m_InternalMean != 0 )
     {
-    return m_InternalMean ;
+    return m_InternalMean;
     }
   else
     {
-    return m_Mean ;
+    return m_Mean;
     }
 } 
 
@@ -116,7 +116,7 @@ const typename CovarianceCalculator< TSample >::OutputType*
 CovarianceCalculator< TSample >
 ::GetOutput( void ) const
 {
-  return & m_Output ;
+  return & m_Output;
 } 
 
 template< class TSample >
@@ -149,24 +149,24 @@ CovarianceCalculator< TSample >
     frequency = iter.GetFrequency();
     totalFrequency += frequency;
     measurements = iter.GetMeasurementVector();
-    for (i = 0 ; i < measurementVectorSize ; i++)
+    for (i = 0; i < measurementVectorSize; i++)
       {
       diff[i] = measurements[i] - (*m_Mean)[i];
       }
-    for ( row = 0; row < measurementVectorSize ; row++)
+    for ( row = 0; row < measurementVectorSize; row++)
       {
-      for ( col = 0; col < row + 1 ; col++)
+      for ( col = 0; col < row + 1; col++)
         {
         m_Output(row,col) += frequency * diff[row] * diff[col];
         }
       }
-    ++iter ;
+    ++iter;
     }
 
   // fills the upper triangle using the lower triangle  
-  for (row = 1 ; row < measurementVectorSize ; row++)
+  for (row = 1; row < measurementVectorSize; row++)
     {
-    for (col = 0 ; col < row ; col++)
+    for (col = 0; col < row; col++)
       {
       m_Output(col, row) = 
         m_Output(row, col);
@@ -174,14 +174,13 @@ CovarianceCalculator< TSample >
     }
   
   if ( totalFrequency > 1e-6 )
-  {
+    {
     m_Output /= ( totalFrequency - 1.0f );
-  }
+    }
   else
-  {
+    {
     m_Output.Fill( 0.0f );
-  }
-
+    }
 }
 
 template< class TSample >
@@ -211,42 +210,41 @@ CovarianceCalculator< TSample >
     {
     frequency = iter.GetFrequency();
     if ( frequency == 0 )
-    {
+      {
       ++iter;
       continue;
-    }
+      }
 
     totalFrequency += frequency;
     measurements = iter.GetMeasurementVector();
-    for ( i = 0 ; i < measurementVectorSize ; ++i )
+    for ( i = 0; i < measurementVectorSize; ++i )
       {
       diff[i] = measurements[i] - (*m_InternalMean)[i];
       }
 
     // updates the mean vector
     double tempWeight = frequency / totalFrequency;
-    for ( i = 0 ; i < measurementVectorSize ; ++i )
+    for ( i = 0; i < measurementVectorSize; ++i )
       {
       (*m_InternalMean)[i] += tempWeight * diff[i];
       }
 
     // updates the covariance matrix
     tempWeight = tempWeight * ( totalFrequency - frequency );
-    for ( row = 0; row < measurementVectorSize ; row++ )
+    for ( row = 0; row < measurementVectorSize; row++ )
       {
-      for ( col = 0; col < row + 1 ; col++)
+      for ( col = 0; col < row + 1; col++)
         {
-        m_Output(row,col) += 
-          tempWeight * diff[row] * diff[col];
+        m_Output(row,col) += tempWeight * diff[row] * diff[col];
         }
       }
     ++iter;
     }
 
   // fills the upper triangle using the lower triangle  
-  for (row = 1 ; row < measurementVectorSize ; row++)
+  for (row = 1; row < measurementVectorSize; row++)
     {
-    for (col = 0 ; col < row ; col++)
+    for (col = 0; col < row; col++)
       {
       m_Output(col, row) = 
         m_Output(row, col);
@@ -254,13 +252,13 @@ CovarianceCalculator< TSample >
     }
 
   if ( totalFrequency > 1e-6 )
-  {
+    {
     m_Output /= ( totalFrequency - 1.0f );
-  }
+    }
   else
-  {
+    {
     m_Output.Fill( 0.0f );
-  }
+    }
 
 }
 
@@ -293,4 +291,3 @@ CovarianceCalculator< TSample >
 } // end of namespace itk
 
 #endif
-

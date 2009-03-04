@@ -26,8 +26,8 @@
 #include "itkEuclideanDistance.h"
 #include "itkListSample.h"
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 /** \class ImageJointDomainTraits
  *  \brief This class provides the type defintion for the measurement
@@ -39,23 +39,26 @@ namespace Statistics{
 template< class TImage >
 struct ImageJointDomainTraits
 {
-  typedef ImageJointDomainTraits Self ;
-  typedef PixelTraits< typename TImage::PixelType > PixelTraitsType ;
-  typedef typename PixelTraitsType::ValueType RangeDomainMeasurementType ;
-  typedef typename TImage::IndexType::IndexValueType IndexValueType ;
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension) ;
+  typedef ImageJointDomainTraits                     Self;
+  typedef PixelTraits< typename TImage::PixelType >  PixelTraitsType;
+  typedef typename PixelTraitsType::ValueType        RangeDomainMeasurementType;
+  typedef typename TImage::IndexType::IndexValueType IndexValueType;
+
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   itkStaticConstMacro(Dimension, 
                       unsigned int, 
                       TImage::ImageDimension +
-                      PixelTraitsType::Dimension ) ;
-  typedef float CoordinateRepType ;
-  typedef Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) > PointType ;
+                      PixelTraitsType::Dimension );
+
+  typedef float                              CoordinateRepType;
+  typedef Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) > 
+                                             PointType;
   typedef JoinTraits< RangeDomainMeasurementType, CoordinateRepType > 
-  JoinTraitsType ;
-  typedef typename JoinTraitsType::ValueType MeasurementType ;
+                                             JoinTraitsType;
+  typedef typename JoinTraitsType::ValueType MeasurementType;
   typedef FixedArray< MeasurementType, itkGetStaticConstMacro(Dimension) >
-  MeasurementVectorType ;
-} ; // end of ImageJointDomainTraits
+                                             MeasurementVectorType;
+}; // end of ImageJointDomainTraits
 
 /** \class JointDomainImageToListAdaptor
  *  \brief This adaptor returns measurement vectors composed of an
@@ -93,33 +96,34 @@ class ITK_EXPORT JointDomainImageToListAdaptor
   typename ImageJointDomainTraits< TImage >::MeasurementVectorType >
 {
 public:
-  typedef ImageJointDomainTraits< TImage > ImageJointDomainTraitsType ;
+  typedef ImageJointDomainTraits< TImage >    ImageJointDomainTraitsType;
   typedef typename ImageJointDomainTraitsType::MeasurementVectorType
-  MeasurementVectorType ;
+                                              MeasurementVectorType;
   typedef typename ImageJointDomainTraitsType::MeasurementType
-  MeasurementType ;
+                                              MeasurementType;
   typedef typename ImageJointDomainTraitsType::RangeDomainMeasurementType
-  RangeDomainMeasurementType ;
-  typedef typename ImageJointDomainTraitsType::PointType PointType ;
+                                              RangeDomainMeasurementType;
+  typedef typename ImageJointDomainTraitsType::PointType
+                                              PointType;
   typedef typename ImageJointDomainTraitsType::CoordinateRepType 
-  CoordinateRepType ;
+                                              CoordinateRepType;
   /** Standard class typedefs */
-  typedef JointDomainImageToListAdaptor Self;
+  typedef JointDomainImageToListAdaptor       Self;
   typedef ImageToListAdaptor< TImage, MeasurementVectorType > 
-  Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                                              Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer<const Self>            ConstPointer;
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JointDomainImageToListAdaptor, ImageToListAdaptor) ;
+  itkTypeMacro(JointDomainImageToListAdaptor, ImageToListAdaptor);
   
   /** Method for creation through the object factory. */
-  itkNewMacro(Self) ;
+  itkNewMacro(Self);
   
   /** the number of components in a measurement vector */
   itkStaticConstMacro(MeasurementVectorSize, 
                       unsigned int, 
-                      ImageJointDomainTraitsType::Dimension) ;
+                      ImageJointDomainTraitsType::Dimension);
   
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
@@ -141,33 +145,33 @@ public:
  
   /** typedefs for Measurement vector, measurement, 
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::FrequencyType FrequencyType ;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier ;
+  typedef typename Superclass::FrequencyType      FrequencyType;
+  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
 
-  typedef typename TImage::IndexType ImageIndexType ;
-  typedef typename TImage::IndexType::IndexValueType ImageIndexValueType ;
-  typedef typename TImage::SizeType ImageSizeType ;
-  typedef typename TImage::RegionType ImageRegionType ;
-  typedef ImageRegionConstIteratorWithIndex< TImage > ImageIteratorType ;
+  typedef typename TImage::IndexType                  ImageIndexType;
+  typedef typename TImage::IndexType::IndexValueType  ImageIndexValueType;
+  typedef typename TImage::SizeType                   ImageSizeType;
+  typedef typename TImage::RegionType                 ImageRegionType;
+  typedef ImageRegionConstIteratorWithIndex< TImage > ImageIteratorType;
 
-  typedef MeasurementVectorType ValueType ;
+  typedef MeasurementVectorType ValueType;
  
   itkStaticConstMacro(RangeDomainDimension, 
                       unsigned int, 
                       itk::PixelTraits< 
-                      typename TImage::PixelType >::Dimension) ;
+                      typename TImage::PixelType >::Dimension);
 
   typedef FixedArray< RangeDomainMeasurementType, 
                       itkGetStaticConstMacro( RangeDomainDimension ) > 
-  RangeDomainMeasurementVectorType ;
+  RangeDomainMeasurementVectorType;
 
-  typedef std::vector< InstanceIdentifier > InstanceIdentifierVectorType ; 
+  typedef std::vector< InstanceIdentifier > InstanceIdentifierVectorType; 
 
   typedef FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >
-  NormalizationFactorsType ;
+  NormalizationFactorsType;
 
   /** Sets the normalization factors */
-  void SetNormalizationFactors(NormalizationFactorsType& factors) ;
+  void SetNormalizationFactors(NormalizationFactorsType& factors);
 
   /** Gets the measurement vector specified by the instance
    * identifier. This method overrides superclass method. */
@@ -187,56 +191,56 @@ public:
                      InstanceIdentifierVectorType& result) const;
 
 protected:
-  JointDomainImageToListAdaptor() ;
+  JointDomainImageToListAdaptor();
   virtual ~JointDomainImageToListAdaptor() {}
   void PrintSelf(std::ostream& os, Indent indent) const;  
 
 private:
-  JointDomainImageToListAdaptor(const Self&) ; //purposely not implemented
-  void operator=(const Self&) ; //purposely not implemented
+  JointDomainImageToListAdaptor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  NormalizationFactorsType m_NormalizationFactors ;
+  NormalizationFactorsType m_NormalizationFactors;
 
-  mutable MeasurementVectorType m_TempVector ;
-  mutable PointType m_TempPoint ;
-  mutable ImageIndexType m_TempIndex ;
-  mutable RangeDomainMeasurementVectorType m_TempRangeVector ;
-} ; // end of class JointDomainImageToListAdaptor
+  mutable MeasurementVectorType            m_TempVector;
+  mutable PointType                        m_TempPoint;
+  mutable ImageIndexType                   m_TempIndex;
+  mutable RangeDomainMeasurementVectorType m_TempRangeVector;
+}; // end of class JointDomainImageToListAdaptor
 
 template < class TImage >
 inline const typename JointDomainImageToListAdaptor< TImage >::MeasurementVectorType &
 JointDomainImageToListAdaptor< TImage >
 ::GetMeasurementVector(const InstanceIdentifier &id) const
 {
-  m_TempIndex = this->GetImage()->ComputeIndex( id ) ;
+  m_TempIndex = this->GetImage()->ComputeIndex( id );
   
-  this->GetImage()->TransformIndexToPhysicalPoint( m_TempIndex, m_TempPoint ) ;
+  this->GetImage()->TransformIndexToPhysicalPoint( m_TempIndex, m_TempPoint );
   
-  for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
-    m_TempVector[i] = m_TempPoint[i] / m_NormalizationFactors[i] ;
+    m_TempVector[i] = m_TempPoint[i] / m_NormalizationFactors[i];
     }
   
   if( this->GetUseBuffer() )
     {
     m_TempRangeVector =  
       *(reinterpret_cast<const RangeDomainMeasurementVectorType* >
-        (&(*this->GetPixelContainer())[id]))  ;
+        (&(*this->GetPixelContainer())[id]));
     }
   else
     {
     m_TempRangeVector = 
       *(reinterpret_cast< const RangeDomainMeasurementVectorType* >
-        (&(this->GetImage()->GetPixel( m_TempIndex ) ) ) ) ;
+        (&(this->GetImage()->GetPixel( m_TempIndex ) ) ) );
     }
   
-  for ( unsigned int i = TImage::ImageDimension ; i < MeasurementVectorType::Length ; ++i )
+  for ( unsigned int i = TImage::ImageDimension; i < MeasurementVectorType::Length; ++i )
     {
     m_TempVector[i] = m_TempRangeVector[i - TImage::ImageDimension] 
-      / m_NormalizationFactors[i] ;
+      / m_NormalizationFactors[i];
     }
   
-  return m_TempVector ;
+  return m_TempVector;
 }
 
 template < class TImage >
@@ -246,34 +250,34 @@ JointDomainImageToListAdaptor< TImage >
                 const double radius,
                 ImageRegionType& region) const
 {
-  ImageIndexType beginIndex ;
-  ImageSizeType size ;
+  ImageIndexType beginIndex;
+  ImageSizeType size;
 
-  for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
-    m_TempPoint[i] = m_NormalizationFactors[i] * (mv[i] - radius) ;
+    m_TempPoint[i] = m_NormalizationFactors[i] * (mv[i] - radius);
     size[i] = (unsigned long)(2.0 * m_NormalizationFactors[i] * radius 
-                              / this->GetImage()->GetSpacing()[i]) ;
+                              / this->GetImage()->GetSpacing()[i]);
     }
 
-  this->GetImage()->TransformPhysicalPointToIndex(m_TempPoint , beginIndex ) ;
+  this->GetImage()->TransformPhysicalPointToIndex(m_TempPoint , beginIndex );
 
-  for ( unsigned int i = 0 ; i < TImage::ImageDimension ; ++i )
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
     if ( beginIndex[i] < this->GetImageBeginIndex()[i] )
       {
-      beginIndex[i] = this->GetImageBeginIndex()[i] ;
-      size[i] -= (this->GetImageBeginIndex()[i] - beginIndex[i]) ;
+      beginIndex[i] = this->GetImageBeginIndex()[i];
+      size[i] -= (this->GetImageBeginIndex()[i] - beginIndex[i]);
       }
 
     if ( static_cast<typename ImageIndexType::IndexValueType>(beginIndex[i] + size[i] - 1) > this->GetImageEndIndex()[i] )
       {
-      size[i] = this->GetImageEndIndex()[i] - beginIndex[i] + 1 ;
+      size[i] = this->GetImageEndIndex()[i] - beginIndex[i] + 1;
       }
     }
   
-  region.SetIndex( beginIndex ) ;
-  region.SetSize( size ) ;
+  region.SetIndex( beginIndex );
+  region.SetSize( size );
 }
 
 template < class TImage >
@@ -283,36 +287,36 @@ JointDomainImageToListAdaptor< TImage >
          const double radius,
          InstanceIdentifierVectorType& result) const
 {
-  ImageRegionType region ;
-  this->ComputeRegion( mv, radius, region ) ;
+  ImageRegionType region;
+  this->ComputeRegion( mv, radius, region );
 
-  result.clear() ;
-  ImageIteratorType iter( this->GetImage(), region ) ;
-  iter.GoToBegin() ;
-  double squaredRadius = radius * radius ;
+  result.clear();
+  ImageIteratorType iter( this->GetImage(), region );
+  iter.GoToBegin();
+  double squaredRadius = radius * radius;
   InstanceIdentifier instanceID;
   while ( !iter.IsAtEnd() )
     {
-    instanceID  = this->GetImage()->ComputeOffset(iter.GetIndex()) ;
-    m_TempVector = this->GetMeasurementVector( instanceID ) ;
-    bool isWithinRange = true ;
-    double sum = 0.0 ;
-    for ( unsigned int i = 0 ; i < MeasurementVectorSize ; ++i )
+    instanceID  = this->GetImage()->ComputeOffset(iter.GetIndex());
+    m_TempVector = this->GetMeasurementVector( instanceID );
+    bool isWithinRange = true;
+    double sum = 0.0;
+    for ( unsigned int i = 0; i < MeasurementVectorSize; ++i )
       {
-      const double temp = (m_TempVector[i] - mv[i]) ;
-      sum += temp * temp ;
+      const double temp = (m_TempVector[i] - mv[i]);
+      sum += temp * temp;
       if ( sum > squaredRadius )
         {
-        isWithinRange = false ;
-        break ;
+        isWithinRange = false;
+        break;
         }
       }
 
     if ( isWithinRange )
       {
-      result.push_back(instanceID) ;
+      result.push_back(instanceID);
       }
-    ++iter ;
+    ++iter;
     }
 }
 

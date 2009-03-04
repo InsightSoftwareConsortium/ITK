@@ -14,11 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef _itkImageToListAdaptor_txx
-#define _itkImageToListAdaptor_txx
+#ifndef __itkImageToListAdaptor_txx
+#define __itkImageToListAdaptor_txx
 
-namespace itk{ 
-namespace Statistics{
+namespace itk { 
+namespace Statistics {
 
 template < class TImage, class TMeasurementVector >
 ImageToListAdaptor< TImage, TMeasurementVector >
@@ -105,6 +105,3 @@ ImageToListAdaptor< TImage, TMeasurementVector >
 } // end of namespace itk
 
 #endif
-
-
-
