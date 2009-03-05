@@ -145,6 +145,9 @@ public:
   typedef typename TOutputImage::DirectionType     DirectionType;
 
   /** Set the deformation field. */
+  void SetDeformationField( const DeformationFieldType * field );
+
+  /** Set the deformation field (non const for backward compatibility). */
   void SetDeformationField( DeformationFieldType * field );
 
   /** Get a pointer the deformation field. */
