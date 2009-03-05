@@ -75,12 +75,12 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
   if( numberOfValidInputImages==0 )
     { 
     //No valid regions in the thread
+    //(and no region iterators to delete)
     return;
     }
   
     
-  NaryArrayType naryInputArray; 
-  naryInputArray.resize( numberOfValidInputImages );
+  NaryArrayType naryInputArray( numberOfValidInputImages );
 
   OutputImagePointer outputPtr = this->GetOutput(0);
   ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
@@ -106,6 +106,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>
     progress.CompletedPixel();
     }
 
+  // Free memory
   regionIterators = inputItrVector.begin();
   while ( regionIterators != regionItEnd )
     {
