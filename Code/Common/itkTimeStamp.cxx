@@ -88,8 +88,11 @@ TimeStamp
 
 // gcc optimization
 #elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
-  static volatile _Atomic_word itkTimeStampTime = 0;
-  m_ModifiedTime = (unsigned long)__exchange_and_add(&itkTimeStampTime, 1)+1;
+  // We start from 1 since __exchange_and_add returns the old (non-incremented)
+  // value. This is not really necessary but will make the absolute value of the
+  // timestamp more consistent across platforms. 
+  static volatile _Atomic_word itkTimeStampTime = 1;
+  m_ModifiedTime = (unsigned long)__exchange_and_add(&itkTimeStampTime, 1);
 
 // General case
 #else
