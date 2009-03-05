@@ -87,6 +87,10 @@ namespace itk
  * using a DiscreteGaussianImageFilter with variance (shrink factor / 2)^2. 
  * The smoothed image is then downsampled using a ResampleImageFilter.
  *
+ * Note that even if the shrink factors are all equal to one, a smoothing
+ * will still be applied. The output at the finest level of the pyramid
+ * will thus typically be a smoothed version of the input.
+ *
  * This class is templated over the input image type and the output image 
  * type.
  *

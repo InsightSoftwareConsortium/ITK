@@ -38,6 +38,11 @@ namespace itk
  * 
  * See documentation of MultiResolutionPyramidImageFilter
  * for information on how to specify a multi-resolution schedule.
+ *
+ * Note that unlike the MultiResolutionPyramidImageFilter,
+ * RecursiveMultiResolutionPyramidImageFilter will not smooth the output at
+ * the finest level if the shrink factors are all one and the schedule
+ * is downward divisible.
  * 
  * This class is templated over the input image type and the output image type.
  *
