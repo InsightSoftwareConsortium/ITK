@@ -94,13 +94,18 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
   unsigned char *src = (unsigned char*)inputdata; 
   int file_length = static_cast< int >( inputlength );
 
+  // WARNING: OpenJPEG is very picky when there is a trailing 00 at the end of the JPC
+  // so we need to make sure to remove it:
+  // See for example: DX_J2K_0Padding.dcm
+  //             and D_CLUNIE_CT1_J2KR.dcm
+    //  Marker 0xffd9 EOI End of Image (JPEG 2000 EOC End of codestream)
+    // gdcmData/D_CLUNIE_CT1_J2KR.dcm contains a trailing 0xFF which apparently is ok...
   while( file_length > 0 && src[file_length-1] != 0xd9 )
     {
     file_length--;
     }
   // what if 0xd9 is never found ?
   assert( file_length > 0 && src[file_length-1] == 0xd9 );
-
 
   /* configure the event callbacks (not required) */
   memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
@@ -110,21 +115,43 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
 
   /* set decoding parameters to default values */
   opj_set_default_decoder_parameters(&parameters);
- 
+
   // default blindly copied
   parameters.cp_layer=0;
   parameters.cp_reduce=0;
   //   parameters.decod_format=-1;
   //   parameters.cod_format=-1;
 
-  /* JPEG-2000 codestream */
-  parameters.decod_format = J2K_CFMT;
-  assert(parameters.decod_format == J2K_CFMT);
+  const char jp2magic[] = "\x00\x00\x00\x0C\x6A\x50\x20\x20\x0D\x0A\x87\x0A";
+  if( memcmp( src, jp2magic, sizeof(jp2magic) ) == 0 )
+    {
+    /* JPEG-2000 compressed image data */
+    // gdcmData/ELSCINT1_JP2vsJ2K.dcm
+    gdcmWarningMacro( "J2K start like JPEG-2000 compressed image data instead of codestream" );
+    parameters.decod_format = JP2_CFMT;
+    assert(parameters.decod_format == JP2_CFMT);
+    }
+  else
+    {
+    /* JPEG-2000 codestream */
+    parameters.decod_format = J2K_CFMT;
+    assert(parameters.decod_format == J2K_CFMT);
+    }
   parameters.cod_format = PGX_DFMT;
   assert(parameters.cod_format == PGX_DFMT);
 
   /* get a decoder handle */
-  dinfo = opj_create_decompress(CODEC_J2K);
+  switch(parameters.decod_format )
+    {
+  case J2K_CFMT:
+    dinfo = opj_create_decompress(CODEC_J2K);
+    break;
+  case JP2_CFMT:
+    dinfo = opj_create_decompress(CODEC_JP2);
+    break;
+  default:
+    return false;
+    }
 
   /* catch events using our callbacks and give a local context */
   opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, NULL);
@@ -140,7 +167,7 @@ bool gdcm_read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
   if(!image) {
     opj_destroy_decompress(dinfo);
     opj_cio_close(cio);
-    return 1;
+    return false;
   }
 
   /* close the byte stream */
