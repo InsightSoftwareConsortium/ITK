@@ -24,7 +24,6 @@ namespace itk
 /** \class TriangleHelper
  * \brief Convenient class for various triangles elements computation in
  * 2D or 3D
- * \author Arnaud GELAS
  */
 template< typename TPoint >
 class TriangleHelper
@@ -89,10 +88,18 @@ public:
                                   const PointType& iC )
     {
     VectorType v21 = iA - iB;
-    v21.Normalize();
+    CoordRepType v21_l2 = v21.GetSquaredNorm();
+    if( v21_l2 != 0.0 )
+      {
+      v21 /= vcl_sqrt( v21_l2 );
+      }
     
     VectorType v23 = iC - iB;
-    v23.Normalize();
+    CoordRepType v23_l2 = v23.GetSquaredNorm();
+    if( v23_l2 != 0.0 )
+      {
+      v23 /= vcl_sqrt( v23_l2 );
+      }
     
     CoordRepType bound( 0.999999 );
 
@@ -127,9 +134,9 @@ public:
     CoordRepType v23_l2 = v23.GetSquaredNorm();
 
     if( v21_l2 != 0.0 )
-      v21 /= v21_l2;
+      v21 /= vcl_sqrt( v21_l2 );
     if( v23_l2 != 0.0 )
-      v23 /= v23_l2;
+      v23 /= vcl_sqrt( v23_l2 );
 
     CoordRepType bound( 0.999999 );
 
