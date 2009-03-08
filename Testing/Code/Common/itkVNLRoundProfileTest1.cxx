@@ -20,6 +20,7 @@
 
 #include "vnl/vnl_math.h"
 #include "itkTimeProbesCollectorBase.h"
+#include <math.h>
 
 double itkRoundTestHelperFunction( double x )
 {
@@ -135,7 +136,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
     while( inpItr != inputEnd )
       {
-      *outItr1nc = itkRoundTestHelperFunction( *inpItr ); 
+      *outItr1nc = itkRoundTestHelperFunction( *inpItr );
       ++outItr1nc;
       ++inpItr;
       }
@@ -223,7 +224,8 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
   const double tolerance = 1e-5;
 
-  bool testFailed = false;
+  bool roundUp = true;
+  bool roundMismatch = false;
 
   std::cout << std::endl;
   std::cout << std::endl;
@@ -232,8 +234,15 @@ int itkVNLRoundProfileTest1( int, char *[] )
     {
     if( vnl_math_abs( *outItr1 - *outItr2 ) > tolerance )
       {
-      std::cerr << "Error in : " << *inpItr << " : " << *outItr1 << " : " << *outItr2 << std::endl;
-      testFailed = true;
+      std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1 << " differs from vnl_math_rnd: " << *outItr2 << std::endl;
+      if ((static_cast<int>(*outItr2) % 2) == 0)
+        {
+        roundUp = false;
+        }
+      else
+        {
+        roundMismatch = true;
+        }
       }
     ++inpItr;
     ++outItr1;
@@ -244,10 +253,24 @@ int itkVNLRoundProfileTest1( int, char *[] )
   std::cout << "Tested " << output1.size() << " entries " << std::endl;
   std::cout << std::endl;
 
-  if( testFailed )
+  if (!roundMismatch)
+    {
+    if( roundUp)
+      {
+      std::cout << "******* On this platform, vnl_math_rnd() rounds up ********" << std::endl;
+      }
+    else
+      {
+      std::cout << "******* On this platform, vnl_math_rnd() rounds to even ********" << std::endl;
+      }
+    }
+  else
+    {
+    std::cout << "******* On this platform, vnl_math_rnd() neither rounds up nor rounds to even consistently ********" << std::endl;
+    }
+  if (roundMismatch)
     {
     return EXIT_FAILURE;
     }
-
   return EXIT_SUCCESS;
 }
