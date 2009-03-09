@@ -6,8 +6,8 @@ SET(KWSTYLE_REQ_MAJOR 1)
 SET(KWSTYLE_REQ_MINOR 0)
 SET(KWSTYLE_REQ_PATCH 1)
 
-#OPTION(KWSTYLE_USE_VIM_FORMAT "Set KWStyle to generate errors with a VIM-compatible format." OFF)
-#OPTION(KWSTYLE_USE_MSVC_FORMAT "Set KWStyle to generate errors with a VisualStudio-compatible format." OFF)
+OPTION(KWSTYLE_USE_VIM_FORMAT "Set KWStyle to generate errors with a VIM-compatible format." OFF)
+OPTION(KWSTYLE_USE_MSVC_FORMAT "Set KWStyle to generate errors with a VisualStudio-compatible format." OFF)
 
 FIND_PROGRAM(KWSTYLE_EXECUTABLE
 NAMES KWStyle 
