@@ -409,6 +409,7 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
             ${TEMP}/ImageRegistration13Test.png
+  --compareNumberOfPixelsTolerance 5
   ImageRegistration13Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
@@ -440,6 +441,7 @@ ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
 ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
             ${TEMP}/ImageRegistration13Test4.png
+  --compareNumberOfPixelsTolerance 5
   ImageRegistration13Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
@@ -450,6 +452,7 @@ ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
 ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13Test.png
             ${TEMP}/ImageRegistration13Test5.png
+  --compareNumberOfPixelsTolerance 5
   ImageRegistration13Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
