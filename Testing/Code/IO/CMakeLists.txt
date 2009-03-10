@@ -291,80 +291,45 @@ ADD_TEST(itkImageFileReaderStreamingTest_3 ${IO_TESTS}
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_MHA ${IO_TESTS} 
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.mha 0 0 0 1 0 0 0 1           
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest mha 0 0 0 1 0 0 0 1           
             )
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_NRRD ${IO_TESTS} 
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.nrrd 0 0 1 1 0 0 1 1           
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nrrd 0 0 1 1 0 0 1 1           
             )
 
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_NHDR ${IO_TESTS} 
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.nhdr 0 0 1 1 0 0 1 1           
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest nhdr 0 0 1 1 0 0 1 1           
             )
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_VTK ${IO_TESTS} 
+  --compare
+            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest000.vtk
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.vtk 0 0 1 1 0 0 1 1           
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest  vtk 0 0 1 1 0 0 1 1           
             )
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_DCM ${IO_TESTS} 
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.dcm 0 0 1 1 0 0 1 1           
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest dcm 0 0 1 1 0 0 1 1           
             )
 
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_IMG ${IO_TESTS} 
   itkImageFileWriterStreamingPastingCompressingTest1
             ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.img 0 0 1 1 0 0 1 1           
+            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest img 0 0 1 1 0 0 1 1           
             )
 
 
-
-ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_MHA ${IO_TESTS} 
-  itkImageFileWriterStreamingPastingCompressingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.mha 0 0 0 1 0 0 0 1           
-            )
-
-ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_NRRD ${IO_TESTS} 
-  itkImageFileWriterStreamingPastingCompressingTest1
-            ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.nrrd 0 0 1 1 0 0 1 1           
-            )
-
-
-ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_NHDR ${IO_TESTS} 
-  itkImageFileWriterStreamingPastingCompressingTest1
-            ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.nhdr 0 0 1 1 0 0 1 1           
-            )
-
-ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_VTK ${IO_TESTS} 
-  itkImageFileWriterStreamingPastingCompressingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.vtk 0 0 1 1 0 0 1 1           
-            )
-
-ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_DCM ${IO_TESTS} 
-  itkImageFileWriterStreamingPastingCompressingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.dcm 0 0 1 1 0 0 1 1           
-            )
-
-
-ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_IMG ${IO_TESTS} 
-  itkImageFileWriterStreamingPastingCompressingTest1
-            ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
-            ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreamingPastingCompressingTest1.img 0 0 1 1 0 0 1 1           
-            )
 
 
 ADD_TEST(itkImageFileWriterPastingTest1 ${IO_TESTS} 

@@ -91,15 +91,20 @@ bool SameImage(std::string testImageFileName, ImagePointer baselineImage)
   return true;
 }
 
-bool ActualTest(std::string inputFileName, std::string outputFileName, bool streamWriting, bool pasteWriting, bool compressWriting, int expectException = -1) 
+bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::string outputFileNameExtension, bool streamWriting, bool pasteWriting, bool compressWriting, int expectException = -1) 
 {
   
-  std::cout << "Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
+  std::cout << "Writing Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
+
+  char outputFileName[128];
+  sprintf(outputFileName, "%s%i%i%i.%s", outputFileNameBase.c_str(),
+          streamWriting, pasteWriting, compressWriting, outputFileNameExtension.c_str());
   
+  std::cout << "Writing to File: " << outputFileName << std::endl;
   unsigned int m_NumberOfPieces = 10;
   
   // We remove the output file
-  itksys::SystemTools::RemoveFile(outputFileName.c_str());
+  itksys::SystemTools::RemoveFile(outputFileName);
   
   typedef unsigned char            PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
@@ -159,6 +164,7 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
 
   try
     {
+    
     writer->Update();
     }
   catch( itk::ExceptionObject & err )
@@ -167,12 +173,14 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
       {      
       std::cout << "Expected ExceptionObject caught !" << std::endl;      
       std::cout << err << std::endl;
+      std::cout << "TEST PASSED" << std::endl;
       return EXIT_SUCCESS;
       }
     else 
       {
       std::cout << "UnExpected ExceptionObject caught !" << std::endl;
       std::cout << err << std::endl;
+      std::cout << "TEST FAILED" << std::endl;
       return EXIT_FAILURE;
       }
     }
@@ -180,6 +188,7 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
   if ( expectException == 1 ) 
     {
     std::cout << "Did not get expected exception!" << std::endl;
+    std::cout << "TEST FAILED" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -202,6 +211,7 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
     if (!SameImage(extractTestImage->GetOutput(), extractBaselineImage->GetOutput())) 
       {
       std::cout << "Paste regions of images differ" << std::endl;
+      std::cout << "TEST FAILED" << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -209,31 +219,34 @@ bool ActualTest(std::string inputFileName, std::string outputFileName, bool stre
   else if (!SameImage(outputFileName, reader->GetOutput())) 
     {
     std::cout << "Images differ" << std::endl;
+    std::cout << "TEST FAILED" << std::endl;
     return EXIT_FAILURE;
     }
 
+  std::cout << "TEST PASSED" << std::endl;
   return EXIT_SUCCESS;
 }
 
 }
 
+
 int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " input output [expect exception (0|1)] ..." << std::endl;
+    std::cerr << "Usage: " << argv[0] << " input outputBase outputExtension [expect exception (0|1)] ..." << std::endl;
     return EXIT_FAILURE;
     }
 
   int expectException[8];
-  
+  const int expectedExceptionOffset = 4;
   int i;
   for ( i = 0; i < 8; ++i) 
     {
-    if (argc > i + 3) 
+    if (argc > i + expectedExceptionOffset) 
       {
       expectException[i] = 0;
-      if (atoi(argv[i+3]) == 1)         
+      if (atoi(argv[i+expectedExceptionOffset]) == 1)         
         expectException[i] = 1;
       }
     else 
@@ -242,14 +255,15 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
 
   int retValue = EXIT_SUCCESS;
   i = 0;
-  retValue = (ActualTest(argv[1], argv[2], 0, 0, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 0, 0, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 0, 1, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 0, 1, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 1, 0, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 1, 0, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 1, 1, 0, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
-  retValue = (ActualTest(argv[1], argv[2], 1, 1, 1, expectException[i++]) == EXIT_FAILURE ? EXIT_FAILURE : retValue);
+
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 0, 0, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 0, 1, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 1, 0, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 1, 1, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 0, 0, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 0, 1, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 1, 0, expectException[i++]);
+  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 1, 1, 1, expectException[i++]);
   
   
   return retValue;
