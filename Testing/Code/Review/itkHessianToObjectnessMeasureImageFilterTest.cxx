@@ -81,20 +81,85 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   // Connect the input images
   gaussianFilter->SetInput( imageReader->GetOutput() );
   objectnessFilter->SetInput( gaussianFilter->GetOutput() );
+
   objectnessFilter->SetScaleObjectnessMeasure(false);
+  if ( objectnessFilter->GetScaleObjectnessMeasure() )
+    {
+    std::cerr << "Error in Set/GetScaleObjectnessMeasure method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   objectnessFilter->SetBrightObject(true);
-  objectnessFilter->SetAlpha(0.5);
-  objectnessFilter->SetBeta(0.5);
-  objectnessFilter->SetGamma(5.0);
+  if ( ! objectnessFilter->GetBrightObject() )
+    {
+    std::cerr << "Error in Set/GetBrightObject method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  const double tolerance = 0.001;
+
+  double alphaValue = 0.5;
+  objectnessFilter->SetAlpha(alphaValue);
+  if( fabs( objectnessFilter->GetAlpha() - alphaValue ) >= tolerance )
+    {
+    std::cerr << "Error in Set/GetAlpha() method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  double  betaValue = 0.5;
+  objectnessFilter->SetBeta(betaValue);
+  if( fabs( objectnessFilter->GetBeta() - betaValue ) >= tolerance )
+    {
+    std::cerr << "Error in Set/GetBeta() method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  double  gammaValue = 0.5;
+  objectnessFilter->SetGamma( gammaValue );
+  if( fabs( objectnessFilter->GetGamma() - gammaValue ) >= tolerance )
+    {
+    std::cerr << "Error in Set/GetGamma() method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  //Verify exceptions will be thrown if the object dimension is larger than
+  //the image dimension 
+  objectnessFilter->SetObjectDimension( 3 ); 
+  try
+    {
+    objectnessFilter->Update();
+    std::cerr << "Exceptions should have been thrown ( objectDimension > imageDimension )" 
+              << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
 
   if ( argc >= 3 )
     {
-    objectnessFilter->SetObjectDimension( atoi(argv[3]) );
+    unsigned int objectDimension = atoi(argv[3]);
+    objectnessFilter->SetObjectDimension( objectDimension );
+
+    if ( objectnessFilter->GetObjectDimension() != objectDimension )
+      {
+      std::cerr << "Error in Set/GetObjectDimension() method" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   if ( argc >= 4 )
     {
-    objectnessFilter->SetBrightObject( atoi(argv[4]) );
+    bool brightObject = atoi( argv[4] );
+    objectnessFilter->SetBrightObject( brightObject );
+    if ( objectnessFilter->GetBrightObject() != brightObject ) 
+      {
+      std::cerr << "Error in Set/GetBrightObject() method" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   try
