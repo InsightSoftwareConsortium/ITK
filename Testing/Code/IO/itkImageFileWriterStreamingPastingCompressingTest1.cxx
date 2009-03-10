@@ -22,6 +22,7 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
+#include <stdio.h>
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
