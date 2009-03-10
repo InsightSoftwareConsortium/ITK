@@ -101,15 +101,21 @@ MultiScaleHessianBasedMeasureImageFilter
 
   if (m_GenerateScalesOutput)
     {
-    this->GetOutput(1)->SetBufferedRegion(this->GetOutput(1)->GetRequestedRegion());
-    this->GetOutput(1)->Allocate();
-    this->GetOutput(1)->FillBuffer(0);
+    typename OutputImageType::Pointer scalesImage = 
+              dynamic_cast<OutputImageType*>(this->ProcessObject::GetOutput(1));
+
+    scalesImage->SetBufferedRegion(scalesImage->GetRequestedRegion());
+    scalesImage->Allocate();
+    scalesImage->FillBuffer(0);
     }
 
   if (m_GenerateHessianOutput)
     {
-    this->GetOutput(2)->SetBufferedRegion(this->GetOutput(2)->GetRequestedRegion());
-    this->GetOutput(2)->Allocate();
+    typename HessianImageType::Pointer hessianImage = 
+              dynamic_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
+
+    hessianImage->SetBufferedRegion(hessianImage->GetRequestedRegion());
+    hessianImage->Allocate();
     }
 
   // Allocate the buffer
