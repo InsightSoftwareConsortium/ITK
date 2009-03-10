@@ -110,8 +110,8 @@ public:
   /** Set/Get the dimensionality of the object (0: points (blobs), 
    * 1: lines (vessels), 2: planes (plate-like structures), 3: hyper-planes.
    * ObjectDimension must be smaller than ImageDimension. */
-  itkSetMacro(ObjectDimension,int);
-  itkGetMacro(ObjectDimension,int);
+  itkSetMacro(ObjectDimension,unsigned int);
+  itkGetMacro(ObjectDimension,unsigned int);
 
   /** Enhance bright structures on a dark background if true, the opposite if false. */
   itkSetMacro(BrightObject,bool);
@@ -140,7 +140,7 @@ private:
   double                 m_Alpha;
   double                 m_Beta;
   double                 m_Gamma;
-  int                    m_ObjectDimension;
+  unsigned int           m_ObjectDimension;
   bool                   m_BrightObject;
   bool                   m_ScaleObjectnessMeasure;
 };
