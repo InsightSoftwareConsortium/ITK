@@ -141,6 +141,10 @@ public:
   /** Pointer Type for the vector distance image. */
   typedef typename VectorImageType::Pointer VectorImagePointer;
 
+  /** Pointer Type for data object */
+  typedef typename Superclass::DataObjectPointer DataObjectPointer;
+
+
   /** Set if the distance should be squared. */
   itkSetMacro( SquaredDistance, bool );
 
@@ -191,6 +195,9 @@ public:
 
   /** Get vector field of distances. */
   VectorImageType * GetVectorDistanceMap(void);
+
+  /** This is overloaded to create the VectorDistanceMap output image */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
