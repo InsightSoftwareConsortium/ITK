@@ -444,7 +444,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
 
 template <class ScalarType, unsigned VecLength, unsigned Dimension>
 int
-TestVectorImage()
+TestVectorImage(const std::string fname)
 {
   const int dimsize = 2;
   /** Deformation field pixel type. */
@@ -467,6 +467,26 @@ TestVectorImage()
   typename VectorImageType::IndexType index;
   typename VectorImageType::SpacingType spacing;
   typename VectorImageType::PointType origin;
+  typename VectorImageType::DirectionType myDirection;
+  myDirection.SetIdentity();
+  for(unsigned int r=0;r<Dimension;r++)
+    {
+    for(unsigned int c=0;c<Dimension;c++)
+      {
+      if(r == (Dimension-1-c))
+        {
+        myDirection[r][c]=vcl_pow(-1.0,static_cast<double>(r));
+        }
+      else
+        {
+        myDirection[r][c]=0.0;
+        }
+      }
+    }
+
+  std::cout << " === Testing VectorLength: " << VecLength << " Image Dimension " << static_cast<int>(Dimension) << std::endl;
+  std::cout << "======================== Initialized Direction" << std::endl;
+  std::cout << myDirection << std::endl;
 
   for(unsigned i = 0; i < Dimension; i++)
     {
@@ -481,13 +501,13 @@ TestVectorImage()
   vi->SetRegions(imageRegion);
   vi->SetSpacing(spacing);
   vi->SetOrigin(origin);
+  vi->SetDirection(myDirection);
   vi->Allocate();
 
   vnl_random randgen;
 
   typedef itk::ImageRegionIterator<VectorImageType> IteratorType;
   typedef itk::ImageRegionConstIterator<VectorImageType> ConstIteratorType;
-  std::cout << "Original vector Image" << std::endl;
 
   int dims[7];
   int _index[7];
@@ -500,6 +520,7 @@ TestVectorImage()
     dims[i] = 1;
     }
 
+  int incr_value=0;
   //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
   for(int l = 0; l < dims[6]; l++)
     {
@@ -526,7 +547,8 @@ TestVectorImage()
                 float lowrange(100.00),highrange(200.00);
                 for(unsigned int q = 0; q < VecLength; q++)
                   {
-                  pixel[q] = randgen.drand32(lowrange,highrange);
+                  //pixel[q] = randgen.drand32(lowrange,highrange);
+                  pixel[q] = incr_value++;
                   lowrange += 100.0;
                   highrange += 100.0;
                   }
@@ -535,7 +557,6 @@ TestVectorImage()
                   index[q] = _index[q];
                   }
                 vi->SetPixel(index,pixel);
-                std::cout << pixel << std::endl;
                 }
               }
             }
@@ -545,7 +566,6 @@ TestVectorImage()
     }
   typename FieldWriterType::Pointer writer = FieldWriterType::New();
   writer->SetInput(vi);
-  std::string fname("vectorImageTest.nii.gz");
   writer->SetFileName(fname.c_str());
   try
     {
@@ -582,42 +602,29 @@ TestVectorImage()
     return EXIT_FAILURE;
     }
   bool same = true;
-  std::cout << "vector Image read from disk" << std::endl;
-  for(int l = 0; l < dims[6]; l++)
+  if(readback->GetOrigin() != vi->GetOrigin() )
     {
-    _index[6] = l;
-    for(int m = 0; m < dims[5]; m++)
+    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin()  << std::endl;
+    same = false;
+    }
+  if(readback->GetSpacing() != vi->GetSpacing() )
+    {
+    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing()  << std::endl;
+    same = false;
+    }
+  for(unsigned int r=0;r<Dimension;r++)
+    {
+    for(unsigned int c=0;c<Dimension;c++)
       {
-      _index[5] = m;
-      for(int n = 0; n < dims[4]; n++)
+      if(vcl_abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
         {
-        _index[4] = n;
-        for(int p = 0; p < dims[3]; p++)
-          { 
-          _index[3] = p;
-          for(int i = 0; i < dims[2]; i++)
-            {
-            _index[2] = i;
-            for(int j = 0; j < dims[1]; j++)
-              {
-              _index[1] = j;
-              for(int k = 0; k < dims[0]; k++)
-                {
-                _index[0] = k;
-                FieldPixelType pixel;
-                for(unsigned int q = 0; q < Dimension; q++)
-                  {
-                  index[q] = _index[q];
-                  }
-                pixel = readback->GetPixel(index);
-                std::cout << pixel << std::endl;
-                }
-              }
-            }
-          }
+        std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n" << vi->GetDirection()  << std::endl;
+        same = false;
+        break;
         }
       }
     }
+  std::cout << "Original vector Image  ?=   vector Image read from disk " << std::endl;
   for(int l = 0; l < dims[6]; l++)
     {
     _index[6] = l;
@@ -649,6 +656,11 @@ TestVectorImage()
                 if(p1 != p2)
                   {
                   same = false;
+                  std::cout << p1 << " != " << p2 <<  "    ERROR! " << std::endl;
+                  }
+                else
+                  {
+                  std::cout << p1 << " == " << p2 << std::endl;
                   }
                 }
               }
@@ -657,7 +669,14 @@ TestVectorImage()
         }
       }
     }
-  Remove(fname.c_str());
+  if(same)
+    {
+    Remove(fname.c_str());
+    }
+  else
+    {
+    std::cout << "Failing image can be found at: " << fname << std::endl;
+    }
   return same ? 0 : EXIT_FAILURE;
 }
 /** Test writing and reading a Vector Image
@@ -676,14 +695,12 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     return EXIT_FAILURE;
     }
   int success(0);
-  success |= TestVectorImage<float,3,1>();
-  success |= TestVectorImage<float,3,2>();
-  success |= TestVectorImage<float,3,3>();
-  success |= TestVectorImage<double,3,3>();
-  success |= TestVectorImage<float,4,3>();
-  success |= TestVectorImage<double,4,3>();
-  success |= TestVectorImage<float,4,4>();
-  success |= TestVectorImage<float,4,5>();
+  success |= TestVectorImage<float,3,1>("testVectorImage_float_3_1.nii.gz");
+  success |= TestVectorImage<float,3,2>("testVectorImage_float_3_2.nii.gz");
+  success |= TestVectorImage<float,3,3>("testVectorImage_float_3_3.nii.gz");
+  success |= TestVectorImage<float,4,3>("testVectorImage_float_4_3.nii.gz");
+  //TODO: Need to make 4D images work for reading/writing within ITK success |= TestVectorImage<float,4,4>("testVectorImage_float_4_4.nii.gz");
+  success |= TestVectorImage<double,3,3>("testVectorImage_double_3_3.nii.gz");
   return success;
 }
 
