@@ -468,20 +468,37 @@ TestVectorImage(const std::string fname)
   typename VectorImageType::SpacingType spacing;
   typename VectorImageType::PointType origin;
   typename VectorImageType::DirectionType myDirection;
-  myDirection.SetIdentity();
-  for(unsigned int r=0;r<Dimension;r++)
+  myDirection.Fill(0.0);
+  // original test case was destined for failure.  NIfTI always writes out 3D
+  // orientation.  The only sensible matrices you could pass in would be of the form
+  // A B C 0
+  // D E F 0
+  // E F G 0
+  // 0 0 0 1
+  // anything in the 4th dimension that didn't follow that form would just come up scrambled.
+  //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
+  //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the 
+  //      direction matrix.
+  switch(Dimension)
     {
-    for(unsigned int c=0;c<Dimension;c++)
-      {
-      if(r == (Dimension-1-c))
-        {
-        myDirection[r][c]=vcl_pow(-1.0,static_cast<double>(r));
-        }
-      else
-        {
-        myDirection[r][c]=0.0;
-        }
-      }
+    case 1:
+      myDirection[0][0] = -1.0;
+      break;
+    case 2:
+      myDirection[0][1] = 1.0;
+      myDirection[1][0] = -1.0;
+      break;
+    case 3:
+      myDirection[0][2] = 1.0;
+      myDirection[1][0] = -1.0;
+      myDirection[2][1] = 1.0;
+      break;
+    case 4:
+      myDirection[0][2] = 1.0;
+      myDirection[1][0] = -1.0;
+      myDirection[2][1] = 1.0;
+      myDirection[3][3] = 1.0;
+      break;
     }
 
   std::cout << " === Testing VectorLength: " << VecLength << " Image Dimension " << static_cast<int>(Dimension) << std::endl;
@@ -503,8 +520,6 @@ TestVectorImage(const std::string fname)
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
   vi->Allocate();
-
-  vnl_random randgen;
 
   typedef itk::ImageRegionIterator<VectorImageType> IteratorType;
   typedef itk::ImageRegionConstIterator<VectorImageType> ConstIteratorType;
@@ -699,7 +714,7 @@ int itkNiftiImageIOTest3(int ac, char* av[])
   success |= TestVectorImage<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
   success |= TestVectorImage<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
   success |= TestVectorImage<float,4,3>(std::string("testVectorImage_float_4_3.nii.gz"));
-  //TODO: Need to make 4D images work for reading/writing within ITK success |= TestVectorImage<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
+  success |= TestVectorImage<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
   success |= TestVectorImage<double,3,3>(std::string("testVectorImage_double_3_3.nii.gz"));
   return success;
 }

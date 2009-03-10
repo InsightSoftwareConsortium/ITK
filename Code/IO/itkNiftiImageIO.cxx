@@ -647,8 +647,6 @@ NiftiImageIO
     if(this->m_NiftiImage->dim[4] > 1)
       {
       this->SetNumberOfDimensions(4);
-      //TODO:  Need to figure out how to make 4D vector images read into ITK properly.
-      itkExceptionMacro(<< this->GetFileName() << " is a 4D vector nifti image, and is not yet handeled properly by ITK.  is not recognized as a NIFTI file");
       }
     else if(this->m_NiftiImage->dim[3] > 1)
       {
@@ -1062,11 +1060,6 @@ NiftiImageIO
     if(this->GetNumberOfDimensions()> 4)
       {
       itkExceptionMacro(<< "Can not store a vector image of more than 4 dimensions in a Nifti file. Dimension=" << this->GetNumberOfDimensions() );
-      }
-    if(this->GetNumberOfDimensions()> 3) //HACK:  Someone else will have to finish debugging this case.
-      {
-      //TODO:  Need to make reading and writing of 4D images in ITK work
-      itkExceptionMacro(<< "Still need to debug storing a vector image of 4 dimensions =" << this->GetNumberOfDimensions() );
       }
     this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
     this->m_NiftiImage->nu =
