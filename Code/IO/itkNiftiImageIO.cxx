@@ -1011,7 +1011,7 @@ NiftiImageIO
         = static_cast< int >( this->GetDimensions(6) );
       this->m_NiftiImage->pixdim[7] = this->m_NiftiImage->dw =
         static_cast<float>( this->GetSpacing(6) );
-      this->m_NiftiImage->nvox * = this->m_NiftiImage->dim[7];
+      this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[7];
     case 6:
       this->m_NiftiImage->dim[6] = this->m_NiftiImage->nv
         = this->GetDimensions(5);
