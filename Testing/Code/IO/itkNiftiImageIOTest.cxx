@@ -695,12 +695,12 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     return EXIT_FAILURE;
     }
   int success(0);
-  success |= TestVectorImage<float,3,1>("testVectorImage_float_3_1.nii.gz");
-  success |= TestVectorImage<float,3,2>("testVectorImage_float_3_2.nii.gz");
-  success |= TestVectorImage<float,3,3>("testVectorImage_float_3_3.nii.gz");
-  success |= TestVectorImage<float,4,3>("testVectorImage_float_4_3.nii.gz");
-  //TODO: Need to make 4D images work for reading/writing within ITK success |= TestVectorImage<float,4,4>("testVectorImage_float_4_4.nii.gz");
-  success |= TestVectorImage<double,3,3>("testVectorImage_double_3_3.nii.gz");
+  success |= TestVectorImage<float,3,1>(std::string("testVectorImage_float_3_1.nii.gz"));
+  success |= TestVectorImage<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
+  success |= TestVectorImage<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
+  success |= TestVectorImage<float,4,3>(std::string("testVectorImage_float_4_3.nii.gz"));
+  //TODO: Need to make 4D images work for reading/writing within ITK success |= TestVectorImage<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
+  success |= TestVectorImage<double,3,3>(std::string("testVectorImage_double_3_3.nii.gz"));
   return success;
 }
 
