@@ -499,6 +499,26 @@ void NiftiImageIO::Read(void* buffer)
     const unsigned int slicedist=rowdist*m_NiftiImage->dim[2];
     const unsigned int volumedist=slicedist*m_NiftiImage->dim[3];
     const unsigned int seriesdist=volumedist*m_NiftiImage->dim[4];
+    //
+    // as per ITK bug 0007485
+    // NIfTI is lower triangular, ITK is upper triangular.
+    // i.e. if a symmetric matrix is
+    // a b c
+    // b d e
+    // c e f
+    // ITK stores it a b c d e f, but NIfTI is a b d c e f
+    // so on read, step sequentially through the source vector, but
+    // reverse the order of vec[2] and vec[3]
+    int *vecOrder = new int[numComponents];
+    for(unsigned i = 0; i < numComponents; i++)
+      {
+      vecOrder[i] = i;
+      }
+    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D)
+      {
+      vecOrder[2] = 3;
+      vecOrder[3] = 2;
+      }
     for(int t = 0; t < this->m_NiftiImage->dim[4]; t++)
       {
       for(int z = 0; z < this->m_NiftiImage->dim[3]; z++)
@@ -510,7 +530,7 @@ void NiftiImageIO::Read(void* buffer)
             for(unsigned int c=0;c< numComponents; c++)
               {
               const unsigned int nifti_index=(c*seriesdist+volumedist*t + slicedist*z + rowdist*y + x)*pixelSize;
-              const unsigned int itk_index=((volumedist*t + slicedist*z + rowdist*y + x)*numComponents +c)*pixelSize;
+              const unsigned int itk_index=((volumedist*t + slicedist*z + rowdist*y + x)*numComponents + vecOrder[c])*pixelSize;
               memcpy(itkbuf+itk_index,niftibuf+nifti_index,pixelSize);
               }
             }
@@ -1061,7 +1081,16 @@ NiftiImageIO
       {
       itkExceptionMacro(<< "Can not store a vector image of more than 4 dimensions in a Nifti file. Dimension=" << this->GetNumberOfDimensions() );
       }
-    this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
+    //
+    // support symmetric matrix type
+    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D)
+      {
+      this->m_NiftiImage->intent_code = NIFTI_INTENT_SYMMATRIX;
+      }
+    else
+      {
+      this->m_NiftiImage->intent_code = NIFTI_INTENT_VECTOR;
+      }
     this->m_NiftiImage->nu =
       this->m_NiftiImage->dim[5] = this->GetNumberOfComponents();
     if(this->GetNumberOfDimensions() < 4)
@@ -1478,6 +1507,26 @@ NiftiImageIO
     const unsigned int slicedist=rowdist*m_NiftiImage->dim[2];
     const unsigned int volumedist=slicedist*m_NiftiImage->dim[3];
     const unsigned int seriesdist=volumedist*m_NiftiImage->dim[4];
+    //
+    // as per ITK bug 0007485
+    // NIfTI is lower triangular, ITK is upper triangular.
+    // i.e. if a symmetric matrix is
+    // a b c
+    // b d e
+    // c e f
+    // ITK stores it a b c d e f, but NIfTI is a b d c e f
+    // so on read, step sequentially through the source vector, but
+    // reverse the order of vec[2] and vec[3]
+    int *vecOrder = new int[numComponents];
+    for(unsigned i = 0; i < numComponents; i++)
+      {
+      vecOrder[i] = i;
+      }
+    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D)
+      {
+      vecOrder[2] = 3;
+      vecOrder[3] = 2;
+      }
     for(int t = 0; t < this->m_NiftiImage->dim[4]; t++)
       {
       for(int z = 0; z < this->m_NiftiImage->dim[3]; z++)
@@ -1489,7 +1538,7 @@ NiftiImageIO
             for(unsigned int c=0;c< numComponents; c++)
               {
               const unsigned int nifti_index=(c*seriesdist+volumedist*t + slicedist*z + rowdist*y + x)*this->m_NiftiImage->nbyper;
-              const unsigned int itk_index=((volumedist*t + slicedist*z + rowdist*y + x)*numComponents +c)*this->m_NiftiImage->nbyper;
+              const unsigned int itk_index=((volumedist*t + slicedist*z + rowdist*y + x)*numComponents + vecOrder[c])*this->m_NiftiImage->nbyper;
               memcpy(nifti_buf+nifti_index,itkbuf+itk_index,this->m_NiftiImage->nbyper);
               }
             }
