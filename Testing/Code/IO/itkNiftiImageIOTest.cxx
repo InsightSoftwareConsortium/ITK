@@ -22,6 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <string.h>
 #include "itkImageFileReader.h"
 #include "itkImage.h"
+#include "itkVectorImage.h"
 
 #include <itksys/SystemTools.hxx>
 #include "itkImageRegionIterator.h"
@@ -46,6 +47,67 @@ PURPOSE.  See the above copyright notices for more information.
 static inline int Remove(const char *fname)
 {
   return itksys::SystemTools::RemoveFile(fname);
+}
+
+template <typename TImage>
+typename TImage::Pointer ReadImage( const std::string &fileName, const bool zeroOrigin = false )
+{
+  typedef itk::ImageFileReader<TImage> ReaderType;
+
+  typename ReaderType::Pointer reader = ReaderType::New();
+  {
+  reader->SetFileName( fileName.c_str() );
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an exception: " << std::endl;
+    std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
+    throw err;
+    }
+  catch(...)
+    {
+    std::cout << "Error while reading in image for patient " << fileName << std::endl;
+    throw;
+    }
+  }
+  typename TImage::Pointer image = reader->GetOutput();
+  if(zeroOrigin)
+    {
+    double origin[TImage::ImageDimension];
+    for(unsigned int i =0 ; i< TImage::ImageDimension ; i++)
+      {
+      origin[i]=0;
+      }
+    image->SetOrigin(origin);
+    }
+  return image;
+}
+
+template <class ImageType>
+void
+WriteImage(typename ImageType::Pointer &image ,
+           const std::string &filename)
+{
+
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typename  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName(filename.c_str());
+
+  writer->SetInput(image);
+
+  try
+    {
+    writer->Update();
+    }
+  catch (itk::ExceptionObject &err) {
+  std::cout << "Exception Object caught: " << std::endl;
+  std::cout << err << std::endl;
+  throw;
+  }
 }
 
 const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
@@ -108,7 +170,6 @@ static int TestByteSwap(void)
 {
   int rval;
   typedef itk::Image<double, 3> ImageType ;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   if(WriteTestFiles() == -1)
     {
       return EXIT_FAILURE;
@@ -117,24 +178,19 @@ static int TestByteSwap(void)
   ImageType::Pointer little;
   ImageType::Pointer big;
 
-  itk::ImageFileReader<ImageType>::Pointer imageReader =
-    itk::ImageFileReader<ImageType>::New();
   try
-  {
-    imageReader->SetFileName("NiftiLittleEndian.hdr") ;
-    imageReader->Update() ;
-    little = imageReader->GetOutput() ;
-    imageReader->SetFileName("NiftiBigEndian.hdr") ;
-    imageReader->Update() ;
-    big = imageReader->GetOutput();
+    {
+    little = ReadImage<ImageType>("NiftiLittleEndian.hdr");
+    const std::string fname("NiftiBigEndian.hdr");
+    big = ReadImage<ImageType>(fname);
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
-  }
+    }
   catch (itk::ExceptionObject &e)
     {
-      e.Print(std::cerr) ;
-      RemoveByteSwapTestFiles();
-      return EXIT_FAILURE;
+    e.Print(std::cerr) ;
+    RemoveByteSwapTestFiles();
+    return EXIT_FAILURE;
     }
   rval = 0;
   try
@@ -188,10 +244,34 @@ AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &region,
     (region,spacing);
 }
 
+template <class TemplateImageType, class OutputImageType>
+typename OutputImageType::Pointer
+AllocateImageFromRegionAndSpacing(const typename TemplateImageType::RegionType &region,
+                                  const typename TemplateImageType::SpacingType &spacing,
+                                  unsigned vecLength)
+{
+  typename OutputImageType::Pointer rval;
+  rval = OutputImageType::New();
+  rval->SetSpacing(spacing);
+  rval->SetRegions(region);
+  rval->SetVectorLength(vecLength);
+  rval->Allocate();
+  return rval;
+}
+
+template <class ImageType>
+typename ImageType::Pointer
+AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &region,
+                                  const typename ImageType::SpacingType &spacing,
+                                  unsigned vecLength)
+{
+  return AllocateImageFromRegionAndSpacing<ImageType,ImageType>
+    (region,spacing,vecLength);
+}
+
 template <typename T> int MakeNiftiImage(void)
 {
   typedef itk::Image<T, 3> ImageType ;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   const char *filename = "test.nii";
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
@@ -261,20 +341,10 @@ template <typename T> int MakeNiftiImage(void)
         ++RPIiterator;
       }
   }
-  typedef itk::ImageFileWriter< ImageType >      ImageWriterType;
-  typename ImageWriterType::Pointer ImageWriterPointer =
-    ImageWriterType::New();
-
-  //Set the output filename
-  ImageWriterPointer->SetFileName(filename);
-
-  //Attach input image to the writer.
-  ImageWriterPointer->SetInput( img );
-  //Determine file type and instantiate appropriate ImageIO class if not
-  //explicitly stated with SetImageIO, then write to disk.
-  try {
-    ImageWriterPointer->Write();
-  }
+  try 
+    {
+    WriteImage<ImageType>(img,filename);
+    }
   catch ( itk::ExceptionObject & ex )
     {
       std::string message;
@@ -288,16 +358,10 @@ template <typename T> int MakeNiftiImage(void)
       Remove(filename);
       return EXIT_FAILURE;
     }
-
-  //typedef itk::ImageFileReader< ImageType > ImageReaderType ;
   typename ImageType::Pointer input;
-  typename itk::ImageFileReader<ImageType>::Pointer imageReader =
-    itk::ImageFileReader<ImageType>::New();
   try
     {
-      imageReader->SetFileName(filename) ;
-      imageReader->Update() ;
-      input = imageReader->GetOutput() ;
+      input = ReadImage<ImageType>(filename);
     }
   catch (itk::ExceptionObject &e)
     {
@@ -333,16 +397,12 @@ int itkNiftiImageIOTest(int ac, char* av[])
     {
       typedef itk::Image<unsigned char, 3> ImageType ;
       ImageType::Pointer input;
-      itk::ImageFileReader<ImageType>::Pointer imageReader =
-        itk::ImageFileReader<ImageType>::New();
       for(int imagenameindex=1; imagenameindex < ac; imagenameindex++)
         {
           //std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
           try
             {
-              imageReader->SetFileName(av[imagenameindex]) ;
-              imageReader->Update() ;
-              input=imageReader->GetOutput() ;
+              input = ReadImage<ImageType>(av[imagenameindex]);
             }
           catch (itk::ExceptionObject &e)
             {
@@ -423,7 +483,6 @@ int itkNiftiImageIOTest2(int ac, char* av[])
   int test_success = 0;
   typedef itk::Image<signed short, 3> ImageType ;
   typedef ImageType::Pointer ImagePointer ;
-  typedef itk::ImageFileReader< ImageType > ImageReaderType ;
 
   if((strcmp(arg1, "true") == 0) && WriteTestFiles() == -1)
     {
@@ -432,15 +491,17 @@ int itkNiftiImageIOTest2(int ac, char* av[])
 
 
 
-  itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
-  ImageReaderType::Pointer imageReader = ImageReaderType::New();
   ImagePointer input;
   try
     {
-      imageReader->SetImageIO(io);
-      imageReader->SetFileName(arg2);
-      imageReader->Update();
-      input = imageReader->GetOutput();
+    typedef itk::ImageFileReader<ImageType> ImageReaderType;
+    itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
+    ImageReaderType::Pointer imageReader = ImageReaderType::New();
+    imageReader->SetImageIO(io);
+    imageReader->SetFileName(arg2);
+    imageReader->Update();
+    input = imageReader->GetOutput();
+    input = ReadImage<ImageType>(arg2);
     }
   catch (itk::ExceptionObject &)
     {
@@ -467,7 +528,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
 
 template <class ScalarType, unsigned VecLength, unsigned Dimension>
 int
-TestImageOfVectors(const std::string fname)
+TestImageOfVectors(const std::string &fname)
 {
   const int dimsize = 2;
   /** Deformation field pixel type. */
@@ -475,12 +536,6 @@ TestImageOfVectors(const std::string fname)
 
   /** Deformation field type. */
   typedef typename itk::Image<FieldPixelType,Dimension> VectorImageType;
-
-  /** file reader type */
-  typedef typename itk::ImageFileReader< VectorImageType >  FieldReaderType;
-
-  /** file writer type */
-  typedef typename itk::ImageFileWriter< VectorImageType >  FieldWriterType;
 
   //
   // swizzle up a random vector image.
@@ -600,12 +655,9 @@ TestImageOfVectors(const std::string fname)
         }
       }
     }
-  typename FieldWriterType::Pointer writer = FieldWriterType::New();
-  writer->SetInput(vi);
-  writer->SetFileName(fname.c_str());
   try
     {
-    writer->Write();
+    WriteImage<VectorImageType>(vi,fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -620,12 +672,9 @@ TestImageOfVectors(const std::string fname)
   //
   // read it back in.
   typename VectorImageType::Pointer readback;
-  typename FieldReaderType::Pointer reader = FieldReaderType::New();
   try
     {
-    reader->SetFileName(fname.c_str());
-    reader->Update();
-    readback = reader->GetOutput();
+    readback = ReadImage<VectorImageType>(fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -802,8 +851,6 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     return EXIT_FAILURE;
     }
   
-  typedef itk::ImageFileWriter<Test4ImageType> Test4Writer;
-  typedef itk::ImageFileReader<Test4ImageType> Test4Reader;
   //
   Test4ImageType::Pointer test4Image = Test4ImageType::New();
   Test4ImageType::RegionType imageRegion;
@@ -854,13 +901,10 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI);
 #endif
   test4Image->SetDirection(dir);
-  Test4Writer::Pointer writer = Test4Writer::New();
-  writer->SetInput(test4Image);
   std::string fname("directionsTest.nii.gz");
-  writer->SetFileName(fname.c_str());
   try
     {
-    writer->Write();
+    WriteImage<Test4ImageType>(test4Image,fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -875,12 +919,9 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   //
   // read it back in.
   Test4ImageType::Pointer readback;
-  Test4Reader::Pointer reader = Test4Reader::New();
-  reader->SetFileName(fname.c_str());
   try
     {
-    reader->Update();
-    readback = reader->GetOutput();
+    readback = ReadImage<Test4ImageType>(fname);
     }
   catch(itk::ExceptionObject &ex)
     {
@@ -977,19 +1018,16 @@ SlopeInterceptTest()
   //
   // read the image back in
   typedef typename itk::Image<float,3> ImageType;
-  typedef typename itk::ImageFileReader<ImageType> ReaderType;
-  typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(filename);
+  typename ImageType::Pointer image;
   try
     {
-    reader->Update();
+    image = ReadImage<ImageType>(filename);
     }
   catch(...)
     {
     Remove(filename);
     return EXIT_FAILURE;
     }
-  typename ImageType::Pointer image = reader->GetOutput();
   typedef typename itk::ImageRegionIterator<ImageType> IteratorType;
   IteratorType it(image,image->GetLargestPossibleRegion());
   it.GoToBegin();
@@ -1016,6 +1054,8 @@ SlopeInterceptTest()
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
+//
+// test vector images
 int itkNiftiImageIOTest5(int ac, char* av[])
 {
   //
@@ -1049,6 +1089,75 @@ int itkNiftiImageIOTest6(int ac, char *av[])
     {
     return EXIT_FAILURE;
     }
-  int success(0);
+  int success(EXIT_SUCCESS);
+
+  typedef itk::VectorImage<double,3> VectorImageType;
+  VectorImageType::RegionType imageRegion;
+  VectorImageType::SizeType size;
+  VectorImageType::IndexType index;
+  VectorImageType::SpacingType spacing;
+  VectorImageType::VectorLengthType vecLength(4);
+
+  for(unsigned i = 0; i < 3; i++)
+    {
+    size[i] = 3;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    }
+  imageRegion.SetSize(size); imageRegion.SetIndex(index);
+  VectorImageType::Pointer vecImage =
+    AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion,spacing,vecLength);
+
+  itk::ImageRegionIterator<VectorImageType> 
+    it(vecImage,vecImage->GetLargestPossibleRegion());
+  double val(0.0);
+  for(it.GoToBegin(); it != it.End(); ++it)
+    {
+    VectorImageType::PixelType p(vecLength);
+    for(unsigned i = 0; i < vecLength; i++)
+      {
+      p[i] = val;
+      val++;
+      }
+    it.Set(p);
+    }
+  const std::string testfname("vectorImage.nii.gz");
+  VectorImageType::Pointer readback;
+  try
+    {
+    WriteImage<VectorImageType>(vecImage,testfname);
+    readback = ReadImage<VectorImageType>(testfname);
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    std::cout << "itkNiftiImageIOTest6" << std::endl 
+              << "Exception Object caught: " << std::endl
+              << err << std::endl;
+    throw;
+    }
+  itk::ImageRegionIterator<VectorImageType>
+    readbackIt(readback,readback->GetLargestPossibleRegion());
+  for(it.GoToBegin(),readbackIt.GoToBegin();
+      it != it.End() && readbackIt != readbackIt.End();
+      ++it, ++readbackIt)
+    {
+    VectorImageType::PixelType p(vecLength),
+      readbackP(vecLength);
+    p = it.Get();
+    readbackP = readbackIt.Get();
+    if(p != readbackP)
+      {
+      std::cout << "Pixel mismatch at index "
+                << it.GetIndex()
+                << " original = "
+                << p
+                << " read value = "
+                << readbackP
+                << std::endl;
+      success = EXIT_FAILURE;
+      break;
+      }
+    }
+  Remove(testfname.c_str());
   return success;
 }
