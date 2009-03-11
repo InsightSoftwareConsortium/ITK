@@ -50,7 +50,8 @@ static inline int Remove(const char *fname)
 }
 
 template <typename TImage>
-typename TImage::Pointer ReadImage( const std::string &fileName, const bool zeroOrigin = false )
+typename TImage::Pointer ReadImage( const std::string &fileName,
+                                    const bool zeroOrigin = false )
 {
   typedef itk::ImageFileReader<TImage> ReaderType;
 
@@ -180,9 +181,9 @@ static int TestByteSwap(void)
 
   try
     {
-    little = ReadImage<ImageType>("NiftiLittleEndian.hdr");
+    little = ReadImage<ImageType>(std::string("NiftiLittleEndian.hdr"), false);
     const std::string fname("NiftiBigEndian.hdr");
-    big = ReadImage<ImageType>(fname);
+    big = ReadImage<ImageType>(fname, false);
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
     }
@@ -343,7 +344,7 @@ template <typename T> int MakeNiftiImage(void)
   }
   try 
     {
-    WriteImage<ImageType>(img,filename);
+    WriteImage<ImageType>(img,std::string(filename));
     }
   catch ( itk::ExceptionObject & ex )
     {
@@ -361,7 +362,7 @@ template <typename T> int MakeNiftiImage(void)
   typename ImageType::Pointer input;
   try
     {
-      input = ReadImage<ImageType>(filename);
+    input = ReadImage<ImageType>(std::string(filename));
     }
   catch (itk::ExceptionObject &e)
     {
@@ -402,7 +403,7 @@ int itkNiftiImageIOTest(int ac, char* av[])
           //std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
           try
             {
-              input = ReadImage<ImageType>(av[imagenameindex]);
+            input = ReadImage<ImageType>(std::string(av[imagenameindex]));
             }
           catch (itk::ExceptionObject &e)
             {
@@ -501,7 +502,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
     imageReader->SetFileName(arg2);
     imageReader->Update();
     input = imageReader->GetOutput();
-    input = ReadImage<ImageType>(arg2);
+    input = ReadImage<ImageType>(std::string(arg2));
     }
   catch (itk::ExceptionObject &)
     {
@@ -1021,7 +1022,7 @@ SlopeInterceptTest()
   typename ImageType::Pointer image;
   try
     {
-    image = ReadImage<ImageType>(filename);
+    image = ReadImage<ImageType>(std::string(filename));
     }
   catch(...)
     {
