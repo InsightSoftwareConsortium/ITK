@@ -97,7 +97,7 @@ bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::
   
   std::cout << "Writing Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
 
-  char outputFileName[128];
+  char outputFileName[1024];
   sprintf(outputFileName, "%s%i%i%i.%s", outputFileNameBase.c_str(),
           streamWriting, pasteWriting, compressWriting, outputFileNameExtension.c_str());
   
