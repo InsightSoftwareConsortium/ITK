@@ -69,8 +69,7 @@ ImageSource<TOutputImage>
     {
     return 0;
     }
-
-  // we assume that the first output is of the templated type
+  
   return static_cast<TOutputImage*>
     (this->ProcessObject::GetOutput(0));
 }
@@ -84,7 +83,7 @@ typename ImageSource<TOutputImage>::OutputImageType *
 ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {
-  return dynamic_cast<TOutputImage*>
+  return static_cast<TOutputImage*>
     (this->ProcessObject::GetOutput(idx));
 }
 
@@ -119,9 +118,7 @@ ImageSource<TOutputImage>
     itkExceptionMacro(<<"Requested to graft output that is a NULL pointer" );
     }
 
-  // we use the process object method since all out output may not be
-  // of the same type
-  DataObject * output = this->ProcessObject::GetOutput(idx);
+  DataObject * output = this->GetOutput(idx);
 
   // Call GraftImage to copy meta-information, regions, and the pixel container
   output->Graft( graft );
@@ -191,26 +188,15 @@ template <class TOutputImage>
 void 
 ImageSource<TOutputImage>
 ::AllocateOutputs()
-{  
-  typedef ImageBase<OutputImageDimension> ImageBaseType;
-  typename ImageBaseType::Pointer outputPtr;
+{
+  OutputImagePointer outputPtr;
 
   // Allocate the output memory
   for (unsigned int i=0; i < this->GetNumberOfOutputs(); i++)
     {
-    
-    // Check whether the output is an image of the appropriate
-    // dimension (use ProcessObject's version of the GetInput()
-    // method since it returns the input as a pointer to a
-    // DataObject as opposed to the subclass version which
-    // static_casts the input to an TInputImage).
-    outputPtr = dynamic_cast< ImageBaseType *>( this->ProcessObject::GetOutput(i) );
-
-    if ( outputPtr )
-      {
-      outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
-      outputPtr->Allocate();
-      }
+    outputPtr = this->GetOutput(i);
+    outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
+    outputPtr->Allocate();
     }
 }
 

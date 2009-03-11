@@ -70,10 +70,6 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-   /** ImageDimension constant */
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
    * been called, either explicitly or implicitly.  Both the filter
@@ -113,13 +109,6 @@ public:
    * For an image, the data generated is for the requested
    * Region, which can be set using ImageBase::SetRequestedRegion().
    * By default, the largest possible region is requested.
-   *
-   * For Filters which have multiple outputs of different types, the
-   * GetOutput() method assumes the output is of OutputImageType. For
-   * the GetOutput(unsigned int) method, a dynamic_cast is performed
-   * incase the filter has outputs of different types or image
-   * types. Derived classes should have names get methods for these
-   * outputs.
    */
   OutputImageType * GetOutput(void);
   OutputImageType * GetOutput(unsigned int idx);
