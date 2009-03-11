@@ -57,6 +57,39 @@ MultiScaleHessianBasedMeasureImageFilter
   this->ProcessObject::SetNthOutput(2,hessianImage.GetPointer());
 }
 
+
+/** This is overloaded to create the HessianImage output image */
+template <typename TInputImage,
+          typename THessianImage,
+          typename TOutputImage>
+typename MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>::DataObjectPointer 
+MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>
+::MakeOutput(unsigned int idx)
+{
+  // we must be able to make all outputs for Image:DisconnectPipeline
+  // to work
+  if  (idx == 2) 
+    {
+    return static_cast<DataObject*>(HessianImageType::New().GetPointer());
+    }
+  return Superclass::MakeOutput(idx);
+}
+
+template <typename TInputImage,
+          typename THessianImage,
+          typename TOutputImage>
+void
+MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>
+::EnlargeOutputRequestedRegion (DataObject *output)
+{
+  // currently this filter can not stream so we must set the outputs
+  // requested region to the largest
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
 template <typename TInputImage,
           typename THessianImage,
           typename TOutputImage>
@@ -70,9 +103,10 @@ MultiScaleHessianBasedMeasureImageFilter
 
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  m_UpdateBuffer->SetSpacing(output->GetSpacing());
-  m_UpdateBuffer->SetOrigin(output->GetOrigin());
-  m_UpdateBuffer->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
+  // this copies meta data describing the output such as origin,
+  // spacing and the largest region
+  m_UpdateBuffer->CopyInformation(output);
+
   m_UpdateBuffer->SetRequestedRegion(output->GetRequestedRegion());
   m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
   m_UpdateBuffer->Allocate();
@@ -90,9 +124,10 @@ MultiScaleHessianBasedMeasureImageFilter
 <TInputImage,THessianImage,TOutputImage>
 ::GenerateData()
 {
+  // TODO: Move the allocation to a derived AllocateOutputs method
   // Allocate the output
-  this->GetOutput(0)->SetBufferedRegion(this->GetOutput(0)->GetRequestedRegion());
-  this->GetOutput(0)->Allocate();
+  this->GetOutput()->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
+  this->GetOutput()->Allocate();
 
   if( m_HessianToMeasureFilter.IsNull() )
     {
@@ -112,7 +147,7 @@ MultiScaleHessianBasedMeasureImageFilter
   if (m_GenerateHessianOutput)
     {
     typename HessianImageType::Pointer hessianImage = 
-              dynamic_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
+      dynamic_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
 
     hessianImage->SetBufferedRegion(hessianImage->GetRequestedRegion());
     hessianImage->Allocate();
@@ -133,6 +168,7 @@ MultiScaleHessianBasedMeasureImageFilter
 
   while (sigma <= m_SigmaMaximum)
     {
+    // TODO: change the to debug output
     std::cout << "Computing measure for scale with sigma = "
               << sigma << std::endl;
 
@@ -149,11 +185,14 @@ MultiScaleHessianBasedMeasureImageFilter
     scaleLevel++;
     }
 
-  //Write out the best response to the output image
-  ImageRegionIterator<UpdateBufferType> it(m_UpdateBuffer,m_UpdateBuffer->GetLargestPossibleRegion());
+  // Write out the best response to the output image
+  // we can assume that the meta-data should match between these two
+  // image, therefore we iterate over the desired output region
+  OutputRegionType outputRegion = this->GetOutput()->GetBufferedRegion();
+  ImageRegionIterator<UpdateBufferType> it( m_UpdateBuffer, outputRegion );
   it.GoToBegin();
 
-  ImageRegionIterator<TOutputImage> oit(this->GetOutput(0),this->GetOutput(0)->GetLargestPossibleRegion());
+  ImageRegionIterator<TOutputImage> oit( this->GetOutput(), outputRegion );
   oit.GoToBegin();
 
   while(!oit.IsAtEnd())
@@ -172,13 +211,16 @@ MultiScaleHessianBasedMeasureImageFilter
 <TInputImage,THessianImage,TOutputImage>
 ::UpdateMaximumResponse(double sigma)
 {
-  ImageRegionIterator<UpdateBufferType> oit(m_UpdateBuffer,m_UpdateBuffer->GetLargestPossibleRegion());
+  // the meta-data should match between these images, therefore we
+  // iterate over the desired output region 
+  OutputRegionType outputRegion = this->GetOutput()->GetBufferedRegion();
+  ImageRegionIterator<UpdateBufferType> oit( m_UpdateBuffer, outputRegion );
 
   typename OutputImageType::Pointer scalesImage = static_cast<OutputImageType*>(this->ProcessObject::GetOutput(1));
-  ImageRegionIterator<OutputImageType> osit(scalesImage,scalesImage->GetLargestPossibleRegion());
+  ImageRegionIterator<OutputImageType> osit (scalesImage, outputRegion );
 
   typename HessianImageType::Pointer hessianImage = static_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
-  ImageRegionIterator<HessianImageType> ohit(hessianImage,hessianImage->GetLargestPossibleRegion());
+  ImageRegionIterator<HessianImageType> ohit( hessianImage, outputRegion );
 
   oit.GoToBegin();
   if (m_GenerateScalesOutput)
@@ -192,10 +234,8 @@ MultiScaleHessianBasedMeasureImageFilter
 
   typedef typename HessianToMeasureFilterType::OutputImageType HessianToMeasureOutputImageType;
 
-  ImageRegionIterator<HessianToMeasureOutputImageType> it(m_HessianToMeasureFilter->GetOutput(),
-    this->m_HessianToMeasureFilter->GetOutput()->GetLargestPossibleRegion());
-  ImageRegionIterator<HessianImageType> hit(m_HessianFilter->GetOutput(),
-    this->m_HessianFilter->GetOutput()->GetLargestPossibleRegion());
+  ImageRegionIterator<HessianToMeasureOutputImageType> it( m_HessianToMeasureFilter->GetOutput(), outputRegion );
+  ImageRegionIterator<HessianImageType> hit( m_HessianFilter->GetOutput(), outputRegion );
 
   it.GoToBegin();
   hit.GoToBegin();

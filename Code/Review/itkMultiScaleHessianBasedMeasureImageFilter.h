@@ -75,6 +75,7 @@ public:
 
   typedef typename TInputImage::PixelType                InputPixelType;
   typedef typename TOutputImage::PixelType               OutputPixelType;
+  typedef typename TOutputImage::RegionType              OutputRegionType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension<InputImageType>::ImageDimension);
@@ -85,7 +86,9 @@ public:
   /** Update image buffer that holds the best objectness response */ 
   typedef Image< double, itkGetStaticConstMacro(ImageDimension) > UpdateBufferType;
   typedef typename UpdateBufferType::ValueType                    BufferValueType;
-
+    
+  typedef typename Superclass::DataObjectPointer          DataObjectPointer;
+  
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
@@ -119,7 +122,6 @@ public:
     { 
     this->SetSigmaStepMethod(Self::EquispacedSigmaSteps);
     }
-
   void SetSigmaStepMethodToLogarithmic()
     {
     this->SetSigmaStepMethod(Self::LogarithmicSigmaSteps);
@@ -139,6 +141,11 @@ public:
     {
     return static_cast<const OutputImageType*>(this->ProcessObject::GetOutput(1));
     }
+  
+  /** This is overloaded to create the Hessian output image */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
+
+  void EnlargeOutputRequestedRegion (DataObject *);
 
   /** FIX ME : ADD DOCUMENTATION */
   itkSetMacro(GenerateScalesOutput,bool);
@@ -161,7 +168,6 @@ protected:
 
 private:
   void UpdateMaximumResponse(double sigma);
-
   double ComputeSigmaValue(int scaleLevel);
   
   void AllocateUpdateBuffer();
