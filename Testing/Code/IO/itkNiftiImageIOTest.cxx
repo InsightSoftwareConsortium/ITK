@@ -163,6 +163,31 @@ static int TestByteSwap(void)
   return rval;
 }
 
+/** Common code for allocating an image, allowing the region and spacing to be
+ * explicitly set.
+ */
+template <class TemplateImageType, class OutputImageType>
+typename OutputImageType::Pointer
+AllocateImageFromRegionAndSpacing(const typename TemplateImageType::RegionType &region,
+                                  const typename TemplateImageType::SpacingType &spacing)
+{
+  typename OutputImageType::Pointer rval;
+  rval = OutputImageType::New();
+  rval->SetSpacing(spacing);
+  rval->SetRegions(region);
+  rval->Allocate();
+  return rval;
+}
+
+template <class ImageType>
+typename ImageType::Pointer
+AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &region,
+                                  const typename ImageType::SpacingType &spacing)
+{
+  return AllocateImageFromRegionAndSpacing<ImageType,ImageType>
+    (region,spacing);
+}
+
 template <typename T> int MakeNiftiImage(void)
 {
   typedef itk::Image<T, 3> ImageType ;
@@ -172,16 +197,14 @@ template <typename T> int MakeNiftiImage(void)
   enum { ImageDimension = ImageType::ImageDimension };
   typename ImageType::Pointer img;
   const typename ImageType::SizeType size = {{10,10,10}};
+  typename ImageType::SpacingType spacing;
+  spacing[0] = spacing[1] = spacing[2] = 1.0;
+
   const typename ImageType::IndexType index = {{0,0,0}};
   typename ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
-
-  img = ImageType::New();
-  img->SetLargestPossibleRegion( region );
-  img->SetBufferedRegion( region );
-  img->SetRequestedRegion( region );
-  img->Allocate();
+  img = AllocateImageFromRegionAndSpacing<ImageType>(region,spacing);
 
   { //Fill in entire image
     itk::ImageRegionIterator<ImageType> ri(img,region);
@@ -444,7 +467,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
 
 template <class ScalarType, unsigned VecLength, unsigned Dimension>
 int
-TestVectorImage(const std::string fname)
+TestImageOfVectors(const std::string fname)
 {
   const int dimsize = 2;
   /** Deformation field pixel type. */
@@ -461,7 +484,7 @@ TestVectorImage(const std::string fname)
 
   //
   // swizzle up a random vector image.
-  typename VectorImageType::Pointer vi = VectorImageType::New();
+  typename VectorImageType::Pointer vi;
   typename VectorImageType::RegionType imageRegion;
   typename VectorImageType::SizeType size;
   typename VectorImageType::IndexType index;
@@ -500,7 +523,7 @@ TestVectorImage(const std::string fname)
       myDirection[3][3] = 1.0;
       break;
     }
-
+  
   std::cout << " === Testing VectorLength: " << VecLength << " Image Dimension " << static_cast<int>(Dimension) << std::endl;
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
@@ -515,11 +538,9 @@ TestVectorImage(const std::string fname)
 
   imageRegion.SetSize(size); 
   imageRegion.SetIndex(index);
-  vi->SetRegions(imageRegion);
-  vi->SetSpacing(spacing);
+  vi = AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion,spacing);
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
-  vi->Allocate();
 
   typedef itk::ImageRegionIterator<VectorImageType> IteratorType;
   typedef itk::ImageRegionConstIterator<VectorImageType> ConstIteratorType;
@@ -710,12 +731,12 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     return EXIT_FAILURE;
     }
   int success(0);
-  success |= TestVectorImage<float,3,1>(std::string("testVectorImage_float_3_1.nii.gz"));
-  success |= TestVectorImage<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
-  success |= TestVectorImage<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
-  success |= TestVectorImage<float,4,3>(std::string("testVectorImage_float_4_3.nii.gz"));
-  success |= TestVectorImage<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
-  success |= TestVectorImage<double,3,3>(std::string("testVectorImage_double_3_3.nii.gz"));
+  success |= TestImageOfVectors<float,3,1>(std::string("testVectorImage_float_3_1.nii.gz"));
+  success |= TestImageOfVectors<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
+  success |= TestImageOfVectors<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
+  success |= TestImageOfVectors<float,4,3>(std::string("testVectorImage_float_4_3.nii.gz"));
+  success |= TestImageOfVectors<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
+  success |= TestImageOfVectors<double,3,3>(std::string("testVectorImage_double_3_3.nii.gz"));
   return success;
 }
 
@@ -789,7 +810,6 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   Test4ImageType::SizeType size;
   Test4ImageType::IndexType index;
   Test4ImageType::SpacingType spacing;
-  Test4ImageType::PointType origin;
   const unsigned dimsize = 2;
 
   for(unsigned i = 0; i < 3; i++)
@@ -797,16 +817,13 @@ int itkNiftiImageIOTest4(int ac, char* av[])
     size[i] = dimsize;
     index[i] = 0;
     spacing[i] = 1.0;
-    origin[i] = 0;
     }
 
   imageRegion.SetSize(size); 
   imageRegion.SetIndex(index);
-  test4Image->SetRegions(imageRegion);
-  test4Image->SetSpacing(spacing);
-  test4Image->SetOrigin(origin);
-  test4Image->Allocate();
+  test4Image = AllocateImageFromRegionAndSpacing<Test4ImageType>(imageRegion,spacing);
   test4Image->FillBuffer(0);
+
   Test4ImageType::DirectionType dir;
   dir.SetIdentity();
 #if 1
@@ -1018,5 +1035,20 @@ int itkNiftiImageIOTest5(int ac, char* av[])
   success |= SlopeInterceptTest<unsigned short,NIFTI_TYPE_UINT16>();
   success |= SlopeInterceptTest<int,NIFTI_TYPE_INT32>();
   success |= SlopeInterceptTest<unsigned int,NIFTI_TYPE_UINT32>();
+  return success;
+}
+
+int itkNiftiImageIOTest6(int ac, char *av[])
+{
+  if(ac > 1) 
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  int success(0);
   return success;
 }
