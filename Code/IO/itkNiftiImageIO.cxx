@@ -240,6 +240,106 @@ static void dumpdata(const void *x)
 #define dumpdata(x)
 #endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
 
+// returns an ordering array for converting upper triangular symmetric matrix
+// to lower triangular symmetric matrix
+int *
+UpperToLowerOrder(int dim)
+{
+  int **mat = new int *[dim];
+  for(int i = 0; i < dim; i++)
+    {
+    mat[i] = new int[dim];
+    }
+  // fill in
+  int index(0);
+  for(int i = 0; i < dim; i++)
+    {
+    for(int j = i; j < dim; j++)
+      {
+      mat[i][j] = index;
+      mat[j][i] = index;
+      index++;
+      }
+    }
+  int *rval = new int[index+1];
+  int index2(0);
+  for(int i = 0; i < dim; i++)
+    {
+    for(int j = 0; j <= i; j++,index2++)
+      {
+      rval[index2] = mat[i][j];
+      }
+    }
+  rval[index2] = -1;
+  for(int i = 0; i < dim; i++)
+    {
+    delete [] mat[i];
+    }
+  delete [] mat;
+  return rval;
+}
+// returns an ordering array for converting lower triangular symmetric matrix
+// to upper triangular symmetric matrix
+int *
+LowerToUpperOrder(int dim)
+{
+  int **mat = new int *[dim];
+  for(int i = 0; i < dim; i++)
+    {
+    mat[i] = new int[dim];
+    }
+  // fill in
+  int index(0);
+  for(int i = 0; i < dim; i++)
+    {
+    for(int j = 0; j <= i; j++,index++)
+      {
+      mat[i][j] = index;
+      mat[j][i] = index;
+      }
+    }
+  int *rval = new int[index+1];
+  int index2(0);
+  for(int i = 0; i < dim; i++)
+    {
+    for(int j = i; j < dim; j++,index2++)
+      {
+      rval[index2] = mat[i][j];
+      }
+    }
+  rval[index2] = -1;
+  for(int i = 0; i < dim; i++)
+    {
+    delete [] mat[i];
+    }
+  delete [] mat;
+  return rval;
+}
+// compute the rank of the symmetric matrix from
+// the count of the triangular matrix elements
+int SymMatDim(int count)
+{
+  int dim = 0;
+  int row = 1;
+  while(count > 0)
+    {
+    count -= row;
+    dim++;
+    row++;
+    }
+  return dim;
+}
+//   int SymMatDim(int count)
+//   {
+//     // symmetric half matrix has size Dim * (Dim + 1) / 2
+//     // count = (Dim * (Dim + 1)) / 2;
+//     // 2 * count = Dim * (Dim + 1)
+//     // 2 * count = Dim^2 + Dim
+//     // floor(sqrt(2 * count)) = Dim
+//     return static_cast<int>(sqrt(2.0 * static_cast<double>(count)));
+//   }
+
+
 ImageIORegion
 NiftiImageIO
 ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion ) const
@@ -297,9 +397,9 @@ NiftiImageIO
 bool
 NiftiImageIO::MustRescale()
 {
-  return vcl_abs(m_RescaleSlope) > vcl_numeric_limits<double>::epsilon() &&
-    (vcl_abs(m_RescaleSlope-1.0) > vcl_numeric_limits<double>::epsilon() ||
-     vcl_abs(m_RescaleIntercept) > vcl_numeric_limits<double>::epsilon());
+  return vcl_abs(this->m_RescaleSlope) > vcl_numeric_limits<double>::epsilon() &&
+    (vcl_abs(this->m_RescaleSlope-1.0) > vcl_numeric_limits<double>::epsilon() ||
+     vcl_abs(this->m_RescaleIntercept) > vcl_numeric_limits<double>::epsilon());
 }
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
@@ -415,7 +515,7 @@ void NiftiImageIO::Read(void* buffer)
   // before doing the rescale.
   //
   if(this->MustRescale() &&
-     m_ComponentType != m_OnDiskComponentType)
+     this->m_ComponentType != this->m_OnDiskComponentType)
     {
     pixelSize =
       static_cast< unsigned int >( this->GetNumberOfComponents() ) * 
@@ -431,7 +531,7 @@ void NiftiImageIO::Read(void* buffer)
     float *_data = 
       static_cast<float *>
       (malloc( imageSizeInComponents * sizeof(float)));
-    switch(m_OnDiskComponentType)
+    switch(this->m_OnDiskComponentType)
       {
       case CHAR:
         CastCopy<char>(_data,data, imageSizeInComponents);
@@ -495,29 +595,26 @@ void NiftiImageIO::Read(void* buffer)
     // vec x y z t l m o
     const char *niftibuf = (const char *)data;
     char *itkbuf = (char *)buffer;
-    const unsigned int rowdist=m_NiftiImage->dim[1];
-    const unsigned int slicedist=rowdist*m_NiftiImage->dim[2];
-    const unsigned int volumedist=slicedist*m_NiftiImage->dim[3];
-    const unsigned int seriesdist=volumedist*m_NiftiImage->dim[4];
+    const unsigned int rowdist=this->m_NiftiImage->dim[1];
+    const unsigned int slicedist=rowdist*this->m_NiftiImage->dim[2];
+    const unsigned int volumedist=slicedist*this->m_NiftiImage->dim[3];
+    const unsigned int seriesdist=volumedist*this->m_NiftiImage->dim[4];
     //
     // as per ITK bug 0007485
     // NIfTI is lower triangular, ITK is upper triangular.
-    // i.e. if a symmetric matrix is
-    // a b c
-    // b d e
-    // c e f
-    // ITK stores it a b c d e f, but NIfTI is a b d c e f
-    // so on read, step sequentially through the source vector, but
-    // reverse the order of vec[2] and vec[3]
-    int *vecOrder = new int[numComponents];
-    for(unsigned i = 0; i < numComponents; i++)
+    int *vecOrder;
+    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D ||
+       this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
       {
-      vecOrder[i] = i;
+      vecOrder = LowerToUpperOrder(SymMatDim(numComponents));
       }
-    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D)
+    else
       {
-      vecOrder[2] = 3;
-      vecOrder[3] = 2;
+      vecOrder = new int[numComponents];
+      for(unsigned i = 0; i < numComponents; i++)
+        {
+        vecOrder[i] = i;
+        }
       }
     for(int t = 0; t < this->m_NiftiImage->dim[4]; t++)
       {
@@ -537,7 +634,7 @@ void NiftiImageIO::Read(void* buffer)
           }
         }
       }
-
+    delete [] vecOrder;
     dumpdata(data);
     dumpdata(buffer);
     // if read_subregion was called it allocates a buffer that needs to be
@@ -553,63 +650,63 @@ void NiftiImageIO::Read(void* buffer)
   // Complete description of can be found in nifti1.h under "DATA SCALING"
   if(this->MustRescale())
     {
-    switch(m_ComponentType)
+    switch(this->m_ComponentType)
       {
       case CHAR:
         RescaleFunction(static_cast<char *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case UCHAR:
         RescaleFunction(static_cast<unsigned char *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case SHORT:
         RescaleFunction(static_cast<short *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case USHORT:
         RescaleFunction(static_cast<unsigned short *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case INT:
         RescaleFunction(static_cast<int *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case UINT:
         RescaleFunction(static_cast<unsigned int *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case LONG:
         RescaleFunction(static_cast<long *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case ULONG:
         RescaleFunction(static_cast<unsigned long *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case FLOAT:
         RescaleFunction(static_cast<float *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       case DOUBLE:
         RescaleFunction(static_cast<double *>(buffer),
-                        m_RescaleSlope,
-                        m_RescaleIntercept,numElts);
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,numElts);
         break;
       default:
         if(this->GetPixelType() == SCALAR)
           {
           itkExceptionMacro(<< "Datatype: "
-                            << this->GetComponentTypeAsString(m_ComponentType)
+                            << this->GetComponentTypeAsString(this->m_ComponentType)
                             << " not supported");
           }
       }
@@ -662,7 +759,8 @@ NiftiImageIO
     }
   //Check the intent code, it is a vector image, or matrix image, then this is not true.
   //
-  if(this->m_NiftiImage->intent_code == NIFTI_INTENT_VECTOR)
+  if(this->m_NiftiImage->intent_code == NIFTI_INTENT_VECTOR ||
+     this->m_NiftiImage->intent_code == NIFTI_INTENT_SYMMATRIX)
     {
     if(this->m_NiftiImage->dim[4] > 1)
       {
@@ -688,9 +786,11 @@ NiftiImageIO
   else
     { //Simple Scalar Image
     this->SetNumberOfDimensions(this->m_NiftiImage->dim[0]);
+    this->SetNumberOfComponents(1);
     }
 
-  if(this->m_NiftiImage->intent_code == NIFTI_INTENT_VECTOR)
+  if(this->m_NiftiImage->intent_code == NIFTI_INTENT_VECTOR ||
+     this->m_NiftiImage->intent_code == NIFTI_INTENT_SYMMATRIX)
     {
     this->SetNumberOfComponents(this->m_NiftiImage->dim[5]);
     }
@@ -703,50 +803,50 @@ NiftiImageIO
   switch( this->m_NiftiImage->datatype )
     {
     case NIFTI_TYPE_INT8:
-      m_ComponentType = CHAR;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = CHAR;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_UINT8:
-      m_ComponentType = UCHAR;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = UCHAR;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_INT16:
-      m_ComponentType = SHORT;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = SHORT;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_UINT16:
-      m_ComponentType = USHORT;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = USHORT;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_INT32:
-      m_ComponentType = INT;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = INT;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_UINT32:
-      m_ComponentType = UINT;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = UINT;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_FLOAT32:
-      m_ComponentType = FLOAT;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = FLOAT;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_FLOAT64:
-      m_ComponentType = DOUBLE;
-      m_PixelType = SCALAR;
+      this->m_ComponentType = DOUBLE;
+      this->m_PixelType = SCALAR;
       break;
     case NIFTI_TYPE_COMPLEX64:
-      m_ComponentType = FLOAT;
-      m_PixelType = COMPLEX;
+      this->m_ComponentType = FLOAT;
+      this->m_PixelType = COMPLEX;
       this->SetNumberOfComponents(2);
       break;
     case NIFTI_TYPE_COMPLEX128:
-      m_ComponentType = DOUBLE;
-      m_PixelType = COMPLEX;
+      this->m_ComponentType = DOUBLE;
+      this->m_PixelType = COMPLEX;
       this->SetNumberOfComponents(2);
       break;
     case NIFTI_TYPE_RGB24:
-      m_ComponentType = UCHAR;
-      m_PixelType = RGB;
+      this->m_ComponentType = UCHAR;
+      this->m_PixelType = RGB;
       this->SetNumberOfComponents(3);
       //TODO:  Need to be able to read/write RGB images into ITK.
       //    case DT_RGB:
@@ -756,39 +856,125 @@ NiftiImageIO
     default:
       break;
     }
-
+  // there are a wide variety of intents we ignore
+  // but a few wee need to care about
+  switch(this->m_NiftiImage->intent_code)
+    {
+    case NIFTI_INTENT_NONE:
+      break;
+    case NIFTI_INTENT_CORREL:
+      break;
+    case NIFTI_INTENT_TTEST:
+      break;
+    case NIFTI_INTENT_FTEST:
+      break;
+    case NIFTI_INTENT_ZSCORE:
+      break;
+    case NIFTI_INTENT_CHISQ:
+      break;
+    case NIFTI_INTENT_BETA:
+      break;
+    case NIFTI_INTENT_BINOM:
+      break;
+    case NIFTI_INTENT_GAMMA:
+      break;
+    case NIFTI_INTENT_POISSON:
+      break;
+    case NIFTI_INTENT_NORMAL:
+      break;
+    case NIFTI_INTENT_FTEST_NONC:
+      break;
+    case NIFTI_INTENT_CHISQ_NONC:
+      break;
+    case NIFTI_INTENT_LOGISTIC:
+      break;
+    case NIFTI_INTENT_LAPLACE:
+      break;
+    case NIFTI_INTENT_UNIFORM:
+      break;
+    case NIFTI_INTENT_TTEST_NONC:
+      break;
+    case NIFTI_INTENT_WEIBULL:
+      break;
+    case NIFTI_INTENT_CHI:
+      break;
+    case NIFTI_INTENT_INVGAUSS:
+      break;
+    case NIFTI_INTENT_EXTVAL:
+      break;
+    case NIFTI_INTENT_PVAL:
+      break;
+    case NIFTI_INTENT_LOGPVAL:
+      break;
+    case NIFTI_INTENT_LOG10PVAL:
+      break;
+    case NIFTI_INTENT_ESTIMATE:
+      break;
+    case NIFTI_INTENT_LABEL:
+      break;
+    case NIFTI_INTENT_NEURONAME:
+      break;
+    case NIFTI_INTENT_GENMATRIX:
+      break;
+    case NIFTI_INTENT_SYMMATRIX:
+      this->SetPixelType(SYMMETRICSECONDRANKTENSOR);
+      break;
+    case NIFTI_INTENT_DISPVECT:
+      break;
+    case NIFTI_INTENT_VECTOR:
+      this->SetPixelType(VECTOR);
+      break;
+    case NIFTI_INTENT_POINTSET:
+      break;
+    case NIFTI_INTENT_TRIANGLE:
+      break;
+    case NIFTI_INTENT_QUATERNION:
+      break;
+    case NIFTI_INTENT_DIMLESS:
+      break;
+    case NIFTI_INTENT_TIME_SERIES:
+      break;
+    case NIFTI_INTENT_NODE_INDEX:
+      break;
+    case NIFTI_INTENT_RGB_VECTOR:
+      break;
+    case NIFTI_INTENT_RGBA_VECTOR:
+      break;
+    case NIFTI_INTENT_SHAPE:
+      break;
+    }
   // set slope/intercept
   if(this->m_NiftiImage->qform_code == 0
      && this->m_NiftiImage->sform_code == 0)
     {
-    m_RescaleSlope = 1;
-    m_RescaleIntercept = 0;
+    this->m_RescaleSlope = 1;
+    this->m_RescaleIntercept = 0;
     }
   else
     {
-    if((m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
+    if((this->m_RescaleSlope = this->m_NiftiImage->scl_slope) == 0)
       {
-      m_RescaleSlope = 1;
+      this->m_RescaleSlope = 1;
       }
-    m_RescaleIntercept = this->m_NiftiImage->scl_inter;
+    this->m_RescaleIntercept = this->m_NiftiImage->scl_inter;
     }
 
-  m_OnDiskComponentType = m_ComponentType;
+  this->m_OnDiskComponentType = this->m_ComponentType;
   //
   // if rescale is necessary, promote type reported
   // to ImageFileReader to float
   if(this->MustRescale())
     {
-    if(m_ComponentType == CHAR ||
-       m_ComponentType == UCHAR ||
-       m_ComponentType == SHORT ||
-       m_ComponentType == USHORT ||
-       m_ComponentType == INT ||
-       m_ComponentType == UINT ||
-       m_ComponentType == LONG ||
-       m_ComponentType == ULONG)
+    if(this->m_ComponentType == CHAR ||
+       this->m_ComponentType == UCHAR ||
+       this->m_ComponentType == SHORT ||
+       this->m_ComponentType == USHORT ||
+       this->m_ComponentType == INT ||
+       this->m_ComponentType == UINT ||
+       this->m_ComponentType == LONG ||
+       this->m_ComponentType == ULONG)
       {
-      m_ComponentType = FLOAT;
+      this->m_ComponentType = FLOAT;
       }
     }
   //
@@ -863,7 +1049,7 @@ NiftiImageIO
                                        std::string(typeid(char).name()));
       break;
     case UCHAR:
-      if(m_PixelType != RGB)
+      if(this->m_PixelType != RGB)
         {
         EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
                                          std::string(typeid(unsigned char).name()));
@@ -1083,7 +1269,8 @@ NiftiImageIO
       }
     //
     // support symmetric matrix type
-    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D)
+    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D ||
+       this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
       {
       this->m_NiftiImage->intent_code = NIFTI_INTENT_SYMMATRIX;
       }
@@ -1196,12 +1383,13 @@ NiftiImageIO
           }
         }
       break;
+    case SYMMETRICSECONDRANKTENSOR:
+    case DIFFUSIONTENSOR3D:
+      break;
     case RGBA:
     case OFFSET:
     case POINT:
     case COVARIANTVECTOR:
-    case SYMMETRICSECONDRANKTENSOR:
-    case DIFFUSIONTENSOR3D:
     case FIXEDARRAY:
     case MATRIX:
     case UNKNOWNPIXELTYPE:
@@ -1517,15 +1705,19 @@ NiftiImageIO
     // ITK stores it a b c d e f, but NIfTI is a b d c e f
     // so on read, step sequentially through the source vector, but
     // reverse the order of vec[2] and vec[3]
-    int *vecOrder = new int[numComponents];
-    for(unsigned i = 0; i < numComponents; i++)
+    int *vecOrder;
+    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D ||
+       this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
       {
-      vecOrder[i] = i;
+      vecOrder = UpperToLowerOrder(SymMatDim(numComponents));
       }
-    if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D)
+    else
       {
-      vecOrder[2] = 3;
-      vecOrder[3] = 2;
+      vecOrder = new int[numComponents];
+      for(unsigned i = 0; i < numComponents; i++)
+        {
+        vecOrder[i] = i;
+        }
       }
     for(int t = 0; t < this->m_NiftiImage->dim[4]; t++)
       {
@@ -1545,6 +1737,7 @@ NiftiImageIO
           }
         }
       }
+    delete [] vecOrder;
     dumpdata(buffer);
     dumpdata(tobuffer);
     //Need a const cast here so that we don't have to copy the memory for
