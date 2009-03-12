@@ -89,6 +89,21 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  //Exercise more methods
+  objectnessFilter->ScaleObjectnessMeasureOn();
+  if ( !objectnessFilter->GetScaleObjectnessMeasure() )
+    {
+    std::cerr << "Error in ScaleObjectnessMeasureOn" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  objectnessFilter->ScaleObjectnessMeasureOff();
+  if ( objectnessFilter->GetScaleObjectnessMeasure() )
+    {
+    std::cerr << "Error in ScaleObjectnessMeasureOff method" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   objectnessFilter->SetBrightObject(true);
   if ( ! objectnessFilter->GetBrightObject() )
     {
