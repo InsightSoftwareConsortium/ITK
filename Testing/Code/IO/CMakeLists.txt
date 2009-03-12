@@ -736,6 +736,7 @@ ADD_TEST(itkNiftiVectorImageTest ${IO_TESTS} itkNiftiImageIOTest3 ${ITK_TEST_OUT
 ADD_TEST(itkDirCosinesTest ${IO_TESTS} itkNiftiImageIOTest4 ${ITK_TEST_OUTPUT_DIR} )
 ADD_TEST(itkNiftiSlopeInterceptTest ${IO_TESTS} itkNiftiImageIOTest5 ${ITK_TEST_OUTPUT_DIR} )
 ADD_TEST(itkNiftiVectorImageTest2 ${IO_TESTS} itkNiftiImageIOTest6 ${ITK_TEST_OUTPUT_DIR} )
+ADD_TEST(itkNiftiDiffusionTensor3dImageTest ${IO_TESTS} itkNiftiImageIOTest7 ${ITK_TEST_OUTPUT_DIR} )
 
 ADD_TEST(itkGE4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha

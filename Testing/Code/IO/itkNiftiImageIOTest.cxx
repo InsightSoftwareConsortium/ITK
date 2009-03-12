@@ -37,7 +37,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkSpatialOrientationAdapter.h"
-
+#include "itkDiffusionTensor3D.h"
 #include "itkAffineTransform.h"
 #include "itkVector.h"
 #include <vnl/vnl_math.h>
@@ -223,39 +223,16 @@ static int TestByteSwap(void)
 /** Common code for allocating an image, allowing the region and spacing to be
  * explicitly set.
  */
-template <class TemplateImageType, class OutputImageType>
-typename OutputImageType::Pointer
-AllocateImageFromRegionAndSpacing(const typename TemplateImageType::RegionType &region,
-                                  const typename TemplateImageType::SpacingType &spacing)
-{
-  typename OutputImageType::Pointer rval;
-  rval = OutputImageType::New();
-  rval->SetSpacing(spacing);
-  rval->SetRegions(region);
-  rval->Allocate();
-  return rval;
-}
-
+#if 0
 template <class ImageType>
 typename ImageType::Pointer
 AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &region,
                                   const typename ImageType::SpacingType &spacing)
 {
-  return AllocateImageFromRegionAndSpacing<ImageType,ImageType>
-    (region,spacing);
-}
-
-template <class TemplateImageType, class OutputImageType>
-typename OutputImageType::Pointer
-AllocateImageFromRegionAndSpacing(const typename TemplateImageType::RegionType &region,
-                                  const typename TemplateImageType::SpacingType &spacing,
-                                  unsigned vecLength)
-{
-  typename OutputImageType::Pointer rval;
-  rval = OutputImageType::New();
+  typename ImageType::Pointer rval;
+  rval = ImageType::New();
   rval->SetSpacing(spacing);
   rval->SetRegions(region);
-  rval->SetVectorLength(vecLength);
   rval->Allocate();
   return rval;
 }
@@ -266,10 +243,31 @@ AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &region,
                                   const typename ImageType::SpacingType &spacing,
                                   unsigned vecLength)
 {
-  return AllocateImageFromRegionAndSpacing<ImageType,ImageType>
-    (region,spacing,vecLength);
+  typename ImageType::Pointer rval;
+  rval = ImageType::New();
+  rval->SetSpacing(spacing);
+  rval->SetRegions(region);
+  rval->SetVectorLength(vecLength);
+  rval->Allocate();
+  return rval;
 }
-
+#else
+#define AllocateImageFromRegionAndSpacing(ImageType,rval,region,spacing) \
+{ \
+  rval = ImageType::New(); \
+  rval->SetSpacing(spacing); \
+  rval->SetRegions(region); \
+  rval->Allocate(); \
+}
+#define AllocateVecImageFromRegionAndSpacing(ImageType,rval,region,spacing,vecLength) \
+{ \
+  rval = ImageType::New(); \
+  rval->SetSpacing(spacing); \
+  rval->SetRegions(region); \
+  rval->SetVectorLength(vecLength); \
+  rval->Allocate(); \
+}
+#endif
 template <typename T> int MakeNiftiImage(void)
 {
   typedef itk::Image<T, 3> ImageType ;
@@ -285,7 +283,7 @@ template <typename T> int MakeNiftiImage(void)
   typename ImageType::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
-  img = AllocateImageFromRegionAndSpacing<ImageType>(region,spacing);
+  AllocateImageFromRegionAndSpacing(ImageType, img, region, spacing);
 
   { //Fill in entire image
     itk::ImageRegionIterator<ImageType> ri(img,region);
@@ -594,7 +592,7 @@ TestImageOfVectors(const std::string &fname)
 
   imageRegion.SetSize(size); 
   imageRegion.SetIndex(index);
-  vi = AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion,spacing);
+  AllocateImageFromRegionAndSpacing(VectorImageType, vi, imageRegion, spacing);
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
@@ -869,7 +867,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
 
   imageRegion.SetSize(size); 
   imageRegion.SetIndex(index);
-  test4Image = AllocateImageFromRegionAndSpacing<Test4ImageType>(imageRegion,spacing);
+  AllocateImageFromRegionAndSpacing(Test4ImageType, test4Image, imageRegion, spacing);
   test4Image->FillBuffer(0);
 
   Test4ImageType::DirectionType dir;
@@ -1106,8 +1104,8 @@ int itkNiftiImageIOTest6(int ac, char *av[])
     spacing[i] = 1.0;
     }
   imageRegion.SetSize(size); imageRegion.SetIndex(index);
-  VectorImageType::Pointer vecImage =
-    AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion,spacing,vecLength);
+  VectorImageType::Pointer vecImage;
+  AllocateVecImageFromRegionAndSpacing(VectorImageType, vecImage, imageRegion, spacing,vecLength);
 
   itk::ImageRegionIterator<VectorImageType> 
     it(vecImage,vecImage->GetLargestPossibleRegion());
@@ -1144,6 +1142,89 @@ int itkNiftiImageIOTest6(int ac, char *av[])
     {
     VectorImageType::PixelType p(vecLength),
       readbackP(vecLength);
+    p = it.Get();
+    readbackP = readbackIt.Get();
+    if(p != readbackP)
+      {
+      std::cout << "Pixel mismatch at index "
+                << it.GetIndex()
+                << " original = "
+                << p
+                << " read value = "
+                << readbackP
+                << std::endl;
+      success = EXIT_FAILURE;
+      break;
+      }
+    }
+  Remove(testfname.c_str());
+  return success;
+}
+
+int itkNiftiImageIOTest7(int ac, char *av[])
+{
+  if(ac > 1) 
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  int success(EXIT_SUCCESS);
+
+  typedef itk::DiffusionTensor3D<double> DiffusionTensor3DPixelType;
+  typedef itk::Image<DiffusionTensor3DPixelType,3> DiffusionTensor3DImageType;
+  DiffusionTensor3DImageType::RegionType imageRegion;
+  DiffusionTensor3DImageType::SizeType size;
+  DiffusionTensor3DImageType::IndexType index;
+  DiffusionTensor3DImageType::SpacingType spacing;
+
+  for(unsigned i = 0; i < 3; i++)
+    {
+    size[i] = 3;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    }
+  imageRegion.SetSize(size); imageRegion.SetIndex(index);
+  DiffusionTensor3DImageType::Pointer vecImage;
+  AllocateImageFromRegionAndSpacing(DiffusionTensor3DImageType, vecImage, imageRegion, spacing);
+
+  itk::ImageRegionIterator<DiffusionTensor3DImageType> 
+    it(vecImage,vecImage->GetLargestPossibleRegion());
+  double val(0.0);
+  for(it.GoToBegin(); it != it.End(); ++it)
+    {
+    DiffusionTensor3DPixelType p;
+    for(unsigned i = 0; i < p.Size(); i++)
+      {
+      p[i] = val;
+      val++;
+      }
+    it.Set(p);
+    }
+  const std::string testfname("DiffusionTensor3DImage.nii.gz");
+  DiffusionTensor3DImageType::Pointer readback;
+  try
+    {
+    WriteImage<DiffusionTensor3DImageType>(vecImage,testfname);
+    readback = ReadImage<DiffusionTensor3DImageType>(testfname);
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    std::cout << "itkNiftiImageIOTest7" << std::endl 
+              << "Exception Object caught: " << std::endl
+              << err << std::endl;
+    throw;
+    }
+  itk::ImageRegionIterator<DiffusionTensor3DImageType>
+    readbackIt(readback,readback->GetLargestPossibleRegion());
+  for(it.GoToBegin(),readbackIt.GoToBegin();
+      it != it.End() && readbackIt != readbackIt.End();
+      ++it, ++readbackIt)
+    {
+    DiffusionTensor3DPixelType p,readbackP;
     p = it.Get();
     readbackP = readbackIt.Get();
     if(p != readbackP)
