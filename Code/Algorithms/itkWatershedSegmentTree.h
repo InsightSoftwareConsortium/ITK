@@ -27,7 +27,7 @@ namespace itk
 {
 namespace watershed
 {
-/* \class SegmentTree
+/** \class SegmentTree
  * A data structure for storing segment merge information used in filters of  
  * the watershed segmentation algorithm.  See itk::WatershedImageFilter for an
  * overview.
@@ -38,8 +38,11 @@ namespace watershed
  * component classes.  It holds a list of merges among image segments at
  * various saliency levels. The list is actually a representation of a binary
  * tree, whose nodes are segments and edges are saliencies.
+ *
  * \ingroup WatershedSegmentation
- * \sa itk::WatershedImageFilter */
+ * \sa itk::WatershedImageFilter 
+ *
+ */
 template <class TScalarType>
 class ITK_EXPORT SegmentTree : public DataObject
 {
