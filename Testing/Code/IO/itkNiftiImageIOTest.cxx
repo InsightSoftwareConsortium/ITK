@@ -38,6 +38,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIOCommon.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkSymmetricSecondRankTensor.h"
 #include "itkAffineTransform.h"
 #include "itkVector.h"
 #include <vnl/vnl_math.h>
@@ -1241,5 +1242,97 @@ int itkNiftiImageIOTest7(int ac, char *av[])
       }
     }
   Remove(testfname.c_str());
+  return success;
+}
+
+int success(EXIT_SUCCESS);
+template <unsigned int TensorDim>
+int SymmetricSecondRankTensorTest()
+{
+  typedef itk::SymmetricSecondRankTensor<double> SymmetricSecondRankTensorPixelType;
+  typedef itk::Image<SymmetricSecondRankTensorPixelType,3> SymmetricSecondRankTensorImageType;
+  SymmetricSecondRankTensorImageType::RegionType imageRegion;
+  SymmetricSecondRankTensorImageType::SizeType size;
+  SymmetricSecondRankTensorImageType::IndexType index;
+  SymmetricSecondRankTensorImageType::SpacingType spacing;
+
+  for(unsigned i = 0; i < 3; i++)
+    {
+    size[i] = 3;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    }
+  imageRegion.SetSize(size); imageRegion.SetIndex(index);
+  SymmetricSecondRankTensorImageType::Pointer vecImage;
+  AllocateImageFromRegionAndSpacing(SymmetricSecondRankTensorImageType, vecImage, imageRegion, spacing);
+
+  itk::ImageRegionIterator<SymmetricSecondRankTensorImageType> 
+    it(vecImage,vecImage->GetLargestPossibleRegion());
+  double val(0.0);
+  for(it.GoToBegin(); it != it.End(); ++it)
+    {
+    SymmetricSecondRankTensorPixelType p;
+    for(unsigned i = 0; i < p.Size(); i++)
+      {
+      p[i] = val;
+      val++;
+      }
+    it.Set(p);
+    }
+  const std::string testfname("SymmetricSecondRankTensorImage.nii.gz");
+  SymmetricSecondRankTensorImageType::Pointer readback;
+  try
+    {
+    WriteImage<SymmetricSecondRankTensorImageType>(vecImage,testfname);
+    readback = ReadImage<SymmetricSecondRankTensorImageType>(testfname);
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    std::cout << "itkNiftiImageIOTest7" << std::endl 
+              << "Exception Object caught: " << std::endl
+              << err << std::endl;
+    throw;
+    }
+  itk::ImageRegionIterator<SymmetricSecondRankTensorImageType>
+    readbackIt(readback,readback->GetLargestPossibleRegion());
+  for(it.GoToBegin(),readbackIt.GoToBegin();
+      it != it.End() && readbackIt != readbackIt.End();
+      ++it, ++readbackIt)
+    {
+    SymmetricSecondRankTensorPixelType p,readbackP;
+    p = it.Get();
+    readbackP = readbackIt.Get();
+    if(p != readbackP)
+      {
+      std::cout << "Pixel mismatch at index "
+                << it.GetIndex()
+                << " original = "
+                << p
+                << " read value = "
+                << readbackP
+                << std::endl;
+      success = EXIT_FAILURE;
+      break;
+      }
+    }
+  Remove(testfname.c_str());
+  return success;
+}
+
+int itkNiftiImageIOTest8(int ac, char *av[])
+{
+  if(ac > 1) 
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  success |= SymmetricSecondRankTensorTest<3>();
+  success |= SymmetricSecondRankTensorTest<4>();
+  success |= SymmetricSecondRankTensorTest<5>();
+  success |= SymmetricSecondRankTensorTest<6>();
   return success;
 }

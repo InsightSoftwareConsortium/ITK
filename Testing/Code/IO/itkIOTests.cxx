@@ -121,4 +121,5 @@ void RegisterTests()
   REGISTER_TEST(itkNiftiImageIOTest5);
   REGISTER_TEST(itkNiftiImageIOTest6);
   REGISTER_TEST(itkNiftiImageIOTest7);
+  REGISTER_TEST(itkNiftiImageIOTest8);
 }
