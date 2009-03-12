@@ -55,13 +55,23 @@ public:
   typedef RGBPixel                  Self;
   typedef FixedArray<TComponent, 3> Superclass;
   
-  /** Dimension of the vector space. */
-  itkStaticConstMacro(Dimension, unsigned int, 3);
-  itkStaticConstMacro(Length, unsigned int, 3);
-
   /** Convenience typedefs. */
   typedef FixedArray<TComponent, 3> BaseArray;
   
+  /** Dimension of the vector space. */
+#if defined(__BORLANDC__)
+  enum {Dimension = 3};
+#else
+  itkStaticConstMacro(Dimension, unsigned int, 3);
+#endif
+
+  /** Length of the pixel. */
+#if defined(__BORLANDC__)
+  enum {Length = 3};
+#else
+  itkStaticConstMacro(Length, unsigned int, 3);
+#endif
+
   /**  Define the component type. */
   typedef TComponent                     ComponentType;
   typedef typename Superclass::ValueType ValueType;

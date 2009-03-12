@@ -196,6 +196,14 @@ public:
    * 0. */
   itkGetConstReferenceMacro(Origin, PointType);
 
+  /** Allocate the image memory. The size of the image must
+   * already be set, e.g. by calling SetRegions().
+   *
+   * This method should be pure virtual, if backwards compatibility
+   *  was not required.
+   */
+  virtual void Allocate() {};
+
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
