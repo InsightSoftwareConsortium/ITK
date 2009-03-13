@@ -206,8 +206,6 @@ protected:
   /** Here is where the classification is computed. */
   virtual void GenerateData();
 
-  /** Allocate Memory for the Output. */
-  virtual void AllocateOutputs();
   virtual void GenerateOutputInformation(void);
 
   /** Methods for computing the labeled map for all combinations of conditions */

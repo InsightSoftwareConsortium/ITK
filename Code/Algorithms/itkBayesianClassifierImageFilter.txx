@@ -145,24 +145,9 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
     return;
     }
 
+  // the vector length is part of the output information that must be
+  // updated here
   this->GetPosteriorImage()->SetVectorLength( this->GetInput()->GetVectorLength() );
-}
-
-template < class TInputVectorImage, class TLabelsType, 
-           class TPosteriorsPrecisionType, class TPriorsPrecisionType >
-void 
-BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
-                              TPosteriorsPrecisionType, TPriorsPrecisionType >
-::AllocateOutputs()
-{
-  // we overload this methods because outputs are of different types
-  // the the templated parameter to ImageSource<OutputImageType>
-  
-  this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
-  this->GetOutput()->Allocate();
-
-  this->GetPosteriorImage()->SetBufferedRegion( this->GetPosteriorImage()->GetRequestedRegion() );
-  this->GetPosteriorImage()->Allocate();
 }
 
 /**
