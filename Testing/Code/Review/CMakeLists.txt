@@ -1406,6 +1406,12 @@ ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
   1 0)
 
+ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest2 ${REVIEW_TESTS}
+  itkHessianToObjectnessMeasureImageFilterTest
+  ${INPUTDATA}/DSA.png
+  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
+  0 0)
+
 
 ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
   itkMultiScaleHessianBasedMeasureImageFilterTest
