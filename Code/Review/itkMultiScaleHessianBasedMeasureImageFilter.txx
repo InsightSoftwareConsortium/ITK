@@ -307,6 +307,56 @@ MultiScaleHessianBasedMeasureImageFilter
 template <typename TInputImage,
           typename THessianImage,
           typename TOutputImage>
+void 
+MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>
+::SetSigmaStepMethodToEquispaced()
+{ 
+  this->SetSigmaStepMethod(Self::EquispacedSigmaSteps);
+}
+
+template <typename TInputImage,
+          typename THessianImage,
+          typename TOutputImage>
+void 
+MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>
+::SetSigmaStepMethodToLogarithmic()
+{
+  this->SetSigmaStepMethod(Self::LogarithmicSigmaSteps);
+}
+
+/** Get the image containing the Hessian at which each pixel gave the
+ * best response */
+template <typename TInputImage,
+          typename THessianImage,
+          typename TOutputImage>
+const 
+typename MultiScaleHessianBasedMeasureImageFilter<TInputImage,THessianImage,TOutputImage>::HessianImageType * 
+MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>
+::GetHessianOutput() const
+{
+  return static_cast<const HessianImageType*>(this->ProcessObject::GetOutput(2));
+}
+
+/** Get the image containing the scales at which each pixel gave the
+ * best response */
+template <typename TInputImage,
+          typename THessianImage,
+          typename TOutputImage>
+const 
+typename MultiScaleHessianBasedMeasureImageFilter<TInputImage,THessianImage,TOutputImage>::OutputImageType * 
+MultiScaleHessianBasedMeasureImageFilter
+<TInputImage,THessianImage,TOutputImage>
+::GetScalesOutput() const
+{
+  return static_cast<const OutputImageType*>(this->ProcessObject::GetOutput(1));
+}
+
+template <typename TInputImage,
+          typename THessianImage,
+          typename TOutputImage>
 void
 MultiScaleHessianBasedMeasureImageFilter
 <TInputImage,THessianImage,TOutputImage>

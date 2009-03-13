@@ -101,15 +101,14 @@ public:
   itkGetMacro(SigmaMaximum, double);
 
   /** Set/Get macros for Number of Scales */
-  itkSetMacro(NumberOfSigmaSteps, int);
-  itkGetMacro(NumberOfSigmaSteps, int);
+  itkSetMacro(NumberOfSigmaSteps, unsigned int);
+  itkGetMacro(NumberOfSigmaSteps, unsigned int);
 
   /** Set/Get HessianToMeasureFilter. This will be a filter that takes 
    Hessian input image and produces enhanced output scalar image. The filter must derive from 
    itk::ImageToImage filter */
   itkSetObjectMacro( HessianToMeasureFilter, HessianToMeasureFilterType); 
   itkGetObjectMacro( HessianToMeasureFilter, HessianToMeasureFilterType); 
-
 
   typedef enum { EquispacedSigmaSteps = 0,
                  LogarithmicSigmaSteps = 1 } SigmaStepMethodType;
@@ -118,41 +117,34 @@ public:
    * or Logarithmic) */
   itkSetMacro(SigmaStepMethod, SigmaStepMethodType);
   itkGetMacro(SigmaStepMethod, SigmaStepMethodType);
-  void SetSigmaStepMethodToEquispaced()
-    { 
-    this->SetSigmaStepMethod(Self::EquispacedSigmaSteps);
-    }
-  void SetSigmaStepMethodToLogarithmic()
-    {
-    this->SetSigmaStepMethod(Self::LogarithmicSigmaSteps);
-    }
 
-  /** FIX ME: MOVE this to implementation file */
+  /**Set equispaced sigma step method */
+  void SetSigmaStepMethodToEquispaced();
+
+  /**Set logartihmic sigma step method */
+  void SetSigmaStepMethodToLogarithmic();
+
   /** Get the image containing the Hessian computed at the best
    * response scale */
-  const HessianImageType* GetHessianOutput() const
-    {
-    return static_cast<const HessianImageType*>(this->ProcessObject::GetOutput(2));
-    }
+  const HessianImageType* GetHessianOutput() const;
  
   /** Get the image containing the scales at which each pixel gave the
    * best response */
-  const OutputImageType* GetScalesOutput() const
-    {
-    return static_cast<const OutputImageType*>(this->ProcessObject::GetOutput(1));
-    }
+  const OutputImageType* GetScalesOutput() const;
   
   /** This is overloaded to create the Hessian output image */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
   void EnlargeOutputRequestedRegion (DataObject *);
 
-  /** FIX ME : ADD DOCUMENTATION */
+  /** Methods to turn on/off flag to generate an image with scale values at
+   *  each pixel for the best vesselness response */
   itkSetMacro(GenerateScalesOutput,bool);
   itkGetMacro(GenerateScalesOutput,bool);
   itkBooleanMacro(GenerateScalesOutput);
 
-  /** FIX ME : ADD DOCUMENTATION */
+  /** Methods to turn on/off flag to generate an image with hessian values at 
+   *  each pixel for the best vesselness response */
   itkSetMacro(GenerateHessianOutput,bool);
   itkGetMacro(GenerateHessianOutput,bool);
   itkBooleanMacro(GenerateHessianOutput);
@@ -179,7 +171,7 @@ private:
   double                      m_SigmaMinimum;
   double                      m_SigmaMaximum;
 
-  int                         m_NumberOfSigmaSteps;
+  unsigned int                m_NumberOfSigmaSteps;
   SigmaStepMethodType         m_SigmaStepMethod;
 
   typename HessianToMeasureFilterType::Pointer  m_HessianToMeasureFilter;

@@ -87,19 +87,42 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   multiScaleEnhancementFilter->SetHessianToMeasureFilter( objectnessFilter );
   multiScaleEnhancementFilter->SetSigmaStepMethodToLogarithmic();
 
+  const double tolerance = 0.01;
+
    if ( argc > 4 )
     {
-    multiScaleEnhancementFilter->SetSigmaMinimum( atof(argv[4])  );
+    double sigmaMinimum = atof( argv[4] );
+    multiScaleEnhancementFilter->SetSigmaMinimum( sigmaMinimum );
+
+    if( fabs( multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum ) > tolerance )
+      {
+      std::cerr << " Error in Set/GetSigmaMinimum() " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   if ( argc > 5 )
     {
-    multiScaleEnhancementFilter->SetSigmaMaximum( atof(argv[5]) );
+    double sigmaMaximum = atof( argv[5] ); 
+    multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum ); 
+
+    if( fabs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )
+      {
+      std::cerr << " Error in Set/GetSigmaMaximum() " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   if ( argc > 6 )
     {
-    multiScaleEnhancementFilter->SetNumberOfSigmaSteps( atoi(argv[6]) );
+    unsigned int numberOfSigmaSteps = atoi( argv[6] );
+    multiScaleEnhancementFilter->SetNumberOfSigmaSteps( numberOfSigmaSteps );
+
+    if( fabs( multiScaleEnhancementFilter->GetNumberOfSigmaSteps() - numberOfSigmaSteps ) > tolerance )
+      {
+      std::cerr << " Error in Set/GetNumberOfSigmaSteps() " << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   if ( argc > 7 )
@@ -113,8 +136,34 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     }
 
   multiScaleEnhancementFilter->GenerateScalesOutputOn();
-  multiScaleEnhancementFilter->GenerateHessianOutputOn();
+  if ( !multiScaleEnhancementFilter->GetGenerateScalesOutput() ) 
+    {
+    std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  multiScaleEnhancementFilter->SetGenerateScalesOutput( false );
+  if ( multiScaleEnhancementFilter->GetGenerateScalesOutput() ) 
+    {
+    std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  multiScaleEnhancementFilter->SetGenerateScalesOutput( true );
+  
+  multiScaleEnhancementFilter->GenerateHessianOutputOn();
+  if ( !multiScaleEnhancementFilter->GetGenerateHessianOutput() ) 
+    {
+    std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  multiScaleEnhancementFilter->SetGenerateHessianOutput( false );
+  if ( multiScaleEnhancementFilter->GetGenerateHessianOutput() ) 
+    {
+    std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
+    return EXIT_FAILURE;
+    }
+  multiScaleEnhancementFilter->SetGenerateHessianOutput( true );
+  
   try
     {
     multiScaleEnhancementFilter->Update();
@@ -156,6 +205,10 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   std::cout << "Hessian Image Buffered Region = " << std::endl;
   std::cout << hessianImage->GetBufferedRegion() << std::endl;
+
+  //Print out 
+  multiScaleEnhancementFilter->Print( std::cout );
+
 
   return EXIT_SUCCESS;
 }

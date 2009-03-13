@@ -200,5 +200,8 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
     std::cerr << e << std::endl;
     }
 
+  //Print out 
+  objectnessFilter->Print( std::cout );
+
   return EXIT_SUCCESS;
 }
