@@ -611,7 +611,7 @@ void NiftiImageIO::Read(void* buffer)
     else
       {
       vecOrder = new int[numComponents];
-      for(unsigned i = 0; i < numComponents; i++)
+      for(i = 0; i < numComponents; i++)
         {
         vecOrder[i] = i;
         }
