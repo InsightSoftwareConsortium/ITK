@@ -118,7 +118,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     unsigned int numberOfSigmaSteps = atoi( argv[6] );
     multiScaleEnhancementFilter->SetNumberOfSigmaSteps( numberOfSigmaSteps );
 
-    if( fabs( multiScaleEnhancementFilter->GetNumberOfSigmaSteps() - numberOfSigmaSteps ) > tolerance )
+    if( multiScaleEnhancementFilter->GetNumberOfSigmaSteps() != numberOfSigmaSteps )
       {
       std::cerr << " Error in Set/GetNumberOfSigmaSteps() " << std::endl;
       return EXIT_FAILURE;
