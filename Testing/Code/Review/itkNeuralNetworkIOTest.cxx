@@ -138,7 +138,7 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
     tv = iter2.GetMeasurementVector();
     ov.Set_vnl_vector(network->GenerateOutput(mv));
     flag = 0;
-    if( fabs(tv[0]-ov[0])>0.5 && !((tv[0]*ov[0])>0) )
+    if( vnl_math_abs(tv[0]-ov[0])>0.5 && !((tv[0]*ov[0])>0) )
       {
       flag = 1;
       }

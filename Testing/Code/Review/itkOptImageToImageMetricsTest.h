@@ -102,7 +102,7 @@ public:
       // endVal is 10% beyond startVal.
       double endVal = 1.10 * startVal;
       // If startVal is 0, endVal needs to be fixed up.
-      if( fabs(endVal - 0.0) < 1e-8 )
+      if( vnl_math_abs(endVal - 0.0) < 1e-8 )
         {
         endVal = startVal + 1.0;
         }

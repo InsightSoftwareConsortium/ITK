@@ -115,7 +115,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   double alphaValue = 0.5;
   objectnessFilter->SetAlpha(alphaValue);
-  if( fabs( objectnessFilter->GetAlpha() - alphaValue ) >= tolerance )
+  if( vnl_math_abs( objectnessFilter->GetAlpha() - alphaValue ) >= tolerance )
     {
     std::cerr << "Error in Set/GetAlpha() method" << std::endl;
     return EXIT_FAILURE;
@@ -123,7 +123,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   double  betaValue = 0.5;
   objectnessFilter->SetBeta(betaValue);
-  if( fabs( objectnessFilter->GetBeta() - betaValue ) >= tolerance )
+  if( vnl_math_abs( objectnessFilter->GetBeta() - betaValue ) >= tolerance )
     {
     std::cerr << "Error in Set/GetBeta() method" << std::endl;
     return EXIT_FAILURE;
@@ -132,7 +132,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   double  gammaValue = 0.5;
   objectnessFilter->SetGamma( gammaValue );
-  if( fabs( objectnessFilter->GetGamma() - gammaValue ) >= tolerance )
+  if( vnl_math_abs( objectnessFilter->GetGamma() - gammaValue ) >= tolerance )
     {
     std::cerr << "Error in Set/GetGamma() method" << std::endl;
     return EXIT_FAILURE;

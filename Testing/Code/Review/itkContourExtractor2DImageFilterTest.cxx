@@ -424,9 +424,9 @@ itkContourExtractor2DImageFilterTestNamespace::MyVertexListList& correct)
 
       const itkContourExtractor2DImageFilterTestNamespace::VertexType& 
           vertex = vertices->ElementAt(j);
-      if (fabs(correctVertex.first - vertex[0]) > 
+      if (vnl_math_abs(correctVertex.first - vertex[0]) > 
             itkContourExtractor2DImageFilterTestNamespace::FLOAT_EPSILON ||
-          fabs(correctVertex.second - vertex[1]) > 
+          vnl_math_abs(correctVertex.second - vertex[1]) > 
             itkContourExtractor2DImageFilterTestNamespace::FLOAT_EPSILON)
         {
         return false;

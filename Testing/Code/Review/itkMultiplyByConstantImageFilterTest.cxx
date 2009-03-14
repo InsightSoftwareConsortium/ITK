@@ -128,7 +128,7 @@ int itkMultiplyByConstantImageFilterTest(int, char* [] )
     const float expectedValue = factor * input;
     std::cout << output << " = ";
     std::cout << expectedValue  << std::endl;
-    if( fabs( expectedValue - output ) > epsilon )
+    if( vnl_math_abs( expectedValue - output ) > epsilon )
       {
       std::cerr << "Error " << std::endl;
       std::cerr << " expected Value = " << expectedValue << std::endl;
