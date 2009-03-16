@@ -201,7 +201,7 @@ void PhilipsRECImageIOSetupSliceIndex(
             << " != parParam.dim[2]: "
             << parParam.dim[2];
     ExceptionObject exception(__FILE__, __LINE__,
-                              message.str().c_str(),
+                              message.str(),
                               ITK_LOCATION);
     throw exception;
     }
@@ -213,7 +213,7 @@ void PhilipsRECImageIOSetupSliceIndex(
             << " != (parParam.slice*parParam.image_blocks): "
             << parParam.slice * parParam.image_blocks;
     ExceptionObject exception(__FILE__, __LINE__,
-                              message.str().c_str(),
+                              message.str(),
                               ITK_LOCATION);
     throw exception;
     }
@@ -226,7 +226,7 @@ void PhilipsRECImageIOSetupSliceIndex(
             << " != parParam.num_slice_repetitions "
             << parParam.num_slice_repetitions;
     ExceptionObject exception(__FILE__, __LINE__,
-                              message.str().c_str(),
+                              message.str(),
                               ITK_LOCATION);
     throw exception;
     }
@@ -456,12 +456,12 @@ void PhilipsRECImageIO::Read(void* buffer)
   if( file_p == NULL )
     {
     OStringStream message;
-    message << "Philips REC Data File can not be read. "
+    message << "Philips REC Data File can not be opened. "
             << "The following files were attempted:" << std::endl
             << GetImageFileName( this->m_FileName ) << std::endl
             << ImageFileName;
     ExceptionObject exception(__FILE__, __LINE__,
-                              message.str().c_str(),
+                              message.str(),
                               ITK_LOCATION);
     throw exception;
     }
@@ -481,7 +481,7 @@ void PhilipsRECImageIO::Read(void* buffer)
               << GetImageFileName( this->m_FileName ) << std::endl
               << ImageFileName;
       ExceptionObject exception(__FILE__, __LINE__,
-                                message.str().c_str(),
+                                message.str(),
                                 ITK_LOCATION);
       throw exception;
       }
@@ -624,11 +624,14 @@ void PhilipsRECImageIO::ReadImageInformation()
       m_PixelType = SCALAR;
       break;
     default:
+      OStringStream message;
+      message << "Unknown data type. pa.bit must be 8 or 16. " 
+              << "par.bit is "
+              << par.bit;
       ExceptionObject exception(__FILE__, __LINE__,
-                                "Unknown data type",
+                                message.str(),
                                 ITK_LOCATION);
       throw exception;
-      break;
     }
   //
   // set up the dimension stuff

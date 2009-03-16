@@ -147,8 +147,9 @@ Bruker2DSEQImageIO::SwapBytesIfNecessary( void* buffer,
           ((double*)buffer, numberOfPixels );
         break;
       default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  "Component Type Unknown",
+                                  ITK_LOCATION);
         throw exception;
       }
     }
@@ -197,8 +198,9 @@ Bruker2DSEQImageIO::SwapBytesIfNecessary( void* buffer,
           ((double *)buffer, numberOfPixels );
         break;
       default:
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Pixel Type Unknown");
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  "Component Type Unknown",
+                                  ITK_LOCATION);
         throw exception;
       }
     }
@@ -260,23 +262,25 @@ void Bruker2DSEQImageIO::Read(void* buffer)
                             std::ios::in | std::ios::binary );
   if( twodseq_InputStream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string errMsg="The 2dseq Data File can not be opened: ";
-    errMsg += "The following file was attempted:\n ";
-    errMsg += file2Dseq;
-    errMsg += '\n';
-    exception.SetDescription(errMsg.c_str());
+    OStringStream message;
+    message << "The Brucker2DSEG Data File can not be opened. "
+            << "The following file was attempted:" << std::endl
+            << file2Dseq;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   twodseq_InputStream.read(p, this->GetImageSizeInBytes());
   if( twodseq_InputStream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string errMsg="The 2dseq Data File can not be read: ";
-    errMsg += "The following file was attempted:\n ";
-    errMsg += file2Dseq;
-    errMsg += '\n';
-    exception.SetDescription(errMsg.c_str());
+    OStringStream message;
+    message << "The Brucker2DSEG Data File can not be read. "
+            << "The following file was attempted:" << std::endl
+            << file2Dseq;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   twodseq_InputStream.close();
@@ -505,8 +509,17 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   itksys::SystemTools::SplitPath(path.c_str(), pathComponents);
   if(pathComponents.size() < 3)
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Cannot create path for acqp file");
+    OStringStream message;
+    message << "Cannot create path for acqp file: "
+            << path << std::endl
+            << "Path Components: ";
+    for (unsigned int i = 0; i < pathComponents.size(); i++)
+      {
+      message << pathComponents[i] << "' ";
+      }
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   // Go two directories up.
@@ -550,8 +563,11 @@ void Bruker2DSEQImageIO::ReadImageInformation()
                            std::ios::in );
   if( d3proc_InputStream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("d3proc file cannot be read");
+    OStringStream message;
+    message << "d3proc file: " <<  filed3proc << " cannot be opened.";
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   while( !d3proc_InputStream.eof() )
@@ -604,13 +620,17 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!im_sixString)
         {
         d3proc_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$IM_SIX");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$IM_SIX" << std::endl
+                << ". File is "
+                << filed3proc;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       im_sixString >> imageDim[0];
-      //std::cout << "imageDim[0] = " << imageDim[0] << std::endl;
       }
 
     // Get the y size.
@@ -623,13 +643,17 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!im_siyString)
         {
         d3proc_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$IM_SIY");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$IM_SIY" << std::endl
+                << ". File is "
+                << filed3proc;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       im_siyString >> imageDim[1];
-      //std::cout << "imageDim[1] = " << imageDim[1] << std::endl;
       }
 
     // Get the z size.
@@ -642,13 +666,17 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!im_sizString)
         {
         d3proc_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$IM_SIZ");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$IM_SIZ" << std::endl
+                << ". File is "
+                << filed3proc;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       im_sizString >> imageDim[2];
-      //std::cout << "imageDim[2] = " << imageDim[2] << std::endl;
       }
 
     }
@@ -659,8 +687,11 @@ void Bruker2DSEQImageIO::ReadImageInformation()
                         std::ios::in );
   if( reco_InputStream.fail())
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("reco file cannot be read");
+    OStringStream message;
+    message << "reco file: " <<  filereco << " cannot be opened";
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   while( !reco_InputStream.eof() )
@@ -698,9 +729,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         else
           {
           reco_InputStream.close();
-          ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid reco file: Couldn't locate proper "
-            "fov parameters");
+          OStringStream message;
+          message << "Invalid reco file: Couldn't locate proper "
+                  << "fov parameters" << std::endl
+                  << "Reco file is " 
+                  << filereco;
+          ExceptionObject exception(__FILE__, __LINE__,
+                                    message.str(),
+                                    ITK_LOCATION);
           throw exception;
           }
         }
@@ -721,9 +757,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         if( tempIndex == std::string::npos )
           {
           reco_InputStream.close();
-          ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid reco file: Couldn't locate proper "
-            "dimension parameters");
+          OStringStream message;
+          message << "Invalid reco file: Couldn't locate proper "
+                  << "dimension parameters" << std::endl
+                  << "Reco file is " 
+                  << filereco;
+          ExceptionObject exception(__FILE__, __LINE__,
+                                    message.str(),
+                                    ITK_LOCATION);
           throw exception;
           }
         }
@@ -786,9 +827,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
               else
                 {
                 reco_InputStream.close();
-                ExceptionObject exception(__FILE__, __LINE__);
-                exception.SetDescription("Invalid reco file: Couldn't locate "
-                  "proper wordtype parameter");
+                OStringStream message;
+                message << "Invalid reco file: Couldn't locate proper "
+                        << "wordtype parameter" << std::endl
+                        << "Reco file is " 
+                        << filereco;
+                ExceptionObject exception(__FILE__, __LINE__,
+                                          message.str(),
+                                          ITK_LOCATION);
                 throw exception;
                 }
               }
@@ -807,9 +853,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!recoTransposeString)
         {
         reco_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$RECO_transposition");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$RECO_transposition" << std::endl
+                << "Reco file is "
+                << filereco;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       recoTransposeString >> numRecoTranspose;
@@ -870,9 +921,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         reco_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Invalid reco file: Couldn't locate proper "
-          "datatype parameter");
+        OStringStream message;
+        message << "Invalid reco file: Couldn't locate proper"
+                << "datatype parameter" << std::endl
+                << "Reco file is " 
+                << filereco;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       }
@@ -902,9 +958,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         else
           {
           reco_InputStream.close();
-          ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid reco file: Couldn't locate proper "
-            "byte order parameter");
+          OStringStream message;
+          message << "Invalid reco file: Couldn't locate proper"
+                  << "byte order parameter" << std::endl
+                  << "Reco file is " 
+                  << filereco;
+          ExceptionObject exception(__FILE__, __LINE__,
+                                    message.str(),
+                                    ITK_LOCATION);
           throw exception;
           }
         }
@@ -914,23 +975,38 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !numDimensions )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid reco file: Couldn't locate "
-      "'##$RECO_fov=(' tag");
+    OStringStream message;
+    message << "Invalid reco file: Couldn't locate "
+            << "'##$RECO_fov=(' tag" << std::endl
+            << "Reco file is " 
+            << filereco;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   if( !byteOrder )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid reco file: Couldn't locate "
-      "'##$RECO_byte_order=' tag");
+    OStringStream message;
+    message << "Invalid reco file: Couldn't locate "
+            << "'##$RECO_byte_order=' tag" << std::endl
+            << "Reco file is " 
+            << filereco;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   if( numRecoTranspose < 0 )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid reco file: Couldn't locate "
-      "'##$RECO_transposition=(' tag");
+    OStringStream message;
+    message << "Invalid reco file: Couldn't locate "
+            << "'##$RECO_transposition=(' tag" << std::endl
+            << "Reco file is " 
+            << filereco;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
@@ -942,8 +1018,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   //std::cout << fileacqp.c_str() << std::endl;
   if( acqp_InputStream.fail() )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("acqp file cannot be read");
+    OStringStream message;
+    message << "acqp file cannot be opened. "
+            << "File is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
   while( !acqp_InputStream.eof() )
@@ -965,9 +1046,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!acqDimString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_dim");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_dim. "
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       acqDimString >> acq_dim;
@@ -986,9 +1072,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!niString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$NI");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$NI" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       niString >> ni;
@@ -1006,9 +1097,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!nrString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$NR");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$NR" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       nrString >> nr;
@@ -1026,9 +1122,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!dimString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$NECHOES");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$NECHOES" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       dimString >> numEchoImages;
@@ -1046,9 +1147,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!sliceThickString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_slice_thick");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_slice_thick" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       sliceThickString >> sliceThick;
@@ -1067,9 +1173,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!sliceSepString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_slice_sepn");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_slice_sepn" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       sliceSepString >> numSeperation;
@@ -1112,9 +1223,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!echoTimeString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_echo_time");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_echo_time" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       echoTimeString >> numEchoes;
@@ -1137,8 +1253,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not retrieve ##$ACQ_echo_times");
+        OStringStream message;
+        message << "Could not retrieve ##$ACQ_echo_times" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       }
@@ -1153,9 +1274,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!reptitionTimeString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_repetition_time");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_repetition_time" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       reptitionTimeString >> numRepetitions;
@@ -1178,8 +1304,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not retrieve ##$ACQ_repetition_time");
+        OStringStream message;
+        message << "Could not retrieve ##$ACQ_repetition_time" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       }
@@ -1194,9 +1325,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!inversionTimeString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_inversion_time");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_inversion_time" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       inversionTimeString >> numInversionTimes;
@@ -1219,8 +1355,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not retrieve ##$ACQ_inversion_time");
+        OStringStream message;
+        message << "Could not retrieve ##$ACQ_inversion_time" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       }
@@ -1245,9 +1386,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!gradMatrixString)
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not create std::istringstream for "
-          "##$ACQ_grad_matrix");
+        OStringStream message;
+        message << "Could not create std::istringstream for "
+                << "##$ACQ_grad_matrix" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       gradMatrixString >> numMatrix >> dim1 >> dim2;
@@ -1261,9 +1407,14 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         if( acq_dim < 0 )
           {
           acqp_InputStream.close();
-          ExceptionObject exception(__FILE__, __LINE__);
-          exception.SetDescription("Invalid acqp file: Couldn't locate "
-            "'##$ACQ_dim=' tag");
+          OStringStream message;
+          message << "Invalid acqp file: Couldn't locate "
+                  << "'##$ACQ_dim=' tag" << std::endl
+                  << "The file is "
+                  << fileacqp;
+          ExceptionObject exception(__FILE__, __LINE__,
+                                    message.str(),
+                                    ITK_LOCATION);
           throw exception;
           }
         int i=0;
@@ -1438,8 +1589,13 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        ExceptionObject exception(__FILE__, __LINE__);
-        exception.SetDescription("Could not retrieve ##$ACQ_grad_matrix");
+        OStringStream message;
+        message << "Could not retrieve ##$ACQ_grad_matrix" << std::endl
+                << "The file is "
+                << fileacqp;
+        ExceptionObject exception(__FILE__, __LINE__,
+                                  message.str(),
+                                  ITK_LOCATION);
         throw exception;
         }
       }
@@ -1448,63 +1604,105 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !echoTime )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate "
-      "'##$ACQ_echo_time=( ' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            <<       "'##$ACQ_echo_time=( ' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !sliceThickness )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate "
-      "'##$ACQ_slice_thick=' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$ACQ_slice_thick=' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !sliceSeperation )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate "
-      "'##$ACQ_slice_sepn=(' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$ACQ_slice_sepn=(' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !nr )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$NR=' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$NR=' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !ni )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate '##$NI=' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$NI=' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !echoTime )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate "
-      "'##$ACQ_echo_time=( ' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$ACQ_echo_time=( ' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !repetitionTime )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate "
-      "'##$ACQ_repetition_time=( ' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$ACQ_repetition_time=( ' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
   if( !inversionTime )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("Invalid acqp file: Couldn't locate "
-      "'##$ACQ_inversion_time=( ' tag");
+    OStringStream message;
+    message << "Invalid acqp file: Couldn't locate "
+            << "'##$ACQ_inversion_time=( ' tag" << std::endl
+            << "The file is "
+            << fileacqp;
+    ExceptionObject exception(__FILE__, __LINE__,
+                              message.str(),
+                              ITK_LOCATION);
     throw exception;
     }
 
