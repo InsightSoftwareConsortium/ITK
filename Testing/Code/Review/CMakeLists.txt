@@ -1428,6 +1428,7 @@ ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
   10  # Number of Sigma steps
    1  # Object Dimension (search for tubes)
    0  # Search for Dark objects over bright background
+  ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha # Output image with equispaced sigma steps
   )
 
 

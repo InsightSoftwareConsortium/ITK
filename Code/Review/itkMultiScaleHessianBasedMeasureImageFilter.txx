@@ -57,26 +57,6 @@ MultiScaleHessianBasedMeasureImageFilter
   this->ProcessObject::SetNthOutput(2,hessianImage.GetPointer());
 }
 
-
-/** This is overloaded to create the HessianImage output image */
-template <typename TInputImage,
-          typename THessianImage,
-          typename TOutputImage>
-typename MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>::DataObjectPointer 
-MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
-::MakeOutput(unsigned int idx)
-{
-  // we must be able to make all outputs for Image:DisconnectPipeline
-  // to work
-  if  (idx == 2) 
-    {
-    return static_cast<DataObject*>(HessianImageType::New().GetPointer());
-    }
-  return Superclass::MakeOutput(idx);
-}
-
 template <typename TInputImage,
           typename THessianImage,
           typename TOutputImage>

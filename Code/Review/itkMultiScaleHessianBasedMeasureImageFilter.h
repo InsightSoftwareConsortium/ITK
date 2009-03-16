@@ -132,9 +132,6 @@ public:
    * best response */
   const OutputImageType* GetScalesOutput() const;
   
-  /** This is overloaded to create the Hessian output image */
-  virtual DataObjectPointer MakeOutput(unsigned int idx);
-
   void EnlargeOutputRequestedRegion (DataObject *);
 
   /** Methods to turn on/off flag to generate an image with scale values at

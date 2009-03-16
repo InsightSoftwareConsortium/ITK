@@ -33,7 +33,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
               << argv[0]
               << " InputImage"
               << " EnhancedOutputImage ScalesOutputImage "
-              << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark]" << std::endl;
+              << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -209,6 +209,35 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   //Print out 
   multiScaleEnhancementFilter->Print( std::cout );
 
+  if ( argc > 9 )
+    {
+    //Change sigma step to equispaced type and regnerate vesselness image
+    multiScaleEnhancementFilter->SetSigmaStepMethod( 
+          MultiScaleEnhancementFilterType::EquispacedSigmaSteps);
+
+    try
+      {
+      multiScaleEnhancementFilter->Update();
+      }
+    catch (itk::ExceptionObject &e)
+      {
+      std::cerr << e << std::endl;
+      }
+
+    FileWriterType::Pointer writer2 = FileWriterType::New();
+    writer2->SetFileName(argv[9]);
+    writer2->UseCompressionOn();
+    writer2->SetInput( multiScaleEnhancementFilter->GetOutput() );
+
+    try
+      {
+      writer2->Update();
+      }
+    catch (itk::ExceptionObject &e)
+      {
+      std::cerr << e << std::endl;
+      }
+    }
 
   return EXIT_SUCCESS;
 }
