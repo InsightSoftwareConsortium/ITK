@@ -1491,7 +1491,10 @@ SetImageIOOrientationFromNIfTI(unsigned short int dims)
   //
   // set origin
   m_Origin[0] = -theMat.m[0][3];
-  m_Origin[1] = -theMat.m[1][3];
+  if(dims > 1)
+    {
+    m_Origin[1] = -theMat.m[1][3];
+    }
   if(dims > 2)
     {
     m_Origin[2] = theMat.m[2][3];
