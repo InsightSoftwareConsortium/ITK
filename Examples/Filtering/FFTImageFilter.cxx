@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -92,11 +92,6 @@ int main( int argc, char * argv [] )
   typedef itk::Image< PixelType, Dimension > ImageType;
 // Software Guide : EndCodeSnippet
 
-
-
-
-
-
 // Software Guide : BeginLatex
 //
 // We use the same image type in order to instantiate the FFT filter. In this
@@ -116,9 +111,6 @@ int main( int argc, char * argv [] )
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
 // Software Guide : EndCodeSnippet
 
-
-
-
 // Software Guide : BeginLatex
 //
 // The input to this filter can be taken from a reader, for example.
@@ -132,8 +124,6 @@ int main( int argc, char * argv [] )
 
   fftFilter->SetInput( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
-
-
 
 // Software Guide : BeginLatex
 //
@@ -156,10 +146,6 @@ int main( int argc, char * argv [] )
     }
 // Software Guide : EndCodeSnippet
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // In general the output of the FFT filter will be a complex image. We can
@@ -181,10 +167,6 @@ int main( int argc, char * argv [] )
   complexWriter->SetInput( fftFilter->GetOutput() );
 // Software Guide : EndCodeSnippet
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // Finally we invoke the \code{Update()} method placing inside a try/catch
@@ -204,11 +186,6 @@ int main( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 // Software Guide : EndCodeSnippet
-
-
-
-
-
 
 // Software Guide : BeginLatex
 //
@@ -238,7 +215,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
-  typedef unsigned char WritePixelType;
+  typedef unsigned char                           WritePixelType;
   typedef itk::Image< WritePixelType, Dimension > WriteImageType;
 
 
@@ -268,11 +245,6 @@ int main( int argc, char * argv [] )
   intensityRescaler->SetOutputMaximum( 255 );
 // Software Guide : EndCodeSnippet
 
-
-
-
-
-
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
@@ -291,8 +263,6 @@ int main( int argc, char * argv [] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
 // Software Guide : BeginLatex
 //
@@ -323,8 +293,6 @@ int main( int argc, char * argv [] )
 // did with the Real part.
 //
 // Software Guide : EndLatex 
-
-
 
   intensityRescaler->SetInput( imaginaryFilter->GetOutput() );
   writer->SetFileName( argv[3] );
@@ -359,7 +327,7 @@ int main( int argc, char * argv [] )
 
   complexReader->SetFileName("complexImage.mhd");
   complexReader->Update();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   
   // A way of testing the pixel type of an image in file is to
@@ -371,4 +339,3 @@ int main( int argc, char * argv [] )
 
   return EXIT_SUCCESS;
 }
-

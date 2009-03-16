@@ -6,7 +6,7 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
      This software is distributed WITHOUT ANY WARRANTY; without even
@@ -70,7 +70,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const unsigned int      Dimension = 2;
   //  typedef unsigned char   OutputPixelType;
-  typedef unsigned short OutputPixelType;
+  typedef unsigned short  OutputPixelType;
   typedef float           WorkPixelType;
 
   typedef itk::Image< WorkPixelType,  Dimension > InputImageType;
@@ -113,7 +113,7 @@ int main( int argc, char * argv[] )
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
   fftoutput->Update();
 
-// Rescale the output to suit the output image type
+  // Rescale the output to suit the output image type
   typedef itk::RescaleIntensityImageFilter<
                                       WorkImageType,
                                       OutputImageType > RescaleFilterType;
@@ -126,7 +126,7 @@ int main( int argc, char * argv[] )
   intensityrescaler->SetOutputMinimum(  0  );
   intensityrescaler->SetOutputMaximum( 65535 );
 
-// Write the output
+  // Write the output
   writer->SetInput(intensityrescaler->GetOutput());
   writer->Update();
 
@@ -137,4 +137,3 @@ int main( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

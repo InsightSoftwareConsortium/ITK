@@ -80,9 +80,6 @@
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
-
-
 int main( int argc, char * argv[] )
 {
 
@@ -110,9 +107,6 @@ int main( int argc, char * argv[] )
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
   // Software Guide : EndCodeSnippet
-
-
-
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
 
@@ -206,8 +200,6 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex 
 
-
-
   typedef unsigned char WritePixelType;
 
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
@@ -256,4 +248,3 @@ int main( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

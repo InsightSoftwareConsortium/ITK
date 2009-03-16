@@ -138,7 +138,7 @@ int main( int argc, char *argv[] )
   // DWMRI_gradient_0003:=0.110000        0.664000        0.740000
   // ...
   // 
-  itk::MetaDataDictionary imgMetaDictionary = img->GetMetaDataDictionary();    
+  itk::MetaDataDictionary imgMetaDictionary = img->GetMetaDataDictionary();
   std::vector<std::string> imgMetaKeys = imgMetaDictionary.GetKeys();
   std::vector<std::string>::const_iterator itKey = imgMetaKeys.begin();
   std::string metaString;
@@ -156,7 +156,7 @@ int main( int argc, char *argv[] )
     itk::ExposeMetaData<std::string> (imgMetaDictionary, *itKey, metaString);
     if (itKey->find("DWMRI_gradient") != std::string::npos)
       { 
-      std::cout << *itKey << " ---> " << metaString << std::endl;      
+      std::cout << *itKey << " ---> " << metaString << std::endl;
       sscanf(metaString.c_str(), "%lf %lf %lf\n", &x, &y, &z);
       vect3d[0] = x; vect3d[1] = y; vect3d[2] = z;
       DiffusionVectors->InsertElement( numberOfImages, vect3d );
@@ -168,11 +168,11 @@ int main( int argc, char *argv[] )
         {
         continue;
         }
-      ++numberOfGradientImages;;
+      ++numberOfGradientImages;
       }
     else if (itKey->find("DWMRI_b-value") != std::string::npos)
       {
-      std::cout << *itKey << " ---> " << metaString << std::endl;      
+      std::cout << *itKey << " ---> " << metaString << std::endl;
       readb0 = true;
       b0 = atof(metaString.c_str());
       }
@@ -319,10 +319,10 @@ int main( int argc, char *argv[] )
   // 
   typedef TensorReconstructionImageFilterType::TensorPixelType TensorPixelType;
   typedef TensorPixelType::RealValueType                       RealValueType;
-  typedef itk::Image< RealValueType, Dimension >                 FAImageType;
+  typedef itk::Image< RealValueType, Dimension >               FAImageType;
   typedef itk::TensorFractionalAnisotropyImageFilter< 
       TensorReconstructionImageFilterType::OutputImageType, FAImageType >
-                                                                  FAFilterType;
+                                                               FAFilterType;
 
   FAFilterType::Pointer fractionalAnisotropyFilter = FAFilterType::New();
   fractionalAnisotropyFilter->SetInput( tensorReconstructionFilter->GetOutput() );
@@ -339,10 +339,10 @@ int main( int argc, char *argv[] )
   //
   typedef TensorReconstructionImageFilterType::TensorPixelType TensorPixelType;
   typedef TensorPixelType::RealValueType                       RealValueType;
-  typedef itk::Image< RealValueType, Dimension >                 RAImageType;
+  typedef itk::Image< RealValueType, Dimension >               RAImageType;
   typedef itk::TensorRelativeAnisotropyImageFilter< 
       TensorReconstructionImageFilterType::OutputImageType, RAImageType >
-                                                                  RAFilterType;
+                                                               RAFilterType;
 
   RAFilterType::Pointer relativeAnisotropyFilter = RAFilterType::New();
   relativeAnisotropyFilter->SetInput( tensorReconstructionFilter->GetOutput() );

@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -53,8 +53,6 @@
 #include "itkRayCastInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
-
-
 //#define WRITE_CUBE_IMAGE_TO_FILE
 
 
@@ -82,8 +80,6 @@ void usage()
   std::cerr << "                               and john.hipwell@kcl.ac.uk (CISG London)\n\n";
   exit(1);
 }
-
-
 
 int main( int argc, char *argv[] )
 {
@@ -129,7 +125,7 @@ int main( int argc, char *argv[] )
       {
       argc--; argv++;
       ok = true;
-      usage();      
+      usage();
       }
 
     if ((ok == false) && (strcmp(argv[1], "-v") == 0))
@@ -274,7 +270,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 3;
-  typedef   short  InputPixelType;
+  typedef   short         InputPixelType;
   typedef   unsigned char OutputPixelType;
   
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
@@ -319,13 +315,13 @@ int main( int argc, char *argv[] )
 
     InputImageType::SpacingType spacing;
     spacing[0] = 3.; 
-    spacing[1] = 3.;    
+    spacing[1] = 3.;
     spacing[2] = 3.;
     image->SetSpacing( spacing );
 
     InputImageType::PointType origin;
     origin[0] = 0.; 
-    origin[1] = 0.;    
+    origin[1] = 0.;
     origin[2] = 0.;
     image->SetOrigin( origin );
 
@@ -725,4 +721,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -1,3 +1,19 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    FilteringExamples2.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
 // this file defines the FilterExamples for the test driver
 // and all it expects is that you have a function called RegisterTests
 #if defined(_MSC_VER)
@@ -13,25 +29,25 @@
 
 void RegisterTests()
 {
-REGISTER_TEST(BinaryMedianImageFilterTest);
-REGISTER_TEST(LaplacianSharpeningImageFilterTest);
-REGISTER_TEST(ResampleImageFilterTest);
-REGISTER_TEST(ResampleOrientedImageFilterTest);
-REGISTER_TEST(ResampleImageFilter2Test);
-REGISTER_TEST(ResampleImageFilter3Test);
-REGISTER_TEST(ResampleImageFilter4Test);
-REGISTER_TEST(ResampleImageFilter5Test);
-REGISTER_TEST(ResampleImageFilter8Test);
-REGISTER_TEST(ResampleImageFilter9Test);
-REGISTER_TEST(SigmoidImageFilterTest);
-REGISTER_TEST(SmoothingRecursiveGaussianImageFilterTest);
-REGISTER_TEST(SmoothingRecursiveGaussianImageFilter2Test);
-REGISTER_TEST(ThresholdImageFilterTest);
-REGISTER_TEST(VectorCurvatureAnisotropicDiffusionImageFilterTest);
-REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
-REGISTER_TEST(VectorIndexSelectionTest);
-REGISTER_TEST(VotingBinaryHoleFillingImageFilterTest);
-REGISTER_TEST(VotingBinaryIterativeHoleFillingImageFilterTest);
+  REGISTER_TEST(BinaryMedianImageFilterTest);
+  REGISTER_TEST(LaplacianSharpeningImageFilterTest);
+  REGISTER_TEST(ResampleImageFilterTest);
+  REGISTER_TEST(ResampleOrientedImageFilterTest);
+  REGISTER_TEST(ResampleImageFilter2Test);
+  REGISTER_TEST(ResampleImageFilter3Test);
+  REGISTER_TEST(ResampleImageFilter4Test);
+  REGISTER_TEST(ResampleImageFilter5Test);
+  REGISTER_TEST(ResampleImageFilter8Test);
+  REGISTER_TEST(ResampleImageFilter9Test);
+  REGISTER_TEST(SigmoidImageFilterTest);
+  REGISTER_TEST(SmoothingRecursiveGaussianImageFilterTest);
+  REGISTER_TEST(SmoothingRecursiveGaussianImageFilter2Test);
+  REGISTER_TEST(ThresholdImageFilterTest);
+  REGISTER_TEST(VectorCurvatureAnisotropicDiffusionImageFilterTest);
+  REGISTER_TEST(VectorGradientAnisotropicDiffusionImageFilterTest);
+  REGISTER_TEST(VectorIndexSelectionTest);
+  REGISTER_TEST(VotingBinaryHoleFillingImageFilterTest);
+  REGISTER_TEST(VotingBinaryIterativeHoleFillingImageFilterTest);
 }
 #undef main
 #define main BinaryMedianImageFilterTest

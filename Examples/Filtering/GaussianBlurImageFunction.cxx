@@ -36,7 +36,7 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
   }
 
-  typedef itk::Image< float, 2 >   ImageType;
+  typedef itk::Image< float, 2 >             ImageType;
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   typedef itk::ImageRegionIterator< ImageType > IteratorType;
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;

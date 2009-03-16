@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -64,12 +64,12 @@ int main( int argc, char * argv[] )
   typedef unsigned short    IOPixelType;
   typedef float             WorkPixelType; 
   
-  typedef itk::Image< IOPixelType,  Dimension > IOImageType;
+  typedef itk::Image< IOPixelType,  Dimension >  IOImageType;
   typedef itk::Image< WorkPixelType, Dimension > WorkImageType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   
-// File handling
+  // File handling
   typedef itk::ImageFileReader< IOImageType > ReaderType;
   typedef itk::ImageFileWriter< IOImageType > WriterType;
   
@@ -80,7 +80,7 @@ int main( int argc, char * argv[] )
   inputreader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-// Handle padding of the image with resampling
+  // Handle padding of the image with resampling
   typedef itk::ResampleImageFilter< 
                               IOImageType, 
                               WorkImageType >  ResamplerType;
@@ -88,7 +88,7 @@ int main( int argc, char * argv[] )
   ResamplerType::Pointer inputresampler = ResamplerType::New();
   inputresampler->SetDefaultPixelValue(0);
 
-// Read the image and get its size
+  // Read the image and get its size
   inputreader->Update();
 
   IOImageType::SizeType     inputsize;
@@ -96,8 +96,8 @@ int main( int argc, char * argv[] )
 
   inputsize = inputreader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-// worksize is the nearest multiple of 2 larger than the input 
-  for( unsigned int i=0; i < 2 ; i++ ) 
+  // worksize is the nearest multiple of 2 larger than the input 
+  for( unsigned int i=0; i < 2; i++ ) 
     {
     int n=0;
     worksize[i] = inputsize[i];
@@ -114,35 +114,33 @@ int main( int argc, char * argv[] )
   inputresampler->SetSize( worksize );
   inputresampler->SetInput( inputreader->GetOutput() );
 
-// Forward FFT filter
+  // Forward FFT filter
   typedef itk::VnlFFTRealToComplexConjugateImageFilter < 
                                               WorkPixelType, 
-                                              Dimension 
-                                                      > FFTFilterType;
+                                              Dimension > FFTFilterType;
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
   fftinput->SetInput( inputresampler->GetOutput() );
 
-// This is the output type from the FFT filters
+  // This is the output type from the FFT filters
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
-// Do the inverse transform = forward transform / num voxels
+  // Do the inverse transform = forward transform / num voxels
   typedef itk::VnlFFTComplexConjugateToRealImageFilter < 
                                               WorkPixelType, 
                                               Dimension > invFFTFilterType;
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
 
-// undo the padding
+  // undo the padding
   typedef itk::ResampleImageFilter<WorkImageType, IOImageType> ResampleOutType;
   ResampleOutType::Pointer outputResampler = ResampleOutType::New();
   outputResampler->SetDefaultPixelValue( 0 );
   outputResampler->SetSize( inputsize );
   outputResampler->SetInput( fftoutput->GetOutput() );
 
-// Write the output
+  // Write the output
   writer->SetInput(outputResampler->GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;
 }
-

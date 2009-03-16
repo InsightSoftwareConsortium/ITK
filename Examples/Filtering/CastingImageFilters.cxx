@@ -209,8 +209,6 @@ int main( int argc, char * argv[] )
   normalizeFilter->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //
   //  Next we proceed to setup the parameters required by each filter. The
@@ -275,4 +273,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

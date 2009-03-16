@@ -5,13 +5,12 @@
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
-  Author:    Gavin Baker <gavinb@cs.mu.oz.au>
 
-  Copyright (c) 2005 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -130,9 +129,9 @@ protected:
 //  Software Guide : BeginCodeSnippet
 protected:
 
-  typedef ThresholdImageFilter< TImageType > ThresholdType;
+  typedef ThresholdImageFilter< TImageType >                     ThresholdType;
   typedef GradientMagnitudeImageFilter< TImageType, TImageType > GradientType;
-  typedef RescaleIntensityImageFilter< TImageType, TImageType > RescalerType;
+  typedef RescaleIntensityImageFilter< TImageType, TImageType >  RescalerType;
 //  Software Guide : EndCodeSnippet
 
     void GenerateData();
@@ -246,8 +245,6 @@ PrintSelf( std::ostream& os, Indent indent ) const
 } /* end namespace itk */
 
 //  Software Guide : EndCodeSnippet
-
-
 
 //  Software Guide : BeginLatex
 //

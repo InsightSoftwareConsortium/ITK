@@ -6,11 +6,11 @@
   Date:      $Date$
   Version:   $Revision$
 
-  Copyright (c) 2002 Insight Consortium. All rights reserved.
+  Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -99,9 +99,6 @@ int main(int argc, char* argv[])
   typedef itk::ImageFileReader< CharImageType >  ReaderType;
   typedef itk::ImageFileWriter< CharImageType >  WriterType;
 
-
-
-
   //  Software Guide : BeginLatex
   //
   //  This filter operates on image of pixel type float. It is then necessary
@@ -115,8 +112,6 @@ int main(int argc, char* argv[])
   // Software Guide : BeginCodeSnippet
   typedef itk::CastImageFilter< CharImageType, RealImageType> CastToRealFilterType;
   // Software Guide : EndCodeSnippet
-
-
 
   typedef itk::RescaleIntensityImageFilter<RealImageType, CharImageType > RescaleFilter;
 

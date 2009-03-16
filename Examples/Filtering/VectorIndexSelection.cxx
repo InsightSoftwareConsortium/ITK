@@ -47,8 +47,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::RGBPixel<unsigned char>  InputPixelType;
-  typedef unsigned char       OutputPixelType;
-  const   unsigned int        Dimension = 2;
+  typedef unsigned char                 OutputPixelType;
+  const   unsigned int                  Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
@@ -126,7 +126,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-
-
-
-
