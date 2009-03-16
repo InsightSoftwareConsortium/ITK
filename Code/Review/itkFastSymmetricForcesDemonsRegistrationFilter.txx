@@ -232,8 +232,6 @@ void
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
 ::ApplyUpdate(TimeStepType dt)
 {
-  this->GetUpdateBuffer()->Modified();
-   
   // If we smooth the update buffer before applying it, then the are
   // approximating a viscuous problem as opposed to an elastic problem
   if ( this->GetSmoothUpdateField() )

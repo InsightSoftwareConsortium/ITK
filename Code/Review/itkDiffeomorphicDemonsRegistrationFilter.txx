@@ -341,7 +341,6 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
 
   // Region passing stuff
   this->GraftOutput( m_Adder->GetOutput() );
-  this->GetOutput()->Modified();
   
   DemonsRegistrationFunctionType *drfp = this->DownCastDifferenceFunctionType();
 
