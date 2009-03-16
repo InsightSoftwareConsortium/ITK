@@ -72,8 +72,8 @@ int main( int argc, char ** argv )
     return -1;
     }
 
-  typedef float PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType;
+  typedef float                             PixelType;
+  typedef itk::Image< PixelType, 2 >        ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
  
   typedef itk::ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
@@ -102,72 +102,72 @@ int main( int argc, char ** argv )
 
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;
   
-// Software Guide : BeginLatex
-//
-// First we load the input image and create the output image and inner product
-// function as in the previous examples.  The image iterators will be created
-// in a later step.  Next we create a face calculator object.  An empty list is
-// created to hold the regions that will later on be returned by the face
-// calculator.
-// 
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // First we load the input image and create the output image and inner product
+  // function as in the previous examples.  The image iterators will be created
+  // in a later step.  Next we create a face calculator object.  An empty list is
+  // created to hold the regions that will later on be returned by the face
+  // calculator.
+  // 
+  // Software Guide : EndLatex
   
-// Software Guide : BeginCodeSnippet   
+  // Software Guide : BeginCodeSnippet   
   typedef itk::NeighborhoodAlgorithm
     ::ImageBoundaryFacesCalculator< ImageType > FaceCalculatorType;
   
   FaceCalculatorType faceCalculator;
   FaceCalculatorType::FaceListType faceList;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The face calculator function is invoked by passing it an image pointer, an
-// image region, and a neighborhood radius.  The image pointer is the same
-// image used to initialize the neighborhood iterator, and the image region is
-// the region that the algorithm is going to process.  The radius is the radius
-// of the iterator.
-//
-// Notice that in this case the image region is given as the region of the
-// \emph{output} image and the image pointer is given as that of the
-// \emph{input} image.  This is important if the input and output images differ
-// in size, i.e. the input image is larger than the output image.  ITK image
-// filters, for example, operate on data from the input image but only generate
-// results in the \code{RequestedRegion} of the output image, which may be
-// smaller than the full extent of the input.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The face calculator function is invoked by passing it an image pointer, an
+  // image region, and a neighborhood radius.  The image pointer is the same
+  // image used to initialize the neighborhood iterator, and the image region is
+  // the region that the algorithm is going to process.  The radius is the radius
+  // of the iterator.
+  //
+  // Notice that in this case the image region is given as the region of the
+  // \emph{output} image and the image pointer is given as that of the
+  // \emph{input} image.  This is important if the input and output images differ
+  // in size, i.e. the input image is larger than the output image.  ITK image
+  // filters, for example, operate on data from the input image but only generate
+  // results in the \code{RequestedRegion} of the output image, which may be
+  // smaller than the full extent of the input.
+  //
+  // Software Guide : EndLatex
   
-// Software Guide : BeginCodeSnippet   
+  // Software Guide : BeginCodeSnippet   
   faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(),
                             sobelOperator.GetRadius());
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
   
-// Software Guide : BeginLatex
-//
-// The face calculator has returned a list of $2N+1$ regions. The first element
-// in the list is always the inner region, which may or may not be important
-// depending on the application.  For our purposes it does not matter because
-// all regions are processed the same way.  We use an iterator to traverse the
-// list of faces.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The face calculator has returned a list of $2N+1$ regions. The first element
+  // in the list is always the inner region, which may or may not be important
+  // depending on the application.  For our purposes it does not matter because
+  // all regions are processed the same way.  We use an iterator to traverse the
+  // list of faces.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet  
+  // Software Guide : BeginCodeSnippet  
   FaceCalculatorType::FaceListType::iterator fit;
-// Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet 
 
-// Software Guide : BeginLatex
-//
-// We now rewrite the main loop of the previous example so that each region in the
-// list is processed by a separate iterator.  The iterators \code{it} and
-// \code{out} are reinitialized over each region in turn.  Bounds checking is
-// automatically enabled for those regions that require it, and disabled for
-// the region that does not.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We now rewrite the main loop of the previous example so that each region in the
+  // list is processed by a separate iterator.  The iterators \code{it} and
+  // \code{out} are reinitialized over each region in turn.  Bounds checking is
+  // automatically enabled for those regions that require it, and disabled for
+  // the region that does not.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   IteratorType out;
   NeighborhoodIteratorType it;
   
@@ -182,23 +182,23 @@ int main( int argc, char ** argv )
       out.Set( innerProduct(it, sobelOperator) );
       }
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   
-// Software Guide : BeginLatex
-//
-// The output is written as before.  Results for this example are the same as
-// the previous example.  You may not notice the speedup except on larger
-// images.  When moving to 3D and higher dimensions, the effects are greater
-// because the volume to surface area ratio is usually larger.  In other
-// words, as the number of interior pixels increases relative to the number of
-// face pixels, there is a corresponding increase in efficiency from disabling
-// bounds checking on interior pixels.
-//  
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The output is written as before.  Results for this example are the same as
+  // the previous example.  You may not notice the speedup except on larger
+  // images.  When moving to 3D and higher dimensions, the effects are greater
+  // because the volume to surface area ratio is usually larger.  In other
+  // words, as the number of interior pixels increases relative to the number of
+  // face pixels, there is a corresponding increase in efficiency from disabling
+  // bounds checking on interior pixels.
+  //  
+  // Software Guide : EndLatex
 
-  typedef unsigned char WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef unsigned char                          WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
   
   typedef itk::RescaleIntensityImageFilter< 

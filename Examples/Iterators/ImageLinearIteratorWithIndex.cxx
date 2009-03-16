@@ -34,7 +34,7 @@
 // defined by selecting a direction and an origin.   The line $\ell$
 // extends from the origin to the upper boundary of $R$. The origin can be
 // moved to any position along the lower boundary of $R$. 
-//    
+//
 // Several additional methods are defined for this iterator to control movement
 // of the iterator along the line $\ell$ and movement of the origin of $\ell$.
 //
@@ -131,8 +131,8 @@ int main( int argc, char *argv[] )
 
   const unsigned int Dimension = 2;
   
-  typedef itk::RGBPixel< unsigned char > RGBPixelType;
-  typedef itk::Image< RGBPixelType, Dimension >  ImageType;
+  typedef itk::RGBPixel< unsigned char >        RGBPixelType;
+  typedef itk::Image< RGBPixelType, Dimension > ImageType;
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageLinearIteratorWithIndex< ImageType >       IteratorType;

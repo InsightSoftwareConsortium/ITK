@@ -68,7 +68,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char PixelType;
+  typedef unsigned char               PixelType;
   typedef itk::Image< PixelType, 2 >  ImageType;
 
   typedef itk::ConstShapedNeighborhoodIterator< 
@@ -78,7 +78,7 @@ int main( int argc, char ** argv )
   typedef itk::ImageRegionIterator< ImageType> IteratorType;
   // Software Guide : EndCodeSnippet
   
-  typedef itk::ImageFileReader< ImageType > ReaderType;    
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   
@@ -97,34 +97,34 @@ int main( int argc, char ** argv )
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
 
-// Software Guide : BeginLatex
-//
-// Refer to the examples in Section~\ref{sec:itkNeighborhoodIterator} or the
-// source code of this example for a description of how to read the input image
-// and allocate a matching output image.
-//
-// The size of the structuring element is read from the command line and used
-// to define a radius for the shaped neighborhood iterator.  Using the method
-// developed in section~\ref{sec:itkNeighborhoodIterator} to minimize bounds
-// checking, the iterator itself is not initialized until entering the
-// main processing loop.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Refer to the examples in Section~\ref{sec:itkNeighborhoodIterator} or the
+  // source code of this example for a description of how to read the input image
+  // and allocate a matching output image.
+  //
+  // The size of the structuring element is read from the command line and used
+  // to define a radius for the shaped neighborhood iterator.  Using the method
+  // developed in section~\ref{sec:itkNeighborhoodIterator} to minimize bounds
+  // checking, the iterator itself is not initialized until entering the
+  // main processing loop.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   unsigned int element_radius = ::atoi( argv[3] );
   ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(element_radius);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The face calculator object introduced in
-// Section~\ref{sec:NeighborhoodExample3} is created and used as before.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The face calculator object introduced in
+  // Section~\ref{sec:NeighborhoodExample3} is created and used as before.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
                                                 ImageType > FaceCalculatorType;
   
@@ -135,40 +135,40 @@ int main( int argc, char ** argv )
   faceList = faceCalculator( reader->GetOutput(), 
                              output->GetRequestedRegion(), 
                              radius );
-// Software Guide : EndCodeSnippet 
+  // Software Guide : EndCodeSnippet 
 
-// Software Guide : BeginLatex
-//
-// Now we initialize some variables and constants.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Now we initialize some variables and constants.
+  //
+  // Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   IteratorType out;
   
   const PixelType background_value = 0;
   const PixelType foreground_value = 255;
   const float rad = static_cast<float>(element_radius);
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The outer loop of the algorithm is structured as in previous neighborhood
-// iterator examples.  Each region in the face list is processed in turn.  As each new
-// region is processed, the input and output iterators are initialized on that
-// region.
-//
-// The shaped iterator that ranges over the input is our structuring element
-// and its active stencil must be created accordingly.  For this example, the
-// structuring element is shaped like a circle of radius
-// \code{element\_radius}.  Each of the appropriate neighborhood offsets is
-// activated in the double \code{for} loop.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The outer loop of the algorithm is structured as in previous neighborhood
+  // iterator examples.  Each region in the face list is processed in turn.  As each new
+  // region is processed, the input and output iterators are initialized on that
+  // region.
+  //
+  // The shaped iterator that ranges over the input is our structuring element
+  // and its active stencil must be created accordingly.  For this example, the
+  // structuring element is shaped like a circle of radius
+  // \code{element\_radius}.  Each of the appropriate neighborhood offsets is
+  // activated in the double \code{for} loop.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   for ( fit=faceList.begin(); fit != faceList.end(); ++fit)
     {
     ShapedNeighborhoodIteratorType it( radius, reader->GetOutput(), *fit );
@@ -180,7 +180,7 @@ int main( int argc, char ** argv )
     for (float y = -rad; y <= rad; y++)
       {
       for (float x = -rad; x <= rad; x++)
-        {     
+        {
         ShapedNeighborhoodIteratorType::OffsetType off;
         
         float dis = ::sqrt( x*x + y*y );
@@ -192,20 +192,20 @@ int main( int argc, char ** argv )
           }
         }
       }
-// Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The inner loop, which implements the erosion algorithm, is fairly simple.
-// The \code{for} loop steps the input and output iterators through their
-// respective images.  At each step, the active stencil of the shaped iterator
-// is traversed to determine whether all pixels underneath the stencil contain
-// the foreground value, i.e. are contained within the set $I$.  Note the use
-// of the stencil iterator, \code{ci}, in performing this check.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginLatex
+    //
+    // The inner loop, which implements the erosion algorithm, is fairly simple.
+    // The \code{for} loop steps the input and output iterators through their
+    // respective images.  At each step, the active stencil of the shaped iterator
+    // is traversed to determine whether all pixels underneath the stencil contain
+    // the foreground value, i.e. are contained within the set $I$.  Note the use
+    // of the stencil iterator, \code{ci}, in performing this check.
+    //
+    // Software Guide : EndLatex
+    
+    // Software Guide : BeginCodeSnippet
     
     // Implements erosion
     for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
@@ -231,7 +231,7 @@ int main( int argc, char ** argv )
         }
       }
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
   
   typedef itk::ImageFileWriter< ImageType > WriterType;
   

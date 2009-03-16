@@ -68,8 +68,8 @@ int main( int argc, char ** argv )
       return -1;
     }
 
-  typedef float PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType;
+  typedef float                             PixelType;
+  typedef itk::Image< PixelType, 2 >        ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
 
   typedef itk::ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
@@ -94,72 +94,72 @@ int main( int argc, char ** argv )
   
   IteratorType out(output, reader->GetOutput()->GetRequestedRegion());
   
-// Software Guide : BeginLatex
-//
-// \index{convolution!kernels}
-// \index{convolution!operators}
-// \index{iterators!neighborhood!and convolution}
-//
-// Refer to the previous example for a description of reading the input image and
-// setting up the output image and iterator.
-//
-// The following code creates a Sobel operator.  The Sobel operator requires
-// a direction for its partial derivatives.  This direction is read from the command line.
-// Changing the direction of the derivatives changes the bias of the edge
-// detection, i.e. maximally vertical or maximally horizontal.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // \index{convolution!kernels}
+  // \index{convolution!operators}
+  // \index{iterators!neighborhood!and convolution}
+  //
+  // Refer to the previous example for a description of reading the input image and
+  // setting up the output image and iterator.
+  //
+  // The following code creates a Sobel operator.  The Sobel operator requires
+  // a direction for its partial derivatives.  This direction is read from the command line.
+  // Changing the direction of the derivatives changes the bias of the edge
+  // detection, i.e. maximally vertical or maximally horizontal.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   itk::SobelOperator<PixelType, 2> sobelOperator;
   sobelOperator.SetDirection( ::atoi(argv[3]) );
   sobelOperator.CreateDirectional();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The neighborhood iterator is initialized as before, except that now it takes
-// its radius directly from the radius of the Sobel operator.  The inner
-// product function object is templated over image type and requires no 
-// initialization.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The neighborhood iterator is initialized as before, except that now it takes
+  // its radius directly from the radius of the Sobel operator.  The inner
+  // product function object is templated over image type and requires no 
+  // initialization.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius = sobelOperator.GetRadius();
   NeighborhoodIteratorType it( radius, reader->GetOutput(), 
                                reader->GetOutput()->GetRequestedRegion() );
   
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Using the Sobel operator, inner product, and neighborhood iterator objects,
-// we can now write a very simple \code{for} loop for performing convolution
-// filtering.  As before, out-of-bounds pixel values are supplied automatically
-// by the iterator.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Using the Sobel operator, inner product, and neighborhood iterator objects,
+  // we can now write a very simple \code{for} loop for performing convolution
+  // filtering.  As before, out-of-bounds pixel values are supplied automatically
+  // by the iterator.
+  //
+  // Software Guide : EndLatex
     
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
     {
     out.Set( innerProduct( it, sobelOperator ) );
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
   
-// Software Guide : BeginLatex
-//
-// The output is rescaled and written as in the previous example.  Applying
-// this example in the $x$ and $y$ directions produces the images at the center
-// and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that x-direction 
-// operator produces the same output image as in the previous example.
-// 
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The output is rescaled and written as in the previous example.  Applying
+  // this example in the $x$ and $y$ directions produces the images at the center
+  // and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that x-direction 
+  // operator produces the same output image as in the previous example.
+  // 
+  // Software Guide : EndLatex
 
-  typedef unsigned char WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef unsigned char                          WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
   
   typedef itk::RescaleIntensityImageFilter< 

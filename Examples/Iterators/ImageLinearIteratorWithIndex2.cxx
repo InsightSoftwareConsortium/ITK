@@ -80,8 +80,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-
-
   Image4DType::ConstPointer image4D = reader4D->GetOutput();
 
   Image3DType::Pointer image3D = Image3DType::New();
@@ -146,8 +144,8 @@ int main( int argc, char *argv[] )
     index4D = it.GetIndex();
     while( !it.IsAtEndOfLine() )
       {
-       sum += it.Get();
-       ++it;
+      sum += it.Get();
+      ++it;
       }
     MeanType mean = static_cast< MeanType >( sum ) / 
                     static_cast< MeanType >( timeLength );
@@ -161,25 +159,25 @@ int main( int argc, char *argv[] )
     }
 
 
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// As you can see, we avoid to use a 3D iterator to walk
-// over the mean image. The reason is that there is no
-// guarantee that the 3D iterator will walk in the same
-// order as the 4D. Iterators just adhere to their contract
-// of visiting all the pixel, but do not enforce any particular
-// order for the visits.  The linear iterator guarantees to
-// visit the pixels along a line of the image in the order
-// in which they are placed in the line, but do not states
-// in what order one line will be visited with respect to
-// other lines.  Here we simply take advantage of knowing
-// the first three components of the 4D iterator index, 
-// and use them to place the resulting mean value in the
-// output 3D image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // As you can see, we avoid to use a 3D iterator to walk
+  // over the mean image. The reason is that there is no
+  // guarantee that the 3D iterator will walk in the same
+  // order as the 4D. Iterators just adhere to their contract
+  // of visiting all the pixel, but do not enforce any particular
+  // order for the visits.  The linear iterator guarantees to
+  // visit the pixels along a line of the image in the order
+  // in which they are placed in the line, but do not states
+  // in what order one line will be visited with respect to
+  // other lines.  Here we simply take advantage of knowing
+  // the first three components of the 4D iterator index, 
+  // and use them to place the resulting mean value in the
+  // output 3D image.
+  //
+  // Software Guide : EndLatex
 
   Writer3DType::Pointer writer3D = Writer3DType::New();
   writer3D->SetFileName( argv[2] );

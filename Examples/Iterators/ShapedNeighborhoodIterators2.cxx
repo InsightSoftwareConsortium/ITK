@@ -43,11 +43,12 @@ int main( int argc, char ** argv )
     return -1;
     }
   
-  typedef unsigned char PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType;
+  typedef unsigned char                     PixelType;
+  typedef itk::Image< PixelType, 2 >        ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
   
-  typedef itk::ConstShapedNeighborhoodIterator< ImageType > ShapedNeighborhoodIteratorType;
+  typedef itk::ConstShapedNeighborhoodIterator< ImageType >
+                                               ShapedNeighborhoodIteratorType;
   typedef itk::ImageRegionIterator< ImageType> IteratorType;
   
   ReaderType::Pointer reader = ReaderType::New();
@@ -97,7 +98,7 @@ int main( int argc, char ** argv )
     for (float y = -rad; y <= rad; y++)
       {
       for (float x = -rad; x <= rad; x++)
-        {     
+        {
         ShapedNeighborhoodIteratorType::OffsetType off;
         
         float dis = ::sqrt( x*x + y*y );
@@ -110,15 +111,15 @@ int main( int argc, char ** argv )
         }
       }
     
-// Software Guide : BeginLatex
-//
-// The logic of the inner loop can be rewritten to perform
-// dilation.  Dilation of the set $I$ by $E$ is the set of all $x$ such that
-// $E$ positioned at $x$ contains at least one element in $I$.
-//
-// Software Guide : EndLatex
+    // Software Guide : BeginLatex
+    //
+    // The logic of the inner loop can be rewritten to perform
+    // dilation.  Dilation of the set $I$ by $E$ is the set of all $x$ such that
+    // $E$ positioned at $x$ contains at least one element in $I$.
+    //
+    // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     // Implements dilation
     for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
       {

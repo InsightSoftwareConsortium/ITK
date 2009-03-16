@@ -62,41 +62,41 @@ int main( int argc, char ** argv )
     return -1;
     }
 
-// Software Guide : BeginLatex
-//
-// The finite difference calculations
-// in this algorithm require floating point values.  Hence, we define the image
-// pixel type to be \code{float} and the file reader will
-// automatically cast fixed-point data to \code{float}.
-//
-// We declare the iterator types using the image type as
-// the template parameter. The second template parameter of the 
-// neighborhood iterator, which specifies
-// the boundary condition, has been omitted because the default condition is
-// appropriate for this algorithm.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The finite difference calculations
+  // in this algorithm require floating point values.  Hence, we define the image
+  // pixel type to be \code{float} and the file reader will
+  // automatically cast fixed-point data to \code{float}.
+  //
+  // We declare the iterator types using the image type as
+  // the template parameter. The second template parameter of the 
+  // neighborhood iterator, which specifies
+  // the boundary condition, has been omitted because the default condition is
+  // appropriate for this algorithm.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-  typedef float PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType;
+  // Software Guide : BeginCodeSnippet
+  typedef float                             PixelType;
+  typedef itk::Image< PixelType, 2 >        ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
   
   typedef itk::ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
   typedef itk::ImageRegionIterator< ImageType>        IteratorType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The following code creates and executes the ITK image reader. 
-// The \code{Update}
-// call on the reader object is surrounded by the standard \code{try/catch}
-// blocks to handle any exceptions that may be thrown by the reader.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The following code creates and executes the ITK image reader. 
+  // The \code{Update}
+  // call on the reader object is surrounded by the standard \code{try/catch}
+  // blocks to handle any exceptions that may be thrown by the reader.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   try
@@ -109,80 +109,80 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl; 
     return -1;
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-//  We can now create a neighborhood iterator to range over the output of the
-//  reader. For Sobel edge-detection in 2D, we need a square iterator that
-//  extends one pixel away from the neighborhood center in every dimension.
-//
-//  Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  //  We can now create a neighborhood iterator to range over the output of the
+  //  reader. For Sobel edge-detection in 2D, we need a square iterator that
+  //  extends one pixel away from the neighborhood center in every dimension.
+  //
+  //  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
   NeighborhoodIteratorType it( radius, reader->GetOutput(),
                                reader->GetOutput()->GetRequestedRegion() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// The following code creates an output image and iterator.
-//   
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The following code creates an output image and iterator.
+  //   
+  // Software Guide : EndLatex
   
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::Pointer output = ImageType::New();
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
 
   IteratorType out(output, reader->GetOutput()->GetRequestedRegion());
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Sobel edge detection uses weighted finite difference calculations to
-// construct an edge magnitude image.  Normally the edge magnitude is the
-// root sum of squares of partial derivatives in all directions, but for
-// simplicity this example only calculates the $x$ component. The result is a
-// derivative image biased toward maximally vertical edges.
-//
-// The finite differences are computed from pixels at six locations in the
-// neighborhood.  In this example, we use the iterator \code{GetPixel()} 
-// method to query the values from their offsets in the neighborhood.  
-// The example in Section~\ref{sec:NeighborhoodExample2} uses convolution 
-// with a Sobel kernel instead.
-//
-// Six positions in the neighborhood are necessary for the finite difference
-// calculations. These positions are recorded in \code{offset1} through
-// \code{offset6}.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Sobel edge detection uses weighted finite difference calculations to
+  // construct an edge magnitude image.  Normally the edge magnitude is the
+  // root sum of squares of partial derivatives in all directions, but for
+  // simplicity this example only calculates the $x$ component. The result is a
+  // derivative image biased toward maximally vertical edges.
+  //
+  // The finite differences are computed from pixels at six locations in the
+  // neighborhood.  In this example, we use the iterator \code{GetPixel()} 
+  // method to query the values from their offsets in the neighborhood.  
+  // The example in Section~\ref{sec:NeighborhoodExample2} uses convolution 
+  // with a Sobel kernel instead.
+  //
+  // Six positions in the neighborhood are necessary for the finite difference
+  // calculations. These positions are recorded in \code{offset1} through
+  // \code{offset6}.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   NeighborhoodIteratorType::OffsetType offset1 = {{-1,-1}};
   NeighborhoodIteratorType::OffsetType offset2 = {{1,-1}};
   NeighborhoodIteratorType::OffsetType offset3 = {{-1,0 }};
   NeighborhoodIteratorType::OffsetType offset4 = {{1,0}};
   NeighborhoodIteratorType::OffsetType offset5 = {{-1,1}};
   NeighborhoodIteratorType::OffsetType offset6 = {{1,1}};
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// It is equivalent to use the six corresponding integer array indices instead.
-// For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are 
-// equivalent to the integer indices \code{0} and \code{2}, respectively.
-//
-// The calculations are done in a \code{for} loop that moves the input and
-// output iterators synchronously across their respective images.  The
-// \code{sum} variable is used to sum the results of the finite differences.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // It is equivalent to use the six corresponding integer array indices instead.
+  // For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are 
+  // equivalent to the integer indices \code{0} and \code{2}, respectively.
+  //
+  // The calculations are done in a \code{for} loop that moves the input and
+  // output iterators synchronously across their respective images.  The
+  // \code{sum} variable is used to sum the results of the finite differences.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
     {
     float sum;
@@ -191,20 +191,20 @@ int main( int argc, char ** argv )
     sum += it.GetPixel(offset6) - it.GetPixel(offset5);
     out.Set(sum);
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
   
-// Software Guide : BeginLatex
-//
-// The last step is to write the output buffer to an image file.  Writing is
-// done inside a \code{try/catch} block to handle any exceptions.  The output
-// is rescaled to intensity range $[0, 255]$ and cast to unsigned char so that
-// it can be saved and visualized as a PNG image.
-//
-// Software Guide : EndLatex  
+  // Software Guide : BeginLatex
+  //
+  // The last step is to write the output buffer to an image file.  Writing is
+  // done inside a \code{try/catch} block to handle any exceptions.  The output
+  // is rescaled to intensity range $[0, 255]$ and cast to unsigned char so that
+  // it can be saved and visualized as a PNG image.
+  //
+  // Software Guide : EndLatex  
   
-// Software Guide : BeginCodeSnippet
-  typedef unsigned char WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  // Software Guide : BeginCodeSnippet
+  typedef unsigned char                          WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
   
   typedef itk::RescaleIntensityImageFilter< 
@@ -229,28 +229,27 @@ int main( int argc, char ** argv )
     std::cout << err << std::endl; 
     return -1;   
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// The center image of Figure~\ref{fig:NeighborhoodExamples1} shows the
-// output of the Sobel algorithm applied to
-// \code{Examples/Data/BrainT1Slice.png}.
-//
-// \begin{figure} \centering
-// \includegraphics[width=0.3\textwidth]{BrainT1Slice.eps}
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1a.eps}
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1b.eps}
-// \itkcaption[Sobel edge detection results]{Applying the Sobel operator in
-// different orientations to an MRI image (left) produces $x$ (center) and $y$
-// (right) derivative images.}
-// \protect\label{fig:NeighborhoodExamples1}
-// \end{figure}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // The center image of Figure~\ref{fig:NeighborhoodExamples1} shows the
+  // output of the Sobel algorithm applied to
+  // \code{Examples/Data/BrainT1Slice.png}.
+  //
+  // \begin{figure} \centering
+  // \includegraphics[width=0.3\textwidth]{BrainT1Slice.eps}
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1a.eps}
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1b.eps}
+  // \itkcaption[Sobel edge detection results]{Applying the Sobel operator in
+  // different orientations to an MRI image (left) produces $x$ (center) and $y$
+  // (right) derivative images.}
+  // \protect\label{fig:NeighborhoodExamples1}
+  // \end{figure}
+  //
+  // Software Guide : EndLatex
 
   
   return 0;
 }
-

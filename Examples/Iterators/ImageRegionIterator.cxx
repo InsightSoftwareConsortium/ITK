@@ -65,18 +65,18 @@ int main( int argc, char *argv[] )
       return -1;
     }
 
-// Software Guide : BeginLatex
-//
-// Next we define a pixel type and corresponding image type. ITK iterator
-// classes expect the image type as their template parameter.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Next we define a pixel type and corresponding image type. ITK iterator
+  // classes expect the image type as their template parameter.
+  //
+  // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
   
-  typedef unsigned char PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  typedef unsigned char                      PixelType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
   
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
   typedef itk::ImageRegionIterator< ImageType>       IteratorType;
@@ -85,15 +85,15 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
-// Software Guide : BeginLatex
-// 
-// Information about the subregion to copy is read from the command line. The
-// subregion is defined by an \doxygen{ImageRegion} object, with a starting
-// grid index and a size (Section~\ref{sec:ImageSection}).
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  // 
+  // Information about the subregion to copy is read from the command line. The
+  // subregion is defined by an \doxygen{ImageRegion} object, with a starting
+  // grid index and a size (Section~\ref{sec:ImageSection}).
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::RegionType inputRegion;
 
   ImageType::RegionType::IndexType inputStart;
@@ -107,18 +107,18 @@ int main( int argc, char *argv[] )
 
   inputRegion.SetSize( size );
   inputRegion.SetIndex( inputStart );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-// 
-// The destination region in the output image is defined using the input region
-// size, but a different start index.  The starting index for the destination
-// region is the corner of the newly generated image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  // 
+  // The destination region in the output image is defined using the input region
+  // size, but a different start index.  The starting index for the destination
+  // region is the corner of the newly generated image.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::RegionType outputRegion;
 
   ImageType::RegionType::IndexType outputStart;
@@ -128,7 +128,7 @@ int main( int argc, char *argv[] )
 
   outputRegion.SetSize( size );
   outputRegion.SetIndex( outputStart );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -144,7 +144,7 @@ int main( int argc, char *argv[] )
     return -1;
     }
 
-  // Check that the region is contained within the input image.
+    // Check that the region is contained within the input image.
   if ( ! reader->GetOutput()->GetRequestedRegion().IsInside( inputRegion ) )
     {
     std::cerr << "Error" << std::endl;
@@ -153,21 +153,21 @@ int main( int argc, char *argv[] )
     return -1;
     }
 
-// Software Guide : BeginLatex
-//
-// After reading the input image and checking that the desired subregion is,
-// in fact, contained in the input, we allocate an output image.  It is
-// fundamental to set valid values to some of the basic image information 
-// during the copying process.  
-// In particular, the starting index of the output region
-// is now filled up with zero values and the coordinates of the physical
-// origin are computed as a shift from the origin of the input image. This is
-// quite important since it will allow us to later 
-// register the extracted region against the original image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // After reading the input image and checking that the desired subregion is,
+  // in fact, contained in the input, we allocate an output image.  It is
+  // fundamental to set valid values to some of the basic image information 
+  // during the copying process.  
+  // In particular, the starting index of the output region
+  // is now filled up with zero values and the coordinates of the physical
+  // origin are computed as a shift from the origin of the input image. This is
+  // quite important since it will allow us to later 
+  // register the extracted region against the original image.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( outputRegion );
   const ImageType::SpacingType& spacing = reader->GetOutput()->GetSpacing();
@@ -182,22 +182,22 @@ int main( int argc, char *argv[] )
   outputImage->SetSpacing( spacing );
   outputImage->SetOrigin(  outputOrigin );
   outputImage->Allocate();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// \index{Iterators!construction of} \index{Iterators!and image regions} 
-// The necessary images and region definitions are now in place.  All that is
-// left to do is to create the iterators and perform the copy.  Note that image
-// iterators are not accessed via smart pointers so they are light-weight
-// objects that are instantiated on the stack.  Also notice how the input and
-// output iterators are defined over the \emph{same corresponding region}.  Though the
-// images are different sizes, they both contain the same target subregion.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // \index{Iterators!construction of} \index{Iterators!and image regions} 
+  // The necessary images and region definitions are now in place.  All that is
+  // left to do is to create the iterators and perform the copy.  Note that image
+  // iterators are not accessed via smart pointers so they are light-weight
+  // objects that are instantiated on the stack.  Also notice how the input and
+  // output iterators are defined over the \emph{same corresponding region}.  Though the
+  // images are different sizes, they both contain the same target subregion.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ConstIteratorType inputIt(   reader->GetOutput(), inputRegion  );
   IteratorType      outputIt(  outputImage,         outputRegion );
 
@@ -206,19 +206,19 @@ int main( int argc, char *argv[] )
     {
     outputIt.Set(  inputIt.Get()  );
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// \index{Iterators!image dimensionality}
-//  The \code{for} loop above is a common
-// construct in ITK.  The beauty of these four lines of code is that they are
-// equally valid for one, two, three, or even ten dimensional data, and no
-// knowledge of the size of the image is necessary.  Consider the ugly
-// alternative of ten nested \code{for} loops for traversing an image.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // \index{Iterators!image dimensionality}
+  //  The \code{for} loop above is a common
+  // construct in ITK.  The beauty of these four lines of code is that they are
+  // equally valid for one, two, three, or even ten dimensional data, and no
+  // knowledge of the size of the image is necessary.  Consider the ugly
+  // alternative of ten nested \code{for} loops for traversing an image.
+  //
+  // Software Guide : EndLatex
   
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
@@ -235,37 +235,35 @@ int main( int argc, char *argv[] )
     return -1;   
     }
 
-// Software Guide : BeginLatex
-//
-// Let's run this example on the image \code{FatMRISlice.png} found
-// in \code{Examples/Data}.  The command line arguments specify the
-// input and output file names, then the $x$, $y$ origin and the $x$, $y$ size
-// of the cropped subregion.
-//
-// \small
-// \begin{verbatim}
-// ImageRegionIterator FatMRISlice.png ImageRegionIteratorOutput.png 20 70 210 140
-// \end{verbatim}
-// \normalsize
-//
-// The output is the cropped subregion shown in
-// Figure~\ref{fig:ImageRegionIteratorOutput}.
-//
-// \begin{figure}
-// \centering
-// \includegraphics[width=0.4\textwidth]{FatMRISlice.eps}
-// \includegraphics[width=0.3\textwidth]{ImageRegionIteratorOutput.eps}
-// \itkcaption[Copying an image subregion using ImageRegionIterator]{Cropping a
-// region from an image.  The original image is shown at left.  The image on
-// the right is the result of applying the ImageRegionIterator example code.}
-// \protect\label{fig:ImageRegionIteratorOutput}
-// \end{figure}
-// 
-// \index{itk::ImageRegionIterator!example of using|)}
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // Let's run this example on the image \code{FatMRISlice.png} found
+  // in \code{Examples/Data}.  The command line arguments specify the
+  // input and output file names, then the $x$, $y$ origin and the $x$, $y$ size
+  // of the cropped subregion.
+  //
+  // \small
+  // \begin{verbatim}
+  // ImageRegionIterator FatMRISlice.png ImageRegionIteratorOutput.png 20 70 210 140
+  // \end{verbatim}
+  // \normalsize
+  //
+  // The output is the cropped subregion shown in
+  // Figure~\ref{fig:ImageRegionIteratorOutput}.
+  //
+  // \begin{figure}
+  // \centering
+  // \includegraphics[width=0.4\textwidth]{FatMRISlice.eps}
+  // \includegraphics[width=0.3\textwidth]{ImageRegionIteratorOutput.eps}
+  // \itkcaption[Copying an image subregion using ImageRegionIterator]{Cropping a
+  // region from an image.  The original image is shown at left.  The image on
+  // the right is the result of applying the ImageRegionIterator example code.}
+  // \protect\label{fig:ImageRegionIteratorOutput}
+  // \end{figure}
+  // 
+  // \index{itk::ImageRegionIterator!example of using|)}
+  //
+  // Software Guide : EndLatex
 
   return 0;
 }
-
-
