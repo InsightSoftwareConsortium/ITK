@@ -31,6 +31,11 @@ template <class TInputImage, class TCoordRep>
 VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::VectorCentralDifferenceImageFunction()
 {
+#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
+  this->m_UseImageDirection = true;
+#else
+  this->m_UseImageDirection = false;
+#endif
 }
 
 
@@ -43,6 +48,7 @@ VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
+  os << indent << "UseImageDirection = " << this->m_UseImageDirection << std::endl;
 }
 
 
@@ -59,7 +65,6 @@ VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
   derivative.Fill( 0.0 );
   
   IndexType neighIndex = index;
-  InputPixelType pix;
 
   const typename InputImageType::SizeType& size =
     this->GetInputImage()->GetBufferedRegion().GetSize();
@@ -80,26 +85,50 @@ VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
       }
     
     // compute derivative
+    const double deriv_weight = 0.5 / this->GetInputImage()->GetSpacing()[dim];
+    
     neighIndex[dim] += 1;
-    pix = this->GetInputImage()->GetPixel( neighIndex );
+    const InputPixelType & pixf = this->GetInputImage()->GetPixel( neighIndex );
     for (unsigned int vdim=0; vdim<Dimension; ++vdim)
       {
-      derivative(vdim,dim) = pix[vdim];
+      derivative(vdim,dim) = pixf[vdim];
       }
 
     neighIndex[dim] -= 2;
-    pix = this->GetInputImage()->GetPixel( neighIndex );
+    const InputPixelType & pixb = this->GetInputImage()->GetPixel( neighIndex );
     for (unsigned int vdim=0; vdim<Dimension; ++vdim)
       {
-      derivative(vdim,dim) -= pix[vdim];
+      derivative(vdim,dim) -= pixb[vdim];
+      derivative(vdim,dim) *= deriv_weight;
       }
-
-    for (unsigned int vdim=0; vdim<Dimension; ++vdim)
-      {
-      derivative(vdim,dim) *= 0.5 / this->GetInputImage()->GetSpacing()[dim];
-      }
+    
     neighIndex[dim] += 1;
     }
+
+#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+  if( this->m_UseImageDirection )
+    {
+    OutputType orientedderivative;
+    const typename InputImageType::DirectionType & direction
+       = this->GetInputImage()->GetDirection();
+    for ( unsigned int i = 0; i < TInputImage::ImageDimension; ++i )
+      {
+      std::vector<double> sums(Dimension,0.0);
+      for ( unsigned int j = 0; j < TInputImage::ImageDimension; ++j )
+        {
+        for (unsigned int vdim=0; vdim<Dimension; ++vdim)
+          {
+          sums[vdim] += direction[i][j] * derivative(vdim,j);
+          }
+        }
+      for (unsigned int vdim=0; vdim<Dimension; ++vdim)
+        {
+        orientedderivative(vdim,i) = static_cast<TCoordRep>( sums[vdim] );
+        }
+      }
+    return orientedderivative;
+    }
+#endif
 
   return ( derivative );
 
