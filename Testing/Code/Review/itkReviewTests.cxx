@@ -79,6 +79,7 @@ void RegisterTests()
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest02 );
 
   REGISTER_TEST( itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );
+  REGISTER_TEST( itkVectorCentralDifferenceImageFunctionTest );
   REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
   REGISTER_TEST( itkFastSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST( itkGridForwardWarpImageFilterTest );

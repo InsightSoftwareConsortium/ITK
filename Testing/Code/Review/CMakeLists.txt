@@ -85,6 +85,7 @@ SET(ReviewTest_SRCS
   itkFFTComplexToComplexImageFilterTest02.cxx
 
   itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
+  itkVectorCentralDifferenceImageFunctionTest.cxx
   itkExponentialDeformationFieldImageFilterTest.cxx
   itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
   itkGridForwardWarpImageFilterTest.cxx
@@ -768,6 +769,10 @@ ADD_TEST(itkDiffeomorphicDemonsRegistrationFilterTest11 ${REVIEW_TESTS}
 
 ADD_TEST(itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest ${REVIEW_TESTS}
         itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
+        )
+
+ADD_TEST(itkVectorCentralDifferenceImageFunctionTest ${REVIEW_TESTS}
+        itkVectorCentralDifferenceImageFunctionTest
         )
 
 ADD_TEST(itkExponentialDeformationFieldImageFilterTest ${REVIEW_TESTS}
