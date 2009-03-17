@@ -31,8 +31,6 @@
 //
 // Software Guide : EndLatex 
 
-
-
 // Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
@@ -96,8 +94,6 @@ int main(int argc, char * argv[] )
   fixedPointSet->SetPoints( fixedPointContainer );
   std::cout << "Number of fixed Points = " 
         << fixedPointSet->GetNumberOfPoints() << std::endl;
-
-
 
   // Read the file containing coordinates of moving points.
   std::ifstream   movingFile;
@@ -256,13 +252,7 @@ int main(int argc, char * argv[] )
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 
-
-
-
 // Software Guide : EndCodeSnippet
 
-
   return EXIT_SUCCESS;
-
 }
-

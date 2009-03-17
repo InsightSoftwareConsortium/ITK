@@ -56,8 +56,6 @@
 #include "itkConfidenceConnectedImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -96,12 +94,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char   BinaryPixelType;
-  typedef itk::Image< BinaryPixelType, Dimension >      BinaryImageType;
+  typedef   unsigned char                          BinaryPixelType;
+  typedef itk::Image< BinaryPixelType, Dimension > BinaryImageType;
   // Software Guide : EndCodeSnippet
-
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -119,9 +114,6 @@ int main( int argc, char *argv[] )
   ConfidenceConnectedFilterType::Pointer confidenceConnectedFilter = 
                                                  ConfidenceConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
-
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -154,10 +146,6 @@ int main( int argc, char *argv[] )
                                          FuzzySegmentationFilterType::New();
   // Software Guide : EndCodeSnippet
 
-
-
-
-
   //  Software Guide : BeginLatex
   //  
   //  The affinity map can be accessed through the type \code{FuzzySceneType}
@@ -167,10 +155,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef FuzzySegmentationFilterType::FuzzySceneType  FuzzySceneType; 
   // Software Guide : EndCodeSnippet
- 
-
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -295,7 +279,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

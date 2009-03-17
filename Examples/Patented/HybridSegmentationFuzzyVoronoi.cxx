@@ -100,8 +100,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char      BinaryPixelType;
-  typedef itk::Image< BinaryPixelType, Dimension >      BinaryImageType;
+  typedef unsigned char                             BinaryPixelType;
+  typedef itk::Image< BinaryPixelType, Dimension >  BinaryImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -151,7 +151,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   // Software Guide : EndCodeSnippet
                         
@@ -205,7 +205,7 @@ int main( int argc, char *argv[] )
 
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< InputImageType > ReaderType;
+  typedef  itk::ImageFileReader< InputImageType >    ReaderType;
   typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -419,7 +419,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

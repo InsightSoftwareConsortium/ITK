@@ -26,8 +26,6 @@
 //
 // Software Guide : EndLatex 
 
-
-
 // Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
@@ -44,7 +42,7 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 
 protected:
@@ -53,15 +51,15 @@ protected:
 public:
 
   typedef itk::LevenbergMarquardtOptimizer     OptimizerType;
-  typedef const OptimizerType                 *OptimizerPointer;
+  typedef const OptimizerType *                OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
+    {
     Execute( (const itk::Object *)caller, event);
-  }
+    }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
+    {
     OptimizerPointer optimizer = 
                          dynamic_cast< OptimizerPointer >( object );
 
@@ -74,7 +72,7 @@ public:
     std::cout << "Position = "  << optimizer->GetCachedCurrentPosition();
     std::cout << std::endl << std::endl;
 
-  }
+    }
    
 };
 
@@ -132,8 +130,6 @@ int main(int argc, char * argv[] )
   std::cout << 
     "Number of fixed Points = " << 
     fixedPointSet->GetNumberOfPoints() << std::endl;
-
-
 
   // Read the file containing coordinates of moving points.
   std::ifstream   movingFile;
@@ -245,13 +241,9 @@ int main(int argc, char * argv[] )
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 
-
-
-
 // Software Guide : EndCodeSnippet
 
 
   return EXIT_SUCCESS;
 
 }
-
