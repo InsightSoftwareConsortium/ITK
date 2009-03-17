@@ -49,12 +49,8 @@ int main( int argc, char * argv[] )
   const   unsigned int       Dimension = 2;
 
   typedef itk::Image< PixelType, Dimension >    ImageType;
-
   typedef itk::PointSet< PixelType, Dimension > PointSetType;
-
-
-
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  typedef itk::ImageFileReader< ImageType >     ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -108,9 +104,6 @@ int main( int argc, char * argv[] )
   std::cout << pointSet->GetNumberOfPoints() << std::endl;
 
 
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
   return 0;
 }
-
-
-

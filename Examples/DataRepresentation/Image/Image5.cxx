@@ -98,7 +98,7 @@ int main(int argc, char * argv[])
   // Software Guide : EndLatex 
   //
   // Software Guide : BeginCodeSnippet 
-  ImportFilterType::Pointer importFilter = ImportFilterType::New();      
+  ImportFilterType::Pointer importFilter = ImportFilterType::New();
   // Software Guide : EndCodeSnippet 
  
 
@@ -281,4 +281,3 @@ int main(int argc, char * argv[])
 
   return 0;
 }
-

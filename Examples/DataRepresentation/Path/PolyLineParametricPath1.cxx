@@ -39,8 +39,6 @@
 #include "itkPolyLineParametricPath.h"
 // Software Guide : EndCodeSnippet
 
-
-
 int main(int argc, char * argv [] )
 {
 
@@ -81,8 +79,6 @@ int main(int argc, char * argv [] )
     std::cout << excp << std::endl;
     return -1;
     }
-
-
 
   // Software Guide : BeginCodeSnippet 
   
@@ -126,4 +122,3 @@ int main(int argc, char * argv [] )
 
   return 0;
 }
-

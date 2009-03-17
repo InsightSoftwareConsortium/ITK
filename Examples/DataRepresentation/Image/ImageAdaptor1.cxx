@@ -69,12 +69,12 @@ public:
 
   static void Set(InternalType & output, const ExternalType & input) 
     {
-      output = static_cast<InternalType>( input );
+    output = static_cast<InternalType>( input );
     }
 
   static ExternalType Get( const InternalType & input ) 
     {
-      return static_cast<ExternalType>( input );
+    return static_cast<ExternalType>( input );
     }
 };
 // Software Guide : EndCodeSnippet
@@ -167,25 +167,21 @@ int main( int argc, char *argv[] )
     sum += value;
     ++it;
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-std::cout << "Sum of pixels is: " << sum << std::endl;
+  std::cout << "Sum of pixels is: " << sum << std::endl;
 
 
-//  Software Guide : BeginLatex
-//
-// Although in this example, we are just performing a simple summation, the key 
-// concept is that access to pixels is performed as if the pixel is of type
-//  \code{float}. Additionally, it should be noted that the adaptor is used 
-// as if it was an actual image and not as a filter. ImageAdaptors conform 
-// to the same API as the  \doxygen{Image} class.
-//
-//  Software Guide : EndLatex 
-
+  //  Software Guide : BeginLatex
+  //
+  // Although in this example, we are just performing a simple summation, the key 
+  // concept is that access to pixels is performed as if the pixel is of type
+  //  \code{float}. Additionally, it should be noted that the adaptor is used 
+  // as if it was an actual image and not as a filter. ImageAdaptors conform 
+  // to the same API as the  \doxygen{Image} class.
+  //
+  //  Software Guide : EndLatex 
 
   return 0;
 }
-
-
-

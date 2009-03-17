@@ -113,9 +113,9 @@ int main(int, char *[])
   PointIterator pointEnd      = pointSet->GetPoints()->End();
   while( pointIterator != pointEnd ) 
     {
-     point = pointIterator.Value();
+    point = pointIterator.Value();
     std::cout << point << std::endl;  
-    ++pointIterator;                      
+    ++pointIterator;
     }
   // Software Guide : EndCodeSnippet
 
@@ -148,7 +148,7 @@ int main(int, char *[])
     {
     pixel = pixelIterator.Value();
     std::cout << pixel << std::endl;  
-    ++pixelIterator;                      
+    ++pixelIterator;
     }
   // Software Guide : EndCodeSnippet
 
@@ -162,12 +162,6 @@ int main(int, char *[])
   //
   //  Software Guide : EndLatex 
 
-
-
-
   return 0;
 
 }
-
-
-

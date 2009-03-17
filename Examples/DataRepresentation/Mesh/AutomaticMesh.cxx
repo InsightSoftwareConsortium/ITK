@@ -113,7 +113,7 @@ main(int, char *[])
     meshSource->AddPoint(  1,  1, -1 ),
     meshSource->AddPoint(  1, -1,  1 ),
     meshSource->AddPoint( -1,  1,  1 )
-    );
+  );
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -230,4 +230,3 @@ main(int, char *[])
   return 0;
 
 }
-

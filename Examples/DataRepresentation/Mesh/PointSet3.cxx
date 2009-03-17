@@ -46,7 +46,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short  PixelType;
+  typedef unsigned short                PixelType;
   typedef itk::PointSet< PixelType, 3 > PointSetType;
   // Software Guide : EndCodeSnippet
 
@@ -98,8 +98,6 @@ int main(int, char *[])
     std::cout << "Pixel value = " << value << std::endl;
     }
   // Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -267,6 +265,3 @@ int main(int, char *[])
 
   return 0;
 }
-
-
-

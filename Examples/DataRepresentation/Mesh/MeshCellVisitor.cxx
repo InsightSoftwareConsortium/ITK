@@ -90,20 +90,18 @@
 
 #ifndef __CustomTriangleVisitor
 #define __CustomTriangleVisitor
-  // Software Guide : BeginCodeSnippet
-  class CustomTriangleVisitor
+// Software Guide : BeginCodeSnippet
+class CustomTriangleVisitor
+{
+public:
+  typedef itk::TriangleCell<CellType>      TriangleType;
+  void Visit(unsigned long cellId, TriangleType * t )
     {
-    public:
-      typedef itk::TriangleCell<CellType>      TriangleType;
-
-    public:
-      void Visit(unsigned long cellId, TriangleType * t )
-        {
-        std::cout << "Cell # " << cellId << " is a TriangleType ";
-        std::cout << t->GetNumberOfPoints() << std::endl;
-        }
-    };
-  // Software Guide : EndCodeSnippet
+    std::cout << "Cell # " << cellId << " is a TriangleType ";
+    std::cout << t->GetNumberOfPoints() << std::endl;
+    }
+};
+// Software Guide : EndCodeSnippet
 #endif
 
 int main(int, char *[])
@@ -330,4 +328,3 @@ int main(int, char *[])
 
   return 0;
 }
-

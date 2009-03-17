@@ -36,8 +36,6 @@
 #include "itkImage.h"
 // Software Guide : EndCodeSnippet
 
-
-
 int main(int, char *[])
 {
   // Software Guide : BeginLatex
@@ -66,7 +64,7 @@ int main(int, char *[])
   // Software Guide : EndLatex 
   //
   // Software Guide : BeginCodeSnippet 
-  ImageType::Pointer image = ImageType::New();      
+  ImageType::Pointer image = ImageType::New();
   // Software Guide : EndCodeSnippet 
  
 
@@ -177,4 +175,3 @@ int main(int, char *[])
 
   return 0;
 }
-

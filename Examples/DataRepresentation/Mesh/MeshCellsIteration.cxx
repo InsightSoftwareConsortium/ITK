@@ -298,11 +298,10 @@ int main(int, char *[])
         std::cout << "# points  = " << cell->GetNumberOfPoints() << std::endl;
         break;
         } 
-     }
+      }
     ++cellIterator;
     }
   // Software Guide : EndCodeSnippet
 
   return 0;
 }
-

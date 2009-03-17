@@ -69,16 +69,16 @@ public:
 
   ExternalType Get( const InternalType & input ) const 
     {
-      return (input > m_Threshold) ? 1 : 0;
+    return (input > m_Threshold) ? 1 : 0;
     }
   void SetThreshold( const InternalType threshold )
     {
-      m_Threshold = threshold;
+    m_Threshold = threshold;
     }
 
   void operator=( const ThresholdingPixelAccessor & vpa )
     {
-      m_Threshold = vpa.m_Threshold;
+    m_Threshold = vpa.m_Threshold;
     }
 private:
   InternalType m_Threshold;
@@ -198,34 +198,31 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-//  Software Guide : BeginLatex
-//
-// \begin{figure} \center
-// \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
-// \includegraphics[width=0.32\textwidth]{ImageAdaptorThresholdingA.eps}
-// \includegraphics[width=0.32\textwidth]{ImageAdaptorThresholdingB.eps}
-// \itkcaption[Image Adaptor for performing computations]{Using
-// ImageAdaptor to perform a simple image computation. An
-// ImageAdaptor is used to perform binary thresholding on
-// the input image on the  left. The center image was created using a 
-// threshold of 180, while the
-// image on the right corresponds to a  threshold of 220.}
-// \label{fig:ImageAdaptorThresholding}
-// \end{figure}
-//
-//  As before, we rescale the emulated scalar image before writing it
-//  out to file.
-//  Figure~\ref{fig:ImageAdaptorThresholding} illustrates the result of
-//  applying the thresholding adaptor to a typical gray scale image using two
-//  different threshold values. Note that the same effect could have been
-//  achieved by using the \doxygen{BinaryThresholdImageFilter} but at the
-//  price of holding an extra copy of the image in memory.
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageAdaptorThresholdingA.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageAdaptorThresholdingB.eps}
+  // \itkcaption[Image Adaptor for performing computations]{Using
+  // ImageAdaptor to perform a simple image computation. An
+  // ImageAdaptor is used to perform binary thresholding on
+  // the input image on the  left. The center image was created using a 
+  // threshold of 180, while the
+  // image on the right corresponds to a  threshold of 220.}
+  // \label{fig:ImageAdaptorThresholding}
+  // \end{figure}
+  //
+  //  As before, we rescale the emulated scalar image before writing it
+  //  out to file.
+  //  Figure~\ref{fig:ImageAdaptorThresholding} illustrates the result of
+  //  applying the thresholding adaptor to a typical gray scale image using two
+  //  different threshold values. Note that the same effect could have been
+  //  achieved by using the \doxygen{BinaryThresholdImageFilter} but at the
+  //  price of holding an extra copy of the image in memory.
+  //
+  // Software Guide : EndLatex 
 
 
   return 0;
 }
-
-
-

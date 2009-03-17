@@ -80,11 +80,11 @@ public:
     }
   ExternalType Get( const InternalType & input ) const 
     {
-      return static_cast<ExternalType>( input[ m_Index ] );
+    return static_cast<ExternalType>( input[ m_Index ] );
     }
   void SetIndex( unsigned int index )
     {
-      m_Index = index;
+    m_Index = index;
     }
 private:
   unsigned int m_Index;
@@ -150,8 +150,6 @@ int main( int argc, char *argv[] )
 //  template parameter.
 //
 //  Software Guide : EndLatex 
-
-
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageAdaptor<  VectorImageType, 
@@ -227,30 +225,26 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-//  Software Guide : BeginLatex
-//
-// \begin{figure} \center
-// \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
-// \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentX.eps}
-// \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentY.eps}
-// \itkcaption[Image Adaptor to Vector Image]{Using
-// ImageAdaptor to access components of a vector
-// image. The input image on the left was passed through a gradient image 
-// filter and the two components of the resulting vector image were extracted 
-// using an image adaptor.}
-// \label{fig:ImageAdaptorToVectorImage}
-// \end{figure}
-//
-//  As in the previous example, we rescale the scalar image before writing
-//  the image out to file. Figure~\ref{fig:ImageAdaptorToVectorImage}
-//  shows the result of applying the example code for extracting both
-//  components of a two dimensional gradient.
-//
-//  Software Guide : EndLatex 
-
+  //  Software Guide : BeginLatex
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentX.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentY.eps}
+  // \itkcaption[Image Adaptor to Vector Image]{Using
+  // ImageAdaptor to access components of a vector
+  // image. The input image on the left was passed through a gradient image 
+  // filter and the two components of the resulting vector image were extracted 
+  // using an image adaptor.}
+  // \label{fig:ImageAdaptorToVectorImage}
+  // \end{figure}
+  //
+  //  As in the previous example, we rescale the scalar image before writing
+  //  the image out to file. Figure~\ref{fig:ImageAdaptorToVectorImage}
+  //  shows the result of applying the example code for extracting both
+  //  components of a two dimensional gradient.
+  //
+  //  Software Guide : EndLatex 
 
   return 0;
 }
-
-
-

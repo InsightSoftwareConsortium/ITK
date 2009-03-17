@@ -62,7 +62,7 @@ public:
 
   static ExternalType Get( const InternalType & input ) 
     {
-      return static_cast<ExternalType>( input.GetRed() );
+    return static_cast<ExternalType>( input.GetRed() );
     }
 };
 // Software Guide : EndCodeSnippet
@@ -92,19 +92,19 @@ int main( int argc, char *argv[] )
     }
 
 
-//  Software Guide : BeginLatex
-//
-//  Now we use the internal pixel type of the pixel accessor to define the
-//  input image type, and then proceed to instantiate the ImageAdaptor type.
-//
-//  \index{PixelAccessor!RGB red channel}
-//  \index{itk::ImageAdaptor!RGB red channel}
-//  \index{ImageAdaptor!RGB red channel}
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  Now we use the internal pixel type of the pixel accessor to define the
+  //  input image type, and then proceed to instantiate the ImageAdaptor type.
+  //
+  //  \index{PixelAccessor!RGB red channel}
+  //  \index{itk::ImageAdaptor!RGB red channel}
+  //  \index{ImageAdaptor!RGB red channel}
+  //
+  //  Software Guide : EndLatex 
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef RedChannelPixelAccessor::InternalType  InputPixelType;
   const   unsigned int   Dimension = 2;
   typedef itk::Image< InputPixelType, Dimension >   ImageType;
@@ -113,42 +113,42 @@ int main( int argc, char *argv[] )
                               RedChannelPixelAccessor > ImageAdaptorType;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  We create an image reader and connect the output to the adaptor
-//  as before.
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  We create an image reader and connect the output to the adaptor
+  //  as before.
+  //
+  //  Software Guide : EndLatex 
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< ImageType >   ReaderType;
   ReaderType::Pointer reader = ReaderType::New();  
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   reader->SetFileName( argv[1] );
   reader->Update();
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   adaptor->SetImage( reader->GetOutput() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
  
 
-//  Software Guide : BeginLatex
-//
-//  We create an \doxygen{RescaleIntensityImageFilter} and an
-//  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
-//  and send the extracted channel to an image file. Note that the image type
-//  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
-//  is, the adaptor type is used in the same context as an image type.
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  We create an \doxygen{RescaleIntensityImageFilter} and an
+  //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
+  //  and send the extracted channel to an image file. Note that the image type
+  //  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
+  //  is, the adaptor type is used in the same context as an image type.
+  //
+  //  Software Guide : EndLatex 
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef itk::Image< unsigned char, Dimension >   OutputImageType;
   typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, 
                                             OutputImageType 
@@ -157,37 +157,37 @@ int main( int argc, char *argv[] )
   RescalerType::Pointer rescaler = RescalerType::New();
   typedef itk::ImageFileWriter< OutputImageType >   WriterType;
   WriterType::Pointer writer = WriterType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
   writer->SetFileName( argv[2] );
 
 
-//  Software Guide : BeginLatex
-//
-//  Now we connect the adaptor as the input to the rescaler and set the
-//  parameters for the intensity rescaling.
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  Now we connect the adaptor as the input to the rescaler and set the
+  //  parameters for the intensity rescaling.
+  //
+  //  Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   rescaler->SetOutputMinimum(  0  );
   rescaler->SetOutputMaximum( 255 );
 
   rescaler->SetInput( adaptor );
   writer->SetInput( rescaler->GetOutput() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  Finally, we invoke the \code{Update()} method on the writer and take
-//  precautions to catch any exception that may be thrown during
-//  the execution of the pipeline. 
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  Finally, we invoke the \code{Update()} method on the writer and take
+  //  precautions to catch any exception that may be thrown during
+  //  the execution of the pipeline. 
+  //
+  //  Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   try
     {
     writer->Update();
@@ -197,24 +197,24 @@ int main( int argc, char *argv[] )
     std::cerr << "Exception caught " << excp << std::endl;
     return 1;
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
-//
-//  ImageAdaptors for the green and blue channels can easily be implemented by
-//  modifying the pixel accessor of the red channel and then using the
-//  new pixel accessor for instantiating the type of an image adaptor. 
-//  The following define a green channel pixel accessor.
-//
-//  \index{PixelAccessor!RGB green channel}
-//  \index{itk::ImageAdaptor!RGB green channel}
-//  \index{ImageAdaptor!RGB green channel}
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  ImageAdaptors for the green and blue channels can easily be implemented by
+  //  modifying the pixel accessor of the red channel and then using the
+  //  new pixel accessor for instantiating the type of an image adaptor. 
+  //  The following define a green channel pixel accessor.
+  //
+  //  \index{PixelAccessor!RGB green channel}
+  //  \index{itk::ImageAdaptor!RGB green channel}
+  //  \index{ImageAdaptor!RGB green channel}
+  //
+  //  Software Guide : EndLatex 
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   class GreenChannelPixelAccessor  
   {
   public:
@@ -223,62 +223,56 @@ int main( int argc, char *argv[] )
 
     static ExternalType Get( const InternalType & input ) 
       {
-        return static_cast<ExternalType>( input.GetGreen() );
+      return static_cast<ExternalType>( input.GetGreen() );
       }
-  };
-// Software Guide : EndCodeSnippet
+    };
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  // 
+  // A blue channel pixel accessor is similarly defined.
+  //
+  //  \index{PixelAccessor!RGB blue channel}
+  //  \index{itk::ImageAdaptor!RGB blue channel}
+  //  \index{ImageAdaptor!RGB blue channel}
+  //
+  //  Software Guide : EndLatex 
 
-//  Software Guide : BeginLatex
-//
-// A blue channel pixel accessor is similarly defined.
-//
-//  \index{PixelAccessor!RGB blue channel}
-//  \index{itk::ImageAdaptor!RGB blue channel}
-//  \index{ImageAdaptor!RGB blue channel}
-//
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   class BlueChannelPixelAccessor  
-  {
+    {
   public:
     typedef itk::RGBPixel<float>   InternalType;
     typedef               float    ExternalType;
 
     static ExternalType Get( const InternalType & input ) 
       {
-        return static_cast<ExternalType>( input.GetBlue() );
+      return static_cast<ExternalType>( input.GetBlue() );
       }
-  };
-// Software Guide : EndCodeSnippet
+    };
+  // Software Guide : EndCodeSnippet
 
-
-//  Software Guide : BeginLatex
-//
-// \begin{figure} \center
-// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice.eps}
-// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceRedComponent.eps}
-// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceGreenComponent.eps}
-// \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceBlueComponent.eps}
-// \itkcaption[Image Adaptor to RGB Image]{Using
-// ImageAdaptor to extract the components of an RGB image. The
-// image on the left is a subregion of the Visible Woman cryogenic data set. 
-// The red, green and blue components are shown from left to right as scalar 
-// images extracted with an ImageAdaptor.}
-// \label{fig:ImageAdaptorToRGBImage}
-// \end{figure}
-//
-//
-//  Figure~\ref{fig:ImageAdaptorToRGBImage} shows the result
-//  of extracting the red, green and blue components from a region of the
-//  Visible Woman cryogenic data set. 
-//
-//  Software Guide : EndLatex 
-
+  //  Software Guide : BeginLatex
+  //
+  // \begin{figure} \center
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice.eps}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceRedComponent.eps}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceGreenComponent.eps}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceBlueComponent.eps}
+  // \itkcaption[Image Adaptor to RGB Image]{Using
+  // ImageAdaptor to extract the components of an RGB image. The
+  // image on the left is a subregion of the Visible Woman cryogenic data set. 
+  // The red, green and blue components are shown from left to right as scalar 
+  // images extracted with an ImageAdaptor.}
+  // \label{fig:ImageAdaptorToRGBImage}
+  // \end{figure}
+  //
+  //
+  //  Figure~\ref{fig:ImageAdaptorToRGBImage} shows the result
+  //  of extracting the red, green and blue components from a region of the
+  //  Visible Woman cryogenic data set. 
+  //
+  //  Software Guide : EndLatex 
 
   return 0;
 }
-
-
-

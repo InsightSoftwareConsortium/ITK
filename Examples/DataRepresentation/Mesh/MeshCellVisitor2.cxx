@@ -95,116 +95,115 @@
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  class CustomVertexVisitor
+class CustomVertexVisitor
+{
+public:
+  void Visit(unsigned long cellId, VertexType * t )
     {
-    public:
-      void Visit(unsigned long cellId, VertexType * t )
-        {
-        std::cout << "cell " << cellId << " is a Vertex " << std::endl;
-        std::cout << "    associated with point id = ";
-        std::cout << t->GetPointId() << std::endl;
-        }
-    };
-  // Software Guide : EndCodeSnippet
+    std::cout << "cell " << cellId << " is a Vertex " << std::endl;
+    std::cout << "    associated with point id = ";
+    std::cout << t->GetPointId() << std::endl;
+    }
+};
+// Software Guide : EndCodeSnippet
 
+//  Software Guide : BeginLatex
+//
+//  The following Line visitor computes the length of the line.  Note
+//  that this visitor is slightly more complicated since it needs to get
+//  access to the actual mesh in order to get point coordinates from the
+//  point identifiers returned by the line cell. This is done by holding a
+//  pointer to the mesh and querying the mesh each time point coordinates are
+//  required. The mesh pointer is set up in this case with the
+//  \code{SetMesh()} method.
+//
+//  Software Guide : EndLatex 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The following Line visitor computes the length of the line.  Note
-  //  that this visitor is slightly more complicated since it needs to get
-  //  access to the actual mesh in order to get point coordinates from the
-  //  point identifiers returned by the line cell. This is done by holding a
-  //  pointer to the mesh and querying the mesh each time point coordinates are
-  //  required. The mesh pointer is set up in this case with the
-  //  \code{SetMesh()} method.
-  //
-  //  Software Guide : EndLatex 
+// Software Guide : BeginCodeSnippet
+class CustomLineVisitor
+{
+public:
+  CustomLineVisitor():m_Mesh( 0 ) {}
 
-  // Software Guide : BeginCodeSnippet
-  class CustomLineVisitor
+  void SetMesh( MeshType * mesh ) { m_Mesh = mesh; }
+
+  void Visit(unsigned long cellId, LineType * t )
     {
-    public:
-      CustomLineVisitor():m_Mesh( 0 ) {}
+    std::cout << "cell " << cellId << " is a Line " << std::endl;
+    LineType::PointIdIterator pit = t->PointIdsBegin();
+    MeshType::PointType p0;
+    MeshType::PointType p1;
+    m_Mesh->GetPoint( *pit++, &p0 );
+    m_Mesh->GetPoint( *pit++, &p1 );
+    const double length = p0.EuclideanDistanceTo( p1 );
+    std::cout << " length = " << length << std::endl;
+    }
 
-      void SetMesh( MeshType * mesh ) { m_Mesh = mesh; }
-
-      void Visit(unsigned long cellId, LineType * t )
-        {
-        std::cout << "cell " << cellId << " is a Line " << std::endl;
-        LineType::PointIdIterator pit = t->PointIdsBegin();
-        MeshType::PointType p0;
-        MeshType::PointType p1;
-        m_Mesh->GetPoint( *pit++, &p0 );
-        m_Mesh->GetPoint( *pit++, &p1 );
-        const double length = p0.EuclideanDistanceTo( p1 );
-        std::cout << " length = " << length << std::endl;
-        }
-
-    private:
-      MeshType::Pointer m_Mesh;
-    };
-  // Software Guide : EndCodeSnippet
+private:
+  MeshType::Pointer m_Mesh;
+};
+// Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The Triangle visitor below prints out the identifiers of its points.
-  //  Note the use of the \code{PointIdIterator} and the \code{PointIdsBegin()}
-  //  and \code{PointIdsEnd()} methods.
-  //
-  //  \index{CellInterface!PointIdsBegin()}
-  //  \index{CellInterface!PointIdsEnd()}
-  //  \index{CellInterface!iterating points}
-  //  \index{PointIdsBegin()}
-  //  \index{PointIdsEnd()}
-  //
-  //  Software Guide : EndLatex 
+//  Software Guide : BeginLatex
+//
+//  The Triangle visitor below prints out the identifiers of its points.
+//  Note the use of the \code{PointIdIterator} and the \code{PointIdsBegin()}
+//  and \code{PointIdsEnd()} methods.
+//
+//  \index{CellInterface!PointIdsBegin()}
+//  \index{CellInterface!PointIdsEnd()}
+//  \index{CellInterface!iterating points}
+//  \index{PointIdsBegin()}
+//  \index{PointIdsEnd()}
+//
+//  Software Guide : EndLatex 
 
 
 #ifndef __CustomTriangleVisitor
 #define __CustomTriangleVisitor
-  // Software Guide : BeginCodeSnippet
-  class CustomTriangleVisitor
+// Software Guide : BeginCodeSnippet
+class CustomTriangleVisitor
+{
+public:
+  void Visit(unsigned long cellId, TriangleType * t )
     {
-    public:
-      void Visit(unsigned long cellId, TriangleType * t )
-        {
-        std::cout << "cell " << cellId << " is a Triangle " << std::endl;
-        LineType::PointIdIterator pit = t->PointIdsBegin();
-        LineType::PointIdIterator end = t->PointIdsEnd();
-        while( pit != end ) 
-          {
-          std::cout << "  point id = " << *pit << std::endl;
-          ++pit;
-          }
-        }
-    };
-  // Software Guide : EndCodeSnippet
+    std::cout << "cell " << cellId << " is a Triangle " << std::endl;
+    LineType::PointIdIterator pit = t->PointIdsBegin();
+    LineType::PointIdIterator end = t->PointIdsEnd();
+    while( pit != end ) 
+      {
+      std::cout << "  point id = " << *pit << std::endl;
+      ++pit;
+      }
+    }
+};
+// Software Guide : EndCodeSnippet
 #endif
 
-  //  Software Guide : BeginLatex
-  //
-  //  The TetrahedronVisitor below simply returns the number of faces on this
-  //  figure. Note that \code{GetNumberOfFaces()} is a method exclusive of 3D
-  //  cells.
-  //
-  //  \index{GetNumberOfFaces()!TetrahedronCell}
-  //  \index{TetrahedronCell!GetNumberOfFaces()}
-  //
-  //  Software Guide : EndLatex 
+//  Software Guide : BeginLatex
+//
+//  The TetrahedronVisitor below simply returns the number of faces on this
+//  figure. Note that \code{GetNumberOfFaces()} is a method exclusive of 3D
+//  cells.
+//
+//  \index{GetNumberOfFaces()!TetrahedronCell}
+//  \index{TetrahedronCell!GetNumberOfFaces()}
+//
+//  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
-  class CustomTetrahedronVisitor
+// Software Guide : BeginCodeSnippet
+class CustomTetrahedronVisitor
+{
+public:
+  void Visit(unsigned long cellId, TetrahedronType * t )
     {
-    public:
-      void Visit(unsigned long cellId, TetrahedronType * t )
-        {
-        std::cout << "cell " << cellId << " is a Tetrahedron " << std::endl;
-        std::cout << "  number of faces = ";
-        std::cout << t->GetNumberOfFaces() << std::endl;
-        }
-    };
-  // Software Guide : EndCodeSnippet
+    std::cout << "cell " << cellId << " is a Tetrahedron " << std::endl;
+    std::cout << "  number of faces = ";
+    std::cout << t->GetNumberOfFaces() << std::endl;
+    }
+};
+// Software Guide : EndCodeSnippet
 
 
 int main(int, char *[])
@@ -475,4 +474,3 @@ int main(int, char *[])
 
   return 0;
 }
-

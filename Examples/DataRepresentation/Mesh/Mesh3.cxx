@@ -32,13 +32,13 @@
 //  Software Guide : EndLatex 
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  Consider the example of a mesh containing lines on which values are
-  //  associated with each line. The mesh and cell header files should be
-  //  included first.
-  //
-  //  Software Guide : EndLatex 
+//  Software Guide : BeginLatex
+//
+//  Consider the example of a mesh containing lines on which values are
+//  associated with each line. The mesh and cell header files should be
+//  included first.
+//
+//  Software Guide : EndLatex 
 
 
 // Software Guide : BeginCodeSnippet
@@ -242,4 +242,3 @@ int main(int, char *[])
 
   return 0;
 }
-
