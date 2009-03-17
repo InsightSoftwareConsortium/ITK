@@ -268,23 +268,15 @@ int main( int argc, char ** argv )
   extractFilter->SetExtractionRegion( desiredRegion );
   // Software Guide : EndCodeSnippet
 
-
-
-
   // Software Guide : BeginCodeSnippet
   typedef itk::TileImageFilter< MiddleImageType, OutputImageType > TileFilterType;
   TileFilterType::Pointer pasteFilter = TileFilterType::New();
   // Software Guide : EndCodeSnippet
 
-
-
   // Software Guide : BeginCodeSnippet
   typedef itk::NormalizeImageFilter< MiddleImageType, MiddleImageType > NormalizeFilterType;
   NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
-
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -325,6 +317,3 @@ int main( int argc, char ** argv )
 
   return EXIT_SUCCESS;
 }
-
-
-

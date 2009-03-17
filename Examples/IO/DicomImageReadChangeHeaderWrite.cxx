@@ -43,8 +43,6 @@
 //
 //  Software Guide : EndLatex 
 
-
-
 // Software Guide : BeginLatex
 // 
 // We must start by including the relevant header files. Here we include the
@@ -64,8 +62,6 @@
 #include "itkGDCMImageIO.h"
 // Software Guide : EndCodeSnippet
 
-
-
 #include <list>
 #include <fstream>
 
@@ -77,9 +73,6 @@ int main(int argc, char* argv[])
     std::cerr << "Usage: " << argv[0] << " DicomImage OutputDicomImage Entry Value\n";
     return EXIT_FAILURE;
     }
-
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -93,8 +86,6 @@ int main(int argc, char* argv[])
   const unsigned int   Dimension = 2;
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
 // Software Guide : EndCodeSnippet
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -110,8 +101,6 @@ int main(int argc, char* argv[])
   reader->SetFileName( argv[1] );
 // Software Guide : EndCodeSnippet
 
-
-
 // Software Guide : BeginLatex
 //
 // The GDCMImageIO object is created in order to provide the services for
@@ -125,9 +114,6 @@ int main(int argc, char* argv[])
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
   reader->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
-
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -165,8 +151,6 @@ int main(int argc, char* argv[])
   DictionaryType & dictionary = inputImage->GetMetaDataDictionary();
 // Software Guide : EndCodeSnippet
 
-
-
 // Software Guide : BeginLatex
 // 
 // Now we access the entries in the Meta data dictionary, and for particular
@@ -187,9 +171,6 @@ int main(int argc, char* argv[])
     itk::EncapsulateMetaData<std::string>( dictionary, entryId, value );
     }
 // Software Guide : EndCodeSnippet
-
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -234,18 +215,15 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-
-
-// Software Guide : BeginLatex
-// 
-// Remember again, that modifying the header entries of a DICOM file involves
-// very serious risks for patients and therefore must be done with extreme
-// caution.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  // 
+  // Remember again, that modifying the header entries of a DICOM file involves
+  // very serious risks for patients and therefore must be done with extreme
+  // caution.
+  //
+  // Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;
 
 }
-

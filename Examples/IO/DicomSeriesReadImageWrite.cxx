@@ -46,11 +46,6 @@
 //
 //====================================================================
 
-
-
-
-
-
 //  Software Guide : BeginLatex
 //
 //  Probably the most common representation of datasets in clinical
@@ -81,8 +76,8 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<short,3>            ImageType;
-  typedef itk::ImageSeriesReader< ImageType >     ReaderType;
+  typedef itk::Image<short,3>                  ImageType;
+  typedef itk::ImageSeriesReader< ImageType >  ReaderType;
 
   itk::DICOMImageIO2::Pointer dicomIO = itk::DICOMImageIO2::New();
 

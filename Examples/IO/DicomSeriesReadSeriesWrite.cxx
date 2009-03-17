@@ -66,9 +66,6 @@
 //
 //  Software Guide : EndLatex 
 
-
-
-
 // Software Guide : BeginLatex
 // 
 // After all these warnings, let us now go back to the code and get familiar
@@ -86,8 +83,6 @@
 #include "itkImageSeriesWriter.h"
 // Software Guide : EndCodeSnippet
 
-
-
 #include <vector>
 #include <itksys/SystemTools.hxx>
 
@@ -100,77 +95,58 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  //  Software Guide : BeginLatex
+  //
+  //  As a second step, we define the image type to be used in this example. This
+  //  is done by explicitly selecting a pixel type and a dimension. Using the
+  //  image type we can define the type of the series reader.
+  //  
+  //  Software Guide : EndLatex 
 
-
-
-//  Software Guide : BeginLatex
-//
-//  As a second step, we define the image type to be used in this example. This
-//  is done by explicitly selecting a pixel type and a dimension. Using the
-//  image type we can define the type of the series reader.
-//  
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef signed short    PixelType;
   const unsigned int      Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >      ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
+  // Software Guide : BeginLatex
+  //
+  //  We also declare types for the \doxygen{GDCMImageIO} object that will
+  //  actually read and write the DICOM images, and the
+  //  \doxygen{GDCMSeriesFileNames} object that will generate and order all the
+  //  filenames for the slices composing the volume dataset. Once we have the
+  //  types, we proceed to create instances of both objects.
+  //
+  // Software Guide : EndLatex
 
-
-
-
-
-
-// Software Guide : BeginLatex
-//
-//  We also declare types for the \doxygen{GDCMImageIO} object that will
-//  actually read and write the DICOM images, and the
-//  \doxygen{GDCMSeriesFileNames} object that will generate and order all the
-//  filenames for the slices composing the volume dataset. Once we have the
-//  types, we proceed to create instances of both objects.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef itk::GDCMImageIO                        ImageIOType;
   typedef itk::GDCMSeriesFileNames                NamesGeneratorType;
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
   NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-
-
-
-
-
-
-//  Software Guide : BeginLatex
-//  
-//  Just as the previous example, we get the DICOM filenames from the
-//  directory. Note however, that in this case we use the
-//  \code{SetInputDirectory()} method instead of the \code{SetDirectory()}.
-//  This is done because in the present case we will use the filenames
-//  generator for producing both the filenames for reading and the filenames
-//  for writing. Then, we invoke the \code{GetInputFileNames()} method in order
-//  to get the list of filenames to read.
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //  
+  //  Just as the previous example, we get the DICOM filenames from the
+  //  directory. Note however, that in this case we use the
+  //  \code{SetInputDirectory()} method instead of the \code{SetDirectory()}.
+  //  This is done because in the present case we will use the filenames
+  //  generator for producing both the filenames for reading and the filenames
+  //  for writing. Then, we invoke the \code{GetInputFileNames()} method in order
+  //  to get the list of filenames to read.
+  //
+  //  Software Guide : EndLatex 
   
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   namesGenerator->SetInputDirectory( argv[1] );
 
   const ReaderType::FileNamesContainer & filenames = 
                             namesGenerator->GetInputFileNames();
-// Software Guide : EndCodeSnippet
-
-
-
-
+  // Software Guide : EndCodeSnippet
 
   unsigned int numberOfFilenames =  filenames.size();
   std::cout << numberOfFilenames << std::endl; 
@@ -179,39 +155,34 @@ int main( int argc, char* argv[] )
     std::cout << "filename # " << fni << " = ";
     std::cout << filenames[fni] << std::endl;
     }
- 
 
+  // Software Guide : BeginLatex
+  // 
+  // We construct one instance of the series reader object. Set the DICOM image
+  // IO object to be use with it, and set the list of filenames to read.
+  //
+  // Software Guide : EndLatex
 
-
-
-// Software Guide : BeginLatex
-// 
-// We construct one instance of the series reader object. Set the DICOM image
-// IO object to be use with it, and set the list of filenames to read.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetImageIO( gdcmIO );
   reader->SetFileNames( filenames );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-
-// Software Guide : BeginLatex
-// 
-// We can trigger the reading process by calling the \code{Update()} method on
-// the series reader. It is wise to put this invocation inside a
-// \code{try/catch} block since the process may eventually throw exceptions.
-//
-// Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  // 
+  // We can trigger the reading process by calling the \code{Update()} method on
+  // the series reader. It is wise to put this invocation inside a
+  // \code{try/catch} block since the process may eventually throw exceptions.
+  //
+  // Software Guide : EndLatex
 
   try
     {
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     reader->Update();
-// Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
     }
   catch (itk::ExceptionObject &excp)
     {
@@ -220,57 +191,51 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  // Software Guide : BeginLatex
+  // 
+  // At this point we would have the volumetric data loaded in memory and we can
+  // get access to it by invoking the \code{GetOutput()} method in the reader.
+  //
+  // Software Guide : EndLatex
 
-// Software Guide : BeginLatex
-// 
-// At this point we would have the volumetric data loaded in memory and we can
-// get access to it by invoking the \code{GetOutput()} method in the reader.
-//
-// Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  Now we can prepare the process for writing the dataset. First, we take the
+  //  name of the output directory from the command line arguments.
+  //
+  //  Software Guide : EndLatex 
 
-
-//  Software Guide : BeginLatex
-//
-//  Now we can prepare the process for writing the dataset. First, we take the
-//  name of the output directory from the command line arguments.
-//
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   const char * outputDirectory = argv[2];
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //
+  //  Second, we make sure the output directory exist, using the cross platform
+  //  tools: itksys::SystemTools. In this case we select to create the directory
+  //  if it does not exist yet.
+  //
+  //  \index{itksys!SystemTools}
+  //  \index{itksys!MakeDirectory}
+  //  \index{SystemTools}
+  //  \index{SystemTools!MakeDirectory}
+  //  \index{MakeDirectory!SystemTools}
+  //  \index{MakeDirectory!itksys}
+  //
+  //  Software Guide : EndLatex 
 
-
-//  Software Guide : BeginLatex
-//
-//  Second, we make sure the output directory exist, using the cross platform
-//  tools: itksys::SystemTools. In this case we select to create the directory
-//  if it does not exist yet.
-//
-//  \index{itksys!SystemTools}
-//  \index{itksys!MakeDirectory}
-//  \index{SystemTools}
-//  \index{SystemTools!MakeDirectory}
-//  \index{MakeDirectory!SystemTools}
-//  \index{MakeDirectory!itksys}
-//
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   itksys::SystemTools::MakeDirectory( outputDirectory );
   // Software Guide : EndCodeSnippet
 
+  // Software Guide : BeginLatex
+  // 
+  // We instantiate explicitly the image type to be used for writing, and use the
+  // image type for instantiating the type of the series writer.
+  //
+  // Software Guide : EndLatex
 
-
-// Software Guide : BeginLatex
-// 
-// We instantiate explicitly the image type to be used for writing, and use the
-// image type for instantiating the type of the series writer.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   typedef signed short    OutputPixelType;
   const unsigned int      OutputDimension = 2;
 
@@ -278,84 +243,71 @@ int main( int argc, char* argv[] )
 
   typedef itk::ImageSeriesWriter< 
                              ImageType, Image2DType >  SeriesWriterType;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  We construct a series writer and connect to its input the output from the
+  //  reader. Then we pass the GDCM image IO object in order to be able to write
+  //  the images in DICOM format. 
+  //
+  //  the writer filter.  Software Guide : EndLatex 
 
-
-
-
-
-//  Software Guide : BeginLatex
-//  
-//  We construct a series writer and connect to its input the output from the
-//  reader. Then we pass the GDCM image IO object in order to be able to write
-//  the images in DICOM format. 
-//
-//  the writer filter.  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
 
   seriesWriter->SetInput( reader->GetOutput() );
   seriesWriter->SetImageIO( gdcmIO );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
+  //  Software Guide : BeginLatex
+  //  
+  //  It is time now to setup the GDCMSeriesFileNames to generate new filenames
+  //  using another output directory.  Then simply pass those newly generated
+  //  files to the series writer.
+  //
+  //  \index{GDCMSeriesFileNames!SetOutputDirectory()}
+  //  \index{GDCMSeriesFileNames!GetOutputFileNames()}
+  //  \index{ImageSeriesWriter!SetFileNames()}
+  //  
+  //  Software Guide : EndLatex 
 
-
-
-
-
-//  Software Guide : BeginLatex
-//  
-//  It is time now to setup the GDCMSeriesFileNames to generate new filenames
-//  using another output directory.  Then simply pass those newly generated
-//  files to the series writer.
-//
-//  \index{GDCMSeriesFileNames!SetOutputDirectory()}
-//  \index{GDCMSeriesFileNames!GetOutputFileNames()}
-//  \index{ImageSeriesWriter!SetFileNames()}
-//  
-//  Software Guide : EndLatex 
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   namesGenerator->SetOutputDirectory( outputDirectory );
 
   seriesWriter->SetFileNames( namesGenerator->GetOutputFileNames() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   
 
 
-//  Software Guide : BeginLatex
-//
-//  The following line of code is extremely important for this process to work
-//  correctly.  The line is taking the MetaDataDictionary from the input reader
-//  and passing it to the output writer. The reason why this step is so
-//  important is that the MetaDataDictionary contains all the entries of the
-//  input DICOM header.
-//
-//  \index{itk::ImageSeriesReader!GetMetaDataDictionaryArray()}
-//  \index{itk::ImageSeriesWriter!SetMetaDataDictionaryArray()}
-//
-//  Software Guide : EndLatex 
+  //  Software Guide : BeginLatex
+  //
+  //  The following line of code is extremely important for this process to work
+  //  correctly.  The line is taking the MetaDataDictionary from the input reader
+  //  and passing it to the output writer. The reason why this step is so
+  //  important is that the MetaDataDictionary contains all the entries of the
+  //  input DICOM header.
+  //
+  //  \index{itk::ImageSeriesReader!GetMetaDataDictionaryArray()}
+  //  \index{itk::ImageSeriesWriter!SetMetaDataDictionaryArray()}
+  //
+  //  Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   seriesWriter->SetMetaDataDictionaryArray( 
                         reader->GetMetaDataDictionaryArray() );
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
+  // Software Guide : BeginLatex
+  // 
+  // Finally we trigger the writing process by invoking the \code{Update()} method
+  // in the series writer. We place this call inside a try/catch block, in case
+  // any exception is thrown during the writing process.
+  //
+  // Software Guide : EndLatex
 
-
-
-// Software Guide : BeginLatex
-// 
-// Finally we trigger the writing process by invoking the \code{Update()} method
-// in the series writer. We place this call inside a try/catch block, in case
-// any exception is thrown during the writing process.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   try
     {
     seriesWriter->Update();
@@ -366,21 +318,17 @@ int main( int argc, char* argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-
-
-// Software Guide : BeginLatex
-// 
-// Please keep in mind that you should avoid to generate DICOM files that have
-// the appearance of being produced by a scanner. It should be clear from the
-// directory or filenames that this data was the result of the
-// execution of some sort of algorithm. This will help to prevent your dataset
-// from being used as scanner data by accident.
-//
-// Software Guide : EndLatex
-
+  // Software Guide : BeginLatex
+  // 
+  // Please keep in mind that you should avoid to generate DICOM files that have
+  // the appearance of being produced by a scanner. It should be clear from the
+  // directory or filenames that this data was the result of the
+  // execution of some sort of algorithm. This will help to prevent your dataset
+  // from being used as scanner data by accident.
+  //
+  // Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }
-

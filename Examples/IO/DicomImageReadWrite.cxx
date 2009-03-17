@@ -45,8 +45,6 @@
 #include "itkGDCMImageIO.h"
 // Software Guide : EndCodeSnippet
 
-
-
 #include <list>
 #include <fstream>
 
@@ -62,8 +60,6 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-
-
 // Software Guide : BeginLatex
 //
 // Then we declare the pixel type and image dimension, and use them for
@@ -78,10 +74,6 @@ int main( int argc, char* argv[] )
   typedef itk::Image< InputPixelType, InputDimension > InputImageType;
 // Software Guide : EndCodeSnippet
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // With the image type we can instantiate the type of the reader, create one,
@@ -95,10 +87,6 @@ int main( int argc, char* argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 // Software Guide : EndCodeSnippet
-
-  
-
-
 
 // Software Guide : BeginLatex
 //
@@ -115,9 +103,6 @@ int main( int argc, char* argv[] )
   
   reader->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
-
-
-
 
 // Software Guide : BeginLatex
 //
@@ -140,9 +125,6 @@ int main( int argc, char* argv[] )
     }
 // Software Guide : EndCodeSnippet
 
-
-
-
 // Software Guide : BeginLatex
 //
 // We have now the image in memory and can get access to it by using the
@@ -151,9 +133,6 @@ int main( int argc, char* argv[] )
 // new file.
 //
 // Software Guide : EndLatex 
-
-
-
 
 // Software Guide : BeginLatex
 //
@@ -173,10 +152,6 @@ int main( int argc, char* argv[] )
   writer1->SetFileName( argv[2] );
   writer1->SetInput( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
-  
-
-
-
 
 //  Software Guide : BeginLatex
 //
@@ -191,10 +166,6 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginCodeSnippet
   writer1->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
-
-
-
-
 
 // Software Guide : BeginLatex
 //
@@ -216,9 +187,6 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 // Software Guide : EndCodeSnippet
-
-
-
 
 // Software Guide : BeginLatex
 //
@@ -266,9 +234,6 @@ int main( int argc, char* argv[] )
   writer2->SetInput( rescaler->GetOutput() );
 // Software Guide : EndCodeSnippet
 
-
-
-
 // Software Guide : BeginLatex
 //
 // The writer can be executed by invoking the Update() method from inside a
@@ -287,9 +252,6 @@ int main( int argc, char* argv[] )
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
- 
-
-
 
 // Software Guide : BeginLatex
 //
@@ -307,10 +269,6 @@ int main( int argc, char* argv[] )
   writer3->SetFileName( argv[4] );
   writer3->SetInput( rescaler->GetOutput() );
 // Software Guide : EndCodeSnippet
-
-
-
-
 
 //  Software Guide : BeginLatex
 //
@@ -331,10 +289,6 @@ int main( int argc, char* argv[] )
   writer3->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // Finally we trigger the execution of the DICOM writer by invoking the
@@ -353,9 +307,8 @@ int main( int argc, char* argv[] )
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 
 }
-

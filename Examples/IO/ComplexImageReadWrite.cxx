@@ -75,7 +75,7 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef std::complex< float >    PixelType;
+  typedef std::complex< float >              PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
 // Software Guide : EndCodeSnippet
 
@@ -112,9 +112,6 @@ int main( int argc, char * argv [] )
   writer->SetFileName( argv[2] );
 // Software Guide : EndCodeSnippet
 
-
-
-
 // Software Guide : BeginLatex
 //
 // Here we simply connect the output of the reader as input to the writer.
@@ -126,9 +123,6 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginCodeSnippet
   writer->SetInput( reader->GetOutput() );
 // Software Guide : EndCodeSnippet
-
-
-
 
 // Software Guide : BeginLatex
 //
@@ -149,19 +143,16 @@ int main( int argc, char * argv [] )
     std::cerr << err << std::endl; 
     return EXIT_FAILURE;
     } 
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-
-
-// Software Guide : BeginLatex
-//
-// For a more interesting use of this code, you may want to add a filter in
-// between the reader and the writer and perform any complex image to complex
-// image operation. A practical application of this code is presented in
-// section~\ref{sec:FrequencyDomain} in the context of Fourier analysis.
-//
-// Software Guide : EndLatex 
-
+  // Software Guide : BeginLatex
+  //
+  // For a more interesting use of this code, you may want to add a filter in
+  // between the reader and the writer and perform any complex image to complex
+  // image operation. A practical application of this code is presented in
+  // section~\ref{sec:FrequencyDomain} in the context of Fourier analysis.
+  //
+  // Software Guide : EndLatex 
 
   return EXIT_SUCCESS;
 }

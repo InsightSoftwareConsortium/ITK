@@ -81,9 +81,6 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-
-
-
   typedef itk::GDCMImageIO                        ImageIOType;
   typedef itk::NumericSeriesFileNames             NamesGeneratorType;
 
@@ -158,4 +155,3 @@ int main( int argc, char* argv[] )
 
   return EXIT_SUCCESS;
 }
-

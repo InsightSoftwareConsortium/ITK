@@ -56,8 +56,6 @@
 #include "itkImageFileWriter.h"
 // Software Guide : EndCodeSnippet
 
-
-
 int main( int argc, char* argv[] )
 {
 
@@ -68,9 +66,6 @@ int main( int argc, char* argv[] )
               << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -92,9 +87,6 @@ int main( int argc, char* argv[] )
   typedef itk::OrientedImage< PixelType, Dimension >         ImageType;
 // Software Guide : EndCodeSnippet
 
-
-
-
 // Software Guide : BeginLatex
 // 
 // We use the image type for instantiating the type of the series reader and
@@ -106,8 +98,6 @@ int main( int argc, char* argv[] )
   typedef itk::ImageSeriesReader< ImageType >        ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
 // Software Guide : EndCodeSnippet
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -122,8 +112,6 @@ int main( int argc, char* argv[] )
   
   reader->SetImageIO( dicomIO );
 // Software Guide : EndCodeSnippet
-
-
 
 // Software Guide : BeginLatex
 //
@@ -239,9 +227,6 @@ int main( int argc, char* argv[] )
     std::cout << seriesIdentifier << std::endl;
     std::cout << std::endl << std::endl;
 
-
-
-
 // Software Guide : BeginLatex
 // 
 // We pass the series identifier to the name generator and ask for all the
@@ -259,9 +244,6 @@ int main( int argc, char* argv[] )
     fileNames = nameGenerator->GetFileNames( seriesIdentifier );
 // Software Guide : EndCodeSnippet
 
-
-
-
 // Software Guide : BeginLatex
 // 
 //
@@ -275,10 +257,6 @@ int main( int argc, char* argv[] )
 // Software Guide : BeginCodeSnippet
     reader->SetFileNames( fileNames );
 // Software Guide : EndCodeSnippet
-
-
-
-
 
 // Software Guide : BeginLatex
 // 
@@ -308,9 +286,6 @@ int main( int argc, char* argv[] )
 //
 // Software Guide : EndLatex
 
-
-
-
 // Software Guide : BeginLatex
 // 
 // We proceed now to save the volumetric image in another file, as specified by
@@ -320,14 +295,14 @@ int main( int argc, char* argv[] )
 //
 // Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet    
+// Software Guide : BeginCodeSnippet
     typedef itk::ImageFileWriter< ImageType > WriterType;
     WriterType::Pointer writer = WriterType::New();
     
     writer->SetFileName( argv[2] );
 
     writer->SetInput( reader->GetOutput() );
-// Software Guide : EndCodeSnippet    
+// Software Guide : EndCodeSnippet
 
     std::cout  << "Writing the image as " << std::endl << std::endl;
     std::cout  << argv[2] << std::endl << std::endl;
@@ -342,9 +317,9 @@ int main( int argc, char* argv[] )
 
     try
       {
-// Software Guide : BeginCodeSnippet    
+// Software Guide : BeginCodeSnippet
       writer->Update();
-// Software Guide : EndCodeSnippet    
+// Software Guide : EndCodeSnippet
       }
     catch (itk::ExceptionObject &ex)
       {
@@ -358,19 +333,15 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-
-
-// Software Guide : BeginLatex
-// 
-// Note that in addition to writing the volumetric image to a file we could
-// have used it as the input for any 3D processing pipeline. Keep in mind that
-// DICOM is simply a file format and a network protocol. Once the image data
-// has been loaded into memory, it behaves as any other volumetric dataset that
-// you could have loaded from any other file format. 
-//
-// Software Guide : EndLatex
-
+  // Software Guide : BeginLatex
+  // 
+  // Note that in addition to writing the volumetric image to a file we could
+  // have used it as the input for any 3D processing pipeline. Keep in mind that
+  // DICOM is simply a file format and a network protocol. Once the image data
+  // has been loaded into memory, it behaves as any other volumetric dataset that
+  // you could have loaded from any other file format. 
+  //
+  // Software Guide : EndLatex
 
   return EXIT_SUCCESS;
-
 }
