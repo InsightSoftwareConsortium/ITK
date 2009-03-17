@@ -91,8 +91,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   // Software Guide : EndCodeSnippet
 
-
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
                         
@@ -301,10 +300,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-
-
-
-
   //  Software Guide : BeginLatex
   //
   //  The values of the final mean vector and covariance matrix used for the
@@ -328,11 +323,6 @@ int main( int argc, char *argv[] )
   std::cout << "Covariance matrix = " << std::endl;
   std::cout << covariance << std::endl;
   // Software Guide : EndCodeSnippet
-
   
   return 0;
 }
-
-
-
-

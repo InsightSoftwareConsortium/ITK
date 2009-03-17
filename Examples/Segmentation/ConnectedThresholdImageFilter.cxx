@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 //  Software Guide : BeginCommandLineArgs
 //  INPUTS: {BrainProtonDensitySlice.png}
 //  OUTPUTS: {ConnectedThresholdOutput1.png}
@@ -128,10 +125,10 @@ int main( int argc, char *argv[])
   // Software Guide : EndCodeSnippet
 
 
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter< InternalImageType, OutputImageType >
-    CastingFilterType;
+                                                   CastingFilterType;
   CastingFilterType::Pointer caster = CastingFilterType::New();
                         
   // We instantiate reader and writer types
@@ -369,7 +366,3 @@ int main( int argc, char *argv[])
 
   return 0;
 }
-
-
-
-

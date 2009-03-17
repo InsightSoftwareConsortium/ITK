@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{DeformableMesh3DFilter}
@@ -166,8 +163,6 @@
 #include "itkPointSetToImageFilter.h"
 //  Software Guide : EndCodeSnippet 
 
-
-
 //  Software Guide : BeginLatex
 //  
 //  In order to read both the input image and the mask image, we need the
@@ -204,8 +199,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const     unsigned int    Dimension = 3;
-  typedef   double          PixelType;
-  typedef itk::Image<PixelType, Dimension>      ImageType;
+  typedef   double                         PixelType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -399,9 +394,9 @@ int main( int argc, char *argv[] )
 
   try
     {
-  // Software Guide : BeginCodeSnippet
-  gradientMapFilter->Update();
-  // Software Guide : EndCodeSnippet
+    // Software Guide : BeginCodeSnippet
+    gradientMapFilter->Update();
+    // Software Guide : EndCodeSnippet
     }
   catch( itk::ExceptionObject & e )
     {

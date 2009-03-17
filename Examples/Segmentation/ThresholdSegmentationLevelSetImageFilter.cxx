@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ThresholdSegmentationLevelSetImageFilterWhiteMatter.png}
@@ -139,10 +136,10 @@ int main( int argc, char *argv[] )
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
 
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>
-    ThresholdingFilterType;
+                                                   ThresholdingFilterType;
   
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
                         
@@ -427,6 +424,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-

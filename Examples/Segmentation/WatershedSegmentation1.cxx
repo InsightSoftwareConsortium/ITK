@@ -22,8 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
 //  Software Guide : BeginCommandLineArgs
 //  INPUTS: {VisibleWomanEyeSlice.png}
 //  OUTPUTS: {WatershedSegmentation1Output1.png}
@@ -34,8 +32,6 @@
 //  OUTPUTS: {WatershedSegmentation1Output2.png}
 //  2 10 0.001 0.15 0
 //  Software Guide : EndCommandLineArgs
-
-
 
 // Software Guide : BeginLatex
 //
@@ -280,4 +276,3 @@ int main( int argc, char *argv[] )
 // input.
 // 
 // Software Guide : EndLatex
-

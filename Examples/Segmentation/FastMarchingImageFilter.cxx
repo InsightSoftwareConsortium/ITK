@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput5.png}
@@ -212,11 +209,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   // Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -319,8 +314,7 @@ int main( int argc, char *argv[] )
   typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter< 
                                InternalImageType, 
                                InternalImageType >  GradientFilterType;
-
-  typedef   itk::SigmoidImageFilter<                               
+  typedef   itk::SigmoidImageFilter<
                                InternalImageType, 
                                InternalImageType >  SigmoidFilterType;
   // Software Guide : EndCodeSnippet
@@ -770,7 +764,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

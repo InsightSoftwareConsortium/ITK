@@ -22,10 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{RGBGibbsPriorFilter}.  
@@ -104,7 +100,7 @@ int main( int argc, char *argv[] )
 
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< ClassImageType > ReaderType;
+  typedef  itk::ImageFileReader< ClassImageType >   ReaderType;
   typedef  itk::ImageFileWriter<  ClassImageType  > WriterType;
 
   ReaderType::Pointer inputimagereader = ReaderType::New();
@@ -169,10 +165,10 @@ int main( int argc, char *argv[] )
 
   namespace stat = itk::Statistics;
 
-  typedef VecImageType::PixelType VecImagePixelType;
+  typedef VecImageType::PixelType         VecImagePixelType;
   typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType > 
-    MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
+                                          MembershipFunctionType;
+  typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
 
   typedef std::vector< MembershipFunctionPointer > 
     MembershipFunctionPointerVector;  

@@ -95,7 +95,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::CastImageFilter< InternalImageType, OutputImageType >
@@ -326,7 +326,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

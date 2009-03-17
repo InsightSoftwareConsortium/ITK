@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}
 //    OUTPUTS: {GeodesicActiveContourImageFilterOutput5.png}
@@ -156,11 +153,11 @@ int main( int argc, char *argv[] )
   //  process the final level set at the output of the
   //  GeodesicActiveContourLevelSetImageFilter.
   //
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::BinaryThresholdImageFilter< 
                         InternalImageType, 
-                        OutputImageType    >    ThresholdingFilterType;
+                        OutputImageType    >       ThresholdingFilterType;
   
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
                         
@@ -209,8 +206,7 @@ int main( int argc, char *argv[] )
   typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter< 
                                InternalImageType, 
                                InternalImageType >  GradientFilterType;
-
-  typedef   itk::SigmoidImageFilter<                               
+  typedef   itk::SigmoidImageFilter<
                                InternalImageType, 
                                InternalImageType >  SigmoidFilterType;
 
@@ -545,7 +541,7 @@ int main( int argc, char *argv[] )
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index &  Distance   &   $\sigma$  &     
+  //  Structure    & Seed Index &  Distance   &   $\sigma$  &
   //  $\alpha$     &  $\beta$   & Propag. & Output Image \\  \hline 
   //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 & First   \\  \hline
   //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 & Second  \\  \hline
@@ -613,7 +609,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

@@ -194,7 +194,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   // Software Guide : EndCodeSnippet
 
@@ -289,7 +289,7 @@ int main( int argc, char *argv[] )
                                InternalImageType, 
                                InternalImageType >  GradientFilterType;
 
-  typedef   itk::SigmoidImageFilter<                               
+  typedef   itk::SigmoidImageFilter<
                                InternalImageType, 
                                InternalImageType >  SigmoidFilterType;
   // Software Guide : EndCodeSnippet
@@ -364,7 +364,7 @@ int main( int argc, char *argv[] )
   typedef  itk::ShapeDetectionLevelSetImageFilter< InternalImageType, 
                               InternalImageType >    ShapeDetectionFilterType;
   ShapeDetectionFilterType::Pointer 
-    shapeDetection = ShapeDetectionFilterType::New();                              
+    shapeDetection = ShapeDetectionFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -804,7 +804,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

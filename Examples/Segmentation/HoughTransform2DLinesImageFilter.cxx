@@ -22,10 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
@@ -79,7 +75,7 @@ int main( int argc, char *argv[] )
   typedef   float           AccumulatorPixelType;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  typedef itk::Image< PixelType, Dimension >            ImageType;
   typedef itk::Image< AccumulatorPixelType, Dimension > AccumulatorImageType;
   // Software Guide : EndCodeSnippet
 
@@ -218,7 +214,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char    OutputPixelType;
+  typedef  unsigned char                            OutputPixelType;
   typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;  
 
   OutputImageType::Pointer  localOutputImage = OutputImageType::New();
@@ -327,6 +323,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-

@@ -38,8 +38,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-
-
 //  Software Guide : BeginLatex
 //
 //  The header file corresponding to this filter should be included first.
@@ -154,8 +152,6 @@ int main( int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-
   // Software Guide : BeginCodeSnippet
   typedef std::vector< float > SizesInPhysicalUnitsType;
 
@@ -174,9 +170,5 @@ int main( int argc, char * argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-
-
   return 0;
 }
-

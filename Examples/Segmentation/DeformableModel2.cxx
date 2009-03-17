@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{DeformableMesh3DFilter}.
@@ -35,8 +32,6 @@
 // \index{SphereMeshSource}
 //
 // Software Guide : EndLatex 
-
-
 
 // Software Guide : BeginCodeSnippet
 #include "itkMesh.h"
@@ -62,9 +57,7 @@ int main(int argc, char * argv [] )
     std::cerr << " numberOfIterations timeStep externalFoceScale stiffness" << std::endl;
     return 1;
     }
-  
-
-  const char *inputFileName      =       argv[1]  ;
+  const char *inputFileName      =       argv[1];
   const float sigma              = atof( argv[2] );  // Suggested value = 5 * pixel spacing
   const int   numberOfIterations = atoi( argv[3] );  // Suggested value = 100
   const float timeStep           = atof( argv[4] );  // Suggested value = 0.1
@@ -204,4 +197,3 @@ int main(int argc, char * argv [] )
 
 
 // Software Guide : EndCodeSnippet
-

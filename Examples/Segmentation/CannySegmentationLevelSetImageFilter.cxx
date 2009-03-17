@@ -22,8 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainProtonDensitySlice.png}, {ThresholdSegmentationLevelSetImageFilterVentricle.png}
 //    OUTPUTS: {CannySegmentationLevelSetImageFilterVentricle1.png}
@@ -127,11 +125,11 @@ int main( int argc, char *argv[] )
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   // Software Guide : EndCodeSnippet
 
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::BinaryThresholdImageFilter< 
                         InternalImageType, 
-                        OutputImageType    >    ThresholdingFilterType;
+                        OutputImageType    >       ThresholdingFilterType;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
                         
@@ -333,29 +331,27 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-
-
   if( argc > 9 )
     {
     const char * speedImageFileName = argv[9];
 
-  //  Software Guide : BeginLatex
-  //  
-  // In some cases it is interesting to take a direct look at the speed image
-  // used internally by this filter. This may help for setting the correct
-  // parameters for driving the segmentation. In order to obtain such speed
-  // image, the method \code{GenerateSpeedImage()} should be invoked first.
-  // Then we can recover the speed image with the \code{GetSpeedImage()} method
-  // as illustrated in the following lines.
-  //
-  //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GenerateSpeedImage()}
-  //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GenerateSpeedImage()}
-  //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GetSpeedImage()}
-  //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GetSpeedImage()}
-  //
-  //  Software Guide : EndLatex 
-
-  //  Software Guide : BeginCodeSnippet
+    //  Software Guide : BeginLatex
+    //  
+    // In some cases it is interesting to take a direct look at the speed image
+    // used internally by this filter. This may help for setting the correct
+    // parameters for driving the segmentation. In order to obtain such speed
+    // image, the method \code{GenerateSpeedImage()} should be invoked first.
+    // Then we can recover the speed image with the \code{GetSpeedImage()} method
+    // as illustrated in the following lines.
+    //
+    //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GenerateSpeedImage()}
+    //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GenerateSpeedImage()}
+    //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GetSpeedImage()}
+    //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GetSpeedImage()}
+    //
+    //  Software Guide : EndLatex 
+    
+    //  Software Guide : BeginCodeSnippet
     cannySegmentation->GenerateSpeedImage();
 
     typedef CannySegmentationLevelSetImageFilterType::SpeedImageType SpeedImageType;
@@ -363,7 +359,7 @@ int main( int argc, char *argv[] )
     SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
 
     speedWriter->SetInput( cannySegmentation->GetSpeedImage() );
-  //  Software Guide : EndCodeSnippet
+    //  Software Guide : EndCodeSnippet
 
 
     speedWriter->SetFileName( speedImageFileName );
@@ -380,7 +376,6 @@ int main( int argc, char *argv[] )
       }
 
     }
-
   
   return 0;
 }

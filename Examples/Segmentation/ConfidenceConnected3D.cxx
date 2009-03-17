@@ -59,7 +59,7 @@ int main( int argc, char *argv[] )
   const     unsigned int    Dimension = 3;
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
 
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::CastImageFilter< InternalImageType, OutputImageType >
@@ -76,36 +76,22 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-
-
   typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
     CurvatureFlowImageFilterType;
-
-
-
   CurvatureFlowImageFilterType::Pointer smoothing = 
                          CurvatureFlowImageFilterType::New();
 
-
-
   typedef itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType> 
     ConnectedFilterType;
-
-
   ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
-
-
 
   smoothing->SetInput( reader->GetOutput() );
   confidenceConnected->SetInput( smoothing->GetOutput() );
   caster->SetInput( confidenceConnected->GetOutput() );
   writer->SetInput( caster->GetOutput() );
 
-
-
   smoothing->SetNumberOfIterations( 2 );
   smoothing->SetTimeStep( 0.05 );
-
 
   confidenceConnected->SetMultiplier( 2.5 );
   confidenceConnected->SetNumberOfIterations( 5 );
@@ -155,7 +141,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
-
-
-

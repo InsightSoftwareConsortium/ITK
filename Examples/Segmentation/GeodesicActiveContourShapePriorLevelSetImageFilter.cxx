@@ -22,9 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // In medical imaging applications, the general shape, location and 
@@ -181,21 +178,21 @@ public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     { 
-      Execute( (const itk::Object *) caller, event); 
+    Execute( (const itk::Object *) caller, event); 
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      const TFilter * filter =
-                  dynamic_cast< const TFilter * >( object );
-      if( typeid( event ) != typeid( itk::IterationEvent ) )
-        { return; }
-
-      std::cout << filter->GetElapsedIterations() << ": ";
-      std::cout << filter->GetRMSChange() << " ";
-      std::cout << filter->GetCurrentParameters() << std::endl;
+    const TFilter * filter =
+      dynamic_cast< const TFilter * >( object );
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      { return; }
+    
+    std::cout << filter->GetElapsedIterations() << ": ";
+    std::cout << filter->GetRMSChange() << " ";
+    std::cout << filter->GetCurrentParameters() << std::endl;
     }
-
+  
 };
 // Software Guide : EndCodeSnippet
 
@@ -237,11 +234,11 @@ int main( int argc, char *argv[] )
   //  process the final level set at the output of the
   //  GeodesicActiveContourLevelSetImageFilter.
   //
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::BinaryThresholdImageFilter< 
                         InternalImageType, 
-                        OutputImageType    >    ThresholdingFilterType;
+                        OutputImageType    >       ThresholdingFilterType;
   
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
                         
@@ -349,7 +346,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::BoundedReciprocalImageFilter<                               
+  typedef   itk::BoundedReciprocalImageFilter<
                                InternalImageType, 
                                InternalImageType >  ReciprocalFilterType;
 
@@ -810,11 +807,11 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::NormalVariateGenerator GeneratorType;
-  GeneratorType::Pointer generator = GeneratorType::New() ;
+  GeneratorType::Pointer generator = GeneratorType::New();
 
-  generator->Initialize( 20020702 ) ;
+  generator->Initialize( 20020702 );
 
-  optimizer->SetNormalVariateGenerator( generator ) ;
+  optimizer->SetNormalVariateGenerator( generator );
   // Software Guide : EndCodeSnippet
 
 
@@ -859,13 +856,13 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   double initRadius = 1.05;
-  double grow = 1.1 ;
-  double shrink = pow(grow, -0.25) ;
-  optimizer->Initialize(initRadius, grow, shrink) ;
+  double grow = 1.1;
+  double shrink = pow(grow, -0.25);
+  optimizer->Initialize(initRadius, grow, shrink);
 
-  optimizer->SetEpsilon(1.0e-6) ; // minimal search radius
+  optimizer->SetEpsilon(1.0e-6); // minimal search radius
 
-  optimizer->SetMaximumIteration(15) ;
+  optimizer->SetMaximumIteration(15);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -1085,7 +1082,3 @@ int main( int argc, char *argv[] )
 
   return 0;
 }
-
-
-
-

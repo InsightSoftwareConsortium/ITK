@@ -22,8 +22,6 @@
 #define ITK_LEAN_AND_MEAN
 #endif
 
-
-
 // Software Guide : BeginLatex
 //
 // \index{itk::bio::CellularAggregate}
@@ -102,9 +100,6 @@ int main( int argc, char *argv[] )
   CellularAggregateType::Pointer cellularAggregate = CellularAggregateType::New();
   // Software Guide : EndCodeSnippet
 
-
-
-
   // We instantiate reader and writer types
   typedef  itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -138,8 +133,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   cellularAggregate->AddSubstrate( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //
@@ -253,7 +246,7 @@ int main( int argc, char *argv[] )
 
   std::cout << " Final number of Cells = " << cellularAggregate->GetNumberOfCells() << std::endl;
 
-#ifdef ITK_USE_REVIEW
+  #ifdef ITK_USE_REVIEW
   //  Write the mesh to a file
   //
   typedef itk::VTKPolyDataWriter< CellularAggregateType::MeshType > WriterType;
@@ -272,12 +265,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
     }
-
-#endif
+  #endif
 
   return EXIT_SUCCESS;
-}
-
-
-
-
+  }
