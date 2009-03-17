@@ -442,7 +442,10 @@ int main( int argc, char *argv[] )
   typedef itk::ResampleImageFilter< MovingImageType, FixedImageType >
     ResampleFilterType;
   TransformType::Pointer finalTransform = TransformType::New();
+
   finalTransform->SetParameters( finalParameters );
+  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
+
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform( finalTransform );

@@ -425,6 +425,7 @@ int main( int argc, char *argv[] )
   //
   TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetParameters( finalParameters );
+  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
 
   //  Then a resampling filter is created and the corresponding transform and
   //  moving image connected as inputs.

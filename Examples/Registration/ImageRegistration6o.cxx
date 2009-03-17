@@ -549,6 +549,7 @@ int main( int argc, char *argv[] )
                             FixedImageType >    ResampleFilterType;
   TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetParameters( finalParameters );
+  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 

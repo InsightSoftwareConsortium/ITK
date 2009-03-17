@@ -322,6 +322,7 @@ int main( int argc, char *argv[] )
   TransformType::Pointer finalTransform = TransformType::New();
 
   finalTransform->SetParameters( finalParameters );
+  finalTransform->SetFixedParameters( transform->GetFixedParameters() );
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
