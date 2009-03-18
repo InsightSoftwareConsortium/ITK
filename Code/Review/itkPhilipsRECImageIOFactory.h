@@ -58,9 +58,9 @@ public:
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
     {
-    PhilipsRECImageIOFactory::Pointer MINC2Factory = 
+    PhilipsRECImageIOFactory::Pointer factory = 
       PhilipsRECImageIOFactory::New();
-    ObjectFactoryBase::RegisterFactory(MINC2Factory);
+    ObjectFactoryBase::RegisterFactory(factory);
     }
   
 protected:
