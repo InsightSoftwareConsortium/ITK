@@ -974,6 +974,8 @@ ADD_TEST(itkImageToVectorImageFilterTest ${BASIC_FILTERS_TESTS5}
                   )
 ENDIF(ITK_DATA_ROOT)
 
+ADD_TEST(itkWarpImageFilterTest2 ${BASIC_FILTERS_TESTS5} itkWarpImageFilterTest2)
+         
 ADD_TEST(itkSimplexMeshWithFloatCoordRepTest ${BASIC_FILTERS_TESTS5} itkSimplexMeshWithFloatCoordRepTest)
 
 SET(BasicFilters_SRCS
@@ -1260,6 +1262,7 @@ SET(BasicFilters5_SRCS
   itkImageToVectorImageFilterTest.cxx
   itkSimplexMeshWithFloatCoordRepTest.cxx
   itkReleaseDataFilterTest.cxx
+  itkWarpImageFilterTest2.cxx
 )
 
 IF(ITK_OBJCXX_COMPILER_WORKS)

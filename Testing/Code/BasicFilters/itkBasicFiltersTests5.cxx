@@ -38,4 +38,5 @@ void RegisterTests()
   REGISTER_TEST(itkImageToVectorImageFilterTest);
   REGISTER_TEST(itkSimplexMeshWithFloatCoordRepTest);
   REGISTER_TEST(itkReleaseDataFilterTest);
+  REGISTER_TEST(itkWarpImageFilterTest2);
 }
