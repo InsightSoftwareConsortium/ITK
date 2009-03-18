@@ -207,6 +207,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );
+  warper->SetOutputDirection( fixed->GetDirection() );
 
   warper->Print( std::cout );
 

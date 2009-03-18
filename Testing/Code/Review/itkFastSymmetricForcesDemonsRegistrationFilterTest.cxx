@@ -229,6 +229,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixed->GetSpacing() );
   warper->SetOutputOrigin( fixed->GetOrigin() );
+  warper->SetOutputDirection( fixed->GetDirection() );
   warper->SetEdgePaddingValue( bgnd );
 
   warper->Print( std::cout );
