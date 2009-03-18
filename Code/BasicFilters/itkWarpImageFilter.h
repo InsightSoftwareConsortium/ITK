@@ -169,6 +169,39 @@ public:
   itkSetMacro(OutputDirection, DirectionType );
   itkGetConstReferenceMacro(OutputDirection, DirectionType );
 
+  /** Helper method to set the output parameters based on this image */
+  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image )
+    {
+    this->SetOutputOrigin ( Image->GetOrigin() );
+    this->SetOutputSpacing ( Image->GetSpacing() );
+    this->SetOutputDirection ( Image->GetDirection() );
+    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
+    this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
+    }
+
+  /** Helper method to set the output parameters based on this image */
+  void SetOutputParametersFromConstImage ( typename OutputImageType::ConstPointer Image )
+    {
+    this->SetOutputOrigin ( Image->GetOrigin() );
+    this->SetOutputSpacing ( Image->GetSpacing() );
+    this->SetOutputDirection ( Image->GetDirection() );
+    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+    this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
+    }
+
+  /** Set the start index of the output largest possible region. 
+   * The default is an index of all zeros. */
+  itkSetMacro( OutputStartIndex, IndexType );
+
+  /** Get the start index of the output largest possible region. */
+  itkGetConstReferenceMacro( OutputStartIndex, IndexType );
+
+  /** Set the size of the output image. */
+  itkSetMacro( OutputSize, SizeType );
+
+  /** Get the size of the output image. */
+  itkGetConstReferenceMacro( OutputSize, SizeType );
+     
   /** Set the edge padding value */
   itkSetMacro( EdgePaddingValue, PixelType );
 
@@ -226,13 +259,24 @@ private:
   WarpImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** This function should be in an interpolator but none of the ITK
+   * interpolators at this point handle edge conditions properly
+   */
+  DisplacementType EvaluateDeformationAtPhysicalPoint(const PointType &p);
+
   PixelType                  m_EdgePaddingValue;
   SpacingType                m_OutputSpacing;
   PointType                  m_OutputOrigin;
   DirectionType              m_OutputDirection;
 
   InterpolatorPointer        m_Interpolator;
-  
+  SizeType                   m_OutputSize;        // Size of the output image
+  IndexType                  m_OutputStartIndex;  // output image start index
+  bool                       m_DefFieldSizeSame;
+  // variables for deffield interpoator
+  IndexType m_StartIndex,m_EndIndex;
+
+
 };
 
 } // end namespace itk
