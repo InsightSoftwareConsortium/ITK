@@ -104,11 +104,24 @@ GetExtension( const std::string& filename )
   if(fileExt == std::string(".gz"))
     {
     fileExt = itksys::SystemTools::GetFilenameLastExtension(
-      itksys::SystemTools::GetFilenameLastExtension(filename));
+      itksys::SystemTools::GetFilenameWithoutLastExtension(filename));
     fileExt += ".gz";
     }
   // Check that a valid extension was found
-  if(fileExt != ".REC.gz" && fileExt != ".REC" && fileExt != ".PAR")
+  // Will check for either all caps or all lower-case.
+  // By default the Philips Pride Workstation outputs
+  // the filenames as all caps, but a user may change the
+  // filenames to lowercase.  This will allow one or the
+  // other.  Mixed caps/lower-case will always (with the 
+  // exception of the lower-case gz on the end which is 
+  // always assumed to be lower-case) fail on an OS with
+  // a case sensitive file system.
+  if(fileExt != ".REC.gz" 
+    && fileExt != ".REC" 
+    && fileExt != ".PAR"
+    && fileExt != ".rec.gz" 
+    && fileExt != ".rec" 
+    && fileExt != ".par")
     {
     return ( "" );
     }
@@ -138,8 +151,19 @@ GetRootName( const std::string& filename )
 static std::string
 GetHeaderFileName( const std::string & filename )
 {
-  std::string ImageFileName = GetRootName(filename);
-  ImageFileName += ".PAR";
+  std::string ImageFileName(filename);
+  const std::string fileExt = GetExtension(filename);
+  // Accomodate either all caps or all lower-case filenames.
+  if( (fileExt == ".REC") || (fileExt == ".REC.gz") ) 
+    {
+    ImageFileName = GetRootName(filename);
+    ImageFileName += ".PAR";
+    }
+  else if( (fileExt == ".rec") || (fileExt == ".rec.gz") )
+    {
+    ImageFileName = GetRootName(filename);
+    ImageFileName += ".par";
+    }
   return( ImageFileName );
 }
 
@@ -153,6 +177,11 @@ static std::string GetImageFileName( const std::string& filename )
     {
     ImageFileName = GetRootName(filename);
     ImageFileName += ".REC";
+    }
+  else if(fileExt == ".par")
+    {
+    ImageFileName = GetRootName(filename);
+    ImageFileName += ".rec";
     }
   return( ImageFileName );
 }
@@ -439,12 +468,15 @@ void PhilipsRECImageIO::Read(void* buffer)
     }
 
   char * const p = static_cast<char *>(buffer);
-  //3 cases to handle
+  //6 cases to handle
   //1: given .PAR and image is .REC
   //2: given .REC
   //3: given .REC.gz
+  //4: given .par and image is .rec
+  //5: given .rec
+  //6: given .rec.gz
 
-  /* Returns proper name for cases 1,2,3 */
+  /* Returns proper name for cases 1,2,3,4,5,6 */
   std::string ImageFileName = GetImageFileName( this->m_FileName );
   //NOTE: gzFile operations act just like FILE * operations when the files
   // are not in gzip fromat.
@@ -499,8 +531,11 @@ bool PhilipsRECImageIO::CanReadFile( const char* FileNameToRead )
   // we check that the correct extension is given by the user
   std::string filenameext = GetExtension(filename);
   if(  filenameext != std::string(".PAR")
-       && filenameext != std::string(".REC")
-       && filenameext != std::string(".REC.gz") )
+    && filenameext != std::string(".REC")
+    && filenameext != std::string(".REC.gz") 
+    && filenameext != std::string(".par")
+    && filenameext != std::string(".rec")
+    && filenameext != std::string(".rec.gz"))
     {
     return false;
     }
