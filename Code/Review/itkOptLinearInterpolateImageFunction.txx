@@ -106,7 +106,9 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    * of the neighbor pixel with respect to a pixel centered on point.
    */
   RealType value = NumericTraits<RealType>::Zero;
-  RealType totalOverlap = NumericTraits<RealType>::Zero;
+
+  typedef typename NumericTraits<typename InputImageType::PixelType>::ScalarRealType ScalarRealType;
+  ScalarRealType totalOverlap = NumericTraits<ScalarRealType>::Zero;
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
@@ -137,7 +139,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     // get neighbor value only if overlap is not zero
     if( overlap )
       {
-      value += overlap * this->GetInputImage()->GetPixel( neighIndex );
+      value += static_cast<RealType>( this->GetInputImage()->GetPixel( neighIndex ) ) * overlap;
       totalOverlap += overlap;
       }
 

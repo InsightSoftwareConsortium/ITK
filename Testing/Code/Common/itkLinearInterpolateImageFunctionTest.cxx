@@ -30,7 +30,10 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
 
  const   unsigned int                                  Dimension = 2;
  typedef float                                         PixelType;
+ const   unsigned int                                  VectorDimension = 4;
+ typedef itk::Vector< PixelType, VectorDimension >     VectorPixelType;
  typedef itk::Image< PixelType, Dimension >            ImageType;
+ typedef itk::Image< VectorPixelType, Dimension >      VectorImageType;
  typedef ImageType::RegionType                         RegionType;
  typedef RegionType::SizeType                          SizeType;
  typedef ImageType::IndexType                          IndexType;
@@ -39,9 +42,15 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
  typedef itk::Point<float,2>                           PointType;
 
  typedef float                                         CoordRepType;
- typedef itk::LinearInterpolateImageFunction< ImageType, CoordRepType >  InterpolatorType;
+ typedef itk::LinearInterpolateImageFunction<
+    ImageType, CoordRepType >                          InterpolatorType;
+ typedef itk::LinearInterpolateImageFunction<
+    VectorImageType, CoordRepType >                    VectorInterpolatorType;
+
+ typedef VectorInterpolatorType::OutputType            InterpolatedVectorType;
 
  ImageType::Pointer image = ImageType::New();
+ VectorImageType::Pointer vectorimage = VectorImageType::New();
 
  IndexType start;
  start.Fill( 0 );
@@ -56,6 +65,9 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
  image->SetRegions( region );
  image->Allocate();
 
+ vectorimage->SetRegions( region );
+ vectorimage->Allocate();
+
  ImageType::PointType     origin;
  ImageType::SpacingType   spacing;
 
@@ -64,6 +76,9 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
 
  image->SetOrigin( origin );
  image->SetSpacing( spacing );
+
+ vectorimage->SetOrigin( origin );
+ vectorimage->SetSpacing( spacing );
 
  image->Print( std::cout );
 
@@ -84,8 +99,12 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
      index[0] = x;
      index[1] = y;
 
-     PixelType value = x + y * maxx;
+     const PixelType value = x + y * maxx;
      image->SetPixel( index, value );
+
+     VectorPixelType & vectorpixel = vectorimage->GetPixel( index );
+     vectorpixel.Fill( value );
+     
      std::cout << value << " ";
      }
    std::cout << std::endl;
@@ -93,6 +112,9 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
 
  InterpolatorType::Pointer interpolator = InterpolatorType::New();
  interpolator->SetInputImage( image );
+
+ VectorInterpolatorType::Pointer vectorinterpolator = VectorInterpolatorType::New();
+ vectorinterpolator->SetInputImage( vectorimage );
 
  const double incr = 0.1;
  
@@ -126,6 +148,22 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
              std::cerr << "Expected value = " << expectedValue << std::endl;
              std::cerr << "Computed value = " << computedValue << std::endl;
              std::cerr << "Difference     = " << difference << std::endl;
+             return EXIT_FAILURE;
+             }
+
+           const InterpolatedVectorType vectorpixel = vectorinterpolator->Evaluate( point );
+           
+           const InterpolatedVectorType expectedvector(expectedValue);
+
+           const double errornorm = (expectedvector - vectorpixel).GetNorm();
+
+           if( errornorm > tolerance )
+             {
+             std::cerr << "Error found while computing vector interpolation " << std::endl;
+             std::cerr << "Point = " << point << std::endl; 
+             std::cerr << "Expected vector = " << expectedvector << std::endl;
+             std::cerr << "Computed vector = " << vectorpixel << std::endl;
+             std::cerr << "Difference     = " << (expectedvector - vectorpixel) << std::endl;
              return EXIT_FAILURE;
              }
            }
