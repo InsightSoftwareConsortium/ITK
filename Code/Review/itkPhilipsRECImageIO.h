@@ -85,18 +85,20 @@ public:
   typedef vnl_vector_fixed< double, 3 >           ImageTypeRescaleValuesType;
   
   typedef VectorContainer< unsigned int, ImageTypeRescaleValuesType >
-                             ImageTypeRescaleValuesContainerType;
+                            ImageTypeRescaleValuesContainerType;
   typedef ImageTypeRescaleValuesContainerType::Pointer
-                             ImageTypeRescaleValuesContainerTypePtr;
+                            ImageTypeRescaleValuesContainerTypePtr;
   typedef VectorContainer< unsigned int, ImageTypeRescaleValuesContainerTypePtr >
-                             ScanningSequenceImageTypeRescaleValuesContainerType;
-  typedef double             GradientBvalueType;
+                            ScanningSequenceImageTypeRescaleValuesContainerType;
+  typedef double            GradientBvalueType;
   typedef VectorContainer< unsigned int, GradientBvalueType >
-                             GradientBvalueContainerType;
+                            GradientBvalueContainerType;
   typedef vnl_vector_fixed< double, 3 >
-                             GradientDirectionType;
+                            GradientDirectionType;
   typedef VectorContainer< unsigned int, GradientDirectionType >
-                             GradientDirectionContainerType;
+                            GradientDirectionContainerType;
+  typedef VectorContainer< unsigned int, int > 
+                            LabelTypesASLContainerType;
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

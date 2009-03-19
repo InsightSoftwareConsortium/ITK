@@ -39,22 +39,24 @@
 #include "itkVectorContainer.h"
 #include "vnl/vnl_vector_fixed.h"
 
-#define RESEARCH_IMAGE_EXPORT_TOOL_V3  3
-#define RESEARCH_IMAGE_EXPORT_TOOL_V4  4
-#define RESEARCH_IMAGE_EXPORT_TOOL_V4_1  41
+#define RESEARCH_IMAGE_EXPORT_TOOL_V3       30
+#define RESEARCH_IMAGE_EXPORT_TOOL_V4       40
+#define RESEARCH_IMAGE_EXPORT_TOOL_V4_1     41
+#define RESEARCH_IMAGE_EXPORT_TOOL_V4_2     42
+#define RESEARCH_IMAGE_EXPORT_TOOL_UNKNOWN  -1
 
-#define PAR_DEFAULT_STRING_LENGTH      32
-#define PAR_DEFAULT_TRIGGER_TIMES_SIZE    128
-#define PAR_DEFAULT_ECHO_TIMES_SIZE      128
-#define PAR_DEFAULT_REP_TIMES_SIZE      128
-#define PAR_DEFAULT_IMAGE_TYPES_SIZE    8
-#define PAR_DEFAULT_SCAN_SEQUENCE_SIZE    8
-#define PAR_RESCALE_VALUES_SIZE        3
-#define PAR_DIFFUSION_VALUES_SIZE      3
+#define PAR_DEFAULT_STRING_LENGTH           32
+#define PAR_DEFAULT_TRIGGER_TIMES_SIZE      128
+#define PAR_DEFAULT_ECHO_TIMES_SIZE         128
+#define PAR_DEFAULT_REP_TIMES_SIZE          128
+#define PAR_DEFAULT_IMAGE_TYPES_SIZE        8
+#define PAR_DEFAULT_SCAN_SEQUENCE_SIZE      8
+#define PAR_RESCALE_VALUES_SIZE             3
+#define PAR_DIFFUSION_VALUES_SIZE           3
 
-#define PAR_SLICE_ORIENTATION_TRANSVERSAL  1
-#define PAR_SLICE_ORIENTATION_SAGITTAL    2
-#define PAR_SLICE_ORIENTATION_CORONAL    3
+#define PAR_SLICE_ORIENTATION_TRANSVERSAL   1
+#define PAR_SLICE_ORIENTATION_SAGITTAL      2
+#define PAR_SLICE_ORIENTATION_CORONAL       3
 
 namespace itk
 {
@@ -65,7 +67,7 @@ namespace itk
 struct par_parameter  //par_parameter
 {
   int problemreading; // Marked 1 if problem occurred reading in PAR file
-  int ResToolsVersion; // V3, V4, or V4.1 PAR/REC version
+  int ResToolsVersion; // V3, V4, V4.1, or V4.2 PAR/REC version
   char patient_name[PAR_DEFAULT_STRING_LENGTH]; // Patient name
   char exam_name[PAR_DEFAULT_STRING_LENGTH]; // Examination name
   char protocol_name[PAR_DEFAULT_STRING_LENGTH]; // Protocol name
@@ -116,9 +118,10 @@ struct par_parameter  //par_parameter
   int dynamic_scan; // Dynamic scan      <0=no 1=yes> ?
   int diffusion; // Diffusion         <0=no 1=yes> ?
   float diff_echo; // Diffusion echo time [msec]
+  float inversion_delay; // Inversion delay [msec]
   int max_num_diff_vals; // Max. number of diffusion values
   int max_num_grad_orient; // Max. number of gradient orients
-  float inversion_delay; // Inversion delay [msec]
+  int num_label_types; // Number of label types   <0=no ASL>
   float vox[3]; // pixel spacing (x,y) (in mm)
   int slicessorted; // 1-slices sorted, 0-slices not sorted
   int image_blocks; // The total number of image blocks stored in the REC file
@@ -178,7 +181,8 @@ ITK_EXPORT bool GetRECRescaleValues(std::string parFile,
 
 // Stores the diffusion gradient values in the VectorContainer "gradientValues" 
 // and the diffusion b values in the VectorContainer "bValues" for each gradient 
-// direction in the PAR file "parFile".
+// direction in the PAR file "parFile".  This function is applicable only for PAR
+// versions > 4.1
 // Returns false if an error is encountered during reading, otherwise true is 
 // returned.
 typedef vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > 
@@ -189,6 +193,11 @@ typedef VectorContainer< unsigned int, double >
 PARBValuesContainer;
 ITK_EXPORT bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
   PARDiffusionValuesContainer *gradientValues, PARBValuesContainer *bValues);
+
+// Returns a vector of ALS label types for the PAR file "parFile".
+typedef VectorContainer< unsigned int, int > PARLabelTypesASLContainer;
+ITK_EXPORT bool GetLabelTypesASL(std::string parFile,
+  PARLabelTypesASLContainer *labelTypes);
 
 } // end namespace itk
 

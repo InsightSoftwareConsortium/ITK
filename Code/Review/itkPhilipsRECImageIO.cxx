@@ -93,6 +93,8 @@ static const char *const PAR_NumberOfScanningSequences =
 static const char *const PAR_ScanningSequences = "PAR_ScanningSequences";
 static const char *const PAR_ScanningSequenceImageTypeRescaleValues = 
   "PAR_ScanningSequenceImageTypeRescaleValues";
+static const char *const PAR_NumberOfASLLabelTypes = "PAR_NumberOfASLLabelTypes";
+static const char *const PAR_ASLLabelTypes = "PAR_ASLLabelTypes";
 
 static std::string
 GetExtension( const std::string& filename )
@@ -594,10 +596,23 @@ void PhilipsRECImageIO::ReadImageInformation()
     diffusionGradientOrientationVector, diffusionBvalueVector) )
     {
     ExceptionObject exception(__FILE__, __LINE__,
-                              "Problem reading PAR file",
-                              ITK_LOCATION);
+      "Problem reading diffusion gradients and b values from PAR file",
+      ITK_LOCATION);
     throw exception;
     }
+    
+  // Get ASL label types.
+  LabelTypesASLContainerType::Pointer labelTypesASLVector = 
+    LabelTypesASLContainerType::New();
+  if( !GetLabelTypesASL(HeaderFileName, labelTypesASLVector) )
+    {
+    ExceptionObject exception(__FILE__, __LINE__,
+      "Problem reading ASL label types from PAR file",
+      ITK_LOCATION);
+    throw exception;
+    }
+    
+  // Get rescale values associated with each scanning sequence.
   ScanningSequenceImageTypeRescaleValuesContainerType::Pointer 
     scanningSequenceImageTypeRescaleVector = 
     ScanningSequenceImageTypeRescaleValuesContainerType::New();
@@ -612,8 +627,8 @@ void PhilipsRECImageIO::ReadImageInformation()
       par.scanning_sequences[scanIndex]) )
       {
       ExceptionObject exception(__FILE__, __LINE__,
-                                "Problem reading PAR file",
-                                ITK_LOCATION);
+        "Problem reading recale values for each scanning sequence from PAR file",
+        ITK_LOCATION);
       throw exception;
       }
     (*scanningSequenceImageTypeRescaleVector)[scanIndex] = 
@@ -660,7 +675,7 @@ void PhilipsRECImageIO::ReadImageInformation()
       break;
     default:
       OStringStream message;
-      message << "Unknown data type. pa.bit must be 8 or 16. " 
+      message << "Unknown data type. par.bit must be 8 or 16. " 
               << "par.bit is "
               << par.bit;
       ExceptionObject exception(__FILE__, __LINE__,
@@ -791,6 +806,10 @@ void PhilipsRECImageIO::ReadImageInformation()
       EncapsulateMetaData<std::string>(thisDic,PAR_Version,
         std::string("V4.1",6));
       break;
+    case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
+      EncapsulateMetaData<std::string>(thisDic,PAR_Version,
+        std::string("V4.2",6));
+      break;
     }
 
   EncapsulateMetaData<std::string>(thisDic,PAR_ExaminationName,
@@ -904,6 +923,10 @@ void PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData<ScanningSequenceImageTypeRescaleValuesContainerTypePtr>(
     thisDic,PAR_ScanningSequenceImageTypeRescaleValues,
     scanningSequenceImageTypeRescaleVector);
+  EncapsulateMetaData<int>(thisDic,PAR_NumberOfASLLabelTypes,
+    par.num_label_types);
+  EncapsulateMetaData<LabelTypesASLContainerType::Pointer>(thisDic,
+    PAR_ASLLabelTypes, labelTypesASLVector);
   
   return;
 }  
