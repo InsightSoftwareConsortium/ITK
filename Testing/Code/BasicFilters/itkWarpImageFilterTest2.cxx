@@ -2,7 +2,7 @@
 #include <string>
 #include <math.h>
 #include <itkWarpImageFilter.h>
-
+#include <itkStreamingImageFilter.h>
 typedef itk::Image<float,3> ImageType;
 typedef itk::Image<itk::Vector<double,3> , 3 > DeformationFieldType;
 typedef itk::WarpImageFilter<ImageType,
@@ -116,6 +116,42 @@ itkWarpImageFilterTest2(int, char * [])
                 << std::endl;
       return 1;
       }
+    }
+  if(it1.IsAtEnd() != it2.IsAtEnd())
+    {
+    std::cout << "Iterators don't agree on end of image" << std::endl;
+    return 1;
+    }
+  //
+  // try streaming
+  WarpFilterType::Pointer filter2 = WarpFilterType::New();
+  filter2->SetDeformationField(defField2);
+  filter2->SetInput(image);
+  filter2->SetOutputParametersFromImage(image);
+  typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
+  StreamerType::Pointer streamer = StreamerType::New();
+  streamer->SetInput(filter2->GetOutput());
+  streamer->SetNumberOfStreamDivisions(4);
+  streamer->Update();
+  itk::ImageRegionIterator<ImageType> streamIt(streamer->GetOutput(),
+                                               streamer->GetOutput()->GetBufferedRegion());
+  for(streamIt.GoToBegin(),it2.GoToBegin();
+      !streamIt.IsAtEnd() && !it2.IsAtEnd();
+      ++streamIt, ++it2)
+    {
+    if(streamIt.Value() != it2.Value())
+      {
+      std::cout << "Pixels differ " << streamIt.Value() << " " 
+                << it2.Value()
+                << std::endl;
+      return 1;
+      }
+    
+    }
+  if(streamIt.IsAtEnd() != it2.IsAtEnd())
+    {
+    std::cout << "Iterators don't agree on end of image" << std::endl;
+    return 1;
     }
   return 0;
 }
