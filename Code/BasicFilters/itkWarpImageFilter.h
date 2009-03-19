@@ -185,7 +185,7 @@ public:
     this->SetOutputOrigin ( Image->GetOrigin() );
     this->SetOutputSpacing ( Image->GetSpacing() );
     this->SetOutputDirection ( Image->GetDirection() );
-    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
+    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
     this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
     }
 
