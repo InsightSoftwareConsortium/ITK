@@ -115,7 +115,8 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    */
   RealType value = NumericTraits<RealType>::Zero;
 
-  typedef typename NumericTraits<typename InputImageType::PixelType>::ScalarRealType ScalarRealType;
+  typedef typename InputImageType::PixelType                     InputPixelType;
+  typedef typename NumericTraits<InputPixelType>::ScalarRealType ScalarRealType;
   ScalarRealType totalOverlap = NumericTraits<ScalarRealType>::Zero;
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
