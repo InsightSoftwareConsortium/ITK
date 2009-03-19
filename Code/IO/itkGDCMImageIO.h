@@ -121,7 +121,10 @@ public:
 
   /** Convenience methods to query patient information and scanner
    * information. These methods are here for compatibility with the
-   * DICOMImageIO2 class. */
+   * DICOMImageIO2 class and as such should not be used in any new code.
+   * They rely on properly preallocated buffer, which is not a good practice.
+   * Instead user are encourage to use directly the GetValueFromTag function
+   */
   void GetPatientName(char* name);
   void GetPatientID(char* id);
   void GetPatientSex(char* sex);

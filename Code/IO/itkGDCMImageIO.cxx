@@ -1128,6 +1128,25 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->SetDirection(1, columnDirection);
   this->SetDirection(2, sliceDirection);
 
+  // Now is a good time to fill in the class member:
+  char name[512];
+  this->GetPatientName(name);
+  this->GetPatientID(name);
+  this->GetPatientSex(name);
+  this->GetPatientAge(name);
+  this->GetStudyID(name);
+  this->GetPatientDOB(name);
+  this->GetStudyDescription(name);
+  this->GetBodyPart(name);
+  this->GetNumberOfSeriesInStudy(name);
+  this->GetNumberOfStudyRelatedSeries(name);
+  this->GetStudyDate(name);
+  this->GetModality(name);
+  this->GetManufacturer(name);
+  this->GetInstitution(name);
+  this->GetModel(name);
+  this->GetScanOptions(name);
+
 }
 #endif
 
