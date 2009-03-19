@@ -79,7 +79,7 @@ DeformationFieldType::Pointer MakeDeformationField(int dim)
 }
 
 int
-itkWarpImageFilterTest2(int argc, char **argv)
+itkWarpImageFilterTest2(int, char * [])
 {
   //  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
   // make test image
