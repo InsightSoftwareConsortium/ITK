@@ -37,9 +37,9 @@ MakeCheckerboard()
     {
     ImageType::IndexType ind(it.GetIndex());
     // initially checkboard 4 pixels wide
-    int x(ind[0] / 4);
-    int y(ind[1] / 4);
-    int z(ind[2] / 4);
+    int x = ind[0] / 4;
+    int y = ind[1] / 4;
+    int z = ind[2] / 4;
     bool black(((x&1) + (y&1)) & 1);
     if(z & 1)
       {
