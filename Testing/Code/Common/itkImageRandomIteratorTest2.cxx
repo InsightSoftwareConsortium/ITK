@@ -65,7 +65,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
 
   image->SetRegions( region );
   image->Allocate();
-
+  image->FillBuffer(0);
   typedef itk::ImageRandomIteratorWithIndex< ImageType >      RandomIteratorType;
 
   RandomIteratorType it( image, region );
