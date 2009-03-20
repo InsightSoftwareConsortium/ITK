@@ -43,7 +43,7 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   m_OutputDirection.SetIdentity();
   m_OutputSize.Fill(0);
   m_EdgePaddingValue = NumericTraits<PixelType>::Zero;
-
+  m_OutputStartIndex.Fill(0);
   // Setup default interpolator
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
