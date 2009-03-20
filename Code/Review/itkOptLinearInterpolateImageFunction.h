@@ -62,6 +62,9 @@ public:
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
 
+  /** InputPixelType typedef support. */
+  typedef typename Superclass::InputPixelType InputPixelType;
+
   /** RealType typedef support. */
   typedef typename Superclass::RealType RealType;
 
