@@ -1,4 +1,11 @@
 {
+   Some zlib suppressions
+   Memcheck:Cond
+   fun:longest_match
+   fun:deflate_slow
+   fun:itk_zlib_deflate
+}
+{
    Some dl_relocate_object suppressions
    Memcheck:Cond
    fun:_dl_relocate_object
