@@ -65,7 +65,6 @@ DeformationFieldType::Pointer MakeDeformationField(int dim)
   IteratorType it(image,image->GetLargestPossibleRegion());
   for(;it != it.End(); ++it)
     {
-    DeformationFieldType::IndexType ind(it.GetIndex());
     DeformationFieldType::PixelType pix;
     for(unsigned i = 0; i < 3; i++)
       {
