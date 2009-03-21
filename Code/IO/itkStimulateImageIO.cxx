@@ -207,7 +207,8 @@ void StimulateImageIO::Read(void* buffer)
     itkExceptionMacro(<<"Read failed: Wanted " 
                       << this->GetImageSizeInBytes()
                       << " bytes, but read " 
-                      << file_data.gcount() << " bytes.");
+                      << file_data.gcount() << " bytes."
+                      << " from file " << m_DataFileName );
     }
 
   //byte swapping depending on pixel type:
