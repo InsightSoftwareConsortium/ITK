@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <itksys/SystemTools.hxx>
+#include <itksys/RegularExpression.hxx>
 #include "itkByteSwapper.h"
 
 namespace itk
@@ -273,7 +274,6 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   
   //char fidName[256] = "";   
   //char orient[256] = "";
-  char datafilename[256] = "";
 
   bool fov_specified = false;
   bool origin_specified = false;
@@ -434,10 +434,15 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
       //not documented
       itkDebugMacro(<<"mapTypeName was specified");
       }
-    else if ( text.find("stimFileName") < text.length())
+    else if ( text.find("stimFileName:") < text.length())
       {
       //file data name is explicitely specified
-      sscanf(line, "%*s %s", datafilename);
+      std::string datafilename;
+      // Remove leading and trailing blanks
+      itksys::RegularExpression regexp("stimFileName:[ ]*(.*)[ ]*$");
+      regexp.find(text);
+      datafilename = regexp.match(0);
+
       //if the data filename has a directory specified, use it as is,
       //otherwise prepend the path of the .spr file.
       std::string datafilenamePath =
