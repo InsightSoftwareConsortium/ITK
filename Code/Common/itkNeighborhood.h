@@ -86,7 +86,15 @@ public:
   typedef SliceIterator<TPixel, Self> SliceIteratorType;
 
   /** Default constructor. */
-  Neighborhood() { m_Radius.Fill(0); m_Size.Fill(0);  }
+  Neighborhood()
+    {
+    m_Radius.Fill(0);
+    m_Size.Fill(0);
+    for (unsigned int i = 0; i < VDimension; i++)
+      {
+      m_StrideTable[i] = 0;
+      }
+    }
 
   /** Default destructor. */
   virtual ~Neighborhood() {}
