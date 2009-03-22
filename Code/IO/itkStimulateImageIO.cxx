@@ -200,6 +200,11 @@ void StimulateImageIO::Read(void* buffer)
 
   if( !OpenStimulateFileForReading( file_data, m_DataFileName.c_str()) )
     {
+    itkExceptionMacro("StimulateImageIO could not open file: "
+                      << m_DataFileName << " for reading."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     return;
     }
 
@@ -247,7 +252,11 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   //read .sdt file (header)
   if ( ! this->OpenStimulateFileForReading(file, m_FileName.c_str()) )
     {
-    itkExceptionMacro(<< "Cannot read requested file");
+    itkExceptionMacro("StimulateImageIO could not open sdt file: "
+                      << m_FileName << " for reading."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   //extract dimensions, spacing, origin
