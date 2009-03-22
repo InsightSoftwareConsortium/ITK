@@ -441,7 +441,7 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
       // Remove leading and trailing blanks
       itksys::RegularExpression regexp("stimFileName:[ ]*(.*)[ ]*$");
       regexp.find(text);
-      datafilename = regexp.match(0);
+      datafilename = regexp.match(1);
 
       //if the data filename has a directory specified, use it as is,
       //otherwise prepend the path of the .spr file.
