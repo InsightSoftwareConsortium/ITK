@@ -66,17 +66,24 @@ int itkStimulateImageIOTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  // Create a source object (in this case a reader)
-  itk::ImageFileReader<FloatImageType>::Pointer reader;
-  reader = itk::ImageFileReader<FloatImageType>::New();
-  reader->SetImageIO(sprIO);
-  reader->SetFileName(argv[1]);
-  reader->Update();
+  try
+    {
+    // Create a source object (in this case a reader)
+    itk::ImageFileReader<FloatImageType>::Pointer reader;
+    reader = itk::ImageFileReader<FloatImageType>::New();
+    reader->SetImageIO(sprIO);
+    reader->SetFileName(argv[1]);
+    reader->Update();
 
-  writer->SetInput(reader->GetOutput());
-  writer->SetFileName(argv[2]);
-  writer->Write();
-
+    writer->SetInput(reader->GetOutput());
+    writer->SetFileName(argv[2]);
+    writer->Write();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }
 
