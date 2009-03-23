@@ -105,6 +105,19 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
   this->SetOutputOrigin(p);
 }
 
+/** Helper method to set the output parameters based on this image */
+template <class TInputImage,class TOutputImage,class TDeformationField>
+void 
+WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
+::SetOutputParametersFromImage ( const ImageBase<ImageDimension> *Image )
+{
+  this->SetOutputOrigin ( Image->GetOrigin() );
+  this->SetOutputSpacing ( Image->GetSpacing() );
+  this->SetOutputDirection ( Image->GetDirection() );
+  this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
+  this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
+}
+
 /**
  * Set deformation field as Inputs[1] for this ProcessObject.
  *

@@ -16,7 +16,7 @@
 =========================================================================*/
 #ifndef __itkWarpImageFilter_h
 #define __itkWarpImageFilter_h
-
+#include "itkImageBase.h"
 #include "itkImageToImageFilter.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -170,24 +170,7 @@ public:
   itkGetConstReferenceMacro(OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image )
-    {
-    this->SetOutputOrigin ( Image->GetOrigin() );
-    this->SetOutputSpacing ( Image->GetSpacing() );
-    this->SetOutputDirection ( Image->GetDirection() );
-    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
-    this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
-    }
-
-  /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromConstImage ( typename OutputImageType::ConstPointer Image )
-    {
-    this->SetOutputOrigin ( Image->GetOrigin() );
-    this->SetOutputSpacing ( Image->GetSpacing() );
-    this->SetOutputDirection ( Image->GetDirection() );
-    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
-    this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
-    }
+  void SetOutputParametersFromImage ( const ImageBase<ImageDimension> *Image );
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
