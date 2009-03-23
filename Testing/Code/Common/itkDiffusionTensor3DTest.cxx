@@ -49,9 +49,27 @@ int itkDiffusionTensor3DTest(int, char* [] )
     }
   std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
   std::cout << "pixel.GetNthComponent()" << std::endl;
+  bool passed = true;
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
     {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    if (pixel.GetNthComponent(i) != val[i])
+      {
+      std::cout << "Float3DTensorType pixel(val) failed." << std::endl
+                << "\tExpected val["
+                << i
+                << "] = "
+                << val[i]
+                << " but got pixel.GetNthComponent("
+                << i
+                << ") = "
+                << pixel.GetNthComponent(i)
+                << std::endl;
+      passed = false;
+      }
+    else
+      {
+      std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+      }
     }
 
   pixel(0,0) = 11.0;
@@ -403,6 +421,6 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   } // end of Test GetTrace() method
 
-  return EXIT_SUCCESS;
+  return (passed ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
