@@ -170,7 +170,8 @@ public:
   itkGetConstReferenceMacro(OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage ( const ImageBase<ImageDimension> *Image );
+  typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> ImageBaseType;
+  void SetOutputParametersFromImage ( const ImageBaseType *Image );
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
