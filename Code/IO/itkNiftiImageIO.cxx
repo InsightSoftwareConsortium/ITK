@@ -606,7 +606,8 @@ void NiftiImageIO::Read(void* buffer)
     if(this->GetPixelType() == ImageIOBase::DIFFUSIONTENSOR3D ||
        this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR)
       {
-      vecOrder = LowerToUpperOrder(SymMatDim(numComponents));
+//      vecOrder = LowerToUpperOrder(SymMatDim(numComponents));
+      vecOrder = UpperToLowerOrder(SymMatDim(numComponents));
       }
     else
       {
