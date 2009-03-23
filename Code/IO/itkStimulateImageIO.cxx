@@ -250,6 +250,7 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   std::string text;
 
   //read .sdt file (header)
+
   if ( ! this->OpenStimulateFileForReading(file, m_FileName.c_str()) )
     {
     itkExceptionMacro("StimulateImageIO could not open sdt file: "
@@ -258,6 +259,10 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
                       << "Reason: "
                       << itksys::SystemTools::GetLastSystemError());
     }
+
+  // re open in ascii mode
+  file.close();
+  file.open( m_FileName.c_str(), std::ios::in );
 
   //extract dimensions, spacing, origin
   unsigned int dim;
