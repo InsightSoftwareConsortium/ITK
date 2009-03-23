@@ -1162,9 +1162,258 @@ int itkNiftiImageIOTest6(int ac, char *av[])
   return success;
 }
 
-int itkNiftiImageIOTest7(int ac, char *av[])
+/* common code for DTi and sym matrix tests
+ *
+ * Could probably be made to fo the image of vector test as well
+ */
+
+template <class PixelType, unsigned Dimension>
+int
+TestImageOfSymMats(const std::string &fname)
 {
-  if(ac > 1) 
+
+  const int dimsize = 2;
+  /** Deformation field pixel type. */
+//  typedef typename itk::DiffusionTenor3D<ScalarType>    PixelType;
+
+  /** Deformation field type. */
+  typedef typename itk::Image<PixelType,Dimension>      DtiImageType;
+
+  //
+  // swizzle up a random vector image.
+  typename DtiImageType::Pointer vi;
+  typename DtiImageType::RegionType imageRegion;
+  typename DtiImageType::SizeType size;
+  typename DtiImageType::IndexType index;
+  typename DtiImageType::SpacingType spacing;
+  typename DtiImageType::PointType origin;
+  typename DtiImageType::DirectionType myDirection;
+  myDirection.Fill(0.0);
+  // original test case was destined for failure.  NIfTI always writes out 3D
+  // orientation.  The only sensible matrices you could pass in would be of the form
+  // A B C 0
+  // D E F 0
+  // E F G 0
+  // 0 0 0 1
+  // anything in the 4th dimension that didn't follow that form would just come up scrambled.
+  //NOTE: Nifti only reports upto 3D images correctly for direction cosigns.  It is implicitly assumed
+  //      that the direction for dimensions 4 or greater come diagonal elements including a 1 in the
+  //      direction matrix.
+  switch(Dimension)
+    {
+    case 1:
+      myDirection[0][0] = -1.0;
+      break;
+    case 2:
+      myDirection[0][1] = 1.0;
+      myDirection[1][0] = -1.0;
+      break;
+    case 3:
+      myDirection[0][2] = 1.0;
+      myDirection[1][0] = -1.0;
+      myDirection[2][1] = 1.0;
+      break;
+    case 4:
+      myDirection[0][2] = 1.0;
+      myDirection[1][0] = -1.0;
+      myDirection[2][1] = 1.0;
+      myDirection[3][3] = 1.0;
+      break;
+    }
+
+  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(Dimension) << std::endl;
+  std::cout << "======================== Initialized Direction" << std::endl;
+  std::cout << myDirection << std::endl;
+
+  for(unsigned i = 0; i < Dimension; i++)
+    {
+    size[i] = dimsize;
+    index[i] = 0;
+    spacing[i] = 1.0;
+    origin[i] = 0;
+    }
+
+  imageRegion.SetSize(size);
+  imageRegion.SetIndex(index);
+  AllocateImageFromRegionAndSpacing(DtiImageType, vi, imageRegion, spacing);
+  vi->SetOrigin(origin);
+  vi->SetDirection(myDirection);
+
+  typedef itk::ImageRegionIterator<DtiImageType> IteratorType;
+  typedef itk::ImageRegionConstIterator<DtiImageType> ConstIteratorType;
+
+  int dims[7];
+  int _index[7];
+  for(unsigned i = 0; i < Dimension; i++)
+    {
+    dims[i] = size[i];
+    }
+  for(unsigned i = Dimension; i < 7; i++)
+      {
+    dims[i] = 1;
+    }
+
+  int incr_value=0;
+  //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
+  for(int l = 0; l < dims[6]; l++)
+    {
+    _index[6] = l;
+    for(int m = 0; m < dims[5]; m++)
+      {
+      _index[5] = m;
+      for(int n = 0; n < dims[4]; n++)
+        {
+        _index[4] = n;
+        for(int p = 0; p < dims[3]; p++)
+          {
+          _index[3] = p;
+          for(int i = 0; i < dims[2]; i++)
+            {
+            _index[2] = i;
+            for(int j = 0; j < dims[1]; j++)
+              {
+              _index[1] = j;
+              for(int k = 0; k < dims[0]; k++)
+                {
+                _index[0] = k;
+                PixelType pixel;
+                float lowrange(100.00),highrange(200.00);
+                for(unsigned int q = 0; q < pixel.Size(); q++)
+                  {
+                  //pixel[q] = randgen.drand32(lowrange,highrange);
+                  pixel[q] = incr_value++;
+                  lowrange += 100.0;
+                  highrange += 100.0;
+                  }
+                for(unsigned int q = 0; q < Dimension; q++)
+                  {
+                  index[q] = _index[q];
+                  }
+                vi->SetPixel(index,pixel);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  try
+    {
+    WriteImage<DtiImageType>(vi,fname);
+    }
+  catch(itk::ExceptionObject &ex)
+    {
+    std::string message;
+    message = "Problem found while writing image ";
+    message += fname; message += "\n";
+    message += ex.GetLocation(); message += "\n";
+    message += ex.GetDescription(); std::cout << message << std::endl;
+    Remove(fname.c_str());
+    return EXIT_FAILURE;
+    }
+  //
+  // read it back in.
+  typename DtiImageType::Pointer readback;
+  try
+    {
+    readback = ReadImage<DtiImageType>(fname);
+    }
+  catch(itk::ExceptionObject &ex)
+      {
+    std::string message;
+    message = "Problem found while reading image ";
+    message += fname; message += "\n";
+    message += ex.GetLocation(); message += "\n";
+    message += ex.GetDescription(); std::cout << message << std::endl;
+    Remove(fname.c_str());
+    return EXIT_FAILURE;
+      }
+  bool same = true;
+  if(readback->GetOrigin() != vi->GetOrigin() )
+    {
+    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin()  << std::endl;
+    same = false;
+    }
+  if(readback->GetSpacing() != vi->GetSpacing() )
+    {
+    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing()  << std::endl;
+    same = false;
+    }
+  for(unsigned int r=0;r<Dimension;r++)
+    {
+    for(unsigned int c=0;c<Dimension;c++)
+      {
+      if(vcl_abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
+        {
+        std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n" << vi->GetDirection()  << std::endl;
+        same = false;
+        break;
+      }
+    }
+    }
+  std::cout << "Original Image  ?=   Image read from disk " << std::endl;
+  for(int l = 0; l < dims[6]; l++)
+    {
+    _index[6] = l;
+    for(int m = 0; m < dims[5]; m++)
+      {
+      _index[5] = m;
+      for(int n = 0; n < dims[4]; n++)
+        {
+        _index[4] = n;
+        for(int p = 0; p < dims[3]; p++)
+          {
+          _index[3] = p;
+          for(int i = 0; i < dims[2]; i++)
+            {
+            _index[2] = i;
+            for(int j = 0; j < dims[1]; j++)
+              {
+              _index[1] = j;
+              for(int k = 0; k < dims[0]; k++)
+                {
+                _index[0] = k;
+                PixelType p1,p2;
+                for(unsigned int q = 0; q < Dimension; q++)
+                  {
+                  index[q] = _index[q];
+    }
+                p1 = vi->GetPixel(index);
+                p2 = readback->GetPixel(index);
+                if(p1 != p2)
+    {
+                  same = false;
+                  std::cout << p1 << " != " << p2 <<  "    ERROR! " << std::endl;
+    }
+                else
+    {
+                  std::cout << p1 << " == " << p2 << std::endl;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  if(same)
+      {
+    Remove(fname.c_str());
+      }
+  else
+    {
+    std::cout << "Failing image can be found at: " << fname << std::endl;
+    }
+  return same ? 0 : EXIT_FAILURE;
+}
+
+/** Test writing and reading a Vector Image
+ */
+int itkNiftiImageIOTest7(int ac, char* av[])
+{
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1)
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
@@ -1173,151 +1422,15 @@ int itkNiftiImageIOTest7(int ac, char *av[])
     {
     return EXIT_FAILURE;
     }
-  int success(EXIT_SUCCESS);
-
-  typedef itk::DiffusionTensor3D<double> DiffusionTensor3DPixelType;
-  typedef itk::Image<DiffusionTensor3DPixelType,3> DiffusionTensor3DImageType;
-  DiffusionTensor3DImageType::RegionType imageRegion;
-  DiffusionTensor3DImageType::SizeType size;
-  DiffusionTensor3DImageType::IndexType index;
-  DiffusionTensor3DImageType::SpacingType spacing;
-
-  for(unsigned i = 0; i < 3; i++)
-    {
-    size[i] = 3;
-    index[i] = 0;
-    spacing[i] = 1.0;
-    }
-  imageRegion.SetSize(size); imageRegion.SetIndex(index);
-  DiffusionTensor3DImageType::Pointer vecImage;
-  AllocateImageFromRegionAndSpacing(DiffusionTensor3DImageType, vecImage, imageRegion, spacing);
-
-  itk::ImageRegionIterator<DiffusionTensor3DImageType> 
-    it(vecImage,vecImage->GetLargestPossibleRegion());
-  double val(0.0);
-  for(it.GoToBegin(); it != it.End(); ++it)
-    {
-    DiffusionTensor3DPixelType p;
-    for(unsigned i = 0; i < p.Size(); i++)
-      {
-      p[i] = val;
-      val++;
-      }
-    it.Set(p);
-    }
-  const std::string testfname("DiffusionTensor3DImage.nii.gz");
-  DiffusionTensor3DImageType::Pointer readback;
-  try
-    {
-    WriteImage<DiffusionTensor3DImageType>(vecImage,testfname);
-    readback = ReadImage<DiffusionTensor3DImageType>(testfname);
-    }
-  catch(itk::ExceptionObject &err)
-    {
-    std::cout << "itkNiftiImageIOTest7" << std::endl 
-              << "Exception Object caught: " << std::endl
-              << err << std::endl;
-    throw;
-    }
-  itk::ImageRegionIterator<DiffusionTensor3DImageType>
-    readbackIt(readback,readback->GetLargestPossibleRegion());
-  for(it.GoToBegin(),readbackIt.GoToBegin();
-      it != it.End() && readbackIt != readbackIt.End();
-      ++it, ++readbackIt)
-    {
-    DiffusionTensor3DPixelType p,readbackP;
-    p = it.Get();
-    readbackP = readbackIt.Get();
-    if(p != readbackP)
-      {
-      std::cout << "Pixel mismatch at index "
-                << it.GetIndex()
-                << " original = "
-                << p
-                << " read value = "
-                << readbackP
-                << std::endl;
-      success = EXIT_FAILURE;
-      break;
-      }
-    }
-  Remove(testfname.c_str());
+  int success(0);
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,1>( std::string("testDtiImage_float_1.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,2>( std::string("testDtiImage_float_2.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,3>( std::string("testDtiImage_float_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<float>,4>( std::string("testDtiImage_float_4.nii.gz"));
+  success |= TestImageOfSymMats<itk::DiffusionTensor3D<double>,3>(std::string("testDtiImage_double_3.nii.gz"));
   return success;
 }
 
-int success(EXIT_SUCCESS);
-template <unsigned int TensorDim>
-int SymmetricSecondRankTensorTest()
-{
-  typedef itk::SymmetricSecondRankTensor<double> SymmetricSecondRankTensorPixelType;
-  typedef itk::Image<SymmetricSecondRankTensorPixelType,3> SymmetricSecondRankTensorImageType;
-  SymmetricSecondRankTensorImageType::RegionType imageRegion;
-  SymmetricSecondRankTensorImageType::SizeType size;
-  SymmetricSecondRankTensorImageType::IndexType index;
-  SymmetricSecondRankTensorImageType::SpacingType spacing;
-
-  for(unsigned i = 0; i < 3; i++)
-    {
-    size[i] = 3;
-    index[i] = 0;
-    spacing[i] = 1.0;
-    }
-  imageRegion.SetSize(size); imageRegion.SetIndex(index);
-  SymmetricSecondRankTensorImageType::Pointer vecImage;
-  AllocateImageFromRegionAndSpacing(SymmetricSecondRankTensorImageType, vecImage, imageRegion, spacing);
-
-  itk::ImageRegionIterator<SymmetricSecondRankTensorImageType> 
-    it(vecImage,vecImage->GetLargestPossibleRegion());
-  double val(0.0);
-  for(it.GoToBegin(); it != it.End(); ++it)
-    {
-    SymmetricSecondRankTensorPixelType p;
-    for(unsigned i = 0; i < p.Size(); i++)
-      {
-      p[i] = val;
-      val++;
-      }
-    it.Set(p);
-    }
-  const std::string testfname("SymmetricSecondRankTensorImage.nii.gz");
-  SymmetricSecondRankTensorImageType::Pointer readback;
-  try
-    {
-    WriteImage<SymmetricSecondRankTensorImageType>(vecImage,testfname);
-    readback = ReadImage<SymmetricSecondRankTensorImageType>(testfname);
-    }
-  catch(itk::ExceptionObject &err)
-    {
-    std::cout << "itkNiftiImageIOTest7" << std::endl 
-              << "Exception Object caught: " << std::endl
-              << err << std::endl;
-    throw;
-    }
-  itk::ImageRegionIterator<SymmetricSecondRankTensorImageType>
-    readbackIt(readback,readback->GetLargestPossibleRegion());
-  for(it.GoToBegin(),readbackIt.GoToBegin();
-      it != it.End() && readbackIt != readbackIt.End();
-      ++it, ++readbackIt)
-    {
-    SymmetricSecondRankTensorPixelType p,readbackP;
-    p = it.Get();
-    readbackP = readbackIt.Get();
-    if(p != readbackP)
-      {
-      std::cout << "Pixel mismatch at index "
-                << it.GetIndex()
-                << " original = "
-                << p
-                << " read value = "
-                << readbackP
-                << std::endl;
-      success = EXIT_FAILURE;
-      break;
-      }
-    }
-  Remove(testfname.c_str());
-  return success;
-}
 
 int itkNiftiImageIOTest8(int ac, char *av[])
 {
@@ -1330,9 +1443,18 @@ int itkNiftiImageIOTest8(int ac, char *av[])
     {
     return EXIT_FAILURE;
     }
-  success |= SymmetricSecondRankTensorTest<3>();
-  success |= SymmetricSecondRankTensorTest<4>();
-  success |= SymmetricSecondRankTensorTest<5>();
-  success |= SymmetricSecondRankTensorTest<6>();
+  int success(0);
+
+  //only 3,4,5,6 as supported in itkImageIOBase
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,1>(std::string("testSymImage_float_2_1.nii.gz"));
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,2>(std::string("testSymImage_float_2_2.nii.gz"));
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,3>(std::string("testSymImage_float_2_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,3>,4>(std::string("testSymImage_float_2_4.nii.gz"));
+
+//only test some of the others
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,4>,3>(std::string("testSymImage_float_3_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,5>,3>(std::string("testSymImage_float_3_3.nii.gz"));
+  success |= TestImageOfSymMats<itk::SymmetricSecondRankTensor<float,6>,3>(std::string("testSymImage_float_3_3.nii.gz"));
+
   return success;
 }
