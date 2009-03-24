@@ -1,4 +1,9 @@
 {
+   Some libc suppressions
+   Memcheck:Cond
+   fun:__write_nocancel
+}
+{
    Some zlib suppressions
    Memcheck:Cond
    fun:longest_match
