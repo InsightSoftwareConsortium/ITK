@@ -246,7 +246,11 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,TOutputImage >
     m_SqrSpacingFilter->SetInput( cumulativeImage );
     
     // run the mini pipeline for that dimension
-    m_SqrSpacingFilter->Update();
+    // Note: we must take care to update the requested region. Without that, a second run of the
+    // filter with a smaller input than in the first run trigger an exception, because the filter
+    // ask for a larger region than available. TODO: there should be a way to do that only once
+    // per GenerateData() call.
+    m_SqrSpacingFilter->UpdateLargestPossibleRegion();
     
     // and user the result as the cumulative image
     cumulativeImage = m_SqrSpacingFilter->GetOutput();

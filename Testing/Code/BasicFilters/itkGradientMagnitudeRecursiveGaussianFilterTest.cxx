@@ -197,6 +197,26 @@ int itkGradientMagnitudeRecursiveGaussianFilterTest(int, char* [] )
     std::cout << "outputImage Direction: " << outputImage->GetDirection() << std::endl;
     return EXIT_FAILURE;
     }
+
+  // check that the same filter is able to run on a smaller image
+  size.Fill( 5 );
+  region.SetSize( size );
+ 
+  inputImage->SetRegions( region );
+  inputImage->Allocate();
+  inputImage->FillBuffer( 1 );
+  
+  // Execute the filter
+  try
+    {
+    filter->UpdateLargestPossibleRegion();
+     }
+   catch(...)
+     {
+     std::cerr << "Exception thrown during Update() " << std::endl;
+     return EXIT_FAILURE;
+     }
+
   // All objects should be automatically destroyed at this point
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
