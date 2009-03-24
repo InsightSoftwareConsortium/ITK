@@ -109,13 +109,13 @@ WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
 template <class TInputImage,class TOutputImage,class TDeformationField>
 void 
 WarpImageFilter<TInputImage,TOutputImage,TDeformationField>
-::SetOutputParametersFromImage ( const ImageBaseType *Image )
+::SetOutputParametersFromImage ( const ImageBaseType * image )
 {
-  this->SetOutputOrigin ( Image->GetOrigin() );
-  this->SetOutputSpacing ( Image->GetSpacing() );
-  this->SetOutputDirection ( Image->GetDirection() );
-  this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
-  this->SetOutputSize ( Image->GetLargestPossibleRegion().GetSize() );
+  this->SetOutputOrigin ( image->GetOrigin() );
+  this->SetOutputSpacing ( image->GetSpacing() );
+  this->SetOutputDirection ( image->GetDirection() );
+  this->SetOutputStartIndex ( image->GetLargestPossibleRegion().GetIndex() );
+  this->SetOutputSize ( image->GetLargestPossibleRegion().GetSize() );
 }
 
 /**
