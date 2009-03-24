@@ -123,7 +123,20 @@ VTKPolyDataWriter<TInputMesh>
     while( pointIterator != pointEnd )
       {
       PointType point = pointIterator.Value();
-      outputFile << point[0] << " " << point[1] << " " << point[2] << std::endl;
+
+      outputFile << point[0] << " " << point[1];
+
+      if( TInputMesh::PointDimension > 2 )
+        {
+        outputFile << " " << point[2];
+        }
+      else
+        {
+        outputFile << " " << "0.0";
+        }
+
+      outputFile << std::endl;
+
       IdMap[ pointIterator.Index() ] = k++;
       pointIterator++;
       }
