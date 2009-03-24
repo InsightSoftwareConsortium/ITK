@@ -491,7 +491,7 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
        {
        if( (unsigned int)ZSize != JPEGInfo->GetFragmentCount() )
          {
-         gdcmErrorMacro( "Sorry GDCM does not handle this type of fragments" );
+         gdcmErrorMacro( "Sorry GDCM does not handle this type of fragments: " << ZSize << " vs " << JPEGInfo->GetFragmentCount() );
          return false;
          }
        // Hopefully every dicom fragment is *exactly* the j2k stream
