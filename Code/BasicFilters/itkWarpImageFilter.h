@@ -120,6 +120,8 @@ public:
                       TInputImage::ImageDimension );
   itkStaticConstMacro(DeformationFieldDimension, unsigned int,
                       TDeformationField::ImageDimension );
+  /** typedef for base image type at the current ImageDimension */
+  typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> ImageBaseType;
 
   /** Deformation field typedef support. */
   typedef TDeformationField                        DeformationFieldType;
@@ -170,8 +172,7 @@ public:
   itkGetConstReferenceMacro(OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
-  typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> ImageBaseType;
-  void SetOutputParametersFromImage ( const ImageBaseType *Image );
+  void SetOutputParametersFromImage ( const ImageBaseType *image );
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
