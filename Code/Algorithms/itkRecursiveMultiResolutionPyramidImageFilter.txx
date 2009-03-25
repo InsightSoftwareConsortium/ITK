@@ -18,11 +18,12 @@
 #define __itkRecursiveMultiResolutionPyramidImageFilter_txx
 
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
-#include "itkShrinkImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkCastImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkExceptionObject.h"
+#include "itkResampleImageFilter.h"
+#include "itkIdentityTransform.h"
 
 #include "vnl/vnl_math.h"
 
@@ -57,21 +58,24 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   // Get the input and output pointers
   InputImageConstPointer  inputPtr = this->GetInput();
 
-  // Create caster, smoother and shrinker filters
+  // Create caster, smoother and resampleShrink filters
   typedef CastImageFilter<TInputImage, TOutputImage>              CasterType;
   typedef CastImageFilter<TOutputImage, TOutputImage>             CopierType;
   typedef DiscreteGaussianImageFilter<TOutputImage, TOutputImage> SmootherType;
-  typedef ShrinkImageFilter<TOutputImage,TOutputImage>            ShrinkerType;
+  typedef ResampleImageFilter<TOutputImage,TOutputImage> ResampleShrinkerType;
 
   typename CasterType::Pointer   caster   = CasterType::New();
   typename CopierType::Pointer   copier   = CopierType::New();
   typename SmootherType::Pointer smoother = SmootherType::New();
-  typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
+  typename ResampleShrinkerType::Pointer resampleShrinker = ResampleShrinkerType::New();
 
   int ilevel;
   unsigned int idim;
   unsigned int factors[ImageDimension];
   double       variance[ImageDimension];
+  typedef itk::LinearInterpolateImageFunction< OutputImageType, double >  LinearInterpolatorType;
+  typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+
   bool         allOnes;
   OutputImagePointer   outputPtr;
   OutputImagePointer swapPtr;
@@ -79,7 +83,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   smoother->SetUseImageSpacing( false );
   smoother->SetMaximumError( this->GetMaximumError() );
-  shrinker->SetInput( smoother->GetOutput() );
+  resampleShrinker->SetInput( smoother->GetOutput() );
 
   
   // recursively compute outputs starting from the last one
@@ -93,7 +97,12 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     outputPtr = this->GetOutput( ilevel );
     outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
     outputPtr->Allocate();
-   
+    
+    typedef itk::IdentityTransform<double,OutputImageType::ImageDimension>
+      IdentityTransformType;
+    typename IdentityTransformType::Pointer identityTransform =
+      IdentityTransformType::New();
+
     // cached a copy of the largest possible region
     LPRegion = outputPtr->GetLargestPossibleRegion();
 
@@ -168,15 +177,21 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
       smoother->SetVariance( variance );
 
-      shrinker->SetShrinkFactors( factors );
-      shrinker->GraftOutput( outputPtr );
+      //      shrinker->SetShrinkFactors( factors );
+      //      shrinker->GraftOutput( outputPtr );
+      resampleShrinker->SetInterpolator(interpolator);
+      resampleShrinker->SetDefaultPixelValue(0);
+      resampleShrinker->SetOutputParametersFromImage(outputPtr);
+      resampleShrinker->SetTransform(identityTransform);
+      resampleShrinker->GraftOutput(outputPtr);
+      resampleShrinker->Modified();
       // ensure only the requested region is updated
-      shrinker->GetOutput()->UpdateOutputInformation();
-      shrinker->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
-      shrinker->GetOutput()->PropagateRequestedRegion();
-      shrinker->GetOutput()->UpdateOutputData();
+      resampleShrinker->GetOutput()->UpdateOutputInformation();
+      resampleShrinker->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
+      resampleShrinker->GetOutput()->PropagateRequestedRegion();
+      resampleShrinker->GetOutput()->UpdateOutputData();
 
-      swapPtr = shrinker->GetOutput();
+      swapPtr = resampleShrinker->GetOutput();
 
       }
 
