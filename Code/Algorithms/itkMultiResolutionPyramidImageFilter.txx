@@ -274,7 +274,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   // Setup the filters
   caster->SetInput( inputPtr );
 
-  smoother->SetUseImageSpacing( true );
+  smoother->SetUseImageSpacing( false );
   smoother->SetInput( caster->GetOutput() );
   smoother->SetMaximumError( m_MaximumError );
 
