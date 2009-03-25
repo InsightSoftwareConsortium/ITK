@@ -159,6 +159,7 @@ Extract()
     m_Priority = m_PriorityQueue->Peek( )->m_Priority;
 
     m_PriorityQueue->Pop();
+    delete m_QueueMapper[m_Element];
     m_QueueMapper.erase( m_Element );
     } while ( !IsEdgeOKToBeProcessed( m_Element ) );
 }
