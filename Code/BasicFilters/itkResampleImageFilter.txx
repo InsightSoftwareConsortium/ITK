@@ -569,13 +569,18 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   this->SetSize ( image->GetLargestPossibleRegion().GetSize() );
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
 void 
 ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
 ::SetOutputParametersFromConstImage ( const ImageBaseType * image )
 {
+  itkGenericLegacyReplaceBodyMacro(itk::ResampleImageFilter::SetOutputParametersFromConstImage, 
+                                   3.14, 
+                                   itk::ResampleImageFilter::SetOutputParametersFromImage);
   this->SetOutputParametersFromImage(image);
 }
+#endif
 
 /** 
  * Inform pipeline of required output region

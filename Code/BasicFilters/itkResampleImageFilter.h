@@ -137,6 +137,7 @@ public:
   typedef typename TOutputImage::SpacingType   SpacingType;
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
+
   /** base type for images of the current ImageDimension */
   typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> ImageBaseType;
   
@@ -195,9 +196,11 @@ public:
   itkGetConstReferenceMacro( OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage ( const ImageBaseType *Image );
-  /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromConstImage ( const ImageBaseType *Image );
+  void SetOutputParametersFromImage ( const ImageBaseType * image );
+
+  /** \deprecated in ITK 3.14, Please use SetOutputParametersFromImage().
+   * Helper method to set the output parameters based on this image. */
+  itkLegacyMacro( void SetOutputParametersFromConstImage ( const ImageBaseType * image ) );
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
