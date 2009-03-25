@@ -49,6 +49,6 @@ int itkNumericTraitsTest(int, char* [] )
   CheckTraits("unsigned long", static_cast<unsigned long>(0));
   CheckTraits("float", static_cast<float>(0));
   CheckTraits("double", static_cast<double>(0));
-
+  CheckTraits("long double", static_cast<double>(0));
   return EXIT_SUCCESS;
 }
