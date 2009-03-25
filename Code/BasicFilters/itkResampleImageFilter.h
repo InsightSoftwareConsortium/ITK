@@ -137,6 +137,8 @@ public:
   typedef typename TOutputImage::SpacingType   SpacingType;
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
+  /** base type for images of the current ImageDimension */
+  typedef ImageBase<itkGetStaticConstMacro(ImageDimension)> ImageBaseType;
   
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
@@ -193,23 +195,9 @@ public:
   itkGetConstReferenceMacro( OutputDirection, DirectionType );
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage ( typename OutputImageType::Pointer Image )
-    {
-    this->SetOutputOrigin ( Image->GetOrigin() );
-    this->SetOutputSpacing ( Image->GetSpacing() );
-    this->SetOutputDirection ( Image->GetDirection() );
-    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );
-    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
-    }
-
+  void SetOutputParametersFromImage ( const ImageBaseType *Image );
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromConstImage ( typename OutputImageType::ConstPointer Image )
-    {
-    this->SetOutputOrigin ( Image->GetOrigin() );
-    this->SetOutputSpacing ( Image->GetSpacing() );
-    this->SetOutputDirection ( Image->GetDirection() );
-    this->SetOutputStartIndex ( Image->GetLargestPossibleRegion().GetIndex() );    this->SetSize ( Image->GetLargestPossibleRegion().GetSize() );
-    }
+  void SetOutputParametersFromConstImage ( const ImageBaseType *Image );
 
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */

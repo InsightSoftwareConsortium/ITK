@@ -556,6 +556,27 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     }
 }
 
+/** Helper method to set the output parameters based on this image */
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+void 
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::SetOutputParametersFromImage ( const ImageBaseType * image )
+{
+  this->SetOutputOrigin ( image->GetOrigin() );
+  this->SetOutputSpacing ( image->GetSpacing() );
+  this->SetOutputDirection ( image->GetDirection() );
+  this->SetOutputStartIndex ( image->GetLargestPossibleRegion().GetIndex() );
+  this->SetSize ( image->GetLargestPossibleRegion().GetSize() );
+}
+
+template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType>
+void 
+ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
+::SetOutputParametersFromConstImage ( const ImageBaseType * image )
+{
+  this->SetOutputParametersFromImage(image);
+}
+
 /** 
  * Inform pipeline of required output region
  */
