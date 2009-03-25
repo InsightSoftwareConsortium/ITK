@@ -1,6 +1,6 @@
 {
    Some libc suppressions
-   Memcheck:Cond
+   Memcheck:Value1
    fun:__write_nocancel
 }
 {
