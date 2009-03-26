@@ -169,6 +169,7 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
   itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
+  itkTriangleHelperTest.cxx
   itkQuadEdgeMeshLinearParameterizationTest.cxx
   itkPriorityQueueTest.cxx
   itkQuadEdgeMeshSquaredEdgeLengthDecimationTest.cxx
@@ -290,6 +291,8 @@ ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkBinaryMask3DQuadEdgeMeshSourceTest)
 ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
+ADD_TEST( itkTriangleHelperTest ${REVIEW_TESTS2}
+  itkTriangleHelperTest)
 ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshQuadricDecimationTest
   ${INPUTDATA}/mushroom.vtk

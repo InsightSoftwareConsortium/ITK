@@ -56,6 +56,7 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest);
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
+  REGISTER_TEST(itkTriangleHelperTest);
   REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
   REGISTER_TEST(itkPriorityQueueTest);
   REGISTER_TEST(itkQuadEdgeMeshSquaredEdgeLengthDecimationTest);
