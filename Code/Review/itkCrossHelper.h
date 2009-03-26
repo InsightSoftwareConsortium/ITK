@@ -17,6 +17,8 @@
 #ifndef __itkCrossHelper_h
 #define __itkCrossHelper_h
 
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 /** \class Cross
