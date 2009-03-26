@@ -125,11 +125,11 @@ int itkTriangleHelperTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  if( vnl_math_abs( TriangleHelperType::ComputeArea( a,Org, b )-0.25 ) > 1e-6 )
+  CoordRepType area = TriangleHelperType::ComputeArea( a, Org, b );
+  if( vnl_math_abs( area - 0.25 ) > 1e-6 )
     {
     return EXIT_FAILURE;
     }
-
-  
+ 
   return EXIT_SUCCESS;
 }

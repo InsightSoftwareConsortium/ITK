@@ -115,9 +115,22 @@ TriangleHelper< TPoint >::ComputeBarycenter (
 {
   PointType oPt;
 
-  for ( unsigned int dim = 0; dim < PointDimension; dim++ )
+  CoordRepType total = iA1 + iA2 + iA3;
+  if( total == 0. )
     {
-    oPt[dim] = iA1 * iP1[dim] + iA2 * iP2[dim] + iA3 * iP3[dim];
+    //in such case there is no barycenter; 
+    oPt.Fill( 0. );
+    return oPt; 
+    }
+  
+  CoordRepType inv_total = 1. / total;  
+  CoordRepType a1 = iA1 * inv_total;
+  CoordRepType a2 = iA2 * inv_total;
+  CoordRepType a3 = iA3 * inv_total;
+  
+  for ( unsigned int dim = 0; dim < PointDimension; ++dim )
+    {
+    oPt[dim] = a1 * iP1[dim] + a2 * iP2[dim] + a3 * iP3[dim];
     }
 
   return oPt;
@@ -155,15 +168,7 @@ TriangleHelper< TPoint >::ComputeGravityCenter (
       const PointType& iP2,
       const PointType& iP3 )
 {
-  PointType oPt;
-  CoordRepType inv_3 = 1.0 / 3.;
-
-  for ( unsigned int dim = 0; dim < PointDimension; dim++ )
-    {
-    oPt[dim] = ( iP1[dim] + iP2[dim] + iP3[dim] ) * inv_3;
-    }
-
-  return oPt;
+  return ComputeBarycenter( 1., iP1, 1., iP2, 1., iP3 );
 }
 
 template< typename TPoint >
@@ -185,19 +190,7 @@ TriangleHelper< TPoint >::ComputeCircumCenter (
   Weight[1] = b * ( c + a - b );
   Weight[2] = c * ( a + b - c );
 
-  CoordRepType SumWeight = Weight[0] + Weight[1] + Weight[2];
-
-  if ( SumWeight != 0.0 )
-    {
-    SumWeight = 1.0 / SumWeight;
-
-    for ( unsigned int dim = 0; dim < PointDimension; dim++ )
-      {
-      oPt[dim] = ( Weight[0] * iP1[dim] + Weight[1] * iP2[dim] + Weight[2] * iP3[dim] ) * SumWeight;
-      }
-    }
-
-  return oPt;
+  return ComputeBarycenter( Weight[0], iP1, Weight[1], iP2, Weight[2], iP3 );
 }
 
 template< typename TPoint >
@@ -223,19 +216,7 @@ TriangleHelper< TPoint >::ComputeConstrainedCircumCenter ( const PointType& iP1,
       }
     }
 
-  CoordRepType SumWeight = Weight[0] + Weight[1] + Weight[2];
-
-  if ( SumWeight != 0.0 )
-    {
-    SumWeight = 1.0 / SumWeight;
-
-    for ( unsigned int dim = 0; dim < PointDimension; dim++ )
-      {
-      oPt[dim] = ( Weight[0] * iP1[dim] + Weight[1] * iP2[dim] + Weight[2] * iP3[dim] ) * SumWeight;
-      }
-    }
-
-  return oPt;
+  return ComputeBarycenter( Weight[0], iP1, Weight[1], iP2, Weight[2], iP3 );
 }
 
 template< typename TPoint >
