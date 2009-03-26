@@ -21,6 +21,9 @@
 
 int itkTriangleHelperTest( int argc, char* argv[] )
 {
+  (void) argc;
+  (void) argv;
+
   const unsigned int Dimension = 3;
   typedef double                                CoordRepType;
   typedef itk::Point< CoordRepType, Dimension > PointType;
@@ -94,12 +97,17 @@ int itkTriangleHelperTest( int argc, char* argv[] )
 
   if( ( barycenter.GetVectorFromOrigin() ).GetNorm() > 1e-6 )
     {
+    std::cout 
+      <<"TriangleHelperType::ComputeBarycenter( 0.,a,1.,Org,-1.,b) FAILED"
+      <<std::endl;
     return EXIT_FAILURE;
     }
 
   if( vnl_math_abs( TriangleHelperType::ComputeAngle( a, Org, b ) 
         - 0.25 * vnl_math::pi ) > 1e-6 )
     {
+    std::cout <<"TriangleHelperType::ComputeAngle( a, Org, b ) FAILED"
+      <<std::endl;
     return EXIT_FAILURE;
     }
 
@@ -115,6 +123,8 @@ int itkTriangleHelperTest( int argc, char* argv[] )
  
   if( barycenter.SquaredEuclideanDistanceTo( Circum ) > 1e-6 )
     {
+    std::cout <<"TriangleHelperType::ComputeCircumCenter( a, Org, b ) FAILED"
+      <<std::endl;
     return EXIT_FAILURE;
     }
 
@@ -122,12 +132,16 @@ int itkTriangleHelperTest( int argc, char* argv[] )
 
   if( barycenter.SquaredEuclideanDistanceTo( Circum ) > 1e-6 )
     {
+    std::cout <<"TriangleHelperType::ComputeConstrainedCircumCenter(a,Org,b)"
+      <<" FAILED" <<std::endl;
     return EXIT_FAILURE;
     }
 
   CoordRepType area = TriangleHelperType::ComputeArea( a, Org, b );
   if( vnl_math_abs( area - 0.25 ) > 1e-6 )
     {
+    std::cout <<"TriangleHelperType::ComputeArea( a, Org, b ) FAILED"
+      <<std::endl;
     return EXIT_FAILURE;
     }
  
