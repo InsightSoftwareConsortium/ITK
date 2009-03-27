@@ -48,9 +48,7 @@ namespace itk
  * the number of control points for the coarsest level.  The algorithm
  * then increases the number of control points at each level so that
  * the B-spline n-D grid is refined to twice the previous level.  The
- * scattered data is specified by the pixel values.  Pixels which
- * are not to be included in the calculation of the B-spline grid must
- * have a value equal to that specified by the variable m_BackgroundValue.
+ * scattered data is specified by the pixel values.
  *
  * Note that the specified number of control points must be > m_SplineOrder.
  *
