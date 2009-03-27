@@ -1636,7 +1636,7 @@ void FileHelper::CheckMandatoryElements()
                 os2 << *it;
                 }
               }
-            imagetype = os.str();
+            imagetype = os2.str();
             }
           }
         }
