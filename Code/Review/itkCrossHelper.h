@@ -47,8 +47,6 @@ public:
   VectorType operator ( ) ( const VectorType& iU,
                             const VectorType& iV ) const
     {
-    assert ( Dimension > 2 );
-
     VectorType oCross;
 
     if( Dimension > 2 )
