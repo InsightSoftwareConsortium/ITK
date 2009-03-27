@@ -352,6 +352,19 @@ void MetaImageIO::ReadImageInformation()
       this->SetNumberOfComponents(m_NumberOfComponents * m_NumberOfComponents);
       break;
     }
+
+  // BUG: 8732
+  // The above use to MET_*_ARRAY may not be correct, as this MetaIO
+  // ElementType was not designed to indicate vectors, but something
+  // else
+  //
+  // if the file has multiple components then we default to a vector
+  // pixel type, support could be added to MetaIO format to define
+  // different pixel types   
+  if ( m_MetaImage.ElementNumberOfChannels() > 1 )
+    {
+    this->SetPixelType( VECTOR );
+    }
   
   this->SetNumberOfDimensions(m_MetaImage.NDims());
 
@@ -1459,9 +1472,14 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
       errorMessage = "File is compressed: " + m_FileName;
       }
     // 2)pixel type
-    else if (headerImageIOReader->GetPixelType() != this->GetPixelType() ||
-             headerImageIOReader->GetNumberOfComponents() != this->GetNumberOfComponents() ||
-             headerImageIOReader->GetComponentType() != this->GetComponentType()) 
+    // this->GetPixelType() is not verified becasue the metaio file format
+    // stores all multi-component types as arrays, so it does not
+    // distinguish between pixel types. Also as long as the compoent
+    // and number of compoents match we should be able to paste, that
+    // is the numbers should be the same it is just the interpretation
+    // that is not matching
+    else if ( headerImageIOReader->GetNumberOfComponents() != this->GetNumberOfComponents() ||
+              headerImageIOReader->GetComponentType() != this->GetComponentType() ) 
       {
       errorMessage = "Component type does not match in file: " + m_FileName;
       }
@@ -1494,6 +1512,12 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
     if (errorMessage.size()) 
       {
       itkExceptionMacro("Unable to paste because pasting file exists and is different. " << errorMessage);
+      }
+    else if ( headerImageIOReader->GetPixelType() != this->GetPixelType() ) 
+      {
+      // since there is currently poor support for pixel types in
+      // MetaIO we will just warn when it does not match
+      itkWarningMacro("Pixel types does not match file, but component type and number of components do.");
       }
     }
   else if (numberOfRequestedSplits != 1)  

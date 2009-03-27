@@ -115,7 +115,23 @@ int itkVectorImageReadWriteTest(int argc, char * argv [])
       " But read " << cit.Get() << std::endl;
     return EXIT_FAILURE;
     }
+
+  itk::ImageIOBase::Pointer io = reader->GetImageIO();
    
+
+  std::cout << "ImageIO Pixel Information: " 
+            << io->GetPixelTypeAsString( io->GetPixelType() ) << " " 
+            << io->GetComponentTypeAsString( io->GetComponentType() ) << " "
+            << io->GetNumberOfComponents() << std::endl;
+  if ( io->GetNumberOfComponents() != 4 ||
+       io->GetComponentType() != itk::ImageIOBase::DOUBLE ||
+       io->GetPixelType() != itk::ImageIOBase::VECTOR) 
+    {
+    std::cout << "Unexpected pixel information" << std::endl;
+    std::cout << "Expected: vector double 4" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   std::cout << "Image of vector pixels write-read [PASSED]" << std::endl;
 
   std::cout << "Test << operator:: Vector1 = " << vector1 << "[PASSED]" << std::endl;
