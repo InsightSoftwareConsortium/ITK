@@ -97,15 +97,16 @@ bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::
   
   std::cout << "Writing Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
 
-  char outputFileName[1024];
-  sprintf(outputFileName, "%s%i%i%i.%s", outputFileNameBase.c_str(),
-          streamWriting, pasteWriting, compressWriting, outputFileNameExtension.c_str());
+  ::itk::OStringStream outputFileNameStream;
+  outputFileNameStream << outputFileNameBase << streamWriting << pasteWriting << compressWriting << "." << outputFileNameExtension;
+  std::string outputFileName = outputFileNameStream.str();
+
   
   std::cout << "Writing to File: " << outputFileName << std::endl;
   unsigned int m_NumberOfPieces = 10;
   
   // We remove the output file
-  itksys::SystemTools::RemoveFile(outputFileName);
+  itksys::SystemTools::RemoveFile(outputFileName.c_str());
   
   typedef unsigned char            PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
