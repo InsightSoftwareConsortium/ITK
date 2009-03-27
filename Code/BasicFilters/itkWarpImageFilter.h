@@ -76,7 +76,7 @@ namespace itk
  * \warning This filter assumes that the input type, output type
  * and deformation field type all have the same number of dimensions.
  *
- * \ingroup GeometricTransforms MultiThreaded
+ * \ingroup GeometricTransforms MultiThreaded Streamed
  */
 template <
   class TInputImage,
