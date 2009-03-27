@@ -239,7 +239,7 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
   Compressed = true;
   //char * userData = reinterpret_cast<char*>(UserData);
 
-   itksys_ios::ostringstream *of = new itksys_ios::ostringstream();
+   itksys_ios::stringstream *of = new itksys_ios::stringstream(); // ostringstream: debug / sunos
     int xsize = image->GetXSize();
    int ysize = image->GetYSize();
   int zsize =  image->GetZSize();
@@ -283,7 +283,6 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
        }
      assert( !(jp.second % 2) );
      //std::cerr << "DIFF: " << i <<" -> " << jp.second << std::endl;
-     //++i;
      pImageData += fragment_size;
      }
    CloseJpeg(of, JpegFragmentSize);
@@ -293,6 +292,7 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
 
 
    size_t of_size = of->str().size();
+   gdcmErrorMacro( "Of_size: " << of_size ); // FIXME: remote debug of sunos
    UserData = new uint8_t[of_size];
    memcpy(UserData, of->str().c_str(), of_size);
    UserDataSize = of_size;
