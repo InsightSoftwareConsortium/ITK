@@ -51,14 +51,20 @@ public:
 
     VectorType oCross;
 
-    // *** Arnaud : InputVDimension == 3
-    oCross[0] = iU[1] * iV[2] - iV[1] * iU[2];
-    oCross[1] = iV[0] * iU[2] - iU[0] * iV[2];
-    oCross[2] = iU[0] * iV[1] - iV[0] * iU[1];
-
-    for( unsigned int dim = 3; dim < Dimension; dim++ )
+    if( Dimension > 2 )
       {
-      oCross[dim] = 0.0;
+      oCross[0] = iU[1] * iV[2] - iV[1] * iU[2];
+      oCross[1] = iV[0] * iU[2] - iU[0] * iV[2];
+      oCross[2] = iU[0] * iV[1] - iV[0] * iU[1];
+
+      for( unsigned int dim = 3; dim < Dimension; dim++ )
+        {
+        oCross[dim] = 0.0;
+        }
+      }
+    else
+      {
+      oCross.Fill( 0. );
       }
 
     return oCross;
