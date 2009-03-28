@@ -21,7 +21,6 @@
 
 // NEW
 #include "itkQuadEdgeMeshDelaunayConformingFilter.h"
-#include <time.h>
 
 int itkQuadEdgeMeshDelaunayConformingFilterTest( int argc, char* argv[] )
 {
@@ -57,14 +56,11 @@ int itkQuadEdgeMeshDelaunayConformingFilterTest( int argc, char* argv[] )
 
   MeshType::Pointer mesh = reader->GetOutput( );
 
-  clock_t start = clock();
   typedef itk::QuadEdgeMeshDelaunayConformingFilter< MeshType, MeshType >
   DelaunayConformFilterType;
   DelaunayConformFilterType::Pointer filter = DelaunayConformFilterType::New( );
   filter->SetInput( mesh );
   filter->Update( );
-  clock_t end = clock();
-  std::cout <<"Time " <<static_cast< double >( end - start )/static_cast<double>( CLOCKS_PER_SEC ) <<std::endl;
 
   // ** WRITE OUTPUT **
   WriterType::Pointer writer = WriterType::New( );
