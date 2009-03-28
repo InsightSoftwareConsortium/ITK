@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <itkVector.h>
-#include <itkCrossHelper.h>
+#include "itkVector.h"
+#include "itkCrossHelper.h"
 
 #include <iostream>
 

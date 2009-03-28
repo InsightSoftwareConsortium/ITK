@@ -19,6 +19,7 @@
 #include <itkVTKPolyDataWriter.h>
 
 #include <sstream>
+#include <time.h>
 
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkQuadEdgeMeshQuadricDecimation.h"
@@ -73,10 +74,14 @@ int itkQuadEdgeMeshQuadricDecimationTest( int argc, char* argv[] )
   criterion->SetTopologicalChange( true );
   criterion->SetNumberOfElements( N );
 
+  clock_t start = clock();
   DecimationType::Pointer decimate = DecimationType::New();
   decimate->SetInput( mesh );
   decimate->SetCriterion( criterion );
   decimate->Update();
+  clock_t end = clock();
+
+  std::cout <<"Time " <<static_cast<double>(end-start)/static_cast<double>(CLOCKS_PER_SEC) <<std::endl;
 
   // ** WRITE OUTPUT **
   WriterType::Pointer writer = WriterType::New( );
