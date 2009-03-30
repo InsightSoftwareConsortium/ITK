@@ -42,6 +42,8 @@
 #include "gdcmDictSet.h"  // access to dictionary
 #else
 #include "gdcmImageHelper.h"
+#include "gdcmDataSetHelper.h"
+#include "gdcmStringFilter.h"
 #include "gdcmImageApplyLookupTable.h"
 #include "gdcmImageChangePlanarConfiguration.h"
 #include "gdcmUnpacker12Bits.h"
@@ -1019,7 +1021,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     itkExceptionMacro(<< "Cannot read requested file");
     }
   const gdcm::Image &image = reader.GetImage();
-  //const gdcm::DataSet &ds = reader.GetFile().GetDataSet();
+  const gdcm::File &f = reader.GetFile();
+  const gdcm::DataSet &ds = f.GetDataSet();
   const unsigned int *dims = image.GetDimensions();
 
   const gdcm::PixelFormat &pixeltype = image.GetPixelFormat();
@@ -1127,6 +1130,58 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   this->SetDirection(0, rowDirection);
   this->SetDirection(1, columnDirection);
   this->SetDirection(2, sliceDirection);
+
+  //Now copying the gdcm dictionary to the itk dictionary:
+  MetaDataDictionary & dico = this->GetMetaDataDictionary();
+
+  gdcm::StringFilter sf;
+  sf.SetFile( f );
+  gdcm::DataSet::ConstIterator it = ds.Begin();
+
+  // Copy of the header->content
+  for(; it != ds.End(); ++it)
+    {
+    const gdcm::DataElement &ref = *it;
+    const gdcm::Tag &tag = ref.GetTag();
+    // Compute VR from the toplevel file, and the currently processed dataset:
+    gdcm::VR vr = gdcm::DataSetHelper::ComputeVR(f, ds, tag);
+
+    // Process binary field and encode them as mime64
+    if ( vr & gdcm::VR::VRBINARY )
+      {
+      if ( tag.IsPublic() && vr != gdcm::VR::SQ && tag != gdcm::Tag(0x7fe0,0x0010) /* && vr != gdcm::VR::UN*/ )
+        {
+        const gdcm::ByteValue *bv = ref.GetByteValue();
+        if( bv )
+          {
+          // base64 streams have to be a multiple of 4 bytes long
+          int encodedLengthEstimate = 2 * bv->GetLength();
+          encodedLengthEstimate = ((encodedLengthEstimate / 4) + 1) * 4;
+
+          char *bin = new char[encodedLengthEstimate];
+          unsigned int encodedLengthActual = static_cast<unsigned int>(
+            itksysBase64_Encode(
+              (const unsigned char *) bv->GetPointer(),
+              static_cast< unsigned long>( bv->GetLength() ),
+              (unsigned char *) bin,
+              static_cast< int >( 0 ) ));
+          std::string encodedValue(bin, encodedLengthActual);
+          EncapsulateMetaData<std::string>(dico, tag.PrintAsPipeSeparatedString(), encodedValue);
+          delete []bin;
+          }
+        }
+      }
+    else /* if ( vr & gdcm::VR::VRASCII ) */
+      {
+      // Only copying field from the public DICOM dictionary
+      if( tag.IsPublic() )
+        {
+        EncapsulateMetaData<std::string>(dico, tag.PrintAsPipeSeparatedString(), sf.ToString( tag ) );
+        }
+      }
+
+    }
+
 
   // Now is a good time to fill in the class member:
   char name[512];
