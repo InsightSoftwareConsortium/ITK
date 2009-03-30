@@ -2148,8 +2148,7 @@ bool GDCMImageIO::GetLabelFromTag( const std::string & tag,
                                std::string & labelId )
 {
   gdcm::Tag t;
-  t.ReadFromPipeSeparatedString( tag.c_str() );
-  if( t.IsPublic() )
+  if( t.ReadFromPipeSeparatedString( tag.c_str() ) && t.IsPublic() )
     {
     const gdcm::Global &g = gdcm::Global::GetInstance();
     const gdcm::Dicts &dicts = g.GetDicts();
