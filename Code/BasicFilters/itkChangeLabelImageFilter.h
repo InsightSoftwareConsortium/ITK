@@ -90,11 +90,12 @@ public:
     m_ChangeMap.clear(); 
     }
 
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
-    if ( m_ChangeMap.find(A) != m_ChangeMap.end() )
+    const typename ChangeMapType::const_iterator it = m_ChangeMap.find(A);
+    if ( it != m_ChangeMap.end() )
       {
-      return m_ChangeMap[A];
+      return it->second;
       }
     return A;
     }
