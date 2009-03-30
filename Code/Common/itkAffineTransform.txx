@@ -175,7 +175,7 @@ AffineTransform<TScalarType, NDimensions>
     }
   trans[axis1][axis1] =  vcl_cos(angle);
   trans[axis1][axis2] =  vcl_sin(angle);
-  trans[axis2][axis1] = -sin(angle);
+  trans[axis2][axis1] = -vcl_sin(angle);
   trans[axis2][axis2] =  vcl_cos(angle);
   if (pre) 
     {
