@@ -101,6 +101,10 @@ public:
    * was passed in using "LetContainerManageMemory"=true. The new buffer's
    * memory management will be handled by the container from that point on.
    *
+   * In general, Reserve should not change the usable elements of the
+   * container. However, in this particular case, Reserve as a Resize
+   * semantics that is kept for backward compatibility reasons.
+   *
    * \sa SetImportPointer() */
   void Reserve(ElementIdentifier num);
   
@@ -140,15 +144,16 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual TElement* AllocateElements(ElementIdentifier size) const;
-private:
-  ImportImageContainer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  virtual void DeallocateElements (const TElement* ptr) const;
 
   TElement            *m_ImportPointer;
   TElementIdentifier   m_Size;
   TElementIdentifier   m_Capacity;
   bool                 m_ContainerManageMemory;
 
+private:
+  ImportImageContainer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

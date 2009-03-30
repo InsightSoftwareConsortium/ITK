@@ -36,15 +36,12 @@ ImportImageContainer<TElementIdentifier , TElement>
   m_Size = 0;
 }
 
-  
+
 template <typename TElementIdentifier, typename TElement>
 ImportImageContainer< TElementIdentifier , TElement >
 ::~ImportImageContainer()
 {
-  if (m_ImportPointer && m_ContainerManageMemory)
-    {
-    delete [] m_ImportPointer;
-    }
+  DeallocateElements(m_ImportPointer);
 }
 
 
@@ -57,6 +54,9 @@ void
 ImportImageContainer< TElementIdentifier , TElement >
 ::Reserve(ElementIdentifier size)
 {
+  // Reserve has a Resize semantics. We keep it that way for
+  // backwards compatibility .
+  // See http://www.itk.org/Bug/view.php?id=2893 for details
   if (m_ImportPointer)
     {
     if (size > m_Capacity)
@@ -64,10 +64,9 @@ ImportImageContainer< TElementIdentifier , TElement >
       TElement* temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
       memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
-      if (m_ImportPointer && m_ContainerManageMemory)
-        {
-        delete [] m_ImportPointer;
-        }
+      
+      DeallocateElements(m_ImportPointer);
+      
       m_ImportPointer = temp;
       m_ContainerManageMemory = true;
       m_Capacity = size;
@@ -106,10 +105,9 @@ ImportImageContainer< TElementIdentifier , TElement >
       {
       TElement* temp = this->AllocateElements(m_Size);
       memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
-      if (m_ContainerManageMemory)
-        {
-        delete [] m_ImportPointer;
-        }
+
+      DeallocateElements(m_ImportPointer);
+      
       m_ImportPointer = temp;
       m_ContainerManageMemory = true;
       m_Capacity = m_Size;
@@ -131,10 +129,8 @@ ImportImageContainer< TElementIdentifier , TElement >
 {
   if (m_ImportPointer)
     {
-    if (m_ContainerManageMemory)
-      {
-      delete [] m_ImportPointer;
-      }
+    DeallocateElements(m_ImportPointer);
+    
     m_ImportPointer = 0;
     m_ContainerManageMemory = true;
     m_Capacity = 0;
@@ -159,10 +155,7 @@ ImportImageContainer< TElementIdentifier , TElement >
 ::SetImportPointer(TElement *ptr, TElementIdentifier num,
                    bool LetContainerManageMemory)
 {
-  if (m_ImportPointer && m_ContainerManageMemory)
-    {
-    delete [] m_ImportPointer;
-    }
+  DeallocateElements(m_ImportPointer);
   m_ImportPointer = ptr;
   m_ContainerManageMemory = LetContainerManageMemory;
   m_Capacity = num;
@@ -196,6 +189,17 @@ TElement* ImportImageContainer< TElementIdentifier , TElement >
                                 ITK_LOCATION);
     }
   return data;
+}
+
+template <typename TElementIdentifier, typename TElement>
+void ImportImageContainer< TElementIdentifier , TElement >
+::DeallocateElements(const TElement* ptr) const
+{
+  // Encapsulate all image memory deallocation here
+  if (ptr && m_ContainerManageMemory)
+    {
+    delete [] ptr;
+    }
 }
 
 template <typename TElementIdentifier, typename TElement>
