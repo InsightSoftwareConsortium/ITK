@@ -449,6 +449,7 @@ bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputle
     debug.close();
 #endif
     fp->write((char*)(cio->buffer), codestream_length);
+   gdcmErrorMacro( "codestream_length: " << codestream_length ); // FIXME: remote debug of sunos
     //fclose(f);
 
     /* close and free the byte stream */
