@@ -198,7 +198,9 @@ void ImportImageContainer< TElementIdentifier , TElement >
   // Encapsulate all image memory deallocation here
   if (ptr && m_ContainerManageMemory)
     {
-    delete [] ptr;
+    // A const_cast seems necessary for some compilers (e.g. MSVC)
+    // that do not support deleting const pointers
+    delete [] const_cast<TElement*>(ptr);
     }
 }
 
