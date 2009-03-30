@@ -1007,9 +1007,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
 std::string PrintAsPipeSeparatedString(const gdcm::Tag& tag)
 {
   itksys_ios::ostringstream os;
-  os << tag;
+  os << std::hex << std::setw( 4 ) << std::setfill( '0' )
+    << tag[0] << '|' << std::setw( 4 ) << std::setfill( '0' )
+    << tag[1];
   std::string ret = os.str();
-  ret[4] = '|';
   return ret;
 }
 
