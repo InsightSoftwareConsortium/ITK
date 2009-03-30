@@ -128,7 +128,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
                        int threadId)
 {
   itkDebugMacro(<<"Actually executing");
-  
+
   // Get the input and output pointers
   InputImageConstPointer  inputPtr = this->GetInput();
   OutputImagePointer      outputPtr = this->GetOutput();
@@ -148,6 +148,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
     
   // walk the output region, and sample the input image
+  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
+
   typename TOutputImage::PointType outputPoint;
   while ( !outIt.IsAtEnd() ) 
     {
@@ -157,7 +159,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     
     // determine the input pixel index associated with this output pixel
     inputPtr->TransformPhysicalPointToIndex(outputPoint, inputIndex);
-    
+
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
     ++outIt;
@@ -186,28 +188,41 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     return;
     }
   
-  // we need to compute the input requested region (size and start index)
+  // Compute the input requested region (size and start index)
+  // Use the image transformations to insure an input requested region
+  // that will provide the proper range
   unsigned int i;
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
-  
-  typename TInputImage::SizeType  inputRequestedRegionSize;
-  typename TInputImage::IndexType inputRequestedRegionStartIndex;
-  
+
+  typename TOutputImage::IndexType outputIndex0, outputIndex1;
+  typename TInputImage::IndexType  inputIndex0,  inputIndex1;
+  typename TInputImage::SizeType   inputSize;
+  typename TOutputImage::PointType outputPoint;
+
+  outputIndex0 = outputRequestedRegionStartIndex;
   for (i = 0; i < TInputImage::ImageDimension; i++)
     {
-    inputRequestedRegionSize[i]
-      = outputRequestedRegionSize[i] * m_ShrinkFactors[i];
-    inputRequestedRegionStartIndex[i]
-      = outputRequestedRegionStartIndex[i] * (long)m_ShrinkFactors[i];
+    outputIndex1[i] = outputRequestedRegionStartIndex[i] +
+      outputRequestedRegionSize[i] - 1;
     }
-  
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize( inputRequestedRegionSize );
-  inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
+  // Find the bounds of the input region by transforming the bounds of
+  // the output region
+  outputPtr->TransformIndexToPhysicalPoint(outputIndex0, outputPoint);
+  inputPtr->TransformPhysicalPointToIndex(outputPoint, inputIndex0);
+  outputPtr->TransformIndexToPhysicalPoint(outputIndex1, outputPoint);
+  inputPtr->TransformPhysicalPointToIndex(outputPoint, inputIndex1);
 
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+    {
+    inputSize[i] = inputIndex1[i] - inputIndex0[i] + 1;
+    }
+
+  typename TInputImage::RegionType inputRequestedRegion;
+  inputRequestedRegion.SetIndex( inputIndex0 );
+  inputRequestedRegion.SetSize( inputSize );
   inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
 
   inputPtr->SetRequestedRegion( inputRequestedRegion );
@@ -269,8 +284,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   ContinuousIndex<double, TOutputImage::ImageDimension> outputCenterIndex;
   for (i = 0; i < TOutputImage::ImageDimension; i++)
     {
-    inputCenterIndex[i] = (inputSize[i] - 1) / 2.0;
-    outputCenterIndex[i] = (outputSize[i] - 1) / 2.0;
+    inputCenterIndex[i] = inputStartIndex[i] + (inputSize[i] - 1) / 2.0;
+    outputCenterIndex[i] = outputStartIndex[i] + (outputSize[i] - 1) / 2.0;
     }
 
   typename TOutputImage::PointType inputCenterPoint;
