@@ -1136,16 +1136,38 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                   if ( LoadMode & LD_NOSHADOW ) // if user asked to skip shad.gr
                   {
                      std::string strLgrGroup = newValEntry->GetValue();
-                     int lgrGroup;
+                     unsigned int lgrGroup;
                      if ( strLgrGroup != GDCM_UNFOUND)
                      {
-                        lgrGroup = atoi(strLgrGroup.c_str());
-                        Fp->seekg(lgrGroup, std::ios::cur);
-                        //used = false;  // never used
-                        RemoveEntry( newDocEntry );  // Remove and delete
-                        // bcc 5.5 is right "assigned a value that's never used"
-                        // newDocEntry = 0;
-                        continue;
+                        //lgrGroup = atoi(strLgrGroup.c_str());
+                     if( sscanf( strLgrGroup.c_str(), "%ud", &lgrGroup) == 1 )
+                       {
+                       gdcmDebugMacro( "Skipping: " << lgrGroup << " bytes" );
+                       long startpos = Fp->tellg();
+                       Fp->seekg(lgrGroup, std::ios::cur);
+                       // Let's detect some easy case: when value is larger than file size:
+                       Fp->peek();
+                       if( Fp->good() )
+                         {
+                         //used = false;  // never used
+                         RemoveEntry( newDocEntry );  // Remove and delete
+                         // bcc 5.5 is right "assigned a value that's never used"
+                         // newDocEntry = 0;
+                         continue;
+                         }
+                       else
+                         {
+                         // something went wrong, back track...
+                         // http://www.itk.org/pipermail/insight-users/2009-March/029715.html
+                         // (130d,0000) ?? (UL) 1099164365\1276292990\3804772504\555532589
+                         Fp->clear();
+                         Fp->seekg(startpos, std::ios::beg);
+                         }
+                       }
+                     else
+                       {
+                       gdcmErrorMacro( "Could not skip using group length for tag:" );
+                       }
                      }
                   }
                }
