@@ -36,6 +36,7 @@
 
 #if defined(__BORLANDC__)
    #include <mem.h> // for memset
+   #include <stdio.h>  // for sscanf
 #endif 
 
 namespace gdcm 
