@@ -1815,7 +1815,11 @@ void GDCMImageIO::Write(const void* buffer)
     if ( b /*tag != gdcm::Tag(0xffff,0xffff)*/ /*dictEntry*/)
       {
       const gdcm::DictEntry &dictEntry = pubdict.GetDictEntry(tag);
-      if (dictEntry.GetVR() != gdcm::VR::OB && dictEntry.GetVR() != gdcm::VR::OW)
+      if ( dictEntry.GetVR() == gdcm::VR::SQ )
+        {
+        // How did we reach here ?
+        }
+      else if ( dictEntry.GetVR() & (gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW /*| gdcm::VR::SQ*/ | gdcm::VR::UN) )
         {
         // TODO, should we keep:
         // (0028,0106) US/SS 0                                        #   2, 1 SmallestImagePixelValue

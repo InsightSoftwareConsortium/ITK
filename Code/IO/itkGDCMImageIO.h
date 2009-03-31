@@ -29,27 +29,37 @@ namespace itk
 
 /** \class GDCMImageIO
  *
- *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA (V1.0 & V2.0) images
- *  This class is only an adaptor to the gdcm library (currently gdcm 1.2.x is used):
+ *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images
+ *  This class is only an adaptor to the gdcm library (currently gdcm 1.2.x is used by default):
  *
+ * GDCM 1.2 can be found at:
  *  http://creatis-www.insa-lyon.fr/Public/Gdcm/
  *
  *  CREATIS INSA - Lyon 2003-2008
  *    http://www.creatis.insa-lyon.fr
  *
+ * Using the CMake variable: ITK_USE_SYSTEM_GDCM it is now possible to use a system installed
+ * GDCM 2.x release. GDCM 2.x is now being developped on sourceforge.net :
+ *
+ *         http://gdcm.sourceforge.net
+ *
+ * Documentation:
+ * - http://apps.sourceforge.net/mediawiki/gdcm/index.php?title=ITK_USE_SYSTEM_GDCM
+ * - http://apps.sourceforge.net/mediawiki/gdcm/index.php?title=GDCM_Release_2.0
+ *
  *  \warning There are several restrictions to this current writer:
- *           -  Basically you always need a DICOM as input to write a proper DICOM image file
- *              (As of 12/10/2004 this restriction is solved in GDCM CVS repository)
  *           -  Eventhough during the writing process you pass in a DICOM file as input
  *              The output file may not contains ALL DICOM field from the input file.
  *              In particular:
  *                             - The SeQuence DICOM field (SQ).
- *                             - Fields from Private Dictionary with unresolved Name (= unknown at runtime)
- *           -  As of 01/15 the binary fields are properly passed.
+ *                             - Fields from Private Dictionary 
  *           -  Some very long (>0xfff) binary fields are not loaded (typically 0029|0010), 
  *              you need to explicitely set the maximum length of elements to load to be bigger
  *              (see Get/SetMaxSizeLoadEntry)
  *           - GDCMImageIO was not handling rescale slope/intercept properly. This is fixed as of 11/12/2007
+ *           - In DICOM some field are stored directly using there binary representation. When loaded into
+ *             the MetaDataDict some fields are converted to ASCII (only VR: OB/OW/OF and UN are encoded as
+ *             mime64).
  *
  *  \ingroup IOFilters
  *
