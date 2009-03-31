@@ -269,7 +269,19 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  By default, the filter will rasterize the aggregation of elementary
+  //  shapes and will assign a pixel value to locations that fall inside of any
+  //  of the elementary shapes, and a different pixel value to locations that
+  //  fall outside of all of the elementary shapes. It is possible, however, to
+  //  generate richer images if we allow the filter to use the values that the
+  //  elementary spatial objects return via their \code{ValueAt} methods. This
+  //  is what we choose to do in this example, by using the following code.
+  //
+  //  Software Guide : EndLatex
 
+  // Software Guide : BeginCodeSnippet
   ellipse->SetDefaultInsideValue(   800.0 );
   cylinder1->SetDefaultInsideValue( 800.0 );
   cylinder2->SetDefaultInsideValue( 800.0 );
@@ -281,7 +293,18 @@ int main( int argc, char *argv[] )
   imageFilter->SetUseObjectValue( true );
 
   imageFilter->SetOutsideValue( -1000.0 );
+  // Software Guide : EndCodeSnippet
 
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally we are ready to run the filter. We use the typical invocation of
+  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter} in
+  //  order to save the generated image into a file.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileWriter< ImageType >     WriterType;
   WriterType::Pointer writer = WriterType::New();
 
@@ -298,6 +321,8 @@ int main( int argc, char *argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+  // Software Guide : EndCodeSnippet
+
 
   return EXIT_SUCCESS;
 }
