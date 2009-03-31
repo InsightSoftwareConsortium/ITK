@@ -150,9 +150,9 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   ImageType::SizeType size;
-  size[ 0 ] = 31;
-  size[ 1 ] = 31;
-  size[ 2 ] = 100;
+  size[ 0 ] =  50;
+  size[ 1 ] =  50;
+  size[ 2 ] = 150;
 
   imageFilter->SetSize( size );
   // Software Guide : EndCodeSnippet
@@ -160,8 +160,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   ImageType::SpacingType spacing;
   spacing[0] =  100.0 / size[0];
-  spacing[1] =  150.0 / size[1];
-  spacing[2] = 1000.0 / size[2];
+  spacing[1] =  100.0 / size[1];
+  spacing[2] =  300.0 / size[2];
 
   imageFilter->SetSpacing( spacing );
   // Software Guide : EndCodeSnippet
@@ -195,8 +195,8 @@ int main( int argc, char *argv[] )
   cylinder1->SetRadius(  size[0] * 0.2 * spacing[0] );
   cylinder2->SetRadius(  size[0] * 0.2 * spacing[0] );
 
-  cylinder1->SetHeight( size[2] * 0.45 * spacing[2]);
-  cylinder2->SetHeight( size[2] * 0.45 * spacing[2]);
+  cylinder1->SetHeight( size[2] * 0.30 * spacing[2]);
+  cylinder2->SetHeight( size[2] * 0.30 * spacing[2]);
   // Software Guide : EndCodeSnippet
 
 
