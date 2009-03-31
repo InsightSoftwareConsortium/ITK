@@ -6,6 +6,18 @@
    obj:/usr/lib64/libstdc++.so.6.?.?
 }
 {
+   Some more 64 bit suppressions
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_sync@@GLIBC_2.2.5
+   fun:fflush
+   fun:itk__nrrdEncodingRaw_write
+}
+{
    Some zlib suppressions
    Memcheck:Cond
    fun:longest_match
