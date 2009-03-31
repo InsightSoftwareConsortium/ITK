@@ -54,6 +54,15 @@ bool CheckFileNameParsing(const std::string fileName,
   strcpy(extension, extensionString.c_str() + 1);
   std::cout << "path..."; std::flush(std::cout);  
   std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
+#ifdef _WIN32
+  for (size_t i = 0; i < pathString.size(); i++)
+    {
+    if (pathString[i] == '/')
+      {
+      pathString[i] = '\\';
+      }
+    }
+#endif
   // NB: add trailing slash iff the result is non-empty (kwsys always
   // removes it, ITK precedent was to keep it) 
   if (pathString.size() > 1)
@@ -155,21 +164,17 @@ int itkIOCommonTest(int , char* [])
                          "gz",
                          "c:\\dir1\\dir2\\");
   success = success && 
-    CheckFileNameParsing("c:/dir1/dir2/myfile.tar.gz",
-                         "myfile.tar",
-                         "gz",
-                         "c:/dir1/dir2/");
-  success = success && 
     CheckFileNameParsing("\\\\sambaserver\\dir1\\dir2\\myfile.tar.gz",
                          "myfile.tar",
                          "gz",
                          "\\\\sambaserver\\dir1\\dir2\\");
-#endif
+#else
   success = success && 
     CheckFileNameParsing("/dir1/dir2/myfile.tar.gz",
                          "myfile.tar",
                          "gz",
                          "/dir1/dir2/");
+#endif
 
   //
   // less reasonable cases
@@ -177,16 +182,17 @@ int itkIOCommonTest(int , char* [])
   success = success && 
     CheckFileNameParsing(".", "", "", "");
 
-  success = success && 
-    CheckFileNameParsing("/", "", "", "/");
-
 #if defined(_WIN32)
   success = success && 
     CheckFileNameParsing("\\", "", "", "\\");
-#endif
-
+  success = success && 
+    CheckFileNameParsing("\\.tar.gz", ".tar", "gz", "\\");
+#else
+  success = success && 
+    CheckFileNameParsing("/", "", "", "/");
   success = success && 
     CheckFileNameParsing("/.tar.gz", ".tar", "gz", "/");
+#endif
 
 #if defined(_WIN32)
   success = success && 
@@ -199,12 +205,14 @@ int itkIOCommonTest(int , char* [])
   success = success && 
     CheckFileNameParsing("myfile", "myfile", "", "");
 
-  success = success && 
-    CheckFileNameParsing("/myfile", "myfile", "", "/");
-
 #if defined(_WIN32)
   success = success && 
     CheckFileNameParsing("\\myfile", "myfile", "", "\\");
+  success = success && 
+    CheckFileNameParsing("/myfile", "myfile", "", "\\");
+#else
+  success = success && 
+    CheckFileNameParsing("/myfile", "myfile", "", "/");
 #endif
 
   success = success && 
