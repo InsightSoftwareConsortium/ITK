@@ -1158,9 +1158,15 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     // Compute VR from the toplevel file, and the currently processed dataset:
     gdcm::VR vr = gdcm::DataSetHelper::ComputeVR(f, ds, tag);
 
-    // Process binary field and encode them as mime64
-    if ( vr & gdcm::VR::VRBINARY )
+    // Process binary field and encode them as mime64: only when we do not know of any better
+    // representation. VR::US is binary, but user want ASCII representation.
+    if ( vr & (gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW | gdcm::VR::SQ | gdcm::VR::UN) )
       {
+      // assert( vr & gdcm::VR::VRBINARY );
+      /*
+       * Old bahavior was to skip SQ, Pixel Data element. I decided that it is not safe to mime64
+       * VR::UN element. There used to be a bug in gdcm 1.2.0 and VR:UN element.
+       */
       if ( tag.IsPublic() && vr != gdcm::VR::SQ && tag != gdcm::Tag(0x7fe0,0x0010) /* && vr != gdcm::VR::UN*/ )
         {
         const gdcm::ByteValue *bv = ref.GetByteValue();
