@@ -1,7 +1,9 @@
 {
-   Some libc suppressions
-   Memcheck:Value1
-   fun:__write_nocancel
+   Some 64 bit suppressions
+   Memcheck:Param
+   write(buf)
+   __write_nocancel
+   obj:/usr/lib64/libstdc++.so.6.?.?
 }
 {
    Some zlib suppressions
