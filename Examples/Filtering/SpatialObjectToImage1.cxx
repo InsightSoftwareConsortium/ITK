@@ -124,16 +124,91 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
+  //  Software Guide : BeginLatex
+  //
+  //  We instantiate the SpatialObjectToImageFilter type by using as template
+  //  arguments the input SpatialObject and the output image types.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::SpatialObjectToImageFilter< 
+    GroupType, ImageType >   SpatialObjectToImageFilterType;
+
+  SpatialObjectToImageFilterType::Pointer imageFilter =
+    SpatialObjectToImageFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The SpatialObjectToImageFilter requires that the user defines the grid
+  //  parameters of the output image. This includes the number of pixels along
+  //  each dimension, the pixel spacing, image direction and 
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   ImageType::SizeType size;
   size[ 0 ] = 31;
   size[ 1 ] = 31;
   size[ 2 ] = 100;
 
+  imageFilter->SetSize( size );
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginCodeSnippet
   ImageType::SpacingType spacing;
   spacing[0] =  100.0 / size[0];
   spacing[1] =  150.0 / size[1];
   spacing[2] = 1000.0 / size[2];
 
+  imageFilter->SetSpacing( spacing );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  We create the elementary shapes that are going to be composed into the
+  //  group spatial objects.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  EllipseType::Pointer ellipse    = EllipseType::New();
+  CylinderType::Pointer cylinder1 = CylinderType::New();
+  CylinderType::Pointer cylinder2 = CylinderType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The Elementary shapes have internal parameters of their own. These
+  //  parameters define the geometrical characteristics of the basic shapes.
+  //  For example, a cylinder is defined by its radius and height.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  ellipse->SetRadius(  size[0] * 0.2 * spacing[0] );
+
+  cylinder1->SetRadius(  size[0] * 0.2 * spacing[0] );
+  cylinder2->SetRadius(  size[0] * 0.2 * spacing[0] );
+
+  cylinder1->SetHeight( size[2] * 0.45 * spacing[2]);
+  cylinder2->SetHeight( size[2] * 0.45 * spacing[2]);
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Each one of these components will be placed in a different position and
+  //  orientation. We define transforms in order to specify those relative
+  //  positions and orientations. 
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
   typedef GroupType::TransformType                 TransformType;
 
   TransformType::Pointer transform1 = TransformType::New();
@@ -143,19 +218,17 @@ int main( int argc, char *argv[] )
   transform1->SetIdentity();
   transform2->SetIdentity();
   transform3->SetIdentity();
+  // Software Guide : EndCodeSnippet
 
-  EllipseType::Pointer ellipse    = EllipseType::New();
-  CylinderType::Pointer cylinder1 = CylinderType::New();
-  CylinderType::Pointer cylinder2 = CylinderType::New();
 
-  ellipse->SetRadius(  size[0] * 0.2 * spacing[0] );
+  //  Software Guide : BeginLatex
+  //
+  //  Then we set the specific values of the transform parameters, and we
+  //  assign the transforms to the elementary shapes.
+  //
+  //  Software Guide : EndLatex
 
-  cylinder1->SetRadius(  size[0] * 0.2 * spacing[0] );
-  cylinder2->SetRadius(  size[0] * 0.2 * spacing[0] );
-
-  cylinder1->SetHeight( size[2] * 0.45 * spacing[2]);
-  cylinder2->SetHeight( size[2] * 0.45 * spacing[2]);
-
+  // Software Guide : BeginCodeSnippet
   TransformType::OutputVectorType  translation;
   TransformType::CenterType        center;
 
@@ -173,6 +246,30 @@ int main( int argc, char *argv[] )
   transform3->Rotate( 1, 2, vnl_math::pi / 2.0 );
   transform3->Translate( translation, false );
 
+  ellipse->SetObjectToParentTransform( transform1 );
+  cylinder1->SetObjectToParentTransform( transform2 );
+  cylinder2->SetObjectToParentTransform( transform3 );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The elementary shapes are aggregated in a parent group, that in turn is
+  //  passed as input to the filter.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  GroupType::Pointer group = GroupType::New();
+  group->AddSpatialObject( ellipse );
+  group->AddSpatialObject( cylinder1 );
+  group->AddSpatialObject( cylinder2 );
+
+  imageFilter->SetInput(  group  );
+  // Software Guide : EndCodeSnippet
+
+
+
   ellipse->SetDefaultInsideValue(   800.0 );
   cylinder1->SetDefaultInsideValue( 800.0 );
   cylinder2->SetDefaultInsideValue( 800.0 );
@@ -181,27 +278,9 @@ int main( int argc, char *argv[] )
   cylinder1->SetDefaultOutsideValue( -1000.0 );
   cylinder2->SetDefaultOutsideValue( -1000.0 );
 
-  GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject( ellipse );
-  group->AddSpatialObject( cylinder1 );
-  group->AddSpatialObject( cylinder2 );
-
-  ellipse->SetObjectToParentTransform( transform1 );
-  cylinder1->SetObjectToParentTransform( transform2 );
-  cylinder2->SetObjectToParentTransform( transform3 );
-
-  typedef itk::SpatialObjectToImageFilter< GroupType, ImageType >   SpatialObjectToImageFilterType;
-
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
-
-  imageFilter->SetInput(  group  );
   imageFilter->SetUseObjectValue( true );
 
   imageFilter->SetOutsideValue( -1000.0 );
-
-  imageFilter->SetSpacing( spacing );
-
-  imageFilter->SetSize( size );
 
   typedef itk::ImageFileWriter< ImageType >     WriterType;
   WriterType::Pointer writer = WriterType::New();
