@@ -110,6 +110,7 @@ PolygonSpatialObject<TDimension>
     }
     
   PointType closestPoint;
+  closestPoint.Fill(0.0);
   while (it != itend)
     {
     typename SpatialObjectPoint<TDimension>::PointType curpos 
