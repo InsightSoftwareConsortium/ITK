@@ -150,7 +150,9 @@ ReinitializeLevelSetImageFilter<TLevelSet>
   // set the marcher output size
   m_Marcher->SetOutputSize( 
     outputPtr->GetRequestedRegion().GetSize() );
-
+  this->m_Marcher->SetOutputOrigin(this->GetInput()->GetOrigin());
+  this->m_Marcher->SetOutputSpacing(this->GetInput()->GetSpacing());
+  this->m_Marcher->SetOutputDirection(this->GetInput()->GetDirection());
 }
 
 
