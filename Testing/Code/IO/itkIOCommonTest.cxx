@@ -208,8 +208,6 @@ int itkIOCommonTest(int , char* [])
 #if defined(_WIN32)
   success = success && 
     CheckFileNameParsing("\\myfile", "myfile", "", "\\");
-  success = success && 
-    CheckFileNameParsing("/myfile", "myfile", "", "\\");
 #else
   success = success && 
     CheckFileNameParsing("/myfile", "myfile", "", "/");
