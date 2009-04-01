@@ -127,6 +127,8 @@ ADD_EXECUTABLE(SubsampleVolume SubsampleVolume.cxx )
 TARGET_LINK_LIBRARIES(SubsampleVolume  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SpatialObjectToImage1 SpatialObjectToImage1.cxx )
 TARGET_LINK_LIBRARIES(SpatialObjectToImage1  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(SpatialObjectToImage2 SpatialObjectToImage2.cxx )
+TARGET_LINK_LIBRARIES(SpatialObjectToImage2  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
@@ -139,6 +141,7 @@ SET(FILTERING_EXAMPLES5 ${CXX_TEST_PATH}/FilteringExamples5)
 SET(FILTERING_EXAMPLES6 ${CXX_TEST_PATH}/FilteringExamples6)
 SET(FILTERING_EXAMPLES7 ${CXX_TEST_PATH}/FilteringExamples7)
 SET(FILTERING_EXAMPLES8 ${CXX_TEST_PATH}/FilteringExamples8)
+SET(FILTERING_EXAMPLES9 ${CXX_TEST_PATH}/FilteringExamples9)
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Filtering)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 IF( NOT ITK_DISABLE_CXX_TESTING )
@@ -786,6 +789,14 @@ ADD_TEST( SubsampleVolumeTest ${FILTERING_EXAMPLES4}
         ${TEMP}/SubsampleVolume.mha
         2 2 2
 )
+ADD_TEST( SpatialObjectToImage1 ${FILTERING_EXAMPLES9}
+  SpatialObjectToImage1
+        ${TEMP}/SpatialObjectToImage1.mha
+)
+ADD_TEST( SpatialObjectToImage2 ${FILTERING_EXAMPLES9}
+  SpatialObjectToImage2
+        ${TEMP}/SpatialObjectToImage2.mha
+)
 # The test tests 3 filters. 
 #   DiffusionTensor3DReconstructionImageFilter
 #   TensorFractionalAnisotropyImageFilter
@@ -822,6 +833,8 @@ ADD_EXECUTABLE(FilteringExamples7 FilteringExamples7.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples7 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples8 FilteringExamples8.cxx)
 TARGET_LINK_LIBRARIES(FilteringExamples8 ITKIO ITKBasicFilters )
+ADD_EXECUTABLE(FilteringExamples9 FilteringExamples9.cxx)
+TARGET_LINK_LIBRARIES(FilteringExamples9 ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FilteringExamples6 FilteringExamples6.cxx)
 IF( USE_FFTWF )
   TARGET_LINK_LIBRARIES(FilteringExamples6 ITKIO ITKBasicFilters  ITKAlgorithms)
