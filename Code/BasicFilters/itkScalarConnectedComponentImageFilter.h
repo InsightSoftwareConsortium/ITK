@@ -60,7 +60,7 @@ public:
   void SetDistanceThreshold(const TInput &thresh) {m_Threshold = thresh;}
   TInput GetDistanceThreshold() {return (m_Threshold);}
   
-  bool operator()(const TInput &a, const TInput &b)
+  bool operator()(const TInput &a, const TInput &b) const
     {
     return (vnl_math_abs(a-b) <= m_Threshold);
     }

@@ -30,7 +30,7 @@ namespace Functor
 template <class InputPixelType> class InvertIntensityFunctor
 {
 public:
-  InputPixelType operator()( InputPixelType input )
+  InputPixelType operator()( InputPixelType input ) const
     {
     if (input)
       {

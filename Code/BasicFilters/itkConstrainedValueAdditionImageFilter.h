@@ -68,7 +68,7 @@ public:
     return !(*this != other);
     }
   inline TOutput operator()( const TInput1 & A, 
-                             const TInput2 & B)
+                             const TInput2 & B) const
     {
     const double dA = static_cast<double>( A );
     const double dB = static_cast<double>( B );

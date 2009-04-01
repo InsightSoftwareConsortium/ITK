@@ -56,7 +56,7 @@ public:
     m_Minimum = NumericTraits< TInputPixel >::max();
     }
 
-  inline void operator()( const TInputPixel &input )
+  inline void operator()( const TInputPixel &input ) 
     {
     m_Minimum = vnl_math_min( m_Minimum, input );
     }

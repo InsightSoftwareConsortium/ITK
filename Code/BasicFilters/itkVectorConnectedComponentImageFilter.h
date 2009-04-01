@@ -59,7 +59,7 @@ public:
     {
     return !(*this != other);
     }
-  bool operator()(const TInput &a, const TInput &b)
+  bool operator()(const TInput &a, const TInput &b) const
     {
     typename TInput::ValueType dotProduct = vnl_math_abs(a * b);
     return (1.0 - dotProduct <= m_Threshold);

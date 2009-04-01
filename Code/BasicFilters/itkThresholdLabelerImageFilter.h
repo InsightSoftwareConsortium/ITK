@@ -73,7 +73,7 @@ public:
     return !(*this != other);
     }
 
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     unsigned int size = m_Thresholds.size();
     if (size == 0)

@@ -53,7 +53,7 @@ public:
 #if defined(_MSC_VER) && (_MSC_VER == 1300)
 #pragma optimize("g",off)
 #endif
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     return (TOutput)vcl_exp((double)A);
     }

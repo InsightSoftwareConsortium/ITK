@@ -44,7 +44,7 @@ public:
     {
     return !(*this != other);
     }
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     return (TOutput)( vcl_atan2(A.imag(), A.real() ) );
     }

@@ -74,7 +74,7 @@ public:
     return !(*this != other);
     }
 
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
     {
     const RealType sum1 = A * m_Alpha;
     const RealType sum2 = B * m_Beta;

@@ -58,7 +58,7 @@ public:
   void SetOutputMaximum( TOutput max ) { m_OutputMaximum = max; }
   void SetWindowMinimum( TInput  min ) { m_WindowMinimum = min; }
   void SetWindowMaximum( TInput  max ) { m_WindowMaximum = max; }
-  inline TOutput operator()( const TInput & x )
+  inline TOutput operator()( const TInput & x ) const
     {
     if( x < m_WindowMinimum )
       {

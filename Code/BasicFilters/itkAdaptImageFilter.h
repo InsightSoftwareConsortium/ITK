@@ -47,7 +47,7 @@ public:
 
   /** operator().  This is the "call" method of the functor. */
   typedef typename TAccessor::ExternalType OutputType;
-  inline OutputType operator()( const TInput & A )
+  inline OutputType operator() ( const TInput & A ) const
     {
     return m_Accessor.Get( A );
     }

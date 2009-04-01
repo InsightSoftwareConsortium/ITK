@@ -66,7 +66,7 @@ public:
   
   ~HistogramEntropyFunction() {};
   
-  inline OutputPixelType operator()( const TInput & A )
+  inline OutputPixelType operator()( const TInput & A ) const
     {
     if( A ) 
       {

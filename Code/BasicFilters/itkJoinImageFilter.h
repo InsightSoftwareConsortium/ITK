@@ -78,7 +78,7 @@ public:
     }
 
   /** operator().  This is the "call" method of the functor. */
-  inline JoinType operator()( const TPixel1 & A, const TPixel2 & B)
+  inline JoinType operator() ( const TPixel1 & A, const TPixel2 & B) const
     {
     JoinType out;
 
@@ -112,14 +112,14 @@ private:
    * overloaded on the last parameter type or pixel type) to avoid
    * "already declared/defined" errors for the case where TPixel1
    * and TPixel2 are the same types. */
-  void FirstCopier(JoinType& out, unsigned int idx, const TPixel1& A)
+  void FirstCopier(JoinType& out, unsigned int idx, const TPixel1& A) const
     {
     FirstCopier(CopierDispatch<Dimension1>(), out, idx, A);
     }
 
   /** Copier function specific to a vector type first pixel. */
   void FirstCopier(CopierDispatchBase,
-                   JoinType& out, unsigned int idx, const TPixel1& A)
+                   JoinType& out, unsigned int idx, const TPixel1& A) const
     {
     for (unsigned int i=0; i < Dimension1; i++, idx++)
       {
@@ -129,7 +129,7 @@ private:
 
   /** Copier function specific to a scalar first pixel. */
   void FirstCopier(CopierDispatch<1>,
-                   JoinType& out, unsigned int idx, const TPixel1& A)
+                   JoinType& out, unsigned int idx, const TPixel1& A) const
     { out[idx] = static_cast<JoinValueType>(A); }
 
   /** Copier function to copy the second pixel to the output pixel casting
@@ -137,14 +137,14 @@ private:
    * output pixel at position idx.  This method simply delegates to
    * one of two overloaded implementations based on the dimension
    * (or number of components) of the second pixel. */
-  void SecondCopier(JoinType& out, unsigned int idx, const TPixel2& B)
+  void SecondCopier(JoinType& out, unsigned int idx, const TPixel2& B) const
     {
     SecondCopier(CopierDispatch<Dimension2>(), out, idx, B);
     }
 
   /** Copier function specific to a vector type second pixel. */
   void SecondCopier(CopierDispatchBase,
-                    JoinType& out, unsigned int idx, const TPixel2& B)
+                    JoinType& out, unsigned int idx, const TPixel2& B) const
     {
     for (unsigned int i=0; i < Dimension2; i++, idx++)
       {
@@ -154,7 +154,7 @@ private:
 
   /** Copier function specific to a scalar second pixel. */
   void SecondCopier(CopierDispatch<1>,
-                    JoinType& out, unsigned int idx, const TPixel2& B)
+                    JoinType& out, unsigned int idx, const TPixel2& B) const
     {
     out[idx] = static_cast<JoinValueType>(B);
     }

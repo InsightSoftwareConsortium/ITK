@@ -47,7 +47,7 @@ public:
     {
     return !(*this != other);
     }
-  inline TOutput operator()( const TInput & x )
+  inline TOutput operator()( const TInput & x ) const
     {
     TOutput  result;
     for(unsigned int i=0; i<VectorDimension; i++)

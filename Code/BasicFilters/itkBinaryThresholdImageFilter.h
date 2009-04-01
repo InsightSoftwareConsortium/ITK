@@ -95,7 +95,7 @@ public:
     return !(*this != other);
     }
 
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     if ( m_LowerThreshold <= A && A <= m_UpperThreshold )
       {

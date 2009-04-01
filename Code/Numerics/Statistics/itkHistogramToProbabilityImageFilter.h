@@ -61,7 +61,7 @@ public:
 
   ~HistogramProbabilityFunction() {};
 
-  inline OutputPixelType operator()( const TInput & A )
+  inline OutputPixelType operator()( const TInput & A ) const
     {
     return static_cast<OutputPixelType>( static_cast<OutputPixelType>(A) / 
         static_cast<OutputPixelType>(m_TotalFrequency) );

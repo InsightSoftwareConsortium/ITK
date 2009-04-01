@@ -68,7 +68,7 @@ public:
   
   Maximum1() {}
   ~Maximum1() {}
-  inline TOutput operator()( const std::vector< TInput > & B)
+  inline TOutput operator()( const std::vector< TInput > & B) const
     {
     OutputValueType A = NumericTraits< TOutput >::NonpositiveMin();
     for( unsigned int i=0; i< B.size(); i++ )

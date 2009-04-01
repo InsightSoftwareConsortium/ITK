@@ -73,7 +73,7 @@ public:
     {
     return !(*this != other);
     }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator() ( const TInput1 & A, const TInput2 & B) const
     {
     const AccumulatorType sum = A;
     return static_cast<TOutput>( sum + B );

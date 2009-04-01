@@ -50,7 +50,7 @@ public:
     {
     return !(*this != other);
     }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
     { return static_cast<TOutput>( (A < B)? A : B ); }
 }; 
 }

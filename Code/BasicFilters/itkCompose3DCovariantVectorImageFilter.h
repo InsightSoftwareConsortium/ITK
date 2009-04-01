@@ -42,7 +42,7 @@ public:
     }
   inline OutputType operator()(  const TInput & s1, 
                                  const TInput & s2,
-                                 const TInput & s3)
+                                 const TInput & s3) const
     {
     OutputType v;
     v[0] = s1;

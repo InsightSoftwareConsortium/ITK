@@ -37,7 +37,7 @@ template <class InputPixelType>
 class InvertBinaryIntensityFunctor
 {
 public:
-  InputPixelType operator()( InputPixelType input )
+  InputPixelType operator()( InputPixelType input ) const
     {
     if( input )
       {

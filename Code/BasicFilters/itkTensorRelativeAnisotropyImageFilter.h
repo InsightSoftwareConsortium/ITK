@@ -41,7 +41,7 @@ public:
     {
     return !(*this != other);
     }
-  inline RealValueType operator()( const TInput & x )
+  inline RealValueType operator()( const TInput & x ) const
     {
     return x.GetRelativeAnisotropy();
     }

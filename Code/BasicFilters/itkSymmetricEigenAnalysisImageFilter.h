@@ -51,7 +51,7 @@ public:
     return !(*this != other);
     }
 
-  inline TOutput operator()( const TInput & x )
+  inline TOutput operator()( const TInput & x ) const
     {
     TOutput eigenValues;
     m_Calculator.ComputeEigenValues( x, eigenValues );

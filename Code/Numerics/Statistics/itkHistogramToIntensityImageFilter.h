@@ -49,7 +49,7 @@ public:
 
   ~HistogramIntensityFunction() {};
  
-  inline OutputPixelType operator()( const TInput & A )
+  inline OutputPixelType operator()( const TInput & A ) const
     {
     return static_cast<OutputPixelType>( A );
     }

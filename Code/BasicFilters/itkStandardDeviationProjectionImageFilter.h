@@ -64,7 +64,7 @@ public:
     m_Values.clear();
     }
 
-  inline void operator()( const TInputPixel &input )
+  inline void operator()( const TInputPixel &input ) 
     {
     m_Sum = m_Sum + input;
     m_Values.push_back( input );

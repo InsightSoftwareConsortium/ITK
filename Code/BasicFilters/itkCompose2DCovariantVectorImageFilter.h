@@ -41,7 +41,7 @@ public:
     return !(*this != other);
     }
   inline OutputType operator()(  const TInput & s1, 
-                                 const TInput & s2 )
+                                 const TInput & s2 ) const
     {
     OutputType v;
     v[0] = s1;

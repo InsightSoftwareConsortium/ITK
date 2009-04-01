@@ -69,7 +69,7 @@ public:
     return !(*this != other);
     }
 
-  inline TOutput operator()( const TInput & A, const TMask & B)
+  inline TOutput operator()( const TInput & A, const TMask & B) const
     {
     if (B != NumericTraits< TMask >::ZeroValue() ) 
       {

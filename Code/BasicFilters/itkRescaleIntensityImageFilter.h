@@ -58,7 +58,7 @@ public:
     {
     return !(*this != other);
     }
-  inline TOutput operator()( const TInput & x )
+  inline TOutput operator()( const TInput & x ) const
     {
     RealType value  = static_cast<RealType>(x) * m_Factor + m_Offset;
     TOutput  result = static_cast<TOutput>( value );

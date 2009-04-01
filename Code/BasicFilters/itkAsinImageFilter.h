@@ -57,7 +57,7 @@ public:
     {
     return !(*this != other);
     }
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     return static_cast<TOutput>(
       vcl_asin(

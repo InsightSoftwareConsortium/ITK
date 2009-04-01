@@ -42,7 +42,7 @@ public:
     }
   inline OutputType operator()(  const TInput & R, 
                                  const TInput & G,
-                                 const TInput & B)
+                                 const TInput & B) const
     {
     OutputType rgbPixel;
     rgbPixel.Set( R, G, B);

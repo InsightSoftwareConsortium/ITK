@@ -68,7 +68,7 @@ public:
     return !(*this != other);
     }
 
-  inline TOutput operator()( const TInput & A )
+  inline TOutput operator()( const TInput & A ) const
     {
     const double x = ( static_cast<double>(A) - m_Beta ) / m_Alpha;
     const double e = 1.0 / ( 1.0 + vcl_exp(- x ) );
