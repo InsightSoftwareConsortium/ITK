@@ -381,10 +381,10 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>
 
     double val = 0;
 
-    InputObject->ValueAt(objectPoint, val, m_ChildrenDepth);
+    bool evaluable = InputObject->ValueAt(objectPoint, val, m_ChildrenDepth);
     if( m_InsideValue != 0 || m_OutsideValue != 0 )
       {
-      if( val)
+      if(evaluable)
         {
         if(m_UseObjectValue)
           {
