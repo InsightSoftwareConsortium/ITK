@@ -63,7 +63,7 @@ GaussianSpatialObject< TDimension >
     {
     r += transformedPoint[i] * transformedPoint[i];
     }
-  return r;
+  return r / ( m_Radius * m_Radius );
 }
 
 /** Test whether a point is inside or outside the object 
@@ -74,6 +74,11 @@ bool
 GaussianSpatialObject< TDimension >
 ::IsInside( const PointType & point) const
 {
+  if( m_Radius < vnl_math::eps )
+    {
+    return false;
+    }
+
   this->ComputeLocalBoundingBox();
   if( !this->GetBounds()->IsInside(point) )
     {
@@ -91,21 +96,16 @@ GaussianSpatialObject< TDimension >
   double r = 0;
   for(unsigned int i=0;i<TDimension;i++)
     {
-    if(m_Radius!=0.0)
-      {
-      r += (transformedPoint[i]*transformedPoint[i])/(m_Radius*m_Radius);
-      }
-    else if(transformedPoint[i]>0.0)  // Degenerate ellipse
-      {
-      r = 2; // Keeps function from returning true here 
-      break;
-      }
+    r += transformedPoint[i] * transformedPoint[i];
     }
+
+  r /= ( m_Radius * m_Radius );
   
-  if(r<1)
+  if( r < 1.0 )
     {
     return true;
     }
+
   return false;
 }
 
