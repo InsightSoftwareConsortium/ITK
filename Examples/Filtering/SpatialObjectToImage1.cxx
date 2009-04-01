@@ -282,17 +282,20 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ellipse->SetDefaultInsideValue(   800.0 );
-  cylinder1->SetDefaultInsideValue( 800.0 );
-  cylinder2->SetDefaultInsideValue( 800.0 );
+  const PixelType airHounsfieldUnits  = -1000;
+  const PixelType boneHounsfieldUnits =   800;
 
-  ellipse->SetDefaultOutsideValue(   -1000.0 );
-  cylinder1->SetDefaultOutsideValue( -1000.0 );
-  cylinder2->SetDefaultOutsideValue( -1000.0 );
+  ellipse->SetDefaultInsideValue(   boneHounsfieldUnits );
+  cylinder1->SetDefaultInsideValue( boneHounsfieldUnits );
+  cylinder2->SetDefaultInsideValue( boneHounsfieldUnits );
+
+  ellipse->SetDefaultOutsideValue(   airHounsfieldUnits );
+  cylinder1->SetDefaultOutsideValue( airHounsfieldUnits );
+  cylinder2->SetDefaultOutsideValue( airHounsfieldUnits );
 
   imageFilter->SetUseObjectValue( true );
 
-  imageFilter->SetOutsideValue( -1000.0 );
+  imageFilter->SetOutsideValue( airHounsfieldUnits );
   // Software Guide : EndCodeSnippet
 
 
