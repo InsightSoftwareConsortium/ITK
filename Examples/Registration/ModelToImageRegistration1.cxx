@@ -67,11 +67,11 @@
 //  Software Guide : EndLatex 
 
 //  Software Guide : BeginCodeSnippet
-#include <itkSpatialObjectToImageFilter.h>
+#include "itkSpatialObjectToImageFilter.h"
 //  Software Guide : EndCodeSnippet 
 
 
-#include <itkImageToSpatialObjectRegistrationMethod.h>
+#include "itkImageToSpatialObjectRegistrationMethod.h"
 
 
 //  Software Guide : BeginLatex
@@ -86,7 +86,7 @@
 //  Software Guide : EndLatex 
 
 //  Software Guide : BeginCodeSnippet
-#include <itkImageToSpatialObjectMetric.h>
+#include "itkImageToSpatialObjectMetric.h"
 //  Software Guide : EndCodeSnippet 
 
 
