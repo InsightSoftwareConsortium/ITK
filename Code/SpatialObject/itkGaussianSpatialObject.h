@@ -71,6 +71,11 @@ public:
   itkSetMacro(Radius,ScalarType);
   itkGetConstReferenceMacro(Radius,ScalarType);
 
+  /** The Sigma parameter determines the fallout of the Gaussian inside of the
+   * region defined by the Radius parameter. */
+  itkSetMacro(Sigma,ScalarType);
+  itkGetConstReferenceMacro(Sigma,ScalarType);
+
   /** The maximum value of the Gaussian (its value at the origin of
    * the spatial object coordinate system). */
   itkSetMacro(Maximum,ScalarType);
@@ -119,6 +124,7 @@ protected:
 
   ScalarType m_Maximum;
   ScalarType m_Radius;
+  ScalarType m_Sigma;
 
   /** Print the object information in a stream. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const; 

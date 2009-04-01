@@ -31,6 +31,7 @@ GaussianSpatialObject< TDimension >
   this->SetTypeName("GaussianSpatialObject");
   this->SetDimension(TDimension);
   m_Radius = 1.0;
+  m_Sigma = 1.0;
   m_Maximum = 1.0;
 } 
 
@@ -63,7 +64,7 @@ GaussianSpatialObject< TDimension >
     {
     r += transformedPoint[i] * transformedPoint[i];
     }
-  return r / ( m_Radius * m_Radius );
+  return r / ( m_Sigma * m_Sigma );
 }
 
 /** Test whether a point is inside or outside the object 

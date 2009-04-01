@@ -49,6 +49,17 @@ int itkGaussianSpatialObjectTest(int, char* [])
       return EXIT_FAILURE;
     }
 
+  myGaussian->SetSigma(1.5);
+  GaussianType::ScalarType sigma = 
+    myGaussian->GetSigma();
+  std::cout << "Testing Sigma: ";
+  if( sigma != 1.5 )
+    {
+    std::cout << "[FAILURE]" << std::endl;
+      return EXIT_FAILURE;
+    }
+
+
   std::cout << "[PASSED]" << std::endl;
 
   // Point consistency
