@@ -65,7 +65,10 @@ protected:
     TElement* data;
     try
       {
-      data = m_Allocator.allocate(size);
+      // allocate normally only requires 1 argument.
+      // MSVC 6.0 makes it require 2, we set the second to be
+      // a null pointer which means no allocation hint
+      data = m_Allocator.allocate(size,0);
       if (data)
         {
         new (data) Element[size];
