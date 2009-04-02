@@ -40,6 +40,7 @@ SET(IO_HEADER_TEST ${CXX_TEST_PATH}/itkIOHeaderTest)
 
 SET(IOTest_SRCS
 itkAnalyzeImageIOTest.cxx
+itkAnalyzeImageIODirectionsTest.cxx
 itkNiftiImageIOTest.cxx
 itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
@@ -711,6 +712,8 @@ ADD_TEST(itkImageReadDICOMSeriesWriteTest ${IO_TESTS}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
   ADD_TEST(itkAnalyzeIOShouldSucceedZ ${IO_TESTS} itkAnalyzeImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
+  ADD_TEST(itkAnalyzeImageIODirectionsTest ${IO_TESTS} itkAnalyzeImageIODirectionsTest 
+                                  ${ITK_TEST_OUTPUT_DIR})
 ##Nifti Test Suite
  ADD_TEST(itkNiftiImageIOTest ${IO_TESTS}
    itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR})

@@ -39,6 +39,8 @@ void RegisterTests()
   REGISTER_TEST(itkDICOMSeriesFileNamesTest);
   REGISTER_TEST(itkDICOMImageSeriesTest);
   REGISTER_TEST(itkAnalyzeImageIOTest);
+  REGISTER_TEST(itkAnalyzeImageIOTest2);
+  REGISTER_TEST(itkAnalyzeImageIODirectionsTest);
   REGISTER_TEST(itkGiplImageIOTest);
   REGISTER_TEST(itkImageFileReaderStreamingTest);
   REGISTER_TEST(itkImageFileReaderTest1);
@@ -93,7 +95,6 @@ void RegisterTests()
   REGISTER_TEST(itkStimulateImageIOTest);
   REGISTER_TEST(itkStimulateImageIOTest2);
   REGISTER_TEST(itkGEImageIOTest);
-  REGISTER_TEST(itkAnalyzeImageIOTest2);
   REGISTER_TEST(testMetaUtils);
   REGISTER_TEST(testMetaBlob);
   REGISTER_TEST(testMetaImage);
