@@ -277,7 +277,7 @@ GaussianSpatialObject< TDimension >
   Superclass::PrintSelf(os, indent);
   os << "Maximum: " << m_Maximum << std::endl;
   os << "Radius: " << m_Radius << std::endl;
-
+  os << "Sigma: " << m_Sigma << std::endl;
 }
 
 } // end namespace itk
