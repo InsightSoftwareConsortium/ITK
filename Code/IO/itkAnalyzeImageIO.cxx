@@ -1291,8 +1291,8 @@ AnalyzeImageIO
       DirectionType dir;
         {
         unsigned int dims = this->GetNumberOfDimensions();
-        std::vector<double> dirx = this->GetDirection(0),
-          diry = this->GetDirection(1);
+        std::vector<double> dirx = this->GetDirection(0);
+        std::vector<double> diry = this->GetDirection(1);
         std::vector<double> dirz;
         if(dims > 2)
           {
@@ -1425,6 +1425,10 @@ AnalyzeImageIO
 ::GetDirection( unsigned int k ) const
 {
   std::vector<double> correctedDirection = this->ImageIOBase::GetDirection(k);
+  if( this->m_Dimensions.size() == correctedDirection.size() )
+    {
+    return correctedDirection;
+    }
 
   // Apply corrections for 2D cases
   std::vector<double> direction0 = this->ImageIOBase::GetDirection(0);
