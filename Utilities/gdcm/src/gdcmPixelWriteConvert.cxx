@@ -279,6 +279,7 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
        gdcmErrorMacro( "Go fix your compiler implementation of stringstream." );
        UserData = 0;
        UserDataSize = 0;
+       return;
        }
      //static int i = 0;
      JpegPair &jp = JpegFragmentSize[i];
