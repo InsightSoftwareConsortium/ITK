@@ -350,7 +350,7 @@ opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
  */
 bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputlength, 
   int image_width, int image_height, int numZ, int sample_pixel, int bitsallocated,
-  int sign, int quality)
+  int sign, int quality, size_t &nbbytes)
 {
 //// input_buffer is ONE image
 //// fragment_size is the size of this image (fragment)
@@ -449,7 +449,8 @@ bool gdcm_write_JPEG2000_file (std::ostream *fp, char *inputdata, size_t inputle
     debug.close();
 #endif
     fp->write((char*)(cio->buffer), codestream_length);
-   gdcmErrorMacro( "codestream_length: " << codestream_length ); // FIXME: remote debug of sunos
+  nbbytes = codestream_length;
+   //gdcmErrorMacro( "codestream_length: " << codestream_length ); // FIXME: remote debug of sunos
     //fclose(f);
 
     /* close and free the byte stream */

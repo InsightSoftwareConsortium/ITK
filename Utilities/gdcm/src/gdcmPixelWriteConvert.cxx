@@ -128,7 +128,7 @@ typedef std::vector<JpegPair> JpegVector;
 
 bool gdcm_write_JPEG2000_file (std::ostream *of, char *inputdata, size_t inputlength, 
   int image_width, int image_height, int numZ, int sample_pixel, int bitsallocated,
-  int sign, int quality);
+  int sign, int quality, size_t &);
 
 
 void WriteDICOMItems(std::ostream *fp, JpegVector &v)
@@ -264,15 +264,22 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
      {
      WriteDICOMItems(of, JpegFragmentSize);
      size_t beg = of->tellp();
+     size_t nbbytes = 0;
      gdcm_write_JPEG2000_file(of, (char*)pImageData,size, 
        image->GetXSize(), image->GetYSize(), image->GetZSize(), image->GetSamplesPerPixel(),
-       image->GetBitsAllocated(), sign, 100);
+       image->GetBitsAllocated(), sign, 100, nbbytes);
      //userData, UserDataSize);
      //     CreateOneFrame(of, pImageData, fragment_size, xsize, ysize, zsize, 
      //       samplesPerPixel, quality, JpegFragmentSize);
      //assert( !(fragment_size % 2) );
      // Update the JpegVector with offset
      size_t end = of->tellp();
+     if( (end - beg) != nbbytes )
+       {
+       gdcmErrorMacro( "Go fix your compiler implementation of stringstream." );
+       UserData = 0;
+       UserDataSize = 0;
+       }
      //static int i = 0;
      JpegPair &jp = JpegFragmentSize[i];
      jp.second = (uint32_t)(end-beg);
