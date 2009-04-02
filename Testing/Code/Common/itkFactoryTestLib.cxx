@@ -40,32 +40,99 @@ public:
   typedef typename Superclass::ElementIdentifier  ElementIdentifier;
   typedef typename Superclass::Element            Element;
 
+  typedef std::allocator<TElement>                Allocator;
+
   // Methods from itkObject
   virtual ~TestImportImageContainer() 
     {
     itkTotalMemoryUsed -= m_TotalSize;
     m_TotalSize = 0;
+    DeallocateManagedMemory();
     }
   TestImportImageContainer()
+     : m_TotalSize(0)
+     ,m_MemoryAllocatedByAllocator(false)
     {
-    m_TotalSize = 0;
     }
 protected:
   TElement* AllocateElements(ElementIdentifier size) const
     { 
-    std::cout << "ImportImageContainer: Allocating " << size << " elements of type " << typeid(TElement).name() << " totaling " << sizeof(TElement) * size << " bytes" << std::endl;
-    TElement *ptr = Superclass::AllocateElements(size);
+    std::cout << "TestImportImageContainer: Allocating "
+              << size << " elements of type "
+              << typeid(TElement).name() << " totaling "
+              << sizeof(TElement) * size << " bytes" << std::endl;
+
+    TElement* data;
+    try
+      {
+      data = m_Allocator.allocate(size);
+      if (data)
+        {
+        new (data) Element[size];
+        }
+      }
+    catch(...)
+      {
+      data = 0;
+      }
+    if(!data)
+      {
+      // We cannot construct an error string here because we may be out
+      // of memory.  Do not use the exception macro.
+      throw itk::MemoryAllocationError(__FILE__, __LINE__,
+                                       "Failed to allocate memory for image.",
+                                       ITK_LOCATION);
+      }
+
     m_TotalSize = size * sizeof(TElement);
     itkTotalMemoryUsed += m_TotalSize;
-    std::cout << "ImportImageContainer: Total memory used is "
+    
+    m_MemoryAllocatedByAllocator = true;
+    
+    std::cout << "TestImportImageContainer: Total memory used is "
               << itkTotalMemoryUsed << " bytes" << std::endl;
-    return ptr;
+
+    return data;
+    }
+
+  void DeallocateManagedMemory()
+    {
+    std::cout << "TestImportImageContainer: Deallocating "
+              << this->Capacity() << " elements of type "
+              << typeid(TElement).name() << " totaling "
+              << sizeof(TElement) * this->Capacity() << " bytes" << std::endl;
+    
+    if (m_MemoryAllocatedByAllocator)
+      {
+      TElement * ptr = this->GetImportPointer();
+      const TElement * const end = ptr + this->Capacity();
+      for (TElement * base = ptr; base<end; ++base)
+        {
+        m_Allocator.destroy(base);
+        }
+      m_Allocator.deallocate(ptr, this->Capacity() );
+      m_MemoryAllocatedByAllocator = false;
+
+      this->SetImportPointer(0);
+      this->SetCapacity(0);
+      this->SetSize(0);
+      }
+    else
+      {
+      Superclass::DeallocateManagedMemory();
+      }
+    
+    std::cout << "TestImportImageContainer: Total memory used is "
+              << itkTotalMemoryUsed << " bytes" << std::endl;
     }
 
 private:
   TestImportImageContainer(const TestImportImageContainer&);
   void operator=(const TestImportImageContainer&);
   mutable TElementIdentifier m_TotalSize;
+
+  mutable Allocator          m_Allocator;
+  mutable bool               m_MemoryAllocatedByAllocator;
 };
 
 class ImportImageContainerFactory : public itk::ObjectFactoryBase

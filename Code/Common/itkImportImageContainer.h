@@ -144,16 +144,39 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual TElement* AllocateElements(ElementIdentifier size) const;
-  virtual void DeallocateElements (const TElement* ptr) const;
+  virtual void DeallocateManagedMemory();
+
+  /* Set the m_Size member that represents the number of elements
+   * currently stored in the container. Use this function with great
+   * care since it only changes the m_Size member and not the actual size
+   * of the import pointer m_ImportPointer. It should typically
+   * be used only to override AllocateElements and
+   * DeallocateManagedMemory. */
+  itkSetMacro(Size,TElementIdentifier);
+   
+  /* Set the m_Capacity member that represents the capacity of
+   * the current container. Use this function with great care
+   * since it only changes the m_Capacity member and not the actual
+   * capacity of the import pointer m_ImportPointer. It should typically
+   * be used only to override AllocateElements and
+   * DeallocateManagedMemory. */
+  itkSetMacro(Capacity,TElementIdentifier);
+
+  
+  /* Set the m_ImportPointer member. Use this function with great care
+   * since it only changes the m_ImportPointer member but not the m_Size
+   * and m_Capacity members. It should typically be used only to override
+   * AllocateElements and DeallocateManagedMemory. */
+  void SetImportPointer(TElement *ptr){m_ImportPointer=ptr;}
+
+private:
+  ImportImageContainer(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
   TElement            *m_ImportPointer;
   TElementIdentifier   m_Size;
   TElementIdentifier   m_Capacity;
   bool                 m_ContainerManageMemory;
-
-private:
-  ImportImageContainer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

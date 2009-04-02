@@ -41,7 +41,7 @@ template <typename TElementIdentifier, typename TElement>
 ImportImageContainer< TElementIdentifier , TElement >
 ::~ImportImageContainer()
 {
-  DeallocateElements(m_ImportPointer);
+  DeallocateManagedMemory();
 }
 
 
@@ -65,7 +65,7 @@ ImportImageContainer< TElementIdentifier , TElement >
       // only copy the portion of the data used in the old buffer
       memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
       
-      DeallocateElements(m_ImportPointer);
+      DeallocateManagedMemory();
       
       m_ImportPointer = temp;
       m_ContainerManageMemory = true;
@@ -103,14 +103,16 @@ ImportImageContainer< TElementIdentifier , TElement >
     {
     if (m_Size < m_Capacity)
       {
-      TElement* temp = this->AllocateElements(m_Size);
-      memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
+      const TElementIdentifier size = m_Size;
+      TElement* temp = this->AllocateElements(size);
+      memcpy(temp, m_ImportPointer, size*sizeof(TElement));
 
-      DeallocateElements(m_ImportPointer);
+      DeallocateManagedMemory();
       
       m_ImportPointer = temp;
       m_ContainerManageMemory = true;
-      m_Capacity = m_Size;
+      m_Capacity = size;
+      m_Size = size;
 
       this->Modified();
       }
@@ -129,12 +131,9 @@ ImportImageContainer< TElementIdentifier , TElement >
 {
   if (m_ImportPointer)
     {
-    DeallocateElements(m_ImportPointer);
+    DeallocateManagedMemory();
     
-    m_ImportPointer = 0;
     m_ContainerManageMemory = true;
-    m_Capacity = 0;
-    m_Size = 0;
     
     this->Modified();
     }
@@ -155,7 +154,7 @@ ImportImageContainer< TElementIdentifier , TElement >
 ::SetImportPointer(TElement *ptr, TElementIdentifier num,
                    bool LetContainerManageMemory)
 {
-  DeallocateElements(m_ImportPointer);
+  DeallocateManagedMemory();
   m_ImportPointer = ptr;
   m_ContainerManageMemory = LetContainerManageMemory;
   m_Capacity = num;
@@ -193,15 +192,16 @@ TElement* ImportImageContainer< TElementIdentifier , TElement >
 
 template <typename TElementIdentifier, typename TElement>
 void ImportImageContainer< TElementIdentifier , TElement >
-::DeallocateElements(const TElement* ptr) const
+::DeallocateManagedMemory()
 {
   // Encapsulate all image memory deallocation here
-  if (ptr && m_ContainerManageMemory)
+  if (m_ImportPointer && m_ContainerManageMemory)
     {
-    // A const_cast seems necessary for some compilers (e.g. MSVC)
-    // that do not support deleting const pointers
-    delete [] const_cast<TElement*>(ptr);
+    delete [] m_ImportPointer;
     }
+  m_ImportPointer = 0;
+  m_Capacity = 0;
+  m_Size = 0;
 }
 
 template <typename TElementIdentifier, typename TElement>
