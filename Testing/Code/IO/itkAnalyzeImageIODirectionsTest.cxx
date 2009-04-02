@@ -31,7 +31,6 @@ class AnalyzeIODirectionHelper
 public:
   typedef  unsigned char                PixelType;
 
-  typedef itk::Image< PixelType, 2 >    Image2DType;
   typedef itk::Image< PixelType, 3 >    Image3DType;
 
   typedef Image3DType::DirectionType    Direction3DType;
@@ -81,10 +80,7 @@ public:
 
   image3D->SetDirection( direction );
 
-  typedef itk::ImageFileWriter< Image2DType >    Writer2DType;
   typedef itk::ImageFileWriter< Image3DType >    Writer3DType;
-
-  typedef itk::ImageFileReader< Image2DType >    Reader2DType;
   typedef itk::ImageFileReader< Image3DType >    Reader3DType;
 
   Writer3DType::Pointer writer3D = Writer3DType::New();
@@ -101,17 +97,16 @@ public:
   std::cout << fileName << std::endl;
   writer3D->Update();
 
-  Reader2DType::Pointer reader2D = Reader2DType::New();
   Reader3DType::Pointer reader3D = Reader3DType::New();
 
-  reader2D->SetFileName( fileName );
   reader3D->SetFileName( fileName );
 
-  // std::cout << "Reading 2D..." << std::endl;
-  // reader2D->Update();
-
-  std::cout << "Reading 3D..." << std::endl;
+  std::cout << "Reading 3D...";
   reader3D->Update();
+  std::cout << "PASSED !" << std::endl;
+  std::cout << "Read 3D Direction = " << std::endl;
+  std::cout << reader3D->GetOutput()->GetDirection() << std::endl;
+
   }
 
   void SetOutputDirectory( const char * directoryName )
@@ -178,7 +173,22 @@ int itkAnalyzeImageIODirectionsTest( int argc, char * argv [] )
   AnalyzeIODirectionHelper  testHelper;
 
   testHelper.SetOutputDirectory( argv[1] );
-  testHelper.Test();
+
+  try
+    {
+    testHelper.Test();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( ... )
+    {
+    std::cerr << "Caught non ITK exception" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   std::cout << "Test PASSED !" << std::endl;
   return EXIT_SUCCESS;
