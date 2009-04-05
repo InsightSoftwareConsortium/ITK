@@ -25,6 +25,8 @@
 #include "vnl/vnl_vector.h"
 #include "itkOffset.h"
 #include <vector>
+#include <stdlib.h>
+#include <string.h>
 
 namespace itk {
 

@@ -19,6 +19,7 @@
 #endif
 
 #include <string>
+#include <stdlib.h>
 #include "itkMetaImageIO.h"
 #include "itkExceptionObject.h"
 #include "itkSpatialOrientation.h"

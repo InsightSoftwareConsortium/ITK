@@ -17,6 +17,7 @@
 #include "itkIOCommon.h"
 #include <sys/stat.h>
 #include <cstring>
+#include <string.h>
 
 
 namespace itk

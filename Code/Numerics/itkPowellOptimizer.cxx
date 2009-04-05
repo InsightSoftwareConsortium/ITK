@@ -250,7 +250,7 @@ PowellOptimizer
   x = bx;
   w = bx;
 
-  const double goldenSectionRatio = (3.0-sqrt(5.0))/2;  /* Gold section ratio    */
+  const double goldenSectionRatio = (3.0-vcl_sqrt(5.0))/2;  /* Gold section ratio    */
   const double POWELL_TINY = 1.0e-20;
 
   double functionValueOfX;        /* f(x)        */
@@ -293,7 +293,7 @@ PowellOptimizer
 
 
     /* Decide if the interpolation can be tried  */
-    if( fabs(x-w) >= tolerance1  )    /* If x and w are distinct      */
+    if( vcl_fabs(x-w) >= tolerance1  )    /* If x and w are distinct      */
       {
       double t;
       t = (x-w) * (functionValueOfX-functionValueOfV);
@@ -317,7 +317,7 @@ PowellOptimizer
 
       /* Chec if x+p/q falls in [a,b] and  not too close to a and b
            and isn't too large */
-      if( fabs(p) < fabs(new_step*q) &&
+      if( vcl_fabs(p) < vcl_fabs(new_step*q) &&
           p > q*(a-x+2*tolerance1) &&
           p < q*(b-x-2*tolerance1)  )
           {
@@ -329,7 +329,7 @@ PowellOptimizer
       }
 
      /* Adjust the step to be not less than tolerance*/
-    if( fabs(new_step) < tolerance1 )
+    if( vcl_fabs(new_step) < tolerance1 )
       {
       if ( new_step > 0.0 )
         {

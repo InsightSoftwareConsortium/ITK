@@ -39,7 +39,7 @@ bool CheckEqual(
   const double epsilon = 1e-10;
   for( unsigned int i = 0; i < 2; i++ )
     {
-    if( fabs( p1[i] - p2[i] ) > epsilon )
+    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
       {
       std::cout << p1 << " != " << p2 << ": FAILED" << std::endl;
       return false;
@@ -75,7 +75,7 @@ int itkRigid2DTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( fabs( offset[i]-0.0 ) > epsilon )
+      if( vcl_fabs( offset[i]-0.0 ) > epsilon )
       {
         Ok = false;
         break;    
@@ -113,7 +113,7 @@ int itkRigid2DTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( fabs( offset[i]- ioffset[i] ) > epsilon )
+      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
         Ok = false;
         break;    
@@ -135,7 +135,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i]- r[i] ) > epsilon )
+        if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -162,7 +162,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i]- p[i] ) > epsilon )
+        if( vcl_fabs( q[i]- p[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -188,7 +188,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       q = translation->TransformCovariantVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i]- p[i] ) > epsilon )
+        if( vcl_fabs( q[i]- p[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -216,7 +216,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i] - p[i] ) > epsilon )
+        if( vcl_fabs( q[i] - p[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -248,9 +248,9 @@ int itkRigid2DTransformTest(int ,char * [] )
     mrotation.SetIdentity();
 
     // 15 degrees in radians
-    const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-    const double sinth = sin( angle );
-    const double costh = cos( angle );
+    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+    const double sinth = vcl_sin( angle );
+    const double costh = vcl_cos( angle );
 
     // around the positive Z axis 
     mrotation[0][0] =  costh;
@@ -283,7 +283,7 @@ int itkRigid2DTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( fabs( offset[i]- ioffset[i] ) > epsilon )
+      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
       {
         Ok = false;
         break;    
@@ -304,7 +304,7 @@ int itkRigid2DTransformTest(int ,char * [] )
     {
       for(unsigned int j=0; j<N; j++)
       {
-        if( fabs( matrix[i][j]- mrotation[i][j] ) > epsilon )
+        if( vcl_fabs( matrix[i][j]- mrotation[i][j] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -331,7 +331,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       r = rotation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i]- r[i] ) > epsilon )
+        if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -363,7 +363,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       r = rotation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i] - r[i] ) > epsilon )
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -396,7 +396,7 @@ int itkRigid2DTransformTest(int ,char * [] )
 
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i] - r[i] ) > epsilon )
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -432,7 +432,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       r = rotation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i] - r[i] ) > epsilon )
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
           break;    

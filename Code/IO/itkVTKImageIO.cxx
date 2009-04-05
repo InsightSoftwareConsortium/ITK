@@ -23,6 +23,7 @@
 #include <itksys/ios/sstream>
 
 #include <stdio.h>
+#include <string.h>
 
 namespace itk
 {

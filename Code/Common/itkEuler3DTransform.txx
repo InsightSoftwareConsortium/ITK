@@ -152,9 +152,9 @@ Euler3DTransform<TScalarType>
 {
   if(m_ComputeZYX)
     {
-    m_AngleY = -asin(this->GetMatrix()[2][0]);
+    m_AngleY = -vcl_asin(this->GetMatrix()[2][0]);
     double C = vcl_cos(m_AngleY);
-    if(fabs(C)>0.00005)
+    if(vcl_fabs(C)>0.00005)
       {
       double x = this->GetMatrix()[2][2] / C;
       double y = this->GetMatrix()[2][1] / C;
@@ -175,7 +175,7 @@ Euler3DTransform<TScalarType>
     {
     m_AngleX = vcl_asin(this->GetMatrix()[2][1]);
     double A = vcl_cos(m_AngleX);
-    if(fabs(A)>0.00005)
+    if(vcl_fabs(A)>0.00005)
       {
       double x = this->GetMatrix()[2][2] / A;
       double y = -this->GetMatrix()[2][0] / A;

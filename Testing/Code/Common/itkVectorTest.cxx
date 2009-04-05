@@ -25,7 +25,7 @@ typedef double Real;
 
 bool different(Real a, Real b)
 {
-  return fabs(a-b) > 1e-6;
+  return vcl_fabs(a-b) > 1e-6;
 }
 
 int itkVectorTest(int, char* [] )

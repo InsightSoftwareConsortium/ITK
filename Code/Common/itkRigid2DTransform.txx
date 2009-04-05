@@ -112,7 +112,7 @@ Rigid2DTransform<TScalarType>
     m_Angle = -m_Angle;
     }
 
-  if(r[1][0]-sin(m_Angle) > 0.000001)
+  if(r[1][0]-vcl_sin(m_Angle) > 0.000001)
     {
     itkWarningMacro("Bad Rotation Matrix " << this->GetMatrix() ); 
     }

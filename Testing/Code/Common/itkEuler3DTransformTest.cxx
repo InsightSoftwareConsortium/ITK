@@ -57,19 +57,19 @@ int itkEuler3DTransformTest(int,char *[] )
 
 
   // 15 degrees in radians
-  const double angleX = 15.0 * atan( 1.0f ) / 45.0; 
-  const double cx = cos(angleX);
-  const double sx = sin(angleX);
+  const double angleX = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double cx = vcl_cos(angleX);
+  const double sx = vcl_sin(angleX);
   
   // 10 degrees in radians
-  const double angleY = 10.0 * atan( 1.0f ) / 45.0; 
-  const double cy = cos(angleY);
-  const double sy = sin(angleY);
+  const double angleY = 10.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double cy = vcl_cos(angleY);
+  const double sy = vcl_sin(angleY);
 
   // 5 degrees in radians
-  const double angleZ = 5.0 * atan( 1.0f ) / 45.0; 
-  const double cz = cos(angleZ);
-  const double sz = sin(angleZ);
+  const double angleZ = 5.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double cz = vcl_cos(angleZ);
+  const double sz = vcl_sin(angleZ);
 
   std::cout << "Testing Rotation:";
   eulerTransform->SetRotation(angleX,angleY,angleZ);
@@ -104,7 +104,7 @@ int itkEuler3DTransformTest(int,char *[] )
   r = eulerTransform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
-     if( fabs( q[i]- r[i] ) > epsilon )
+     if( vcl_fabs( q[i]- r[i] ) > epsilon )
      {
         Ok = false;
         break;    
@@ -138,7 +138,7 @@ int itkEuler3DTransformTest(int,char *[] )
   r = eulerTransform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
-    if( fabs( q[i]- r[i] ) > epsilon )
+    if( vcl_fabs( q[i]- r[i] ) > epsilon )
     {
       Ok = false;
       break;    
@@ -290,9 +290,9 @@ int itkEuler3DTransformTest(int,char *[] )
   EulerTransformType::Pointer t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if( (fabs(t2->GetParameters()[0]-0.2)>0.0001)
-    || (fabs(t2->GetParameters()[1]-0.1)>0.0001)
-    || (fabs(t2->GetParameters()[2]-0.3)>0.0001) 
+  if( (vcl_fabs(t2->GetParameters()[0]-0.2)>0.0001)
+    || (vcl_fabs(t2->GetParameters()[1]-0.1)>0.0001)
+    || (vcl_fabs(t2->GetParameters()[2]-0.3)>0.0001) 
     )
     {
     std::cout << " [ FAILED ] " << std::endl;
@@ -309,9 +309,9 @@ int itkEuler3DTransformTest(int,char *[] )
   t2->SetComputeZYX(true);
   t2->Compose(eulerTransform);
   
-  if( (fabs(t2->GetParameters()[0]-0.2)>0.0001)
-    || (fabs(t2->GetParameters()[1]-0.1)>0.0001)
-    || (fabs(t2->GetParameters()[2]-0.3)>0.0001) 
+  if( (vcl_fabs(t2->GetParameters()[0]-0.2)>0.0001)
+    || (vcl_fabs(t2->GetParameters()[1]-0.1)>0.0001)
+    || (vcl_fabs(t2->GetParameters()[2]-0.3)>0.0001) 
     )
     {
     std::cout << " [ FAILED ] " << std::endl;
@@ -368,10 +368,10 @@ int itkEuler3DTransformTest(int,char *[] )
       matrix.GetVnlMatrix().set_identity();
 
       double a = 1.0 / 180.0 * vnl_math::pi;
-      matrix[0][0] =        cos( a );
-      matrix[0][1] = -1.0 * sin( a );
-      matrix[1][0] =        sin( a ); 
-      matrix[1][1] =        cos( a );
+      matrix[0][0] =        vcl_cos( a );
+      matrix[0][1] = -1.0 * vcl_sin( a );
+      matrix[1][0] =        vcl_sin( a ); 
+      matrix[1][1] =        vcl_cos( a );
 
      Ok = true;
      try
@@ -411,7 +411,7 @@ int itkEuler3DTransformTest(int,char *[] )
 
     for( unsigned int k = 0; k < e.GetSize(); k++ )
       {
-      if( fabs( e[k] - par0[k] ) > epsilon )
+      if( vcl_fabs( e[k] - par0[k] ) > epsilon )
         {
         std::cout << " [ FAILED ] " << std::endl;
         std::cout << "Expected parameters: " << e << std::endl;

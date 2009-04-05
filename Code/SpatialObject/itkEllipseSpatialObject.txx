@@ -18,6 +18,7 @@
 #define __itkEllipseSpatialObject_txx
 
 #include "itkEllipseSpatialObject.h" 
+#include <string.h>
 
 namespace itk 
 { 

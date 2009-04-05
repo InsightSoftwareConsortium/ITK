@@ -180,7 +180,7 @@ int itkBoundingBoxTest (int, char*[])
     {      
     for(unsigned int i=0; i<3;i++)
       {
-      if((*it)[i] != pow(-1.0,(double)(j/(int(pow(2.0,(double)i))))))
+      if((*it)[i] != vcl_pow(-1.0,(double)(j/(int(vcl_pow(2.0,(double)i))))))
         {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
@@ -201,7 +201,7 @@ int itkBoundingBoxTest (int, char*[])
   const CC::BoundsArrayType & clonedbounds   = clone->GetBounds();
   for(unsigned int i=0; i< originalBounds.Size(); i++)
     {
-    if( fabs( originalBounds[i] - clonedbounds[i] ) > tolerance )
+    if( vcl_fabs( originalBounds[i] - clonedbounds[i] ) > tolerance )
       {
       std::cerr << "Clonning test failed" << std::endl;
       std::cerr << originalBounds << std::endl;

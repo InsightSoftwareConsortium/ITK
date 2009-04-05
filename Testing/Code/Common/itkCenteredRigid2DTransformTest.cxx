@@ -37,7 +37,7 @@ bool CheckEqual(
   const double epsilon = 1e-5;
   for( unsigned int i = 0; i < 2; i++ )
     {
-    if( fabs( p1[i] - p2[i] ) > epsilon )
+    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
       {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -69,9 +69,9 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
   CenteredRigidTransformType::Pointer transform = CenteredRigidTransformType::New();
   
   // 15 degrees in radians
-  const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-  const double sinth = sin( angle );
-  const double costh = cos( angle );
+  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double sinth = vcl_sin( angle );
+  const double costh = vcl_cos( angle );
 
 
   std::cout << "Testing Rotation:";
@@ -89,7 +89,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
   r = transform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
-     if( fabs( q[i]- r[i] ) > epsilon )
+     if( vcl_fabs( q[i]- r[i] ) > epsilon )
      {
         Ok = false;
         break;    
@@ -122,7 +122,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
   r = transform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
-    if( fabs( q[i]- r[i] ) > epsilon )
+    if( vcl_fabs( q[i]- r[i] ) > epsilon )
     {
       Ok = false;
       break;    
@@ -177,7 +177,7 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     Ok = true;
     for ( unsigned int i = 0; i < N; i++ )
       {
-      if ( fabs( p1[i] - p3[i] ) > epsilon )
+      if ( vcl_fabs( p1[i] - p3[i] ) > epsilon )
         {
         Ok = false;
         break;

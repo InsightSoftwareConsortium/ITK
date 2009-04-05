@@ -27,7 +27,7 @@
 #include "itkVersion.h"
 #include <stdlib.h>
 #include <ctype.h>
-#include <cstring>
+#include <string.h>
 #include <algorithm>
 #include <map>
 

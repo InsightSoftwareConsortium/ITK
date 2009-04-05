@@ -68,7 +68,7 @@ CumulativeGaussianCostFunction
     {
     fitError += vcl_pow((setTestArray->get(i) - m_OriginalDataArray->get(i)), 2);
     }
-  return(sqrt((1/numberOfElements) * fitError));
+  return(vcl_sqrt((1/numberOfElements) * fitError));
 }
 
 double

@@ -145,15 +145,15 @@ int itkAbsoluteValueDifferenceImageFilterTest(int, char* [] )
   //  Print the content of the result image
   std::cout << " Result " << std::endl;
   while( !it4.IsAtEnd() ) 
-  {
-    std::cout << it4.Get() << std::endl;
-    if( fabs( it4.Get() - outputValue ) > epsilon )
     {
+    std::cout << it4.Get() << std::endl;
+    if( vcl_fabs( it4.Get() - outputValue ) > epsilon )
+      {
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
       std::cerr << "but is           " << it4.Get()  << std::endl;
       return EXIT_FAILURE;
-    }
+      }
 
     ++it4;
   }
@@ -161,9 +161,4 @@ int itkAbsoluteValueDifferenceImageFilterTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }
-
-
-
-

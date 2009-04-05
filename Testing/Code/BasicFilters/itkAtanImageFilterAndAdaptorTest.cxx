@@ -83,7 +83,7 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = atan( 1.0 ) * 4.0;
+  const double pi    = vcl_atan( 1.0 ) * 4.0;
   const double value = pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
@@ -123,23 +123,23 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() ) 
-  {
+    {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  atan( it.Get() )  << std::endl; 
+    std::cout <<  vcl_atan( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType arctangent  = atan(input);
-    if( fabs( arctangent - output ) > epsilon )
-    {
+    const OutputImageType::PixelType arctangent  = vcl_atan(input);
+    if( vcl_fabs( arctangent - output ) > epsilon )
+      {
       std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
       std::cerr << " atan( " << input << ") = " << arctangent << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++ot;
     ++it;
-  }
+    }
 
 
 
@@ -178,20 +178,20 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   
   dt.GoToBegin();
   while( !dt.IsAtEnd() ) 
-  {
+    {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( fabs( diff ) > epsilon )
-    {
+    if( vcl_fabs( diff ) > epsilon )
+      {
       std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++dt;
-  }
+    }
 
 
 

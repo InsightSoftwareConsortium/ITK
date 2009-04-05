@@ -25,7 +25,7 @@
 #endif 
 
 #include <vector>
-#include <string>
+#include <string.h>
 #include <cstring>
 
 #include "DICOMConfig.h"

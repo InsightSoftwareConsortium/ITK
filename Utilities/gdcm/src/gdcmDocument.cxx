@@ -33,10 +33,10 @@
 #include <fstream>
 #include <ctype.h>  // for isdigit
 #include <stdlib.h> // for atoi
+#include <stdio.h>  // for sscanf
 
 #if defined(__BORLANDC__)
    #include <mem.h> // for memset
-   #include <stdio.h>  // for sscanf
 #endif 
 
 namespace gdcm 

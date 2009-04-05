@@ -171,7 +171,7 @@ BlobSpatialObject< TDimension >
         transformedPoint - it->GetPosition();
 
 
-      if(fabs(difference[0]) <= 0.5 && 
+      if(vcl_fabs(difference[0]) <= 0.5 && 
          vcl_fabs(difference[1]) <= 0.5)
         {
         if(TDimension == 3)

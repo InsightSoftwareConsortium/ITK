@@ -53,7 +53,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
     std::cout << std::endl;
     for(unsigned int i=0; i<N; i++)
     {
-      if( fabs( scale[i] - 1.0 ) > epsilon )
+      if( vcl_fabs( scale[i] - 1.0 ) > epsilon )
       {
         Ok = false;
         break;    
@@ -87,7 +87,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( fabs( scale[i] - iscale[i] ) > epsilon )
+      if( vcl_fabs( scale[i] - iscale[i] ) > epsilon )
       {
         Ok = false;
         break;    
@@ -112,7 +112,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       r = scaleTransform->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i] - r[i] ) > epsilon )
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -144,7 +144,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       r = scaleTransform->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i]- r[i] ) > epsilon )
+        if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -175,7 +175,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       r = scaleTransform->TransformCovariantVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i]- r[i] ) > epsilon )
+        if( vcl_fabs( q[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -208,7 +208,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       r = scaleTransform->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
       {
-        if( fabs( q[i] - r[i] ) > epsilon )
+        if( vcl_fabs( q[i] - r[i] ) > epsilon )
         {
           Ok = false;
           break;    
@@ -268,7 +268,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       Ok = true;
       for( unsigned int i=0; i<N; i++)
         {
-        if( fabs( p2[i] - parameters[i] ) > 1e-5 )
+        if( vcl_fabs( p2[i] - parameters[i] ) > 1e-5 )
           {
           Ok = false;
           break;

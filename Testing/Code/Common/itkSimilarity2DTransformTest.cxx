@@ -33,7 +33,7 @@ bool CheckEqual(
   const double epsilon = 1e-10;
   for( unsigned int i = 0; i < 2; i++ )
     {
-    if( fabs( p1[i] - p2[i] ) > epsilon )
+    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
       {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -70,7 +70,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   r = transform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
     {
-    if( fabs( p[i]- r[i] ) > epsilon )
+    if( vcl_fabs( p[i]- r[i] ) > epsilon )
       {
       Ok = false;
       break;    
@@ -95,7 +95,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << angle1 << ")/GetAngle():";
   const double epsilon2 = 1e-5;
-  if (fabs(transform2->GetAngle() - angle1) > epsilon2)
+  if (vcl_fabs(transform2->GetAngle() - angle1) > epsilon2)
     {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
     std::cerr << "transform1->SetAngle: " << angle1 << std::endl;
@@ -111,7 +111,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   transform1->SetAngle(-angle1);
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << -angle1 << ")/GetAngle():";
-  if (fabs(transform2->GetAngle() - (-angle1)) > epsilon2)
+  if (vcl_fabs(transform2->GetAngle() - (-angle1)) > epsilon2)
     {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
     std::cerr << "transform1->SetAngle: " << -angle1 << std::endl;
@@ -142,7 +142,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   
   for(unsigned int i=0; i<4; i++) // do not test for the offset
     {
-    if( fabs( outputParams[i]-params[i] ) > epsilon )
+    if( vcl_fabs( outputParams[i]-params[i] ) > epsilon )
       {
       Ok = false;
       break;    
@@ -178,7 +178,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   r = transform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
     {
-    if( fabs( q[i]- r[i] ) > epsilon )
+    if( vcl_fabs( q[i]- r[i] ) > epsilon )
       {
       Ok = false;
       break;    
@@ -210,7 +210,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   r = transform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
     {
-    if( fabs( q[i]- r[i] ) > epsilon )
+    if( vcl_fabs( q[i]- r[i] ) > epsilon )
       {
       Ok = false;
       break;    
@@ -596,7 +596,7 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
   for( unsigned int j = 0; j < t1->GetNumberOfParameters(); j++ )
     {
-    if ( fabs( parameters[j] - pdash[j] ) > epsilon )
+    if ( vcl_fabs( parameters[j] - pdash[j] ) > epsilon )
       {
       std::cout << "Expected: " << parameters << std::endl;
       std::cout << "Got: " << pdash << std::endl;

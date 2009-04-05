@@ -19,7 +19,7 @@
 #include "itkByteSwapper.h"
 #include <iostream>
 #include <list>
-#include <string>
+#include <string.h>
 #include <math.h>
 #include "itk_zlib.h"
 

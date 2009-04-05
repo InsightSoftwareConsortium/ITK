@@ -26,7 +26,7 @@
 #include "itkCommand.h"
 #include "itkFastMutexLock.h"
 
-#include <string>
+#include <string.h>
 #include <cstring>
 
 namespace itk

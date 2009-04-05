@@ -19,6 +19,7 @@
 
 #include "itkTreeNode.h"
 #include <cstring>
+#include <string.h>
 
 namespace itk
 {

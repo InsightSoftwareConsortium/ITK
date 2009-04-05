@@ -129,7 +129,7 @@ CumulativeGaussianOptimizer
     averageSumOfSquaredDifferences = FindAverageSumOfSquaredDifferences(extendedArray, extendedArrayCopy);
 
     // Stop if there is a very very very small change between iterations.
-    if(fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance)
+    if(vcl_fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance)
       break;
     }
   // Update the mean calculation.
@@ -209,7 +209,7 @@ CumulativeGaussianOptimizer
     if( i < startingPointForInsertion ||
         i >= startingPointForInsertion + (int)(originalArray->GetNumberOfElements()) )
       {
-      extendedArray->put(i, amplitude * vcl_exp(-(pow((i - mean),2) / (2 * vcl_pow(sd,2))))); 
+      extendedArray->put(i, amplitude * vcl_exp(-(vcl_pow((i - mean),2) / (2 * vcl_pow(sd,2))))); 
       }
     }
   return extendedArray;

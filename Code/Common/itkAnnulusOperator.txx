@@ -92,7 +92,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>
   double outerRadius = m_InnerRadius + m_Thickness;
   for (i=0; i < TDimension; ++i)
     {
-    r[i] = static_cast<SizeValueType>(ceil(outerRadius / m_Spacing[i]));
+    r[i] = static_cast<SizeValueType>(vcl_ceil(outerRadius / m_Spacing[i]));
     }
   this->SetRadius(r);
 

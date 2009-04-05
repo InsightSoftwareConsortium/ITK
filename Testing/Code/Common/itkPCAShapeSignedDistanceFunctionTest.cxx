@@ -166,8 +166,8 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     p[1] =  point[1] - parameters[startIndexOfTranslationParameters + 1]; 
 
     double angle = parameters[numberOfShapeParameters]; 
-    q[0] =  p[0] * cos(-angle) - p[1] * sin(-angle);
-    q[1] =  p[0] * sin(-angle) + p[1] * cos(-angle);    
+    q[0] =  p[0] * vcl_cos(-angle) - p[1] * vcl_sin(-angle);
+    q[1] =  p[0] * vcl_sin(-angle) + p[1] * vcl_cos(-angle);    
 
     // evaluate shape function
     output = shape->Evaluate(q);

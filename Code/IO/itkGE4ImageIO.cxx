@@ -24,10 +24,12 @@
 #include "itkMvtSunf.h"
 #include "itkDirectory.h"
 #include <itksys/SystemTools.hxx>
+#include <string.h>
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <stdio.h>
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
 namespace itk 

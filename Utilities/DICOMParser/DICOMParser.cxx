@@ -36,7 +36,7 @@
 #include <sys/types.h>
 #endif
 
-#include <string>
+#include <string.h>
 #include <map>
 
 #include "DICOMConfig.h"

@@ -22,7 +22,8 @@
 #endif
 
 #include <vector>
-#include <string>
+#include <string.h>
+#include <stdlib.h>
 #include <algorithm>
 
 #include <itksys/SystemTools.hxx>

@@ -255,14 +255,14 @@ int itkMatrixTest(int, char* [] )
       {
       for(unsigned int c=0; c < nc; c++)
         {
-        if( fabs( m3[r][c] - 2*r ) > tolerance ) 
+        if( vcl_fabs( m3[r][c] - 2*r ) > tolerance ) 
           {
           std::cerr << "Addition failed !" << std::endl;
           std::cerr << "M["<< r << "][" << c << "] = ";
           std::cerr << m3[r][c] << std::endl;
           return EXIT_FAILURE;
           }
-        if( fabs( m4[r][c] - 2*c ) > tolerance ) 
+        if( vcl_fabs( m4[r][c] - 2*c ) > tolerance ) 
           {
           std::cerr << "Subtraction failed !" << std::endl;
           return EXIT_FAILURE;
@@ -281,13 +281,13 @@ int itkMatrixTest(int, char* [] )
       {
       for(unsigned int c=0; c < nc; c++)
         {
-        if( fabs( m3[r][c] - m1[r][c] ) > tolerance ) 
+        if( vcl_fabs( m3[r][c] - m1[r][c] ) > tolerance ) 
           {
           std::cerr << "In-place addition failed !" << std::endl;
           std::cerr << m3 << std::endl;
           return EXIT_FAILURE;
           }
-        if( fabs( m4[r][c] - m1[r][c] ) > tolerance ) 
+        if( vcl_fabs( m4[r][c] - m1[r][c] ) > tolerance ) 
           {
           std::cerr << "In-place subtraction failed !" << std::endl;
           std::cerr << m4 << std::endl;

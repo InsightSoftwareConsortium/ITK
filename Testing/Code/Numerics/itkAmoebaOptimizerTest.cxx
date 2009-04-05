@@ -293,7 +293,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if(fabs(finalValue+9.99998)>0.01)
+  if(vcl_fabs(finalValue+9.99998)>0.01)
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -370,7 +370,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
   finalValue = itkOptimizer->GetValue();
-  if(fabs(finalValue+9.99998)>0.01)
+  if(vcl_fabs(finalValue+9.99998)>0.01)
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

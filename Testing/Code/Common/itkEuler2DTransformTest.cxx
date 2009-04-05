@@ -37,7 +37,7 @@ bool CheckEqual(
   const double epsilon = 1e-5;
   for( unsigned int i = 0; i < 2; i++ )
     {
-    if( fabs( p1[i] - p2[i] ) > epsilon )
+    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
       {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -84,9 +84,9 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   std::cout << "[ PASSED ]" << std::endl;
 
   // 15 degrees in radians
-  const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-  const double sinth = sin( angle );
-  const double costh = cos( angle );
+  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double sinth = vcl_sin( angle );
+  const double costh = vcl_cos( angle );
 
 
   std::cout << "Testing Rotation:";
@@ -104,7 +104,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   r = eulerTransform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
-     if( fabs( q[i]- r[i] ) > epsilon )
+     if( vcl_fabs( q[i]- r[i] ) > epsilon )
      {
         Ok = false;
         break;    
@@ -137,7 +137,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   r = eulerTransform->TransformPoint( p );
   for(unsigned int i=0; i<N; i++)
   {
-    if( fabs( q[i]- r[i] ) > epsilon )
+    if( vcl_fabs( q[i]- r[i] ) > epsilon )
     {
       Ok = false;
       break;    
@@ -193,7 +193,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
   EulerTransformType::Pointer t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if(fabs(t2->GetParameters()[0]-0.2)>0.0001)
+  if(vcl_fabs(t2->GetParameters()[0]-0.2)>0.0001)
     {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE; 
@@ -395,7 +395,7 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     for( unsigned int j = 0; j < t1->GetNumberOfParameters(); j++ )
       {
-      if ( fabs( parameters3[j] - pdash[j] ) > epsilon )
+      if ( vcl_fabs( parameters3[j] - pdash[j] ) > epsilon )
         {
         std::cout << "Expected: " << parameters3 << std::endl;
         std::cout << "Got: " << pdash << std::endl;

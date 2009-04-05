@@ -8,6 +8,8 @@
 #include <vcl_exception.h>
 #endif
 
+#  include <stdlib.h>
+
 #if defined(VCL_VC) || defined(VCL_BORLAND)
 #  include <crtdbg.h>
 #  include <windows.h>

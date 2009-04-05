@@ -174,8 +174,8 @@ public:
 
   typedef typename TransformType::SpacingType SpacingType;
   SpacingType spacing;
-  spacing[0] = floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
-  spacing[1] = floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
+  spacing[0] = vcl_floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
+  spacing[1] = vcl_floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
 
   typedef typename TransformType::OriginType OriginType;
   OriginType origin;

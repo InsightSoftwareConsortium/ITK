@@ -26,7 +26,7 @@
 #include <fstream>
 #include <iomanip>
 #include <stdio.h>
-#include <string>
+#include <string.h>
 
 #include "DICOMConfig.h"
 #include "DICOMBuffer.h"

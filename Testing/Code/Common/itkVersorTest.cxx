@@ -231,13 +231,13 @@ int itkVersorTest(int, char* [] )
     xa[0] = 2.5;
     xa[1] = 1.5;
     xa[2] = 0.5;
-    ValueType angle = atan(1.0)/3.0; // 15 degrees in radians
+    ValueType angle = vcl_atan(1.0)/3.0; // 15 degrees in radians
     qa.Set( xa, angle );
         
     xa.Normalize();
 
-    ValueType cosangle = cos( angle / 2.0 );
-    ValueType sinangle = sin( angle / 2.0 );
+    ValueType cosangle = vcl_cos( angle / 2.0 );
+    ValueType sinangle = vcl_sin( angle / 2.0 );
 
     VectorType xb;
 
@@ -274,8 +274,8 @@ int itkVersorTest(int, char* [] )
 
   {
     std::cout << "Test for setting Right part...";
-    ValueType angle = atan(1.0)*30.0/45.0;
-    ValueType sin2a = sin( angle/2.0 );
+    ValueType angle = vcl_atan(1.0)*30.0/45.0;
+    ValueType sin2a = vcl_sin( angle/2.0 );
     
     VectorType xa;
     xa[0] = 0.7;
@@ -287,7 +287,7 @@ int itkVersorTest(int, char* [] )
 
     VersorType qa;
     qa.Set( xa, angle );
-    ValueType cos2a = cos( angle/2.0 );
+    ValueType cos2a = vcl_cos( angle/2.0 );
 
     if( vcl_abs(qa.GetW()-cos2a) > epsilon ) 
       {
@@ -307,8 +307,8 @@ int itkVersorTest(int, char* [] )
  {
     std::cout << "Test for Square Root...";
     
-    ValueType angle = atan(1.0)*30.0/45.0;
-    ValueType sin2a = sin( angle/2.0 );
+    ValueType angle = vcl_atan(1.0)*30.0/45.0;
+    ValueType sin2a = vcl_sin( angle/2.0 );
     
     VectorType xa;
     xa[0] = 0.7;
@@ -340,7 +340,7 @@ int itkVersorTest(int, char* [] )
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0*atan(1.0)/3.0; // 120 degrees in radians
+    ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
     
     VersorType qa;
     qa.Set( xa, angle );
@@ -375,7 +375,7 @@ int itkVersorTest(int, char* [] )
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0*atan(1.0)/3.0; // 120 degrees in radians
+    ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
     
     VersorType qa;
     qa.Set( xa, angle );
@@ -411,7 +411,7 @@ int itkVersorTest(int, char* [] )
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0*atan(1.0)/3.0; // 120 degrees in radians
+    ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
     
     VersorType qa;
     qa.Set( xa, angle );
@@ -446,7 +446,7 @@ int itkVersorTest(int, char* [] )
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0*atan(1.0)/3.0; // 120 degrees in radians
+    ValueType angle = 8.0*vcl_atan(1.0)/3.0; // 120 degrees in radians
     
     VersorType qa;
     qa.Set( xa, angle );
@@ -484,7 +484,7 @@ int itkVersorTest(int, char* [] )
     VectorType::ValueType x1Init[3] = {2.5f, 1.5f, 3.5f};
     VectorType x1 = x1Init;
 
-    ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
+    ValueType angle1 = vcl_atan(1.0)/3.0; // 15 degrees in radians
     
     VersorType v1;
     v1.Set( x1, angle1 );
@@ -563,12 +563,12 @@ int itkVersorTest(int, char* [] )
     VectorType::ValueType x1Init[3] = {2.5f, 1.5f, 0.5f};
     VectorType x1 = x1Init;
 
-    ValueType angle1 = atan(1.0)/3.0; // 15 degrees in radians
+    ValueType angle1 = vcl_atan(1.0)/3.0; // 15 degrees in radians
     
     VectorType::ValueType x2Init[3] = {1.5f, 0.5f, 0.5f};
     VectorType x2 = x2Init;
 
-    ValueType angle2 = atan(1.0)/1.0; // 45 degrees in radians
+    ValueType angle2 = vcl_atan(1.0)/1.0; // 45 degrees in radians
     
     VersorType  v1;
     v1.Set( x1, angle1 );

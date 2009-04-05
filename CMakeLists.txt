@@ -486,6 +486,17 @@ IF(MINGW)
   LINK_LIBRARIES(gdi32)
 ENDIF(MINGW)
 
+# Add flags for the SUN compiler to provide all the methods for std::allocator.
+#
+INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
+itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
+IF(SUN_COMPILER)
+  itkCHECK_CXX_ACCEPTS_FLAGS("-library=stlport4" SUN_COMPILER_HAS_STL_PORT_4)
+  IF(SUN_COMPILER_HAS_STL_PORT_4)
+    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -library=stlport4")
+  ENDIF(SUN_COMPILER_HAS_STL_PORT_4)
+ENDIF(SUN_COMPILER)
+
 # for the gnu compiler a -D_PTHREADS is needed on sun
 # for the native compiler a -mt flag is needed on the sun
 IF(CMAKE_USE_PTHREADS)

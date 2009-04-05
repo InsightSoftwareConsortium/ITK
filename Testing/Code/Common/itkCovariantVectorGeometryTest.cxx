@@ -211,9 +211,9 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     
     const double tolerance = 1e-7;
 
-    if( fabs( normal[0] - expectedNormal[0] ) > tolerance ||
-        fabs( normal[1] - expectedNormal[1] ) > tolerance ||
-        fabs( normal[2] - expectedNormal[2] ) > tolerance )
+    if( vcl_fabs( normal[0] - expectedNormal[0] ) > tolerance ||
+        vcl_fabs( normal[1] - expectedNormal[1] ) > tolerance ||
+        vcl_fabs( normal[2] - expectedNormal[2] ) > tolerance )
       {
       std::cerr << "Error in CrossProduct computation." << std::endl;
       return EXIT_FAILURE;

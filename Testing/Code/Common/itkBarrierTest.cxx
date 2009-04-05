@@ -20,6 +20,8 @@
 #include "itkBarrier.h"
 #include "itkMultiThreader.h"
 #include "itkMutexLock.h"
+#include <stdlib.h>
+
 
 class BarrierTestUserData
 {

@@ -111,7 +111,7 @@ bool RunTest(
   // Verfications for the Geometry Mode
   for(unsigned int k=0; k < Dimension; k++ )
     {
-    if( fabs( center1[k] - fixedCenter[k] ) > tolerance )
+    if( vcl_fabs( center1[k] - fixedCenter[k] ) > tolerance )
       {
       std::cerr << "Center differs from expected value" << std::endl;
       std::cerr << "It should be " << fixedCenter << std::endl;
@@ -119,7 +119,7 @@ bool RunTest(
       pass = false;
       break;
       }
-    if( fabs( translation1[k] - relativeCenter[k] ) > tolerance )
+    if( vcl_fabs( translation1[k] - relativeCenter[k] ) > tolerance )
       {
       std::cerr << "Translation differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -127,7 +127,7 @@ bool RunTest(
       pass = false;
       break;
       }
-    if( fabs( offset1[k] - relativeCenter[k] ) > tolerance )
+    if( vcl_fabs( offset1[k] - relativeCenter[k] ) > tolerance )
       {
       std::cerr << "Offset differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -152,7 +152,7 @@ bool RunTest(
   // Verfications for the Moments Mode
   for(unsigned int k=0; k < Dimension; k++ )
     {
-    if( fabs( center2[k] - fixedCenter[k] ) > tolerance )
+    if( vcl_fabs( center2[k] - fixedCenter[k] ) > tolerance )
       {
       std::cerr << "Center differs from expected value" << std::endl;
       std::cerr << "It should be " << fixedCenter << std::endl;
@@ -160,7 +160,7 @@ bool RunTest(
       pass = false;
       break;
       }
-    if( fabs( translation2[k] - relativeCenter[k] ) > tolerance )
+    if( vcl_fabs( translation2[k] - relativeCenter[k] ) > tolerance )
       {
       std::cerr << "Translation differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -168,7 +168,7 @@ bool RunTest(
       pass = false;
       break;
       }
-    if( fabs( offset2[k] - relativeCenter[k] ) > tolerance )
+    if( vcl_fabs( offset2[k] - relativeCenter[k] ) > tolerance )
       {
       std::cerr << "Offset differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;

@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <stdlib.h>
 
 namespace itk {
 namespace fem {

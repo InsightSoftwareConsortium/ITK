@@ -192,7 +192,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   for(unsigned int k=0; k < Dimension; k++ )
     {
-    if( fabs( translation2[k] - relativeCenter[k] ) > tolerance )
+    if( vcl_fabs( translation2[k] - relativeCenter[k] ) > tolerance )
       {
       std::cerr << "Translation differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -200,7 +200,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
       pass = false;
       break;
       }
-    if( fabs( offset2[k] - relativeCenter[k] ) > tolerance )
+    if( vcl_fabs( offset2[k] - relativeCenter[k] ) > tolerance )
       {
       std::cerr << "Offset differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;

@@ -131,14 +131,14 @@ AzimuthElevationToCartesianTransform<TScalarType, NDimensions>::
 TransformCartesianToAzEl(const OutputPointType &point) const 
 {
   InputPointType result;       // Converted point
-  result[0] = (atan(point[0] / point[2])) * (360 / (2*vnl_math::pi)) 
+  result[0] = (vcl_atan(point[0] / point[2])) * (360 / (2*vnl_math::pi)) 
                                             + ((m_MaxAzimuth-1)/2.0);
-  result[1] = (atan(point[1] / point[2])) * (360 / (2*vnl_math::pi)) 
+  result[1] = (vcl_atan(point[1] / point[2])) * (360 / (2*vnl_math::pi)) 
                                             + ((m_MaxElevation-1)/2.0);
-  result[2] = ((sqrt( point[0] * point[0] +
-                      point[1] * point[1] +
-                      point[2] * point[2]) / m_RadiusSampleSize) 
-                      - m_FirstSampleDistance);
+  result[2] = ((vcl_sqrt( point[0] * point[0] +
+                          point[1] * point[1] +
+                          point[2] * point[2]) / m_RadiusSampleSize) 
+                         - m_FirstSampleDistance);
   return result;
 }
 
