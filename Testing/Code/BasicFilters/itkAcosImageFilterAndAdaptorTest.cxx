@@ -130,7 +130,7 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
     if( vcl_fabs( arccosinus - output ) > epsilon )
       {
       std::cerr << "Error in itkAcosImageFilterTest " << std::endl;
-      std::cerr << " acos( " << input << ") = " << arccosinus << std::endl;
+      std::cerr << " vcl_acos( " << input << ") = " << arccosinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
