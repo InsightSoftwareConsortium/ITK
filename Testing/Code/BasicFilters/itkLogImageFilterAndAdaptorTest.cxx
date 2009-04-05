@@ -81,16 +81,15 @@ int itkLogImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = atan( 1.0 ) * 4.0;
-  const double value = pi / 6.0;
+  const double value = vnl_math::pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() ) 
-  {
+    {
     it.Set( value );
     std::cout << it.Get() << std::endl;
     ++it;
-  }
+    }
 
   // Declare the type for the Log filter
   typedef itk::LogImageFilter< InputImageType,

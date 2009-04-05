@@ -83,16 +83,15 @@ int itkCosImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = atan( 1.0 ) * 4.0;
-  const double value = pi / 6.0;
+  const double value = vnl_math::pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() ) 
-  {
+    {
     it.Set( value );
     std::cout << it.Get() << std::endl;
     ++it;
-  }
+    }
 
   // Declare the type for the Cos filter
   typedef itk::CosImageFilter< InputImageType,
@@ -123,23 +122,23 @@ int itkCosImageFilterAndAdaptorTest(int, char* [] )
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() ) 
-  {
+    {
     std::cout <<  ot.Get() << " = ";
     std::cout <<  vcl_cos( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType cosinus  = vcl_cos(input);
     if( vcl_fabs( cosinus - output ) > epsilon )
-    {
+      {
       std::cerr << "Error in itkCosImageFilterTest " << std::endl;
       std::cerr << " cos( " << input << ") = " << cosinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++ot;
     ++it;
-  }
+    }
 
   //---------------------------------------
   // This section tests for CosImageAdaptor

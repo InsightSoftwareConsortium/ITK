@@ -83,16 +83,15 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = vcl_atan( 1.0 ) * 4.0;
-  const double value = pi / 6.0;
+  const double value = vnl_math::pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() ) 
-  {
+    {
     it.Set( value );
     std::cout << it.Get() << std::endl;
     ++it;
-  }
+    }
 
   // Declare the type for the Atan filter
   typedef itk::AtanImageFilter< InputImageType,
@@ -132,7 +131,7 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
     if( vcl_fabs( arctangent - output ) > epsilon )
       {
       std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
-      std::cerr << " atan( " << input << ") = " << arctangent << std::endl;
+      std::cerr << " vcl_atan( " << input << ") = " << arctangent << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
