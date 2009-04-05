@@ -303,7 +303,7 @@ int itkRigid3DTransformTest(int ,char * [] )
     mrotation.SetIdentity();
 
     // 15 degrees in radians
-    const double angle = 15.0 * atan( 1.0f ) / 45.0; 
+    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
     const double sinth = vcl_sin( angle );
     const double costh = vcl_cos( angle );
 

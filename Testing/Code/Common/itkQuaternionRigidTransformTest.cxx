@@ -215,12 +215,12 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     TransformType::VnlQuaternionType qrotation;
    
     // 15 degrees in radians
-    const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-    const double sinth2 = sin( angle / 2.0 );
-    const double costh2 = cos( angle / 2.0 );
+    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+    const double sinth2 = vcl_sin( angle / 2.0 );
+    const double costh2 = vcl_cos( angle / 2.0 );
 
-    const double sinth  = sin( angle );
-    const double costh  = cos( angle );
+    const double sinth  = vcl_sin( angle );
+    const double costh  = vcl_cos( angle );
 
     // around the positive Z axis 
     qrotation[0] =     0.0;
@@ -434,10 +434,10 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
 
     double angle = 0.62 / 180.0 * vnl_math::pi;
 
-    parameters[0] =  2.0 * sin( 0.5 * angle );
-    parameters[1] =  5.0 * sin( 0.5 * angle );
-    parameters[2] = -4.0 * sin( 0.5 * angle );
-    parameters[3] =        cos( 0.5 * angle );
+    parameters[0] =  2.0 * vcl_sin( 0.5 * angle );
+    parameters[1] =  5.0 * vcl_sin( 0.5 * angle );
+    parameters[2] = -4.0 * vcl_sin( 0.5 * angle );
+    parameters[3] =        vcl_cos( 0.5 * angle );
     parameters[4] = 6.0;
     parameters[5] = 8.0;
     parameters[6] = 10.0;
@@ -524,12 +524,12 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     TransformType::VnlQuaternionType qrotation;
    
     // 15 degrees in radians
-    const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-    const double sinth2 = sin( angle / 2.0 );
-    const double costh2 = cos( angle / 2.0 );
+    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+    const double sinth2 = vcl_sin( angle / 2.0 );
+    const double costh2 = vcl_cos( angle / 2.0 );
 
-    const double sinth  = sin( angle );
-    const double costh  = cos( angle );
+    const double sinth  = vcl_sin( angle );
+    const double costh  = vcl_cos( angle );
 
     // around the positive Z axis 
     qrotation[0] =     0.0;
@@ -812,10 +812,10 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
       matrix.GetVnlMatrix().set_identity();
 
       double a = 1.0 / 180.0 * vnl_math::pi;
-      matrix[0][0] =        cos( a );
-      matrix[0][1] = -1.0 * sin( a );
-      matrix[1][0] =        sin( a ); 
-      matrix[1][1] =        cos( a );
+      matrix[0][0] =        vcl_cos( a );
+      matrix[0][1] = -1.0 * vcl_sin( a );
+      matrix[1][0] =        vcl_sin( a ); 
+      matrix[1][1] =        vcl_cos( a );
 
      Ok = true;
      try
@@ -844,8 +844,8 @@ int itkQuaternionRigidTransformTest(int ,char * [] )
     typedef TransformType::ParametersType ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
-    e[2] = sin(0.5 * a);
-    e[3] = cos(0.5 * a );
+    e[2] = vcl_sin(0.5 * a);
+    e[3] = vcl_cos(0.5 * a );
 
     t = TransformType::New();
     t->SetParameters( e );

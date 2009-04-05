@@ -162,9 +162,9 @@ int itkSimilarity2DTransformTest(int ,char *[] )
   
   // 15 degrees in radians
   transform->SetIdentity();
-  const double angle = 15.0 * atan( 1.0f ) / 45.0; 
-  const double sinth = sin( angle );
-  const double costh = cos( angle );
+  const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0; 
+  const double sinth = vcl_sin( angle );
+  const double costh = vcl_cos( angle );
 
 
   std::cout << "Testing Rotation:";
