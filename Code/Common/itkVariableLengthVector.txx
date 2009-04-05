@@ -22,6 +22,7 @@
 #include "vnl/vnl_math.h"
 #include <cstring>
 #include <stdlib.h>
+#include <string.h>
 
 namespace itk
 {
