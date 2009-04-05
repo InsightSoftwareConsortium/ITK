@@ -162,10 +162,12 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
   Superclass::PrintSelf( os, indent );
   os << indent  << "Spline Order: " << this->m_SplineOrder << std::endl;
   os << indent  << "Piecewise Polynomial Pieces: " << std::endl;
+
+  RealType a = 0.0;
+  RealType b = 0.0;
+
   for ( unsigned int i = 0; i < this->m_BSplineShapeFunctions.rows(); i++ )
     {
-    RealType a = 0.0;
-    RealType b = 0.0;
     os << indent << indent;
 
     PolynomialType( this->m_BSplineShapeFunctions.get_row( i ) ).print( os );
