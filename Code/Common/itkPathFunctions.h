@@ -100,7 +100,7 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
   int         dimension =     OffsetType::GetOffsetDimension();
   unsigned    numSteps  =     chainPath.NumberOfSteps();
   
-  const double PI = 4.0 * atan( 1.0 );
+  const double PI = 4.0 * vcl_atan( 1.0 );
 
   FSPath.Clear();
   

@@ -36,7 +36,7 @@ FourierSeriesPath<VDimension>
   numHarmonics = m_CosCoefficients->Size(); 
   output.Fill(0);
   
-  const double PI = 4.0 * atan( 1.0 );
+  const double PI = 4.0 * vcl_atan( 1.0 );
 
   if( numHarmonics > 0 ) { output += m_CosCoefficients->ElementAt(0); }
   
@@ -64,7 +64,7 @@ FourierSeriesPath<VDimension>
   numHarmonics = m_CosCoefficients->Size(); 
   output.Fill(0);
   
-  const double PI = 4.0 * atan( 1.0 );
+  const double PI = 4.0 * vcl_atan( 1.0 );
 
   for(int n=1; n<numHarmonics; n++)
     {
