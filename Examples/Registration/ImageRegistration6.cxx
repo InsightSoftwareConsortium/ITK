@@ -373,7 +373,7 @@ int main( int argc, char *argv[] )
 
   // Print out results
   //
-  const double finalAngleInDegrees = finalAngle * 45.0 / atan(1.0);
+  const double finalAngleInDegrees = finalAngle * 180.0 / vnl_math::pi;
 
   std::cout << "Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;

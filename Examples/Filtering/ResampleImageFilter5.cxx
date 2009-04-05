@@ -178,7 +178,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
-  const double degreesToRadians = atan(1.0) / 45.0;
+  const double degreesToRadians = vcl_atan(1.0) / 45.0;
   const double angle = angleInDegrees * degreesToRadians;
   transform->SetAngle( angle );
   // Software Guide : EndCodeSnippet

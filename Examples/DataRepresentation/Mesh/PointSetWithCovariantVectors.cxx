@@ -108,7 +108,7 @@ int main(int, char *[])
 
   for(unsigned int i=0; i<360; i++)
     {
-    const double angle = i * atan(1.0) / 45.0;
+    const double angle = i * vcl_atan(1.0) / 45.0;
     point[0] = radius * sin( angle );
     point[1] = radius * cos( angle );
     point[2] = 1.0;   // flat on the Z plane

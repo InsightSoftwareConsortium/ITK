@@ -123,7 +123,7 @@ public:
       vnl_matrix<double> r(2, 2);
       r = svd.U() * vnl_transpose(svd.V());
       double angle = asin(r[1][0]);
-      std::cout << " AffineAngle: " << angle * 45.0 / atan(1.0) << std::endl;
+      std::cout << " AffineAngle: " << angle * 180.0 / vnl_math::pi << std::endl;
     }
 };
 
@@ -428,9 +428,11 @@ int main( int argc, char *argv[] )
   r = svd.U() * vnl_transpose(svd.V());
   double angle = asin(r[1][0]);
   
-  std::cout << " Scale 1         = " << svd.W(0)                 << std::endl;
-  std::cout << " Scale 2         = " << svd.W(1)                 << std::endl;
-  std::cout << " Angle (degrees) = " << angle * 45.0 / atan(1.0) << std::endl;
+  const double angleInDegrees = angle * 180.0 / vnl_math::pi;
+
+  std::cout << " Scale 1         = " << svd.W(0)        << std::endl;
+  std::cout << " Scale 2         = " << svd.W(1)        << std::endl;
+  std::cout << " Angle (degrees) = " << angleInDegrees  << std::endl;
   
 
   //  Software Guide : BeginLatex
