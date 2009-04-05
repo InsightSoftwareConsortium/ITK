@@ -155,9 +155,9 @@ int itkEigenAnalysis2DImageFilterTest(int, char* [] )
 
   const double myPI = 4.0 * atan(1.0);
 
-  InitializeImage( inputImageXX, cos( myPI / 6.0 ) );
-  InitializeImage( inputImageXY, sin( myPI / 6.0 ) );
-  InitializeImage( inputImageYY, cos( myPI / 6.0 ) );
+  InitializeImage( inputImageXX, vcl_cos( myPI / 6.0 ) );
+  InitializeImage( inputImageXY, vcl_sin( myPI / 6.0 ) );
+  InitializeImage( inputImageYY, vcl_cos( myPI / 6.0 ) );
 
 
   // Create a  Filter                                

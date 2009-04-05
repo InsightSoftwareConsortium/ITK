@@ -65,9 +65,9 @@ itkBSplineScatteredDataPointSetToImageFilterTest2( int argc , char * argv [] )
     pointSet->SetPoint( i, point );
 
     VectorType V;
-    V[0] = 0.25*cos(t*6.0*3.141);
-    V[1] = 0.25*sin(t*6.0*3.141);
-    V[2] = 4.0*t;
+    V[0] = 0.25 * vcl_cos(t*6.0*3.141);
+    V[1] = 0.25 * vcl_sin(t*6.0*3.141);
+    V[2] = 4.00 * t;
 
     std::cout << V << std::endl;
 

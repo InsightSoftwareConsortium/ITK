@@ -202,8 +202,8 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
     fIter.Set( (PixelType) F(d) );
 
       
-    d2[0] =  d[0] * cos(angle) + d[1] * sin(angle) + displacement[0];
-    d2[1] = -d[0] * sin(angle) + d[1] * cos(angle) + displacement[1];
+    d2[0] =  d[0] * vcl_cos(angle) + d[1] * vcl_sin(angle) + displacement[0];
+    d2[1] = -d[0] * vcl_sin(angle) + d[1] * vcl_cos(angle) + displacement[1];
     d2[2] = d[2] + displacement[2];
 
     mIter.Set( (PixelType) F(d2) );
@@ -323,12 +323,12 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
   RegistrationType::ParametersType trueParameters( 
     transform->GetNumberOfParameters() );
   trueParameters.Fill( 0.0 );
-  trueParameters[2] =   sin( angle / 2.0 );
-  trueParameters[3] =   cos( angle / 2.0 );
-  trueParameters[4] = -1.0 * ( displacement[0] * cos(angle) -
-                               displacement[1] * sin(angle) ) ;
-  trueParameters[5] = -1.0 * ( displacement[0] * sin(angle) +
-                               displacement[1] * cos(angle) );
+  trueParameters[2] =   vcl_sin( angle / 2.0 );
+  trueParameters[3] =   vcl_cos( angle / 2.0 );
+  trueParameters[4] = -1.0 * ( displacement[0] * vcl_cos(angle) -
+                               displacement[1] * vcl_sin(angle) ) ;
+  trueParameters[5] = -1.0 * ( displacement[0] * vcl_sin(angle) +
+                               displacement[1] * vcl_cos(angle) );
   trueParameters[6] = -1.0 * displacement[2];
 
   std::cout << "True solution is: " << trueParameters << std::endl;

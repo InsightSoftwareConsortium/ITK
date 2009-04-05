@@ -123,10 +123,10 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() ) 
   {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  acos( it.Get() )  << std::endl; 
+    std::cout <<  vcl_acos( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType arccosinus  = acos(input);
+    const OutputImageType::PixelType arccosinus  = vcl_acos(input);
     if( fabs( arccosinus - output ) > epsilon )
     {
       std::cerr << "Error in itkAcosImageFilterTest " << std::endl;

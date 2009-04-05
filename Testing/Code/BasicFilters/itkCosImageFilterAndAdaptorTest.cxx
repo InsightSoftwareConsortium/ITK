@@ -125,10 +125,10 @@ int itkCosImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() ) 
   {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  cos( it.Get() )  << std::endl; 
+    std::cout <<  vcl_cos( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType cosinus  = cos(input);
+    const OutputImageType::PixelType cosinus  = vcl_cos(input);
     if( fabs( cosinus - output ) > epsilon )
     {
       std::cerr << "Error in itkCosImageFilterTest " << std::endl;

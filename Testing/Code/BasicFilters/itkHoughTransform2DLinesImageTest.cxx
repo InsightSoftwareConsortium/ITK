@@ -73,12 +73,12 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   float teta = 0.20; // radians
   float radius = 50;
   
-  double Vx = radius*cos( teta );
-  double Vy = radius*sin( teta );
+  double Vx = radius * vcl_cos( teta );
+  double Vy = radius * vcl_sin( teta );
 
   double norm = sqrt(Vx*Vx+Vy*Vy);
-  double VxNorm = Vx/norm;
-  double VyNorm = Vy/norm;
+  double VxNorm = Vx / norm;
+  double VyNorm = Vy / norm;
        
   unsigned int maxval = size[0]*size[1];
 
@@ -214,8 +214,8 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
         {     
           for(double length = 0; length < m_HoughDiscRadius;length += 1)
           {
-            m_Index[0] = (long int)(it_input.GetIndex()[0] + length * cos(angle));
-            m_Index[1] = (long int)(it_input.GetIndex()[1] + length * sin(angle));
+            m_Index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
+            m_Index[1] = (long int)(it_input.GetIndex()[1] + length * vcl_sin(angle));
             if( ((m_Index[0]<=sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
               && ((m_Index[1]<=500) && (m_Index[1]>=0))
             )

@@ -60,8 +60,8 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   {
     for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
     {
-      index[0] = (long int)(center[0][0] + i * cos(angle));
-      index[1] = (long int)(center[0][1] + i * sin(angle));
+      index[0] = (long int)(center[0][0] + i * vcl_cos(angle));
+      index[1] = (long int)(center[0][1] + i * vcl_sin(angle));
       m_Image->SetPixel(index,255);
     }
   }
@@ -74,8 +74,8 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   {
     for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
     {
-      index[0] = (long int)(center[1][0] + i * cos(angle));
-      index[1] = (long int)(center[1][1] + i * sin(angle));
+      index[0] = (long int)(center[1][0] + i * vcl_cos(angle));
+      index[1] = (long int)(center[1][1] + i * vcl_sin(angle));
       m_Image->SetPixel(index,255);
     }
   }
@@ -88,8 +88,8 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   {
     for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000)
     {
-      index[0] = (long int)(center[2][0] + i * cos(angle));
-      index[1] = (long int)(center[2][1] + i * sin(angle));
+      index[0] = (long int)(center[2][0] + i * vcl_cos(angle));
+      index[1] = (long int)(center[2][1] + i * vcl_sin(angle));
       m_Image->SetPixel(index,255);
     }
   }
@@ -198,15 +198,15 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
       /** Draw the circle */
       for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000)
       {
-        index[0] = (long int)(it_output.GetIndex()[0] + radius2 * cos(angle));
-        index[1] = (long int)(it_output.GetIndex()[1] + radius2 * sin(angle));
+        index[0] = (long int)(it_output.GetIndex()[0] + radius2 * vcl_cos(angle));
+        index[1] = (long int)(it_output.GetIndex()[1] + radius2 * vcl_sin(angle));
         m_HoughSpaceImage->SetPixel(index,255);
         
         /** Remove the maximum from the accumulator */
         for(double length = 0; length < discRatio*radius2;length+=1)
         {
-          index[0] = (long int)(it_output.GetIndex()[0] + length * cos(angle));
-          index[1] = (long int)(it_output.GetIndex()[1] + length* sin(angle));
+          index[0] = (long int)(it_output.GetIndex()[0] + length * vcl_cos(angle));
+          index[1] = (long int)(it_output.GetIndex()[1] + length * vcl_sin(angle));
           m_PostProcessImage->SetPixel(index,0);
         } 
       }
