@@ -24,6 +24,7 @@
 #include <vnl/vnl_math.h>
 #include <itkArray.h>
 #include <itkArray2D.h>
+#include <stdlib.h>
 
 
 
