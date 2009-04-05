@@ -622,10 +622,10 @@ int itkScaleSkewVersor3DTransformTest(int, char* [] )
 
       double a = 1.0 / 180.0 * vnl_math::pi;
       double s = 1.0;
-      matrix[0][0] =        cos( a ) * s;
-      matrix[0][1] = -1.0 * sin( a ) * s;
-      matrix[1][0] =        sin( a ) * s; 
-      matrix[1][1] =        cos( a ) * s;
+      matrix[0][0] =        vcl_cos( a ) * s;
+      matrix[0][1] = -1.0 * vcl_sin( a ) * s;
+      matrix[1][0] =        vcl_sin( a ) * s; 
+      matrix[1][1] =        vcl_cos( a ) * s;
       matrix[2][2] =                   s;
 
      Ok = true;
@@ -659,7 +659,7 @@ int itkScaleSkewVersor3DTransformTest(int, char* [] )
     typedef TransformType::ParametersType ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
-    e[2] = sin(0.5 * a);
+    e[2] = vcl_sin(0.5 * a);
     e[6] = s;
     e[7] = s;
     e[8] = s;
