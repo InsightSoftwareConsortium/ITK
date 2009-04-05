@@ -125,14 +125,14 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() ) 
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  asin( it.Get() )  << std::endl; 
+    std::cout <<  vcl_asin( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType arcsinus  = asin(input);
+    const OutputImageType::PixelType arcsinus  = vcl_asin(input);
     if( vcl_fabs( arcsinus - output ) > epsilon )
       {
       std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
-      std::cerr << " asin( " << input << ") = " << arcsinus << std::endl;
+      std::cerr << " vcl_asin( " << input << ") = " << arcsinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
