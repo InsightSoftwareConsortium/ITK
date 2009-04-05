@@ -226,24 +226,24 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   std::cout << "Done." << std::endl;
 
   for(unsigned int i=0;i<3;i++)
-  {
-     if((fabs((double)(center_result[i][0])-(double)(center[i][0]))>2.0) ||
-        (fabs((double)(center_result[i][1])-(double)(center[i][1]))>2.0) ||
-        (fabs((double)(radius_result[i]-radius[i]))>2.0)
-       )
-     {
-       std::cout << "Failure for circle #" << i << std::endl;
-       std::cout << "Excpected center: [" << center_result[i][0] <<"," << center_result[i][1]
-                 << "] found [" << center[i][0] <<"," << center[i][1] << "]" << std::endl;
-       std::cout << "Excpected radius: " << radius_result[i] << " found " << radius[i] << std::endl;
-       return EXIT_FAILURE;
-     }
-    else
     {
+    if((vcl_fabs((double)(center_result[i][0])-(double)(center[i][0]))>2.0) ||
+       (vcl_fabs((double)(center_result[i][1])-(double)(center[i][1]))>2.0) ||
+       (vcl_fabs((double)(radius_result[i]-radius[i]))>2.0)
+       )
+      {
+      std::cout << "Failure for circle #" << i << std::endl;
+      std::cout << "Excpected center: [" << center_result[i][0] <<"," << center_result[i][1]
+                << "] found [" << center[i][0] <<"," << center[i][1] << "]" << std::endl;
+      std::cout << "Excpected radius: " << radius_result[i] << " found " << radius[i] << std::endl;
+      return EXIT_FAILURE;
+      }
+    else
+      {
       std::cout << "Circle #" << i << " [" << center_result[i][0] << "," 
                 << center_result[i][1] << "] -> radius = " <<  radius_result[i] << std::endl;
+      }
     }
-  }
 
   std::cout << "Hough Transform Successful" << std::endl;
   return EXIT_SUCCESS;

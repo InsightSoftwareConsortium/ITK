@@ -345,11 +345,11 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     {
     for(int j=0;j<numberNodes1;++j)
       {
-      if( fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j)) >= 0.0001) 
+      if( vcl_fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j)) >= 0.0001) 
         {
         indexI = i;
         indexJ = j;
-        difference = fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j));
+        difference = vcl_fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j));
         distanceSuccess = false;
         break;
         }
@@ -466,11 +466,11 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     {
     for(int l = 0; l < numberNodes2; l++)
       {
-      if( fabs(correspondenceMatrix->get(k,l) - correctCorrespondenceMatrix->get(k,l)) >= 0.0001)
+      if( vcl_fabs(correspondenceMatrix->get(k,l) - correctCorrespondenceMatrix->get(k,l)) >= 0.0001)
         {
         indexK = k;
         indexL = l;
-        difference2 = fabs(correspondenceMatrix->get(k,l) - correctCorrespondenceMatrix->get(k,l));
+        difference2 = vcl_fabs(correspondenceMatrix->get(k,l) - correctCorrespondenceMatrix->get(k,l));
         unarySuccess = false;
         break;
         }

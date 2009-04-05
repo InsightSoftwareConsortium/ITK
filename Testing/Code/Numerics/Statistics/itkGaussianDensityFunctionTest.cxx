@@ -59,7 +59,7 @@ int itkGaussianDensityFunctionTest(int, char* [] )
 
   const double gaussianNorm = 1.0 / ( sqrt( 2 * nPI ) * Sigma );
 
-  if( fabs( gaussianNorm - value1 ) > 1e-6 )
+  if( vcl_fabs( gaussianNorm - value1 ) > 1e-6 )
     {
     std::cerr << "ERROR in computation of the Gaussian " << std::endl;
     return EXIT_FAILURE;

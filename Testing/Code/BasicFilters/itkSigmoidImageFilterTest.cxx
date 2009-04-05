@@ -137,32 +137,25 @@ int itkSigmoidImageFilterTest(int, char* [] )
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() ) 
-  {
+    {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = ( input - beta ) / alpha;
     const double x2 = ( maximum - minimum )*( 1.0 / ( 1.0 + exp( -x1 ) ) ) + minimum;
     const OutputImageType::PixelType sigmoid  = 
             static_cast<OutputImageType::PixelType>( x2 );
-    if( fabs( sigmoid - output ) > epsilon )
-    {
+    if( vcl_fabs( sigmoid - output ) > epsilon )
+      {
       std::cerr << "Error in itkSigmoidImageFilterTest " << std::endl;
       std::cerr << " simoid( " << input << ") = " << sigmoid << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++ot;
     ++it;
-  }
+    }
 
 
-
-  
   return EXIT_SUCCESS;
-
 }
-
-
-
-

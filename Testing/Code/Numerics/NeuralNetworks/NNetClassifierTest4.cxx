@@ -125,7 +125,7 @@ NNetClassifierTest4(int argc, char* argv[])
     tv = iter2.GetMeasurementVector();
     ov.Set_vnl_vector(net1->GenerateOutput(mv));
     flag=0;
-    if (fabs(tv[0]-ov[0])>0.2)
+    if (vcl_fabs(tv[0]-ov[0])>0.2)
       {
       flag = 1;
       }

@@ -147,7 +147,7 @@ int itkSquaredDifferenceImageFilterTest(int, char* [] )
   while( !it4.IsAtEnd() ) 
   {
     std::cout << it4.Get() << std::endl;
-    if( fabs( it4.Get() - outputValue ) > epsilon )
+    if( vcl_fabs( it4.Get() - outputValue ) > epsilon )
     {
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
@@ -161,9 +161,4 @@ int itkSquaredDifferenceImageFilterTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }
-
-
-
-

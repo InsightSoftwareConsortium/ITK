@@ -88,11 +88,11 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() ) 
-  {
+    {
     it.Set( value );
     std::cout << it.Get() << std::endl;
     ++it;
-  }
+    }
 
   // Declare the type for the ExpNegative filter
   typedef itk::ExpNegativeImageFilter< InputImageType,
@@ -123,23 +123,23 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() ) 
-  {
+    {
     std::cout <<  ot.Get() << " = ";
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType exponential  = exp( - input);
     std::cout <<  exponential  << std::endl; 
-    if( fabs( exponential - output ) > epsilon )
-    {
+    if( vcl_fabs( exponential - output ) > epsilon )
+      {
       std::cerr << "Error in itkExpNegativeImageFilterTest " << std::endl;
       std::cerr << " exp( - " << input << ") = " << exponential << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++ot;
     ++it;
-  }
+    }
 
 
   //---------------------------------------
@@ -177,28 +177,21 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
   
   dt.GoToBegin();
   while( !dt.IsAtEnd() ) 
-  {
+    {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( fabs( diff ) > epsilon )
-    {
+    if( vcl_fabs( diff ) > epsilon )
+      {
       std::cerr << "Error in itkExpNegativeImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++dt;
-  }
-
-
+    }
 
   
   return EXIT_SUCCESS;
-
 }
-
-
-
-

@@ -65,7 +65,7 @@ int itkGaussianDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected1[i+5]);
+    diff = vcl_fabs(value - expected1[i+5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -96,7 +96,7 @@ int itkGaussianDistributionTest(int, char* [] )
     {
     value = distributionFunction->EvaluateInverseCDF( expected1[i+5] );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Inverse Gaussian cdf at ";
     std::cout.width(22);
@@ -148,7 +148,7 @@ int itkGaussianDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected2[i+5]);
+    diff = vcl_fabs(value - expected2[i+5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -204,7 +204,7 @@ int itkGaussianDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x, params );
 
-    diff = fabs(value - expected3[i+5]);
+    diff = vcl_fabs(value - expected3[i+5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -253,7 +253,7 @@ int itkGaussianDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x, params[0], params[1] );
 
-    diff = fabs(value - expected4[i+5]);
+    diff = vcl_fabs(value - expected4[i+5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -287,7 +287,7 @@ int itkGaussianDistributionTest(int, char* [] )
     {
     value = distributionFunction->EvaluateInverseCDF( expected2[i+5] );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Inverse Gaussian cdf at ";
     std::cout.width(22);

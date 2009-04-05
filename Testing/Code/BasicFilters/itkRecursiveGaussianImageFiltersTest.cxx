@@ -227,7 +227,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     const PixelType valueB = filter->GetOutput()->GetPixel( index );
 
-    if( fabs( (valueB - valueA) / valueA ) > 1e-4 )
+    if( vcl_fabs( (valueB - valueA) / valueA ) > 1e-4 )
       {
       std::cout << "FAILED !" << std::endl;
       std::cerr << "Error, Normalization across scales is failing" << std::endl;

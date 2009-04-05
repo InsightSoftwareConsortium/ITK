@@ -143,7 +143,7 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     std::cout <<  output << " = ";
     std::cout <<  norm  << std::endl; 
 
-    if( fabs( norm - output ) > epsilon )
+    if( vcl_fabs( norm - output ) > epsilon )
       {
       std::cerr << "Error in itkComplexToModulusImageFilterTest " << std::endl;
       std::cerr << " norm( " << input << ") = " << norm << std::endl;
@@ -195,7 +195,7 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( fabs( diff ) > epsilon )
+    if( vcl_fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkComplexToModulusImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
@@ -207,12 +207,5 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     ++dt;
     }
 
-
-
   return EXIT_SUCCESS;
-
 }
-
-
-
-

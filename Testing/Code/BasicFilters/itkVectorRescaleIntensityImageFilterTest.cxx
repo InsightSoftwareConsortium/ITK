@@ -102,7 +102,7 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
       {
       if (outputValue[k] != 0)
         {
-        if( fabs( outputValue[k] - pixelValue[k] * factor ) / outputValue[k] - 1.0 > tolerance )
+        if( vcl_fabs( outputValue[k] - pixelValue[k] * factor ) / outputValue[k] - 1.0 > tolerance )
           {
           std::cerr << "Test FAILED !" << std::endl;
           std::cerr << "Input  Pixel Value = " << pixelValue  << std::endl;

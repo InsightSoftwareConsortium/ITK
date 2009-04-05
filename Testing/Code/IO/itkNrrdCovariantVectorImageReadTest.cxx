@@ -66,10 +66,10 @@ int itkNrrdCovariantVectorImageReadTest( int ac, char* av[] )
         {
         coord[0] = xi;
         sample = image->GetPixel(coord);
-        err += fabs(sample[0] - coord[0]);
-        err += fabs(sample[1] - coord[1]);
-        err += fabs(sample[2] - coord[2]);
-        err += fabs(sample[3] - idx);
+        err += vcl_fabs(sample[0] - coord[0]);
+        err += vcl_fabs(sample[1] - coord[1]);
+        err += vcl_fabs(sample[2] - coord[2]);
+        err += vcl_fabs(sample[3] - idx);
         idx++;
         }
       }

@@ -50,8 +50,8 @@ const unsigned int WIDTH  = (128);
 float square(unsigned x, unsigned y)
 {
     float X, Y;
-    X = ::fabs(x - (float)WIDTH/2.0);
-    Y = ::fabs(y - (float)HEIGHT/2.0);
+    X = vcl_fabs(x - (float)WIDTH/2.0);
+    Y = vcl_fabs(y - (float)HEIGHT/2.0);
     float dis;
     if (!((X > RADIUS)&&(Y > RADIUS)))
       dis = RADIUS - vnl_math_max(X, Y);

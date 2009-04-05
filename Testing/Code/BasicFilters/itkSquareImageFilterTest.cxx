@@ -124,32 +124,25 @@ int itkSquareImageFilterTest(int, char* [] )
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() ) 
-  {
+    {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = input;
     const double x2 = x1 * x1;
     const OutputImageType::PixelType square  = 
             static_cast<OutputImageType::PixelType>( x2 );
-    if( fabs( square - output ) > epsilon )
-    {
+    if( vcl_fabs( square - output ) > epsilon )
+      {
       std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
       std::cerr << " square( " << input << ") = " << square << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++ot;
     ++it;
-  }
-
-
+    }
 
   
   return EXIT_SUCCESS;
-
 }
-
-
-
-

@@ -197,7 +197,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
   const double distance2 = outputDistance2D->GetPixel( index );
 
-  if( fabs( distance2 - distance1 * distance1 ) > 1e-5 )
+  if( vcl_fabs( distance2 - distance1 * distance1 ) > 1e-5 )
     {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
     return EXIT_FAILURE;

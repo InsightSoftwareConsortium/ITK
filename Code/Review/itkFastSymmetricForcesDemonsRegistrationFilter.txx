@@ -240,7 +240,7 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformatio
     }
 
   // use time step if necessary
-  if ( fabs(dt - 1.0)>1.0e-4 )
+  if ( vcl_fabs(dt - 1.0)>1.0e-4 )
     {
     itkDebugMacro( "Using timestep: " << dt );
     m_Multiplier->SetConstant( dt );

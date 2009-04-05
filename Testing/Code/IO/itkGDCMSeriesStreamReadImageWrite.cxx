@@ -36,12 +36,12 @@
 /// Also it is check to see if the u an v are both less then
 /// epsilon for the type
 static bool IsEqualTolerant(const float lm, const float rm, double tol) {
-  tol = fabs(tol);
-  float temp = fabs(lm - rm);    
-  return  temp <= tol*fabs(lm) ||
-    temp <= tol*fabs(rm) || 
-    (fabs(lm) < vcl_numeric_limits<float>::epsilon() &&
-     fabs(rm) < vcl_numeric_limits<float>::epsilon());
+  tol = vcl_fabs(tol);
+  float temp = vcl_fabs(lm - rm);    
+  return  temp <= tol*vcl_fabs(lm) ||
+    temp <= tol*vcl_fabs(rm) || 
+    (vcl_fabs(lm) < vcl_numeric_limits<float>::epsilon() &&
+     vcl_fabs(rm) < vcl_numeric_limits<float>::epsilon());
  }
 
 int main( int argc, char* argv[] )

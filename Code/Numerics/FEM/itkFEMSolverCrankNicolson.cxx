@@ -292,7 +292,7 @@ void SolverCrankNicolson::FindBracketingTriplet(Float* a, Float* b, Float* c)
     {
     r=(bx-ax)*(fb-fc);
     q=(bx-cx)*(fb-fa);
-    Float denom=(2.0*GSSign(GSMax(fabs(q-r),Tiny),q-r));
+    Float denom=(2.0*GSSign(GSMax(vcl_fabs(q-r),Tiny),q-r));
     u=(bx)-((bx-cx)*q-(bx-ax)*r)/denom;
     ulim=bx + Glimit*(cx-bx);
     if ((bx-u)*(u-cx) > 0.0)
@@ -380,14 +380,14 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
     {
     xm=0.5*(a+b);
     tol2=2.0*(tol1=tol*vcl_fabs(x)+ZEPS);
-    if (fabs(x-xm) <= (tol2-0.5*(b-a)))
+    if (vcl_fabs(x-xm) <= (tol2-0.5*(b-a)))
       {
       xmin=x;
       SetEnergyToMin(xmin);
       return fx;
       }
 
-    if (fabs(e) > tol1)
+    if (vcl_fabs(e) > tol1)
       {
       r=(x-w)*(fx-fv);
       q=(x-v)*(fx-fw);
@@ -397,7 +397,7 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
       q=vcl_fabs(q);
       etemp=e;
       e=d;
-      if (fabs(p) >= vcl_fabs(0.5*q*etemp) || p <= q*(a-x) || p >= q*(b-x))
+      if (vcl_fabs(p) >= vcl_fabs(0.5*q*etemp) || p <= q*(a-x) || p >= q*(b-x))
         d=CGOLD*(e=(x>=xm ? a-x : b-x));
       else
         {
@@ -412,7 +412,7 @@ Element::Float SolverCrankNicolson::BrentsMethod(Float tol,unsigned int MaxIters
       d=CGOLD*(e=(x>= xm ? a-x : b-x));
       }
   
-    u=(fabs(d) >= tol1 ? x+d : x + GSSign(tol1,d));
+    u=(vcl_fabs(d) >= tol1 ? x+d : x + GSSign(tol1,d));
     fu=vcl_fabs(EvaluateResidual(u));
     if (fu <= fx)
       {
@@ -460,7 +460,7 @@ Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIter
 
   x0=ax;
   x3=cx;
-  if (fabs(cx-bx) > vcl_fabs(bx-ax))
+  if (vcl_fabs(cx-bx) > vcl_fabs(bx-ax))
     {
     x1=bx;
     x2=bx+C*(cx-bx);
@@ -473,7 +473,7 @@ Element::Float SolverCrankNicolson::GoldenSection(Float tol,unsigned int MaxIter
   f1=vcl_fabs(EvaluateResidual(x1));
   f2=vcl_fabs(EvaluateResidual(x2));
   unsigned int iters=0;
-  while (fabs(x3-x0) > tol*(fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
+  while (vcl_fabs(x3-x0) > tol*(vcl_fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
     {
     iters++;
     if (f2 < f1)
@@ -633,7 +633,7 @@ void SolverCrankNicolson::AddToDisplacements(Float optimum)
       {
       maxs2=CurrentSolution;
       } 
-    if (fabs(CurrentSolution) > absmax) absmax=vcl_fabs(CurrentSolution);
+    if (vcl_fabs(CurrentSolution) > absmax) absmax=vcl_fabs(CurrentSolution);
 
 //  note: set rather than add - i.e. last solution of system not total solution  
 #ifdef LOCE

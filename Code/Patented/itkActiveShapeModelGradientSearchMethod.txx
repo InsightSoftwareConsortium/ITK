@@ -269,7 +269,7 @@ ActiveShapeModelGradientSearchMethod<TImage>
 
     for(unsigned int j = 0; j < numberOfEigenValues; j++)
       {
-      if(fabs(m_Db[j]) >  m_Blimit[j])
+      if(vcl_fabs(m_Db[j]) >  m_Blimit[j])
         {
         m_Db[j] = ( m_Db[j] / vcl_fabs(m_Db[j]) ) * m_Blimit[j];
         }

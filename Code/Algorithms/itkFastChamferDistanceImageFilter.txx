@@ -179,7 +179,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
     // Update the narrow band 
     if (m_NarrowBand.IsNotNull())
       {
-      if (fabs((float)center_value) <= m_NarrowBand->GetTotalRadius()) 
+      if (vcl_fabs((float)center_value) <= m_NarrowBand->GetTotalRadius()) 
         {
         node.m_Index = it.GetIndex();
         //Check node state.
@@ -188,7 +188,7 @@ void FastChamferDistanceImageFilter<TInputImage,TOutputImage>
           {
           node.m_NodeState += SIGN_MASK;
           }
-        if (fabs((float)center_value) < m_NarrowBand->GetInnerRadius())  
+        if (vcl_fabs((float)center_value) < m_NarrowBand->GetInnerRadius())  
           {
           node.m_NodeState += INNER_MASK;
           }

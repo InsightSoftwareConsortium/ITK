@@ -57,9 +57,9 @@ static int TestNetwork(SampleType::Pointer TestSample, TargetType::Pointer TestT
     TargetVectorType tv = iter2.GetMeasurementVector();
     TargetVectorType ov = OneHiddenLayerNetwork->GenerateOutput(mv);
     flag = 0;
-    if (fabs(tv[0]-ov[0])>0.2)
+    if (vcl_fabs(tv[0]-ov[0])>0.2)
       {
-      outfile<<fabs(tv[0]-ov[0])<<std::endl;
+      outfile<<vcl_fabs(tv[0]-ov[0])<<std::endl;
       flag = 1;
       }
     if (flag == 1 && ROUND(tv[0]) == 1)

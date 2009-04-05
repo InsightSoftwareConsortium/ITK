@@ -79,7 +79,7 @@ public:
         }
       double currentValue = optimizer->GetValue();
       // Only print out when the Metric value changes
-      if( fabs( m_LastMetricValue - currentValue ) > 1e-7 )
+      if( vcl_fabs( m_LastMetricValue - currentValue ) > 1e-7 )
         { 
         std::cout << optimizer->GetCurrentIteration() << "   ";
         std::cout << currentValue << "   ";

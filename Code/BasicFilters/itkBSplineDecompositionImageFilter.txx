@@ -191,7 +191,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   zn = z;
   if (m_Tolerance > 0.0)
     {
-    horizon = (long)vcl_ceil(vcl_log(m_Tolerance) / vcl_log(fabs(z)));
+    horizon = (long)vcl_ceil(vcl_log(m_Tolerance) / vcl_log(vcl_fabs(z)));
     }
   if (horizon < m_DataLength[m_IteratorDirection])
     {

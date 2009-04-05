@@ -144,7 +144,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage>
         {
         rADenominatorBase *= sortedAbsEigenValues[j];
         }
-      if (fabs(rADenominatorBase) > 0.0)
+      if (vcl_fabs(rADenominatorBase) > 0.0)
         {
         rA /= pow(rADenominatorBase, 1.0 / (ImageDimension-m_ObjectDimension-1));
         objectnessMeasure *= 1.0 - vcl_exp(- 0.5 * vnl_math_sqr(rA) / vnl_math_sqr(m_Alpha));
@@ -163,7 +163,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage>
         {
         rBDenominatorBase *= sortedAbsEigenValues[j];
         }
-      if (fabs(rBDenominatorBase) > 0.0)
+      if (vcl_fabs(rBDenominatorBase) > 0.0)
         { 
         rB /= pow(rBDenominatorBase, 1.0 / (ImageDimension-m_ObjectDimension));
         objectnessMeasure *= vcl_exp(- 0.5 * vnl_math_sqr(rB) / vnl_math_sqr(m_Beta));

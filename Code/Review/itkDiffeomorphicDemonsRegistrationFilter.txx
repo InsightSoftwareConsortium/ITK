@@ -255,7 +255,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
 
   // Use time step if necessary. In many cases
   // the time step is one so this will be skipped
-  if ( fabs(dt - 1.0)>1.0e-4 )
+  if ( vcl_fabs(dt - 1.0)>1.0e-4 )
     {
     itkDebugMacro( "Using timestep: " << dt );
     m_Multiplier->SetConstant( dt );

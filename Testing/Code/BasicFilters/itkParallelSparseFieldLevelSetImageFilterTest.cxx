@@ -57,9 +57,9 @@ float sphere(unsigned int x, unsigned int y, unsigned int z)
 float cube(unsigned int x, unsigned int y, unsigned int z)
 {
   float X, Y, Z;
-  X = ::fabs(x - (float)WIDTH /2.0);
-  Y = ::fabs(y - (float)HEIGHT/2.0);
-  Z = ::fabs(z - (float)DEPTH /2.0);
+  X = vcl_fabs(x - (float)WIDTH /2.0);
+  Y = vcl_fabs(y - (float)HEIGHT/2.0);
+  Z = vcl_fabs(z - (float)DEPTH /2.0);
   float dis;
   if (!((X > RADIUS)&&(Y > RADIUS)&&(Z>RADIUS)))
     {

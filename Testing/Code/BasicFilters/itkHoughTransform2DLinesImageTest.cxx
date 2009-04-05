@@ -238,22 +238,22 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   std::list<houghPoint>::iterator it_list = m_LinesList.begin();
 
   while(it_list != m_LinesList.end())
-  {
+    {
     std::cout << "Angle = " << it_list->angle << " (expected " << teta << ")"<< std::endl;
     std::cout << "Radius = " << it_list->radius << " (expected " << radius << ")"<< std::endl;
     
-    if(fabs(it_list->angle-teta)>0.1)
-    {
+    if( vcl_fabs(it_list->angle-teta)>0.1)
+      {
       std::cout << "Failure" << std::endl;
       return EXIT_FAILURE;
-    }
-    if(fabs(it_list->radius-radius)>1.0)
-    {
+      }
+    if( vcl_fabs(it_list->radius-radius)>1.0)
+      {
       std::cout << "Failure" << std::endl;
       return EXIT_FAILURE;
-    } 
+      } 
     it_list++;  
-  }
+    }
 
   std::cout << "Printing Hough Fiter information:" << std::endl;
   std::cout << houghFilter << std::endl;

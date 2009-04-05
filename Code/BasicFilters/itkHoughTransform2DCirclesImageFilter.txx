@@ -122,7 +122,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType>
       double Vx = grad[0];
       double Vy = grad[1];
 
-      if( (fabs(Vx)>1) || (fabs(Vy)>1) ) // if the gradient is not flat
+      if( (vcl_fabs(Vx)>1) || (vcl_fabs(Vy)>1) ) // if the gradient is not flat
         {
         double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
         Vx /= norm;

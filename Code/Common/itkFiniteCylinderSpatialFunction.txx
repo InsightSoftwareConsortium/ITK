@@ -63,7 +63,7 @@ FiniteCylinderSpatialFunction<VDimension, TInput>
   //the point is within the length of the cylinder along the medial axis
   const double distanceFromCenter = dot_product( medialAxisVector.GetVnlVector(), pointVector.GetVnlVector() );
 
-  if(fabs(distanceFromCenter) <= (halfAxisLength) 
+  if(vcl_fabs(distanceFromCenter) <= (halfAxisLength) 
      && m_Radius >= vcl_sqrt(pow(pointVector.GetVnlVector().magnitude(),2.0) - vcl_pow(distanceFromCenter,2.0)))
     {
     return 1;

@@ -930,7 +930,7 @@ checkParallel(LType NewVec, DecompType Lines)
     LType LL = Lines[i];
     LL.Normalize();
     float L = NN*LL;
-    if ((1.0 - fabs(L)) < 0.000001) return(true);
+    if ((1.0 - vcl_fabs(L)) < 0.000001) return(true);
     }
   return(false);
 }

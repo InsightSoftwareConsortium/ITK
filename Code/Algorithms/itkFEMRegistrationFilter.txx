@@ -1747,7 +1747,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::PrintVectorField(unsigned 
     if ((ct % modnum) == 0)  std::cout << " field pix " << fieldIter.Get() << std::endl;
     for (unsigned int i=0; i<ImageDimension;i++)
       {
-      if (fabs(disp[i]) > max )
+      if (vcl_fabs(disp[i]) > max )
         {
         max=vcl_fabs(disp[i]);
         }
@@ -1960,7 +1960,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
     {
     r=(bx-ax)*(fb-fc);
     q=(bx-cx)*(fb-fa);
-    Float denom=(2.0*mySolver.GSSign(mySolver.GSMax(fabs(q-r),Tiny),q-r));
+    Float denom=(2.0*mySolver.GSSign(mySolver.GSMax(vcl_fabs(q-r),Tiny),q-r));
     u=(bx)-((bx-cx)*q-(bx-ax)*r)/denom;
     ulim=bx + Glimit*(cx-bx);
     if ((bx-u)*(u-cx) > 0.0)
@@ -2035,7 +2035,7 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
   Float x1;
   Float x2;
   Float x3=cx;
-  if (fabs(cx-bx) > vcl_fabs(bx-ax))
+  if (vcl_fabs(cx-bx) > vcl_fabs(bx-ax))
     {
     x1=bx;
     x2=bx+C*(cx-bx);
@@ -2049,7 +2049,7 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
   Float f1=vcl_fabs(EvaluateResidual(mySolver, x1));
   Float f2=vcl_fabs(EvaluateResidual(mySolver, x2));
   unsigned int iters=0;
-  while (fabs(x3-x0) > tol*(fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
+  while (vcl_fabs(x3-x0) > tol*(vcl_fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
     {
     iters++;
     if (f2 < f1)

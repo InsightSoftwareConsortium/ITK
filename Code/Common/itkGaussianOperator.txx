@@ -168,7 +168,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
       qim = qip+j*toy*qi;
       qip = qi;
       qi  = qim;
-      if (fabs(qi) > 1.0e10)
+      if (vcl_fabs(qi) > 1.0e10)
         {
         accumulator *= 1.0e-10;
         qi *= 1.0e-10;

@@ -325,11 +325,11 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
           val0_new = val0*val;
           val1_new = val1*val;
 
-          if(fabs((float)val0_new)<fabs((float)outNeigIt.GetNext(n,0)))
+          if(vcl_fabs((float)val0_new)<vcl_fabs((float)outNeigIt.GetNext(n,0)))
             {
             outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
             }
-          if(fabs((float)val1_new)<fabs((float)outNeigIt.GetNext(n,1)))
+          if(vcl_fabs((float)val1_new)<vcl_fabs((float)outNeigIt.GetNext(n,1)))
             {
             outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
             }
@@ -469,11 +469,11 @@ IsoContourDistanceImageFilter<TInputImage,TOutputImage>
           val0_new = val0*val;
           val1_new = val1*val;
 
-          if(fabs((float)val0_new) < vcl_fabs((float)outNeigIt.GetNext(n,0)))
+          if(vcl_fabs((float)val0_new) < vcl_fabs((float)outNeigIt.GetNext(n,0)))
             {
             outNeigIt.SetNext(n,0,static_cast<PixelType>(val0_new) );
             }
-          if(fabs((float)val1_new) < vcl_fabs((float)outNeigIt.GetNext(n,1)))
+          if(vcl_fabs((float)val1_new) < vcl_fabs((float)outNeigIt.GetNext(n,1)))
             {
             outNeigIt.SetNext(n,1,static_cast<PixelType>(val1_new) );
             }

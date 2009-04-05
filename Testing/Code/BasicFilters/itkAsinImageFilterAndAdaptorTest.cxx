@@ -123,23 +123,23 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() ) 
-  {
+    {
     std::cout <<  ot.Get() << " = ";
     std::cout <<  asin( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType arcsinus  = asin(input);
-    if( fabs( arcsinus - output ) > epsilon )
-    {
+    if( vcl_fabs( arcsinus - output ) > epsilon )
+      {
       std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
       std::cerr << " asin( " << input << ") = " << arcsinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++ot;
     ++it;
-  }
+    }
 
 
   //---------------------------------------
@@ -177,28 +177,21 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
   
   dt.GoToBegin();
   while( !dt.IsAtEnd() ) 
-  {
+    {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( fabs( diff ) > epsilon )
-    {
+    if( vcl_fabs( diff ) > epsilon )
+      {
       std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
-    }
+      }
     ++dt;
-  }
-
-
+    }
 
 
   return EXIT_SUCCESS;
-
 }
-
-
-
-
