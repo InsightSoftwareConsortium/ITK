@@ -30,6 +30,7 @@
 #include <fstream>
 #include <vector>
 #include <stdio.h>
+#include <stdlib.h>
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 
 namespace itk 
