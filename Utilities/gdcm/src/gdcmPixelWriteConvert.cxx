@@ -27,7 +27,7 @@
 #include <vector>
 #include <stdlib.h>
 
-#define WITHOFFSETTABLE 1
+#define WITHOFFSETTABLE 0
 
 namespace gdcm
 {
