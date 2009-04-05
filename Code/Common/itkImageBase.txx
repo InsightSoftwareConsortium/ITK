@@ -25,6 +25,7 @@
 #include "itkFastMutexLock.h"
 #include "itkProcessObject.h"
 #include "itkSpatialOrientation.h"
+#include <string.h>
 
 namespace itk
 {
