@@ -20,12 +20,13 @@
 
 #include <iostream>
 #include <fstream>
-#include <string.h>
+#include <string>
 #include <cstdlib>
 #include <cstring>
 #include <Code/Common/itkSystemInformationTest.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <string.h>
 
 #if defined(ITK_BINARY_DIR)
 # define ITK_SYSTEM_INFORMATION_DIR ITK_BINARY_DIR
