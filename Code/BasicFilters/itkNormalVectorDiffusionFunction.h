@@ -139,9 +139,9 @@ protected:
       areas with large curvature. */
   NodeValueType FluxStopFunction( const NodeValueType v ) const
     {
-    // the slow ::exp function could be replaced with a lookup table
+    // the slow exp function could be replaced with a lookup table
     if (v<=0.0) return NumericTraits<NodeValueType>::One;
-    else return static_cast<NodeValueType>(::exp(m_FluxStopConstant*v));
+    else return static_cast<NodeValueType>(vcl_exp(m_FluxStopConstant*v));
     }
   
 private:

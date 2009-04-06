@@ -63,7 +63,7 @@ SimpleFuzzyConnectednessRGBImageFilter<TInputImage,TOutputImage>
 
   if(this->GetWeight() == 1)
     {
-    return( (NumericTraits<unsigned short>::max())*(exp(-0.5*tmp1)) );
+    return( (NumericTraits<unsigned short>::max())*(vcl_exp(-0.5*tmp1)) );
     }
   else
     {

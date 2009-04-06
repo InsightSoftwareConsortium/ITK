@@ -161,8 +161,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
       }
     else
       {
-      Cx[i]  = ::exp( grad_mag_sq_tmp   / m_K );
-      Cxd[i] = ::exp( grad_mag_sq_d_tmp / m_K );
+      Cx[i]  = vcl_exp( grad_mag_sq_tmp   / m_K );
+      Cxd[i] = vcl_exp( grad_mag_sq_d_tmp / m_K );
       }
     }
 
