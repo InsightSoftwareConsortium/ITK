@@ -226,8 +226,8 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
 
   // determine the actual number of pieces that will be generated
   typename FixedImageRegionType::SizeType::SizeValueType range = fixedRegionSize[splitAxis];
-  int valuesPerThread = (int)::ceil(range/(double)num);
-  int maxThreadIdUsed = (int)::ceil(range/(double)valuesPerThread) - 1;
+  int valuesPerThread = (int)vcl_ceil(range/(double)num);
+  int maxThreadIdUsed = (int)vcl_ceil(range/(double)valuesPerThread) - 1;
 
   // Split the region
   if (i < maxThreadIdUsed)

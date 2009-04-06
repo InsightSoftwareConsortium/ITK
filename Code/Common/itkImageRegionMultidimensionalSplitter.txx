@@ -34,7 +34,7 @@ ImageRegionMultidimensionalSplitter<VImageDimension>
 
   // requested number of splits per dimension
   double splitsPerDimension =
-    ::ceil( vcl_pow((double) requestedNumber, 1.0/(double) VImageDimension));
+    vcl_ceil( vcl_pow((double) requestedNumber, 1.0/(double) VImageDimension));
 
   // if a given dimension has fewer pixels that splitsPerDimension, then
   // only split number of pixels times
@@ -78,7 +78,7 @@ ImageRegionMultidimensionalSplitter<VImageDimension>
   
   // requested number of splits per dimension
   double splitsPerDimension =
-    ::ceil( vcl_pow((double) numberOfPieces, 1.0/(double) VImageDimension));
+    vcl_ceil( vcl_pow((double) numberOfPieces, 1.0/(double) VImageDimension));
 
   // if a given dimension has fewer pixels that splitsPerDimension, then
   // only split number of pixels times
@@ -99,7 +99,7 @@ ImageRegionMultidimensionalSplitter<VImageDimension>
     else
       {
       splits[j] = (unsigned int) splitsPerDimension;
-      pixelsPerSplit[j] = (unsigned int) ::ceil(regionSize[j]
+      pixelsPerSplit[j] = (unsigned int) vcl_ceil(regionSize[j]
                                               / (double) splits[j]);
       numPieces *= (unsigned int) splitsPerDimension;
       }

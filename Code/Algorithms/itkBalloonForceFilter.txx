@@ -1139,8 +1139,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     coord[0] = static_cast<IndexValueType>(vec_loc[0]);
     coord[1] = static_cast<IndexValueType>(vec_loc[1]);
 
-    coord2[0] = static_cast<IndexValueType>( (ceil) (vec_loc[0]) );
-    coord2[1] = static_cast<IndexValueType>( (ceil) (vec_loc[1]) );
+    coord2[0] = static_cast<IndexValueType>( vcl_ceil( vec_loc[0] ) );
+    coord2[1] = static_cast<IndexValueType>( vcl_ceil( vec_loc[1] ) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];

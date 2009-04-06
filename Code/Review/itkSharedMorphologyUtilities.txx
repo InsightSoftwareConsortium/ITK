@@ -378,8 +378,7 @@ FaceCalculatorType;
       {
       if (i != NonFaceDim)
         {
-        int Pad = (int)ceil((float)(NonFaceLen) * line[i]/vcl_fabs(line[NonFaceDim])); 
-//        int Pad = (int)((float)(NonFaceLen) * line[i]/vcl_fabs(line[NonFaceDim])); 
+        int Pad = (int)vcl_ceil((float)(NonFaceLen) * line[i]/vcl_fabs(line[NonFaceDim])); 
         if (Pad < 0)
           {
           // just increase the size - no need to change the start

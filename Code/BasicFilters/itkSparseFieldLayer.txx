@@ -65,7 +65,8 @@ SparseFieldLayer<TNodeType>
   std::vector<RegionType> regionlist;
   unsigned int size, regionsize;
   size=Size();
-  regionsize=static_cast<unsigned int>(ceil(static_cast<float>(size)/static_cast<float>(num)));
+  regionsize=static_cast<unsigned int>(
+    vcl_ceil(static_cast<float>(size)/static_cast<float>(num)));
   ConstIterator position=Begin();
   ConstIterator last=End();
   

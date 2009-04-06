@@ -190,7 +190,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       {
       beginx=leftP[0];
       }
-    for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+    for(i=static_cast<int>(vcl_ceil(beginx));i<=static_cast<int>(vcl_floor(endx));i++)
       {
       idx[0]=i;
       (*PixelPool).push_back(idx);
@@ -204,7 +204,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     beginx += offset * leftDx;
     while(idx[1] <= intendy)
       {
-      for(i=static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
+      for(i=static_cast<int>(vcl_ceil(beginx)); i <= static_cast<int>(vcl_floor(endx)); i++)
         {
         idx[0] = i;
         (*PixelPool).push_back(idx);
@@ -291,7 +291,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       beginx += offset * leftDx;
       while(idx[1] <= intendy)
         {
-        for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
+        for(i = static_cast<int>(vcl_ceil(beginx)); i <= static_cast<int>(vcl_floor(endx)); i++)
           {
           idx[0] = i;
           (*PixelPool).push_back(idx);
@@ -350,7 +350,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     endx += offset * rightDx;
     while(idx[1] <= intendy)
       {
-      for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
+      for(i = static_cast<int>(vcl_ceil(beginx)); i <= static_cast<int>(vcl_floor(endx)); i++)
         {
         idx[0] = i;
         (*PixelPool).push_back(idx);
@@ -751,7 +751,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       {
       beginx=leftP[0];
       }
-    for(i=static_cast<int>(ceil(beginx));i<=static_cast<int>(floor(endx));i++)
+    for(i=static_cast<int>(vcl_ceil(beginx));i<=static_cast<int>(vcl_floor(endx));i++)
       {
       idx[0]=i;
       this->GetOutput()->SetPixel(idx,color);  
@@ -765,7 +765,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     beginx += offset * leftDx;
     while(idx[1] <= intendy)
       {
-      for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
+      for(i = static_cast<int>(vcl_ceil(beginx)); i <= static_cast<int>(vcl_floor(endx)); i++)
         {
         idx[0] = i;
         this->GetOutput()->SetPixel(idx,color);  
@@ -852,7 +852,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
       beginx += offset * leftDx;
       while(idx[1] <= intendy)
         {
-        for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
+        for(i = static_cast<int>(vcl_ceil(beginx)); i <= static_cast<int>(vcl_floor(endx)); i++)
           {
           idx[0] = i;
           this->GetOutput()->SetPixel(idx,color);  
@@ -911,7 +911,7 @@ VoronoiSegmentationImageFilterBase <TInputImage,TOutputImage,TBinaryPriorImage>
     endx += offset * rightDx;
     while(idx[1] <= intendy)
       {
-      for(i = static_cast<int>(ceil(beginx)); i <= static_cast<int>(floor(endx)); i++)
+      for(i = static_cast<int>(vcl_ceil(beginx)); i <= static_cast<int>(vcl_floor(endx)); i++)
         {
         idx[0] = i;
         this->GetOutput()->SetPixel(idx,color);  
