@@ -72,8 +72,27 @@ public:
 };
 
 // Initialize static members
-bool GDCMImageIO::m_LoadSequencesDefault = false;
-bool GDCMImageIO::m_LoadPrivateTagsDefault = false;
+/*
+ * m_LoadPrivateTagsDefault:
+ * When this flag is set to false, GDCM will try to use the value stored in each private Group Length attribute value.
+ * This is a modest optimization feature that can be found in some ACR-NEMA file and/or DICOM pre-2008 file.
+ * Because it is required by the standard that DICOM file reader can read file where Group Length attribute value
+ * would be invalid, turning this flag to off, on the one hand might lead to some speed improvement, but on the
+ * other hand will make your DICOM implementation non-standard.
+ * Technically Group Length value could be incorrect and GDCM might even skipped over some public element and not
+ * just the desired current group of attributes. Do not turn this option to false unless you understand the 
+ * consequences.
+ *
+ * m_LoadSequencesDefault:
+ * Following the same idea (modest speed improvement), one can use a feature from DICOM and use the Value Length
+ * of a Sequence attribute to 'seek' over a large number of nested attributes.
+ * Again this feature can lead to some modest speed improvement, but seek'ing over public sequence is not 
+ * a good idea. For instance you could be reading some new Enhanced MR Image Storage, where the Pixel Spacing
+ * is stored within a Sequence attribute, therefore Pixel Spacing would not be correct after a call to
+ * ExecuteInformation.
+ */
+bool GDCMImageIO::m_LoadSequencesDefault = true;
+bool GDCMImageIO::m_LoadPrivateTagsDefault = true;
 
 
 #if GDCM_MAJOR_VERSION < 2
