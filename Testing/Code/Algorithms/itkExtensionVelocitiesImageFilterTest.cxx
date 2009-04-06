@@ -109,7 +109,7 @@ SimpleVelocity( const TPoint & p )
       }
     }
 
-  return ( 10 * sin( value ) );
+  return ( 10 * vcl_sin( value ) );
 
 }
 

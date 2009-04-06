@@ -125,14 +125,14 @@ int itkSinImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() ) 
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  sin( it.Get() )  << std::endl; 
+    std::cout <<  vcl_sin( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType sinus  = sin(input);
+    const OutputImageType::PixelType sinus  = vcl_sin(input);
     if( vcl_fabs( sinus - output ) > epsilon )
       {
       std::cerr << "Error in itkSinImageFilterTest " << std::endl;
-      std::cerr << " sin( " << input << ") = " << sinus << std::endl;
+      std::cerr << " vcl_sin( " << input << ") = " << sinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
