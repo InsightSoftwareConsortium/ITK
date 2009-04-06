@@ -202,6 +202,10 @@ public:
   itkSetMacro(MaximumError,double);
   itkGetConstReferenceMacro(MaximumError,double);
 
+  itkSetMacro(UseShrinkImageFilter,bool);
+  itkGetMacro(UseShrinkImageFilter,bool);
+  
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimensionCheck,
@@ -221,7 +225,7 @@ protected:
   double          m_MaximumError; 
   unsigned int    m_NumberOfLevels;
   ScheduleType    m_Schedule;
-
+  bool            m_UseShrinkImageFilter;
 private:
   MultiResolutionPyramidImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
