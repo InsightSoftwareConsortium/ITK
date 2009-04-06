@@ -23,6 +23,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkExceptionObject.h"
 #include "itkResampleImageFilter.h"
+#include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"
 
 #include "vnl/vnl_math.h"
@@ -62,19 +63,49 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typedef CastImageFilter<TInputImage, TOutputImage>              CasterType;
   typedef CastImageFilter<TOutputImage, TOutputImage>             CopierType;
   typedef DiscreteGaussianImageFilter<TOutputImage, TOutputImage> SmootherType;
-  typedef ResampleImageFilter<TOutputImage,TOutputImage> ResampleShrinkerType;
+
+  typedef ImageToImageFilter<TOutputImage,TOutputImage>           ImageToImageType;
+  typedef ResampleImageFilter<TOutputImage,TOutputImage>          ResampleShrinkerType;
+  typedef ShrinkImageFilter<TOutputImage,TOutputImage>            ShrinkerType;
 
   typename CasterType::Pointer   caster   = CasterType::New();
   typename CopierType::Pointer   copier   = CopierType::New();
   typename SmootherType::Pointer smoother = SmootherType::New();
-  typename ResampleShrinkerType::Pointer resampleShrinker = ResampleShrinkerType::New();
+
+
+  typename ImageToImageType::Pointer shrinkerFilter;
+  //
+  // only one of these pointers is going to be valid, depending on the
+  // value of UseShrinkImageFilter flag
+  typename ResampleShrinkerType::Pointer resampleShrinker;
+  typename ShrinkerType::Pointer shrinker;
+
+  if(this->GetUseShrinkImageFilter())
+    {
+    shrinker = ShrinkerType::New();
+    shrinkerFilter = shrinker.GetPointer();
+    }
+  else
+    {
+    resampleShrinker = ResampleShrinkerType::New();
+    typedef itk::LinearInterpolateImageFunction< OutputImageType, double >
+      LinearInterpolatorType;
+    typename LinearInterpolatorType::Pointer interpolator = 
+      LinearInterpolatorType::New();
+    typedef itk::IdentityTransform<double,OutputImageType::ImageDimension>
+      IdentityTransformType;
+    typename IdentityTransformType::Pointer identityTransform =
+      IdentityTransformType::New();
+    resampleShrinker->SetInterpolator( interpolator );
+    resampleShrinker->SetDefaultPixelValue( 0 );
+    resampleShrinker->SetTransform(identityTransform);
+    shrinkerFilter = resampleShrinker.GetPointer();
+    }
 
   int ilevel;
   unsigned int idim;
   unsigned int factors[ImageDimension];
   double       variance[ImageDimension];
-  typedef itk::LinearInterpolateImageFunction< OutputImageType, double >  LinearInterpolatorType;
-  typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
 
   bool         allOnes;
   OutputImagePointer   outputPtr;
@@ -83,7 +114,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   smoother->SetUseImageSpacing( false );
   smoother->SetMaximumError( this->GetMaximumError() );
-  resampleShrinker->SetInput( smoother->GetOutput() );
+  shrinkerFilter->SetInput( smoother->GetOutput() );
 
   
   // recursively compute outputs starting from the last one
@@ -98,11 +129,6 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
     outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
     outputPtr->Allocate();
     
-    typedef itk::IdentityTransform<double,OutputImageType::ImageDimension>
-      IdentityTransformType;
-    typename IdentityTransformType::Pointer identityTransform =
-      IdentityTransformType::New();
-
     // cached a copy of the largest possible region
     LPRegion = outputPtr->GetLargestPossibleRegion();
 
@@ -179,19 +205,23 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
       //      shrinker->SetShrinkFactors( factors );
       //      shrinker->GraftOutput( outputPtr );
-      resampleShrinker->SetInterpolator(interpolator);
-      resampleShrinker->SetDefaultPixelValue(0);
-      resampleShrinker->SetOutputParametersFromImage(outputPtr);
-      resampleShrinker->SetTransform(identityTransform);
-      resampleShrinker->GraftOutput(outputPtr);
-      resampleShrinker->Modified();
+      if(!this->GetUseShrinkImageFilter())
+        {
+        resampleShrinker->SetOutputParametersFromImage(outputPtr);
+        }
+      else
+        {
+        shrinker->SetShrinkFactors(factors);
+        }
+      shrinkerFilter->GraftOutput(outputPtr);
+      shrinkerFilter->Modified();
       // ensure only the requested region is updated
-      resampleShrinker->GetOutput()->UpdateOutputInformation();
-      resampleShrinker->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
-      resampleShrinker->GetOutput()->PropagateRequestedRegion();
-      resampleShrinker->GetOutput()->UpdateOutputData();
+      shrinkerFilter->GetOutput()->UpdateOutputInformation();
+      shrinkerFilter->GetOutput()->SetRequestedRegion(outputPtr->GetRequestedRegion());
+      shrinkerFilter->GetOutput()->PropagateRequestedRegion();
+      shrinkerFilter->GetOutput()->UpdateOutputData();
 
-      swapPtr = resampleShrinker->GetOutput();
+      swapPtr = shrinkerFilter->GetOutput();
 
       }
 

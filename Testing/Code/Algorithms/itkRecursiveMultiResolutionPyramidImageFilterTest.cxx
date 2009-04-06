@@ -70,7 +70,7 @@ public:
 };
 }
 
-int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
+int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 {
 
 //------------------------------------------------------------
@@ -82,6 +82,21 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
   typedef itk::Image<PixelType,3>           InputImageType;
   typedef itk::Image<float,3>               OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
+  bool useShrinkFilter(false);
+  if(argc > 1)
+    {
+    std::string s(argv[1]);
+    if(s == "Shrink")
+      {
+      useShrinkFilter = true;
+      std::cout << "true";
+      }
+    else
+      {
+      std::cout << "false";
+      }
+    std::cout << std::endl;
+    }
 
   InputImageType::SizeType size = {{100,100,40}};
   InputImageType::IndexType index = {{0,0,0}};
@@ -140,6 +155,7 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
     PyramidType;
   typedef PyramidType::ScheduleType ScheduleType;
   PyramidType::Pointer pyramid = PyramidType::New();
+  pyramid->SetUseShrinkImageFilter(useShrinkFilter);
 
   pyramid->SetInput( imgTarget );
 
@@ -293,6 +309,7 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int, char* [] )
 
   PyramidType::Pointer pyramid2 = PyramidType::New();
   pyramid2->SetInput( caster->GetOutput() );
+  pyramid2->SetUseShrinkImageFilter(useShrinkFilter);
   pyramid2->SetNumberOfLevels( pyramid->GetNumberOfLevels() );
   pyramid2->SetSchedule( pyramid->GetSchedule() );
 

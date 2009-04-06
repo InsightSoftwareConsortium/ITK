@@ -88,7 +88,7 @@ typename ImageType::PointType GetCenterOfMass(const ImageType * volume)
   return  CenterOfMass;
 }
 
-int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
+int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 {
 
 //------------------------------------------------------------
@@ -101,7 +101,22 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
   typedef itk::Image<PixelType,3>           InputImageType;
   typedef itk::Image<float,3>               OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
-
+  bool useShrinkFilter(false);
+  if(argc > 1)
+    {
+    std::string s(argv[1]);
+    std::cout << "useShrinkFilter ";
+    if(s == "Shrink")
+      {
+      useShrinkFilter = true;
+      std::cout << "true";
+      }
+    else
+      {
+      std::cout << "false";
+      }
+    std::cout << std::endl;
+    }
   //At best center of mass can be preserved very closely only when
   //shrink factors divisible into the original image size
   //are used, so only test that option.
@@ -178,7 +193,7 @@ int itkMultiResolutionPyramidImageFilterTest(int, char* [] )
     PyramidType;
   typedef PyramidType::ScheduleType ScheduleType;
   PyramidType::Pointer pyramid = PyramidType::New();
-
+  pyramid->SetUseShrinkImageFilter(useShrinkFilter);
   pyramid->SetInput( imgTarget );
 
   unsigned int numLevels;
