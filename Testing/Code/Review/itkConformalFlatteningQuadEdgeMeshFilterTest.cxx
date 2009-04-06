@@ -14,16 +14,17 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 
 #include "itkVTKPolyDataReader.h"
 #include "itkVTKPolyDataWriter.h"
 #include "itkConformalFlatteningMeshFilter.h"
 
 #include "itkQuadEdgeMesh.h"
+#include <stdlib.h>
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
 
 int itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char *argv[])
 {
