@@ -170,7 +170,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char* argv[] )
 
   double initStepSize = 1.05 ;
   double grow = 1.1 ;
-  double shrink = pow(grow, -0.25) ;
+  double shrink = vcl_pow(grow, -0.25) ;
   OptimizerType::ScalesType scales(paramSize) ;
   scales.Fill(1.0) ;
   for ( i = 0 ; i < paramSize ; i++)
