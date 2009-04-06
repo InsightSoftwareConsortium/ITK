@@ -15,13 +15,14 @@
 
 =========================================================================*/
 
-#include "itkVTKPolyDataReader.h"
-#include "itkVTKPolyDataWriter.h"
-#include "itkConformalFlatteningMeshFilter.h"
-
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+
+#include "itkVTKPolyDataReader.h"
+#include "itkVTKPolyDataWriter.h"
+#include "itkConformalFlatteningMeshFilter.h"
+#include <stdlib.h>
 
 int itkConformalFlatteningMeshFilterTest(int argc, char *argv[])
 {
