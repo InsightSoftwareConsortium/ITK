@@ -20,11 +20,11 @@
 
 
 
-#include <itkImage.h>
-#include <itkComplexToPhaseImageFilter.h>
-#include <itkComplexToPhaseImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+#include "itkImage.h"
+#include "itkComplexToPhaseImageFilter.h"
+#include "itkComplexToPhaseImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] ) 
@@ -128,7 +128,7 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     
-    double phased = atan2( input.imag(), input.real() );
+    double phased = vcl_atan2( input.imag(), input.real() );
 
     const OutputImageType::PixelType phase  = 
        static_cast<OutputImageType::PixelType>( phased );
