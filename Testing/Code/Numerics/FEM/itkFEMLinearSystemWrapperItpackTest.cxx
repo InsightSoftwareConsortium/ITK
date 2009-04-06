@@ -23,6 +23,7 @@
 
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include <iostream>
+#include <string.h>
 
 
 /* Testing for linear system wrappers */
