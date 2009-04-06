@@ -329,15 +329,6 @@ int SymMatDim(int count)
     }
   return dim;
 }
-//   int SymMatDim(int count)
-//   {
-//     // symmetric half matrix has size Dim * (Dim + 1) / 2
-//     // count = (Dim * (Dim + 1)) / 2;
-//     // 2 * count = Dim * (Dim + 1)
-//     // 2 * count = Dim^2 + Dim
-//     // floor(sqrt(2 * count)) = Dim
-//     return static_cast<int>(sqrt(2.0 * static_cast<double>(count)));
-//   }
 
 
 ImageIORegion
