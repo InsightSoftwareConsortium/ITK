@@ -182,7 +182,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,TMovingImage>
           //Will it be computationally more efficient to instead calculate the
           //derivative using finite differences ?
           sum -= jacobian( dim, par ) * 
-            gradient[dim] / (pow( lambdaSquared + diffSquared , 2));
+            gradient[dim] / (vcl_pow( lambdaSquared + diffSquared , 2));
           }
         derivative[par] += diff * sum;
         }

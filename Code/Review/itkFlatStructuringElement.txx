@@ -527,7 +527,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       // create triangular facet approximation to a sphere - begin with
       // unit sphere
       // total number of facets is 8 * (4^iterations)
-      unsigned int facets = 8 * (int)pow((double)4, iterations);
+      unsigned int facets = 8 * (int)vcl_pow((double)4, iterations);
       float sqrt2 = vcl_sqrt(2.0);
       // std::cout << facets << " facets" << std::endl;
       typedef std::vector<FacetType> FacetArrayType;

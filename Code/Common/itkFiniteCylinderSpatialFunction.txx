@@ -64,7 +64,7 @@ FiniteCylinderSpatialFunction<VDimension, TInput>
   const double distanceFromCenter = dot_product( medialAxisVector.GetVnlVector(), pointVector.GetVnlVector() );
 
   if(vcl_fabs(distanceFromCenter) <= (halfAxisLength) 
-     && m_Radius >= vcl_sqrt(pow(pointVector.GetVnlVector().magnitude(),2.0) - vcl_pow(distanceFromCenter,2.0)))
+     && m_Radius >= vcl_sqrt(vcl_pow(pointVector.GetVnlVector().magnitude(),2.0) - vcl_pow(distanceFromCenter,2.0)))
     {
     return 1;
     }

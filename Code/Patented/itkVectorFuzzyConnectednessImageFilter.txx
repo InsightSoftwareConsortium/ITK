@@ -176,7 +176,7 @@ VectorFuzzyConnectednessImageFilter<TInputImage,TOutputImage>
         {
         if (ppptti1[tti1 + i][tti1 + j] == 0)
           {
-          tt1 = vcl_sqrt(pow(((double) i) * anisotropy_row,2.0) + vcl_pow(((double) j) * anisotropy_col, 2.0));
+          tt1 = vcl_sqrt(vcl_pow(((double) i) * anisotropy_row,2.0) + vcl_pow(((double) j) * anisotropy_col, 2.0));
           if (tt1 <= ((double) k) + 0.5)
             {
             m_CirclePointsNum[k] = m_CirclePointsNum[k] + 1;

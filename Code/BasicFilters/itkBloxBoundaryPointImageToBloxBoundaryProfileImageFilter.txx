@@ -362,13 +362,13 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           double a = 2;
           double b = .6; // for weight .5
 
-          this->AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*vcl_exp(-.5*(pow((binJitter+1)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber-1, double(a*vcl_exp(-.5*(vcl_pow((binJitter+1)/b, 2)))),
                                                    sourcePixelValue);
-          this->AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*vcl_exp(-.5*(pow((binJitter  )/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber,   double(a*vcl_exp(-.5*(vcl_pow((binJitter  )/b, 2)))),
                                                    sourcePixelValue);
-          this->AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*vcl_exp(-.5*(pow((binJitter-1)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+1, double(a*vcl_exp(-.5*(vcl_pow((binJitter-1)/b, 2)))),
                                                    sourcePixelValue);
-          this->AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*vcl_exp(-.5*(pow((binJitter-2)/b, 2)))),
+          this->AddSplatToAccumulatorAndNormalizer(binNumber+2, double(a*vcl_exp(-.5*(vcl_pow((binJitter-2)/b, 2)))),
                                                    sourcePixelValue);
           }
 

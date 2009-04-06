@@ -140,7 +140,6 @@ GaussianDerivativeOperator<TPixel,VDimension, TAllocator>
     for (it = coeff.begin(); it < coeff.end(); ++it)
       {
       *it /= sum;
-      //*it /= pow( 2 * 3.141592654 * m_Variance, 0.5 );
       }
 
     // Make symmetric
