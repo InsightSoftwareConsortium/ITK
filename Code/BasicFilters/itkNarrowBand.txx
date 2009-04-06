@@ -45,7 +45,7 @@ NarrowBand<NodeType>
     {
     n = static_cast<unsigned int>( m_NodeContainer.size() );
     }
-  unsigned int regionsize = static_cast<unsigned int> (floor(static_cast<float>(m_NodeContainer.size())/static_cast<float>( n )));
+  unsigned int regionsize = static_cast<unsigned int> (vcl_floor(static_cast<float>(m_NodeContainer.size())/static_cast<float>( n )));
   if (regionsize == 0)
     {
     regionsize = 1;
