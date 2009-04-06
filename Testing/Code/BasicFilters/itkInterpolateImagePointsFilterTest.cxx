@@ -242,7 +242,7 @@ int test3DInterpolateImagePointsFilter()
     ++outIter;
     ++inIter;
     }
-  rmse = sqrt( (rmse / size[0] / size[1] / size[2] ) );
+  rmse = vcl_sqrt( (rmse / size[0] / size[1] / size[2] ) );
 
   // Write home and let mom & dad know how we're doing.
   std::cout << "rmse of image is " << rmse << "\n " ;

@@ -188,7 +188,7 @@ GradientMagnitudeImageFilter< TInputImage, TOutputImage >
         const RealType g = SIP(x_slice[i], bit, op[i]);
         a += g * g;
         }
-      it.Value() = static_cast<OutputPixelType>(::sqrt(a));
+      it.Value() = static_cast<OutputPixelType>(vcl_sqrt(a));
       ++bit;
       ++it;
       progress.CompletedPixel();

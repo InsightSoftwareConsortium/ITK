@@ -279,7 +279,7 @@ DanielssonDistanceMapImageFilter<TInputImage,TOutputImage>
       }
     else
       {
-      dt.Set( static_cast<typename OutputImageType::PixelType>(sqrt( distance )) );
+      dt.Set( static_cast<typename OutputImageType::PixelType>(vcl_sqrt( distance )) );
       }
     ++ot;
     ++ct;

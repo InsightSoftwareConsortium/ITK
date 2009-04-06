@@ -51,8 +51,8 @@ int itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
   // Define and set the orientation and axes lengths of the ellipsoid
   // NOTE: Orienation vector must be normalized!!!!
   itk::Vector<double, 3> orientation;
-  orientation[0] = 1/sqrt(2.0);
-  orientation[1] = 1/sqrt(2.0);
+  orientation[0] = 1/vcl_sqrt(2.0);
+  orientation[1] = 1/vcl_sqrt(2.0);
   orientation[2] = 0;
 
   double uniqueAxisLength = 45;

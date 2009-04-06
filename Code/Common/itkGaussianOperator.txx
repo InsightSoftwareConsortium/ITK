@@ -34,7 +34,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   int j;
   typename CoefficientVector::iterator it;
 
-  const double et           = ::exp(-m_Variance);
+  const double et           = vcl_exp(-m_Variance);
   const double cap          = 1.0 - m_MaximumError;
 
   // Create the kernel coefficients as a std::vector
@@ -93,7 +93,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
   else
     {
     const double m = 3.75 / d;
-    accumulator =(::exp(d)/::sqrt(d))*(0.39894228+m*(0.1328592e-1
+    accumulator =(vcl_exp(d)/vcl_sqrt(d))*(0.39894228+m*(0.1328592e-1
                                                      +m*(0.225319e-2+m*(-0.157565e-2+m*(0.916281e-2
                                                                                         +m*(-0.2057706e-1+m*(0.2635537e-1+m*(-0.1647633e-1
                                                                                                                              +m*0.392377e-2))))))));
@@ -125,7 +125,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
     accumulator = 0.39894228+m*(-0.3988024e-1+m*(-0.362018e-2
                                                  +m*(0.163801e-2+m*(-0.1031555e-1+m*accumulator))));
 
-    accumulator *= (::exp(d)/::sqrt(d));
+    accumulator *= (vcl_exp(d)/vcl_sqrt(d));
     }
 
   if( y<0.0 )
@@ -163,7 +163,7 @@ GaussianOperator<TPixel,VDimension, TAllocator>
     qip = accumulator=0.0;
     qi = 1.0;
 
-    for( j = 2*(n+(int)::sqrt(ACCURACY*n)); j > 0; j-- )
+    for( j = 2*(n+(int)vcl_sqrt(ACCURACY*n)); j > 0; j-- )
       {
       qim = qip+j*toy*qi;
       qip = qi;

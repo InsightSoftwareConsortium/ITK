@@ -176,7 +176,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
       {
       itkExceptionMacro( << "Component weights must be positive numbers" );
       }
-    m_SqrtComponentWeights[i] = ::sqrt(m_ComponentWeights[i]);
+    m_SqrtComponentWeights[i] = vcl_sqrt(m_ComponentWeights[i]);
     }
 
   

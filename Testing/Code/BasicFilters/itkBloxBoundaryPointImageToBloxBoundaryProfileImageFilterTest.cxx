@@ -261,14 +261,18 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
 
     // The iterator for accessing linked list info from profile pixel
     // Walk through all of the elements at the pixel
-    for(itk::BloxBoundaryProfilePixel<3>::const_iterator bpiterator = bloxIt.Value().begin(); bpiterator != bloxIt.Value().end(); ++bpiterator)
+    for(itk::BloxBoundaryProfilePixel<3>::const_iterator bpiterator = bloxIt.Value().begin(); 
+      bpiterator != bloxIt.Value().end(); ++bpiterator)
       {
       // Used for obtaining position data from a BloxPoint
       const itk::Point<double, 3> position = (*bpiterator)->GetOptimalBoundaryLocation();
 
       // Find location of boundary profile on sphere
       const double halfsize=static_cast<double>(size)/2.0;
-      const double radius = sqrt( pow((position[0] - halfsize), 2.0) + pow((position[1] - halfsize), 2.0) + pow((position[2] - halfsize), 2.0) );
+      const double radius = vcl_sqrt( 
+        vcl_pow((position[0] - halfsize), 2.0) + 
+        vcl_pow((position[1] - halfsize), 2.0) + 
+        vcl_pow((position[2] - halfsize), 2.0) );
 
       // Keep running sum of estimated radius to compute average radius
       averageRadius += radius;

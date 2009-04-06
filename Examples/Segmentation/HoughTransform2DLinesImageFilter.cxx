@@ -265,7 +265,7 @@ int main( int argc, char *argv[] )
     v[0] = u[0]-(*itPoints).GetPosition()[0];
     v[1] = u[1]-(*itPoints).GetPosition()[1];
 
-    double norm = sqrt(v[0]*v[0]+v[1]*v[1]);
+    double norm = vcl_sqrt(v[0]*v[0]+v[1]*v[1]);
     v[0] /= norm;
     v[1] /= norm;
     // Software Guide : EndCodeSnippet
@@ -279,7 +279,7 @@ int main( int argc, char *argv[] )
     // Software Guide : BeginCodeSnippet
     ImageType::IndexType localIndex;
     itk::Size<2> size = localOutputImage->GetLargestPossibleRegion().GetSize();
-    float diag = sqrt((float)( size[0]*size[0] + size[1]*size[1] ));
+    float diag = vcl_sqrt((float)( size[0]*size[0] + size[1]*size[1] ));
 
     for(int i=static_cast<int>(-diag); i<static_cast<int>(diag); i++)
       {

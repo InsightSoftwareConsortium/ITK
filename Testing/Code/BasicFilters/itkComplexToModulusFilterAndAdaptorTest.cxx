@@ -88,8 +88,8 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
   // Initialize the content of Image A
   InputPixelType value( 13, 25);
 
-  double modulus = sqrt( value.real() * value.real() +
-                         value.imag() * value.imag()  );
+  double modulus = vcl_sqrt( value.real() * value.real() +
+                             value.imag() * value.imag()  );
 
   std::cout << "Modulus of input pixel = " << modulus << std::endl;
 
@@ -134,8 +134,8 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     
-    double normd = sqrt( input.real() * input.real() + 
-                        input.imag() * input.imag()  );
+    double normd = vcl_sqrt( input.real() * input.real() + 
+                             input.imag() * input.imag()  );
 
     const OutputImageType::PixelType norm =
        static_cast<OutputImageType::PixelType>( normd );

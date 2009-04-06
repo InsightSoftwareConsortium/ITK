@@ -94,7 +94,7 @@ NoiseImageFilter< TInputImage, TOutputImage>
       
       // calculate the standard deviation value
       var = (sumOfSquares - (sum*sum/num)) / (num - 1.0);
-      it.Set( static_cast<OutputPixelType>(sqrt(var)) );
+      it.Set( static_cast<OutputPixelType>(vcl_sqrt(var)) );
       
       ++bit;
       ++it;

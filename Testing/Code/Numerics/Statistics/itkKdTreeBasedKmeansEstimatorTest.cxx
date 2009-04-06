@@ -150,7 +150,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
       displacement += (temp * temp) ;
       }
     std::cout << std::endl ;
-    displacement = sqrt(displacement) ;
+    displacement = vcl_sqrt(displacement) ;
     std::cout << "    Mean displacement: " << std::endl ;
     std::cout << "        " << displacement 
               << std::endl << std::endl ;

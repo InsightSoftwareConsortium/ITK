@@ -76,7 +76,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   double Vx = radius * vcl_cos( teta );
   double Vy = radius * vcl_sin( teta );
 
-  double norm = sqrt(Vx*Vx+Vy*Vy);
+  double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
   double VxNorm = Vx / norm;
   double VyNorm = Vy / norm;
        
@@ -216,7 +216,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
           {
             m_Index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
             m_Index[1] = (long int)(it_input.GetIndex()[1] + length * vcl_sin(angle));
-            if( ((m_Index[0]<=sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
+            if( ((m_Index[0]<=vcl_sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
               && ((m_Index[1]<=500) && (m_Index[1]>=0))
             )
             {

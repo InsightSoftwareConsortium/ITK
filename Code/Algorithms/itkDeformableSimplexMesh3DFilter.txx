@@ -519,7 +519,7 @@ double DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   double tmpSqr = r2 + r2Minusd2 * tanPhi*tanPhi;
   if (tmpSqr > 0)
     {
-    double denom = eps*(sqrt(tmpSqr) + r);
+    double denom = eps*(vcl_sqrt(tmpSqr) + r);
     if ( denom != 0 ) 
       {
       L = (r2Minusd2 * tanPhi) / denom;

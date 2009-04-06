@@ -331,7 +331,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       // double. cableswig currently fail to build it with msvc 7.1
       const OutputPixelType outputValue =
         static_cast<OutputPixelType>(
-          sqrt( static_cast<double>(vnl_math_abs( Ot.Get() ) ) ) );
+          vcl_sqrt( static_cast<double>(vnl_math_abs( Ot.Get() ) ) ) );
 
       if( It.Get() != this->m_BackgroundValue )
         {

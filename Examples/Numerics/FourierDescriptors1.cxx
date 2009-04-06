@@ -276,7 +276,7 @@ int main(int argc, char * argv[] )
     {
     const double real = signal[k].real();
     const double imag = signal[k].imag();
-    const double magnitude = sqrt( real * real + imag * imag );
+    const double magnitude = vcl_sqrt( real * real + imag * imag );
     std::cout << k << "  " << magnitude << std::endl;
     }
   // Software Guide : EndCodeSnippet

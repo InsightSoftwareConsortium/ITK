@@ -591,7 +591,7 @@ dist(FortuneSite *s1,FortuneSite *s2)
 {
   double dx = (s1->m_Coord[0])-(s2->m_Coord[0]);
   double dy = (s1->m_Coord[1])-(s2->m_Coord[1]);
-  return(sqrt(dx*dx+dy*dy));
+  return(vcl_sqrt(dx*dx+dy*dy));
 }
 
 template <typename TCoordRepType>

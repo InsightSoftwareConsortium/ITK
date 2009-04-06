@@ -49,7 +49,7 @@ float sphere(unsigned int x, unsigned int y, unsigned int z)
     = (x - (float)WIDTH /2.0)*(x - (float)WIDTH /2.0)
     + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0)
     + (z - (float)DEPTH /2.0)*(z - (float)DEPTH /2.0) ;
-  dis = RADIUS - sqrt(dis);
+  dis = RADIUS - vcl_sqrt(dis);
   return(-dis);
 }
 

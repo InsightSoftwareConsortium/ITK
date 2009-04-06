@@ -183,7 +183,7 @@ int main( int argc, char ** argv )
         {
         ShapedNeighborhoodIteratorType::OffsetType off;
         
-        float dis = ::sqrt( x*x + y*y );
+        float dis = vcl_sqrt( x*x + y*y );
         if (dis <= rad)
           {
           off[0] = static_cast<int>(x);

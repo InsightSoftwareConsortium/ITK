@@ -1424,7 +1424,7 @@ void Normalize(std::vector<double> &x)
     {
     return;
     }
-  sum = sqrt(sum);
+  sum = vcl_sqrt(sum);
   for(unsigned int i = 0; i < x.size(); i++)
     {
     x[i] = x[i] / sum;

@@ -56,7 +56,7 @@ float square(unsigned x, unsigned y)
     if (!((X > RADIUS)&&(Y > RADIUS)))
       dis = RADIUS - vnl_math_max(X, Y);
     else
-      dis = -sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+      dis = -vcl_sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
     return(dis);
 }
 

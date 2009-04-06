@@ -121,8 +121,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
         grad_mag_sq_d += 0.25f * (dx[j]+dx_dim) * (dx[j]+dx_dim);
         }
       }
-    grad_mag = ::sqrt(m_MIN_NORM + grad_mag_sq);
-    grad_mag_d = ::sqrt(m_MIN_NORM + grad_mag_sq_d);
+    grad_mag = vcl_sqrt(m_MIN_NORM + grad_mag_sq);
+    grad_mag_d = vcl_sqrt(m_MIN_NORM + grad_mag_sq_d);
 
     // Conductance Terms
     if (m_K == 0.0)
@@ -162,7 +162,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>
         + vnl_math_sqr( vnl_math_min(dx_forward[i],  0.0) );
       }
     }
-  return static_cast<PixelType>( ::sqrt(propagation_gradient) * speed );
+  return static_cast<PixelType>( vcl_sqrt(propagation_gradient) * speed );
 }
 
 } // end namespace itk

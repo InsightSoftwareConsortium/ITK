@@ -214,7 +214,7 @@ int itkGoodnessOfFitMixtureModelCostFunctionTest(int argc, char* argv[] )
           paramIndex++ ;
         }
       paramIndex++ ;
-      displacement = sqrt(displacement) ;
+      displacement = vcl_sqrt(displacement) ;
       std::cout << "    Mean displacement: " << std::endl ;
       std::cout << "        " << displacement 
                 << std::endl << std::endl ;

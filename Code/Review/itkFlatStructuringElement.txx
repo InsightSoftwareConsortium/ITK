@@ -153,7 +153,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
     case 12:
       {
       // dodecahedron
-      float phi = (1.0 + sqrt(5.0)) / 2.0;
+      float phi = (1.0 + vcl_sqrt(5.0)) / 2.0;
       float b = 1.0/phi;
       float c = 2.0 - phi;
       unsigned facets = 12;
@@ -325,7 +325,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
     case 20:
       {
       // Icosahedron
-      float phi = (1.0 + sqrt(5.0)) / 2.0;
+      float phi = (1.0 + vcl_sqrt(5.0)) / 2.0;
       float a = 0.5;
       float b = 1.0/(2.0*phi);
       unsigned facets = 20;
@@ -528,7 +528,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       // unit sphere
       // total number of facets is 8 * (4^iterations)
       unsigned int facets = 8 * (int)pow((double)4, iterations);
-      float sqrt2 = sqrt(2.0);
+      float sqrt2 = vcl_sqrt(2.0);
       // std::cout << facets << " facets" << std::endl;
       typedef std::vector<FacetType> FacetArrayType;
       FacetArrayType FacetArray;

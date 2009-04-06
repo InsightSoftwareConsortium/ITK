@@ -35,9 +35,13 @@ float square(unsigned x, unsigned y)
     Y = vnl_math_abs(y - (float)HEIGHT/2.0);
     float dis;
     if (!((X > RADIUS)&&(Y > RADIUS)))
+      {
       dis = RADIUS - vnl_math_max(X, Y);
+      }
     else
-      dis = -sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+      {
+      dis = -vcl_sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+      }
     return(dis);
 }
 

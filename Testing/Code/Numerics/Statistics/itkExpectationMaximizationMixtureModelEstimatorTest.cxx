@@ -180,7 +180,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[] )
           temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j] ;
           displacement += (temp * temp) ;
         }
-      displacement = sqrt(displacement) ;
+      displacement = vcl_sqrt(displacement) ;
       std::cout << "    Mean displacement: " << std::endl ;
       std::cout << "        " << displacement 
                 << std::endl << std::endl ;

@@ -130,8 +130,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
         }
       }
 
-    grad_mag[k]   = ::sqrt(m_MIN_NORM + grad_mag_sq[k]);
-    grad_mag_d[k] = ::sqrt(m_MIN_NORM + grad_mag_sq_d[k]);
+    grad_mag[k]   = vcl_sqrt(m_MIN_NORM + grad_mag_sq[k]);
+    grad_mag_d[k] = vcl_sqrt(m_MIN_NORM + grad_mag_sq_d[k]);
     // this grad mag should depend only on the current k
     for (i = 0; i < ImageDimension; i++)
       {
@@ -201,7 +201,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>
       }
   
   
-    ans[k] = ::sqrt(propagation_gradient) * speed;
+    ans[k] = vcl_sqrt(propagation_gradient) * speed;
     }
   
   return ans;

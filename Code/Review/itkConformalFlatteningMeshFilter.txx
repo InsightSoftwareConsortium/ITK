@@ -540,7 +540,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
         {
         uiMidPointIdx = numberOfPoints/2;
         }
-      this->m_MapScale = 1.0/sqrt(v_r2[uiMidPointIdx]);
+      this->m_MapScale = 1.0/vcl_sqrt(v_r2[uiMidPointIdx]);
       }
 
     i = 0;

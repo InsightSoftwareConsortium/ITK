@@ -75,7 +75,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType,TOutputPixelType>
   // Compute the size of the output image
   typename InputImageType::RegionType region;
   Size<2> size;
-  size[0]= (long unsigned int)(sqrt(m_AngleResolution*m_AngleResolution+input->GetLargestPossibleRegion().GetSize()[0]*input->GetLargestPossibleRegion().GetSize()[0]));
+  size[0]= (long unsigned int)(vcl_sqrt(m_AngleResolution*m_AngleResolution+input->GetLargestPossibleRegion().GetSize()[0]*input->GetLargestPossibleRegion().GetSize()[0]));
   size[1]= (long unsigned int)m_AngleResolution;
   region.SetSize(size);
   region.SetIndex(input->GetLargestPossibleRegion().GetIndex());

@@ -798,7 +798,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
             v2[0]*(v3[1]-v1[1]) +
             v3[0]*(v1[1]-v2[1]));
 
-    absvec = -sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc)));
+    absvec = -vcl_sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc)));
   
     assert (absvec != 0);
   

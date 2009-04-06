@@ -103,7 +103,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
   filter->SetInput(source->GetOutput());
   filter->UpdateLargestPossibleRegion();
   
-  double expectedSigma = sqrt((maxValue-minValue)*(maxValue-minValue)/12.0);
+  double expectedSigma = vcl_sqrt((maxValue-minValue)*(maxValue-minValue)/12.0);
   double epsilon = (maxValue - minValue) * .001;
 
   if (vnl_math_abs(filter->GetSigma() - expectedSigma) > epsilon)
