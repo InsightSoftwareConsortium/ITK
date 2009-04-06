@@ -237,10 +237,10 @@ int main( int argc, char *argv[] )
       {
       localIndex[0] =
          (long int)((*itCircles)->GetObjectToParentTransform()->GetOffset()[0]
-                                  + (*itCircles)->GetRadius()[0]*cos(angle));
+                                  + (*itCircles)->GetRadius()[0]*vcl_cos(angle));
       localIndex[1] =
          (long int)((*itCircles)->GetObjectToParentTransform()->GetOffset()[1] 
-                                  + (*itCircles)->GetRadius()[0]*sin(angle));
+                                  + (*itCircles)->GetRadius()[0]*vcl_sin(angle));
       OutputImageType::RegionType outputRegion =
                                   localOutputImage->GetLargestPossibleRegion();
 

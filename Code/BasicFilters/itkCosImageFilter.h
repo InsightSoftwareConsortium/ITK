@@ -59,7 +59,7 @@ public:
     }
   inline TOutput operator()( const TInput & A ) const
     {
-    return static_cast<TOutput>(cos( static_cast<double>(A)) );
+    return static_cast<TOutput>(vcl_cos( static_cast<double>(A)) );
     }
 }; 
 

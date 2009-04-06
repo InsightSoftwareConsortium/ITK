@@ -101,11 +101,11 @@ int main(int, char *[])
   for(unsigned int i=0; i<360; i++)
     {
     const double angle = i * vnl_math::pi / 180.0;
-    point[0] = radius * sin( angle );
-    point[1] = radius * cos( angle );
+    point[0] = radius * vcl_sin( angle );
+    point[1] = radius * vcl_cos( angle );
     point[2] = 1.0;   // flat on the Z plane
-    tangent[0] =  cos(angle);
-    tangent[1] = -sin(angle);
+    tangent[0] =  vcl_cos(angle);
+    tangent[1] = -vcl_sin(angle);
     tangent[2] = 0.0;  // flat on the Z plane
     pointSet->SetPoint( pointId, point );   
     pointSet->SetPointData( pointId, tangent );   

@@ -89,8 +89,8 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath,TOutputFourierSeriesPath>
       for( int d=0; d<dimension; d++ )
         indexVector[d] = index[d];
       
-      cosCoefficient += indexVector * (cos(theta)/numSteps);
-      sinCoefficient += indexVector * (sin(theta)/numSteps);
+      cosCoefficient += indexVector * (vcl_cos(theta)/numSteps);
+      sinCoefficient += indexVector * (vcl_sin(theta)/numSteps);
       }
     
     outputPtr->AddHarmonic( cosCoefficient, sinCoefficient );

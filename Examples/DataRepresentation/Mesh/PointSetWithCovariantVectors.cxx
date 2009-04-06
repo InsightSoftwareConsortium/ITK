@@ -109,11 +109,11 @@ int main(int, char *[])
   for(unsigned int i=0; i<360; i++)
     {
     const double angle = i * vcl_atan(1.0) / 45.0;
-    point[0] = radius * sin( angle );
-    point[1] = radius * cos( angle );
+    point[0] = radius * vcl_sin( angle );
+    point[1] = radius * vcl_cos( angle );
     point[2] = 1.0;   // flat on the Z plane
-    gradient[0] =  sin(angle);
-    gradient[1] =  cos(angle);
+    gradient[0] =  vcl_sin(angle);
+    gradient[1] =  vcl_cos(angle);
     gradient[2] = 0.0;  // flat on the Z plane
     pointSet->SetPoint( pointId, point );   
     pointSet->SetPointData( pointId, gradient );   

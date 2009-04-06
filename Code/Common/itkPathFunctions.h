@@ -126,7 +126,7 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
         {
         indexVector[d] = index[d];
         }
-      cosCoefficient += indexVector * (cos(theta)/numSteps);
+      cosCoefficient += indexVector * (vcl_cos(theta)/numSteps);
       sinCoefficient += indexVector * (sin(theta)/numSteps);
       }
     

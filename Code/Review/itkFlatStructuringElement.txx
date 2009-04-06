@@ -109,15 +109,15 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
   while (theta <= M_PI/2.0 + 0.0001)
     {
     LType O;
-    O[0] = k1 * cos(theta);
-    O[1] = k2 * sin(theta);
+    O[0] = k1 * vcl_cos(theta);
+    O[1] = k2 * vcl_sin(theta);
     if (!res.checkParallel(O, res.m_Lines))
       {
       //std::cout << O << std::endl;
       res.m_Lines.push_back(O);
       }
-     O[0] = k1 * cos(-theta);
-     O[1] = k2 * sin(-theta);
+     O[0] = k1 * vcl_cos(-theta);
+     O[1] = k2 * vcl_sin(-theta);
      if (!res.checkParallel(O, res.m_Lines))
        {
        //std::cout << O << std::endl;
@@ -130,9 +130,9 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
   return(res);
 }
 
-//    O[0] = k1 * cos(phi) * cos(theta);
-//    O[1] = k2 * cos(phi) * sin(theta);
-//    O[2] = k3 * sin(theta);
+//    O[0] = k1 * vcl_cos(phi) * vcl_cos(theta);
+//    O[1] = k2 * vcl_cos(phi) * vcl_sin(theta);
+//    O[2] = k3 * vcl_sin(theta);
 
 template<unsigned int VDimension>
 FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
