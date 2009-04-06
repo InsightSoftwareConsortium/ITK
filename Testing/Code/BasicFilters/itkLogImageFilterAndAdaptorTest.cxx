@@ -17,11 +17,12 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkImage.h>
-#include <itkLogImageFilter.h>
-#include <itkLogImageAdaptor.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkSubtractImageFilter.h>
+
+#include "itkImage.h"
+#include "itkLogImageFilter.h"
+#include "itkLogImageAdaptor.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkSubtractImageFilter.h"
 
 
 int itkLogImageFilterAndAdaptorTest(int, char* [] ) 
@@ -122,14 +123,14 @@ int itkLogImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() ) 
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  log( it.Get() )  << std::endl; 
+    std::cout <<  vcl_log( it.Get() )  << std::endl; 
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType logarithm  = log(input);
+    const OutputImageType::PixelType logarithm  = vcl_log(input);
     if( vcl_fabs( logarithm - output ) > epsilon )
       {
       std::cerr << "Error in itkLogImageFilterTest " << std::endl;
-      std::cerr << " log( " << input << ") = " << logarithm << std::endl;
+      std::cerr << " vcl_log( " << input << ") = " << logarithm << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
