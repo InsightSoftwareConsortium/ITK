@@ -122,7 +122,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( (unsigned char) ( mag * exp( - ( x*x + y*y )/(s*s) ) ) );
+    ri.Set( (unsigned char) ( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
     }
 
@@ -134,7 +134,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set( (unsigned char) ( mag * exp( - ( x*x + y*y )/(s*s) ) ) );
+    ti.Set( (unsigned char) ( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
     }
 
@@ -149,7 +149,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     //    d += displacement;
     const double x = d[0];
     const double y = d[1];
-    gri.Set( (unsigned char) (( mag * exp( - ( x*x + y*y )/(s*s) ) )  +
+    gri.Set( (unsigned char) (( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) )  +
       vnl_sample_normal(0.0, noisemag)));
     ++gri;
     }
@@ -162,7 +162,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    gti.Set( (unsigned char) (( mag * exp( - ( x*x + y*y )/(s*s) ) )  +
+    gti.Set( (unsigned char) (( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) )  +
       vnl_sample_normal(0.0, noisemag)));
     ++gti;
     }

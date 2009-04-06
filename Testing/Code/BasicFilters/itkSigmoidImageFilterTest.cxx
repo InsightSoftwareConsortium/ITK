@@ -141,7 +141,7 @@ int itkSigmoidImageFilterTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = ( input - beta ) / alpha;
-    const double x2 = ( maximum - minimum )*( 1.0 / ( 1.0 + exp( -x1 ) ) ) + minimum;
+    const double x2 = ( maximum - minimum )*( 1.0 / ( 1.0 + vcl_exp( -x1 ) ) ) + minimum;
     const OutputImageType::PixelType sigmoid  = 
             static_cast<OutputImageType::PixelType>( x2 );
     if( vcl_fabs( sigmoid - output ) > epsilon )

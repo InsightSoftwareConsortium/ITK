@@ -147,10 +147,10 @@ int itkMathematicalMorphologyImageFilterTest(int, char* [] )
     std::cout << "Running grayscale erode " << std::endl;
     grayErode->Update();
     }
-  catch( itk::ExceptionObject & exp )
+  catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown during grayErode filter Update" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -159,10 +159,10 @@ int itkMathematicalMorphologyImageFilterTest(int, char* [] )
     std::cout << "Running grayscale Dilate " << std::endl;
     grayDilate->Update();
     }
-  catch( itk::ExceptionObject & exp )
+  catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown during grayDilate filter Update" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -171,10 +171,10 @@ int itkMathematicalMorphologyImageFilterTest(int, char* [] )
     std::cout << "Running binary Erode " << std::endl;
     binaryErode->Update();
     }
-  catch( itk::ExceptionObject & exp )
+  catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown during binary Erode Update" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -183,10 +183,10 @@ int itkMathematicalMorphologyImageFilterTest(int, char* [] )
     std::cout << "Running binary Dilate " << std::endl;
     binaryDilate->Update();
     }
-  catch( itk::ExceptionObject & exp )
+  catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown during binaryDilate filter Update" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 

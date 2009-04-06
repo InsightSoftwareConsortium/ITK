@@ -126,12 +126,12 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
     std::cout <<  ot.Get() << " = ";
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType exponential  = exp( - input);
+    const OutputImageType::PixelType exponential  = vcl_exp( - input);
     std::cout <<  exponential  << std::endl; 
     if( vcl_fabs( exponential - output ) > epsilon )
       {
       std::cerr << "Error in itkExpNegativeImageFilterTest " << std::endl;
-      std::cerr << " exp( - " << input << ") = " << exponential << std::endl;
+      std::cerr << " vcl_exp( - " << input << ") = " << exponential << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;

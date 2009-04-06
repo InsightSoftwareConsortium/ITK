@@ -59,10 +59,10 @@ int itkQuadEdgeMeshGaussianCurvatureTest( int argc, char* argv[] )
     {
     reader->Update( );
     }
-  catch( itk::ExceptionObject & exp )
+  catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 

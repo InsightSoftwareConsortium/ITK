@@ -108,10 +108,10 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
     {
     meshSource->Update();
     }
-  catch( itk::ExceptionObject & exp )
+  catch( itk::ExceptionObject & excp )
     {
     std::cerr << "Exception thrown during Update() " << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 

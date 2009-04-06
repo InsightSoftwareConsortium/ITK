@@ -113,9 +113,9 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
       labelerFilter->SetFunctor(labelerFilter->GetFunctor());
     }
 
-  catch(itk::ExceptionObject & exp)
+  catch(itk::ExceptionObject & excp)
     {
-      std::cerr << exp << std::endl;
+      std::cerr << excp << std::endl;
     }
 
   // check if labels coincide with expected labels
