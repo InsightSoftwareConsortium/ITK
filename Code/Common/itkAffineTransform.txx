@@ -204,8 +204,8 @@ AffineTransform<TScalarType, NDimensions>
   MatrixType trans;
 
   trans[0][0] =  vcl_cos(angle);
-  trans[0][1] = -sin(angle);
-  trans[1][0] = vcl_sin(angle);
+  trans[0][1] = -vcl_sin(angle);
+  trans[1][0] =  vcl_sin(angle);
   trans[1][1] =  vcl_cos(angle);
   if (pre) 
     {

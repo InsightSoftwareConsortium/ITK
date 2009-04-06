@@ -127,7 +127,7 @@ void MakeFourierSeriesPathTraceChainCode( TFourierSeriesPath & FSPath,
         indexVector[d] = index[d];
         }
       cosCoefficient += indexVector * (vcl_cos(theta)/numSteps);
-      sinCoefficient += indexVector * (sin(theta)/numSteps);
+      sinCoefficient += indexVector * (vcl_sin(theta)/numSteps);
       }
     
     FSPath.AddHarmonic( cosCoefficient, sinCoefficient );
