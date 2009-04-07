@@ -161,13 +161,13 @@ public:
     {
     if( (A > 0.0) )
       {
-      if( -(30.0 * log(A)) > 255 )
+      if( -(30.0 * vcl_log(A)) > 255 )
         {
         return static_cast<OutputPixelType>( 255 );
         }
       else
         {
-        return static_cast<OutputPixelType>( -(30.0 * log(A)) );
+        return static_cast<OutputPixelType>( -(30.0 * vcl_log(A)) );
         }
       }
     else 

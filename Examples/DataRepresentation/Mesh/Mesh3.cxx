@@ -102,7 +102,7 @@ int main(int, char *[])
   for(unsigned int id=0; id<numberOfPoints; id++) 
     {
     point[0] = static_cast<PointType::ValueType>( id ); // x
-    point[1] = log( static_cast<double>( id ) );        // y
+    point[1] = vcl_log( static_cast<double>( id ) );    // y
     mesh->SetPoint( id, point );
     }
   // Software Guide : EndCodeSnippet
