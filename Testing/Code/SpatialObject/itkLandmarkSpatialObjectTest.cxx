@@ -50,6 +50,8 @@ int itkLandmarkSpatialObjectTest(int, char* [])
 
   // Create a Landmark Spatial Object
   LandmarkPointer landmark = LandmarkType::New();
+  landmark->Print(std::cout);
+
   landmark->GetProperty()->SetName("Landmark 1");
   landmark->SetId(1);
   landmark->SetPoints(list);
@@ -58,6 +60,8 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   // Number of points
   std::cout << "Testing Consistency: " << std::endl;
   std::cout << "Number of Points: ";
+
+  landmark->Print(std::cout);
 
   if(landmark->GetPoints().size() != 10)
   {

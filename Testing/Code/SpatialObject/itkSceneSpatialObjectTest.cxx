@@ -30,6 +30,7 @@ int itkSceneSpatialObjectTest(int, char* [])
   // Create the SceneSpatialObject
   typedef itk::SceneSpatialObject<3>  SceneSpatialObjectType;
   SceneSpatialObjectType::Pointer SceneSpatialObject = SceneSpatialObjectType::New();
+  SceneSpatialObject->Print(std::cout);
 
   // Create two ellipses to put in the SceneSpatialObject
   typedef itk::EllipseSpatialObject<3>   EllipseType;
@@ -118,6 +119,7 @@ int itkSceneSpatialObjectTest(int, char* [])
     return EXIT_FAILURE;
     }
 
+  SceneSpatialObject->Print(std::cout);
   std::cout << "[PASSED]" << std::endl;
   std::cout << "[DONE]" << std::endl;
 

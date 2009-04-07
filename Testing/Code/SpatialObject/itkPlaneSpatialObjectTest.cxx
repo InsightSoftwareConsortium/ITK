@@ -38,6 +38,8 @@ int itkPlaneSpatialObjectTest(int, char* [])
 
   // Create a Surface Spatial Object
   PlanePointer Plane = PlaneType::New();
+  Plane->Print(std::cout);
+
   Plane->GetProperty()->SetName("Plane");
   Plane->SetId(1);
   Plane->GetId();
@@ -104,9 +106,10 @@ int itkPlaneSpatialObjectTest(int, char* [])
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;
   }
+
+  Plane->Print(std::cout);
+
   std::cout<<"[PASSED]"<<std::endl;
-
-
 
   return EXIT_SUCCESS;
 

@@ -80,6 +80,7 @@ int itkImageMaskSpatialObjectTest(int, char* [])
     }
 
   ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
+  maskSO->Print(std::cout);
  
   maskSO->SetImage(image);
   
@@ -103,6 +104,8 @@ int itkImageMaskSpatialObjectTest(int, char* [])
         }
     ++itr;
     }
+
+  maskSO->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

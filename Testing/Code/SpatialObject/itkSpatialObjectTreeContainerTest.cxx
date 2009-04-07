@@ -34,7 +34,6 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
 
   typedef itk::GroupSpatialObject<2> NodeType;
   typedef itk::SpatialObjectTreeContainer<2> TreeType;
-//  typedef itk::TreeContainer<NodeType::Pointer> TreeType;
   
   NodeType::Pointer object0 = NodeType::New();
   object0->SetId(0);
@@ -62,6 +61,8 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   object5->AddSpatialObject(object6);
 
   TreeType::Pointer tree = TreeType::New();
+  tree->Print(std::cout);
+
   tree->SetRoot(object0.GetPointer());
 
   // LevelOrderTreeIterator Test
@@ -106,6 +107,8 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
+
+  tree->Print(std::cout);
   std::cout << "[PASSED]" << std::endl;
   
   std::cout << "Test Done." << std::endl;

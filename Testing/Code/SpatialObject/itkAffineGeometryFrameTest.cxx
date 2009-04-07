@@ -33,6 +33,8 @@ int itkAffineGeometryFrameTest(int, char* [])
   typedef itk::AffineGeometryFrame<> AffineGeometryFrameType;
 
   AffineGeometryFrameType::Pointer geometryFrame1 = AffineGeometryFrameType::New();
+  std::cout << "Testing Print before initialization" << std::endl;
+  geometryFrame1->Print(std::cout);
 
   std::cout << "Testing Initialize(): ";
   geometryFrame1->Initialize();
@@ -167,6 +169,9 @@ int itkAffineGeometryFrameTest(int, char* [])
     std::cerr << " [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
+  std::cout << "Testing Print after initialization" << std::endl;
+  geometryFrame1->Print(std::cout);
+
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout<<"[TEST DONE]"<<std::endl;

@@ -29,6 +29,8 @@ int itkPolygonSpatialObjectTest(int, char *[])
   //
   // create rectangle
   PolygonType::Pointer rectangle = PolygonType::New();  
+  rectangle->Print(std::cout);
+
   double d1[3] = {0.0, 0.0, 0.0};
   PolygonType::PointType p1(d1);
   double d2[3] = {2.0, 0.0, 0.0};  
@@ -43,6 +45,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   rectangle->AddPoint(p4);
   rectangle->SetThickness(10);
     
+  rectangle->Print(std::cout);
   //
   // test number of points
   std::cout << "Testing number of points for rectangle: ";

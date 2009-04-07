@@ -59,6 +59,8 @@ int itkMeshSpatialObjectTest(int, char * [] )
   // Create the mesh Spatial Object
 
   MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
+  meshSO->Print(std::cout);
+
   meshSO->SetMesh(mesh);
     
   std::cout << "Testing GetMesh(): ";
@@ -181,6 +183,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
+  meshSO->Print(std::cout);
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout<<"[TEST DONE]"<<std::endl;

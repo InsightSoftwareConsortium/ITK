@@ -32,8 +32,12 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
  
   typedef itk::SpatialObjectDuplicator<EllipseType> DuplicatorType;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
+
+
   duplicator->SetInput(ellipse);
   duplicator->Update();
+  duplicator->Print(std::cout);
+
   EllipseType::Pointer ellipse_copy = duplicator->GetOutput();
 
   std::cout << ellipse_copy->GetRadius() << std::endl;

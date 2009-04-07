@@ -45,6 +45,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
 
   SceneType::Pointer scene =  SceneType::New();
   BoxType::Pointer box1 =     BoxType::New();
+  box1->Print(std::cout);
   BoxType::Pointer box2 =     BoxType::New();
   box1->SetId(1);
 
@@ -162,6 +163,6 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     std::cout << err << std::endl;
     return -1;
     }
-
-return EXIT_SUCCESS;
+  box1->Print(std::cout);
+  return EXIT_SUCCESS;
 }

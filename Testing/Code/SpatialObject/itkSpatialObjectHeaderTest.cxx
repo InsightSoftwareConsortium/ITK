@@ -32,18 +32,7 @@
 #include "itkEllipseSpatialObject.txx"
 #include "itkGaussianSpatialObject.txx"
 #include "itkGroupSpatialObject.txx"
-//
-// Changing order of itkMetaImageConverter 
-// to solve an ICE in Visual Studio 6.0
-//
-#include "itkMetaImageConverter.txx"
-// 
 #include "itkImageMaskSpatialObject.txx"
-//
-//  itkMetaImageConverter must be included before
-//  itkImageMaskSpatialObject. in order to prevent
-//  this ICE in Visual Studio 6.0
-//
 #include "itkImageSpatialObject.txx"
 #include "itkLandmarkSpatialObject.txx"
 #include "itkLineSpatialObject.txx"
@@ -57,6 +46,7 @@
 #include "itkMetaEvent.h"
 #include "itkMetaGaussianConverter.txx"
 #include "itkMetaGroupConverter.txx"
+#include "itkMetaImageConverter.txx"
 #include "itkMetaLandmarkConverter.txx"
 #include "itkMetaLineConverter.txx"
 #include "itkMetaMeshConverter.txx"

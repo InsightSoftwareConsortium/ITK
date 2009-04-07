@@ -74,6 +74,7 @@ int itkImageSpatialObjectTest(int, char* [])
   it.GoToBegin();
 
   ImageSpatialObject::Pointer imageSO = ImageSpatialObject::New();
+  imageSO->Print(std::cout);
  
   imageSO->SetImage(image);
   ImageSpatialObject::TransformType::OffsetType offset;
@@ -192,6 +193,7 @@ int itkImageSpatialObjectTest(int, char* [])
     std::cout<<"[PASSED]"<<std::endl;
     }
 
+  imageSO->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

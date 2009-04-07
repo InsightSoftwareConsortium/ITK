@@ -55,10 +55,14 @@ int itkBlobSpatialObjectTest(int, char* [])
 
   // Create a Blob Spatial Object
   BlobPointer blob = BlobType::New();
+  blob->Print(std::cout);
+
   blob->GetProperty()->SetName("Blob 1");
   blob->SetId(1);
   blob->SetPoints(list);
   blob->ComputeBoundingBox();
+
+  blob->Print(std::cout);
 
   // Number of points
   std::cout << "Testing Consistency: " << std::endl;

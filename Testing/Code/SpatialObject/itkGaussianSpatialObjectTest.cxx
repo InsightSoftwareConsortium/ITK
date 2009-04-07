@@ -29,6 +29,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
   typedef itk::GaussianSpatialObject<4>   GaussianType;
   
   GaussianType::Pointer myGaussian = GaussianType::New();
+  myGaussian->Print(std::cout);
 
   myGaussian->SetMaximum(2);
   GaussianType::ScalarType maximum = myGaussian->GetMaximum();
@@ -138,6 +139,9 @@ int itkGaussianSpatialObjectTest(int, char* [])
       }
 
     }
+
+  myGaussian->Print(std::cout);
+
   std::cout<<"[PASSED]"<<std::endl;
   return EXIT_SUCCESS;
 

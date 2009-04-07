@@ -29,6 +29,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   typedef itk::EllipseSpatialObject<4>   EllipseType;
   
   EllipseType::Pointer myEllipse = EllipseType::New();
+  std::cout << "Testing Print after construction" << std::endl;
+  myEllipse->Print(std::cout);
+
   EllipseType::ArrayType radius;
 
   for(unsigned int i = 0; i<4 ;i++)
@@ -131,6 +134,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
     }
 
   }
+  std::cout << "Testing Print after use" << std::endl;
+  myEllipse->Print(std::cout);
+
   std::cout<<"[PASSED]"<<std::endl;
   return EXIT_SUCCESS;
 

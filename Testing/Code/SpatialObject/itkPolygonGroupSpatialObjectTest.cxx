@@ -41,6 +41,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       {      
       itk::PolygonSpatialObject<3>::Pointer strand
         = itk::PolygonSpatialObject<3>::New();
+      strand->Print(std::cout);
 
       if(!PolygonGroup->AddStrand(strand))
         {
