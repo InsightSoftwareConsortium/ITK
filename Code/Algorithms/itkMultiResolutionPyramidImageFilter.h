@@ -204,6 +204,7 @@ public:
 
   itkSetMacro(UseShrinkImageFilter,bool);
   itkGetMacro(UseShrinkImageFilter,bool);
+  itkBooleanMacro(UseShrinkImageFilter);
   
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -214,6 +215,7 @@ public:
     (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
   /** End concept checking */
 #endif
+
 protected:
   MultiResolutionPyramidImageFilter();
   ~MultiResolutionPyramidImageFilter() {};
@@ -226,6 +228,7 @@ protected:
   unsigned int    m_NumberOfLevels;
   ScheduleType    m_Schedule;
   bool            m_UseShrinkImageFilter;
+
 private:
   MultiResolutionPyramidImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
