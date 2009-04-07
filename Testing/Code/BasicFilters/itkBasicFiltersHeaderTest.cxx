@@ -193,7 +193,7 @@
 #include "itkNeighborhoodConnectedImageFilter.txx"
 #include "itkNeighborhoodOperatorImageFilter.txx"
 #include "itkNoiseImageFilter.txx"
-#include "itkNonThreadedShrinkImageFilter.txx"
+#include "itkNonThreadedShrinkImageFilter.h"
 #include "itkNormalVectorDiffusionFunction.txx"
 #include "itkNormalVectorFunctionBase.txx"
 #include "itkNormalizeImageFilter.txx"

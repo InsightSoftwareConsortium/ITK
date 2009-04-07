@@ -94,22 +94,46 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
   itk::ImageRegionIterator<ShortImage>
     iterator2(shrink->GetOutput(), requestedRegion);
 
+  // If size is not a multiple of the shrink factors, then adjust the
+  // row/col indicies
+  short rowOffset = 0;
+  short colOffset = 0;
+  if (region.GetSize()[1] % shrink->GetShrinkFactors()[1])
+    {
+    rowOffset = static_cast<short>(
+      region.GetSize()[1] / 2.0 -
+      ((region.GetSize()[1] / shrink->GetShrinkFactors()[1]) / 2.0 *
+       shrink->GetShrinkFactors()[1])
+      );
+    }
+  if (region.GetSize()[0] % shrink->GetShrinkFactors()[0])
+    {
+    colOffset = static_cast<short>(
+      region.GetSize()[0] / 2.0 -
+      ((region.GetSize()[0] / shrink->GetShrinkFactors()[0]) / 2.0 *
+       shrink->GetShrinkFactors()[0])
+      );
+    }
+
   bool passed = true;
-  std::cout << "Output image" << std::endl;
-  std::cout << std::flush;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get()
-              << std::endl;
-    std::cout << std::flush;
+    short col = (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+                 (shrink->GetShrinkFactors()[0] - 1) / 2);
+    col += colOffset;
 
-    short trueValue = static_cast<short>((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
-              + (region.GetSize()[0]
-                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]));
+    short row = (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+                 (shrink->GetShrinkFactors()[1] - 1) / 2);
+    row += rowOffset;
+    short trueValue = col + region.GetSize()[0] * row;
 
     if ( iterator2.Get() != trueValue )
       {
       passed = false;
+      std::cout << "Pixel " << iterator2.GetIndex() 
+                << " expected " << trueValue
+                << " but got " << iterator2.Get()
+                << std::endl;
       }
     }
 
@@ -186,12 +210,19 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
               << std::endl;
     std::cout << std::flush;
 
-    short trueValue = static_cast<short>((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
-              + (region.GetSize()[0]
-                * shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1]));
-
+    short trueValue =
+      static_cast<short>(
+        (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+         (shrink->GetShrinkFactors()[0] - 1) / 2)
+        + (region.GetSize()[0]
+           * (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+              (shrink->GetShrinkFactors()[1] - 1) / 2)));
     if ( iterator2.Get() != trueValue )
       {
+      std::cout << "Pixel " << iterator2.GetIndex() 
+                << " expected " << trueValue
+                << " but got " << iterator2.Get()
+                << std::endl;
       passed = false;
       }
     }

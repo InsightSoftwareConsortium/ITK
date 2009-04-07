@@ -18,6 +18,7 @@
 #define __itkNonThreadedShrinkImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkShrinkImageFilter.h"
 
 namespace itk
 {
@@ -35,11 +36,16 @@ namespace itk
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::GenerateOutputInformation().
  * 
+ * NOTE: This filter runs the ShrinkImageFilter with the number of
+ * threads set to 1. To avoid confusion, developers shopuld replace
+ * this class with ShrinkImageFilter. If you need to limit the number
+ * of threads, instantiate the afilter and apply the
+ * SetNumberOfThreads(1) methods.
  * \ingroup GeometricTransforms
  */
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT NonThreadedShrinkImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+    public ShrinkImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -52,82 +58,24 @@ public:
   itkNewMacro(Self);  
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NonThreadedShrinkImageFilter, ImageToImageFilter);
+  itkTypeMacro(NonThreadedShrinkImageFilter, ShrinkImageFilter);
 
-  /** Typedef to images */
-  typedef TOutputImage                                OutputImageType;
-  typedef TInputImage                                 InputImageType;
-  typedef typename OutputImageType::Pointer           OutputImagePointer;
-  typedef typename InputImageType::Pointer            InputImagePointer;
-  typedef typename InputImageType::ConstPointer       InputImageConstPointer;
-
-  /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-
-  /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
-
-  /** Set the shrink factors. Values are clamped to 
-   * a minimum value of 1. Default is 1 for all dimensions. */
-  void SetShrinkFactors( unsigned int factors[] );
-  void SetShrinkFactors( unsigned int factor );
-  void SetShrinkFactor( unsigned int i, unsigned int factor )
+  virtual void SetNumberOfThreads (int n)
     {
-    m_ShrinkFactors[i] = factor;
+    Superclass::SetNumberOfThreads(1);
     }
-  
-  /** Get the shrink factors. */
-  const unsigned int * GetShrinkFactors() const
-    { return m_ShrinkFactors; }
-
-  /** NonThreadedShrinkImageFilter produces an image which is a
-   * different resolution and with a different pixel spacing than its
-   * input image.  As such, NonThreadedShrinkImageFilter needs to
-   * provide an implementation for GenerateOutputInformation() in
-   * order to inform the pipeline execution model.  The original
-   * documentation of this method is below.
-   * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
-
-  /** NonThreadedShrinkImageFilter needs a larger input requested
-   * region than the output requested region.  As such,
-   * NonThreadedShrinkImageFilter needs to provide an implementation
-   * for GenerateInputRequestedRegion() in order to inform the
-   * pipeline execution model.
-   * * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType,
-                          typename TOutputImage::PixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  /** End concept checking */
-#endif
 
 protected:
-  NonThreadedShrinkImageFilter();
-  ~NonThreadedShrinkImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
-  void GenerateData();
+  NonThreadedShrinkImageFilter()
+    {
+    Superclass::SetNumberOfThreads(1);
+    }
 
 private:
   NonThreadedShrinkImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  unsigned int m_ShrinkFactors[ImageDimension];
 };
   
 } // end namespace itk
-  
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNonThreadedShrinkImageFilter.txx"
-#endif
   
 #endif
