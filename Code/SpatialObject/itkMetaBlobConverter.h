@@ -26,7 +26,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaBlobConverter
+class ITK_EXPORT MetaBlobConverter
 {
 
 public:

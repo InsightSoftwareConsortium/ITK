@@ -26,7 +26,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaTubeConverter
+class ITK_EXPORT MetaTubeConverter
 {
 
 public:

@@ -43,7 +43,7 @@ template< unsigned int TDimension>  class SpatialObject;
  * \ingroup DataRepresentation 
  */
 template <unsigned int TDimension>
-class SpatialObjectTreeContainer : 
+class ITK_EXPORT SpatialObjectTreeContainer : 
              public TreeContainer<itk::SpatialObject<TDimension>*>
 {
 

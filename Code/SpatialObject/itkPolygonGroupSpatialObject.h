@@ -51,8 +51,8 @@ namespace itk
  */
 
 
-template <unsigned int TDimension = 3> class 
-PolygonGroupSpatialObject
+template <unsigned int TDimension = 3>
+class ITK_EXPORT PolygonGroupSpatialObject
   :public GroupSpatialObject<TDimension>
 {
 public:

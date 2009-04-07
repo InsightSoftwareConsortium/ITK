@@ -26,7 +26,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaLineConverter
+class ITK_EXPORT MetaLineConverter
 {
 
 public:

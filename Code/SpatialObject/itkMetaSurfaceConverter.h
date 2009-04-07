@@ -26,7 +26,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaSurfaceConverter
+class ITK_EXPORT MetaSurfaceConverter
 {
 
 public:

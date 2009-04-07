@@ -32,6 +32,8 @@ AffineGeometryFrame<TScalarType, NDimensions>
   m_IndexToObjectTransform->SetIdentity();
   m_ObjectToNodeTransform = TransformType::New();
   m_ObjectToNodeTransform->SetIdentity();
+  m_IndexToNodeTransform = TransformType::New();
+  m_IndexToNodeTransform->SetIdentity();
   m_IndexToWorldTransform = 0;
 }
 
@@ -137,6 +139,32 @@ AffineGeometryFrame<TScalarType, NDimensions>
     indexToWorldTransform->SetMatrix( m_IndexToWorldTransform->GetMatrix() );
     indexToWorldTransform->SetOffset( m_IndexToWorldTransform->GetOffset() );
     newGeometry->SetIndexToWorldTransform(indexToWorldTransform);
+    }
+}
+
+/** Print the object */ 
+template<class TScalarType, unsigned int NDimensions>
+void 
+AffineGeometryFrame<TScalarType, NDimensions>
+::PrintSelf( std::ostream& os, Indent indent ) const 
+{ 
+  Superclass::PrintSelf( os, indent ); 
+  
+  if (m_BoundingBox)
+    {
+    os << indent << "BoundingBox: "
+       << m_BoundingBox << std::endl;
+    }
+  os << indent << "IndexToObjectTransform: "
+     << m_IndexToObjectTransform << std::endl;
+  os << indent << "ObjectToNodeTransform: " 
+     << m_ObjectToNodeTransform << std::endl;
+  os << indent << "IndexToNodeTransform: "
+     << m_IndexToNodeTransform << std::endl;
+  if (m_IndexToWorldTransform)
+    {
+    os << indent << "IndexToWorldTransform: "
+       << m_IndexToWorldTransform << std::endl;
     }
 }
 

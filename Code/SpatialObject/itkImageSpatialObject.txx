@@ -352,6 +352,8 @@ ImageSpatialObject< TDimension,  PixelType >
   Superclass::PrintSelf(os,indent);
   os << "Image: " << std::endl;
   os << indent << m_Image << std::endl;
+  os << "Interpolator: " << std::endl;
+  os << indent << m_Interpolator << std::endl;
 }
 
 /** Get the modification time */

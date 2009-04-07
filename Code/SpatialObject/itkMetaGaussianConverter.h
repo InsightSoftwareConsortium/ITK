@@ -24,7 +24,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaGaussianConverter
+class ITK_EXPORT MetaGaussianConverter
 {
 
 public:

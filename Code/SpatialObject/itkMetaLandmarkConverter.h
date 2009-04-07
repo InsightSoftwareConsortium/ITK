@@ -26,7 +26,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaLandmarkConverter
+class ITK_EXPORT MetaLandmarkConverter
 {
 
 public:

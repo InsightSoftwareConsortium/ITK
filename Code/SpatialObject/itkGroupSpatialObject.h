@@ -36,7 +36,7 @@ namespace itk
  */
 
 template < unsigned int TDimension = 3 >
-class GroupSpatialObject 
+class ITK_EXPORT GroupSpatialObject 
   :public SpatialObject< TDimension >
 {
 

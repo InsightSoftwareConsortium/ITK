@@ -29,7 +29,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3, class PixelType = unsigned char>
-class MetaImageConverter
+class ITK_EXPORT MetaImageConverter
 {
 
 public:

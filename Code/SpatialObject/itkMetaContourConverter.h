@@ -26,7 +26,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaContourConverter
+class ITK_EXPORT MetaContourConverter
 {
 
 public:

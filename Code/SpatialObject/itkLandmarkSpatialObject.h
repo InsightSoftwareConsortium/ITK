@@ -36,7 +36,7 @@ namespace itk
  */
 
 template < unsigned int TDimension = 3 >
-class LandmarkSpatialObject 
+class ITK_EXPORT LandmarkSpatialObject 
   :public PointBasedSpatialObject<  TDimension >
 {
 

@@ -24,7 +24,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaArrowConverter
+class ITK_EXPORT MetaArrowConverter
 {
 
 public:

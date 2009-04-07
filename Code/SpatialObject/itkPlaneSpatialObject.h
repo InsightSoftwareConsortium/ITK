@@ -31,7 +31,7 @@ namespace itk
  */
 
 template < unsigned int TDimension = 3  >
-class PlaneSpatialObject 
+class ITK_EXPORT PlaneSpatialObject 
   : public SpatialObject< TDimension >
 {
 

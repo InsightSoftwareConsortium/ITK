@@ -26,8 +26,8 @@ namespace itk
  * 
  * \brief TODO
  */
-template <unsigned int TDimension = 3> class 
-PolygonSpatialObject
+template <unsigned int TDimension = 3>
+class ITK_EXPORT PolygonSpatialObject
   :public BlobSpatialObject<TDimension>
 {
 public:
@@ -99,6 +99,9 @@ public:
     {
     return this->IsInside(point, 0, NULL);
     };
+
+protected:
+  void PrintSelf( std::ostream & os, Indent indent) const;
 
 private:
   PolygonSpatialObject(const Self&); //purposely not implemented

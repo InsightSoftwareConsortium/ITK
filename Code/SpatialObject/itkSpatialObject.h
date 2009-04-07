@@ -65,7 +65,6 @@ namespace itk
 
 template <unsigned int TDimension> class SpatialObjectTreeNode;
 
-
 template< unsigned int TDimension = 3> 
 class SpatialObject 
   :public DataObject

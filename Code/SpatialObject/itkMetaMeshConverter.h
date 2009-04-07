@@ -30,7 +30,7 @@ template <unsigned int NDimensions,
           typename TMeshTraits = 
             DefaultStaticMeshTraits< PixelType , NDimensions, NDimensions >
          >
-class MetaMeshConverter
+class ITK_EXPORT MetaMeshConverter
 {
 
 public:

@@ -34,7 +34,7 @@ namespace itk
  * \sa SpatialObjectPoint 
  */ 
 template < unsigned int TPointDimension = 3 >
-class ContourSpatialObjectPoint 
+class ITK_EXPORT ContourSpatialObjectPoint 
   : public SpatialObjectPoint<TPointDimension>
 {
 

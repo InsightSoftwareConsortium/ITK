@@ -29,11 +29,11 @@ namespace itk
  * \brief Describes the geometry of a data object  
  */
 template <class TScalarType = double, unsigned int NDimensions = 3>
-class AffineGeometryFrame : public itk::Object
+class ITK_EXPORT AffineGeometryFrame : public Object
 {
 public:
   typedef AffineGeometryFrame       Self;
-  typedef itk::Object               Superclass;
+  typedef Object                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
@@ -101,6 +101,7 @@ protected:
 
   AffineGeometryFrame();
   virtual ~AffineGeometryFrame();
+  void PrintSelf( std::ostream & os, Indent indent) const;
 
   /** used in clone to initialize the newly created geometry */
   virtual void InitializeGeometry(Self * newGeometry) const;

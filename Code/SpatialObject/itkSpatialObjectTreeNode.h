@@ -30,7 +30,7 @@ template <unsigned int TDimension> class SpatialObject;
  * \brief TODO
  */
 template <unsigned int TDimension>
-class SpatialObjectTreeNode : public TreeNode< SpatialObject<TDimension> * >
+class ITK_EXPORT SpatialObjectTreeNode : public TreeNode< SpatialObject<TDimension> * >
 {
 
 public:
@@ -78,6 +78,14 @@ protected:
   /** Constructor */
   SpatialObjectTreeNode();
   virtual ~SpatialObjectTreeNode(){};
+  void PrintSelf(std::ostream &os, Indent indent) const
+    {
+    this->Superclass::PrintSelf(os, indent);
+    os << indent << "NodeToParentNodeTransform: "
+       << m_NodeToParentNodeTransform << std::endl;
+    os << indent << "NodeToWorldTransform: "
+       << m_NodeToWorldTransform << std::endl;
+    }
 
   TransformPointer m_NodeToParentNodeTransform;
   TransformPointer m_NodeToWorldTransform;

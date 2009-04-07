@@ -465,5 +465,15 @@ PolygonSpatialObject<TDimension>
     }
   return oddNodes;
 }
+
+template <unsigned int TDimension >
+void 
+PolygonSpatialObject<TDimension>
+::PrintSelf( std::ostream& os, Indent indent ) const 
+{ 
+  Superclass::PrintSelf( os, indent ); 
+  os << indent << m_Thickness << std::endl;
+}
+
 }
 #endif

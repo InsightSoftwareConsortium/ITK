@@ -24,7 +24,7 @@ namespace itk
 {
 
 template <unsigned int NDimensions = 3>
-class MetaGroupConverter
+class ITK_EXPORT MetaGroupConverter
 {
 
 public:
