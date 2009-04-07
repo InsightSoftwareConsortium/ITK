@@ -60,7 +60,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NonThreadedShrinkImageFilter, ShrinkImageFilter);
 
-  virtual void SetNumberOfThreads (int n)
+  virtual void SetNumberOfThreads( int )
     {
     Superclass::SetNumberOfThreads(1);
     }
