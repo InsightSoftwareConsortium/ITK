@@ -568,7 +568,10 @@ void NiftiImageIO::Read(void* buffer)
     }
   //
   // if single or complex, nifti layout == itk layout
-  if(numComponents == 1 || this->GetPixelType() == COMPLEX)
+  if(numComponents == 1 || 
+     this->GetPixelType() == COMPLEX || 
+     this->GetPixelType() == RGB || 
+     this->GetPixelType() == RGBA)
     {
     const size_t NumBytes= numElts * pixelSize;
     memcpy(buffer, data, NumBytes);
@@ -844,7 +847,12 @@ NiftiImageIO
       //    case DT_RGB:
       // DEBUG -- Assuming this is a triple, not quad
       //image.setDataType( uiig::DATA_RGBQUAD );
-      //      break;
+      break;
+    case NIFTI_TYPE_RGBA32:
+      this->m_ComponentType = UCHAR;
+      this->m_PixelType = RGBA;
+      this->SetNumberOfComponents(4);
+      break;
     default:
       break;
     }
@@ -1041,15 +1049,20 @@ NiftiImageIO
                                        std::string(typeid(char).name()));
       break;
     case UCHAR:
-      if(this->m_PixelType != RGB)
+      if(this->m_PixelType == RGB)
         {
         EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
-                                         std::string(typeid(unsigned char).name()));
+                                         std::string("RGB"));
+        }
+      else if(this->m_PixelType == RGBA)
+        {
+        EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
+                                         std::string("RGBA"));
         }
       else
         {
         EncapsulateMetaData<std::string>(thisDic,ITK_OnDiskStorageTypeName,
-                                         std::string("RGB"));
+                                         std::string(typeid(unsigned char).name()));
         }
       break;
     case SHORT:
@@ -1250,8 +1263,12 @@ NiftiImageIO
 
   //TODO:  Also need to check for RGB images where numComponets=3
   if( numComponents > 1
-     && !(this->GetPixelType() == COMPLEX
-          &&  numComponents == 2))
+      && !(this->GetPixelType() == COMPLEX
+           &&  numComponents == 2)
+      && !(this->GetPixelType() == RGB
+           && numComponents == 3)
+      && !(this->GetPixelType() == RGBA
+           && numComponents == 4))
     {
     this->m_NiftiImage->ndim = 5; //This must be 5 for NIFTI_INTENT_VECTOR images.
     this->m_NiftiImage->dim[0] = 5; //This must be 5 for NIFTI_INTENT_VECTOR images.
@@ -1358,6 +1375,10 @@ NiftiImageIO
       this->m_NiftiImage->nbyper *= 3;
       this->m_NiftiImage->datatype = NIFTI_TYPE_RGB24;
       break;
+    case RGBA:
+      this->m_NiftiImage->nbyper *= 4;
+      this->m_NiftiImage->datatype = NIFTI_TYPE_RGBA32;
+      break;
     case COMPLEX:
       this->m_NiftiImage->nbyper *= 2;
       switch(this->GetComponentType())
@@ -1378,7 +1399,6 @@ NiftiImageIO
     case SYMMETRICSECONDRANKTENSOR:
     case DIFFUSIONTENSOR3D:
       break;
-    case RGBA:
     case OFFSET:
     case POINT:
     case COVARIANTVECTOR:
@@ -1654,7 +1674,9 @@ NiftiImageIO
   this->WriteImageInformation();
   unsigned int numComponents = this->GetNumberOfComponents();
   if(numComponents == 1 ||
-     (numComponents == 2 && this->GetPixelType() == COMPLEX))
+     (numComponents == 2 && this->GetPixelType() == COMPLEX) ||
+     (numComponents == 3 && this->GetPixelType() == RGB) ||
+     (numComponents == 4 && this->GetPixelType() == RGBA))
     {
     // Need a const cast here so that we don't have to copy the memory
     // for writing.
