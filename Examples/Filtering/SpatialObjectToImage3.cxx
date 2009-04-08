@@ -168,11 +168,12 @@ int main( int argc, char *argv[] )
     radial[0] = radius * vcl_cos( angle );
     radial[1] = radius * vcl_sin( angle );
     point = center + radial;
-std::cout << i << " : " << point << std::endl;
     polygon->AddPoint( point ); 
     }
   // Software Guide : EndCodeSnippet
 
+  std::cout << "Polygon Perimeter = " << polygon->MeasurePerimeter() << std::endl;
+  std::cout << "Polygon Area      = " << polygon->MeasureArea() << std::endl;
 
   //  Software Guide : BeginLatex
   //
