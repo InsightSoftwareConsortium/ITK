@@ -873,15 +873,15 @@ ADD_TEST(itkImageReadRealAndImaginaryWriteComplexTest ${REVIEW_TESTS}
 
 ADD_TEST(itkImageReadComplexWriteMagnitudeAndPhaseTest ${REVIEW_TESTS}
         itkImageReadComplexWriteMagnitudeAndPhaseTest
-        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplex.mha
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha
         )
 
 ADD_TEST(itkImageReadMagnitudeAndPhaseWriteComplexTest ${REVIEW_TESTS}
         itkImageReadMagnitudeAndPhaseWriteComplexTest
-        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexMagnitude.mha
-        ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplexPhase.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplexMagnitude.mha
+        ${ITK_SOURCE_DIR}/Examples/Data/itkBrainSliceComplexPhase.mha
         ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
         )
 
