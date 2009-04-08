@@ -108,6 +108,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   this->m_FreePointIndexes = mesh->m_FreePointIndexes;
   this->m_FreeCellIndexes = mesh->m_FreeCellIndexes;
+  this->ClearCellsContainer();
   this->m_EdgeCellsContainer = mesh->m_EdgeCellsContainer;
   this->m_NumberOfFaces = mesh->m_NumberOfFaces;
   this->m_NumberOfEdges = mesh->m_NumberOfEdges;
@@ -1332,6 +1333,14 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::~QuadEdgeMesh()
 {
+  this->ClearCellsContainer();
+}
+
+template< typename TPixel, unsigned int VDimension, typename TTraits >
+void
+QuadEdgeMesh< TPixel, VDimension, TTraits >
+::ClearCellsContainer()
+{
   if( m_EdgeCellsContainer->GetReferenceCount() == 1 )
     {
     CellsContainerIterator EdgeCell = m_EdgeCellsContainer->Begin();
@@ -1345,7 +1354,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     m_EdgeCellsContainer->Initialize();
     }
 }
-
 
 /**
  */

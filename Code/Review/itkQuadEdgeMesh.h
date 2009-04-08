@@ -483,6 +483,9 @@ protected:
   QuadEdgeMesh();
   virtual ~QuadEdgeMesh(); 
 
+  /** Release the memory of each one of the cells independently. */
+  virtual void ClearCellsContainer();
+
   CellsContainerPointer  m_EdgeCellsContainer;
 
 private:
