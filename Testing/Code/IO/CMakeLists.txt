@@ -714,6 +714,8 @@ ADD_TEST(itkImageReadDICOMSeriesWriteTest ${IO_TESTS}
                                   true ${ITK_DATA_ROOT}/Input/LittleEndianZ.hdr)
   ADD_TEST(itkAnalyzeImageIODirectionsTest ${IO_TESTS} itkAnalyzeImageIODirectionsTest 
                                   ${ITK_TEST_OUTPUT_DIR})
+  ADD_TEST(itkAnalyzeImageIOBadHeader ${IO_TESTS} itkAnalyzeImageIOBadHeader                                  
+                                  ${ITK_TEST_OUTPUT_DIR})
 ##Nifti Test Suite
  ADD_TEST(itkNiftiImageIOTest ${IO_TESTS}
    itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR})

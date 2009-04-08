@@ -25,7 +25,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include <itksys/SystemTools.hxx>
 #include "itkImageRegionIterator.h"
 #include <iostream>
-#include <fstream>
 
 #include "itkImageFileWriter.h"
 #include "itkImageIOFactory.h"
@@ -582,4 +581,103 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
     {
     return !test_success;
     }
+}
+
+template <typename TImage>
+typename TImage::Pointer ReadImage( const std::string &fileName,
+                                    const bool zeroOrigin = false )
+{
+  typedef itk::ImageFileReader<TImage> ReaderType;
+
+  typename ReaderType::Pointer reader = ReaderType::New();
+  {
+  reader->SetFileName( fileName.c_str() );
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an exception: " << std::endl;
+    std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
+    throw err;
+    }
+  catch(...)
+    {
+    std::cout << "Error while reading in image for patient " << fileName << std::endl;
+    throw;
+    }
+  }
+  typename TImage::Pointer image = reader->GetOutput();
+  if(zeroOrigin)
+    {
+    double origin[TImage::ImageDimension];
+    for(unsigned int i =0 ; i< TImage::ImageDimension ; i++)
+      {
+      origin[i]=0;
+      }
+    image->SetOrigin(origin);
+    }
+  return image;
+}
+
+int
+TestDegenerateHeaderFiles()
+{
+  std::string AugmentName("DegenerateHeaderTest");
+  if(WriteTestFiles(AugmentName) == -1)
+    {
+    return EXIT_FAILURE;
+    }
+  std::string fname(AugmentName);
+  fname += "LittleEndian.hdr";
+  typedef itk::Image<unsigned short,3> ImageType;
+  ImageType::Pointer img;
+  std::fstream header(fname.c_str(),std::ios::binary | std::ios::in | std::ios::out);
+  if(!header.is_open())
+    {
+    return EXIT_FAILURE;
+    }
+  header.seekg(40,std::ios::beg); // go to location of first element of dim array.
+  short int zero(0);
+  header.write(reinterpret_cast<const char *>(&zero),sizeof(short int));
+  header.close();
+  int error(0);
+  try
+    {
+    img = ReadImage<ImageType>(fname);
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an exception: " << std::endl;
+    std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
+    error++;
+    }
+  RemoveByteSwapTestFiles(AugmentName);
+  return error ? 1 : 0;
+}
+int itkAnalyzeImageIOBadHeader(int ac, char* av[])
+{
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1)
+    {
+    char *testdir = *++av;
+    --ac;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  itk::ObjectFactoryBase::UnRegisterAllFactories();
+  itk::AnalyzeImageIOFactory::RegisterOneFactory();
+  int result1 = TestDegenerateHeaderFiles();
+  int result2(0);
+  //  NIfTI explicitly refuses to read analyze 7.5 files
+  // I could force it to do so but since by default, it will never
+  // be used in that manner without explicitly asking for it, there
+  // isn't much point.
+#if 0
+  itk::ObjectFactoryBase::UnRegisterAllFactories();
+  itk::NiftiImageIOFactory::RegisterOneFactory();
+  result2 = TestDegenerateHeaderFiles();
+#endif
+  return !(result1 == 0 && result2 == 0);
 }

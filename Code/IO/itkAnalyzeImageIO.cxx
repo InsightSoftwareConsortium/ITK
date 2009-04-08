@@ -824,6 +824,23 @@ void AnalyzeImageIO::ReadImageInformation()
   //   m_Hdr.dime.dim[3] = 1;
   //   m_Hdr.dime.dim[4] = 1;
   unsigned int numberOfDimensions = this->m_Hdr.dime.dim[0];
+  if (numberOfDimensions == 0)
+    {
+    // If the dimension is 0, it may still contain valid dimension
+    // values. Let's try to compute the number of dimensions from
+    // other values. We will output a warning, but we may not want
+    // to throw an exception already.
+    const unsigned int maxNumberOfDimensions = 4;
+    for (unsigned int idx = 1; 
+         (idx <= maxNumberOfDimensions) && (this->m_Hdr.dime.dim[idx]); 
+         idx++)
+      {
+      if (this->m_Hdr.dime.dim[idx] > 0)
+        {
+        numberOfDimensions++;
+        }
+      }
+    }
 
   if (numberOfDimensions == 0)
     {
