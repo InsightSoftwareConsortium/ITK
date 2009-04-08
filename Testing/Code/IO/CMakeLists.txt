@@ -826,7 +826,7 @@ ADD_TEST(itkGDCMImageIOTest1 ${CXX_TEST_PATH}/itkGDCMImageIOTest
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest.dcm)
 ADD_TEST(itkGDCMImageIOTest2 ${CXX_TEST_PATH}/itkGDCMImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+        ${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest2.dcm)
@@ -836,7 +836,7 @@ ADD_TEST(itkGDCMImageIOTest3 ${CXX_TEST_PATH}/itkGDCMImageIOTest
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest3.dcm)
 ADD_TEST(itkGDCMImageIOTest4 ${CXX_TEST_PATH}/itkGDCMImageIOTest
-        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
+        ${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest3.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.png
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMRescaleImageIOTest4.dcm)
