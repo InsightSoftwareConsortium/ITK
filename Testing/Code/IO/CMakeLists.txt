@@ -636,17 +636,17 @@ ADD_TEST(itkTIFFImageIOTest12 ${IO_TESTS}
 
 ADD_TEST(itkTIFFImageIOTest13 ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/RGBTestImageCCITTFax3.mha
-            ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.tif
+            ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.mha
   itkTIFFImageIOTest 
             ${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax3.tif
             ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.mha)
 
 ADD_TEST(itkTIFFImageIOTest14 ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/RGBTestImageCCITTFax4.mha
-            ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.tif
+            ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha
   itkTIFFImageIOTest 
-            ${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax3.tif
-            ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.mha)
+            ${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax4.tif
+            ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha)
 
 ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.tif
