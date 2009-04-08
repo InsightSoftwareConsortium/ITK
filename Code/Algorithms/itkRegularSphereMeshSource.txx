@@ -137,9 +137,9 @@ RegularSphereMeshSource<TOutputMesh>
     v_pt[1] = &v[1];
     v_pt[2] = &v[2];
     const unsigned long *tp;
-    unsigned long pointIdx,cellIdx=0;
+    unsigned long cellIdx=0;
     unsigned long pointIdxOffset = outputMesh->GetNumberOfPoints();
-    pointIdx = pointIdxOffset;
+    unsigned long pointIdx = pointIdxOffset;
     unsigned long newIdx[3] = {0,1,2};
   
     // container for the processed edges
