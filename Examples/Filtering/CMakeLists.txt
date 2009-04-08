@@ -314,7 +314,7 @@ ADD_TEST( GradientRecursiveGaussianImageFilterTest ${FILTERING_EXAMPLES8}
 )
 ADD_TEST( GradientVectorFlowImageFilterTest ${FILTERING_EXAMPLES8}
   GradientVectorFlowImageFilterTest
-        ${TEMP}/GradientRecursiveGaussianImageFilterTest.mha
+        ${ITK_SOURCE_DIR}/Testing/Data/Input/GradientRecursiveGaussianImageFilterTest.mha
         ${TEMP}/GradientVectorFlowImageFilterTest.mha
         5        # number of iterations
         2000.0   # noise level
