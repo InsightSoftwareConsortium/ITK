@@ -115,6 +115,7 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
     }
 
   //Set the kernel size.
+  // fix me this needs to be based on the variance of the gaussian filter
   unsigned long radius = 1;
   
   // get a copy of the input requested region (should equal the output
@@ -376,7 +377,8 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   float value;
 
   ListNodeType *node;
-
+  
+// fix me
   ImageRegionIterator<TOutputImage> oit( input, input->GetRequestedRegion() );
   
   oit.GoToBegin();
@@ -415,16 +417,18 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
   // gradients of the image. HysteresisThresholding of this image should give
   // the Canny output.
   typename OutputImageType::Pointer input = m_MultiplyImageFilter->GetOutput();
+  InputImageRegionType inputRegion = input->GetRequestedRegion();
   
   IndexType nIndex;
   IndexType cIndex;
   ListNodeType * node;
 
   //assign iterator radius
-  Size<ImageDimension> radius; radius.Fill(1);
+  Size<ImageDimension> radius; 
+  radius.Fill(1);
 
   ConstNeighborhoodIterator<TOutputImage> oit(radius, 
-               input, input->GetRequestedRegion());
+                                              input, input->GetRequestedRegion());
   ImageRegionIteratorWithIndex<TOutputImage> uit( this->GetOutput(),
                                              this->GetOutput()->GetRequestedRegion());
 
@@ -453,7 +457,7 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
       {
       nIndex = oit.GetIndex(i);
       uit.SetIndex(nIndex);
-      if(InBounds(nIndex))
+      if(inputRegion.IsInside(nIndex))
         {
         if(oit.GetPixel(i) > m_LowerThreshold && uit.Value() != 1  )
           {
@@ -469,26 +473,6 @@ CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
-bool
-CannyEdgeDetectionImageFilter< TInputImage, TOutputImage >
-::InBounds(IndexType index)
-{
-  typename InputImageType::ConstPointer input = this->GetInput();
-  typename InputImageType::SizeType sz;
-  sz = (input->GetRequestedRegion()).GetSize();
-  
-  for(unsigned int i = 0; i < ImageDimension; i++)
-    {
-    if(index[i] < 0 ||
-       index[i] >= static_cast<typename IndexType::IndexValueType>(sz[i]))
-      {
-      return false;
-      }
-    }
-  return true;
-
-}
 
 template< class TInputImage, class TOutputImage >
 void

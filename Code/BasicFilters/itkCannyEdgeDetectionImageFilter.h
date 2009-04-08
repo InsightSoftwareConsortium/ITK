@@ -129,6 +129,7 @@ public:
     
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
+  typedef typename TInputImage::RegionType  InputImageRegionType;
     
   /** Run-time type information (and related methods). */
   itkTypeMacro(CannyEdgeDetectionImageFilter, ImageToImageFilter);
@@ -263,9 +264,6 @@ private:
   /** Edge linking funciton */
   void FollowEdge(IndexType index);
 
-  /** Check if the index is in bounds or not */
-  bool InBounds(IndexType index);
-  
 
   /** Calculate the second derivative of the smoothed image, it writes the 
    *  result to m_UpdateBuffer using the ThreadedCompute2ndDerivative() method
