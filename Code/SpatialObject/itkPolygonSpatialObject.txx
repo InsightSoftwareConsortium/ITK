@@ -74,11 +74,11 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::IsClosed()
+::IsClosed() const
 {
-  PointListType &points = this->GetPoints();
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  const PointListType & points = this->GetPoints();
+  typename PointListType::const_iterator it = points.begin();
+  typename PointListType::const_iterator itend = points.end();
   itend--;
   return (*it).GetPosition() == (*itend).GetPosition();
 }
@@ -129,7 +129,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 double
 PolygonSpatialObject<TDimension>
-::MeasureArea()
+::MeasureArea() const
 {
   //To find the area of a planar polygon not in the x-y plane, use:
   //2 A(P) = vcl_abs(N . (sum_{i=0}^{n-1} (v_i x v_{i+1})))
@@ -190,7 +190,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 double 
 PolygonSpatialObject<TDimension>
-::MeasureVolume()
+::MeasureVolume() const
 {
   return m_Thickness * this->MeasureArea();
 }
@@ -198,7 +198,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 double 
 PolygonSpatialObject<TDimension>
-::MeasurePerimeter()
+::MeasurePerimeter() const
 {
   double perimeter = 0.0;
   int numpoints = this->NumberOfPoints();
@@ -393,6 +393,14 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
+::IsInside( const PointType & point) const
+{
+  return this->IsInside(point, 0, NULL);
+}
+
+template <unsigned int TDimension >
+bool 
+PolygonSpatialObject<TDimension>
 ::IsInside( const PointType & point,unsigned int ,char * ) const
 {
   int numpoints = this->NumberOfPoints();
@@ -426,38 +434,46 @@ PolygonSpatialObject<TDimension>
   PointType transformedPoint = 
     this->GetInternalInverseTransform()->TransformPoint(point);
 
-  PointListType &points = const_cast<Self *>(this)->GetPoints();
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end(); itend--;
-  PointType start = (*it).GetPosition();
-  PointType last = (*itend).GetPosition();
-  //
-  // if last point same as first, don't bother with it.
-  if(start == last)
+  const PointListType & points = this->GetPoints();
+  typename PointListType::const_iterator it = points.begin();
+  typename PointListType::const_iterator itend = points.end();
+  itend--;
+
+  PointType first = (*it).GetPosition();
+  PointType last  = (*itend).GetPosition();
+  
+  // If last point same as first, don't bother with it.
+  if( this->IsClosed() )
     {
     numpoints--;
     }
+
   bool oddNodes = false;
+
+  PointType node1;
+  PointType node2;
+
   for(int i = 0; i < numpoints; i++)
     {
-    start = (*it).GetPosition();
+    node1 = (*it).GetPosition();
     it++;
-    PointType end;
     if(i == numpoints - 1)
       {
-      end = start;
+      node2 = first;
       }
     else
       {
-      end = (*it).GetPosition();
+      node2 = (*it).GetPosition();
       }
-    double x = transformedPoint[X]; double y = transformedPoint[Y];
 
-    if((start[Y] < y && end[Y] >= y) ||
-       (end[Y] < y && start[Y] >= y))
+    const double x = transformedPoint[X]; 
+    const double y = transformedPoint[Y];
+
+    if((node1[Y] < y && node2[Y] >= y) ||
+       (node2[Y] < y && node1[Y] >= y))
       {
-      if( start[X] + (y - start[Y])/
-          (end[Y] - start[Y]) * (end[X] - start[X]) < x )
+      if( node1[X] + (y - node1[Y])/
+          (node2[Y] - node1[Y]) * (node2[X] - node1[X]) < x )
         {
         oddNodes = !oddNodes;
         }

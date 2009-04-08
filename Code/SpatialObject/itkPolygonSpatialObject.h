@@ -55,7 +55,7 @@ public:
   itkGetMacro(Thickness,double);
 
   /** Returns if the polygon is closed */
-  bool IsClosed();
+  bool IsClosed() const;
 
   /** Returns the number of points of the polygon */
   unsigned int NumberOfPoints() const;
@@ -64,13 +64,13 @@ public:
   PointType ClosestPoint(PointType &curPoint);
 
   /** Method returns area of polygon described by points */
-  double MeasureArea();
+  double MeasureArea() const;
 
   /** Method returns the volume of the strand */
-  double MeasureVolume();
+  double MeasureVolume() const;
 
   /** Method returns the length of the perimeter */
-  double MeasurePerimeter();
+  double MeasurePerimeter() const;
 
   /** Method deletes a point from the strand */
   bool DeletePoint(PointType &pointToDelete);
@@ -92,13 +92,10 @@ public:
                          unsigned int depth,
                          char * name) const;
 
-  /** Test whether a point is inside or outside the object 
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */ 
-  virtual bool IsInside( const PointType & point) const
-    {
-    return this->IsInside(point, 0, NULL);
-    };
+  /** Test whether a point is inside or outside the object For
+   * computational speed purposes, it is faster if the method does not
+   * check the name of the class and the current depth. */ 
+  virtual bool IsInside( const PointType & point) const;
 
 protected:
   void PrintSelf( std::ostream & os, Indent indent) const;
