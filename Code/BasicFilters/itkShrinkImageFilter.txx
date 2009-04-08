@@ -21,7 +21,7 @@
 #define __itkShrinkImageFilter_txx
 
 #include "itkShrinkImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
@@ -135,30 +135,49 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
-  
+  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIterator;
   OutputIterator outIt(outputPtr, outputRegionForThread);
   
-  // Define a few indices that will be used to translate from an input pixel
+  // Define a few indices that will be used to transform from an input pixel
   // to an output pixel
-  typename TOutputImage::IndexType outputIndex;
-  typename TInputImage::IndexType  inputIndex;
+  typename TOutputImage::IndexType   outputIndex;
+  typename TInputImage::IndexType    inputIndex;
+  typename TOutputImage::OffsetType  offsetIndex;
   
+  typename TOutputImage::PointType outputPoint;
+
+  // convert the time for convenient multiplication
+  typename TOutputImage::SizeType  factorSize;
+  for (unsigned int i=0; i < TInputImage::ImageDimension; i++)
+    {
+    factorSize[i] = m_ShrinkFactors[i];
+    }
+
+  // use this index to compute the offset
+  outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
+  inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+
+  // We wish to perform the following mapping of outputIndex to
+  // inputIndex on all point in our region
+  outputPtr->TransformIndexToPhysicalPoint(outputIndex, outputPoint);
+  inputPtr->TransformPhysicalPointToIndex(outputPoint, inputIndex);
+
+  // Given that the size is scaled by a constant factor eq:
+  // inputIndex = outputIndex * factorSize 
+  // is equivalent up to a fixed offset which we now compute
+  offsetIndex = inputIndex - outputIndex*factorSize;
+
+    
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-    
-  // walk the output region, and sample the input image
-  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  typename TOutputImage::PointType outputPoint;
+  
   while ( !outIt.IsAtEnd() ) 
     {
     // determine the index and physical location of the output pixel
     outputIndex = outIt.GetIndex();
-    outputPtr->TransformIndexToPhysicalPoint(outputIndex, outputPoint);
-    
-    // determine the input pixel index associated with this output pixel
-    inputPtr->TransformPhysicalPointToIndex(outputPoint, inputIndex);
+
+    // an optimized version of 
+    inputIndex = outputIndex * factorSize + offsetIndex;
 
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
