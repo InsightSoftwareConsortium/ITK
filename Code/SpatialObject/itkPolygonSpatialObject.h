@@ -46,7 +46,7 @@ public:
   itkTypeMacro( PolygonSpatialObject, BlobSpatialObject );
   
   /** Method returning plane alignment of strand */
-  PolygonGroupOrientation Plane();
+  PolygonGroupOrientation Plane() const;
 
   /** Method sets the thickness of the current strand */
   itkSetMacro(Thickness,double);
@@ -61,7 +61,7 @@ public:
   unsigned int NumberOfPoints() const;
 
   /** Method returns the Point closest to the given point */
-  PointType ClosestPoint(PointType &curPoint);
+  PointType ClosestPoint( const PointType & curPoint ) const;
 
   /** Method returns area of polygon described by points */
   double MeasureArea() const;
@@ -73,19 +73,19 @@ public:
   double MeasurePerimeter() const;
 
   /** Method deletes a point from the strand */
-  bool DeletePoint(PointType &pointToDelete);
+  bool DeletePoint( const PointType & pointToDelete );
 
   /** Method adds a point to the end of the strand */
-  bool AddPoint(PointType &pointToAdd);
+  bool AddPoint( const PointType & pointToAdd );
 
   /** Method inserts point after point1 */
-  bool InsertPoint(PointType &point1, PointType &pointToAdd);
+  bool InsertPoint( const PointType & point1, const PointType & pointToAdd );
 
   /** Method replaces a point */
-  bool ReplacePoint(PointType &oldpoint, PointType &newPoint);
+  bool ReplacePoint( const PointType & oldpoint, const PointType & newPoint );
 
   /** Method removes the series of points between startpoint and endpoint */
-  bool RemoveSegment(PointType &startpoint,PointType &endPoint);
+  bool RemoveSegment( const PointType & startpoint, const PointType & endPoint);
 
   /** Test whether a point is inside or outside the object. */ 
   virtual bool IsInside( const PointType & point,

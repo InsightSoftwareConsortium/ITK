@@ -27,14 +27,14 @@ namespace itk
 template <unsigned int TDimension >
 PolygonGroupOrientation
 PolygonSpatialObject<TDimension>
-::Plane()
+::Plane() const
 {
   PolygonGroupOrientation plane;
   // local typedef to shut up the compiler...
   
-  PointListType &points = this->GetPoints();
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  const PointListType & points = this->GetPoints();
+  typename PointListType::const_iterator it = points.begin();
+  typename PointListType::const_iterator itend = points.end();
   double min[3],max[3];       // x, y, z
   int i;
   for(i = 0; i < 3; i++)
@@ -94,11 +94,11 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 typename PolygonSpatialObject<TDimension>::PointType
 PolygonSpatialObject<TDimension>
-::ClosestPoint(PointType &curPoint)
+::ClosestPoint( const PointType & curPoint ) const
 {
-  PointListType &points = this->GetPoints();
-  typename PointListType::iterator it = points.begin();
-  typename PointListType::iterator itend = points.end();
+  const PointListType &points = this->GetPoints();
+  typename PointListType::const_iterator it = points.begin();
+  typename PointListType::const_iterator itend = points.end();
   double distance = NumericTraits<double>::max();
   
   if(it == itend)
@@ -159,8 +159,8 @@ PolygonSpatialObject<TDimension>
       exception.SetDescription("File cannot be read");
       throw exception;
     }
-  PointListType &points = this->GetPoints();
-  typename PointListType::iterator it = points.begin();
+  const PointListType & points = this->GetPoints();
+  typename PointListType::const_iterator it = points.begin();
   PointType start = (*it).GetPosition();
   for(int i = 0; i < numpoints; i++)
     {
@@ -206,8 +206,10 @@ PolygonSpatialObject<TDimension>
     {
     return 0;
     }
-  PointListType &points = this->GetPoints();
-  typename PointListType::iterator it = points.begin();
+  const PointListType & points = this->GetPoints();
+
+  typename PointListType::const_iterator it = points.begin();
+
   PointType start = (*it).GetPosition();
   for(int i = 0; i < numpoints; i++)
     {
@@ -237,7 +239,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::DeletePoint(PointType &pointToDelete)
+::DeletePoint( const PointType & pointToDelete )
 {
     
   PointListType &points = this->GetPoints();
@@ -266,7 +268,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::AddPoint(PointType &pointToAdd)
+::AddPoint( const PointType & pointToAdd )
 {
   BlobPointType newPoint;
   newPoint.SetPosition(pointToAdd);
@@ -277,7 +279,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::InsertPoint(PointType &point1, PointType &pointToAdd)
+::InsertPoint( const PointType & point1, const PointType & pointToAdd )
 {
   
   PointListType &points = this->GetPoints();
@@ -311,7 +313,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::ReplacePoint(PointType &oldpoint, PointType &newPoint)
+::ReplacePoint( const PointType & oldpoint, const PointType & newPoint )
 {
   PointListType &points = this->GetPoints();
   typename PointListType::iterator it = points.begin();
@@ -345,7 +347,7 @@ PolygonSpatialObject<TDimension>
 template <unsigned int TDimension >
 bool 
 PolygonSpatialObject<TDimension>
-::RemoveSegment(PointType &startPoint, PointType &endPoint)
+::RemoveSegment( const PointType & startPoint, const PointType & endPoint )
 {
   PointListType &points = this->GetPoints();
   typename PointListType::iterator it = points.begin();
@@ -409,7 +411,7 @@ PolygonSpatialObject<TDimension>
     {
     return false;
     }
-  switch(const_cast<Self *>(this)->Plane())
+  switch( this->Plane() )
     {
     case Sagittal:
       X = 1; Y = 2;
